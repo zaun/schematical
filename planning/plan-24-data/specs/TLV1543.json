@@ -1,0 +1,235 @@
+{
+ "device": {
+  "id": "TLV1543",
+  "function": "ADC",
+  "description": "3.3-V 10-bit serial-control ADC with 11 analog inputs, 3 self-test modes and EOC output (TLC1543 pin compatible)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "tlv1543.pdf (SLAS072E) p.1 pinout (DB/DW/FK/J/N), p.3 terminal functions, p.4-5 serial interface modes (Table 1), p.5-6 address bits and analog inputs (Tables 2-3), p.8 recommended operating conditions, p.10 operating characteristics (tconv, timing)",
+  "pinouts": {
+   "dw20": [
+    {
+     "number": 1,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "A2",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "A3",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "A4",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "A5",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "A6",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "A7",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "A8",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 11,
+     "name": "A9",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "A10",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "REF-",
+     "role": "ground"
+    },
+    {
+     "number": 14,
+     "name": "REF+",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "DATA OUT",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "ADDRESS",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "I/O CLOCK",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "EOC",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "VCC",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 10,
+  "channels": 11,
+  "codeFormat": "straight",
+  "vcc": [
+   3,
+   5.5
+  ],
+  "analog": [
+   "A0",
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "A8",
+   "A9",
+   "A10",
+   "REF+",
+   "REF-"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "I/O CLOCK",
+   "mosi": "ADDRESS",
+   "miso": "DATA OUT",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 1300,
+   "tOut": 240,
+   "tFloat": 150
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 4,
+    "reset": 0,
+    "note": "internal: the 4-bit input address register (p.6 Table 2/3: 0-10 = A0-A10, 11-13 = self-test); reset not given (0 here)",
+    "fields": [
+     {
+      "name": "ADD",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{10} 0{6}",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "Address + sample clocks",
+     "in": "aaaa x{6}",
+     "action": "start",
+     "channel": "a",
+     "set": {
+      "CTRL.ADD": "a"
+     },
+     "note": "p.5: 4 address bits MSB first on the first four I/O CLOCK rising edges; sampling from the 4th falling edge for six I/O CLOCK periods, held on the 10th falling edge, which starts the conversion (here: at the 10th clock). DATA OUT: previous result MSB at CS fall, next bits on falling edges, low from the 10th falling edge (transfers up to 16 clocks)"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 21000,
+   "start": [
+    "command"
+   ],
+   "channel": "CTRL.ADD"
+  },
+  "ready": [
+   {
+    "pin": "EOC",
+    "active": 0,
+    "asserts": "busy"
+   }
+  ]
+ },
+ "packages": {
+  "DB": {
+   "pinout": "dw20",
+   "footprint": "SSOP-20",
+   "package": "SSOP",
+   "pins": 20
+  }
+ },
+ "pdf": "tlv1543.pdf",
+ "pages": "p.1 (pinout), p.2 (block diagram), p.3 (terminal functions), p.4-5 (modes, Table 1), p.5-6 (address, Tables 2-3), p.8 (ROC), p.10 (tconv 21 us, td(I/O-DATA) 240 ns, tPZH 1.3 us, tPHZ 150 ns, td(I/O-EOC) 240 ns), p.11-12 (timing figures)",
+ "notModeled": [
+  "analog inputs, references and the 14-channel multiplexer: every conversion returns the 0 V code",
+  "self-test addresses 1011/1100/1101 output 200h/000h/3FFh (Table 3); modeled as ordinary conversions returning the 0 V code; addresses 1110/1111 (undocumented) are treated the same",
+  "result pipelining: DATA OUT carries the previous conversion; the result is constant so this is not visible",
+  "modes 2, 4 and 6 (CS held low continuously, the next I/O cycle begins at EOC rising or the 16th clock): only CS-framed transfers (modes 1, 3, 5) are modeled",
+  "conversion start: the datasheet starts it on the 10th I/O CLOCK falling edge; modeled at the 10th rising edge (command completion); td(I/O-EOC) 240 ns EOC fall delay not modeled",
+  "CS abort of a conversion (td(I/O-CS) 9 us), CS setup/debounce (two internal clock edges), slow-mode synchronization loss",
+  "tValid = tPZH 1.3 us (CS fall to MSB driven); tOut = td(I/O-DATA) 240 ns; tFloat = tPHZ 150 ns",
+  "I/O CLOCK 0-1.1 MHz (C/I) or 2.1 MHz (M), tsu(CS) 1.425 us, tsu(A) 100 ns (p.8); at least one I/O CLOCK rising edge within 9.5 us after the 10th falling edge for 11-16-bit transfers (p.8 Note 4)",
+  "vcc: TLV1543C/I 3-5.5 V, TLV1543M 3-3.6 V (p.8); the device uses the C/I range (no M-grade part in the parts list)"
+ ],
+ "variants": "Single device on this datasheet (C, I and M grades); pin compatible with the TLC1543 (5-V part, same protocol). FN (PLCC-20) has a different numbering but is not in the parts list.",
+ "parts": [
+  [
+   "TLV1543CDB",
+   "DB",
+   20,
+   "Active"
+  ],
+  [
+   "TLV1543IDB",
+   "DB",
+   20,
+   "Active"
+  ]
+ ]
+}

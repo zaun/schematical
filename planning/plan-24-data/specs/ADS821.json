@@ -1,0 +1,236 @@
+{
+ "device": {
+  "id": "ADS821",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "10-bit 40 MSPS pipelined ADC with internal reference and tri-state CMOS parallel outputs",
+  "note": "ads821.pdf (SBAS040B) p.2-3 specifications (logic levels, SOB/BTC selectable, 3-state enable 40 ns / disable 10 ns max, +VS 4.75-5.25 V), p.4 pin configuration and descriptions, timing diagram (t2 new data delay 12.5 ns max after the rising clock edge, 6.5-clock latency), p.10 digital output data (SOB, BTC with MSBI pin 19 high, OE pin 18 high = Hi-Z), Table I coding",
+  "pinouts": {
+   "so28": [
+    {
+     "number": 1,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 2,
+     "name": "B1",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "B2",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "B3",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "B4",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "B5",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "B6",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "B7",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "B8",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "B9",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "B10",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "DNC",
+     "role": "nc"
+    },
+    {
+     "number": 13,
+     "name": "DNC",
+     "role": "nc"
+    },
+    {
+     "number": 14,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "+VS",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "+VS",
+     "role": "power"
+    },
+    {
+     "number": 18,
+     "name": "OE",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "MSBI",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "+VS",
+     "role": "power"
+    },
+    {
+     "number": 21,
+     "name": "REFB",
+     "role": "nc"
+    },
+    {
+     "number": 22,
+     "name": "CM",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "REFT",
+     "role": "nc"
+    },
+    {
+     "number": 24,
+     "name": "+VS",
+     "role": "power"
+    },
+    {
+     "number": 25,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 26,
+     "name": "IN",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "IN",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "GND",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 10,
+  "channels": 1,
+  "codeFormat": {
+   "pin": "MSBI",
+   "values": {
+    "0": "offset",
+    "1": "twos"
+   }
+  },
+  "vcc": [
+   4.75,
+   5.25
+  ],
+  "analog": [
+   "IN",
+   "REFB",
+   "CM",
+   "REFT"
+  ],
+  "bus": {
+   "style": "clocked",
+   "clock": {
+    "pin": "CLK",
+    "edge": "rise"
+   },
+   "data": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8",
+    "B9",
+    "B10"
+   ],
+   "oe": {
+    "pin": "OE",
+    "active": 0
+   }
+  },
+  "timing": {
+   "tOut": 12.5,
+   "tFloat": 10
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": "R{10}"
+  }
+ },
+ "packages": {
+  "DW": {
+   "pinout": "so28",
+   "footprint": "SOIC-28W",
+   "package": "SOIC",
+   "pins": 28
+  }
+ },
+ "pdf": "ads821.pdf",
+ "pages": "p.2-3 (specifications), p.4 (pinout, pin descriptions, timing diagram: t2 12.5 ns), p.10 (digital output data, MSBI, OE, Table I)",
+ "notModeled": [
+  "analog input, internal references (REFT/REFB bypass, CM output); the result is always the 0 V differential (bipolar zero) code: 200h straight offset binary, 000h with MSBI high",
+  "pipeline latency of 6.5 clock cycles (the code is constant)",
+  "clock period / duty-cycle limits (25 ns to 100 us, tH 13 ns min for no missing codes at high rates) and aperture delay",
+  "3-state enable time (40 ns max) differs from the disable time (10 ns); tFloat uses the disable time; the datasheet says OE is for test only, not for driving a bus",
+  "internal pull-down resistors on OE and MSBI (floating reads low)",
+  "pin 27 is the complementary input (IN with an overbar in the datasheet); both inputs are named IN",
+  "pins 12 and 13 are DNC (do not connect)"
+ ],
+ "variants": "ADS821 only (ADS820 is the 20 MSPS sibling in its own datasheet, same pinout)",
+ "parts": [
+  [
+   "ADS821U",
+   "DW",
+   28,
+   "Active"
+  ]
+ ]
+}

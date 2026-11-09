@@ -1,0 +1,796 @@
+{
+ "device": {
+  "id": "ADS127L11",
+  "function": "ADC",
+  "description": "24-bit 400 kSPS wide-bandwidth delta-sigma ADC with wideband / low-latency filters and SPI interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads127l11.pdf (SBAS946C) p.3 pin functions (Table 5-1), p.5 recommended operating conditions, p.10-11 timing, p.27-28 filter data rates (Tables 7-1 to 7-5), p.44-47 reset and synchronization (control modes), p.49-55 SPI frame, commands (Table 8-14), conversion data, p.56 output data format (Table 8-15), p.60-68 registers (Table 8-16)",
+  "pinouts": {
+   "pw20": [
+    {
+     "number": 1,
+     "name": "CAPA",
+     "role": "nc"
+    },
+    {
+     "number": 2,
+     "name": "AVDD2",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "AVDD1",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "AINP",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AINN",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "VCM",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "REFP",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "REFN",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "SDO/DRDY",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "DRDY",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 17,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 18,
+     "name": "CAPD",
+     "role": "nc"
+    },
+    {
+     "number": 19,
+     "name": "START",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "AVSS",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 24,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   1.65,
+   5.5
+  ],
+  "analog": [
+   "AINP",
+   "AINN",
+   "VCM",
+   "REFP",
+   "REFN",
+   "CAPD",
+   "AVSS",
+   "CAPA",
+   "AVDD2",
+   "AVDD1"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDO/DRDY",
+   "mode": 1
+  },
+  "timing": {
+   "tValid": 20,
+   "tOut": 23,
+   "tFloat": 20
+  },
+  "registers": [
+   {
+    "name": "DEV_ID",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "DEV_ID",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "00h = ADS127L11"
+   },
+   {
+    "name": "REV_ID",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "REV_ID",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "reset xxh, modeled 0"
+   },
+   {
+    "name": "STATUS",
+    "address": 2,
+    "width": 8,
+    "reset": 96,
+    "readOnly": 135,
+    "fields": [
+     {
+      "name": "CS_MODE",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "ALV_FLAG",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "POR_FLAG",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "SPI_ERR",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "REG_ERR",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "ADC_ERR",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "MOD_FLAG",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DRDY",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "writeOneClears": 120,
+    "note": "reset x1100xxxb (p.61): the x bits are 0 here"
+   },
+   {
+    "name": "CONTROL",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "RESET",
+      "bits": [
+       7,
+       2
+      ]
+     },
+     {
+      "name": "START",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "STOP",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "write-only bits that always read 0; writes act through the CONTROL commands"
+   },
+   {
+    "name": "MUX",
+    "address": 4,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 252,
+    "fields": [
+     {
+      "name": "MUX",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG1",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 132,
+    "fields": [
+     {
+      "name": "REF_RNG",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "INP_RNG",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "VCM",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "REFP_BUF",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "AINP_BUF",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "AINN_BUF",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG2",
+    "address": 6,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 64,
+    "fields": [
+     {
+      "name": "EXT_RNG",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "SDO_MODE",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "START_MODE",
+      "bits": [
+       4,
+       3
+      ]
+     },
+     {
+      "name": "SPEED_MODE",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "STBY_MODE",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "PWDN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG3",
+    "address": 7,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DELAY",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "FILTER",
+      "bits": [
+       4,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG4",
+    "address": 8,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 16,
+    "fields": [
+     {
+      "name": "CLK_SEL",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CLK_DIV",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "OUT_DRV",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "DATA",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "SPI_CRC",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "REG_CRC",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "STATUS",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OFFSET2",
+    "address": 9,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OFFSET",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OFFSET1",
+    "address": 10,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OFFSET",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OFFSET0",
+    "address": 11,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OFFSET",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GAIN2",
+    "address": 12,
+    "width": 8,
+    "reset": 64,
+    "fields": [
+     {
+      "name": "GAIN",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GAIN1",
+    "address": 13,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GAIN",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GAIN0",
+    "address": 14,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GAIN",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CRC",
+    "address": 15,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "CRC",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "out": "R{24}",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "No operation",
+     "in": "0{16}",
+     "action": "nop"
+    },
+    {
+     "name": "Read register",
+     "in": "0100aaaa x{8}",
+     "action": "read",
+     "address": "a",
+     "commit": "end",
+     "next": "@ 0{16}",
+     "note": "off-frame: register data + two 00h pad bytes in the next 24-bit frame (p.52-53)"
+    },
+    {
+     "name": "Write register (CONTROL reset)",
+     "in": "10000011 01011000",
+     "action": "reset",
+     "commit": "end",
+     "note": "RESET[5:0] = 010110b with START = STOP = 0 (p.63)"
+    },
+    {
+     "name": "Write register (CONTROL START)",
+     "in": "10000011 xxxxxx10",
+     "action": "start",
+     "commit": "end"
+    },
+    {
+     "name": "Write register (CONTROL STOP)",
+     "in": "10000011 xxxxxx01",
+     "action": "stop",
+     "commit": "end"
+    },
+    {
+     "name": "Write register (CONTROL other)",
+     "in": "10000011 x{8}",
+     "action": "nop",
+     "commit": "end"
+    },
+    {
+     "name": "Write register",
+     "in": "1000aaaa dddddddd",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "commit": "end"
+    }
+   ]
+  },
+  "conversion": {
+   "time": {
+    "fields": [
+     "CONFIG2.SPEED_MODE",
+     "CONFIG3.FILTER"
+    ],
+    "values": {
+     "0,0": 2500.0,
+     "0,1": 5000.0,
+     "0,2": 10000.0,
+     "0,3": 20000.0,
+     "0,4": 40000.0,
+     "0,5": 80000.0,
+     "0,6": 160000.0,
+     "0,7": 320000.0,
+     "0,8": 937.5,
+     "0,9": 1250.0,
+     "0,10": 1875.0,
+     "0,11": 2500.0,
+     "0,12": 5000.0,
+     "0,13": 10000.0,
+     "0,14": 20000.0,
+     "0,15": 40000.0,
+     "0,16": 80000.0,
+     "0,17": 160000.0,
+     "0,18": 320000.0,
+     "0,19": 5000.0,
+     "0,20": 10000.0,
+     "0,21": 25000.0,
+     "0,22": 50000.0,
+     "0,23": 100000.0,
+     "0,24": 250000.0,
+     "0,25": 500000.0,
+     "0,26": 1000000.0,
+     "0,27": 2500000.0,
+     "0,28": 2083359.375,
+     "0,29": 2500000.0,
+     "0,30": 7500000.0,
+     "0,31": 12500000.0,
+     "1,0": 20000.0,
+     "1,1": 40000.0,
+     "1,2": 80000.0,
+     "1,3": 160000.0,
+     "1,4": 320000.0,
+     "1,5": 640000.0,
+     "1,6": 1280000.0,
+     "1,7": 2560000.0,
+     "1,8": 7500.0,
+     "1,9": 10000.0,
+     "1,10": 15000.0,
+     "1,11": 20000.0,
+     "1,12": 40000.0,
+     "1,13": 80000.0,
+     "1,14": 160000.0,
+     "1,15": 320000.0,
+     "1,16": 640000.0,
+     "1,17": 1280000.0,
+     "1,18": 2560000.0,
+     "1,19": 40000.0,
+     "1,20": 80000.0,
+     "1,21": 200000.0,
+     "1,22": 400000.0,
+     "1,23": 800000.0,
+     "1,24": 2000000.0,
+     "1,25": 4000000.0,
+     "1,26": 8000000.0,
+     "1,27": 20000000.0,
+     "1,28": 16666875.0,
+     "1,29": 20000000.0,
+     "1,30": 60000000.0,
+     "1,31": 100000000.0
+    }
+   },
+   "start": [
+    "command",
+    "pin"
+   ],
+   "mode": {
+    "field": "CONFIG2.START_MODE",
+    "single": 1,
+    "startOnEnter": false
+   },
+   "done": {
+    "STATUS.DRDY": 1
+   },
+   "onRead": {
+    "STATUS.DRDY": 0
+   }
+  },
+  "ready": [
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": [
+     "read",
+     "start"
+    ]
+   },
+   {
+    "pin": "SDO/DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": [
+     "read",
+     "start"
+    ],
+    "onMiso": true,
+    "enable": "CONFIG2.SDO_MODE=1"
+   }
+  ],
+  "pins": {
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   },
+   "start": {
+    "pin": "START",
+    "active": 1
+   }
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw20",
+   "footprint": "TSSOP-20",
+   "package": "TSSOP",
+   "pins": 20
+  }
+ },
+ "pdf": "ads127l11.pdf",
+ "pages": "p.3 (pins), p.5 (ROC), p.10-11 (timing), p.27-28 (data rates), p.44-47 (reset, control modes), p.49-56 (SPI, commands, data), p.60-68 (registers)",
+ "notModeled": [
+  "analog input, buffers, reference, VCM, input range, offset/gain calibration registers (stored only)",
+  "16-bit resolution (CONFIG4.DATA = 1), the optional STATUS header byte (CONFIG4.STATUS) and SPI CRC byte: the output frame is always the 24-bit data; register-map CRC check, SPI_ERR / REG_ERR never set",
+  "3-wire SPI (CS tied low, CS_MODE) and the 1024-ones SPI reset pattern; daisy-chain pass-through",
+  "synchronized control mode (START_MODE = 10b) converts continuously regardless of START: the model only starts on the START pin / START bit; start/stop mode stops immediately rather than after the ongoing conversion",
+  "a register write to 04h-0Eh restarting the conversion; conversion-start DELAY and the filter latency of the first conversion (conversion time is the steady 1 / data rate for SPEED_MODE and FILTER at fCLK 25.6 / 3.2 MHz, fMOD = fCLK / 2)",
+  "CLK_SEL / CLK_DIV clocking (the CLK pin is not used), standby and power-down (PWDN bit) modes, OUT_DRV",
+  "REV_ID reset is xxh (0 here); ALV_FLAG, ADC_ERR, MOD_FLAG never set; CS_MODE reads 0",
+  "DRDY high pulse before new data when data are not read; one-shot mode keeps DRDY low during readback (modeled as cleared on read)"
+ ],
+ "variants": "ADS117L11 is the 16-bit sibling (own datasheet); the ADS127L11 datasheet also shows a RUK WQFN-20 package that has no orderable part in the skeleton",
+ "parts": [
+  [
+   "ADS127L11IPWR",
+   "PW",
+   20,
+   "Active"
+  ],
+  [
+   "ADS127L11IPWT",
+   "PW",
+   20,
+   "Active"
+  ]
+ ]
+}

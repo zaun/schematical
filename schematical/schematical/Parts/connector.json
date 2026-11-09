@@ -13,7 +13,7 @@
       "ratedVolts": 24,
       "ratedAmps": 2.5,
       "pinouts": {"p2":[{"number":1,"name":"Centre","role":"inout"},{"number":2,"name":"Sleeve","role":"inout"}]},
-      "parts": [{"name":"PJ-037A","package":"Through hole","pinout":"p2","footprint":"BARREL-PJ-037"}]
+      "parts": [{"name":"PJ-037A","manufacturer":"Same Sky","datasheet":"pj-037a","package":"Through hole","pinout":"p2","footprint":"BARREL-PJ-037"}]
     },
     {
       "id": "barrel_2pin_2mm_5a",
@@ -25,7 +25,7 @@
       "ratedVolts": 24,
       "ratedAmps": 5,
       "pinouts": {"p2":[{"number":1,"name":"Centre","role":"inout"},{"number":2,"name":"Sleeve","role":"inout"}]},
-      "parts": [{"name":"PJ-037AH","package":"Through hole","pinout":"p2","footprint":"BARREL-PJ-037"}]
+      "parts": [{"name":"PJ-037AH","manufacturer":"Same Sky","datasheet":"pj-037ah","package":"Through hole","pinout":"p2","footprint":"BARREL-PJ-037"}]
     },
     {
       "id": "barrel_3pin_2mm",
@@ -39,9 +39,9 @@
       "contacts": [["Sleeve", "Switch"]],
       "pinouts": {"p3":[{"number":1,"name":"Centre","role":"inout"},{"number":2,"name":"Sleeve","role":"inout"},{"number":3,"name":"Switch","role":"inout"}]},
       "parts": [
-        {"name":"PJ-002A","package":"Through hole","pinout":"p3","footprint":"BARREL-PJ-002"},
-        {"name":"PJ-102A","package":"Through hole","pinout":"p3","footprint":"BARREL-PJ-102"},
-        {"name":"PJ-202A","package":"Through hole","pinout":"p3","footprint":"BARREL-PJ-202"}
+        {"name":"PJ-002A","manufacturer":"Same Sky","datasheet":"pj-002a","package":"Through hole","pinout":"p3","footprint":"BARREL-PJ-002"},
+        {"name":"PJ-102A","manufacturer":"Same Sky","datasheet":"pj-102a","package":"Through hole","pinout":"p3","footprint":"BARREL-PJ-102"},
+        {"name":"PJ-202A","manufacturer":"Same Sky","datasheet":"pj-202a","package":"Through hole","pinout":"p3","footprint":"BARREL-PJ-202"}
       ]
     },
     {
@@ -55,7 +55,7 @@
       "ratedAmps": 3.5,
       "contacts": [["Sleeve", "Switch"]],
       "pinouts": {"p3":[{"number":1,"name":"Centre","role":"inout"},{"number":2,"name":"Sleeve","role":"inout"},{"number":3,"name":"Switch","role":"inout"}]},
-      "parts": [{"name":"PJ-040DH","package":"Through hole","pinout":"p3","footprint":"BARREL-PJ-040"}]
+      "parts": [{"name":"PJ-040DH","manufacturer":"Same Sky","datasheet":"pj-040dh","package":"Through hole","pinout":"p3","footprint":"BARREL-PJ-040"}]
     },
     {
       "id": "barrel_3pin_2_1mm",
@@ -68,7 +68,7 @@
       "ratedAmps": 6,
       "contacts": [["Sleeve", "Switch"]],
       "pinouts": {"p3":[{"number":1,"name":"Centre","role":"inout"},{"number":2,"name":"Sleeve","role":"inout"},{"number":3,"name":"Switch","role":"inout"}]},
-      "parts": [{"name":"54-00166","package":"Through hole","pinout":"p3","footprint":"BARREL-54-00166"}]
+      "parts": [{"name":"54-00166","manufacturer":"Tensility International","datasheet":"54-00166","package":"Through hole","pinout":"p3","footprint":"BARREL-54-00166"}]
     },
     {
       "id": "barrel_kldx_2mm",
@@ -82,8 +82,8 @@
       "contacts": [["Sleeve", "Switch"]],
       "pinouts": {"p3":[{"number":1,"name":"Centre","role":"inout"},{"number":2,"name":"Sleeve","role":"inout"},{"number":3,"name":"Switch","role":"inout"}]},
       "parts": [
-        {"name":"KLDX-0202-A","package":"Through hole","pinout":"p3","footprint":"BARREL-KLDX-0202"},
-        {"name":"KLDX-0202-AC","package":"Through hole","pinout":"p3","footprint":"BARREL-KLDX-0202-C"}
+        {"name":"KLDX-0202-A","manufacturer":"Kycon","datasheet":"kldx-0202","package":"Through hole","pinout":"p3","footprint":"BARREL-KLDX-0202"},
+        {"name":"KLDX-0202-AC","manufacturer":"Kycon","datasheet":"kldx-0202","package":"Through hole","pinout":"p3","footprint":"BARREL-KLDX-0202-C"}
       ]
     },
     {
@@ -98,8 +98,8 @@
       "contacts": [["Sleeve", "Switch"]],
       "pinouts": {"p3":[{"number":1,"name":"Centre","role":"inout"},{"number":2,"name":"Sleeve","role":"inout"},{"number":3,"name":"Switch","role":"inout"}]},
       "parts": [
-        {"name":"KLDX-0202-B","package":"Through hole","pinout":"p3","footprint":"BARREL-KLDX-0202"},
-        {"name":"KLDX-0202-BC","package":"Through hole","pinout":"p3","footprint":"BARREL-KLDX-0202-C"}
+        {"name":"KLDX-0202-B","manufacturer":"Kycon","datasheet":"kldx-0202","package":"Through hole","pinout":"p3","footprint":"BARREL-KLDX-0202"},
+        {"name":"KLDX-0202-BC","manufacturer":"Kycon","datasheet":"kldx-0202","package":"Through hole","pinout":"p3","footprint":"BARREL-KLDX-0202-C"}
       ]
     }
   ]

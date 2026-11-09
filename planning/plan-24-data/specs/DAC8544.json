@@ -1,0 +1,547 @@
+{
+ "device": {
+  "id": "DAC8544",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "Quad 16-bit voltage-output DAC with 16-bit parallel interface, input-register read-back, LDAC, RST to zero scale and power-down pin",
+  "note": "dac8544.pdf (SLAS420A) p.3 logic inputs and power requirements (VDD 2.7-5.5 V, IOVDD 1.8-5.5 V), p.4 timing characteristics, data read/write and reset timing, p.5-6 pin configuration and terminal functions, p.13 parallel interface, control signal summary (Table 1) and LDAC (Table 2), p.14 update sequence (Table 3), read-back (Table 4), RST, power-on reset and power-down (Table 5)",
+  "pinouts": {
+   "pfb48": [
+    {
+     "number": 1,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "IOGND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "D15",
+     "role": "inout"
+    },
+    {
+     "number": 6,
+     "name": "D14",
+     "role": "inout"
+    },
+    {
+     "number": 7,
+     "name": "D13",
+     "role": "inout"
+    },
+    {
+     "number": 8,
+     "name": "D12",
+     "role": "inout"
+    },
+    {
+     "number": 9,
+     "name": "D11",
+     "role": "inout"
+    },
+    {
+     "number": 10,
+     "name": "D10",
+     "role": "inout"
+    },
+    {
+     "number": 11,
+     "name": "D9",
+     "role": "inout"
+    },
+    {
+     "number": 12,
+     "name": "D8",
+     "role": "inout"
+    },
+    {
+     "number": 13,
+     "name": "D7",
+     "role": "inout"
+    },
+    {
+     "number": 14,
+     "name": "D6",
+     "role": "inout"
+    },
+    {
+     "number": 15,
+     "name": "D5",
+     "role": "inout"
+    },
+    {
+     "number": 16,
+     "name": "D4",
+     "role": "inout"
+    },
+    {
+     "number": 17,
+     "name": "D3",
+     "role": "inout"
+    },
+    {
+     "number": 18,
+     "name": "D2",
+     "role": "inout"
+    },
+    {
+     "number": 19,
+     "name": "D1",
+     "role": "inout"
+    },
+    {
+     "number": 20,
+     "name": "D0",
+     "role": "inout"
+    },
+    {
+     "number": 21,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 22,
+     "name": "IOGND",
+     "role": "ground"
+    },
+    {
+     "number": 23,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "R/W",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 29,
+     "name": "RST",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "PD",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 32,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 33,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 34,
+     "name": "VFBD",
+     "role": "input"
+    },
+    {
+     "number": 35,
+     "name": "VREFD+",
+     "role": "power"
+    },
+    {
+     "number": 36,
+     "name": "VREFD-",
+     "role": "power"
+    },
+    {
+     "number": 37,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 38,
+     "name": "VFBC",
+     "role": "input"
+    },
+    {
+     "number": 39,
+     "name": "VREFC+",
+     "role": "power"
+    },
+    {
+     "number": 40,
+     "name": "VREFC-",
+     "role": "power"
+    },
+    {
+     "number": 41,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 42,
+     "name": "VFBB",
+     "role": "input"
+    },
+    {
+     "number": 43,
+     "name": "VREFB+",
+     "role": "power"
+    },
+    {
+     "number": 44,
+     "name": "VREFB-",
+     "role": "power"
+    },
+    {
+     "number": 45,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 46,
+     "name": "VFBA",
+     "role": "input"
+    },
+    {
+     "number": 47,
+     "name": "VREFA+",
+     "role": "power"
+    },
+    {
+     "number": 48,
+     "name": "VREFA-",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 4,
+  "vcc": [
+   1.8,
+   5.5
+  ],
+  "analog": [
+   "VDD",
+   "VOUTD",
+   "VFBD",
+   "VREFD+",
+   "VREFD-",
+   "VOUTC",
+   "VFBC",
+   "VREFC+",
+   "VREFC-",
+   "VOUTB",
+   "VFBB",
+   "VREFB+",
+   "VREFB-",
+   "VOUTA",
+   "VFBA",
+   "VREFA+",
+   "VREFA-"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "D15",
+    "D14",
+    "D13",
+    "D12",
+    "D11",
+    "D10",
+    "D9",
+    "D8",
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rw": {
+    "pin": "R/W",
+    "read": 1
+   },
+   "address": [
+    "A1",
+    "A0"
+   ]
+  },
+  "timing": {
+   "tAcc": 80,
+   "tDf": 20
+  },
+  "registers": [
+   {
+    "name": "IN_A",
+    "address": 0,
+    "space": "input",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC A input register (Table 3: A1 A0 = 00); power-on value not stated (reset 0)"
+   },
+   {
+    "name": "IN_B",
+    "address": 1,
+    "space": "input",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC B input register (Table 3: A1 A0 = 01); power-on value not stated (reset 0)"
+   },
+   {
+    "name": "IN_C",
+    "address": 2,
+    "space": "input",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC C input register (Table 3: A1 A0 = 10); power-on value not stated (reset 0)"
+   },
+   {
+    "name": "IN_D",
+    "address": 3,
+    "space": "input",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC D input register (Table 3: A1 A0 = 11); power-on value not stated (reset 0)"
+   },
+   {
+    "name": "DAC_A",
+    "address": 0,
+    "space": "dac",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC A DAC register; power-on zero (p.14); loaded on the LDAC rising edge"
+   },
+   {
+    "name": "DAC_B",
+    "address": 1,
+    "space": "dac",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC B DAC register; power-on zero (p.14); loaded on the LDAC rising edge"
+   },
+   {
+    "name": "DAC_C",
+    "address": 2,
+    "space": "dac",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC C DAC register; power-on zero (p.14); loaded on the LDAC rising edge"
+   },
+   {
+    "name": "DAC_D",
+    "address": 3,
+    "space": "dac",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC D DAC register; power-on zero (p.14); loaded on the LDAC rising edge"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write input register (CS low, R/W low)",
+     "in": "aa d{16}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "Table 3: A1 A0 select the input register of DAC A-D; data held th2 after CS rising (timing p.4)"
+    }
+   ],
+   "read": {
+    "0": "[IN_A]",
+    "1": "[IN_B]",
+    "2": "[IN_C]",
+    "3": "[IN_D]"
+   },
+   "note": "Table 4: CS low with R/W high presents the input register A1 A0 select on D15-D0 (td1 80 ns max, th4 20 ns max)"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 1,
+    "edge": "rise",
+    "note": "rising edge loads all four DAC registers (Table 2)"
+   },
+   "clear": {
+    "pin": "RST",
+    "active": 1,
+    "edge": "rise",
+    "note": "rising edge resets all DAC registers to zero scale, input registers unchanged (p.14)"
+   },
+   "powerdown": {
+    "pin": "PD",
+    "active": 0,
+    "note": "PD low: whole device powered down, outputs Hi-Z (Table 5)"
+   }
+  },
+  "dac": {
+   "input": [
+    "IN_A",
+    "IN_B",
+    "IN_C",
+    "IN_D"
+   ],
+   "output": [
+    "DAC_A",
+    "DAC_B",
+    "DAC_C",
+    "DAC_D"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "PFB": {
+   "pinout": "pfb48",
+   "footprint": "TQFP-48-7X7",
+   "package": "TQFP",
+   "pins": 48
+  }
+ },
+ "pdf": "dac8544.pdf",
+ "pages": "p.3 (logic inputs, power requirements), p.4 (timing), p.5-6 (pins), p.13 (Tables 1-2), p.14 (Tables 3-5, RST, power-on reset)",
+ "notModeled": [
+  "analog outputs, VFB sense inputs and per-channel VREF+/VREF- references (never driven)",
+  "RST (rising edge, p.14) resets only the DAC registers to zero scale; the input registers keep their data, while the schema's clear also loads the input registers",
+  "the text says the write latches at CS falling (p.13-14) while the timing (th2) holds data after CS rising; the model latches at the end of the write (CS rising)",
+  "PD low: the datasheet only states the outputs go Hi-Z; the model's powerdown pin also ignores the bus while PD is low (Table 1 lists writes and reads with PD high)",
+  "DAC registers are not readable (Table 4 reads the input registers)",
+  "timing limits tw1-tw7, tsu1-tsu4, th1-th3, td2 and output settling"
+ ],
+ "variants": "dac8544.pdf covers only the DAC8544 (48-pin TQFP PFB).",
+ "parts": [
+  [
+   "DAC8544IPFB",
+   "PFB",
+   48,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,282 @@
+{
+ "device": {
+  "id": "DAC0808",
+  "function": "DAC",
+  "description": "8-bit 150 ns current-output multiplying DAC with unlatched TTL/CMOS inputs",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac0808.pdf (SNAS539A) p.1 (Dual-In-Line connection diagram, block diagram), p.2 (Small-Outline connection diagram, ordering information), p.3 (absolute maximum ratings: digital inputs -10 to +18 V; electrical characteristics: VIH 2 V, VIL 0.8 V, tPLH/tPHL 100 ns max, VCC 4.5-5.5 V, VEE -4.5 to -16.5 V)",
+  "pinouts": {
+   "d16": [
+    {
+     "number": 1,
+     "name": "VCC",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VREF(+)",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "VREF(-)",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "COMPENSATION",
+     "role": "nc"
+    },
+    {
+     "number": 5,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 6,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "VEE",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "IO",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "A2",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "A3",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "A4",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "A5",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "A6",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "A7",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "A8",
+     "role": "input"
+    }
+   ],
+   "nfg16": [
+    {
+     "number": 1,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 2,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "VEE",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "IO",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "A2",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "A3",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "A4",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "A5",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "A6",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "A7",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "A8",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "VCC",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "VREF(+)",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "VREF(-)",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "COMPENSATION",
+     "role": "nc"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 8,
+  "channels": 1,
+  "vcc": [
+   4.5,
+   5.5
+  ],
+  "analog": [
+   "IO",
+   "VEE",
+   "VREF(+)",
+   "VREF(-)",
+   "COMPENSATION"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8"
+   ]
+  },
+  "registers": [
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "note": "no latch: the code is whatever the B1-B8 / A1-A8 inputs hold"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "DATA",
+     "in": "dddddddd",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "note": "unlatched logic inputs: the current switches follow the inputs directly"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "DAC"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "D": {
+   "pinout": "d16",
+   "footprint": "SOIC-16",
+   "package": "SOIC",
+   "pins": 16
+  },
+  "NFG": {
+   "pinout": "nfg16",
+   "footprint": "PDIP-16",
+   "package": "DIP",
+   "pins": 16
+  }
+ },
+ "pdf": "dac0808.pdf",
+ "pages": "p.1 (DIP connection diagram, block diagram), p.2 (SO connection diagram, ordering), p.3 (absolute maximum ratings, electrical characteristics: logic levels, propagation delay, power supply range)",
+ "notModeled": [
+  "the digital inputs A1-A8 are unlatched (no CS/WR/LDAC): the current switches follow the inputs directly; modeled as a parallel bus with no control pins whose data word is written (and the output updated) as the inputs change",
+  "reference amplifier (VREF(+), VREF(-)), compensation, multiplying operation, output current IO and its compliance (all analog)",
+  "propagation delay tPLH/tPHL 100 ns max and settling time 150 ns",
+  "negative supply VEE (-4.5 to -16.5 V) is in \"analog\" (the voltage check cannot represent a negative supply)",
+  "digital inputs are rated -10 V to +18 V (absolute maximum only); no recommended range above VCC is given, so no inputMax",
+  "NC pin 1 (DIP) / 5 (SO): datasheet Note 2 reference on the drawing (no connection)"
+ ],
+ "variants": "MC1408P8 is an alternate order number for DAC0808LCN (p.2).",
+ "parts": [
+  [
+   "DAC0808LCM/NOPB",
+   "D",
+   16,
+   "Active"
+  ],
+  [
+   "DAC0808LCMX/NOPB",
+   "D",
+   16,
+   "Active"
+  ],
+  [
+   "DAC0808LCN/NOPB",
+   "NFG",
+   16,
+   "Active"
+  ]
+ ]
+}

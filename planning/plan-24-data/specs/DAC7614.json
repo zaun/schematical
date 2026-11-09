@@ -1,0 +1,408 @@
+{
+ "device": {
+  "id": "DAC7614",
+  "function": "DAC",
+  "description": "Quad 12-bit voltage-output DAC with serial input, LOADDACS strobe and asynchronous reset to zero or mid scale",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac7614.pdf (SBAS092, Burr-Brown PDS-1445C) p.2 specifications (VDD 4.75-5.25 V, VSS 0 V or -5 V, VIH 2.4 V to VDD + 0.3 V), p.3 pin configurations and descriptions (P/U 16-pin, E 20-pin SSOP), p.9 theory of operation, p.10 timing (Table I, Figure 3), digital interface, p.11 control logic truth table (Table II), serial shift register truth table (Table III), straight binary coding",
+  "pinouts": {
+   "dw16": [
+    {
+     "number": 1,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "VREFL",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "VREFH",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "VSS",
+     "role": "power"
+    },
+    {
+     "number": 9,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "NIC",
+     "role": "nc"
+    },
+    {
+     "number": 14,
+     "name": "LOADDACS",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "RESETSEL",
+     "role": "input"
+    }
+   ],
+   "db20": [
+    {
+     "number": 1,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "VREFL",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "NIC",
+     "role": "nc"
+    },
+    {
+     "number": 6,
+     "name": "NIC",
+     "role": "nc"
+    },
+    {
+     "number": 7,
+     "name": "VREFH",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "VSS",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "NIC",
+     "role": "nc"
+    },
+    {
+     "number": 16,
+     "name": "NIC",
+     "role": "nc"
+    },
+    {
+     "number": 17,
+     "name": "NIC",
+     "role": "nc"
+    },
+    {
+     "number": 18,
+     "name": "LOADDACS",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "RESETSEL",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 4,
+  "vcc": [
+   4.75,
+   5.25
+  ],
+  "analog": [
+   "VOUTA",
+   "VOUTB",
+   "VOUTC",
+   "VOUTD",
+   "VREFH",
+   "VREFL",
+   "VSS"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "CLK",
+   "mosi": "SDI",
+   "mode": 3
+  },
+  "registers": [
+   {
+    "name": "IN_A",
+    "space": "input",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "shift-register data addressed to DAC A (the device has one shift register and no input registers); power-on value not specified"
+   },
+   {
+    "name": "IN_B",
+    "space": "input",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "shift-register data addressed to DAC B (the device has one shift register and no input registers); power-on value not specified"
+   },
+   {
+    "name": "IN_C",
+    "space": "input",
+    "address": 2,
+    "width": 12,
+    "reset": 0,
+    "note": "shift-register data addressed to DAC C (the device has one shift register and no input registers); power-on value not specified"
+   },
+   {
+    "name": "IN_D",
+    "space": "input",
+    "address": 3,
+    "width": 12,
+    "reset": 0,
+    "note": "shift-register data addressed to DAC D (the device has one shift register and no input registers); power-on value not specified"
+   },
+   {
+    "name": "DAC_A",
+    "space": "dac",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register A; RESET sets 000H (RESETSEL low) or 800H (high), p.3 / Table II; power-on value not specified"
+   },
+   {
+    "name": "DAC_B",
+    "space": "dac",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register B; RESET sets 000H (RESETSEL low) or 800H (high), p.3 / Table II; power-on value not specified"
+   },
+   {
+    "name": "DAC_C",
+    "space": "dac",
+    "address": 2,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register C; RESET sets 000H (RESETSEL low) or 800H (high), p.3 / Table II; power-on value not specified"
+   },
+   {
+    "name": "DAC_D",
+    "space": "dac",
+    "address": 3,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register D; RESET sets 000H (RESETSEL low) or 800H (high), p.3 / Table II; power-on value not specified"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "commands": [
+    {
+     "name": "A1 A0 X X D11-D0",
+     "in": "aa xx d{12}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "Figure 3 / Digital Interface (p.10): 16-bit word, A1 A0 select DAC A-D (Table II: 00 A, 01 B, 10 C, 11 D), two unused bits, D11-D0 MSB first on rising CLK; the shift register keeps the last 16 bits"
+    }
+   ]
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LOADDACS",
+    "active": 0,
+    "edge": "level"
+   },
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   },
+   "resetSelect": [
+    {
+     "pin": "RESETSEL",
+     "level": 1,
+     "resets": {
+      "IN_A": 2048,
+      "IN_B": 2048,
+      "IN_C": 2048,
+      "IN_D": 2048,
+      "DAC_A": 2048,
+      "DAC_B": 2048,
+      "DAC_C": 2048,
+      "DAC_D": 2048
+     }
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "IN_A",
+    "IN_B",
+    "IN_C",
+    "IN_D"
+   ],
+   "output": [
+    "DAC_A",
+    "DAC_B",
+    "DAC_C",
+    "DAC_D"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "DB": {
+   "pinout": "db20",
+   "footprint": "SSOP-20",
+   "package": "SSOP",
+   "pins": 20
+  },
+  "DW": {
+   "pinout": "dw16",
+   "footprint": "SOIC-16W",
+   "package": "SOIC",
+   "pins": 16
+  }
+ },
+ "pdf": "dac7614.pdf",
+ "pages": "p.2 (supplies, logic levels), p.3 (pins, both packages), p.9 (operation), p.10 (timing, Table I, interface), p.11 (Tables II-III, coding)",
+ "notModeled": [
+  "analog outputs, external references VREFH/VREFL and the VSS (0 V or -5 V) supply (outputs never driven)",
+  "single buffered: one shared shift register, and LOADDACS low makes only the DAC register selected by A1 A0 transparent; the model keeps a per-channel input register and LOADDACS updates every channel from them (a channel written but not loaded before another channel's write also updates)",
+  "RESET also stops the bus in the model (the datasheet leaves the shift register unchanged)",
+  "the shift register is updated bit by bit: with the load strobe low the selected register follows each new bit; the model writes when CS rises",
+  "CS and CLK are combined by an OR gate (interchangeable); CS rising while CLK is low shifts one extra bit (Table III note); the model shifts only on CLK edges while CS is low",
+  "power-on register contents are not specified (modeled as 0); RESET is recommended at start-up",
+  "TTL-compatible CMOS inputs (VIH 2.4 V, VIL 0.8 V)"
+ ],
+ "variants": "DAC7614 has its own datasheet; the DAC7615 is the double-buffered version (pin 13 LOADDACS, pin 14 LOADREG). DIP (P suffix) parts are not in the parts list",
+ "parts": [
+  [
+   "DAC7614E",
+   "DB",
+   20,
+   "Active"
+  ],
+  [
+   "DAC7614E/1K",
+   "DB",
+   20,
+   "Active"
+  ],
+  [
+   "DAC7614EB",
+   "DB",
+   20,
+   "Active"
+  ],
+  [
+   "DAC7614U",
+   "DW",
+   16,
+   "Active"
+  ],
+  [
+   "DAC7614U/1K",
+   "DW",
+   16,
+   "Active"
+  ],
+  [
+   "DAC7614UB",
+   "DW",
+   16,
+   "Active"
+  ]
+ ]
+}

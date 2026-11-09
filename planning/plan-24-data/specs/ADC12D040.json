@@ -1,0 +1,437 @@
+{
+  "device": {
+    "id": "ADC12D040",
+    "function": "ADC",
+    "description": "Dual 12-bit 40 MSPS pipelined ADC with parallel outputs, output enables and power-down",
+    "drawer": [
+      "Interface"
+    ],
+    "note": "adc12d040.pdf (SNAS171E) p.2 connection diagram (Figure 1), p.4-5 pin descriptions, p.6 operating ratings, p.9 AC characteristics (tOD), p.17 OF pin",
+    "pinouts": {
+      "pag64": [
+        {
+          "number": 1,
+          "name": "VINB-",
+          "role": "input"
+        },
+        {
+          "number": 2,
+          "name": "VINB+",
+          "role": "input"
+        },
+        {
+          "number": 3,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 4,
+          "name": "VRMB",
+          "role": "nc"
+        },
+        {
+          "number": 5,
+          "name": "VRPB",
+          "role": "nc"
+        },
+        {
+          "number": 6,
+          "name": "VRNB",
+          "role": "nc"
+        },
+        {
+          "number": 7,
+          "name": "VREF",
+          "role": "power"
+        },
+        {
+          "number": 8,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 9,
+          "name": "VA",
+          "role": "power"
+        },
+        {
+          "number": 10,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 11,
+          "name": "INT/EXT REF",
+          "role": "input"
+        },
+        {
+          "number": 12,
+          "name": "VRNA",
+          "role": "nc"
+        },
+        {
+          "number": 13,
+          "name": "VRPA",
+          "role": "nc"
+        },
+        {
+          "number": 14,
+          "name": "VRMA",
+          "role": "nc"
+        },
+        {
+          "number": 15,
+          "name": "VINA+",
+          "role": "input"
+        },
+        {
+          "number": 16,
+          "name": "VINA-",
+          "role": "input"
+        },
+        {
+          "number": 17,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 18,
+          "name": "VA",
+          "role": "power"
+        },
+        {
+          "number": 19,
+          "name": "VA",
+          "role": "power"
+        },
+        {
+          "number": 20,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 21,
+          "name": "OF",
+          "role": "input"
+        },
+        {
+          "number": 22,
+          "name": "OEA",
+          "role": "input"
+        },
+        {
+          "number": 23,
+          "name": "DR GND",
+          "role": "ground"
+        },
+        {
+          "number": 24,
+          "name": "DA0",
+          "role": "output"
+        },
+        {
+          "number": 25,
+          "name": "DA1",
+          "role": "output"
+        },
+        {
+          "number": 26,
+          "name": "DA2",
+          "role": "output"
+        },
+        {
+          "number": 27,
+          "name": "DA3",
+          "role": "output"
+        },
+        {
+          "number": 28,
+          "name": "DA4",
+          "role": "output"
+        },
+        {
+          "number": 29,
+          "name": "DA5",
+          "role": "output"
+        },
+        {
+          "number": 30,
+          "name": "VDR",
+          "role": "power"
+        },
+        {
+          "number": 31,
+          "name": "DR GND",
+          "role": "ground"
+        },
+        {
+          "number": 32,
+          "name": "DGND",
+          "role": "ground"
+        },
+        {
+          "number": 33,
+          "name": "VD",
+          "role": "power"
+        },
+        {
+          "number": 34,
+          "name": "DA6",
+          "role": "output"
+        },
+        {
+          "number": 35,
+          "name": "DA7",
+          "role": "output"
+        },
+        {
+          "number": 36,
+          "name": "DA8",
+          "role": "output"
+        },
+        {
+          "number": 37,
+          "name": "DA9",
+          "role": "output"
+        },
+        {
+          "number": 38,
+          "name": "DA10",
+          "role": "output"
+        },
+        {
+          "number": 39,
+          "name": "DA11",
+          "role": "output"
+        },
+        {
+          "number": 40,
+          "name": "DR GND",
+          "role": "ground"
+        },
+        {
+          "number": 41,
+          "name": "OEB",
+          "role": "input"
+        },
+        {
+          "number": 42,
+          "name": "DB0",
+          "role": "output"
+        },
+        {
+          "number": 43,
+          "name": "DB1",
+          "role": "output"
+        },
+        {
+          "number": 44,
+          "name": "DB2",
+          "role": "output"
+        },
+        {
+          "number": 45,
+          "name": "DB3",
+          "role": "output"
+        },
+        {
+          "number": 46,
+          "name": "DB4",
+          "role": "output"
+        },
+        {
+          "number": 47,
+          "name": "DB5",
+          "role": "output"
+        },
+        {
+          "number": 48,
+          "name": "VD",
+          "role": "power"
+        },
+        {
+          "number": 49,
+          "name": "DGND",
+          "role": "ground"
+        },
+        {
+          "number": 50,
+          "name": "DR GND",
+          "role": "ground"
+        },
+        {
+          "number": 51,
+          "name": "VDR",
+          "role": "power"
+        },
+        {
+          "number": 52,
+          "name": "DB6",
+          "role": "output"
+        },
+        {
+          "number": 53,
+          "name": "DB7",
+          "role": "output"
+        },
+        {
+          "number": 54,
+          "name": "DB8",
+          "role": "output"
+        },
+        {
+          "number": 55,
+          "name": "DB9",
+          "role": "output"
+        },
+        {
+          "number": 56,
+          "name": "DB10",
+          "role": "output"
+        },
+        {
+          "number": 57,
+          "name": "DB11",
+          "role": "output"
+        },
+        {
+          "number": 58,
+          "name": "DR GND",
+          "role": "ground"
+        },
+        {
+          "number": 59,
+          "name": "PD",
+          "role": "input"
+        },
+        {
+          "number": 60,
+          "name": "CLK",
+          "role": "input"
+        },
+        {
+          "number": 61,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 62,
+          "name": "VA",
+          "role": "power"
+        },
+        {
+          "number": 63,
+          "name": "VA",
+          "role": "power"
+        },
+        {
+          "number": 64,
+          "name": "AGND",
+          "role": "ground"
+        }
+      ]
+    },
+    "type": "adc",
+    "bits": 12,
+    "channels": 2,
+    "codeFormat": "offset",
+    "vcc": [
+      2.35,
+      5.25
+    ],
+    "analog": [
+      "VINB-",
+      "VINB+",
+      "VRMB",
+      "VRPB",
+      "VRNB",
+      "VREF",
+      "VA",
+      "VRNA",
+      "VRPA",
+      "VRMA",
+      "VINA+",
+      "VINA-"
+    ],
+    "bus": {
+      "style": "clocked",
+      "clock": {
+        "pin": "CLK",
+        "edge": "rise"
+      },
+      "data": [
+        "DA11",
+        "DA10",
+        "DA9",
+        "DA8",
+        "DA7",
+        "DA6",
+        "DA5",
+        "DA4",
+        "DA3",
+        "DA2",
+        "DA1",
+        "DA0",
+        "DB11",
+        "DB10",
+        "DB9",
+        "DB8",
+        "DB7",
+        "DB6",
+        "DB5",
+        "DB4",
+        "DB3",
+        "DB2",
+        "DB1",
+        "DB0"
+      ],
+      "oe": {
+        "pin": "OEA",
+        "active": 0
+      }
+    },
+    "timing": {
+      "tOut": 17.5
+    },
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "commands": [],
+      "read": "[R][R]"
+    },
+    "pins": {
+      "powerdown": {
+        "pin": "PD",
+        "active": 1
+      }
+    }
+  },
+  "packages": {
+    "PAG": {
+      "pinout": "pag64",
+      "footprint": "TQFP-64-PAG",
+      "package": "TQFP",
+      "pins": 64
+    }
+  },
+  "pdf": "adc12d040.pdf",
+  "pages": "p.2 (Figure 1 pinout), p.4-5 (pin descriptions), p.6 (operating ratings: VA/VD 4.75-5.25 V, VDR 2.35 V to VD), p.9 (tOD 17.5 ns max at VDR 3.0 V, latency 6 clocks, 100 kHz-40 MHz), p.4 (OF low = offset binary, OEA/OEB active low, PD high = power down)",
+  "notModeled": [
+    "analog inputs and reference (the result is always the 0 V code on both channels)",
+    "OF pin: low = offset binary (modeled, 0 V reads 0x800), high = two's complement (0 V reads 0x000) not modeled",
+    "OEB: the clocked bus has one output enable; OEA gates both the A (DA11-DA0) and B (DB11-DB0) data pins in the model, OEB is ignored",
+    "INT/EXT REF reference select (analog only)",
+    "pipeline latency of 6 clock cycles (the code is constant)",
+    "clock frequency limits and power-down exit time",
+    "vcc is the VDR range (2.35 V to VD 5.25 V); CLK/PD/OE are referenced to VD (4.75-5.25 V)"
+  ],
+  "variants": "",
+  "parts": [
+    [
+      "ADC12D040CIVS/NOPB",
+      "PAG",
+      64,
+      "Active"
+    ]
+  ]
+}

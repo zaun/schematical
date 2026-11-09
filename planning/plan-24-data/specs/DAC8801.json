@@ -1,0 +1,138 @@
+{
+ "device": {
+  "id": "DAC8801",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "14-bit serial-input multiplying current-output DAC (3-wire, 50 MHz)",
+  "note": "dac8801.pdf (SLAS403B) p.1 power-up zero scale, p.3 interface timing and VDD 2.7-5.5 V, p.4 pin assignments and terminal functions, p.9 timing diagram (Figure 19), control logic and data format (Table 1)",
+  "pinouts": {
+   "dgk8": [
+    {
+     "number": 1,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "RFB",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "IOUT",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "CS",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 14,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "RFB",
+   "VREF",
+   "IOUT"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "CLK",
+   "mosi": "SDI",
+   "mode": 0
+  },
+  "registers": [
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 14,
+    "reset": 0,
+    "note": "DAC register; filled with zeroes on power-up (p.1)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "commands": [
+    {
+     "name": "Load DAC",
+     "in": "d{14}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "note": "p.9 Table 1: D13-D0 MSB first on rising CLK; a full 16-bit word can be loaded, only the last 14 bits go to the DAC register at CS rising"
+    }
+   ],
+   "note": "14-bit data word only, no control bits; extra leading bits are ignored (p.4)"
+  },
+  "dac": {
+   "input": [
+    "DAC"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "DGK": {
+   "pinout": "dgk8",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  }
+ },
+ "pdf": "dac8801.pdf",
+ "pages": "p.1 (power-up zero scale), p.3 (VDD 2.7-5.5 V, interface timing), p.4 (pinout, DGK and DRB same numbering), p.9 (Figure 19: data in on CLK rising; Table 1: CS rising loads the DAC register; data format)",
+ "notModeled": [
+  "analog: multiplying current output, reference input, feedback resistor",
+  "power-on reset brownout behavior"
+ ],
+ "variants": "dac8801.pdf covers only the DAC8801 (DGK MSOP-8 and DRB SON-8; only DGK is in the skeleton)",
+ "parts": [
+  [
+   "DAC8801IDGKR",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8801IDGKT",
+   "DGK",
+   8,
+   "Active"
+  ]
+ ]
+}

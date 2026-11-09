@@ -1,0 +1,152 @@
+{
+ "device": {
+  "id": "ADC122S706",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "Dual 12-bit 500 kSPS-1 MSPS simultaneous-sampling differential SAR ADC with single or dual serial outputs",
+  "note": "adc122s706.pdf (SNAS408A) p.3 pin descriptions, p.4 operating ratings, p.7 timing specifications and Figure 1 (dual output), p.8 Figure 2 (single output) and Figure 3, p.19 serial interface, p.20 data outputs (DUAL pin) and Table 2 (two's complement)",
+  "pinouts": {
+   "pw14": [
+    {
+     "number": 1,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "CHA+",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "CHA-",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "CHB-",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "CHB+",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "DUAL",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "VD",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "DOUTA",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "DOUTB",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "CS",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 2,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "VREF",
+   "CHA+",
+   "CHA-",
+   "CHB-",
+   "CHB+",
+   "VA"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "miso": "DOUTA",
+   "mode": 3
+  },
+  "timing": {
+   "tValid": 39,
+   "tOut": 39,
+   "tFloat": 20
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "0{4} R{12} 0{4} R{12}",
+   "idle": "repeat",
+   "commands": []
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ]
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw14",
+   "footprint": "TSSOP-14",
+   "package": "TSSOP",
+   "pins": 14
+  }
+ },
+ "pdf": "adc122s706.pdf",
+ "pages": "p.3 (pins), p.4 (operating ratings: VA 4.5-5.5 V, VD 2.7 V-VA, digital inputs 0 V to VD), p.7 (tEN 39 ns, tDA 39 ns at VD 2.7-3.6 V, tDIS 20 ns max; Figure 1), p.8 (Figure 2: single output, ChA then ChB on DOUTA), p.19-20 (serial interface, DUAL pin, two's complement Table 2)",
+ "notModeled": [
+  "DUAL = high (dual output mode: ChA on DOUTA, ChB on DOUTB, 16 SCLKs per conversion): the schema has one MISO; the model is the single output mode (DUAL low, Figure 2): DOUTA gives 4 zeros + ChA, 4 zeros + ChB, and DOUTB is never driven (high impedance, as with DUAL low). With the 0 V code DOUTA's bits are the same in both modes; DUAL is an unused input",
+  "differential analog inputs, simultaneous sampling and the external reference; the conversion is clocked by SCLK, not timed: both results are the 0 V code 0x000 at once",
+  "continuous conversion (several conversions per CS low) is approximated by repeating the output pattern (idle \"repeat\")",
+  "SPI mode 3 chosen (data out on SCLK falling edges, valid on rising edges); at 16 MHz and VD = 3 V the datasheet recommends capturing on the next falling edge",
+  "CS raised before the 16th falling edge aborts the conversion; power-down while CS is high (no digital effect); SCLK 8-16 MHz and tCSSU limits; tEN/tDA are 20/26 ns at VD 4.5-5.5 V (the model uses the 2.7-3.6 V maxima)"
+ ],
+ "variants": "ADC122S625 / ADC122S655 are the 10-pin single-supply, single-output 50-200 / 200-500 kSPS siblings (separate datasheets)",
+ "parts": [
+  [
+   "ADC122S706CIMT/NOPB",
+   "PW",
+   14,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,158 @@
+{
+ "device": {
+  "id": "ADC124S021",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "12-bit 50-200 kSPS 4-channel SAR ADC with SPI-compatible serial interface",
+  "note": "adc124s021.pdf (SNAS277F) p.2 connection diagram and pin descriptions, p.3 operating ratings, p.5-6 timing specifications, p.6 Figure 2 operational timing, p.16-17 using the ADC124S021 and Tables 2-4 (control register, channel selection), p.17 transfer function (straight binary)",
+  "pinouts": {
+   "dgs10": [
+    {
+     "number": 1,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "IN4",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "IN3",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "IN2",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "IN1",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "SCLK",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 4,
+  "codeFormat": "straight",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "IN1",
+   "IN2",
+   "IN3",
+   "IN4"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "miso": "DOUT",
+   "mode": 3
+  },
+  "timing": {
+   "tValid": 30,
+   "tOut": 30,
+   "tFloat": 20
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 8,
+    "reset": 0,
+    "note": "internal: the control register loaded from DIN on the first 8 rising SCLK edges of each 16-clock conversion (DONTC DONTC ADD2 ADD1 ADD0 DONTC DONTC DONTC); no read-back; reset 0 = the default first input",
+    "fields": [
+     {
+      "name": "ADD",
+      "bits": [
+       5,
+       3
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "out": "0{4} R{12}",
+   "idle": "repeat",
+   "commands": [
+    {
+     "name": "Control Register",
+     "in": "xx aaa xxx x{8}",
+     "action": "nop",
+     "set": {
+      "CTRL.ADD": "a"
+     },
+     "note": "each 16-SCLK conversion clocks the control byte in on DIN (bits 5-3 = ADD2-ADD0 select the input of the next conversion), the other 8 DIN bits are ignored; DOUT gives 4 leading zeros then DB11-DB0"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ]
+  }
+ },
+ "packages": {
+  "DGS": {
+   "pinout": "dgs10",
+   "footprint": "VSSOP-10",
+   "package": "VSSOP",
+   "pins": 10
+  }
+ },
+ "pdf": "adc124s021.pdf",
+ "pages": "p.2 (connection diagram, pins), p.3 (operating ratings: VA 2.7-5.25 V, digital inputs -0.3 V to VA), p.5-6 (tEN 30 ns, tACC 30 ns, tDIS 20 ns max), p.6 (Figure 2), p.16-17 (serial interface, Tables 2-4), p.17 (straight binary); Package Option Addendum (VSSOP (DGS) 10)",
+ "notModeled": [
+  "analog inputs and multiplexer; the conversion is clocked by SCLK (13 SCLK cycles), not timed: the result is the 0 V code 0x000 at once",
+  "the channel written in a frame applies to the next conversion; with every result the 0 V code this has no visible effect (ADD is stored only)",
+  "continuous conversion frames (N x 16 SCLKs per CS low) are approximated by repeating the 16-bit output pattern and re-matching the control word every 16 bits; the frame length rule (an integer multiple of 16 SCLKs) is not checked",
+  "SPI mode 3 chosen (DOUT changes on SCLK falling edges, DIN and DOUT sampled on rising edges); the datasheet allows SCLK high or low at CS fall (a CS fall with SCLK low acts as the first falling edge)",
+  "power-down while CS is high and between conversions (no digital effect); tCSU/tCLH setup and SCLK frequency limits",
+  "Table 4: ADD2 is don't care (ADD1-ADD0 select IN1-IN4); the model stores the 3-bit code"
+ ],
+ "variants": "ADC124S021 / ADC124S051 / ADC124S101 are pin-compatible 4-channel 12-bit parts for 50-200 / 200-500 / 500-1000 kSPS (separate datasheets); the connection diagram's 'See DGK Package' note is a datasheet typo: the addendum lists VSSOP (DGS) 10",
+ "parts": [
+  [
+   "ADC124S021CIMM/NOPB",
+   "DGS",
+   10,
+   "Active"
+  ]
+ ]
+}

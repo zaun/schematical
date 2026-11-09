@@ -1,0 +1,254 @@
+{
+ "device": {
+  "id": "ADS1226",
+  "function": "ADC",
+  "description": "24-bit 2-channel delta-sigma ADC with START pin and 2-wire serial interface (DRDY/DOUT, SCLK), 100/16 SPS",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1225.pdf (SBAS346C, ADS1225/ADS1226) p.3-4 electrical characteristics (data rate 100/16 SPS, DVDD 2.7-5.5 V, logic levels), p.5 (ADS1225) / p.6 (ADS1226) pin configuration and descriptions, p.13 DRDY/DOUT, MODE (Table 2), START (Table 3), p.14 continuous conversion with START high, data format (Table 4), p.15 data retrieval timing (Table 5: tPD = 50 ns)",
+  "pinouts": {
+   "rgv16": [
+    {
+     "number": 1,
+     "name": "START",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "DRDY/DOUT",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "BUFEN",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "MUX",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "TEMPEN",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "MODE",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "AINP2",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "AINN2",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "AINP1",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "AINN1",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "VREFN",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "VREFP",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "DVDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 24,
+  "channels": 2,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "AINP2",
+   "AINN2",
+   "AINP1",
+   "AINN1",
+   "VREFN",
+   "VREFP",
+   "AVDD"
+  ],
+  "bus": {
+   "style": "spi",
+   "sclk": "SCLK",
+   "miso": "DRDY/DOUT",
+   "mode": 1
+  },
+  "timing": {
+   "tOut": 50
+  },
+  "registers": [
+   {
+    "name": "MUX",
+    "width": 1,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MUX",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: MUX pin level (Table 1, p.10); 0 = AINP1/AINN1, 1 = AINP2/AINN2"
+   },
+   {
+    "name": "CTRL",
+    "width": 3,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "BUFEN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "TEMPEN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "MODE",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the MODE / TEMPEN / BUFEN pin levels (pins.levels); MODE 0 = High-Resolution 16 SPS, 1 = High-Speed 100 SPS (Table 2, p.13); no serial registers"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{24}",
+   "idle": "1",
+   "commands": []
+  },
+  "conversion": {
+   "time": {
+    "field": "CTRL.MODE",
+    "values": {
+     "0": 83300000,
+     "1": 13300000
+    }
+   },
+   "start": [
+    "pin"
+   ],
+   "mode": "continuous",
+   "channel": "MUX"
+  },
+  "ready": [
+   {
+    "pin": "DRDY/DOUT",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read",
+    "onMiso": true
+   }
+  ],
+  "pins": {
+   "start": {
+    "pin": "START",
+    "active": 1
+   },
+   "levels": [
+    {
+     "pin": "MUX",
+     "field": "MUX.MUX"
+    },
+    {
+     "pin": "MODE",
+     "field": "CTRL.MODE"
+    },
+    {
+     "pin": "TEMPEN",
+     "field": "CTRL.TEMPEN"
+    },
+    {
+     "pin": "BUFEN",
+     "field": "CTRL.BUFEN"
+    }
+   ]
+  }
+ },
+ "packages": {
+  "RGV": {
+   "pinout": "rgv16",
+   "footprint": "VQFN-16-RGV",
+   "package": "VQFN",
+   "pins": 16
+  }
+ },
+ "pdf": "ads1225.pdf",
+ "pages": "p.3-4 (EC), p.5-6 (pins), p.13-15 (DRDY/DOUT, MODE, START, data format, retrieval timing)",
+ "notModeled": [
+  "analog inputs, buffer (BUFEN level stored only), temperature sensor (TEMPEN level stored only), reference",
+  "conversion time is the maximum tCONV (Tables 3 and 5): 83.3 ms High-Resolution (MODE = 0), 13.3 ms High-Speed (MODE = 1); typical 1 / 16 SPS and 1 / 100 SPS",
+  "START: high = continuous conversions, a pulse (>= 17 us) = one conversion then automatic shutdown, low = shutdown; modeled by pins.start",
+  "settling after a MUX, BUFEN, TEMPEN or MODE change; the model just continues converting",
+  "DRDY/DOUT stays at the last data bit until the next update unless an extra SCLK forces it high; modeled as idle 1 after the data bits",
+  "self-calibration started by 26 SCLKs (START must stay high)",
+  "data-update window (no readback) and data overwritten if not read before the next update"
+ ],
+ "variants": "ADS1225 (1 channel; pins 5/8/9 GND/NC/NC) and ADS1226 (2 channels; MUX, AINP2, AINN2) share ads1225.pdf; each has its own spec file",
+ "parts": [
+  [
+   "ADS1226IRGVR",
+   "RGV",
+   16,
+   "Active"
+  ],
+  [
+   "ADS1226IRGVT",
+   "RGV",
+   16,
+   "Active"
+  ]
+ ]
+}

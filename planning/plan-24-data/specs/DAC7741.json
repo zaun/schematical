@@ -1,0 +1,403 @@
+{
+ "device": {
+  "id": "DAC7741",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit single voltage-output DAC with 16-bit parallel interface, read-back, internal +10 V reference and RST/RSTSEL reset",
+  "note": "dac7741.pdf (SBAS248B) p.3 electrical (VDD 4.75-5.25 V), p.4-5 pin configuration and descriptions, p.6 timing, p.14 Table II logic truth table and Table III data format, p.15 DAC reset",
+  "pinouts": {
+   "lqfp48": [
+    {
+     "number": 1,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 2,
+     "name": "VSS",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "VCC",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "VREF",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "ROFFSET",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 8,
+     "name": "RFB2",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "RFB1",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "SJ",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 13,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 14,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 15,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 16,
+     "name": "DB0",
+     "role": "inout"
+    },
+    {
+     "number": 17,
+     "name": "DB1",
+     "role": "inout"
+    },
+    {
+     "number": 18,
+     "name": "DB2",
+     "role": "inout"
+    },
+    {
+     "number": 19,
+     "name": "DB3",
+     "role": "inout"
+    },
+    {
+     "number": 20,
+     "name": "DB4",
+     "role": "inout"
+    },
+    {
+     "number": 21,
+     "name": "DB5",
+     "role": "inout"
+    },
+    {
+     "number": 22,
+     "name": "DB6",
+     "role": "inout"
+    },
+    {
+     "number": 23,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 24,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 25,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 26,
+     "name": "TEST",
+     "role": "nc"
+    },
+    {
+     "number": 27,
+     "name": "DB7",
+     "role": "inout"
+    },
+    {
+     "number": 28,
+     "name": "DB8",
+     "role": "inout"
+    },
+    {
+     "number": 29,
+     "name": "DB9",
+     "role": "inout"
+    },
+    {
+     "number": 30,
+     "name": "DB10",
+     "role": "inout"
+    },
+    {
+     "number": 31,
+     "name": "DB11",
+     "role": "inout"
+    },
+    {
+     "number": 32,
+     "name": "DB12",
+     "role": "inout"
+    },
+    {
+     "number": 33,
+     "name": "DB13",
+     "role": "inout"
+    },
+    {
+     "number": 34,
+     "name": "DB14",
+     "role": "inout"
+    },
+    {
+     "number": 35,
+     "name": "DB15",
+     "role": "inout"
+    },
+    {
+     "number": 36,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 37,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 38,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 39,
+     "name": "RST",
+     "role": "input"
+    },
+    {
+     "number": 40,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 41,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 42,
+     "name": "R/W",
+     "role": "input"
+    },
+    {
+     "number": 43,
+     "name": "RSTSEL",
+     "role": "input"
+    },
+    {
+     "number": 44,
+     "name": "REFEN",
+     "role": "input"
+    },
+    {
+     "number": 45,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 46,
+     "name": "REFADJ",
+     "role": "input"
+    },
+    {
+     "number": 47,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 48,
+     "name": "NC",
+     "role": "nc"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 1,
+  "vcc": [
+   4.75,
+   5.25
+  ],
+  "analog": [
+   "VSS",
+   "VCC",
+   "VREF",
+   "ROFFSET",
+   "RFB2",
+   "RFB1",
+   "SJ",
+   "VOUT",
+   "REFOUT",
+   "REFADJ",
+   "REFIN"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DB15",
+    "DB14",
+    "DB13",
+    "DB12",
+    "DB11",
+    "DB10",
+    "DB9",
+    "DB8",
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rw": {
+    "pin": "R/W",
+    "read": 1
+   }
+  },
+  "timing": {
+   "tAcc": 100,
+   "tDf": 70
+  },
+  "registers": [
+   {
+    "name": "IN",
+    "space": "input",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "input register (written at CS rising with R/W low, read back with R/W high); power-on value not given (0)"
+   },
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC register (loaded from the input register by LDAC); power-on value not given (0)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write input register (CS low, R/W low)",
+     "in": "d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "commit": "end",
+     "note": "data latched into the input register on CS rising (Table II)"
+    }
+   ],
+   "read": "[IN]",
+   "note": "R/W high with CS low reads the input register onto DB15-DB0 (Table II)"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 1,
+    "edge": "rise"
+   },
+   "clear": {
+    "pin": "RST",
+    "active": 0
+   }
+  },
+  "dac": {
+   "input": [
+    "IN"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": {
+    "pin": "RSTSEL",
+    "values": {
+     "0": 0,
+     "1": 32768
+    }
+   },
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "PT": {
+   "pinout": "lqfp48",
+   "footprint": "LQFP-48-PT",
+   "package": "LQFP",
+   "pins": 48
+  }
+ },
+ "pdf": "dac7741.pdf",
+ "pages": "p.3 (VDD), p.4-5 (pins), p.6 (timing tCSD 100 ns, tDZ 70 ns), p.14 (Table II truth table, Table III straight/offset binary), p.15 (RST/RSTSEL)",
+ "notModeled": [
+  "analog: voltage output stage, gain/offset resistors (RFB1/RFB2/ROFFSET/SJ), internal +10 V reference (REFEN/REFOUT/REFADJ/REFIN/VREF buffer)",
+  "REFEN only enables the internal reference (analog); not modeled",
+  "power-on contents of the input and DAC registers are not given in the datasheet (0 used)",
+  "TEST pin (reserved, tie to DGND) modeled as nc",
+  "supply sequencing (VDD before VCC/VSS) and settling time tS",
+  "negative analog supply VSS is in \"analog\" (the voltage check cannot represent it)",
+  "LDAC rising while CS is low and R/W low makes the input register transparent and writes the DAC register directly from the bus (Table II); the model copies the input register at LDAC rising and the bus data enters it at CS rising"
+ ],
+ "variants": "DAC7741 only in this datasheet (YB/YC grades: linearity only). DAC7742 (dac7742.pdf) is the same pinout with complementary coding and a level-sensitive active-low LDAC.",
+ "parts": [
+  [
+   "DAC7741YB/250",
+   "PT",
+   48,
+   "Active"
+  ],
+  [
+   "DAC7741YC/250",
+   "PT",
+   48,
+   "Active"
+  ]
+ ]
+}

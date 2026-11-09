@@ -1,0 +1,344 @@
+{
+ "device": {
+  "id": "TLV571",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "8-bit 1.25 MSPS single-channel parallel ADC with control registers, CSTART and INT/EOC",
+  "note": "tlv571.pdf (SLAS239A) p.1 pinout, p.2 terminal functions, p.3 register addressing, p.4 Figure 2 control registers and hardware configuration, p.5 Tables 1-3 conversion modes, programming examples, power down, p.6-7 sampling/conversion and start of conversion, p.12 output format and power up, p.16 recommended operating conditions, p.19 timing requirements",
+  "pinouts": {
+   "dw24": [
+    {
+     "number": 1,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "WR",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "RD",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "INT/EOC",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "D0",
+     "role": "inout"
+    },
+    {
+     "number": 11,
+     "name": "D1",
+     "role": "inout"
+    },
+    {
+     "number": 12,
+     "name": "D2",
+     "role": "inout"
+    },
+    {
+     "number": 13,
+     "name": "D3",
+     "role": "inout"
+    },
+    {
+     "number": 14,
+     "name": "D4",
+     "role": "inout"
+    },
+    {
+     "number": 15,
+     "name": "D5",
+     "role": "inout"
+    },
+    {
+     "number": 16,
+     "name": "A0/D6",
+     "role": "inout"
+    },
+    {
+     "number": 17,
+     "name": "A1/D7",
+     "role": "inout"
+    },
+    {
+     "number": 18,
+     "name": "CSTART",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "REFP",
+     "role": "power"
+    },
+    {
+     "number": 20,
+     "name": "REFM",
+     "role": "ground"
+    },
+    {
+     "number": 21,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 22,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 23,
+     "name": "AIN",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "NC",
+     "role": "nc"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 8,
+  "channels": 1,
+  "codeFormat": {
+   "field": "CR1.OUTCODE",
+   "values": {
+    "0": "straight",
+    "1": "offset"
+   }
+  },
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "AIN",
+   "AVDD",
+   "REFP",
+   "REFM"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "A1/D7",
+    "A0/D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rd": {
+    "pin": "RD",
+    "active": 0
+   },
+   "wr": {
+    "pin": "WR",
+    "active": 0
+   }
+  },
+  "timing": {
+   "tAcc": 40,
+   "tDf": 10
+  },
+  "registers": [
+   {
+    "name": "CR0",
+    "address": 0,
+    "width": 6,
+    "reset": 0,
+    "note": "Figure 2 (p.4): control register zero, written with D7-D6 (A1-A0) = 00; D1-D0 don't care; zeros after hardware configuration (p.4)",
+    "fields": [
+     {
+      "name": "STARTSEL",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "PROGEOC",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "CLKSEL",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "SWPWDN",
+      "bits": [
+       2,
+       2
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CR1",
+    "address": 1,
+    "width": 6,
+    "reset": 0,
+    "note": "Figure 2 (p.4): control register one, written with D7-D6 (A1-A0) = 01; D5, D3, D2, D0 reserved (write 0)",
+    "fields": [
+     {
+      "name": "OSCSPD",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "OUTCODE",
+      "bits": [
+       1,
+       1
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "read": "R{8}",
+   "commands": [
+    {
+     "name": "Write CR0",
+     "in": "00 [CR0]",
+     "note": "Figure 2 (p.4): A(1:0) = D7-D6 = 00 selects CR0; latched on the WR rising edge (p.2); with CR0.D5 = 1 the WR rising edge also starts sampling (software start, Table 1 p.5)"
+    },
+    {
+     "name": "Write CR1",
+     "in": "01 [CR1]",
+     "note": "Figure 2 (p.4): A(1:0) = 01 selects CR1 (Table 2 example 2: 01 000010 = 2s complement)"
+    }
+   ]
+  },
+  "conversion": {
+   "time": {
+    "fields": [
+     "CR0.CLKSEL",
+     "CR1.OSCSPD"
+    ],
+    "values": {
+     "0,0": 1778,
+     "0,1": 889,
+     "1,0": 0,
+     "1,1": 0
+    }
+   },
+   "start": [
+    "pin",
+    "write:CR0.STARTSEL=1",
+    "read"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "INT/EOC",
+    "active": 0,
+    "asserts": "done",
+    "clears": 111,
+    "enable": "CR0.PROGEOC=0",
+    "note": "CR0.D4 = 0: INT, one pulse twL(INT) = 1 SYSCLK after each conversion (p.19; 111 ns at the 9-MHz minimum oscillator)"
+   },
+   {
+    "pin": "INT/EOC",
+    "active": 0,
+    "asserts": "busy",
+    "enable": "CR0.PROGEOC=1",
+    "note": "CR0.D4 = 1: EOC, high to low at the start of conversion, back high at its end (Table 1, p.5)"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "CSTART",
+    "edge": "rise"
+   }
+  }
+ },
+ "packages": {
+  "DW": {
+   "pinout": "dw24",
+   "footprint": "SOIC-24W",
+   "package": "SOIC",
+   "pins": 24
+  },
+  "PW": {
+   "pinout": "dw24",
+   "footprint": "TSSOP-24",
+   "package": "TSSOP",
+   "pins": 24
+  }
+ },
+ "pdf": "tlv571.pdf",
+ "pages": "p.1 (pinout), p.2 (terminal functions), p.3 (sampling frequency, register addressing), p.4 (Figure 2, hardware configuration), p.5 (Tables 1-3), p.6 (sampling/conversion), p.7-8 (start of conversion), p.12 (system clock, output format, power up), p.16 (ROC), p.19 (timing requirements)",
+ "notModeled": [
+  "analog input, references: every conversion returns the 0 V code (00h binary; 2s complement (CR1.D1 = 1) of the unipolar range puts REFM = 0 V at 80h, modeled as codeFormat offset)",
+  "the control registers cannot be read back (no read-back mode is documented); reads always return the conversion result",
+  "start of conversion: hardware start (CR0.D5 = 0, CSTART rising) and software start (CR0.D5 = 1, WR rising edge, then each RD rising edge) are both always enabled: the CSTART pin, a CR0 write with D5 = 1 and every completed read start a conversion regardless of CR0.D5; a CR1 write in software start mode does not start one",
+  "conversion time: 6 SYSCLK sampling + 10 SYSCLK conversion = 16 SYSCLKs (p.6, p.19) at the internal oscillator minimum (9 MHz slow, CR1.D4 = 0: 1778 ns; 18 MHz fast: 889 ns); with the external CLK (CR0.D3 = 1) modeled as 0; hardware start converts in 10 SYSCLKs after CSTART rising (not distinguished)",
+  "hardware configuration mode (WR tied low, dummy RD loads defaults) and CLK setup/hold windows: not modeled",
+  "software power down by CS high (Table 3, p.5), CR0.D2 SWPWDN, auto power down: no bus-visible effect",
+  "data bus timing at DVDD = 3 V, 50 pF (p.19): tAcc = ten(RDL_DAV) 40 ns, tDf = tdis(RDH_DAV) 10 ns"
+ ],
+ "variants": "8-bit single-channel member of the TLV1571 family (DW and PW share the 24-pin numbering).",
+ "parts": [
+  [
+   "TLV571IDW",
+   "DW",
+   24,
+   "Active"
+  ],
+  [
+   "TLV571IPW",
+   "PW",
+   24,
+   "Active"
+  ]
+ ]
+}

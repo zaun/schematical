@@ -1,0 +1,1016 @@
+{
+ "device": {
+  "id": "DAC8734",
+  "function": "DAC",
+  "description": "Quad 16-bit high-voltage (+/-16 V) unipolar/bipolar-output DAC with SPI, register read-back, user gain/zero calibration, LDAC and GPIO",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac8734.pdf (SBAS465A) p.7-8 pin descriptions (QFN-40, TQFP-48), p.5 recommended supplies (DVDD 2.7-5.5 V, IOVDD 1.7 V to DVDD), p.9-11 timing (Figures 1-3), p.20-21 DAC update via LDAC, reset (Table 1), p.22 GPIO, p.23-24 serial interface and read-back (Figure 43), p.25 SPI word and register map (Tables 2-3), p.26-28 registers (Tables 4-10)",
+  "pinouts": {
+   "rha40": [
+    {
+     "number": 1,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "RST",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "GPIO-0",
+     "role": "inout"
+    },
+    {
+     "number": 8,
+     "name": "GPIO-1",
+     "role": "inout"
+    },
+    {
+     "number": 9,
+     "name": "UNI/BIP-A",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 11,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 12,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "VOUT-0",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "RFB2-0",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "RFB1-0",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "SGND-0",
+     "role": "ground"
+    },
+    {
+     "number": 17,
+     "name": "SGND-1",
+     "role": "ground"
+    },
+    {
+     "number": 18,
+     "name": "RFB1-1",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "RFB2-1",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "VOUT-1",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 22,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 23,
+     "name": "AVSS",
+     "role": "power"
+    },
+    {
+     "number": 24,
+     "name": "REFGND-A",
+     "role": "ground"
+    },
+    {
+     "number": 25,
+     "name": "REF-A",
+     "role": "power"
+    },
+    {
+     "number": 26,
+     "name": "REF-B",
+     "role": "power"
+    },
+    {
+     "number": 27,
+     "name": "REFGND-B",
+     "role": "ground"
+    },
+    {
+     "number": 28,
+     "name": "AVSS",
+     "role": "power"
+    },
+    {
+     "number": 29,
+     "name": "VMON",
+     "role": "output"
+    },
+    {
+     "number": 30,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 31,
+     "name": "VOUT-3",
+     "role": "output"
+    },
+    {
+     "number": 32,
+     "name": "RFB2-3",
+     "role": "output"
+    },
+    {
+     "number": 33,
+     "name": "RFB1-3",
+     "role": "output"
+    },
+    {
+     "number": 34,
+     "name": "SGND-3",
+     "role": "ground"
+    },
+    {
+     "number": 35,
+     "name": "SGND-2",
+     "role": "ground"
+    },
+    {
+     "number": 36,
+     "name": "RFB1-2",
+     "role": "output"
+    },
+    {
+     "number": 37,
+     "name": "RFB2-2",
+     "role": "output"
+    },
+    {
+     "number": 38,
+     "name": "VOUT-2",
+     "role": "output"
+    },
+    {
+     "number": 39,
+     "name": "AIN",
+     "role": "input"
+    },
+    {
+     "number": 40,
+     "name": "UNI/BIP-B",
+     "role": "input"
+    }
+   ],
+   "pfb48": [
+    {
+     "number": 1,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 2,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "RST",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "GPIO-0",
+     "role": "inout"
+    },
+    {
+     "number": 9,
+     "name": "GPIO-1",
+     "role": "inout"
+    },
+    {
+     "number": 10,
+     "name": "UNI/BIP-A",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 13,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "VOUT-0",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "RFB2-0",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "RFB1-0",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "SGND-0",
+     "role": "ground"
+    },
+    {
+     "number": 19,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 20,
+     "name": "SGND-1",
+     "role": "ground"
+    },
+    {
+     "number": 21,
+     "name": "RFB1-1",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "RFB2-1",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "VOUT-1",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 25,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 26,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 27,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 28,
+     "name": "AVSS",
+     "role": "power"
+    },
+    {
+     "number": 29,
+     "name": "REFGND-A",
+     "role": "ground"
+    },
+    {
+     "number": 30,
+     "name": "REF-A",
+     "role": "power"
+    },
+    {
+     "number": 31,
+     "name": "REF-B",
+     "role": "power"
+    },
+    {
+     "number": 32,
+     "name": "REFGND-B",
+     "role": "ground"
+    },
+    {
+     "number": 33,
+     "name": "AVSS",
+     "role": "power"
+    },
+    {
+     "number": 34,
+     "name": "VMON",
+     "role": "output"
+    },
+    {
+     "number": 35,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 36,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 37,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 38,
+     "name": "VOUT-3",
+     "role": "output"
+    },
+    {
+     "number": 39,
+     "name": "RFB2-3",
+     "role": "output"
+    },
+    {
+     "number": 40,
+     "name": "RFB1-3",
+     "role": "output"
+    },
+    {
+     "number": 41,
+     "name": "SGND-3",
+     "role": "ground"
+    },
+    {
+     "number": 42,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 43,
+     "name": "SGND-2",
+     "role": "ground"
+    },
+    {
+     "number": 44,
+     "name": "RFB1-2",
+     "role": "output"
+    },
+    {
+     "number": 45,
+     "name": "RFB2-2",
+     "role": "output"
+    },
+    {
+     "number": 46,
+     "name": "VOUT-2",
+     "role": "output"
+    },
+    {
+     "number": 47,
+     "name": "AIN",
+     "role": "input"
+    },
+    {
+     "number": 48,
+     "name": "UNI/BIP-B",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 4,
+  "vcc": [
+   1.7,
+   5.5
+  ],
+  "analog": [
+   "AVDD",
+   "AVSS",
+   "REF-A",
+   "REF-B",
+   "VMON",
+   "AIN",
+   "VOUT-0",
+   "RFB1-0",
+   "RFB2-0",
+   "VOUT-1",
+   "RFB1-1",
+   "RFB2-1",
+   "VOUT-2",
+   "RFB1-2",
+   "RFB2-2",
+   "VOUT-3",
+   "RFB1-3",
+   "RFB2-3"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDO",
+   "mode": 2
+  },
+  "timing": {
+   "tValid": 20,
+   "tOut": 25
+  },
+  "registers": [
+   {
+    "name": "CMD",
+    "address": 0,
+    "width": 16,
+    "reset": 828,
+    "readOnly": 1091,
+    "fields": [
+     {
+      "name": "AB",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "LD",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "RST",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "PD_A",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "PD_B",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "GPIO_1",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "GPIO_0",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "DSDO",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "NOP",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "GAIN_3",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "GAIN_2",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "GAIN_1",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "GAIN_0",
+      "bits": [
+       2,
+       2
+      ]
+     }
+    ],
+    "note": "Table 4 command register, default 033Ch; DB10 and DB1:DB0 reserved (read 0); NOP (DB6) has no effect and reads 0"
+   },
+   {
+    "name": "MONITOR",
+    "address": 1,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 2047,
+    "fields": [
+     {
+      "name": "MDAC_3",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "MDAC_2",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "MDAC_1",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "MDAC_0",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "AIN",
+      "bits": [
+       11,
+       11
+      ]
+     }
+    ],
+    "note": "Table 5 monitor register, default 0000h; DB10:DB0 reserved (read 0)"
+   },
+   {
+    "name": "DAC_0",
+    "address": 4,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC-0 input data register (Table 6, address 4), default 0000h (Table 1)"
+   },
+   {
+    "name": "DAC_1",
+    "address": 5,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC-1 input data register (Table 6, address 5), default 0000h (Table 1)"
+   },
+   {
+    "name": "DAC_2",
+    "address": 6,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC-2 input data register (Table 6, address 6), default 0000h (Table 1)"
+   },
+   {
+    "name": "DAC_3",
+    "address": 7,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC-3 input data register (Table 6, address 7), default 0000h (Table 1)"
+   },
+   {
+    "name": "ZERO_0",
+    "address": 8,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 65024,
+    "fields": [
+     {
+      "name": "Z",
+      "bits": [
+       8,
+       0
+      ]
+     }
+    ],
+    "note": "Zero register-0 (Table 9, Z8:Z0 twos complement), default 0000h; DB15:DB9 reserved"
+   },
+   {
+    "name": "ZERO_1",
+    "address": 9,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 65024,
+    "fields": [
+     {
+      "name": "Z",
+      "bits": [
+       8,
+       0
+      ]
+     }
+    ],
+    "note": "Zero register-1 (Table 9, Z8:Z0 twos complement), default 0000h; DB15:DB9 reserved"
+   },
+   {
+    "name": "ZERO_2",
+    "address": 10,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 65024,
+    "fields": [
+     {
+      "name": "Z",
+      "bits": [
+       8,
+       0
+      ]
+     }
+    ],
+    "note": "Zero register-2 (Table 9, Z8:Z0 twos complement), default 0000h; DB15:DB9 reserved"
+   },
+   {
+    "name": "ZERO_3",
+    "address": 11,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 65024,
+    "fields": [
+     {
+      "name": "Z",
+      "bits": [
+       8,
+       0
+      ]
+     }
+    ],
+    "note": "Zero register-3 (Table 9, Z8:Z0 twos complement), default 0000h; DB15:DB9 reserved"
+   },
+   {
+    "name": "GAIN_0",
+    "address": 12,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 65280,
+    "fields": [
+     {
+      "name": "G",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "Gain register-0 (Table 10, G7:G0 twos complement), default 0000h; DB15:DB8 reserved"
+   },
+   {
+    "name": "GAIN_1",
+    "address": 13,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 65280,
+    "fields": [
+     {
+      "name": "G",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "Gain register-1 (Table 10, G7:G0 twos complement), default 0000h; DB15:DB8 reserved"
+   },
+   {
+    "name": "GAIN_2",
+    "address": 14,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 65280,
+    "fields": [
+     {
+      "name": "G",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "Gain register-2 (Table 10, G7:G0 twos complement), default 0000h; DB15:DB8 reserved"
+   },
+   {
+    "name": "GAIN_3",
+    "address": 15,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 65280,
+    "fields": [
+     {
+      "name": "G",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "Gain register-3 (Table 10, G7:G0 twos complement), default 0000h; DB15:DB8 reserved"
+   },
+   {
+    "name": "LATCH_0",
+    "space": "dac",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC-0 latch (drives VOUT-0); loaded from DAC_0 by LDAC / LD; readable with A/B = 1"
+   },
+   {
+    "name": "LATCH_1",
+    "space": "dac",
+    "address": 1,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC-1 latch (drives VOUT-1); loaded from DAC_1 by LDAC / LD; readable with A/B = 1"
+   },
+   {
+    "name": "LATCH_2",
+    "space": "dac",
+    "address": 2,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC-2 latch (drives VOUT-2); loaded from DAC_2 by LDAC / LD; readable with A/B = 1"
+   },
+   {
+    "name": "LATCH_3",
+    "space": "dac",
+    "address": 3,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC-3 latch (drives VOUT-3); loaded from DAC_3 by LDAC / LD; readable with A/B = 1"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "out": "0",
+   "commands": [
+    {
+     "name": "Write DAC-n input data register",
+     "in": "0 000 01aa d{16}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "Table 2/3: R/W = 0, A3:A0 = 0100-0111 (DAC-0..3); loaded at CS rising"
+    },
+    {
+     "name": "NOP (command register write with NOP = 1)",
+     "in": "0 000 0000 x{9} 1 x{6}",
+     "action": "nop",
+     "commit": "end",
+     "note": "Table 4 DB6: a write with NOP = 1 has no effect (used to clock out read-back data, Figure 3)"
+    },
+    {
+     "name": "Write reserved address",
+     "in": "0 000 001x x{16}",
+     "action": "nop",
+     "commit": "end",
+     "note": "addresses 2-3 are reserved (Table 3)"
+    },
+    {
+     "name": "Write register",
+     "in": "0 000 aaaa d{16}",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "command, monitor, zero and gain registers (Table 3)"
+    },
+    {
+     "name": "Read reserved address",
+     "in": "1 xxx 001x x{16}",
+     "action": "nop",
+     "next": "0{24}",
+     "commit": "end",
+     "note": "reserved addresses read 0"
+    },
+    {
+     "name": "Read DAC-0 latch (A/B = 1)",
+     "in": "1 xxx 0100 x{16}",
+     "action": "nop",
+     "next": "0{8} [LATCH_0]",
+     "when": "CMD.AB=1",
+     "commit": "end",
+     "note": "Table 4 A/B = 1: reading DAC-x returns the DAC latch"
+    },
+    {
+     "name": "Read DAC-1 latch (A/B = 1)",
+     "in": "1 xxx 0101 x{16}",
+     "action": "nop",
+     "next": "0{8} [LATCH_1]",
+     "when": "CMD.AB=1",
+     "commit": "end",
+     "note": "Table 4 A/B = 1: reading DAC-x returns the DAC latch"
+    },
+    {
+     "name": "Read DAC-2 latch (A/B = 1)",
+     "in": "1 xxx 0110 x{16}",
+     "action": "nop",
+     "next": "0{8} [LATCH_2]",
+     "when": "CMD.AB=1",
+     "commit": "end",
+     "note": "Table 4 A/B = 1: reading DAC-x returns the DAC latch"
+    },
+    {
+     "name": "Read DAC-3 latch (A/B = 1)",
+     "in": "1 xxx 0111 x{16}",
+     "action": "nop",
+     "next": "0{8} [LATCH_3]",
+     "when": "CMD.AB=1",
+     "commit": "end",
+     "note": "Table 4 A/B = 1: reading DAC-x returns the DAC latch"
+    },
+    {
+     "name": "Read register (READ command)",
+     "in": "1 xxx aaaa x{16}",
+     "action": "read",
+     "address": "a",
+     "next": "0{8} @",
+     "commit": "end",
+     "note": "R/W = 1: the addressed register is shifted out on SDO during the next SPI frame (p.24, Figure 43); DAC-x reads the input data register while A/B = 0"
+    }
+   ],
+   "triggers": [
+    {
+     "write": "CMD.LD=1",
+     "action": "update"
+    },
+    {
+     "write": "CMD.RST=1",
+     "action": "reset"
+    }
+   ],
+   "note": "24-bit word R/W, 000, A3:A0, D15:D0 (Table 2); data latched on SCLK falling edges, the first SCLK edge after CS falls must be falling (SCLK idles high: mode 2); the word is loaded at CS rising, fewer than 24 edges are ignored, more use the last 24 (p.23); SDO valid t13 20 ns after CS falls, t11 25 ns after SCLK rising (IOVDD 1.8 V, p.11)"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "level"
+   },
+   "reset": {
+    "pin": "RST",
+    "active": 0
+   }
+  },
+  "dac": {
+   "input": [
+    "DAC_0",
+    "DAC_1",
+    "DAC_2",
+    "DAC_3"
+   ],
+   "output": [
+    "LATCH_0",
+    "LATCH_1",
+    "LATCH_2",
+    "LATCH_3"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "PFB": {
+   "pinout": "pfb48",
+   "footprint": "TQFP-48-7X7",
+   "package": "TQFP",
+   "pins": 48
+  },
+  "RHA": {
+   "pinout": "rha40",
+   "footprint": "VQFN-40-RHA-H",
+   "package": "VQFN",
+   "pins": 40
+  }
+ },
+ "pdf": "dac8734.pdf",
+ "pages": "p.5 (DVDD 2.7-5.5 V, IOVDD 1.7 V to DVDD), p.7-8 (pin descriptions), p.9-11 (timing; t13 20 ns, t11 25 ns at IOVDD 1.8 V), p.20-21 (LDAC, hardware/software/power-on reset, Table 1), p.22 (GPIO), p.23-24 (serial interface, daisy chain, read-back), p.25 (Tables 2-3), p.26-28 (Tables 4-10)",
+ "notModeled": [
+  "analog: outputs, gain-2/4 feedback (RFB1/RFB2, GAIN-x bits stored only), reference buffers, VMON monitor multiplexer and AIN, power-down output loads (PD_A/PD_B stored only), user gain/zero calibration (ZERO/GAIN registers stored and read back only)",
+  "UNI/BIP-A/B pins select unipolar (straight binary) or bipolar (twos complement) data per group; data are stored as written and the reset code is 0000h either way (Table 1)",
+  "LDAC: the chip reloads only latches accessed since the last update; the model (LDAC level active low, LD trigger) reloads every latch. LD and RST self-clear in the chip; in the model RST clears through the reset and LD stays 1 until written 0",
+  "GPIO-0/1: open-drain outputs set by CMD.GPIO_x and read back as the pin level; the bits are stored only and the pins are never driven",
+  "read-back header bits DB23:DB16 are not documented (\"same format as used to write\"); the model sends zeros there and the register in DB15:DB0. DSDO (SDO disable) is stored only: SDO still drives while CS is low",
+  "daisy-chain mode (SDI data rippling out on SDO after 24 clocks): not modeled",
+  "frames with fewer than 24 SCLK falling edges are ignored (commit at CS rising, align end); with more the last 24 bits are used"
+ ],
+ "variants": "DAC8734 only in this datasheet.",
+ "parts": [
+  [
+   "DAC8734SPFB",
+   "PFB",
+   48,
+   "Active"
+  ],
+  [
+   "DAC8734SPFBR",
+   "PFB",
+   48,
+   "Active"
+  ],
+  [
+   "DAC8734SRHAT",
+   "RHA",
+   40,
+   "Active"
+  ]
+ ]
+}

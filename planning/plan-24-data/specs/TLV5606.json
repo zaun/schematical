@@ -1,0 +1,211 @@
+{
+ "device": {
+  "id": "TLV5606",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "10-bit voltage-output DAC with TMS320/SPI serial interface (FS frame sync), programmable settling time and power down",
+  "note": "tlv5606.pdf (SLAS259B) p.1 (D/DGK pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: VDD 2.7-3.3 V and 4.5-5.5 V, fCLK 20 MHz), p.5 (digital input timing requirements), p.6 (Figure 1 timing diagram), p.11 (power-on reset, serial interface), p.12 (data format)",
+  "pinouts": {
+   "d8": [
+    {
+     "number": 1,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "FS",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "OUT",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "VDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 10,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "REFIN",
+   "OUT"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "FS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC latch; power-on reset clears it (p.11)"
+   },
+   {
+    "name": "CTRL",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "SPD",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "PWR",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: SPD (1 = fast) and PWR (1 = power down) bits of the last word (p.12); power-on latches all zero (p.11)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write",
+     "in": "x sp x d{10} 00",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "CTRL.SPD": "s",
+      "CTRL.PWR": "p"
+     },
+     "note": "D15 X, D14 SPD, D13 PWR, D12 X, D11-D2 data, D1-D0 0 0 (p.12)"
+    }
+   ],
+   "triggers": [
+    {
+     "write": "CTRL.PWR=1",
+     "action": "powerdown"
+    },
+    {
+     "write": "CTRL.PWR=0",
+     "action": "wakeup"
+    }
+   ],
+   "note": "FS falling starts the frame; data sampled MSB first on SCLK falling edges (SCLK idles high, Figure 1); after 16 bits the word moves to the DAC latch and updates the output (p.11)"
+  },
+  "dac": {
+   "input": [
+    "DAC"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "D": {
+   "pinout": "d8",
+   "footprint": "SOIC-8",
+   "package": "SOIC",
+   "pins": 8
+  },
+  "DGK": {
+   "pinout": "d8",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  }
+ },
+ "pdf": "tlv5606.pdf",
+ "pages": "p.1 (D/DGK pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: VDD 2.7-3.3 V and 4.5-5.5 V, fCLK 20 MHz), p.5 (digital input timing requirements), p.6 (Figure 1 timing diagram), p.11 (power-on reset, serial interface), p.12 (data format)",
+ "notModeled": [
+  "analog: voltage output (x2 buffer), reference input REFIN, settling speed (SPD) and power-down (PWR) effects on the output",
+  "CS (enable, active low) is not modeled: the bus frame is FS (FS falling starts a word, as in the datasheet's 3-wire connection with SS on FS and CS tied low); CS high does not block the model",
+  "a word cut short by FS rising before 16 bits (the datasheet moves the partial shift register to the DAC latch) is discarded",
+  "D1-D0 are printed as 0 0 in the data format (p.12); words with other values there are ignored by the model",
+  "timing requirements tsu(CS-FS)/tsu(FS-CK)/tsu(C16-FS)/tsu(C16-CS)/twH/twL/tsu(D)/th(D)/twH(FS) (p.5)"
+ ],
+ "variants": "tlv5606.pdf covers only the TLV5606 (C and I temperature grades), packages D/DGK share one pinout.",
+ "parts": [
+  [
+   "TLV5606CD",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "TLV5606CDGK",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "TLV5606CDGKR",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "TLV5606CDR",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "TLV5606ID",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "TLV5606IDGK",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "TLV5606IDGKR",
+   "DGK",
+   8,
+   "Active"
+  ]
+ ]
+}

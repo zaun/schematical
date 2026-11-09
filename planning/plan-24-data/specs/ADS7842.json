@@ -1,0 +1,92 @@
+{
+  "device": {
+    "id": "ADS7842",
+    "function": "ADC",
+    "description": "12-bit 200 kSPS 4-channel SAR ADC with 12-bit parallel interface",
+    "drawer": ["Interface"],
+    "note": "ads7842.pdf (SBAS103C) p.2 pin configuration and descriptions (A1/A0 channel table), p.3-4 specifications (VCC 4.75-5.25 V / 2.7-3.6 V, VIH to 5.5 V, straight binary), p.9 Figure 1, p.10 starting a conversion, reading data, power-down, Tables I-II timing, p.11 Table III power-down truth table, Table IV output codes, Figures 2-3, p.12 Figures 4-6",
+    "pinouts": {
+      "db28": [
+        {"number": 1, "name": "AIN0", "role": "input"},
+        {"number": 2, "name": "AIN1", "role": "input"},
+        {"number": 3, "name": "AIN2", "role": "input"},
+        {"number": 4, "name": "AIN3", "role": "input"},
+        {"number": 5, "name": "VREF", "role": "power"},
+        {"number": 6, "name": "AGND", "role": "ground"},
+        {"number": 7, "name": "DB11", "role": "output"},
+        {"number": 8, "name": "DB10", "role": "output"},
+        {"number": 9, "name": "DB9", "role": "output"},
+        {"number": 10, "name": "DB8", "role": "output"},
+        {"number": 11, "name": "DB7", "role": "output"},
+        {"number": 12, "name": "DB6", "role": "output"},
+        {"number": 13, "name": "DB5", "role": "output"},
+        {"number": 14, "name": "DGND", "role": "ground"},
+        {"number": 15, "name": "DB4", "role": "output"},
+        {"number": 16, "name": "DB3", "role": "output"},
+        {"number": 17, "name": "DB2", "role": "output"},
+        {"number": 18, "name": "DB1", "role": "output"},
+        {"number": 19, "name": "DB0", "role": "output"},
+        {"number": 20, "name": "RD", "role": "input"},
+        {"number": 21, "name": "CS", "role": "input"},
+        {"number": 22, "name": "WR", "role": "input"},
+        {"number": 23, "name": "BUSY", "role": "output"},
+        {"number": 24, "name": "CLK", "role": "input"},
+        {"number": 25, "name": "A0", "role": "input"},
+        {"number": 26, "name": "A1", "role": "input"},
+        {"number": 27, "name": "VDIG", "role": "power"},
+        {"number": 28, "name": "VANA", "role": "power"}
+      ]
+    },
+    "type": "adc",
+    "bits": 12,
+    "channels": 4,
+    "codeFormat": "straight",
+    "vcc": [2.7, 5.25],
+    "inputMax": 5.5,
+    "analog": ["AIN0", "AIN1", "AIN2", "AIN3", "VREF", "VANA"],
+    "bus": {"style": "parallel",
+            "data": ["DB11", "DB10", "DB9", "DB8", "DB7", "DB6", "DB5", "DB4", "DB3", "DB2", "DB1", "DB0"],
+            "cs": {"pin": "CS", "active": 0}, "rd": {"pin": "RD", "active": 0}, "wr": {"pin": "WR", "active": 0},
+            "address": ["A1", "A0"]},
+    "timing": {"tAcc": 25, "tDf": 25},
+    "registers": [
+      {"name": "CTRL", "width": 2, "reset": 0,
+       "note": "internal: the channel address A1 A0 latched by WR; reset value not documented",
+       "fields": [{"name": "A", "bits": [1, 0]}]}
+    ],
+    "protocol": {
+      "frame": "fixed",
+      "commands": [
+        {"name": "Start Conversion (CS + WR)", "in": "aa x{12}", "action": "start", "channel": "a",
+         "set": {"CTRL.A": "a"}, "commit": "end",
+         "note": "p.2: A1 A0 = 00/01/10/11 select AIN0..AIN3; the data bus bits of the write are ignored"}
+      ],
+      "read": "R{12}"
+    },
+    "conversion": {
+      "time": 0,
+      "start": ["command"]
+    },
+    "ready": [
+      {"pin": "BUSY", "active": 0, "asserts": "busy"}
+    ]
+  },
+  "packages": {
+    "DB": {"pinout": "db28", "footprint": "SSOP-28", "package": "SSOP", "pins": 28}
+  },
+  "pdf": "ads7842.pdf",
+  "pages": "p.2 (pins), p.3-4 (specs), p.9 (Figure 1), p.10 (conversion, read, power-down, Tables I-II), p.11 (Tables III-IV, Figures 2-3), p.12 (Figures 4-6)",
+  "notModeled": [
+    "analog inputs and multiplexer (the channel address is stored only)",
+    "the conversion starts at the falling edge of WR (the model starts it when the write ends) and is clocked by the external CLK (16 clocks per conversion, tCONV 3.5 us at 5 V / 6.5 us at 2.7 V with the specified clocks); with time 0 BUSY never shows its LOW conversion pulse",
+    "Figure 3 note: the A1/A0 address latched on the rising edge of WR applies to the next conversion (N+1); the model uses it for the current one (no effect on the 0 V result)",
+    "power-down and wake-up through RD rising with A0 = 1 / A0 = 0 (Table III, Figures 5-6)",
+    "the outputs are tri-stated when CS and WR start a conversion; data read during a conversion returns the previous result on the part (the model returns the 0 V code)",
+    "vcc covers the two specified VDIG ranges (2.7-3.6 V and 4.75-5.25 V) as one range"
+  ],
+  "variants": "ADS7842E and ADS7842EB (higher grade) share the spec.",
+  "parts": [
+    ["ADS7842E", "DB", 28, "Last Time Buy"],
+    ["ADS7842E/1K", "DB", 28, "Last Time Buy"]
+  ]
+}

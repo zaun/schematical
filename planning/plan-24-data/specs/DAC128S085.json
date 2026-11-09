@@ -1,0 +1,2066 @@
+{
+ "device": {
+  "id": "DAC128S085",
+  "function": "DAC",
+  "description": "12-bit octal micro-power voltage-output DAC with rail-to-rail outputs and SPI (daisy-chain capable)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac128s085.pdf (SNAS407H) p.3-4 pin configuration and functions, p.5 recommended operating conditions (VA 2.7-5.5 V, digital inputs 0-5.5 V regardless of VA), p.9-10 AC and timing characteristics and Figure 1 serial timing, p.17-18 serial interface (Figure 28) and daisy chain, p.18-20 WRM/WTM and special commands (Tables 1-3), power-on reset, p.20-21 power-down modes (Table 4)",
+  "pinouts": {
+   "pw16": [
+    {
+     "number": 1,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "VREF1",
+     "role": "power"
+    },
+    {
+     "number": 9,
+     "name": "VREF2",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 11,
+     "name": "VOUTH",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "VOUTG",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "VOUTF",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "VOUTE",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "SCLK",
+     "role": "input"
+    }
+   ],
+   "rgh16": [
+    {
+     "number": 1,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "VREF1",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "VREF2",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "VOUTH",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "VOUTG",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "VOUTF",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "VOUTE",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "DOUT",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 8,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "inputMax": 5.5,
+  "analog": [
+   "VOUTA",
+   "VOUTB",
+   "VOUTC",
+   "VOUTD",
+   "VOUTE",
+   "VOUTF",
+   "VOUTG",
+   "VOUTH",
+   "VREF1",
+   "VREF2"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "channel control (data) register; power-on: filled with zeros (p.20 power-on reset)"
+   },
+   {
+    "name": "INB",
+    "space": "input",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "channel control (data) register; power-on: filled with zeros (p.20 power-on reset)"
+   },
+   {
+    "name": "INC",
+    "space": "input",
+    "address": 2,
+    "width": 12,
+    "reset": 0,
+    "note": "channel control (data) register; power-on: filled with zeros (p.20 power-on reset)"
+   },
+   {
+    "name": "IND",
+    "space": "input",
+    "address": 3,
+    "width": 12,
+    "reset": 0,
+    "note": "channel control (data) register; power-on: filled with zeros (p.20 power-on reset)"
+   },
+   {
+    "name": "INE",
+    "space": "input",
+    "address": 4,
+    "width": 12,
+    "reset": 0,
+    "note": "channel control (data) register; power-on: filled with zeros (p.20 power-on reset)"
+   },
+   {
+    "name": "INF",
+    "space": "input",
+    "address": 5,
+    "width": 12,
+    "reset": 0,
+    "note": "channel control (data) register; power-on: filled with zeros (p.20 power-on reset)"
+   },
+   {
+    "name": "ING",
+    "space": "input",
+    "address": 6,
+    "width": 12,
+    "reset": 0,
+    "note": "channel control (data) register; power-on: filled with zeros (p.20 power-on reset)"
+   },
+   {
+    "name": "INH",
+    "space": "input",
+    "address": 7,
+    "width": 12,
+    "reset": 0,
+    "note": "channel control (data) register; power-on: filled with zeros (p.20 power-on reset)"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC output latch; power-on: zeros (outputs 0 V)"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC output latch; power-on: zeros (outputs 0 V)"
+   },
+   {
+    "name": "DACC",
+    "space": "dac",
+    "address": 2,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC output latch; power-on: zeros (outputs 0 V)"
+   },
+   {
+    "name": "DACD",
+    "space": "dac",
+    "address": 3,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC output latch; power-on: zeros (outputs 0 V)"
+   },
+   {
+    "name": "DACE",
+    "space": "dac",
+    "address": 4,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC output latch; power-on: zeros (outputs 0 V)"
+   },
+   {
+    "name": "DACF",
+    "space": "dac",
+    "address": 5,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC output latch; power-on: zeros (outputs 0 V)"
+   },
+   {
+    "name": "DACG",
+    "space": "dac",
+    "address": 6,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC output latch; power-on: zeros (outputs 0 V)"
+   },
+   {
+    "name": "DACH",
+    "space": "dac",
+    "address": 7,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC output latch; power-on: zeros (outputs 0 V)"
+   },
+   {
+    "name": "CTRL",
+    "width": 3,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "WTM",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "PDMODE",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "internal: WTM = 1 write-through mode (power-up WRM, Table 1); PDMODE = DB13-DB12 of the last power-down frame (1 Hi-Z, 2 100k, 3 2.5k)"
+   },
+   {
+    "name": "PD",
+    "width": 8,
+    "reset": 0,
+    "note": "internal: channels powered down (bit 0 = A ... bit 7 = H, Table 4)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "commands": [
+    {
+     "name": "Write ch, WRM",
+     "in": "0ccc d{12}",
+     "action": "write",
+     "channel": "c",
+     "data": "d",
+     "when": "CTRL.WTM=0",
+     "note": "Table 2: WRM: D11-D0 written to the channel's register only",
+     "commit": "end"
+    },
+    {
+     "name": "Write ch, WTM",
+     "in": "0ccc d{12}",
+     "action": "write",
+     "channel": "c",
+     "data": "d",
+     "when": "CTRL.WTM=1",
+     "then": [
+      "update"
+     ],
+     "note": "Table 2: WTM: the channel's output is updated by D11-D0",
+     "commit": "end"
+    },
+    {
+     "name": "WRM",
+     "in": "1000 x{12}",
+     "set": {
+      "CTRL.WTM": 0
+     },
+     "note": "Table 1: DB15-12 = 1000 write register mode",
+     "commit": "end"
+    },
+    {
+     "name": "WTM",
+     "in": "1001 x{12}",
+     "set": {
+      "CTRL.WTM": 1
+     },
+     "note": "Table 1: DB15-12 = 1001 write through mode",
+     "commit": "end"
+    },
+    {
+     "name": "Update Select",
+     "in": "1010 xxxx u{8}",
+     "action": "update",
+     "channel": "u",
+     "channelMap": {
+      "0": [],
+      "1": [
+       0
+      ],
+      "2": [
+       1
+      ],
+      "3": [
+       0,
+       1
+      ],
+      "4": [
+       2
+      ],
+      "5": [
+       0,
+       2
+      ],
+      "6": [
+       1,
+       2
+      ],
+      "7": [
+       0,
+       1,
+       2
+      ],
+      "8": [
+       3
+      ],
+      "9": [
+       0,
+       3
+      ],
+      "10": [
+       1,
+       3
+      ],
+      "11": [
+       0,
+       1,
+       3
+      ],
+      "12": [
+       2,
+       3
+      ],
+      "13": [
+       0,
+       2,
+       3
+      ],
+      "14": [
+       1,
+       2,
+       3
+      ],
+      "15": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "16": [
+       4
+      ],
+      "17": [
+       0,
+       4
+      ],
+      "18": [
+       1,
+       4
+      ],
+      "19": [
+       0,
+       1,
+       4
+      ],
+      "20": [
+       2,
+       4
+      ],
+      "21": [
+       0,
+       2,
+       4
+      ],
+      "22": [
+       1,
+       2,
+       4
+      ],
+      "23": [
+       0,
+       1,
+       2,
+       4
+      ],
+      "24": [
+       3,
+       4
+      ],
+      "25": [
+       0,
+       3,
+       4
+      ],
+      "26": [
+       1,
+       3,
+       4
+      ],
+      "27": [
+       0,
+       1,
+       3,
+       4
+      ],
+      "28": [
+       2,
+       3,
+       4
+      ],
+      "29": [
+       0,
+       2,
+       3,
+       4
+      ],
+      "30": [
+       1,
+       2,
+       3,
+       4
+      ],
+      "31": [
+       0,
+       1,
+       2,
+       3,
+       4
+      ],
+      "32": [
+       5
+      ],
+      "33": [
+       0,
+       5
+      ],
+      "34": [
+       1,
+       5
+      ],
+      "35": [
+       0,
+       1,
+       5
+      ],
+      "36": [
+       2,
+       5
+      ],
+      "37": [
+       0,
+       2,
+       5
+      ],
+      "38": [
+       1,
+       2,
+       5
+      ],
+      "39": [
+       0,
+       1,
+       2,
+       5
+      ],
+      "40": [
+       3,
+       5
+      ],
+      "41": [
+       0,
+       3,
+       5
+      ],
+      "42": [
+       1,
+       3,
+       5
+      ],
+      "43": [
+       0,
+       1,
+       3,
+       5
+      ],
+      "44": [
+       2,
+       3,
+       5
+      ],
+      "45": [
+       0,
+       2,
+       3,
+       5
+      ],
+      "46": [
+       1,
+       2,
+       3,
+       5
+      ],
+      "47": [
+       0,
+       1,
+       2,
+       3,
+       5
+      ],
+      "48": [
+       4,
+       5
+      ],
+      "49": [
+       0,
+       4,
+       5
+      ],
+      "50": [
+       1,
+       4,
+       5
+      ],
+      "51": [
+       0,
+       1,
+       4,
+       5
+      ],
+      "52": [
+       2,
+       4,
+       5
+      ],
+      "53": [
+       0,
+       2,
+       4,
+       5
+      ],
+      "54": [
+       1,
+       2,
+       4,
+       5
+      ],
+      "55": [
+       0,
+       1,
+       2,
+       4,
+       5
+      ],
+      "56": [
+       3,
+       4,
+       5
+      ],
+      "57": [
+       0,
+       3,
+       4,
+       5
+      ],
+      "58": [
+       1,
+       3,
+       4,
+       5
+      ],
+      "59": [
+       0,
+       1,
+       3,
+       4,
+       5
+      ],
+      "60": [
+       2,
+       3,
+       4,
+       5
+      ],
+      "61": [
+       0,
+       2,
+       3,
+       4,
+       5
+      ],
+      "62": [
+       1,
+       2,
+       3,
+       4,
+       5
+      ],
+      "63": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5
+      ],
+      "64": [
+       6
+      ],
+      "65": [
+       0,
+       6
+      ],
+      "66": [
+       1,
+       6
+      ],
+      "67": [
+       0,
+       1,
+       6
+      ],
+      "68": [
+       2,
+       6
+      ],
+      "69": [
+       0,
+       2,
+       6
+      ],
+      "70": [
+       1,
+       2,
+       6
+      ],
+      "71": [
+       0,
+       1,
+       2,
+       6
+      ],
+      "72": [
+       3,
+       6
+      ],
+      "73": [
+       0,
+       3,
+       6
+      ],
+      "74": [
+       1,
+       3,
+       6
+      ],
+      "75": [
+       0,
+       1,
+       3,
+       6
+      ],
+      "76": [
+       2,
+       3,
+       6
+      ],
+      "77": [
+       0,
+       2,
+       3,
+       6
+      ],
+      "78": [
+       1,
+       2,
+       3,
+       6
+      ],
+      "79": [
+       0,
+       1,
+       2,
+       3,
+       6
+      ],
+      "80": [
+       4,
+       6
+      ],
+      "81": [
+       0,
+       4,
+       6
+      ],
+      "82": [
+       1,
+       4,
+       6
+      ],
+      "83": [
+       0,
+       1,
+       4,
+       6
+      ],
+      "84": [
+       2,
+       4,
+       6
+      ],
+      "85": [
+       0,
+       2,
+       4,
+       6
+      ],
+      "86": [
+       1,
+       2,
+       4,
+       6
+      ],
+      "87": [
+       0,
+       1,
+       2,
+       4,
+       6
+      ],
+      "88": [
+       3,
+       4,
+       6
+      ],
+      "89": [
+       0,
+       3,
+       4,
+       6
+      ],
+      "90": [
+       1,
+       3,
+       4,
+       6
+      ],
+      "91": [
+       0,
+       1,
+       3,
+       4,
+       6
+      ],
+      "92": [
+       2,
+       3,
+       4,
+       6
+      ],
+      "93": [
+       0,
+       2,
+       3,
+       4,
+       6
+      ],
+      "94": [
+       1,
+       2,
+       3,
+       4,
+       6
+      ],
+      "95": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       6
+      ],
+      "96": [
+       5,
+       6
+      ],
+      "97": [
+       0,
+       5,
+       6
+      ],
+      "98": [
+       1,
+       5,
+       6
+      ],
+      "99": [
+       0,
+       1,
+       5,
+       6
+      ],
+      "100": [
+       2,
+       5,
+       6
+      ],
+      "101": [
+       0,
+       2,
+       5,
+       6
+      ],
+      "102": [
+       1,
+       2,
+       5,
+       6
+      ],
+      "103": [
+       0,
+       1,
+       2,
+       5,
+       6
+      ],
+      "104": [
+       3,
+       5,
+       6
+      ],
+      "105": [
+       0,
+       3,
+       5,
+       6
+      ],
+      "106": [
+       1,
+       3,
+       5,
+       6
+      ],
+      "107": [
+       0,
+       1,
+       3,
+       5,
+       6
+      ],
+      "108": [
+       2,
+       3,
+       5,
+       6
+      ],
+      "109": [
+       0,
+       2,
+       3,
+       5,
+       6
+      ],
+      "110": [
+       1,
+       2,
+       3,
+       5,
+       6
+      ],
+      "111": [
+       0,
+       1,
+       2,
+       3,
+       5,
+       6
+      ],
+      "112": [
+       4,
+       5,
+       6
+      ],
+      "113": [
+       0,
+       4,
+       5,
+       6
+      ],
+      "114": [
+       1,
+       4,
+       5,
+       6
+      ],
+      "115": [
+       0,
+       1,
+       4,
+       5,
+       6
+      ],
+      "116": [
+       2,
+       4,
+       5,
+       6
+      ],
+      "117": [
+       0,
+       2,
+       4,
+       5,
+       6
+      ],
+      "118": [
+       1,
+       2,
+       4,
+       5,
+       6
+      ],
+      "119": [
+       0,
+       1,
+       2,
+       4,
+       5,
+       6
+      ],
+      "120": [
+       3,
+       4,
+       5,
+       6
+      ],
+      "121": [
+       0,
+       3,
+       4,
+       5,
+       6
+      ],
+      "122": [
+       1,
+       3,
+       4,
+       5,
+       6
+      ],
+      "123": [
+       0,
+       1,
+       3,
+       4,
+       5,
+       6
+      ],
+      "124": [
+       2,
+       3,
+       4,
+       5,
+       6
+      ],
+      "125": [
+       0,
+       2,
+       3,
+       4,
+       5,
+       6
+      ],
+      "126": [
+       1,
+       2,
+       3,
+       4,
+       5,
+       6
+      ],
+      "127": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6
+      ],
+      "128": [
+       7
+      ],
+      "129": [
+       0,
+       7
+      ],
+      "130": [
+       1,
+       7
+      ],
+      "131": [
+       0,
+       1,
+       7
+      ],
+      "132": [
+       2,
+       7
+      ],
+      "133": [
+       0,
+       2,
+       7
+      ],
+      "134": [
+       1,
+       2,
+       7
+      ],
+      "135": [
+       0,
+       1,
+       2,
+       7
+      ],
+      "136": [
+       3,
+       7
+      ],
+      "137": [
+       0,
+       3,
+       7
+      ],
+      "138": [
+       1,
+       3,
+       7
+      ],
+      "139": [
+       0,
+       1,
+       3,
+       7
+      ],
+      "140": [
+       2,
+       3,
+       7
+      ],
+      "141": [
+       0,
+       2,
+       3,
+       7
+      ],
+      "142": [
+       1,
+       2,
+       3,
+       7
+      ],
+      "143": [
+       0,
+       1,
+       2,
+       3,
+       7
+      ],
+      "144": [
+       4,
+       7
+      ],
+      "145": [
+       0,
+       4,
+       7
+      ],
+      "146": [
+       1,
+       4,
+       7
+      ],
+      "147": [
+       0,
+       1,
+       4,
+       7
+      ],
+      "148": [
+       2,
+       4,
+       7
+      ],
+      "149": [
+       0,
+       2,
+       4,
+       7
+      ],
+      "150": [
+       1,
+       2,
+       4,
+       7
+      ],
+      "151": [
+       0,
+       1,
+       2,
+       4,
+       7
+      ],
+      "152": [
+       3,
+       4,
+       7
+      ],
+      "153": [
+       0,
+       3,
+       4,
+       7
+      ],
+      "154": [
+       1,
+       3,
+       4,
+       7
+      ],
+      "155": [
+       0,
+       1,
+       3,
+       4,
+       7
+      ],
+      "156": [
+       2,
+       3,
+       4,
+       7
+      ],
+      "157": [
+       0,
+       2,
+       3,
+       4,
+       7
+      ],
+      "158": [
+       1,
+       2,
+       3,
+       4,
+       7
+      ],
+      "159": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       7
+      ],
+      "160": [
+       5,
+       7
+      ],
+      "161": [
+       0,
+       5,
+       7
+      ],
+      "162": [
+       1,
+       5,
+       7
+      ],
+      "163": [
+       0,
+       1,
+       5,
+       7
+      ],
+      "164": [
+       2,
+       5,
+       7
+      ],
+      "165": [
+       0,
+       2,
+       5,
+       7
+      ],
+      "166": [
+       1,
+       2,
+       5,
+       7
+      ],
+      "167": [
+       0,
+       1,
+       2,
+       5,
+       7
+      ],
+      "168": [
+       3,
+       5,
+       7
+      ],
+      "169": [
+       0,
+       3,
+       5,
+       7
+      ],
+      "170": [
+       1,
+       3,
+       5,
+       7
+      ],
+      "171": [
+       0,
+       1,
+       3,
+       5,
+       7
+      ],
+      "172": [
+       2,
+       3,
+       5,
+       7
+      ],
+      "173": [
+       0,
+       2,
+       3,
+       5,
+       7
+      ],
+      "174": [
+       1,
+       2,
+       3,
+       5,
+       7
+      ],
+      "175": [
+       0,
+       1,
+       2,
+       3,
+       5,
+       7
+      ],
+      "176": [
+       4,
+       5,
+       7
+      ],
+      "177": [
+       0,
+       4,
+       5,
+       7
+      ],
+      "178": [
+       1,
+       4,
+       5,
+       7
+      ],
+      "179": [
+       0,
+       1,
+       4,
+       5,
+       7
+      ],
+      "180": [
+       2,
+       4,
+       5,
+       7
+      ],
+      "181": [
+       0,
+       2,
+       4,
+       5,
+       7
+      ],
+      "182": [
+       1,
+       2,
+       4,
+       5,
+       7
+      ],
+      "183": [
+       0,
+       1,
+       2,
+       4,
+       5,
+       7
+      ],
+      "184": [
+       3,
+       4,
+       5,
+       7
+      ],
+      "185": [
+       0,
+       3,
+       4,
+       5,
+       7
+      ],
+      "186": [
+       1,
+       3,
+       4,
+       5,
+       7
+      ],
+      "187": [
+       0,
+       1,
+       3,
+       4,
+       5,
+       7
+      ],
+      "188": [
+       2,
+       3,
+       4,
+       5,
+       7
+      ],
+      "189": [
+       0,
+       2,
+       3,
+       4,
+       5,
+       7
+      ],
+      "190": [
+       1,
+       2,
+       3,
+       4,
+       5,
+       7
+      ],
+      "191": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       7
+      ],
+      "192": [
+       6,
+       7
+      ],
+      "193": [
+       0,
+       6,
+       7
+      ],
+      "194": [
+       1,
+       6,
+       7
+      ],
+      "195": [
+       0,
+       1,
+       6,
+       7
+      ],
+      "196": [
+       2,
+       6,
+       7
+      ],
+      "197": [
+       0,
+       2,
+       6,
+       7
+      ],
+      "198": [
+       1,
+       2,
+       6,
+       7
+      ],
+      "199": [
+       0,
+       1,
+       2,
+       6,
+       7
+      ],
+      "200": [
+       3,
+       6,
+       7
+      ],
+      "201": [
+       0,
+       3,
+       6,
+       7
+      ],
+      "202": [
+       1,
+       3,
+       6,
+       7
+      ],
+      "203": [
+       0,
+       1,
+       3,
+       6,
+       7
+      ],
+      "204": [
+       2,
+       3,
+       6,
+       7
+      ],
+      "205": [
+       0,
+       2,
+       3,
+       6,
+       7
+      ],
+      "206": [
+       1,
+       2,
+       3,
+       6,
+       7
+      ],
+      "207": [
+       0,
+       1,
+       2,
+       3,
+       6,
+       7
+      ],
+      "208": [
+       4,
+       6,
+       7
+      ],
+      "209": [
+       0,
+       4,
+       6,
+       7
+      ],
+      "210": [
+       1,
+       4,
+       6,
+       7
+      ],
+      "211": [
+       0,
+       1,
+       4,
+       6,
+       7
+      ],
+      "212": [
+       2,
+       4,
+       6,
+       7
+      ],
+      "213": [
+       0,
+       2,
+       4,
+       6,
+       7
+      ],
+      "214": [
+       1,
+       2,
+       4,
+       6,
+       7
+      ],
+      "215": [
+       0,
+       1,
+       2,
+       4,
+       6,
+       7
+      ],
+      "216": [
+       3,
+       4,
+       6,
+       7
+      ],
+      "217": [
+       0,
+       3,
+       4,
+       6,
+       7
+      ],
+      "218": [
+       1,
+       3,
+       4,
+       6,
+       7
+      ],
+      "219": [
+       0,
+       1,
+       3,
+       4,
+       6,
+       7
+      ],
+      "220": [
+       2,
+       3,
+       4,
+       6,
+       7
+      ],
+      "221": [
+       0,
+       2,
+       3,
+       4,
+       6,
+       7
+      ],
+      "222": [
+       1,
+       2,
+       3,
+       4,
+       6,
+       7
+      ],
+      "223": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       6,
+       7
+      ],
+      "224": [
+       5,
+       6,
+       7
+      ],
+      "225": [
+       0,
+       5,
+       6,
+       7
+      ],
+      "226": [
+       1,
+       5,
+       6,
+       7
+      ],
+      "227": [
+       0,
+       1,
+       5,
+       6,
+       7
+      ],
+      "228": [
+       2,
+       5,
+       6,
+       7
+      ],
+      "229": [
+       0,
+       2,
+       5,
+       6,
+       7
+      ],
+      "230": [
+       1,
+       2,
+       5,
+       6,
+       7
+      ],
+      "231": [
+       0,
+       1,
+       2,
+       5,
+       6,
+       7
+      ],
+      "232": [
+       3,
+       5,
+       6,
+       7
+      ],
+      "233": [
+       0,
+       3,
+       5,
+       6,
+       7
+      ],
+      "234": [
+       1,
+       3,
+       5,
+       6,
+       7
+      ],
+      "235": [
+       0,
+       1,
+       3,
+       5,
+       6,
+       7
+      ],
+      "236": [
+       2,
+       3,
+       5,
+       6,
+       7
+      ],
+      "237": [
+       0,
+       2,
+       3,
+       5,
+       6,
+       7
+      ],
+      "238": [
+       1,
+       2,
+       3,
+       5,
+       6,
+       7
+      ],
+      "239": [
+       0,
+       1,
+       2,
+       3,
+       5,
+       6,
+       7
+      ],
+      "240": [
+       4,
+       5,
+       6,
+       7
+      ],
+      "241": [
+       0,
+       4,
+       5,
+       6,
+       7
+      ],
+      "242": [
+       1,
+       4,
+       5,
+       6,
+       7
+      ],
+      "243": [
+       0,
+       1,
+       4,
+       5,
+       6,
+       7
+      ],
+      "244": [
+       2,
+       4,
+       5,
+       6,
+       7
+      ],
+      "245": [
+       0,
+       2,
+       4,
+       5,
+       6,
+       7
+      ],
+      "246": [
+       1,
+       2,
+       4,
+       5,
+       6,
+       7
+      ],
+      "247": [
+       0,
+       1,
+       2,
+       4,
+       5,
+       6,
+       7
+      ],
+      "248": [
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "249": [
+       0,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "250": [
+       1,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "251": [
+       0,
+       1,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "252": [
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "253": [
+       0,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "254": [
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "255": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ]
+     },
+     "note": "Table 3: outputs of the channels with a 1 in DB7-DB0 (A = DB0) updated from their registers",
+     "commit": "end"
+    },
+    {
+     "name": "Channel A Write",
+     "in": "1011 d{12}",
+     "action": "write",
+     "data": "d",
+     "then": [
+      "updateall"
+     ],
+     "note": "Table 3: channel A register and output take D11-D0; all other outputs update to their registers",
+     "commit": "end",
+     "channel": 0
+    },
+    {
+     "name": "Broadcast",
+     "in": "110b d{12}",
+     "action": "write",
+     "channel": "b",
+     "channelMap": {
+      "0": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "note": "Table 3: DB15-12 = 1100: D11-D0 written to every channel register and output (b captures DB12 = 0 to apply the broadcast map)",
+     "commit": "end"
+    },
+    {
+     "name": "Power-down",
+     "in": "11pp xxxx m{8}",
+     "action": "setbits",
+     "register": "PD",
+     "data": "m",
+     "set": {
+      "CTRL.PDMODE": "p"
+     },
+     "note": "Table 4: DB15-12 = 1101 Hi-Z, 1110 100k, 1111 2.5k; channels with a 1 in DB7-DB0 power down (1100 is Broadcast, matched first)",
+     "commit": "end"
+    }
+   ],
+   "note": "16-bit frame DB15-DB0 clocked on SCLK falling edges, executed at SYNC rising after the 16th edge; SYNC high before the 15th edge aborts; in a daisy chain the last 16 bits before SYNC rises are this device's word (align end)"
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB",
+    "INC",
+    "IND",
+    "INE",
+    "INF",
+    "ING",
+    "INH"
+   ],
+   "output": [
+    "DACA",
+    "DACB",
+    "DACC",
+    "DACD",
+    "DACE",
+    "DACF",
+    "DACG",
+    "DACH"
+   ],
+   "clearCode": 0,
+   "ldac": "command"
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw16",
+   "footprint": "TSSOP-16",
+   "package": "TSSOP",
+   "pins": 16
+  },
+  "RGH": {
+   "pinout": "rgh16",
+   "footprint": "WQFN-16-RGH",
+   "package": "WQFN",
+   "pins": 16
+  }
+ },
+ "pdf": "dac128s085.pdf",
+ "pages": "p.3-4 (pins), p.5 (ROC), p.9-10 (timing, Figure 1), p.17-18 (serial interface, Figure 28, daisy chain), p.18-20 (Tables 1-3, power-on reset), p.20-21 (Table 4 power-down)",
+ "notModeled": [
+  "analog outputs, references, settling, power-down output terminations (PD/PDMODE stored only)",
+  "DOUT daisy-chain output (DIN delayed by 16 SCLK cycles while SYNC stays low past the 17th edge): not expressible, DOUT is never driven",
+  "no read-back (write-only interface)",
+  "wake-up from power-down: the datasheet does not name the frame that recovers a channel; PD bits are only set, never cleared (setbits)",
+  "SYNC raised between the 15th and 16th falling edges: the model requires all 16 bits",
+  "SPI mode: data clocked on SCLK falling edges; mode 2 per Figure 1 (SYNC falls while SCLK is high)"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "DAC128S085CIMT/NOPB",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "DAC128S085CISQ/NOPB",
+   "RGH",
+   16,
+   "Active"
+  ]
+ ]
+}

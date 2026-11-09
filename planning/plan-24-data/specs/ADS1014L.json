@@ -1,0 +1,420 @@
+{
+ "device": {
+  "id": "ADS1014L",
+  "function": "ADC",
+  "description": "12-bit 3.3 kSPS delta-sigma ADC with PGA, comparator and 1.8-V-compatible I2C interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1014l.pdf (SBASAV7) p.3-4 pin functions (DGS, YCJ), p.5 recommended operating conditions, p.12 data rate, p.14 conversion-ready pin, p.15 reset and operating modes, p.16 address table, p.17 timeout and general call, p.18 register access, p.19 data format, p.20-23 register map",
+  "pinouts": {
+   "dgs10": [
+    {
+     "number": 1,
+     "name": "ADDR",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "ALERT/RDY",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "AIN0",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AIN1",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 7,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 8,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 9,
+     "name": "SDA",
+     "role": "inout"
+    },
+    {
+     "number": 10,
+     "name": "SCL",
+     "role": "input"
+    }
+   ],
+   "ycj12": [
+    {
+     "ball": "A1",
+     "name": "AIN1",
+     "role": "input"
+    },
+    {
+     "ball": "A2",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "A3",
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "ball": "B1",
+     "name": "AIN0",
+     "role": "input"
+    },
+    {
+     "ball": "B2",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "B3",
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "ball": "C1",
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "ball": "C2",
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "ball": "C3",
+     "name": "SDA",
+     "role": "inout"
+    },
+    {
+     "ball": "D1",
+     "name": "ALERT/RDY",
+     "role": "output"
+    },
+    {
+     "ball": "D2",
+     "name": "ADDR",
+     "role": "input"
+    },
+    {
+     "ball": "D3",
+     "name": "SCL",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   2.0,
+   3.6
+  ],
+  "analog": [
+   "AIN0",
+   "AIN1"
+  ],
+  "bus": {
+   "style": "i2c",
+   "scl": "SCL",
+   "sda": "SDA",
+   "address": [
+    "ADDR"
+   ],
+   "table": [
+    72,
+    73,
+    75,
+    74
+   ]
+  },
+  "registers": [
+   {
+    "name": "CONVERSION",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "result": "D",
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       4
+      ]
+     },
+     {
+      "name": "RESERVED",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "12-bit two's-complement result left-justified; bits 3:0 read 0"
+   },
+   {
+    "name": "CONFIG",
+    "address": 1,
+    "width": 16,
+    "reset": 34179,
+    "readOnly": 32768,
+    "fields": [
+     {
+      "name": "OS",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "PGA",
+      "bits": [
+       11,
+       9
+      ]
+     },
+     {
+      "name": "MODE",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "DR",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "COMP_MODE",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "COMP_POL",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "COMP_LAT",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "COMP_QUE",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "reset 8583h; OS write 1 starts a single conversion, reads 0 while converting, 1 when idle"
+   },
+   {
+    "name": "LO_THRESH",
+    "address": 2,
+    "width": 16,
+    "reset": 32768,
+    "readOnly": 15,
+    "fields": [
+     {
+      "name": "MSB",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "LOW",
+      "bits": [
+       14,
+       4
+      ]
+     },
+     {
+      "name": "RESERVED",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "Lo_thresh[11:0] bits 15:4 reset 800h; bits 3:0 read-only 0h"
+   },
+   {
+    "name": "HI_THRESH",
+    "address": 3,
+    "width": 16,
+    "reset": 32767,
+    "readOnly": 15,
+    "fields": [
+     {
+      "name": "MSB",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "LOW",
+      "bits": [
+       14,
+       4
+      ]
+     },
+     {
+      "name": "RESERVED",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "Hi_thresh[11:0] bits 15:4 reset 7FFh; bits 3:0 read-only Fh"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Address Pointer",
+     "in": "xxxxxxaa",
+     "action": "pointer",
+     "address": "a",
+     "note": "P[1:0]; bits 7:2 always write 000000b"
+    }
+   ],
+   "read": "pointer",
+   "generalCall": "reset"
+  },
+  "conversion": {
+   "time": {
+    "field": "CONFIG.DR",
+    "values": {
+     "0": 7812500,
+     "1": 4000000,
+     "2": 2040816,
+     "3": 1086957,
+     "4": 625000,
+     "5": 416667,
+     "6": 303030,
+     "7": 303030
+    }
+   },
+   "start": [
+    "write:CONFIG.OS=1"
+   ],
+   "mode": {
+    "field": "CONFIG.MODE",
+    "continuous": 0
+   },
+   "busy": {
+    "CONFIG.OS": 0
+   },
+   "done": {
+    "CONFIG.OS": 1
+   }
+  },
+  "ready": [
+   {
+    "pin": "ALERT/RDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "start",
+    "openDrain": true,
+    "enable": [
+     "CONFIG.MODE=1",
+     "HI_THRESH.MSB=1",
+     "LO_THRESH.MSB=0",
+     "CONFIG.COMP_QUE!=3"
+    ]
+   },
+   {
+    "pin": "ALERT/RDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": 8000,
+    "openDrain": true,
+    "enable": [
+     "CONFIG.MODE=0",
+     "HI_THRESH.MSB=1",
+     "LO_THRESH.MSB=0",
+     "CONFIG.COMP_QUE!=3"
+    ]
+   }
+  ]
+ },
+ "packages": {
+  "DGS": {
+   "pinout": "dgs10",
+   "footprint": "VSSOP-10",
+   "package": "VSSOP",
+   "pins": 10
+  },
+  "YCJ": {
+   "pinout": "ycj12",
+   "footprint": "DSBGA-12-YCJ",
+   "package": "DSBGA",
+   "pins": 12
+  }
+ },
+ "pdf": "ads1014l.pdf",
+ "pages": "p.3 (DGS pins), p.4 (YCJ balls), p.5 (ROC: VDD 2-3.6 V, digital inputs GND-3.6 V), p.12 (data rates 128-3300 SPS, 1/DR), p.14 (conversion-ready setup, 8 us pulse), p.15 (power-up in single-shot power-down), p.16 (ADDR GND/VDD/SDA/SCL -> 48h/49h/4Ah/4Bh), p.17 (25 ms timeout, general call 06h), p.18 (pointer write then read), p.19 (format), p.20-23 (registers)",
+ "notModeled": [
+  "analog inputs, PGA and internal reference (PGA is stored only); the result is the 0 V code",
+  "OS=1 writes during a running conversion or in continuous mode: the datasheet says no effect (the engine may restart)",
+  "continuous mode: a configuration write lets the running conversion finish with the old settings",
+  "~25 us power-up before a single-shot conversion (folded into the conversion time: not added)",
+  "conversion time 1 / nominal data rate; the internal oscillator drift is not modeled",
+  "a floating ADDR pin (not specified); the SDA strap needs SDA held low 100 ns after SCL falls",
+  "I2C timeout (bus idle 25 ms mid-transaction resets the interface); standard/fast mode only (no Fm+/Hs); VIH 1 V for 1.8-V buses; I2C timing limits",
+  "comparator: traditional/window modes, COMP_POL polarity, COMP_LAT latching, COMP_QUE assert count, SMBus alert response (ALERT/RDY works only as the conversion-ready pin; COMP_POL and the rest are stored only)",
+  "Config bits 14:12 are reserved R/W (stored); the ADS1014L always uses AINP = AIN0, AINN = AIN1"
+ ],
+ "variants": "ADS1014L / ADS1015L share ads1014l.pdf (ADS1014L: AIN2/AIN3 are NC and MUX reserved); own spec files. Register-compatible with ADS1014/ADS1015 at VDD 2-3.6 V",
+ "parts": [
+  [
+   "ADS1014LIDGSR",
+   "DGS",
+   10,
+   "Active"
+  ],
+  [
+   "ADS1014LIYCJR",
+   "YCJ",
+   12,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,138 @@
+{
+ "device": {
+  "id": "TLC3541",
+  "function": "ADC",
+  "description": "14-bit 200 kSPS single-channel SAR ADC with SPI/DSP serial output (CS and FS)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "tlc3541.pdf (SLAS345) p.1 pinouts, p.3 terminal functions, p.4 recommended operating conditions, p.6 timing requirements, p.11-12 control and timing (reset cycle, conversion, serial output data format, SPI CPOL 0 / CPHA 1), p.16 binary output format and auto-power down",
+  "pinouts": {
+   "d8_3541": [
+    {
+     "number": 1,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "REF",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "AIN",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "FS",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "SDO",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 14,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   4.5,
+   5.5
+  ],
+  "analog": [
+   "REF",
+   "AIN"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "miso": "SDO",
+   "mode": 1
+  },
+  "timing": {
+   "tValid": 17,
+   "tOut": 15,
+   "tFloat": 20
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{14} 00",
+   "idle": "z",
+   "commands": []
+  },
+  "conversion": {
+   "time": 2670,
+   "start": [
+    "cs-rise"
+   ]
+  }
+ },
+ "packages": {
+  "D": {
+   "pinout": "d8_3541",
+   "footprint": "SOIC-8",
+   "package": "SOIC",
+   "pins": 8
+  },
+  "DGK": {
+   "pinout": "d8_3541",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  }
+ },
+ "pdf": "tlc3541.pdf",
+ "pages": "p.1 (pinouts), p.3 (terminal functions), p.4 (ROC), p.6 (timing), p.11-12 (reset, conversion, output format, SPI mode), p.16 (binary format, auto-power down)",
+ "notModeled": [
+  "analog input, external reference (REF); the result is the 0 V code (0000h)",
+  "FS (DSP frame sync) control: FS low at CS falling makes the FS rising edge start the frame and release SDO (FS-only and CS+FS modes); FS is modeled as tied to VDD (SPI mode, p.12)",
+  "sampling (20 SCLKs from the 5th SCLK) and the conversion start after the 24th SCLK falling edge: modeled as a 2.67 us conversion started at CS rising; SDO carries the previous cycle's result (p.11)",
+  "power-on RESET/initialization cycle (CS low for 1 to 8 SCLK falling edges) and the 3FC0h code output after a reset cycle or a prematurely terminated conversion (p.11)",
+  "SDO goes Hi-Z at the 17th SCLK rising edge; modeled as Hi-Z after the 16-bit frame (idle z) and at CS rising",
+  "auto-power down after each conversion (woken by CS falling) - no effect on the bus",
+  "SCLK frequency limits (100 kHz to 15 MHz), sample time limits"
+ ],
+ "variants": "TLC3541: single-ended AIN, separate FS pin (pin 7), SCLK on pin 5; TLC3545: pseudo-differential AIN(+)/AIN(-), SCLK on pin 7, no FS. Same 14-bit frame and timing.",
+ "parts": [
+  [
+   "TLC3541ID",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "TLC3541IDGK",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "TLC3541IDGKR",
+   "DGK",
+   8,
+   "Active"
+  ]
+ ]
+}

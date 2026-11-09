@@ -100,8 +100,8 @@ struct PreferencesView: View {
     @AppStorage(PreferenceKey.headerFootprintType) private var headerFootprintType = ""
     @AppStorage(PreferenceKey.pullResistorOhms) private var pullOhms = 0.0
     @AppStorage(PreferenceKey.pullResistorFootprint) private var pullFootprint = ""
-    /// The Settings scene has no window catalog, so it loads its own.
-    @State private var catalog = PartCatalogStore()
+    /// The app-wide catalog, loaded once at launch.
+    private let catalog = PartCatalogStore.shared
 
     var body: some View {
         Form {
@@ -214,8 +214,5 @@ struct PreferencesView: View {
         .formStyle(.grouped)
         .frame(width: 420)
         .fixedSize(horizontal: false, vertical: true)
-        .task {
-            if catalog.loadState != .loaded { catalog.load() }
-        }
     }
 }

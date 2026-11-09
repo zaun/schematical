@@ -1,0 +1,242 @@
+{
+ "device": {
+  "id": "DAC8802",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "Dual 14-bit serial-input multiplying current-output DAC with LDAC and reset",
+  "note": "dac8802.pdf (SBAS351B) p.1 power-on reset, MSB pin, p.3 VDD 2.7-5.5 V and interface timing, p.5 pin configuration and description, p.13 serial data interface (Tables 1-3)",
+  "pinouts": {
+   "pw16": [
+    {
+     "number": 1,
+     "name": "RFBA",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "VREFA",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "IOUTA",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "AGNDA",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "AGNDB",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "IOUTB",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "VREFB",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "RFBB",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "RS",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "MSB",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "CLK",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 14,
+  "channels": 2,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "RFBA",
+   "VREFA",
+   "IOUTA",
+   "IOUTB",
+   "VREFB",
+   "RFBB"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "CLK",
+   "mosi": "SDI",
+   "mode": 0
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 14,
+    "reset": 0,
+    "note": "DAC A input register; power-on / RS 0000h with MSB = 0 (p.5, Table 2)"
+   },
+   {
+    "name": "INB",
+    "space": "input",
+    "address": 1,
+    "width": 14,
+    "reset": 0,
+    "note": "DAC B input register"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 14,
+    "reset": 0,
+    "note": "DAC A register"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 14,
+    "reset": 0,
+    "note": "DAC B register"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "commands": [
+    {
+     "name": "Load input register",
+     "in": "aa d{14}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "channelMap": {
+      "0": [],
+      "1": [
+       0
+      ],
+      "2": [
+       1
+      ],
+      "3": [
+       0,
+       1
+      ]
+     },
+     "note": "p.13 Table 1: A1 A0 D13-D0, the last 16 bits before CS rises; Table 3: 00 none, 01 DAC A, 10 DAC B, 11 both"
+    }
+   ]
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "level"
+   },
+   "reset": {
+    "pin": "RS",
+    "active": 0
+   },
+   "resetSelect": [
+    {
+     "pin": "MSB",
+     "level": 1,
+     "resets": {
+      "INA": 8192,
+      "INB": 8192,
+      "DACA": 8192,
+      "DACB": 8192
+     }
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB"
+   ],
+   "output": [
+    "DACA",
+    "DACB"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw16",
+   "footprint": "TSSOP-16",
+   "package": "TSSOP",
+   "pins": 16
+  }
+ },
+ "pdf": "dac8802.pdf",
+ "pages": "p.1 (power-on reset), p.3 (VDD 2.7-5.5 V, interface timing), p.5 (pinout, pin description), p.13 (serial interface, Tables 1-3: 16-bit word, control logic, address decode)",
+ "notModeled": [
+  "analog: multiplying current output(s), reference input(s), feedback resistor(s)",
+  "power-on reset brownout behavior"
+ ],
+ "variants": "dac8802.pdf covers only the DAC8802; DAC8812 is the 16-bit version (own spec)",
+ "parts": [
+  [
+   "DAC8802IPW",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "DAC8802IPWR",
+   "PW",
+   16,
+   "Active"
+  ]
+ ]
+}

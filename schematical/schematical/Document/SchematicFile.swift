@@ -168,6 +168,17 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         }
     }
 
+    /// A text block on the schematic: top-left (`x`, `y`, canvas units),
+    /// words, font size in points and whether it has a frame.
+    struct Note: Codable, Equatable, Sendable {
+        var id: UUID
+        var text: String
+        var x: Double
+        var y: Double
+        var size: Int? = nil
+        var framed: Bool? = nil
+    }
+
     struct Junction: Codable, Equatable, Sendable {
         var id: UUID
         var x: Double
@@ -279,6 +290,9 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
     /// The PCB's settings and texts. Always written; files from before it
     /// open with the defaults.
     var board: Board? = nil
+    /// Text blocks on the schematic, in drawing order. Always written (`[]`
+    /// when there are none); missing means none.
+    var notes: [Note]? = nil
 }
 
 // MARK: - Errors
@@ -298,6 +312,8 @@ nonisolated enum SchematicFileError: LocalizedError {
     /// A board setting, footprint origin or mark, or board text that isn't
     /// valid; the detail names it.
     case badPCB(String)
+    /// A schematic text block that isn't valid; the detail names it.
+    case badNote(String)
     /// A bus whose lines, joints or wires aren't valid; the detail names it.
     case badBus(String)
     /// A part's color, footprint or gender that the part doesn't offer.
@@ -333,6 +349,8 @@ nonisolated enum SchematicFileError: LocalizedError {
             "The PCB settings are not valid: \(detail)."
         case let .badBus(detail):
             "The bus is not valid: \(detail)."
+        case let .badNote(detail):
+            "The text block is not valid: \(detail)."
         case let .badPartOption(reference, detail):
             "\(reference): \(detail)"
         case let .badOhms(reference, ohms):
@@ -407,6 +425,10 @@ extension SchematicFile {
                               side: Self.sideName(port.side), wires: bus.pinWires(of: port).map(\.id))
                 }
             )
+        }
+        notes = document.notes.map { note in
+            Note(id: note.id, text: note.text, x: note.origin.x, y: note.origin.y,
+                 size: note.size, framed: note.framed)
         }
         let settings = document.board
         board = Board(
@@ -668,6 +690,12 @@ extension SchematicFile {
             traces.append(try Self.boardTrace(entry, settings: settings))
         }
 
+        var placedNotes: [SchematicNote] = []
+        for entry in notes ?? [] {
+            try claim(entry.id)
+            placedNotes.append(try Self.note(entry))
+        }
+
 
         // Never hand out a U<n> reference that's already used, even if the
         // stored counter is behind.
@@ -683,8 +711,28 @@ extension SchematicFile {
             nextReference: max(nextReference, highest + 1),
             board: settings,
             texts: texts,
-            traces: traces
+            traces: traces,
+            notes: placedNotes
         )
+    }
+
+    /// A stored text block, with defaults for missing keys. Its top-left is
+    /// snapped to the grid.
+    private static func note(_ entry: Note) throws -> SchematicNote {
+        let name = "text block \(entry.id.uuidString)"
+        guard !entry.text.isEmpty else { throw SchematicFileError.badNote("\(name) is empty") }
+        var result = SchematicNote(id: entry.id, text: entry.text,
+                                   origin: SchematicGrid.snap(CGPoint(x: entry.x, y: entry.y)))
+        if let size = entry.size {
+            let range = SchematicNote.sizeRange
+            guard range.contains(size) else {
+                throw SchematicFileError.badNote(
+                    "\(name) size \(size) must be \(range.lowerBound) to \(range.upperBound) points")
+            }
+            result.size = size
+        }
+        result.framed = entry.framed ?? result.framed
+        return result
     }
 
     // MARK: PCB values

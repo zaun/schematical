@@ -1,0 +1,354 @@
+{
+ "device": {
+  "id": "TLC2558",
+  "function": "ADC",
+  "description": "5-V 12-bit 400-kSPS 8-channel serial ADC with 8x FIFO, CFR configuration register, CSTART and auto power down",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "tlc2554.pdf (SLAS220A) p.1 pinouts, p.3-4 terminal functions, p.5-6 serial interface and data formats, p.6 Table 1 command set, p.7 Table 2 CFR, p.8-9 conversion modes (Table 3), p.10-17 timing diagrams, p.18-19 FIFO, conversion speed, power down, p.19-20 recommended operating conditions and timing",
+  "pinouts": {
+   "dw20": [
+    {
+     "number": 1,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "EOC/(INT)",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "VCC",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "A2",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "A3",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "A4",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "A5",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "A6",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "A7",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "CSTART",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 16,
+     "name": "PWDN",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "FS",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "REFM",
+     "role": "ground"
+    },
+    {
+     "number": 19,
+     "name": "REFP",
+     "role": "power"
+    },
+    {
+     "number": 20,
+     "name": "CS",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 8,
+  "codeFormat": {
+   "field": "CFR.FMT",
+   "values": {
+    "0": "straight",
+    "1": "offset"
+   }
+  },
+  "vcc": [
+   4.5,
+   5.5
+  ],
+  "analog": [
+   "A0",
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "A5",
+   "A6",
+   "A7",
+   "REFP",
+   "REFM"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDO",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 25,
+   "tOut": 25,
+   "tFloat": 25
+  },
+  "registers": [
+   {
+    "name": "CFR",
+    "width": 12,
+    "reset": 0,
+    "note": "Table 2 (p.7): configuration register, written with A000h plus data and read with 9000h; power-up value not given (0 here; the datasheet requires writing A000h at power up)",
+    "fields": [
+     {
+      "name": "REFSEL",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "FMT",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "SPS",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "DIV",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "DIFF",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "MODE",
+      "bits": [
+       6,
+       5
+      ]
+     },
+     {
+      "name": "SWEEP",
+      "bits": [
+       4,
+       3
+      ]
+     },
+     {
+      "name": "EOC_INT",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "FIFO_TRIG",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{12} 0{4}",
+   "idle": "z",
+   "commands": [
+    {
+     "name": "Select analog input channel (short, 12 SCLK sampling)",
+     "in": "0ccc x{12}",
+     "when": "CFR.SPS=0",
+     "action": "start",
+     "channel": "c",
+     "note": "Table 1 (p.6): 0000b-0111b = channels 0-7; the conversion starts after the 16th (short sampling) or 28th (long sampling) SCLK edge (p.8)"
+    },
+    {
+     "name": "Select analog input channel (long, 24 SCLK sampling)",
+     "in": "0ccc x{24}",
+     "when": "CFR.SPS=1",
+     "action": "start",
+     "channel": "c",
+     "note": "Table 1 (p.6): 0000b-0111b = channels 0-7; the conversion starts after the 16th (short sampling) or 28th (long sampling) SCLK edge (p.8)"
+    },
+    {
+     "name": "SW power down",
+     "in": "1000 x{12}",
+     "note": "Table 1: 8000h powers down analog + reference; modeled as a nop (p.19: 20 ms to resume, FIFO cleared)"
+    },
+    {
+     "name": "Read CFR",
+     "in": "1001",
+     "reply": "[CFR]",
+     "note": "p.5/p.10: the first 4 SDO bits are don't care, the CFR content is in the last 12 bits"
+    },
+    {
+     "name": "Write CFR",
+     "in": "1010 [CFR]",
+     "note": "Table 1: A000h plus 12-bit data (D11-D0)"
+    },
+    {
+     "name": "Select test, voltage = (REFP+REFM)/2",
+     "in": "1011 x{12}",
+     "action": "start",
+     "note": "Table 1 / p.22 self-test codes (800h/000h/FFFh); modeled as a conversion returning the 0 V code"
+    },
+    {
+     "name": "Select test, voltage = REFM",
+     "in": "1100 x{12}",
+     "action": "start",
+     "note": "Table 1 / p.22 self-test codes (800h/000h/FFFh); modeled as a conversion returning the 0 V code"
+    },
+    {
+     "name": "Select test, voltage = REFP",
+     "in": "1101 x{12}",
+     "action": "start",
+     "note": "Table 1 / p.22 self-test codes (800h/000h/FFFh); modeled as a conversion returning the 0 V code"
+    },
+    {
+     "name": "FIFO read",
+     "in": "1110 x{12}",
+     "note": "Table 1: FIFO contents shown as SDO D15-D4, D3-D0 = 0000 (the output frame of every conversion/FIFO read cycle)"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 3500,
+   "start": [
+    "command",
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "EOC/(INT)",
+    "active": 0,
+    "asserts": "busy",
+    "enable": "CFR.EOC_INT=1",
+    "note": "CFR.D2 = 1: EOC, low from the end of sampling until the conversion is complete (mode 00 only)"
+   },
+   {
+    "pin": "EOC/(INT)",
+    "active": 0,
+    "asserts": "done",
+    "clears": "cs-fall",
+    "enable": "CFR.EOC_INT=0",
+    "note": "CFR.D2 = 0: INT, falls when data are ready, cleared by the following CS falling edge (td(CSL-INTH))"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "CSTART",
+    "edge": "rise"
+   },
+   "powerdown": {
+    "pin": "PWDN",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "DW": {
+   "pinout": "dw20",
+   "footprint": "SOIC-20W",
+   "package": "SOIC",
+   "pins": 20
+  }
+ },
+ "pdf": "tlc2554.pdf",
+ "pages": "p.1 (pinouts), p.3-4 (terminal functions), p.5-6 (data formats, start of cycle, Table 1), p.7 (Table 2 CFR), p.8-9 (sampling, conversion modes, Table 3), p.10-17 (timing diagrams), p.18 (FIFO, conversion speed), p.19 (power down, initialization, ROC), p.20 (timing: td(CLK-DOV) 25 ns, td(CSH-DOZ) 25 ns, td(SCLK-INTL) 3.5 us), p.22 (tconv = 14 x DIV / fSCLK)",
+ "notModeled": [
+  "analog inputs, internal 4-V reference / external reference (CFR.D11), pseudo-differential input (CFR.D7: A2 is the minus input): every conversion returns the 0 V code; 2's complement output (CFR.D10 = 1) puts REFM = 0 V at 800h, modeled as codeFormat offset",
+  "self-test commands B000h/C000h/D000h output 800h/000h/FFFh; modeled as conversions returning the 0 V code",
+  "8-level FIFO and conversion modes 01 (repeat), 10 (sweep), 11 (repeat sweep) with the sweep sequences (CFR.D4-D3) and FIFO trigger levels (CFR.D1-D0): every conversion is treated as one-shot (mode 00); INT asserts after each conversion, not at the FIFO threshold, and in modes 01-11 the pin is INT regardless of CFR.D2 (not modeled: it follows CFR.D2)",
+  "FS (DSP frame sync) mode: input on SCLK falling edges, output on rising edges, FS-started frames; only FS = 1 (CS-framed SPI) is modeled",
+  "conversion time: clocked by SCLK (14 x DIV / fSCLK plus 4 SCLKs, CFR.D8 divider); modeled as 3.5 us (td(SCLK-INTL)/td(CSTARTH-INTL) maximum, 16th SCLK or CSTART rising to INT falling)",
+  "SW power down (8000h): modeled as a nop; 20 ms resume, FIFO cleared, auto power down",
+  "CSTART extended sampling: sampling from CSTART falling, conversion at CSTART rising (modeled as the convst edge); select commands with CSTART-triggered conversions still start a conversion at the 16th SCLK here",
+  "power-up initialization write A000h (host select mode); the first conversion after power up is invalid",
+  "reserved command 1111b and the TLC2554 N/A odd channel codes: ignored",
+  "result pipelining: SDO carries the previous conversion result; the result is constant"
+ ],
+ "variants": "TLC2554 (4 channels, 16-pin D/PW) and TLC2558 (8 channels, 20-pin DW/PW) share this datasheet; the TLC2554 decodes channel codes 0000b/0010b/0100b/0110b as A0-A3.",
+ "parts": [
+  [
+   "TLC2558IDW",
+   "DW",
+   20,
+   "Active"
+  ]
+ ]
+}

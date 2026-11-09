@@ -1,0 +1,357 @@
+{
+  "device": {
+    "id": "ADC10D040",
+    "function": "ADC",
+    "description": "Dual 10-bit 40 MSPS pipelined ADC with parallel or multiplexed CMOS outputs",
+    "drawer": [
+      "Interface"
+    ],
+    "note": "adc10d040.pdf (SNAS149G) p.2 connection diagram (Figure 1), p.3-4 pin descriptions, p.5 operating ratings, p.8-9 AC characteristics (tOD, latency), p.10 timing diagrams (Figures 2-3), p.18 functional description",
+    "pinouts": {
+      "pfb48": [
+        {
+          "number": 1,
+          "name": "VREF",
+          "role": "power"
+        },
+        {
+          "number": 2,
+          "name": "OS",
+          "role": "input"
+        },
+        {
+          "number": 3,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 4,
+          "name": "VD",
+          "role": "power"
+        },
+        {
+          "number": 5,
+          "name": "DGND",
+          "role": "ground"
+        },
+        {
+          "number": 6,
+          "name": "VDR",
+          "role": "power"
+        },
+        {
+          "number": 7,
+          "name": "DR GND",
+          "role": "ground"
+        },
+        {
+          "number": 8,
+          "name": "I9",
+          "role": "output"
+        },
+        {
+          "number": 9,
+          "name": "I8",
+          "role": "output"
+        },
+        {
+          "number": 10,
+          "name": "I7",
+          "role": "output"
+        },
+        {
+          "number": 11,
+          "name": "I6",
+          "role": "output"
+        },
+        {
+          "number": 12,
+          "name": "I5",
+          "role": "output"
+        },
+        {
+          "number": 13,
+          "name": "I4",
+          "role": "output"
+        },
+        {
+          "number": 14,
+          "name": "I3",
+          "role": "output"
+        },
+        {
+          "number": 15,
+          "name": "I2",
+          "role": "output"
+        },
+        {
+          "number": 16,
+          "name": "I1",
+          "role": "output"
+        },
+        {
+          "number": 17,
+          "name": "I0",
+          "role": "output"
+        },
+        {
+          "number": 18,
+          "name": "Q9",
+          "role": "output"
+        },
+        {
+          "number": 19,
+          "name": "Q8",
+          "role": "output"
+        },
+        {
+          "number": 20,
+          "name": "Q7",
+          "role": "output"
+        },
+        {
+          "number": 21,
+          "name": "Q6",
+          "role": "output"
+        },
+        {
+          "number": 22,
+          "name": "Q5",
+          "role": "output"
+        },
+        {
+          "number": 23,
+          "name": "Q4",
+          "role": "output"
+        },
+        {
+          "number": 24,
+          "name": "Q3",
+          "role": "output"
+        },
+        {
+          "number": 25,
+          "name": "Q2",
+          "role": "output"
+        },
+        {
+          "number": 26,
+          "name": "Q1",
+          "role": "output"
+        },
+        {
+          "number": 27,
+          "name": "Q0",
+          "role": "output"
+        },
+        {
+          "number": 28,
+          "name": "I/Q",
+          "role": "output"
+        },
+        {
+          "number": 29,
+          "name": "DR GND",
+          "role": "ground"
+        },
+        {
+          "number": 30,
+          "name": "VDR",
+          "role": "power"
+        },
+        {
+          "number": 31,
+          "name": "OC",
+          "role": "input"
+        },
+        {
+          "number": 32,
+          "name": "OF",
+          "role": "input"
+        },
+        {
+          "number": 33,
+          "name": "CLK",
+          "role": "input"
+        },
+        {
+          "number": 34,
+          "name": "STBY",
+          "role": "input"
+        },
+        {
+          "number": 35,
+          "name": "PD",
+          "role": "input"
+        },
+        {
+          "number": 36,
+          "name": "GAIN",
+          "role": "input"
+        },
+        {
+          "number": 37,
+          "name": "Q+",
+          "role": "input"
+        },
+        {
+          "number": 38,
+          "name": "Q-",
+          "role": "input"
+        },
+        {
+          "number": 39,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 40,
+          "name": "VA",
+          "role": "power"
+        },
+        {
+          "number": 41,
+          "name": "VA",
+          "role": "power"
+        },
+        {
+          "number": 42,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 43,
+          "name": "VRP",
+          "role": "nc"
+        },
+        {
+          "number": 44,
+          "name": "VRN",
+          "role": "nc"
+        },
+        {
+          "number": 45,
+          "name": "VCMO",
+          "role": "output"
+        },
+        {
+          "number": 46,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 47,
+          "name": "I-",
+          "role": "input"
+        },
+        {
+          "number": 48,
+          "name": "I+",
+          "role": "input"
+        }
+      ]
+    },
+    "type": "adc",
+    "bits": 10,
+    "channels": 2,
+    "codeFormat": "offset",
+    "vcc": [
+      1.5,
+      3.6
+    ],
+    "analog": [
+      "VREF",
+      "VA",
+      "VRP",
+      "VRN",
+      "VCMO",
+      "I+",
+      "I-",
+      "Q+",
+      "Q-"
+    ],
+    "bus": {
+      "style": "clocked",
+      "clock": {
+        "pin": "CLK",
+        "edge": "rise"
+      },
+      "data": [
+        "I9",
+        "I8",
+        "I7",
+        "I6",
+        "I5",
+        "I4",
+        "I3",
+        "I2",
+        "I1",
+        "I0",
+        "Q9",
+        "Q8",
+        "Q7",
+        "Q6",
+        "Q5",
+        "Q4",
+        "Q3",
+        "Q2",
+        "Q1",
+        "Q0"
+      ],
+      "clockOut": {
+        "pin": "I/Q",
+        "invert": false
+      }
+    },
+    "timing": {
+      "tOut": 22
+    },
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "commands": [],
+      "read": "[R][R]"
+    },
+    "conversion": {
+      "time": 0,
+      "start": [
+        "power-on"
+      ]
+    },
+    "pins": {
+      "powerdown": {
+        "pin": "PD",
+        "active": 1
+      }
+    }
+  },
+  "packages": {
+    "PFB": {
+      "pinout": "pfb48",
+      "footprint": "TQFP-48-7X7",
+      "package": "TQFP",
+      "pins": 48
+    }
+  },
+  "pdf": "adc10d040.pdf",
+  "pages": "p.2 (Figure 1 pinout), p.3-4 (pin descriptions: OS, OC, OF, STBY, PD, GAIN, I/Q, VDR 1.5 V to VD), p.5 (operating ratings: VA, VD 3.0-3.6 V; VDR 1.5 V to VD), p.8 (multiplexed mode tOD 19 ns max), p.9 (parallel mode tOD 22 ns max, latency 2.5 clocks), p.10 (Figures 2-3: I/Q follows CLK delayed by tDIQ), p.18 (data valid tOD after CLK rising, latency)",
+  "notModeled": [
+    "analog inputs, reference and gain (GAIN pin); the result is always the 0 V differential code (offset binary 0x200 on both buses)",
+    "OF pin: OF high selects 2's complement output (0 V = 0x000); the model always outputs offset binary (OF low)",
+    "OS pin: only the parallel mode (OS high, I and Q on their own buses) is modeled; multiplexed mode (OS low: I data after CLK rise and Q data after CLK fall on I0-I9, Q0-Q9 held low) is not",
+    "I/Q output: modeled as CLK delayed by tOD (tDIQ 13 ns typ); in multiplexed mode it marks I vs Q data",
+    "STBY standby mode (800 ns wake-up) and PD wake-up time (<1 ms); OC offset-correction sequence (34 clocks)",
+    "pipeline latency 2.5 clocks (I) / 3.0 clocks (Q, multiplexed) is not modeled (the code is constant); sampling on CLK falling",
+    "clock frequency limits (20-45 MHz) and duty cycle",
+    "digital inputs (CLK, OS, OC, OF, STBY, PD, GAIN) are referenced to VA/VD (3.0-3.6 V), outputs to VDR (1.5 V to VD); vcc is the union of VD and VDR"
+  ],
+  "variants": "",
+  "parts": [
+    [
+      "ADC10D040CIVS/NOPB",
+      "PFB",
+      48,
+      "Active"
+    ]
+  ]
+}

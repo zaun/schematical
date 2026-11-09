@@ -1,0 +1,1018 @@
+{
+ "device": {
+  "id": "ADS127L21",
+  "function": "ADC",
+  "description": "24-bit 512 kSPS wide-bandwidth delta-sigma ADC with programmable FIR / IIR filters and SPI interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads127l21.pdf (SBASAK4C) p.3 pin functions (Table 4-1), p.5-6 recommended operating conditions, p.14-15 timing (1.65 V to 2 V IOVDD), p.36-42 filter data rates (Tables 6-1 to 6-5), p.65-67 reset and control modes, p.70-72 SPI frame and commands (Table 7-16), p.74-75 conversion data and output format (Table 7-17), p.80-96 registers (Table 8-1)",
+  "pinouts": {
+   "ruk20": [
+    {
+     "number": 1,
+     "name": "AINP",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AINN",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "VCM",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "REFP",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "REFN",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "SDO/DRDY",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "DRDY",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "CAPD",
+     "role": "nc"
+    },
+    {
+     "number": 16,
+     "name": "START",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "AVSS",
+     "role": "ground"
+    },
+    {
+     "number": 18,
+     "name": "CAPA",
+     "role": "nc"
+    },
+    {
+     "number": 19,
+     "name": "AVDD2",
+     "role": "power"
+    },
+    {
+     "number": 20,
+     "name": "AVDD1",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 24,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   1.65,
+   5.5
+  ],
+  "analog": [
+   "AINP",
+   "AINN",
+   "VCM",
+   "REFP",
+   "REFN",
+   "CAPD",
+   "AVSS",
+   "CAPA",
+   "AVDD2",
+   "AVDD1"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDO/DRDY",
+   "mode": 1
+  },
+  "timing": {
+   "tValid": 20,
+   "tOut": 23,
+   "tFloat": 20
+  },
+  "registers": [
+   {
+    "name": "DEV_ID",
+    "address": 0,
+    "width": 8,
+    "reset": 2,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "DEV_ID",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "02h = ADS127L21"
+   },
+   {
+    "name": "REV_ID",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "REV_ID",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "reset xxh, modeled 0"
+   },
+   {
+    "name": "STATUS1",
+    "address": 2,
+    "width": 8,
+    "reset": 96,
+    "readOnly": 143,
+    "fields": [
+     {
+      "name": "CS_MODE",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "ALV_FLAG",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "POR_FLAG",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "SPI_ERR",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "CRC_ERR",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "ADC_ERR",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "MOD_FLAG",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DRDY",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "writeOneClears": 112,
+    "note": "reset x1100xxxb (p.81): the x bits are 0 here"
+   },
+   {
+    "name": "STATUS2",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "I_CRC_ERR",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "F_CRC_ERR",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "M_CRC_ERR",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONTROL",
+    "address": 4,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "RESET",
+      "bits": [
+       7,
+       2
+      ]
+     },
+     {
+      "name": "START",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "STOP",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "write-only bits that always read 0; writes act through the CONTROL commands"
+   },
+   {
+    "name": "MUX",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 252,
+    "fields": [
+     {
+      "name": "MUX",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG1",
+    "address": 6,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "EXT_RNG",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "REF_RNG",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "INP_RNG",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "VCM",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "REFP_BUF",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "AINP_BUF",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "AINN_BUF",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG2",
+    "address": 7,
+    "width": 8,
+    "reset": 8,
+    "readOnly": 192,
+    "fields": [
+     {
+      "name": "START_MODE",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "SPEED_MODE",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "STBY_MODE",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "PWDN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG3",
+    "address": 8,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 8,
+    "fields": [
+     {
+      "name": "CLK_SEL",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CLK_DIV",
+      "bits": [
+       6,
+       5
+      ]
+     },
+     {
+      "name": "OUT_DRV",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SPI_CRC",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "REG_CRC",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "STATUS",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "FILTER1",
+    "address": 9,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "FLTR_SEL",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "FLTR_OSR",
+      "bits": [
+       4,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "FILTER2",
+    "address": 10,
+    "width": 8,
+    "reset": 1,
+    "readOnly": 128,
+    "fields": [
+     {
+      "name": "DELAY",
+      "bits": [
+       6,
+       4
+      ]
+     },
+     {
+      "name": "FLTR_SEQ",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "FIR2_DIS",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "FIR3_DIS",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "IIR_DIS",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "FILTER3",
+    "address": 11,
+    "width": 8,
+    "reset": 1,
+    "readOnly": 252,
+    "fields": [
+     {
+      "name": "DATA_MODE",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OFFSET2",
+    "address": 12,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OFFSET",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OFFSET1",
+    "address": 13,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OFFSET",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OFFSET0",
+    "address": 14,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OFFSET",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GAIN2",
+    "address": 15,
+    "width": 8,
+    "reset": 64,
+    "fields": [
+     {
+      "name": "GAIN",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GAIN1",
+    "address": 16,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GAIN",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GAIN0",
+    "address": 17,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GAIN",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "MAIN_CRC",
+    "address": 18,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MAIN_CRC",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "FIR_BANK",
+    "address": 19,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "FIR_BANK",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "coefficient memory bank port (reset xxh, modeled 0); bytes are stored as a plain register"
+   },
+   {
+    "name": "FIR_CRC1",
+    "address": 20,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "FIR_CRC",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "reset xxh, modeled 0"
+   },
+   {
+    "name": "FIR_CRC0",
+    "address": 21,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "FIR_CRC",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "register map prints FIR_CRCx0; reset xxh, modeled 0"
+   },
+   {
+    "name": "IIR_BANK",
+    "address": 22,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "IIR_BANK",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "coefficient memory bank port (reset xxh, modeled 0)"
+   },
+   {
+    "name": "IIR_CRC",
+    "address": 23,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "IIR_CRC",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "reset xxh, modeled 0"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "out": "R{24}",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "No operation",
+     "in": "0{16}",
+     "action": "nop"
+    },
+    {
+     "name": "Read register",
+     "in": "010aaaaa x{8}",
+     "action": "read",
+     "address": "a",
+     "commit": "end",
+     "next": "@ 0{16}",
+     "note": "off-frame: register data + two 00h pad bytes in the next 24-bit frame (p.71-72)"
+    },
+    {
+     "name": "Write register (CONTROL reset)",
+     "in": "10000100 01011000",
+     "action": "reset",
+     "commit": "end",
+     "note": "RESET[5:0] = 010110b with START = STOP = 0 (Table 8-7)"
+    },
+    {
+     "name": "Write register (CONTROL START)",
+     "in": "10000100 xxxxxx10",
+     "action": "start",
+     "commit": "end"
+    },
+    {
+     "name": "Write register (CONTROL STOP)",
+     "in": "10000100 xxxxxx01",
+     "action": "stop",
+     "commit": "end"
+    },
+    {
+     "name": "Write register (CONTROL other)",
+     "in": "10000100 x{8}",
+     "action": "nop",
+     "commit": "end"
+    },
+    {
+     "name": "Write register",
+     "in": "100aaaaa dddddddd",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "commit": "end"
+    }
+   ]
+  },
+  "conversion": {
+   "time": {
+    "fields": [
+     "CONFIG2.SPEED_MODE",
+     "FILTER1.FLTR_OSR"
+    ],
+    "values": {
+     "0,0": 20000.0,
+     "0,1": 40000.0,
+     "0,2": 80000.0,
+     "0,3": 160000.0,
+     "0,4": 320000.0,
+     "0,5": 640000.0,
+     "0,6": 1280000.0,
+     "0,7": 2560000.0,
+     "0,8": 7500.0,
+     "0,9": 10000.0,
+     "0,10": 15000.0,
+     "0,11": 20000.0,
+     "0,12": 40000.0,
+     "0,13": 80000.0,
+     "0,14": 160000.0,
+     "0,15": 208125.0,
+     "0,16": 320000.0,
+     "0,17": 416875.0,
+     "0,18": 640000.0,
+     "0,19": 833125.0,
+     "0,20": 1280000.0,
+     "0,21": 1666875.0,
+     "0,22": 2560000.0,
+     "0,23": 3333125.0,
+     "0,24": 16666875.0,
+     "0,25": 20000000.0,
+     "0,26": 60000000.0,
+     "0,27": 100000000.0,
+     "0,28": 16660000.0,
+     "0,29": 20000000.0,
+     "0,30": 60000000.0,
+     "0,31": 100000000.0,
+     "1,0": 5000.0,
+     "1,1": 10000.0,
+     "1,2": 20000.0,
+     "1,3": 40000.0,
+     "1,4": 80000.0,
+     "1,5": 160000.0,
+     "1,6": 320000.0,
+     "1,7": 640000.0,
+     "1,8": 1875.0,
+     "1,9": 2500.0,
+     "1,10": 3750.0,
+     "1,11": 5000.0,
+     "1,12": 10000.0,
+     "1,13": 20000.0,
+     "1,14": 26093.75,
+     "1,15": 40000.0,
+     "1,16": 52031.25,
+     "1,17": 80000.0,
+     "1,18": 104218.75,
+     "1,19": 160000.0,
+     "1,20": 208281.25,
+     "1,21": 320000.0,
+     "1,22": 416718.75,
+     "1,23": 640000.0,
+     "1,24": 2083281.25,
+     "1,25": 2500000.0,
+     "1,26": 7500000.0,
+     "1,27": 12500000.0,
+     "1,28": 2083437.5,
+     "1,29": 2500000.0,
+     "1,30": 7500000.0,
+     "1,31": 12500000.0,
+     "2,0": 2500.0,
+     "2,1": 5000.0,
+     "2,2": 10000.0,
+     "2,3": 20000.0,
+     "2,4": 40000.0,
+     "2,5": 80000.0,
+     "2,6": 160000.0,
+     "2,7": 320000.0,
+     "2,8": 937.5,
+     "2,9": 1250.0,
+     "2,10": 1875.0,
+     "2,11": 2500.0,
+     "2,12": 5000.0,
+     "2,13": 10000.0,
+     "2,14": 20000.0,
+     "2,15": 26015.625,
+     "2,16": 40000.0,
+     "2,17": 52109.375,
+     "2,18": 80000.0,
+     "2,19": 104140.625,
+     "2,20": 160000.0,
+     "2,21": 208359.375,
+     "2,22": 320000.0,
+     "2,23": 416640.625,
+     "2,24": 2083359.375,
+     "2,25": 2500000.0,
+     "2,26": 7500000.0,
+     "2,27": 12500000.0,
+     "2,28": 2082500.0,
+     "2,29": 2500000.0,
+     "2,30": 7500000.0,
+     "2,31": 12500000.0,
+     "3,0": 1953.125,
+     "3,1": 3906.25,
+     "3,2": 7812.5,
+     "3,3": 15625.0,
+     "3,4": 31250.0,
+     "3,5": 62500.0,
+     "3,6": 125000.0,
+     "3,7": 250000.0,
+     "3,8": 732.422,
+     "3,9": 976.562,
+     "3,10": 1464.844,
+     "3,11": 1953.125,
+     "3,12": 3906.25,
+     "3,13": 7812.5,
+     "3,14": 15625.0,
+     "3,15": 20324.707,
+     "3,16": 31250.0,
+     "3,17": 40710.449,
+     "3,18": 62500.0,
+     "3,19": 81359.863,
+     "3,20": 125000.0,
+     "3,21": 162780.762,
+     "3,22": 250000.0,
+     "3,23": 325500.488,
+     "3,24": 1627624.512,
+     "3,25": 1953125.0,
+     "3,26": 5859375.0,
+     "3,27": 9765625.0,
+     "3,28": 1626953.125,
+     "3,29": 1953125.0,
+     "3,30": 5859375.0,
+     "3,31": 9765625.0
+    }
+   },
+   "start": [
+    "command",
+    "pin"
+   ],
+   "mode": {
+    "field": "CONFIG2.START_MODE",
+    "single": 1,
+    "startOnEnter": false
+   },
+   "done": {
+    "STATUS1.DRDY": 1
+   },
+   "onRead": {
+    "STATUS1.DRDY": 0
+   }
+  },
+  "ready": [
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": [
+     "read",
+     "start"
+    ]
+   },
+   {
+    "pin": "SDO/DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": [
+     "read",
+     "start"
+    ],
+    "onMiso": true,
+    "enable": "FILTER3.DATA_MODE!=0"
+   }
+  ],
+  "pins": {
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   },
+   "start": {
+    "pin": "START",
+    "active": 1
+   }
+  }
+ },
+ "packages": {
+  "RUK": {
+   "pinout": "ruk20",
+   "footprint": "WQFN-20-RUK",
+   "package": "WQFN",
+   "pins": 20
+  }
+ },
+ "pdf": "ads127l21.pdf",
+ "pages": "p.3 (pins), p.5-6 (ROC), p.14-15 (timing), p.36-42 (data rates), p.65-67 (reset, control modes), p.70-75 (SPI, commands, data), p.80-96 (registers)",
+ "notModeled": [
+  "analog input, buffers, reference, VCM, input range, offset/gain calibration registers (stored only)",
+  "programmable FIR / IIR filter coefficient upload (FIR_BANK / IIR_BANK are plain registers here, no coefficient memory) and the coefficient / main memory CRC checks (CRC_ERR, STATUS2 flags never set)",
+  "16-bit resolution (CONFIG1.DATA = 1), the optional STATUS1 header byte (CONFIG3.STATUS) and SPI CRC byte: the output frame is always the 24-bit data; SPI_ERR never set",
+  "SDO/DRDY DATA_MODE = 10b (data-ready shown also while CS is high) is modeled as 01b",
+  "3-wire SPI (CS tied low, CS_MODE) and the SPI reset input pattern; daisy-chain pass-through",
+  "synchronized control mode (START_MODE = 10b) converts continuously regardless of START: the model only starts on the START pin / START bit; start/stop mode stops immediately rather than after the ongoing conversion",
+  "a register write above CONTROL (05h-17h) restarting the conversion; conversion-start DELAY and the filter latency of the first conversion (Tables 7-4, 7-5, 7-7, 7-9, 7-12): conversion time is the steady 1 / data rate = OSR / fMOD for SPEED_MODE (fCLK 3.2 / 12.8 / 25.6 / 32.768 MHz, fMOD = fCLK / 2) and FLTR_OSR (mid-speed OSR values from Table 8-12); FLTR_SEL, FIR2/FIR3/IIR stage settings do not change it",
+  "CLK_SEL / CLK_DIV clocking (the CLK pin is not used), standby and power-down (PWDN bit) modes, OUT_DRV",
+  "REV_ID and FIR/IIR bank and CRC resets are xxh (0 here); ALV_FLAG, ADC_ERR, MOD_FLAG never set; CS_MODE reads 0",
+  "DRDY high pulse before new data when data are not read; one-shot mode keeps DRDY low during readback (modeled as cleared on read)"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS127L21IRUKT",
+   "RUK",
+   20,
+   "Active"
+  ]
+ ]
+}

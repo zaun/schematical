@@ -1,0 +1,702 @@
+{
+ "device": {
+  "id": "DAC8555",
+  "function": "DAC",
+  "description": "Quad 16-bit voltage-output DAC (external VREFH/VREFL reference) with 24-bit SPI write-only interface, ENABLE, LDAC, RST with zero/mid-scale select (RSTSEL)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac8555.pdf (SLAS475B) p.3 power requirements (AVDD 2.7-5.5 V, IOVDD 1.8-5.5 V), logic levels vs IOVDD, p.4 pin configuration and descriptions, p.5 serial write operation and timing, p.15 asynchronous clear (RST/RSTSEL) and input shift register (Figure 47), p.16 load commands, power-down modes (Table 1), control matrix (Table 2), p.17 SYNC interrupt and power-on reset to zero-scale/midscale, p.18 power-down modes, p.21 LDAC and ENABLE pin",
+  "pinouts": {
+   "pw16": [
+    {
+     "number": 1,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "VREFH",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "VREFL",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "RST",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "RSTSEL",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "ENABLE",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "LDAC",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 4,
+  "vcc": [
+   1.8,
+   5.5
+  ],
+  "analog": [
+   "VOUTA",
+   "VOUTB",
+   "VREFH",
+   "AVDD",
+   "VREFL",
+   "VOUTC",
+   "VOUTD"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "IN_A",
+    "address": 0,
+    "space": "input",
+    "width": 16,
+    "reset": 0,
+    "note": "data buffer (temporary register) DAC A; power-on zero scale"
+   },
+   {
+    "name": "IN_B",
+    "address": 1,
+    "space": "input",
+    "width": 16,
+    "reset": 0,
+    "note": "data buffer (temporary register) DAC B; power-on zero scale"
+   },
+   {
+    "name": "IN_C",
+    "address": 2,
+    "space": "input",
+    "width": 16,
+    "reset": 0,
+    "note": "data buffer (temporary register) DAC C; power-on zero scale"
+   },
+   {
+    "name": "IN_D",
+    "address": 3,
+    "space": "input",
+    "width": 16,
+    "reset": 0,
+    "note": "data buffer (temporary register) DAC D; power-on zero scale"
+   },
+   {
+    "name": "DAC_A",
+    "address": 0,
+    "space": "dac",
+    "width": 16,
+    "reset": 0,
+    "note": "DAC register DAC A; power-on zero scale"
+   },
+   {
+    "name": "DAC_B",
+    "address": 1,
+    "space": "dac",
+    "width": 16,
+    "reset": 0,
+    "note": "DAC register DAC B; power-on zero scale"
+   },
+   {
+    "name": "DAC_C",
+    "address": 2,
+    "space": "dac",
+    "width": 16,
+    "reset": 0,
+    "note": "DAC register DAC C; power-on zero scale"
+   },
+   {
+    "name": "DAC_D",
+    "address": 3,
+    "space": "dac",
+    "width": 16,
+    "reset": 0,
+    "note": "DAC register DAC D; power-on zero scale"
+   },
+   {
+    "name": "PWR",
+    "width": 12,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PDD_EN",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "PDD",
+      "bits": [
+       10,
+       9
+      ]
+     },
+     {
+      "name": "PDC_EN",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "PDC",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "PDB_EN",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "PDB",
+      "bits": [
+       4,
+       3
+      ]
+     },
+     {
+      "name": "PDA_EN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "PDA",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "internal: per channel PD0 (PDx_EN, DB16) and PD1:PD2 (PDx, DB15:DB14) of the last power-down word written to that channel's buffer; a data word to the channel clears PDx_EN (power-down table: 1 01 1 kohm, 1 10 100 kohm, 1 11 / 1 00 Hi-Z)"
+   },
+   {
+    "name": "STRAP",
+    "width": 1,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: levels of the ENABLE pin"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "0",
+   "commands": [
+    {
+     "name": "BROADCAST UPDATE ALL FROM BUFFERS",
+     "in": "xx 11 x 0 x x x{16}",
+     "action": "update",
+     "when": "STRAP.EN=0",
+     "note": "LD1 LD0 = 11, DB18 = 0: all channels load from their buffers; every device responds regardless of address"
+    },
+    {
+     "name": "BROADCAST WRITE ALL AND LOAD",
+     "in": "xx 11 x 1 x 0 d{16}",
+     "action": "write",
+     "channel": 0,
+     "channelMap": {
+      "0": [
+       0,
+       1,
+       2,
+       3
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "set": {
+      "PWR.PDA_EN": 0,
+      "PWR.PDB_EN": 0,
+      "PWR.PDC_EN": 0,
+      "PWR.PDD_EN": 0
+     },
+     "when": "STRAP.EN=0",
+     "note": "LD1 LD0 = 11, DB18 = 1, PD0 = 0: SR data to every channel's buffer and DAC register"
+    },
+    {
+     "name": "BROADCAST POWER-DOWN ALL",
+     "in": "xx 11 x 1 x 1 pp x{14}",
+     "set": {
+      "PWR.PDA_EN": 1,
+      "PWR.PDA": "p",
+      "PWR.PDB_EN": 1,
+      "PWR.PDB": "p",
+      "PWR.PDC_EN": 1,
+      "PWR.PDC": "p",
+      "PWR.PDD_EN": 1,
+      "PWR.PDD": "p"
+     },
+     "when": "STRAP.EN=0",
+     "note": "LD1 LD0 = 11, DB18 = 1, PD0 = 1: power-down condition PD1:PD2 to every channel"
+    },
+    {
+     "name": "STORE A",
+     "in": "00 00 x 00 0 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "PWR.PDA_EN": 0
+     },
+     "when": [
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "STORE B",
+     "in": "00 00 x 01 0 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "PWR.PDB_EN": 0
+     },
+     "when": [
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "STORE C",
+     "in": "00 00 x 10 0 d{16}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "set": {
+      "PWR.PDC_EN": 0
+     },
+     "when": [
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "STORE D",
+     "in": "00 00 x 11 0 d{16}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "set": {
+      "PWR.PDD_EN": 0
+     },
+     "when": [
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "STORE A POWER-DOWN",
+     "in": "00 00 x 00 1 pp x{14}",
+     "set": {
+      "PWR.PDA_EN": 1,
+      "PWR.PDA": "p"
+     },
+     "when": [
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "STORE B POWER-DOWN",
+     "in": "00 00 x 01 1 pp x{14}",
+     "set": {
+      "PWR.PDB_EN": 1,
+      "PWR.PDB": "p"
+     },
+     "when": [
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "STORE C POWER-DOWN",
+     "in": "00 00 x 10 1 pp x{14}",
+     "set": {
+      "PWR.PDC_EN": 1,
+      "PWR.PDC": "p"
+     },
+     "when": [
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "STORE D POWER-DOWN",
+     "in": "00 00 x 11 1 pp x{14}",
+     "set": {
+      "PWR.PDD_EN": 1,
+      "PWR.PDD": "p"
+     },
+     "when": [
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "WRITE AND LOAD DAC A",
+     "in": "00 01 x 00 0 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "PWR.PDA_EN": 0
+     },
+     "when": [
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "WRITE AND LOAD DAC B",
+     "in": "00 01 x 01 0 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "PWR.PDB_EN": 0
+     },
+     "when": [
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "WRITE AND LOAD DAC C",
+     "in": "00 01 x 10 0 d{16}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "set": {
+      "PWR.PDC_EN": 0
+     },
+     "when": [
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "WRITE AND LOAD DAC D",
+     "in": "00 01 x 11 0 d{16}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "set": {
+      "PWR.PDD_EN": 0
+     },
+     "when": [
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "WRITE AND LOAD DAC A POWER-DOWN",
+     "in": "00 01 x 00 1 pp x{14}",
+     "set": {
+      "PWR.PDA_EN": 1,
+      "PWR.PDA": "p"
+     },
+     "when": [
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "WRITE AND LOAD DAC B POWER-DOWN",
+     "in": "00 01 x 01 1 pp x{14}",
+     "set": {
+      "PWR.PDB_EN": 1,
+      "PWR.PDB": "p"
+     },
+     "when": [
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "WRITE AND LOAD DAC C POWER-DOWN",
+     "in": "00 01 x 10 1 pp x{14}",
+     "set": {
+      "PWR.PDC_EN": 1,
+      "PWR.PDC": "p"
+     },
+     "when": [
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "WRITE AND LOAD DAC D POWER-DOWN",
+     "in": "00 01 x 11 1 pp x{14}",
+     "set": {
+      "PWR.PDD_EN": 1,
+      "PWR.PDD": "p"
+     },
+     "when": [
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "WRITE AND LOAD ALL DACS A",
+     "in": "00 10 x 00 0 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "PWR.PDA_EN": 0
+     },
+     "when": [
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "WRITE AND LOAD ALL DACS B",
+     "in": "00 10 x 01 0 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "PWR.PDB_EN": 0
+     },
+     "when": [
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "WRITE AND LOAD ALL DACS C",
+     "in": "00 10 x 10 0 d{16}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "set": {
+      "PWR.PDC_EN": 0
+     },
+     "when": [
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "WRITE AND LOAD ALL DACS D",
+     "in": "00 10 x 11 0 d{16}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "set": {
+      "PWR.PDD_EN": 0
+     },
+     "when": [
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "WRITE AND LOAD ALL DACS A POWER-DOWN",
+     "in": "00 10 x 00 1 pp x{14}",
+     "set": {
+      "PWR.PDA_EN": 1,
+      "PWR.PDA": "p"
+     },
+     "when": [
+      "STRAP.EN=0"
+     ],
+     "action": "update",
+     "note": "power-down condition to buffer A, then all DACs load from their buffers"
+    },
+    {
+     "name": "WRITE AND LOAD ALL DACS B POWER-DOWN",
+     "in": "00 10 x 01 1 pp x{14}",
+     "set": {
+      "PWR.PDB_EN": 1,
+      "PWR.PDB": "p"
+     },
+     "when": [
+      "STRAP.EN=0"
+     ],
+     "action": "update",
+     "note": "power-down condition to buffer B, then all DACs load from their buffers"
+    },
+    {
+     "name": "WRITE AND LOAD ALL DACS C POWER-DOWN",
+     "in": "00 10 x 10 1 pp x{14}",
+     "set": {
+      "PWR.PDC_EN": 1,
+      "PWR.PDC": "p"
+     },
+     "when": [
+      "STRAP.EN=0"
+     ],
+     "action": "update",
+     "note": "power-down condition to buffer C, then all DACs load from their buffers"
+    },
+    {
+     "name": "WRITE AND LOAD ALL DACS D POWER-DOWN",
+     "in": "00 10 x 11 1 pp x{14}",
+     "set": {
+      "PWR.PDD_EN": 1,
+      "PWR.PDD": "p"
+     },
+     "when": [
+      "STRAP.EN=0"
+     ],
+     "action": "update",
+     "note": "power-down condition to buffer D, then all DACs load from their buffers"
+    }
+   ],
+   "note": "24-bit word: DB23-DB22 0 0, LD1 LD0 (DB21-DB20), DB19 don't care, DAC select (DB18-DB17), PD0 (DB16), DB15-DB0 data (or PD1 PD2 in DB15-DB14 when PD0 = 1). Decoded at the 24th SCLK falling edge; SYNC rising earlier discards the word"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 1,
+    "edge": "rise"
+   },
+   "levels": [
+    {
+     "pin": "ENABLE",
+     "field": "STRAP.EN"
+    }
+   ],
+   "reset": {
+    "pin": "RST",
+    "active": 0
+   }
+  },
+  "dac": {
+   "input": [
+    "IN_A",
+    "IN_B",
+    "IN_C",
+    "IN_D"
+   ],
+   "output": [
+    "DAC_A",
+    "DAC_B",
+    "DAC_C",
+    "DAC_D"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw16",
+   "footprint": "TSSOP-16",
+   "package": "TSSOP",
+   "pins": 16
+  }
+ },
+ "pdf": "dac8555.pdf",
+ "pages": "p.3 (supplies, logic inputs), p.4 (pins), p.5 (timing), p.15 (RST, input shift register Figure 47), p.16 (Tables 1-2), p.17 (SYNC interrupt, power-on reset), p.18 (power-down), p.21 (LDAC, ENABLE)",
+ "notModeled": [
+  "analog outputs and output buffers (VOUTx never driven); power-down output loads stored in PWR only",
+  "the power-down condition is data in the buffer (TR/DR bits 17-16) and takes effect when the buffer is loaded; the model stores it per channel in PWR at once and clears it on the next data word to that channel. Loads of a power-down word (LD = 01, broadcast) do not change the DAC data register; LD = 10 loads all DAC registers from the buffers",
+  "ENABLE high: the device ignores the serial port; modeled by gating every command on the ENABLE level (STRAP.EN)",
+  "LDAC is a rising-edge trigger; synchronous updates use the LD1:LD0 load commands (LDAC tied low)",
+  "no read-back: the interface is write-only",
+  "IOVDD 1.8-2.7 V is allowed with degraded timing; vcc uses the 1.8-5.5 V IOVDD range of the power requirements table",
+  "SCLK limits (50 / 25 MHz) and setup/hold times",
+  "RSTSEL selects zero-scale reset with straight binary coding (low) or mid-scale reset with two's complement coding (high); the stored code after reset is 0 in both cases, so the register reset is 0 and the coding is analog-only",
+  "DB23/DB22 must be 0 except in broadcast words"
+ ],
+ "variants": "dac8555.pdf covers only the DAC8555. DAC8554 is the same core with A0/A1 address pins in place of RST/RSTSEL; DAC8565 adds a 2.5-V internal reference.",
+ "parts": [
+  [
+   "DAC8555IPW",
+   "PW",
+   16,
+   "Active"
+  ]
+ ]
+}

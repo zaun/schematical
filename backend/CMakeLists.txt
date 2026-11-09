@@ -55,6 +55,10 @@ add_library(logic STATIC
     src/models/ns16550_lpt.c
     src/models/ns16550_exar.c
     src/models/serial_target.c
+    src/models/converter.c
+    src/models/converter_load.c
+    src/models/converter_par.c
+    src/models/rtc.c
     src/models/ns16550_bridge.c
     src/models/ns16550_xr1280.c
     src/models/serial_max3100.c
@@ -161,6 +165,8 @@ logic_test(cpu_test)
 logic_test(charlcd_test)
 logic_test(serial_test)
 logic_test(pio_test)
+logic_test(converter_test)
+logic_test(rtc_test)
 logic_test(tactile_test)
 
 # Engine speed bench (plan-05-A). Not a ctest: a wall-clock check would be

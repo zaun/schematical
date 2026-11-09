@@ -1,0 +1,459 @@
+{
+ "device": {
+  "id": "DAC2932",
+  "function": "DAC",
+  "description": "dual 12-bit 40 MSPS current-output DAC with an interleaved parallel port, plus four 12-bit voltage-output DACs with a serial interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac2932.pdf (SBAS279D) p.4 electrical characteristics (+VD, +VDV 2.7-3.3 V), p.6 I-DAC timing (Figure 1), p.7 V-DAC serial write timing (Figure 2) and serial data input format, p.8-9 pin assignments and terminal functions, p.15 power-down modes (Table 1), p.16 chip-select operation (Figure 28), p.21-22 V-DAC serial interface, input shift register, SYNC interrupt, power-on reset",
+  "pinouts": {
+   "pfb48": [
+    {
+     "number": 1,
+     "name": "D11",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "D10",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "D9",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "D8",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "D7",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "D6",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "D5",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "D4",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "D3",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "D2",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "D1",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "D0",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 14,
+     "name": "+VD",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "PD",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "STBY",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "GSET",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 21,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 22,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 23,
+     "name": "FSA2",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "FSA1",
+     "role": "output"
+    },
+    {
+     "number": 25,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 26,
+     "name": "IOUT1",
+     "role": "output"
+    },
+    {
+     "number": 27,
+     "name": "IOUT1",
+     "role": "output"
+    },
+    {
+     "number": 28,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 29,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 30,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 31,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 32,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 33,
+     "name": "IOUT2",
+     "role": "output"
+    },
+    {
+     "number": 34,
+     "name": "IOUT2",
+     "role": "output"
+    },
+    {
+     "number": 35,
+     "name": "+VAV",
+     "role": "power"
+    },
+    {
+     "number": 36,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 37,
+     "name": "VOUT1",
+     "role": "output"
+    },
+    {
+     "number": 38,
+     "name": "VOUT2",
+     "role": "output"
+    },
+    {
+     "number": 39,
+     "name": "VOUT3",
+     "role": "output"
+    },
+    {
+     "number": 40,
+     "name": "VOUT4",
+     "role": "output"
+    },
+    {
+     "number": 41,
+     "name": "AGNDV",
+     "role": "ground"
+    },
+    {
+     "number": 42,
+     "name": "REFV",
+     "role": "power"
+    },
+    {
+     "number": 43,
+     "name": "+VDV",
+     "role": "power"
+    },
+    {
+     "number": 44,
+     "name": "PDV",
+     "role": "input"
+    },
+    {
+     "number": 45,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 46,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 47,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 48,
+     "name": "DGNDV",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 6,
+  "vcc": [
+   2.7,
+   3.3
+  ],
+  "analog": [
+   "+VA",
+   "+VAV",
+   "FSA1",
+   "FSA2",
+   "IOUT1",
+   "IOUT2",
+   "REFIN",
+   "REFV",
+   "VOUT1",
+   "VOUT2",
+   "VOUT3",
+   "VOUT4"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "IDAC1",
+    "space": "dac",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "I-DAC data latch, written only through the parallel port (not modeled)"
+   },
+   {
+    "name": "IDAC2",
+    "space": "dac",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "I-DAC data latch, written only through the parallel port (not modeled)"
+   },
+   {
+    "name": "VDAC1",
+    "space": "dac",
+    "address": 2,
+    "width": 12,
+    "reset": 0,
+    "note": "V-DAC1 register: power-on filled with zeros (p.22); no double buffering, the output follows the register"
+   },
+   {
+    "name": "VDAC2",
+    "space": "dac",
+    "address": 3,
+    "width": 12,
+    "reset": 0,
+    "note": "V-DAC2 register: power-on filled with zeros (p.22); no double buffering, the output follows the register"
+   },
+   {
+    "name": "VDAC3",
+    "space": "dac",
+    "address": 4,
+    "width": 12,
+    "reset": 0,
+    "note": "V-DAC3 register: power-on filled with zeros (p.22); no double buffering, the output follows the register"
+   },
+   {
+    "name": "VDAC4",
+    "space": "dac",
+    "address": 5,
+    "width": 12,
+    "reset": 0,
+    "note": "V-DAC4 register: power-on filled with zeros (p.22); no double buffering, the output follows the register"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "V-DAC write",
+     "in": "aaaa d{12}",
+     "action": "write",
+     "channel": "a",
+     "channelMap": {
+      "0": [],
+      "1": [
+       5
+      ],
+      "2": [
+       4
+      ],
+      "3": [
+       4,
+       5
+      ],
+      "4": [
+       3
+      ],
+      "5": [
+       3,
+       5
+      ],
+      "6": [
+       3,
+       4
+      ],
+      "7": [
+       3,
+       4,
+       5
+      ],
+      "8": [
+       2
+      ],
+      "9": [
+       2,
+       5
+      ],
+      "10": [
+       2,
+       4
+      ],
+      "11": [
+       2,
+       4,
+       5
+      ],
+      "12": [
+       2,
+       3
+      ],
+      "13": [
+       2,
+       3,
+       5
+      ],
+      "14": [
+       2,
+       3,
+       4
+      ],
+      "15": [
+       2,
+       3,
+       4,
+       5
+      ]
+     },
+     "data": "d",
+     "note": "p.7: DB15-DB12 = A0-A3 select V-DAC1-4 (one-hot; several set = same data to each), DB11-DB0 data, MSB first; executed on the 16th SCLK falling edge (SYNC high earlier aborts)"
+    }
+   ],
+   "note": "the modeled bus is the V-DAC serial port (SYNC, SCLK, DIN); channels 0-1 are the I-DACs, 2-5 the V-DACs"
+  },
+  "dac": {
+   "input": [
+    "IDAC1",
+    "IDAC2",
+    "VDAC1",
+    "VDAC2",
+    "VDAC3",
+    "VDAC4"
+   ],
+   "output": [
+    "IDAC1",
+    "IDAC2",
+    "VDAC1",
+    "VDAC2",
+    "VDAC3",
+    "VDAC4"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "PFB": {
+   "pinout": "pfb48",
+   "footprint": "TQFP-48-7X7",
+   "package": "TQFP",
+   "pins": 48
+  }
+ },
+ "pdf": "dac2932.pdf",
+ "pages": "p.4 (supplies, logic levels), p.6 (I-DAC timing, Figure 1), p.7 (V-DAC timing, Figure 2, serial data format), p.8-9 (terminal functions), p.15 (Table 1 power-down modes), p.16 (chip select, Figure 28), p.21-22 (serial interface, input shift register, SYNC interrupt, power-on reset)",
+ "notModeled": [
+  "I-DAC parallel port (D11-D0, CLK, CS): interleaved double-data-rate input (channel 1 latched on CLK rising, channel 2 on CLK falling, the pair output on the next rising edge; CS gated through the clock interface) cannot be expressed next to the V-DAC serial port, so the I-DAC registers are never written",
+  "PD (I-DAC full power-down), STBY (I-DAC standby) and PDV (V-DAC power-down) pins: no effect in the model (the V-DAC serial port is not documented as disabled by PDV)",
+  "analog current and voltage outputs, references, full-scale adjust and GSET",
+  "no read-back (write-only serial port)",
+  "a write with all four address bits 0 is accepted and changes nothing",
+  "SPI mode: DIN clocked on SCLK falling edges; mode 2 per Figure 2 (SYNC falls while SCLK is high)"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "DAC2932PFBT",
+   "PFB",
+   48,
+   "Active"
+  ]
+ ]
+}

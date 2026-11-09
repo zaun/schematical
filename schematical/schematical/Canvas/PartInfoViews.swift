@@ -12,6 +12,10 @@ struct PartHeader: View {
                 .font(.title2.bold())
             Text(chip.part.name)
                 .font(.headline)
+            if !chip.part.manufacturer.isEmpty {
+                Text(chip.part.manufacturer)
+                    .font(.subheadline)
+            }
             if !chip.part.description.isEmpty {
                 Text(chip.part.description)
                     .font(.callout)

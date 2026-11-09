@@ -1,0 +1,956 @@
+{
+ "device": {
+  "id": "ADS124S06",
+  "function": "ADC",
+  "description": "24-bit 4 kSPS 6-channel low-power delta-sigma ADC with PGA, reference, IDACs, GPIO and SPI interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads124s06.pdf (SBAS660C) p.5-6 pin configuration and functions, p.8 recommended operating conditions, p.14-16 timing and switching characteristics, p.42 and p.45 conversion times (Table 13, 15), p.64 data format (Table 23), p.65-68 commands (Table 24), p.69-71 reading data, p.72-82 registers (Table 25)",
+  "pinouts": {
+   "p32": [
+    {
+     "number": 1,
+     "name": "AINCOM",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AIN5",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "AIN4",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "AIN3",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AIN2",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "AIN1",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "AIN0",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "START/SYNC",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "DOUT/DRDY",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "DRDY",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 17,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "GPIO3/AIN11",
+     "role": "inout"
+    },
+    {
+     "number": 20,
+     "name": "GPIO2/AIN10",
+     "role": "inout"
+    },
+    {
+     "number": 21,
+     "name": "GPIO1/AIN9",
+     "role": "inout"
+    },
+    {
+     "number": 22,
+     "name": "GPIO0/AIN8",
+     "role": "inout"
+    },
+    {
+     "number": 23,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "REFCOM",
+     "role": "output"
+    },
+    {
+     "number": 25,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 26,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 27,
+     "name": "AVSS",
+     "role": "ground"
+    },
+    {
+     "number": 28,
+     "name": "AVSS-SW",
+     "role": "ground"
+    },
+    {
+     "number": 29,
+     "name": "REFN0",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "REFP0",
+     "role": "power"
+    },
+    {
+     "number": 31,
+     "name": "REFN1/AIN7",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "REFP1/AIN6",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 24,
+  "channels": 6,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "AINCOM",
+   "AIN5",
+   "AIN4",
+   "AIN3",
+   "AIN2",
+   "AIN1",
+   "AIN0",
+   "GPIO3/AIN11",
+   "GPIO2/AIN10",
+   "GPIO1/AIN9",
+   "GPIO0/AIN8",
+   "REFOUT",
+   "REFCOM",
+   "AVDD",
+   "AVSS",
+   "AVSS-SW",
+   "REFN0",
+   "REFP0",
+   "REFN1/AIN7",
+   "REFP1/AIN6"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "miso": "DOUT/DRDY",
+   "mode": 1
+  },
+  "timing": {
+   "tValid": 25,
+   "tOut": 30,
+   "tFloat": 25
+  },
+  "registers": [
+   {
+    "name": "ID",
+    "address": 0,
+    "width": 8,
+    "reset": 1,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "RESERVED",
+      "bits": [
+       7,
+       3
+      ]
+     },
+     {
+      "name": "DEV_ID",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "reset xxh: DEV_ID 000 = ADS124S08, 001 = ADS124S06 (Table 26); RESERVED bits modeled 0"
+   },
+   {
+    "name": "STATUS",
+    "address": 1,
+    "width": 8,
+    "reset": 128,
+    "readOnly": 127,
+    "fields": [
+     {
+      "name": "FL_POR",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "RDY",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "FL_P_RAILP",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "FL_P_RAILN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "FL_N_RAILP",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "FL_N_RAILN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "FL_REF_L1",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "FL_REF_L0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "INPMUX",
+    "address": 2,
+    "width": 8,
+    "reset": 1,
+    "fields": [
+     {
+      "name": "MUXP",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "MUXN",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "PGA",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DELAY",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "PGA_EN",
+      "bits": [
+       4,
+       3
+      ]
+     },
+     {
+      "name": "GAIN",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DATARATE",
+    "address": 4,
+    "width": 8,
+    "reset": 20,
+    "fields": [
+     {
+      "name": "G_CHOP",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CLK",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "MODE",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "FILTER",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "DR",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "REF",
+    "address": 5,
+    "width": 8,
+    "reset": 16,
+    "fields": [
+     {
+      "name": "FL_REF_EN",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "REFP_BUF",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "REFN_BUF",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "REFSEL",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "REFCON",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "IDACMAG",
+    "address": 6,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 48,
+    "fields": [
+     {
+      "name": "FL_RAIL_EN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "PSW",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "RESERVED",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "IMAG",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "IDACMUX",
+    "address": 7,
+    "width": 8,
+    "reset": 255,
+    "fields": [
+     {
+      "name": "I2MUX",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "I1MUX",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "VBIAS",
+    "address": 8,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "VB_LEVEL",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "VB_AINC",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "VB_AIN5",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "VB_AIN4",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "VB_AIN3",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "VB_AIN2",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "VB_AIN1",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "VB_AIN0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SYS",
+    "address": 9,
+    "width": 8,
+    "reset": 16,
+    "fields": [
+     {
+      "name": "SYS_MON",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "CAL_SAMP",
+      "bits": [
+       4,
+       3
+      ]
+     },
+     {
+      "name": "TIMEOUT",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CRC",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "SENDSTAT",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OFCAL0",
+    "address": 10,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OFC",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OFCAL1",
+    "address": 11,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OFC",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OFCAL2",
+    "address": 12,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OFC",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "FSCAL0",
+    "address": 13,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "FSC",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "FSCAL1",
+    "address": 14,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "FSC",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "FSCAL2",
+    "address": 15,
+    "width": 8,
+    "reset": 64,
+    "fields": [
+     {
+      "name": "FSC",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPIODAT",
+    "address": 16,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DIR",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DAT",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPIOCON",
+    "address": 17,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "RESERVED",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "CON",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "out": "R{24}",
+   "idle": "repeat",
+   "commands": [
+    {
+     "name": "NOP",
+     "in": "00000000",
+     "action": "nop"
+    },
+    {
+     "name": "WAKEUP",
+     "in": "0000001x",
+     "action": "wakeup"
+    },
+    {
+     "name": "POWERDOWN",
+     "in": "0000010x",
+     "action": "powerdown"
+    },
+    {
+     "name": "RESET",
+     "in": "0000011x",
+     "action": "reset"
+    },
+    {
+     "name": "START",
+     "in": "0000100x",
+     "action": "start"
+    },
+    {
+     "name": "STOP",
+     "in": "0000101x",
+     "action": "stop"
+    },
+    {
+     "name": "RDATA",
+     "in": "0001001x",
+     "reply": "R{24}"
+    },
+    {
+     "name": "SYOCAL",
+     "in": "00010110",
+     "action": "nop",
+     "note": "system offset calibration: not modeled"
+    },
+    {
+     "name": "SYGCAL",
+     "in": "00010111",
+     "action": "nop",
+     "note": "system gain calibration: not modeled"
+    },
+    {
+     "name": "SFOCAL",
+     "in": "00011001",
+     "action": "nop",
+     "note": "self offset calibration: not modeled"
+    },
+    {
+     "name": "RREG",
+     "in": "001aaaaa 000nnnnn",
+     "action": "rreg",
+     "address": "a",
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "WREG",
+     "in": "010aaaaa 000nnnnn",
+     "action": "wreg",
+     "address": "a",
+     "count": "n",
+     "countOffset": 1
+    }
+   ]
+  },
+  "conversion": {
+   "time": {
+    "fields": [
+     "DATARATE.FILTER",
+     "DATARATE.DR"
+    ],
+    "values": {
+     "1,0": 406504000,
+     "1,1": 206504000,
+     "1,2": 106504000,
+     "1,3": 60254000,
+     "1,4": 56504000,
+     "1,5": 20156000,
+     "1,6": 16910000,
+     "1,7": 10156000,
+     "1,8": 5156000,
+     "1,9": 2656000,
+     "1,10": 1406000,
+     "1,11": 1156000,
+     "1,12": 656000,
+     "1,13": 406000,
+     "1,14": 406000,
+     "0,0": 1200254000,
+     "0,1": 600254000,
+     "0,2": 300254000,
+     "0,3": 180254000,
+     "0,4": 150254000,
+     "0,5": 60254000,
+     "0,6": 50223000,
+     "0,7": 30254000,
+     "0,8": 15254000,
+     "0,9": 7754000,
+     "0,10": 4004000,
+     "0,11": 3156000,
+     "0,12": 1656000,
+     "0,13": 906000,
+     "0,14": 906000
+    }
+   },
+   "start": [
+    "pin",
+    "command"
+   ],
+   "mode": {
+    "field": "DATARATE.MODE",
+    "continuous": 0,
+    "startOnEnter": false
+   },
+   "channel": "INPMUX.MUXP"
+  },
+  "ready": [
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read"
+   },
+   {
+    "pin": "DOUT/DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read",
+    "onMiso": true
+   }
+  ],
+  "pins": {
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   },
+   "start": {
+    "pin": "START/SYNC",
+    "active": 1
+   }
+  }
+ },
+ "packages": {
+  "PBS": {
+   "pinout": "p32",
+   "footprint": "TQFP-32-PBS",
+   "package": "TQFP",
+   "pins": 32
+  },
+  "RHB": {
+   "pinout": "p32",
+   "footprint": "VQFN-32-5X5",
+   "package": "VQFN",
+   "pins": 32
+  }
+ },
+ "pdf": "ads124s06.pdf",
+ "pages": "p.5-6 (pins), p.8 (ROC), p.14-16 (timing), p.42/45 (Tables 13/15), p.64 (data format), p.65-68 (commands), p.69-71 (reading data), p.72-82 (registers)",
+ "notModeled": [
+  "analog input, PGA, reference, reference buffers and monitors, IDACs, VBIAS, low-side switch, system monitors (SYS_MON), global chop and offset/gain calibration math (registers stored only)",
+  "STATUS flags other than FL_POR are never set; FL_POR stays 1 until written 0 (modeled as a plain R/W bit)",
+  "optional STATUS byte before and CRC byte after the conversion data (SYS.SENDSTAT, SYS.CRC): the model always outputs the 24 data bits only",
+  "the data field repeats with continued SCLKs (idle 'repeat'); RDATA/RREG sent mid-read abort the data read",
+  "calibration commands SYOCAL, SYGCAL, SFOCAL (nop; OFCAL/FSCAL are not updated)",
+  "conversion times are the first-data times of Table 13 (low-latency) and Table 15 (sinc3) without the programmable DELAY (default 14 tMOD = 54.7 us) and at fCLK = 4.096 MHz; later continuous conversions are 1 / data rate; global chop (Table 18-19) not modeled; the CLK pin is not used",
+  "WREG to INPMUX, PGA, DATARATE, REF, IDACMAG, IDACMUX, SYS restarting a conversion in progress",
+  "the START command is ignored while START/SYNC is high; STOP lets the current conversion finish; START/SYNC rising edge restarts a conversion in progress (sync)",
+  "commands blocked during an RREG/WREG/RDATA until it completes; RREG past the last register outputs zeros; WREG past it is ignored",
+  "DRDY returns high on the first SCLK falling edge (any command), and pulses high for tw(DRH) = 24 tCLK when the data were not read; only RREG, RDATA and WAKEUP work in power-down",
+  "GPIO pins (GPIODAT/GPIOCON stored only; the shared analog/GPIO pins are never driven or read)",
+  "RESET hold td(RSSC) = 4096 tCLK before SPI; SPI timeout (SYS.TIMEOUT)",
+  "ID RESERVED bits [7:3] (xxh) modeled 0"
+ ],
+ "variants": "ADS124S06 (6 inputs + AINCOM; pins 19-22, 31, 32 lack the AIN6-AIN11 functions) and ADS124S08 (12 inputs) share ads124s06.pdf and the pinout; DEV_ID differs; own spec files",
+ "parts": [
+  [
+   "ADS124S06IPBS",
+   "PBS",
+   32,
+   "Active"
+  ],
+  [
+   "ADS124S06IPBSR",
+   "PBS",
+   32,
+   "Active"
+  ],
+  [
+   "ADS124S06IRHBR",
+   "RHB",
+   32,
+   "Active"
+  ],
+  [
+   "ADS124S06IRHBT",
+   "RHB",
+   32,
+   "Active"
+  ]
+ ]
+}

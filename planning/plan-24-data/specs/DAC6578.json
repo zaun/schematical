@@ -1,0 +1,1182 @@
+{
+ "device": {
+  "id": "DAC6578",
+  "function": "DAC",
+  "description": "10-bit octal voltage-output DAC with I2C interface, LDAC, CLR and power-down",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac5578.pdf (SBAS496B) p.5 pin configurations and descriptions (PW-16, RGE-24), p.7-8 electrical characteristics (AVDD 2.7-5.5 V, logic levels vs AVDD), p.6 timing requirements, p.30-31 address byte (Tables 2-4), command and access byte (Tables 5-6), p.32 read sequence and last-register read-back, p.33 data formats (Tables 7-13), p.34-36 write command matrix (Table 14), p.37 read command matrix (Table 15), p.38 power-on reset, LDAC function, power-down, p.39 Table 16 power-down modes, clear code register and CLR pin, software reset (Table 17), p.40 operating examples",
+  "pinouts": {
+   "pw16": [
+    {
+     "number": 1,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "ADDR0",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "VOUTE",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "VOUTG",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "VREFIN",
+     "role": "power"
+    },
+    {
+     "number": 9,
+     "name": "CLR",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "VOUTH",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "VOUTF",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "SDA",
+     "role": "inout"
+    },
+    {
+     "number": 16,
+     "name": "SCL",
+     "role": "input"
+    }
+   ],
+   "rge24": [
+    {
+     "number": 1,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 2,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "VOUTE",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "VOUTG",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 8,
+     "name": "VREFIN",
+     "role": "power"
+    },
+    {
+     "number": 9,
+     "name": "RSTSEL",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "ADDR1",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "ADDR0",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "CLR",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "VOUTH",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "VOUTF",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 18,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 19,
+     "name": "SDA",
+     "role": "inout"
+    },
+    {
+     "number": 20,
+     "name": "SCL",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "TWOC",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 24,
+     "name": "NC",
+     "role": "nc"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 10,
+  "channels": 8,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "VOUTA",
+   "VOUTB",
+   "VOUTC",
+   "VOUTD",
+   "VOUTE",
+   "VOUTF",
+   "VOUTG",
+   "VOUTH",
+   "VREFIN"
+  ],
+  "bus": {
+   "style": "i2c",
+   "scl": "SCL",
+   "sda": "SDA",
+   "address": [
+    "ADDR0"
+   ],
+   "table": [
+    72,
+    74,
+    null,
+    null
+   ]
+  },
+  "registers": [
+   {
+    "name": "IN_A",
+    "space": "input",
+    "address": 0,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC input register (buffer) channel A"
+   },
+   {
+    "name": "IN_B",
+    "space": "input",
+    "address": 1,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC input register (buffer) channel B"
+   },
+   {
+    "name": "IN_C",
+    "space": "input",
+    "address": 2,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC input register (buffer) channel C"
+   },
+   {
+    "name": "IN_D",
+    "space": "input",
+    "address": 3,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC input register (buffer) channel D"
+   },
+   {
+    "name": "IN_E",
+    "space": "input",
+    "address": 4,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC input register (buffer) channel E"
+   },
+   {
+    "name": "IN_F",
+    "space": "input",
+    "address": 5,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC input register (buffer) channel F"
+   },
+   {
+    "name": "IN_G",
+    "space": "input",
+    "address": 6,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC input register (buffer) channel G"
+   },
+   {
+    "name": "IN_H",
+    "space": "input",
+    "address": 7,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC input register (buffer) channel H"
+   },
+   {
+    "name": "DAC_A",
+    "space": "dac",
+    "address": 0,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC register channel A; power-on zero scale (TSSOP; QFN per RSTSEL, p.38)"
+   },
+   {
+    "name": "DAC_B",
+    "space": "dac",
+    "address": 1,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC register channel B; power-on zero scale (TSSOP; QFN per RSTSEL, p.38)"
+   },
+   {
+    "name": "DAC_C",
+    "space": "dac",
+    "address": 2,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC register channel C; power-on zero scale (TSSOP; QFN per RSTSEL, p.38)"
+   },
+   {
+    "name": "DAC_D",
+    "space": "dac",
+    "address": 3,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC register channel D; power-on zero scale (TSSOP; QFN per RSTSEL, p.38)"
+   },
+   {
+    "name": "DAC_E",
+    "space": "dac",
+    "address": 4,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC register channel E; power-on zero scale (TSSOP; QFN per RSTSEL, p.38)"
+   },
+   {
+    "name": "DAC_F",
+    "space": "dac",
+    "address": 5,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC register channel F; power-on zero scale (TSSOP; QFN per RSTSEL, p.38)"
+   },
+   {
+    "name": "DAC_G",
+    "space": "dac",
+    "address": 6,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC register channel G; power-on zero scale (TSSOP; QFN per RSTSEL, p.38)"
+   },
+   {
+    "name": "DAC_H",
+    "space": "dac",
+    "address": 7,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC register channel H; power-on zero scale (TSSOP; QFN per RSTSEL, p.38)"
+   },
+   {
+    "name": "PWR",
+    "width": 10,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PD",
+      "bits": [
+       9,
+       8
+      ]
+     },
+     {
+      "name": "DAC_A",
+      "bits": [
+       0,
+       0
+      ]
+     },
+     {
+      "name": "DAC_B",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DAC_C",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "DAC_D",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "DAC_E",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "DAC_F",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "DAC_G",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "DAC_H",
+      "bits": [
+       7,
+       7
+      ]
+     }
+    ],
+    "note": "power-down register (Table 14 write, Table 15 read: PD1 PD0, DAC H..A)"
+   },
+   {
+    "name": "CLRCODE",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "CL",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "clear code register CL1 CL0 (p.39): 00 zero, 01 mid, 10 full scale, 11 CLR pin disabled; software reset sets 00"
+   },
+   {
+    "name": "LDAC_REG",
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAC_A",
+      "bits": [
+       0,
+       0
+      ]
+     },
+     {
+      "name": "DAC_B",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DAC_C",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "DAC_D",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "DAC_E",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "DAC_F",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "DAC_G",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "DAC_H",
+      "bits": [
+       7,
+       7
+      ]
+     }
+    ],
+    "note": "LDAC register (DAC H..A in DB15..DB8): 1 = channel ignores the LDAC pin; default 0 (p.38)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "commands": [
+    {
+     "name": "Write input register A",
+     "in": "0000 0000 d{10} x{6}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "next": "[IN_A] 0{6}",
+     "note": "Table 14; the next read returns the last register written (p.32)"
+    },
+    {
+     "name": "Write input register B",
+     "in": "0000 0001 d{10} x{6}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "next": "[IN_B] 0{6}",
+     "note": "Table 14; the next read returns the last register written (p.32)"
+    },
+    {
+     "name": "Write input register C",
+     "in": "0000 0010 d{10} x{6}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "next": "[IN_C] 0{6}",
+     "note": "Table 14; the next read returns the last register written (p.32)"
+    },
+    {
+     "name": "Write input register D",
+     "in": "0000 0011 d{10} x{6}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "next": "[IN_D] 0{6}",
+     "note": "Table 14; the next read returns the last register written (p.32)"
+    },
+    {
+     "name": "Write input register E",
+     "in": "0000 0100 d{10} x{6}",
+     "action": "write",
+     "channel": 4,
+     "data": "d",
+     "next": "[IN_E] 0{6}",
+     "note": "Table 14; the next read returns the last register written (p.32)"
+    },
+    {
+     "name": "Write input register F",
+     "in": "0000 0101 d{10} x{6}",
+     "action": "write",
+     "channel": 5,
+     "data": "d",
+     "next": "[IN_F] 0{6}",
+     "note": "Table 14; the next read returns the last register written (p.32)"
+    },
+    {
+     "name": "Write input register G",
+     "in": "0000 0110 d{10} x{6}",
+     "action": "write",
+     "channel": 6,
+     "data": "d",
+     "next": "[IN_G] 0{6}",
+     "note": "Table 14; the next read returns the last register written (p.32)"
+    },
+    {
+     "name": "Write input register H",
+     "in": "0000 0111 d{10} x{6}",
+     "action": "write",
+     "channel": 7,
+     "data": "d",
+     "next": "[IN_H] 0{6}",
+     "note": "Table 14; the next read returns the last register written (p.32)"
+    },
+    {
+     "name": "Select DAC A to update",
+     "in": "0001 0000 x{16}",
+     "action": "update",
+     "channel": 0
+    },
+    {
+     "name": "Select DAC B to update",
+     "in": "0001 0001 x{16}",
+     "action": "update",
+     "channel": 1
+    },
+    {
+     "name": "Select DAC C to update",
+     "in": "0001 0010 x{16}",
+     "action": "update",
+     "channel": 2
+    },
+    {
+     "name": "Select DAC D to update",
+     "in": "0001 0011 x{16}",
+     "action": "update",
+     "channel": 3
+    },
+    {
+     "name": "Select DAC E to update",
+     "in": "0001 0100 x{16}",
+     "action": "update",
+     "channel": 4
+    },
+    {
+     "name": "Select DAC F to update",
+     "in": "0001 0101 x{16}",
+     "action": "update",
+     "channel": 5
+    },
+    {
+     "name": "Select DAC G to update",
+     "in": "0001 0110 x{16}",
+     "action": "update",
+     "channel": 6
+    },
+    {
+     "name": "Select DAC H to update",
+     "in": "0001 0111 x{16}",
+     "action": "update",
+     "channel": 7
+    },
+    {
+     "name": "Write input register A and update all DAC registers",
+     "in": "0010 0000 d{10} x{6}",
+     "action": "write",
+     "register": "IN_A",
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "next": "[IN_A] 0{6}",
+     "note": "global software LDAC (update with no channel = all)"
+    },
+    {
+     "name": "Write input register B and update all DAC registers",
+     "in": "0010 0001 d{10} x{6}",
+     "action": "write",
+     "register": "IN_B",
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "next": "[IN_B] 0{6}",
+     "note": "global software LDAC (update with no channel = all)"
+    },
+    {
+     "name": "Write input register C and update all DAC registers",
+     "in": "0010 0010 d{10} x{6}",
+     "action": "write",
+     "register": "IN_C",
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "next": "[IN_C] 0{6}",
+     "note": "global software LDAC (update with no channel = all)"
+    },
+    {
+     "name": "Write input register D and update all DAC registers",
+     "in": "0010 0011 d{10} x{6}",
+     "action": "write",
+     "register": "IN_D",
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "next": "[IN_D] 0{6}",
+     "note": "global software LDAC (update with no channel = all)"
+    },
+    {
+     "name": "Write input register E and update all DAC registers",
+     "in": "0010 0100 d{10} x{6}",
+     "action": "write",
+     "register": "IN_E",
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "next": "[IN_E] 0{6}",
+     "note": "global software LDAC (update with no channel = all)"
+    },
+    {
+     "name": "Write input register F and update all DAC registers",
+     "in": "0010 0101 d{10} x{6}",
+     "action": "write",
+     "register": "IN_F",
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "next": "[IN_F] 0{6}",
+     "note": "global software LDAC (update with no channel = all)"
+    },
+    {
+     "name": "Write input register G and update all DAC registers",
+     "in": "0010 0110 d{10} x{6}",
+     "action": "write",
+     "register": "IN_G",
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "next": "[IN_G] 0{6}",
+     "note": "global software LDAC (update with no channel = all)"
+    },
+    {
+     "name": "Write input register H and update all DAC registers",
+     "in": "0010 0111 d{10} x{6}",
+     "action": "write",
+     "register": "IN_H",
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "next": "[IN_H] 0{6}",
+     "note": "global software LDAC (update with no channel = all)"
+    },
+    {
+     "name": "Write input register A and update DAC A",
+     "in": "0011 0000 d{10} x{6}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "next": "[IN_A] 0{6}"
+    },
+    {
+     "name": "Write input register B and update DAC B",
+     "in": "0011 0001 d{10} x{6}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "next": "[IN_B] 0{6}"
+    },
+    {
+     "name": "Write input register C and update DAC C",
+     "in": "0011 0010 d{10} x{6}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "next": "[IN_C] 0{6}"
+    },
+    {
+     "name": "Write input register D and update DAC D",
+     "in": "0011 0011 d{10} x{6}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "next": "[IN_D] 0{6}"
+    },
+    {
+     "name": "Write input register E and update DAC E",
+     "in": "0011 0100 d{10} x{6}",
+     "action": "write",
+     "channel": 4,
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "next": "[IN_E] 0{6}"
+    },
+    {
+     "name": "Write input register F and update DAC F",
+     "in": "0011 0101 d{10} x{6}",
+     "action": "write",
+     "channel": 5,
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "next": "[IN_F] 0{6}"
+    },
+    {
+     "name": "Write input register G and update DAC G",
+     "in": "0011 0110 d{10} x{6}",
+     "action": "write",
+     "channel": 6,
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "next": "[IN_G] 0{6}"
+    },
+    {
+     "name": "Write input register H and update DAC H",
+     "in": "0011 0111 d{10} x{6}",
+     "action": "write",
+     "channel": 7,
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "next": "[IN_H] 0{6}"
+    },
+    {
+     "name": "Broadcast: write all input registers",
+     "in": "0000 1111 d{10} x{5} b",
+     "action": "write",
+     "channel": "b",
+     "channelMap": {
+      "0": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "1": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ]
+     },
+     "data": "d",
+     "note": "access bits 1111 (Table 14); b is the last don't-care bit, captured only to apply the all-channel map"
+    },
+    {
+     "name": "Broadcast: update all DAC registers",
+     "in": "0001 1111 x{16}",
+     "action": "update"
+    },
+    {
+     "name": "Broadcast: write all input registers and update all (0010)",
+     "in": "0010 1111 d{10} x{5} b",
+     "action": "write",
+     "channel": "b",
+     "channelMap": {
+      "0": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "1": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "Broadcast: write all input registers and update all (0011)",
+     "in": "0011 1111 d{10} x{5} b",
+     "action": "write",
+     "channel": "b",
+     "channelMap": {
+      "0": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "1": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "Power down/on DAC",
+     "in": "0100 xxxx x dd dddddddd xxxxx",
+     "action": "write",
+     "register": "PWR",
+     "data": "d",
+     "next": "000000 [PWR]",
+     "note": "MSDB: X PD1 PD0 DAC H..D; LSDB: DAC C..A X X X X X"
+    },
+    {
+     "name": "Write clear code register",
+     "in": "0101 xxxx x{8} xx dd xxxx",
+     "action": "write",
+     "register": "CLRCODE",
+     "data": "d",
+     "next": "0{14} [CLRCODE]",
+     "note": "CL1 CL0 = DB5 DB4"
+    },
+    {
+     "name": "Write LDAC register",
+     "in": "0110 xxxx dddddddd x{8}",
+     "action": "write",
+     "register": "LDAC_REG",
+     "data": "d",
+     "next": "0{8} [LDAC_REG]"
+    },
+    {
+     "name": "Software reset",
+     "in": "0111 xxxx x{16}",
+     "action": "reset",
+     "note": "Table 17: DB15 DB14 = 00 power-on reset; x1 / 10 also enter or keep high-speed mode"
+    },
+    {
+     "name": "Read input register A",
+     "in": "0000 0000",
+     "next": "[IN_A] 0{6}",
+     "note": "Table 15: CA byte, repeated start, MSDB, LSDB"
+    },
+    {
+     "name": "Read input register B",
+     "in": "0000 0001",
+     "next": "[IN_B] 0{6}",
+     "note": "Table 15: CA byte, repeated start, MSDB, LSDB"
+    },
+    {
+     "name": "Read input register C",
+     "in": "0000 0010",
+     "next": "[IN_C] 0{6}",
+     "note": "Table 15: CA byte, repeated start, MSDB, LSDB"
+    },
+    {
+     "name": "Read input register D",
+     "in": "0000 0011",
+     "next": "[IN_D] 0{6}",
+     "note": "Table 15: CA byte, repeated start, MSDB, LSDB"
+    },
+    {
+     "name": "Read input register E",
+     "in": "0000 0100",
+     "next": "[IN_E] 0{6}",
+     "note": "Table 15: CA byte, repeated start, MSDB, LSDB"
+    },
+    {
+     "name": "Read input register F",
+     "in": "0000 0101",
+     "next": "[IN_F] 0{6}",
+     "note": "Table 15: CA byte, repeated start, MSDB, LSDB"
+    },
+    {
+     "name": "Read input register G",
+     "in": "0000 0110",
+     "next": "[IN_G] 0{6}",
+     "note": "Table 15: CA byte, repeated start, MSDB, LSDB"
+    },
+    {
+     "name": "Read input register H",
+     "in": "0000 0111",
+     "next": "[IN_H] 0{6}",
+     "note": "Table 15: CA byte, repeated start, MSDB, LSDB"
+    },
+    {
+     "name": "Read DAC register A",
+     "in": "0001 0000",
+     "next": "[DAC_A] 0{6}"
+    },
+    {
+     "name": "Read DAC register B",
+     "in": "0001 0001",
+     "next": "[DAC_B] 0{6}"
+    },
+    {
+     "name": "Read DAC register C",
+     "in": "0001 0010",
+     "next": "[DAC_C] 0{6}"
+    },
+    {
+     "name": "Read DAC register D",
+     "in": "0001 0011",
+     "next": "[DAC_D] 0{6}"
+    },
+    {
+     "name": "Read DAC register E",
+     "in": "0001 0100",
+     "next": "[DAC_E] 0{6}"
+    },
+    {
+     "name": "Read DAC register F",
+     "in": "0001 0101",
+     "next": "[DAC_F] 0{6}"
+    },
+    {
+     "name": "Read DAC register G",
+     "in": "0001 0110",
+     "next": "[DAC_G] 0{6}"
+    },
+    {
+     "name": "Read DAC register H",
+     "in": "0001 0111",
+     "next": "[DAC_H] 0{6}"
+    },
+    {
+     "name": "Read power-down register",
+     "in": "0100 xxxx",
+     "next": "000000 [PWR]"
+    },
+    {
+     "name": "Read clear code register",
+     "in": "0101 xxxx",
+     "next": "0{14} [CLRCODE]"
+    },
+    {
+     "name": "Read LDAC register",
+     "in": "0110 xxxx",
+     "next": "0{8} [LDAC_REG]"
+    }
+   ]
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "level"
+   },
+   "clear": {
+    "pin": "CLR",
+    "active": 0,
+    "edge": "fall"
+   }
+  },
+  "dac": {
+   "input": [
+    "IN_A",
+    "IN_B",
+    "IN_C",
+    "IN_D",
+    "IN_E",
+    "IN_F",
+    "IN_G",
+    "IN_H"
+   ],
+   "output": [
+    "DAC_A",
+    "DAC_B",
+    "DAC_C",
+    "DAC_D",
+    "DAC_E",
+    "DAC_F",
+    "DAC_G",
+    "DAC_H"
+   ],
+   "clearCode": {
+    "field": "CLRCODE.CL",
+    "values": {
+     "0": 0,
+     "1": 512,
+     "2": 1023
+    }
+   },
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw16",
+   "footprint": "TSSOP-16",
+   "package": "TSSOP",
+   "pins": 16
+  },
+  "RGE": {
+   "pinout": "rge24",
+   "footprint": "VQFN-24-RGE-H",
+   "package": "VQFN",
+   "pins": 24,
+   "i2c": {
+    "address": [
+     "ADDR0",
+     "ADDR1"
+    ],
+    "table": [
+     72,
+     73,
+     null,
+     null,
+     74,
+     75,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   }
+  }
+ },
+ "pdf": "dac5578.pdf",
+ "pages": "p.5 (pinouts), p.6 (timing), p.7-8 (AVDD, logic levels), p.30-33 (address, CA byte, data formats, read sequence), p.34-37 (write/read command matrices), p.38-39 (POR, LDAC, power-down, clear code, reset)",
+ "notModeled": [
+  "analog outputs, reference and power-down output loads (PWR stored only; outputs never driven)",
+  "I2C address strap float levels (TSSOP ADDR0 float = 0x4C; QFN Table 3 float combinations 0x4C-0x4F) are not expressible; the RGE package uses its own two-pin table (ADDR0, ADDR1 at GND/AVDD: 0x48-0x4B, p.30)",
+  "broadcast I2C address 1000 111 (Table 9, write only) is not expressible",
+  "multi-word writes (Example 4: MSDB/LSDB pairs repeat after one CA byte) and the retained CA byte: the model decodes only the last CA byte + MSDB + LSDB (or a lone CA byte for a read) before the transaction ends (align end)",
+  "LDAC: modeled as level-sensitive active low (tied low = synchronous update at the LSDB acknowledge; a falling edge after loading = asynchronous update); the per-channel LDAC register mask (1 = channel ignores the pin) is stored only",
+  "CLR: clear code 11 disables the pin (not modeled: the model's map has no code for 11); clear mode exits at the next write (the model loads the code once on the falling edge)",
+  "QFN RSTSEL (power-on zero or mid scale) and TWOC (two's complement data format) pins: reset values are zero scale; data is stored as written",
+  "software reset high-speed mode options (Table 17) and I2C high-speed mode",
+  "invalid access codes (1000-1110) are ignored (no command matches)"
+ ],
+ "variants": "DAC5578 (8-bit), DAC6578 (10-bit) and DAC7578 (12-bit) share dac5578.pdf: same pinouts and commands, data left-justified in MSDB/LSDB (Tables 10-12); own spec files",
+ "parts": [
+  [
+   "DAC6578SPW",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "DAC6578SRGET",
+   "RGE",
+   24,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,74 @@
+{
+  "device": {
+    "id": "ADS7830",
+    "function": "ADC",
+    "description": "8-bit 70 kSPS 8-channel SAR ADC with internal 2.5 V reference and I2C interface",
+    "drawer": ["Interface"],
+    "note": "ads7830.pdf (SBAS302C) p.2 pin configuration and descriptions, p.3-6 electrical characteristics (2.7 V and 5 V: conversion time 5 us, straight binary, hardware address 10010), p.13 address byte, command byte, Table 1 power-down selection, p.14 Table 2 channel selection, initiating conversion, reading data, p.15 Figure 15 F/S read, p.16 Figure 16 HS read, p.17-18 internal reference",
+    "pinouts": {
+      "pw16": [
+        {"number": 1, "name": "CH0", "role": "input"},
+        {"number": 2, "name": "CH1", "role": "input"},
+        {"number": 3, "name": "CH2", "role": "input"},
+        {"number": 4, "name": "CH3", "role": "input"},
+        {"number": 5, "name": "CH4", "role": "input"},
+        {"number": 6, "name": "CH5", "role": "input"},
+        {"number": 7, "name": "CH6", "role": "input"},
+        {"number": 8, "name": "CH7", "role": "input"},
+        {"number": 9, "name": "GND", "role": "ground"},
+        {"number": 10, "name": "REFIN/REFOUT", "role": "power"},
+        {"number": 11, "name": "COM", "role": "input"},
+        {"number": 12, "name": "A0", "role": "input"},
+        {"number": 13, "name": "A1", "role": "input"},
+        {"number": 14, "name": "SCL", "role": "input"},
+        {"number": 15, "name": "SDA", "role": "inout"},
+        {"number": 16, "name": "+VDD", "role": "power"}
+      ]
+    },
+    "type": "adc",
+    "bits": 8,
+    "channels": 8,
+    "codeFormat": "straight",
+    "vcc": [2.7, 5.25],
+    "analog": ["CH0", "CH1", "CH2", "CH3", "CH4", "CH5", "CH6", "CH7", "COM", "REFIN/REFOUT"],
+    "bus": {"style": "i2c", "scl": "SCL", "sda": "SDA", "address": ["A0", "A1"],
+            "table": [72, 73, null, null, 74, 75, null, null, null, null, null, null, null, null, null, null]},
+    "registers": [
+      {"name": "CTRL", "width": 8, "reset": 0,
+       "note": "internal: the last command byte (SD C2 C1 C0 PD1 PD0 X X); no read-back, reset value not documented",
+       "fields": [{"name": "SD", "bits": [7, 7]}, {"name": "C", "bits": [6, 4]}, {"name": "PD", "bits": [3, 2]}]}
+    ],
+    "protocol": {
+      "frame": "fixed",
+      "commands": [
+        {"name": "Command Byte", "in": "s ccc pp xx", "action": "start", "channel": "c",
+         "channelMap": {"0": [0], "1": [2], "2": [4], "3": [6], "4": [1], "5": [3], "6": [5], "7": [7]},
+         "set": {"CTRL.SD": "s", "CTRL.C": "c", "CTRL.PD": "p"},
+         "note": "Table 2: C2-C0 select CH0/CH2/CH4/CH6 (C2=0) or CH1/CH3/CH5/CH7 (C2=1) as +IN; the map gives the +IN channel in both SD modes"}
+      ],
+      "read": "R{8}"
+    },
+    "conversion": {
+      "time": 5000,
+      "start": ["command"]
+    }
+  },
+  "packages": {
+    "PW": {"pinout": "pw16", "footprint": "TSSOP-16", "package": "TSSOP", "pins": 16}
+  },
+  "pdf": "ads7830.pdf",
+  "pages": "p.2 (pins), p.3-6 (specs: VDD 2.7-3.6 V and 4.75-5.25 V, 5 us conversion, straight binary, address 10010), p.13-14 (address/command byte, Tables 1-2, read format), p.15-16 (Figures 15-16), p.17-18 (reference)",
+  "notModeled": [
+    "analog inputs, multiplexer, single-ended/differential selection (SD, C2-C0 are stored only) and the internal reference (PD1)",
+    "power-down selection PD1-PD0 (Table 1): every command byte starts a conversion regardless of PD; ADC-off state (PD = 10) not modeled",
+    "HS mode master code and clock stretching while the conversion runs; I2C timing limits",
+    "vcc covers the two specified supply ranges (2.7-3.6 V and 4.75-5.25 V) as one range 2.7-5.25 V; the 3.6-4.75 V gap is not specified by the datasheet",
+    "CTRL reset value is not documented (0 used; the internal reference is off at power-on, which matches PD1 = 0)",
+    "reads before any command byte: the datasheet says data can only be read once a conversion has been initiated; the model returns the 0 V code"
+  ],
+  "variants": "8-bit sibling of the ADS7828 (same pinout, address and command byte; one data byte per read)",
+  "parts": [
+    ["ADS7830IPWR", "PW", 16, "Active"],
+    ["ADS7830IPWT", "PW", 16, "Active"]
+  ]
+}

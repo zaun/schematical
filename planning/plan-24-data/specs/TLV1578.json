@@ -1,0 +1,443 @@
+{
+ "device": {
+  "id": "TLV1578",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "type": "adc",
+  "bits": 10,
+  "codeFormat": {
+   "field": "CR1.OUTCODE",
+   "values": {
+    "0": "straight",
+    "1": "offset"
+   }
+  },
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "D9/A1",
+    "D8/A0",
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rd": {
+    "pin": "RD",
+    "active": 0
+   },
+   "wr": {
+    "pin": "WR",
+    "active": 0
+   }
+  },
+  "timing": {
+   "tAcc": 40,
+   "tDf": 10
+  },
+  "registers": [
+   {
+    "name": "CR0",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "note": "Figure 2 (p.5): control register zero, written with D9-D8 (A1-A0) = 00; zeros after power up / hardware configuration (p.6)",
+    "fields": [
+     {
+      "name": "STARTSEL",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "PROGEOC",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "CLKSEL",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "SWPWDN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "MODESEL",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CHSEL",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CR1",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "note": "Figure 2 (p.5): control register one, written with D9-D8 (A1-A0) = 01; D7, D5, D4 reserved (write 0, read back don't care)",
+    "fields": [
+     {
+      "name": "OSCSPD",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "OUTCODE",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "READREG",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "STEST",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "read": "R{10}",
+   "reads": [
+    {
+     "when": [
+      "CR1.READREG=1",
+      "CR1.STEST=0"
+     ],
+     "read": "00 [CR0]"
+    },
+    {
+     "when": [
+      "CR1.READREG=1",
+      "CR1.STEST=1"
+     ],
+     "read": "00 [CR1]"
+    }
+   ],
+   "commands": [
+    {
+     "name": "Write CR0",
+     "in": "00 [CR0]",
+     "note": "Figure 2 (p.5): A(1:0) = D9-D8 = 00 selects CR0; latched on the WR rising edge (p.3); with CR0.D7 = 1 the WR rising edge also starts sampling (software start, Table 1 p.6)"
+    },
+    {
+     "name": "Write CR1",
+     "in": "01 [CR1]",
+     "note": "Figure 2 (p.5): A(1:0) = 01 selects CR1"
+    }
+   ]
+  },
+  "conversion": {
+   "time": {
+    "fields": [
+     "CR0.CLKSEL",
+     "CR1.OSCSPD"
+    ],
+    "values": {
+     "0,0": 1778,
+     "0,1": 889,
+     "1,0": 0,
+     "1,1": 0
+    }
+   },
+   "start": [
+    "pin",
+    "write:CR0.STARTSEL=1",
+    "read"
+   ],
+   "channel": "CR0.CHSEL"
+  },
+  "ready": [
+   {
+    "pin": "INT/EOC",
+    "active": 0,
+    "asserts": "done",
+    "clears": 111,
+    "enable": "CR0.PROGEOC=0",
+    "note": "CR0.D6 = 0: INT, one pulse twL(INT) = 1 SYSCLK after each conversion (p.21; 111 ns at the 9-MHz minimum oscillator)"
+   },
+   {
+    "pin": "INT/EOC",
+    "active": 0,
+    "asserts": "busy",
+    "enable": "CR0.PROGEOC=1",
+    "note": "CR0.D6 = 1: EOC, high to low at the start of conversion, back high at its end (Table 1, p.6)"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "CSTART",
+    "edge": "rise"
+   }
+  },
+  "description": "10-bit 1.25 MSPS 8-channel parallel ADC with control registers, channel sweep, CSTART and INT/EOC",
+  "note": "tlv1571.pdf (SLAS170D, TLV1571/TLV1578) p.1 pinouts, p.3 terminal functions, p.4-5 control registers (Figure 2), p.6 Table 1 conversion modes, p.7 programming examples, read back, power down, self tests, p.8-9 sampling/conversion and start of conversion, p.14 system clock source, output format, power up, p.18 recommended operating conditions, p.21 timing requirements",
+  "pinouts": {
+   "da32": [
+    {
+     "number": 1,
+     "name": "CH0",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "CH1",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "CH2",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "CH3",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "WR",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "RD",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "INT/EOC",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "D0",
+     "role": "inout"
+    },
+    {
+     "number": 13,
+     "name": "D1",
+     "role": "inout"
+    },
+    {
+     "number": 14,
+     "name": "D2",
+     "role": "inout"
+    },
+    {
+     "number": 15,
+     "name": "D3",
+     "role": "inout"
+    },
+    {
+     "number": 16,
+     "name": "D4",
+     "role": "inout"
+    },
+    {
+     "number": 17,
+     "name": "D5",
+     "role": "inout"
+    },
+    {
+     "number": 18,
+     "name": "D6",
+     "role": "inout"
+    },
+    {
+     "number": 19,
+     "name": "D7",
+     "role": "inout"
+    },
+    {
+     "number": 20,
+     "name": "D8/A0",
+     "role": "inout"
+    },
+    {
+     "number": 21,
+     "name": "D9/A1",
+     "role": "inout"
+    },
+    {
+     "number": 22,
+     "name": "CSTART",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "REFP",
+     "role": "power"
+    },
+    {
+     "number": 24,
+     "name": "REFM",
+     "role": "ground"
+    },
+    {
+     "number": 25,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 26,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 27,
+     "name": "AIN",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "MO",
+     "role": "output"
+    },
+    {
+     "number": 29,
+     "name": "CH4",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "CH5",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "CH6",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "CH7",
+     "role": "input"
+    }
+   ]
+  },
+  "channels": 8,
+  "analog": [
+   "CH0",
+   "CH1",
+   "CH2",
+   "CH3",
+   "CH4",
+   "CH5",
+   "CH6",
+   "CH7",
+   "MO",
+   "AIN",
+   "AVDD",
+   "REFP",
+   "REFM"
+  ]
+ },
+ "packages": {
+  "DA": {
+   "pinout": "da32",
+   "footprint": "TSSOP-32-DA",
+   "package": "TSSOP",
+   "pins": 32
+  }
+ },
+ "pdf": "tlv1571.pdf",
+ "pages": "p.1 (pinouts), p.3 (terminal functions), p.4 (sampling frequency, register addressing), p.5 (Figure 2 control registers), p.6 (hardware configuration, Table 1 conversion modes), p.7 (Tables 2-4: programming, read back, power down, self tests), p.8 (sampling/conversion), p.9 (start of conversion), p.14 (system clock, output format, power up), p.18 (ROC), p.21 (timing requirements)",
+ "notModeled": [
+  "analog input(s), references: every conversion returns the 0 V code (000h binary; 2s complement (CR1.D3 = 1) of the unipolar range puts REFM = 0 V at 200h, modeled as codeFormat offset)",
+  "self tests CR1.D1-D0 (Table 4, p.7: 000h/200h/3FFh): modeled as normal conversions returning the 0 V code; register read-back (CR1.D2 = 1) outputs CR0 (D1-D0 = 0) or CR1 (D1-D0 = 1) on D7-D0 with D9-D8 as 0 (not stated in the datasheet), reserved selections 2-3 output the result",
+  "start of conversion: hardware start (CR0.D7 = 0, CSTART rising) and software start (CR0.D7 = 1, WR rising edge, then each RD rising edge) are both always enabled: the CSTART pin, a CR0 write with D7 = 1 and every completed read start a conversion regardless of CR0.D7; a CR1 write in software start mode does not start one",
+  "conversion time: 6 SYSCLK sampling + 10 SYSCLK conversion = 16 SYSCLKs (p.8-9, p.21) at the internal oscillator minimum (9 MHz slow, CR1.D6 = 0: 1778 ns; 18 MHz fast: 889 ns); with the external CLK (CR0.D5 = 1) it depends on CLK and is modeled as 0; hardware start converts in 10 SYSCLKs after CSTART rising (not distinguished)",
+  "hardware configuration mode (WR tied low, dummy RD loads defaults) and CLK setup/hold windows: not modeled",
+  "software power down by CS high (Table 3, p.7), CR0.D4 SWPWDN, auto power down: no bus-visible effect",
+  "data bus timing at DVDD = 3 V, 50 pF (p.21): tAcc = ten(RDL_DAV) 40 ns, tDf = tdis(RDH_DAV) 10 ns",
+  "power up: INT/EOC initially high; two write cycles configure the device; the first conversion after power down is invalid (p.14)",
+  "external MUX loop (MO output to AIN, p.1): analog",
+  "channel sweep mode (CR0.D3 = 1, sequences per CR0.D2-D0, Figure 2): conversions use the CHSEL channel number; the sweep sequence is not modeled"
+ ],
+ "variants": "TLV1571 (1 channel, DW/PW 24-pin) and TLV1578 (8-channel MUX with MO output, DA 32-pin) share tlv1571.pdf.",
+ "parts": [
+  [
+   "TLV1578CDA",
+   "DA",
+   32,
+   "Active"
+  ],
+  [
+   "TLV1578CDAR",
+   "DA",
+   32,
+   "Active"
+  ],
+  [
+   "TLV1578IDA",
+   "DA",
+   32,
+   "Active"
+  ]
+ ]
+}

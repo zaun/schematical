@@ -16,7 +16,7 @@ nonisolated enum ResistorValue {
 
 // MARK: - Units and text (plan-26-B)
 
-extension ResistorValue {
+nonisolated extension ResistorValue {
     /// The units the Ohms field offers.
     enum Unit: CaseIterable, Hashable, Sendable {
         case ohm, kilo, mega

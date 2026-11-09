@@ -1,0 +1,506 @@
+{
+ "device": {
+  "id": "TLV5628",
+  "function": "DAC",
+  "description": "octal 8-bit voltage-output DAC with serial interface (DATA, CLK, LOAD), LDAC and per-DAC x1/x2 range bit",
+  "drawer": [
+   "Interface"
+  ],
+  "pinouts": {
+   "n16": [
+    {
+     "number": 1,
+     "name": "DACB",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "DACA",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "DATA",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "DACE",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "DACF",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "DACG",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "DACH",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "REF2",
+     "role": "power"
+    },
+    {
+     "number": 12,
+     "name": "LOAD",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "REF1",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "DACD",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "DACC",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 8,
+  "channels": 8,
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "REF1",
+   "REF2",
+   "DACA",
+   "DACB",
+   "DACC",
+   "DACD",
+   "DACE",
+   "DACF",
+   "DACG",
+   "DACH"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "LOAD",
+   "csActive": 1,
+   "sclk": "CLK",
+   "mosi": "DATA",
+   "mode": 1
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "note": "DACA input latch (double buffered, Table 2); power-on value not given (0 used)"
+   },
+   {
+    "name": "INB",
+    "space": "input",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "note": "DACB input latch (double buffered, Table 2); power-on value not given (0 used)"
+   },
+   {
+    "name": "INC",
+    "space": "input",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "note": "DACC input latch (double buffered, Table 2); power-on value not given (0 used)"
+   },
+   {
+    "name": "IND",
+    "space": "input",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "note": "DACD input latch (double buffered, Table 2); power-on value not given (0 used)"
+   },
+   {
+    "name": "INE",
+    "space": "input",
+    "address": 4,
+    "width": 8,
+    "reset": 0,
+    "note": "DACE input latch (double buffered, Table 2); power-on value not given (0 used)"
+   },
+   {
+    "name": "INF",
+    "space": "input",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "note": "DACF input latch (double buffered, Table 2); power-on value not given (0 used)"
+   },
+   {
+    "name": "ING",
+    "space": "input",
+    "address": 6,
+    "width": 8,
+    "reset": 0,
+    "note": "DACG input latch (double buffered, Table 2); power-on value not given (0 used)"
+   },
+   {
+    "name": "INH",
+    "space": "input",
+    "address": 7,
+    "width": 8,
+    "reset": 0,
+    "note": "DACH input latch (double buffered, Table 2); power-on value not given (0 used)"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "note": "DACA output latch"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "note": "DACB output latch"
+   },
+   {
+    "name": "DACC",
+    "space": "dac",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "note": "DACC output latch"
+   },
+   {
+    "name": "DACD",
+    "space": "dac",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "note": "DACD output latch"
+   },
+   {
+    "name": "DACE",
+    "space": "dac",
+    "address": 4,
+    "width": 8,
+    "reset": 0,
+    "note": "DACE output latch"
+   },
+   {
+    "name": "DACF",
+    "space": "dac",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "note": "DACF output latch"
+   },
+   {
+    "name": "DACG",
+    "space": "dac",
+    "address": 6,
+    "width": 8,
+    "reset": 0,
+    "note": "DACG output latch"
+   },
+   {
+    "name": "DACH",
+    "space": "dac",
+    "address": 7,
+    "width": 8,
+    "reset": 0,
+    "note": "DACH output latch"
+   },
+   {
+    "name": "RNG",
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "RNGA",
+      "bits": [
+       0,
+       0
+      ]
+     },
+     {
+      "name": "RNGB",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "RNGC",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "RNGD",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "RNGE",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "RNGF",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "RNGG",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "RNGH",
+      "bits": [
+       7,
+       7
+      ]
+     }
+    ],
+    "note": "per-DAC range bits (0 = 1 x REF, 1 = 2 x REF) from the serial word, collected in one internal register"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "commands": [
+    {
+     "name": "Write DACA",
+     "in": "000 r d{8}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "RNG.RNGA": "r"
+     },
+     "commit": "end",
+     "note": "A2 A1 A0, RNG, D7-D0 MSB first (Figure 1, Table 2)"
+    },
+    {
+     "name": "Write DACB",
+     "in": "001 r d{8}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "RNG.RNGB": "r"
+     },
+     "commit": "end",
+     "note": "A2 A1 A0, RNG, D7-D0 MSB first (Figure 1, Table 2)"
+    },
+    {
+     "name": "Write DACC",
+     "in": "010 r d{8}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "set": {
+      "RNG.RNGC": "r"
+     },
+     "commit": "end",
+     "note": "A2 A1 A0, RNG, D7-D0 MSB first (Figure 1, Table 2)"
+    },
+    {
+     "name": "Write DACD",
+     "in": "011 r d{8}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "set": {
+      "RNG.RNGD": "r"
+     },
+     "commit": "end",
+     "note": "A2 A1 A0, RNG, D7-D0 MSB first (Figure 1, Table 2)"
+    },
+    {
+     "name": "Write DACE",
+     "in": "100 r d{8}",
+     "action": "write",
+     "channel": 4,
+     "data": "d",
+     "set": {
+      "RNG.RNGE": "r"
+     },
+     "commit": "end",
+     "note": "A2 A1 A0, RNG, D7-D0 MSB first (Figure 1, Table 2)"
+    },
+    {
+     "name": "Write DACF",
+     "in": "101 r d{8}",
+     "action": "write",
+     "channel": 5,
+     "data": "d",
+     "set": {
+      "RNG.RNGF": "r"
+     },
+     "commit": "end",
+     "note": "A2 A1 A0, RNG, D7-D0 MSB first (Figure 1, Table 2)"
+    },
+    {
+     "name": "Write DACG",
+     "in": "110 r d{8}",
+     "action": "write",
+     "channel": 6,
+     "data": "d",
+     "set": {
+      "RNG.RNGG": "r"
+     },
+     "commit": "end",
+     "note": "A2 A1 A0, RNG, D7-D0 MSB first (Figure 1, Table 2)"
+    },
+    {
+     "name": "Write DACH",
+     "in": "111 r d{8}",
+     "action": "write",
+     "channel": 7,
+     "data": "d",
+     "set": {
+      "RNG.RNGH": "r"
+     },
+     "commit": "end",
+     "note": "A2 A1 A0, RNG, D7-D0 MSB first (Figure 1, Table 2)"
+    }
+   ],
+   "note": "with LOAD high, DATA is clocked in on each CLK falling edge (CLK low between bytes, Figures 3-4 -> mode 1); LOAD pulsed low transfers the last 12 bits (address, RNG, D7-D0) to the selected DAC input latch: LOAD is an active-high frame pin and the command is decoded from the last 12 bits before LOAD falls (16-clock two-byte transfers with leading don't-care bits, Figures 3-4)"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "level",
+    "note": "LDAC low: the selected DAC output updates when LOAD falls; LDAC high: the value is held until LDAC is pulsed low (p.3)"
+   }
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB",
+    "INC",
+    "IND",
+    "INE",
+    "INF",
+    "ING",
+    "INH"
+   ],
+   "output": [
+    "DACA",
+    "DACB",
+    "DACC",
+    "DACD",
+    "DACE",
+    "DACF",
+    "DACG",
+    "DACH"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  },
+  "note": "tlv5628.pdf (SLAS108A) p.1 (DW/N pinout, description), p.2 (terminal functions), p.3 (data interface, Figures 1-2), p.4 (Figures 3-4), p.5 (Table 2 serial input decode), p.7 (recommended operating conditions: VDD 2.7-5.25 V, timing)"
+ },
+ "packages": {
+  "DW": {
+   "pinout": "n16",
+   "footprint": "SOIC-16W",
+   "package": "SOIC",
+   "pins": 16
+  },
+  "N": {
+   "pinout": "n16",
+   "footprint": "PDIP-16",
+   "package": "DIP",
+   "pins": 16
+  }
+ },
+ "pdf": "tlv5628.pdf",
+ "pages": "(SLAS108A) p.1 (DW/N pinout, description), p.2 (terminal functions), p.3 (data interface, Figures 1-2), p.4 (Figures 3-4), p.5 (Table 2 serial input decode), p.7 (recommended operating conditions: VDD 2.7-5.25 V, timing)",
+ "notModeled": [
+  "analog: voltage outputs, reference inputs; the RNG bit (x1 / x2 range) is stored only",
+  "power-on contents of the latches are not given (the datasheet only says a power-on reset gives repeatable start-up conditions; 0 used)",
+  "a LOAD pulse after fewer than 12 CLK bits: the model ignores it (the datasheet does not define it)",
+  "serial timing requirements (recommended operating conditions table)"
+ ],
+ "variants": "tlv5628.pdf covers TLV5628C and TLV5628I; the TLC5628 (5 V) is the same interface in a separate datasheet.",
+ "parts": [
+  [
+   "TLV5628CDW",
+   "DW",
+   16,
+   "Active"
+  ],
+  [
+   "TLV5628CDWR",
+   "DW",
+   16,
+   "Active"
+  ],
+  [
+   "TLV5628CN",
+   "N",
+   16,
+   "Active"
+  ],
+  [
+   "TLV5628IDW",
+   "DW",
+   16,
+   "Active"
+  ],
+  [
+   "TLV5628IN",
+   "N",
+   16,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,692 @@
+{
+ "device": {
+  "id": "DAC5652",
+  "function": "DAC",
+  "description": "dual 10-bit 275 MSPS current-output DAC with two parallel CMOS input ports (or one interleaved port)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac5652.pdf (SLAS452E) p.3 (pinout, Table 5-1), p.4 (abs max, ROC: DVDD 3.0-3.6 V), p.8 (digital inputs, switching characteristics), p.12-13 (digital inputs and timing: dual-bus and interleaved modes), p.20 (sleep / device functional modes); dac5652a.pdf (SLAS535F) p.4-5 pin functions incl. the VQFN (RSL) column",
+  "pinouts": {
+   "pfb48": [
+    {
+     "number": 1,
+     "name": "DA9",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "DA8",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "DA7",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "DA6",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "DA5",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "DA4",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DA3",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "DA2",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "DA1",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "DA0",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 12,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 13,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 14,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 15,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 16,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 17,
+     "name": "WRTA/WRTIQ",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "CLKA/CLKIQ",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "CLKB/RESETIQ",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "WRTB/SELECTIQ",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 22,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 23,
+     "name": "DB9",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "DB8",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "DB7",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "DB6",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "DB5",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "DB4",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "DB3",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "DB2",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "DB1",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "DB0",
+     "role": "input"
+    },
+    {
+     "number": 33,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 34,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 35,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 36,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 37,
+     "name": "SLEEP",
+     "role": "input"
+    },
+    {
+     "number": 38,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 39,
+     "name": "IOUTB1",
+     "role": "output"
+    },
+    {
+     "number": 40,
+     "name": "IOUTB2",
+     "role": "output"
+    },
+    {
+     "number": 41,
+     "name": "BIASJ_B",
+     "role": "output"
+    },
+    {
+     "number": 42,
+     "name": "GSET",
+     "role": "input"
+    },
+    {
+     "number": 43,
+     "name": "EXTIO",
+     "role": "output"
+    },
+    {
+     "number": 44,
+     "name": "BIASJ_A",
+     "role": "output"
+    },
+    {
+     "number": 45,
+     "name": "IOUTA2",
+     "role": "output"
+    },
+    {
+     "number": 46,
+     "name": "IOUTA1",
+     "role": "output"
+    },
+    {
+     "number": 47,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 48,
+     "name": "MODE",
+     "role": "input"
+    }
+   ],
+   "rsl48": [
+    {
+     "number": 1,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 2,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 3,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "WRTA/WRTIQ",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "CLKA/CLKIQ",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "CLKB/RESETIQ",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "WRTB/SELECTIQ",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "DB9",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "DB8",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "DB7",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "DB6",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "DB5",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "DB4",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "DB3",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "DB2",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "DB1",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "DB0",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 22,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 23,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 24,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 25,
+     "name": "SLEEP",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 27,
+     "name": "IOUTB1",
+     "role": "output"
+    },
+    {
+     "number": 28,
+     "name": "IOUTB2",
+     "role": "output"
+    },
+    {
+     "number": 29,
+     "name": "BIASJ_B",
+     "role": "output"
+    },
+    {
+     "number": 30,
+     "name": "GSET",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "EXTIO",
+     "role": "output"
+    },
+    {
+     "number": 32,
+     "name": "BIASJ_A",
+     "role": "output"
+    },
+    {
+     "number": 33,
+     "name": "IOUTA2",
+     "role": "output"
+    },
+    {
+     "number": 34,
+     "name": "IOUTA1",
+     "role": "output"
+    },
+    {
+     "number": 35,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 36,
+     "name": "MODE",
+     "role": "input"
+    },
+    {
+     "number": 37,
+     "name": "DA9",
+     "role": "input"
+    },
+    {
+     "number": 38,
+     "name": "DA8",
+     "role": "input"
+    },
+    {
+     "number": 39,
+     "name": "DA7",
+     "role": "input"
+    },
+    {
+     "number": 40,
+     "name": "DA6",
+     "role": "input"
+    },
+    {
+     "number": 41,
+     "name": "DA5",
+     "role": "input"
+    },
+    {
+     "number": 42,
+     "name": "DA4",
+     "role": "input"
+    },
+    {
+     "number": 43,
+     "name": "DA3",
+     "role": "input"
+    },
+    {
+     "number": 44,
+     "name": "DA2",
+     "role": "input"
+    },
+    {
+     "number": 45,
+     "name": "DA1",
+     "role": "input"
+    },
+    {
+     "number": 46,
+     "name": "DA0",
+     "role": "input"
+    },
+    {
+     "number": 47,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 48,
+     "name": "NC",
+     "role": "nc"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 10,
+  "channels": 2,
+  "vcc": [
+   3.0,
+   3.6
+  ],
+  "analog": [
+   "AVDD",
+   "EXTIO",
+   "BIASJ_A",
+   "BIASJ_B",
+   "IOUTA1",
+   "IOUTA2",
+   "IOUTB1",
+   "IOUTB2"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DA9",
+    "DA8",
+    "DA7",
+    "DA6",
+    "DA5",
+    "DA4",
+    "DA3",
+    "DA2",
+    "DA1",
+    "DA0",
+    "DB9",
+    "DB8",
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "wr": {
+    "pin": "WRTA/WRTIQ",
+    "active": 0
+   }
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 10,
+    "reset": 0,
+    "note": "port A input latch (loaded on WRTA rising); power-on value not given (0)"
+   },
+   {
+    "name": "INB",
+    "space": "input",
+    "address": 1,
+    "width": 10,
+    "reset": 0,
+    "note": "port B input latch (loaded on WRTB rising); power-on value not given (0)"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC A latch (loaded on CLKA rising)"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC B latch (loaded on CLKB rising)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Latch both ports",
+     "in": "[INA] [INB]",
+     "note": "both data ports latched at the WRTA rising edge (exact when WRTA and WRTB are tied)"
+    }
+   ]
+  },
+  "pins": {
+   "ldac": {
+    "pin": "CLKA/CLKIQ",
+    "active": 1,
+    "edge": "rise"
+   },
+   "powerdown": {
+    "pin": "SLEEP",
+    "active": 1
+   }
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB"
+   ],
+   "output": [
+    "DACA",
+    "DACB"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "PFB": {
+   "pinout": "pfb48",
+   "footprint": "TQFP-48-7X7",
+   "package": "TQFP",
+   "pins": 48
+  },
+  "RSL": {
+   "pinout": "rsl48",
+   "footprint": "VQFN-48-RSL",
+   "package": "VQFN",
+   "pins": 48
+  }
+ },
+ "pdf": "dac5652.pdf",
+ "pages": "p.3 (pinout, Table 5-1), p.4 (abs max, ROC: DVDD 3.0-3.6 V), p.8 (digital inputs, switching characteristics), p.12-13 (digital inputs and timing: dual-bus and interleaved modes), p.20 (sleep / device functional modes); dac5652a.pdf (SLAS535F) p.4-5 pin functions incl. the VQFN (RSL) column",
+ "notModeled": [
+  "analog current outputs, reference (internal or external on EXTIO), full-scale bias (BIASJ_A/B), gain-setting mode GSET (strap only)",
+  "independent WRTB latch: the model latches port B (DB) at WRTA rising together with port A (exact when WRTA = WRTB); WRTB/SELECTIQ is not used",
+  "CLKA copies both input latches to both DAC latches (one LDAC pin); CLKB is not modeled",
+  "interleaved single-bus mode (MODE low: WRTIQ, CLKIQ divided by 2, SELECTIQ, RESETIQ): the model always works as the dual-bus mode (MODE high, the internal-pullup default)",
+  "the 4-clock pipeline latency (tLAT), setup/hold times and the CLK-before-WRT ordering are not checked",
+  "internal pulldowns on DA/DB and SLEEP, pullups on MODE and GSET (Z reads 0; the SLEEP default matches)",
+  "power-on contents of the latches are not given (0 used)"
+ ],
+ "variants": "dac5652.pdf (SLAS452E, 2021) is the main source; dac5652a.pdf (SLAS535F) describes DAC5652A (A parts, adds the RSL VQFN-48 package, same digital interface; pinout rsl48 from its VQFN column); dac5652-ep.pdf (SGLS341C) the -EP (M...EP, V62/06638) parts, 200 MSPS, same PFB pinout. DAC5662 (12-bit) and DAC5672 (14-bit) are the wider family members (own files)",
+ "parts": [
+  [
+   "DAC5652AIPFB",
+   "PFB",
+   48,
+   "Active"
+  ],
+  [
+   "DAC5652AIPFBR",
+   "PFB",
+   48,
+   "Active"
+  ],
+  [
+   "DAC5652AIRSLT",
+   "RSL",
+   48,
+   "Active"
+  ],
+  [
+   "DAC5652IPFB",
+   "PFB",
+   48,
+   "Active"
+  ],
+  [
+   "DAC5652IPFBG4",
+   "PFB",
+   48,
+   "Active"
+  ],
+  [
+   "DAC5652IPFBR",
+   "PFB",
+   48,
+   "Active"
+  ],
+  [
+   "DAC5652MPFBEP",
+   "PFB",
+   48,
+   "Active"
+  ],
+  [
+   "DAC5652MPFBREP",
+   "PFB",
+   48,
+   "Active"
+  ],
+  [
+   "V62/06638-02XE",
+   "PFB",
+   48,
+   "Active"
+  ]
+ ]
+}

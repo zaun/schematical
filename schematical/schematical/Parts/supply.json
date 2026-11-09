@@ -15,7 +15,7 @@
       },
       "volts": 0,
       "parts": [
-        {"name":"GND","package":"","pinout":"pin"}
+        {"name":"GND","manufacturer":"Generic","package":"","pinout":"pin"}
       ]
     },
     {
@@ -30,7 +30,7 @@
       },
       "volts": 5,
       "parts": [
-        {"name":"5V","package":"","pinout":"pin"}
+        {"name":"5V","manufacturer":"Generic","package":"","pinout":"pin"}
       ]
     },
     {
@@ -45,7 +45,7 @@
       },
       "volts": 3.3,
       "parts": [
-        {"name":"3V3","package":"","pinout":"pin"}
+        {"name":"3V3","manufacturer":"Generic","package":"","pinout":"pin"}
       ]
     },
     {
@@ -60,7 +60,7 @@
       },
       "volts": 2.5,
       "parts": [
-        {"name":"2V5","package":"","pinout":"pin"}
+        {"name":"2V5","manufacturer":"Generic","package":"","pinout":"pin"}
       ]
     },
     {
@@ -75,7 +75,7 @@
       },
       "volts": 1.8,
       "parts": [
-        {"name":"1V8","package":"","pinout":"pin"}
+        {"name":"1V8","manufacturer":"Generic","package":"","pinout":"pin"}
       ]
     },
     {
@@ -90,7 +90,7 @@
       },
       "volts": 1.2,
       "parts": [
-        {"name":"1V2","package":"","pinout":"pin"}
+        {"name":"1V2","manufacturer":"Generic","package":"","pinout":"pin"}
       ]
     },
     {
@@ -105,7 +105,7 @@
       },
       "volts": 12,
       "parts": [
-        {"name":"12V","package":"","pinout":"pin"}
+        {"name":"12V","manufacturer":"Generic","package":"","pinout":"pin"}
       ]
     },
     {
@@ -121,7 +121,7 @@
       "volts": 5,
       "pull": true,
       "parts": [
-        {"name":"PULLUP-5V","package":"Radial","pinout":"pin","footprint":"RES-RADIAL-2.54",
+        {"name":"PULLUP-5V","manufacturer":"Generic","package":"Radial","pinout":"pin","footprint":"RES-RADIAL-2.54",
          "footprintChoices":[
            {"package":"0402","footprint":"RES-0402"},
            {"package":"0603","footprint":"RES-0603"},
@@ -145,7 +145,7 @@
       "volts": 3.3,
       "pull": true,
       "parts": [
-        {"name":"PULLUP-3V3","package":"Radial","pinout":"pin","footprint":"RES-RADIAL-2.54",
+        {"name":"PULLUP-3V3","manufacturer":"Generic","package":"Radial","pinout":"pin","footprint":"RES-RADIAL-2.54",
          "footprintChoices":[
            {"package":"0402","footprint":"RES-0402"},
            {"package":"0603","footprint":"RES-0603"},
@@ -169,7 +169,7 @@
       "volts": 2.5,
       "pull": true,
       "parts": [
-        {"name":"PULLUP-2V5","package":"Radial","pinout":"pin","footprint":"RES-RADIAL-2.54",
+        {"name":"PULLUP-2V5","manufacturer":"Generic","package":"Radial","pinout":"pin","footprint":"RES-RADIAL-2.54",
          "footprintChoices":[
            {"package":"0402","footprint":"RES-0402"},
            {"package":"0603","footprint":"RES-0603"},
@@ -193,7 +193,7 @@
       "volts": 1.8,
       "pull": true,
       "parts": [
-        {"name":"PULLUP-1V8","package":"Radial","pinout":"pin","footprint":"RES-RADIAL-2.54",
+        {"name":"PULLUP-1V8","manufacturer":"Generic","package":"Radial","pinout":"pin","footprint":"RES-RADIAL-2.54",
          "footprintChoices":[
            {"package":"0402","footprint":"RES-0402"},
            {"package":"0603","footprint":"RES-0603"},
@@ -217,7 +217,7 @@
       "volts": 1.2,
       "pull": true,
       "parts": [
-        {"name":"PULLUP-1V2","package":"Radial","pinout":"pin","footprint":"RES-RADIAL-2.54",
+        {"name":"PULLUP-1V2","manufacturer":"Generic","package":"Radial","pinout":"pin","footprint":"RES-RADIAL-2.54",
          "footprintChoices":[
            {"package":"0402","footprint":"RES-0402"},
            {"package":"0603","footprint":"RES-0603"},
@@ -241,7 +241,7 @@
       "volts": 12,
       "pull": true,
       "parts": [
-        {"name":"PULLUP-12V","package":"Radial","pinout":"pin","footprint":"RES-RADIAL-2.54",
+        {"name":"PULLUP-12V","manufacturer":"Generic","package":"Radial","pinout":"pin","footprint":"RES-RADIAL-2.54",
          "footprintChoices":[
            {"package":"0402","footprint":"RES-0402"},
            {"package":"0603","footprint":"RES-0603"},
@@ -265,7 +265,7 @@
       "volts": 0,
       "pull": true,
       "parts": [
-        {"name":"PULLDOWN","package":"Radial","pinout":"pin","footprint":"RES-RADIAL-2.54",
+        {"name":"PULLDOWN","manufacturer":"Generic","package":"Radial","pinout":"pin","footprint":"RES-RADIAL-2.54",
          "footprintChoices":[
            {"package":"0402","footprint":"RES-0402"},
            {"package":"0603","footprint":"RES-0603"},

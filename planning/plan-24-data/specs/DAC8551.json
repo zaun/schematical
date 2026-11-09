@@ -1,0 +1,166 @@
+{
+ "device": {
+  "id": "DAC8551",
+  "function": "DAC",
+  "description": "16-bit single-channel voltage-output DAC (external reference, VFB feedback pin) with 24-bit SPI-compatible write-only interface and power-down",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac8551.pdf (SLAS429E) p.3 pin configuration and functions, p.4 recommended operating conditions (VDD 2.7-5.5 V, digital inputs 0-VDD), p.7 timing characteristics and Figure 1 serial write operation (SYNC falls with SCLK high, data clocked on SCLK falling edges), p.17 power-on reset (DAC register zero), p.18 power-down modes (Table 1) and serial interface, p.19 input shift register (Figure 49) and SYNC interrupt (Figure 50)",
+  "pinouts": {
+   "dgk8": [
+    {
+     "number": 1,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "VFB",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "GND",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "VREF",
+   "VFB",
+   "VOUT"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "DAC",
+    "width": 16,
+    "reset": 0,
+    "note": "DAC register; p.17 power-on reset fills it with zeros (0 V output)"
+   },
+   {
+    "name": "CTRL",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PD",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "internal: PD1/PD0 (DB17/DB16) of the last valid frame, Table 1 (00 normal, 01 1 kohm, 10 100 kohm, 11 Hi-Z)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "WRITE",
+     "in": "xxxxxx pp d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "CTRL.PD": "p"
+     },
+     "note": "Figure 49: DB23-DB18 unused, DB17-DB16 PD1/PD0, DB15-DB0 data; executed on the 24th SCLK falling edge; SYNC high before it aborts the frame (SYNC interrupt, p.19)"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "DAC"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "DGK": {
+   "pinout": "dgk8",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  }
+ },
+ "pdf": "dac8551.pdf",
+ "pages": "p.3 (pins), p.4 (VDD 2.7-5.5 V, digital inputs), p.7 (timing, Figure 1), p.17 (power-on reset), p.18 (power-down Table 1, serial interface), p.19 (input shift register Figure 49, SYNC interrupt Figure 50)",
+ "notModeled": [
+  "analog output, resistor string and output amplifier (VOUT never driven)",
+  "power-down output loads (1 kohm / 100 kohm / Hi-Z): PD1/PD0 stored in CTRL.PD only",
+  "power-up time from power-down (2.5-5 us) and output settling",
+  "SCLK frequency (30 MHz / 20 MHz) and setup/hold limits t1-t9"
+ ],
+ "variants": "dac8551.pdf covers only the DAC8551 (A grade DAC8551IA = tighter specs, same interface). DAC8550 is the two's-complement-coded version; DAC8560 adds a 2.5-V internal reference.",
+ "parts": [
+  [
+   "DAC8551IADGKR",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8551IADGKT",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8551IDGKR",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8551IDGKT",
+   "DGK",
+   8,
+   "Active"
+  ]
+ ]
+}

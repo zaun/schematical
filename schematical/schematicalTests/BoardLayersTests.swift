@@ -166,4 +166,16 @@ final class BoardLayersTests: XCTestCase {
         Self.keptViewports += viewports
         XCTAssertEqual(viewports.map(\.zoom), [0.25, 3, 1])
     }
+
+    /// The schematic's 100 % draws at 0.75 points per unit; zoom steps
+    /// scale from there, and screen/world mapping uses the drawn scale.
+    func testViewportBaseScale() {
+        let viewport = CanvasViewport(baseScale: 0.75)
+        Self.keptViewports.append(viewport)
+        XCTAssertEqual(viewport.scale, 0.75)
+        viewport.setZoom(2)
+        XCTAssertEqual(viewport.zoom, 2)
+        XCTAssertEqual(viewport.scale, 1.5)
+        XCTAssertEqual(viewport.world(CGPoint(x: 30, y: 15)), CGPoint(x: 20, y: 10))
+    }
 }

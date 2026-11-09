@@ -1,0 +1,594 @@
+{
+ "device": {
+  "id": "ADS7865",
+  "function": "ADC",
+  "description": "12-bit 2 MSPS dual simultaneous-sampling 2x2 fully- / 2x3 pseudo-differential SAR ADC with 12-bit parallel interface, sequencer and programmable reference",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads7865.pdf (SBAS441C) p.3 recommended operating conditions (BVDD 2.7-3.6 V / 4.5-5.5 V), p.5 digital levels, p.6-7 pin configuration and terminal functions, p.7 Figure 1, p.8 timing requirements, p.17 configuration register (Tables 4-7), p.18 Figure 32, Table 8 (twos complement), p.19-20 sequencer register (Tables 9-13), p.21 reference DAC (Table 14), p.22 power-down and reset (Table 15)",
+  "pinouts": {
+   "pbs32": [
+    {
+     "number": 1,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "DB11",
+     "role": "inout"
+    },
+    {
+     "number": 6,
+     "name": "DB10",
+     "role": "inout"
+    },
+    {
+     "number": 7,
+     "name": "DB9",
+     "role": "inout"
+    },
+    {
+     "number": 8,
+     "name": "DB8",
+     "role": "inout"
+    },
+    {
+     "number": 9,
+     "name": "DB7",
+     "role": "inout"
+    },
+    {
+     "number": 10,
+     "name": "DB6",
+     "role": "inout"
+    },
+    {
+     "number": 11,
+     "name": "DB5",
+     "role": "inout"
+    },
+    {
+     "number": 12,
+     "name": "DB4",
+     "role": "inout"
+    },
+    {
+     "number": 13,
+     "name": "DB3",
+     "role": "inout"
+    },
+    {
+     "number": 14,
+     "name": "DB2",
+     "role": "inout"
+    },
+    {
+     "number": 15,
+     "name": "DB1",
+     "role": "inout"
+    },
+    {
+     "number": 16,
+     "name": "DB0",
+     "role": "inout"
+    },
+    {
+     "number": 17,
+     "name": "BUSY",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "CONVST",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "CLOCK",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "RD",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "WR",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "BGND",
+     "role": "ground"
+    },
+    {
+     "number": 24,
+     "name": "BVDD",
+     "role": "power"
+    },
+    {
+     "number": 25,
+     "name": "CHB1+",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "CHB1-",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "CHB0+",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "CHB0-",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "CHA1-",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "CHA1+",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "CHA0-",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "CHA0+",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 4,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "CHB1+",
+   "CHB1-",
+   "CHB0+",
+   "CHB0-",
+   "CHA1-",
+   "CHA1+",
+   "CHA0-",
+   "CHA0+",
+   "REFIN",
+   "REFOUT",
+   "AVDD"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DB11",
+    "DB10",
+    "DB9",
+    "DB8",
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rd": {
+    "pin": "RD",
+    "active": 0
+   },
+   "wr": {
+    "pin": "WR",
+    "active": 0
+   }
+  },
+  "timing": {
+   "tAcc": 20
+  },
+  "registers": [
+   {
+    "name": "CONFIG",
+    "width": 12,
+    "reset": 0,
+    "note": "p.17 Table 4 configuration register (default 000h; bit 3 don't care); written by a parallel write, no address",
+    "fields": [
+     {
+      "name": "C",
+      "bits": [
+       11,
+       10
+      ]
+     },
+     {
+      "name": "R",
+      "bits": [
+       9,
+       8
+      ]
+     },
+     {
+      "name": "DP",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "N",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "AN",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "RP",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "A",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 3,
+    "note": "p.19-20 Table 9 sequencer register (default 000h; SP read-only)",
+    "fields": [
+     {
+      "name": "S",
+      "bits": [
+       11,
+       10
+      ]
+     },
+     {
+      "name": "SL",
+      "bits": [
+       9,
+       8
+      ]
+     },
+     {
+      "name": "CH1",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CM1",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "CH2",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "CM2",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "CH3",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CM3",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "SP",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC",
+    "width": 12,
+    "reset": 1023,
+    "readOnly": 3072,
+    "note": "p.21 Table 14 reference DAC register (default 3FFh; bits 11-10 are 0)",
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       9,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "XFER",
+    "width": 2,
+    "reset": 0,
+    "readOnly": 0,
+    "note": "internal state (not a datasheet register): DAC_WR=1 after a configuration write with R = 01, A = 001, SEQ_WR=1 after A = 100; the next write access carries that register's data (p.17 Table 7, p.20, p.21)",
+    "fields": [
+     {
+      "name": "SEQ_WR",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DAC_WR",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Reference DAC value (second write after A = 001)",
+     "in": "xx [DAC.D]",
+     "when": "XFER.DAC_WR=1",
+     "action": "nop",
+     "set": {
+      "XFER.DAC_WR": 0
+     },
+     "note": "p.21: DB[11:10] = 00, DB[9:0] the 10-bit DAC value (DB11:10 not checked)"
+    },
+    {
+     "name": "Sequencer register content (second write after A = 100)",
+     "in": "[SEQ]",
+     "when": "XFER.SEQ_WR=1",
+     "action": "nop",
+     "set": {
+      "XFER.SEQ_WR": 0
+     },
+     "note": "p.20 Table 9: DB[11:0] = S1 S0 SL1 SL0 CH1 CM1 CH2 CM2 CH3 CM3 SP1 SP0 (SP read-only)"
+    },
+    {
+     "name": "Device SW-reset (R = 01, A = 101)",
+     "in": "xx 01 xxxx x 101",
+     "action": "reset",
+     "note": "p.22: a configuration write with A[2:0] = 101 resets the device at the WR rising edge"
+    },
+    {
+     "name": "Write to reference DAC register with next access (A = 001)",
+     "in": "cc 01 d n e r x 001",
+     "action": "nop",
+     "set": {
+      "CONFIG.C": "c",
+      "CONFIG.R": 1,
+      "CONFIG.DP": "d",
+      "CONFIG.N": "n",
+      "CONFIG.AN": "e",
+      "CONFIG.RP": "r",
+      "CONFIG.A": 1,
+      "XFER.DAC_WR": 1
+     },
+     "note": "p.17 Table 7, p.21: the second write access carries the DAC value"
+    },
+    {
+     "name": "Write to sequencer register (A = 100)",
+     "in": "cc 01 d n e r x 100",
+     "action": "nop",
+     "set": {
+      "CONFIG.C": "c",
+      "CONFIG.R": 1,
+      "CONFIG.DP": "d",
+      "CONFIG.N": "n",
+      "CONFIG.AN": "e",
+      "CONFIG.RP": "r",
+      "CONFIG.A": 4,
+      "XFER.SEQ_WR": 1
+     },
+     "note": "p.17 Table 7, p.20: the data on the second write access are the sequencer register content"
+    },
+    {
+     "name": "Read from reference DAC register with next access (A = 011)",
+     "in": "cc 01 d n e r x 011",
+     "action": "nop",
+     "set": {
+      "CONFIG.C": "c",
+      "CONFIG.R": 1,
+      "CONFIG.DP": "d",
+      "CONFIG.N": "n",
+      "CONFIG.AN": "e",
+      "CONFIG.RP": "r",
+      "CONFIG.A": 3
+     },
+     "next": "[DAC]",
+     "note": "p.21: the next RD access provides the 10-bit DAC value on DB[9:0]"
+    },
+    {
+     "name": "Read from sequencer register (A = 110)",
+     "in": "cc 01 d n e r x 110",
+     "action": "nop",
+     "set": {
+      "CONFIG.C": "c",
+      "CONFIG.R": 1,
+      "CONFIG.DP": "d",
+      "CONFIG.N": "n",
+      "CONFIG.AN": "e",
+      "CONFIG.RP": "r",
+      "CONFIG.A": 6
+     },
+     "next": "[SEQ]",
+     "note": "p.17 Table 7"
+    },
+    {
+     "name": "Configuration update, deep power-down (R = 01, DP = 1)",
+     "in": "cc 01 1 n e r x aaa",
+     "action": "powerdown",
+     "set": {
+      "CONFIG.C": "c",
+      "CONFIG.R": 1,
+      "CONFIG.DP": 1,
+      "CONFIG.N": "n",
+      "CONFIG.AN": "e",
+      "CONFIG.RP": "r",
+      "CONFIG.A": "a"
+     },
+     "note": "p.22 Table 15"
+    },
+    {
+     "name": "Configuration update, nap power-down (R = 01, N = 1)",
+     "in": "cc 01 0 1 e r x aaa",
+     "action": "powerdown",
+     "set": {
+      "CONFIG.C": "c",
+      "CONFIG.R": 1,
+      "CONFIG.DP": 0,
+      "CONFIG.N": 1,
+      "CONFIG.AN": "e",
+      "CONFIG.RP": "r",
+      "CONFIG.A": "a"
+     },
+     "note": "p.22 Table 15"
+    },
+    {
+     "name": "Configuration register update (R = 01)",
+     "in": "cc 01 0 0 e r x aaa",
+     "action": "wakeup",
+     "set": {
+      "CONFIG.C": "c",
+      "CONFIG.R": 1,
+      "CONFIG.DP": 0,
+      "CONFIG.N": 0,
+      "CONFIG.AN": "e",
+      "CONFIG.RP": "r",
+      "CONFIG.A": "a"
+     },
+     "note": "p.17 Tables 4-7: R[1:0] = 01 enables the update; other R values leave the register (write ignored)"
+    }
+   ],
+   "read": "R{12}"
+  },
+  "conversion": {
+   "time": 406.25,
+   "start": [
+    "pin"
+   ],
+   "channel": "CONFIG.C"
+  },
+  "ready": [
+   {
+    "pin": "BUSY",
+    "active": 1,
+    "asserts": "busy"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "CONVST",
+    "edge": "fall"
+   }
+  }
+ },
+ "packages": {
+  "PBS": {
+   "pinout": "pbs32",
+   "footprint": "TQFP-32-PBS",
+   "package": "TQFP",
+   "pins": 32
+  }
+ },
+ "pdf": "ads7865.pdf",
+ "pages": "p.3 (ROC), p.5 (digital levels), p.6-7 (pins), p.7-8 (Figure 1, timing requirements: tCONV 13 tCLK, t10 20 ns), p.17 (configuration register), p.18 (Figure 32, Table 8), p.19-20 (sequencer), p.21 (reference DAC), p.22 (power-down, reset)",
+ "notModeled": [
+  "analog inputs, the 2:1 fully-differential / 3:1 pseudo-differential multiplexer and the reference DAC / REFOUT (never driven): every conversion returns the 0 V differential code 000h",
+  "the two results per conversion (first RD: converter A, second RD: converter B) and read-once behavior (a further read gives 000h): every read returns the 0 V code 000h, which is indistinguishable",
+  "the sequencer (modes 0-2, LIFO result order, SP position) is not modeled",
+  "power-down: deep and nap power-down follow DP/N at the WR rising edge at once (the part: 2 us / 200 ns; wake-up 1 us / 6 clocks); a DAC/sequencer-read word with DP or N set does not power down in the model; auto-nap (AN) and reference power-down (RP) are stored only",
+  "the conversion is clocked by the external CLOCK (13 clocks from the first CLOCK rising edge after CONVST falls); the model uses 13 x 31.25 ns = 406.25 ns at fCLOCK = 32 MHz",
+  "bus float delay after RD rises is not specified (tDf 0)",
+  "vcc covers both BVDD ranges (2.7-3.6 V and 4.5-5.5 V) as one range",
+  "pin names: the minus sign of CHxx- is written '-'"
+ ],
+ "variants": "ADS7865 is the parallel-interface sibling of the ADS7863A (serial); separate spec.",
+ "parts": [
+  [
+   "ADS7865IPBS",
+   "PBS",
+   32,
+   "Active"
+  ],
+  [
+   "ADS7865IPBSR",
+   "PBS",
+   32,
+   "Active"
+  ]
+ ]
+}

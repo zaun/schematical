@@ -1,0 +1,146 @@
+{
+ "device": {
+  "id": "ADS1244",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "24-bit 15 SPS delta-sigma ADC with 2-wire serial interface (DRDY/DOUT, SCLK), self-calibration, MSOP-10",
+  "note": "ads1244.pdf (SBAS273) p.2 pin configuration and descriptions, p.3 electrical characteristics (data rate 15 SPS at fCLK = 2.4576 MHz, VIH (CLK, SCLK) 2.1-5.25 V, DVDD 1.8-3.6 V), p.8 DRDY/DOUT, SCLK, p.10 power-up, data format (Table I), p.11 data retrieval timing (Figure 12: t5 = 50 ns, t8 = 66.667 ms), p.12-13 self-calibration, sleep mode, single conversions",
+  "pinouts": {
+   "dgs10": [
+    {
+     "number": 1,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 2,
+     "name": "VREFP",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "VREFN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "AINN",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AINP",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "DRDY/DOUT",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "CLK",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 24,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   1.8,
+   3.6
+  ],
+  "inputMax": 5.25,
+  "analog": [
+   "VREFP",
+   "VREFN",
+   "AINN",
+   "AINP",
+   "AVDD"
+  ],
+  "bus": {
+   "style": "spi",
+   "sclk": "SCLK",
+   "miso": "DRDY/DOUT",
+   "mode": 1
+  },
+  "timing": {
+   "tOut": 50
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{24}",
+   "idle": "1",
+   "commands": []
+  },
+  "conversion": {
+   "time": 66666667,
+   "start": [
+    "power-on"
+   ],
+   "mode": "continuous"
+  },
+  "ready": [
+   {
+    "pin": "DRDY/DOUT",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read",
+    "onMiso": true
+   }
+  ]
+ },
+ "packages": {
+  "DGS": {
+   "pinout": "dgs10",
+   "footprint": "VSSOP-10",
+   "package": "VSSOP",
+   "pins": 10
+  }
+ },
+ "pdf": "ads1244.pdf",
+ "pages": "p.2 (pins), p.3 (EC), p.8 (DRDY/DOUT, SCLK), p.10 (power-up, data format), p.11 (retrieval timing), p.12-13 (calibration, sleep)",
+ "notModeled": [
+  "analog input and reference",
+  "conversion time is t8 = 66.667 ms at fCLK = 2.4576 MHz (the data rate scales with the CLK pin frequency, up to 6 MHz; CLK is not used by the model)",
+  "power-up self-calibration (first data after t1 + t2, about 350 ms) is not timed: the first conversion completes 66.667 ms after power-on",
+  "DRDY/DOUT stays at the last data bit until the next update unless a 25th SCLK forces it high; modeled as idle 1 after the 24 bits",
+  "self-calibration started by 26 SCLKs (t9 = 210 ms), sleep mode (SCLK held high after DRDY/DOUT falls) and its wake-up, sleep with self-calibration, single conversions by sleep/wake-up",
+  "data-update window t7 (152 us, no readback)"
+ ],
+ "variants": "ADS1245 (buffered input, pin-compatible, ads1245.pdf): own spec file",
+ "parts": [
+  [
+   "ADS1244IDGSR",
+   "DGS",
+   10,
+   "Active"
+  ],
+  [
+   "ADS1244IDGST",
+   "DGS",
+   10,
+   "Active"
+  ]
+ ]
+}

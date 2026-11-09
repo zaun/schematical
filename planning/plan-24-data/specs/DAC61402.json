@@ -1,0 +1,1004 @@
+{
+ "device": {
+  "id": "DAC61402",
+  "function": "DAC",
+  "description": "12-bit 2-channel high-voltage (up to +-20 V / 40 V) output DAC with 2.5-V reference and SPI interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac61402.pdf (SLASEH3A) p.3-4 pinout (Table 6-1), p.6 recommended operating conditions, p.14-16 timing (Figures 7-1, 7-2), p.29-30 register structure, update, broadcast, clear, reset, p.31-33 access cycle, daisy chain, CRC, p.34-40 register map",
+  "pinouts": {
+   "rhb32": [
+    {
+     "number": 1,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 2,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 3,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 4,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 5,
+     "name": "SENSENA",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "SENSEPA",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "CCOMPA",
+     "role": "nc"
+    },
+    {
+     "number": 8,
+     "name": "OUTA",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "SDIN",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "CLR",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "OUTB",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "CCOMPB",
+     "role": "nc"
+    },
+    {
+     "number": 19,
+     "name": "SENSEPB",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "SENSENB",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 22,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 23,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 24,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 25,
+     "name": "REFGND",
+     "role": "ground"
+    },
+    {
+     "number": 26,
+     "name": "REFIO",
+     "role": "power"
+    },
+    {
+     "number": 27,
+     "name": "AVSS",
+     "role": "power"
+    },
+    {
+     "number": 28,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 29,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 30,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 31,
+     "name": "FAULT",
+     "role": "output"
+    },
+    {
+     "number": 32,
+     "name": "RST",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 2,
+  "vcc": [
+   1.7,
+   5.5
+  ],
+  "analog": [
+   "SENSENA",
+   "SENSEPA",
+   "OUTA",
+   "OUTB",
+   "SENSEPB",
+   "SENSENB",
+   "REFIO",
+   "AVSS",
+   "AVDD",
+   "DVDD"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "SDIN",
+   "miso": "SDO",
+   "mode": 2
+  },
+  "timing": {
+   "tOut": 30,
+   "tFloat": 30
+  },
+  "registers": [
+   {
+    "name": "NOP",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true
+   },
+   {
+    "name": "DEVICEID",
+    "address": 1,
+    "width": 16,
+    "reset": 2352,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "DEVICEID",
+      "bits": [
+       15,
+       2
+      ]
+     },
+     {
+      "name": "VERSIONID",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "p.35: DEVICEID 024Ch (DAC61402), VERSIONID 0"
+   },
+   {
+    "name": "STATUS",
+    "address": 2,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "CRC_ALM",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "DAC_BUSY",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "TEMP_ALM",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SPICONFIG",
+    "address": 3,
+    "width": 16,
+    "reset": 2724,
+    "readOnly": 61897,
+    "fields": [
+     {
+      "name": "TEMPALM_EN",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "DACBUSY_EN",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "CRCALM_EN",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "DEV_PWDWN",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "CRC_EN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SDO_EN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "FSDO",
+      "bits": [
+       1,
+       1
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GENCONFIG",
+    "address": 4,
+    "width": 16,
+    "reset": 16384,
+    "readOnly": 49151,
+    "fields": [
+     {
+      "name": "REF_PWDWN",
+      "bits": [
+       14,
+       14
+      ]
+     }
+    ]
+   },
+   {
+    "name": "BRDCONFIG",
+    "address": 5,
+    "width": 16,
+    "reset": 15,
+    "readOnly": 65529,
+    "fields": [
+     {
+      "name": "DACB_BRDCAST_EN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "DACA_BRDCAST_EN",
+      "bits": [
+       1,
+       1
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SYNCCONFIG",
+    "address": 6,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 65529,
+    "fields": [
+     {
+      "name": "DACB_SYNC_EN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "DACA_SYNC_EN",
+      "bits": [
+       1,
+       1
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DACPWDWN",
+    "address": 9,
+    "width": 16,
+    "reset": 65535,
+    "readOnly": 65529,
+    "fields": [
+     {
+      "name": "DACB_PWDWN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "DACA_PWDWN",
+      "bits": [
+       1,
+       1
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DACRANGE",
+    "address": 10,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DACB_RANGE",
+      "bits": [
+       11,
+       8
+      ]
+     },
+     {
+      "name": "DACA_RANGE",
+      "bits": [
+       7,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "TRIGGER",
+    "address": 14,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SOFT_CLR",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "ALM_RESET",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "SOFT_LDAC",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SOFT_RESET",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.39: self-resetting trigger bits; handled by the TRIGGER commands"
+   },
+   {
+    "name": "BRDCAST",
+    "address": 15,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DACA",
+    "address": 17,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ],
+    "note": "p.40: DACA buffer register, MSB aligned {DATA[11:0], x, x, x, x}"
+   },
+   {
+    "name": "DACB",
+    "address": 18,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DACA_ACT",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ],
+    "note": "internal: the DAC-A active register"
+   },
+   {
+    "name": "DACB_ACT",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ],
+    "note": "internal: the DAC-B active register"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "TRIGGER SOFT-RESET",
+     "in": "0y001110 x{12} 1010",
+     "action": "reset",
+     "note": "p.39: SOFT-RESET[3:0] = 1010 resets the device (at SYNC rising)",
+     "when": [
+      "SPICONFIG.CRC_EN=0"
+     ],
+     "next": "0y001110 0{12} 1010",
+     "commit": "end"
+    },
+    {
+     "name": "TRIGGER SOFT-CLR",
+     "in": "0y001110 x{6} 1 x{9}",
+     "action": "clear",
+     "note": "p.29, p.39: SOFT-CLR = 1 clears the buffer and active registers to the clear code",
+     "when": [
+      "SPICONFIG.CRC_EN=0"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "TRIGGER SOFT-LDAC",
+     "in": "0y001110 x{11} 1 x{4}",
+     "action": "update",
+     "note": "p.39: SOFT-LDAC = 1 loads the synchronous-mode DACs",
+     "when": [
+      "SPICONFIG.CRC_EN=0"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "TRIGGER",
+     "in": "0y001110 x{16}",
+     "action": "nop",
+     "note": "ALM-RESET and other bits: no modeled effect",
+     "when": [
+      "SPICONFIG.CRC_EN=0"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST",
+     "in": "0y001111 d{16}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DACA": "d",
+      "DACB": "d"
+     },
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "BRDCONFIG.DACA_BRDCAST_EN=1",
+      "BRDCONFIG.DACB_BRDCAST_EN=1"
+     ],
+     "note": "p.29: a BRDCAST write loads the buffer registers of the channels with DACx-BRDCAST-EN = 1",
+     "next": "0y001111 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST",
+     "in": "0y001111 d{16}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DACA": "d"
+     },
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "BRDCONFIG.DACA_BRDCAST_EN=1",
+      "BRDCONFIG.DACB_BRDCAST_EN=0"
+     ],
+     "next": "0y001111 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST",
+     "in": "0y001111 d{16}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DACB": "d"
+     },
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "BRDCONFIG.DACA_BRDCAST_EN=0",
+      "BRDCONFIG.DACB_BRDCAST_EN=1"
+     ],
+     "next": "0y001111 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST",
+     "in": "0y001111 d{16}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d"
+     },
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "BRDCONFIG.DACA_BRDCAST_EN=0",
+      "BRDCONFIG.DACB_BRDCAST_EN=0"
+     ],
+     "next": "0y001111 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DACA",
+     "in": "0y010001 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DACA_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "0y010001 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DACA (synchronous)",
+     "in": "0y010001 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DACA_SYNC_EN=1"
+     ],
+     "next": "0y010001 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DACB",
+     "in": "0y010010 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DACB_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "0y010010 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DACB (synchronous)",
+     "in": "0y010010 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=0",
+      "SYNCCONFIG.DACB_SYNC_EN=1"
+     ],
+     "next": "0y010010 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write",
+     "in": "0yaaaaaa d{16}",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "note": "p.31 Table 8-2: RW = 0, bit 22 don't care, A[5:0], DI[15:0]; the next frame shifts it out on SDO (daisy chain)",
+     "when": [
+      "SPICONFIG.CRC_EN=0"
+     ],
+     "next": "0yaaaaaa d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Read",
+     "in": "1yaaaaaa x{16}",
+     "action": "read",
+     "address": "a",
+     "note": "p.31 Table 8-3: the next access cycle shifts out RW, bit 22, A[5:0] and the register",
+     "when": [
+      "SPICONFIG.CRC_EN=0"
+     ],
+     "next": "1yaaaaaa @",
+     "commit": "end"
+    },
+    {
+     "name": "TRIGGER SOFT-RESET (CRC frame)",
+     "in": "0x001110 x{12} 1010 x{8}",
+     "action": "reset",
+     "note": "p.39: SOFT-RESET[3:0] = 1010 resets the device (at SYNC rising)",
+     "when": [
+      "SPICONFIG.CRC_EN=1"
+     ],
+     "next": "00001110 0{12} 1010 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "TRIGGER SOFT-CLR (CRC frame)",
+     "in": "0x001110 x{6} 1 x{9} x{8}",
+     "action": "clear",
+     "note": "p.29, p.39: SOFT-CLR = 1 clears the buffer and active registers to the clear code",
+     "when": [
+      "SPICONFIG.CRC_EN=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "TRIGGER SOFT-LDAC (CRC frame)",
+     "in": "0x001110 x{11} 1 x{4} x{8}",
+     "action": "update",
+     "note": "p.39: SOFT-LDAC = 1 loads the synchronous-mode DACs",
+     "when": [
+      "SPICONFIG.CRC_EN=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "TRIGGER (CRC frame)",
+     "in": "0x001110 x{16} x{8}",
+     "action": "nop",
+     "note": "ALM-RESET and other bits: no modeled effect",
+     "when": [
+      "SPICONFIG.CRC_EN=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST (CRC frame)",
+     "in": "0x001111 d{16} x{8}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DACA": "d",
+      "DACB": "d"
+     },
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "BRDCONFIG.DACA_BRDCAST_EN=1",
+      "BRDCONFIG.DACB_BRDCAST_EN=1"
+     ],
+     "note": "p.29: a BRDCAST write loads the buffer registers of the channels with DACx-BRDCAST-EN = 1",
+     "next": "00001111 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST (CRC frame)",
+     "in": "0x001111 d{16} x{8}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DACA": "d"
+     },
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "BRDCONFIG.DACA_BRDCAST_EN=1",
+      "BRDCONFIG.DACB_BRDCAST_EN=0"
+     ],
+     "next": "00001111 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST (CRC frame)",
+     "in": "0x001111 d{16} x{8}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DACB": "d"
+     },
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "BRDCONFIG.DACA_BRDCAST_EN=0",
+      "BRDCONFIG.DACB_BRDCAST_EN=1"
+     ],
+     "next": "00001111 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST (CRC frame)",
+     "in": "0x001111 d{16} x{8}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d"
+     },
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "BRDCONFIG.DACA_BRDCAST_EN=0",
+      "BRDCONFIG.DACB_BRDCAST_EN=0"
+     ],
+     "next": "00001111 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DACA (CRC frame)",
+     "in": "0x010001 d{16} x{8}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DACA_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00010001 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DACA (synchronous) (CRC frame)",
+     "in": "0x010001 d{16} x{8}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DACA_SYNC_EN=1"
+     ],
+     "next": "00010001 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DACB (CRC frame)",
+     "in": "0x010010 d{16} x{8}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DACB_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00010010 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DACB (synchronous) (CRC frame)",
+     "in": "0x010010 d{16} x{8}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "when": [
+      "SPICONFIG.CRC_EN=1",
+      "SYNCCONFIG.DACB_SYNC_EN=1"
+     ],
+     "next": "00010010 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write (CRC frame)",
+     "in": "0xaaaaaa d{16} x{8}",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "note": "p.31 Table 8-2: RW = 0, bit 22 don't care, A[5:0], DI[15:0]; the next frame shifts it out on SDO (daisy chain)",
+     "when": [
+      "SPICONFIG.CRC_EN=1"
+     ],
+     "next": "00aaaaaa d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Read (CRC frame)",
+     "in": "1xaaaaaa x{16} x{8}",
+     "action": "read",
+     "address": "a",
+     "note": "p.31 Table 8-3: the next access cycle shifts out RW, bit 22, A[5:0] and the register",
+     "when": [
+      "SPICONFIG.CRC_EN=1"
+     ],
+     "next": "10aaaaaa @ 0{8}",
+     "commit": "end"
+    }
+   ],
+   "note": "p.31: fewer than 24 (32 with CRC-EN) SCLK falling edges: ignored; more: only the first 24 (32) bits are used; registers update at SYNC rising"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "fall"
+   },
+   "clear": {
+    "pin": "CLR",
+    "active": 0
+   },
+   "reset": {
+    "pin": "RST",
+    "active": 0
+   }
+  },
+  "dac": {
+   "input": [
+    "DACA",
+    "DACB"
+   ],
+   "output": [
+    "DACA_ACT",
+    "DACB_ACT"
+   ],
+   "clearCode": {
+    "field": "DACRANGE.DACA_RANGE",
+    "values": {
+     "0": 0,
+     "8": 0,
+     "1": 0,
+     "9": 0,
+     "2": 0,
+     "10": 0,
+     "3": 0,
+     "5": 32768,
+     "13": 32768,
+     "6": 32768,
+     "14": 32768,
+     "7": 32768
+    }
+   },
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "RHB": {
+   "pinout": "rhb32",
+   "footprint": "VQFN-32-5X5",
+   "package": "VQFN",
+   "pins": 32
+  }
+ },
+ "pdf": "dac61402.pdf",
+ "pages": "p.3-4 (pinout), p.6 (ROC), p.14-16 (timing), p.29-30 (DAC register structure, broadcast, clear, POR), p.31-33 (serial interface), p.34-40 (registers)",
+ "notModeled": [
+  "analog outputs, sense pins, output ranges (DACRANGE stored only), reference, power-down states and thermal alarm",
+  "clear code: zero for unipolar ranges, midscale for bipolar ranges, per channel; the model takes the code for every channel from DACA-RANGE, so a channel whose range differs from channel A's clears to channel A's code",
+  "FAULT open-drain pin (CRC, thermal and DAC-busy alarms) and the STATUS alarm bits: never asserted",
+  "CRC: with CRC-EN = 1 the 32-bit frames are decoded but the CRC byte is not checked, CRC-ALM is never set and the CRC byte shifted out is 0",
+  "SDO-EN = 0 (SDO Hi-Z) and FSDO: SDO always drives while SYNC is low",
+  "BRDCAST writes load the buffer registers only; asynchronous channels do not then update their active registers",
+  "SOFT-CLR together with SOFT-LDAC in one frame: only the clear is applied; read-back of write-only registers returns the stored value",
+  "daisy chain beyond one 24-bit echo; the 1-ms POR delay and 2.4-us update wait; DEV-PWDWN power-down"
+ ],
+ "variants": "dac61402.pdf also covers the 16-bit DAC81402 (DEVICEID 029Ch, DATA[15:0]); not in this batch",
+ "parts": [
+  [
+   "DAC61402RHBT",
+   "RHB",
+   32,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,317 @@
+{
+ "device": {
+  "id": "TLC7225",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "quad 8-bit voltage-output DAC with individual references, 8-bit parallel input port, double-buffered with common LDAC",
+  "note": "tlc7225.pdf (SLAS109B) p.1 (pinout, description), p.3 (terminal functions), p.4 (recommended operating conditions: VDD 11.4-16.5 V, VSS -5.5-0 V, TTL levels; timing requirements, Figure 1), p.9 (interface logic, Table 1 addressing), p.10 (Table 2 truth table, Figure 5)",
+  "pinouts": {
+   "dw24": [
+    {
+     "number": 1,
+     "name": "OUTB",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "OUTA",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "VSS",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "REFB",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "REFA",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 8,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "DB7",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "DB6",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "DB5",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "DB4",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "DB3",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "DB2",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "DB1",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "DB0",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "WR",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "REFD",
+     "role": "power"
+    },
+    {
+     "number": 21,
+     "name": "REFC",
+     "role": "power"
+    },
+    {
+     "number": 22,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 23,
+     "name": "OUTD",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "OUTC",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 8,
+  "channels": 4,
+  "vcc": [
+   11.4,
+   16.5
+  ],
+  "analog": [
+   "OUTA",
+   "OUTB",
+   "OUTC",
+   "OUTD",
+   "REFA",
+   "REFB",
+   "REFC",
+   "REFD",
+   "VSS"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "wr": {
+    "pin": "WR",
+    "active": 0
+   },
+   "address": [
+    "A1",
+    "A0"
+   ]
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "note": "DAC A input register (Table 1: A1 A0 = 00); transparent while WR is low, latched on WR rising (p.9); power-on code not stated"
+   },
+   {
+    "name": "INB",
+    "space": "input",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "note": "DAC B input register (Table 1: A1 A0 = 01); transparent while WR is low, latched on WR rising (p.9); power-on code not stated"
+   },
+   {
+    "name": "INC",
+    "space": "input",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "note": "DAC C input register (Table 1: A1 A0 = 10); transparent while WR is low, latched on WR rising (p.9); power-on code not stated"
+   },
+   {
+    "name": "IND",
+    "space": "input",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "note": "DAC D input register (Table 1: A1 A0 = 11); transparent while WR is low, latched on WR rising (p.9); power-on code not stated"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "note": "DAC A DAC register; all four transparent while LDAC is low, latched on LDAC rising (p.9, Table 2)"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "note": "DAC B DAC register; all four transparent while LDAC is low, latched on LDAC rising (p.9, Table 2)"
+   },
+   {
+    "name": "DACC",
+    "space": "dac",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "note": "DAC C DAC register; all four transparent while LDAC is low, latched on LDAC rising (p.9, Table 2)"
+   },
+   {
+    "name": "DACD",
+    "space": "dac",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "note": "DAC D DAC register; all four transparent while LDAC is low, latched on LDAC rising (p.9, Table 2)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write input register (WR low)",
+     "in": "aa d{8}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "A1 A0 select the input register (Table 1); transparent while WR is low, latched on WR rising (p.9, Table 2)"
+    }
+   ]
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "level",
+    "note": "DAC registers transparent while LDAC is low, all four latched on LDAC rising (p.3, p.9, Table 2)"
+   }
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB",
+    "INC",
+    "IND"
+   ],
+   "output": [
+    "DACA",
+    "DACB",
+    "DACC",
+    "DACD"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "DW": {
+   "pinout": "dw24",
+   "footprint": "SOIC-24W",
+   "package": "SOIC",
+   "pins": 24
+  }
+ },
+ "pdf": "tlc7225.pdf",
+ "pages": "p.1 (pinout, description), p.3 (terminal functions), p.4 (recommended operating conditions: VDD 11.4-16.5 V, VSS -5.5-0 V, TTL levels; timing requirements, Figure 1), p.9 (interface logic, Table 1 addressing), p.10 (Table 2 truth table, Figure 5)",
+ "notModeled": [
+  "analog: voltage outputs, reference inputs REFA-REFD, single or dual (VSS = -5 V) supply operation, settling",
+  "power-on state of the input and DAC registers is not stated in the datasheet (0 used)",
+  "the input register is level-transparent while WR is low; the model latches the data at WR rising (end of the write)",
+  "no chip select: every WR low pulse writes the addressed input register",
+  "timing requirements tsu(AW)/tsu(DW)/th(AW)/th(DW)/tw1/tw2 (p.4)",
+  "pin table (p.3) lists 'A0, A1 / 18, 19'; the pinout drawing (p.1), block diagram (p.2) and Figure 5 (p.10) give A0 = 19, A1 = 18, which is used"
+ ],
+ "variants": "tlc7225.pdf covers TLC7225C (0-70 C) and TLC7225I (-25-85 C), same pinout and interface.",
+ "parts": [
+  [
+   "TLC7225CDW",
+   "DW",
+   24,
+   "Active"
+  ],
+  [
+   "TLC7225IDW",
+   "DW",
+   24,
+   "Active"
+  ],
+  [
+   "TLC7225IDWR",
+   "DW",
+   24,
+   "Active"
+  ]
+ ]
+}

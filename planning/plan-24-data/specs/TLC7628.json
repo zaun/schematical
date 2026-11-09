@@ -1,0 +1,236 @@
+{
+ "device": {
+  "id": "TLC7628",
+  "function": "DAC",
+  "description": "dual 8-bit multiplying current-output DAC with separate data latches and a common 8-bit microprocessor input port (10.8-15.75 V supply)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "slas063b.pdf (SLAS063B) p.1 (pinout), p.3 (recommended operating conditions: VDD 10.8-15.75 V, TTL VIH 2.4 V / VIL 0.8 V, timing), p.4 (Figure 1 write timing), p.8 (microprocessor interface), p.9 (Table 1 mode selection, Tables 2-3 codes)",
+  "pinouts": {
+   "so20": [
+    {
+     "number": 1,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 2,
+     "name": "OUTA",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "RFBA",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "REFA",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "DACA/DACB",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DB7",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "DB6",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "DB5",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "DB4",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "DB3",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "DB2",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "DB1",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "DB0",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "WR",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 18,
+     "name": "REFB",
+     "role": "power"
+    },
+    {
+     "number": 19,
+     "name": "RFBB",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "OUTB",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 8,
+  "channels": 2,
+  "vcc": [
+   10.8,
+   15.75
+  ],
+  "analog": [
+   "OUTA",
+   "OUTB",
+   "RFBA",
+   "RFBB",
+   "REFA",
+   "REFB"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "wr": {
+    "pin": "WR",
+    "active": 0
+   },
+   "address": [
+    "DACA/DACB"
+   ]
+  },
+  "registers": [
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "note": "DAC A data latch (DACA/DACB low, Table 1 p.9); power-on code not stated (0 used)"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "note": "DAC B data latch (DACA/DACB high, Table 1 p.9); power-on code not stated (0 used)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write (CS and WR low)",
+     "in": "a d{8}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "DACA/DACB selects the latch (low = DACA, high = DACB); data latched when CS or WR goes high (p.8, Table 1 p.9)"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "DACA",
+    "DACB"
+   ],
+   "output": [
+    "DACA",
+    "DACB"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "DW": {
+   "pinout": "so20",
+   "footprint": "SOIC-20W",
+   "package": "SOIC",
+   "pins": 20
+  },
+  "N": {
+   "pinout": "so20",
+   "footprint": "PDIP-20",
+   "package": "DIP",
+   "pins": 20
+  }
+ },
+ "pdf": "slas063b.pdf",
+ "pages": "p.1 (pinout, DW or N package), p.3 (recommended operating conditions, timing requirements), p.4 (write timing), p.8-9 (interface, mode selection table)",
+ "notModeled": [
+  "analog: multiplying current outputs OUTA/OUTB, references REFA/REFB (+-10 V), feedback resistors RFBA/RFBB, voltage-mode operation",
+  "the selected latch is transparent while CS and WR are low (the output follows DB7-DB0); the model latches at the end of the write",
+  "power-on contents of the data latches are not stated (0 used)",
+  "the digital inputs are TTL-compatible (VIH 2.4 V, VIL 0.8 V) with VDD 10.8-15.75 V; the vcc range is VDD",
+  "timing requirements tsu(CS)/th(CS)/tsu(DAC)/th(DAC)/tsu(D)/th(D)/tw(WR) (p.3) are not checked"
+ ],
+ "variants": "TLC7528 is the 5-15 V counterpart with a separate datasheet; only the TLC7628C (0-70 C) is in this datasheet",
+ "parts": [
+  [
+   "TLC7628CDW",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "TLC7628CN",
+   "N",
+   20,
+   "Active"
+  ]
+ ]
+}

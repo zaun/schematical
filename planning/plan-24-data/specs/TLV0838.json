@@ -1,0 +1,286 @@
+{
+ "device": {
+  "id": "TLV0838",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "3-V 8-bit serial-control SAR ADC with 8-channel multiplexer (single-ended, pseudo-differential or differential) and shift-enable control",
+  "note": "tlv0834.pdf (SLAS147B) p.1 pinouts (D/N, PW, TLV0838 PW/DW/N), p.2 functional block diagram (Note A), p.3 functional description, p.4-5 sequence of operation, p.4 and p.6 MUX-address control logic tables, p.7 recommended operating conditions, p.8 operating characteristics (tpd, tdis, tc)",
+  "pinouts": {
+   "dw20": [
+    {
+     "number": 1,
+     "name": "CH0",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "CH1",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "CH2",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "CH3",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "CH4",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "CH5",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "CH6",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "CH7",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "COM",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "DGTL GND",
+     "role": "ground"
+    },
+    {
+     "number": 11,
+     "name": "ANLG GND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "REF",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "SE",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "DO",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "SARS",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "DI",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 20,
+     "name": "VCC",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 8,
+  "channels": 8,
+  "codeFormat": "straight",
+  "vcc": [
+   2.7,
+   3.6
+  ],
+  "analog": [
+   "CH0",
+   "CH1",
+   "CH2",
+   "CH3",
+   "CH4",
+   "CH5",
+   "CH6",
+   "CH7",
+   "COM",
+   "REF"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "CLK",
+   "mosi": "DI",
+   "miso": "DO",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 0,
+   "tOut": 500,
+   "tFloat": 250
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 4,
+    "reset": 0,
+    "note": "internal: the MUX address word after the start bit (no read-back; cleared when CS goes high per p.3, reset 0 here)",
+    "fields": [
+     {
+      "name": "SGL_DIF",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "ODD_SEL",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "out": "z{32}",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "Start bit + MUX address",
+     "in": "1 d aaa",
+     "action": "start",
+     "channel": "a",
+     "channelMap": {
+      "1": [
+       2
+      ],
+      "2": [
+       4
+      ],
+      "3": [
+       6
+      ],
+      "4": [
+       1
+      ],
+      "5": [
+       3
+      ],
+      "6": [
+       5
+      ]
+     },
+     "set": {
+      "CTRL.SGL_DIF": "d",
+      "CTRL.ODD_SEL": "a"
+     },
+     "reply": "0 R{8} [R:1:1] [R:2:2] [R:3:3] [R:4:4] [R:5:5] [R:6:6] [R:7:7]",
+     "note": "p.5-6: start bit, SGL/DIF, ODD/EVEN, SELECT 1, SELECT 0 on CLK rising edges (leading zeros ignored). Capture a = ODD/EVEN,SEL1,SEL0: 000 CH0, 001 CH2, 010 CH4, 011 CH6, 100 CH1, 101 CH3, 110 CH5, 111 CH7 (the + input; COM is the - input single-ended; differential pairs CH0/1, 2/3, 4/5, 6/7). Reply with SE low: the MUX-settling low, D7..D0 MSB first, then D1..D7 LSB first, then DO low until CS rises"
+    },
+    {
+     "name": "Leading zero (no start bit)",
+     "in": "0",
+     "action": "nop",
+     "note": "p.3: the first logic high on DI is the start bit; leading zeros are ignored"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "command"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "SARS",
+    "active": 1,
+    "asserts": "busy"
+   }
+  ]
+ },
+ "packages": {
+  "DW": {
+   "pinout": "dw20",
+   "footprint": "SOIC-20W",
+   "package": "SOIC",
+   "pins": 20
+  },
+  "PW": {
+   "pinout": "dw20",
+   "footprint": "TSSOP-20",
+   "package": "TSSOP",
+   "pins": 20
+  }
+ },
+ "pdf": "tlv0834.pdf",
+ "pages": "p.1 (pinouts), p.2 (block diagram, Note A), p.3 (functional description), p.4 (TLV0834 sequence, MUX table), p.5 (TLV0838 sequence, SE timing), p.6 (TLV0838 MUX table), p.7 (ROC), p.8 (tpd, tdis, tc)",
+ "notModeled": [
+  "analog inputs, multiplexer, single-ended / differential selection and REF span (stored only; the result is always the 0 V code 0x00)",
+  "DI is examined only during the MUX-addressing interval (p.3); the model's stream frame keeps matching DI, so a 1 on DI during the output restarts the reply. Hold DI low after the address; the DI/DO one-wire tie (p.3) is not supported",
+  "DO is high impedance from CS fall until the MUX-settling clock; the model shifts z for at most 32 leading clocks before a start bit",
+  "SARS: high while the conversion is in progress and high impedance while CS is high (p.3); with the clocked conversion (time 0) the model only drives it low",
+  "the conversion is clocked by CLK (tc = 8 clock periods after the MUX settling clock, p.8); not timed, the result is the 0 V code at once",
+  "all internal registers are cleared when CS goes high; a new conversion needs a CS high-to-low transition (p.3)",
+  "codeFormat: straight binary; when IN- is more positive than IN+ the output is 0000 0000 (p.8 Note 3)",
+  "SE (shift enable): the model always behaves as SE held low (LSB-first data follows the MSB-first data); with SE high the LSB is held on DO until SE falls, then D1..D7 are clocked out (p.3, p.5)",
+  "f(CLK) 10-600 kHz at VCC = 3.3 V, 10-250 kHz at VCC = 2.7 V, 40-60 % duty cycle, tsu 350 ns, th 90 ns, CS high 220 ns min (p.7)",
+  "tpd (output data after CLK fall) is 500 ns max MSB-first and 200 ns max LSB-first at CL = 100 pF (p.8); the model uses 500 ns for every bit",
+  "tdis (CS high to DO or SARS Z) is 80 ns max at CL = 10 pF and 250 ns at CL = 100 pF (p.8); the model uses 250 ns"
+ ],
+ "variants": "TLV0834 (4 channels, no COM/SE) shares the datasheet; TLV0838 PW, DW and N packages share one pin numbering (p.1). 3-V version of the TLC0838.",
+ "parts": [
+  [
+   "TLV0838CDW",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "TLV0838IDW",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "TLV0838IDWR",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "TLV0838IPW",
+   "PW",
+   20,
+   "Active"
+  ]
+ ]
+}

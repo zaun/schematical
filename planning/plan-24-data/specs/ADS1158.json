@@ -1,0 +1,851 @@
+{
+ "device": {
+  "id": "ADS1158",
+  "function": "ADC",
+  "description": "16-bit 125 kSPS 16-channel delta-sigma ADC with auto-scan multiplexer, GPIO and SPI interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1158.pdf (SBAS429D) p.4 power supply (DVDD 2.7-5.25 V), p.5-6 pin assignments, p.7 serial interface timing, p.17 data rates (Table 3), p.23 output code (Table 7), p.25-26 START pin / pulse convert, p.28-30 SPI and commands, p.31-32 channel data / status byte, p.33-38 command byte and registers (Table 11)",
+  "pinouts": {
+   "rtc48": [
+    {
+     "number": 1,
+     "name": "AIN3",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AIN2",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "AIN1",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "AIN0",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AVSS",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "PLLCAP",
+     "role": "nc"
+    },
+    {
+     "number": 8,
+     "name": "XTAL1",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "XTAL2",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "PWDN",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "CLKSEL",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "CLKIO",
+     "role": "inout"
+    },
+    {
+     "number": 14,
+     "name": "GPIO0",
+     "role": "inout"
+    },
+    {
+     "number": 15,
+     "name": "GPIO1",
+     "role": "inout"
+    },
+    {
+     "number": 16,
+     "name": "GPIO2",
+     "role": "inout"
+    },
+    {
+     "number": 17,
+     "name": "GPIO3",
+     "role": "inout"
+    },
+    {
+     "number": 18,
+     "name": "GPIO4",
+     "role": "inout"
+    },
+    {
+     "number": 19,
+     "name": "GPIO5",
+     "role": "inout"
+    },
+    {
+     "number": 20,
+     "name": "GPIO6",
+     "role": "inout"
+    },
+    {
+     "number": 21,
+     "name": "GPIO7",
+     "role": "inout"
+    },
+    {
+     "number": 22,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 25,
+     "name": "DRDY",
+     "role": "output"
+    },
+    {
+     "number": 26,
+     "name": "START",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 29,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 30,
+     "name": "VREFN",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "VREFP",
+     "role": "power"
+    },
+    {
+     "number": 32,
+     "name": "AINCOM",
+     "role": "input"
+    },
+    {
+     "number": 33,
+     "name": "AIN15",
+     "role": "input"
+    },
+    {
+     "number": 34,
+     "name": "AIN14",
+     "role": "input"
+    },
+    {
+     "number": 35,
+     "name": "AIN13",
+     "role": "input"
+    },
+    {
+     "number": 36,
+     "name": "AIN12",
+     "role": "input"
+    },
+    {
+     "number": 37,
+     "name": "AIN11",
+     "role": "input"
+    },
+    {
+     "number": 38,
+     "name": "AIN10",
+     "role": "input"
+    },
+    {
+     "number": 39,
+     "name": "AIN9",
+     "role": "input"
+    },
+    {
+     "number": 40,
+     "name": "AIN8",
+     "role": "input"
+    },
+    {
+     "number": 41,
+     "name": "ADCINN",
+     "role": "input"
+    },
+    {
+     "number": 42,
+     "name": "ADCINP",
+     "role": "input"
+    },
+    {
+     "number": 43,
+     "name": "MUXOUTN",
+     "role": "output"
+    },
+    {
+     "number": 44,
+     "name": "MUXOUTP",
+     "role": "output"
+    },
+    {
+     "number": 45,
+     "name": "AIN7",
+     "role": "input"
+    },
+    {
+     "number": 46,
+     "name": "AIN6",
+     "role": "input"
+    },
+    {
+     "number": 47,
+     "name": "AIN5",
+     "role": "input"
+    },
+    {
+     "number": 48,
+     "name": "AIN4",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 16,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "AIN0",
+   "AIN1",
+   "AIN2",
+   "AIN3",
+   "AIN4",
+   "AIN5",
+   "AIN6",
+   "AIN7",
+   "AIN8",
+   "AIN9",
+   "AIN10",
+   "AIN11",
+   "AIN12",
+   "AIN13",
+   "AIN14",
+   "AIN15",
+   "AINCOM",
+   "AVSS",
+   "AVDD",
+   "PLLCAP",
+   "XTAL1",
+   "XTAL2",
+   "VREFN",
+   "VREFP",
+   "ADCINN",
+   "ADCINP",
+   "MUXOUTN",
+   "MUXOUTP"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "miso": "DOUT",
+   "mode": 0
+  },
+  "timing": {
+   "tOut": 20,
+   "tFloat": 312.5
+  },
+  "registers": [
+   {
+    "name": "CONFIG0",
+    "address": 0,
+    "width": 8,
+    "reset": 10,
+    "fields": [
+     {
+      "name": "SPIRST",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "MUXMOD",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "BYPAS",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "CLKENB",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CHOP",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "STAT",
+      "bits": [
+       1,
+       1
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG1",
+    "address": 1,
+    "width": 8,
+    "reset": 131,
+    "fields": [
+     {
+      "name": "IDLMOD",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "DLY",
+      "bits": [
+       6,
+       4
+      ]
+     },
+     {
+      "name": "SBCS",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "DRATE",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "MUXSCH",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "AINP",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "AINN",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "MUXDIF",
+    "address": 3,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "MUXSG0",
+    "address": 4,
+    "width": 8,
+    "reset": 255
+   },
+   {
+    "name": "MUXSG1",
+    "address": 5,
+    "width": 8,
+    "reset": 255
+   },
+   {
+    "name": "SYSRED",
+    "address": 6,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "REF",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "GAIN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "TEMP",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "VCC",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "OFFSET",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPIOC",
+    "address": 7,
+    "width": 8,
+    "reset": 255
+   },
+   {
+    "name": "GPIOD",
+    "address": 8,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "ID",
+    "address": 9,
+    "width": 8,
+    "reset": 155,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "ID4",
+      "bits": [
+       4,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "STATUS",
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "note": "the status byte sent ahead of channel data (Table 9, p.31); not in the register map",
+    "fields": [
+     {
+      "name": "NEW",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "OVF",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "SUPPLY",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "CHID",
+      "bits": [
+       4,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CTRL",
+    "width": 1,
+    "reset": 0,
+    "note": "internal: follows the START pin (pins.levels) so the pin selects continuous conversion",
+    "fields": [
+     {
+      "name": "START",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "out": "[STATUS] R{16}",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "Channel Data Read Command",
+     "in": "001xxxxx",
+     "reply": "[STATUS] R{16}",
+     "note": "MUL must be 1; status byte always included (p.33 C[2:0] table)"
+    },
+    {
+     "name": "Register Read (MUL=0)",
+     "in": "0100aaaa",
+     "action": "rreg",
+     "address": "a",
+     "count": 1
+    },
+    {
+     "name": "Register Read (MUL=1, from 00h)",
+     "in": "01010000",
+     "action": "rreg",
+     "address": 0,
+     "count": 10,
+     "note": "multiple read ends after address 09h (p.33)"
+    },
+    {
+     "name": "Register Read (MUL=1, from 01h)",
+     "in": "01010001",
+     "action": "rreg",
+     "address": 1,
+     "count": 9,
+     "note": "multiple read ends after address 09h (p.33)"
+    },
+    {
+     "name": "Register Read (MUL=1, from 02h)",
+     "in": "01010010",
+     "action": "rreg",
+     "address": 2,
+     "count": 8,
+     "note": "multiple read ends after address 09h (p.33)"
+    },
+    {
+     "name": "Register Read (MUL=1, from 03h)",
+     "in": "01010011",
+     "action": "rreg",
+     "address": 3,
+     "count": 7,
+     "note": "multiple read ends after address 09h (p.33)"
+    },
+    {
+     "name": "Register Read (MUL=1, from 04h)",
+     "in": "01010100",
+     "action": "rreg",
+     "address": 4,
+     "count": 6,
+     "note": "multiple read ends after address 09h (p.33)"
+    },
+    {
+     "name": "Register Read (MUL=1, from 05h)",
+     "in": "01010101",
+     "action": "rreg",
+     "address": 5,
+     "count": 5,
+     "note": "multiple read ends after address 09h (p.33)"
+    },
+    {
+     "name": "Register Read (MUL=1, from 06h)",
+     "in": "01010110",
+     "action": "rreg",
+     "address": 6,
+     "count": 4,
+     "note": "multiple read ends after address 09h (p.33)"
+    },
+    {
+     "name": "Register Read (MUL=1, from 07h)",
+     "in": "01010111",
+     "action": "rreg",
+     "address": 7,
+     "count": 3,
+     "note": "multiple read ends after address 09h (p.33)"
+    },
+    {
+     "name": "Register Read (MUL=1, from 08h)",
+     "in": "01011000",
+     "action": "rreg",
+     "address": 8,
+     "count": 2,
+     "note": "multiple read ends after address 09h (p.33)"
+    },
+    {
+     "name": "Register Read (MUL=1, from 09h)",
+     "in": "01011001",
+     "action": "rreg",
+     "address": 9,
+     "count": 1,
+     "note": "multiple read ends after address 09h (p.33)"
+    },
+    {
+     "name": "Register Write (MUL=0)",
+     "in": "0110aaaa",
+     "action": "wreg",
+     "address": "a",
+     "count": 1
+    },
+    {
+     "name": "Register Write (MUL=1, from 00h)",
+     "in": "01110000",
+     "action": "wreg",
+     "address": 0,
+     "count": 10,
+     "note": "multiple write ends after address 09h (p.30, p.33)"
+    },
+    {
+     "name": "Register Write (MUL=1, from 01h)",
+     "in": "01110001",
+     "action": "wreg",
+     "address": 1,
+     "count": 9,
+     "note": "multiple write ends after address 09h (p.30, p.33)"
+    },
+    {
+     "name": "Register Write (MUL=1, from 02h)",
+     "in": "01110010",
+     "action": "wreg",
+     "address": 2,
+     "count": 8,
+     "note": "multiple write ends after address 09h (p.30, p.33)"
+    },
+    {
+     "name": "Register Write (MUL=1, from 03h)",
+     "in": "01110011",
+     "action": "wreg",
+     "address": 3,
+     "count": 7,
+     "note": "multiple write ends after address 09h (p.30, p.33)"
+    },
+    {
+     "name": "Register Write (MUL=1, from 04h)",
+     "in": "01110100",
+     "action": "wreg",
+     "address": 4,
+     "count": 6,
+     "note": "multiple write ends after address 09h (p.30, p.33)"
+    },
+    {
+     "name": "Register Write (MUL=1, from 05h)",
+     "in": "01110101",
+     "action": "wreg",
+     "address": 5,
+     "count": 5,
+     "note": "multiple write ends after address 09h (p.30, p.33)"
+    },
+    {
+     "name": "Register Write (MUL=1, from 06h)",
+     "in": "01110110",
+     "action": "wreg",
+     "address": 6,
+     "count": 4,
+     "note": "multiple write ends after address 09h (p.30, p.33)"
+    },
+    {
+     "name": "Register Write (MUL=1, from 07h)",
+     "in": "01110111",
+     "action": "wreg",
+     "address": 7,
+     "count": 3,
+     "note": "multiple write ends after address 09h (p.30, p.33)"
+    },
+    {
+     "name": "Register Write (MUL=1, from 08h)",
+     "in": "01111000",
+     "action": "wreg",
+     "address": 8,
+     "count": 2,
+     "note": "multiple write ends after address 09h (p.30, p.33)"
+    },
+    {
+     "name": "Register Write (MUL=1, from 09h)",
+     "in": "01111001",
+     "action": "wreg",
+     "address": 9,
+     "count": 1,
+     "note": "multiple write ends after address 09h (p.30, p.33)"
+    },
+    {
+     "name": "Pulse Convert",
+     "in": "100xxxxx",
+     "action": "start"
+    },
+    {
+     "name": "Reset",
+     "in": "110xxxxx",
+     "action": "reset"
+    }
+   ]
+  },
+  "conversion": {
+   "time": {
+    "fields": [
+     "CONFIG0.MUXMOD",
+     "CONFIG1.DRATE"
+    ],
+    "values": {
+     "0,3": 42125,
+     "0,2": 66124,
+     "0,1": 162127,
+     "0,0": 546150,
+     "1,3": 8000,
+     "1,2": 32000,
+     "1,1": 127992,
+     "1,0": 512033
+    }
+   },
+   "start": [
+    "command",
+    "pin"
+   ],
+   "mode": {
+    "field": "CTRL.START",
+    "continuous": 1
+   },
+   "done": {
+    "STATUS.NEW": 1
+   },
+   "onRead": {
+    "STATUS.NEW": 0
+   }
+  },
+  "ready": [
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": [
+     "read",
+     "start"
+    ]
+   }
+  ],
+  "pins": {
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   },
+   "powerdown": {
+    "pin": "PWDN",
+    "active": 0
+   },
+   "start": {
+    "pin": "START",
+    "active": 1
+   },
+   "levels": [
+    {
+     "pin": "START",
+     "field": "CTRL.START"
+    }
+   ]
+  }
+ },
+ "packages": {
+  "RTC": {
+   "pinout": "rtc48",
+   "footprint": "VQFN-48-RTC",
+   "package": "VQFN",
+   "pins": 48
+  }
+ },
+ "pdf": "ads1158.pdf",
+ "pages": "p.4 (supplies), p.5-6 (pins), p.7 (SPI timing), p.17 (Table 3 data rates), p.23 (Table 7 codes), p.25-26 (conversion control), p.28-30 (SPI, commands), p.31-32 (channel data format), p.33-38 (command byte, Table 11 registers)",
+ "notModeled": [
+  "analog inputs, multiplexer, chopping, sensor bias, switch-time delay DLY (stored only)",
+  "auto-scan channel sequencing: the channel pointer and STATUS.CHID are not advanced (CHID stays 0); the result is the 0 V code for every channel; the system readings (offset, VCC, TEMP, GAIN, REF) are not computed",
+  "Channel Data Read Direct (DIN 000/111 for the first three bits) is the default out pattern [STATUS] R{16}; with fixed-channel mode or STAT=0 the datasheet drops the status byte (Table 12), the model always sends it; after a direct read the datasheet ignores commands until CS toggles",
+  "STATUS.OVF and SUPPLY are never set",
+  "conversion time is the steady data rate of Table 3 at fCLK = 16 MHz (chop off, delay 0); the initial start delay (Table 8), standby/sleep wake-up and IDLMOD are not modeled",
+  "START pin linked to a GPIO via GPIOD writes; GPIO pins are not driven and GPIOD reads do not return pin levels",
+  "SPI interface timeout (SPIRST, 256/4096 fCLK), CLKSEL / crystal oscillator / CLKIO clock output",
+  "DRDY 1-tCLK high pulse when data are not read"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS1158IRTCR",
+   "RTC",
+   48,
+   "Active"
+  ],
+  [
+   "ADS1158IRTCT",
+   "RTC",
+   48,
+   "Active"
+  ]
+ ]
+}

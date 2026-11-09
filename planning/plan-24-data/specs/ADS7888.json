@@ -1,0 +1,133 @@
+{
+ "device": {
+  "id": "ADS7888",
+  "function": "ADC",
+  "description": "8-bit 1.25 MSPS micro-power SAR ADC with SPI-compatible serial output",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads7887.pdf (SLAS468A) p.5 pin configuration and functions, p.8 ADS7888 electrical characteristics (full-scale 0 to VDD, VDD 2.35-5.25 V), p.9 timing requirements (td1 25 ns, td2 25 ns, td4 30 ns max at 3 V), p.17-18 ADS7888 operation (Figure 33: 4 leading zeros, 8 data bits, 4 lagging zeros; Figure 34 12-clock frame), p.18-19 power-down mode (Figures 35-36)",
+  "pinouts": {
+   "sot6": [
+    {
+     "number": 1,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "VIN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "CS",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 8,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   2.35,
+   5.25
+  ],
+  "analog": [
+   "VIN"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "miso": "SDO",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 25,
+   "tOut": 25,
+   "tFloat": 30
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "0{4} R{8} 0{4}",
+   "idle": "z",
+   "commands": []
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ]
+  }
+ },
+ "packages": {
+  "DBV": {
+   "pinout": "sot6",
+   "footprint": "SOT23-6",
+   "package": "SOT-23",
+   "pins": 6
+  },
+  "DCK": {
+   "pinout": "sot6",
+   "footprint": "SC70-6",
+   "package": "SC-70",
+   "pins": 6
+  }
+ },
+ "pdf": "ads7887.pdf",
+ "pages": "p.5 (pins), p.8 (specs), p.9 (timing), p.17-18 (operation, Figures 33-34), p.18-19 (power-down, Figures 35-36)",
+ "notModeled": [
+  "analog input (0 V to VDD; VDD is also the reference); the conversion is clocked by SCLK (not timed: the result is the 0 V code at once)",
+  "frame: the first zero is clocked out by the CS falling edge and each SCLK falling edge shifts the next bit (read on the rising edge): SPI mode 0 shape; SDO goes 3-state after the 16th SCLK falling edge (idle \"z\") or at CS rising",
+  "power-down: CS high after the 2nd and before the 10th SCLK falling edge powers the device down; a dummy frame of at least 10 SCLK falling edges wakes it (power-up time 1 us); frames during wake-up return invalid data",
+  "CS high before the end of the conversion aborts it (SDO 3-state; no valid data in the next frame)",
+  "digital inputs may go up to 5.25 V regardless of VDD (p.17); not expressed (vcc max is 5.25 V)",
+  "quiet time tq, acquisition time and SCLK frequency limits; delays at VDD = 3 V (the maximum) are used",
+  "12-clock frames (Figure 34: CS high after the 12th falling edge, SDO 3-state after the LSB) work as a CS-ended frame"
+ ],
+ "variants": "ads7887.pdf covers ADS7887 (10-bit) and ADS7888 (8-bit)",
+ "parts": [
+  [
+   "ADS7888SDBVR",
+   "DBV",
+   6,
+   "Active"
+  ],
+  [
+   "ADS7888SDBVT",
+   "DBV",
+   6,
+   "Active"
+  ],
+  [
+   "ADS7888SDCKR",
+   "DCK",
+   6,
+   "Active"
+  ],
+  [
+   "ADS7888SDCKT",
+   "DCK",
+   6,
+   "Active"
+  ]
+ ]
+}

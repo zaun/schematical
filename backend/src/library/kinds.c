@@ -26,6 +26,8 @@ extern const PartKindOps BUFFER_KIND;
 extern const PartKindOps MUX_KIND;
 extern const PartKindOps HEADER_KIND;
 extern const PartKindOps ARITH_KIND;
+extern const PartKindOps CONVERTER_KIND;
+extern const PartKindOps RTC_KIND;
 
 /* One line per kind. Adding a kind: docs/backend.md, "Adding a kind". */
 const PartKindOps *const KINDS[] = {
@@ -52,6 +54,8 @@ const PartKindOps *const KINDS[] = {
     &MUX_KIND,
     &HEADER_KIND,
     &ARITH_KIND,
+    &CONVERTER_KIND,
+    &RTC_KIND,
     NULL
 };
 
@@ -66,6 +70,16 @@ const PartKindOps *kind_find(const char *name) {
         }
     }
     return NULL;
+}
+
+int part_pin_analog(const Part *part, size_t pin) {
+    const PartInternal *internal;
+
+    if (part == NULL || part->internal == NULL || pin >= part->pin_count) {
+        return 0;
+    }
+    internal = part_internal(part);
+    return internal->ops->pin_analog != NULL && internal->ops->pin_analog(part, pin);
 }
 
 int part_pin_open_drain(const Part *part, size_t pin) {

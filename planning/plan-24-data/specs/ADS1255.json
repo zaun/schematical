@@ -1,0 +1,524 @@
+{
+ "device": {
+  "id": "ADS1255",
+  "function": "ADC",
+  "description": "24-bit 30 kSPS 2-channel (differential AIN0/AIN1/AINCOM) delta-sigma ADC with PGA, 2 GPIOs and SPI interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1255.pdf (SBAS288K) p.1 features (5 V tolerant SPI), p.3-4 electrical characteristics (VIH up to 5.25 V on DIN, SCLK, XTAL1/CLKIN, SYNC/PDWN, CS, RESET; DVDD 1.8-3.6 V), p.5 pin assignments and terminal functions, p.6-7 timing (Figures 1-4), p.18-19 digital filter (Table 11 DRATE), p.23 data format (Table 16), p.26-28 serial interface, DRDY, standby, power-down, reset, synchronization, p.30-33 register map (Table 23) and register descriptions, p.34-38 commands (Table 24)",
+  "pinouts": {
+   "db20": [
+    {
+     "number": 1,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "VREFN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "VREFP",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "AINCOM",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "AIN0",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "AIN1",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "SYNC/PDWN",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "XTAL2",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "XTAL1/CLKIN",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "DRDY",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "D0/CLKOUT",
+     "role": "inout"
+    },
+    {
+     "number": 20,
+     "name": "D1",
+     "role": "inout"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 24,
+  "channels": 2,
+  "codeFormat": "twos",
+  "vcc": [
+   1.8,
+   3.6
+  ],
+  "inputMax": 5.25,
+  "analog": [
+   "AVDD",
+   "AGND",
+   "VREFN",
+   "VREFP",
+   "AINCOM",
+   "AIN0",
+   "AIN1",
+   "XTAL2",
+   "XTAL1/CLKIN"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "miso": "DOUT",
+   "mode": 1
+  },
+  "timing": {
+   "tValid": 50,
+   "tOut": 50,
+   "tFloat": 0
+  },
+  "registers": [
+   {
+    "name": "STATUS",
+    "address": 0,
+    "width": 8,
+    "reset": 1,
+    "readOnly": 241,
+    "fields": [
+     {
+      "name": "ID",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "ORDER",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "ACAL",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "BUFEN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DRDY",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "reset x1h: the factory ID bits are not given (0 here); DRDY duplicates the DRDY pin (p.30)"
+   },
+   {
+    "name": "MUX",
+    "address": 1,
+    "width": 8,
+    "reset": 1,
+    "fields": [
+     {
+      "name": "PSEL",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "NSEL",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADCON",
+    "address": 2,
+    "width": 8,
+    "reset": 32,
+    "readOnly": 128,
+    "fields": [
+     {
+      "name": "CLK",
+      "bits": [
+       6,
+       5
+      ]
+     },
+     {
+      "name": "SDCS",
+      "bits": [
+       4,
+       3
+      ]
+     },
+     {
+      "name": "PGA",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "bit 7 reserved, always 0 (read only); the bit table prints SDCS as bits 4-2 but the register map places it at bits 4-3"
+   },
+   {
+    "name": "DRATE",
+    "address": 3,
+    "width": 8,
+    "reset": 240,
+    "fields": [
+     {
+      "name": "DR",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "IO",
+    "address": 4,
+    "width": 8,
+    "reset": 224,
+    "fields": [
+     {
+      "name": "DIR",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "DIO",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OFC0",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "note": "reset depends on calibration results (0 here)"
+   },
+   {
+    "name": "OFC1",
+    "address": 6,
+    "width": 8,
+    "reset": 0,
+    "note": "reset depends on calibration results (0 here)"
+   },
+   {
+    "name": "OFC2",
+    "address": 7,
+    "width": 8,
+    "reset": 0,
+    "note": "reset depends on calibration results (0 here)"
+   },
+   {
+    "name": "FSC0",
+    "address": 8,
+    "width": 8,
+    "reset": 0,
+    "note": "reset depends on calibration results (0 here)"
+   },
+   {
+    "name": "FSC1",
+    "address": 9,
+    "width": 8,
+    "reset": 0,
+    "note": "reset depends on calibration results (0 here)"
+   },
+   {
+    "name": "FSC2",
+    "address": 10,
+    "width": 8,
+    "reset": 0,
+    "note": "reset depends on calibration results (0 here)"
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "out": "z",
+   "idle": "z",
+   "commands": [
+    {
+     "name": "WAKEUP",
+     "in": "00000000",
+     "action": "wakeup",
+     "then": [
+      "start"
+     ],
+     "note": "completes SYNC and exits standby (00h)"
+    },
+    {
+     "name": "RDATA",
+     "in": "00000001",
+     "reply": "R{24}"
+    },
+    {
+     "name": "RDATAC",
+     "in": "00000011",
+     "reply": "R{24}",
+     "note": "read data continuously: modeled as one RDATA (each later DRDY needs a new read)"
+    },
+    {
+     "name": "SDATAC",
+     "in": "00001111",
+     "action": "nop"
+    },
+    {
+     "name": "RREG",
+     "in": "0001aaaa 0000nnnn",
+     "action": "rreg",
+     "address": "a",
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "WREG",
+     "in": "0101aaaa 0000nnnn",
+     "action": "wreg",
+     "address": "a",
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "SELFCAL",
+     "in": "11110000",
+     "action": "start",
+     "note": "calibration not modeled; DRDY goes low after the calibration with new data"
+    },
+    {
+     "name": "SELFOCAL",
+     "in": "11110001",
+     "action": "start",
+     "note": "calibration not modeled"
+    },
+    {
+     "name": "SELFGCAL",
+     "in": "11110010",
+     "action": "start",
+     "note": "calibration not modeled"
+    },
+    {
+     "name": "SYSOCAL",
+     "in": "11110011",
+     "action": "start",
+     "note": "calibration not modeled"
+    },
+    {
+     "name": "SYSGCAL",
+     "in": "11110100",
+     "action": "start",
+     "note": "calibration not modeled"
+    },
+    {
+     "name": "SYNC",
+     "in": "11111100",
+     "action": "stop",
+     "note": "conversions resume on the following WAKEUP"
+    },
+    {
+     "name": "STANDBY",
+     "in": "11111101",
+     "action": "powerdown"
+    },
+    {
+     "name": "RESET",
+     "in": "11111110",
+     "action": "reset"
+    },
+    {
+     "name": "WAKEUP",
+     "in": "11111111",
+     "action": "wakeup",
+     "then": [
+      "start"
+     ],
+     "note": "FFh form"
+    }
+   ]
+  },
+  "conversion": {
+   "time": {
+    "field": "DRATE.DR",
+    "values": {
+     "240": 33333,
+     "224": 66667,
+     "208": 133333,
+     "192": 266667,
+     "176": 500000,
+     "161": 1000000,
+     "146": 2000000,
+     "130": 10000000,
+     "114": 16666667,
+     "99": 20000000,
+     "83": 33333333,
+     "67": 40000000,
+     "51": 66666667,
+     "35": 100000000,
+     "19": 200000000,
+     "3": 400000000
+    }
+   },
+   "start": [
+    "power-on",
+    "command",
+    "pin"
+   ],
+   "mode": "continuous",
+   "done": {
+    "STATUS.DRDY": 0
+   },
+   "onRead": {
+    "STATUS.DRDY": 1
+   },
+   "channel": "MUX.PSEL"
+  },
+  "ready": [
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read"
+   }
+  ],
+  "pins": {
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   },
+   "start": {
+    "pin": "SYNC/PDWN",
+    "active": 1
+   }
+  }
+ },
+ "packages": {
+  "DB": {
+   "pinout": "db20",
+   "footprint": "SSOP-20",
+   "package": "SSOP",
+   "pins": 20
+  }
+ },
+ "pdf": "ads1255.pdf",
+ "pages": "p.1 features (5 V tolerant SPI), p.3-4 electrical characteristics (VIH up to 5.25 V on DIN, SCLK, XTAL1/CLKIN, SYNC/PDWN, CS, RESET; DVDD 1.8-3.6 V), p.5 pin assignments and terminal functions, p.6-7 timing (Figures 1-4), p.18-19 digital filter (Table 11 DRATE), p.23 data format (Table 16), p.26-28 serial interface, DRDY, standby, power-down, reset, synchronization, p.30-33 register map (Table 23) and register descriptions, p.34-38 commands (Table 24)",
+ "notModeled": [
+  "analog inputs, input buffer, PGA, sensor-detect current sources",
+  "conversion time = 1 / data rate (Table 11, fCLKIN = 7.68 MHz) for every conversion; the first conversion after SYNC/WAKEUP, a mux change or reset settles in t18 (Table 13, longer than 1 / data rate); data rates scale with fCLKIN",
+  "DRDY goes high 16 tCLKIN (t17) before each update when data was not read; the update window is not modeled",
+  "RDATAC read-data-continuous mode (data shifted out after each DRDY without a command, DIN monitored for SDATAC/RESET): modeled as a single RDATA",
+  "STATUS.ORDER (LSB-first output bits) is stored only; output is always MSB first",
+  "ACAL auto-calibration and the SELFCAL/SELFOCAL/SELFGCAL/SYSOCAL/SYSGCAL calibrations (OFC/FSC registers not updated; the commands restart a conversion)",
+  "SYNC/PDWN: held low stops conversions (modeled as the start pin, active high); held low for 20 DRDY periods powers down; the conversion restart is on the first CLKIN after the rising edge",
+  "SCLK reset pattern (Figure 2) and the serial interface reset after SCLK low for 32 DRDY periods",
+  "GPIO pins D0-D3 (IO register stored only; DIO does not read the pins) and the D0/CLKOUT clock output (ADCON.CLK)",
+  "crystal oscillator on XTAL1/XTAL2 or external clock on CLKIN (not used)",
+  "t6 delay (50 tCLKIN) required between a read command and the first data SCLK",
+  "RREG address wrap past the last register",
+  "WAKEUP (00h, FFh) is also the NOP byte: each 00h/FFh byte clocked in (e.g. while reading data) restarts the conversion, which the device does only after SYNC or STANDBY"
+ ],
+ "variants": "ADS1255 (20-pin SSOP: AIN0, AIN1, AINCOM, GPIO D0-D1) and ADS1256 (28-pin SSOP: AIN0-AIN7, AINCOM, GPIO D0-D3) share ads1255.pdf, registers and commands; own spec files",
+ "parts": [
+  [
+   "ADS1255IDBR",
+   "DB",
+   20,
+   "Active"
+  ],
+  [
+   "ADS1255IDBT",
+   "DB",
+   20,
+   "Active"
+  ]
+ ]
+}

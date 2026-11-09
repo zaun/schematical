@@ -1,0 +1,213 @@
+{
+  "device": {
+    "id": "ADC08L060",
+    "function": "ADC",
+    "description": "8-bit 10-60 MSPS low-voltage pipelined ADC with parallel CMOS outputs and power-down",
+    "drawer": [
+      "Interface"
+    ],
+    "note": "adc08l060.pdf (SNAS167G) p.2 pin configuration, p.3 Table 1 pin descriptions, p.4 operating ratings, p.7 AC characteristics (tOD 9.4 ns max, pipeline delay 5 clocks), p.15 functional description (straight binary, PD)",
+    "pinouts": {
+      "pw24": [
+        {
+          "number": 1,
+          "name": "VA",
+          "role": "power"
+        },
+        {
+          "number": 2,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 3,
+          "name": "VRT",
+          "role": "power"
+        },
+        {
+          "number": 4,
+          "name": "VA",
+          "role": "power"
+        },
+        {
+          "number": 5,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 6,
+          "name": "VIN",
+          "role": "input"
+        },
+        {
+          "number": 7,
+          "name": "VIN GND",
+          "role": "ground"
+        },
+        {
+          "number": 8,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 9,
+          "name": "VRM",
+          "role": "nc"
+        },
+        {
+          "number": 10,
+          "name": "VRB",
+          "role": "power"
+        },
+        {
+          "number": 11,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 12,
+          "name": "VA",
+          "role": "power"
+        },
+        {
+          "number": 13,
+          "name": "D7",
+          "role": "output"
+        },
+        {
+          "number": 14,
+          "name": "D6",
+          "role": "output"
+        },
+        {
+          "number": 15,
+          "name": "D5",
+          "role": "output"
+        },
+        {
+          "number": 16,
+          "name": "D4",
+          "role": "output"
+        },
+        {
+          "number": 17,
+          "name": "DR GND",
+          "role": "ground"
+        },
+        {
+          "number": 18,
+          "name": "VDR",
+          "role": "power"
+        },
+        {
+          "number": 19,
+          "name": "D3",
+          "role": "output"
+        },
+        {
+          "number": 20,
+          "name": "D2",
+          "role": "output"
+        },
+        {
+          "number": 21,
+          "name": "D1",
+          "role": "output"
+        },
+        {
+          "number": 22,
+          "name": "D0",
+          "role": "output"
+        },
+        {
+          "number": 23,
+          "name": "PD",
+          "role": "input"
+        },
+        {
+          "number": 24,
+          "name": "CLK",
+          "role": "input"
+        }
+      ]
+    },
+    "type": "adc",
+    "bits": 8,
+    "channels": 1,
+    "codeFormat": "straight",
+    "vcc": [
+      1.8,
+      3.6
+    ],
+    "analog": [
+      "VA",
+      "VRT",
+      "VIN",
+      "VRM",
+      "VRB"
+    ],
+    "bus": {
+      "style": "clocked",
+      "clock": {
+        "pin": "CLK",
+        "edge": "rise"
+      },
+      "data": [
+        "D7",
+        "D6",
+        "D5",
+        "D4",
+        "D3",
+        "D2",
+        "D1",
+        "D0"
+      ]
+    },
+    "timing": {
+      "tOut": 9.4
+    },
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "commands": [],
+      "read": "R{8}"
+    },
+    "pins": {
+      "powerdown": {
+        "pin": "PD",
+        "active": 1
+      }
+    }
+  },
+  "packages": {
+    "PW": {
+      "pinout": "pw24",
+      "footprint": "TSSOP-24",
+      "package": "TSSOP",
+      "pins": 24
+    }
+  },
+  "pdf": "adc08l060.pdf",
+  "pages": "p.2 (pin configuration), p.3 (Table 1), p.4 (operating ratings: VA 2.4-3.6 V, VDR 2.4 V to VA, output driver voltage 1.8 V to VA), p.7 (tOD 9.4 ns max, latency 5 clocks), p.15 (straight binary, PD high = power down, outputs hold the last result)",
+  "notModeled": [
+    "analog input and reference ladder (the result is always the 0 V code 0x00)",
+    "pipeline latency of 5 clock cycles (the code is constant); the 10-60 MSPS clock limits",
+    "PD high holds the outputs at the last conversion result (the model's powerdown only blocks conversions); power-up recovery time",
+    "CLK and PD are referenced to VA (2.4-3.6 V), the outputs to VDR (1.8 V to VA); vcc is the union 1.8-3.6 V"
+  ],
+  "variants": "",
+  "parts": [
+    [
+      "ADC08L060CIMT/NOPB",
+      "PW",
+      24,
+      "Active"
+    ],
+    [
+      "ADC08L060CIMTX/NOPB",
+      "PW",
+      24,
+      "Active"
+    ]
+  ]
+}

@@ -1,0 +1,152 @@
+{
+ "device": {
+  "id": "TLV0831",
+  "function": "ADC",
+  "description": "8-bit serial-output SAR ADC with one differential input (3-V, ADC0831 functional equivalent)",
+  "note": "tlv0832.pdf (SLAS148) p.1 pinouts (D/P packages), p.3 functional description (CS, MUX settling clock, start bit, DI disabled during conversion, LSB-first data on TLV0832), p.4 sequence of operation and MUX-address control logic table, p.5 recommended operating conditions, p.7 operating characteristics (tpd, tdis, tconv)",
+  "pinouts": {
+   "so8": [
+    {
+     "number": 1,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "IN+",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "IN-",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "REF",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "DO",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "VCC",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 8,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   2.7,
+   3.6
+  ],
+  "analog": [
+   "IN+",
+   "IN-",
+   "REF"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "CLK",
+   "miso": "DO",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 0,
+   "tOut": 500,
+   "tFloat": 250
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "z 0 R{8}",
+   "idle": "0",
+   "commands": []
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ]
+  },
+  "drawer": [
+   "Interface"
+  ]
+ },
+ "packages": {
+  "D": {
+   "pinout": "so8",
+   "footprint": "SOIC-8",
+   "package": "SOIC",
+   "pins": 8
+  },
+  "P": {
+   "pinout": "so8",
+   "footprint": "PDIP-8",
+   "package": "DIP",
+   "pins": 8
+  }
+ },
+ "pdf": "tlv0832.pdf",
+ "pages": "p.1 (pinouts), p.3 (functional description), p.4 (sequence of operation, MUX-address table), p.5 (recommended operating conditions), p.7 (operating characteristics)",
+ "notModeled": [
+  "p.4: DO is Hi-Z until the first CLK falling edge after CS falls, then the MUX-settling low, then D7..D0 MSB first on the following falling edges; the model shifts z, 0, D7..D0 (mode 0)",
+  "after the LSB the datasheet does not show the DO level for the TLV0831 (no LSB-first data on it); the model drives 0 until CS rises",
+  "analog input(s) and the REF span (the result is always the 0 V code 0x00); a negative differential input reads 0x00",
+  "the conversion is clocked by CLK (8 clock periods after the MUX settling clock, p.7 tconv); not timed, the result is the 0 V code at once",
+  "all internal registers are cleared when CS goes high; a new conversion needs a CS high-to-low transition (p.3)",
+  "f(CLK) 10-600 kHz at VCC = 3.3 V, 250 kHz max at VCC = 2.7 V, 40-60 % duty cycle, tsu 350 ns / th 90 ns, CS high 220 ns min (p.5)",
+  "tpd (output data after CLK) is 500 ns max MSB-first and 200 ns max LSB-first at CL = 100 pF (p.7); the model uses 500 ns for every bit",
+  "tdis (CS high to DO Z) is 125 ns max at CL = 10 pF and 250 ns at CL = 100 pF (p.7); the model uses 250 ns"
+ ],
+ "variants": "TLV0832 (same datasheet): 2-channel MUX with DI address input, LSB-first data after MSB-first; separate device TLV0832. 3-V version of the TLC0831 (same pinout and protocol).",
+ "parts": [
+  [
+   "TLV0831CD",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "TLV0831CDR",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "TLV0831CP",
+   "P",
+   8,
+   "Active"
+  ],
+  [
+   "TLV0831ID",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "TLV0831IDR",
+   "D",
+   8,
+   "Active"
+  ]
+ ]
+}

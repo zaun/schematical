@@ -220,6 +220,11 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// A generic pin header (plan-23): rows (1 or 2), pins per row, and
         /// the genders a placed one may have (the first is the default).
         case header(rows: Int, perRow: Int, genders: [String])
+        /// An ADC or DAC (plan-24): its type ("adc", "dac"), resolution in
+        /// bits and channels.
+        case converter(type: String, bits: Int, channels: Int)
+        /// A real-time clock (plan-24): no kind-specific facts.
+        case rtc
     }
 
     let name: String
@@ -232,6 +237,15 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     /// Empty for parts that are never listed (VCC, GND).
     let drawer: [String]
     let flags: Flags
+    /// The company that makes the part; "Generic" for parts no one company
+    /// makes (supplies, headers, the generic LED). Empty if not given.
+    let manufacturer: String
+    /// The manufacturer's PDF of the part's datasheet; nil for Generic parts.
+    let datasheetURL: URL?
+    /// The app's own Markdown datasheet for the part: its path under the
+    /// bundled Datasheets folder ("gate-and/sn74hc08.md"); nil when the
+    /// datasheet hasn't been converted.
+    let datasheetMarkdown: String?
     let pins: [ChipPin]
     let details: Details
     /// Nil only for parts with no package (the supplies).
@@ -290,6 +304,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
 
     /// A processor: a part with a processor window.
     var isCpu: Bool { kind == PART_CPU }
+
+    /// A converter or RTC: a part with a register window (plan-24-I).
+    var hasRegisters: Bool { kind == PART_CONVERTER || kind == PART_RTC }
 
     /// A pull-up or pull-down: a resistor on the board, with a resistance
     /// (`PlacedChip.ohms`) and footprint choices.
@@ -399,6 +416,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
             return [String(format: "%.1f mm", Double(centerPinUM) / 1000),
                     String(format: "%.1f A", Double(ratedMA) / 1000)] + (contacts > 0 ? ["switched"] : [])
         case let .header(rows, perRow, _): return ["\(rows)×\(perRow)"]
+        case let .converter(_, bits, channels):
+            return ["\(bits)-bit"] + (channels > 1 ? ["\(channels) channels"] : [])
+        case .rtc: return []
         }
     }
 }
@@ -468,6 +488,9 @@ extension CatalogPart {
         package = string(part.package)
         function = string(part.function)
         description = string(part.description)
+        manufacturer = string(part.manufacturer)
+        datasheetURL = part.datasheet.flatMap { URL(string: string($0.pointee.url)) }
+        datasheetMarkdown = part.datasheet.flatMap { $0.pointee.md }.map { String(cString: $0) }
         drawer = (0..<part.drawer_count).map { string(part.drawer?[$0]) }
         flags = Flags(
             obsolete: part.flags & UInt32(PART_OBSOLETE) != 0,
@@ -546,6 +569,11 @@ extension CatalogPart {
         } else if let connector = part.connector?.pointee {
             details = .connector(centerPinUM: connector.center_diameter_um, ratedMV: connector.rated_mv,
                                  ratedMA: connector.rated_ma, contacts: Int(connector.contacts))
+        } else if let converter = part.converter?.pointee {
+            details = .converter(type: string(converter.type), bits: Int(converter.bits),
+                                 channels: Int(converter.channels))
+        } else if part.kind == PART_RTC {
+            details = .rtc
         } else {
             details = .supply(level: 0, mv: 0, pull: false)
         }
@@ -569,19 +597,26 @@ nonisolated enum BackendCatalog {
         }
     }
 
-    /// The footprint file; every other bundled JSON resource is a part file.
+    /// The footprint file.
     static let footprintsFile = "footprints.json"
+    /// The datasheet file; every other bundled JSON resource is a part file.
+    static let datasheetsFile = "datasheets.json"
 
-    /// Loads `footprints.json` first (part files name its footprints), then
-    /// every other bundled JSON resource as a part file, in file-name order.
+    /// Loads `datasheets.json` and `footprints.json` first (part files name
+    /// their entries), then every other bundled JSON resource as a part
+    /// file, in file-name order.
     static func load(into library: PartLibraryHandle) throws -> [CatalogPart] {
         let urls = (Bundle.main.urls(forResourcesWithExtension: "json", subdirectory: nil) ?? [])
             .sorted { $0.lastPathComponent < $1.lastPathComponent }
         guard let footprintsURL = urls.first(where: { $0.lastPathComponent == footprintsFile }) else {
             throw LoadError.unavailable
         }
+        guard let datasheetsURL = urls.first(where: { $0.lastPathComponent == datasheetsFile }) else {
+            throw LoadError.unavailable
+        }
+        try loadFile(datasheetsURL, with: load_datasheets, into: library)
         try loadFile(footprintsURL, with: load_footprints, into: library)
-        for url in urls where url != footprintsURL {
+        for url in urls where url != footprintsURL && url != datasheetsURL {
             try loadFile(url, with: load_parts, into: library)
         }
 
@@ -649,6 +684,10 @@ struct DrawerFilter: Equatable {
     /// Digits and digit height. Only narrow 7-segment displays.
     var displayDigits: Int?
     var displaySize: String?
+    /// Resolution and channel count, by converter type ("adc", "dac"), so the
+    /// ADC and DAC groups filter separately.
+    var converterBits: [String: Int] = [:]
+    var converterChannels: [String: Int] = [:]
     /// Supply rail in millivolts. Keeps parts whose supply range covers it and
     /// switches rated for at least it; LEDs and displays have no supply and stay.
     var voltageMV: UInt32?
@@ -729,6 +768,14 @@ final class PartCatalogStore {
         var id: String { category }
     }
 
+    /// The app's one catalog, shared by every window. The part files are
+    /// read the first time it's used, at launch.
+    static let shared: PartCatalogStore = {
+        let store = PartCatalogStore()
+        store.load()
+        return store
+    }()
+
     /// The C library; circuits are built from it.
     let library = PartLibraryHandle()
     private(set) var loadState: LoadState = .notLoaded
@@ -771,6 +818,33 @@ final class PartCatalogStore {
     func switchPositionCounts(in category: String) -> [Int] {
         Array(Set(entries.filter { $0.drawer.first == category && $0.kind == PART_SWITCH }
             .compactMap(\.count))).sorted()
+    }
+
+    /// The converter type ("adc", "dac") of a function group's parts, or nil
+    /// when they are not converters.
+    func converterType(of parts: [CatalogPart]) -> String? {
+        guard case let .converter(type, _, _)? = parts.first?.details else { return nil }
+        return type
+    }
+
+    /// Resolutions of one converter type, ascending. With `channels`, only
+    /// those of converters with that many channels, so the two menus never
+    /// pick a pair no part has.
+    func converterBits(type: String, channels: Int?) -> [Int] {
+        Array(Set(converters(type).filter { channels == nil || $0.channels == channels }.map(\.bits))).sorted()
+    }
+
+    /// Channel counts of one converter type, ascending; with `bits`, only
+    /// those of converters with that resolution.
+    func converterChannels(type: String, bits: Int?) -> [Int] {
+        Array(Set(converters(type).filter { bits == nil || $0.bits == bits }.map(\.channels))).sorted()
+    }
+
+    private func converters(_ type: String) -> [(bits: Int, channels: Int)] {
+        entries.compactMap { part in
+            guard case let .converter(partType, bits, channels) = part.details, partType == type else { return nil }
+            return (bits, channels)
+        }
     }
 
     /// LED and display colors in a category.
@@ -827,6 +901,14 @@ final class PartCatalogStore {
             }
             if part.kind == PART_SWITCH, let count = filter.switchPositions, part.count != count {
                 return false
+            }
+            if case let .converter(type, bits, channels) = part.details {
+                if let wanted = filter.converterBits[type], bits != wanted {
+                    return false
+                }
+                if let wanted = filter.converterChannels[type], channels != wanted {
+                    return false
+                }
             }
             if let mv = filter.voltageMV {
                 if let vcc = part.vcc, !(vcc.minMV...vcc.maxMV ~= mv) {

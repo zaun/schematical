@@ -31,6 +31,27 @@ char *read_file(const char *path) {
 }
 
 #define FOOTPRINTS_FILE "footprints.json"
+#define DATASHEETS_FILE "datasheets.json"
+
+int load_datasheets_file(PartLibrary *library, const char *dir) {
+    char path[4096];
+    char *text;
+    char *error = NULL;
+    int result = 0;
+
+    snprintf(path, sizeof path, "%s/%s", dir, DATASHEETS_FILE);
+    text = read_file(path);
+    if (text == NULL) {
+        fprintf(stderr, "cannot read %s\n", path);
+        result = -1;
+    } else if (load_datasheets(library, text, DATASHEETS_FILE, &error) != 0) {
+        fprintf(stderr, "%s\n", error);
+        free(error);
+        result = -1;
+    }
+    free(text);
+    return result;
+}
 
 static int by_name(const void *a, const void *b) {
     return strcmp(*(char *const *)a, *(char *const *)b);
@@ -59,7 +80,10 @@ int load_parts_dir(PartLibrary *library, const char *dir) {
     closedir(handle);
     qsort(names, count, sizeof(names[0]), by_name);
 
-    /* Footprints first: every part file may name them. */
+    /* Datasheets and footprints first: every part file may name them. */
+    if (load_datasheets_file(library, dir) != 0) {
+        result = -1;
+    }
     {
         char path[4096];
         char *text;
@@ -83,7 +107,7 @@ int load_parts_dir(PartLibrary *library, const char *dir) {
         char *text;
         char *error = NULL;
 
-        if (strcmp(names[i], FOOTPRINTS_FILE) == 0) {
+        if (strcmp(names[i], FOOTPRINTS_FILE) == 0 || strcmp(names[i], DATASHEETS_FILE) == 0) {
             free(names[i]);
             continue;
         }

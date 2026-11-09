@@ -1,0 +1,149 @@
+{
+ "device": {
+  "id": "DAC6551",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "12-bit single-channel voltage-output DAC with 3-wire SPI-compatible interface, automotive (VSSOP-8)",
+  "note": "dac6551-q1.pdf (SLASEB8C) p.4 pin functions (DGK), p.5 recommended operating conditions (VDD 3-5.5 V, digital inputs 0 to VDD), p.7 timing requirements and Figure 1 (SYNC, SCLK falling-edge data), p.14 power-on reset (zero), p.15 power-down modes (Table 1), p.16 24-bit input shift register (Figure 31: 6 don't-care bits, PD1, PD0, D11-D0, 0000) and SYNC interrupt",
+  "pinouts": {
+   "dgk8": [
+    {
+     "number": 1,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "VFB",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "GND",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 1,
+  "vcc": [
+   3.0,
+   5.5
+  ],
+  "analog": [
+   "VREF",
+   "VFB",
+   "VOUT"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "DAC",
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register; power-on reset fills it with zeros (p.14)"
+   },
+   {
+    "name": "CTRL",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PD",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "internal: PD1/PD0 (DB17/DB16) of the last valid frame (Table 1; 00 normal at power on)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "WRITE",
+     "in": "xxxxxx pp dddddddddddd xxxx",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "CTRL.PD": "p"
+     },
+     "note": "Figure 31: DB23-DB18 don't care, DB17-DB16 PD1/PD0, D11-D0, then four 0 bits (accepted as don't care); executed on the 24th SCLK falling edge; SYNC high earlier aborts the frame (SYNC interrupt, p.16)"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "DAC"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "DGK": {
+   "pinout": "dgk8",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  }
+ },
+ "pdf": "dac6551-q1.pdf",
+ "pages": "p.4 (pins), p.5 (ROC), p.7 (timing, Figure 1), p.14 (power-on reset), p.15 (power-down, Table 1), p.16 (input shift register, Figure 31, SYNC interrupt)",
+ "notModeled": [
+  "analog output, resistor string and output amplifier (VOUT never driven; VFB feedback input)",
+  "power-down output loads (1 kOhm / 100 kOhm / Hi-Z): PD1/PD0 are stored in CTRL.PD only; the DAC register is kept as the datasheet says",
+  "the four trailing bits are shown as 0 in Figure 31; the model accepts any value",
+  "SPI mode 2 read from Figure 1 (SCLK high between pulses, data taken on falling edges); a continuous SCLK during SYNC high is fine for the model",
+  "power-down exit time (2.5-5 us), output settling time, SCLK limits (25/30 MHz) and setup/hold times"
+ ],
+ "variants": "dac6551-q1.pdf covers DAC8551-Q1 (16-bit: PD1, PD0, D15-D0) and DAC6551-Q1 (12-bit, left-aligned with 4 trailing zeros); same pinout. The skeleton device DAC6551 is the -Q1 part (DAC6551AQDGKRQ1).",
+ "parts": [
+  [
+   "DAC6551AQDGKRQ1",
+   "DGK",
+   8,
+   "Active"
+  ]
+ ]
+}

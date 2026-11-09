@@ -1,0 +1,553 @@
+{
+ "device": {
+  "id": "ADS1240",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "24-bit 4-input delta-sigma ADC with PGA (1-128), offset DAC, data I/O pins, SPI interface, 15 SPS (2.4576 MHz)",
+  "note": "ads1240.pdf (SBAS173F) p.2 digital characteristics (DVDD 2.7-5.25 V, VIH 0.8 DVDD, fOSC 1-5 MHz), p.5 pin configuration and descriptions, p.6 timing diagrams and characteristics (t7 = 50 ns), p.11 data rates (Table I), p.14 serial interface, POL, DRDY, DSYNC, reset, p.15-17 registers (Table III) and definitions, p.18-20 commands (Table IV)",
+  "pinouts": {
+   "db24": [
+    {
+     "number": 1,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "XIN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "XOUT",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "DSYNC",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "PDWN",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "VREF+",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "VREF-",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "AIN0/D0",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "AIN1/D1",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "AIN2/D2",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "AIN3/D3",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "AINCOM",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 17,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 18,
+     "name": "POL",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "DRDY",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "BUFEN",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 24,
+  "channels": 4,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "XIN",
+   "XOUT",
+   "VREF+",
+   "VREF-",
+   "AIN0/D0",
+   "AIN1/D1",
+   "AIN2/D2",
+   "AIN3/D3",
+   "AINCOM",
+   "AGND",
+   "AVDD"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "miso": "DOUT",
+   "mode": 1
+  },
+  "timing": {
+   "tValid": 50,
+   "tOut": 50
+  },
+  "registers": [
+   {
+    "name": "SETUP",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "ID",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "BOCS",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "PGA",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "reset iiii0000: ID bits factory programmed (value not given, 0 here)"
+   },
+   {
+    "name": "MUX",
+    "address": 1,
+    "width": 8,
+    "reset": 1,
+    "fields": [
+     {
+      "name": "PSEL",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "NSEL",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ACR",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 128,
+    "fields": [
+     {
+      "name": "DRDY",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "U_B",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "SPEED",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "BUFEN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "BIT_ORDER",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "RANGE",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "DR",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "reset X0h: bit 7 duplicates the DRDY pin"
+   },
+   {
+    "name": "ODAC",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "SIGN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "OSET",
+      "bits": [
+       6,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DIO",
+    "address": 4,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "DIR",
+    "address": 5,
+    "width": 8,
+    "reset": 255
+   },
+   {
+    "name": "IOCON",
+    "address": 6,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "OCR0",
+    "address": 7,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "OCR1",
+    "address": 8,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "OCR2",
+    "address": 9,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "FSR0",
+    "address": 10,
+    "width": 8,
+    "reset": 89
+   },
+   {
+    "name": "FSR1",
+    "address": 11,
+    "width": 8,
+    "reset": 85
+   },
+   {
+    "name": "FSR2",
+    "address": 12,
+    "width": 8,
+    "reset": 85
+   },
+   {
+    "name": "DOR2",
+    "address": 13,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true
+   },
+   {
+    "name": "DOR1",
+    "address": 14,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true
+   },
+   {
+    "name": "DOR0",
+    "address": 15,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "out": "z",
+   "idle": "z",
+   "commands": [
+    {
+     "name": "RDATA",
+     "in": "00000001",
+     "reply": "R{24}"
+    },
+    {
+     "name": "RDATAC",
+     "in": "00000011",
+     "reply": "R{24}",
+     "note": "approximated: outputs the current result once (continuous output on each DRDY is not modeled)"
+    },
+    {
+     "name": "STOPC",
+     "in": "00001111"
+    },
+    {
+     "name": "RREG",
+     "in": "0001aaaa xxxxnnnn",
+     "action": "rreg",
+     "address": "a",
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "WREG",
+     "in": "0101aaaa xxxxnnnn",
+     "action": "wreg",
+     "address": "a",
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "SELFCAL",
+     "in": "11110000",
+     "note": "calibration not modeled"
+    },
+    {
+     "name": "SELFOCAL",
+     "in": "11110001",
+     "note": "calibration not modeled"
+    },
+    {
+     "name": "SELFGCAL",
+     "in": "11110010",
+     "note": "calibration not modeled"
+    },
+    {
+     "name": "SYSOCAL",
+     "in": "11110011",
+     "note": "calibration not modeled"
+    },
+    {
+     "name": "SYSGCAL",
+     "in": "11110100",
+     "note": "calibration not modeled"
+    },
+    {
+     "name": "WAKEUP",
+     "in": "11111011",
+     "action": "wakeup",
+     "then": [
+      "start"
+     ]
+    },
+    {
+     "name": "DSYNC",
+     "in": "11111100",
+     "action": "start",
+     "note": "resets the digital filter: the conversion restarts"
+    },
+    {
+     "name": "SLEEP",
+     "in": "11111101",
+     "action": "powerdown"
+    },
+    {
+     "name": "RESET",
+     "in": "11111110",
+     "action": "reset"
+    }
+   ]
+  },
+  "conversion": {
+   "time": {
+    "fields": [
+     "ACR.SPEED",
+     "ACR.DR"
+    ],
+    "values": {
+     "0,0": 66666667,
+     "0,1": 133333333,
+     "0,2": 266666667,
+     "1,0": 133333333,
+     "1,1": 266666667,
+     "1,2": 533333333
+    }
+   },
+   "start": [
+    "power-on",
+    "command"
+   ],
+   "mode": "continuous",
+   "done": {
+    "ACR.DRDY": 0
+   },
+   "onRead": {
+    "ACR.DRDY": 1
+   },
+   "channel": "MUX.PSEL"
+  },
+  "ready": [
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read"
+   }
+  ],
+  "pins": {
+   "powerdown": {
+    "pin": "PDWN",
+    "active": 0
+   },
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "DB": {
+   "pinout": "db24",
+   "footprint": "SSOP-24",
+   "package": "SSOP",
+   "pins": 24
+  }
+ },
+ "pdf": "ads1240.pdf",
+ "pages": "p.2 (digital characteristics), p.5 (pins), p.6 (timing), p.11 (Table I data rates), p.14 (SPI, POL, DRDY, DSYNC), p.15-17 (registers), p.18-20 (commands)",
+ "notModeled": [
+  "analog inputs, PGA, buffer, burnout current sources, offset DAC (ODAC stored only), RANGE and U/B (unipolar format, U/B = 1, is not applied to the 0 V code: it is 000000h in both formats)",
+  "conversion time at the nominal fOSC = 2.4576 MHz: 1 / (fOSC / (128 * 2^SPEED * 1280 * 2^DR)); other XIN clock frequencies (1-5 MHz) scale it; DR = 11 (reserved) uses the largest value",
+  "DOR2..DOR0 are not loaded with the result (the 24-bit code spans three 8-bit registers); they read 0, which is the 0 V code",
+  "ACR.DRDY: reset X0h, the bit duplicates the DRDY pin; modeled 0 at reset, 0 at each completion, 1 after the result is read",
+  "DRDY also goes high t18 (4 tOSC) before each output-register update when the data was not read; modeled as cleared by a read only",
+  "BIT ORDER = 1 (LSB-first output bytes) is stored only; output is always MSB first",
+  "RDATAC continuous read mode (data on each DRDY without a command, DIN watched for STOPC/RESET) is approximated by one RDATA reply",
+  "self and system calibration commands (OCR/FSR update, two or four tDATA) do nothing",
+  "RREG/WREG address wrap-around past register 0Fh",
+  "SCLK reset waveform (t12/t14/t15 pattern) and serial interface reset after 3 DRDY periods with no SCLK",
+  "data I/O function of the AINx/Dx pins (IOCON, DIR, DIO registers stored only; DIO reads do not return the pin levels)",
+  "t6 delay (50 tOSC) between command and DOUT data, t11 command spacing",
+  "POL pin (SCLK polarity): modeled as POL = 0 (SPI mode 1, SCLK idles low); POL = 1 is mode 3",
+  "DSYNC pin (falling edge resets the digital filter, serial interface off while low) and BUFEN pin (buffer enable, ANDed with ACR.BUFEN)"
+ ],
+ "variants": "ADS1240 (24-pin, 4 inputs) and ADS1241 (28-pin, 8 inputs) share ads1240.pdf: own spec files",
+ "parts": [
+  [
+   "ADS1240E",
+   "DB",
+   24,
+   "Active"
+  ],
+  [
+   "ADS1240E/1K",
+   "DB",
+   24,
+   "Active"
+  ]
+ ]
+}

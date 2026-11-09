@@ -1,0 +1,215 @@
+{
+ "device": {
+  "id": "DAC8831",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit ultra-low-power unbuffered voltage-output DAC with SPI interface, LDAC and bipolar resistors",
+  "note": "dac8830.pdf (SLAS449D) p.1 description, p.4 power supply 2.7-5.5 V and digital inputs, p.5 pin configuration and terminal functions, p.6 Figure 2 timing, p.7 timing characteristics, p.15-16 power-on reset and serial interface",
+  "pinouts": {
+   "d14": [
+    {
+     "number": 1,
+     "name": "RFB",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "AGNDF",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "AGNDS",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "VREF-S",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "VREF-F",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 10,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "INV",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "VDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "RFB",
+   "VOUT",
+   "VREF-S",
+   "VREF-F",
+   "INV"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "mode": 0
+  },
+  "registers": [
+   {
+    "name": "IN",
+    "space": "input",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "input register; power-on zero code (p.16)"
+   },
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC latch; power-on zero code (p.16)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "commands": [
+    {
+     "name": "Load input register",
+     "in": "d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "note": "p.16: CS low, SDI latched on SCLK rising MSB first; at CS rising the last 16 bits go to the input register (fewer than 16 bits corrupt the word)"
+    }
+   ]
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "level"
+   }
+  },
+  "dac": {
+   "input": [
+    "IN"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "D": {
+   "pinout": "d14",
+   "footprint": "SOIC-14",
+   "package": "SOIC",
+   "pins": 14
+  },
+  "RGY": {
+   "pinout": "d14",
+   "footprint": "VQFN-14",
+   "package": "VQFN",
+   "pins": 14
+  }
+ },
+ "pdf": "dac8830.pdf",
+ "pages": "p.1 (reset to zero code), p.4 (VDD 2.7-5.5 V), p.5 (pinouts: SO-14 and QFN-14 same numbering, terminal functions), p.6 (Figure 2: LDAC low updates the DAC latch), p.7 (timing), p.16 (power-on reset, serial interface); dac8830-ep.pdf (DAC8831MCDEP)",
+ "notModeled": [
+  "analog: unbuffered voltage output, Kelvin reference inputs, bipolar scaling resistors (RFB, INV)",
+  "a frame of fewer than 16 bits corrupts the word (bits remain from the previous word); the model ignores frames shorter than 16 bits",
+  "the serial shift register is undefined at power-up"
+ ],
+ "variants": "dac8830.pdf covers the DAC8830 (SO-8, no LDAC) and DAC8831; DAC8831MCDEP (dac8830-ep.pdf, -55 to 125 C) has the same pinout and interface; DAC8832 (dac8832.pdf) is the mid-scale-reset QFN version",
+ "parts": [
+  [
+   "DAC8831IBD",
+   "D",
+   14,
+   "Active"
+  ],
+  [
+   "DAC8831ICD",
+   "D",
+   14,
+   "Active"
+  ],
+  [
+   "DAC8831ICDR",
+   "D",
+   14,
+   "Active"
+  ],
+  [
+   "DAC8831ICRGYT",
+   "RGY",
+   14,
+   "Active"
+  ],
+  [
+   "DAC8831ID",
+   "D",
+   14,
+   "Active"
+  ],
+  [
+   "DAC8831MCDEP",
+   "D",
+   14,
+   "Active"
+  ]
+ ]
+}

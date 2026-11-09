@@ -1,0 +1,581 @@
+{
+ "device": {
+  "id": "DAC11001",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "20-bit 1-LSB INL voltage-output DAC with SPI interface",
+  "note": "dac11001a.pdf (SLASEL0B) p.3-4 pin configuration and functions, p.6 recommended operating conditions, p.13-15 timing (Figures 1-2), p.25 power-on reset, p.27-28 programming (Figures 46-48), CLR, LDAC, software reset, p.29-33 register map (Tables 3-11)",
+  "pinouts": {
+   "pfb48": [
+    {
+     "number": 1,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 2,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "REFPF",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "REFPS",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "REFNF",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "REFNS",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "OUT",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "AGND-OUT",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "RFB",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "ROFS",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "RCM",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 13,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 14,
+     "name": "AGND-TnH",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 16,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 17,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 18,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "ALARM",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 21,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 22,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 23,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 24,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 25,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 26,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 27,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 28,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 29,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 30,
+     "name": "CLR",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "SDIN",
+     "role": "input"
+    },
+    {
+     "number": 33,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 34,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 35,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 36,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 37,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 38,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 39,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 40,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 41,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 42,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 43,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 44,
+     "name": "VSS",
+     "role": "power"
+    },
+    {
+     "number": 45,
+     "name": "VCC",
+     "role": "power"
+    },
+    {
+     "number": 46,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 47,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 48,
+     "name": "NC",
+     "role": "nc"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 20,
+  "channels": 1,
+  "vcc": [
+   1.7,
+   5.5
+  ],
+  "analog": [
+   "REFPF",
+   "REFPS",
+   "REFNF",
+   "REFNS",
+   "OUT",
+   "RFB",
+   "ROFS",
+   "RCM",
+   "AVDD",
+   "VSS",
+   "VCC"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "SDIN",
+   "miso": "SDO",
+   "mode": 2
+  },
+  "timing": {
+   "tOut": 40,
+   "tFloat": 20
+  },
+  "registers": [
+   {
+    "name": "NOP",
+    "address": 0,
+    "width": 24,
+    "reset": 0,
+    "readOnly": true
+   },
+   {
+    "name": "DAC_DATA",
+    "address": 1,
+    "width": 20,
+    "reset": 0,
+    "note": "DAC-DATA[19:0] (frame bits 23:4); the input (buffer) register"
+   },
+   {
+    "name": "CONFIG1",
+    "address": 2,
+    "width": 24,
+    "reset": 19584,
+    "readOnly": 7569455,
+    "fields": [
+     {
+      "name": "EN_TMP_CAL",
+      "bits": [
+       23,
+       23
+      ]
+     },
+     {
+      "name": "TNH_MASK",
+      "bits": [
+       19,
+       18
+      ]
+     },
+     {
+      "name": "LDACMODE",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "FSDO",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "ENALMP",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "DSDO",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "FSET",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "VREFVAL",
+      "bits": [
+       9,
+       6
+      ]
+     },
+     {
+      "name": "PDN",
+      "bits": [
+       4,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC_CLEAR_DATA",
+    "address": 3,
+    "width": 24,
+    "reset": 0,
+    "readOnly": 65535,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       23,
+       16
+      ]
+     }
+    ]
+   },
+   {
+    "name": "TRIGGER",
+    "address": 4,
+    "width": 24,
+    "reset": 0,
+    "readOnly": 16776863,
+    "fields": [
+     {
+      "name": "RCLTMP",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "SRST",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "SCLR",
+      "bits": [
+       5,
+       5
+      ]
+     }
+    ]
+   },
+   {
+    "name": "STATUS",
+    "address": 5,
+    "width": 24,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "ALM",
+      "bits": [
+       12,
+       12
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG2",
+    "address": 6,
+    "width": 24,
+    "reset": 64,
+    "readOnly": 16776975,
+    "fields": [
+     {
+      "name": "DIS_TNH",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "UP_RATE",
+      "bits": [
+       6,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 20,
+    "reset": 0,
+    "note": "the DAC latch (output) register"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "out": "0",
+   "commands": [
+    {
+     "name": "Write DAC-DATA (LDACMODE=0)",
+     "in": "0 0000001 d{20} xxxx",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "when": "CONFIG1.LDACMODE=0",
+     "then": [
+      "update"
+     ],
+     "note": "LDACMODE 0: output updated at SYNC rising (8.5.3.2)"
+    },
+    {
+     "name": "Write DAC-DATA (LDACMODE=1)",
+     "in": "0 0000001 d{20} xxxx",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "note": "LDACMODE 1 (default): output updated on LDAC falling (8.5.3.1)"
+    },
+    {
+     "name": "Read DAC-DATA",
+     "in": "1 0000001 x{24}",
+     "action": "read",
+     "register": "DAC_DATA",
+     "next": "1 0000001 [DAC_DATA] 0000",
+     "note": "read data shifted out on SDO in the next frame (Figure 47)"
+    },
+    {
+     "name": "Software reset (TRIGGER.SRST)",
+     "in": "0 0000100 x{17} 1 x{6}",
+     "action": "reset",
+     "note": "8.5.4: SRST = 1 resets the device to the default state"
+    },
+    {
+     "name": "Software clear (TRIGGER.SCLR)",
+     "in": "0 0000100 x{18} 1 x{5}",
+     "action": "clear",
+     "note": "8.5.2 / Table 9: DAC registers cleared to DAC-CLEAR-DATA"
+    },
+    {
+     "name": "Write register",
+     "in": "0 aaaaaaa d{24}",
+     "action": "write",
+     "address": "a",
+     "data": "d"
+    },
+    {
+     "name": "Read register",
+     "in": "1 aaaaaaa x{24}",
+     "action": "read",
+     "address": "a",
+     "next": "1 aaaaaaa @"
+    }
+   ]
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "fall"
+   },
+   "clear": {
+    "pin": "CLR",
+    "active": 0
+   }
+  },
+  "dac": {
+   "input": [
+    "DAC_DATA"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "PFB": {
+   "pinout": "pfb48",
+   "footprint": "TQFP-48-7X7",
+   "package": "TQFP",
+   "pins": 48
+  }
+ },
+ "pdf": "dac11001a.pdf",
+ "pages": "p.3-4 (pins), p.6 (ROC: IOVDD 1.7-5.5 V, DVDD 2.7-5.5 V), p.13-14 (read timing: tSDODLY max 40 ns, tSDOZ max 20 ns), p.15 (Figures 1-2), p.25 (POR), p.26 (FSET, UP_RATE), p.27-28 (32-bit frame, read cycle, daisy chain, CLR, LDAC, software reset), p.29-33 (register map, Tables 3-11)",
+ "notModeled": [
+  "analog: output, references and sense pins, integrated resistors (RFB, ROFS, RCM), deglitcher (FSET, TNH_MASK, DIS_TNH, UP_RATE), reference span VREFVAL, power-down PDN (stored only)",
+  "temperature calibration (EN_TMP_CAL, RCLTMP, STATUS.ALM, ALARM pin and ENALMP): never completes in the model; ALARM is not driven; reading STATUS does not release ALARM",
+  "CLR and SCLR load the code in DAC-CLEAR-DATA (8 bits, left-justified: code = DATA << 12); the schema's clearCode is a constant, so the model uses its reset value 0; clear mode is left on the next valid write",
+  "TRIGGER.SRST/SCLR: whether the bits read back as 1 after the write is not documented (SCLR leaves the written value in place; SRST resets it to 0)",
+  "the upper 8 bits of the read-back word are not documented (Figure 47 shows only 'D31..D0'); the model echoes the read command's R/W bit and address",
+  "DSDO = 0 (SDO disabled) and FSDO (fast SDO timing) are not modeled: SDO always drives during SYNC low",
+  "TNH_MASK writable only when FSET = 0 and DIS_TNH = 0: not enforced",
+  "LDACMODE = 1 with DSDO = 1 updates at the 32nd SCLK falling edge rather than SYNC rising; the model commits at SYNC rising (align end), which also gives daisy-chain behavior (the last 32 bits are this device's)",
+  "daisy-chain SDO (DIN delayed by 32 SCLKs): not driven",
+  "DAC91001 (18-bit, DATA[17:0],0,0) and DAC81001 (16-bit) share the datasheet; this spec is the 20-bit DAC11001A"
+ ],
+ "variants": "DAC91001 (18-bit) and DAC81001 (16-bit) share the datasheet, pinout and register map",
+ "parts": [
+  [
+   "DAC11001APFBT",
+   "PFB",
+   48,
+   "Active"
+  ]
+ ]
+}

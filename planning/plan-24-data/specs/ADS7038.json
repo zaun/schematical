@@ -1,0 +1,2298 @@
+{
+ "device": {
+  "id": "ADS7038",
+  "function": "ADC",
+  "description": "12-bit 1 MSPS 8-channel SAR ADC with GPIOs, CRC and digital window comparator, SPI interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads7038.pdf (SBAS979C) p.3 pin functions, p.4 recommended operating conditions, p.6-7 timing requirements and switching characteristics, p.17 oscillator and timing control (Table 7-3), p.17-18 CRC, p.18 output data format (Figure 7-4), p.22-24 SPI protocols (Table 7-7), opcodes (Table 7-8), register write/read (Figures 7-10, 7-11), p.25-27 functional modes (Table 7-9), p.30-32 register map (Table 8-1), p.33-72 register descriptions",
+  "pinouts": {
+   "rte16": [
+    {
+     "number": 1,
+     "name": "AIN2/GPIO2",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AIN3/GPIO3",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "AIN4/GPIO4",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "AIN5/GPIO5",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AIN6/GPIO6",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "AIN7/GPIO7",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "DECAP",
+     "role": "nc"
+    },
+    {
+     "number": 9,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "AIN0/GPIO0",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "AIN1/GPIO1",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 8,
+  "codeFormat": "straight",
+  "vcc": [
+   1.65,
+   5.5
+  ],
+  "analog": [
+   "AIN0/GPIO0",
+   "AIN1/GPIO1",
+   "AIN2/GPIO2",
+   "AIN3/GPIO3",
+   "AIN4/GPIO4",
+   "AIN5/GPIO5",
+   "AIN6/GPIO6",
+   "AIN7/GPIO7",
+   "AVDD",
+   "DECAP"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDO",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 15,
+   "tOut": 16,
+   "tFloat": 15
+  },
+  "registers": [
+   {
+    "name": "SYSTEM_STATUS",
+    "address": 0,
+    "width": 8,
+    "reset": 129,
+    "readOnly": 252,
+    "fields": [
+     {
+      "name": "RSVD",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "SEQ_STATUS",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "CRCERR_FUSE",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CRCERR_IN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "BOR",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "writeOneClears": 3,
+    "note": "CRCERR_IN, BOR: write 1 to clear; bits 5-3 reserved (\"reads return 010b\" in the field table, but the register reset is 0x81)"
+   },
+   {
+    "name": "GENERAL_CFG",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 139,
+    "fields": [
+     {
+      "name": "CRC_EN",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "STATS_EN",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "DWC_EN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "CH_RST",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CAL",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "RST",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "CAL and RST self-clear (modeled as read-only: they read 0); RST = 1 is the RESET command"
+   },
+   {
+    "name": "DATA_CFG",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 76,
+    "fields": [
+     {
+      "name": "FIX_PAT",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "APPEND_STATUS",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "CPOL_CPHA",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OSR_CFG",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "OSR",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OPMODE_CFG",
+    "address": 4,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "CONV_ON_ERR",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CONV_MODE",
+      "bits": [
+       6,
+       5
+      ]
+     },
+     {
+      "name": "OSC_SEL",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "CLK_DIV",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "PIN_CFG",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PIN_CFG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPIO_CFG",
+    "address": 7,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "GPIO_CFG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPO_DRIVE_CFG",
+    "address": 9,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "GPO_DRIVE_CFG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPO_VALUE",
+    "address": 11,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "GPO_VALUE",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPI_VALUE",
+    "address": 13,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "GPI_VALUE",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "reads the GPIO pin levels (not modeled: reads 0)"
+   },
+   {
+    "name": "SEQUENCE_CFG",
+    "address": 16,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 236,
+    "fields": [
+     {
+      "name": "SEQ_START",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ_MODE",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CHANNEL_SEL",
+    "address": 17,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "MANUAL_CHID",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "AUTO_SEQ_CH_SEL",
+    "address": 18,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "AUTO_SEQ_CH_SEL",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ALERT_CH_SEL",
+    "address": 20,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "ALERT_CH_SEL",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ALERT_MAP",
+    "address": 22,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "ALERT_CRCIN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ALERT_PIN_CFG",
+    "address": 23,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 12,
+    "fields": [
+     {
+      "name": "ALERT_PIN",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "ALERT_LOGIC",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "EVENT_FLAG",
+    "address": 24,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "EVENT_FLAG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "EVENT_HIGH_FLAG",
+    "address": 26,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "EVENT_HIGH_FLAG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "writeOneClears": 255
+   },
+   {
+    "name": "EVENT_LOW_FLAG",
+    "address": 28,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "EVENT_LOW_FLAG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "writeOneClears": 255
+   },
+   {
+    "name": "EVENT_RGN",
+    "address": 30,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "EVENT_RGN",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "HYSTERESIS_CH0",
+    "address": 32,
+    "width": 8,
+    "reset": 240,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HIGH_THRESHOLD_CH0_LSB",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "HYSTERESIS_CH0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "HIGH_TH_CH0",
+    "address": 33,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HIGH_THRESHOLD_CH0_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "EVENT_COUNT_CH0",
+    "address": 34,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LOW_THRESHOLD_CH0_LSB",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "EVENT_COUNT_CH0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "LOW_TH_CH0",
+    "address": 35,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LOW_THRESHOLD_CH0_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "HYSTERESIS_CH1",
+    "address": 36,
+    "width": 8,
+    "reset": 240,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HIGH_THRESHOLD_CH1_LSB",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "HYSTERESIS_CH1",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "HIGH_TH_CH1",
+    "address": 37,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HIGH_THRESHOLD_CH1_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "EVENT_COUNT_CH1",
+    "address": 38,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LOW_THRESHOLD_CH1_LSB",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "EVENT_COUNT_CH1",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "LOW_TH_CH1",
+    "address": 39,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LOW_THRESHOLD_CH1_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "HYSTERESIS_CH2",
+    "address": 40,
+    "width": 8,
+    "reset": 240,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HIGH_THRESHOLD_CH2_LSB",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "HYSTERESIS_CH2",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "HIGH_TH_CH2",
+    "address": 41,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HIGH_THRESHOLD_CH2_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "EVENT_COUNT_CH2",
+    "address": 42,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LOW_THRESHOLD_CH2_LSB",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "EVENT_COUNT_CH2",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "LOW_TH_CH2",
+    "address": 43,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LOW_THRESHOLD_CH2_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "HYSTERESIS_CH3",
+    "address": 44,
+    "width": 8,
+    "reset": 240,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HIGH_THRESHOLD_CH3_LSB",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "HYSTERESIS_CH3",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "HIGH_TH_CH3",
+    "address": 45,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HIGH_THRESHOLD_CH3_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "EVENT_COUNT_CH3",
+    "address": 46,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LOW_THRESHOLD_CH3_LSB",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "EVENT_COUNT_CH3",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "LOW_TH_CH3",
+    "address": 47,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LOW_THRESHOLD_CH3_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "HYSTERESIS_CH4",
+    "address": 48,
+    "width": 8,
+    "reset": 240,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HIGH_THRESHOLD_CH4_LSB",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "HYSTERESIS_CH4",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "HIGH_TH_CH4",
+    "address": 49,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HIGH_THRESHOLD_CH4_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "EVENT_COUNT_CH4",
+    "address": 50,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LOW_THRESHOLD_CH4_LSB",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "EVENT_COUNT_CH4",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "LOW_TH_CH4",
+    "address": 51,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LOW_THRESHOLD_CH4_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "HYSTERESIS_CH5",
+    "address": 52,
+    "width": 8,
+    "reset": 240,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HIGH_THRESHOLD_CH5_LSB",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "HYSTERESIS_CH5",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "HIGH_TH_CH5",
+    "address": 53,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HIGH_THRESHOLD_CH5_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "EVENT_COUNT_CH5",
+    "address": 54,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LOW_THRESHOLD_CH5_LSB",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "EVENT_COUNT_CH5",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "LOW_TH_CH5",
+    "address": 55,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LOW_THRESHOLD_CH5_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "HYSTERESIS_CH6",
+    "address": 56,
+    "width": 8,
+    "reset": 240,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HIGH_THRESHOLD_CH6_LSB",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "HYSTERESIS_CH6",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "HIGH_TH_CH6",
+    "address": 57,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HIGH_THRESHOLD_CH6_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "EVENT_COUNT_CH6",
+    "address": 58,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LOW_THRESHOLD_CH6_LSB",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "EVENT_COUNT_CH6",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "LOW_TH_CH6",
+    "address": 59,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LOW_THRESHOLD_CH6_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "HYSTERESIS_CH7",
+    "address": 60,
+    "width": 8,
+    "reset": 240,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HIGH_THRESHOLD_CH7_LSB",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "HYSTERESIS_CH7",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "HIGH_TH_CH7",
+    "address": 61,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HIGH_THRESHOLD_CH7_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "EVENT_COUNT_CH7",
+    "address": 62,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LOW_THRESHOLD_CH7_LSB",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "EVENT_COUNT_CH7",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "LOW_TH_CH7",
+    "address": 63,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LOW_THRESHOLD_CH7_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RESERVED",
+    "address": 78,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255
+   },
+   {
+    "name": "MAX_CH0_LSB",
+    "address": 96,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MAX_VALUE_CH0_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "clearOnRead": 255
+   },
+   {
+    "name": "MAX_CH0_MSB",
+    "address": 97,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MAX_VALUE_CH0_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "clearOnRead": 255
+   },
+   {
+    "name": "MAX_CH1_LSB",
+    "address": 98,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MAX_VALUE_CH1_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "clearOnRead": 255
+   },
+   {
+    "name": "MAX_CH1_MSB",
+    "address": 99,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MAX_VALUE_CH1_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "clearOnRead": 255
+   },
+   {
+    "name": "MAX_CH2_LSB",
+    "address": 100,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MAX_VALUE_CH2_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "clearOnRead": 255
+   },
+   {
+    "name": "MAX_CH2_MSB",
+    "address": 101,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MAX_VALUE_CH2_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "clearOnRead": 255
+   },
+   {
+    "name": "MAX_CH3_LSB",
+    "address": 102,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MAX_VALUE_CH3_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "clearOnRead": 255
+   },
+   {
+    "name": "MAX_CH3_MSB",
+    "address": 103,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MAX_VALUE_CH3_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "clearOnRead": 255
+   },
+   {
+    "name": "MAX_CH4_LSB",
+    "address": 104,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MAX_VALUE_CH4_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "clearOnRead": 255
+   },
+   {
+    "name": "MAX_CH4_MSB",
+    "address": 105,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MAX_VALUE_CH4_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "clearOnRead": 255
+   },
+   {
+    "name": "MAX_CH5_LSB",
+    "address": 106,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MAX_VALUE_CH5_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "clearOnRead": 255
+   },
+   {
+    "name": "MAX_CH5_MSB",
+    "address": 107,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MAX_VALUE_CH5_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "clearOnRead": 255
+   },
+   {
+    "name": "MAX_CH6_LSB",
+    "address": 108,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MAX_VALUE_CH6_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "clearOnRead": 255
+   },
+   {
+    "name": "MAX_CH6_MSB",
+    "address": 109,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MAX_VALUE_CH6_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "clearOnRead": 255
+   },
+   {
+    "name": "MAX_CH7_LSB",
+    "address": 110,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MAX_VALUE_CH7_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "clearOnRead": 255
+   },
+   {
+    "name": "MAX_CH7_MSB",
+    "address": 111,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MAX_VALUE_CH7_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "clearOnRead": 255
+   },
+   {
+    "name": "MIN_CH0_LSB",
+    "address": 128,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MIN_VALUE_CH0_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "reading resets it to 0xFF (it never leaves 0xFF in the model)"
+   },
+   {
+    "name": "MIN_CH0_MSB",
+    "address": 129,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MIN_VALUE_CH0_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "reading resets it to 0xFF (it never leaves 0xFF in the model)"
+   },
+   {
+    "name": "MIN_CH1_LSB",
+    "address": 130,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MIN_VALUE_CH1_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "reading resets it to 0xFF (it never leaves 0xFF in the model)"
+   },
+   {
+    "name": "MIN_CH1_MSB",
+    "address": 131,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MIN_VALUE_CH1_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "reading resets it to 0xFF (it never leaves 0xFF in the model)"
+   },
+   {
+    "name": "MIN_CH2_LSB",
+    "address": 132,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MIN_VALUE_CH2_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "reading resets it to 0xFF (it never leaves 0xFF in the model)"
+   },
+   {
+    "name": "MIN_CH2_MSB",
+    "address": 133,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MIN_VALUE_CH2_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "reading resets it to 0xFF (it never leaves 0xFF in the model)"
+   },
+   {
+    "name": "MIN_CH3_LSB",
+    "address": 134,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MIN_VALUE_CH3_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "reading resets it to 0xFF (it never leaves 0xFF in the model)"
+   },
+   {
+    "name": "MIN_CH3_MSB",
+    "address": 135,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MIN_VALUE_CH3_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "reading resets it to 0xFF (it never leaves 0xFF in the model)"
+   },
+   {
+    "name": "MIN_CH4_LSB",
+    "address": 136,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MIN_VALUE_CH4_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "reading resets it to 0xFF (it never leaves 0xFF in the model)"
+   },
+   {
+    "name": "MIN_CH4_MSB",
+    "address": 137,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MIN_VALUE_CH4_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "reading resets it to 0xFF (it never leaves 0xFF in the model)"
+   },
+   {
+    "name": "MIN_CH5_LSB",
+    "address": 138,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MIN_VALUE_CH5_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "reading resets it to 0xFF (it never leaves 0xFF in the model)"
+   },
+   {
+    "name": "MIN_CH5_MSB",
+    "address": 139,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MIN_VALUE_CH5_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "reading resets it to 0xFF (it never leaves 0xFF in the model)"
+   },
+   {
+    "name": "MIN_CH6_LSB",
+    "address": 140,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MIN_VALUE_CH6_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "reading resets it to 0xFF (it never leaves 0xFF in the model)"
+   },
+   {
+    "name": "MIN_CH6_MSB",
+    "address": 141,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MIN_VALUE_CH6_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "reading resets it to 0xFF (it never leaves 0xFF in the model)"
+   },
+   {
+    "name": "MIN_CH7_LSB",
+    "address": 142,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MIN_VALUE_CH7_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "reading resets it to 0xFF (it never leaves 0xFF in the model)"
+   },
+   {
+    "name": "MIN_CH7_MSB",
+    "address": 143,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "MIN_VALUE_CH7_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "reading resets it to 0xFF (it never leaves 0xFF in the model)"
+   },
+   {
+    "name": "RECENT_CH0_LSB",
+    "address": 160,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "LAST_VALUE_CH0_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RECENT_CH0_MSB",
+    "address": 161,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "LAST_VALUE_CH0_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RECENT_CH1_LSB",
+    "address": 162,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "LAST_VALUE_CH1_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RECENT_CH1_MSB",
+    "address": 163,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "LAST_VALUE_CH1_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RECENT_CH2_LSB",
+    "address": 164,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "LAST_VALUE_CH2_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RECENT_CH2_MSB",
+    "address": 165,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "LAST_VALUE_CH2_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RECENT_CH3_LSB",
+    "address": 166,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "LAST_VALUE_CH3_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RECENT_CH3_MSB",
+    "address": 167,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "LAST_VALUE_CH3_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RECENT_CH4_LSB",
+    "address": 168,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "LAST_VALUE_CH4_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RECENT_CH4_MSB",
+    "address": 169,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "LAST_VALUE_CH4_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RECENT_CH5_LSB",
+    "address": 170,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "LAST_VALUE_CH5_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RECENT_CH5_MSB",
+    "address": 171,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "LAST_VALUE_CH5_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RECENT_CH6_LSB",
+    "address": 172,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "LAST_VALUE_CH6_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RECENT_CH6_MSB",
+    "address": 173,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "LAST_VALUE_CH6_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RECENT_CH7_LSB",
+    "address": 174,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "LAST_VALUE_CH7_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RECENT_CH7_MSB",
+    "address": 175,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "LAST_VALUE_CH7_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPO0_TRIG_EVENT_SEL",
+    "address": 195,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "GPO0_TRIG_EVENT_SEL",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPO1_TRIG_EVENT_SEL",
+    "address": 197,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "GPO1_TRIG_EVENT_SEL",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPO2_TRIG_EVENT_SEL",
+    "address": 199,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "GPO2_TRIG_EVENT_SEL",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPO3_TRIG_EVENT_SEL",
+    "address": 201,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "GPO3_TRIG_EVENT_SEL",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPO4_TRIG_EVENT_SEL",
+    "address": 203,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "GPO4_TRIG_EVENT_SEL",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPO5_TRIG_EVENT_SEL",
+    "address": 205,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "GPO5_TRIG_EVENT_SEL",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPO6_TRIG_EVENT_SEL",
+    "address": 207,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "GPO6_TRIG_EVENT_SEL",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPO7_TRIG_EVENT_SEL",
+    "address": 209,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "GPO7_TRIG_EVENT_SEL",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPO_TRIGGER_CFG",
+    "address": 233,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "GPO_TRIGGER_UPDATE_EN",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPO_VALUE_TRIG",
+    "address": 235,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "GPO_VALUE_ON_TRIGGER",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{12} 0{4}",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "NOP",
+     "in": "00000000 x{16}",
+     "action": "nop"
+    },
+    {
+     "name": "RD_REG",
+     "in": "00010000 aaaaaaaa x{8}",
+     "action": "read",
+     "address": "a",
+     "commit": "end",
+     "next": "@",
+     "note": "decoded at CS rising; the first 8 SDO bits of the next frame are the register"
+    },
+    {
+     "name": "WR_REG RST",
+     "in": "00001000 00000001 xxxxxxx1",
+     "action": "reset",
+     "commit": "end",
+     "note": "write to GENERAL_CFG with RST = 1: software reset of all registers"
+    },
+    {
+     "name": "WR_REG",
+     "in": "00001000 aaaaaaaa dddddddd",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "decoded at CS rising"
+    },
+    {
+     "name": "SET_BIT RST",
+     "in": "00011000 00000001 xxxxxxx1",
+     "action": "reset",
+     "commit": "end",
+     "note": "setting RST in GENERAL_CFG: software reset of all registers"
+    },
+    {
+     "name": "SET_BIT",
+     "in": "00011000 aaaaaaaa dddddddd",
+     "action": "setbits",
+     "address": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "sets the bits of the register that are 1 in the data byte; decoded at CS rising"
+    },
+    {
+     "name": "CLEAR_BIT",
+     "in": "00100000 aaaaaaaa dddddddd",
+     "action": "clearbits",
+     "address": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "clears the bits of the register that are 1 in the data byte; decoded at CS rising"
+    }
+   ],
+   "outs": [
+    {
+     "when": "DATA_CFG.FIX_PAT=1",
+     "out": "1010 0101 1010 0{4}"
+    },
+    {
+     "when": [
+      "OSR_CFG.OSR!=0",
+      "DATA_CFG.APPEND_STATUS=1"
+     ],
+     "out": "R{12} 0{4} [CH:3:0]"
+    },
+    {
+     "when": [
+      "OSR_CFG.OSR!=0",
+      "DATA_CFG.APPEND_STATUS=2"
+     ],
+     "out": "R{12} 0{4} 10 [SYSTEM_STATUS.CRCERR_IN] 0"
+    },
+    {
+     "when": "OSR_CFG.OSR!=0",
+     "out": "R{12} 0{4}"
+    },
+    {
+     "when": "DATA_CFG.APPEND_STATUS=1",
+     "out": "R{12} [CH:3:0]"
+    },
+    {
+     "when": "DATA_CFG.APPEND_STATUS=2",
+     "out": "R{12} 10 [SYSTEM_STATUS.CRCERR_IN] 0"
+    }
+   ],
+   "note": "output frame (Figure 7-4 p.18, Status Flags p.19, DATA_CFG register): FIX_PAT = 1 shifts 0xA5A; with averaging (OSR > 0) the result is 16 bits (the 0 V code, so the 12-bit code then 0000); APPEND_STATUS = 01b appends the 4-bit channel ID, 10b the status flags {1, 0, CRCERR_IN, ALERT}; register read-back frames carry no appended bits"
+  },
+  "conversion": {
+   "time": 600,
+   "start": [
+    "cs-rise"
+   ],
+   "channel": "CHANNEL_SEL.MANUAL_CHID"
+  }
+ },
+ "packages": {
+  "RTE": {
+   "pinout": "rte16",
+   "footprint": "WQFN-16-RTE",
+   "package": "WQFN",
+   "pins": 16
+  }
+ },
+ "pdf": "ads7038.pdf",
+ "pages": "p.3 (pins), p.4 (ROC: DVDD 1.65-5.5 V), p.6-7 (tCONV 600 ns, tDEN_CSDO/tD_CKDO/tDZ_CSDO), p.18 (Figure 7-4 data frame), p.22-24 (SPI-00 at power-up, Table 7-8 opcodes, 24-bit write, two-frame read), p.25 (Table 7-9 modes), p.30-72 (registers)",
+ "notModeled": [
+  "analog inputs; the result is always the 0 V code 0x000 (straight binary, AVDD reference)",
+  "AIN/GPIO pins as GPIOs (PIN_CFG, GPIO_CFG, GPO_DRIVE_CFG, GPO_VALUE, GPI_VALUE, ALERT pin mapping, GPO trigger registers): stored only, the pins are never driven and GPI_VALUE reads 0",
+  "SPI mode selection CPOL_CPHA (DATA_CFG): the model always uses SPI-00 (the power-up protocol)",
+  "CRC module (CRC_EN: 32-bit frames with input/output CRC-8, CRC error blocking writes) not modeled",
+  "status flag ALERT bit is always 0 (event flags are not set); averaging (OSR) changes only the frame length, the averaged 16-bit 0 V code being 0",
+  "on-the-fly sequence mode (SEQ_MODE = 10b: first 5 SDI bits 1+channel select the channel) and auto-sequence (SEQ_START, AUTO_SEQ_CH_SEL) are stored only; the conversion always uses MANUAL_CHID",
+  "autonomous mode (CONV_MODE = 01b, internal conversion start at OSC_SEL/CLK_DIV rates) not modeled: conversions start only at CS rising",
+  "digital window comparator, event counters, hysteresis, alert flags and the statistics registers (MAX/MIN/RECENT) hold their reset values (MAX clear on read); STATS_EN not modeled",
+  "offset calibration (CAL), CH_RST and the 5 ms reset/power-up times (tRST, tPU) not modeled; CAL/RST read back 0 at once",
+  "manual-mode channel-switch latency (the newly selected channel is sampled one frame later) not modeled"
+ ],
+ "variants": "ADS7038H (same datasheet): 1.5 MSPS, tCONV 467 ns, otherwise identical; not a separate skeleton device here",
+ "parts": [
+  [
+   "ADS7038IRTER",
+   "RTE",
+   16,
+   "Active"
+  ],
+  [
+   "ADS7038IRTET",
+   "RTE",
+   16,
+   "Active"
+  ]
+ ]
+}

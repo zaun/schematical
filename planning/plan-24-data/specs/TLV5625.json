@@ -1,0 +1,239 @@
+{
+ "device": {
+  "id": "TLV5625",
+  "function": "DAC",
+  "description": "dual 8-bit voltage-output DAC with 3-wire SPI/TMS320 serial interface, double-buffered DAC B, programmable settling time and power down",
+  "drawer": [
+   "Interface"
+  ],
+  "pinouts": {
+   "d8": [
+    {
+     "number": 1,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "OUTA",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "REF",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "OUTB",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "VDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 8,
+  "channels": 2,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "REF",
+   "OUTA",
+   "OUTB"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "LATCHA",
+    "space": "dac",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "note": "DAC A latch (no double buffer: also its input register); power-on reset clears the latches to all zero"
+   },
+   {
+    "name": "BUFFER",
+    "space": "input",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "note": "BUFFER latch, the input register of DAC B; power-on zero"
+   },
+   {
+    "name": "LATCHB",
+    "space": "dac",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "note": "DAC B latch; loaded from the serial word (R1 R0 = 00) or from BUFFER (R1 R0 = 10)"
+   },
+   {
+    "name": "CTRL",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "SPD",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "PWR",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: SPD (D14, 1 = fast) and PWR (D13, 1 = power down) of the last word; reset to 0 at power up"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write DAC A, update DAC B from BUFFER (R1 R0 = 10)",
+     "in": "1 s p 0 d{8} x{4}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "CTRL.SPD": "s",
+      "CTRL.PWR": "p"
+     },
+     "then": [
+      "updateall"
+     ],
+     "note": "D15 R1, D14 SPD, D13 PWR, D12 R0, data MSB first; DAC A latch written, DAC B updated with the BUFFER content"
+    },
+    {
+     "name": "Write DAC B and BUFFER (R1 R0 = 00)",
+     "in": "0 s p 0 d{8} x{4}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "CTRL.SPD": "s",
+      "CTRL.PWR": "p"
+     },
+     "then": [
+      "update"
+     ],
+     "note": "the data goes to BUFFER and DAC B"
+    },
+    {
+     "name": "Write BUFFER (R1 R0 = 01)",
+     "in": "0 s p 1 d{8} x{4}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "CTRL.SPD": "s",
+      "CTRL.PWR": "p"
+     },
+     "note": "BUFFER only; DAC A and B unchanged"
+    },
+    {
+     "name": "Reserved (R1 R0 = 11)",
+     "in": "1 s p 1 x{12}",
+     "set": {
+      "CTRL.SPD": "s",
+      "CTRL.PWR": "p"
+     },
+     "note": "reserved register select; the power-down example (X X 1 X ...) shows SPD/PWR taking effect whatever R1 R0 are, so the program bits are stored"
+    }
+   ],
+   "triggers": [
+    {
+     "write": "CTRL.PWR=1",
+     "action": "powerdown"
+    },
+    {
+     "write": "CTRL.PWR=0",
+     "action": "wakeup"
+    }
+   ],
+   "note": "CS falling starts the frame; DIN sampled MSB first on SCLK falling edges (SCLK high at CS falling, Figure 1 -> mode 2); after 16 bits the shift register moves to the latches the R1/R0 bits select"
+  },
+  "dac": {
+   "input": [
+    "LATCHA",
+    "BUFFER"
+   ],
+   "output": [
+    "LATCHA",
+    "LATCHB"
+   ],
+   "clearCode": 0,
+   "ldac": "command"
+  },
+  "note": "tlv5625.pdf (SLAS233D) p.1 (D pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: VDD 2.7-3.3 V and 4.5-5.5 V), p.6 (digital input timing, Figure 1), p.10 (power-on reset to zero, serial interface), p.11 (data format: R1 SPD PWR R0 + 8 data bits + 0000, register-select bits), p.12 (power-down example)"
+ },
+ "packages": {
+  "D": {
+   "pinout": "d8",
+   "footprint": "SOIC-8",
+   "package": "SOIC",
+   "pins": 8
+  }
+ },
+ "pdf": "tlv5625.pdf",
+ "pages": "(SLAS233D) p.1 (D pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: VDD 2.7-3.3 V and 4.5-5.5 V), p.6 (digital input timing, Figure 1), p.10 (power-on reset to zero, serial interface), p.11 (data format: R1 SPD PWR R0 + 8 data bits + 0000, register-select bits), p.12 (power-down example)",
+ "notModeled": [
+  "analog: voltage outputs (x2 buffer), reference REF input; SPD (settling) and PWR (power down) affect the analog side only (stored in CTRL)",
+  "a frame cut short by CS rising before 16 bits (the datasheet moves the partial shift register to the latches) is discarded",
+  "the extra SCLK rising edge after D0 that resets the internal state machine (p.10) is not needed by the model",
+  "DAC A has no double buffer: its input and DAC register are the same latch (dac lists LATCHA twice)",
+  "digital input timing requirements (Figure 1)"
+ ],
+ "variants": "tlv5625.pdf covers only the TLV5625 (C and I grades); TLV5617A (10-bit) and TLV5618A (12-bit) share the interface.",
+ "parts": [
+  [
+   "TLV5625CD",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "TLV5625CDR",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "TLV5625ID",
+   "D",
+   8,
+   "Active"
+  ]
+ ]
+}

@@ -28,6 +28,8 @@ const char *listing_kind_name(PartKind kind) {
         case PART_MUX: return "mux";
         case PART_HEADER: return "header";
         case PART_ARITH: return "arith";
+        case PART_CONVERTER: return "converter";
+        case PART_RTC: return "rtc";
     }
     return "?";
 }
@@ -72,6 +74,13 @@ static void print_details(FILE *out, const Part *part) {
             }
             break;
         }
+        case PART_CONVERTER:
+            fprintf(out, "type=%s bits=%u channels=%u", part->converter->type,
+                    part->converter->bits, part->converter->channels);
+            break;
+        case PART_RTC:
+            fputs("clock", out);
+            break;
         case PART_SRAM:
             fprintf(out, "words=%u bits=%u access_ps=%llu", (unsigned)part->sram->words,
                     part->sram->bits, (unsigned long long)part->sram->access_ps);
@@ -205,6 +214,12 @@ char *listing_line(const Part *part) {
 
         fprintf(out, "%s%s:%s:%s:%s", i > 0 ? "," : "", pin->designator, pin->name,
                 role_name(pin->role), pin->group);
+    }
+    if (part->manufacturer != NULL) {
+        fprintf(out, "|mfr=%s", part->manufacturer);
+    }
+    if (part->datasheet != NULL) {
+        fprintf(out, "|datasheet=%s", part->datasheet->id);
     }
     if (part->footprint != NULL) {
         fprintf(out, "|footprint=%s", part->footprint->id);

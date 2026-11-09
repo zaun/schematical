@@ -1,0 +1,311 @@
+{
+ "device": {
+  "id": "DAC084S085",
+  "function": "DAC",
+  "description": "8-bit quad micropower rail-to-rail voltage-output DAC with SPI-compatible serial interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac084s085.pdf (SNAS363F) p.3 (pin configuration and functions), p.4 (recommended operating conditions: VA 2.7-5.5 V, digital inputs 0-5.5 V regardless of VA), p.7 (timing requirements), p.8 (Figure 1 serial timing), p.15 (power-on reset, power-down modes, Table 1), p.16 (serial interface), p.17 (input shift register Figure 30)",
+  "pinouts": {
+   "dgs10": [
+    {
+     "number": 1,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "VREFIN",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "SCLK",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 8,
+  "channels": 4,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "VOUTA",
+   "VOUTB",
+   "VOUTC",
+   "VOUTD",
+   "VREFIN"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "note": "DAC A register written by OP = 00 (held until an update); power-on zero (p.15)"
+   },
+   {
+    "name": "INB",
+    "space": "input",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "note": "DAC B register written by OP = 00 (held until an update); power-on zero (p.15)"
+   },
+   {
+    "name": "INC",
+    "space": "input",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "note": "DAC C register written by OP = 00 (held until an update); power-on zero (p.15)"
+   },
+   {
+    "name": "IND",
+    "space": "input",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "note": "DAC D register written by OP = 00 (held until an update); power-on zero (p.15)"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "note": "code driving VOUTA; power-on zero (p.15 power-on reset)"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "note": "code driving VOUTB; power-on zero (p.15 power-on reset)"
+   },
+   {
+    "name": "DACC",
+    "space": "dac",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "note": "code driving VOUTC; power-on zero (p.15 power-on reset)"
+   },
+   {
+    "name": "DACD",
+    "space": "dac",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "note": "code driving VOUTD; power-on zero (p.15 power-on reset)"
+   },
+   {
+    "name": "CTRL",
+    "width": 3,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PD",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "TERM",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "PD: powered down by OP1 OP0 = 11 until the next write; TERM: A1 A0 of that frame (00/11 Hi-Z, 01 2.5 kohm, 10 100 kohm, Table 1)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "WRITE",
+     "in": "aa 00 dddddddd xxxx",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "set": {
+      "CTRL.PD": 0
+     },
+     "note": "OP1 OP0 = 00: write the register of the addressed DAC, outputs not updated"
+    },
+    {
+     "name": "WRITE_UPDATE",
+     "in": "aa 01 dddddddd xxxx",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "set": {
+      "CTRL.PD": 0
+     },
+     "then": [
+      "updateall"
+     ],
+     "note": "OP1 OP0 = 01: write the addressed DAC and update the outputs of all DACs"
+    },
+    {
+     "name": "WRITE_ALL",
+     "in": "aa 10 dddddddd xxxx",
+     "action": "write",
+     "channel": "a",
+     "channelMap": {
+      "0": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "1": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "2": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "3": [
+       0,
+       1,
+       2,
+       3
+      ]
+     },
+     "data": "d",
+     "set": {
+      "CTRL.PD": 0
+     },
+     "then": [
+      "update"
+     ],
+     "note": "OP1 OP0 = 10: write every DAC register and update all outputs (address bits ignored)"
+    },
+    {
+     "name": "POWER_DOWN",
+     "in": "tt 11 x{12}",
+     "action": "nop",
+     "set": {
+      "CTRL.PD": 1,
+      "CTRL.TERM": "t"
+     },
+     "note": "OP1 OP0 = 11: power down all outputs; A1 A0 select the termination (Table 1); DAC registers kept"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB",
+    "INC",
+    "IND"
+   ],
+   "output": [
+    "DACA",
+    "DACB",
+    "DACC",
+    "DACD"
+   ],
+   "clearCode": 0,
+   "ldac": "command"
+  }
+ },
+ "packages": {
+  "DGS": {
+   "pinout": "dgs10",
+   "footprint": "VSSOP-10",
+   "package": "VSSOP",
+   "pins": 10
+  },
+  "DSC": {
+   "pinout": "dgs10",
+   "footprint": "WSON-10-DSC-A",
+   "package": "WSON",
+   "pins": 10
+  }
+ },
+ "pdf": "dac084s085.pdf",
+ "pages": "p.3 (pin configuration and functions), p.4 (recommended operating conditions: VA 2.7-5.5 V, digital inputs 0-5.5 V regardless of VA), p.7 (timing requirements), p.8 (Figure 1 serial timing), p.15 (power-on reset, power-down modes, Table 1), p.16 (serial interface), p.17 (input shift register Figure 30)",
+ "notModeled": [
+  "VOUTx, VREFIN and the resistor strings (analog); the power-down output terminations are stored in CTRL.TERM only",
+  "wake-up time 6-39 us, settling time 4.5 us max"
+ ],
+ "variants": "Pin-compatible 10/12-bit versions DAC104S085 / DAC124S085 are separate datasheets. VSSOP-10 (DGS) and WSON-10 (DSC) share the pin numbering.",
+ "parts": [
+  [
+   "DAC084S085CIMM/NOPB",
+   "DGS",
+   10,
+   "Active"
+  ],
+  [
+   "DAC084S085CIMMX/NOPB",
+   "DGS",
+   10,
+   "Active"
+  ],
+  [
+   "DAC084S085CISD/NOPB",
+   "DSC",
+   10,
+   "Active"
+  ]
+ ]
+}

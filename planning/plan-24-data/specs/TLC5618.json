@@ -1,0 +1,336 @@
+{
+ "device": {
+  "id": "TLC5618",
+  "function": "DAC",
+  "description": "dual 12-bit voltage-output DAC with 16-bit serial interface (SPI), double-buffered DAC B, speed and power-down program bits",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "slas156g.pdf (SLAS156G) p.1 (pinouts: D, P, JG 8-pin; FK 20-pin), p.3 (terminal functions), p.4 (recommended operating conditions: VDD 4.5-5.5 V), p.7 (digital input timing, Figure 1), p.12 (power-on reset to 0), p.14-15 (serial interface, Figure 18 word format, Table 2 program bits, latch transfers Figures 19-21)",
+  "pinouts": {
+   "so8": [
+    {
+     "number": 1,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "OUT A",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "OUT B",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "VDD",
+     "role": "power"
+    }
+   ],
+   "fk20": [
+    {
+     "number": 1,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 2,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 4,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 5,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 7,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 9,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 10,
+     "name": "OUT A",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 12,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 14,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 15,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 17,
+     "name": "OUT B",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 19,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 20,
+     "name": "VDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 2,
+  "vcc": [
+   4.5,
+   5.5
+  ],
+  "analog": [
+   "OUT A",
+   "OUT B",
+   "REFIN"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "LATCHA",
+    "space": "dac",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "latch A (DAC A); written directly by a D15 = 1 word (p.14); reset to all 0s at power up (p.12)"
+   },
+   {
+    "name": "DBUF",
+    "space": "input",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "double buffer latch, the input register of DAC B (p.14-15); reset 0 at power up"
+   },
+   {
+    "name": "LATCHB",
+    "space": "dac",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "latch B (DAC B); loaded from the serial word (D15 = 0, D12 = 0) or from the double buffer (D15 = 1)"
+   },
+   {
+    "name": "CTRL",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "SPD",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "PWR",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: program bits D14 (1 = fast, 2.5 us settling) and D13 (1 = power down) of the last word (Table 2 p.14); power-on value not given (0)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Latch A write, latch B update (D15 = 1)",
+     "in": "1 s p x d{12}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "CTRL.SPD": "s",
+      "CTRL.PWR": "p"
+     },
+     "then": [
+      "updateall"
+     ],
+     "commit": "end",
+     "note": "SIR data to latch A, double buffer to latch B, at CS rising (p.14, Figure 19)"
+    },
+    {
+     "name": "Latch B and double-buffer write (D15 = 0, D12 = 0)",
+     "in": "0 s p 0 d{12}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "CTRL.SPD": "s",
+      "CTRL.PWR": "p"
+     },
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "note": "SIR data to latch B and the double buffer; latch A unaffected (p.15, Figure 20)"
+    },
+    {
+     "name": "Double-buffer-only write (D15 = 0, D12 = 1)",
+     "in": "0 s p 1 d{12}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "CTRL.SPD": "s",
+      "CTRL.PWR": "p"
+     },
+     "commit": "end",
+     "note": "SIR data to the double buffer only; latches A and B unaffected (p.15, Figure 21)"
+    }
+   ],
+   "note": "DIN shifted into the 16-bit SIR on SCLK falling edges while CS is low (SCLK high at CS falling, Figure 1 -> mode 2); D15-D12 program bits then D11-D0 data, MSB first; the transfer happens at CS rising (p.14)"
+  },
+  "dac": {
+   "input": [
+    "LATCHA",
+    "DBUF"
+   ],
+   "output": [
+    "LATCHA",
+    "LATCHB"
+   ],
+   "clearCode": 0,
+   "ldac": "command"
+  }
+ },
+ "packages": {
+  "FK": {
+   "pinout": "fk20",
+   "footprint": "LCCC-20",
+   "package": "LCCC",
+   "pins": 20
+  },
+  "JG": {
+   "pinout": "so8",
+   "footprint": "CDIP-8-JG",
+   "package": "DIP",
+   "pins": 8
+  },
+  "D": {
+   "pinout": "so8",
+   "footprint": "SOIC-8",
+   "package": "SOIC",
+   "pins": 8
+  }
+ },
+ "pdf": "slas156g.pdf",
+ "pages": "p.1 (pinouts), p.3 (terminal functions), p.4 (ROC), p.7 (timing, Figure 1), p.12 (power-on reset), p.14-15 (serial interface, Table 2, Figures 18-21)",
+ "notModeled": [
+  "analog: voltage outputs OUT A/OUT B, reference input REFIN (x2 output gain)",
+  "D14 speed (12.5 us / 2.5 us settling) and D13 power down are stored in the internal CTRL register only; power down affects only the analog outputs",
+  "a frame with other than 16 SCLK falling edges: the datasheet requires SCLK high after the 16th falling edge (Figure 1 note A); the model takes the first 16 bits and transfers at CS rising",
+  "DAC A has no double buffer: its input and DAC register are the same latch (dac lists LATCHA twice); a D15 = 1 word copies the double buffer to latch B with updateall"
+ ],
+ "variants": "TLC5618A (the orderable parts here: TLC5618AQD, 5962-99557 = TLC5618AM in JG/FK) and TLC5618 share this datasheet with the same pinout and interface; C/I/Q/M are temperature grades",
+ "parts": [
+  [
+   "5962-9955702Q2A",
+   "FK",
+   20,
+   "Active"
+  ],
+  [
+   "5962-9955702QPA",
+   "JG",
+   8,
+   "Active"
+  ],
+  [
+   "TLC5618AQD",
+   "D",
+   8,
+   "Active"
+  ]
+ ]
+}

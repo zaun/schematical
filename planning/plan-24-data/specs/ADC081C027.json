@@ -1,0 +1,293 @@
+{
+ "device": {
+  "id": "ADC081C027",
+  "function": "ADC",
+  "description": "8-bit 189 kSPS I2C SAR ADC with alert registers and address-select pin",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "adc081c021.pdf (SNAS447C) p.3 connection diagram (Figure 2; pin 4 printed ADDR, the pin table ADDR0/ADR0), p.4 pin descriptions and package pinouts table, p.5 operating ratings, p.6 I2C input levels, p.8 conversion time, p.15-16 converter operation and transfer function, p.17-22 registers, p.22-24 serial interface and slave addresses (Table 2)",
+  "pinouts": {
+   "ddc6": [
+    {
+     "number": 1,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "VIN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "ADDR0",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "SCL",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "SDA",
+     "role": "inout"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 8,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "inputMax": 5.5,
+  "analog": [
+   "VIN"
+  ],
+  "bus": {
+   "style": "i2c",
+   "scl": "SCL",
+   "sda": "SDA",
+   "address": [
+    "ADDR0"
+   ],
+   "table": [
+    81,
+    82,
+    null,
+    null
+   ]
+  },
+  "registers": [
+   {
+    "name": "CONVERSION",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "result": true,
+    "fields": [
+     {
+      "name": "ALERT_FLAG",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "RESULT",
+      "bits": [
+       11,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ALERT_STATUS",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 252,
+    "fields": [
+     {
+      "name": "OVER_RANGE",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "UNDER_RANGE",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 2,
+    "fields": [
+     {
+      "name": "CYCLE_TIME",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "ALERT_HOLD",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "ALERT_FLAG_EN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "ALERT_PIN_EN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "POLARITY",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "VLOW",
+    "address": 3,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 61455,
+    "fields": [
+     {
+      "name": "VLOW_LIMIT",
+      "bits": [
+       11,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "VHIGH",
+    "address": 4,
+    "width": 16,
+    "reset": 4095,
+    "readOnly": 61455,
+    "fields": [
+     {
+      "name": "VHIGH_LIMIT",
+      "bits": [
+       11,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "VHYST",
+    "address": 5,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 61455,
+    "fields": [
+     {
+      "name": "HYSTERESIS",
+      "bits": [
+       11,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "VMIN",
+    "address": 6,
+    "width": 16,
+    "reset": 4095,
+    "readOnly": 61455,
+    "fields": [
+     {
+      "name": "LOWEST",
+      "bits": [
+       11,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "VMAX",
+    "address": 7,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 61455,
+    "fields": [
+     {
+      "name": "HIGHEST",
+      "bits": [
+       11,
+       4
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Address Pointer",
+     "in": "00000aaa",
+     "action": "pointer",
+     "address": "a"
+    }
+   ],
+   "read": "pointer"
+  },
+  "conversion": {
+   "time": 1000,
+   "start": [
+    "read"
+   ]
+  }
+ },
+ "packages": {
+  "DDC": {
+   "pinout": "ddc6",
+   "footprint": "SOT23-THIN-6",
+   "package": "SOT-23-THIN",
+   "pins": 6
+  }
+ },
+ "pdf": "adc081c021.pdf",
+ "pages": "p.3 connection diagram (Figure 2; pin 4 printed ADDR, the pin table ADDR0/ADR0), p.4 pin descriptions and package pinouts table, p.5 (operating ratings: VA 2.7-5.5 V, digital inputs 0-5.5 V regardless of VA), p.8 (conversion time 1 us), p.15 (conversion at each result read / automatic mode), p.16 (straight binary), p.17-22 (registers), p.22-23 (read/write sequences), p.24 (Table 2 slave addresses)",
+ "notModeled": [
+  "ADDR0 floating (or at VA/2) selects 0x50 (1010000): the tie table has no floating state; GND = 0x51 and VA = 0x52 are modeled (Table 2), SCL/SDA ties are not listed",
+  "CONFIG.ALERT_PIN_EN and CONFIG.POLARITY do not apply (no ALERT pin); stored only",
+  "analog input (the result is always the 0 V code 0x00)",
+  "the CONVERSION register holds the 8-bit code in bits 11:4 (left-justified in a 12-bit field); the schema does not say where a result register's code goes (identical here: the code is 0)",
+  "automatic conversion mode (CONFIG.CYCLE_TIME != 0: conversions every Tconvert x 32..2048) - the schema's mode field takes one continuous value; CYCLE_TIME is stored only",
+  "alert function: VHIGH/VLOW/VHYST comparison, ALERT_STATUS flags (write-1-to-clear), the CONVERSION.ALERT_FLAG bit, VMIN/VMAX tracking in automatic mode",
+  "conversion starts at the ACK of the address byte of a read (about 400 ns acquisition + conversion, 1 us typ); the model starts the next conversion after each read of the result",
+  "reserved bits of the 16-bit limit registers read 0 but VHIGH/VMIN reset to 0FFFh per the datasheet (bits 3:0 set); they are marked read-only",
+  "I2C Hs-mode master code entry, quiet interface mode, automatic power-down between conversions",
+  "power-on reset brown-out behaviour (registers lost below 2.4 V)"
+ ],
+ "variants": "ADC081C021 shares the datasheet (ALERT pin instead of ADDR0, plus a VSSOP-8 with two address pins): own spec file",
+ "parts": [
+  [
+   "ADC081C027CIMK/NOPB",
+   "DDC",
+   6,
+   "Active"
+  ]
+ ]
+}

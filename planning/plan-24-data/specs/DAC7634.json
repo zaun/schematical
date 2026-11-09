@@ -1,0 +1,515 @@
+{
+ "device": {
+  "id": "DAC7634",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "quad 16-bit voltage-output DAC with 24-bit serial interface, quick load, daisy-chain SDO, double-buffered inputs (LOAD, LDAC) and reset to zero or mid scale",
+  "note": "dac7634.pdf (SBAS134B) p.3-4 (electrical characteristics: VDD digital 4.75-5.25 V, VIH 0.7 VDD), p.5 (pin descriptions), p.6 (pin configuration), p.22 (digital interface, serial data input, Table 1 truth table), p.23 (Table 2 shift register, serial-data output, coding), p.24 (Figures 61-64), p.25 (Table 3 timing)",
+  "pinouts": {
+   "dl48": [
+    {
+     "number": 1,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 2,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 3,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "LOAD",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 11,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "RSTSEL",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 17,
+     "name": "RST",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 19,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 20,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 21,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 22,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 23,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 24,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 25,
+     "name": "VCC",
+     "role": "power"
+    },
+    {
+     "number": 26,
+     "name": "VCC",
+     "role": "power"
+    },
+    {
+     "number": 27,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 28,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 29,
+     "name": "VSS",
+     "role": "power"
+    },
+    {
+     "number": 30,
+     "name": "VSS",
+     "role": "power"
+    },
+    {
+     "number": 31,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 32,
+     "name": "VOUTD Sense",
+     "role": "input"
+    },
+    {
+     "number": 33,
+     "name": "VREFL CD Sense",
+     "role": "input"
+    },
+    {
+     "number": 34,
+     "name": "VREFL CD",
+     "role": "power"
+    },
+    {
+     "number": 35,
+     "name": "VREFH CD",
+     "role": "power"
+    },
+    {
+     "number": 36,
+     "name": "VREFH CD Sense",
+     "role": "input"
+    },
+    {
+     "number": 37,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 38,
+     "name": "VOUTC Sense",
+     "role": "input"
+    },
+    {
+     "number": 39,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 40,
+     "name": "VOUTB Sense",
+     "role": "input"
+    },
+    {
+     "number": 41,
+     "name": "VREFH AB Sense",
+     "role": "input"
+    },
+    {
+     "number": 42,
+     "name": "VREFH AB",
+     "role": "power"
+    },
+    {
+     "number": 43,
+     "name": "VREFL AB",
+     "role": "power"
+    },
+    {
+     "number": 44,
+     "name": "VREFL AB Sense",
+     "role": "input"
+    },
+    {
+     "number": 45,
+     "name": "VSS",
+     "role": "power"
+    },
+    {
+     "number": 46,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 47,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 48,
+     "name": "VOUTA Sense",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 4,
+  "vcc": [
+   4.75,
+   5.25
+  ],
+  "analog": [
+   "VCC",
+   "VSS",
+   "VOUTD",
+   "VOUTD Sense",
+   "VREFL CD Sense",
+   "VREFL CD",
+   "VREFH CD",
+   "VREFH CD Sense",
+   "VOUTC",
+   "VOUTC Sense",
+   "VOUTB",
+   "VOUTB Sense",
+   "VREFH AB Sense",
+   "VREFH AB",
+   "VREFL AB",
+   "VREFL AB Sense",
+   "VOUTA",
+   "VOUTA Sense"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "CLK",
+   "mosi": "SDI",
+   "miso": "SDO",
+   "mode": 3
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC A input register (A1 A0 = 00); loaded from the shift register while LOAD is low (Table 1); power-on code not stated (reset 0)"
+   },
+   {
+    "name": "INB",
+    "space": "input",
+    "address": 1,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC B input register (A1 A0 = 01); loaded from the shift register while LOAD is low (Table 1); power-on code not stated (reset 0)"
+   },
+   {
+    "name": "INC",
+    "space": "input",
+    "address": 2,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC C input register (A1 A0 = 10); loaded from the shift register while LOAD is low (Table 1); power-on code not stated (reset 0)"
+   },
+   {
+    "name": "IND",
+    "space": "input",
+    "address": 3,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC D input register (A1 A0 = 11); loaded from the shift register while LOAD is low (Table 1); power-on code not stated (reset 0)"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC A DAC register; all four loaded from the input registers on the LDAC rising edge (Table 1)"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC B DAC register; all four loaded from the input registers on the LDAC rising edge (Table 1)"
+   },
+   {
+    "name": "DACC",
+    "space": "dac",
+    "address": 2,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC C DAC register; all four loaded from the input registers on the LDAC rising edge (Table 1)"
+   },
+   {
+    "name": "DACD",
+    "space": "dac",
+    "address": 3,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC D DAC register; all four loaded from the input registers on the LDAC rising edge (Table 1)"
+   },
+   {
+    "name": "SR",
+    "width": 24,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "SEL",
+      "bits": [
+       23,
+       21
+      ]
+     },
+     {
+      "name": "X",
+      "bits": [
+       20,
+       16
+      ]
+     },
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the 24-bit serial shift register (A1 A0 QUICK LOAD, five unused bits, D15-D0), shifted out on SDO"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "out": "[SR]",
+   "commands": [
+    {
+     "name": "Write",
+     "in": "ccc uuuuu d{16}",
+     "action": "write",
+     "channel": "c",
+     "data": "d",
+     "channelMap": {
+      "0": [
+       0
+      ],
+      "1": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "2": [
+       1
+      ],
+      "3": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "4": [
+       2
+      ],
+      "5": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "6": [
+       3
+      ],
+      "7": [
+       0,
+       1,
+       2,
+       3
+      ]
+     },
+     "set": {
+      "SR.SEL": "c",
+      "SR.X": "u",
+      "SR.D": "d"
+     },
+     "commit": "end",
+     "note": "24-bit word A1 A0 QUICK-LOAD X X X X X D15-D0, MSB first, clocked on CLK rising (p.22). Quick load 1: the code goes to all four input registers; 0: to the one A1 A0 select (channelMap on the 3-bit A1 A0 QL capture). The shift register goes to the input register(s) while LOAD is low; modeled as written when CS rises. The last 24 bits before CS rises are decoded"
+    }
+   ],
+   "note": "SDO is the shift register's output (driven, p.23); CS and CLK are ORed, CS should rise only while CLK is high (p.22), hence mode 3"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 1,
+    "edge": "rise",
+    "note": "DAC register load, rising-edge triggered: all DAC registers (p.5, Table 1)"
+   },
+   "clear": {
+    "pin": "RST",
+    "active": 0,
+    "edge": "rise",
+    "note": "rising-edge triggered: loads zero (RSTSEL low) or mid scale 8000h (RSTSEL high)"
+   }
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB",
+    "INC",
+    "IND"
+   ],
+   "output": [
+    "DACA",
+    "DACB",
+    "DACC",
+    "DACD"
+   ],
+   "clearCode": {
+    "pin": "RSTSEL",
+    "values": {
+     "0": 0,
+     "1": 32768
+    }
+   },
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "DL": {
+   "pinout": "dl48",
+   "footprint": "SSOP-48",
+   "package": "SSOP",
+   "pins": 48
+  }
+ },
+ "pdf": "dac7634.pdf",
+ "pages": "p.3-4 (electrical characteristics: VDD digital 4.75-5.25 V, VIH 0.7 VDD), p.5 (pin descriptions), p.6 (pin configuration), p.22 (digital interface, serial data input, Table 1 truth table), p.23 (Table 2 shift register, serial-data output, coding), p.24 (Figures 61-64), p.25 (Table 3 timing)",
+ "notModeled": [
+  "analog: outputs, force/sense pins, differential reference inputs, single/dual supply operation, current-source configuration, settling",
+  "LOAD: the shift register is copied into the addressed (or, with quick load, every) input register while LOAD is low; the schema has no load-strobe pin, so the word is written when CS rises (a frame without a LOAD pulse still updates the input register in the model)",
+  "RST does not change the serial shift register in the chip (the model's clear leaves SR as well)",
+  "power-on state of the registers is not stated in the datasheet (reset 0)",
+  "daisy chain: SDO shifts the previous 24-bit word, then the real part passes the incoming bits through; the model shifts the previous word then zeros, so chained devices do not receive data",
+  "CS and CLK are interchangeable (ORed); with CS tied low the shift register runs on CLK alone (Table 1 note); a CS rising edge while CLK is low shifts one extra bit",
+  "timing limits of Table 3 (no SDO propagation delay is given)"
+ ],
+ "variants": "DAC7634E / EB are linearity grades of the same chip. DAC7654 (dac7654.pdf) uses the same 24-bit word in an LQFP-64 with IOVDD and an internal reference.",
+ "parts": [
+  [
+   "DAC7634E",
+   "DL",
+   48,
+   "Active"
+  ],
+  [
+   "DAC7634EB",
+   "DL",
+   48,
+   "Active"
+  ]
+ ]
+}

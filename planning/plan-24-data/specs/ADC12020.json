@@ -1,0 +1,272 @@
+{
+  "device": {
+    "id": "ADC12020",
+    "function": "ADC",
+    "description": "12-bit 20 MSPS pipelined ADC with internal sample-and-hold and tri-state parallel outputs",
+    "drawer": [
+      "Interface"
+    ],
+    "note": "adc12020.pdf (SNAS186B) p.2 connection diagram, p.3-4 pin descriptions, p.5 operating ratings, p.8 AC characteristics (tOD, latency, tDIS/tEN), data outputs section (offset binary, OE/PD)",
+    "pinouts": {
+      "ney32": [
+        {
+          "number": 1,
+          "name": "VREF",
+          "role": "power"
+        },
+        {
+          "number": 2,
+          "name": "VIN+",
+          "role": "input"
+        },
+        {
+          "number": 3,
+          "name": "VIN-",
+          "role": "input"
+        },
+        {
+          "number": 4,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 5,
+          "name": "VA",
+          "role": "power"
+        },
+        {
+          "number": 6,
+          "name": "VA",
+          "role": "power"
+        },
+        {
+          "number": 7,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 8,
+          "name": "PD",
+          "role": "input"
+        },
+        {
+          "number": 9,
+          "name": "DGND",
+          "role": "ground"
+        },
+        {
+          "number": 10,
+          "name": "CLK",
+          "role": "input"
+        },
+        {
+          "number": 11,
+          "name": "OE",
+          "role": "input"
+        },
+        {
+          "number": 12,
+          "name": "DGND",
+          "role": "ground"
+        },
+        {
+          "number": 13,
+          "name": "VD",
+          "role": "power"
+        },
+        {
+          "number": 14,
+          "name": "D0",
+          "role": "output"
+        },
+        {
+          "number": 15,
+          "name": "D1",
+          "role": "output"
+        },
+        {
+          "number": 16,
+          "name": "D2",
+          "role": "output"
+        },
+        {
+          "number": 17,
+          "name": "D3",
+          "role": "output"
+        },
+        {
+          "number": 18,
+          "name": "D4",
+          "role": "output"
+        },
+        {
+          "number": 19,
+          "name": "D5",
+          "role": "output"
+        },
+        {
+          "number": 20,
+          "name": "DR GND",
+          "role": "ground"
+        },
+        {
+          "number": 21,
+          "name": "VDR",
+          "role": "power"
+        },
+        {
+          "number": 22,
+          "name": "D6",
+          "role": "output"
+        },
+        {
+          "number": 23,
+          "name": "D7",
+          "role": "output"
+        },
+        {
+          "number": 24,
+          "name": "D8",
+          "role": "output"
+        },
+        {
+          "number": 25,
+          "name": "D9",
+          "role": "output"
+        },
+        {
+          "number": 26,
+          "name": "D10",
+          "role": "output"
+        },
+        {
+          "number": 27,
+          "name": "D11",
+          "role": "output"
+        },
+        {
+          "number": 28,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 29,
+          "name": "VA",
+          "role": "power"
+        },
+        {
+          "number": 30,
+          "name": "VRN",
+          "role": "nc"
+        },
+        {
+          "number": 31,
+          "name": "VRP",
+          "role": "nc"
+        },
+        {
+          "number": 32,
+          "name": "VRM",
+          "role": "nc"
+        }
+      ]
+    },
+    "type": "adc",
+    "bits": 12,
+    "channels": 1,
+    "codeFormat": "offset",
+    "vcc": [
+      2.35,
+      5.25
+    ],
+    "analog": [
+      "VREF",
+      "VIN+",
+      "VIN-",
+      "VA",
+      "VRN",
+      "VRP",
+      "VRM"
+    ],
+    "bus": {
+      "style": "clocked",
+      "clock": {
+        "pin": "CLK",
+        "edge": "rise"
+      },
+      "data": [
+        "D11",
+        "D10",
+        "D9",
+        "D8",
+        "D7",
+        "D6",
+        "D5",
+        "D4",
+        "D3",
+        "D2",
+        "D1",
+        "D0"
+      ],
+      "oe": {
+        "pin": "OE",
+        "active": 0
+      }
+    },
+    "timing": {
+      "tOut": 16.8,
+      "tFloat": 4
+    },
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "commands": [],
+      "read": "R{12}"
+    },
+    "conversion": {
+      "time": 0,
+      "start": [
+        "power-on"
+      ]
+    },
+    "pins": {
+      "powerdown": {
+        "pin": "PD",
+        "active": 1
+      }
+    }
+  },
+  "packages": {
+    "NEY": {
+      "pinout": "ney32",
+      "footprint": "LQFP-32-NEY",
+      "package": "LQFP",
+      "pins": 32
+    }
+  },
+  "pdf": "adc12020.pdf",
+  "pages": "p.2 (connection diagram), p.3-4 (pin descriptions: CLK sampled on rising edge, OE low enables outputs, PD high = power down, D0-D11 offset binary, VDR 2.35 V to VD), p.5 (operating ratings: VA, VD 4.75-5.25 V; VDR 2.35 V to VD; CLK/PD/OE to VD + 0.05 V), p.8 (tOD 16.8 ns max (VDR 2.5 V and 3.0 V), latency 6 clocks, tDIS/tEN 4 ns typ)",
+  "notModeled": [
+    "analog input and reference; the result is always the 0 V differential code (offset binary 0x800)",
+    "pipeline latency of 6 clock cycles (the code is constant)",
+    "power-down exit time and clock frequency/duty-cycle limits",
+    "tDIS/tEN are typical values only (4 ns)",
+    "outputs operate with VDR down to 1.8 V with longer tOD (applications section); vcc uses the operating-ratings minimum 2.35 V",
+    "digital inputs (CLK, PD, OE) are referenced to VD (4.75-5.25 V), outputs to VDR (2.35 V to VD); vcc is the union"
+  ],
+  "variants": "ADC12010, ADC12040: same pinout and digital interface, different sample rate (separate datasheets)",
+  "parts": [
+    [
+      "ADC12020CIVY/NOPB",
+      "NEY",
+      32,
+      "Active"
+    ],
+    [
+      "ADC12020CIVYX/NOPB",
+      "NEY",
+      32,
+      "Active"
+    ]
+  ]
+}

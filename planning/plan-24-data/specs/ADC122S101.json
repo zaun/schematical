@@ -1,0 +1,146 @@
+{
+ "device": {
+  "id": "ADC122S101",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "12-bit 500 kSPS-1 MSPS 2-channel SAR ADC with SPI-compatible serial interface",
+  "note": "adc122s101.pdf (SNAS286D) p.1 connection diagram, p.2 pin descriptions, p.3 operating ratings, p.5-6 timing specifications, p.6 Figure 3 operational timing, p.16-17 using the ADC122S101 and Tables 2-4 (control register, channel selection), p.18 transfer function (straight binary)",
+  "pinouts": {
+   "dgk8": [
+    {
+     "number": 1,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "IN2",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "IN1",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "SCLK",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 2,
+  "codeFormat": "straight",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "IN1",
+   "IN2"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "miso": "DOUT",
+   "mode": 3
+  },
+  "timing": {
+   "tValid": 30,
+   "tOut": 30,
+   "tFloat": 20
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 8,
+    "reset": 0,
+    "note": "internal: the control register loaded from DIN on the first 8 rising SCLK edges of each 16-clock conversion (DONTC DONTC ADD2 ADD1 ADD0 DONTC DONTC DONTC); no read-back; reset 0 = the default first input",
+    "fields": [
+     {
+      "name": "ADD",
+      "bits": [
+       5,
+       3
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "out": "0{4} R{12}",
+   "idle": "repeat",
+   "commands": [
+    {
+     "name": "Control Register",
+     "in": "xx aaa xxx x{8}",
+     "action": "nop",
+     "set": {
+      "CTRL.ADD": "a"
+     },
+     "note": "each 16-SCLK conversion clocks the control byte in on DIN (bits 5-3 = ADD2-ADD0 select the input of the next conversion), the other 8 DIN bits are ignored; DOUT gives 4 leading zeros then DB11-DB0"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ]
+  }
+ },
+ "packages": {
+  "DGK": {
+   "pinout": "dgk8",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  }
+ },
+ "pdf": "adc122s101.pdf",
+ "pages": "p.1 (connection diagram), p.2 (pins), p.3 (operating ratings: VA 2.7-5.25 V, digital inputs -0.3 V to VA), p.5-6 (tEN 30 ns, tACC 30 ns, tDIS 20 ns max), p.6 (Figure 3: DIN control byte on clocks 1-8, DOUT 4 zeros + DB11-DB0), p.16-17 (serial interface, Tables 2-4), p.18 (straight binary)",
+ "notModeled": [
+  "analog inputs and multiplexer; the conversion is clocked by SCLK (13 SCLK cycles), not timed: the result is the 0 V code 0x000 at once",
+  "the channel written in a frame applies to the next conversion; with every result the 0 V code this has no visible effect (ADD is stored only)",
+  "continuous conversion frames (N x 16 SCLKs per CS low) are approximated by repeating the 16-bit output pattern and re-matching the control word every 16 bits; the frame length rule (an integer multiple of 16 SCLKs) is not checked",
+  "SPI mode 3 chosen (DOUT changes on SCLK falling edges, DIN and DOUT sampled on rising edges); the datasheet allows SCLK high or low at CS fall (a CS fall with SCLK low acts as the first falling edge)",
+  "power-down while CS is high and between conversions (no digital effect); tCSU/tCLH setup and SCLK frequency limits",
+  "Table 4: ADD2 is don't care, ADD1 = 1 is not allowed (DOUT indeterminate); the model stores the 3-bit code and outputs the 0 V code regardless"
+ ],
+ "variants": "ADC122S021 / ADC122S051 / ADC122S101 are pin- and function-compatible 12-bit parts for 50-200 / 200-500 / 500-1000 kSPS (separate datasheets); ADC102S/ADC082S are the 10/8-bit versions",
+ "parts": [
+  [
+   "ADC122S101CIMM/NOPB",
+   "DGK",
+   8,
+   "Active"
+  ]
+ ]
+}

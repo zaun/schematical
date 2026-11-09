@@ -1,0 +1,238 @@
+{
+ "device": {
+  "id": "ADS901",
+  "function": "ADC",
+  "description": "10-bit 20 MSPS +3 V pipelined ADC with external references and parallel CMOS outputs",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads901.pdf (SBAS054A) p.2-3 electrical characteristics (rising-edge convert clock, 5-clock latency, straight offset binary, 3-state enable 40 ns / disable 10 ns max, +VS 2.7-3.7 V), p.4 pin configuration and descriptions, timing diagram (t2 new data delay 12 ns max), p.8 output coding and OE, p.10 coding Table I, p.11 digital outputs (LVDD) and power-down mode (Pwrdn high = power down)",
+  "pinouts": {
+   "db28": [
+    {
+     "number": 1,
+     "name": "+VS",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "LVDD",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "Bit 10",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "Bit 9",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "Bit 8",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "Bit 7",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "Bit 6",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "Bit 5",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "Bit 4",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "Bit 3",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "Bit 2",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "Bit 1",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 14,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "OE",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "Pwrdn",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "+VS",
+     "role": "power"
+    },
+    {
+     "number": 19,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 20,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 21,
+     "name": "LpBy",
+     "role": "nc"
+    },
+    {
+     "number": 22,
+     "name": "REFT",
+     "role": "power"
+    },
+    {
+     "number": 23,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 24,
+     "name": "REFB",
+     "role": "power"
+    },
+    {
+     "number": 25,
+     "name": "LnBy",
+     "role": "nc"
+    },
+    {
+     "number": 26,
+     "name": "CM",
+     "role": "output"
+    },
+    {
+     "number": 27,
+     "name": "IN",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "+VS",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 10,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   2.7,
+   3.7
+  ],
+  "analog": [
+   "+VS",
+   "IN",
+   "CM",
+   "REFT",
+   "REFB",
+   "LpBy",
+   "LnBy"
+  ],
+  "bus": {
+   "style": "clocked",
+   "clock": {
+    "pin": "CLK",
+    "edge": "rise"
+   },
+   "data": [
+    "Bit 1",
+    "Bit 2",
+    "Bit 3",
+    "Bit 4",
+    "Bit 5",
+    "Bit 6",
+    "Bit 7",
+    "Bit 8",
+    "Bit 9",
+    "Bit 10"
+   ],
+   "oe": {
+    "pin": "OE",
+    "active": 0
+   }
+  },
+  "timing": {
+   "tOut": 12,
+   "tFloat": 10
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": "R{10}"
+  },
+  "pins": {
+   "powerdown": {
+    "pin": "Pwrdn",
+    "active": 1
+   }
+  }
+ },
+ "packages": {
+  "DB": {
+   "pinout": "db28",
+   "footprint": "SSOP-28",
+   "package": "SSOP",
+   "pins": 28
+  }
+ },
+ "pdf": "ads901.pdf",
+ "pages": "p.2-3 (specifications), p.4 (pins, timing), p.8 (output coding, OE), p.10 (Table I), p.11 (digital outputs, LVDD, power-down)",
+ "notModeled": [
+  "analog input and external references REFT/REFB (single-ended input range REFB..REFT, 1-2 V nominal); a 0 V input is below -FS and reads 000h (straight offset binary has 0 at REFB), so codeFormat is straight",
+  "pipeline latency of 5 clock cycles (the code is constant)",
+  "clock period / duty-cycle limits (50 ns to 100 us) and aperture delay",
+  "two supplies: +VS 2.7-3.7 V (analog core and CLK/OE/Pwrdn inputs) and LVDD (output drivers); the datasheet gives no LVDD range (specified at LVDD = +3 V), so vcc is the +VS range and +VS is listed under analog so LVDD is the digital supply",
+  "3-state disable time printed as 18 ns typ / 10 ns max (inconsistent); tFloat uses the 10 ns max; enable time 40 ns max; internal 50 kOhm pull-downs on OE and Pwrdn",
+  "power-down (Pwrdn high): the ADS901 datasheet does not state the output state while powered down (the ADS900 sets them 3-state)"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS901E",
+   "DB",
+   28,
+   "Active"
+  ]
+ ]
+}

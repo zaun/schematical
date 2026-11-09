@@ -1,0 +1,215 @@
+{
+ "device": {
+  "id": "DAC7513",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "12-bit low-power single-channel voltage-output DAC with external reference input, output feedback pin and 3-wire SPI-compatible interface",
+  "note": "dac7513.pdf (SBAS157A) p.2 pin configurations (SOT23-8, MSOP-8), p.3 pin descriptions, p.4 power requirements (VDD 2.7-5.5 V), p.5 timing characteristics and serial write operation diagram, p.13 serial interface, power-on reset (zero), power-down modes (Table I), input shift register (Figure 3), SYNC interrupt (Figure 4)",
+  "pinouts": {
+   "dcn8": [
+    {
+     "number": 1,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "VFB",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "SYNC",
+     "role": "input"
+    }
+   ],
+   "dgk8": [
+    {
+     "number": 1,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "VFB",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "GND",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "VOUT",
+   "VFB",
+   "VREF"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "DAC",
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register; power-on reset fills it with zeros (0 V) until a valid write"
+   },
+   {
+    "name": "CTRL",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PD",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "internal: PD1/PD0 (DB13/DB12) of the last valid frame, Table I (00 normal operation)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "WRITE",
+     "in": "xx pp dddddddddddd",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "CTRL.PD": "p"
+     },
+     "note": "DB15-DB14 don't care, DB13-DB12 PD1/PD0, DB11-DB0 data; executed on the 16th SCLK falling edge; SYNC high before it aborts the frame (SYNC interrupt)"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "DAC"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "DGK": {
+   "pinout": "dgk8",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  },
+  "DCN": {
+   "pinout": "dcn8",
+   "footprint": "SOT23-8-DCN",
+   "package": "SOT-23",
+   "pins": 8
+  }
+ },
+ "pdf": "dac7513.pdf",
+ "pages": "p.2 (pin configurations), p.3 (pin descriptions), p.4 (VDD 2.7-5.5 V), p.5 (timing characteristics, serial write operation), p.13 (serial interface, power-on reset, power-down Table I, input shift register Figure 3)",
+ "notModeled": [
+  "analog output, resistor string and output amplifier (VOUT never driven)",
+  "power-down output loads (1 kOhm / 100 kOhm / Hi-Z): PD1/PD0 are stored in CTRL.PD only",
+  "power-up time from power-down (2.5-5 us) and output settling",
+  "SCLK frequency (30 MHz / 20 MHz) and setup/hold limits t1-t8",
+  "VFB feedback pin (amplifier sense input, analog)"
+ ],
+ "variants": "DAC7513E (MSOP-8, DGK) and DAC7513N (SOT23-8, DCN): same die and 16-bit frame, different pin numbering. DAC7512 is the VDD-referenced version without VREF/VFB.",
+ "parts": [
+  [
+   "DAC7513E/250",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "DAC7513E/2K5",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "DAC7513N/250",
+   "DCN",
+   8,
+   "Active"
+  ],
+  [
+   "DAC7513N/3K",
+   "DCN",
+   8,
+   "Active"
+  ]
+ ]
+}

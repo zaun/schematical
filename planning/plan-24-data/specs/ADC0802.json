@@ -1,0 +1,83 @@
+{
+  "device": {
+    "id": "ADC0802",
+    "function": "ADC",
+    "description": "8-bit 100 us microprocessor-compatible SAR ADC with differential input, on-chip clock and 3-state data bus",
+    "drawer": ["Interface"],
+    "note": "adc0804-n.pdf (SNOSBI1C) p.3 pin functions, p.4 recommended operating conditions, p.5-6 AC characteristics (conversion time, tACC, t1H/t0H, logic input levels), p.7 Figures 1-2 (start conversion, output enable and INTR reset), p.11 detailed description (start, INTR), p.14 digital control inputs, p.28 restart / continuous conversions",
+    "pinouts": {
+      "dw20": [
+        {"number": 1, "name": "CS", "role": "input"},
+        {"number": 2, "name": "RD", "role": "input"},
+        {"number": 3, "name": "WR", "role": "input"},
+        {"number": 4, "name": "CLK IN", "role": "input"},
+        {"number": 5, "name": "INTR", "role": "output"},
+        {"number": 6, "name": "VIN(+)", "role": "input"},
+        {"number": 7, "name": "VIN(-)", "role": "input"},
+        {"number": 8, "name": "A GND", "role": "ground"},
+        {"number": 9, "name": "VREF/2", "role": "power"},
+        {"number": 10, "name": "D GND", "role": "ground"},
+        {"number": 11, "name": "DB7", "role": "output"},
+        {"number": 12, "name": "DB6", "role": "output"},
+        {"number": 13, "name": "DB5", "role": "output"},
+        {"number": 14, "name": "DB4", "role": "output"},
+        {"number": 15, "name": "DB3", "role": "output"},
+        {"number": 16, "name": "DB2", "role": "output"},
+        {"number": 17, "name": "DB1", "role": "output"},
+        {"number": 18, "name": "DB0", "role": "output"},
+        {"number": 19, "name": "CLK R", "role": "output"},
+        {"number": 20, "name": "VCC", "role": "power"}
+      ]
+    },
+    "type": "adc",
+    "bits": 8,
+    "channels": 1,
+    "codeFormat": "straight",
+    "vcc": [4.5, 5.5],
+    "inputMax": 15,
+    "analog": ["VIN(+)", "VIN(-)", "VREF/2", "CLK R"],
+    "bus": {
+      "style": "parallel",
+      "data": ["DB7", "DB6", "DB5", "DB4", "DB3", "DB2", "DB1", "DB0"],
+      "cs": {"pin": "CS", "active": 0},
+      "rd": {"pin": "RD", "active": 0},
+      "wr": {"pin": "WR", "active": 0}
+    },
+    "timing": {"tAcc": 200, "tDf": 200},
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "commands": [
+        {"name": "Start conversion (CS and WR low, starts on release)", "in": "x{8}", "action": "start", "commit": "end"}
+      ],
+      "read": "R{8}"
+    },
+    "conversion": {
+      "time": 114000,
+      "start": ["command"]
+    },
+    "ready": [
+      {"pin": "INTR", "active": 0, "asserts": "done", "clears": "read"}
+    ]
+  },
+  "packages": {
+    "DW": {"pinout": "dw20", "footprint": "SOIC-20W", "package": "SOIC", "pins": 20}
+  },
+  "pdf": "adc0804-n.pdf",
+  "pages": "p.3 (pins), p.4 (ROC: VCC 4.5-5.5 V), p.5 (TC 103-114 us at fCLK 640 kHz, 66-73 clocks), p.6 (tACC 135/200 ns, t1H/t0H 125/200 ns, tWI/tRI 300/450 ns, VIN(1) up to 15 V), p.7 (Figures 1-2), p.11 (start F/F, INTR), p.14 (CS/RD/WR active low), p.28 (restart, free-running)",
+  "notModeled": [
+    "analog input, VREF/2 span adjustment and the differential VIN(-) offset (the result is always the 0 V code 0x00)",
+    "the conversion is clocked by CLK IN / the CLK R RC oscillator (64 clocks + up to 8 clocks of start latency); the model uses the fixed 114 us maximum at fCLK = 640 kHz",
+    "CLK IN Schmitt trigger and CLK R RC oscillator output (CLK R is never driven)",
+    "a new start (CS and WR low) also resets INTR; ready clears only on a read of the result",
+    "the converter is held in reset while CS and WR stay low (the model starts at WR/CS release, which matches)",
+    "restart during a conversion leaves the previous result in the output latch",
+    "free-running mode with INTR tied to WR and the power-up initialising WR pulse",
+    "INTR delay from WR/RD falling (tWI/tRI 450 ns max), and the 8-clock INTR SET pulse when CS and RD are held low",
+    "pin names: DB0 (LSB) is named DB0, VCC (or VREF) is named VCC (its use as the upper ladder reference is analog), VIN(–) is written VIN(-)"
+  ],
+  "variants": "ADC0801/0803/0805 share the datasheet (PDIP only, not in the skeleton); ADC0804 (separate spec) is the same digital design, differing in accuracy (+-1 LSB unadjusted) and VREF/2 input resistance (1.1 kOhm vs 8 kOhm)",
+  "parts": [
+    ["ADC0802LCWM/NOPB", "DW", 20, "Active"]
+  ]
+}

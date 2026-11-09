@@ -1,0 +1,234 @@
+{
+ "device": {
+  "id": "DAC8560",
+  "function": "DAC",
+  "description": "16-bit single-channel voltage-output DAC with 2.5-V internal reference (enabled by default), 24-bit SPI-compatible write-only interface and power-down",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac8560.pdf (SLAS464C) p.3 pin configuration and functions, p.4 recommended operating conditions (VDD 2.7-5.5 V, digital inputs 0-VDD), p.7 timing characteristics and Figure 1 serial write operation (SYNC falls with SCLK high, data on SCLK falling edges), p.21 enable/disable internal reference (26 SCLK cycles), p.24 power-down modes (Table 1), p.25 serial interface, input shift register, SYNC interrupt, power-on reset (all registers zero), p.26 register maps (Tables 2-5)",
+  "pinouts": {
+   "dgk8": [
+    {
+     "number": 1,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "VFB",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "GND",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "VREF",
+   "VFB",
+   "VOUT"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "DAC",
+    "width": 16,
+    "reset": 0,
+    "note": "DAC register; p.25 power-on reset fills all registers with zeros (zero-scale output)"
+   },
+   {
+    "name": "CTRL",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PD",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "internal: PD1/PD0 (DB17/DB16) of the last valid data frame, Table 1 (00 normal, 01 1 kohm, 10 100 kohm, 11 Hi-Z)"
+   },
+   {
+    "name": "REF",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "SEQ",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "OFF",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: OFF = internal reference disabled (Table 2; enabled by default); SEQ = enable sequence 1 of 2 (Table 3) received"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "DISABLE INTERNAL REFERENCE",
+     "in": "0100 1000 0000 0100 0000 0001 xx",
+     "set": {
+      "REF.OFF": 1,
+      "REF.SEQ": 0
+     },
+     "note": "Table 2 (p.26): 480401h followed by at least two more SCLK falling edges with SYNC low (26 clocks, p.21)"
+    },
+    {
+     "name": "ENABLE INTERNAL REFERENCE 1 OF 2",
+     "in": "0100 1100 0000 0100 0000 0000 xx",
+     "set": {
+      "REF.SEQ": 1
+     },
+     "note": "Table 3 (p.26): 4C0400h + 2 SCLK"
+    },
+    {
+     "name": "ENABLE INTERNAL REFERENCE 2 OF 2",
+     "in": "0100 1001 0000 0100 0000 0001 xx",
+     "when": "REF.SEQ=1",
+     "set": {
+      "REF.OFF": 0,
+      "REF.SEQ": 0
+     },
+     "note": "Table 4 (p.26): 490401h + 2 SCLK, after sequence 1"
+    },
+    {
+     "name": "WRITE",
+     "in": "000000 pp d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "CTRL.PD": "p",
+      "REF.SEQ": 0
+     },
+     "note": "Table 5: DB23-DB18 000000, DB17-DB16 PD1/PD0, DB15-DB0 data; executed on the 24th SCLK falling edge; SYNC high earlier aborts (SYNC interrupt, p.25)"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "DAC"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "DGK": {
+   "pinout": "dgk8",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  }
+ },
+ "pdf": "dac8560.pdf",
+ "pages": "p.3 (pins), p.4 (VDD 2.7-5.5 V), p.7 (timing, Figure 1), p.21 (reference enable/disable), p.24 (power-down Table 1), p.25 (serial interface, input shift register, SYNC interrupt, power-on reset), p.26 (Tables 2-5)",
+ "notModeled": [
+  "analog output, output amplifier and the 2.5-V internal reference (REF.OFF stored only; VREF never driven)",
+  "power-down output loads (1 kohm / 100 kohm / Hi-Z): PD1/PD0 stored in CTRL.PD only",
+  "the reference words need 26 SCLK falling edges with SYNC low; modeled as 26-bit patterns (24-bit word + 2 don't-care bits). What a lone sequence-2 word does is not documented; the model ignores it",
+  "power-up time from power-down and output settling; SCLK limits t1-t10"
+ ],
+ "variants": "dac8560.pdf covers only the DAC8560 (A-D grades differ in accuracy, same interface). DAC8550/DAC8551 are the external-reference versions.",
+ "parts": [
+  [
+   "DAC8560IADGKR",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8560IADGKT",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8560IBDGKT",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8560ICDGKR",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8560ICDGKT",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8560IDDGKR",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8560IDDGKT",
+   "DGK",
+   8,
+   "Active"
+  ]
+ ]
+}

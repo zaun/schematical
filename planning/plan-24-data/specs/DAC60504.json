@@ -1,0 +1,1547 @@
+{
+ "device": {
+  "id": "DAC60504",
+  "function": "DAC",
+  "description": "12-bit 4-channel voltage-output DAC with 2.5-V reference and SPI interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac80504.pdf (SBAS871C) p.5 pinout and pin functions, p.6 recommended operating conditions, p.21 transfer function and reset code, p.22 register structure, sync/async update, broadcast, p.24 power-on reset, p.25-27 access cycle, daisy chain, CRC (Tables 2-6), p.28-29 timing (Table 7, Figures 62-64), p.30-35 register map",
+  "pinouts": {
+   "rte16": [
+    {
+     "number": 1,
+     "name": "REF",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "OUT0",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "OUT1",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "OUT2",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "OUT3",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "GAIN",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "RSTSEL",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "REFDIV",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "SDO/ALARM",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "VIO",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 4,
+  "vcc": [
+   1.7,
+   5.5
+  ],
+  "analog": [
+   "REF",
+   "VDD",
+   "OUT0",
+   "OUT1",
+   "OUT2",
+   "OUT3"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDO/ALARM",
+   "mode": 2
+  },
+  "timing": {
+   "tOut": 33.5,
+   "tFloat": 30
+  },
+  "registers": [
+   {
+    "name": "NOP",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "note": "p.31: write 0000h for no operation"
+   },
+   {
+    "name": "DEVICE_ID",
+    "address": 1,
+    "width": 16,
+    "reset": 9239,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "RESOLUTION",
+      "bits": [
+       14,
+       12
+      ]
+     },
+     {
+      "name": "CHANNELS",
+      "bits": [
+       11,
+       8
+      ]
+     },
+     {
+      "name": "RSTSEL",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "VERSIONID",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "p.31 Table 10: D14:12 resolution 010, D11:8 = 0100 (4 channels), D7 = RSTSEL pin, D6:2 = 00101, VERSIONID 11 (subject to change)"
+   },
+   {
+    "name": "SYNC",
+    "address": 2,
+    "width": 16,
+    "reset": 65280,
+    "readOnly": 61680,
+    "fields": [
+     {
+      "name": "DAC3_BRDCAST_EN",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "DAC2_BRDCAST_EN",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "DAC1_BRDCAST_EN",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "DAC0_BRDCAST_EN",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "DAC3_SYNC_EN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "DAC2_SYNC_EN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "DAC1_SYNC_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DAC0_SYNC_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.32 Table 11: bits 15:12 reserved (1111), 7:4 reserved"
+   },
+   {
+    "name": "CONFIG",
+    "address": 3,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 49392,
+    "fields": [
+     {
+      "name": "ALM_SEL",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "ALM_EN",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "CRC_EN",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "FSDO",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "DSDO",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "REF_PWDWN",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "DAC3_PWDWN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "DAC2_PWDWN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "DAC1_PWDWN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DAC0_PWDWN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.33 Table 12"
+   },
+   {
+    "name": "GAIN",
+    "address": 4,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 65264,
+    "fields": [
+     {
+      "name": "REFDIV_EN",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "BUFF3_GAIN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "BUFF2_GAIN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "BUFF1_GAIN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "BUFF0_GAIN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.34 Table 13: REFDIV-EN reset from the REFDIV pin, BUFFx-GAIN from the GAIN pin (copied by pins.levels)"
+   },
+   {
+    "name": "TRIGGER",
+    "address": 5,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 65504,
+    "fields": [
+     {
+      "name": "LDAC",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SOFT_RESET",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.34 Table 14: write-only trigger bits (protocol.triggers)"
+   },
+   {
+    "name": "BRDCAST",
+    "address": 6,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ],
+    "note": "p.35 Table 15: MSB aligned { DATA[11:0], x, x, x, x }"
+   },
+   {
+    "name": "STATUS",
+    "address": 7,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "REF_ALM",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC0",
+    "address": 8,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ],
+    "note": "p.35 Table 17: DAC buffer register, MSB aligned { DATA[11:0], x, x, x, x }; reset 0000h (RSTSEL = GND) or 8000h (RSTSEL = VIO)"
+   },
+   {
+    "name": "DAC1",
+    "address": 9,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC2",
+    "address": 10,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC3",
+    "address": 11,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DAC0_ACT",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ],
+    "note": "internal: the DAC0 active register (drives OUT0); p.22"
+   },
+   {
+    "name": "DAC1_ACT",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ],
+    "note": "internal: the DAC1 active register (drives OUT1); p.22"
+   },
+   {
+    "name": "DAC2_ACT",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ],
+    "note": "internal: the DAC2 active register (drives OUT2); p.22"
+   },
+   {
+    "name": "DAC3_ACT",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       4
+      ]
+     }
+    ],
+    "note": "internal: the DAC3 active register (drives OUT3); p.22"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "commands": [
+    {
+     "name": "BRDCAST",
+     "in": "00000110 d{16}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=0",
+      "SYNC.DAC0_BRDCAST_EN=0",
+      "SYNC.DAC1_BRDCAST_EN=0",
+      "SYNC.DAC2_BRDCAST_EN=0",
+      "SYNC.DAC3_BRDCAST_EN=0"
+     ],
+     "next": "00000110 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST",
+     "in": "00000110 d{16}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC0_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=0",
+      "SYNC.DAC0_BRDCAST_EN=1",
+      "SYNC.DAC1_BRDCAST_EN=0",
+      "SYNC.DAC2_BRDCAST_EN=0",
+      "SYNC.DAC3_BRDCAST_EN=0"
+     ],
+     "next": "00000110 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST",
+     "in": "00000110 d{16}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC1_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=0",
+      "SYNC.DAC0_BRDCAST_EN=0",
+      "SYNC.DAC1_BRDCAST_EN=1",
+      "SYNC.DAC2_BRDCAST_EN=0",
+      "SYNC.DAC3_BRDCAST_EN=0"
+     ],
+     "next": "00000110 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST",
+     "in": "00000110 d{16}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC0_ACT": "d",
+      "DAC1_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=0",
+      "SYNC.DAC0_BRDCAST_EN=1",
+      "SYNC.DAC1_BRDCAST_EN=1",
+      "SYNC.DAC2_BRDCAST_EN=0",
+      "SYNC.DAC3_BRDCAST_EN=0"
+     ],
+     "next": "00000110 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST",
+     "in": "00000110 d{16}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC2_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=0",
+      "SYNC.DAC0_BRDCAST_EN=0",
+      "SYNC.DAC1_BRDCAST_EN=0",
+      "SYNC.DAC2_BRDCAST_EN=1",
+      "SYNC.DAC3_BRDCAST_EN=0"
+     ],
+     "next": "00000110 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST",
+     "in": "00000110 d{16}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC0_ACT": "d",
+      "DAC2_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=0",
+      "SYNC.DAC0_BRDCAST_EN=1",
+      "SYNC.DAC1_BRDCAST_EN=0",
+      "SYNC.DAC2_BRDCAST_EN=1",
+      "SYNC.DAC3_BRDCAST_EN=0"
+     ],
+     "next": "00000110 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST",
+     "in": "00000110 d{16}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC1_ACT": "d",
+      "DAC2_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=0",
+      "SYNC.DAC0_BRDCAST_EN=0",
+      "SYNC.DAC1_BRDCAST_EN=1",
+      "SYNC.DAC2_BRDCAST_EN=1",
+      "SYNC.DAC3_BRDCAST_EN=0"
+     ],
+     "next": "00000110 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST",
+     "in": "00000110 d{16}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC0_ACT": "d",
+      "DAC1_ACT": "d",
+      "DAC2_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=0",
+      "SYNC.DAC0_BRDCAST_EN=1",
+      "SYNC.DAC1_BRDCAST_EN=1",
+      "SYNC.DAC2_BRDCAST_EN=1",
+      "SYNC.DAC3_BRDCAST_EN=0"
+     ],
+     "next": "00000110 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST",
+     "in": "00000110 d{16}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC3_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=0",
+      "SYNC.DAC0_BRDCAST_EN=0",
+      "SYNC.DAC1_BRDCAST_EN=0",
+      "SYNC.DAC2_BRDCAST_EN=0",
+      "SYNC.DAC3_BRDCAST_EN=1"
+     ],
+     "next": "00000110 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST",
+     "in": "00000110 d{16}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC0_ACT": "d",
+      "DAC3_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=0",
+      "SYNC.DAC0_BRDCAST_EN=1",
+      "SYNC.DAC1_BRDCAST_EN=0",
+      "SYNC.DAC2_BRDCAST_EN=0",
+      "SYNC.DAC3_BRDCAST_EN=1"
+     ],
+     "next": "00000110 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST",
+     "in": "00000110 d{16}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC1_ACT": "d",
+      "DAC3_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=0",
+      "SYNC.DAC0_BRDCAST_EN=0",
+      "SYNC.DAC1_BRDCAST_EN=1",
+      "SYNC.DAC2_BRDCAST_EN=0",
+      "SYNC.DAC3_BRDCAST_EN=1"
+     ],
+     "next": "00000110 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST",
+     "in": "00000110 d{16}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC0_ACT": "d",
+      "DAC1_ACT": "d",
+      "DAC3_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=0",
+      "SYNC.DAC0_BRDCAST_EN=1",
+      "SYNC.DAC1_BRDCAST_EN=1",
+      "SYNC.DAC2_BRDCAST_EN=0",
+      "SYNC.DAC3_BRDCAST_EN=1"
+     ],
+     "next": "00000110 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST",
+     "in": "00000110 d{16}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC2_ACT": "d",
+      "DAC3_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=0",
+      "SYNC.DAC0_BRDCAST_EN=0",
+      "SYNC.DAC1_BRDCAST_EN=0",
+      "SYNC.DAC2_BRDCAST_EN=1",
+      "SYNC.DAC3_BRDCAST_EN=1"
+     ],
+     "next": "00000110 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST",
+     "in": "00000110 d{16}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC0_ACT": "d",
+      "DAC2_ACT": "d",
+      "DAC3_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=0",
+      "SYNC.DAC0_BRDCAST_EN=1",
+      "SYNC.DAC1_BRDCAST_EN=0",
+      "SYNC.DAC2_BRDCAST_EN=1",
+      "SYNC.DAC3_BRDCAST_EN=1"
+     ],
+     "next": "00000110 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST",
+     "in": "00000110 d{16}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC1_ACT": "d",
+      "DAC2_ACT": "d",
+      "DAC3_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=0",
+      "SYNC.DAC0_BRDCAST_EN=0",
+      "SYNC.DAC1_BRDCAST_EN=1",
+      "SYNC.DAC2_BRDCAST_EN=1",
+      "SYNC.DAC3_BRDCAST_EN=1"
+     ],
+     "next": "00000110 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST",
+     "in": "00000110 d{16}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC0_ACT": "d",
+      "DAC1_ACT": "d",
+      "DAC2_ACT": "d",
+      "DAC3_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=0",
+      "SYNC.DAC0_BRDCAST_EN=1",
+      "SYNC.DAC1_BRDCAST_EN=1",
+      "SYNC.DAC2_BRDCAST_EN=1",
+      "SYNC.DAC3_BRDCAST_EN=1"
+     ],
+     "next": "00000110 d{16}",
+     "commit": "end",
+     "note": "p.22, p.35: a BRDCAST write loads the active registers of the channels with DACx-BRDCAST-EN = 1, whatever their sync mode"
+    },
+    {
+     "name": "Write DAC0",
+     "in": "00001000 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "when": [
+      "CONFIG.CRC_EN=0",
+      "SYNC.DAC0_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00001000 d{16}",
+     "commit": "end",
+     "note": "p.22: asynchronous mode updates the output at CS rising"
+    },
+    {
+     "name": "Write DAC0 (synchronous)",
+     "in": "00001000 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "when": [
+      "CONFIG.CRC_EN=0",
+      "SYNC.DAC0_SYNC_EN=1"
+     ],
+     "next": "00001000 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC1",
+     "in": "00001001 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "when": [
+      "CONFIG.CRC_EN=0",
+      "SYNC.DAC1_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00001001 d{16}",
+     "commit": "end",
+     "note": "p.22: asynchronous mode updates the output at CS rising"
+    },
+    {
+     "name": "Write DAC1 (synchronous)",
+     "in": "00001001 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "when": [
+      "CONFIG.CRC_EN=0",
+      "SYNC.DAC1_SYNC_EN=1"
+     ],
+     "next": "00001001 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC2",
+     "in": "00001010 d{16}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "when": [
+      "CONFIG.CRC_EN=0",
+      "SYNC.DAC2_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00001010 d{16}",
+     "commit": "end",
+     "note": "p.22: asynchronous mode updates the output at CS rising"
+    },
+    {
+     "name": "Write DAC2 (synchronous)",
+     "in": "00001010 d{16}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "when": [
+      "CONFIG.CRC_EN=0",
+      "SYNC.DAC2_SYNC_EN=1"
+     ],
+     "next": "00001010 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC3",
+     "in": "00001011 d{16}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "when": [
+      "CONFIG.CRC_EN=0",
+      "SYNC.DAC3_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00001011 d{16}",
+     "commit": "end",
+     "note": "p.22: asynchronous mode updates the output at CS rising"
+    },
+    {
+     "name": "Write DAC3 (synchronous)",
+     "in": "00001011 d{16}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "when": [
+      "CONFIG.CRC_EN=0",
+      "SYNC.DAC3_SYNC_EN=1"
+     ],
+     "next": "00001011 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "Write",
+     "in": "0000aaaa d{16}",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "when": [
+      "CONFIG.CRC_EN=0"
+     ],
+     "next": "0000aaaa d{16}",
+     "commit": "end",
+     "note": "p.25 Table 2: RW = 0, bits 22:20 zero, A[3:0], DI[15:0]; the next frame echoes it on SDO (daisy chain)"
+    },
+    {
+     "name": "Read",
+     "in": "1000aaaa x{16}",
+     "action": "read",
+     "address": "a",
+     "when": [
+      "CONFIG.CRC_EN=0"
+     ],
+     "next": "1000aaaa @",
+     "commit": "end",
+     "note": "p.25 Table 3: the next access cycle shifts out RW, 000, A[3:0] and the register"
+    },
+    {
+     "name": "BRDCAST (CRC frame)",
+     "in": "0x000110 d{16} x{8}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=1",
+      "SYNC.DAC0_BRDCAST_EN=0",
+      "SYNC.DAC1_BRDCAST_EN=0",
+      "SYNC.DAC2_BRDCAST_EN=0",
+      "SYNC.DAC3_BRDCAST_EN=0"
+     ],
+     "next": "00000110 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST (CRC frame)",
+     "in": "0x000110 d{16} x{8}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC0_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=1",
+      "SYNC.DAC0_BRDCAST_EN=1",
+      "SYNC.DAC1_BRDCAST_EN=0",
+      "SYNC.DAC2_BRDCAST_EN=0",
+      "SYNC.DAC3_BRDCAST_EN=0"
+     ],
+     "next": "00000110 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST (CRC frame)",
+     "in": "0x000110 d{16} x{8}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC1_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=1",
+      "SYNC.DAC0_BRDCAST_EN=0",
+      "SYNC.DAC1_BRDCAST_EN=1",
+      "SYNC.DAC2_BRDCAST_EN=0",
+      "SYNC.DAC3_BRDCAST_EN=0"
+     ],
+     "next": "00000110 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST (CRC frame)",
+     "in": "0x000110 d{16} x{8}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC0_ACT": "d",
+      "DAC1_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=1",
+      "SYNC.DAC0_BRDCAST_EN=1",
+      "SYNC.DAC1_BRDCAST_EN=1",
+      "SYNC.DAC2_BRDCAST_EN=0",
+      "SYNC.DAC3_BRDCAST_EN=0"
+     ],
+     "next": "00000110 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST (CRC frame)",
+     "in": "0x000110 d{16} x{8}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC2_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=1",
+      "SYNC.DAC0_BRDCAST_EN=0",
+      "SYNC.DAC1_BRDCAST_EN=0",
+      "SYNC.DAC2_BRDCAST_EN=1",
+      "SYNC.DAC3_BRDCAST_EN=0"
+     ],
+     "next": "00000110 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST (CRC frame)",
+     "in": "0x000110 d{16} x{8}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC0_ACT": "d",
+      "DAC2_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=1",
+      "SYNC.DAC0_BRDCAST_EN=1",
+      "SYNC.DAC1_BRDCAST_EN=0",
+      "SYNC.DAC2_BRDCAST_EN=1",
+      "SYNC.DAC3_BRDCAST_EN=0"
+     ],
+     "next": "00000110 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST (CRC frame)",
+     "in": "0x000110 d{16} x{8}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC1_ACT": "d",
+      "DAC2_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=1",
+      "SYNC.DAC0_BRDCAST_EN=0",
+      "SYNC.DAC1_BRDCAST_EN=1",
+      "SYNC.DAC2_BRDCAST_EN=1",
+      "SYNC.DAC3_BRDCAST_EN=0"
+     ],
+     "next": "00000110 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST (CRC frame)",
+     "in": "0x000110 d{16} x{8}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC0_ACT": "d",
+      "DAC1_ACT": "d",
+      "DAC2_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=1",
+      "SYNC.DAC0_BRDCAST_EN=1",
+      "SYNC.DAC1_BRDCAST_EN=1",
+      "SYNC.DAC2_BRDCAST_EN=1",
+      "SYNC.DAC3_BRDCAST_EN=0"
+     ],
+     "next": "00000110 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST (CRC frame)",
+     "in": "0x000110 d{16} x{8}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC3_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=1",
+      "SYNC.DAC0_BRDCAST_EN=0",
+      "SYNC.DAC1_BRDCAST_EN=0",
+      "SYNC.DAC2_BRDCAST_EN=0",
+      "SYNC.DAC3_BRDCAST_EN=1"
+     ],
+     "next": "00000110 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST (CRC frame)",
+     "in": "0x000110 d{16} x{8}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC0_ACT": "d",
+      "DAC3_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=1",
+      "SYNC.DAC0_BRDCAST_EN=1",
+      "SYNC.DAC1_BRDCAST_EN=0",
+      "SYNC.DAC2_BRDCAST_EN=0",
+      "SYNC.DAC3_BRDCAST_EN=1"
+     ],
+     "next": "00000110 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST (CRC frame)",
+     "in": "0x000110 d{16} x{8}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC1_ACT": "d",
+      "DAC3_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=1",
+      "SYNC.DAC0_BRDCAST_EN=0",
+      "SYNC.DAC1_BRDCAST_EN=1",
+      "SYNC.DAC2_BRDCAST_EN=0",
+      "SYNC.DAC3_BRDCAST_EN=1"
+     ],
+     "next": "00000110 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST (CRC frame)",
+     "in": "0x000110 d{16} x{8}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC0_ACT": "d",
+      "DAC1_ACT": "d",
+      "DAC3_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=1",
+      "SYNC.DAC0_BRDCAST_EN=1",
+      "SYNC.DAC1_BRDCAST_EN=1",
+      "SYNC.DAC2_BRDCAST_EN=0",
+      "SYNC.DAC3_BRDCAST_EN=1"
+     ],
+     "next": "00000110 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST (CRC frame)",
+     "in": "0x000110 d{16} x{8}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC2_ACT": "d",
+      "DAC3_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=1",
+      "SYNC.DAC0_BRDCAST_EN=0",
+      "SYNC.DAC1_BRDCAST_EN=0",
+      "SYNC.DAC2_BRDCAST_EN=1",
+      "SYNC.DAC3_BRDCAST_EN=1"
+     ],
+     "next": "00000110 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST (CRC frame)",
+     "in": "0x000110 d{16} x{8}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC0_ACT": "d",
+      "DAC2_ACT": "d",
+      "DAC3_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=1",
+      "SYNC.DAC0_BRDCAST_EN=1",
+      "SYNC.DAC1_BRDCAST_EN=0",
+      "SYNC.DAC2_BRDCAST_EN=1",
+      "SYNC.DAC3_BRDCAST_EN=1"
+     ],
+     "next": "00000110 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST (CRC frame)",
+     "in": "0x000110 d{16} x{8}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC1_ACT": "d",
+      "DAC2_ACT": "d",
+      "DAC3_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=1",
+      "SYNC.DAC0_BRDCAST_EN=0",
+      "SYNC.DAC1_BRDCAST_EN=1",
+      "SYNC.DAC2_BRDCAST_EN=1",
+      "SYNC.DAC3_BRDCAST_EN=1"
+     ],
+     "next": "00000110 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "BRDCAST (CRC frame)",
+     "in": "0x000110 d{16} x{8}",
+     "action": "nop",
+     "set": {
+      "BRDCAST": "d",
+      "DAC0_ACT": "d",
+      "DAC1_ACT": "d",
+      "DAC2_ACT": "d",
+      "DAC3_ACT": "d"
+     },
+     "when": [
+      "CONFIG.CRC_EN=1",
+      "SYNC.DAC0_BRDCAST_EN=1",
+      "SYNC.DAC1_BRDCAST_EN=1",
+      "SYNC.DAC2_BRDCAST_EN=1",
+      "SYNC.DAC3_BRDCAST_EN=1"
+     ],
+     "next": "00000110 d{16} 0{8}",
+     "commit": "end",
+     "note": "p.22, p.35: a BRDCAST write loads the active registers of the channels with DACx-BRDCAST-EN = 1, whatever their sync mode"
+    },
+    {
+     "name": "Write DAC0 (CRC frame)",
+     "in": "0x001000 d{16} x{8}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "when": [
+      "CONFIG.CRC_EN=1",
+      "SYNC.DAC0_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00001000 d{16} 0{8}",
+     "commit": "end",
+     "note": "p.22: asynchronous mode updates the output at CS rising"
+    },
+    {
+     "name": "Write DAC0 (synchronous) (CRC frame)",
+     "in": "0x001000 d{16} x{8}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "when": [
+      "CONFIG.CRC_EN=1",
+      "SYNC.DAC0_SYNC_EN=1"
+     ],
+     "next": "00001000 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC1 (CRC frame)",
+     "in": "0x001001 d{16} x{8}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "when": [
+      "CONFIG.CRC_EN=1",
+      "SYNC.DAC1_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00001001 d{16} 0{8}",
+     "commit": "end",
+     "note": "p.22: asynchronous mode updates the output at CS rising"
+    },
+    {
+     "name": "Write DAC1 (synchronous) (CRC frame)",
+     "in": "0x001001 d{16} x{8}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "when": [
+      "CONFIG.CRC_EN=1",
+      "SYNC.DAC1_SYNC_EN=1"
+     ],
+     "next": "00001001 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC2 (CRC frame)",
+     "in": "0x001010 d{16} x{8}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "when": [
+      "CONFIG.CRC_EN=1",
+      "SYNC.DAC2_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00001010 d{16} 0{8}",
+     "commit": "end",
+     "note": "p.22: asynchronous mode updates the output at CS rising"
+    },
+    {
+     "name": "Write DAC2 (synchronous) (CRC frame)",
+     "in": "0x001010 d{16} x{8}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "when": [
+      "CONFIG.CRC_EN=1",
+      "SYNC.DAC2_SYNC_EN=1"
+     ],
+     "next": "00001010 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC3 (CRC frame)",
+     "in": "0x001011 d{16} x{8}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "when": [
+      "CONFIG.CRC_EN=1",
+      "SYNC.DAC3_SYNC_EN=0"
+     ],
+     "then": [
+      "update"
+     ],
+     "next": "00001011 d{16} 0{8}",
+     "commit": "end",
+     "note": "p.22: asynchronous mode updates the output at CS rising"
+    },
+    {
+     "name": "Write DAC3 (synchronous) (CRC frame)",
+     "in": "0x001011 d{16} x{8}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "when": [
+      "CONFIG.CRC_EN=1",
+      "SYNC.DAC3_SYNC_EN=1"
+     ],
+     "next": "00001011 d{16} 0{8}",
+     "commit": "end"
+    },
+    {
+     "name": "Write (CRC frame)",
+     "in": "0x00aaaa d{16} x{8}",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "when": [
+      "CONFIG.CRC_EN=1"
+     ],
+     "next": "0000aaaa d{16} 0{8}",
+     "commit": "end",
+     "note": "p.26 Table 4: RW = 0, CRC-ERROR, 29:28 zero, A[3:0], DI[15:0], CRC"
+    },
+    {
+     "name": "Read (CRC frame)",
+     "in": "1x00aaaa x{16} x{8}",
+     "action": "read",
+     "address": "a",
+     "when": [
+      "CONFIG.CRC_EN=1"
+     ],
+     "next": "1000aaaa @ 0{8}",
+     "commit": "end",
+     "note": "p.27 Table 6: the next cycle shifts out RW, CRC-ERROR (0), 00, A[3:0], the register and the CRC"
+    }
+   ],
+   "triggers": [
+    {
+     "write": "TRIGGER.SOFT_RESET=10",
+     "action": "reset"
+    },
+    {
+     "write": "TRIGGER.LDAC=1",
+     "action": "update"
+    }
+   ],
+   "note": "p.25: an access cycle with fewer than 24 (32 with CRC-EN) SCLK falling edges is ignored; with more, only the last 24 (32) bits are used; p.34: TRIGGER SOFT-RESET = 1010 resets, LDAC = 1 loads the synchronous-mode DACs"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "fall"
+   },
+   "levels": [
+    {
+     "pin": "RSTSEL",
+     "field": "DEVICE_ID.RSTSEL"
+    },
+    {
+     "pin": "REFDIV",
+     "field": "GAIN.REFDIV_EN"
+    },
+    {
+     "pin": "GAIN",
+     "field": "GAIN.BUFF0_GAIN"
+    },
+    {
+     "pin": "GAIN",
+     "field": "GAIN.BUFF1_GAIN"
+    },
+    {
+     "pin": "GAIN",
+     "field": "GAIN.BUFF2_GAIN"
+    },
+    {
+     "pin": "GAIN",
+     "field": "GAIN.BUFF3_GAIN"
+    }
+   ],
+   "resetSelect": [
+    {
+     "pin": "RSTSEL",
+     "level": 1,
+     "resets": {
+      "DAC0": 32768,
+      "DAC1": 32768,
+      "DAC2": 32768,
+      "DAC3": 32768,
+      "DAC0_ACT": 32768,
+      "DAC1_ACT": 32768,
+      "DAC2_ACT": 32768,
+      "DAC3_ACT": 32768
+     }
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "DAC0",
+    "DAC1",
+    "DAC2",
+    "DAC3"
+   ],
+   "output": [
+    "DAC0_ACT",
+    "DAC1_ACT",
+    "DAC2_ACT",
+    "DAC3_ACT"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "RTE": {
+   "pinout": "rte16",
+   "footprint": "WQFN-16-RTE-D",
+   "package": "WQFN",
+   "pins": 16
+  }
+ },
+ "pdf": "dac80504.pdf",
+ "pages": "p.5 (pinout), p.6 (ROC), p.21-22 (reset code, register structure, broadcast), p.24 (POR), p.25-27 (serial interface, daisy chain, CRC), p.28-29 (timing), p.30-35 (registers)",
+ "notModeled": [
+  "analog outputs, internal reference, reference divider, buffer gains, power-down and reference alarm (stored only)",
+  "GAIN and REFDIV pins set GAIN register defaults only at power-up/reset; the model copies them into GAIN whenever the pins change",
+  "CRC: with CRC-EN = 1 the 32-bit frames are decoded but the CRC byte is not checked, CRC-ERROR is never set and the CRC byte shifted out is 0",
+  "SDO/ALARM as an open-drain ALARM pin (ALM-EN, ALM-SEL), DSDO (SDO always Hi-Z) and FSDO (SDO on falling edges): SDO always drives during CS low",
+  "TRIGGER is write-only on the device; the model stores the last value written and returns it on read-back",
+  "daisy chain beyond one 24-bit echo; DEVICE_ID VERSIONID may change; the 250-us POR delay and 1-us sequential update wait"
+ ],
+ "variants": "dac80504.pdf covers DAC80504 (16-bit), DAC70504 (14-bit), DAC60504 (12-bit); own spec files, identical except bits, data alignment and DEVICE_ID",
+ "parts": [
+  [
+   "DAC60504BRTET",
+   "RTE",
+   16,
+   "Active"
+  ]
+ ]
+}

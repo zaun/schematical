@@ -1,0 +1,233 @@
+{
+  "device": {
+    "id": "ADC10080",
+    "function": "ADC",
+    "description": "10-bit 20-80 MSPS pipelined ADC with parallel CMOS outputs, data format select and standby",
+    "drawer": [
+      "Interface"
+    ],
+    "note": "adc10080.pdf (SNAS177H) p.2 connection diagram, p.3-4 pin descriptions, p.5 operating ratings, p.8 AC characteristics (tOD, conversion latency 6 cycles), p.18-19 STBY, DF and IRS pins, output pins",
+    "pinouts": {
+      "pw28": [
+        {
+          "number": 1,
+          "name": "CLK",
+          "role": "input"
+        },
+        {
+          "number": 2,
+          "name": "VDDA",
+          "role": "power"
+        },
+        {
+          "number": 3,
+          "name": "VSSA",
+          "role": "ground"
+        },
+        {
+          "number": 4,
+          "name": "VCOM",
+          "role": "nc"
+        },
+        {
+          "number": 5,
+          "name": "IRS",
+          "role": "input"
+        },
+        {
+          "number": 6,
+          "name": "VREF",
+          "role": "power"
+        },
+        {
+          "number": 7,
+          "name": "VREFT",
+          "role": "nc"
+        },
+        {
+          "number": 8,
+          "name": "VREFB",
+          "role": "nc"
+        },
+        {
+          "number": 9,
+          "name": "VDDA",
+          "role": "power"
+        },
+        {
+          "number": 10,
+          "name": "VDDA",
+          "role": "power"
+        },
+        {
+          "number": 11,
+          "name": "VSSA",
+          "role": "ground"
+        },
+        {
+          "number": 12,
+          "name": "VIN-",
+          "role": "input"
+        },
+        {
+          "number": 13,
+          "name": "VIN+",
+          "role": "input"
+        },
+        {
+          "number": 14,
+          "name": "VSSA",
+          "role": "ground"
+        },
+        {
+          "number": 15,
+          "name": "DF",
+          "role": "input"
+        },
+        {
+          "number": 16,
+          "name": "D9",
+          "role": "output"
+        },
+        {
+          "number": 17,
+          "name": "D8",
+          "role": "output"
+        },
+        {
+          "number": 18,
+          "name": "D7",
+          "role": "output"
+        },
+        {
+          "number": 19,
+          "name": "D6",
+          "role": "output"
+        },
+        {
+          "number": 20,
+          "name": "D5",
+          "role": "output"
+        },
+        {
+          "number": 21,
+          "name": "VSSIO",
+          "role": "ground"
+        },
+        {
+          "number": 22,
+          "name": "VDDIO",
+          "role": "power"
+        },
+        {
+          "number": 23,
+          "name": "D4",
+          "role": "output"
+        },
+        {
+          "number": 24,
+          "name": "D3",
+          "role": "output"
+        },
+        {
+          "number": 25,
+          "name": "D2",
+          "role": "output"
+        },
+        {
+          "number": 26,
+          "name": "D1",
+          "role": "output"
+        },
+        {
+          "number": 27,
+          "name": "D0",
+          "role": "output"
+        },
+        {
+          "number": 28,
+          "name": "STBY",
+          "role": "input"
+        }
+      ]
+    },
+    "type": "adc",
+    "bits": 10,
+    "channels": 1,
+    "codeFormat": "offset",
+    "vcc": [
+      2.5,
+      3.6
+    ],
+    "analog": [
+      "VDDA",
+      "VCOM",
+      "IRS",
+      "VREF",
+      "VREFT",
+      "VREFB",
+      "VIN-",
+      "VIN+"
+    ],
+    "bus": {
+      "style": "clocked",
+      "clock": {
+        "pin": "CLK",
+        "edge": "rise"
+      },
+      "data": [
+        "D9",
+        "D8",
+        "D7",
+        "D6",
+        "D5",
+        "D4",
+        "D3",
+        "D2",
+        "D1",
+        "D0"
+      ]
+    },
+    "timing": {
+      "tOut": 6
+    },
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "commands": [],
+      "read": "R{10}"
+    },
+    "pins": {
+      "powerdown": {
+        "pin": "STBY",
+        "active": 1
+      }
+    }
+  },
+  "packages": {
+    "PW": {
+      "pinout": "pw28",
+      "footprint": "TSSOP-28",
+      "package": "TSSOP",
+      "pins": 28
+    }
+  },
+  "pdf": "adc10080.pdf",
+  "pages": "p.2 connection diagram, p.3-4 pin descriptions; p.5 (operating ratings: VDDA 2.7-3.6 V, VDDIO 2.5 V to VDDA); p.8 (CLK/DF/STBY VIH 2 V, VIL 0.8 V; tOD 5 ns at 25 C, 6 ns over temperature; latency 6 cycles); p.18-19 (STBY high = standby, outputs undefined; DF high = two's complement, low = offset binary; IRS input range)",
+  "notModeled": [
+    "analog input, reference and IRS input-range strap (the result is always the 0 V code: mid-scale 0x200 in offset binary)",
+    "DF pin: DF high selects two's complement output (0 V code 0x000); the schema has a fixed codeFormat, so the model is offset binary (DF low)",
+    "pipeline latency of 6 clock cycles (the code is constant); clock frequency limits",
+    "STBY: the output data pins are undefined in standby and 20 clock cycles are needed to exit (the model's powerdown only blocks conversions)",
+    "CLK, DF and STBY inputs are TTL-level (VIH 2 V) inputs on the VDDA (2.7-3.6 V) domain; outputs on VDDIO (2.5 V to VDDA); vcc is the union 2.5-3.6 V"
+  ],
+  "variants": "ADC10040 / ADC10065 (separate datasheets): same pinout and pins at 40 / 65 MSPS",
+  "parts": [
+    [
+      "ADC10080CIMT/NOPB",
+      "PW",
+      28,
+      "Active"
+    ]
+  ]
+}

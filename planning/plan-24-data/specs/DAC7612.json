@@ -1,0 +1,63 @@
+{
+ "device": {
+  "id": "DAC7612",
+  "function": "DAC",
+  "description": "Dual 12-bit voltage-output DAC with internal reference, 14-bit serial shift-register input and LOADDACS strobe",
+  "drawer": ["Interface"],
+  "note": "dac7612.pdf (Burr-Brown) p.2 specifications (VDD 4.75-5.25 V, VIH 0.7 VDD, straight binary), p.3 pin configuration and descriptions (SO-8), p.4 equivalent input logic, p.5 timing diagrams, logic truth table (A1 A0 select), data input table and timing specifications, p.10 operation and interface (14 serial bits: A1 A0 D11-D0; LOADDACS transparent latch)",
+  "pinouts": {
+   "d8": [
+    {"number": 1, "name": "SDI", "role": "input"},
+    {"number": 2, "name": "CLK", "role": "input"},
+    {"number": 3, "name": "LOADDACS", "role": "input"},
+    {"number": 4, "name": "CS", "role": "input"},
+    {"number": 5, "name": "VOUTB", "role": "output"},
+    {"number": 6, "name": "GND", "role": "ground"},
+    {"number": 7, "name": "VDD", "role": "power"},
+    {"number": 8, "name": "VOUTA", "role": "output"}
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 2,
+  "vcc": [4.75, 5.25],
+  "analog": ["VOUTA", "VOUTB"],
+  "bus": {"style": "spi", "cs": "CS", "sclk": "CLK", "mosi": "SDI", "mode": 3},
+  "registers": [
+   {"name": "IN_A", "space": "input", "address": 0, "width": 12, "reset": 0, "note": "the serial shift register's data as addressed to DAC A (the device has one 14-bit shift register, p.4); power-on value not specified"},
+   {"name": "IN_B", "space": "input", "address": 1, "width": 12, "reset": 0, "note": "the serial shift register's data as addressed to DAC B; power-on value not specified"},
+   {"name": "DAC_A", "space": "dac", "address": 0, "width": 12, "reset": 0, "note": "DAC A register, transparent latch while LOADDACS is low with A1 A0 = 0X or 10 (p.5 truth table)"},
+   {"name": "DAC_B", "space": "dac", "address": 1, "width": 12, "reset": 0, "note": "DAC B register, transparent latch while LOADDACS is low with A1 A0 = 0X or 11 (p.5 truth table)"}
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "commands": [
+    {"name": "A1 A0 = 0X: both DACs", "in": "0x d{12}", "action": "write", "channel": 2, "channelMap": {"2": [0, 1]}, "data": "d", "commit": "end", "note": "p.5 truth table: A1 = L loads DAC A and DAC B"},
+    {"name": "A1 A0 = 10: DAC A", "in": "10 d{12}", "action": "write", "channel": 0, "data": "d", "commit": "end", "note": "p.5 truth table"},
+    {"name": "A1 A0 = 11: DAC B", "in": "11 d{12}", "action": "write", "channel": 1, "data": "d", "commit": "end", "note": "p.5 truth table"}
+   ],
+   "note": "14 bits B0-B13 = A1 A0 D11-D0, MSB first on rising CLK while CS is low (p.5 data input table); the shift register keeps the last 14 bits"
+  },
+  "pins": {
+   "ldac": {"pin": "LOADDACS", "active": 0, "edge": "level"}
+  },
+  "dac": {"input": ["IN_A", "IN_B"], "output": ["DAC_A", "DAC_B"], "clearCode": 0, "ldac": "pin"}
+ },
+ "packages": {
+  "D": {"pinout": "d8", "footprint": "SOIC-8", "package": "SOIC", "pins": 8}
+ },
+ "pdf": "dac7612.pdf",
+ "pages": "p.2 (VDD, logic levels, data coding), p.3 (pins, ordering), p.4 (input logic), p.5 (timing, truth table, data input table), p.10 (interface)",
+ "notModeled": [
+  "analog outputs and internal 2.435-V reference (outputs never driven)",
+  "one shared 14-bit shift register: LOADDACS low loads only the DAC(s) its A1 A0 bits select; the model keeps a per-channel input register and LOADDACS updates both channels from them (a channel whose input register was written but not loaded before another channel's write also updates)",
+  "the shift register is updated bit by bit: with LOADDACS low the DAC registers follow each new bit; the model writes when CS rises",
+  "CS and CLK are interchangeable (the shift clock is CS OR CLK, p.4); the model shifts only on CLK edges while CS is low",
+  "power-on register contents are not specified (modeled as 0)"
+ ],
+ "variants": "DAC7612 has its own datasheet; DAC7611 is the single-channel version (12-bit word, LD and CLR pins)",
+ "parts": [
+  ["DAC7612U", "D", 8, "Active"]
+ ]
+}

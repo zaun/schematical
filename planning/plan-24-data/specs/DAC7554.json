@@ -1,0 +1,385 @@
+{
+ "device": {
+  "id": "DAC7554",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "12-bit quad-channel ultralow-glitch voltage-output DAC with 50 MHz 3-wire SPI interface and single reference input (MSOP-10)",
+  "note": "dac7554.pdf (SLAS399A) p.3 power requirements (VDD 2.7-5.5 V, logic levels 0.3/0.7 VDD), p.4 timing characteristics and serial write operation (Figure 1: LD1 LD0 SEL1 SEL0 D11-D0 on SCLK falling edges), p.5 pin description (DGS) and terminal functions, p.14 serial interface programming (Table 1), p.15 power-down mode control (Table 2), p.16 power-on reset (zero scale), 16-bit word, p.17 SYNC (data after the 16th SCLK falling edge ignored; SYNC high before it aborts)",
+  "pinouts": {
+   "dgs10": [
+    {
+     "number": 1,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 9,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "REFIN",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 4,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "VOUTA",
+   "VOUTB",
+   "VOUTC",
+   "VOUTD",
+   "REFIN"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "address": 0,
+    "space": "input",
+    "width": 12,
+    "reset": 0,
+    "note": "input register A; power-on reset clears it"
+   },
+   {
+    "name": "INB",
+    "address": 1,
+    "space": "input",
+    "width": 12,
+    "reset": 0,
+    "note": "input register B; power-on reset clears it"
+   },
+   {
+    "name": "INC",
+    "address": 2,
+    "space": "input",
+    "width": 12,
+    "reset": 0,
+    "note": "input register C; power-on reset clears it"
+   },
+   {
+    "name": "IND",
+    "address": 3,
+    "space": "input",
+    "width": 12,
+    "reset": 0,
+    "note": "input register D; power-on reset clears it"
+   },
+   {
+    "name": "DACA",
+    "address": 0,
+    "space": "dac",
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register A; power-on reset clears it (zero scale)"
+   },
+   {
+    "name": "DACB",
+    "address": 1,
+    "space": "dac",
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register B; power-on reset clears it (zero scale)"
+   },
+   {
+    "name": "DACC",
+    "address": 2,
+    "space": "dac",
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register C; power-on reset clears it (zero scale)"
+   },
+   {
+    "name": "DACD",
+    "address": 3,
+    "space": "dac",
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register D; power-on reset clears it (zero scale)"
+   },
+   {
+    "name": "PWR",
+    "width": 12,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "A_PD",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "A_MODE",
+      "bits": [
+       1,
+       0
+      ]
+     },
+     {
+      "name": "B_PD",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "B_MODE",
+      "bits": [
+       4,
+       3
+      ]
+     },
+     {
+      "name": "C_PD",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "C_MODE",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "D_PD",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "D_MODE",
+      "bits": [
+       10,
+       9
+      ]
+     }
+    ],
+    "note": "internal: per-channel power-down flag and DB8-DB7 mode from the last power-down command (Table 2: 00/11 Hi-Z, 01 1 kOhm, 10 100 kOhm)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "STORE",
+     "in": "00 ss dddddddddddd",
+     "action": "write",
+     "channel": "s",
+     "data": "d",
+     "note": "Table 1 LD1 LD0 = 00: the selected input register (Sel1 Sel0 A-D)"
+    },
+    {
+     "name": "DAC UPDATE",
+     "in": "01 ss xxxxxxxxxxxx",
+     "action": "update",
+     "channel": "s",
+     "note": "Table 1 LD = 01: the selected DAC register from its input register, output updated"
+    },
+    {
+     "name": "WRITE UPDATE",
+     "in": "10 ss dddddddddddd",
+     "action": "write",
+     "channel": "s",
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "note": "Table 1 LD = 10: the selected input and DAC registers"
+    },
+    {
+     "name": "STORE ALL",
+     "in": "1100 dddddddddddd",
+     "action": "write",
+     "channel": 0,
+     "channelMap": {
+      "0": [
+       0,
+       1,
+       2,
+       3
+      ]
+     },
+     "data": "d",
+     "note": "Table 1 1100: input registers A-D"
+    },
+    {
+     "name": "DAC UPDATE ALL",
+     "in": "1101 xxxxxxxxxxxx",
+     "action": "update",
+     "note": "Table 1 1101: DAC registers A-D, outputs updated"
+    },
+    {
+     "name": "WRITE UPDATE ALL",
+     "in": "1110 dddddddddddd",
+     "action": "write",
+     "channel": 0,
+     "channelMap": {
+      "0": [
+       0,
+       1,
+       2,
+       3
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "note": "Table 1 1110: input and DAC registers A-D"
+    },
+    {
+     "name": "PWD A",
+     "in": "1111 0 00 pp xxxxxxx",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p"
+     },
+     "note": "Table 2: DB11 = 0, DB10-DB9 channel A, DB8-DB7 mode"
+    },
+    {
+     "name": "PWD B",
+     "in": "1111 0 01 pp xxxxxxx",
+     "set": {
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p"
+     },
+     "note": "Table 2: DB11 = 0, DB10-DB9 channel B, DB8-DB7 mode"
+    },
+    {
+     "name": "PWD C",
+     "in": "1111 0 10 pp xxxxxxx",
+     "set": {
+      "PWR.C_PD": 1,
+      "PWR.C_MODE": "p"
+     },
+     "note": "Table 2: DB11 = 0, DB10-DB9 channel C, DB8-DB7 mode"
+    },
+    {
+     "name": "PWD D",
+     "in": "1111 0 11 pp xxxxxxx",
+     "set": {
+      "PWR.D_PD": 1,
+      "PWR.D_MODE": "p"
+     },
+     "note": "Table 2: DB11 = 0, DB10-DB9 channel D, DB8-DB7 mode"
+    },
+    {
+     "name": "PWD ALL",
+     "in": "1111 1 xx pp xxxxxxx",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p",
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p",
+      "PWR.C_PD": 1,
+      "PWR.C_MODE": "p",
+      "PWR.D_PD": 1,
+      "PWR.D_MODE": "p"
+     },
+     "note": "Table 2: DB11 = 1 all channels, DB8-DB7 mode"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB",
+    "INC",
+    "IND"
+   ],
+   "output": [
+    "DACA",
+    "DACB",
+    "DACC",
+    "DACD"
+   ],
+   "clearCode": 0,
+   "ldac": "command"
+  }
+ },
+ "packages": {
+  "DGS": {
+   "pinout": "dgs10",
+   "footprint": "VSSOP-10",
+   "package": "VSSOP",
+   "pins": 10
+  }
+ },
+ "pdf": "dac7554.pdf",
+ "pages": "p.3 (supplies, logic levels), p.4 (timing, Figure 1), p.5 (pins), p.14 (Table 1), p.15 (Table 2), p.16-17 (power-on reset, serial interface)",
+ "notModeled": [
+  "analog outputs and unbuffered REFIN reference (never driven)",
+  "power-down output loads: stored per channel in PWR only; how a powered-down channel returns to normal operation is not described",
+  "SCLK limits (50 MHz) and setup/hold times; 15 us power-up time"
+ ],
+ "variants": "quad member of the DAC7551/7552/7554/7558 family; no SDO, CLR or LDAC pins.",
+ "parts": [
+  [
+   "DAC7554IDGS",
+   "DGS",
+   10,
+   "Active"
+  ],
+  [
+   "DAC7554IDGSR",
+   "DGS",
+   10,
+   "Active"
+  ]
+ ]
+}

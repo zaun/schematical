@@ -1,0 +1,168 @@
+{
+ "device": {
+  "id": "DAC8531",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit low-power voltage-output DAC with 24-bit SPI-compatible write-only interface and VFB feedback pin",
+  "note": "dac8531.pdf (SBAS192B) p.3 electrical characteristics (VDD 2.7-5.5 V) and pin description (MSOP-8 and SON-8, same numbering), p.4 timing characteristics and serial write operation, p.12 serial interface, input shift register (Figure 3), SYNC interrupt (Figure 4) and power-on reset to zero, p.13 power-down modes (Table I)",
+  "pinouts": {
+   "dgk8": [
+    {
+     "number": 1,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "VFB",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "GND",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "VREF",
+   "VFB",
+   "VOUT"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "DAC",
+    "width": 16,
+    "reset": 0,
+    "note": "DAC register; power-on reset fills it with zeros (p.12)"
+   },
+   {
+    "name": "CTRL",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PD",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "internal: PD1/PD0 (DB17-DB16) of the last valid frame: 00 normal, 01 1 kOhm, 10 100 kOhm, 11 Hi-Z"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "WRITE",
+     "in": "x{6} pp d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "CTRL.PD": "p"
+     },
+     "note": "DB23-DB18 don't care, DB17-DB16 PD1/PD0, DB15-DB0 data MSB first; executed on the 24th SCLK falling edge; SYNC high earlier aborts the frame (SYNC interrupt)"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "DAC"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "DGK": {
+   "pinout": "dgk8",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  },
+  "DRB": {
+   "pinout": "dgk8",
+   "footprint": "SON-8-DRB-B",
+   "package": "SON",
+   "pins": 8
+  }
+ },
+ "pdf": "dac8531.pdf",
+ "pages": "p.3 (specifications, VDD 2.7-5.5 V, pins), p.4 (timing), p.12 (serial interface, input shift register Figure 3, SYNC interrupt, power-on reset), p.13 (power-down Table I)",
+ "notModeled": [
+  "analog output, resistor string, output amplifier and VFB feedback input (VOUT is never driven)",
+  "power-down output loads (1 kOhm / 100 kOhm / Hi-Z): PD1/PD0 stored in CTRL.PD only; the DAC register keeps its contents",
+  "power-down exit time (2.5 us at 5 V, 5 us at 3 V) and output settling",
+  "SCLK frequency (20 MHz below VDD 3.6 V, 30 MHz above) and setup/hold limits t1-t8",
+  "SPI mode: data taken on SCLK falling edges, SCLK high at SYNC fall in the timing figure; modeled as mode 2",
+  "the SON-8 (DRB) thermal pad is not a pin"
+ ],
+ "variants": "dac8531.pdf covers only the DAC8531 in MSOP-8 (DGK) and SON-8 (DRB) with the same pin numbering. DAC8501 (own file) is the multiplying-optimized version.",
+ "parts": [
+  [
+   "DAC8531E/250",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8531E/2K5",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8531IDRBT",
+   "DRB",
+   8,
+   "Active"
+  ]
+ ]
+}

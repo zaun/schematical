@@ -1,0 +1,533 @@
+{
+ "device": {
+  "id": "ADS9234",
+  "function": "ADC",
+  "description": "14-bit 3.5 MSPS dual simultaneous-sampling SAR ADC with internal reference and enhanced-SPI interface (1/2/4 SDO per channel, DDR, clock re-timer, parallel byte)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads9234r.pdf (SBAS876C) p.3-4 pin configuration and functions, p.5 recommended operating conditions (DVDD 1.65-5.5 V), p.9 timing requirements, p.10 switching characteristics (tDRDY 280 ns ADS9234R, tDEN_CSDO 12 ns, tDZ_CSDO 12 ns, tD_CKDO 15.8 ns SDR), p.23 Table 1 (two's complement, mid code 0), p.26-27 functional modes (conversion on the CONVST rising edge; PD/RST low = reset or power-down, registers to default), p.28-29 zone 1 / zone 2 frames, p.30 READY output (high when data ready, low after CS falls; masked by READY_MASK) and Table 2 / Figure 46 output data word, p.31 Table 3 SPI-xy-S-SDR (power-up SPI-00-S-SDR: ADC_A on SDO-0A, ADC_B on SDO-0B), p.41 Table 8 (SPI-00-S for configuring), p.42 command frame and Table 9 commands, p.43-48 register map",
+  "pinouts": {
+   "rhb32": [
+    {
+     "number": 1,
+     "name": "AINP_A",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AINM_A",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "REFby2",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 7,
+     "name": "AINM_B",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "AINP_B",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "REFM_B",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "REFP_B",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "CONVST",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "SDO-7/3B",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "SDO-6/2B",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "SDO-5/1B",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "SDO-4/0B",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "SDO-3/3A",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "SDO-2/2A",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "SDO-1/1A",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "SDO-0/0A",
+     "role": "output"
+    },
+    {
+     "number": 25,
+     "name": "READY/STROBE",
+     "role": "output"
+    },
+    {
+     "number": 26,
+     "name": "PD/RST",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 28,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 29,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 30,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 31,
+     "name": "REFP_A",
+     "role": "output"
+    },
+    {
+     "number": 32,
+     "name": "REFM_A",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 14,
+  "channels": 2,
+  "codeFormat": "twos",
+  "vcc": [
+   1.65,
+   5.5
+  ],
+  "analog": [
+   "AINP_A",
+   "AINM_A",
+   "AINP_B",
+   "AINM_B",
+   "REFby2",
+   "REFOUT",
+   "REFP_A",
+   "REFM_A",
+   "REFP_B",
+   "REFM_B",
+   "AVDD"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDO-0/0A",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 12,
+   "tOut": 15.8,
+   "tFloat": 12
+  },
+  "registers": [
+   {
+    "name": "DEVICE_STATUS",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 249,
+    "writeOneClears": 6,
+    "fields": [
+     {
+      "name": "ZONE2_TRANSFER",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "AVG_ERROR",
+      "bits": [
+       1,
+       1
+      ]
+     }
+    ],
+    "note": "p.44 Table 12: sticky flags, write 1 to clear"
+   },
+   {
+    "name": "POWER_DOWN_CFG",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 212,
+    "fields": [
+     {
+      "name": "PD_REFBY2",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "PD_ADCB",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "PD_ADCA",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "PD_REF",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.44 Table 13"
+   },
+   {
+    "name": "PROTOCOL_CFG",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 140,
+    "fields": [
+     {
+      "name": "SDO_PROTOCOL",
+      "bits": [
+       6,
+       4
+      ]
+     },
+     {
+      "name": "SPI_CPOL",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "SPI_CPHA",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.45 Table 14"
+   },
+   {
+    "name": "BUS_WIDTH",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 252,
+    "fields": [
+     {
+      "name": "SDO_WIDTH",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "p.45-46 Table 15"
+   },
+   {
+    "name": "CRT_CFG",
+    "address": 4,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 252,
+    "fields": [
+     {
+      "name": "CRT_CLK_SELECT",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "p.46 Table 16"
+   },
+   {
+    "name": "OUTPUT_DATA_WORD_CFG",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 204,
+    "fields": [
+     {
+      "name": "READY_MASK",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "PARALLEL_MODE_DATA_FORMAT",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "FIXED_PATTERN_DATA",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DATA_RIGHT_ALIGNED",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.46-47 Table 17"
+   },
+   {
+    "name": "DATA_AVG_CFG",
+    "address": 6,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 252,
+    "fields": [
+     {
+      "name": "EN_DATA_AVG",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "p.47 Table 18"
+   },
+   {
+    "name": "REFBY2_OFFSET",
+    "address": 7,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "EN_REFBY2_OFFSET",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.48 Table 19"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{14} 00",
+   "outs": [
+    {
+     "when": "OUTPUT_DATA_WORD_CFG.FIXED_PATTERN_DATA=1",
+     "out": "1010 0101 0101 1010"
+    },
+    {
+     "when": "OUTPUT_DATA_WORD_CFG.DATA_RIGHT_ALIGNED=1",
+     "out": "[R:13:13][R:13:13] R{14}"
+    }
+   ],
+   "idle": "0",
+   "commands": [
+    {
+     "name": "NOP0",
+     "in": "0000 x{12}",
+     "action": "nop",
+     "note": "p.42 Table 9: conversion control and reading results"
+    },
+    {
+     "name": "WRITE",
+     "in": "0001 aaaa dddddddd",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "p.42 Table 9, Figure 70"
+    },
+    {
+     "name": "READ",
+     "in": "0010 aaaa xxxxxxxx",
+     "action": "read",
+     "address": "a",
+     "commit": "end",
+     "next": "@ 0{8}",
+     "note": "p.42 Table 9 note 1: the register data come in the next frame's output data word (p.30 Table 2 note 1); the position of the 8 register bits in the 16-bit word is not given (modeled MSB first, zeros after)"
+    },
+    {
+     "name": "Set bit",
+     "in": "0101 aaaa dddddddd",
+     "action": "setbits",
+     "address": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "p.42 Table 9"
+    },
+    {
+     "name": "Clear bit",
+     "in": "0110 aaaa dddddddd",
+     "action": "clearbits",
+     "address": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "p.42 Table 9"
+    },
+    {
+     "name": "NOP1",
+     "in": "1111 x{12}",
+     "action": "nop",
+     "note": "p.42 Table 9"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 280,
+   "start": [
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "READY/STROBE",
+    "active": 1,
+    "asserts": "done",
+    "clears": "cs-fall",
+    "enable": "OUTPUT_DATA_WORD_CFG.READY_MASK=0"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "CONVST",
+    "edge": "rise"
+   },
+   "reset": {
+    "pin": "PD/RST",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "RHB": {
+   "pinout": "rhb32",
+   "footprint": "VQFN-32-5X5",
+   "package": "VQFN",
+   "pins": 32
+  }
+ },
+ "pdf": "ads9234r.pdf",
+ "pages": "p.3-4 (pinout), p.5 (ROC), p.9 (timing requirements), p.10-11 (switching characteristics), p.23 (transfer function), p.26-29 (functional modes, reset / power-down, zone 1 / zone 2 frames), p.30 (READY/STROBE, output data word), p.31-39 (read protocols), p.41 (configuration protocol), p.42 (command frame, Table 9), p.43-48 (register map)",
+ "notModeled": [
+  "only the power-up read protocol SPI-00-S-SDR is modeled: channel A on SDO-0/0A (the bus miso); channel B's word on SDO-4/0B is never driven (the schema has one miso). Dual / quad SDO (BUS_WIDTH), DDR, clock re-timer (STROBE output) and parallel byte protocols (SDO_PROTOCOL, CRT_CFG, PARALLEL_MODE_DATA_FORMAT) are stored only",
+  "SPI_CPOL / SPI_CPHA select the SPI mode for both reading and writing; the model stays in mode 0 (the reset value)",
+  "analog inputs, internal reference, reference buffers and REFby2 (POWER_DOWN_CFG, REFBY2_OFFSET stored only): the result is always the 0 V code 0 (two's complement)",
+  "zone 1 / zone 2 transfers: the frame shows the most recent completed conversion; DEVICE_STATUS.ZONE2_TRANSFER is never set",
+  "data averaging (DATA_AVG_CFG, AVG_ERROR flag) not modeled",
+  "READ: the datasheet does not say where the 8 register bits sit in the next 16-bit output word; modeled as the first 8 bits followed by zeros",
+  "fixed pattern A55AA55Ah: the model shifts A55Ah (its first 16 bits, equal to the last 16) on SDO-0A",
+  "PD/RST: a low pulse of 50-500 ns resets, a pulse >= 1 us powers down (both reset the registers); modeled as a reset pin held active while low; wake-up times (1 us / up to 150 ms) and the 0.9 ms power-up READY high state are not modeled",
+  "READY/STROBE: READY (active high) while CS is high; STROBE (held low outside CRT protocols) while CS is low. Modeled as ready, cleared at CS fall",
+  "the host must keep CONVST high while writing / reading registers (not checked)",
+  "ADS9234R 14-bit word: left-aligned (D13..D0 then 00) by default, right-aligned with sign extension when DATA_RIGHT_ALIGNED = 1 (p.30 Figure 46); skeleton device id ADS9234 is the ADS9234R"
+ ],
+ "variants": "ADS9224R (16-bit, 3 MSPS, tDRDY 315 ns) and ADS9234R (14-bit, 3.5 MSPS, tDRDY 280 ns, left / right alignment) share ads9234r.pdf and the pinout; own spec files",
+ "parts": [
+  [
+   "ADS9234RIRHBT",
+   "RHB",
+   32,
+   "Active"
+  ]
+ ]
+}

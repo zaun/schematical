@@ -1,0 +1,247 @@
+{
+ "device": {
+  "id": "ADS8380",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "18-bit 600 kSPS pseudo-differential SAR ADC with SPI-compatible serial interface",
+  "note": "ads8380.pdf (SLAS387A) p.3-4 specifications (+VBD 2.7-5.25 V, logic levels, data format via SB/2C), p.5 timing requirements (tconv 1160 ns max), p.6 timing characteristics, p.7 pin assignments and terminal functions, p.17-18 conversion and sampling control (CONVST_QUAL), p.18-19 data read operation (Figure 45, FS = 1), p.23 reading data, Table 1 output codes, p.24-25 power saving",
+  "pinouts": {
+   "rhp28": [
+    {
+     "number": 1,
+     "name": "SB/2C",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "REFM",
+     "role": "ground"
+    },
+    {
+     "number": 8,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 9,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 11,
+     "name": "+IN",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "-IN",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 14,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 16,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 17,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 18,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 19,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 20,
+     "name": "+VBD",
+     "role": "power"
+    },
+    {
+     "number": 21,
+     "name": "BDGND",
+     "role": "ground"
+    },
+    {
+     "number": 22,
+     "name": "BUSY",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "CONVST",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "FS",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "PD",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 18,
+  "channels": 1,
+  "codeFormat": {
+   "pin": "SB/2C",
+   "values": {
+    "0": "straight",
+    "1": "offset"
+   }
+  },
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "+VA",
+   "REFM",
+   "REFIN",
+   "REFOUT",
+   "+IN",
+   "-IN"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "miso": "SDO",
+   "mode": 2
+  },
+  "timing": {
+   "tValid": 15,
+   "tOut": 10,
+   "tFloat": 6
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{18}",
+   "idle": "repeat",
+   "commands": []
+  },
+  "conversion": {
+   "time": 1160,
+   "start": [
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "BUSY",
+    "active": 1,
+    "asserts": "busy"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "CONVST",
+    "edge": "fall"
+   },
+   "powerdown": {
+    "pin": "PD",
+    "active": 1
+   }
+  }
+ },
+ "packages": {
+  "RHP": {
+   "pinout": "rhp28",
+   "footprint": "VQFN-28-RHP",
+   "package": "VQFN",
+   "pins": 28
+  }
+ },
+ "pdf": "ads8380.pdf",
+ "pages": "p.3-4 (specs), p.5 (timing requirements), p.6 (timing characteristics: td12 15 ns, td13 10 ns, td14 6 ns), p.7 (pinout, terminal functions), p.17-18 (Figures 38-39, conversion/sample commands), p.18-19 (data read, Figure 45), p.23 (Table 1), p.24-25 (power saving)",
+ "notModeled": [
+  "analog input (0 V to VREF pseudo-differential) and the internal 4.096 V reference (REFOUT never driven); the 0 V code is 00000h with SB/2C low and 20000h with SB/2C high (Table 1)",
+  "conversion start is CONVST_QUAL: CONVST latched by CS low (Figure 39), so a CONVST falling edge starts a conversion only while CS is low; the model starts one at every CONVST falling edge",
+  "sampling start/wait/nap states (Figure 38), the conversion abort command (Figure 44) and acquisition timing are not modeled",
+  "frame-sync read mode (FS active, Figures 46-47: MSB at FS rise or at BUSY fall) is not modeled; tie FS high (SPI mode, Figure 45); a CS fall during a frame restarts the frame",
+  "read latency: data read during a conversion is the previous result on the part (the model's result is the constant 0 V code)",
+  "PD high resets and powers the device down; the 25-ms internal-reference resume and the first conversions after resume are not modeled; nap mode",
+  "quiet-zone timing (tquiet1-3); SCLK is gated by CS internally; tValid/tOut/tFloat at +VBD 2.7-5.25 V"
+ ],
+ "variants": "ADS8380IB only; the ADS8370 (16-bit) has a separate datasheet with the same pinout and interface",
+ "parts": [
+  [
+   "ADS8380IBRHPT",
+   "RHP",
+   28,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,1969 @@
+{
+ "device": {
+  "id": "DAC8534",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "Quad 16-bit voltage-output DAC with 24-bit SPI-compatible write-only interface, A1/A0 address match, broadcast load, ENABLE and rising-edge LDAC",
+  "note": "dac8534.pdf (SBAS254D) p.2-3 power requirements (AVDD, IOVDD 2.7-5.5 V) and logic inputs, p.3 pin configuration and descriptions, p.4 timing characteristics and serial write operation, p.11-12 serial interface, IOVDD, input shift register (Figure 3), Table I power-down modes, SYNC interrupt, power-on reset, p.13 control matrix (Table II) and power-down, p.14 operation examples, p.15 LDAC functionality",
+  "pinouts": {
+   "pw16": [
+    {
+     "number": 1,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "VREFH",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "VREFL",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "ENABLE",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "LDAC",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 4,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "VOUTA",
+   "VOUTB",
+   "VREFH",
+   "AVDD",
+   "VREFL",
+   "VOUTC",
+   "VOUTD"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "IN_A",
+    "address": 0,
+    "space": "input",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "data buffer (temporary register) DAC A; power-on zero"
+   },
+   {
+    "name": "IN_B",
+    "address": 1,
+    "space": "input",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "data buffer (temporary register) DAC B; power-on zero"
+   },
+   {
+    "name": "IN_C",
+    "address": 2,
+    "space": "input",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "data buffer (temporary register) DAC C; power-on zero"
+   },
+   {
+    "name": "IN_D",
+    "address": 3,
+    "space": "input",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "data buffer (temporary register) DAC D; power-on zero"
+   },
+   {
+    "name": "DAC_A",
+    "address": 0,
+    "space": "dac",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC register DAC A; power-on zero scale (p.12)"
+   },
+   {
+    "name": "DAC_B",
+    "address": 1,
+    "space": "dac",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC register DAC B; power-on zero scale (p.12)"
+   },
+   {
+    "name": "DAC_C",
+    "address": 2,
+    "space": "dac",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC register DAC C; power-on zero scale (p.12)"
+   },
+   {
+    "name": "DAC_D",
+    "address": 3,
+    "space": "dac",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC register DAC D; power-on zero scale (p.12)"
+   },
+   {
+    "name": "PWR",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "A_PD",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "A_MODE",
+      "bits": [
+       10,
+       9
+      ]
+     },
+     {
+      "name": "B_PD",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "B_MODE",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "C_PD",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "C_MODE",
+      "bits": [
+       4,
+       3
+      ]
+     },
+     {
+      "name": "D_PD",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "D_MODE",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "internal: per-channel power-down condition last written to the buffer: _PD = PD0 (DB16), _MODE = PD1 PD2 (DB15-DB14; Table I: 00 Hi-Z, 01 1 kOhm, 10 100 kOhm, 11 Hi-Z)"
+   },
+   {
+    "name": "STRAP",
+    "width": 3,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "A1",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "A0",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: levels of the A1, A0 and ENABLE pins"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Broadcast: Load All DACs with Stored Data",
+     "in": "xx 11 x 0 x x x{16}",
+     "action": "update",
+     "when": "STRAP.EN=0",
+     "note": "LD1 LD0 = 11, DB18 = 0: every DAC8534 on the bus responds regardless of address (Table II)"
+    },
+    {
+     "name": "Broadcast: Write To All Devices and Load All DACs with SR Data",
+     "in": "xx 11 x 1 x 0 d{16}",
+     "action": "write",
+     "channel": 0,
+     "channelMap": {
+      "0": [
+       0,
+       1,
+       2,
+       3
+      ]
+     },
+     "data": "d",
+     "then": [
+      "updateall"
+     ],
+     "when": "STRAP.EN=0",
+     "set": {
+      "PWR.A_PD": 0,
+      "PWR.B_PD": 0,
+      "PWR.C_PD": 0,
+      "PWR.D_PD": 0
+     }
+    },
+    {
+     "name": "Broadcast: Write To All Devices w/Power-Down Command",
+     "in": "xx 11 x 1 x 1 pp x{14}",
+     "action": "update",
+     "when": "STRAP.EN=0",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p",
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p",
+      "PWR.C_PD": 1,
+      "PWR.C_MODE": "p",
+      "PWR.D_PD": 1,
+      "PWR.D_MODE": "p"
+     }
+    },
+    {
+     "name": "Write To Buffer A w/Data (A1 A0 = 00)",
+     "in": "00 00 x 00 0 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "PWR.A_PD": 0
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer A w/Power-Down Command (A1 A0 = 00)",
+     "in": "00 00 x 00 1 pp x{14}",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer B w/Data (A1 A0 = 00)",
+     "in": "00 00 x 01 0 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "PWR.B_PD": 0
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer B w/Power-Down Command (A1 A0 = 00)",
+     "in": "00 00 x 01 1 pp x{14}",
+     "set": {
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer C w/Data (A1 A0 = 00)",
+     "in": "00 00 x 10 0 d{16}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "set": {
+      "PWR.C_PD": 0
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer C w/Power-Down Command (A1 A0 = 00)",
+     "in": "00 00 x 10 1 pp x{14}",
+     "set": {
+      "PWR.C_PD": 1,
+      "PWR.C_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer D w/Data (A1 A0 = 00)",
+     "in": "00 00 x 11 0 d{16}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "set": {
+      "PWR.D_PD": 0
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer D w/Power-Down Command (A1 A0 = 00)",
+     "in": "00 00 x 11 1 pp x{14}",
+     "set": {
+      "PWR.D_PD": 1,
+      "PWR.D_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer A w/Data and Load DAC A (A1 A0 = 00)",
+     "in": "00 01 x 00 0 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "PWR.A_PD": 0
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "Write To Buffer A w/Power-Down Command and Load DAC A (A1 A0 = 00)",
+     "in": "00 01 x 00 1 pp x{14}",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "action": "update",
+     "channel": 0
+    },
+    {
+     "name": "Write To Buffer B w/Data and Load DAC B (A1 A0 = 00)",
+     "in": "00 01 x 01 0 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "PWR.B_PD": 0
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "Write To Buffer B w/Power-Down Command and Load DAC B (A1 A0 = 00)",
+     "in": "00 01 x 01 1 pp x{14}",
+     "set": {
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "action": "update",
+     "channel": 1
+    },
+    {
+     "name": "Write To Buffer C w/Data and Load DAC C (A1 A0 = 00)",
+     "in": "00 01 x 10 0 d{16}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "set": {
+      "PWR.C_PD": 0
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "Write To Buffer C w/Power-Down Command and Load DAC C (A1 A0 = 00)",
+     "in": "00 01 x 10 1 pp x{14}",
+     "set": {
+      "PWR.C_PD": 1,
+      "PWR.C_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "action": "update",
+     "channel": 2
+    },
+    {
+     "name": "Write To Buffer D w/Data and Load DAC D (A1 A0 = 00)",
+     "in": "00 01 x 11 0 d{16}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "set": {
+      "PWR.D_PD": 0
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "Write To Buffer D w/Power-Down Command and Load DAC D (A1 A0 = 00)",
+     "in": "00 01 x 11 1 pp x{14}",
+     "set": {
+      "PWR.D_PD": 1,
+      "PWR.D_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "action": "update",
+     "channel": 3
+    },
+    {
+     "name": "Write To Buffer A w/Data and Load All DACs (A1 A0 = 00)",
+     "in": "00 10 x 00 0 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "PWR.A_PD": 0
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "Write To Buffer A w/Power-Down Command and Load All DACs (A1 A0 = 00)",
+     "in": "00 10 x 00 1 pp x{14}",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "action": "update"
+    },
+    {
+     "name": "Write To Buffer B w/Data and Load All DACs (A1 A0 = 00)",
+     "in": "00 10 x 01 0 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "PWR.B_PD": 0
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "Write To Buffer B w/Power-Down Command and Load All DACs (A1 A0 = 00)",
+     "in": "00 10 x 01 1 pp x{14}",
+     "set": {
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "action": "update"
+    },
+    {
+     "name": "Write To Buffer C w/Data and Load All DACs (A1 A0 = 00)",
+     "in": "00 10 x 10 0 d{16}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "set": {
+      "PWR.C_PD": 0
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "Write To Buffer C w/Power-Down Command and Load All DACs (A1 A0 = 00)",
+     "in": "00 10 x 10 1 pp x{14}",
+     "set": {
+      "PWR.C_PD": 1,
+      "PWR.C_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "action": "update"
+    },
+    {
+     "name": "Write To Buffer D w/Data and Load All DACs (A1 A0 = 00)",
+     "in": "00 10 x 11 0 d{16}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "set": {
+      "PWR.D_PD": 0
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "Write To Buffer D w/Power-Down Command and Load All DACs (A1 A0 = 00)",
+     "in": "00 10 x 11 1 pp x{14}",
+     "set": {
+      "PWR.D_PD": 1,
+      "PWR.D_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "action": "update"
+    },
+    {
+     "name": "Write To Buffer A w/Data (A1 A0 = 01)",
+     "in": "01 00 x 00 0 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "PWR.A_PD": 0
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer A w/Power-Down Command (A1 A0 = 01)",
+     "in": "01 00 x 00 1 pp x{14}",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer B w/Data (A1 A0 = 01)",
+     "in": "01 00 x 01 0 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "PWR.B_PD": 0
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer B w/Power-Down Command (A1 A0 = 01)",
+     "in": "01 00 x 01 1 pp x{14}",
+     "set": {
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer C w/Data (A1 A0 = 01)",
+     "in": "01 00 x 10 0 d{16}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "set": {
+      "PWR.C_PD": 0
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer C w/Power-Down Command (A1 A0 = 01)",
+     "in": "01 00 x 10 1 pp x{14}",
+     "set": {
+      "PWR.C_PD": 1,
+      "PWR.C_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer D w/Data (A1 A0 = 01)",
+     "in": "01 00 x 11 0 d{16}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "set": {
+      "PWR.D_PD": 0
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer D w/Power-Down Command (A1 A0 = 01)",
+     "in": "01 00 x 11 1 pp x{14}",
+     "set": {
+      "PWR.D_PD": 1,
+      "PWR.D_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer A w/Data and Load DAC A (A1 A0 = 01)",
+     "in": "01 01 x 00 0 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "PWR.A_PD": 0
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "Write To Buffer A w/Power-Down Command and Load DAC A (A1 A0 = 01)",
+     "in": "01 01 x 00 1 pp x{14}",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "action": "update",
+     "channel": 0
+    },
+    {
+     "name": "Write To Buffer B w/Data and Load DAC B (A1 A0 = 01)",
+     "in": "01 01 x 01 0 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "PWR.B_PD": 0
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "Write To Buffer B w/Power-Down Command and Load DAC B (A1 A0 = 01)",
+     "in": "01 01 x 01 1 pp x{14}",
+     "set": {
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "action": "update",
+     "channel": 1
+    },
+    {
+     "name": "Write To Buffer C w/Data and Load DAC C (A1 A0 = 01)",
+     "in": "01 01 x 10 0 d{16}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "set": {
+      "PWR.C_PD": 0
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "Write To Buffer C w/Power-Down Command and Load DAC C (A1 A0 = 01)",
+     "in": "01 01 x 10 1 pp x{14}",
+     "set": {
+      "PWR.C_PD": 1,
+      "PWR.C_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "action": "update",
+     "channel": 2
+    },
+    {
+     "name": "Write To Buffer D w/Data and Load DAC D (A1 A0 = 01)",
+     "in": "01 01 x 11 0 d{16}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "set": {
+      "PWR.D_PD": 0
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "Write To Buffer D w/Power-Down Command and Load DAC D (A1 A0 = 01)",
+     "in": "01 01 x 11 1 pp x{14}",
+     "set": {
+      "PWR.D_PD": 1,
+      "PWR.D_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "action": "update",
+     "channel": 3
+    },
+    {
+     "name": "Write To Buffer A w/Data and Load All DACs (A1 A0 = 01)",
+     "in": "01 10 x 00 0 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "PWR.A_PD": 0
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "Write To Buffer A w/Power-Down Command and Load All DACs (A1 A0 = 01)",
+     "in": "01 10 x 00 1 pp x{14}",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "action": "update"
+    },
+    {
+     "name": "Write To Buffer B w/Data and Load All DACs (A1 A0 = 01)",
+     "in": "01 10 x 01 0 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "PWR.B_PD": 0
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "Write To Buffer B w/Power-Down Command and Load All DACs (A1 A0 = 01)",
+     "in": "01 10 x 01 1 pp x{14}",
+     "set": {
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "action": "update"
+    },
+    {
+     "name": "Write To Buffer C w/Data and Load All DACs (A1 A0 = 01)",
+     "in": "01 10 x 10 0 d{16}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "set": {
+      "PWR.C_PD": 0
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "Write To Buffer C w/Power-Down Command and Load All DACs (A1 A0 = 01)",
+     "in": "01 10 x 10 1 pp x{14}",
+     "set": {
+      "PWR.C_PD": 1,
+      "PWR.C_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "action": "update"
+    },
+    {
+     "name": "Write To Buffer D w/Data and Load All DACs (A1 A0 = 01)",
+     "in": "01 10 x 11 0 d{16}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "set": {
+      "PWR.D_PD": 0
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "Write To Buffer D w/Power-Down Command and Load All DACs (A1 A0 = 01)",
+     "in": "01 10 x 11 1 pp x{14}",
+     "set": {
+      "PWR.D_PD": 1,
+      "PWR.D_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=0",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "action": "update"
+    },
+    {
+     "name": "Write To Buffer A w/Data (A1 A0 = 10)",
+     "in": "10 00 x 00 0 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "PWR.A_PD": 0
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer A w/Power-Down Command (A1 A0 = 10)",
+     "in": "10 00 x 00 1 pp x{14}",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer B w/Data (A1 A0 = 10)",
+     "in": "10 00 x 01 0 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "PWR.B_PD": 0
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer B w/Power-Down Command (A1 A0 = 10)",
+     "in": "10 00 x 01 1 pp x{14}",
+     "set": {
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer C w/Data (A1 A0 = 10)",
+     "in": "10 00 x 10 0 d{16}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "set": {
+      "PWR.C_PD": 0
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer C w/Power-Down Command (A1 A0 = 10)",
+     "in": "10 00 x 10 1 pp x{14}",
+     "set": {
+      "PWR.C_PD": 1,
+      "PWR.C_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer D w/Data (A1 A0 = 10)",
+     "in": "10 00 x 11 0 d{16}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "set": {
+      "PWR.D_PD": 0
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer D w/Power-Down Command (A1 A0 = 10)",
+     "in": "10 00 x 11 1 pp x{14}",
+     "set": {
+      "PWR.D_PD": 1,
+      "PWR.D_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer A w/Data and Load DAC A (A1 A0 = 10)",
+     "in": "10 01 x 00 0 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "PWR.A_PD": 0
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "Write To Buffer A w/Power-Down Command and Load DAC A (A1 A0 = 10)",
+     "in": "10 01 x 00 1 pp x{14}",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "action": "update",
+     "channel": 0
+    },
+    {
+     "name": "Write To Buffer B w/Data and Load DAC B (A1 A0 = 10)",
+     "in": "10 01 x 01 0 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "PWR.B_PD": 0
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "Write To Buffer B w/Power-Down Command and Load DAC B (A1 A0 = 10)",
+     "in": "10 01 x 01 1 pp x{14}",
+     "set": {
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "action": "update",
+     "channel": 1
+    },
+    {
+     "name": "Write To Buffer C w/Data and Load DAC C (A1 A0 = 10)",
+     "in": "10 01 x 10 0 d{16}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "set": {
+      "PWR.C_PD": 0
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "Write To Buffer C w/Power-Down Command and Load DAC C (A1 A0 = 10)",
+     "in": "10 01 x 10 1 pp x{14}",
+     "set": {
+      "PWR.C_PD": 1,
+      "PWR.C_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "action": "update",
+     "channel": 2
+    },
+    {
+     "name": "Write To Buffer D w/Data and Load DAC D (A1 A0 = 10)",
+     "in": "10 01 x 11 0 d{16}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "set": {
+      "PWR.D_PD": 0
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "Write To Buffer D w/Power-Down Command and Load DAC D (A1 A0 = 10)",
+     "in": "10 01 x 11 1 pp x{14}",
+     "set": {
+      "PWR.D_PD": 1,
+      "PWR.D_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "action": "update",
+     "channel": 3
+    },
+    {
+     "name": "Write To Buffer A w/Data and Load All DACs (A1 A0 = 10)",
+     "in": "10 10 x 00 0 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "PWR.A_PD": 0
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "Write To Buffer A w/Power-Down Command and Load All DACs (A1 A0 = 10)",
+     "in": "10 10 x 00 1 pp x{14}",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "action": "update"
+    },
+    {
+     "name": "Write To Buffer B w/Data and Load All DACs (A1 A0 = 10)",
+     "in": "10 10 x 01 0 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "PWR.B_PD": 0
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "Write To Buffer B w/Power-Down Command and Load All DACs (A1 A0 = 10)",
+     "in": "10 10 x 01 1 pp x{14}",
+     "set": {
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "action": "update"
+    },
+    {
+     "name": "Write To Buffer C w/Data and Load All DACs (A1 A0 = 10)",
+     "in": "10 10 x 10 0 d{16}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "set": {
+      "PWR.C_PD": 0
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "Write To Buffer C w/Power-Down Command and Load All DACs (A1 A0 = 10)",
+     "in": "10 10 x 10 1 pp x{14}",
+     "set": {
+      "PWR.C_PD": 1,
+      "PWR.C_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "action": "update"
+    },
+    {
+     "name": "Write To Buffer D w/Data and Load All DACs (A1 A0 = 10)",
+     "in": "10 10 x 11 0 d{16}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "set": {
+      "PWR.D_PD": 0
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "Write To Buffer D w/Power-Down Command and Load All DACs (A1 A0 = 10)",
+     "in": "10 10 x 11 1 pp x{14}",
+     "set": {
+      "PWR.D_PD": 1,
+      "PWR.D_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=0",
+      "STRAP.EN=0"
+     ],
+     "action": "update"
+    },
+    {
+     "name": "Write To Buffer A w/Data (A1 A0 = 11)",
+     "in": "11 00 x 00 0 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "PWR.A_PD": 0
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer A w/Power-Down Command (A1 A0 = 11)",
+     "in": "11 00 x 00 1 pp x{14}",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer B w/Data (A1 A0 = 11)",
+     "in": "11 00 x 01 0 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "PWR.B_PD": 0
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer B w/Power-Down Command (A1 A0 = 11)",
+     "in": "11 00 x 01 1 pp x{14}",
+     "set": {
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer C w/Data (A1 A0 = 11)",
+     "in": "11 00 x 10 0 d{16}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "set": {
+      "PWR.C_PD": 0
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer C w/Power-Down Command (A1 A0 = 11)",
+     "in": "11 00 x 10 1 pp x{14}",
+     "set": {
+      "PWR.C_PD": 1,
+      "PWR.C_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer D w/Data (A1 A0 = 11)",
+     "in": "11 00 x 11 0 d{16}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "set": {
+      "PWR.D_PD": 0
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer D w/Power-Down Command (A1 A0 = 11)",
+     "in": "11 00 x 11 1 pp x{14}",
+     "set": {
+      "PWR.D_PD": 1,
+      "PWR.D_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ]
+    },
+    {
+     "name": "Write To Buffer A w/Data and Load DAC A (A1 A0 = 11)",
+     "in": "11 01 x 00 0 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "PWR.A_PD": 0
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "Write To Buffer A w/Power-Down Command and Load DAC A (A1 A0 = 11)",
+     "in": "11 01 x 00 1 pp x{14}",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "action": "update",
+     "channel": 0
+    },
+    {
+     "name": "Write To Buffer B w/Data and Load DAC B (A1 A0 = 11)",
+     "in": "11 01 x 01 0 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "PWR.B_PD": 0
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "Write To Buffer B w/Power-Down Command and Load DAC B (A1 A0 = 11)",
+     "in": "11 01 x 01 1 pp x{14}",
+     "set": {
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "action": "update",
+     "channel": 1
+    },
+    {
+     "name": "Write To Buffer C w/Data and Load DAC C (A1 A0 = 11)",
+     "in": "11 01 x 10 0 d{16}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "set": {
+      "PWR.C_PD": 0
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "Write To Buffer C w/Power-Down Command and Load DAC C (A1 A0 = 11)",
+     "in": "11 01 x 10 1 pp x{14}",
+     "set": {
+      "PWR.C_PD": 1,
+      "PWR.C_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "action": "update",
+     "channel": 2
+    },
+    {
+     "name": "Write To Buffer D w/Data and Load DAC D (A1 A0 = 11)",
+     "in": "11 01 x 11 0 d{16}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "set": {
+      "PWR.D_PD": 0
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "name": "Write To Buffer D w/Power-Down Command and Load DAC D (A1 A0 = 11)",
+     "in": "11 01 x 11 1 pp x{14}",
+     "set": {
+      "PWR.D_PD": 1,
+      "PWR.D_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "action": "update",
+     "channel": 3
+    },
+    {
+     "name": "Write To Buffer A w/Data and Load All DACs (A1 A0 = 11)",
+     "in": "11 10 x 00 0 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "PWR.A_PD": 0
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "Write To Buffer A w/Power-Down Command and Load All DACs (A1 A0 = 11)",
+     "in": "11 10 x 00 1 pp x{14}",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "action": "update"
+    },
+    {
+     "name": "Write To Buffer B w/Data and Load All DACs (A1 A0 = 11)",
+     "in": "11 10 x 01 0 d{16}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "PWR.B_PD": 0
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "Write To Buffer B w/Power-Down Command and Load All DACs (A1 A0 = 11)",
+     "in": "11 10 x 01 1 pp x{14}",
+     "set": {
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "action": "update"
+    },
+    {
+     "name": "Write To Buffer C w/Data and Load All DACs (A1 A0 = 11)",
+     "in": "11 10 x 10 0 d{16}",
+     "action": "write",
+     "channel": 2,
+     "data": "d",
+     "set": {
+      "PWR.C_PD": 0
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "Write To Buffer C w/Power-Down Command and Load All DACs (A1 A0 = 11)",
+     "in": "11 10 x 10 1 pp x{14}",
+     "set": {
+      "PWR.C_PD": 1,
+      "PWR.C_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "action": "update"
+    },
+    {
+     "name": "Write To Buffer D w/Data and Load All DACs (A1 A0 = 11)",
+     "in": "11 10 x 11 0 d{16}",
+     "action": "write",
+     "channel": 3,
+     "data": "d",
+     "set": {
+      "PWR.D_PD": 0
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "Write To Buffer D w/Power-Down Command and Load All DACs (A1 A0 = 11)",
+     "in": "11 10 x 11 1 pp x{14}",
+     "set": {
+      "PWR.D_PD": 1,
+      "PWR.D_MODE": "p"
+     },
+     "when": [
+      "STRAP.A1=1",
+      "STRAP.A0=1",
+      "STRAP.EN=0"
+     ],
+     "action": "update"
+    }
+   ],
+   "note": "24-bit word: DB23-DB22 A1 A0 (must match the A1/A0 pins), DB21 LD1, DB20 LD0, DB19 don't care, DB18-DB17 DAC select, DB16 PD0, DB15-DB0 data or PD1 PD2 (Table II); executed on the 24th SCLK falling edge, SYNC high earlier discards the word"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 1,
+    "edge": "rise",
+    "note": "rising edge loads all DAC registers from their buffers (p.3, p.15)"
+   },
+   "levels": [
+    {
+     "pin": "A1",
+     "field": "STRAP.A1"
+    },
+    {
+     "pin": "A0",
+     "field": "STRAP.A0"
+    },
+    {
+     "pin": "ENABLE",
+     "field": "STRAP.EN"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "IN_A",
+    "IN_B",
+    "IN_C",
+    "IN_D"
+   ],
+   "output": [
+    "DAC_A",
+    "DAC_B",
+    "DAC_C",
+    "DAC_D"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw16",
+   "footprint": "TSSOP-16",
+   "package": "TSSOP",
+   "pins": 16
+  }
+ },
+ "pdf": "dac8534.pdf",
+ "pages": "p.2-3 (power requirements, logic inputs), p.3 (pins), p.4 (timing), p.11-12 (serial interface, input shift register, Table I, SYNC interrupt, power-on reset), p.13 (control matrix Table II, power-down), p.14 (examples), p.15 (LDAC)",
+ "notModeled": [
+  "analog outputs and the VREFH/VREFL reference inputs (never driven)",
+  "power-down is stored like data in the 18-bit temporary/DAC registers and takes effect when the channel is loaded; the model stores PD0 and PD1 PD2 per channel in PWR at once, and a data write (PD0 = 0) sets the channel's PD flag back to 0",
+  "address match: DB23/DB22 must equal the A1/A0 pins; modeled with one command set per address gated on the pin levels (STRAP)",
+  "ENABLE high disconnects the serial port: every command is gated on STRAP.EN = 0",
+  "no read-back: the interface is write-only",
+  "IOVDD may run down to 1.8 V with degraded timing (p.12); vcc uses the specified 2.7-5.5 V",
+  "SCLK frequency (20 MHz below 3.6 V, 30 MHz above) and setup/hold limits t1-t9",
+  "SPI mode: data taken on SCLK falling edges with SCLK high at SYNC fall; modeled as mode 2",
+  "power-down exit time and output settling"
+ ],
+ "variants": "dac8534.pdf covers only the DAC8534 (pin 3 is VREFH; the pin-description table misprints its number as 2).",
+ "parts": [
+  [
+   "DAC8534IPW",
+   "PW",
+   16,
+   "Active"
+  ]
+ ]
+}

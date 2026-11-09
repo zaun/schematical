@@ -1,0 +1,394 @@
+{
+ "device": {
+  "id": "TLC1550",
+  "function": "ADC",
+  "description": "10-bit 6-us parallel-output ADC with 3-state 10-bit data bus, CS/RD/WR and EOC",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "tlc1550.pdf (SLAS043G) p.1 pinouts (DW/J, FN/FK), p.3 terminal functions, p.4 recommended operating conditions, p.6 operating characteristics (tc 6 us, ta(D) 35 ns, tdis(D) 30 ns), p.9 operating sequence (Figure 3)",
+  "pinouts": {
+   "dw24": [
+    {
+     "number": 1,
+     "name": "REF+",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "REF-",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "ANLG GND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "AIN",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "ANLG VDD",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "DGTL GND1",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "DGTL GND2",
+     "role": "ground"
+    },
+    {
+     "number": 8,
+     "name": "DGTL VDD1",
+     "role": "power"
+    },
+    {
+     "number": 9,
+     "name": "DGTL VDD2",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "EOC",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "D0",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "D1",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "D2",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "D3",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "D4",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "D5",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "D6",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "D7",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "D8",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "D9",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "CLKIN",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "WR",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "RD",
+     "role": "input"
+    }
+   ],
+   "fn28": [
+    {
+     "number": 1,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 2,
+     "name": "REF+",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "REF-",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "ANLG GND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "AIN",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "ANLG VDD",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "DGTL GND1",
+     "role": "ground"
+    },
+    {
+     "number": 8,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 9,
+     "name": "DGTL GND2",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "DGTL VDD1",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "DGTL VDD2",
+     "role": "power"
+    },
+    {
+     "number": 12,
+     "name": "EOC",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "D0",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "D1",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 16,
+     "name": "D2",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "D3",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "D4",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "D5",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "D6",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "D7",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 23,
+     "name": "D8",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "D9",
+     "role": "output"
+    },
+    {
+     "number": 25,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "CLKIN",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "WR",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "RD",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 10,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   4.75,
+   5.5
+  ],
+  "analog": [
+   "REF+",
+   "REF-",
+   "AIN",
+   "ANLG VDD"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "D9",
+    "D8",
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rd": {
+    "pin": "RD",
+    "active": 0
+   },
+   "wr": {
+    "pin": "WR",
+    "active": 0
+   }
+  },
+  "timing": {
+   "tAcc": 35,
+   "tDf": 30
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Start conversion (WR rising edge with CS low)",
+     "in": "x{10}",
+     "action": "start",
+     "commit": "end",
+     "note": "p.3: when CS is low, conversion is started on the rising edge of WR"
+    }
+   ],
+   "read": "R{10}"
+  },
+  "conversion": {
+   "time": 6000,
+   "start": [
+    "command"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "EOC",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read",
+    "note": "p.3: EOC goes low when the result is in the output latch; the falling edge of RD resets EOC high (td(EOC) 15 ns)"
+   }
+  ]
+ },
+ "packages": {
+  "DW": {
+   "pinout": "dw24",
+   "footprint": "SOIC-24W",
+   "package": "SOIC",
+   "pins": 24
+  },
+  "FN": {
+   "pinout": "fn28",
+   "footprint": "PLCC-28",
+   "package": "PLCC",
+   "pins": 28
+  }
+ },
+ "pdf": "tlc1550.pdf",
+ "pages": "p.1 (pinouts), p.3 (terminal functions), p.4 (ROC), p.6 (tc 6 us, ta(D) 35 ns, tdis(D) 30 ns, td(EOC) 15 ns), p.9 (operating sequence, Figure 3), Addendum-Page 1 (package options)",
+ "notModeled": [
+  "analog input and references: every conversion returns the 0 V code",
+  "CLKIN external conversion clock (0.5-7.8 MHz) vs the internal clock: conversion time is the 6 us maximum either way",
+  "EOC is reset by RD falling (any read with CS low); td(EOC) delay not modeled",
+  "sampling (track) between EOC rising and WR rising"
+ ],
+ "variants": "TLC1550 and TLC1551 share this datasheet and are functionally identical (TLC1550: +/-0.5 LSB, TLC1551: +/-1 LSB). FK and J packages (M grade) are not in the parts list.",
+ "parts": [
+  [
+   "TLC1550IDW",
+   "DW",
+   24,
+   "Active"
+  ],
+  [
+   "TLC1550IDWR",
+   "DW",
+   24,
+   "Active"
+  ],
+  [
+   "TLC1550IFN",
+   "FN",
+   28,
+   "Active"
+  ]
+ ]
+}

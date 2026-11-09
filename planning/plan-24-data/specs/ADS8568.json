@@ -1,0 +1,662 @@
+{
+ "device": {
+  "id": "ADS8568",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit 8-channel simultaneous-sampling bipolar-input SAR ADC (510 kSPS parallel) with parallel and serial interfaces",
+  "note": "ads8528.pdf (SBAS543C, ADS8528/ADS8548/ADS8568) p.4-5 pin configurations (RGC VQFN-64, PM LQFP-64), p.6-8 pin functions, p.9 recommended operating conditions (DVDD 2.7-5.5 V), p.16 serial interface timing (Figure 1 p.18), p.29-30 CONVST_x and BUSY/INT, p.33 serial interface, p.34 Table 3 output data format and software mode, p.35 Figure 40 register update, p.39-41 CONFIG register",
+  "pinouts": {
+   "p64": [
+    {
+     "number": 1,
+     "name": "HVSS",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "CH_D1",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "REFDN",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "REFDP",
+     "role": "nc"
+    },
+    {
+     "number": 7,
+     "name": "CH_D0",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "PAR/SER",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "STBY",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "REFEN/WR",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "RD",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "CS/FS",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 16,
+     "name": "DB15/SDO_D",
+     "role": "inout"
+    },
+    {
+     "number": 17,
+     "name": "DB14/SDO_C",
+     "role": "inout"
+    },
+    {
+     "number": 18,
+     "name": "DB13/SDO_B",
+     "role": "inout"
+    },
+    {
+     "number": 19,
+     "name": "DB12/SDO_A",
+     "role": "inout"
+    },
+    {
+     "number": 20,
+     "name": "DB11/REFBUFEN",
+     "role": "inout"
+    },
+    {
+     "number": 21,
+     "name": "DB10/SCLK",
+     "role": "inout"
+    },
+    {
+     "number": 22,
+     "name": "DB9/SDI",
+     "role": "inout"
+    },
+    {
+     "number": 23,
+     "name": "DB8/DCEN",
+     "role": "inout"
+    },
+    {
+     "number": 24,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 25,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 26,
+     "name": "DB7",
+     "role": "inout"
+    },
+    {
+     "number": 27,
+     "name": "DB6/SEL_B",
+     "role": "inout"
+    },
+    {
+     "number": 28,
+     "name": "DB5/SEL_CD",
+     "role": "inout"
+    },
+    {
+     "number": 29,
+     "name": "DB4",
+     "role": "inout"
+    },
+    {
+     "number": 30,
+     "name": "DB3/DCIN_A",
+     "role": "inout"
+    },
+    {
+     "number": 31,
+     "name": "DB2/DCIN_B",
+     "role": "inout"
+    },
+    {
+     "number": 32,
+     "name": "DB1/DCIN_C",
+     "role": "inout"
+    },
+    {
+     "number": 33,
+     "name": "DB0/DCIN_D",
+     "role": "inout"
+    },
+    {
+     "number": 34,
+     "name": "RANGE/XCLK",
+     "role": "inout"
+    },
+    {
+     "number": 35,
+     "name": "BUSY/INT",
+     "role": "output"
+    },
+    {
+     "number": 36,
+     "name": "ASLEEP",
+     "role": "input"
+    },
+    {
+     "number": 37,
+     "name": "CONVST_A",
+     "role": "input"
+    },
+    {
+     "number": 38,
+     "name": "CONVST_B",
+     "role": "input"
+    },
+    {
+     "number": 39,
+     "name": "CONVST_C",
+     "role": "input"
+    },
+    {
+     "number": 40,
+     "name": "CONVST_D",
+     "role": "input"
+    },
+    {
+     "number": 41,
+     "name": "HW/SW",
+     "role": "input"
+    },
+    {
+     "number": 42,
+     "name": "CH_A0",
+     "role": "input"
+    },
+    {
+     "number": 43,
+     "name": "REFAP",
+     "role": "nc"
+    },
+    {
+     "number": 44,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 45,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 46,
+     "name": "REFAN",
+     "role": "ground"
+    },
+    {
+     "number": 47,
+     "name": "CH_A1",
+     "role": "input"
+    },
+    {
+     "number": 48,
+     "name": "HVDD",
+     "role": "power"
+    },
+    {
+     "number": 49,
+     "name": "CH_B0",
+     "role": "input"
+    },
+    {
+     "number": 50,
+     "name": "REFBP",
+     "role": "nc"
+    },
+    {
+     "number": 51,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 52,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 53,
+     "name": "REFBN",
+     "role": "ground"
+    },
+    {
+     "number": 54,
+     "name": "CH_B1",
+     "role": "input"
+    },
+    {
+     "number": 55,
+     "name": "REFN",
+     "role": "ground"
+    },
+    {
+     "number": 56,
+     "name": "REFIO",
+     "role": "power"
+    },
+    {
+     "number": 57,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 58,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 59,
+     "name": "CH_C1",
+     "role": "input"
+    },
+    {
+     "number": 60,
+     "name": "REFCN",
+     "role": "ground"
+    },
+    {
+     "number": 61,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 62,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 63,
+     "name": "REFCP",
+     "role": "nc"
+    },
+    {
+     "number": 64,
+     "name": "CH_C0",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 8,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "HVSS",
+   "HVDD",
+   "AVDD",
+   "CH_A0",
+   "CH_A1",
+   "CH_B0",
+   "CH_B1",
+   "CH_C0",
+   "CH_C1",
+   "CH_D0",
+   "CH_D1",
+   "REFAP",
+   "REFAN",
+   "REFBP",
+   "REFBN",
+   "REFCP",
+   "REFCN",
+   "REFDP",
+   "REFDN",
+   "REFIO",
+   "REFN"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS/FS",
+   "sclk": "DB10/SCLK",
+   "mosi": "DB9/SDI",
+   "miso": "DB12/SDO_A",
+   "mode": 2
+  },
+  "timing": {
+   "tValid": 12,
+   "tOut": 17,
+   "tFloat": 10
+  },
+  "registers": [
+   {
+    "name": "CONFIG",
+    "address": 0,
+    "width": 32,
+    "reset": 1023,
+    "readOnly": 203776,
+    "note": "p.39-41 Figure 44: CONFIG, default 000003FFh; bits 17-16 and 12-10 not used (default 0, modeled read-only)",
+    "fields": [
+     {
+      "name": "WRITE_EN",
+      "bits": [
+       31,
+       31
+      ]
+     },
+     {
+      "name": "READ_EN",
+      "bits": [
+       30,
+       30
+      ]
+     },
+     {
+      "name": "CLKSEL",
+      "bits": [
+       29,
+       29
+      ]
+     },
+     {
+      "name": "CLKOUT",
+      "bits": [
+       28,
+       28
+      ]
+     },
+     {
+      "name": "BUSY_INT",
+      "bits": [
+       27,
+       27
+      ]
+     },
+     {
+      "name": "BUSY_POL",
+      "bits": [
+       26,
+       26
+      ]
+     },
+     {
+      "name": "STBY",
+      "bits": [
+       25,
+       25
+      ]
+     },
+     {
+      "name": "RANGE_A",
+      "bits": [
+       24,
+       24
+      ]
+     },
+     {
+      "name": "RANGE_B",
+      "bits": [
+       23,
+       23
+      ]
+     },
+     {
+      "name": "PD_B",
+      "bits": [
+       22,
+       22
+      ]
+     },
+     {
+      "name": "RANGE_C",
+      "bits": [
+       21,
+       21
+      ]
+     },
+     {
+      "name": "PD_C",
+      "bits": [
+       20,
+       20
+      ]
+     },
+     {
+      "name": "RANGE_D",
+      "bits": [
+       19,
+       19
+      ]
+     },
+     {
+      "name": "PD_D",
+      "bits": [
+       18,
+       18
+      ]
+     },
+     {
+      "name": "REFEN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "REFBUF",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "VREF",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "REFDAC",
+      "bits": [
+       9,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "MODE",
+    "width": 1,
+    "reset": 0,
+    "note": "internal: follows the HW/SW pin (1 = software mode; CONFIG can only be changed in software mode, p.39)",
+    "fields": [
+     {
+      "name": "HWSW",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "[R] [R] [R] [R] [R] [R] [R] [R]",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "CONFIG update + read-out (C31 = 1, C30 = 1)",
+     "in": "1 1 [CONFIG:29:0]",
+     "when": "MODE.HWSW=1",
+     "next": "[CONFIG]",
+     "note": "p.34-35: the first 32 SDI bits of a frame carry C[31:0]; the update takes effect at the 32nd SCLK falling edge when WRITE_EN (C31) = 1; p.39 READ_EN: CONFIG is output on SDO_A with the next accesses, READ_EN then resets to 0"
+    },
+    {
+     "name": "CONFIG update (C31 = 1)",
+     "in": "1 0 [CONFIG:29:0]",
+     "when": "MODE.HWSW=1",
+     "note": "p.34-35, p.39: C31 = 0 leaves CONFIG unchanged (SDI may be held low)"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 1700,
+   "start": [
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "BUSY/INT",
+    "active": 1,
+    "asserts": "busy",
+    "enable": [
+     "CONFIG.BUSY_INT=0",
+     "CONFIG.BUSY_POL=0"
+    ]
+   },
+   {
+    "pin": "BUSY/INT",
+    "active": 0,
+    "asserts": "busy",
+    "enable": [
+     "CONFIG.BUSY_INT=0",
+     "CONFIG.BUSY_POL=1"
+    ]
+   },
+   {
+    "pin": "BUSY/INT",
+    "active": 1,
+    "asserts": "done",
+    "clears": "cs-fall",
+    "enable": [
+     "CONFIG.BUSY_INT=1",
+     "CONFIG.BUSY_POL=0"
+    ]
+   },
+   {
+    "pin": "BUSY/INT",
+    "active": 0,
+    "asserts": "done",
+    "clears": "cs-fall",
+    "enable": [
+     "CONFIG.BUSY_INT=1",
+     "CONFIG.BUSY_POL=1"
+    ]
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "CONVST_A",
+    "edge": "rise"
+   },
+   "reset": {
+    "pin": "RESET",
+    "active": 1
+   },
+   "levels": [
+    {
+     "pin": "HW/SW",
+     "field": "MODE.HWSW"
+    }
+   ]
+  }
+ },
+ "packages": {
+  "PM": {
+   "pinout": "p64",
+   "footprint": "LQFP-64-10X10",
+   "package": "LQFP",
+   "pins": 64
+  },
+  "RGC": {
+   "pinout": "p64",
+   "footprint": "VQFN-64-RGC",
+   "package": "VQFN",
+   "pins": 64
+  }
+ },
+ "pdf": "ads8528.pdf",
+ "pages": "p.4-5 (pin configurations RGC/PM, same numbering), p.6-8 (pin functions), p.9 (DVDD 2.7-5.5 V), p.16 (serial timing: tCONV 1.7 us max, tDMSB 12 ns, tPDDO 17 ns, tDTRI 10 ns; data changes and SDI is latched on SCLK falling edges), p.18 (Figure 1: SCLK idles high, MSB valid after FS falls), p.29-30 (CONVST_x, BUSY/INT), p.33 (serial interface, SDO_A order), p.34 (Table 3 twos complement with sign extension; software mode), p.35 (Figure 40 CONFIG updates), p.39-41 (CONFIG register, default 000003FFh)",
+ "notModeled": [
+  "analog side: +/-4 VREF / +/-2 VREF bipolar inputs (RANGE pin or RANGE_x bits), HVDD/HVSS, internal reference, REFDAC (C[9:0]), reference buffers and their decoupling pins; every channel gives the 0 V code (twos, 0000h)",
+  "only the serial interface (PAR/SER high) is modeled, with all eight results on SDO_A (SEL_B = SEL_CD = 0, 128 SCLKs, order A0 A1 B0 B1 C0 C1 D0 D1). The SDO_B/SDO_C/SDO_D splits (SEL_B, SEL_CD) and daisy-chain inputs DCIN_x (DCEN) are not modeled; DB13-DB15 are never driven. The parallel interface (PAR/SER low: RD/CS reads of DB[15:0] per channel, CONFIG written by two 16-bit WR accesses) is not modeled",
+  "16-bit results, MSB first",
+  "each frame restarts the output at CH_A0; reading the eight results in several shorter frames (eight 16-bit, four 32-bit transfers) continues where the previous frame stopped in the device - the model restarts (all results are 0 anyway); CONVST_A resets the channel sequence",
+  "CONFIG read-out: READ_EN outputs CONFIG on SDO_A 'with the next two accesses'; the model outputs the 32-bit CONFIG once at the start of the next frame. READ_EN and WRITE_EN themselves are not stored (read back 0). Unused bits 17-16 and 12-10 are modeled read-only 0",
+  "only CONVST_A starts conversions (all CONVST_x tied together); separate channel-pair starts, sequential operation (per-pair BUSY pulses), per-pair power-down (PD_x) and the channel-pair data order with powered-down pairs are not modeled",
+  "conversion clock: internal clock time tCONV max used; external XCLK (CLKSEL), CLKOUT on RANGE/XCLK, auto-sleep (ASLEEP pin, up to 26 clocks) are not modeled",
+  "STBY (pin in hardware mode, CONFIG.STBY in software mode) power-down is not modeled; RESET aborts conversions and resets CONFIG (modeled); hardware-mode pin functions (RANGE, REFEN, REFBUFEN, STBY) are analog/power settings",
+  "BUSY/INT INT mode clears at the next read access (FS falling); BUSY/INT polarity and mode come from CONFIG C27/C26 (modeled with enable conditions)"
+ ],
+ "variants": "ADS8528 (12-bit), ADS8548 (14-bit), ADS8568 (16-bit) share ads8528.pdf; same pinout and CONFIG register, they differ in resolution, sign extension and conversion time (1.33 / 1.45 / 1.7 us)",
+ "parts": [
+  [
+   "ADS8568SPM",
+   "PM",
+   64,
+   "Active"
+  ],
+  [
+   "ADS8568SRGCR",
+   "RGC",
+   64,
+   "Active"
+  ],
+  [
+   "ADS8568SRGCT",
+   "RGC",
+   64,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,562 @@
+{
+ "device": {
+  "id": "ADS5231",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "Dual 12-bit 40 MSPS pipelined ADC with parallel CMOS outputs and serial control interface",
+  "note": "ads5231.pdf (SBAS295A) p.3 recommended operating conditions, p.5 digital characteristics (straight offset binary or BTC), p.6-7 timing (tDV 18.5 ns max at 40 MSPS), p.8 serial interface timing, p.9 serial register map, p.11-12 pin configuration and descriptions, p.22 power-down",
+  "pinouts": {
+   "pag64": [
+    {
+     "number": 1,
+     "name": "SEL",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "VDRV",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "OEB",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 8,
+     "name": "VDRV",
+     "role": "power"
+    },
+    {
+     "number": 9,
+     "name": "OVRB",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "D0_B",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "D1_B",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "D2_B",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "D3_B",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "D4_B",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "D5_B",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "D6_B",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "D7_B",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "D8_B",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "D9_B",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "D10_B",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "D11_B",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "DVB",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 24,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 26,
+     "name": "DVA",
+     "role": "output"
+    },
+    {
+     "number": 27,
+     "name": "D0_A",
+     "role": "output"
+    },
+    {
+     "number": 28,
+     "name": "D1_A",
+     "role": "output"
+    },
+    {
+     "number": 29,
+     "name": "D2_A",
+     "role": "output"
+    },
+    {
+     "number": 30,
+     "name": "D3_A",
+     "role": "output"
+    },
+    {
+     "number": 31,
+     "name": "D4_A",
+     "role": "output"
+    },
+    {
+     "number": 32,
+     "name": "D5_A",
+     "role": "output"
+    },
+    {
+     "number": 33,
+     "name": "D6_A",
+     "role": "output"
+    },
+    {
+     "number": 34,
+     "name": "D7_A",
+     "role": "output"
+    },
+    {
+     "number": 35,
+     "name": "D8_A",
+     "role": "output"
+    },
+    {
+     "number": 36,
+     "name": "D9_A",
+     "role": "output"
+    },
+    {
+     "number": 37,
+     "name": "D10_A",
+     "role": "output"
+    },
+    {
+     "number": 38,
+     "name": "D11_A",
+     "role": "output"
+    },
+    {
+     "number": 39,
+     "name": "OVRA",
+     "role": "output"
+    },
+    {
+     "number": 40,
+     "name": "VDRV",
+     "role": "power"
+    },
+    {
+     "number": 41,
+     "name": "MSBI/SEN",
+     "role": "input"
+    },
+    {
+     "number": 42,
+     "name": "OEA/SCLK",
+     "role": "input"
+    },
+    {
+     "number": 43,
+     "name": "VDRV",
+     "role": "power"
+    },
+    {
+     "number": 44,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 45,
+     "name": "STPD/SDATA",
+     "role": "input"
+    },
+    {
+     "number": 46,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 47,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 48,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 49,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 50,
+     "name": "INA",
+     "role": "input"
+    },
+    {
+     "number": 51,
+     "name": "INA",
+     "role": "input"
+    },
+    {
+     "number": 52,
+     "name": "CM",
+     "role": "output"
+    },
+    {
+     "number": 53,
+     "name": "REFT",
+     "role": "power"
+    },
+    {
+     "number": 54,
+     "name": "REFB",
+     "role": "power"
+    },
+    {
+     "number": 55,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 56,
+     "name": "INT/EXT",
+     "role": "input"
+    },
+    {
+     "number": 57,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 58,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 59,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 60,
+     "name": "ISET",
+     "role": "nc"
+    },
+    {
+     "number": 61,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 62,
+     "name": "INB",
+     "role": "input"
+    },
+    {
+     "number": 63,
+     "name": "INB",
+     "role": "input"
+    },
+    {
+     "number": 64,
+     "name": "AGND",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 2,
+  "codeFormat": {
+   "field": "R0.BTC",
+   "values": {
+    "0": "offset",
+    "1": "twos"
+   }
+  },
+  "vcc": [
+   3.0,
+   3.6
+  ],
+  "analog": [
+   "AVDD",
+   "INA",
+   "INB",
+   "CM",
+   "REFT",
+   "REFB",
+   "ISET"
+  ],
+  "bus": {
+   "style": "clocked",
+   "clock": {
+    "pin": "CLK",
+    "edge": "rise"
+   },
+   "data": [
+    "D11_A",
+    "D10_A",
+    "D9_A",
+    "D8_A",
+    "D7_A",
+    "D6_A",
+    "D5_A",
+    "D4_A",
+    "D3_A",
+    "D2_A",
+    "D1_A",
+    "D0_A",
+    "D11_B",
+    "D10_B",
+    "D9_B",
+    "D8_B",
+    "D7_B",
+    "D6_B",
+    "D5_B",
+    "D4_B",
+    "D3_B",
+    "D2_B",
+    "D1_B",
+    "D0_B"
+   ],
+   "oe": {
+    "pin": "OEB",
+    "active": 0
+   },
+   "clockOut": [
+    {
+     "pin": "DVA",
+     "invert": true
+    },
+    {
+     "pin": "DVB",
+     "invert": true
+    }
+   ]
+  },
+  "configBus": {
+   "style": "spi",
+   "cs": "MSBI/SEN",
+   "sclk": "OEA/SCLK",
+   "mosi": "STPD/SDATA",
+   "miso": "STPD/SDATA",
+   "mode": 3
+  },
+  "timing": {
+   "tOut": 18.5
+  },
+  "registers": [
+   {
+    "name": "R0",
+    "address": 0,
+    "width": 4,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "OEA_TRI",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "OEB_TRI",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "BTC",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "PDN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "address 0000: D3 channel A outputs 3-stated, D2 channel B outputs 3-stated, D1 binary two's complement, D0 power-down both channels"
+   },
+   {
+    "name": "R2",
+    "address": 2,
+    "width": 4,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "ALL_ZERO",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "ALL_ONE",
+      "bits": [
+       2,
+       2
+      ]
+     }
+    ],
+    "note": "address 0010: D2 = 1 all digital outputs '1', D3 = 1 all '0' (test); D1-D0 written 0"
+   },
+   {
+    "name": "R3",
+    "address": 3,
+    "width": 4,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PDN_A",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "PDN_B",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "PLL_DIS",
+      "bits": [
+       1,
+       1
+      ]
+     }
+    ],
+    "note": "address 0011: channel A / B power-down, PLL disable; D0 written 0"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "z",
+   "idle": "z",
+   "commands": [
+    {
+     "name": "Serial Write",
+     "in": "aaaa dddd",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "8 bits MSB first latched on SCLK rising edges: D7-D4 address, D3-D0 data; outputs change on the next CLK rising edge after SEN goes high"
+    }
+   ],
+   "read": "[R][R]"
+  },
+  "pins": {
+   "reset": {
+    "pin": "SEL",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "PAG": {
+   "pinout": "pag64",
+   "footprint": "TQFP-64-PAG",
+   "package": "TQFP",
+   "pins": 64
+  }
+ },
+ "pdf": "ads5231.pdf",
+ "pages": "p.3 (ROC), p.5 (digital), p.6-7 (timing), p.8 (serial timing), p.9 (register map), p.11-12 (pins)",
+ "notModeled": [
+  "analog inputs, references (INT/EXT select) and ISET bias: the result is always the 0 V (mid-scale) code (0x800 offset binary, 0 two's complement)",
+  "only the serial-interface mode (SEL = 1) is modeled: pins 41/42/45 are SEN/SCLK/SDATA; the parallel strap mode (SEL = 0: MSBI format select, OEA output enable, STPD power-down pins) is not. SEL low is modeled as reset (registers at 0, bus ignored), which the datasheet requires as a low pulse after power-up",
+  "register bits OEA_TRI/OEB_TRI (3-state), PDN/PDN_A/PDN_B (power-down), ALL_ZERO/ALL_ONE test patterns and PLL_DIS are stored only and do not change the outputs; serial register address 0001 is not documented",
+  "OEB: the clocked bus has one output enable, so OEB (pin 6) gates both the A and B outputs in the model",
+  "OVRA/OVRB over-range outputs are never driven (low for a 0 V input)",
+  "pipeline latency of 6 clock cycles (the code is constant); DVA/DVB data-valid outputs modeled as the inverted CLK (tDV CLK rising to DV falling, 30-55 % duty cycle)",
+  "serial interface is write-only (no read-back): the schema needs an SPI miso, so configBus names SDATA as miso with protocol out/idle \"z\" (never driven); 3-state enable/disable time of 2 clocks; PLL lock and clock-stop partial power-down (below 2 MSPS); power-up sequencing"
+ ],
+ "variants": "ADS5232 (65 MSPS) and ADS5237 (10-bit, 65 MSPS) are the same family with the same pinout layout and register map (own datasheets, own spec files)",
+ "parts": [
+  [
+   "ADS5231IPAG",
+   "PAG",
+   64,
+   "Active"
+  ]
+ ]
+}

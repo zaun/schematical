@@ -1,0 +1,212 @@
+{
+ "device": {
+  "id": "ADS1231",
+  "function": "ADC",
+  "description": "24-bit bridge-sensor delta-sigma ADC with low-side switch, 10/80 SPS and 2-wire serial interface (DRDY/DOUT, SCLK)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1231.pdf (SBAS414D) p.3-4 electrical characteristics (data rate, logic levels, AVDD/DVDD 3-5.3 V), p.5 pin configuration and descriptions, p.12 data format, data rate, p.13 DRDY/DOUT and data retrieval timing (tPD = 50 ns, tCONV 12.5/100 ms), p.14 standby",
+  "pinouts": {
+   "d16": [
+    {
+     "number": 1,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "CLKIN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "SPEED",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "CAP",
+     "role": "nc"
+    },
+    {
+     "number": 6,
+     "name": "CAP",
+     "role": "nc"
+    },
+    {
+     "number": 7,
+     "name": "AINP",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "AINN",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "VREFN",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "VREFP",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "SW",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "PDWN",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "DRDY/DOUT",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 24,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   3.0,
+   5.3
+  ],
+  "analog": [
+   "CAP",
+   "AINP",
+   "AINN",
+   "VREFN",
+   "VREFP",
+   "SW",
+   "AVDD"
+  ],
+  "bus": {
+   "style": "spi",
+   "sclk": "SCLK",
+   "miso": "DRDY/DOUT",
+   "mode": 1
+  },
+  "timing": {
+   "tOut": 50
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 1,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "SPEED",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the SPEED pin level (pins.levels); 0 = 10 SPS, 1 = 80 SPS (p.5); no serial registers"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{24}",
+   "idle": "1",
+   "commands": []
+  },
+  "conversion": {
+   "time": {
+    "field": "CTRL.SPEED",
+    "values": {
+     "0": 100000000,
+     "1": 12500000
+    }
+   },
+   "start": [
+    "power-on"
+   ],
+   "mode": "continuous"
+  },
+  "ready": [
+   {
+    "pin": "DRDY/DOUT",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read",
+    "onMiso": true
+   }
+  ],
+  "pins": {
+   "powerdown": {
+    "pin": "PDWN",
+    "active": 0
+   },
+   "levels": [
+    {
+     "pin": "SPEED",
+     "field": "CTRL.SPEED"
+    }
+   ]
+  }
+ },
+ "packages": {
+  "D": {
+   "pinout": "d16",
+   "footprint": "SOIC-16",
+   "package": "SOIC",
+   "pins": 16
+  }
+ },
+ "pdf": "ads1231.pdf",
+ "pages": "p.3-4 (EC), p.5 (pins), p.12 (data format, data rate), p.13 (DRDY/DOUT, retrieval timing), p.14 (standby)",
+ "notModeled": [
+  "analog input, reference",
+  "conversion time tCONV = 12.5 ms (SPEED = 1) / 100 ms (SPEED = 0) with the internal oscillator (p.13); an external CLKIN (fCLKIN / 61,440 or / 491,520) scales it (CLKIN is not used)",
+  "DRDY/DOUT stays at the last data bit until the next update unless an extra SCLK forces it high; modeled as idle 1 after the data bits",
+  "standby mode (SCLK held high after DRDY/DOUT falls) and its wake-up",
+  "data-update window (no readback) and data overwritten if not read before the next update",
+  "SW low-side bridge power switch (analog)",
+  "PDWN low also resets the ADC (modeled as power-down only; there are no serial registers)"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS1231ID",
+   "D",
+   16,
+   "Active"
+  ],
+  [
+   "ADS1231IDR",
+   "D",
+   16,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,58 @@
+{
+  "device": {
+    "id": "ADS7826",
+    "function": "ADC",
+    "description": "10-bit 200 kSPS micropower SAR ADC with synchronous serial interface",
+    "drawer": ["Interface"],
+    "note": "ads7829.pdf (SLAS388) p.3-4 specifications (VCC operating range, VIH, straight binary), p.5 pin description and terminal functions, p.14 digital interface (Figure 37), p.15 Table 1 timing and data format",
+    "pinouts": {
+      "drb8": [
+        {"number": 1, "name": "Vref", "role": "power"},
+        {"number": 2, "name": "+In", "role": "input"},
+        {"number": 3, "name": "-In", "role": "input"},
+        {"number": 4, "name": "GND", "role": "ground"},
+        {"number": 5, "name": "CS/SHDN", "role": "input"},
+        {"number": 6, "name": "DOUT", "role": "output"},
+        {"number": 7, "name": "DCLOCK", "role": "input"},
+        {"number": 8, "name": "+VCC", "role": "power"}
+      ]
+    },
+    "type": "adc",
+    "bits": 10,
+    "channels": 1,
+    "codeFormat": "straight",
+    "vcc": [2.0, 5.25],
+    "inputMax": 5.5,
+    "analog": ["Vref", "+In", "-In"],
+    "bus": {"style": "spi", "cs": "CS/SHDN", "sclk": "DCLOCK", "miso": "DOUT", "mode": 0},
+    "timing": {"tValid": 0, "tOut": 200, "tFloat": 80},
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "out": "z z 0 R{10}",
+      "idle": "0",
+      "commands": []
+    },
+    "conversion": {
+      "time": 0,
+      "start": ["cs-fall"]
+    }
+  },
+  "packages": {
+    "DRB": {"pinout": "drb8", "footprint": "SON-8-DRB", "package": "SON", "pins": 8}
+  },
+  "pdf": "ads7829.pdf",
+  "pages": "p.3 (VIH 2.0-5.5 V), p.4 (VCC 2.7-3.6 V, 2.0-2.7 V and 3.6-5.25 V, data format), p.5 (pins), p.14 (signal levels, Figure 37), p.15 (Table 1 timing, frame description, data format)",
+  "notModeled": [
+    "analog input; the conversion is clocked by DCLOCK (11 clocks per Table 1, 10 per the spec table; not timed: the result is the 0 V code at once)",
+    "DOUT is Hi-Z for the first two DCLOCK edges, then the null bit, then B9..B0; what follows B0 with CS still low is not shown for the ADS7826 (the model outputs zeros, as the ADS7829's LSB-first-then-zeros would for the 0 V code)",
+    "auto power-down after the conversion and shutdown while CS/SHDN is high (no visible bus effect)",
+    "vcc 2.0-5.25 V spans the three VCC rows of the spec table (2.0-2.7 V with reduced clock rate)",
+    "throughput and DCLOCK frequency limits"
+  ],
+  "variants": "ADS7829 (12-bit) and ADS7827 (8-bit) share the datasheet and pinout: own spec files.",
+  "parts": [
+    ["ADS7826IDRBR", "DRB", 8, "Active"],
+    ["ADS7826IDRBT", "DRB", 8, "Active"]
+  ]
+}

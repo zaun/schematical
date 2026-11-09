@@ -1,0 +1,356 @@
+{
+  "device": {
+    "id": "ADS5423",
+    "function": "ADC",
+    "description": "14-bit 80 MSPS pipelined ADC with 3.3 V parallel CMOS outputs, data-ready clock and over-range bit",
+    "note": "ads5423.pdf (SLWS160A) p.1 features, p.2 recommended operating conditions, p.4 digital characteristics, p.5 timing characteristics (tDR, latency; data updated on CLK rising or DRY falling), p.6 pin assignments, p.19 digital outputs (two's complement)",
+    "pinouts": {
+      "pgp52": [
+        {
+          "number": 1,
+          "name": "DRVDD",
+          "role": "power"
+        },
+        {
+          "number": 2,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 3,
+          "name": "VREF",
+          "role": "power"
+        },
+        {
+          "number": 4,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 5,
+          "name": "CLK",
+          "role": "input"
+        },
+        {
+          "number": 6,
+          "name": "CLK#",
+          "role": "input"
+        },
+        {
+          "number": 7,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 8,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 9,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 10,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 11,
+          "name": "AIN",
+          "role": "input"
+        },
+        {
+          "number": 12,
+          "name": "AIN#",
+          "role": "input"
+        },
+        {
+          "number": 13,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 14,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 15,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 16,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 17,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 18,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 19,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 20,
+          "name": "C1",
+          "role": "nc"
+        },
+        {
+          "number": 21,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 22,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 23,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 24,
+          "name": "C2",
+          "role": "nc"
+        },
+        {
+          "number": 25,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 26,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 27,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 28,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 29,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 30,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 31,
+          "name": "DNC",
+          "role": "nc"
+        },
+        {
+          "number": 32,
+          "name": "OVR",
+          "role": "output"
+        },
+        {
+          "number": 33,
+          "name": "DRVDD",
+          "role": "power"
+        },
+        {
+          "number": 34,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 35,
+          "name": "DMID",
+          "role": "output"
+        },
+        {
+          "number": 36,
+          "name": "D0",
+          "role": "output"
+        },
+        {
+          "number": 37,
+          "name": "D1",
+          "role": "output"
+        },
+        {
+          "number": 38,
+          "name": "D2",
+          "role": "output"
+        },
+        {
+          "number": 39,
+          "name": "D3",
+          "role": "output"
+        },
+        {
+          "number": 40,
+          "name": "D4",
+          "role": "output"
+        },
+        {
+          "number": 41,
+          "name": "D5",
+          "role": "output"
+        },
+        {
+          "number": 42,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 43,
+          "name": "DRVDD",
+          "role": "power"
+        },
+        {
+          "number": 44,
+          "name": "D6",
+          "role": "output"
+        },
+        {
+          "number": 45,
+          "name": "D7",
+          "role": "output"
+        },
+        {
+          "number": 46,
+          "name": "D8",
+          "role": "output"
+        },
+        {
+          "number": 47,
+          "name": "D9",
+          "role": "output"
+        },
+        {
+          "number": 48,
+          "name": "D10",
+          "role": "output"
+        },
+        {
+          "number": 49,
+          "name": "D11",
+          "role": "output"
+        },
+        {
+          "number": 50,
+          "name": "D12",
+          "role": "output"
+        },
+        {
+          "number": 51,
+          "name": "D13",
+          "role": "output"
+        },
+        {
+          "number": 52,
+          "name": "DRY",
+          "role": "output"
+        }
+      ]
+    },
+    "type": "adc",
+    "bits": 14,
+    "channels": 1,
+    "codeFormat": "twos",
+    "vcc": [
+      3.0,
+      3.6
+    ],
+    "analog": [
+      "VREF",
+      "CLK#",
+      "AVDD",
+      "AIN",
+      "AIN#",
+      "DMID"
+    ],
+    "bus": {
+      "style": "clocked",
+      "clock": {
+        "pin": "CLK",
+        "edge": "rise"
+      },
+      "data": [
+        "OVR",
+        "D13",
+        "D12",
+        "D11",
+        "D10",
+        "D9",
+        "D8",
+        "D7",
+        "D6",
+        "D5",
+        "D4",
+        "D3",
+        "D2",
+        "D1",
+        "D0"
+      ],
+      "clockOut": {
+        "pin": "DRY",
+        "invert": true
+      }
+    },
+    "timing": {
+      "tOut": 4.7
+    },
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "commands": [],
+      "read": "0R{14}"
+    },
+    "drawer": [
+      "Interface"
+    ]
+  },
+  "packages": {
+    "PGP": {
+      "pinout": "pgp52",
+      "footprint": "HTQFP-52-PGP",
+      "package": "HTQFP",
+      "pins": 52
+    }
+  },
+  "pdf": "ads5423.pdf",
+  "pages": "p.1 (features: 14-bit 80 MSPS, 5 V analog, 3.3 V CMOS outputs), p.2 (recommended operating conditions: AVDD 4.75-5.25 V, DRVDD 3.0-3.6 V, 30-80 MSPS), p.4 (digital outputs VOH/VOL, DMID = DRVDD/2), p.5 (timing: tDR CLK rising to DRY falling 4.7 ns max, DRY rises tDR + tCLKH, latency 3 cycles, data updated with CLK rising / DRY falling), p.6 (pin assignments), p.19 (digital outputs: D13..D0, DRY pin 52, OVR pin 32, two's complement)",
+  "notModeled": [
+    "analog input and reference (the result is always the 0 V code 0x0000)",
+    "pipeline latency of 3 clock cycles (the code is constant)",
+    "OVR (over-range) is modeled as an extra data bit that is always 0 (a 0 V input is never out of range): bus data is OVR, D13..D0 with read pattern \"0R{14}\"",
+    "DRY is modeled as the inverted CLK (falls tDR after CLK rising, rises tDR + tCLKH later); its own delay and the data delay share tOut = 4.7 ns (tDR max)",
+    "pin names: pins 6 and 12 are printed CLK and AIN with an overline (complement inputs); written CLK# and AIN#",
+    "CLK/CLK# are a differential (AVDD-referenced) clock input; only CLK is the clock pin; sample rate limits 30-80 MSPS",
+    "C1/C2 reference bypass pins and DMID (DRVDD/2 output) are analog"
+  ],
+  "variants": "",
+  "parts": [
+    [
+      "ADS5423IPGP",
+      "PGP",
+      52,
+      "Active"
+    ]
+  ]
+}

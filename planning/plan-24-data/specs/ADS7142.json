@@ -1,0 +1,851 @@
+{
+ "device": {
+  "id": "ADS7142",
+  "function": "ADC",
+  "description": "12-bit 2-channel nanopower SAR ADC with I2C interface, autonomous threshold monitoring, data buffer and accumulator",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads7142.pdf (SBAS773A) p.3 pin functions, p.4 recommended operating conditions, p.6 manual-mode conversion time, p.9 I2C switching, p.22 transfer function, p.23 Table 2 I2C address, p.23-24 data buffer, p.27 general call, p.28-30 programming (Table 4 opcodes), p.31-41 functional modes (Figure 56 manual-mode read), p.43-59 register map",
+  "pinouts": {
+   "rug10": [
+    {
+     "number": 1,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "AINP/AIN0",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "AINM/AIN1",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "ADDR",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "BUSY/RDY",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "ALERT",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "SDA",
+     "role": "inout"
+    },
+    {
+     "number": 8,
+     "name": "SCL",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "GND",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 2,
+  "codeFormat": "straight",
+  "vcc": [
+   1.65,
+   3.6
+  ],
+  "analog": [
+   "AVDD",
+   "AINP/AIN0",
+   "AINM/AIN1",
+   "ADDR"
+  ],
+  "bus": {
+   "style": "i2c",
+   "scl": "SCL",
+   "sda": "SDA",
+   "address": [
+    "ADDR"
+   ],
+   "table": [
+    24,
+    31,
+    null,
+    null
+   ]
+  },
+  "timing": {
+   "tOut": 900
+  },
+  "registers": [
+   {
+    "name": "OPMODE_I2CMODE_STATUS",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "HS_MODE",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "DEV_OPMODE",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DATA_BUFFER_STATUS",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "DATA_WORDCOUNT",
+      "bits": [
+       4,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ACCUMULATOR_STATUS",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "ACC_COUNT",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ALERT_TRIG_CHID",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "ALERT_TRIG_CHID",
+      "bits": [
+       7,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQUENCE_STATUS",
+    "address": 4,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ_ERR_ST",
+      "bits": [
+       2,
+       1
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ACC_CH0_LSB",
+    "address": 8,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "CH0_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ACC_CH0_MSB",
+    "address": 9,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "CH0_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ACC_CH1_LSB",
+    "address": 10,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "CH1_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ACC_CH1_MSB",
+    "address": 11,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "CH1_MSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ALERT_LOW_FLAGS",
+    "address": 12,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 252,
+    "fields": [
+     {
+      "name": "ALERT_LOW_CH1",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "ALERT_LOW_CH0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "writeOneClears": 3
+   },
+   {
+    "name": "ALERT_HIGH_FLAGS",
+    "address": 14,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 252,
+    "fields": [
+     {
+      "name": "ALERT_HIGH_CH1",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "ALERT_HIGH_CH0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "writeOneClears": 3
+   },
+   {
+    "name": "DEVICE_RESET",
+    "address": 20,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "DEV_RST",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OFFSET_CAL",
+    "address": 21,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "TRIG_OFFCAL",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "WKEY",
+    "address": 23,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "KEYWORD",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OSC_SEL",
+    "address": 24,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "HSZ_LP",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "NCLK_SEL",
+    "address": 25,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "NCLK",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OPMODE_SEL",
+    "address": 28,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "SEL_OPMODE",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "START_SEQUENCE",
+    "address": 30,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "SEQ_START",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ABORT_SEQUENCE",
+    "address": 31,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "SEQ_ABORT",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "AUTO_SEQ_CHEN",
+    "address": 32,
+    "width": 8,
+    "reset": 3,
+    "readOnly": 252,
+    "fields": [
+     {
+      "name": "AUTO_SEQ_CH1",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "AUTO_SEQ_CH0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CHANNEL_INPUT_CFG",
+    "address": 36,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 252,
+    "fields": [
+     {
+      "name": "CH0_CH1_IP_CFG",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DOUT_FORMAT_CFG",
+    "address": 40,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 252,
+    "fields": [
+     {
+      "name": "DOUT_FORMAT",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DATA_BUFFER_OPMODE",
+    "address": 44,
+    "width": 8,
+    "reset": 1,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "STARTSTOP_CNTRL",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ACC_EN",
+    "address": 48,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "EN_ACC",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ALERT_CHEN",
+    "address": 52,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 252,
+    "fields": [
+     {
+      "name": "ALERT_EN_CH1",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "ALERT_EN_CH0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.54: Table 28 gives reset 0b per bit and the header 00h (Figure 97 prints R/W-1b); 00h used"
+   },
+   {
+    "name": "PRE_ALT_MAX_EVENT_COUNT",
+    "address": 54,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 15,
+    "fields": [
+     {
+      "name": "PREALERT_COUNT",
+      "bits": [
+       7,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ALERT_DWC_EN",
+    "address": 55,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "DWC_BLOCK_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DWC_HTH_CH0_LSB",
+    "address": 56,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HTH_CH0_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DWC_HTH_CH0_MSB",
+    "address": 57,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "HTH_CH0_MSB",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DWC_LTH_CH0_LSB",
+    "address": 58,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LTH_CH0_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DWC_LTH_CH0_MSB",
+    "address": 59,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "LTH_CH0_MSB",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DWC_HTH_CH1_LSB",
+    "address": 60,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HTH_CH1_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DWC_HTH_CH1_MSB",
+    "address": 61,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "HTH_CH1_MSB",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DWC_LTH_CH1_LSB",
+    "address": 62,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "LTH_CH1_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DWC_LTH_CH1_MSB",
+    "address": 63,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "LTH_CH1_MSB",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DWC_HYS_CH0",
+    "address": 64,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 192,
+    "fields": [
+     {
+      "name": "HYS_CH0",
+      "bits": [
+       5,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DWC_HYS_CH1",
+    "address": 65,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 192,
+    "fields": [
+     {
+      "name": "HYS_CH1",
+      "bits": [
+       5,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Single register write (DEVICE_RESET.DEV_RST = 1)",
+     "in": "00001000 00010100 xxxxxxx1",
+     "action": "reset",
+     "note": "p.44: writing 1 to DEV_RST resets the device (only after WKEY = 1010b; the key is not checked)"
+    },
+    {
+     "name": "Set bit (DEVICE_RESET.DEV_RST)",
+     "in": "00011000 00010100 xxxxxxx1",
+     "action": "reset"
+    },
+    {
+     "name": "Single register read",
+     "in": "00010000 aaaaaaaa",
+     "action": "read",
+     "address": "a",
+     "next": "@",
+     "note": "p.28-29 Figures 49-50: opcode 10h + address, then a read frame returns the register (repeated with more clocks); later read frames return ADC data"
+    },
+    {
+     "name": "Reading a continuous block of registers",
+     "in": "00110000 aaaaaaaa",
+     "action": "read",
+     "address": "a",
+     "next": "@",
+     "note": "opcode 30h: successive registers follow; modeled as the first register only"
+    },
+    {
+     "name": "Single register write",
+     "in": "00001000 aaaaaaaa dddddddd",
+     "action": "write",
+     "address": "a",
+     "data": "d"
+    },
+    {
+     "name": "Writing a continuous block of registers",
+     "in": "00101000 aaaaaaaa dddddddd",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "note": "opcode 28h: further bytes go to ascending addresses; modeled as the first register only"
+    },
+    {
+     "name": "Set bit",
+     "in": "00011000 aaaaaaaa dddddddd",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "note": "opcode 18h sets the 1 bits; modeled as a plain write"
+    },
+    {
+     "name": "Clear bit",
+     "in": "00100000 aaaaaaaa xxxxxxxx",
+     "action": "nop",
+     "note": "opcode 20h clears the 1 bits; not modeled (read-modify-write)"
+    }
+   ],
+   "read": "R{12} 0000",
+   "generalCall": "reset"
+  },
+  "conversion": {
+   "time": 1800,
+   "start": [
+    "power-on",
+    "read",
+    "write:START_SEQUENCE.SEQ_START=1"
+   ],
+   "mode": {
+    "field": "OPMODE_SEL.SEL_OPMODE",
+    "continuous": 6,
+    "startOnEnter": false
+   }
+  },
+  "ready": [
+   {
+    "pin": "BUSY/RDY",
+    "active": 1,
+    "asserts": "busy",
+    "enable": [
+     "OPMODE_SEL.SEL_OPMODE!=0",
+     "OPMODE_SEL.SEL_OPMODE!=1"
+    ]
+   }
+  ]
+ },
+ "packages": {
+  "RUG": {
+   "pinout": "rug10",
+   "footprint": "X2QFN-10-RUG",
+   "package": "X2QFN",
+   "pins": 10
+  }
+ },
+ "pdf": "ads7142.pdf",
+ "pages": "p.3 (pins), p.4 (ROC: AVDD, DVDD 1.65-3.6 V; digital inputs to DVDD + 0.3 V), p.6 (manual-mode tconv 1.8 us), p.7 (autonomous tconv/tcycle), p.9 (tVD-DAT 0.9 us fast mode), p.22 (straight binary, Table 1), p.23 (Table 2 address resistors), p.23-24 (data buffer), p.27 (general call, HS mode), p.28-30 (opcodes, register read/write frames), p.31-34 (power-up, manual mode, Figure 56), p.34-41 (autonomous / high-precision modes), p.43-59 (registers)",
+ "notModeled": [
+  "analog inputs and the input configurations (CHANNEL_INPUT_CFG: two single-ended, remote-ground, pseudo-differential); every conversion returns the 0 V code 000h; AVDD is the reference",
+  "I2C address resistors on ADDR (Table 2): only the two tie cases are modeled, ADDR to GND (R2 0 ohm, also both open) 18h and ADDR to AVDD (R1 0 ohm) 1Fh; the 11k/33k/100k choices 19h-1Eh and the address re-evaluation general call (00h then 04h) are not",
+  "the read frame is always manual-mode data (12-bit result then 0000b); the autonomous-mode 16-word data buffer FIFO (DATA_BUFFER_OPMODE start/stop burst, pre/post alert), DOUT_FORMAT channel ID / DATA_VALID bits, and high-precision-mode accumulator results (ACC_EN, ACC_CHx registers stay 0) are not modeled",
+  "a register read (opcode 10h/30h) answers only the next read frame (protocol 'next'); continuous-block read/write (30h/28h) move only the first register; set bit (18h) is a plain write and clear bit (20h) is ignored",
+  "DEVICE_RESET works without the WKEY = 1010b unlock and resets WKEY and the latched alert flags too (the datasheet keeps them); DEV_RST, TRIG_OFFCAL, SEQ_START and SEQ_ABORT read back as written (datasheet: write-only); nCLK values below 21/18 are not clamped",
+  "manual-mode conversions: one per read frame (tconv 1.8 us max); clock stretching, the continuous-SCL conversion stream and the 140 kSPS throughput limit are not timed; autonomous cycle time (nCLK x tHSO/tLPO, OSC_SEL) and the channel sequencer (AUTO_SEQ_CHEN) are not modeled: SEL_OPMODE = 110b converts continuously at 1.8 us",
+  "BUSY/RDY: modeled as high only while a conversion runs in the auto-sequence modes (SEL_OPMODE 1xxb); the datasheet keeps it high for a whole sequence (SEQ_START to completion/abort), during power-up calibration and address re-evaluation",
+  "digital window comparator, hysteresis, pre-alert event counter, latched flags and the open-drain ALERT pin: stored only, ALERT never driven",
+  "offset calibration, high-speed mode master codes (HS_MODE), I2C bus clear"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS7142IRUGR",
+   "RUG",
+   10,
+   "Active"
+  ],
+  [
+   "ADS7142IRUGT",
+   "RUG",
+   10,
+   "Active"
+  ]
+ ]
+}

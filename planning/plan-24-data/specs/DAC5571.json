@@ -1,0 +1,53 @@
+{
+ "device": {
+  "id": "DAC5571",
+  "function": "DAC",
+  "description": "8-bit single-channel voltage-output DAC with I2C interface and power-down",
+  "drawer": ["Interface"],
+  "note": "dac5571.pdf (SLAS405A) p.1-2 pinout (SOT23-6 pin description), p.3 electrical characteristics (VDD 2.7-5.5 V, logic inputs), p.4-5 timing, p.15-16 I2C update sequence, address byte, CTRL/MSB and LSB bytes (Figure 45), p.17 power-on reset (zero code) and power-down modes (Table 1)",
+  "pinouts": {
+   "dbv6": [
+    {"number": 1, "name": "VOUT", "role": "output"},
+    {"number": 2, "name": "GND", "role": "ground"},
+    {"number": 3, "name": "VDD", "role": "power"},
+    {"number": 4, "name": "SDA", "role": "inout"},
+    {"number": 5, "name": "SCL", "role": "input"},
+    {"number": 6, "name": "A0", "role": "input"}
+   ]
+  },
+  "type": "dac",
+  "bits": 8,
+  "channels": 1,
+  "vcc": [2.7, 5.5],
+  "analog": ["VOUT"],
+  "bus": {"style": "i2c", "scl": "SCL", "sda": "SDA", "address": ["A0"], "table": [76, 77, null, null]},
+  "registers": [
+   {"name": "DAC", "space": "dac", "address": 0, "width": 8, "reset": 0, "note": "p.17: power-on fills the DAC register with zeros"},
+   {"name": "CTRL", "width": 2, "reset": 0, "fields": [{"name": "PD", "bits": [1, 0]}], "note": "PD1/PD0 of the CTRL/MSB byte (Table 1): 0 normal, 1 1k to AGND, 2 100k to AGND, 3 Hi-Z"}
+  ],
+  "protocol": {
+   "frame": "stream",
+   "commands": [
+    {"name": "Write CTRL/MSB + LSB", "in": "00ppdddd ddddxxxx", "action": "write", "channel": 0, "data": "d", "set": {"CTRL.PD": "p"}, "then": ["update"], "note": "Figure 45: 0 0 PD1 PD0 D7-D4, D3-D0 X X X X; n words per transaction; update at the ACK after the LSB byte"}
+   ]
+  },
+  "dac": {"input": ["DAC"], "output": ["DAC"], "clearCode": 0, "ldac": "sync"}
+ },
+ "packages": {
+  "DBV": {"pinout": "dbv6", "footprint": "SOT23-6", "package": "SOT-23", "pins": 6}
+ },
+ "pdf": "dac5571.pdf",
+ "pages": "p.1-2 (pinout), p.3 (VDD, logic levels), p.4-5 (I2C timing), p.15-16 (I2C protocol, data bytes), p.17 (power-on reset, power-down modes)",
+ "notModeled": [
+  "analog output, settling and power-down output loads (PD bits stored only; the output is never driven)",
+  "broadcast address 1001000 (responds regardless of A0): not expressible in the address table",
+  "address pin A0 is latched at power-up (the model reads it live)",
+  "I2C high-speed mode master code and timing limits",
+  "the 0 0 bits of the CTRL/MSB byte: a byte with them nonzero is ignored rather than handled as the datasheet leaves undefined"
+ ],
+ "variants": "DAC5571 has its own datasheet (dac5571.pdf); DAC6571 (10-bit) and DAC7571 (12-bit) are the same family with wider data fields",
+ "parts": [
+  ["DAC5571IDBVR", "DBV", 6, "Active"],
+  ["DAC5571IDBVT", "DBV", 6, "Active"]
+ ]
+}

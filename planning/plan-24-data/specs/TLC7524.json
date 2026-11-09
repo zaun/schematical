@@ -1,0 +1,292 @@
+{
+ "device": {
+  "id": "TLC7524",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "8-bit multiplying current-output DAC with 8-bit parallel input latch (CS, WR)",
+  "note": "tlc7524.pdf (SLAS061D) p.1 (D/N/PW pinout, description), p.2 (functional block diagram), p.3 (recommended operating conditions: VDD 4.75-5.25 V and 14.5-15.5 V, input levels, CS/WR/data timing; Figure 1 timing), p.6 (principles of operation: CS and WR latch control), p.7 (Tables 1-2 unipolar / bipolar coding)",
+  "pinouts": {
+   "d16": [
+    {
+     "number": 1,
+     "name": "OUT1",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "OUT2",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "DB7",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "DB6",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "DB5",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DB4",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "DB3",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "DB2",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "DB1",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "DB0",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "WR",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "REF",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "RFB",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 8,
+  "channels": 1,
+  "vcc": [
+   4.75,
+   15.5
+  ],
+  "analog": [
+   "OUT1",
+   "OUT2",
+   "REF",
+   "RFB"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "wr": {
+    "pin": "WR",
+    "active": 0
+   }
+  },
+  "registers": [
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "note": "data latch: transparent while CS and WR are low, latched when either goes high (p.6); power-on code not stated"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write (CS and WR low)",
+     "in": "d{8}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "commit": "end",
+     "note": "data latched when CS or WR goes high (p.6)"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "DAC"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "D": {
+   "pinout": "d16",
+   "footprint": "SOIC-16",
+   "package": "SOIC",
+   "pins": 16
+  },
+  "N": {
+   "pinout": "d16",
+   "footprint": "PDIP-16",
+   "package": "DIP",
+   "pins": 16
+  },
+  "NS": {
+   "pinout": "d16",
+   "footprint": "SOP-16",
+   "package": "SOP",
+   "pins": 16
+  },
+  "PW": {
+   "pinout": "d16",
+   "footprint": "TSSOP-16",
+   "package": "TSSOP",
+   "pins": 16
+  }
+ },
+ "pdf": "tlc7524.pdf",
+ "pages": "p.1 (D/N/PW pinout, description), p.2 (functional block diagram), p.3 (recommended operating conditions: VDD 4.75-5.25 V and 14.5-15.5 V, input levels, CS/WR/data timing; Figure 1 timing), p.6 (principles of operation: CS and WR latch control), p.7 (Tables 1-2 unipolar / bipolar coding)",
+ "notModeled": [
+  "analog: multiplying current outputs OUT1/OUT2, reference REF (+-10 V), feedback resistor RFB, 2-/4-quadrant multiplication",
+  "power-on state of the data latch is not stated in the datasheet (0 used)",
+  "the latch is level-transparent while CS and WR are low (output follows the data bus); the model latches at the end of the write",
+  "input logic levels at VDD = 15 V (VIH 13.5 V) differ from 5 V TTL levels",
+  "timing requirements tsu(CS)/th(CS)/tsu(D)/th(D)/tw(WR) (p.3)",
+  "the pinout drawing names D, N and PW; the NS (SOP) package is assumed to use the same 16-pin numbering; the FN (PLCC-20) package has no orderable part here"
+ ],
+ "variants": "tlc7524.pdf covers TLC7524C/E/I (temperature grades), same interface.",
+ "parts": [
+  [
+   "TLC7524CD",
+   "D",
+   16,
+   "Active"
+  ],
+  [
+   "TLC7524CDR",
+   "D",
+   16,
+   "Active"
+  ],
+  [
+   "TLC7524CN",
+   "N",
+   16,
+   "Active"
+  ],
+  [
+   "TLC7524CNE4",
+   "N",
+   16,
+   "Active"
+  ],
+  [
+   "TLC7524CNS",
+   "NS",
+   16,
+   "Active"
+  ],
+  [
+   "TLC7524CNSR",
+   "NS",
+   16,
+   "Active"
+  ],
+  [
+   "TLC7524CPW",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "TLC7524ED",
+   "D",
+   16,
+   "Active"
+  ],
+  [
+   "TLC7524EDR",
+   "D",
+   16,
+   "Active"
+  ],
+  [
+   "TLC7524EN",
+   "N",
+   16,
+   "Active"
+  ],
+  [
+   "TLC7524ID",
+   "D",
+   16,
+   "Active"
+  ],
+  [
+   "TLC7524IDR",
+   "D",
+   16,
+   "Active"
+  ],
+  [
+   "TLC7524IN",
+   "N",
+   16,
+   "Active"
+  ],
+  [
+   "TLC7524IPW",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "TLC7524IPWR",
+   "PW",
+   16,
+   "Active"
+  ]
+ ]
+}

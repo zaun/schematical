@@ -24,6 +24,7 @@
 
 #include "cpu_state.h"
 #include "lcd_state.h"
+#include "converter_state.h"
 #include "parts.h"
 #include "voltage.h"
 
@@ -89,6 +90,17 @@ int circuit_cpu_state(const Circuit *circuit, size_t part, CpuState *out);
    0, or -1 with circuit_error "part N is not a character LCD" for any other
    kind. */
 int circuit_lcd_state(const Circuit *circuit, size_t part, LcdState *out);
+
+/* Registers of a converter or rtc part (plan-24-I): copies up to max
+   registers into out (converter_state.h) and returns the part's register
+   count; -1 with circuit_error "part N has no registers" for any other
+   kind. The values are the part's state after circuit_start (0 before). */
+int circuit_converter_registers(const Circuit *circuit, size_t part, ConverterRegister *out,
+                                size_t max);
+/* An RTC's clock (rtc kind): its counters now. 0, or -1 with circuit_error
+   "part N is not an RTC" for any other kind, "the circuit is not running"
+   before circuit_start. */
+int circuit_rtc_time(const Circuit *circuit, size_t part, RtcTime *out);
 /*
  * Serial terminal (serial kind, plan-12-A section 3.7).
  * circuit_serial_channels: the part's serial channels, 0 for any other part.

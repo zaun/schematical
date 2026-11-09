@@ -1,0 +1,1232 @@
+{
+  "device": {
+    "id": "ADS8685",
+    "function": "ADC",
+    "description": "16-bit 500 kSPS single-channel SAR ADC with programmable bipolar input ranges and multiSPI interface",
+    "drawer": [
+      "Interface"
+    ],
+    "note": "ads8681.pdf (SBAS633E) p.3 pin functions (Table 5-1), p.4 recommended operating conditions, p.9 conversion time, p.9 SPI timing, p.11 Figure 6-3, p.31 transfer function, p.38 RESET state, p.41 input commands (Table 7-5), p.42 output data word, p.43 SPI protocols (Tables 7-8, 7-9), p.47-55 registers (Table 7-10 to 7-19)",
+    "pinouts": {
+      "pw16": [
+        {
+          "number": 1,
+          "name": "DGND",
+          "role": "ground"
+        },
+        {
+          "number": 2,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 3,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 4,
+          "name": "REFIO",
+          "role": "power"
+        },
+        {
+          "number": 5,
+          "name": "REFGND",
+          "role": "ground"
+        },
+        {
+          "number": 6,
+          "name": "REFCAP",
+          "role": "nc"
+        },
+        {
+          "number": 7,
+          "name": "AIN_P",
+          "role": "input"
+        },
+        {
+          "number": 8,
+          "name": "AIN_GND",
+          "role": "input"
+        },
+        {
+          "number": 9,
+          "name": "RST",
+          "role": "input"
+        },
+        {
+          "number": 10,
+          "name": "SDI",
+          "role": "input"
+        },
+        {
+          "number": 11,
+          "name": "CONVST/CS",
+          "role": "input"
+        },
+        {
+          "number": 12,
+          "name": "SCLK",
+          "role": "input"
+        },
+        {
+          "number": 13,
+          "name": "SDO-0",
+          "role": "output"
+        },
+        {
+          "number": 14,
+          "name": "ALARM/SDO-1/GPO",
+          "role": "output"
+        },
+        {
+          "number": 15,
+          "name": "RVS",
+          "role": "output"
+        },
+        {
+          "number": 16,
+          "name": "DVDD",
+          "role": "power"
+        }
+      ]
+    },
+    "type": "adc",
+    "bits": 16,
+    "channels": 1,
+    "codeFormat": "offset",
+    "vcc": [
+      1.65,
+      5.25
+    ],
+    "analog": [
+      "AIN_GND",
+      "AIN_P",
+      "AVDD",
+      "REFCAP",
+      "REFIO"
+    ],
+    "bus": {
+      "style": "spi",
+      "cs": "CONVST/CS",
+      "sclk": "SCLK",
+      "mosi": "SDI",
+      "miso": "SDO-0",
+      "mode": 0
+    },
+    "timing": {
+      "tValid": 9.5,
+      "tOut": 12,
+      "tFloat": 10
+    },
+    "registers": [
+      {
+        "name": "DEVICEID0",
+        "address": 0,
+        "width": 8,
+        "reset": 0,
+        "readOnly": true,
+        "note": "DEVICE_ID_REG bits 7-0"
+      },
+      {
+        "name": "DEVICEID1",
+        "address": 1,
+        "width": 8,
+        "reset": 0,
+        "readOnly": true,
+        "note": "DEVICE_ID_REG bits 15-8"
+      },
+      {
+        "name": "DEVICEID2",
+        "address": 2,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 240,
+        "note": "DEVICE_ID_REG bits 23-16",
+        "fields": [
+          {
+            "name": "DEVICE_ADDR",
+            "bits": [
+              3,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "DEVICEID3",
+        "address": 3,
+        "width": 8,
+        "reset": 0,
+        "readOnly": true,
+        "note": "DEVICE_ID_REG bits 31-24"
+      },
+      {
+        "name": "RSTPWRCTL0",
+        "address": 4,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 200,
+        "note": "RST_PWRCTL_REG bits 7-0",
+        "fields": [
+          {
+            "name": "VDD_AL_DIS",
+            "bits": [
+              5,
+              5
+            ]
+          },
+          {
+            "name": "IN_AL_DIS",
+            "bits": [
+              4,
+              4
+            ]
+          },
+          {
+            "name": "RSTN_APP",
+            "bits": [
+              2,
+              2
+            ]
+          },
+          {
+            "name": "NAP_EN",
+            "bits": [
+              1,
+              1
+            ]
+          },
+          {
+            "name": "PWRDN",
+            "bits": [
+              0,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "RSTPWRCTL1",
+        "address": 5,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "note": "RST_PWRCTL_REG bits 15-8",
+        "fields": [
+          {
+            "name": "WKEY",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "RSTPWRCTL2",
+        "address": 6,
+        "width": 8,
+        "reset": 0,
+        "readOnly": true,
+        "note": "RST_PWRCTL_REG bits 23-16"
+      },
+      {
+        "name": "RSTPWRCTL3",
+        "address": 7,
+        "width": 8,
+        "reset": 0,
+        "readOnly": true,
+        "note": "RST_PWRCTL_REG bits 31-24"
+      },
+      {
+        "name": "SDICTL0",
+        "address": 8,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 252,
+        "note": "SDI_CTL_REG bits 7-0",
+        "fields": [
+          {
+            "name": "SDI_MODE",
+            "bits": [
+              1,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "SDICTL1",
+        "address": 9,
+        "width": 8,
+        "reset": 0,
+        "readOnly": true,
+        "note": "SDI_CTL_REG bits 15-8"
+      },
+      {
+        "name": "SDICTL2",
+        "address": 10,
+        "width": 8,
+        "reset": 0,
+        "readOnly": true,
+        "note": "SDI_CTL_REG bits 23-16"
+      },
+      {
+        "name": "SDICTL3",
+        "address": 11,
+        "width": 8,
+        "reset": 0,
+        "readOnly": true,
+        "note": "SDI_CTL_REG bits 31-24"
+      },
+      {
+        "name": "SDOCTL0",
+        "address": 12,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 188,
+        "note": "SDO_CTL_REG bits 7-0",
+        "fields": [
+          {
+            "name": "SSYNC_CLK",
+            "bits": [
+              6,
+              6
+            ]
+          },
+          {
+            "name": "SDO_MODE",
+            "bits": [
+              1,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "SDOCTL1",
+        "address": 13,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 236,
+        "note": "SDO_CTL_REG bits 15-8",
+        "fields": [
+          {
+            "name": "GPO_VAL",
+            "bits": [
+              4,
+              4
+            ]
+          },
+          {
+            "name": "SDO1_CONFIG",
+            "bits": [
+              1,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "SDOCTL2",
+        "address": 14,
+        "width": 8,
+        "reset": 0,
+        "readOnly": true,
+        "note": "SDO_CTL_REG bits 23-16"
+      },
+      {
+        "name": "SDOCTL3",
+        "address": 15,
+        "width": 8,
+        "reset": 0,
+        "readOnly": true,
+        "note": "SDO_CTL_REG bits 31-24"
+      },
+      {
+        "name": "DATAOUTCTL0",
+        "address": 16,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 240,
+        "note": "DATAOUT_CTL_REG bits 7-0",
+        "fields": [
+          {
+            "name": "PAR_EN",
+            "bits": [
+              3,
+              3
+            ]
+          },
+          {
+            "name": "DATA_VAL",
+            "bits": [
+              2,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "DATAOUTCTL1",
+        "address": 17,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 130,
+        "note": "DATAOUT_CTL_REG bits 15-8",
+        "fields": [
+          {
+            "name": "DEVICE_ADDR_INCL",
+            "bits": [
+              6,
+              6
+            ]
+          },
+          {
+            "name": "VDD_ACTIVE_ALARM_INCL",
+            "bits": [
+              5,
+              4
+            ]
+          },
+          {
+            "name": "IN_ACTIVE_ALARM_INCL",
+            "bits": [
+              3,
+              2
+            ]
+          },
+          {
+            "name": "RANGE_INCL",
+            "bits": [
+              0,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "DATAOUTCTL2",
+        "address": 18,
+        "width": 8,
+        "reset": 0,
+        "readOnly": true,
+        "note": "DATAOUT_CTL_REG bits 23-16"
+      },
+      {
+        "name": "DATAOUTCTL3",
+        "address": 19,
+        "width": 8,
+        "reset": 0,
+        "readOnly": true,
+        "note": "DATAOUT_CTL_REG bits 31-24"
+      },
+      {
+        "name": "RANGESEL0",
+        "address": 20,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 176,
+        "note": "RANGE_SEL_REG bits 7-0",
+        "fields": [
+          {
+            "name": "INTREF_DIS",
+            "bits": [
+              6,
+              6
+            ]
+          },
+          {
+            "name": "RANGE_SEL",
+            "bits": [
+              3,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "RANGESEL1",
+        "address": 21,
+        "width": 8,
+        "reset": 0,
+        "readOnly": true,
+        "note": "RANGE_SEL_REG bits 15-8"
+      },
+      {
+        "name": "RANGESEL2",
+        "address": 22,
+        "width": 8,
+        "reset": 0,
+        "readOnly": true,
+        "note": "RANGE_SEL_REG bits 23-16"
+      },
+      {
+        "name": "RANGESEL3",
+        "address": 23,
+        "width": 8,
+        "reset": 0,
+        "readOnly": true,
+        "note": "RANGE_SEL_REG bits 31-24"
+      },
+      {
+        "name": "ALARM0",
+        "address": 32,
+        "width": 8,
+        "reset": 0,
+        "readOnly": true,
+        "note": "ALARM_REG bits 7-0",
+        "fields": [
+          {
+            "name": "TRP_VDD_L_FLAG",
+            "bits": [
+              7,
+              7
+            ]
+          },
+          {
+            "name": "TRP_VDD_H_FLAG",
+            "bits": [
+              6,
+              6
+            ]
+          },
+          {
+            "name": "TRP_IN_L_FLAG",
+            "bits": [
+              5,
+              5
+            ]
+          },
+          {
+            "name": "TRP_IN_H_FLAG",
+            "bits": [
+              4,
+              4
+            ]
+          },
+          {
+            "name": "OVW_ALARM",
+            "bits": [
+              0,
+              0
+            ]
+          }
+        ],
+        "clearOnRead": 241
+      },
+      {
+        "name": "ALARM1",
+        "address": 33,
+        "width": 8,
+        "reset": 0,
+        "readOnly": true,
+        "note": "ALARM_REG bits 15-8",
+        "fields": [
+          {
+            "name": "ACTIVE_VDD_L_FLAG",
+            "bits": [
+              7,
+              7
+            ]
+          },
+          {
+            "name": "ACTIVE_VDD_H_FLAG",
+            "bits": [
+              6,
+              6
+            ]
+          },
+          {
+            "name": "ACTIVE_IN_L_FLAG",
+            "bits": [
+              3,
+              3
+            ]
+          },
+          {
+            "name": "ACTIVE_IN_H_FLAG",
+            "bits": [
+              2,
+              2
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ALARM2",
+        "address": 34,
+        "width": 8,
+        "reset": 0,
+        "readOnly": true,
+        "note": "ALARM_REG bits 23-16"
+      },
+      {
+        "name": "ALARM3",
+        "address": 35,
+        "width": 8,
+        "reset": 0,
+        "readOnly": true,
+        "note": "ALARM_REG bits 31-24"
+      },
+      {
+        "name": "ALARMHTH0",
+        "address": 36,
+        "width": 8,
+        "reset": 255,
+        "readOnly": 0,
+        "note": "ALARM_H_TH_REG bits 7-0",
+        "fields": [
+          {
+            "name": "INP_ALRM_HIGH_TH_7_0",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ALARMHTH1",
+        "address": 37,
+        "width": 8,
+        "reset": 255,
+        "readOnly": 0,
+        "note": "ALARM_H_TH_REG bits 15-8",
+        "fields": [
+          {
+            "name": "INP_ALRM_HIGH_TH_15_8",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ALARMHTH2",
+        "address": 38,
+        "width": 8,
+        "reset": 0,
+        "readOnly": true,
+        "note": "ALARM_H_TH_REG bits 23-16"
+      },
+      {
+        "name": "ALARMHTH3",
+        "address": 39,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "note": "ALARM_H_TH_REG bits 31-24: INP_ALRM_HYST[7:0]; hysteresis in bits 7-2, lower bits must be 0",
+        "fields": [
+          {
+            "name": "INP_ALRM_HYST",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ALARMLTH0",
+        "address": 40,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "note": "ALARM_L_TH_REG bits 7-0",
+        "fields": [
+          {
+            "name": "INP_ALRM_LOW_TH_7_0",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ALARMLTH1",
+        "address": 41,
+        "width": 8,
+        "reset": 0,
+        "readOnly": 0,
+        "note": "ALARM_L_TH_REG bits 15-8",
+        "fields": [
+          {
+            "name": "INP_ALRM_LOW_TH_15_8",
+            "bits": [
+              7,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ALARMLTH2",
+        "address": 42,
+        "width": 8,
+        "reset": 0,
+        "readOnly": true,
+        "note": "ALARM_L_TH_REG bits 23-16"
+      },
+      {
+        "name": "ALARMLTH3",
+        "address": 43,
+        "width": 8,
+        "reset": 0,
+        "readOnly": true,
+        "note": "ALARM_L_TH_REG bits 31-24"
+      }
+    ],
+    "protocol": {
+      "frame": "fixed",
+      "out": "R{16} 0{16}",
+      "idle": "0",
+      "commands": [
+        {
+          "name": "NOP",
+          "in": "0{32}",
+          "action": "nop"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 00 00000001x [DEVICEID3][DEVICEID2]",
+          "action": "nop",
+          "commit": "end",
+          "note": "half-word write, address 02h"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 01 00000001x [DEVICEID3] x{8}",
+          "action": "nop",
+          "commit": "end",
+          "note": "MS byte only, address 02h"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 10 00000001x x{8} [DEVICEID2]",
+          "action": "nop",
+          "commit": "end",
+          "note": "LS byte only, address 02h"
+        },
+        {
+          "name": "READ_HWORD",
+          "in": "11001 xx 00000001x x{16}",
+          "action": "nop",
+          "commit": "end",
+          "next": "[DEVICEID3][DEVICEID2] 0{16}",
+          "note": "address 02h"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 00 00000010x [RSTPWRCTL1][RSTPWRCTL0]",
+          "action": "nop",
+          "commit": "end",
+          "note": "half-word write, address 04h; bits 5-0 written only after WKEY = 69h",
+          "when": "RSTPWRCTL1.WKEY=105"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 00 00000010x [RSTPWRCTL1] x{8}",
+          "action": "nop",
+          "commit": "end",
+          "note": "half-word write, address 04h, WKEY not 69h: only WKEY written"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 01 00000010x [RSTPWRCTL1] x{8}",
+          "action": "nop",
+          "commit": "end",
+          "note": "MS byte only, address 04h"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 10 00000010x x{8} [RSTPWRCTL0]",
+          "action": "nop",
+          "commit": "end",
+          "note": "LS byte only, address 04h; written only after WKEY = 69h",
+          "when": "RSTPWRCTL1.WKEY=105"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 10 00000010x x{16}",
+          "action": "nop",
+          "commit": "end",
+          "note": "LS byte only, address 04h, WKEY not 69h: ignored"
+        },
+        {
+          "name": "READ_HWORD",
+          "in": "11001 xx 00000010x x{16}",
+          "action": "nop",
+          "commit": "end",
+          "next": "[RSTPWRCTL1][RSTPWRCTL0] 0{16}",
+          "note": "address 04h"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 00 00000100x [SDICTL1][SDICTL0]",
+          "action": "nop",
+          "commit": "end",
+          "note": "half-word write, address 08h"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 01 00000100x [SDICTL1] x{8}",
+          "action": "nop",
+          "commit": "end",
+          "note": "MS byte only, address 08h"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 10 00000100x x{8} [SDICTL0]",
+          "action": "nop",
+          "commit": "end",
+          "note": "LS byte only, address 08h"
+        },
+        {
+          "name": "READ_HWORD",
+          "in": "11001 xx 00000100x x{16}",
+          "action": "nop",
+          "commit": "end",
+          "next": "[SDICTL1][SDICTL0] 0{16}",
+          "note": "address 08h"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 00 00000110x [SDOCTL1][SDOCTL0]",
+          "action": "nop",
+          "commit": "end",
+          "note": "half-word write, address 0Ch"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 01 00000110x [SDOCTL1] x{8}",
+          "action": "nop",
+          "commit": "end",
+          "note": "MS byte only, address 0Ch"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 10 00000110x x{8} [SDOCTL0]",
+          "action": "nop",
+          "commit": "end",
+          "note": "LS byte only, address 0Ch"
+        },
+        {
+          "name": "READ_HWORD",
+          "in": "11001 xx 00000110x x{16}",
+          "action": "nop",
+          "commit": "end",
+          "next": "[SDOCTL1][SDOCTL0] 0{16}",
+          "note": "address 0Ch"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 00 00001000x [DATAOUTCTL1][DATAOUTCTL0]",
+          "action": "nop",
+          "commit": "end",
+          "note": "half-word write, address 10h"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 01 00001000x [DATAOUTCTL1] x{8}",
+          "action": "nop",
+          "commit": "end",
+          "note": "MS byte only, address 10h"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 10 00001000x x{8} [DATAOUTCTL0]",
+          "action": "nop",
+          "commit": "end",
+          "note": "LS byte only, address 10h"
+        },
+        {
+          "name": "READ_HWORD",
+          "in": "11001 xx 00001000x x{16}",
+          "action": "nop",
+          "commit": "end",
+          "next": "[DATAOUTCTL1][DATAOUTCTL0] 0{16}",
+          "note": "address 10h"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 00 00001010x [RANGESEL1][RANGESEL0]",
+          "action": "nop",
+          "commit": "end",
+          "note": "half-word write, address 14h"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 01 00001010x [RANGESEL1] x{8}",
+          "action": "nop",
+          "commit": "end",
+          "note": "MS byte only, address 14h"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 10 00001010x x{8} [RANGESEL0]",
+          "action": "nop",
+          "commit": "end",
+          "note": "LS byte only, address 14h"
+        },
+        {
+          "name": "READ_HWORD",
+          "in": "11001 xx 00001010x x{16}",
+          "action": "nop",
+          "commit": "end",
+          "next": "[RANGESEL1][RANGESEL0] 0{16}",
+          "note": "address 14h"
+        },
+        {
+          "name": "READ_HWORD",
+          "in": "11001 xx 00010000x x{16}",
+          "action": "nop",
+          "commit": "end",
+          "next": "[ALARM1][ALARM0] 0{16}",
+          "note": "address 20h"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 00 00010010x [ALARMHTH1][ALARMHTH0]",
+          "action": "nop",
+          "commit": "end",
+          "note": "half-word write, address 24h"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 01 00010010x [ALARMHTH1] x{8}",
+          "action": "nop",
+          "commit": "end",
+          "note": "MS byte only, address 24h"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 10 00010010x x{8} [ALARMHTH0]",
+          "action": "nop",
+          "commit": "end",
+          "note": "LS byte only, address 24h"
+        },
+        {
+          "name": "READ_HWORD",
+          "in": "11001 xx 00010010x x{16}",
+          "action": "nop",
+          "commit": "end",
+          "next": "[ALARMHTH1][ALARMHTH0] 0{16}",
+          "note": "address 24h"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 00 00010011x [ALARMHTH3][ALARMHTH2]",
+          "action": "nop",
+          "commit": "end",
+          "note": "half-word write, address 26h"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 01 00010011x [ALARMHTH3] x{8}",
+          "action": "nop",
+          "commit": "end",
+          "note": "MS byte only, address 26h"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 10 00010011x x{8} [ALARMHTH2]",
+          "action": "nop",
+          "commit": "end",
+          "note": "LS byte only, address 26h"
+        },
+        {
+          "name": "READ_HWORD",
+          "in": "11001 xx 00010011x x{16}",
+          "action": "nop",
+          "commit": "end",
+          "next": "[ALARMHTH3][ALARMHTH2] 0{16}",
+          "note": "address 26h"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 00 00010100x [ALARMLTH1][ALARMLTH0]",
+          "action": "nop",
+          "commit": "end",
+          "note": "half-word write, address 28h"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 01 00010100x [ALARMLTH1] x{8}",
+          "action": "nop",
+          "commit": "end",
+          "note": "MS byte only, address 28h"
+        },
+        {
+          "name": "WRITE",
+          "in": "11010 10 00010100x x{8} [ALARMLTH0]",
+          "action": "nop",
+          "commit": "end",
+          "note": "LS byte only, address 28h"
+        },
+        {
+          "name": "READ_HWORD",
+          "in": "11001 xx 00010100x x{16}",
+          "action": "nop",
+          "commit": "end",
+          "next": "[ALARMLTH1][ALARMLTH0] 0{16}",
+          "note": "address 28h"
+        },
+        {
+          "name": "READ_HWORD",
+          "in": "11001 xx x{9} x{16}",
+          "action": "nop",
+          "commit": "end",
+          "next": "0{32}",
+          "note": "reserved half-words read 0"
+        },
+        {
+          "name": "CLEAR_HWORD",
+          "in": "11000 xx 00000001x x{8} dddddddd",
+          "action": "clearbits",
+          "register": "DEVICEID2",
+          "data": "d",
+          "commit": "end",
+          "note": "address 02h: the LS byte (DEVICEID2) only; the MS byte (DEVICEID3) bits are not changed (one register per command)"
+        },
+        {
+          "name": "SET_HWORD",
+          "in": "11011 xx 00000001x x{8} dddddddd",
+          "action": "setbits",
+          "register": "DEVICEID2",
+          "data": "d",
+          "commit": "end",
+          "note": "address 02h: the LS byte (DEVICEID2) only; the MS byte (DEVICEID3) bits are not changed (one register per command)"
+        },
+        {
+          "name": "CLEAR_HWORD",
+          "in": "11000 xx 00000010x x{8} dddddddd",
+          "action": "clearbits",
+          "register": "RSTPWRCTL0",
+          "data": "d",
+          "commit": "end",
+          "note": "address 04h: the LS byte (RSTPWRCTL0) only; the MS byte (RSTPWRCTL1) bits are not changed (one register per command)",
+          "when": "RSTPWRCTL1.WKEY=105"
+        },
+        {
+          "name": "SET_HWORD",
+          "in": "11011 xx 00000010x x{8} dddddddd",
+          "action": "setbits",
+          "register": "RSTPWRCTL0",
+          "data": "d",
+          "commit": "end",
+          "note": "address 04h: the LS byte (RSTPWRCTL0) only; the MS byte (RSTPWRCTL1) bits are not changed (one register per command)",
+          "when": "RSTPWRCTL1.WKEY=105"
+        },
+        {
+          "name": "CLEAR_HWORD",
+          "in": "11000 xx 00000100x x{8} dddddddd",
+          "action": "clearbits",
+          "register": "SDICTL0",
+          "data": "d",
+          "commit": "end",
+          "note": "address 08h: the LS byte (SDICTL0) only; the MS byte (SDICTL1) bits are not changed (one register per command)"
+        },
+        {
+          "name": "SET_HWORD",
+          "in": "11011 xx 00000100x x{8} dddddddd",
+          "action": "setbits",
+          "register": "SDICTL0",
+          "data": "d",
+          "commit": "end",
+          "note": "address 08h: the LS byte (SDICTL0) only; the MS byte (SDICTL1) bits are not changed (one register per command)"
+        },
+        {
+          "name": "CLEAR_HWORD",
+          "in": "11000 xx 00000110x x{8} dddddddd",
+          "action": "clearbits",
+          "register": "SDOCTL0",
+          "data": "d",
+          "commit": "end",
+          "note": "address 0Ch: the LS byte (SDOCTL0) only; the MS byte (SDOCTL1) bits are not changed (one register per command)"
+        },
+        {
+          "name": "SET_HWORD",
+          "in": "11011 xx 00000110x x{8} dddddddd",
+          "action": "setbits",
+          "register": "SDOCTL0",
+          "data": "d",
+          "commit": "end",
+          "note": "address 0Ch: the LS byte (SDOCTL0) only; the MS byte (SDOCTL1) bits are not changed (one register per command)"
+        },
+        {
+          "name": "CLEAR_HWORD",
+          "in": "11000 xx 00001000x x{8} dddddddd",
+          "action": "clearbits",
+          "register": "DATAOUTCTL0",
+          "data": "d",
+          "commit": "end",
+          "note": "address 10h: the LS byte (DATAOUTCTL0) only; the MS byte (DATAOUTCTL1) bits are not changed (one register per command)"
+        },
+        {
+          "name": "SET_HWORD",
+          "in": "11011 xx 00001000x x{8} dddddddd",
+          "action": "setbits",
+          "register": "DATAOUTCTL0",
+          "data": "d",
+          "commit": "end",
+          "note": "address 10h: the LS byte (DATAOUTCTL0) only; the MS byte (DATAOUTCTL1) bits are not changed (one register per command)"
+        },
+        {
+          "name": "CLEAR_HWORD",
+          "in": "11000 xx 00001010x x{8} dddddddd",
+          "action": "clearbits",
+          "register": "RANGESEL0",
+          "data": "d",
+          "commit": "end",
+          "note": "address 14h: the LS byte (RANGESEL0) only; the MS byte (RANGESEL1) bits are not changed (one register per command)"
+        },
+        {
+          "name": "SET_HWORD",
+          "in": "11011 xx 00001010x x{8} dddddddd",
+          "action": "setbits",
+          "register": "RANGESEL0",
+          "data": "d",
+          "commit": "end",
+          "note": "address 14h: the LS byte (RANGESEL0) only; the MS byte (RANGESEL1) bits are not changed (one register per command)"
+        },
+        {
+          "name": "CLEAR_HWORD",
+          "in": "11000 xx 00010010x x{8} dddddddd",
+          "action": "clearbits",
+          "register": "ALARMHTH0",
+          "data": "d",
+          "commit": "end",
+          "note": "address 24h: the LS byte (ALARMHTH0) only; the MS byte (ALARMHTH1) bits are not changed (one register per command)"
+        },
+        {
+          "name": "SET_HWORD",
+          "in": "11011 xx 00010010x x{8} dddddddd",
+          "action": "setbits",
+          "register": "ALARMHTH0",
+          "data": "d",
+          "commit": "end",
+          "note": "address 24h: the LS byte (ALARMHTH0) only; the MS byte (ALARMHTH1) bits are not changed (one register per command)"
+        },
+        {
+          "name": "CLEAR_HWORD",
+          "in": "11000 xx 00010011x x{8} dddddddd",
+          "action": "clearbits",
+          "register": "ALARMHTH2",
+          "data": "d",
+          "commit": "end",
+          "note": "address 26h: the LS byte (ALARMHTH2) only; the MS byte (ALARMHTH3) bits are not changed (one register per command)"
+        },
+        {
+          "name": "SET_HWORD",
+          "in": "11011 xx 00010011x x{8} dddddddd",
+          "action": "setbits",
+          "register": "ALARMHTH2",
+          "data": "d",
+          "commit": "end",
+          "note": "address 26h: the LS byte (ALARMHTH2) only; the MS byte (ALARMHTH3) bits are not changed (one register per command)"
+        },
+        {
+          "name": "CLEAR_HWORD",
+          "in": "11000 xx 00010100x x{8} dddddddd",
+          "action": "clearbits",
+          "register": "ALARMLTH0",
+          "data": "d",
+          "commit": "end",
+          "note": "address 28h: the LS byte (ALARMLTH0) only; the MS byte (ALARMLTH1) bits are not changed (one register per command)"
+        },
+        {
+          "name": "SET_HWORD",
+          "in": "11011 xx 00010100x x{8} dddddddd",
+          "action": "setbits",
+          "register": "ALARMLTH0",
+          "data": "d",
+          "commit": "end",
+          "note": "address 28h: the LS byte (ALARMLTH0) only; the MS byte (ALARMLTH1) bits are not changed (one register per command)"
+        },
+        {
+          "name": "READ",
+          "in": "01001 xx 0aaaaaaaa x{16}",
+          "action": "read",
+          "address": "a",
+          "commit": "end",
+          "next": "@ 0{24}"
+        },
+        {
+          "name": "CLEAR_HWORD",
+          "in": "11000 xx x{9} x{16}",
+          "action": "nop",
+          "note": "other addresses (read-only or reserved): no effect"
+        },
+        {
+          "name": "SET_HWORD",
+          "in": "11011 xx x{9} x{16}",
+          "action": "nop",
+          "note": "other addresses (read-only or reserved): no effect"
+        }
+      ]
+    },
+    "conversion": {
+      "time": 1000,
+      "start": [
+        "cs-rise"
+      ]
+    },
+    "ready": [
+      {
+        "pin": "RVS",
+        "active": 0,
+        "asserts": "busy"
+      }
+    ],
+    "pins": {
+      "reset": {
+        "pin": "RST",
+        "active": 0
+      }
+    }
+  },
+  "packages": {
+    "PW": {
+      "pinout": "pw16",
+      "footprint": "TSSOP-16",
+      "package": "TSSOP",
+      "pins": 16
+    }
+  },
+  "pdf": "ads8681.pdf",
+  "pages": "p.3 (pins), p.4 (ROC: DVDD 1.65 V to AVDD, AVDD 4.75-5.25 V), p.9 (tconv), p.9 (SPI timing), p.11 (Figure 6-3), p.31 (transfer function), p.38 (RESET state), p.41 (commands), p.42 (output word), p.43 (SPI modes), p.47-55 (registers)",
+  "notModeled": [
+    "analog front end, PGA, input ranges and internal reference (RANGE_SEL stored only; the 0 V code is 8000h, mid-scale of the default bipolar ±3 × VREF range in straight binary; unipolar ranges would give 0)",
+    "SPI mode select SDI_MODE (only the power-on SPI-00-S, mode 0, is modeled), dual SDO (SDO1_CONFIG = 11b), source-synchronous / ADC-clock output protocols (SDO_MODE = 11b, SSYNC_CLK)",
+    "ALARM/SDO-1/GPO pin functions (tri-stated at the default SDO1_CONFIG = 00b, which the model matches: never driven); GPO_VAL stored only",
+    "input and AVDD alarms, thresholds and hysteresis (stored only; flags stay 0)",
+    "DATAOUT_CTL_REG output-word flags (device address, alarm flags, range, parity) and DATA_VAL fixed test patterns: the frame is always the result then zeros",
+    "CLEAR_HWORD / SET_HWORD act on the LS byte register of the half-word only (the engine applies one register per command); the MS byte (e.g. WKEY, GPO_VAL, DATAOUT_CTL INCL bits, high threshold MSB, hysteresis) is not changed by them",
+    "WKEY protection modeled for WRITE/SET/CLEAR of RST_PWRCTL_REG bits 7-0 (written only while WKEY = 69h, from an earlier frame); PWRDN / NAP_EN power modes stored only",
+    "RSTn_APP: application vs power-on reset (both modeled as register reset while RST is low); 20 ms POR recovery",
+    "RVS shows the conversion state only while CS is high; during a CS-low SPI frame it stays low (modeled: low only while converting)",
+    "frames shorter than 32 SCLKs are NOPs (modeled: the command does not complete); frames longer than 32 SCLKs use the last 32 bits and daisy-chain (modeled: the first 32 bits)",
+    "registers are byte registers named <REG without _REG and underscores><byte 0-3> (DATAOUTCTL0 = DATAOUT_CTL_REG bits 7-0) at the datasheet byte addresses; half-word commands are listed per half-word because a half-word's MS byte is the higher address",
+    "SCLK frequency limit (66.67 MHz) and tacq",
+    "alarm thresholds compare INP_ALRM_*_TH[15:0] (stored only)"
+  ],
+  "variants": "ADS8681 (1 MSPS, tconv 665 ns), ADS8685 (500 kSPS, 1000 ns), ADS8689 (100 kSPS, 5000 ns) share ads8681.pdf; identical pins and registers. Only the ADS8681 is offered in the RUM (WQFN-16) package. Same digital interface as the 18-bit ADS8691 family and the ADS8681W (automotive) except the result width.",
+  "parts": [
+    [
+      "ADS8685IPW",
+      "PW",
+      16,
+      "Active"
+    ],
+    [
+      "ADS8685IPWR",
+      "PW",
+      16,
+      "Active"
+    ]
+  ]
+}

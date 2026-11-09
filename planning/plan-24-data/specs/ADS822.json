@@ -1,0 +1,246 @@
+{
+ "device": {
+  "id": "ADS822",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "10-bit 40 MSPS pipelined ADC with internal/external reference, power-down and tri-state CMOS parallel outputs (3 V / 5 V output driver supply)",
+  "note": "ads822.pdf (SBAS069B) p.2-3 specifications (digital inputs: convert on the rising clock edge, VIH 3.5 V (CMOS); straight offset binary; 3-state enable 40 ns / disable 10 ns max; +VS 4.75-5.25 V; VDRV 3 V or 5 V), p.4 pin configuration and descriptions, timing diagram (t2 new data delay 12 ns max, 5-clock latency), p.8 theory of operation (data valid on the rising clock edge), p.12 digital outputs, VDRV, Tables I-II coding",
+  "pinouts": {
+   "ssop28": [
+    {
+     "number": 1,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 2,
+     "name": "Bit 1",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "Bit 2",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "Bit 3",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "Bit 4",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "Bit 5",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "Bit 6",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "Bit 7",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "Bit 8",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "Bit 9",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "Bit 10",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "OE",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "PD",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "+VS",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 17,
+     "name": "RSEL",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "INT/EXT",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "REFB",
+     "role": "nc"
+    },
+    {
+     "number": 20,
+     "name": "ByB",
+     "role": "nc"
+    },
+    {
+     "number": 21,
+     "name": "ByT",
+     "role": "nc"
+    },
+    {
+     "number": 22,
+     "name": "REFT",
+     "role": "nc"
+    },
+    {
+     "number": 23,
+     "name": "CM",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "IN",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "IN",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 27,
+     "name": "+VS",
+     "role": "power"
+    },
+    {
+     "number": 28,
+     "name": "VDRV",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 10,
+  "channels": 1,
+  "codeFormat": "offset",
+  "vcc": [
+   3.0,
+   5.25
+  ],
+  "analog": [
+   "+VS",
+   "IN",
+   "CM",
+   "REFT",
+   "REFB",
+   "ByT",
+   "ByB"
+  ],
+  "bus": {
+   "style": "clocked",
+   "clock": {
+    "pin": "CLK",
+    "edge": "rise"
+   },
+   "data": [
+    "Bit 1",
+    "Bit 2",
+    "Bit 3",
+    "Bit 4",
+    "Bit 5",
+    "Bit 6",
+    "Bit 7",
+    "Bit 8",
+    "Bit 9",
+    "Bit 10"
+   ],
+   "oe": {
+    "pin": "OE",
+    "active": 0
+   }
+  },
+  "timing": {
+   "tOut": 12,
+   "tFloat": 10
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": "R{10}"
+  },
+  "pins": {
+   "powerdown": {
+    "pin": "PD",
+    "active": 1
+   }
+  }
+ },
+ "packages": {
+  "DB": {
+   "pinout": "ssop28",
+   "footprint": "SSOP-28",
+   "package": "SSOP",
+   "pins": 28
+  }
+ },
+ "pdf": "ads822.pdf",
+ "pages": "p.2-3 (specifications), p.4 (pinout, pin descriptions, timing diagram: t2 12 ns), p.8 (theory of operation), p.12 (digital outputs, VDRV, Tables I-II)",
+ "notModeled": [
+  "analog input and reference; the result is always the 0 V differential (bipolar zero) code 200h, straight offset binary",
+  "RSEL (input range 1 V / 2 V) and INT/EXT (internal/external reference) straps only change the analog range; they are stored nowhere (internal pull-ups: open = 2 V range, external reference per p.11)",
+  "pipeline latency of 5 clock cycles (the code is constant)",
+  "clock period / duty-cycle limits (25 ns to 100 us) and aperture delay",
+  "two supplies: +VS 4.75-5.25 V (analog core and CLK/OE/PD inputs) and VDRV (output drivers, 3 V or 5 V logic); vcc is the union 3.0-5.25 V and +VS is listed under analog so VDRV is the digital supply; the ADS822 CLK input needs VIH 3.5 V (5 V CMOS), not reachable from 3 V logic",
+  "3-state enable time (40 ns max) differs from the disable time (10 ns); tFloat uses the disable time; internal 50 kOhm pull-down on OE",
+  "PD power-down (HI = power down): modeled as the powerdown pin; the datasheet does not state the output state while powered down",
+  "pin 24 is the complementary input (IN with an overbar in the datasheet); both inputs are named IN"
+ ],
+ "variants": "ADS822 and ADS825 share ads822.pdf and the pinout; the ADS825 accepts a +3 V clock input (TTL / 3 V-5 V CMOS digital inputs, VIH 2.0 V), the ADS822 needs CMOS 5 V levels (VIH 3.5 V)",
+ "parts": [
+  [
+   "ADS822E",
+   "DB",
+   28,
+   "Last Time Buy"
+  ],
+  [
+   "ADS822E/1K",
+   "DB",
+   28,
+   "Active"
+  ]
+ ]
+}

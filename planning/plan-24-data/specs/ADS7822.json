@@ -1,0 +1,192 @@
+{
+  "device": {
+    "id": "ADS7822",
+    "function": "ADC",
+    "description": "12-bit 200 kHz 2.7 V micropower sampling SAR ADC with synchronous serial interface",
+    "drawer": [
+      "Interface"
+    ],
+    "note": "ads7822-q1.pdf (SGLS299) p.3 specifications at 2.7 V (VIH 2.0-5.5 V, straight binary), p.4 VCC ranges, p.5 specifications at 5 V, p.6 pin configuration and assignments, p.12 serial interface and Figure 22, p.13 Table 1 timing, p.15 data format; ads7822.pdf (SBAS062C) p.2 ordering (MSOP-8 DGK and SO-8 D), p.5 pin configuration, p.12 Table 1",
+    "pinouts": {
+      "dgk8": [
+        {
+          "number": 1,
+          "name": "VREF",
+          "role": "power"
+        },
+        {
+          "number": 2,
+          "name": "+In",
+          "role": "input"
+        },
+        {
+          "number": 3,
+          "name": "-In",
+          "role": "input"
+        },
+        {
+          "number": 4,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 5,
+          "name": "CS/SHDN",
+          "role": "input"
+        },
+        {
+          "number": 6,
+          "name": "DOUT",
+          "role": "output"
+        },
+        {
+          "number": 7,
+          "name": "DCLOCK",
+          "role": "input"
+        },
+        {
+          "number": 8,
+          "name": "+VCC",
+          "role": "power"
+        }
+      ]
+    },
+    "type": "adc",
+    "bits": 12,
+    "channels": 1,
+    "codeFormat": "straight",
+    "vcc": [
+      2.0,
+      5.25
+    ],
+    "analog": [
+      "VREF",
+      "+In",
+      "-In"
+    ],
+    "bus": {
+      "style": "spi",
+      "cs": "CS/SHDN",
+      "sclk": "DCLOCK",
+      "miso": "DOUT",
+      "mode": 0
+    },
+    "timing": {
+      "tValid": 0,
+      "tOut": 200,
+      "tFloat": 80
+    },
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "out": "z z 0 R{12}",
+      "idle": "0",
+      "commands": []
+    },
+    "conversion": {
+      "time": 0,
+      "start": [
+        "cs-fall"
+      ]
+    },
+    "inputMax": 5.5
+  },
+  "packages": {
+    "DGK": {
+      "pinout": "dgk8",
+      "footprint": "VSSOP-8-DGK",
+      "package": "VSSOP",
+      "pins": 8
+    },
+    "D": {
+      "pinout": "dgk8",
+      "footprint": "SOIC-8",
+      "package": "SOIC",
+      "pins": 8
+    }
+  },
+  "pdf": "ads7822-q1.pdf",
+  "pages": "ads7822-q1.pdf: p.3 (VIH 2.0-5.5 V at 2.7 V, straight binary), p.4 (VCC 2.7-3.6 V specified, 2.0-2.7 V with notes), p.5 (VCC 4.75-5.25 V, VIH 3.0-5.5 V), p.6 (pins), p.12 (Figure 22), p.13 (Table 1: tdDO 200 ns max at 2.7 V, tdis 80 ns, ten 175 ns), p.15 (data format); ads7822.pdf: p.2 (ordering: E = MSOP-8 DGK, U = SO-8 D), p.5 (pin configuration, same pinout)",
+  "notModeled": [
+    "analog input; the conversion is clocked by DCLOCK (12 clocks, not timed: the result is the 0 V code at once)",
+    "DOUT is Hi-Z for the first two DCLOCK edges (sample time 1.5-2.0 clocks), then the null bit, then B11..B0; after B0 the part outputs the result LSB-first and then zeros or tri-states (Figure 22 notes) - all zeros for the 0 V code, so idle 0 covers it",
+    "auto power-down after the conversion and shutdown while CS/SHDN is high (no visible bus effect)",
+    "vcc 2.0-5.25 V spans the VCC rows of both specification tables (2.0-2.7 V with reduced clock rate, 2.7-3.6 V, 4.75-5.25 V); timing uses the 2.7 V column of Table 1",
+    "throughput (200 kHz) and DCLOCK frequency limits"
+  ],
+  "variants": "ADS7822-Q1 (ADS7822IDGKRQ1, automotive, DGK) and ADS7822B/C (EB, EC, UB, UC) grades are the same part (same spec). ads7822.pdf covers the commercial E/U parts with the same pinout and interface.",
+  "parts": [
+    [
+      "ADS7822E/250",
+      "DGK",
+      8,
+      "Active"
+    ],
+    [
+      "ADS7822E/2K5",
+      "DGK",
+      8,
+      "Active"
+    ],
+    [
+      "ADS7822EB/250",
+      "DGK",
+      8,
+      "Active"
+    ],
+    [
+      "ADS7822EB/2K5",
+      "DGK",
+      8,
+      "Active"
+    ],
+    [
+      "ADS7822EC/250",
+      "DGK",
+      8,
+      "Active"
+    ],
+    [
+      "ADS7822EC/2K5",
+      "DGK",
+      8,
+      "Active"
+    ],
+    [
+      "ADS7822IDGKRQ1",
+      "DGK",
+      8,
+      "Last Time Buy"
+    ],
+    [
+      "ADS7822U",
+      "D",
+      8,
+      "Active"
+    ],
+    [
+      "ADS7822U/2K5",
+      "D",
+      8,
+      "Active"
+    ],
+    [
+      "ADS7822UB",
+      "D",
+      8,
+      "Active"
+    ],
+    [
+      "ADS7822UB/2K5",
+      "D",
+      8,
+      "Active"
+    ],
+    [
+      "ADS7822UC",
+      "D",
+      8,
+      "Active"
+    ]
+  ]
+}

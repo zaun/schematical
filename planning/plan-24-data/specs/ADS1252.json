@@ -1,0 +1,134 @@
+{
+ "device": {
+  "id": "ADS1252",
+  "function": "ADC",
+  "description": "24-bit 41.7 kSPS delta-sigma ADC with 2-wire serial interface (DOUT/DRDY, SCLK)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1252.pdf (SBAS127D) p.2-3 pin configuration, electrical characteristics (data rate 41.7 kHz at CLK = 16 MHz, VDD 4.75-5.25 V), p.8 CLK vs data rate table, p.10-11 DOUT/DRDY, synchronization, p.12 power-down, serial interface, data format (Table III), Table II digital timing",
+  "pinouts": {
+   "d8": [
+    {
+     "number": 1,
+     "name": "+VIN",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "-VIN",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "+VDD",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "DOUT/DRDY",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 8,
+     "name": "VREF",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 24,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   4.75,
+   5.25
+  ],
+  "analog": [
+   "+VIN",
+   "-VIN",
+   "VREF"
+  ],
+  "bus": {
+   "style": "spi",
+   "sclk": "SCLK",
+   "miso": "DOUT/DRDY",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 30,
+   "tOut": 30
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{24}",
+   "idle": "0",
+   "commands": []
+  },
+  "conversion": {
+   "time": 24000,
+   "start": [
+    "power-on"
+   ],
+   "mode": "continuous"
+  },
+  "ready": [
+   {
+    "pin": "DOUT/DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": 375,
+    "onMiso": true
+   }
+  ]
+ },
+ "packages": {
+  "D": {
+   "pinout": "d8",
+   "footprint": "SOIC-8",
+   "package": "SOIC",
+   "pins": 8
+  }
+ },
+ "pdf": "ads1252.pdf",
+ "pages": "p.2-3 pin configuration, electrical characteristics (data rate 41.7 kHz at CLK = 16 MHz, VDD 4.75-5.25 V), p.8 CLK vs data rate table, p.10-11 DOUT/DRDY, synchronization, p.12 power-down, serial interface, data format (Table III), Table II digital timing",
+ "notModeled": [
+  "analog input and reference",
+  "conversion cycle tDRDY = 384 CLK = 24 us at the nominal CLK = 16 MHz; the data rate scales with CLK (the CLK pin is not used)",
+  "DOUT/DRDY partitioning: DRDY mode (t4 high 24 CLK, t2 low pulse 6 CLK = 375 ns, t3 high 6 CLK) then DOUT mode with the MSB on the pin (t7); modeled as an active-low ready pulse of t2 followed by the data; the t3 high period and t4 high before the next DRDY are not modeled",
+  "after more than 24 SCLKs DOUT/DRDY stays low until t4 (idle '0'); after an incomplete read the last bit read stays on the pin",
+  "synchronization (SCLK held high for 4 to 20 DOUT/DRDY periods resets the modulator) and power-down (SCLK held high for 20 periods; released on SCLK falling)",
+  "digital filter settling (5 to 6 conversions after a step; first valid data after power-up / sync)"
+ ],
+ "variants": "ADS1250-ADS1254 family: ADS1251 (20.8 kHz, 1 input), ADS1252 (41.7 kHz, 1 input), ADS1253 (20.8 kHz, 4 inputs) have separate datasheets and spec files",
+ "parts": [
+  [
+   "ADS1252U",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "ADS1252U/2K5",
+   "D",
+   8,
+   "Active"
+  ]
+ ]
+}

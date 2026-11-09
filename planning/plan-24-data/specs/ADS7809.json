@@ -1,0 +1,72 @@
+{
+  "device": {
+    "id": "ADS7809",
+    "function": "ADC",
+    "description": "16-bit 100 kSPS sampling ADC with internal reference and serial output",
+    "drawer": ["Interface"],
+    "note": "ads7809.pdf (SBAS017C) p.3 specifications (input ranges, VIH), p.4 data format, data clock, VDIG 4.75-5.25 V, p.5 pin assignments, pin configuration, Table I and Figure 1, p.6 Table II timing and Figure 2, p.7 Table III control truth table and Table IV output codes, p.8 Figure 3a external-clock read after conversion, p.9 Figure 3b",
+    "pinouts": {
+      "dw20": [
+        {"number": 1, "name": "R1IN", "role": "input"},
+        {"number": 2, "name": "AGND1", "role": "ground"},
+        {"number": 3, "name": "R2IN", "role": "input"},
+        {"number": 4, "name": "R3IN", "role": "input"},
+        {"number": 5, "name": "CAP", "role": "nc"},
+        {"number": 6, "name": "REF", "role": "output"},
+        {"number": 7, "name": "AGND2", "role": "ground"},
+        {"number": 8, "name": "SB/BTC", "role": "input"},
+        {"number": 9, "name": "EXT/INT", "role": "input"},
+        {"number": 10, "name": "DGND", "role": "ground"},
+        {"number": 11, "name": "SYNC", "role": "output"},
+        {"number": 12, "name": "DATACLK", "role": "inout"},
+        {"number": 13, "name": "DATA", "role": "output"},
+        {"number": 14, "name": "TAG", "role": "input"},
+        {"number": 15, "name": "R/C", "role": "input"},
+        {"number": 16, "name": "CS", "role": "input"},
+        {"number": 17, "name": "BUSY", "role": "output"},
+        {"number": 18, "name": "PWRD", "role": "input"},
+        {"number": 19, "name": "VANA", "role": "power"},
+        {"number": 20, "name": "VDIG", "role": "power"}
+      ]
+    },
+    "type": "adc",
+    "bits": 16,
+    "channels": 1,
+    "codeFormat": {"pin": "SB/BTC", "values": {"0": "twos", "1": "offset"}},
+    "vcc": [4.75, 5.25],
+    "analog": ["R1IN", "R2IN", "R3IN", "CAP", "REF", "VANA"],
+    "bus": {"style": "spi", "cs": "CS", "sclk": "DATACLK", "miso": "DATA", "mode": 1},
+    "timing": {"tValid": 0, "tOut": 55, "tFloat": 0},
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "out": "0 R{16}",
+      "idle": "0",
+      "commands": []
+    },
+    "conversion": {
+      "time": 8000,
+      "start": ["pin"]
+    },
+    "ready": [{"pin": "BUSY", "active": 0, "asserts": "busy"}],
+    "pins": {"convst": {"pin": "R/C", "edge": "fall"}}
+  },
+  "packages": {
+    "DW": {"pinout": "dw20", "footprint": "SOIC-20W", "package": "SOIC", "pins": 20}
+  },
+  "pdf": "ads7809.pdf",
+  "pages": "p.3 (input ranges, VIH 2.0 V to VD+0.3 V), p.4 (serial 16 bits, BTC or SB, internal/external data clock, VDIG 4.75-5.25 V), p.5 (pin assignments and configuration, Table I), p.6 (Table II: t3 BUSY low 8 us max, t6 conversion 8 us max, t18 data valid delay 55 ns max), p.7 (Table III, Table IV: BTC 0 V = 0000h, SB 0 V = 8000h on bipolar ranges), p.8 (Figure 3a: CS falling with R/C high, SYNC after DATACLK rising 1, MSB after rising 2)",
+  "notModeled": [
+    "analog inputs, input-range resistor network (R1IN/R2IN/R3IN wiring, six ranges), internal reference (REF output) and CAP buffer",
+    "codeFormat assumes the bipolar ranges (+/-10 V first in Table I): SB/BTC high gives offset binary (0 V = 8000h), low two's complement (0000h). On the unipolar ranges 0 V is -full scale, which the model does not give",
+    "only the external data clock mode (EXT/INT high) is modeled, as SPI mode 1 framed by CS falling with R/C high: DATA changes after each DATACLK rising edge, the MSB after the second one (the first bit, before the MSB, is not specified: modeled 0). The internal-clock mode (EXT/INT low: the part drives 16 DATACLK pulses after each convert command, data from conversion n-1) is not modeled; DATACLK is never driven",
+    "a read started by R/C rising with CS held low is not framed (only CS falling starts a transfer); CS falling with R/C low also starts a conversion in the datasheet (CS and R/C are OR'ed) - the model starts conversions on R/C falling only",
+    "SYNC pulse (one DATACLK period after the first rising edge) is not driven; TAG daisy-chain data after the LSB (the model outputs zeros, as with TAG tied low)",
+    "reading during a conversion gives the previous result (Figure 3b); the shift register update rule while CS is low and DATACLK high is not modeled",
+    "PWRD (conversions inhibited, results kept) is not read; convert pulse width, VDIG <= VANA, throughput limits"
+  ],
+  "variants": "ADS7809UB is the higher grade of the same part (not in the skeleton).",
+  "parts": [
+    ["ADS7809U", "DW", 20, "Active"]
+  ]
+}

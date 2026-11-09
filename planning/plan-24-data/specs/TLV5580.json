@@ -1,0 +1,235 @@
+{
+ "device": {
+  "id": "TLV5580",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "8-bit 80 MSPS low-power pipelined ADC with parallel CMOS outputs, internal references and standby",
+  "note": "tlv5580.pdf (SLAS205B) p.1 pinout, p.4 terminal functions, p.5 recommended operating conditions, p.9 timing requirements (td(o) 9 ns from CLK falling, latency 4.5 cycles, OE ten/tdis) and Figure 1 timing diagram, p.17 digital outputs (standard binary)",
+  "pinouts": {
+   "pw28": [
+    {
+     "number": 1,
+     "name": "DRVDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "D0",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "D1",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "D2",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "D3",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "D4",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "D5",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "D6",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "D7",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "DRVSS",
+     "role": "ground"
+    },
+    {
+     "number": 11,
+     "name": "DVSS",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "OE",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "STBY",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 17,
+     "name": "BG",
+     "role": "nc"
+    },
+    {
+     "number": 18,
+     "name": "AVSS",
+     "role": "ground"
+    },
+    {
+     "number": 19,
+     "name": "REFTO",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "REFTI",
+     "role": "power"
+    },
+    {
+     "number": 21,
+     "name": "REFBI",
+     "role": "power"
+    },
+    {
+     "number": 22,
+     "name": "REFBO",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "AVSS",
+     "role": "ground"
+    },
+    {
+     "number": 24,
+     "name": "PWDN_REF",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "CML",
+     "role": "output"
+    },
+    {
+     "number": 26,
+     "name": "AIN",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 28,
+     "name": "AVSS",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 8,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   3,
+   3.6
+  ],
+  "analog": [
+   "AIN",
+   "AVDD",
+   "BG",
+   "CML",
+   "REFTO",
+   "REFTI",
+   "REFBI",
+   "REFBO"
+  ],
+  "bus": {
+   "style": "clocked",
+   "clock": {
+    "pin": "CLK",
+    "edge": "fall"
+   },
+   "data": [
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "oe": {
+    "pin": "OE",
+    "active": 0
+   }
+  },
+  "timing": {
+   "tOut": 9
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": "R{8}"
+  },
+  "pins": {
+   "powerdown": {
+    "pin": "STBY",
+    "active": 1
+   }
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw28",
+   "footprint": "TSSOP-28",
+   "package": "TSSOP",
+   "pins": 28
+  }
+ },
+ "pdf": "tlv5580.pdf",
+ "pages": "p.1 (pinout), p.4 (terminal functions), p.5 (ROC: AVDD/DVDD/DRVDD 3-3.6 V), p.9 (timing requirements, Figure 1), p.17 (standard binary output)",
+ "notModeled": [
+  "analog input and references (internal REFTO/REFBO or external REFTI/REFBI, PWDN_REF disables the internal reference): the output is the 0 V code (00h); 0 V is below the REFBI..REFTI input range, standard binary (all zeros)",
+  "pipeline latency of 4.5 CLK cycles (td(pipe)) and the sampling instant on the CLK rising edge: the code is constant; the outputs are modeled as changing td(o) 9 ns after each CLK falling edge (Figure 1, Note 5)",
+  "OE enable/disable times ten/tdis 8 ns max (asynchronous): not timed",
+  "STBY power-down mode: modeled as powerdown (no new output words); output state in standby not specified",
+  "conversion rate 10 kHz to 80 MHz (clock period >= 12.5 ns): not checked"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "TLV5580CPW",
+   "PW",
+   28,
+   "Active"
+  ]
+ ]
+}

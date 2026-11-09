@@ -1,0 +1,658 @@
+{
+ "device": {
+  "id": "ADS130B02",
+  "function": "ADC",
+  "description": "16-bit 2-channel simultaneous-sampling delta-sigma ADC with PGA, automotive, SPI",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads130b02-q1.pdf (SBASAD3) p.3 pin functions (Table 5-1), p.5 recommended operating conditions, p.8 timing and switching characteristics, p.16-19 clocking and OSR, p.22-25 reset, conversion modes, standby, sync, p.26-29 serial interface, frames and words, p.30 data format (Table 8-8), p.31-34 commands (Table 8-9), p.36-44 registers (Table 8-10)",
+  "pinouts": {
+   "pw20": [
+    {
+     "number": 1,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "AIN0P",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "AIN0N",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AIN1N",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "AIN1P",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 8,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 9,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 10,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 11,
+     "name": "SYNC/RESET",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "DRDY",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "CLKIN",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "CAP",
+     "role": "nc"
+    },
+    {
+     "number": 19,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 20,
+     "name": "DVDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 2,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   3.6
+  ],
+  "analog": [
+   "AVDD",
+   "AIN0P",
+   "AIN0N",
+   "AIN1N",
+   "AIN1P",
+   "CAP"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "miso": "DOUT",
+   "mode": 1
+  },
+  "timing": {
+   "tValid": 50,
+   "tOut": 20,
+   "tFloat": 75
+  },
+  "registers": [
+   {
+    "name": "ID",
+    "address": 0,
+    "width": 16,
+    "reset": 20992,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "RESERVED",
+      "bits": [
+       15,
+       12
+      ]
+     },
+     {
+      "name": "CHANCNT",
+      "bits": [
+       11,
+       8
+      ]
+     },
+     {
+      "name": "REVID",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "STATUS",
+    "address": 1,
+    "width": 16,
+    "reset": 1280,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "LOCK",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "F_RESYNC",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "REG_MAP",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "CRC_ERR",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "CRC_TYPE",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "RESET",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "WLENGTH",
+      "bits": [
+       9,
+       8
+      ]
+     },
+     {
+      "name": "DRDY1",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DRDY0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "MODE",
+    "address": 2,
+    "width": 16,
+    "reset": 1296,
+    "fields": [
+     {
+      "name": "RESERVED",
+      "bits": [
+       15,
+       14
+      ]
+     },
+     {
+      "name": "REG_CRC_EN",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "RX_CRC_EN",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "CRC_TYPE",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "RESET",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "WLENGTH",
+      "bits": [
+       9,
+       8
+      ]
+     },
+     {
+      "name": "TIMEOUT",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "DRDY_HIZ",
+      "bits": [
+       1,
+       1
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CLOCK",
+    "address": 3,
+    "width": 16,
+    "reset": 910,
+    "readOnly": 64512,
+    "fields": [
+     {
+      "name": "CH1_EN",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "CH0_EN",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "CLK_SEL",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "OSR",
+      "bits": [
+       4,
+       2
+      ]
+     },
+     {
+      "name": "PWR",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GAIN",
+    "address": 4,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PGAGAIN1",
+      "bits": [
+       6,
+       4
+      ]
+     },
+     {
+      "name": "PGAGAIN0",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GLOBAL_CHOP_CFG",
+    "address": 6,
+    "width": 16,
+    "reset": 1536,
+    "fields": [
+     {
+      "name": "GC_DLY",
+      "bits": [
+       12,
+       9
+      ]
+     },
+     {
+      "name": "GC_EN",
+      "bits": [
+       8,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH0_CFG",
+    "address": 9,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 56,
+    "fields": [
+     {
+      "name": "MUX0",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RESERVED_0C",
+    "address": 12,
+    "width": 16,
+    "reset": 32768,
+    "note": "listed in the register map (reserved, default 8000h); no description"
+   },
+   {
+    "name": "CH1_CFG",
+    "address": 14,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 56,
+    "fields": [
+     {
+      "name": "MUX1",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RESERVED_11",
+    "address": 17,
+    "width": 16,
+    "reset": 32768,
+    "note": "listed in the register map (reserved, default 8000h); no description"
+   },
+   {
+    "name": "REGMAP_CRC",
+    "address": 62,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "REG_CRC",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "[STATUS] 0{8} R{16} 0{8} R{16} 0{8} 0{24}",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "NULL",
+     "in": "0{16} x{8}",
+     "action": "nop",
+     "note": "response in the next frame: the STATUS register (the default out)"
+    },
+    {
+     "name": "RESET",
+     "in": "0000000000010001 x{8}",
+     "action": "reset",
+     "commit": "end",
+     "next": "1111111101010010 0{8} R{16} 0{8} R{16} 0{8} 0{24}",
+     "note": "latched at the end of the full frame"
+    },
+    {
+     "name": "STANDBY",
+     "in": "0000000000100010 x{8}",
+     "action": "powerdown",
+     "commit": "end",
+     "next": "0000000000100010 0{8} R{16} 0{8} R{16} 0{8} 0{24}"
+    },
+    {
+     "name": "WAKEUP",
+     "in": "0000000000110011 x{8}",
+     "action": "wakeup",
+     "commit": "end",
+     "next": "0000000000110011 0{8} R{16} 0{8} R{16} 0{8} 0{24}"
+    },
+    {
+     "name": "LOCK",
+     "in": "0000010101010101 x{8}",
+     "action": "nop",
+     "set": {
+      "STATUS.LOCK": 1
+     },
+     "commit": "end",
+     "next": "0000010101010101 0{8} R{16} 0{8} R{16} 0{8} 0{24}"
+    },
+    {
+     "name": "UNLOCK",
+     "in": "0000011001010101 x{8}",
+     "action": "nop",
+     "set": {
+      "STATUS.LOCK": 0
+     },
+     "commit": "end",
+     "next": "0000011001010101 0{8} R{16} 0{8} R{16} 0{8} 0{24}",
+     "note": "command word 0655h per the command table (the section heading prints 0666h)"
+    },
+    {
+     "name": "RREG",
+     "in": "101aaaaaa0000000 x{8}",
+     "action": "read",
+     "address": "a",
+     "commit": "end",
+     "next": "@ 0{8} R{16} 0{8} R{16} 0{8} 0{24}",
+     "note": "single register (nnn nnnn = 0): its contents are the response word of the next frame"
+    },
+    {
+     "name": "RREG multiple",
+     "in": "101aaaaaannnnnnn x{8}",
+     "action": "read",
+     "address": "a",
+     "commit": "end",
+     "next": "111aaaaaannnnnnn 0{8} @ 0{8}",
+     "note": "n > 0: the next frame is the 111a... acknowledgment followed by the registers; only the first register is modeled"
+    },
+    {
+     "name": "WREG",
+     "in": "011aaaaaa0000000 x{8} dddddddddddddddd x{8}",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "next": "010aaaaaa0000000 0{8} R{16} 0{8} R{16} 0{8} 0{24}",
+     "note": "single register, its 16 bits MSB-aligned in a 24-bit word"
+    },
+    {
+     "name": "WREG multiple",
+     "in": "011aaaaaannnnnnn x{8} dddddddddddddddd x{8}",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "next": "010aaaaaannnnnnn 0{8} R{16} 0{8} R{16} 0{8} 0{24}",
+     "note": "n > 0: only the first register's word is modeled (the following words are zero-padded 24-bit words, not packed)"
+    }
+   ]
+  },
+  "conversion": {
+   "time": {
+    "fields": [
+     "CLOCK.PWR",
+     "CLOCK.OSR"
+    ],
+    "values": {
+     "0,0": 125000,
+     "0,1": 250000,
+     "0,2": 500000,
+     "0,3": 1000000,
+     "0,4": 2000000,
+     "0,5": 4000000,
+     "0,6": 8000000,
+     "0,7": 16000000,
+     "1,0": 62500,
+     "1,1": 125000,
+     "1,2": 250000,
+     "1,3": 500000,
+     "1,4": 1000000,
+     "1,5": 2000000,
+     "1,6": 4000000,
+     "1,7": 8000000,
+     "2,0": 31250,
+     "2,1": 62500,
+     "2,2": 125000,
+     "2,3": 250000,
+     "2,4": 500000,
+     "2,5": 1000000,
+     "2,6": 2000000,
+     "2,7": 4000000,
+     "3,0": 31250,
+     "3,1": 62500,
+     "3,2": 125000,
+     "3,3": 250000,
+     "3,4": 500000,
+     "3,5": 1000000,
+     "3,6": 2000000,
+     "3,7": 4000000
+    }
+   },
+   "start": [
+    "power-on"
+   ],
+   "mode": "continuous",
+   "done": {
+    "STATUS.DRDY0": 1,
+    "STATUS.DRDY1": 1
+   },
+   "onRead": {
+    "STATUS.DRDY0": 0,
+    "STATUS.DRDY1": 0
+   }
+  },
+  "ready": [
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": [
+     "read",
+     "start"
+    ]
+   }
+  ],
+  "pins": {
+   "reset": {
+    "pin": "SYNC/RESET",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw20",
+   "footprint": "TSSOP-20",
+   "package": "TSSOP",
+   "pins": 20
+  }
+ },
+ "pdf": "ads130b02-q1.pdf",
+ "pages": "p.3 pin functions (Table 5-1), p.5 recommended operating conditions, p.8 timing and switching characteristics, p.16-19 clocking and OSR, p.22-25 reset, conversion modes, standby, sync, p.26-29 serial interface, frames and words, p.30 data format (Table 8-8), p.31-34 commands (Table 8-9), p.36-44 registers (Table 8-10)",
+ "notModeled": [
+  "analog: PGA gains, input mux and dc test signals, internal reference (stored only); the result is the 0 V code",
+  "word length: modeled at the power-on 24-bit word size (MODE.WLENGTH = 01b); 16-bit and 32-bit words (and the 32-bit sign-extended format) change every frame and are not modeled",
+  "output CRC word (CCITT/ANSI, seed FFFFh) is output as zeros; input CRC checking (RX_CRC_EN), CRC_ERR and the register-map CRC (REG_CRC_EN, REGMAP_CRC, STATUS.REG_MAP) are not modeled",
+  "multi-register RREG (only the first register follows the 111a... acknowledgment) and multi-register WREG (only the first register is written): the registers are 16 bits each, zero-padded to 24-bit words on the bus, which a wreg/rreg count cannot express",
+  "STATUS mirrors MODE.RESET / WLENGTH / CRC_TYPE and LOCK, F_RESYNC: only LOCK (set by LOCK/UNLOCK) and DRDYx are modeled",
+  "LOCK: commands other than NULL, RREG and UNLOCK are still executed while locked",
+  "channel enable bits (CHx_EN): disabled channels still output the 0 V code",
+  "global-chop mode (GLOBAL_CHOP_CFG.GC_EN, GC_DLY) and its longer conversion period; fast-settling filter at start-up and filter settling after changes",
+  "conversion time = OSR / fMOD at the nominal clocks (fMOD 4.096 MHz high-resolution, 2.048 MHz low-power, 1.024 MHz very-low-power, Table 8-3); external CLKIN frequency vs internal oscillator (CLK_SEL) not modeled",
+  "DRDY: goes high when all channels' data are shifted out (clears on read) and pulses high for tw(DRH) before the next conversion if unread (clears on start); the two-sample FIFO behavior after a pause in reading; DRDY_HiZ open-drain option",
+  "SYNC/RESET: a low pulse shorter than 2048 tMCLK only resynchronizes conversions, longer resets the device; the model treats it as reset held low",
+  "SPI timeout (MODE.TIMEOUT), ID register low byte (reserved, xx: modeled 00h); RESET response 0011h for an incomplete frame"
+ ],
+ "variants": "ADS130B02-Q1 (16-bit, 2 ch); ADS130B04-Q1 (4 ch) and ADS131B02-Q1 (24-bit, calibration registers) have their own datasheets and spec files with the same interface",
+ "parts": [
+  [
+   "ADS130B02QPWRQ1",
+   "PW",
+   20,
+   "Active"
+  ]
+ ]
+}

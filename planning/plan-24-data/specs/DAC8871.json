@@ -1,0 +1,211 @@
+{
+ "device": {
+  "id": "DAC8871",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit +/-18 V unbuffered voltage-output DAC with SPI interface, LDAC and selectable reset",
+  "note": "dac8871.pdf (SBAS396A) p.1 description, p.3 digital inputs, p.4 power supply (VDD 2.7-5.5 V), p.5 pin configuration and terminal functions, p.6 Figures 1-2 timing, p.7 timing characteristics, p.15 power-on/hardware reset and serial interface",
+  "pinouts": {
+   "pw16": [
+    {
+     "number": 1,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "VCC",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "VSS",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "VREFH-F",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "VREFH-S",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "VREFL-S",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "VREFL-F",
+     "role": "power"
+    },
+    {
+     "number": 9,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "RSTSEL",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "RST",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "DGND",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "VOUT",
+   "VCC",
+   "VSS",
+   "VREFH-F",
+   "VREFH-S",
+   "VREFL-S",
+   "VREFL-F"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "mode": 0
+  },
+  "registers": [
+   {
+    "name": "IN",
+    "space": "input",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "input register; power-on/RST zero with RSTSEL low (p.15)"
+   },
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC latch; power-on/RST zero with RSTSEL low (p.15)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "commands": [
+    {
+     "name": "Load input register",
+     "in": "d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "note": "p.15: CS low, SDI latched on SCLK rising MSB first; at CS rising the last 16 bits go to the input register"
+    }
+   ]
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "level"
+   },
+   "reset": {
+    "pin": "RST",
+    "active": 0
+   },
+   "resetSelect": [
+    {
+     "pin": "RSTSEL",
+     "level": 1,
+     "resets": {
+      "DAC": 32768
+     }
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "IN"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw16",
+   "footprint": "TSSOP-16",
+   "package": "TSSOP",
+   "pins": 16
+  }
+ },
+ "pdf": "dac8871.pdf",
+ "pages": "p.1 (description), p.3 (logic levels), p.4 (VDD 2.7-5.5 V, VCC/VSS), p.5 (pinout, terminal functions), p.6 (Figures 1-2: SCLK low at CS falling, data on rising edges), p.7 (timing), p.14-15 (power-on and hardware reset, serial interface)",
+ "notModeled": [
+  "analog: unbuffered +/-18 V voltage output, Kelvin reference inputs, VCC/VSS analog supplies",
+  "RSTSEL high: the datasheet sets the DAC latch to mid-scale at power-on and RST (p.15); the input register's reset value is not stated (0 here)",
+  "a frame of fewer than 16 bits corrupts the word; the model ignores frames shorter than 16 bits",
+  "power-supply sequencing (VCC/VSS before VDD before references)"
+ ],
+ "variants": "dac8871.pdf covers only the DAC8871 (S and SB grades)",
+ "parts": [
+  [
+   "DAC8871SBPW",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "DAC8871SPW",
+   "PW",
+   16,
+   "Active"
+  ]
+ ]
+}

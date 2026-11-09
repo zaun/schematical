@@ -1,0 +1,577 @@
+{
+ "device": {
+  "id": "DAC8750",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit 4-20 mA current-output DAC with SPI-style serial interface (LATCH), register read-back, CLR, watchdog and CRC frame checking",
+  "note": "dac7750.pdf (SBAS538D) p.3-4 pin configuration and Table 6-1, p.5 recommended operating conditions, p.9 timing (Figures 7-1, 7-2 on p.10), p.21 DAC clear, p.21-22 power-on reset, p.23 watchdog and frame error checking, p.30-31 SPI (Tables 8-7 to 8-10), p.32-34 register map (Tables 8-11 to 8-18)",
+  "pinouts": {
+   "pwp24": [
+    {
+     "number": 1,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 2,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "ALARM",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "CLR",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "LATCH",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "ISET-R",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "DVDD-EN",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "HART-IN",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "R3-SENSE",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "IOUT",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "BOOST",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "CAP1",
+     "role": "nc"
+    },
+    {
+     "number": 22,
+     "name": "CAP2",
+     "role": "nc"
+    },
+    {
+     "number": 23,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 24,
+     "name": "AVDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "AVDD",
+   "REFIN",
+   "REFOUT",
+   "ISET-R",
+   "HART-IN",
+   "IOUT",
+   "BOOST",
+   "R3-SENSE",
+   "CAP1",
+   "CAP2"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "LATCH",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "miso": "SDO",
+   "mode": 0
+  },
+  "timing": {
+   "tOut": 35,
+   "tFloat": 35
+  },
+  "registers": [
+   {
+    "name": "STATUS",
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "CRC_FLT",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "WD_FLT",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "I_FLT",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "SR_ON",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "T_FLT",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "Table 8-18 status register (read address xxxx00); read-only, default 0; the alarm sources are analog/timers and never set here"
+   },
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 1,
+    "width": 16,
+    "reset": 0,
+    "note": "Table 8-14 DAC data register (write address 0x01, read address xxxx01); default 0"
+   },
+   {
+    "name": "CONTROL",
+    "address": 85,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "REXT",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "OUTEN",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "SRCLK",
+      "bits": [
+       11,
+       8
+      ]
+     },
+     {
+      "name": "SRSTEP",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "SREN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "RANGE",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "Table 8-12 control register, write address 0x55, read address xxxx10; default 0"
+   },
+   {
+    "name": "CONFIG",
+    "address": 87,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "CALEN",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "HARTEN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "CRCEN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "WDEN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "WDPD",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "Table 8-13 configuration register, write address 0x57, read address 001011; default 0"
+   },
+   {
+    "name": "GAIN",
+    "address": 88,
+    "width": 16,
+    "reset": 0,
+    "note": "Table 8-15 DAC gain calibration register, write 0x58, read 010011; default 0"
+   },
+   {
+    "name": "ZERO",
+    "address": 89,
+    "width": 16,
+    "reset": 0,
+    "note": "Table 8-16 DAC zero calibration register, write 0x59, read 010111; default 0"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "commands": [
+    {
+     "name": "NOP",
+     "in": "00000000 x{16}",
+     "when": "CONFIG.CRCEN=0"
+    },
+    {
+     "name": "Write DAC data register",
+     "in": "00000001 d{16} ",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "when": "CONFIG.CRCEN=0"
+    },
+    {
+     "name": "Read status register",
+     "in": "00000010 x{10} xxxx00",
+     "next": "0{8} [STATUS]",
+     "when": "CONFIG.CRCEN=0"
+    },
+    {
+     "name": "Read DAC data register",
+     "in": "00000010 x{10} xxxx01",
+     "next": "0{8} [DAC]",
+     "when": "CONFIG.CRCEN=0"
+    },
+    {
+     "name": "Read control register",
+     "in": "00000010 x{10} xxxx10",
+     "next": "0{8} [CONTROL]",
+     "when": "CONFIG.CRCEN=0"
+    },
+    {
+     "name": "Read configuration register",
+     "in": "00000010 x{10} 001011",
+     "next": "0{8} [CONFIG]",
+     "when": "CONFIG.CRCEN=0"
+    },
+    {
+     "name": "Read DAC gain calibration register",
+     "in": "00000010 x{10} 010011",
+     "next": "0{8} [GAIN]",
+     "when": "CONFIG.CRCEN=0"
+    },
+    {
+     "name": "Read DAC zero calibration register",
+     "in": "00000010 x{10} 010111",
+     "next": "0{8} [ZERO]",
+     "when": "CONFIG.CRCEN=0"
+    },
+    {
+     "name": "Write control register",
+     "in": "01010101 [CONTROL]",
+     "when": "CONFIG.CRCEN=0"
+    },
+    {
+     "name": "Write reset register (RESET = 1)",
+     "in": "01010110 x{15} 1",
+     "action": "reset",
+     "when": "CONFIG.CRCEN=0"
+    },
+    {
+     "name": "Write reset register (RESET = 0)",
+     "in": "01010110 x{15} 0",
+     "when": "CONFIG.CRCEN=0"
+    },
+    {
+     "name": "Write configuration register",
+     "in": "01010111 [CONFIG]",
+     "when": "CONFIG.CRCEN=0"
+    },
+    {
+     "name": "Write DAC gain calibration register",
+     "in": "01011000 [GAIN]",
+     "when": "CONFIG.CRCEN=0"
+    },
+    {
+     "name": "Write DAC zero calibration register",
+     "in": "01011001 [ZERO]",
+     "when": "CONFIG.CRCEN=0"
+    },
+    {
+     "name": "Watchdog timer reset",
+     "in": "10010101 x{16}",
+     "when": "CONFIG.CRCEN=0"
+    },
+    {
+     "name": "CRC error reset",
+     "in": "10010110 x{16}",
+     "set": {
+      "STATUS.CRC_FLT": 0
+     },
+     "when": "CONFIG.CRCEN=0"
+    },
+    {
+     "name": "NOP (32-bit CRC frame)",
+     "in": "00000000 x{16} x{8}",
+     "when": "CONFIG.CRCEN=1"
+    },
+    {
+     "name": "Write DAC data register (32-bit CRC frame)",
+     "in": "00000001 d{16}  x{8}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "when": "CONFIG.CRCEN=1"
+    },
+    {
+     "name": "Read status register (32-bit CRC frame)",
+     "in": "00000010 x{10} xxxx00 x{8}",
+     "next": "0{8} [STATUS] 0{8}",
+     "when": "CONFIG.CRCEN=1"
+    },
+    {
+     "name": "Read DAC data register (32-bit CRC frame)",
+     "in": "00000010 x{10} xxxx01 x{8}",
+     "next": "0{8} [DAC] 0{8}",
+     "when": "CONFIG.CRCEN=1"
+    },
+    {
+     "name": "Read control register (32-bit CRC frame)",
+     "in": "00000010 x{10} xxxx10 x{8}",
+     "next": "0{8} [CONTROL] 0{8}",
+     "when": "CONFIG.CRCEN=1"
+    },
+    {
+     "name": "Read configuration register (32-bit CRC frame)",
+     "in": "00000010 x{10} 001011 x{8}",
+     "next": "0{8} [CONFIG] 0{8}",
+     "when": "CONFIG.CRCEN=1"
+    },
+    {
+     "name": "Read DAC gain calibration register (32-bit CRC frame)",
+     "in": "00000010 x{10} 010011 x{8}",
+     "next": "0{8} [GAIN] 0{8}",
+     "when": "CONFIG.CRCEN=1"
+    },
+    {
+     "name": "Read DAC zero calibration register (32-bit CRC frame)",
+     "in": "00000010 x{10} 010111 x{8}",
+     "next": "0{8} [ZERO] 0{8}",
+     "when": "CONFIG.CRCEN=1"
+    },
+    {
+     "name": "Write control register (32-bit CRC frame)",
+     "in": "01010101 [CONTROL] x{8}",
+     "when": "CONFIG.CRCEN=1"
+    },
+    {
+     "name": "Write reset register (RESET = 1) (32-bit CRC frame)",
+     "in": "01010110 x{15} 1 x{8}",
+     "action": "reset",
+     "when": "CONFIG.CRCEN=1"
+    },
+    {
+     "name": "Write reset register (RESET = 0) (32-bit CRC frame)",
+     "in": "01010110 x{15} 0 x{8}",
+     "when": "CONFIG.CRCEN=1"
+    },
+    {
+     "name": "Write configuration register (32-bit CRC frame)",
+     "in": "01010111 [CONFIG] x{8}",
+     "when": "CONFIG.CRCEN=1"
+    },
+    {
+     "name": "Write DAC gain calibration register (32-bit CRC frame)",
+     "in": "01011000 [GAIN] x{8}",
+     "when": "CONFIG.CRCEN=1"
+    },
+    {
+     "name": "Write DAC zero calibration register (32-bit CRC frame)",
+     "in": "01011001 [ZERO] x{8}",
+     "when": "CONFIG.CRCEN=1"
+    },
+    {
+     "name": "Watchdog timer reset (32-bit CRC frame)",
+     "in": "10010101 x{16} x{8}",
+     "when": "CONFIG.CRCEN=1"
+    },
+    {
+     "name": "CRC error reset (32-bit CRC frame)",
+     "in": "10010110 x{16} x{8}",
+     "set": {
+      "STATUS.CRC_FLT": 0
+     },
+     "when": "CONFIG.CRCEN=1"
+    }
+   ],
+   "note": "24-bit frame (32 with CRCEN): address byte + 16-bit data word; bits shift in on SCLK rising regardless of LATCH and the last frame is executed at LATCH rising (p.30); a read (0x02) outputs the register in the next frame, first 8 bits don't care (Figure 7-2)"
+  },
+  "pins": {
+   "clear": {
+    "pin": "CLR",
+    "active": 1
+   }
+  },
+  "dac": {
+   "input": [
+    "DAC"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "PWP": {
+   "pinout": "pwp24",
+   "footprint": "HTSSOP-24-PWP",
+   "package": "HTSSOP",
+   "pins": 24
+  }
+ },
+ "pdf": "dac7750.pdf",
+ "pages": "p.3-4 (pins, Table 6-1), p.5 (DVDD 2.7-5.5 V), p.9 (timing t19 35 ns, t20 35 ns), p.10 (Figures 7-1/7-2), p.21-22 (CLR, POR), p.23 (watchdog, CRC), p.30-31 (Tables 8-7 to 8-10), p.32-34 (Tables 8-11 to 8-18)",
+ "notModeled": [
+  "analog: 4-20 mA / 0-20 mA / 0-24 mA current output stage, ranges (CONTROL.RANGE), external/internal current-setting resistor (REXT, ISET-R), BOOST transistor, HART modulation (HART-IN, HARTEN), output filter caps CAP1/CAP2, internal reference",
+  "LATCH is not a chip select: data shift in regardless of LATCH (p.30). Modeled as an SPI CS with protocol.align \"end\" (the last 24/32 bits before LATCH rises are executed); SCLK while LATCH is high is not shifted in the model, and SDO is driven only while LATCH is low",
+  "SDO outputs on SCLK falling edges (read data valid on rising): mode 0",
+  "CRC-8-ATM frame checking (CRCEN): the 32-bit frame is decoded (commands gated on CONFIG.CRCEN) but the CRC byte is neither checked nor generated (read-back CRC byte output as 0); CRC-FLT is never set",
+  "watchdog timer (WDEN/WDPD, 0x95 reset) and WD-FLT: not modeled",
+  "ALARM open-drain output (open circuit, compliance, over-temperature, watchdog, CRC) is never asserted; status fault bits stay 0",
+  "user calibration (CALEN, GAIN, ZERO): registers stored and read back; the calibrated code is not computed",
+  "slew-rate control (SREN, SRCLK, SRSTEP) and SR-ON: not modeled (output change is instant)",
+  "CLR: active high clears the output to zero scale (modeled as clear, clearCode 0, which also loads 0 into the DAC data register); the datasheet restores the pre-clear value on a LATCH pulse without data, which the model does not",
+  "DVDD can be an output of the internal regulator (DVDD-EN floating); DVDD-EN is modeled as a plain digital input",
+  "the reset-register RESET bit self-clears; modeled as a reset command (RESET = 1)",
+  "frames with more or fewer than 24 SCLK cycles program incorrect data (p.31); the model takes the last 24 bits"
+ ],
+ "variants": "DAC7750 (12-bit) and DAC8750 (16-bit) share dac7750.pdf; the DAC8750 is orderable in HTSSOP (PWP) only, the datasheet also shows the RHA VQFN pinout.",
+ "parts": [
+  [
+   "DAC8750IPWP",
+   "PWP",
+   24,
+   "Active"
+  ],
+  [
+   "DAC8750IPWPR",
+   "PWP",
+   24,
+   "Active"
+  ]
+ ]
+}

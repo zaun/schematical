@@ -1,0 +1,1163 @@
+{
+ "device": {
+  "id": "AFE7070",
+  "function": "DAC",
+  "description": "Dual 14-bit 65 MSPS DAC with NCO, quadrature modulator correction, analog quadrature modulator, LVDS clock output, interleaved CMOS data input and SPI register port",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "afe7070.pdf (SLOS761D) p.2 (pin configuration), p.3 (pin functions), p.4 (DC characteristics: IOVDD 1.71-3.6 V, DVDD18 1.71-1.89 V), p.6 (parallel data input timing, serial interface timing: tD(DATA) 10 ns), p.16-17 (serial interface, Tables 1-2, Figures 37-38), p.18 (register map), p.19-26 (register descriptions)",
+  "pinouts": {
+   "rgz48": [
+    {
+     "number": 1,
+     "name": "DACCLKP",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "DACCLKN",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "CLKVDD18",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "DACVDD33",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "CLK_IO",
+     "role": "inout"
+    },
+    {
+     "number": 6,
+     "name": "IQ_FLAG",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "SYNC_SLEEP",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "RESETB",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "D13",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "D12",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "DVDD18",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "D11",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "D10",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "D9",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "D8",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "D7",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "D6",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "D5",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "D4",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "D3",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "D2",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 25,
+     "name": "DVDD18",
+     "role": "power"
+    },
+    {
+     "number": 26,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 27,
+     "name": "D1",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "D0",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "SDIO",
+     "role": "inout"
+    },
+    {
+     "number": 30,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "SDENB",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "LO_P",
+     "role": "input"
+    },
+    {
+     "number": 33,
+     "name": "LO_N",
+     "role": "input"
+    },
+    {
+     "number": 34,
+     "name": "ALARM_SDO",
+     "role": "output"
+    },
+    {
+     "number": 35,
+     "name": "TESTMODE",
+     "role": "input"
+    },
+    {
+     "number": 36,
+     "name": "ATEST",
+     "role": "output"
+    },
+    {
+     "number": 37,
+     "name": "DACVDD18",
+     "role": "power"
+    },
+    {
+     "number": 38,
+     "name": "MODVDD33",
+     "role": "power"
+    },
+    {
+     "number": 39,
+     "name": "MODVDD33",
+     "role": "power"
+    },
+    {
+     "number": 40,
+     "name": "FUSEVDD18",
+     "role": "power"
+    },
+    {
+     "number": 41,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 42,
+     "name": "RF_OUT",
+     "role": "output"
+    },
+    {
+     "number": 43,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 44,
+     "name": "LVDS_N",
+     "role": "output"
+    },
+    {
+     "number": 45,
+     "name": "LVDS_P",
+     "role": "output"
+    },
+    {
+     "number": 46,
+     "name": "LVDSVDD18",
+     "role": "power"
+    },
+    {
+     "number": 47,
+     "name": "BG_BYP",
+     "role": "nc"
+    },
+    {
+     "number": 48,
+     "name": "DACVDD18",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 14,
+  "channels": 2,
+  "vcc": [
+   1.71,
+   3.6
+  ],
+  "analog": [
+   "DACCLKP",
+   "DACCLKN",
+   "CLKVDD18",
+   "DACVDD33",
+   "DACVDD18",
+   "MODVDD33",
+   "FUSEVDD18",
+   "RF_OUT",
+   "LO_P",
+   "LO_N",
+   "ATEST",
+   "BG_BYP",
+   "LVDS_N",
+   "LVDS_P",
+   "LVDSVDD18"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "D13",
+    "D12",
+    "D11",
+    "D10",
+    "D9",
+    "D8",
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "wr": {
+    "pin": "CLK_IO",
+    "active": 0
+   },
+   "address": [
+    "IQ_FLAG"
+   ]
+  },
+  "configBus": {
+   "style": "spi",
+   "cs": "SDENB",
+   "sclk": "SCLK",
+   "mosi": "SDIO",
+   "miso": "SDIO",
+   "mode": 0
+  },
+  "timing": {
+   "tOut": 10
+  },
+  "registers": [
+   {
+    "name": "CONFIG0",
+    "address": 0,
+    "width": 8,
+    "reset": 16,
+    "fields": [
+     {
+      "name": "DIV2_DACCLK_ENA",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "DIV2_SYNC_ENA",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "CLKIO_SEL",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "CLKIO_OUT_ENA_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "DATA_CLK_SEL",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "DATA_TYPE",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "FIFO_ENA",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "SYNC_IORQ",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG1",
+    "address": 1,
+    "width": 8,
+    "reset": 16,
+    "fields": [
+     {
+      "name": "TWOS",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "IQSWAP",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "TRIM_CLK_RC_FLTR",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "DACA_COMPLEMENT",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "DACB_COMPLEMENT",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "LVDS_CLK_DIV",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG2",
+    "address": 2,
+    "width": 8,
+    "reset": 3,
+    "fields": [
+     {
+      "name": "ALARM_FIFO_2AWAY",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "ALARM_FIFO_1AWAY",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "register map lists default 0xXX; the bit table gives 0x03. Alarm bits are WRITE_TO_CLEAR in the datasheet's sense: set by the FIFO, cleared by writing 0"
+   },
+   {
+    "name": "CONFIG3",
+    "address": 3,
+    "width": 8,
+    "reset": 16,
+    "fields": [
+     {
+      "name": "ALARM_OR_SDO_ENA",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "SIF_4PIN",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "SLEEP",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "TXENABLE",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SYNC",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "SYNC_SLEEP_TXENABLE_SEL",
+      "bits": [
+       2,
+       1
+      ]
+     },
+     {
+      "name": "MSB_OUT",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG4",
+    "address": 4,
+    "width": 8,
+    "reset": 15,
+    "fields": [
+     {
+      "name": "FUSE_PD",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "MIXER_GAIN",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "PD_CLKRCVR",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "PD_CLKRCVR_MASK",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "COARSE_DAC",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG5",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OFFSET_ENA",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "QMC_CORR_ENA",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "MIXER_ENA",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "FILTER_TUNE",
+      "bits": [
+       4,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG6",
+    "address": 6,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PD_LVDS",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "PD_RF_OUT",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "PD_DAC",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "PD_ANALOGOUT",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "PD_LVDS_MASK",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "PD_TF_OUT_MASK",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "PD_DAC_MASK",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "PD_ANALOGOUT_MASK",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG7",
+    "address": 7,
+    "width": 8,
+    "reset": 19,
+    "fields": [
+     {
+      "name": "MASK_2AWAY",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "MASK_1AWAY",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "FIFO_SYNC_MASK",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "FIFO_OFFSET",
+      "bits": [
+       4,
+       2
+      ]
+     },
+     {
+      "name": "ALARM_2AWAY_ENA",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "ALARM_1AWAY_ENA",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG8",
+    "address": 8,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "QMC_OFFSETA_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG9",
+    "address": 9,
+    "width": 8,
+    "reset": 122,
+    "fields": [
+     {
+      "name": "QMC_OFFSETB_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG10",
+    "address": 10,
+    "width": 8,
+    "reset": 182,
+    "fields": [
+     {
+      "name": "QMC_OFFSETA_12_8",
+      "bits": [
+       7,
+       3
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG11",
+    "address": 11,
+    "width": 8,
+    "reset": 234,
+    "fields": [
+     {
+      "name": "QMC_OFFSETB_12_8",
+      "bits": [
+       7,
+       3
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG12",
+    "address": 12,
+    "width": 8,
+    "reset": 69,
+    "fields": [
+     {
+      "name": "QMC_GAINA_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG13",
+    "address": 13,
+    "width": 8,
+    "reset": 26,
+    "fields": [
+     {
+      "name": "QMC_GAINB_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG14",
+    "address": 14,
+    "width": 8,
+    "reset": 22,
+    "fields": [
+     {
+      "name": "QMC_PHASE_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG15",
+    "address": 15,
+    "width": 8,
+    "reset": 170,
+    "fields": [
+     {
+      "name": "QMC_PHASE_9_8",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "QMC_GAINA_10_8",
+      "bits": [
+       5,
+       3
+      ]
+     },
+     {
+      "name": "QMC_GAINB_10_8",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG16",
+    "address": 16,
+    "width": 8,
+    "reset": 198,
+    "fields": [
+     {
+      "name": "FREQ_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG17",
+    "address": 17,
+    "width": 8,
+    "reset": 36,
+    "fields": [
+     {
+      "name": "FREQ_15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG18",
+    "address": 18,
+    "width": 8,
+    "reset": 2,
+    "fields": [
+     {
+      "name": "FREQ_23_16",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG19",
+    "address": 19,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "FREQ_31_24",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG20",
+    "address": 20,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PHASE_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG21",
+    "address": 21,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PHASE_15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG22",
+    "address": 22,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "NCO_SYNC_SLEEP",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG23",
+    "address": 23,
+    "width": 8,
+    "reset": 0,
+    "note": "reserved, default varies from device to device (0xXX): reset 0"
+   },
+   {
+    "name": "CONFIG24",
+    "address": 24,
+    "width": 8,
+    "reset": 0,
+    "note": "reserved, default varies from device to device (0xXX): reset 0"
+   },
+   {
+    "name": "CONFIG25",
+    "address": 25,
+    "width": 8,
+    "reset": 0,
+    "note": "reserved, default varies from device to device (0xXX): reset 0"
+   },
+   {
+    "name": "CONFIG26",
+    "address": 26,
+    "width": 8,
+    "reset": 0,
+    "note": "reserved, default varies from device to device (0xXX): reset 0"
+   },
+   {
+    "name": "CONFIG27",
+    "address": 27,
+    "width": 8,
+    "reset": 0,
+    "note": "reserved, default varies from device to device (0xXX): reset 0"
+   },
+   {
+    "name": "CONFIG28",
+    "address": 28,
+    "width": 8,
+    "reset": 0,
+    "note": "reserved, default varies from device to device (0xXX): reset 0"
+   },
+   {
+    "name": "CONFIG29",
+    "address": 29,
+    "width": 8,
+    "reset": 0,
+    "note": "reserved, default varies from device to device (0xXX): reset 0"
+   },
+   {
+    "name": "CONFIG30",
+    "address": 30,
+    "width": 8,
+    "reset": 0,
+    "note": "reserved, default varies from device to device (0xXX): reset 0"
+   },
+   {
+    "name": "CONFIG31",
+    "address": 31,
+    "width": 8,
+    "reset": 130,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "TITEST_VOH",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "TITEST_VOL",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "VERSION",
+      "bits": [
+       5,
+       0
+      ]
+     }
+    ],
+    "note": "titest_voh held high, titest_vol held low for SIF test, version: read-only"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 14,
+    "reset": 0,
+    "note": "last DACA input sample (IQ_FLAG high with iqswap = 0)"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 14,
+    "reset": 0,
+    "note": "last DACB input sample (IQ_FLAG low)"
+   },
+   {
+    "name": "BUS",
+    "width": 1,
+    "reset": 1,
+    "fields": [
+     {
+      "name": "SDENB",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the SDENB pin level, so the 15-bit data-port words and the SPI frames are told apart"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "z",
+   "idle": "z",
+   "commands": [
+    {
+     "name": "DATA",
+     "in": "a dddddddddddddd",
+     "action": "write",
+     "channel": "a",
+     "channelMap": {
+      "1": [
+       0
+      ],
+      "0": [
+       1
+      ]
+     },
+     "data": "d",
+     "when": "BUS.SDENB=1",
+     "note": "data port (dual input clock mode): D13-D0 and IQ_FLAG latched on the CLK_IO rising edge; IQ_FLAG high = DACA sample (iqswap = 0)"
+    },
+    {
+     "name": "SIF_WRITE",
+     "in": "0 xx aaaaa",
+     "action": "wreg",
+     "address": "a",
+     "count": 1,
+     "when": "BUS.SDENB=0",
+     "note": "instruction byte R/W = 0, N1 N0, A4-A0, then the data byte(s); only the first byte (address A) is written"
+    },
+    {
+     "name": "SIF_READ",
+     "in": "1 xx aaaaa",
+     "action": "rreg",
+     "address": "a",
+     "count": 1,
+     "reply": "@",
+     "when": "BUS.SDENB=0",
+     "note": "instruction byte R/W = 1: the register at A is shifted out on SDIO (3-pin mode) on SCLK falling edges"
+    }
+   ]
+  },
+  "pins": {
+   "reset": {
+    "pin": "RESETB",
+    "active": 0
+   },
+   "levels": [
+    {
+     "pin": "SDENB",
+     "field": "BUS.SDENB"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "DACA",
+    "DACB"
+   ],
+   "output": [
+    "DACA",
+    "DACB"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "RGZ": {
+   "pinout": "rgz48",
+   "footprint": "VQFN-48-RGZ-D",
+   "package": "VQFN",
+   "pins": 48
+  }
+ },
+ "pdf": "afe7070.pdf",
+ "pages": "p.2 (pin configuration), p.3 (pin functions), p.4 (DC characteristics: IOVDD 1.71-3.6 V, DVDD18 1.71-1.89 V), p.6 (parallel data input timing, serial interface timing: tD(DATA) 10 ns), p.16-17 (serial interface, Tables 1-2, Figures 37-38), p.18 (register map), p.19-26 (register descriptions)",
+ "notModeled": [
+  "everything after the DACs (analog): baseband filter, quadrature modulator, LO input, RF output, reference/BG_BYP, coarse DAC full-scale current, LVDS clock output and its divider",
+  "digital signal processing: QMC gain/phase/offset correction, NCO / complex mixer (DDS), phase-data mode (data_type), twos/offset-binary input format and DAC complement bits are stored only (DACA/DACB hold the raw input words)",
+  "clock modes (Table 3): only the dual input clock mode is modeled (CLK_IO an input, data latched on its rising edge); dual output clock mode (CLK_IO driven), single differential DDR/SDR DACCLK modes, the divide-by-2 and the input FIFO (fifo_ena, offsets, collision alarms) are not",
+  "iqswap (CONFIG1 bit 6) is not applied: IQ_FLAG high always goes to DACA",
+  "SPI multi-byte transfers (N1 N0 != 00): the datasheet sends the bytes for addresses A, A-1, A-2 ... (counting down); the model writes/reads only the first byte at A",
+  "4-pin SPI mode (CONFIG3 sif_4pin = 1, data out on ALARM_SDO) and the ALARM_SDO alarm output (FIFO alarms, msb_out); ALARM_SDO is never driven",
+  "SYNC_SLEEP multi-function pin (sync / TX enable / sleep) and the SLEEP / TXENABLE / SYNC register bits (stored only)",
+  "CONFIG2 alarm bits are set by FIFO pointer collisions, which are not modeled (reset value 0x03 from the bit table; the register map says 0xXX)",
+  "reserved registers CONFIG23-CONFIG30 power up with device-specific values (0xXX): reset 0",
+  "CONFIG31 version/test bits treated as read-only (the datasheet says the test bits are held high/low)",
+  "TESTMODE (factory use, connect to GND) and ATEST (factory use, do not connect)",
+  "timing: tD(DATA) 10 ns after the SCLK falling edge (the table prints it in the MIN column); SDIO is driven only while it shifts reply bits",
+  "DVDD18 (1.71-1.89 V) is a digital core supply outside the IOVDD vcc range"
+ ],
+ "variants": "AFE7071: same die without the NCO and the LVDS output (pins 44-45 NC, pin 46 MODVDD18); CONFIG16-22 reserved.",
+ "parts": [
+  [
+   "AFE7070IRGZT",
+   "RGZ",
+   48,
+   "Active"
+  ]
+ ]
+}

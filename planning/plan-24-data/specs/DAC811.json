@@ -1,0 +1,445 @@
+{
+ "device": {
+  "id": "DAC811",
+  "function": "DAC",
+  "description": "12-bit voltage-output DAC with reference and double-buffered 4/8/12-bit microprocessor interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac811.pdf (PDS-503L) p.1 description (three nibble input latches, D/A latch), p.2 digital input levels, interface timing and supplies, p.3 pin descriptions, p.4 timing diagrams, p.5 interface logic and Table II truth table, p.7 bus interfacing",
+  "pinouts": {
+   "dip28": [
+    {
+     "number": 1,
+     "name": "+VDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "WR",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "NA",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "NB",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "NC",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "D11",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "D10",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "D9",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "D8",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "D7",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "D6",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "D5",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "D4",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "DCOM",
+     "role": "ground"
+    },
+    {
+     "number": 16,
+     "name": "D0",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "D1",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "D2",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "D3",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "+VCC",
+     "role": "power"
+    },
+    {
+     "number": 21,
+     "name": "-VCC",
+     "role": "power"
+    },
+    {
+     "number": 22,
+     "name": "Gain Adj",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "ACOM",
+     "role": "ground"
+    },
+    {
+     "number": 24,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 25,
+     "name": "10V Range",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "SJ",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "BPO",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "Ref Out",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 1,
+  "vcc": [
+   4.5,
+   5.5
+  ],
+  "inputMax": 15,
+  "analog": [
+   "+VCC",
+   "-VCC",
+   "Gain Adj",
+   "VOUT",
+   "10V Range",
+   "SJ",
+   "BPO",
+   "Ref Out"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "D11",
+    "D10",
+    "D9",
+    "D8",
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "wr": {
+    "pin": "WR",
+    "active": 0
+   },
+   "address": [
+    "NA",
+    "NB",
+    "NC",
+    "LDAC"
+   ]
+  },
+  "registers": [
+   {
+    "name": "IN",
+    "space": "input",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "A",
+      "bits": [
+       11,
+       8
+      ]
+     },
+     {
+      "name": "B",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "C",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.1, p.5: input latches A (4 MSBs), B (middle 4), C (4 LSBs); power-on value not given (0)"
+   },
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "p.5: 12-bit D/A latch; power-on value not given (0)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "WR low with NA, NB, NC, LDAC low",
+     "in": "0000 dddd eeee ffff",
+     "action": "nop",
+     "set": {
+      "IN.A": "d",
+      "IN.B": "e",
+      "IN.C": "f"
+     },
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "note": "p.5 Table II: all enables low makes every latch transparent (input latches loaded, then the D/A latch)"
+    },
+    {
+     "name": "WR low with NA, NB, NC low",
+     "in": "0001 dddd eeee ffff",
+     "action": "nop",
+     "set": {
+      "IN.A": "d",
+      "IN.B": "e",
+      "IN.C": "f"
+     },
+     "commit": "end"
+    },
+    {
+     "name": "WR low with NA, NB, LDAC low",
+     "in": "0010 dddd eeee xxxx",
+     "action": "nop",
+     "set": {
+      "IN.A": "d",
+      "IN.B": "e"
+     },
+     "then": [
+      "update"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "WR low with NA, NB low",
+     "in": "0011 dddd eeee xxxx",
+     "action": "nop",
+     "set": {
+      "IN.A": "d",
+      "IN.B": "e"
+     },
+     "commit": "end"
+    },
+    {
+     "name": "WR low with NA, NC, LDAC low",
+     "in": "0100 dddd xxxx ffff",
+     "action": "nop",
+     "set": {
+      "IN.A": "d",
+      "IN.C": "f"
+     },
+     "then": [
+      "update"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "WR low with NA, NC low",
+     "in": "0101 dddd xxxx ffff",
+     "action": "nop",
+     "set": {
+      "IN.A": "d",
+      "IN.C": "f"
+     },
+     "commit": "end"
+    },
+    {
+     "name": "WR low with NA, LDAC low",
+     "in": "0110 dddd xxxx xxxx",
+     "action": "nop",
+     "set": {
+      "IN.A": "d"
+     },
+     "then": [
+      "update"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "WR low with NA low",
+     "in": "0111 dddd xxxx xxxx",
+     "action": "nop",
+     "set": {
+      "IN.A": "d"
+     },
+     "commit": "end"
+    },
+    {
+     "name": "WR low with NB, NC, LDAC low",
+     "in": "1000 xxxx eeee ffff",
+     "action": "nop",
+     "set": {
+      "IN.B": "e",
+      "IN.C": "f"
+     },
+     "then": [
+      "update"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "WR low with NB, NC low",
+     "in": "1001 xxxx eeee ffff",
+     "action": "nop",
+     "set": {
+      "IN.B": "e",
+      "IN.C": "f"
+     },
+     "commit": "end"
+    },
+    {
+     "name": "WR low with NB, LDAC low",
+     "in": "1010 xxxx eeee xxxx",
+     "action": "nop",
+     "set": {
+      "IN.B": "e"
+     },
+     "then": [
+      "update"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "WR low with NB low",
+     "in": "1011 xxxx eeee xxxx",
+     "action": "nop",
+     "set": {
+      "IN.B": "e"
+     },
+     "commit": "end"
+    },
+    {
+     "name": "WR low with NC, LDAC low",
+     "in": "1100 xxxx xxxx ffff",
+     "action": "nop",
+     "set": {
+      "IN.C": "f"
+     },
+     "then": [
+      "update"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "WR low with NC low",
+     "in": "1101 xxxx xxxx ffff",
+     "action": "nop",
+     "set": {
+      "IN.C": "f"
+     },
+     "commit": "end"
+    },
+    {
+     "name": "WR low with LDAC low",
+     "in": "1110 xxxx xxxx xxxx",
+     "action": "update",
+     "commit": "end"
+    }
+   ],
+   "note": "p.5: WR low with NA/NB/NC low loads the matching nibble latch, with LDAC low the D/A latch from the input latches; several enables may be low at once; the latch closes when WR returns high"
+  },
+  "dac": {
+   "input": [
+    "IN"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "command"
+  }
+ },
+ "packages": {
+  "DW": {
+   "pinout": "dip28",
+   "footprint": "SOIC-28W",
+   "package": "SOIC",
+   "pins": 28
+  }
+ },
+ "pdf": "dac811.pdf",
+ "pages": "p.2 (digital inputs VIH up to +15 V, VDD 4.5-5.5 V, tWP/tAW/tDW/tDH), p.3 (pin descriptions), p.4 (timing), p.5 (interface logic, Table II), p.7 (several enables at once)",
+ "notModeled": [
+  "analog: voltage output, reference, gain/offset adjust, output ranges (USB/BOB codes)",
+  "level-triggered (transparent) latches: the model loads them once, when WR returns high; enables held low with WR tied low (latches following the data bus) are not modeled",
+  "power-on contents of the latches (not given; 0 used)"
+ ],
+ "variants": "dac811.pdf covers DAC811 A/B/J/K grades (CERDIP, plastic DIP, SO); identical logic",
+ "parts": [
+  [
+   "DAC811KU",
+   "DW",
+   28,
+   "Active"
+  ]
+ ]
+}

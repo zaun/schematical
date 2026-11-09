@@ -1,0 +1,222 @@
+{
+ "device": {
+  "id": "ADS1271",
+  "function": "ADC",
+  "description": "24-bit 105 kSPS wide-bandwidth delta-sigma ADC with SPI / frame-sync serial interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1271.pdf (SBAS306F) p.4 electrical characteristics (digital I/O, DVDD), p.5 pin assignments and terminal functions, p.6 SPI-format timing, p.18 clock ratios (Table 3), p.19 mode selection (Table 5), format selection (Table 6), p.20-21 synchronization and power-down, p.25 data format (Table 9), SPI serial interface, DRDY",
+  "pinouts": {
+   "pw16": [
+    {
+     "number": 1,
+     "name": "AINP",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AINN",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "MODE",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "FORMAT",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "SYNC/PDWN",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "DRDY/FSYNC",
+     "role": "inout"
+    },
+    {
+     "number": 11,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "VREFN",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "VREFP",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 24,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   1.65,
+   3.6
+  ],
+  "analog": [
+   "AINP",
+   "AINN",
+   "AGND",
+   "AVDD",
+   "VREFN",
+   "VREFP"
+  ],
+  "bus": {
+   "style": "spi",
+   "sclk": "SCLK",
+   "miso": "DOUT",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 0,
+   "tOut": 12
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 1,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MODE",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: follows the MODE pin (0 = high-speed, 1 = low-power; float = high-resolution reads 0)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{24}",
+   "idle": "0",
+   "commands": []
+  },
+  "conversion": {
+   "time": {
+    "field": "CTRL.MODE",
+    "values": {
+     "0": 9481.5,
+     "1": 18963
+    }
+   },
+   "start": [
+    "power-on"
+   ],
+   "mode": "continuous"
+  },
+  "ready": [
+   {
+    "pin": "DRDY/FSYNC",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read"
+   }
+  ],
+  "pins": {
+   "powerdown": {
+    "pin": "SYNC/PDWN",
+    "active": 0
+   },
+   "levels": [
+    {
+     "pin": "MODE",
+     "field": "CTRL.MODE"
+    }
+   ]
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw16",
+   "footprint": "TSSOP-16",
+   "package": "TSSOP",
+   "pins": 16
+  }
+ },
+ "pdf": "ads1271.pdf",
+ "pages": "p.4 (digital I/O, supplies), p.5 (pins), p.6 (SPI timing), p.18 (Table 3), p.19 (Tables 5, 6), p.20-21 (sync, power-down), p.25 (data format, SPI interface)",
+ "notModeled": [
+  "analog input and reference",
+  "only the SPI format (FORMAT = 0) is modeled; the frame-sync format (FORMAT = 1, DRDY/FSYNC an input) and the ADS1271B modulator output (FORMAT floating, SCLK and DOUT become outputs) are not; the FORMAT pin is not read",
+  "conversion time = 1 / data rate at fCLK = 27 MHz (Table 3): 256 tCLK high-speed (MODE = 0), 512 tCLK low-power (MODE = 1); MODE floating (high-resolution, 512 tCLK) reads 0 and gets the high-speed time; other CLK frequencies are not modeled; the CLK pin is not used",
+  "daisy-chain: the data shifted in on DIN after the 24 data bits are not passed through to DOUT (idle 0)",
+  "SYNC/PDWN: a short low pulse synchronizes (filter restart, DRDY high for 128 conversions tNDR); held low > 2^19 tCLK it powers down, then offset self-calibration and 256-conversion settling (tOFS); modeled as power-down while low",
+  "DRDY returns high on the first SCLK falling edge (modeled as cleared on reading the data); its high pulse before the next data when data are not read; DRDY held high for 128 conversions after a MODE change (tMD, tNDR)"
+ ],
+ "variants": "ADS1271IB parts are the B grade (adds the modulator output mode, FORMAT floating); same pinout and SPI / frame-sync interface",
+ "parts": [
+  [
+   "ADS1271IBPW",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "ADS1271IBPWR",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "ADS1271IPW",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "ADS1271IPWR",
+   "PW",
+   16,
+   "Active"
+  ]
+ ]
+}

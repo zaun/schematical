@@ -1,0 +1,138 @@
+{
+ "device": {
+  "id": "TLC4541",
+  "function": "ADC",
+  "description": "16-bit 200 kSPS single-channel SAR ADC with SPI/DSP serial output (CS and FS)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "tlc4541.pdf (SLAS293) p.1 pinouts, p.3 terminal functions, p.4 recommended operating conditions, p.6 timing requirements (td1/td2/td3, tconv 2.94 us), p.12-14 control and timing (reset cycle, sampling, conversion, serial output data format, SPI CPOL 0 / CPHA 1), p.17 binary output format and auto-power down",
+  "pinouts": {
+   "d8_4541": [
+    {
+     "number": 1,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "REF",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "AIN",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "FS",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "SDO",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   4.5,
+   5.5
+  ],
+  "analog": [
+   "REF",
+   "AIN"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "miso": "SDO",
+   "mode": 1
+  },
+  "timing": {
+   "tValid": 17,
+   "tOut": 15,
+   "tFloat": 20
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{16}",
+   "idle": "z",
+   "commands": []
+  },
+  "conversion": {
+   "time": 2940,
+   "start": [
+    "cs-rise"
+   ]
+  }
+ },
+ "packages": {
+  "D": {
+   "pinout": "d8_4541",
+   "footprint": "SOIC-8",
+   "package": "SOIC",
+   "pins": 8
+  },
+  "DGK": {
+   "pinout": "d8_4541",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  }
+ },
+ "pdf": "tlc4541.pdf",
+ "pages": "p.1 (pinouts), p.3 (terminal functions), p.4 (ROC), p.6 (timing), p.12-14 (reset, conversion, output format, SPI mode), p.17 (binary format, auto-power down)",
+ "notModeled": [
+  "analog input, external reference (REF); the result is the 0 V code (0000h)",
+  "FS (DSP frame sync) control: FS low at CS falling makes the FS rising edge start the frame and release SDO (FS-only and CS+FS modes); FS is modeled as tied to VDD (SPI mode, p.13)",
+  "sampling (20 SCLKs from the 5th SCLK) and the conversion start after the 24th SCLK falling edge: modeled as a 2.94 us conversion started at CS rising; SDO carries the previous cycle's result (p.12)",
+  "power-on RESET/initialization cycle (CS low for 1 to 8 SCLK falling edges) and the FF00h code output after a reset cycle or a prematurely terminated conversion (p.12)",
+  "SDO goes Hi-Z at the 17th SCLK rising edge (p.3, p.6 Note 4); modeled as Hi-Z after the 16-bit frame (idle z) and at CS rising",
+  "auto-power down after each conversion (woken by CS falling) - no effect on the bus (p.17)",
+  "SCLK frequency limits (100 kHz to 15 MHz), sample time limits (p.4, p.6)"
+ ],
+ "variants": "TLC4541: single-ended AIN, separate FS pin (pin 7), SCLK on pin 5; TLC4545: pseudo-differential AIN0(+)/AIN1(-), SCLK on pin 7, no FS. Same 16-bit frame and timing; pin compatible with the 14-bit TLC3541/TLC3545.",
+ "parts": [
+  [
+   "TLC4541ID",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "TLC4541IDGK",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "TLC4541IDGKR",
+   "DGK",
+   8,
+   "Active"
+  ]
+ ]
+}

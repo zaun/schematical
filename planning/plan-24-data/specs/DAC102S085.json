@@ -1,0 +1,234 @@
+{
+ "device": {
+  "id": "DAC102S085",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "10-bit dual-channel voltage-output DAC with SPI-compatible serial interface",
+  "note": "dac102s085.pdf (SNAS364F) p.3 pin configuration and functions, p.4 recommended operating conditions, p.6-7 timing (Figure 2), p.14 power-on reset, p.15 power-down modes (Table 1) and serial interface, p.16 input shift register (Figure 32), p.17 68HC11 interface (CPOL 0, CPHA 1)",
+  "pinouts": {
+   "p10": [
+    {
+     "number": 1,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 5,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 6,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "VREFIN",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "SCLK",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 10,
+  "channels": 2,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "inputMax": 5.5,
+  "analog": [
+   "VOUTA",
+   "VOUTB",
+   "VREFIN"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 1
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 10,
+    "reset": 0
+   },
+   {
+    "name": "INB",
+    "space": "input",
+    "address": 1,
+    "width": 10,
+    "reset": 0
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 10,
+    "reset": 0
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 10,
+    "reset": 0
+   },
+   {
+    "name": "PWR",
+    "width": 3,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PD",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "TERM",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "internal: power-down state (all outputs) and termination code A1:A0 (Table 1)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write register, no update",
+     "in": "0a 00 d{10} xx",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "set": {
+      "PWR.PD": 0
+     },
+     "note": "OP1:OP0 = 00 (Figure 28/32)"
+    },
+    {
+     "name": "Write register and update outputs",
+     "in": "0a 01 d{10} xx",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "set": {
+      "PWR.PD": 0
+     },
+     "then": [
+      "updateall"
+     ],
+     "note": "OP1:OP0 = 01: the datasheet updates the outputs of all channels"
+    },
+    {
+     "name": "Write all registers and update outputs",
+     "in": "xx 10 d{10} xx",
+     "action": "write",
+     "channel": 0,
+     "channelMap": {
+      "0": [
+       0,
+       1
+      ]
+     },
+     "data": "d",
+     "set": {
+      "PWR.PD": 0
+     },
+     "then": [
+      "update"
+     ],
+     "note": "OP1:OP0 = 10"
+    },
+    {
+     "name": "Power-down outputs",
+     "in": "tt 11 x{12}",
+     "action": "nop",
+     "set": {
+      "PWR.PD": 1,
+      "PWR.TERM": "t"
+     },
+     "note": "OP1:OP0 = 11; A1:A0 00/11 Hi-Z, 01 2.5 kOhm, 10 100 kOhm (Table 1)"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB"
+   ],
+   "output": [
+    "DACA",
+    "DACB"
+   ],
+   "clearCode": 0,
+   "ldac": "command"
+  }
+ },
+ "packages": {
+  "DGS": {
+   "pinout": "p10",
+   "footprint": "VSSOP-10",
+   "package": "VSSOP",
+   "pins": 10
+  }
+ },
+ "pdf": "dac102s085.pdf",
+ "pages": "p.3 (pins), p.4 (ROC: VA 2.7-5.5 V, digital inputs 0-5.5 V regardless of VA), p.6-7 (timing), p.14 (power-on reset), p.15 (power-down, serial interface), p.16 (Figure 32 input register: 0 A0 OP1 OP0 D9..D0 X X), p.17 (68HC11 CPOL/CPHA)",
+ "notModeled": [
+  "analog outputs, VREFIN, power-down output terminations and wake-up time",
+  "leaving power-down: the datasheet only says a write sequence recovers; the model clears PWR.PD on any write command",
+  "the command executes on the 16th SCLK falling edge (commit now); SYNC rising earlier aborts it; bits after the 16th are ignored",
+  "SCLK and SYNC timing limits; operating temperature -40 to 105 C"
+ ],
+ "variants": "DAC082S085 (8-bit) and DAC122S085 (12-bit) are pin-compatible (separate datasheets); the WSON (DSC) package in the datasheet has no orderable part in the skeleton",
+ "parts": [
+  [
+   "DAC102S085CIMM/NOPB",
+   "DGS",
+   10,
+   "Active"
+  ]
+ ]
+}

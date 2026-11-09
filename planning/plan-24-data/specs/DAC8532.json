@@ -1,0 +1,383 @@
+{
+ "device": {
+  "id": "DAC8532",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "Dual 16-bit voltage-output DAC with 24-bit SPI-compatible write-only interface, per-channel data buffers and software load bits",
+  "note": "dac8532.pdf (SBAS246B) p.3 pin functions, p.5 power requirements (VDD 2.7-5.5 V) and logic inputs, p.6 timing requirements and Figure 1, p.14 power-on reset, input shift register (Figure 33) and SYNC interrupt, p.15 power-down modes (Table 1), p.16 control matrix (Table 2) and power-down commands (Table 3), p.16-17 operation examples",
+  "pinouts": {
+   "dgk8": [
+    {
+     "number": 1,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "GND",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 2,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "VREF",
+   "VOUTB",
+   "VOUTA"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "IN_A",
+    "address": 0,
+    "space": "input",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "data buffer A; power-on zero (p.14)"
+   },
+   {
+    "name": "IN_B",
+    "address": 1,
+    "space": "input",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "data buffer B; power-on zero (p.14)"
+   },
+   {
+    "name": "DAC_A",
+    "address": 0,
+    "space": "dac",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC register A; power-on zero scale (p.14)"
+   },
+   {
+    "name": "DAC_B",
+    "address": 1,
+    "space": "dac",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "DAC register B; power-on zero scale (p.14)"
+   },
+   {
+    "name": "PWR",
+    "width": 4,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PDA",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "PDB",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "internal: PD1/PD0 (DB17-DB16) last written to data buffer A / B (Tables 1-3): 00 normal, 01 1 kOhm, 10 100 kOhm, 11 Hi-Z"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "in": "00 00 x 0 00 d{16}",
+     "name": "WR Buffer A w/Data",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "PWR.PDA": 0
+     }
+    },
+    {
+     "in": "00 00 x 1 00 d{16}",
+     "name": "WR Buffer B w/Data",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "PWR.PDB": 0
+     }
+    },
+    {
+     "in": "00 01 x 0 00 d{16}",
+     "name": "WR Buffer A w/Data and Load DAC A",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "PWR.PDA": 0
+     },
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "in": "00 01 x 1 00 d{16}",
+     "name": "WR Buffer B w/Data and Load DAC A",
+     "action": "update",
+     "channel": 0,
+     "set": {
+      "IN_B.D": "d",
+      "PWR.PDB": 0
+     },
+     "note": "writes buffer B and loads DAC A from its own buffer (Table 2)"
+    },
+    {
+     "in": "00 10 x 0 00 d{16}",
+     "name": "WR Buffer A w/Data and Load DAC B",
+     "action": "update",
+     "channel": 1,
+     "set": {
+      "IN_A.D": "d",
+      "PWR.PDA": 0
+     },
+     "note": "writes buffer A and loads DAC B from its own buffer (Table 2)"
+    },
+    {
+     "in": "00 10 x 1 00 d{16}",
+     "name": "WR Buffer B w/Data and Load DAC B",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "PWR.PDB": 0
+     },
+     "then": [
+      "update"
+     ]
+    },
+    {
+     "in": "00 11 x 0 00 d{16}",
+     "name": "WR Buffer A w/Data and Load DACs A and B",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "PWR.PDA": 0
+     },
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "in": "00 11 x 1 00 d{16}",
+     "name": "WR Buffer B w/Data and Load DACs A and B",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "PWR.PDB": 0
+     },
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "WR Buffer A w/Power-Down Command",
+     "in": "00 00 x 0 pp x{16}",
+     "set": {
+      "PWR.PDA": "p"
+     }
+    },
+    {
+     "name": "WR Buffer B w/Power-Down Command",
+     "in": "00 00 x 1 pp x{16}",
+     "set": {
+      "PWR.PDB": "p"
+     }
+    },
+    {
+     "name": "WR Buffer A w/Power-Down Command and Load DAC A",
+     "in": "00 01 x 0 pp x{16}",
+     "set": {
+      "PWR.PDA": "p"
+     },
+     "action": "update",
+     "channel": 0
+    },
+    {
+     "name": "WR Buffer B w/Power-Down Command and Load DAC A",
+     "in": "00 01 x 1 pp x{16}",
+     "set": {
+      "PWR.PDB": "p"
+     },
+     "action": "update",
+     "channel": 0
+    },
+    {
+     "name": "WR Buffer A w/Power-Down Command and Load DAC B",
+     "in": "00 10 x 0 pp x{16}",
+     "set": {
+      "PWR.PDA": "p"
+     },
+     "action": "update",
+     "channel": 1
+    },
+    {
+     "name": "WR Buffer B w/Power-Down Command and Load DAC B",
+     "in": "00 10 x 1 pp x{16}",
+     "set": {
+      "PWR.PDB": "p"
+     },
+     "action": "update",
+     "channel": 1
+    },
+    {
+     "name": "WR Buffer A w/Power-Down Command and Load DACs A and B",
+     "in": "00 11 x 0 pp x{16}",
+     "set": {
+      "PWR.PDA": "p"
+     },
+     "action": "update"
+    },
+    {
+     "name": "WR Buffer B w/Power-Down Command and Load DACs A and B",
+     "in": "00 11 x 1 pp x{16}",
+     "set": {
+      "PWR.PDB": "p"
+     },
+     "action": "update"
+    }
+   ],
+   "note": "24-bit word: DB23-DB22 reserved 0, DB21 LDB, DB20 LDA, DB19 don't care, DB18 buffer select (0 = A, 1 = B), DB17-DB16 PD1/PD0, DB15-DB0 data (Table 2); executed on the 24th SCLK falling edge, SYNC high earlier discards the word"
+  },
+  "dac": {
+   "input": [
+    "IN_A",
+    "IN_B"
+   ],
+   "output": [
+    "DAC_A",
+    "DAC_B"
+   ],
+   "clearCode": 0,
+   "ldac": "command"
+  }
+ },
+ "packages": {
+  "DGK": {
+   "pinout": "dgk8",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  }
+ },
+ "pdf": "dac8532.pdf",
+ "pages": "p.3 (pins), p.5 (power requirements, logic inputs), p.6 (timing, Figure 1), p.14 (power-on reset, input shift register, SYNC interrupt), p.15 (power-down, Table 1), p.16-17 (control matrix Table 2, power-down commands Table 3, operation examples)",
+ "notModeled": [
+  "analog outputs and the shared VREF reference (never driven)",
+  "power-down: the PD1/PD0 command goes into the data buffer and takes effect when that channel is loaded; the model stores it in PWR at once (a later data write to the buffer sets it back to 00), and the buffer's data are kept",
+  "power-down exit time (2.5 us at 5 V, 5 us at 3 V) and output settling",
+  "SCLK frequency (20 MHz below VDD 3.6 V, 30 MHz above) and setup/hold limits t1-t9",
+  "words with DB23/DB22 not 0 are ignored (the datasheet requires 0)",
+  "SPI mode: data taken on SCLK falling edges with SCLK high at SYNC fall (Figure 1); modeled as mode 2",
+  "no read-back: the interface is write-only"
+ ],
+ "variants": "dac8532.pdf covers only the DAC8532.",
+ "parts": [
+  [
+   "DAC8532IDGK",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8532IDGKR",
+   "DGK",
+   8,
+   "Active"
+  ]
+ ]
+}

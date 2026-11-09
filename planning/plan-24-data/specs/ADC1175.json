@@ -1,0 +1,221 @@
+{
+  "device": {
+    "id": "ADC1175",
+    "function": "ADC",
+    "description": "8-bit 5 V 20 MSPS pipelined ADC with tri-state parallel outputs",
+    "drawer": [
+      "Interface"
+    ],
+    "note": "adc1175.pdf (SNAS012H) p.1 pin configuration, p.2-4 pin descriptions, p.5 operating ratings, p.7 AC characteristics (tOD, tEN, tDIS, pipeline delay)",
+    "pinouts": {
+      "pw24": [
+        {
+          "number": 1,
+          "name": "OE",
+          "role": "input"
+        },
+        {
+          "number": 2,
+          "name": "DVSS",
+          "role": "ground"
+        },
+        {
+          "number": 3,
+          "name": "D0",
+          "role": "output"
+        },
+        {
+          "number": 4,
+          "name": "D1",
+          "role": "output"
+        },
+        {
+          "number": 5,
+          "name": "D2",
+          "role": "output"
+        },
+        {
+          "number": 6,
+          "name": "D3",
+          "role": "output"
+        },
+        {
+          "number": 7,
+          "name": "D4",
+          "role": "output"
+        },
+        {
+          "number": 8,
+          "name": "D5",
+          "role": "output"
+        },
+        {
+          "number": 9,
+          "name": "D6",
+          "role": "output"
+        },
+        {
+          "number": 10,
+          "name": "D7",
+          "role": "output"
+        },
+        {
+          "number": 11,
+          "name": "DVDD",
+          "role": "power"
+        },
+        {
+          "number": 12,
+          "name": "CLK",
+          "role": "input"
+        },
+        {
+          "number": 13,
+          "name": "DVDD",
+          "role": "power"
+        },
+        {
+          "number": 14,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 15,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 16,
+          "name": "VRTS",
+          "role": "output"
+        },
+        {
+          "number": 17,
+          "name": "VRT",
+          "role": "power"
+        },
+        {
+          "number": 18,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 19,
+          "name": "VIN",
+          "role": "input"
+        },
+        {
+          "number": 20,
+          "name": "AVSS",
+          "role": "ground"
+        },
+        {
+          "number": 21,
+          "name": "AVSS",
+          "role": "ground"
+        },
+        {
+          "number": 22,
+          "name": "VRBS",
+          "role": "output"
+        },
+        {
+          "number": 23,
+          "name": "VRB",
+          "role": "power"
+        },
+        {
+          "number": 24,
+          "name": "DVSS",
+          "role": "ground"
+        }
+      ]
+    },
+    "type": "adc",
+    "bits": 8,
+    "channels": 1,
+    "codeFormat": "straight",
+    "vcc": [
+      2.5,
+      5.25
+    ],
+    "analog": [
+      "AVDD",
+      "VIN",
+      "VRT",
+      "VRTS",
+      "VRB",
+      "VRBS"
+    ],
+    "bus": {
+      "style": "clocked",
+      "clock": {
+        "pin": "CLK",
+        "edge": "rise"
+      },
+      "data": [
+        "D7",
+        "D6",
+        "D5",
+        "D4",
+        "D3",
+        "D2",
+        "D1",
+        "D0"
+      ],
+      "oe": {
+        "pin": "OE",
+        "active": 0
+      }
+    },
+    "timing": {
+      "tOut": 19.5,
+      "tFloat": 15
+    },
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "commands": [],
+      "read": "R{8}"
+    },
+    "conversion": {
+      "time": 0,
+      "start": [
+        "power-on"
+      ]
+    }
+  },
+  "packages": {
+    "PW": {
+      "pinout": "pw24",
+      "footprint": "TSSOP-24",
+      "package": "TSSOP",
+      "pins": 24
+    }
+  },
+  "pdf": "adc1175.pdf",
+  "pages": "p.1 (pin configuration), p.2-4 (pin descriptions: pin 11 DVDD 2.5 V to pin 13), p.5 (operating ratings: AVDD, DVDD 4.75-5.25 V), p.7 (tOD 19.5/16 ns typ, latency 2.5 clocks, tEN 11 ns, tDIS 15 ns typ), applications section (pins 11/13 DVDD)",
+  "notModeled": [
+    "analog input and reference ladder (VRT/VRB, self-bias VRTS/VRBS); the result is always the 0 V code 0x00",
+    "pipeline latency of 2.5 clock cycles (the code is constant); sampling on CLK falling, output valid tOD after CLK rising",
+    "timing values are typical only (no maximum given): tOD 19.5 ns (data rising), tEN 11 ns, tDIS 15 ns",
+    "conversion rate limits (1-30 MHz typ, 20 MSPS specified)",
+    "no power-down pin; stopping the clock reduces power",
+    "pins 11 and 13 are both DVDD: the pin table makes pin 11 the output-driver supply (2.5 V to pin 13), the applications section calls pin 11 the core and pin 13 the drivers, and the operating ratings limit pin 13 - pin 11 to < 0.5 V; vcc is the union 2.5-5.25 V"
+  ],
+  "variants": "ADC1173 (3 V, 15 MSPS) and ADC1175 (5 V, 20 MSPS) share the industry-standard 24-pin pinout",
+  "parts": [
+    [
+      "ADC1175CIMTC/NOPB",
+      "PW",
+      24,
+      "Active"
+    ],
+    [
+      "ADC1175CIMTCX/NOPB",
+      "PW",
+      24,
+      "Active"
+    ]
+  ]
+}

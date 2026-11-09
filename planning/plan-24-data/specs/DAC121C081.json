@@ -1,0 +1,151 @@
+{
+ "device": {
+  "id": "DAC121C081",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "12-bit single-channel voltage-output DAC with I2C interface",
+  "note": "dac121c085.pdf (SNAS395F) p.4 pin configuration and functions, p.6 recommended operating conditions, p.10 timing (toutz), p.18-19 slave address (Table 1), power-on reset, p.20 power-down and writing, p.21 reading and DAC register (Figure 26)",
+  "pinouts": {
+   "wson6": [
+    {
+     "number": 1,
+     "name": "ADR0",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "SCL",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "SDA",
+     "role": "inout"
+    },
+    {
+     "number": 4,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "VOUT",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "inputMax": 5.5,
+  "analog": [
+   "VOUT"
+  ],
+  "bus": {
+   "style": "i2c",
+   "scl": "SCL",
+   "sda": "SDA",
+   "address": [
+    "ADR0"
+   ],
+   "table": [
+    13,
+    14,
+    null,
+    null
+   ]
+  },
+  "timing": {
+   "tOut": 270
+  },
+  "registers": [
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 12,
+    "reset": 0
+   },
+   {
+    "name": "CTRL",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PD",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "internal: PD1:PD0 of the DAC register (bits 13:12)"
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "commands": [
+    {
+     "name": "Write DAC register",
+     "in": "xx pp d{12}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "CTRL.PD": "p"
+     },
+     "note": "two data bytes: X X PD1 PD0 then the data; VOUT updates at the ACK after the lower byte; repeated byte pairs before STOP write again"
+    }
+   ],
+   "read": "00 [CTRL.PD] [DAC] "
+  },
+  "dac": {
+   "input": [
+    "DAC"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "NGF": {
+   "pinout": "wson6",
+   "footprint": "WSON-6-NGF",
+   "package": "WSON",
+   "pins": 6
+  }
+ },
+ "pdf": "dac121c085.pdf",
+ "pages": "p.4 (pins, WSON NGF), p.6 (ROC: VA 2.7-5.5 V, digital inputs 0-5.5 V regardless of VA), p.10 (toutz max 270 ns fast mode), p.18-19 (address, Table 1), p.19 (power-on reset), p.20 (power-down, Figure 24 write), p.21 (Figure 25 read, Figure 26 register X X PD1 PD0 D11..D0)",
+ "notModeled": [
+  "analog output, reference (VA, or VREF on the VSSOP DAC1x1C085), power-down output terminations and wake-up time",
+  "address pins are three-level (GND, VA, floating or VA/2): the floating-pin addresses (ADR0 float: 0x0C; ADR1 float row and ADR1/ADR0 float combinations) cannot be expressed; SCL/SDA ties are not documented (null)",
+  "broadcast address 1001000 (0x48), to which every DAC1x1C08x responds and updates, is not modeled (one address per part)",
+  "the address pins are sampled until the first non-broadcast access and then locked until power cycle",
+  "Hs-mode (3.4 MHz) entry; toutz uses the fast-mode maximum (270 ns)",
+  "power-on requires VA to drop below 200 mV for a reset"
+ ],
+ "variants": "DAC121C085 (VSSOP-8 with ADR1 and VREF) shares the datasheet; the DAC121C081 SOT (DDC) package in the datasheet has no orderable part in the skeleton",
+ "parts": [
+  [
+   "DAC121C081CISD/NOPB",
+   "NGF",
+   6,
+   "Active"
+  ]
+ ]
+}

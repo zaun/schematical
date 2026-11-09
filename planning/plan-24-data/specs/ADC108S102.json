@@ -1,0 +1,193 @@
+{
+  "device": {
+    "id": "ADC108S102",
+    "function": "ADC",
+    "description": "8-channel 10-bit 500 kSPS-1 MSPS SAR ADC with SPI-compatible serial interface",
+    "drawer": [
+      "Interface"
+    ],
+    "note": "adc108s102.pdf (SNAS336B) p.1 connection diagram, p.2 pin descriptions, p.3 operating ratings, p.4 output coding, p.5-6 timing specifications and Figures 2-3 (operational and serial timing), p.16 serial interface and control register (Tables 1-3)",
+    "pinouts": {
+      "pw16": [
+        {
+          "number": 1,
+          "name": "CS",
+          "role": "input"
+        },
+        {
+          "number": 2,
+          "name": "VA",
+          "role": "power"
+        },
+        {
+          "number": 3,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 4,
+          "name": "IN0",
+          "role": "input"
+        },
+        {
+          "number": 5,
+          "name": "IN1",
+          "role": "input"
+        },
+        {
+          "number": 6,
+          "name": "IN2",
+          "role": "input"
+        },
+        {
+          "number": 7,
+          "name": "IN3",
+          "role": "input"
+        },
+        {
+          "number": 8,
+          "name": "IN4",
+          "role": "input"
+        },
+        {
+          "number": 9,
+          "name": "IN5",
+          "role": "input"
+        },
+        {
+          "number": 10,
+          "name": "IN6",
+          "role": "input"
+        },
+        {
+          "number": 11,
+          "name": "IN7",
+          "role": "input"
+        },
+        {
+          "number": 12,
+          "name": "DGND",
+          "role": "ground"
+        },
+        {
+          "number": 13,
+          "name": "VD",
+          "role": "power"
+        },
+        {
+          "number": 14,
+          "name": "DIN",
+          "role": "input"
+        },
+        {
+          "number": 15,
+          "name": "DOUT",
+          "role": "output"
+        },
+        {
+          "number": 16,
+          "name": "SCLK",
+          "role": "input"
+        }
+      ]
+    },
+    "type": "adc",
+    "bits": 10,
+    "channels": 8,
+    "codeFormat": "straight",
+    "vcc": [
+      2.7,
+      5.25
+    ],
+    "analog": [
+      "VA",
+      "IN0",
+      "IN1",
+      "IN2",
+      "IN3",
+      "IN4",
+      "IN5",
+      "IN6",
+      "IN7"
+    ],
+    "bus": {
+      "style": "spi",
+      "cs": "CS",
+      "sclk": "SCLK",
+      "mosi": "DIN",
+      "miso": "DOUT",
+      "mode": 3
+    },
+    "timing": {
+      "tValid": 30,
+      "tOut": 27,
+      "tFloat": 20
+    },
+    "registers": [
+      {
+        "name": "CTRL",
+        "width": 8,
+        "reset": 0,
+        "fields": [
+          {
+            "name": "ADD",
+            "bits": [
+              5,
+              3
+            ]
+          }
+        ],
+        "note": "Control Register (Table 1): bits 7-6 and 2-0 DONTC, ADD2-ADD0 select the channel of the next conversion; IN0 is the default (Table 3), first conversion after power-up is IN0"
+      }
+    ],
+    "protocol": {
+      "frame": "fixed",
+      "out": "0{4} R{10} 0{2}",
+      "idle": "0",
+      "commands": [
+        {
+          "name": "CONTROL",
+          "in": "xxaaaxxx x{8}",
+          "set": {
+            "CTRL.ADD": "a"
+          },
+          "note": "DIN loaded on the first 8 SCLK rising edges after CS falls; ADD selects the input of the next conversion"
+        }
+      ]
+    },
+    "conversion": {
+      "time": 0,
+      "start": [
+        "cs-fall"
+      ],
+      "channel": "CTRL.ADD"
+    }
+  },
+  "packages": {
+    "PW": {
+      "pinout": "pw16",
+      "footprint": "TSSOP-16",
+      "package": "TSSOP",
+      "pins": 16
+    }
+  },
+  "pdf": "adc108s102.pdf",
+  "pages": "p.1 (connection diagram), p.2 (pin descriptions), p.3 (operating ratings: VA 2.7-5.25 V, VD 2.7 V to VA, digital inputs 0 V to VA), p.4 (straight binary), p.5-6 (tEN 30 ns, tDACC 27 ns, tDIS 20 ns max; Figures 2-3: 4 leading zeros, DB9-DB0, 2 trailing zeros; DIN DONTC DONTC ADD2 ADD1 ADD0 DONTC DONTC DONTC), p.16 (serial interface, Tables 1-3)",
+  "notModeled": [
+    "analog inputs; VA is also the reference (the result is always the 0 V code 0x000)",
+    "conversion clocked by SCLK (3 track + 13 hold cycles) is not timed: the result is the 0 V code at once",
+    "continuous conversion: frames of N*16 SCLKs with CS held low convert again every 16 clocks (the model handles one 16-bit frame per CS low; later frames shift the idle level)",
+    "power-down while CS is high (no state is lost; supply current only)",
+    "SCLK frequency (8-16 MHz specified, 50 kHz-16 MHz operating) and throughput limits",
+    "digital inputs are specified 0 V to VA (VA may exceed VD); vcc is the VD range 2.7-5.25 V"
+  ],
+  "variants": "ADC108S022, ADC108S052: same pinout, frame and control register; they differ only in SCLK range and throughput (separate datasheets)",
+  "parts": [
+    [
+      "ADC108S102CIMT/NOPB",
+      "PW",
+      16,
+      "Active"
+    ]
+  ]
+}

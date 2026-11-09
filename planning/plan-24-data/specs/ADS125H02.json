@@ -1,0 +1,964 @@
+{
+ "device": {
+  "id": "ADS125H02",
+  "function": "ADC",
+  "description": "24-bit 40 kSPS delta-sigma ADC with +-20 V high-voltage PGA input, 2.5 V reference, IDACs, GPIOs and SPI interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads125h02.pdf (SBAS790C) p.4-5 pin configuration and functions, p.6 recommended operating conditions (DVDD 2.7-5.25 V), p.8-9 digital characteristics (GPIO VIH 0.7 AVDD, other inputs 0.7 DVDD), p.9 timing requirements, p.10 switching characteristics (tp(CSDO) 50 ns, tp(SCDO1) 40 ns, tp(CSDOZ) 50 ns), p.39-41 conversion control, latency (Table 8), auto-zero, clock, p.45-46 serial interface (SPI mode 1, CS1/CS2), DRDY, p.47 conversion data, CRC, p.49-52 commands (Table 16-27), p.52-67 register map (Table 28-44)",
+  "pinouts": {
+   "vqfn32": [
+    {
+     "number": 1,
+     "name": "REFP0",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "CAPP",
+     "role": "nc"
+    },
+    {
+     "number": 3,
+     "name": "CAPN",
+     "role": "nc"
+    },
+    {
+     "number": 4,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "START",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "CS2",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "CS1",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "DRDY",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "DOUT/DRDY",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "BYPASS",
+     "role": "nc"
+    },
+    {
+     "number": 16,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 17,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 18,
+     "name": "CLKIN",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "HV_AVSS",
+     "role": "power"
+    },
+    {
+     "number": 20,
+     "name": "HV_AVDD",
+     "role": "power"
+    },
+    {
+     "number": 21,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 22,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 23,
+     "name": "IDAC2",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "IDAC1",
+     "role": "output"
+    },
+    {
+     "number": 25,
+     "name": "AINCOM",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "AIN0",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "AIN1",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "GPIO3",
+     "role": "inout"
+    },
+    {
+     "number": 29,
+     "name": "GPIO2",
+     "role": "inout"
+    },
+    {
+     "number": 30,
+     "name": "REFN1/GPIO1",
+     "role": "inout"
+    },
+    {
+     "number": 31,
+     "name": "REFP1/GPIO0",
+     "role": "inout"
+    },
+    {
+     "number": 32,
+     "name": "REFN0",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 24,
+  "channels": 2,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "REFP0",
+   "CAPP",
+   "CAPN",
+   "AVDD",
+   "AGND",
+   "REFOUT",
+   "BYPASS",
+   "HV_AVSS",
+   "HV_AVDD",
+   "IDAC2",
+   "IDAC1",
+   "AINCOM",
+   "AIN0",
+   "AIN1",
+   "GPIO3",
+   "GPIO2",
+   "REFN1/GPIO1",
+   "REFP1/GPIO0",
+   "REFN0"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS1",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "miso": "DOUT/DRDY",
+   "mode": 1
+  },
+  "timing": {
+   "tValid": 50,
+   "tOut": 40,
+   "tFloat": 50
+  },
+  "registers": [
+   {
+    "name": "ID",
+    "address": 0,
+    "width": 8,
+    "reset": 96,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "DEV_ID",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "REV_ID1",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "reset 6xh: REV_ID1 not given (0 here)"
+   },
+   {
+    "name": "STATUS0",
+    "address": 1,
+    "width": 8,
+    "reset": 1,
+    "readOnly": 190,
+    "fields": [
+     {
+      "name": "LOCK1",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CRC1",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "STAT12",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "REFALM",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "DRDY",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CLOCK",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "RESET",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "CLOCK reset x (clock source detected): 0 here"
+   },
+   {
+    "name": "MODE0",
+    "address": 2,
+    "width": 8,
+    "reset": 36,
+    "fields": [
+     {
+      "name": "DR",
+      "bits": [
+       7,
+       3
+      ]
+     },
+     {
+      "name": "FILTER",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "MODE1",
+    "address": 3,
+    "width": 8,
+    "reset": 1,
+    "fields": [
+     {
+      "name": "AUTOZERO",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "CONVRT",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "DELAY",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "MODE2",
+    "address": 4,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GPIO_CON",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "GPIO_DIR",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "MODE3",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "STATENB",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "GPIO_DAT",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "REF",
+    "address": 6,
+    "width": 8,
+    "reset": 5,
+    "fields": [
+     {
+      "name": "REFENB",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "RMUXP",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "RMUXN",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OFCAL0",
+    "address": 7,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "OFCAL1",
+    "address": 8,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "OFCAL2",
+    "address": 9,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "FSCAL0",
+    "address": 10,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "FSCAL1",
+    "address": 11,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "FSCAL2",
+    "address": 12,
+    "width": 8,
+    "reset": 64
+   },
+   {
+    "name": "I_MUX",
+    "address": 13,
+    "width": 8,
+    "reset": 255,
+    "fields": [
+     {
+      "name": "I_MUX2",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "I_MUX1",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "I_MAG",
+    "address": 14,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "I_MAG2",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "I_MAG1",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RESERVED_0F",
+    "address": 15,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true
+   },
+   {
+    "name": "MODE4",
+    "address": 16,
+    "width": 8,
+    "reset": 80,
+    "readOnly": 128,
+    "fields": [
+     {
+      "name": "MUX",
+      "bits": [
+       6,
+       4
+      ]
+     },
+     {
+      "name": "GAIN",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "PGA block (CS2 in the datasheet)"
+   },
+   {
+    "name": "STATUS1",
+    "address": 17,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "PGA_ONL",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "PGA_ONH",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "PGA_OPL",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "PGA_OPH",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "PGA_INL",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "PGA_INH",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "PGA_IPL",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "PGA_IPH",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "PGA block (CS2); reset xxh (alarm states): 0 here"
+   },
+   {
+    "name": "STATUS2",
+    "address": 18,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 47,
+    "fields": [
+     {
+      "name": "LOCK2",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "CRC2",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "REV_ID2",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "PGA block (CS2); reset 0xh: REV_ID2 not given (0 here)"
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "out": "1{8}",
+   "idle": "1",
+   "commands": [
+    {
+     "name": "NOP",
+     "in": "00000000 xxxxxxxx xxxxxxxx xxxxxxxx"
+    },
+    {
+     "name": "RESET",
+     "in": "00000110 xxxxxxxx xxxxxxxx xxxxxxxx",
+     "action": "reset"
+    },
+    {
+     "name": "START",
+     "in": "00001000 xxxxxxxx xxxxxxxx xxxxxxxx",
+     "action": "start"
+    },
+    {
+     "name": "STOP",
+     "in": "00001010 xxxxxxxx xxxxxxxx xxxxxxxx",
+     "action": "stop"
+    },
+    {
+     "name": "RDATA",
+     "in": "00010010 xxxxxxxx xxxxxxxx xxxxxxxx",
+     "reply": "R{24}",
+     "note": "bytes 5-7 MSB/MID/LSB data; the Out CRC-3 byte that follows is not output"
+    },
+    {
+     "name": "OFSCAL",
+     "in": "00010110 xxxxxxxx xxxxxxxx xxxxxxxx",
+     "note": "calibration not modeled"
+    },
+    {
+     "name": "GANCAL",
+     "in": "00010111 xxxxxxxx xxxxxxxx xxxxxxxx",
+     "note": "calibration not modeled"
+    },
+    {
+     "name": "RREG",
+     "in": "001aaaaa xxxxxxxx xxxxxxxx xxxxxxxx",
+     "action": "rreg",
+     "address": "a",
+     "reply": "@",
+     "note": "register data in byte 5; Out CRC-1 not output"
+    },
+    {
+     "name": "WREG",
+     "in": "010aaaaa dddddddd xxxxxxxx xxxxxxxx",
+     "action": "write",
+     "address": "a",
+     "data": "d"
+    },
+    {
+     "name": "LOCK",
+     "in": "11110010 xxxxxxxx xxxxxxxx xxxxxxxx",
+     "set": {
+      "STATUS0.LOCK1": 1,
+      "STATUS2.LOCK2": 1
+     }
+    },
+    {
+     "name": "UNLOCK",
+     "in": "11110101 xxxxxxxx xxxxxxxx xxxxxxxx",
+     "set": {
+      "STATUS0.LOCK1": 0,
+      "STATUS2.LOCK2": 0
+     }
+    }
+   ]
+  },
+  "conversion": {
+   "time": {
+    "fields": [
+     "MODE0.FILTER",
+     "MODE0.DR"
+    ],
+    "values": {
+     "0,0": 400400000,
+     "0,1": 200400000,
+     "0,2": 100400000,
+     "0,3": 60430000,
+     "0,4": 50430000,
+     "0,5": 20430000,
+     "0,6": 17090000,
+     "0,7": 10430000,
+     "0,8": 2925000,
+     "0,9": 1258000,
+     "0,10": 841000,
+     "0,11": 633000,
+     "0,12": 564000,
+     "1,0": 800400000,
+     "1,1": 400400000,
+     "1,2": 200400000,
+     "1,3": 120400000,
+     "1,4": 100400000,
+     "1,5": 40420000,
+     "1,6": 33760000,
+     "1,7": 20420000,
+     "1,8": 5424000,
+     "1,9": 2091000,
+     "1,10": 1258000,
+     "1,11": 841000,
+     "1,12": 702000,
+     "2,0": 1200000000,
+     "2,1": 600400000,
+     "2,2": 300400000,
+     "2,3": 180400000,
+     "2,4": 150400000,
+     "2,5": 60430000,
+     "2,6": 50430000,
+     "2,7": 30430000,
+     "2,8": 7925000,
+     "2,9": 2925000,
+     "2,10": 1675000,
+     "2,11": 1050000,
+     "2,12": 841000,
+     "3,0": 1600000000,
+     "3,1": 800400000,
+     "3,2": 400400000,
+     "3,3": 240400000,
+     "3,4": 200400000,
+     "3,5": 80430000,
+     "3,6": 67090000,
+     "3,7": 40430000,
+     "3,8": 10430000,
+     "3,9": 3758000,
+     "3,10": 2091000,
+     "3,11": 1258000,
+     "3,12": 980000,
+     "4,0": 402200000,
+     "4,1": 202200000,
+     "4,2": 102200000,
+     "4,4": 52220000,
+     "0,13": 423000,
+     "0,14": 336000,
+     "0,15": 271000,
+     "0,16": 179000,
+     "0,17": 179000,
+     "0,18": 179000,
+     "0,19": 179000,
+     "0,20": 179000,
+     "0,21": 179000,
+     "0,22": 179000,
+     "0,23": 179000,
+     "0,24": 179000,
+     "0,25": 179000,
+     "0,26": 179000,
+     "0,27": 179000,
+     "0,28": 179000,
+     "0,29": 179000,
+     "0,30": 179000,
+     "0,31": 179000,
+     "1,13": 423000,
+     "1,14": 336000,
+     "1,15": 271000,
+     "1,16": 179000,
+     "1,17": 179000,
+     "1,18": 179000,
+     "1,19": 179000,
+     "1,20": 179000,
+     "1,21": 179000,
+     "1,22": 179000,
+     "1,23": 179000,
+     "1,24": 179000,
+     "1,25": 179000,
+     "1,26": 179000,
+     "1,27": 179000,
+     "1,28": 179000,
+     "1,29": 179000,
+     "1,30": 179000,
+     "1,31": 179000,
+     "2,13": 423000,
+     "2,14": 336000,
+     "2,15": 271000,
+     "2,16": 179000,
+     "2,17": 179000,
+     "2,18": 179000,
+     "2,19": 179000,
+     "2,20": 179000,
+     "2,21": 179000,
+     "2,22": 179000,
+     "2,23": 179000,
+     "2,24": 179000,
+     "2,25": 179000,
+     "2,26": 179000,
+     "2,27": 179000,
+     "2,28": 179000,
+     "2,29": 179000,
+     "2,30": 179000,
+     "2,31": 179000,
+     "3,13": 423000,
+     "3,14": 336000,
+     "3,15": 271000,
+     "3,16": 179000,
+     "3,17": 179000,
+     "3,18": 179000,
+     "3,19": 179000,
+     "3,20": 179000,
+     "3,21": 179000,
+     "3,22": 179000,
+     "3,23": 179000,
+     "3,24": 179000,
+     "3,25": 179000,
+     "3,26": 179000,
+     "3,27": 179000,
+     "3,28": 179000,
+     "3,29": 179000,
+     "3,30": 179000,
+     "3,31": 179000,
+     "4,13": 423000,
+     "4,14": 336000,
+     "4,15": 271000,
+     "4,16": 179000,
+     "4,17": 179000,
+     "4,18": 179000,
+     "4,19": 179000,
+     "4,20": 179000,
+     "4,21": 179000,
+     "4,22": 179000,
+     "4,23": 179000,
+     "4,24": 179000,
+     "4,25": 179000,
+     "4,26": 179000,
+     "4,27": 179000,
+     "4,28": 179000,
+     "4,29": 179000,
+     "4,30": 179000,
+     "4,31": 179000
+    }
+   },
+   "start": [
+    "command",
+    "pin"
+   ],
+   "mode": {
+    "field": "MODE1.CONVRT",
+    "continuous": 0,
+    "startOnEnter": false
+   },
+   "done": {
+    "STATUS0.DRDY": 1
+   },
+   "onRead": {
+    "STATUS0.DRDY": 0
+   },
+   "channel": "MODE4.MUX"
+  },
+  "ready": [
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read",
+    "enable": "MODE1.CONVRT=0"
+   },
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "start",
+    "enable": "MODE1.CONVRT=1"
+   },
+   {
+    "pin": "DOUT/DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read",
+    "enable": "MODE1.CONVRT=0",
+    "onMiso": true
+   },
+   {
+    "pin": "DOUT/DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "start",
+    "enable": "MODE1.CONVRT=1",
+    "onMiso": true
+   }
+  ],
+  "pins": {
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   },
+   "start": {
+    "pin": "START",
+    "active": 1
+   }
+  }
+ },
+ "packages": {
+  "RHB": {
+   "pinout": "vqfn32",
+   "footprint": "VQFN-32-5X5",
+   "package": "VQFN",
+   "pins": 32
+  }
+ },
+ "pdf": "ads125h02.pdf",
+ "pages": "ads125h02.pdf (SBAS790C) p.4-5 pin configuration and functions, p.6 recommended operating conditions (DVDD 2.7-5.25 V), p.8-9 digital characteristics (GPIO VIH 0.7 AVDD, other inputs 0.7 DVDD), p.9 timing requirements, p.10 switching characteristics (tp(CSDO) 50 ns, tp(SCDO1) 40 ns, tp(CSDOZ) 50 ns), p.39-41 conversion control, latency (Table 8), auto-zero, clock, p.45-46 serial interface (SPI mode 1, CS1/CS2), DRDY, p.47 conversion data, CRC, p.49-52 commands (Table 16-27), p.52-67 register map (Table 28-44)",
+ "notModeled": [
+  "analog inputs, high-voltage PGA, input mux (MODE4.MUX stored; HV supply readback, VCOM short and temperature readings not computed), IDACs, reference mux, PGA/reference alarms (STATUS1 and REFALM stay 0)",
+  "two chip selects: CS2 selects the PGA register block (10h-12h) and CS1 the ADC block (00h-0Fh); the model has one bus on CS1 and reaches all 19 registers through it; CS2 is not used",
+  "CRC is always on: every command is 4 bytes (byte 2 arbitrary or WREG data, byte 3 CRC-2, byte 4 00h) and executes at the 32nd SCLK; the model decodes the 4 bytes without checking the CRC; DOUT/DRDY outputs FFh then 1s during the command bytes (the echo bytes 1-2 and Out CRC-2 are not output), and the Out CRC-1/-3/-4 bytes after register or conversion data are not output; CRC1/CRC2 error flags never set",
+  "optional STATUS0 byte before the conversion data (MODE3.STATENB = 1) is not output",
+  "conversion time is the Table 8 latency (50 us start delay, auto-zero off) for every conversion; continuous conversions after the first run at 1 / fDATA; auto-zero doubles the first latency; DELAY[3:0] other than 0001 adds to it; FIR is defined only at 2.5, 5, 10, 20 SPS and sinc5 is used at 14.4 kSPS and above (undefined combinations use the largest time)",
+  "conversion restart on writes to MODE0, MODE1 and REF (Table 28 Restart column)",
+  "LOCK / UNLOCK set the LOCK flags but register writes are not blocked; per-block locking by CS1/CS2 not modeled",
+  "DRDY pulses high 16 fCLK before the next completion in continuous mode when data was not read (tw(DRH))",
+  "OFSCAL / GANCAL calibrations (OFCAL/FSCAL not updated)",
+  "GPIO pins (AVDD domain, MODE2/MODE3 stored only); external clock on CLKIN (40 kSPS needs fCLK = 10.24 MHz; times use the datasheet values)",
+  "RREG of an address outside 00h-12h returns 00h"
+ ],
+ "variants": "ADS125H02 is the only device in ads125h02.pdf; its ADC section and command set follow the ADS1260/ADS1261 family with a separate high-voltage PGA block",
+ "parts": [
+  [
+   "ADS125H02IRHBR",
+   "RHB",
+   32,
+   "Active"
+  ],
+  [
+   "ADS125H02IRHBT",
+   "RHB",
+   32,
+   "Active"
+  ]
+ ]
+}

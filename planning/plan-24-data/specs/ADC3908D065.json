@@ -1,0 +1,262 @@
+{
+  "device": {
+    "id": "ADC3908D065",
+    "function": "ADC",
+    "description": "Dual 8-bit 65 MSPS low-latency low-power ADC with parallel DDR CMOS outputs and pin control",
+    "drawer": [
+      "Interface"
+    ],
+    "note": "adc3908d025.pdf (SBASAU9) p.2 device comparison, p.3-4 pin configuration and functions, p.5 recommended operating conditions, p.11 timing requirements (tPD, latency), p.12 output interface timing diagrams (Figures 6-1, 6-2), p.28-29 digital interface, test pattern and interface configuration (Table 7-2), p.30 power down",
+    "pinouts": {
+      "rsm32": [
+        {
+          "number": 1,
+          "name": "NC",
+          "role": "nc"
+        },
+        {
+          "number": 2,
+          "name": "NC",
+          "role": "nc"
+        },
+        {
+          "number": 3,
+          "name": "NC",
+          "role": "nc"
+        },
+        {
+          "number": 4,
+          "name": "NC",
+          "role": "nc"
+        },
+        {
+          "number": 5,
+          "name": "NC",
+          "role": "nc"
+        },
+        {
+          "number": 6,
+          "name": "PDN",
+          "role": "input"
+        },
+        {
+          "number": 7,
+          "name": "VCM",
+          "role": "output"
+        },
+        {
+          "number": 8,
+          "name": "CLK",
+          "role": "input"
+        },
+        {
+          "number": 9,
+          "name": "RESET",
+          "role": "input"
+        },
+        {
+          "number": 10,
+          "name": "INAP",
+          "role": "input"
+        },
+        {
+          "number": 11,
+          "name": "INAM",
+          "role": "input"
+        },
+        {
+          "number": 12,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 13,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 14,
+          "name": "INBP/NC",
+          "role": "input"
+        },
+        {
+          "number": 15,
+          "name": "INBM/NC",
+          "role": "input"
+        },
+        {
+          "number": 16,
+          "name": "M0",
+          "role": "input"
+        },
+        {
+          "number": 17,
+          "name": "NC",
+          "role": "nc"
+        },
+        {
+          "number": 18,
+          "name": "M1",
+          "role": "input"
+        },
+        {
+          "number": 19,
+          "name": "M2",
+          "role": "input"
+        },
+        {
+          "number": 20,
+          "name": "NC",
+          "role": "nc"
+        },
+        {
+          "number": 21,
+          "name": "D7",
+          "role": "output"
+        },
+        {
+          "number": 22,
+          "name": "D6",
+          "role": "output"
+        },
+        {
+          "number": 23,
+          "name": "D5",
+          "role": "output"
+        },
+        {
+          "number": 24,
+          "name": "D4",
+          "role": "output"
+        },
+        {
+          "number": 25,
+          "name": "D3",
+          "role": "output"
+        },
+        {
+          "number": 26,
+          "name": "D2",
+          "role": "output"
+        },
+        {
+          "number": 27,
+          "name": "IOVDD",
+          "role": "power"
+        },
+        {
+          "number": 28,
+          "name": "DGND",
+          "role": "ground"
+        },
+        {
+          "number": 29,
+          "name": "DCLK#",
+          "role": "output"
+        },
+        {
+          "number": 30,
+          "name": "DCLK",
+          "role": "output"
+        },
+        {
+          "number": 31,
+          "name": "D1",
+          "role": "output"
+        },
+        {
+          "number": 32,
+          "name": "D0",
+          "role": "output"
+        }
+      ]
+    },
+    "type": "adc",
+    "bits": 8,
+    "channels": 2,
+    "codeFormat": "twos",
+    "vcc": [
+      1.7,
+      3.4
+    ],
+    "analog": [
+      "VCM",
+      "INAP",
+      "INAM",
+      "AVDD",
+      "INBP/NC",
+      "INBM/NC"
+    ],
+    "bus": {
+      "style": "clocked",
+      "clock": {
+        "pin": "CLK",
+        "edge": "fall"
+      },
+      "data": [
+        "D7",
+        "D6",
+        "D5",
+        "D4",
+        "D3",
+        "D2",
+        "D1",
+        "D0"
+      ],
+      "clockOut": {
+        "pin": "DCLK",
+        "invert": true
+      }
+    },
+    "timing": {
+      "tOut": 6.85
+    },
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "commands": [],
+      "read": "R{8}"
+    },
+    "pins": {
+      "reset": {
+        "pin": "RESET",
+        "active": 1
+      },
+      "powerdown": {
+        "pin": "PDN",
+        "active": 1
+      }
+    }
+  },
+  "packages": {
+    "RSM": {
+      "pinout": "rsm32",
+      "footprint": "VQFN-32-RSM",
+      "package": "VQFN",
+      "pins": 32
+    }
+  },
+  "pdf": "adc3908d025.pdf",
+  "pages": "p.2 (Table 4-1 device comparison: 8 bit, D = 2 channels, S = 1 channel, pin control), p.3-4 (Figure 5-1, Table 5-1 pin functions), p.5 (recommended operating conditions: AVDD 1.7-1.9 V, IOVDD 1.7-1.9 V or 3.2-3.4 V), p.11 (timing requirements: tPD = TS/4 + 3 ns, latency 1 clock), p.12 (Figures 6-1 DDR and 6-2 SDR timing), p.28 (Table 7-1 pin to supply mapping, digital interface), p.29 (Table 7-2 interface configuration), p.30 (power down via PDN high)",
+  "notModeled": [
+    "analog inputs, internal reference and input buffers; the result is always the 0 V code 0x00 (two's complement, M2 tied to GND, the default pull-down)",
+    "M0/M1/M2 are multi-level strap pins (GND / 0.5 V / 1 V / AVDD, Table 7-2): M2 selects differential or single-ended input and two's complement or offset binary (offset binary would give 0x80); M1 = AVDD selects the static test pattern (D7:D4 and D3:D0 groups of all 0s / all 1s, Figures 7-7, 7-8); M0 selects DDR (GND, dual channel) or SDR (AVDD, single channel). None of these change the modeled output (always ADC data, two's complement)",
+    "DCLK# (pin 29, printed DCLK with an overline: the inverse data clock) is not driven: the clocked bus has a single clockOut pin (DCLK, pin 30)",
+    "pipeline latency (1 clock cycle) and aperture delay are not modeled (the code is constant); DCLK rises tPD = TS/4 + 3 ns (nominal, no max given) after the sampling clock falling edge, used as tOut (6.85 ns at 65 MSPS)",
+    "RESET (active high, pin 9) has no registers to reset on this pin-controlled part; PDN power-down wake-up time (30 us) is not modeled",
+    "pin 5 is listed under both NC and DGND in Table 5-1 and as NC in Figure 5-1; modeled as NC (either way it connects to ground)",
+    "GND is the thermal pad (AGND), not a numbered pin",
+    "digital inputs CLK, RESET, PDN, M0, M1, M2 are referred to AVDD (1.7-1.9 V, abs max 2.1 V, Table 7-1); vcc is the union of the IOVDD ranges 1.7-1.9 V and 3.2-3.4 V (outputs D0-D7, DCLK)",
+    "sampling clock range (25 / 65 / 125 MSPS maximum per grade) and duty cycle",
+    "DDR output (Figure 6-1): channel A on one DCLK phase and channel B on the other, both on D7..D0 within one sample period; the model drives the one 8-bit code (identical 0 V code for A and B) once per sampling clock falling edge"
+  ],
+  "variants": "ADC3908D025/D065/D125 (dual, DDR) and ADC3908S025/S065/S125 (single, SDR) share adc3908d025.pdf and the RSM pinout; they differ in channel count and maximum sampling rate (tOut follows TS/4 + 3 ns). The 10-bit SPI-controlled ADC3910 family is pin compatible but has a different datasheet",
+  "parts": [
+    [
+      "ADC3908D065IRSMT",
+      "RSM",
+      32,
+      "Active"
+    ]
+  ]
+}

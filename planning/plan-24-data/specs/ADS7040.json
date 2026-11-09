@@ -1,0 +1,178 @@
+{
+ "device": {
+  "id": "ADS7040",
+  "function": "ADC",
+  "description": "8-bit 1 MSPS SAR ADC with SPI-compatible serial interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads7040.pdf (SBAS676C) p.4 pin configuration and functions, p.5 recommended operating conditions, p.7 timing characteristics (Figure 1), p.17 transfer characteristics, p.18 serial interface (Figure 35), p.19-21 offset calibration",
+  "pinouts": {
+   "dcu8": [
+    {
+     "number": 1,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AINM",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "AINP",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "GND",
+     "role": "ground"
+    }
+   ],
+   "rug8": [
+    {
+     "number": 1,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "AINP",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "AINM",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 8,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   1.65,
+   3.6
+  ],
+  "analog": [
+   "AINM",
+   "AINP",
+   "AVDD"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "miso": "SDO",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 10,
+   "tOut": 30,
+   "tFloat": 5
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "00 R{8}",
+   "idle": "0",
+   "commands": []
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ]
+  }
+ },
+ "packages": {
+  "DCU": {
+   "pinout": "dcu8",
+   "footprint": "VSSOP-8",
+   "package": "VSSOP",
+   "pins": 8
+  },
+  "RUG": {
+   "pinout": "rug8",
+   "footprint": "X2QFN-8-RUG",
+   "package": "X2QFN",
+   "pins": 8
+  }
+ },
+ "pdf": "ads7040.pdf",
+ "pages": "p.4 (pins), p.5 (ROC), p.7 (timing), p.17 (Table 1 format), p.18 (Figure 35), p.19-21 (calibration)",
+ "notModeled": [
+  "analog input; conversion is clocked by SCLK (the 8.5-SCLK conversion is not timed: the result is the 0 V code at once)",
+  "offset calibration frames (power-up: the first frame outputs zeros, which the 0 V code already is; the 32-SCLK calibration frame during normal operation)",
+  "throughput and SCLK frequency limits",
+  "tOut uses tD_CKDO 30 ns (AVDD 1.8-3.6 V); at AVDD 1.65-1.8 V it is 50 ns"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS7040IDCUR",
+   "DCU",
+   8,
+   "Active"
+  ],
+  [
+   "ADS7040IDCUT",
+   "DCU",
+   8,
+   "Active"
+  ],
+  [
+   "ADS7040IRUGR",
+   "RUG",
+   8,
+   "Active"
+  ]
+ ]
+}

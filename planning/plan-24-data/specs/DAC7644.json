@@ -1,0 +1,474 @@
+{
+ "device": {
+  "id": "DAC7644",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "quad 16-bit voltage-output DAC with 16-bit parallel interface, input-register read-back, LOADDACS and reset to zero or mid scale",
+  "note": "dac7644.pdf (SBAS121) p.2-3 (specifications: VDD digital 4.75-5.25 V, VIH 0.7 VDD), p.5 (pin configuration and descriptions), p.19 (digital interface, Table I truth table), p.20 (coding, Figure 14, Table II timing)",
+  "pinouts": {
+   "dl48": [
+    {
+     "number": 1,
+     "name": "DB15",
+     "role": "inout"
+    },
+    {
+     "number": 2,
+     "name": "DB14",
+     "role": "inout"
+    },
+    {
+     "number": 3,
+     "name": "DB13",
+     "role": "inout"
+    },
+    {
+     "number": 4,
+     "name": "DB12",
+     "role": "inout"
+    },
+    {
+     "number": 5,
+     "name": "DB11",
+     "role": "inout"
+    },
+    {
+     "number": 6,
+     "name": "DB10",
+     "role": "inout"
+    },
+    {
+     "number": 7,
+     "name": "DB9",
+     "role": "inout"
+    },
+    {
+     "number": 8,
+     "name": "DB8",
+     "role": "inout"
+    },
+    {
+     "number": 9,
+     "name": "DB7",
+     "role": "inout"
+    },
+    {
+     "number": 10,
+     "name": "DB6",
+     "role": "inout"
+    },
+    {
+     "number": 11,
+     "name": "DB5",
+     "role": "inout"
+    },
+    {
+     "number": 12,
+     "name": "DB4",
+     "role": "inout"
+    },
+    {
+     "number": 13,
+     "name": "DB3",
+     "role": "inout"
+    },
+    {
+     "number": 14,
+     "name": "DB2",
+     "role": "inout"
+    },
+    {
+     "number": 15,
+     "name": "DB1",
+     "role": "inout"
+    },
+    {
+     "number": 16,
+     "name": "DB0",
+     "role": "inout"
+    },
+    {
+     "number": 17,
+     "name": "RSTSEL",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "RST",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "LOADDACS",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "R/W",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 25,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 26,
+     "name": "VCC",
+     "role": "power"
+    },
+    {
+     "number": 27,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 28,
+     "name": "VSS",
+     "role": "power"
+    },
+    {
+     "number": 29,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 30,
+     "name": "VOUTD Sense",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "VREFL CD Sense",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "VREFL CD",
+     "role": "power"
+    },
+    {
+     "number": 33,
+     "name": "VREFH CD",
+     "role": "power"
+    },
+    {
+     "number": 34,
+     "name": "VREFH CD Sense",
+     "role": "input"
+    },
+    {
+     "number": 35,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 36,
+     "name": "VOUTC Sense",
+     "role": "input"
+    },
+    {
+     "number": 37,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 38,
+     "name": "VOUTB Sense",
+     "role": "input"
+    },
+    {
+     "number": 39,
+     "name": "VREFH AB Sense",
+     "role": "input"
+    },
+    {
+     "number": 40,
+     "name": "VREFH AB",
+     "role": "power"
+    },
+    {
+     "number": 41,
+     "name": "VREFL AB",
+     "role": "power"
+    },
+    {
+     "number": 42,
+     "name": "VREFL AB Sense",
+     "role": "input"
+    },
+    {
+     "number": 43,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 44,
+     "name": "VOUTA Sense",
+     "role": "input"
+    },
+    {
+     "number": 45,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 46,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 47,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 48,
+     "name": "NC",
+     "role": "nc"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 4,
+  "vcc": [
+   4.75,
+   5.25
+  ],
+  "analog": [
+   "VCC",
+   "VSS",
+   "VOUTD",
+   "VOUTD Sense",
+   "VREFL CD Sense",
+   "VREFL CD",
+   "VREFH CD",
+   "VREFH CD Sense",
+   "VOUTC",
+   "VOUTC Sense",
+   "VOUTB",
+   "VOUTB Sense",
+   "VREFH AB Sense",
+   "VREFH AB",
+   "VREFL AB",
+   "VREFL AB Sense",
+   "VOUTA",
+   "VOUTA Sense"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DB15",
+    "DB14",
+    "DB13",
+    "DB12",
+    "DB11",
+    "DB10",
+    "DB9",
+    "DB8",
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rw": {
+    "pin": "R/W",
+    "read": 1
+   },
+   "address": [
+    "A1",
+    "A0"
+   ]
+  },
+  "timing": {
+   "tAcc": 150,
+   "tDf": 100
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC A input register (Table I: A1 A0 = 00); power-on code not stated (reset 0)"
+   },
+   {
+    "name": "INB",
+    "space": "input",
+    "address": 1,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC B input register (Table I: A1 A0 = 01); power-on code not stated (reset 0)"
+   },
+   {
+    "name": "INC",
+    "space": "input",
+    "address": 2,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC C input register (Table I: A1 A0 = 10); power-on code not stated (reset 0)"
+   },
+   {
+    "name": "IND",
+    "space": "input",
+    "address": 3,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC D input register (Table I: A1 A0 = 11); power-on code not stated (reset 0)"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC A DAC register; all four loaded from the input registers on the LOADDACS rising edge (Table I)"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC B DAC register; all four loaded from the input registers on the LOADDACS rising edge (Table I)"
+   },
+   {
+    "name": "DACC",
+    "space": "dac",
+    "address": 2,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC C DAC register; all four loaded from the input registers on the LOADDACS rising edge (Table I)"
+   },
+   {
+    "name": "DACD",
+    "space": "dac",
+    "address": 3,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC D DAC register; all four loaded from the input registers on the LOADDACS rising edge (Table I)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write input (CS low, R/W low)",
+     "in": "aa d{16}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "Table I: A1 A0 select input register A-D; data valid tDS before / tDH after CS rising (Figure 14)"
+    }
+   ],
+   "read": {
+    "0": "[INA]",
+    "1": "[INB]",
+    "2": "[INC]",
+    "3": "[IND]"
+   },
+   "note": "Table I: CS low with R/W high reads back the input register A1 A0 select on DB15-DB0 (tCSD 150 ns max, tDZ 100 ns max)"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LOADDACS",
+    "active": 1,
+    "edge": "rise",
+    "note": "DAC output registers load, rising-edge triggered (p.5, Table I)"
+   },
+   "clear": {
+    "pin": "RST",
+    "active": 0,
+    "edge": "rise",
+    "note": "rising-edge triggered: loads zero (RSTSEL low) or mid scale 8000h (RSTSEL high)"
+   }
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB",
+    "INC",
+    "IND"
+   ],
+   "output": [
+    "DACA",
+    "DACB",
+    "DACC",
+    "DACD"
+   ],
+   "clearCode": {
+    "pin": "RSTSEL",
+    "values": {
+     "0": 0,
+     "1": 32768
+    }
+   },
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "DL": {
+   "pinout": "dl48",
+   "footprint": "SSOP-48",
+   "package": "SSOP",
+   "pins": 48
+  }
+ },
+ "pdf": "dac7644.pdf",
+ "pages": "p.2-3 (specifications: VDD digital 4.75-5.25 V, VIH 0.7 VDD), p.5 (pin configuration and descriptions), p.19 (digital interface, Table I truth table), p.20 (coding, Figure 14, Table II timing)",
+ "notModeled": [
+  "analog: outputs, force/sense pins, differential reference inputs, single/dual supply operation, settling",
+  "RST loads the DAC registers only (datasheet); the model's clear also loads the input registers",
+  "power-on state of the registers is not stated in the datasheet (reset 0)",
+  "DAC registers are not readable (Table I reads back the input registers only)",
+  "timing limits of Table II"
+ ],
+ "variants": "DAC7644E / EB are linearity grades of the same chip (SSOP-48).",
+ "parts": [
+  [
+   "DAC7644E",
+   "DL",
+   48,
+   "Active"
+  ],
+  [
+   "DAC7644EB",
+   "DL",
+   48,
+   "Active"
+  ]
+ ]
+}

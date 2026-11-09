@@ -1,0 +1,231 @@
+{
+ "device": {
+  "id": "TLV5636",
+  "function": "DAC",
+  "description": "12-bit voltage-output DAC with internal programmable reference, TMS320/SPI serial interface (FS frame sync), programmable settling time and power down",
+  "drawer": [
+   "Interface"
+  ],
+  "pinouts": {
+   "d8": [
+    {
+     "number": 1,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "FS",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "REF",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "OUT",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "VDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "REF",
+   "OUT"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "FS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC latch; power-on reset clears the internal latches to all zero"
+   },
+   {
+    "name": "CTRL",
+    "width": 4,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "REF",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "SPD",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "PWR",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: SPD (D14) and PWR (D13) of the last word; REF1 REF0 from D1 D0 of a control-register word (00/11 external, 01 1.024 V, 10 2.048 V); power-on all zero"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write DAC (R1 R0 = 00)",
+     "in": "0 s p 0 d{12}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "CTRL.SPD": "s",
+      "CTRL.PWR": "p"
+     },
+     "note": "D15 R1, D14 SPD, D13 PWR, D12 R0, then the DAC value MSB first"
+    },
+    {
+     "name": "Write control register (R1 R0 = 11)",
+     "in": "1 s p 1 x{10} rr",
+     "set": {
+      "CTRL.SPD": "s",
+      "CTRL.PWR": "p",
+      "CTRL.REF": "r"
+     },
+     "note": "D1 D0 = REF1 REF0; D11-D2 don't care"
+    },
+    {
+     "name": "Reserved (R1 R0 = 01)",
+     "in": "0 x x 1 x{12}",
+     "note": "reserved register select"
+    },
+    {
+     "name": "Reserved (R1 R0 = 10)",
+     "in": "1 x x 0 x{12}",
+     "note": "reserved register select"
+    }
+   ],
+   "triggers": [
+    {
+     "write": "CTRL.PWR=1",
+     "action": "powerdown"
+    },
+    {
+     "write": "CTRL.PWR=0",
+     "action": "wakeup"
+    }
+   ],
+   "note": "FS falling starts the frame (CS must be low); DIN sampled MSB first on SCLK falling edges (SCLK high at FS falling, Figure 1 -> mode 2); after 16 bits the word moves to the DAC latch and the output updates"
+  },
+  "dac": {
+   "input": [
+    "DAC"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  },
+  "note": "tlv5636.pdf (SLAS223C) p.1 (D/DGK pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: VDD 2.7-3.3 V and 4.5-5.5 V), p.5 (timing requirements), p.6 (Figure 1), p.11 (power-on reset to zero, serial interface), p.12 (data format, register-select bits), p.13 (control register REF1/REF0, reference bits)"
+ },
+ "packages": {
+  "D": {
+   "pinout": "d8",
+   "footprint": "SOIC-8",
+   "package": "SOIC",
+   "pins": 8
+  },
+  "DGK": {
+   "pinout": "d8",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  }
+ },
+ "pdf": "tlv5636.pdf",
+ "pages": "(SLAS223C) p.1 (D/DGK pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: VDD 2.7-3.3 V and 4.5-5.5 V), p.5 (timing requirements), p.6 (Figure 1), p.11 (power-on reset to zero, serial interface), p.12 (data format, register-select bits), p.13 (control register REF1/REF0, reference bits)",
+ "notModeled": [
+  "analog: voltage output (x2 buffer), reference REF and the internal reference selected by REF1/REF0 (stored only); SPD (settling) and PWR (power down) affect the analog side only (stored in CTRL)",
+  "CS (enable, active low) is not modeled: the bus frame is FS (FS falling starts a word, as in the datasheet's three-wire connection with CS tied low); CS high does not block the model",
+  "a word cut short by FS rising before 16 bits (the datasheet moves the partial shift register to the DAC latch) is discarded",
+  "digital input timing requirements (Figure 1)"
+ ],
+ "variants": "tlv5636.pdf covers only the TLV5636 (C and I grades); TLV5624 is the 8-bit version (separate datasheet).",
+ "parts": [
+  [
+   "TLV5636CD",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "TLV5636CDGK",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "TLV5636CDGKR",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "TLV5636ID",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "TLV5636IDGK",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "TLV5636IDGKR",
+   "DGK",
+   8,
+   "Active"
+  ]
+ ]
+}

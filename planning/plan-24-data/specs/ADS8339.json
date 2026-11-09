@@ -1,0 +1,138 @@
+{
+ "device": {
+  "id": "ADS8339",
+  "function": "ADC",
+  "description": "16-bit 250 kSPS micro-power SAR ADC with SPI-compatible serial interface and daisy-chain",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads8339.pdf (SBAS677A) p.3 pin configuration and functions, p.4 recommended operating conditions (+VBD 2.375-5.5 V), p.7 timing requirements, p.18 Table 1 output codes (straight binary), p.18-19 3-wire CS mode (Figure 47), p.20-23 4-wire CS and daisy-chain modes",
+  "pinouts": {
+   "dgs10": [
+    {
+     "number": 1,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "+IN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "-IN",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "CONVST",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "+VBD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   2.375,
+   5.5
+  ],
+  "analog": [
+   "REFIN",
+   "+VA",
+   "+IN",
+   "-IN"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CONVST",
+   "sclk": "SCLK",
+   "miso": "SDO",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 22,
+   "tOut": 24,
+   "tFloat": 15
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{16}",
+   "idle": "z",
+   "commands": []
+  },
+  "conversion": {
+   "time": 3300,
+   "start": [
+    "cs-rise"
+   ]
+  }
+ },
+ "packages": {
+  "DGS": {
+   "pinout": "dgs10",
+   "footprint": "VSSOP-10",
+   "package": "VSSOP",
+   "pins": 10
+  }
+ },
+ "pdf": "ads8339.pdf",
+ "pages": "p.3 (pins), p.4 (ROC), p.7 (timing requirements: tcnv 3300 ns max, t3, ten, tdis), p.18 (Table 1 output codes), p.18-19 (3-wire CS mode, Figure 47), p.20-23 (4-wire CS, daisy-chain)",
+ "notModeled": [
+  "analog input and reference (the 0 V code is 0000h)",
+  "mode selection by the SDI level at the CONVST rising edge: only 3-wire CS mode without a busy indicator (SDI high, CONVST as CS) is modeled; SDI is not read",
+  "4-wire CS mode (SDI as CS), the busy indicator (CONVST or SDI low at the end of conversion: SDO goes low, an extra SCLK), daisy-chain mode (SDI low at CONVST rise, SDI as chain input)",
+  "CONVST must return high before tcnv_min in 3-wire mode; reading before the conversion ends is not checked (the frame shows the constant 0 V code)",
+  "conversion time 500-3300 ns (modeled: tcnv max 3300 ns); acquisition time, cycle time and power-down between conversions",
+  "timing values are the 2.375-4.5 V +VBD maximums (t3 24 ns, ten 22 ns, tdis 15 ns); 16 / 15 / 12 ns at 4.5-5.5 V",
+  "SPI mode: data launch on SCLK falling edges and are valid until the next falling edge (t2 5 ns hold); the host may sample on the rising edge (mode 0, as modeled) or the next falling edge"
+ ],
+ "variants": "Single device datasheet.",
+ "parts": [
+  [
+   "ADS8339IDGSR",
+   "DGS",
+   10,
+   "Active"
+  ],
+  [
+   "ADS8339IDGST",
+   "DGS",
+   10,
+   "Active"
+  ]
+ ]
+}

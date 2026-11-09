@@ -1,0 +1,603 @@
+{
+ "device": {
+  "id": "ADS8331",
+  "function": "ADC",
+  "description": "16-bit 500 kSPS 4-channel unipolar SAR ADC with mux breakout, SPI/DSP serial interface, TAG bits and daisy chain",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads8332.pdf (SBAS363E, ADS8331/ADS8332) p.4-5 pin configuration and functions, p.6 recommended operating conditions (VBD 1.65 V to VA + 0.2 V), p.7-10 electrical characteristics (tCONV 18 CCLK, straight binary), p.11-12 timing (internal CCLK 10.5 MHz min at VA = 2.7 V), p.23-25 channel select modes, conversion start, EOC/INT, p.26-27 power-down modes, p.29 digital interface (CPOL = 1, CPHA = 0), p.30 Table 4 commands, p.31 Table 5 CFR, p.32 data format (Table 6), TAG, p.35-36 reset",
+  "pinouts": {
+   "pw24": [
+    {
+     "number": 1,
+     "name": "IN1",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "IN2",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "IN3",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 5,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 6,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 7,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 8,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "EOC/INT/CDI",
+     "role": "inout"
+    },
+    {
+     "number": 10,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "FS/CS",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "CONVST",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "VBD",
+     "role": "power"
+    },
+    {
+     "number": 17,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 18,
+     "name": "REF+",
+     "role": "power"
+    },
+    {
+     "number": 19,
+     "name": "REF-",
+     "role": "ground"
+    },
+    {
+     "number": 20,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 21,
+     "name": "ADCIN",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "MUXOUT",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "COM",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "IN0",
+     "role": "input"
+    }
+   ],
+   "rge24": [
+    {
+     "number": 1,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 2,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 3,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 4,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 5,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "EOC/INT/CDI",
+     "role": "inout"
+    },
+    {
+     "number": 7,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "FS/CS",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "CONVST",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "VBD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "REF+",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "REF-",
+     "role": "ground"
+    },
+    {
+     "number": 17,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 18,
+     "name": "ADCIN",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "MUXOUT",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "COM",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "IN0",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "IN1",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "IN2",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "IN3",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 4,
+  "codeFormat": "straight",
+  "vcc": [
+   1.65,
+   5.7
+  ],
+  "analog": [
+   "IN0",
+   "IN1",
+   "IN2",
+   "IN3",
+   "COM",
+   "MUXOUT",
+   "ADCIN",
+   "VA",
+   "REF+",
+   "REF-"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "FS/CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDO",
+   "mode": 2
+  },
+  "timing": {
+   "tValid": 35,
+   "tOut": 35,
+   "tFloat": 15
+  },
+  "registers": [
+   {
+    "name": "CFR",
+    "width": 12,
+    "reset": 4095,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D11",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "D10",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "D9",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "D8",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "D7",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "D6",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "D5",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "D4",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "D3",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "D2",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "D1",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "D0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.31 Table 5: configuration register, default FFFh (POR, software reset, RESET pin, command 1111b); no address (CMR commands 1100b/1110b/1111b). D11 channel select mode, D10 CCLK source, D9 trigger, D8 auto-trigger rate, D7 EOC/INT polarity, D6 EOC/INT function, D5 pin 10 output / CDI, D4 auto-NAP, D3 nap, D2 deep power-down, D1 TAG, D0 software reset"
+   },
+   {
+    "name": "CHSEL",
+    "width": 3,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "CH",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the channel chosen by the CMR select-channel commands (Table 4); its power-on value is not documented"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{16}",
+   "idle": "0",
+   "outs": [
+    {
+     "when": "CFR.D1=1",
+     "out": "R{16} [CH:2:0]"
+    }
+   ],
+   "commands": [
+    {
+     "name": "Select analog input channel 0",
+     "in": "0000",
+     "action": "nop",
+     "set": {
+      "CHSEL.CH": 0
+     },
+     "note": "p.30 Table 4: 4-bit command, takes effect on the 4th SCLK falling edge; also wakes from auto-NAP"
+    },
+    {
+     "name": "Select analog input channel 1",
+     "in": "0001",
+     "action": "nop",
+     "set": {
+      "CHSEL.CH": 1
+     }
+    },
+    {
+     "name": "Select analog input channel 2",
+     "in": "0010",
+     "action": "nop",
+     "set": {
+      "CHSEL.CH": 2
+     }
+    },
+    {
+     "name": "Select analog input channel 3",
+     "in": "0011",
+     "action": "nop",
+     "set": {
+      "CHSEL.CH": 3
+     }
+    },
+    {
+     "name": "Wake up",
+     "in": "1011",
+     "action": "wakeup",
+     "set": {
+      "CFR.D3": 1,
+      "CFR.D2": 1
+     },
+     "note": "p.31 Table 5: the wake-up command sets CFR D3 and D2 to 1"
+    },
+    {
+     "name": "Read CFR",
+     "in": "1100",
+     "action": "nop",
+     "reply": "[CFR]",
+     "note": "p.30-31: the read-back is the four MSBs of the previous result then the 12-bit CFR"
+    },
+    {
+     "name": "Read data",
+     "in": "1101",
+     "action": "nop"
+    },
+    {
+     "name": "Write CFR (D0 = 0: software reset)",
+     "in": "1110 xxxxxxxxxxx0",
+     "action": "reset",
+     "note": "p.31 Table 5 D0: 0 = system reset, returns to 1 automatically (CFR to FFFh)"
+    },
+    {
+     "name": "Write CFR",
+     "in": "1110 dddddddddddd",
+     "action": "write",
+     "register": "CFR",
+     "data": "d",
+     "note": "p.31: 4-bit command plus 12 bits of CFR data, effective at the 16th SCLK falling edge"
+    },
+    {
+     "name": "Default mode (load CFR with default value)",
+     "in": "1111",
+     "action": "nop",
+     "set": {
+      "CFR": 4095
+     },
+     "note": "p.30-31: CFR loaded with FFFh at the 4th falling edge"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 1714.3,
+   "start": [
+    "pin"
+   ],
+   "mode": {
+    "field": "CFR.D9",
+    "continuous": 0
+   },
+   "channel": "CHSEL.CH"
+  },
+  "ready": [
+   {
+    "pin": "EOC/INT/CDI",
+    "active": 0,
+    "asserts": "busy",
+    "enable": [
+     "CFR.D7=1",
+     "CFR.D6=1",
+     "CFR.D5=1"
+    ]
+   },
+   {
+    "pin": "EOC/INT/CDI",
+    "active": 0,
+    "asserts": "done",
+    "clears": "cs-fall",
+    "enable": [
+     "CFR.D7=1",
+     "CFR.D6=0",
+     "CFR.D5=1"
+    ]
+   },
+   {
+    "pin": "EOC/INT/CDI",
+    "active": 1,
+    "asserts": "busy",
+    "enable": [
+     "CFR.D7=0",
+     "CFR.D6=1",
+     "CFR.D5=1"
+    ]
+   },
+   {
+    "pin": "EOC/INT/CDI",
+    "active": 1,
+    "asserts": "done",
+    "clears": "cs-fall",
+    "enable": [
+     "CFR.D7=0",
+     "CFR.D6=0",
+     "CFR.D5=1"
+    ]
+   }
+  ],
+  "pins": {
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   },
+   "convst": {
+    "pin": "CONVST",
+    "edge": "fall"
+   }
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw24",
+   "footprint": "TSSOP-24",
+   "package": "TSSOP",
+   "pins": 24
+  },
+  "RGE": {
+   "pinout": "rge24",
+   "footprint": "VQFN-24-RGE-F",
+   "package": "VQFN",
+   "pins": 24
+  }
+ },
+ "pdf": "ads8332.pdf",
+ "pages": "p.4-5 (pin configuration, pin functions for each device), p.6 (ROC), p.7-10 (electrical characteristics: tCONV 18 CCLK, straight binary, VIH/VIL), p.11 (timing VA = 2.7 V: CCLK 10.5-12.2 MHz internal, tD2/tD3 35 ns, tD4 15 ns), p.12 (timing VA = 5 V, Figure 1), p.23-25 (channel select, conversion start, Table 1, EOC/INT), p.26-27 (power-down, Table 2), p.29 (digital interface, CPOL = 1 CPHA = 0), p.30 (Table 4), p.31 (Table 5), p.32 (Table 6, TAG), p.35-36 (reset)",
+ "notModeled": [
+  "analog input, mux breakout (MUXOUT/ADCIN) and external reference: every conversion returns the 0 V code 0000h",
+  "conversion time is 18 CCLK at the 10.5 MHz minimum internal clock at VA = 2.7 V (1714.3 ns); CCLK = SCLK/2 (CFR D10 = 0), the 21/42-CCLK auto-trigger cycle (D9 = 0, D8) and the minimum CONVST spacing (21 CCLK) are not timed; with auto trigger the model converts back to back",
+  "auto channel select (CFR D11 = 1, the power-on default) sequencing from the last channel up to channel 3: the channel only changes with the select-channel commands",
+  "quiet zone around end of sampling and the pipelined result (reading before end of conversion gives the previous result): the model always outputs the constant 0 V code",
+  "SDO outputs all 1s during the first cycle after power-on, software or external reset (the model outputs the normal frame)",
+  "daisy-chain mode (CFR D5 = 0: EOC/INT/CDI becomes the chain data input, 16/24-SCLK pass-through); with D5 = 0 the pin is left inactive",
+  "power-down modes: deep power-down (D2), nap (D3), auto-NAP (D4) and their wake-up times; CFR bits are stored only, Wake up sets D3/D2",
+  "the 4-bit CMR is not readable; the CFR read-back reply starts after the 4 command bits (the 4 result MSBs before it are the frame's normal output)",
+  "TAG bits (CFR D1 = 1): the three channel bits follow the LSB; the channel shown is CHSEL.CH",
+  "2 us minimum after a reset before the next frame; RESET low minimum 25 ns",
+  "vcc: VBD recommended max is VA + 0.2 V (5.7 V at VA = 5.5 V)",
+  "timing values are the VA = 2.7 V, VBD = 1.65 V table (tD3 35 ns, tD2 35 ns, tD4 15 ns); 20 / 20 / 10 ns at VA = VBD = 5 V",
+  "channel select commands 0100b-0111b are reserved on the ADS8331 (ignored by the model)"
+ ],
+ "variants": "ADS8331 (4 channels, pins IN4-IN7 NC, channel commands 4-7 reserved) and ADS8332 (8 channels) share ads8332.pdf; own spec each. ADS8329/ADS8330 are the 1-/2-channel versions; ADS7279/ADS7280 the 14-bit relatives.",
+ "parts": [
+  [
+   "ADS8331IBPW",
+   "PW",
+   24,
+   "Active"
+  ],
+  [
+   "ADS8331IBRGET",
+   "RGE",
+   24,
+   "Active"
+  ]
+ ]
+}

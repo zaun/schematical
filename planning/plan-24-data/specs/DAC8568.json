@@ -1,0 +1,710 @@
+{
+ "device": {
+  "id": "DAC8568",
+  "function": "DAC",
+  "description": "Octal 16-bit voltage-output DAC with 2.5-V internal reference, 32-bit SPI write, LDAC and CLR",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac7568.pdf (SBAS430F) p.3 device comparison (grades, reset to zero/midscale), p.4 pin configuration and functions (TSSOP-16), p.7-8 timing requirements and Figure 1 (data on SCLK falling edges, SCLK idles high), p.33-34 serial interface (32-bit frame, update on the 32nd falling SCLK, SYNC interrupt), p.35 input register format (Tables 1-3), p.36-38 control matrix (Table 4), p.39 SYNC interrupt, power-on reset, clear code register and CLR, software reset (Tables 5-6), p.44-45 internal reference modes, p.45-46 LDAC functionality, p.47 power-down modes (Table 13)",
+  "pinouts": {
+   "pw16": [
+    {
+     "number": 1,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "VOUTE",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "VOUTG",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "VREFIN/VREFOUT",
+     "role": "power"
+    },
+    {
+     "number": 9,
+     "name": "CLR",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "VOUTH",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "VOUTF",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "SCLK",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 8,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "VOUTA",
+   "VOUTB",
+   "VOUTC",
+   "VOUTD",
+   "VOUTE",
+   "VOUTF",
+   "VOUTG",
+   "VOUTH",
+   "VREFIN/VREFOUT"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "IN_A",
+    "space": "input",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "data buffer (input register) of channel A; power-on zero scale (grades A, C) or midscale (B, D), p.39"
+   },
+   {
+    "name": "IN_B",
+    "space": "input",
+    "address": 1,
+    "width": 16,
+    "reset": 0,
+    "note": "data buffer (input register) of channel B; power-on zero scale (grades A, C) or midscale (B, D), p.39"
+   },
+   {
+    "name": "IN_C",
+    "space": "input",
+    "address": 2,
+    "width": 16,
+    "reset": 0,
+    "note": "data buffer (input register) of channel C; power-on zero scale (grades A, C) or midscale (B, D), p.39"
+   },
+   {
+    "name": "IN_D",
+    "space": "input",
+    "address": 3,
+    "width": 16,
+    "reset": 0,
+    "note": "data buffer (input register) of channel D; power-on zero scale (grades A, C) or midscale (B, D), p.39"
+   },
+   {
+    "name": "IN_E",
+    "space": "input",
+    "address": 4,
+    "width": 16,
+    "reset": 0,
+    "note": "data buffer (input register) of channel E; power-on zero scale (grades A, C) or midscale (B, D), p.39"
+   },
+   {
+    "name": "IN_F",
+    "space": "input",
+    "address": 5,
+    "width": 16,
+    "reset": 0,
+    "note": "data buffer (input register) of channel F; power-on zero scale (grades A, C) or midscale (B, D), p.39"
+   },
+   {
+    "name": "IN_G",
+    "space": "input",
+    "address": 6,
+    "width": 16,
+    "reset": 0,
+    "note": "data buffer (input register) of channel G; power-on zero scale (grades A, C) or midscale (B, D), p.39"
+   },
+   {
+    "name": "IN_H",
+    "space": "input",
+    "address": 7,
+    "width": 16,
+    "reset": 0,
+    "note": "data buffer (input register) of channel H; power-on zero scale (grades A, C) or midscale (B, D), p.39"
+   },
+   {
+    "name": "DAC_A",
+    "space": "dac",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC register of channel A; power-on zero scale (grades A, C) or midscale (B, D), p.39"
+   },
+   {
+    "name": "DAC_B",
+    "space": "dac",
+    "address": 1,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC register of channel B; power-on zero scale (grades A, C) or midscale (B, D), p.39"
+   },
+   {
+    "name": "DAC_C",
+    "space": "dac",
+    "address": 2,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC register of channel C; power-on zero scale (grades A, C) or midscale (B, D), p.39"
+   },
+   {
+    "name": "DAC_D",
+    "space": "dac",
+    "address": 3,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC register of channel D; power-on zero scale (grades A, C) or midscale (B, D), p.39"
+   },
+   {
+    "name": "DAC_E",
+    "space": "dac",
+    "address": 4,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC register of channel E; power-on zero scale (grades A, C) or midscale (B, D), p.39"
+   },
+   {
+    "name": "DAC_F",
+    "space": "dac",
+    "address": 5,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC register of channel F; power-on zero scale (grades A, C) or midscale (B, D), p.39"
+   },
+   {
+    "name": "DAC_G",
+    "space": "dac",
+    "address": 6,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC register of channel G; power-on zero scale (grades A, C) or midscale (B, D), p.39"
+   },
+   {
+    "name": "DAC_H",
+    "space": "dac",
+    "address": 7,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC register of channel H; power-on zero scale (grades A, C) or midscale (B, D), p.39"
+   },
+   {
+    "name": "PD",
+    "width": 10,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MODE",
+      "bits": [
+       9,
+       8
+      ]
+     },
+     {
+      "name": "MASK",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the last power-down command, PD1:PD0 (DB9:DB8, Table 13: 00 power up, 01 1 kohm, 10 100 kohm, 11 Hi-Z) and the channel mask DB7-DB0 (H..A)"
+   },
+   {
+    "name": "CLRCODE",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "CC",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "clear code register F1:F0 (Table 5): 00 zero scale (default), 01 midscale, 10 full scale, 11 ignore CLR pin"
+   },
+   {
+    "name": "LDACREG",
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DACH",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "DACG",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "DACF",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "DACE",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "DACD",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "DACC",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "DACB",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DACA",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "LDAC register DB7-DB0 (H..A), default 0; a 1 overrides the LDAC pin for that channel (p.36, p.46)"
+   },
+   {
+    "name": "REF",
+    "width": 4,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "FLEX",
+      "bits": [
+       3,
+       1
+      ]
+     },
+     {
+      "name": "STATIC",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: internal-reference commands; STATIC = DB0 of command 1000 (1 = power up, static mode), FLEX = DB19-DB17 of command 1001 (100 flexible power up, 101 always on, 110 always off, 000 back to static); reference off at power on (p.38, p.44-45)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write to input register n",
+     "in": "0xxx 0000 0aaa d{16} x{4}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "note": "Table 4 C3-C0 = 0000, A3-A0 = 0000-0111 (A-H)"
+    },
+    {
+     "name": "Broadcast: write to all input registers",
+     "in": "0xxx 0000 1111 d{16} x{4}",
+     "action": "write",
+     "channel": 15,
+     "channelMap": {
+      "15": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ]
+     },
+     "data": "d",
+     "note": "Table 4 A3-A0 = 1111; A3 = 1 otherwise invalid (no command)"
+    },
+    {
+     "name": "Update DAC register n",
+     "in": "0xxx 0001 0aaa x{20}",
+     "action": "update",
+     "channel": "a",
+     "note": "Table 4 C3-C0 = 0001"
+    },
+    {
+     "name": "Broadcast: update all DAC registers",
+     "in": "0xxx 0001 1111 x{20}",
+     "action": "update"
+    },
+    {
+     "name": "Write to input register n and update all DAC registers (SW LDAC)",
+     "in": "0xxx 0010 0aaa d{16} x{4}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "then": [
+      "updateall"
+     ],
+     "note": "Table 4 C3-C0 = 0010"
+    },
+    {
+     "name": "Broadcast: write to all input registers and update all DAC registers",
+     "in": "0xxx 0010 1111 d{16} x{4}",
+     "action": "write",
+     "channel": 15,
+     "channelMap": {
+      "15": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ]
+     },
+     "data": "d",
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "Write to input register n and update DAC register n",
+     "in": "0xxx 0011 0aaa d{16} x{4}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "note": "Table 4 C3-C0 = 0011"
+    },
+    {
+     "name": "Broadcast: write to all input registers and update all DAC registers (0011)",
+     "in": "0xxx 0011 1111 d{16} x{4}",
+     "action": "write",
+     "channel": 15,
+     "channelMap": {
+      "15": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ]
+     },
+     "data": "d",
+     "then": [
+      "updateall"
+     ]
+    },
+    {
+     "name": "Power up/down DACs",
+     "in": "0xxx 0100 x{14} pp mmmmmmmm",
+     "set": {
+      "PD.MODE": "p",
+      "PD.MASK": "m"
+     },
+     "note": "Table 4 power-down commands / Table 13: DB9:DB8 mode, DB7-DB0 channels H..A"
+    },
+    {
+     "name": "Write to clear code register",
+     "in": "0xxx 0101 x{22} [CLRCODE]",
+     "note": "Table 5"
+    },
+    {
+     "name": "Write to LDAC register",
+     "in": "0xxx 0110 x{16} [LDACREG]",
+     "note": "Table 4"
+    },
+    {
+     "name": "Software reset",
+     "in": "0xxx 0111 x{24}",
+     "action": "reset",
+     "note": "Table 6: all registers to power-on defaults (clear code back to 00)"
+    },
+    {
+     "name": "Internal reference, static mode",
+     "in": "0xxx 1000 x{23} s",
+     "set": {
+      "REF.STATIC": "s"
+     },
+     "note": "Table 4 / Tables 7-8: DB0 = 1 power up, 0 power down (default)"
+    },
+    {
+     "name": "Internal reference, flexible mode",
+     "in": "0xxx 1001 xxxx fff x{17}",
+     "set": {
+      "REF.FLEX": "f"
+     },
+     "note": "Table 4 / Tables 9-11: DB19-DB17 = 100, 101, 110; 000 returns to static mode"
+    }
+   ],
+   "note": "32-bit frame: DB31 = 0, DB30-DB28 don't care, C3-C0, A3-A0, 16 data bits from DB19, then ignored bits and F3-F0; decoded on the 32nd SCLK falling edge without waiting for SYNC high (commit now); SYNC high before the 31st edge discards the frame; further clocks ignored"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "fall"
+   },
+   "clear": {
+    "pin": "CLR",
+    "active": 0,
+    "edge": "fall"
+   }
+  },
+  "dac": {
+   "input": [
+    "IN_A",
+    "IN_B",
+    "IN_C",
+    "IN_D",
+    "IN_E",
+    "IN_F",
+    "IN_G",
+    "IN_H"
+   ],
+   "output": [
+    "DAC_A",
+    "DAC_B",
+    "DAC_C",
+    "DAC_D",
+    "DAC_E",
+    "DAC_F",
+    "DAC_G",
+    "DAC_H"
+   ],
+   "clearCode": {
+    "field": "CLRCODE.CC",
+    "values": {
+     "0": 0,
+     "1": 32768,
+     "2": 65535
+    }
+   },
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw16",
+   "footprint": "TSSOP-16",
+   "package": "TSSOP",
+   "pins": 16
+  }
+ },
+ "pdf": "dac7568.pdf",
+ "pages": "p.3 (grades), p.4 (pins), p.5-7 (AVDD 2.7-5.5 V, digital inputs to AVDD + 0.3 V), p.7-8 (timing, Figure 1), p.33-38 (serial interface, Tables 1-4), p.39 (SYNC interrupt, power-on reset, clear code, software reset), p.44-47 (reference, LDAC, power-down)",
+ "notModeled": [
+  "analog outputs, internal 2.5-V reference and power-down output loads (reference and power-down commands stored only in REF / PD; outputs never driven)",
+  "power-down command applies its mode only to the channels whose mask bit is 1; the model stores the last command's mode and mask (PD), not a per-channel state",
+  "clear code 11 (ignore the CLR pin) has no clear code in the model's map: the pin is not disabled",
+  "CLR is falling-edge triggered and the device stays in clear mode until the 32nd SCLK of the next write, and a CLR during a write aborts it; the model loads the clear code once on the falling edge and does not abort the write",
+  "LDAC register: channels with their bit set ignore the LDAC pin and update on the 32nd SCLK (stored only; every channel follows the LDAC pin)",
+  "invalid channel codes A3 = 1 other than 1111 and reserved control codes 1010-1111 (no command matches: the frame is ignored); DB31 = 1 frames are ignored likewise",
+  "SYNC kept low after the 32nd clock: the shift register stays locked until SYNC rises and falls again (fixed frame: same result)",
+  "pin inputs at AVDD + 0.3 V max; no SDO / read-back on this device"
+ ],
+ "variants": "dac7568.pdf covers DAC7568 (12-bit, data DB19-DB8), DAC8168 (14-bit, DB19-DB6) and DAC8568 (16-bit, DB19-DB4); same pins and commands. Grades A/C power on to zero scale, B/D to midscale (DAC8568 only has B/D). A TSSOP-14 package (no LDAC/CLR, e.g. DAC8168IAPW) is not in the parts list.",
+ "partKeys": {
+  "DAC8568IBPW": {
+   "resets": {
+    "IN_A": 32768,
+    "DAC_A": 32768,
+    "IN_B": 32768,
+    "DAC_B": 32768,
+    "IN_C": 32768,
+    "DAC_C": 32768,
+    "IN_D": 32768,
+    "DAC_D": 32768,
+    "IN_E": 32768,
+    "DAC_E": 32768,
+    "IN_F": 32768,
+    "DAC_F": 32768,
+    "IN_G": 32768,
+    "DAC_G": 32768,
+    "IN_H": 32768,
+    "DAC_H": 32768
+   }
+  },
+  "DAC8568IBPWR": {
+   "resets": {
+    "IN_A": 32768,
+    "DAC_A": 32768,
+    "IN_B": 32768,
+    "DAC_B": 32768,
+    "IN_C": 32768,
+    "DAC_C": 32768,
+    "IN_D": 32768,
+    "DAC_D": 32768,
+    "IN_E": 32768,
+    "DAC_E": 32768,
+    "IN_F": 32768,
+    "DAC_F": 32768,
+    "IN_G": 32768,
+    "DAC_G": 32768,
+    "IN_H": 32768,
+    "DAC_H": 32768
+   }
+  },
+  "DAC8568IDPW": {
+   "resets": {
+    "IN_A": 32768,
+    "DAC_A": 32768,
+    "IN_B": 32768,
+    "DAC_B": 32768,
+    "IN_C": 32768,
+    "DAC_C": 32768,
+    "IN_D": 32768,
+    "DAC_D": 32768,
+    "IN_E": 32768,
+    "DAC_E": 32768,
+    "IN_F": 32768,
+    "DAC_F": 32768,
+    "IN_G": 32768,
+    "DAC_G": 32768,
+    "IN_H": 32768,
+    "DAC_H": 32768
+   }
+  },
+  "DAC8568IDPWR": {
+   "resets": {
+    "IN_A": 32768,
+    "DAC_A": 32768,
+    "IN_B": 32768,
+    "DAC_B": 32768,
+    "IN_C": 32768,
+    "DAC_C": 32768,
+    "IN_D": 32768,
+    "DAC_D": 32768,
+    "IN_E": 32768,
+    "DAC_E": 32768,
+    "IN_F": 32768,
+    "DAC_F": 32768,
+    "IN_G": 32768,
+    "DAC_G": 32768,
+    "IN_H": 32768,
+    "DAC_H": 32768
+   }
+  }
+ },
+ "parts": [
+  [
+   "DAC8568IAPW",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "DAC8568IBPW",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "DAC8568IBPWR",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "DAC8568ICPW",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "DAC8568IDPW",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "DAC8568IDPWR",
+   "PW",
+   16,
+   "Active"
+  ]
+ ]
+}

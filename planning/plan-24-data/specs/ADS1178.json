@@ -1,0 +1,462 @@
+{
+ "device": {
+  "id": "ADS1178",
+  "function": "ADC",
+  "description": "Octal 16-bit 52 kSPS simultaneous-sampling delta-sigma ADC with SPI / frame-sync serial interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1174.pdf (SBAS373B) p.5-6 pin descriptions, p.7 SPI-format timing, p.13 clock options (Table 4), p.14 mode selection (Table 5), p.17 data output format (Table 10), data format (Table 11), SPI interface and DRDY, p.19 TDM mode (Figure 17)",
+  "pinouts": {
+   "pap64": [
+    {
+     "number": 1,
+     "name": "AINP2",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AINN2",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "AINP1",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "AINN1",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 8,
+     "name": "TEST0",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "TEST1",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "CLKDIV",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "DOUT8",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "DOUT7",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "DOUT6",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "DOUT5",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "DOUT4",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "DOUT3",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "DOUT2",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "DOUT1",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 22,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 23,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 24,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 25,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 26,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 27,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "DRDY/FSYNC",
+     "role": "inout"
+    },
+    {
+     "number": 30,
+     "name": "FORMAT2",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "FORMAT1",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "FORMAT0",
+     "role": "input"
+    },
+    {
+     "number": 33,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 34,
+     "name": "MODE",
+     "role": "input"
+    },
+    {
+     "number": 35,
+     "name": "PWDN8",
+     "role": "input"
+    },
+    {
+     "number": 36,
+     "name": "PWDN7",
+     "role": "input"
+    },
+    {
+     "number": 37,
+     "name": "PWDN6",
+     "role": "input"
+    },
+    {
+     "number": 38,
+     "name": "PWDN5",
+     "role": "input"
+    },
+    {
+     "number": 39,
+     "name": "PWDN4",
+     "role": "input"
+    },
+    {
+     "number": 40,
+     "name": "PWDN3",
+     "role": "input"
+    },
+    {
+     "number": 41,
+     "name": "PWDN2",
+     "role": "input"
+    },
+    {
+     "number": 42,
+     "name": "PWDN1",
+     "role": "input"
+    },
+    {
+     "number": 43,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 44,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 45,
+     "name": "AINP8",
+     "role": "input"
+    },
+    {
+     "number": 46,
+     "name": "AINN8",
+     "role": "input"
+    },
+    {
+     "number": 47,
+     "name": "AINP7",
+     "role": "input"
+    },
+    {
+     "number": 48,
+     "name": "AINN7",
+     "role": "input"
+    },
+    {
+     "number": 49,
+     "name": "AINP6",
+     "role": "input"
+    },
+    {
+     "number": 50,
+     "name": "AINN6",
+     "role": "input"
+    },
+    {
+     "number": 51,
+     "name": "AINP5",
+     "role": "input"
+    },
+    {
+     "number": 52,
+     "name": "AINN5",
+     "role": "input"
+    },
+    {
+     "number": 53,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 54,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 55,
+     "name": "VCOM",
+     "role": "output"
+    },
+    {
+     "number": 56,
+     "name": "VREFP",
+     "role": "power"
+    },
+    {
+     "number": 57,
+     "name": "VREFN",
+     "role": "input"
+    },
+    {
+     "number": 58,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 59,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 60,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 61,
+     "name": "AINP4",
+     "role": "input"
+    },
+    {
+     "number": 62,
+     "name": "AINN4",
+     "role": "input"
+    },
+    {
+     "number": 63,
+     "name": "AINP3",
+     "role": "input"
+    },
+    {
+     "number": 64,
+     "name": "AINN3",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 8,
+  "codeFormat": "twos",
+  "vcc": [
+   1.65,
+   3.6
+  ],
+  "analog": [
+   "AINP1",
+   "AINP2",
+   "AINP3",
+   "AINP4",
+   "AINP5",
+   "AINP6",
+   "AINP7",
+   "AINP8",
+   "AINN1",
+   "AINN2",
+   "AINN3",
+   "AINN4",
+   "AINN5",
+   "AINN6",
+   "AINN7",
+   "AINN8",
+   "AVDD",
+   "AGND",
+   "VCOM",
+   "VREFP",
+   "VREFN"
+  ],
+  "bus": {
+   "style": "spi",
+   "sclk": "SCLK",
+   "miso": "DOUT1",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 16,
+   "tOut": 32
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 1,
+    "reset": 0,
+    "note": "internal: follows the MODE pin (0 = high-speed, 1 = low-power)",
+    "fields": [
+     {
+      "name": "MODE",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "[R][R][R][R][R][R][R][R]",
+   "idle": "0",
+   "commands": []
+  },
+  "conversion": {
+   "time": {
+    "field": "CTRL.MODE",
+    "values": {
+     "0": 18963,
+     "1": 94815
+    }
+   },
+   "start": [
+    "power-on"
+   ],
+   "mode": "continuous"
+  },
+  "ready": [
+   {
+    "pin": "DRDY/FSYNC",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read"
+   }
+  ],
+  "pins": {
+   "levels": [
+    {
+     "pin": "MODE",
+     "field": "CTRL.MODE"
+    }
+   ]
+  }
+ },
+ "packages": {
+  "PAP": {
+   "pinout": "pap64",
+   "footprint": "HTQFP-64-PAP",
+   "package": "HTQFP",
+   "pins": 64
+  }
+ },
+ "pdf": "ads1174.pdf",
+ "pages": "p.5-6 (pins), p.7 (SPI timing), p.13-14 (Tables 4, 5), p.17 (Tables 10, 11, SPI interface), p.19 (TDM)",
+ "notModeled": [
+  "analog inputs, VCOM output, test mode TEST[1:0]",
+  "the bus is the SPI, TDM fixed-position format (FORMAT[2:0] = 001) on DOUT1 with no CS: each DRDY falling edge starts a 128-bit frame of the channels 1..8 in order; the dynamic-position TDM, discrete (per-channel DOUTn) and frame-sync formats are not modeled, the FORMAT pins are not read, DOUT2..DOUT8 are not driven",
+  "daisy-chain: the data shifted in on DIN after the last channel are not passed through (idle 0)",
+  "per-channel power-down PWDNn (powered-down channels read zero in the datasheet) and the all-channels-down interface power-down",
+  "SYNC pin (filter restart, 129-conversion settling) and the DRDY hold-off after a MODE change",
+  "conversion time = 1 / maximum data rate (fCLK = 27 MHz, CLKDIV = 1, Table 4): 52734 SPS high-speed, 10547 SPS low-power; other CLK frequencies and CLKDIV are not modeled; the CLK pin is not used",
+  "DRDY returns high on the first SCLK falling edge (modeled as cleared on reading the data); the high pulse before the next conversion when data are not read"
+ ],
+ "variants": "ADS1174 shares the datasheet (4 channels, AINP/AINN/DOUT/PWDN 5-8 unused): own spec file",
+ "parts": [
+  [
+   "ADS1178IPAPR",
+   "PAP",
+   64,
+   "Active"
+  ],
+  [
+   "ADS1178IPAPT",
+   "PAP",
+   64,
+   "Active"
+  ]
+ ]
+}

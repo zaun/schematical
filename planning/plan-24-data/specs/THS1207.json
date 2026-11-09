@@ -1,0 +1,424 @@
+{
+ "device": {
+  "id": "THS1207",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "12-bit 6 MSPS 4-input simultaneous-sampling pipeline ADC with parallel uC/DSP interface",
+  "note": "ths1207.pdf (SLAS284A) p.1 pinout, p.2 recommended operating conditions, p.4 timing requirements, p.5 terminal functions, p.14 conversion clock, p.17 output formats (Tables 2-5), p.18-21 control registers (Tables 6-11), p.22-25 bus timing (Figures 31-35)",
+  "pinouts": {
+   "da32": [
+    {
+     "number": 1,
+     "name": "D0",
+     "role": "inout"
+    },
+    {
+     "number": 2,
+     "name": "D1",
+     "role": "inout"
+    },
+    {
+     "number": 3,
+     "name": "D2",
+     "role": "inout"
+    },
+    {
+     "number": 4,
+     "name": "D3",
+     "role": "inout"
+    },
+    {
+     "number": 5,
+     "name": "D4",
+     "role": "inout"
+    },
+    {
+     "number": 6,
+     "name": "D5",
+     "role": "inout"
+    },
+    {
+     "number": 7,
+     "name": "BVDD",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "BGND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "D6",
+     "role": "inout"
+    },
+    {
+     "number": 10,
+     "name": "D7",
+     "role": "inout"
+    },
+    {
+     "number": 11,
+     "name": "D8",
+     "role": "inout"
+    },
+    {
+     "number": 12,
+     "name": "D9",
+     "role": "inout"
+    },
+    {
+     "number": 13,
+     "name": "D10/RA0",
+     "role": "inout"
+    },
+    {
+     "number": 14,
+     "name": "D11/RA1",
+     "role": "inout"
+    },
+    {
+     "number": 15,
+     "name": "CONV_CLK",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "SYNC",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 18,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 19,
+     "name": "RD",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "WR (R/W)",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "CS1",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "CS0",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 24,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 25,
+     "name": "REFM",
+     "role": "power"
+    },
+    {
+     "number": 26,
+     "name": "REFP",
+     "role": "power"
+    },
+    {
+     "number": 27,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 28,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 29,
+     "name": "BINM",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "BINP",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "AINM",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "AINP",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 4,
+  "codeFormat": {
+   "field": "CR1.BIN_2S",
+   "values": {
+    "0": "twos",
+    "1": "offset"
+   }
+  },
+  "vcc": [
+   3,
+   5.25
+  ],
+  "analog": [
+   "AINP",
+   "AINM",
+   "BINP",
+   "BINM",
+   "REFIN",
+   "REFOUT",
+   "REFP",
+   "REFM",
+   "AVDD"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "D11/RA1",
+    "D10/RA0",
+    "D9",
+    "D8",
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "cs": {
+    "pin": "CS0",
+    "active": 0
+   },
+   "rd": {
+    "pin": "RD",
+    "active": 0
+   },
+   "wr": {
+    "pin": "WR (R/W)",
+    "active": 0
+   }
+  },
+  "timing": {
+   "tAcc": 10,
+   "tDf": 5
+  },
+  "registers": [
+   {
+    "name": "CR0",
+    "width": 10,
+    "reset": 32,
+    "fields": [
+     {
+      "name": "TEST",
+      "bits": [
+       9,
+       8
+      ]
+     },
+     {
+      "name": "SCAN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "DIFF",
+      "bits": [
+       6,
+       5
+      ]
+     },
+     {
+      "name": "CHSEL",
+      "bits": [
+       4,
+       3
+      ]
+     },
+     {
+      "name": "PD",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "VREF",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.19 Table 8: control register 0, reset 020h (DIFF0 = 1); bit 1 reserved"
+   },
+   {
+    "name": "CR1",
+    "width": 10,
+    "reset": 48,
+    "fields": [
+     {
+      "name": "RBACK",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "OFFSET",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "BIN_2S",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "RW",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "SRST",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "RESET",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.21 Table 11: control register 1, reset 030h (reserved bits 4 and 5 reset to 1, always write 0)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write CR1 with RESET = 1",
+     "in": "01 x{9} 1",
+     "action": "reset",
+     "note": "p.21 Table 11: writing 1 to CR1 bit 0 resets the device and sets CR0 and CR1 to their reset values (0x401 in the configuration flow)"
+    },
+    {
+     "name": "Write CR1 with RBACK = 1 (debug mode)",
+     "in": "01 1 [CR1:8:0]",
+     "action": "nop",
+     "set": {
+      "CR1.RBACK": 1
+     },
+     "next": "00 [CR0]",
+     "note": "p.21 Table 11: debug mode; the first read after RBACK is set returns CR0, the second CR1"
+    },
+    {
+     "name": "Write control register 1",
+     "in": "01 [CR1]",
+     "action": "nop",
+     "note": "RA1 = 0, RA0 = 1 on D11/D10, register value on D9-D0 (control register addressing table)"
+    },
+    {
+     "name": "Write control register 0",
+     "in": "00 [CR0]",
+     "action": "nop",
+     "note": "RA1 = 0, RA0 = 0 on D11/D10, register value on D9-D0 (control register addressing table)"
+    }
+   ],
+   "read": "R{12}",
+   "reads": [
+    {
+     "when": "CR1.RBACK=1",
+     "read": "01 [CR1]"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "pin"
+   ]
+  },
+  "pins": {
+   "convst": {
+    "pin": "CONV_CLK",
+    "edge": "fall"
+   }
+  }
+ },
+ "packages": {
+  "DA": {
+   "pinout": "da32",
+   "footprint": "TSSOP-32-DA",
+   "package": "TSSOP",
+   "pins": 32
+  }
+ },
+ "pdf": "ths1207.pdf",
+ "pages": "p.1 (pinout), p.2 (ROC), p.4 (timing requirements), p.5 (terminal functions), p.14-16 (conversion), p.17 (output formats), p.18-21 (control registers), p.22-25 (bus timing)",
+ "notModeled": [
+  "analog inputs, channel / differential / autoscan selection (CR0 bits 3-7), test voltages (CR0 TEST), internal/external reference and offset calibration (CR1 OFFSET) are stored only; the result is the 0 V code",
+  "CS1 (active-high chip select) is not modeled: tie it high; only CS0 (active low) selects the part",
+  "R/W mode (CR1 bit 6 = 1: WR (R/W) becomes a combined R/W input and RD is disabled) is not modeled: the bus stays in RD/WR mode (the CR1 reset value). The power-on state of RD/WR is unknown per the datasheet; the first access has to be a write",
+  "the RESET bit holds the device in reset until 0 is written to it; the model resets the registers when the write ends (RESET then reads 0)",
+  "debug read-back: the upper bits D11/D10 of the read-back words are taken from the register tables (CR0: 00, CR1: 01); after the first (CR0) read every further read returns CR1 until RBACK is cleared",
+  "CR0 PD (power down) is stored only; conversions continue in the model",
+  "pipeline latency (5 CONV_CLK cycles) and the CONV_CLK-to-read setup times are not modeled",
+  "codeFormat: CR1 BIN/2s = 0 two's complement (0 V differential = 000h), 1 binary (0 V differential = 800h, written \"offset\"); the power-on input is the differential channel AINP-AINM (CR0 DIFF0 = 1). A single-ended input at 0 V is below VREFM and reads 000h binary / 800h two's complement",
+  "SYNC output (active low when channel-1 data is on the bus in multichannel operation; disabled in single-channel mode) is not driven; CR1 SRST (sync generator reset) is stored only",
+  "every CONV_CLK falling edge starts a conversion (continuous mode only, 0.1-6 MHz); not timed (time 0), each read returns the 0 V code"
+ ],
+ "variants": "THS1207C (0-70 C) and THS1207I (-40-85 C) share the datasheet",
+ "parts": [
+  [
+   "THS1207CDA",
+   "DA",
+   32,
+   "Active"
+  ],
+  [
+   "THS1207IDA",
+   "DA",
+   32,
+   "Active"
+  ]
+ ]
+}

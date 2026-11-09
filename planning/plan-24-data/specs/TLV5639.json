@@ -1,0 +1,294 @@
+{
+ "device": {
+  "id": "TLV5639",
+  "function": "DAC",
+  "description": "12-bit voltage-output DAC with 12-bit parallel interface (CS, WE, REG, LDAC), internal programmable reference, programmable settling time and power down",
+  "drawer": [
+   "Interface"
+  ],
+  "pinouts": {
+   "dw20": [
+    {
+     "number": 1,
+     "name": "D2",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "D3",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "D4",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "D5",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "D6",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "D7",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "D8",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "D9",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "D10",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "D11",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 12,
+     "name": "REF",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "OUT",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "REG",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "WE",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "D0",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "D1",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "REF",
+   "OUT"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "D11",
+    "D10",
+    "D9",
+    "D8",
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "wr": {
+    "pin": "WE",
+    "active": 0
+   },
+   "address": [
+    "REG"
+   ]
+  },
+  "registers": [
+   {
+    "name": "HOLD",
+    "space": "input",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC holding latch (REG = 0); power-on reset puts the internal latches to zero (p.11)"
+   },
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC latch; loaded from the holding latch while LDAC is low (p.11)"
+   },
+   {
+    "name": "CTRL",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "REF",
+      "bits": [
+       4,
+       3
+      ]
+     },
+     {
+      "name": "PWR",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "SPD",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "control register (REG = 1): D4 D3 REF1 REF0 (00/11 external, 01 1.024 V, 10 2.048 V), D1 PWR, D0 SPD, others don't care; defaults 0 (p.12)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write DAC holding latch (REG = 0)",
+     "in": "0 d{12}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "note": "REG low: D11-D0 latched into the holding latch on the WE rising edge (p.11)"
+    },
+    {
+     "name": "Write control register (REG = 1)",
+     "in": "1 d{12}",
+     "action": "write",
+     "register": "CTRL",
+     "data": "d",
+     "note": "REG high: D11-D0 to the control register (p.11-12)"
+    }
+   ],
+   "triggers": [
+    {
+     "write": "CTRL.PWR=1",
+     "action": "powerdown"
+    },
+    {
+     "write": "CTRL.PWR=0",
+     "action": "wakeup"
+    }
+   ],
+   "note": "write-only parallel port: with CS low, data and REG are latched on the WE rising edge (Figure 1, p.11); REG selects the holding latch or the control register"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "level",
+    "note": "LDAC low updates the DAC from the holding latch; asynchronous, may be held low (p.11)"
+   }
+  },
+  "dac": {
+   "input": [
+    "HOLD"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  },
+  "note": "tlv5639.pdf (SLAS189C) p.1 (DW/PW pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: VDD 2.7-3.3 V and 4.5-5.5 V), p.6 (digital input timing requirements), p.7 (Figure 1 timing diagram), p.11 (power-on reset, parallel interface, data destination by REG), p.12 (control register bits, reference bits)"
+ },
+ "packages": {
+  "DW": {
+   "pinout": "dw20",
+   "footprint": "SOIC-20W",
+   "package": "SOIC",
+   "pins": 20
+  },
+  "PW": {
+   "pinout": "dw20",
+   "footprint": "TSSOP-20",
+   "package": "TSSOP",
+   "pins": 20
+  }
+ },
+ "pdf": "tlv5639.pdf",
+ "pages": "(SLAS189C) p.1 (DW/PW pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: VDD 2.7-3.3 V and 4.5-5.5 V), p.6 (digital input timing requirements), p.7 (Figure 1 timing diagram), p.11 (power-on reset, parallel interface, data destination by REG), p.12 (control register bits, reference bits)",
+ "notModeled": [
+  "analog: voltage output (x2 buffer), REF input/output and the internal reference (CTRL.REF stored only); SPD / PWR affect the analog side only",
+  "the device has no read-back: the parallel port is write-only (no RD pin)",
+  "digital input timing requirements tsu(CS-WE), tsu(D), tsu(R), th(DR), tsu(WE-LD), twH(WE), tw(LD) (p.6)"
+ ],
+ "variants": "tlv5639.pdf covers TLV5639C and TLV5639I; DW and PW share one pinout.",
+ "parts": [
+  [
+   "TLV5639CDW",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "TLV5639IDW",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "TLV5639IPW",
+   "PW",
+   20,
+   "Active"
+  ]
+ ]
+}

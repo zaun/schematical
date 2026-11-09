@@ -1,0 +1,5067 @@
+{
+ "device": {
+  "id": "ADS131B26",
+  "function": "ADC",
+  "description": "Automotive battery-monitoring AFE: two 24-bit 64 kSPS delta-sigma current ADCs, two 16-bit multiplexed sequenced ADCs, two 24-bit voltage ADCs, SPI interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads131b26-q1.pdf (SBASA22B) p.4-5 pin functions (Table 4-1), p.7 recommended operating conditions, p.15-16 timing (Figure 5-1: CPOL 0, CPHA 1), p.34 output codes (Table 7-7), p.56-58 operating and conversion modes, p.65-77 serial interface (frames, words, STATUS word, commands Table 7-25, DRDYn), p.79-85 register map (Table 8-1), p.86-234 register fields",
+  "pinouts": {
+   "php48": [
+    {
+     "number": 1,
+     "name": "V1A",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "V0A",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "VPA/GPIO0A",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "VNA/GPIO1A",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "CPA",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "CNA",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "VNB/GPIO1B",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "VPB/GPIO0B",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "CNB",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "CPB",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "V0B",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "V1B",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "V2B",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "V3B",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "V4B",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "V5B",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "V6B",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "V7B",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "AGNDB",
+     "role": "ground"
+    },
+    {
+     "number": 20,
+     "name": "RCAPB",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 22,
+     "name": "GPIO4/OCCB",
+     "role": "inout"
+    },
+    {
+     "number": 23,
+     "name": "RESETn",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "GPIO3/OCCA",
+     "role": "inout"
+    },
+    {
+     "number": 25,
+     "name": "GPIO2/FAULT",
+     "role": "inout"
+    },
+    {
+     "number": 26,
+     "name": "GPIO1",
+     "role": "inout"
+    },
+    {
+     "number": 27,
+     "name": "DRDYn",
+     "role": "output"
+    },
+    {
+     "number": 28,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 30,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "CSn",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 33,
+     "name": "GPIO0/MHD",
+     "role": "inout"
+    },
+    {
+     "number": 34,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 35,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 36,
+     "name": "DCAP",
+     "role": "nc"
+    },
+    {
+     "number": 37,
+     "name": "DPWR",
+     "role": "power"
+    },
+    {
+     "number": 38,
+     "name": "APWR",
+     "role": "power"
+    },
+    {
+     "number": 39,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 40,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 41,
+     "name": "RCAPA",
+     "role": "output"
+    },
+    {
+     "number": 42,
+     "name": "AGNDA",
+     "role": "ground"
+    },
+    {
+     "number": 43,
+     "name": "V7A",
+     "role": "input"
+    },
+    {
+     "number": 44,
+     "name": "V6A",
+     "role": "input"
+    },
+    {
+     "number": 45,
+     "name": "V5A",
+     "role": "input"
+    },
+    {
+     "number": 46,
+     "name": "V4A",
+     "role": "input"
+    },
+    {
+     "number": 47,
+     "name": "V3A",
+     "role": "input"
+    },
+    {
+     "number": 48,
+     "name": "V2A",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 24,
+  "channels": 6,
+  "codeFormat": "twos",
+  "vcc": [
+   2.9,
+   5.5
+  ],
+  "analog": [
+   "V1A",
+   "V0A",
+   "VPA/GPIO0A",
+   "VNA/GPIO1A",
+   "CPA",
+   "CNA",
+   "VNB/GPIO1B",
+   "VPB/GPIO0B",
+   "CNB",
+   "CPB",
+   "V0B",
+   "V1B",
+   "V2B",
+   "V3B",
+   "V4B",
+   "V5B",
+   "V6B",
+   "V7B",
+   "AGNDB",
+   "RCAPB",
+   "AGND",
+   "DCAP",
+   "DPWR",
+   "APWR",
+   "AVDD",
+   "RCAPA",
+   "AGNDA",
+   "V7A",
+   "V6A",
+   "V5A",
+   "V4A",
+   "V3A",
+   "V2A"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CSn",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDO",
+   "mode": 1
+  },
+  "timing": {
+   "tValid": 50,
+   "tOut": 32,
+   "tFloat": 75
+  },
+  "registers": [
+   {
+    "name": "ID",
+    "address": 0,
+    "width": 16,
+    "reset": 192,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "REV",
+      "bits": [
+       15,
+       8
+      ]
+     },
+     {
+      "name": "ADC_COUNT",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "DEVICE_ID",
+      "bits": [
+       4,
+       0
+      ]
+     }
+    ],
+    "note": "REV[7:0] and DEVICE_ID[4:0] reset X (not specified): 0 used; ADC_COUNT = 110b"
+   },
+   {
+    "name": "STATUS_MSB",
+    "address": 1,
+    "width": 16,
+    "reset": 32712,
+    "readOnly": 2047,
+    "fields": [
+     {
+      "name": "RESETN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SUPPLY_FAULTN",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "CLOCK_FAULTN",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "DIGITAL_FAULTN",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "OCC_FAULTN",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "SPI_CRC_FAULTN",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "SPI_TIMEOUTN",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "SCLK_COUNT_FAULTN",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "REG_ACCESS_FAULTN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "COMMAND_RESPONSE",
+      "bits": [
+       6,
+       3
+      ]
+     },
+     {
+      "name": "LOCK",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CLOCK",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "MODE",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "bits 15:11 are write-1-to-restore fault flags (stored as written in the model); COMMAND_RESPONSE and LOCK are set by the commands"
+   },
+   {
+    "name": "STATUS_LSB",
+    "address": 2,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2A_COUNT",
+      "bits": [
+       15,
+       14
+      ]
+     },
+     {
+      "name": "SEQ2B_COUNT",
+      "bits": [
+       13,
+       12
+      ]
+     },
+     {
+      "name": "CONV1A_COUNT",
+      "bits": [
+       11,
+       10
+      ]
+     },
+     {
+      "name": "CONV1B_COUNT",
+      "bits": [
+       9,
+       8
+      ]
+     },
+     {
+      "name": "SEQ2A_ACTIVE",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "SEQ2B_ACTIVE",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SUPPLY_STATUS",
+    "address": 3,
+    "width": 16,
+    "reset": 65535,
+    "fields": [
+     {
+      "name": "AVDD_OVN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "AVDD_UVN",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "IOVDD_OVN",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "IOVDD_UVN",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "DVDD_OVN",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "DVDD_UVN",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "AVDD_OSCN",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "IOVDD_OSCN",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "DVDD_OSCN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "AVDD_OTWN",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "IOVDD_OTWN",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "AVDD_CLN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "IOVDD_CLN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "AGNDA_DISCN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "AGNDB_DISCN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DGND_DISCN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CLOCK_STATUS",
+    "address": 4,
+    "width": 16,
+    "reset": 64519,
+    "readOnly": 65528,
+    "fields": [
+     {
+      "name": "MCLK_FAULTN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "OSCD_WDN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "MCLK_WDN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DIGITAL_STATUS",
+    "address": 5,
+    "width": 16,
+    "reset": 60416,
+    "readOnly": 6143,
+    "fields": [
+     {
+      "name": "REG_MAP1_CRC_FAULTN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "REG_MAP2_CRC_FAULTN",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "REG_MAP3_CRC_FAULTN",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "MEM_MAP_CRC_FAULTN",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "OTP_BANK",
+      "bits": [
+       10,
+       10
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OCC_STATUS",
+    "address": 6,
+    "width": 16,
+    "reset": 15,
+    "readOnly": 65520,
+    "fields": [
+     {
+      "name": "OCCA_HTN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "OCCA_LTN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "OCCB_HTN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "OCCB_LTN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPI_DATA",
+    "address": 7,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "GPI4_DAT",
+      "bits": [
+       9,
+       8
+      ]
+     },
+     {
+      "name": "GPI3_DAT",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "GPI2_DAT",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "GPI1_DAT",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "GPI0_DAT",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPIA_GPIB_DATA",
+    "address": 8,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "GPI1A_DAT",
+      "bits": [
+       11,
+       10
+      ]
+     },
+     {
+      "name": "GPI0A_DAT",
+      "bits": [
+       9,
+       8
+      ]
+     },
+     {
+      "name": "GPI1B_DAT",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "GPI0B_DAT",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONVERSION_CTRL",
+    "address": 9,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 64250,
+    "fields": [
+     {
+      "name": "STARTA",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "STARTB",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "STOPA",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "STOPB",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "SEQ2A_START",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "SEQ2B_START",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2A_STOP",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "SEQ2B_STOP",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "STARTA/STARTB/SEQ2x_START always read back 0 (readOnly here; the start trigger sees the written value)"
+   },
+   {
+    "name": "SEQ2A_STEP0_DATA",
+    "address": 16,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP0_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP1_DATA",
+    "address": 17,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP1_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP2_DATA",
+    "address": 18,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP2_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP3_DATA",
+    "address": 19,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP3_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP4_DATA",
+    "address": 20,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP4_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP5_DATA",
+    "address": 21,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP5_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP6_DATA",
+    "address": 22,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP6_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP7_DATA",
+    "address": 23,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP7_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP8_DATA",
+    "address": 24,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP8_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP9_DATA",
+    "address": 25,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP9_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP10_DATA",
+    "address": 26,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP10_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP11_DATA",
+    "address": 27,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP11_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP12_DATA",
+    "address": 28,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP12_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP13_DATA",
+    "address": 29,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP13_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP14_DATA",
+    "address": 30,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP14_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP15_DATA",
+    "address": 31,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP15_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP0_DATA",
+    "address": 32,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP0_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP1_DATA",
+    "address": 33,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP1_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP2_DATA",
+    "address": 34,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP2_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP3_DATA",
+    "address": 35,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP3_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP4_DATA",
+    "address": 36,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP4_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP5_DATA",
+    "address": 37,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP5_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP6_DATA",
+    "address": 38,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP6_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP7_DATA",
+    "address": 39,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP7_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP8_DATA",
+    "address": 40,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP8_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP9_DATA",
+    "address": 41,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP9_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP10_DATA",
+    "address": 42,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP10_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP11_DATA",
+    "address": 43,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP11_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP12_DATA",
+    "address": 44,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP12_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP13_DATA",
+    "address": 45,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP13_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP14_DATA",
+    "address": 46,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP14_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP15_DATA",
+    "address": 47,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP15_DAT",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DEVICE_MONITOR_CFG",
+    "address": 64,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 3832,
+    "fields": [
+     {
+      "name": "REG_MAP1_CRC_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "CRC_TYPE",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "SCLK_COUNTER_EN",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "TIMEOUT_EN",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "FAULT_POL",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "MHD_POL",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "MHD_CFG",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SUPPLY_MONITOR_CFG1",
+    "address": 65,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "AVDD_OV_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "AVDD_UV_EN",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "IOVDD_OV_EN",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "IOVDD_UV_EN",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "DVDD_OV_EN",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "DVDD_UV_EN",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "AVDD_OSC_EN",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "IOVDD_OSC_EN",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "DVDD_OSC_EN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "AVDD_OTW_EN",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "IOVDD_OTW_EN",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "AVDD_CL_EN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "IOVDD_CL_EN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "AGNDA_DISC_EN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "AGNDB_DISC_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DGND_DISC_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SUPPLY_MONITOR_CFG2",
+    "address": 66,
+    "width": 16,
+    "reset": 4336,
+    "readOnly": 53007,
+    "fields": [
+     {
+      "name": "IOVDD_OV_TH",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "IOVDD_UV_TH",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "AVDD_OTW_CFG",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "IOVDD_OTW_CFG",
+      "bits": [
+       5,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CLOCK_MONITOR_CFG",
+    "address": 67,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 1016,
+    "fields": [
+     {
+      "name": "MCLK_MON_EN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "OSCD_WD_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "MCLK_WD_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SUPPLY_MONITOR_DIAGNOSTIC_CFG",
+    "address": 68,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 120,
+    "fields": [
+     {
+      "name": "AVDD_OV_DIAG_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "AVDD_UV_DIAG_EN",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "IOVDD_OV_DIAG_EN",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "IOVDD_UV_DIAG_EN",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "DVDD_OV_DIAG_EN",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "DVDD_UV_DIAG_EN",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "AVDD_OSC_DIAG_EN",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "IOVDD_OSC_DIAG_EN",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "DVDD_OSC_DIAG_EN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "AGNDA_DISC_DIAG_EN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "AGNDB_DISC_DIAG_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DGND_DISC_DIAG_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CLOCK_MONITOR_DIAGNOSTIC_CFG",
+    "address": 69,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "SPARE",
+      "bits": [
+       15,
+       4
+      ]
+     },
+     {
+      "name": "MCLK_HI_DIAG_EN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "MCLK_LO_DIAG_EN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "OSCD_WD_DIAG_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "MCLK_WD_DIAG_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DIGITAL_MONITOR_DIAGNOSTIC_CFG",
+    "address": 70,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 64760,
+    "fields": [
+     {
+      "name": "MEM_MAP_CRC_DIAG",
+      "bits": [
+       9,
+       8
+      ]
+     },
+     {
+      "name": "GPIOA_DIAG_EN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "GPIOB_DIAG_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "GPIO_DIAG_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SUPPLY_FAULT_MASK",
+    "address": 71,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "AVDD_OV_MASK",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "AVDD_UV_MASK",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "IOVDD_OV_MASK",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "IOVDD_UV_MASK",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "DVDD_OV_MASK",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "DVDD_UV_MASK",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "AVDD_OSC_MASK",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "IOVDD_OSC_MASK",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "DVDD_OSC_MASK",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "AVDD_OTW_MASK",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "IOVDD_OTW_MASK",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "AVDD_CL_MASK",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "IOVDD_CL_MASK",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "AGNDA_DISC_MASK",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "AGNDB_DISC_MASK",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DGND_DISC_MASK",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CLOCK_FAULT_MASK",
+    "address": 72,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 1016,
+    "fields": [
+     {
+      "name": "MCLK_FAULT_MASK",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "OSCD_WD_MASK",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "MCLK_WD_MASK",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DIGITAL_FAULT_MASK",
+    "address": 73,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 6143,
+    "fields": [
+     {
+      "name": "REG_MAP1_CRC_FAULT_MASK",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "REG_MAP2_CRC_FAULT_MASK",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "REG_MAP3_CRC_FAULT_MASK",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "MEM_MAP_CRC_FAULT_MASK",
+      "bits": [
+       11,
+       11
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OCC_FAULT_MASK",
+    "address": 74,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 65520,
+    "fields": [
+     {
+      "name": "OCCA_HT_MASK",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "OCCA_LT_MASK",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "OCCB_HT_MASK",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "OCCB_LT_MASK",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "FAULT_PIN_MASK",
+    "address": 75,
+    "width": 16,
+    "reset": 1920,
+    "readOnly": 32895,
+    "fields": [
+     {
+      "name": "SUPPLY_FAULT_MASK",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "CLOCK_FAULT_MASK",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "DIGITAL_FAULT_MASK",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "OCC_FAULT_MASK",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "SPI_CRC_FAULT_MASK",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "SPI_TIMEOUT_MASK",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "SCLK_COUNT_FAULT_MASK",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "REG_ACCESS_FAULT_MASK",
+      "bits": [
+       7,
+       7
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DEVICE_CFG",
+    "address": 76,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 34047,
+    "fields": [
+     {
+      "name": "DRDY_CTRL",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "CLK_SOURCE",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "WORD_LENGTH",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "OP_MODE",
+      "bits": [
+       9,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPIO_CFG",
+    "address": 77,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 32770,
+    "fields": [
+     {
+      "name": "GPIO4_FMT",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "GPIO3_FMT",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "GPIO2_FMT",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "GPIO1_FMT",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "GPIO0_FMT",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "GPIO4_DIR",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "GPIO3_DIR",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "GPIO2_DIR",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "GPIO1_DIR",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "GPIO0_DIR",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "GPIO4_SRC",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "GPIO3_SRC",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "GPIO2_SRC",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "GPIO0_SRC",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPO_DATA",
+    "address": 78,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "SPARE",
+      "bits": [
+       15,
+       5
+      ]
+     },
+     {
+      "name": "GPO4_DAT",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "GPO3_DAT",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "GPO2_DAT",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "GPO1_DAT",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "GPO0_DAT",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPIO0_LL_PWM_CFG",
+    "address": 79,
+    "width": 16,
+    "reset": 127,
+    "fields": [
+     {
+      "name": "GPIO0_PWM_TB",
+      "bits": [
+       15,
+       14
+      ]
+     },
+     {
+      "name": "GPIO0_LL_PWM_HC",
+      "bits": [
+       13,
+       7
+      ]
+     },
+     {
+      "name": "GPIO0_LL_PWM_LC",
+      "bits": [
+       6,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPIO0_LH_PWM_CFG",
+    "address": 80,
+    "width": 16,
+    "reset": 16256,
+    "readOnly": 49152,
+    "fields": [
+     {
+      "name": "GPIO0_LH_PWM_HC",
+      "bits": [
+       13,
+       7
+      ]
+     },
+     {
+      "name": "GPIO0_LH_PWM_LC",
+      "bits": [
+       6,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPIO1_LL_PWM_CFG",
+    "address": 81,
+    "width": 16,
+    "reset": 127,
+    "fields": [
+     {
+      "name": "GPIO1_PWM_TB",
+      "bits": [
+       15,
+       14
+      ]
+     },
+     {
+      "name": "GPIO1_LL_PWM_HC",
+      "bits": [
+       13,
+       7
+      ]
+     },
+     {
+      "name": "GPIO1_LL_PWM_LC",
+      "bits": [
+       6,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPIO1_LH_PWM_CFG",
+    "address": 82,
+    "width": 16,
+    "reset": 16256,
+    "readOnly": 49152,
+    "fields": [
+     {
+      "name": "GPIO1_LH_PWM_HC",
+      "bits": [
+       13,
+       7
+      ]
+     },
+     {
+      "name": "GPIO1_LH_PWM_LC",
+      "bits": [
+       6,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPIO2_LL_PWM_CFG",
+    "address": 83,
+    "width": 16,
+    "reset": 127,
+    "fields": [
+     {
+      "name": "GPIO2_PWM_TB",
+      "bits": [
+       15,
+       14
+      ]
+     },
+     {
+      "name": "GPIO2_LL_PWM_HC",
+      "bits": [
+       13,
+       7
+      ]
+     },
+     {
+      "name": "GPIO2_LL_PWM_LC",
+      "bits": [
+       6,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPIO2_LH_PWM_CFG",
+    "address": 84,
+    "width": 16,
+    "reset": 16256,
+    "readOnly": 49152,
+    "fields": [
+     {
+      "name": "GPIO2_LH_PWM_HC",
+      "bits": [
+       13,
+       7
+      ]
+     },
+     {
+      "name": "GPIO2_LH_PWM_LC",
+      "bits": [
+       6,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPIO3_LL_PWM_CFG",
+    "address": 85,
+    "width": 16,
+    "reset": 127,
+    "fields": [
+     {
+      "name": "GPIO3_PWM_TB",
+      "bits": [
+       15,
+       14
+      ]
+     },
+     {
+      "name": "GPIO3_LL_PWM_HC",
+      "bits": [
+       13,
+       7
+      ]
+     },
+     {
+      "name": "GPIO3_LL_PWM_LC",
+      "bits": [
+       6,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPIO3_LH_PWM_CFG",
+    "address": 86,
+    "width": 16,
+    "reset": 16256,
+    "readOnly": 49152,
+    "fields": [
+     {
+      "name": "GPIO3_LH_PWM_HC",
+      "bits": [
+       13,
+       7
+      ]
+     },
+     {
+      "name": "GPIO3_LH_PWM_LC",
+      "bits": [
+       6,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPIO4_LL_PWM_CFG",
+    "address": 87,
+    "width": 16,
+    "reset": 127,
+    "fields": [
+     {
+      "name": "GPIO4_PWM_TB",
+      "bits": [
+       15,
+       14
+      ]
+     },
+     {
+      "name": "GPIO4_LL_PWM_HC",
+      "bits": [
+       13,
+       7
+      ]
+     },
+     {
+      "name": "GPIO4_LL_PWM_LC",
+      "bits": [
+       6,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPIO4_LH_PWM_CFG",
+    "address": 88,
+    "width": 16,
+    "reset": 16256,
+    "readOnly": 49152,
+    "fields": [
+     {
+      "name": "GPIO4_LH_PWM_HC",
+      "bits": [
+       13,
+       7
+      ]
+     },
+     {
+      "name": "GPIO4_LH_PWM_LC",
+      "bits": [
+       6,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SPARE_59H",
+    "address": 89,
+    "width": 16,
+    "reset": 21845,
+    "fields": [
+     {
+      "name": "SPARE",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "REGISTER_MAP1_CRC",
+    "address": 126,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "REG_MAP1_CRC_VALUE",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "REGMAP2_TDACA_CFG",
+    "address": 128,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 32760,
+    "fields": [
+     {
+      "name": "REG_MAP2_CRC_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "TDACA_VALUE",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPIOA_CFG",
+    "address": 129,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GPIOA_PIN_CFG",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SPARE",
+      "bits": [
+       14,
+       12
+      ]
+     },
+     {
+      "name": "GPIO1A_FMT",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "GPIO0A_FMT",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "GPIO1A_DIR",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "GPIO0A_DIR",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "GPIO1A_PWM_TB",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "GPIO0A_PWM_TB",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "SPARE_2",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "GPO1A_DAT",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "GPO0A_DAT",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADC1A_ADC3A_CFG",
+    "address": 130,
+    "width": 16,
+    "reset": 1024,
+    "readOnly": 61680,
+    "fields": [
+     {
+      "name": "CONV_MODE13A",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "OSR13A",
+      "bits": [
+       10,
+       8
+      ]
+     },
+     {
+      "name": "GC13A_EN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "GC13A_DELAY",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADC1A_CFG",
+    "address": 131,
+    "width": 16,
+    "reset": 32784,
+    "readOnly": 28864,
+    "fields": [
+     {
+      "name": "ADC1A_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "GAIN1A",
+      "bits": [
+       11,
+       10
+      ]
+     },
+     {
+      "name": "MUX1A",
+      "bits": [
+       9,
+       8
+      ]
+     },
+     {
+      "name": "OWD1A_SOURCE_MUX",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "OWD1A_SINK_MUX",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "OWD1A_SOURCE_VALUE",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "OWD1A_SINK_VALUE",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADC1A_OCAL_MSB",
+    "address": 132,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OCAL1A",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADC1A_OCAL_LSB",
+    "address": 133,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "OCAL1A",
+      "bits": [
+       15,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADC1A_GCAL",
+    "address": 134,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GCAL1A",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OCCA_CFG",
+    "address": 135,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "OCCA_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "OCCA_POL",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "OCCA_NUM",
+      "bits": [
+       12,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OCCA_HIGH_THRESHOLD",
+    "address": 136,
+    "width": 16,
+    "reset": 32767,
+    "fields": [
+     {
+      "name": "OCCA_HIGH_TH",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OCCA_LOW_THRESHOLD",
+    "address": 137,
+    "width": 16,
+    "reset": 32768,
+    "fields": [
+     {
+      "name": "OCCA_LOW_TH",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SPARE_8AH",
+    "address": 138,
+    "width": 16,
+    "reset": 21845,
+    "fields": [
+     {
+      "name": "SPARE",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADC2A_CFG1",
+    "address": 139,
+    "width": 16,
+    "reset": 32784,
+    "readOnly": 30720,
+    "fields": [
+     {
+      "name": "ADC2A_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "VCMA_EN",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "OWD2A_SOURCE_MUX",
+      "bits": [
+       9,
+       7
+      ]
+     },
+     {
+      "name": "OWD2A_SINK_MUX",
+      "bits": [
+       6,
+       4
+      ]
+     },
+     {
+      "name": "OWD2A_SOURCE_VALUE",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "OWD2A_SINK_VALUE",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADC2A_CFG2",
+    "address": 140,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 14588,
+    "fields": [
+     {
+      "name": "SEQ2A_MODE",
+      "bits": [
+       15,
+       14
+      ]
+     },
+     {
+      "name": "MUX2A_DELAY",
+      "bits": [
+       10,
+       8
+      ]
+     },
+     {
+      "name": "OSR2A",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SPARE_8DH",
+    "address": 141,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 65280,
+    "fields": [
+     {
+      "name": "SPARE",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADC2A_OCAL",
+    "address": 142,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OCAL2A",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADC2A_GCAL",
+    "address": 143,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GCAL2A",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP0_CFG",
+    "address": 144,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP0_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP0_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP0_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP0_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP1_CFG",
+    "address": 145,
+    "width": 16,
+    "reset": 1,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP1_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP1_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP1_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP1_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP2_CFG",
+    "address": 146,
+    "width": 16,
+    "reset": 2,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP2_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP2_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP2_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP2_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP3_CFG",
+    "address": 147,
+    "width": 16,
+    "reset": 3,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP3_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP3_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP3_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP3_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP4_CFG",
+    "address": 148,
+    "width": 16,
+    "reset": 4,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP4_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP4_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP4_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP4_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP5_CFG",
+    "address": 149,
+    "width": 16,
+    "reset": 5,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP5_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP5_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP5_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP5_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP6_CFG",
+    "address": 150,
+    "width": 16,
+    "reset": 6,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP6_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP6_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP6_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP6_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP7_CFG",
+    "address": 151,
+    "width": 16,
+    "reset": 7,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP7_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP7_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP7_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP7_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP8_CFG",
+    "address": 152,
+    "width": 16,
+    "reset": 8,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP8_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP8_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP8_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP8_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP9_CFG",
+    "address": 153,
+    "width": 16,
+    "reset": 9,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP9_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP9_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP9_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP9_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP10_CFG",
+    "address": 154,
+    "width": 16,
+    "reset": 10,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP10_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP10_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP10_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP10_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP11_CFG",
+    "address": 155,
+    "width": 16,
+    "reset": 11,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP11_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP11_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP11_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP11_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP12_CFG",
+    "address": 156,
+    "width": 16,
+    "reset": 12,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP12_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP12_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP12_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP12_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP13_CFG",
+    "address": 157,
+    "width": 16,
+    "reset": 13,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP13_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP13_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP13_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP13_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP14_CFG",
+    "address": 158,
+    "width": 16,
+    "reset": 14,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP14_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP14_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP14_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP14_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2A_STEP15_CFG",
+    "address": 159,
+    "width": 16,
+    "reset": 15,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2A_STEP15_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP15_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP15_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2A_STEP15_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADC3A_CFG",
+    "address": 160,
+    "width": 16,
+    "reset": 32784,
+    "readOnly": 28864,
+    "fields": [
+     {
+      "name": "ADC3A_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "GAIN3A",
+      "bits": [
+       11,
+       10
+      ]
+     },
+     {
+      "name": "MUX3A",
+      "bits": [
+       9,
+       8
+      ]
+     },
+     {
+      "name": "OWD3A_SOURCE_MUX",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "OWD3A_SINK_MUX",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "OWD3A_SOURCE_VALUE",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "OWD3A_SINK_VALUE",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADC3A_OCAL_MSB",
+    "address": 161,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OCAL3A",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADC3A_OCAL_LSB",
+    "address": 162,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "OCAL3A",
+      "bits": [
+       15,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADC3A_GCAL",
+    "address": 163,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GCAL3A",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "REGISTER_MAP2_CRC",
+    "address": 190,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "REG_MAP2_CRC_VALUE",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "REGMAP3_TDACB_CFG",
+    "address": 192,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 32760,
+    "fields": [
+     {
+      "name": "REG_MAP3_CRC_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "TDACB_VALUE",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPIOB_CFG",
+    "address": 193,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GPIOB_PIN_CFG",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SPARE",
+      "bits": [
+       14,
+       12
+      ]
+     },
+     {
+      "name": "GPIO1B_FMT",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "GPIO0B_FMT",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "GPIO1B_DIR",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "GPIO0B_DIR",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "GPIO1B_PWM_TB",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "GPIO0B_PWM_TB",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "SPARE_2",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "GPO1B_DAT",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "GPO0B_DAT",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADC1B_ADC3B_CFG",
+    "address": 194,
+    "width": 16,
+    "reset": 1024,
+    "readOnly": 61680,
+    "fields": [
+     {
+      "name": "CONV_MODE13B",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "OSR13B",
+      "bits": [
+       10,
+       8
+      ]
+     },
+     {
+      "name": "GC13B_EN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "GC13B_DELAY",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADC1B_CFG",
+    "address": 195,
+    "width": 16,
+    "reset": 32784,
+    "readOnly": 28864,
+    "fields": [
+     {
+      "name": "ADC1B_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "GAIN1B",
+      "bits": [
+       11,
+       10
+      ]
+     },
+     {
+      "name": "MUX1B",
+      "bits": [
+       9,
+       8
+      ]
+     },
+     {
+      "name": "OWD1B_SOURCE_MUX",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "OWD1B_SINK_MUX",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "OWD1B_SOURCE_VALUE",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "OWD1B_SINK_VALUE",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADC1B_OCAL_MSB",
+    "address": 196,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OCAL1B",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADC1B_OCAL_LSB",
+    "address": 197,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "OCAL1B",
+      "bits": [
+       15,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADC1B_GCAL",
+    "address": 198,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GCAL1B",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OCCB_CFG",
+    "address": 199,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "OCCB_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "OCCB_POL",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "OCCB_NUM",
+      "bits": [
+       12,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OCCB_HIGH_THRESHOLD",
+    "address": 200,
+    "width": 16,
+    "reset": 32767,
+    "fields": [
+     {
+      "name": "OCCB_HIGH_TH",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OCCB_LOW_THRESHOLD",
+    "address": 201,
+    "width": 16,
+    "reset": 32768,
+    "fields": [
+     {
+      "name": "OCCB_LOW_TH",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SPARE_CAH",
+    "address": 202,
+    "width": 16,
+    "reset": 21845,
+    "fields": [
+     {
+      "name": "SPARE",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADC2B_CFG1",
+    "address": 203,
+    "width": 16,
+    "reset": 32784,
+    "readOnly": 30720,
+    "fields": [
+     {
+      "name": "ADC2B_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "VCMB_EN",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "OWD2B_SOURCE_MUX",
+      "bits": [
+       9,
+       7
+      ]
+     },
+     {
+      "name": "OWD2B_SINK_MUX",
+      "bits": [
+       6,
+       4
+      ]
+     },
+     {
+      "name": "OWD2B_SOURCE_VALUE",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "OWD2B_SINK_VALUE",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADC2B_CFG2",
+    "address": 204,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 14588,
+    "fields": [
+     {
+      "name": "SEQ2B_MODE",
+      "bits": [
+       15,
+       14
+      ]
+     },
+     {
+      "name": "MUX2B_DELAY",
+      "bits": [
+       10,
+       8
+      ]
+     },
+     {
+      "name": "OSR2B",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SPARE_CDH",
+    "address": 205,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 65280,
+    "fields": [
+     {
+      "name": "SPARE",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADC2B_OCAL",
+    "address": 206,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OCAL2B",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADC2B_GCAL",
+    "address": 207,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GCAL2B",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP0_CFG",
+    "address": 208,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP0_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP0_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP0_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP0_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP1_CFG",
+    "address": 209,
+    "width": 16,
+    "reset": 1,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP1_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP1_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP1_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP1_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP2_CFG",
+    "address": 210,
+    "width": 16,
+    "reset": 2,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP2_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP2_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP2_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP2_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP3_CFG",
+    "address": 211,
+    "width": 16,
+    "reset": 3,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP3_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP3_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP3_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP3_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP4_CFG",
+    "address": 212,
+    "width": 16,
+    "reset": 4,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP4_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP4_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP4_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP4_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP5_CFG",
+    "address": 213,
+    "width": 16,
+    "reset": 5,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP5_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP5_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP5_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP5_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP6_CFG",
+    "address": 214,
+    "width": 16,
+    "reset": 6,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP6_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP6_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP6_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP6_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP7_CFG",
+    "address": 215,
+    "width": 16,
+    "reset": 7,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP7_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP7_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP7_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP7_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP8_CFG",
+    "address": 216,
+    "width": 16,
+    "reset": 8,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP8_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP8_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP8_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP8_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP9_CFG",
+    "address": 217,
+    "width": 16,
+    "reset": 9,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP9_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP9_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP9_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP9_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP10_CFG",
+    "address": 218,
+    "width": 16,
+    "reset": 10,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP10_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP10_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP10_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP10_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP11_CFG",
+    "address": 219,
+    "width": 16,
+    "reset": 11,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP11_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP11_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP11_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP11_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP12_CFG",
+    "address": 220,
+    "width": 16,
+    "reset": 12,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP12_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP12_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP12_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP12_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP13_CFG",
+    "address": 221,
+    "width": 16,
+    "reset": 13,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP13_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP13_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP13_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP13_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP14_CFG",
+    "address": 222,
+    "width": 16,
+    "reset": 14,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP14_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP14_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP14_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP14_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ2B_STEP15_CFG",
+    "address": 223,
+    "width": 16,
+    "reset": 15,
+    "readOnly": 8160,
+    "fields": [
+     {
+      "name": "SEQ2B_STEP15_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP15_GAIN",
+      "bits": [
+       14,
+       13
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP15_CH_N",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SEQ2B_STEP15_CH_P",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADC3B_CFG",
+    "address": 224,
+    "width": 16,
+    "reset": 32784,
+    "readOnly": 28864,
+    "fields": [
+     {
+      "name": "ADC3B_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "GAIN3B",
+      "bits": [
+       11,
+       10
+      ]
+     },
+     {
+      "name": "MUX3B",
+      "bits": [
+       9,
+       8
+      ]
+     },
+     {
+      "name": "OWD3B_SOURCE_MUX",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "OWD3B_SINK_MUX",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "OWD3B_SOURCE_VALUE",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "OWD3B_SINK_VALUE",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADC3B_OCAL_MSB",
+    "address": 225,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OCAL3B",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADC3B_OCAL_LSB",
+    "address": 226,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "OCAL3B",
+      "bits": [
+       15,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADC3B_GCAL",
+    "address": 227,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GCAL3B",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "REGISTER_MAP3_CRC",
+    "address": 254,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "REG_MAP3_CRC_VALUE",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "[STATUS_MSB][STATUS_LSB:15:8] [R][R][R][R] 0{24}",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "NULL",
+     "in": "0000000000000000 x{8} x{24}",
+     "action": "nop",
+     "set": {
+      "STATUS_MSB.COMMAND_RESPONSE": 1
+     },
+     "note": "command word, then the command CRC word (not checked)"
+    },
+    {
+     "name": "RESET",
+     "in": "0000000000010001 x{8} x{24}",
+     "action": "reset",
+     "commit": "end",
+     "note": "latched at the last SCLK of the output CRC word: modeled at CS rise; COMMAND_RESPONSE returns to its reset value 1001b"
+    },
+    {
+     "name": "LOCK",
+     "in": "0000010101010101 x{8} x{24}",
+     "action": "nop",
+     "set": {
+      "STATUS_MSB.COMMAND_RESPONSE": 2,
+      "STATUS_MSB.LOCK": 1
+     },
+     "note": "lock state shown in STATUS; RESET/WREG are not blocked in the model"
+    },
+    {
+     "name": "UNLOCK",
+     "in": "0000011001010101 x{8} x{24}",
+     "action": "nop",
+     "set": {
+      "STATUS_MSB.COMMAND_RESPONSE": 3,
+      "STATUS_MSB.LOCK": 0
+     }
+    },
+    {
+     "name": "WREG",
+     "in": "0110000100100000 x{8} x{24} [CONVERSION_CTRL:15:15]0[CONVERSION_CTRL:13:13]0[CONVERSION_CTRL:11:11]1[CONVERSION_CTRL:9:0] x{8} x{24}",
+     "action": "stop",
+     "set": {
+      "STATUS_MSB.COMMAND_RESPONSE": 6
+     },
+     "note": "single write to CONVERSION_CTRL (09h) with STOPA = 1 and no START bit: stops continuous conversions (both sections share one conversion engine); the STOP bit itself is not stored"
+    },
+    {
+     "name": "WREG",
+     "in": "0110000100100000 x{8} x{24} [CONVERSION_CTRL:15:15]0[CONVERSION_CTRL:13:13]0[CONVERSION_CTRL:11:11]0[CONVERSION_CTRL:9:9]1[CONVERSION_CTRL:7:0] x{8} x{24}",
+     "action": "stop",
+     "set": {
+      "STATUS_MSB.COMMAND_RESPONSE": 6
+     },
+     "note": "as above with STOPB = 1"
+    },
+    {
+     "name": "WREG",
+     "in": "011aaaaaaaa00nnn x{8} x{24} d{16} x{8} x{24}",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "set": {
+      "STATUS_MSB.COMMAND_RESPONSE": 6
+     },
+     "note": "command, command CRC, register data (16 bits MSB-aligned in a 24-bit word), register data CRC (not checked); only the first register of a multi-register write (nnn > 0) is written"
+    },
+    {
+     "name": "RREG",
+     "in": "101aaaaaaaannnnn x{8} x{24}",
+     "action": "read",
+     "address": "a",
+     "set": {
+      "STATUS_MSB.COMMAND_RESPONSE": 4
+     },
+     "next": "[STATUS_MSB][STATUS_LSB:15:8] @ aaaaaaaa 0{24}",
+     "note": "next frame: STATUS, then each register as 16 data bits + its 8-bit address; only the first register is modeled, then zeros"
+    }
+   ]
+  },
+  "conversion": {
+   "time": {
+    "fields": [
+     "ADC1A_ADC3A_CFG.CONV_MODE13A",
+     "ADC1A_ADC3A_CFG.OSR13A"
+    ],
+    "values": {
+     "0,0": 15625,
+     "1,0": 57617.1875,
+     "0,1": 31250,
+     "1,1": 104492.1875,
+     "0,2": 62500,
+     "1,2": 198242.1875,
+     "0,3": 125000,
+     "1,3": 385742.1875,
+     "0,4": 250000,
+     "1,4": 760742.1875,
+     "0,5": 500000,
+     "1,5": 1510742.1875,
+     "0,6": 1000000,
+     "1,6": 3010742.1875,
+     "0,7": 2000000,
+     "1,7": 6010742.1875
+    }
+   },
+   "start": [
+    "write:CONVERSION_CTRL.STARTA=1",
+    "write:CONVERSION_CTRL.STARTB=1"
+   ],
+   "mode": {
+    "field": "ADC1A_ADC3A_CFG.CONV_MODE13A",
+    "continuous": 0,
+    "startOnEnter": false
+   }
+  },
+  "ready": [
+   {
+    "pin": "DRDYn",
+    "active": 0,
+    "asserts": "done",
+    "clears": [
+     "read",
+     "start"
+    ]
+   }
+  ],
+  "pins": {
+   "reset": {
+    "pin": "RESETn",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "PHP": {
+   "pinout": "php48",
+   "footprint": "HTQFP-48-PHP",
+   "package": "HTQFP",
+   "pins": 48
+  }
+ },
+ "pdf": "ads131b26-q1.pdf",
+ "pages": "p.4-5 (pins), p.7 (ROC), p.10 (oscillators 8.192 MHz), p.15-16 (timing), p.34 (format), p.56-58 (modes, Equation 19), p.65-77 (interface, commands), p.79-85 (register map), p.86-234 (fields)",
+ "notModeled": [
+  "all analog functions: ADC1y current, ADC2y multiplexed 16-bit sequencer (SEQ2y_STEPn_CFG/DATA stored only; SEQ2y_START/STOP no effect; sequence results stay 0 = the 0 V code), ADC3y voltage, gains, muxes, offset/gain calibration, global chop, test DACs, open-wire current sources",
+  "SPI CRCs: the command CRC and WREG data CRC are not checked (the real device executes nothing on a CRC mismatch); the output CRC word is shifted as zeros; register-map / memory-map CRCs read 0",
+  "WORD_LENGTH 32-bit frames (only the default 24-bit words are modeled)",
+  "multi-register WREG (nnn > 0) and RREG (n nnnn > 0): only the first register (registers in separate padded words cannot be expressed); RREG of an invalid address echoes the address instead of 00h",
+  "LOCK enforcement (only STATUS_MSB.LOCK changes), the two-frame RREG frame counter (COMMAND_RESPONSE 0101b / 1100b), error responses 1010b / 1011b / 1101b, SCLK counter, SPI timeout and REG_ACCESS / SPI_CRC / SPI_TIMEOUT / SCLK_COUNT fault flags (stay 1 = no fault)",
+  "the two sections A and B share one conversion engine: STARTA or STARTB starts it, STOPA or STOPB stops it; the conversion time and mode follow ADC1A_ADC3A_CFG (OSR13A, CONV_MODE13A) only; DRDY_CTRL, ADCxy_EN enables and the conversion/sequence counters in STATUS_LSB are not modeled",
+  "conversion time at the 8.192 MHz internal oscillator (fMOD 4.096 MHz): single-shot = tSETTLE = (3 OSR + 44) tMOD, continuous = OSR / fMOD (the first continuous conversion's longer settling time is not modeled); external CLK / CLK_SOURCE",
+  "OP_MODE standby / power-down (stored only), DRDYn held low during reset and the 4 tMCLK high pulse before a new DRDYn falling edge, DRDYn staying low when ADC3B data were not read",
+  "supply, clock and digital monitors, fault flags, masks, FAULT pin, missing-host detection (MHD), overcurrent comparators (OCCA/OCCB pins), GPIOs and PWM I/O (registers stored only; GPIO pins never driven)",
+  "RESETn internal pulldown (a floating RESETn holds the real device in reset; the model treats Z as inactive); tREGACQ / tPOR",
+  "STATUS_MSB fault bits 15:11 write-1-to-restore semantics (stored as written)"
+ ],
+ "variants": "ADS131B26-Q1 only in ads131b26-q1.pdf; related ADS131B02-Q1 / ADS131B23 have their own data sheets",
+ "parts": [
+  [
+   "ADS131B26QPHPRQ1",
+   "PHP",
+   48,
+   "Active"
+  ]
+ ]
+}

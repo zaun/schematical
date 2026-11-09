@@ -1,0 +1,1573 @@
+{
+ "device": {
+  "id": "DAC5686",
+  "function": "DAC",
+  "description": "16-bit 500 MSPS 2x-16x interpolating dual current-output DAC with NCO, dual 16-bit CMOS data inputs and 3/4-wire serial configuration port",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac5686.pdf (SLWS147F) p.4 pin assignments, p.5-6 terminal functions, p.8 power supply ranges, p.10-11 digital specifications and serial port timing, p.22-24 serial interface (Tables 1-2, Figures 24-25), p.38-42 register map and descriptions",
+  "pinouts": {
+   "pzp100": [
+    {
+     "number": 1,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 2,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "IOUTB1",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "IOUTB2",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 8,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 9,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "EXTIO",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "BIASJ",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "EXTLO",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 17,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 18,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 19,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 20,
+     "name": "IOUTA2",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "IOUTA1",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 23,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 24,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 25,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 26,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 27,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 28,
+     "name": "SDENB",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "SDIO",
+     "role": "inout"
+    },
+    {
+     "number": 31,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 32,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 33,
+     "name": "TxENABLE",
+     "role": "input"
+    },
+    {
+     "number": 34,
+     "name": "DA15",
+     "role": "input"
+    },
+    {
+     "number": 35,
+     "name": "DA14",
+     "role": "input"
+    },
+    {
+     "number": 36,
+     "name": "DA13",
+     "role": "input"
+    },
+    {
+     "number": 37,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 38,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 39,
+     "name": "DA12",
+     "role": "input"
+    },
+    {
+     "number": 40,
+     "name": "DA11",
+     "role": "input"
+    },
+    {
+     "number": 41,
+     "name": "DA10",
+     "role": "input"
+    },
+    {
+     "number": 42,
+     "name": "DA9",
+     "role": "input"
+    },
+    {
+     "number": 43,
+     "name": "DA8",
+     "role": "input"
+    },
+    {
+     "number": 44,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 45,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 46,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 47,
+     "name": "IOGND",
+     "role": "ground"
+    },
+    {
+     "number": 48,
+     "name": "DA7",
+     "role": "input"
+    },
+    {
+     "number": 49,
+     "name": "DA6",
+     "role": "input"
+    },
+    {
+     "number": 50,
+     "name": "DA5",
+     "role": "input"
+    },
+    {
+     "number": 51,
+     "name": "DA4",
+     "role": "input"
+    },
+    {
+     "number": 52,
+     "name": "DA3",
+     "role": "input"
+    },
+    {
+     "number": 53,
+     "name": "DA2",
+     "role": "input"
+    },
+    {
+     "number": 54,
+     "name": "DA1",
+     "role": "input"
+    },
+    {
+     "number": 55,
+     "name": "DA0",
+     "role": "input"
+    },
+    {
+     "number": 56,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 57,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 58,
+     "name": "CLKGND",
+     "role": "ground"
+    },
+    {
+     "number": 59,
+     "name": "CLK1",
+     "role": "input"
+    },
+    {
+     "number": 60,
+     "name": "CLK1C",
+     "role": "input"
+    },
+    {
+     "number": 61,
+     "name": "CLKVDD",
+     "role": "power"
+    },
+    {
+     "number": 62,
+     "name": "CLK2",
+     "role": "input"
+    },
+    {
+     "number": 63,
+     "name": "CLK2C",
+     "role": "input"
+    },
+    {
+     "number": 64,
+     "name": "CLKGND",
+     "role": "ground"
+    },
+    {
+     "number": 65,
+     "name": "PLLGND",
+     "role": "ground"
+    },
+    {
+     "number": 66,
+     "name": "LPF",
+     "role": "nc"
+    },
+    {
+     "number": 67,
+     "name": "PLLVDD",
+     "role": "power"
+    },
+    {
+     "number": 68,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 69,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 70,
+     "name": "PLLLOCK",
+     "role": "output"
+    },
+    {
+     "number": 71,
+     "name": "DB0",
+     "role": "input"
+    },
+    {
+     "number": 72,
+     "name": "DB1",
+     "role": "input"
+    },
+    {
+     "number": 73,
+     "name": "DB2",
+     "role": "input"
+    },
+    {
+     "number": 74,
+     "name": "DB3",
+     "role": "input"
+    },
+    {
+     "number": 75,
+     "name": "DB4",
+     "role": "input"
+    },
+    {
+     "number": 76,
+     "name": "DB5",
+     "role": "input"
+    },
+    {
+     "number": 77,
+     "name": "DB6",
+     "role": "input"
+    },
+    {
+     "number": 78,
+     "name": "DB7",
+     "role": "input"
+    },
+    {
+     "number": 79,
+     "name": "IOGND",
+     "role": "ground"
+    },
+    {
+     "number": 80,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 81,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 82,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 83,
+     "name": "DB8",
+     "role": "input"
+    },
+    {
+     "number": 84,
+     "name": "DB9",
+     "role": "input"
+    },
+    {
+     "number": 85,
+     "name": "DB10",
+     "role": "input"
+    },
+    {
+     "number": 86,
+     "name": "DB11",
+     "role": "input"
+    },
+    {
+     "number": 87,
+     "name": "DB12",
+     "role": "input"
+    },
+    {
+     "number": 88,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 89,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 90,
+     "name": "DB13",
+     "role": "input"
+    },
+    {
+     "number": 91,
+     "name": "DB14",
+     "role": "input"
+    },
+    {
+     "number": 92,
+     "name": "DB15",
+     "role": "input"
+    },
+    {
+     "number": 93,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 94,
+     "name": "PHSTR",
+     "role": "input"
+    },
+    {
+     "number": 95,
+     "name": "RESETB",
+     "role": "input"
+    },
+    {
+     "number": 96,
+     "name": "SLEEP",
+     "role": "input"
+    },
+    {
+     "number": 97,
+     "name": "TESTMODE",
+     "role": "input"
+    },
+    {
+     "number": 98,
+     "name": "QFLAG",
+     "role": "input"
+    },
+    {
+     "number": 99,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 100,
+     "name": "DVDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 2,
+  "vcc": [
+   1.65,
+   3.6
+  ],
+  "analog": [
+   "AVDD",
+   "IOUTB1",
+   "IOUTB2",
+   "EXTIO",
+   "BIASJ",
+   "EXTLO",
+   "IOUTA2",
+   "IOUTA1",
+   "CLKVDD",
+   "LPF",
+   "PLLVDD"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SDENB",
+   "sclk": "SCLK",
+   "mosi": "SDIO",
+   "miso": "SDIO",
+   "mode": 0
+  },
+  "timing": {
+   "tOut": 10
+  },
+  "registers": [
+   {
+    "name": "CHIP_VER",
+    "address": 0,
+    "width": 8,
+    "reset": 5,
+    "readOnly": 7,
+    "fields": [
+     {
+      "name": "ATEST",
+      "bits": [
+       7,
+       3
+      ]
+     },
+     {
+      "name": "VERSION",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "version read only, 0x5; atest must be 0"
+   },
+   {
+    "name": "FREQ_LSB",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "FREQ_INT_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "FREQ_LMIDSB",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "FREQ_INT_15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "FREQ_UMIDSB",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "FREQ_INT_23_16",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "FREQ_MSB",
+    "address": 4,
+    "width": 8,
+    "reset": 32,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "FREQ_INT_31_24",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "PHASE_LSB",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PHASE_INT_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "PHASE_MSB",
+    "address": 6,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PHASE_INT_15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG_LSB",
+    "address": 7,
+    "width": 8,
+    "reset": 1,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "MODE",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "DIV",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "SEL",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "COUNTER",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "FULL_BYPASS",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG_MSB",
+    "address": 8,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "SSB",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "INTERL",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "SINC",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "DITH",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SYNC_PHSTR",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "NCO",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "SIF4",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "TWOS",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG_USB",
+    "address": 9,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "DUAL_CLK",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "DDS_GAIN",
+      "bits": [
+       6,
+       5
+      ]
+     },
+     {
+      "name": "RSPECT",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "QFLAG",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "PLL_RNG",
+      "bits": [
+       2,
+       1
+      ]
+     },
+     {
+      "name": "REV_BBUS",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DACA_OFFSET_LSB",
+    "address": 10,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "DACA_OFFSET_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DACA_GAIN_LSB",
+    "address": 11,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "DACA_GAIN_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DACA_OFFSET_GAIN_MSB",
+    "address": 12,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "DACA_OFFSET_10_8",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "SLEEPA",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "DACA_GAIN_11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DACB_OFFSET_LSB",
+    "address": 13,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "DACB_OFFSET_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DACB_GAIN_LSB",
+    "address": 14,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "DACB_GAIN_7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DACB_OFFSET_GAIN_MSB",
+    "address": 15,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "DACB_OFFSET_10_8",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "SLEEPB",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "DACB_GAIN_11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DATA_A",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HI",
+      "bits": [
+       15,
+       8
+      ]
+     },
+     {
+      "name": "LO",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DATA_B",
+    "width": 16,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "HI",
+      "bits": [
+       15,
+       8
+      ]
+     },
+     {
+      "name": "LO",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "WRITE 1 byte @0x00",
+     "in": "0 00 x0000 [CHIP_VER]"
+    },
+    {
+     "name": "READ 1 byte @0x00",
+     "in": "1 00 x0000",
+     "reply": "[CHIP_VER]"
+    },
+    {
+     "name": "WRITE 1 byte @0x01",
+     "in": "0 00 x0001 [FREQ_LSB]"
+    },
+    {
+     "name": "READ 1 byte @0x01",
+     "in": "1 00 x0001",
+     "reply": "[FREQ_LSB]"
+    },
+    {
+     "name": "WRITE 1 byte @0x02",
+     "in": "0 00 x0010 [FREQ_LMIDSB]"
+    },
+    {
+     "name": "READ 1 byte @0x02",
+     "in": "1 00 x0010",
+     "reply": "[FREQ_LMIDSB]"
+    },
+    {
+     "name": "WRITE 1 byte @0x03",
+     "in": "0 00 x0011 [FREQ_UMIDSB]"
+    },
+    {
+     "name": "READ 1 byte @0x03",
+     "in": "1 00 x0011",
+     "reply": "[FREQ_UMIDSB]"
+    },
+    {
+     "name": "WRITE 1 byte @0x04",
+     "in": "0 00 x0100 [FREQ_MSB]"
+    },
+    {
+     "name": "READ 1 byte @0x04",
+     "in": "1 00 x0100",
+     "reply": "[FREQ_MSB]"
+    },
+    {
+     "name": "WRITE 1 byte @0x05",
+     "in": "0 00 x0101 [PHASE_LSB]"
+    },
+    {
+     "name": "READ 1 byte @0x05",
+     "in": "1 00 x0101",
+     "reply": "[PHASE_LSB]"
+    },
+    {
+     "name": "WRITE 1 byte @0x06",
+     "in": "0 00 x0110 [PHASE_MSB]"
+    },
+    {
+     "name": "READ 1 byte @0x06",
+     "in": "1 00 x0110",
+     "reply": "[PHASE_MSB]"
+    },
+    {
+     "name": "WRITE 1 byte @0x07",
+     "in": "0 00 x0111 [CONFIG_LSB]"
+    },
+    {
+     "name": "READ 1 byte @0x07",
+     "in": "1 00 x0111",
+     "reply": "[CONFIG_LSB]"
+    },
+    {
+     "name": "WRITE 1 byte @0x08",
+     "in": "0 00 x1000 [CONFIG_MSB]"
+    },
+    {
+     "name": "READ 1 byte @0x08",
+     "in": "1 00 x1000",
+     "reply": "[CONFIG_MSB]"
+    },
+    {
+     "name": "WRITE 1 byte @0x09",
+     "in": "0 00 x1001 [CONFIG_USB]"
+    },
+    {
+     "name": "READ 1 byte @0x09",
+     "in": "1 00 x1001",
+     "reply": "[CONFIG_USB]"
+    },
+    {
+     "name": "WRITE 1 byte @0x0A",
+     "in": "0 00 x1010 [DACA_OFFSET_LSB]"
+    },
+    {
+     "name": "READ 1 byte @0x0A",
+     "in": "1 00 x1010",
+     "reply": "[DACA_OFFSET_LSB]"
+    },
+    {
+     "name": "WRITE 1 byte @0x0B",
+     "in": "0 00 x1011 [DACA_GAIN_LSB]"
+    },
+    {
+     "name": "READ 1 byte @0x0B",
+     "in": "1 00 x1011",
+     "reply": "[DACA_GAIN_LSB]"
+    },
+    {
+     "name": "WRITE 1 byte @0x0C",
+     "in": "0 00 x1100 [DACA_OFFSET_GAIN_MSB]"
+    },
+    {
+     "name": "READ 1 byte @0x0C",
+     "in": "1 00 x1100",
+     "reply": "[DACA_OFFSET_GAIN_MSB]"
+    },
+    {
+     "name": "WRITE 1 byte @0x0D",
+     "in": "0 00 x1101 [DACB_OFFSET_LSB]"
+    },
+    {
+     "name": "READ 1 byte @0x0D",
+     "in": "1 00 x1101",
+     "reply": "[DACB_OFFSET_LSB]"
+    },
+    {
+     "name": "WRITE 1 byte @0x0E",
+     "in": "0 00 x1110 [DACB_GAIN_LSB]"
+    },
+    {
+     "name": "READ 1 byte @0x0E",
+     "in": "1 00 x1110",
+     "reply": "[DACB_GAIN_LSB]"
+    },
+    {
+     "name": "WRITE 1 byte @0x0F",
+     "in": "0 00 x1111 [DACB_OFFSET_GAIN_MSB]"
+    },
+    {
+     "name": "READ 1 byte @0x0F",
+     "in": "1 00 x1111",
+     "reply": "[DACB_OFFSET_GAIN_MSB]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x01",
+     "in": "0 01 x0001 [FREQ_LSB] [CHIP_VER]"
+    },
+    {
+     "name": "READ 2 bytes @0x01",
+     "in": "1 01 x0001",
+     "reply": "[FREQ_LSB][CHIP_VER]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x02",
+     "in": "0 01 x0010 [FREQ_LMIDSB] [FREQ_LSB]"
+    },
+    {
+     "name": "READ 2 bytes @0x02",
+     "in": "1 01 x0010",
+     "reply": "[FREQ_LMIDSB][FREQ_LSB]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x03",
+     "in": "0 01 x0011 [FREQ_UMIDSB] [FREQ_LMIDSB]"
+    },
+    {
+     "name": "READ 2 bytes @0x03",
+     "in": "1 01 x0011",
+     "reply": "[FREQ_UMIDSB][FREQ_LMIDSB]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x04",
+     "in": "0 01 x0100 [FREQ_MSB] [FREQ_UMIDSB]"
+    },
+    {
+     "name": "READ 2 bytes @0x04",
+     "in": "1 01 x0100",
+     "reply": "[FREQ_MSB][FREQ_UMIDSB]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x05",
+     "in": "0 01 x0101 [PHASE_LSB] [FREQ_MSB]"
+    },
+    {
+     "name": "READ 2 bytes @0x05",
+     "in": "1 01 x0101",
+     "reply": "[PHASE_LSB][FREQ_MSB]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x06",
+     "in": "0 01 x0110 [PHASE_MSB] [PHASE_LSB]"
+    },
+    {
+     "name": "READ 2 bytes @0x06",
+     "in": "1 01 x0110",
+     "reply": "[PHASE_MSB][PHASE_LSB]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x07",
+     "in": "0 01 x0111 [CONFIG_LSB] [PHASE_MSB]"
+    },
+    {
+     "name": "READ 2 bytes @0x07",
+     "in": "1 01 x0111",
+     "reply": "[CONFIG_LSB][PHASE_MSB]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x08",
+     "in": "0 01 x1000 [CONFIG_MSB] [CONFIG_LSB]"
+    },
+    {
+     "name": "READ 2 bytes @0x08",
+     "in": "1 01 x1000",
+     "reply": "[CONFIG_MSB][CONFIG_LSB]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x09",
+     "in": "0 01 x1001 [CONFIG_USB] [CONFIG_MSB]"
+    },
+    {
+     "name": "READ 2 bytes @0x09",
+     "in": "1 01 x1001",
+     "reply": "[CONFIG_USB][CONFIG_MSB]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x0A",
+     "in": "0 01 x1010 [DACA_OFFSET_LSB] [CONFIG_USB]"
+    },
+    {
+     "name": "READ 2 bytes @0x0A",
+     "in": "1 01 x1010",
+     "reply": "[DACA_OFFSET_LSB][CONFIG_USB]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x0B",
+     "in": "0 01 x1011 [DACA_GAIN_LSB] [DACA_OFFSET_LSB]"
+    },
+    {
+     "name": "READ 2 bytes @0x0B",
+     "in": "1 01 x1011",
+     "reply": "[DACA_GAIN_LSB][DACA_OFFSET_LSB]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x0C",
+     "in": "0 01 x1100 [DACA_OFFSET_GAIN_MSB] [DACA_GAIN_LSB]"
+    },
+    {
+     "name": "READ 2 bytes @0x0C",
+     "in": "1 01 x1100",
+     "reply": "[DACA_OFFSET_GAIN_MSB][DACA_GAIN_LSB]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x0D",
+     "in": "0 01 x1101 [DACB_OFFSET_LSB] [DACA_OFFSET_GAIN_MSB]"
+    },
+    {
+     "name": "READ 2 bytes @0x0D",
+     "in": "1 01 x1101",
+     "reply": "[DACB_OFFSET_LSB][DACA_OFFSET_GAIN_MSB]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x0E",
+     "in": "0 01 x1110 [DACB_GAIN_LSB] [DACB_OFFSET_LSB]"
+    },
+    {
+     "name": "READ 2 bytes @0x0E",
+     "in": "1 01 x1110",
+     "reply": "[DACB_GAIN_LSB][DACB_OFFSET_LSB]"
+    },
+    {
+     "name": "WRITE 2 bytes @0x0F",
+     "in": "0 01 x1111 [DACB_OFFSET_GAIN_MSB] [DACB_GAIN_LSB]"
+    },
+    {
+     "name": "READ 2 bytes @0x0F",
+     "in": "1 01 x1111",
+     "reply": "[DACB_OFFSET_GAIN_MSB][DACB_GAIN_LSB]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x02",
+     "in": "0 10 x0010 [FREQ_LMIDSB] [FREQ_LSB] [CHIP_VER]"
+    },
+    {
+     "name": "READ 3 bytes @0x02",
+     "in": "1 10 x0010",
+     "reply": "[FREQ_LMIDSB][FREQ_LSB][CHIP_VER]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x03",
+     "in": "0 10 x0011 [FREQ_UMIDSB] [FREQ_LMIDSB] [FREQ_LSB]"
+    },
+    {
+     "name": "READ 3 bytes @0x03",
+     "in": "1 10 x0011",
+     "reply": "[FREQ_UMIDSB][FREQ_LMIDSB][FREQ_LSB]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x04",
+     "in": "0 10 x0100 [FREQ_MSB] [FREQ_UMIDSB] [FREQ_LMIDSB]"
+    },
+    {
+     "name": "READ 3 bytes @0x04",
+     "in": "1 10 x0100",
+     "reply": "[FREQ_MSB][FREQ_UMIDSB][FREQ_LMIDSB]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x05",
+     "in": "0 10 x0101 [PHASE_LSB] [FREQ_MSB] [FREQ_UMIDSB]"
+    },
+    {
+     "name": "READ 3 bytes @0x05",
+     "in": "1 10 x0101",
+     "reply": "[PHASE_LSB][FREQ_MSB][FREQ_UMIDSB]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x06",
+     "in": "0 10 x0110 [PHASE_MSB] [PHASE_LSB] [FREQ_MSB]"
+    },
+    {
+     "name": "READ 3 bytes @0x06",
+     "in": "1 10 x0110",
+     "reply": "[PHASE_MSB][PHASE_LSB][FREQ_MSB]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x07",
+     "in": "0 10 x0111 [CONFIG_LSB] [PHASE_MSB] [PHASE_LSB]"
+    },
+    {
+     "name": "READ 3 bytes @0x07",
+     "in": "1 10 x0111",
+     "reply": "[CONFIG_LSB][PHASE_MSB][PHASE_LSB]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x08",
+     "in": "0 10 x1000 [CONFIG_MSB] [CONFIG_LSB] [PHASE_MSB]"
+    },
+    {
+     "name": "READ 3 bytes @0x08",
+     "in": "1 10 x1000",
+     "reply": "[CONFIG_MSB][CONFIG_LSB][PHASE_MSB]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x09",
+     "in": "0 10 x1001 [CONFIG_USB] [CONFIG_MSB] [CONFIG_LSB]"
+    },
+    {
+     "name": "READ 3 bytes @0x09",
+     "in": "1 10 x1001",
+     "reply": "[CONFIG_USB][CONFIG_MSB][CONFIG_LSB]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x0A",
+     "in": "0 10 x1010 [DACA_OFFSET_LSB] [CONFIG_USB] [CONFIG_MSB]"
+    },
+    {
+     "name": "READ 3 bytes @0x0A",
+     "in": "1 10 x1010",
+     "reply": "[DACA_OFFSET_LSB][CONFIG_USB][CONFIG_MSB]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x0B",
+     "in": "0 10 x1011 [DACA_GAIN_LSB] [DACA_OFFSET_LSB] [CONFIG_USB]"
+    },
+    {
+     "name": "READ 3 bytes @0x0B",
+     "in": "1 10 x1011",
+     "reply": "[DACA_GAIN_LSB][DACA_OFFSET_LSB][CONFIG_USB]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x0C",
+     "in": "0 10 x1100 [DACA_OFFSET_GAIN_MSB] [DACA_GAIN_LSB] [DACA_OFFSET_LSB]"
+    },
+    {
+     "name": "READ 3 bytes @0x0C",
+     "in": "1 10 x1100",
+     "reply": "[DACA_OFFSET_GAIN_MSB][DACA_GAIN_LSB][DACA_OFFSET_LSB]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x0D",
+     "in": "0 10 x1101 [DACB_OFFSET_LSB] [DACA_OFFSET_GAIN_MSB] [DACA_GAIN_LSB]"
+    },
+    {
+     "name": "READ 3 bytes @0x0D",
+     "in": "1 10 x1101",
+     "reply": "[DACB_OFFSET_LSB][DACA_OFFSET_GAIN_MSB][DACA_GAIN_LSB]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x0E",
+     "in": "0 10 x1110 [DACB_GAIN_LSB] [DACB_OFFSET_LSB] [DACA_OFFSET_GAIN_MSB]"
+    },
+    {
+     "name": "READ 3 bytes @0x0E",
+     "in": "1 10 x1110",
+     "reply": "[DACB_GAIN_LSB][DACB_OFFSET_LSB][DACA_OFFSET_GAIN_MSB]"
+    },
+    {
+     "name": "WRITE 3 bytes @0x0F",
+     "in": "0 10 x1111 [DACB_OFFSET_GAIN_MSB] [DACB_GAIN_LSB] [DACB_OFFSET_LSB]"
+    },
+    {
+     "name": "READ 3 bytes @0x0F",
+     "in": "1 10 x1111",
+     "reply": "[DACB_OFFSET_GAIN_MSB][DACB_GAIN_LSB][DACB_OFFSET_LSB]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x03",
+     "in": "0 11 x0011 [FREQ_UMIDSB] [FREQ_LMIDSB] [FREQ_LSB] [CHIP_VER]"
+    },
+    {
+     "name": "READ 4 bytes @0x03",
+     "in": "1 11 x0011",
+     "reply": "[FREQ_UMIDSB][FREQ_LMIDSB][FREQ_LSB][CHIP_VER]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x04",
+     "in": "0 11 x0100 [FREQ_MSB] [FREQ_UMIDSB] [FREQ_LMIDSB] [FREQ_LSB]"
+    },
+    {
+     "name": "READ 4 bytes @0x04",
+     "in": "1 11 x0100",
+     "reply": "[FREQ_MSB][FREQ_UMIDSB][FREQ_LMIDSB][FREQ_LSB]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x05",
+     "in": "0 11 x0101 [PHASE_LSB] [FREQ_MSB] [FREQ_UMIDSB] [FREQ_LMIDSB]"
+    },
+    {
+     "name": "READ 4 bytes @0x05",
+     "in": "1 11 x0101",
+     "reply": "[PHASE_LSB][FREQ_MSB][FREQ_UMIDSB][FREQ_LMIDSB]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x06",
+     "in": "0 11 x0110 [PHASE_MSB] [PHASE_LSB] [FREQ_MSB] [FREQ_UMIDSB]"
+    },
+    {
+     "name": "READ 4 bytes @0x06",
+     "in": "1 11 x0110",
+     "reply": "[PHASE_MSB][PHASE_LSB][FREQ_MSB][FREQ_UMIDSB]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x07",
+     "in": "0 11 x0111 [CONFIG_LSB] [PHASE_MSB] [PHASE_LSB] [FREQ_MSB]"
+    },
+    {
+     "name": "READ 4 bytes @0x07",
+     "in": "1 11 x0111",
+     "reply": "[CONFIG_LSB][PHASE_MSB][PHASE_LSB][FREQ_MSB]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x08",
+     "in": "0 11 x1000 [CONFIG_MSB] [CONFIG_LSB] [PHASE_MSB] [PHASE_LSB]"
+    },
+    {
+     "name": "READ 4 bytes @0x08",
+     "in": "1 11 x1000",
+     "reply": "[CONFIG_MSB][CONFIG_LSB][PHASE_MSB][PHASE_LSB]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x09",
+     "in": "0 11 x1001 [CONFIG_USB] [CONFIG_MSB] [CONFIG_LSB] [PHASE_MSB]"
+    },
+    {
+     "name": "READ 4 bytes @0x09",
+     "in": "1 11 x1001",
+     "reply": "[CONFIG_USB][CONFIG_MSB][CONFIG_LSB][PHASE_MSB]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x0A",
+     "in": "0 11 x1010 [DACA_OFFSET_LSB] [CONFIG_USB] [CONFIG_MSB] [CONFIG_LSB]"
+    },
+    {
+     "name": "READ 4 bytes @0x0A",
+     "in": "1 11 x1010",
+     "reply": "[DACA_OFFSET_LSB][CONFIG_USB][CONFIG_MSB][CONFIG_LSB]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x0B",
+     "in": "0 11 x1011 [DACA_GAIN_LSB] [DACA_OFFSET_LSB] [CONFIG_USB] [CONFIG_MSB]"
+    },
+    {
+     "name": "READ 4 bytes @0x0B",
+     "in": "1 11 x1011",
+     "reply": "[DACA_GAIN_LSB][DACA_OFFSET_LSB][CONFIG_USB][CONFIG_MSB]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x0C",
+     "in": "0 11 x1100 [DACA_OFFSET_GAIN_MSB] [DACA_GAIN_LSB] [DACA_OFFSET_LSB] [CONFIG_USB]"
+    },
+    {
+     "name": "READ 4 bytes @0x0C",
+     "in": "1 11 x1100",
+     "reply": "[DACA_OFFSET_GAIN_MSB][DACA_GAIN_LSB][DACA_OFFSET_LSB][CONFIG_USB]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x0D",
+     "in": "0 11 x1101 [DACB_OFFSET_LSB] [DACA_OFFSET_GAIN_MSB] [DACA_GAIN_LSB] [DACA_OFFSET_LSB]"
+    },
+    {
+     "name": "READ 4 bytes @0x0D",
+     "in": "1 11 x1101",
+     "reply": "[DACB_OFFSET_LSB][DACA_OFFSET_GAIN_MSB][DACA_GAIN_LSB][DACA_OFFSET_LSB]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x0E",
+     "in": "0 11 x1110 [DACB_GAIN_LSB] [DACB_OFFSET_LSB] [DACA_OFFSET_GAIN_MSB] [DACA_GAIN_LSB]"
+    },
+    {
+     "name": "READ 4 bytes @0x0E",
+     "in": "1 11 x1110",
+     "reply": "[DACB_GAIN_LSB][DACB_OFFSET_LSB][DACA_OFFSET_GAIN_MSB][DACA_GAIN_LSB]"
+    },
+    {
+     "name": "WRITE 4 bytes @0x0F",
+     "in": "0 11 x1111 [DACB_OFFSET_GAIN_MSB] [DACB_GAIN_LSB] [DACB_OFFSET_LSB] [DACA_OFFSET_GAIN_MSB]"
+    },
+    {
+     "name": "READ 4 bytes @0x0F",
+     "in": "1 11 x1111",
+     "reply": "[DACB_OFFSET_GAIN_MSB][DACB_GAIN_LSB][DACB_OFFSET_LSB][DACA_OFFSET_GAIN_MSB]"
+    }
+   ],
+   "note": "instruction byte R/W N1 N0 - A3..A0, then N+1 data bytes MSB first; the address decrements per byte (one command per start address and length)"
+  },
+  "pins": {
+   "reset": {
+    "pin": "RESETB",
+    "active": 0
+   }
+  },
+  "dac": {
+   "input": [
+    "DATA_A",
+    "DATA_B"
+   ],
+   "output": [
+    "DATA_A",
+    "DATA_B"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "PZP": {
+   "pinout": "pzp100",
+   "footprint": "HTQFP-100-PZP",
+   "package": "HTQFP",
+   "pins": 100
+  }
+ },
+ "pdf": "dac5686.pdf",
+ "pages": "p.4 (pinout), p.5-6 (terminal functions), p.8 (supply ranges), p.10-11 (serial port timing, td(DATA) 10 ns), p.22-24 (serial interface), p.38-42 (register map)",
+ "notModeled": [
+  "DAC data path: DA[15:0]/DB[15:0] are clocked by CLK1/PLLLOCK into the interpolation filters; the model has no way to run the clocked data bus beside the serial port (bus and configBus share one command decoder), so DATA_A/DATA_B are internal, stay at reset and the data pins are plain inputs",
+  "interpolation (x2-x16), NCO/mixer, single-sideband / quadrature modes, inverse sinc, counter mode, gain/offset registers: stored only",
+  "clock generation (PLL, PLLVDD strap, dual-clock / external-clock modes, PLLLOCK output), PHSTR sync, QFLAG / TxENABLE interleave and TxENABLE-low midscale",
+  "4-pin serial mode (CONFIG_MSB.SIF4 = 1: SDO is the output, SDIO input only) is not modeled: read data always comes out on SDIO (3-pin mode, the reset default); SDO stays low",
+  "multibyte transfers whose decrementing address would pass below 0x00 are ignored (not specified)",
+  "chip_ver version bits read 0x5; atest must be 0 (stored)",
+  "SLEEP asynchronous power-down and sleepa/sleepb (analog only); TESTMODE must be DGND",
+  "CLK1/CLK1C, CLK2/CLK2C differential clock inputs not used by the model",
+  "DVDD (1.65-1.95 V core supply) lies inside the IOVDD vcc range 1.65-3.6 V and is treated as a digital supply"
+ ],
+ "variants": "DAC5687 is pin compatible (TXENABLE) with a larger register map.",
+ "parts": [
+  [
+   "DAC5686IPZP",
+   "PZP",
+   100,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,55 @@
+{
+  "device": {
+    "id": "ADC08831",
+    "function": "ADC",
+    "description": "8-bit SAR ADC with 1 differential input and 3-wire MICROWIRE serial output",
+    "drawer": ["Interface"],
+    "note": "adc08832.pdf (SNAS015C) p.2 connection diagram (Figure 1) and operating ratings, p.3-4 electrical and timing characteristics, p.9-10 timing diagrams (Figure 20), p.12-13 multiplexer addressing and digital interface",
+    "pinouts": {
+      "d8": [
+        {"number": 1, "name": "CS", "role": "input"},
+        {"number": 2, "name": "VIN(+)", "role": "input"},
+        {"number": 3, "name": "VIN(-)", "role": "input"},
+        {"number": 4, "name": "GND", "role": "ground"},
+        {"number": 5, "name": "VREF", "role": "power"},
+        {"number": 6, "name": "DO", "role": "output"},
+        {"number": 7, "name": "CLK", "role": "input"},
+        {"number": 8, "name": "VCC", "role": "power"}
+      ]
+    },
+    "type": "adc",
+    "bits": 8,
+    "channels": 1,
+    "codeFormat": "straight",
+    "vcc": [4.5, 6.0],
+    "analog": ["VIN(+)", "VIN(-)", "VREF"],
+    "bus": {"style": "spi", "cs": "CS", "sclk": "CLK", "miso": "DO", "mode": 0},
+    "timing": {"tValid": 0, "tOut": 250, "tFloat": 180},
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "out": "z 0 R{8}",
+      "idle": "0",
+      "commands": []
+    },
+    "conversion": {
+      "time": 0,
+      "start": ["cs-fall"]
+    }
+  },
+  "packages": {
+    "D": {"pinout": "d8", "footprint": "SOIC-8", "package": "SOIC", "pins": 8}
+  },
+  "pdf": "adc08832.pdf",
+  "pages": "p.2 (Figure 1 pinout, operating ratings VCC 4.5-6.0 V, fCLK 10 kHz-2 MHz), p.3 (logic levels), p.4 (tSET-UP, tpd 250 ns, TRI-STATE delay 180 ns, conversion 8 clocks), p.10 (Figure 20: DO TRI-STATE until tCA after the first CLK, a leading 0, D7..D0 MSB first on CLK falling, then low until CS rises), p.12-13 (digital interface)",
+  "notModeled": [
+    "analog input (the result is always the 0 V code 0x00); input range set by VREF",
+    "conversion is clocked by CLK (8 clocks); not timed, the result is ready at once",
+    "DO is TRI-STATE until half a clock after the first CLK rising edge (modeled as one released bit), then the leading 0",
+    "clock frequency limits (10 kHz-2 MHz) and duty cycle; low-power mode while CS is high"
+  ],
+  "variants": "ADC08832 (same datasheet): 2-channel MUX addressed by a start bit on DI, VREF tied to VCC, LSB-first data after the MSB-first data",
+  "parts": [
+    ["ADC08831IM/NOPB", "D", 8, "Active"]
+  ]
+}

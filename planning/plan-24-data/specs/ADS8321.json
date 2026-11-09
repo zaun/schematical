@@ -1,0 +1,132 @@
+{
+ "device": {
+  "id": "ADS8321",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit 100 kHz micropower bipolar-input sampling ADC with 3-wire serial interface",
+  "note": "ads8321.pdf (SBAS123B) p.2 pin configuration and assignments, p.3 specifications (VCC range 2.7-5.25 V, binary two's complement), p.9 digital interface, serial interface, Table I timing, Figure 6 basic timing, p.10 data format (Table II)",
+  "pinouts": {
+   "dgk8": [
+    {
+     "number": 1,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "+In",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "-In",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "CS/SHDN",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "DCLOCK",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "+VCC",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "inputMax": 5.5,
+  "analog": [
+   "VREF",
+   "+In",
+   "-In"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS/SHDN",
+   "sclk": "DCLOCK",
+   "miso": "DOUT",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 0,
+   "tOut": 50,
+   "tFloat": 100
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "z{5} 0 R{16} 0{15}",
+   "idle": "z",
+   "commands": []
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ]
+  }
+ },
+ "packages": {
+  "DGK": {
+   "pinout": "dgk8",
+   "footprint": "VSSOP-8-DGK",
+   "package": "VSSOP",
+   "pins": 8
+  }
+ },
+ "pdf": "ads8321.pdf",
+ "pages": "p.2 (pins), p.3 (specifications: VCC range 2.7-5.25 V, two's complement), p.9 (signal levels: inputs to 5.5 V regardless of VCC; serial interface; Table I: tdDO 50 ns max, tdis 100 ns max; Figure 6), p.10 (Table II codes)",
+ "notModeled": [
+  "analog input (bipolar differential +In - -In, 0 V reads 0000h); the conversion is clocked by DCLOCK (16 clocks, not timed: the result is the 0 V code at once)",
+  "DOUT is Hi-Z for the 4.5-5.0 clock sample period: the null bit follows the 5th falling DCLOCK edge (Figure 6; the pin table's 'second clock pulse' wording is from the ADS7816); after B0 the result repeats LSB first (B1..B15, zeros for the 0 V code) and then DOUT tri-states",
+  "auto power-down after the conversion and shutdown while CS/SHDN is high (no visible bus effect)",
+  "throughput (100 kHz) and DCLOCK frequency limits (0.024-2.9 MHz)",
+  "timing values are the VCC = 5 V table (Table I); no low-voltage timing is given"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS8321E/250",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "ADS8321EB/250",
+   "DGK",
+   8,
+   "Active"
+  ],
+  [
+   "ADS8321EB/2K5",
+   "DGK",
+   8,
+   "Active"
+  ]
+ ]
+}

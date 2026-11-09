@@ -1,0 +1,113 @@
+{
+ "device": {
+  "id": "ADS7866",
+  "function": "ADC",
+  "description": "12-bit 200 kSPS 1.2-3.6 V micropower SAR ADC with SPI-compatible serial interface and auto power-down",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads7866.pdf (SLAS465, ADS7866/ADS7867/ADS7868) p.4 electrical characteristics (VDD 1.2-3.6 V, VIH max 3.6 V, straight binary), p.9 timing requirements and Figure 1, p.10 pin configuration and terminal functions, p.19-20 digital interface (CPOL = 1, CPHA = 1, inputs up to 3.6 V) (4 leading zeros, straight binary), auto power-down",
+  "pinouts": {
+   "dbv6": [
+    {
+     "number": 1,
+     "name": "REF/VDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "VIN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "CS",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   1.2,
+   3.6
+  ],
+  "analog": [
+   "VIN"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "miso": "SDO",
+   "mode": 3
+  },
+  "timing": {
+   "tValid": 65,
+   "tOut": 140,
+   "tFloat": 80
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "0000 R{12}",
+   "idle": "z",
+   "commands": []
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ]
+  }
+ },
+ "packages": {
+  "DBV": {
+   "pinout": "dbv6",
+   "footprint": "SOT23-6",
+   "package": "SOT-23",
+   "pins": 6
+  }
+ },
+ "pdf": "ads7866.pdf",
+ "pages": "p.4 (electrical characteristics), p.9 (timing requirements, Figure 1: tD(CSF-SDOVALID) 65 ns, tD(SCLKF-SDOVALID) 140 ns, tDIS(EOC-SDOZ) 80 ns at 1.2 V), p.10 (pins), p.19-20 (digital interface, Table 2)",
+ "notModeled": [
+  "analog input; REF/VDD is both the supply and the reference (input range 0 V to VDD); the result is always the 0 V code",
+  "the conversion is clocked by SCLK (13 SCLK cycles after the 2-clock sample, 16 clocks per frame): not timed, the 0 V code is available at once",
+  "SPI mode 3 per p.19 (CPOL = 1, CPHA = 1: SDO changes on SCLK falling edges, read on rising edges); the first leading zero appears at CS falling and the other three on falling edges 1-3, MSB on the 4th (16-clock frame, 4 zeros + 12 data bits, then Hi-Z as at EOC)",
+  "auto power-down after each conversion, the conversion abort when CS rises before EOC and the power-on dummy cycle",
+  "throughput, SCLK frequency and tSU(CSF-FSCLKF) limits"
+ ],
+ "variants": "ADS7866, ADS7867, ADS7868 share ads7866.pdf (12/10/8-bit, same pinout and frame with 4 leading zeros; ADS7867, ADS7868: own spec files). ADS7886/87/88 are the 2.35-5.25 V versions (other datasheet).",
+ "parts": [
+  [
+   "ADS7866IDBVR",
+   "DBV",
+   6,
+   "Active"
+  ],
+  [
+   "ADS7866IDBVT",
+   "DBV",
+   6,
+   "Active"
+  ]
+ ]
+}

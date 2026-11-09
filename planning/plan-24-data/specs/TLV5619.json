@@ -1,0 +1,261 @@
+{
+ "device": {
+  "id": "TLV5619",
+  "function": "DAC",
+  "description": "12-bit voltage-output DAC with 12-bit parallel interface (CS, WE), LDAC update and power down, 2.7-5.5 V",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "slas172f.pdf (SLAS172F) p.1 (pinout), p.2 (terminal functions), p.3 (recommended operating conditions: VDD 2.7-3.3 V and 4.5-5.5 V), p.5 (timing requirements), p.11 (power-on reset: latches all zero), p.12 (parallel interface: data latched on WE rising with CS low, LDAC low updates the DAC)",
+  "pinouts": {
+   "so20": [
+    {
+     "number": 1,
+     "name": "D2",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "D3",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "D4",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "D5",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "D6",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "D7",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "D8",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "D9",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "D10",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "D11",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 12,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "OUT",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "PD",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "WE",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "D0",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "D1",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "REFIN",
+   "OUT"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "D11",
+    "D10",
+    "D9",
+    "D8",
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "wr": {
+    "pin": "WE",
+    "active": 0
+   }
+  },
+  "registers": [
+   {
+    "name": "HOLD",
+    "space": "input",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "holding latch, loaded on WE rising with CS low (p.12); power-on reset all zero (p.11)"
+   },
+   {
+    "name": "DACL",
+    "space": "dac",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC latch, loaded from the holding latch while LDAC is low (p.12); power-on reset all zero"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write (CS low, WE rising)",
+     "in": "d{12}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "commit": "end",
+     "note": "D11 (MSB) - D0 latched into the holding latch on the positive WE edge (p.5, p.12)"
+    }
+   ]
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "level"
+   }
+  },
+  "dac": {
+   "input": [
+    "HOLD"
+   ],
+   "output": [
+    "DACL"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "DW": {
+   "pinout": "so20",
+   "footprint": "SOIC-20W",
+   "package": "SOIC",
+   "pins": 20
+  },
+  "PW": {
+   "pinout": "so20",
+   "footprint": "TSSOP-20",
+   "package": "TSSOP",
+   "pins": 20
+  }
+ },
+ "pdf": "slas172f.pdf",
+ "pages": "p.1-2 (pins), p.3 (ROC), p.5 (timing), p.11-12 (power-on reset, parallel interface)",
+ "notModeled": [
+  "analog: voltage output OUT (x2 gain buffer), reference input REFIN",
+  "PD (active low) disables the output buffer only; the datasheet does not say the interface stops, so it is not mapped to pins.powerdown (which would ignore the bus)",
+  "LDAC is asynchronous: held low, the DAC updates with the WE rising edge; driven low after WE, it updates then (modeled as LDAC level-active low)",
+  "timing requirements tsu(CS-WE), tsu(D), th(D), tsu(WE-LD), twh(WE), tw(LD) (p.5) are not checked; VIH/VIL differ between the 3-V and 5-V supply ranges"
+ ],
+ "variants": "C, I and Q temperature grades of the same device",
+ "parts": [
+  [
+   "TLV5619CDW",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "TLV5619CPW",
+   "PW",
+   20,
+   "Active"
+  ],
+  [
+   "TLV5619CPWR",
+   "PW",
+   20,
+   "Active"
+  ],
+  [
+   "TLV5619IDW",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "TLV5619IDWR",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "TLV5619IPW",
+   "PW",
+   20,
+   "Active"
+  ]
+ ]
+}

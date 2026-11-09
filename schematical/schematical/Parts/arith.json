@@ -7,7 +7,7 @@
       "id": "74_85",
       "function": "Comparator",
       "description": "4-bit magnitude comparators",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "sn74ls85, cd74hc85; plan-22-data/specs.md § 74_85",
       "model": "compare",
       "pinouts": {
@@ -42,29 +42,29 @@
         "S": {"rise":10.5,"fall":11,"vcc":[4.75,5.25],"note":"Any A or B to A<B, A>B typ, 3 gate levels, 5 V 15 pF (to A=B, 4 levels: 12/11 ns); VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn74ls85 p.6)"}
       },
       "parts": [
-        {"name":"8601301EA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
-        {"name":"CD74HC85E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
-        {"name":"CD74HC85M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
-        {"name":"CD74HC85NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"HC"},
-        {"name":"CD74HC85PWR","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
-        {"name":"CD74HCT85E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
-        {"name":"CD74HCT85M","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
-        {"name":"CD74HCT85MT","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
-        {"name":"JM38510/08201BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]},
-        {"name":"JM38510/31101BEA","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
-        {"name":"SN54LS85J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
-        {"name":"SN74LS85DR","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
-        {"name":"SN74LS85N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
-        {"name":"SN74LS85NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"},
-        {"name":"SN74S85D","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"S"},
-        {"name":"SN74S85N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"S"}
+        {"name":"8601301EA","manufacturer":"Texas Instruments","datasheet":"cd74hc85","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"CD74HC85E","manufacturer":"Texas Instruments","datasheet":"cd74hc85","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"CD74HC85M96","manufacturer":"Texas Instruments","datasheet":"cd74hc85","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"CD74HC85NSR","manufacturer":"Texas Instruments","datasheet":"cd74hc85","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"HC"},
+        {"name":"CD74HC85PWR","manufacturer":"Texas Instruments","datasheet":"cd74hc85","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
+        {"name":"CD74HCT85E","manufacturer":"Texas Instruments","datasheet":"cd74hc85","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
+        {"name":"CD74HCT85M","manufacturer":"Texas Instruments","datasheet":"cd74hc85","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
+        {"name":"CD74HCT85MT","manufacturer":"Texas Instruments","datasheet":"cd74hc85","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
+        {"name":"JM38510/08201BEA","manufacturer":"Texas Instruments","datasheet":"sn74ls85","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"JM38510/31101BEA","manufacturer":"Texas Instruments","datasheet":"sn74ls85","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN54LS85J","manufacturer":"Texas Instruments","datasheet":"sn74ls85","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN74LS85DR","manufacturer":"Texas Instruments","datasheet":"sn74ls85","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
+        {"name":"SN74LS85N","manufacturer":"Texas Instruments","datasheet":"sn74ls85","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
+        {"name":"SN74LS85NSR","manufacturer":"Texas Instruments","datasheet":"sn74ls85","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"},
+        {"name":"SN74S85D","manufacturer":"Texas Instruments","datasheet":"sn74ls85","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"S"},
+        {"name":"SN74S85N","manufacturer":"Texas Instruments","datasheet":"sn74ls85","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"S"}
       ]
     },
     {
       "id": "4063B",
       "function": "Comparator",
       "description": "CMOS 4-bit magnitude comparator",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "cd4063b; plan-22-data/specs.md § 4063B",
       "model": "compare",
       "pinouts": {
@@ -96,16 +96,16 @@
         "C": {"rise":625,"fall":625,"vcc":[3,18],"note":"Comparing inputs to outputs typ, VDD 5 V 50 pF (one tPHL, tPLH figure); VDD 3-18 V (cd4063b p.3, p.1)"}
       },
       "parts": [
-        {"name":"CD4063BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
-        {"name":"CD4063BM96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
-        {"name":"CD4063BNSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"}
+        {"name":"CD4063BE","manufacturer":"Texas Instruments","datasheet":"cd4063b","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
+        {"name":"CD4063BM96","manufacturer":"Texas Instruments","datasheet":"cd4063b","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
+        {"name":"CD4063BNSR","manufacturer":"Texas Instruments","datasheet":"cd4063b","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"}
       ]
     },
     {
       "id": "4585B",
       "function": "Comparator",
       "description": "CMOS 4-bit magnitude comparator",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "cd4585b; plan-22-data/specs.md § 4585B",
       "model": "compare",
       "pinouts": {
@@ -137,17 +137,17 @@
         "C": {"rise":300,"fall":300,"vcc":[3,18],"note":"Comparing inputs to outputs typ, VDD 5 V 50 pF (one tPHL, tPLH figure); VDD 3-18 V (cd4585b p.3, p.1)"}
       },
       "parts": [
-        {"name":"CD4585BE","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
-        {"name":"CD4585BF3A","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]},
-        {"name":"CD4585BNSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
-        {"name":"CD4585BPW","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C"}
+        {"name":"CD4585BE","manufacturer":"Texas Instruments","datasheet":"cd4585b","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
+        {"name":"CD4585BF3A","manufacturer":"Texas Instruments","datasheet":"cd4585b","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]},
+        {"name":"CD4585BNSR","manufacturer":"Texas Instruments","datasheet":"cd4585b","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
+        {"name":"CD4585BPW","manufacturer":"Texas Instruments","datasheet":"cd4585b","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C"}
       ]
     },
     {
       "id": "74_682",
       "function": "Comparator",
       "description": "8-bit magnitude comparators",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "sn74hc682, sn74ls682; plan-22-data/specs.md § 74_682",
       "model": "compare",
       "pinouts": {
@@ -182,18 +182,18 @@
         "LS": {"rise":21,"fall":19,"vcc":[4.75,5.25],"note":"Q to P>Q typ (slowest of P/Q to P=Q/P>Q), 5 V 45 pF (sn74ls682 p.8); VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn74ls682 p.7, scanned)"}
       },
       "parts": [
-        {"name":"SN74HC682DWR","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
-        {"name":"SN74HC682N","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"HC"},
-        {"name":"SN74LS682N","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"LS"},
-        {"name":"SNJ54LS682J","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54LS682W","package":"CFP","pinout":"p20","footprint":"CFP-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
+        {"name":"SN74HC682DWR","manufacturer":"Texas Instruments","datasheet":"sn74hc682","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
+        {"name":"SN74HC682N","manufacturer":"Texas Instruments","datasheet":"sn74hc682","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"HC"},
+        {"name":"SN74LS682N","manufacturer":"Texas Instruments","datasheet":"sn74ls682","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"LS"},
+        {"name":"SNJ54LS682J","manufacturer":"Texas Instruments","datasheet":"sn74ls682","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS682W","manufacturer":"Texas Instruments","datasheet":"sn74ls682","package":"CFP","pinout":"p20","footprint":"CFP-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     },
     {
       "id": "74_684",
       "function": "Comparator",
       "description": "8-bit magnitude comparators",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "sn74hc684, sn74ls682; plan-22-data/specs.md § 74_684",
       "model": "compare",
       "pinouts": {
@@ -228,18 +228,18 @@
         "LS": {"rise":24,"fall":20,"vcc":[4.75,5.25],"note":"Q to P>Q typ (slowest of P/Q to P=Q/P>Q), 5 V 45 pF (sn74ls682 p.8); VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn74ls682 p.7, scanned)"}
       },
       "parts": [
-        {"name":"SN54LS684J","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
-        {"name":"SN74HC684DW","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
-        {"name":"SN74HC684N","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"HC"},
-        {"name":"SN74LS684DWR","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"LS"},
-        {"name":"SN74LS684N","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"LS"}
+        {"name":"SN54LS684J","manufacturer":"Texas Instruments","datasheet":"sn74ls682","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN74HC684DW","manufacturer":"Texas Instruments","datasheet":"sn74hc684","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
+        {"name":"SN74HC684N","manufacturer":"Texas Instruments","datasheet":"sn74hc684","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"HC"},
+        {"name":"SN74LS684DWR","manufacturer":"Texas Instruments","datasheet":"sn74ls682","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"LS"},
+        {"name":"SN74LS684N","manufacturer":"Texas Instruments","datasheet":"sn74ls682","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"LS"}
       ]
     },
     {
       "id": "74_688",
       "function": "Comparator",
       "description": "8-bit identity comparators",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "sn74hc688, cd74hc688, sn74als688, sn74ls682; plan-22-data/specs.md § 74_688",
       "model": "compare",
       "pinouts": {
@@ -277,29 +277,29 @@
         "LS": {"rise":12,"fall":17,"vcc":[4.75,5.25],"note":"P or Q to P=Q typ, 5 V 45 pF (sn74ls682 p.8); VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn74ls682 p.7, scanned)"}
       },
       "parts": [
-        {"name":"5962-8685701RA","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"HCT","flags":["military","ceramic"]},
-        {"name":"8415301RA","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
-        {"name":"CD74HC688E","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"HC"},
-        {"name":"CD74HC688NSR","package":"SOP","pinout":"p20","footprint":"SOP-20","family":"HC"},
-        {"name":"CD74HC688PWR","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HC"},
-        {"name":"CD74HCT688E","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"HCT"},
-        {"name":"CD74HCT688M96","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HCT"},
-        {"name":"SN54ALS688J","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"ALS","flags":["military","ceramic"]},
-        {"name":"SN74ALS688DWR","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ALS"},
-        {"name":"SN74ALS688N","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"ALS"},
-        {"name":"SN74HC688DWR","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
-        {"name":"SN74HC688N","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"HC"},
-        {"name":"SN74HC688PWR","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HC"},
-        {"name":"SN74LS688N","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"LS"},
-        {"name":"SNJ54ALS688W","package":"CFP","pinout":"p20","footprint":"CFP-20","family":"ALS","flags":["military","ceramic"]},
-        {"name":"SNJ54HC688FK","package":"LCCC","pinout":"p20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]}
+        {"name":"5962-8685701RA","manufacturer":"Texas Instruments","datasheet":"cd74hc688","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"HCT","flags":["military","ceramic"]},
+        {"name":"8415301RA","manufacturer":"Texas Instruments","datasheet":"sn74ls682","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"CD74HC688E","manufacturer":"Texas Instruments","datasheet":"cd74hc688","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"HC"},
+        {"name":"CD74HC688NSR","manufacturer":"Texas Instruments","datasheet":"cd74hc688","package":"SOP","pinout":"p20","footprint":"SOP-20","family":"HC"},
+        {"name":"CD74HC688PWR","manufacturer":"Texas Instruments","datasheet":"cd74hc688","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HC"},
+        {"name":"CD74HCT688E","manufacturer":"Texas Instruments","datasheet":"cd74hc688","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"HCT"},
+        {"name":"CD74HCT688M96","manufacturer":"Texas Instruments","datasheet":"cd74hc688","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HCT"},
+        {"name":"SN54ALS688J","manufacturer":"Texas Instruments","datasheet":"sn74als688","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"ALS","flags":["military","ceramic"]},
+        {"name":"SN74ALS688DWR","manufacturer":"Texas Instruments","datasheet":"sn74als688","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ALS"},
+        {"name":"SN74ALS688N","manufacturer":"Texas Instruments","datasheet":"sn74als688","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"ALS"},
+        {"name":"SN74HC688DWR","manufacturer":"Texas Instruments","datasheet":"sn74hc688","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
+        {"name":"SN74HC688N","manufacturer":"Texas Instruments","datasheet":"sn74hc688","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"HC"},
+        {"name":"SN74HC688PWR","manufacturer":"Texas Instruments","datasheet":"sn74hc688","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HC"},
+        {"name":"SN74LS688N","manufacturer":"Texas Instruments","datasheet":"sn74ls682","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"LS"},
+        {"name":"SNJ54ALS688W","manufacturer":"Texas Instruments","datasheet":"sn74als688","package":"CFP","pinout":"p20","footprint":"CFP-20","family":"ALS","flags":["military","ceramic"]},
+        {"name":"SNJ54HC688FK","manufacturer":"Texas Instruments","datasheet":"sn74hc688","package":"LCCC","pinout":"p20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]}
       ]
     },
     {
       "id": "74_518",
       "function": "Comparator",
       "description": "8-bit identity comparators",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "comparator/sn74als518; plan-22-data/specs.md § 74_518",
       "model": "compare",
       "pinouts": {
@@ -335,15 +335,15 @@
         "ALS": {"rise":33,"fall":15,"vcc":[4.5,5.5],"note":"P or Q to P=Q max (no typ printed), 4.5-5.5 V 50 pF RL 680 ohm, open collector; VCC 4.5-5.5 V (sn74als518 p.6, p.5)"}
       },
       "parts": [
-        {"name":"SN74ALS518DW","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ALS"},
-        {"name":"SN74ALS518N","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"ALS"}
+        {"name":"SN74ALS518DW","manufacturer":"Texas Instruments","datasheet":"sn74als518","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ALS"},
+        {"name":"SN74ALS518N","manufacturer":"Texas Instruments","datasheet":"sn74als518","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"ALS"}
       ]
     },
     {
       "id": "74_520",
       "function": "Comparator",
       "description": "8-bit identity comparators",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "comparator/sn74als518; plan-22-data/specs.md § 74_520",
       "model": "compare",
       "pinouts": {
@@ -378,16 +378,16 @@
         "ALS": {"rise":12,"fall":20,"vcc":[4.5,5.5],"note":"P or Q to P=Q max (no typ printed), SN74ALS520 column, 4.5-5.5 V 50 pF; VCC 4.5-5.5 V (sn74als518 p.7, p.6)"}
       },
       "parts": [
-        {"name":"SN74ALS520DW","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ALS"},
-        {"name":"SN74ALS520N","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"ALS"},
-        {"name":"SN74ALS520NSR","package":"SOP","pinout":"p20","footprint":"SOP-20","family":"ALS"}
+        {"name":"SN74ALS520DW","manufacturer":"Texas Instruments","datasheet":"sn74als518","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ALS"},
+        {"name":"SN74ALS520N","manufacturer":"Texas Instruments","datasheet":"sn74als518","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"ALS"},
+        {"name":"SN74ALS520NSR","manufacturer":"Texas Instruments","datasheet":"sn74als518","package":"SOP","pinout":"p20","footprint":"SOP-20","family":"ALS"}
       ]
     },
     {
       "id": "74_521",
       "function": "Comparator",
       "description": "8-bit identity comparators",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "comparator/sn74als518, comparator/sn74f521; plan-22-data/specs.md § 74_521",
       "model": "compare",
       "pinouts": {
@@ -423,22 +423,22 @@
         "F": {"rise":6.6,"fall":6.6,"vcc":[4.5,5.5],"note":"P or Q to P=Q typ, 5 V 50 pF; VCC 4.5-5.5 V, SN54F521 same (sn74f521 p.4, p.3)"}
       },
       "parts": [
-        {"name":"JM38510/34701BSA","package":"CFP","pinout":"p20","footprint":"CFP-20","family":"F","flags":["military","ceramic"]},
-        {"name":"SN54F521J","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"F","flags":["military","ceramic"]},
-        {"name":"SN74ALS521DWR","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ALS"},
-        {"name":"SN74ALS521N","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"ALS"},
-        {"name":"SN74ALS521NSR","package":"SOP","pinout":"p20","footprint":"SOP-20","family":"ALS"},
-        {"name":"SN74F521DWR","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"F"},
-        {"name":"SN74F521N","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"F"},
-        {"name":"SN74F521NSR","package":"SOP","pinout":"p20","footprint":"SOP-20","family":"F"},
-        {"name":"SNJ54F521J","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"F","flags":["military","ceramic"]}
+        {"name":"JM38510/34701BSA","manufacturer":"Texas Instruments","datasheet":"sn74f521","package":"CFP","pinout":"p20","footprint":"CFP-20","family":"F","flags":["military","ceramic"]},
+        {"name":"SN54F521J","manufacturer":"Texas Instruments","datasheet":"sn74f521","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"F","flags":["military","ceramic"]},
+        {"name":"SN74ALS521DWR","manufacturer":"Texas Instruments","datasheet":"sn74als518","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ALS"},
+        {"name":"SN74ALS521N","manufacturer":"Texas Instruments","datasheet":"sn74als518","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"ALS"},
+        {"name":"SN74ALS521NSR","manufacturer":"Texas Instruments","datasheet":"sn74als518","package":"SOP","pinout":"p20","footprint":"SOP-20","family":"ALS"},
+        {"name":"SN74F521DWR","manufacturer":"Texas Instruments","datasheet":"sn74f521","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"F"},
+        {"name":"SN74F521N","manufacturer":"Texas Instruments","datasheet":"sn74f521","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"F"},
+        {"name":"SN74F521NSR","manufacturer":"Texas Instruments","datasheet":"sn74f521","package":"SOP","pinout":"p20","footprint":"SOP-20","family":"F"},
+        {"name":"SNJ54F521J","manufacturer":"Texas Instruments","datasheet":"sn74f521","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"F","flags":["military","ceramic"]}
       ]
     },
     {
       "id": "74_885",
       "function": "Comparator",
       "description": "8-bit magnitude comparators",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "comparator/sn74as885; plan-22-data/specs.md § 74_885",
       "model": "compare",
       "pinouts": {
@@ -479,15 +479,15 @@
         "AS": {"rise":13.5,"fall":10,"vcc":[4.5,5.5],"note":"any P or Q data input to P<QOUT, P>QOUT typ, 5 V 50 pF; VCC 4.5-5.5 V, SN54AS885 same (sn74as885 p.5, p.4)"}
       },
       "parts": [
-        {"name":"SN74AS885DW","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"AS"},
-        {"name":"SNJ54AS885JT","package":"DIP","pinout":"p24","footprint":"CDIP-24","family":"AS","flags":["military","ceramic"]}
+        {"name":"SN74AS885DW","manufacturer":"Texas Instruments","datasheet":"sn74as885","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"AS"},
+        {"name":"SNJ54AS885JT","manufacturer":"Texas Instruments","datasheet":"sn74as885","package":"DIP","pinout":"p24","footprint":"CDIP-24","family":"AS","flags":["military","ceramic"]}
       ]
     },
     {
       "id": "74_280",
       "function": "Parity",
       "description": "9-bit odd/even parity generators/checkers",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "parity/sn74ls280, parity/sn74as280, parity/sn74f280b, parity/cd74hc280, parity/cd74ac280; plan-22-data/specs.md § 74_280",
       "model": "parity",
       "pinouts": {
@@ -522,33 +522,33 @@
         "ACT": {"rise":10,"fall":10,"vcc":[4.5,5.5],"note":"typ 10 ns at 5 V 50 pF from the p.1 feature list shared by AC/ACT (switching table prints only max: any input to ΣE 19.6 ns, -40-85 C, 5 V); VCC 4.5-5.5 V (cd74ac280 p.1, p.4, p.2)"}
       },
       "parts": [
-        {"name":"CD74AC280E","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"AC"},
-        {"name":"CD74AC280M96","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"AC"},
-        {"name":"CD74ACT280E","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"ACT"},
-        {"name":"CD74ACT280M96","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"ACT"},
-        {"name":"CD74HC280E","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"HC"},
-        {"name":"CD74HC280M96","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HC"},
-        {"name":"CD74HCT280E","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"HCT"},
-        {"name":"JM38510/32901BCA","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
-        {"name":"SN54LS280J","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
-        {"name":"SN54S280J","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]},
-        {"name":"SN74AS280N","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"AS"},
-        {"name":"SN74AS280NSR","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"AS"},
-        {"name":"SN74F280BDR","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"F"},
-        {"name":"SN74F280BN","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"F"},
-        {"name":"SN74F280BNSR","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"F"},
-        {"name":"SN74LS280N","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"LS"},
-        {"name":"SN74LS280NSR","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"LS"},
-        {"name":"SNJ54LS280J","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54LS280W","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54S280W","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]}
+        {"name":"CD74AC280E","manufacturer":"Texas Instruments","datasheet":"cd74ac280","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"AC"},
+        {"name":"CD74AC280M96","manufacturer":"Texas Instruments","datasheet":"cd74ac280","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"AC"},
+        {"name":"CD74ACT280E","manufacturer":"Texas Instruments","datasheet":"cd74ac280","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"ACT"},
+        {"name":"CD74ACT280M96","manufacturer":"Texas Instruments","datasheet":"cd74ac280","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"ACT"},
+        {"name":"CD74HC280E","manufacturer":"Texas Instruments","datasheet":"cd74hc280","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"HC"},
+        {"name":"CD74HC280M96","manufacturer":"Texas Instruments","datasheet":"cd74hc280","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"HC"},
+        {"name":"CD74HCT280E","manufacturer":"Texas Instruments","datasheet":"cd74hc280","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"HCT"},
+        {"name":"JM38510/32901BCA","manufacturer":"Texas Instruments","datasheet":"sn74ls280","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN54LS280J","manufacturer":"Texas Instruments","datasheet":"sn74ls280","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN54S280J","manufacturer":"Texas Instruments","datasheet":"sn74ls280","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN74AS280N","manufacturer":"Texas Instruments","datasheet":"sn74as280","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"AS"},
+        {"name":"SN74AS280NSR","manufacturer":"Texas Instruments","datasheet":"sn74as280","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"AS"},
+        {"name":"SN74F280BDR","manufacturer":"Texas Instruments","datasheet":"sn74f280b","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"F"},
+        {"name":"SN74F280BN","manufacturer":"Texas Instruments","datasheet":"sn74f280b","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"F"},
+        {"name":"SN74F280BNSR","manufacturer":"Texas Instruments","datasheet":"sn74f280b","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"F"},
+        {"name":"SN74LS280N","manufacturer":"Texas Instruments","datasheet":"sn74ls280","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"LS"},
+        {"name":"SN74LS280NSR","manufacturer":"Texas Instruments","datasheet":"sn74ls280","package":"SOP","pinout":"p14","footprint":"SOP-14","family":"LS"},
+        {"name":"SNJ54LS280J","manufacturer":"Texas Instruments","datasheet":"sn74ls280","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54LS280W","manufacturer":"Texas Instruments","datasheet":"sn74ls280","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SNJ54S280W","manufacturer":"Texas Instruments","datasheet":"sn74ls280","package":"CFP","pinout":"p14","footprint":"CFP-14","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     },
     {
       "id": "74_286",
       "function": "Parity",
       "description": "9-bit parity generators/checkers with bus-driver parity I/O port",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "parity/sn74as286; plan-22-data/specs.md § 74_286",
       "model": "parity",
       "pinouts": {
@@ -577,14 +577,14 @@
         "AS": {"rise":15,"fall":14,"vcc":[4.5,5.5],"note":"Any A-I to PARITY I/O max (no typ printed), SN74AS286, 4.5-5.5 V 50 pF; VCC 4.5-5.5 V (sn74as286 p.4, p.3)"}
       },
       "parts": [
-        {"name":"SN74AS286D","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"AS"}
+        {"name":"SN74AS286D","manufacturer":"Texas Instruments","datasheet":"sn74as286","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"AS"}
       ]
     },
     {
       "id": "74_11286",
       "function": "Parity",
       "description": "9-bit parity generator/checker with bus driver parity I/O ports",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "parity/74act11286; plan-22-data/specs.md § 74_11286",
       "model": "parity",
       "pinouts": {
@@ -613,14 +613,14 @@
         "ACT": {"rise":6.1,"fall":7.3,"vcc":[4.5,5.5],"note":"Any A-I to PARITY I/O typ, 25 C, 50 pF (max 10.4/12 over range); VCC 4.5-5.5 V (74act11286 p.4, p.3)"}
       },
       "parts": [
-        {"name":"74ACT11286D","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"ACT"}
+        {"name":"74ACT11286D","manufacturer":"Texas Instruments","datasheet":"74act11286","package":"SOIC","pinout":"p14","footprint":"SOIC-14","family":"ACT"}
       ]
     },
     {
       "id": "74_283",
       "function": "Adder",
       "description": "4-bit binary full adders with fast carry",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "sn74ls283, sn74f283, cd74hc283, cd74ac283; plan-22-data/specs.md § 74_283",
       "model": "adder",
       "pinouts": {
@@ -658,30 +658,30 @@
         "ACT": {"rise":16.5,"fall":16.5,"vcc":[4.5,5.5],"note":"An or Bn to Sn max (no typ printed), 5 V (max at 4.5 V) 50 pF, -40 to 85 C; VCC 4.5-5.5 V (cd74ac283 p.7, p.4)"}
       },
       "parts": [
-        {"name":"CD74AC283E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AC"},
-        {"name":"CD74ACT283E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ACT"},
-        {"name":"CD74ACT283M","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ACT"},
-        {"name":"CD74HC283E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
-        {"name":"CD74HC283M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
-        {"name":"CD74HCT283E","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
-        {"name":"CD74HCT283M96","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
-        {"name":"SN54F283J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"F","flags":["military","ceramic"]},
-        {"name":"SN54LS283J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
-        {"name":"SN74F283D","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"F"},
-        {"name":"SN74F283N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"F"},
-        {"name":"SN74LS283D","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
-        {"name":"SN74LS283N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
-        {"name":"SN74LS283NSR","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"},
-        {"name":"SN74S283N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"S"},
-        {"name":"SNJ54F283J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"F","flags":["military","ceramic"]},
-        {"name":"SNJ54S283J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]}
+        {"name":"CD74AC283E","manufacturer":"Texas Instruments","datasheet":"cd74ac283","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"AC"},
+        {"name":"CD74ACT283E","manufacturer":"Texas Instruments","datasheet":"cd74ac283","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"ACT"},
+        {"name":"CD74ACT283M","manufacturer":"Texas Instruments","datasheet":"cd74ac283","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"ACT"},
+        {"name":"CD74HC283E","manufacturer":"Texas Instruments","datasheet":"cd74hc283","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"CD74HC283M96","manufacturer":"Texas Instruments","datasheet":"cd74hc283","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"CD74HCT283E","manufacturer":"Texas Instruments","datasheet":"cd74hc283","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
+        {"name":"CD74HCT283M96","manufacturer":"Texas Instruments","datasheet":"cd74hc283","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
+        {"name":"SN54F283J","manufacturer":"Texas Instruments","datasheet":"sn74f283","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"F","flags":["military","ceramic"]},
+        {"name":"SN54LS283J","manufacturer":"Texas Instruments","datasheet":"sn74ls283","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN74F283D","manufacturer":"Texas Instruments","datasheet":"sn74f283","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"F"},
+        {"name":"SN74F283N","manufacturer":"Texas Instruments","datasheet":"sn74f283","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"F"},
+        {"name":"SN74LS283D","manufacturer":"Texas Instruments","datasheet":"sn74ls283","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
+        {"name":"SN74LS283N","manufacturer":"Texas Instruments","datasheet":"sn74ls283","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
+        {"name":"SN74LS283NSR","manufacturer":"Texas Instruments","datasheet":"sn74ls283","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"LS"},
+        {"name":"SN74S283N","manufacturer":"Texas Instruments","datasheet":"sn74ls283","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"S"},
+        {"name":"SNJ54F283J","manufacturer":"Texas Instruments","datasheet":"sn74f283","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"F","flags":["military","ceramic"]},
+        {"name":"SNJ54S283J","manufacturer":"Texas Instruments","datasheet":"sn74ls283","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     },
     {
       "id": "74_181",
       "function": "ALU",
       "description": "Arithmetic logic units/function generators",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "sn54ls181; plan-22-data/specs.md § 74_181",
       "model": "alu181",
       "pinouts": {
@@ -727,14 +727,14 @@
         "LS": {"rise":21,"fall":13,"vcc":[4.75,5.25],"note":"Ai or Bi to Fi typ, SUM mode (M=0 V, S0=S3=4.5 V, S1=S2=0 V), 5 V 15 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn54ls181 p.7, p.6)"}
       },
       "parts": [
-        {"name":"SNJ54LS181J","package":"DIP","pinout":"p24","footprint":"CDIP-24-600","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
+        {"name":"SNJ54LS181J","manufacturer":"Texas Instruments","datasheet":"sn54ls181","package":"DIP","pinout":"p24","footprint":"CDIP-24-600","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
     },
     {
       "id": "74_275",
       "function": "Multiplier",
       "description": "7-bit-slice Wallace trees with 3-state outputs",
-      "drawer": ["Logic"],
+      "drawer": ["Logic", "Arithmetic"],
       "note": "snx4ls27x (SN54LS275, SN74LS275; scanned TI bulletin DL-S 7612121, revised August 1977); plan-22-data/specs.md § 74_275",
       "model": "wallace",
       "pinouts": {
@@ -764,8 +764,8 @@
         "LS": {"rise":35,"fall":42,"vcc":[4.75,5.25],"note":"Any slice or carry input to any output typ, 5 V, CL 45 pF, RL 667 ohm (snx4ls27x p.3); VCC SN74LS275 4.75-5.25 V, SN54LS275 4.5-5.5 V (p.3)"}
       },
       "parts": [
-        {"name":"SN54LS275J","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
-        {"name":"SN74LS275N","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"}
+        {"name":"SN54LS275J","manufacturer":"Texas Instruments","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"SN74LS275N","manufacturer":"Texas Instruments","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"}
       ]
     }
   ]

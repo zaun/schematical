@@ -1,0 +1,223 @@
+{
+ "device": {
+  "id": "ADS1222",
+  "function": "ADC",
+  "description": "24-bit 2-channel delta-sigma ADC with 2-wire serial interface (DRDY/DOUT, SCLK), 120 SPS at 2 MHz CLK",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1222.pdf (SBAS314B) p.3-4 electrical characteristics (VDD 2.7-5.5 V, logic levels, data rate 120 SPS at fCLK = 2 MHz), p.5 pin assignments and terminal functions, p.11-12 DRDY/DOUT, SCLK, settling, p.13 data format (Table 2), data retrieval, p.14 data retrieval timing (Figure 25: t4 = 50 ns, t7 = 8.32 ms), p.15 self-calibration, standby",
+  "pinouts": {
+   "pw": [
+    {
+     "number": 1,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "DRDY/DOUT",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "MUX",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "TEMPEN",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "BUFEN",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "AINP2",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "AINN2",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "AINP1",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "AINN1",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "VREFN",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "VREFP",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 24,
+  "channels": 2,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "AINP2",
+   "AINN2",
+   "AINP1",
+   "AINN1",
+   "VREFN",
+   "VREFP"
+  ],
+  "bus": {
+   "style": "spi",
+   "sclk": "SCLK",
+   "miso": "DRDY/DOUT",
+   "mode": 1
+  },
+  "timing": {
+   "tOut": 50
+  },
+  "registers": [
+   {
+    "name": "MUX",
+    "width": 1,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MUX",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: MUX pin level (Table 1, p.8); 0 = AINP1/AINN1, 1 = AINP2/AINN2"
+   },
+   {
+    "name": "CTRL",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "BUFEN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "TEMPEN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the TEMPEN / BUFEN pin levels (pins.levels); no serial registers"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{24}",
+   "idle": "1",
+   "commands": []
+  },
+  "conversion": {
+   "time": 8320000,
+   "start": [
+    "power-on"
+   ],
+   "mode": "continuous",
+   "channel": "MUX"
+  },
+  "ready": [
+   {
+    "pin": "DRDY/DOUT",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read",
+    "onMiso": true
+   }
+  ],
+  "pins": {
+   "levels": [
+    {
+     "pin": "MUX",
+     "field": "MUX.MUX"
+    },
+    {
+     "pin": "TEMPEN",
+     "field": "CTRL.TEMPEN"
+    },
+    {
+     "pin": "BUFEN",
+     "field": "CTRL.BUFEN"
+    }
+   ]
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw",
+   "footprint": "TSSOP-14",
+   "package": "TSSOP",
+   "pins": 14
+  }
+ },
+ "pdf": "ads1222.pdf",
+ "pages": "p.3-4 (EC), p.5 (pins), p.11-14 (operation, data format, retrieval timing), p.15 (calibration, standby)",
+ "notModeled": [
+  "analog inputs, buffer (BUFEN level stored only), temperature sensor (TEMPEN level stored only), reference",
+  "conversion time t7 = 8.32 ms (1 / data rate) at fCLK = 2 MHz (Figure 25); the data rate scales with CLK (120 SPS x fCLK / 2 MHz; the CLK pin is not used)",
+  "settling after a MUX, BUFEN or TEMPEN change: DRDY/DOUT held high for t1 = 26.4 ms (p.12); the model just continues converting",
+  "DRDY/DOUT stays at the last data bit until the next update unless an extra SCLK forces it high; modeled as idle 1 after the data bits",
+  "self-calibration started by 26 SCLKs (the 25th forces DRDY/DOUT high, the 26th falling edge starts calibration)",
+  "standby mode (SCLK held high after DRDY/DOUT falls) and its wake-up",
+  "data-update window (no readback) and data overwritten if not read before the next update",
+  "VDD is the single analog and digital supply (power, not in analog)"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS1222IPWR",
+   "PW",
+   14,
+   "Active"
+  ],
+  [
+   "ADS1222IPWT",
+   "PW",
+   14,
+   "Active"
+  ]
+ ]
+}

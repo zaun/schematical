@@ -1,0 +1,576 @@
+{
+ "device": {
+  "id": "ADC128D818",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "12-bit 8-channel delta-sigma ADC system monitor with temperature sensor, limit registers and I2C interface",
+  "note": "adc128d818.pdf (SNAS483F) p.4-5 pin functions, p.6 recommended operating conditions, p.9 serial bus timing, p.16 modes of operation and interface, p.17 serial bus address (Table 2), p.17-18 write/read examples (Figures 26-31), p.19-27 register maps (Tables 3-15), p.29-30 output code and interrupts, p.33-34 quick start, POR, configuration, conversion rate (12.2 ms per voltage, 3.6 ms temperature, ~728 ms low power), one-shot",
+  "pinouts": {
+   "pw16": [
+    {
+     "number": 1,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "SDA",
+     "role": "inout"
+    },
+    {
+     "number": 3,
+     "name": "SCL",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "V+",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "INT",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "IN7",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "IN6",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "IN5",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "IN4",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "IN3",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "IN2",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "IN1",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "IN0",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 8,
+  "codeFormat": "straight",
+  "vcc": [
+   3.0,
+   5.5
+  ],
+  "analog": [
+   "VREF",
+   "IN0",
+   "IN1",
+   "IN2",
+   "IN3",
+   "IN4",
+   "IN5",
+   "IN6",
+   "IN7"
+  ],
+  "bus": {
+   "style": "i2c",
+   "scl": "SCL",
+   "sda": "SDA",
+   "address": [
+    "A0",
+    "A1"
+   ],
+   "table": [
+    29,
+    31,
+    null,
+    null,
+    53,
+    55,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  "registers": [
+   {
+    "name": "CONFIG",
+    "address": 0,
+    "width": 8,
+    "reset": 8,
+    "readOnly": 116,
+    "note": "Table 4: bit 0 START, 1 INT_Enable, 3 INT_Clear, 7 Initialization (self-clearing); bits 2, 4-6 reserved read-only",
+    "fields": [
+     {
+      "name": "INITIALIZATION",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "INT_CLEAR",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "INT_ENABLE",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "START",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "INT_STATUS",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "clearOnRead": 255,
+    "note": "Table 5: per-channel limit error flags (meaning per mode); read-only, cleared by reading (p.30)"
+   },
+   {
+    "name": "INT_MASK",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "note": "Table 6: 1 masks the channel's status from INT; reserved bits depend on the mode"
+   },
+   {
+    "name": "CONV_RATE",
+    "address": 7,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "note": "Table 7: bit 0 0 = low power conversion mode, 1 = continuous conversion mode",
+    "fields": [
+     {
+      "name": "RATE",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH_DISABLE",
+    "address": 8,
+    "width": 8,
+    "reset": 0,
+    "note": "Table 8: 1 disables the channel's conversion (meaning per mode)"
+   },
+   {
+    "name": "ONE_SHOT",
+    "address": 9,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "note": "Table 9 / p.34: write-only; a write starts one conversion cycle in shutdown or deep shutdown; reads 0",
+    "fields": [
+     {
+      "name": "ONE_SHOT",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DEEP_SHUTDOWN",
+    "address": 10,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "note": "Table 10: bit 0 deep shutdown enable (when START = 0)",
+    "fields": [
+     {
+      "name": "ENABLE",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ADV_CONFIG",
+    "address": 11,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "note": "Table 11: bit 0 external reference enable, bits 2-1 mode select (Mode 0-3)",
+    "fields": [
+     {
+      "name": "MODE",
+      "bits": [
+       2,
+       1
+      ]
+     },
+     {
+      "name": "EXT_REF",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "BUSY_STATUS",
+    "address": 12,
+    "width": 8,
+    "reset": 2,
+    "readOnly": true,
+    "note": "Table 12: bit 0 Busy (converting), bit 1 Not Ready (power-up sequence)",
+    "fields": [
+     {
+      "name": "NOT_READY",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "BUSY",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "READING_0",
+    "address": 32,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "result": true,
+    "note": "Channel Readings Register 20h (16-bit; IN0 reading in mode 1, see Table at p.25 for other modes; 27h is the temperature reading in modes 0, 2, 3); default not documented"
+   },
+   {
+    "name": "READING_1",
+    "address": 33,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "result": true,
+    "note": "Channel Readings Register 21h (16-bit; IN1 reading in mode 1, see Table at p.25 for other modes; 27h is the temperature reading in modes 0, 2, 3); default not documented"
+   },
+   {
+    "name": "READING_2",
+    "address": 34,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "result": true,
+    "note": "Channel Readings Register 22h (16-bit; IN2 reading in mode 1, see Table at p.25 for other modes; 27h is the temperature reading in modes 0, 2, 3); default not documented"
+   },
+   {
+    "name": "READING_3",
+    "address": 35,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "result": true,
+    "note": "Channel Readings Register 23h (16-bit; IN3 reading in mode 1, see Table at p.25 for other modes; 27h is the temperature reading in modes 0, 2, 3); default not documented"
+   },
+   {
+    "name": "READING_4",
+    "address": 36,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "result": true,
+    "note": "Channel Readings Register 24h (16-bit; IN4 reading in mode 1, see Table at p.25 for other modes; 27h is the temperature reading in modes 0, 2, 3); default not documented"
+   },
+   {
+    "name": "READING_5",
+    "address": 37,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "result": true,
+    "note": "Channel Readings Register 25h (16-bit; IN5 reading in mode 1, see Table at p.25 for other modes; 27h is the temperature reading in modes 0, 2, 3); default not documented"
+   },
+   {
+    "name": "READING_6",
+    "address": 38,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "result": true,
+    "note": "Channel Readings Register 26h (16-bit; IN6 reading in mode 1, see Table at p.25 for other modes; 27h is the temperature reading in modes 0, 2, 3); default not documented"
+   },
+   {
+    "name": "READING_7",
+    "address": 39,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "result": true,
+    "note": "Channel Readings Register 27h (16-bit; IN7 reading in mode 1, see Table at p.25 for other modes; 27h is the temperature reading in modes 0, 2, 3); default not documented"
+   },
+   {
+    "name": "LIMIT_IN0_HIGH",
+    "address": 42,
+    "width": 8,
+    "reset": 0,
+    "note": "Limit Register 2Ah (mode 1 name; 38h/39h are the temperature high / hysteresis limits in modes 0, 2, 3); default not documented"
+   },
+   {
+    "name": "LIMIT_IN0_LOW",
+    "address": 43,
+    "width": 8,
+    "reset": 0,
+    "note": "Limit Register 2Bh (mode 1 name; 38h/39h are the temperature high / hysteresis limits in modes 0, 2, 3); default not documented"
+   },
+   {
+    "name": "LIMIT_IN1_HIGH",
+    "address": 44,
+    "width": 8,
+    "reset": 0,
+    "note": "Limit Register 2Ch (mode 1 name; 38h/39h are the temperature high / hysteresis limits in modes 0, 2, 3); default not documented"
+   },
+   {
+    "name": "LIMIT_IN1_LOW",
+    "address": 45,
+    "width": 8,
+    "reset": 0,
+    "note": "Limit Register 2Dh (mode 1 name; 38h/39h are the temperature high / hysteresis limits in modes 0, 2, 3); default not documented"
+   },
+   {
+    "name": "LIMIT_IN2_HIGH",
+    "address": 46,
+    "width": 8,
+    "reset": 0,
+    "note": "Limit Register 2Eh (mode 1 name; 38h/39h are the temperature high / hysteresis limits in modes 0, 2, 3); default not documented"
+   },
+   {
+    "name": "LIMIT_IN2_LOW",
+    "address": 47,
+    "width": 8,
+    "reset": 0,
+    "note": "Limit Register 2Fh (mode 1 name; 38h/39h are the temperature high / hysteresis limits in modes 0, 2, 3); default not documented"
+   },
+   {
+    "name": "LIMIT_IN3_HIGH",
+    "address": 48,
+    "width": 8,
+    "reset": 0,
+    "note": "Limit Register 30h (mode 1 name; 38h/39h are the temperature high / hysteresis limits in modes 0, 2, 3); default not documented"
+   },
+   {
+    "name": "LIMIT_IN3_LOW",
+    "address": 49,
+    "width": 8,
+    "reset": 0,
+    "note": "Limit Register 31h (mode 1 name; 38h/39h are the temperature high / hysteresis limits in modes 0, 2, 3); default not documented"
+   },
+   {
+    "name": "LIMIT_IN4_HIGH",
+    "address": 50,
+    "width": 8,
+    "reset": 0,
+    "note": "Limit Register 32h (mode 1 name; 38h/39h are the temperature high / hysteresis limits in modes 0, 2, 3); default not documented"
+   },
+   {
+    "name": "LIMIT_IN4_LOW",
+    "address": 51,
+    "width": 8,
+    "reset": 0,
+    "note": "Limit Register 33h (mode 1 name; 38h/39h are the temperature high / hysteresis limits in modes 0, 2, 3); default not documented"
+   },
+   {
+    "name": "LIMIT_IN5_HIGH",
+    "address": 52,
+    "width": 8,
+    "reset": 0,
+    "note": "Limit Register 34h (mode 1 name; 38h/39h are the temperature high / hysteresis limits in modes 0, 2, 3); default not documented"
+   },
+   {
+    "name": "LIMIT_IN5_LOW",
+    "address": 53,
+    "width": 8,
+    "reset": 0,
+    "note": "Limit Register 35h (mode 1 name; 38h/39h are the temperature high / hysteresis limits in modes 0, 2, 3); default not documented"
+   },
+   {
+    "name": "LIMIT_IN6_HIGH",
+    "address": 54,
+    "width": 8,
+    "reset": 0,
+    "note": "Limit Register 36h (mode 1 name; 38h/39h are the temperature high / hysteresis limits in modes 0, 2, 3); default not documented"
+   },
+   {
+    "name": "LIMIT_IN6_LOW",
+    "address": 55,
+    "width": 8,
+    "reset": 0,
+    "note": "Limit Register 37h (mode 1 name; 38h/39h are the temperature high / hysteresis limits in modes 0, 2, 3); default not documented"
+   },
+   {
+    "name": "LIMIT_IN7_HIGH",
+    "address": 56,
+    "width": 8,
+    "reset": 0,
+    "note": "Limit Register 38h (mode 1 name; 38h/39h are the temperature high / hysteresis limits in modes 0, 2, 3); default not documented"
+   },
+   {
+    "name": "LIMIT_IN7_LOW",
+    "address": 57,
+    "width": 8,
+    "reset": 0,
+    "note": "Limit Register 39h (mode 1 name; 38h/39h are the temperature high / hysteresis limits in modes 0, 2, 3); default not documented"
+   },
+   {
+    "name": "MFR_ID",
+    "address": 62,
+    "width": 8,
+    "reset": 1,
+    "readOnly": true
+   },
+   {
+    "name": "REV_ID",
+    "address": 63,
+    "width": 8,
+    "reset": 9,
+    "readOnly": true
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Register Address",
+     "in": "aaaaaaaa",
+     "action": "pointer",
+     "address": "a",
+     "note": "p.16: a write is the address byte, the register address byte, then the data byte; a read returns the register at the internal address (Figures 26-31); 16-bit reading registers read as two bytes, MSB first"
+    }
+   ],
+   "read": "pointer"
+  },
+  "conversion": {
+   "time": {
+    "field": "CONV_RATE.RATE",
+    "values": {
+     "0": 728000000,
+     "1": 89000000
+    }
+   },
+   "start": [
+    "write:CONFIG.START=1",
+    "write:ONE_SHOT.ONE_SHOT=1",
+    "power-on"
+   ],
+   "mode": {
+    "field": "CONFIG.START",
+    "continuous": 1
+   },
+   "busy": {
+    "BUSY_STATUS.BUSY": 1
+   },
+   "done": {
+    "BUSY_STATUS.BUSY": 0,
+    "BUSY_STATUS.NOT_READY": 0
+   }
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw16",
+   "footprint": "TSSOP-16",
+   "package": "TSSOP",
+   "pins": 16
+  }
+ },
+ "pdf": "adc128d818.pdf",
+ "pages": "p.4-5 (pins), p.6 (ROC: V+ 3.0-5.5 V; SCL, SDA, A0, A1, INT -0.05 to 5.5 V), p.9 (I2C timing), p.16 (Table 1 modes, interface), p.17 (Table 2 addresses 1Dh-37h), p.17-18 (Figures 26-31), p.19 (Table 3 register summary and defaults), p.20-27 (Tables 4-15), p.29 (straight binary DOUT = VIN/VREF x 4096), p.30 (interrupt structure, clearing), p.33-34 (quick start, POR, conversion rate, one-shot, deep shutdown, readings)",
+ "notModeled": [
+  "analog inputs, internal/external reference, single-ended/pseudo-differential modes (ADV_CONFIG is stored only); the temperature sensor: the temperature reading (27h in modes 0, 2, 3) reads 0 (0 C) like every other reading",
+  "tri-level address pins: the MID level (A0 or A1 at mid-supply: addresses 1Eh, 2Dh, 2Eh, 2Fh, 36h) cannot be expressed; the table gives the four LOW/HIGH combinations",
+  "round-robin monitoring is modeled as one conversion per cycle of all channels: 89 ms in continuous mode (7 x 12.2 ms + 3.6 ms, mode 0 with every channel enabled) and ~728 ms in low power mode; CH_DISABLE and the mode do not change the time",
+  "INT_Clear = 1 (its power-on value) also stops the monitoring loop: the model runs continuously while START = 1 regardless of INT_Clear",
+  "the one-shot trigger needs bit 0 = 1 in the written value (the datasheet: any write to 09h starts a cycle)",
+  "Not Ready (BUSY_STATUS bit 1, set at power-on) is cleared by a conversion cycle that the model starts at power-on (one low-power cycle, ~728 ms; the datasheet: at least 33 ms)",
+  "limit comparison, interrupt status flags, INT pin (open-drain, active low), INT_Enable / INT_Clear / mask logic and temperature hysteresis: INT is never driven",
+  "Initialization bit (CONFIG bit 7, restores defaults and self-clears) and the reading/status reset on CH_DISABLE or ADV_CONFIG writes; deep shutdown",
+  "power-on values of the Channel Readings and Limit Registers are indeterminate (0 used); the alignment of the 12-bit reading in the 16-bit register is not given (the 0 V code is 0 either way)",
+  "readings not updated while a bus transaction is in progress; I2C time-out (25-35 ms), fast mode timing limits"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADC128D818CIMT/NOPB",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "ADC128D818CIMTX/NOPB",
+   "PW",
+   16,
+   "Active"
+  ]
+ ]
+}

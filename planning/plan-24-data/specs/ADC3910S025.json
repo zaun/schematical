@@ -1,0 +1,5158 @@
+{
+ "device": {
+  "id": "ADC3910S025",
+  "function": "ADC",
+  "description": "Single 10-bit 25 MSPS low-latency low-power ADC with parallel DDR/SDR or serial CMOS outputs and SPI configuration",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "adc3910d125.pdf (SBASAD1A) p.3-4 pin configuration and functions, p.5 recommended operating conditions, p.8 digital inputs/outputs, p.12-13 timing (CMOS interface, SPI tOZD/tOD/tODZ), p.14-15 output timing diagrams (Figures 5-1/5-2: 10-bit data on D11..D2), p.48 digital interface (two's complement default), p.50-51 programming (Table 6-4 defaults, SPI write/read Figures 6-33/6-34), p.52-113 register map",
+  "pinouts": {
+   "rsm32": [
+    {
+     "number": 1,
+     "name": "D3",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "D2",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "D1",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "D0",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 6,
+     "name": "OEN/PD",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "VCM",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "INAP",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "INAM",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "INBP/NC",
+     "role": "nc"
+    },
+    {
+     "number": 15,
+     "name": "INBM/NC",
+     "role": "nc"
+    },
+    {
+     "number": 16,
+     "name": "SEN",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 18,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "SDIO",
+     "role": "inout"
+    },
+    {
+     "number": 20,
+     "name": "ALERT",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "D11",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "D10",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "D9",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "D8",
+     "role": "output"
+    },
+    {
+     "number": 25,
+     "name": "D7",
+     "role": "output"
+    },
+    {
+     "number": 26,
+     "name": "D6",
+     "role": "output"
+    },
+    {
+     "number": 27,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 28,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 29,
+     "name": "DCLK/FCLK",
+     "role": "output"
+    },
+    {
+     "number": 30,
+     "name": "DCLK",
+     "role": "output"
+    },
+    {
+     "number": 31,
+     "name": "D5",
+     "role": "output"
+    },
+    {
+     "number": 32,
+     "name": "D4",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 10,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   1.7,
+   3.4
+  ],
+  "analog": [
+   "AVDD",
+   "VREF",
+   "VCM",
+   "INAP",
+   "INAM"
+  ],
+  "bus": {
+   "style": "clocked",
+   "clock": {
+    "pin": "CLK",
+    "edge": "fall"
+   },
+   "data": [
+    "D11",
+    "D10",
+    "D9",
+    "D8",
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2"
+   ],
+   "oe": {
+    "pin": "OEN/PD",
+    "active": 0
+   },
+   "clockOut": {
+    "pin": "DCLK",
+    "invert": true
+   }
+  },
+  "configBus": {
+   "style": "spi",
+   "cs": "SEN",
+   "sclk": "SCLK",
+   "mosi": "SDIO",
+   "miso": "SDIO",
+   "mode": 0
+  },
+  "timing": {
+   "tOut": 10.8,
+   "tFloat": 14
+  },
+  "registers": [
+   {
+    "name": "RESET",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 127,
+    "fields": [
+     {
+      "name": "RESET",
+      "bits": [
+       7,
+       7
+      ]
+     }
+    ],
+    "note": "p.54; RESET (bit 7, W) resets every register to its default and self-clears (the RESET command)"
+   },
+   {
+    "name": "CFG_ALERT",
+    "address": 56,
+    "width": 8,
+    "reset": 1,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "CFG_ALERT",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.54; CFG_ALERT reads 1 once the device is ready to be configured (2000 clock cycles after reset release); the table gives Reset = 0h (the value while not ready). The model is ready at once, so it starts at 1 so that a host polling it proceeds"
+   },
+   {
+    "name": "SPARE_REG",
+    "address": 57,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "SPARE_REG",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.54"
+   },
+   {
+    "name": "INTERLEAVE",
+    "address": 132,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 251,
+    "fields": [
+     {
+      "name": "INTERLEAVE",
+      "bits": [
+       2,
+       2
+      ]
+     }
+    ],
+    "note": "p.54"
+   },
+   {
+    "name": "REF_EQ",
+    "address": 133,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 191,
+    "fields": [
+     {
+      "name": "REF_EQ",
+      "bits": [
+       6,
+       6
+      ]
+     }
+    ],
+    "note": "p.55"
+   },
+   {
+    "name": "CLK_RESET",
+    "address": 135,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [],
+    "note": "p.55"
+   },
+   {
+    "name": "DEV_CFG_1",
+    "address": 136,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 15,
+    "fields": [
+     {
+      "name": "FCLK_EN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CNL_PDN",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "BUF_CHB",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "BUF_CHA",
+      "bits": [
+       4,
+       4
+      ]
+     }
+    ],
+    "note": "p.55"
+   },
+   {
+    "name": "DEV_CFG_2",
+    "address": 137,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 31,
+    "fields": [
+     {
+      "name": "DCLK_FL_DLY__0",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "DIG_DCLK",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "DIG_DATA",
+      "bits": [
+       5,
+       5
+      ]
+     }
+    ],
+    "note": "p.56"
+   },
+   {
+    "name": "CLK_CFG_1",
+    "address": 138,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 208,
+    "fields": [
+     {
+      "name": "DIG_CLK_SEL",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "CHB_CLK",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "DCLK_RISE_DLY",
+      "bits": [
+       2,
+       1
+      ]
+     },
+     {
+      "name": "DCLK_FL_DLY__1",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.56"
+   },
+   {
+    "name": "CLK_CFG_2",
+    "address": 139,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 201,
+    "fields": [
+     {
+      "name": "DCLKZ_RISE_DLY",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "DCLKZ_FALL_DLY",
+      "bits": [
+       2,
+       1
+      ]
+     }
+    ],
+    "note": "p.56"
+   },
+   {
+    "name": "PDN_CFG",
+    "address": 140,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 3,
+    "fields": [
+     {
+      "name": "CHA_PDN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CHB_PDN",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "MASK_REF",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "MASK_VCM",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "MASK_DLL",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "SDR_CHB_SEL",
+      "bits": [
+       2,
+       2
+      ]
+     }
+    ],
+    "note": "p.57"
+   },
+   {
+    "name": "DEV_CFG_3",
+    "address": 141,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 177,
+    "fields": [
+     {
+      "name": "FORMAT",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "DCLKZ_DLL",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "DCLK_DLL",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "ALERT_POL",
+      "bits": [
+       1,
+       1
+      ]
+     }
+    ],
+    "note": "p.57; FORMAT (bit 6) selects offset binary output in low latency mode (stored only)"
+   },
+   {
+    "name": "CLK_CFG_3",
+    "address": 142,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 61,
+    "fields": [
+     {
+      "name": "DCLK_SYNC",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "ADLL_BYP",
+      "bits": [
+       1,
+       1
+      ]
+     }
+    ],
+    "note": "p.58"
+   },
+   {
+    "name": "CLK_CFG_4",
+    "address": 143,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 239,
+    "fields": [
+     {
+      "name": "DCLK_DLL",
+      "bits": [
+       4,
+       4
+      ]
+     }
+    ],
+    "note": "p.58"
+   },
+   {
+    "name": "PIN_CFG_1",
+    "address": 144,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 113,
+    "fields": [
+     {
+      "name": "ALERT_OD",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CLK_PIN_STRENGTH",
+      "bits": [
+       3,
+       1
+      ]
+     }
+    ],
+    "note": "p.58"
+   },
+   {
+    "name": "TEST_PAT_CFG",
+    "address": 145,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 128,
+    "fields": [
+     {
+      "name": "DATA_PIN_STRENGTH",
+      "bits": [
+       3,
+       0
+      ]
+     },
+     {
+      "name": "TOGGLE_PAT",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "TEST_PAT_B",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "TEST_PAT_A",
+      "bits": [
+       4,
+       4
+      ]
+     }
+    ],
+    "note": "p.59; the datasheet lists two registers at this address (TEST_PAT_CFG, TEST_PATTERN_CFG): merged"
+   },
+   {
+    "name": "TEST_PATTERN_CHB_7_0",
+    "address": 146,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "TEST_PATTERN_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.59"
+   },
+   {
+    "name": "TEST_PATTERN_CHB_13_8",
+    "address": 147,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 192,
+    "fields": [
+     {
+      "name": "TEST_PATTERN_CHB__13_8",
+      "bits": [
+       5,
+       0
+      ]
+     }
+    ],
+    "note": "p.60"
+   },
+   {
+    "name": "TEST_PATTERN_CHA_7_0",
+    "address": 148,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "TEST_PATTERN_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.60"
+   },
+   {
+    "name": "TEST_PATTERN_CHA_13_8",
+    "address": 149,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 192,
+    "fields": [
+     {
+      "name": "TEST_PATTERN_CHA__13_8",
+      "bits": [
+       5,
+       0
+      ]
+     }
+    ],
+    "note": "p.60"
+   },
+   {
+    "name": "GLOBAL_PDN",
+    "address": 151,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 223,
+    "fields": [
+     {
+      "name": "PDN",
+      "bits": [
+       5,
+       5
+      ]
+     }
+    ],
+    "note": "p.60"
+   },
+   {
+    "name": "INTERFACE_CFG_1",
+    "address": 152,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 64,
+    "fields": [
+     {
+      "name": "OENZ_PDN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "HDDR_EN",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "SDR_EN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "ALERT_PIN_STRENGTH",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.60"
+   },
+   {
+    "name": "INTERFACE_CFG_2",
+    "address": 156,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 156,
+    "fields": [
+     {
+      "name": "OENZ_GPDN",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "OENZ_FPDN",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "ALERT_PIN_SEL",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "p.61"
+   },
+   {
+    "name": "HFSB_FPDN_CFG",
+    "address": 158,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 143,
+    "fields": [
+     {
+      "name": "HFSB_CONFIG",
+      "bits": [
+       6,
+       5
+      ]
+     },
+     {
+      "name": "PDN_FAST",
+      "bits": [
+       4,
+       4
+      ]
+     }
+    ],
+    "note": "p.61"
+   },
+   {
+    "name": "INTERFACE_CFG_3",
+    "address": 160,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 195,
+    "fields": [
+     {
+      "name": "CHB_SWAP",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "CHA_SWAP",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "OENZ_PIN_VAL",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "OENZ_PIN_OW",
+      "bits": [
+       2,
+       2
+      ]
+     }
+    ],
+    "note": "p.62"
+   },
+   {
+    "name": "DIG_PATTERN_EN",
+    "address": 161,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 192,
+    "fields": [
+     {
+      "name": "DIG_PATTERN_MODE_CHB",
+      "bits": [
+       5,
+       3
+      ]
+     },
+     {
+      "name": "DIG_PATTERN_MODE_CHA",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.62"
+   },
+   {
+    "name": "DIG_PATTERN_CHA_7_0",
+    "address": 162,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "DIG_PATTERN_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.62"
+   },
+   {
+    "name": "DIG_PATTERN_CHA_15_8",
+    "address": 163,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "DIG_PATTERN_CHA__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.63"
+   },
+   {
+    "name": "DIG_PATTERN_CHB_7_0",
+    "address": 164,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "DIG_PATTERN_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.63"
+   },
+   {
+    "name": "DIG_PATTERN_CHB_15_8",
+    "address": 165,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "DIG_PATTERN_CHB__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.63"
+   },
+   {
+    "name": "INTERFACE_CFG_4",
+    "address": 166,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 192,
+    "fields": [
+     {
+      "name": "DDR_MODE",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "SERIALIZATION",
+      "bits": [
+       4,
+       1
+      ]
+     },
+     {
+      "name": "DIG_PAT_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.63"
+   },
+   {
+    "name": "OUTPUT_DATA_WIDTH",
+    "address": 167,
+    "width": 8,
+    "reset": 80,
+    "readOnly": 224,
+    "fields": [
+     {
+      "name": "OUTPUT_DATA_WIDTH",
+      "bits": [
+       4,
+       0
+      ]
+     }
+    ],
+    "note": "p.64"
+   },
+   {
+    "name": "DCLK_DIVIDER",
+    "address": 168,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "DCLK_DIVIDER",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.64"
+   },
+   {
+    "name": "OUTPUT_BIT_MAPPER_D0_D1",
+    "address": 174,
+    "width": 8,
+    "reset": 214,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "OUTPUT_BIT_MAPPER_D1",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "OUTPUT_BIT_MAPPER_D0",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.64"
+   },
+   {
+    "name": "OUTPUT_BIT_MAPPER_D2_D3",
+    "address": 175,
+    "width": 8,
+    "reset": 235,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "OUTPUT_BIT_MAPPER_D3",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "OUTPUT_BIT_MAPPER_D2",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.65"
+   },
+   {
+    "name": "OUTPUT_BIT_MAPPER_D4_D5",
+    "address": 176,
+    "width": 8,
+    "reset": 132,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "OUTPUT_BIT_MAPPER_D5",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "OUTPUT_BIT_MAPPER_D4",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.65"
+   },
+   {
+    "name": "OUTPUT_BIT_MAPPER_D6_D7",
+    "address": 177,
+    "width": 8,
+    "reset": 134,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "OUTPUT_BIT_MAPPER_D7",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "OUTPUT_BIT_MAPPER_D6",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.66"
+   },
+   {
+    "name": "OUTPUT_BIT_MAPPER_D8_D9",
+    "address": 178,
+    "width": 8,
+    "reset": 146,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "OUTPUT_BIT_MAPPER_D9",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "OUTPUT_BIT_MAPPER_D8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.66"
+   },
+   {
+    "name": "OUTPUT_BIT_MAPPER_D10_D11",
+    "address": 179,
+    "width": 8,
+    "reset": 147,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "OUTPUT_BIT_MAPPER_D11",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "OUTPUT_BIT_MAPPER_D10",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.67"
+   },
+   {
+    "name": "ROUND",
+    "address": 182,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 239,
+    "fields": [
+     {
+      "name": "ROUND",
+      "bits": [
+       4,
+       4
+      ]
+     }
+    ],
+    "note": "p.68"
+   },
+   {
+    "name": "COMP_THRESHOLD_HI_CHA_7_0",
+    "address": 200,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "COMP_THRESHOLD_HI_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.68"
+   },
+   {
+    "name": "COMP_THRESHOLD_HI_CHA_11_8",
+    "address": 201,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "COMP_THRESHOLD_HI_CHA__11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.68"
+   },
+   {
+    "name": "COMP_THRESHOLD_HI_CHB_7_0",
+    "address": 202,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "COMP_THRESHOLD_HI_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.68"
+   },
+   {
+    "name": "COMP_THRESHOLD_HI_CHB_11_8",
+    "address": 203,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "COMP_THRESHOLD_HI_CHB__11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.69"
+   },
+   {
+    "name": "COMP_THRESHOLD_LO_CHA_7_0",
+    "address": 204,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "COMP_THRESHOLD_LO_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.69"
+   },
+   {
+    "name": "COMP_THRESHOLD_LO_CHA_11_8",
+    "address": 205,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "COMP_THRESHOLD_LO_CHA__11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.69"
+   },
+   {
+    "name": "COMP_THRESHOLD_LO_CHB_7_0",
+    "address": 206,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "COMP_THRESHOLD_LO_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.69"
+   },
+   {
+    "name": "COMP_THRESHOLD_LO_CHB_11_8",
+    "address": 207,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "COMP_THRESHOLD_LO_CHB__11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.69"
+   },
+   {
+    "name": "COMP_HYSTERESIS_CHA_7_0",
+    "address": 208,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "COMP_HYSTERESIS_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.69"
+   },
+   {
+    "name": "COMP_HYSTERESIS_CHA_11_8",
+    "address": 209,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "COMP_HYSTERESIS_CHA__11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.70"
+   },
+   {
+    "name": "COMP_HYSTERISIS_CHB_7_0",
+    "address": 210,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "COMP_HYSTERISIS_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.70"
+   },
+   {
+    "name": "COMP_HYSTERISIS_CHB_11_8",
+    "address": 211,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 192,
+    "fields": [
+     {
+      "name": "COMP_HYSTERISIS_CHB__11_8",
+      "bits": [
+       3,
+       0
+      ]
+     },
+     {
+      "name": "SLEW_CHB",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "SLEW_CHA",
+      "bits": [
+       4,
+       4
+      ]
+     }
+    ],
+    "note": "p.70; the datasheet lists two registers at this address (COMP_HYSTERISIS_CHB_11:8, COMP_SLEW): merged"
+   },
+   {
+    "name": "DECIMATION",
+    "address": 212,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 243,
+    "fields": [
+     {
+      "name": "DDC_CHB",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "DDC_CHA",
+      "bits": [
+       2,
+       2
+      ]
+     }
+    ],
+    "note": "p.70"
+   },
+   {
+    "name": "PROG_GAIN_CHA",
+    "address": 213,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PROG_GAIN_CHA",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.71"
+   },
+   {
+    "name": "PROG_GAIN_CHB",
+    "address": 214,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PROG_GAIN_CHB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.71"
+   },
+   {
+    "name": "IL_GAIN_CHA_7_0",
+    "address": 216,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "IL_GAIN_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.71"
+   },
+   {
+    "name": "IL_GAIN_CHA_15_8",
+    "address": 217,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "IL_GAIN_CHA__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.71"
+   },
+   {
+    "name": "IL_GAIN_CHB_7_0",
+    "address": 218,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "IL_GAIN_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.71"
+   },
+   {
+    "name": "IL_GAIN_CHB_15_8",
+    "address": 219,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "IL_GAIN_CHB__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.72"
+   },
+   {
+    "name": "OFFSET_CHA_7_0",
+    "address": 220,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "OFFSET_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.72"
+   },
+   {
+    "name": "OFFSET_CHA_15_8",
+    "address": 221,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "OFFSET_CHA__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.72"
+   },
+   {
+    "name": "OFFSET_CHB_7_0",
+    "address": 222,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "OFFSET_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.72"
+   },
+   {
+    "name": "OFFSET_CHB_15_8",
+    "address": 223,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "OFFSET_CHB__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.72"
+   },
+   {
+    "name": "CH_CORR_EN",
+    "address": 224,
+    "width": 8,
+    "reset": 3,
+    "readOnly": 252,
+    "fields": [
+     {
+      "name": "CORR_CHB__15_8",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "CORR_CHA__7_0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.72"
+   },
+   {
+    "name": "DDC_CFG_1",
+    "address": 512,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 192,
+    "fields": [
+     {
+      "name": "DDC_DATA_SEL_CHA",
+      "bits": [
+       5,
+       3
+      ]
+     },
+     {
+      "name": "DECIMATION",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.73"
+   },
+   {
+    "name": "STATS_COMP_DATA_SEL",
+    "address": 513,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 192,
+    "fields": [
+     {
+      "name": "STATS_DATA_SEL_CHA",
+      "bits": [
+       5,
+       3
+      ]
+     },
+     {
+      "name": "COMP_DATA_SEL_CHA",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.73"
+   },
+   {
+    "name": "OUTPUT_DATA_SEL",
+    "address": 514,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "OUTPUT_DATA_SEL_CHA",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.73"
+   },
+   {
+    "name": "COMP_DDC_DATA_SEL",
+    "address": 515,
+    "width": 8,
+    "reset": 33,
+    "readOnly": 192,
+    "fields": [
+     {
+      "name": "COMP_DATA_SEL_CHB",
+      "bits": [
+       5,
+       3
+      ]
+     },
+     {
+      "name": "DDC_DATA_SEL_CHB",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.74"
+   },
+   {
+    "name": "OUTPUT_STATS_DATA_SEL",
+    "address": 516,
+    "width": 8,
+    "reset": 33,
+    "readOnly": 192,
+    "fields": [
+     {
+      "name": "OUTPUT_DATA_SEL_CHB",
+      "bits": [
+       5,
+       3
+      ]
+     },
+     {
+      "name": "STATS_DATA_SEL_CHB",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.74"
+   },
+   {
+    "name": "OVR_CHB",
+    "address": 517,
+    "width": 8,
+    "reset": 240,
+    "readOnly": 135,
+    "fields": [
+     {
+      "name": "OVR_CHB",
+      "bits": [
+       6,
+       3
+      ]
+     }
+    ],
+    "note": "p.74"
+   },
+   {
+    "name": "OVR_CHA",
+    "address": 518,
+    "width": 8,
+    "reset": 15,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "OVR_CHA",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.74"
+   },
+   {
+    "name": "CLK_TIM_ADJ_CHA",
+    "address": 772,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 1,
+    "fields": [
+     {
+      "name": "CLK_TIM_ADJ_CHA",
+      "bits": [
+       7,
+       1
+      ]
+     }
+    ],
+    "note": "p.75"
+   },
+   {
+    "name": "CLK_TIM_ADJ_CHB",
+    "address": 773,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "DCLK_OUT",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CLK_TIM_ADJ_CHB",
+      "bits": [
+       6,
+       0
+      ]
+     }
+    ],
+    "note": "p.75"
+   },
+   {
+    "name": "DCLK_DLL_PD",
+    "address": 774,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "DCLKDLL_PD",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.75"
+   },
+   {
+    "name": "DIG_INPUT_CFG",
+    "address": 775,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 231,
+    "fields": [
+     {
+      "name": "DCLKZ_OUT",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "DIG_INPUT",
+      "bits": [
+       3,
+       3
+      ]
+     }
+    ],
+    "note": "p.75"
+   },
+   {
+    "name": "BUF_VCM_CURR",
+    "address": 777,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 192,
+    "fields": [
+     {
+      "name": "BUF_CURR_CHB__1_0",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "VCM_CURR",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.75"
+   },
+   {
+    "name": "BUF_CURR",
+    "address": 778,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 128,
+    "fields": [
+     {
+      "name": "FORMAT_DIG",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "BUF_CURR_CHA",
+      "bits": [
+       5,
+       2
+      ]
+     },
+     {
+      "name": "BUF_CURR_CHB__3_2",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "p.76; FORMAT_DIG (bit 6) selects offset binary output on the digital path (stored only)"
+   },
+   {
+    "name": "DEV_CFG_4",
+    "address": 779,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 138,
+    "fields": [
+     {
+      "name": "EXT_REF",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "SE_EN",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "SINGLE_CH",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "HALF_SPEED",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "BIT8_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.77"
+   },
+   {
+    "name": "GBL_CLK_CFG_1",
+    "address": 1156,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 253,
+    "fields": [
+     {
+      "name": "CLK_GBL",
+      "bits": [
+       1,
+       1
+      ]
+     }
+    ],
+    "note": "p.78"
+   },
+   {
+    "name": "GBL_CLK_CFG_2",
+    "address": 1214,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "CLK_STATS",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "CLK_COMP",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "CLK_DEC",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "CLK_CC",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "p.78"
+   },
+   {
+    "name": "GBL_CLK_CFG_3",
+    "address": 1215,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 252,
+    "fields": [
+     {
+      "name": "CLK_OUT",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "p.78"
+   },
+   {
+    "name": "R0E4",
+    "address": 228,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_HI_COUNT_N_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.82"
+   },
+   {
+    "name": "R0E5",
+    "address": 229,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_HI_COUNT_N_CHA__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.83"
+   },
+   {
+    "name": "R0E6",
+    "address": 230,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_HI_COUNT_N_CHA__16",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.83"
+   },
+   {
+    "name": "R0E8",
+    "address": 232,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_HI_COUNT_N_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.83"
+   },
+   {
+    "name": "R0E9",
+    "address": 233,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_HI_COUNT_N_CHB__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.83"
+   },
+   {
+    "name": "R0EA",
+    "address": 234,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_HI_COUNT_N_CHB__16",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.83"
+   },
+   {
+    "name": "R0EC",
+    "address": 236,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_LO_COUNT_N_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.83"
+   },
+   {
+    "name": "R0ED",
+    "address": 237,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_LO_COUNT_N_CHA__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.84"
+   },
+   {
+    "name": "R0EE",
+    "address": 238,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_LO_COUNT_N_CHA__16",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.84"
+   },
+   {
+    "name": "R0F0",
+    "address": 240,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_LO_COUNT_N_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.84"
+   },
+   {
+    "name": "R0F1",
+    "address": 241,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_LO_COUNT_N_CHB__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.84"
+   },
+   {
+    "name": "R0F2",
+    "address": 242,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_LO_COUNT_N_CHB__16",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.84"
+   },
+   {
+    "name": "R0F4",
+    "address": 244,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.84"
+   },
+   {
+    "name": "R0F5",
+    "address": 245,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N_CHA__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.85"
+   },
+   {
+    "name": "R0F6",
+    "address": 246,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N_CHA__23_16",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.85"
+   },
+   {
+    "name": "R0F7",
+    "address": 247,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N_CHA__27_24",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.85"
+   },
+   {
+    "name": "R0F8",
+    "address": 248,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.85"
+   },
+   {
+    "name": "R0F9",
+    "address": 249,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N_CHB__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.85"
+   },
+   {
+    "name": "R0FA",
+    "address": 250,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N_CHB__23_16",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.85"
+   },
+   {
+    "name": "R0FB",
+    "address": 251,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N_CHB__27_24",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.86"
+   },
+   {
+    "name": "R0FC",
+    "address": 252,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.86"
+   },
+   {
+    "name": "R0FD",
+    "address": 253,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N_CHA__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.86"
+   },
+   {
+    "name": "R0FE",
+    "address": 254,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N_CHA__23_16",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.86"
+   },
+   {
+    "name": "R0FF",
+    "address": 255,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N_CHA__31_24",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.86"
+   },
+   {
+    "name": "R100",
+    "address": 256,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N_CHA__39_32",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.86"
+   },
+   {
+    "name": "R104",
+    "address": 260,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.87"
+   },
+   {
+    "name": "R108",
+    "address": 264,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N_CHB__39_32",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.87"
+   },
+   {
+    "name": "R10A",
+    "address": 266,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MAX_N_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.87"
+   },
+   {
+    "name": "R10B",
+    "address": 267,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MAX_N_CHA__11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.87"
+   },
+   {
+    "name": "R10C",
+    "address": 268,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MAX_N_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.87"
+   },
+   {
+    "name": "R10D",
+    "address": 269,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MAX_N_CHB__11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.87"
+   },
+   {
+    "name": "R10E",
+    "address": 270,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MIN_N_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.88"
+   },
+   {
+    "name": "R10F",
+    "address": 271,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MIN_N_CHA__11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.88"
+   },
+   {
+    "name": "R110",
+    "address": 272,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MIN_N_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.88"
+   },
+   {
+    "name": "R111",
+    "address": 273,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_HI_COUNT_N1_CHA__7_0",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "STATS_MIN_N_CHB__11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.88"
+   },
+   {
+    "name": "R112",
+    "address": 274,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_HI_COUNT_N1_CHA__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.88"
+   },
+   {
+    "name": "R113",
+    "address": 275,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_HI_COUNT_N1_CHA__16",
+      "bits": [
+       4,
+       0
+      ]
+     }
+    ],
+    "note": "p.88"
+   },
+   {
+    "name": "R114",
+    "address": 276,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_HI_COUNT_N1_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.89"
+   },
+   {
+    "name": "R115",
+    "address": 277,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_HI_COUNT_N1_CHB__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.89"
+   },
+   {
+    "name": "R116",
+    "address": 278,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_HI_COUNT_N1_CHB__16",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.89"
+   },
+   {
+    "name": "R118",
+    "address": 280,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_LO_COUNT_N1_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.89"
+   },
+   {
+    "name": "R119",
+    "address": 281,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_LO_COUNT_N1_CHA__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.89"
+   },
+   {
+    "name": "R11A",
+    "address": 282,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_LO_COUNT_N1_CHA__16",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.89"
+   },
+   {
+    "name": "R11C",
+    "address": 284,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_LO_COUNT_N1_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.90"
+   },
+   {
+    "name": "R11D",
+    "address": 285,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_LO_COUNT_N1_CHB__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.90"
+   },
+   {
+    "name": "R11E",
+    "address": 286,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_LO_COUNT_N1_CHB__16",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.90"
+   },
+   {
+    "name": "R120",
+    "address": 288,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N1_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.90"
+   },
+   {
+    "name": "R121",
+    "address": 289,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N1_CHA__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.90"
+   },
+   {
+    "name": "R122",
+    "address": 290,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N1_CHA__23_16",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.90"
+   },
+   {
+    "name": "R123",
+    "address": 291,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N1_CHA__27_24",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.91"
+   },
+   {
+    "name": "R124",
+    "address": 292,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N1_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.91"
+   },
+   {
+    "name": "R125",
+    "address": 293,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N1_CHB__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.91"
+   },
+   {
+    "name": "R126",
+    "address": 294,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N1_CHB__23_16",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.91"
+   },
+   {
+    "name": "R127",
+    "address": 295,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N1_CHB__27_24",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.91"
+   },
+   {
+    "name": "R128",
+    "address": 296,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N1_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.91"
+   },
+   {
+    "name": "R129",
+    "address": 297,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N1_CHA__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.92"
+   },
+   {
+    "name": "R12A",
+    "address": 298,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N1_CHA__23_16",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.92"
+   },
+   {
+    "name": "R12B",
+    "address": 299,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N1_CHA__31_24",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.92"
+   },
+   {
+    "name": "R12C",
+    "address": 300,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N1_CHA__39_32",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.92"
+   },
+   {
+    "name": "R130",
+    "address": 304,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N1_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.92"
+   },
+   {
+    "name": "R131",
+    "address": 305,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N1_CHB__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.92"
+   },
+   {
+    "name": "R132",
+    "address": 306,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N1_CHB__23_16",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.93"
+   },
+   {
+    "name": "R133",
+    "address": 307,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N1_CHB__31_24",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.93"
+   },
+   {
+    "name": "R134",
+    "address": 308,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N1_CHB__39_32",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.93"
+   },
+   {
+    "name": "R136",
+    "address": 310,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MAX_N1_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.93"
+   },
+   {
+    "name": "R137",
+    "address": 311,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MAX_N1_CHA__11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.93"
+   },
+   {
+    "name": "R138",
+    "address": 312,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MAX_N1_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.93"
+   },
+   {
+    "name": "R139",
+    "address": 313,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MAX_N1_CHB__11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.94"
+   },
+   {
+    "name": "R13A",
+    "address": 314,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MIN_N1_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.94"
+   },
+   {
+    "name": "R13B",
+    "address": 315,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MIN_N1_CHA__11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.94"
+   },
+   {
+    "name": "R13C",
+    "address": 316,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MIN_N1_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.94"
+   },
+   {
+    "name": "R13D",
+    "address": 317,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_HI_COUNT_N2_CHB__3_0",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "STATS_MIN_N1_CHB__11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.94"
+   },
+   {
+    "name": "R13E",
+    "address": 318,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_HI_COUNT_N2_CHB__11_4",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.95"
+   },
+   {
+    "name": "R13F",
+    "address": 319,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_HI_COUNT_N2_CHB__16_12",
+      "bits": [
+       4,
+       0
+      ]
+     }
+    ],
+    "note": "p.95"
+   },
+   {
+    "name": "R140",
+    "address": 320,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_HI_COUNT_N2_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.95"
+   },
+   {
+    "name": "R141",
+    "address": 321,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_HI_COUNT_N2_CHA__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.95"
+   },
+   {
+    "name": "R142",
+    "address": 322,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_HI_COUNT_N2_CHA__16",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.95"
+   },
+   {
+    "name": "R144",
+    "address": 324,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_LO_COUNT_N2_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.95"
+   },
+   {
+    "name": "R145",
+    "address": 325,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_LO_COUNT_N2_CHA__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.96"
+   },
+   {
+    "name": "R146",
+    "address": 326,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_LO_COUNT_N2_CHA__16",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.96"
+   },
+   {
+    "name": "R148",
+    "address": 328,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_LO_COUNT_N2_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.96"
+   },
+   {
+    "name": "R149",
+    "address": 329,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_LO_COUNT_N2_CHB__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.96"
+   },
+   {
+    "name": "R14A",
+    "address": 330,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_LO_COUNT_N2_CHB__16",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.96"
+   },
+   {
+    "name": "R14C",
+    "address": 332,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N2_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.96"
+   },
+   {
+    "name": "R14D",
+    "address": 333,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N2_CHA__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.97"
+   },
+   {
+    "name": "R14E",
+    "address": 334,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N2_CHA__23_16",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.97"
+   },
+   {
+    "name": "R14F",
+    "address": 335,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N2_CHA__27_24",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.97"
+   },
+   {
+    "name": "R150",
+    "address": 336,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N2_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.97"
+   },
+   {
+    "name": "R151",
+    "address": 337,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N2_CHB__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.97"
+   },
+   {
+    "name": "R152",
+    "address": 338,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N2_CHB__23_16",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.97"
+   },
+   {
+    "name": "R153",
+    "address": 339,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N2_CHB__27_24",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.98"
+   },
+   {
+    "name": "R154",
+    "address": 340,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N2_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.98"
+   },
+   {
+    "name": "R155",
+    "address": 341,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N2_CHA__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.98"
+   },
+   {
+    "name": "R156",
+    "address": 342,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N2_CHA__23_16",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.98"
+   },
+   {
+    "name": "R157",
+    "address": 343,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N2_CHA__31_24",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.98"
+   },
+   {
+    "name": "R158",
+    "address": 344,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N2_CHA__39_32",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.98"
+   },
+   {
+    "name": "R15C",
+    "address": 348,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N2_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.99"
+   },
+   {
+    "name": "R15D",
+    "address": 349,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N2_CHB__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.99"
+   },
+   {
+    "name": "R15E",
+    "address": 350,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N2_CHB__23_16",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.99"
+   },
+   {
+    "name": "R15F",
+    "address": 351,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N2_CHB__31_24",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.99"
+   },
+   {
+    "name": "R160",
+    "address": 352,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N2_CHB__39_32",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.99"
+   },
+   {
+    "name": "R162",
+    "address": 354,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MAX_N2_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.99"
+   },
+   {
+    "name": "R163",
+    "address": 355,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MAX_N2_CHA__11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.100"
+   },
+   {
+    "name": "R164",
+    "address": 356,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MAX_N2_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.100"
+   },
+   {
+    "name": "R165",
+    "address": 357,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MAX_N2_CHB__11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.100"
+   },
+   {
+    "name": "R166",
+    "address": 358,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MIN_N2_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.100"
+   },
+   {
+    "name": "R167",
+    "address": 359,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MIN_N2_CHA__11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.100"
+   },
+   {
+    "name": "R168",
+    "address": 360,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MIN_N2_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.100"
+   },
+   {
+    "name": "R169",
+    "address": 361,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_HI_COUNT_N3_CHB__3_0",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "STATS_MIN_N2_CHB__11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.101"
+   },
+   {
+    "name": "R16A",
+    "address": 362,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_HI_COUNT_N3_CHB__11_4",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.101"
+   },
+   {
+    "name": "R16B",
+    "address": 363,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_HI_COUNT_N3_CHB__16_12",
+      "bits": [
+       4,
+       0
+      ]
+     }
+    ],
+    "note": "p.101"
+   },
+   {
+    "name": "R16C",
+    "address": 364,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_HI_COUNT_N3_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.101"
+   },
+   {
+    "name": "R16D",
+    "address": 365,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_HI_COUNT_N3_CHA__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.101"
+   },
+   {
+    "name": "R16E",
+    "address": 366,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_HI_COUNT_N3_CHA__16",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.101"
+   },
+   {
+    "name": "R170",
+    "address": 368,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_LO_COUNT_N3_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.102"
+   },
+   {
+    "name": "R171",
+    "address": 369,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_LO_COUNT_N3_CHA__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.102"
+   },
+   {
+    "name": "R172",
+    "address": 370,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_LO_COUNT_N3_CHA__16",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.102"
+   },
+   {
+    "name": "R174",
+    "address": 372,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_LO_COUNT_N3_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.102"
+   },
+   {
+    "name": "R175",
+    "address": 373,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_LO_COUNT_N3_CHB__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.102"
+   },
+   {
+    "name": "R176",
+    "address": 374,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_LO_COUNT_N3_CHB__16",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.102"
+   },
+   {
+    "name": "R178",
+    "address": 376,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N3_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.103"
+   },
+   {
+    "name": "R179",
+    "address": 377,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N3_CHA__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.103"
+   },
+   {
+    "name": "R17A",
+    "address": 378,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N3_CHA__23_16",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.103"
+   },
+   {
+    "name": "R17B",
+    "address": 379,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N3_CHA__27_24",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.103"
+   },
+   {
+    "name": "R17C",
+    "address": 380,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N3_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.103"
+   },
+   {
+    "name": "R17D",
+    "address": 381,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N3_CHB__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.103"
+   },
+   {
+    "name": "R17E",
+    "address": 382,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N3_CHB__23_16",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.104"
+   },
+   {
+    "name": "R17F",
+    "address": 383,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_N3_CHB__27_24",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.104"
+   },
+   {
+    "name": "R180",
+    "address": 384,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N3_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.104"
+   },
+   {
+    "name": "R181",
+    "address": 385,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N3_CHA__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.104"
+   },
+   {
+    "name": "R182",
+    "address": 386,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N3_CHA__23_16",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.104"
+   },
+   {
+    "name": "R183",
+    "address": 387,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N3_CHA__31_24",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.104"
+   },
+   {
+    "name": "R184",
+    "address": 388,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N3_CHA__39_32",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.105"
+   },
+   {
+    "name": "R188",
+    "address": 392,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N3_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.105"
+   },
+   {
+    "name": "R189",
+    "address": 393,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N3_CHB__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.105"
+   },
+   {
+    "name": "R18A",
+    "address": 394,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N3_CHB__23_16",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.105"
+   },
+   {
+    "name": "R18B",
+    "address": 395,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N3_CHB__31_24",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.105"
+   },
+   {
+    "name": "R18C",
+    "address": 396,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_SUM_POW_N3_CHB__39_32",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.105"
+   },
+   {
+    "name": "R18E",
+    "address": 398,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MAX_N3_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.106"
+   },
+   {
+    "name": "R18F",
+    "address": 399,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MAX_N3_CHA__11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.106"
+   },
+   {
+    "name": "R190",
+    "address": 400,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MAX_N3_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.106"
+   },
+   {
+    "name": "R191",
+    "address": 401,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MAX_N3_CHB__11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.106"
+   },
+   {
+    "name": "R192",
+    "address": 402,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MIN_N3_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.106"
+   },
+   {
+    "name": "R193",
+    "address": 403,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MIN_N3_CHA__11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.106"
+   },
+   {
+    "name": "R194",
+    "address": 404,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MIN_N3_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.107"
+   },
+   {
+    "name": "R195",
+    "address": 405,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 255,
+    "fields": [
+     {
+      "name": "STATS_MIN_N3_CHB__11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.107"
+   },
+   {
+    "name": "R198",
+    "address": 408,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "STATS_THRESHOLD_HI_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.107"
+   },
+   {
+    "name": "R199",
+    "address": 409,
+    "width": 8,
+    "reset": 15,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "STATS_THRESHOLD_HI_CHA__11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.107"
+   },
+   {
+    "name": "R19A",
+    "address": 410,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "STATS_THRESHOLD_HI_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.107"
+   },
+   {
+    "name": "R19B",
+    "address": 411,
+    "width": 8,
+    "reset": 15,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "STATS_THRESHOLD_HI_CHB__11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.107"
+   },
+   {
+    "name": "R19C",
+    "address": 412,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "STATS_THRESHOLD_LO_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.108"
+   },
+   {
+    "name": "R19D",
+    "address": 413,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "STATS_THRESHOLD_LO_CHA__11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.108"
+   },
+   {
+    "name": "R19E",
+    "address": 414,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "STATS_THRESHOLD_LO_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.108"
+   },
+   {
+    "name": "R19F",
+    "address": 415,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "STATS_THRESHOLD_LO_CHB__11_8",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.108"
+   },
+   {
+    "name": "R1A0",
+    "address": 416,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "STATS_WINDOW_SIZE_CHA__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.108"
+   },
+   {
+    "name": "R1A1",
+    "address": 417,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "STATS_WINDOW_SIZE_CHA__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.108"
+   },
+   {
+    "name": "R1A2",
+    "address": 418,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "STATS_WINDOW_SIZE_CHB__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.109"
+   },
+   {
+    "name": "R1A3",
+    "address": 419,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "STATS_WINDOW_SIZE_CHB__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.109"
+   },
+   {
+    "name": "R1A4",
+    "address": 420,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 204,
+    "fields": [
+     {
+      "name": "STATS_CHB",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "STATS_CHA",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "BIT1SHOT_CHB",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "BIT1SHOT_CHA",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.109"
+   },
+   {
+    "name": "R1AF",
+    "address": 431,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "ALERT_PULSE_WIDTH",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.110"
+   },
+   {
+    "name": "R1B4",
+    "address": 436,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "ALERT_INVERT__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.110"
+   },
+   {
+    "name": "R1B5",
+    "address": 437,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "ALERT_INVERT__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.111"
+   },
+   {
+    "name": "R1B6",
+    "address": 438,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "ALERT_INVERT__18_16",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.111"
+   },
+   {
+    "name": "R1C0",
+    "address": 448,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "ALERT_TRIG__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.111"
+   },
+   {
+    "name": "R1C1",
+    "address": 449,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "ALERT_TRIG__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.111"
+   },
+   {
+    "name": "R1C2",
+    "address": 450,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "ALERT_TRIG__18_16",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.111"
+   },
+   {
+    "name": "R1CC",
+    "address": 460,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "ALERT_STICKY__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.111"
+   },
+   {
+    "name": "R1CD",
+    "address": 461,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "ALERT_STICKY__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.112"
+   },
+   {
+    "name": "R1CE",
+    "address": 462,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "ALERT_STICKY__18_16",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.112"
+   },
+   {
+    "name": "R1D8",
+    "address": 472,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "ALERT_STICKY_CLR__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.112"
+   },
+   {
+    "name": "R1D9",
+    "address": 473,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "ALERT_STICKY_CLR__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.112"
+   },
+   {
+    "name": "R1DA",
+    "address": 474,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "ALERT_STICKY_CLR__18_16",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.112"
+   },
+   {
+    "name": "R1E4",
+    "address": 484,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "ALERT_CNT__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.113"
+   },
+   {
+    "name": "R1E5",
+    "address": 485,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "ALERT_CNT__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.113"
+   },
+   {
+    "name": "R1EA",
+    "address": 490,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 62,
+    "fields": [
+     {
+      "name": "CNT_MODE_B",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CNT_MODE_A",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "CNT_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.113"
+   },
+   {
+    "name": "R1EC",
+    "address": 492,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "ALERT_THRESHOLD__7_0",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.113"
+   },
+   {
+    "name": "R1ED",
+    "address": 493,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "ALERT_THRESHOLD__15_8",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.113"
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "RESET",
+     "in": "0 000000000000000 1xxxxxxx",
+     "action": "reset",
+     "note": "write to register 0x00 with RESET (bit 7) = 1, p.54"
+    },
+    {
+     "name": "WRITE",
+     "in": "0 aaaaaaaaaaaaaaa dddddddd",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "note": "R/W = 0, A[14:0], D[7:0] latched on SCLK rising edges (Figure 6-33, p.50)"
+    },
+    {
+     "name": "READ",
+     "in": "1 aaaaaaaaaaaaaaa",
+     "action": "rreg",
+     "address": "a",
+     "reply": "@",
+     "note": "R/W = 1, A[14:0]; the register's D7..D0 follow on SDIO, driven on SCLK falling edges (Figure 6-34, p.51)"
+    }
+   ],
+   "read": "R{10}"
+  },
+  "pins": {
+   "reset": {
+    "pin": "RESET",
+    "active": 1
+   }
+  }
+ },
+ "packages": {
+  "RSM": {
+   "pinout": "rsm32",
+   "footprint": "VQFN-32-RSM",
+   "package": "VQFN",
+   "pins": 32
+  }
+ },
+ "pdf": "adc3910d125.pdf",
+ "pages": "p.3-4 (pins), p.5 (ROC: AVDD 1.7-1.9 V, IOVDD 1.7-1.9 or 3.2-3.4 V), p.8 (digital inputs referred to AVDD), p.12-13 (timing; SPI tOD 10.8 ns, tODZ 14 ns max; latency 1 clock), p.14-15 (Figures 5-1/5-2: DDR/SDR 10-bit on D11..D2), p.48 (two's complement default), p.49 (power down), p.50-51 (Table 6-4, 24-bit SPI words: R/W, A[14:0], D[7:0]), p.52-113 (register map; per-register page in each register note)",
+ "notModeled": [
+  "analog inputs, internal/external reference, VCM output (the result is always the 0 V code 0x000, two's complement)",
+  "pipeline latency (1 clock cycle in low latency mode, 5 with the digital features) is not modeled (the code is constant); data change tPD (TS/4 + 3 ns) after the sampling clock falling edge",
+  "DCLK is modeled as the inverted sampling clock (it rises tPD after the CLK falling edge); DCLK/FCLK (the inverse data clock by default, or the frame clock with FCLK_EN) is not driven",
+  "only the default output interface is modeled: single-channel devices use SDR in low latency mode (p.13 note 1), the 10-bit word per sampling-clock falling edge on D11..D2 (Table 6-4: DDR, 10 lanes).  HDDR, SDR/DDR selection, serial CMOS (SERIALIZATION), DCLK divider, output data width (12/16-bit), output bit mapper (0xAE-0xB3), D1/D0 lanes, pin strengths and DCLK delays are stored only",
+  "DDC/decimation, digital comparators and hysteresis, statistics engine (0xE4-0x1A4 read 0), alerts (0x1AF-0x1ED), channel corrections (gain/offset), interleaving, test patterns (0x91-0x95, 0xA1-0xA6) and offset-binary output (FORMAT, FORMAT_DIG) do not change the output code",
+  "the ALERT pin (digital window comparator / over-range alert) is not driven",
+  "power-down: global/fast/channel power-down bits are stored only; the OEN/PD pin is modeled as the active-low output enable (its default); used as a power-down pin (OENZ_PDN, active high) it is not modeled",
+  "R/W = 1 disables further register writes until the next write cycle (read-back mode); words beyond a multiple of 24 bits are ignored",
+  "SPI is 3-wire: SDIO carries both directions (configBus mosi and miso are the same pin)",
+  "CFG_ALERT (0x38) reads 1 at once (the datasheet: ready 2000 clock cycles after reset release, reset value 0h)",
+  "the datasheet lists two registers at 0x91 (TEST_PAT_CFG, TEST_PATTERN_CFG) and at 0xD3 (COMP_HYSTERISIS_CHB_11:8, COMP_SLEW): each pair is merged into one register",
+  "register names containing \":\" (e.g. TEST_PATTERN_CHB_7:0) are written with \"_\"; statistics/alert registers with hex names (0x0E4) are named R0E4; field names are the table's, wrapped lines joined",
+  "digital inputs RESET, OEN/PD, SCLK, SEN, SDIO are referred to AVDD (VIH 1.4 V, absolute maximum 2.1 V) and SDIO output to AVDD; vcc is the IOVDD range of the CMOS data outputs (1.7-1.9 V or 3.2-3.4 V): with IOVDD = 3.3 V the control inputs must still stay at or below 1.9 V, which the vcc range cannot say",
+  "the pin table lists NC as pin 17 (VREF's number); the pinout drawing shows NC on pin 5, used here",
+  "timing: tOut is the SPI SDIO output delay tOD 10.8 ns max and tFloat tODZ 14 ns max (the clocked data bus uses the same tOut)",
+  "sampling rate limits (25 MSPS max), SPI SCLK 20 MHz max, wake-up time",
+  "single-channel device: pins 14/15 (INBP/NC, INBM/NC) are no-connects; channel B registers exist in the map but have no effect"
+ ],
+ "variants": "ADC3910D025/D065/D125 (dual) and ADC3910S025/S065/S125 (single) share adc3910d125.pdf and one register map; they differ in maximum sampling rate (25/65/125 MSPS) and channel count. ADC3908 (8-bit) is a pin-compatible sibling with its own datasheet",
+ "parts": [
+  [
+   "ADC3910S025IRSMT",
+   "RSM",
+   32,
+   "Active"
+  ]
+ ]
+}

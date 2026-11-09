@@ -1,0 +1,202 @@
+{
+ "device": {
+  "id": "DAC101C081",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "10-bit single-channel voltage-output DAC with I2C interface",
+  "note": "dac101c081.pdf (SNVS801B) p.4 pin configuration and functions, p.6 recommended operating conditions, p.10 timing (toutz), p.15 power-on reset, p.19 slave addresses (Table 1) and writing, p.20 reading and DAC register (Figure 26)",
+  "pinouts": {
+   "wson6": [
+    {
+     "number": 1,
+     "name": "ADR0",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "SCL",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "SDA",
+     "role": "inout"
+    },
+    {
+     "number": 4,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "VOUT",
+     "role": "output"
+    }
+   ],
+   "sot6": [
+    {
+     "number": 1,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "SDA",
+     "role": "inout"
+    },
+    {
+     "number": 5,
+     "name": "SCL",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "ADR0",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 10,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "inputMax": 5.5,
+  "analog": [
+   "VOUT"
+  ],
+  "bus": {
+   "style": "i2c",
+   "scl": "SCL",
+   "sda": "SDA",
+   "address": [
+    "ADR0"
+   ],
+   "table": [
+    13,
+    14,
+    null,
+    null
+   ]
+  },
+  "timing": {
+   "tOut": 270
+  },
+  "registers": [
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 10,
+    "reset": 0
+   },
+   {
+    "name": "CTRL",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PD",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "internal: PD1:PD0 of the DAC register (bits 13:12)"
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "commands": [
+    {
+     "name": "Write DAC register",
+     "in": "xx pp d{10} x{2}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "CTRL.PD": "p"
+     },
+     "note": "two data bytes: X X PD1 PD0 then the data; VOUT updates at the ACK after the lower byte; repeated byte pairs before STOP write again"
+    }
+   ],
+   "read": "00 [CTRL.PD] [DAC] 00"
+  },
+  "dac": {
+   "input": [
+    "DAC"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "DDC": {
+   "pinout": "sot6",
+   "footprint": "SOT23-THIN-6",
+   "package": "SOT-23-THIN",
+   "pins": 6
+  },
+  "NGF": {
+   "pinout": "wson6",
+   "footprint": "WSON-6-NGF",
+   "package": "WSON",
+   "pins": 6
+  }
+ },
+ "pdf": "dac101c081.pdf",
+ "pages": "p.4 (pins), p.6 (ROC: VA 2.7-5.5 V, digital inputs 0-5.5 V regardless of VA), p.10 (timing, toutz max 270 ns fast mode), p.15 (power-on reset), p.16 (power-down), p.19 (Table 1 addresses, Figure 24 write), p.20 (Figure 25 read, Figure 26 register X X PD1 PD0 D9..D0 0 0)",
+ "notModeled": [
+  "analog output, reference (VA, or VREF on the VSSOP DAC1x1C085), power-down output terminations and wake-up time",
+  "address pins are three-level (GND, VA, floating or VA/2): the floating-pin addresses (ADR0 float: 0x0C; ADR1 float row and ADR1/ADR0 float combinations) cannot be expressed; SCL/SDA ties are not documented (null)",
+  "broadcast address 1001000 (0x48), to which every DAC1x1C08x responds and updates, is not modeled (one address per part)",
+  "the address pins are sampled until the first non-broadcast access and then locked until power cycle",
+  "Hs-mode (3.4 MHz) entry; toutz uses the fast-mode maximum (270 ns)",
+  "power-on requires VA to drop below 200 mV for a reset",
+  "Table 1 lists a second address after each slave address (e.g. '0001101, 1000110'); it is the 'do not use' companion address of the DAC121C08x datasheet and is not modeled"
+ ],
+ "variants": "DAC101C081Q and DAC101C085 (VSSOP-8 with ADR1 and VREF) in the same datasheet; DAC101C085 has no orderable part in the skeleton",
+ "parts": [
+  [
+   "DAC101C081CIMK/NOPB",
+   "DDC",
+   6,
+   "Active"
+  ],
+  [
+   "DAC101C081QISD/NOPB",
+   "NGF",
+   6,
+   "Active"
+  ],
+  [
+   "DAC101C081QISDX/NOPB",
+   "NGF",
+   6,
+   "Active"
+  ]
+ ]
+}

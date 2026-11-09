@@ -1,0 +1,374 @@
+{
+ "device": {
+  "id": "DAC7552",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "12-bit dual-channel ultralow-glitch voltage-output DAC with 50 MHz SPI interface, per-channel references, IOVDD level shifters, daisy-chain SDO and asynchronous clear (power-on zero scale)",
+  "note": "dac7552.pdf (SLAS442D) p.3 power requirements (VDD, IOVDD 2.7-5.5 V; IOVDD down to 1.8 V, note 3), p.4 timing characteristics and serial write operation (Figure 1), p.5 pin description (RGT) and terminal functions, p.13 serial interface programming (Table 1) and power-down mode control (Table 2), p.14 power-on reset (zero scale), p.15 asynchronous clear, serial interface (DCEN low: word executes after the 16th SCLK falling edge)",
+  "pinouts": {
+   "rgt16": [
+    {
+     "number": 1,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "VFBB",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "VREFB",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "PD",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "DCEN",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "SDIN",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "CLR",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "VREFA",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "VFBA",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 2,
+  "vcc": [
+   1.8,
+   5.5
+  ],
+  "analog": [
+   "VOUTA",
+   "VOUTB",
+   "VDD",
+   "VFBA",
+   "VFBB",
+   "VREFA",
+   "VREFB"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "SDIN",
+   "miso": "SDO",
+   "mode": 2
+  },
+  "timing": {
+   "tOut": 10
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "address": 0,
+    "space": "input",
+    "width": 12,
+    "reset": 0,
+    "note": "input register A; power-on reset and CLR clear it (zero scale)"
+   },
+   {
+    "name": "INB",
+    "address": 1,
+    "space": "input",
+    "width": 12,
+    "reset": 0,
+    "note": "input register B; power-on reset and CLR clear it (zero scale)"
+   },
+   {
+    "name": "DACA",
+    "address": 0,
+    "space": "dac",
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register A; power-on reset and CLR clear it (zero scale)"
+   },
+   {
+    "name": "DACB",
+    "address": 1,
+    "space": "dac",
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register B; power-on reset and CLR clear it (zero scale)"
+   },
+   {
+    "name": "PWR",
+    "width": 6,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "B_PD",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "B_MODE",
+      "bits": [
+       4,
+       3
+      ]
+     },
+     {
+      "name": "A_PD",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "A_MODE",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "internal: per-channel power-down flag and DB11-DB10 mode from the last power-down command (Table 2: 00/11 Hi-Z, 01 1 kOhm, 10 100 kOhm)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "z",
+   "idle": "z",
+   "commands": [
+    {
+     "name": "STORE A",
+     "in": "0000 dddddddddddd",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "note": "Table 1: input register A"
+    },
+    {
+     "name": "STORE B",
+     "in": "0010 dddddddddddd",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "note": "Table 1: input register B"
+    },
+    {
+     "name": "UPDATE A",
+     "in": "0100 dddddddddddd",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "note": "Table 1: input and DAC registers A"
+    },
+    {
+     "name": "UPDATE A, LOAD B",
+     "in": "0110 dddddddddddd",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "then": [
+      "updateall"
+     ],
+     "note": "Table 1: input and DAC registers A; DAC register B from its input register"
+    },
+    {
+     "name": "UPDATE B",
+     "in": "1000 dddddddddddd",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "note": "Table 1: input and DAC registers B"
+    },
+    {
+     "name": "UPDATE B, LOAD A",
+     "in": "1010 dddddddddddd",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "then": [
+      "updateall"
+     ],
+     "note": "Table 1: input and DAC registers B; DAC register A from its input register"
+    },
+    {
+     "name": "ALL CHANNEL UPDATE",
+     "in": "1100 dddddddddddd",
+     "action": "write",
+     "channel": 0,
+     "channelMap": {
+      "0": [
+       0,
+       1
+      ]
+     },
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "note": "Table 1: input and DAC registers of A and B"
+    },
+    {
+     "name": "ALL CHANNEL DAC UPDATE",
+     "in": "1110 xxxxxxxxxxxx",
+     "action": "update",
+     "note": "Table 1: DAC registers A and B from the input registers"
+    },
+    {
+     "name": "PWD ALL",
+     "in": "00x1 pp xxxxxxxxxx",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p",
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p"
+     },
+     "note": "Table 2: power down all channels, DB11-DB10 mode"
+    },
+    {
+     "name": "PWD A",
+     "in": "01x1 pp xxxxxxxxxx",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p"
+     },
+     "note": "Table 2: power down channel A"
+    },
+    {
+     "name": "PWD B",
+     "in": "10x1 pp xxxxxxxxxx",
+     "set": {
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p"
+     },
+     "note": "Table 2: power down channel B"
+    },
+    {
+     "name": "PWD ALL (11)",
+     "in": "11x1 pp xxxxxxxxxx",
+     "set": {
+      "PWR.A_PD": 1,
+      "PWR.A_MODE": "p",
+      "PWR.B_PD": 1,
+      "PWR.B_MODE": "p"
+     },
+     "note": "Table 2: power down all channels"
+    }
+   ]
+  },
+  "pins": {
+   "clear": {
+    "pin": "CLR",
+    "active": 0
+   }
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB"
+   ],
+   "output": [
+    "DACA",
+    "DACB"
+   ],
+   "clearCode": 0,
+   "ldac": "command"
+  }
+ },
+ "packages": {
+  "RGT": {
+   "pinout": "rgt16",
+   "footprint": "VQFN-16-RGT",
+   "package": "VQFN",
+   "pins": 16
+  }
+ },
+ "pdf": "dac7552.pdf",
+ "pages": "p.3 (supplies, logic), p.4 (timing, Figure 1), p.5 (pins), p.13 (Tables 1-2), p.14 (power-on reset), p.15 (clear, IOVDD, serial interface, daisy chain)",
+ "notModeled": [
+  "analog outputs, references and VFB sense inputs (never driven)",
+  "power-down output loads: stored per channel in PWR only; how a powered-down channel returns to normal operation is not described",
+  "PD pin (pin 7, 'power-down'): function and polarity not described in the datasheet; a plain input",
+  "daisy-chain mode (DCEN high): SDO repeating SDIN with a 16-clock delay and latching the last 16 bits at SYNC rising are not modeled; SDO stays Hi-Z (the DCEN-low behavior)",
+  "DCEN low: the word executes on the 16th SCLK falling edge (commit now); a SYNC rise before it discards the word",
+  "CLR resets all registers and the DAC updates at the first SYNC rising edge after CLR returns high: modeled as an immediate clear to code 0",
+  "SCLK limits (50 MHz, 10 MHz with SDO) and setup/hold times"
+ ],
+ "variants": "DAC7553 (dac7553.pdf) is the same chip with two's complement input coding and mid-scale power-on/clear; own spec file. Daisy-chainable with DAC7551/DAC7558.",
+ "parts": [
+  [
+   "DAC7552IRGTR",
+   "RGT",
+   16,
+   "Active"
+  ],
+  [
+   "DAC7552IRGTT",
+   "RGT",
+   16,
+   "Active"
+  ]
+ ]
+}

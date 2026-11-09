@@ -1,0 +1,213 @@
+{
+ "device": {
+  "id": "ADS1130",
+  "function": "ADC",
+  "description": "18-bit bridge-sensor delta-sigma ADC, gain 64, 10/80 SPS, 2-wire serial interface (DRDY/DOUT, SCLK)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1130.pdf (SBAS458A) p.3 electrical characteristics, p.4 pin configuration and descriptions, p.7 data rate, data format and DRDY/DOUT, p.8 data retrieval timing (tPD 50 ns, tCONV 12.5/100 ms), p.9 standby, p.10 power-down",
+  "pinouts": {
+   "pw16": [
+    {
+     "number": 1,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "CAP",
+     "role": "nc"
+    },
+    {
+     "number": 6,
+     "name": "CAP",
+     "role": "nc"
+    },
+    {
+     "number": 7,
+     "name": "AINP",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "AINN",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "REFN",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "REFP",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "SPEED",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "PDWN",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "DRDY/DOUT",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 18,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.3
+  ],
+  "analog": [
+   "CAP",
+   "AINP",
+   "AINN",
+   "REFN",
+   "REFP",
+   "AGND",
+   "AVDD"
+  ],
+  "bus": {
+   "style": "spi",
+   "sclk": "SCLK",
+   "miso": "DRDY/DOUT",
+   "mode": 1
+  },
+  "timing": {
+   "tOut": 50
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 1,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "SPEED",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the SPEED pin level"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{18}",
+   "idle": "1",
+   "commands": []
+  },
+  "conversion": {
+   "time": {
+    "field": "CTRL.SPEED",
+    "values": {
+     "0": 100000000,
+     "1": 12500000
+    }
+   },
+   "start": [
+    "power-on"
+   ],
+   "mode": "continuous"
+  },
+  "ready": [
+   {
+    "pin": "DRDY/DOUT",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read",
+    "onMiso": true
+   }
+  ],
+  "pins": {
+   "powerdown": {
+    "pin": "PDWN",
+    "active": 0
+   },
+   "levels": [
+    {
+     "pin": "SPEED",
+     "field": "CTRL.SPEED"
+    }
+   ]
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw16",
+   "footprint": "TSSOP-16",
+   "package": "TSSOP",
+   "pins": 16
+  }
+ },
+ "pdf": "ads1130.pdf",
+ "pages": "p.3 (EC: data rate, logic levels, supply 2.7-5.3 V), p.4 (pins), p.7 (data rate Table 1, data format Table 2, DRDY/DOUT, SCLK), p.8 (data retrieval Figure 6, tPD, tCONV), p.9 (standby), p.10 (power-up, power-down)",
+ "notModeled": [
+  "2-wire interface (no CS): modeled as SPI without CS per schema; a read is the 18 SCLKs after DRDY/DOUT falls; the result is the 0 V code",
+  "SCLKs after the 18 data bits force DRDY/DOUT high (modeled idle 1); without them the pin holds the last bit until tUPDATE before the next data (modeled: ready only clears on a read)",
+  "tUPDATE (no readback while data update) and the DRDY/DOUT high period during the update when the data were not read",
+  "standby mode (SCLK held high > tDSS after DRDY/DOUT falls) and wake-up (tS_RDY); single conversions by standby",
+  "PDWN low also resets the ADC and the power-up wake-up time (modeled as power-down only; no registers)",
+  "conversion time is tCONV = 1 / data rate from the SPEED pin (12.5 ms / 100 ms); digital-filter settling (4 conversions) not modeled; internal oscillator only",
+  "analog front end (gain 64 amplifier, reference)",
+  "Do not apply more than 24 SCLKs during data retrieval (not enforced)"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS1130IPW",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "ADS1130IPWR",
+   "PW",
+   16,
+   "Active"
+  ]
+ ]
+}

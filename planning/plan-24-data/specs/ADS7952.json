@@ -1,0 +1,1359 @@
+{
+ "device": {
+  "id": "ADS7952",
+  "function": "ADC",
+  "description": "12-bit 1 MSPS 12-channel SAR ADC with SPI interface, auto/manual channel sequencing, GPIOs and alarms",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads7950.pdf (SLAS605C) p.6-9 pin functions, p.10 recommended operating conditions, p.17-19 timing (Figures 1-4), p.28 overview, p.29-41 channel sequencing and mode control (Tables 1-7), p.41-42 output codes (Tables 8-10), p.43 GPIO program register (Table 11), p.43-45 alarm thresholds (Tables 12-13)",
+  "pinouts": {
+   "dbt38": [
+    {
+     "number": 1,
+     "name": "GPIO2",
+     "role": "inout"
+    },
+    {
+     "number": 2,
+     "name": "GPIO3",
+     "role": "inout"
+    },
+    {
+     "number": 3,
+     "name": "REFM",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "REFP",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "MXO",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "AINP",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "AINM",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 11,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 12,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 13,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 14,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 15,
+     "name": "Ch11",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "Ch10",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "Ch9",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "Ch8",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 20,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 21,
+     "name": "Ch7",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "Ch6",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "Ch5",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "Ch4",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "Ch3",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "Ch2",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "Ch1",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "Ch0",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 30,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 31,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 33,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 34,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 35,
+     "name": "BDGND",
+     "role": "ground"
+    },
+    {
+     "number": 36,
+     "name": "+VBD",
+     "role": "power"
+    },
+    {
+     "number": 37,
+     "name": "GPIO0",
+     "role": "inout"
+    },
+    {
+     "number": 38,
+     "name": "GPIO1",
+     "role": "inout"
+    }
+   ],
+   "rhb32": [
+    {
+     "number": 1,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 2,
+     "name": "MXO",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "AINP",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "AINM",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 6,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 7,
+     "name": "Ch11",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "Ch10",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "Ch9",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "Ch8",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "Ch7",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "Ch6",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "Ch5",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "Ch4",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "Ch3",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "Ch2",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "Ch1",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "Ch0",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 20,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 21,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 22,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 23,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 27,
+     "name": "BDGND",
+     "role": "ground"
+    },
+    {
+     "number": 28,
+     "name": "+VBD",
+     "role": "power"
+    },
+    {
+     "number": 29,
+     "name": "GPIO0",
+     "role": "inout"
+    },
+    {
+     "number": 30,
+     "name": "REFM",
+     "role": "ground"
+    },
+    {
+     "number": 31,
+     "name": "REFP",
+     "role": "power"
+    },
+    {
+     "number": 32,
+     "name": "+VA",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 12,
+  "codeFormat": "straight",
+  "vcc": [
+   1.7,
+   5.25
+  ],
+  "analog": [
+   "+VA",
+   "REFP",
+   "AINP",
+   "AINM",
+   "MXO",
+   "Ch0",
+   "Ch1",
+   "Ch2",
+   "Ch3",
+   "Ch4",
+   "Ch5",
+   "Ch6",
+   "Ch7",
+   "Ch8",
+   "Ch9",
+   "Ch10",
+   "Ch11"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDO",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 38,
+   "tOut": 35,
+   "tFloat": 24
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 16,
+    "reset": 4096,
+    "readOnly": 0,
+    "note": "Mode Control Register (internal, written by the 16-bit SDI word), Tables 1, 2, 5 p.33-39; reset: DI15-12 = 0001 (manual), channel 0",
+    "fields": [
+     {
+      "name": "MODE",
+      "bits": [
+       15,
+       12
+      ]
+     },
+     {
+      "name": "ADDR",
+      "bits": [
+       10,
+       7
+      ]
+     },
+     {
+      "name": "RANGE",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "PD",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "GPIO_RD",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "GPO",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "SEQ",
+    "width": 4,
+    "reset": 2,
+    "readOnly": 0,
+    "note": "internal programming-sequence state (not a datasheet register): AUTO1_PRG=1 after a 1000b frame (Table 3 p.37, next frame is the Auto-1 channel-enable word); ALM_DONE=0 while in the alarm programming sequence for group GRP (Table 13 p.45, entered by 11bb, left after the frame with DI12=1)",
+    "fields": [
+     {
+      "name": "GRP",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "ALM_DONE",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "AUTO1_PRG",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "AUTO1",
+    "width": 16,
+    "reset": 4095,
+    "readOnly": 0,
+    "note": "Auto-1 Program Register, Tables 3-4 p.37; reset all channels enabled (FFFF/FFF/FF/F hex)",
+    "fields": [
+     {
+      "name": "CH_EN",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "AUTO2",
+    "width": 16,
+    "reset": 704,
+    "readOnly": 0,
+    "note": "Auto-2 Program Register, Table 6 p.41; DI9-6 reset F/B/7/3 hex (last channel)",
+    "fields": [
+     {
+      "name": "LAST",
+      "bits": [
+       9,
+       6
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GPIO_CFG",
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "note": "GPIO Program Register DI11-00, Table 11 p.43",
+    "fields": [
+     {
+      "name": "RST",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "PD_EN",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "RANGE_EN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "ALARM",
+      "bits": [
+       6,
+       4
+      ]
+     },
+     {
+      "name": "DIR",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ALARM_H0",
+    "width": 10,
+    "reset": 1023,
+    "readOnly": 0,
+    "note": "high alarm threshold, Table 13 p.45 (reset all ones)"
+   },
+   {
+    "name": "ALARM_L0",
+    "width": 10,
+    "reset": 0,
+    "readOnly": 0,
+    "note": "low alarm threshold, Table 13 p.45 (reset all zeros)"
+   },
+   {
+    "name": "ALARM_H1",
+    "width": 10,
+    "reset": 1023,
+    "readOnly": 0,
+    "note": "high alarm threshold, Table 13 p.45 (reset all ones)"
+   },
+   {
+    "name": "ALARM_L1",
+    "width": 10,
+    "reset": 0,
+    "readOnly": 0,
+    "note": "low alarm threshold, Table 13 p.45 (reset all zeros)"
+   },
+   {
+    "name": "ALARM_H2",
+    "width": 10,
+    "reset": 1023,
+    "readOnly": 0,
+    "note": "high alarm threshold, Table 13 p.45 (reset all ones)"
+   },
+   {
+    "name": "ALARM_L2",
+    "width": 10,
+    "reset": 0,
+    "readOnly": 0,
+    "note": "low alarm threshold, Table 13 p.45 (reset all zeros)"
+   },
+   {
+    "name": "ALARM_H3",
+    "width": 10,
+    "reset": 1023,
+    "readOnly": 0,
+    "note": "high alarm threshold, Table 13 p.45 (reset all ones)"
+   },
+   {
+    "name": "ALARM_L3",
+    "width": 10,
+    "reset": 0,
+    "readOnly": 0,
+    "note": "low alarm threshold, Table 13 p.45 (reset all zeros)"
+   },
+   {
+    "name": "ALARM_H4",
+    "width": 10,
+    "reset": 1023,
+    "readOnly": 0,
+    "note": "high alarm threshold, Table 13 p.45 (reset all ones)"
+   },
+   {
+    "name": "ALARM_L4",
+    "width": 10,
+    "reset": 0,
+    "readOnly": 0,
+    "note": "low alarm threshold, Table 13 p.45 (reset all zeros)"
+   },
+   {
+    "name": "ALARM_H5",
+    "width": 10,
+    "reset": 1023,
+    "readOnly": 0,
+    "note": "high alarm threshold, Table 13 p.45 (reset all ones)"
+   },
+   {
+    "name": "ALARM_L5",
+    "width": 10,
+    "reset": 0,
+    "readOnly": 0,
+    "note": "low alarm threshold, Table 13 p.45 (reset all zeros)"
+   },
+   {
+    "name": "ALARM_H6",
+    "width": 10,
+    "reset": 1023,
+    "readOnly": 0,
+    "note": "high alarm threshold, Table 13 p.45 (reset all ones)"
+   },
+   {
+    "name": "ALARM_L6",
+    "width": 10,
+    "reset": 0,
+    "readOnly": 0,
+    "note": "low alarm threshold, Table 13 p.45 (reset all zeros)"
+   },
+   {
+    "name": "ALARM_H7",
+    "width": 10,
+    "reset": 1023,
+    "readOnly": 0,
+    "note": "high alarm threshold, Table 13 p.45 (reset all ones)"
+   },
+   {
+    "name": "ALARM_L7",
+    "width": 10,
+    "reset": 0,
+    "readOnly": 0,
+    "note": "low alarm threshold, Table 13 p.45 (reset all zeros)"
+   },
+   {
+    "name": "ALARM_H8",
+    "width": 10,
+    "reset": 1023,
+    "readOnly": 0,
+    "note": "high alarm threshold, Table 13 p.45 (reset all ones)"
+   },
+   {
+    "name": "ALARM_L8",
+    "width": 10,
+    "reset": 0,
+    "readOnly": 0,
+    "note": "low alarm threshold, Table 13 p.45 (reset all zeros)"
+   },
+   {
+    "name": "ALARM_H9",
+    "width": 10,
+    "reset": 1023,
+    "readOnly": 0,
+    "note": "high alarm threshold, Table 13 p.45 (reset all ones)"
+   },
+   {
+    "name": "ALARM_L9",
+    "width": 10,
+    "reset": 0,
+    "readOnly": 0,
+    "note": "low alarm threshold, Table 13 p.45 (reset all zeros)"
+   },
+   {
+    "name": "ALARM_H10",
+    "width": 10,
+    "reset": 1023,
+    "readOnly": 0,
+    "note": "high alarm threshold, Table 13 p.45 (reset all ones)"
+   },
+   {
+    "name": "ALARM_L10",
+    "width": 10,
+    "reset": 0,
+    "readOnly": 0,
+    "note": "low alarm threshold, Table 13 p.45 (reset all zeros)"
+   },
+   {
+    "name": "ALARM_H11",
+    "width": 10,
+    "reset": 1023,
+    "readOnly": 0,
+    "note": "high alarm threshold, Table 13 p.45 (reset all ones)"
+   },
+   {
+    "name": "ALARM_L11",
+    "width": 10,
+    "reset": 0,
+    "readOnly": 0,
+    "note": "low alarm threshold, Table 13 p.45 (reset all zeros)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "[CH:3:0] R{12}",
+   "idle": "z",
+   "commands": [
+    {
+     "name": "Auto-1 program (frame 2: channel-enable word)",
+     "in": "x{4} [AUTO1.CH_EN]",
+     "when": "SEQ.AUTO1_PRG=1",
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.AUTO1_PRG": 0
+     },
+     "note": "Tables 3-4 p.37: DI15..00 map one-to-one to channels; bits above the device's channels are don't care"
+    },
+    {
+     "name": "Alarm program frame: channel 0 high threshold",
+     "in": "00 1 e xx [ALARM_H0]",
+     "when": [
+      "SEQ.ALM_DONE=0",
+      "SEQ.GRP=0"
+     ],
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.ALM_DONE": "e"
+     },
+     "note": "Table 13 p.45: DI15-14 cc (channel bbcc), DI13 high/low, DI12 exit after this frame, DI09-00 threshold"
+    },
+    {
+     "name": "Alarm program frame: channel 0 low threshold",
+     "in": "00 0 e xx [ALARM_L0]",
+     "when": [
+      "SEQ.ALM_DONE=0",
+      "SEQ.GRP=0"
+     ],
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.ALM_DONE": "e"
+     },
+     "note": "Table 13 p.45: DI15-14 cc (channel bbcc), DI13 high/low, DI12 exit after this frame, DI09-00 threshold"
+    },
+    {
+     "name": "Alarm program frame: channel 1 high threshold",
+     "in": "01 1 e xx [ALARM_H1]",
+     "when": [
+      "SEQ.ALM_DONE=0",
+      "SEQ.GRP=0"
+     ],
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.ALM_DONE": "e"
+     },
+     "note": "Table 13 p.45: DI15-14 cc (channel bbcc), DI13 high/low, DI12 exit after this frame, DI09-00 threshold"
+    },
+    {
+     "name": "Alarm program frame: channel 1 low threshold",
+     "in": "01 0 e xx [ALARM_L1]",
+     "when": [
+      "SEQ.ALM_DONE=0",
+      "SEQ.GRP=0"
+     ],
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.ALM_DONE": "e"
+     },
+     "note": "Table 13 p.45: DI15-14 cc (channel bbcc), DI13 high/low, DI12 exit after this frame, DI09-00 threshold"
+    },
+    {
+     "name": "Alarm program frame: channel 2 high threshold",
+     "in": "10 1 e xx [ALARM_H2]",
+     "when": [
+      "SEQ.ALM_DONE=0",
+      "SEQ.GRP=0"
+     ],
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.ALM_DONE": "e"
+     },
+     "note": "Table 13 p.45: DI15-14 cc (channel bbcc), DI13 high/low, DI12 exit after this frame, DI09-00 threshold"
+    },
+    {
+     "name": "Alarm program frame: channel 2 low threshold",
+     "in": "10 0 e xx [ALARM_L2]",
+     "when": [
+      "SEQ.ALM_DONE=0",
+      "SEQ.GRP=0"
+     ],
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.ALM_DONE": "e"
+     },
+     "note": "Table 13 p.45: DI15-14 cc (channel bbcc), DI13 high/low, DI12 exit after this frame, DI09-00 threshold"
+    },
+    {
+     "name": "Alarm program frame: channel 3 high threshold",
+     "in": "11 1 e xx [ALARM_H3]",
+     "when": [
+      "SEQ.ALM_DONE=0",
+      "SEQ.GRP=0"
+     ],
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.ALM_DONE": "e"
+     },
+     "note": "Table 13 p.45: DI15-14 cc (channel bbcc), DI13 high/low, DI12 exit after this frame, DI09-00 threshold"
+    },
+    {
+     "name": "Alarm program frame: channel 3 low threshold",
+     "in": "11 0 e xx [ALARM_L3]",
+     "when": [
+      "SEQ.ALM_DONE=0",
+      "SEQ.GRP=0"
+     ],
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.ALM_DONE": "e"
+     },
+     "note": "Table 13 p.45: DI15-14 cc (channel bbcc), DI13 high/low, DI12 exit after this frame, DI09-00 threshold"
+    },
+    {
+     "name": "Alarm program frame: channel 4 high threshold",
+     "in": "00 1 e xx [ALARM_H4]",
+     "when": [
+      "SEQ.ALM_DONE=0",
+      "SEQ.GRP=1"
+     ],
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.ALM_DONE": "e"
+     },
+     "note": "Table 13 p.45: DI15-14 cc (channel bbcc), DI13 high/low, DI12 exit after this frame, DI09-00 threshold"
+    },
+    {
+     "name": "Alarm program frame: channel 4 low threshold",
+     "in": "00 0 e xx [ALARM_L4]",
+     "when": [
+      "SEQ.ALM_DONE=0",
+      "SEQ.GRP=1"
+     ],
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.ALM_DONE": "e"
+     },
+     "note": "Table 13 p.45: DI15-14 cc (channel bbcc), DI13 high/low, DI12 exit after this frame, DI09-00 threshold"
+    },
+    {
+     "name": "Alarm program frame: channel 5 high threshold",
+     "in": "01 1 e xx [ALARM_H5]",
+     "when": [
+      "SEQ.ALM_DONE=0",
+      "SEQ.GRP=1"
+     ],
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.ALM_DONE": "e"
+     },
+     "note": "Table 13 p.45: DI15-14 cc (channel bbcc), DI13 high/low, DI12 exit after this frame, DI09-00 threshold"
+    },
+    {
+     "name": "Alarm program frame: channel 5 low threshold",
+     "in": "01 0 e xx [ALARM_L5]",
+     "when": [
+      "SEQ.ALM_DONE=0",
+      "SEQ.GRP=1"
+     ],
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.ALM_DONE": "e"
+     },
+     "note": "Table 13 p.45: DI15-14 cc (channel bbcc), DI13 high/low, DI12 exit after this frame, DI09-00 threshold"
+    },
+    {
+     "name": "Alarm program frame: channel 6 high threshold",
+     "in": "10 1 e xx [ALARM_H6]",
+     "when": [
+      "SEQ.ALM_DONE=0",
+      "SEQ.GRP=1"
+     ],
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.ALM_DONE": "e"
+     },
+     "note": "Table 13 p.45: DI15-14 cc (channel bbcc), DI13 high/low, DI12 exit after this frame, DI09-00 threshold"
+    },
+    {
+     "name": "Alarm program frame: channel 6 low threshold",
+     "in": "10 0 e xx [ALARM_L6]",
+     "when": [
+      "SEQ.ALM_DONE=0",
+      "SEQ.GRP=1"
+     ],
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.ALM_DONE": "e"
+     },
+     "note": "Table 13 p.45: DI15-14 cc (channel bbcc), DI13 high/low, DI12 exit after this frame, DI09-00 threshold"
+    },
+    {
+     "name": "Alarm program frame: channel 7 high threshold",
+     "in": "11 1 e xx [ALARM_H7]",
+     "when": [
+      "SEQ.ALM_DONE=0",
+      "SEQ.GRP=1"
+     ],
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.ALM_DONE": "e"
+     },
+     "note": "Table 13 p.45: DI15-14 cc (channel bbcc), DI13 high/low, DI12 exit after this frame, DI09-00 threshold"
+    },
+    {
+     "name": "Alarm program frame: channel 7 low threshold",
+     "in": "11 0 e xx [ALARM_L7]",
+     "when": [
+      "SEQ.ALM_DONE=0",
+      "SEQ.GRP=1"
+     ],
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.ALM_DONE": "e"
+     },
+     "note": "Table 13 p.45: DI15-14 cc (channel bbcc), DI13 high/low, DI12 exit after this frame, DI09-00 threshold"
+    },
+    {
+     "name": "Alarm program frame: channel 8 high threshold",
+     "in": "00 1 e xx [ALARM_H8]",
+     "when": [
+      "SEQ.ALM_DONE=0",
+      "SEQ.GRP=2"
+     ],
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.ALM_DONE": "e"
+     },
+     "note": "Table 13 p.45: DI15-14 cc (channel bbcc), DI13 high/low, DI12 exit after this frame, DI09-00 threshold"
+    },
+    {
+     "name": "Alarm program frame: channel 8 low threshold",
+     "in": "00 0 e xx [ALARM_L8]",
+     "when": [
+      "SEQ.ALM_DONE=0",
+      "SEQ.GRP=2"
+     ],
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.ALM_DONE": "e"
+     },
+     "note": "Table 13 p.45: DI15-14 cc (channel bbcc), DI13 high/low, DI12 exit after this frame, DI09-00 threshold"
+    },
+    {
+     "name": "Alarm program frame: channel 9 high threshold",
+     "in": "01 1 e xx [ALARM_H9]",
+     "when": [
+      "SEQ.ALM_DONE=0",
+      "SEQ.GRP=2"
+     ],
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.ALM_DONE": "e"
+     },
+     "note": "Table 13 p.45: DI15-14 cc (channel bbcc), DI13 high/low, DI12 exit after this frame, DI09-00 threshold"
+    },
+    {
+     "name": "Alarm program frame: channel 9 low threshold",
+     "in": "01 0 e xx [ALARM_L9]",
+     "when": [
+      "SEQ.ALM_DONE=0",
+      "SEQ.GRP=2"
+     ],
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.ALM_DONE": "e"
+     },
+     "note": "Table 13 p.45: DI15-14 cc (channel bbcc), DI13 high/low, DI12 exit after this frame, DI09-00 threshold"
+    },
+    {
+     "name": "Alarm program frame: channel 10 high threshold",
+     "in": "10 1 e xx [ALARM_H10]",
+     "when": [
+      "SEQ.ALM_DONE=0",
+      "SEQ.GRP=2"
+     ],
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.ALM_DONE": "e"
+     },
+     "note": "Table 13 p.45: DI15-14 cc (channel bbcc), DI13 high/low, DI12 exit after this frame, DI09-00 threshold"
+    },
+    {
+     "name": "Alarm program frame: channel 10 low threshold",
+     "in": "10 0 e xx [ALARM_L10]",
+     "when": [
+      "SEQ.ALM_DONE=0",
+      "SEQ.GRP=2"
+     ],
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.ALM_DONE": "e"
+     },
+     "note": "Table 13 p.45: DI15-14 cc (channel bbcc), DI13 high/low, DI12 exit after this frame, DI09-00 threshold"
+    },
+    {
+     "name": "Alarm program frame: channel 11 high threshold",
+     "in": "11 1 e xx [ALARM_H11]",
+     "when": [
+      "SEQ.ALM_DONE=0",
+      "SEQ.GRP=2"
+     ],
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.ALM_DONE": "e"
+     },
+     "note": "Table 13 p.45: DI15-14 cc (channel bbcc), DI13 high/low, DI12 exit after this frame, DI09-00 threshold"
+    },
+    {
+     "name": "Alarm program frame: channel 11 low threshold",
+     "in": "11 0 e xx [ALARM_L11]",
+     "when": [
+      "SEQ.ALM_DONE=0",
+      "SEQ.GRP=2"
+     ],
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.ALM_DONE": "e"
+     },
+     "note": "Table 13 p.45: DI15-14 cc (channel bbcc), DI13 high/low, DI12 exit after this frame, DI09-00 threshold"
+    },
+    {
+     "name": "Continue (Table 7)",
+     "in": "0000 x{12}",
+     "action": "nop"
+    },
+    {
+     "name": "Manual (DI11=1, DI05=1 power-down)",
+     "in": "0001 1 aaaa r 1 g oooo",
+     "action": "powerdown",
+     "commit": "end",
+     "set": {
+      "CTRL.MODE": 1,
+      "CTRL.ADDR": "a",
+      "CTRL.RANGE": "r",
+      "CTRL.GPIO_RD": "g",
+      "CTRL.GPO": "o",
+      "CTRL.PD": 1
+     }
+    },
+    {
+     "name": "Manual (DI11=1)",
+     "in": "0001 1 aaaa r 0 g oooo",
+     "action": "wakeup",
+     "commit": "end",
+     "set": {
+      "CTRL.MODE": 1,
+      "CTRL.ADDR": "a",
+      "CTRL.RANGE": "r",
+      "CTRL.GPIO_RD": "g",
+      "CTRL.GPO": "o",
+      "CTRL.PD": 0
+     }
+    },
+    {
+     "name": "Manual (DI11=0, keep DI06-00)",
+     "in": "0001 0 aaaa x{7}",
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "CTRL.MODE": 1,
+      "CTRL.ADDR": "a"
+     }
+    },
+    {
+     "name": "Auto-1 (DI11=1, DI05=1 power-down)",
+     "in": "0010 1 x xxx r 1 g oooo",
+     "action": "powerdown",
+     "commit": "end",
+     "set": {
+      "CTRL.MODE": 2,
+      "CTRL.ADDR": 0,
+      "CTRL.RANGE": "r",
+      "CTRL.GPIO_RD": "g",
+      "CTRL.GPO": "o",
+      "CTRL.PD": 1
+     }
+    },
+    {
+     "name": "Auto-1 (DI11=1)",
+     "in": "0010 1 x xxx r 0 g oooo",
+     "action": "wakeup",
+     "commit": "end",
+     "set": {
+      "CTRL.MODE": 2,
+      "CTRL.ADDR": 0,
+      "CTRL.RANGE": "r",
+      "CTRL.GPIO_RD": "g",
+      "CTRL.GPO": "o",
+      "CTRL.PD": 0
+     }
+    },
+    {
+     "name": "Auto-1 (DI11=0, keep DI06-00)",
+     "in": "0010 0 x xxx x{7}",
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "CTRL.MODE": 2,
+      "CTRL.ADDR": 0
+     }
+    },
+    {
+     "name": "Auto-2 (DI11=1, DI05=1 power-down)",
+     "in": "0011 1 x xxx r 1 g oooo",
+     "action": "powerdown",
+     "commit": "end",
+     "set": {
+      "CTRL.MODE": 3,
+      "CTRL.ADDR": 0,
+      "CTRL.RANGE": "r",
+      "CTRL.GPIO_RD": "g",
+      "CTRL.GPO": "o",
+      "CTRL.PD": 1
+     }
+    },
+    {
+     "name": "Auto-2 (DI11=1)",
+     "in": "0011 1 x xxx r 0 g oooo",
+     "action": "wakeup",
+     "commit": "end",
+     "set": {
+      "CTRL.MODE": 3,
+      "CTRL.ADDR": 0,
+      "CTRL.RANGE": "r",
+      "CTRL.GPIO_RD": "g",
+      "CTRL.GPO": "o",
+      "CTRL.PD": 0
+     }
+    },
+    {
+     "name": "Auto-2 (DI11=0, keep DI06-00)",
+     "in": "0011 0 x xxx x{7}",
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "CTRL.MODE": 3,
+      "CTRL.ADDR": 0
+     }
+    },
+    {
+     "name": "GPIO program, DI09=1 device reset",
+     "in": "0100 xx 1 x{9}",
+     "action": "reset",
+     "commit": "end",
+     "note": "Table 11: resets all registers in the next CS frame (modeled at CS rise)"
+    },
+    {
+     "name": "GPIO program",
+     "in": "0100 xx 0 p q aaa dddd",
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "GPIO_CFG.PD_EN": "p",
+      "GPIO_CFG.RANGE_EN": "q",
+      "GPIO_CFG.ALARM": "a",
+      "GPIO_CFG.DIR": "d"
+     }
+    },
+    {
+     "name": "Auto-1 program (frame 1)",
+     "in": "1000 x{12}",
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.AUTO1_PRG": 1
+     },
+     "note": "Table 3 p.37: enters the Auto-1 program sequence; the next frame is the channel-enable word"
+    },
+    {
+     "name": "Auto-2 program",
+     "in": "1001 xx aaaa x{6}",
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "AUTO2.LAST": "a"
+     }
+    },
+    {
+     "name": "Alarm program (frame 1, group 0)",
+     "in": "11 00 x{12}",
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.GRP": 0,
+      "SEQ.ALM_DONE": 0
+     },
+     "note": "Table 13 p.45: DI15-12 = 11bb enters the alarm programming sequence for group bb (Table 12 p.43: groups present on this device)"
+    },
+    {
+     "name": "Alarm program (frame 1, group 1)",
+     "in": "11 01 x{12}",
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.GRP": 1,
+      "SEQ.ALM_DONE": 0
+     },
+     "note": "Table 13 p.45: DI15-12 = 11bb enters the alarm programming sequence for group bb (Table 12 p.43: groups present on this device)"
+    },
+    {
+     "name": "Alarm program (frame 1, group 2)",
+     "in": "11 10 x{12}",
+     "action": "nop",
+     "commit": "end",
+     "set": {
+      "SEQ.GRP": 2,
+      "SEQ.ALM_DONE": 0
+     },
+     "note": "Table 13 p.45: DI15-12 = 11bb enters the alarm programming sequence for group bb (Table 12 p.43: groups present on this device)"
+    }
+   ],
+   "outs": [
+    {
+     "when": "CTRL.GPIO_RD=1",
+     "out": "[CTRL.GPO] R{12}"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ],
+   "channel": "CTRL.ADDR"
+  }
+ },
+ "packages": {
+  "DBT": {
+   "pinout": "dbt38",
+   "footprint": "TSSOP-38",
+   "package": "TSSOP",
+   "pins": 38
+  },
+  "RHB": {
+   "pinout": "rhb32",
+   "footprint": "VQFN-32-5X5",
+   "package": "VQFN",
+   "pins": 32
+  }
+ },
+ "pdf": "ads7950.pdf",
+ "pages": "p.6-9 (pin functions), p.10 (ROC: +VBD 1.7 V to +VA, +VA max 5.25 V), p.17 (timing requirements, 1.8 V column: td1 38, td2 35, td4 24 ns; tconv 16 SCLK), p.18-19 (Figures 2-4 frame: DO15-12 channel address, MSB on 4th SCLK fall, SDO 3-state at 16th fall; SDI latched on SCLK rise), p.28 (operation), p.33 (Table 1 manual), p.36 (Table 2 Auto-1), p.37 (Tables 3-4 Auto-1 program), p.39 (Table 5 Auto-2), p.41 (Tables 6-8), p.42 (Tables 9-10 straight binary), p.43 (Table 11 GPIO), p.45 (Table 13 alarms)",
+ "notModeled": [
+  "analog multiplexer, MXO/AINP breakout, input ranges (CTRL.RANGE stored only; both ranges are unipolar, 0 V = code 0)",
+  "pipeline latency: a manual-mode channel written in frame n is converted at the start of frame n+2 (modeled: frame n+1); [CH] shows the channel selected when the conversion starts",
+  "Auto-1 / Auto-2 channel sequencing: the channel counter never advances (modeled: entering or continuing an auto mode selects channel 0, which is the first channel of the reset Auto-1 sequence and of every Auto-2 sequence); AUTO1/AUTO2 are stored only",
+  "alarm comparison and the GPIO0/GPIO1 alarm outputs (ALARM_Hn/ALARM_Ln are written through the 11bb sequence and stored only; the 0 V code never trips the reset thresholds 3FFh/000h)",
+  "GPIO pins: GPO data (CTRL.GPO) is never driven onto GPIO0-3 and GPI levels are not read; with DI04=1 DO15-12 shift the stored GPO bits (CTRL.GPO) in place of the GPIO pin levels",
+  "GPIO2 as range input and GPIO3 as asynchronous active-low power-down input (GPIO_CFG.RANGE_EN / PD_EN stored only)",
+  "power-down via DI05=1 takes effect at the 16th SCLK of the next frame (modeled: at the end of the frame that writes it); wake-up on the CS fall with DI05=0 is modeled as the end of that frame",
+  "DI09=1 GPIO-program reset happens in the next CS frame (modeled: at the end of the writing frame)",
+  "first frame after power-up outputs invalid SDO (modeled: channel 0 / 0 V code)",
+  "trailing bits after the LSB for 10-bit (DO1-0) and 8-bit (DO3-0) devices are not specified; modeled as 0",
+  "SCLK frequency (20 MHz max) and quiet time tq"
+ ],
+ "variants": "One datasheet (ads7950.pdf, SLAS605C) covers ADS7950/51/52/53 (12-bit, 4/8/12/16 ch), ADS7954/55/56/57 (10-bit) and ADS7958/59/60/61 (8-bit). 4/8-channel parts: TSSOP-30 (DBT) / VQFN-24 (RGE); 12/16-channel parts: TSSOP-38 (DBT) / VQFN-32 (RHB). VQFN packages bring out GPIO0 only. The -Q1 parts (ads7956-q1.pdf, ads7955-q1.pdf) are the same chips in DBT only.",
+ "parts": [
+  [
+   "ADS7952QDBTRQ1",
+   "DBT",
+   38,
+   "Active"
+  ],
+  [
+   "ADS7952SBDBTR",
+   "DBT",
+   38,
+   "Active"
+  ],
+  [
+   "ADS7952SBRHBR",
+   "RHB",
+   32,
+   "Active"
+  ],
+  [
+   "ADS7952SBRHBT",
+   "RHB",
+   32,
+   "Active"
+  ],
+  [
+   "ADS7952SDBT",
+   "DBT",
+   38,
+   "Active"
+  ],
+  [
+   "ADS7952SRHBT",
+   "RHB",
+   32,
+   "Active"
+  ]
+ ]
+}

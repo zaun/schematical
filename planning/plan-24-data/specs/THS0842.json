@@ -1,0 +1,358 @@
+{
+ "device": {
+  "id": "THS0842",
+  "function": "ADC",
+  "description": "Dual-input 8-bit 40 MSPS pipelined ADC with single or dual parallel bus output",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ths0842.pdf (SLAS246A) p.1 pinout, p.4 terminal functions, p.5 recommended operating conditions (AVDD/DVDD/DRVDD 3-3.6 V, clock period 12.5 ns min), p.8 timing requirements (td(O) 9 ns max, ten/tdis 5 ns, conversion rate = fCLK / 2, latency 5.5 / 6.5 CLK), p.9-10 timing diagrams (Figures 1-2: single and dual bus output, COUT/COUTBAR latch clocks), p.17-18 output timing and principles of operation",
+  "pinouts": {
+   "pfb48": [
+    {
+     "number": 1,
+     "name": "DRVDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 3,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 4,
+     "name": "DB7",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "DB6",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "DB5",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "DB4",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "DB3",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "DB2",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "DB1",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "DB0",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "DRVSS",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "DRVDD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 15,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 16,
+     "name": "DA7",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "DA6",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "DA5",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "DA4",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "DA3",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "DA2",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "DA1",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "DA0",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "DRVSS",
+     "role": "ground"
+    },
+    {
+     "number": 25,
+     "name": "COUTBAR",
+     "role": "output"
+    },
+    {
+     "number": 26,
+     "name": "COUT",
+     "role": "output"
+    },
+    {
+     "number": 27,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 28,
+     "name": "AVSS",
+     "role": "ground"
+    },
+    {
+     "number": 29,
+     "name": "BG",
+     "role": "output"
+    },
+    {
+     "number": 30,
+     "name": "REFB",
+     "role": "power"
+    },
+    {
+     "number": 31,
+     "name": "REFT",
+     "role": "power"
+    },
+    {
+     "number": 32,
+     "name": "CML",
+     "role": "output"
+    },
+    {
+     "number": 33,
+     "name": "PWDN_REF",
+     "role": "input"
+    },
+    {
+     "number": 34,
+     "name": "Q+",
+     "role": "input"
+    },
+    {
+     "number": 35,
+     "name": "Q-",
+     "role": "input"
+    },
+    {
+     "number": 36,
+     "name": "AVSS",
+     "role": "ground"
+    },
+    {
+     "number": 37,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 38,
+     "name": "I+",
+     "role": "input"
+    },
+    {
+     "number": 39,
+     "name": "I-",
+     "role": "input"
+    },
+    {
+     "number": 40,
+     "name": "AVSS",
+     "role": "ground"
+    },
+    {
+     "number": 41,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 42,
+     "name": "STBY",
+     "role": "input"
+    },
+    {
+     "number": 43,
+     "name": "DVSS",
+     "role": "ground"
+    },
+    {
+     "number": 44,
+     "name": "SELB",
+     "role": "input"
+    },
+    {
+     "number": 45,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 46,
+     "name": "AVSS",
+     "role": "ground"
+    },
+    {
+     "number": 47,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 48,
+     "name": "OE",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 8,
+  "channels": 2,
+  "codeFormat": "offset",
+  "vcc": [
+   3,
+   3.6
+  ],
+  "analog": [
+   "AVDD",
+   "BG",
+   "REFB",
+   "REFT",
+   "CML",
+   "Q+",
+   "Q-",
+   "I+",
+   "I-"
+  ],
+  "bus": {
+   "style": "clocked",
+   "clock": {
+    "pin": "CLK",
+    "edge": "rise"
+   },
+   "data": [
+    "DA7",
+    "DA6",
+    "DA5",
+    "DA4",
+    "DA3",
+    "DA2",
+    "DA1",
+    "DA0",
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "oe": {
+    "pin": "OE",
+    "active": 0
+   },
+   "clockOut": [
+    {
+     "pin": "COUT",
+     "invert": false,
+     "divide": 2
+    },
+    {
+     "pin": "COUTBAR",
+     "invert": true,
+     "divide": 2
+    }
+   ]
+  },
+  "timing": {
+   "tOut": 9
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": "[R][R]"
+  },
+  "pins": {
+   "powerdown": {
+    "pin": "STBY",
+    "active": 1
+   }
+  }
+ },
+ "packages": {
+  "PFB": {
+   "pinout": "pfb48",
+   "footprint": "TQFP-48-7X7",
+   "package": "TQFP",
+   "pins": 48
+  }
+ },
+ "pdf": "ths0842.pdf",
+ "pages": "p.1 (pinout), p.4 (terminal functions), p.5 (ROC), p.8 (timing requirements), p.9-10 (Figures 1-2), p.17-18 (output timing, principles of operation)",
+ "notModeled": [
+  "analog inputs (differential I+/I-, Q+/Q-), references (REFT/REFB, BG, CML) and PWDN_REF (internal reference power-down, stored nowhere): the result is always the 0 V differential code, mid-scale 80h; the datasheet gives no output-code table (8-bit binary, input range REFB to REFT), so codeFormat offset is the mid-scale reading of a 0 V differential input",
+  "SELB output-mode strap: only dual bus mode (SELB low: I data on DA7-DA0, Q data on DB7-DB0, Figure 2) is modeled; single bus mode (SELB high: I and Q alternate on DA7-DA0 at the clock rate, Figure 1) is not",
+  "one I/Q sample pair per two CLK cycles (conversion rate fCLK / 2): the model drives the (constant) codes on every CLK rising edge; COUT/COUTBAR are modeled as CLK divided by 2 (and inverted), but their phase to CLK depends on power-on conditions (Figures 1-2, note A)",
+  "pipeline latency 5.5 (I) / 6.5 (Q) CLK cycles (the code is constant)",
+  "OE enable/disable times (ten/tdis 5 ns) are not modeled separately from tOut",
+  "STBY standby: modeled as powerdown (no conversions); the output state during standby is not specified",
+  "clock frequency limits (10 kHz-80 MHz) and duty cycle"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "THS0842IPFB",
+   "PFB",
+   48,
+   "Active"
+  ]
+ ]
+}

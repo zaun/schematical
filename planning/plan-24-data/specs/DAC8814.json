@@ -1,0 +1,346 @@
+{
+ "device": {
+  "id": "DAC8814",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "Quad 16-bit serial-input multiplying current-output DAC with LDAC, reset and daisy-chain SDO",
+  "note": "dac8814.pdf (SBAS338D) p.3 electrical characteristics and interface timing, p.5 pin configuration and description, p.15 Figure 57 timing, p.18-19 serial data interface and power-on reset, p.20 Tables 1-3",
+  "pinouts": {
+   "db28": [
+    {
+     "number": 1,
+     "name": "AGNDA",
+     "role": "ground"
+    },
+    {
+     "number": 2,
+     "name": "IOUTA",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "VREFA",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "RFBA",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "MSB",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "RS",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "RFBB",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "VREFB",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "IOUTB",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "AGNDB",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "AGNDC",
+     "role": "ground"
+    },
+    {
+     "number": 16,
+     "name": "IOUTC",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "VREFC",
+     "role": "power"
+    },
+    {
+     "number": 18,
+     "name": "RFBC",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 20,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "AGNDF",
+     "role": "ground"
+    },
+    {
+     "number": 23,
+     "name": "VSS",
+     "role": "nc"
+    },
+    {
+     "number": 24,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 25,
+     "name": "RFBD",
+     "role": "output"
+    },
+    {
+     "number": 26,
+     "name": "VREFD",
+     "role": "power"
+    },
+    {
+     "number": 27,
+     "name": "IOUTD",
+     "role": "output"
+    },
+    {
+     "number": 28,
+     "name": "AGNDD",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 4,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "IOUTA",
+   "VREFA",
+   "RFBA",
+   "RFBB",
+   "VREFB",
+   "IOUTB",
+   "IOUTC",
+   "VREFC",
+   "RFBC",
+   "RFBD",
+   "VREFD",
+   "IOUTD"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "CLK",
+   "mosi": "SDI",
+   "miso": "SDO",
+   "mode": 0
+  },
+  "timing": {
+   "tOut": 20
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC A input register; power-on 0000h with MSB = 0 (p.19)"
+   },
+   {
+    "name": "INB",
+    "space": "input",
+    "address": 1,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC B input register"
+   },
+   {
+    "name": "INC",
+    "space": "input",
+    "address": 2,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC C input register"
+   },
+   {
+    "name": "IND",
+    "space": "input",
+    "address": 3,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC D input register"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC A register"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC B register"
+   },
+   {
+    "name": "DACC",
+    "space": "dac",
+    "address": 2,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC C register"
+   },
+   {
+    "name": "DACD",
+    "space": "dac",
+    "address": 3,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC D register"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "commands": [
+    {
+     "name": "Load input register",
+     "in": "aa d{16}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "note": "p.20 Table 2: A1 A0 D15-D0, the last 18 bits before CS rises; Table 3: 00 A, 01 B, 10 C, 11 D"
+    }
+   ]
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "level"
+   },
+   "reset": {
+    "pin": "RS",
+    "active": 0
+   },
+   "resetSelect": [
+    {
+     "pin": "MSB",
+     "level": 1,
+     "resets": {
+      "INA": 32768,
+      "INB": 32768,
+      "INC": 32768,
+      "IND": 32768,
+      "DACA": 32768,
+      "DACB": 32768,
+      "DACC": 32768,
+      "DACD": 32768
+     }
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB",
+    "INC",
+    "IND"
+   ],
+   "output": [
+    "DACA",
+    "DACB",
+    "DACC",
+    "DACD"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "DB": {
+   "pinout": "db28",
+   "footprint": "SSOP-28",
+   "package": "SSOP",
+   "pins": 28
+  }
+ },
+ "pdf": "dac8814.pdf",
+ "pages": "p.3 (VDD 2.7-5.5 V, logic levels, interface timing tPD 20 ns), p.5 (pinout and description), p.15 (Figure 57), p.18 (serial data interface), p.19 (power-on reset), p.20 (Tables 1-3)",
+ "notModeled": [
+  "analog: multiplying current output(s), reference input(s), feedback resistor(s)",
+  "daisy-chain SDO: SDO shifts out the SDI data 19 clocks later (shift register output); the model drives SDO low",
+  "power-on reset brownout behavior"
+ ],
+ "variants": "dac8814.pdf covers only the DAC8814 (B and C grades); VSS (pin 23) has no internal connection",
+ "parts": [
+  [
+   "DAC8814IBDBR",
+   "DB",
+   28,
+   "Active"
+  ],
+  [
+   "DAC8814IBDBT",
+   "DB",
+   28,
+   "Active"
+  ],
+  [
+   "DAC8814ICDBT",
+   "DB",
+   28,
+   "Active"
+  ]
+ ]
+}

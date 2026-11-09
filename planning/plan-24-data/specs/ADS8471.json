@@ -1,0 +1,363 @@
+{
+ "device": {
+  "id": "ADS8471",
+  "function": "ADC",
+  "description": "16-bit 1 MSPS unipolar pseudo-differential input SAR ADC with internal reference and 16-/8-bit parallel interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads8471.pdf (SLAS517) p.5 specifications (logic levels, straight binary, +VBD 2.7-5.25 V), p.6-7 timing characteristics (+VBD = 5 V and 3 V, t(CONV) 700 ns max), p.8 pin assignments (RGZ) and terminal functions, p.9 terminal functions (continued), p.21 timing and control, reading data, p.22 Table 1 output codes, Table 2 conversion data read out, RESET",
+  "pinouts": {
+   "rgz48": [
+    {
+     "number": 1,
+     "name": "+VBD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "BDGND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "BYTE",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "CONVST",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "RD",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "REFM",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "REFM",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 16,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 17,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 18,
+     "name": "+IN",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "-IN",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 21,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 22,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 23,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 24,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 25,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 26,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 27,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 28,
+     "name": "DB15",
+     "role": "output"
+    },
+    {
+     "number": 29,
+     "name": "DB14",
+     "role": "output"
+    },
+    {
+     "number": 30,
+     "name": "DB13",
+     "role": "output"
+    },
+    {
+     "number": 31,
+     "name": "DB12",
+     "role": "output"
+    },
+    {
+     "number": 32,
+     "name": "DB11",
+     "role": "output"
+    },
+    {
+     "number": 33,
+     "name": "DB10",
+     "role": "output"
+    },
+    {
+     "number": 34,
+     "name": "DB9",
+     "role": "output"
+    },
+    {
+     "number": 35,
+     "name": "DB8",
+     "role": "output"
+    },
+    {
+     "number": 36,
+     "name": "+VBD",
+     "role": "power"
+    },
+    {
+     "number": 37,
+     "name": "BDGND",
+     "role": "ground"
+    },
+    {
+     "number": 38,
+     "name": "DB7",
+     "role": "output"
+    },
+    {
+     "number": 39,
+     "name": "DB6",
+     "role": "output"
+    },
+    {
+     "number": 40,
+     "name": "DB5",
+     "role": "output"
+    },
+    {
+     "number": 41,
+     "name": "DB4",
+     "role": "output"
+    },
+    {
+     "number": 42,
+     "name": "DB3",
+     "role": "output"
+    },
+    {
+     "number": 43,
+     "name": "DB2",
+     "role": "output"
+    },
+    {
+     "number": 44,
+     "name": "DB1",
+     "role": "output"
+    },
+    {
+     "number": 45,
+     "name": "DB0",
+     "role": "output"
+    },
+    {
+     "number": 46,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 47,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 48,
+     "name": "BUSY",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "REFIN",
+   "REFOUT",
+   "+VA",
+   "+IN",
+   "-IN"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DB15",
+    "DB14",
+    "DB13",
+    "DB12",
+    "DB11",
+    "DB10",
+    "DB9",
+    "DB8",
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rd": {
+    "pin": "RD",
+    "active": 0
+   },
+   "byteSelect": {
+    "pin": "BYTE",
+    "high": 1
+   }
+  },
+  "timing": {
+   "tAcc": 30,
+   "tDf": 30
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": {
+    "low": "R{16}",
+    "high": "[R:7:0] 1{8}"
+   }
+  },
+  "conversion": {
+   "time": 700,
+   "start": [
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "BUSY",
+    "active": 1,
+    "asserts": "busy"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "CONVST",
+    "edge": "fall"
+   }
+  }
+ },
+ "packages": {
+  "RGZ": {
+   "pinout": "rgz48",
+   "footprint": "VQFN-48-RGZ",
+   "package": "VQFN",
+   "pins": 48
+  }
+ },
+ "pdf": "ads8471.pdf",
+ "pages": "p.5 (specifications), p.6-7 (timing), p.8-9 (pins), p.21-22 (digital interface, output codes, reset)",
+ "notModeled": [
+  "analog input (0 V to Vref, pseudo-differential), internal 4.096-V reference and buffer: the result is always the 0 V code 0000h",
+  "the conversion starts at the CONVST falling edge only while CS is low (tsu1 20 ns); the model starts it at every CONVST falling edge regardless of CS",
+  "self-clearing reset: a CONVST falling edge with CS low, or a CS falling edge, while the internal convert state is high resets the converter (output latches cleared, BUSY low) (p.22)",
+  "the first three conversions after power-up load factory trim data and are invalid (p.22)",
+  "byte mode: the terminal table (p.8-9) gives D7-D2 on DB15-DB10 and all ones on DB9-DB0 with BYTE high (a copy of the 18-bit ADS8481 table); the model follows Table 2 and the Reading Data text (p.22): D7-D0 on DB15-DB8, all ones on DB7-DB0",
+  "tAcc / tDf use ten / tdis 30 ns max at +VBD = 3 V (20 ns at 5 V); the 3-V table prints t(CONV) typ as 67 ns (typo for 670)",
+  "sampling start, acquisition time, quiet zone around CONVST falling (50 ns before, 40 ns after); reading during a conversion returns the previous result on the part"
+ ],
+ "variants": "single-device datasheet; the 18-bit ADS8481 shares the pinout except pin 2 (BUS18/16).",
+ "parts": [
+  [
+   "ADS8471IRGZT",
+   "RGZ",
+   48,
+   "Active"
+  ]
+ ]
+}

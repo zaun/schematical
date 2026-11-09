@@ -339,4 +339,23 @@ nonisolated final class SimulationEngine: @unchecked Sendable {
         guard circuit_cpu_state(circuit, part, &state) == 0 else { return nil }
         return CpuSnapshot(state)
     }
+
+    /// A converter's or RTC's registers and, when `rtc`, its clock
+    /// (plan-24-I); nil for any other part. Call it only for those parts: a
+    /// refused query sets the circuit's error, which reads as a stop.
+    func registerState(part: Int, rtc: Bool) -> RegisterSnapshot? {
+        lock.lock()
+        defer { lock.unlock() }
+        guard !destroyed else { return nil }
+        let count = circuit_converter_registers(circuit, part, nil, 0)
+        guard count >= 0 else { return nil }
+        var registers = [ConverterRegister](repeating: ConverterRegister(), count: Int(count))
+        let read = registers.withUnsafeMutableBufferPointer {
+            circuit_converter_registers(circuit, part, $0.baseAddress, $0.count)
+        }
+        guard read == count else { return nil }
+        var time = RtcTime()
+        let clock: RtcTime? = rtc && circuit_rtc_time(circuit, part, &time) == 0 ? time : nil
+        return RegisterSnapshot(registers, clock: clock)
+    }
 }

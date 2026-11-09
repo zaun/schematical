@@ -1,0 +1,284 @@
+{
+ "device": {
+  "id": "DAC0800",
+  "function": "DAC",
+  "description": "8-bit 100 ns current-output multiplying DAC with complementary outputs and unlatched TTL/CMOS inputs",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac0800.pdf (SNAS538C) p.2 (operating conditions: V+ = (V-)+10 to (V-)+30 V, V- -15 to -5 V), p.3 (logic levels VIL 0.8 V, VIH 2.0 V, tPLH/tPHL 60 ns, PSSIFS+ 4.5 V <= V+ <= 18 V), p.4 (Figures 2-3 connection diagrams, block diagram), p.1 (power supply range +-4.5 V to +-18 V)",
+  "pinouts": {
+   "d16": [
+    {
+     "number": 1,
+     "name": "V+",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VREF(+)",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "VREF(-)",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "COMPENSATION",
+     "role": "nc"
+    },
+    {
+     "number": 5,
+     "name": "VLC",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "IOUT",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "V-",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "IOUT",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "B1",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "B2",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "B3",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "B4",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "B5",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "B6",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "B7",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "B8",
+     "role": "input"
+    }
+   ],
+   "nfg16": [
+    {
+     "number": 1,
+     "name": "VLC",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "IOUT",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "V-",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "IOUT",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "B1",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "B2",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "B3",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "B4",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "B5",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "B6",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "B7",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "B8",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "V+",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "VREF(+)",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "VREF(-)",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "COMPENSATION",
+     "role": "nc"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 8,
+  "channels": 1,
+  "vcc": [
+   4.5,
+   18
+  ],
+  "analog": [
+   "VLC",
+   "IOUT",
+   "V-",
+   "VREF(+)",
+   "VREF(-)",
+   "COMPENSATION"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8"
+   ]
+  },
+  "registers": [
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "note": "no latch: the code is whatever the B1-B8 / A1-A8 inputs hold"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "DATA",
+     "in": "dddddddd",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "note": "unlatched logic inputs: the current switches follow the inputs directly"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "DAC"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "D": {
+   "pinout": "d16",
+   "footprint": "SOIC-16",
+   "package": "SOIC",
+   "pins": 16
+  },
+  "NFG": {
+   "pinout": "nfg16",
+   "footprint": "PDIP-16",
+   "package": "DIP",
+   "pins": 16
+  }
+ },
+ "pdf": "dac0800.pdf",
+ "pages": "p.1 (features: +-4.5 to +-18 V supplies, TTL/CMOS inputs), p.2 (operating conditions), p.3 (electrical characteristics: logic levels, propagation delay, settling), p.4 (connection diagrams PDIP/SOIC, block diagram)",
+ "notModeled": [
+  "the digital inputs are unlatched (no CS/WR/LDAC): the current switches follow B1-B8 directly; modeled as a parallel bus with no control pins whose data word is written (and the output updated) as the inputs change",
+  "complementary current outputs IOUT (pin 4) and IOUT-bar (pin 2): both are named IOUT (the overbar cannot be written in a pin name); analog, never driven",
+  "reference amplifier (VREF(+), VREF(-)), compensation, multiplying operation, output compliance (all analog)",
+  "logic threshold control VLC (pin 1) shifts the input threshold for ECL/CMOS/PMOS logic; the model uses the TTL thresholds (VLC = 0 V)",
+  "propagation delay tPLH/tPHL 60 ns max and settling time 100-150 ns",
+  "negative supply V- (-15 to -5 V) is in \"analog\" (the voltage check cannot represent a negative supply)",
+  "logic input swing -10 V to +18 V (V- = -15 V): inputs above V+ are not modeled"
+ ],
+ "variants": "DAC0800 (+-0.19 % nonlinearity) and DAC0802 (+-0.1 %) share the datasheet, pinouts and logic; DAC0800C/DAC0802C are the commercial grades. Pin numbers differ between PDIP and SOIC (Figures 2-3).",
+ "parts": [
+  [
+   "DAC0800LCM/NOPB",
+   "D",
+   16,
+   "Active"
+  ],
+  [
+   "DAC0800LCMX/NOPB",
+   "D",
+   16,
+   "Active"
+  ],
+  [
+   "DAC0800LCN/NOPB",
+   "NFG",
+   16,
+   "Active"
+  ]
+ ]
+}

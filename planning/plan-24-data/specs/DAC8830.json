@@ -1,0 +1,175 @@
+{
+ "device": {
+  "id": "DAC8830",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit ultra-low-power unbuffered voltage-output DAC with SPI interface",
+  "note": "dac8830.pdf (SLAS449D) p.1 description, p.4 power supply 2.7-5.5 V and digital inputs, p.5 pin configuration and terminal functions, p.6 Figure 1 timing, p.7 timing characteristics, p.15-16 power-on reset and serial interface",
+  "pinouts": {
+   "d8": [
+    {
+     "number": 1,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 8,
+     "name": "VDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "VOUT",
+   "VREF"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "mode": 0
+  },
+  "registers": [
+   {
+    "name": "IN",
+    "space": "input",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "input register; power-on zero code (p.16)"
+   },
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC latch; power-on zero code (p.16)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "commands": [
+    {
+     "name": "Load input register",
+     "in": "d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "note": "p.16: CS low, SDI latched on SCLK rising MSB first; at CS rising the last 16 bits go to the input register (fewer than 16 bits corrupt the word); the DAC latch follows at once (p.16)"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "IN"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "D": {
+   "pinout": "d8",
+   "footprint": "SOIC-8",
+   "package": "SOIC",
+   "pins": 8
+  }
+ },
+ "pdf": "dac8830.pdf",
+ "pages": "p.1 (reset to zero code), p.4 (VDD 2.7-5.5 V), p.5 (pinout), p.6 (Figure 1: SCLK low at CS falling, SDI sampled on rising edges), p.7 (timing), p.15-16 (power-on reset, serial interface); dac8830-ep.pdf p.9 (EP part timing)",
+ "notModeled": [
+  "analog: unbuffered voltage output, reference input",
+  "a frame of fewer than 16 bits corrupts the word (bits remain from the previous word); the model ignores frames shorter than 16 bits",
+  "the serial shift register is undefined at power-up"
+ ],
+ "variants": "dac8830.pdf covers the DAC8830 (SO-8, no LDAC) and DAC8831 (SO-14/QFN-14 with LDAC, bipolar resistors); DAC8830MCDEP (dac8830-ep.pdf, -55 to 125 C) has the same pinout and interface",
+ "parts": [
+  [
+   "DAC8830IBD",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8830IBDR",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8830ICD",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8830ICDR",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8830ID",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8830IDR",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "DAC8830MCDEP",
+   "D",
+   8,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,1630 @@
+{
+ "device": {
+  "id": "ADS131M08",
+  "function": "ADC",
+  "description": "24-bit 8-channel simultaneous-sampling 32 kSPS delta-sigma ADC with PGA and SPI interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads131m08-q1.pdf p.3-4 pin functions (RSN and PBS share the numbering, ads131m08.pdf p.4-5), p.6 recommended operating conditions, p.9-11 SPI timing (Figure 6-1: CPOL 0, CPHA 1), p.21 OSR / data rates (Table 8-2), p.35 DRDY, p.36-37 SPI frames and words, p.38 data format, p.40-43 commands, p.45-47 register map, p.49-60 register fields",
+  "pinouts": {
+   "p32": [
+    {
+     "number": 1,
+     "name": "AIN2P",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AIN2N",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "AIN3N",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "AIN3P",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AIN4P",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "AIN4N",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "AIN5N",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "AIN5P",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "AIN6P",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "AIN6N",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "AIN7N",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "AIN7P",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 14,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "SYNC/RESET",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "DRDY",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "XTAL2",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "XTAL1/CLKIN",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "CAP",
+     "role": "nc"
+    },
+    {
+     "number": 25,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 26,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 27,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 28,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 29,
+     "name": "AIN0P",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "AIN0N",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "AIN1N",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "AIN1P",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 24,
+  "channels": 8,
+  "codeFormat": "twos",
+  "vcc": [
+   1.65,
+   3.6
+  ],
+  "analog": [
+   "AVDD",
+   "AGND",
+   "REFIN",
+   "CAP",
+   "XTAL1/CLKIN",
+   "XTAL2",
+   "AIN0P",
+   "AIN0N",
+   "AIN1P",
+   "AIN1N",
+   "AIN2P",
+   "AIN2N",
+   "AIN3P",
+   "AIN3N",
+   "AIN4P",
+   "AIN4N",
+   "AIN5P",
+   "AIN5N",
+   "AIN6P",
+   "AIN6N",
+   "AIN7P",
+   "AIN7N"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "miso": "DOUT",
+   "mode": 1
+  },
+  "timing": {
+   "tValid": 50,
+   "tOut": 32,
+   "tFloat": 75
+  },
+  "registers": [
+   {
+    "name": "ID",
+    "address": 0,
+    "width": 16,
+    "reset": 10240,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "CHANCNT",
+      "bits": [
+       11,
+       8
+      ]
+     }
+    ],
+    "note": "reset 28xxh: the low byte is not specified (subject to change); 00h used"
+   },
+   {
+    "name": "STATUS",
+    "address": 1,
+    "width": 16,
+    "reset": 1280,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "LOCK",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "F_RESYNC",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "REG_MAP",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "CRC_ERR",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "CRC_TYPE",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "RESET",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "WLENGTH",
+      "bits": [
+       9,
+       8
+      ]
+     },
+     {
+      "name": "DRDY7",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "DRDY6",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "DRDY5",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "DRDY4",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "DRDY3",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "DRDY2",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "DRDY1",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DRDY0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "MODE",
+    "address": 2,
+    "width": 16,
+    "reset": 1296,
+    "fields": [
+     {
+      "name": "REG_CRC_EN",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "RX_CRC_EN",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "CRC_TYPE",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "RESET",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "WLENGTH",
+      "bits": [
+       9,
+       8
+      ]
+     },
+     {
+      "name": "TIMEOUT",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "DRDY_SEL",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "DRDY_HIZ",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DRDY_FMT",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CLOCK",
+    "address": 3,
+    "width": 16,
+    "reset": 65294,
+    "fields": [
+     {
+      "name": "CH7_EN",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "CH6_EN",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "CH5_EN",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "CH4_EN",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "CH3_EN",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "CH2_EN",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "CH1_EN",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "CH0_EN",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "XTAL_DIS",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "EXTREF_EN",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "OSR",
+      "bits": [
+       4,
+       2
+      ]
+     },
+     {
+      "name": "PWR",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GAIN1",
+    "address": 4,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PGAGAIN3",
+      "bits": [
+       14,
+       12
+      ]
+     },
+     {
+      "name": "PGAGAIN2",
+      "bits": [
+       10,
+       8
+      ]
+     },
+     {
+      "name": "PGAGAIN1",
+      "bits": [
+       6,
+       4
+      ]
+     },
+     {
+      "name": "PGAGAIN0",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "GAIN2",
+    "address": 5,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PGAGAIN7",
+      "bits": [
+       14,
+       12
+      ]
+     },
+     {
+      "name": "PGAGAIN6",
+      "bits": [
+       10,
+       8
+      ]
+     },
+     {
+      "name": "PGAGAIN5",
+      "bits": [
+       6,
+       4
+      ]
+     },
+     {
+      "name": "PGAGAIN4",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CFG",
+    "address": 6,
+    "width": 16,
+    "reset": 1536,
+    "fields": [
+     {
+      "name": "GC_DLY",
+      "bits": [
+       12,
+       9
+      ]
+     },
+     {
+      "name": "GC_EN",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "CD_ALLCH",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CD_NUM",
+      "bits": [
+       6,
+       4
+      ]
+     },
+     {
+      "name": "CD_LEN",
+      "bits": [
+       3,
+       1
+      ]
+     },
+     {
+      "name": "CD_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "THRSHLD_MSB",
+    "address": 7,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "CD_TH_MSB",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "THRSHLD_LSB",
+    "address": 8,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "CD_TH_LSB",
+      "bits": [
+       15,
+       8
+      ]
+     },
+     {
+      "name": "DCBLOCK",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH0_CFG",
+    "address": 9,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PHASE0",
+      "bits": [
+       15,
+       6
+      ]
+     },
+     {
+      "name": "DCBLK0_DIS0",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "MUX0",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH0_OCAL_MSB",
+    "address": 10,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OCAL0_MSB",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH0_OCAL_LSB",
+    "address": 11,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OCAL0_LSB",
+      "bits": [
+       15,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH0_GCAL_MSB",
+    "address": 12,
+    "width": 16,
+    "reset": 32768,
+    "fields": [
+     {
+      "name": "GCAL0_MSB",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH0_GCAL_LSB",
+    "address": 13,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GCAL0_LSB",
+      "bits": [
+       15,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH1_CFG",
+    "address": 14,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PHASE1",
+      "bits": [
+       15,
+       6
+      ]
+     },
+     {
+      "name": "DCBLK1_DIS0",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "MUX1",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH1_OCAL_MSB",
+    "address": 15,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OCAL1_MSB",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH1_OCAL_LSB",
+    "address": 16,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OCAL1_LSB",
+      "bits": [
+       15,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH1_GCAL_MSB",
+    "address": 17,
+    "width": 16,
+    "reset": 32768,
+    "fields": [
+     {
+      "name": "GCAL1_MSB",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH1_GCAL_LSB",
+    "address": 18,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GCAL1_LSB",
+      "bits": [
+       15,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH2_CFG",
+    "address": 19,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PHASE2",
+      "bits": [
+       15,
+       6
+      ]
+     },
+     {
+      "name": "DCBLK2_DIS0",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "MUX2",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH2_OCAL_MSB",
+    "address": 20,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OCAL2_MSB",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH2_OCAL_LSB",
+    "address": 21,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OCAL2_LSB",
+      "bits": [
+       15,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH2_GCAL_MSB",
+    "address": 22,
+    "width": 16,
+    "reset": 32768,
+    "fields": [
+     {
+      "name": "GCAL2_MSB",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH2_GCAL_LSB",
+    "address": 23,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GCAL2_LSB",
+      "bits": [
+       15,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH3_CFG",
+    "address": 24,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PHASE3",
+      "bits": [
+       15,
+       6
+      ]
+     },
+     {
+      "name": "DCBLK3_DIS0",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "MUX3",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH3_OCAL_MSB",
+    "address": 25,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OCAL3_MSB",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH3_OCAL_LSB",
+    "address": 26,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OCAL3_LSB",
+      "bits": [
+       15,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH3_GCAL_MSB",
+    "address": 27,
+    "width": 16,
+    "reset": 32768,
+    "fields": [
+     {
+      "name": "GCAL3_MSB",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH3_GCAL_LSB",
+    "address": 28,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GCAL3_LSB",
+      "bits": [
+       15,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH4_CFG",
+    "address": 29,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PHASE4",
+      "bits": [
+       15,
+       6
+      ]
+     },
+     {
+      "name": "DCBLK4_DIS0",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "MUX4",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH4_OCAL_MSB",
+    "address": 30,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OCAL4_MSB",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH4_OCAL_LSB",
+    "address": 31,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OCAL4_LSB",
+      "bits": [
+       15,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH4_GCAL_MSB",
+    "address": 32,
+    "width": 16,
+    "reset": 32768,
+    "fields": [
+     {
+      "name": "GCAL4_MSB",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH4_GCAL_LSB",
+    "address": 33,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GCAL4_LSB",
+      "bits": [
+       15,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH5_CFG",
+    "address": 34,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PHASE5",
+      "bits": [
+       15,
+       6
+      ]
+     },
+     {
+      "name": "DCBLK5_DIS0",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "MUX5",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH5_OCAL_MSB",
+    "address": 35,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OCAL5_MSB",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH5_OCAL_LSB",
+    "address": 36,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OCAL5_LSB",
+      "bits": [
+       15,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH5_GCAL_MSB",
+    "address": 37,
+    "width": 16,
+    "reset": 32768,
+    "fields": [
+     {
+      "name": "GCAL5_MSB",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH5_GCAL_LSB",
+    "address": 38,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GCAL5_LSB",
+      "bits": [
+       15,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH6_CFG",
+    "address": 39,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PHASE6",
+      "bits": [
+       15,
+       6
+      ]
+     },
+     {
+      "name": "DCBLK6_DIS0",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "MUX6",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH6_OCAL_MSB",
+    "address": 40,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OCAL6_MSB",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH6_OCAL_LSB",
+    "address": 41,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OCAL6_LSB",
+      "bits": [
+       15,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH6_GCAL_MSB",
+    "address": 42,
+    "width": 16,
+    "reset": 32768,
+    "fields": [
+     {
+      "name": "GCAL6_MSB",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH6_GCAL_LSB",
+    "address": 43,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GCAL6_LSB",
+      "bits": [
+       15,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH7_CFG",
+    "address": 44,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PHASE7",
+      "bits": [
+       15,
+       6
+      ]
+     },
+     {
+      "name": "DCBLK7_DIS0",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "MUX7",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH7_OCAL_MSB",
+    "address": 45,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OCAL7_MSB",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH7_OCAL_LSB",
+    "address": 46,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OCAL7_LSB",
+      "bits": [
+       15,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH7_GCAL_MSB",
+    "address": 47,
+    "width": 16,
+    "reset": 32768,
+    "fields": [
+     {
+      "name": "GCAL7_MSB",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH7_GCAL_LSB",
+    "address": 48,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GCAL7_LSB",
+      "bits": [
+       15,
+       8
+      ]
+     }
+    ]
+   },
+   {
+    "name": "REGMAP_CRC",
+    "address": 62,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "REG_CRC",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "the register-map CRC is not computed: reads 0"
+   },
+   {
+    "name": "RESERVED",
+    "address": 63,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "[STATUS] 0{8} [R][R][R][R][R][R][R][R] 0{24}",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "NULL",
+     "in": "0000000000000000 x{8}",
+     "action": "nop",
+     "note": "response next frame: STATUS (the default output frame)"
+    },
+    {
+     "name": "RESET",
+     "in": "0000000000010001 x{8}",
+     "action": "reset",
+     "commit": "end",
+     "next": "11111111 0010 1000 0{8} [R][R][R][R][R][R][R][R] 0{24}",
+     "note": "latched at the end of the frame; acknowledgment FF28h"
+    },
+    {
+     "name": "STANDBY",
+     "in": "0000000000100010 x{8}",
+     "action": "powerdown",
+     "commit": "end",
+     "next": "0000000000100010 0{8} [R][R][R][R][R][R][R][R] 0{24}"
+    },
+    {
+     "name": "WAKEUP",
+     "in": "0000000000110011 x{8}",
+     "action": "wakeup",
+     "next": "0000000000110011 0{8} [R][R][R][R][R][R][R][R] 0{24}"
+    },
+    {
+     "name": "LOCK",
+     "in": "0000010101010101 x{8}",
+     "action": "nop",
+     "next": "0000010101010101 0{8} [R][R][R][R][R][R][R][R] 0{24}",
+     "note": "interface lock not modeled (acknowledged only)"
+    },
+    {
+     "name": "UNLOCK",
+     "in": "0000011001010101 x{8}",
+     "action": "nop",
+     "next": "0000011001010101 0{8} [R][R][R][R][R][R][R][R] 0{24}",
+     "note": "0655h per Table 8-11 and 8.5.1.10.6 of the -Q1 data sheet (the commercial data sheet heading prints 0666h)"
+    },
+    {
+     "name": "RREG",
+     "in": "101aaaaaa0000000 x{8}",
+     "action": "read",
+     "address": "a",
+     "next": "@ 0{8} [R][R][R][R][R][R][R][R] 0{24}",
+     "note": "single register: its contents are the next frame's response word"
+    },
+    {
+     "name": "RREG",
+     "in": "101aaaaaannnnnnn x{8}",
+     "action": "read",
+     "address": "a",
+     "next": "111aaaaaannnnnnn 0{8} @ 0{8}",
+     "note": "multiple registers: acknowledgment then only the first register is output (each register in its own 24-bit word is not expressible); then zeros"
+    },
+    {
+     "name": "WREG",
+     "in": "011aaaaaannnnnnn x{8} d{16} x{8}",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "next": "010aaaaaa0000000 0{8} [R][R][R][R][R][R][R][R] 0{24}",
+     "note": "only the first register's word is written; the acknowledgment reports one register written (mmm mmmm = 0)"
+    }
+   ]
+  },
+  "conversion": {
+   "time": {
+    "field": "CLOCK.OSR",
+    "values": {
+     "0": 31250,
+     "1": 62500,
+     "2": 125000,
+     "3": 250000,
+     "4": 500000,
+     "5": 1000000,
+     "6": 2000000,
+     "7": 4000000
+    }
+   },
+   "start": [
+    "power-on"
+   ],
+   "mode": "continuous",
+   "done": {
+    "STATUS.DRDY0": 1,
+    "STATUS.DRDY1": 1,
+    "STATUS.DRDY2": 1,
+    "STATUS.DRDY3": 1,
+    "STATUS.DRDY4": 1,
+    "STATUS.DRDY5": 1,
+    "STATUS.DRDY6": 1,
+    "STATUS.DRDY7": 1
+   },
+   "onRead": {
+    "STATUS.DRDY0": 0,
+    "STATUS.DRDY1": 0,
+    "STATUS.DRDY2": 0,
+    "STATUS.DRDY3": 0,
+    "STATUS.DRDY4": 0,
+    "STATUS.DRDY5": 0,
+    "STATUS.DRDY6": 0,
+    "STATUS.DRDY7": 0
+   }
+  },
+  "ready": [
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": [
+     "read",
+     "start"
+    ],
+    "enable": [
+     "MODE.DRDY_FMT=0",
+     "MODE.DRDY_HIZ=0"
+    ]
+   },
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": [
+     "read",
+     "start"
+    ],
+    "openDrain": true,
+    "enable": [
+     "MODE.DRDY_FMT=0",
+     "MODE.DRDY_HIZ=1"
+    ]
+   },
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": 488.28125,
+    "enable": [
+     "MODE.DRDY_FMT=1",
+     "MODE.DRDY_HIZ=0"
+    ]
+   },
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": 488.28125,
+    "openDrain": true,
+    "enable": [
+     "MODE.DRDY_FMT=1",
+     "MODE.DRDY_HIZ=1"
+    ]
+   }
+  ]
+ },
+ "packages": {
+  "PBS": {
+   "pinout": "p32",
+   "footprint": "TQFP-32-PBS",
+   "package": "TQFP",
+   "pins": 32
+  },
+  "RSN": {
+   "pinout": "p32",
+   "footprint": "QFN-32-RSN",
+   "package": "QFN",
+   "pins": 32
+  }
+ },
+ "pdf": "ads131m08-q1.pdf",
+ "pages": "p.3-4 (pins), p.6 (ROC), p.9-11 (timing), p.21 (data rates), p.36-37 (frames), p.38 (format), p.40-43 (commands), p.45-47 (register map), p.49-60 (fields); ads131m08.pdf for the commercial parts and the RSN package",
+ "notModeled": [
+  "analog inputs, PGA gains, input multiplexer (MUXn), phase calibration, offset / gain calibration, DC-block filter and global-chop mode (registers stored only)",
+  "word length: only the default 24-bit words are modeled (WLENGTH 16-bit and 32-bit frames are stored only); commands, responses and registers are 16 bits MSB-aligned in each 24-bit word",
+  "CRC: input CRC checking (RX_CRC_EN), the output CRC word (shifted as zeros) and the register-map CRC (REGMAP_CRC reads 0)",
+  "multi-register RREG / WREG (nnn nnnn > 0): one register per command (registers in separate 24-bit words cannot be expressed)",
+  "LOCK / UNLOCK interface lock (acknowledged, not enforced)",
+  "STATUS mirror bits (CRC_TYPE, RESET, WLENGTH follow MODE) and STATUS.RESET / MODE.RESET clearing; STATUS.LOCK, F_RESYNC, REG_MAP, CRC_ERR stay 0",
+  "SYNC/RESET pin: synchronization pulses and the >= 2048 tCLKIN reset pulse (not modeled: a short sync pulse must not reset the registers)",
+  "CLKIN / crystal clock: conversion times are at the nominal 8.192 MHz high-resolution clock (data rate = fCLKIN / 2 / OSR); PWR power modes; channel enables CHn_EN (all channels always output)",
+  "DRDY_SEL source selection, the two-sample output FIFO, the DRDY pulse blocked during reads; DRDY pulse (DRDY_FMT = 1) is 4 tCLKIN at 8.192 MHz",
+  "current-detect mode (CD_* fields), standby current, SPI timeout (TIMEOUT), short frames, 250 us power-on reset time",
+  "reserved read-only bits other than in ID, STATUS, CLOCK[15:...] and REGMAP_CRC are writable in the model",
+  "XTAL_DIS crystal oscillator and EXTREF_EN reference selection (stored only); OSR 111b uses 16384 (-Q1 data sheet; the commercial data sheet's register table prints 16256)"
+ ],
+ "variants": "ADS131M08 only (own data sheets ads131m08.pdf and ads131m08-q1.pdf, same digital interface); sibling ADS131M02/03/04/06/08 differ in channel count (frame length, DRDYn / CHn_EN bits, per-channel registers, RESET acknowledgment FF2nh); ADS131M02/03/04 have a TBM (OSR 64) bit and no REFIN / crystal",
+ "parts": [
+  [
+   "ADS131M08IPBS",
+   "PBS",
+   32,
+   "Active"
+  ],
+  [
+   "ADS131M08IPBSR",
+   "PBS",
+   32,
+   "Active"
+  ],
+  [
+   "ADS131M08IRSNT",
+   "RSN",
+   32,
+   "Active"
+  ],
+  [
+   "ADS131M08QPBSRQ1",
+   "PBS",
+   32,
+   "Active"
+  ]
+ ]
+}

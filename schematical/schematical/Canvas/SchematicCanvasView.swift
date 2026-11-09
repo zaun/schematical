@@ -26,9 +26,13 @@ import SwiftUI
 ///   drag to cancel it (no bus is placed).
 /// - Bus Port: click a bus line (not its ends or a T) to add an empty port
 ///   there; tick wires in its panel to give it pins.
-/// - Eraser: click or drag over a block, wire or bus line to remove it.
+/// - Eraser: click a block, wire or bus line to remove it. A drag erases nothing.
 /// - Flip: click a part to flip it left and right.
 /// - VCC and GND: click the canvas to place a supply there.
+/// - Text: click to add a text block there (or on a block, to select it);
+///   its words are edited in the sidebar. Then back to the Pointer tool.
+///   With the Pointer, a text block drags like a part, and a double-click
+///   edits its words.
 ///
 /// Clicking a DIP switch lever flips that position, with the Pointer tool or
 /// in play mode. A press that drags moves the part (or pans) instead.
@@ -50,7 +54,9 @@ struct SchematicCanvasView: View {
     /// Called with a processor part's id when it is double-clicked, to show its state.
     var onOpenCpu: (UUID) -> Void = { _ in }
     var onOpenTerminal: (UUID) -> Void = { _ in }
-    /// Called after a part dragged from the drawer is placed on the canvas.
+    var onOpenRegisters: (UUID) -> Void = { _ in }
+    /// Called after a part dragged from the drawer is placed on the canvas,
+    /// and after the Text tool adds or picks a text block.
     var onPartPlaced: () -> Void = {}
 
     @State private var interaction: Interaction?
@@ -61,6 +67,7 @@ struct SchematicCanvasView: View {
     @State private var hoveredWireID: UUID?
     @State private var hoveredBusID: UUID?
     @State private var hoveredPortID: UUID?
+    @State private var hoveredNoteID: UUID?
     /// The connection point under the pointer in Line mode, when not drawing.
     @State private var hoverAnchor: LineAnchor?
     /// Watches for Space, Esc and `/` while a wire or bus is being drawn.
@@ -89,10 +96,13 @@ struct SchematicCanvasView: View {
         /// Shift-drag on empty space: a selection box between two screen
         /// points, adding to `base`, the selection at the press.
         case boxSelect(base: Set<SchematicItem>, from: CGPoint, to: CGPoint)
+        /// Eraser press; erases on release if it was a click.
+        case erasing
         case idle
     }
 
-    private var zoom: CGFloat { viewport.zoom }
+    /// Actual points per world unit (not the zoom level shown).
+    private var zoom: CGFloat { viewport.scale }
 
     /// Hit tolerances are in screen points, so they are divided by zoom.
     private var lineTolerance: CGFloat { 6 / zoom }
@@ -108,6 +118,10 @@ struct SchematicCanvasView: View {
             .overlay(alignment: .topLeading) {
                 worldLayer
             }
+            // Render the scaled world at screen resolution. Without this each
+            // symbol is drawn at full size and then shrunk, and below about
+            // half size thin lines fall between pixels and vanish.
+            .drawingGroup()
             .background(Color(nsColor: .textBackgroundColor))
             .contentShape(Rectangle())
             .clipped()
@@ -153,7 +167,20 @@ struct SchematicCanvasView: View {
                         onOpenTerminal(chip.id)
                         return
                     }
+                    // A converter or RTC opens its register window.
+                    if let chip = document.chip(at: point), chip.part.hasRegisters {
+                        onOpenRegisters(chip.id)
+                        return
+                    }
                     guard !isRunning else { return }
+                    // A text block under nothing else edits its words.
+                    if document.chip(at: point) == nil,
+                       document.segmentHit(at: point, tolerance: lineTolerance) == nil,
+                       let note = document.note(at: point) {
+                        document.select(.note(note.id))
+                        document.editingNoteID = note.id
+                        return
+                    }
                     document.insertNode(at: point, tolerance: lineTolerance)
                 }
             )
@@ -197,6 +224,14 @@ struct SchematicCanvasView: View {
         ZStack(alignment: .topLeading) {
             GridBackground(rect: gridRect, step: gridStep)
                 .equatable()
+
+            // Under everything else: wires and parts stay visible over a block.
+            NoteLayer(
+                notes: document.notes,
+                selectedNoteIDs: selectedNoteIDs,
+                hoveredNoteID: hoveredNoteID,
+                area: gridRect
+            )
 
             // Under the wires, so wires crossing a bus stay visible.
             BusLayer(
@@ -305,6 +340,14 @@ struct SchematicCanvasView: View {
     private var selectedWireIDs: Set<UUID> {
         Set(document.schematicSelection.items.compactMap { item in
             if case let .wire(id) = item { return id }
+            return nil
+        })
+    }
+
+    /// The text blocks in the Schematic selection.
+    private var selectedNoteIDs: Set<UUID> {
+        Set(document.schematicSelection.items.compactMap { item in
+            if case let .note(id) = item { return id }
             return nil
         })
     }
@@ -574,13 +617,29 @@ struct SchematicCanvasView: View {
             }
 
         case .eraser:
-            document.erase(at: current, tolerance: lineTolerance)
-            interaction = .idle
+            // Erases on release, and only for a click (see handleEnded).
+            if interaction == nil {
+                interaction = .erasing
+            }
 
         case .flip:
             // One flip per press: the part under where the press started.
             if interaction == nil, let hit = document.chip(at: start) {
                 document.flipChip(hit.id)
+            }
+            interaction = .idle
+
+        case .text:
+            // One block per press, its top-left where the press started. A
+            // press on a block selects that one instead.
+            if interaction == nil {
+                if let hit = document.note(at: start) {
+                    document.select(.note(hit.id))
+                    document.editingNoteID = hit.id
+                } else {
+                    document.addNote(at: start)
+                }
+                onPartPlaced()
             }
             interaction = .idle
 
@@ -609,6 +668,7 @@ struct SchematicCanvasView: View {
         hoveredWireID = nil
         hoveredBusID = nil
         hoveredPortID = nil
+        hoveredNoteID = nil
         hoverAnchor = nil
     }
 
@@ -627,8 +687,10 @@ struct SchematicCanvasView: View {
             hoveredPortID = port
         } else if let wire = document.segmentHit(at: point, tolerance: lineTolerance)?.wire {
             hoveredWireID = wire
+        } else if let bus = document.busHit(at: point, tolerance: busTolerance)?.bus {
+            hoveredBusID = bus
         } else {
-            hoveredBusID = document.busHit(at: point, tolerance: busTolerance)?.bus
+            hoveredNoteID = document.note(at: point)?.id
         }
     }
 
@@ -666,6 +728,9 @@ struct SchematicCanvasView: View {
                   let base = document.bus(line.bus) {
             document.selectedBusID = line.bus
             interaction = .dragBusLine(bus: line.bus, base: base, line: line.line, done: .zero)
+        } else if let note = document.note(at: point) {
+            selectionPress = document.pressSelection(.note(note.id), shift: shift)
+            interaction = .moveGroup(base: document.schematicGroupBase(), lever: nil)
         } else if shift {
             interaction = .boxSelect(base: document.schematicSelection.items, from: screen, to: screen)
         } else {
@@ -695,6 +760,11 @@ struct SchematicCanvasView: View {
                 toggleSwitchLever(at: viewport.world(value.startLocation))
             }
             document.settleSchematicGroup(base)
+        case .erasing?:
+            // A drag erases nothing.
+            if isClick(value) {
+                document.erase(at: viewport.world(value.startLocation), tolerance: lineTolerance)
+            }
         case .pan?:
             // In play mode every press starts a pan; a click flips a lever.
             if isRunning, isClick(value) {
@@ -832,6 +902,52 @@ private struct PinMarkerLayer: View {
     }
 }
 
+/// Draws text blocks: each line of the words from the top-left, inside an
+/// optional frame. A selected block's frame (or, unframed, its outline) is
+/// accent; the hovered one gets a soft accent underlay. Not private, so the
+/// export can draw it too.
+struct NoteLayer: View {
+    let notes: [SchematicNote]
+    var selectedNoteIDs: Set<UUID> = []
+    var hoveredNoteID: UUID?
+    /// The visible world area; drawing outside it is not shown.
+    let area: CGRect
+
+    var body: some View {
+        Canvas { context, _ in
+            var shifted = context
+            shifted.shiftToWorld(area)
+            var painter = ScreenPainter(shifted)
+            Self.paint(&painter, notes: notes, selectedNoteIDs: selectedNoteIDs, hoveredNoteID: hoveredNoteID)
+        }
+        .worldCanvas(area)
+    }
+
+    /// Draws the blocks in world coordinates.
+    static func paint<P: SchematicPainter>(_ painter: inout P, notes: [SchematicNote],
+                                           selectedNoteIDs: Set<UUID>, hoveredNoteID: UUID?) {
+        for note in notes {
+            let rect = note.rect
+            let frame = Path(rect)
+            let isSelected = selectedNoteIDs.contains(note.id)
+            if note.id == hoveredNoteID, !isSelected {
+                painter.stroke(frame, with: Ink.accent.opacity(0.35), lineWidth: 5)
+            }
+            if note.framed {
+                painter.fill(frame, with: .paper)
+                painter.stroke(frame, with: isSelected ? .accent : .secondary, lineWidth: isSelected ? 2 : 1)
+            } else if isSelected {
+                painter.stroke(frame, with: .accent,
+                               style: StrokeStyle(lineWidth: 1.5, dash: [4, 3]))
+            }
+            for (index, line) in note.lines.enumerated() where !line.isEmpty {
+                painter.draw(PaintedText(line, size: CGFloat(note.size)), at: note.lineOrigin(index),
+                             anchor: .topLeading)
+            }
+        }
+    }
+}
+
 /// A junction's dot, accent when it is selected.
 struct JunctionDot {
     let point: CGPoint
@@ -853,50 +969,59 @@ struct WireLayer: View {
 
     var body: some View {
         Canvas { context, _ in
-            context.shiftToWorld(area)
-            let solid = StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round)
-            let underlay = StrokeStyle(lineWidth: 6, lineCap: .round, lineJoin: .round)
-            for route in routes {
-                if route.id == hoveredWireID {
-                    context.stroke(polyline(route.points), with: .color(Color.accentColor.opacity(0.35)), style: underlay)
-                }
-                let dashedStyle = StrokeStyle(lineWidth: 1.5, lineCap: .butt, lineJoin: .round, dash: [4, 3])
-                let path = polyline(route.points)
-                if selectedWireIDs.contains(route.id) {
-                    context.stroke(path, with: .color(.accentColor), style: StrokeStyle(lineWidth: 2.5, lineCap: .round, lineJoin: .round))
-                    continue
-                }
-                switch route.style {
-                case .normal:
-                    context.stroke(path, with: .color(.primary), style: solid)
-                case .value(let color):
-                    context.stroke(path, with: .color(color), style: solid)
-                case .floating:
-                    context.stroke(path, with: .color(.secondary), style: dashedStyle)
-                case .shorted:
-                    context.stroke(path, with: .color(.red), style: solid)
-                case .toggling:
-                    context.stroke(path, with: .color(.secondary), style: solid)
-                    context.stroke(path, with: .color(.green), style: dashedStyle)
-                }
-            }
-
-            for junction in junctions {
-                let r: CGFloat = junction.isSelected ? 4 : 2.5
-                let point = junction.point
-                let rect = CGRect(x: point.x - r, y: point.y - r, width: 2 * r, height: 2 * r)
-                context.fill(Path(ellipseIn: rect), with: .color(junction.isSelected ? .accentColor : .primary))
-            }
-
-            if let preview {
-                let dashed = StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round, dash: [4, 3])
-                context.stroke(polyline(preview.points), with: .color(.accentColor), style: dashed)
-            }
+            var shifted = context
+            shifted.shiftToWorld(area)
+            var painter = ScreenPainter(shifted)
+            Self.paint(&painter, routes: routes, junctions: junctions, selectedWireIDs: selectedWireIDs,
+                       hoveredWireID: hoveredWireID, preview: preview?.points)
         }
         .worldCanvas(area)
     }
 
-    private func polyline(_ points: [CGPoint]) -> Path {
+    /// Draws the wires in world coordinates. `preview` is the route being drawn.
+    static func paint<P: SchematicPainter>(_ painter: inout P, routes: [RoutedWire], junctions: [JunctionDot],
+                                           selectedWireIDs: Set<UUID>, hoveredWireID: UUID?, preview: [CGPoint]?) {
+        let solid = StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round)
+        let underlay = StrokeStyle(lineWidth: 6, lineCap: .round, lineJoin: .round)
+        for route in routes {
+            if route.id == hoveredWireID {
+                painter.stroke(polyline(route.points), with: Ink.accent.opacity(0.35), style: underlay)
+            }
+            let dashedStyle = StrokeStyle(lineWidth: 1.5, lineCap: .butt, lineJoin: .round, dash: [4, 3])
+            let path = polyline(route.points)
+            if selectedWireIDs.contains(route.id) {
+                painter.stroke(path, with: .accent, style: StrokeStyle(lineWidth: 2.5, lineCap: .round, lineJoin: .round))
+                continue
+            }
+            switch route.style {
+            case .normal:
+                painter.stroke(path, with: .primary, style: solid)
+            case .value(let color):
+                painter.stroke(path, with: Ink(role: .color(color)), style: solid)
+            case .floating:
+                painter.stroke(path, with: .secondary, style: dashedStyle)
+            case .shorted:
+                painter.stroke(path, with: Ink(role: .color(.red)), style: solid)
+            case .toggling:
+                painter.stroke(path, with: .secondary, style: solid)
+                painter.stroke(path, with: Ink(role: .color(.green)), style: dashedStyle)
+            }
+        }
+
+        for junction in junctions {
+            let r: CGFloat = junction.isSelected ? 4 : 2.5
+            let point = junction.point
+            let rect = CGRect(x: point.x - r, y: point.y - r, width: 2 * r, height: 2 * r)
+            painter.fill(Path(ellipseIn: rect), with: junction.isSelected ? .accent : .primary)
+        }
+
+        if let preview {
+            let dashed = StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round, dash: [4, 3])
+            painter.stroke(polyline(preview), with: .accent, style: dashed)
+        }
+    }
+
+    private static func polyline(_ points: [CGPoint]) -> Path {
         var path = Path()
         guard let first = points.first else { return path }
         path.move(to: first)
@@ -929,45 +1054,54 @@ struct BusLayer: View {
 
     var body: some View {
         Canvas { context, _ in
-            context.shiftToWorld(area)
-            let width = Bus.lineWidth
-            for bus in buses {
-                if bus.id == hoveredBusID {
-                    let underlay = StrokeStyle(lineWidth: width * 2, lineCap: .round)
-                    for line in bus.lines {
-                        context.stroke(segment(line.a, line.b), with: .color(Color.accentColor.opacity(0.35)), style: underlay)
-                    }
-                }
-                let color: Color = bus.id == selectedBusID ? .accentColor : .primary
-                for line in bus.lines {
-                    context.stroke(segment(line.a, line.b), with: .color(color), style: StrokeStyle(lineWidth: width, lineCap: .butt))
-                }
-                for joint in bus.joints {
-                    let p = joint.point
-                    switch joint {
-                    case .corner:
-                        let square = CGRect(x: p.x - width / 2, y: p.y - width / 2, width: width, height: width)
-                        context.fill(Path(square), with: .color(color))
-                    case .tee:
-                        let dot = CGRect(x: p.x - width, y: p.y - width, width: width * 2, height: width * 2)
-                        context.fill(Path(ellipseIn: dot), with: .color(color))
-                    }
-                }
-            }
-
-            if let preview, let first = preview.points.first {
-                var path = Path()
-                path.move(to: first)
-                for point in preview.points.dropFirst() { path.addLine(to: point) }
-                let dashed = StrokeStyle(lineWidth: width, lineCap: .butt, lineJoin: .miter, dash: [8, 6])
-                let color: Color = preview.refused ? .red.opacity(0.6) : .accentColor
-                context.stroke(path, with: .color(color), style: dashed)
-            }
+            var shifted = context
+            shifted.shiftToWorld(area)
+            var painter = ScreenPainter(shifted)
+            Self.paint(&painter, buses: buses, selectedBusID: selectedBusID, hoveredBusID: hoveredBusID,
+                       preview: preview)
         }
         .worldCanvas(area)
     }
 
-    private func segment(_ a: CGPoint, _ b: CGPoint) -> Path {
+    /// Draws the buses in world coordinates.
+    static func paint<P: SchematicPainter>(_ painter: inout P, buses: [Bus], selectedBusID: UUID?,
+                                           hoveredBusID: UUID?, preview: BusPreview?) {
+        let width = Bus.lineWidth
+        for bus in buses {
+            if bus.id == hoveredBusID {
+                let underlay = StrokeStyle(lineWidth: width * 2, lineCap: .round)
+                for line in bus.lines {
+                    painter.stroke(segment(line.a, line.b), with: Ink.accent.opacity(0.35), style: underlay)
+                }
+            }
+            let ink: Ink = bus.id == selectedBusID ? .accent : .primary
+            for line in bus.lines {
+                painter.stroke(segment(line.a, line.b), with: ink, style: StrokeStyle(lineWidth: width, lineCap: .butt))
+            }
+            for joint in bus.joints {
+                let p = joint.point
+                switch joint {
+                case .corner:
+                    let square = CGRect(x: p.x - width / 2, y: p.y - width / 2, width: width, height: width)
+                    painter.fill(Path(square), with: ink)
+                case .tee:
+                    let dot = CGRect(x: p.x - width, y: p.y - width, width: width * 2, height: width * 2)
+                    painter.fill(Path(ellipseIn: dot), with: ink)
+                }
+            }
+        }
+
+        if let preview, let first = preview.points.first {
+            var path = Path()
+            path.move(to: first)
+            for point in preview.points.dropFirst() { path.addLine(to: point) }
+            let dashed = StrokeStyle(lineWidth: width, lineCap: .butt, lineJoin: .miter, dash: [8, 6])
+            let ink: Ink = preview.refused ? Ink(role: .color(Color.red.opacity(0.6))) : .accent
+            painter.stroke(path, with: ink, style: dashed)
+        }
+    }
+
+    private static func segment(_ a: CGPoint, _ b: CGPoint) -> Path {
         var path = Path()
         path.move(to: a)
         path.addLine(to: b)
@@ -987,39 +1121,46 @@ struct PortLayer: View {
 
     var body: some View {
         Canvas { context, _ in
-            context.shiftToWorld(area)
-            for bus in buses {
-                for port in bus.ports {
-                    guard let body = bus.body(of: port), let line = bus.line(port.line) else { continue }
-                    let highlighted = port.id == selectedPortID || port.id == hoveredPortID
-                    let outline: Color = highlighted ? .accentColor : .primary
-                    context.fill(Path(body), with: .color(Color(nsColor: .controlBackgroundColor)))
-                    context.stroke(Path(body), with: .color(outline), lineWidth: highlighted ? 2 : 1.5)
+            var shifted = context
+            shifted.shiftToWorld(area)
+            var painter = ScreenPainter(shifted)
+            Self.paint(&painter, buses: buses, selectedPortID: selectedPortID, hoveredPortID: hoveredPortID)
+        }
+        .worldCanvas(area)
+    }
 
-                    for (index, wire) in bus.pinWires(of: port).enumerated() {
-                        let along = bus.pinAlong(port, index: index)
-                        guard let edge = bus.point(on: port, along: along, out: BusPort.depth),
-                              let tip = bus.point(on: port, along: along, out: BusPort.depth + BusPort.stub),
-                              let label = bus.point(on: port, along: along, out: BusPort.depth / 2) else { continue }
-                        var stub = Path()
-                        stub.move(to: edge)
-                        stub.addLine(to: tip)
-                        context.stroke(stub, with: .color(outline), lineWidth: 1.5)
+    /// Draws the ports in world coordinates.
+    static func paint<P: SchematicPainter>(_ painter: inout P, buses: [Bus], selectedPortID: UUID?,
+                                           hoveredPortID: UUID?) {
+        for bus in buses {
+            for port in bus.ports {
+                guard let body = bus.body(of: port), let line = bus.line(port.line) else { continue }
+                let highlighted = port.id == selectedPortID || port.id == hoveredPortID
+                let outline: Ink = highlighted ? .accent : .primary
+                painter.fill(Path(body), with: .paper)
+                painter.stroke(Path(body), with: outline, lineWidth: highlighted ? 2 : 1.5)
 
-                        let text = Text(wire.name)
-                            .font(.system(size: 10, weight: .medium, design: .monospaced))
-                        if line.isHorizontal {
-                            var turned = context
-                            turned.translateBy(x: label.x, y: label.y)
-                            turned.rotate(by: .degrees(-90))
-                            turned.draw(text, at: .zero, anchor: .center)
-                        } else {
-                            context.draw(text, at: label, anchor: .center)
-                        }
+                for (index, wire) in bus.pinWires(of: port).enumerated() {
+                    let along = bus.pinAlong(port, index: index)
+                    guard let edge = bus.point(on: port, along: along, out: BusPort.depth),
+                          let tip = bus.point(on: port, along: along, out: BusPort.depth + BusPort.stub),
+                          let label = bus.point(on: port, along: along, out: BusPort.depth / 2) else { continue }
+                    var stub = Path()
+                    stub.move(to: edge)
+                    stub.addLine(to: tip)
+                    painter.stroke(stub, with: outline, lineWidth: 1.5)
+
+                    let text = PaintedText(wire.name, size: 10, weight: .medium, monospaced: true)
+                    if line.isHorizontal {
+                        var turned = painter
+                        turned.translateBy(x: label.x, y: label.y)
+                        turned.rotate(by: .degrees(-90))
+                        turned.draw(text, at: .zero, anchor: .center)
+                    } else {
+                        painter.draw(text, at: label, anchor: .center)
                     }
                 }
             }
         }
-        .worldCanvas(area)
     }
 }

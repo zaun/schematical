@@ -39,6 +39,10 @@ typedef struct PartKindOps {
     /* Optional (NULL = never): 1 when pin is an output the part never drives
        high (open drain), for the voltage check; see part_pin_open_drain. */
     int (*pin_open_drain)(const Part *part, size_t pin);
+    /* Optional (NULL = never): 1 when pin is an analog pin (converter, rtc:
+       analog supplies, references, analog inputs and outputs); the voltage
+       check skips it. See part_pin_analog. */
+    int (*pin_analog)(const Part *part, size_t pin);
 } PartKindOps;
 
 /* What Part.internal points to. */

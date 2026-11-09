@@ -1,0 +1,84 @@
+{
+  "device": {
+    "id": "ADC0820",
+    "function": "ADC",
+    "description": "8-bit 1.5 us half-flash microprocessor-compatible ADC with track/hold and 3-state data bus",
+    "drawer": ["Interface"],
+    "note": "adc0820-n.pdf (SNAS529C) p.2 operating ratings, p.4 DC characteristics (logic levels), p.5 AC characteristics (tI, tACC2, t1H/t0H, tINTH), p.6-7 Figures 4-7 (RD mode, WR-RD mode timing), p.10 pin descriptions (WR/RDY, Mode, RD, INT, OFL)",
+    "pinouts": {
+      "dw20": [
+        {"number": 1, "name": "VIN", "role": "input"},
+        {"number": 2, "name": "DB0", "role": "output"},
+        {"number": 3, "name": "DB1", "role": "output"},
+        {"number": 4, "name": "DB2", "role": "output"},
+        {"number": 5, "name": "DB3", "role": "output"},
+        {"number": 6, "name": "WR/RDY", "role": "input"},
+        {"number": 7, "name": "MODE", "role": "input"},
+        {"number": 8, "name": "RD", "role": "input"},
+        {"number": 9, "name": "INT", "role": "output"},
+        {"number": 10, "name": "GND", "role": "ground"},
+        {"number": 11, "name": "VREF(-)", "role": "power"},
+        {"number": 12, "name": "VREF(+)", "role": "power"},
+        {"number": 13, "name": "CS", "role": "input"},
+        {"number": 14, "name": "DB4", "role": "output"},
+        {"number": 15, "name": "DB5", "role": "output"},
+        {"number": 16, "name": "DB6", "role": "output"},
+        {"number": 17, "name": "DB7", "role": "output"},
+        {"number": 18, "name": "OFL", "role": "output"},
+        {"number": 19, "name": "NC", "role": "nc"},
+        {"number": 20, "name": "VCC", "role": "power"}
+      ]
+    },
+    "type": "adc",
+    "bits": 8,
+    "channels": 1,
+    "codeFormat": "straight",
+    "vcc": [4.5, 8],
+    "analog": ["VIN", "VREF(-)", "VREF(+)"],
+    "bus": {
+      "style": "parallel",
+      "data": ["DB7", "DB6", "DB5", "DB4", "DB3", "DB2", "DB1", "DB0"],
+      "cs": {"pin": "CS", "active": 0},
+      "rd": {"pin": "RD", "active": 0},
+      "wr": {"pin": "WR/RDY", "active": 0}
+    },
+    "timing": {"tAcc": 150, "tDf": 200},
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "commands": [
+        {"name": "Start conversion (WR-RD mode: CS and WR low)", "in": "x{8}", "action": "start", "commit": "end"}
+      ],
+      "read": "R{8}"
+    },
+    "conversion": {
+      "time": 1300,
+      "start": ["command"]
+    },
+    "ready": [
+      {"pin": "INT", "active": 0, "asserts": "done", "clears": "read"}
+    ]
+  },
+  "packages": {
+    "DW": {"pinout": "dw20", "footprint": "SOIC-20W", "package": "SOIC", "pins": 20}
+  },
+  "pdf": "adc0820-n.pdf",
+  "pages": "p.2 (operating ratings: VCC 4.5-8 V), p.4 (VIN(1) 2.0 V CS/WR/RD, 3.5 V Mode), p.5 (tCRD 2.5 us, tI 800/1300 ns, tACC2 120/150 ns, t1H/t0H 200 ns, tINTH 225 ns, tRDY 100 ns), p.6-7 (Figures 4-7), p.10 (pin descriptions)",
+  "notModeled": [
+    "analog input, VREF(+)/VREF(-) span (the result is always the 0 V code 0x00)",
+    "only WR-RD mode (MODE pin high) is modeled: WR/RDY is the WR input, the conversion is started by CS+WR and INT goes low tI (1300 ns max) after WR rises. The MODE pin is not read",
+    "RD mode (MODE low, the power-on default: MODE has an internal 50 uA pull-down): RD low starts the conversion and the data appear on DB0-DB7 at its end (tCRD 2.5 us max) in the same read; pin 6 is then RDY, an open-drain output low from CS fall until the result is latched",
+    "WR-RD mode reading before tI (RD low earlier latches the result at RD fall, INT low tRD+290 ns)",
+    "INT is also reset by the rising edge of CS; INT state at power-up is undefined",
+    "OFL overflow output (always driven, low when VIN > VREF(+); high for the 0 V code) is not driven",
+    "conversion starts at the WR falling edge in the datasheet; the model starts it at WR/CS release and times tI from there (which is how the datasheet times INT)",
+    "tWR / tRD minimum (600 ns) and maximum (50 us) widths, tP 500 ns between conversions",
+    "pin names: VREF(−) is written VREF(-); Mode is written MODE"
+  ],
+  "variants": "ADC0820BCWM / ADC0820CCWM differ only in accuracy grade (+-1/2 vs +-1 LSB); one device",
+  "parts": [
+    ["ADC0820BCWMX/NOPB", "DW", 20, "Active"],
+    ["ADC0820CCWM/NOPB", "DW", 20, "Active"],
+    ["ADC0820CCWMX/NOPB", "DW", 20, "Active"]
+  ]
+}

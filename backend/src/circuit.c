@@ -635,6 +635,43 @@ int circuit_lcd_state(const Circuit *circuit, size_t part, LcdState *out) {
     return 0;
 }
 
+/* ---- Converter and RTC registers (plan-24-I) ------------------------------- */
+
+int circuit_converter_registers(const Circuit *circuit, size_t part, ConverterRegister *out,
+                                size_t max) {
+    Circuit *writable = (Circuit *)circuit;   /* only the error text changes */
+    const SimComponentType *type;
+    size_t count;
+
+    if (check_part(writable, part) != 0) {
+        return -1;
+    }
+    type = sim_instance_type(circuit->instances[part]);
+    if (type->registers == NULL) {
+        return fail(writable, "part %zu has no registers", part);
+    }
+    count = type->registers(sim_instance_state(circuit->instances[part]), out, out != NULL ? max : 0);
+    return (int)count;
+}
+
+int circuit_rtc_time(const Circuit *circuit, size_t part, RtcTime *out) {
+    Circuit *writable = (Circuit *)circuit;   /* only the error text changes */
+    const SimComponentType *type;
+
+    if (check_part(writable, part) != 0) {
+        return -1;
+    }
+    if (circuit->parts[part]->kind != PART_RTC || out == NULL) {
+        return fail(writable, "part %zu is not an RTC", part);
+    }
+    type = sim_instance_type(circuit->instances[part]);
+    if (!circuit->started || type->rtc_time == NULL ||
+        !type->rtc_time(sim_instance_state(circuit->instances[part]), out)) {
+        return fail(writable, "the circuit is not running");
+    }
+    return 0;
+}
+
 /* ---- Serial terminal (plan-12-C section 3.5) ------------------------------- */
 
 static const SimComponentType *serial_type(const Circuit *circuit, size_t part) {

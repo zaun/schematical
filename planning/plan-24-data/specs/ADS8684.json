@@ -1,0 +1,682 @@
+{
+ "device": {
+  "id": "ADS8684",
+  "function": "ADC",
+  "description": "16-bit 500 kSPS 4-channel SAR ADC with bipolar programmable input ranges, AUX input and SPI interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads8688.pdf (SBAS582C) p.4-5 pin functions, p.6 recommended operating conditions, p.11 timing (Figure 1), p.31 transfer function, p.32-33 digital pins and RST/PD (Table 5), p.45 command register (Table 6), p.46 program register read/write (Tables 7-8), p.47 program register map (Table 9), p.48-51 register descriptions",
+  "pinouts": {
+   "dbt38": [
+    {
+     "number": 1,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "RST/PD",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "DAISY",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "REFSEL",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "REFIO",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "REFGND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "REFCAP",
+     "role": "nc"
+    },
+    {
+     "number": 8,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "AUX_IN",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "AUX_GND",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 13,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 14,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 15,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 16,
+     "name": "AIN_0P",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "AIN_0GND",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "AIN_1P",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "AIN_1GND",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "AIN2_GND",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "AIN_2P",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "AIN_3GND",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "AIN_3P",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 25,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 26,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 27,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 28,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 29,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 30,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 31,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 32,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 33,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 34,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 35,
+     "name": "DNC",
+     "role": "nc"
+    },
+    {
+     "number": 36,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 37,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 38,
+     "name": "CS",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 4,
+  "codeFormat": "offset",
+  "vcc": [
+   1.65,
+   5.25
+  ],
+  "analog": [
+   "AIN2_GND",
+   "AIN_0GND",
+   "AIN_0P",
+   "AIN_1GND",
+   "AIN_1P",
+   "AIN_2P",
+   "AIN_3GND",
+   "AIN_3P",
+   "AUX_GND",
+   "AUX_IN",
+   "AVDD",
+   "REFCAP",
+   "REFIO"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDO",
+   "mode": 1
+  },
+  "timing": {
+   "tValid": 10,
+   "tOut": 10,
+   "tFloat": 10
+  },
+  "registers": [
+   {
+    "name": "AUTO_SEQ_EN",
+    "address": 1,
+    "width": 8,
+    "reset": 255,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "CH7_EN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CH6_EN",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "CH5_EN",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "CH4_EN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "CH3_EN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CH2_EN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CH1_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "CH0_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH_PWR_DN",
+    "address": 2,
+    "width": 8,
+    "reset": 240,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "CH7_PD",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CH6_PD",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "CH5_PD",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "CH4_PD",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "CH3_PD",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CH2_PD",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CH1_PD",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "CH0_PD",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "FEATURE_SELECT",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 56,
+    "fields": [
+     {
+      "name": "DEV",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "SDO",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RANGE_CH0",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "RANGE",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RANGE_CH1",
+    "address": 6,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "RANGE",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RANGE_CH2",
+    "address": 7,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "RANGE",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RANGE_CH3",
+    "address": 8,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "RANGE",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RANGE_CH4",
+    "address": 9,
+    "width": 8,
+    "reset": 255,
+    "readOnly": true
+   },
+   {
+    "name": "RANGE_CH5",
+    "address": 10,
+    "width": 8,
+    "reset": 255,
+    "readOnly": true
+   },
+   {
+    "name": "RANGE_CH6",
+    "address": 11,
+    "width": 8,
+    "reset": 255,
+    "readOnly": true
+   },
+   {
+    "name": "RANGE_CH7",
+    "address": 12,
+    "width": 8,
+    "reset": 255,
+    "readOnly": true
+   },
+   {
+    "name": "CMD_READBACK",
+    "address": 63,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "COMMAND_WORD",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CHSEL",
+    "width": 4,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "CH",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "internal: channel of the next conversion (MAN_Ch_n / MAN_AUX = 8), not in the register map"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "0{16} R{16}",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "NO_OP",
+     "in": "0{16}",
+     "action": "nop"
+    },
+    {
+     "name": "STDBY",
+     "in": "10000010 0{8}",
+     "action": "powerdown",
+     "commit": "end",
+     "set": {
+      "CMD_READBACK.COMMAND_WORD": 130
+     }
+    },
+    {
+     "name": "PWR_DN",
+     "in": "10000011 0{8}",
+     "action": "powerdown",
+     "commit": "end",
+     "set": {
+      "CMD_READBACK.COMMAND_WORD": 131
+     }
+    },
+    {
+     "name": "RST",
+     "in": "10000101 0{8}",
+     "action": "reset",
+     "commit": "end",
+     "set": {
+      "CMD_READBACK.COMMAND_WORD": 133
+     }
+    },
+    {
+     "name": "AUTO_RST",
+     "in": "10100000 0{8}",
+     "action": "wakeup",
+     "commit": "end",
+     "set": {
+      "CHSEL.CH": 0,
+      "CMD_READBACK.COMMAND_WORD": 160
+     }
+    },
+    {
+     "name": "MAN_Ch_0",
+     "in": "11000000 0{8}",
+     "action": "wakeup",
+     "commit": "end",
+     "set": {
+      "CHSEL.CH": 0,
+      "CMD_READBACK.COMMAND_WORD": 192
+     }
+    },
+    {
+     "name": "MAN_Ch_1",
+     "in": "11000100 0{8}",
+     "action": "wakeup",
+     "commit": "end",
+     "set": {
+      "CHSEL.CH": 1,
+      "CMD_READBACK.COMMAND_WORD": 196
+     }
+    },
+    {
+     "name": "MAN_Ch_2",
+     "in": "11001000 0{8}",
+     "action": "wakeup",
+     "commit": "end",
+     "set": {
+      "CHSEL.CH": 2,
+      "CMD_READBACK.COMMAND_WORD": 200
+     }
+    },
+    {
+     "name": "MAN_Ch_3",
+     "in": "11001100 0{8}",
+     "action": "wakeup",
+     "commit": "end",
+     "set": {
+      "CHSEL.CH": 3,
+      "CMD_READBACK.COMMAND_WORD": 204
+     }
+    },
+    {
+     "name": "MAN_AUX",
+     "in": "11100000 0{8}",
+     "action": "wakeup",
+     "commit": "end",
+     "set": {
+      "CHSEL.CH": 8,
+      "CMD_READBACK.COMMAND_WORD": 224
+     }
+    },
+    {
+     "name": "WRITE",
+     "in": "aaaaaaa1 dddddddd",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "reply": "dddddddd",
+     "commit": "end"
+    },
+    {
+     "name": "READ",
+     "in": "aaaaaaa0 x{8}",
+     "action": "rreg",
+     "address": "a",
+     "reply": "@"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 850,
+   "start": [
+    "cs-fall"
+   ],
+   "channel": "CHSEL.CH"
+  },
+  "pins": {
+   "reset": {
+    "pin": "RST/PD",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "DBT": {
+   "pinout": "dbt38",
+   "footprint": "TSSOP-38",
+   "package": "TSSOP",
+   "pins": 38
+  }
+ },
+ "pdf": "ads8688.pdf",
+ "pages": "ads8688.pdf p.4-5 (pins; pin 35 DNC), p.6 (ROC: DVDD 1.65 V to AVDD, AVDD 4.75-5.25 V), p.11 (timing: tCONV 850 ns, tDZ_CSDO 10 ns, tHT_CKDO 10 ns), p.31 (straight binary, 0 V of the bipolar default range = 8000h), p.32 (SDI/SDO pins), p.33 (RST/PD Table 5), p.45 (Table 6 commands), p.46 (Tables 7-8 read/write), p.47 (Table 9 register map), p.48-51 (register fields)",
+ "notModeled": [
+  "analog front end, input ranges (RANGE_CHn stored only; the 0 V code is 8000h, the bipolar default range's straight-binary mid-scale; unipolar ranges would give 0000h)",
+  "power-up idle state: the device converts nothing until the first AUTO_RST/MAN command (modeled: every CS fall converts)",
+  "RST mode after a reset converts nothing until AUTO_RST/MAN (modeled: conversions continue)",
+  "AUTO_RST channel sequencing over AUTO_SEQ_EN (modeled: AUTO_RST selects channel 0 and stays there); CH_PWR_DN stored only",
+  "SDO formats 001-011 (channel address, device address and range bits appended after the result); only format 000 (16 result bits then low) is shifted",
+  "daisy-chain mode (DAISY input shifted through SDO) and DEV ID bits",
+  "RST/PD pin pulse width: <= 100 ns low = register reset, >= 400 ns = power-down; modeled as a reset held while low",
+  "STDBY vs PWR_DN wake-up times (both modeled as power-down left by AUTO_RST/MAN)",
+  "program register writes take effect at the next CS fall (modeled: at CS rise of the write frame)",
+  "SDO during the 16 bits of a command frame is 0 for every frame type",
+  "REFSEL internal/external reference selection (analog)",
+  "SCLK frequency limit (17 MHz; the 16th SCLK falling edge must come after tCONV 850 ns)",
+  "SDO data-change delay is not specified (only hold 10 ns and setup 25 ns at tSCLK 59 ns); tOut uses the 10 ns hold time",
+  "RANGE_CHn codes other than 0000/0001/0010/0101/0110 are not listed (Table 15); any 4-bit value is stored"
+ ],
+ "variants": "ADS8684: 4-channel, pins 12-15 and 24-27 NC, the channel 4-7 bits and registers read as 1s and ignore writes (Table 9 note 2). ADS8688: 8-channel. Both share ads8688.pdf (SBAS582C). The A chips (ADS8684A / ADS8688A, ads8684a.pdf) add the alarm feature (ALARM pin 35, ALARM_EN bit, registers 10h-3Ch) and have their own spec files.",
+ "parts": [
+  [
+   "ADS8684IDBT",
+   "DBT",
+   38,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,1379 @@
+{
+ "device": {
+  "id": "DAC8771",
+  "function": "DAC",
+  "description": "16-bit single-channel voltage (0-5/10/6/12 V, +/-5/10/6/12 V) and current (4-20 mA, 0-20/24 mA, +/-24 mA) output DAC with adaptive buck-boost converter, SPI with read-back, HART input, LDAC/CLR/RESET, watchdog and CRC",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac8771.pdf (SLASEE2) p.3-4 pin functions, p.6 recommended operating conditions, p.13-14 timing (Figures 1-2), p.37 power-on reset, p.40-41 SPI and daisy chain, p.41-42 frame/write/read, p.42 LDAC, p.43 RESET/CLR pins and frame error checking, p.45 address functions (Table 4), p.46 register map (Table 5), p.47-58 register descriptions (Tables 6-23)",
+  "pinouts": {
+   "rgz48": [
+    {
+     "number": 1,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 2,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "DVDD_EN",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 9,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 11,
+     "name": "VNEG_IN",
+     "role": "power"
+    },
+    {
+     "number": 12,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 13,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 14,
+     "name": "PVDD",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "LP",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "PVSS",
+     "role": "ground"
+    },
+    {
+     "number": 17,
+     "name": "LN",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 19,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 20,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 21,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 22,
+     "name": "DNC",
+     "role": "nc"
+    },
+    {
+     "number": 23,
+     "name": "VPOS_IN",
+     "role": "power"
+    },
+    {
+     "number": 24,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 25,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 26,
+     "name": "IOUT",
+     "role": "output"
+    },
+    {
+     "number": 27,
+     "name": "VNEG_IN",
+     "role": "power"
+    },
+    {
+     "number": 28,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 29,
+     "name": "VSENSEP",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "VSENSEN",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "CCOMP",
+     "role": "nc"
+    },
+    {
+     "number": 32,
+     "name": "HART_IN",
+     "role": "input"
+    },
+    {
+     "number": 33,
+     "name": "DNC",
+     "role": "nc"
+    },
+    {
+     "number": 34,
+     "name": "DNC",
+     "role": "nc"
+    },
+    {
+     "number": 35,
+     "name": "DNC",
+     "role": "nc"
+    },
+    {
+     "number": 36,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 37,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 38,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 39,
+     "name": "SDIN",
+     "role": "input"
+    },
+    {
+     "number": 40,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 41,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 42,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 43,
+     "name": "CLR",
+     "role": "input"
+    },
+    {
+     "number": 44,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 45,
+     "name": "ALARM",
+     "role": "output"
+    },
+    {
+     "number": 46,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 47,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 48,
+     "name": "NC",
+     "role": "nc"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "AVDD",
+   "REFOUT",
+   "REFIN",
+   "VNEG_IN",
+   "PVDD",
+   "LP",
+   "LN",
+   "VPOS_IN",
+   "VOUT",
+   "IOUT",
+   "VSENSEP",
+   "VSENSEN",
+   "CCOMP",
+   "HART_IN"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "SDIN",
+   "miso": "SDO",
+   "mode": 2
+  },
+  "timing": {
+   "tOut": 14
+  },
+  "registers": [
+   {
+    "name": "RESET_REG",
+    "address": 1,
+    "width": 16,
+    "fields": [
+     {
+      "name": "RST",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "Table 7 reset register 0x01, reset 0x0000; RST self-clears after the reset"
+   },
+   {
+    "name": "RESET_CONFIG",
+    "address": 2,
+    "width": 16,
+    "fields": [
+     {
+      "name": "IDA",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "IDB",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "IDC",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "CLREN",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "REF_EN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "TRN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CLR",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "POC",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "UBT",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "Table 8 reset config register 0x02, reset 0x0000; CLR self-clears"
+   },
+   {
+    "name": "SELECT_DAC",
+    "address": 3,
+    "width": 16,
+    "fields": [
+     {
+      "name": "CLSLA",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "CHA",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "DSDO",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "CREN",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "WPD",
+      "bits": [
+       2,
+       1
+      ]
+     },
+     {
+      "name": "WEN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "Table 9 select DAC register 0x03, reset 0x0000"
+   },
+   {
+    "name": "CONFIG_DAC",
+    "address": 4,
+    "width": 16,
+    "fields": [
+     {
+      "name": "SCLIM",
+      "bits": [
+       15,
+       14
+      ]
+     },
+     {
+      "name": "HTEN",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "OTEN",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "SRCLK_RATE",
+      "bits": [
+       11,
+       8
+      ]
+     },
+     {
+      "name": "SR_STEP",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "SREN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "RANGE",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "Table 10 configuration DAC register 0x04 (per channel), reset 0x0000"
+   },
+   {
+    "name": "DAC_DATA",
+    "address": 5,
+    "width": 16,
+    "note": "Table 11 DAC data register 0x05 (per channel), power-on 0x0000 (Table 4)"
+   },
+   {
+    "name": "SELECT_BB",
+    "address": 6,
+    "width": 16,
+    "fields": [
+     {
+      "name": "DCA",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "Table 12 select buck-boost converter register 0x06, reset 0x0000"
+   },
+   {
+    "name": "CONFIG_BB",
+    "address": 7,
+    "width": 16,
+    "fields": [
+     {
+      "name": "CCLP",
+      "bits": [
+       11,
+       10
+      ]
+     },
+     {
+      "name": "PCLMP",
+      "bits": [
+       9,
+       6
+      ]
+     },
+     {
+      "name": "NCLMP",
+      "bits": [
+       5,
+       2
+      ]
+     },
+     {
+      "name": "PNSEL",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "Table 13 configuration buck-boost register 0x07 (per channel), reset 0x0000"
+   },
+   {
+    "name": "CAL_EN",
+    "address": 8,
+    "width": 16,
+    "fields": [
+     {
+      "name": "CLEN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "Table 14 DAC channel calibration enable register 0x08 (per channel), reset 0x0000"
+   },
+   {
+    "name": "UGAIN",
+    "address": 9,
+    "width": 16,
+    "note": "Table 15 DAC channel gain calibration register 0x09 (per channel), reset 0x0000 (Table 4; p.44 gives 0x8000 as the gain power-on value)"
+   },
+   {
+    "name": "UOFF",
+    "address": 10,
+    "width": 16,
+    "note": "Table 16 DAC channel offset calibration register 0x0A (per channel), reset 0x0000"
+   },
+   {
+    "name": "STATUS",
+    "address": 11,
+    "width": 16,
+    "reset": 4096,
+    "readOnly": 1792,
+    "fields": [
+     {
+      "name": "CLST",
+      "bits": [
+       12,
+       12
+      ]
+     },
+     {
+      "name": "WDT",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "DIDA",
+      "bits": [
+       10,
+       10
+      ]
+     },
+     {
+      "name": "DIDB",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "DIDC",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "PG",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "UTGL",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "CRE",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "TMP",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "F",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "Table 17 status register 0x0B, reset 0x1000; DIDA-DIDC read-only (described as fixed at 1 but reset 0)"
+   },
+   {
+    "name": "STATUS_MASK",
+    "address": 12,
+    "width": 16,
+    "fields": [
+     {
+      "name": "MWT",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "MCRE",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "MTMP",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "MFA",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "Table 18 status mask register 0x0C, reset 0x0000"
+   },
+   {
+    "name": "ALARM_ACTION",
+    "address": 13,
+    "width": 16,
+    "fields": [
+     {
+      "name": "AC_CRE_WDT",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "AC_IOC",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "AC_VSC",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "AC_TMP",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "Table 19 alarm action register 0x0D, reset 0x0000"
+   },
+   {
+    "name": "USER_ALARM",
+    "address": 14,
+    "width": 16,
+    "fields": [
+     {
+      "name": "ACODE",
+      "bits": [
+       15,
+       10
+      ]
+     },
+     {
+      "name": "HSCLMP",
+      "bits": [
+       9,
+       9
+      ]
+     }
+    ],
+    "note": "Table 20 user alarm code register 0x0E (per channel), reset 0x0000"
+   },
+   {
+    "name": "DEVICE_ID",
+    "address": 17,
+    "width": 16,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "DID",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "Table 4 device ID 0x11, read only, power-on 0x0000 (Table 5: DID[2:0])"
+   },
+   {
+    "name": "LATCH",
+    "space": "dac",
+    "address": 0,
+    "width": 16,
+    "note": "DAC latch (drives VOUT / IOUT): loaded from DAC_DATA at SYNC rising with LDAC low, or by LDAC falling (p.42)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "out": "0",
+   "commands": [
+    {
+     "name": "No operation",
+     "in": "0 0000000 x{16}",
+     "when": "SELECT_DAC.CREN=0",
+     "commit": "end"
+    },
+    {
+     "name": "Write reset register (RST = 1)",
+     "in": "0 0000001 x{15} 1",
+     "action": "reset",
+     "when": "SELECT_DAC.CREN=0",
+     "commit": "end"
+    },
+    {
+     "name": "Write reset register (RST = 0)",
+     "in": "0 0000001 [RESET_REG]",
+     "when": "SELECT_DAC.CREN=0",
+     "commit": "end"
+    },
+    {
+     "name": "Write reset config register",
+     "in": "0 0000010 [RESET_CONFIG:15:1] u",
+     "set": {
+      "RESET_CONFIG.UBT": "u",
+      "STATUS.UTGL": "u"
+     },
+     "note": "UBT is copied to the status toggle bit UTGL (Table 8)",
+     "when": "SELECT_DAC.CREN=0",
+     "commit": "end"
+    },
+    {
+     "name": "Write SELECT_DAC",
+     "in": "0 0000011 [SELECT_DAC]",
+     "when": "SELECT_DAC.CREN=0",
+     "commit": "end"
+    },
+    {
+     "name": "Write CONFIG_DAC",
+     "in": "0 0000100 [CONFIG_DAC]",
+     "when": [
+      "SELECT_DAC.CREN=0",
+      "SELECT_DAC.CHA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC data register",
+     "in": "0 0000101 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "when": [
+      "SELECT_DAC.CREN=0",
+      "SELECT_DAC.CHA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Write SELECT_BB",
+     "in": "0 0000110 [SELECT_BB]",
+     "when": "SELECT_DAC.CREN=0",
+     "commit": "end"
+    },
+    {
+     "name": "Write CONFIG_BB",
+     "in": "0 0000111 [CONFIG_BB]",
+     "when": [
+      "SELECT_DAC.CREN=0",
+      "SELECT_BB.DCA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Write CAL_EN",
+     "in": "0 0001000 [CAL_EN]",
+     "when": [
+      "SELECT_DAC.CREN=0",
+      "SELECT_DAC.CHA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Write UGAIN",
+     "in": "0 0001001 [UGAIN]",
+     "when": [
+      "SELECT_DAC.CREN=0",
+      "SELECT_DAC.CHA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Write UOFF",
+     "in": "0 0001010 [UOFF]",
+     "when": [
+      "SELECT_DAC.CREN=0",
+      "SELECT_DAC.CHA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Write STATUS",
+     "in": "0 0001011 [STATUS]",
+     "when": "SELECT_DAC.CREN=0",
+     "commit": "end"
+    },
+    {
+     "name": "Write STATUS_MASK",
+     "in": "0 0001100 [STATUS_MASK]",
+     "when": "SELECT_DAC.CREN=0",
+     "commit": "end"
+    },
+    {
+     "name": "Write ALARM_ACTION",
+     "in": "0 0001101 [ALARM_ACTION]",
+     "when": "SELECT_DAC.CREN=0",
+     "commit": "end"
+    },
+    {
+     "name": "Write USER_ALARM",
+     "in": "0 0001110 [USER_ALARM]",
+     "when": [
+      "SELECT_DAC.CREN=0",
+      "SELECT_DAC.CHA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Watchdog timer reset",
+     "in": "0 0010000 x{16}",
+     "note": "write-only 0x10 (RWD)",
+     "when": "SELECT_DAC.CREN=0",
+     "commit": "end"
+    },
+    {
+     "name": "Read RESET_REG",
+     "in": "1 0000001 x{16}",
+     "next": "0{8} [RESET_REG]",
+     "when": "SELECT_DAC.CREN=0",
+     "commit": "end"
+    },
+    {
+     "name": "Read RESET_CONFIG",
+     "in": "1 0000010 x{16}",
+     "next": "0{8} [RESET_CONFIG]",
+     "when": "SELECT_DAC.CREN=0",
+     "commit": "end"
+    },
+    {
+     "name": "Read SELECT_DAC",
+     "in": "1 0000011 x{16}",
+     "next": "0{8} [SELECT_DAC]",
+     "when": "SELECT_DAC.CREN=0",
+     "commit": "end"
+    },
+    {
+     "name": "Read CONFIG_DAC",
+     "in": "1 0000100 x{16}",
+     "next": "0{8} [CONFIG_DAC]",
+     "when": [
+      "SELECT_DAC.CREN=0",
+      "SELECT_DAC.CHA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Read DAC_DATA",
+     "in": "1 0000101 x{16}",
+     "next": "0{8} [DAC_DATA]",
+     "when": [
+      "SELECT_DAC.CREN=0",
+      "SELECT_DAC.CHA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Read SELECT_BB",
+     "in": "1 0000110 x{16}",
+     "next": "0{8} [SELECT_BB]",
+     "when": "SELECT_DAC.CREN=0",
+     "commit": "end"
+    },
+    {
+     "name": "Read CONFIG_BB",
+     "in": "1 0000111 x{16}",
+     "next": "0{8} [CONFIG_BB]",
+     "when": [
+      "SELECT_DAC.CREN=0",
+      "SELECT_BB.DCA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Read CAL_EN",
+     "in": "1 0001000 x{16}",
+     "next": "0{8} [CAL_EN]",
+     "when": [
+      "SELECT_DAC.CREN=0",
+      "SELECT_DAC.CHA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Read UGAIN",
+     "in": "1 0001001 x{16}",
+     "next": "0{8} [UGAIN]",
+     "when": [
+      "SELECT_DAC.CREN=0",
+      "SELECT_DAC.CHA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Read UOFF",
+     "in": "1 0001010 x{16}",
+     "next": "0{8} [UOFF]",
+     "when": [
+      "SELECT_DAC.CREN=0",
+      "SELECT_DAC.CHA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Read STATUS",
+     "in": "1 0001011 x{16}",
+     "next": "0{8} [STATUS]",
+     "when": "SELECT_DAC.CREN=0",
+     "commit": "end"
+    },
+    {
+     "name": "Read STATUS_MASK",
+     "in": "1 0001100 x{16}",
+     "next": "0{8} [STATUS_MASK]",
+     "when": "SELECT_DAC.CREN=0",
+     "commit": "end"
+    },
+    {
+     "name": "Read ALARM_ACTION",
+     "in": "1 0001101 x{16}",
+     "next": "0{8} [ALARM_ACTION]",
+     "when": "SELECT_DAC.CREN=0",
+     "commit": "end"
+    },
+    {
+     "name": "Read USER_ALARM",
+     "in": "1 0001110 x{16}",
+     "next": "0{8} [USER_ALARM]",
+     "when": [
+      "SELECT_DAC.CREN=0",
+      "SELECT_DAC.CHA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Read DEVICE_ID",
+     "in": "1 0010001 x{16}",
+     "next": "0{8} [DEVICE_ID]",
+     "when": "SELECT_DAC.CREN=0",
+     "commit": "end"
+    },
+    {
+     "name": "Read other address",
+     "in": "1 xxxxxxx x{16}",
+     "next": "0{24}",
+     "note": "reserved / unselected per-channel addresses: read-back content not documented, modeled as 0",
+     "when": "SELECT_DAC.CREN=0",
+     "commit": "end"
+    },
+    {
+     "name": "No operation (32-bit CRC frame)",
+     "in": "0 0000000 x{16} x{8}",
+     "when": "SELECT_DAC.CREN=1",
+     "commit": "end"
+    },
+    {
+     "name": "Write reset register (RST = 1) (32-bit CRC frame)",
+     "in": "0 0000001 x{15} 1 x{8}",
+     "action": "reset",
+     "when": "SELECT_DAC.CREN=1",
+     "commit": "end"
+    },
+    {
+     "name": "Write reset register (RST = 0) (32-bit CRC frame)",
+     "in": "0 0000001 [RESET_REG] x{8}",
+     "when": "SELECT_DAC.CREN=1",
+     "commit": "end"
+    },
+    {
+     "name": "Write reset config register (32-bit CRC frame)",
+     "in": "0 0000010 [RESET_CONFIG:15:1] u x{8}",
+     "set": {
+      "RESET_CONFIG.UBT": "u",
+      "STATUS.UTGL": "u"
+     },
+     "note": "UBT is copied to the status toggle bit UTGL (Table 8)",
+     "when": "SELECT_DAC.CREN=1",
+     "commit": "end"
+    },
+    {
+     "name": "Write SELECT_DAC (32-bit CRC frame)",
+     "in": "0 0000011 [SELECT_DAC] x{8}",
+     "when": "SELECT_DAC.CREN=1",
+     "commit": "end"
+    },
+    {
+     "name": "Write CONFIG_DAC (32-bit CRC frame)",
+     "in": "0 0000100 [CONFIG_DAC] x{8}",
+     "when": [
+      "SELECT_DAC.CREN=1",
+      "SELECT_DAC.CHA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Write DAC data register (32-bit CRC frame)",
+     "in": "0 0000101 d{16} x{8}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "when": [
+      "SELECT_DAC.CREN=1",
+      "SELECT_DAC.CHA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Write SELECT_BB (32-bit CRC frame)",
+     "in": "0 0000110 [SELECT_BB] x{8}",
+     "when": "SELECT_DAC.CREN=1",
+     "commit": "end"
+    },
+    {
+     "name": "Write CONFIG_BB (32-bit CRC frame)",
+     "in": "0 0000111 [CONFIG_BB] x{8}",
+     "when": [
+      "SELECT_DAC.CREN=1",
+      "SELECT_BB.DCA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Write CAL_EN (32-bit CRC frame)",
+     "in": "0 0001000 [CAL_EN] x{8}",
+     "when": [
+      "SELECT_DAC.CREN=1",
+      "SELECT_DAC.CHA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Write UGAIN (32-bit CRC frame)",
+     "in": "0 0001001 [UGAIN] x{8}",
+     "when": [
+      "SELECT_DAC.CREN=1",
+      "SELECT_DAC.CHA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Write UOFF (32-bit CRC frame)",
+     "in": "0 0001010 [UOFF] x{8}",
+     "when": [
+      "SELECT_DAC.CREN=1",
+      "SELECT_DAC.CHA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Write STATUS (32-bit CRC frame)",
+     "in": "0 0001011 [STATUS] x{8}",
+     "when": "SELECT_DAC.CREN=1",
+     "commit": "end"
+    },
+    {
+     "name": "Write STATUS_MASK (32-bit CRC frame)",
+     "in": "0 0001100 [STATUS_MASK] x{8}",
+     "when": "SELECT_DAC.CREN=1",
+     "commit": "end"
+    },
+    {
+     "name": "Write ALARM_ACTION (32-bit CRC frame)",
+     "in": "0 0001101 [ALARM_ACTION] x{8}",
+     "when": "SELECT_DAC.CREN=1",
+     "commit": "end"
+    },
+    {
+     "name": "Write USER_ALARM (32-bit CRC frame)",
+     "in": "0 0001110 [USER_ALARM] x{8}",
+     "when": [
+      "SELECT_DAC.CREN=1",
+      "SELECT_DAC.CHA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Watchdog timer reset (32-bit CRC frame)",
+     "in": "0 0010000 x{16} x{8}",
+     "note": "write-only 0x10 (RWD)",
+     "when": "SELECT_DAC.CREN=1",
+     "commit": "end"
+    },
+    {
+     "name": "Read RESET_REG (32-bit CRC frame)",
+     "in": "1 0000001 x{16} x{8}",
+     "next": "0{8} [RESET_REG] 0{8}",
+     "when": "SELECT_DAC.CREN=1",
+     "commit": "end"
+    },
+    {
+     "name": "Read RESET_CONFIG (32-bit CRC frame)",
+     "in": "1 0000010 x{16} x{8}",
+     "next": "0{8} [RESET_CONFIG] 0{8}",
+     "when": "SELECT_DAC.CREN=1",
+     "commit": "end"
+    },
+    {
+     "name": "Read SELECT_DAC (32-bit CRC frame)",
+     "in": "1 0000011 x{16} x{8}",
+     "next": "0{8} [SELECT_DAC] 0{8}",
+     "when": "SELECT_DAC.CREN=1",
+     "commit": "end"
+    },
+    {
+     "name": "Read CONFIG_DAC (32-bit CRC frame)",
+     "in": "1 0000100 x{16} x{8}",
+     "next": "0{8} [CONFIG_DAC] 0{8}",
+     "when": [
+      "SELECT_DAC.CREN=1",
+      "SELECT_DAC.CHA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Read DAC_DATA (32-bit CRC frame)",
+     "in": "1 0000101 x{16} x{8}",
+     "next": "0{8} [DAC_DATA] 0{8}",
+     "when": [
+      "SELECT_DAC.CREN=1",
+      "SELECT_DAC.CHA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Read SELECT_BB (32-bit CRC frame)",
+     "in": "1 0000110 x{16} x{8}",
+     "next": "0{8} [SELECT_BB] 0{8}",
+     "when": "SELECT_DAC.CREN=1",
+     "commit": "end"
+    },
+    {
+     "name": "Read CONFIG_BB (32-bit CRC frame)",
+     "in": "1 0000111 x{16} x{8}",
+     "next": "0{8} [CONFIG_BB] 0{8}",
+     "when": [
+      "SELECT_DAC.CREN=1",
+      "SELECT_BB.DCA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Read CAL_EN (32-bit CRC frame)",
+     "in": "1 0001000 x{16} x{8}",
+     "next": "0{8} [CAL_EN] 0{8}",
+     "when": [
+      "SELECT_DAC.CREN=1",
+      "SELECT_DAC.CHA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Read UGAIN (32-bit CRC frame)",
+     "in": "1 0001001 x{16} x{8}",
+     "next": "0{8} [UGAIN] 0{8}",
+     "when": [
+      "SELECT_DAC.CREN=1",
+      "SELECT_DAC.CHA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Read UOFF (32-bit CRC frame)",
+     "in": "1 0001010 x{16} x{8}",
+     "next": "0{8} [UOFF] 0{8}",
+     "when": [
+      "SELECT_DAC.CREN=1",
+      "SELECT_DAC.CHA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Read STATUS (32-bit CRC frame)",
+     "in": "1 0001011 x{16} x{8}",
+     "next": "0{8} [STATUS] 0{8}",
+     "when": "SELECT_DAC.CREN=1",
+     "commit": "end"
+    },
+    {
+     "name": "Read STATUS_MASK (32-bit CRC frame)",
+     "in": "1 0001100 x{16} x{8}",
+     "next": "0{8} [STATUS_MASK] 0{8}",
+     "when": "SELECT_DAC.CREN=1",
+     "commit": "end"
+    },
+    {
+     "name": "Read ALARM_ACTION (32-bit CRC frame)",
+     "in": "1 0001101 x{16} x{8}",
+     "next": "0{8} [ALARM_ACTION] 0{8}",
+     "when": "SELECT_DAC.CREN=1",
+     "commit": "end"
+    },
+    {
+     "name": "Read USER_ALARM (32-bit CRC frame)",
+     "in": "1 0001110 x{16} x{8}",
+     "next": "0{8} [USER_ALARM] 0{8}",
+     "when": [
+      "SELECT_DAC.CREN=1",
+      "SELECT_DAC.CHA=1"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "Read DEVICE_ID (32-bit CRC frame)",
+     "in": "1 0010001 x{16} x{8}",
+     "next": "0{8} [DEVICE_ID] 0{8}",
+     "when": "SELECT_DAC.CREN=1",
+     "commit": "end"
+    },
+    {
+     "name": "Read other address (32-bit CRC frame)",
+     "in": "1 xxxxxxx x{16} x{8}",
+     "next": "0{24} 0{8}",
+     "note": "reserved / unselected per-channel addresses: read-back content not documented, modeled as 0",
+     "when": "SELECT_DAC.CREN=1",
+     "commit": "end"
+    }
+   ],
+   "triggers": [
+    {
+     "write": "RESET_CONFIG.CLR=1",
+     "action": "clear"
+    }
+   ],
+   "note": "24-bit frame (32 with CREN): R/W bit, 7-bit address, 16-bit data (Table 1/2); data clocked in on SCLK falling edges, the first edge after SYNC falls is falling (mode 2); registers are written at SYNC rising, fewer than 24 edges are ignored, more use the last 24 (p.40); a read outputs the register in the next frame (Figure 2), SDO valid t15 14 ns after SCLK rising"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "level"
+   },
+   "clear": {
+    "pin": "CLR",
+    "active": 1
+   },
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   }
+  },
+  "dac": {
+   "input": [
+    "DAC_DATA"
+   ],
+   "output": [
+    "LATCH"
+   ],
+   "clearCode": {
+    "field": "SELECT_DAC.CLSLA",
+    "values": {
+     "0": 0,
+     "1": 32768
+    }
+   },
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "RGZ": {
+   "pinout": "rgz48",
+   "footprint": "VQFN-48-RGZ-D",
+   "package": "VQFN",
+   "pins": 48
+  }
+ },
+ "pdf": "dac8771.pdf",
+ "pages": "p.3-4 (pins), p.6 (DVDD 2.7-5.5 V), p.13 (timing, t15 14 ns), p.14 (Figure 2 read-back), p.37 (POR), p.40-43 (SPI, daisy chain, write/read, LDAC, RESET, CLR, CRC), p.44 (calibration), p.45 (Table 4), p.46 (Table 5), p.47-58 (Tables 6-23)",
+ "notModeled": [
+  "analog: voltage/current output stage and ranges (CONFIG_DAC.RANGE, SCLIM, OTEN), buck-boost converter (PVDD, LP, LN, VPOS_IN/VNEG_IN, CONFIG_BB clamps, PNSEL, HSCLMP, PG, CLST), HART (HART_IN, HTEN), internal reference (REF_EN), POC output state",
+  "per-channel registers (0x04, 0x05, 0x08-0x0A, 0x0E) are written / read only while SELECT_DAC.CHA = 1 and 0x07 only while SELECT_BB.DCA = 1 (Table 4 note); what a read of an unselected per-channel register returns is not documented (modeled as 0)",
+  "read-back header bits DB23:DB16 are not documented; the model sends zeros there and the register in DB15:DB0",
+  "CRC-8-ATM frame checking (CREN): the 32-bit frame is decoded (commands gated on SELECT_DAC.CREN) but the CRC byte is neither checked nor generated (read-back CRC byte output as 0); CRE is never set",
+  "watchdog timer (WEN, WPD, 0x10 RWD) and the WDT flag: not modeled",
+  "ALARM open-drain output, status flags, status mask and alarm action (alarm code ACODE output): never asserted / not applied",
+  "user calibration (CLEN, UGAIN, UOFF): stored and read back only; reset value 0x0000 per Table 4 although p.44 calls the gain power-on value 0x8000",
+  "slew-rate control (SREN, SRCLK_RATE, SR_STEP): not modeled (output change is instant)",
+  "CLR pin and the CLR bit clear only while RESET_CONFIG.CLREN = 1 (p.43, Table 8); the model clears regardless of CLREN (the code follows SELECT_DAC.CLSLA, Table 9); LDAC pulses during CLR are not blocked; range changes do not reload the output",
+  "RESET pin and RST bit: the chip keeps the POC bit; the model resets every register. RST and CLR self-clear in the chip; the reset command leaves RST at 0, the CLR bit stays 1 until written 0",
+  "LDAC: asynchronous mode (LDAC low before SYNC rising) and synchronous mode (LDAC falling) modeled as LDAC level active low",
+  "daisy-chain (SDO ripple after 24 clocks), transparent mode (TRN: SDIN routed to SDO, exit only by RESET pin), DSDO (SDO disable): not modeled; DSDO and TRN stored only",
+  "DVDD can be an output of the internal regulator (DVDD_EN floating); DVDD_EN is modeled as a plain digital input",
+  "status DIDA-DIDC are described as \"fixed at logical 1\" but the register reset is 0x1000; modeled as read-only 0"
+ ],
+ "variants": "DAC8771 only in this datasheet (single-channel member of the DAC8775 family).",
+ "parts": [
+  [
+   "DAC8771RGZT",
+   "RGZ",
+   48,
+   "Active"
+  ]
+ ]
+}

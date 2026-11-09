@@ -1,0 +1,499 @@
+{
+ "device": {
+  "id": "ADS8584",
+  "function": "ADC",
+  "description": "16-bit 4-channel simultaneous-sampling SAR ADC with bipolar inputs (+-10 V / +-5 V) on a single supply, parallel / byte / serial read-out",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads8584s.pdf (SBAS834A) p.3-5 pin configuration and functions (pins 53-56 and 61-64 are AGND), p.6 recommended operating conditions, p.12 tCONV (7.15), p.13 serial switching characteristics (7.18), p.15 Figure 5 serial read, p.27 oversampling decoding (Table 1), p.32 transfer function (twos complement), p.34-36 pin descriptions, p.41 serial data read (16 SCLKs per channel, 64 for four channels on DOUTA)",
+  "pinouts": {
+   "pm64": [
+    {
+     "number": 1,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "OS0",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "OS1",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "OS2",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "PAR/SER/BYTE SEL",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "STBY",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "RANGE",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "CONVSTA",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "CONVSTB",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "RD/SCLK",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "BUSY",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "FRSTDATA",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "DB0",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "DB1",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "DB2",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "DB3",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "DB4",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "DB5",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "DB6",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 24,
+     "name": "DB7/DOUTA",
+     "role": "output"
+    },
+    {
+     "number": 25,
+     "name": "DB8/DOUTB",
+     "role": "output"
+    },
+    {
+     "number": 26,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 27,
+     "name": "DB9",
+     "role": "output"
+    },
+    {
+     "number": 28,
+     "name": "DB10",
+     "role": "output"
+    },
+    {
+     "number": 29,
+     "name": "DB11",
+     "role": "output"
+    },
+    {
+     "number": 30,
+     "name": "DB12",
+     "role": "output"
+    },
+    {
+     "number": 31,
+     "name": "DB13",
+     "role": "output"
+    },
+    {
+     "number": 32,
+     "name": "DB14/HBEN",
+     "role": "inout"
+    },
+    {
+     "number": 33,
+     "name": "DB15/BYTE SEL",
+     "role": "inout"
+    },
+    {
+     "number": 34,
+     "name": "REFSEL",
+     "role": "input"
+    },
+    {
+     "number": 35,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 36,
+     "name": "REGCAP1",
+     "role": "nc"
+    },
+    {
+     "number": 37,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 38,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 39,
+     "name": "REGCAP2",
+     "role": "nc"
+    },
+    {
+     "number": 40,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 41,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 42,
+     "name": "REFIN/REFOUT",
+     "role": "power"
+    },
+    {
+     "number": 43,
+     "name": "REFGND",
+     "role": "ground"
+    },
+    {
+     "number": 44,
+     "name": "REFCAPA",
+     "role": "nc"
+    },
+    {
+     "number": 45,
+     "name": "REFCAPB",
+     "role": "nc"
+    },
+    {
+     "number": 46,
+     "name": "REFGND",
+     "role": "ground"
+    },
+    {
+     "number": 47,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 48,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 49,
+     "name": "AIN_1P",
+     "role": "input"
+    },
+    {
+     "number": 50,
+     "name": "AIN_1GND",
+     "role": "input"
+    },
+    {
+     "number": 51,
+     "name": "AIN_2P",
+     "role": "input"
+    },
+    {
+     "number": 52,
+     "name": "AIN_2GND",
+     "role": "input"
+    },
+    {
+     "number": 53,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 54,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 55,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 56,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 57,
+     "name": "AIN_3P",
+     "role": "input"
+    },
+    {
+     "number": 58,
+     "name": "AIN_3GND",
+     "role": "input"
+    },
+    {
+     "number": 59,
+     "name": "AIN_4P",
+     "role": "input"
+    },
+    {
+     "number": 60,
+     "name": "AIN_4GND",
+     "role": "input"
+    },
+    {
+     "number": 61,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 62,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 63,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 64,
+     "name": "AGND",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 4,
+  "codeFormat": "twos",
+  "vcc": [
+   2.3,
+   5.25
+  ],
+  "analog": [
+   "AIN_1GND",
+   "AIN_1P",
+   "AIN_2GND",
+   "AIN_2P",
+   "AIN_3GND",
+   "AIN_3P",
+   "AIN_4GND",
+   "AIN_4P",
+   "AVDD",
+   "REFCAPA",
+   "REFCAPB",
+   "REFIN/REFOUT",
+   "REGCAP1",
+   "REGCAP2"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "RD/SCLK",
+   "miso": "DB7/DOUTA",
+   "mode": 2
+  },
+  "timing": {
+   "tValid": 12,
+   "tOut": 15,
+   "tFloat": 12
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 3,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "OS2",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "OS1",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "OS0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: levels of the OS2-OS0 pins (no device registers)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "[R] [R] [R] [R]",
+   "idle": "0",
+   "commands": []
+  },
+  "conversion": {
+   "time": {
+    "fields": [
+     "CTRL.OS2",
+     "CTRL.OS1",
+     "CTRL.OS0"
+    ],
+    "values": {
+     "0,0,0": 2000,
+     "0,0,1": 5000,
+     "0,1,0": 11000,
+     "0,1,1": 23000,
+     "1,0,0": 47000,
+     "1,0,1": 95000,
+     "1,1,0": 191000
+    }
+   },
+   "start": [
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "BUSY",
+    "active": 1,
+    "asserts": "busy"
+   }
+  ],
+  "pins": {
+   "reset": {
+    "pin": "RESET",
+    "active": 1
+   },
+   "convst": {
+    "pin": "CONVSTA",
+    "edge": "rise"
+   },
+   "levels": [
+    {
+     "pin": "OS2",
+     "field": "CTRL.OS2"
+    },
+    {
+     "pin": "OS1",
+     "field": "CTRL.OS1"
+    },
+    {
+     "pin": "OS0",
+     "field": "CTRL.OS0"
+    }
+   ]
+  }
+ },
+ "packages": {
+  "PM": {
+   "pinout": "pm64",
+   "footprint": "LQFP-64-10X10",
+   "package": "LQFP",
+   "pins": 64
+  }
+ },
+ "pdf": "ads8584s.pdf",
+ "pages": "p.3-5 pin configuration and functions (pins 53-56 and 61-64 are AGND), p.6 recommended operating conditions, p.12 tCONV (7.15), p.13 serial switching characteristics (7.18), p.15 Figure 5 serial read, p.27 oversampling decoding (Table 1), p.32 transfer function (twos complement), p.34-36 pin descriptions, p.41 serial data read (16 SCLKs per channel, 64 for four channels on DOUTA)",
+ "notModeled": [
+  "only the serial interface is modeled (PAR/SER/BYTE SEL = 1, DB15/BYTE SEL = 0) with DOUTA alone: 4 results of 16 bits each, channel 1 first (64 SCLKs); the PAR/SER/BYTE SEL and BYTE SEL straps are not read",
+  "DOUTB (channels 3-4 first, then 1-2) is never driven; parallel (DB[15:0], one channel per RD falling edge) and parallel byte (DB[7:0], HBEN byte order) interfaces not modeled; the DB pins are never driven",
+  "a frame may be split into per-channel CS frames (the channel pointer continues across CS frames); the model restarts at channel 1 at each CS fall (all channels carry the same 0 V code)",
+  "FRSTDATA output (high while channel 1 is shifted out) not driven",
+  "CONVSTB: a conversion begins after the rising edges of both CONVSTA and CONVSTB (channels 3-4 on CONVSTB); the model starts all channels on CONVSTA rising (tie CONVSTA and CONVSTB together, required in oversampling mode)",
+  "OS2-OS0 oversampling ratio only sets the conversion time (BUSY high time); the pins are latched at BUSY falling for the next conversion in the device, read continuously by the model; OS = 111 (invalid) uses the longest time",
+  "reads during a conversion return the previous sample in the device (same 0 V code)",
+  "STBY / RANGE power-down modes (standby, shutdown), REFSEL, RANGE input range: not modeled",
+  "RESET also needed after power-up (the model starts reset); minimum 50 ns pulse",
+  "SPI mode: SCLK idles high in Figure 5; MSB driven at CS fall, later bits on SCLK rising, read on SCLK falling: modeled as mode 2",
+  "analog inputs, PGA, low-pass filter, reference, acquisition time",
+  "conversion times are the datasheet typical BUSY high times (no maximum is given)"
+ ],
+ "variants": "Pin-compatible family (ADS8588H Table 7-3): ADS8598H 18-bit 500 kSPS, ADS8598S 18-bit 200 kSPS, ADS8588H 16-bit 500 kSPS, ADS8588S 16-bit 200 kSPS, ADS8586S 16-bit 6 channels, ADS8584S 16-bit 4 channels, ADS8578S 14-bit 8 channels; each has its own datasheet",
+ "parts": [
+  [
+   "ADS8584SIPM",
+   "PM",
+   64,
+   "Active"
+  ],
+  [
+   "ADS8584SIPMR",
+   "PM",
+   64,
+   "Active"
+  ]
+ ]
+}

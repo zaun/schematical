@@ -1,0 +1,504 @@
+{
+ "device": {
+  "id": "ADS8904",
+  "function": "ADC",
+  "description": "20-bit 250 kSPS fully differential SAR ADC with integrated reference buffer and LDO, enhanced-SPI interface (ADS8904B)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads8904b.pdf (SBAS728B) p.4 pin functions, p.6 recommended operating conditions, p.10-11 timing requirements and switching characteristics, p.25 transfer function (twos complement), p.29 commands, p.29-31 output data word and parity, p.32-33 data transfer frame, p.40 SPI protocols, p.53-58 register map",
+  "pinouts": {
+   "rge24": [
+    {
+     "number": 1,
+     "name": "CONVST",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "RST",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "REFM",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "REFBUFOUT",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 7,
+     "name": "REFBUFOUT",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "REFM",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "AINP",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "AINM",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "RVDD",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "DECAP",
+     "role": "nc"
+    },
+    {
+     "number": 14,
+     "name": "DECAP",
+     "role": "nc"
+    },
+    {
+     "number": 15,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 16,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 17,
+     "name": "SDO-3",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "SDO-2",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "SDO-1",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "SDO-0",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "RVS",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "CS",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 20,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   1.65,
+   5.5
+  ],
+  "analog": [
+   "REFIN",
+   "REFM",
+   "REFBUFOUT",
+   "AINP",
+   "AINM",
+   "RVDD",
+   "DECAP"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDO-0",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 9,
+   "tOut": 13,
+   "tFloat": 10
+  },
+  "registers": [
+   {
+    "name": "PD_CNTL",
+    "address": 4,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 249,
+    "fields": [
+     {
+      "name": "PD_REFBUF",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "PD_ADC",
+      "bits": [
+       1,
+       1
+      ]
+     }
+    ],
+    "note": "p.53 PD_CNTL"
+   },
+   {
+    "name": "SDI_CNTL",
+    "address": 8,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 252,
+    "fields": [
+     {
+      "name": "SDI_MODE",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "p.54 SDI_CNTL"
+   },
+   {
+    "name": "SDO_CNTL",
+    "address": 12,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 32,
+    "fields": [
+     {
+      "name": "SSYNC_CLK_SEL",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "DATA_RATE",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SDO_WIDTH",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "SDO_MODE",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "p.54 SDO_CNTL"
+   },
+   {
+    "name": "DATA_CNTL",
+    "address": 16,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "FPAR_LOC",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "PAR_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DATA_VAL",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.55 DATA_CNTL"
+   },
+   {
+    "name": "PATN_LSB",
+    "address": 20,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PATN_LSB_BITS",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.56 PATN registers, Figure 7-8 (DATA_PATN[19:0] = PATN_MSB[3:0], PATN_MID[7:0], PATN_LSB[7:0])"
+   },
+   {
+    "name": "PATN_MID",
+    "address": 21,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PATN_MID_BITS",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.56 PATN registers, Figure 7-8 (DATA_PATN[19:0] = PATN_MSB[3:0], PATN_MID[7:0], PATN_LSB[7:0])"
+   },
+   {
+    "name": "PATN_MSB",
+    "address": 22,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "PATN_MSB_BITS",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.56 PATN registers, Figure 7-8 (DATA_PATN[19:0] = PATN_MSB[3:0], PATN_MID[7:0], PATN_LSB[7:0])"
+   },
+   {
+    "name": "OFST_CAL",
+    "address": 32,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 248,
+    "fields": [
+     {
+      "name": "REF_SEL",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "p.57 OFST_CAL"
+   },
+   {
+    "name": "REF_MRG",
+    "address": 48,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 192,
+    "fields": [
+     {
+      "name": "EN_MARG",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "REF_OFST",
+      "bits": [
+       4,
+       0
+      ]
+     }
+    ],
+    "note": "p.58 REF_MRG"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "out": "R{20} 0{2}",
+   "idle": "0",
+   "outs": [
+    {
+     "when": "DATA_CNTL.DATA_VAL=1",
+     "out": "[PATN_MSB:3:0] [PATN_MID] [PATN_LSB] 0{2}"
+    }
+   ],
+   "commands": [
+    {
+     "name": "NOP",
+     "in": "00000 0{9} 0{8}",
+     "action": "nop",
+     "note": "p.29 Table 6-2"
+    },
+    {
+     "name": "WR_REG (PD_CNTL, PD_ADC = 1)",
+     "in": "10010 000000100 [PD_CNTL:7:2] 1 [PD_CNTL:0:0]",
+     "action": "powerdown",
+     "set": {
+      "PD_CNTL.PD_ADC": 1
+     },
+     "note": "p.29 Table 6-2; PD_CNTL: setting PD_ADC powers the converter down at the CS rising edge"
+    },
+    {
+     "name": "WR_REG (PD_CNTL, PD_ADC = 0)",
+     "in": "10010 000000100 [PD_CNTL:7:2] 0 [PD_CNTL:0:0]",
+     "action": "wakeup",
+     "set": {
+      "PD_CNTL.PD_ADC": 0
+     },
+     "note": "p.29 Table 6-2; PD_CNTL: clearing PD_ADC powers the converter up"
+    },
+    {
+     "name": "CLR_BITS",
+     "in": "10000 aaaaaaaaa dddddddd",
+     "action": "clearbits",
+     "address": "a",
+     "data": "d",
+     "note": "p.29 Table 6-2"
+    },
+    {
+     "name": "RD_REG",
+     "in": "10001 aaaaaaaaa 00000000",
+     "action": "read",
+     "address": "a",
+     "next": "@ 0{14}",
+     "note": "p.29 Table 6-2; p.29-31 output data word, Figure 6-12: D[21:14] of the next frame are the register, D[13:0] zeros"
+    },
+    {
+     "name": "WR_REG",
+     "in": "10010 aaaaaaaaa dddddddd",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "note": "p.29 Table 6-2"
+    },
+    {
+     "name": "SET_BITS",
+     "in": "10011 aaaaaaaaa dddddddd",
+     "action": "setbits",
+     "address": "a",
+     "data": "d",
+     "note": "p.29 Table 6-2"
+    },
+    {
+     "name": "NOP",
+     "in": "11111 1{9} 1{8}",
+     "action": "nop",
+     "note": "p.29 Table 6-2"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 2500,
+   "start": [
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "RVS",
+    "active": 0,
+    "asserts": "busy"
+   }
+  ],
+  "pins": {
+   "reset": {
+    "pin": "RST",
+    "active": 0
+   },
+   "convst": {
+    "pin": "CONVST",
+    "edge": "rise"
+   }
+  }
+ },
+ "packages": {
+  "RGE": {
+   "pinout": "rge24",
+   "footprint": "VQFN-24-RGE-H",
+   "package": "VQFN",
+   "pins": 24
+  }
+ },
+ "pdf": "ads8904b.pdf",
+ "pages": "p.4 (pins), p.6 (ROC: DVDD 1.65-5.5 V), p.10-11 (timing), p.25 (transfer function), p.29-31 (commands, output data word), p.32-33 (frame), p.40 (SPI protocols), p.53-58 (registers)",
+ "notModeled": [
+  "analog input, reference input, reference buffer and LDO; the result is always the 0 V differential code 00000h (twos complement)",
+  "22-bit command word decoded from the last 22 SDI bits before CS rises (align end); frames shorter than 22 SCLKs are NOPs (p.32-33 data transfer frame)",
+  "SPI protocol selection: SDI_MODE (SPI-01/10/11) and SDO_MODE early data launch / source-synchronous output, SDO_WIDTH dual/quad SDO, DATA_RATE (DDR), SSYNC_CLK_SEL with RVS as strobe: stored only; the bus stays SPI-00-S on SDO-0 (SDO-1..3 never driven)",
+  "parity bits FLPAR/FTPAR (PAR_EN, FPAR_LOC): stored only; the parity positions output 0, which is correct for the 0 V code but not for register read-back or nonzero test patterns",
+  "PD_ADC power-down is modeled only for WR_REG to PD_CNTL (SET_BITS/CLR_BITS on PD_CNTL change the bit without powering down); PD_REFBUF, power-up times tPU_ADC / tPU_REFBUF, RST-to-RVS delay td_rst 3 ms",
+  "RVS while CS is low (low from CS fall, then per output protocol) and the td_CSRDY_r delay after CS rise: not modeled; RVS is low while converting",
+  "offset calibration (REF_SEL) and reference margining (EN_MARG, REF_OFST): stored only",
+  "conversion time varies 2400-2500 ns (modeled: tconv max 2500 ns); cycle time, acquisition and quiet-zone timing, SCLK frequency limits",
+  "reserved command codes: treated as NOP (unmatched)"
+ ],
+ "variants": "ads8904b.pdf covers ADS8900B (1 MSPS, tconv 670 ns), ADS8902B (500 kSPS, 1200 ns) and ADS8904B (250 kSPS, 2500 ns): same pinout, registers and protocol; only the conversion time differs.",
+ "parts": [
+  [
+   "ADS8904BRGER",
+   "RGE",
+   24,
+   "Active"
+  ],
+  [
+   "ADS8904BRGET",
+   "RGE",
+   24,
+   "Active"
+  ]
+ ]
+}

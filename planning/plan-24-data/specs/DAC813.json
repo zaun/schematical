@@ -1,0 +1,363 @@
+{
+ "device": {
+  "id": "DAC813",
+  "function": "DAC",
+  "description": "12-bit voltage-output DAC with reference, double-buffered 8/12-bit microprocessor interface and reset to bipolar zero",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac813.pdf (SBAS004) p.1 description, p.2 digital inputs (VIH max 5.5 V) and supplies, p.3 pin descriptions, p.4 timing diagrams, p.7 interface logic and Table II truth table, p.8 reset function",
+  "pinouts": {
+   "so28": [
+    {
+     "number": 1,
+     "name": "+VL",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "20V Range",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "20V Range",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "BPO",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "ACOM",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "VREF OUT",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "VREF IN",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "+VCC",
+     "role": "power"
+    },
+    {
+     "number": 9,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "-VCC",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "WR",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "Reset",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "LMSB",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "LLSB",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "DCOM",
+     "role": "ground"
+    },
+    {
+     "number": 17,
+     "name": "D0",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "D1",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "D2",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "D3",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "D4",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "D5",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "D6",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "D7",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "D8",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "D9",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "D10",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "D11",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 1,
+  "vcc": [
+   11.4,
+   16.5
+  ],
+  "analog": [
+   "20V Range",
+   "BPO",
+   "VREF OUT",
+   "VREF IN",
+   "+VCC",
+   "VOUT",
+   "-VCC"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "D11",
+    "D10",
+    "D9",
+    "D8",
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "wr": {
+    "pin": "WR",
+    "active": 0
+   },
+   "address": [
+    "LMSB",
+    "LLSB",
+    "LDAC"
+   ]
+  },
+  "registers": [
+   {
+    "name": "IN",
+    "space": "input",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MSB",
+      "bits": [
+       11,
+       8
+      ]
+     },
+     {
+      "name": "LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.1, p.7: 4-bit MSB input latch (D11-D8) and 8-bit LSB input latch (D7-D0); power-on value not given (0)"
+   },
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "p.7: 12-bit D/A latch; power-on value not given (0); Reset low forces 800h"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "WR low with LMSB, LLSB, LDAC low",
+     "in": "000 dddd eeeeeeee",
+     "action": "nop",
+     "set": {
+      "IN.MSB": "d",
+      "IN.LSB": "e"
+     },
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "note": "p.7 Table II: WR, LMSB, LLSB, LDAC all low makes every latch transparent (input latches loaded, then the D/A latch)"
+    },
+    {
+     "name": "WR low with LMSB, LLSB low",
+     "in": "001 dddd eeeeeeee",
+     "action": "nop",
+     "set": {
+      "IN.MSB": "d",
+      "IN.LSB": "e"
+     },
+     "commit": "end"
+    },
+    {
+     "name": "WR low with LMSB, LDAC low",
+     "in": "010 dddd xxxxxxxx",
+     "action": "nop",
+     "set": {
+      "IN.MSB": "d"
+     },
+     "then": [
+      "update"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "WR low with LMSB low",
+     "in": "011 dddd xxxxxxxx",
+     "action": "nop",
+     "set": {
+      "IN.MSB": "d"
+     },
+     "commit": "end"
+    },
+    {
+     "name": "WR low with LLSB, LDAC low",
+     "in": "100 xxxx eeeeeeee",
+     "action": "nop",
+     "set": {
+      "IN.LSB": "e"
+     },
+     "then": [
+      "update"
+     ],
+     "commit": "end"
+    },
+    {
+     "name": "WR low with LLSB low",
+     "in": "101 xxxx eeeeeeee",
+     "action": "nop",
+     "set": {
+      "IN.LSB": "e"
+     },
+     "commit": "end"
+    },
+    {
+     "name": "WR low with LDAC low",
+     "in": "110 xxxx xxxxxxxx",
+     "action": "update",
+     "commit": "end"
+    }
+   ],
+   "note": "p.7: WR is the master enable; with LMSB / LLSB low it loads that input latch, with LDAC low the D/A latch from the input latches; the latch closes when WR returns high"
+  },
+  "pins": {
+   "clear": {
+    "pin": "Reset",
+    "active": 0
+   }
+  },
+  "dac": {
+   "input": [
+    "IN"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 2048,
+   "ldac": "command"
+  }
+ },
+ "packages": {
+  "DW": {
+   "pinout": "so28",
+   "footprint": "SOIC-28W",
+   "package": "SOIC",
+   "pins": 28
+  }
+ },
+ "pdf": "dac813.pdf",
+ "pages": "p.2 (VIH/VIL, supplies), p.3 (pin descriptions), p.4 (timing diagrams), p.7 (interface logic, Table II), p.8 (reset function)",
+ "notModeled": [
+  "analog: voltage output, reference, BPO, output ranges (USB/BOB/BTC codes)",
+  "logic supply +VL is tied to +VCC (11.4-16.5 V) but the digital inputs are TTL/5-V CMOS with VIH max 5.5 V: the vcc range is the +VL range",
+  "Reset forces only the D/A latch to 800h; the model's clear also loads the input latch with 800h",
+  "level-triggered (transparent) latches: the model loads them once, when WR returns high; WR tied low with the enables as strobes is not modeled",
+  "power-on contents of the latches (not given; 0 used)"
+ ],
+ "variants": "dac813.pdf covers DAC813 J/K/A grades (plastic DIP and SO); identical logic",
+ "parts": [
+  [
+   "DAC813AU",
+   "DW",
+   28,
+   "Active"
+  ],
+  [
+   "DAC813JU",
+   "DW",
+   28,
+   "Active"
+  ],
+  [
+   "DAC813KU",
+   "DW",
+   28,
+   "Active"
+  ]
+ ]
+}

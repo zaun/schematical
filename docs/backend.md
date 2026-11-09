@@ -126,6 +126,17 @@ Notes:
   or -1 for X), and DDRAM and CGRAM with known masks. The image does not
   depend on the backlight or V0; the app dims the face by the backlight
   light. Any other kind: -1, `part N is not a character LCD`.
+- Converters and RTCs (`converter`, `rtc` kinds, plan-24):
+  `circuit_converter_registers` copies the part's registers
+  (`ConverterRegister`, `converter_state.h`: name, bus address or -1 for an
+  internal one, address space, width, value) and returns their count; any
+  other kind: -1, `part N has no registers`. `circuit_rtc_time` fills an
+  `RtcTime` with an RTC's own counters (year to second, hundredths when the
+  part counts them, weekday 0 = Sunday, running), which a latch does not
+  freeze; any other kind: -1, `part N is not an RTC`; before start, `the
+  circuit is not running`. The app's register window reads both on every
+  simulation frame. A refused query sets `circuit_error`, which the app
+  reads as a stop, so it asks only parts of those kinds.
 - Serial parts (`serial` kind, plan-12): `circuit_serial_channels` gives
   a part's channel count (0 for any other kind);
   `circuit_serial_sent_count` and `circuit_serial_sent` give the frames a

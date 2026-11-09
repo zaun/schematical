@@ -1,0 +1,191 @@
+{
+ "device": {
+  "id": "DAC8832",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit ultra-low-power unbuffered voltage-output DAC with SPI interface and LDAC, mid-scale reset",
+  "note": "dac8832.pdf (SBAS380B) p.1 description, p.4 power supply 2.7-5.5 V, p.5 pin configuration and terminal functions, p.6 Figure 1 timing, p.7 timing characteristics, p.16 power-on reset and serial interface",
+  "pinouts": {
+   "rgy14": [
+    {
+     "number": 1,
+     "name": "RFB",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "AGNDF",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "AGNDS",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "VREF-S",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "VREF-F",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 10,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "INV",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "VDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "RFB",
+   "VOUT",
+   "VREF-S",
+   "VREF-F",
+   "INV"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "mode": 0
+  },
+  "registers": [
+   {
+    "name": "IN",
+    "space": "input",
+    "address": 0,
+    "width": 16,
+    "reset": 32768,
+    "note": "input register; power-on mid-scale (p.16)"
+   },
+   {
+    "name": "DAC",
+    "space": "dac",
+    "address": 0,
+    "width": 16,
+    "reset": 32768,
+    "note": "DAC latch; power-on mid-scale (p.16)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "commands": [
+    {
+     "name": "Load input register",
+     "in": "d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "note": "p.16: CS low, SDI latched on SCLK rising MSB first; at CS rising the last 16 bits go to the input register"
+    }
+   ]
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "level"
+   }
+  },
+  "dac": {
+   "input": [
+    "IN"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 32768,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "RGY": {
+   "pinout": "rgy14",
+   "footprint": "VQFN-14",
+   "package": "VQFN",
+   "pins": 14
+  }
+ },
+ "pdf": "dac8832.pdf",
+ "pages": "p.1 (reset to mid-code), p.4 (VDD 2.7-5.5 V), p.5 (QFN-14 pinout, terminal functions), p.6 (Figure 1), p.7 (timing), p.16 (power-on reset, serial interface)",
+ "notModeled": [
+  "analog: unbuffered voltage output, Kelvin reference inputs, bipolar scaling resistors (RFB, INV)",
+  "a frame of fewer than 16 bits corrupts the word (bits remain from the previous word); the model ignores frames shorter than 16 bits",
+  "the serial shift register is undefined at power-up"
+ ],
+ "variants": "dac8832.pdf covers only the DAC8832 (pin-compatible with DAC8831 RGY, which resets to zero)",
+ "parts": [
+  [
+   "DAC8832ICRGYR",
+   "RGY",
+   14,
+   "Active"
+  ],
+  [
+   "DAC8832ICRGYT",
+   "RGY",
+   14,
+   "Active"
+  ],
+  [
+   "DAC8832IRGYR",
+   "RGY",
+   14,
+   "Active"
+  ]
+ ]
+}

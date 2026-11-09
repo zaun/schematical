@@ -1,0 +1,375 @@
+{
+ "device": {
+  "id": "ADS8509",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit 250 kSPS serial CMOS sampling ADC with internal reference",
+  "note": "ads8509.pdf (SLAS324C) p.3-4 specifications (VIH, data coding, VDIG 4.75-5.25 V), p.5 pin configurations (DW SO-20, DB SSOP-28), p.6 terminal functions, p.7 timing requirements (tconv 2.2 us, td8 20 ns), p.16-17 reading data / external DATACLK / Table 1, p.20 Table 2-4 (input ranges, control truth table, output codes)",
+  "pinouts": {
+   "dw20": [
+    {
+     "number": 1,
+     "name": "R1IN",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AGND1",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "R2IN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "R3IN",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "CAP",
+     "role": "nc"
+    },
+    {
+     "number": 6,
+     "name": "REF",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "AGND2",
+     "role": "ground"
+    },
+    {
+     "number": 8,
+     "name": "SB/BTC",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "EXT/INT",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 11,
+     "name": "SYNC",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "DATACLK",
+     "role": "inout"
+    },
+    {
+     "number": 13,
+     "name": "DATA",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "TAG",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "R/C",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "BUSY",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "PWRD",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "VANA",
+     "role": "power"
+    },
+    {
+     "number": 20,
+     "name": "VDIG",
+     "role": "power"
+    }
+   ],
+   "db28": [
+    {
+     "number": 1,
+     "name": "R1IN",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AGND1",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "R2IN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "R3IN",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 6,
+     "name": "CAP",
+     "role": "nc"
+    },
+    {
+     "number": 7,
+     "name": "REF",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 9,
+     "name": "AGND2",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 11,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 12,
+     "name": "SB/BTC",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "EXT/INT",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "SYNC",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "DATACLK",
+     "role": "inout"
+    },
+    {
+     "number": 17,
+     "name": "DATA",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 19,
+     "name": "TAG",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 21,
+     "name": "R/C",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 23,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 24,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "BUSY",
+     "role": "output"
+    },
+    {
+     "number": 26,
+     "name": "PWRD",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "VANA",
+     "role": "power"
+    },
+    {
+     "number": 28,
+     "name": "VDIG",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 1,
+  "codeFormat": {
+   "pin": "SB/BTC",
+   "values": {
+    "0": "twos",
+    "1": "offset"
+   }
+  },
+  "vcc": [
+   4.75,
+   5.25
+  ],
+  "analog": [
+   "R1IN",
+   "R2IN",
+   "R3IN",
+   "CAP",
+   "REF",
+   "VANA"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "DATACLK",
+   "miso": "DATA",
+   "mode": 1
+  },
+  "timing": {
+   "tValid": 0,
+   "tOut": 20,
+   "tFloat": 0
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{16}",
+   "idle": "0",
+   "commands": []
+  },
+  "conversion": {
+   "time": 2200,
+   "start": [
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "BUSY",
+    "active": 0,
+    "asserts": "busy"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "R/C",
+    "edge": "fall"
+   }
+  }
+ },
+ "packages": {
+  "DB": {
+   "pinout": "db28",
+   "footprint": "SSOP-28",
+   "package": "SSOP",
+   "pins": 28
+  },
+  "DW": {
+   "pinout": "dw20",
+   "footprint": "SOIC-20W",
+   "package": "SOIC",
+   "pins": 20
+  }
+ },
+ "pdf": "ads8509.pdf",
+ "pages": "p.4 (VIH 2.0 V to VDIG+0.3 V, VDIG 4.75-5.25 V), p.5 (pin configurations DW/DB), p.6 (terminal functions), p.7 (timing: tconv 2.2 us max, td8 data valid 20 ns max), p.16-17 (reading data, external DATACLK no-SYNC: first rising edge shifts out the MSB, Table 1), p.20 (Tables 2-4: input ranges, control truth table, SB 0 V = 8000h / BTC 0000h on bipolar ranges)",
+ "notModeled": [
+  "analog inputs, input-range resistor network (R1IN/R2IN/R3IN wiring, Table 2), internal 2.5 V reference (REF) and CAP buffer",
+  "codeFormat assumes the bipolar +/-10 V range (first in Table 2): SB/BTC high gives straight binary with 0 V = 8000h (offset), low two's complement (0000h) (Table 4). On the unipolar ranges 0 V is -full scale (0000h SB / 8000h BTC), which the model does not give",
+  "only the external data clock mode (EXT/INT high) in the discontinuous-clock no-SYNC form is modeled: SPI mode 1 framed by CS falling with R/C high; the first DATACLK rising edge shifts out the MSB, read on the falling edge (Table 1, 16 clocks). The SYNC variant (a SYNC pulse after the first rising edge, MSB one clock later) and the internal-clock mode (EXT/INT low: the part drives 16 DATACLK pulses after each convert command, data from conversion n-1) are not modeled; DATACLK and SYNC are never driven",
+  "a read started by R/C rising with CS held low is not framed (only CS falling starts a transfer); CS falling with R/C low also starts a conversion (CS and R/C are ORed, Table 3) - the model starts conversions on R/C falling only",
+  "TAG daisy-chain: after the 16 data bits DATA outputs the TAG level; the model outputs zeros (TAG tied low)",
+  "reading during a conversion gives the previous result (the td11 rule for the last external clock before BUSY rises is not checked); the first conversion after power-up is invalid",
+  "PWRD (conversions inhibited, results kept) is not read; convert pulse width, cycle time, VDIG <= VANA"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS8509IBDB",
+   "DB",
+   28,
+   "Active"
+  ],
+  [
+   "ADS8509IBDW",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "ADS8509IBDWR",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "ADS8509IDB",
+   "DB",
+   28,
+   "Active"
+  ],
+  [
+   "ADS8509IDW",
+   "DW",
+   20,
+   "Active"
+  ]
+ ]
+}

@@ -29,8 +29,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 struct schematicalApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 
+    init() {
+        // Read the parts once, at launch, rather than per window.
+        _ = PartCatalogStore.shared
+    }
+
     var body: some Scene {
-        WindowGroup {
+        // Opening a file from a window that isn't blank opens a new one of
+        // these, as a tab of that window.
+        WindowGroup(id: "schematic") {
             ContentView()
         }
         .windowToolbarStyle(.unifiedCompact(showsTitle: false))
@@ -59,6 +66,15 @@ struct schematicalApp: App {
         // Like a memory window: tied to a schematic window's simulation.
         .restorationBehavior(.disabled)
 
+        // One register window per converter or RTC part (plan-24-I).
+        WindowGroup("Registers", id: "registers", for: RegisterWindowTarget.self) { $target in
+            if let target {
+                RegisterWindowView(target: target)
+            }
+        }
+        .defaultSize(width: 440, height: 420)
+        .restorationBehavior(.disabled)
+
         // One terminal per serial part (plan-12-K).
         WindowGroup("Terminal", id: "terminal", for: TerminalWindowTarget.self) { $target in
             if let target {
@@ -75,6 +91,24 @@ struct schematicalApp: App {
             }
         }
         .defaultSize(width: 760, height: 420)
+        .restorationBehavior(.disabled)
+
+        // One window per datasheet, opened from a part's Open Datasheet button.
+        WindowGroup("Datasheet", id: "datasheet", for: DatasheetWindowTarget.self) { $target in
+            if let target {
+                DatasheetWindowView(target: target)
+            }
+        }
+        .defaultSize(width: 820, height: 1000)
+        .restorationBehavior(.disabled)
+
+        // One window per Markdown datasheet, opened from Show Datasheet.
+        WindowGroup("Datasheet", id: "datasheet-md", for: MarkdownDatasheetTarget.self) { $target in
+            if let target {
+                MarkdownDatasheetWindowView(target: target)
+            }
+        }
+        .defaultSize(width: 1040, height: 1000)
         .restorationBehavior(.disabled)
 
         Settings {

@@ -1,0 +1,144 @@
+{
+ "device": {
+  "id": "DAC8411",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit low-power single-channel voltage-output DAC with 24-bit SPI-compatible write-only interface (SC70)",
+  "note": "dac8311.pdf (SBAS439C) p.3 pin functions, p.4 recommended operating conditions, p.7-8 timing requirements (Figures 1-2), p.23 power-on reset to zero scale, p.24 power-down modes (Table 3), p.25-26 input shift register (Figure 79) and SYNC interrupt (Figure 80)",
+  "pinouts": {
+   "dck6": [
+    {
+     "number": 1,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "AVDD/VREF",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "VOUT",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 1,
+  "vcc": [
+   2.0,
+   5.5
+  ],
+  "analog": [
+   "VOUT"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "DAC",
+    "width": 16,
+    "reset": 0,
+    "note": "DAC register; power-on reset fills it with zeros (p.23)"
+   },
+   {
+    "name": "CTRL",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PD",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "internal: PD1/PD0 of the last valid frame (Table 3: 00 normal, 01 1 kOhm, 10 100 kOhm, 11 Hi-Z)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "WRITE",
+     "in": "pp d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "CTRL.PD": "p"
+     },
+     "note": "DB23-DB22 PD1/PD0 (Table 3), DB21-DB6 data MSB first, DB5-DB0 don't care (Figure 79); executed on the 18th SCLK falling edge; SYNC high before it aborts the frame (Figure 80)"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "DAC"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "DCK": {
+   "pinout": "dck6",
+   "footprint": "SC70-6",
+   "package": "SC-70",
+   "pins": 6
+  }
+ },
+ "pdf": "dac8311.pdf",
+ "pages": "p.3 (pins), p.4 (ROC), p.7-8 (timing, Figures 1-2), p.23 (power-on reset), p.24 (power-down, Table 3), p.25-26 (serial interface, input shift registers, SYNC interrupt)",
+ "notModeled": [
+  "analog output, resistor string and output amplifier (VOUT is never driven); AVDD/VREF is both supply and reference",
+  "power-down output loads (1 kOhm / 100 kOhm / Hi-Z): PD1/PD0 stored in CTRL.PD only; the DAC register keeps its contents in power-down as the datasheet says",
+  "50 us power-down exit time and output settling",
+  "SCLK frequency (20 MHz below AVDD 3.6 V, 50 MHz above) and setup/hold limits t1-t10",
+  "SPI mode: data are taken on SCLK falling edges with SCLK high at SYNC fall (Figures 1-2); modeled as mode 2",
+  "the frame executes on the 18th falling edge; the last six don't-care bits are ignored (the fixed frame stops after the command)"
+ ],
+ "variants": "DAC8311 (14-bit, 16-bit frame) and DAC8411 (16-bit, 24-bit frame with 6 don't-care LSBs) share dac8311.pdf and the SC70-6 pinout; pin-compatible with DAC7311/DAC6311/DAC5311 (dac5311.pdf, own spec files).",
+ "parts": [
+  [
+   "DAC8411IDCKR",
+   "DCK",
+   6,
+   "Active"
+  ],
+  [
+   "DAC8411IDCKT",
+   "DCK",
+   6,
+   "Active"
+  ]
+ ]
+}

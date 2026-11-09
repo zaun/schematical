@@ -455,6 +455,17 @@ final class SimulationController {
         return engine.cpuState(part: part)
     }
 
+    // MARK: Converters and RTCs
+
+    /// A converter's or RTC's registers (and an RTC's clock) in the running
+    /// simulation, or nil when the part has none or the simulation is not
+    /// running.
+    func registerState(of chip: PlacedChip) -> RegisterSnapshot? {
+        guard chip.part.hasRegisters, let engine,
+              let part = netlist?.chipIDs.firstIndex(of: chip.id) else { return nil }
+        return engine.registerState(part: part, rtc: chip.part.kind == PART_RTC)
+    }
+
     /// How to draw a wire in play mode. Outside play mode, `.normal`, except
     /// the net of a start refused for voltage, which is `.shorted`.
     func wireStyle(_ wireID: UUID) -> WireStyle {

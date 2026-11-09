@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 200" width="340" height="200" font-family="-apple-system, Helvetica, sans-serif" font-size="12" fill="none" stroke="currentColor" stroke-width="1.5">
+  <text x="196" y="16" fill="currentColor" stroke="none">V~CC~</text>
+  <line x1="190" y1="22" x2="230" y2="22"/>
+  <line x1="210" y1="22" x2="210" y2="40"/>
+  <rect x="202" y="40" width="16" height="40"/>
+  <text x="226" y="64" fill="currentColor" stroke="none">R~L~ = {RL}</text>
+  <line x1="210" y1="80" x2="210" y2="100"/>
+  <text x="10" y="94" fill="currentColor" stroke="none">From output</text>
+  <text x="10" y="108" fill="currentColor" stroke="none">under test</text>
+  <line x1="90" y1="100" x2="290" y2="100"/>
+  <circle cx="290" cy="100" r="3" fill="currentColor"/>
+  <text x="250" y="92" fill="currentColor" stroke="none">Test point</text>
+  <line x1="150" y1="100" x2="150" y2="130"/>
+  <line x1="130" y1="130" x2="170" y2="130"/><line x1="130" y1="140" x2="170" y2="140"/>
+  <line x1="150" y1="140" x2="150" y2="170"/>
+  <text x="62" y="139" fill="currentColor" stroke="none">C~L~ = {CL}</text>
+  <line x1="135" y1="170" x2="165" y2="170"/><line x1="141" y1="176" x2="159" y2="176"/><line x1="147" y1="182" x2="153" y2="182"/>
+</svg>

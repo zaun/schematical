@@ -4,7 +4,7 @@ import Observation
 
 // MARK: - Grid
 
-enum SchematicGrid {
+nonisolated enum SchematicGrid {
     /// Every placed block corner, pin tip and wire bend snaps to this spacing.
     static let spacing: CGFloat = 10
 
@@ -26,12 +26,20 @@ enum SchematicTool: String, CaseIterable, Identifiable {
     case bus
     case busPort
     case flip
+    case text
     case vcc
     case ground
     case pullUp
     case pullDown
 
     var id: String { rawValue }
+
+    /// The toolbar's first group: editing and drawing tools.
+    static let drawingTools: [SchematicTool] = [.pointer, .eraser, .line, .bus, .busPort, .flip, .text]
+
+    /// The toolbar's second group, after a gap: the supply tools. VCC and
+    /// Pull-up come last so they sit beside the supply voltage menu they use.
+    static let powerTools: [SchematicTool] = [.ground, .pullDown, .vcc, .pullUp]
 
     var title: String {
         switch self {
@@ -41,6 +49,7 @@ enum SchematicTool: String, CaseIterable, Identifiable {
         case .bus: "Bus"
         case .busPort: "Bus Port"
         case .flip: "Flip"
+        case .text: "Text"
         case .vcc: "VCC"
         case .ground: "GND"
         case .pullUp: "Pull-up"
@@ -52,6 +61,7 @@ enum SchematicTool: String, CaseIterable, Identifiable {
     var tooltip: String {
         switch self {
         case .line, .bus: "\(title) — Space: lock a corner · /: flip the bend · Esc: undo a corner"
+        case .text: "Text — click to add a text block"
         default: title
         }
     }
@@ -64,6 +74,7 @@ enum SchematicTool: String, CaseIterable, Identifiable {
         case .bus: "line.3.horizontal"
         case .busPort: "rectangle.connected.to.line.below"
         case .flip: "arrow.left.and.right"
+        case .text: "textformat"
         case .vcc: "bolt"
         case .ground: "arrow.down.to.line"
         case .pullUp: "arrow.up.circle"
@@ -94,7 +105,7 @@ enum SupplyChoice {
 // MARK: - Block geometry
 
 /// How a placed part is drawn. Logic chips are boxes; oscillators are boxes with
-/// a sine wave in a circle in place of the function name; LEDs use the diode
+/// a square wave in a circle in place of the function name; LEDs use the diode
 /// symbol; VCC and GND use their own supply symbols, and pull-ups and
 /// pull-downs a resistor to a rail or to ground; DIP switches are boxes
 /// with one lever per position; 7-segment displays are boxes that show their
@@ -748,7 +759,7 @@ struct Wire: Identifiable, Hashable {
 // MARK: - Orthogonal routing
 
 /// The direction of a straight run: along a row or along a column.
-enum RouteAxis: Hashable {
+nonisolated enum RouteAxis: Hashable {
     case horizontal
     case vertical
 
@@ -757,7 +768,7 @@ enum RouteAxis: Hashable {
 
 /// Right-angle routing helpers. Paths are arrays of grid points where
 /// consecutive points share an x or a y.
-enum OrthogonalRoute {
+nonisolated enum OrthogonalRoute {
     /// Pin to pin with both pins facing sideways: out horizontally, a
     /// vertical run at the midpoint, then horizontally into the target.
     static func route(from a: CGPoint, to b: CGPoint) -> [CGPoint] {
@@ -959,6 +970,11 @@ final class SchematicDocument {
     private(set) var junctions: [Junction] = []
     /// Buses, in drawing order (plan-13). They carry no current themselves.
     private(set) var buses: [Bus] = []
+    /// Text blocks, in drawing order. Drawn under everything else.
+    private(set) var notes: [SchematicNote] = []
+    /// A text block whose words the sidebar should start editing: one just
+    /// placed, or double-clicked. The sidebar clears it. Editor state only.
+    var editingNoteID: UUID?
     /// What is selected on the Schematic page: parts, wires and junctions
     /// (plan-15). Editor state only, never saved. Changing it clears the bus
     /// and port selection.
@@ -1052,6 +1068,12 @@ final class SchematicDocument {
         return nil
     }
 
+    /// The text block, when it is the only thing selected on the Schematic page.
+    var selectedNoteID: UUID? {
+        if case let .note(id)? = schematicSelection.sole { return id }
+        return nil
+    }
+
     /// The board text, when it is the only thing selected on the PCB page.
     var selectedTextID: UUID? {
         if case let .text(id)? = boardSelection.sole { return id }
@@ -1133,6 +1155,9 @@ final class SchematicDocument {
         for junction in junctions where rect.contains(junction.point) {
             items.insert(.junction(junction.id))
         }
+        for note in notes where note.rect.intersects(rect) {
+            items.insert(.note(note.id))
+        }
         for wire in wires {
             let path = path(forWire: wire.id)
             if zip(path, path.dropFirst()).contains(where: { Self.segment($0, $1, touches: rect) }) {
@@ -1194,11 +1219,13 @@ final class SchematicDocument {
     private func pruneSelection() {
         let chipIDs = Set(chips.map(\.id)), wireIDs = Set(wires.map(\.id))
         let junctionIDs = Set(junctions.map(\.id)), textIDs = Set(texts.map(\.id))
+        let noteIDs = Set(notes.map(\.id))
         schematicSelection.filter { item in
             switch item {
             case let .chip(id): chipIDs.contains(id)
             case let .wire(id): wireIDs.contains(id)
             case let .junction(id): junctionIDs.contains(id)
+            case let .note(id): noteIDs.contains(id)
             }
         }
         let footprints = Set(chips.filter { $0.board != nil }.map(\.id))
@@ -1239,8 +1266,9 @@ final class SchematicDocument {
     /// just opened. Clears the selection.
     func replaceContents(chips: [PlacedChip], wires: [Wire], junctions: [Junction], buses: [Bus],
                          nextReference: Int, board: BoardSettings, texts: [BoardText],
-                         traces: [BoardTrace]) {
+                         traces: [BoardTrace], notes: [SchematicNote] = []) {
         self.chips = chips
+        self.notes = notes
         self.wires = wires
         self.junctions = junctions
         self.buses = buses
@@ -1248,6 +1276,7 @@ final class SchematicDocument {
         self.board = board
         self.texts = texts
         self.traces = traces
+        editingNoteID = nil
         clearAllSelections()
         editorMessage = nil
     }
@@ -1433,6 +1462,8 @@ final class SchematicDocument {
                 if let junction = junctions.first(where: { $0.id == id }) { base.junctions[id] = junction.point }
             case let .wire(id):
                 if let wire = wires.first(where: { $0.id == id }) { base.wires[id] = wire.interior }
+            case let .note(id):
+                if let note = notes.first(where: { $0.id == id }) { base.notes[id] = note.origin }
             }
         }
         for wire in wires where base.wires[wire.id] != nil || moves(wire.start, in: base) || moves(wire.end, in: base) {
@@ -1475,6 +1506,11 @@ final class SchematicDocument {
             let moved = bends.map(shifted)
             if wires[index].interior != moved { wires[index].interior = moved }
         }
+        for index in notes.indices {
+            guard let origin = base.notes[notes[index].id] else { continue }
+            let moved = shifted(origin)
+            if notes[index].origin != moved { notes[index].origin = moved }
+        }
     }
 
     /// The end of a group drag: re-fits each affected wire once, as
@@ -1489,6 +1525,48 @@ final class SchematicDocument {
             }
             wires[index].interior = interior
         }
+    }
+
+    // MARK: Text blocks (Schematic)
+
+    /// Adds a text block with its top-left at `point` (snapped), selects it
+    /// and asks the sidebar to edit its words.
+    @discardableResult
+    func addNote(at point: CGPoint) -> UUID {
+        let note = SchematicNote(id: UUID(), text: SchematicNote.placeholder, origin: SchematicGrid.snap(point))
+        notes.append(note)
+        select(.note(note.id))
+        editingNoteID = note.id
+        return note.id
+    }
+
+    /// Changes a block's words. An empty string is refused and the words kept.
+    func setNoteText(_ id: UUID, _ value: String) {
+        guard !value.isEmpty, let index = notes.firstIndex(where: { $0.id == id }),
+              notes[index].text != value else { return }
+        notes[index].text = value
+    }
+
+    /// Sets a block's font size in points, clamped to `SchematicNote.sizeRange`.
+    func setNoteSize(_ id: UUID, _ size: Int) {
+        guard let index = notes.firstIndex(where: { $0.id == id }) else { return }
+        notes[index].size = min(max(size, SchematicNote.sizeRange.lowerBound), SchematicNote.sizeRange.upperBound)
+    }
+
+    func setNoteFramed(_ id: UUID, _ framed: Bool) {
+        guard let index = notes.firstIndex(where: { $0.id == id }) else { return }
+        notes[index].framed = framed
+    }
+
+    func deleteNote(_ id: UUID) {
+        notes.removeAll { $0.id == id }
+        if editingNoteID == id { editingNoteID = nil }
+        pruneSelection()
+    }
+
+    /// The text block under a point: the last one drawn there.
+    func note(at point: CGPoint) -> SchematicNote? {
+        notes.last { $0.rect.contains(point) }
     }
 
     // MARK: Footprints (PCB)
@@ -2886,7 +2964,7 @@ final class SchematicDocument {
     // MARK: Erasing
 
     /// Removes whatever is under `point`: a block (and its wires) first, then
-    /// a bus port, then a wire, then a bus line. A port with wires on its
+    /// a bus port, then a wire, then a bus line, then a text block. A port with wires on its
     /// pins, or a bus line with ports, asks first (`pendingRemoval`); while
     /// that is up, nothing is erased.
     func erase(at point: CGPoint, tolerance: CGFloat = 6) {
@@ -2916,6 +2994,9 @@ final class SchematicDocument {
                     message: "Delete this bus line, its \(Self.counted(ports.count, "port")) and the \(Self.counted(count, "wire")) connected to them?",
                     action: .busLine(bus: hit.bus, line: hit.line))
             }
+            return
+        } else if let hit = note(at: point) {
+            deleteNote(hit.id)
             return
         } else {
             return

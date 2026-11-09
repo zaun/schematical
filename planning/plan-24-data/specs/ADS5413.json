@@ -1,0 +1,337 @@
+{
+  "device": {
+    "id": "ADS5413",
+    "function": "ADC",
+    "description": "12-bit 65 MSPS IF-sampling pipelined ADC with parallel CMOS outputs (1.8-3.3 V output supply) and power-down",
+    "note": "ads5413.pdf (SLWS153) p.1 features (two's complement output), p.2 recommended operating conditions, p.3 digital inputs/outputs, p.4 timing characteristics and timing diagram (Figure 1), p.5 pin assignments and terminal functions, p.14 power down and digital outputs",
+    "pinouts": {
+      "php48": [
+        {
+          "number": 1,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 2,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 3,
+          "name": "VINP",
+          "role": "input"
+        },
+        {
+          "number": 4,
+          "name": "VINN",
+          "role": "input"
+        },
+        {
+          "number": 5,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 6,
+          "name": "CML",
+          "role": "output"
+        },
+        {
+          "number": 7,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 8,
+          "name": "VREFB",
+          "role": "power"
+        },
+        {
+          "number": 9,
+          "name": "VREFT",
+          "role": "power"
+        },
+        {
+          "number": 10,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 11,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 12,
+          "name": "NC",
+          "role": "nc"
+        },
+        {
+          "number": 13,
+          "name": "VBG",
+          "role": "output"
+        },
+        {
+          "number": 14,
+          "name": "NC",
+          "role": "nc"
+        },
+        {
+          "number": 15,
+          "name": "DECOUPLING",
+          "role": "nc"
+        },
+        {
+          "number": 16,
+          "name": "PWD",
+          "role": "input"
+        },
+        {
+          "number": 17,
+          "name": "NC",
+          "role": "nc"
+        },
+        {
+          "number": 18,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 19,
+          "name": "CLK",
+          "role": "input"
+        },
+        {
+          "number": 20,
+          "name": "CLKC",
+          "role": "input"
+        },
+        {
+          "number": 21,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 22,
+          "name": "OGND",
+          "role": "ground"
+        },
+        {
+          "number": 23,
+          "name": "OVDD",
+          "role": "power"
+        },
+        {
+          "number": 24,
+          "name": "DCA",
+          "role": "input"
+        },
+        {
+          "number": 25,
+          "name": "D11",
+          "role": "output"
+        },
+        {
+          "number": 26,
+          "name": "D10",
+          "role": "output"
+        },
+        {
+          "number": 27,
+          "name": "D9",
+          "role": "output"
+        },
+        {
+          "number": 28,
+          "name": "D8",
+          "role": "output"
+        },
+        {
+          "number": 29,
+          "name": "D7",
+          "role": "output"
+        },
+        {
+          "number": 30,
+          "name": "D6",
+          "role": "output"
+        },
+        {
+          "number": 31,
+          "name": "D5",
+          "role": "output"
+        },
+        {
+          "number": 32,
+          "name": "D4",
+          "role": "output"
+        },
+        {
+          "number": 33,
+          "name": "D3",
+          "role": "output"
+        },
+        {
+          "number": 34,
+          "name": "D2",
+          "role": "output"
+        },
+        {
+          "number": 35,
+          "name": "D1",
+          "role": "output"
+        },
+        {
+          "number": 36,
+          "name": "D0",
+          "role": "output"
+        },
+        {
+          "number": 37,
+          "name": "NC",
+          "role": "nc"
+        },
+        {
+          "number": 38,
+          "name": "OVDD",
+          "role": "power"
+        },
+        {
+          "number": 39,
+          "name": "OGND",
+          "role": "ground"
+        },
+        {
+          "number": 40,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 41,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 42,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 43,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 44,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 45,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 46,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 47,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 48,
+          "name": "REF SEL",
+          "role": "input"
+        }
+      ]
+    },
+    "type": "adc",
+    "bits": 12,
+    "channels": 1,
+    "codeFormat": "twos",
+    "vcc": [
+      1.6,
+      3.6
+    ],
+    "analog": [
+      "AVDD",
+      "CLKC",
+      "CML",
+      "VBG",
+      "VINN",
+      "VINP",
+      "VREFB",
+      "VREFT"
+    ],
+    "bus": {
+      "style": "clocked",
+      "clock": {
+        "pin": "CLK",
+        "edge": "rise"
+      },
+      "data": [
+        "D11",
+        "D10",
+        "D9",
+        "D8",
+        "D7",
+        "D6",
+        "D5",
+        "D4",
+        "D3",
+        "D2",
+        "D1",
+        "D0"
+      ]
+    },
+    "timing": {
+      "tOut": 10
+    },
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "commands": [],
+      "read": "R{12}"
+    },
+    "pins": {
+      "powerdown": {
+        "pin": "PWD",
+        "active": 1
+      }
+    },
+    "drawer": [
+      "Interface"
+    ]
+  },
+  "packages": {
+    "PHP": {
+      "pinout": "php48",
+      "footprint": "HTQFP-48-PHP",
+      "package": "HTQFP",
+      "pins": 48
+    }
+  },
+  "pdf": "ads5413.pdf",
+  "pages": "p.1 (features: 12-bit 65 MSPS, two's complement, 1.8-3.3 V output supply), p.2 (recommended operating conditions: AVDD 3.0-3.6 V, OVDD 1.6-3.6 V, 5-65 MSPS), p.3 (digital inputs PWD/DCA/REF SEL VIH 2 V VIL 0.8 V), p.4 (timing: latency 6 cycles, td1 7-10 ns typ clock to data stable, Figure 1 data changes after CLK rising), p.5 (pinout and terminal functions), p.14 (power down: PWD high, internal pulldown; output format two's complement)",
+  "notModeled": [
+    "analog input, references and bandgap (the result is always the 0 V code 0x000)",
+    "pipeline latency of 6 clock cycles (the code is constant)",
+    "td1 is given only as typical values (7-10 ns by DCA and OVDD); tOut uses the largest typical, 10 ns (DCA on, OVDD = 1.8 V)",
+    "DCA (duty cycle adjust, internal pullup) and REF SEL (internal/external reference, internal pulldown) only change analog behavior; PWD and DCA/REF SEL internal pull resistors (open pins) are not modeled",
+    "PWD, DCA and REF SEL are AVDD-referenced inputs (VIH 2 V); vcc is the OVDD output-driver range (1.6-3.6 V)",
+    "outputs while powered down (the model's powerdown pin only blocks conversions)",
+    "CLK/CLKC differential or single-ended clock: only CLK is the clock pin; sample rate limits 5-65 MSPS"
+  ],
+  "variants": "ADS5413-11 (11-bit grade, obsolete) shares the datasheet family; not in this device",
+  "parts": [
+    [
+      "ADS5413IPHP",
+      "PHP",
+      48,
+      "Active"
+    ]
+  ]
+}

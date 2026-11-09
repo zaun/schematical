@@ -1,0 +1,264 @@
+{
+ "device": {
+  "id": "DAC82001",
+  "function": "DAC",
+  "description": "16-bit 1-channel buffered voltage-output DAC with external reference, 24-bit SPI write-only interface and RSTSEL zero/midscale reset",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac82001.pdf (SBASAK3A) p.3 pinout (Table 5-1), p.4 recommended operating conditions (VDD 2.7-5.5 V, VIH 1.62 V), p.6 timing (6.6, Figure 6-1), p.12-13 DAC register structure, POR, hardware and software reset, p.14 SPI frame (Table 7-1) and SYNC interrupt, p.15-16 register map (Tables 7-2 to 7-6)",
+  "pinouts": {
+   "drx10": [
+    {
+     "number": 1,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "RSTSEL",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "SDIN",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 10,
+     "name": "VREF",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "VOUT",
+   "VREF"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "SDIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "NOOP",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "note": "p.15 Table 7-3: no operation (write-only)"
+   },
+   {
+    "name": "SYNC",
+    "address": 2,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 65534,
+    "fields": [
+     {
+      "name": "DAC_SYNC_EN",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.15 Table 7-4: DAC-SYNC-EN 1 = update on the software LDAC trigger, 0 = update at SYNC rising (default)"
+   },
+   {
+    "name": "TRIGGER",
+    "address": 5,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 65504,
+    "fields": [
+     {
+      "name": "LDAC",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "SOFT_RESET",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.16 Table 7-5: LDAC and SOFT-RESET (1010) self-resetting trigger bits (protocol.triggers)"
+   },
+   {
+    "name": "DAC",
+    "address": 8,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "p.16 Table 7-6: DAC-DATA[15:0] MSB aligned straight binary; reset 0000h (RSTSEL low) or 8000h (RSTSEL high); the DAC buffer register"
+   },
+   {
+    "name": "DAC_ACT",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DATA",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the DAC active register (drives VOUT); p.12: asynchronous mode updates it at SYNC rising"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write DAC",
+     "in": "x 0001000 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "when": "SYNC.DAC_SYNC_EN=0",
+     "then": [
+      "update"
+     ],
+     "commit": "end",
+     "note": "p.12: asynchronous mode (DAC-SYNC-EN = 0) updates the active register at SYNC rising"
+    },
+    {
+     "name": "Write DAC (synchronous)",
+     "in": "x 0001000 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "when": "SYNC.DAC_SYNC_EN=1",
+     "commit": "end",
+     "note": "p.12: synchronous mode waits for the TRIGGER LDAC bit"
+    },
+    {
+     "name": "Write",
+     "in": "x aaaaaaa d{16}",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "p.14 Table 7-1: bit 23 W, bits 22-16 register address, bits 15-0 data; registers update at SYNC rising; SYNC high before the 24th SCLK falling edge discards the frame"
+    }
+   ],
+   "triggers": [
+    {
+     "write": "TRIGGER.SOFT_RESET=10",
+     "action": "reset"
+    },
+    {
+     "write": "TRIGGER.LDAC=1",
+     "action": "update"
+    }
+   ]
+  },
+  "pins": {
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   },
+   "resetSelect": [
+    {
+     "pin": "RSTSEL",
+     "level": 1,
+     "resets": {
+      "DAC": 32768,
+      "DAC_ACT": 32768
+     }
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "DAC"
+   ],
+   "output": [
+    "DAC_ACT"
+   ],
+   "clearCode": 0,
+   "ldac": "command"
+  }
+ },
+ "packages": {
+  "DRX": {
+   "pinout": "drx10",
+   "footprint": "WSON-10-DRX",
+   "package": "WSON",
+   "pins": 10
+  }
+ },
+ "pdf": "dac82001.pdf",
+ "pages": "p.3 (pinout), p.4 (ROC), p.6 (timing), p.12-13 (register structure, POR, resets), p.14 (SPI frame, SYNC interrupt), p.15-16 (registers)",
+ "notModeled": [
+  "analog output and reference",
+  "bit 23 (W) of the frame: the datasheet gives no value for it; the model ignores it",
+  "write-only interface (no SDO): registers cannot be read back",
+  "LDAC and SOFT-RESET bits self-reset: the model keeps the written value in TRIGGER (a later write of 1 still triggers)",
+  "the 250-us POR / RESET delay and the 1-us DAC update wait"
+ ],
+ "variants": "dac82001.pdf covers only the DAC82001",
+ "parts": [
+  [
+   "DAC82001DRXR",
+   "DRX",
+   10,
+   "Active"
+  ]
+ ]
+}

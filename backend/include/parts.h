@@ -25,7 +25,7 @@ typedef enum {
     PART_GATE, PART_DFF, PART_JKFF, PART_SRAM, PART_SWITCH,
     PART_LED, PART_7SEG, PART_OSCILLATOR, PART_SUPPLY, PART_EEPROM, PART_LATCH, PART_COUNTER,
     PART_SHIFT, PART_CPU, PART_CHARLCD, PART_SERIAL, PART_CONNECTOR, PART_PIO, PART_DECODER,
-    PART_BUFFER, PART_MUX, PART_HEADER, PART_ARITH
+    PART_BUFFER, PART_MUX, PART_HEADER, PART_ARITH, PART_CONVERTER, PART_RTC
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -107,6 +107,9 @@ typedef struct { const char *model; const char *grade; uint64_t max_hz; } PartPi
 /* A generic pin header (plan-23-A): rows is 1 or 2; genders are the
    genders a placed header may have, genders[0] the default (app only). */
 typedef struct { unsigned rows; const char *const *genders; size_t gender_count; } PartHeader;
+/* An ADC or DAC (plan-24-D): type "adc" or "dac"; bits: resolution; channels:
+   ADC inputs / DAC outputs. Only the digital side is simulated. */
+typedef struct { const char *type; unsigned bits, channels; } PartConverter;
 
 /* ---- Footprints (Parts/footprints.json, docs/parts-format.md) ----------- */
 
@@ -139,6 +142,13 @@ typedef struct {
 /* One entry of a part's "footprintChoices": a package name and its footprint. */
 typedef struct { const char *package; const PartFootprint *footprint; } PartFootprintChoice;
 
+/* ---- Datasheets (Parts/datasheets.json, docs/parts-format.md) --------- */
+
+/* One datasheet: an id parts name, the manufacturer's URL of the PDF, and
+   the app's own Markdown datasheet ("md": a path under the bundled
+   Datasheets folder, such as "gate-and/sn74hc08.md"; NULL = none). */
+typedef struct { const char *id, *url, *md; } PartDatasheet;
+
 typedef struct Part {
     PartKind kind;
     const char *name, *package, *function, *description;
@@ -158,6 +168,8 @@ typedef struct Part {
     const PartEeprom *eeprom;
     const PartCpu *cpu;
     const PartSerial *serial;
+    const char *manufacturer;          /* NULL = not given; "Generic" = no one maker */
+    const PartDatasheet *datasheet;    /* NULL = none (always for "Generic") */
     const PartFootprint *footprint;    /* NULL = none (supplies) */
     const PartFootprint *connector_footprint;  /* NULL = none; the PCB Style option's "Connector Only" */
     /* The footprints a placed part may use instead, in file order; one of
@@ -167,6 +179,7 @@ typedef struct Part {
     const PartConnector *connector;
     const PartPio *pio;
     const PartHeader *header;
+    const PartConverter *converter;
     /* Dual-supply parts (plan-20-F): domain 0 is the A side (its vcc is
        Part.vcc), domain 1 the B side; NULL/0 for single-supply parts. */
     const PartSupplyDomain *domains; size_t domain_count;
@@ -187,6 +200,17 @@ int load_parts(PartLibrary *library, const char *json, const char *source, char 
  * ids are unique across calls.
  */
 int load_footprints(PartLibrary *library, const char *json, const char *source, char **error);
+
+/*
+ * Parses a datasheets file (format "schematical-datasheets"). Same contract
+ * as load_parts. Load it before any part file that names its datasheet;
+ * ids are unique across calls.
+ */
+int load_datasheets(PartLibrary *library, const char *json, const char *source, char **error);
+
+size_t part_library_datasheet_count(const PartLibrary *library);
+const PartDatasheet *part_library_datasheet_at(const PartLibrary *library, size_t index);
+const PartDatasheet *part_library_find_datasheet(const PartLibrary *library, const char *id);
 
 size_t part_library_footprint_count(const PartLibrary *library);
 const PartFootprint *part_library_footprint_at(const PartLibrary *library, size_t index);

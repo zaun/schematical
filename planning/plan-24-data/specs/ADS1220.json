@@ -1,0 +1,508 @@
+{
+ "device": {
+  "id": "ADS1220",
+  "function": "ADC",
+  "description": "24-bit 2 kSPS 4-channel low-power delta-sigma ADC with PGA, reference, IDACs and SPI interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1220.pdf (SBAS501D) p.4 pin functions (Table 5-1), p.6 recommended operating conditions, p.9 SPI timing, p.30 conversion times (Table 8-4), p.36 serial interface, p.37 data format, p.38 commands (Table 8-7), p.39-41 reading data / sending commands, p.42-46 registers",
+  "pinouts": {
+   "rva16": [
+    {
+     "number": 1,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "AVSS",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "AIN3/REFN1",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AIN2",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "REFN0",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "REFP0",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "AIN1",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "AIN0/REFP1",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 12,
+     "name": "DRDY",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "DOUT/DRDY",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "CS",
+     "role": "input"
+    }
+   ],
+   "pw16": [
+    {
+     "number": 1,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "AVSS",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "AIN3/REFN1",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "AIN2",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "REFN0",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "REFP0",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "AIN1",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "AIN0/REFP1",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "DRDY",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "DOUT/DRDY",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "DIN",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 24,
+  "channels": 4,
+  "codeFormat": "twos",
+  "vcc": [
+   2.3,
+   5.5
+  ],
+  "analog": [
+   "AIN0/REFP1",
+   "AIN1",
+   "AIN2",
+   "AIN3/REFN1",
+   "AVDD",
+   "AVSS",
+   "REFN0",
+   "REFP0"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "miso": "DOUT/DRDY",
+   "mode": 1
+  },
+  "timing": {
+   "tValid": 50,
+   "tOut": 50,
+   "tFloat": 50
+  },
+  "registers": [
+   {
+    "name": "CONFIG0",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MUX",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "GAIN",
+      "bits": [
+       3,
+       1
+      ]
+     },
+     {
+      "name": "PGA_BYPASS",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG1",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DR_MODE",
+      "bits": [
+       7,
+       3
+      ]
+     },
+     {
+      "name": "CM",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "TS",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "BCS",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "DR_MODE = DR[2:0] (bits 7:5) and MODE[1:0] (bits 4:3) as one field, so the conversion time can depend on both"
+   },
+   {
+    "name": "CONFIG2",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "VREF",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "F50_60",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "PSW",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "IDAC",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG3",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "I1MUX",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "I2MUX",
+      "bits": [
+       4,
+       2
+      ]
+     },
+     {
+      "name": "DRDYM",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "RESERVED",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "out": "R{24}",
+   "idle": "1",
+   "commands": [
+    {
+     "name": "RESET",
+     "in": "0000011x",
+     "action": "reset"
+    },
+    {
+     "name": "START/SYNC",
+     "in": "0000100x",
+     "action": "wakeup",
+     "then": [
+      "start"
+     ]
+    },
+    {
+     "name": "POWERDOWN",
+     "in": "0000001x",
+     "action": "powerdown"
+    },
+    {
+     "name": "RDATA",
+     "in": "0001xxxx",
+     "reply": "R{24}"
+    },
+    {
+     "name": "RREG",
+     "in": "0010aann",
+     "action": "rreg",
+     "address": "a",
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "WREG",
+     "in": "0100aann",
+     "action": "wreg",
+     "address": "a",
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "(undefined byte)",
+     "in": "x{8}",
+     "action": "nop",
+     "note": "not in Table 8-7; any other byte (e.g. 00h sent while reading data, p.40) is ignored"
+    }
+   ]
+  },
+  "conversion": {
+   "time": {
+    "field": "CONFIG1.DR_MODE",
+    "values": {
+     "0": 50012207,
+     "1": 200957031,
+     "2": 25008301,
+     "4": 22270020,
+     "5": 89003906,
+     "6": 11137207,
+     "8": 11285645,
+     "9": 45066406,
+     "10": 5645020,
+     "12": 5801270,
+     "13": 23128906,
+     "14": 2902832,
+     "16": 3066895,
+     "17": 12191406,
+     "18": 1535645,
+     "20": 1707520,
+     "21": 6753906,
+     "22": 855957,
+     "24": 1035645,
+     "25": 4066406,
+     "26": 520020
+    }
+   },
+   "start": [
+    "command"
+   ],
+   "mode": {
+    "field": "CONFIG1.CM",
+    "continuous": 1
+   },
+   "channel": "CONFIG0.MUX"
+  },
+  "ready": [
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read"
+   },
+   {
+    "pin": "DOUT/DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read",
+    "onMiso": true,
+    "enable": "CONFIG3.DRDYM=1"
+   }
+  ]
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw16",
+   "footprint": "TSSOP-16",
+   "package": "TSSOP",
+   "pins": 16
+  },
+  "RVA": {
+   "pinout": "rva16",
+   "footprint": "VQFN-16-RVA",
+   "package": "VQFN",
+   "pins": 16
+  }
+ },
+ "pdf": "ads1220.pdf",
+ "pages": "p.4 (pins), p.6 (ROC), p.9 (SPI timing/switching), p.30 (Table 8-4 conversion times), p.36 (serial interface), p.37 (data format), p.38 (commands), p.39-41 (reading data, sending commands), p.42-46 (registers)",
+ "notModeled": [
+  "analog input, PGA, reference selection, IDACs, burn-out sources, FIR 50/60 Hz filter, low-side switch (all stored only)",
+  "temperature-sensor mode (TS=1): the result is still the 0 V code, not the 14-bit temperature format",
+  "conversion times are the single-shot values of Table 8-4 for normal and turbo mode and the continuous values for duty-cycle mode; continuous-mode periods (slightly shorter), the 210/114 tCLK first-conversion delay and the internal-oscillator wake-up (up to 50 us) are not modeled; times assume the internal oscillator or a 4.096 MHz CLK (another external CLK frequency scales them); the CLK pin is not used",
+  "entering continuous mode by a WREG of CM=1 does not need START/SYNC in the model (the datasheet requires START/SYNC); a WREG during continuous conversions does not restart the conversion (the datasheet resets the filter and restarts)",
+  "POWERDOWN during a conversion: the datasheet completes the conversion first",
+  "DRDY pulses high for 2 tMOD before the next result when the previous one was not read",
+  "full-duplex command decoding while data are shifted out is approximated by out R{24} plus byte commands; commands are not decoded during an RDATA/RREG reply (datasheet); an RREG/RDATA mid-read corrupting the data",
+  "DOUT/DRDY after the 24 data bits drives high (idle '1', Figure 8-31, for DRDYM=1); for DRDYM=0 the datasheet does not say",
+  "SPI timeout (14000/28000 tMOD) interface reset; CS tied low permanently",
+  "RESET command recovery time (50 us + 32 tCLK)",
+  "CONFIG3 bit 0 RESERVED is modeled as a plain R/W bit"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS1220IPW",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "ADS1220IPWR",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "ADS1220IRVAR",
+   "RVA",
+   16,
+   "Active"
+  ],
+  [
+   "ADS1220IRVAT",
+   "RVA",
+   16,
+   "Active"
+  ]
+ ]
+}

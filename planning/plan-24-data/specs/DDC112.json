@@ -1,0 +1,432 @@
+{
+ "device": {
+  "id": "DDC112",
+  "function": "ADC",
+  "description": "Dual 20-bit current-input (charge-integrating) delta-sigma ADC with dual-switched integrators and serial output",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ddc112.pdf (SBAS085B) p.3 specifications (straight binary with an offset, AVDD = DVDD 4.75-5.25 V, DCLK 12 / 15 MHz), p.4-5 pin configurations and descriptions (SO-28, TQFP-32), p.14-15 Table V / VI (t7 cont mode data ready = 4212 CLK periods = 421.2 us at 10 MHz), p.20 data retrieval and Table VIII code table (0 input = 0000 0001 0000 0000 0000), p.21 Figure 22 / Table IX (DXMIT low enables DOUT, Input 2 then Input 1, MSB first, DCLK falling edge to valid DOUT 30 ns)",
+  "pinouts": {
+   "so28": [
+    {
+     "number": 1,
+     "name": "IN1",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "CAP1B",
+     "role": "nc"
+    },
+    {
+     "number": 4,
+     "name": "CAP1B",
+     "role": "nc"
+    },
+    {
+     "number": 5,
+     "name": "CAP1A",
+     "role": "nc"
+    },
+    {
+     "number": 6,
+     "name": "CAP1A",
+     "role": "nc"
+    },
+    {
+     "number": 7,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "TEST",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "CONV",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "DCLK",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "DXMIT",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 16,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "DVALID",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "RANGE0",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "RANGE1",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "RANGE2",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 22,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 23,
+     "name": "CAP2A",
+     "role": "nc"
+    },
+    {
+     "number": 24,
+     "name": "CAP2A",
+     "role": "nc"
+    },
+    {
+     "number": 25,
+     "name": "CAP2B",
+     "role": "nc"
+    },
+    {
+     "number": 26,
+     "name": "CAP2B",
+     "role": "nc"
+    },
+    {
+     "number": 27,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 28,
+     "name": "IN2",
+     "role": "input"
+    }
+   ],
+   "tqfp32": [
+    {
+     "number": 1,
+     "name": "CAP1A",
+     "role": "nc"
+    },
+    {
+     "number": 2,
+     "name": "CAP1A",
+     "role": "nc"
+    },
+    {
+     "number": 3,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 5,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 6,
+     "name": "TEST",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "CONV",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "DCLK",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "DXMIT",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 14,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "DVALID",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "RANGE0",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "RANGE1",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "RANGE2",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 20,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 21,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 22,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 23,
+     "name": "CAP2A",
+     "role": "nc"
+    },
+    {
+     "number": 24,
+     "name": "CAP2A",
+     "role": "nc"
+    },
+    {
+     "number": 25,
+     "name": "CAP2B",
+     "role": "nc"
+    },
+    {
+     "number": 26,
+     "name": "CAP2B",
+     "role": "nc"
+    },
+    {
+     "number": 27,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 28,
+     "name": "IN2",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "IN1",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 31,
+     "name": "CAP1B",
+     "role": "nc"
+    },
+    {
+     "number": 32,
+     "name": "CAP1B",
+     "role": "nc"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 20,
+  "channels": 2,
+  "codeFormat": "straight",
+  "vcc": [
+   4.75,
+   5.25
+  ],
+  "analog": [
+   "IN1",
+   "IN2",
+   "AVDD",
+   "VREF",
+   "CAP1A",
+   "CAP1B",
+   "CAP2A",
+   "CAP2B"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "DXMIT",
+   "sclk": "DCLK",
+   "miso": "DOUT",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 30,
+   "tOut": 30,
+   "tFloat": 30
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "0000 0001 0000 0000 0000 0000 0001 0000 0000 0000",
+   "idle": "0",
+   "commands": []
+  },
+  "conversion": {
+   "time": 421200,
+   "start": [
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "DVALID",
+    "active": 0,
+    "asserts": "done",
+    "clears": "cs-fall"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "CONV",
+    "edge": "rise"
+   }
+  }
+ },
+ "packages": {
+  "DW": {
+   "pinout": "so28",
+   "footprint": "SOIC-28W",
+   "package": "SOIC",
+   "pins": 28
+  },
+  "PJT": {
+   "pinout": "tqfp32",
+   "footprint": "TQFP-32-PJT",
+   "package": "TQFP",
+   "pins": 32
+  }
+ },
+ "pdf": "ddc112.pdf",
+ "pages": "p.3 (specifications), p.4-5 (pinouts and pin descriptions), p.14-15 (Tables V, VI: data-ready timing), p.20 (data retrieval, Table VIII code table), p.21 (Figure 22, Table IX retrieval timing)",
+ "notModeled": [
+  "charge-integrating analog front end (IN1, IN2, dual A/B integrators, external CAP pins, VREF, RANGE2-RANGE0 full-scale selection, TEST charge injection): the output is always the 0-input code 0000 0001 0000 0000 0000 (Table VIII: straight binary with a built-in offset of about 0.4 % FS), written literally in the frame for both inputs",
+  "CONV: in the device every CONV transition (both edges) ends an integration and DVALID goes low t7 = 4212 CLK periods later; the model starts a conversion only on the CONV rising edge (convst edge \"rise\"), so it reports data every other transition",
+  "continuous / non-continuous (ncont) integration state machine (Figures 10-19), the power-up ncont states and the CLK-synchronised m/r/az cycle: conversion time is fixed at t7 = 421.2 us (CLK = 10 MHz, DDC112U/Y); DDC112UK/YK at CLK = 15 MHz take 280.8 us",
+  "CLK (system clock) is not used by the model; the conversion time assumes the nominal 10 MHz",
+  "daisy-chain: after the 40 data bits the device shifts the DIN bits out on DOUT (Figure 20); the model shifts zeros",
+  "DVALID goes high t19 = 30 ns after DXMIT falls (modeled as cleared at the DXMIT falling edge)",
+  "timing: tValid t21 = 30 ns max, tOut t22B = 30 ns max (DDC112U/Y; t22A 25 ns for UK/YK), tFloat t23 = 30 ns (typical, the only value given)"
+ ],
+ "variants": "DDC112U/Y (10 MHz CLK, -40 to 85 C) and DDC112UK/YK (15 MHz CLK, 0 to 70 C) share the datasheet and pinouts; the 28-pin parts are SO-28 (DW), the 32-pin parts TQFP-32 (PJT)",
+ "parts": [
+  [
+   "DDC112U",
+   "DW",
+   28,
+   "Active"
+  ],
+  [
+   "DDC112U/1K",
+   "DW",
+   28,
+   "Active"
+  ],
+  [
+   "DDC112UK",
+   "DW",
+   28,
+   "Active"
+  ],
+  [
+   "DDC112Y/250",
+   "PJT",
+   32,
+   "Active"
+  ],
+  [
+   "DDC112YK/250",
+   "PJT",
+   32,
+   "Active"
+  ]
+ ]
+}

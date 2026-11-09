@@ -1,0 +1,79 @@
+{
+  "device": {
+    "id": "ADC08060",
+    "function": "ADC",
+    "description": "8-bit 20-60 MSPS pipelined ADC with parallel CMOS outputs and power-down",
+    "drawer": ["Interface"],
+    "note": "adc08060.pdf (SNAS120H) p.2 pin configuration (Figure 1), p.3 pin descriptions, p.4 operating ratings, p.6-7 digital I/O and AC characteristics (tOD, pipeline delay), p.15 functional description (straight binary, PD), p.19 digital input pins",
+    "pinouts": {
+      "pw24": [
+        {"number": 1, "name": "VA", "role": "power"},
+        {"number": 2, "name": "AGND", "role": "ground"},
+        {"number": 3, "name": "VRT", "role": "power"},
+        {"number": 4, "name": "VA", "role": "power"},
+        {"number": 5, "name": "AGND", "role": "ground"},
+        {"number": 6, "name": "VIN", "role": "input"},
+        {"number": 7, "name": "VIN GND", "role": "ground"},
+        {"number": 8, "name": "AGND", "role": "ground"},
+        {"number": 9, "name": "VRM", "role": "nc"},
+        {"number": 10, "name": "VRB", "role": "power"},
+        {"number": 11, "name": "AGND", "role": "ground"},
+        {"number": 12, "name": "VA", "role": "power"},
+        {"number": 13, "name": "D7", "role": "output"},
+        {"number": 14, "name": "D6", "role": "output"},
+        {"number": 15, "name": "D5", "role": "output"},
+        {"number": 16, "name": "D4", "role": "output"},
+        {"number": 17, "name": "DR GND", "role": "ground"},
+        {"number": 18, "name": "DR VD", "role": "power"},
+        {"number": 19, "name": "D3", "role": "output"},
+        {"number": 20, "name": "D2", "role": "output"},
+        {"number": 21, "name": "D1", "role": "output"},
+        {"number": 22, "name": "D0", "role": "output"},
+        {"number": 23, "name": "PD", "role": "input"},
+        {"number": 24, "name": "CLK", "role": "input"}
+      ]
+    },
+    "type": "adc",
+    "bits": 8,
+    "channels": 1,
+    "codeFormat": "straight",
+    "vcc": [2.4, 3.6],
+    "analog": ["VA", "VRT", "VIN", "VRM", "VRB"],
+    "bus": {
+      "style": "clocked",
+      "clock": {"pin": "CLK", "edge": "rise"},
+      "data": ["D7", "D6", "D5", "D4", "D3", "D2", "D1", "D0"]
+    },
+    "timing": {"tOut": 12},
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "commands": [],
+      "read": "R{8}"
+    },
+    "conversion": {
+      "time": 0,
+      "start": ["power-on"]
+    },
+    "pins": {
+      "powerdown": {"pin": "PD", "active": 1}
+    }
+  },
+  "packages": {
+    "PW": {"pinout": "pw24", "footprint": "TSSOP-24", "package": "TSSOP", "pins": 24}
+  },
+  "pdf": "adc08060.pdf",
+  "pages": "p.2 (Figure 1 pinout), p.3 (pin descriptions), p.4 (operating ratings: VA 2.7-3.6 V, DR VD 2.4 V to VA), p.6 (CLK/PD VIH/VIL), p.7 (tOD 8.2/12 ns, latency 2.5 clocks, 20-60 MHz), p.15 (straight binary, PD high = power down, outputs hold), p.19 (PD and clock pins)",
+  "notModeled": [
+    "analog input and reference ladder (the result is always the 0 V code 0x00)",
+    "pipeline latency of 2.5 clock cycles (the code is constant); sampling on CLK falling, output valid tOD after CLK rising",
+    "clock frequency limits (20-70 MHz) and the ~1 us recovery after the clock restarts or PD goes low",
+    "outputs hold the last code while the clock is stopped or PD is high (the model's powerdown pin only blocks conversions)",
+    "CLK and PD are referenced to VA (2.7-3.6 V), the outputs to DR VD (2.4 V to VA); vcc is the DR VD range"
+  ],
+  "variants": "",
+  "parts": [
+    ["ADC08060CIMT/NOPB", "PW", 24, "Active"],
+    ["ADC08060CIMTX/NOPB", "PW", 24, "Active"]
+  ]
+}

@@ -1,0 +1,565 @@
+{
+ "device": {
+  "id": "ADS5542",
+  "function": "ADC",
+  "description": "14-bit 80 MSPS pipeline ADC with parallel CMOS outputs and serial programming interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads5542.pdf (SBAS308D) p.3 recommended operating conditions, p.6 timing (tSTART, tPDI), p.7 serial programming interface (Figures 3-4), p.8 Table 2 serial register table and Table 3 DFS, p.9-10 pin configuration and assignments, p.25 output information, p.27 serial programming interface (default-value write sequence)",
+  "pinouts": {
+   "pap64": [
+    {
+     "number": 1,
+     "name": "DRGND",
+     "role": "ground"
+    },
+    {
+     "number": 2,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "SDATA",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "SEN",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "CLKP",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "CLKM",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 14,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 17,
+     "name": "CM",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 19,
+     "name": "INP",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "INM",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 22,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 23,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 24,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 25,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 26,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 27,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 28,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 29,
+     "name": "REFP",
+     "role": "output"
+    },
+    {
+     "number": 30,
+     "name": "REFM",
+     "role": "output"
+    },
+    {
+     "number": 31,
+     "name": "IREF",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 33,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 34,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 35,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 36,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 37,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 38,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 39,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 40,
+     "name": "DFS",
+     "role": "input"
+    },
+    {
+     "number": 41,
+     "name": "OE",
+     "role": "input"
+    },
+    {
+     "number": 42,
+     "name": "DRGND",
+     "role": "ground"
+    },
+    {
+     "number": 43,
+     "name": "CLKOUT",
+     "role": "output"
+    },
+    {
+     "number": 44,
+     "name": "D0",
+     "role": "output"
+    },
+    {
+     "number": 45,
+     "name": "D1",
+     "role": "output"
+    },
+    {
+     "number": 46,
+     "name": "D2",
+     "role": "output"
+    },
+    {
+     "number": 47,
+     "name": "D3",
+     "role": "output"
+    },
+    {
+     "number": 48,
+     "name": "DRGND",
+     "role": "ground"
+    },
+    {
+     "number": 49,
+     "name": "DRVDD",
+     "role": "power"
+    },
+    {
+     "number": 50,
+     "name": "DRGND",
+     "role": "ground"
+    },
+    {
+     "number": 51,
+     "name": "D4",
+     "role": "output"
+    },
+    {
+     "number": 52,
+     "name": "D5",
+     "role": "output"
+    },
+    {
+     "number": 53,
+     "name": "D6",
+     "role": "output"
+    },
+    {
+     "number": 54,
+     "name": "D7",
+     "role": "output"
+    },
+    {
+     "number": 55,
+     "name": "D8",
+     "role": "output"
+    },
+    {
+     "number": 56,
+     "name": "D9",
+     "role": "output"
+    },
+    {
+     "number": 57,
+     "name": "DRGND",
+     "role": "ground"
+    },
+    {
+     "number": 58,
+     "name": "DRVDD",
+     "role": "power"
+    },
+    {
+     "number": 59,
+     "name": "DRGND",
+     "role": "ground"
+    },
+    {
+     "number": 60,
+     "name": "D10",
+     "role": "output"
+    },
+    {
+     "number": 61,
+     "name": "D11",
+     "role": "output"
+    },
+    {
+     "number": 62,
+     "name": "D12",
+     "role": "output"
+    },
+    {
+     "number": 63,
+     "name": "D13",
+     "role": "output"
+    },
+    {
+     "number": 64,
+     "name": "OVR",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 14,
+  "channels": 1,
+  "codeFormat": {
+   "pin": "DFS",
+   "values": {
+    "0": "offset",
+    "1": "twos"
+   }
+  },
+  "vcc": [
+   3.0,
+   3.6
+  ],
+  "analog": [
+   "AVDD",
+   "INP",
+   "INM",
+   "REFP",
+   "REFM",
+   "IREF",
+   "CM",
+   "CLKM"
+  ],
+  "bus": {
+   "style": "clocked",
+   "clock": {
+    "pin": "CLKP",
+    "edge": "rise"
+   },
+   "data": [
+    "OVR",
+    "D13",
+    "D12",
+    "D11",
+    "D10",
+    "D9",
+    "D8",
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "oe": {
+    "pin": "OE",
+    "active": 1
+   },
+   "clockOut": {
+    "pin": "CLKOUT",
+    "invert": false
+   }
+  },
+  "configBus": {
+   "style": "spi",
+   "cs": "SEN",
+   "sclk": "SCLK",
+   "mosi": "SDATA",
+   "miso": "SDATA",
+   "mode": 2
+  },
+  "timing": {
+   "tOut": 5.0
+  },
+  "registers": [
+   {
+    "name": "R0",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "note": "no documented fields; the no-RESET init sequence writes 000"
+   },
+   {
+    "name": "R1",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "note": "no documented fields; the no-RESET init sequence writes 000"
+   },
+   {
+    "name": "R9",
+    "address": 9,
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "note": "no documented fields; the no-RESET init sequence writes 000"
+   },
+   {
+    "name": "RA",
+    "address": 10,
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "note": "no documented fields; the no-RESET init sequence writes 000"
+   },
+   {
+    "name": "RB",
+    "address": 11,
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "note": "no documented fields; the no-RESET init sequence writes 000"
+   },
+   {
+    "name": "RC",
+    "address": 12,
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "note": "no documented fields; the no-RESET init sequence writes 000"
+   },
+   {
+    "name": "RD",
+    "address": 13,
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "note": "no documented fields on this part; the no-RESET init sequence writes 000"
+   },
+   {
+    "name": "RE",
+    "address": 14,
+    "width": 12,
+    "reset": 2052,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "TP",
+      "bits": [
+       10,
+       9
+      ]
+     }
+    ],
+    "note": "test mode TP<1:0>; reset 0x804 = the value the no-RESET init sequence writes as the default (D11 and D2 undocumented)"
+   },
+   {
+    "name": "RF",
+    "address": 15,
+    "width": 12,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "PDN",
+      "bits": [
+       11,
+       11
+      ]
+     }
+    ],
+    "note": "PDN = 1: power-down, outputs high-impedance"
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "out": "z",
+   "idle": "z",
+   "commands": [
+    {
+     "name": "PDN on",
+     "in": "1111 1 [RF:10:0]",
+     "action": "powerdown",
+     "set": {
+      "RF.PDN": 1
+     },
+     "note": "write to address F with D11 (PDN) = 1"
+    },
+    {
+     "name": "PDN off",
+     "in": "1111 0 [RF:10:0]",
+     "action": "wakeup",
+     "set": {
+      "RF.PDN": 0
+     },
+     "note": "write to address F with D11 (PDN) = 0"
+    },
+    {
+     "name": "WRITE",
+     "in": "aaaa dddddddddddd",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "note": "16-bit word: A3..A0 address, D11..D0 data; loaded at every 16th SCLK falling edge"
+    }
+   ],
+   "read": "0 R{14}"
+  },
+  "pins": {
+   "reset": {
+    "pin": "RESET",
+    "active": 1
+   }
+  }
+ },
+ "packages": {
+  "PAP": {
+   "pinout": "pap64",
+   "footprint": "HTQFP-64-PAP",
+   "package": "HTQFP",
+   "pins": 64
+  }
+ },
+ "pdf": "ads5542.pdf",
+ "pages": "p.3 (ROC), p.6 (timing), p.7 (serial interface, mode 2), p.8 (Table 2 registers, Table 3 DFS), p.9-10 (pins), p.25 (output information), p.27 (register defaults)",
+ "notModeled": [
+  "analog input, reference, IREF/CM biasing (the result is always the 0 V code: 0x2000 offset binary at DFS low, 0 two's complement at DFS high)",
+  "DFS is a 4-level strap (fractions of AVDD): it selects straight offset binary / two's complement AND the CLKOUT polarity (data valid on CLKOUT rising or falling edge); only the format is modeled (low = offset binary, high = two's complement), CLKOUT is always non-inverted; the two middle levels cannot be expressed",
+  "pipeline latency 17.5 clock cycles not modeled (the code is constant); data valid tSTART (max 5.0 ns) after the input clock rising edge, CLKOUT tPDI later; OVR (over-range) is driven as the top data bit, always 0 at 0 V",
+  "CLKP/CLKM are a differential (or single-ended) sampling clock: the model clocks on CLKP alone",
+  "the serial port is write-only (no read-back pin); the schema needs a MISO pin, so SDATA is named as both MOSI and MISO with out/idle z (the part never drives it); words beyond a multiple of 16 bits are ignored",
+  "test modes TP<1:0> (outputs forced to 0 / 1 / toggling) are stored only, they do not change the outputs",
+  "PDN power-down: the model blocks conversions; the datasheet puts the outputs in high impedance (not modeled) and the bus stays usable; power-down by clock below 2 MSPS not modeled",
+  "RESET has an internal 200 kOhm pull-up to AVDD (a floating RESET pin reads inactive in the model); RESET timing (2 us pulse, 10 ms after power-on) not modeled",
+  "OE to stable timing (1000 clock cycles) and wake-up times not modeled",
+  "OE, DFS, SEN, SDATA, SCLK clamp to DRVDD; RESET is referred to AVDD"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS5542IPAP",
+   "PAP",
+   64,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,431 @@
+{
+ "device": {
+  "id": "ADS8355",
+  "function": "ADC",
+  "description": "16-bit 1 MSPS dual simultaneous-sampling SAR ADC with internal references, SPI with register map",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads8355.pdf (SBAS761A) p.3 pin configuration and functions, p.5 recommended operating conditions, p.8 timing requirements, p.9 switching characteristics and Figure 1, p.18 Tables 2-3 transfer characteristics, p.19-20 dual/single-SDO data read, p.20-21 low-power modes, p.21-22 Table 4 commands and register read/write, p.23-28 register map",
+  "pinouts": {
+   "rte16": [
+    {
+     "number": 1,
+     "name": "REFIO_A",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "REFGND_A",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "REFGND_B",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "REFIO_B",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "AINM_B",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "AINP_B",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "SDO_A",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "SDO_B",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 14,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "AINP_A",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "AINM_A",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 2,
+  "codeFormat": {
+   "field": "DATA_OUT_CTRL.OP_DATA_FORMAT",
+   "values": {
+    "0": "straight",
+    "1": "offset"
+   }
+  },
+  "vcc": [
+   1.65,
+   5.5
+  ],
+  "analog": [
+   "REFIO_A",
+   "REFGND_A",
+   "REFGND_B",
+   "REFIO_B",
+   "AINM_B",
+   "AINP_B",
+   "AVDD",
+   "AINP_A",
+   "AINM_A"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDO_A",
+   "mode": 2
+  },
+  "timing": {
+   "tValid": 14.5,
+   "tOut": 19.5,
+   "tFloat": 37
+  },
+  "registers": [
+   {
+    "name": "PD_STANDBY",
+    "address": 4,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 249,
+    "fields": [
+     {
+      "name": "STANDBY",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "PD_EN",
+      "bits": [
+       1,
+       1
+      ]
+     }
+    ],
+    "note": "p.24 Table 7: bits 7-3 and 0 reserved (R); writable only after PD_KEY = 1001b"
+   },
+   {
+    "name": "PD_KEY",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "PD_WKEY",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.24 Table 8: writing 1001b enables writes to PD_STANDBY"
+   },
+   {
+    "name": "SDO_CTRL",
+    "address": 13,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "SDO_MODE",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.25 Table 9: 0 = dual SDO (SDO_A and SDO_B), 1 = single SDO (SDO_A only)"
+   },
+   {
+    "name": "DATA_OUT_CTRL",
+    "address": 17,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "OP_DATA_FORMAT",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.25 Table 10: 0 = straight binary, 1 = twos complement"
+   },
+   {
+    "name": "REF_SEL",
+    "address": 32,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "INT_EXT",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.26 Table 11: 0 = external, 1 = internal reference"
+   },
+   {
+    "name": "REFDAC_A_LSB",
+    "address": 36,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "REFDAC_A_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.26 Table 12"
+   },
+   {
+    "name": "REFDAC_A_MSB",
+    "address": 37,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "REFDAC_A_MSB",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.26 Table 13"
+   },
+   {
+    "name": "REFDAC_B_LSB",
+    "address": 38,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "REFDAC_B_LSB",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.27 Table 14"
+   },
+   {
+    "name": "REFDAC_B_MSB",
+    "address": 39,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 254,
+    "fields": [
+     {
+      "name": "REFDAC_B_MSB",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.27 Table 15"
+   },
+   {
+    "name": "INPUT_CONFIG",
+    "address": 40,
+    "width": 8,
+    "reset": 0,
+    "readOnly": 252,
+    "fields": [
+     {
+      "name": "RANGE_SEL",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "AINM_SEL",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.27-28 Table 16: RANGE_SEL 0 = 0..VREF, 1 = 0..2xVREF; AINM_SEL 0 = single-ended, 1 = pseudo-differential"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "out": "R{16}",
+   "idle": "0",
+   "outs": [
+    {
+     "when": "SDO_CTRL.SDO_MODE=1",
+     "out": "[R][R]"
+    }
+   ],
+   "commands": [
+    {
+     "name": "NOP",
+     "in": "0000 0{16}",
+     "action": "nop",
+     "commit": "end",
+     "note": "p.21 Table 4: no operation; the next frame gives the conversion result"
+    },
+    {
+     "name": "WR_REG (PD_STANDBY locked)",
+     "in": "0001 00000100 x{8}",
+     "action": "nop",
+     "when": "PD_KEY.PD_WKEY!=9",
+     "commit": "end",
+     "note": "p.24: PD_STANDBY is written only after PD_KEY = 1001b"
+    },
+    {
+     "name": "SET_BITS (PD_STANDBY locked)",
+     "in": "0011 00000100 x{8}",
+     "action": "nop",
+     "when": "PD_KEY.PD_WKEY!=9",
+     "commit": "end"
+    },
+    {
+     "name": "CLR_BITS (PD_STANDBY locked)",
+     "in": "0100 00000100 x{8}",
+     "action": "nop",
+     "when": "PD_KEY.PD_WKEY!=9",
+     "commit": "end"
+    },
+    {
+     "name": "WR_REG",
+     "in": "0001 aaaaaaaa dddddddd",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "p.21-22 Table 4, Figure 32: 20-bit frame, right-aligned (the last 20 bits before CS rises), decoded on CS rising"
+    },
+    {
+     "name": "RD_REG",
+     "in": "0010 aaaaaaaa 00000000",
+     "action": "read",
+     "address": "a",
+     "commit": "end",
+     "next": "@",
+     "note": "p.21 Figure 31: the register data are the first 8 bits on SDO_A in the next frame"
+    },
+    {
+     "name": "SET_BITS",
+     "in": "0011 aaaaaaaa dddddddd",
+     "action": "setbits",
+     "address": "a",
+     "data": "d",
+     "commit": "end"
+    },
+    {
+     "name": "CLR_BITS",
+     "in": "0100 aaaaaaaa dddddddd",
+     "action": "clearbits",
+     "address": "a",
+     "data": "d",
+     "commit": "end"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 650,
+   "start": [
+    "cs-rise"
+   ]
+  }
+ },
+ "packages": {
+  "RTE": {
+   "pinout": "rte16",
+   "footprint": "WQFN-16-RTE-D",
+   "package": "WQFN",
+   "pins": 16
+  }
+ },
+ "pdf": "ads8355.pdf",
+ "pages": "p.3 (pins), p.5 (ROC: DVDD 1.65-5.5 V), p.8 (timing requirements), p.9 (switching characteristics: tCONV 650 ns, tDEN_CSDO 14.5 ns, tDZ_CSDO 37 ns, tD_CKDO 19.5 ns; Figure 1), p.18 (Tables 2-3 output codes), p.19-20 (Figures 29-30 dual/single-SDO frames), p.20-21 (STANDBY/PD), p.21-22 (Table 4 commands, Figures 31-32), p.23-28 (Tables 5-16 register map)",
+ "notModeled": [
+  "analog inputs, internal reference, REFDACs, input range and single-ended / pseudo-differential selection (stored only); every conversion returns the 0 V single-ended input code: 0000h in straight binary, 8000h in twos complement (Table 3: 0 V single-ended = NFSC), hence codeFormat offset for OP_DATA_FORMAT = 1; in pseudo-differential mode the part reads 7FFFh / 0000h for AINP = AINM",
+  "channel B: only SDO_A is modeled; in dual-SDO mode (default) SDO_B carries the ADC_B result and is never driven; in single-SDO mode SDO_A outputs ADC_A then ADC_B (both the 0 V code) and SDO_B is driven low",
+  "STANDBY and PD (power-down) modes: PD_STANDBY bits are stored (behind the PD_KEY lock) but conversions continue; power-up delays (10 us, 1-3 ms)",
+  "whether the PD_KEY unlock stays set after a PD_STANDBY write is not stated (the model keeps it)",
+  "writes to reserved / unlisted addresses are ignored by the model (the datasheet: do not modify)",
+  "register read-back frame: only the 8-bit register data (MSB first) is given for the next frame; the model shifts zeros after it",
+  "minimum tCONV with CS and SCLK high, cycle time, acquisition time and SCLK limits (24 MHz at DVDD < 2.35 V, 50 MHz above)",
+  "timing values: tDZ_CSDO 37 ns is the DVDD 1.65-2.35 V maximum (31 ns above 2.35 V)"
+ ],
+ "variants": "Single device datasheet. The ADS8350/ADS7250 (ads8350.pdf) are the earlier 750 kSPS versions with a read-only 32-SCLK frame and no SDI.",
+ "parts": [
+  [
+   "ADS8355IRTET",
+   "RTE",
+   16,
+   "Active"
+  ]
+ ]
+}

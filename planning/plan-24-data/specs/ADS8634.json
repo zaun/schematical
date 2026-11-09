@@ -1,0 +1,1128 @@
+{
+ "device": {
+  "id": "ADS8634",
+  "function": "ADC",
+  "description": "12-bit 1 MSPS 4-channel bipolar-input SAR ADC with software-selectable ranges, SPI",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads8634.pdf (SBAS541A) p.5 supply ranges, p.6-7 timing (Table 1), p.8 pin assignments, p.26 data format (Table 4), p.29-31 power-down/up, p.32-37 device operation, SPI interface, DOUT/DIN formats (Tables 8-10), p.50-51 register map (Tables 13-14), p.52-59 register descriptions",
+  "pinouts": {
+   "rge24": [
+    {
+     "number": 1,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 5,
+     "name": "AINGND",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 7,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 8,
+     "name": "AIN3",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "AIN2",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "AIN1",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "AIN0",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 13,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 14,
+     "name": "HVDD",
+     "role": "power"
+    },
+    {
+     "number": 15,
+     "name": "HVSS",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 21,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 22,
+     "name": "AL_PD",
+     "role": "inout"
+    },
+    {
+     "number": 23,
+     "name": "REFGND",
+     "role": "ground"
+    },
+    {
+     "number": 24,
+     "name": "REF",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 4,
+  "codeFormat": "offset",
+  "vcc": [
+   1.65,
+   5.25
+  ],
+  "analog": [
+   "AIN0",
+   "AIN1",
+   "AIN2",
+   "AIN3",
+   "AINGND",
+   "AVDD",
+   "HVDD",
+   "HVSS",
+   "REF"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "miso": "DOUT",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 52.5,
+   "tOut": 51.5,
+   "tFloat": 31.0
+  },
+  "registers": [
+   {
+    "name": "RESET_DEVICE",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "RESET_DEV",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "self-clearing; bit 0 = 1 resets after the 16th SCLK falling edge (p.54)"
+   },
+   {
+    "name": "MANUAL",
+    "address": 4,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "CH_SEL",
+      "bits": [
+       6,
+       5
+      ]
+     },
+     {
+      "name": "RANGE",
+      "bits": [
+       3,
+       1
+      ]
+     },
+     {
+      "name": "SEL_TEMP",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "manual mode; RANGE 111 powers down (p.52)"
+   },
+   {
+    "name": "AUTO",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "RESET_SEQ",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "RANGE",
+      "bits": [
+       3,
+       1
+      ]
+     },
+     {
+      "name": "SEL_TEMP",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "auto-scan mode; RANGE 111 powers down (p.53)"
+   },
+   {
+    "name": "AUX_CONFIG",
+    "address": 6,
+    "width": 8,
+    "reset": 8,
+    "fields": [
+     {
+      "name": "AL_PD_CONTROL",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "INT_VREF_EN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "TEMP_SENSOR_EN",
+      "bits": [
+       1,
+       1
+      ]
+     }
+    ]
+   },
+   {
+    "name": "AUTO_MD_CH_SEL",
+    "address": 12,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "SEL_CH0",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "SEL_CH1",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "SEL_CH2",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "SEL_CH3",
+      "bits": [
+       1,
+       1
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH0_RANGE",
+    "address": 16,
+    "width": 8,
+    "reset": 17,
+    "fields": [
+     {
+      "name": "RANGE",
+      "bits": [
+       6,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH1_RANGE",
+    "address": 17,
+    "width": 8,
+    "reset": 17,
+    "fields": [
+     {
+      "name": "RANGE",
+      "bits": [
+       6,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH2_RANGE",
+    "address": 18,
+    "width": 8,
+    "reset": 17,
+    "fields": [
+     {
+      "name": "RANGE",
+      "bits": [
+       6,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH3_RANGE",
+    "address": 19,
+    "width": 8,
+    "reset": 17,
+    "fields": [
+     {
+      "name": "RANGE",
+      "bits": [
+       6,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "TEMP_FLAG",
+    "address": 32,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "TRIP_LOW",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "TRIP_HIGH",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "ACT_LOW",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "ACT_HIGH",
+      "bits": [
+       4,
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH0_1_TRIPPED_FLAG",
+    "address": 33,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "CH0_LOW",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CH0_HIGH",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "CH1_LOW",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CH1_HIGH",
+      "bits": [
+       2,
+       2
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH0_1_ACTIVE_FLAG",
+    "address": 34,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "CH0_LOW",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CH0_HIGH",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "CH1_LOW",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CH1_HIGH",
+      "bits": [
+       2,
+       2
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH2_3_TRIPPED_FLAG",
+    "address": 35,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "CH2_LOW",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CH2_HIGH",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "CH3_LOW",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CH3_HIGH",
+      "bits": [
+       2,
+       2
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH2_3_ACTIVE_FLAG",
+    "address": 36,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "CH2_LOW",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CH2_HIGH",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "CH3_LOW",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CH3_HIGH",
+      "bits": [
+       2,
+       2
+      ]
+     }
+    ]
+   },
+   {
+    "name": "PAGE",
+    "address": 127,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PAGE_ADDR",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "page select, reachable from both pages (p.50-51, p.58)"
+   },
+   {
+    "name": "TLA_MSB",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "space": "page1",
+    "fields": [
+     {
+      "name": "HYST",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "TH_HI",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "TLA_LSB",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "space": "page1",
+    "fields": [
+     {
+      "name": "TH_LO",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "THA_MSB",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "space": "page1",
+    "fields": [
+     {
+      "name": "HYST",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "TH_HI",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "THA_LSB",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "space": "page1",
+    "fields": [
+     {
+      "name": "TH_LO",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH0LA_MSB",
+    "address": 4,
+    "width": 8,
+    "reset": 0,
+    "space": "page1",
+    "fields": [
+     {
+      "name": "HYST",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "TH_HI",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH0LA_LSB",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "space": "page1",
+    "fields": [
+     {
+      "name": "TH_LO",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH0HA_MSB",
+    "address": 6,
+    "width": 8,
+    "reset": 0,
+    "space": "page1",
+    "fields": [
+     {
+      "name": "HYST",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "TH_HI",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH0HA_LSB",
+    "address": 7,
+    "width": 8,
+    "reset": 0,
+    "space": "page1",
+    "fields": [
+     {
+      "name": "TH_LO",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH1LA_MSB",
+    "address": 12,
+    "width": 8,
+    "reset": 0,
+    "space": "page1",
+    "fields": [
+     {
+      "name": "HYST",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "TH_HI",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH1LA_LSB",
+    "address": 13,
+    "width": 8,
+    "reset": 0,
+    "space": "page1",
+    "fields": [
+     {
+      "name": "TH_LO",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH1HA_MSB",
+    "address": 14,
+    "width": 8,
+    "reset": 0,
+    "space": "page1",
+    "fields": [
+     {
+      "name": "HYST",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "TH_HI",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH1HA_LSB",
+    "address": 15,
+    "width": 8,
+    "reset": 0,
+    "space": "page1",
+    "fields": [
+     {
+      "name": "TH_LO",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH2LA_MSB",
+    "address": 20,
+    "width": 8,
+    "reset": 0,
+    "space": "page1",
+    "fields": [
+     {
+      "name": "HYST",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "TH_HI",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH2LA_LSB",
+    "address": 21,
+    "width": 8,
+    "reset": 0,
+    "space": "page1",
+    "fields": [
+     {
+      "name": "TH_LO",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH2HA_MSB",
+    "address": 22,
+    "width": 8,
+    "reset": 0,
+    "space": "page1",
+    "fields": [
+     {
+      "name": "HYST",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "TH_HI",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH2HA_LSB",
+    "address": 23,
+    "width": 8,
+    "reset": 0,
+    "space": "page1",
+    "fields": [
+     {
+      "name": "TH_LO",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH3LA_MSB",
+    "address": 28,
+    "width": 8,
+    "reset": 0,
+    "space": "page1",
+    "fields": [
+     {
+      "name": "HYST",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "TH_HI",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH3LA_LSB",
+    "address": 29,
+    "width": 8,
+    "reset": 0,
+    "space": "page1",
+    "fields": [
+     {
+      "name": "TH_LO",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH3HA_MSB",
+    "address": 30,
+    "width": 8,
+    "reset": 0,
+    "space": "page1",
+    "fields": [
+     {
+      "name": "HYST",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "TH_HI",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CH3HA_LSB",
+    "address": 31,
+    "width": 8,
+    "reset": 0,
+    "space": "page1",
+    "fields": [
+     {
+      "name": "TH_LO",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "0 [CH:1:0] 0 R{12}",
+   "idle": "z",
+   "commands": [
+    {
+     "name": "CONTINUE",
+     "in": "0{16}",
+     "action": "nop",
+     "when": "PAGE.PAGE_ADDR=0",
+     "note": "DIN held low: continue in the last selected mode (p.50, p.54)"
+    },
+    {
+     "name": "PAGE_WRITE",
+     "in": "1111111 0 dddddddd",
+     "action": "write",
+     "register": "PAGE",
+     "data": "d",
+     "commit": "end"
+    },
+    {
+     "name": "PAGE_READ",
+     "in": "1111111 1",
+     "action": "rreg",
+     "address": 127,
+     "reply": "@"
+    },
+    {
+     "name": "MANUAL_POWERDOWN",
+     "in": "0000100 0 [MANUAL:7:4] 111 [MANUAL:0:0]",
+     "action": "powerdown",
+     "set": {
+      "MANUAL.RANGE": 7
+     },
+     "when": "PAGE.PAGE_ADDR=0",
+     "note": "range 111: power-down after the 16th SCLK falling edge (p.30, Table 6)"
+    },
+    {
+     "name": "AUTO_POWERDOWN",
+     "in": "0000101 0 [AUTO:7:4] 111 [AUTO:0:0]",
+     "action": "powerdown",
+     "set": {
+      "AUTO.RANGE": 7
+     },
+     "when": "PAGE.PAGE_ADDR=0"
+    },
+    {
+     "name": "MANUAL",
+     "in": "0000100 0 dddddddd",
+     "action": "write",
+     "register": "MANUAL",
+     "data": "d",
+     "commit": "end",
+     "then": [
+      "wakeup"
+     ],
+     "when": "PAGE.PAGE_ADDR=0",
+     "note": "a manual/auto write with range 000-110 is the power-up command (p.31, Table 7)"
+    },
+    {
+     "name": "AUTO",
+     "in": "0000101 0 dddddddd",
+     "action": "write",
+     "register": "AUTO",
+     "data": "d",
+     "commit": "end",
+     "then": [
+      "wakeup"
+     ],
+     "when": "PAGE.PAGE_ADDR=0"
+    },
+    {
+     "name": "RESET_DEVICE",
+     "in": "0000001 0 0000000 1",
+     "action": "reset",
+     "when": "PAGE.PAGE_ADDR=0",
+     "note": "software reset after the 16th SCLK falling edge (p.54)"
+    },
+    {
+     "name": "WRITE",
+     "in": "aaaaaaa 0 dddddddd",
+     "action": "write",
+     "address": "a",
+     "data": "d",
+     "commit": "end",
+     "when": "PAGE.PAGE_ADDR=0"
+    },
+    {
+     "name": "WRITE_P1",
+     "in": "aaaaaaa 0 dddddddd",
+     "action": "write",
+     "address": "a",
+     "space": "page1",
+     "data": "d",
+     "commit": "end",
+     "when": "PAGE.PAGE_ADDR=1"
+    },
+    {
+     "name": "READ",
+     "in": "aaaaaaa 1",
+     "action": "rreg",
+     "address": "a",
+     "reply": "@",
+     "when": "PAGE.PAGE_ADDR=0",
+     "note": "register data on DOUT bits 7-0 of the same frame (Table 10, Figure 90)"
+    },
+    {
+     "name": "READ_P1",
+     "in": "aaaaaaa 1",
+     "action": "rreg",
+     "address": "a",
+     "space": "page1",
+     "reply": "@",
+     "when": "PAGE.PAGE_ADDR=1"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ],
+   "channel": "MANUAL.CH_SEL"
+  },
+  "pins": {
+   "powerdown": {
+    "pin": "AL_PD",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "RGE": {
+   "pinout": "rge24",
+   "footprint": "VQFN-24-RGE",
+   "package": "VQFN",
+   "pins": 24
+  }
+ },
+ "pdf": "ads8634.pdf",
+ "pages": "p.5 (DVDD 1.65-5.25 V), p.6-7 (Table 1: td(CS-DO) 52.5 ns, td(SCLK-DOUT) 51.5 ns, td(CS-DOHZ) 31 ns at 1.8 V; DIN latched on SCLK rising, DOUT on SCLK falling), p.8 (pins), p.26 (Table 4: bipolar 0 V = 800h), p.29-31 (power-down/up by AL_PD and by register, Tables 6-7), p.32-37 (operation, Figure 85, Table 8 DOUT = 4-bit channel address + 12-bit result, Tables 9-10 command word, Figures 89-90), p.50-51 (Tables 13-14 register maps), p.52-59 (register descriptions)",
+ "notModeled": [
+  "auto-scan mode (AUTO register, AUTO_MD_CH_SEL sequence, RESET_SEQ): stored only; the converted channel is always MANUAL.CH_SEL (manual mode)",
+  "channel select latency: the datasheet applies a MANUAL write to the acquisition of frame n+1 (result in frame n+2); the model commits at CS rise and uses it from the next frame",
+  "DOUT channel address for the ADS8634 is 0,C1,C0,X (Table 8); X is output as 0. Temperature sensor (SEL_TEMP, address 1111, temperature code): not modeled",
+  "per-channel and temporary ranges (CHn_RANGE, MANUAL/AUTO RANGE 001-110): stored only; the result is always the 0 V code of a bipolar range (800h); unipolar ranges (0 V reads 000h) not modeled",
+  "alarm thresholds, hysteresis and alarm flags (page 1 registers, flag registers 20h-24h read 0), AL_PD as alarm output (AUX_CONFIG.AL_PD_CONTROL = 0): not modeled; AL_PD is always the active-low power-down input (its default function); the internal pull-up on AL_PD is not modeled",
+  "power-up delay td(PWRUP) 1 us and the invalid first conversions after power-up/wake-up; internal reference and temperature sensor enable",
+  "DOUT goes to Z after 16 bits (idle z); register writes other than power-down/reset execute at the next CS falling edge (modeled at CS rise)",
+  "page 1 addresses without function (08h-0Bh, 10h-13h, 18h-1Bh, 20h-23h) not listed; reading them is not modeled",
+  "holding DIN low on page 1 writes 00h to TLA MSB (address 00h) in the model",
+  "conversion is clocked by SCLK (15 SCLK conversion): result available at once; acquisition time, fSCLK limits"
+ ],
+ "variants": "ADS8638 (8 channels, 3-bit channel select, different register map) shares ads8634.pdf; not part of this device",
+ "parts": [
+  [
+   "ADS8634SRGER",
+   "RGE",
+   24,
+   "Active"
+  ],
+  [
+   "ADS8634SRGET",
+   "RGE",
+   24,
+   "Active"
+  ]
+ ]
+}

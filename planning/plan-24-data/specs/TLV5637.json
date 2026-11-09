@@ -1,0 +1,248 @@
+{
+ "device": {
+  "id": "TLV5637",
+  "function": "DAC",
+  "description": "dual 10-bit voltage-output DAC with internal programmable reference, 3-wire SPI/TMS320 serial interface, double-buffered DAC B, programmable settling time and power down",
+  "drawer": [
+   "Interface"
+  ],
+  "pinouts": {
+   "d8": [
+    {
+     "number": 1,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "OUTA",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "REF",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "OUTB",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "VDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 10,
+  "channels": 2,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "REF",
+   "OUTA",
+   "OUTB"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "LATCHA",
+    "space": "dac",
+    "address": 0,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC A latch (no double buffer: also its input register); power-on reset clears the latches to all zero"
+   },
+   {
+    "name": "BUFFER",
+    "space": "input",
+    "address": 1,
+    "width": 10,
+    "reset": 0,
+    "note": "BUFFER latch, the input register of DAC B; power-on zero"
+   },
+   {
+    "name": "LATCHB",
+    "space": "dac",
+    "address": 1,
+    "width": 10,
+    "reset": 0,
+    "note": "DAC B latch; loaded from the serial word (R1 R0 = 00) or from BUFFER (R1 R0 = 10)"
+   },
+   {
+    "name": "CTRL",
+    "width": 4,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "REF",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "SPD",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "PWR",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: SPD (D14, 1 = fast) and PWR (D13, 1 = power down) of the last word; REF1 REF0 (D1 D0 of a control-register word: 00/11 external, 01 1.024 V, 10 2.048 V internal); power-on all zero"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write DAC A, update DAC B from BUFFER (R1 R0 = 10)",
+     "in": "1 s p 0 d{10} x{2}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "CTRL.SPD": "s",
+      "CTRL.PWR": "p"
+     },
+     "then": [
+      "updateall"
+     ],
+     "note": "D15 R1, D14 SPD, D13 PWR, D12 R0, data MSB first; DAC A latch written, DAC B updated with the BUFFER content"
+    },
+    {
+     "name": "Write DAC B and BUFFER (R1 R0 = 00)",
+     "in": "0 s p 0 d{10} x{2}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "CTRL.SPD": "s",
+      "CTRL.PWR": "p"
+     },
+     "then": [
+      "update"
+     ],
+     "note": "the data goes to BUFFER and DAC B"
+    },
+    {
+     "name": "Write BUFFER (R1 R0 = 01)",
+     "in": "0 s p 1 d{10} x{2}",
+     "action": "write",
+     "channel": 1,
+     "data": "d",
+     "set": {
+      "CTRL.SPD": "s",
+      "CTRL.PWR": "p"
+     },
+     "note": "BUFFER only; DAC A and B unchanged"
+    },
+    {
+     "name": "Write control register (R1 R0 = 11)",
+     "in": "1 s p 1 x{10} rr",
+     "set": {
+      "CTRL.SPD": "s",
+      "CTRL.PWR": "p",
+      "CTRL.REF": "r"
+     },
+     "note": "D1 D0 = REF1 REF0; D11-D2 don't care"
+    }
+   ],
+   "triggers": [
+    {
+     "write": "CTRL.PWR=1",
+     "action": "powerdown"
+    },
+    {
+     "write": "CTRL.PWR=0",
+     "action": "wakeup"
+    }
+   ],
+   "note": "CS falling starts the frame; DIN sampled MSB first on SCLK falling edges (SCLK high at CS falling, Figure 1 -> mode 2); after 16 bits the shift register moves to the latches the R1/R0 bits select"
+  },
+  "dac": {
+   "input": [
+    "LATCHA",
+    "BUFFER"
+   ],
+   "output": [
+    "LATCHA",
+    "LATCHB"
+   ],
+   "clearCode": 0,
+   "ldac": "command"
+  },
+  "note": "tlv5637.pdf (SLAS224C) p.1 (D pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: VDD 2.7-3.3 V and 4.5-5.5 V), p.6 (digital input timing, Figure 1), p.10 (power-on reset to zero, serial interface; D11-D2 used), p.11 (data format, register-select bits, control register), p.12 (reference bits)"
+ },
+ "packages": {
+  "D": {
+   "pinout": "d8",
+   "footprint": "SOIC-8",
+   "package": "SOIC",
+   "pins": 8
+  }
+ },
+ "pdf": "tlv5637.pdf",
+ "pages": "(SLAS224C) p.1 (D pinout, description), p.2 (terminal functions), p.3 (recommended operating conditions: VDD 2.7-3.3 V and 4.5-5.5 V), p.6 (digital input timing, Figure 1), p.10 (power-on reset to zero, serial interface; D11-D2 used), p.11 (data format, register-select bits, control register), p.12 (reference bits)",
+ "notModeled": [
+  "analog: voltage outputs (x2 buffer), reference REF and the internal reference selected by REF1/REF0 (stored only); SPD (settling) and PWR (power down) affect the analog side only (stored in CTRL)",
+  "a frame cut short by CS rising before 16 bits (the datasheet moves the partial shift register to the latches) is discarded",
+  "the extra SCLK rising edge after D0 that resets the internal state machine (p.10) is not needed by the model",
+  "DAC A has no double buffer: its input and DAC register are the same latch (dac lists LATCHA twice)",
+  "digital input timing requirements (Figure 1)",
+  "the terminal table lists OUTA as I; it is the DAC A output (role output)"
+ ],
+ "variants": "tlv5637.pdf covers only the TLV5637 (C and I grades); TLV5626 (8-bit) and TLV5638 (12-bit) share the interface and control register.",
+ "parts": [
+  [
+   "TLV5637CD",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "TLV5637ID",
+   "D",
+   8,
+   "Active"
+  ],
+  [
+   "TLV5637IDR",
+   "D",
+   8,
+   "Active"
+  ]
+ ]
+}

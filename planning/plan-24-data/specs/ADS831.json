@@ -1,0 +1,184 @@
+{
+ "device": {
+  "id": "ADS831",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "8-bit 80 MSPS pipelined ADC with internal/external reference and CMOS parallel outputs (3 V / 5 V output driver supply)",
+  "note": "ads831.pdf (SBAS087A) p.3 specifications (convert on the rising clock edge, VIH 3.5 V, straight offset binary, +VS 4.75-5.25 V, VDRV 3 V or 5 V), p.4 pin configuration and descriptions, timing diagram (t2 new data delay 12 ns max, 4-clock latency), p.7 theory of operation (data valid on the rising clock edge), p.11 VDRV, digital outputs, Table I coding",
+  "pinouts": {
+   "ssop20": [
+    {
+     "number": 1,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 2,
+     "name": "Bit 1",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "Bit 2",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "Bit 3",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "Bit 4",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "Bit 5",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "Bit 6",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "Bit 7",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "Bit 8",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "RSEL",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "INT/EXT",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "REFB",
+     "role": "nc"
+    },
+    {
+     "number": 14,
+     "name": "REFT",
+     "role": "nc"
+    },
+    {
+     "number": 15,
+     "name": "CM",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "IN",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "IN",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 19,
+     "name": "+VS",
+     "role": "power"
+    },
+    {
+     "number": 20,
+     "name": "VDRV",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 8,
+  "channels": 1,
+  "codeFormat": "offset",
+  "vcc": [
+   3.0,
+   5.25
+  ],
+  "analog": [
+   "+VS",
+   "IN",
+   "CM",
+   "REFT",
+   "REFB"
+  ],
+  "bus": {
+   "style": "clocked",
+   "clock": {
+    "pin": "CLK",
+    "edge": "rise"
+   },
+   "data": [
+    "Bit 1",
+    "Bit 2",
+    "Bit 3",
+    "Bit 4",
+    "Bit 5",
+    "Bit 6",
+    "Bit 7",
+    "Bit 8"
+   ]
+  },
+  "timing": {
+   "tOut": 12
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": "R{8}"
+  }
+ },
+ "packages": {
+  "DBQ": {
+   "pinout": "ssop20",
+   "footprint": "QSOP-20",
+   "package": "SSOP",
+   "pins": 20
+  }
+ },
+ "pdf": "ads831.pdf",
+ "pages": "p.3 (specifications), p.4 (pinout, pin descriptions, timing diagram: t2 12 ns), p.7 (theory of operation), p.11 (VDRV, digital outputs, Table I)",
+ "notModeled": [
+  "analog input and reference; the result is always the 0 V differential (bipolar zero) code 80h, straight offset binary",
+  "RSEL (input range 1 V / 2 V) and INT/EXT (internal/external reference) straps only change the analog range; they are stored nowhere",
+  "pipeline latency of 4 clock cycles (the code is constant)",
+  "clock period / duty-cycle limits (12.5 ns to 100 us) and aperture delay",
+  "two supplies: +VS 4.75-5.25 V (analog core and CLK input, VIH 3.5 V) and VDRV (output drivers, 3 V or 5 V logic); vcc is the union 3.0-5.25 V and +VS is listed under analog so VDRV is the digital supply",
+  "no output-enable or power-down pin: the outputs always drive",
+  "pin 16 is the complementary input (IN with an overbar in the datasheet); both inputs are named IN"
+ ],
+ "variants": "ADS830 (60 MSPS, CLK VIH 2.4 V) and ADS831 (80 MSPS, CLK VIH 3.5 V) are pin-for-pin compatible, each with its own datasheet",
+ "parts": [
+  [
+   "ADS831E/2K5",
+   "DBQ",
+   20,
+   "Active"
+  ]
+ ]
+}

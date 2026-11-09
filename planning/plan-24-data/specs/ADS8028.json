@@ -1,0 +1,458 @@
+{
+ "device": {
+  "id": "ADS8028",
+  "function": "ADC",
+  "description": "12-bit 1 MSPS 8-channel SAR ADC with internal temperature sensor, internal reference and SPI interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads8028.pdf (SBAS549B) p.2 absolute maximum (digital pins), p.4 electrical characteristics (DVDD 1.65-5.25 V), p.6 timing (Figure 1, tDV_CSDO 17 ns, tD_CKDO 32 ns max, tDZ_CSDO 26 ns, tCONV 100 us for the temperature sensor), p.7 pin assignments, p.16 transfer characteristic (straight binary), p.17 serial interface (Figure 33), p.18 Control Register (Table 2), p.19 output data format (Table 3: ADD[3:0] + DB[11:0]), p.20 temperature sensor channel and TM_BUSY, p.20-22 modes of operation, p.23-24 power-down and RESET (PD/RST)",
+  "pinouts": {
+   "rtj20": [
+    {
+     "number": 1,
+     "name": "AIN3",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AIN4",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "AIN5",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "AIN6",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AIN7",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "REF",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 9,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "TM_BUSY",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 17,
+     "name": "PD/RST",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "AIN0",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "AIN1",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "AIN2",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 9,
+  "codeFormat": "straight",
+  "vcc": [
+   1.65,
+   5.25
+  ],
+  "analog": [
+   "AIN0",
+   "AIN1",
+   "AIN2",
+   "AIN3",
+   "AIN4",
+   "AIN5",
+   "AIN6",
+   "AIN7",
+   "REF",
+   "AVDD"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "miso": "DOUT",
+   "mode": 2
+  },
+  "timing": {
+   "tValid": 17,
+   "tOut": 32,
+   "tFloat": 26
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "WRITE",
+      "bits": [
+       15,
+       15
+      ]
+     },
+     {
+      "name": "REPEAT",
+      "bits": [
+       14,
+       14
+      ]
+     },
+     {
+      "name": "AIN",
+      "bits": [
+       13,
+       6
+      ]
+     },
+     {
+      "name": "TSENSE",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "X",
+      "bits": [
+       4,
+       3
+      ]
+     },
+     {
+      "name": "EXT_REF",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "TMP_AVG",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "STANDBY",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.18 Table 2: write-only Control Register, loaded from DIN on the 16 SCLK falling edges when WRITE = 1; power-up all 0s. AIN0 is bit 13 ... AIN7 bit 6"
+   },
+   {
+    "name": "CHSEL",
+    "width": 4,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "ADD",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "internal (model only): the ADD[3:0] channel code of Table 3 (p.19) for the selected channel: 0-7 AIN0-7, 8 TSENSE, 9 TSENSE averaged"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "[CH:3:0] R{12}",
+   "idle": "z",
+   "commands": [
+    {
+     "name": "WRITE AIN0",
+     "in": "1 r 10000000 0 xx e t s",
+     "action": "nop",
+     "set": {
+      "CTRL.REPEAT": "r",
+      "CTRL.AIN": 128,
+      "CTRL.TSENSE": 0,
+      "CTRL.EXT_REF": "e",
+      "CTRL.TMP_AVG": "t",
+      "CTRL.STANDBY": "s",
+      "CHSEL.ADD": 0
+     },
+     "note": "p.18 Table 2: WRITE = 1, only AIN0 selected"
+    },
+    {
+     "name": "WRITE AIN1",
+     "in": "1 r 01000000 0 xx e t s",
+     "action": "nop",
+     "set": {
+      "CTRL.REPEAT": "r",
+      "CTRL.AIN": 64,
+      "CTRL.TSENSE": 0,
+      "CTRL.EXT_REF": "e",
+      "CTRL.TMP_AVG": "t",
+      "CTRL.STANDBY": "s",
+      "CHSEL.ADD": 1
+     },
+     "note": "p.18 Table 2: WRITE = 1, only AIN1 selected"
+    },
+    {
+     "name": "WRITE AIN2",
+     "in": "1 r 00100000 0 xx e t s",
+     "action": "nop",
+     "set": {
+      "CTRL.REPEAT": "r",
+      "CTRL.AIN": 32,
+      "CTRL.TSENSE": 0,
+      "CTRL.EXT_REF": "e",
+      "CTRL.TMP_AVG": "t",
+      "CTRL.STANDBY": "s",
+      "CHSEL.ADD": 2
+     },
+     "note": "p.18 Table 2: WRITE = 1, only AIN2 selected"
+    },
+    {
+     "name": "WRITE AIN3",
+     "in": "1 r 00010000 0 xx e t s",
+     "action": "nop",
+     "set": {
+      "CTRL.REPEAT": "r",
+      "CTRL.AIN": 16,
+      "CTRL.TSENSE": 0,
+      "CTRL.EXT_REF": "e",
+      "CTRL.TMP_AVG": "t",
+      "CTRL.STANDBY": "s",
+      "CHSEL.ADD": 3
+     },
+     "note": "p.18 Table 2: WRITE = 1, only AIN3 selected"
+    },
+    {
+     "name": "WRITE AIN4",
+     "in": "1 r 00001000 0 xx e t s",
+     "action": "nop",
+     "set": {
+      "CTRL.REPEAT": "r",
+      "CTRL.AIN": 8,
+      "CTRL.TSENSE": 0,
+      "CTRL.EXT_REF": "e",
+      "CTRL.TMP_AVG": "t",
+      "CTRL.STANDBY": "s",
+      "CHSEL.ADD": 4
+     },
+     "note": "p.18 Table 2: WRITE = 1, only AIN4 selected"
+    },
+    {
+     "name": "WRITE AIN5",
+     "in": "1 r 00000100 0 xx e t s",
+     "action": "nop",
+     "set": {
+      "CTRL.REPEAT": "r",
+      "CTRL.AIN": 4,
+      "CTRL.TSENSE": 0,
+      "CTRL.EXT_REF": "e",
+      "CTRL.TMP_AVG": "t",
+      "CTRL.STANDBY": "s",
+      "CHSEL.ADD": 5
+     },
+     "note": "p.18 Table 2: WRITE = 1, only AIN5 selected"
+    },
+    {
+     "name": "WRITE AIN6",
+     "in": "1 r 00000010 0 xx e t s",
+     "action": "nop",
+     "set": {
+      "CTRL.REPEAT": "r",
+      "CTRL.AIN": 2,
+      "CTRL.TSENSE": 0,
+      "CTRL.EXT_REF": "e",
+      "CTRL.TMP_AVG": "t",
+      "CTRL.STANDBY": "s",
+      "CHSEL.ADD": 6
+     },
+     "note": "p.18 Table 2: WRITE = 1, only AIN6 selected"
+    },
+    {
+     "name": "WRITE AIN7",
+     "in": "1 r 00000001 0 xx e t s",
+     "action": "nop",
+     "set": {
+      "CTRL.REPEAT": "r",
+      "CTRL.AIN": 1,
+      "CTRL.TSENSE": 0,
+      "CTRL.EXT_REF": "e",
+      "CTRL.TMP_AVG": "t",
+      "CTRL.STANDBY": "s",
+      "CHSEL.ADD": 7
+     },
+     "note": "p.18 Table 2: WRITE = 1, only AIN7 selected"
+    },
+    {
+     "name": "WRITE TSENSE",
+     "in": "1 r 00000000 1 xx e 0 s",
+     "action": "nop",
+     "set": {
+      "CTRL.REPEAT": "r",
+      "CTRL.AIN": 0,
+      "CTRL.TSENSE": 1,
+      "CTRL.EXT_REF": "e",
+      "CTRL.TMP_AVG": 0,
+      "CTRL.STANDBY": "s",
+      "CHSEL.ADD": 8
+     },
+     "note": "p.18-20: temperature sensor without averaging (ADD 1000b)"
+    },
+    {
+     "name": "WRITE TSENSE AVG",
+     "in": "1 r 00000000 1 xx e 1 s",
+     "action": "nop",
+     "set": {
+      "CTRL.REPEAT": "r",
+      "CTRL.AIN": 0,
+      "CTRL.TSENSE": 1,
+      "CTRL.EXT_REF": "e",
+      "CTRL.TMP_AVG": 1,
+      "CTRL.STANDBY": "s",
+      "CHSEL.ADD": 9
+     },
+     "note": "p.18-20: temperature sensor with averaging (ADD 1001b)"
+    },
+    {
+     "name": "WRITE",
+     "in": "1 [CTRL:14:0]",
+     "action": "nop",
+     "note": "p.18: any other WRITE = 1 frame (several channels selected) is stored; the channel code is unchanged"
+    }
+   ]
+  },
+  "conversion": {
+   "time": {
+    "field": "CHSEL.ADD",
+    "values": {
+     "0": 0,
+     "1": 0,
+     "2": 0,
+     "3": 0,
+     "4": 0,
+     "5": 0,
+     "6": 0,
+     "7": 0,
+     "8": 100000,
+     "9": 100000
+    }
+   },
+   "start": [
+    "cs-fall"
+   ],
+   "channel": "CHSEL.ADD"
+  },
+  "ready": [
+   {
+    "pin": "TM_BUSY",
+    "active": 1,
+    "asserts": "busy",
+    "enable": "CTRL.TSENSE=1"
+   }
+  ],
+  "pins": {
+   "reset": {
+    "pin": "PD/RST",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "RTJ": {
+   "pinout": "rtj20",
+   "footprint": "QFN-20-RTJ",
+   "package": "QFN",
+   "pins": 20
+  }
+ },
+ "pdf": "ads8028.pdf",
+ "pages": "p.2 (abs max), p.4 (electrical: DVDD), p.6 (timing, Figure 1), p.7 (pins), p.16 (straight binary), p.17 (serial interface), p.18 (Control Register, Table 2), p.19 (Table 3 output format), p.20-22 (temperature sensor, modes), p.23-24 (PD/RST)",
+ "notModeled": [
+  "analog inputs, reference selection (EXT_REF stored only); the result is always the 0 V code 000h; the temperature sensor channel (8/9) also returns 000h (0 degC in twos complement)",
+  "channel sequencing: with several AIN bits set the device converts the selected channels in ascending order in successive frames, REPEAT re-runs the sequence, and DOUT returns all 1s when the sequence is complete or no channel is selected; the model converts the last single channel written (a multi-channel write keeps the previous channel code)",
+  "pipelining: the channel written in frame N is converted in frame N+1 and read in N+2; the model converts at each CS fall on the channel already selected, so ADD[3:0] reports it one frame early",
+  "the 16-SCLK rule: a CS rise before 16 SCLKs aborts the conversion and leaves the Control Register unchanged (the commands only complete at 16 bits, so the register part is honored)",
+  "TM_BUSY blocking: while a temperature conversion runs (100 us) further frames are ignored and DOUT returns all 1s; STANDBY = 1 aborts it",
+  "STANDBY mode (stored only) and the power-up times tPU_STANDBY / tPOWER_UP",
+  "PD/RST: a low pulse < 60 ns resets the Control Register, > 90 ns enters power-down (also resetting the register); both are modeled as reset while low",
+  "temperature averaging filter (TMP_AVG)",
+  "pin table lists TM_BUSY as 'Digital input'; it is the busy output (p.7, p.20)",
+  "SPI mode: SCLK idles high (Figure 1), DIN latched and DOUT launched on SCLK falling edges with the first bit (ADD3) out at CS fall: mode 2"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "ADS8028IRTJT",
+   "RTJ",
+   20,
+   "Active"
+  ]
+ ]
+}

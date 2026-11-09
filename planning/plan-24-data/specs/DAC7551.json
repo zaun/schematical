@@ -1,0 +1,223 @@
+{
+ "device": {
+  "id": "DAC7551",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "12-bit single-channel ultralow-glitch voltage-output DAC with 50 MHz SPI interface, IOVDD level shifters, daisy-chain SDO and asynchronous clear",
+  "note": "dac7551.pdf (SLAS441E) p.4 power requirements (VDD 2.7-5.5 V, IOVDD 1.8 V-VDD), p.5 pin configuration and pin descriptions, p.6 serial write operation (Figure 1) and timing characteristics (t9 SDO valid 10 ns), p.12 asynchronous clear, IOVDD, power-on reset (zero), p.13 serial interface (16-bit word latched at SYNC rising: last 16 bits), daisy-chain SDO, Table 1",
+  "pinouts": {
+   "drn12": [
+    {
+     "number": 1,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VREFH",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "VREFL",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "VFB",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "CLR",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "SDIN",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "IOVDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 1,
+  "vcc": [
+   1.8,
+   5.5
+  ],
+  "analog": [
+   "VDD",
+   "VREFH",
+   "VREFL",
+   "VFB",
+   "VOUT"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "SDIN",
+   "miso": "SDO",
+   "mode": 2
+  },
+  "timing": {
+   "tOut": 10
+  },
+  "registers": [
+   {
+    "name": "DAC",
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register: power-on reset clears it (zero scale), p.12"
+   },
+   {
+    "name": "CTRL",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PD",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "internal: PD1/PD0 (DB13/DB12) of the last word, Table 1 (00 normal mode)"
+   },
+   {
+    "name": "SR",
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "X",
+      "bits": [
+       15,
+       14
+      ]
+     },
+     {
+      "name": "PD",
+      "bits": [
+       13,
+       12
+      ]
+     },
+     {
+      "name": "D",
+      "bits": [
+       11,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the 16-bit input shift register as latched (its contents are shifted out on SDO at the next SYNC low)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "out": "[SR]",
+   "idle": "z",
+   "commands": [
+    {
+     "name": "WRITE",
+     "in": "hh pp dddddddddddd",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "commit": "end",
+     "set": {
+      "CTRL.PD": "p",
+      "SR.X": "h",
+      "SR.PD": "p",
+      "SR.D": "d"
+     },
+     "note": "Table 1: DB15-DB14 don't care, DB13-DB12 PD1/PD0, DB11-DB0 data; the last 16 bits before SYNC rises are latched and the DAC updates at SYNC rising (p.13)"
+    }
+   ]
+  },
+  "pins": {
+   "clear": {
+    "pin": "CLR",
+    "active": 0
+   }
+  },
+  "dac": {
+   "input": [
+    "DAC"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "DRN": {
+   "pinout": "drn12",
+   "footprint": "USON-12-DRN",
+   "package": "USON",
+   "pins": 12
+  }
+ },
+ "pdf": "dac7551.pdf",
+ "pages": "p.4 (power requirements), p.5 (pins), p.6 (timing, Figure 1), p.12 (clear, IOVDD, power-on reset), p.13 (serial interface, daisy chain, Table 1)",
+ "notModeled": [
+  "analog output, unbuffered VREFH/VREFL reference, VFB sense input (never driven)",
+  "power-down output loads (1 kOhm / 100 kOhm / Hi-Z): PD1/PD0 stored in CTRL.PD only; Table 1 marks the data bits don't care in power-down, the model still writes them",
+  "SDO repeats SDIN with a 16-clock delay while SYNC is low: modeled as the previously latched 16-bit word (SR) followed by Hi-Z; words longer than 32 bits in one SYNC frame are not repeated",
+  "CLR resets all registers and the DAC updates at the first SYNC rising edge after CLR returns high (p.12): modeled as an immediate clear to code 0",
+  "SCLK limits (50 MHz, 10 MHz with SDO) and setup/hold times"
+ ],
+ "variants": "single-channel member of the DAC7551/DAC7552/DAC7558 family (daisy-chainable together, dac7558.pdf p.21); the pin drawing on p.5 is captioned DAC7751 (typo).",
+ "parts": [
+  [
+   "DAC7551IDRNR",
+   "DRN",
+   12,
+   "Active"
+  ],
+  [
+   "DAC7551IDRNT",
+   "DRN",
+   12,
+   "Active"
+  ]
+ ]
+}

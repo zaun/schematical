@@ -1,0 +1,166 @@
+{
+ "device": {
+  "id": "ADC104S051",
+  "function": "ADC",
+  "description": "10-bit 200-500 kSPS 4-channel SAR ADC with SPI-compatible serial interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "adc104s051.pdf (SNAS253G) p.1-2 pinout and pin descriptions, p.3 operating ratings, p.5 output coding, p.6 timing specifications, p.7 serial timing diagram, p.16-17 using the ADC104S051 (frame, control register Tables 2-4), p.17 transfer function",
+  "pinouts": {
+   "dgs10": [
+    {
+     "number": 1,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 3,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "IN4",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "IN3",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "IN2",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "IN1",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "SCLK",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 10,
+  "channels": 4,
+  "codeFormat": "straight",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "IN1",
+   "IN2",
+   "IN3",
+   "IN4"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "miso": "DOUT",
+   "mode": 3
+  },
+  "timing": {
+   "tValid": 30,
+   "tOut": 30,
+   "tFloat": 20
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "ADD2",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "CH",
+      "bits": [
+       4,
+       3
+      ]
+     }
+    ],
+    "note": "internal control register (no address), loaded through DIN; power-up channel IN1"
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "out": "0{4} R{10} 0{2}",
+   "idle": "repeat",
+   "commands": [
+    {
+     "name": "Control Register",
+     "in": "xx a bb xxx x{8}",
+     "set": {
+      "CTRL.ADD2": "a",
+      "CTRL.CH": "b"
+     },
+     "note": "DIN bits 7:0 on the first 8 rising SCLK edges of each 16-clock conversion (Table 2 Control Register Bits); CH = ADD1:ADD0 selects the channel of the next conversion"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ],
+   "channel": "CTRL.CH"
+  }
+ },
+ "packages": {
+  "DGS": {
+   "pinout": "dgs10",
+   "footprint": "VSSOP-10",
+   "package": "VSSOP",
+   "pins": 10
+  }
+ },
+ "pdf": "adc104s051.pdf",
+ "pages": "p.1-2 pinout and pin descriptions, p.3 operating ratings, p.5 output coding, p.6 timing specifications, p.7 serial timing diagram, p.16-17 using the ADC104S051 (frame, control register Tables 2-4), p.17 transfer function (VA 2.7-5.25 V, digital inputs -0.3 V to VA; tEN 30 ns, tACC 30 ns, tDIS 20 ns (CS rise); DOUT: Z3-Z0 zeros, DB9-DB0, two zeros; DIN: DONTC DONTC ADD2 ADD1 ADD0 DONTC x3)",
+ "notModeled": [
+  "analog inputs; the conversion is clocked by SCLK (the result is the 0 V code 0x000 at once)",
+  "channel selection is pipelined: the control byte picks the input of the next conversion (ADD1 ADD0: 00 IN1 (default), 01 IN2, 10 IN3, 11 IN4; ADD2 don't care); the 0 V result is the same on every channel, so only CTRL changes",
+  "continuous conversions inside one CS-low frame (each further 16 SCLKs is a new conversion, track mode re-entered after each 16th rising edge): modeled with a stream frame (one control byte per 16 bits) and idle \"repeat\" for the output frame",
+  "SPI mode 3 chosen (DOUT changes on SCLK falling edges, DIN sampled on rising edges); the datasheet allows SCLK high or low at CS fall within tCSU/tCLH (mode 0 works the same)",
+  "power-down while CS is high and between conversions (no visible digital effect)",
+  "tCSU / tCLH and SCLK frequency limits; frames must contain a multiple of 16 SCLKs"
+ ],
+ "variants": "ADC104S021 is the same pinout and protocol at another sample-rate range (separate datasheet); ADC082S/ADC122S (2-ch) and ADC084S/ADC124S (4-ch) are the 8/12-bit parts",
+ "parts": [
+  [
+   "ADC104S051CIMM/NOPB",
+   "DGS",
+   10,
+   "Active"
+  ]
+ ]
+}

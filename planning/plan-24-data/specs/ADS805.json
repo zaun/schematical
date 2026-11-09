@@ -1,0 +1,242 @@
+{
+ "device": {
+  "id": "ADS805",
+  "function": "ADC",
+  "description": "12-bit 20 MSPS pipelined ADC with internal reference, over-range output and tri-state CMOS parallel outputs (3 V / 5 V output driver supply)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads805.pdf (SBAS073B) p.3 specifications (digital inputs/outputs, straight offset binary, 3-state enable 40 ns / disable 10 ns max, +VS 4.75-5.25 V), p.4 pin configuration and descriptions, timing diagram (t2 new data delay 12 ns max, 6-clock latency), application section: OVR over-range output (same latency as data), VDRV output driver supply for 3 V or 5 V logic",
+  "pinouts": {
+   "ssop28": [
+    {
+     "number": 1,
+     "name": "OVR",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "B1",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "B2",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "B3",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "B4",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "B5",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "B6",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "B7",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "B8",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "B9",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "B10",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "B11",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "B12",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "OE",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "+VS",
+     "role": "power"
+    },
+    {
+     "number": 17,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 18,
+     "name": "SEL",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 20,
+     "name": "REFB",
+     "role": "nc"
+    },
+    {
+     "number": 21,
+     "name": "CM",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "REFT",
+     "role": "nc"
+    },
+    {
+     "number": 23,
+     "name": "IN",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 25,
+     "name": "IN",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 27,
+     "name": "+VS",
+     "role": "power"
+    },
+    {
+     "number": 28,
+     "name": "VDRV",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 1,
+  "codeFormat": "offset",
+  "vcc": [
+   3.0,
+   5.25
+  ],
+  "analog": [
+   "IN",
+   "SEL",
+   "VREF",
+   "REFB",
+   "CM",
+   "REFT",
+   "+VS"
+  ],
+  "bus": {
+   "style": "clocked",
+   "clock": {
+    "pin": "CLK",
+    "edge": "rise"
+   },
+   "data": [
+    "OVR",
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8",
+    "B9",
+    "B10",
+    "B11",
+    "B12"
+   ],
+   "oe": {
+    "pin": "OE",
+    "active": 0
+   }
+  },
+  "timing": {
+   "tOut": 12,
+   "tFloat": 10
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": "0R{12}"
+  }
+ },
+ "packages": {
+  "DB": {
+   "pinout": "ssop28",
+   "footprint": "SSOP-28",
+   "package": "SSOP",
+   "pins": 28
+  }
+ },
+ "pdf": "ads805.pdf",
+ "pages": "p.3 (specs), p.4 (pinout, pin descriptions, timing: t2 12 ns), application section (OVR, VDRV, reference/SEL)",
+ "notModeled": [
+  "analog input, reference and input-range selection (SEL / VREF straps are analog connections); the result is always the 0 V differential (mid-scale) code 800h, straight offset binary",
+  "OVR is driven as the first bit of each 13-bit data word (always 0: the 0 V input is in range); whether OE also floats OVR is not stated",
+  "pipeline latency of 6 clock cycles (the code is constant)",
+  "clock period / duty-cycle limits (50 ns to 100 us)",
+  "two supplies: +VS 4.75-5.25 V (analog core, CLK/OE input thresholds VIH 3.5 V) and VDRV (output drivers, 3 V or 5 V logic); vcc is the union 3.0-5.25 V and +VS is listed under analog so VDRV is the digital supply",
+  "3-state enable time (40 ns max) differs from the disable time (10 ns); tFloat uses the disable time",
+  "pin 23 is the complementary input (IN with an overbar in the datasheet); both inputs are named IN"
+ ],
+ "variants": "ADS804 (5 MSPS) and ADS805 (20 MSPS) share this pinout and interface (separate datasheets, own specs)",
+ "parts": [
+  [
+   "ADS805E",
+   "DB",
+   28,
+   "Last Time Buy"
+  ],
+  [
+   "ADS805E/1K",
+   "DB",
+   28,
+   "Active"
+  ]
+ ]
+}

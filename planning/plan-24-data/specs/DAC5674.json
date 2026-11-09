@@ -1,0 +1,379 @@
+{
+ "device": {
+  "id": "DAC5674",
+  "function": "DAC",
+  "description": "14-bit 400 MSPS 2x/4x interpolating current-output DAC with 14-bit CMOS data input and PLL clock multiplier",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac5674.pdf (SLWS148A) p.2 absolute maximum ratings, p.3 power supply ranges, p.5 digital specifications and input timing, p.6 pinout, p.7 terminal functions, p.19-20 clock generation (Table 4), p.23 digital inputs (offset binary), p.24 clock input and timing (Figure 27)",
+  "pinouts": {
+   "php48": [
+    {
+     "number": 1,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 2,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "D13",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "D12",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "D11",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "D10",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "D9",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "D8",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "D7",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "D6",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "D5",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "D4",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "D3",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "D2",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "D1",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "D0",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "HP1",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "HP2",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 20,
+     "name": "IOGND",
+     "role": "ground"
+    },
+    {
+     "number": 21,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 22,
+     "name": "IODVDD",
+     "role": "power"
+    },
+    {
+     "number": 23,
+     "name": "X4",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 25,
+     "name": "PLLLOCK",
+     "role": "output"
+    },
+    {
+     "number": 26,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "DIV1",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "DIV0",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "CLKC",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "CLKGND",
+     "role": "ground"
+    },
+    {
+     "number": 32,
+     "name": "CLKVDD",
+     "role": "power"
+    },
+    {
+     "number": 33,
+     "name": "PLLGND",
+     "role": "ground"
+    },
+    {
+     "number": 34,
+     "name": "PLLVDD",
+     "role": "power"
+    },
+    {
+     "number": 35,
+     "name": "LPF",
+     "role": "nc"
+    },
+    {
+     "number": 36,
+     "name": "SLEEP",
+     "role": "input"
+    },
+    {
+     "number": 37,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 38,
+     "name": "EXTLO",
+     "role": "input"
+    },
+    {
+     "number": 39,
+     "name": "EXTIO",
+     "role": "output"
+    },
+    {
+     "number": 40,
+     "name": "BIASJ",
+     "role": "output"
+    },
+    {
+     "number": 41,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 42,
+     "name": "IOUT2",
+     "role": "output"
+    },
+    {
+     "number": 43,
+     "name": "IOUT1",
+     "role": "output"
+    },
+    {
+     "number": 44,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 45,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 46,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 47,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 48,
+     "name": "DVDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 14,
+  "channels": 1,
+  "vcc": [
+   1.65,
+   3.6
+  ],
+  "analog": [
+   "LPF",
+   "PLLVDD",
+   "CLKVDD",
+   "EXTLO",
+   "EXTIO",
+   "BIASJ",
+   "IOUT2",
+   "IOUT1",
+   "AVDD"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "D13",
+    "D12",
+    "D11",
+    "D10",
+    "D9",
+    "D8",
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "wr": {
+    "pin": "CLK",
+    "active": 0
+   }
+  },
+  "registers": [
+   {
+    "name": "DATA",
+    "address": 0,
+    "space": "dac",
+    "width": 14,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       13,
+       0
+      ]
+     }
+    ],
+    "note": "the input word latched by the edge-triggered input latches; power-on value not given (0 used)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "DATA WORD",
+     "in": "d{14}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "note": "D[13:0] latched on the rising edge of the data clock (p.24): the parallel write ends at CLK rising"
+    }
+   ]
+  },
+  "pins": {
+   "reset": {
+    "pin": "RESET",
+    "active": 1
+   }
+  },
+  "dac": {
+   "input": [
+    "DATA"
+   ],
+   "output": [
+    "DATA"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "PHP": {
+   "pinout": "php48",
+   "footprint": "HTQFP-48-PHP",
+   "package": "HTQFP",
+   "pins": 48
+  }
+ },
+ "pdf": "dac5674.pdf",
+ "pages": "p.2 (abs max), p.3 (supply ranges), p.5 (digital specs, input timing), p.6-7 (pinout, terminal functions), p.19-20 (clock generation, Table 4), p.23-24 (digital inputs, offset binary, clock/data timing)",
+ "notModeled": [
+  "analog current outputs IOUT1/IOUT2, internal 1.2 V reference (EXTIO/EXTLO), full-scale current bias (BIASJ)",
+  "interpolation filters (X4, HP1, HP2 pins) and the 26/35 clock data-to-output latency; the stored word is the last word latched",
+  "clock modes: the model latches D[13:0] on every CLK rising edge (internal PLL mode, CLK = data rate). In external clock mode (PLLVDD = 0 V) CLK runs at the DAC update rate and the data clock is CLK/2 or CLK/4, output on PLLLOCK; PLL, DIV[1:0] prescaler and the PLLLOCK lock/clock output are not modeled",
+  "CLK/CLKC are a differential clock input: the model uses CLK alone",
+  "SLEEP asynchronous power-down (analog only; not modeled)",
+  "power-on value of the input latch is not given in the datasheet (reset 0 is used); data coding is offset binary (16383 = full scale on IOUT1)",
+  "DVDD (1.65-1.95 V core supply) is a digital supply inside the IODVDD vcc range; the inputs are referred to IOVDD (VIH 0.7 IOVDD), SLEEP/EXTLO to AVDD"
+ ],
+ "variants": "",
+ "parts": [
+  [
+   "DAC5674IPHP",
+   "PHP",
+   48,
+   "Active"
+  ],
+  [
+   "DAC5674IPHPR",
+   "PHP",
+   48,
+   "Active"
+  ]
+ ]
+}

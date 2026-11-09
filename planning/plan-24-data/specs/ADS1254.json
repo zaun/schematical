@@ -1,0 +1,238 @@
+{
+ "device": {
+  "id": "ADS1254",
+  "function": "ADC",
+  "description": "24-bit 20.8 kSPS 4-channel delta-sigma ADC with 2-wire serial interface (DOUT/DRDY, SCLK)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1254.pdf (SBAS213B) p.2 pin configuration and descriptions, p.3 electrical characteristics (data rate 20.8 kHz at CLK 8 MHz, DVDD 1.8-3.6 V, AVDD 4.75-5.25 V, data format offset two's complement), p.7 channel selection (Table I), p.8 Table II CLK vs data rate, p.11 DOUT/DRDY, synchronization, power-down, p.12 serial interface, data format (Table IV), Table III digital timing",
+  "pinouts": {
+   "dbq20": [
+    {
+     "number": 1,
+     "name": "CH1+",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "CH1-",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "CH2+",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "CH2-",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "CH3+",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "CH3-",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 11,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 12,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "DOUT/DRDY",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "CHSEL1",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "CHSEL0",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 18,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 19,
+     "name": "CH4-",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "CH4+",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 24,
+  "channels": 4,
+  "codeFormat": "twos",
+  "vcc": [
+   1.8,
+   3.6
+  ],
+  "analog": [
+   "CH1+",
+   "CH1-",
+   "CH2+",
+   "CH2-",
+   "CH3+",
+   "CH3-",
+   "AVDD",
+   "AGND",
+   "VREF",
+   "CH4-",
+   "CH4+"
+  ],
+  "bus": {
+   "style": "spi",
+   "sclk": "SCLK",
+   "miso": "DOUT/DRDY",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 60,
+   "tOut": 60
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "CHSEL1",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "CHSEL0",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the CHSEL1/CHSEL0 pin levels (Table I: 00 = CH1, 01 = CH2, 10 = CH3, 11 = CH4)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{24}",
+   "idle": "0",
+   "commands": []
+  },
+  "conversion": {
+   "time": 48000,
+   "start": [
+    "power-on"
+   ],
+   "mode": "continuous"
+  },
+  "ready": [
+   {
+    "pin": "DOUT/DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": 750,
+    "onMiso": true
+   }
+  ],
+  "pins": {
+   "levels": [
+    {
+     "pin": "CHSEL1",
+     "field": "CTRL.CHSEL1"
+    },
+    {
+     "pin": "CHSEL0",
+     "field": "CTRL.CHSEL0"
+    }
+   ]
+  }
+ },
+ "packages": {
+  "DBQ": {
+   "pinout": "dbq20",
+   "footprint": "QSOP-20",
+   "package": "SSOP",
+   "pins": 20
+  }
+ },
+ "pdf": "ads1254.pdf",
+ "pages": "p.2 pin configuration and descriptions, p.3 electrical characteristics (data rate 20.8 kHz at CLK 8 MHz, DVDD 1.8-3.6 V, AVDD 4.75-5.25 V, data format offset two's complement), p.7 channel selection (Table I), p.8 Table II CLK vs data rate, p.11 DOUT/DRDY, synchronization, power-down, p.12 serial interface, data format (Table IV), Table III digital timing",
+ "notModeled": [
+  "analog input and reference",
+  "conversion cycle tDRDY = 384 tOSC = 48 us at the nominal CLK = 8 MHz; the data rate scales with CLK (Table II; the CLK pin is not used)",
+  "DOUT/DRDY partitioning: DRDY mode (t4 high 24 tOSC, t2 low pulse 6 tOSC = 750 ns, t3 high 6 tOSC) then DOUT mode with the MSB on the pin (t7); modeled as an active-low ready pulse of t2 followed by the data; the t3 high period and t4 high before the next DRDY are not modeled",
+  "after more than 24 SCLKs DOUT/DRDY stays low until t4 (idle '0'); after an incomplete read the last bit read stays on the pin",
+  "synchronization (SCLK held high for 4 to 20 DOUT/DRDY periods resets the modulator) and power-down (SCLK held high for 20 periods; released on SCLK falling)",
+  "digital filter settling (five conversions after a step or channel change)",
+  "channel selection by CHSEL1/CHSEL0 (stored only; every channel returns the 0 V code); a channel change holds DOUT/DRDY high for t18 = 2043.5 tOSC"
+ ],
+ "variants": "ADS1250-ADS1254 family: ADS1251, ADS1252, ADS1253 have separate datasheets and spec files; ADS1254 is the 4-channel, separate AVDD/DVDD version (20-pin SSOP)",
+ "parts": [
+  [
+   "ADS1254E",
+   "DBQ",
+   20,
+   "Active"
+  ],
+  [
+   "ADS1254E/2K5",
+   "DBQ",
+   20,
+   "Active"
+  ]
+ ]
+}

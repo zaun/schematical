@@ -1,0 +1,148 @@
+{
+ "device": {
+  "id": "DAC5311",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "8-bit low-power single-channel voltage-output DAC with 3-wire SPI-compatible interface (SC70)",
+  "note": "dac5311.pdf (SBAS442D) p.3 pin functions (Table 6-1), p.4 recommended operating conditions, p.7 timing requirements and Figure 7-1, p.23 power-on reset (zero scale), p.24 power-down modes (Table 8-1), p.25 input shift register (Tables 8-2 to 8-4) and SYNC interrupt; dac5311-q1.pdf (SBAS470) same pinout and frame, AVDD 1.8 V to 5.5 V",
+  "pinouts": {
+   "dck6": [
+    {
+     "number": 1,
+     "name": "SYNC",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "AVDD/VREF",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "VOUT",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 8,
+  "channels": 1,
+  "vcc": [
+   1.8,
+   5.5
+  ],
+  "analog": [
+   "VOUT"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "SYNC",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "DAC",
+    "width": 8,
+    "reset": 0,
+    "note": "DAC register; power-on reset fills it with zeros (p.23)"
+   },
+   {
+    "name": "CTRL",
+    "width": 2,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PD",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "internal: PD1/PD0 power-down mode bits of the last valid frame (Table 8-1; 00 normal at power on)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "WRITE",
+     "in": "pp dddddddd xxxxxx",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "CTRL.PD": "p"
+     },
+     "note": "DB15-DB14 PD1/PD0, then the data MSB first, then don't-care bits; executed on the 16th SCLK falling edge; SYNC high earlier aborts the frame (SYNC interrupt)"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "DAC"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "DCK": {
+   "pinout": "dck6",
+   "footprint": "SC70-6",
+   "package": "SC-70",
+   "pins": 6
+  }
+ },
+ "pdf": "dac5311-q1.pdf",
+ "pages": "p.3 (pins), p.4 (ROC), p.7 (timing, Figure 7-1), p.23-24 (POR, power-down), p.25 (input shift register, SYNC interrupt); dac5311-q1.pdf p.1-3 (pins, ROC 1.8 V min)",
+ "notModeled": [
+  "analog output, resistor string and output amplifier (VOUT is never driven)",
+  "power-down output loads (1 kOhm / 100 kOhm / Hi-Z): PD1/PD0 are stored in CTRL.PD only; the DAC register is kept as the datasheet says",
+  "50 us power-down exit time and output settling time",
+  "SCLK frequency and setup/hold limits (t1-t10)"
+ ],
+ "variants": "DAC5311, DAC6311 and DAC7311 share dac5311.pdf: same pinout and 16-bit frame (PD1, PD0, data MSB first, don't-care fill); siblings DAC6311 (10-bit), DAC7311 (12-bit); own spec files. DAC5311-Q1 (dac5311-q1.pdf) is the automotive DAC5311 with AVDD 1.8 V min.",
+ "parts": [
+  [
+   "DAC5311IDCKR",
+   "DCK",
+   6,
+   "Active"
+  ],
+  [
+   "DAC5311IDCKRQ1",
+   "DCK",
+   6,
+   "Active"
+  ],
+  [
+   "DAC5311IDCKT",
+   "DCK",
+   6,
+   "Active"
+  ]
+ ]
+}

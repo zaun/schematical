@@ -21,62 +21,68 @@ struct CharacterLCDSymbolView: View {
     var body: some View {
         let layout = chip.layout
         let margin = ChipLayout.labelMargin
-        let stub = ChipLayout.stubLength
-        let highlighted = isSelected || isHovered
-        let outline: Color = highlighted ? .accentColor : .primary
 
         Canvas { context, _ in
-            let box = CGRect(x: margin, y: 0, width: layout.size.width, height: layout.size.height)
-
-            context.fill(Path(box), with: .color(Color(nsColor: .controlBackgroundColor)))
-            if isHovered {
-                context.fill(Path(box), with: .color(Color.accentColor.opacity(0.12)))
-            }
-            context.stroke(Path(box), with: .color(outline), lineWidth: highlighted ? 2 : 1.5)
-
-            var headerRule = Path()
-            headerRule.move(to: CGPoint(x: box.minX, y: ChipLayout.headerHeight))
-            headerRule.addLine(to: CGPoint(x: box.maxX, y: ChipLayout.headerHeight))
-            context.stroke(headerRule, with: .color(outline.opacity(0.5)), lineWidth: 1)
-
-            context.draw(
-                Text(chip.partNumber)
-                    .font(.system(size: 11, weight: .semibold, design: .monospaced)),
-                at: CGPoint(x: box.midX, y: ChipLayout.headerHeight / 2),
-                anchor: .center
-            )
-
-            for slot in layout.slots {
-                let isLeft = slot.side == .left
-                let edgeX = isLeft ? box.minX : box.maxX
-                let tipX = isLeft ? box.minX - stub : box.maxX + stub
-
-                var pinStub = Path()
-                pinStub.move(to: CGPoint(x: tipX, y: slot.centerY))
-                pinStub.addLine(to: CGPoint(x: edgeX, y: slot.centerY))
-                context.stroke(pinStub, with: .color(outline), lineWidth: 1.5)
-
-                context.draw(
-                    Text(slot.pin.designator)
-                        .font(.system(size: 9))
-                        .foregroundStyle(.secondary),
-                    at: CGPoint(x: isLeft ? tipX - 3 : tipX + 3, y: slot.centerY),
-                    anchor: isLeft ? .trailing : .leading
-                )
-                context.draw(
-                    Text(slot.pin.name)
-                        .font(.system(size: 9, weight: .medium, design: .monospaced)),
-                    at: CGPoint(x: isLeft ? edgeX + 4 : edgeX - 4, y: slot.centerY),
-                    anchor: isLeft ? .leading : .trailing
-                )
-            }
-
-            if let info = chip.part.characterLCD {
-                Self.drawFace(&context, info: info, box: box, frame: frame,
-                              backlight: frame == nil ? 0 : backlight)
-            }
+            var painter = ScreenPainter(context)
+            Self.paint(&painter, chip: chip, isSelected: isSelected, isHovered: isHovered,
+                       frame: frame, backlight: backlight)
         }
         .frame(width: layout.size.width + 2 * margin, height: layout.size.height)
+    }
+
+    /// Draws the module, its frame's top-left corner at (0, 0).
+    static func paint<P: SchematicPainter>(_ painter: inout P, chip: PlacedChip, isSelected: Bool, isHovered: Bool,
+                                           frame: LCDFrame?, backlight: Double) {
+        let layout = chip.layout
+        let margin = ChipLayout.labelMargin
+        let stub = ChipLayout.stubLength
+        let highlighted = isSelected || isHovered
+        let outline: Ink = highlighted ? .accent : .primary
+        let box = CGRect(x: margin, y: 0, width: layout.size.width, height: layout.size.height)
+
+        painter.fill(Path(box), with: .paper)
+        if isHovered {
+            painter.fill(Path(box), with: Ink.accent.opacity(0.12))
+        }
+        painter.stroke(Path(box), with: outline, lineWidth: highlighted ? 2 : 1.5)
+
+        var headerRule = Path()
+        headerRule.move(to: CGPoint(x: box.minX, y: ChipLayout.headerHeight))
+        headerRule.addLine(to: CGPoint(x: box.maxX, y: ChipLayout.headerHeight))
+        painter.stroke(headerRule, with: outline.opacity(0.5), lineWidth: 1)
+
+        painter.draw(
+            PaintedText(chip.partNumber, size: 11, weight: .semibold, monospaced: true),
+            at: CGPoint(x: box.midX, y: ChipLayout.headerHeight / 2),
+            anchor: .center
+        )
+
+        for slot in layout.slots {
+            let isLeft = slot.side == .left
+            let edgeX = isLeft ? box.minX : box.maxX
+            let tipX = isLeft ? box.minX - stub : box.maxX + stub
+
+            var pinStub = Path()
+            pinStub.move(to: CGPoint(x: tipX, y: slot.centerY))
+            pinStub.addLine(to: CGPoint(x: edgeX, y: slot.centerY))
+            painter.stroke(pinStub, with: outline, lineWidth: 1.5)
+
+            painter.draw(
+                PaintedText(slot.pin.designator, size: 9, ink: .secondary),
+                at: CGPoint(x: isLeft ? tipX - 3 : tipX + 3, y: slot.centerY),
+                anchor: isLeft ? .trailing : .leading
+            )
+            painter.draw(
+                PaintedText(slot.pin.name, size: 9, weight: .medium, monospaced: true),
+                at: CGPoint(x: isLeft ? edgeX + 4 : edgeX - 4, y: slot.centerY),
+                anchor: isLeft ? .leading : .trailing
+            )
+        }
+
+        if let info = chip.part.characterLCD {
+            drawFace(&painter, info: info, box: box, frame: frame,
+                     backlight: frame == nil ? 0 : backlight)
+        }
     }
 
     // MARK: Face
@@ -105,7 +111,7 @@ struct CharacterLCDSymbolView: View {
             RGB(r: r * (1 - fraction), g: g * (1 - fraction), b: b * (1 - fraction))
         }
 
-        var color: Color { Color(red: r, green: g, blue: b) }
+        var ink: Ink { .display(r, g, b) }
     }
 
     /// The face's colors for a panel at a backlight level (plan-11-D §4.2).
@@ -125,8 +131,8 @@ struct CharacterLCDSymbolView: View {
         return (background, lit, unlit, lit.mix(unlit, 0.5))
     }
 
-    private static func drawFace(_ context: inout GraphicsContext, info: CharacterLCDInfo, box: CGRect,
-                                 frame: LCDFrame?, backlight: Double) {
+    private static func drawFace<P: SchematicPainter>(_ painter: inout P, info: CharacterLCDInfo, box: CGRect,
+                                                      frame: LCDFrame?, backlight: Double) {
         let size = ChipLayout.lcdFaceSize(info)
         let bodyTop = ChipLayout.headerHeight
         let face = CGRect(
@@ -136,9 +142,12 @@ struct CharacterLCDSymbolView: View {
             height: size.height
         )
         let colors = palette(info.panel, backlight: backlight)
-        context.fill(Path(roundedRect: face, cornerRadius: 3), with: .color(colors.background.color))
+        let facePath = Path(roundedRect: face, cornerRadius: 3)
+        painter.fill(facePath, with: colors.background.ink)
+        // Outlines the face where the fill is not drawn (the export).
+        painter.stroke(facePath, with: .faceEdge, lineWidth: 1)
 
-        let lit = colors.lit.color, unlit = colors.unlit.color, unknown = colors.unknown.color
+        let lit = colors.lit.ink, unlit = colors.unlit.ink, unknown = colors.unknown.ink
         let pitch = ChipLayout.lcdDotPitch, dotSize = ChipLayout.lcdDot
         for row in 0..<info.rows {
             for column in 0..<info.columns {
@@ -149,11 +158,11 @@ struct CharacterLCDSymbolView: View {
                         let value = frame?.dot(x: column * Int(LCD_STATE_CELL_WIDTH) + x,
                                                y: row * Int(LCD_STATE_CELL_HEIGHT) + y)
                             ?? UInt8(LCD_DOT_OFF)
-                        let color = value == UInt8(LCD_DOT_ON) ? lit
+                        let ink = value == UInt8(LCD_DOT_ON) ? lit
                             : value == UInt8(LCD_DOT_X) ? unknown : unlit
                         let rect = CGRect(x: cellX + CGFloat(x) * pitch, y: cellY + CGFloat(y) * pitch,
                                           width: dotSize, height: dotSize)
-                        context.fill(Path(rect), with: .color(color))
+                        painter.fill(Path(rect), with: ink)
                     }
                 }
             }

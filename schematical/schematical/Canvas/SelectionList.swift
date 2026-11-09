@@ -15,7 +15,7 @@ struct SelectionRow<Item: Hashable>: Identifiable, Equatable {
 }
 
 /// Turns a page's selection into sidebar rows, in the order the items are
-/// drawn: parts, then junctions, then wires (Schematic); footprints, then
+/// drawn: parts, then junctions, then wires, then text blocks (Schematic); footprints, then
 /// texts, then traces (PCB).
 @MainActor
 enum SelectionRows {
@@ -31,6 +31,9 @@ enum SelectionRows {
         for wire in document.wires where selection.contains(.wire(wire.id)) {
             rows.append(SelectionRow(item: .wire(wire.id), title: "Wire",
                                      detail: "\(end(wire.start, in: document)) – \(end(wire.end, in: document))"))
+        }
+        for note in document.notes where selection.contains(.note(note.id)) {
+            rows.append(SelectionRow(item: .note(note.id), title: "Text", detail: preview(note.text)))
         }
         return rows
     }

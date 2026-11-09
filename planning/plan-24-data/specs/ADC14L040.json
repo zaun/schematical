@@ -1,0 +1,258 @@
+{
+  "device": {
+    "id": "ADC14L040",
+    "function": "ADC",
+    "description": "14-bit 40 MSPS pipelined ADC with parallel CMOS outputs and power-down",
+    "drawer": [
+      "Interface"
+    ],
+    "note": "adc14l040.pdf (SNAS311B) p.1 (connection diagram), p.3-4 (pin descriptions), p.5 (operating ratings: VA/VD 3.0-3.6 V, VDR 2.4 V to VD), p.8 (tOD 9.6 ns max, latency 7 clocks, 5-40 MHz, power-down exit 280 us)",
+    "pinouts": {
+      "ney32": [
+        {
+          "number": 1,
+          "name": "VREF",
+          "role": "power"
+        },
+        {
+          "number": 2,
+          "name": "VIN+",
+          "role": "input"
+        },
+        {
+          "number": 3,
+          "name": "VIN-",
+          "role": "input"
+        },
+        {
+          "number": 4,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 5,
+          "name": "VA",
+          "role": "power"
+        },
+        {
+          "number": 6,
+          "name": "VD",
+          "role": "power"
+        },
+        {
+          "number": 7,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 8,
+          "name": "PD",
+          "role": "input"
+        },
+        {
+          "number": 9,
+          "name": "DGND",
+          "role": "ground"
+        },
+        {
+          "number": 10,
+          "name": "CLK",
+          "role": "input"
+        },
+        {
+          "number": 11,
+          "name": "DF/DCS",
+          "role": "input"
+        },
+        {
+          "number": 12,
+          "name": "D0",
+          "role": "output"
+        },
+        {
+          "number": 13,
+          "name": "D1",
+          "role": "output"
+        },
+        {
+          "number": 14,
+          "name": "D2",
+          "role": "output"
+        },
+        {
+          "number": 15,
+          "name": "D3",
+          "role": "output"
+        },
+        {
+          "number": 16,
+          "name": "D4",
+          "role": "output"
+        },
+        {
+          "number": 17,
+          "name": "D5",
+          "role": "output"
+        },
+        {
+          "number": 18,
+          "name": "D6",
+          "role": "output"
+        },
+        {
+          "number": 19,
+          "name": "D7",
+          "role": "output"
+        },
+        {
+          "number": 20,
+          "name": "DR GND",
+          "role": "ground"
+        },
+        {
+          "number": 21,
+          "name": "VDR",
+          "role": "power"
+        },
+        {
+          "number": 22,
+          "name": "D8",
+          "role": "output"
+        },
+        {
+          "number": 23,
+          "name": "D9",
+          "role": "output"
+        },
+        {
+          "number": 24,
+          "name": "D10",
+          "role": "output"
+        },
+        {
+          "number": 25,
+          "name": "D11",
+          "role": "output"
+        },
+        {
+          "number": 26,
+          "name": "D12",
+          "role": "output"
+        },
+        {
+          "number": 27,
+          "name": "D13",
+          "role": "output"
+        },
+        {
+          "number": 28,
+          "name": "AGND",
+          "role": "ground"
+        },
+        {
+          "number": 29,
+          "name": "VA",
+          "role": "power"
+        },
+        {
+          "number": 30,
+          "name": "VRN",
+          "role": "nc"
+        },
+        {
+          "number": 31,
+          "name": "VRP",
+          "role": "nc"
+        },
+        {
+          "number": 32,
+          "name": "VRM",
+          "role": "nc"
+        }
+      ]
+    },
+    "type": "adc",
+    "bits": 14,
+    "channels": 1,
+    "codeFormat": "offset",
+    "vcc": [
+      2.4,
+      3.6
+    ],
+    "analog": [
+      "VREF",
+      "VIN+",
+      "VIN-",
+      "VA",
+      "DF/DCS",
+      "VRN",
+      "VRP",
+      "VRM"
+    ],
+    "bus": {
+      "style": "clocked",
+      "clock": {
+        "pin": "CLK",
+        "edge": "rise"
+      },
+      "data": [
+        "D13",
+        "D12",
+        "D11",
+        "D10",
+        "D9",
+        "D8",
+        "D7",
+        "D6",
+        "D5",
+        "D4",
+        "D3",
+        "D2",
+        "D1",
+        "D0"
+      ]
+    },
+    "timing": {
+      "tOut": 9.6
+    },
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "commands": [],
+      "read": "R{14}"
+    },
+    "pins": {
+      "powerdown": {
+        "pin": "PD",
+        "active": 1
+      }
+    }
+  },
+  "packages": {
+    "NEY": {
+      "pinout": "ney32",
+      "footprint": "LQFP-32-NEY",
+      "package": "LQFP",
+      "pins": 32
+    }
+  },
+  "pdf": "adc14l040.pdf",
+  "pages": "p.1 (connection diagram), p.3-4 (pin descriptions), p.5 (operating ratings: VA/VD 3.0-3.6 V, VDR 2.4 V to VD), p.8 (tOD 9.6 ns max, latency 7 clocks, 5-40 MHz, power-down exit 280 us)",
+  "notModeled": [
+    "analog input and reference (the result is always the 0 V code)",
+    "DF/DCS four-state strap (VA / float = offset binary, AGND / VRM = two's complement, with/without duty-cycle stabilizer): modeled as offset binary (0 V reads 0x2000); two's complement is not selectable",
+    "VREF reference select levels (analog only)",
+    "pipeline latency of 7 clock cycles (the code is constant)",
+    "clock frequency limits (5-40 MHz), duty cycle and the 280 us power-down exit; no output enable (outputs always driven)",
+    "vcc is the VDR range (2.4 V to VD 3.6 V); CLK/PD are referenced to VD (3.0-3.6 V)"
+  ],
+  "variants": "ADC14L020 and ADC14L040 share the pinout and interface; they differ in speed grade",
+  "parts": [
+    [
+      "ADC14L040CIVY/NOPB",
+      "NEY",
+      32,
+      "Active"
+    ]
+  ]
+}

@@ -1,0 +1,374 @@
+{
+ "device": {
+  "id": "ADS7891",
+  "function": "ADC",
+  "description": "14-bit 3 MSPS SAR ADC with 14-bit parallel interface and byte mode",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads7891.pdf (SLAS410) p.3-4 specifications (conversion time, logic levels, +VBD 2.7-5.25 V, straight binary), p.5 timing requirements, p.6 pin assignments, p.7 terminal functions, p.8-12 sampling/conversion start, abort, data read, nap, power-down/reset, p.21 reading data, Table 1 output codes, byte mode (Table 2)",
+  "pinouts": {
+   "pfb48": [
+    {
+     "number": 1,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 4,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "+IN",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "-IN",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 16,
+     "name": "DB13",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "DB12",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "DB11",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "DB10",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "DB9",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "DB8",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "DB7",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "DB6",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "+VBD",
+     "role": "power"
+    },
+    {
+     "number": 25,
+     "name": "BDGND",
+     "role": "ground"
+    },
+    {
+     "number": 26,
+     "name": "DB5",
+     "role": "output"
+    },
+    {
+     "number": 27,
+     "name": "DB4",
+     "role": "output"
+    },
+    {
+     "number": 28,
+     "name": "DB3",
+     "role": "output"
+    },
+    {
+     "number": 29,
+     "name": "DB2",
+     "role": "output"
+    },
+    {
+     "number": 30,
+     "name": "DB1",
+     "role": "output"
+    },
+    {
+     "number": 31,
+     "name": "DB0",
+     "role": "output"
+    },
+    {
+     "number": 32,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 33,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 34,
+     "name": "+VBD",
+     "role": "power"
+    },
+    {
+     "number": 35,
+     "name": "BDGND",
+     "role": "ground"
+    },
+    {
+     "number": 36,
+     "name": "BUSY",
+     "role": "output"
+    },
+    {
+     "number": 37,
+     "name": "A_PWD",
+     "role": "input"
+    },
+    {
+     "number": 38,
+     "name": "PWD/RST",
+     "role": "input"
+    },
+    {
+     "number": 39,
+     "name": "BYTE",
+     "role": "input"
+    },
+    {
+     "number": 40,
+     "name": "CONVST",
+     "role": "input"
+    },
+    {
+     "number": 41,
+     "name": "RD",
+     "role": "input"
+    },
+    {
+     "number": 42,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 43,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 44,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 45,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 46,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 47,
+     "name": "REFM",
+     "role": "ground"
+    },
+    {
+     "number": 48,
+     "name": "REFM",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 14,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "REFIN",
+   "REFOUT",
+   "+VA",
+   "+IN",
+   "-IN"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DB13",
+    "DB12",
+    "DB11",
+    "DB10",
+    "DB9",
+    "DB8",
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rd": {
+    "pin": "RD",
+    "active": 0
+   },
+   "byteSelect": {
+    "pin": "BYTE",
+    "high": 1
+   }
+  },
+  "timing": {
+   "tAcc": 25,
+   "tDf": 25
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": {
+    "low": "R{14}",
+    "high": "[R:5:0] 0{8}"
+   }
+  },
+  "conversion": {
+   "time": 273,
+   "start": [
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "BUSY",
+    "active": 1,
+    "asserts": "busy"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "CONVST",
+    "edge": "fall"
+   },
+   "powerdown": {
+    "pin": "PWD/RST",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "PFB": {
+   "pinout": "pfb48",
+   "footprint": "TQFP-48-7X7",
+   "package": "TQFP",
+   "pins": 48
+  }
+ },
+ "pdf": "ads7891.pdf",
+ "pages": "p.3-4 (specs), p.5 (timing), p.6 (pinout), p.7 (terminal functions), p.8-12 (operation), p.21 (data format, Table 1, byte mode Table 2)",
+ "notModeled": [
+  "analog input (pseudo-differential +IN/-IN, 0 V to VREF), internal 2.5-V reference and reference buffer",
+  "the conversion starts at the CONVST falling edge only while CS is low, or at the CS falling edge while CONVST is low (Figures 1-2); the model starts it at every CONVST falling edge regardless of CS, and a CS fall does not start one",
+  "sampling start rules (CONVST rising / CS falling / internal conversion end, Figure 3) and back-to-back operation timing (Figures 7-8): acquisition is not modeled",
+  "conversion abort: CS falling while BUSY and CONVST are high aborts the conversion and the bus shows 3F80h (Figure 4)",
+  "PWD/RST: a low pulse of 45 ns to 6.14 us resets the device and a low level longer than 7.2 us powers it down; during the reset phase the bus reads 3F80h; the first four conversions after power-up or reset are invalid; the 25-ms power-up delay; the model treats PWD/RST low as power-down only",
+  "nap mode (A_PWD low): power saving between conversions, no digital effect except the 60-ns longer acquisition; the pin is an input only",
+  "conversion time 273 ns max at +VBD = 5 V and 3 V (p.3, p.5); the model uses the maximum at +VBD = 3 V",
+  "quiet-time requirements around the CONVST falling edge; data read during a conversion returns the previous result on the part (the model returns the 0 V code)",
+  "BUSY rising delay td2 (40 ns) and falling delay td11 (20 ns) after the conversion",
+  "byte mode: with BYTE high the bus shows D5-D0 on DB13-DB8 followed by zeros (Table 2); the model applies BYTE to every read"
+ ],
+ "variants": "ADS7881/ADS7882 are the 12-bit versions (separate datasheets)",
+ "parts": [
+  [
+   "ADS7891IPFBR",
+   "PFB",
+   48,
+   "Last Time Buy"
+  ],
+  [
+   "ADS7891IPFBT",
+   "PFB",
+   48,
+   "Last Time Buy"
+  ]
+ ]
+}

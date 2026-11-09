@@ -14,10 +14,11 @@ nonisolated struct ChipPartDragItem: Codable, Hashable, Sendable, Transferable {
 /// Right-hand drawer. Parts are grouped by their drawer path (from the part
 /// files), then by readable function: Memory → SRAM → 32 KB. Switches, LEDs
 /// and 7-segment displays skip the function level. The top bar filters by
-/// category and package. Each category header carries the menus for the kinds
+/// package and supply voltage. Each category header carries the menus for the kinds
 /// of part in it: family and gate count for gates and flip-flops, a count of
 /// positions for switches, a color for LEDs and displays; a group of
-/// 7-segment displays has digit count and size menus.
+/// 7-segment displays has digit count and size menus, and the ADC and DAC
+/// groups have bits and channels menus.
 struct ChipDrawerView: View, Equatable {
     let catalog: PartCatalogStore
 
@@ -51,15 +52,19 @@ struct ChipDrawerView: View, Equatable {
         let groups = catalog.groups(matching: activeFilter)
 
         VStack(spacing: 0) {
-            HStack(spacing: 8) {
-                searchField
-                voltageMenu
-            }
-            .padding(.horizontal, 12)
-            .padding(.top, 8)
+            searchField
+                .padding(.horizontal, 12)
+                .padding(.top, 8)
             filterBar
 
-            List {
+            // A plain stack, not a List: SwiftUI's List is an NSOutlineView,
+            // and opening groups of rows with different heights makes AppKit
+            // log "reentrant operation in its NSTableView delegate". Not a
+            // lazy stack either: it guessed the height of rows it had not
+            // built, so after scrolling to the end, clicks on the lower rows
+            // fell outside the scroll view's content and did nothing.
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
                 ForEach(groups) { category in
                     DisclosureGroup(
                         isExpanded: expansion(for: categoryKey(category.category), defaultOpen: true)
@@ -74,26 +79,23 @@ struct ChipDrawerView: View, Equatable {
                                     partRow(entry)
                                 }
                             } label: {
-                                // Menus in the label keep their own clicks; the rest toggles the group.
                                 subcategoryHeader(subcategory.subcategory)
-                                    .contentShape(Rectangle())
-                                    .onTapGesture {
-                                        toggle(key, defaultOpen: false)
-                                    }
                             }
+                            // Set on each level: a nested group does not pick
+                            // up the style from its parent's content.
+                            .disclosureGroupStyle(DrawerDisclosureStyle())
                         }
                         ForEach(category.functions) { function in
                             functionGroup(function, path: category.category)
                         }
                     } label: {
-                        // Menus in the header keep their own clicks; the rest toggles the group.
                         categoryHeader(category.category)
-                            .contentShape(Rectangle())
-                            .onTapGesture {
-                                toggle(categoryKey(category.category), defaultOpen: true)
-                            }
                     }
                 }
+                }
+                .disclosureGroupStyle(DrawerDisclosureStyle())
+                .padding(.horizontal, 12)
+                .padding(.vertical, 4)
             }
             .overlay {
                 if groups.isEmpty {
@@ -142,40 +144,8 @@ struct ChipDrawerView: View, Equatable {
         .background(.quaternary.opacity(0.6), in: RoundedRectangle(cornerRadius: 6))
     }
 
-    /// Supply voltage next to the search field: lists only parts that run at
-    /// that rail (see `DrawerFilter.voltageMV`).
-    private var voltageMenu: some View {
-        let choices = catalog.voltageChoices
-        let selected = choices.first { $0.mv == filter.voltageMV }?.name
-        return Menu {
-            Button("All voltages") {
-                filter.voltageMV = nil
-            }
-            Divider()
-            ForEach(choices, id: \.name) { choice in
-                Button(choice.name) {
-                    filter.voltageMV = choice.mv
-                }
-            }
-        } label: {
-            Text(selected ?? "All")
-                .font(.caption)
-        }
-        .menuStyle(.borderlessButton)
-        .fixedSize()
-        .help("Show only parts that run at this supply voltage")
-    }
-
     private var filterBar: some View {
         HStack(spacing: 8) {
-            Picker("Category", selection: $filter.category) {
-                Text("All categories").tag(String?.none)
-                ForEach(catalog.categories, id: \.self) { category in
-                    Text(category).tag(String?.some(category))
-                }
-            }
-            .labelsHidden()
-
             Picker("Package", selection: $filter.package) {
                 Text("All packages").tag(String?.none)
                 ForEach(catalog.packages, id: \.self) { package in
@@ -183,6 +153,17 @@ struct ChipDrawerView: View, Equatable {
                 }
             }
             .labelsHidden()
+
+            // Supply voltage: lists only parts that run at that rail
+            // (see `DrawerFilter.voltageMV`).
+            Picker("Voltage", selection: $filter.voltageMV) {
+                Text("All voltages").tag(UInt32?.none)
+                ForEach(catalog.voltageChoices, id: \.name) { choice in
+                    Text(choice.name).tag(UInt32?.some(choice.mv))
+                }
+            }
+            .labelsHidden()
+            .help("Show only parts that run at this supply voltage")
         }
         .pickerStyle(.menu)
         .padding(.horizontal, 12)
@@ -271,12 +252,13 @@ struct ChipDrawerView: View, Equatable {
 
     /// Menu of counts. `unit` names one of what is counted, such as "gate"
     /// ("4 gates") or "position" ("8 positions").
-    private func countMenu(counts: [Int], selection: Binding<Int?>, unit: String) -> some View {
+    private func countMenu(counts: [Int], selection: Binding<Int?>, unit: String,
+                           all: String = "All counts") -> some View {
         func label(_ count: Int) -> String {
             count == 1 ? "1 \(unit)" : "\(count) \(unit)s"
         }
         return Menu {
-            Button("All counts") {
+            Button(all) {
                 selection.wrappedValue = nil
             }
             Divider()
@@ -286,7 +268,7 @@ struct ChipDrawerView: View, Equatable {
                 }
             }
         } label: {
-            Text(selection.wrappedValue.map(label) ?? "All counts")
+            Text(selection.wrappedValue.map(label) ?? all)
                 .font(.caption)
         }
         .menuStyle(.borderlessButton)
@@ -305,13 +287,26 @@ struct ChipDrawerView: View, Equatable {
                 partRow(entry)
             }
         } label: {
+            functionHeader(function)
+        }
+        .disclosureGroupStyle(DrawerDisclosureStyle())
+    }
+
+    /// An ADC or DAC group carries Bits and Channels menus.
+    @ViewBuilder
+    private func functionHeader(_ function: PartCatalogStore.FunctionGroup) -> some View {
+        HStack {
             Text(function.function)
                 .font(.body.weight(.medium))
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    toggle(key, defaultOpen: false)
-                }
+            Spacer()
+            if let type = catalog.converterType(of: function.parts) {
+                let bits = $filter.converterBits[type]
+                let channels = $filter.converterChannels[type]
+                countMenu(counts: catalog.converterBits(type: type, channels: channels.wrappedValue),
+                          selection: bits, unit: "bit", all: "All bits")
+                countMenu(counts: catalog.converterChannels(type: type, bits: bits.wrappedValue),
+                          selection: channels, unit: "channel", all: "All channels")
+            }
         }
     }
 
@@ -329,6 +324,11 @@ struct ChipDrawerView: View, Equatable {
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
+        .padding(.vertical, 4)
+        .padding(.leading, DrawerDisclosureStyle.indent)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .overlay(alignment: .bottom) { Divider() }
+        .contentShape(Rectangle())
         .draggable(ChipPartDragItem(partNumber: part.name))
     }
 
@@ -357,13 +357,6 @@ struct ChipDrawerView: View, Equatable {
     /// `path` is the category, or "category/subcategory".
     private func functionKey(_ path: String, _ function: String) -> String {
         "function:\(path)/\(function)"
-    }
-
-    /// Opens or closes a group when its label is clicked, like its chevron.
-    private func toggle(_ key: String, defaultOpen: Bool) {
-        withAnimation(.easeInOut(duration: 0.15)) {
-            toggled[drawerOpen: key, defaultOpen: defaultOpen].toggle()
-        }
     }
 
     /// Derived from `$toggled` rather than built from get/set closures:
@@ -424,6 +417,48 @@ struct ChipDrawerView: View, Equatable {
         .padding(.vertical, 6)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(.bar)
+    }
+}
+
+/// The drawer's groups, laid out like the outline list they replaced: a
+/// chevron and the label on one row with a rule under it, and the open
+/// content indented below.
+private struct DrawerDisclosureStyle: DisclosureGroupStyle {
+    /// How far each level is indented, the chevron's column.
+    static let indent: CGFloat = 16
+
+    func makeBody(configuration: Configuration) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(spacing: 4) {
+                Image(systemName: "chevron.right")
+                    .font(.caption.weight(.bold))
+                    .foregroundStyle(.secondary)
+                    .rotationEffect(.degrees(configuration.isExpanded ? 90 : 0))
+                    .frame(width: Self.indent - 4)
+                configuration.label
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            // A click anywhere on the row, chevron or label, opens or closes
+            // the group; menus in the label keep their own clicks. It goes
+            // through the group's binding: setting the drawer's state
+            // directly left groups built while scrolling unchanged.
+            .contentShape(Rectangle())
+            .onTapGesture {
+                withAnimation(.easeInOut(duration: 0.15)) {
+                    configuration.isExpanded.toggle()
+                }
+            }
+            .frame(minHeight: 22)
+            .padding(.vertical, 4)
+            .overlay(alignment: .bottom) { Divider() }
+
+            if configuration.isExpanded {
+                VStack(alignment: .leading, spacing: 0) {
+                    configuration.content
+                }
+                .padding(.leading, Self.indent)
+            }
+        }
     }
 }
 

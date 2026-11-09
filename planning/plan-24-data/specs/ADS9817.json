@@ -1,0 +1,1618 @@
+{
+ "device": {
+  "id": "ADS9817",
+  "function": "ADC",
+  "description": "18-bit 2 MSPS/channel 8-channel dual simultaneous-sampling SAR DAQ with programmable +-2.5 V to +-12 V analog front end, CMOS serial data lanes and SPI configuration",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads9817.pdf (SBASA81C) p.3-4 Table 4-1 pin functions, p.6 recommended operating conditions (IOVDD 1.15-1.85 V), p.10 timing requirements (SMPL_CLK 3.9-8.1 MHz, configuration SPI: SDI captured on SCLK rising edges, 20 MHz), p.11 switching characteristics and Figure 5-1 (SDO valid 16 ns after the SCLK falling edge, active only for register reads), p.25 6.3.2 transfer function (straight binary or two's complement by DATA_FORMAT), p.27-28 6.3.6 data interface (18-bit result MSB first in a 24-bit packet, last six bits zero, D[3:0] lanes, DCLKOUT, FCLKOUT = SMPL_CLK / 4), p.31 power-down / reset / initialization, p.32-33 6.5.1 register write and 6.5.2 register read (24-bit frames, REG_BANK_SEL, SPI_RD_EN / SPI_MODE), p.37-55 register banks 0, 1, 2",
+  "pinouts": {
+   "rsh56": [
+    {
+     "number": 1,
+     "name": "AIN2P",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AIN2M",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "AIN3P",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "AIN3M",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AIN4P",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "AIN4M",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 8,
+     "name": "REFM",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "AIN5P",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "AIN5M",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "AIN6P",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "AIN6M",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "AIN7P",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "AIN7M",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "AVDD_5V",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "AIN8P",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "AIN8M",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "REFM",
+     "role": "ground"
+    },
+    {
+     "number": 19,
+     "name": "REFOUT_2V5",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 21,
+     "name": "VDD_1V8",
+     "role": "power"
+    },
+    {
+     "number": 22,
+     "name": "VDD_1V8",
+     "role": "power"
+    },
+    {
+     "number": 23,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 24,
+     "name": "SPI_EN",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 29,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 30,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 31,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "PWDN",
+     "role": "input"
+    },
+    {
+     "number": 33,
+     "name": "DCLKOUT",
+     "role": "output"
+    },
+    {
+     "number": 34,
+     "name": "D0",
+     "role": "output"
+    },
+    {
+     "number": 35,
+     "name": "D1",
+     "role": "output"
+    },
+    {
+     "number": 36,
+     "name": "D2",
+     "role": "output"
+    },
+    {
+     "number": 37,
+     "name": "D3",
+     "role": "output"
+    },
+    {
+     "number": 38,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 39,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 40,
+     "name": "FCLKOUT",
+     "role": "output"
+    },
+    {
+     "number": 41,
+     "name": "IOVDD",
+     "role": "power"
+    },
+    {
+     "number": 42,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 43,
+     "name": "SMPL_CLKM",
+     "role": "input"
+    },
+    {
+     "number": 44,
+     "name": "SMPL_CLKP",
+     "role": "input"
+    },
+    {
+     "number": 45,
+     "name": "SMPL_SYNC",
+     "role": "input"
+    },
+    {
+     "number": 46,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 47,
+     "name": "VDD_1V8",
+     "role": "power"
+    },
+    {
+     "number": 48,
+     "name": "VDD_1V8",
+     "role": "power"
+    },
+    {
+     "number": 49,
+     "name": "VDD_1V8",
+     "role": "power"
+    },
+    {
+     "number": 50,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 51,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 52,
+     "name": "REFIO",
+     "role": "output"
+    },
+    {
+     "number": 53,
+     "name": "REFM",
+     "role": "ground"
+    },
+    {
+     "number": 54,
+     "name": "AIN1P",
+     "role": "input"
+    },
+    {
+     "number": 55,
+     "name": "AIN1M",
+     "role": "input"
+    },
+    {
+     "number": 56,
+     "name": "AVDD_5V",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 18,
+  "channels": 8,
+  "codeFormat": {
+   "field": "B1_0D.DATA_FORMAT",
+   "values": {
+    "1": "twos",
+    "0": "offset"
+   }
+  },
+  "vcc": [
+   1.15,
+   1.85
+  ],
+  "analog": [
+   "AIN1P",
+   "AIN1M",
+   "AIN2P",
+   "AIN2M",
+   "AIN3P",
+   "AIN3M",
+   "AIN4P",
+   "AIN4M",
+   "AIN5P",
+   "AIN5M",
+   "AIN6P",
+   "AIN6M",
+   "AIN7P",
+   "AIN7M",
+   "AIN8P",
+   "AIN8M",
+   "AVDD_5V",
+   "VDD_1V8",
+   "REFIO",
+   "REFM",
+   "REFOUT_2V5"
+  ],
+  "bus": {
+   "style": "clocked",
+   "clock": {
+    "pin": "SMPL_CLKP",
+    "edge": "rise"
+   },
+   "data": [
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "clockOut": [
+    {
+     "pin": "FCLKOUT",
+     "divide": 4
+    }
+   ]
+  },
+  "configBus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDO",
+   "mode": 0
+  },
+  "timing": {
+   "tOut": 16
+  },
+  "registers": [
+   {
+    "name": "B0_00",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "SPI_MODE",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "SPI_RD_EN",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "RESET",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.37 register 00h, write-only (read back through 06h)"
+   },
+   {
+    "name": "B0_01",
+    "address": 1,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "DAISY_CHAIN_LEN",
+      "bits": [
+       6,
+       2
+      ]
+     }
+    ],
+    "note": "p.38"
+   },
+   {
+    "name": "B0_03",
+    "address": 3,
+    "width": 16,
+    "reset": 2,
+    "fields": [
+     {
+      "name": "REG_BANK_SEL",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.38: 0 = bank 0, 2 = bank 1, 16 = bank 2"
+   },
+   {
+    "name": "B0_04",
+    "address": 4,
+    "width": 16,
+    "reset": 0,
+    "readOnly": 65520,
+    "fields": [
+     {
+      "name": "INIT_1",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.39 (bits 15-4 read-only)"
+   },
+   {
+    "name": "B0_06",
+    "address": 6,
+    "width": 16,
+    "reset": 2,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "REG_00H_READBACK",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "p.39: copy of register 00h for read-back, reset 2h"
+   },
+   {
+    "name": "B1_0D",
+    "space": "bank1",
+    "address": 13,
+    "width": 16,
+    "reset": 8194,
+    "fields": [
+     {
+      "name": "DATA_FORMAT",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "GE_CAL_EN1",
+      "bits": [
+       8,
+       7
+      ]
+     }
+    ],
+    "note": "p.41: DATA_FORMAT 0 straight binary, 1 two's complement"
+   },
+   {
+    "name": "B1_12",
+    "space": "bank1",
+    "address": 18,
+    "width": 16,
+    "reset": 2,
+    "fields": [
+     {
+      "name": "XOR_EN",
+      "bits": [
+       3,
+       3
+      ]
+     }
+    ],
+    "note": "p.41"
+   },
+   {
+    "name": "B1_13",
+    "space": "bank1",
+    "address": 19,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "RAMP_INC_A",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "TP_MODE_CH4_1",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "TP_EN_CH4_1",
+      "bits": [
+       1,
+       1
+      ]
+     }
+    ],
+    "note": "p.42"
+   },
+   {
+    "name": "B1_14",
+    "space": "bank1",
+    "address": 20,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "TP0_A",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "p.42 TP0_A[15:0]"
+   },
+   {
+    "name": "B1_15",
+    "space": "bank1",
+    "address": 21,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "TP1_A",
+      "bits": [
+       15,
+       8
+      ]
+     },
+     {
+      "name": "TP0_A",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.43 TP1_A[7:0], TP0_A[23:16]"
+   },
+   {
+    "name": "B1_16",
+    "space": "bank1",
+    "address": 22,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "TP1_A",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "p.43 TP1_A[23:8]"
+   },
+   {
+    "name": "B1_18",
+    "space": "bank1",
+    "address": 24,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "RAMP_INC_B",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "TP_MODE_CH8_5",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "TP_EN_CH8_5",
+      "bits": [
+       1,
+       1
+      ]
+     }
+    ],
+    "note": "p.44"
+   },
+   {
+    "name": "B1_19",
+    "space": "bank1",
+    "address": 25,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "TP0_B",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "p.44 TP0_B[15:0]"
+   },
+   {
+    "name": "B1_1A",
+    "space": "bank1",
+    "address": 26,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "TP1_B",
+      "bits": [
+       15,
+       8
+      ]
+     },
+     {
+      "name": "TP0_B",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.45 TP1_B[7:0], TP0_B[23:16]"
+   },
+   {
+    "name": "B1_1B",
+    "space": "bank1",
+    "address": 27,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "TP1_B",
+      "bits": [
+       15,
+       0
+      ]
+     }
+    ],
+    "note": "p.45 TP1_B[23:8]"
+   },
+   {
+    "name": "B1_1C",
+    "space": "bank1",
+    "address": 28,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "USER_BITS_CH8_5",
+      "bits": [
+       15,
+       8
+      ]
+     },
+     {
+      "name": "USER_BITS_CH4_1",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ],
+    "note": "p.45-46 register 1Ch (field table: bits 15-8 and 7-0)"
+   },
+   {
+    "name": "B1_33",
+    "space": "bank1",
+    "address": 51,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GE_CAL_EN3",
+      "bits": [
+       13,
+       13
+      ]
+     },
+     {
+      "name": "GE_CAL_EN2",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "INIT_KEY",
+      "bits": [
+       5,
+       4
+      ]
+     }
+    ],
+    "note": "p.46"
+   },
+   {
+    "name": "B1_34",
+    "space": "bank1",
+    "address": 52,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GE_CAL_EN4",
+      "bits": [
+       4,
+       4
+      ]
+     }
+    ],
+    "note": "p.47"
+   },
+   {
+    "name": "B1_C0",
+    "space": "bank1",
+    "address": 192,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "ANA_BW",
+      "bits": [
+       9,
+       2
+      ]
+     },
+     {
+      "name": "PD_CH",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ],
+    "note": "p.47-48"
+   },
+   {
+    "name": "B1_C1",
+    "space": "bank1",
+    "address": 193,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PD_REF",
+      "bits": [
+       11,
+       11
+      ]
+     },
+     {
+      "name": "DATA_LANES",
+      "bits": [
+       9,
+       9
+      ]
+     },
+     {
+      "name": "DATA_RATE",
+      "bits": [
+       8,
+       8
+      ]
+     }
+    ],
+    "note": "p.48"
+   },
+   {
+    "name": "B1_C2",
+    "space": "bank1",
+    "address": 194,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "RANGE_CH4",
+      "bits": [
+       15,
+       12
+      ]
+     },
+     {
+      "name": "RANGE_CH3",
+      "bits": [
+       11,
+       8
+      ]
+     },
+     {
+      "name": "RANGE_CH2",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "RANGE_CH1",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.49"
+   },
+   {
+    "name": "B1_C3",
+    "space": "bank1",
+    "address": 195,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "RANGE_CH8",
+      "bits": [
+       15,
+       12
+      ]
+     },
+     {
+      "name": "RANGE_CH7",
+      "bits": [
+       11,
+       8
+      ]
+     },
+     {
+      "name": "RANGE_CH6",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "RANGE_CH5",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "p.50"
+   },
+   {
+    "name": "B1_C4",
+    "space": "bank1",
+    "address": 196,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "CM_RNG_CH8_5",
+      "bits": [
+       9,
+       8
+      ]
+     },
+     {
+      "name": "CM_RNG_CH4_1",
+      "bits": [
+       7,
+       6
+      ]
+     },
+     {
+      "name": "CM_EN_CH8_5",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "CM_EN_CH4_1",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "PD_CHIP",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.51"
+   },
+   {
+    "name": "B1_C5",
+    "space": "bank1",
+    "address": 197,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "CM_CTRL_EN",
+      "bits": [
+       4,
+       4
+      ]
+     }
+    ],
+    "note": "p.52"
+   },
+   {
+    "name": "B1_F4",
+    "space": "bank1",
+    "address": 244,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "INIT",
+      "bits": [
+       1,
+       1
+      ]
+     }
+    ],
+    "note": "p.52-53"
+   },
+   {
+    "name": "B1_F6",
+    "space": "bank1",
+    "address": 246,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "INIT_2",
+      "bits": [
+       1,
+       1
+      ]
+     }
+    ],
+    "note": "p.53"
+   },
+   {
+    "name": "B2_0A",
+    "space": "bank2",
+    "address": 10,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "INIT_5",
+      "bits": [
+       14,
+       14
+      ]
+     }
+    ],
+    "note": "p.54"
+   },
+   {
+    "name": "B2_12",
+    "space": "bank2",
+    "address": 18,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "INIT_3",
+      "bits": [
+       6,
+       6
+      ]
+     }
+    ],
+    "note": "p.54-55"
+   },
+   {
+    "name": "B2_13",
+    "space": "bank2",
+    "address": 19,
+    "width": 16,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "INIT_4",
+      "bits": [
+       15,
+       15
+      ]
+     }
+    ],
+    "note": "p.55"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "Write 00h with RESET = 1",
+     "in": "00000000 x{15} 1",
+     "action": "reset",
+     "commit": "end",
+     "note": "p.31 6.4.2, p.37: RESET = 1 resets the ADC and all registers (address 00h writes are accepted in read mode too: Figure 6-11 frame 4)"
+    },
+    {
+     "name": "Write 00h",
+     "in": "00000000 dddddddddddddddd",
+     "action": "write",
+     "address": 0,
+     "data": "d",
+     "set": {
+      "B0_06.REG_00H_READBACK": "d"
+     },
+     "commit": "end",
+     "note": "p.37-39: write-only register 00h; 06h holds a copy for read-back"
+    },
+    {
+     "name": "Write 01h (bank 0)",
+     "in": "00000001 dddddddddddddddd",
+     "action": "write",
+     "address": 1,
+     "data": "d",
+     "commit": "end",
+     "when": "B0_00.SPI_RD_EN=0",
+     "note": "p.32 6.5.1: bank-0 registers are accessible whatever REG_BANK_SEL selects"
+    },
+    {
+     "name": "Write 03h (bank 0)",
+     "in": "00000011 dddddddddddddddd",
+     "action": "write",
+     "address": 3,
+     "data": "d",
+     "commit": "end",
+     "when": "B0_00.SPI_RD_EN=0",
+     "note": "p.32 6.5.1: bank-0 registers are accessible whatever REG_BANK_SEL selects"
+    },
+    {
+     "name": "Write 04h (bank 0)",
+     "in": "00000100 dddddddddddddddd",
+     "action": "write",
+     "address": 4,
+     "data": "d",
+     "commit": "end",
+     "when": "B0_00.SPI_RD_EN=0",
+     "note": "p.32 6.5.1: bank-0 registers are accessible whatever REG_BANK_SEL selects"
+    },
+    {
+     "name": "Write 06h (bank 0)",
+     "in": "00000110 dddddddddddddddd",
+     "action": "write",
+     "address": 6,
+     "data": "d",
+     "commit": "end",
+     "when": "B0_00.SPI_RD_EN=0",
+     "note": "p.32 6.5.1: bank-0 registers are accessible whatever REG_BANK_SEL selects"
+    },
+    {
+     "name": "Write (bank1)",
+     "in": "aaaaaaaa dddddddddddddddd",
+     "action": "write",
+     "address": "a",
+     "space": "bank1",
+     "data": "d",
+     "commit": "end",
+     "when": [
+      "B0_00.SPI_RD_EN=0",
+      "B0_03.REG_BANK_SEL=2"
+     ],
+     "note": "p.32-33 6.5.1, Figure 6-10: 24-bit frame {addr[23:16], data[15:0]}"
+    },
+    {
+     "name": "Write (bank2)",
+     "in": "aaaaaaaa dddddddddddddddd",
+     "action": "write",
+     "address": "a",
+     "space": "bank2",
+     "data": "d",
+     "commit": "end",
+     "when": [
+      "B0_00.SPI_RD_EN=0",
+      "B0_03.REG_BANK_SEL=16"
+     ],
+     "note": "p.32-33 6.5.1, Figure 6-10: 24-bit frame {addr[23:16], data[15:0]}"
+    },
+    {
+     "name": "Write 01h (bank 0)",
+     "in": "00000001 dddddddddddddddd",
+     "action": "write",
+     "address": 1,
+     "data": "d",
+     "commit": "end",
+     "when": "B0_00.SPI_MODE=0",
+     "note": "p.32 6.5.1: bank-0 registers are accessible whatever REG_BANK_SEL selects"
+    },
+    {
+     "name": "Write 03h (bank 0)",
+     "in": "00000011 dddddddddddddddd",
+     "action": "write",
+     "address": 3,
+     "data": "d",
+     "commit": "end",
+     "when": "B0_00.SPI_MODE=0",
+     "note": "p.32 6.5.1: bank-0 registers are accessible whatever REG_BANK_SEL selects"
+    },
+    {
+     "name": "Write 04h (bank 0)",
+     "in": "00000100 dddddddddddddddd",
+     "action": "write",
+     "address": 4,
+     "data": "d",
+     "commit": "end",
+     "when": "B0_00.SPI_MODE=0",
+     "note": "p.32 6.5.1: bank-0 registers are accessible whatever REG_BANK_SEL selects"
+    },
+    {
+     "name": "Write 06h (bank 0)",
+     "in": "00000110 dddddddddddddddd",
+     "action": "write",
+     "address": 6,
+     "data": "d",
+     "commit": "end",
+     "when": "B0_00.SPI_MODE=0",
+     "note": "p.32 6.5.1: bank-0 registers are accessible whatever REG_BANK_SEL selects"
+    },
+    {
+     "name": "Write (bank1)",
+     "in": "aaaaaaaa dddddddddddddddd",
+     "action": "write",
+     "address": "a",
+     "space": "bank1",
+     "data": "d",
+     "commit": "end",
+     "when": [
+      "B0_00.SPI_MODE=0",
+      "B0_03.REG_BANK_SEL=2"
+     ],
+     "note": "p.32-33 6.5.1, Figure 6-10: 24-bit frame {addr[23:16], data[15:0]}"
+    },
+    {
+     "name": "Write (bank2)",
+     "in": "aaaaaaaa dddddddddddddddd",
+     "action": "write",
+     "address": "a",
+     "space": "bank2",
+     "data": "d",
+     "commit": "end",
+     "when": [
+      "B0_00.SPI_MODE=0",
+      "B0_03.REG_BANK_SEL=16"
+     ],
+     "note": "p.32-33 6.5.1, Figure 6-10: 24-bit frame {addr[23:16], data[15:0]}"
+    },
+    {
+     "name": "Read 01h (bank 0)",
+     "in": "00000001",
+     "action": "rreg",
+     "address": 1,
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1"
+     ],
+     "note": "p.33 6.5.2, Figure 6-11: SDO drives the 16-bit register value after the 8th SCLK"
+    },
+    {
+     "name": "Read 03h (bank 0)",
+     "in": "00000011",
+     "action": "rreg",
+     "address": 3,
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1"
+     ],
+     "note": "p.33 6.5.2, Figure 6-11: SDO drives the 16-bit register value after the 8th SCLK"
+    },
+    {
+     "name": "Read 04h (bank 0)",
+     "in": "00000100",
+     "action": "rreg",
+     "address": 4,
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1"
+     ],
+     "note": "p.33 6.5.2, Figure 6-11: SDO drives the 16-bit register value after the 8th SCLK"
+    },
+    {
+     "name": "Read 06h (bank 0)",
+     "in": "00000110",
+     "action": "rreg",
+     "address": 6,
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1"
+     ],
+     "note": "p.33 6.5.2, Figure 6-11: SDO drives the 16-bit register value after the 8th SCLK"
+    },
+    {
+     "name": "Read 0Dh (bank1)",
+     "in": "00001101",
+     "action": "rreg",
+     "address": 13,
+     "space": "bank1",
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1",
+      "B0_03.REG_BANK_SEL=2"
+     ],
+     "note": "p.33 6.5.2"
+    },
+    {
+     "name": "Read 12h (bank1)",
+     "in": "00010010",
+     "action": "rreg",
+     "address": 18,
+     "space": "bank1",
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1",
+      "B0_03.REG_BANK_SEL=2"
+     ],
+     "note": "p.33 6.5.2"
+    },
+    {
+     "name": "Read 13h (bank1)",
+     "in": "00010011",
+     "action": "rreg",
+     "address": 19,
+     "space": "bank1",
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1",
+      "B0_03.REG_BANK_SEL=2"
+     ],
+     "note": "p.33 6.5.2"
+    },
+    {
+     "name": "Read 14h (bank1)",
+     "in": "00010100",
+     "action": "rreg",
+     "address": 20,
+     "space": "bank1",
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1",
+      "B0_03.REG_BANK_SEL=2"
+     ],
+     "note": "p.33 6.5.2"
+    },
+    {
+     "name": "Read 15h (bank1)",
+     "in": "00010101",
+     "action": "rreg",
+     "address": 21,
+     "space": "bank1",
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1",
+      "B0_03.REG_BANK_SEL=2"
+     ],
+     "note": "p.33 6.5.2"
+    },
+    {
+     "name": "Read 16h (bank1)",
+     "in": "00010110",
+     "action": "rreg",
+     "address": 22,
+     "space": "bank1",
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1",
+      "B0_03.REG_BANK_SEL=2"
+     ],
+     "note": "p.33 6.5.2"
+    },
+    {
+     "name": "Read 18h (bank1)",
+     "in": "00011000",
+     "action": "rreg",
+     "address": 24,
+     "space": "bank1",
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1",
+      "B0_03.REG_BANK_SEL=2"
+     ],
+     "note": "p.33 6.5.2"
+    },
+    {
+     "name": "Read 19h (bank1)",
+     "in": "00011001",
+     "action": "rreg",
+     "address": 25,
+     "space": "bank1",
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1",
+      "B0_03.REG_BANK_SEL=2"
+     ],
+     "note": "p.33 6.5.2"
+    },
+    {
+     "name": "Read 1Ah (bank1)",
+     "in": "00011010",
+     "action": "rreg",
+     "address": 26,
+     "space": "bank1",
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1",
+      "B0_03.REG_BANK_SEL=2"
+     ],
+     "note": "p.33 6.5.2"
+    },
+    {
+     "name": "Read 1Bh (bank1)",
+     "in": "00011011",
+     "action": "rreg",
+     "address": 27,
+     "space": "bank1",
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1",
+      "B0_03.REG_BANK_SEL=2"
+     ],
+     "note": "p.33 6.5.2"
+    },
+    {
+     "name": "Read 1Ch (bank1)",
+     "in": "00011100",
+     "action": "rreg",
+     "address": 28,
+     "space": "bank1",
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1",
+      "B0_03.REG_BANK_SEL=2"
+     ],
+     "note": "p.33 6.5.2"
+    },
+    {
+     "name": "Read 33h (bank1)",
+     "in": "00110011",
+     "action": "rreg",
+     "address": 51,
+     "space": "bank1",
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1",
+      "B0_03.REG_BANK_SEL=2"
+     ],
+     "note": "p.33 6.5.2"
+    },
+    {
+     "name": "Read 34h (bank1)",
+     "in": "00110100",
+     "action": "rreg",
+     "address": 52,
+     "space": "bank1",
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1",
+      "B0_03.REG_BANK_SEL=2"
+     ],
+     "note": "p.33 6.5.2"
+    },
+    {
+     "name": "Read C0h (bank1)",
+     "in": "11000000",
+     "action": "rreg",
+     "address": 192,
+     "space": "bank1",
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1",
+      "B0_03.REG_BANK_SEL=2"
+     ],
+     "note": "p.33 6.5.2"
+    },
+    {
+     "name": "Read C1h (bank1)",
+     "in": "11000001",
+     "action": "rreg",
+     "address": 193,
+     "space": "bank1",
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1",
+      "B0_03.REG_BANK_SEL=2"
+     ],
+     "note": "p.33 6.5.2"
+    },
+    {
+     "name": "Read C2h (bank1)",
+     "in": "11000010",
+     "action": "rreg",
+     "address": 194,
+     "space": "bank1",
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1",
+      "B0_03.REG_BANK_SEL=2"
+     ],
+     "note": "p.33 6.5.2"
+    },
+    {
+     "name": "Read C3h (bank1)",
+     "in": "11000011",
+     "action": "rreg",
+     "address": 195,
+     "space": "bank1",
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1",
+      "B0_03.REG_BANK_SEL=2"
+     ],
+     "note": "p.33 6.5.2"
+    },
+    {
+     "name": "Read C4h (bank1)",
+     "in": "11000100",
+     "action": "rreg",
+     "address": 196,
+     "space": "bank1",
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1",
+      "B0_03.REG_BANK_SEL=2"
+     ],
+     "note": "p.33 6.5.2"
+    },
+    {
+     "name": "Read C5h (bank1)",
+     "in": "11000101",
+     "action": "rreg",
+     "address": 197,
+     "space": "bank1",
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1",
+      "B0_03.REG_BANK_SEL=2"
+     ],
+     "note": "p.33 6.5.2"
+    },
+    {
+     "name": "Read F4h (bank1)",
+     "in": "11110100",
+     "action": "rreg",
+     "address": 244,
+     "space": "bank1",
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1",
+      "B0_03.REG_BANK_SEL=2"
+     ],
+     "note": "p.33 6.5.2"
+    },
+    {
+     "name": "Read F6h (bank1)",
+     "in": "11110110",
+     "action": "rreg",
+     "address": 246,
+     "space": "bank1",
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1",
+      "B0_03.REG_BANK_SEL=2"
+     ],
+     "note": "p.33 6.5.2"
+    },
+    {
+     "name": "Read 0Ah (bank2)",
+     "in": "00001010",
+     "action": "rreg",
+     "address": 10,
+     "space": "bank2",
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1",
+      "B0_03.REG_BANK_SEL=16"
+     ],
+     "note": "p.33 6.5.2"
+    },
+    {
+     "name": "Read 12h (bank2)",
+     "in": "00010010",
+     "action": "rreg",
+     "address": 18,
+     "space": "bank2",
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1",
+      "B0_03.REG_BANK_SEL=16"
+     ],
+     "note": "p.33 6.5.2"
+    },
+    {
+     "name": "Read 13h (bank2)",
+     "in": "00010011",
+     "action": "rreg",
+     "address": 19,
+     "space": "bank2",
+     "reply": "@",
+     "when": [
+      "B0_00.SPI_RD_EN=1",
+      "B0_00.SPI_MODE=1",
+      "B0_03.REG_BANK_SEL=16"
+     ],
+     "note": "p.33 6.5.2"
+    }
+   ],
+   "read": "R{18} 0{6}"
+  },
+  "pins": {
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   },
+   "powerdown": {
+    "pin": "PWDN",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "RSH": {
+   "pinout": "rsh56",
+   "footprint": "VQFN-56-RSH",
+   "package": "VQFN",
+   "pins": 56
+  }
+ },
+ "pdf": "ads9817.pdf",
+ "pages": "p.3-4 (pin functions), p.6 (ROC), p.10-11 (timing, switching characteristics, Figure 5-1), p.25 (transfer function), p.27-30 (sample sync, data interface, test patterns), p.31-32 (power-down, reset, initialization), p.32-33 (register write / read), p.34-36 (daisy chain), p.37-55 (register map)",
+ "notModeled": [
+  "DATA INTERFACE CLOCK: the source-synchronous data clock DCLKOUT runs at 6x / 12x SMPL_CLK (24 bits x 8 channels / lanes / SDR-DDR per 4 SMPL_CLK periods, p.28 Equation 3); the schema's clockOut can only follow or divide the input clock, so DCLKOUT is not driven. Only FCLKOUT = SMPL_CLK / 4 is modeled",
+  "data lanes: the model drives the 24-bit packets (18-bit result then six zeros) four bits per SMPL_CLK rising edge on D3..D0; the real lane assignment (4-lane: CH1-4 on D3/D2, CH5-8 on D1/D0; 2-lane: D3 and D1), SDR / DDR (DATA_RATE, DATA_LANES) and frame alignment to FCLKOUT (SMPL_SYNC) are not modeled; tOut uses the configuration SDO delay (16 ns), the data lanes are source-synchronous",
+  "analog front end (PGA ranges RANGE_CHx, bandwidth ANA_BW, common-mode control, gain-error calibration, references): the result is always the 0 V code (0 two's complement, 20000h straight binary)",
+  "output randomizer (XOR_EN), test patterns (TP_EN / TP_MODE fixed, ramp, alternating; TP0 / TP1), USER_BITS: stored only",
+  "initialization sequence (Table 6-10: INIT_KEY, INIT, INIT_1..INIT_5 and the waits) is not required by the model; register fields are stored only",
+  "SPI_EN low turns SDI into the EXTREF strap and disables the configuration port; the model always treats the port as enabled",
+  "daisy-chain configuration (SPI_MODE = 0, DAISY_CHAIN_LEN, p.34-36): the model decodes every frame as a single device; SDO is driven 0 outside reads (the device drives 0 with SPI_MODE = 0 and Hi-Z with SPI_MODE = 1)",
+  "register read in legacy mode needs SPI_RD_EN = 1 and SPI_MODE = 1; in that mode each 24-bit frame reads the addressed register in the selected bank (bank-0 addresses always), except address 00h which is still written (Figure 6-11 frame 4). Reads are listed per documented address; an undocumented address returns nothing",
+  "register 00h is write-only; 06h (REG_00H_READBACK) is loaded with the value written to 00h by the write command (reset value 2h as documented)",
+  "reserved bits are stored as written (\"do not change from the default\"); 04h bits 15-4 are read-only per the figure",
+  "power-down: PWDN low or PD_CH = 11b / PD_CHIP; RESET pin low (registers to default); tPU 25 ms power-up, 5 us after reset",
+  "SMPL_CLKM (differential sampling clock negative input) is ignored; single-ended SMPL_CLKP is the clock"
+ ],
+ "variants": "ADS9815 (2 MSPS total, fSMPL_CLK 4 MHz) and ADS9817 (fSMPL_CLK 8 MHz) share the datasheet and pinout",
+ "parts": [
+  [
+   "ADS9817RSHT",
+   "RSH",
+   56,
+   "Active"
+  ]
+ ]
+}

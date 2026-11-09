@@ -1,0 +1,979 @@
+{
+ "device": {
+  "id": "ADS1261",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "24-bit 40 kSPS 10-input delta-sigma ADC with PGA (1-128), 2.5 V reference, IDACs, GPIOs and SPI interface",
+  "note": "ads1261.pdf (SBAS760C) p.4 device comparison, p.4-5 pin configuration and functions, p.7 recommended operating conditions (DVDD 2.7-5.25 V), p.10 digital characteristics, p.11 timing requirements, p.12 switching characteristics (tp(CSDO) 50 ns, tp(SCDO1) 40 ns, tp(CSDOZ) 50 ns), p.43-44 conversion control and latency (Table 8), p.50 serial interface (SPI mode 1), p.51 DRDY, p.52 conversion data format, CRC, p.53-58 commands (Table 16-28), p.58-67 register map (Table 29-44); ads1260-q1.pdf (SBAS784A) same pinout, registers and commands for the -Q1 parts and the RHM package",
+  "pinouts": {
+   "vqfn32": [
+    {
+     "number": 1,
+     "name": "AINCOM",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "CAPP",
+     "role": "nc"
+    },
+    {
+     "number": 3,
+     "name": "CAPN",
+     "role": "nc"
+    },
+    {
+     "number": 4,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "AVSS",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "PWDN",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "START",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "DRDY",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "DOUT/DRDY",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "BYPASS",
+     "role": "nc"
+    },
+    {
+     "number": 16,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 17,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 18,
+     "name": "CLKIN",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 20,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 21,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 22,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 23,
+     "name": "AIN9",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "AIN8",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "AIN7",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "AIN6",
+     "role": "input"
+    },
+    {
+     "number": 27,
+     "name": "AIN5",
+     "role": "input"
+    },
+    {
+     "number": 28,
+     "name": "AIN4",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "AIN3",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "AIN2",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "AIN1",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "AIN0",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 24,
+  "channels": 10,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "AINCOM",
+   "CAPP",
+   "CAPN",
+   "AVDD",
+   "AVSS",
+   "REFOUT",
+   "BYPASS",
+   "AIN9",
+   "AIN8",
+   "AIN7",
+   "AIN6",
+   "AIN5",
+   "AIN4",
+   "AIN3",
+   "AIN2",
+   "AIN1",
+   "AIN0"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "miso": "DOUT/DRDY",
+   "mode": 1
+  },
+  "timing": {
+   "tValid": 50,
+   "tOut": 40,
+   "tFloat": 50
+  },
+  "registers": [
+   {
+    "name": "ID",
+    "address": 0,
+    "width": 8,
+    "reset": 128,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "DEV_ID",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "REV_ID",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "reset xxh: DEV_ID 1000b (Table 30); REV_ID not given (0 here)"
+   },
+   {
+    "name": "STATUS",
+    "address": 1,
+    "width": 8,
+    "reset": 1,
+    "readOnly": 190,
+    "fields": [
+     {
+      "name": "LOCK",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CRCERR",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "PGAL_ALM",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "PGAH_ALM",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "REFL_ALM",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "DRDY",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "CLOCK",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "RESET",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "CLOCK reset x (clock source detected): 0 here"
+   },
+   {
+    "name": "MODE0",
+    "address": 2,
+    "width": 8,
+    "reset": 36,
+    "fields": [
+     {
+      "name": "DR",
+      "bits": [
+       7,
+       3
+      ]
+     },
+     {
+      "name": "FILTER",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "MODE1",
+    "address": 3,
+    "width": 8,
+    "reset": 1,
+    "fields": [
+     {
+      "name": "CHOP",
+      "bits": [
+       6,
+       5
+      ]
+     },
+     {
+      "name": "CONVRT",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "DELAY",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "MODE2",
+    "address": 4,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "GPIO_CON",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "GPIO_DIR",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ],
+    "note": "GPIOs on the ADS1261 only"
+   },
+   {
+    "name": "MODE3",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "PWDN",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "STATENB",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "CRCENB",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "SPITIM",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "GPIO_DAT",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "REF",
+    "address": 6,
+    "width": 8,
+    "reset": 5,
+    "fields": [
+     {
+      "name": "REFENB",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "RMUXP",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "RMUXN",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OFCAL0",
+    "address": 7,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "OFCAL1",
+    "address": 8,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "OFCAL2",
+    "address": 9,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "FSCAL0",
+    "address": 10,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "FSCAL1",
+    "address": 11,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "FSCAL2",
+    "address": 12,
+    "width": 8,
+    "reset": 64
+   },
+   {
+    "name": "IMUX",
+    "address": 13,
+    "width": 8,
+    "reset": 255,
+    "fields": [
+     {
+      "name": "IMUX2",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "IMUX1",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "IMAG",
+    "address": 14,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "IMAG2",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "IMAG1",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "RESERVED_0F",
+    "address": 15,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "PGA",
+    "address": 16,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "BYPASS",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "GAIN",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "INPMUX",
+    "address": 17,
+    "width": 8,
+    "reset": 255,
+    "fields": [
+     {
+      "name": "MUXP",
+      "bits": [
+       7,
+       4
+      ]
+     },
+     {
+      "name": "MUXN",
+      "bits": [
+       3,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "INPBIAS",
+    "address": 18,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "VBIAS",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "BOCSP",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "BOCS",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "out": "1{8}",
+   "idle": "1",
+   "commands": [
+    {
+     "name": "NOP",
+     "in": "00000000",
+     "note": "echo byte 1 (00h) not output: a NOP reply would cut off the data of a preceding RDATA/RREG whose padding bytes are 00h"
+    },
+    {
+     "name": "RESET",
+     "in": "00000110",
+     "reply": "00000110",
+     "action": "reset"
+    },
+    {
+     "name": "START",
+     "in": "00001000",
+     "reply": "00001000",
+     "action": "start"
+    },
+    {
+     "name": "STOP",
+     "in": "00001010",
+     "reply": "00001010",
+     "action": "stop"
+    },
+    {
+     "name": "RDATA",
+     "in": "00010010",
+     "reply": "00010010 R{24}"
+    },
+    {
+     "name": "SYOCAL",
+     "in": "00010110",
+     "reply": "00010110",
+     "note": "calibration not modeled"
+    },
+    {
+     "name": "GANCAL",
+     "in": "00010111",
+     "reply": "00010111",
+     "note": "calibration not modeled"
+    },
+    {
+     "name": "SFOCAL",
+     "in": "00011001",
+     "reply": "00011001",
+     "note": "calibration not modeled"
+    },
+    {
+     "name": "RREG",
+     "in": "001aaaaa",
+     "action": "rreg",
+     "address": "a",
+     "reply": "001aaaaa @"
+    },
+    {
+     "name": "WREG",
+     "in": "010aaaaa",
+     "action": "wreg",
+     "address": "a",
+     "reply": "010aaaaa"
+    },
+    {
+     "name": "LOCK",
+     "in": "11110010",
+     "reply": "11110010",
+     "set": {
+      "STATUS.LOCK": 1
+     }
+    },
+    {
+     "name": "UNLOCK",
+     "in": "11110101",
+     "reply": "11110101",
+     "set": {
+      "STATUS.LOCK": 0
+     }
+    }
+   ]
+  },
+  "conversion": {
+   "time": {
+    "fields": [
+     "MODE0.FILTER",
+     "MODE0.DR"
+    ],
+    "values": {
+     "4,0": 402200000,
+     "4,1": 202200000,
+     "4,2": 102200000,
+     "4,4": 52230000,
+     "0,0": 400400000,
+     "0,1": 200400000,
+     "0,2": 100400000,
+     "0,3": 60430000,
+     "0,4": 50430000,
+     "0,5": 20430000,
+     "0,6": 17090000,
+     "0,7": 10430000,
+     "0,8": 2925000,
+     "0,9": 1258000,
+     "0,10": 841000,
+     "0,11": 633000,
+     "0,12": 564000,
+     "1,0": 800400000,
+     "1,1": 400400000,
+     "1,2": 200400000,
+     "1,3": 120400000,
+     "1,4": 100400000,
+     "1,5": 40430000,
+     "1,6": 33760000,
+     "1,7": 20430000,
+     "1,8": 5425000,
+     "1,9": 2091000,
+     "1,10": 1258000,
+     "1,11": 841000,
+     "1,12": 702000,
+     "2,0": 1200000000,
+     "2,1": 600400000,
+     "2,2": 300400000,
+     "2,3": 180400000,
+     "2,4": 150400000,
+     "2,5": 60430000,
+     "2,6": 50430000,
+     "2,7": 30430000,
+     "2,8": 7925000,
+     "2,9": 2925000,
+     "2,10": 1675000,
+     "2,11": 1050000,
+     "2,12": 841000,
+     "3,0": 1600000000,
+     "3,1": 800400000,
+     "3,2": 400400000,
+     "3,3": 240400000,
+     "3,4": 200400000,
+     "3,5": 80430000,
+     "3,6": 67090000,
+     "3,7": 40430000,
+     "3,8": 10430000,
+     "3,9": 3758000,
+     "3,10": 2091000,
+     "3,11": 1258000,
+     "3,12": 980000,
+     "0,13": 423000,
+     "0,14": 336000,
+     "0,15": 271000,
+     "0,16": 179000,
+     "0,17": 179000,
+     "0,18": 179000,
+     "0,19": 179000,
+     "0,20": 179000,
+     "0,21": 179000,
+     "0,22": 179000,
+     "0,23": 179000,
+     "0,24": 179000,
+     "0,25": 179000,
+     "0,26": 179000,
+     "0,27": 179000,
+     "0,28": 179000,
+     "0,29": 179000,
+     "0,30": 179000,
+     "0,31": 179000,
+     "1,13": 423000,
+     "1,14": 336000,
+     "1,15": 271000,
+     "1,16": 179000,
+     "1,17": 179000,
+     "1,18": 179000,
+     "1,19": 179000,
+     "1,20": 179000,
+     "1,21": 179000,
+     "1,22": 179000,
+     "1,23": 179000,
+     "1,24": 179000,
+     "1,25": 179000,
+     "1,26": 179000,
+     "1,27": 179000,
+     "1,28": 179000,
+     "1,29": 179000,
+     "1,30": 179000,
+     "1,31": 179000,
+     "2,13": 423000,
+     "2,14": 336000,
+     "2,15": 271000,
+     "2,16": 179000,
+     "2,17": 179000,
+     "2,18": 179000,
+     "2,19": 179000,
+     "2,20": 179000,
+     "2,21": 179000,
+     "2,22": 179000,
+     "2,23": 179000,
+     "2,24": 179000,
+     "2,25": 179000,
+     "2,26": 179000,
+     "2,27": 179000,
+     "2,28": 179000,
+     "2,29": 179000,
+     "2,30": 179000,
+     "2,31": 179000,
+     "3,13": 423000,
+     "3,14": 336000,
+     "3,15": 271000,
+     "3,16": 179000,
+     "3,17": 179000,
+     "3,18": 179000,
+     "3,19": 179000,
+     "3,20": 179000,
+     "3,21": 179000,
+     "3,22": 179000,
+     "3,23": 179000,
+     "3,24": 179000,
+     "3,25": 179000,
+     "3,26": 179000,
+     "3,27": 179000,
+     "3,28": 179000,
+     "3,29": 179000,
+     "3,30": 179000,
+     "3,31": 179000,
+     "4,13": 423000,
+     "4,14": 336000,
+     "4,15": 271000,
+     "4,16": 179000,
+     "4,17": 179000,
+     "4,18": 179000,
+     "4,19": 179000,
+     "4,20": 179000,
+     "4,21": 179000,
+     "4,22": 179000,
+     "4,23": 179000,
+     "4,24": 179000,
+     "4,25": 179000,
+     "4,26": 179000,
+     "4,27": 179000,
+     "4,28": 179000,
+     "4,29": 179000,
+     "4,30": 179000,
+     "4,31": 179000
+    }
+   },
+   "start": [
+    "command",
+    "pin"
+   ],
+   "mode": {
+    "field": "MODE1.CONVRT",
+    "continuous": 0,
+    "startOnEnter": false
+   },
+   "done": {
+    "STATUS.DRDY": 1
+   },
+   "onRead": {
+    "STATUS.DRDY": 0
+   },
+   "channel": "INPMUX.MUXP"
+  },
+  "ready": [
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read",
+    "enable": "MODE1.CONVRT=0"
+   },
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "start",
+    "enable": "MODE1.CONVRT=1"
+   },
+   {
+    "pin": "DOUT/DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read",
+    "enable": "MODE1.CONVRT=0",
+    "onMiso": true
+   },
+   {
+    "pin": "DOUT/DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "start",
+    "enable": "MODE1.CONVRT=1",
+    "onMiso": true
+   }
+  ],
+  "pins": {
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   },
+   "start": {
+    "pin": "START",
+    "active": 1
+   },
+   "powerdown": {
+    "pin": "PWDN",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "RHB": {
+   "pinout": "vqfn32",
+   "footprint": "VQFN-32-5X5",
+   "package": "VQFN",
+   "pins": 32
+  },
+  "RHM": {
+   "pinout": "vqfn32",
+   "footprint": "VQFN-32-RHM",
+   "package": "VQFN",
+   "pins": 32
+  }
+ },
+ "pdf": "ads1260-q1.pdf",
+ "pages": "ads1261.pdf (SBAS760C) p.4 device comparison, p.4-5 pin configuration and functions, p.7 recommended operating conditions (DVDD 2.7-5.25 V), p.10 digital characteristics, p.11 timing requirements, p.12 switching characteristics (tp(CSDO) 50 ns, tp(SCDO1) 40 ns, tp(CSDOZ) 50 ns), p.43-44 conversion control and latency (Table 8), p.50 serial interface (SPI mode 1), p.51 DRDY, p.52 conversion data format, CRC, p.53-58 commands (Table 16-28), p.58-67 register map (Table 29-44); ads1260-q1.pdf (SBAS784A) same pinout, registers and commands for the -Q1 parts and the RHM package",
+ "notModeled": [
+  "analog inputs, PGA, PGA bypass, reference mux, IDACs, burn-out current sources, VBIAS, PGA/reference alarms (STATUS alarm bits stay 0)",
+  "conversion time is the Table 8 conversion latency (start-conversion delay 50 us, chop off) for every conversion; continuous conversions after the first run at 1 / fDATA, chop and ac-excitation modes double the latency, and DELAY[3:0] other than 0001 adds to it: not modeled",
+  "commands are decoded after their first byte (the datasheet executes them at the 16th SCLK, and CS rising before byte 2 aborts them); the second byte (arbitrary, or the WREG data) follows",
+  "DOUT/DRDY outputs FFh during byte 1 and the echo of byte 1 during byte 2 (except for NOP, see its note); idle after a reply is 1",
+  "CRC mode (MODE3.CRCENB: CRC-2 input check, echo byte 2, Out CRC bytes, CRCERR) is not modeled",
+  "optional STATUS byte before the conversion data (MODE3.STATENB = 1) is not output",
+  "software power-down (MODE3.PWDN) is stored only; the PWDN pin works",
+  "conversion restart on a write to MODE0, MODE1, REF, PGA, INPMUX or INPBIAS (Table 29 Restart column)",
+  "LOCK sets STATUS.LOCK but register writes are not blocked",
+  "DRDY pulses high 16 fCLK before the next completion in continuous mode when data was not read (tw(DRH)); old/new data race within 16 fCLK of completion",
+  "serial interface auto-reset (MODE3.SPITIM, 65536 fCLK timeout)",
+  "calibration commands SYOCAL, GANCAL, SFOCAL (OFCAL/FSCAL updates) do nothing",
+  "GPIOs on AIN2-AIN5 and ac-excitation (CHOP = 10/11) on the ADS1261 (MODE2/MODE3 GPIO fields stored only)",
+  "external clock on CLKIN (data rates scale with fCLK; the model uses the 7.3728 MHz values, and the 40 kSPS setting DR >= 10000b assumes fCLK = 10.24 MHz)",
+  "RREG of an address outside 00h-12h returns 00h",
+  "FIR filter is only defined for 2.5, 5, 10 and 20 SPS; sinc5 is used for 14.4 kSPS and above whatever FILTER says (Table 8); undefined combinations use the largest time"
+ ],
+ "variants": "ADS1261 and ADS1261B (lower-drift reference grade) and ADS1260 (5 inputs, own spec file) share ads1261.pdf and ads1260-q1.pdf (-Q1 automotive, RHM package). The register set and commands match the ADS1235 (ads1235.pdf) apart from DR[4:0], IMUX/IMAG/INPBIAS and REFENB",
+ "parts": [
+  [
+   "ADS1261BIRHBT",
+   "RHB",
+   32,
+   "Active"
+  ],
+  [
+   "ADS1261BQWRHMRQ1",
+   "RHM",
+   32,
+   "Active"
+  ],
+  [
+   "ADS1261IRHBR",
+   "RHB",
+   32,
+   "Active"
+  ],
+  [
+   "ADS1261IRHBT",
+   "RHB",
+   32,
+   "Active"
+  ]
+ ]
+}

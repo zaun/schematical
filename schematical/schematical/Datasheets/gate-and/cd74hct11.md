@@ -1,0 +1,276 @@
+---
+{
+  "format": "schematical-datasheet",
+  "version": 1,
+  "id": "cd74hct11",
+  "title": "CDx4HCT11 triple 3-input AND gates",
+  "class": "logic",
+  "source": {
+    "pdf": "gate-and/cd74hct11.pdf",
+    "vendor": "Texas Instruments",
+    "document": "SCHS405",
+    "date": "2021-06",
+    "pages": 27
+  },
+  "devices": ["gate:74_11"],
+  "parts": ["5962-8970901CA", "CD54HCT11F", "CD54HCT11F3A", "CD74HCT11E", "CD74HCT11M", "CD74HCT11M96", "CD74HCT11M96E4", "CD74HCT11MT"],
+  "packages": {"p14": "D, N, J"},
+  "converted": "2026-11-08"
+}
+---
+
+# CDx4HCT11 triple 3-input AND gates
+
+## Description
+
+This device contains three independent 3-input AND gates. Each gate
+performs the Boolean function Y = A · B · C in positive logic. Inputs
+are buffered and LSTTL input logic compatible (V~IL(max)~ = 0.8 V,
+V~IH(min)~ = 2 V); outputs support fanout up to 10 LSTTL loads. 4.5 V to
+5.5 V operation; wide operating temperature range: -55°C to +125°C.
+
+## Pinout
+
+```pinout pinout=p14
+```
+
+## Pin functions
+
+```pins
+1A, 2A, 3A: Channel input A
+1B, 2B, 3B: Channel input B
+1C, 2C, 3C: Channel input C
+1Y, 2Y, 3Y: Channel output Y
+GND: Ground
+VCC: Positive supply
+```
+
+## Function tables
+
+```table id=function caption="Function table (each gate)"
+| A | B | C | Y |
+|:-:|:-:|:-:|:-:|
+| H | H | H | H |
+| L | X | X | L |
+| X | L | X | L |
+| X | X | L | L |
+```
+
+## Absolute maximum ratings
+
+```table id=abs-max caption="Absolute maximum ratings [1]" conditions="Over operating free-air temperature range (unless otherwise noted)"
+| Symbol | Parameter | Conditions | Min | Max | Unit |
+|---|---|---|--:|--:|---|
+| V~CC~ | Supply voltage | | -0.5 | 7 | V |
+| I~IK~ | Input clamp current [2] | V~I~ < -0.5 V or V~I~ > V~CC~ + 0.5 V | | ±20 | mA |
+| I~OK~ | Output clamp current [2] | V~O~ < -0.5 V or V~O~ > V~CC~ + 0.5 V | | ±20 | mA |
+| I~O~ | Continuous output current | V~O~ > -0.5 V or V~O~ < V~CC~ + 0.5 V [4] | | ±25 | mA |
+| | Continuous current through V~CC~ or GND | | | ±50 | mA |
+| T~J~ | Junction temperature [3] | Plastic package | | 150 | °C |
+| ^ | ^ | Hermetic package or die | | 175 | °C |
+| | Lead temperature (soldering 10 s) | SOIC - lead tips only | | 300 | °C |
+| T~stg~ | Storage temperature | | -65 | 150 | °C |
+
+[1] Stresses beyond those listed under Absolute Maximum Rating may cause permanent damage to the device. These are stress ratings only, which do not imply functional operation of the device at these or any other conditions beyond those indicated under Recommended Operating Condition. Exposure to absolute-maximum-rated conditions for extended periods may affect device reliability.
+[2] The input and output voltage ratings may be exceeded if the input and output current ratings are observed.
+[3] Guaranteed by design.
+[4] Unconfirmed: the source gives this condition as printed, "V~O~ > –0.5 V or V~O~ < V~CC~ + 0.5 V", which every output voltage meets.
+```
+
+## Recommended operating conditions
+
+```table id=roc caption="Recommended operating conditions" conditions="Over operating free-air temperature range (unless otherwise noted)"
+| Symbol | Parameter | Conditions | Min | Nom | Max | Unit |
+|---|---|---|--:|--:|--:|---|
+| V~CC~ | Supply voltage | | 4.5 | | 5.5 | V |
+| V~IH~ | High-level input voltage | V~CC~ = 4.5 V to 5.5 V | 2 | | | V |
+| V~IL~ | Low-level input voltage | V~CC~ = 4.5 V to 5.5 V | | | 0.8 | V |
+| V~I~ | Input voltage | | 0 | | V~CC~ | V |
+| V~O~ | Output voltage | | 0 | | V~CC~ | V |
+| t~t~ | Input transition time | V~CC~ = 4.5 V | | | 500 | ns |
+| ^ | ^ | V~CC~ = 5.5 V | | | 400 | ns |
+| T~A~ | Operating free-air temperature | | -55 | | 125 | °C |
+```
+
+## Thermal information
+
+```table id=thermal caption="Thermal information (CD74HCT11) [1]"
+| Symbol | Parameter | N (PDIP) | D (SOIC) | Unit |
+|---|---|--:|--:|---|
+| R~θJA~ | Junction-to-ambient thermal resistance | 63.8 | 100.1 | °C/W |
+| R~θJC(top)~ | Junction-to-case (top) thermal resistance | 51.5 | 56.7 | °C/W |
+| R~θJB~ | Junction-to-board thermal resistance | 43.5 | 56.0 | °C/W |
+| Ψ~JT~ | Junction-to-top characterization parameter | 31.1 | 18.2 | °C/W |
+| Ψ~JB~ | Junction-to-board characterization parameter | 43.2 | 55.6 | °C/W |
+
+[1] All packages 14 pins. R~θJC(bot)~ (junction-to-case (bottom) thermal resistance) is N/A for these packages. For more information about traditional and new thermal metrics, see the Semiconductor and IC Package Thermal Metrics application report.
+```
+
+## Electrical characteristics
+
+```table id=ec caption="Electrical characteristics" conditions="Over operating free-air temperature range; typical values measured at T~A~ = 25 °C (unless otherwise noted)"
+| Symbol | Parameter | Test conditions | < | V~CC~ | 25 °C | < | < | –40 °C to 85 °C | < | –55 °C to 125 °C | < | Unit |
+| ^ | ^ | ^ | < | ^ | Min | Typ | Max | Min | Max | Min | Max | ^ |
+|---|---|---|---|---|--:|--:|--:|--:|--:|--:|--:|---|
+| V~OH~ | High-level output voltage | V~I~ = V~IH~ or V~IL~ | I~OH~ = -20 µA | 4.5 V | 4.4 | | | 4.4 | | 4.4 | | V |
+| ^ | ^ | ^ | I~OH~ = -4 mA | 4.5 V | 3.98 | | | 3.84 | | 3.7 | | V |
+| V~OL~ | Low-level output voltage | V~I~ = V~IH~ or V~IL~ | I~OL~ = 20 µA | 4.5 V | | | 0.1 | | 0.1 | | 0.1 | V |
+| ^ | ^ | ^ | I~OL~ = 4 mA | 4.5 V | | | 0.26 | | 0.33 | | 0.4 | V |
+| I~I~ | Input leakage current | V~I~ = V~CC~ and GND | I~O~ = 0 | 5.5 V | | | ±0.1 | | ±1 | | ±1 | µA |
+| I~CC~ | Supply current | V~I~ = V~CC~ or GND | I~O~ = 0 | 5.5 V | | | 2 | | 20 | | 40 | µA |
+| ΔI~CC~ [1] | Additional quiescent device current per input pin | V~I~ = V~CC~ – 2.1 | < | 4.5 V to 5.5 V | | 100 | 360 | | 450 | | 490 | µA |
+| C~i~ | Input capacitance | | < |  | | | 10 | | 10 | | 10 | pF |
+
+[1] For dual-supply systems theoretical worst case (V~I~ = 2.4 V, V~CC~ = 5.5 V) specification is 1.8 mA.
+```
+
+```table id=op caption="Operating characteristics" conditions="Over operating free-air temperature range; typical values measured at T~A~ = 25 °C (unless otherwise noted)"
+| Symbol | Parameter | Test conditions | V~CC~ | Typ | Unit |
+|---|---|---|---|--:|---|
+| C~pd~ | Power dissipation capacitance per gate | No load | 4.5 V to 5.5 V | 28 | pF |
+```
+
+## Switching characteristics
+
+See [parameter measurement information](#parameter-measurement).
+
+```table id=sw caption="Switching characteristics" conditions="Over operating free-air temperature range; typical values measured at T~A~ = 25 °C (unless otherwise noted)"
+| Symbol | Parameter | From | To | Test conditions | V~CC~ | 25 °C | < | –40 °C to 85 °C | –55 °C to 125 °C | Unit |
+| ^ | ^ | ^ | ^ | ^ | ^ | Typ | Max | Max | Max | ^ |
+|---|---|---|---|---|---|--:|--:|--:|--:|---|
+| t~pd~ | Propagation delay | A, B or C | Y | C~L~ = 50 pF | 4.5 V | | 28 | 35 | 42 | ns |
+| ^ | ^ | ^ | ^ | C~L~ = 15 pF | 5 V | 11 | | | | ns |
+| t~t~ | Transition-time | | Y | C~L~ = 50 pF | 4.5 V | | 15 | 19 | 22 | ns |
+```
+
+## Parameter measurement information
+
+Phase relationships between waveforms were chosen arbitrarily. All input
+pulses are supplied by generators having the following characteristics:
+PRR ≤ 1 MHz, Z~O~ = 50 Ω, t~t~ < 6 ns. The outputs are measured one at a
+time, with one input transition per measurement. C~L~ = 50 pF and
+includes probe and jig capacitance. t~t~ is the greater of t~r~ and
+t~f~. The maximum between t~PLH~ and t~PHL~ is used for t~pd~.
+
+```figure ref=load-cmos-50pf caption="Load circuit"
+CL: 50 pF
+```
+
+```figure ref=waveforms-cmos-tpd-tt caption="Voltage waveforms, propagation delays and transition times"
+VM: 50 %
+```
+
+## Application information
+
+Outputs: a balanced output allows the device to sink and source similar
+currents. The drive capability of this device may create fast edges into
+light loads so routing and load conditions should be considered to
+prevent ringing. The outputs are capable of driving larger currents than
+the device can sustain without being damaged; the electrical and thermal
+limits defined in the
+[absolute maximum ratings](#absolute-maximum-ratings) must be followed
+at all times. The CD74HCT11 can drive a load with a total capacitance less
+than or equal to the maximum load listed in the
+[switching characteristics](#switching-characteristics) connected to a
+high-impedance CMOS input while still meeting all of the datasheet
+specifications. Larger capacitive loads can be applied, however it is
+not recommended to exceed the provided load value. If larger capacitive
+loads are required, it is recommended to add a series resistor between
+the output and the capacitor to limit output current.
+
+Inputs: TTL-compatible CMOS inputs are high impedance and are typically
+modeled as a resistor from the input to ground in parallel with the
+input capacitance. Signals applied to the inputs need to have fast edge
+rates, as defined in the
+[recommended operating conditions](#recommended-operating-conditions),
+to avoid excessive current consumption and oscillations. If a slow or
+noisy input signal is required, a device with a Schmitt-trigger input
+should be used to condition the input signal prior to the
+TTL-compatible CMOS input. TTL-compatible CMOS inputs have a lower
+threshold voltage than standard CMOS inputs to allow for compatibility
+with older bipolar logic devices.
+
+The inputs and outputs have both positive and negative clamping diodes.
+Voltages beyond the absolute maximum ratings can cause damage to the
+device. The recommended input and output voltage ratings may be exceeded
+if the input and output clamp-current ratings are observed.
+
+```figure ref=clamp-diodes caption="Electrical placement of clamping diodes for each input and output"
+```
+
+Typical application: this device is used to directly control the RESET
+pin of a motor controller. The controller requires three input signals
+(power good PG, ON/OFF, over current OC) to all be HIGH before being
+enabled, and should be disabled in the event that any one signal goes
+LOW. The 3-input AND gate function combines the three individual reset
+signals into a single active-low reset signal.
+
+Power: the supply must be capable of sourcing current equal to the total
+current to be sourced by all outputs plus the maximum supply current,
+I~CC~. Be sure not to exceed the maximum total current through GND or
+V~CC~ listed in the absolute maximum ratings. Each V~CC~ terminal should
+have a bypass capacitor to prevent power disturbance; a 0.1-µF capacitor
+is recommended. The 0.1-µF and 1-µF capacitors are commonly used in
+parallel. The bypass capacitor should be installed as close to the power
+terminal as possible.
+
+Inputs: unused inputs must be terminated to either V~CC~ or ground.
+They can be directly terminated if the input is completely unused, or
+connected with a pull-up or pull-down resistor if the input is to be
+used sometimes, but not always. A 10-kΩ resistor value is often used.
+Slow input edge rates can cause oscillations and damaging shoot-through
+current.
+
+Outputs: unused outputs can be left floating. Do not connect outputs
+directly to V~CC~ or ground.
+
+Detailed design procedure: add a decoupling capacitor from V~CC~ to GND,
+placed physically close to the device and electrically close to both the
+V~CC~ and GND pins. Ensure the capacitive load at the output is ≤ 70 pF;
+this is not a hard limit, however it will ensure optimal performance.
+Ensure the resistive load at the output is larger than (V~CC~ /
+I~O(max)~) Ω. This will ensure that the maximum output current from the
+absolute maximum ratings is not violated.
+
+Layout: inputs must not ever be left floating. All unused inputs of
+digital logic devices must be connected to a logic high or logic low
+voltage, as defined by the input voltage specifications, to prevent them
+from floating. Generally, the inputs are tied to GND or V~CC~, whichever
+makes more sense for the logic function or is more convenient.
+
+## Package
+
+```package footprint=PDIP-14
+```
+
+```package footprint=SOIC-14
+```
+
+```package footprint=CDIP-14
+```
+
+## Ordering information
+
+```ordering
+CD54HCT11F | Tube of 25 | -55 to 125 | CD54HCT11F
+CD74HCT11E | Tube of 25 | -55 to 125 | CD74HCT11E
+CD74HCT11M96 | Reel of 2500 | -55 to 125 | HCT11M
+CD74HCT11M96E4 | Reel of 2500 | -55 to 125 | HCT11M
+```
+
+## Conversion notes
+
+- Source pages 1–14 converted; the package option addendum, tape and
+  reel and mechanical pages (15–27) dropped, replaced by the generated
+  Package and Ordering sections.
+- Dropped: features and applications lists, device information table,
+  revision history, support pages, functional block diagram, layout
+  example and application figures (described in text).
+- Typical characteristics (V~OH~ and V~OL~ against output current) not
+  converted.
+- The switching tables' Min columns and the empty Min/Typ columns at
+  –40 °C to 85 °C and –55 °C to 125 °C hold no values and are left out.
+- Ordering vendor columns are left out for parts with no packing
+  quantity or a marking that spans several lines in the addendum.
+- Source issues:
+  - Unconfirmed: I~O~ condition "V~O~ > –0.5 V or V~O~ < V~CC~ + 0.5 V" (absolute maximum ratings note 4).

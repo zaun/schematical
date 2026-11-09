@@ -1,0 +1,277 @@
+{
+ "device": {
+  "id": "DAC904",
+  "function": "DAC",
+  "description": "14-bit 165 MSPS current-output DAC with a parallel CMOS data input latched on the clock",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac904.pdf (SBAS095C) p.3 (specifications: straight binary, latch on CLK rising, +VD 2.7-5.5 V), p.4 (pin configuration and descriptions), p.5 (timing diagram), p.14 (digital inputs, power-down mode)",
+  "pinouts": {
+   "so28": [
+    {
+     "number": 1,
+     "name": "Bit 1",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "Bit 2",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "Bit 3",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "Bit 4",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "Bit 5",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "Bit 6",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "Bit 7",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "Bit 8",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "Bit 9",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "Bit 10",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "Bit 11",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "Bit 12",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "Bit 13",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "Bit 14",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "PD",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "INT/EXT",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 18,
+     "name": "FSA",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "BW",
+     "role": "nc"
+    },
+    {
+     "number": 20,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 21,
+     "name": "IOUT",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "IOUT",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "BYP",
+     "role": "nc"
+    },
+    {
+     "number": 24,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 25,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 26,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 27,
+     "name": "+VD",
+     "role": "power"
+    },
+    {
+     "number": 28,
+     "name": "CLK",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 14,
+  "channels": 1,
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "+VA",
+   "REFIN",
+   "FSA",
+   "BW",
+   "BYP",
+   "IOUT",
+   "INT/EXT"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "Bit 1",
+    "Bit 2",
+    "Bit 3",
+    "Bit 4",
+    "Bit 5",
+    "Bit 6",
+    "Bit 7",
+    "Bit 8",
+    "Bit 9",
+    "Bit 10",
+    "Bit 11",
+    "Bit 12",
+    "Bit 13",
+    "Bit 14"
+   ],
+   "wr": {
+    "pin": "CLK",
+    "active": 0
+   }
+  },
+  "registers": [
+   {
+    "name": "DATA",
+    "space": "dac",
+    "address": 0,
+    "width": 14,
+    "reset": 0,
+    "note": "the master-slave input latch; power-on value not given (0 used)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "DATA WORD",
+     "in": "d{14}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "note": "Bit 1 (MSB) .. Bit 14 (LSB) latched on the rising edge of CLK: the parallel write ends at CLK rising"
+    }
+   ]
+  },
+  "pins": {
+   "powerdown": {
+    "pin": "PD",
+    "active": 1
+   }
+  },
+  "dac": {
+   "input": [
+    "DATA"
+   ],
+   "output": [
+    "DATA"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "so28",
+   "footprint": "TSSOP-28",
+   "package": "TSSOP",
+   "pins": 28
+  },
+  "DW": {
+   "pinout": "so28",
+   "footprint": "SOIC-28W",
+   "package": "SOIC",
+   "pins": 28
+  }
+ },
+ "pdf": "dac904.pdf",
+ "pages": "p.3 (digital input specs, supply), p.4 (pins), p.5 (timing), p.14 (digital inputs, power-down)",
+ "notModeled": [
+  "analog current outputs IOUT / complementary IOUT, internal +1.24 V reference (REFIN), full-scale adjust (FSA / RSET), BW and BYP bypass nodes",
+  "INT/EXT reference-select strap (analog reference circuit only; listed in analog, not modeled)",
+  "the output updates on the CLK falling edge after the rising-edge latch; the model stores the word at CLK rising. Setup/hold times and the 1 ns propagation delay are not checked",
+  "PD internal pull-down (Z reads inactive, which matches); power-down affects only the analog output",
+  "power-on contents of the latch are not given (0 used)"
+ ],
+ "variants": "DAC900 (10-bit), DAC902 (12-bit), DAC908 (8-bit) are pin-compatible family members with separate datasheets",
+ "parts": [
+  [
+   "DAC904E",
+   "PW",
+   28,
+   "Last Time Buy"
+  ],
+  [
+   "DAC904E/2K5",
+   "PW",
+   28,
+   "Active"
+  ],
+  [
+   "DAC904U",
+   "DW",
+   28,
+   "Active"
+  ]
+ ]
+}

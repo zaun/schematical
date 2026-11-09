@@ -1,0 +1,574 @@
+{
+ "device": {
+  "id": "ADS8365",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit 250 kSPS 6-channel (3 pairs) simultaneous-sampling differential SAR ADC with 16-bit parallel interface, cycle and FIFO read modes and software control",
+  "note": "ads8365.pdf (SBAS362C) p.3 recommended operating conditions (BVDD 2.7-3.6 V / 4.5-5.5 V), p.5 digital outputs, data format (DB4), p.9-10 pin configuration and terminal functions, p.11-12 timing (Figures 1-2, timing characteristics), p.20-21 clock, RESET, FD, EOC, start of conversion, reading data, p.22 soft trigger mode, Tables 2-4 output formats and control register bits, p.23-24 nap/power-down, getting data, Table 5",
+  "pinouts": {
+   "pag64": [
+    {
+     "number": 1,
+     "name": "CH A1-",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "CH A1+",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "SGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "CH B0+",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "CH B0-",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 9,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "SGND",
+     "role": "ground"
+    },
+    {
+     "number": 11,
+     "name": "CH B1-",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "CH B1+",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "SGND",
+     "role": "ground"
+    },
+    {
+     "number": 16,
+     "name": "CH C0+",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "CH C0-",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "CH C1-",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "CH C1+",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "NAP",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 22,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 23,
+     "name": "BYTE",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "BVDD",
+     "role": "power"
+    },
+    {
+     "number": 25,
+     "name": "BGND",
+     "role": "ground"
+    },
+    {
+     "number": 26,
+     "name": "FD",
+     "role": "output"
+    },
+    {
+     "number": 27,
+     "name": "EOC",
+     "role": "output"
+    },
+    {
+     "number": 28,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 29,
+     "name": "RD",
+     "role": "input"
+    },
+    {
+     "number": 30,
+     "name": "WR",
+     "role": "input"
+    },
+    {
+     "number": 31,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "BGND",
+     "role": "ground"
+    },
+    {
+     "number": 33,
+     "name": "D15",
+     "role": "output"
+    },
+    {
+     "number": 34,
+     "name": "D14",
+     "role": "output"
+    },
+    {
+     "number": 35,
+     "name": "D13",
+     "role": "output"
+    },
+    {
+     "number": 36,
+     "name": "D12",
+     "role": "output"
+    },
+    {
+     "number": 37,
+     "name": "D11",
+     "role": "output"
+    },
+    {
+     "number": 38,
+     "name": "D10",
+     "role": "output"
+    },
+    {
+     "number": 39,
+     "name": "D9",
+     "role": "output"
+    },
+    {
+     "number": 40,
+     "name": "D8",
+     "role": "output"
+    },
+    {
+     "number": 41,
+     "name": "D7",
+     "role": "inout"
+    },
+    {
+     "number": 42,
+     "name": "D6",
+     "role": "inout"
+    },
+    {
+     "number": 43,
+     "name": "D5",
+     "role": "inout"
+    },
+    {
+     "number": 44,
+     "name": "D4",
+     "role": "inout"
+    },
+    {
+     "number": 45,
+     "name": "D3",
+     "role": "inout"
+    },
+    {
+     "number": 46,
+     "name": "D2",
+     "role": "inout"
+    },
+    {
+     "number": 47,
+     "name": "D1",
+     "role": "inout"
+    },
+    {
+     "number": 48,
+     "name": "D0",
+     "role": "inout"
+    },
+    {
+     "number": 49,
+     "name": "BGND",
+     "role": "ground"
+    },
+    {
+     "number": 50,
+     "name": "BVDD",
+     "role": "power"
+    },
+    {
+     "number": 51,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 52,
+     "name": "ADD",
+     "role": "input"
+    },
+    {
+     "number": 53,
+     "name": "A2",
+     "role": "input"
+    },
+    {
+     "number": 54,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 55,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 56,
+     "name": "HOLDA",
+     "role": "input"
+    },
+    {
+     "number": 57,
+     "name": "HOLDB",
+     "role": "input"
+    },
+    {
+     "number": 58,
+     "name": "HOLDC",
+     "role": "input"
+    },
+    {
+     "number": 59,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 60,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 61,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 62,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 63,
+     "name": "CH A0+",
+     "role": "input"
+    },
+    {
+     "number": 64,
+     "name": "CH A0-",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 6,
+  "codeFormat": {
+   "field": "CTRL.INV",
+   "values": {
+    "0": "offset",
+    "1": "twos"
+   }
+  },
+  "vcc": [
+   2.7,
+   5.5
+  ],
+  "analog": [
+   "CH A1-",
+   "CH A1+",
+   "CH B0+",
+   "CH B0-",
+   "CH B1-",
+   "CH B1+",
+   "CH C0+",
+   "CH C0-",
+   "CH C1-",
+   "CH C1+",
+   "CH A0+",
+   "CH A0-",
+   "REFOUT",
+   "REFIN",
+   "AVDD"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "D15",
+    "D14",
+    "D13",
+    "D12",
+    "D11",
+    "D10",
+    "D9",
+    "D8",
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rd": {
+    "pin": "RD",
+    "active": 0
+   },
+   "wr": {
+    "pin": "WR",
+    "active": 0
+   },
+   "address": [
+    "A2",
+    "A1",
+    "A0"
+   ]
+  },
+  "timing": {
+   "tAcc": 60
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 7,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "NAP",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "PD",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "INV",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "ADD",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "A",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "internal control register (Table 4 p.22, DB7 = 1 word: DB6 NAP, DB5 PD, DB4 invert MSB, DB3 ADD, DB2-DB0 A2-A0); cleared by reset (p.20)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Control register, PD = 1",
+     "in": "xxx x{8} 1n1i daaa",
+     "action": "powerdown",
+     "set": {
+      "CTRL.NAP": "n",
+      "CTRL.PD": 1,
+      "CTRL.INV": "i",
+      "CTRL.ADD": "d",
+      "CTRL.A": "a"
+     },
+     "note": "Table 4: DB5 = 1 enables power-down mode"
+    },
+    {
+     "name": "Control register, PD = 0",
+     "in": "xxx x{8} 1n0i daaa",
+     "action": "wakeup",
+     "set": {
+      "CTRL.NAP": "n",
+      "CTRL.PD": 0,
+      "CTRL.INV": "i",
+      "CTRL.ADD": "d",
+      "CTRL.A": "a"
+     }
+    },
+    {
+     "name": "Soft reset (DB3 = 0)",
+     "in": "xxx x{8} 0xxx 0xxx",
+     "action": "reset",
+     "note": "p.22: writing a low to the reset bit (DB3) while the RESET pin is high forces a device reset"
+    },
+    {
+     "name": "Soft trigger HOLDA (DB2 = 0)",
+     "in": "xxx x{8} 0xxx 10xx",
+     "action": "start",
+     "note": "p.22: HOLDA/B/C bits are NAND-ed with the pins (active low); DB2-DB0 low with DB3 high triggers"
+    },
+    {
+     "name": "Soft trigger HOLDB (DB1 = 0)",
+     "in": "xxx x{8} 0xxx 1x0x",
+     "action": "start"
+    },
+    {
+     "name": "Soft trigger HOLDC (DB0 = 0)",
+     "in": "xxx x{8} 0xxx 1xx0",
+     "action": "start"
+    }
+   ],
+   "read": {
+    "0": "R{16}",
+    "1": "R{16}",
+    "2": "R{16}",
+    "3": "R{16}",
+    "4": "R{16}",
+    "5": "R{16}",
+    "6": "R{16}",
+    "7": "R{16}"
+   }
+  },
+  "conversion": {
+   "time": 3200,
+   "start": [
+    "pin",
+    "command"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "EOC",
+    "active": 0,
+    "asserts": "done",
+    "clears": 100
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "HOLDA",
+    "edge": "fall"
+   },
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "PAG": {
+   "pinout": "pag64",
+   "footprint": "TQFP-64-PAG",
+   "package": "TQFP",
+   "pins": 64
+  }
+ },
+ "pdf": "ads8365.pdf",
+ "pages": "p.3 (ROC), p.5 (digital outputs, data format DB4), p.9-10 (pinout, terminal functions), p.11 (Figures 1-2), p.12 (timing: tCONV 3.2 us, tD6 60 ns at BVDD 3 V), p.20-21 (CLK, RESET, FD, EOC, HOLDx, reading data), p.22 (soft trigger, Tables 2-4), p.23-24 (nap/power-down, getting data, output code, Table 5)",
+ "notModeled": [
+  "analog inputs and the internal 2.5 V reference (REFOUT never driven): every conversion returns the 0 V differential code (8000h straight binary after reset, 0000h with DB4 = 1)",
+  "only HOLDA (pin) starts a conversion; HOLDB/HOLDC pins, simultaneous holds and the ignoring of further HOLD pulses until the conversion is done are not modeled; the soft-trigger bits start one conversion without a channel",
+  "the six output registers, cycle mode (A2 A1 A0 = 110), FIFO mode (111, including the dummy read after reset) with their read sequencing, the ADD = 1 address/data-valid word (1000 0000 0000 DV A2 A1 A0), the empty-FIFO zero word and the FD output: every address returns the 0 V result",
+  "BYTE = 1 (8-bit reads: low byte then high byte on successive RD pulses) is not modeled (stateful per-read sequencing)",
+  "control register bits NAP, ADD and A2-A0 are stored but OR-ing with the NAP/ADD/A2-A0 pins is not modeled (reads use the address pins only); NAP mode and the NAP pin have no digital effect; the PD bit powers the model down/up; the control register is write-only on the part (no read-back exists)",
+  "the conversion runs on the external CLK (16.5 clocks to the output latch, 20 clocks per conversion, fCLK max 5 MHz); the model uses the 3.2 us maximum conversion time; EOC is a half-clock low pulse (100 ns at 5 MHz); latch delays while a read is in progress are not modeled",
+  "data-bus bits D15-D8 are don't-care in a write; bus float delay is not specified (tDf 0); power-down recovery time"
+ ],
+ "variants": "ADS8365 only (ADS8365IPAG/IPAGR); the ADS8364 is the earlier, separate datasheet",
+ "parts": [
+  [
+   "ADS8365IPAG",
+   "PAG",
+   64,
+   "Active"
+  ],
+  [
+   "ADS8365IPAGR",
+   "PAG",
+   64,
+   "Active"
+  ]
+ ]
+}

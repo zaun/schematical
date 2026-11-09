@@ -23,9 +23,12 @@ enum EditorPage: String, CaseIterable, Identifiable {
 }
 
 struct ContentView: View {
-    @State private var catalog: PartCatalogStore
+    /// The app-wide catalog, loaded once at launch.
+    private let catalog = PartCatalogStore.shared
     @State private var document: SchematicDocument
-    @State private var viewport = CanvasViewport()
+    /// The schematic's pan and zoom. Its 100 % draws at 0.75 points per
+    /// schematic unit (what used to be 75 %).
+    @State private var viewport = CanvasViewport(baseScale: 0.75)
     /// The PCB page's own pan and zoom. It opens at 25 %, so a whole board
     /// fits.
     @State private var boardViewport = CanvasViewport(zoom: 0.25)
@@ -50,6 +53,7 @@ struct ContentView: View {
     /// Memory windows opened from this window, closed along with it.
     @State private var memoryWindows: Set<MemoryWindowTarget> = []
     @State private var cpuWindows: Set<CpuWindowTarget> = []
+    @State private var registerWindows: Set<RegisterWindowTarget> = []
     @State private var terminalWindows: Set<TerminalWindowTarget> = []
     @State private var isBillOfMaterialsOpen = false
     /// Simulation speed (circuit time per wall time), an app preference.
@@ -68,10 +72,9 @@ struct ContentView: View {
     }
 
     init() {
-        let catalog = PartCatalogStore()
+        let catalog = PartCatalogStore.shared
         let document = SchematicDocument(library: catalog.library)
         let simulation = SimulationController(library: catalog.library)
-        _catalog = State(initialValue: catalog)
         _document = State(initialValue: document)
         _simulation = State(initialValue: simulation)
         // Opening a file stops any running simulation first, since the
@@ -140,6 +143,11 @@ struct ContentView: View {
                     let target = TerminalWindowTarget(sessionID: sessionID, chipID: chipID)
                     terminalWindows.insert(target)
                     openWindow(id: "terminal", value: target)
+                },
+                onOpenRegisters: { chipID in
+                    let target = RegisterWindowTarget(sessionID: sessionID, chipID: chipID)
+                    registerWindows.insert(target)
+                    openWindow(id: "registers", value: target)
                 }
             ) {
                 // Placing a part from the drawer returns to the Pointer tool.
@@ -172,10 +180,6 @@ struct ContentView: View {
                 .inspectorColumnWidth(min: 350, ideal: 350, max: 500)
             }
             .toolbar {
-                ToolbarItemGroup(placement: .navigation) {
-                    fileControls
-                }
-
                 // The simulation belongs to the Schematic page: the PCB page has
                 // no Run/Stop (so no ⌘R), speed menu or reached speed.
                 if page == .schematic {
@@ -227,17 +231,10 @@ struct ContentView: View {
                     .help("Show the schematic or the PCB")
 
                     if page == .schematic {
-                        Picker("Tool", selection: $tool) {
-                            ForEach(SchematicTool.allCases) { tool in
-                                Label(tool.title, systemImage: tool.symbol)
-                                    .help(tool.tooltip)
-                                    .tag(tool)
-                            }
-                        }
-                        .pickerStyle(.segmented)
-                        .labelStyle(.iconOnly)
-                        .labelsHidden()
-                        .disabled(simulation.isRunning)
+                        // Two pickers on one selection, so the supply tools
+                        // stand apart from the drawing tools.
+                        schematicToolPicker(SchematicTool.drawingTools)
+                        schematicToolPicker(SchematicTool.powerTools)
 
                         // The VCC and Pull-up tools' rail. Picking one also picks
                         // VCC, unless Pull-up is the tool.
@@ -382,8 +379,12 @@ struct ContentView: View {
                     simulation.stop()
                 }
             }
-            .task { catalog.load() }
+            .task {
+                // A file opened from another window lands here, in a new tab.
+                file.loadClaimedOpen()
+            }
             .onAppear {
+                file.openNewWindow = { openWindow(id: "schematic") }
                 SchematicSessions.shared.register(sessionID, document: document, simulation: simulation)
                 simulation.setSpeed(simulationSpeed)
             }
@@ -396,6 +397,10 @@ struct ContentView: View {
                     dismissWindow(id: "cpu", value: target)
                 }
                 cpuWindows = []
+                for target in registerWindows {
+                    dismissWindow(id: "registers", value: target)
+                }
+                registerWindows = []
                 for target in terminalWindows {
                     dismissWindow(id: "terminal", value: target)
                 }
@@ -414,22 +419,19 @@ struct ContentView: View {
             .navigationTitle(file.displayName)
     }
 
-    /// Open and Save. Their keyboard shortcuts live on the File menu items.
-    @ViewBuilder
-    private var fileControls: some View {
-        Button {
-            Task { await file.open() }
-        } label: {
-            Label("Open", systemImage: "folder")
+    /// A segmented picker over some of the schematic tools.
+    private func schematicToolPicker(_ tools: [SchematicTool]) -> some View {
+        Picker("Tool", selection: $tool) {
+            ForEach(tools) { tool in
+                Label(tool.title, systemImage: tool.symbol)
+                    .help(tool.tooltip)
+                    .tag(tool)
+            }
         }
-        .help("Open a schematic (⌘O)")
-
-        Button {
-            Task { await file.save() }
-        } label: {
-            Label("Save", systemImage: "square.and.arrow.down")
-        }
-        .help("Save the schematic (⌘S)")
+        .pickerStyle(.segmented)
+        .labelStyle(.iconOnly)
+        .labelsHidden()
+        .disabled(simulation.isRunning)
     }
 
     @ViewBuilder

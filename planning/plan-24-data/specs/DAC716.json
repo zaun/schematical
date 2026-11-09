@@ -1,0 +1,212 @@
+{
+ "device": {
+  "id": "DAC716",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit voltage-output DAC (0 to +10 V, internal +10 V reference) with double-buffered synchronous serial interface, SDO for cascading and asynchronous clear (Burr-Brown)",
+  "note": "dac716.pdf (SBAS049, PDS-1324B) p.2 specifications (straight binary, logic levels, +VCC/-VCC 11.4-16.5 V), p.3 pin configuration and pin descriptions, p.4 timing specifications, truth table and timing diagrams, p.6 interface logic (double-buffered level-triggered latches; CLR resets both latches to code 0000), p.9 serial interface (A0 input latch enable, A1 D/A latch enable, SDO cascading)",
+  "pinouts": {
+   "dip16": [
+    {
+     "number": 1,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "DCOM",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "+VCC",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "ACOM",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 11,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 12,
+     "name": "VREF OUT",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "Offset Adjust",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "Gain Adjust",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "-VCC",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "CLR",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 1,
+  "vcc": [
+   11.4,
+   16.5
+  ],
+  "analog": [
+   "VOUT",
+   "VREF OUT",
+   "Offset Adjust",
+   "Gain Adjust",
+   "-VCC"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "A0",
+   "sclk": "CLK",
+   "mosi": "SDI",
+   "miso": "SDO",
+   "mode": 3
+  },
+  "timing": {
+   "tOut": 140
+  },
+  "registers": [
+   {
+    "name": "INPUT",
+    "width": 16,
+    "reset": 0,
+    "note": "input (shift) latch: loaded MSB first while A0 is low; its MSB end is SDO (p.4, p.9); reset value not stated, CLR sets it to 0000 (p.6)"
+   },
+   {
+    "name": "DAC",
+    "width": 16,
+    "reset": 0,
+    "note": "D/A latch: loaded from INPUT while A1 is low (CLK strobe, truth table p.4); CLR sets 0000 (0 V)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "out": "[INPUT]",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "SHIFT",
+     "in": "dddddddddddddddd",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "commit": "end",
+     "note": "A0 low: SDI shifted in MSB first on CLK rising edges; the input latch holds the last 16 bits when A0 returns high (p.4 truth table, p.9 cascading)"
+    }
+   ]
+  },
+  "pins": {
+   "ldac": {
+    "pin": "A1",
+    "active": 0,
+    "edge": "level"
+   },
+   "clear": {
+    "pin": "CLR",
+    "active": 0
+   }
+  },
+  "dac": {
+   "input": [
+    "INPUT"
+   ],
+   "output": [
+    "DAC"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "N": {
+   "pinout": "dip16",
+   "footprint": "PDIP-16",
+   "package": "DIP",
+   "pins": 16
+  },
+  "DW": {
+   "pinout": "dip16",
+   "footprint": "SOIC-16W",
+   "package": "SOIC",
+   "pins": 16
+  }
+ },
+ "pdf": "dac716.pdf",
+ "pages": "p.2 (specifications, supplies), p.3 (pins), p.4 (timing, truth table, timing diagrams), p.6 (interface logic, CLR, input coding), p.9 (serial interface)",
+ "notModeled": [
+  "analog output, +10 V reference, gain/offset adjust (VOUT, VREF OUT never driven)",
+  "the D/A latch loads while A1 is low during a CLK pulse (truth table p.4); modeled as LDAC level mode on A1 without the CLK strobe; A0 = A1 = 0 two-wire operation follows only at the end of each 16-bit frame",
+  "SDO is the shift register's serial output at all times; modeled only while A0 is low, as the previous input-latch contents followed by zeros (the 16-bit delayed SDI copy used for cascading beyond 16 clocks is not modeled)",
+  "the input latch shifts on every CLK while A0 is low; the model writes it once, from the last 16 bits, when A0 rises",
+  "power-on contents of the latches are not stated in the datasheet (reset 0 assumed); CLR (active low, 200 ns min) sets both latches to 0000",
+  "digital inputs are TTL (1.4 V threshold, VIH max VCC - 1.4 V) driven from 5 V logic; vcc is the +VCC supply range; -VCC (-11.4 to -16.5 V) is in analog",
+  "setup/hold times, 10 MHz max clock (tCLK 100 ns)"
+ ],
+ "variants": "DAC716PK/UK (0 to 70 C, +-2 LSB) are the skeleton's parts; DAC716P/U/PB/UB grades in the same datasheet differ only in linearity and temperature range (UB also listed active in the addendum, not in the skeleton).",
+ "parts": [
+  [
+   "DAC716PK",
+   "N",
+   16,
+   "Active"
+  ],
+  [
+   "DAC716UK",
+   "DW",
+   16,
+   "Active"
+  ]
+ ]
+}

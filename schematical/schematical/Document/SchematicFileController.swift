@@ -15,8 +15,30 @@ final class SchematicFileController {
     /// asks about unsaved changes first.
     @ObservationIgnored
     weak var window: NSWindow? {
-        didSet { closeGuard.attach(to: window) }
+        didSet {
+            closeGuard.attach(to: window)
+            if oldValue == nil { claimPendingOpen() }
+        }
     }
+
+    /// Opens a new, blank schematic window. Set by the window's view, which
+    /// has SwiftUI's `openWindow`.
+    @ObservationIgnored
+    var openNewWindow: (() -> Void)?
+
+    /// A file read by one window to open in a new tab: the next new window
+    /// takes it.
+    private struct PendingOpen {
+        let url: URL
+        let file: SchematicFile
+    }
+
+    @ObservationIgnored
+    private static var pendingOpens: [PendingOpen] = []
+
+    /// The file this new window claimed, loaded once the catalog is.
+    @ObservationIgnored
+    private var claimedOpen: PendingOpen?
 
     /// Every open window's controller, so quitting can check them all.
     @ObservationIgnored
@@ -97,19 +119,92 @@ final class SchematicFileController {
         write(to: url)
     }
 
-    /// Asks for a schematic and opens it in this window, replacing the canvas.
-    /// Offers to save first if there are unsaved changes.
-    func open() async {
-        guard await confirmDiscardingChanges() else { return }
+    /// True for a new window's untitled schematic that is still empty.
+    var isBlank: Bool {
+        fileURL == nil && !hasUnsavedChanges
+    }
 
+    /// Asks for a schematic and opens it. A blank untitled window loads it in
+    /// place; any other window opens it in a new tab. A file that is already
+    /// open brings its window to the front instead.
+    func open() async {
         let panel = NSOpenPanel()
         panel.allowedContentTypes = SchematicFile.openableTypes
         panel.allowsMultipleSelection = false
         panel.canChooseDirectories = false
         guard await run(panel) == .OK, let url = panel.url else { return }
 
+        if let existing = Self.all.allObjects.first(where: { $0.fileURL?.standardizedFileURL == url.standardizedFileURL }),
+           let window = existing.window, window.isVisible {
+            window.makeKeyAndOrderFront(nil)
+            return
+        }
+
+        let file: SchematicFile
         do {
-            let file = try SchematicFile.decode(try Data(contentsOf: url))
+            file = try SchematicFile.decode(try Data(contentsOf: url))
+        } catch {
+            present(error, title: "Couldn't open “\(url.lastPathComponent)”")
+            return
+        }
+
+        if isBlank || openNewWindow == nil {
+            guard await confirmDiscardingChanges() else { return }
+            load(file, from: url)
+        } else {
+            Self.pendingOpens.append(PendingOpen(url: url, file: file))
+            if let window { Self.tabNextWindow(into: window) }
+            openNewWindow?()
+        }
+    }
+
+    /// A new window takes the next file another window read for it. Its tab
+    /// is set up by `tabNextWindow(into:)`, before this runs.
+    private func claimPendingOpen() {
+        guard isBlank, !Self.pendingOpens.isEmpty else { return }
+        claimedOpen = Self.pendingOpens.removeFirst()
+    }
+
+    /// Makes the next schematic window that opens a tab of `group`, the way
+    /// document apps open a file: straight into a tab, never as a window of
+    /// its own first. It is caught as it becomes key, which is before its
+    /// first layout and drawing. Later, from the window's own view, is
+    /// too late: that runs inside SwiftUI's layout pass, where joining a tab
+    /// group lays the window out again (AppKit's layout recursion warning),
+    /// and anything after that shows a separate window for a frame.
+    private static func tabNextWindow(into group: NSWindow) {
+        final class Observer { var token: NSObjectProtocol? }
+        let observer = Observer()
+        observer.token = NotificationCenter.default.addObserver(
+            forName: NSWindow.didBecomeKeyNotification, object: nil, queue: nil
+        ) { [weak group] note in
+            MainActor.assumeIsolated {
+                guard let group else {
+                    observer.token.map(NotificationCenter.default.removeObserver)
+                    return
+                }
+                guard let window = note.object as? NSWindow, window !== group,
+                      window.tabbingIdentifier == group.tabbingIdentifier else { return }
+                observer.token.map(NotificationCenter.default.removeObserver)
+                observer.token = nil
+                window.tabbingMode = .preferred
+                if window.tabGroup !== group.tabGroup {
+                    group.addTabbedWindow(window, ordered: .above)
+                }
+            }
+        }
+    }
+
+    /// Loads the file this window claimed, if any. Call once the catalog is
+    /// loaded.
+    func loadClaimedOpen() {
+        guard let pending = claimedOpen else { return }
+        claimedOpen = nil
+        load(pending.file, from: pending.url)
+    }
+
+    private func load(_ file: SchematicFile, from url: URL) {
+        do {
             willReplaceDocument()
             try file.apply(to: document, catalog: catalog, fileURL: url)
             fileURL = url
@@ -117,6 +212,48 @@ final class SchematicFileController {
             savedSnapshot = SchematicFile(document: document, fileURL: url)
         } catch {
             present(error, title: "Couldn't open “\(url.lastPathComponent)”")
+        }
+    }
+
+    /// Asks where to export the schematic as `format`, then writes it there.
+    /// An export is not a save: the window's file and saved state are unchanged.
+    func export(_ format: SchematicExportFormat) async {
+        guard !SchematicScene(document).isEmpty else {
+            let alert = NSAlert()
+            alert.messageText = "Nothing to export"
+            alert.informativeText = "Add a part, wire or bus first."
+            _ = await run(alert)
+            return
+        }
+        let panel = NSSavePanel()
+        panel.allowedContentTypes = [format.contentType]
+        panel.canCreateDirectories = true
+        panel.nameFieldStringValue = "\(displayName).\(format.fileExtension)"
+        if let fileURL {
+            panel.directoryURL = fileURL.deletingLastPathComponent()
+        }
+        guard await run(panel) == .OK, let url = panel.url else { return }
+        do {
+            try writeExport(format, to: url)
+        } catch {
+            present(error, title: "Couldn't export “\(displayName)”")
+        }
+    }
+
+    /// Writes the schematic as `format` to `url`. Throws for an empty
+    /// schematic or a failed write.
+    func writeExport(_ format: SchematicExportFormat, to url: URL) throws {
+        guard let data = format.data(for: SchematicScene(document)) else {
+            throw ExportError.nothingToExport
+        }
+        try data.write(to: url, options: .atomic)
+    }
+
+    enum ExportError: LocalizedError {
+        case nothingToExport
+
+        var errorDescription: String? {
+            "The schematic has no parts, wires or buses."
         }
     }
 
@@ -216,6 +353,10 @@ struct SchematicFileCommands: Commands {
             }
             .keyboardShortcut("s", modifiers: [.command, .shift])
             .disabled(file == nil)
+
+            Divider()
+
+            SchematicExportMenu(file: file)
         }
     }
 }

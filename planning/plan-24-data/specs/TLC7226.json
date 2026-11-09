@@ -1,0 +1,289 @@
+{
+ "device": {
+  "id": "TLC7226",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "quad 8-bit voltage-output DAC with common reference and 8-bit parallel input port, one latch per DAC",
+  "note": "tlc7226.pdf (SLAS060F) p.1 (DW/N and FK pinouts, description), p.3 (terminal functions: numbers for DW, N and FK), p.4 (recommended operating conditions: VDD 11.4-16.5 V, TTL levels, write timing), p.8 (interface logic, Table 2 function table), p.9 (Figure 6 input control logic)",
+  "pinouts": {
+   "dw20": [
+    {
+     "number": 1,
+     "name": "OUTB",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "OUTA",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "VSS",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "REF",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "DB7",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "DB6",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "DB5",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "DB4",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "DB3",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "DB2",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "DB1",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "DB0",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "WR",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 19,
+     "name": "OUTD",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "OUTC",
+     "role": "output"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 8,
+  "channels": 4,
+  "vcc": [
+   11.4,
+   16.5
+  ],
+  "analog": [
+   "OUTA",
+   "OUTB",
+   "OUTC",
+   "OUTD",
+   "REF",
+   "VSS"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "wr": {
+    "pin": "WR",
+    "active": 0
+   },
+   "address": [
+    "A1",
+    "A0"
+   ]
+  },
+  "registers": [
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "note": "DAC A latch (Table 2: A1 A0 = 00); transparent while WR is low, latched on WR rising (p.8); power-on code not stated"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "note": "DAC B latch (Table 2: A1 A0 = 01); transparent while WR is low, latched on WR rising (p.8); power-on code not stated"
+   },
+   {
+    "name": "DACC",
+    "space": "dac",
+    "address": 2,
+    "width": 8,
+    "reset": 0,
+    "note": "DAC C latch (Table 2: A1 A0 = 10); transparent while WR is low, latched on WR rising (p.8); power-on code not stated"
+   },
+   {
+    "name": "DACD",
+    "space": "dac",
+    "address": 3,
+    "width": 8,
+    "reset": 0,
+    "note": "DAC D latch (Table 2: A1 A0 = 11); transparent while WR is low, latched on WR rising (p.8); power-on code not stated"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write DAC latch (WR low)",
+     "in": "aa d{8}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "A1 A0 select DAC A-D (Table 2); latch transparent while WR is low, latched on WR rising (p.8)"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "DACA",
+    "DACB",
+    "DACC",
+    "DACD"
+   ],
+   "output": [
+    "DACA",
+    "DACB",
+    "DACC",
+    "DACD"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "FK": {
+   "pinout": "dw20",
+   "footprint": "LCCC-20",
+   "package": "LCCC",
+   "pins": 20
+  },
+  "DW": {
+   "pinout": "dw20",
+   "footprint": "SOIC-20W",
+   "package": "SOIC",
+   "pins": 20
+  },
+  "N": {
+   "pinout": "dw20",
+   "footprint": "PDIP-20",
+   "package": "DIP",
+   "pins": 20
+  }
+ },
+ "pdf": "tlc7226.pdf",
+ "pages": "p.1 (DW/N and FK pinouts, description), p.3 (terminal functions: numbers for DW, N and FK), p.4 (recommended operating conditions: VDD 11.4-16.5 V, TTL levels, write timing), p.8 (interface logic, Table 2 function table), p.9 (Figure 6 input control logic)",
+ "notModeled": [
+  "analog: voltage outputs, reference input REF, single or dual (VSS) supply operation, unipolar/bipolar output configurations, settling",
+  "power-on state of the DAC latches is not stated in the datasheet (0 used)",
+  "the selected latch is level-transparent while WR is low (output follows the data bus); the model latches the data at WR rising",
+  "no chip select: every WR low pulse writes the addressed latch",
+  "write timing tsu(AW)/tsu(DW)/th(AW)/th(DW)/tw (p.4)"
+ ],
+ "variants": "tlc7226.pdf covers TLC7226C/I/M; the FK (LCCC) package uses the same terminal numbers as DW and N (p.3 footnote).",
+ "parts": [
+  [
+   "5962-87802012C",
+   "FK",
+   20,
+   "Active"
+  ],
+  [
+   "TLC7226CDW",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "TLC7226CDWR",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "TLC7226CN",
+   "N",
+   20,
+   "Active"
+  ],
+  [
+   "TLC7226IDW",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "TLC7226IDWR",
+   "DW",
+   20,
+   "Active"
+  ],
+  [
+   "TLC7226IN",
+   "N",
+   20,
+   "Active"
+  ]
+ ]
+}

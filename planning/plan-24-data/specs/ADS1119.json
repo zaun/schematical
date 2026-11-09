@@ -1,0 +1,430 @@
+{
+ "device": {
+  "id": "ADS1119",
+  "function": "ADC",
+  "description": "16-bit 1 kSPS 4-channel delta-sigma ADC with PGA, 2.048 V reference and I2C interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1119.pdf (SBAS925A) p.3 pinouts and pin functions, p.4 recommended operating conditions (DVDD 2.3-5.5 V), p.20 conversion times (Table 4), p.20-21 reset and conversion modes, p.22-23 I2C (Table 5 address, DRDY, general call, timeout), p.24 data format, p.25-26 commands (Table 7), p.27-29 registers",
+  "pinouts": {
+   "pw16": [
+    {
+     "number": 1,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "AIN3",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "AIN2",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "REFN",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "REFP",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "AIN1",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "AIN0",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "DRDY",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "SDA",
+     "role": "inout"
+    },
+    {
+     "number": 16,
+     "name": "SCL",
+     "role": "input"
+    }
+   ],
+   "rte16": [
+    {
+     "number": 1,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 4,
+     "name": "AIN3",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AIN2",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "REFN",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "REFP",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "AIN1",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "AIN0",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 12,
+     "name": "DRDY",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "SDA",
+     "role": "inout"
+    },
+    {
+     "number": 14,
+     "name": "SCL",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "A1",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 16,
+  "channels": 4,
+  "codeFormat": "twos",
+  "vcc": [
+   2.3,
+   5.5
+  ],
+  "analog": [
+   "AIN0",
+   "AIN1",
+   "AIN2",
+   "AIN3",
+   "REFN",
+   "REFP",
+   "AVDD"
+  ],
+  "bus": {
+   "style": "i2c",
+   "scl": "SCL",
+   "sda": "SDA",
+   "address": [
+    "A0",
+    "A1"
+   ],
+   "table": [
+    64,
+    65,
+    67,
+    66,
+    68,
+    69,
+    71,
+    70,
+    76,
+    77,
+    79,
+    78,
+    72,
+    73,
+    75,
+    74
+   ]
+  },
+  "registers": [
+   {
+    "name": "CONFIG",
+    "address": 0,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MUX",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "GAIN",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "DR",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "CM",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "VREF",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "STATUS",
+    "address": 1,
+    "width": 8,
+    "reset": 0,
+    "readOnly": true,
+    "fields": [
+     {
+      "name": "DRDY",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "ID",
+      "bits": [
+       6,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "DATA",
+    "width": 16,
+    "reset": 0,
+    "readOnly": true,
+    "result": true
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "commands": [
+    {
+     "name": "RESET",
+     "in": "0000011x",
+     "action": "reset"
+    },
+    {
+     "name": "START/SYNC",
+     "in": "0000100x",
+     "action": "start"
+    },
+    {
+     "name": "POWERDOWN",
+     "in": "0000001x",
+     "action": "stop"
+    },
+    {
+     "name": "RDATA",
+     "in": "0001xxxx",
+     "action": "read",
+     "register": "DATA"
+    },
+    {
+     "name": "RREG",
+     "in": "00100rxx",
+     "action": "read",
+     "address": "r"
+    },
+    {
+     "name": "WREG",
+     "in": "010000xx",
+     "action": "wreg",
+     "address": 0
+    }
+   ],
+   "read": "pointer",
+   "generalCall": "reset"
+  },
+  "conversion": {
+   "time": {
+    "field": "CONFIG.DR",
+    "values": {
+     "0": 50010000,
+     "1": 11290000,
+     "2": 3070000,
+     "3": 1040000
+    }
+   },
+   "start": [
+    "command"
+   ],
+   "mode": {
+    "field": "CONFIG.CM",
+    "continuous": 1,
+    "startOnEnter": false
+   },
+   "done": {
+    "STATUS.DRDY": 1
+   },
+   "onRead": {
+    "STATUS.DRDY": 0
+   },
+   "channel": "CONFIG.MUX"
+  },
+  "ready": [
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read",
+    "openDrain": true
+   }
+  ],
+  "pins": {
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   }
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw16",
+   "footprint": "TSSOP-16",
+   "package": "TSSOP",
+   "pins": 16
+  },
+  "RTE": {
+   "pinout": "rte16",
+   "footprint": "WQFN-16-RTE-D",
+   "package": "WQFN",
+   "pins": 16
+  }
+ },
+ "pdf": "ads1119.pdf",
+ "pages": "p.3 (pinouts), p.4 (ROC), p.20-21 (conversion times, reset, modes), p.22-23 (I2C), p.24 (data format), p.25-26 (commands), p.27-29 (registers)",
+ "notModeled": [
+  "analog input, MUX (incl. AVDD/2 short), gain and reference selection (stored only)",
+  "WREG during an ongoing conversion restarts it (the datasheet: a write acts as START/SYNC while converting)",
+  "POWERDOWN modeled as stop: the datasheet lets the ongoing conversion finish first and powers down the analog circuitry",
+  "continuous mode: first conversion delay 28.5 tCLK and slightly shorter continuous-mode times (Table 4); times are the single-shot values",
+  "DRDY releasing high for tw(DRH) before the next completion when a continuous result is not read",
+  "STATUS ID[6:0] (reserved, reset value 'xx' in the datasheet; modeled as 0)",
+  "I2C timeout (14000 tMOD) and Fm+ timing limits; the address straps are re-decoded at every START",
+  "oscillator accuracy (conversion times scale with it)"
+ ],
+ "variants": "single-device datasheet",
+ "parts": [
+  [
+   "ADS1119IPW",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "ADS1119IPWR",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "ADS1119IPWT",
+   "PW",
+   16,
+   "Active"
+  ],
+  [
+   "ADS1119IRTET",
+   "RTE",
+   16,
+   "Active"
+  ]
+ ]
+}

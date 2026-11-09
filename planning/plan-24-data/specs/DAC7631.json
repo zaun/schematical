@@ -1,0 +1,257 @@
+{
+ "device": {
+  "id": "DAC7631",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "16-bit voltage-output DAC with serial interface, daisy-chain SDO, double-buffered inputs (LOAD, LDAC) and reset to zero or mid scale",
+  "note": "dac7631.pdf p.2-3 (specifications: VDD logic supply 4.75-5.25 V, VIH 0.7 VDD), p.5 (pin configuration and descriptions), p.13 (digital interface, serial data input, Table I truth table), p.15-16 (LOAD/LDAC operation, Table II shift register, SDO daisy chain, coding), p.17 (Figure 15, Table III timing)",
+  "pinouts": {
+   "db20": [
+    {
+     "number": 1,
+     "name": "VREFH",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VREFH Sense",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "VREFL",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "VREFL Sense",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "LOAD",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "RST",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "RSTSEL",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 16,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "VOUT Sense",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "VSS",
+     "role": "power"
+    },
+    {
+     "number": 19,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 20,
+     "name": "VCC",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 1,
+  "vcc": [
+   4.75,
+   5.25
+  ],
+  "analog": [
+   "VREFH",
+   "VREFH Sense",
+   "VREFL",
+   "VREFL Sense",
+   "VOUT",
+   "VOUT Sense",
+   "VSS",
+   "VCC"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "CLK",
+   "mosi": "SDI",
+   "miso": "SDO",
+   "mode": 3
+  },
+  "timing": {
+   "tOut": 45
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC input register; loaded from the shift register while LOAD is low (Table I); power-on code not stated (reset 0)"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "DAC register; loaded from the input register on the LDAC rising edge (Table I)"
+   },
+   {
+    "name": "SR",
+    "width": 16,
+    "reset": 0,
+    "note": "internal: the 16-bit serial shift register, shifted out on SDO (p.16 serial-data output)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "out": "[SR]",
+   "commands": [
+    {
+     "name": "Write",
+     "in": "d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "set": {
+      "SR": "d"
+     },
+     "commit": "end",
+     "note": "16-bit word D15-D0, MSB first, clocked on CLK rising while CS is low (p.13, Figure 15). The shift register goes to the input register while LOAD is low; modeled as written into the input register when CS rises. The last 16 bits before CS rises are decoded"
+    }
+   ],
+   "note": "SDO is the shift register's output (driven); CS and CLK are ORed, CS should rise only while CLK is high (p.16), hence mode 3"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 1,
+    "edge": "rise",
+    "note": "DAC register load, rising-edge triggered (p.5, Table I)"
+   },
+   "clear": {
+    "pin": "RST",
+    "active": 0,
+    "edge": "rise",
+    "note": "rising-edge triggered: loads zero (RSTSEL low) or mid scale 8000h (RSTSEL high)"
+   }
+  },
+  "dac": {
+   "input": [
+    "INA"
+   ],
+   "output": [
+    "DACA"
+   ],
+   "clearCode": {
+    "pin": "RSTSEL",
+    "values": {
+     "0": 0,
+     "1": 32768
+    }
+   },
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "DB": {
+   "pinout": "db20",
+   "footprint": "SSOP-20",
+   "package": "SSOP",
+   "pins": 20
+  }
+ },
+ "pdf": "dac7631.pdf",
+ "pages": "p.2-3 (specifications: VDD logic supply 4.75-5.25 V, VIH 0.7 VDD), p.5 (pin configuration and descriptions), p.13 (digital interface, serial data input, Table I truth table), p.15-16 (LOAD/LDAC operation, Table II shift register, SDO daisy chain, coding), p.17 (Figure 15, Table III timing)",
+ "notModeled": [
+  "analog: output, force/sense pins, differential reference inputs, current-source configuration, settling",
+  "LOAD: the shift register is copied into the input register while LOAD is low (level); the schema has no load-strobe pin, so the word is written into the input register when CS rises (a frame without a LOAD pulse still updates the input register in the model)",
+  "RST does not change the serial shift register in the chip (the model's clear leaves SR as well)",
+  "power-on state of the registers is not stated in the datasheet (reset 0)",
+  "daisy chain: SDO shifts the previous 16-bit word, then the real part passes the incoming bits through; the model shifts the previous word then zeros, so chains of more than one device do not pass data on",
+  "CS and CLK are interchangeable (ORed); a CS rising edge while CLK is low shifts one extra bit",
+  "timing limits tDS/tDH/tCH/tCL/tCSS/tCSH/tLD1/tLD2/tLDRW/tLDDL/tLDDH/tLDDD/tRSSS/tRSSH/tRSTL/tRSTH (Table III)"
+ ],
+ "variants": "DAC7631E / E/1K / EB are linearity grades of the same chip (SSOP-20 only).",
+ "parts": [
+  [
+   "DAC7631E",
+   "DB",
+   20,
+   "Active"
+  ],
+  [
+   "DAC7631E/1K",
+   "DB",
+   20,
+   "Active"
+  ],
+  [
+   "DAC7631EB",
+   "DB",
+   20,
+   "Active"
+  ]
+ ]
+}

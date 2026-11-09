@@ -25,15 +25,6 @@
 
 /* ---- Small helpers --------------------------------------------------------------- */
 
-static NsBridge *br_of(const NsChannel *c) {
-    return c->owner->bridge;
-}
-
-static int is_sc(const NsDevice *d) {
-    return d->extended == EXT_SC16IS || d->extended == EXT_SC16IS_SFR ||
-           d->extended == EXT_SC16IS_DLD;
-}
-
 static int is_xr(const NsDevice *d) {
     return d->extended == EXT_XR1280;
 }

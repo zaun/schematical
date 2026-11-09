@@ -1,0 +1,446 @@
+{
+ "device": {
+  "id": "ADS2807",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "Dual 12-bit 50 MSPS pipelined ADC with parallel CMOS outputs",
+  "note": "ads2807.pdf (SBAS169B) p.3 digital inputs/outputs (straight offset binary, 3-state enable 40 ns / disable 10 ns max, OE pull-down), p.4 timing diagram (data change t2 12 ns max after CLK rising, data valid DV low while CLK high) and pin configuration, p.5 pin descriptions, p.15-16 data format (Tables II-III) and VDRV",
+  "pinouts": {
+   "pap64": [
+    {
+     "number": 1,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 2,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "+VS",
+     "role": "power"
+    },
+    {
+     "number": 4,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "+VS",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "OEB",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 8,
+     "name": "VDRVB",
+     "role": "power"
+    },
+    {
+     "number": 9,
+     "name": "OVRB",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "B12",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "B11",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "B10",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "B9",
+     "role": "output"
+    },
+    {
+     "number": 14,
+     "name": "B8",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "B7",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "B6",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "B5",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "B4",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "B3",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "B2",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "B1",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "DVB",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 24,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 25,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 26,
+     "name": "DVA",
+     "role": "output"
+    },
+    {
+     "number": 27,
+     "name": "A12",
+     "role": "output"
+    },
+    {
+     "number": 28,
+     "name": "A11",
+     "role": "output"
+    },
+    {
+     "number": 29,
+     "name": "A10",
+     "role": "output"
+    },
+    {
+     "number": 30,
+     "name": "A9",
+     "role": "output"
+    },
+    {
+     "number": 31,
+     "name": "A8",
+     "role": "output"
+    },
+    {
+     "number": 32,
+     "name": "A7",
+     "role": "output"
+    },
+    {
+     "number": 33,
+     "name": "A6",
+     "role": "output"
+    },
+    {
+     "number": 34,
+     "name": "A5",
+     "role": "output"
+    },
+    {
+     "number": 35,
+     "name": "A4",
+     "role": "output"
+    },
+    {
+     "number": 36,
+     "name": "A3",
+     "role": "output"
+    },
+    {
+     "number": 37,
+     "name": "A2",
+     "role": "output"
+    },
+    {
+     "number": 38,
+     "name": "A1",
+     "role": "output"
+    },
+    {
+     "number": 39,
+     "name": "OVRA",
+     "role": "output"
+    },
+    {
+     "number": 40,
+     "name": "VDRVA",
+     "role": "power"
+    },
+    {
+     "number": 41,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 42,
+     "name": "OEA",
+     "role": "input"
+    },
+    {
+     "number": 43,
+     "name": "+VS",
+     "role": "power"
+    },
+    {
+     "number": 44,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 45,
+     "name": "SEL",
+     "role": "input"
+    },
+    {
+     "number": 46,
+     "name": "+VS",
+     "role": "power"
+    },
+    {
+     "number": 47,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 48,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 49,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 50,
+     "name": "INA",
+     "role": "input"
+    },
+    {
+     "number": 51,
+     "name": "INA",
+     "role": "input"
+    },
+    {
+     "number": 52,
+     "name": "CMA",
+     "role": "output"
+    },
+    {
+     "number": 53,
+     "name": "REFTA",
+     "role": "power"
+    },
+    {
+     "number": 54,
+     "name": "REFBA",
+     "role": "power"
+    },
+    {
+     "number": 55,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 56,
+     "name": "INT/EXT",
+     "role": "input"
+    },
+    {
+     "number": 57,
+     "name": "+VS",
+     "role": "power"
+    },
+    {
+     "number": 58,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 59,
+     "name": "REFBB",
+     "role": "power"
+    },
+    {
+     "number": 60,
+     "name": "REFTB",
+     "role": "power"
+    },
+    {
+     "number": 61,
+     "name": "CMB",
+     "role": "output"
+    },
+    {
+     "number": 62,
+     "name": "INB",
+     "role": "input"
+    },
+    {
+     "number": 63,
+     "name": "INB",
+     "role": "input"
+    },
+    {
+     "number": 64,
+     "name": "GND",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 2,
+  "codeFormat": "offset",
+  "vcc": [
+   2.7,
+   5.0
+  ],
+  "inputMax": 5.25,
+  "analog": [
+   "+VS",
+   "INA",
+   "INB",
+   "CMA",
+   "CMB",
+   "REFTA",
+   "REFBA",
+   "REFTB",
+   "REFBB"
+  ],
+  "bus": {
+   "style": "clocked",
+   "clock": {
+    "pin": "CLK",
+    "edge": "rise"
+   },
+   "data": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8",
+    "A9",
+    "A10",
+    "A11",
+    "A12",
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8",
+    "B9",
+    "B10",
+    "B11",
+    "B12"
+   ],
+   "oe": {
+    "pin": "OEA",
+    "active": 0
+   },
+   "clockOut": [
+    {
+     "pin": "DVA",
+     "invert": true
+    },
+    {
+     "pin": "DVB",
+     "invert": true
+    }
+   ]
+  },
+  "timing": {
+   "tOut": 12,
+   "tFloat": 10
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": "[R][R]"
+  }
+ },
+ "packages": {
+  "PAP": {
+   "pinout": "pap64",
+   "footprint": "HTQFP-64-PAP",
+   "package": "HTQFP",
+   "pins": 64
+  }
+ },
+ "pdf": "ads2807.pdf",
+ "pages": "p.3 (digital specs), p.4 (timing, pinout), p.5 (pin descriptions), p.15-16 (data format, VDRV)",
+ "notModeled": [
+  "analog inputs, references (INT/EXT internal/external reference select) and SEL input range select (2 V / 3 V): the result is always the 0 V (mid-scale) code 0x800 on both channels",
+  "OEB: the clocked bus has one output enable, so OEA gates both the A1-A12 and B1-B12 outputs; OEB (pin 6) is not modeled",
+  "OVRA/OVRB over-range outputs are never driven (a 0 V input is in range: they would be low)",
+  "pipeline latency of 6 clock cycles (the code is constant)",
+  "data valid DVA/DVB: modeled as the inverted CLK delayed tOut; the datasheet gives DV edges 7.5/5.6 ns typical (t3/t4) after the clock and a data valid window",
+  "clock period limits (20 ns min, 100 us max)",
+  "vcc is the VDRV output driver range (+2.7 V to +5 V, p.4 note 1); CLK, OE and SEL inputs are +3 V/+5 V CMOS compatible (VIH 2.4 V, high-level input current specified at VIN = 5 V), so inputMax is the +VS maximum 5.25 V"
+ ],
+ "variants": "ADS2806 (50 MSPS, own datasheet ads2806.pdf) has the same pinout and interface; own spec file",
+ "parts": [
+  [
+   "ADS2807Y/1K5",
+   "PAP",
+   64,
+   "Active"
+  ],
+  [
+   "ADS2807Y/250",
+   "PAP",
+   64,
+   "Last Time Buy"
+  ]
+ ]
+}

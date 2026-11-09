@@ -1,0 +1,214 @@
+{
+ "device": {
+  "id": "ADC0834",
+  "function": "ADC",
+  "description": "8-bit serial I/O SAR ADC with 4-channel multiplexer (single-ended or differential)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "adc0832-n.pdf (SNAS531B) p.2 connection diagrams (Figures 1-7), p.3 operating ratings, p.5 digital and DC characteristics, p.6 AC characteristics (fCLK, tC, tSET-UP, tHOLD, tpd, t1H/t0H), p.9-11 timing diagrams (Figures 15-21), p.13-14 MUX addressing (Tables 1-7), p.15-16 the digital interface",
+  "pinouts": {
+   "npa14": [
+    {
+     "number": 1,
+     "name": "V+",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "CH0",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "CH1",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "CH2",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "CH3",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 8,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "DO",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "SARS",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "DI",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "VCC",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 8,
+  "channels": 4,
+  "codeFormat": "straight",
+  "vcc": [
+   4.5,
+   6.3
+  ],
+  "analog": [
+   "V+",
+   "CH0",
+   "CH1",
+   "CH2",
+   "CH3",
+   "VREF"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "CLK",
+   "mosi": "DI",
+   "miso": "DO",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 0,
+   "tOut": 1500,
+   "tFloat": 250
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 3,
+    "reset": 0,
+    "note": "internal: the last MUX address word after the start bit (no read-back; cleared while CS is high per p.16, reset 0 here)",
+    "fields": [
+     {
+      "name": "SGL_DIF",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "ODD_SIGN_SEL",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "out": "z{32}",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "Start bit + MUX address",
+     "in": "1 d aa",
+     "action": "start",
+     "channel": "a",
+     "channelMap": {
+      "1": [
+       2
+      ],
+      "2": [
+       1
+      ]
+     },
+     "set": {
+      "CTRL.SGL_DIF": "d",
+      "CTRL.ODD_SIGN_SEL": "a"
+     },
+     "reply": "0 R{8} [R:1:1] [R:2:2] [R:3:3] [R:4:4] [R:5:5] [R:6:6] [R:7:7]",
+     "note": "Figure 20 / Tables 4-5: start bit 1, SGL/DIF, ODD/SIGN, SELECT1 on CLK rising edges 1-4 (leading zeros ignored). Capture a = ODD/SIGN,SELECT1: 00 CH0, 01 CH2, 10 CH1, 11 CH3 (the + input; differential pairs CH0/CH1, CH2/CH3). Reply from falling edge 4: the MUX-settling zero, D7..D0 MSB first, then D1..D7 LSB first (D0 shared), then DO low until CS rises"
+    },
+    {
+     "name": "Leading zero (no start bit)",
+     "in": "0",
+     "action": "nop",
+     "note": "p.15: the start bit is the first logic 1 on DI after CS falls; all leading zeros are ignored"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "command"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "SARS",
+    "active": 1,
+    "asserts": "busy"
+   }
+  ]
+ },
+ "packages": {
+  "NPA": {
+   "pinout": "npa14",
+   "footprint": "SOIC-14-NPA",
+   "package": "SOIC",
+   "pins": 14
+  }
+ },
+ "pdf": "adc0832-n.pdf",
+ "pages": "p.2 (Figure 3 NPA pinout), p.3 (operating ratings: VCC 4.5-6.3 V), p.5 (TTL input levels, TRI-STATE output), p.6 (AC: fCLK 10-400 kHz, tC 8 clocks, tSET-UP 250 ns, tHOLD 90 ns, tpd 1500/600 ns, t1H/t0H 250 ns), p.9 (Figures 15-16), p.10 (Figure 20), p.14 (Tables 4-5), p.15-16 (digital interface steps 1-9)",
+ "notModeled": [
+  "analog inputs, multiplexer, single-ended / differential selection and VREF span (stored only; the result is always the 0 V code 0x00)",
+  "DI is ignored after the MUX address until CS rises (p.15-16); the model's stream frame keeps matching DI, so a 1 on DI during the output restarts the reply. Hold DI low after the address; the one-wire DI/DO tie (p.16) is not supported",
+  "DO is TRI-STATE from CS fall until the MUX-settling clock; the model shifts z for at most 32 leading clocks before a start bit",
+  "SARS: high from the MUX-settling half clock to the end of the 8-clock conversion and TRI-STATE while CS is high; with the clocked conversion (time 0) the model only drives it low",
+  "the conversion is clocked by CLK (8 clock periods after the MUX settling clock); not timed, the result is the 0 V code at once",
+  "fCLK 10-400 kHz, 40-60 % duty cycle, tSET-UP 250 ns / tHOLD 90 ns; tpd is 1500 ns max MSB-first and 600 ns LSB-first (the model uses 1500 ns for every bit)",
+  "all internal registers are cleared while CS is high; a new conversion needs a CS high-to-low transition",
+  "V+ shunt regulator (zener) input and the V+ / VCC diode",
+  "codeFormat: straight binary for a single-ended or positive differential input; a negative differential input reads 0x00"
+ ],
+ "variants": "ADC0831/0832/0834/0838 share the datasheet: 1, 2, 4 and 8 channels; ADC0832 (not in the skeleton) has the 2-bit MUX word and VREF tied to VCC internally. The PDIP (P/N) and PLCC (FN) packages are obsolete / not in the skeleton.",
+ "parts": [
+  [
+   "ADC0834CCWMX/NOPB",
+   "NPA",
+   14,
+   "Active"
+  ]
+ ]
+}

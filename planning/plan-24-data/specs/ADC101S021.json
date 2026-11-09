@@ -1,0 +1,108 @@
+{
+ "device": {
+  "id": "ADC101S021",
+  "function": "ADC",
+  "description": "10-bit 50-200 kSPS SAR ADC with SPI-compatible serial output",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "adc101s021.pdf (SNAS307G) p.2-3 pin descriptions, p.3 operating ratings, p.6 output coding, p.7 timing specifications, p.8 Figure 4 serial timing, p.13 serial interface and transfer function, p.15 modes of operation",
+  "pinouts": {
+   "p6": [
+    {
+     "number": 1,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 3,
+     "name": "VIN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "SDATA",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "CS",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 10,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "VIN"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "miso": "SDATA",
+   "mode": 3
+  },
+  "timing": {
+   "tValid": 20,
+   "tOut": 40,
+   "tFloat": 25
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "out": "0{3} R{10} 0{2}",
+   "idle": "z",
+   "commands": []
+  },
+  "conversion": {
+   "time": 0,
+   "start": [
+    "cs-fall"
+   ]
+  }
+ },
+ "packages": {
+  "NGF": {
+   "pinout": "p6",
+   "footprint": "WSON-6-NGF",
+   "package": "WSON",
+   "pins": 6
+  }
+ },
+ "pdf": "adc101s021.pdf",
+ "pages": "p.2-3 pin descriptions, p.3 operating ratings, p.6 output coding, p.7 timing specifications, p.8 Figure 4 serial timing, p.13 serial interface and transfer function, p.15 modes of operation (VA 2.7-5.25 V; digital inputs -0.3 to 5.25 V regardless of VA; tEN 20 ns, tACC 40 ns at VA 2.7-3.6 V, tDIS 25 ns; frame: 3 leading zeros, 10 data bits MSB first, 2 trailing zeros, data out on SCLK falling edges, TRI-STATE after the 16th falling edge)",
+ "notModeled": [
+  "analog input; the conversion is clocked by SCLK (the result is the 0 V code 0x000 at once)",
+  "SPI mode 3 (SCLK idles high, data out on falling edges); with SCLK low at CS fall the receiver captures an extra leading zero (datasheet), which mode 3 does not show",
+  "SDATA goes TRI-STATE after the 16th falling SCLK edge (idle \"z\" after the 15 pattern bits) or at CS rise",
+  "shutdown mode: CS high between the 2nd and 10th SCLK falling edges powers down until the next CS fall (no visible digital effect; the 1 us power-up time is not modeled)",
+  "CS high between the 10th and 16th falling edges aborts the conversion (SDATA to TRI-STATE)",
+  "tQUIET / tACQ and SCLK frequency limits (25 kHz-20 MHz); tACC is 20 ns at VA 4.75-5.25 V (the model uses 40 ns)"
+ ],
+ "variants": "ADC101S021 / ADC101S051 / ADC101S101 are the same pinout and frame at different sample-rate ranges (separate datasheets); ADC081S/ADC121S are the 8/12-bit parts",
+ "parts": [
+  [
+   "ADC101S021CISD/NOPB",
+   "NGF",
+   6,
+   "Active"
+  ]
+ ]
+}

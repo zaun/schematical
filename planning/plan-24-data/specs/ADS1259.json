@@ -1,0 +1,535 @@
+{
+ "device": {
+  "id": "ADS1259",
+  "function": "ADC",
+  "description": "24-bit 14.4 kSPS delta-sigma ADC with low-drift 2.5 V reference, oscillator and SPI interface",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1259.pdf (SBAS424D): p.4 digital characteristics and DVDD 2.7-5.25 V, p.5 terminal functions, p.6 SPI timing (tDOPD 60 ns, tCSDOD 40 ns, tCSDOZ 20 ns), p.23-24 conversion control (gate/pulse mode, Tables 7-9), p.28 serial interface, DRDY, p.29 data format (Table 16) and checksum, p.30-31 data retrieval (RDATAC / SDATAC), p.32-34 commands (Table 19), p.35-38 registers (Table 20); ads1259-q1.pdf (SLASE20) p.3 terminal functions (pin names REFP/REFN), p.5 recommended operating conditions",
+  "pinouts": {
+   "pw20": [
+    {
+     "number": 1,
+     "name": "AINP",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AINN",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "RESET/PWDN",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "START",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "SYNCOUT",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "DRDY",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "XTAL1/CLKIN",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "XTAL2",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "BYPASS",
+     "role": "nc"
+    },
+    {
+     "number": 14,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 16,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "REFP",
+     "role": "power"
+    },
+    {
+     "number": 18,
+     "name": "REFN",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "AVSS",
+     "role": "ground"
+    },
+    {
+     "number": 20,
+     "name": "AVDD",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 24,
+  "channels": 1,
+  "codeFormat": "twos",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "AINP",
+   "AINN",
+   "XTAL1/CLKIN",
+   "XTAL2",
+   "BYPASS",
+   "REFOUT",
+   "REFP",
+   "REFN",
+   "AVSS",
+   "AVDD"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DIN",
+   "miso": "DOUT",
+   "mode": 1
+  },
+  "timing": {
+   "tValid": 40,
+   "tOut": 60,
+   "tFloat": 20
+  },
+  "registers": [
+   {
+    "name": "CONFIG0",
+    "address": 0,
+    "width": 8,
+    "reset": 133,
+    "readOnly": 240,
+    "fields": [
+     {
+      "name": "ID",
+      "bits": [
+       5,
+       4
+      ]
+     },
+     {
+      "name": "RBIAS",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "SPI",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "reset 10XX0101b: bits 7-6 read-only 1/0, ID[1:0] factory bits not given (0 here)"
+   },
+   {
+    "name": "CONFIG1",
+    "address": 1,
+    "width": 8,
+    "reset": 8,
+    "fields": [
+     {
+      "name": "FLAG",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CHKSUM",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "SINC2",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "EXTREF",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "DELAY",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CONFIG2",
+    "address": 2,
+    "width": 8,
+    "reset": 128,
+    "readOnly": 192,
+    "fields": [
+     {
+      "name": "DRDY",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "EXTCLK",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "SYNCOUT",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "PULSE",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "DR",
+      "bits": [
+       2,
+       0
+      ]
+     }
+    ],
+    "note": "reset XX000000b: DRDY defaults high after power-on/reset (p.28), EXTCLK (clock source detected) 0 here"
+   },
+   {
+    "name": "OFC0",
+    "address": 3,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "OFC1",
+    "address": 4,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "OFC2",
+    "address": 5,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "FSC0",
+    "address": 6,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "FSC1",
+    "address": 7,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "FSC2",
+    "address": 8,
+    "width": 8,
+    "reset": 64
+   },
+   {
+    "name": "CTRL",
+    "width": 1,
+    "reset": 1,
+    "fields": [
+     {
+      "name": "RDATAC",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: read-data-continuous mode (default on, p.32 RDATAC), set by RDATAC / SDATAC"
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "out": "R{24}",
+   "idle": "repeat",
+   "commands": [
+    {
+     "name": "WAKEUP",
+     "in": "0000001x",
+     "action": "wakeup"
+    },
+    {
+     "name": "SLEEP",
+     "in": "0000010x",
+     "action": "powerdown"
+    },
+    {
+     "name": "RESET",
+     "in": "0000011x",
+     "action": "reset"
+    },
+    {
+     "name": "START",
+     "in": "0000100x",
+     "action": "start"
+    },
+    {
+     "name": "STOP",
+     "in": "0000101x",
+     "action": "stop"
+    },
+    {
+     "name": "RDATAC",
+     "in": "00010000",
+     "set": {
+      "CTRL.RDATAC": 1
+     }
+    },
+    {
+     "name": "SDATAC",
+     "in": "00010001",
+     "set": {
+      "CTRL.RDATAC": 0
+     }
+    },
+    {
+     "name": "RDATA",
+     "in": "0001001x",
+     "reply": "R{24}"
+    },
+    {
+     "name": "RREG",
+     "in": "0010aaaa 0000nnnn",
+     "action": "rreg",
+     "address": "a",
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "WREG",
+     "in": "0100aaaa 0000nnnn",
+     "action": "wreg",
+     "address": "a",
+     "count": "n",
+     "countOffset": 1
+    },
+    {
+     "name": "OFSCAL",
+     "in": "00011000",
+     "note": "offset calibration not modeled"
+    },
+    {
+     "name": "GANCAL",
+     "in": "00011001",
+     "note": "gain calibration not modeled"
+    }
+   ]
+  },
+  "conversion": {
+   "time": {
+    "fields": [
+     "CONFIG1.SINC2",
+     "CONFIG2.DR"
+    ],
+    "values": {
+     "0,0": 100000000,
+     "0,1": 60300000,
+     "0,2": 20300000,
+     "0,3": 17000000,
+     "0,4": 2850000,
+     "0,5": 1180000,
+     "0,6": 632000,
+     "0,7": 424000,
+     "1,0": 200000000,
+     "1,1": 120000000,
+     "1,2": 40400000,
+     "1,3": 33700000,
+     "1,4": 5420000,
+     "1,5": 2100000,
+     "1,6": 980000,
+     "1,7": 563000
+    }
+   },
+   "start": [
+    "command",
+    "pin"
+   ],
+   "mode": {
+    "field": "CONFIG2.PULSE",
+    "continuous": 0,
+    "startOnEnter": false
+   },
+   "busy": {
+    "CONFIG2.DRDY": 1
+   },
+   "done": {
+    "CONFIG2.DRDY": 0
+   }
+  },
+  "ready": [
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read",
+    "enable": "CONFIG2.PULSE=0"
+   },
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "start",
+    "enable": "CONFIG2.PULSE=1"
+   },
+   {
+    "pin": "DOUT",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read",
+    "onMiso": true,
+    "enable": [
+     "CTRL.RDATAC=1",
+     "CONFIG2.PULSE=0"
+    ]
+   },
+   {
+    "pin": "DOUT",
+    "active": 0,
+    "asserts": "done",
+    "clears": "start",
+    "onMiso": true,
+    "enable": [
+     "CTRL.RDATAC=1",
+     "CONFIG2.PULSE=1"
+    ]
+   }
+  ],
+  "pins": {
+   "reset": {
+    "pin": "RESET/PWDN",
+    "active": 0
+   },
+   "start": {
+    "pin": "START",
+    "active": 1
+   }
+  }
+ },
+ "packages": {
+  "PW": {
+   "pinout": "pw20",
+   "footprint": "TSSOP-20",
+   "package": "TSSOP",
+   "pins": 20
+  }
+ },
+ "pdf": "ads1259-q1.pdf",
+ "pages": "ads1259.pdf (SBAS424D): p.4 digital characteristics and DVDD 2.7-5.25 V, p.5 terminal functions, p.6 SPI timing (tDOPD 60 ns, tCSDOD 40 ns, tCSDOZ 20 ns), p.23-24 conversion control (gate/pulse mode, Tables 7-9), p.28 serial interface, DRDY, p.29 data format (Table 16) and checksum, p.30-31 data retrieval (RDATAC / SDATAC), p.32-34 commands (Table 19), p.35-38 registers (Table 20); ads1259-q1.pdf (SLASE20) p.3 terminal functions (pin names REFP/REFN), p.5 recommended operating conditions",
+ "notModeled": [
+  "analog input, internal reference (RBIAS, EXTREF), out-of-range detection",
+  "conversion time is the Table 9 settling time after START (fCLK = 7.3728 MHz, DELAY = 000) for every conversion; continuous gate-mode conversions after the first run at 1 / data rate (10 SPS to 14.4 kSPS); DELAY[2:0] start delay (Table 8) not added",
+  "RDATAC mode (default): the data are the default output pattern R{24} at every transaction start and repeat while SCLKs continue; in SDATAC mode the device does not shift data without RDATA (the model still shifts R{24} until a command reply replaces it); DOUT follows DRDY with CS low only in RDATAC mode (modeled)",
+  "commands other than SDATAC are decoded in RDATAC mode as well (the datasheet requires SDATAC first)",
+  "checksum byte (CONFIG1.CHKSUM, sum of the data bytes + 9Bh) and out-of-range flag (CONFIG1.FLAG) are stored only, never output",
+  "DRDY (gate mode) returns high on the first SCLK of a read; 20 tCLK update window and the DRDY high pulse when data are not read",
+  "RESET/PWDN held low powers the device down (modeled as reset held)",
+  "OFSCAL / GANCAL calibrations (OFC/FSC not updated)",
+  "SLEEP mode wake-up time; SPI timeout (CONFIG0.SPI, SCLK low 2^16 tCLK, printed as 216 in the text layout); START/STOP take effect on the 7th SCLK falling edge (modeled at the 8th)",
+  "SYNCOUT clock output (fCLK/8), crystal / external clock (CONFIG2.EXTCLK stays 0)"
+ ],
+ "variants": "ADS1259-Q1 (ads1259-q1.pdf, automotive, pin table names REFP/REFN where ads1259.pdf prints VREFP/VREFN) is the same chip; its part ADS1259QPWRQ1 is in this file. ADS1259B is a grade of the same device",
+ "parts": [
+  [
+   "ADS1259BIPW",
+   "PW",
+   20,
+   "Active"
+  ],
+  [
+   "ADS1259IPW",
+   "PW",
+   20,
+   "Active"
+  ],
+  [
+   "ADS1259IPWR",
+   "PW",
+   20,
+   "Active"
+  ],
+  [
+   "ADS1259QPWRQ1",
+   "PW",
+   20,
+   "Active"
+  ]
+ ]
+}

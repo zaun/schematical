@@ -1,0 +1,416 @@
+{
+ "device": {
+  "id": "ADS8383",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "18-bit 500 kSPS unipolar SAR ADC with 18/16/8-bit parallel interface",
+  "note": "ads8383.pdf (SLAS005C) p.5 digital input/output and supplies (+VBD 2.95-5.25 V, straight binary), p.6-7 timing characteristics (+VBD 5 V / 3 V), p.8 pin assignments, p.9 terminal functions (BYTE, BUS18/16 fold-back), p.10-14 timing diagrams, p.26-27 reading data, Table 2 output codes, Table 3 conversion data read out, initialization",
+  "pinouts": {
+   "pfb48": [
+    {
+     "number": 1,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 3,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 4,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "+IN",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "-IN",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 15,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 16,
+     "name": "DB17",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "DB16",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "DB15",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "DB14",
+     "role": "output"
+    },
+    {
+     "number": 20,
+     "name": "DB13",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "DB12",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "DB11",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "DB10",
+     "role": "output"
+    },
+    {
+     "number": 24,
+     "name": "+VBD",
+     "role": "power"
+    },
+    {
+     "number": 25,
+     "name": "BDGND",
+     "role": "ground"
+    },
+    {
+     "number": 26,
+     "name": "DB9",
+     "role": "output"
+    },
+    {
+     "number": 27,
+     "name": "DB8",
+     "role": "output"
+    },
+    {
+     "number": 28,
+     "name": "DB7",
+     "role": "output"
+    },
+    {
+     "number": 29,
+     "name": "DB6",
+     "role": "output"
+    },
+    {
+     "number": 30,
+     "name": "DB5",
+     "role": "output"
+    },
+    {
+     "number": 31,
+     "name": "DB4",
+     "role": "output"
+    },
+    {
+     "number": 32,
+     "name": "DB3",
+     "role": "output"
+    },
+    {
+     "number": 33,
+     "name": "DB2",
+     "role": "output"
+    },
+    {
+     "number": 34,
+     "name": "DB1",
+     "role": "output"
+    },
+    {
+     "number": 35,
+     "name": "DB0",
+     "role": "output"
+    },
+    {
+     "number": 36,
+     "name": "BUSY",
+     "role": "output"
+    },
+    {
+     "number": 37,
+     "name": "+VBD",
+     "role": "power"
+    },
+    {
+     "number": 38,
+     "name": "BUS18/16",
+     "role": "input"
+    },
+    {
+     "number": 39,
+     "name": "BYTE",
+     "role": "input"
+    },
+    {
+     "number": 40,
+     "name": "CONVST",
+     "role": "input"
+    },
+    {
+     "number": 41,
+     "name": "RD",
+     "role": "input"
+    },
+    {
+     "number": 42,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 43,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 44,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 45,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 46,
+     "name": "+VA",
+     "role": "power"
+    },
+    {
+     "number": 47,
+     "name": "REFM",
+     "role": "ground"
+    },
+    {
+     "number": 48,
+     "name": "REFM",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 18,
+  "channels": 1,
+  "codeFormat": "straight",
+  "vcc": [
+   2.95,
+   5.25
+  ],
+  "analog": [
+   "REFIN",
+   "+VA",
+   "+IN",
+   "-IN",
+   "REFM"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DB17",
+    "DB16",
+    "DB15",
+    "DB14",
+    "DB13",
+    "DB12",
+    "DB11",
+    "DB10",
+    "DB9",
+    "DB8",
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rd": {
+    "pin": "RD",
+    "active": 0
+   }
+  },
+  "timing": {
+   "tAcc": 30,
+   "tDf": 30
+  },
+  "registers": [
+   {
+    "name": "BUSSEL",
+    "width": 2,
+    "reset": 0,
+    "readOnly": 0,
+    "fields": [
+     {
+      "name": "BYTE",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "BUS",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the BYTE and BUS18/16 pin levels (terminal functions, Table 2/3 conversion data read out)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": "R{18}",
+   "reads": [
+    {
+     "when": [
+      "BUSSEL.BYTE=0",
+      "BUSSEL.BUS=1"
+     ],
+     "read": "1{14} [R:1:0] 1{2}"
+    },
+    {
+     "when": [
+      "BUSSEL.BYTE=1",
+      "BUSSEL.BUS=0"
+     ],
+     "read": "[R:9:2] 1{10}"
+    },
+    {
+     "when": [
+      "BUSSEL.BYTE=1",
+      "BUSSEL.BUS=1"
+     ],
+     "read": "1{6} [R:1:0] 1{10}"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 1520,
+   "start": [
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "BUSY",
+    "active": 1,
+    "asserts": "busy"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "CONVST",
+    "edge": "fall"
+   },
+   "levels": [
+    {
+     "pin": "BYTE",
+     "field": "BUSSEL.BYTE"
+    },
+    {
+     "pin": "BUS18/16",
+     "field": "BUSSEL.BUS"
+    }
+   ]
+  }
+ },
+ "packages": {
+  "PFB": {
+   "pinout": "pfb48",
+   "footprint": "TQFP-48-7X7",
+   "package": "TQFP",
+   "pins": 48
+  }
+ },
+ "pdf": "ads8383.pdf",
+ "pages": "p.5 (digital levels, straight binary, +VBD 2.95-5.25 V with +VBD >= +VA - 2.3 V), p.7 (timing at +VBD = 3 V: tCONV 1.52 us, ten 30 ns, tdis 30 ns), p.8 (pin assignments), p.9 (terminal functions, BYTE/BUS18/16 data bus table), p.26-27 (reading data, Tables 2-3, initialization)",
+ "notModeled": [
+  "analog input and reference (REFIN/REFM): every conversion returns the 0 V code 00000h (straight binary, 0 V to +VREF)",
+  "conversion start: a CONVST falling edge starts a conversion only while CS is low (tsu1; CS must be low when CONVST falls); the model starts one at every CONVST falling edge; CS falling starts the acquisition period, which is not modeled",
+  "conversion abort (a second CONVST falling edge with CS low, or a CS falling edge, within tsu(AB) of the start) is not modeled",
+  "read latency: RD with CS low puts the previous conversion result on the bus on the part; the model's result is the constant 0 V code",
+  "quiet-zone timing around the CONVST falling edge; BUSY delays tpd1/tpd2",
+  "BYTE and BUS18/16 fold-back (Table of conversion data read out): the read pattern follows the pin levels when each read starts; changes while RD stays low (AUTO READ) take effect at the next read in the model",
+  "power-on initialization: the first three conversion cycles after power-on load trim data and give invalid results (RD may not be tied low permanently); the model converts normally from power-on",
+  "+VBD must also be at least +VA - 2.3 V (notes 1-2 p.5); the vcc range is the stated 2.95-5.25 V"
+ ],
+ "variants": "ADS8383IB only",
+ "parts": [
+  [
+   "ADS8383IBPFBT",
+   "PFB",
+   48,
+   "Last Time Buy"
+  ]
+ ]
+}

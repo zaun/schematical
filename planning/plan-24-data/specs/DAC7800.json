@@ -1,0 +1,229 @@
+{
+ "device": {
+  "id": "DAC7800",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "Dual 12-bit multiplying current-output DAC with 24-bit serial interface, update pins and asynchronous clear",
+  "note": "dac7800.pdf (SBAS005B) p.2 electrical (VDD 4.5-5.5 V), p.3 pin configuration and logic truth table, p.4 data input format and timing",
+  "pinouts": {
+   "dip16": [
+    {
+     "number": 1,
+     "name": "AGND A",
+     "role": "ground"
+    },
+    {
+     "number": 2,
+     "name": "IOUT A",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "RFB A",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "VREF A",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "UPD A",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "Data In",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "UPD B",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "CLR",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 13,
+     "name": "VREF B",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "RFB B",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "IOUT B",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "AGND B",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 2,
+  "vcc": [
+   4.5,
+   5.5
+  ],
+  "analog": [
+   "IOUT A",
+   "RFB A",
+   "VREF A",
+   "VREF B",
+   "RFB B",
+   "IOUT B"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "CLK",
+   "mosi": "Data In",
+   "mode": 2
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "shift-register bits 12-23 (DAC A, Bit 12 = MSB)"
+   },
+   {
+    "name": "INB",
+    "space": "input",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "shift-register bits 0-11 (DAC B, Bit 0 = MSB, clocked in first)"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC A register (UPD A low with CS low)"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC B register (UPD B low with CS low)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Shift 24 bits",
+     "in": "[INB] [INA]",
+     "note": "data clocked in on CLK falling while CS is low, MSB of DAC B first, DAC A last (p.4)"
+    }
+   ]
+  },
+  "pins": {
+   "ldac": {
+    "pin": "UPD A",
+    "active": 0,
+    "edge": "level"
+   },
+   "clear": {
+    "pin": "CLR",
+    "active": 0
+   }
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB"
+   ],
+   "output": [
+    "DACA",
+    "DACB"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "DW": {
+   "pinout": "dip16",
+   "footprint": "SOIC-16W",
+   "package": "SOIC",
+   "pins": 16
+  },
+  "N": {
+   "pinout": "dip16",
+   "footprint": "PDIP-16",
+   "package": "DIP",
+   "pins": 16
+  }
+ },
+ "pdf": "dac7800.pdf",
+ "pages": "p.2 (VDD), p.3 (pins, truth table: CLK falling edge, CLR async), p.4 (data input sequence, timing)",
+ "notModeled": [
+  "analog: multiplying current outputs IOUT A/B, reference inputs VREF A/B, feedback resistors RFB A/B",
+  "power-on register contents are not given (the datasheet suggests CLR for power-on reset); 0 used",
+  "separate update pins: UPD A loads DAC A and UPD B loads DAC B (each low with CS low); the schema has one LDAC pin, so UPD A (level, active low) updates both DACs and UPD B is not modeled",
+  "UPD is only effective while CS is low (truth table); the model updates whenever UPD A is low",
+  "the shift register keeps shifting past 24 bits (the last 24 bits count); the model takes the first 24 bits of a CS-low period",
+  "CLR also clears the shift register (all register contents set to 0)"
+ ],
+ "variants": "DAC7800 (serial), DAC7801 (8+4-bit parallel, double-buffered) and DAC7802 (12-bit parallel, single-buffered) share dac7800.pdf; own spec files. The DAC7800 is a 16-pin part; skeleton packages DW (SOIC-16W) and N (PDIP-16) share one pin numbering.",
+ "parts": [
+  [
+   "DAC7800KU",
+   "DW",
+   16,
+   "Active"
+  ],
+  [
+   "DAC7800LP",
+   "N",
+   16,
+   "Nrnd"
+  ],
+  [
+   "DAC7800LU",
+   "DW",
+   16,
+   "Nrnd"
+  ]
+ ]
+}

@@ -1,0 +1,279 @@
+{
+ "device": {
+  "id": "THS5651",
+  "function": "DAC",
+  "description": "10-bit 100 MSPS current-output DAC (CommsDAC) with parallel CMOS input, clocked input latch",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ths5651a.pdf (SLAS260A) p.1 pinout, p.3 terminal functions, p.4 supplies (DVDD 3-5.5 V), p.6 digital specifications, p.15-16 data interface and timing, input modes",
+  "pinouts": {
+   "dw28": [
+    {
+     "number": 1,
+     "name": "D9",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "D8",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "D7",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "D6",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "D5",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "D4",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "D3",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "D2",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "D1",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "D0",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 12,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 13,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 14,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 15,
+     "name": "SLEEP",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "EXTLO",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "EXTIO",
+     "role": "power"
+    },
+    {
+     "number": 18,
+     "name": "BIASJ",
+     "role": "output"
+    },
+    {
+     "number": 19,
+     "name": "COMP1",
+     "role": "nc"
+    },
+    {
+     "number": 20,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 21,
+     "name": "IOUT2",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "IOUT1",
+     "role": "output"
+    },
+    {
+     "number": 23,
+     "name": "COMP2",
+     "role": "nc"
+    },
+    {
+     "number": 24,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 25,
+     "name": "MODE",
+     "role": "input"
+    },
+    {
+     "number": 26,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 27,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 28,
+     "name": "CLK",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 10,
+  "channels": 1,
+  "vcc": [
+   3.0,
+   5.5
+  ],
+  "analog": [
+   "AVDD",
+   "IOUT1",
+   "IOUT2",
+   "EXTIO",
+   "EXTLO",
+   "BIASJ",
+   "COMP1",
+   "COMP2"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "D9",
+    "D8",
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "wr": {
+    "pin": "CLK",
+    "active": 0
+   }
+  },
+  "registers": [
+   {
+    "name": "DATA",
+    "space": "dac",
+    "address": 0,
+    "width": 10,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "D",
+      "bits": [
+       9,
+       0
+      ]
+     }
+    ],
+    "note": "input word latched by the edge-triggered input flip-flops; power-on value not given (0 used)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "DATA WORD",
+     "in": "d{10}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "note": "D9-D0 latched on the rising edge of CLK (p.15-16): the parallel write ends at CLK rising"
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "DATA"
+   ],
+   "output": [
+    "DATA"
+   ],
+   "clearCode": 0,
+   "ldac": "sync"
+  }
+ },
+ "packages": {
+  "DW": {
+   "pinout": "dw28",
+   "footprint": "SOIC-28W",
+   "package": "SOIC",
+   "pins": 28
+  },
+  "PW": {
+   "pinout": "dw28",
+   "footprint": "TSSOP-28",
+   "package": "TSSOP",
+   "pins": 28
+  }
+ },
+ "pdf": "ths5651a.pdf",
+ "pages": "p.1 (pinout), p.3 (terminal functions), p.4 (supplies), p.6 (digital timing), p.15-16 (data interface, timing diagram, input modes)",
+ "notModeled": [
+  "analog: complementary current outputs IOUT1/IOUT2, internal 1.2 V reference (EXTIO/EXTLO), full-scale bias (BIASJ), COMP1/COMP2 decoupling",
+  "MODE pin: straight binary (MODE = 0) or twos complement (MODE = 1) input coding changes only the analog mapping; the stored word is the latched input bits",
+  "SLEEP asynchronous power-down (active high, internal pull-down): analog only, not modeled",
+  "one clock cycle conversion latency (td(D)); the stored word is the last word latched",
+  "power-on contents of the input latch not given (0 used)",
+  "internal pull-down on MODE and SLEEP",
+  "AVDD 4.5-5.5 V (p.4)"
+ ],
+ "variants": "pin-compatible CommsDAC family with separate datasheets: THS5641 (8-bit), THS5661 (12-bit), THS5671 (14-bit); higher resolutions use the NC pins 9-14 for the lower data bits",
+ "parts": [
+  [
+   "THS5651AIDW",
+   "DW",
+   28,
+   "Active"
+  ],
+  [
+   "THS5651AIDWR",
+   "DW",
+   28,
+   "Active"
+  ],
+  [
+   "THS5651AIPW",
+   "PW",
+   28,
+   "Active"
+  ]
+ ]
+}

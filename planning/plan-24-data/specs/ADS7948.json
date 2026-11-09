@@ -1,0 +1,196 @@
+{
+  "device": {
+    "id": "ADS7948",
+    "function": "ADC",
+    "description": "10-bit 2 MSPS dual-channel pseudo-differential SAR ADC with SPI interface",
+    "drawer": [
+      "Interface"
+    ],
+    "note": "ads7947.pdf (SLAS708A) p.4 pin configuration and functions, p.5 recommended operating conditions (DVDD 1.65 V to AVDD, AVDD 2.7-5.5 V), p.11 timing requirements, p.12 switching characteristics (tD1 14.5 ns, tD2 11 ns, tD3 15 ns at DVDD 1.8 V) and Figure 1, p.23 straight binary transfer function and PDEN, p.26-28 16-/32-clock frames (Figures 47-52)",
+    "pinouts": {
+      "rte16": [
+        {
+          "number": 1,
+          "name": "GND",
+          "role": "ground"
+        },
+        {
+          "number": 2,
+          "name": "AVDD",
+          "role": "power"
+        },
+        {
+          "number": 3,
+          "name": "REF",
+          "role": "power"
+        },
+        {
+          "number": 4,
+          "name": "REFGND",
+          "role": "ground"
+        },
+        {
+          "number": 5,
+          "name": "AIN0P",
+          "role": "input"
+        },
+        {
+          "number": 6,
+          "name": "AIN0N",
+          "role": "input"
+        },
+        {
+          "number": 7,
+          "name": "AIN1N",
+          "role": "input"
+        },
+        {
+          "number": 8,
+          "name": "AIN1P",
+          "role": "input"
+        },
+        {
+          "number": 9,
+          "name": "NC",
+          "role": "nc"
+        },
+        {
+          "number": 10,
+          "name": "NC",
+          "role": "nc"
+        },
+        {
+          "number": 11,
+          "name": "CH SEL",
+          "role": "input"
+        },
+        {
+          "number": 12,
+          "name": "PDEN",
+          "role": "input"
+        },
+        {
+          "number": 13,
+          "name": "CS",
+          "role": "input"
+        },
+        {
+          "number": 14,
+          "name": "SCLK",
+          "role": "input"
+        },
+        {
+          "number": 15,
+          "name": "SDO",
+          "role": "output"
+        },
+        {
+          "number": 16,
+          "name": "DVDD",
+          "role": "power"
+        }
+      ]
+    },
+    "type": "adc",
+    "bits": 10,
+    "channels": 2,
+    "codeFormat": "straight",
+    "vcc": [
+      1.65,
+      5.5
+    ],
+    "analog": [
+      "AVDD",
+      "REF",
+      "REFGND",
+      "AIN0P",
+      "AIN0N",
+      "AIN1N",
+      "AIN1P"
+    ],
+    "bus": {
+      "style": "spi",
+      "cs": "CS",
+      "sclk": "SCLK",
+      "miso": "SDO",
+      "mode": 0
+    },
+    "timing": {
+      "tValid": 14.5,
+      "tOut": 11,
+      "tFloat": 15
+    },
+    "registers": [
+      {
+        "name": "CTRL",
+        "width": 1,
+        "reset": 0,
+        "fields": [
+          {
+            "name": "CHSEL",
+            "bits": [
+              0,
+              0
+            ]
+          }
+        ],
+        "note": "internal: the CH SEL pin level (low = channel 0, high = channel 1)"
+      }
+    ],
+    "protocol": {
+      "frame": "fixed",
+      "out": "R{10}",
+      "idle": "0",
+      "commands": []
+    },
+    "conversion": {
+      "time": 0,
+      "start": [
+        "cs-fall"
+      ],
+      "channel": "CTRL.CHSEL"
+    },
+    "pins": {
+      "levels": [
+        {
+          "pin": "CH SEL",
+          "field": "CTRL.CHSEL"
+        }
+      ]
+    }
+  },
+  "packages": {
+    "RTE": {
+      "pinout": "rte16",
+      "footprint": "WQFN-16-RTE",
+      "package": "WQFN",
+      "pins": 16
+    }
+  },
+  "pdf": "ads7947.pdf",
+  "pages": "p.4 (pins), p.5 (ROC), p.11-12 (timing, Figure 1), p.23 (code format, PDEN), p.26-28 (frames)",
+  "notModeled": [
+    "analog inputs, reference and multiplexer settling; conversion is clocked by SCLK (10.5 SCLK, not timed: the result is the 0 V code at once)",
+    "16-clock frame pipelining (SDO shows sample N-1 while converting sample N): the 0 V code is constant, so the output is the same",
+    "bits after D0 in the 16-clock frame are undefined in the datasheet (shown as don't-care); modeled as 0",
+    "32-clock frame mode (CS held low to the 30th SCLK falling edge: the next frame outputs 16 zeros, then the data of the current sample)",
+    "PDEN auto power-down (PDEN high at the CS rising edge powers the device down after the conversion; CS rising with PDEN low wakes it): PDEN is an input with no effect",
+    "conversion abort (CS high during the first 16 clocks invalidates the next frame's data)",
+    "throughput, acquisition time and SCLK frequency limits"
+  ],
+  "variants": "ADS7947 (12-bit, tCONV 13.5 SCLK), ADS7948 (10-bit, 10.5 SCLK) and ADS7949 (8-bit, 8.5 SCLK) share ads7947.pdf and pinout; pin-compatible with the 14-bit ADS7945/6 (ads7946.pdf)",
+  "parts": [
+    [
+      "ADS7948SRTER",
+      "RTE",
+      16,
+      "Active"
+    ],
+    [
+      "ADS7948SRTET",
+      "RTE",
+      16,
+      "Active"
+    ]
+  ]
+}

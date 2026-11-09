@@ -1,0 +1,263 @@
+{
+ "device": {
+  "id": "ADS7800",
+  "function": "ADC",
+  "description": "12-bit 333 kHz sampling ADC, +/-10 V or +/-5 V input, 12-bit or 8+4-bit parallel bus with R/C, HBE and BUSY",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads7800.pdf (SBAS001A) p.2 specifications (VS 4.75-5.25 V, conversion time 2.7 us max, offset binary coding), p.4 pin assignments, p.7 Table I acquisition/conversion timing, Table II control line functions, conversion start, p.8 reading data, p.9 Table III timing",
+  "pinouts": {
+   "p24": [
+    {
+     "number": 1,
+     "name": "IN1",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "IN2",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "REF",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 5,
+     "name": "D11",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "D10",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "D9",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "D8",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "D7",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "D6",
+     "role": "output"
+    },
+    {
+     "number": 11,
+     "name": "D5",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "D4",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 14,
+     "name": "D3",
+     "role": "output"
+    },
+    {
+     "number": 15,
+     "name": "D2",
+     "role": "output"
+    },
+    {
+     "number": 16,
+     "name": "D1",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "D0",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "HBE",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "R/C",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "BUSY",
+     "role": "output"
+    },
+    {
+     "number": 22,
+     "name": "-VS",
+     "role": "power"
+    },
+    {
+     "number": 23,
+     "name": "VSD",
+     "role": "power"
+    },
+    {
+     "number": 24,
+     "name": "VSA",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 12,
+  "channels": 1,
+  "codeFormat": "offset",
+  "vcc": [
+   4.75,
+   5.25
+  ],
+  "analog": [
+   "IN1",
+   "IN2",
+   "REF",
+   "-VS",
+   "VSA"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "D11",
+    "D10",
+    "D9",
+    "D8",
+    "D7",
+    "D6",
+    "D5",
+    "D4",
+    "D3",
+    "D2",
+    "D1",
+    "D0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rw": {
+    "pin": "R/C",
+    "read": 1
+   },
+   "byteSelect": {
+    "pin": "HBE",
+    "high": 1
+   }
+  },
+  "timing": {
+   "tAcc": 150,
+   "tDf": 150
+  },
+  "registers": [],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [],
+   "read": {
+    "low": "R{12}",
+    "high": "[R:11:8] 0000 [R:11:8]"
+   }
+  },
+  "conversion": {
+   "time": 2700,
+   "start": [
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "BUSY",
+    "active": 0,
+    "asserts": "busy"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "R/C",
+    "edge": "fall"
+   }
+  }
+ },
+ "packages": {
+  "JDN": {
+   "pinout": "p24",
+   "footprint": "CDIP-SB-24-JDN",
+   "package": "DIP",
+   "pins": 24
+  },
+  "DW": {
+   "pinout": "p24",
+   "footprint": "SOIC-24W",
+   "package": "SOIC",
+   "pins": 24
+  }
+ },
+ "pdf": "ads7800.pdf",
+ "pages": "p.2 (specifications: VS = VSA = VSD 4.75-5.25 V, conversion time 2.5 typ / 2.7 us max, data coding binary offset binary, VIH to +5.3 V), p.4 (pin assignments, DIP/SOIC same numbering), p.6-7 (R/C convert and read modes, Table I tB 2.7 us, tC 2.70 us max, Table II control line functions, HBE 8+4-bit read), p.7 (conversion start), p.8 (reading data: R/C high, BUSY high, CS low), p.9 (Table III: tDD 150 ns max data valid, tHL 150 ns max to Hi-Z)",
+ "notModeled": [
+  "analog inputs (+/-10 V on IN1, +/-5 V on IN2) and the 2 V reference output: the result is always the 0 V code 800h (offset binary)",
+  "conversion start gating: the R/C falling edge starts a conversion only when CS is low, HBE is low and BUSY is high (falling edges during a conversion are ignored); the model starts one on every R/C falling edge",
+  "outputs stay Hi-Z while BUSY is low (conversion in progress) even with CS low and R/C high; the model drives the read pattern whenever CS is low and R/C is high",
+  "with HBE high the datasheet only states that pins 14-17 carry D11-D8 and pins 9-12 are forced low; pins 5-8 (D11-D8) are modeled as still carrying the 4 MSBs",
+  "Read mode (positive R/C pulse: previous result enabled while R/C is high) and Convert mode differ only in timing; both follow from the R/C level",
+  "tDBC BUSY delay (150 ns max) after R/C falls, tDB BUSY delay after data valid, tS/tH setup and hold of CS/HBE around R/C, acquisition time 300 ns",
+  "supplies: -VS (-11.4 to -16.5 V) is analog-only; VSD and VSA must be tied together"
+ ],
+ "variants": "single-device datasheet; grades J/K (SOIC DW) and A/B (CDIP SB JDN) differ in accuracy only. ADS7800AH (JDN, active in the Package Option Addendum) is not in the skeleton parts list.",
+ "parts": [
+  [
+   "ADS7800BH",
+   "JDN",
+   24,
+   "Active"
+  ],
+  [
+   "ADS7800JU",
+   "DW",
+   24,
+   "Active"
+  ],
+  [
+   "ADS7800JU/1K",
+   "DW",
+   24,
+   "Active"
+  ],
+  [
+   "ADS7800KU",
+   "DW",
+   24,
+   "Active"
+  ]
+ ]
+}

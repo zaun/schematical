@@ -1,0 +1,64 @@
+{
+  "device": {
+    "id": "ADS7816",
+    "function": "ADC",
+    "description": "12-bit 200 kHz micropower sampling SAR ADC with synchronous serial interface",
+    "drawer": ["Interface"],
+    "note": "ads7816.pdf (SBAS061) p.2 specifications (VCC 4.5-5.25 V, VIH, straight binary), p.3 pin configuration and assignments, p.9 digital interface, Table I timing and Figure 1, p.10 data format",
+    "pinouts": {
+      "dgk8": [
+        {"number": 1, "name": "VREF", "role": "power"},
+        {"number": 2, "name": "+In", "role": "input"},
+        {"number": 3, "name": "-In", "role": "input"},
+        {"number": 4, "name": "GND", "role": "ground"},
+        {"number": 5, "name": "CS/SHDN", "role": "input"},
+        {"number": 6, "name": "DOUT", "role": "output"},
+        {"number": 7, "name": "DCLOCK", "role": "input"},
+        {"number": 8, "name": "+VCC", "role": "power"}
+      ]
+    },
+    "type": "adc",
+    "bits": 12,
+    "channels": 1,
+    "codeFormat": "straight",
+    "vcc": [4.5, 5.25],
+    "analog": ["VREF", "+In", "-In"],
+    "bus": {"style": "spi", "cs": "CS/SHDN", "sclk": "DCLOCK", "miso": "DOUT", "mode": 0},
+    "timing": {"tValid": 0, "tOut": 150, "tFloat": 50},
+    "registers": [],
+    "protocol": {
+      "frame": "fixed",
+      "out": "z z 0 R{12}",
+      "idle": "0",
+      "commands": []
+    },
+    "conversion": {
+      "time": 0,
+      "start": ["cs-fall"]
+    }
+  },
+  "packages": {
+    "DGK": {"pinout": "dgk8", "footprint": "VSSOP-8-DGK", "package": "VSSOP", "pins": 8},
+    "D": {"pinout": "dgk8", "footprint": "SOIC-8", "package": "SOIC", "pins": 8}
+  },
+  "pdf": "ads7816.pdf",
+  "pages": "p.2 (VCC 4.50-5.25 V, VIH 3 V to VCC+0.3 V, straight binary), p.3 (pin configuration: PDIP/SOIC/MSOP share one pinout; pin assignments), p.9 (serial interface text, Table I: tdDO 150 ns max, tdis 50 ns max, ten 100 ns max; Figure 1), p.10 (data format)",
+  "notModeled": [
+    "analog input; the conversion is clocked by DCLOCK (12 clocks, not timed: the result is the 0 V code at once)",
+    "DOUT is Hi-Z for the first two DCLOCK edges (sample time 1.5-2.0 clocks), then the null bit, then B11..B0; after B0 the part repeats the result LSB-first and then tri-states (text) or outputs zeros (Figure 1 note) - for the 0 V code all those bits are zeros, so idle 0 covers it",
+    "auto power-down after the conversion and shutdown while CS/SHDN is high (no visible bus effect)",
+    "throughput (200 kHz) and DCLOCK frequency limits"
+  ],
+  "variants": "ADS7816B/C (UB, UC, EB, EC) are higher linearity grades of the same part (same spec). ADS7817 (differential, two's complement) and ADS7822 (2.7 V) are separate devices with their own datasheets.",
+  "parts": [
+    ["ADS7816E/250", "DGK", 8, "Active"],
+    ["ADS7816E/2K5", "DGK", 8, "Active"],
+    ["ADS7816EB/250", "DGK", 8, "Active"],
+    ["ADS7816EB/2K5", "DGK", 8, "Active"],
+    ["ADS7816EC/250", "DGK", 8, "Active"],
+    ["ADS7816U/2K5", "D", 8, "Active"],
+    ["ADS7816UB", "D", 8, "Active"],
+    ["ADS7816UC", "D", 8, "Active"],
+    ["ADS7816UC/2K5", "D", 8, "Active"]
+  ]
+}

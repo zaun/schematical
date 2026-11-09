@@ -1,0 +1,988 @@
+{
+ "device": {
+  "id": "ADS1213",
+  "function": "ADC",
+  "description": "22-bit 4-channel delta-sigma ADC with PGA, turbo mode and serial interface (2.5 MHz clock)",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ads1213.pdf (SBAS064B) p.3 power supply (4.75-5.25 V), p.5 pin configuration and definitions, p.19 instruction register (Table VIII), addressing (Table IX), command register (Table X), p.20 command register bits, p.21 decimation ratio / data rate (Table XI), data output register, p.23 timing (Table XV), p.24-29 serial interface",
+  "pinouts": {
+   "dw24": [
+    {
+     "number": 1,
+     "name": "AIN3N",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "AIN2P",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "AIN2N",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "AIN1P",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "AIN1N",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 7,
+     "name": "VBIAS",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "DSYNC",
+     "role": "input"
+    },
+    {
+     "number": 10,
+     "name": "XIN",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "XOUT",
+     "role": "output"
+    },
+    {
+     "number": 12,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 14,
+     "name": "SCLK",
+     "role": "inout"
+    },
+    {
+     "number": 15,
+     "name": "SDIO",
+     "role": "inout"
+    },
+    {
+     "number": 16,
+     "name": "SDOUT",
+     "role": "output"
+    },
+    {
+     "number": 17,
+     "name": "DRDY",
+     "role": "output"
+    },
+    {
+     "number": 18,
+     "name": "MODE",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 20,
+     "name": "REFOUT",
+     "role": "output"
+    },
+    {
+     "number": 21,
+     "name": "REFIN",
+     "role": "power"
+    },
+    {
+     "number": 22,
+     "name": "AIN4P",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "AIN4N",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "AIN3P",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 24,
+  "channels": 4,
+  "codeFormat": "twos",
+  "vcc": [
+   4.75,
+   5.25
+  ],
+  "analog": [
+   "AIN1P",
+   "AIN1N",
+   "AIN2P",
+   "AIN2N",
+   "AIN3P",
+   "AIN3N",
+   "AIN4P",
+   "AIN4N",
+   "AGND",
+   "VBIAS",
+   "XIN",
+   "XOUT",
+   "AVDD",
+   "REFOUT",
+   "REFIN"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "SDIO",
+   "miso": "SDOUT",
+   "mode": 1
+  },
+  "registers": [
+   {
+    "name": "CMR3",
+    "address": 4,
+    "width": 8,
+    "reset": 64,
+    "readOnly": 1,
+    "note": "bit 0 reads DRDY (read-only), writes are DSYNC (write-only, not modeled)",
+    "fields": [
+     {
+      "name": "BIAS",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "REFO",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "DF",
+      "bits": [
+       5,
+       5
+      ]
+     },
+     {
+      "name": "U_B",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "BD",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "MSB",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "SDL",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "DRDY",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CMR2",
+    "address": 5,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "MD",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "G",
+      "bits": [
+       4,
+       2
+      ]
+     },
+     {
+      "name": "CH",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CMR1",
+    "address": 6,
+    "width": 8,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "SF",
+      "bits": [
+       7,
+       5
+      ]
+     },
+     {
+      "name": "DR_HI",
+      "bits": [
+       4,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CMR0",
+    "address": 7,
+    "width": 8,
+    "reset": 23,
+    "fields": [
+     {
+      "name": "DR_LO",
+      "bits": [
+       7,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "OCR2",
+    "address": 8,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "OCR1",
+    "address": 9,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "OCR0",
+    "address": 10,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "FCR2",
+    "address": 12,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "FCR1",
+    "address": 13,
+    "width": 8,
+    "reset": 0
+   },
+   {
+    "name": "FCR0",
+    "address": 14,
+    "width": 8,
+    "reset": 0
+   }
+  ],
+  "protocol": {
+   "frame": "stream",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "INSR read 1 byte(s) from 0h",
+     "in": "10000000",
+     "reply": "[R:23:16]"
+    },
+    {
+     "name": "INSR read 1 byte(s) from 1h",
+     "in": "10000001",
+     "reply": "[R:15:8]"
+    },
+    {
+     "name": "INSR read 1 byte(s) from 2h",
+     "in": "10000010",
+     "reply": "[R:7:0]"
+    },
+    {
+     "name": "INSR read 1 byte(s) from 3h",
+     "in": "10000011",
+     "reply": "0{8}"
+    },
+    {
+     "name": "INSR read 1 byte(s) from 4h",
+     "in": "10000100",
+     "reply": "[CMR3]"
+    },
+    {
+     "name": "INSR read 1 byte(s) from 5h",
+     "in": "10000101",
+     "reply": "[CMR2]"
+    },
+    {
+     "name": "INSR read 1 byte(s) from 6h",
+     "in": "10000110",
+     "reply": "[CMR1]"
+    },
+    {
+     "name": "INSR read 1 byte(s) from 7h",
+     "in": "10000111",
+     "reply": "[CMR0]"
+    },
+    {
+     "name": "INSR read 1 byte(s) from 8h",
+     "in": "10001000",
+     "reply": "[OCR2]"
+    },
+    {
+     "name": "INSR read 1 byte(s) from 9h",
+     "in": "10001001",
+     "reply": "[OCR1]"
+    },
+    {
+     "name": "INSR read 1 byte(s) from Ah",
+     "in": "10001010",
+     "reply": "[OCR0]"
+    },
+    {
+     "name": "INSR read 1 byte(s) from Bh",
+     "in": "10001011",
+     "reply": "0{8}"
+    },
+    {
+     "name": "INSR read 1 byte(s) from Ch",
+     "in": "10001100",
+     "reply": "[FCR2]"
+    },
+    {
+     "name": "INSR read 1 byte(s) from Dh",
+     "in": "10001101",
+     "reply": "[FCR1]"
+    },
+    {
+     "name": "INSR read 1 byte(s) from Eh",
+     "in": "10001110",
+     "reply": "[FCR0]"
+    },
+    {
+     "name": "INSR read 1 byte(s) from Fh",
+     "in": "10001111",
+     "reply": "0{8}"
+    },
+    {
+     "name": "INSR read 2 byte(s) from 0h",
+     "in": "10100000",
+     "reply": "[R:23:16] [R:15:8]"
+    },
+    {
+     "name": "INSR read 2 byte(s) from 1h",
+     "in": "10100001",
+     "reply": "[R:15:8] [R:7:0]"
+    },
+    {
+     "name": "INSR read 2 byte(s) from 2h",
+     "in": "10100010",
+     "reply": "[R:7:0] 0{8}"
+    },
+    {
+     "name": "INSR read 2 byte(s) from 3h",
+     "in": "10100011",
+     "reply": "0{8} [CMR3]"
+    },
+    {
+     "name": "INSR read 2 byte(s) from 4h",
+     "in": "10100100",
+     "reply": "[CMR3] [CMR2]"
+    },
+    {
+     "name": "INSR read 2 byte(s) from 5h",
+     "in": "10100101",
+     "reply": "[CMR2] [CMR1]"
+    },
+    {
+     "name": "INSR read 2 byte(s) from 6h",
+     "in": "10100110",
+     "reply": "[CMR1] [CMR0]"
+    },
+    {
+     "name": "INSR read 2 byte(s) from 7h",
+     "in": "10100111",
+     "reply": "[CMR0] [OCR2]"
+    },
+    {
+     "name": "INSR read 2 byte(s) from 8h",
+     "in": "10101000",
+     "reply": "[OCR2] [OCR1]"
+    },
+    {
+     "name": "INSR read 2 byte(s) from 9h",
+     "in": "10101001",
+     "reply": "[OCR1] [OCR0]"
+    },
+    {
+     "name": "INSR read 2 byte(s) from Ah",
+     "in": "10101010",
+     "reply": "[OCR0] 0{8}"
+    },
+    {
+     "name": "INSR read 2 byte(s) from Bh",
+     "in": "10101011",
+     "reply": "0{8} [FCR2]"
+    },
+    {
+     "name": "INSR read 2 byte(s) from Ch",
+     "in": "10101100",
+     "reply": "[FCR2] [FCR1]"
+    },
+    {
+     "name": "INSR read 2 byte(s) from Dh",
+     "in": "10101101",
+     "reply": "[FCR1] [FCR0]"
+    },
+    {
+     "name": "INSR read 2 byte(s) from Eh",
+     "in": "10101110",
+     "reply": "[FCR0] 0{8}"
+    },
+    {
+     "name": "INSR read 2 byte(s) from Fh",
+     "in": "10101111",
+     "reply": "0{8} 0{8}"
+    },
+    {
+     "name": "INSR read 3 byte(s) from 0h",
+     "in": "11000000",
+     "reply": "[R:23:16] [R:15:8] [R:7:0]"
+    },
+    {
+     "name": "INSR read 3 byte(s) from 1h",
+     "in": "11000001",
+     "reply": "[R:15:8] [R:7:0] 0{8}"
+    },
+    {
+     "name": "INSR read 3 byte(s) from 2h",
+     "in": "11000010",
+     "reply": "[R:7:0] 0{8} [CMR3]"
+    },
+    {
+     "name": "INSR read 3 byte(s) from 3h",
+     "in": "11000011",
+     "reply": "0{8} [CMR3] [CMR2]"
+    },
+    {
+     "name": "INSR read 3 byte(s) from 4h",
+     "in": "11000100",
+     "reply": "[CMR3] [CMR2] [CMR1]"
+    },
+    {
+     "name": "INSR read 3 byte(s) from 5h",
+     "in": "11000101",
+     "reply": "[CMR2] [CMR1] [CMR0]"
+    },
+    {
+     "name": "INSR read 3 byte(s) from 6h",
+     "in": "11000110",
+     "reply": "[CMR1] [CMR0] [OCR2]"
+    },
+    {
+     "name": "INSR read 3 byte(s) from 7h",
+     "in": "11000111",
+     "reply": "[CMR0] [OCR2] [OCR1]"
+    },
+    {
+     "name": "INSR read 3 byte(s) from 8h",
+     "in": "11001000",
+     "reply": "[OCR2] [OCR1] [OCR0]"
+    },
+    {
+     "name": "INSR read 3 byte(s) from 9h",
+     "in": "11001001",
+     "reply": "[OCR1] [OCR0] 0{8}"
+    },
+    {
+     "name": "INSR read 3 byte(s) from Ah",
+     "in": "11001010",
+     "reply": "[OCR0] 0{8} [FCR2]"
+    },
+    {
+     "name": "INSR read 3 byte(s) from Bh",
+     "in": "11001011",
+     "reply": "0{8} [FCR2] [FCR1]"
+    },
+    {
+     "name": "INSR read 3 byte(s) from Ch",
+     "in": "11001100",
+     "reply": "[FCR2] [FCR1] [FCR0]"
+    },
+    {
+     "name": "INSR read 3 byte(s) from Dh",
+     "in": "11001101",
+     "reply": "[FCR1] [FCR0] 0{8}"
+    },
+    {
+     "name": "INSR read 3 byte(s) from Eh",
+     "in": "11001110",
+     "reply": "[FCR0] 0{8} 0{8}"
+    },
+    {
+     "name": "INSR read 3 byte(s) from Fh",
+     "in": "11001111",
+     "reply": "0{8} 0{8} 0{8}"
+    },
+    {
+     "name": "INSR read 4 byte(s) from 0h",
+     "in": "11100000",
+     "reply": "[R:23:16] [R:15:8] [R:7:0] 0{8}"
+    },
+    {
+     "name": "INSR read 4 byte(s) from 1h",
+     "in": "11100001",
+     "reply": "[R:15:8] [R:7:0] 0{8} [CMR3]"
+    },
+    {
+     "name": "INSR read 4 byte(s) from 2h",
+     "in": "11100010",
+     "reply": "[R:7:0] 0{8} [CMR3] [CMR2]"
+    },
+    {
+     "name": "INSR read 4 byte(s) from 3h",
+     "in": "11100011",
+     "reply": "0{8} [CMR3] [CMR2] [CMR1]"
+    },
+    {
+     "name": "INSR read 4 byte(s) from 4h",
+     "in": "11100100",
+     "reply": "[CMR3] [CMR2] [CMR1] [CMR0]"
+    },
+    {
+     "name": "INSR read 4 byte(s) from 5h",
+     "in": "11100101",
+     "reply": "[CMR2] [CMR1] [CMR0] [OCR2]"
+    },
+    {
+     "name": "INSR read 4 byte(s) from 6h",
+     "in": "11100110",
+     "reply": "[CMR1] [CMR0] [OCR2] [OCR1]"
+    },
+    {
+     "name": "INSR read 4 byte(s) from 7h",
+     "in": "11100111",
+     "reply": "[CMR0] [OCR2] [OCR1] [OCR0]"
+    },
+    {
+     "name": "INSR read 4 byte(s) from 8h",
+     "in": "11101000",
+     "reply": "[OCR2] [OCR1] [OCR0] 0{8}"
+    },
+    {
+     "name": "INSR read 4 byte(s) from 9h",
+     "in": "11101001",
+     "reply": "[OCR1] [OCR0] 0{8} [FCR2]"
+    },
+    {
+     "name": "INSR read 4 byte(s) from Ah",
+     "in": "11101010",
+     "reply": "[OCR0] 0{8} [FCR2] [FCR1]"
+    },
+    {
+     "name": "INSR read 4 byte(s) from Bh",
+     "in": "11101011",
+     "reply": "0{8} [FCR2] [FCR1] [FCR0]"
+    },
+    {
+     "name": "INSR read 4 byte(s) from Ch",
+     "in": "11101100",
+     "reply": "[FCR2] [FCR1] [FCR0] 0{8}"
+    },
+    {
+     "name": "INSR read 4 byte(s) from Dh",
+     "in": "11101101",
+     "reply": "[FCR1] [FCR0] 0{8} 0{8}"
+    },
+    {
+     "name": "INSR read 4 byte(s) from Eh",
+     "in": "11101110",
+     "reply": "[FCR0] 0{8} 0{8} 0{8}"
+    },
+    {
+     "name": "INSR read 4 byte(s) from Fh",
+     "in": "11101111",
+     "reply": "0{8} 0{8} 0{8} 0{8}"
+    },
+    {
+     "name": "INSR write 1 byte(s) to 0h",
+     "in": "00000000 x{8}"
+    },
+    {
+     "name": "INSR write 1 byte(s) to 1h",
+     "in": "00000001 x{8}"
+    },
+    {
+     "name": "INSR write 1 byte(s) to 2h",
+     "in": "00000010 x{8}"
+    },
+    {
+     "name": "INSR write 1 byte(s) to 3h",
+     "in": "00000011 x{8}"
+    },
+    {
+     "name": "INSR write 1 byte(s) to 4h",
+     "in": "00000100 [CMR3]"
+    },
+    {
+     "name": "INSR write 1 byte(s) to 5h",
+     "in": "00000101 [CMR2]"
+    },
+    {
+     "name": "INSR write 1 byte(s) to 6h",
+     "in": "00000110 [CMR1]"
+    },
+    {
+     "name": "INSR write 1 byte(s) to 7h",
+     "in": "00000111 [CMR0]"
+    },
+    {
+     "name": "INSR write 1 byte(s) to 8h",
+     "in": "00001000 [OCR2]"
+    },
+    {
+     "name": "INSR write 1 byte(s) to 9h",
+     "in": "00001001 [OCR1]"
+    },
+    {
+     "name": "INSR write 1 byte(s) to Ah",
+     "in": "00001010 [OCR0]"
+    },
+    {
+     "name": "INSR write 1 byte(s) to Bh",
+     "in": "00001011 x{8}"
+    },
+    {
+     "name": "INSR write 1 byte(s) to Ch",
+     "in": "00001100 [FCR2]"
+    },
+    {
+     "name": "INSR write 1 byte(s) to Dh",
+     "in": "00001101 [FCR1]"
+    },
+    {
+     "name": "INSR write 1 byte(s) to Eh",
+     "in": "00001110 [FCR0]"
+    },
+    {
+     "name": "INSR write 1 byte(s) to Fh",
+     "in": "00001111 x{8}"
+    },
+    {
+     "name": "INSR write 2 byte(s) to 0h",
+     "in": "00100000 x{8} x{8}"
+    },
+    {
+     "name": "INSR write 2 byte(s) to 1h",
+     "in": "00100001 x{8} x{8}"
+    },
+    {
+     "name": "INSR write 2 byte(s) to 2h",
+     "in": "00100010 x{8} x{8}"
+    },
+    {
+     "name": "INSR write 2 byte(s) to 3h",
+     "in": "00100011 x{8} [CMR3]"
+    },
+    {
+     "name": "INSR write 2 byte(s) to 4h",
+     "in": "00100100 [CMR3] [CMR2]"
+    },
+    {
+     "name": "INSR write 2 byte(s) to 5h",
+     "in": "00100101 [CMR2] [CMR1]"
+    },
+    {
+     "name": "INSR write 2 byte(s) to 6h",
+     "in": "00100110 [CMR1] [CMR0]"
+    },
+    {
+     "name": "INSR write 2 byte(s) to 7h",
+     "in": "00100111 [CMR0] [OCR2]"
+    },
+    {
+     "name": "INSR write 2 byte(s) to 8h",
+     "in": "00101000 [OCR2] [OCR1]"
+    },
+    {
+     "name": "INSR write 2 byte(s) to 9h",
+     "in": "00101001 [OCR1] [OCR0]"
+    },
+    {
+     "name": "INSR write 2 byte(s) to Ah",
+     "in": "00101010 [OCR0] x{8}"
+    },
+    {
+     "name": "INSR write 2 byte(s) to Bh",
+     "in": "00101011 x{8} [FCR2]"
+    },
+    {
+     "name": "INSR write 2 byte(s) to Ch",
+     "in": "00101100 [FCR2] [FCR1]"
+    },
+    {
+     "name": "INSR write 2 byte(s) to Dh",
+     "in": "00101101 [FCR1] [FCR0]"
+    },
+    {
+     "name": "INSR write 2 byte(s) to Eh",
+     "in": "00101110 [FCR0] x{8}"
+    },
+    {
+     "name": "INSR write 2 byte(s) to Fh",
+     "in": "00101111 x{8} x{8}"
+    },
+    {
+     "name": "INSR write 3 byte(s) to 0h",
+     "in": "01000000 x{8} x{8} x{8}"
+    },
+    {
+     "name": "INSR write 3 byte(s) to 1h",
+     "in": "01000001 x{8} x{8} x{8}"
+    },
+    {
+     "name": "INSR write 3 byte(s) to 2h",
+     "in": "01000010 x{8} x{8} [CMR3]"
+    },
+    {
+     "name": "INSR write 3 byte(s) to 3h",
+     "in": "01000011 x{8} [CMR3] [CMR2]"
+    },
+    {
+     "name": "INSR write 3 byte(s) to 4h",
+     "in": "01000100 [CMR3] [CMR2] [CMR1]"
+    },
+    {
+     "name": "INSR write 3 byte(s) to 5h",
+     "in": "01000101 [CMR2] [CMR1] [CMR0]"
+    },
+    {
+     "name": "INSR write 3 byte(s) to 6h",
+     "in": "01000110 [CMR1] [CMR0] [OCR2]"
+    },
+    {
+     "name": "INSR write 3 byte(s) to 7h",
+     "in": "01000111 [CMR0] [OCR2] [OCR1]"
+    },
+    {
+     "name": "INSR write 3 byte(s) to 8h",
+     "in": "01001000 [OCR2] [OCR1] [OCR0]"
+    },
+    {
+     "name": "INSR write 3 byte(s) to 9h",
+     "in": "01001001 [OCR1] [OCR0] x{8}"
+    },
+    {
+     "name": "INSR write 3 byte(s) to Ah",
+     "in": "01001010 [OCR0] x{8} [FCR2]"
+    },
+    {
+     "name": "INSR write 3 byte(s) to Bh",
+     "in": "01001011 x{8} [FCR2] [FCR1]"
+    },
+    {
+     "name": "INSR write 3 byte(s) to Ch",
+     "in": "01001100 [FCR2] [FCR1] [FCR0]"
+    },
+    {
+     "name": "INSR write 3 byte(s) to Dh",
+     "in": "01001101 [FCR1] [FCR0] x{8}"
+    },
+    {
+     "name": "INSR write 3 byte(s) to Eh",
+     "in": "01001110 [FCR0] x{8} x{8}"
+    },
+    {
+     "name": "INSR write 3 byte(s) to Fh",
+     "in": "01001111 x{8} x{8} x{8}"
+    },
+    {
+     "name": "INSR write 4 byte(s) to 0h",
+     "in": "01100000 x{8} x{8} x{8} x{8}"
+    },
+    {
+     "name": "INSR write 4 byte(s) to 1h",
+     "in": "01100001 x{8} x{8} x{8} [CMR3]"
+    },
+    {
+     "name": "INSR write 4 byte(s) to 2h",
+     "in": "01100010 x{8} x{8} [CMR3] [CMR2]"
+    },
+    {
+     "name": "INSR write 4 byte(s) to 3h",
+     "in": "01100011 x{8} [CMR3] [CMR2] [CMR1]"
+    },
+    {
+     "name": "INSR write 4 byte(s) to 4h",
+     "in": "01100100 [CMR3] [CMR2] [CMR1] [CMR0]"
+    },
+    {
+     "name": "INSR write 4 byte(s) to 5h",
+     "in": "01100101 [CMR2] [CMR1] [CMR0] [OCR2]"
+    },
+    {
+     "name": "INSR write 4 byte(s) to 6h",
+     "in": "01100110 [CMR1] [CMR0] [OCR2] [OCR1]"
+    },
+    {
+     "name": "INSR write 4 byte(s) to 7h",
+     "in": "01100111 [CMR0] [OCR2] [OCR1] [OCR0]"
+    },
+    {
+     "name": "INSR write 4 byte(s) to 8h",
+     "in": "01101000 [OCR2] [OCR1] [OCR0] x{8}"
+    },
+    {
+     "name": "INSR write 4 byte(s) to 9h",
+     "in": "01101001 [OCR1] [OCR0] x{8} [FCR2]"
+    },
+    {
+     "name": "INSR write 4 byte(s) to Ah",
+     "in": "01101010 [OCR0] x{8} [FCR2] [FCR1]"
+    },
+    {
+     "name": "INSR write 4 byte(s) to Bh",
+     "in": "01101011 x{8} [FCR2] [FCR1] [FCR0]"
+    },
+    {
+     "name": "INSR write 4 byte(s) to Ch",
+     "in": "01101100 [FCR2] [FCR1] [FCR0] x{8}"
+    },
+    {
+     "name": "INSR write 4 byte(s) to Dh",
+     "in": "01101101 [FCR1] [FCR0] x{8} x{8}"
+    },
+    {
+     "name": "INSR write 4 byte(s) to Eh",
+     "in": "01101110 [FCR0] x{8} x{8} x{8}"
+    },
+    {
+     "name": "INSR write 4 byte(s) to Fh",
+     "in": "01101111 x{8} x{8} x{8} x{8}"
+    }
+   ]
+  },
+  "conversion": {
+   "time": 3072000,
+   "start": [
+    "power-on",
+    "pin"
+   ],
+   "mode": {
+    "field": "CMR2.MD",
+    "single": 6
+   },
+   "done": {
+    "CMR3.DRDY": 0
+   },
+   "onRead": {
+    "CMR3.DRDY": 1
+   },
+   "channel": "CMR2.CH"
+  },
+  "ready": [
+   {
+    "pin": "DRDY",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "DSYNC",
+    "edge": "rise"
+   }
+  }
+ },
+ "packages": {
+  "DW": {
+   "pinout": "dw24",
+   "footprint": "SOIC-24W",
+   "package": "SOIC",
+   "pins": 24
+  }
+ },
+ "pdf": "ads1213.pdf",
+ "pages": "p.3 (supply), p.5 (pins), p.19-21 (INSR, Table IX addressing, CMR Table X, Table XI, DOR), p.23 (Table XV timing), p.24-29 (serial interface)",
+ "notModeled": [
+  "analog inputs, PGA, turbo mode, VBIAS, reference output (stored only); offset/full-scale calibration registers are stored but not applied; their power-on values are not given (0 here)",
+  "slave mode (MODE = 0) only: master mode, where the part drives SCLK after DRDY falls, is not modeled",
+  "SDL = 0 (the power-on default) outputs read data on SDIO; the model always outputs on SDOUT (set SDL = 1 as the datasheet recommends); SDIO is input only",
+  "BD (reverse byte order) and MSB (LSB-first) read options; the DF offset-binary and U/B unipolar output options",
+  "every INSR (R/W, MB1:MB0 byte count, A3:A0 start) is listed: DOR bytes 0-2 read as the 0 V result, undefined addresses (3, 11, 15 and above) read 00h and ignore writes; the datasheet calls these results unknown",
+  "conversion time is fixed at the default decimation ratio 23 and turbo rate 1 (1 / 326 Hz: 128 x 24 / 1 MHz, Table X; at the 2.5 MHz maximum XIN it is 1.23 ms); DR12:DR0, SF2:SF0 and the XIN frequency do not change it",
+  "calibration modes MD = 001-101 run as normal mode; MD = 110 (sleep) stops conversions; MD = 111 reserved",
+  "DSYNC pin restarts the conversion on its rising edge; the DSYNC write bit (CMR3 bit 0) is not modeled",
+  "the restriction that communication happens during DRDY low / continuous read mode (CS-held reads of the DOR); the data hold-off and DOR-update blocking"
+ ],
+ "variants": "ADS1212 (single channel, 18-pin) shares the datasheet: not in this skeleton",
+ "parts": [
+  [
+   "ADS1213U",
+   "DW",
+   24,
+   "Active"
+  ],
+  [
+   "ADS1213U/1K",
+   "DW",
+   24,
+   "Active"
+  ]
+ ]
+}

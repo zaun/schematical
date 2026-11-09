@@ -1,0 +1,358 @@
+{
+ "device": {
+  "id": "DAC7624",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "quad 12-bit voltage-output DAC with 12-bit parallel interface, input-register read-back, LDAC and reset to mid scale",
+  "note": "dac7624.pdf (SBAS083) p.1 (description: reset to 800H DAC7624 / 000H DAC7625), p.2 (specifications: VDD 4.75-5.25 V, TTL-compatible logic, straight binary), p.4 (pin configurations and descriptions), p.10 (digital interface, Table I control logic), p.11 (Figure 3, Table II timing, input coding)",
+  "pinouts": {
+   "dw28": [
+    {
+     "number": 1,
+     "name": "VREFH",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "VSS",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 6,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "DB0",
+     "role": "inout"
+    },
+    {
+     "number": 9,
+     "name": "DB1",
+     "role": "inout"
+    },
+    {
+     "number": 10,
+     "name": "DB2",
+     "role": "inout"
+    },
+    {
+     "number": 11,
+     "name": "DB3",
+     "role": "inout"
+    },
+    {
+     "number": 12,
+     "name": "DB4",
+     "role": "inout"
+    },
+    {
+     "number": 13,
+     "name": "DB5",
+     "role": "inout"
+    },
+    {
+     "number": 14,
+     "name": "DB6",
+     "role": "inout"
+    },
+    {
+     "number": 15,
+     "name": "DB7",
+     "role": "inout"
+    },
+    {
+     "number": 16,
+     "name": "DB8",
+     "role": "inout"
+    },
+    {
+     "number": 17,
+     "name": "DB9",
+     "role": "inout"
+    },
+    {
+     "number": 18,
+     "name": "DB10",
+     "role": "inout"
+    },
+    {
+     "number": 19,
+     "name": "DB11",
+     "role": "inout"
+    },
+    {
+     "number": 20,
+     "name": "R/W",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "A1",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "A0",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "NIC",
+     "role": "nc"
+    },
+    {
+     "number": 25,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 26,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 27,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 28,
+     "name": "VREFL",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 4,
+  "vcc": [
+   4.75,
+   5.25
+  ],
+  "analog": [
+   "VREFH",
+   "VOUTB",
+   "VOUTA",
+   "VSS",
+   "VOUTD",
+   "VOUTC",
+   "VREFL"
+  ],
+  "bus": {
+   "style": "parallel",
+   "data": [
+    "DB11",
+    "DB10",
+    "DB9",
+    "DB8",
+    "DB7",
+    "DB6",
+    "DB5",
+    "DB4",
+    "DB3",
+    "DB2",
+    "DB1",
+    "DB0"
+   ],
+   "cs": {
+    "pin": "CS",
+    "active": 0
+   },
+   "rw": {
+    "pin": "R/W",
+    "read": 1
+   },
+   "address": [
+    "A1",
+    "A0"
+   ]
+  },
+  "timing": {
+   "tAcc": 160,
+   "tDf": 100
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 12,
+    "reset": 2048,
+    "note": "DAC A input register (Table I: A1 A0 = 00); RESET loads 800H (mid scale); power-on code not stated (RESET code used)"
+   },
+   {
+    "name": "INB",
+    "space": "input",
+    "address": 1,
+    "width": 12,
+    "reset": 2048,
+    "note": "DAC B input register (Table I: A1 A0 = 01); RESET loads 800H (mid scale); power-on code not stated (RESET code used)"
+   },
+   {
+    "name": "INC",
+    "space": "input",
+    "address": 2,
+    "width": 12,
+    "reset": 2048,
+    "note": "DAC C input register (Table I: A1 A0 = 10); RESET loads 800H (mid scale); power-on code not stated (RESET code used)"
+   },
+   {
+    "name": "IND",
+    "space": "input",
+    "address": 3,
+    "width": 12,
+    "reset": 2048,
+    "note": "DAC D input register (Table I: A1 A0 = 11); RESET loads 800H (mid scale); power-on code not stated (RESET code used)"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 12,
+    "reset": 2048,
+    "note": "DAC A DAC register; all four transparent while LDAC is low (Table I)"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 12,
+    "reset": 2048,
+    "note": "DAC B DAC register; all four transparent while LDAC is low (Table I)"
+   },
+   {
+    "name": "DACC",
+    "space": "dac",
+    "address": 2,
+    "width": 12,
+    "reset": 2048,
+    "note": "DAC C DAC register; all four transparent while LDAC is low (Table I)"
+   },
+   {
+    "name": "DACD",
+    "space": "dac",
+    "address": 3,
+    "width": 12,
+    "reset": 2048,
+    "note": "DAC D DAC register; all four transparent while LDAC is low (Table I)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "commands": [
+    {
+     "name": "Write input (CS low, R/W low)",
+     "in": "aa d{12}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "Table I: A1 A0 select input register A-D, transparent while CS and R/W are low, latched when CS returns high (p.10)"
+    }
+   ],
+   "read": {
+    "0": "[INA]",
+    "1": "[INB]",
+    "2": "[INC]",
+    "3": "[IND]"
+   },
+   "note": "Table I: CS low with R/W high reads back the input register A1 A0 select on DB11-DB0 (tCSD 160 ns max, tDZ 100 ns typ)"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "level",
+    "note": "all DAC registers transparent while LDAC is low (p.4, Table I)"
+   },
+   "reset": {
+    "pin": "RESET",
+    "active": 0,
+    "note": "asynchronous, level: input and DAC registers to 800H (mid scale) while RESET is low (Table I)"
+   }
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB",
+    "INC",
+    "IND"
+   ],
+   "output": [
+    "DACA",
+    "DACB",
+    "DACC",
+    "DACD"
+   ],
+   "clearCode": 2048,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "DW": {
+   "pinout": "dw28",
+   "footprint": "SOIC-28W",
+   "package": "SOIC",
+   "pins": 28
+  }
+ },
+ "pdf": "dac7624.pdf",
+ "pages": "p.1 (description: reset to 800H DAC7624 / 000H DAC7625), p.2 (specifications: VDD 4.75-5.25 V, TTL-compatible logic, straight binary), p.4 (pin configurations and descriptions), p.10 (digital interface, Table I control logic), p.11 (Figure 3, Table II timing, input coding)",
+ "notModeled": [
+  "analog: outputs, reference inputs, single (VSS = 0 V) or dual supply operation, settling",
+  "power-on state of the registers is not stated in the datasheet (the RESET code is used)",
+  "the input registers are level-transparent while CS and R/W are low; the model latches the data at the end of the write",
+  "DAC registers are not readable (Table I reads back the input registers only)",
+  "timing limits tRCS/tRDS/tWCS/tWS/tAS/tLS/tLH/tDS/tDH/tLWD/tRESET (Table II)"
+ ],
+ "variants": "DAC7624 (reset to 800H) and DAC7625 (reset to 000H) share dac7624.pdf: same pinout and interface; own spec files. U/UB are linearity grades; the PDIP (P) versions are not in the skeleton.",
+ "parts": [
+  [
+   "DAC7624U/1K",
+   "DW",
+   28,
+   "Active"
+  ],
+  [
+   "DAC7624UB",
+   "DW",
+   28,
+   "Active"
+  ],
+  [
+   "DAC7624UB/1K",
+   "DW",
+   28,
+   "Active"
+  ]
+ ]
+}

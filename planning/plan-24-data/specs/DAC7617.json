@@ -1,0 +1,384 @@
+{
+ "device": {
+  "id": "DAC7617",
+  "function": "DAC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "quad 12-bit +3 V voltage-output DAC with 16-bit serial interface, double-buffered inputs (LOADREG, LDAC) and reset to zero or mid scale",
+  "note": "dac7617.pdf (SBAS185) p.2 (specifications: VDD 3.0-3.6 V, logic levels, straight binary), p.4 (pin configurations and descriptions), p.11 (digital interface, Table I timing, Figure 2), p.12 (Table II control logic, Table III shift register, double buffering, coding)",
+  "pinouts": {
+   "dw16": [
+    {
+     "number": 1,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "VREFL",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "VREFH",
+     "role": "power"
+    },
+    {
+     "number": 6,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 7,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 8,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "LOADREG",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "RESETSEL",
+     "role": "input"
+    }
+   ],
+   "db20": [
+    {
+     "number": 1,
+     "name": "VDD",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VOUTD",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "VOUTC",
+     "role": "output"
+    },
+    {
+     "number": 4,
+     "name": "VREFL",
+     "role": "power"
+    },
+    {
+     "number": 5,
+     "name": "NIC",
+     "role": "nc"
+    },
+    {
+     "number": 6,
+     "name": "NIC",
+     "role": "nc"
+    },
+    {
+     "number": 7,
+     "name": "VREFH",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "VOUTB",
+     "role": "output"
+    },
+    {
+     "number": 9,
+     "name": "VOUTA",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 11,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "NIC",
+     "role": "nc"
+    },
+    {
+     "number": 16,
+     "name": "NIC",
+     "role": "nc"
+    },
+    {
+     "number": 17,
+     "name": "LDAC",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "LOADREG",
+     "role": "input"
+    },
+    {
+     "number": 19,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 20,
+     "name": "RESETSEL",
+     "role": "input"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 12,
+  "channels": 4,
+  "vcc": [
+   3.0,
+   3.6
+  ],
+  "analog": [
+   "VOUTD",
+   "VOUTC",
+   "VREFL",
+   "VREFH",
+   "VOUTB",
+   "VOUTA"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "CLK",
+   "mosi": "SDI",
+   "mode": 3
+  },
+  "registers": [
+   {
+    "name": "INA",
+    "space": "input",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "input register A (Table II, A1 A0 select it; loaded from the shift register while LOADREG is low); power-on code not stated (reset 0)"
+   },
+   {
+    "name": "INB",
+    "space": "input",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "input register B (Table II, A1 A0 select it; loaded from the shift register while LOADREG is low); power-on code not stated (reset 0)"
+   },
+   {
+    "name": "INC",
+    "space": "input",
+    "address": 2,
+    "width": 12,
+    "reset": 0,
+    "note": "input register C (Table II, A1 A0 select it; loaded from the shift register while LOADREG is low); power-on code not stated (reset 0)"
+   },
+   {
+    "name": "IND",
+    "space": "input",
+    "address": 3,
+    "width": 12,
+    "reset": 0,
+    "note": "input register D (Table II, A1 A0 select it; loaded from the shift register while LOADREG is low); power-on code not stated (reset 0)"
+   },
+   {
+    "name": "DACA",
+    "space": "dac",
+    "address": 0,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register A; all four transparent while LDAC is low (Table II)"
+   },
+   {
+    "name": "DACB",
+    "space": "dac",
+    "address": 1,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register B; all four transparent while LDAC is low (Table II)"
+   },
+   {
+    "name": "DACC",
+    "space": "dac",
+    "address": 2,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register C; all four transparent while LDAC is low (Table II)"
+   },
+   {
+    "name": "DACD",
+    "space": "dac",
+    "address": 3,
+    "width": 12,
+    "reset": 0,
+    "note": "DAC register D; all four transparent while LDAC is low (Table II)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "commands": [
+    {
+     "name": "Write",
+     "in": "aa xx d{12}",
+     "action": "write",
+     "channel": "a",
+     "data": "d",
+     "commit": "end",
+     "note": "16-bit word A1 A0 X X D11-D0, MSB first, clocked on CLK rising while CS is low (Figure 2). The word goes to the input register A1 A0 select when LOADREG goes low (Table II); modeled as written into that input register when CS rises"
+    }
+   ],
+   "note": "write-only serial port (no SDO); CS and CLK are ORed into the shift-register clock, CS should rise only while CLK is high (p.11-12), hence mode 3"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDAC",
+    "active": 0,
+    "edge": "level",
+    "note": "all DAC registers transparent while LDAC is low, latched while high (p.4 pin descriptions, Table II)"
+   },
+   "reset": {
+    "pin": "RESET",
+    "active": 0,
+    "note": "asynchronous, level: all registers to 000H (RESETSEL low) or 800H (RESETSEL high) while RESET is low (Table II)"
+   },
+   "resetSelect": [
+    {
+     "pin": "RESETSEL",
+     "level": 1,
+     "resets": {
+      "INA": 2048,
+      "INB": 2048,
+      "INC": 2048,
+      "IND": 2048,
+      "DACA": 2048,
+      "DACB": 2048,
+      "DACC": 2048,
+      "DACD": 2048
+     }
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "INA",
+    "INB",
+    "INC",
+    "IND"
+   ],
+   "output": [
+    "DACA",
+    "DACB",
+    "DACC",
+    "DACD"
+   ],
+   "clearCode": 0,
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "DB": {
+   "pinout": "db20",
+   "footprint": "SSOP-20",
+   "package": "SSOP",
+   "pins": 20
+  },
+  "DW": {
+   "pinout": "dw16",
+   "footprint": "SOIC-16W",
+   "package": "SOIC",
+   "pins": 16
+  }
+ },
+ "pdf": "dac7617.pdf",
+ "pages": "p.2 (specifications: VDD 3.0-3.6 V, logic levels, straight binary), p.4 (pin configurations and descriptions), p.11 (digital interface, Table I timing, Figure 2), p.12 (Table II control logic, Table III shift register, double buffering, coding)",
+ "notModeled": [
+  "analog: outputs, reference inputs VREFH/VREFL, settling (10 us)",
+  "power-on state of the registers is not stated in the datasheet (reset 0)",
+  "CS and CLK are interchangeable (ORed); a CS rising edge while CLK is low shifts one extra bit (p.11)",
+  "timing limits tDS/tDH/tCH/tCL/tCSS/tCSH/tLD1/tLD2/tLDDW/tRSSH/tRSTW (Table I)",
+  "LOADREG: the input register A1 A0 select is transparent while LOADREG is low (level-triggered load from the shift register); the schema has no load-strobe pin, so the word is written into the input register when CS rises (a frame without a LOADREG pulse still updates the input register in the model)"
+ ],
+ "variants": "DAC7616 (dac7616.pdf) is the single-buffered sibling: no input registers, pin 13/17 NIC, LDAC loads the addressed DAC register only. DAC7617E/U/EB/UB are linearity grades of the same chip.",
+ "parts": [
+  [
+   "DAC7617EB",
+   "DB",
+   20,
+   "Active"
+  ],
+  [
+   "DAC7617UB",
+   "DW",
+   16,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,5694 @@
+{
+ "format": "schematical-parts",
+ "version": 1,
+ "kind": "rtc",
+ "devices": [
+  {
+   "id": "BQ32000",
+   "function": "RTC",
+   "description": "I2C real-time clock with automatic battery backup switchover, oscillator-fail flag, calibration and trickle charger",
+   "drawer": [
+    "Interface"
+   ],
+   "note": "bq32000.pdf (SLUS900F) p.3 pinout and pin functions, p.4 recommended operating conditions, p.5 I2C timing (tvd(data) 1 us), p.7-8 IRQ function (Table 6-1) and SF keys, p.9 switchover, p.10 trickle charge, p.10-11 I2C (address 1101000, no general call), p.12 register map (Tables 7-1, 7-2), p.12-18 register descriptions, p.20 leap year",
+   "pinouts": {
+    "d8": [
+     {
+      "number": 1,
+      "name": "OSCI",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "OSCO",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "VBACK",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 5,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "SCL",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "IRQ",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VCC",
+      "role": "power"
+     }
+    ]
+   },
+   "vcc": [
+    3.0,
+    3.6
+   ],
+   "analog": [
+    "OSCI",
+    "OSCO",
+    "VBACK"
+   ],
+   "bus": {
+    "style": "i2c",
+    "scl": "SCL",
+    "sda": "SDA",
+    "address": [],
+    "table": [
+     104
+    ]
+   },
+   "timing": {
+    "tOut": 1000
+   },
+   "registers": [
+    {
+     "name": "SECONDS",
+     "address": 0,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "STOP",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "SECONDS",
+       "bits": [
+        6,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "MINUTES",
+     "address": 1,
+     "width": 8,
+     "reset": 128,
+     "fields": [
+      {
+       "name": "OF",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "MINUTES",
+       "bits": [
+        6,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "CENT_HOURS",
+     "address": 2,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "CENT_EN",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "CENT",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "HOURS",
+       "bits": [
+        5,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DAY",
+     "address": 3,
+     "width": 8,
+     "reset": 7,
+     "fields": [
+      {
+       "name": "RSVD",
+       "bits": [
+        7,
+        3
+       ]
+      },
+      {
+       "name": "DAY",
+       "bits": [
+        2,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DATE",
+     "address": 4,
+     "width": 8,
+     "reset": 1,
+     "fields": [
+      {
+       "name": "RSVD",
+       "bits": [
+        7,
+        6
+       ]
+      },
+      {
+       "name": "DATE",
+       "bits": [
+        5,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "MONTH",
+     "address": 5,
+     "width": 8,
+     "reset": 1,
+     "fields": [
+      {
+       "name": "RSVD",
+       "bits": [
+        7,
+        5
+       ]
+      },
+      {
+       "name": "MONTH",
+       "bits": [
+        4,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "YEARS",
+     "address": 6,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "YEARS",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "CAL_CFG1",
+     "address": 7,
+     "width": 8,
+     "reset": 128,
+     "fields": [
+      {
+       "name": "OUT",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "FT",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "S",
+       "bits": [
+        5,
+        5
+       ]
+      },
+      {
+       "name": "CAL",
+       "bits": [
+        4,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "TCH2",
+     "address": 8,
+     "width": 8,
+     "reset": 144,
+     "fields": [
+      {
+       "name": "RSVD1",
+       "bits": [
+        7,
+        6
+       ]
+      },
+      {
+       "name": "TCH2",
+       "bits": [
+        5,
+        5
+       ]
+      },
+      {
+       "name": "RSVD0",
+       "bits": [
+        4,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "CFG2",
+     "address": 9,
+     "width": 8,
+     "reset": 170,
+     "fields": [
+      {
+       "name": "RSVD1",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "TCFE",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "RSVD0",
+       "bits": [
+        5,
+        4
+       ]
+      },
+      {
+       "name": "TCHE",
+       "bits": [
+        3,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "SF_KEY1",
+     "address": 32,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true,
+     "note": "write-only key (0x5E); reads as 0x00"
+    },
+    {
+     "name": "SF_KEY2",
+     "address": 33,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true,
+     "note": "write-only key (0xC7); reads as 0x00"
+    },
+    {
+     "name": "SFR",
+     "address": 34,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "RSVD",
+       "bits": [
+        7,
+        1
+       ]
+      },
+      {
+       "name": "FTF",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ]
+    }
+   ],
+   "protocol": {
+    "frame": "fixed",
+    "commands": [
+     {
+      "name": "Subaddress",
+      "in": "aaaaaaaa",
+      "action": "pointer",
+      "address": "a",
+      "increment": 1,
+      "note": "the first write byte is the register subaddress; further bytes write consecutive registers, reads continue from it (Figures 6-4/6-5: DataN, DataN+1)"
+     }
+    ],
+    "read": "pointer"
+   },
+   "clock": {
+    "fields": [
+     {
+      "field": "SECONDS.SECONDS",
+      "unit": "second",
+      "format": "bcd"
+     },
+     {
+      "field": "MINUTES.MINUTES",
+      "unit": "minute",
+      "format": "bcd"
+     },
+     {
+      "field": "CENT_HOURS.HOURS",
+      "unit": "hour",
+      "format": "bcd"
+     },
+     {
+      "field": "DAY.DAY",
+      "unit": "weekday",
+      "first": 1
+     },
+     {
+      "field": "DATE.DATE",
+      "unit": "date",
+      "format": "bcd"
+     },
+     {
+      "field": "MONTH.MONTH",
+      "unit": "month",
+      "format": "bcd"
+     },
+     {
+      "field": "YEARS.YEARS",
+      "unit": "year",
+      "format": "bcd",
+      "base": 2000
+     },
+     {
+      "field": "CENT_HOURS.CENT",
+      "unit": "century",
+      "format": "binary"
+     }
+    ],
+    "stop": {
+     "field": "SECONDS.STOP",
+     "stopped": 1,
+     "powerOn": 0
+    },
+    "update": "none"
+   },
+   "parts": [
+    {
+     "name": "BQ32000D",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "bq32000",
+     "package": "SOIC",
+     "pinout": "d8",
+     "footprint": "SOIC-8"
+    },
+    {
+     "name": "BQ32000DR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "bq32000",
+     "package": "SOIC",
+     "pinout": "d8",
+     "footprint": "SOIC-8"
+    }
+   ]
+  },
+  {
+   "id": "BQ32002",
+   "function": "RTC",
+   "description": "I2C real-time clock with automatic battery backup switchover, oscillator-fail flag, calibration",
+   "drawer": [
+    "Interface"
+   ],
+   "note": "bq32002.pdf (SLUSA96B) p.3 pinout and pin functions, p.4 recommended operating conditions, p.6 I2C timing (tvd(data) 1 us), p.7-8 IRQ function (Table 1), p.10-11 I2C (address 1101000, no general call), p.12 register map (Tables 2, 3), p.12-18 register descriptions",
+   "pinouts": {
+    "d8": [
+     {
+      "number": 1,
+      "name": "OSCI",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "OSCO",
+      "role": "output"
+     },
+     {
+      "number": 3,
+      "name": "VBACK",
+      "role": "power"
+     },
+     {
+      "number": 4,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 5,
+      "name": "SDA",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "SCL",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "IRQ",
+      "role": "output"
+     },
+     {
+      "number": 8,
+      "name": "VCC",
+      "role": "power"
+     }
+    ]
+   },
+   "vcc": [
+    3.0,
+    3.6
+   ],
+   "analog": [
+    "OSCI",
+    "OSCO",
+    "VBACK"
+   ],
+   "bus": {
+    "style": "i2c",
+    "scl": "SCL",
+    "sda": "SDA",
+    "address": [],
+    "table": [
+     104
+    ]
+   },
+   "timing": {
+    "tOut": 1000
+   },
+   "registers": [
+    {
+     "name": "SECONDS",
+     "address": 0,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "STOP",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "SECONDS",
+       "bits": [
+        6,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "MINUTES",
+     "address": 1,
+     "width": 8,
+     "reset": 128,
+     "fields": [
+      {
+       "name": "OF",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "MINUTES",
+       "bits": [
+        6,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "CENT_HOURS",
+     "address": 2,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "CENT_EN",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "CENT",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "HOURS",
+       "bits": [
+        5,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DAY",
+     "address": 3,
+     "width": 8,
+     "reset": 7,
+     "fields": [
+      {
+       "name": "RSVD",
+       "bits": [
+        7,
+        3
+       ]
+      },
+      {
+       "name": "DAY",
+       "bits": [
+        2,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DATE",
+     "address": 4,
+     "width": 8,
+     "reset": 1,
+     "fields": [
+      {
+       "name": "RSVD",
+       "bits": [
+        7,
+        6
+       ]
+      },
+      {
+       "name": "DATE",
+       "bits": [
+        5,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "MONTH",
+     "address": 5,
+     "width": 8,
+     "reset": 1,
+     "fields": [
+      {
+       "name": "RSVD",
+       "bits": [
+        7,
+        5
+       ]
+      },
+      {
+       "name": "MONTH",
+       "bits": [
+        4,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "YEARS",
+     "address": 6,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "YEARS",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "CAL_CFG1",
+     "address": 7,
+     "width": 8,
+     "reset": 128,
+     "fields": [
+      {
+       "name": "OUT",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "FT",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "S",
+       "bits": [
+        5,
+        5
+       ]
+      },
+      {
+       "name": "CAL",
+       "bits": [
+        4,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "CFG2",
+     "address": 9,
+     "width": 8,
+     "reset": 170,
+     "fields": [
+      {
+       "name": "RSVD",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "SF_KEY1",
+     "address": 32,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true,
+     "note": "write-only key (0x5E); reads as 0x00"
+    },
+    {
+     "name": "SF_KEY2",
+     "address": 33,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true,
+     "note": "write-only key (0xC7); reads as 0x00"
+    },
+    {
+     "name": "SFR",
+     "address": 34,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "RSVD",
+       "bits": [
+        7,
+        1
+       ]
+      },
+      {
+       "name": "FTF",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ]
+    }
+   ],
+   "protocol": {
+    "frame": "fixed",
+    "commands": [
+     {
+      "name": "Subaddress",
+      "in": "aaaaaaaa",
+      "action": "pointer",
+      "address": "a",
+      "increment": 1,
+      "note": "the first write byte is the register subaddress; further bytes write consecutive registers, reads continue from it (Figures 6-4/6-5: DataN, DataN+1)"
+     }
+    ],
+    "read": "pointer"
+   },
+   "clock": {
+    "fields": [
+     {
+      "field": "SECONDS.SECONDS",
+      "unit": "second",
+      "format": "bcd"
+     },
+     {
+      "field": "MINUTES.MINUTES",
+      "unit": "minute",
+      "format": "bcd"
+     },
+     {
+      "field": "CENT_HOURS.HOURS",
+      "unit": "hour",
+      "format": "bcd"
+     },
+     {
+      "field": "DAY.DAY",
+      "unit": "weekday",
+      "first": 1
+     },
+     {
+      "field": "DATE.DATE",
+      "unit": "date",
+      "format": "bcd"
+     },
+     {
+      "field": "MONTH.MONTH",
+      "unit": "month",
+      "format": "bcd"
+     },
+     {
+      "field": "YEARS.YEARS",
+      "unit": "year",
+      "format": "bcd",
+      "base": 2000
+     },
+     {
+      "field": "CENT_HOURS.CENT",
+      "unit": "century",
+      "format": "binary"
+     }
+    ],
+    "stop": {
+     "field": "SECONDS.STOP",
+     "stopped": 1,
+     "powerOn": 0
+    },
+    "update": "none"
+   },
+   "parts": [
+    {
+     "name": "BQ32002D",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "bq32002",
+     "package": "SOIC",
+     "pinout": "d8",
+     "footprint": "SOIC-8"
+    },
+    {
+     "name": "BQ32002DR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "bq32002",
+     "package": "SOIC",
+     "pinout": "d8",
+     "footprint": "SOIC-8"
+    }
+   ]
+  },
+  {
+   "id": "BQ3285",
+   "function": "RTC",
+   "description": "Real-time clock with 114 bytes of nonvolatile RAM, alarm, periodic interrupt and square-wave output, multiplexed Intel/Motorola bus (MC146818A/DS1285 compatible)",
+   "drawer": [
+    "Interface"
+   ],
+   "note": "bq3285.pdf (SLUS028A) p.1 pin connections, p.2-3 pin descriptions (MOT bus select Table 1, AS address latch), p.4 address map (Figure 1) and update period, p.5 formats (Table 2), p.6 square wave and periodic rates (Table 3), p.7 periodic, alarm, update interrupts, update access, oscillator control, p.8-10 control/status registers (Table 4), p.11 recommended DC operating conditions, p.14 read/write timing (tOD 50 ns, tDHR 25 ns, tBUC 244 us), p.18 interrupt timing; the AS falling edge latches the address (bus.ale)",
+   "pinouts": {
+    "dw24": [
+     {
+      "number": 1,
+      "name": "MOT",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "X1",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "X2",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "AD0",
+      "role": "inout"
+     },
+     {
+      "number": 5,
+      "name": "AD1",
+      "role": "inout"
+     },
+     {
+      "number": 6,
+      "name": "AD2",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "AD3",
+      "role": "inout"
+     },
+     {
+      "number": 8,
+      "name": "AD4",
+      "role": "inout"
+     },
+     {
+      "number": 9,
+      "name": "AD5",
+      "role": "inout"
+     },
+     {
+      "number": 10,
+      "name": "AD6",
+      "role": "inout"
+     },
+     {
+      "number": 11,
+      "name": "AD7",
+      "role": "inout"
+     },
+     {
+      "number": 12,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 13,
+      "name": "CS",
+      "role": "input"
+     },
+     {
+      "number": 14,
+      "name": "AS",
+      "role": "input"
+     },
+     {
+      "number": 15,
+      "name": "R/W",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 17,
+      "name": "DS",
+      "role": "input"
+     },
+     {
+      "number": 18,
+      "name": "RST",
+      "role": "input"
+     },
+     {
+      "number": 19,
+      "name": "INT",
+      "role": "output"
+     },
+     {
+      "number": 20,
+      "name": "BC",
+      "role": "power"
+     },
+     {
+      "number": 21,
+      "name": "RCL",
+      "role": "input"
+     },
+     {
+      "number": 22,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 23,
+      "name": "SQW",
+      "role": "output"
+     },
+     {
+      "number": 24,
+      "name": "VCC",
+      "role": "power"
+     }
+    ]
+   },
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "analog": [
+    "X1",
+    "X2",
+    "BC"
+   ],
+   "bus": {
+    "style": "parallel",
+    "data": [
+     "AD7",
+     "AD6",
+     "AD5",
+     "AD4",
+     "AD3",
+     "AD2",
+     "AD1",
+     "AD0"
+    ],
+    "cs": {
+     "pin": "CS",
+     "active": 0
+    },
+    "rd": {
+     "pin": "DS",
+     "active": 0
+    },
+    "wr": {
+     "pin": "R/W",
+     "active": 0
+    },
+    "address": [],
+    "ale": {
+     "pin": "AS",
+     "edge": "fall",
+     "bits": 8
+    }
+   },
+   "timing": {
+    "tAcc": 50,
+    "tDf": 25
+   },
+   "registers": [
+    {
+     "name": "SECONDS",
+     "address": 0,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "SECONDS",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "ASEC",
+     "address": 1,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "ASEC",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "MINUTES",
+     "address": 2,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "MINUTES",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "AMIN",
+     "address": 3,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "AMIN",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "HOURS",
+     "address": 4,
+     "width": 8,
+     "reset": 18,
+     "fields": [
+      {
+       "name": "PM",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "HOURS",
+       "bits": [
+        6,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "AHOUR",
+     "address": 5,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "PM",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "HOURS",
+       "bits": [
+        6,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DAY",
+     "address": 6,
+     "width": 8,
+     "reset": 7,
+     "fields": [
+      {
+       "name": "DAY",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DATE",
+     "address": 7,
+     "width": 8,
+     "reset": 1,
+     "fields": [
+      {
+       "name": "DATE",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "MONTH",
+     "address": 8,
+     "width": 8,
+     "reset": 1,
+     "fields": [
+      {
+       "name": "MONTH",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "YEAR",
+     "address": 9,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "YEAR",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "REGA",
+     "address": 10,
+     "width": 8,
+     "reset": 0,
+     "readOnly": 128,
+     "fields": [
+      {
+       "name": "UIP",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "OS",
+       "bits": [
+        6,
+        4
+       ]
+      },
+      {
+       "name": "RS",
+       "bits": [
+        3,
+        0
+       ]
+      }
+     ],
+     "note": "Table 4: all bits na (not affected) on reset; OS = 000 at first power-up (oscillator off until 010 is written, p.7)"
+    },
+    {
+     "name": "REGB",
+     "address": 11,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "UTI",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "PIE",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "AIE",
+       "bits": [
+        5,
+        5
+       ]
+      },
+      {
+       "name": "UIE",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "SQWE",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "DF",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "HF",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "DSE",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "note": "Table 4: PIE, AIE, UIE, SQWE cleared by RST; UTI, DF, HF, DSE na (power-on value not given: 0)"
+    },
+    {
+     "name": "REGC",
+     "address": 12,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true,
+     "fields": [
+      {
+       "name": "INTF",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "PF",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "AF",
+       "bits": [
+        5,
+        5
+       ]
+      },
+      {
+       "name": "UF",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "ZERO",
+       "bits": [
+        3,
+        0
+       ]
+      }
+     ],
+     "clearOnRead": 240,
+     "note": "read-only event flags; reading clears all flags and releases INT"
+    },
+    {
+     "name": "REGD",
+     "address": 13,
+     "width": 8,
+     "reset": 128,
+     "readOnly": true,
+     "fields": [
+      {
+       "name": "VRT",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "ZERO",
+       "bits": [
+        6,
+        0
+       ]
+      }
+     ],
+     "note": "VRT = 1: valid backup energy source"
+    }
+   ],
+   "protocol": {
+    "frame": "fixed",
+    "commands": [
+     {
+      "name": "Write",
+      "in": "xaaaaaaa dddddddd",
+      "action": "write",
+      "address": "a",
+      "data": "d",
+      "note": "address 0-13 registers, 14-127 RAM (clock.ram); AD7 of the address is not decoded (128-byte map)"
+     }
+    ],
+    "read": {
+     "0": "[SECONDS]",
+     "1": "[ASEC]",
+     "2": "[MINUTES]",
+     "3": "[AMIN]",
+     "4": "[HOURS]",
+     "5": "[AHOUR]",
+     "6": "[DAY]",
+     "7": "[DATE]",
+     "8": "[MONTH]",
+     "9": "[YEAR]",
+     "10": "[REGA]",
+     "11": "[REGB]",
+     "12": "[REGC]",
+     "13": "[REGD]"
+    }
+   },
+   "clock": {
+    "fields": [
+     {
+      "field": "SECONDS.SECONDS",
+      "unit": "second",
+      "format": {
+       "field": "REGB.DF",
+       "binary": 1
+      }
+     },
+     {
+      "field": "MINUTES.MINUTES",
+      "unit": "minute",
+      "format": {
+       "field": "REGB.DF",
+       "binary": 1
+      }
+     },
+     {
+      "field": "HOURS.HOURS",
+      "unit": "hour",
+      "format": {
+       "field": "REGB.DF",
+       "binary": 1
+      },
+      "h12": "REGB.HF",
+      "h12Level": 0,
+      "pm": "HOURS.PM"
+     },
+     {
+      "field": "DAY.DAY",
+      "unit": "weekday",
+      "first": 1,
+      "format": {
+       "field": "REGB.DF",
+       "binary": 1
+      }
+     },
+     {
+      "field": "DATE.DATE",
+      "unit": "date",
+      "format": {
+       "field": "REGB.DF",
+       "binary": 1
+      }
+     },
+     {
+      "field": "MONTH.MONTH",
+      "unit": "month",
+      "format": {
+       "field": "REGB.DF",
+       "binary": 1
+      }
+     },
+     {
+      "field": "YEAR.YEAR",
+      "unit": "year",
+      "format": {
+       "field": "REGB.DF",
+       "binary": 1
+      },
+      "base": 2000
+     }
+    ],
+    "stop": {
+     "field": "REGA.OS",
+     "running": 2,
+     "powerOn": 0
+    },
+    "update": {
+     "uip": "REGA.UIP",
+     "inhibit": "REGB.UTI"
+    },
+    "alarms": [
+     {
+      "match": [
+       {
+        "field": "ASEC",
+        "unit": "second",
+        "dontCare": "11xxxxxx"
+       },
+       {
+        "field": "AMIN",
+        "unit": "minute",
+        "dontCare": "11xxxxxx"
+       },
+       {
+        "field": "AHOUR",
+        "unit": "hour",
+        "dontCare": "11xxxxxx"
+       }
+      ],
+      "flag": "REGC.AF",
+      "enable": "REGB.AIE",
+      "pin": {
+       "pin": "INT",
+       "active": 0,
+       "openDrain": true
+      }
+     }
+    ],
+    "periodic": {
+     "field": "REGA.RS",
+     "periods": {
+      "1": 3906250,
+      "2": 7812500,
+      "3": 122070.3125,
+      "4": 244140.625,
+      "5": 488281.25,
+      "6": 976562.5,
+      "7": 1953125,
+      "8": 3906250,
+      "9": 7812500,
+      "10": 15625000,
+      "11": 31250000,
+      "12": 62500000,
+      "13": 125000000,
+      "14": 250000000,
+      "15": 500000000
+     },
+     "flag": "REGC.PF",
+     "enable": "REGB.PIE",
+     "pin": "INT"
+    },
+    "ram": {
+     "space": "ram",
+     "bytes": 114,
+     "address": 14
+    }
+   },
+   "parts": [
+    {
+     "name": "BQ3285S-SB2",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "bq3285",
+     "package": "SOIC",
+     "pinout": "dw24",
+     "footprint": "SOIC-24W"
+    }
+   ]
+  },
+  {
+   "id": "BQ4802",
+   "function": "RTC",
+   "description": "Parallel real-time clock with century, alarm, periodic interrupt, watchdog, CPU supervisor and external SRAM battery-backup control",
+   "drawer": [
+    "Interface"
+   ],
+   "note": "bq4802ly.pdf (SLUS464C) p.2 recommended operating conditions (bq4802Y 4.5-5.5 V, bq4802LY 2.7-3.6 V), p.3 read cycle timing (tAA/tACS/tOE 150 ns, tCHZ/tOHZ 60 ns at 3.3 V), p.5-6 pin assignments and terminal functions, p.12 operational truth table (Table 1) and register map (Table 2), p.13 bit descriptions (Table 3), read/write mode, reading/setting the clock (UTI), STOP, p.14 power-on reset, watchdog, p.15 watchdog rates (Table 4), interrupts, periodic rates (Table 5), alarm, p.16 alarm frequency (Table 6), power-fail interrupt, battery-low warning",
+   "pinouts": {
+    "so28": [
+     {
+      "number": 1,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "X1",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "X2",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "WDO",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "INT",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "RST",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "A3",
+      "role": "input"
+     },
+     {
+      "number": 8,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 9,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "DQ0",
+      "role": "inout"
+     },
+     {
+      "number": 12,
+      "name": "DQ1",
+      "role": "inout"
+     },
+     {
+      "number": 13,
+      "name": "DQ2",
+      "role": "inout"
+     },
+     {
+      "number": 14,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 15,
+      "name": "DQ3",
+      "role": "inout"
+     },
+     {
+      "number": 16,
+      "name": "DQ4",
+      "role": "inout"
+     },
+     {
+      "number": 17,
+      "name": "DQ5",
+      "role": "inout"
+     },
+     {
+      "number": 18,
+      "name": "DQ6",
+      "role": "inout"
+     },
+     {
+      "number": 19,
+      "name": "DQ7",
+      "role": "inout"
+     },
+     {
+      "number": 20,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 21,
+      "name": "CS",
+      "role": "input"
+     },
+     {
+      "number": 22,
+      "name": "OE",
+      "role": "input"
+     },
+     {
+      "number": 23,
+      "name": "WDI",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "BC",
+      "role": "power"
+     },
+     {
+      "number": 25,
+      "name": "CEOUT",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "CEIN",
+      "role": "input"
+     },
+     {
+      "number": 27,
+      "name": "WE",
+      "role": "input"
+     },
+     {
+      "number": 28,
+      "name": "VCC",
+      "role": "power"
+     }
+    ]
+   },
+   "vcc": [
+    2.7,
+    5.5
+   ],
+   "analog": [
+    "X1",
+    "X2",
+    "BC",
+    "VOUT"
+   ],
+   "bus": {
+    "style": "parallel",
+    "data": [
+     "DQ7",
+     "DQ6",
+     "DQ5",
+     "DQ4",
+     "DQ3",
+     "DQ2",
+     "DQ1",
+     "DQ0"
+    ],
+    "cs": {
+     "pin": "CS",
+     "active": 0
+    },
+    "rd": {
+     "pin": "OE",
+     "active": 0
+    },
+    "wr": {
+     "pin": "WE",
+     "active": 0
+    },
+    "address": [
+     "A3",
+     "A2",
+     "A1",
+     "A0"
+    ]
+   },
+   "timing": {
+    "tAcc": 150,
+    "tDf": 60
+   },
+   "registers": [
+    {
+     "name": "SECONDS",
+     "address": 0,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "ZERO",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "SECONDS",
+       "bits": [
+        6,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "SEC_ALARM",
+     "address": 1,
+     "width": 8,
+     "reset": 0,
+     "note": "D7 ALM1, D6 ALM0 / 10-second digit, D3-D0 1-second digit"
+    },
+    {
+     "name": "MINUTES",
+     "address": 2,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "ZERO",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "MINUTES",
+       "bits": [
+        6,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "MIN_ALARM",
+     "address": 3,
+     "width": 8,
+     "reset": 0,
+     "note": "D7 ALM1, D6 ALM0 / 10-minute digit, D3-D0 1-minute digit"
+    },
+    {
+     "name": "HOURS",
+     "address": 4,
+     "width": 8,
+     "reset": 18,
+     "fields": [
+      {
+       "name": "PM",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "ZERO",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "HOURS",
+       "bits": [
+        5,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "HOUR_ALARM",
+     "address": 5,
+     "width": 8,
+     "reset": 0,
+     "note": "D7 ALM1 / PM-AM, D6 ALM0, D5-D4 10-hour digit, D3-D0 1-hour digit"
+    },
+    {
+     "name": "DAY",
+     "address": 6,
+     "width": 8,
+     "reset": 1,
+     "fields": [
+      {
+       "name": "ZERO",
+       "bits": [
+        7,
+        6
+       ]
+      },
+      {
+       "name": "DAY",
+       "bits": [
+        5,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DAY_ALARM",
+     "address": 7,
+     "width": 8,
+     "reset": 0,
+     "note": "D7 ALM1, D6 ALM0, D5-D4 10-day digit, D3-D0 1-day digit"
+    },
+    {
+     "name": "WEEKDAY",
+     "address": 8,
+     "width": 8,
+     "reset": 7,
+     "fields": [
+      {
+       "name": "ZERO",
+       "bits": [
+        7,
+        3
+       ]
+      },
+      {
+       "name": "WEEKDAY",
+       "bits": [
+        2,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "MONTH",
+     "address": 9,
+     "width": 8,
+     "reset": 1,
+     "fields": [
+      {
+       "name": "ZERO",
+       "bits": [
+        7,
+        5
+       ]
+      },
+      {
+       "name": "MONTH",
+       "bits": [
+        4,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "YEAR",
+     "address": 10,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "YEAR",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "RATES",
+     "address": 11,
+     "width": 8,
+     "reset": 0,
+     "readOnly": 128,
+     "fields": [
+      {
+       "name": "UNUSED",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "WD",
+       "bits": [
+        6,
+        4
+       ]
+      },
+      {
+       "name": "RS",
+       "bits": [
+        3,
+        0
+       ]
+      }
+     ],
+     "note": "WD2-WD0 = 000 (1.5 s) at power-up without a valid battery (p.14)"
+    },
+    {
+     "name": "ENABLES",
+     "address": 12,
+     "width": 8,
+     "reset": 0,
+     "readOnly": 240,
+     "fields": [
+      {
+       "name": "UNUSED",
+       "bits": [
+        7,
+        4
+       ]
+      },
+      {
+       "name": "AIE",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "PIE",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "PWRIE",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "ABE",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "FLAGS",
+     "address": 13,
+     "width": 8,
+     "reset": 1,
+     "readOnly": true,
+     "fields": [
+      {
+       "name": "UNUSED",
+       "bits": [
+        7,
+        4
+       ]
+      },
+      {
+       "name": "AF",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "PF",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "PWRF",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "BVF",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "clearOnRead": 14,
+     "note": "reading clears the flags and releases INT; BVF = 1 valid battery"
+    },
+    {
+     "name": "CONTROL",
+     "address": 14,
+     "width": 8,
+     "reset": 0,
+     "readOnly": 240,
+     "fields": [
+      {
+       "name": "UNUSED",
+       "bits": [
+        7,
+        4
+       ]
+      },
+      {
+       "name": "UTI",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "STOP",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "H24",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "DSE",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "note": "STOP is active low (1 = run); H24 is the datasheet's 24/12 bit (1 = 24-hour)"
+    },
+    {
+     "name": "CENTURY",
+     "address": 15,
+     "width": 8,
+     "reset": 32,
+     "fields": [
+      {
+       "name": "CENTURY",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ]
+    }
+   ],
+   "protocol": {
+    "frame": "fixed",
+    "commands": [
+     {
+      "name": "Write",
+      "in": "aaaa dddddddd",
+      "action": "write",
+      "address": "a",
+      "data": "d"
+     }
+    ],
+    "read": {
+     "0": "[SECONDS]",
+     "1": "[SEC_ALARM]",
+     "2": "[MINUTES]",
+     "3": "[MIN_ALARM]",
+     "4": "[HOURS]",
+     "5": "[HOUR_ALARM]",
+     "6": "[DAY]",
+     "7": "[DAY_ALARM]",
+     "8": "[WEEKDAY]",
+     "9": "[MONTH]",
+     "10": "[YEAR]",
+     "11": "[RATES]",
+     "12": "[ENABLES]",
+     "13": "[FLAGS]",
+     "14": "[CONTROL]",
+     "15": "[CENTURY]"
+    }
+   },
+   "clock": {
+    "fields": [
+     {
+      "field": "SECONDS.SECONDS",
+      "unit": "second",
+      "format": "bcd"
+     },
+     {
+      "field": "MINUTES.MINUTES",
+      "unit": "minute",
+      "format": "bcd"
+     },
+     {
+      "field": "HOURS.HOURS",
+      "unit": "hour",
+      "format": "bcd",
+      "h12": "CONTROL.H24",
+      "h12Level": 0,
+      "pm": "HOURS.PM"
+     },
+     {
+      "field": "WEEKDAY.WEEKDAY",
+      "unit": "weekday",
+      "first": 1
+     },
+     {
+      "field": "DAY.DAY",
+      "unit": "date",
+      "format": "bcd"
+     },
+     {
+      "field": "MONTH.MONTH",
+      "unit": "month",
+      "format": "bcd"
+     },
+     {
+      "field": "YEAR.YEAR",
+      "unit": "year",
+      "format": "bcd",
+      "base": 2000
+     },
+     {
+      "field": "CENTURY.CENTURY",
+      "unit": "century",
+      "format": "bcd"
+     }
+    ],
+    "update": {
+     "latch": "CONTROL.UTI",
+     "write": "CONTROL.UTI",
+     "writeHalts": false
+    },
+    "alarms": [
+     {
+      "match": [
+       {
+        "field": "SEC_ALARM",
+        "unit": "second",
+        "dontCare": "11xxxxxx"
+       },
+       {
+        "field": "MIN_ALARM",
+        "unit": "minute",
+        "dontCare": "11xxxxxx"
+       },
+       {
+        "field": "HOUR_ALARM",
+        "unit": "hour",
+        "dontCare": "11xxxxxx"
+       },
+       {
+        "field": "DAY_ALARM",
+        "unit": "date",
+        "dontCare": "11xxxxxx"
+       }
+      ],
+      "flag": "FLAGS.AF",
+      "enable": "ENABLES.AIE",
+      "pin": {
+       "pin": "INT",
+       "active": 0,
+       "openDrain": true
+      }
+     }
+    ],
+    "periodic": {
+     "field": "RATES.RS",
+     "periods": {
+      "1": 30517.578125,
+      "2": 61035.15625,
+      "3": 122070.3125,
+      "4": 244140.625,
+      "5": 488281.25,
+      "6": 976562.5,
+      "7": 1953125,
+      "8": 3906250,
+      "9": 7812500,
+      "10": 15625000,
+      "11": 31250000,
+      "12": 62500000,
+      "13": 125000000,
+      "14": 250000000,
+      "15": 500000000
+     },
+     "flag": "FLAGS.PF",
+     "enable": "ENABLES.PIE",
+     "pin": "INT"
+    },
+    "watchdog": {
+     "field": "RATES.WD",
+     "periods": {
+      "0": 1500000000,
+      "1": 23437500,
+      "2": 46875000,
+      "3": 93750000,
+      "4": 187500000,
+      "5": 375000000,
+      "6": 750000000,
+      "7": 3000000000
+     },
+     "kick": {
+      "pin": "WDI",
+      "edge": "both"
+     },
+     "pin": {
+      "pin": "WDO",
+      "active": 0
+     },
+     "resetPin": {
+      "pin": "RST",
+      "active": 0,
+      "openDrain": true,
+      "pulse": {
+       "0": 250000,
+       "1": 3906250,
+       "2": 7812500,
+       "3": 15625000,
+       "4": 31250000,
+       "5": 62500000,
+       "6": 125000000,
+       "7": 500000000
+      }
+     }
+    }
+   },
+   "parts": [
+    {
+     "name": "BQ4802LYDW",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "bq4802ly",
+     "package": "SOIC",
+     "pinout": "so28",
+     "footprint": "SOIC-28W",
+     "vcc": [
+      2.7,
+      3.6
+     ]
+    },
+    {
+     "name": "BQ4802LYDWR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "bq4802ly",
+     "package": "SOIC",
+     "pinout": "so28",
+     "footprint": "SOIC-28W",
+     "vcc": [
+      2.7,
+      3.6
+     ]
+    },
+    {
+     "name": "BQ4802LYPW",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "bq4802ly",
+     "package": "TSSOP",
+     "pinout": "so28",
+     "footprint": "TSSOP-28",
+     "vcc": [
+      2.7,
+      3.6
+     ]
+    },
+    {
+     "name": "BQ4802YDW",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "bq4802ly",
+     "package": "SOIC",
+     "pinout": "so28",
+     "footprint": "SOIC-28W",
+     "vcc": [
+      4.5,
+      5.5
+     ]
+    },
+    {
+     "name": "BQ4802YDWR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "bq4802ly",
+     "package": "SOIC",
+     "pinout": "so28",
+     "footprint": "SOIC-28W",
+     "vcc": [
+      4.5,
+      5.5
+     ]
+    },
+    {
+     "name": "BQ4802YPW",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "bq4802ly",
+     "package": "TSSOP",
+     "pinout": "so28",
+     "footprint": "TSSOP-28",
+     "vcc": [
+      4.5,
+      5.5
+     ]
+    }
+   ]
+  },
+  {
+   "id": "BQ4845",
+   "function": "RTC",
+   "description": "Parallel real-time clock with alarm, periodic interrupt, watchdog, CPU supervisor and external SRAM battery-backup control",
+   "drawer": [
+    "Interface"
+   ],
+   "note": "bq4845.pdf (Aug. 1995) p.1 pin connections and names, p.2 truth table, p.3 pin descriptions, p.4 register map (Table 1), p.5 register bits (Table 2), read/write mode, reading/setting the clock (UTI), STOP, p.6 power-on reset, p.7 watchdog (Figure 3), p.8 interrupts, alarm, power-fail, battery-low, watchdog rates (Table 3), p.9 periodic rates (Table 4), alarm frequency (Table 5), p.10 recommended DC operating conditions, p.12 read cycle (tAA 70 ns, tCHZ/tOHZ 25 ns)",
+   "pinouts": {
+    "so28": [
+     {
+      "number": 1,
+      "name": "VOUT",
+      "role": "output"
+     },
+     {
+      "number": 2,
+      "name": "X1",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "X2",
+      "role": "output"
+     },
+     {
+      "number": 4,
+      "name": "WDO",
+      "role": "output"
+     },
+     {
+      "number": 5,
+      "name": "INT",
+      "role": "output"
+     },
+     {
+      "number": 6,
+      "name": "RST",
+      "role": "inout"
+     },
+     {
+      "number": 7,
+      "name": "A3",
+      "role": "input"
+     },
+     {
+      "number": 8,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 9,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 11,
+      "name": "DQ0",
+      "role": "inout"
+     },
+     {
+      "number": 12,
+      "name": "DQ1",
+      "role": "inout"
+     },
+     {
+      "number": 13,
+      "name": "DQ2",
+      "role": "inout"
+     },
+     {
+      "number": 14,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 15,
+      "name": "DQ3",
+      "role": "inout"
+     },
+     {
+      "number": 16,
+      "name": "DQ4",
+      "role": "inout"
+     },
+     {
+      "number": 17,
+      "name": "DQ5",
+      "role": "inout"
+     },
+     {
+      "number": 18,
+      "name": "DQ6",
+      "role": "inout"
+     },
+     {
+      "number": 19,
+      "name": "DQ7",
+      "role": "inout"
+     },
+     {
+      "number": 20,
+      "name": "VSS",
+      "role": "ground"
+     },
+     {
+      "number": 21,
+      "name": "CS",
+      "role": "input"
+     },
+     {
+      "number": 22,
+      "name": "OE",
+      "role": "input"
+     },
+     {
+      "number": 23,
+      "name": "WDI",
+      "role": "input"
+     },
+     {
+      "number": 24,
+      "name": "BC",
+      "role": "power"
+     },
+     {
+      "number": 25,
+      "name": "CEOUT",
+      "role": "output"
+     },
+     {
+      "number": 26,
+      "name": "CEIN",
+      "role": "input"
+     },
+     {
+      "number": 27,
+      "name": "WE",
+      "role": "input"
+     },
+     {
+      "number": 28,
+      "name": "VCC",
+      "role": "power"
+     }
+    ]
+   },
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "analog": [
+    "X1",
+    "X2",
+    "BC",
+    "VOUT"
+   ],
+   "bus": {
+    "style": "parallel",
+    "data": [
+     "DQ7",
+     "DQ6",
+     "DQ5",
+     "DQ4",
+     "DQ3",
+     "DQ2",
+     "DQ1",
+     "DQ0"
+    ],
+    "cs": {
+     "pin": "CS",
+     "active": 0
+    },
+    "rd": {
+     "pin": "OE",
+     "active": 0
+    },
+    "wr": {
+     "pin": "WE",
+     "active": 0
+    },
+    "address": [
+     "A3",
+     "A2",
+     "A1",
+     "A0"
+    ]
+   },
+   "timing": {
+    "tAcc": 70,
+    "tDf": 25
+   },
+   "registers": [
+    {
+     "name": "SECONDS",
+     "address": 0,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "ZERO",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "SECONDS",
+       "bits": [
+        6,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "SEC_ALARM",
+     "address": 1,
+     "width": 8,
+     "reset": 0,
+     "note": "D7 ALM1, D6 ALM0 / 10-second digit, D3-D0 1-second digit"
+    },
+    {
+     "name": "MINUTES",
+     "address": 2,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "ZERO",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "MINUTES",
+       "bits": [
+        6,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "MIN_ALARM",
+     "address": 3,
+     "width": 8,
+     "reset": 0,
+     "note": "D7 ALM1, D6 ALM0 / 10-minute digit, D3-D0 1-minute digit"
+    },
+    {
+     "name": "HOURS",
+     "address": 4,
+     "width": 8,
+     "reset": 18,
+     "fields": [
+      {
+       "name": "PM",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "ZERO",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "HOURS",
+       "bits": [
+        5,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "HOUR_ALARM",
+     "address": 5,
+     "width": 8,
+     "reset": 0,
+     "note": "D7 ALM1 / PM-AM, D6 ALM0, D5-D4 10-hour digit, D3-D0 1-hour digit"
+    },
+    {
+     "name": "DAY",
+     "address": 6,
+     "width": 8,
+     "reset": 1,
+     "fields": [
+      {
+       "name": "ZERO",
+       "bits": [
+        7,
+        6
+       ]
+      },
+      {
+       "name": "DAY",
+       "bits": [
+        5,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "DAY_ALARM",
+     "address": 7,
+     "width": 8,
+     "reset": 0,
+     "note": "D7 ALM1, D6 ALM0, D5-D4 10-day digit, D3-D0 1-day digit"
+    },
+    {
+     "name": "WEEKDAY",
+     "address": 8,
+     "width": 8,
+     "reset": 7,
+     "fields": [
+      {
+       "name": "ZERO",
+       "bits": [
+        7,
+        3
+       ]
+      },
+      {
+       "name": "WEEKDAY",
+       "bits": [
+        2,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "MONTH",
+     "address": 9,
+     "width": 8,
+     "reset": 1,
+     "fields": [
+      {
+       "name": "ZERO",
+       "bits": [
+        7,
+        5
+       ]
+      },
+      {
+       "name": "MONTH",
+       "bits": [
+        4,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "YEAR",
+     "address": 10,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "YEAR",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "RATES",
+     "address": 11,
+     "width": 8,
+     "reset": 0,
+     "readOnly": 128,
+     "fields": [
+      {
+       "name": "UNUSED",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "WD",
+       "bits": [
+        6,
+        4
+       ]
+      },
+      {
+       "name": "RS",
+       "bits": [
+        3,
+        0
+       ]
+      }
+     ],
+     "note": "WD2-WD0 = 000 (1.5 s) at power-up without a valid battery (p.7)"
+    },
+    {
+     "name": "ENABLES",
+     "address": 12,
+     "width": 8,
+     "reset": 0,
+     "readOnly": 240,
+     "fields": [
+      {
+       "name": "UNUSED",
+       "bits": [
+        7,
+        4
+       ]
+      },
+      {
+       "name": "AIE",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "PIE",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "PWRIE",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "ABE",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "note": "AIE is reset during power-on reset; PWRIE is cleared on power-up (p.8)"
+    },
+    {
+     "name": "FLAGS",
+     "address": 13,
+     "width": 8,
+     "reset": 1,
+     "readOnly": true,
+     "fields": [
+      {
+       "name": "UNUSED",
+       "bits": [
+        7,
+        4
+       ]
+      },
+      {
+       "name": "AF",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "PF",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "PWRF",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "BVF",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "clearOnRead": 14,
+     "note": "reading clears the flags and releases INT; BVF = 1 valid battery"
+    },
+    {
+     "name": "CONTROL",
+     "address": 14,
+     "width": 8,
+     "reset": 0,
+     "readOnly": 240,
+     "fields": [
+      {
+       "name": "UNUSED",
+       "bits": [
+        7,
+        4
+       ]
+      },
+      {
+       "name": "UTI",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "STOP",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "H24",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "DSE",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "note": "STOP is active low (1 = run); H24 is the datasheet's 24/12 bit (1 = 24-hour)"
+    },
+    {
+     "name": "UNUSED_F",
+     "address": 15,
+     "width": 8,
+     "reset": 0,
+     "readOnly": true,
+     "note": "unused: unwritable, reads 0"
+    }
+   ],
+   "protocol": {
+    "frame": "fixed",
+    "commands": [
+     {
+      "name": "Write",
+      "in": "aaaa dddddddd",
+      "action": "write",
+      "address": "a",
+      "data": "d"
+     }
+    ],
+    "read": {
+     "0": "[SECONDS]",
+     "1": "[SEC_ALARM]",
+     "2": "[MINUTES]",
+     "3": "[MIN_ALARM]",
+     "4": "[HOURS]",
+     "5": "[HOUR_ALARM]",
+     "6": "[DAY]",
+     "7": "[DAY_ALARM]",
+     "8": "[WEEKDAY]",
+     "9": "[MONTH]",
+     "10": "[YEAR]",
+     "11": "[RATES]",
+     "12": "[ENABLES]",
+     "13": "[FLAGS]",
+     "14": "[CONTROL]",
+     "15": "[UNUSED_F]"
+    }
+   },
+   "clock": {
+    "fields": [
+     {
+      "field": "SECONDS.SECONDS",
+      "unit": "second",
+      "format": "bcd"
+     },
+     {
+      "field": "MINUTES.MINUTES",
+      "unit": "minute",
+      "format": "bcd"
+     },
+     {
+      "field": "HOURS.HOURS",
+      "unit": "hour",
+      "format": "bcd",
+      "h12": "CONTROL.H24",
+      "h12Level": 0,
+      "pm": "HOURS.PM"
+     },
+     {
+      "field": "WEEKDAY.WEEKDAY",
+      "unit": "weekday",
+      "first": 1
+     },
+     {
+      "field": "DAY.DAY",
+      "unit": "date",
+      "format": "bcd"
+     },
+     {
+      "field": "MONTH.MONTH",
+      "unit": "month",
+      "format": "bcd"
+     },
+     {
+      "field": "YEAR.YEAR",
+      "unit": "year",
+      "format": "bcd",
+      "base": 2000
+     }
+    ],
+    "update": {
+     "latch": "CONTROL.UTI",
+     "write": "CONTROL.UTI",
+     "writeHalts": false
+    },
+    "alarms": [
+     {
+      "match": [
+       {
+        "field": "SEC_ALARM",
+        "unit": "second",
+        "dontCare": "11xxxxxx"
+       },
+       {
+        "field": "MIN_ALARM",
+        "unit": "minute",
+        "dontCare": "11xxxxxx"
+       },
+       {
+        "field": "HOUR_ALARM",
+        "unit": "hour",
+        "dontCare": "11xxxxxx"
+       },
+       {
+        "field": "DAY_ALARM",
+        "unit": "date",
+        "dontCare": "11xxxxxx"
+       }
+      ],
+      "flag": "FLAGS.AF",
+      "enable": "ENABLES.AIE",
+      "pin": {
+       "pin": "INT",
+       "active": 0,
+       "openDrain": true
+      }
+     }
+    ],
+    "periodic": {
+     "field": "RATES.RS",
+     "periods": {
+      "1": 30517.578125,
+      "2": 61035.15625,
+      "3": 122070.3125,
+      "4": 244140.625,
+      "5": 488281.25,
+      "6": 976562.5,
+      "7": 1953125,
+      "8": 3906250,
+      "9": 7812500,
+      "10": 15625000,
+      "11": 31250000,
+      "12": 62500000,
+      "13": 125000000,
+      "14": 250000000,
+      "15": 500000000
+     },
+     "flag": "FLAGS.PF",
+     "enable": "ENABLES.PIE",
+     "pin": "INT"
+    },
+    "watchdog": {
+     "field": "RATES.WD",
+     "periods": {
+      "0": 1500000000,
+      "1": 23437500,
+      "2": 46875000,
+      "3": 93750000,
+      "4": 187500000,
+      "5": 375000000,
+      "6": 750000000,
+      "7": 3000000000
+     },
+     "kick": {
+      "pin": "WDI",
+      "edge": "both"
+     },
+     "pin": {
+      "pin": "WDO",
+      "active": 0
+     },
+     "resetPin": {
+      "pin": "RST",
+      "active": 0,
+      "openDrain": true,
+      "pulse": {
+       "0": 250000,
+       "1": 3906250,
+       "2": 7812500,
+       "3": 15625000,
+       "4": 31250000,
+       "5": 62500000,
+       "6": 125000000,
+       "7": 500000000
+      }
+     }
+    }
+   },
+   "parts": [
+    {
+     "name": "BQ4845S-A4TR",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "bq4845",
+     "package": "SOIC",
+     "pinout": "so28",
+     "footprint": "SOIC-28W",
+     "vcc": [
+      4.75,
+      5.5
+     ]
+    }
+   ]
+  },
+  {
+   "id": "DP8570",
+   "function": "RTC",
+   "description": "Timer clock peripheral: parallel real-time clock (1/100 s to years, day of year) with alarm compare, periodic interrupts, two 16-bit timers, power-fail logic and 44 bytes of RAM",
+   "drawer": [
+    "Interface"
+   ],
+   "note": "dp8570a.pdf (SNAS557, May 1993) p.2 operating conditions (VCC 4.5-5.5 V), p.3 AC characteristics (tCD 80 ns, tRD 70 ns, tDZ 60 ns), p.5 pin description and connection diagrams (DIP and PLCC same numbering), p.6-7 memory map, clock, validated/latched read, initialization, p.8-9 interrupts, alarm compare, periodic, p.11-12 power fail, oscillator fail, time save, p.12-15 timers, p.16 addressing (Table VII) and main status register, p.17-19 register descriptions, p.20 control and status register bit map, p.21 initialization procedure",
+   "pinouts": {
+    "plcc28": [
+     {
+      "number": 1,
+      "name": "CS",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "RD",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "WR",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "A3",
+      "role": "input"
+     },
+     {
+      "number": 8,
+      "name": "A4",
+      "role": "input"
+     },
+     {
+      "number": 9,
+      "name": "G1",
+      "role": "input"
+     },
+     {
+      "number": 10,
+      "name": "T1",
+      "role": "output"
+     },
+     {
+      "number": 11,
+      "name": "VBB",
+      "role": "power"
+     },
+     {
+      "number": 12,
+      "name": "OSC IN",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "OSC OUT",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 15,
+      "name": "G0",
+      "role": "input"
+     },
+     {
+      "number": 16,
+      "name": "MFO",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "INTR",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "D0",
+      "role": "inout"
+     },
+     {
+      "number": 19,
+      "name": "D1",
+      "role": "inout"
+     },
+     {
+      "number": 20,
+      "name": "D2",
+      "role": "inout"
+     },
+     {
+      "number": 21,
+      "name": "D3",
+      "role": "inout"
+     },
+     {
+      "number": 22,
+      "name": "D4",
+      "role": "inout"
+     },
+     {
+      "number": 23,
+      "name": "D5",
+      "role": "inout"
+     },
+     {
+      "number": 24,
+      "name": "D6",
+      "role": "inout"
+     },
+     {
+      "number": 25,
+      "name": "D7",
+      "role": "inout"
+     },
+     {
+      "number": 26,
+      "name": "TCK",
+      "role": "input"
+     },
+     {
+      "number": 27,
+      "name": "PFAIL",
+      "role": "input"
+     },
+     {
+      "number": 28,
+      "name": "VCC",
+      "role": "power"
+     }
+    ]
+   },
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "analog": [
+    "VBB",
+    "OSC IN",
+    "OSC OUT"
+   ],
+   "bus": {
+    "style": "parallel",
+    "data": [
+     "D7",
+     "D6",
+     "D5",
+     "D4",
+     "D3",
+     "D2",
+     "D1",
+     "D0"
+    ],
+    "cs": {
+     "pin": "CS",
+     "active": 0
+    },
+    "rd": {
+     "pin": "RD",
+     "active": 0
+    },
+    "wr": {
+     "pin": "WR",
+     "active": 0
+    },
+    "address": [
+     "A4",
+     "A3",
+     "A2",
+     "A1",
+     "A0"
+    ]
+   },
+   "timing": {
+    "tAcc": 80,
+    "tDf": 60
+   },
+   "registers": [
+    {
+     "name": "MSR",
+     "address": 0,
+     "width": 8,
+     "reset": 0,
+     "readOnly": 3,
+     "fields": [
+      {
+       "name": "PS",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "RS",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "T1",
+       "bits": [
+        5,
+        5
+       ]
+      },
+      {
+       "name": "T0",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "AL",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "PER",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "PF",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "INT",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "writeOneClears": 60,
+     "note": "Main Status Register, address 0 on every page/block; D2-D5 reset by writing 1, D1 follows PFAIL, D0 interrupt pending"
+    },
+    {
+     "name": "T0CR",
+     "address": 1,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "CHG",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "RD",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "C",
+       "bits": [
+        5,
+        3
+       ]
+      },
+      {
+       "name": "M",
+       "bits": [
+        2,
+        1
+       ]
+      },
+      {
+       "name": "TSS",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "T1CR",
+     "address": 2,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "CHG",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "RD",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "C",
+       "bits": [
+        5,
+        3
+       ]
+      },
+      {
+       "name": "M",
+       "bits": [
+        2,
+        1
+       ]
+      },
+      {
+       "name": "TSS",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "PFR",
+     "address": 3,
+     "width": 8,
+     "reset": 64,
+     "readOnly": 63,
+     "fields": [
+      {
+       "name": "TM",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "OSF",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "MS1",
+       "bits": [
+        5,
+        5
+       ]
+      },
+      {
+       "name": "MS10",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "MS100",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "SEC",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "SEC10",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "MIN",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "clearOnRead": 63,
+     "note": "Periodic Flag Register: D0-D5 read-only rollover flags reset by a read (or write) of this register; D6 reads oscillator fail (1 at power-up), written 0 = battery-backed, 1 = single supply; D7 test mode enable"
+    },
+    {
+     "name": "IRR",
+     "address": 4,
+     "width": 8,
+     "reset": 0,
+     "readOnly": 64,
+     "fields": [
+      {
+       "name": "TS",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "LB",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "PFD",
+       "bits": [
+        5,
+        5
+       ]
+      },
+      {
+       "name": "T1R",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "T0R",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "ALR",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "PRR",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "PFR",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "note": "Interrupt Routing Register: route bits 1 = MFO, 0 = INTR; TS time save enable; LB low battery (read-only)"
+    },
+    {
+     "name": "RTMR",
+     "address": 1,
+     "space": "blk1",
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "XT",
+       "bits": [
+        7,
+        6
+       ]
+      },
+      {
+       "name": "TPF",
+       "bits": [
+        5,
+        5
+       ]
+      },
+      {
+       "name": "IPF",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "CSS",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "H12",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "LY",
+       "bits": [
+        1,
+        0
+       ]
+      }
+     ],
+     "note": "Real Time Mode Register: XT crystal select (00 = 32.768 kHz), CSS clock start (1 = run), H12 1 = 12-hour, LY leap-year counter (0 = leap year)"
+    },
+    {
+     "name": "OMR",
+     "address": 2,
+     "space": "blk1",
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "MO",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "MT",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "MP",
+       "bits": [
+        5,
+        5
+       ]
+      },
+      {
+       "name": "MH",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "IP",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "IH",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "TP",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "TH",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "note": "Output Mode Register: IH INTR active high, IP INTR push-pull, MH/MP MFO, TH/TP T1, MT/MO MFO function"
+    },
+    {
+     "name": "ICR0",
+     "address": 3,
+     "space": "blk1",
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "T1",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "T0",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "MS1",
+       "bits": [
+        5,
+        5
+       ]
+      },
+      {
+       "name": "MS10",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "MS100",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "SEC",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "SEC10",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "MIN",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "note": "Interrupt Control Register 0: timer and periodic interrupt enables"
+    },
+    {
+     "name": "ICR1",
+     "address": 4,
+     "space": "blk1",
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "PFE",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "ALE",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "DOW",
+       "bits": [
+        5,
+        5
+       ]
+      },
+      {
+       "name": "MO",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "DOM",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "HR",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "MN",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "SC",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "note": "Interrupt Control Register 1: power-fail and alarm interrupt enables, alarm compare enables (1 = compare)"
+    },
+    {
+     "name": "HUNDREDTHS",
+     "address": 5,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "HUNDREDTHS",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ],
+     "note": "1/100 and 1/10 seconds, BCD 00-99"
+    },
+    {
+     "name": "SECONDS",
+     "address": 6,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "SECONDS",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "MINUTES",
+     "address": 7,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "MINUTES",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "HOURS",
+     "address": 8,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "PM",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "HOURS",
+       "bits": [
+        6,
+        0
+       ]
+      }
+     ],
+     "note": "1-12 with AM/PM in D7 (12-hour), 0-23 (24-hour)"
+    },
+    {
+     "name": "DOM",
+     "address": 9,
+     "width": 8,
+     "reset": 1,
+     "fields": [
+      {
+       "name": "DOM",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "MONTHS",
+     "address": 10,
+     "width": 8,
+     "reset": 1,
+     "fields": [
+      {
+       "name": "MONTHS",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "YEARS",
+     "address": 11,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "YEARS",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "JULIAN_LO",
+     "address": 12,
+     "width": 8,
+     "reset": 1,
+     "fields": [
+      {
+       "name": "DAYS",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ],
+     "note": "day of year, tens and units (BCD 00-99)"
+    },
+    {
+     "name": "JULIAN_HI",
+     "address": 13,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "HUNDREDS",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ],
+     "note": "day of year, hundreds (0-3)"
+    },
+    {
+     "name": "DOW",
+     "address": 14,
+     "width": 8,
+     "reset": 7,
+     "fields": [
+      {
+       "name": "DOW",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ],
+     "note": "day of week 1-7"
+    },
+    {
+     "name": "T0_LSB",
+     "address": 15,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "T0_MSB",
+     "address": 16,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "T1_LSB",
+     "address": 17,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "T1_MSB",
+     "address": 18,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "SEC_CMP",
+     "address": 19,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "MIN_CMP",
+     "address": 20,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "HOUR_CMP",
+     "address": 21,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "DOM_CMP",
+     "address": 22,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "MON_CMP",
+     "address": 23,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "DOW_CMP",
+     "address": 24,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "SEC_SAVE",
+     "address": 25,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "MIN_SAVE",
+     "address": 26,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "HOUR_SAVE",
+     "address": 27,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "DOM_SAVE",
+     "address": 28,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "MON_SAVE",
+     "address": 29,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_1E",
+     "address": 30,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_1F",
+     "address": 31,
+     "width": 8,
+     "reset": 0,
+     "note": "RAM / test mode register (test mode when PFR.TM = 1)"
+    },
+    {
+     "name": "RAM_P1_01",
+     "address": 1,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_02",
+     "address": 2,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_03",
+     "address": 3,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_04",
+     "address": 4,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_05",
+     "address": 5,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_06",
+     "address": 6,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_07",
+     "address": 7,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_08",
+     "address": 8,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_09",
+     "address": 9,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_0A",
+     "address": 10,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_0B",
+     "address": 11,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_0C",
+     "address": 12,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_0D",
+     "address": 13,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_0E",
+     "address": 14,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_0F",
+     "address": 15,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_10",
+     "address": 16,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_11",
+     "address": 17,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_12",
+     "address": 18,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_13",
+     "address": 19,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_14",
+     "address": 20,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_15",
+     "address": 21,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_16",
+     "address": 22,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_17",
+     "address": 23,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_18",
+     "address": 24,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_19",
+     "address": 25,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_1A",
+     "address": 26,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_1B",
+     "address": 27,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_1C",
+     "address": 28,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_1D",
+     "address": 29,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_1E",
+     "address": 30,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_P1_1F",
+     "address": 31,
+     "space": "page1",
+     "width": 8,
+     "reset": 0
+    }
+   ],
+   "protocol": {
+    "frame": "fixed",
+    "commands": [
+     {
+      "name": "Write MSR",
+      "in": "00000 dddddddd",
+      "action": "write",
+      "register": "MSR",
+      "data": "d",
+      "note": "address 0 is the Main Status Register on every page and block"
+     },
+     {
+      "name": "Write RTMR",
+      "in": "00001 dddddddd",
+      "action": "write",
+      "register": "RTMR",
+      "data": "d",
+      "when": [
+       "MSR.PS=0",
+       "MSR.RS=1"
+      ]
+     },
+     {
+      "name": "Write OMR",
+      "in": "00010 dddddddd",
+      "action": "write",
+      "register": "OMR",
+      "data": "d",
+      "when": [
+       "MSR.PS=0",
+       "MSR.RS=1"
+      ]
+     },
+     {
+      "name": "Write ICR0",
+      "in": "00011 dddddddd",
+      "action": "write",
+      "register": "ICR0",
+      "data": "d",
+      "when": [
+       "MSR.PS=0",
+       "MSR.RS=1"
+      ]
+     },
+     {
+      "name": "Write ICR1",
+      "in": "00100 dddddddd",
+      "action": "write",
+      "register": "ICR1",
+      "data": "d",
+      "when": [
+       "MSR.PS=0",
+       "MSR.RS=1"
+      ]
+     },
+     {
+      "name": "Write page 0",
+      "in": "aaaaa dddddddd",
+      "action": "write",
+      "address": "a",
+      "data": "d",
+      "when": "MSR.PS=0"
+     },
+     {
+      "name": "Write page 1 RAM",
+      "in": "aaaaa dddddddd",
+      "action": "write",
+      "address": "a",
+      "data": "d",
+      "space": "page1",
+      "when": "MSR.PS=1"
+     }
+    ],
+    "read": {
+     "0": "[MSR]",
+     "1": "[T0CR]",
+     "2": "[T1CR]",
+     "3": "[PFR]",
+     "4": "[IRR]",
+     "5": "[HUNDREDTHS]",
+     "6": "[SECONDS]",
+     "7": "[MINUTES]",
+     "8": "[HOURS]",
+     "9": "[DOM]",
+     "10": "[MONTHS]",
+     "11": "[YEARS]",
+     "12": "[JULIAN_LO]",
+     "13": "[JULIAN_HI]",
+     "14": "[DOW]",
+     "15": "[T0_LSB]",
+     "16": "[T0_MSB]",
+     "17": "[T1_LSB]",
+     "18": "[T1_MSB]",
+     "19": "[SEC_CMP]",
+     "20": "[MIN_CMP]",
+     "21": "[HOUR_CMP]",
+     "22": "[DOM_CMP]",
+     "23": "[MON_CMP]",
+     "24": "[DOW_CMP]",
+     "25": "[SEC_SAVE]",
+     "26": "[MIN_SAVE]",
+     "27": "[HOUR_SAVE]",
+     "28": "[DOM_SAVE]",
+     "29": "[MON_SAVE]",
+     "30": "[RAM_1E]",
+     "31": "[RAM_1F]"
+    },
+    "note": "read: page 0, block 0 (PS = 0, RS = 0); reads: page 1 (PS = 1: MSR then 31 RAM bytes) and page 0 block 1 (RS = 1: RTMR, OMR, ICR0, ICR1 at 1-4). Address 0 is always MSR",
+    "reads": [
+     {
+      "when": "MSR.PS=1",
+      "read": {
+       "0": "[MSR]",
+       "1": "[RAM_P1_01]",
+       "2": "[RAM_P1_02]",
+       "3": "[RAM_P1_03]",
+       "4": "[RAM_P1_04]",
+       "5": "[RAM_P1_05]",
+       "6": "[RAM_P1_06]",
+       "7": "[RAM_P1_07]",
+       "8": "[RAM_P1_08]",
+       "9": "[RAM_P1_09]",
+       "10": "[RAM_P1_0A]",
+       "11": "[RAM_P1_0B]",
+       "12": "[RAM_P1_0C]",
+       "13": "[RAM_P1_0D]",
+       "14": "[RAM_P1_0E]",
+       "15": "[RAM_P1_0F]",
+       "16": "[RAM_P1_10]",
+       "17": "[RAM_P1_11]",
+       "18": "[RAM_P1_12]",
+       "19": "[RAM_P1_13]",
+       "20": "[RAM_P1_14]",
+       "21": "[RAM_P1_15]",
+       "22": "[RAM_P1_16]",
+       "23": "[RAM_P1_17]",
+       "24": "[RAM_P1_18]",
+       "25": "[RAM_P1_19]",
+       "26": "[RAM_P1_1A]",
+       "27": "[RAM_P1_1B]",
+       "28": "[RAM_P1_1C]",
+       "29": "[RAM_P1_1D]",
+       "30": "[RAM_P1_1E]",
+       "31": "[RAM_P1_1F]"
+      }
+     },
+     {
+      "when": [
+       "MSR.PS=0",
+       "MSR.RS=1"
+      ],
+      "read": {
+       "0": "[MSR]",
+       "1": "[RTMR]",
+       "2": "[OMR]",
+       "3": "[ICR0]",
+       "4": "[ICR1]",
+       "5": "[HUNDREDTHS]",
+       "6": "[SECONDS]",
+       "7": "[MINUTES]",
+       "8": "[HOURS]",
+       "9": "[DOM]",
+       "10": "[MONTHS]",
+       "11": "[YEARS]",
+       "12": "[JULIAN_LO]",
+       "13": "[JULIAN_HI]",
+       "14": "[DOW]",
+       "15": "[T0_LSB]",
+       "16": "[T0_MSB]",
+       "17": "[T1_LSB]",
+       "18": "[T1_MSB]",
+       "19": "[SEC_CMP]",
+       "20": "[MIN_CMP]",
+       "21": "[HOUR_CMP]",
+       "22": "[DOM_CMP]",
+       "23": "[MON_CMP]",
+       "24": "[DOW_CMP]",
+       "25": "[SEC_SAVE]",
+       "26": "[MIN_SAVE]",
+       "27": "[HOUR_SAVE]",
+       "28": "[DOM_SAVE]",
+       "29": "[MON_SAVE]",
+       "30": "[RAM_1E]",
+       "31": "[RAM_1F]"
+      }
+     }
+    ]
+   },
+   "clock": {
+    "fields": [
+     {
+      "field": "HUNDREDTHS.HUNDREDTHS",
+      "unit": "hundredth",
+      "format": "bcd"
+     },
+     {
+      "field": "SECONDS.SECONDS",
+      "unit": "second",
+      "format": "bcd"
+     },
+     {
+      "field": "MINUTES.MINUTES",
+      "unit": "minute",
+      "format": "bcd"
+     },
+     {
+      "field": "HOURS.HOURS",
+      "unit": "hour",
+      "format": "bcd",
+      "h12": "RTMR.H12",
+      "pm": "HOURS.PM"
+     },
+     {
+      "field": "DOM.DOM",
+      "unit": "date",
+      "format": "bcd"
+     },
+     {
+      "field": "MONTHS.MONTHS",
+      "unit": "month",
+      "format": "bcd"
+     },
+     {
+      "field": "YEARS.YEARS",
+      "unit": "year",
+      "format": "bcd",
+      "base": 2000
+     },
+     {
+      "field": "DOW.DOW",
+      "unit": "weekday",
+      "first": 1
+     }
+    ],
+    "stop": {
+     "field": "RTMR.CSS",
+     "stopped": 0,
+     "powerOn": 0
+    },
+    "update": "none",
+    "alarms": [
+     {
+      "match": [
+       {
+        "field": "SEC_CMP",
+        "unit": "second",
+        "mask": "ICR1.SC",
+        "maskLevel": 0
+       },
+       {
+        "field": "MIN_CMP",
+        "unit": "minute",
+        "mask": "ICR1.MN",
+        "maskLevel": 0
+       },
+       {
+        "field": "HOUR_CMP",
+        "unit": "hour",
+        "mask": "ICR1.HR",
+        "maskLevel": 0
+       },
+       {
+        "field": "DOM_CMP",
+        "unit": "date",
+        "mask": "ICR1.DOM",
+        "maskLevel": 0
+       },
+       {
+        "field": "MON_CMP",
+        "unit": "month",
+        "mask": "ICR1.MO",
+        "maskLevel": 0
+       },
+       {
+        "field": "DOW_CMP",
+        "unit": "weekday",
+        "mask": "ICR1.DOW",
+        "maskLevel": 0
+       }
+      ],
+      "flag": "MSR.AL",
+      "enable": "ICR1.ALE",
+      "pin": {
+       "pin": "INTR",
+       "active": 0,
+       "openDrain": true
+      }
+     }
+    ],
+    "periodic": [
+     {
+      "periodNs": 60000000000,
+      "flag": "PFR.MIN",
+      "enable": "ICR0.MIN",
+      "summary": "MSR.PER",
+      "pin": "INTR"
+     },
+     {
+      "periodNs": 10000000000,
+      "flag": "PFR.SEC10",
+      "enable": "ICR0.SEC10",
+      "summary": "MSR.PER",
+      "pin": "INTR"
+     },
+     {
+      "periodNs": 1000000000,
+      "flag": "PFR.SEC",
+      "enable": "ICR0.SEC",
+      "summary": "MSR.PER",
+      "pin": "INTR"
+     },
+     {
+      "periodNs": 100000000,
+      "flag": "PFR.MS100",
+      "enable": "ICR0.MS100",
+      "summary": "MSR.PER",
+      "pin": "INTR"
+     },
+     {
+      "periodNs": 10000000,
+      "flag": "PFR.MS10",
+      "enable": "ICR0.MS10",
+      "summary": "MSR.PER",
+      "pin": "INTR"
+     },
+     {
+      "periodNs": 1000000,
+      "flag": "PFR.MS1",
+      "enable": "ICR0.MS1",
+      "summary": "MSR.PER",
+      "pin": "INTR"
+     }
+    ]
+   },
+   "parts": [
+    {
+     "name": "DP8570AV/NOPB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "dp8570a",
+     "package": "PLCC",
+     "pinout": "plcc28",
+     "footprint": "PLCC-28"
+    }
+   ]
+  },
+  {
+   "id": "DP8573",
+   "function": "RTC",
+   "description": "Parallel real-time clock (1/100 s to years) with alarm compare, periodic interrupts, power-fail logic, time save and RAM",
+   "drawer": [
+    "Interface"
+   ],
+   "note": "dp8573a.pdf (SNAS561, May 1993) p.2 operating conditions (VCC 4.5-5.5 V), p.3 AC characteristics (tCD 80 ns, tRD 70 ns, tDZ 60 ns), p.4 pin description, p.5 connection diagrams and memory map (Figure 2), clock, p.6 validated/latched read, initialization, p.7 interrupts, alarm compare, periodic, p.9 power fail, p.10 oscillator fail, time save, addressing (Table III), p.11-12 register descriptions, p.13 control and status register bit map, initialization procedure",
+   "pinouts": {
+    "plcc28": [
+     {
+      "number": 1,
+      "name": "CS",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "RD",
+      "role": "input"
+     },
+     {
+      "number": 3,
+      "name": "WR",
+      "role": "input"
+     },
+     {
+      "number": 4,
+      "name": "A0",
+      "role": "input"
+     },
+     {
+      "number": 5,
+      "name": "A1",
+      "role": "input"
+     },
+     {
+      "number": 6,
+      "name": "A2",
+      "role": "input"
+     },
+     {
+      "number": 7,
+      "name": "A3",
+      "role": "input"
+     },
+     {
+      "number": 8,
+      "name": "A4",
+      "role": "input"
+     },
+     {
+      "number": 9,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 10,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 11,
+      "name": "VBB",
+      "role": "power"
+     },
+     {
+      "number": 12,
+      "name": "OSC IN",
+      "role": "input"
+     },
+     {
+      "number": 13,
+      "name": "OSC OUT",
+      "role": "output"
+     },
+     {
+      "number": 14,
+      "name": "GND",
+      "role": "ground"
+     },
+     {
+      "number": 15,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 16,
+      "name": "MFO",
+      "role": "output"
+     },
+     {
+      "number": 17,
+      "name": "INTR",
+      "role": "output"
+     },
+     {
+      "number": 18,
+      "name": "D0",
+      "role": "inout"
+     },
+     {
+      "number": 19,
+      "name": "D1",
+      "role": "inout"
+     },
+     {
+      "number": 20,
+      "name": "D2",
+      "role": "inout"
+     },
+     {
+      "number": 21,
+      "name": "D3",
+      "role": "inout"
+     },
+     {
+      "number": 22,
+      "name": "D4",
+      "role": "inout"
+     },
+     {
+      "number": 23,
+      "name": "D5",
+      "role": "inout"
+     },
+     {
+      "number": 24,
+      "name": "D6",
+      "role": "inout"
+     },
+     {
+      "number": 25,
+      "name": "D7",
+      "role": "inout"
+     },
+     {
+      "number": 26,
+      "name": "NC",
+      "role": "nc"
+     },
+     {
+      "number": 27,
+      "name": "PFAIL",
+      "role": "input"
+     },
+     {
+      "number": 28,
+      "name": "VCC",
+      "role": "power"
+     }
+    ]
+   },
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "analog": [
+    "VBB",
+    "OSC IN",
+    "OSC OUT"
+   ],
+   "bus": {
+    "style": "parallel",
+    "data": [
+     "D7",
+     "D6",
+     "D5",
+     "D4",
+     "D3",
+     "D2",
+     "D1",
+     "D0"
+    ],
+    "cs": {
+     "pin": "CS",
+     "active": 0
+    },
+    "rd": {
+     "pin": "RD",
+     "active": 0
+    },
+    "wr": {
+     "pin": "WR",
+     "active": 0
+    },
+    "address": [
+     "A4",
+     "A3",
+     "A2",
+     "A1",
+     "A0"
+    ]
+   },
+   "timing": {
+    "tAcc": 80,
+    "tDf": 60
+   },
+   "registers": [
+    {
+     "name": "MSR",
+     "address": 0,
+     "width": 8,
+     "reset": 0,
+     "readOnly": 3,
+     "fields": [
+      {
+       "name": "RAM7",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "RS",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "RAM5",
+       "bits": [
+        5,
+        4
+       ]
+      },
+      {
+       "name": "AL",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "PER",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "PF",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "INT",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "writeOneClears": 12,
+     "note": "Main Status Register, address 0 in both blocks; D7, D5, D4 general-purpose RAM; D2-D3 reset by writing 1; D1 follows PFAIL; D0 interrupt pending"
+    },
+    {
+     "name": "PFR",
+     "address": 3,
+     "width": 8,
+     "reset": 64,
+     "readOnly": 63,
+     "fields": [
+      {
+       "name": "TM",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "OSF",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "MS1",
+       "bits": [
+        5,
+        5
+       ]
+      },
+      {
+       "name": "MS10",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "MS100",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "SEC",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "SEC10",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "MIN",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "clearOnRead": 63,
+     "note": "Periodic Flag Register (RS = 0): D0-D5 read-only rollover flags reset by a read (or write); D6 reads oscillator fail (1 at power-up), written 0 = battery-backed, 1 = single supply; D7 test mode enable"
+    },
+    {
+     "name": "TSCR",
+     "address": 4,
+     "width": 8,
+     "reset": 0,
+     "readOnly": 64,
+     "fields": [
+      {
+       "name": "TS",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "NA",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "RAM",
+       "bits": [
+        5,
+        0
+       ]
+      }
+     ],
+     "note": "Time Save Control Register (RS = 0): TS time save enable, D6 reads 0, D5-D0 RAM"
+    },
+    {
+     "name": "RTMR",
+     "address": 1,
+     "space": "blk1",
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "RAM",
+       "bits": [
+        7,
+        5
+       ]
+      },
+      {
+       "name": "IPF",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "CSS",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "H12",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "LY",
+       "bits": [
+        1,
+        0
+       ]
+      }
+     ],
+     "note": "Real Time Mode Register (RS = 1): CSS clock start (1 = run), H12 1 = 12-hour, LY leap-year counter (0 = leap year), IPF interrupts in standby"
+    },
+    {
+     "name": "OMR",
+     "address": 2,
+     "space": "blk1",
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "MO",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "RAM",
+       "bits": [
+        6,
+        0
+       ]
+      }
+     ],
+     "note": "Output Mode Register (RS = 1): MO 0 = MFO is the power-fail interrupt, 1 = buffered crystal oscillator"
+    },
+    {
+     "name": "ICR0",
+     "address": 3,
+     "space": "blk1",
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "RAM",
+       "bits": [
+        7,
+        6
+       ]
+      },
+      {
+       "name": "MS1",
+       "bits": [
+        5,
+        5
+       ]
+      },
+      {
+       "name": "MS10",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "MS100",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "SEC",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "SEC10",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "MIN",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "note": "Interrupt Control Register 0 (RS = 1): periodic interrupt enables"
+    },
+    {
+     "name": "ICR1",
+     "address": 4,
+     "space": "blk1",
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "PFE",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "ALE",
+       "bits": [
+        6,
+        6
+       ]
+      },
+      {
+       "name": "DOW",
+       "bits": [
+        5,
+        5
+       ]
+      },
+      {
+       "name": "MO",
+       "bits": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "DOM",
+       "bits": [
+        3,
+        3
+       ]
+      },
+      {
+       "name": "HR",
+       "bits": [
+        2,
+        2
+       ]
+      },
+      {
+       "name": "MN",
+       "bits": [
+        1,
+        1
+       ]
+      },
+      {
+       "name": "SC",
+       "bits": [
+        0,
+        0
+       ]
+      }
+     ],
+     "note": "Interrupt Control Register 1 (RS = 1): power-fail and alarm interrupt enables, compare enables (1 = compare)"
+    },
+    {
+     "name": "HUNDREDTHS",
+     "address": 5,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "HUNDREDTHS",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ],
+     "note": "1/100 and 1/10 seconds, BCD 00-99"
+    },
+    {
+     "name": "SECONDS",
+     "address": 6,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "SECONDS",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "MINUTES",
+     "address": 7,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "MINUTES",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "HOURS",
+     "address": 8,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "PM",
+       "bits": [
+        7,
+        7
+       ]
+      },
+      {
+       "name": "HOURS",
+       "bits": [
+        6,
+        0
+       ]
+      }
+     ],
+     "note": "1-12 with AM/PM in D7 (12-hour), 0-23 (24-hour)"
+    },
+    {
+     "name": "DOM",
+     "address": 9,
+     "width": 8,
+     "reset": 1,
+     "fields": [
+      {
+       "name": "DOM",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "MONTHS",
+     "address": 10,
+     "width": 8,
+     "reset": 1,
+     "fields": [
+      {
+       "name": "MONTHS",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "YEARS",
+     "address": 11,
+     "width": 8,
+     "reset": 0,
+     "fields": [
+      {
+       "name": "YEARS",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "RAM_0C",
+     "address": 12,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_0D",
+     "address": 13,
+     "width": 8,
+     "reset": 0,
+     "readOnly": 252,
+     "note": "D0, D1 bits only (2 RAM bits); the other bits are not given (read 0 here)"
+    },
+    {
+     "name": "DOW",
+     "address": 14,
+     "width": 8,
+     "reset": 7,
+     "fields": [
+      {
+       "name": "DOW",
+       "bits": [
+        7,
+        0
+       ]
+      }
+     ],
+     "note": "day of week 1-7"
+    },
+    {
+     "name": "SEC_CMP",
+     "address": 19,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "MIN_CMP",
+     "address": 20,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "HOUR_CMP",
+     "address": 21,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "DOM_CMP",
+     "address": 22,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "MON_CMP",
+     "address": 23,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "DOW_CMP",
+     "address": 24,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "SEC_SAVE",
+     "address": 25,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "MIN_SAVE",
+     "address": 26,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "HOUR_SAVE",
+     "address": 27,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "DOM_SAVE",
+     "address": 28,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "MON_SAVE",
+     "address": 29,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_1E",
+     "address": 30,
+     "width": 8,
+     "reset": 0
+    },
+    {
+     "name": "RAM_1F",
+     "address": 31,
+     "width": 8,
+     "reset": 0,
+     "note": "RAM / test mode register (test mode when PFR.TM = 1)"
+    }
+   ],
+   "protocol": {
+    "frame": "fixed",
+    "commands": [
+     {
+      "name": "Write RTMR",
+      "in": "00001 dddddddd",
+      "action": "write",
+      "register": "RTMR",
+      "data": "d",
+      "when": "MSR.RS=1"
+     },
+     {
+      "name": "Write OMR",
+      "in": "00010 dddddddd",
+      "action": "write",
+      "register": "OMR",
+      "data": "d",
+      "when": "MSR.RS=1"
+     },
+     {
+      "name": "Write ICR0",
+      "in": "00011 dddddddd",
+      "action": "write",
+      "register": "ICR0",
+      "data": "d",
+      "when": "MSR.RS=1"
+     },
+     {
+      "name": "Write ICR1",
+      "in": "00100 dddddddd",
+      "action": "write",
+      "register": "ICR1",
+      "data": "d",
+      "when": "MSR.RS=1"
+     },
+     {
+      "name": "Write",
+      "in": "aaaaa dddddddd",
+      "action": "write",
+      "address": "a",
+      "data": "d",
+      "note": "addresses 01, 02 (RS = 0) and 0F-12 are N/A: no register"
+     }
+    ],
+    "read": {
+     "0": "[MSR]",
+     "3": "[PFR]",
+     "4": "[TSCR]",
+     "5": "[HUNDREDTHS]",
+     "6": "[SECONDS]",
+     "7": "[MINUTES]",
+     "8": "[HOURS]",
+     "9": "[DOM]",
+     "10": "[MONTHS]",
+     "11": "[YEARS]",
+     "12": "[RAM_0C]",
+     "13": "[RAM_0D]",
+     "14": "[DOW]",
+     "19": "[SEC_CMP]",
+     "20": "[MIN_CMP]",
+     "21": "[HOUR_CMP]",
+     "22": "[DOM_CMP]",
+     "23": "[MON_CMP]",
+     "24": "[DOW_CMP]",
+     "25": "[SEC_SAVE]",
+     "26": "[MIN_SAVE]",
+     "27": "[HOUR_SAVE]",
+     "28": "[DOM_SAVE]",
+     "29": "[MON_SAVE]",
+     "30": "[RAM_1E]",
+     "31": "[RAM_1F]"
+    },
+    "note": "read: block 0 (RS = 0); reads: block 1 (RS = 1: RTMR, OMR, ICR0, ICR1 at 1-4). Address 0 is always MSR",
+    "reads": [
+     {
+      "when": "MSR.RS=1",
+      "read": {
+       "0": "[MSR]",
+       "3": "[ICR0]",
+       "4": "[ICR1]",
+       "5": "[HUNDREDTHS]",
+       "6": "[SECONDS]",
+       "7": "[MINUTES]",
+       "8": "[HOURS]",
+       "9": "[DOM]",
+       "10": "[MONTHS]",
+       "11": "[YEARS]",
+       "12": "[RAM_0C]",
+       "13": "[RAM_0D]",
+       "14": "[DOW]",
+       "19": "[SEC_CMP]",
+       "20": "[MIN_CMP]",
+       "21": "[HOUR_CMP]",
+       "22": "[DOM_CMP]",
+       "23": "[MON_CMP]",
+       "24": "[DOW_CMP]",
+       "25": "[SEC_SAVE]",
+       "26": "[MIN_SAVE]",
+       "27": "[HOUR_SAVE]",
+       "28": "[DOM_SAVE]",
+       "29": "[MON_SAVE]",
+       "30": "[RAM_1E]",
+       "31": "[RAM_1F]",
+       "1": "[RTMR]",
+       "2": "[OMR]"
+      }
+     }
+    ]
+   },
+   "clock": {
+    "fields": [
+     {
+      "field": "HUNDREDTHS.HUNDREDTHS",
+      "unit": "hundredth",
+      "format": "bcd"
+     },
+     {
+      "field": "SECONDS.SECONDS",
+      "unit": "second",
+      "format": "bcd"
+     },
+     {
+      "field": "MINUTES.MINUTES",
+      "unit": "minute",
+      "format": "bcd"
+     },
+     {
+      "field": "HOURS.HOURS",
+      "unit": "hour",
+      "format": "bcd",
+      "h12": "RTMR.H12",
+      "pm": "HOURS.PM"
+     },
+     {
+      "field": "DOM.DOM",
+      "unit": "date",
+      "format": "bcd"
+     },
+     {
+      "field": "MONTHS.MONTHS",
+      "unit": "month",
+      "format": "bcd"
+     },
+     {
+      "field": "YEARS.YEARS",
+      "unit": "year",
+      "format": "bcd",
+      "base": 2000
+     },
+     {
+      "field": "DOW.DOW",
+      "unit": "weekday",
+      "first": 1
+     }
+    ],
+    "stop": {
+     "field": "RTMR.CSS",
+     "stopped": 0,
+     "powerOn": 0
+    },
+    "update": "none",
+    "alarms": [
+     {
+      "match": [
+       {
+        "field": "SEC_CMP",
+        "unit": "second",
+        "mask": "ICR1.SC",
+        "maskLevel": 0
+       },
+       {
+        "field": "MIN_CMP",
+        "unit": "minute",
+        "mask": "ICR1.MN",
+        "maskLevel": 0
+       },
+       {
+        "field": "HOUR_CMP",
+        "unit": "hour",
+        "mask": "ICR1.HR",
+        "maskLevel": 0
+       },
+       {
+        "field": "DOM_CMP",
+        "unit": "date",
+        "mask": "ICR1.DOM",
+        "maskLevel": 0
+       },
+       {
+        "field": "MON_CMP",
+        "unit": "month",
+        "mask": "ICR1.MO",
+        "maskLevel": 0
+       },
+       {
+        "field": "DOW_CMP",
+        "unit": "weekday",
+        "mask": "ICR1.DOW",
+        "maskLevel": 0
+       }
+      ],
+      "flag": "MSR.AL",
+      "enable": "ICR1.ALE",
+      "pin": {
+       "pin": "INTR",
+       "active": 0,
+       "openDrain": true
+      }
+     }
+    ],
+    "periodic": [
+     {
+      "periodNs": 60000000000,
+      "flag": "PFR.MIN",
+      "enable": "ICR0.MIN",
+      "summary": "MSR.PER",
+      "pin": "INTR"
+     },
+     {
+      "periodNs": 10000000000,
+      "flag": "PFR.SEC10",
+      "enable": "ICR0.SEC10",
+      "summary": "MSR.PER",
+      "pin": "INTR"
+     },
+     {
+      "periodNs": 1000000000,
+      "flag": "PFR.SEC",
+      "enable": "ICR0.SEC",
+      "summary": "MSR.PER",
+      "pin": "INTR"
+     },
+     {
+      "periodNs": 100000000,
+      "flag": "PFR.MS100",
+      "enable": "ICR0.MS100",
+      "summary": "MSR.PER",
+      "pin": "INTR"
+     },
+     {
+      "periodNs": 10000000,
+      "flag": "PFR.MS10",
+      "enable": "ICR0.MS10",
+      "summary": "MSR.PER",
+      "pin": "INTR"
+     },
+     {
+      "periodNs": 1000000,
+      "flag": "PFR.MS1",
+      "enable": "ICR0.MS1",
+      "summary": "MSR.PER",
+      "pin": "INTR"
+     }
+    ]
+   },
+   "parts": [
+    {
+     "name": "DP8573AV/NOPB",
+     "manufacturer": "Texas Instruments",
+     "datasheet": "dp8573a",
+     "package": "PLCC",
+     "pinout": "plcc28",
+     "footprint": "PLCC-28"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,405 @@
+{
+ "device": {
+  "id": "DAC161S055",
+  "function": "DAC",
+  "description": "16-bit buffered voltage-output DAC with SPI, LDAC, clear and power-up zero/mid-scale select",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "dac161s055.pdf (SNAS503B) p.2-3 connection diagram and pin descriptions, p.4 operating ratings (VA 2.7-5.25 V, VDDIO 1.7 V to VA, digital inputs 0 to VDDIO), p.7-8 digital interface timing and Figures 1-2, p.14-15 serial interface (24-bit FIFO, SPI read, daisy chain), p.16-17 write-through/block, LDAC, write commands, clear, power-on reset, power down, p.18 internal registers, p.19-20 instruction set",
+  "pinouts": {
+   "rgh16": [
+    {
+     "number": 1,
+     "name": "VA",
+     "role": "power"
+    },
+    {
+     "number": 2,
+     "name": "VOUT",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 4,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 5,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 6,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "GND",
+     "role": "ground"
+    },
+    {
+     "number": 8,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 9,
+     "name": "SDO",
+     "role": "output"
+    },
+    {
+     "number": 10,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "SDI",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "CSB",
+     "role": "input"
+    },
+    {
+     "number": 13,
+     "name": "LDACB",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "CLRB",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "MZB",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "VDDIO",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "dac",
+  "bits": 16,
+  "channels": 1,
+  "vcc": [
+   1.7,
+   5.25
+  ],
+  "analog": [
+   "MZB",
+   "VA",
+   "VOUT",
+   "VREF"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CSB",
+   "sclk": "SCLK",
+   "mosi": "SDI",
+   "miso": "SDO",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 40,
+   "tOut": 62,
+   "tFloat": 75
+  },
+  "registers": [
+   {
+    "name": "PREREG",
+    "space": "input",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "p.18 DAC preload data register; power-up value set by the MZB pin (0 or mid-scale; 0 modeled)"
+   },
+   {
+    "name": "DACREG",
+    "space": "dac",
+    "address": 0,
+    "width": 16,
+    "reset": 0,
+    "note": "p.18 DAC output data register; power-up value set by MZB (0 modeled)"
+   },
+   {
+    "name": "CONFIG",
+    "width": 3,
+    "reset": 4,
+    "fields": [
+     {
+      "name": "SWB",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "SEL_10K",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "SEL_HIZ",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "p.18 configuration reporting register (bits 7-3 reserved, not stored); only commands change it; RDCO default 0004h (SWB = 1 write block)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "align": "end",
+   "out": "0{24}",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "NOP",
+     "in": "00000000 d{16}",
+     "next": "00000000 d{16}",
+     "commit": "end"
+    },
+    {
+     "name": "CLR",
+     "in": "00000001 d{16}",
+     "action": "reset",
+     "next": "00000001 d{16}",
+     "note": "clear internal registers, return to the power-up default state",
+     "commit": "end"
+    },
+    {
+     "name": "LDAC",
+     "in": "00011000 e{15} 1",
+     "action": "update",
+     "channel": 0,
+     "next": "00011000 e{15} 1",
+     "note": "software load DAC: CHANNEL[0] = 1 moves PREREG to DACREG",
+     "commit": "end"
+    },
+    {
+     "name": "LDAC (channel 0 not selected)",
+     "in": "00011000 e{15} 0",
+     "next": "00011000 e{15} 0",
+     "commit": "end"
+    },
+    {
+     "name": "SWB",
+     "in": "00101000 e{15} s",
+     "set": {
+      "CONFIG.SWB": "s"
+     },
+     "next": "00101000 e{15} s",
+     "note": "CHANNEL[0]: 1 write block, 0 write through (default 00FFh: block)",
+     "commit": "end"
+    },
+    {
+     "name": "PD 10K (both set)",
+     "in": "00110000 e{7} 1 f{7} 1",
+     "action": "powerdown",
+     "set": {
+      "CONFIG.SEL_10K": 1,
+      "CONFIG.SEL_HIZ": 0
+     },
+     "next": "00110000 e{7} 1 f{7} 1",
+     "note": "upper and lower CHANNEL[0] both 1: power down with 10k to GND",
+     "commit": "end"
+    },
+    {
+     "name": "PD HIZ",
+     "in": "00110000 e{7} 1 f{7} 0",
+     "action": "powerdown",
+     "set": {
+      "CONFIG.SEL_10K": 0,
+      "CONFIG.SEL_HIZ": 1
+     },
+     "next": "00110000 e{7} 1 f{7} 0",
+     "commit": "end"
+    },
+    {
+     "name": "PD 10K",
+     "in": "00110000 e{7} 0 f{7} 1",
+     "action": "powerdown",
+     "set": {
+      "CONFIG.SEL_10K": 1,
+      "CONFIG.SEL_HIZ": 0
+     },
+     "next": "00110000 e{7} 0 f{7} 1",
+     "commit": "end"
+    },
+    {
+     "name": "PD off",
+     "in": "00110000 e{7} 0 f{7} 0",
+     "action": "wakeup",
+     "set": {
+      "CONFIG.SEL_10K": 0,
+      "CONFIG.SEL_HIZ": 0
+     },
+     "next": "00110000 e{7} 0 f{7} 0",
+     "note": "writing the PD command with the bit 0 exits power down",
+     "commit": "end"
+    },
+    {
+     "name": "WR (write block)",
+     "in": "00001000 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "when": "CONFIG.SWB=1",
+     "next": "00001000 d{16}",
+     "note": "SWB = 1: data held in PREREG",
+     "commit": "end"
+    },
+    {
+     "name": "WR (write through)",
+     "in": "00001000 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "when": "CONFIG.SWB=0",
+     "then": [
+      "update"
+     ],
+     "next": "00001000 d{16}",
+     "note": "SWB = 0: PREREG and DACREG updated at CSB rising",
+     "commit": "end"
+    },
+    {
+     "name": "WRUP",
+     "in": "00010000 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "next": "00010000 d{16}",
+     "note": "update PREREG and DACREG regardless of SWB",
+     "commit": "end"
+    },
+    {
+     "name": "WRAL",
+     "in": "00100000 d{16}",
+     "action": "write",
+     "channel": 0,
+     "data": "d",
+     "then": [
+      "update"
+     ],
+     "next": "00100000 d{16}",
+     "note": "update all channels' PREREG and DACREG (one channel here)",
+     "commit": "end"
+    },
+    {
+     "name": "RDDO",
+     "in": "10001000 d{16}",
+     "next": "10001000 [PREREG]",
+     "note": "read PREREG: the next transaction shifts out the command byte and the register",
+     "commit": "end"
+    },
+    {
+     "name": "RDCO",
+     "in": "10010000 d{16}",
+     "next": "10010000 0{13} [CONFIG]",
+     "note": "read CONFIG: 0000 0000 0000 0,swb,sel_10k,sel_hiz (default 0004h)",
+     "commit": "end"
+    },
+    {
+     "name": "RDIN",
+     "in": "10011000 d{16}",
+     "next": "10011000 [DACREG]",
+     "note": "read DACREG",
+     "commit": "end"
+    },
+    {
+     "name": "other word (echo)",
+     "in": "c{8} d{16}",
+     "next": "c{8} d{16}",
+     "note": "any other 24-bit word (reserved commands, channels other than 0): no action; the FIFO still returns it on SDO",
+     "commit": "end"
+    }
+   ],
+   "note": "24-bit word (8-bit command + 16-bit data) sampled on SCLK rising; decoded from the last 24 bits before CSB rises; SDO shifts out the previous word (the FIFO), or the register for a preceding read command"
+  },
+  "pins": {
+   "ldac": {
+    "pin": "LDACB",
+    "active": 0,
+    "edge": "level"
+   },
+   "clear": {
+    "pin": "CLRB",
+    "active": 0
+   },
+   "resetSelect": [
+    {
+     "pin": "MZB",
+     "level": 1,
+     "resets": {
+      "PREREG": 32768,
+      "DACREG": 32768
+     }
+    }
+   ]
+  },
+  "dac": {
+   "input": [
+    "PREREG"
+   ],
+   "output": [
+    "DACREG"
+   ],
+   "clearCode": {
+    "pin": "MZB",
+    "values": {
+     "0": 0,
+     "1": 32768
+    }
+   },
+   "ldac": "pin"
+  }
+ },
+ "packages": {
+  "RGH": {
+   "pinout": "rgh16",
+   "footprint": "WQFN-16-RGH",
+   "package": "WQFN",
+   "pins": 16
+  }
+ },
+ "pdf": "dac161s055.pdf",
+ "pages": "p.2-3 (pins), p.4 (operating ratings), p.7-8 (timing, Figures 1-2), p.14-15 (serial interface, SPI read, daisy chain), p.16-17 (write-block/through, LDAC, write commands, clear, POR, power down), p.18 (registers), p.19-20 (instruction set)",
+ "notModeled": [
+  "analog output, reference, settling and the power-down output termination (SEL_10K/SEL_HIZ stored only)",
+  "CLR command resets the registers (action reset); per the datasheet it returns to the power-up state set by MZB",
+  "SDO FIFO: on longer frames (daisy chain) SDO outputs SDI delayed by 24 SCLKs; the model shifts out only the previous 24-bit word, then zeros",
+  "SDO contents after power-up (the FIFO) are not given: zeros",
+  "tValid/tOut/tFloat use the VDDIO 1.7-1.8 V limits (tZSDO 40 ns, tDO 62 ns, tSDOZ 75 ns)",
+  "LDACB/CLRB must not change while CSB is low: not checked"
+ ],
+ "variants": "the instruction set is shared with multichannel DAC16xS055 parts; only channel 0 exists here",
+ "parts": [
+  [
+   "DAC161S055CISQ/NOPB",
+   "RGH",
+   16,
+   "Active"
+  ]
+ ]
+}

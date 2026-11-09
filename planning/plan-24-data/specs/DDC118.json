@@ -1,0 +1,372 @@
+{
+ "device": {
+  "id": "DDC118",
+  "function": "ADC",
+  "description": "8-channel 20-bit current-input (charge-integrating) delta-sigma ADC with dual-switched integrators and serial output",
+  "drawer": [
+   "Interface"
+  ],
+  "note": "ddc118.pdf (SBAS325B) p.4 specifications (DVDD 2.7-5.25 V, AVDD 4.75-5.25 V, FORMAT 16 / 20 bits, straight binary with an offset), p.5 pin configuration and descriptions (QFN-48), p.13 digital interface (complementary DCLK / DIN / DOUT, DVALID, RESET active low), p.15-16 Table 6 / 7 (t7 cont mode data ready = 1380 CLK periods = 345 us at 4 MHz), p.21 Table 9 code table (0 % FS = 0000 0001 0000 0000 0000), data retrieval, Figure 20 / Table 10 (no chip select: data valid from the DVALID falling edge, Input 8 first, Input 1 last, shifted on DCLK falling edges, t21A 10 ns)",
+  "pinouts": {
+   "rtc48": [
+    {
+     "number": 1,
+     "name": "DOUT",
+     "role": "output"
+    },
+    {
+     "number": 2,
+     "name": "DOUT-bar",
+     "role": "output"
+    },
+    {
+     "number": 3,
+     "name": "CLK_4X",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "FORMAT",
+     "role": "input"
+    },
+    {
+     "number": 5,
+     "name": "HISPD/LOPWR",
+     "role": "input"
+    },
+    {
+     "number": 6,
+     "name": "RANGE0",
+     "role": "input"
+    },
+    {
+     "number": 7,
+     "name": "RANGE1",
+     "role": "input"
+    },
+    {
+     "number": 8,
+     "name": "RANGE2",
+     "role": "input"
+    },
+    {
+     "number": 9,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 10,
+     "name": "VREF",
+     "role": "power"
+    },
+    {
+     "number": 11,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 12,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 13,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 14,
+     "name": "AIN8",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "AIN4",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "AIN7",
+     "role": "input"
+    },
+    {
+     "number": 17,
+     "name": "AIN3",
+     "role": "input"
+    },
+    {
+     "number": 18,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 19,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 20,
+     "name": "AIN6",
+     "role": "input"
+    },
+    {
+     "number": 21,
+     "name": "AIN2",
+     "role": "input"
+    },
+    {
+     "number": 22,
+     "name": "AIN5",
+     "role": "input"
+    },
+    {
+     "number": 23,
+     "name": "AIN1",
+     "role": "input"
+    },
+    {
+     "number": 24,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 25,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 26,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 27,
+     "name": "AVDD",
+     "role": "power"
+    },
+    {
+     "number": 28,
+     "name": "AGND",
+     "role": "ground"
+    },
+    {
+     "number": 29,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 30,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 31,
+     "name": "TEST",
+     "role": "input"
+    },
+    {
+     "number": 32,
+     "name": "RESET",
+     "role": "input"
+    },
+    {
+     "number": 33,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 34,
+     "name": "NC",
+     "role": "nc"
+    },
+    {
+     "number": 35,
+     "name": "DIN-bar",
+     "role": "input"
+    },
+    {
+     "number": 36,
+     "name": "DIN",
+     "role": "input"
+    },
+    {
+     "number": 37,
+     "name": "DVDD",
+     "role": "power"
+    },
+    {
+     "number": 38,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 39,
+     "name": "DCLK-bar",
+     "role": "input"
+    },
+    {
+     "number": 40,
+     "name": "DCLK",
+     "role": "input"
+    },
+    {
+     "number": 41,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 42,
+     "name": "CLK",
+     "role": "input"
+    },
+    {
+     "number": 43,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 44,
+     "name": "DVALID",
+     "role": "output"
+    },
+    {
+     "number": 45,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 46,
+     "name": "CONV",
+     "role": "input"
+    },
+    {
+     "number": 47,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 48,
+     "name": "DGND",
+     "role": "ground"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 20,
+  "channels": 8,
+  "codeFormat": "straight",
+  "vcc": [
+   2.7,
+   5.25
+  ],
+  "analog": [
+   "AIN1",
+   "AIN2",
+   "AIN3",
+   "AIN4",
+   "AIN5",
+   "AIN6",
+   "AIN7",
+   "AIN8",
+   "AVDD",
+   "VREF"
+  ],
+  "bus": {
+   "style": "spi",
+   "sclk": "DCLK",
+   "miso": "DOUT",
+   "mode": 0
+  },
+  "timing": {
+   "tOut": 10
+  },
+  "registers": [
+   {
+    "name": "CTRL",
+    "width": 1,
+    "reset": 0,
+    "fields": [
+     {
+      "name": "FORMAT",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ],
+    "note": "internal: the FORMAT pin level (0 = 16-bit, 1 = 20-bit output words)"
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000 0000 0001 0000 0000 0000",
+   "outs": [
+    {
+     "when": "CTRL.FORMAT=0",
+     "out": "0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000 0000 0001 0000 0000"
+    }
+   ],
+   "idle": "0",
+   "commands": []
+  },
+  "conversion": {
+   "time": 345125,
+   "start": [
+    "pin"
+   ]
+  },
+  "ready": [
+   {
+    "pin": "DVALID",
+    "active": 0,
+    "asserts": "done",
+    "clears": "read"
+   }
+  ],
+  "pins": {
+   "convst": {
+    "pin": "CONV",
+    "edge": "rise"
+   },
+   "reset": {
+    "pin": "RESET",
+    "active": 0
+   },
+   "levels": [
+    {
+     "pin": "FORMAT",
+     "field": "CTRL.FORMAT"
+    }
+   ]
+  }
+ },
+ "packages": {
+  "RTC": {
+   "pinout": "rtc48",
+   "footprint": "VQFN-48-RTC-3",
+   "package": "VQFN",
+   "pins": 48
+  }
+ },
+ "pdf": "ddc118.pdf",
+ "pages": "p.4 (specifications), p.5 (pinout and pin descriptions), p.13 (digital interface, CLK_4X, HISPD/LOPWR, DVALID, RESET), p.15-16 (Tables 6, 7: data-ready timing), p.21 (FORMAT, Table 9 code table, data retrieval, Figure 20, Table 10), p.22 (daisy chain), p.26 (power-up sequence)",
+ "notModeled": [
+  "charge-integrating analog front end (dual A/B integrators, VREF, RANGE2-RANGE0 full-scale selection, TEST mode, HISPD/LOPWR power mode, CLK_4X clock divider): the output is always the 0 % FS code (Table 9: 0000 0001 0000 0000 0000 with FORMAT = 1, 0000 0001 0000 0000 with FORMAT = 0), written literally in the frame for every input",
+  "CONV: in the device every CONV transition (both edges) ends an integration and DVALID goes low t7 = 1380 CLK periods later; the model starts a conversion only on the CONV rising edge (convst edge \"rise\"), so it reports data every other transition",
+  "continuous / non-continuous integration state machine and power-up states: conversion time fixed at t7 = 345 us (+0.125 us) for CLK = 4 MHz, CLK_4X = 0; the CLK pin is not used by the model",
+  "complementary signals: the datasheet prints DOUT (pin 2), DIN (pin 35) and DCLK (pin 39) with an overbar and the same names as pins 1, 36 and 40; they are named DOUT-bar, DIN-bar and DCLK-bar here so the bus pins are unambiguous; DOUT-bar is never driven and DIN-bar / DCLK-bar are ignored",
+  "DVALID goes high t19 = 5 ns after the first DCLK falling edge; the model clears it when the result is read (bits shifted out)",
+  "daisy-chain (Figures 21, 22): after the device's own words DOUT shifts the DIN bits; the model shifts zeros",
+  "RESET: the 50 us minimum pulse and the four-conversion wait after reset",
+  "DDC118: inputs on pins 14-17 and 20-23 (AIN8, AIN4, AIN7, AIN3, AIN6, AIN2, AIN5, AIN1)"
+ ],
+ "variants": "DDC112 (2 channels, DXMIT chip select), DDC114 (4 channels), DDC118 (8 channels) and DDC232 (32 channels, configuration register) are separate datasheets with the same retrieval scheme",
+ "parts": [
+  [
+   "DDC118IRTCT",
+   "RTC",
+   48,
+   "Active"
+  ]
+ ]
+}

@@ -1,0 +1,413 @@
+{
+ "device": {
+  "id": "ADC12130",
+  "function": "ADC",
+  "drawer": [
+   "Interface"
+  ],
+  "description": "Self-calibrating 12-bit plus sign 2-channel serial I/O ADC with MUX and sample/hold",
+  "note": "adc12130.pdf (SNAS098G) p.2 connection diagram (16-pin), p.3-4 pin descriptions, p.5 operating ratings, p.9-10 conversion and acquisition times, p.11 digital timing, p.28-29 Tables 1, 3, 4 (data out formats, multiplexer addressing, mode programming), p.30 Table 6 status register, p.31-32 digital interface, p.39 output code examples",
+  "pinouts": {
+   "dw16": [
+    {
+     "number": 1,
+     "name": "CH0",
+     "role": "input"
+    },
+    {
+     "number": 2,
+     "name": "CH1",
+     "role": "input"
+    },
+    {
+     "number": 3,
+     "name": "COM",
+     "role": "input"
+    },
+    {
+     "number": 4,
+     "name": "DOR",
+     "role": "output"
+    },
+    {
+     "number": 5,
+     "name": "EOC",
+     "role": "output"
+    },
+    {
+     "number": 6,
+     "name": "VREF-",
+     "role": "power"
+    },
+    {
+     "number": 7,
+     "name": "VREF+",
+     "role": "power"
+    },
+    {
+     "number": 8,
+     "name": "DGND",
+     "role": "ground"
+    },
+    {
+     "number": 9,
+     "name": "VA+",
+     "role": "power"
+    },
+    {
+     "number": 10,
+     "name": "CONV",
+     "role": "input"
+    },
+    {
+     "number": 11,
+     "name": "CS",
+     "role": "input"
+    },
+    {
+     "number": 12,
+     "name": "DO",
+     "role": "output"
+    },
+    {
+     "number": 13,
+     "name": "DI",
+     "role": "input"
+    },
+    {
+     "number": 14,
+     "name": "SCLK",
+     "role": "input"
+    },
+    {
+     "number": 15,
+     "name": "CCLK",
+     "role": "input"
+    },
+    {
+     "number": 16,
+     "name": "VD+",
+     "role": "power"
+    }
+   ]
+  },
+  "type": "adc",
+  "bits": 13,
+  "channels": 2,
+  "codeFormat": "twos",
+  "vcc": [
+   3.0,
+   5.5
+  ],
+  "analog": [
+   "CH0",
+   "CH1",
+   "COM",
+   "VREF-",
+   "VREF+",
+   "VA+"
+  ],
+  "bus": {
+   "style": "spi",
+   "cs": "CS",
+   "sclk": "SCLK",
+   "mosi": "DI",
+   "miso": "DO",
+   "mode": 0
+  },
+  "timing": {
+   "tValid": 60,
+   "tOut": 90,
+   "tFloat": 100
+  },
+  "registers": [
+   {
+    "name": "STATUS",
+    "width": 9,
+    "reset": 22,
+    "readOnly": 0,
+    "note": "Table 6, DB0 (first bit out) = bit 8 ... DB8 = bit 0; reset from the Table 4 power-up defaults (12/13-bit, sign, MSB first, user mode)",
+    "fields": [
+     {
+      "name": "PU",
+      "bits": [
+       8,
+       8
+      ]
+     },
+     {
+      "name": "PD",
+      "bits": [
+       7,
+       7
+      ]
+     },
+     {
+      "name": "CAL",
+      "bits": [
+       6,
+       6
+      ]
+     },
+     {
+      "name": "F12",
+      "bits": [
+       4,
+       4
+      ]
+     },
+     {
+      "name": "F16",
+      "bits": [
+       3,
+       3
+      ]
+     },
+     {
+      "name": "SIGN",
+      "bits": [
+       2,
+       2
+      ]
+     },
+     {
+      "name": "MSBFIRST",
+      "bits": [
+       1,
+       1
+      ]
+     },
+     {
+      "name": "TEST",
+      "bits": [
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CTRL",
+    "width": 4,
+    "reset": 1,
+    "note": "internal: MUX = DI0 DI1 of the last conversion instruction (Table 3), ACQ = acquisition time code (Table 4: 0 = 6, 1 = 10 (power-up), 2 = 18, 3 = 34 CCLK)",
+    "fields": [
+     {
+      "name": "MUX",
+      "bits": [
+       3,
+       2
+      ]
+     },
+     {
+      "name": "ACQ",
+      "bits": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  ],
+  "protocol": {
+   "frame": "fixed",
+   "out": "R{13}",
+   "idle": "0",
+   "commands": [
+    {
+     "name": "12 Bit Conversion, 12/13 bit MSB first",
+     "in": "cc0000xx",
+     "action": "start",
+     "channel": "c",
+     "channelMap": {
+      "2": [
+       0
+      ],
+      "3": [
+       1
+      ]
+     },
+     "set": {
+      "CTRL.MUX": "c",
+      "STATUS.F12": 1,
+      "STATUS.F16": 0,
+      "STATUS.MSBFIRST": 1
+     }
+    },
+    {
+     "name": "12 Bit Conversion, 16/17 bit MSB first",
+     "in": "cc0001xx",
+     "action": "start",
+     "channel": "c",
+     "channelMap": {
+      "2": [
+       0
+      ],
+      "3": [
+       1
+      ]
+     },
+     "set": {
+      "CTRL.MUX": "c",
+      "STATUS.F12": 0,
+      "STATUS.F16": 1,
+      "STATUS.MSBFIRST": 1
+     }
+    },
+    {
+     "name": "12 Bit Conversion, 12/13 bit LSB first",
+     "in": "cc0100xx",
+     "action": "start",
+     "channel": "c",
+     "channelMap": {
+      "2": [
+       0
+      ],
+      "3": [
+       1
+      ]
+     },
+     "set": {
+      "CTRL.MUX": "c",
+      "STATUS.F12": 1,
+      "STATUS.F16": 0,
+      "STATUS.MSBFIRST": 0
+     }
+    },
+    {
+     "name": "12 Bit Conversion, 16/17 bit LSB first",
+     "in": "cc0101xx",
+     "action": "start",
+     "channel": "c",
+     "channelMap": {
+      "2": [
+       0
+      ],
+      "3": [
+       1
+      ]
+     },
+     "set": {
+      "CTRL.MUX": "c",
+      "STATUS.F12": 0,
+      "STATUS.F16": 1,
+      "STATUS.MSBFIRST": 0
+     }
+    },
+    {
+     "name": "Auto Cal",
+     "in": "001000xx"
+    },
+    {
+     "name": "Auto Zero",
+     "in": "001001xx"
+    },
+    {
+     "name": "Power Up",
+     "in": "001010xx",
+     "action": "wakeup"
+    },
+    {
+     "name": "Power Down",
+     "in": "001011xx",
+     "action": "powerdown"
+    },
+    {
+     "name": "Read Status Register",
+     "in": "001100xx",
+     "next": "[STATUS]"
+    },
+    {
+     "name": "Data Out without Sign",
+     "in": "001101xx",
+     "set": {
+      "STATUS.SIGN": 0
+     }
+    },
+    {
+     "name": "Data Out with Sign",
+     "in": "101101xx",
+     "set": {
+      "STATUS.SIGN": 1
+     }
+    },
+    {
+     "name": "Acquisition Time",
+     "in": "aa1110xx",
+     "set": {
+      "CTRL.ACQ": "a"
+     }
+    },
+    {
+     "name": "User Mode",
+     "in": "001111xx",
+     "set": {
+      "STATUS.TEST": 0
+     }
+    },
+    {
+     "name": "Test Mode",
+     "in": "1x1111xx",
+     "set": {
+      "STATUS.TEST": 1
+     }
+    }
+   ]
+  },
+  "conversion": {
+   "time": {
+    "field": "CTRL.ACQ",
+    "values": {
+     "0": 10200,
+     "1": 11000,
+     "2": 12600,
+     "3": 15800
+    }
+   },
+   "start": [
+    "command"
+   ],
+   "channel": "CTRL.MUX"
+  },
+  "ready": [
+   {
+    "pin": "EOC",
+    "active": 0,
+    "asserts": "busy"
+   }
+  ]
+ },
+ "packages": {
+  "DW": {
+   "pinout": "dw16",
+   "footprint": "SOIC-16W",
+   "package": "SOIC",
+   "pins": 16
+  }
+ },
+ "pdf": "adc12130.pdf",
+ "pages": "p.2 (Figure 1 16-pin: CH0 1 CH1 2 COM3 DOR4 EOC5 VREF- 6 VREF+ 7 DGND8 VA+ 9 CONV10 CS11 DO12 DI13 SCLK14 CCLK15 VD+ 16), p.3-4 (pin descriptions: DI on SCLK rising, DO on SCLK falling, first bit at CS fall, CS low with SCLK low, EOC low while busy), p.5 (operating ratings V+ = VA+ = VD+ 3.0-5.5 V), p.9 (tC 44 tCK max = 8.8 us at 5 MHz), p.10 (tA 7/11/19/35 tCK max, tCAL 4944 tCK, tAZ 76 tCK), p.11 (tACC 60 ns, tDDO 90 ns, t1H/t0H 100 ns), p.28 (Table 1 data out formats), p.29 (Table 3 ADC12130 MUX addressing, Table 4 mode programming: ADC12130 DI0 DI1 DI2-DI5, power-up defaults, Table 5 CONV/PD), p.30 (Table 6 status register DB0-DB8), p.31-32 (configuration sequence, 8-bit instruction, SCLKs per format), p.39 (12-bit + sign two's complement codes)",
+ "notModeled": [
+  "analog side: self-calibration (Auto Cal, tCAL 4944 tCK) and Auto Zero (76 tCK) are accepted as no-ops (EOC does not go low for them; STATUS.CAL stays 0); power-up sequence 700 us",
+  "output word length and order (Table 1): 12/13/16/17 bits, MSB or LSB first, with or without sign; the 0 V code is all zeros in every format, so the output is modeled as 13 zero bits then zeros; the formats are recorded in STATUS",
+  "the output of an I/O sequence is the result of the PREVIOUS conversion (pipelined); the constant 0 V code makes this invisible",
+  "Read Status: the status word is output during the next instruction (modeled with next \"[STATUS]\"); its bit order on DO (DB0 first assumed) and the status word length are not stated beyond Table 6; PU/PD/CAL in-progress bits stay 0",
+  "CONV pin: high = read data only (DI ignored, no conversion started); cannot gate commands on a pin level, so DI is always decoded",
+  "DOR output (low while data is shifted out, high after the last bit) is not driven",
+  "CS held low continuously (I/O sequences counted by SCLK, first bit on the EOC rising edge); CS falling during a conversion aborts it",
+  "CCLK (conversion clock) is not used: conversion time is fixed at fCK = 5 MHz (max acquisition + 44 tCK)",
+  "conversion starts when the instruction's 8th bit is in (the datasheet starts acquisition after the instruction / end of the I/O sequence)",
+  "multiplexer modes (differential CH0/CH1 vs single-ended to COM, Table 3): codes 0/2 = CH0, 1/3 = CH1 via channelMap",
+  "test mode (CH1-CH7 become outputs): STATUS.TEST only",
+  "PD pin and A/DIN, MUXOUT pins exist only on the 20/28-pin family members (ADC12132/ADC12138)"
+ ],
+ "variants": "ADC12132 (20-pin SSOP, MUXOUT/A/DIN pins) and ADC12138 (8 channels, 28-pin) share the datasheet; same instruction set with wider MUX addresses",
+ "parts": [
+  [
+   "ADC12130CIWM/NOPB",
+   "DW",
+   16,
+   "Active"
+  ]
+ ]
+}

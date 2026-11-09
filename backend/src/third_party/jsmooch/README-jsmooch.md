@@ -102,4 +102,10 @@ By hand (not generated):
 16. `wdc65816_disassembler.c`: `do_immediate_x` (LDX, LDY, CPX, CPY #)
     chose the operand width from M; it is X (plan-14-H).
 
+In the generator, after the list above:
+
+17. The emulation-mode X/Y truncation is two statements (`X &= 0xFF;
+    Y &= 0xFF;`), not one joined by a comma, so clang's `-Wcomma` stays
+    quiet. Same behavior.
+
 Ours, alongside: the `helpers/` stubs and `run.js` (above).
