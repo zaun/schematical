@@ -1,7 +1,7 @@
 # plan-27-A: Tactile switches — census, datasheet downloads, first decisions
 
 Last updated: 2026-11-07
-Overall Effort: huge (> 3d) — plan-27 is A → B → C → D → E → F → G → H → I → J → K
+Overall Effort: huge (> 3d) — plan-27 is A → B → C → E → F → G → H → I → J → K, and A → D → E (D needs no B/C output: plan-27-D Correction 1)
 Effort: large (3h–1d)
 Depends on: nothing (§ Prerequisites)
 
