@@ -13,7 +13,8 @@ import SwiftUI
 ///   along); drag a port to slide it along its line. Buses and ports are
 ///   selected on their own. Drag empty space to pan, which also clears the
 ///   selection; Shift-drag empty space to draw a box that adds every part,
-///   junction and wire it touches to the selection.
+///   junction and wire it touches to the selection. Dropping a part so a pin
+///   lands on a loose wire end connects it.
 /// - Line: drag from one pin to another to connect them with a right-angled wire.
 ///   Press Escape during the drag to cancel it (no wire is placed).
 ///   A grid point on an existing wire can be a start or end too; it becomes a
@@ -777,6 +778,7 @@ struct SchematicCanvasView: View {
             document.settleWires(attachedToBus: bus)
         case let .slidePort(port, _)?:
             document.settleWires(attachedToPort: port)
+            document.adoptLooseEnds(ports: [port])
         case let .moveGroup(base, lever)?:
             if lever != nil, isClick(value) {
                 toggleSwitchLever(at: viewport.world(value.startLocation))

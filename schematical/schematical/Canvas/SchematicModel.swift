@@ -1400,6 +1400,7 @@ final class SchematicDocument {
         )
         placed.board = placed.footprint.map { BoardLayout.nextSpot(for: $0, among: chips) }
         chips.append(placed)
+        adoptLooseEnds(chips: [placed.id])
     }
 
     /// Sets an LED's color. Does nothing for a part that isn't an LED, or a
@@ -1508,6 +1509,7 @@ final class SchematicDocument {
               chips[index].symbol.canFlip else { return }
         chips[index].isFlipped.toggle()
         settleWires(attachedTo: id)
+        adoptLooseEnds(chips: [id])
     }
 
     func chip(at point: CGPoint) -> PlacedChip? {
@@ -1595,6 +1597,7 @@ final class SchematicDocument {
             }
             wires[index].interior = interior
         }
+        adoptLooseEnds(chips: Set(base.chips.keys), junctions: Set(base.junctions.keys))
     }
 
     // MARK: Text blocks (Schematic)
@@ -2580,11 +2583,71 @@ final class SchematicDocument {
         settle { attaches($0, toPort: portID) }
     }
 
-    /// Re-fits the wires on every port of a bus, when a bus drag ends.
+    /// Re-fits the wires on every port of a bus, when a bus drag ends, and
+    /// connects loose ends its ports' pins landed on.
     func settleWires(attachedToBus busID: UUID) {
         for port in bus(busID)?.ports ?? [] {
             settleWires(attachedToPort: port.id)
         }
+        adoptLooseEnds(ports: Set(bus(busID)?.ports.map(\.id) ?? []))
+    }
+
+    /// Connects loose ends to pins after a drop (plan-30). A loose junction
+    /// joins a pin when its point is that pin's tip and either the junction
+    /// or the pin's part or port is in the dropped set; every wire end on the
+    /// junction moves to the pin, and the junction goes away. Each candidate
+    /// goes through the same voltage check as `connect`; one that fails stays
+    /// loose and sets `editorMessage`. When two pins share a tip, the first
+    /// part in `chips` order wins, then bus order. Removals never call this.
+    func adoptLooseEnds(chips chipIDs: Set<UUID> = [], ports portIDs: Set<UUID> = [],
+                        junctions junctionIDs: Set<UUID> = []) {
+        guard junctions.contains(where: \.isLoose) else { return }
+        func tips(of placed: [PlacedChip], ports includes: (BusPort) -> Bool) -> [CGPoint: WireEnd] {
+            var map: [CGPoint: WireEnd] = [:]
+            for chip in placed {
+                for slot in chip.layout.slots {
+                    let ref = PinRef(chipID: chip.id, index: slot.pin.index)
+                    if let tip = pinTip(ref), map[tip] == nil { map[tip] = .pin(ref) }
+                }
+            }
+            for bus in buses {
+                for port in bus.ports where includes(port) {
+                    for wire in bus.pinWires(of: port) {
+                        let ref = BusPinRef(portID: port.id, wireID: wire.id)
+                        if let tip = busPinTip(ref), map[tip] == nil { map[tip] = .busPin(ref) }
+                    }
+                }
+            }
+            return map
+        }
+        let dropped = tips(of: chips.filter { chipIDs.contains($0.id) }, ports: { portIDs.contains($0.id) })
+        // A dragged loose end may land on any pin.
+        let every = junctionIDs.isEmpty ? [:] : tips(of: chips, ports: { _ in true })
+        var adopted = false
+        for junction in junctions where junction.isLoose {
+            let lookup = junctionIDs.contains(junction.id) ? every : dropped
+            guard let pin = lookup[junction.point] else { continue }
+            let end = WireEnd.junction(junction.id)
+            // A wire whose other end is already this pin would end on itself.
+            guard !wires.contains(where: { ($0.start == end && $0.end == pin) || ($0.end == end && $0.start == pin) })
+            else { continue }
+            let candidate = wires.map { wire in
+                var wire = wire
+                if wire.start == end { wire.start = pin }
+                if wire.end == end { wire.end = pin }
+                return wire
+            }
+            if let library,
+               let issue = VoltageCheck.firstNew(before: chips, wires, after: chips, candidate,
+                                                 buses: buses, library: library) {
+                editorMessage = VoltageCheck.message(issue, chips: chips, edit: .connect)
+                continue
+            }
+            wires = candidate
+            junctions.removeAll { $0.id == junction.id }
+            adopted = true
+        }
+        if adopted { pruneSelection() }
     }
 
     /// Called when a block is released. Re-fits the wires attached to it and

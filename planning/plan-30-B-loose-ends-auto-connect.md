@@ -32,7 +32,7 @@ plan-30-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-30-A complete | `grep -c "^Commit: —" planning/plan-30-A-loose-ends-keep-wires.md` → `0` (or the file is in `planning/completed/`) | NOT MET (2026-11-08: plan just written) |
+| plan-30-A complete | `grep -c "^Commit: —" planning/plan-30-A-loose-ends-keep-wires.md` → `0` (or the file is in `planning/completed/`) | MET (2026-11-08: `grep -c "^Commit: —"` → `0`; A landed in bcb1c92, b303c07) |
 
 ## 1. Goal
 
@@ -145,12 +145,15 @@ Rejected alternatives:
 
 ### Phase 1 — `adoptLooseEnds` and its hooks
 
-- [ ] `Canvas/SchematicModel.swift`: `adoptLooseEnds` (§ 3).
-- [ ] The four model hooks in § 4.
-- [ ] `Canvas/SchematicCanvasView.swift`: the `.slidePort` hook in § 4.
-- [ ] `planning/todo.md`: the undo note is already there (added with this
+- [x] `Canvas/SchematicModel.swift`: `adoptLooseEnds` (§ 3).
+- [x] The four model hooks in § 4.
+- [x] `Canvas/SchematicCanvasView.swift`: the `.slidePort` hook in § 4.
+- [x] `Canvas/SchematicCanvasView.swift:5–29` header comment, under
+      Pointer: "Dropping a part so a pin lands on a loose wire end connects
+      it." (listed under Validation Plan's doc sync, not as a task).
+- [x] `planning/todo.md`: the undo note is already there (added with this
       plan). Leave it.
-- [ ] Tests in `schematicalTests/LooseEndTests.swift`:
+- [x] Tests in `schematicalTests/LooseEndTests.swift`:
   - `testPlacingAPartOnLooseEndsConnectsThem`: erase a part with two wires,
     then `placeChip` the same part at the same centre. Both wires are back
     on the same pins, and no loose junction is left.
@@ -173,11 +176,15 @@ Rejected alternatives:
     supply at the same centre (same supply symbol, so its pin tip is the
     loose end). The junction stays loose, and `editorMessage` starts with
     "Can't connect" (`VOLTAGE_SUPPLY_CLASH`, VoltageCheck :127).
-- [ ] `schematicalTests/TestSupport.swift`: `newDocument(library:)`, which
+- [x] `schematicalTests/TestSupport.swift`: `newDocument(library:)`, which
       keeps the document like `newDocument()` does (:22). No app test builds
       a document with a library today (`grep -rn "PartLibraryHandle\|library:"
       schematical/schematicalTests | wc -l` → 0). Pass
       `TestSupport.catalog.library` (PartCatalog.swift:820).
+
+- [x] Observed: the Check → `LooseEndTests` `Executed 16 tests, with 0
+      failures`, `SelectionGestureTests` `Executed 9 tests, with 0
+      failures`, `** TEST SUCCEEDED **`.
 
 Acceptance: drops connect loose ends to the dropped pins and nothing else, and a voltage conflict refuses.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/LooseEndTests -only-testing:schematicalTests/SelectionGestureTests CODE_SIGNING_ALLOWED=NO` → all pass (est. 4 min).
@@ -207,6 +214,14 @@ Commit: —
   not create a wire the Line tool would refuse. (§ 3)
 
 ## Corrections
+
+- § 3 step 3 gained one guard: a loose junction is skipped when one of its
+  wires already has its other end on the matching pin. Dragging a loose end
+  onto the pin at the far end of its own wire would otherwise make a wire
+  that starts and ends on the same pin.
+- `testUntickDoesNotReconnect` also asserts the premise of § 1's Non-goal:
+  after unticking `B0`, `B1`'s pin tip equals `B0`'s old tip (it does), so
+  the test proves the shift happened and still connected nothing.
 
 ## Summary
 

@@ -251,7 +251,7 @@ Commit: bcb1c92
 Acceptance: each removal leaves its wires with loose ends, and erasing a wire still deletes it.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/LooseEndTests -only-testing:schematicalTests/SelectionModelTests -only-testing:schematicalTests/BusJoinTests CODE_SIGNING_ALLOWED=NO` → all pass (est. 4 min).
   Check: `scripts/harness/build.sh scripts/harness/bus-erase.swift && /tmp/schematical-harness/H.app/Contents/MacOS/harness`, then the same for `generic-header.swift` → no `FAIL` lines (est. 4 min).
-Commit: —
+Commit: b303c07
 
 ## Validation Plan
 

@@ -185,4 +185,167 @@ final class LooseEndTests: XCTestCase {
         XCTAssertTrue(doc.junctions.isEmpty)
         XCTAssertEqual(doc.chips.count, 2)
     }
+
+    // MARK: plan-30-B — auto-connect on drop
+
+    private func looseCount(_ doc: SchematicDocument) -> Int {
+        doc.junctions.filter(\.isLoose).count
+    }
+
+    /// Two 74HC00s at (200, 200) and (500, 200), wired 1Y → 1A and 2Y → 2A,
+    /// then the right one erased: two wires, each with a loose end.
+    private func erasedRight(_ name: String = "SN74HC00N") throws
+        -> (doc: SchematicDocument, left: PlacedChip, right: PlacedChip, wires: [UUID: String]) {
+        let doc = TestSupport.newDocument()
+        let left = try TestSupport.place(doc, "SN74HC00N", at: p(200, 200))
+        let right = try TestSupport.place(doc, name, at: p(500, 200))
+        var wires: [UUID: String] = [:]
+        for (from, to) in [("1Y", "1A"), ("2Y", "2A")] {
+            let id = try connect(doc, .pin(try TestSupport.pin(left, from)), .pin(try TestSupport.pin(right, to)))
+            wires[id] = to
+        }
+        doc.erase(at: centre(right))
+        XCTAssertEqual(looseCount(doc), 2)
+        return (doc, left, right, wires)
+    }
+
+    func testPlacingAPartOnLooseEndsConnectsThem() throws {
+        let c = try erasedRight()
+        let paths = Dictionary(uniqueKeysWithValues: c.wires.keys.map { ($0, c.doc.path(forWire: $0)) })
+        let placed = try TestSupport.place(c.doc, "SN74HC00N", at: p(500, 200))
+        XCTAssertEqual(placed.origin, c.right.origin)
+        for (id, pin) in c.wires {
+            XCTAssertEqual(try wire(c.doc, id).end, .pin(try TestSupport.pin(placed, pin)))
+            XCTAssertEqual(c.doc.path(forWire: id), paths[id])
+        }
+        XCTAssertEqual(looseCount(c.doc), 0)
+        XCTAssertTrue(c.doc.junctions.isEmpty)
+    }
+
+    func testSwappingForAnotherPartConnectsMatchingPins() throws {
+        let c = try erasedRight()
+        let points = try Dictionary(uniqueKeysWithValues: c.wires.keys.map { id in
+            (id, try XCTUnwrap(c.doc.endTip(try wire(c.doc, id).end)))
+        })
+        let placed = try TestSupport.place(c.doc, "SN74HC08N", at: p(500, 200))
+        for (id, point) in points {
+            guard case let .pin(ref) = try wire(c.doc, id).end else { return XCTFail("wire \(id) still loose") }
+            XCTAssertEqual(ref.chipID, placed.id)
+            XCTAssertEqual(c.doc.pinTip(ref), point)
+        }
+        XCTAssertEqual(looseCount(c.doc), 0)
+    }
+
+    func testMovingAPartOntoLooseEndsConnectsThem() throws {
+        let c = try erasedRight()
+        let placed = try TestSupport.place(c.doc, "SN74HC00N", at: p(500, 400))
+        XCTAssertEqual(looseCount(c.doc), 2, "placing it away connects nothing")
+        c.doc.select(.chip(placed.id))
+        let base = c.doc.schematicGroupBase()
+        c.doc.moveSchematicGroup(base, by: CGSize(width: c.right.origin.x - placed.origin.x,
+                                                  height: c.right.origin.y - placed.origin.y))
+        c.doc.settleSchematicGroup(base)
+        for (id, pin) in c.wires {
+            XCTAssertEqual(try wire(c.doc, id).end, .pin(try TestSupport.pin(placed, pin)))
+        }
+        XCTAssertEqual(looseCount(c.doc), 0)
+    }
+
+    func testDraggingALooseEndOntoAPinConnectsIt() throws {
+        let doc = TestSupport.newDocument()
+        let left = try TestSupport.place(doc, "SN74HC00N", at: p(200, 200))
+        let right = try TestSupport.place(doc, "SN74HC00N", at: p(500, 200))
+        let id = try connect(doc, .pin(try TestSupport.pin(left, "1Y")), .pin(try TestSupport.pin(right, "1A")))
+        doc.erase(at: centre(right))
+        let target = try TestSupport.place(doc, "SN74HC00N", at: p(500, 500))
+        let pin = try TestSupport.pin(target, "1A")
+        guard case let .junction(looseID) = try wire(doc, id).end else { return XCTFail("not loose") }
+        let from = try XCTUnwrap(doc.junctions.first { $0.id == looseID }?.point)
+        let to = try XCTUnwrap(doc.pinTip(pin))
+
+        doc.select(.junction(looseID))
+        let base = doc.schematicGroupBase()
+        doc.moveSchematicGroup(base, by: CGSize(width: to.x - from.x, height: to.y - from.y))
+        doc.settleSchematicGroup(base)
+        XCTAssertEqual(try wire(doc, id).end, .pin(pin))
+        XCTAssertFalse(doc.junctions.contains { $0.id == looseID })
+        XCTAssertFalse(doc.isSelected(.junction(looseID)))
+    }
+
+    func testPinOnAWireMiddleDoesNotConnect() throws {
+        let doc = TestSupport.newDocument()
+        let left = try TestSupport.place(doc, "SN74HC00N", at: p(200, 200))
+        let right = try TestSupport.place(doc, "SN74HC00N", at: p(700, 200))
+        let id = try connect(doc, .pin(try TestSupport.pin(left, "1Y")), .pin(try TestSupport.pin(right, "1A")))
+        let path = doc.path(forWire: id)
+        // A grid point inside the longest segment.
+        let (a, b) = try XCTUnwrap(zip(path, path.dropFirst()).max {
+            hypot($0.0.x - $0.1.x, $0.0.y - $0.1.y) < hypot($1.0.x - $1.1.x, $1.0.y - $1.1.y)
+        })
+        XCTAssertGreaterThanOrEqual(hypot(a.x - b.x, a.y - b.y), 20)
+        let middle = SchematicGrid.snap(CGPoint(x: (a.x + b.x) / 2, y: (a.y + b.y) / 2))
+        XCTAssertNotEqual(middle, a)
+        XCTAssertNotEqual(middle, b)
+
+        let mover = try TestSupport.place(doc, "SN74HC00N", at: p(450, 600))
+        let tip = try XCTUnwrap(doc.pinTip(try TestSupport.pin(mover, "1A")))
+        let wiresBefore = doc.wires, junctionsBefore = doc.junctions
+        doc.select(.chip(mover.id))
+        let base = doc.schematicGroupBase()
+        doc.moveSchematicGroup(base, by: CGSize(width: middle.x - tip.x, height: middle.y - tip.y))
+        doc.settleSchematicGroup(base)
+        XCTAssertEqual(doc.pinTip(try TestSupport.pin(mover, "1A")), middle)
+        XCTAssertEqual(doc.wires, wiresBefore)
+        XCTAssertEqual(doc.junctions, junctionsBefore)
+    }
+
+    func testUnrelatedDropDoesNotConnect() throws {
+        let doc = TestSupport.newDocument()
+        let left = try TestSupport.place(doc, "SN74HC00N", at: p(200, 200))
+        let right = try TestSupport.place(doc, "SN74HC00N", at: p(500, 200))
+        let tip = try XCTUnwrap(doc.pinTip(try TestSupport.pin(right, "1A")))
+        // A loose end already on the right part's 1A tip, as a file could hold.
+        let loose = Junction(point: tip, isLoose: true)
+        let wire = Wire(start: .pin(try TestSupport.pin(left, "1Y")), end: .junction(loose.id), interior: [])
+        doc.replaceContents(chips: doc.chips, wires: [wire], junctions: [loose], buses: [],
+                            nextReference: doc.nextReference, board: doc.board, texts: [], traces: [])
+        try TestSupport.place(doc, "SN74HC00N", at: p(900, 700))
+        XCTAssertEqual(doc.wires, [wire])
+        XCTAssertEqual(doc.junctions, [loose])
+    }
+
+    func testUntickDoesNotReconnect() throws {
+        let doc = TestSupport.newDocument()
+        let bus = try XCTUnwrap(doc.addBus(from: p(100, 100), to: p(400, 100)))
+        XCTAssertNil(doc.addPort(at: p(200, 100)))
+        let port = try XCTUnwrap(doc.bus(bus)?.ports.first?.id)
+        let b0 = try XCTUnwrap(doc.bus(bus)?.wires[0].id), b1 = try XCTUnwrap(doc.bus(bus)?.wires[1].id)
+        XCTAssertNil(doc.setPortWires(port, [b0, b1]))
+        let chip = try TestSupport.place(doc, "SN74HC00N", at: p(260, 400))
+        let pin0 = BusPinRef(portID: port, wireID: b0), pin1 = BusPinRef(portID: port, wireID: b1)
+        let tip0 = try XCTUnwrap(doc.busPinTip(pin0))
+        let id = try connect(doc, .busPin(pin0), .pin(try TestSupport.pin(chip, "1A")))
+
+        XCTAssertNil(doc.setPortWires(port, [b1]))
+        XCTAssertEqual(doc.busPinTip(pin1), tip0, "B1 shifted onto B0's old spot")
+        try assertLoose(doc, try wire(doc, id).start, at: tip0)
+    }
+
+    func testVoltageConflictStaysLoose() throws {
+        let doc = TestSupport.newDocument(library: TestSupport.catalog.library)
+        let first = try TestSupport.place(doc, "5V", at: p(200, 200))
+        let second = try TestSupport.place(doc, "5V", at: p(400, 200))
+        func supplyPin(_ chip: PlacedChip) throws -> PinRef {
+            PinRef(chipID: chip.id, index: try XCTUnwrap(chip.layout.slots.first).pin.index)
+        }
+        let id = try connect(doc, .pin(try supplyPin(first)), .pin(try supplyPin(second)))
+        doc.erase(at: centre(second))
+        guard case let .junction(looseID) = try wire(doc, id).end else { return XCTFail("not loose") }
+
+        let placed = try TestSupport.place(doc, "3V3", at: p(400, 200))
+        XCTAssertEqual(placed.origin, second.origin)
+        XCTAssertEqual(try wire(doc, id).end, .junction(looseID))
+        XCTAssertEqual(doc.junctions.first { $0.id == looseID }?.isLoose, true)
+        XCTAssertTrue(doc.editorMessage?.hasPrefix("Can't connect") == true, doc.editorMessage ?? "no message")
+    }
 }
