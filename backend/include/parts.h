@@ -46,8 +46,14 @@ typedef struct {
 /* Exactly one of these is set on a Part, matching its kind. */
 typedef struct { const char *family; unsigned units; } PartLogic;         /* gate, dff, jkff */
 typedef struct { uint32_t words; unsigned bits; uint64_t access_ps; const char *grade; } PartSram;
-/* rated_mv: the contacts' switching voltage rating. */
-typedef struct { unsigned positions; const char *actuator; uint32_t rated_mv; } PartSwitch;
+/* rated_mv: the contacts' switching voltage rating. momentary: the button
+   springs back (data for the app). normally_closed: positions start closed.
+   joined: pairs of pins always connected inside the part (contacts numbered
+   positions + 1 … positions + joined, not addressable). */
+typedef struct {
+    unsigned positions; const char *actuator; uint32_t rated_mv;
+    unsigned momentary; unsigned normally_closed; unsigned joined;
+} PartSwitch;
 /* colors: the LED's colors, in file order; colors[0] is the default. */
 typedef struct { const char *const *colors; size_t color_count; } PartLed;
 typedef struct { unsigned digit; const char *segment; } PartDisplayLed;  /* digit 0 = colon/dot */

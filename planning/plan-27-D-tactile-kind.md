@@ -36,8 +36,8 @@ The gate for the whole feature is in plan-27-A § Prerequisites. This letter add
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-27-C is complete | `ls planning/completed/plan-27-C-*` → one file | NOT MET until C archives (2026-11-07) |
-| `PartSwitch` still has three fields | `grep -c 'unsigned positions; const char \*actuator; uint32_t rated_mv; }' backend/include/parts.h` → 1 | MET (2026-11-07) |
+| plan-27-C is complete | `ls planning/completed/plan-27-C-*` → one file | moot for D (Correction 1): D uses only inline fixtures; run 2026-11-08 in parallel with A's census |
+| `PartSwitch` still has three fields | `grep -c 'unsigned positions; const char \*actuator; uint32_t rated_mv; }' backend/include/parts.h` → 1 | MET (2026-11-08 at 05f609d: `parts.h:50`) |
 
 If plan-27-C is not complete, this plan cannot start, full stop.
 
@@ -53,7 +53,7 @@ If plan-27-C is not complete, this plan cannot start, full stop.
 - `circuit_start` leaves a normally-closed contact closed, every joined pair
   closed, and `circuit_set_switch` toggles only real positions.
 - The voltage check sees the same closed contacts the simulation has.
-- `ctest` runs T0 + 1 programs (`tactile_test`); every existing golden line is
+- `ctest` runs T0 + 1 = 26 programs (`tactile_test`); every existing golden line is
   unchanged.
 
 ### Non-goals (explicit constraints)
@@ -168,17 +168,22 @@ rated_mv; unsigned momentary; unsigned normally_closed; unsigned joined;`
 
 ### Phase 1 — Loader keys and model
 
-- [ ] `backend/include/parts.h`: `PartSwitch` fields (§ 4.1).
-- [ ] `backend/src/models/switch.c`: keys, `SwitchDevice`/`SwitchPins`,
+- [x] `backend/include/parts.h`: `PartSwitch` fields (§ 4.1).
+- [x] `backend/src/models/switch.c`: keys, `SwitchDevice`/`SwitchPins`,
       `switch_contact_pins`, `switch_set` (§ 4.1, § 4.2).
-- [ ] `backend/tests/support/listing.c`: § 4.4.
-- [ ] Tests: `backend/tests/library_check.c` `check_switch_cases()` gains
+- [x] `backend/tests/support/listing.c`: § 4.4.
+- [x] Tests: `backend/tests/library_check.c` — new `check_tactile_cases()`
+      next to `check_switch_cases()` (Correction 2) — gains
       cases (message strings of § 4.1): `momentary` not bool;
       `normallyClosed` without `momentary`; `joined` empty; `joined` pair
       naming one pin twice; `joined` naming a missing pin; `joined` naming a
       pin used by two pins; and one valid file with all three keys
       (`part->dip_switch->momentary == 1`, `normally_closed == 1`,
-      `joined == 2`).
+      `joined == 2`). Plus `"joined"` not an array, `normallyClosed` not a
+      bool, and a DIP switch having all three at 0. `/tmp/logic-p27/library_check`
+      → 11 new `ok` lines (`ok   joined names a pin used by two pins: … pin name
+      "A" is used by 2 pins; one is needed`, …), last line `library_check: all
+      passed`; `listing_check` passes (in the 6-test run below).
 
 Acceptance: the loader accepts the three keys and rejects each malformed case;
 DIP switches parse as before.
@@ -187,8 +192,8 @@ Commit: —
 
 ### Phase 2 — Circuit start-up and `tactile_test`
 
-- [ ] `backend/src/circuit.c`: § 4.3.
-- [ ] `backend/tests/tactile_test.c` (new) and `logic_test(tactile_test)` in
+- [x] `backend/src/circuit.c`: § 4.3, plus `wire_joined_pins` (Correction 4).
+- [x] `backend/tests/tactile_test.c` (new) and `logic_test(tactile_test)` in
       `backend/CMakeLists.txt`: loads `PARTS_DIR` (`load_parts_dir`), then
       `load_parts` of an inline fixture with devices `TACT-T2` (NO, pins
       `A`,`B`, footprint `RES-0402`), `TACT-T4NC` (NC, 4 pins `A1 A2 B1 B2`,
@@ -207,11 +212,15 @@ Commit: —
          `circuit_start`, which succeeds; pressing it during a run stops the run
          (`circuit_advance` returns 0 and `circuit_error` names the switch
          rating); `TACT-T4NC` (rated 3 V), closed by default: `circuit_start`
-         returns -1 with the same text.
-- [ ] `docs/parts-format.md`, `docs/backend.md`: § 4.4.
+         returns -1 with the same text. (Rewritten by Corrections 3: 24 V
+         fixtures, a 3 V probe downstream.) `/tmp/logic-p27/tactile_test` → 15
+         `ok` lines, `PASS: tactile switches (momentary, normally closed,
+         joined) in a circuit and the voltage check`.
+- [x] `docs/parts-format.md` (§ `switch`: the three keys and an example), `docs/backend.md` (Notes: ON = closed, NC, joined, unwired pins): § 4.4.
 
 Acceptance: the five cases pass and the DIP goldens are unchanged.
   Check: `cmake --build /tmp/logic-p27 -j8 && ctest --test-dir /tmp/logic-p27 -R 'tactile_test|switch_test|connector_test|library_check|listing_check|trace_check'` → `100% tests passed, 0 tests failed out of 6` (est. 6 min: a full build; `listing_check` and `trace_check` need it).
+  Result 2026-11-08: `100% tests passed, 0 tests failed out of 6`; `git diff --stat backend/tests/golden` → empty.
 Commit: —
 
 ## Validation Plan
@@ -221,12 +230,13 @@ Commit: —
   (DIP regression: goldens untouched — `git diff --stat backend/tests/golden`
   → empty).
 - Coverage check: `grep -c 'tactile_test' backend/CMakeLists.txt` → 1 and
-  `ctest --test-dir /tmp/logic-p27 -N | tail -1` → `Total Tests: 25`.
+  `ctest --test-dir /tmp/logic-p27 -N | tail -1` → `Total Tests: 26` (T0 = 25 at the gate, plan-27-A Correction 1). Result 2026-11-08: `1`, `Total Tests: 26`.
 - Runtime proof: `tactile_test` is the runtime proof at library level; the app
   proof is K.
 - Doc sync: `docs/parts-format.md` § `switch`, `docs/backend.md`.
 - Final gate (once, after Phase 2): `ctest --test-dir /tmp/logic-p27 -j8` →
-  `100% tests passed, 0 tests failed out of 25` (est. 6 min).
+  `100% tests passed, 0 tests failed out of 26` (est. 6 min). Result
+  2026-11-08: `100% tests passed, 0 tests failed out of 26`.
 
 ## Decisions
 
@@ -241,7 +251,33 @@ Commit: —
 
 ## Corrections
 
-<!-- filled in during execution -->
+1. 2026-11-08 — **D does not depend on C.** D adds no part (§ 1: "D proves
+   the keys with inline fixtures"); nothing B or C produces is read. Graph
+   edge corrected to A → D (A's gate only); D ran while A's census waited on
+   DigiKey. E still needs both C and D.
+2. 2026-11-08 — `check_switch_cases()` already existed (one DIP case,
+   `library_check.c:1295`); the tactile cases went into a new
+   `check_tactile_cases()` called right after it.
+3. 2026-11-08 — **case 5 and the 3 V fixtures were false as written.** The
+   voltage check compares each switch pin's voltage with the rating whether
+   the contact is open or not (`voltage.c:424`, `voltage_test.c:332` "5V on a
+   contact of the switch rated 5 V"), so a 3 V switch with 5 V on side A can
+   never "start open and succeed" (case 5), and case 2 (a 3 V NC part
+   conducting 5 V at start) contradicted case 5's second half. Fix: the three
+   fixtures are rated 24 V; a fourth, `TACT-T2LV` (NO, 3 V), is the probe,
+   wired downstream of the switch under test. 5a: `TACT-T2` open → start
+   succeeds; pressing stops the run (`rated 3 V`). 5b: `TACT-T4NC` closed by
+   default → `circuit_start` −1 (`rated 3 V`). 5c (added): `TACT-T4`'s joined
+   A1–A2 carries 5 V to the probe → −1. Same intent: the voltage check sees
+   the same closed contacts as the simulation.
+4. 2026-11-08 — **missing task: unwired joined pins.** Contacts join nets
+   (`sim.c` `apply_contact`; `voltage.c` step 1 walks connections), so on a
+   four-terminal part with B1 wired to nothing, pressing A1–B1 never reached
+   B2 (`tactile_test` case 3 failed: `FAIL TACT-T4: pressed, B2 is 1`). A
+   user wiring one pin per side expects it to work. Added
+   `wire_joined_pins` (`circuit.c`): at `circuit_start`, each unwired pin of
+   a switch with joined pairs gets a net of its own. Case 3 now wires only
+   A1, A2 and B2 and passes.
 
 ## Summary
 

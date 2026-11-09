@@ -701,10 +701,12 @@ timing entries are `{rise, fall}` plus `vcc` and `inputMax`. Part keys:
 
 ### `switch`
 
-DIP switches. A switch drives nothing; each position is a contact between
-two pins. While a position is ON the nets on its two pins act as one net
-(both ways; strong drivers that disagree across it short). Every position
-starts OFF; the app turns positions on and off (`circuit_set_switch`).
+DIP switches and tactile (push-button) switches. A switch drives nothing;
+each position is a contact between two pins. While a position is ON the
+nets on its two pins act as one net (both ways; strong drivers that disagree
+across it short). Every position starts OFF, except on a normally-closed
+switch; the app turns positions on and off (`circuit_set_switch`, ON =
+closed).
 
 ```json
 "actuator": "Low profile",
@@ -717,7 +719,21 @@ starts OFF; the app turns positions on and off (`circuit_set_switch`).
 | `"contacts"` | position 1, 2, …: `[pin name, pin name]`, two different pins (exactly one pin each) |
 | `"ratedVolts"` | the contacts' **switching** voltage rating (the "Contact rating, switching" row, not the non-switching carry rating), 0 < v ≤ 1000; `PartSwitch.rated_mv`. Required. |
 
-`PartSwitch.positions` is the number of contacts. Parts carry no kind keys.
+| `"momentary"` | optional, default `false`: the contact springs back (a tactile switch); the app presses it while the mouse is held. `PartSwitch.momentary` |
+| `"normallyClosed"` | optional, default `false`, needs `"momentary": true`: the contact is closed at rest and opens while pressed. The circuit starts it closed. `PartSwitch.normally_closed` |
+| `"joined"` | optional, a non-empty array of `[pin name, pin name]`: pins connected inside the part (a four-terminal tactile switch's two pins per side). Always closed; numbered after the positions, not addressable by `circuit_set_switch`. `PartSwitch.joined` is their count |
+
+```json
+"actuator": "Standard",
+"contacts": [["A1", "B1"]],
+"joined": [["A1", "A2"], ["B1", "B2"]],
+"momentary": true,
+"normallyClosed": true,
+"ratedVolts": 12
+```
+
+`PartSwitch.positions` is the number of contacts (not counting joined
+pairs). Parts carry no kind keys.
 
 ### `connector`
 

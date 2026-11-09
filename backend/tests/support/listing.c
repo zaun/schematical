@@ -82,6 +82,9 @@ static void print_details(FILE *out, const Part *part) {
             if (part->dip_switch->rated_mv > 0) {
                 fprintf(out, " rated=%u", (unsigned)part->dip_switch->rated_mv);
             }
+            if (part->dip_switch->momentary) fprintf(out, " momentary");
+            if (part->dip_switch->normally_closed) fprintf(out, " nc");
+            if (part->dip_switch->joined > 0) fprintf(out, " joined=%u", part->dip_switch->joined);
             break;
         case PART_LED: {
             size_t k;

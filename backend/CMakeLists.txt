@@ -161,6 +161,7 @@ logic_test(cpu_test)
 logic_test(charlcd_test)
 logic_test(serial_test)
 logic_test(pio_test)
+logic_test(tactile_test)
 
 # Engine speed bench (plan-05-A). Not a ctest: a wall-clock check would be
 # flaky. Build Release to get meaningful numbers.

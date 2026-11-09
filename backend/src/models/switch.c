@@ -4,6 +4,11 @@
  * simulator resolves the nets on both pins as one (sim_set_contact), so a
  * value passes both ways. Every position starts OFF; the set_switch hook
  * turns one on or off, before or during a run.
+ *
+ * Tactile switches (plan-27-D) use the same kind: "momentary" (data for the
+ * app), "normallyClosed" (the circuit records the positions closed when the
+ * part is added) and "joined" pin pairs, which are contacts numbered after
+ * the positions that are always closed and that set_switch cannot address.
  */
 
 #include <stdlib.h>
@@ -12,23 +17,58 @@
 #include "kind.h"
 #include "model_pins.h"
 
-static const char *const DEVICE_KEYS[] = {"actuator", "contacts", "ratedVolts", NULL};
+static const char *const DEVICE_KEYS[] = {"actuator", "contacts", "ratedVolts", "momentary",
+                                           "normallyClosed", "joined", NULL};
 
 typedef struct {
     PartSwitch info;
-    const char *(*contacts)[2];
+    const char *(*contacts)[2];  /* positions, then joined pairs */
 } SwitchDevice;
 
 typedef struct {
     size_t positions;
-    size_t (*pins)[2];   /* pin indices of each position's contact */
+    size_t joined;
+    size_t (*pins)[2];   /* pin indices of each contact: positions, then joined pairs */
 } SwitchPins;
+
+/* Reads an optional bool key; 0 when absent. */
+static int optional_bool(KindContext *ctx, const cJSON *json, const char *key, unsigned *out) {
+    int value = 0;
+
+    if (cJSON_GetObjectItemCaseSensitive(json, key) != NULL &&
+        kind_bool(ctx, json, key, &value) != 0) {
+        return -1;
+    }
+    *out = (unsigned)value;
+    return 0;
+}
+
+/* Reads one [pin, pin] pair; what names the pair in messages ("contact", "joined pair"). */
+static int read_pair(KindContext *ctx, const cJSON *item, const char *what, const char **a_out,
+                     const char **b_out) {
+    const cJSON *a = cJSON_GetArrayItem(item, 0);
+    const cJSON *b = cJSON_GetArrayItem(item, 1);
+
+    if (!cJSON_IsArray(item) || cJSON_GetArraySize(item) != 2 || !cJSON_IsString(a) ||
+        !cJSON_IsString(b)) {
+        return kind_error(ctx, "a %s is [pin name, pin name]", what);
+    }
+    if (strcmp(a->valuestring, b->valuestring) == 0) {
+        return kind_error(ctx, "a %s joins two different pins, not \"%s\" twice", what,
+                          a->valuestring);
+    }
+    *a_out = kind_strdup(ctx, a->valuestring);
+    *b_out = kind_strdup(ctx, b->valuestring);
+    return *a_out != NULL && *b_out != NULL ? 0 : -1;
+}
 
 static void *switch_load_device(KindContext *ctx, const cJSON *json) {
     SwitchDevice *device = kind_alloc(ctx, sizeof(*device));
     const cJSON *contacts = kind_member(ctx, json, "contacts", 1);
+    const cJSON *joined = cJSON_GetObjectItemCaseSensitive(json, "joined");
     const cJSON *item;
     size_t n = 0;
+    size_t joined_count = 0;
 
     if (device == NULL || contacts == NULL ||
         kind_string(ctx, json, "actuator", &device->info.actuator) != 0) {
@@ -38,30 +78,48 @@ static void *switch_load_device(KindContext *ctx, const cJSON *json) {
         kind_error(ctx, "\"contacts\" must be a non-empty array of [pin, pin]");
         return NULL;
     }
-    device->contacts = kind_alloc(ctx, (size_t)cJSON_GetArraySize(contacts) * sizeof(*device->contacts));
+    if (joined != NULL) {
+        if (!cJSON_IsArray(joined) || cJSON_GetArraySize(joined) == 0) {
+            kind_error(ctx, "\"joined\" must be a non-empty array of [pin, pin]");
+            return NULL;
+        }
+        joined_count = (size_t)cJSON_GetArraySize(joined);
+    }
+    device->contacts = kind_alloc(ctx, ((size_t)cJSON_GetArraySize(contacts) + joined_count) *
+                                           sizeof(*device->contacts));
     if (device->contacts == NULL) {
         return NULL;
     }
     cJSON_ArrayForEach(item, contacts) {
-        const cJSON *a = cJSON_GetArrayItem(item, 0);
-        const cJSON *b = cJSON_GetArrayItem(item, 1);
-
         kind_push(ctx, "contacts[%zu]", n);
-        if (!cJSON_IsArray(item) || cJSON_GetArraySize(item) != 2 || !cJSON_IsString(a) ||
-            !cJSON_IsString(b)) {
-            kind_error(ctx, "a contact is [pin name, pin name]");
+        if (read_pair(ctx, item, "contact", &device->contacts[n][0], &device->contacts[n][1]) != 0) {
             return NULL;
         }
-        if (strcmp(a->valuestring, b->valuestring) == 0) {
-            kind_error(ctx, "a contact joins two different pins, not \"%s\" twice", a->valuestring);
-            return NULL;
-        }
-        device->contacts[n][0] = kind_strdup(ctx, a->valuestring);
-        device->contacts[n][1] = kind_strdup(ctx, b->valuestring);
         kind_pop(ctx);
         n++;
     }
     device->info.positions = (unsigned)n;
+    if (joined != NULL) {
+        size_t j = 0;
+        cJSON_ArrayForEach(item, joined) {
+            kind_push(ctx, "joined[%zu]", j);
+            if (read_pair(ctx, item, "joined pair", &device->contacts[n + j][0],
+                          &device->contacts[n + j][1]) != 0) {
+                return NULL;
+            }
+            kind_pop(ctx);
+            j++;
+        }
+    }
+    device->info.joined = (unsigned)joined_count;
+    if (optional_bool(ctx, json, "momentary", &device->info.momentary) != 0 ||
+        optional_bool(ctx, json, "normallyClosed", &device->info.normally_closed) != 0) {
+        return NULL;
+    }
+    if (device->info.normally_closed && !device->info.momentary) {
+        kind_error(ctx, "\"normallyClosed\" needs \"momentary\"");
+        return NULL;
+    }
     /* ratedVolts: the contacts' switching rating. */
     if (kind_volts(ctx, json, "ratedVolts", 1000, &device->info.rated_mv) != 0) {
         return NULL;
@@ -83,12 +141,17 @@ static void *switch_bind_pinout(KindContext *ctx, const void *raw, const PartPin
         return NULL;
     }
     bound->positions = device->info.positions;
-    bound->pins = kind_alloc(ctx, bound->positions * sizeof(*bound->pins));
+    bound->joined = device->info.joined;
+    bound->pins = kind_alloc(ctx, (bound->positions + bound->joined) * sizeof(*bound->pins));
     if (bound->pins == NULL) {
         return NULL;
     }
-    for (i = 0; i < bound->positions; i++) {
-        kind_push(ctx, "contacts[%zu]", i);
+    for (i = 0; i < bound->positions + bound->joined; i++) {
+        if (i < bound->positions) {
+            kind_push(ctx, "contacts[%zu]", i);
+        } else {
+            kind_push(ctx, "joined[%zu]", i - bound->positions);
+        }
         if (kind_pin(ctx, pins, pin_count, device->contacts[i][0], &bound->pins[i][0]) != 0 ||
             kind_pin(ctx, pins, pin_count, device->contacts[i][1], &bound->pins[i][1]) != 0) {
             return NULL;
@@ -105,7 +168,7 @@ int switch_contact_pins(const Part *part, unsigned position, size_t *a, size_t *
         return 0;
     }
     pins = part_internal(part)->bound;
-    if (position < 1 || position > pins->positions) {
+    if (position < 1 || position > pins->positions + pins->joined) {
         return 0;
     }
     *a = pins->pins[position - 1][0];
@@ -135,10 +198,15 @@ static void *switch_create(const void *config) {
 static int switch_set(Sim *sim, SimInstance *instance, void *state, size_t position, int on) {
     const SwitchPins *pins = state;
 
+    size_t j;
+
     if (position < 1 || position > pins->positions) {
         return 0;
     }
     sim_set_contact(sim, instance, pins->pins[position - 1][0], pins->pins[position - 1][1], on);
+    for (j = pins->positions; j < pins->positions + pins->joined; j++) {
+        sim_set_contact(sim, instance, pins->pins[j][0], pins->pins[j][1], 1);
+    }
     return 1;
 }
 

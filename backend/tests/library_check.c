@@ -2313,6 +2313,21 @@ static void check_part_footprints(void) {
     "'actuator':'Low profile','contacts':[['1A','1B']]" RATED "," \
     "'parts':[{'name':'S1','package':'DIP','pinout':'p2','footprint':'T2'}]}" TAIL
 
+/* A four-terminal tactile switch (plan-27-D) with the given extra device keys. */
+#define VTACT(KEYS) \
+    HEAD("switch") "{'id':'t','function':'Normal Close','description':'d','drawer':['Switch','Tactile']," \
+    "'pinouts':{'p4':[{'number':1,'name':'A1','role':'inout'},{'number':2,'name':'A2','role':'inout'}," \
+    "{'number':3,'name':'B1','role':'inout'},{'number':4,'name':'B2','role':'inout'}]}," \
+    "'actuator':'Standard','contacts':[['A1','B1']],'ratedVolts':12" KEYS "," \
+    "'parts':[{'name':'T1','package':'THT','pinout':'p4','footprint':'T4'}]}" TAIL
+/* The same with a pin name used twice. */
+#define VTACT_DUP(KEYS) \
+    HEAD("switch") "{'id':'t','function':'Normal Open','description':'d','drawer':['Switch','Tactile']," \
+    "'pinouts':{'p4':[{'number':1,'name':'A1','role':'inout'},{'number':2,'name':'A','role':'inout'}," \
+    "{'number':3,'name':'B1','role':'inout'},{'number':4,'name':'A','role':'inout'}]}," \
+    "'actuator':'Standard','contacts':[['A1','B1']],'ratedVolts':12" KEYS "," \
+    "'parts':[{'name':'T1','package':'THT','pinout':'p4','footprint':'T4'}]}" TAIL
+
 #define VDISPLAY(VF) \
     HEAD("7seg") "{'id':'LTS-X','function':'7-Segment','description':'d','drawer':['Indicators','LED 7-Seg']," \
     "'pinouts':{'p4':[{'number':1,'name':'A','role':'input'},{'number':2,'name':'CC','role':'input'}," \
@@ -2497,6 +2512,44 @@ static void check_voltage_cases(void) {
     expect_fail("switch with no ratedVolts", VSWITCH(""), "devices[0] (s): missing \"ratedVolts\"");
 }
 
+/* Tactile switch keys on the switch kind (plan-27-D section 4.1). */
+static void check_tactile_cases(void) {
+    PartLibrary *library;
+    const Part *part;
+
+    expect_fail("momentary not a bool", VTACT(",'momentary':1"), "\"momentary\" must be true or false");
+    expect_fail("normallyClosed not a bool", VTACT(",'momentary':true,'normallyClosed':'yes'"),
+                "\"normallyClosed\" must be true or false");
+    expect_fail("normallyClosed without momentary", VTACT(",'normallyClosed':true"),
+                "\"normallyClosed\" needs \"momentary\"");
+    expect_fail("joined empty", VTACT(",'momentary':true,'joined':[]"),
+                "\"joined\" must be a non-empty array of [pin, pin]");
+    expect_fail("joined not an array", VTACT(",'momentary':true,'joined':'A1'"),
+                "\"joined\" must be a non-empty array of [pin, pin]");
+    expect_fail("joined pair names one pin twice", VTACT(",'momentary':true,'joined':[['A1','A1']]"),
+                "joined[0]: a joined pair joins two different pins, not \"A1\" twice");
+    expect_fail("joined names a missing pin", VTACT(",'momentary':true,'joined':[['A1','A9']]"),
+                "joined[0]: no pin named \"A9\"");
+    expect_fail("joined names a pin used by two pins",
+                VTACT_DUP(",'momentary':true,'joined':[['A1','A']]"),
+                "joined[0]: pin name \"A\" is used by 2 pins; one is needed");
+
+    library = expect_load("tactile switch keys",
+                          VTACT(",'momentary':true,'normallyClosed':true,'joined':[['A1','A2'],['B1','B2']]"));
+    part = part_library_find(library, "T1");
+    CHECK(part != NULL && part->dip_switch->positions == 1 && part->dip_switch->momentary == 1 &&
+          part->dip_switch->normally_closed == 1 && part->dip_switch->joined == 2);
+    printf("ok   tactile switch momentary, normallyClosed, joined\n");
+    part_library_destroy(library);
+
+    library = expect_load("dip switch without the keys", VSWITCH(",'ratedVolts':24"));
+    part = part_library_find(library, "S1");
+    CHECK(part != NULL && part->dip_switch->momentary == 0 && part->dip_switch->normally_closed == 0 &&
+          part->dip_switch->joined == 0);
+    printf("ok   dip switch has no tactile keys\n");
+    part_library_destroy(library);
+}
+
 int main(void) {
     check_footprint_styles();
     check_explicit_repeated_pins();
@@ -2512,6 +2565,7 @@ int main(void) {
     check_cpu_cases();
     check_z80_cases();
     check_switch_cases();
+    check_tactile_cases();
     check_flipflop_cases();
     check_gate_cases();
     check_valid_supply();

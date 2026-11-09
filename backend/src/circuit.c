@@ -156,6 +156,18 @@ int circuit_add_part(Circuit *circuit, const char *part_name, size_t *index) {
             }
         }
     }
+    if (part->kind == PART_SWITCH) {
+        /* A normally-closed switch starts closed; joined pairs are always closed
+           (plan-27-D). DIP switches record nothing: every position starts OFF. */
+        const PartSwitch *sw = part->dip_switch;
+        unsigned position;
+        for (position = 1; position <= sw->positions + sw->joined; position++) {
+            if ((position > sw->positions || sw->normally_closed) &&
+                record_contact(circuit, circuit->part_count, position, 1) != 0) {
+                return fail(circuit, "cannot initialize switch \"%s\"", part->name);
+            }
+        }
+    }
     if (index != NULL) {
         *index = circuit->part_count;
     }
@@ -342,17 +354,59 @@ int circuit_set_connector_plug(Circuit *circuit, size_t part, int inserted) {
     return 0;
 }
 
+/* Contacts join nets, so a tactile switch's pin wired to nothing would break
+   the chain A1 - B1 - B2 (joined pair, contact, joined pair). Gives every
+   unwired pin of a switch with joined pairs a net of its own (plan-27-D). */
+static int wire_joined_pins(Circuit *circuit) {
+    size_t part;
+    size_t count = circuit->part_count;
+
+    for (part = 0; part < count; part++) {
+        const Part *info = circuit->parts[part];
+        size_t pin;
+
+        if (info->kind != PART_SWITCH || info->dip_switch->joined == 0) continue;
+        for (pin = 0; pin < info->pin_count; pin++) {
+            size_t j;
+            size_t net;
+
+            for (j = 0; j < circuit->connection_count; j++) {
+                if (circuit->connections[j].part == part && circuit->connections[j].pin == pin) break;
+            }
+            if (j < circuit->connection_count || info->pins[pin].role == PIN_ABSENT) continue;
+            if (circuit_add_net(circuit, &net) != 0 ||
+                circuit_connect(circuit, part, info->pins[pin].designator, net) != 0) {
+                return -1;
+            }
+        }
+    }
+    return 0;
+}
+
 int circuit_start(Circuit *circuit) {
     size_t part;
-    if (check_building(circuit) != 0) {
+    if (check_building(circuit) != 0 || wire_joined_pins(circuit) != 0) {
         return -1;
     }
-    /* Pins have their nets only after building. Apply each connector's
-       remembered default/current contact state now, before voltage checks. */
+    /* Pins have their nets only after building. Apply each connector's and
+       each normally-closed or joined switch's remembered default/current
+       contact state now, before voltage checks. */
     for (part = 0; part < circuit->part_count; part++) {
         const Part *info = circuit->parts[part];
         SimInstance *instance = circuit->instances[part];
         unsigned position;
+        if (info->kind == PART_SWITCH &&
+            (info->dip_switch->normally_closed || info->dip_switch->joined > 0)) {
+            /* set_switch also closes the joined pairs. */
+            for (position = 1; position <= info->dip_switch->positions; position++) {
+                if (!sim_instance_type(instance)->set_switch(circuit->sim, instance,
+                                                              sim_instance_state(instance), position,
+                                                              contact_recorded(circuit, part, position))) {
+                    return fail(circuit, "cannot initialize switch \"%s\"", info->name);
+                }
+            }
+            continue;
+        }
         if (info->kind != PART_CONNECTOR) continue;
         for (position = 1; position <= info->connector->contacts; position++) {
             if (!sim_instance_type(instance)->set_switch(circuit->sim, instance,

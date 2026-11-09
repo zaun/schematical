@@ -68,6 +68,12 @@ Notes:
 
 - Building calls (`circuit_add_part`, `_add_net`, `_connect`) work only
   before `circuit_start`; `circuit_set_switch` works before and after.
+- `circuit_set_switch(…, position, on)`: ON = contact closed, for every
+  switch. A normally-closed (tactile) switch starts closed, so `off` opens
+  it. A tactile switch's joined pin pairs (`joined`) are always closed and
+  are not positions (`"<name> has no position N"`); `circuit_start` gives
+  each of its unwired pins a net of its own so the chain A1–B1–B2 holds
+  (plan-27-D).
 - `circuit_advance` returns 0 once the run has stopped (a short circuit is
   `"smoke: ..."`, and `circuit_shorted_net` names the net).
 - **Voltages** (`voltage.h`, plan-07). The simulation is logic-only; a
