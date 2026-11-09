@@ -417,7 +417,7 @@ The recording API on `SchematicDocument`, still with no app caller.
 
 Acceptance: the document cases pass, and the Phase 1 cases still pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/UndoHistoryTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 4 min).
-Commit: this commit (the archive of A; hash recorded in plan-31-B's first commit)
+Commit: 42e5c58
 
 ## Validation Plan
 
@@ -466,6 +466,11 @@ Commit: this commit (the archive of A; hash recorded in plan-31-B's first commit
 4. `recordEdit` is `rethrows` (body `() throws -> T`), so tests can wrap
    `try TestSupport.place`. The depth and the name are restored in a
    `defer`, so a throwing body still closes its recording.
+5. (Found in plan-31-B.) §3/§4.2 "named by the first inner `recordEdit`
+   that changed state" named `insertNode` "Move Wire": the inner
+   `setWirePath` finishes first. The rule is now: the outermost call that
+   changed something names the step, the first such among a gesture's
+   calls (`recordingNameDepth`). See plan-31-B Corrections 1.
 
 ## Summary
 

@@ -342,7 +342,7 @@ final class UndoHistoryTests: XCTestCase {
         let chip = try TestSupport.place(doc, "SN74HC00N", at: p(200, 200))
         doc.recordEdit(.schematic, "Flip") { doc.flipChip(chip.id) }
         doc.isPlaying = true
-        doc.recordEdit(.schematic, "Rename") { _ = doc.renameChip(chip.id, prefix: "U", number: 9) }
+        _ = doc.renameChip(chip.id, prefix: "U", number: 9, page: .schematic)
         let playing = doc.state
         XCTAssertFalse(doc.undo(on: .schematic))
         XCTAssertFalse(doc.redo(on: .schematic))
@@ -351,7 +351,8 @@ final class UndoHistoryTests: XCTestCase {
         // Only the flip is on the list.
         XCTAssertEqual(doc.undoName(on: .schematic), "Flip")
         XCTAssertTrue(doc.undo(on: .schematic))
-        XCTAssertFalse(doc.undo(on: .schematic))
+        // Under it, the drop (recorded by placeChip since plan-31-B).
+        XCTAssertEqual(doc.undoName(on: .schematic), "Add Part")
     }
 
     func testReplaceContentsEmptiesBothLists() throws {
@@ -372,7 +373,7 @@ final class UndoHistoryTests: XCTestCase {
         let doc = TestSupport.newDocument()
         let chip = try TestSupport.place(doc, "SN74HC00N", at: p(200, 200))
         let saved = file(doc)
-        doc.recordEdit(.schematic, "Rename") { _ = doc.renameChip(chip.id, prefix: "U", number: 42) }
+        _ = doc.renameChip(chip.id, prefix: "U", number: 42, page: .schematic)
         XCTAssertNotEqual(file(doc), saved)
         doc.undo(on: .pcb)
         XCTAssertEqual(file(doc), saved)

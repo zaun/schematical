@@ -430,7 +430,7 @@ private struct FootprintPanel: View {
             .textSelection(.enabled)
         }
 
-        ReferenceSection(document: document, chip: chip)
+        ReferenceSection(document: document, chip: chip, page: .pcb)
 
         if chip.part.connectorFootprint != nil {
             Section("Footprint") {

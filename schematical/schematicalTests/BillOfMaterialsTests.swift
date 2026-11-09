@@ -15,7 +15,7 @@ final class BillOfMaterialsTests: XCTestCase {
         }
         try TestSupport.place(doc, "GND", at: CGPoint(x: 100, y: 400))
         let led = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 300, y: 400))
-        XCTAssertNil(doc.renameChip(led.id, prefix: "D", number: 1))
+        XCTAssertNil(doc.renameChip(led.id, prefix: "D", number: 1, page: .schematic))
 
         let lines = BillOfMaterials.lines(for: doc.chips)
         XCTAssertEqual(lines.count, 2)

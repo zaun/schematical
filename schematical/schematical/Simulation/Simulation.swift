@@ -274,6 +274,8 @@ final class SimulationController {
         if isRunning {
             playDocument = document
             playSwitches = document.switchPositions
+            // Nothing done during the run is an edit (plan-31).
+            document.isPlaying = true
         }
     }
 
@@ -365,6 +367,7 @@ final class SimulationController {
     /// they were when it started.
     func stop() {
         playDocument?.restoreSwitches(playSwitches)
+        playDocument?.isPlaying = false
         playDocument = nil
         playSwitches = [:]
         engine?.stopAndWait()

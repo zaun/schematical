@@ -32,7 +32,7 @@ See plan-31-A § Prerequisites (they hold for every letter). Also:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-31-A is complete | `ls planning/plan-31-A-*` → no match (archived to `planning/completed/`) | NOT MET (A not started) |
+| plan-31-A is complete | `ls planning/plan-31-A-*` → no match (archived to `planning/completed/`) | MET (2026-11-09: `ls planning/plan-31-A-*` → no match; archived at 42e5c58) |
 
 ## 1. Goal
 
@@ -161,18 +161,22 @@ each change of `words`; `.onChange(of: isEditing)` sees focus leave.
 
 ### Phase 1 — Record every Schematic edit
 
-- [ ] `Canvas/SchematicModel.swift`: wrap all 38 functions of the table in
+- [x] `Canvas/SchematicModel.swift`: wrap all 38 functions of the table in
       `recordEdit(.schematic, …)` with the names shown; `setNoteText` passes
       `coalescing: "note-text:\(id)"`; `renameChip` gains `page:
-      EditorPage` and records on it.
-- [ ] `Canvas/PartInfoViews.swift`: `ReferenceSection` gains `let page:
+      EditorPage` and records on it. Wrapped by a brace-matching script
+      (`/tmp/p31scripts/wrap.py`, spec `b.json`) → `total 38`, every name
+      found (3 `settleWires`, 2 `addBus`, 2 `slidePort`). `adoptLooseEnds`'
+      nested `tips` needed `@MainActor` inside the closure (Corrections 2).
+- [x] `Canvas/PartInfoViews.swift`: `ReferenceSection` gains `let page:
       EditorPage` and passes it to `renameChip`;
       `Drawer/SchematicSidebarView.swift` passes `.schematic`,
-      `Canvas/PCBSidebarView.swift` passes `.pcb`.
-- [ ] `Simulation/Simulation.swift`: set `document.isPlaying` in
+      `Canvas/PCBSidebarView.swift` passes `.pcb`. (`BillOfMaterialsTests`
+      passes `.schematic` too.)
+- [x] `Simulation/Simulation.swift`: set `document.isPlaying` in
       `start(document:)` (true, with `playDocument`) and `stop()` (false,
       after `restoreSwitches`).
-- [ ] Tests: `schematical/schematicalTests/SchematicUndoTests.swift`. One
+- [x] Tests: `schematical/schematicalTests/SchematicUndoTests.swift`. One
       test per table row: build the state the edit needs, record
       `SchematicFile(document:)` before, call the function, record after,
       `undo(on: .schematic)` → equals before, `redo(on: .schematic)` → equals
@@ -190,6 +194,10 @@ each change of `words`; `.onChange(of: isEditing)` sees focus leave.
       three `setNoteText` calls then `endCoalescing()` then a fourth → two
       steps;
       `isPlaying = true` then `toggleSwitch` → no step.
+      Added: `erase` of a wire is Schematic only; `confirmPendingRemoval`
+      not on the PCB list; `SimulationController.start`/`stop` set and clear
+      `isPlaying`. 47 tests. Check run (with `UndoHistoryTests`) →
+      `Executed 100 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 
 Acceptance: every row and case passes; the existing canvas tests still pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/SchematicUndoTests -only-testing:schematicalTests/LooseEndTests -only-testing:schematicalTests/TactileSwitchTests -only-testing:schematicalTests/PlaySwitchResetTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 4 min).
@@ -226,6 +234,20 @@ Commit: —
 See plan-31-A § Decisions. B adds none.
 
 ## Corrections
+
+1. The step-naming rule of plan-31-A §4.2 ("the first inner `recordEdit`
+   that changed state") named `insertNode` "Move Wire", since its inner
+   `setWirePath` call finishes first (`testInsertNode`: `("Optional("Move
+   Wire")") is not equal to ("Optional("Add Bend")")`). Fixed in
+   `recordEdit`: the outermost call that changed something names the step;
+   among a gesture's sibling calls, the first such. A's doc records it.
+2. A local `func` inside the `recordEdit` closure is not main-actor
+   isolated: `adoptLooseEnds`' `tips` failed with "call to main
+   actor-isolated instance method 'pinTip' in a synchronous nonisolated
+   context". Marked `@MainActor`.
+3. `UndoHistoryTests.testPlayingRecordsNothingAndUndoIsOff` expected an
+   empty list under the flip; with `placeChip` recorded, "Add Part" is
+   under it. Expectation updated.
 
 ## Summary
 

@@ -32,6 +32,8 @@ struct PartHeader: View {
 struct ReferenceSection: View {
     let document: SchematicDocument
     let chip: PlacedChip
+    /// The page the sidebar is on; a rename goes on both pages' undo lists.
+    let page: EditorPage
 
     @State private var prefix = ""
     @State private var number = ""
@@ -66,7 +68,7 @@ struct ReferenceSection: View {
     private func commitReference() {
         let trimmed = number.trimmingCharacters(in: .whitespaces)
         referenceError = document.renameChip(chip.id, prefix: prefix.trimmingCharacters(in: .whitespaces),
-                                             number: Int(trimmed))
+                                             number: Int(trimmed), page: page)
         resetReference()
     }
 
