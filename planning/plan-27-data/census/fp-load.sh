@@ -1,14 +1,16 @@
 #!/bin/zsh
 # plan-27-B section 4.4: load ready footprint objects through footprint_check.
 #   usage: fp-load.sh <footprints-X.json>...
-# Copies backend/ and the Parts directory to /tmp/p27-fp, appends every object
+# Copies backend/ and the Parts directory to a fresh /tmp/p27-fp.XXXXXX (removed
+# afterwards, so parallel runs do not collide), appends every object
 # of the named files to the copy's footprints.json, builds footprint_check
 # there and runs it.  Expected: only "extra footprint (not in the golden)" and
 # "unused footprint" lines, for exactly the new ids; no load error.
 HERE="${0:A:h}"
 REPO="${HERE:h:h:h}"
-DST=/tmp/p27-fp
-rm -rf "$DST"
+DST="$(mktemp -d /tmp/p27-fp.XXXXXX)"
+trap 'rm -rf "$DST"' EXIT
+
 mkdir -p "$DST/schematical/schematical"
 cp -R "$REPO/backend" "$DST/backend"
 cp -R "$REPO/schematical/schematical/Parts" "$DST/schematical/schematical/Parts"

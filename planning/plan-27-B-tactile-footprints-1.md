@@ -219,7 +219,7 @@ Commit: 9e04003
 Acceptance: no C&K row is `pending`; `specs-check.py` passes; the objects load.
   Check: `python3 -I planning/plan-27-data/census/specs-check.py --maker 'C&K' && planning/plan-27-data/census/fp-load.sh planning/plan-27-data/footprints-B.json` → `specs ok`, then only extra/unused failures for the new ids (est. 3 min).
   Result 2026-11-08: `specs ok (488 add rows)`; `55 new footprints: load ok`; C&K rows: 488 add, 24 skip, 60 out, 0 pending.
-Commit: —
+Commit: d398dad
 
 ### Phase 3 — E-Switch (67 proxy lines, 330 rows)
 
@@ -234,7 +234,14 @@ Commit: —
 
 ### Phase 4 — Omron / Aratas (13 proxy lines, 148 rows)
 
-- [ ] Same tasks for `omron/` (datasheet series B3F, B3W, B3FS, …).
+- [x] Same tasks for `omron/` (datasheet series B3F, B3W, B3FS, …). Omron
+      reader (`work/omron/`, two passes); `merge-work.py B omron` →
+      `scheme-check.py --maker Aratas`: `2 add, 6 skip, 0 still pending` (the
+      three illuminated B3WZ check rows are `out`, reason `check; lit`);
+      `specs-check.py --maker Aratas`: `specs ok (144 add rows)`; 15 footprints
+      (`footprints-B.json` 70 in all) → `fp-load.sh footprints-B.json`:
+      `70 new footprints: load ok`. Omron's 4-terminal parts are `A=1,2;B=3,4`
+      read from the bottom-view terminal figure and drawn top view.
 - [ ] Write § Summary: add / skip counts per maker, number of footprints.
 
 Acceptance: no Omron row is `pending`; `specs-check.py` passes for all three makers; objects load.
