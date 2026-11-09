@@ -373,6 +373,14 @@ Commit: —
    hits were not bounded (`/tmp/p27/scripts/bound.py`: Aratas 3, E-Switch 2,
    C&K 1, NKK 1, Same Sky 1); they become `pending` and their series' key
    decides them.
+7. 2026-11-08 — **truncated downloads counted as PDFs.** `fetch.py` kept any
+   file that starts with `%PDF`, and cut transfers at 40 s, so on the slow
+   network 150 of 685 files were partial (`pdfinfo` → `Couldn't find
+   trailer dictionary`; `/tmp/p27/scripts/broken.py` → `150 broken of 685`);
+   `pdftotext` gives no text for them, so `textscan` set `pdf` = 0. `fetch.py`
+   now keeps or accepts a file only when `pdfinfo` opens it, allows 180 s per
+   transfer and tries each method twice. The broken files were deleted and
+   fetched again.
 5. 2026-11-08 — the census hit a degraded network: DigiKey connects timed out
    (`UND_ERR_CONNECT_TIMEOUT`) while the 600 MB of PDF downloads ran, and
    searches took 76 s each (`curl`, `/products/v4/search/keyword`, 5

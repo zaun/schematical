@@ -45,10 +45,10 @@ ATTEMPTS = [
 
 def attempt(full, flags, path):
     origin = "{0.scheme}://{0.netloc}/".format(urllib.parse.urlparse(full))
-    cmd = ["curl", "-sL", "--max-time", "40", "--compressed", "-e", origin, "-o", path,
+    cmd = ["curl", "-sL", "--max-time", "180", "--compressed", "-e", origin, "-o", path,
            "-w", "%{http_code}", *flags, full]
     try:
-        code = subprocess.run(cmd, capture_output=True, text=True, timeout=60).stdout.strip()
+        code = subprocess.run(cmd, capture_output=True, text=True, timeout=200).stdout.strip()
     except subprocess.TimeoutExpired:
         code = "timeout"
     head = b""
@@ -58,24 +58,35 @@ def attempt(full, flags, path):
     return code, head
 
 
+def complete(path):
+    """A whole PDF: starts with %PDF and pdfinfo can open it. A download cut
+    off by the network starts with %PDF too (plan-27-A Correction 7)."""
+    if not os.path.exists(path):
+        return False
+    with open(path, "rb") as f:
+        if f.read(4) != b"%PDF":
+            return False
+    return subprocess.run(["pdfinfo", path], capture_output=True).returncode == 0
+
+
 def fetch(args):
     url, directory = args
     full = ("https:" + url if url.startswith("//") else url).replace(" ", "%20")
     md5 = hashlib.md5(url.encode()).hexdigest()
     path = os.path.join(directory, md5 + ".pdf")
-    if os.path.exists(path):
-        with open(path, "rb") as f:
-            if f.read(4) == b"%PDF":
-                return (md5, "cached", str(os.path.getsize(path)), "%PDF", url)
+    if complete(path):
+        return (md5, "cached", str(os.path.getsize(path)), "%PDF", url)
     code, head = "none", b""
-    for name, flags in ATTEMPTS:
+    for name, flags in ATTEMPTS + ATTEMPTS:  # each twice: the network drops some transfers
         if "//www.te.com/" in full:
             with TE_LOCK:
                 code, head = attempt(full, flags, path)
         else:
             code, head = attempt(full, flags, path)
-        if head == b"%PDF":
+        if head == b"%PDF" and complete(path):
             return (md5, name, str(os.path.getsize(path)), "%PDF", url)
+        if head == b"%PDF":
+            code = "truncated"
     size = os.path.getsize(path) if os.path.exists(path) else 0
     if os.path.exists(path):
         os.remove(path)
