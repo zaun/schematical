@@ -35,6 +35,27 @@ def merge(target, paths):
     return 0
 
 
+def overlaps(line):
+    """Pairs of pads (by their bounding boxes, as footprint_check prints them:
+    `pads=<pin>:<x>,<y>,<w>x<h>,<shape>;...`) whose areas overlap; touching is fine.
+    The loader has no overlap check (plan-27-B Correction 1), so this is it."""
+    m = re.search(r"\|pads=([^|]*)", line)
+    if not m:
+        return []
+    pads = []
+    for p in m.group(1).split(";"):
+        pm = re.match(r"([^:]+):(-?[\d.]+),(-?[\d.]+),([\d.]+)x([\d.]+)", p)
+        if pm:
+            pads.append((pm.group(1), float(pm.group(2)), float(pm.group(3)), float(pm.group(4)), float(pm.group(5))))
+    out = []
+    for i in range(len(pads)):
+        for j in range(i + 1, len(pads)):
+            a, b = pads[i], pads[j]
+            if (abs(a[1] - b[1]) < (a[3] + b[3]) / 2 - 1e-6 and abs(a[2] - b[2]) < (a[4] + b[4]) / 2 - 1e-6):
+                out.append(f"{a[0]} and {b[0]}")
+    return out
+
+
 def expect(out_path, paths):
     ids = {o["id"] for o in objects(paths)}
     text = open(out_path).read()
@@ -43,6 +64,8 @@ def expect(out_path, paths):
         m = re.match(r"extra footprint \(not in the golden\): ([^|\s]+)", line)
         if m:
             extra.add(m.group(1))
+            for clash in overlaps(line):
+                other.append(f"{m.group(1)}: pads {clash} overlap")
             continue
         m = re.match(r"unused footprint: (\S+)", line)
         if m:

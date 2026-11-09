@@ -84,7 +84,7 @@ def main():
                     help="another footprints JSON file to search first (a maker's work file)")
     a = ap.parse_args()
     rows = list(csv.DictReader(open(a.tsv), delimiter="\t"))
-    specs = list(csv.DictReader(open(a.specs), delimiter="\t"))
+    specs = list(csv.DictReader(open(a.specs), delimiter="\t")) if os.path.exists(a.specs) else []
     fps = footprints(a.footprints)
     bad = []
     checked = {}

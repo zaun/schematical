@@ -178,13 +178,24 @@ in the golden)` and `unused footprint` for exactly the new ids, no load error.
 
 ### Phase 1 — Checkers
 
-- [ ] `census/scheme-check.py`, `census/specs-check.py`, `census/fp-load.sh`
-      per § 4.3, § 4.4, with `--maker` to scope them.
-- [ ] Self-test on two rows: a fake `schemes.tsv` regex for `TS02` run on a
+- [x] `census/scheme-check.py`, `census/specs-check.py`, `census/fp-load.sh`
+      (+ its helper `census/fp-merge.py`) per § 4.3, § 4.4, with `--maker` to
+      scope them; `--tsv` / `--schemes` / `--specs` / `--footprints` point them
+      at a reader's work files (Correction 2). `fp-load.sh` also rejects
+      overlapping pads (Correction 1): `/tmp/p27/fp-bad.json` (pads 1 and 2
+      overlap) → `other failure: SW-TACT-SELFTEST: pads 1 and 2 overlap`, exit 1;
+      `/tmp/p27/fp-malformed.json` (no `pins`) → `1 new footprints: FAILED`,
+      exit 1; `/tmp/p27/fp-good.json` → `1 new footprints: load ok`, exit 0.
+- [x] Self-test on two rows: a fake `schemes.tsv` regex for `TS02` run on a
       copy of `candidates.tsv` in `/tmp` turns a matching pending row `add`.
+      `python3 -I /tmp/p27/scripts/b1selftest.py planning/plan-27-data/candidates.tsv`
+      → `add   TS02-66-100-BK-100-LCR-D  (fake p.1)`, `skip
+      TS02-66-100-BK-100-SCR-D  (TS02)`, `1 add, 1 skip, 0 still pending`,
+      `selftest ok`.
 
 Acceptance: the three tools run and reject a bad input.
   Check: `python3 -I planning/plan-27-data/census/specs-check.py --maker 'C&K'` → exits non-zero listing the unfinished `C&K` rows (est. 1 min).
+  Result 2026-11-08 (before A's decisions): `… Y78B62324FP: still candidate`, `512 problems in 0 add rows`, exit 1.
 Commit: —
 
 ### Phase 2 — C&K (68 proxy lines, 487 rows)
@@ -245,7 +256,20 @@ Commit: —
 
 ## Corrections
 
-<!-- filled in during execution -->
+1. 2026-11-08 — **§ 3's backstop claim was false**: "`footprint_check`
+   (malformed or overlapping pads)". The loader has no overlap check: a
+   footprint whose pads 1 and 2 overlap loaded clean (`/tmp/p27-fp/out.txt`:
+   only `extra footprint` / `unused footprint` lines). `fp-merge.py --expect`
+   (run by `fp-load.sh`) now tests every new footprint's pads, from the pad
+   list `footprint_check` prints, for overlapping areas (touching is fine).
+2. 2026-11-08 — the datasheets are read by parallel readers, one per maker
+   group (plan-27-data/work/BRIEF.md), each writing
+   `work/<slug>/{schemes,specs,checks}.tsv`, `footprints.json`, `notes.md`;
+   the main session merges them into `schemes.tsv`, `specs.tsv`,
+   `footprints-B.json` / `-C.json` and `candidates.tsv`, sharing identical land
+   patterns across makers (§ 4.2). The checkers gained `--tsv`, `--schemes`,
+   `--specs`, `--footprints` for that. Phase 1 (the checkers) does not read
+   A's results and ran while A's census waited on the network.
 
 ## Summary
 

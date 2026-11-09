@@ -220,21 +220,28 @@ def sheet_ids(p, urls):
     existing = {}
     for d in json.load(open(p["datasheets"]))["datasheets"]:
         existing[d["id"]] = d["url"]
-    base = {}
+    # One entry per placed file; its URL: a maker URL found for any of the
+    # file's DigiKey URLs, else the first (sorted) URL that names the file.
+    by_path = {}
+    for u in places:
+        by_path.setdefault(places[u], []).append(u)
     for u in urls:
         if u not in places:
             raise Refuse(f"datasheet {u} is not placed (datasheets.tsv)")
-        path = places[u]
-        base[u] = (os.path.basename(path)[:-4].lower(), path.split("/")[-2], maker.get(u, u))
-    out = {}
-    for u, (name, folder, url) in base.items():
-        clash = any(v[0] == name and v[2] != url for k, v in base.items() if k != u)
+    entry = {}
+    for path in {places[u] for u in urls}:
+        group = sorted(by_path[path])
+        url = next((maker[g] for g in group if g in maker), group[0])
+        entry[path] = (os.path.basename(path)[:-4].lower(), path.split("/")[-2], url)
+    ids = {}
+    for path, (name, folder, url) in entry.items():
+        clash = any(v[0] == name for k, v in entry.items() if k != path)
         clash = clash or (name in existing and existing[name] != url)
         did = f"{folder}-{name}" if clash else name
         if did in existing and existing[did] != url:
             raise Refuse(f"datasheet id {did} is in datasheets.json with another URL")
-        out[u] = (did, url)
-    return out, existing
+        ids[path] = (did, url)
+    return {u: ids[places[u]] for u in urls}, existing
 
 
 def sheets_text(p, new_sheets):
