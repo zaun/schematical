@@ -8,6 +8,8 @@ struct LengthField: View {
     let title: String
     let millimetres: Double
     let units: BoardUnits
+    /// Shows 2 more decimals (4 in mm, 5 in inches), for grid sizes.
+    var precise = false
     let commit: (Double) -> Double
 
     @State private var text = ""
@@ -37,7 +39,7 @@ struct LengthField: View {
     }
 
     private func show(_ mm: Double) {
-        shown = Self.format(mm, units: units)
+        shown = Self.format(mm, units: units, precise: precise)
         text = shown
     }
 
@@ -50,10 +52,12 @@ struct LengthField: View {
         show(commit(value))
     }
 
-    /// mm to 2 decimals or inches to 3, trailing zeros trimmed: 101.6 mm in
-    /// inches is "4", 0.635 mm is "0.64" mm or "0.025" in.
-    static func format(_ mm: Double, units: BoardUnits) -> String {
-        let (value, places) = units == .mm ? (mm, 2) : (mm / 25.4, 3)
+    /// mm to 2 decimals or inches to 3 (2 more each when `precise`),
+    /// trailing zeros trimmed: 101.6 mm in inches is "4", 0.635 mm is
+    /// "0.64" mm or "0.025" in, and "0.635" mm when precise.
+    static func format(_ mm: Double, units: BoardUnits, precise: Bool = false) -> String {
+        let extra = precise ? 2 : 0
+        let (value, places) = units == .mm ? (mm, 2 + extra) : (mm / 25.4, 3 + extra)
         let scale = pow(10, Double(places))
         // Round half away from zero on a value nudged past float error, so
         // 0.635 (stored as 0.63499…) shows as 0.64.

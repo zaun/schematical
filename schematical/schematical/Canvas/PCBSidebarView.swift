@@ -1,7 +1,8 @@
 import SwiftUI
 
 /// The PCB page's inspector. It follows the selection: the board's settings
-/// with nothing selected (with a Layers section, one row per copper layer), the trace's with
+/// with nothing selected (a Grid section, then Board, then Layers with one
+/// row per copper layer), the via's with only a via selected, the trace's with
 /// only a trace selected, the footprint's with only a footprint selected,
 /// the text's with only a board text selected, and a read-only
 /// `Selection (N)` list for several items (plan-15). A mm | in switch at the
@@ -15,6 +16,7 @@ struct PCBSidebarView: View {
         case footprint(UUID)
         case text(UUID)
         case trace(UUID)
+        case via(UUID)
         case selection
     }
 
@@ -27,6 +29,9 @@ struct PCBSidebarView: View {
         }
         if let id = document.selectedTraceID, document.traces.contains(where: { $0.id == id }) {
             return .trace(id)
+        }
+        if let id = document.selectedViaID, document.vias.contains(where: { $0.id == id }) {
+            return .via(id)
         }
         return document.boardSelection.isEmpty ? .board : .selection
     }
@@ -59,6 +64,11 @@ struct PCBSidebarView: View {
                     TracePanel(document: document, trace: trace)
                         .id(trace.id)
                 }
+            case let .via(id):
+                if let via = document.vias.first(where: { $0.id == id }) {
+                    ViaPanel(document: document, via: via)
+                        .id(via.id)
+                }
             case .selection:
                 SelectionListSection(
                     rows: SelectionRows.board(document),
@@ -66,11 +76,37 @@ struct PCBSidebarView: View {
                     onClear: { document.clearBoardSelection() }
                 )
             case .board:
+                GridSection(document: document)
                 BoardPanel(document: document)
                 LayersSection(document: document)
             }
         }
         .formStyle(.grouped)
+    }
+}
+
+// MARK: - Grid
+
+/// The snap grids: the component grid, which footprints and texts snap to
+/// and the canvas dots, and the trace grid trace ends snap to, which has a
+/// point between each two component-grid points. Only the component grid
+/// is set; the trace grid follows it.
+private struct GridSection: View {
+    @Bindable var document: SchematicDocument
+
+    var body: some View {
+        Section("Grid") {
+            LengthField(title: "Components", millimetres: document.board.grid, units: document.board.units,
+                        precise: true) {
+                document.setBoardGrid($0)
+                return document.board.grid
+            }
+            LabeledContent("Traces") {
+                Text(LengthField.format(document.board.traceGrid, units: document.board.units, precise: true)
+                     + " " + document.board.units.title)
+            }
+            .help("Half the component grid: a point between each two component-grid points")
+        }
     }
 }
 
@@ -194,7 +230,7 @@ struct LayersSection: View {
 // MARK: - Text
 
 /// The selected board text: its words, side, layer, font size, position
-/// and rotation, and Delete.
+/// and rotation. ⌘⌫ or the Delete tool deletes it (`ContentView`).
 private struct TextPanel: View {
     let document: SchematicDocument
     let text: BoardText
@@ -273,13 +309,6 @@ private struct TextPanel: View {
             .pickerStyle(.segmented)
         }
 
-        Section {
-            // ⌘⌫, not ⌫ alone, so it can't fire while a field is being edited.
-            Button("Delete Text", role: .destructive) {
-                document.deleteText(text.id)
-            }
-            .keyboardShortcut(.delete, modifiers: .command)
-        }
         .onAppear {
             words = text.text
             showSize()
@@ -324,10 +353,64 @@ private struct TextPanel: View {
     }
 }
 
+// MARK: - Via
+
+/// The selected via: where it is, its hole and its metal, the ring of metal
+/// those leave, and the traces it joins. ⌘⌫ or the Delete tool deletes it.
+private struct ViaPanel: View {
+    let document: SchematicDocument
+    let via: BoardVia
+
+    var body: some View {
+        let units = document.board.units
+        Section("Via") {
+            LengthField(title: "X", millimetres: via.centre.x, units: units, precise: true) {
+                document.setViaCentre(via.id, CGPoint(x: $0, y: via.centre.y))
+                return current.centre.x
+            }
+            LengthField(title: "Y", millimetres: via.centre.y, units: units, precise: true) {
+                document.setViaCentre(via.id, CGPoint(x: via.centre.x, y: $0))
+                return current.centre.y
+            }
+            LengthField(title: "Hole", millimetres: via.drill, units: units, precise: true) {
+                document.setViaDrill(via.id, $0)
+                return current.drill
+            }
+            .help("The drill diameter")
+            LengthField(title: "Metal", millimetres: via.diameter, units: units, precise: true) {
+                document.setViaDiameter(via.id, $0)
+                return current.diameter
+            }
+            .help("The copper's outer diameter, at least 0.1 mm more than the hole")
+            LabeledContent("Ring") {
+                Text(LengthField.format(via.ring, units: units, precise: true) + " " + units.title)
+            }
+            .help("The copper left round the hole, each side")
+            LabeledContent("Layers", value: "Through, all \(document.board.layers)")
+        }
+        Section("Connections") {
+            let joined = document.traces(touching: via)
+            if joined.isEmpty {
+                Text("No traces").foregroundStyle(.secondary)
+            } else {
+                let layers = document.board.copperLayers.filter { layer in joined.contains { $0.layer == layer } }
+                Text("\(joined.count) \(joined.count == 1 ? "trace" : "traces") on "
+                     + layers.map(\.title).joined(separator: ", "))
+            }
+        }
+    }
+
+    /// The via as the document now has it, after an edit clamped it.
+    private var current: BoardVia {
+        document.vias.first { $0.id == via.id } ?? via
+    }
+}
+
 // MARK: - Trace
 
-/// The selected trace: width, layer, the pads its joined run touches, and
-/// Delete. Width is in mil whatever the board units, as text size is.
+/// The selected trace: width, layer and the pads its joined run touches.
+/// ⌘⌫ or the Delete tool deletes it (`ContentView`). Width is in mil
+/// whatever the board units, as text size is.
 struct TracePanel: View {
     let document: SchematicDocument
     let trace: BoardTrace
@@ -383,13 +466,6 @@ struct TracePanel: View {
             }
         }
 
-        Section {
-            // ⌘⌫, not ⌫ alone, so it can't fire while a field is being edited.
-            Button("Delete Trace", role: .destructive) {
-                document.deleteTrace(trace.id)
-            }
-            .keyboardShortcut(.delete, modifiers: .command)
-        }
         .onAppear(perform: showWidth)
         // Undo and redo change the width from outside the field (plan-31).
         .onChange(of: trace.width) { _, _ in showWidth() }

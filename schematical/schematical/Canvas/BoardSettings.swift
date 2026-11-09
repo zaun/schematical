@@ -231,6 +231,9 @@ nonisolated struct BoardSettings: Hashable, Sendable {
     var layers: Int = 2
     var color: BoardColor = .green
     var units: BoardUnits = .mm
+    /// The component grid in mm, within `gridRange`: footprints and texts
+    /// snap to it, and the canvas dots it. Changing it moves nothing.
+    var grid: Double = Double(BoardGrid.spacing)
     /// Styles the user has set. A layer without one uses its default. A
     /// style is kept when its layer leaves the board, so it comes back with
     /// the layer.
@@ -238,6 +241,11 @@ nonisolated struct BoardSettings: Hashable, Sendable {
 
     static let layerCounts = [1, 2, 4, 6]
     static let sizeRange: ClosedRange<Double> = 1...1000
+    static let gridRange: ClosedRange<Double> = 0.01...10
+
+    /// The trace grid in mm: the component grid with a point between each
+    /// two of its points. Trace ends snap to it. Not set on its own.
+    var traceGrid: Double { grid / 2 }
 
     /// The board's copper layers in stack order.
     var copperLayers: [CopperLayer] { CopperLayer.allCases(for: layers) }

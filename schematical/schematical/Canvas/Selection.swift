@@ -18,6 +18,7 @@ nonisolated enum BoardItem: Hashable, Sendable {
     case footprint(UUID)
     case text(UUID)
     case trace(UUID)
+    case via(UUID)
 }
 
 // MARK: - Selection set
@@ -150,9 +151,14 @@ nonisolated struct BoardGroupBase: Equatable {
     var texts: [UUID: CGPoint] = [:]
     /// Selected traces' points.
     var traces: [UUID: [CGPoint]] = [:]
+    /// Selected vias' centres.
+    var vias: [UUID: CGPoint] = [:]
+    /// Where the drag took hold (board mm), if known. A lone trace snaps
+    /// the end nearest it to the trace grid.
+    var grab: CGPoint?
 
-    var isEmpty: Bool { footprints.isEmpty && texts.isEmpty && traces.isEmpty }
-    var count: Int { footprints.count + texts.count + traces.count }
+    var isEmpty: Bool { footprints.isEmpty && texts.isEmpty && traces.isEmpty && vias.isEmpty }
+    var count: Int { footprints.count + texts.count + traces.count + vias.count }
 }
 
 extension OrthogonalRoute {

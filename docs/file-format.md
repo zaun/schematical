@@ -28,8 +28,9 @@ PCB placements (`pcb`, below) and the `board` object are in board
 millimetres instead, y down. A placement's `x`/`y` is always the footprint's
 centre (the middle of its body). Each footprint also has an **origin point**
 (`pcb.origin`): a corner or middle of its bounding box (body plus pads, as
-rotated), or the centre of pad 1. The app snaps the origin point to the
-0.635 mm (25 mil) grid when a footprint is moved or rotated, and rotates
+rotated), or the centre of pad 1, which new footprints use. The app snaps
+the origin point to the board's component grid (`board.grid`, 0.635 mm =
+25 mil by default) when a footprint is moved or rotated, and rotates
 about it. Changing the origin does not move the footprint, so a saved origin
 point can be off the grid; opening keeps such a placement as saved. A
 placement with no `origin` (files from before it existed) is shifted on open
@@ -119,7 +120,7 @@ An EEPROM can name the file loaded into it when the simulation starts:
 | `x`, `y`     | number  | Top-left corner of the part body.                                       |
 | `flipped`    | boolean | Pins on the opposite sides. Ignored for the supplies.                   |
 | `switches`   | array of booleans | DIP switches only, optional: whether each position is ON, position 1 first. Missing positions are OFF; extra entries are ignored. Left out for other parts. A tactile switch never saves it (it starts released) and ignores it when read. |
-| `pcb`        | object  | Optional. The footprint on the PCB: `x`, `y` (numbers, mm) are the footprint's centre, `rotation` (integer) is 0, 90, 180 or 270 degrees clockwise. `origin` (string, default `"topLeft"`) is the footprint's origin point (see [Coordinates](#coordinates)): `"center"`, `"topLeft"`, `"centerLeft"`, `"bottomLeft"` (of the bounding box as rotated) or `"pad1Center"` (the centre of the pad of the part's first pin). `outline` (the body outline, default `"document"`), `pin1` (the pin-1 dot, default `"silkscreen"`) and `reference` (the reference text, default `"silkscreen"`) say where each mark is drawn: `"hidden"`, `"document"` or `"silkscreen"`. The four strings are always written; a missing one takes its default. `style` (string, default `"module"`): `"module"` (Full Module) or `"connector"` (Connector Only), which of the part's two footprints is on the board. Written only for parts with a connector footprint (the character LCD modules); ignored on other parts. `side` (string, default `"top"`): `"top"` or `"bottom"`, the side of the board the footprint is on. A bottom footprint is drawn mirrored left to right about its body centre before it is turned, so `rotation` stays clockwise as seen from above; `x`, `y` stay the body centre. Always written; not allowed on a 1-layer board. Older builds ignore it and show the part unmirrored on top. Written for every part with a footprint, including the pull resistors; left out for VCC and GND, and ignored on a part without a footprint. A part with a footprint and no `pcb` (older files) is placed automatically when the file is opened: after the stored ones, in file order, each to the right of everything already placed. |
+| `pcb`        | object  | Optional. The footprint on the PCB: `x`, `y` (numbers, mm) are the footprint's centre, `rotation` (integer) is 0, 90, 180 or 270 degrees clockwise. `origin` (string; a missing one is `"topLeft"`, as files from before origins were; parts placed in the app start as `"pad1Center"`) is the footprint's origin point (see [Coordinates](#coordinates)): `"center"`, `"topLeft"`, `"centerLeft"`, `"bottomLeft"` (of the bounding box as rotated) or `"pad1Center"` (the centre of the pad of the part's first pin). `outline` (the body outline, default `"document"`), `pin1` (the pin-1 dot, default `"silkscreen"`) and `reference` (the reference text, default `"silkscreen"`) say where each mark is drawn: `"hidden"`, `"document"` or `"silkscreen"`. The four strings are always written; a missing one takes its default. `style` (string, default `"module"`): `"module"` (Full Module) or `"connector"` (Connector Only), which of the part's two footprints is on the board. Written only for parts with a connector footprint (the character LCD modules); ignored on other parts. `side` (string, default `"top"`): `"top"` or `"bottom"`, the side of the board the footprint is on. A bottom footprint is drawn mirrored left to right about its body centre before it is turned, so `rotation` stays clockwise as seen from above; `x`, `y` stay the body centre. Always written; not allowed on a 1-layer board. Older builds ignore it and show the part unmirrored on top. Written for every part with a footprint, including the pull resistors; left out for VCC and GND, and ignored on a part without a footprint. A part with a footprint and no `pcb` (older files) is placed automatically when the file is opened: after the stored ones, in file order, each to the right of everything already placed. |
 | `color`      | string  | Version 4. LEDs only (`GENERIC-LED`): one of the part's colors, `"Red"`, `"Green"`, `"Blue"`, `"Amber"` or `"White"`. Used by the symbol's glow in play mode. Always written for an LED; missing means the part's default (`Red`). Ignored on other parts. |
 | `footprint`  | string  | Version 4. Parts with footprint choices only (`GENERIC-LED`, the pull resistors `PULLUP-…`/`PULLDOWN` and the headers `GENERIC-HEADER-…`): the id of the chosen footprint, one of the part's `footprintChoices` (`docs/parts-format.md`), such as `"LED-0805"`, `"RES-0805"` or `"PINHDR-1X08-RA"`. The PCB uses it. Always written for those parts; missing means the part's default footprint (`LED-RADIAL-5MM` for the LED, `RES-RADIAL-2.54` for a pull resistor, the `-V` (Straight) footprint for a header). Ignored on other parts. |
 | `ohms`       | number  | Version 4. Pull resistors only (`PULLUP-…`, `PULLDOWN`): the resistance in ohms, more than 0 and at most 1e9 (1 GΩ), such as `4700`. Shown on the symbol and in the Bill of Materials; the simulation ignores it. Always written for pull resistors; missing means `1000`. Ignored on other parts. An older version-4 build ignores it. |
@@ -143,8 +144,10 @@ An EEPROM can name the file loaded into it when the simulation starts:
 | `layerStyles` | array | Optional. Each copper layer's colour and type: `layer` (`"top"`, `"inner2"` to `"inner5"`, or `"bottom"`), `color` (`"#RRGGBB"`, sRGB) and `type` (`"component"` for `top` and `bottom`, which is all they can be; `"plane"` or `"wire"` for an inner layer). Written for every layer on the board, in stack order. A missing entry, `color` or `type` takes its default: `top` `#C83737` red, `inner2` `#D8B23A` gold, `inner3` `#3AAE5C` green, `inner4` `#B04AD0` purple, `inner5` `#3AB8C8` cyan, `bottom` `#3A6FD8` blue; inner layers are `plane`. Older builds ignore it. |
 | `color`  | string  | The board colour: `"green"` (default), `"black"`, `"red"`, `"blue"`, `"yellow"`, `"white"` or `"purple"`. |
 | `units`  | string  | The units the PCB sidebar shows lengths in: `"mm"` (default) or `"in"`. Lengths in the file are always mm. |
+| `grid`   | number  | The component snap grid in mm, 0.01 to 10; default 0.635 (25 mil). Footprints and texts snap to it, and opening snaps text anchors to it. Trace ends snap to the trace grid, half of it, which is not stored. |
 | `texts`  | array   | Free texts on the board, in drawing order. Default none.              |
 | `traces` | array   | Copper traces, in drawing order ([Traces](#traces)). Always written, `[]` when there are none; missing means none. Older builds ignore it. |
+| `vias`   | array   | Vias, in drawing order ([Vias](#vias)). Written only when there are some; missing means none. Older builds ignore it. |
 
 A missing key takes its default. A text:
 
@@ -170,11 +173,28 @@ A missing key takes its default. A text:
 | `id`     | UUID    | Unique within the file, across every other ID.                       |
 | `layer`  | string  | The copper layer: `"top"`, `"inner2"` to `"inner5"`, or `"bottom"`. It must be on the board and not a Plane. |
 | `width`  | integer | mil, 5 to 100. Default 10.                                           |
-| `points` | array   | `x`, `y` in mm. At least 2; no two consecutive points the same; every segment at a multiple of 45°. Kept as saved, not snapped: a crossing of two diagonals, or a pad centre, can be off the grid. |
+| `points` | array   | `x`, `y` in mm. At least 2; no two consecutive points the same. Segments may run at any angle (the Trace tool draws 20°, 40°, 45°, 60°, 80° or 90° legs). Kept as saved, not snapped: a bend, a crossing of two diagonals, or a pad centre, can be off the grid. |
 
 Traces that touch or cross on the same layer share a vertex at each contact
 point; that shared vertex is what connects them. Traces on different layers
-never connect, except through a through-hole pad.
+never connect, except through a through-hole pad or a via.
+
+### Vias
+
+```json
+"vias": [ { "id": "...", "x": 12.7, "y": 5.08, "drill": 0.4, "diameter": 0.8 } ]
+```
+
+A via is a plated hole through every copper layer. It joins every trace
+whose copper touches its metal, on any layer, and every pad its metal
+overlaps. A 1-layer board has none.
+
+| Field      | Type   | Meaning                                                            |
+|------------|--------|--------------------------------------------------------------------|
+| `id`       | UUID   | Unique within the file, across every other ID.                     |
+| `x`, `y`   | number | The centre, in mm. Kept as saved, not snapped.                     |
+| `drill`    | number | The hole's diameter in mm, 0.1 to 5. Default 0.4.                  |
+| `diameter` | number | The metal's outer diameter in mm, 0.2 to 10, and at least 0.1 more than `drill` (a 0.05 mm ring). Default 0.8. |
 
 ## Junctions
 
@@ -332,6 +352,7 @@ Opening fails, and the canvas is left unchanged, if:
   message is "The PCB settings are not valid: <detail>.", where the detail is
   one of:
   - `board width 0 must be 1 to 1000 mm` (same for `height`);
+  - `board grid 0 must be 0.01 to 10 mm`;
   - `board layers 3 must be 1, 2, 4 or 6`;
   - `board color "pink" must be green, black, red, blue, yellow, white or purple`;
   - `board units "cm" must be mm or in`;
@@ -360,7 +381,10 @@ Opening fails, and the canvas is left unchanged, if:
   - `trace <id> width 3 must be 5 to 100 mil`;
   - `trace <id> has fewer than 2 points`;
   - `trace <id> segment 2 has no length` (segments are numbered from 1);
-  - `trace <id> segment 2 is not at a multiple of 45°`;
+  - `via <id> is on a 1-layer board`;
+  - `via <id> drill 0.05 must be 0.1 to 5 mm`;
+  - `via <id> diameter 11 must be 0.2 to 10 mm`;
+  - `via <id> diameter 0.55 must be at least 0.1 mm more than its drill 0.5`;
 - a bus is not valid. The message is "The bus is not valid: <detail>.",
   where the detail is one of:
   - `bus <id> has no lines`;

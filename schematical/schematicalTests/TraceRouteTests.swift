@@ -3,7 +3,7 @@ import Foundation
 import XCTest
 @testable import schematical
 
-/// plan-16-D phase 1: the trace value, 45° routing and the file format.
+/// plan-16-D phase 1: the trace value, angled routing and the file format.
 @MainActor
 final class TraceRouteTests: XCTestCase {
     private let a = CGPoint(x: 10, y: 10)
@@ -18,7 +18,7 @@ final class TraceRouteTests: XCTestCase {
             let d = min(abs(dx), abs(dy))
             let sx: CGFloat = dx < 0 ? -1 : 1, sy: CGFloat = dy < 0 ? -1 : 1
 
-            let straight = TraceRoute.route(from: a, to: b, diagonalFirst: false)
+            let straight = TraceRoute.route(from: a, to: b, legFirst: false)
             XCTAssertEqual(straight.count, 3, "\(dx), \(dy)")
             XCTAssertTrue(TraceRoute.isLegal(straight), "\(straight)")
             XCTAssertEqual(straight.first, a)
@@ -28,7 +28,7 @@ final class TraceRouteTests: XCTestCase {
                 : CGPoint(x: a.x, y: a.y + sy * (abs(dy) - d))
             XCTAssertEqual(straight[1], expectedStraight, "\(dx), \(dy)")
 
-            let diagonal = TraceRoute.route(from: a, to: b, diagonalFirst: true)
+            let diagonal = TraceRoute.route(from: a, to: b, legFirst: true)
             XCTAssertEqual(diagonal.count, 3)
             XCTAssertTrue(TraceRoute.isLegal(diagonal), "\(diagonal)")
             XCTAssertEqual(diagonal[1], CGPoint(x: a.x + sx * d, y: a.y + sy * d), "\(dx), \(dy)")
@@ -39,14 +39,15 @@ final class TraceRouteTests: XCTestCase {
     func testAlready45PairIsTwoPoints() {
         for (dx, dy) in [(5.0, 0.0), (0.0, -3.0), (4.0, 4.0), (-2.5, 2.5)] as [(CGFloat, CGFloat)] {
             let b = CGPoint(x: a.x + dx, y: a.y + dy)
-            XCTAssertEqual(TraceRoute.route(from: a, to: b, diagonalFirst: false), [a, b])
-            XCTAssertEqual(TraceRoute.route(from: a, to: b, diagonalFirst: true), [a, b])
+            XCTAssertEqual(TraceRoute.route(from: a, to: b, legFirst: false), [a, b])
+            XCTAssertEqual(TraceRoute.route(from: a, to: b, legFirst: true), [a, b])
         }
     }
 
     func testIsLegalRejectsBadSegments() {
-        XCTAssertFalse(TraceRoute.isLegal([a, CGPoint(x: a.x + 10 * cos(.pi / 6), y: a.y + 10 * sin(.pi / 6))]),
-                       "30°")
+        // Any angle is legal.
+        XCTAssertTrue(TraceRoute.isLegal([a, CGPoint(x: a.x + 10 * cos(.pi / 6), y: a.y + 10 * sin(.pi / 6))]),
+                      "30°")
         XCTAssertFalse(TraceRoute.isLegal([a, a]), "zero length")
         XCTAssertFalse(TraceRoute.isLegal([a]), "one point")
         XCTAssertTrue(TraceRoute.isLegal([a, CGPoint(x: 15, y: 10), CGPoint(x: 18, y: 13)]))
@@ -93,12 +94,13 @@ final class TraceRouteTests: XCTestCase {
             (board(points: #"[ { "x": 0, "y": 0 } ]"#), "\(name) has fewer than 2 points"),
             (board(points: #"[ { "x": 0, "y": 0 }, { "x": 1, "y": 0 }, { "x": 1, "y": 0 } ]"#),
              "\(name) segment 2 has no length"),
-            (board(points: #"[ { "x": 0, "y": 0 }, { "x": 1, "y": 0 }, { "x": 3, "y": 1 } ]"#),
-             "\(name) segment 2 is not at a multiple of 45°"),
         ]
         for (json, message) in cases {
             XCTAssertEqual(BoardLayersTests.pcbError { _ = try BoardLayersTests.open(board: json) }, message, json)
         }
+        // A segment at any angle opens.
+        XCTAssertNoThrow(try BoardLayersTests.open(
+            board: board(points: #"[ { "x": 0, "y": 0 }, { "x": 1, "y": 0 }, { "x": 3, "y": 1 } ]"#)))
         // A Wire inner layer takes traces.
         XCTAssertNoThrow(try BoardLayersTests.open(board: board(layer: "inner3")))
     }

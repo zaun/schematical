@@ -61,6 +61,7 @@ enum SchematicTool: String, CaseIterable, Identifiable {
     var tooltip: String {
         switch self {
         case .line, .bus: "\(title) — Space: lock a corner · /: flip the bend · Esc: undo a corner"
+        case .flip: "Flip — click a part to flip it, or press F to flip the selected part"
         case .text: "Text — click to add a text block"
         default: title
         }
@@ -1159,6 +1160,12 @@ final class SchematicDocument {
         return nil
     }
 
+    /// The via, when it is the only thing selected on the PCB page.
+    var selectedViaID: UUID? {
+        if case let .via(id)? = boardSelection.sole { return id }
+        return nil
+    }
+
     // MARK: Selecting
 
     /// Selects only `item` on the Schematic page.
@@ -1255,6 +1262,9 @@ final class SchematicDocument {
                 items.insert(.trace(trace.id))
             }
         }
+        if visible.showsAnyCopper {
+            for via in vias where via.rect.intersects(rect) { items.insert(.via(via.id)) }
+        }
         return items
     }
 
@@ -1302,12 +1312,13 @@ final class SchematicDocument {
             }
         }
         let footprints = Set(chips.filter { $0.board != nil }.map(\.id))
-        let traceIDs = Set(traces.map(\.id))
+        let traceIDs = Set(traces.map(\.id)), viaIDs = Set(vias.map(\.id))
         boardSelection.filter { item in
             switch item {
             case let .footprint(id): footprints.contains(id)
             case let .text(id): textIDs.contains(id)
             case let .trace(id): traceIDs.contains(id)
+            case let .via(id): viaIDs.contains(id)
             }
         }
     }
@@ -1319,6 +1330,8 @@ final class SchematicDocument {
     private(set) var texts: [BoardText] = []
     /// Copper traces on the PCB, in drawing order (plan-16).
     private(set) var traces: [BoardTrace] = []
+    /// Vias on the PCB, in drawing order.
+    private(set) var vias: [BoardVia] = []
 
     /// Lowest number tried for the next part's reference ("U" plus a number).
     private(set) var nextReference = 1
@@ -1340,7 +1353,7 @@ final class SchematicDocument {
     /// just opened. Clears the selection.
     func replaceContents(chips: [PlacedChip], wires: [Wire], junctions: [Junction], buses: [Bus],
                          nextReference: Int, board: BoardSettings, texts: [BoardText],
-                         traces: [BoardTrace], notes: [SchematicNote] = []) {
+                         traces: [BoardTrace], vias: [BoardVia] = [], notes: [SchematicNote] = []) {
         self.chips = chips
         self.notes = notes
         self.wires = wires
@@ -1350,6 +1363,7 @@ final class SchematicDocument {
         self.board = board
         self.texts = texts
         self.traces = traces
+        self.vias = vias
         editingNoteID = nil
         clearAllSelections()
         editorMessage = nil
@@ -1388,7 +1402,7 @@ final class SchematicDocument {
     /// The saved part of the document, as a value.
     var state: DocumentState {
         DocumentState(chips: chips, wires: wires, junctions: junctions, buses: buses, notes: notes,
-                      nextReference: nextReference, board: board, texts: texts, traces: traces)
+                      nextReference: nextReference, board: board, texts: texts, traces: traces, vias: vias)
     }
 
     /// Writes a state back (undo, redo), then drops selections and editor
@@ -1403,6 +1417,7 @@ final class SchematicDocument {
         if board != s.board { board = s.board }
         if texts != s.texts { texts = s.texts }
         if traces != s.traces { traces = s.traces }
+        if vias != s.vias { vias = s.vias }
         pruneSelection()
         if let id = editingNoteID, !notes.contains(where: { $0.id == id }) { editingNoteID = nil }
         if let id = selectedBusID, bus(id) == nil { selectedBusID = nil }
@@ -1570,7 +1585,9 @@ final class SchematicDocument {
                 gender: gender,
                 ohms: ohms
             )
-            placed.board = placed.footprint.map { BoardLayout.nextSpot(for: $0, among: chips) }
+            placed.board = placed.footprint.map {
+                BoardLayout.nextSpot(for: $0, among: chips, pad1: placed.part.firstPinDesignator, grid: self.board.grid)
+            }
             chips.append(placed)
             adoptLooseEnds(chips: [placed.id])
         }
@@ -1856,7 +1873,7 @@ final class SchematicDocument {
             var moved = board
             moved.centre = centre
             chips[index].board = BoardLayout.snapped(moved, footprint: footprint,
-                                                     pad1: chips[index].part.firstPinDesignator)
+                                                     pad1: chips[index].part.firstPinDesignator, grid: self.board.grid)
         }
     }
 
@@ -1872,7 +1889,7 @@ final class SchematicDocument {
             var moved = board
             moved.centre.x += point.x - current.x
             moved.centre.y += point.y - current.y
-            chips[index].board = BoardLayout.snapped(moved, footprint: footprint, pad1: pad1)
+            chips[index].board = BoardLayout.snapped(moved, footprint: footprint, pad1: pad1, grid: self.board.grid)
         }
     }
 
@@ -1890,13 +1907,14 @@ final class SchematicDocument {
             let after = BoardLayout.originPoint(of: turned, footprint: footprint, pad1: pad1)
             turned.centre.x += before.x - after.x
             turned.centre.y += before.y - after.y
-            chips[index].board = BoardLayout.snapped(turned, footprint: footprint, pad1: pad1)
+            chips[index].board = BoardLayout.snapped(turned, footprint: footprint, pad1: pad1, grid: self.board.grid)
         }
     }
 
-    /// Moves a footprint to the other side of the board, mirrored. Its origin
-    /// point stays where it was, then snaps, as in `rotateFootprint`. Does
-    /// nothing on a 1-layer board or when the side doesn't change.
+    /// Moves a footprint to the other side of the board, mirrored left to
+    /// right as seen from above. Its origin point stays where it was, then
+    /// snaps, as in `rotateFootprint`. Does nothing on a 1-layer board or when
+    /// the side doesn't change.
     func setFootprintSide(_ id: UUID, _ side: BoardSide) {
         recordEdit(.pcb, "Change Side") {
             guard board.layers > 1,
@@ -1907,10 +1925,15 @@ final class SchematicDocument {
             let before = BoardLayout.originPoint(of: placement, footprint: footprint, pad1: pad1)
             var flipped = placement
             flipped.side = side
+            // A placement mirrors before it turns, so a board-wide left-right
+            // mirror of a turned footprint is the mirror plus the opposite
+            // turn. Without this, 90° and 270° parts come out mirrored top to
+            // bottom and their pad rows swap.
+            flipped.rotation = (360 - placement.rotation) % 360
             let after = BoardLayout.originPoint(of: flipped, footprint: footprint, pad1: pad1)
             flipped.centre.x += before.x - after.x
             flipped.centre.y += before.y - after.y
-            chips[index].board = BoardLayout.snapped(flipped, footprint: footprint, pad1: pad1)
+            chips[index].board = BoardLayout.snapped(flipped, footprint: footprint, pad1: pad1, grid: self.board.grid)
         }
     }
 
@@ -1972,6 +1995,16 @@ final class SchematicDocument {
         }
     }
 
+    /// Sets the component grid (mm), clamped to `BoardSettings.gridRange`.
+    /// The trace grid follows it. Nothing on the board moves.
+    func setBoardGrid(_ mm: Double) {
+        recordEdit(.pcb, "Change Grid") {
+            let range = BoardSettings.gridRange
+            let value = min(max(mm, range.lowerBound), range.upperBound)
+            if board.grid != value { board.grid = value }
+        }
+    }
+
     /// The units the PCB sidebar shows sizes in.
     func setBoardUnits(_ units: BoardUnits) {
         recordEdit(.pcb, "Change Units") {
@@ -2001,6 +2034,9 @@ final class SchematicDocument {
             dropped.contains(layer) && traces.contains { $0.layer == layer }
         }) {
             return "Delete or move the traces on \(layer.title) first."
+        }
+        if count == 1, !vias.isEmpty {
+            return "Delete the vias first."
         }
         return nil
     }
@@ -2052,7 +2088,7 @@ final class SchematicDocument {
     @discardableResult
     func addText(at point: CGPoint) -> UUID {
         return recordEdit(.pcb, "Add Text") { () -> UUID in
-            let text = BoardText(id: UUID(), text: "Text", anchor: BoardGrid.snap(point), size: BoardText.defaultSize)
+            let text = BoardText(id: UUID(), text: "Text", anchor: BoardGrid.snap(point, spacing: self.board.grid), size: BoardText.defaultSize)
             texts.append(text)
             select(.text(text.id))
             return text.id
@@ -2096,7 +2132,7 @@ final class SchematicDocument {
     func moveText(_ id: UUID, to point: CGPoint) {
         recordEdit(.pcb, "Move") {
             guard let index = texts.firstIndex(where: { $0.id == id }) else { return }
-            texts[index].anchor = BoardGrid.snap(point)
+            texts[index].anchor = BoardGrid.snap(point, spacing: self.board.grid)
         }
     }
 
@@ -2162,13 +2198,14 @@ final class SchematicDocument {
     }
 
     /// Where a trace end pressed or released at `point` lands on `layer`:
-    /// the centre of a pad there, else a vertex of a trace on that layer
+    /// the centre of a pad there, else of a via, else a vertex of a trace on that layer
     /// within `tolerance`, else the nearest point of a trace segment within
-    /// `tolerance`, else the nearest grid point.
+    /// `tolerance`, else the nearest trace-grid point (`BoardSettings.traceGrid`).
     func traceAnchor(at point: CGPoint, layer: CopperLayer, tolerance: CGFloat) -> CGPoint {
         if let hit = pads(on: layer).last(where: { $0.pad.rect.contains(point) }) {
             return CGPoint(x: hit.pad.rect.midX, y: hit.pad.rect.midY)
         }
+        if let via = via(at: point) { return via.centre }
         let same = traces.filter { $0.layer == layer }
         var best: (point: CGPoint, distance: CGFloat)?
         for trace in same {
@@ -2185,7 +2222,7 @@ final class SchematicDocument {
                 if d <= tolerance, d < best?.distance ?? .infinity { best = (near, d) }
             }
         }
-        return best?.point ?? BoardGrid.snap(point)
+        return best?.point ?? BoardGrid.snap(point, spacing: self.board.traceGrid)
     }
 
     /// Why no trace can go on `layer`, or nil when one can.
@@ -2195,17 +2232,25 @@ final class SchematicDocument {
         return nil
     }
 
-    /// Adds a 45° trace from `a` to `b` on `layer` (`TraceRoute.route`),
-    /// `BoardTrace.defaultWidth` wide, and joins it to every trace it
-    /// touches there. Returns its id, or nil when nothing was added: `a`
-    /// and `b` the same point, or a layer that is a plane or not on the
-    /// board.
+    /// Adds a trace from `a` to `b` on `layer`, routed at `angle`
+    /// (`TraceRoute.route`; `diagonalFirst` puts the angled leg first). See
+    /// `addTrace(points:layer:)`.
     @discardableResult
-    func addTrace(from a: CGPoint, to b: CGPoint, layer: CopperLayer, diagonalFirst: Bool) -> UUID? {
+    func addTrace(from a: CGPoint, to b: CGPoint, layer: CopperLayer, angle: Int = TraceRoute.defaultAngle,
+                  diagonalFirst: Bool) -> UUID? {
+        addTrace(points: TraceRoute.route(from: a, to: b, angle: angle, legFirst: diagonalFirst), layer: layer)
+    }
+
+    /// Adds a trace along `points` (simplified) on `layer`,
+    /// `BoardTrace.defaultWidth` wide, and joins it to every trace it
+    /// touches there. Returns its id, or nil when nothing was added: no
+    /// length, or a layer that is a plane or not on the board.
+    @discardableResult
+    func addTrace(points: [CGPoint], layer: CopperLayer) -> UUID? {
         return recordEdit(.pcb, "Add Trace") { () -> UUID? in
-            guard !TraceRoute.same(a, b), traceLayerRefusal(layer) == nil else { return nil }
-            let trace = BoardTrace(id: UUID(), layer: layer, width: BoardTrace.defaultWidth,
-                                   points: TraceRoute.route(from: a, to: b, diagonalFirst: diagonalFirst))
+            let points = TraceRoute.simplified(points)
+            guard TraceRoute.isLegal(points), traceLayerRefusal(layer) == nil else { return nil }
+            let trace = BoardTrace(id: UUID(), layer: layer, width: BoardTrace.defaultWidth, points: points)
             traces.append(trace)
             join(trace.id)
             return trace.id
@@ -2302,6 +2347,83 @@ final class SchematicDocument {
         }
     }
 
+    /// The PCB Delete tool's click: deletes the text under `point`, else the
+    /// via, else the trace (as `text(at:)`, `via(at:)` and `trace(at:)` hit
+    /// them). Footprints are never deleted. Returns whether something was.
+    @discardableResult
+    func deleteBoardItem(at point: CGPoint, tolerance: CGFloat, visible: BoardVisibility = BoardVisibility()) -> Bool {
+        if let hit = text(at: point, visible: visible) {
+            deleteText(hit.id)
+            return true
+        }
+        if let hit = via(at: point, visible: visible) {
+            deleteVia(hit.id)
+            return true
+        }
+        if let hit = trace(at: point, tolerance: tolerance, visible: visible) {
+            deleteTrace(hit.id)
+            return true
+        }
+        return false
+    }
+
+    /// The selected traces, in drawing order, for ⌘C.
+    func selectedTraces() -> [BoardTrace] {
+        let ids = Set(boardSelection.items.compactMap { item -> UUID? in
+            if case let .trace(id) = item { return id }
+            return nil
+        })
+        return traces.filter { ids.contains($0.id) }
+    }
+
+    /// ⌘V on the PCB: adds a copy of each of `copied` moved by `offset`
+    /// (mm), with new ids, its width and layer kept, joined to whatever it
+    /// touches, as one step. The copies become the whole selection. A trace
+    /// whose layer isn't on this board, or is a plane, is skipped. Returns
+    /// the new ids.
+    @discardableResult
+    func pasteTraces(_ copied: [BoardTrace], offset: CGSize) -> [UUID] {
+        let pasted = copied.filter { traceLayerRefusal($0.layer) == nil }
+        guard !pasted.isEmpty else { return [] }
+        return recordEdit(.pcb, "Paste") { () -> [UUID] in
+            var ids: [UUID] = []
+            for trace in pasted {
+                let copy = BoardTrace(id: UUID(), layer: trace.layer, width: trace.width,
+                                      points: trace.points.map {
+                                          CGPoint(x: $0.x + offset.width, y: $0.y + offset.height)
+                                      })
+                traces.append(copy)
+                ids.append(copy.id)
+            }
+            for id in ids { join(id) }
+            boardSelection.set(Set(ids.map(BoardItem.trace)))
+            return ids
+        }
+    }
+
+    /// ⌘⌫ on the PCB: deletes every selected text, trace and via, as one
+    /// step. Selected footprints stay. Returns whether anything was deleted.
+    @discardableResult
+    func deleteBoardSelection() -> Bool {
+        var textIDs: Set<UUID> = [], traceIDs: Set<UUID> = [], viaIDs: Set<UUID> = []
+        for item in boardSelection.items {
+            switch item {
+            case let .text(id): textIDs.insert(id)
+            case let .trace(id): traceIDs.insert(id)
+            case let .via(id): viaIDs.insert(id)
+            case .footprint: break
+            }
+        }
+        guard !textIDs.isEmpty || !traceIDs.isEmpty || !viaIDs.isEmpty else { return false }
+        recordEdit(.pcb, "Delete") {
+            texts.removeAll { textIDs.contains($0.id) }
+            traces.removeAll { traceIDs.contains($0.id) }
+            vias.removeAll { viaIDs.contains($0.id) }
+            pruneSelection()
+        }
+        return true
+    }
+
     /// Moves every vertex of the traces `ids` by `offset` (mm), then joins
     /// each one where it now lands.
     func moveTraces(_ ids: Set<UUID>, by offset: CGSize) {
@@ -2327,6 +2449,105 @@ final class SchematicDocument {
             }) { return hit }
         }
         return nil
+    }
+
+    // MARK: Vias (PCB)
+
+    /// The via whose metal is under `point` (mm): the last one drawn there.
+    /// Vias are drawn while any copper layer is.
+    func via(at point: CGPoint, visible: BoardVisibility = BoardVisibility()) -> BoardVia? {
+        guard visible.showsAnyCopper else { return nil }
+        return vias.last { Self.distance(from: point, to: $0.centre) <= $0.diameter / 2 }
+    }
+
+    /// Where a via placed at `point` lands: a vertex of a trace on any layer
+    /// within `tolerance`, else the nearest point of a trace segment within
+    /// `tolerance`, else the nearest trace-grid point.
+    func viaAnchor(at point: CGPoint, tolerance: CGFloat) -> CGPoint {
+        var best: (point: CGPoint, distance: CGFloat)?
+        for trace in traces {
+            for vertex in trace.points {
+                let d = Self.distance(from: point, to: vertex)
+                if d <= tolerance, d < best?.distance ?? .infinity { best = (vertex, d) }
+            }
+        }
+        if let best { return best.point }
+        for trace in traces {
+            for (a, b) in trace.segments {
+                let near = Self.nearest(on: a, b, to: point)
+                let d = Self.distance(from: point, to: near)
+                if d <= tolerance, d < best?.distance ?? .infinity { best = (near, d) }
+            }
+        }
+        return best?.point ?? BoardGrid.snap(point, spacing: self.board.traceGrid)
+    }
+
+    /// Adds a via at `point` (already anchored) with the default sizes and
+    /// selects it. Nil on a 1-layer board, which has nothing to join.
+    @discardableResult
+    func addVia(at point: CGPoint) -> UUID? {
+        guard board.layers > 1 else { return nil }
+        return recordEdit(.pcb, "Add Via") { () -> UUID? in
+            let via = BoardVia(id: UUID(), centre: point)
+            vias.append(via)
+            boardSelection.replace(with: .via(via.id))
+            return via.id
+        }
+    }
+
+    /// Moves a via's centre to `point`, snapped to the trace grid.
+    func moveVia(_ id: UUID, to point: CGPoint) {
+        recordEdit(.pcb, "Move") {
+            guard let index = vias.firstIndex(where: { $0.id == id }) else { return }
+            let target = BoardGrid.snap(point, spacing: self.board.traceGrid)
+            if vias[index].centre != target { vias[index].centre = target }
+        }
+    }
+
+    /// Moves a via's centre to exactly `point` (the sidebar's X and Y).
+    func setViaCentre(_ id: UUID, _ point: CGPoint) {
+        recordEdit(.pcb, "Move") {
+            guard let index = vias.firstIndex(where: { $0.id == id }), vias[index].centre != point else { return }
+            vias[index].centre = point
+        }
+    }
+
+    /// Sets a via's hole, clamped to `BoardVia.drillRange` and to leave the
+    /// thinnest ring inside its metal.
+    func setViaDrill(_ id: UUID, _ mm: Double) {
+        recordEdit(.pcb, "Change Via Hole") {
+            guard let index = vias.firstIndex(where: { $0.id == id }) else { return }
+            let most = min(BoardVia.drillRange.upperBound, vias[index].diameter - 2 * BoardVia.minimumRing)
+            let value = min(max(mm, BoardVia.drillRange.lowerBound), most)
+            if vias[index].drill != value { vias[index].drill = value }
+        }
+    }
+
+    /// Sets a via's metal diameter, clamped to `BoardVia.diameterRange` and
+    /// to keep the thinnest ring round its hole.
+    func setViaDiameter(_ id: UUID, _ mm: Double) {
+        recordEdit(.pcb, "Change Via Size") {
+            guard let index = vias.firstIndex(where: { $0.id == id }) else { return }
+            let least = max(BoardVia.diameterRange.lowerBound, vias[index].drill + 2 * BoardVia.minimumRing)
+            let value = max(min(mm, BoardVia.diameterRange.upperBound), least)
+            if vias[index].diameter != value { vias[index].diameter = value }
+        }
+    }
+
+    func deleteVia(_ id: UUID) {
+        recordEdit(.pcb, "Delete Via") {
+            vias.removeAll { $0.id == id }
+            pruneSelection()
+        }
+    }
+
+    /// The traces whose copper touches a via's metal, on any layer.
+    func traces(touching via: BoardVia) -> [BoardTrace] {
+        traces.filter { trace in
+            trace.segments.contains {
+                Self.distance(from: via.centre, toSegment: $0.0, $0.1) <= via.diameter / 2 + trace.widthMM / 2
+            }
+        }
     }
 
     // MARK: Trace geometry
@@ -2405,8 +2626,9 @@ final class SchematicDocument {
 
     /// Where every selected footprint (its centre) and text (its anchor) is
     /// now, for a group drag.
-    func boardGroupBase() -> BoardGroupBase {
+    func boardGroupBase(grab: CGPoint? = nil) -> BoardGroupBase {
         var base = BoardGroupBase()
+        base.grab = grab
         for item in boardSelection.items {
             switch item {
             case let .footprint(id):
@@ -2415,13 +2637,16 @@ final class SchematicDocument {
                 if let anchor = texts.first(where: { $0.id == id })?.anchor { base.texts[id] = anchor }
             case let .trace(id):
                 if let points = traces.first(where: { $0.id == id })?.points { base.traces[id] = points }
+            case let .via(id):
+                if let centre = vias.first(where: { $0.id == id })?.centre { base.vias[id] = centre }
             }
         }
         return base
     }
 
     /// One frame of a group drag on the PCB. One item moves as it always
-    /// has, snapped onto the grid. Several all move by the same `delta`
+    /// has, snapped onto the grid; a lone trace by the end nearer the grab,
+    /// onto the trace grid. Several all move by the same `delta`
     /// snapped to the board grid, so they keep their places relative to
     /// each other.
     func moveBoardGroup(_ base: BoardGroupBase, by delta: CGSize) {
@@ -2429,7 +2654,19 @@ final class SchematicDocument {
             func moved(_ point: CGPoint, by offset: CGSize) -> CGPoint {
                 CGPoint(x: point.x + offset.width, y: point.y + offset.height)
             }
-            let offset = CGSize(width: BoardGrid.snap(delta.width), height: BoardGrid.snap(delta.height))
+            var offset = CGSize(width: BoardGrid.snap(delta.width, spacing: self.board.grid),
+                                height: BoardGrid.snap(delta.height, spacing: self.board.grid))
+            // A lone trace snaps by its end: the one nearer where it was
+            // grabbed (its start without a grab) lands on the trace grid.
+            // A click (no movement yet) leaves it where it is.
+            if base.count == 1, delta != .zero, let points = base.traces.values.first, let first = points.first,
+               let last = points.last {
+                let end = base.grab.map {
+                    Self.distance(from: $0, to: last) < Self.distance(from: $0, to: first) ? last : first
+                } ?? first
+                let target = BoardGrid.snap(moved(end, by: delta), spacing: self.board.traceGrid)
+                offset = CGSize(width: target.x - end.x, height: target.y - end.y)
+            }
             // Traces move by the snapped delta from where they were, alone or
             // in a group; joins wait for the release (`settleBoardGroup`).
             for index in traces.indices {
@@ -2440,7 +2677,14 @@ final class SchematicDocument {
             if base.count == 1 {
                 if let (id, centre) = base.footprints.first { moveFootprint(id, to: moved(centre, by: delta)) }
                 if let (id, anchor) = base.texts.first { moveText(id, to: moved(anchor, by: delta)) }
+                // A via placed on a trace stays there until the pointer moves.
+                if let (id, centre) = base.vias.first, delta != .zero { moveVia(id, to: moved(centre, by: delta)) }
                 return
+            }
+            for index in vias.indices {
+                guard let centre = base.vias[vias[index].id] else { continue }
+                let target = moved(centre, by: offset)
+                if vias[index].centre != target { vias[index].centre = target }
             }
             for index in chips.indices {
                 guard let centre = base.footprints[chips[index].id], chips[index].board != nil else { continue }
@@ -2463,12 +2707,13 @@ final class SchematicDocument {
         }
     }
 
-    /// What a Select press at `point` (board mm) picks: a text, else a
-    /// trace (within `tolerance` of its edge), else a footprint; Top before
-    /// Bottom within each. Only drawn items count.
+    /// What a Select press at `point` (board mm) picks: a text, else a via,
+    /// else a trace (within `tolerance` of its edge), else a footprint; Top
+    /// before Bottom within each. Only drawn items count.
     func boardItem(at point: CGPoint, tolerance: CGFloat,
                    visible: BoardVisibility = BoardVisibility()) -> BoardItem? {
         if let text = text(at: point, visible: visible) { return .text(text.id) }
+        if let via = via(at: point, visible: visible) { return .via(via.id) }
         if let trace = trace(at: point, tolerance: tolerance, visible: visible) { return .trace(trace.id) }
         if let chip = footprint(at: point, visible: visible), chip.board != nil { return .footprint(chip.id) }
         return nil
@@ -3552,6 +3797,49 @@ final class SchematicDocument {
             }
             pruneJunctions()
         }
+    }
+
+    /// ⌘⌫ on the Schematic: deletes the selected parts (their wires stay,
+    /// with loose ends, as the Eraser leaves them), wires and text blocks, as
+    /// one step; junctions go once no wire ends on them. A selected bus port
+    /// is deleted as the Eraser deletes one, asking first when wires are on
+    /// its pins. A selected bus is left alone. Returns whether anything was
+    /// deleted or asked.
+    @discardableResult
+    func deleteSchematicSelection() -> Bool {
+        guard pendingRemoval == nil else { return false }
+        if let portID = selectedPortID {
+            recordEdit(.schematic, "Delete") {
+                let count = wiresOnPins(port: portID)
+                if count > 0 {
+                    pendingRemoval = PendingRemoval(
+                        message: "Delete this port? The \(Self.counted(count, "wire")) on its pins stay, with loose ends.",
+                        action: .port(portID))
+                } else {
+                    removePort(portID)
+                }
+            }
+            return true
+        }
+        var chipIDs: Set<UUID> = [], wireIDs: Set<UUID> = [], noteIDs: Set<UUID> = []
+        for item in schematicSelection.items {
+            switch item {
+            case let .chip(id): chipIDs.insert(id)
+            case let .wire(id): wireIDs.insert(id)
+            case let .note(id): noteIDs.insert(id)
+            case .junction: break
+            }
+        }
+        guard !chipIDs.isEmpty || !wireIDs.isEmpty || !noteIDs.isEmpty else { return false }
+        recordEdit(.schematic, "Delete") {
+            wires.removeAll { wireIDs.contains($0.id) }
+            loosen { end in chipIDs.contains { attaches(end, to: $0) } }
+            chips.removeAll { chipIDs.contains($0.id) }
+            notes.removeAll { noteIDs.contains($0.id) }
+            if let editing = editingNoteID, noteIDs.contains(editing) { editingNoteID = nil }
+            pruneJunctions()
+        }
+        return true
     }
 
     // MARK: Geometry

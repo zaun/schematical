@@ -53,6 +53,11 @@ enum SelectionRows {
             rows.append(SelectionRow(item: .trace(trace.id), title: "Trace",
                                      detail: "\(trace.layer.title), \(trace.width) mil"))
         }
+        for via in document.vias where selection.contains(.via(via.id)) {
+            rows.append(SelectionRow(item: .via(via.id), title: "Via",
+                                     detail: "\(LengthField.format(via.drill, units: .mm)) / "
+                                         + "\(LengthField.format(via.diameter, units: .mm)) mm"))
+        }
         return rows
     }
 

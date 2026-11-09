@@ -5,6 +5,7 @@
 //  Created by Justin Zaun on 10/31/26.
 //
 
+import AppKit
 import SwiftUI
 
 /// The window's two pages: the schematic editor and the PCB.
@@ -56,6 +57,19 @@ struct ContentView: View {
     @State private var registerWindows: Set<RegisterWindowTarget> = []
     @State private var terminalWindows: Set<TerminalWindowTarget> = []
     @State private var isBillOfMaterialsOpen = false
+    /// Watches for the editing keys: R rotates, A changes the trace angle
+    /// and ⌘C / ⌘V copy and paste traces on the PCB, F flips on the
+    /// Schematic, ⌘⌫ deletes on both.
+    @State private var editKeyMonitor: Any?
+    /// The Trace tool's angle, kept until changed; not saved in the file.
+    @State private var traceAngle = TraceRoute.defaultAngle
+    /// The angle shown in the middle of the PCB after A, and how opaque it
+    /// is; `angleFlashID` lets only the latest press fade it.
+    @State private var angleFlash: Int?
+    @State private var angleFlashOpacity = 0.0
+    @State private var angleFlashID = UUID()
+    /// Where the pointer is over the PCB, for ⌘V.
+    @State private var boardPointer = BoardPointer()
     /// Simulation speed (circuit time per wall time), an app preference.
     @AppStorage("simulationSpeed") private var simulationSpeed = 1.0
     /// The supply the VCC tool places (a `SupplyChoice` name), an app preference.
@@ -118,6 +132,115 @@ struct ContentView: View {
         return document.chips.first { $0.id == id }?.board != nil
     }
 
+    /// The Rotate button: turns the selected board text, else the selected
+    /// footprint.
+    private func rotateSelection() {
+        if let id = document.selectedTextID {
+            document.rotateText(id)
+        } else if let id = document.selectedFootprintID {
+            document.rotateFootprint(id)
+        }
+    }
+
+    /// The part Flip would turn: the sole selected part on the Schematic,
+    /// when it can flip and the simulation isn't running.
+    private var flippableChipID: UUID? {
+        guard page == .schematic, !simulation.isRunning, let id = document.selectedChipID,
+              document.chips.first(where: { $0.id == id })?.symbol.canFlip == true else { return nil }
+        return id
+    }
+
+    /// The editing keys, in this window only and never while a text field
+    /// is being typed in: R presses Rotate on the PCB (when it is enabled);
+    /// A steps the Trace tool's angle while Trace is the PCB tool; F flips
+    /// the selected part on the Schematic, as the Flip tool would; ⌘⌫
+    /// deletes the selection (on the PCB only its texts and traces); ⌘C
+    /// copies the selected traces on the PCB and ⌘V pastes them centred on
+    /// the pointer (`TraceClipboard`). Every other key, and a key with nothing to act
+    /// on, is left alone.
+    private func installEditKeyMonitor() {
+        guard editKeyMonitor == nil else { return }
+        editKeyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+            guard let window = file.window, event.window === window, !(window.firstResponder is NSText),
+                  let key = Self.editKey(keyCode: event.keyCode, event.charactersIgnoringModifiers,
+                                         event.modifierFlags, isRepeat: event.isARepeat) else { return event }
+            switch key {
+            case .rotate:
+                guard page == .pcb, canRotate else { return event }
+                rotateSelection()
+            case .flip:
+                guard let id = flippableChipID else { return event }
+                document.flipChip(id)
+            case .angle:
+                guard page == .pcb, pcbTool == .trace else { return event }
+                traceAngle = TraceRoute.nextAngle(after: traceAngle)
+                flashAngle(traceAngle)
+            case .delete:
+                let deleted = page == .pcb
+                    ? document.deleteBoardSelection()
+                    : !simulation.isRunning && document.deleteSchematicSelection()
+                guard deleted else { return event }
+            case .copy:
+                let copied = page == .pcb ? document.selectedTraces() : []
+                guard !copied.isEmpty else { return event }
+                TraceClipboard.copy(copied)
+            case .paste:
+                guard page == .pcb, !TraceClipboard.traces.isEmpty else { return event }
+                let copied = TraceClipboard.traces
+                let offset = boardPointer.point.map { TraceClipboard.offset(centring: copied, on: $0, grid: document.board.traceGrid) }
+                    ?? TraceClipboard.nextOffset()
+                document.pasteTraces(copied, offset: offset)
+            }
+            return nil
+        }
+    }
+
+    private func removeEditKeyMonitor() {
+        if let editKeyMonitor { NSEvent.removeMonitor(editKeyMonitor) }
+        editKeyMonitor = nil
+    }
+
+    /// Shows `angle` in the middle of the PCB for 500 ms, then fades it out
+    /// over 250 ms. A newer press restarts it.
+    private func flashAngle(_ angle: Int) {
+        let id = UUID()
+        angleFlashID = id
+        angleFlash = angle
+        angleFlashOpacity = 1
+        Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(500))
+            guard angleFlashID == id else { return }
+            withAnimation(.easeOut(duration: 0.25)) { angleFlashOpacity = 0 }
+        }
+    }
+
+    enum EditKey { case rotate, flip, angle, delete, copy, paste }
+
+    /// The editing key a press is: a bare R, F or A (no ⌘, ⌃, ⌥ or ⇧), or
+    /// ⌘⌫, ⌘C or ⌘V (⌘ alone). Never a held-key repeat. Nil for anything
+    /// else.
+    nonisolated static func editKey(keyCode: UInt16, _ characters: String?, _ modifiers: NSEvent.ModifierFlags,
+                                    isRepeat: Bool) -> EditKey? {
+        guard !isRepeat else { return nil }
+        let held = modifiers.intersection([.command, .control, .option, .shift])
+        // 51 is the Delete (backspace) key.
+        if keyCode == 51 { return held == .command ? .delete : nil }
+        if held == .command {
+            switch characters {
+            case "c": return .copy
+            case "v": return .paste
+            default: return nil
+            }
+        }
+        guard held.isEmpty else { return nil }
+        switch characters {
+        case "r": return .rotate
+        case "f": return .flip
+        case "a": return .angle
+        default: return nil
+        }
+    }
+
     @ViewBuilder
     private var pageContent: some View {
         switch page {
@@ -156,9 +279,23 @@ struct ContentView: View {
         case .pcb:
             PCBCanvasView(document: document, viewport: boardViewport, tool: pcbTool,
                           visible: BoardVisibility(hidden: hiddenLayers), traceLayer: traceLayer,
-                          onShowLayer: { hiddenLayers.remove(.copper($0)) }) {
+                          traceAngle: traceAngle, onShowLayer: { hiddenLayers.remove(.copper($0)) },
+                          pointer: boardPointer) {
                 // Placing a text returns to the Select tool.
                 pcbTool = .select
+            }
+            .overlay {
+                if let angleFlash {
+                    Text("\(angleFlash)°")
+                        .font(.system(size: 48, weight: .semibold, design: .rounded))
+                        .monospacedDigit()
+                        .padding(.horizontal, 24)
+                        .padding(.vertical, 12)
+                        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16))
+                        .opacity(angleFlashOpacity)
+                        .allowsHitTesting(false)
+                        .accessibilityHidden(true)
+                }
             }
         }
     }
@@ -252,7 +389,7 @@ struct ContentView: View {
                         Picker("Tool", selection: $pcbTool) {
                             ForEach(PCBTool.allCases) { tool in
                                 Label(tool.title, systemImage: tool.symbol)
-                                    .help(tool.title)
+                                    .help(tool.tooltip)
                                     .tag(tool)
                             }
                         }
@@ -279,16 +416,12 @@ struct ContentView: View {
                 if page == .pcb {
                     ToolbarItem(placement: .primaryAction) {
                         Button {
-                            if let id = document.selectedTextID {
-                                document.rotateText(id)
-                            } else if let id = document.selectedFootprintID {
-                                document.rotateFootprint(id)
-                            }
+                            rotateSelection()
                         } label: {
                             Label("Rotate", systemImage: "rotate.right")
                         }
                         .keyboardShortcut("r", modifiers: [.command, .option])
-                        .help("Rotate the selection 90° (⌥⌘R)")
+                        .help("Rotate the selection 90° (R or ⌥⌘R)")
                         .disabled(!canRotate)
                     }
                 }
@@ -387,8 +520,10 @@ struct ContentView: View {
                 file.openNewWindow = { openWindow(id: "schematic") }
                 SchematicSessions.shared.register(sessionID, document: document, simulation: simulation)
                 simulation.setSpeed(simulationSpeed)
+                installEditKeyMonitor()
             }
             .onDisappear {
+                removeEditKeyMonitor()
                 for target in memoryWindows {
                     dismissWindow(id: "memory", value: target)
                 }

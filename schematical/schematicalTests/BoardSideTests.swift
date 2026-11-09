@@ -98,6 +98,31 @@ final class BoardSideTests: XCTestCase {
         }
     }
 
+    /// Changing side mirrors every pad left to right about the body centre,
+    /// at every rotation: at 90° the SOIC's pad rows stay on the same edges.
+    /// (Pads are measured from the body centre, which the origin snap may
+    /// shift.)
+    func testSideChangeMirrorsLeftToRightAtEveryRotation() throws {
+        let doc = doc()
+        doc.setLayerCount(2)
+        let placed = try TestSupport.place(doc, "SN74HC00D", at: CGPoint(x: 100, y: 100))
+        for rotation in BoardPlacement.rotations {
+            while try chip(doc, placed.id).board?.rotation != rotation { doc.rotateFootprint(placed.id) }
+            let top = try chip(doc, placed.id)
+            let tc = try XCTUnwrap(top.board).centre
+            doc.setFootprintSide(placed.id, .bottom)
+            let bottom = try chip(doc, placed.id)
+            XCTAssertEqual(bottom.board?.side, .bottom)
+            let bc = try XCTUnwrap(bottom.board).centre
+            for designator in ["1", "7", "8", "14"] {
+                let t = centre(try pad(top, designator).rect), b = centre(try pad(bottom, designator).rect)
+                assertEqual(CGPoint(x: b.x - bc.x, y: b.y - bc.y), CGPoint(x: tc.x - t.x, y: t.y - tc.y))
+            }
+            doc.setFootprintSide(placed.id, .top)
+            XCTAssertEqual(try chip(doc, placed.id).board?.rotation, rotation)
+        }
+    }
+
     func testOneLayerBoardKeepsTop() throws {
         let doc = doc()
         doc.setLayerCount(1)
