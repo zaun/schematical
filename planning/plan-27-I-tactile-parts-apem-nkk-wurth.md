@@ -136,6 +136,13 @@ Commit: —
 ## Corrections
 
 1. 2026-11-08 — after main's merge (plan-27-A Correction 3) ctest runs **28** programs (T0 = 27 + `tactile_test`), not 25, and the goldens start at P0 = R0 = **13158**, F0 = **508**; the gates above say so. Parts also carry `manufacturer` and `datasheet` (plan-27-E Correction 1), which the generator writes; nothing else changes here.
+2. 2026-11-08 — **two generator runs.** C's readers finished per maker, and a
+   maker's parts need only its own merged rows, so APEM and NKK ran with the
+   first finished makers of G, H and I (`gen-parts.py --maker Alps --maker 'Same Sky'
+   --maker NKK --maker APEM`: `50 tactile devices, 1498 tactile parts written; 104
+   datasheets.json entries added`; `49 footprints appended`; goldens `545 0` ×2,
+   `49 0`; ctest 28/28) and Würth runs when its reader is merged; the boxes
+   are ticked after that second run, whose counts close the acceptance.
 
 ## Summary
 

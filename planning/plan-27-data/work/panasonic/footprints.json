@@ -306,7 +306,7 @@
   {
    "id": "SW-TACT-EVPBF",
    "description": "Panasonic EVPBF 6 mm square middle-travel SMD switch, 4 terminals",
-   "note": "EVP-BF_Series_DS.pdf (ANCTB97E) p.2 'PWB land pattern for reference': 8.5 outer, 3.0 inner -> pads 2.75 wide at x +-2.875 (span 5.75); 5.0 outer, 3.0 inner -> 1.0 high at y +-2.0 (pitch 4.0); body 6.0 x 6.0. Top view: B' top-left, B top-right, A' bottom-left, A bottom-right; circuit B'-B joined, A'-A joined. pin numbers: Panasonic letters its terminals; here 1 = top-left, 2 = bottom-left, 3 = bottom-right, 4 = top-right (default dual slots); the two pads of the top row are joined inside, the two of the bottom row are joined (A=1,4;B=2,3). The no-soldering cross in the middle is not drawn",
+   "note": "EVP-BF_Series_DS.pdf (ANCTB97E) p.2 'PWB land pattern for reference' (sw_lt_eng_6s_mid.pdf p.3, ANCTB97E 2025, the same): 8.5 outer, 3.0 inner -> pads 2.75 wide at x +-2.875 (span 5.75); 5.0 outer, 3.0 inner -> 1.0 high at y +-2.0 (pitch 4.0); body 6.0 x 6.0. Top view: B' top-left, B top-right, A' bottom-left, A bottom-right; circuit B'-B joined, A'-A joined. pin numbers: Panasonic letters its terminals; here 1 = top-left, 2 = bottom-left, 3 = bottom-right, 4 = top-right (default dual slots); the two pads of the top row are joined inside, the two of the bottom row are joined (A=1,4;B=2,3). The no-soldering cross in the middle is not drawn",
    "style": "dual",
    "pins": 4,
    "body": {
@@ -461,7 +461,7 @@
   {
    "id": "SW-TACT-EVQP2",
    "description": "Panasonic EVQP2/EVQP9 4.7 x 3.5 mm SMD switch, 4 terminals",
-   "note": "sw_lt_eng_4735s.pdf (ANCTB19E) p.3-6 'PWB land pattern for reference' (EVQ-P9_Series_DS.pdf p.2-5 the same): 2.7+-0.1 outer, 0.7+-0.1 inner -> pads 1.0 wide at x +-0.85 (span 1.7); 6.6+-0.1 outer, 3.7+-0.1 inner -> 1.45 high at y +-2.575 (pitch 5.15); body 3.5 x 4.7 (mounting base). Terminals numbered by the datasheet: (1) top-left, (2) top-right, (3) bottom-left, (4) bottom-right (slots 1,4,2,3); circuit (1)-(3) joined, (2)-(4) joined. The GND pad of the with-ground models (p.4, p.6) is not drawn. Shared by EVQP9",
+   "note": "sw_lt_eng_4735s.pdf (ANCTB19E) p.3-6 'PWB land pattern for reference' (EVQ-P9_Series_DS.pdf p.2-5 the same): 2.7+-0.1 outer, 0.7+-0.1 inner -> pads 1.0 wide at x +-0.85 (span 1.7); 6.6+-0.1 outer, 3.7+-0.1 inner -> 1.45 high at y +-2.575 (pitch 5.15); body 3.5 x 4.7 (mounting base). Terminals numbered by the datasheet: (1) top-left, (2) top-right, (3) bottom-left, (4) bottom-right (slots 1,4,2,3); circuit (1)-(3) joined, (2)-(4) joined. The GND pad of the with-ground models (p.4, p.6) is not drawn. Shared by EVQP9 and EVQ3P2 (EVQ3P202K, p.3)",
    "style": "dual",
    "pins": 4,
    "body": {

@@ -1,0 +1,721 @@
+{
+ "footprints": [
+  {
+   "id": "SW-TACT-WS-TASV-430133",
+   "description": "Würth WS-TASV 6 x 6 mm SMD tact switch (J-lead, 2 terminals), 2 pads 6.0 mm apart",
+   "note": "430133050816.pdf p.1 Recommended Land Pattern: pads 2.0 x 2.0 (inner 4.0, outer 8.0: centres 6.0) on the body centre line, terminals 1 left, 2 right as printed; body 6.0 +/-0.2 x 6.0 +/-0.2. [series using it: WS-TASV]",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 6.0,
+    "height": 6.0
+   },
+   "pitch": 1,
+   "span": 6.0,
+   "pad": {
+    "width": 2.0,
+    "height": 2.0,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SW-TACT-WS-TASV-430151",
+   "description": "Würth WS-TASV 4.5 x 4.5 mm SMD tact switch (0.55 mm), 4 pads 3.85 x 3.5 mm",
+   "note": "430151005826.pdf p.1 Recommended Land Pattern (pads: inner 2.85, outer 4.85 -> 1.0 wide, centres 3.85; inner 2.8, outer 4.2 -> 0.7 high, centres 3.5); terminals 1 TL, 2 TR, 3 BL, 4 BR as printed (slots 1,4,2,3); body 4.5 +0.25/-0.15 mid 4.55 square. Same drawing: 430181005816. [series using it: WS-TASV]",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 4.55,
+    "height": 4.55
+   },
+   "pitch": 3.5,
+   "span": 3.85,
+   "pad": {
+    "width": 1.0,
+    "height": 0.7,
+    "shape": "rect"
+   },
+   "slots": [
+    1,
+    4,
+    2,
+    3
+   ]
+  },
+  {
+   "id": "SW-TACT-WS-TASV-430152",
+   "description": "Würth WS-TASV 6 x 6 mm SMD tact switch (gull wing), 4 pads 7.95 x 4.5 mm",
+   "note": "430152043826.pdf p.1 Recommended Land Pattern (pads 1.3 high at 4.5 centres; inner 6.4, outer 9.5 -> 1.55 wide, centres 7.95); terminals 1 TL, 2 BL, 3 TR, 4 BR as printed (slots 1,2,4,3); body 6.2 square. Same land pattern on every 430152*/430182* drawing (all 18 read by text). [series using it: WS-TASV]",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 6.2,
+    "height": 6.2
+   },
+   "pitch": 4.5,
+   "span": 7.95,
+   "pad": {
+    "width": 1.55,
+    "height": 1.3,
+    "shape": "rect"
+   },
+   "slots": [
+    1,
+    2,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "SW-TACT-WS-TASV-430162",
+   "description": "Würth WS-TASV 12 x 12 mm SMD tact switch, 4 pads 14.0 x 5.0 mm",
+   "note": "430162043826.pdf p.1 Recommended Land Pattern (pads 1.8 high at 5.0 centres; inner 12.0, outer 16.0 -> 2.0 wide, centres 14.0); terminals 1 TL, 2 TR, 3 BL, 4 BR as printed (slots 1,4,2,3); body 12.0 square. Same land pattern: 430162085826, 430172043816, 430172073816, 430172085816 (viewed 430162085826, 430172073816). [series using it: WS-TASV]",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 12.0,
+    "height": 12.0
+   },
+   "pitch": 5.0,
+   "span": 14.0,
+   "pad": {
+    "width": 2.0,
+    "height": 1.8,
+    "shape": "rect"
+   },
+   "slots": [
+    1,
+    4,
+    2,
+    3
+   ]
+  },
+  {
+   "id": "SW-TACT-WS-TASV-430173",
+   "description": "Würth WS-TASV 3.7 x 3.7 mm J-bend SMD tact switch, 4 pads 3.1 x 2.75 mm",
+   "note": "430173003816.pdf p.1 Recommended Land Pattern (inner 2.5, outer 3.7 -> 0.6 wide, centres 3.1; inner 2.1, outer 3.4 -> 0.65 high, centres 2.75); terminals 1 TL, 2 BL, 3 TR, 4 BR as printed (slots 1,2,4,3); body 3.7 square. [series using it: WS-TASV]",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 3.7,
+    "height": 3.7
+   },
+   "pitch": 2.75,
+   "span": 3.1,
+   "pad": {
+    "width": 0.6,
+    "height": 0.65,
+    "shape": "rect"
+   },
+   "slots": [
+    1,
+    2,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "SW-TACT-WS-TASV-430181",
+   "description": "Würth WS-TASV 4.5 x 4.5 mm SMD tact switch (3.8 mm), 4 pads 7.0 x 3.0 mm",
+   "note": "430181038816.pdf p.1 Recommended Land Pattern (pads 1.4 high at 3.0 centres; inner 5.0, outer 9.0 -> 2.0 wide, centres 7.0); terminals 1 TL, 2 TR, 3 BL, 4 BR as printed (slots 1,4,2,3); body 4.5 +/-0.2 square. [series using it: WS-TASV]",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 4.5,
+    "height": 4.5
+   },
+   "pitch": 3.0,
+   "span": 7.0,
+   "pad": {
+    "width": 2.0,
+    "height": 1.4,
+    "shape": "rect"
+   },
+   "slots": [
+    1,
+    4,
+    2,
+    3
+   ]
+  },
+  {
+   "id": "SW-TACT-WS-TASV-430451",
+   "description": "Würth WS-TASV 6 x 6 mm low-profile SMD tact switch (SMT tab), 4 pads 7.0 x 4.0 mm",
+   "note": "430451025836.pdf p.1 Recommended Land Pattern (inner 5.0, outer 9.0 -> 2.0 wide, centres 7.0; inner 2.6, outer 5.4 -> 1.4 high, centres 4.0); terminals 1 TL, 2 TR, 3 BL, 4 BR as printed (slots 1,4,2,3); body 6.2 x 6.2 (top view). Same land pattern on all nine 4304[578]1* drawings (text). [series using it: WS-TASV]",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 6.2,
+    "height": 6.2
+   },
+   "pitch": 4.0,
+   "span": 7.0,
+   "pad": {
+    "width": 2.0,
+    "height": 1.4,
+    "shape": "rect"
+   },
+   "slots": [
+    1,
+    4,
+    2,
+    3
+   ]
+  },
+  {
+   "id": "SW-TACT-WS-TASV-430453",
+   "description": "Würth WS-TASV 6 x 6 mm low-profile J-bend SMD tact switch (washable), 4 pads 6.7 x 4.0 mm",
+   "note": "430453025836.pdf p.1 Recommended Land Pattern (inner 5.0, outer 8.4 -> 1.7 wide, centres 6.7; inner 2.6, outer 5.4 -> 1.4 high, centres 4.0); terminals 1 TL, 2 TR, 3 BL, 4 BR as printed (slots 1,4,2,3); body 6.2 x 6.2. Same land pattern on all nine 4304[578]3* drawings (text). [series using it: WS-TASV]",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 6.2,
+    "height": 6.2
+   },
+   "pitch": 4.0,
+   "span": 6.7,
+   "pad": {
+    "width": 1.7,
+    "height": 1.4,
+    "shape": "rect"
+   },
+   "slots": [
+    1,
+    4,
+    2,
+    3
+   ]
+  },
+  {
+   "id": "SW-TACT-WS-TASV-430753",
+   "description": "Würth WS-TASV 6 x 6 mm IP67 J-hook SMD tact switch, 4 pads 5.75 x 4.0 mm",
+   "note": "430753034832.pdf p.1 Recommended Land Pattern (inner 3.0, outer 8.5 -> 2.75 wide, centres 5.75; inner 3.0, outer 5.0 -> 1.0 high, centres 4.0); terminals 1 TL, 2 TR, 3 BL, 4 BR as printed (slots 1,4,2,3); body 6.2 +/-0.5 square. Same land pattern: 430773034825, 430773051825, 430783034816, 430783051816 (text). [series using it: WS-TASV]",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 6.2,
+    "height": 6.2
+   },
+   "pitch": 4.0,
+   "span": 5.75,
+   "pad": {
+    "width": 2.75,
+    "height": 1.0,
+    "shape": "rect"
+   },
+   "slots": [
+    1,
+    4,
+    2,
+    3
+   ]
+  },
+  {
+   "id": "SW-TACT-WS-TASV-431151",
+   "description": "Würth WS-TASV 5 x 5 mm SMD tact switch with ground terminal, 4 pads 6.0 x 3.7 mm",
+   "note": "431151008826.pdf p.1 Recommended Land Pattern (inner 4.8, outer 7.2 -> 1.2 wide, centres 6.0; inner 2.6, outer 4.8 -> 1.1 high, centres 3.7); the land pattern prints no terminal numbers: taken from the top view (2 TL, 1 BL, 4 TR, 3 BR; slots 2,1,3,4); the two GND pads (1.0 wide, top and bottom centre) are not switch terminals and are not drawn; body 5.0 +/-0.15 square. Same land pattern: 431151015826, 431181008816, 431181015816 (text; 431151015826 top view checked). [series using it: WS-TASV]",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 5.0,
+    "height": 5.0
+   },
+   "pitch": 3.7,
+   "span": 6.0,
+   "pad": {
+    "width": 1.2,
+    "height": 1.1,
+    "shape": "rect"
+   },
+   "slots": [
+    2,
+    1,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "SW-TACT-WS-TASV-431153",
+   "description": "Würth WS-TASV 5 x 5 mm J-bend SMD tact switch with ground terminal, 4 pads 4.6 x 3.7 mm",
+   "note": "431153008826.pdf p.1 Recommended Land Pattern (inner 3.8, outer 5.4 -> 0.8 wide, centres 4.6; inner 3.1, outer 4.3 -> 0.6 high, centres 3.7); no terminal numbers on the land pattern: taken from the top view (2 TL, 1 BL, 4 TR, 3 BR; slots 2,1,3,4); GND pads not drawn; body 5.0 +/-0.15 square. Same land pattern: 431153015826, 431183008816, 431183015816 (text). [series using it: WS-TASV]",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 5.0,
+    "height": 5.0
+   },
+   "pitch": 3.7,
+   "span": 4.6,
+   "pad": {
+    "width": 0.8,
+    "height": 0.6,
+    "shape": "rect"
+   },
+   "slots": [
+    2,
+    1,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "SW-TACT-WS-TASV-431471",
+   "description": "Würth WS-TASV 6 x 6 mm SMD tact switch with ground terminal, 4 pads 7.0 x 4.5 mm",
+   "note": "431471031826.pdf p.1 Recommended Land Pattern (pads 1.3 high at 4.5 centres; inner 5.0, outer 9.0 -> 2.0 wide, centres 7.0); no terminal numbers on the land pattern: taken from the top view, GND tab on the left in both (4 TL, 2 BL, 3 TR, 1 BR; slots 3,2,4,1); the GND pad (1.5 x 1.3, left centre) is not a switch terminal and is not drawn; body 6.2 +/-0.15 x 6.1 +/-0.15. Same land pattern: 431471031836, 431481031816 (text). [series using it: WS-TASV]",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 6.2,
+    "height": 6.1
+   },
+   "pitch": 4.5,
+   "span": 7.0,
+   "pad": {
+    "width": 2.0,
+    "height": 1.3,
+    "shape": "rect"
+   },
+   "slots": [
+    3,
+    2,
+    4,
+    1
+   ]
+  },
+  {
+   "id": "SW-TACT-WS-TASV-434111-H25",
+   "description": "Würth WS-TASV 6.0 x 3.8 mm SMD tact switch (2.5 mm), 2 pads 6.5 mm apart",
+   "note": "434111025826.pdf p.1 Recommended Land Pattern (pads 1.4 high; inner 5.0, outer 8.0 -> 1.5 wide, centres 6.5) on the body centre line; terminals 1 left, 2 right as printed; body 6.0 x 3.8. Same drawing: 434121025816. [series using it: WS-TASV]",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 6.0,
+    "height": 3.8
+   },
+   "pitch": 1,
+   "span": 6.5,
+   "pad": {
+    "width": 1.5,
+    "height": 1.4,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SW-TACT-WS-TASV-434111-H43",
+   "description": "Würth WS-TASV 6.0 x 3.5 mm SMD tact switch (rectangular button), 2 pads 6.7 mm apart",
+   "note": "434111043826.pdf p.1 Recommended Land Pattern (pads 1.5 high; inner 4.4, outer 9.0 -> 2.3 wide, centres 6.7) on the body centre line; the drawing prints no terminal numbers: left = 1, right = 2 (schematic 1-2); body 6.0 x 3.5. Same land pattern: 434111050826, 434121043816, 434121043836, 434121050816, 434121050836 (text). [series using it: WS-TASV]",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 6.0,
+    "height": 3.5
+   },
+   "pitch": 1,
+   "span": 6.7,
+   "pad": {
+    "width": 2.3,
+    "height": 1.5,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SW-TACT-WS-TASV-434113-H25",
+   "description": "Würth WS-TASV 6.0 x 3.8 mm J-bend SMD tact switch (2.5 mm), 2 pads 6.35 mm apart",
+   "note": "434113025826.pdf p.1 Recommended Land Pattern (pads 1.4 high; inner 5.0, outer 7.7 -> 1.35 wide, centres 6.35) on the body centre line; terminals 1 left, 2 right as printed; body 6.0 x 3.8. Same drawing: 434123025816. [series using it: WS-TASV]",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 6.0,
+    "height": 3.8
+   },
+   "pitch": 1,
+   "span": 6.35,
+   "pad": {
+    "width": 1.35,
+    "height": 1.4,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SW-TACT-WS-TASV-434113-H43",
+   "description": "Würth WS-TASV 6.0 x 3.5 mm J-bend SMD tact switch (rectangular button), 2 pads 5.4 mm apart",
+   "note": "434113043826.pdf p.1 Recommended Land Pattern (pads 1.5 high; inner 3.4, outer 7.4 -> 2.0 wide, centres 5.4) on the body centre line; no terminal numbers printed: left = 1, right = 2 (schematic 1-2); body 6.0 x 3.5. Same land pattern: 434113050826, 434123043816, 434123043836, 434123050816, 434123050836 (text). [series using it: WS-TASV]",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 6.0,
+    "height": 3.5
+   },
+   "pitch": 1,
+   "span": 5.4,
+   "pad": {
+    "width": 2.0,
+    "height": 1.5,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SW-TACT-WS-TASV-434123",
+   "description": "Würth WS-TASV 4.2 x 3.2 mm J-bend SMD tact switch, 4 pads 4.15 x 2.15 mm",
+   "note": "434123025826.pdf p.1 Recommended Land Pattern (inner 3.1, outer 5.2 -> 1.05 wide, centres 4.15; inner 1.5, outer 2.8 -> 0.65 high, centres 2.15); terminals 1 TL, 2 TR, 3 BL, 4 BR as printed (slots 1,4,2,3); body 4.2 x 3.2. Same drawing: 434133025816. [series using it: WS-TASV]",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 4.2,
+    "height": 3.2
+   },
+   "pitch": 2.15,
+   "span": 4.15,
+   "pad": {
+    "width": 1.05,
+    "height": 0.65,
+    "shape": "rect"
+   },
+   "slots": [
+    1,
+    4,
+    2,
+    3
+   ]
+  },
+  {
+   "id": "SW-TACT-WS-TASV-434133",
+   "description": "Würth WS-TASV 4.7 x 3.5 mm J-bend SMD tact switch, 4 pads 5.0 x 1.7 mm",
+   "note": "434133025826.pdf p.1 Recommended Land Pattern (inner 4.0, outer 6.0 -> 1.0 wide, centres 5.0; inner 0.7, outer 2.7 -> 1.0 high, centres 1.7); terminals 1 TL, 2 BL, 3 TR, 4 BR as printed (slots 1,2,4,3); body 4.7 x 3.5. Same drawing: 434163025816. Same pads as SW-TACT-WS-TASU-434333 but other numbering, so not shared. [series using it: WS-TASV]",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 4.7,
+    "height": 3.5
+   },
+   "pitch": 1.7,
+   "span": 5.0,
+   "pad": {
+    "width": 1.0,
+    "height": 1.0,
+    "shape": "rect"
+   },
+   "slots": [
+    1,
+    2,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "SW-TACT-WS-TASV-434153",
+   "description": "Würth WS-TASV 3.5 x 2.9 mm J-bend tact switch, 4 pads 3.35 x 1.45 mm",
+   "note": "434153017835.pdf p.1 Recommended Land Pattern (P.C.B mounting plan: inner 2.2 +/-0.1, outer 4.5 +/-0.1 -> 1.15 wide, centres 3.35; gap 0.4 +/-0.1, outer 2.5 +/-0.1 -> 1.05 high, centres 1.45); terminals 1 TL, 2 BL, 3 TR, 4 BR as printed (slots 1,2,4,3); body 3.5 x 2.9. [series using it: WS-TASV]",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 3.5,
+    "height": 2.9
+   },
+   "pitch": 1.45,
+   "span": 3.35,
+   "pad": {
+    "width": 1.15,
+    "height": 1.05,
+    "shape": "rect"
+   },
+   "slots": [
+    1,
+    2,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "SW-TACT-WS-TASU-434331-H13",
+   "description": "Würth WS-TASU 3.5 x 2.9 mm side-push SMD tact switch, 4 pads 3.8 x 1.4 mm",
+   "note": "434331013822.pdf p.1 Recommended Land Pattern (pads 1.6 wide, inner 2.2 -> centres 3.8; 1.0 high, gap 0.4 -> centres 1.4); terminals 1 TL, 2 TR, 3 BL, 4 BR as printed (slots 1,4,2,3); the two 0.65 dia. peg holes (4.05 apart, in the lower pads) are not drawn; body 3.5 x 2.9 (top view, plunger excluded; it protrudes 0.65 toward +y), its centre on the pad centre (top view). [series using it: WS-TASU]",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 3.5,
+    "height": 2.9
+   },
+   "pitch": 1.4,
+   "span": 3.8,
+   "pad": {
+    "width": 1.6,
+    "height": 1.0,
+    "shape": "rect"
+   },
+   "slots": [
+    1,
+    4,
+    2,
+    3
+   ]
+  },
+  {
+   "id": "SW-TACT-WS-TASU-434331-H45",
+   "description": "Würth WS-TASU 4.7 x 3.5 mm side-push SMD tact switch, 4 pads 5.6 x 1.7 mm",
+   "note": "434331045822.pdf p.1 Recommended Land Pattern (inner 4.4, outer 6.8 -> 1.2 wide, centres 5.6; inner 0.7, outer 2.7 -> 1.0 high, centres 1.7); terminals 3 TL, 1 TR, 4 BL, 2 BR as printed (slots 4,3,1,2); body 4.7 x 3.5 (top view; plunger 2.6 wide protrudes toward +y, 4.5 +/-0.2 overall), centred on the pads. Same land pattern: 434351045816, and 436331045822 / 436351045816 (436331045822.pdf p.1: the same pads plus two 0.75 peg holes, not drawn). [series using it: WS-TASU]",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 4.7,
+    "height": 3.5
+   },
+   "pitch": 1.7,
+   "span": 5.6,
+   "pad": {
+    "width": 1.2,
+    "height": 1.0,
+    "shape": "rect"
+   },
+   "slots": [
+    4,
+    3,
+    1,
+    2
+   ]
+  },
+  {
+   "id": "SW-TACT-WS-TASU-434333",
+   "description": "Würth WS-TASU 4.7 x 3.5 mm side-push J-bend SMD tact switch, 4 pads 5.0 x 1.7 mm",
+   "note": "434333045822.pdf p.1 Recommended Land Pattern (inner 4.0, outer 6.0 -> 1.0 wide, centres 5.0; inner 0.7, outer 2.7 -> 1.0 high, centres 1.7); terminals 3 TL, 1 TR, 4 BL, 2 BR as printed (slots 4,3,1,2); body 4.7 x 3.5 (top view; 5.5 +/-0.2 over the J leads). Same land pattern: 434353045816, and 436333045822 / 436353045816 (436333045822.pdf p.1: same pads plus two 0.75 peg holes, not drawn). [series using it: WS-TASU]",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 4.7,
+    "height": 3.5
+   },
+   "pitch": 1.7,
+   "span": 5.0,
+   "pad": {
+    "width": 1.0,
+    "height": 1.0,
+    "shape": "rect"
+   },
+   "slots": [
+    4,
+    3,
+    1,
+    2
+   ]
+  },
+  {
+   "id": "SW-TACT-WS-TASU-434381",
+   "description": "Würth WS-TASU 6.2 x 3.0 mm edge-mount (board-notch) side-push tact switch, 2 terminal pads",
+   "note": "434381035816.pdf p.1 Recommended Land Pattern: terminal pads 1, 2 (inner 3.1, outer 6.0 -> 1.45 wide, centres 4.55; 1.1 high, from 2.0 to 3.10 behind the board edge) above a 5.1 wide, 1.65 deep board notch; the two hold-down pads beside the notch (0.45-1.3 behind the edge) are not terminals and are not drawn. Body = top-view outline 6.2 +0.2/-0 (mid 6.3) x 3.5 +0.2/-0.1 (mid 3.55); its back edge (back of the 6.2 flange) lines up with the pads' back edge (3.10 behind the board edge; flange 1.45 deep sits over the notch top at 1.65), so the body overhangs the board edge by about 0.45; body centre 1.325 behind the edge, pads 1.225 behind the body centre (y -1.225). Board notch not modelled. [series using it: WS-TASU]",
+   "style": "explicit",
+   "pins": 2,
+   "body": {
+    "width": 6.3,
+    "height": 3.55
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -2.275,
+     "y": -1.225,
+     "width": 1.45,
+     "height": 1.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 2.275,
+     "y": -1.225,
+     "width": 1.45,
+     "height": 1.1,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SW-TACT-WS-TASV-434771",
+   "description": "Würth WS-TASV 6.2 x 4.1 mm IP67 SMD tact switch, 2 pads 6.25 mm apart",
+   "note": "434771025826.pdf p.1 Recommended Land Pattern (pads 1.2 high; inner 4.5, outer 8.0 -> 1.75 wide, centres 6.25) on the body centre line; no terminal numbers printed: left = 1, right = 2 (schematic 1-2); body 6.2 x 4.1. Same land pattern: 434781025816 (text). [series using it: WS-TASV]",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 6.2,
+    "height": 4.1
+   },
+   "pitch": 1,
+   "span": 6.25,
+   "pad": {
+    "width": 1.75,
+    "height": 1.2,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SW-TACT-WS-TASV-435151",
+   "description": "Würth WS-TASV 3.0 x 2.6 mm SMD tact switch with ground terminal, 4 pads 3.15 x 1.7 mm",
+   "note": "435151014824.pdf p.1 Recommended Land Pattern (inner 2.5, outer 3.8 -> 0.65 wide, centres 3.15; inner 1.1, outer 2.3 -> 0.6 high, centres 1.7); terminals 1 TL, 2 TR, 3 BL, 4 BR as printed (slots 1,4,2,3); ground terminals 5, 6 (0.35 x 0.7, middle of each side) are not switch terminals and are not drawn; body 3.0 +/-0.3 x 2.6 +/-0.3. Same land pattern: 435151014845, 435171014816 (text). [series using it: WS-TASV]",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 3.0,
+    "height": 2.6
+   },
+   "pitch": 1.7,
+   "span": 3.15,
+   "pad": {
+    "width": 0.65,
+    "height": 0.6,
+    "shape": "rect"
+   },
+   "slots": [
+    1,
+    4,
+    2,
+    3
+   ]
+  },
+  {
+   "id": "SW-TACT-WS-TASV-435431",
+   "description": "Würth WS-TASV 4.1 x 2.8 mm SMD tact switch with ground terminal, 4 pads 4.1 x 1.6 mm",
+   "note": "435431019840.pdf p.1 Recommended Land Pattern (inner 3.2, outer 5.0 -> 0.9 wide, centres 4.1; inner 0.6, outer 2.6 -> 1.0 high, centres 1.6); terminals 4 TL, 1 TR, 3 BL, 2 BR as printed (slots 4,3,2,1); the GND pad (1.7 wide, above the top row) is not a switch terminal and is not drawn; body 4.1 x 2.8 (4.6 over the terminals). Same land pattern: 435441019830, 435451019820 (text). [series using it: WS-TASV]",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 4.1,
+    "height": 2.8
+   },
+   "pitch": 1.6,
+   "span": 4.1,
+   "pad": {
+    "width": 0.9,
+    "height": 1.0,
+    "shape": "rect"
+   },
+   "slots": [
+    4,
+    3,
+    2,
+    1
+   ]
+  },
+  {
+   "id": "SW-TACT-WS-TASU-436333",
+   "description": "Würth WS-TASU 4.45 x 2.55 mm side-push J-bend SMD tact switch, 3 terminals (1 and 3 common), modelled as 2 pins",
+   "note": "436333033816.pdf p.1 Recommended Land Pattern: three terminal pads 1.8 high in a row (outer two 0.75 wide, middle 0.6 wide, 3.2 over all: centres -1.225, 0, +1.225), from 1.5 to 3.3 behind the front edge of the land pattern; terminals 1, 2, 3 left to right (dimension drawing); schematic: 1 and 3 joined (common), 2 the switched terminal, so pin 1 = terminals 1 and 3 (two pads), pin 2 = terminal 2. The two front hold-down pads (1.3 x 0.9), the two 0.9 dia. leg holes and the prohibited area are not drawn. Body = top view 4.45 x 2.55 (plunger excluded, it protrudes 0.85 toward +y); side view: legs 1.2 behind the body front face, land pattern: leg holes 1.5 behind its front edge, so the body face is 0.3 behind that edge, the body back 2.85, centre 1.575: pads at y = -(2.4 - 1.575) = -0.825. [series using it: WS-TASU]",
+   "style": "explicit",
+   "pins": 2,
+   "body": {
+    "width": 4.45,
+    "height": 2.55
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -1.225,
+     "y": -0.825,
+     "width": 0.75,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": 1.225,
+     "y": -0.825,
+     "width": 0.75,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 0,
+     "y": -0.825,
+     "width": 0.6,
+     "height": 1.8,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SW-TACT-WS-TATV-430156",
+   "description": "Würth WS-TATV 6 x 6 mm through-hole tact switch, 4 holes 6.5 x 4.5 mm",
+   "note": "430156043726.pdf p.1 Recommended Hole Pattern (4 holes 1.0 dia. at 6.5 x 4.5); pad 1.7 = 1.7 x drill 1.0; the hole pattern and drawings print no terminal numbers: numbered as the same-size SMD sibling 430152043826.pdf land pattern (1 TL, 2 BL, 3 TR, 4 BR; slots 1,2,4,3), so the schematic pairs 1-3 and 2-4 join across the 6.5 span (the usual 6 x 6 THT tact pairing); body 6.2 square. Same hole pattern on all 15 430156*/430186* drawings (text). [series using it: WS-TATV]",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 6.2,
+    "height": 6.2
+   },
+   "pitch": 4.5,
+   "span": 6.5,
+   "pad": {
+    "width": 1.7,
+    "height": 1.7,
+    "shape": "round"
+   },
+   "drill": 1.0,
+   "slots": [
+    1,
+    2,
+    4,
+    3
+   ]
+  },
+  {
+   "id": "SW-TACT-WS-TATV-430456",
+   "description": "Würth WS-TATV 12 x 12 mm through-hole tact switch, 4 holes 12.5 x 5.0 mm",
+   "note": "430456043736.pdf p.1 Recommended Hole Pattern (4 holes 1.2 dia. at 12.5 x 5.0); pad 2.05 = 1.7 x drill 1.2 rounded; terminals 1 TL, 2 TR, 3 BL, 4 BR as printed (slots 1,4,2,3); body 12.0 square. Same hole pattern on all eight 4304[567]6* drawings (text; 7.3 and 8.5 mm heights). [series using it: WS-TATV]",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 12.0,
+    "height": 12.0
+   },
+   "pitch": 5.0,
+   "span": 12.5,
+   "pad": {
+    "width": 2.05,
+    "height": 2.05,
+    "shape": "round"
+   },
+   "drill": 1.2,
+   "slots": [
+    1,
+    4,
+    2,
+    3
+   ]
+  },
+  {
+   "id": "SW-TACT-WS-TATU-431256",
+   "description": "Würth WS-TATU 6 x 6 mm right-angle through-hole tact switch, 2 switch terminals 4.5 mm apart (frame legs not drawn)",
+   "note": "431256031716.pdf p.1 Recommended Hole Pattern (top view, plunger toward +y): 4 holes 1.0 +/-0.05 dia.; switch terminals 2 and 3 at 4.5, frame/ground terminals 1 and 4 at 7.0, 2.5 behind them (schematic: 1-4 ground, 2-3 switch), not drawn. Datasheet terminals 2, 3 are pins 1, 2 here. Pad 1.7 = 1.7 x drill 1.0. Side view: terminal row 2.55 behind the body front face; body 7.4 (over the frame) x 6.55 +/-0.1 deep (back of frame to front face, plunger excluded), so its centre is 0.725 behind the terminal row (y +0.725). Same hole pattern on all eleven 431256* drawings (text). [series using it: WS-TATU]",
+   "style": "explicit",
+   "pins": 2,
+   "body": {
+    "width": 7.4,
+    "height": 6.55
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -2.25,
+     "y": 0.725,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    },
+    {
+     "pin": 2,
+     "x": 2.25,
+     "y": 0.725,
+     "width": 1.7,
+     "height": 1.7,
+     "shape": "round",
+     "drill": 1.0
+    }
+   ]
+  }
+ ]
+}
