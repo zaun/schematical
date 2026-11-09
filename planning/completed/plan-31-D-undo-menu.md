@@ -188,7 +188,7 @@ this plan's Corrections only if something differed).
   Check: the five drive steps above → as listed (est. 10 min; a person-level
   check of menu wiring that unit tests cannot see — first responder and
   focused scene values only exist in a running app).
-Commit: this commit (D is archived in it; hash in the merge report)
+Commit: 9db2512
 
 ## Validation Plan
 
