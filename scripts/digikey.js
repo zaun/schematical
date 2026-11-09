@@ -136,14 +136,15 @@ async function token(creds, fresh = false) {
     if (cached.id === creds.id && cached.expires > Date.now() + 30_000) return cached.token;
   } catch { /* no usable cache */ }
 
-  const response = await fetch(`${API}/v1/oauth2/token`, {
+  const { response, text: tokenText } = await fetchRetry(`${API}/v1/oauth2/token`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams({
       client_id: creds.id, client_secret: creds.secret, grant_type: 'client_credentials',
     }),
   });
-  const body = await response.json().catch(() => ({}));
+  let body = {};
+  try { body = JSON.parse(tokenText); } catch { /* not JSON */ }
   if (!response.ok || !body.access_token) {
     throw new Error(`login failed (${response.status}): ${JSON.stringify(body)}`);
   }
@@ -152,8 +153,23 @@ async function token(creds, fresh = false) {
   return body.access_token;
 }
 
+// A hung connection (seen 2026-11-08: requests stalled for minutes, then
+// "terminated" / "fetch failed") is cut after 180 s and retried, up to 3 times.
+async function fetchRetry(url, options) {
+  for (let attempt = 1; ; attempt += 1) {
+    try {
+      const response = await fetch(url, { ...options, signal: AbortSignal.timeout(180_000) });
+      return { response, text: await response.text() };
+    } catch (error) {
+      if (attempt >= 4) throw error;
+      process.stderr.write(`digikey: ${error.message || error}; retry ${attempt} of 3\n`);
+      await new Promise((resolve) => setTimeout(resolve, 2000 * attempt));
+    }
+  }
+}
+
 async function call(ctx, method, route, body, retried = false) {
-  const response = await fetch(`${API}/products/v4${route}`, {
+  const { response, text } = await fetchRetry(`${API}/products/v4${route}`, {
     method,
     headers: {
       Authorization: `Bearer ${ctx.token}`,
@@ -168,7 +184,6 @@ async function call(ctx, method, route, body, retried = false) {
   ctx.calls += 1;
   const remaining = response.headers.get('x-ratelimit-remaining');
   if (remaining !== null) ctx.remaining = remaining;
-  const text = await response.text();
   if (response.status === 401 && !retried) {
     // Tokens last 10 minutes; a long run outlives one.
     ctx.token = await token(ctx.creds, true);
