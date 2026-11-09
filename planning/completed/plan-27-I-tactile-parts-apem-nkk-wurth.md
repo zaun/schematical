@@ -134,7 +134,7 @@ Commit: cbb9595, 078a530
 Acceptance: every PDF in the tree is used by an `add` row; every `skip` row is in `skipped-parts.md`.
   Check: `python3 -I planning/plan-27-data/census/place.py --verify planning/plan-27-data/candidates.tsv` → `0 missing, 0 unused` and `python3 -I planning/plan-27-data/census/decide.py --verify-skipped` → `0 skip rows missing from skipped-parts.md` (est. 2 min).
   Result 2026-11-08: `613 URLs, 452 PDFs, 0 missing, 0 unused`; `0 skip rows missing from skipped-parts.md`.
-Commit: (this commit)
+Commit: b281597
 
 ## Validation Plan
 
