@@ -7,7 +7,7 @@ Each datasheet has its key on p.1 and its drawing, schematic and recommended PCB
 | series | PDF | mounting | key / regex | footprint | pins |
 |---|---|---|---|---|---|
 | TS06 | ts06.pdf | SMD | `TS06-667-(25\|30\|34\|43\|50\|55)-(R\|BK\|WT)-(100\|160\|260)-G-SMT-TR` | SW-TACT-TS06 | A=1,3;B=2,4 |
-| TS08 | ts08.pdf | SMD | (only an `add` row: TS08-66-43-BK-160-SMT-67, bag; key `…-67-XX`, blank = bag, TR = reel) | SW-TACT-TS08 | A=1,3;B=2,4 |
+| TS08 | ts08.pdf | SMD | `TS08-66-43-BK-160-SMT-67(-TR)?` (key fixes every field except packaging: blank = bag, TR = tape & reel) | SW-TACT-TS08 | A=1,3;B=2,4 |
 | TS11 | ts11.pdf | THT right angle | `TS11-674-(43\|50\|55\|65\|73\|80\|85\|95\|105\|120\|135\|153)-BK-(100\|160\|260)-RA-D` | SW-TACT-TS11 | A=1;B=2 |
 | TS13 | ts13.pdf | THT | `TS13-1212-73-BK-(100\|160\|260)-D` | SW-TACT-TS13 | A=1,2;B=3,4 |
 | TS17 | ts17.pdf | SMD | `TS17-48-05-YE-(160\|260)-SMT-TR` | SW-TACT-TS17 | A=1,2;B=3,4 |
@@ -46,10 +46,14 @@ Note: these DigiKey numbers end in `-SMT-T`, while the TS06 key ends in `-SMT-TR
 
 None.
 
+## Round 2 (2026-11-08 16:38 rebuild)
+
+The rebuilt pre-cand.tsv / pre-paths.tsv (16:38) did not add any Same Sky PDFs. It still has 90 add/pending rows (TS08 is now `pending` under the stricter hit, so it got a scheme) and 291 `skip` rows. 289 of those read "no datasheet PDF (HTTP cached, www.sameskydevices.com)", and the other 2 are the TS06 `check` rows. I also scanned all 1133 PDFs in /tmp/p27/pdf for a "SERIES: TS.." first page: only the 8 series above are there. TS02/TS04/TS10/TS14/TS15/TS19/TS21… and ts10.pdf (the SPST-NC row) are therefore still unread.
+
 ## Counts
 
-- Rows: 90 (1 `add` + 89 `pending`); kept 90.
-- scheme-check: 89 add, 0 skip, 0 still pending.
+- Rows: 90 (all `pending` in the round-2 copy); kept 90.
+- scheme-check: 90 add, 0 skip, 0 still pending.
 - Footprints: 8 (TS06, TS08, TS11, TS13, TS17, TS18, TS24, TS42).
 - Specs rows: 8.
 - checks.tsv: 2 rows (both keep; they are skip in the copy, see above).

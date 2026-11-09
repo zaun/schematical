@@ -1,0 +1,7 @@
+mpn	reason
+PTS831GG140GSMTR LFS	the datasheet is a product specification without the product drawing it refers to (G01000444 / G01016434): no dimensions, land pattern or terminal numbers
+PTS831GG140SMTR LFS	the datasheet is a product specification without the product drawing it refers to (G01000444 / G01016434): no dimensions, land pattern or terminal numbers
+PTS831GM140SMTR LFS	the datasheet is a product specification without the product drawing it refers to (G01000444 / G01016434): no dimensions, land pattern or terminal numbers
+SFS12RSSMTR LFS	the datasheet prints a 4-pad land pattern but no terminal numbers or circuit diagram, so the joined pairs cannot be read
+SFS12WSSMTR LFS	the datasheet prints a 4-pad land pattern but no terminal numbers or circuit diagram, so the joined pairs cannot be read
+G01743323	the datasheet prints a 4-pad land pattern but no terminal numbers or circuit diagram, so the joined pairs cannot be read
