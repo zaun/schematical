@@ -20,7 +20,8 @@ nonisolated struct ChipPartDragItem: Codable, Hashable, Sendable, Transferable {
 /// positions for switches, a color for LEDs and displays; a group of
 /// 7-segment displays has digit count and size menus, the tactile switch
 /// group an actuator menu, and the ADC and DAC
-/// groups have bits and channels menus.
+/// groups have a channels menu and are split into groups by bits.
+/// Categories start closed, and only one is open at a time.
 struct ChipDrawerView: View, Equatable {
     let catalog: PartCatalogStore
 
@@ -38,16 +39,21 @@ struct ChipDrawerView: View, Equatable {
     @AppStorage(PreferenceKey.showObsoleteParts) private var showObsolete = false
     @AppStorage(PreferenceKey.showMilitaryParts) private var showMilitary = false
     @AppStorage(PreferenceKey.showAutomotiveParts) private var showAutomotive = false
-    /// Keys whose open state the user has changed from its default, as keys from
-    /// `categoryKey`, `subcategoryKey` and `functionKey`. Categories default open;
-    /// subcategories and functions default closed.
+    /// The one open category, or nil when all are closed. Opening a category
+    /// closes the one that was open.
+    @State private var openCategory: String?
+    /// Open groups below the categories, as keys from `subcategoryKey`,
+    /// `functionKey` and `bitsKey`. All start closed.
     @State private var toggled: Set<String> = []
 
-    /// `openGroups`: group keys (`subcategoryKey`, …) to start toggled from
-    /// their default, e.g. a subcategory shown open. Empty in the app.
+    /// `openGroups`: group keys to start open, e.g. a subcategory, plus at
+    /// most one "category:<name>". Empty in the app.
     init(catalog: PartCatalogStore, openGroups: Set<String> = []) {
         self.catalog = catalog
-        _toggled = State(initialValue: openGroups)
+        let categoryPrefix = "category:"
+        _openCategory = State(initialValue: openGroups.first { $0.hasPrefix(categoryPrefix) }
+            .map { String($0.dropFirst(categoryPrefix.count)) })
+        _toggled = State(initialValue: openGroups.filter { !$0.hasPrefix(categoryPrefix) })
     }
 
     var body: some View {
@@ -68,9 +74,7 @@ struct ChipDrawerView: View, Equatable {
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
                 ForEach(groups) { category in
-                    DisclosureGroup(
-                        isExpanded: expansion(for: categoryKey(category.category), defaultOpen: true)
-                    ) {
+                    DisclosureGroup(isExpanded: $openCategory[drawerOpenCategory: category.category]) {
                         ForEach(category.subcategories) { subcategory in
                             let key = subcategoryKey(category.category, subcategory.subcategory)
                             DisclosureGroup(isExpanded: expansion(for: key, defaultOpen: false)) {
@@ -288,8 +292,23 @@ struct ChipDrawerView: View, Equatable {
     private func functionGroup(_ function: PartCatalogStore.FunctionGroup, path: String) -> some View {
         let key = functionKey(path, function.function)
         return DisclosureGroup(isExpanded: expansion(for: key, defaultOpen: false)) {
-            ForEach(function.parts) { entry in
-                partRow(entry)
+            if function.bitGroups.isEmpty {
+                ForEach(function.parts) { entry in
+                    partRow(entry)
+                }
+            } else {
+                // ADCs and DACs are too many for one list: one group per resolution.
+                ForEach(function.bitGroups) { group in
+                    DisclosureGroup(isExpanded: expansion(for: bitsKey(key, group.bits), defaultOpen: false)) {
+                        ForEach(group.parts) { entry in
+                            partRow(entry)
+                        }
+                    } label: {
+                        Text(group.title)
+                            .font(.body.weight(.medium))
+                    }
+                    .disclosureGroupStyle(DrawerDisclosureStyle())
+                }
             }
         } label: {
             functionHeader(function)
@@ -297,7 +316,7 @@ struct ChipDrawerView: View, Equatable {
         .disclosureGroupStyle(DrawerDisclosureStyle())
     }
 
-    /// An ADC or DAC group carries Bits and Channels menus.
+    /// An ADC or DAC group carries a Channels menu.
     @ViewBuilder
     private func functionHeader(_ function: PartCatalogStore.FunctionGroup) -> some View {
         HStack {
@@ -305,12 +324,8 @@ struct ChipDrawerView: View, Equatable {
                 .font(.body.weight(.medium))
             Spacer()
             if let type = catalog.converterType(of: function.parts) {
-                let bits = $filter.converterBits[type]
-                let channels = $filter.converterChannels[type]
-                countMenu(counts: catalog.converterBits(type: type, channels: channels.wrappedValue),
-                          selection: bits, unit: "bit", all: "All bits")
-                countMenu(counts: catalog.converterChannels(type: type, bits: bits.wrappedValue),
-                          selection: channels, unit: "channel", all: "All channels")
+                countMenu(counts: catalog.converterChannels(type: type),
+                          selection: $filter.converterChannels[type], unit: "channel", all: "All channels")
             }
         }
     }
@@ -351,10 +366,6 @@ struct ChipDrawerView: View, Equatable {
 
     // MARK: Collapsing
 
-    private func categoryKey(_ category: String) -> String {
-        "category:\(category)"
-    }
-
     private func subcategoryKey(_ category: String, _ subcategory: String) -> String {
         "subcategory:\(category)/\(subcategory)"
     }
@@ -362,6 +373,11 @@ struct ChipDrawerView: View, Equatable {
     /// `path` is the category, or "category/subcategory".
     private func functionKey(_ path: String, _ function: String) -> String {
         "function:\(path)/\(function)"
+    }
+
+    /// One resolution's group inside an ADC or DAC group (`functionKey`).
+    private func bitsKey(_ functionKey: String, _ bits: Int) -> String {
+        "\(functionKey)/\(bits)-bit"
     }
 
     /// Derived from `$toggled` rather than built from get/set closures:
@@ -462,6 +478,21 @@ private struct DrawerDisclosureStyle: DisclosureGroupStyle {
                     configuration.content
                 }
                 .padding(.leading, Self.indent)
+            }
+        }
+    }
+}
+
+private extension Optional where Wrapped == String {
+    /// Whether `category` is the drawer's open category. Opening it replaces
+    /// the open one; closing it leaves none open.
+    subscript(drawerOpenCategory category: String) -> Bool {
+        get { self == category }
+        set {
+            if newValue {
+                self = category
+            } else if self == category {
+                self = nil
             }
         }
     }
