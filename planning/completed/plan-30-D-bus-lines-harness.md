@@ -40,7 +40,7 @@ after it.
 
 Acceptance: bus-lines prints no `FAIL` line and exits 0.
   Check: the harness run above.
-Commit: —
+Commit: 8d4c0f1
 
 ## Corrections
 

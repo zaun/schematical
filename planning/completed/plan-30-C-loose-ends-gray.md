@@ -171,11 +171,12 @@ The backend is not touched by plan-30, so the backend tests are not a gate
     (A first drop landed 30 pt low, so the new part's VCC tip sat on the
     loose end and the wire joined VCC, which is the designed behavior; it
     was erased and dropped again.) Pointer moved to (0, 0) afterwards.
-- [ ] Move `plan-30-A`, `plan-30-B` and `plan-30-C` to `planning/completed/`.
+- [x] Move `plan-30-A`, `plan-30-B` and `plan-30-C` to `planning/completed/`
+      (and the added `plan-30-D`).
 
 Acceptance: every gate's observed value matches.
   Check: the table (est. 20 min; this is the plan's one landing run).
-Commit: —
+Commit: 8d4c0f1 (results; archived in the next commit)
 
 ## Validation Plan
 
