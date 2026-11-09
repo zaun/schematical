@@ -3,6 +3,7 @@
 usage: python3 -I place.py <candidates.tsv> <pdf-dir>    copy and write datasheets.tsv
        python3 -I place.py --verify <candidates.tsv>     every needed URL is placed; no unused PDF
        python3 -I place.py --path <candidates.tsv>       print "maker<TAB>mpn<TAB>path" per row
+       python3 -I place.py --prune <candidates.tsv>      drop the lines and PDFs no kept row needs
 
 A PDF is needed when a row with `pdf` = 1 has `decision` add, pending,
 candidate or check.  Each distinct file (by SHA-256: two URL spellings of one
@@ -127,7 +128,33 @@ def verify(tsv):
     return 1 if missing or unused else 0
 
 
+def prune(tsv):
+    """Keeps only the datasheets.tsv lines whose URL a kept row needs, and
+    deletes every PDF under BASE that no remaining line names (plan-27-I)."""
+    _, urls = needed(tsv)
+    p = placed()
+    rows = sorted((r for u, r in p.items() if u in urls), key=lambda r: (r["path"], r["url"]))
+    with open(TSV, "w") as out:
+        out.write("path\turl\tbytes\tsha256\n")
+        for r in rows:
+            out.write("\t".join([r["path"], r["url"], r["bytes"], r["sha256"]]) + "\n")
+    keep = {r["path"] for r in rows}
+    gone = []
+    for dirpath, _, names in os.walk(os.path.join(ROOT, BASE)):
+        for f in names:
+            rel = os.path.relpath(os.path.join(dirpath, f), ROOT)
+            if f.endswith(".pdf") and rel not in keep:
+                os.remove(os.path.join(ROOT, rel))
+                gone.append(rel)
+    for g in sorted(gone):
+        print("deleted", g)
+    print(f"{len(gone)} PDFs deleted, {len(keep)} kept")
+    return 0
+
+
 def main(argv):
+    if argv[0] == "--prune":
+        return prune(argv[1])
     if argv[0] == "--verify":
         return verify(argv[1])
     if argv[0] == "--path":
