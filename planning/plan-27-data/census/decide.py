@@ -114,15 +114,15 @@ def section(rows):
     groups = collections.defaultdict(list)
     for r in rows:
         if r["decision"] == "skip":
-            groups[(maker_name(r["maker"]), r["reason"])].append(r)
+            groups[(maker_name(r["maker"]), r["series"], r["reason"])].append(r)
     lines = [HEAD, "",
              "In-stock Active / Last Time Buy tactile switches of the ten makers of plan-27",
              "(`planning/plan-27-data/candidates.tsv`, DigiKey category Tactile Switches) left",
              "out. This section is written by `planning/plan-27-data/census/decide.py --skipped`.",
              "", "| Part(s) | Series | Would have gone into | Why skipped |", "|---|---|---|---|"]
-    for (maker, reason) in sorted(groups):
-        g = sorted(groups[(maker, reason)], key=lambda r: r["mpn"])
-        series = ", ".join(sorted({r["series"] for r in g}))
+    for (maker, series, reason) in sorted(groups):
+        g = sorted(groups[(maker, series, reason)], key=lambda r: r["mpn"])
+        series = series if series not in ("", "-", "*") else "(no DigiKey series)"
         parts = ", ".join(r["mpn"] for r in g)
         lines.append(f"| {parts} | {maker} {series} | `switch` / Switch → Tactile | {reason} |")
     return "\n".join(lines) + "\n"

@@ -114,8 +114,12 @@ Commit: cbb9595, 078a530
       `skip` or `out` is listed in `datasheets/obsolete-not-included.md` only if
       the reason is `datasheet status`; for every other reason its rows are
       already in `datasheets/skipped-parts.md`.
-- [ ] `datasheets/skipped-parts.md`: add the rows B and C decided `skip`
+- [x] `datasheets/skipped-parts.md`: add the rows B and C decided `skip`
       (reason `not in the datasheet's ordering table`), grouped by series.
+      `decide.py --skipped` now writes one row per (maker, series, reason)
+      (it was per maker and reason) and runs after every merge; the reason
+      names the datasheet and page of the key. Re-run after TE's merge:
+      see below.
 - [ ] § Summary: the totals — `add` rows per maker and overall, `skip` and `out`
       by reason, devices (`grep -c '"id": "tact_"'`), footprints added.
 
