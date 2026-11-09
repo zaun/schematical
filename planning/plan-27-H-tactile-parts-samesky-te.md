@@ -27,7 +27,7 @@ The gate for the whole feature is in plan-27-A § Prerequisites. This letter add
 | Must be true | Command | Status |
 |---|---|---|
 | plan-27-G is complete | `ls planning/completed/plan-27-G-*` → one file | NOT MET until G archives (2026-11-07) |
-| Golden size at start | `wc -l < backend/tests/golden/parts.txt` → **P_H** | record at start (11126 + the earlier letters' parts) |
+| Golden size at start | `wc -l < backend/tests/golden/parts.txt` → **P_H** | record at start (13158 after main's merge + the earlier letters' parts) |
 
 If plan-27-G is not complete, this plan cannot start, full stop.
 
@@ -108,7 +108,7 @@ Commit: —
 - Coverage check: `grep -c 'Switch/Tactile' backend/tests/golden/parts.txt` = the running total of `add` rows landed so far.
 - Runtime proof: none beyond the goldens (the app proof is K).
 - Doc sync: none (format and generator docs landed in D and E).
-- Final gate (once, after the last phase): `ctest --test-dir /tmp/logic-p27 -j8` → `100% tests passed, 0 tests failed out of 25` (est. 6 min).
+- Final gate (once, after the last phase): `ctest --test-dir /tmp/logic-p27 -j8` → `100% tests passed, 0 tests failed out of 28` (est. 6 min).
 
 ## Decisions
 
@@ -117,7 +117,7 @@ Commit: —
 
 ## Corrections
 
-<!-- filled in during execution -->
+1. 2026-11-08 — after main's merge (plan-27-A Correction 3) ctest runs **28** programs (T0 = 27 + `tactile_test`), not 25, and the goldens start at P0 = R0 = **13158**, F0 = **508**; the gates above say so. Parts also carry `manufacturer` and `datasheet` (plan-27-E Correction 1), which the generator writes; nothing else changes here.
 
 ## Summary
 

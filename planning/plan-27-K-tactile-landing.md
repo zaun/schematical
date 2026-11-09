@@ -58,8 +58,8 @@ If plan-27-J is not complete, this plan cannot start, full stop.
 | What | Count | Command |
 |---|---|---|
 | Tactile parts landed (N_total) | `add` rows | `awk -F'\t' '$18=="add"' planning/plan-27-data/candidates.tsv \| wc -l` equals `grep -c 'Switch/Tactile' backend/tests/golden/parts.txt` |
-| Golden growth | N_total each in `parts.txt` and `traces.txt` | `wc -l backend/tests/golden/parts.txt` = P0 + N_total (P0 = 11126 at planning time) |
-| ctest programs | 25 | `ctest --test-dir /tmp/logic-p27 -N \| tail -1` → `Total Tests: 25` |
+| Golden growth | N_total each in `parts.txt` and `traces.txt` | `wc -l backend/tests/golden/parts.txt` = P0 + N_total (P0 = 13158 after main's merge; 11126 at planning time) |
+| ctest programs | 28 | `ctest --test-dir /tmp/logic-p27 -N \| tail -1` → `Total Tests: 28` |
 | Tactile devices | D_total | `grep -c '"id": "tact_' schematical/schematical/Parts/switch.json` |
 
 ### Verified properties
@@ -103,7 +103,7 @@ Commit: —
 ### Phase 2 — Landing tier
 
 - [ ] `cmake -S backend -B /tmp/logic-p27 && cmake --build /tmp/logic-p27 -j8 &&
-      ctest --test-dir /tmp/logic-p27 -j8` → `100% tests passed, 0 tests failed out of 25`.
+      ctest --test-dir /tmp/logic-p27 -j8` → `100% tests passed, 0 tests failed out of 28`.
 - [ ] `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical
       test CODE_SIGNING_ALLOWED=NO` → 0 failures.
 - [ ] `git diff --numstat backend/tests/golden` over the plan's commits shows no
@@ -149,7 +149,7 @@ Commit: —
 
 ## Corrections
 
-<!-- filled in during execution -->
+1. 2026-11-08 — after main's merge (plan-27-A Correction 3) ctest runs **28** programs (T0 = 27 + `tactile_test`), not 25, and the goldens start at P0 = R0 = **13158**, F0 = **508**; the gates above say so. Parts also carry `manufacturer` and `datasheet` (plan-27-E Correction 1), which the generator writes; nothing else changes here.
 
 ## Summary
 
