@@ -26,7 +26,8 @@ import SwiftUI
 ///   drag to cancel it (no bus is placed).
 /// - Bus Port: click a bus line (not its ends or a T) to add an empty port
 ///   there; tick wires in its panel to give it pins.
-/// - Eraser: click a block, wire or bus line to remove it. A drag erases nothing.
+/// - Eraser: click a block, wire or bus line to remove it. A block's wires stay,
+///   with loose ends. A drag erases nothing.
 /// - Flip: click a part to flip it left and right.
 /// - VCC and GND: click the canvas to place a supply there.
 /// - Text: click to add a text block there (or on a block, to select it);

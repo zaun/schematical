@@ -1424,7 +1424,8 @@ final class SchematicDocument {
     /// caller looks up `HeaderFamily.name(rows:perRow:)` in its catalog).
     /// Reference, origin, flip, gender, footprint type and board placement
     /// are kept, and on the PCB pad 1 keeps its board point. Wires on pins
-    /// the new size doesn't have are removed; the rest are re-fitted. Does
+    /// the new size doesn't have stay, with loose ends at those pins' old
+    /// tips; the rest are re-fitted. Does
     /// nothing unless both are headers and `newPart` is another size.
     func setHeaderSize(_ id: UUID, to newPart: CatalogPart) {
         guard let index = chips.firstIndex(where: { $0.id == id }),
@@ -1435,16 +1436,12 @@ final class SchematicDocument {
         let anchor = old.board.flatMap { board in
             old.footprint?.pads.first { $0.designator == pad1 }.map { board.board($0.centre) }
         }
-        chips[index] = old.resized(to: newPart)
         let pinCount = newPart.pins.count
-        let before = wires.count
-        wires.removeAll { wire in
-            [wire.start, wire.end].contains { end in
-                if case let .pin(ref) = end { return ref.chipID == id && ref.index >= pinCount }
-                return false
-            }
+        loosen { end in
+            if case let .pin(ref) = end { return ref.chipID == id && ref.index >= pinCount }
+            return false
         }
-        if wires.count != before { pruneJunctions() }
+        chips[index] = old.resized(to: newPart)
         if let anchor, var board = chips[index].board,
            let pad = chips[index].footprint?.pads.first(where: { $0.designator == pad1 }) {
             let landed = board.board(pad.centre)
@@ -2536,6 +2533,38 @@ final class SchematicDocument {
         pruneSelection()
     }
 
+    /// Turns every wire end that `matches` into a loose junction at that
+    /// end's tip, so the wire keeps its route when the pin goes away (plan-30).
+    /// Ends with the same tip share one junction. A junction already at that
+    /// point is reused and marked loose. Call it while the tips still
+    /// resolve, before the pins go away; an end whose tip doesn't resolve is
+    /// left alone.
+    private func loosen(where matches: (WireEnd) -> Bool) {
+        var byPoint: [CGPoint: UUID] = [:]
+        func looseJunction(at point: CGPoint) -> UUID {
+            if let id = byPoint[point] { return id }
+            let id: UUID
+            if let index = junctions.firstIndex(where: { $0.point == point }) {
+                junctions[index].isLoose = true
+                id = junctions[index].id
+            } else {
+                let created = Junction(point: point, isLoose: true)
+                junctions.append(created)
+                id = created.id
+            }
+            byPoint[point] = id
+            return id
+        }
+        for index in wires.indices {
+            if matches(wires[index].start), let tip = endTip(wires[index].start) {
+                wires[index].start = .junction(looseJunction(at: tip))
+            }
+            if matches(wires[index].end), let tip = endTip(wires[index].end) {
+                wires[index].end = .junction(looseJunction(at: tip))
+            }
+        }
+    }
+
     /// Whether a wire end sits on a pin of the given bus port.
     private func attaches(_ end: WireEnd, toPort portID: UUID) -> Bool {
         if case let .busPin(ref) = end {
@@ -2784,8 +2813,8 @@ final class SchematicDocument {
 
     /// Sets which bus wires are pins on a port (ticks, Select All, Deselect
     /// All). More pins than fit is refused with a message and changes
-    /// nothing; a port that grows may move left (up) to fit. Unticked pins
-    /// take the wires on them along.
+    /// nothing; a port that grows may move left (up) to fit. The wires on
+    /// unticked pins stay, with loose ends.
     func setPortWires(_ portID: UUID, _ ids: Set<UUID>) -> String? {
         guard let at = portLocation(portID) else { return nil }
         let bus = buses[at.bus]
@@ -2796,9 +2825,7 @@ final class SchematicDocument {
         }
         let removing = port.wireIDs.subtracting(wanted)
         if !removing.isEmpty {
-            wires.removeAll {
-                endsOn($0.start, port: portID, wireIDs: removing) || endsOn($0.end, port: portID, wireIDs: removing)
-            }
+            loosen { endsOn($0, port: portID, wireIDs: removing) }
             pruneJunctions()
         }
         buses[at.bus].ports[at.port].start = start
@@ -2989,23 +3016,24 @@ final class SchematicDocument {
         let count = wiresOnPins(port: portID, removing: removing)
         if count > 0 {
             pendingRemoval = PendingRemoval(
-                message: "Remove \(Self.counted(removing.count, "pin")) and the \(Self.counted(count, "wire")) connected to them?",
+                message: "Remove \(Self.counted(removing.count, "pin"))? The \(Self.counted(count, "wire")) on them stay, with loose ends.",
                 action: .untick(port: portID, keeping: ids))
             return nil
         }
         return setPortWires(portID, ids)
     }
 
-    /// Removes a port and the wires on its pins.
+    /// Removes a port. The wires on its pins stay, with loose ends.
     private func removePort(_ portID: UUID) {
         guard let at = portLocation(portID) else { return }
+        loosen { endsOn($0, port: portID) }
         buses[at.bus].ports.remove(at: at.port)
-        wires.removeAll { endsOn($0.start, port: portID) || endsOn($0.end, port: portID) }
         pruneJunctions()
         if selectedPortID == portID { selectedPortID = nil }
     }
 
-    /// Removes one bus line, with its ports and the wires on their pins. A bus
+    /// Removes one bus line, with its ports; the wires on their pins stay, with
+    /// loose ends. A bus
     /// with no lines left is removed. If the rest falls into pieces, the piece
     /// holding the first remaining line keeps the bus; each other piece
     /// becomes a bus of its own with the same wire names and fresh wire ids,
@@ -3014,8 +3042,9 @@ final class SchematicDocument {
     private func removeBusLine(bus id: UUID, line lineID: UUID) {
         guard let index = buses.firstIndex(where: { $0.id == id }) else { return }
         var bus = buses[index]
+        // Loosen first, while the removed ports' pin tips still resolve.
         for port in bus.ports where port.line == lineID {
-            wires.removeAll { endsOn($0.start, port: port.id) || endsOn($0.end, port: port.id) }
+            loosen { endsOn($0, port: port.id) }
             if selectedPortID == port.id { selectedPortID = nil }
         }
         bus.ports.removeAll { $0.line == lineID }
@@ -3065,20 +3094,21 @@ final class SchematicDocument {
 
     // MARK: Erasing
 
-    /// Removes whatever is under `point`: a block (and its wires) first, then
-    /// a bus port, then a wire, then a bus line, then a text block. A port with wires on its
-    /// pins, or a bus line with ports, asks first (`pendingRemoval`); while
+    /// Removes whatever is under `point`: a block first (its wires stay, with
+    /// loose ends where its pins were), then
+    /// a bus port, then a wire, then a bus line, then a text block. A port with
+    /// wires on its pins, or a bus line with ports, asks first (`pendingRemoval`); while
     /// that is up, nothing is erased.
     func erase(at point: CGPoint, tolerance: CGFloat = 6) {
         guard pendingRemoval == nil else { return }
         if let hit = chip(at: point) {
+            loosen { attaches($0, to: hit.id) }
             chips.removeAll { $0.id == hit.id }
-            wires.removeAll { attaches($0.start, to: hit.id) || attaches($0.end, to: hit.id) }
         } else if let portID = portHit(at: point) {
             let count = wiresOnPins(port: portID)
             if count > 0 {
                 pendingRemoval = PendingRemoval(
-                    message: "Delete this port and the \(Self.counted(count, "wire")) connected to it?",
+                    message: "Delete this port? The \(Self.counted(count, "wire")) on its pins stay, with loose ends.",
                     action: .port(portID))
             } else {
                 removePort(portID)
@@ -3093,7 +3123,7 @@ final class SchematicDocument {
             } else {
                 let count = ports.map { wiresOnPins(port: $0.id) }.reduce(0, +)
                 pendingRemoval = PendingRemoval(
-                    message: "Delete this bus line, its \(Self.counted(ports.count, "port")) and the \(Self.counted(count, "wire")) connected to them?",
+                    message: "Delete this bus line and its \(Self.counted(ports.count, "port"))? The \(Self.counted(count, "wire")) on their pins stay, with loose ends.",
                     action: .busLine(bus: hit.bus, line: hit.line))
             }
             return

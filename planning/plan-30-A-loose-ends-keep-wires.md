@@ -208,27 +208,27 @@ changes.
 
 Acceptance: a loose junction survives save and open, and a plain one writes no `loose` key.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/LooseEndTests CODE_SIGNING_ALLOWED=NO` → all pass (est. 4 min).
-Commit: —
+Commit: bcb1c92
 
 ### Phase 2 — Removals keep their wires
 
-- [ ] `Canvas/SchematicModel.swift`: `loosen(where:)` (§ 4.1).
-- [ ] The five sites in § 4.2.
-- [ ] The three prompt texts in § 4.3.
-- [ ] `Canvas/SchematicCanvasView.swift:29` header comment: "Eraser: click
+- [x] `Canvas/SchematicModel.swift`: `loosen(where:)` (§ 4.1).
+- [x] The five sites in § 4.2.
+- [x] The three prompt texts in § 4.3.
+- [x] `Canvas/SchematicCanvasView.swift:29` header comment: "Eraser: click
       a block, wire or bus line to remove it. A block's wires stay, with
       loose ends."
-- [ ] `schematicalTests/SelectionModelTests.swift:275` comment: "Erasing the
+- [x] `schematicalTests/SelectionModelTests.swift:275` comment: "Erasing the
       lower LED leaves its wire with a loose end."
-- [ ] `scripts/harness/bus-erase.swift`: it checks the old behavior. Change
+- [x] `scripts/harness/bus-erase.swift`: it checks the old behavior. Change
       the three prompt strings (:37, :53, :66) to § 4.3's. The "wire gone"
       checks (:44, :58, :69) become "wire count unchanged, and the wire
       that was on the pin now ends on a loose junction".
-- [ ] `scripts/harness/generic-header.swift` :155–158: the pin-8 wire is
+- [x] `scripts/harness/generic-header.swift` :155–158: the pin-8 wire is
       now kept with a loose end. Expect 3 wires; the pin-8 wire ends on a
       new loose junction at the old pin-8 tip, and its other junction
       (`junctions[2]`) stays, so there are 4 junctions.
-- [ ] Tests in `LooseEndTests.swift`:
+- [x] Tests in `LooseEndTests.swift`:
   - `testErasingABlockKeepsItsWires`: two parts joined by one wire; erase
     one. The wire count is unchanged, the path is unchanged, and the erased
     end is a loose junction at the old tip.
@@ -242,6 +242,11 @@ Commit: —
   - `testUntickingAPortPinKeepsItsWire`: `setPortWires` without the pin.
     The wire stays, with a loose end.
   - `testErasingAWireStillDeletesIt`: the :3084 branch is unchanged.
+- [x] Observed: the unit Check → `Executed 33 tests, with 0 failures`,
+      `** TEST SUCCEEDED **`. Harness (built with
+      `APP=/tmp/p30-dd/.../schematical.app`, out dir `/tmp/p30-harness`):
+      `bus-erase` 29 ok lines, 0 FAIL, `ALL OK`; `generic-header` 15 ok
+      lines, 0 FAIL.
 
 Acceptance: each removal leaves its wires with loose ends, and erasing a wire still deletes it.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/LooseEndTests -only-testing:schematicalTests/SelectionModelTests -only-testing:schematicalTests/BusJoinTests CODE_SIGNING_ALLOWED=NO` → all pass (est. 4 min).
@@ -269,6 +274,16 @@ Commit: —
   line itself is still lost. (§ 4.3)
 
 ## Corrections
+
+- § 4.2 `setHeaderSize`: the old code called `pruneJunctions()` only when a
+  wire was removed. With nothing removed any more, that call is dropped
+  rather than kept as a no-op (no selection can go stale: no item is
+  removed). The `loosen` call runs before `chips[index] = old.resized(…)`,
+  while the dropped pins' tips still resolve.
+- The plan's harness command writes to the shared `/tmp/schematical-harness`
+  and builds its own app copy; runs here used `APP=` the plan's
+  `/tmp/p30-dd` build and out dir `/tmp/p30-harness` so other sessions'
+  harness runs can't collide. Same scripts, same checks.
 
 ## Summary
 
