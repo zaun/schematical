@@ -202,13 +202,24 @@ bytes, SHA-256. A PDF no `add` or `pending` row uses is not copied.
 The numbers in § 2 are from 2026-11-07; stock moves. Re-measure before
 anything else.
 
-- [ ] Run `planning/plan-27-data/census/list.sh /tmp/p27/raw` (load
+- [x] Run `planning/plan-27-data/census/list.sh /tmp/p27/raw` (load
       `DIGIKEY_*` from `~/.zshrc` first; 229 calls), then
       `python3 -I census/build.py /tmp/p27/raw /tmp/p27/all.tsv` and
       `python3 -I census/select.py /tmp/p27/all.tsv /tmp/p27/cand.tsv`.
-- [ ] Compare with § 2. Where a count differs, write the new count and the
+      Run 2026-11-08 one maker at a time with retries (Correction 5:
+      `/tmp/p27/scripts/seq.sh`, `samesky.sh`, the same `digikey.js` call):
+      C&K `572 of 573 parts, 71 pages`, E-Switch `418 of 418`, Same Sky `405 of
+      405` (8th try after DNS failures), TE `268 of 268`, Aratas `251 of 251`,
+      Panasonic `227 of 227`, Alps `152 of 152`, Würth `143 of 143`, NKK `167 of
+      167`, APEM `147 of 147`; `build.py` → `2750 parts`; `select.py` → `2337
+      ('candidate', '')`, `30 ('check', …)`, out `28` circuit, `349` lit, `5`
+      mounting, `1` stock.
+- [x] Compare with § 2. Where a count differs, write the new count and the
       date in § Corrections and carry it into B–I's goal numbers; the design
-      is unchanged.
+      is unchanged. Every § 2 census count is equal (2750 parts; 2337 / 30 /
+      383; per maker 572 … 147). The (maker, part) set and every first-pass
+      decision are identical to the planning file (`diff` of `cut -f1,2,18` →
+      no lines); 19 rows differ only in other columns (stock).
 - [ ] `python3 -I census/fetch.py /tmp/p27/cand.tsv /tmp/p27/pdf` then
       `python3 -I census/textscan.py /tmp/p27/cand.tsv /tmp/p27/pdf
       planning/plan-27-data/candidates.tsv` (≈ 15 min: te.com is serial).
@@ -350,6 +361,18 @@ Commit: —
    E-Switch 9, TE 2; `waldomemea.com` C&K 9, APEM 5, Aratas 5;
    `ariat-tech.tw` APEM 2 (a distributor, not DigiKey or Waldom: rule 3
    makes those two `skip`, reason `distributor copy`).
+6. 2026-11-08 — **rule 4's "printed verbatim" was a substring test.**
+   `textscan.py` stripped punctuation and searched the whole text, so a
+   number that is only the prefix of a longer printed code counted
+   (`B3SE-1002` where only `B3SE-1002P` is printed; found by the Omron
+   reader). `textscan.py` now also requires the number to stand on its own
+   (its characters in order, at most two punctuation / space characters
+   between them, no letter or digit right before or after) and reads the
+   text NFKC-normalised (Alps prints numbers in full-width characters, which
+   the old test missed). Measured on the pre-census copy: 8 of 775 verbatim
+   hits were not bounded (`/tmp/p27/scripts/bound.py`: Aratas 3, E-Switch 2,
+   C&K 1, NKK 1, Same Sky 1); they become `pending` and their series' key
+   decides them.
 5. 2026-11-08 — the census hit a degraded network: DigiKey connects timed out
    (`UND_ERR_CONNECT_TIMEOUT`) while the 600 MB of PDF downloads ran, and
    searches took 76 s each (`curl`, `/products/v4/search/keyword`, 5

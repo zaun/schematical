@@ -1,9 +1,10 @@
 """Helper of fp-load.sh (plan-27-B section 4.4).
 
 usage: fp-merge.py <footprints.json> <footprints-X.json>...   append the objects (one line each)
-       fp-merge.py --expect <footprint_check output> <footprints-X.json>...
-           exit 0 when every failure line is "extra footprint (not in the golden)"
-           or "unused footprint" for exactly the new ids, and nothing else failed.
+       fp-merge.py --expect <check output> <check --print output> <golden> <footprints-X.json>...
+           exit 0 when the printed footprints beyond the golden are exactly the new
+           ids, none has overlapping pads, and the check run failed only with
+           "extra footprint" / "unused footprint" lines for new ids.
 """
 import json
 import re
@@ -56,20 +57,27 @@ def overlaps(line):
     return out
 
 
-def expect(out_path, paths):
+def expect(out_path, all_path, golden_path, paths):
+    """footprint_check prints at most 10 extra/unused lines, so the new ids
+    and their pads come from `footprint_check --print` (every footprint) minus
+    the golden; the normal run's output may hold only extra/unused lines for
+    new ids, its summary and the mismatch count."""
     ids = {o["id"] for o in objects(paths)}
-    text = open(out_path).read()
-    extra, unused, other = set(), set(), []
-    for line in text.splitlines():
-        m = re.match(r"extra footprint \(not in the golden\): ([^|\s]+)", line)
+    golden = {l.split("|")[0] for l in open(golden_path).read().splitlines() if l}
+    printed = {}
+    for line in open(all_path).read().splitlines():
+        if line:
+            printed[line.split("|")[0]] = line
+    other = []
+    new = set(printed) - golden
+    for i in sorted(new):
+        for clash in overlaps(printed[i]):
+            other.append(f"{i}: pads {clash} overlap")
+    for line in open(out_path).read().splitlines():
+        m = re.match(r"(?:extra footprint \(not in the golden\)|unused footprint): ([^|\s]+)", line)
         if m:
-            extra.add(m.group(1))
-            for clash in overlaps(line):
-                other.append(f"{m.group(1)}: pads {clash} overlap")
-            continue
-        m = re.match(r"unused footprint: (\S+)", line)
-        if m:
-            unused.add(m.group(1))
+            if m.group(1) not in ids:
+                other.append(line)
             continue
         if re.match(r"\d+ footprints compared, \d+ parts loaded$|FAIL: \d+ mismatches$", line):
             continue
@@ -78,10 +86,9 @@ def expect(out_path, paths):
     for line in other:
         print("other failure:", line)
         bad = True
-    for name, got in (("extra", extra), ("unused", unused)):
-        if got != ids:
-            print(f"{name} ids differ: not new {sorted(got - ids)}; new but not reported {sorted(ids - got)}")
-            bad = True
+    if new != ids:
+        print(f"loaded ids differ: not in the files {sorted(new - ids)}; not loaded {sorted(ids - new)}")
+        bad = True
     print(f"{len(ids)} new footprints: {'load ok' if not bad else 'FAILED'}")
     return 1 if bad else 0
 
@@ -89,5 +96,5 @@ def expect(out_path, paths):
 if __name__ == "__main__":
     a = sys.argv[1:]
     if a[0] == "--expect":
-        sys.exit(expect(a[1], a[2:]))
+        sys.exit(expect(a[1], a[2], a[3], a[4:]))
     sys.exit(merge(a[0], a[1:]))

@@ -16,4 +16,5 @@ python3 -I "$HERE/fp-merge.py" "$DST/schematical/schematical/Parts/footprints.js
 cmake -S "$DST/backend" -B "$DST/build" > "$DST/cmake.log" 2>&1 || { tail -20 "$DST/cmake.log"; exit 1; }
 cmake --build "$DST/build" -j8 --target footprint_check > "$DST/build.log" 2>&1 || { tail -20 "$DST/build.log"; exit 1; }
 "$DST/build/footprint_check" > "$DST/out.txt" 2>&1
-python3 -I "$HERE/fp-merge.py" --expect "$DST/out.txt" "$@"
+"$DST/build/footprint_check" --print > "$DST/all.txt" 2>&1
+python3 -I "$HERE/fp-merge.py" --expect "$DST/out.txt" "$DST/all.txt" "$REPO/backend/tests/golden/footprints.txt" "$@"
