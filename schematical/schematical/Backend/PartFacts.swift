@@ -42,10 +42,11 @@ nonisolated enum PartFacts {
             add("Positions", String(positions))
             add("Actuator", actuator)
             if ratedMV > 0 { add("Rating", "\(VoltageCheck.volts(ratedMV)) V max") }
-        case let .tactileSwitch(actuator, ratedMV, normallyClosed, _):
+        case let .tactileSwitch(actuator, ratedMV, normallyClosed, _, body):
             add("Contact", normallyClosed ? "Normal close, momentary" : "Normal open, momentary")
             add("Terminals", String(part.pins.filter { !$0.isHidden }.count))
             add("Actuator", actuator)
+            if let body { add("Body", body.label) }
             if ratedMV > 0 { add("Rating", "\(VoltageCheck.volts(ratedMV)) V max") }
         case let .led(colors):
             add("Color", chip.color ?? colors.first ?? "")

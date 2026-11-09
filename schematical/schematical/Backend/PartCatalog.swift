@@ -63,6 +63,21 @@ nonisolated struct ChipPin: Hashable, Sendable, Identifiable {
 }
 
 /// How a 7-segment display is drawn and which LED is which.
+/// A switch's nominal body size from the part file's "bodySize" (length,
+/// the larger side, then width), in micrometres.
+nonisolated struct BodySize: Hashable, Sendable {
+    let lengthUM: UInt32
+    let widthUM: UInt32
+
+    /// "6 × 6 mm", "6.2 × 3.5 mm".
+    var label: String {
+        func mm(_ um: UInt32) -> String {
+            um % 1000 == 0 ? String(um / 1000) : String(format: "%g", Double(um) / 1000)
+        }
+        return "\(mm(lengthUM)) × \(mm(widthUM)) mm"
+    }
+}
+
 nonisolated struct DisplayInfo: Hashable, Sendable {
     /// One LED: a segment of a digit (1 = leftmost), or a colon or dot LED
     /// (digit 0; segment "L1", "L2" or "L3").
@@ -211,8 +226,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// A tactile (momentary) switch, plan-27: one contact, closed while
         /// pressed (normally open) or while released (normally closed);
         /// `joined`: pin pairs connected inside the part (2 on a
-        /// four-terminal switch, 0 on a two-terminal one).
-        case tactileSwitch(actuator: String, ratedMV: UInt32, normallyClosed: Bool, joined: Int)
+        /// four-terminal switch, 0 on a two-terminal one); `body`: its
+        /// nominal size, the drawer group it is listed under.
+        case tactileSwitch(actuator: String, ratedMV: UInt32, normallyClosed: Bool, joined: Int, body: BodySize?)
         /// An LED: the colors a placed one may have; the first is the default.
         case led(colors: [String])
         case display(DisplayInfo)
@@ -296,7 +312,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .display(info) where info.vfMaxMV > 0:
             return "VF \(VoltageCheck.volts(info.vfMinMV))–\(VoltageCheck.volts(info.vfMaxMV)) V"
         case let .dipSwitch(_, _, ratedMV) where ratedMV > 0,
-             let .tactileSwitch(_, ratedMV, _, _) where ratedMV > 0:
+             let .tactileSwitch(_, ratedMV, _, _, _) where ratedMV > 0:
             return "\(VoltageCheck.volts(ratedMV)) V max"
         case let .connector(_, ratedMV, _, _) where ratedMV > 0:
             return "\(VoltageCheck.volts(ratedMV)) V max"
@@ -313,8 +329,22 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
 
     /// A tactile switch's contact is closed at rest (Normal Close).
     var isNormallyClosed: Bool {
-        if case let .tactileSwitch(_, _, normallyClosed, _) = details { return normallyClosed }
+        if case let .tactileSwitch(_, _, normallyClosed, _, _) = details { return normallyClosed }
         return false
+    }
+
+    /// A tactile switch's actuator ("Standard", "Round Button"); nil for
+    /// other parts.
+    var tactileActuator: String? {
+        if case let .tactileSwitch(actuator, _, _, _, _) = details { return actuator }
+        return nil
+    }
+
+    /// The drawer group a part is listed under, below its drawer path: a
+    /// tactile switch's body size ("6 × 6 mm"), else its function.
+    var drawerLeaf: String {
+        if case let .tactileSwitch(_, _, _, _, body?) = details { return body.label }
+        return function
     }
 
     /// Gate, flip-flop, latch, counter, shift register, decoder, buffer,
@@ -430,7 +460,8 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .sram(_, _, accessNs, _): return ["\(accessNs) ns"]
         case let .eeprom(_, _, accessNs, _, _, _): return ["\(accessNs) ns"]
         case let .dipSwitch(_, actuator, _): return [actuator]
-        case let .tactileSwitch(actuator, _, _, _): return [actuator]
+        case let .tactileSwitch(actuator, _, normallyClosed, _, _):
+            return [actuator] + (normallyClosed ? ["Normal close"] : [])
         case let .led(colors): return colors.count == 1 ? colors : ["\(colors.count) colors"]
         case let .display(info): return [info.color, info.size, info.commonAnode ? "CA" : "CC"]
         case let .oscillator(family, _, _, _, _): return [family]
@@ -554,7 +585,8 @@ extension CatalogPart {
                               writeCycleUs: Int(eeprom.write_cycle_ps / 1_000_000))
         } else if let dip = part.dip_switch?.pointee, dip.momentary != 0 {
             details = .tactileSwitch(actuator: string(dip.actuator), ratedMV: dip.rated_mv,
-                                     normallyClosed: dip.normally_closed != 0, joined: Int(dip.joined))
+                                     normallyClosed: dip.normally_closed != 0, joined: Int(dip.joined),
+                                     body: dip.body_um.0 > 0 ? BodySize(lengthUM: dip.body_um.0, widthUM: dip.body_um.1) : nil)
         } else if let dip = part.dip_switch?.pointee {
             details = .dipSwitch(positions: Int(dip.positions), actuator: string(dip.actuator),
                                  ratedMV: dip.rated_mv)
@@ -724,6 +756,8 @@ struct DrawerFilter: Equatable {
     /// Digits and digit height. Only narrow 7-segment displays.
     var displayDigits: Int?
     var displaySize: String?
+    /// Actuator ("Standard", "Round Button", ...). Only narrows tactile switches.
+    var tactileActuator: String?
     /// Resolution and channel count, by converter type ("adc", "dac"), so the
     /// ADC and DAC groups filter separately.
     var converterBits: [String: Int] = [:]
@@ -781,6 +815,8 @@ final class PartCatalogStore {
     }
 
     struct FunctionGroup: Identifiable, Hashable {
+        /// The group's name: the parts' function, or a tactile switch size
+        /// ("6 × 6 mm"; `CatalogPart.drawerLeaf`).
         let function: String
         let parts: [CatalogPart]
 
@@ -901,6 +937,16 @@ final class PartCatalogStore {
         sortedNames(entries.compactMap(\.display).map(\.size))
     }
 
+    /// Whether a second-level drawer group lists tactile switches.
+    func isTactile(subcategory: String) -> Bool {
+        entries.contains { $0.isTactileSwitch && $0.drawer.count > 1 && $0.drawer[1] == subcategory }
+    }
+
+    /// The tactile switches' actuators ("Round Button", "Standard", ...).
+    var tactileActuators: [String] {
+        sortedNames(entries.compactMap(\.tactileActuator))
+    }
+
     /// The VCC tool's rails (`SupplyChoice`) that at least one listed part
     /// runs at, in menu order, with their voltage in millivolts.
     var voltageChoices: [(name: String, mv: UInt32)] {
@@ -957,7 +1003,7 @@ final class PartCatalogStore {
                 if case let .dipSwitch(_, _, ratedMV) = part.details, ratedMV > 0, ratedMV < mv {
                     return false
                 }
-                if case let .tactileSwitch(_, ratedMV, _, _) = part.details, ratedMV > 0, ratedMV < mv {
+                if case let .tactileSwitch(_, ratedMV, _, _, _) = part.details, ratedMV > 0, ratedMV < mv {
                     return false
                 }
             }
@@ -972,7 +1018,10 @@ final class PartCatalogStore {
                     return false
                 }
             }
-            let fields = [part.name, part.function, part.description] + part.drawer
+            if let wanted = filter.tactileActuator, let actuator = part.tactileActuator, actuator != wanted {
+                return false
+            }
+            let fields = [part.name, part.function, part.drawerLeaf, part.description] + part.drawer
             return needle.isEmpty || fields.contains { $0.localizedStandardContains(needle) }
         }
 
@@ -1000,8 +1049,8 @@ final class PartCatalogStore {
     }
 
     /// DIP switches, LEDs, 7-segment displays, character LCDs and the generic
-    /// header are listed with no function level. Tactile switches keep theirs
-    /// (Normal Open, Normal Close; plan-27-J).
+    /// header are listed with no function level. Tactile switches are grouped
+    /// by body size instead (`drawerLeaf`).
     private static func listsPartsDirectly(_ parts: [CatalogPart]) -> Bool {
         parts.allSatisfy {
             ($0.kind == PART_SWITCH && !$0.isTactileSwitch) || $0.kind == PART_LED || $0.kind == PART_7SEG || $0.kind == PART_CHARLCD
@@ -1018,10 +1067,10 @@ final class PartCatalogStore {
         }
     }
 
-    /// Parts grouped by function, functions and parts in natural order
-    /// ("8 KB" before "32 KB").
+    /// Parts grouped by `drawerLeaf` (the function, or a tactile switch's
+    /// size), groups and parts in natural order ("8 KB" before "32 KB").
     private static func functionGroups(_ parts: [CatalogPart]) -> [FunctionGroup] {
-        Dictionary(grouping: parts, by: \.function)
+        Dictionary(grouping: parts, by: \.drawerLeaf)
             .sorted { $0.key.localizedStandardCompare($1.key) == .orderedAscending }
             .map { function, parts in
                 FunctionGroup(

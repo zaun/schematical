@@ -94,6 +94,10 @@ static void print_details(FILE *out, const Part *part) {
             if (part->dip_switch->momentary) fprintf(out, " momentary");
             if (part->dip_switch->normally_closed) fprintf(out, " nc");
             if (part->dip_switch->joined > 0) fprintf(out, " joined=%u", part->dip_switch->joined);
+            if (part->dip_switch->body_um[0] > 0) {
+                fprintf(out, " body=%ux%uum", (unsigned)part->dip_switch->body_um[0],
+                        (unsigned)part->dip_switch->body_um[1]);
+            }
             break;
         case PART_LED: {
             size_t k;

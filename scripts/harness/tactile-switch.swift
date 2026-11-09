@@ -38,10 +38,10 @@ MainActor.assumeIsolated { runTactileSwitchChecks() }
     let groups = Harness.catalog.groups(matching: DrawerFilter())
     let seconds = Date().timeIntervalSince(started)
     let tactile = groups.first { $0.category == "Switch" }?.subcategories.first { $0.subcategory == "Tactile" }
-    check(String(format: "1 drawer: Switch → Tactile has Normal Close and Normal Open (groups(matching:) %.3f s)", seconds)) {
+    check(String(format: "1 drawer: Switch → Tactile is grouped by body size (groups(matching:) %.3f s)", seconds)) {
         guard let tactile else { return "no Switch → Tactile" }
         let leaves = tactile.functions.map(\.function)
-        return leaves == ["Normal Close", "Normal Open"] ? nil : "leaves \(leaves)"
+        return leaves.contains("6 × 6 mm") && leaves.allSatisfy { $0.hasSuffix(" mm") } ? nil : "leaves \(leaves)"
     }
     let parts = (tactile?.functions ?? []).flatMap(\.parts).sorted { $0.name < $1.name }
     func terminals(_ part: CatalogPart) -> Int { part.pins.filter { !$0.isHidden }.count }
