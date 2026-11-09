@@ -63,6 +63,8 @@ struct ReferenceSection: View {
             }
         }
         .onAppear(perform: resetReference)
+        // Undo and redo rename from outside the fields (plan-31).
+        .onChange(of: chip.reference) { _, _ in resetReference() }
     }
 
     private func commitReference() {

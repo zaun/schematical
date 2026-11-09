@@ -1312,8 +1312,9 @@ final class SchematicDocument {
         }
     }
 
-    /// The PCB's size, layers, colour and units.
-    var board = BoardSettings()
+    /// The PCB's size, layers, colour and units. Changed through the edit
+    /// functions, so every change is an undo step.
+    private(set) var board = BoardSettings()
     /// Free texts on the PCB, in drawing order.
     private(set) var texts: [BoardText] = []
     /// Copper traces on the PCB, in drawing order (plan-16).
@@ -1848,68 +1849,78 @@ final class SchematicDocument {
     /// Moves a footprint's centre (board mm), then snaps its origin point to
     /// the board grid.
     func moveFootprint(_ id: UUID, to centre: CGPoint) {
-        guard let index = chips.firstIndex(where: { $0.id == id }),
-              let board = chips[index].board,
-              let footprint = chips[index].footprint else { return }
-        var moved = board
-        moved.centre = centre
-        chips[index].board = BoardLayout.snapped(moved, footprint: footprint,
-                                                 pad1: chips[index].part.firstPinDesignator)
+        recordEdit(.pcb, "Move") {
+            guard let index = chips.firstIndex(where: { $0.id == id }),
+                  let board = chips[index].board,
+                  let footprint = chips[index].footprint else { return }
+            var moved = board
+            moved.centre = centre
+            chips[index].board = BoardLayout.snapped(moved, footprint: footprint,
+                                                     pad1: chips[index].part.firstPinDesignator)
+        }
     }
 
     /// Moves a footprint so its origin point lands on `point` (board mm),
     /// snapped to the grid.
     func moveFootprintOrigin(_ id: UUID, to point: CGPoint) {
-        guard let index = chips.firstIndex(where: { $0.id == id }),
-              let board = chips[index].board,
-              let footprint = chips[index].footprint else { return }
-        let pad1 = chips[index].part.firstPinDesignator
-        let current = BoardLayout.originPoint(of: board, footprint: footprint, pad1: pad1)
-        var moved = board
-        moved.centre.x += point.x - current.x
-        moved.centre.y += point.y - current.y
-        chips[index].board = BoardLayout.snapped(moved, footprint: footprint, pad1: pad1)
+        recordEdit(.pcb, "Move") {
+            guard let index = chips.firstIndex(where: { $0.id == id }),
+                  let board = chips[index].board,
+                  let footprint = chips[index].footprint else { return }
+            let pad1 = chips[index].part.firstPinDesignator
+            let current = BoardLayout.originPoint(of: board, footprint: footprint, pad1: pad1)
+            var moved = board
+            moved.centre.x += point.x - current.x
+            moved.centre.y += point.y - current.y
+            chips[index].board = BoardLayout.snapped(moved, footprint: footprint, pad1: pad1)
+        }
     }
 
     /// Turns a footprint 90° clockwise about its origin point, which stays
     /// where it was.
     func rotateFootprint(_ id: UUID) {
-        guard let index = chips.firstIndex(where: { $0.id == id }),
-              let board = chips[index].board,
-              let footprint = chips[index].footprint else { return }
-        let pad1 = chips[index].part.firstPinDesignator
-        let before = BoardLayout.originPoint(of: board, footprint: footprint, pad1: pad1)
-        var turned = board
-        turned.rotation = (board.rotation + 90) % 360
-        let after = BoardLayout.originPoint(of: turned, footprint: footprint, pad1: pad1)
-        turned.centre.x += before.x - after.x
-        turned.centre.y += before.y - after.y
-        chips[index].board = BoardLayout.snapped(turned, footprint: footprint, pad1: pad1)
+        recordEdit(.pcb, "Rotate") {
+            guard let index = chips.firstIndex(where: { $0.id == id }),
+                  let board = chips[index].board,
+                  let footprint = chips[index].footprint else { return }
+            let pad1 = chips[index].part.firstPinDesignator
+            let before = BoardLayout.originPoint(of: board, footprint: footprint, pad1: pad1)
+            var turned = board
+            turned.rotation = (board.rotation + 90) % 360
+            let after = BoardLayout.originPoint(of: turned, footprint: footprint, pad1: pad1)
+            turned.centre.x += before.x - after.x
+            turned.centre.y += before.y - after.y
+            chips[index].board = BoardLayout.snapped(turned, footprint: footprint, pad1: pad1)
+        }
     }
 
     /// Moves a footprint to the other side of the board, mirrored. Its origin
     /// point stays where it was, then snaps, as in `rotateFootprint`. Does
     /// nothing on a 1-layer board or when the side doesn't change.
     func setFootprintSide(_ id: UUID, _ side: BoardSide) {
-        guard board.layers > 1,
-              let index = chips.firstIndex(where: { $0.id == id }),
-              let placement = chips[index].board, placement.side != side,
-              let footprint = chips[index].footprint else { return }
-        let pad1 = chips[index].part.firstPinDesignator
-        let before = BoardLayout.originPoint(of: placement, footprint: footprint, pad1: pad1)
-        var flipped = placement
-        flipped.side = side
-        let after = BoardLayout.originPoint(of: flipped, footprint: footprint, pad1: pad1)
-        flipped.centre.x += before.x - after.x
-        flipped.centre.y += before.y - after.y
-        chips[index].board = BoardLayout.snapped(flipped, footprint: footprint, pad1: pad1)
+        recordEdit(.pcb, "Change Side") {
+            guard board.layers > 1,
+                  let index = chips.firstIndex(where: { $0.id == id }),
+                  let placement = chips[index].board, placement.side != side,
+                  let footprint = chips[index].footprint else { return }
+            let pad1 = chips[index].part.firstPinDesignator
+            let before = BoardLayout.originPoint(of: placement, footprint: footprint, pad1: pad1)
+            var flipped = placement
+            flipped.side = side
+            let after = BoardLayout.originPoint(of: flipped, footprint: footprint, pad1: pad1)
+            flipped.centre.x += before.x - after.x
+            flipped.centre.y += before.y - after.y
+            chips[index].board = BoardLayout.snapped(flipped, footprint: footprint, pad1: pad1)
+        }
     }
 
     /// Changes which point of a footprint is its origin. The footprint stays
     /// where it is and is not re-snapped.
     func setFootprintOrigin(_ id: UUID, _ origin: FootprintOrigin) {
-        guard let index = chips.firstIndex(where: { $0.id == id }), chips[index].board != nil else { return }
-        chips[index].board?.origin = origin
+        recordEdit(.pcb, "Change Origin") {
+            guard let index = chips.firstIndex(where: { $0.id == id }), chips[index].board != nil else { return }
+            chips[index].board?.origin = origin
+        }
     }
 
     /// Switches a part between its footprint and its connector footprint
@@ -1918,41 +1929,61 @@ final class SchematicDocument {
     /// point off the grid); rotation, origin and marks are kept. Does nothing for a part without a connector
     /// footprint or when the style does not change.
     func setFootprintStyle(_ id: UUID, _ style: FootprintStyle) {
-        guard let index = chips.firstIndex(where: { $0.id == id }),
-              chips[index].part.connectorFootprint != nil,
-              let board = chips[index].board, board.style != style,
-              let before = chips[index].footprint else { return }
-        let pad1 = chips[index].part.firstPinDesignator
-        var changed = board
-        changed.style = style
-        chips[index].board = changed
-        guard let after = chips[index].footprint else { return }
-        if let old = before.pads.first(where: { $0.designator == pad1 }),
-           let new = after.pads.first(where: { $0.designator == pad1 }) {
-            let anchor = board.board(old.centre)
-            let landed = changed.board(new.centre)
-            changed.centre.x += anchor.x - landed.x
-            changed.centre.y += anchor.y - landed.y
+        recordEdit(.pcb, "Change Style") {
+            guard let index = chips.firstIndex(where: { $0.id == id }),
+                  chips[index].part.connectorFootprint != nil,
+                  let board = chips[index].board, board.style != style,
+                  let before = chips[index].footprint else { return }
+            let pad1 = chips[index].part.firstPinDesignator
+            var changed = board
+            changed.style = style
+            chips[index].board = changed
+            guard let after = chips[index].footprint else { return }
+            if let old = before.pads.first(where: { $0.designator == pad1 }),
+               let new = after.pads.first(where: { $0.designator == pad1 }) {
+                let anchor = board.board(old.centre)
+                let landed = changed.board(new.centre)
+                changed.centre.x += anchor.x - landed.x
+                changed.centre.y += anchor.y - landed.y
+            }
+            chips[index].board = changed
         }
-        chips[index].board = changed
     }
 
     /// Sets where a footprint's marks are drawn. A nil layer is left as it is.
     func setFootprintMarks(_ id: UUID, outline: MarkLayer? = nil, pin1: MarkLayer? = nil,
                            reference: MarkLayer? = nil) {
-        guard let index = chips.firstIndex(where: { $0.id == id }), chips[index].board != nil else { return }
-        if let outline { chips[index].board?.outline = outline }
-        if let pin1 { chips[index].board?.pin1 = pin1 }
-        if let reference { chips[index].board?.reference = reference }
+        recordEdit(.pcb, "Change Marks") {
+            guard let index = chips.firstIndex(where: { $0.id == id }), chips[index].board != nil else { return }
+            if let outline { chips[index].board?.outline = outline }
+            if let pin1 { chips[index].board?.pin1 = pin1 }
+            if let reference { chips[index].board?.reference = reference }
+        }
     }
 
     // MARK: Board
 
     /// Sets the board's size in mm, each side clamped to `BoardSettings.sizeRange`.
     func setBoardSize(width: Double, height: Double) {
-        let range = BoardSettings.sizeRange
-        board.width = min(max(width, range.lowerBound), range.upperBound)
-        board.height = min(max(height, range.lowerBound), range.upperBound)
+        recordEdit(.pcb, "Change Board Size") {
+            let range = BoardSettings.sizeRange
+            board.width = min(max(width, range.lowerBound), range.upperBound)
+            board.height = min(max(height, range.lowerBound), range.upperBound)
+        }
+    }
+
+    /// The units the PCB sidebar shows sizes in.
+    func setBoardUnits(_ units: BoardUnits) {
+        recordEdit(.pcb, "Change Units") {
+            if board.units != units { board.units = units }
+        }
+    }
+
+    /// The board's solder-mask colour.
+    func setBoardColor(_ color: BoardColor) {
+        recordEdit(.pcb, "Change Board Color") {
+            if board.color != color { board.color = color }
+        }
     }
 
     // MARK: Board layers
@@ -1976,16 +2007,20 @@ final class SchematicDocument {
 
     /// Sets the copper layer count, unless `canSetLayerCount` refuses it.
     func setLayerCount(_ count: Int) {
-        guard count != board.layers, canSetLayerCount(count) == nil else { return }
-        board.layers = count
+        recordEdit(.pcb, "Change Layers") {
+            guard count != board.layers, canSetLayerCount(count) == nil else { return }
+            board.layers = count
+        }
     }
 
     func setLayerColor(_ layer: CopperLayer, _ color: LayerColor) {
-        guard board.copperLayers.contains(layer) else { return }
-        var style = board.style(of: layer)
-        guard style.color != color else { return }
-        style.color = color
-        board.styles[layer] = style
+        recordEdit(.pcb, "Change Layer Color") {
+            guard board.copperLayers.contains(layer) else { return }
+            var style = board.style(of: layer)
+            guard style.color != color else { return }
+            style.color = color
+            board.styles[layer] = style
+        }
     }
 
     /// Why `layer` can't become `type`, or nil when it can. Top and Bottom
@@ -2001,11 +2036,13 @@ final class SchematicDocument {
     }
 
     func setLayerType(_ layer: CopperLayer, _ type: LayerType) {
-        guard canSetLayerType(layer, type) == nil else { return }
-        var style = board.style(of: layer)
-        guard style.type != type else { return }
-        style.type = type
-        board.styles[layer] = style
+        recordEdit(.pcb, "Change Layer Type") {
+            guard canSetLayerType(layer, type) == nil else { return }
+            var style = board.style(of: layer)
+            guard style.type != type else { return }
+            style.type = type
+            board.styles[layer] = style
+        }
     }
 
     // MARK: Board texts
@@ -2014,59 +2051,77 @@ final class SchematicDocument {
     /// and selects it.
     @discardableResult
     func addText(at point: CGPoint) -> UUID {
-        let text = BoardText(id: UUID(), text: "Text", anchor: BoardGrid.snap(point), size: BoardText.defaultSize)
-        texts.append(text)
-        select(.text(text.id))
-        return text.id
+        return recordEdit(.pcb, "Add Text") { () -> UUID in
+            let text = BoardText(id: UUID(), text: "Text", anchor: BoardGrid.snap(point), size: BoardText.defaultSize)
+            texts.append(text)
+            select(.text(text.id))
+            return text.id
+        }
     }
 
     /// Changes a text's words. An empty string is refused and the text kept.
     func setText(_ id: UUID, _ value: String) {
-        guard !value.isEmpty, let index = texts.firstIndex(where: { $0.id == id }) else { return }
-        texts[index].text = value
+        recordEdit(.pcb, "Edit Text") {
+            guard !value.isEmpty, let index = texts.firstIndex(where: { $0.id == id }) else { return }
+            texts[index].text = value
+        }
     }
 
     /// Sets a text's font size in mil, clamped to `BoardText.sizeRange`.
     func setTextSize(_ id: UUID, _ size: Int) {
-        guard let index = texts.firstIndex(where: { $0.id == id }) else { return }
-        texts[index].size = min(max(size, BoardText.sizeRange.lowerBound), BoardText.sizeRange.upperBound)
+        recordEdit(.pcb, "Change Font Size") {
+            guard let index = texts.firstIndex(where: { $0.id == id }) else { return }
+            texts[index].size = min(max(size, BoardText.sizeRange.lowerBound), BoardText.sizeRange.upperBound)
+        }
     }
 
     func setTextLayer(_ id: UUID, _ layer: TextLayer) {
-        guard let index = texts.firstIndex(where: { $0.id == id }) else { return }
-        texts[index].layer = layer
+        recordEdit(.pcb, "Change Layer") {
+            guard let index = texts.firstIndex(where: { $0.id == id }) else { return }
+            texts[index].layer = layer
+        }
     }
 
     /// Puts a text on the top or bottom of the board. Its box stays where it
     /// is. Does nothing on a 1-layer board, except to bring a text back to Top.
     func setTextSide(_ id: UUID, _ side: BoardSide) {
-        guard side == .top || board.layers > 1,
-              let index = texts.firstIndex(where: { $0.id == id }), texts[index].side != side else { return }
-        texts[index].side = side
+        recordEdit(.pcb, "Change Side") {
+            guard side == .top || board.layers > 1,
+                  let index = texts.firstIndex(where: { $0.id == id }), texts[index].side != side else { return }
+            texts[index].side = side
+        }
     }
 
     /// Moves a text's anchor to `point`, snapped to the grid.
     func moveText(_ id: UUID, to point: CGPoint) {
-        guard let index = texts.firstIndex(where: { $0.id == id }) else { return }
-        texts[index].anchor = BoardGrid.snap(point)
+        recordEdit(.pcb, "Move") {
+            guard let index = texts.firstIndex(where: { $0.id == id }) else { return }
+            texts[index].anchor = BoardGrid.snap(point)
+        }
     }
 
     /// Sets a text's rotation: 0, 90, 180 or 270. Other values are ignored.
     func setTextRotation(_ id: UUID, _ rotation: Int) {
-        guard BoardPlacement.rotations.contains(rotation),
-              let index = texts.firstIndex(where: { $0.id == id }) else { return }
-        texts[index].rotation = rotation
+        recordEdit(.pcb, "Rotate") {
+            guard BoardPlacement.rotations.contains(rotation),
+                  let index = texts.firstIndex(where: { $0.id == id }) else { return }
+            texts[index].rotation = rotation
+        }
     }
 
     /// Turns a text 90° clockwise about its anchor.
     func rotateText(_ id: UUID) {
-        guard let index = texts.firstIndex(where: { $0.id == id }) else { return }
-        texts[index].rotation = (texts[index].rotation + 90) % 360
+        recordEdit(.pcb, "Rotate") {
+            guard let index = texts.firstIndex(where: { $0.id == id }) else { return }
+            texts[index].rotation = (texts[index].rotation + 90) % 360
+        }
     }
 
     func deleteText(_ id: UUID) {
-        texts.removeAll { $0.id == id }
-        pruneSelection()
+        recordEdit(.pcb, "Delete Text") {
+            texts.removeAll { $0.id == id }
+            pruneSelection()
+        }
     }
 
     /// The text under a board point (mm): the last one drawn there, a Top
@@ -2147,30 +2202,34 @@ final class SchematicDocument {
     /// board.
     @discardableResult
     func addTrace(from a: CGPoint, to b: CGPoint, layer: CopperLayer, diagonalFirst: Bool) -> UUID? {
-        guard !TraceRoute.same(a, b), traceLayerRefusal(layer) == nil else { return nil }
-        let trace = BoardTrace(id: UUID(), layer: layer, width: BoardTrace.defaultWidth,
-                               points: TraceRoute.route(from: a, to: b, diagonalFirst: diagonalFirst))
-        traces.append(trace)
-        join(trace.id)
-        return trace.id
+        return recordEdit(.pcb, "Add Trace") { () -> UUID? in
+            guard !TraceRoute.same(a, b), traceLayerRefusal(layer) == nil else { return nil }
+            let trace = BoardTrace(id: UUID(), layer: layer, width: BoardTrace.defaultWidth,
+                                   points: TraceRoute.route(from: a, to: b, diagonalFirst: diagonalFirst))
+            traces.append(trace)
+            join(trace.id)
+            return trace.id
+        }
     }
 
     /// Makes every point where trace `id` touches or crosses another trace
     /// on its layer a vertex of both. Inserting a vertex on a straight
     /// segment keeps its angle, so both stay legal.
     func join(_ id: UUID) {
-        guard let index = traces.firstIndex(where: { $0.id == id }) else { return }
-        let layer = traces[index].layer
-        for other in traces.indices where other != index && traces[other].layer == layer {
-            var contacts: [CGPoint] = []
-            for (a, b) in traces[index].segments {
-                for (c, d) in traces[other].segments {
-                    contacts += Self.contacts(a, b, c, d)
+        recordEdit(.pcb, "Join Traces") {
+            guard let index = traces.firstIndex(where: { $0.id == id }) else { return }
+            let layer = traces[index].layer
+            for other in traces.indices where other != index && traces[other].layer == layer {
+                var contacts: [CGPoint] = []
+                for (a, b) in traces[index].segments {
+                    for (c, d) in traces[other].segments {
+                        contacts += Self.contacts(a, b, c, d)
+                    }
                 }
-            }
-            for point in contacts {
-                traces[index].points = Self.inserting(point, into: traces[index].points)
-                traces[other].points = Self.inserting(point, into: traces[other].points)
+                for point in contacts {
+                    traces[index].points = Self.inserting(point, into: traces[index].points)
+                    traces[other].points = Self.inserting(point, into: traces[other].points)
+                }
             }
         }
     }
@@ -2219,33 +2278,41 @@ final class SchematicDocument {
 
     /// Sets a trace's width in mil, clamped to `BoardTrace.widthRange`.
     func setTraceWidth(_ id: UUID, _ mil: Int) {
-        guard let index = traces.firstIndex(where: { $0.id == id }) else { return }
-        traces[index].width = min(max(mil, BoardTrace.widthRange.lowerBound), BoardTrace.widthRange.upperBound)
+        recordEdit(.pcb, "Change Trace Width") {
+            guard let index = traces.firstIndex(where: { $0.id == id }) else { return }
+            traces[index].width = min(max(mil, BoardTrace.widthRange.lowerBound), BoardTrace.widthRange.upperBound)
+        }
     }
 
     /// Moves one trace to another layer and joins it there. Ignored for a
     /// plane or a layer not on the board. Its run on the old layer stays.
     func setTraceLayer(_ id: UUID, _ layer: CopperLayer) {
-        guard traceLayerRefusal(layer) == nil,
-              let index = traces.firstIndex(where: { $0.id == id }), traces[index].layer != layer else { return }
-        traces[index].layer = layer
-        join(id)
+        recordEdit(.pcb, "Change Layer") {
+            guard traceLayerRefusal(layer) == nil,
+                  let index = traces.firstIndex(where: { $0.id == id }), traces[index].layer != layer else { return }
+            traces[index].layer = layer
+            join(id)
+        }
     }
 
     func deleteTrace(_ id: UUID) {
-        traces.removeAll { $0.id == id }
-        pruneSelection()
+        recordEdit(.pcb, "Delete Trace") {
+            traces.removeAll { $0.id == id }
+            pruneSelection()
+        }
     }
 
     /// Moves every vertex of the traces `ids` by `offset` (mm), then joins
     /// each one where it now lands.
     func moveTraces(_ ids: Set<UUID>, by offset: CGSize) {
-        for index in traces.indices where ids.contains(traces[index].id) {
-            traces[index].points = traces[index].points.map {
-                CGPoint(x: $0.x + offset.width, y: $0.y + offset.height)
+        recordEdit(.pcb, "Move") {
+            for index in traces.indices where ids.contains(traces[index].id) {
+                traces[index].points = traces[index].points.map {
+                    CGPoint(x: $0.x + offset.width, y: $0.y + offset.height)
+                }
             }
+            for id in ids { join(id) }
         }
-        for id in ids { join(id) }
     }
 
     /// The trace under a board point (mm): the last one drawn there (Top's
@@ -2358,38 +2425,42 @@ final class SchematicDocument {
     /// snapped to the board grid, so they keep their places relative to
     /// each other.
     func moveBoardGroup(_ base: BoardGroupBase, by delta: CGSize) {
-        func moved(_ point: CGPoint, by offset: CGSize) -> CGPoint {
-            CGPoint(x: point.x + offset.width, y: point.y + offset.height)
-        }
-        let offset = CGSize(width: BoardGrid.snap(delta.width), height: BoardGrid.snap(delta.height))
-        // Traces move by the snapped delta from where they were, alone or
-        // in a group; joins wait for the release (`settleBoardGroup`).
-        for index in traces.indices {
-            guard let points = base.traces[traces[index].id] else { continue }
-            let target = points.map { moved($0, by: offset) }
-            if traces[index].points != target { traces[index].points = target }
-        }
-        if base.count == 1 {
-            if let (id, centre) = base.footprints.first { moveFootprint(id, to: moved(centre, by: delta)) }
-            if let (id, anchor) = base.texts.first { moveText(id, to: moved(anchor, by: delta)) }
-            return
-        }
-        for index in chips.indices {
-            guard let centre = base.footprints[chips[index].id], chips[index].board != nil else { continue }
-            let target = moved(centre, by: offset)
-            if chips[index].board?.centre != target { chips[index].board?.centre = target }
-        }
-        for index in texts.indices {
-            guard let anchor = base.texts[texts[index].id] else { continue }
-            let target = moved(anchor, by: offset)
-            if texts[index].anchor != target { texts[index].anchor = target }
+        recordEdit(.pcb, "Move") {
+            func moved(_ point: CGPoint, by offset: CGSize) -> CGPoint {
+                CGPoint(x: point.x + offset.width, y: point.y + offset.height)
+            }
+            let offset = CGSize(width: BoardGrid.snap(delta.width), height: BoardGrid.snap(delta.height))
+            // Traces move by the snapped delta from where they were, alone or
+            // in a group; joins wait for the release (`settleBoardGroup`).
+            for index in traces.indices {
+                guard let points = base.traces[traces[index].id] else { continue }
+                let target = points.map { moved($0, by: offset) }
+                if traces[index].points != target { traces[index].points = target }
+            }
+            if base.count == 1 {
+                if let (id, centre) = base.footprints.first { moveFootprint(id, to: moved(centre, by: delta)) }
+                if let (id, anchor) = base.texts.first { moveText(id, to: moved(anchor, by: delta)) }
+                return
+            }
+            for index in chips.indices {
+                guard let centre = base.footprints[chips[index].id], chips[index].board != nil else { continue }
+                let target = moved(centre, by: offset)
+                if chips[index].board?.centre != target { chips[index].board?.centre = target }
+            }
+            for index in texts.indices {
+                guard let anchor = base.texts[texts[index].id] else { continue }
+                let target = moved(anchor, by: offset)
+                if texts[index].anchor != target { texts[index].anchor = target }
+            }
         }
     }
 
     /// The end of a PCB group drag: each moved trace joins what it now
     /// touches. Traces that weren't selected stay where they are.
     func settleBoardGroup(_ base: BoardGroupBase) {
-        for id in base.traces.keys { join(id) }
+        recordEdit(.pcb, "Move") {
+            for id in base.traces.keys { join(id) }
+        }
     }
 
     /// What a Select press at `point` (board mm) picks: a text, else a

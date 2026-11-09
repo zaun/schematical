@@ -31,7 +31,7 @@ See plan-31-A § Prerequisites. Also:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-31-B is complete | `ls planning/plan-31-B-*` → no match (archived) | NOT MET (B not started) |
+| plan-31-B is complete | `ls planning/plan-31-B-*` → no match (archived) | MET (2026-11-09: `ls planning/plan-31-B-*` → no match; archived at d294d25) |
 
 ## 1. Goal
 
@@ -138,14 +138,24 @@ nil`.
 
 ### Phase 1 — Record every PCB edit
 
-- [ ] `Canvas/SchematicModel.swift`: wrap the 28 functions; add
+- [x] `Canvas/SchematicModel.swift`: wrap the 28 functions; add
       `setBoardUnits` and `setBoardColor`, both recorded; `board` becomes
-      `private(set) var`.
-- [ ] `Canvas/PCBSidebarView.swift`: the Units picker and the colour swatch
+      `private(set) var`. Same script as B (`/tmp/p31scripts/wrap.py`, spec
+      `c.json`) → `total 28`; `grep -c 'recordEdit(.pcb'` → 28 before the two
+      new functions. No test wrote `doc.board` directly (`rg 'doc\.board\.[a-z]+
+      =|doc\.board = ' schematicalTests` → nothing).
+- [x] `Canvas/PCBSidebarView.swift`: the Units picker and the colour swatch
       call the new functions.
-- [ ] `Canvas/PCBCanvasView.swift`: `beginGesture(.pcb)` / `endGesture()`
+- [x] `Canvas/PCBCanvasView.swift`: `beginGesture(.pcb)` / `endGesture()`
       per §3.
-- [ ] Tests: `schematical/schematicalTests/PCBUndoTests.swift`. One test per
+- [x] Added: the PCB text panel (words, size), the trace panel (width) and
+      `ReferenceSection` (both sidebars) follow their item when undo/redo
+      changes it. They kept local copies set only `onAppear` and commit on
+      focus loss, so after an undo they showed the old value and leaving the
+      field saved it back as a new step. (`LengthField` and the bus panels
+      already follow; checked by `rg -n '@State (private )?var' Canvas Drawer
+      Document`.)
+- [x] Tests: `schematical/schematicalTests/PCBUndoTests.swift`. One test per
       table row (before/after `SchematicFile`, undo → before, redo → after,
       `undoName(on: .pcb)` is the row's name). Plus independence:
       move a part on the Schematic and its footprint on the PCB, undo on
@@ -159,10 +169,13 @@ nil`.
       a Text-tool gesture (`beginGesture(.pcb)`, `addText`,
       `moveBoardGroup` ×5, `settleBoardGroup`, `endGesture`) is one "Add
       Text" step.
+      34 tests. Check run → `Executed 72 tests, with 0 failures`,
+      `** TEST SUCCEEDED **`. Final gate (full app target) → `Executed 323
+      tests, with 0 failures`, `** TEST SUCCEEDED **`.
 
 Acceptance: every row and case passes; existing PCB tests still pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/PCBUndoTests -only-testing:schematicalTests/TraceJoinTests -only-testing:schematicalTests/TraceToolTests -only-testing:schematicalTests/BoardLayersTests -only-testing:schematicalTests/BoardSideTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 4 min).
-Commit: —
+Commit: this commit (C is archived in it; hash recorded in plan-31-D's first commit)
 
 ## Validation Plan
 
@@ -178,6 +191,11 @@ See plan-31-A § Decisions. Board units and colour are undoable because they
 are saved (author's call, recorded in A).
 
 ## Corrections
+
+1. The table names 28 functions plus two new ones; all wrapped as listed.
+   The one addition is outside the model: the sidebar fields that keep a
+   local copy (task added above), found while checking that undo shows in
+   every panel.
 
 ## Summary
 

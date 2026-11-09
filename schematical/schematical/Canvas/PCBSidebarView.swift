@@ -34,7 +34,7 @@ struct PCBSidebarView: View {
     var body: some View {
         Form {
             Section {
-                Picker("Units", selection: $document.board.units) {
+                Picker("Units", selection: Binding(get: { document.board.units }, set: { document.setBoardUnits($0) })) {
                     ForEach(BoardUnits.allCases, id: \.self) { units in
                         Text(units.title).tag(units)
                     }
@@ -122,7 +122,7 @@ private struct BoardPanel: View {
 
     private func swatch(_ colour: BoardColor) -> some View {
         Button {
-            document.board.color = colour
+            document.setBoardColor(colour)
         } label: {
             Circle()
                 .fill(colour.fill)
@@ -284,6 +284,9 @@ private struct TextPanel: View {
             words = text.text
             showSize()
         }
+        // Undo and redo change the text from outside the fields (plan-31).
+        .onChange(of: text.text) { _, value in words = value }
+        .onChange(of: text.size) { _, _ in showSize() }
         .onChange(of: focus) { old, _ in
             switch old {
             case .words?: commitWords()
@@ -388,6 +391,8 @@ struct TracePanel: View {
             .keyboardShortcut(.delete, modifiers: .command)
         }
         .onAppear(perform: showWidth)
+        // Undo and redo change the width from outside the field (plan-31).
+        .onChange(of: trace.width) { _, _ in showWidth() }
         .onChange(of: isWidthFocused) { wasFocused, _ in
             if wasFocused { commitWidth() }
         }

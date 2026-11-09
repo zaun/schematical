@@ -227,7 +227,7 @@ Commit: 7518dc6
 
 Acceptance: the gesture cases pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/SchematicUndoTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 4 min).
-Commit: recorded in plan-31-C's first commit (B is archived in this one)
+Commit: d294d25
 
 ## Validation Plan
 

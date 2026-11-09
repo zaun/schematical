@@ -370,7 +370,11 @@ struct PCBCanvasView: View {
     /// what the drag is doing.
     @discardableResult
     func handle(start: CGPoint, translation: CGSize) -> Interaction {
-        if interaction == nil { pressLocation = start }
+        if interaction == nil {
+            pressLocation = start
+            // The whole press is one undo step (plan-31-C).
+            document.beginGesture(.pcb)
+        }
         let current = interaction ?? begin(at: start)
         interaction = current
         let offset = CGSize(width: translation.width / scale, height: translation.height / scale)
@@ -441,6 +445,7 @@ struct PCBCanvasView: View {
         }
         selectionPress = nil
         interaction = nil
+        if document.isGestureOpen { document.endGesture() }
     }
 }
 
