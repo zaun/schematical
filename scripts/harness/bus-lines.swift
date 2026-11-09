@@ -116,21 +116,25 @@ MainActor.assumeIsolated { runChecks() }
     dump("4b drag the T end (200,50) up past (200,20)")
     expect(hasLine(p(200, 30), p(250, 30)), "stops at y 30")
 
-    // 5. Refusals.
-    let snapshot = doc.buses
-    renderPreview(from: p(360, 100), to: p(420, 100), name: "5-preview-refused")
+    // 5. Corners and joins. Leaving an L straight out of one of its lines
+    // makes it a T, and a drag from one bus to another joins them into the
+    // bus it starts on (the canvas header; BusJoinTests). These steps were
+    // refusals before those features; updated in plan-30-D.
+    renderPreview(from: p(360, 100), to: p(420, 100), name: "5-preview-tee")
     doc.addBus(from: p(360, 100), to: p(420, 100))
-    dump("5a drag from the corner")
-    expect(doc.buses == snapshot && doc.editorMessage == "A bus line can only join another at a T or an L.", "corner refused")
+    dump("5a drag straight out of the corner")
+    expect(doc.buses.count == 1 && hasLine(p(20, 100), p(420, 100))
+           && doc.buses[0].joints.contains { if case .tee = $0 { return $0.point == p(360, 100) }; return false },
+           "the L becomes a T")
     doc.addBus(from: p(100, 300), to: p(200, 300))
     doc.addBus(from: p(150, 300), to: p(150, 100))
     dump("5b second bus, then join the two")
-    expect(doc.buses.count == 2 && doc.editorMessage == "Two buses can't be joined.", "two buses refused")
+    expect(doc.buses.count == 1 && doc.editorMessage == nil && hasLine(p(150, 300), p(150, 100)), "two buses joined")
 
     // 6. Eraser.
     doc.erase(at: p(200, 70))
     dump("6a erase the x 200 line")
-    expect(doc.buses.count == 3, "the T line at y 30 is its own bus")
+    expect(doc.buses.count == 2, "the T line at y 30 is its own bus")
     let lone = doc.buses.first { $0.lines.count == 1 && $0.lines[0].a.y == 30 }
     expect(lone != nil, "found the split bus")
     if let lone {
@@ -139,7 +143,11 @@ MainActor.assumeIsolated { runChecks() }
         let original = doc.buses[0].wires.map(\.id)
         expect(Set(lone.wires.map(\.id)).isDisjoint(with: original), "with fresh wire ids")
     }
-    for point in [p(250, 30), p(150, 300), p(100, 100), p(360, 150)] { doc.erase(at: point) }
+    // Erase one line at a time (its midpoint) until no bus is left.
+    for _ in 0..<20 {
+        guard let line = doc.buses.first?.lines.first else { break }
+        doc.erase(at: p((line.a.x + line.b.x) / 2, (line.a.y + line.b.y) / 2))
+    }
     dump("6b erase everything else")
     expect(doc.buses.isEmpty && doc.selectedBusID == nil, "no buses left, nothing selected")
 

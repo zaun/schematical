@@ -2,7 +2,7 @@
 
 Last updated: 2026-11-08
 Effort: medium (1h–2h)
-Depends on: plan-30-B
+Depends on: plan-30-B, plan-30-D (landing tier only)
 
 C makes loose ends visible and lands plan-30. On the canvas, a wire with a
 loose end (either end on a junction with `isLoose`, plan-30-A) is drawn
@@ -139,7 +139,7 @@ Keeping the export scene `.normal` needs no palette change.
 
 Acceptance: loose wires paint gray on screen, export black, and loose ends show no dot unless they branch.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/SchematicSVGTests -only-testing:schematicalTests/LooseEndTests CODE_SIGNING_ALLOWED=NO` → all pass (est. 4 min).
-Commit: —
+Commit: f39627b
 
 ### Phase 2 — Landing tier (run once)
 
@@ -147,13 +147,30 @@ Commit: —
 |---|---|---|
 | App builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p30-dd CODE_SIGNING_ALLOWED=NO build` | `** BUILD SUCCEEDED **` |
 | All app tests | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test CODE_SIGNING_ALLOWED=NO` | `** TEST SUCCEEDED **` (A, B and C changed shared model code that every canvas test goes through, so the whole app test target runs here once; est. 8 min) |
-| Harness | `scripts/harness/build.sh scripts/harness/<f>.swift && /tmp/schematical-harness/H.app/Contents/MacOS/harness` for `bus-erase`, `generic-header`, `bus-lines`, `bus-ports` | no `FAIL` lines |
+| Harness | `scripts/harness/build.sh scripts/harness/<f>.swift && /tmp/schematical-harness/H.app/Contents/MacOS/harness` for `bus-erase`, `generic-header`, `bus-lines`, `bus-ports` | no `FAIL` lines (`bus-lines` needs plan-30-D) |
 | Runtime proof | In the real app: place two parts, wire them, erase one with the eraser (a click), screenshot; place the same part at the same spot, screenshot. Then move the pointer to (0, 0) (AGENTS.md). | First screenshot: the wire is still there, gray. Second: the wire is back on the pin, normal color. |
 
 The backend is not touched by plan-30, so the backend tests are not a gate
 (`git diff --stat <plan-30-A first commit>^.. -- backend` → empty).
 
-- [ ] Run every gate and record the observed values under the table.
+- [x] Run every gate and record the observed values under the table.
+      Run after merging main (e35daab, 5 tactile-switch commits; clean
+      merge 2156942), on the merged tree:
+  - App builds: `** BUILD SUCCEEDED **`.
+  - All app tests: 213 test cases passed, 0 failed, `** TEST SUCCEEDED **`.
+  - Harness: `bus-erase` 29 ok, 0 FAIL, `ALL OK`; `generic-header` 15 ok,
+    0 FAIL; `bus-ports` 19 ok, 0 FAIL, `ALL OK`; `bus-lines` first run 7
+    FAIL and a crash, the same as on 48645a4 before plan-30 (see
+    Corrections) → fixed in plan-30-D → 35 ok, 0 FAIL, `ALL OK`.
+  - Runtime proof, in a separate instance of the `/tmp/p30-dd` build (the
+    owner's own running build was not touched), driven with real CGEvents
+    (`/tmp/p25drive/drive`), screenshots with `screencapture -l`: opened a
+    file with two SN74HC00N wired 1Y→1A; Eraser click on the right part →
+    the wire stays, drawn gray, no dot at its end; dragged SN74HC00N from
+    the drawer to the same spot → the wire is on 1A again, normal white.
+    (A first drop landed 30 pt low, so the new part's VCC tip sat on the
+    loose end and the wire joined VCC, which is the designed behavior; it
+    was erased and dropped again.) Pointer moved to (0, 0) afterwards.
 - [ ] Move `plan-30-A`, `plan-30-B` and `plan-30-C` to `planning/completed/`.
 
 Acceptance: every gate's observed value matches.
@@ -183,6 +200,11 @@ Commit: —
   wires meet, since § 1 makes that true of exports too.
 - `RoutedWire.style`'s doc comment ("Play mode: …") now also names
   `.loose`; it was the one other comment the new case made wrong.
+- The landing tier's `bus-lines` harness was already failing before
+  plan-30 (7 FAIL lines and a crash on 48645a4, run from a detached
+  checkout), because it still expected bus refusals that later plans turned
+  into T and bus joins. A new letter, plan-30-D, updates it; C's landing
+  tier depends on D.
 - `LooseEndTests.swift` imports SwiftUI for `.value(.green)` (§ Phase 1
   test list); the first build failed without it.
 
