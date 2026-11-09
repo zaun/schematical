@@ -116,12 +116,15 @@
    {
     "number": 22,
     "name": "XTAL1",
-    "role": "input"
+    "role": "input",
+    "group": "crystal"
    },
    {
     "number": 23,
     "name": "XTAL2",
-    "role": "output"
+    "role": "output",
+    "group": "crystal",
+    "side": "in"
    },
    {
     "number": 24,
@@ -283,12 +286,15 @@
    {
     "number": 31,
     "name": "XTAL1",
-    "role": "input"
+    "role": "input",
+    "group": "crystal"
    },
    {
     "number": 32,
     "name": "XTAL2",
-    "role": "output"
+    "role": "output",
+    "group": "crystal",
+    "side": "in"
    }
   ]
  },

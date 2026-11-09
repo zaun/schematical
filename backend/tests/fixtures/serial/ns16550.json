@@ -101,12 +101,15 @@
      {
       "number": 18,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 19,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 20,
@@ -724,7 +727,8 @@
      {
       "number": 5,
       "name": "XIN",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 6,
@@ -734,7 +738,9 @@
      {
       "number": 7,
       "name": "XOUT",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 8,
@@ -1150,7 +1156,8 @@
      {
       "number": 5,
       "name": "XIN",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 6,
@@ -1160,7 +1167,9 @@
      {
       "number": 7,
       "name": "XOUT",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 8,
@@ -1422,7 +1431,8 @@
      {
       "number": 11,
       "name": "XIN",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 12,
@@ -1432,7 +1442,9 @@
      {
       "number": 13,
       "name": "XOUT",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 14,
@@ -1876,12 +1888,15 @@
      {
       "number": 18,
       "name": "XIN",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 19,
       "name": "XOUT",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 20,
@@ -2169,12 +2184,15 @@
      {
       "number": 9,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 10,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 11,
@@ -2514,12 +2532,15 @@
      {
       "number": 13,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 14,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 15,
@@ -2741,12 +2762,15 @@
      {
       "number": 10,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 11,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 12,
@@ -3088,12 +3112,15 @@
      {
       "number": 15,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 16,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 17,
@@ -3423,12 +3450,15 @@
      {
       "number": 15,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 16,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 17,
@@ -3763,12 +3793,15 @@
      {
       "number": 13,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 14,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 15,
@@ -4149,12 +4182,15 @@
      {
       "number": 14,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 15,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 16,
@@ -4532,12 +4568,15 @@
      {
       "number": 18,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 19,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 20,
@@ -4734,12 +4773,15 @@
      {
       "number": 14,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 15,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 16,
@@ -5169,12 +5211,15 @@
      {
       "number": 25,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 26,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 27,
@@ -5593,12 +5638,15 @@
      {
       "number": 13,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 14,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 15,
@@ -5820,12 +5868,15 @@
      {
       "number": 10,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 11,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 12,
@@ -6161,7 +6212,8 @@
      {
       "number": 11,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 12,
@@ -6171,7 +6223,9 @@
      {
       "number": 13,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 14,
@@ -6540,12 +6594,15 @@
      {
       "number": 18,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 19,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 20,
@@ -7798,12 +7855,15 @@
      {
       "number": 18,
       "name": "XIN",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 19,
       "name": "XOUT",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 20,
@@ -8010,12 +8070,15 @@
      {
       "number": 16,
       "name": "XIN",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 17,
       "name": "XOUT",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 18,
@@ -8202,12 +8265,15 @@
      {
       "number": 14,
       "name": "XIN",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 15,
       "name": "XOUT",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 16,
@@ -8593,12 +8659,15 @@
      {
       "number": 18,
       "name": "XIN",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 19,
       "name": "XOUT",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 20,
@@ -8795,12 +8864,15 @@
      {
       "number": 14,
       "name": "XIN",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 15,
       "name": "XOUT",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 16,
@@ -9182,12 +9254,15 @@
      {
       "number": 14,
       "name": "XIN",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 15,
       "name": "XOUT",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 16,
@@ -9404,12 +9479,15 @@
      {
       "number": 10,
       "name": "XIN",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 11,
       "name": "XOUT",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 12,
@@ -9616,12 +9694,15 @@
      {
       "ball": "E1",
       "name": "XIN",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "ball": "E2",
       "name": "XOUT",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "ball": "E3",
@@ -11370,12 +11451,15 @@
      {
       "number": 35,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 36,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 37,
@@ -11787,12 +11871,15 @@
      {
       "number": 50,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 51,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 52,
@@ -12285,12 +12372,15 @@
      {
       "number": 35,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 36,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 37,
@@ -12702,12 +12792,15 @@
      {
       "number": 50,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 51,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 52,
@@ -13032,12 +13125,15 @@
      {
       "number": 1,
       "name": "XIN",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 2,
       "name": "XOUT",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 3,
@@ -13542,12 +13638,15 @@
      {
       "number": 14,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 15,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 16,
@@ -13905,12 +14004,15 @@
      {
       "number": 13,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 14,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 15,
@@ -14127,12 +14229,15 @@
      {
       "number": 9,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 10,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 11,
@@ -14611,12 +14716,15 @@
      {
       "number": 35,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 36,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 37,
@@ -15067,12 +15175,15 @@
      {
       "number": 25,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 26,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 27,
@@ -15508,12 +15619,15 @@
      {
       "number": 13,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 14,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 15,
@@ -15932,12 +16046,15 @@
      {
       "number": 25,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 26,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 27,
@@ -16329,12 +16446,15 @@
      {
       "number": 40,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 41,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 42,
@@ -17118,12 +17238,15 @@
      {
       "number": 40,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 41,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 42,
@@ -17757,12 +17880,15 @@
      {
       "number": 13,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 14,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 15,
@@ -18172,7 +18298,8 @@
      {
       "number": 11,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 12,
@@ -18182,7 +18309,9 @@
      {
       "number": 13,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 14,
@@ -18364,7 +18493,8 @@
      {
       "number": 5,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 6,
@@ -18374,7 +18504,9 @@
      {
       "number": 7,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 8,
@@ -18822,12 +18954,15 @@
      {
       "number": 10,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 11,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 12,
@@ -19004,12 +19139,15 @@
      {
       "number": 14,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 15,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 16,
@@ -19594,12 +19732,15 @@
      {
       "number": 49,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 50,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 51,
@@ -19935,12 +20076,15 @@
      {
       "number": 10,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 11,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 12,
@@ -20112,12 +20256,15 @@
      {
       "number": 13,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 14,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 15,
@@ -20539,12 +20686,15 @@
      {
       "number": 10,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 11,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 12,
@@ -20716,12 +20866,15 @@
      {
       "number": 13,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 14,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 15,
@@ -21157,12 +21310,15 @@
      {
       "number": 10,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 11,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 12,
@@ -21334,12 +21490,15 @@
      {
       "number": 13,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 14,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 15,
@@ -21761,12 +21920,15 @@
      {
       "number": 10,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 11,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 12,
@@ -21938,12 +22100,15 @@
      {
       "number": 13,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 14,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 15,
@@ -22394,12 +22559,15 @@
      {
       "number": 13,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 14,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 15,
@@ -22636,12 +22804,15 @@
      {
       "number": 13,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 14,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 15,
@@ -23029,12 +23200,15 @@
      {
       "number": 10,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 11,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 12,
@@ -23383,12 +23557,15 @@
      {
       "number": 10,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 11,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 12,
@@ -23560,12 +23737,15 @@
      {
       "number": 13,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 14,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 15,
@@ -24005,7 +24185,8 @@
      {
       "number": 11,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 12,
@@ -24015,7 +24196,9 @@
      {
       "number": 13,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 14,
@@ -24423,12 +24606,15 @@
      {
       "number": 10,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 11,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 12,
@@ -24600,12 +24786,15 @@
      {
       "number": 13,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 14,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 15,
@@ -25028,12 +25217,15 @@
      {
       "number": 10,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 11,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 12,
@@ -25205,12 +25397,15 @@
      {
       "number": 13,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 14,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 15,
@@ -25652,7 +25847,8 @@
      {
       "number": 11,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 12,
@@ -25662,7 +25858,9 @@
      {
       "number": 13,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 14,
@@ -25839,12 +26037,15 @@
      {
       "number": 4,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 5,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 6,
@@ -26364,12 +26565,15 @@
      {
       "number": 35,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 36,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 37,
@@ -26621,12 +26825,15 @@
      {
       "number": 18,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 19,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 20,
@@ -26898,12 +27105,15 @@
      {
       "number": 25,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 26,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 27,
@@ -27418,12 +27628,15 @@
      {
       "number": 25,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 26,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 27,
@@ -27790,12 +28003,15 @@
      {
       "number": 35,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 36,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 37,
@@ -28047,12 +28263,15 @@
      {
       "number": 18,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 19,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 20,
@@ -28584,12 +28803,15 @@
      {
       "number": 25,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 26,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 27,
@@ -28871,12 +29093,15 @@
      {
       "number": 18,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 19,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 20,
@@ -29680,12 +29905,15 @@
      {
       "number": 81,
       "name": "XTAL2",
-      "role": "output"
+      "role": "output",
+      "group": "crystal",
+      "side": "in"
      },
      {
       "number": 82,
       "name": "XTAL1",
-      "role": "input"
+      "role": "input",
+      "group": "crystal"
      },
      {
       "number": 83,

@@ -11,7 +11,8 @@
    {
     "number": 1,
     "name": "XIN",
-    "role": "input"
+    "role": "input",
+    "group": "crystal"
    },
    {
     "number": 2,
@@ -126,7 +127,9 @@
    {
     "number": 24,
     "name": "XOUT",
-    "role": "output"
+    "role": "output",
+    "group": "crystal",
+    "side": "in"
    }
   ],
   "tqfn24-3.5": [
@@ -233,12 +236,15 @@
    {
     "number": 21,
     "name": "XOUT",
-    "role": "output"
+    "role": "output",
+    "group": "crystal",
+    "side": "in"
    },
    {
     "number": 22,
     "name": "XIN",
-    "role": "input"
+    "role": "input",
+    "group": "crystal"
    },
    {
     "number": 23,

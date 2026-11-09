@@ -6,8 +6,8 @@
   "note": "tl16c750.pdf p.1-38; tl16c754c.pdf p.53-55; plan-12-data/specs/ti-b.md § TL16C750",
   "pinouts": {
     "lqfp64": [
-      {"number": 1, "name": "XIN", "role": "input"},
-      {"number": 2, "name": "XOUT", "role": "output"},
+      {"number": 1, "name": "XIN", "role": "input", "group": "crystal"},
+      {"number": 2, "name": "XOUT", "role": "output", "group": "crystal", "side": "in"},
       {"number": 3, "name": "NC", "role": "nc"},
       {"number": 4, "name": "WR1", "role": "input"},
       {"number": 5, "name": "NC", "role": "nc"},

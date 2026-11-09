@@ -46,12 +46,15 @@
    {
     "number": 8,
     "name": "XTAL1",
-    "role": "input"
+    "role": "input",
+    "group": "crystal"
    },
    {
     "number": 9,
     "name": "XTAL2",
-    "role": "output"
+    "role": "output",
+    "group": "crystal",
+    "side": "in"
    },
    {
     "number": 10,
@@ -183,12 +186,15 @@
    {
     "number": 11,
     "name": "XTAL1",
-    "role": "input"
+    "role": "input",
+    "group": "crystal"
    },
    {
     "number": 12,
     "name": "XTAL2",
-    "role": "output"
+    "role": "output",
+    "group": "crystal",
+    "side": "in"
    },
    {
     "number": 13,
@@ -285,12 +291,15 @@
    {
     "number": 7,
     "name": "XTAL1",
-    "role": "input"
+    "role": "input",
+    "group": "crystal"
    },
    {
     "number": 8,
     "name": "XTAL2",
-    "role": "output"
+    "role": "output",
+    "group": "crystal",
+    "side": "in"
    },
    {
     "number": 9,

@@ -36,12 +36,15 @@
    {
     "number": 6,
     "name": "XTLI",
-    "role": "input"
+    "role": "input",
+    "group": "crystal"
    },
    {
     "number": 7,
     "name": "XTLO",
-    "role": "output"
+    "role": "output",
+    "group": "crystal",
+    "side": "in"
    },
    {
     "number": 8,

@@ -46,12 +46,15 @@
    {
     "number": 8,
     "name": "OUT2/X2",
-    "role": "output"
+    "role": "output",
+    "group": "crystal",
+    "side": "in"
    },
    {
     "number": 9,
     "name": "CLK/X1",
-    "role": "input"
+    "role": "input",
+    "group": "crystal"
    },
    {
     "number": 10,

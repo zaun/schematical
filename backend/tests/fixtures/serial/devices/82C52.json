@@ -71,12 +71,15 @@
    {
     "number": 13,
     "name": "IX",
-    "role": "input"
+    "role": "input",
+    "group": "crystal"
    },
    {
     "number": 14,
     "name": "OX",
-    "role": "output"
+    "role": "output",
+    "group": "crystal",
+    "side": "in"
    },
    {
     "number": 15,
@@ -213,12 +216,15 @@
    {
     "number": 13,
     "name": "IX",
-    "role": "input"
+    "role": "input",
+    "group": "crystal"
    },
    {
     "number": 14,
     "name": "OX",
-    "role": "output"
+    "role": "output",
+    "group": "crystal",
+    "side": "in"
    },
    {
     "number": 15,

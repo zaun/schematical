@@ -11,12 +11,15 @@
    {
     "number": 1,
     "name": "X2",
-    "role": "output"
+    "role": "output",
+    "group": "crystal",
+    "side": "in"
    },
    {
     "number": 2,
     "name": "X1",
-    "role": "input"
+    "role": "input",
+    "group": "crystal"
    },
    {
     "number": 3,

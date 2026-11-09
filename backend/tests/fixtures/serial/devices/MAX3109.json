@@ -136,12 +136,15 @@
    {
     "number": 26,
     "name": "XIN",
-    "role": "input"
+    "role": "input",
+    "group": "crystal"
    },
    {
     "number": 27,
     "name": "XOUT",
-    "role": "output"
+    "role": "output",
+    "group": "crystal",
+    "side": "in"
    },
    {
     "number": 28,

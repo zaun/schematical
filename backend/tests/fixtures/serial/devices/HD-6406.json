@@ -91,12 +91,15 @@
    {
     "number": 17,
     "name": "IX",
-    "role": "input"
+    "role": "input",
+    "group": "crystal"
    },
    {
     "number": 18,
     "name": "OX",
-    "role": "output"
+    "role": "output",
+    "group": "crystal",
+    "side": "in"
    },
    {
     "number": 19,
