@@ -28,7 +28,7 @@ The gate for the whole feature is in plan-27-A § Prerequisites. This letter add
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-27-B is complete | `ls planning/completed/plan-27-B-*` → one file; `ls planning/plan-27-data/census/{scheme-check.py,specs-check.py,fp-load.sh}` → three files | NOT MET until B archives (2026-11-07) |
+| plan-27-B is complete | `ls planning/completed/plan-27-B-*` → one file; `ls planning/plan-27-data/census/{scheme-check.py,specs-check.py,fp-load.sh}` → three files | MET 2026-11-08 (a03d720; the three files exist) |
 
 If plan-27-B is not complete, this plan cannot start, full stop.
 
@@ -106,12 +106,21 @@ Commit: —
 
 ### Phase 2 — Same Sky (36 lines, 379 rows)
 
-- [ ] Tasks (a)–(c) for `samesky/` (`TS02`, `TS04`, `TS06`, `TS10`, `TS11`,
-      `TS14`, … from `footprints-needed.txt`).
+- [x] Tasks (a)–(c) for `samesky/` (`TS02`, `TS04`, `TS06`, `TS10`, `TS11`,
+      `TS14`, … from `footprints-needed.txt`). Same Sky reader (`work/samesky/`,
+      three passes: most PDFs were truncated downloads at first, plan-27-A
+      Correction 7); `merge-work.py C samesky` → 29 footprints drawn, 24 new
+      (5 identical to B's: `TS01 -> PTS645-THT`, `TS13 -> PTS125-THT`, `TS20 ->
+      PTS810`, `TS34 -> TL6800`, `TS44 -> TL6150-J`); `scheme-check.py --maker
+      'Same Sky'`: `371 add, 2 skip, 0 still pending` (the two TS06 `-SMT-T`
+      check rows, not in the key); 5 `skip` from `cannot-draw.tsv` (TS12, a
+      5-way navigation switch with 6 terminals); TS41 (3 terminals) is a
+      2-pin footprint with pin 1 on two pads (plan-27-B Correction 3).
 
 Acceptance: no Same Sky row is `pending`; checks pass; the NC row
 `TS10-63-26-BE-250-SMT-TR` is `add` or `skip` with a reason.
   Check: the Phase 1 command with `--maker 'Same Sky'` (est. 3 min).
+  Result 2026-11-08: `specs ok (374 add rows)`; `fp-load.sh footprints-B.json footprints-C.json` → `24 new footprints: load ok`; TS10-63-26-BE-250-SMT-TR (SPST-NC) is `add` (ts10.pdf p.1 "normally closed", p.2 schematic). Same Sky rows: 374 add, 7 skip, 24 out.
 Commit: —
 
 ### Phase 3 — TE (28 lines, 176 rows)

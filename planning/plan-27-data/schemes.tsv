@@ -107,3 +107,38 @@ E-Switch	TL6800	TL6800AF(160|260)QJ	TL6800.pdf p.1 (Part Number Configurator)
 E-Switch	TL9100	TL9100AF(200|350)Q	TL9100.pdf p.1 (Part Number Configurator)
 E-Switch	TL9210	TL9210AF(180|260)Q	TL9210.pdf p.1 (part number configurator)
 E-Switch	TL9320	TL9320AF400QG	TL9320.pdf p.1 (Part Number Configurator; one option per field)
+Same Sky (Formerly CUI Devices)	TS06	TS06-667-(25|30|34|43|50|55)-(R|BK|WT)-(100|160|260)-G-SMT-TR	ts06.pdf p.1
+Same Sky (Formerly CUI Devices)	TS08	TS08-66-43-BK-160-SMT-67(-TR)?	ts08.pdf p.1
+Same Sky (Formerly CUI Devices)	TS11	TS11-674-(43|50|55|65|73|80|85|95|105|120|135|153)-BK-(100|160|260)-RA-D	ts11.pdf p.1
+Same Sky (Formerly CUI Devices)	TS13	TS13-1212-73-BK-(100|160|260)-D	ts13.pdf p.1
+Same Sky (Formerly CUI Devices)	TS17	TS17-48-05-YE-(160|260)-SMT-TR	ts17.pdf p.1
+Same Sky (Formerly CUI Devices)	TS18	TS18-5-(15|17|20|25)-SL-(160|260)-SMT-TR	ts18.pdf p.1
+Same Sky (Formerly CUI Devices)	TS24	TS24-62-14-(CL|BL)-(200|250)-SMT-TR-67	ts24.pdf p.1
+Same Sky (Formerly CUI Devices)	TS42	TS42-5252-09-Y-(160|260|350)-SMT-TR	ts42.pdf p.1
+Same Sky (Formerly CUI Devices)	TS01	TS01-66-73-BK-(100|160|260)-D	ts01.pdf p.1
+Same Sky (Formerly CUI Devices)	TS02	TS02-66-((43|50|60|70|73|80|90|95|100|110|130|150|153|170)-BK-(100|160|260)-(SCR|LCR)|(55|120|140|160)-BK-(100|160|260)-LCR)-D	ts02.pdf p.1
+Same Sky (Formerly CUI Devices)	TS03	TS03-66-(50|70|80|95)-BK-(160|260)-LCR-D-67	ts03.pdf p.1
+Same Sky (Formerly CUI Devices)	TS04	TS04-66-(43|50|55|65|70|73|75|85|95)-BK-(100|160|260)-SMT(-TR)?	ts04.pdf p.1
+Same Sky (Formerly CUI Devices)	TS05	TS05-66-(43|50|80)-BK-260-SMT-67	ts05.pdf p.1
+Same Sky (Formerly CUI Devices)	TS07	TS07-667-(25|30|37|43|50)-BK-(100|160|260)-SMT-TR	ts07.pdf p.1
+Same Sky (Formerly CUI Devices)	TS09	TS09-63-25-(R|WT)-(160|260)-SMT-TR	ts09.pdf p.1
+Same Sky (Formerly CUI Devices)	TS10	TS10-63-26-BE-250-SMT-TR	ts10.pdf p.1
+Same Sky (Formerly CUI Devices)	TS14	TS14-1212-(43|50|55|60|65|70|80|90|100|120|140|150)-BK-(100|160|260)-SCR-D	ts14.pdf p.1
+Same Sky (Formerly CUI Devices)	TS15	TS15-1212-(50|65|70|80|95|100|110|125|140|150)-BK-(160|260)-SCR-D	ts15.pdf p.1
+Same Sky (Formerly CUI Devices)	TS16	TS16-1212-(75|85|95)-(R|BK)-(100|160|260)-SMT-TR	ts16.pdf p.1
+Same Sky (Formerly CUI Devices)	TS20	TS20-42-25-WT-160-SMT-TR	ts20.pdf p.1
+Same Sky (Formerly CUI Devices)	TS21	TS21-34-035-BK-(160|260)-SMT-TR	ts21.pdf p.1
+Same Sky (Formerly CUI Devices)	TS22	TS22-45-035-BK-(160|260)-SMT-TR	ts22.pdf p.1
+Same Sky (Formerly CUI Devices)	TS23	TS23-46-06-BK-(160|260)-SMT-TR	ts23.pdf p.1
+Same Sky (Formerly CUI Devices)	TS30	TS30-46-(34|35)-BK-160-RA(-H)?-SMT-TR	ts30.pdf p.1 (halogen field 'blank' drops its dash)
+Same Sky (Formerly CUI Devices)	TS31	TS31-46-35-BK-B-(160|260)-RA(-H)?-SMT-TR	ts31.pdf p.1 (halogen field 'blank' drops its dash)
+Same Sky (Formerly CUI Devices)	TS32	TS32-7-35-BK(-B)?-(160|260)-RA(-H)?-SMT-TR	ts32.pdf p.1 (boss and halogen fields 'blank' drop their dash)
+Same Sky (Formerly CUI Devices)	TS33	TS33-46-35-BK-(160|260)(-H)?-SMT-TR	ts33.pdf p.1 (halogen field 'blank' drops its dash)
+Same Sky (Formerly CUI Devices)	TS34	TS34-62-(2|25|31|35)-BK(-G)?-(100|160|260)(-H)?-SMT-TR	ts34.pdf p.1
+Same Sky (Formerly CUI Devices)	TS35	TS35-6-15-BK-(160|260)(-H)?-JSMT-TR	ts35.pdf p.1
+Same Sky (Formerly CUI Devices)	TS36	TS36-62-(31|35)-BK(-G)?-(160|260)(-H)?-SMT-TR-67	ts36.pdf p.1
+Same Sky (Formerly CUI Devices)	TS40	TS40-66-(33-BK|(38|43|45|50|55|70)-(BK|R))-(160|260)-SMT-TR	ts40.pdf p.1
+Same Sky (Formerly CUI Devices)	TS41	TS41-4539-((35|40)-WT|(50|60|65)-BK)-(160|260)-SMT-TR	ts41.pdf p.1
+Same Sky (Formerly CUI Devices)	TS44	TS44-6262-(34|51)-(BL-350|WT-(200|260|350))-SMT-TR-67	ts44.pdf p.1
+Same Sky (Formerly CUI Devices)	TS45	TS45-8383-405-(WT|Y|YG)-(260|400|700)-SMT-TR	ts45.pdf p.1
+Same Sky (Formerly CUI Devices)	*	TS06-667-(25|30|34|43|50|55)-(R|BK|WT)-(100|160|260)-G-SMT-TR	ts06.pdf p.1 (cuidevices.com copy; the -SMT-T check rows are not in the key)
