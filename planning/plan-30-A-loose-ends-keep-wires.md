@@ -36,7 +36,7 @@ None on other plans. plan-30 stands alone.
 
 | Must be true | Command | Status |
 |---|---|---|
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p30-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-08 at 0f87917) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p30-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-08 at 48645a4, re-run in worktree-P-30: `** BUILD SUCCEEDED **`) |
 
 Everything below is written against a world where this holds.
 
@@ -193,17 +193,18 @@ Decode with `isLoose = loose ?? false`.
 Adds the flag and its round trip. Nothing sets it yet, so nothing in the app
 changes.
 
-- [ ] `Canvas/SchematicModel.swift`: `Junction.isLoose` (§ 4.1).
-- [ ] `Document/SchematicFile.swift`: `Junction.loose`, encode :407, decode
+- [x] `Canvas/SchematicModel.swift`: `Junction.isLoose` (§ 4.1).
+- [x] `Document/SchematicFile.swift`: `Junction.loose`, encode :407, decode
       :606 (§ 4.4).
-- [ ] `docs/file-format.md` § Junctions: document `loose` ("true: the spot
+- [x] `docs/file-format.md` § Junctions: document `loose` ("true: the spot
       where a deleted pin was; wires on it have a loose end. Written only
       when true.") and change "The app removes unused junctions when wires
       are erased" to also say a junction stays while any wire ends on it.
-- [ ] Tests: new `schematicalTests/LooseEndTests.swift`,
+- [x] Tests: new `schematicalTests/LooseEndTests.swift`,
       `testLooseJunctionRoundTrips` (a document with one loose and one plain
       junction → `SchematicFile` → JSON → back; the flags match, and the
-      plain one's JSON has no `loose` key).
+      plain one's JSON has no `loose` key). Ran the Check: `Executed 1 test,
+      with 0 failures`, `** TEST SUCCEEDED **`.
 
 Acceptance: a loose junction survives save and open, and a plain one writes no `loose` key.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical test -only-testing:schematicalTests/LooseEndTests CODE_SIGNING_ALLOWED=NO` → all pass (est. 4 min).

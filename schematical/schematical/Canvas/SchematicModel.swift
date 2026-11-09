@@ -794,10 +794,14 @@ struct Junction: Identifiable, Hashable {
     let id: UUID
     /// Moves only with a group drag (plan-15); always on the grid.
     var point: CGPoint
+    /// A loose end: the spot where a deleted pin was. The wires on it kept
+    /// their routes, and dropping a pin here connects them again (plan-30).
+    var isLoose: Bool
 
-    init(id: UUID = UUID(), point: CGPoint) {
+    init(id: UUID = UUID(), point: CGPoint, isLoose: Bool = false) {
         self.id = id
         self.point = point
+        self.isLoose = isLoose
     }
 }
 
