@@ -1,0 +1,11 @@
+maker	series	regex	source
+E-Switch	GS	GSE?(4\.70|5\.20|6\.90|10\.00)F(130|160|300)[QR][PG]	GS%20Series.pdf p.1 (HOW TO ORDER; starred lengths are right angle only)
+E-Switch	GS	GSR(6\.34|6\.84|8\.54|11\.54)F(130|160|300)[QR][PG]	GS%20Series.pdf p.1 (HOW TO ORDER; right angle takes the starred lengths)
+E-Switch	TL1018	TL1018AA[AB]F(160|240|340|450)QG	TL1018.pdf p.1 (Part Number Configurator)
+E-Switch	TL3301	TL3301(A|B|C|D|E|F|N|P|SP|T)F(100|160|260)[QR][GJ](TR|TUBE)?	TL3301.pdf p.1 (Part Number Configurator; TR / TUBE packaging suffixes are not in the key, optional group per the brief: p.1 lists tape & reel packaging)
+E-Switch	TL3303	(TL|LL)3303A?F(100|160|260)QG	TL3303.pdf p.1 (HOW TO ORDER; TLE earth-ground variant left out, its land pattern differs)
+E-Switch	TL3312	TL3312NF(160|235)Q	TL3312.pdf p.1 (Part Number Configurator)
+E-Switch	TL3313	TL3313AF(100|160|250)QG	TL3313.pdf p.1 (HOW TO ORDER)
+E-Switch	TL3340	TL3340AF160QG	TL3340.pdf p.1 (HOW TO ORDER; actuator A only)
+E-Switch	TL3360	TL3360[A-E]F(185|260)A?K?[QR]	TL3360.pdf p.1 (Part Number Configurator)
+E-Switch	TL52	TL52AF(160|260)Q	TL52.pdf p.1 (HOW TO ORDER)

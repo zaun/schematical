@@ -1,0 +1,18 @@
+maker	series	mounting	mpn_regex	terminals	pins	footprint	note
+Alps Alpine	SKHU	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-SKHU	PdfFile_260198.pdf p.2 Circuit Diagram (1-2 and 3-4 joined; ground terminal 5 of SKHUP*/SKHUQ* not a switch terminal)
+Alps Alpine	SKPS	Surface Mount	.*	2	A=1;B=2	SW-TACT-SKPS	skps.pdf p.1 Circuit Diagram
+Alps Alpine	SKQG	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-SKQG	product_catalog_ta_02_skqg_en_d003713f01.pdf p.1 Drawing No.1 Circuit Diagram (1-2 and 3-4 joined)
+Alps Alpine	SKRA	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-SKRA	skra.pdf p.1 Circuit Diagram (1-2 and 3-4 joined)
+Alps Alpine	SKRP	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-SKRP	product_catalog_ta_02_skrp_en.pdf p.2 Drawing No.1 Circuit Diagram (1-2 and 3-4 joined)
+Alps Alpine	SKRP	Surface Mount, Right Angle	.*	4	A=1,2;B=3,4	SW-TACT-SKRP	product_catalog_ta_02_skrp_en.pdf p.2 Drawing No.1 Circuit Diagram (1-2 and 3-4 joined); the catalog lists SKRPAKE010/SKRPAME010 as top push, Drawing No.1, like the rest
+Alps Alpine	SKRW	Surface Mount	.*	4	A=1,3;B=2,4	SW-TACT-SKRW	product_catalog_ta_02_skrw_en_e2e67a2472.pdf p.1 Drawing No.1 Circuit Diagram (1-3 and 2-4 joined)
+Alps Alpine	SKSC	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-SKSC	sksc.pdf p.2 Circuit Diagram (3-4 and 1-2 joined); every SKSC is side push
+Alps Alpine	SKSC	Surface Mount, Right Angle	.*	4	A=1,2;B=3,4	SW-TACT-SKSC	sksc.pdf p.2 Circuit Diagram (3-4 and 1-2 joined)
+Alps Alpine	SKSG	Surface Mount	.*	4	A=1,3;B=2,4	SW-TACT-SKSG	sksg.pdf p.2 Circuit Diagram (1-3 and 2-4 joined; ground terminals 5, 6 of SKSGP* not switch terminals)
+Alps Alpine	SKSG	Surface Mount, Right Angle	.*	4	A=1,3;B=2,4	SW-TACT-SKSG	sksg.pdf p.2 Circuit Diagram (1-3 and 2-4 joined); SKSGPCE010 is top push with ground terminal in the catalog
+Alps Alpine	SKSW	Surface Mount	.*	2	A=1;B=2	SW-TACT-SKSW	sksw.pdf p.2 Circuit Diagram
+Alps Alpine	SKTA	Surface Mount	.*	4	A=1,3;B=2,4	SW-TACT-SKTA	skta1.pdf p.1 Circuit Diagram (1-3 and 2-4 joined)
+Alps Alpine	SKTH	Surface Mount	SKTHAEE010	4	A=1,2;B=3,4	SW-TACT-SKTH-AE	skth.pdf p.2 Circuit Diagram (3-4 and 1-2 joined); land drawing 3
+Alps Alpine	SKTH	Surface Mount	SKTH(ACE|AHE|BAE)010	4	A=1,2;B=3,4	SW-TACT-SKTH	skth.pdf p.2 Circuit Diagram (3-4 and 1-2 joined); land drawings 1 and 2
+Alps Alpine	SKTH	Surface Mount, Right Angle	SKTHAEE010	4	A=1,2;B=3,4	SW-TACT-SKTH-AE	skth.pdf p.2 Circuit Diagram (3-4 and 1-2 joined); land drawing 3
+Alps Alpine	SKTH	Surface Mount, Right Angle	SKTH(ACE|AHE|BAE)010	4	A=1,2;B=3,4	SW-TACT-SKTH	skth.pdf p.2 Circuit Diagram (3-4 and 1-2 joined); land drawings 1 and 2; the catalog lists SKTHAHE010/SKTHBAE010 as top push

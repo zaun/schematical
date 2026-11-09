@@ -1,0 +1,5 @@
+maker	series	mounting	mpn_regex	terminals	pins	footprint	note
+NKK Switches	CB	Through Hole	.*	4	A=1,2;B=3,4	SW-TACT-CB	CB.pdf p.3 Switch Throw & Schematic (1-2 and 3-4 joined)
+NKK Switches	CB3	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-CB3	CB3.pdf p.3 Switch Throw & Schematic (1-2 and 3-4 joined)
+NKK Switches	HP02	Through Hole	.*	4	A=1,2;B=3,4	SW-TACT-HP02	HP02.pdf p.3 Switch Throw & Schematic (1-2 and 3-4 joined)
+NKK Switches	HP03	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-HP03	HP03.pdf p.3 Switch Throw & Schematic (1-2 and 3-4 joined)

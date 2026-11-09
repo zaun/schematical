@@ -1,0 +1,364 @@
+{
+ "footprints": [
+  {
+   "id": "SW-TACT-320",
+   "description": "E-Switch 320 through-hole tactile switch, 12.45 mm square body, 2 terminals on a 2.54 mm grid",
+   "note": "320.04E11GRYVERT.pdf p.1 PCB LAYOUT (holes 1 and 3 dia 1.22 on a 2.54 grid; 2 dia 1.00 alignment pins not drawn) and bottom view (alignment pin 2.42 from two body edges, pin 1 7.62 from it, pin 3 2.54/5.08 from it): the hole grid is centred on the 12.45 square body. Datasheet terminal 3 is pin 2 here. Pad 1.7 x 1.22 = 2.05.",
+   "style": "explicit",
+   "pins": 2,
+   "body": {
+    "width": 12.45,
+    "height": 12.45
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 3.81,
+     "y": -3.81,
+     "width": 2.05,
+     "height": 2.05,
+     "shape": "round",
+     "drill": 1.22
+    },
+    {
+     "pin": 2,
+     "x": -1.27,
+     "y": 1.27,
+     "width": 2.05,
+     "height": 2.05,
+     "shape": "round",
+     "drill": 1.22
+    }
+   ]
+  },
+  {
+   "id": "SW-TACT-GS-THT",
+   "description": "E-Switch GS through-hole sealed tactile switch, 7.20 mm square body, 7.62 x 5.00 mm holes",
+   "note": "GS%20Series.pdf p.1 GS P.C. MOUNTING (4 holes dia 0.90, 7.62 x 5.00) and top view (terminals 1, 3 top, 2, 4 bottom). Pad 1.7 x 0.90 = 1.55.",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 7.2,
+    "height": 7.2
+   },
+   "pitch": 5.0,
+   "span": 7.62,
+   "slots": [
+    1,
+    2,
+    4,
+    3
+   ],
+   "pad": {
+    "width": 1.55,
+    "height": 1.55,
+    "shape": "round"
+   },
+   "drill": 0.9
+  },
+  {
+   "id": "SW-TACT-GS-THT-RA",
+   "description": "E-Switch GSR right-angle through-hole sealed tactile switch, 8.00 x 6.00 mm body, 2 terminals 5.08 mm apart",
+   "note": "GS%20Series.pdf p.2 GSR P.C. MOUNTING (front edge at the top; terminals dia 0.90, 5.08 apart, 2.54 behind the dia 2.00 bracket-leg holes, which are not drawn) and side view (front face to bracket legs 2.00, legs to back 4.00, so body depth 6.00; terminals 4.54 behind the front face). Front view puts terminal 1 on the viewer's left, i.e. on the right in this top view. Pad 1.7 x 0.90 = 1.55.",
+   "style": "explicit",
+   "pins": 2,
+   "body": {
+    "width": 8.0,
+    "height": 6.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 2.54,
+     "y": 1.54,
+     "width": 1.55,
+     "height": 1.55,
+     "shape": "round",
+     "drill": 0.9
+    },
+    {
+     "pin": 2,
+     "x": -2.54,
+     "y": 1.54,
+     "width": 1.55,
+     "height": 1.55,
+     "shape": "round",
+     "drill": 0.9
+    }
+   ]
+  },
+  {
+   "id": "SW-TACT-TL1018",
+   "description": "E-Switch TL1018 SMD tactile switch, 3.05 x 2.60 mm body, 1.65 mm pitch",
+   "note": "TL1018.pdf p.2 Recommended PCB Layout (outer 3.80 x 2.30, inner gaps 2.50 x 1.00, so pads 0.65 x 0.65 at 3.15 x 1.65; terminals 1, 2 top, 3, 4 bottom). Body 3.05 housing (3.50 over terminals) x 2.60 (2.60 +/- 0.30). The ground-terminal option (TL1018AAB\u2026, p.3) adds ground pads 5 and 6 between the rows; they are not switch terminals and are not drawn.",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 3.05,
+    "height": 2.6
+   },
+   "pitch": 1.65,
+   "span": 3.15,
+   "slots": [
+    1,
+    4,
+    2,
+    3
+   ],
+   "pad": {
+    "width": 0.65,
+    "height": 0.65,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SW-TACT-TL3301-G",
+   "description": "E-Switch TL3301 gull-wing SMD tactile switch, 6 x 6 mm body, 4.50 mm pitch",
+   "note": "TL3301.pdf p.2 PCB Layout, gull wing (outer 11.20, inner 7.00, pads 2.10 x 1.40 at 9.10 x 4.50; terminals 3, 4 top, 1, 2 bottom); same layout p.4 (SP actuator) and p.5 (T actuator).",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 6.0,
+    "height": 6.0
+   },
+   "pitch": 4.5,
+   "span": 9.1,
+   "slots": [
+    2,
+    3,
+    1,
+    4
+   ],
+   "pad": {
+    "width": 2.1,
+    "height": 1.4,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SW-TACT-TL3301-J",
+   "description": "E-Switch TL3301 J-lead SMD tactile switch, 6 x 6 mm body, 4.50 mm pitch",
+   "note": "TL3301.pdf p.3 PCB Layout, J-lead (outer 7.60, gap 2.03, pads 2.785 x 1.40 at 4.815 x 4.50; terminals 3, 4 top, 1, 2 bottom).",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 6.0,
+    "height": 6.0
+   },
+   "pitch": 4.5,
+   "span": 4.815,
+   "slots": [
+    2,
+    3,
+    1,
+    4
+   ],
+   "pad": {
+    "width": 2.785,
+    "height": 1.4,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SW-TACT-TL3303",
+   "description": "E-Switch TL3303 SMD tactile switch, 6.20 x 6.00 mm body, terminals top and bottom",
+   "note": "TL3303.pdf p.1 TL 3303/LL 3303 P.C. MOUNTING (rows: outer 10.00, inner 6.80; columns: outer 5.90, inner gap 3.10; pads 1.40 x 1.60 at 4.50 x 8.40) and top view (terminals 4, 2 top, 3, 1 bottom; body 6.20 wide x 6.00).",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 6.2,
+    "height": 6.0
+   },
+   "pitch": 8.4,
+   "span": 4.5,
+   "slots": [
+    3,
+    4,
+    2,
+    1
+   ],
+   "pad": {
+    "width": 1.4,
+    "height": 1.6,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SW-TACT-TL3312",
+   "description": "E-Switch TL3312 ultra-thin SMD tactile switch, 3.70 mm square body",
+   "note": "TL3312.pdf p.2 Surface Mount PCB Layout (outer 3.70 x 3.40, inner 2.50 x 2.10, pads 0.60 x 0.65 at 3.10 x 2.75; terminals 1, 2 top, 3, 4 bottom; 2.30 x 3.60 keep-out between the columns not drawn).",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 3.7,
+    "height": 3.7
+   },
+   "pitch": 2.75,
+   "span": 3.1,
+   "slots": [
+    1,
+    4,
+    2,
+    3
+   ],
+   "pad": {
+    "width": 0.6,
+    "height": 0.65,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SW-TACT-TL3313",
+   "description": "E-Switch TL3313 SMD tactile switch, 4.60 mm square body, 3.00 mm pitch",
+   "note": "TL3313.pdf p.1 MOUNTING (outer 6.40 x 4.00, inner 4.60 x 2.00, pads 0.90 x 1.00 at 5.50 x 3.00; terminals 3, 4 top, 1, 2 bottom).",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 4.6,
+    "height": 4.6
+   },
+   "pitch": 3.0,
+   "span": 5.5,
+   "slots": [
+    2,
+    3,
+    1,
+    4
+   ],
+   "pad": {
+    "width": 0.9,
+    "height": 1.0,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SW-TACT-TL3340",
+   "description": "E-Switch TL3340 right-angle SMD tactile switch, 4.00 x 2.55 mm body, 3 terminals (1 and 3 common)",
+   "note": "TL3340.pdf p.1 P.C. MOUNTING (terminal row: outer 3.20, terminals 1, 3 0.75 wide with 1.70 between, terminal 2 0.60 wide, all 1.80 long, ending on the peg-hole line; bracket pads 2x 0.90 high and dia 0.90 peg holes not drawn), side view (pegs 1.20 behind the front face; body depth 3.40 - 0.85 actuator = 2.55). Front edge at the bottom. Schematic: terminals 1 and 3 common, so datasheet terminal 3 is a second pad of pin 1.",
+   "style": "explicit",
+   "pins": 2,
+   "body": {
+    "width": 4.0,
+    "height": 2.55
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -1.225,
+     "y": -0.825,
+     "width": 0.75,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 1,
+     "x": 1.225,
+     "y": -0.825,
+     "width": 0.75,
+     "height": 1.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 0.0,
+     "y": -0.825,
+     "width": 0.6,
+     "height": 1.8,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SW-TACT-TL3360",
+   "description": "E-Switch TL3360 right-angle SMD tactile switch, 6.06 x 4.37 mm body, 2 terminals",
+   "note": "TL3360.pdf p.2 PCB Layout (terminals 1, 2: inner gap 2.54, outer 4.95, 3.76 long, starting 1.70 behind the front face; the 4.19-long solder pads of the bracket (5.34/8.76) are not drawn); same terminal pads p.3 (without solder pad) and p.4 (with auto placement tab). Front edge at the top. Body 6.06 wide (p.3/4 print 6.1) x 4.37 deep from the front face.",
+   "style": "explicit",
+   "pins": 2,
+   "body": {
+    "width": 6.06,
+    "height": 4.37
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -1.8725,
+     "y": 1.395,
+     "width": 1.205,
+     "height": 3.76,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 1.8725,
+     "y": 1.395,
+     "width": 1.205,
+     "height": 3.76,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SW-TACT-TL3701",
+   "description": "E-Switch TL3701 SMD tactile switch, 3.00 x 2.60 mm body, 1.80 mm pitch",
+   "note": "TL3701AF100QG.pdf p.1 PCB LAYOUT (outer 3.60 x 2.60, inner 2.10 x 1.00, pads 0.75 x 0.80 at 2.85 x 1.80; terminals 3, 4 top, 1, 2 bottom; keep-out between the columns not drawn).",
+   "style": "dual",
+   "pins": 4,
+   "body": {
+    "width": 3.0,
+    "height": 2.6
+   },
+   "pitch": 1.8,
+   "span": 2.85,
+   "slots": [
+    2,
+    3,
+    1,
+    4
+   ],
+   "pad": {
+    "width": 0.75,
+    "height": 0.8,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SW-TACT-TL52",
+   "description": "E-Switch TL52 sealed through-hole tactile switch, 8.00 mm square body, 2 terminals 5.00 mm apart",
+   "note": "TL52.pdf p.1 MOUNTING (2 holes dia 1.00, 5.00 apart; numbering from the schematic, 1 left) and front view (leads symmetric about the body). Pad 1.7 x 1.00 = 1.70.",
+   "style": "dual",
+   "pins": 2,
+   "body": {
+    "width": 8.0,
+    "height": 8.0
+   },
+   "pitch": 1.0,
+   "span": 5.0,
+   "perSide": 1,
+   "pad": {
+    "width": 1.7,
+    "height": 1.7,
+    "shape": "round"
+   },
+   "drill": 1.0
+  },
+  {
+   "id": "SW-TACT-TS",
+   "description": "E-Switch TS35M9 SMD tactile switch, 6.00 x 3.50 mm body, 2 terminals",
+   "note": "06-TS35M943160TR.pdf p.1 P.C.B LAYOUT (outer 9.50, inner 6.40, pads 1.55 x 1.60 at 7.95; terminal 1 left, 2 right; leads on the body's centre line).",
+   "style": "dual",
+   "pins": 2,
+   "body": {
+    "width": 6.0,
+    "height": 3.5
+   },
+   "pitch": 1.0,
+   "span": 7.95,
+   "perSide": 1,
+   "pad": {
+    "width": 1.55,
+    "height": 1.6,
+    "shape": "rect"
+   }
+  }
+ ]
+}

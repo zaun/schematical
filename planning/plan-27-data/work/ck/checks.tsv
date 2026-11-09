@@ -1,0 +1,6 @@
+mpn	decision	reason	circuit	mounting	actuator	rating
+PTS830GG140GSMTRLFS	keep		SPST-NO	Surface Mount	Standard	0.05A @ 12VDC
+KMR241GULCLFS	keep	kmr2.pdf p.1 (KMR241G ULC LFS: SPST-NO, SMT gull wing, silver 50 mA 32 VDC)	SPST-NO	Surface Mount	Standard	0.05A @ 32VDC
+NANOT160BP	keep		SPST-NO	Surface Mount, Right Angle	Standard	0.02A @ 15VDC
+KSC421G70SHLFS	keep	ksc4.pdf p.1: KSC421G 70 SH LFS, 1 make contact SPST N.O., gullwing SMT, silver 50 mA 32 VDC	SPST-NO	Surface Mount	Standard	0.05A @ 32VDC
+KSC441JST2LFS	keep	ksc4.pdf p.1: KSC441J ST2 LFS (KSC4 acoustic version), 1 make contact SPST N.O., J-bend SMT, silver 50 mA 32 VDC	SPST-NO	Surface Mount	Standard	0.05A @ 32VDC

@@ -1,0 +1,7 @@
+maker	series	regex	source
+NKK Switches	CB	CB15FP(-S)?	CB.pdf p.3
+NKK Switches	CB3	CB315FP(-R)?	CB3.pdf p.3
+NKK Switches	HP02	HP0215AFKP[24](-S)?	HP02.pdf p.3 (packaging S optional: the page's own caption prints HP0215AFKP2 without it)
+NKK Switches	HP03	HP0315AFKP[24](-[SR])?	HP03.pdf p.3 (packaging optional: the page's own caption prints HP0315AFKP4 without it)
+NKK Switches	JB	JB15(L|HL|HB)P(C-(B|C|E|F|BB|BC|BE|BF|BH|JB|JC)|E-(B|C|E|F|BB|BC|BE|BF|BH|JB|JE)|F-(B|C|E|F|BB|BC|BE|BF|BH|JB|JF))	JBilluminated.pdf p.3 (illuminated key only)
+NKK Switches	JF	JF15(RP[123][CDFGH][CEF]|AP1(CC|EE|FF))	JFilluminated-1.pdf p.3 (illuminated key only)

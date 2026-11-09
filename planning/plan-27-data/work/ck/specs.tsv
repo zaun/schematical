@@ -1,0 +1,90 @@
+maker	series	mounting	mpn_regex	terminals	pins	footprint	note
+C&K	PTS125	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-PTS125-SMD	littelfuse-c-k-tactile-pts125-series-datasheet p.2 schematic
+C&K	PTS125	Through Hole	.*	4	A=1,2;B=3,4	SW-TACT-PTS125-THT	littelfuse-c-k-tactile-pts125-series-datasheet p.2 schematic
+C&K	PTS525	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-PTS525-SMD	littelfuse-c-k-tactile-pts525-series-datasheet p.2 schematic
+C&K	PTS526	Surface Mount	PTS526S[MKP]08SMTR2 LFS	4	A=1,2;B=3,4	SW-TACT-PTS526-SMD-H08	littelfuse-c-k-tactile-pts526-series-datasheet p.1 circuit diagram
+C&K	PTS526	Surface Mount	PTS526S[MKP]G(15|17|20)JSMTR21? LFS	4	A=1,2;B=3,4	SW-TACT-PTS526-SMD-J	littelfuse-c-k-tactile-pts526-series-datasheet p.3 circuit diagram (ground 5-6 not a switch terminal)
+C&K	PTS526	Surface Mount	PTS526S[MKP]G?(15|17|20)SMTR21? LFS	4	A=1,2;B=3,4	SW-TACT-PTS526-SMD	littelfuse-c-k-tactile-pts526-series-datasheet p.2 circuit diagram (ground 5-6 not a switch terminal)
+C&K	PTS530	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-PTS530-SMD	littelfuse-c-k-tactile-pts530-series-datasheet p.2 schematic
+C&K	PTS540	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-PTS540-SMD	littelfuse-c-k-tactile-pts540-series-datasheet p.1 schematic
+C&K	PTS636	Through Hole	.*	2	A=1;B=2	SW-TACT-PTS636-THT	littelfuse-c-k-tactile-pts636-series-datasheet (same file as c-amp-k-tactile-pts636-series-datasheet) p.2 circuit diagram
+C&K	PTS636	Surface Mount	PTS636S[LMKP](43|50) ?SMTR LFS	2	A=1;B=2	SW-TACT-PTS636-SMD-G	littelfuse-c-k-tactile-pts636-series-datasheet (same file as c-amp-k-tactile-pts636-series-datasheet) p.2 circuit diagram
+C&K	PTS636	Surface Mount	PTS636S[LMKP](43|50)JSMTR LFS|GSPTS004102	2	A=1;B=2	SW-TACT-PTS636-SMD-J	littelfuse-c-k-tactile-pts636-series-datasheet (same file as c-amp-k-tactile-pts636-series-datasheet) p.3 circuit diagram; GSPTS004102 = PTS636SM50JSMTR LFS (p.8)
+C&K	PTS636	Surface Mount	PTS636S[LMKP]25 ?SMTR LFS	2	A=1;B=2	SW-TACT-PTS636-SMD-G25	littelfuse-c-k-tactile-pts636-series-datasheet (same file as c-amp-k-tactile-pts636-series-datasheet) p.3 circuit diagram
+C&K	PTS636	Surface Mount	PTS636S[LMKP]G25 ?SMTR LFS	2	A=1;B=2	SW-TACT-PTS636-SMD-G25G	littelfuse-c-k-tactile-pts636-series-datasheet (same file as c-amp-k-tactile-pts636-series-datasheet) p.5 circuit diagram (ground 3-4 not a switch terminal)
+C&K	PTS636	Surface Mount	PTS636S[LMKP]G?25JSMTR LFS	2	A=1;B=2	SW-TACT-PTS636-SMD-J25	littelfuse-c-k-tactile-pts636-series-datasheet (same file as c-amp-k-tactile-pts636-series-datasheet) p.4/p.5 circuit diagram
+C&K	PTS636	Surface Mount	PTS636S[LMKP]G?25FSMTR LFS	2	A=1;B=2	SW-TACT-PTS636-SMD-F25	littelfuse-c-k-tactile-pts636-series-datasheet (same file as c-amp-k-tactile-pts636-series-datasheet) p.4 circuit diagram
+C&K	PTS641	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-PTS641-SMD	littelfuse-c-k-tactile-pts641-series-datasheet p.2 schematic
+C&K	PTS645	Through Hole	.*	4	A=1,2;B=3,4	SW-TACT-PTS645-THT	littelfuse-c-k-tactile-pts645-series-datasheet p.2 schematic (ESD pin 5 not a switch terminal)
+C&K	PTS645	Surface Mount	PTS645SJ?[NLMHKPR](43|50|70|73|95|13|11)SMTR92 LFS	4	A=1,2;B=3,4	SW-TACT-PTS645-SMD	littelfuse-c-k-tactile-pts645-series-datasheet p.3 schematic
+C&K	PTS645	Surface Mount	PTS645SJ?[NLMHKPR](43|50|70|73|95|13|11)JSMTR92 LFS	4	A=1,2;B=3,4	SW-TACT-PTS645-SMD-J	littelfuse-c-k-tactile-pts645-series-datasheet p.3 schematic (A-B, C-D)
+C&K	PTS645	Surface Mount, Right Angle	.*	2	A=1;B=2	SW-TACT-PTS645-SMD-RA	littelfuse-c-k-tactile-pts645v-series-datasheet p.2 schematic
+C&K	PTS645	Through Hole, Right Angle	.*	2	A=1;B=2	SW-TACT-PTS645-THT-RA	littelfuse-c-k-tactile-pts645v-series-datasheet p.3 schematic
+C&K	PTS647	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-PTS647-SMD	littelfuse-c-k-tactile-pts647-series-datasheet p.2 schematic
+C&K	PTS810	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-PTS810	littelfuse-c-k-tactile-pts810-series-datasheet p.1 (schematic)
+C&K	PTS815	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-PTS815	littelfuse-c-k-tactile-pts815-series-datasheet p.1 (circuit diagram)
+C&K	PTS820	Surface Mount	.*	2	A=1;B=2	SW-TACT-PTS820	littelfuse-c-k-tactile-pts820-series-datasheet p.1 (schematic; the corner tabs go to ground, not drawn)
+C&K	PTS830	Surface Mount	PTS830 ?G[GKM] ?140 ?SMTR ?LFS	4	A=1,2;B=3,4	SW-TACT-PTS830	littelfuse-c-k-tactile-pts830-series-datasheet p.1 (schematic; G version: 5, 6 ground, not drawn)
+C&K	PTS830	Surface Mount	PTS830 ?G[GKM] ?140 ?G ?SMTR ?LFS	4	A=1,2;B=3,4	SW-TACT-PTS830-G	littelfuse-c-k-tactile-pts830-series-datasheet p.1 (schematic; G version: 5, 6 ground, not drawn)
+C&K	*	Surface Mount	PTS830GG140GSMTRLFS	4	A=1,2;B=3,4	SW-TACT-PTS830-G	littelfuse-c-k-tactile-pts830-series-datasheet p.1 (schematic; G version: 5, 6 ground, not drawn) (check row; same part as PTS830GG140GSMTR LFS)
+C&K	PTS840	Surface Mount, Right Angle	PTS840 ?(ESD ?)?G ?[MK] ?P? ?SMTR ?LFS	4	A=1,2;B=3,4	SW-TACT-PTS840	littelfuse-c-k-tactile-pts840-series-datasheet p.2 (G) / p.3 (P) schematic; 5 = ESD ground, not drawn
+C&K	PTS840	Surface Mount, Right Angle	PTS840 ?(ESD ?)?P ?[MK] ?SMTR ?LFS	4	A=1,2;B=3,4	SW-TACT-PTS840-P	littelfuse-c-k-tactile-pts840-series-datasheet p.2 (G) / p.3 (P) schematic; 5 = ESD ground, not drawn
+C&K	PTS841	Surface Mount, Right Angle	.*	4	A=1,2;B=3,4	SW-TACT-PTS841	littelfuse-c-k-tactile-pts841-series-datasheet p.2 circuit diagram; 5 = ESD ground, not drawn
+C&K	PTS845	Surface Mount, Right Angle	.*	2	A=1;B=2	SW-TACT-PTS845	littelfuse-c-k-tactile-pts845-series-datasheet p.1 circuit diagram: terminals 1 and 3 joined, switch to 2; terminal 3 is a second pad of pin 1
+C&K	PTS847	Edge Mount, Right Angle	.*	2	A=1;B=2	SW-TACT-PTS847	littelfuse-c-k-tactile-pts847-series-datasheet p.2/p.3 schematic: terminals 1 and 3 joined, switch to 2; terminal 3 is a second pad of pin 1
+C&K	PTS850	Surface Mount, Right Angle	.*	4	A=1,3;B=2,4	SW-TACT-PTS850	littelfuse-c-k-tactile-pts850-series-datasheet p.2 schematic: 1-3 joined, 2-4 joined
+C&K	RK	Surface Mount	RKA2.*	4	A=1,2;B=3,4	SW-TACT-RK	littelfuse-c-k-tactile-rk-series-datasheet p.1 RKA2 circuit diagram
+C&K	RK	Surface Mount	RKB2.*	4	A=1,2;B=3,4	SW-TACT-PTS815	littelfuse-c-k-tactile-rk-series-datasheet p.2 RKB2 circuit diagram
+C&K	RKC2	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-RKC2	littelfuse-c-k-tactile-rkc2-series-datasheet p.2 circuit diagram
+C&K	TLS	Surface Mount	.*	2	A=1;B=2	SW-TACT-TLS	littelfuse-c-k-tactile-tls-series-datasheet p.1 circuit diagram (double-break bridge between the two unnumbered terminals)
+C&K	ATS	Surface Mount	.*	2	A=1;B=2	SW-TACT-ATS	littelfuse-ck-ats-series-datasheet p.2 (SPST-NC, symbol on the PCB layout; 2 terminals)
+C&K	ED	Surface Mount	.*	2	A=1;B=2	SW-TACT-ED-SMD	littelfuse-c-k-tactile-ed-edm-series-datasheet p.1-2 (SPST-NO disc, 2 tabs)
+C&K	ED	Through Hole	.*	2	A=1;B=2	SW-TACT-ED-THT	littelfuse-c-k-tactile-ed-edm-series-datasheet p.1-2 (SPST-NO disc, 2 pc pins)
+C&K	EDM	Surface Mount	.*	2	A=1;B=2	SW-TACT-ED-SMD	littelfuse-c-k-tactile-ed-edm-series-datasheet p.1-2 (SPST-NO disc, 2 tabs)
+C&K	EDM	Through Hole	.*	2	A=1;B=2	SW-TACT-ED-THT	littelfuse-c-k-tactile-ed-edm-series-datasheet p.1-2 (SPST-NO disc, 2 pc pins)
+C&K	EL2	Surface Mount	.*	4	A=1,4;B=2,3	SW-TACT-EL2	littelfuse-c-k-tactile-el2-series-datasheet p.2 (switch symbol on Layout - Pad: top pair joined, bottom pair joined)
+C&K	KMR2	Surface Mount	.*	4	A=1,4;B=2,3	SW-TACT-KMR2	littelfuse-c-k-tactile-kmr2-series-datasheet p.2 electrical diagram (G and NG: 4-1, 3-2)
+C&K	KMR6	Surface Mount	.*	4	A=1,4;B=2,3	SW-TACT-KMR2	littelfuse-c-k-tactile-kmr6-series-datasheet p.2 electrical diagram (4-1, 3-2)
+C&K	KMR7	Surface Mount	.*	4	A=1,4;B=2,3	SW-TACT-KMR2	littelfuse-c-k-tactile-kmr7-series-datasheet p.2 electrical diagram (4-1, 3-2)
+C&K	KMS	Surface Mount, Right Angle	.*	4	A=2,3;B=1,4	SW-TACT-KMS	littelfuse-c-k-tactile-kms-series-datasheet p.1 electrical diagram (2-3-4, 1-5; pads renumbered DS1,2,4,5 -> 1,2,3,4; frame tab 3 omitted); also kms.pdf p.1
+C&K	KMT	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-KMT	littelfuse-c-k-tactile-kmt2-series-datasheet p.2 electrical diagram (unnumbered: top pair, bottom pair; KMT0 numbering); also kmt2.pdf (same file)
+C&K	KMT0	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-KMT	littelfuse-c-k-tactile-kmt0-series-datasheet p.1 electrical diagram (1-2, 4-3)
+C&K	*	Surface Mount	KMR241GULCLFS	4	A=1,4;B=2,3	SW-TACT-KMR2	kmr2.pdf p.1-2 (check row; same KMR2 datasheet: 4-1, 3-2)
+C&K	KSE	Surface Mount	.*G ?LFS	4	A=1,4;B=2,3	SW-TACT-KSC-G	littelfuse-c-k-tactile-kse-series-datasheet p.2 (circuit in pad layout figure)
+C&K	KSE	Surface Mount	.*J ?LFS	4	A=1,4;B=2,3	SW-TACT-EL2	littelfuse-c-k-tactile-kse-series-datasheet p.2 (circuit in pad layout figure)
+C&K	KSR	Surface Mount	.*	2	A=1;B=2	SW-TACT-ATS	littelfuse-c-k-tactile-ksr-series-datasheet p.1 (2 terminals; NC versions use the same pads)
+C&K	KSS	Surface Mount, Right Angle	.*	2	A=1;B=2	SW-TACT-KSS	littelfuse-c-k-tactile-kss-series-datasheet p.1 (2 terminals)
+C&K	KST	Surface Mount	KST2[24][13]G ?LF[SG]	4	A=1,4;B=2,3	SW-TACT-KSC-G	littelfuse-ck-tactile-kst-series-datasheet p.1 (circuit in termination figure)
+C&K	KST	Surface Mount	KST2[24][13]J ?LF[SG]	4	A=1,4;B=2,3	SW-TACT-EL2	littelfuse-ck-tactile-kst-series-datasheet p.1 (circuit in termination figure)
+C&K	KT	Surface Mount	KT11..SM3[45] ?LF[SG]	4	A=1,2;B=3,4	SW-TACT-KT-SMD-G	littelfuse-c-k-tactile-kt-series-datasheet p.3 schematic
+C&K	KT	Surface Mount	KT11..JM3[45] ?LF[SG]	4	A=1,2;B=3,4	SW-TACT-KT-SMD-J	littelfuse-c-k-tactile-kt-series-datasheet p.3 schematic
+C&K	KT	Surface Mount, Right Angle	.*	2	A=1;B=2	SW-TACT-KT-SMD-RA	littelfuse-c-k-tactile-kt-series-datasheet p.4 schematic (terminals 2, 4 = pins 1, 2)
+C&K	KXT3	Surface Mount	.*	2	A=1;B=2	SW-TACT-KXT3	littelfuse-c-k-tactile-kxt3-series-datasheet p.1 schematic
+C&K	NanoT	Surface Mount	NANOT ?(100|160|240) ?AS	2	A=1;B=2	SW-TACT-NANOT-SMD	littelfuse-c-k-tactile-nanot-series-datasheet p.2 AS schematic
+C&K	NanoT	Surface Mount	NANOT ?(100|160|240) ?BP	2	A=1;B=2	SW-TACT-NANOT-PIP	littelfuse-c-k-tactile-nanot-series-datasheet p.2 BP schematic
+C&K	NanoT	Surface Mount, Right Angle	.*	2	A=1;B=2	SW-TACT-NANOT-PIP	littelfuse-c-k-tactile-nanot-series-datasheet p.2 BP schematic
+C&K	*	Surface Mount, Right Angle	NANOT160BP	2	A=1;B=2	SW-TACT-NANOT-PIP	littelfuse-c-k-tactile-nanot-series-datasheet p.2 BP schematic (check row, = NANOT 160 BP)
+C&K	KSC	Surface Mount	KSC[^GJ]*J.*	4	A=1,4;B=2,3	SW-TACT-EL2	circuit: J/G Terminations figure, littelfuse-c-k-tactile-ksc4-series-datasheet p.1
+C&K	KSC	Surface Mount	KSC[^GJ]*G.*	4	A=1,4;B=2,3	SW-TACT-KSC-G	circuit: J/G Terminations figure, littelfuse-c-k-tactile-ksc4-series-datasheet p.1
+C&K	KSC-OF	Surface Mount	KSC[^GJ]*J.*	4	A=1,4;B=2,3	SW-TACT-EL2	circuit: J Terminations, littelfuse-ck-tactile-ksc-of-series-datasheet p.1
+C&K	KSC-PF	Surface Mount	KSC[^GJ]*J.*	4	A=1,4;B=2,3	SW-TACT-EL2	circuit: J/G Terminations, littelfuse-ck-tactile-ksc-pf-series-datasheet p.1
+C&K	KSC-PF	Surface Mount	KSC[^GJ]*G.*	4	A=1,4;B=2,3	SW-TACT-KSC-G	circuit: J/G Terminations, littelfuse-ck-tactile-ksc-pf-series-datasheet p.1
+C&K	KSC-ST	Surface Mount	KSC[^GJ]*J.*	4	A=1,4;B=2,3	SW-TACT-EL2	circuit: J/G Terminations, littelfuse-c-k-tactile-ksc4-series-datasheet p.1
+C&K	KSC-ST	Surface Mount	KSC[^GJ]*G.*	4	A=1,4;B=2,3	SW-TACT-KSC-G	circuit: J/G Terminations, littelfuse-c-k-tactile-ksc4-series-datasheet p.1
+C&K	KSC-TE	Surface Mount	KSC[^GJ]*J.*	4	A=1,4;B=2,3	SW-TACT-EL2	circuit: J Terminations, littelfuse-ck-tactile-ksc2-te-series-datasheet p.1
+C&K	KSC-XA	Surface Mount	KSC[^GJ]*J.*	4	A=1,4;B=2,3	SW-TACT-EL2	circuit: PCB Layout, KSC%20XA_Datasheet.pdf p.2
+C&K	KSC10	Surface Mount	KSC[^GJ]*J.*	4	A=1,4;B=2,3	SW-TACT-EL2	circuit: J/G Terminations, littelfuse-ck-tactile-ksc10-series-datasheet p.1
+C&K	KSC10	Surface Mount	KSC[^GJ]*G.*	4	A=1,4;B=2,3	SW-TACT-KSC-G	circuit: J/G Terminations, littelfuse-ck-tactile-ksc10-series-datasheet p.1
+C&K	KSC11	Surface Mount	KSC[^GJ]*J.*	4	A=1,4;B=2,3	SW-TACT-EL2	circuit: J Terminations, littelfuse-c-k-tactile-ksc11-series-datasheet p.1
+C&K	KSC4 TE	Surface Mount	KSC[^GJ]*J.*	4	A=1,4;B=2,3	SW-TACT-EL2	circuit: J Terminations, littelfuse-c-k-tactile-ksc4-te-series-datasheet p.1
+C&K	KSC4D	Surface Mount	KSC[^GJ]*J.*	4	A=1,4;B=2,3	SW-TACT-EL2	circuit: pad layout, littelfuse-c-k-ksc-d-series-datasheet p.2 / KSC4D_Series.pdf p.2
+C&K	KSC4D	Surface Mount	KSC[^GJ]*G.*	4	A=1,4;B=2,3	SW-TACT-KSC-G	circuit: pad layout, littelfuse-c-k-ksc-d-series-datasheet p.2 / KSC4D_Series.pdf p.2
+C&K	KSC5	Surface Mount	KSC[^GJ]*J.*	4	A=1,4;B=2,3	SW-TACT-EL2	circuit: Pad Layout for J/G Versions, littelfuse-c-k-tactile-ksc5-series-datasheet p.2
+C&K	KSC5	Surface Mount	KSC[^GJ]*G.*	4	A=1,4;B=2,3	SW-TACT-KSC-G	circuit: Pad Layout for J/G Versions, littelfuse-c-k-tactile-ksc5-series-datasheet p.2
+C&K	KSC4V2	Through Hole, Right Angle	.*	2	A=1;B=2	SW-TACT-KSC4V2	SPST-NO, 2 pin-in-paste terminals (spec table p.1); littelfuse-ck-tactile-ksc-v2-series-datasheet p.2
+C&K	RS, COMAX	Surface Mount	RS-032G05.*	2	A=1;B=2	SW-TACT-RS-COMAX-032	SCHEMATIC 1P-1T, RS-032G05_-SM_RT.pdf p.1
+C&K	RS, COMAX	Surface Mount	RS-282G05.*	2	A=1;B=2	SW-TACT-RS-COMAX-282	SCHEMATIC 1P-1T, RS-282G05A-SM_RT.pdf p.1
+C&K	RS, COMAX	Surface Mount	RS-?285G05.*	2	A=1;B=2	SW-TACT-PTS636-SMD-J25	SCHEMATIC 1P-1T a-b (c = ground, not drawn), RS285G05A2URT_Dwg.pdf p.1
+C&K	RS, COMAX	Through Hole, Right Angle	.*	2	A=1;B=2	SW-TACT-RS-COMAX-022	SCHEMATIC 1P-1T, RS022R_Dwg.pdf p.1
+C&K	*	Surface Mount	KSC421G70SHLFS	4	A=1,4;B=2,3	SW-TACT-KSC-G	check row; G Terminations, ksc4.pdf p.1
+C&K	*	Surface Mount	KSC441JST2LFS	4	A=1,4;B=2,3	SW-TACT-EL2	check row; J Terminations, ksc4.pdf p.1

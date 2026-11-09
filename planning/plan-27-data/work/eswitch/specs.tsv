@@ -1,0 +1,15 @@
+maker	series	mounting	mpn_regex	terminals	pins	footprint	note
+E-Switch	320	Through Hole	.*	2	A=1;B=2	SW-TACT-320	320.04E11GRYVERT.pdf p.1 CIRCUIT: SPST (datasheet terminals 1 and 3; 3 is pin 2 here)
+E-Switch	GS	Through Hole	.*	4	A=1,3;B=2,4	SW-TACT-GS-THT	GS%20Series.pdf p.1 GS Schematic (1-3 joined, 2-4 joined)
+E-Switch	GS	Through Hole, Right Angle	.*	2	A=1;B=2	SW-TACT-GS-THT-RA	GS%20Series.pdf p.2 GSR Schematic (terminal 1 on the 1-3 side, terminal 2 on the 2-4 side; GSR has terminals 1 and 2 only)
+E-Switch	TL1018	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-TL1018	TL1018.pdf p.2 Schematic (1-2 joined, 3-4 joined); p.3 same for the ground-terminal option (5-6 ground, not drawn)
+E-Switch	TL3301	Surface Mount	TL3301.*G(TR|TUBE)?	4	A=1,2;B=3,4	SW-TACT-TL3301-G	TL3301.pdf p.2 Schematic (1-2 joined, 3-4 joined); same p.4, p.5
+E-Switch	TL3301	Surface Mount	TL3301.*J(TR|TUBE)?	4	A=1,2;B=3,4	SW-TACT-TL3301-J	TL3301.pdf p.3 Schematic (1-2 joined, 3-4 joined)
+E-Switch	TL3303	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-TL3303	TL3303.pdf p.1 TL 3303 SCHEMATIC (4-3 joined, 2-1 joined)
+E-Switch	TL3312	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-TL3312	TL3312.pdf p.2 Schematic (1-2 joined, 3-4 joined)
+E-Switch	TL3313	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-TL3313	TL3313.pdf p.1 SCHEMATIC (3-4 joined, 1-2 joined)
+E-Switch	TL3340	Surface Mount, Right Angle	.*	2	A=1;B=2	SW-TACT-TL3340	TL3340.pdf p.1 SCHEMATIC (terminals 1 and 3 common, 2 the other side; footprint pin 1 has pads at terminals 1 and 3)
+E-Switch	TL3360	Surface Mount, Right Angle	.*	2	A=1;B=2	SW-TACT-TL3360	TL3360.pdf p.2 Schematic (1, 2); same p.3, p.4
+E-Switch	TL3701	Surface Mount	.*	4	A=1,2;B=3,4	SW-TACT-TL3701	TL3701AF100QG.pdf p.1 CIRCUIT: SPST (3-4 joined, 1-2 joined)
+E-Switch	TL52	Through Hole	.*	2	A=1;B=2	SW-TACT-TL52	TL52.pdf p.1 SCHEMATIC (1, 2)
+E-Switch	TS	Surface Mount	.*	2	A=1;B=2	SW-TACT-TS	06-TS35M943160TR.pdf p.1 CIRCUIT: SPST (1, 2)
