@@ -110,7 +110,7 @@ One run of everything, once. Byte-identity: the DIP goldens are unchanged
 Acceptance: all checks `ok`; images read.
   Check: `rm -rf /tmp/p27-h && scripts/harness/build.sh scripts/harness/tactile-switch.swift /tmp/p27-h && /tmp/p27-h/H.app/Contents/MacOS/harness /tmp/p27-img` → every line `ok:`, exit 0 (est. 6 min incl. building the harness).
   Result 2026-11-08: as above (the harness prints `ok   n …`, not `ok:`).
-Commit: (this commit)
+Commit: f685149
 
 ### Phase 2 — Landing tier
 
@@ -147,7 +147,7 @@ Commit: (this commit)
 Acceptance: both suites are green and the real app behaves as in Goal.
   Check: the two commands above plus the runtime sequence (est. 25 min: the two suites dominate; nothing smaller covers backend, app and the real gesture together).
   Result 2026-11-08: both suites green; the real app behaved as in Goal (screenshots `/tmp/p27/drive/r1.png` … `r5.png`).
-Commit: (this commit)
+Commit: f685149
 
 ### Phase 3 — Ledger
 
@@ -159,7 +159,7 @@ Commit: (this commit)
 
 Acceptance: nothing of plan-27 remains in `planning/` outside `plan-27-data/`.
   Check: `ls planning/plan-27-[A-K]-* 2>/dev/null | wc -l` → 0 (est. 1 min). Result: 0 after this letter's move.
-Commit: (this commit)
+Commit: f685149
 
 ## Validation Plan
 
