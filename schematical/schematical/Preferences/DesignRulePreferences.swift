@@ -132,22 +132,36 @@ struct DesignRulePreferencesView: View {
     @AppStorage(PreferenceKey.drcCustomRules) private var customData = Data()
 
     var body: some View {
+        // Two columns: the manufacturer, Copper and Holes; then the rest.
+        HStack(alignment: .top, spacing: 0) {
+            column(DesignRules.groups.prefix(2), showsManufacturer: true)
+            column(DesignRules.groups.dropFirst(2), showsReset: true)
+        }
+        .frame(width: 760)
+    }
+
+    /// A column of rule groups; the first column also holds the
+    /// manufacturer, the last the reset button.
+    private func column(_ groups: ArraySlice<(title: String, rules: [DesignRules.Rule])>,
+                        showsManufacturer: Bool = false, showsReset: Bool = false) -> some View {
         let custom = DesignRules.decoded(customData)
         let rules = manufacturer.fixedRules ?? custom
-        Form {
-            Section {
-                Picker("Manufacturer", selection: $manufacturer) {
-                    ForEach(DRCManufacturer.allCases, id: \.self) { Text($0.title).tag($0) }
+        return Form {
+            if showsManufacturer {
+                Section {
+                    Picker("Manufacturer", selection: $manufacturer) {
+                        ForEach(DRCManufacturer.allCases, id: \.self) { Text($0.title).tag($0) }
+                    }
+                    .pickerStyle(.menu)
+                } footer: {
+                    Text(manufacturer == .custom
+                         ? "All lengths are in mm."
+                         : "\(manufacturer.title)'s standard limits. Pick Custom to set your own.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
-                .pickerStyle(.menu)
-            } footer: {
-                Text(manufacturer == .custom
-                     ? "All lengths are in mm."
-                     : "\(manufacturer.title)'s standard limits. Pick Custom to set your own.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
             }
-            ForEach(DesignRules.groups, id: \.title) { group in
+            ForEach(groups, id: \.title) { group in
                 Section(group.title) {
                     ForEach(group.rules) { rule in
                         if manufacturer == .custom {
@@ -176,14 +190,14 @@ struct DesignRulePreferencesView: View {
                     }
                 }
             }
-            if manufacturer == .custom && custom != DesignRules.customDefault {
+            if showsReset && manufacturer == .custom && custom != DesignRules.customDefault {
                 Section {
                     Button("Reset to PCBWay Values") { customData = DesignRules.customDefault.encoded }
                 }
             }
         }
         .formStyle(.grouped)
-        .frame(width: 420)
+        .frame(maxWidth: .infinity)
         .fixedSize(horizontal: false, vertical: true)
     }
 }
