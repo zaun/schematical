@@ -3162,6 +3162,16 @@ final class SchematicDocument {
                                              last: anchorAxis(end), preferred: .horizontal).dropLast())
             let route = OrthogonalRoute.simplified([fromTip] + bends + [toTip])
             wires.append(Wire(start: from, end: to, interior: Array(route.dropFirst().dropLast())))
+            // A line drawn on from a loose end (a deleted pin's spot)
+            // continues that wire: the spot is no longer loose, and where
+            // only the two wires meet they join into one.
+            for end in [from, to] {
+                if case let .junction(id) = end, let index = junctions.firstIndex(where: { $0.id == id }) {
+                    junctions[index].isLoose = false
+                }
+            }
+            joinThroughJunctions()
+            pruneSelection()
             return nil
         }
     }

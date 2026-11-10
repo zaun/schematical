@@ -117,6 +117,44 @@ final class WireRefitTests: XCTestCase {
         XCTAssertEqual(doc.wires.first?.interior, [])
     }
 
+    /// Draw a wire, delete the part, extend the line from the loose end to
+    /// another pin: one wire, pin to pin.
+    func testExtendingFromALooseEndIsOneWire() throws {
+        let doc = TestSupport.newDocument()
+        let left = try TestSupport.place(doc, "SN74HC00N", at: p(200, 200))
+        let gone = try TestSupport.place(doc, "SN74HC00N", at: p(500, 200))
+        let other = try TestSupport.place(doc, "SN74HC00N", at: p(800, 300))
+        let y = try TestSupport.pin(left, "1Y")
+        XCTAssertNil(doc.connect(.pin(y), .pin(try TestSupport.pin(gone, "1A"))))
+        doc.erase(at: CGPoint(x: gone.bodyRect.midX, y: gone.bodyRect.midY))
+        let loose = try XCTUnwrap(doc.junctions.first { $0.isLoose })
+
+        let a = try TestSupport.pin(other, "1A")
+        XCTAssertNil(doc.connect(.point(loose.point), .pin(a)))
+
+        XCTAssertEqual(doc.wires.count, 1)
+        XCTAssertTrue(doc.junctions.isEmpty)
+        let wire = try XCTUnwrap(doc.wires.first)
+        XCTAssertEqual(Set([wire.start, wire.end]), Set([WireEnd.pin(y), WireEnd.pin(a)]))
+        XCTAssertTrue(OrthogonalRoute.isOrthogonal(doc.path(forWire: wire.id)))
+        let route = [try XCTUnwrap(doc.endTip(wire.start))] + wire.interior + [try XCTUnwrap(doc.endTip(wire.end))]
+        XCTAssertEqual(OrthogonalRoute.simplified(route), route, "no bend on a straight run")
+    }
+
+    /// The same, drawn from the new pin to the loose end.
+    func testExtendingToALooseEndIsOneWire() throws {
+        let doc = TestSupport.newDocument()
+        let left = try TestSupport.place(doc, "SN74HC00N", at: p(200, 200))
+        let gone = try TestSupport.place(doc, "SN74HC00N", at: p(500, 200))
+        let other = try TestSupport.place(doc, "SN74HC00N", at: p(800, 300))
+        XCTAssertNil(doc.connect(.pin(try TestSupport.pin(left, "1Y")), .pin(try TestSupport.pin(gone, "1A"))))
+        doc.erase(at: CGPoint(x: gone.bodyRect.midX, y: gone.bodyRect.midY))
+        let loose = try XCTUnwrap(doc.junctions.first { $0.isLoose })
+        XCTAssertNil(doc.connect(.pin(try TestSupport.pin(other, "1A")), .point(loose.point)))
+        XCTAssertEqual(doc.wires.count, 1)
+        XCTAssertTrue(doc.junctions.isEmpty)
+    }
+
     /// A loose end (a deleted pin's spot) with two wires on it stays.
     func testLooseJunctionIsNotJoined() throws {
         let doc = TestSupport.newDocument()
