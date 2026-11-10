@@ -128,7 +128,7 @@ Everything below is written against the world where these hold.
 
 Acceptance: the app builds.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p29-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 2 min).
-Commit: —
+Commit: 27d5433
 
 ### Phase 2 — Harness proof
 

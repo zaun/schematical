@@ -1,6 +1,6 @@
 # plan-29-B: Footprints and specs — Vishay single diodes (and the shared footprint rules)
 
-Last updated: 2026-11-08
+Last updated: 2026-11-09
 Effort: large (3h–1d)
 Depends on: plan-29-A
 
@@ -198,8 +198,12 @@ nowhere in that PDF) is `skip`. `census/scheme-check.py` (A Phase 4) sets
 
 ### Phase 1 — Tools
 
-- [ ] `planning/plan-29-data/census/fp-load.sh` (§ 4.4) and
-      `census/specs-check.py`: every `add` row's spec row has `package`,
+- [~] `planning/plan-29-data/census/fp-load.sh` (§ 4.4) and
+      `census/specs-check.py` (written 2026-11-09; `fp-load.sh` passes on
+      an empty file: `0 new footprints: load ok`, exit 0; its helper
+      `fp-merge.py` is plan-27's, fixed to leave `footprints.json` alone
+      when there is nothing to append; remaining: run `specs-check.py` once
+      A's `specs.tsv` exists): every `add` row's spec row has `package`,
       `pinout`, `pins`, `footprint`; the footprint exists in
       `Parts/footprints.json` or a `footprints-*.json`; its pad designators
       equal the pin numbers in `pins`; one `pinout` name has one `pins` map.
