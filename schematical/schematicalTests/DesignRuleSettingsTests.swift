@@ -33,4 +33,26 @@ final class DesignRuleSettingsTests: XCTestCase {
         defaults.set(Data("x".utf8), forKey: PreferenceKey.drcCustomRules)
         XCTAssertEqual(DesignRules.current(defaults: defaults), .customDefault)
     }
+
+    /// Every manufacturer has rules, and they hang together.
+    func testManufacturerRules() {
+        for manufacturer in DRCManufacturer.allCases where manufacturer != .custom {
+            let name = manufacturer.title
+            guard let rules = manufacturer.fixedRules else {
+                return XCTFail("\(name) has no rules")
+            }
+            for group in DesignRules.groups {
+                for rule in group.rules {
+                    let value = rules[keyPath: rule.field]
+                    if rule.field == \DesignRules.solderMaskExpansion {
+                        XCTAssertGreaterThanOrEqual(value, 0, "\(name) \(rule.title)")
+                    } else {
+                        XCTAssertGreaterThan(value, 0, "\(name) \(rule.title)")
+                    }
+                }
+            }
+            XCTAssertGreaterThan(rules.minViaDiameter, rules.minViaDrill, name)
+        }
+        XCTAssertNil(DRCManufacturer.custom.fixedRules)
+    }
 }

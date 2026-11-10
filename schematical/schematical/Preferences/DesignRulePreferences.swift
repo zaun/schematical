@@ -1,29 +1,5 @@
 import SwiftUI
 
-/// Whose design rules Settings ▸ DRC Defaults shows. Raw values are the
-/// stored values.
-nonisolated enum DRCManufacturer: String, CaseIterable, Hashable, Sendable {
-    case custom, pcbway, jlcpcb
-
-    var title: String {
-        switch self {
-        case .custom: "Custom"
-        case .pcbway: "PCBWay"
-        case .jlcpcb: "JLCPCB"
-        }
-    }
-
-    /// The manufacturer's published rules; nil for Custom, whose rules are
-    /// the user's.
-    var fixedRules: DesignRules? {
-        switch self {
-        case .custom: nil
-        case .pcbway: .pcbway
-        case .jlcpcb: .jlcpcb
-        }
-    }
-}
-
 /// The limits a design rule check holds a board to, in mm. Nothing checks
 /// them yet; Settings only stores them.
 nonisolated struct DesignRules: Codable, Equatable, Sendable {
@@ -40,50 +16,6 @@ nonisolated struct DesignRules: Codable, Equatable, Sendable {
     var minSilkscreenToPad: Double
     var minSolderMaskDam: Double
     var solderMaskExpansion: Double
-
-    /// PCBWay's standard rigid 1–2 layer, 1 oz limits with no extra
-    /// charge (pcbway.com/capabilities.html and PCB_Manufacturing_tolerances,
-    /// Nov 2026). Values the pages don't give directly: via diameter is the
-    /// min via drill plus two annular rings; hole to hole is the advanced
-    /// table's 16 mil for component holes; silkscreen to pad uses the
-    /// silkscreen page's 5 mil spacing between silkscreen elements.
-    static let pcbway = DesignRules(
-        minTraceWidth: 0.1,
-        minClearance: 0.1,
-        minDrill: 0.2,
-        minViaDrill: 0.2,
-        minViaDiameter: 0.5,
-        minAnnularRing: 0.15,
-        minHoleToHole: 0.4064,
-        minCopperToEdge: 0.25,
-        minSilkscreenWidth: 0.15,
-        minSilkscreenHeight: 0.8,
-        minSilkscreenToPad: 0.127,
-        minSolderMaskDam: 0.1,
-        solderMaskExpansion: 0.05
-    )
-
-    /// JLCPCB's rigid 1–2 layer, 1 oz limits with no extra charge
-    /// (jlcpcb.com/capabilities/pcb-capabilities, Nov 2026). Holes under
-    /// 0.2 mm, and 0.2 mm vias under 0.45 mm across, cost more, so those are
-    /// the minimums. Annular ring is the plated-hole absolute minimum; hole
-    /// to hole is for pad holes (vias may be 0.2 mm apart). The mask
-    /// opening may match the pad (1:1), so expansion is 0.
-    static let jlcpcb = DesignRules(
-        minTraceWidth: 0.1,
-        minClearance: 0.1,
-        minDrill: 0.2,
-        minViaDrill: 0.2,
-        minViaDiameter: 0.45,
-        minAnnularRing: 0.18,
-        minHoleToHole: 0.45,
-        minCopperToEdge: 0.2,
-        minSilkscreenWidth: 0.15,
-        minSilkscreenHeight: 1.0,
-        minSilkscreenToPad: 0.15,
-        minSolderMaskDam: 0.1,
-        solderMaskExpansion: 0
-    )
 
     /// What Custom starts as: PCBWay's rules.
     static let customDefault = pcbway
@@ -180,7 +112,7 @@ struct DesignRulePreferencesView: View {
                 } footer: {
                     Text(manufacturer == .custom
                          ? "All lengths are in mm."
-                         : "\(manufacturer.title)'s standard limits. Pick Custom to set your own.")
+                         : "Standard limits from \(manufacturer.title). Pick Custom to set your own.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
