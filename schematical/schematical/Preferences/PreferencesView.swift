@@ -22,6 +22,10 @@ enum PreferenceKey {
     /// (`""` means the part's default) a newly placed pull-up or pull-down gets.
     static let pullResistorOhms = "pullResistorOhms"
     static let pullResistorFootprint = "pullResistorFootprint"
+    /// The design rule manufacturer (a `DRCManufacturer` raw value) and the
+    /// Custom rules (JSON `DesignRules`), for Settings ▸ DRC Defaults.
+    static let drcManufacturer = "drcManufacturer"
+    static let drcCustomRules = "drcCustomRules"
 }
 
 /// The options a newly placed part starts with, from Settings. Nil means the
@@ -95,6 +99,8 @@ struct PreferencesView: View {
                 .tabItem { Label("Part List", systemImage: "list.bullet") }
             DefaultsPreferencesView()
                 .tabItem { Label("Defaults", systemImage: "slider.horizontal.3") }
+            DesignRulePreferencesView()
+                .tabItem { Label("DRC Defaults", systemImage: "checkmark.seal") }
         }
     }
 }
