@@ -1,6 +1,6 @@
 # plan-29-K: Parts — onsemi (all diode categories)
 
-Last updated: 2026-11-08
+Last updated: 2026-11-09
 Effort: large (3h–1d)
 Depends on: plan-29-J
 
@@ -16,7 +16,7 @@ plan-29-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-29-J complete | `ls planning/completed/plan-29-J-*.md` → exists | NOT MET (2026-11-08: plan written) |
+| plan-29-J complete | `ls planning/completed/plan-29-J-*.md` → exists | MET (2026-11-09) |
 
 Everything below is written against the world where these hold.
 
@@ -57,11 +57,16 @@ Planning-time population (2026-11-08), before the datasheet rules:
 
 ### Phase 1 — Generate
 
-- [ ] `python3 -I planning/plan-29-data/census/gen-parts.py --maker onsemi --category single,zener,zener-array,array,bridge --dry-run`
+- [x] `python3 -I planning/plan-29-data/census/gen-parts.py --maker onsemi --category single,zener,zener-array,array,bridge --dry-run`
       → `N_K parts, 0 without spec, 0 unknown footprint`; then without
-      `--dry-run`.
-- [ ] Shared footprint ids: every `reused <id>` line the run prints is a
-      footprint already shipped; nothing to add for it (moot by the printout).
+      `--dry-run`. Result 2026-11-09: `2492 parts, 0 without spec, 0 unknown
+      footprint; 26 devices, 70 new footprints, 504 new datasheets`
+      (dry run and real run alike); N_K = 2492; `library_check` exit 0.
+- [x] ~~Shared footprint ids: every `reused <id>` line the run prints is a
+      footprint already shipped; nothing to add for it~~ — moot by the
+      printout: 6 `reused` lines, each a footprint already in
+      `Parts/footprints.json` (gen-parts.py maps a ready object identical to a
+      shipped one onto the shipped id).
 
 Acceptance: the parts load.
   Check: `cmake --build /tmp/logic-p29 -j8 && /tmp/logic-p29/library_check` → pass (est. 3 min).
@@ -69,9 +74,11 @@ Commit: —
 
 ### Phase 2 — Goldens
 
-- [ ] Regenerate `parts.txt`, `traces.txt`, `footprints.txt`
+- [x] Regenerate `parts.txt`, `traces.txt`, `footprints.txt`
       (`docs/backend.md`) and review the diff: only added lines, all diode
-      parts or new footprints.
+      parts or new footprints. Result: removed lines 0; added parts.txt lines
+      2492 (all `|diode|`, 0 others); footprints.txt +70; `ctest` →
+      `100% tests passed, 0 tests failed out of 30`.
 
 Acceptance: tests pass and the goldens only grew by the scope.
   Check: `ctest --test-dir /tmp/logic-p29` → `100% tests passed`; `git diff backend/tests/golden/parts.txt | grep -c '^+[^+].*|diode|'` → N_K; `git diff backend/tests/golden | grep -c '^-[^-]'` → 0 (est. 6 min).
@@ -92,6 +99,9 @@ Commit: —
 - As plan-29-I § Decisions.
 
 ## Corrections
+
+- **N_K = 2492** (2026-11-09; § 1's planning population replaced by A's
+  decisions and B–G's keys, plan-29-B § Corrections).
 
 ## Summary
 
