@@ -1,0 +1,6 @@
+mpn	reason
+LS103A-GS08	the datasheet gives no forward-current rating (ls103a.pdf p.1 ratings: VR, IFSM, Ptot only); the diode kind needs io
+LS103B-GS08	the datasheet gives no forward-current rating (ls103a.pdf p.1 ratings: VR, IFSM, Ptot only); the diode kind needs io
+LS103C-GS08	the datasheet gives no forward-current rating (ls103a.pdf p.1 ratings: VR, IFSM, Ptot only); the diode kind needs io
+MMBD717LT1G	the datasheet gives no forward-current rating (mmbd717lt1-d.pdf p.1: VR, PF only); the diode kind needs io
+MMDL770T1G	the datasheet gives no forward-current rating (mmdl770t1-d.pdf p.1: VR, PF only); the diode kind needs io

@@ -503,6 +503,7 @@ This section is written by `planning/plan-29-data/census/decide.py --skipped`.
 | V60DM60C-M3/I, V60DM60CHM3/I | Vishay | `diode` / Discrete → Diodes → Schottky | not in the datasheet's ordering table (v60d60c.pdf key p.2 ORDERING INFORMATION (Example): V60D60C-M3/I, V60D60CHM3/I (no V60DM60C in sheet)) |
 | VSSA210-M3/5AT, VSSA210-M3/61T | Vishay | `diode` / Discrete → Diodes → Schottky | not in the datasheet's ordering table (vssa210-7fc0b6.pdf key p.2 ORDERING INFORMATION (Example): -E3/61T, -E3/5AT; bases VSSA210 from p.1 ratings table) |
 | VSSA310S-M3/5AT | Vishay | `diode` / Discrete → Diodes → Schottky | not in the datasheet's ordering table (vssa310s-c20949.pdf key p.2 ORDERING INFORMATION (Example): -E3/61T, -E3/5AT; bases VSSA310S from p.1 ratings table) |
+| LS103A-GS08, LS103B-GS08, LS103C-GS08 | Vishay | `diode` / Discrete → Diodes → Schottky | the datasheet gives no forward-current rating (ls103a.pdf p.1 ratings: VR, IFSM, Ptot only); the diode kind needs io |
 | 1N4151W-E3-08, 1N4448W-E3-08, 1N4448W-E3-18, BAS21-G3-08 | Vishay | `diode` / Discrete → Diodes → Switching | no datasheet on the maker's site (DigiKey copy, mm.digikey.com) |
 | 1N4151WS-E3-08, 1N4151WS-E3-18, 1N4448WS-E3-08 | Vishay | `diode` / Discrete → Diodes → Switching | no datasheet on the maker's site (HTTP 404, www.vishay.com) |
 | 1N4151TR | Vishay | `diode` / Discrete → Diodes → Switching | no datasheet on the maker's site (Waldom copy, www.waldom.com) |
@@ -548,6 +549,8 @@ This section is written by `planning/plan-29-data/census/decide.py --skipped`.
 | NSRLV20MW2T1G | onsemi | `diode` / Discrete → Diodes → Schottky | not in the datasheet's ordering table (nsr0320mw2t1-d.pdf key p.1 ORDERING INFORMATION: NSR0320MW2T1G, NSR0320MW2T3G, NSVR0320MW2T1G) |
 | SBRA8160T3G-VF01 | onsemi | `diode` / Discrete → Diodes → Schottky | not in the datasheet's ordering table (ss16-d.pdf key p.1 ORDERING INFORMATION: SS16T3G, SBRA8160T3G*, SBRA8160NT3G*) |
 | SS24T3 | onsemi | `diode` / Discrete → Diodes → Schottky | not in the datasheet's ordering table (ss24-d.pdf key p.1 ORDERING INFORMATION: SS24T3G, NRVBSS24NT3G* (features line 'add T3 suffix' read as the T3 part of SS24T3G)) |
+| MMBD717LT1G | onsemi | `diode` / Discrete → Diodes → Schottky | the datasheet gives no forward-current rating (mmbd717lt1-d.pdf p.1: VR, PF only); the diode kind needs io |
+| MMDL770T1G | onsemi | `diode` / Discrete → Diodes → Schottky | the datasheet gives no forward-current rating (mmdl770t1-d.pdf p.1: VR, PF only); the diode kind needs io |
 | NSR0240MXWT5G | onsemi | `diode` / Discrete → Diodes → Switching | check; mounting from the datasheet; no datasheet on the maker's site (DigiKey copy, mm.digikey.com) |
 | NSVBAV70DXV6T5G | onsemi | `diode` / Discrete → Diodes → Switching | no datasheet on the maker's site (HTTP 403, www.onsemi.com) |
 | 1N486B, BAS16SL, BAV21, MMBD914LT1H, NSVBAV70TT1, SBAV70WT1 | onsemi | `diode` / Discrete → Diodes → Switching | no datasheet on the maker's site (Rochester copy, rocelec.widen.net) |

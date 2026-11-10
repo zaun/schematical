@@ -1,0 +1,1400 @@
+{
+ "footprints": [
+  {
+   "id": "DIODE-DO-35-ONSEMI",
+   "description": "DO-35 axial diode, onsemi drawing, 7.62 mm lead spacing",
+   "note": "onsemi AXIAL LEAD CASE 017AG issue O (98AON13443G, JEDEC DO-204 var. AH), diode/onsemi/1N4149-D.PDF p.4; R7: body 4.56 max + 3.0 = 7.56 -> span 7.62; lead 0.533 max + 0.25 = 0.783 -> drill 0.80, pad 1.50 (min); body 3.805 mid (3.05-4.56) x 1.72 mid (1.53-1.91). Pin 1 = cathode (band)",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 3.81,
+    "height": 1.72
+   },
+   "pitch": 1,
+   "span": 7.62,
+   "pad": {
+    "width": 1.5,
+    "height": 1.5,
+    "shape": "round"
+   },
+   "drill": 0.8,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "DIODE-T-18-ONSEMI",
+   "description": "Surmetic 40 (T-18) axial diode, onsemi drawing, 12.7 mm lead spacing",
+   "note": "onsemi SURMETIC 40, AXIAL LEAD CASE 017AA issue O, diode/onsemi/1n5333b-d.pdf p.7; R7: body A 8.89 max + 3.0 = 11.89 -> span 12.70; lead D 1.09 max + 0.25 = 1.34 -> drill 1.35, pad 2.05; body 8.635 mid (8.38-8.89) x 3.49 mid (3.30-3.68). Pin 1 = cathode (band)",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 8.64,
+    "height": 3.49
+   },
+   "pitch": 1,
+   "span": 12.7,
+   "pad": {
+    "width": 2.05,
+    "height": 2.05,
+    "shape": "round"
+   },
+   "drill": 1.35,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "DIODE-SOD-123-ONSEMI",
+   "description": "SOD-123 diode, onsemi drawing, 2.69 x 1.60 mm body",
+   "note": "onsemi SOD-123 CASE 425 issue H (98ASB42927B) recommended mounting footprint (R1; 2X 0.91 x 1.22 pads, 3.27 centre to centre), diode/onsemi/mbr0530t1-d.pdf p.4; body E 2.69 nom x D 1.60 nom. Pin 1 = cathode (STYLE 1)",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 2.69,
+    "height": 1.6
+   },
+   "pitch": 1,
+   "span": 3.27,
+   "pad": {
+    "width": 0.91,
+    "height": 1.22,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "DIODE-SOD-123FL-ONSEMI",
+   "description": "SOD-123FL diode, onsemi drawing, 2.70 x 1.65 mm body",
+   "note": "onsemi SOD-123-2 1.65x2.70x0.90 (flat lead) CASE 498 issue E (98AON11184D) recommended mounting footprint (R1; 2X 1.25 x 1.22 pads, 4.20 outer -> span 2.95, equal pads), diode/onsemi/mbr120vlsft1-d.pdf p.6; body E 2.70 nom x D 1.65 nom. Pin 1 = cathode (band)",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 2.7,
+    "height": 1.65
+   },
+   "pitch": 1,
+   "span": 2.95,
+   "pad": {
+    "width": 1.25,
+    "height": 1.22,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "DIODE-SOD-323-ONSEMI",
+   "description": "SOD-323 diode, onsemi drawing, 1.70 x 1.25 mm body",
+   "note": "onsemi SOD-323 CASE 477 issue K (98ASB17533C) recommended mounting footprint (R1; 2X 0.63 x 0.83 pads, 2.23 centre to centre), diode/onsemi/mm3z2v4t1-d.pdf p.7; body D 1.70 nom x E 1.25 nom. Pin 1 = cathode (STYLE 1)",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 1.7,
+    "height": 1.25
+   },
+   "pitch": 1,
+   "span": 2.23,
+   "pad": {
+    "width": 0.63,
+    "height": 0.83,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "DIODE-SOD-523-ONSEMI",
+   "description": "SOD-523 diode, onsemi drawing, 1.20 x 0.80 mm body",
+   "note": "onsemi SOD-523 CASE 502 issue F (98AON11524D) recommended soldering footprint (R1; 2X 0.48 x 0.40 pads, 1.80 outer -> span 1.32), diode/onsemi/mm5z2v4t1-d-ff3af6.pdf p.4 (same issue in 1N914BWT-D.pdf p.3; issue E in BAS21XV2-D.PDF p.4 has the same numbers); body D 1.20 nom x E 0.80 nom. Pin 1 = cathode (STYLE 1)",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 1.2,
+    "height": 0.8
+   },
+   "pitch": 1,
+   "span": 1.32,
+   "pad": {
+    "width": 0.48,
+    "height": 0.4,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "DIODE-SOD-723-ONSEMI",
+   "description": "SOD-723 diode, onsemi drawing, 1.00 x 0.60 mm body",
+   "note": "onsemi SOD-723 CASE 509AA issue A (98AON20359D) recommended mounting footprint (R1; 2X 0.50 x 0.45 pads, 1.10 centre to centre), diode/onsemi/nsr0230-d.pdf p.4; body D 1.00 nom x E 0.60 nom. Pin 1 = cathode (band)",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 1.0,
+    "height": 0.6
+   },
+   "pitch": 1,
+   "span": 1.1,
+   "pad": {
+    "width": 0.5,
+    "height": 0.45,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "DIODE-SOD-923-ONSEMI",
+   "description": "SOD-923 diode, onsemi drawing, 0.80 x 0.60 mm body",
+   "note": "onsemi SOD-923 CASE 514AB issue E (98AON23284D) soldering footprint (R1; 2X 0.36 x 0.25 pads, 1.20 outer -> span 0.84), diode/onsemi/nz9f2v4-d.pdf p.5 (issue D in BAS40P2-D.PDF p.4 the same); body D 0.80 nom x E 0.60 nom. Pin 1 = cathode (STYLE 1)",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 0.8,
+    "height": 0.6
+   },
+   "pitch": 1,
+   "span": 0.84,
+   "pad": {
+    "width": 0.36,
+    "height": 0.25,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "DIODE-SMA-ONSEMI",
+   "description": "SMA (DO-214AC) diode, onsemi drawing, 4.32 x 2.60 mm body",
+   "note": "onsemi SMA CASE 403D issue J (98AON04079D) recommended mounting footprint (R1; 2.00 x 2.00 pads, 4.00 centre to centre), diode/onsemi/mura105t3-d.pdf p.5; body E 4.32 nom x D 2.60 nom. Pin 1 = cathode (STYLE 1, band)",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 4.32,
+    "height": 2.6
+   },
+   "pitch": 1,
+   "span": 4.0,
+   "pad": {
+    "width": 2.0,
+    "height": 2.0,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "DIODE-SMA-403AE-ONSEMI",
+   "description": "SMA (DO-214AC) diode, onsemi (ex-Fairchild) CASE 403AE drawing, 4.38 x 2.73 mm body",
+   "note": "onsemi SMA CASE 403AE issue O (98AON13440G, ex-Fairchild, JEDEC DO-214 var. AC) land pattern recommendation (R1; 2.65 x 1.75 pads, 4.30 centre to centre), diode/onsemi/us2aa-d.pdf p.4; body 4.375 mid (4.00-4.75) x 2.725 mid (2.50-2.95). Pin 1 = cathode",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 4.38,
+    "height": 2.73
+   },
+   "pitch": 1,
+   "span": 4.3,
+   "pad": {
+    "width": 2.65,
+    "height": 1.75,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "DIODE-SMB-ONSEMI",
+   "description": "SMB (DO-214AA) diode, onsemi drawing, 4.32 x 3.56 mm body",
+   "note": "onsemi SMB CASE 403A-03 issue J (98ASB42669B) soldering footprint (R1; 2.159 x 2.743 pads, 2.261 gap -> span 4.42), diode/onsemi/ntss3100-d.pdf p.5; body E 4.32 nom x D 3.56 nom. Pin 1 = cathode (band)",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 4.32,
+    "height": 3.56
+   },
+   "pitch": 1,
+   "span": 4.42,
+   "pad": {
+    "width": 2.159,
+    "height": 2.743,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "DIODE-SMB-403AF-ONSEMI",
+   "description": "SMB (DO-214AA) diode, onsemi (ex-Fairchild) CASE 403AF drawing, 4.40 x 3.63 mm body",
+   "note": "onsemi SMB CASE 403AF issue O (98AON13441G, ex-Fairchild, JEDEC DO-214 var. AA) land pattern recommendation (R1; 2.50 x 2.20 pads, 4.70 centre to centre), diode/onsemi/s3mb-d.pdf p.5; body 4.40 mid (4.05-4.75) x 3.625 mid (3.30-3.95). Pin 1 = cathode",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 4.4,
+    "height": 3.63
+   },
+   "pitch": 1,
+   "span": 4.7,
+   "pad": {
+    "width": 2.5,
+    "height": 2.2,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "DIODE-SMC-ONSEMI",
+   "description": "SMC (DO-214AB) diode, onsemi drawing, 6.88 x 5.90 mm body",
+   "note": "onsemi SMC 2-LEAD CASE 403AC issue B (98AON97675F) recommended soldering footprint (R1; 2X 2.25 x 3.79 pads, 8.75 outer -> span 6.50), diode/onsemi/mbrs3100t3-d.pdf p.4; body E 6.875 mid (6.60-7.15) x D 5.90 mid (5.55-6.25). Pin 1 = cathode (band)",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 6.88,
+    "height": 5.9
+   },
+   "pitch": 1,
+   "span": 6.5,
+   "pad": {
+    "width": 2.25,
+    "height": 3.79,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "DIODE-SMC-403AG-ONSEMI",
+   "description": "SMC (DO-214AB) diode, onsemi (ex-Fairchild) CASE 403AG drawing, 6.88 x 5.90 mm body",
+   "note": "onsemi SMC CASE 403AG issue O (98AON13442G, ex-Fairchild, JEDEC DO-214 var. AB) land pattern recommendation (R1; 1.96 x 3.39 pads, 6.81 centre to centre, as printed), diode/onsemi/ES3J-D.PDF p.4; body 6.875 mid (6.60-7.15) x 5.90 mid (5.55-6.25). Pin 1 = cathode",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 6.88,
+    "height": 5.9
+   },
+   "pitch": 1,
+   "span": 6.81,
+   "pad": {
+    "width": 1.96,
+    "height": 3.39,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "DIODE-SMAF-ONSEMI",
+   "description": "SMAF (DO-214AD) flat-lead diode, onsemi drawing, 3.95 x 2.50 mm body",
+   "note": "onsemi SMA-FL CASE 403AD issue A (98AON13439G; p.1 calls it DO-214AD SMAF) recommended mounting footprint (R1; 2X 1.34 x 1.90 pads, 5.50 outer -> span 4.16), diode/onsemi/ES1JAF-D.PDF p.4; body E 3.95 nom x D 2.50 nom. Pin 1 = cathode (band)",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 3.95,
+    "height": 2.5
+   },
+   "pitch": 1,
+   "span": 4.16,
+   "pad": {
+    "width": 1.34,
+    "height": 1.9,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "DIODE-SMA-FL-ONSEMI",
+   "description": "SMA-FL flat-lead diode, onsemi drawing, 4.30 x 2.60 mm body",
+   "note": "onsemi SMA 2.60x4.30x1.00 (flat lead) CASE 403AA issue A (98AON55210E) recommended mounting footprint (R1; 1.30 x 1.76 pads, 5.56 outer -> span 4.26), diode/onsemi/mbraf260-d.pdf p.6; body E 4.30 nom x D 2.60 nom. Pin 1 = cathode (terminal 1, band)",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 4.3,
+    "height": 2.6
+   },
+   "pitch": 1,
+   "span": 4.26,
+   "pad": {
+    "width": 1.3,
+    "height": 1.76,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "DIODE-DSN2-0.6X0.3-ONSEMI",
+   "description": "DSN2 0.6 x 0.3 (0201) chip diode, onsemi drawing",
+   "note": "onsemi DSN2 0.6x0.3 0.4P CASE 152AA issue B (98AON39897E) mounting footprint (R1; 2X 0.30 x 0.28 pads stacked, 0.75 outer -> 0.47 centre to centre), diode/onsemi/nsr01f30-d.pdf p.4; drawn turned 90 deg so pin 1 (cathode, top in the drawing) is left: pads 0.28 x 0.30, span 0.47; body E 0.60 x D 0.30 BSC",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 0.6,
+    "height": 0.3
+   },
+   "pitch": 1,
+   "span": 0.47,
+   "pad": {
+    "width": 0.28,
+    "height": 0.3,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "DIODE-X2DFNW2-ONSEMI",
+   "description": "X2DFNW-2 1.0 x 0.6 wettable-flank diode, onsemi drawing",
+   "note": "onsemi X2DFNW-2 1.00x0.60x0.37 0.65P CASE 711BG issue F (98AON15241G) recommended mounting footprint (R1; 2X 0.45 x 0.70 pads at 0.65 pitch), diode/onsemi/nz8f2v4mx2w-d.pdf p.7 (identical in nsr0240mx2-d.pdf p.5); body D 1.00 x E 0.60 BSC. Pin 1 = cathode",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 1.0,
+    "height": 0.6
+   },
+   "pitch": 1,
+   "span": 0.65,
+   "pad": {
+    "width": 0.45,
+    "height": 0.7,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "DIODE-X2DFN2-ONSEMI",
+   "description": "X2DFN-2 1.0 x 0.6 diode, onsemi drawing",
+   "note": "onsemi X2DFN-2 1.00x0.60x0.37 0.65P CASE 714AB issue D (98AON98172F) recommended mounting footprint (R1; 2X 0.470 x 0.600 pads, 1.200 outer -> span 0.73; note e is 0.65 but the footprint's centres are 0.73 apart, kept as printed), diode/onsemi/nsr0240mx2-d.pdf p.6; body D 1.00 x E 0.60 nom. Pin 1 = cathode",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 1.0,
+    "height": 0.6
+   },
+   "pitch": 1,
+   "span": 0.73,
+   "pad": {
+    "width": 0.47,
+    "height": 0.6,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "DIODE-X3DFN2-ONSEMI",
+   "description": "X3DFN-2 0.62 x 0.32 (0201) diode, onsemi drawing",
+   "note": "onsemi X3DFN-2 0.62x0.32x0.24 0.35P CASE 152AF issue D (98AON56472E) recommended mounting footprint (R1; 2X 0.310 x 0.300 pads, 0.74 outer -> span 0.43), diode/onsemi/nzd5v1mu-d.pdf p.5 (identical in nsr01l30mx-d.pdf p.5); body D 0.62 x E 0.32 nom. Pin 1 = cathode",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 0.62,
+    "height": 0.32
+   },
+   "pitch": 1,
+   "span": 0.43,
+   "pad": {
+    "width": 0.31,
+    "height": 0.3,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "DIODE-MINIMELF-ONSEMI",
+   "description": "MiniMELF (SOD-80) diode, onsemi drawing, 3.4 x 1.4 mm body",
+   "note": "onsemi MiniMELF/SOD-80 CASE 100AD issue O (98AON79582E, JEDEC DO-213 var. AC), diode/onsemi/BAV102-D.PDF p.3: no land pattern, so R4 (leadless end caps): cap 0.4 +-0.1 long -> pad length 0.70; cap diameter 1.4 +-0.1 -> pad width 1.45; cap centres 3.4 - 0.4 = 3.0 apart + 0.3 -> span 3.30; body 3.4 x 1.4 nom. Pin 1 = cathode (band)",
+   "style": "dual",
+   "pins": 2,
+   "perSide": 1,
+   "body": {
+    "width": 3.4,
+    "height": 1.4
+   },
+   "pitch": 1,
+   "span": 3.3,
+   "pad": {
+    "width": 0.7,
+    "height": 1.45,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "DIODE-DSN2-1.4X0.6-ONSEMI",
+   "description": "DSN2 1.4 x 0.6 chip diode, onsemi drawing",
+   "note": "onsemi DSN2 1.4x0.6 0.75P CASE 152AD issue C (98AON40465E) mounting footprint (R1; pin 1 0.47 x 0.60, pin 2 0.95 x 0.60, 1.55 outer, gap 0.13; centred on the outer extent, as the drawing's centre mark), diode/onsemi/nsr10f20-d.pdf p.4; body D 1.40 x E 0.60 BSC. Pin 1 = cathode (small pad)",
+   "style": "explicit",
+   "pins": 2,
+   "body": {
+    "width": 1.4,
+    "height": 0.6
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -0.54,
+     "y": 0.0,
+     "width": 0.47,
+     "height": 0.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 0.3,
+     "y": 0.0,
+     "width": 0.95,
+     "height": 0.6,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "DIODE-DSN2-1.6X0.8-ONSEMI",
+   "description": "DSN2 1.6 x 0.8 (0603) chip diode, onsemi drawing",
+   "note": "onsemi DSN2 1.6x0.8 0.9P CASE 152AB issue C mounting footprint (R1; pin 1 0.52 x 0.70, pin 2 1.05 x 0.70, 1.70 outer, gap 0.13; centred on the outer extent - the drawing's 0.80 from centre to pin 2's outer edge does not match 1.70/2, the 1.70 is kept), diode/onsemi/nsr20f20-d.pdf p.4; body D 1.60 x E 0.80 BSC. Pin 1 = cathode (small pad)",
+   "style": "explicit",
+   "pins": 2,
+   "body": {
+    "width": 1.6,
+    "height": 0.8
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -0.59,
+     "y": 0.0,
+     "width": 0.52,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 0.325,
+     "y": 0.0,
+     "width": 1.05,
+     "height": 0.7,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "DIODE-DSN2-1.0X0.6-ONSEMI",
+   "description": "DSN2 1.0 x 0.6 (0402) chip diode, onsemi drawing",
+   "note": "onsemi DSN2 1.0x0.6 0.575P CASE 152AC issue D recommended solder footprint (R1; pin 1 0.47 x 0.60, pin 2 0.60 x 0.60, 1.20 outer, gap 0.13; centred on the outer extent), diode/onsemi/nsr05f40-d.pdf p.4; body D 1.00 x E 0.60 BSC. Pin 1 = cathode",
+   "style": "explicit",
+   "pins": 2,
+   "body": {
+    "width": 1.0,
+    "height": 0.6
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -0.365,
+     "y": 0.0,
+     "width": 0.47,
+     "height": 0.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 0.3,
+     "y": 0.0,
+     "width": 0.6,
+     "height": 0.6,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "DIODE-SOD-123HE-ONSEMI",
+   "description": "SOD-123HE (SOD-123EP) diode, onsemi drawing, 2.80 x 1.80 mm body",
+   "note": "onsemi SOD-123EP CASE 425AC issue O (98AON13723G) land pattern (R1; long cathode pad 2.30 x 1.40, anode pad 1.25 x 1.40, gap 0.55, 4.10 outer; centred on the outer extent, the drawing does not tie it to the body), diode/onsemi/s1mfp-d.pdf p.4; body 2.80 mid (2.60-3.00) x 1.80 mid (1.65-1.95). Pin 1 = cathode (long pad)",
+   "style": "explicit",
+   "pins": 2,
+   "body": {
+    "width": 2.8,
+    "height": 1.8
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -0.9,
+     "y": 0.0,
+     "width": 2.3,
+     "height": 1.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 1.425,
+     "y": 0.0,
+     "width": 1.25,
+     "height": 1.4,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "DIODE-SOD-323HE-ONSEMI",
+   "description": "SOD-323HE (SOD-323EP) diode, onsemi drawing, 2.03 x 1.28 mm body",
+   "note": "onsemi SOD-323EP CASE 477AD issue O (98AON13727G) land pattern (R1; cathode pad 2.00 x 1.10, anode pad 0.80 x 1.00, gap 0.50, 3.30 outer; centred on the outer extent), diode/onsemi/ss13he-d.pdf p.5; body 2.025 mid (1.75-2.30) x 1.275 mid (1.15-1.40). Pin 1 = cathode (large lead, p.1)",
+   "style": "explicit",
+   "pins": 2,
+   "body": {
+    "width": 2.03,
+    "height": 1.28
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -0.65,
+     "y": 0.0,
+     "width": 2.0,
+     "height": 1.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 1.25,
+     "y": 0.0,
+     "width": 0.8,
+     "height": 1.0,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOT23-3-ONSEMI",
+   "description": "3-pin SOT-23 (TO-236), onsemi drawing, 1.30 x 2.90 mm body, 0.95 mm pitch",
+   "note": "onsemi SOT-23 (TO-236) CASE 318 issue AU (98ASB42226B) recommended mounting footprint (R1; 3X 0.56 x 0.95 pads, pins 1/2 at +-0.95, 2.90 outer -> 1.95 row to row), diode/onsemi/bas16lt1-d.pdf p.6; top view turned 90 deg CW (pins 1-2 left column, pin 3 right): pads 0.95 x 0.56, span 1.95; body E 1.30 x D 2.90 nom. The older issue AR (mmbz16val-d.pdf p.8) prints 0.80 x 0.90 pads (2.00 row to row)",
+   "style": "dual",
+   "pins": 3,
+   "perSide": 3,
+   "body": {
+    "width": 1.3,
+    "height": 2.9
+   },
+   "pitch": 0.95,
+   "span": 1.95,
+   "pad": {
+    "width": 0.95,
+    "height": 0.56,
+    "shape": "rect"
+   },
+   "slots": [
+    1,
+    3,
+    5
+   ]
+  },
+  {
+   "id": "SOT23-3-318BM-ONSEMI",
+   "description": "3-pin SOT-23, onsemi (ex-Fairchild) CASE 318BM drawing, 1.30 x 2.92 mm body, 0.95 mm pitch",
+   "note": "onsemi SOT-23 CASE 318BM issue A (98AON13784G, JEDEC TO-236 var. AB) land pattern recommendation (R1; 3X 1.00 x 1.40 pads, pins 1/2 1.90 apart, 2.20 row to row), diode/onsemi/BAS31-D.PDF p.6 (the same land in Fairchild MA03DREV10, bas16-d.pdf p.6); turned 90 deg CW: pads 1.40 x 1.00, span 2.20; body E1 1.30 x D 2.92 nom",
+   "style": "dual",
+   "pins": 3,
+   "perSide": 3,
+   "body": {
+    "width": 1.3,
+    "height": 2.92
+   },
+   "pitch": 0.95,
+   "span": 2.2,
+   "pad": {
+    "width": 1.4,
+    "height": 1.0,
+    "shape": "rect"
+   },
+   "slots": [
+    1,
+    3,
+    5
+   ]
+  },
+  {
+   "id": "SC59-3-ONSEMI",
+   "description": "3-pin SC-59, onsemi drawing, 1.50 x 2.90 mm body, 0.95 mm pitch",
+   "note": "onsemi SC-59-3 CASE 318D issue J (98ASB42664B) recommended mounting footprint (R1; 3X 0.800 x 1.000 pads, pins 1/2 at +-0.950, 2.400 row to row), diode/onsemi/m1ma151kt1-d.pdf p.3; turned 90 deg CW: pads 1.00 x 0.80, span 2.40; body E1 1.50 x D 2.90 nom. The ex-Sanyo CP land pattern example (drawing 7013A-004, sb007-03c-d.pdf p.4, en2997-d.pdf p.5) gives the same pads (0.8 x 1.0, 0.95, 2.4)",
+   "style": "dual",
+   "pins": 3,
+   "perSide": 3,
+   "body": {
+    "width": 1.5,
+    "height": 2.9
+   },
+   "pitch": 0.95,
+   "span": 2.4,
+   "pad": {
+    "width": 1.0,
+    "height": 0.8,
+    "shape": "rect"
+   },
+   "slots": [
+    1,
+    3,
+    5
+   ]
+  },
+  {
+   "id": "MCP-3-ONSEMI",
+   "description": "3-pin MCP (SC-70), onsemi (ex-Sanyo) drawing, 1.25 x 2.0 mm body, 0.65 mm pitch",
+   "note": "onsemi (Sanyo) MCP drawing 7023A-005 land pattern example (R1; 3X 0.7 x 1.0 pads, pins 1/2 at +-0.65, 2.1 row to row), diode/onsemi/sb007-03q-d.pdf p.4; turned 90 deg CW: pads 1.0 x 0.7, span 2.1; body 1.25 x 2.0 nom. Not SC70-3-ONSEMI (0.90 pads, 1.90 rows)",
+   "style": "dual",
+   "pins": 3,
+   "perSide": 3,
+   "body": {
+    "width": 1.25,
+    "height": 2.0
+   },
+   "pitch": 0.65,
+   "span": 2.1,
+   "pad": {
+    "width": 1.0,
+    "height": 0.7,
+    "shape": "rect"
+   },
+   "slots": [
+    1,
+    3,
+    5
+   ]
+  },
+  {
+   "id": "SC75-3-ONSEMI",
+   "description": "3-pin SC-75 (SOT-416), onsemi drawing, 0.80 x 1.60 mm body, 0.5 mm pitch",
+   "note": "onsemi SC75-3 CASE 463 issue H (98ASB15184C) recommended mounting footprint (R1; 3X 0.356 x 0.508 pads, pins 1/2 1.000 apart, 0.787 gap between rows, 1.803 outer -> 1.295 row to row), diode/onsemi/bav70tt1-d.pdf p.5; turned 90 deg CW: pads 0.508 x 0.356, span 1.295; body E1 0.80 x D 1.60 nom",
+   "style": "dual",
+   "pins": 3,
+   "perSide": 3,
+   "body": {
+    "width": 0.8,
+    "height": 1.6
+   },
+   "pitch": 0.5,
+   "span": 1.295,
+   "pad": {
+    "width": 0.508,
+    "height": 0.356,
+    "shape": "rect"
+   },
+   "slots": [
+    1,
+    3,
+    5
+   ]
+  },
+  {
+   "id": "SOT723-3-ONSEMI",
+   "description": "3-pin SOT-723, onsemi drawing, 0.80 x 1.20 mm body, 0.40 mm pitch",
+   "note": "onsemi SOT-723 CASE 631AA issue E (98AON12989D) recommended mounting footprint (R1; pins 1/2 0.27 wide, pin 3 0.36 wide, all 0.52 high, pins 1/2 at +-0.40, 1.50 outer -> 0.98 row to row), diode/onsemi/BAS16M3-D.PDF p.4; turned 90 deg CW (pins 1-2 left column, pin 3 right); body E 0.80 x D 1.20 nom",
+   "style": "explicit",
+   "pins": 3,
+   "body": {
+    "width": 0.8,
+    "height": 1.2
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -0.49,
+     "y": -0.4,
+     "width": 0.52,
+     "height": 0.27,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -0.49,
+     "y": 0.4,
+     "width": 0.52,
+     "height": 0.27,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 0.49,
+     "y": 0.0,
+     "width": 0.52,
+     "height": 0.36,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SOT89-3-ONSEMI",
+   "description": "3-pin SOT-89 (PCP), onsemi (ex-Sanyo) drawing, 4.5 x 2.5 mm body, 1.5 mm pitch",
+   "note": "onsemi (Sanyo) SOT-89/PCP-1 CASE 419AU issue O recommended soldering footprint (R1), diode/onsemi/sb10-05p-d.pdf p.3: pads 1 and 3 1.0 x 1.5 at +-1.5; pin 2 a 1.0-wide neck (1.8 + the pad row) up into the 2.2-wide tab pad, 5.5 overall, 3.7 from the tab-pad top to the neck. Drawn as two rectangles of pin 2: tab 2.2 x 3.1 and neck 1.0 x 2.4 (the 45 deg taper between them and the tab's top chamfers are left out); top view as drawn (leads down), origin = centre of the 5.5 extent; body 4.5 x 2.5 nom. Pin 2 = cathode (tab), pin 3 no contact (p.1)",
+   "style": "explicit",
+   "pins": 3,
+   "body": {
+    "width": 4.5,
+    "height": 2.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -1.5,
+     "y": 2.0,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 0.0,
+     "y": -1.2,
+     "width": 2.2,
+     "height": 3.1,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 0.0,
+     "y": 1.55,
+     "width": 1.0,
+     "height": 2.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 1.5,
+     "y": 2.0,
+     "width": 1.0,
+     "height": 1.5,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "TO-263-2-TAB-418B-ONSEMI",
+   "description": "D2PAK (TO-263), 2 leads + tab, onsemi CASE 418B drawing, 9.15 x 9.97 mm body",
+   "note": "onsemi D2PAK 3 CASE 418B-04 issue L (98ASB42761B) soldering footprint (R1; tab pad 10.49 x 8.38, lead pads 1.016 x 3.504 at 5.080 pitch, 16.155 overall), diode/onsemi/mbrb20100ct-d.pdf p.6; turned 90 deg CW (leads left, tab right), centred on the overall extent; body A 9.145 mid (8.64-9.65) x B 9.97 mid (9.65-10.29). Pins: lead 1 = 1, lead 3 = 2, tab (4) = 3; cut lead 2 has no pad. Not TO-263-2-TAB-ONSEMI (CASE 418AJ, 11.07 x 9.30 tab)",
+   "style": "explicit",
+   "pins": 3,
+   "body": {
+    "width": 9.15,
+    "height": 9.97
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -6.3255,
+     "y": -2.54,
+     "width": 3.504,
+     "height": 1.016,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -6.3255,
+     "y": 2.54,
+     "width": 3.504,
+     "height": 1.016,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 3.8875,
+     "y": 0.0,
+     "width": 8.38,
+     "height": 10.49,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "TO-252-2-TAB-ONSEMI",
+   "description": "DPAK (TO-252), 2 leads + tab, onsemi CASE 369C drawing, 6.10 x 6.54 mm body",
+   "note": "onsemi DPAK-3 CASE 369C issue L (98AON10527D) recommended mounting footprint (R1; tab pad 5.80 x 6.20, lead pads 1.60 x 3.00, 6.17 outer across the leads -> 4.57 centres, 2.58 gap tab to leads), diode/onsemi/mbrd320-d.pdf p.6; turned 90 deg CW (leads left, tab right), centred on the 11.78 overall extent; body D 6.10 x E 6.54 nom. Pins: lead 1 = 1, lead 3 = 2, tab (4) = 3",
+   "style": "explicit",
+   "pins": 3,
+   "body": {
+    "width": 6.1,
+    "height": 6.54
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -4.39,
+     "y": -2.285,
+     "width": 3.0,
+     "height": 1.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -4.39,
+     "y": 2.285,
+     "width": 3.0,
+     "height": 1.6,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 2.79,
+     "y": 0.0,
+     "width": 6.2,
+     "height": 5.8,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "TO-252-2-TAB-369AS-ONSEMI",
+   "description": "DPAK (TO-252AA), 2 leads + tab, onsemi (ex-Fairchild) CASE 369AS drawing, 6.10 x 6.54 mm body",
+   "note": "onsemi DPAK3 CASE 369AS issue B (98AON13810G, JEDEC TO-252 var. AA) land pattern recommendation (R1; tab pad 5.55 min x 6.50 min, lead pads 1.25 min x 2.85 min, 4.572 between leads, 6.40 tab centre to lead centre), diode/onsemi/rurd620ccs9a-d.pdf p.5; turned 90 deg CW (leads left, tab right), centred on the 11.075 overall extent; body D 6.10 x E 6.54 nom. Pins: lead 1 = 1, lead 3 = 2, tab (4) = 3",
+   "style": "explicit",
+   "pins": 3,
+   "body": {
+    "width": 6.1,
+    "height": 6.54
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -4.1125,
+     "y": -2.286,
+     "width": 2.85,
+     "height": 1.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -4.1125,
+     "y": 2.286,
+     "width": 2.85,
+     "height": 1.25,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 2.2875,
+     "y": 0.0,
+     "width": 6.5,
+     "height": 5.55,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "SO8FL-5-ONSEMI",
+   "description": "DFN5 5x6 (SO-8FL) single diode, onsemi drawing, 6.15 x 5.15 mm body, 1.27 mm pitch",
+   "note": "onsemi DFN5 5x6 1.27P (SO-8FL) CASE 488AA issue N (98AON14036D) recommended soldering footprint (R1; 4X 0.750 x 1.000 lead pads at 1.270 pitch, 0.965 gap to the big pad; big pad 4.560 wide x 4.530 high with a 3.06-wide 0.475-deep notch in its far edge (two 0.75 ears) and a 0.905-high band widened to 5.55, 3.200 below its far edge), diode/onsemi/mbr30h100mfs-d.pdf p.5; top view turned 90 deg CW (pins 1-4 left column), centred on the 6.495 overall extent; the big pad (pin 5, leads 5-8 + exposed pad, cathode, STYLE 2) is four abutting rectangles; body E 6.15 x D 5.15 nom",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 6.15,
+    "height": 5.15
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -2.7475,
+     "y": -1.905,
+     "width": 1.0,
+     "height": 0.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -2.7475,
+     "y": -0.635,
+     "width": 1.0,
+     "height": 0.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -2.7475,
+     "y": 0.635,
+     "width": 1.0,
+     "height": 0.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -2.7475,
+     "y": 1.905,
+     "width": 1.0,
+     "height": 0.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 3.01,
+     "y": -1.905,
+     "width": 0.475,
+     "height": 0.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 3.01,
+     "y": 1.905,
+     "width": 0.475,
+     "height": 0.75,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 1.41,
+     "y": 0.0,
+     "width": 2.725,
+     "height": 4.56,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -0.405,
+     "y": 0.0,
+     "width": 0.905,
+     "height": 5.55,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -1.07,
+     "y": 0.0,
+     "width": 0.425,
+     "height": 4.56,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "WDFN8-5-ONSEMI",
+   "description": "WDFN8 3.3 x 3.3 single diode, onsemi drawing, 0.65 mm pitch",
+   "note": "onsemi WDFN8 3.3x3.3 0.65P CASE 511AB issue D soldering footprint (R1; 4X 0.42 x 0.66 lead pads at 0.65 pitch, 0.64 gap; big pad 2.37 wide x 2.30 high (incl. four 0.42 x 0.47 fingers at 0.65 pitch on its far edge) with 0.57-high ears to 3.46 wide, 0.18 from its near edge; 3.60 overall), diode/onsemi/mbr8170tfs-d.pdf p.6 (same on p.11); the drawing shows the lead pads on top (no pin-1 mark; symmetric), drawn here as the top view turned 90 deg CW (pins 1-4 left column), centred on the 3.60 extent; big pad = pin 5 (leads 5-8 + exposed pad, cathode; leads 1-3 anode, 4 NC); body 3.30 x 3.30 BSC",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 3.3,
+    "height": 3.3
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -1.47,
+     "y": -0.975,
+     "width": 0.66,
+     "height": 0.42,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -1.47,
+     "y": -0.325,
+     "width": 0.66,
+     "height": 0.42,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -1.47,
+     "y": 0.325,
+     "width": 0.66,
+     "height": 0.42,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -1.47,
+     "y": 0.975,
+     "width": 0.66,
+     "height": 0.42,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 0.415,
+     "y": 0.0,
+     "width": 1.83,
+     "height": 2.37,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -0.035,
+     "y": -1.4575,
+     "width": 0.57,
+     "height": 0.545,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -0.035,
+     "y": 1.4575,
+     "width": 0.57,
+     "height": 0.545,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 1.565,
+     "y": -0.975,
+     "width": 0.47,
+     "height": 0.42,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 1.565,
+     "y": -0.325,
+     "width": 0.47,
+     "height": 0.42,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 1.565,
+     "y": 0.325,
+     "width": 0.47,
+     "height": 0.42,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 1.565,
+     "y": 0.975,
+     "width": 0.47,
+     "height": 0.42,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "LFPAK4-5-ONSEMI",
+   "description": "LFPAK4 (5 x 6) single diode, onsemi drawing, 4.15 x 4.90 mm body, 1.27 mm pitch",
+   "note": "onsemi LFPAK4 4.90x4.15x1.15 1.27P CASE 760AB issue D (98AON82777G) recommended land pattern (R1; 4X 0.70 x 1.15 lead pads at 1.27 pitch, 1.06 gap; tab pad 4.21 high: 4.35 wide for 1.30 at its far edge, then 3.50 wide with 0.60-high ears to 5.26), diode/onsemi/nhp420lfs-d.pdf p.5; top view turned 90 deg CW (pins 1-4 left column), centred on the 6.42 overall extent; tab pad = pin 5 (cathode) as four abutting rectangles; body D 4.15 x E 4.90",
+   "style": "explicit",
+   "pins": 5,
+   "body": {
+    "width": 4.15,
+    "height": 4.9
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -2.635,
+     "y": -1.905,
+     "width": 1.15,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -2.635,
+     "y": -0.635,
+     "width": 1.15,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -2.635,
+     "y": 0.635,
+     "width": 1.15,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -2.635,
+     "y": 1.905,
+     "width": 1.15,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 2.56,
+     "y": 0.0,
+     "width": 1.3,
+     "height": 4.35,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 1.105,
+     "y": 0.0,
+     "width": 1.61,
+     "height": 3.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": 0.0,
+     "y": 0.0,
+     "width": 0.6,
+     "height": 5.26,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -0.65,
+     "y": 0.0,
+     "width": 0.7,
+     "height": 3.5,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "TO-277-3-ONSEMI",
+   "description": "TO-277-3 power diode, onsemi CASE 340BQ drawing, 5.91 x 4.44 mm body, 2.10 mm pitch",
+   "note": "onsemi TO-277-3 5.91x4.44x1.10 2.10P CASE 340BQ issue A (98AON13861G) recommended mounting footprint (R1; cathode pad 4.65 x 4.15 at x -1.00, anode pads 1.15 x 1.45 at x +2.75, y +-1.05 (2.10 pitch); origin = the footprint's centre line as drawn), diode/onsemi/fes6d-d.pdf p.5; top view as drawn (cathode pad left); pin 1 taken as the upper small pad (the outline does not number them); body D1 5.91 x E1 4.44 nom. Pins 1, 2 anode, 3 cathode (p.1)",
+   "style": "explicit",
+   "pins": 3,
+   "body": {
+    "width": 5.91,
+    "height": 4.44
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 2.75,
+     "y": -1.05,
+     "width": 1.15,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 2.75,
+     "y": 1.05,
+     "width": 1.15,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -1.0,
+     "y": 0.0,
+     "width": 4.65,
+     "height": 4.15,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "TO-277-3-340CZ-ONSEMI",
+   "description": "TO-277-3 power diode, onsemi CASE 340CZ drawing, 6.10 x 4.40 mm body, 2.13 mm pitch",
+   "note": "onsemi TO-277-3 4.40x6.10x1.10 2.13P CASE 340CZ issue B (98AON97727G) recommended mounting footprint (R1; anode pads 1.48 x 1.35 at 2.13 pitch, 0.55 gap; cathode pad 4.90 long: a 2.33-wide 0.66 tab, 3.90 wide to 3.23, then 4.60 wide for 1.01; package centre 3.40 from the tab end), diode/onsemi/NRTS1260PFS-D.PDF p.5; drawn turned 90 deg CCW (cathode pad left, anode pads right) to match TO-277-3-ONSEMI; origin = package centre; pin 1 (left in the top view) at y +1.065; cathode pad = pin 3, three abutting rectangles; body E1 6.10 x D1 4.40 nom. Not TO-277-3-ONSEMI (340BQ: plain 4.65 x 4.15 pad, 2.10 pitch)",
+   "style": "explicit",
+   "pins": 3,
+   "body": {
+    "width": 6.1,
+    "height": 4.4
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 2.725,
+     "y": 1.065,
+     "width": 1.35,
+     "height": 1.48,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": 2.725,
+     "y": -1.065,
+     "width": 1.35,
+     "height": 1.48,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -3.07,
+     "y": 0.0,
+     "width": 0.66,
+     "height": 2.33,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -1.125,
+     "y": 0.0,
+     "width": 3.23,
+     "height": 3.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": 0.995,
+     "y": 0.0,
+     "width": 1.01,
+     "height": 4.6,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "TO-220-2-ONSEMI",
+   "description": "TO-220 2-lead (TO-220AC), onsemi CASE 221B drawing, 9.97 x 4.44 mm body, 5.08 mm lead spacing",
+   "note": "onsemi TO-220 2-LEAD CASE 221B-04 issue F (98ASB42149B), diode/onsemi/mur820-d.pdf p.8; R5: leads at positions 1 and 3, G 5.08 mid (4.83-5.33); lead D 0.82 mid (0.64-1.00) + 0.25 = 1.07 -> drill 1.10, pad 1.80; body B 9.97 mid (9.65-10.29) x C 4.44 mid (4.06-4.82); pads on the body centre line. Fairchild TO220B02 (rurp1560_f085-d.pdf p.6) gives the same: lead 0.838 mid (0.787-0.889) -> drill 1.10, 5.08 mid (4.98-5.18). Pin 1 = cathode (tied to the tab), 2 = anode (lead 3)",
+   "style": "explicit",
+   "pins": 2,
+   "body": {
+    "width": 9.97,
+    "height": 4.44
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -2.54,
+     "y": 0.0,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "rect",
+     "drill": 1.1
+    },
+    {
+     "pin": 2,
+     "x": 2.54,
+     "y": 0.0,
+     "width": 1.8,
+     "height": 1.8,
+     "shape": "round",
+     "drill": 1.1
+    }
+   ]
+  },
+  {
+   "id": "TO-247-2-ONSEMI",
+   "description": "TO-247-2 (2-lead) power diode, onsemi CASE 340CL drawing, 15.62 x 4.70 mm body, 11.12 mm lead spacing",
+   "note": "onsemi TO-247-2LD CASE 340CL issue A (98AON13850G), diode/onsemi/rhrg3060_f085-d.pdf p.6; R5: e 11.12 (pin 1 to pin 2); lead b 1.26 mid (1.17-1.35) + 0.25 = 1.51 -> drill 1.55, pad 2.25; body E 15.62 x A 4.70 nom; pads on the body centre line. Pin 1 = cathode (backside metal), 2 = anode",
+   "style": "explicit",
+   "pins": 2,
+   "body": {
+    "width": 15.62,
+    "height": 4.7
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -5.56,
+     "y": 0.0,
+     "width": 2.25,
+     "height": 2.25,
+     "shape": "rect",
+     "drill": 1.55
+    },
+    {
+     "pin": 2,
+     "x": 5.56,
+     "y": 0.0,
+     "width": 2.25,
+     "height": 2.25,
+     "shape": "round",
+     "drill": 1.55
+    }
+   ]
+  },
+  {
+   "id": "TO-247-3-ONSEMI",
+   "description": "TO-247-3 power diode, onsemi CASE 340AL drawing, 15.88 x 5.00 mm body, 5.45 mm pitch",
+   "note": "onsemi TO-247 CASE 340AL issue D (98AON16119F), diode/onsemi/mbr7030wt-d.pdf p.4; R5: e 5.45 BSC; lead b 1.20 mid (1.07-1.33) + 0.25 = 1.45 -> drill 1.45, pad 2.15; body E 15.875 mid (15.50-16.25) x A 5.00 mid (4.70-5.30); pads on the body centre line. Not TO-247-3-TSC (drill 1.50)",
+   "style": "explicit",
+   "pins": 3,
+   "body": {
+    "width": 15.88,
+    "height": 5.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -5.45,
+     "y": 0.0,
+     "width": 2.15,
+     "height": 2.15,
+     "shape": "rect",
+     "drill": 1.45
+    },
+    {
+     "pin": 2,
+     "x": 0.0,
+     "y": 0.0,
+     "width": 2.15,
+     "height": 2.15,
+     "shape": "round",
+     "drill": 1.45
+    },
+    {
+     "pin": 3,
+     "x": 5.45,
+     "y": 0.0,
+     "width": 2.15,
+     "height": 2.15,
+     "shape": "round",
+     "drill": 1.45
+    }
+   ]
+  },
+  {
+   "id": "TO-247-3-340CK-ONSEMI",
+   "description": "TO-247-3 power diode, onsemi CASE 340CK/340CH drawing, 15.62 x 4.70 mm body, 5.56 mm pitch",
+   "note": "onsemi TO-247-3LD SHORT LEAD CASE 340CK issue A (98AON13851G), diode/onsemi/ffh60up60s-d.pdf p.6; R5: e 5.56; lead b 1.26 mid (1.17-1.35) + 0.25 = 1.51 -> drill 1.55, pad 2.25; body E 15.62 x A 4.70 nom. TO-247-3LD CASE 340CH issue A (FFSH2065ADN-F155-D.PDF p.5, long leads) has the same leads, pitch and body",
+   "style": "explicit",
+   "pins": 3,
+   "body": {
+    "width": 15.62,
+    "height": 4.7
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -5.56,
+     "y": 0.0,
+     "width": 2.25,
+     "height": 2.25,
+     "shape": "rect",
+     "drill": 1.55
+    },
+    {
+     "pin": 2,
+     "x": 0.0,
+     "y": 0.0,
+     "width": 2.25,
+     "height": 2.25,
+     "shape": "round",
+     "drill": 1.55
+    },
+    {
+     "pin": 3,
+     "x": 5.56,
+     "y": 0.0,
+     "width": 2.25,
+     "height": 2.25,
+     "shape": "round",
+     "drill": 1.55
+    }
+   ]
+  },
+  {
+   "id": "TO-3PF-3-ONSEMI",
+   "description": "TO-3PF 3-lead power diode, onsemi CASE 340AH drawing, 15.50 x 5.50 mm body, 5.45 mm pitch",
+   "note": "onsemi TO-3PF-3L CASE 340AH issue A (98AON79755E), diode/onsemi/ffaf30ua60s-d.pdf p.4; R5: e 5.45 mid (5.35-5.55); lead b 0.80 mid (0.65-0.95), c 0.95 mid (0.80-1.10) -> 0.95 + 0.25 = 1.20 -> drill 1.20, pad 1.90; body E 15.50 x A 5.50 mid. The ex-Sanyo TO-3PF-3L (drawing 7538A-003, SBT700-06RH-D.PDF p.4) gives the same: 5.45 pitch, lead 0.80 x 0.95 mid. Not TO-3PF-3-VISHAY (drill 1.35)",
+   "style": "explicit",
+   "pins": 3,
+   "body": {
+    "width": 15.5,
+    "height": 5.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -5.45,
+     "y": 0.0,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "rect",
+     "drill": 1.2
+    },
+    {
+     "pin": 2,
+     "x": 0.0,
+     "y": 0.0,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    },
+    {
+     "pin": 3,
+     "x": 5.45,
+     "y": 0.0,
+     "width": 1.9,
+     "height": 1.9,
+     "shape": "round",
+     "drill": 1.2
+    }
+   ]
+  }
+ ]
+}

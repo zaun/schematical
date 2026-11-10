@@ -320,14 +320,12 @@ datasheets/diode/onsemi/mmbd4148se-d.pdf	https://www.onsemi.com/pdf/datasheet/mm
 datasheets/diode/onsemi/mmbd6050lt1-d.pdf	https://www.onsemi.com/pdf/datasheet/mmbd6050lt1-d.pdf	230386	66784a1a6263d367d18c553eb83cec96cea9f8d43c77f383e441e7ce1c9f9402
 datasheets/diode/onsemi/mmbd6100lt1-d.pdf	https://www.onsemi.com/pdf/datasheet/mmbd6100lt1-d.pdf	232196	fc9770ad8d13360752706deaee45aafb344a501609cca4b4e9034d01907941c1
 datasheets/diode/onsemi/mmbd7000lt1-d.pdf	https://www.onsemi.com/pdf/datasheet/mmbd7000lt1-d.pdf	249312	34d340f38ee80d9bc20d646f25c6773b642b3c7963d152ff5dd47cefe77197d1
-datasheets/diode/onsemi/mmbd717lt1-d.pdf	https://www.onsemi.com/pdf/datasheet/mmbd717lt1-d.pdf	199679	860ed14d74a94bc697bd7b7b20202f559d48561b043f7060990df44965df7968
 datasheets/diode/onsemi/mmbd914lt1-d.pdf	https://www.onsemi.com/pdf/datasheet/mmbd914lt1-d.pdf	240868	ffa38ba2100f6381ab23a27ef7292e136ea73bac9cd16f6fe4c2fef51c87ffdb
 datasheets/diode/onsemi/mmbz16val-d.pdf	https://www.onsemi.com/download/data-sheet/pdf/mmbz16val-d.pdf	202094	ae7032eff8e7666252b0b0770f6333312ff3abc05d2109bda0151aae75da1599
 datasheets/diode/onsemi/mmbz5221blt1-d.pdf	https://www.onsemi.com/pdf/datasheet/mmbz5221blt1-d.pdf	372156	09b9e498add785f7f2f839cab30027c088076d59e043e708cc0f96d4e7f41f2d
 datasheets/diode/onsemi/mmbz5221elt1-d.pdf	https://www.onsemi.com/pdf/datasheet/mmbz5221elt1-d.pdf	352849	a2832aae72a4a49a21eb4f3b772f62edeb4cc8e886ac7e9998aff267c35b4ac7
 datasheets/diode/onsemi/mmbz5v6alt1-d.pdf	https://www.onsemi.com/download/data-sheet/pdf/mmbz5v6alt1-d.pdf	308092	3e6caeba5eaf5dcdc5e9807a09e6ecc8ca0b37179673c7ef6b1e4f8a4dd30d23
 datasheets/diode/onsemi/mmdl6050t1-d.pdf	https://www.onsemi.com/pdf/datasheet/mmdl6050t1-d.pdf	211023	412fccc067a2a9784618d50d8f52be0a9799d24f6f88d9d9e5994946515a69d3
-datasheets/diode/onsemi/mmdl770t1-d.pdf	https://www.onsemi.com/pdf/datasheet/mmdl770t1-d.pdf	208744	d23681e14cd9e3acd7ccf06c1baa7f2ec7f65563b674795d96528a4e99407d08
 datasheets/diode/onsemi/mmdl914t1-d.pdf	https://www.onsemi.com/pdf/datasheet/mmdl914t1-d.pdf	221156	ab9c2984fb6185a7264c19c15f9b6712de6340c42cea451fdac6a5f3216e2fb2
 datasheets/diode/onsemi/mmsd103t1-d.pdf	https://www.onsemi.com/pdf/datasheet/mmsd103t1-d.pdf	217824	6c990ff2689db3fcb4f365167d6fd48d30a82c88470a3c3af129f22bd3bc4222
 datasheets/diode/onsemi/mmsd301t1-d.pdf	https://www.onsemi.com/pdf/datasheet/mmsd301t1-d.pdf	244781	54b513c0a8c9fba020c47a0ea3fe6647787462782b79c32e10cfbf90eece2a6d
@@ -1617,7 +1615,6 @@ datasheets/diode/vishay/ll4151.pdf	https://www.vishay.com/docs/85559/ll4151.pdf	
 datasheets/diode/vishay/ll4154.pdf	https://www.vishay.com/docs/85560/ll4154.pdf	114477	47fb3e75346c8ab634b993d156cf85a4a1a9c2ee4d39324e1ea37e676a80ce0e
 datasheets/diode/vishay/ll42.pdf	https://www.vishay.com/docs/85672/ll42.pdf	109015	2fe74120cecce06e1b73e8b43d8c5599f679124aacafa5d96a35ea099477a42a
 datasheets/diode/vishay/ls101a.pdf	https://www.vishay.com/docs/85628/ls101a.pdf	116314	8ae0be43b3e0056498e56fa2fe11f1403bd280aa61c6ab32c1d4251283fbe958
-datasheets/diode/vishay/ls103a.pdf	https://www.vishay.com/docs/85631/ls103a.pdf	136111	99f41c85adfed0de3532cbd8e2f9fe0f6c5a879668f4681911d28baaebe4e6e1
 datasheets/diode/vishay/ls4148.pdf	https://www.vishay.com/docs/85561/ls4148.pdf	129704	ea57aec092cd7accbacb5c49046f0ea78a98674b84a5e121765702b4b3f17511
 datasheets/diode/vishay/ls4150.pdf	https://www.vishay.com/docs/85562/ls4150.pdf	127560	dbf017dfb8a637706a0002b606da195b73abc8d585e1852dda2068066c47d653
 datasheets/diode/vishay/ls4151.pdf	https://www.vishay.com/docs/85563/ls4151.pdf	129260	6e274234c6d37c0c4cf7ec7d960ef5ba9735eec8378a0a928db8fa7f2b4d7684

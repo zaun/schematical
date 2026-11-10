@@ -1,0 +1,119 @@
+mpn	datasheet	vr	io	vz	pd	source
+GP1007		1000				p.1 ABSOLUTE MAXIMUM RATINGS, VRRM column 1007
+GP1607H		1000				p.1 ABSOLUTE MAXIMUM RATINGS, VRRM column 1607
+HER1008G		1000				p.1 ABSOLUTE MAXIMUM RATINGS, VRRM column HER1008G
+HER1608G		1000				p.1 ABSOLUTE MAXIMUM RATINGS, VRRM column HER1608G
+HER1608PT		1000				p.1 ABSOLUTE MAXIMUM RATINGS, VRRM column 1608PT
+HERF1008G		1000				p.1 ABSOLUTE MAXIMUM RATINGS, VRRM column HERF1008G
+HERF1008GA		1000				p.1 ABSOLUTE MAXIMUM RATINGS, VRRM column HERF1008GA
+HERF1608G		1000				p.1 ABSOLUTE MAXIMUM RATINGS, VRRM column HERF1608G
+	datasheets/diode/vishay/gsd2004a.pdf		0.35			p.1 ABSOLUTE MAXIMUM RATINGS, IF forward current (continuous), per diode 350 mA (infinite heatsink)
+	datasheets/diode/vishay/gsd2004c-g.pdf		0.4			p.1 ABSOLUTE MAXIMUM RATINGS, IF forward current (continuous), per diode 400 mA (infinite heatsink)
+	datasheets/diode/vishay/gsd2004s-g.pdf		0.35			p.1 ABSOLUTE MAXIMUM RATINGS, IF forward current (continuous), per diode 350 mA (infinite heatsink)
+	datasheets/diode/vishay/gsd2004s.pdf		0.35			p.1 ABSOLUTE MAXIMUM RATINGS, IF forward current (continuous), per diode 350 mA (infinite heatsink)
+	datasheets/diode/vishay/gsd2004w.pdf		0.3			p.1 ABSOLUTE MAXIMUM RATINGS, IF forward current (continuous) 300 mA (infinite heatsink)
+VS-C5PH3012L-N3			15			p.1 ABSOLUTE MAXIMUM RATINGS, IF(AV) average rectified forward current per leg
+VS-C5PH6012L-N3			30			p.1 ABSOLUTE MAXIMUM RATINGS, IF(AV) average rectified forward current per leg
+VS-C5PX3012L-N3			15			p.1 ABSOLUTE MAXIMUM RATINGS, IF(AV) average rectified forward current per leg
+VS-C5TH3012-M3			15			p.1 ABSOLUTE MAXIMUM RATINGS, IF(AV) average rectified forward current per leg
+VS-C5TX3012-M3			15			p.1 ABSOLUTE MAXIMUM RATINGS, IF(AV) average rectified forward current per leg
+	datasheets/diode/vishay/bas70-02v.pdf		0.1			p.1 ABSOLUTE MAXIMUM RATINGS, IF forward continuous current 100 mA
+GP10M-E3/73		1000				p.3 Fig. 5 Maximum Repetitive Peak Reverse Voltage, GP10M 1000 V; printed with leader dots ("GP10M.....1000 V"), vrio-check lookbehind rejects the leader dot
+GP10T-E3/73		1300				p.3 Fig. 5 Maximum Repetitive Peak Reverse Voltage, GP10T 1300 V; printed with leader dots ("GP10T.....1300 V"), vrio-check lookbehind rejects the leader dot
+GP10W-E3/73		1500				p.3 Fig. 5 Maximum Repetitive Peak Reverse Voltage, GP10W 1500 V; printed with leader dots ("GP10W.....1500 V"), vrio-check lookbehind rejects the leader dot
+GP10Y-E3/73		1600				p.3 Fig. 5 Maximum Repetitive Peak Reverse Voltage, GP10Y 1600 V; printed with leader dots ("GP10Y.....1600 V"), vrio-check lookbehind rejects the leader dot
+LS103A-GS08						p.1 ABSOLUTE MAXIMUM RATINGS: no forward/average current rating printed (only VR, IFSM, Ptot); io left empty
+LS103B-GS08						p.1 ABSOLUTE MAXIMUM RATINGS: no forward/average current rating printed (only VR, IFSM, Ptot); io left empty
+LS103C-GS08						p.1 ABSOLUTE MAXIMUM RATINGS: no forward/average current rating printed (only VR, IFSM, Ptot); io left empty
+SD103A-TR			0.2			p.1 ABSOLUTE MAXIMUM RATINGS, IFAV forward continuous current 200 mA
+SD103B-TR			0.2			p.1 ABSOLUTE MAXIMUM RATINGS, IFAV forward continuous current 200 mA
+SD103C-TR			0.2			p.1 ABSOLUTE MAXIMUM RATINGS, IFAV forward continuous current 200 mA
+SD103CW-E3-08			0.35			p.1 ABSOLUTE MAXIMUM RATINGS, IF forward continuous current 350 mA (infinite heatsink)
+	datasheets/diode/vishay/v5nm63.pdf	60				p.1 MAXIMUM RATINGS, VRRM 60 V
+	datasheets/diode/vishay/vssc8l45-m3.pdf		4.9			p.1 MAXIMUM RATINGS, IF max DC forward current 4.9 A free air on recommended pad (8.0 A on 3x3 cm Al PCB)
+	datasheets/diode/vishay/1n4728a.pdf				1.3	p.1 ABSOLUTE MAXIMUM RATINGS, Ptot 1300 mW; vrio-check cannot match 1.3 W against "1300" mW (mW alt only for values < 1)
+	datasheets/diode/vishay/bzt52-g.pdf				0.5	p.1 ABSOLUTE MAXIMUM RATINGS, Ptot 500 mW (RthJL = 250 K/W; 300 mW on FR-4)
+	datasheets/diode/vishay/bzt52.pdf				0.5	p.1 ABSOLUTE MAXIMUM RATINGS, Ptot 500 mW (RthJL = 250 K/W; 300 mW on FR-4)
+	datasheets/diode/vishay/z4ke.pdf				1.5	p.1 PRIMARY CHARACTERISTICS, Ptot 1500 mW (note 1: at TL = 75 °C, 0.375 in lead); vrio-check cannot match 1.5 W against "1500" mW
+	datasheets/diode/vishay/zpy3v9.pdf				1.3	p.1 ABSOLUTE MAXIMUM RATINGS, Ptot 1300 mW; vrio-check cannot match 1.3 W against "1300" mW (mW alt only for values < 1)
+ZM4728A-GS08				3.3		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4728A-GS18				3.3		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4729A-GS08				3.6		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4730A-GS08				3.9		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4731A-GS08				4.3		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4732A-GS08				4.7		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4732A-GS18				4.7		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4733A-GS08				5.1		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4733A-GS18				5.1		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4734A-GS08				5.6		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4734A-GS18				5.6		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4735A-GS08				6.2		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4735A-GS18				6.2		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4736A-GS08				6.8		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4736A-GS18				6.8		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4737A-GS08				7.5		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4737A-GS18				7.5		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4738A-GS08				8.2		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4739A-GS08				9.1		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4739A-GS18				9.1		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4740A-GS08				10		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4740A-GS18				10		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4741A-GS08				11		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4742A-GS08				12		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4742A-GS18				12		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4743A-GS08				13		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4744A-GS08				15		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4744A-GS18				15		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4745A-GS08				16		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4745A-GS18				16		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4746A-GS08				18		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4746A-GS18				18		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4747A-GS08				20		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4747A-GS18				20		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4748A-GS08				22		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4749A-GS08				24		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4749A-GS18				24		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4750A-GS08				27		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4750A-GS18				27		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4751A-GS08				30		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4751A-GS18				30		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4752A-GS08				33		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4752A-GS18				33		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4753A-GS08				36		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4753A-GS18				36		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4754A-GS08				39		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4755A-GS08				43		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4756A-GS18				47		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4757A-GS08				51		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4758A-GS08				56		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4759A-GS08				62		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+ZM4760A-GS08				68		p.2 ELECTRICAL CHARACTERISTICS, VZ at IZT1 NOM.
+FFSH2065ADN-F155		650	10			p.2 ABSOLUTE MAXIMUM RATINGS, VRRM 650 V; IF 10 A per leg (20 A per device) at TC < 148 °C
+SBT700-06RH-1E		60	35			p.1 Absolute Maximum Ratings, VRRM 60 V; IO 70 A (device total, not marked per element) -> 35 A per diode
+MBD770DWT1G			0.1			p.1 MAXIMUM RATINGS, IF forward current 100 mA
+MMBD717LT1G						p.1 MAXIMUM RATINGS: no forward current rating printed (only VR, PF 200 mW); io left empty
+1N4447			0.2			p.1 ABSOLUTE MAXIMUM RATINGS, IF(AV) 200 mA
+1SS400T1		100	0.2			p.1 MAXIMUM RATINGS, VR 100 V; IF 200 mAdc
+BAS40P2T5G			0.12			p.2 MAXIMUM RATINGS, IF forward continuous current 120 mA
+ES3D		200	3			p.2 ABSOLUTE MAXIMUM RATINGS, ES3D VRRM 200 V; IF(AV) 3.0 A
+	datasheets/diode/onsemi/FDH444-D.pdf	150				p.1 ABSOLUTE MAXIMUM RATINGS, VRRM (working inverse voltage) 150 V
+MBR0530		30	0.5			p.2 MAXIMUM RATINGS, VRRM 30 V; IF(AV) 0.5 A
+MMDL770T1G						p.1 MAXIMUM RATINGS: no forward current rating printed (only VR 70 V, PD 200 mW); io left empty
+SUR8840G		400	8			p.2 MAXIMUM RATINGS, MUR/SUR8 840 column VRRM 400 V; IF(AV) 8.0 A
+NTSS3100T3G		100	3			p.2 MAXIMUM RATINGS, VRRM/VRWM/VR 100 V; IF(AV) 3.0 A
+1N5933B				22	3	p.1 MAXIMUM RATINGS PD 3 W steady state (TL = 75 °C); p.3 ELECTRICAL CHARACTERISTICS VZ nom 22 V
+1N5948B				91	3	p.1 MAXIMUM RATINGS PD 3 W steady state (TL = 75 °C); p.3 ELECTRICAL CHARACTERISTICS VZ nom 91 V
+MM5Z2V4ST1G				2.4		part number 2V4 (nominal VZ; p.1 range 2.4 V to 18 V); p.2 table prints only tight-tolerance min/max
+MM5Z4V7ST1G				4.7		part number 4V7 (nominal VZ; p.1 range 2.4 V to 18 V); p.2 table prints only tight-tolerance min/max
+MM5Z4V7ST5G				4.7		part number 4V7 (nominal VZ; p.1 range 2.4 V to 18 V); p.2 table prints only tight-tolerance min/max
+MM5Z5V1ST5G				5.1		part number 5V1 (nominal VZ; p.1 range 2.4 V to 18 V); p.2 table prints only tight-tolerance min/max
+MM5Z9V1ST1G				9.1		part number 9V1 (nominal VZ; p.1 range 2.4 V to 18 V); p.2 table prints only tight-tolerance min/max
+SZMM5Z12VST5G				12		part number 12V (nominal VZ; p.1 range 2.4 V to 18 V); p.2 table prints only tight-tolerance min/max
+SZMM5Z4V7ST5G				4.7		part number 4V7 (nominal VZ; p.1 range 2.4 V to 18 V); p.2 table prints only tight-tolerance min/max
+SZMM5Z5V1ST1G				5.1		part number 5V1 (nominal VZ; p.1 range 2.4 V to 18 V); p.2 table prints only tight-tolerance min/max
+SZMM5Z5V1ST5G				5.1		part number 5V1 (nominal VZ; p.1 range 2.4 V to 18 V); p.2 table prints only tight-tolerance min/max
+SZMM5Z5V6ST1G				5.6		part number 5V6 (nominal VZ; p.1 range 2.4 V to 18 V); p.2 table prints only tight-tolerance min/max
+SZMM5Z5V6ST5G				5.6		part number 5V6 (nominal VZ; p.1 range 2.4 V to 18 V); p.2 table prints only tight-tolerance min/max
+SZMM5Z6V2ST1G				6.2		part number 6V2 (nominal VZ; p.1 range 2.4 V to 18 V); p.2 table prints only tight-tolerance min/max
+SZMM5Z8V2ST1G				8.2		part number 8V2 (nominal VZ; p.1 range 2.4 V to 18 V); p.2 table prints only tight-tolerance min/max
+SZMM5Z9V1ST1G				9.1		part number 9V1 (nominal VZ; p.1 range 2.4 V to 18 V); p.2 table prints only tight-tolerance min/max

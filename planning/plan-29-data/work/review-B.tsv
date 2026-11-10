@@ -1,0 +1,1658 @@
+datasheet	supplier_package	category	configurations	parts	first_mpn	package	footprint	pins
+datasheets/diode/vishay/1n4001.pdf	DO-204AL (DO-41)	single		14	1N4001-E3/54	DO-41	DIODE-DO-41-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n4001gp.pdf	DO-204AL (DO-41)	single		5	1N4001GP-E3/73	DO-41	DIODE-DO-41-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n4148.pdf	DO-204AH (DO-35)	single		2	1N4148-TAP	DO-35	DIODE-DO-35-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n4148w-g.pdf	SOD-123	single		2	1N4148W-G3-08	SOD-123	DIODE-SOD-123-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n4148w.pdf	SOD-123	single		2	1N4148W-E3-08	SOD-123	DIODE-SOD-123-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n4148ws-g.pdf	SOD-323	single		3	1N4148WS-G3-08	SOD-323	DIODE-SOD-323-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n4148ws.pdf	SOD-323	single		2	1N4148WS-E3-18	SOD-323	DIODE-SOD-323-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n4150.pdf	DO-204AH (DO-35)	single		2	1N4150TAP	DO-35	DIODE-DO-35-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n4150w-g.pdf	SOD-123	single		1	1N4150W-G3-18	SOD-123	DIODE-SOD-123-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n4150w.pdf	SOD-123	single		2	1N4150W-E3-08	SOD-123	DIODE-SOD-123-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n4151ws-g.pdf	SOD-323	single		1	1N4151WS-G3-08	SOD-323	DIODE-SOD-323-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n4154.pdf	DO-204AH (DO-35)	single		2	1N4154TAP	DO-35	DIODE-DO-35-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n4448.pdf	DO-204AH (DO-35)	single		2	1N4448TAP	DO-35	DIODE-DO-35-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n448w-g.pdf	SOD-123	single		1	1N4448W-G3-18	SOD-123	DIODE-SOD-123-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n448ws-g.pdf	SOD-323	single		1	1N4448WS-G3-08	SOD-323	DIODE-SOD-323-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n4728a.pdf	DO-204AL (DO-41)	zener		66	1N4728A-TAP	DO-41	DIODE-DO-41-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n4933.pdf	DO-204AL (DO-41)	single		8	1N4933-E3/54	DO-41	DIODE-DO-41-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n4933gp.pdf	DO-204AL (DO-41)	single		2	1N4936GP-E3/73	DO-41	DIODE-DO-41-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n4942gp.pdf	DO-204AL (DO-41)	single		1	1N4948GP-E3/73	DO-41	DIODE-DO-41-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n5059.pdf	SOD-57	single		5	1N5059TR	SOD-57	DIODE-SOD-57-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n5221.pdf	DO-204AH (DO-35)	zener		87	1N5221B-TAP	DO-35	DIODE-DO-35-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n5391.pdf	DO-204AL (DO-41)	single		8	1N5392-E3/54	DO-41	DIODE-DO-41-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n5391gp.pdf	DO-204AC (DO-15)	single		1	1N5399GP-E3/73	DO-15	DIODE-DO-15-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n5400.pdf	DO-201AD	single		16	1N5400-E3/54	DO-201AD	DIODE-DO-201AD-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n5417.pdf	SOD-64	single		1	1N5417TR	SOD-64	DIODE-SOD-64-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n5624.pdf	SOD-64	single		7	1N5624-TR	SOD-64	DIODE-SOD-64-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n5817.pdf	DO-204AL (DO-41)	single		5	1N5817-E3/54	DO-41	DIODE-DO-41-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n5820.pdf	DO-201AD	single		5	1N5820-E3/54	DO-201AD	DIODE-DO-201AD-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n6478.pdf	DO-213AB	single		7	1N6478-E3/96	MELF	DIODE-MELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/1n914.pdf	DO-204AH (DO-35)	single		2	1N914TAP	DO-35	DIODE-DO-35-VISHAY	1:K,2:A
+datasheets/diode/vishay/30wq03fn.pdf	TO-252AA (DPAK)	single		2	VS-30WQ03FN-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/31gf6-90acdd.pdf	DO-201AD	single		1	31GF6-E3/54	DO-201AD	DIODE-DO-201AD-VISHAY	1:K,2:A
+datasheets/diode/vishay/31gf6-df62a1.pdf	DO-201AD	single		1	31GF6-M3/54	DO-201AD	DIODE-DO-201AD-VISHAY	1:K,2:A
+datasheets/diode/vishay/50wq03fn.pdf	TO-252AA (DPAK)	single		2	VS-50WQ03FN-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/50wq06fn.pdf	TO-252AA (DPAK)	single		3	VS-50WQ06FN-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/VT10200C-1ad2bb.pdf	ITO-220AB	array	1 Pair Common Cathode	1	VFT10200C-E3/4W	ITO-220	ITO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/ar1fd_ar1fg_ar1fj_ar1fk_ar1f.pdf	DO-219AB (SMF)	single		12	AR1FD-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/ar1pm.pdf	DO-220AA (SMP)	single		6	AR1PD-M3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/ar3pj.pdf	TO-277A (SMPC)	single		1	AR3PD-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/ar4pm.pdf	TO-277A (SMPC)	single		1	AR4PM-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/as1fd_fg_fj_fk_fm.pdf	DO-219AB (SMF)	single		10	AS1FD-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/as1pm.pdf	DO-220AA (SMP)	single		4	AS1PD-M3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/as3bd.pdf	DO-214AA (SMB)	single		1	AS3BJ-M3/52T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/as3pd.pdf	TO-277A (SMPC)	single		2	AS3PG-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/as4pd.pdf	TO-277A (SMPC)	single		4	AS4PD-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/au1fd-au1fm.pdf	DO-219AB (SMF)	single		4	AU1FK-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/au1pm.pdf	DO-220AA (SMP)	single		11	AU1PD-M3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/au2pj.pdf	TO-277A (SMPC)	single		1	AU2PJ-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/au3pj.pdf	TO-277A (SMPC)	single		1	AU3PJ-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/au3pm.pdf	TO-277A (SMPC)	single		2	AU3PK-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/az23_series.pdf	SOT-23-3	zener-array	1 Pair Common Anode	23	AZ23B12-E3-18	SOT-23	SOT23-3-VISHAY	1:K1,2:K2,3:A
+datasheets/diode/vishay/az23g_series.pdf	SOT-23-3	zener-array	1 Pair Common Anode	2	AZ23B15-G3-18	SOT-23	SOT23-3-VISHAY	1:K1,2:K2,3:A
+datasheets/diode/vishay/b120-m3.pdf	DO-214AC (SMA)	single		1	B150-M3/61T	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/b120.pdf	DO-214AC (SMA)	single		10	B120-E3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/b230la-m3.pdf	DO-214AC (SMA)	single		1	B240A-M3/61T	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/b230la.pdf	DO-214AC (SMA)	single		4	B230LA-E3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/b330la-70e46f.pdf	DO-214AC (SMA)	single		4	B330LA-E3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/b330la-bc706c.pdf	DO-214AC (SMA)	single		3	B330LA-M3/61T	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/b340lb.pdf	DO-214AA (SMB)	single		3	B340LB-E3/52T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/b350a-m3.pdf	DO-214AC (SMA)	single		3	B350A-M3/61T	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/b360a.pdf	DO-214AC (SMA)	single		4	B350A-E3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/b360b.pdf	DO-214AA (SMB)	single		4	B350B-E3/52T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/ba157.pdf	DO-204AL (DO-41)	single		4	BA157-E3/54	DO-41	DIODE-DO-41-VISHAY	1:K,2:A
+datasheets/diode/vishay/ba157gp.pdf	DO-204AL (DO-41)	single		1	BA159GP-E3/73	DO-41	DIODE-DO-41-VISHAY	1:K,2:A
+datasheets/diode/vishay/bal99.pdf	SOT-23-3	single		1	BAL99-E3-18	SOT-23	SOT23-3-VISHAY	1:A,2:NC,3:K
+datasheets/diode/vishay/bas16-g.pdf	SOT-23-3	single		1	BAS16-G3-08	SOT-23	SOT23-3-VISHAY	1:A,2:NC,3:K
+datasheets/diode/vishay/bas16.pdf	SOT-23-3	single		2	BAS16-E3-08	SOT-23	SOT23-3-VISHAY	1:A,2:NC,3:K
+datasheets/diode/vishay/bas16d-g.pdf	SOD-123	single		1	BAS16D-G3-08	SOD-123	DIODE-SOD-123-VISHAY	1:K,2:A
+datasheets/diode/vishay/bas16l.pdf	DFN1006-2A	single		2	BAS16L-G3-08	DFN1006-2A	DIODE-DFN1006-VISHAY	1:K,2:A
+datasheets/diode/vishay/bas16lth.pdf	DFN1006-2A	single		2	BAS16LTH-G3-08	DFN1006-2A	DIODE-DFN1006-VISHAY	1:K,2:A
+datasheets/diode/vishay/bas16ws.pdf	SOD-323	single		2	BAS16WS-E3-08	SOD-323	DIODE-SOD-323-VISHAY	1:K,2:A
+datasheets/diode/vishay/bas170ws-g.pdf	SOD-323	single		1	BAS170WS-G3-18	SOD-323	DIODE-SOD-323-VISHAY	1:K,2:A
+datasheets/diode/vishay/bas170ws.pdf	SOD-323	single		3	BAS170WS-E3-08	SOD-323	DIODE-SOD-323-VISHAY	1:K,2:A
+datasheets/diode/vishay/bas19_bas20_bas21.pdf	SOT-23-3	single		5	BAS19-E3-08	SOT-23	SOT23-3-VISHAY	1:A,2:NC,3:K
+datasheets/diode/vishay/bas281.pdf	SOD-80 QuadroMELF	single		2	BAS281-GS08	QuadroMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/bas285.pdf	SOD-80 QuadroMELF	single		1	BAS285-GS18	QuadroMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/bas286.pdf	SOD-80 QuadroMELF	single		1	BAS286-GS08	QuadroMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/bas381.pdf	MicroMELF	single		4	BAS381-TR	MicroMELF	DIODE-MICROMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/bas385.pdf	MicroMELF	single		1	BAS385-TR3	MicroMELF	DIODE-MICROMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/bas386.pdf	MicroMELF	single		1	BAS386-TR3	MicroMELF	DIODE-MICROMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/bas40-00-gtobas40-06-g.pdf	SOT-23-3	array	1 Pair Common Cathode|1 Pair Series Connection	3	BAS40-04-G3-08	SOT-23	SOT23-3-VISHAY	cc=1:A1,2:A2,3:K;series=1:A1,2:K2,3:K1A2
+datasheets/diode/vishay/bas40-00-gtobas40-06-g.pdf	SOT-23-3	single		1	BAS40-00-G3-08	SOT-23	SOT23-3-VISHAY	1:A,2:NC,3:K
+datasheets/diode/vishay/bas40l.pdf	DFN1006-2A	single		2	BAS40L-G3-08	DFN1006-2A	DIODE-DFN1006-VISHAY	1:K,2:A
+datasheets/diode/vishay/bas40lth.pdf	DFN1006-2A	single		1	BAS40LTH-G3-08	DFN1006-2A	DIODE-DFN1006-VISHAY	1:K,2:A
+datasheets/diode/vishay/bas581-02v.pdf	SOD-523	single		2	BAS581-02V-G3-08	SOD-523	DIODE-SOD-523-VISHAY	1:K,2:A
+datasheets/diode/vishay/bas70-00-gtobas70-06-g.pdf	SOT-23-3	array	1 Pair Common Cathode|1 Pair Series Connection	2	BAS70-04-G3-08	SOT-23	SOT23-3-VISHAY	cc=1:A1,2:A2,3:K;series=1:A1,2:K2,3:K1A2
+datasheets/diode/vishay/bas70-00-gtobas70-06-g.pdf	SOT-23-3	single		1	BAS70-00-G3-08	SOT-23	SOT23-3-VISHAY	1:A,2:NC,3:K
+datasheets/diode/vishay/bas70-02v.pdf	SOD-523	single		1	BAS70-02V-G3-08	SOD-523	DIODE-SOD-523-VISHAY	1:K,2:A
+datasheets/diode/vishay/bas81.pdf	SOD-80 MiniMELF	single		4	BAS81-GS08	MiniMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/bas85-m.pdf	SOD-80 MiniMELF	single		1	BAS85-M-08	MiniMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/bas85.pdf	SOD-80 MiniMELF	single		2	BAS85-GS08	MiniMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/bas86.pdf	SOD-80 MiniMELF	single		2	BAS86-GS08	MiniMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/bas86m.pdf	SOD-80 MiniMELF	single		2	BAS86-M-08	MiniMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/bat165.pdf	DO-219AC (microSMF)	single		2	BAT165-G3/H	microSMF	DIODE-MICROSMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/bat41.pdf	DO-204AH (DO-35)	single		2	BAT41-TAP	DO-35	DIODE-DO-35-VISHAY	1:K,2:A
+datasheets/diode/vishay/bat42.pdf	DO-204AH (DO-35)	single		3	BAT42-TAP	DO-35	DIODE-DO-35-VISHAY	1:K,2:A
+datasheets/diode/vishay/bat42w-g.pdf	SOD-123	single		3	BAT42W-G3-08	SOD-123	DIODE-SOD-123-VISHAY	1:K,2:A
+datasheets/diode/vishay/bat42w.pdf	SOD-123	single		4	BAT42W-E3-08	SOD-123	DIODE-SOD-123-VISHAY	1:K,2:A
+datasheets/diode/vishay/bat42ws-g_bat43ws-g.pdf	SOD-323	single		1	BAT43WS-G3-18	SOD-323	DIODE-SOD-323-VISHAY	1:K,2:A
+datasheets/diode/vishay/bat46.pdf	DO-204AH (DO-35)	single		2	BAT46-TAP	DO-35	DIODE-DO-35-VISHAY	1:K,2:A
+datasheets/diode/vishay/bat46w-g.pdf	SOD-123	single		2	BAT46W-G3-08	SOD-123	DIODE-SOD-123-VISHAY	1:K,2:A
+datasheets/diode/vishay/bat46w.pdf	SOD-123	single		1	BAT46W-E3-18	SOD-123	DIODE-SOD-123-VISHAY	1:K,2:A
+datasheets/diode/vishay/bat54-g_bat54a-g_bat54c-g_bat54s-g.pdf	SOT-23-3	single		1	BAT54-G3-08	SOT-23	SOT23-3-VISHAY	1:A,2:NC,3:K
+datasheets/diode/vishay/bat5402v.pdf	SOD-523	single		2	BAT54-02V-G3-08	SOD-523	DIODE-SOD-523-VISHAY	1:K,2:A
+datasheets/diode/vishay/bat54_bat54a_bat54c_bat54s.pdf	SOT-23-3	array	1 Pair Common Anode|1 Pair Common Cathode|1 Pair Series Connection	6	BAT54A-E3-08	SOT-23	SOT23-3-VISHAY	ca=1:K1,2:K2,3:A;cc=1:A1,2:A2,3:K;series=1:A1,2:K2,3:K1A2
+datasheets/diode/vishay/bat54_bat54a_bat54c_bat54s.pdf	SOT-23-3	single		2	BAT54-E3-08	SOT-23	SOT23-3-VISHAY	1:A,2:NC,3:K
+datasheets/diode/vishay/bat54w-g.pdf	SOD-123	single		2	BAT54W-G3-08	SOD-123	DIODE-SOD-123-VISHAY	1:K,2:A
+datasheets/diode/vishay/bat54w.pdf	SOD-123	single		2	BAT54W-E3-08	SOD-123	DIODE-SOD-123-VISHAY	1:K,2:A
+datasheets/diode/vishay/bat54ws-g.pdf	SOD-323	single		2	BAT54WS-G3-08	SOD-323	DIODE-SOD-323-VISHAY	1:K,2:A
+datasheets/diode/vishay/bat54ws.pdf	SOD-323	single		2	BAT54WS-E3-18	SOD-323	DIODE-SOD-323-VISHAY	1:K,2:A
+datasheets/diode/vishay/bat81s82s.pdf	DO-204AH (DO-35)	single		3	BAT81S-TAP	DO-35	DIODE-DO-35-VISHAY	1:K,2:A
+datasheets/diode/vishay/bat85s.pdf	DO-204AH (DO-35)	single		2	BAT85S-TAP	DO-35	DIODE-DO-35-VISHAY	1:K,2:A
+datasheets/diode/vishay/bat86s.pdf	DO-204AH (DO-35)	single		2	BAT86S-TAP	DO-35	DIODE-DO-35-VISHAY	1:K,2:A
+datasheets/diode/vishay/bav100.pdf	SOD-80 MiniMELF	single		8	BAV100-GS08	MiniMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/bav17.pdf	DO-204AH (DO-35)	single		6	BAV17-TR	DO-35	DIODE-DO-35-VISHAY	1:K,2:A
+datasheets/diode/vishay/bav19ws_bav20ws_bav21ws.pdf	SOD-323	single		4	BAV19WS-E3-18	SOD-323	DIODE-SOD-323-VISHAY	1:K,2:A
+datasheets/diode/vishay/bav200.pdf	SOD-80 QuadroMELF	single		5	BAV201-GS08	QuadroMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/bav300.pdf	MicroMELF	single		5	BAV300-TR	MicroMELF	DIODE-MICROMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/bav70-g.pdf	SOT-23-3	array	1 Pair Common Cathode	2	BAV70-G3-08	SOT-23	SOT23-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/bav70.pdf	SOT-23-3	array	1 Pair Common Cathode	2	BAV70-E3-08	SOT-23	SOT23-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/bav99-g.pdf	SOT-23-3	array	1 Pair Series Connection	2	BAV99-G3-08	SOT-23	SOT23-3-VISHAY	1:A1,2:K2,3:K1A2
+datasheets/diode/vishay/bav99.pdf	SOT-23-3	array	1 Pair Series Connection	2	BAV99-E3-08	SOT-23	SOT23-3-VISHAY	1:A1,2:K2,3:K1A2
+datasheets/diode/vishay/baw27.pdf	DO-204AH (DO-35)	single		2	BAW27-TAP	DO-35	DIODE-DO-35-VISHAY	1:K,2:A
+datasheets/diode/vishay/baw56-g.pdf	SOT-23-3	array	1 Pair Common Anode	2	BAW56-G3-08	SOT-23	SOT23-3-VISHAY	1:K1,2:K2,3:A
+datasheets/diode/vishay/baw75.pdf	DO-204AH (DO-35)	single		1	BAW75-TAP	DO-35	DIODE-DO-35-VISHAY	1:K,2:A
+datasheets/diode/vishay/baw76.pdf	DO-204AH (DO-35)	single		2	BAW76-TAP	DO-35	DIODE-DO-35-VISHAY	1:K,2:A
+datasheets/diode/vishay/bl1040ct.pdf	TO-220-3	array	1 Pair Common Cathode	1	SBL1040CT-E3/45	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/by20312s.pdf	SOD-57	single		2	BY203-20STAP	SOD-57	DIODE-SOD-57-VISHAY	1:K,2:A
+datasheets/diode/vishay/by228.pdf	SOD-64	single		2	BY228TAP	SOD-64	DIODE-SOD-64-VISHAY	1:K,2:A
+datasheets/diode/vishay/by22813.pdf	SOD-64	single		1	BY228-15TR	SOD-64	DIODE-SOD-64-VISHAY	1:K,2:A
+datasheets/diode/vishay/by228gp.pdf	DO-201AD	single		1	BY228GP-E3/73	DO-201AD	DIODE-DO-201AD-VISHAY	1:K,2:A
+datasheets/diode/vishay/by251p.pdf	DO-201AD	single		6	BY251P-E3/54	DO-201AD	DIODE-DO-201AD-VISHAY	1:K,2:A
+datasheets/diode/vishay/by268.pdf	SOD-57	single		3	BY268TR	SOD-57	DIODE-SOD-57-VISHAY	1:K,2:A
+datasheets/diode/vishay/by448.pdf	SOD-57	single		2	BY448TAP	SOD-57	DIODE-SOD-57-VISHAY	1:K,2:A
+datasheets/diode/vishay/by448gp.pdf	DO-204AC (DO-15)	single		1	BY448GP-E3/73	DO-15	DIODE-DO-15-VISHAY	1:K,2:A
+datasheets/diode/vishay/byg10.pdf	DO-214AC (SMA)	single		15	BYG10D-E3/TR	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/byg20d.pdf	DO-214AC (SMA)	single		9	BYG20D-E3/TR	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/byg21k.pdf	DO-214AC (SMA)	single		4	BYG21K-E3/TR3	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/byg22a.pdf	DO-214AC (SMA)	single		11	BYG22A-E3/TR	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/byg23m.pdf	DO-214AC (SMA)	single		6	BYG23M-E3/TR	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/byg23t.pdf	DO-214AC (SMA)	single		2	BYG23T-M3/TR	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/byg24d.pdf	DO-214AC (SMA)	single		1	BYG24J-E3/TR	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/bym10-xxx.pdf	DO-213AB	single		23	BYM10-100-E3/96	MELF	DIODE-MELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/bym1150.pdf	DO-213AB	single		16	BYM11-100-E3/96	MELF	DIODE-MELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/bym13.pdf	DO-213AB (GL41)	single		8	BYM13-30-E3/96	GL41	DIODE-GL41-VISHAY	1:K,2:A
+datasheets/diode/vishay/bym36.pdf	SOD-64	single		2	BYM36C-TAP	SOD-64	DIODE-SOD-64-VISHAY	1:K,2:A
+datasheets/diode/vishay/bys10.pdf	DO-214AC (SMA)	single		7	BYS10-25-E3/TR	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/bys11-90.pdf	DO-214AC (SMA)	single		1	BYS11-90-M3/TR	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/bys1190.pdf	DO-214AC (SMA)	single		2	BYS11-90-E3/TR	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/bys12-90-m3.pdf	DO-214AC (SMA)	single		2	BYS12-90-M3/TR	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/bys12-90.pdf	DO-214AC (SMA)	single		2	BYS12-90-E3/TR	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/byt51a.pdf	SOD-57	single		4	BYT51D-TAP	SOD-57	DIODE-SOD-57-VISHAY	1:K,2:A
+datasheets/diode/vishay/byt52.pdf	SOD-57	single		2	BYT52M-TAP	SOD-57	DIODE-SOD-57-VISHAY	1:K,2:A
+datasheets/diode/vishay/byt54a.pdf	SOD-57	single		2	BYT54M-TAP	SOD-57	DIODE-SOD-57-VISHAY	1:K,2:A
+datasheets/diode/vishay/byt56a.pdf	SOD-64	single		2	BYT56M-TAP	SOD-64	DIODE-SOD-64-VISHAY	1:K,2:A
+datasheets/diode/vishay/byt62.pdf	SOD-57	single		1	BYT62-TAP	SOD-57	DIODE-SOD-57-VISHAY	1:K,2:A
+datasheets/diode/vishay/byt77.pdf	SOD-64	single		2	BYT78-TAP	SOD-64	DIODE-SOD-64-VISHAY	1:K,2:A
+datasheets/diode/vishay/byv12.pdf	SOD-57	single		1	BYV16-TAP	SOD-57	DIODE-SOD-57-VISHAY	1:K,2:A
+datasheets/diode/vishay/byv26.pdf	SOD-57	single		9	BYV26A-TAP	SOD-57	DIODE-SOD-57-VISHAY	1:K,2:A
+datasheets/diode/vishay/byv26dgp.pdf	DO-204AC (DO-15)	single		1	BYV26DGP-E3/73	DO-15	DIODE-DO-15-VISHAY	1:K,2:A
+datasheets/diode/vishay/byv27.pdf	SOD-57	single		6	BYV27-100-TAP	SOD-57	DIODE-SOD-57-VISHAY	1:K,2:A
+datasheets/diode/vishay/byv27600.pdf	SOD-57	single		1	BYV27-600-TAP	SOD-57	DIODE-SOD-57-VISHAY	1:K,2:A
+datasheets/diode/vishay/byv2850.pdf	SOD-64	single		5	BYV28-100-TAP	SOD-64	DIODE-SOD-64-VISHAY	1:K,2:A
+datasheets/diode/vishay/byv28600.pdf	SOD-64	single		2	BYV28-600-TAP	SOD-64	DIODE-SOD-64-VISHAY	1:K,2:A
+datasheets/diode/vishay/byv32.pdf	TO-220-3	array	1 Pair Common Cathode	1	BYV32-200-E3/45	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/byv32.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	BYVB32-200-M3/I	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/byv37.pdf	SOD-57	single		2	BYV38-TAP	SOD-57	DIODE-SOD-57-VISHAY	1:K,2:A
+datasheets/diode/vishay/byv98.pdf	SOD-64	single		1	BYV98-200-TR	SOD-64	DIODE-SOD-64-VISHAY	1:K,2:A
+datasheets/diode/vishay/byw178.pdf	SOD-64	single		1	BYW178-TR	SOD-64	DIODE-SOD-64-VISHAY	1:K,2:A
+datasheets/diode/vishay/byw29200.pdf	TO-220AC	single		3	BYW29-100-E3/45	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/byw32.pdf	SOD-57	single		5	BYW32-TAP	SOD-57	DIODE-SOD-57-VISHAY	1:K,2:A
+datasheets/diode/vishay/byw52.pdf	SOD-57	single		7	BYW52-TR	SOD-57	DIODE-SOD-57-VISHAY	1:K,2:A
+datasheets/diode/vishay/byw82.pdf	SOD-64	single		4	BYW82-TR	SOD-64	DIODE-SOD-64-VISHAY	1:K,2:A
+datasheets/diode/vishay/byx82.pdf	SOD-57	single		1	BYX86TAP	SOD-57	DIODE-SOD-57-VISHAY	1:K,2:A
+datasheets/diode/vishay/bzd27b-mseries.pdf	DO-219AB (SMF)	zener		29	BZD27B100P-M3-08	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/bzd27bseries.pdf	DO-219AB (SMF)	zener		1	BZD27B200P-E3-08	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/bzd27series.pdf	DO-219AB (SMF)	zener		44	BZD27C100P-E3-08	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/bzg03b-m-serie.pdf	DO-214AC (SMA)	zener		1	BZG03B10-M3_A-08	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/bzg03c-m-series.pdf	DO-214AC (SMA)	zener		67	BZG03C10-M3_A-08	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/bzg05b-m-series.pdf	DO-214AC (SMA)	zener		3	BZG05B5V1-HM3_A-08	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/bzg05c-m-series.pdf	DO-214AC (SMA)	zener		49	BZG05C10-HM3_A-08	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/bzm55.pdf	MicroMELF	zener		75	BZM55B10-TR	MicroMELF	DIODE-MICROMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/bzt03.pdf	SOD-57	zener		49	BZT03C10-TR	SOD-57	DIODE-SOD-57-VISHAY	1:K,2:A
+datasheets/diode/vishay/bzt52-g.pdf	SOD-123	zener		29	BZT52B12-G3-08	SOD-123	DIODE-SOD-123-VISHAY	1:K,2:A
+datasheets/diode/vishay/bzt52.pdf	SOD-123	zener		81	BZT52B10-E3-08	SOD-123	DIODE-SOD-123-VISHAY	1:K,2:A
+datasheets/diode/vishay/bzt55.pdf	SOD-80 QuadroMELF	zener		51	BZT55B10-GS08	QuadroMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/bzx384.pdf	SOD-323	zener		8	BZX384B20-HE3_A08	SOD-323	DIODE-SOD-323-VISHAY	1:K,2:A
+datasheets/diode/vishay/bzx55.pdf	DO-204AH (DO-35)	zener		133	BZX55B10-TAP	DO-35	DIODE-DO-35-VISHAY	1:K,2:A
+datasheets/diode/vishay/bzx584c-series.pdf	SOD-523	zener		43	BZX584C10-G3-08	SOD-523	DIODE-SOD-523-VISHAY	1:K,2:A
+datasheets/diode/vishay/bzx84-g_series.pdf	SOT-23-3	zener		35	BZX84B12-G3-08	SOT-23	SOT23-3-VISHAY	1:A,2:NC,3:K
+datasheets/diode/vishay/bzx84_series.pdf	SOT-23-3	zener		101	BZX84B10-E3-08	SOT-23	SOT23-3-VISHAY	1:A,2:NC,3:K
+datasheets/diode/vishay/bzx884l-series.pdf	DFN1006-2A	zener		34	BZX884B10L-G3-08	DFN1006-2A	DIODE-DFN1006-VISHAY	1:K,2:A
+datasheets/diode/vishay/cgp15.pdf	DO-204AC (DO-15)	single		2	DGP15-E3/54	DO-15	DIODE-DO-15-VISHAY	1:K,2:A
+datasheets/diode/vishay/cgp30.pdf	DO-201AD	single		2	CGP30-E3/54	DO-201AD	DIODE-DO-201AD-VISHAY	1:K,2:A
+datasheets/diode/vishay/dz23-g_series.pdf	SOT-23-3	zener-array	1 Pair Common Cathode	4	DZ23C18-G3-18	SOT-23	SOT23-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/dz23_series.pdf	SOT-23-3	zener-array	1 Pair Common Cathode	10	DZ23C10-E3-08	SOT-23	SOT23-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/egf1t.pdf	DO-214BA (GF1)	single		1	EGF1THE3_A/H	GF1	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/egl34.pdf	DO-213AA (GL34)	single		8	BYM07-100-E3/83	GL34	DIODE-GL34-VISHAY	1:K,2:A
+datasheets/diode/vishay/egl41.pdf	DO-213AB	single		13	BYM12-100-E3/96	MELF	DIODE-MELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/egp10a.pdf	DO-204AL (DO-41)	single		2	EGP10C-E3/54	DO-41	DIODE-DO-41-VISHAY	1:K,2:A
+datasheets/diode/vishay/egp20a.pdf	DO-204AC (DO-15)	single		5	EGP20B-E3/54	DO-15	DIODE-DO-15-VISHAY	1:K,2:A
+datasheets/diode/vishay/es07b.pdf	DO-219AB (SMF)	single		4	ES07B-GS08	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/es07bm.pdf	DO-219AB (SMF)	single		1	ES07D-M-08	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/es1.pdf	DO-214AC (SMA)	single		20	ES1A-E3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/es1pb.pdf	DO-220AA (SMP)	single		6	ES1PB-M3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/es2.pdf	DO-214AA (SMB)	single		13	ES2A-E3/52T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/es2f-064991.pdf	DO-214AA (SMB)	single		6	ES2F-E3/52T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/es2f-33f60d.pdf	DO-214AA (SMB)	single		1	ES2G-M3/52T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/es3.pdf	DO-214AB (SMC)	single		11	ES3A-E3/57T	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/es3f.pdf	DO-214AB (SMC)	single		6	ES3F-E3/57T	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/esh1b.pdf	DO-214AC (SMA)	single		4	ESH1B-E3/61T	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/esh1pb.pdf	DO-220AA (SMP)	single		3	ESH1PB-M3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/esh2b.pdf	DO-214AA (SMB)	single		5	ESH2B-E3/5BT	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/esh2pb.pdf	DO-220AA (SMP)	single		6	ESH2PB-M3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/esh3b.pdf	DO-214AB (SMC)	single		4	ESH3CHE3_A/H	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/fep16jt.pdf	TO-220-3	array	1 Pair Common Cathode	6	FEP16BT-E3/45	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/fep30xp.pdf	TO-247AD (TO-3P)	array	1 Pair Common Cathode	2	FEP30DP-M3/P	TO-3P	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/fes16jt.pdf	TO-220AC	single		5	FES16AT-E3/45	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/fes16jt.pdf	TO-263AB (D2PAK)	single		1	FESB16DT-M3/I	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/gdz.pdf	SOD-323	zener		14	GDZ10B-HE3_A08	SOD-323	DIODE-SOD-323-VISHAY	1:K,2:A
+datasheets/diode/vishay/gi11200g.pdf	DO-204AC (DO-15)	single		1	GI1-1600GP-E3/73	DO-15	DIODE-DO-15-VISHAY	1:K,2:A
+datasheets/diode/vishay/gi1401.pdf	TO-220AC	single		1	GI1404-E3/45	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/gi500.pdf	DO-201AD	single		4	GI501-E3/54	DO-201AD	DIODE-DO-201AD-VISHAY	1:K,2:A
+datasheets/diode/vishay/gi750.pdf	P600	single		9	GI750-E3/54	P600	DIODE-DO-201AD-VISHAY	1:K,2:A
+datasheets/diode/vishay/gl34a.pdf	DO-213AA (GL34)	single		7	GL34A-E3/98	GL34	DIODE-GL34-VISHAY	1:K,2:A
+datasheets/diode/vishay/gp0220.pdf	DO-204AL (DO-41)	single		4	GP02-20-E3/73	DO-41	DIODE-DO-41-VISHAY	1:K,2:A
+datasheets/diode/vishay/gp10-400x.pdf	DO-204AL (DO-41)	single		1	GP10-4004-E3/73	DO-41	DIODE-DO-41-VISHAY	1:K,2:A
+datasheets/diode/vishay/gp10a.pdf	DO-204AL (DO-41)	single		4	GP10M-E3/73	DO-41	DIODE-DO-41-VISHAY	1:K,2:A
+datasheets/diode/vishay/gp15a.pdf	DO-204AC (DO-15)	single		1	GP15M-E3/73	DO-15	DIODE-DO-15-VISHAY	1:K,2:A
+datasheets/diode/vishay/gpp20a.pdf	DO-204AC (DO-15)	single		7	GPP20B-E3/54	DO-15	DIODE-DO-15-VISHAY	1:K,2:A
+datasheets/diode/vishay/gsd2004a.pdf	SOT-23-3	array	1 Pair Common Anode	1	GSD2004A-E3-08	SOT-23	SOT23-3-VISHAY	1:K1,2:K2,3:A
+datasheets/diode/vishay/gsd2004c-g.pdf	SOT-23-3	array	1 Pair Common Cathode	1	GSD2004C-G3-18	SOT-23	SOT23-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/gsd2004s-g.pdf	SOT-23-3	array	1 Pair Series Connection	1	GSD2004S-G3-18	SOT-23	SOT23-3-VISHAY	1:A1,2:K2,3:K1A2
+datasheets/diode/vishay/gsd2004s.pdf	SOT-23-3	array	1 Pair Series Connection	2	GSD2004S-E3-08	SOT-23	SOT23-3-VISHAY	1:A1,2:K2,3:K1A2
+datasheets/diode/vishay/gsd2004w.pdf	SOD-123	single		2	GSD2004W-E3-08	SOD-123	DIODE-SOD-123-VISHAY	1:K,2:A
+datasheets/diode/vishay/gsd2004ws-g.pdf	SOD-323	single		1	GSD2004WS-G3-18	SOD-323	DIODE-SOD-323-VISHAY	1:K,2:A
+datasheets/diode/vishay/gsd2004ws.pdf	SOD-323	single		2	GSD2004WS-E3-08	SOD-323	DIODE-SOD-323-VISHAY	1:K,2:A
+datasheets/diode/vishay/imbd4148.pdf	SOT-23-3	single		2	IMBD4148-E3-08	SOT-23	SOT23-3-VISHAY	1:A,2:NC,3:K
+datasheets/diode/vishay/imbd4448.pdf	SOT-23-3	single		1	IMBD4448-E3-08	SOT-23	SOT23-3-VISHAY	1:A,2:NC,3:K
+datasheets/diode/vishay/ll101a.pdf	SOD-80 MiniMELF	single		5	LL101A-GS08	MiniMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/ll103a.pdf	SOD-80 MiniMELF	single		5	LL103A-GS08	MiniMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/ll4148.pdf	SOD-80 MiniMELF	single		4	LL4148-GS08	MiniMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/ll4148m.pdf	SOD-80 MiniMELF	single		2	LL4148-M-08	MiniMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/ll4150-m.pdf	SOD-80 MiniMELF	single		1	LL4150-M-08	MiniMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/ll4150.pdf	SOD-80 MiniMELF	single		2	LL4150GS08	MiniMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/ll4151.pdf	SOD-80 MiniMELF	single		2	LL4151-GS08	MiniMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/ll4154.pdf	SOD-80 MiniMELF	single		1	LL4154-GS08	MiniMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/ll42.pdf	SOD-80 MiniMELF	single		3	LL42-GS08	MiniMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/ls101a.pdf	SOD-80 QuadroMELF	single		3	LS101A-GS08	QuadroMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/ls4148.pdf	SOD-80 MiniMELF	single		2	LS4148-GS08	MiniMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/ls4148.pdf	SOD-80 QuadroMELF	single		2	LS4448GS08	QuadroMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/ls4150.pdf	SOD-80 QuadroMELF	single		1	LS4150GS08	QuadroMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/ls4151.pdf	SOD-80 QuadroMELF	single		1	LS4151GS08	QuadroMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/mbr10100.pdf	TO-220AC	single		1	MBR10100-M3/4W	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/mbr1090c.pdf	TO-220-3	array	1 Pair Common Cathode	1	MBR10100CT-E3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/mbr10hxx.pdf	TO-220AC	single		1	MBR10H100-E3/45	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/mbr10hxx.pdf	TO-263AB (D2PAK)	single		1	MBRB10H100-M3/I	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/mbr10hxxct.pdf	TO-220-3	array	1 Pair Common Cathode	1	MBR10H100CT-E3/45	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/mbr10xx.pdf	TO-220AC	single		2	MBR1045-E3/45	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/mbr10xx.pdf	TO-263AB (D2PAK)	single		2	MBRB1045-M3/I	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/mbr10xxx.pdf	ITO-220AC	single		1	MBRF10100-E3/4W	ITO-220	TO-220FP-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/mbr10xxx.pdf	TO-220AC	single		1	MBR10100-E3/4W	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/mbr1545ct.pdf	TO-220-3	array	1 Pair Common Cathode	2	MBR1545CT-E3/45	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/mbr20100-63461e.pdf	TO-220-3	array	1 Pair Common Cathode	1	MBR20100CT-M3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/mbr20100-b4ca3b.pdf	ITO-220AB	array	1 Pair Common Cathode	1	MBRF20100CT-E3/4W	ITO-220	ITO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/mbr20100-b4ca3b.pdf	TO-220-3	array	1 Pair Common Cathode	1	MBR20100CT-E3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/mbr20100-b4ca3b.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	2	MBRB20100CT-E3/4W	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/mbr25xxct.pdf	TO-220-3	array	1 Pair Common Cathode	2	MBR2535CT-E3/45	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/mbr7xx.pdf	TO-220AC	single		1	MBR745-E3/45	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/mbrb2535ct.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	MBRB2545CTHM3/I	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/mbrb30hxxct.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	MBRB30H60CT-M3/I	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/mbrb4045cthm3.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VS-MBRB4045CTLHM3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/mbrb7xx.pdf	TO-263AB (D2PAK)	single		1	MBRB745-M3/I	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/mbrf16xx.pdf	TO-263AB (D2PAK)	single		2	MBRB1645HM3/I	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/mcl101a.pdf	MicroMELF	single		1	MCL101A-TR	MicroMELF	DIODE-MICROMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/mcl103a.pdf	MicroMELF	single		4	MCL103A-TR	MicroMELF	DIODE-MICROMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/mcl4151.pdf	MicroMELF	single		2	MCL4151-TR	MicroMELF	DIODE-MICROMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/mlc4148.pdf	MicroMELF	single		4	MCL4148-TR	MicroMELF	DIODE-MICROMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/mmbd7000-g.pdf	SOT-23-3	array	1 Pair Series Connection	2	MMBD7000-G3-08	SOT-23	SOT23-3-VISHAY	1:A1,2:K2,3:K1A2
+datasheets/diode/vishay/mmbd7000.pdf	SOT-23-3	array	1 Pair Series Connection	2	MMBD7000-E3-08	SOT-23	SOT23-3-VISHAY	1:A1,2:K2,3:K1A2
+datasheets/diode/vishay/mmbd914-g.pdf	SOT-23-3	single		1	MMBD914-G3-18	SOT-23	SOT23-3-VISHAY	1:A,2:NC,3:K
+datasheets/diode/vishay/mmbd914.pdf	SOT-23-3	single		2	MMBD914-E3-08	SOT-23	SOT23-3-VISHAY	1:A,2:NC,3:K
+datasheets/diode/vishay/mmsz4681-g_to_mmsz4717-g.pdf	SOD-123	zener		12	MMSZ4682-G3-18	SOD-123	DIODE-SOD-123-VISHAY	1:K,2:A
+datasheets/diode/vishay/mmsz4681_to_mmsz4717.pdf	SOD-123	zener		45	MMSZ4681-E3-08	SOD-123	DIODE-SOD-123-VISHAY	1:K,2:A
+datasheets/diode/vishay/mmsz5225-g_to_mmsz5267-g.pdf	SOD-123	zener		20	MMSZ5225B-G3-08	SOD-123	DIODE-SOD-123-VISHAY	1:K,2:A
+datasheets/diode/vishay/mmsz5225_to_mmsz5267.pdf	SOD-123	zener		116	MMSZ5225B-E3-08	SOD-123	DIODE-SOD-123-VISHAY	1:K,2:A
+datasheets/diode/vishay/mrse1pk.pdf	DO-219AD (MicroSMP)	single		2	MRSE1PK-M3/I	MicroSMP	DIODE-MICROSMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/mse07pb.pdf	DO-219AD (MicroSMP)	single		6	MSE07PB-M3/89A	MicroSMP	DIODE-MICROSMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/mse1pj.pdf	DO-219AD (MicroSMP)	single		9	MSE1PB-M3/89A	MicroSMP	DIODE-MICROSMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/msq1pg-pj.pdf	DO-219AD (MicroSMP)	single		2	MSQ1PJ-M3/H	MicroSMP	DIODE-MICROSMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/mss1p3l.pdf	DO-219AD (MicroSMP)	single		4	MSS1P2L-M3/89A	MicroSMP	DIODE-MICROSMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/mss1p4.pdf	DO-219AD (MicroSMP)	single		4	MSS1P3-M3/89A	MicroSMP	DIODE-MICROSMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/mss1p6.pdf	DO-219AD (MicroSMP)	single		4	MSS1P5-M3/89A	MicroSMP	DIODE-MICROSMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/mss2p3.pdf	DO-219AD (MicroSMP)	single		4	MSS2P2-M3/89A	MicroSMP	DIODE-MICROSMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/msx1pb-msx1pd-msx1pg-msx1pj.pdf	DO-219AD (MicroSMP)	single		6	MSX1PB-M3/89A	MicroSMP	DIODE-MICROSMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/mur420.pdf	DO-201AD	single		3	MUR420-E3/54	DO-201AD	DIODE-DO-201AD-VISHAY	1:K,2:A
+datasheets/diode/vishay/mur440-e3.pdf	DO-201AD	single		6	MUR440-E3/54	DO-201AD	DIODE-DO-201AD-VISHAY	1:K,2:A
+datasheets/diode/vishay/murs120-307fdb.pdf	DO-214AA (SMB)	single		1	MURS120-M3/52T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/murs120-4583e5.pdf	DO-214AA (SMB)	single		3	MURS120-E3/52T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/murs140-8d2f79.pdf	DO-214AA (SMB)	single		6	MURS140-E3/52T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/murs140-d8b017.pdf	DO-214AA (SMB)	single		1	MURS160-M3/5BT	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/murs240-1362fb.pdf	DO-214AA (SMB)	single		2	MURS240-M3/52T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/murs240-6c233e.pdf	DO-214AA (SMB)	single		3	MURS240-E3/52T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/murs320.pdf	DO-214AB (SMC)	single		3	MURS320-E3/57T	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/murs340.pdf	DO-214AB (SMC)	single		8	MURS340-E3/57T	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/murs340s-3754f3.pdf	DO-214AA (SMB)	single		4	MURS340S-E3/52T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/murs340s-f08399.pdf	DO-214AA (SMB)	single		2	MURS360S-M3/52T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/ns8xt.pdf	TO-220AC	single		4	NS8BT-E3/45	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/ns8xt.pdf	TO-263AB (D2PAK)	single		1	NSB8MT-M3/I	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/p300.pdf	DO-201AD	single		4	P300D-E3/54	DO-201AD	DIODE-DO-201AD-VISHAY	1:K,2:A
+datasheets/diode/vishay/p600a.pdf	P600	single		13	P600A-E3/54	P600	DIODE-DO-201AD-VISHAY	1:K,2:A
+datasheets/diode/vishay/plzseries.pdf	DO-219AC (microSMF)	zener		118	PLZ10A-HG3_A/H	microSMF	DIODE-MICROSMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/ptvxxb.pdf	DO-220AA (SMP)	zener		8	PTV15B-M3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/rgl34a.pdf	DO-213AA (GL34)	single		4	RGL34G-E3/98	GL34	DIODE-GL34-VISHAY	1:K,2:A
+datasheets/diode/vishay/rgp02.pdf	DO-204AL (DO-41)	single		4	RGP02-12E-E3/73	DO-41	DIODE-DO-41-VISHAY	1:K,2:A
+datasheets/diode/vishay/rgp10a.pdf	DO-204AL (DO-41)	single		4	RGP10D-E3/73	DO-41	DIODE-DO-41-VISHAY	1:K,2:A
+datasheets/diode/vishay/rgp30a.pdf	DO-201AD	single		4	RGP30B-E3/73	DO-201AD	DIODE-DO-201AD-VISHAY	1:K,2:A
+datasheets/diode/vishay/rmpg06.pdf	MPG06	single		4	RMPG06G-E3/73	MPG06	DIODE-MPG06-VISHAY	1:K,2:A
+datasheets/diode/vishay/rs07b.pdf	DO-219AB (SMF)	single		7	RS07B-GS08	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/rs07bm.pdf	DO-219AB (SMF)	single		2	RS07D-HM3-08	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/rs1a.pdf	DO-214AC (SMA)	single		18	RS1A-E3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/rs1fdrs1fgrs1fjrs1fkrs1fm.pdf	DO-219AB (SMF)	single		5	RS1FD-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/rs1fld_rs1flg_rs1flj_rs1flk_rs1flm.pdf	DO-219AB (SMF)	single		5	RS1FLD-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/rs1pb.pdf	DO-220AA (SMP)	single		2	RS1PD-M3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/rs2a.pdf	DO-214AA (SMB)	single		13	RS2A-E3/5BT	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/rs3a.pdf	DO-214AB (SMC)	single		10	RS3B-E3/57T	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/s07b.pdf	DO-219AB (SMF)	single		7	S07D-GS08	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/s07bm.pdf	DO-219AB (SMF)	single		3	S07B-M-18	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/s1.pdf	DO-214AC (SMA)	single		30	S1A-E3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/s10cgjkm.pdf	DO-214AB (SMC)	single		5	S10CJ-M3/I	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/s10cq.pdf	DO-214AB (SMC)	single		2	S10CQ-M3/I	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/s12cg_s12cj_s12ck_s12cm.pdf	DO-214AB (SMC)	single		8	S12CG-M3/I	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/s12cq.pdf	DO-214AB (SMC)	single		2	S12CQ-M3/I	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/s15cgjkm.pdf	DO-214AB (SMC)	single		4	S15CG-M3/I	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/s15clgljlklm.pdf	DO-214AB (SMC)	single		4	S15CLG-M3/I	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/s15clq.pdf	DO-214AB (SMC)	single		2	S15CLQ-M3/I	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/s15cq.pdf	DO-214AB (SMC)	single		2	S15CQ-M3/I	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/s1afg.pdf	DO-221AC (SlimSMA)	single		2	S1AFJ-M3/6A	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/s1bg_s1bj_s1bk_s1bm.pdf	DO-214AA (SMB)	single		8	S1BG-E3/I	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/s1flbdgjkm.pdf	DO-219AB (SMF)	single		4	S1FLB-GS08	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/s1flx-m.pdf	DO-219AB (SMF)	single		4	S1FLB-M-08	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/s1pb.pdf	DO-220AA (SMP)	single		11	S1PB-M3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/s2a.pdf	DO-214AA (SMB)	single		10	S2BHE3_A/I	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/s2bg_s2bj_s2bk_s2bm.pdf	DO-214AA (SMB)	single		8	S2BG-E3/I	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/s3a.pdf	DO-214AB (SMC)	single		21	S3A-E3/57T	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/s3afg_s3afj.pdf	DO-221AC (SlimSMA)	single		4	S3AFG-M3/I	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/s3bg_s3bj_s3bk_s3bm.pdf	DO-214AA (SMB)	single		8	S3BG-E3/I	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/s3gs_s3js_s3ks_s3ms.pdf	DO-214AB (SMC)	single		4	S3GS-M3/I	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/s3qs.pdf	DO-214AB (SMC)	single		2	S3QS-M3/I	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/s4pm.pdf	TO-277A (SMPC)	single		6	S4PB-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/s5a.pdf	DO-214AB (SMC)	single		18	S5A-E3/57T	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/s5bg_s5bj_s5bk_s5bm.pdf	DO-214AA (SMB)	single		8	S5BG-E3/I	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/s5ms.pdf	DO-214AB (SMC)	single		1	S5MS-E3/9AT	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/s5pms.pdf	TO-277A (SMPC)	single		1	S5PMS-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/s5q.pdf	DO-214AB (SMC)	single		2	S5Q-M3/I	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/s8cgjkm.pdf	DO-214AB (SMC)	single		5	S8CJ-M3/I	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/s8cq.pdf	DO-214AB (SMC)	single		2	S8CQ-M3/I	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/s8g_s8j_s8k_s8m.pdf	DO-214AB (SMC)	single		6	S8G-E3/I	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/s8gs_s8js_s8ks_s8ms.pdf	DO-214AB (SMC)	single		4	S8GS-E3/I	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/s8pg_s8pj_s8pk_s8pm.pdf	TO-277A (SMPC)	single		1	S8PK-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/s8q.pdf	DO-214AB (SMC)	single		2	S8Q-M3/I	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/sa2b.pdf	DO-214AC (SMA)	single		12	SA2B-E3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/sb110.pdf	DO-204AL (DO-41)	single		10	SB110-E3/54	DO-41	DIODE-DO-41-VISHAY	1:K,2:A
+datasheets/diode/vishay/sb1h90.pdf	DO-204AL (DO-41)	single		3	SB1H100-E3/54	DO-41	DIODE-DO-41-VISHAY	1:K,2:A
+datasheets/diode/vishay/sb220.pdf	DO-204AC (DO-15)	single		6	SB220-E3/54	DO-15	DIODE-DO-15-VISHAY	1:K,2:A
+datasheets/diode/vishay/sb220s.pdf	DO-204AL (DO-41)	single		4	SB240S-E3/54	DO-41	DIODE-DO-41-VISHAY	1:K,2:A
+datasheets/diode/vishay/sb2dsb2m.pdf	DO-214AA (SMB)	single		2	SB2M-M3/52T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/sb2h90.pdf	DO-204AC (DO-15)	single		3	SB2H100-E3/54	DO-15	DIODE-DO-15-VISHAY	1:K,2:A
+datasheets/diode/vishay/sb320.pdf	DO-201AD	single		7	SB320-E3/54	DO-201AD	DIODE-DO-201AD-VISHAY	1:K,2:A
+datasheets/diode/vishay/sb3h90.pdf	DO-201AD	single		3	SB3H100-E3/54	DO-201AD	DIODE-DO-201AD-VISHAY	1:K,2:A
+datasheets/diode/vishay/sb520.pdf	DO-201AD	single		8	SB520-E3/54	DO-201AD	DIODE-DO-201AD-VISHAY	1:K,2:A
+datasheets/diode/vishay/sb520a.pdf	DO-201AD	single		6	SB520A-E3/54	DO-201AD	DIODE-DO-201AD-VISHAY	1:K,2:A
+datasheets/diode/vishay/sb5h90.pdf	DO-201AD	single		3	SB5H100-E3/54	DO-201AD	DIODE-DO-201AD-VISHAY	1:K,2:A
+datasheets/diode/vishay/sbyv26c.pdf	DO-204AL (DO-41)	single		1	SBYV26C-E3/73	DO-41	DIODE-DO-41-VISHAY	1:K,2:A
+datasheets/diode/vishay/sbyv27.pdf	DO-204AC (DO-15)	single		6	SBYV27-100-E3/54	DO-15	DIODE-DO-15-VISHAY	1:K,2:A
+datasheets/diode/vishay/sbyv28.pdf	DO-201AD	single		5	SBYV28-100-E3/54	DO-201AD	DIODE-DO-201AD-VISHAY	1:K,2:A
+datasheets/diode/vishay/sd101abc.pdf	DO-204AH (DO-35)	single		4	SD101A-TAP	DO-35	DIODE-DO-35-VISHAY	1:K,2:A
+datasheets/diode/vishay/sd101aw-g_sd101bw-g_sd101cw-g.pdf	SOD-123	single		1	SD101CW-G3-08	SOD-123	DIODE-SOD-123-VISHAY	1:K,2:A
+datasheets/diode/vishay/sd101aw_sd101bw_sd101cw.pdf	SOD-123	single		6	SD101AW-E3-08	SOD-123	DIODE-SOD-123-VISHAY	1:K,2:A
+datasheets/diode/vishay/sd101aws_sd101bws_sd101cws.pdf	SOD-323	single		4	SD101AWS-E3-18	SOD-323	DIODE-SOD-323-VISHAY	1:K,2:A
+datasheets/diode/vishay/sd103a.pdf	DO-204AH (DO-35)	single		5	SD103A-TAP	DO-35	DIODE-DO-35-VISHAY	1:K,2:A
+datasheets/diode/vishay/sd103aw_sd103bw_sd103cw.pdf	SOD-123	single		3	SD103BW-E3-08	SOD-123	DIODE-SOD-123-VISHAY	1:K,2:A
+datasheets/diode/vishay/sd103aws_sd103bws_sd103cws.pdf	SOD-323	single		3	SD103AWS-E3-18	SOD-323	DIODE-SOD-323-VISHAY	1:K,2:A
+datasheets/diode/vishay/se100n6d_se100n6g_se100n6j.pdf	DFN6546A	single		6	SE100N6D-M3/I	DFN6546A	DFN6546A-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se100pwbdgj.pdf	SlimDPAK	single		1	SE100PWJHM3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se100pwtg_tj.pdf	SlimDPAK	single		4	SE100PWTG-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se100pwtlk.pdf	SlimDPAK	single		1	SE100PWTLK-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se10db-m3.pdf	TO-263AC (SMPD)	single		1	SE10DJ-M3/I	SMPD	SMPD-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se10dlg-se10dlj.pdf	TO-263AC (SMPD)	single		3	SE10DLG-M3/I	SMPD	SMPD-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se10dtg_tj.pdf	SMPD	single		4	SE10DTG-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se10dtlg_se10dtlj.pdf	SMPD	single		4	SE10DTLG-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se10dtlk.pdf	SMPD	single		1	SE10DTLK-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se10fd-se10fg-se10fj.pdf	DO-219AB (SMF)	single		6	SE10FD-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/se10pb.pdf	DO-220AA (SMP)	single		6	SE10PB-M3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/se120n6d_se120n6g_se120n6j.pdf	DFN6546A	single		6	SE120N6D-M3/I	DFN6546A	DFN6546A-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se12dlg-se12dlj.pdf	TO-263AC (SMPD)	single		3	SE12DLG-M3/I	SMPD	SMPD-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se12dtg_se12dtj.pdf	SMPD	single		4	SE12DTG-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se12dtlg_se12dtlj.pdf	SMPD	single		4	SE12DTLG-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se12dtlk.pdf	SMPD	single		1	SE12DTLK-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se15fd-se15fg-se15fj.pdf	DO-219AB (SMF)	single		1	SE15FGHM3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/se15pj.pdf	DO-220AA (SMP)	single		7	SE15PB-M3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/se20afb.pdf	DO-221AC (SlimSMA)	single		6	SE20AFBHM3/6A	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/se20db.pdf	TO-263AC (SMPD)	single		1	SE20DJHM3/I	SMPD	SMPD-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se20dlg-se20dlj.pdf	TO-263AC (SMPD)	single		4	SE20DLG-M3/I	SMPD	SMPD-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se20dtg_se20dtj.pdf	SMPD	single		4	SE20DTG-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se20dtlg_se20dtlj.pdf	SMPD	single		4	SE20DTLG-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se20fd-se20fg-se20fj.pdf	DO-219AB (SMF)	single		3	SE20FG-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/se20nd_se20ng_se20nj.pdf	DFN3820A	single		6	SE20ND-M3/I	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/se20pbdgj.pdf	DO-220AA (SMP)	single		2	SE20PJ-M3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/se30124.pdf	DO-218AC	single		1	SE30124HM3_A/I	DO-218AC	DIODE-DO-218AC-VISHAY	1:K,2:A
+datasheets/diode/vishay/se30afb.pdf	DO-221AC (SlimSMA)	single		10	SE30AFB-M3/6A	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/se30clj.pdf	SMPD	single		2	SE30CLJ-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se30dt12.pdf	SMPD	single		2	SE30DT12-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se30nd_se30ng_se30nj.pdf	DFN3820A	single		5	SE30ND-M3/I	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/se30pab.pdf	DO-221BC (SMPA)	single		3	SE30PABHM3/I	SMPA	DIODE-SMPA-VISHAY	1:K,2:A
+datasheets/diode/vishay/se40124.pdf	DO-218AC	single		1	SE40124HM3_A/I	DO-218AC	DIODE-DO-218AC-VISHAY	1:K,2:A
+datasheets/diode/vishay/se40clj.pdf	SMPD	single		2	SE40CLJ-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se40nd_se40ng_se40nj.pdf	DFN3820A	single		6	SE40ND-M3/I	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/se40pb.pdf	TO-277A (SMPC)	single		3	SE40PDHM3_A/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se40pwbx.pdf	SlimDPAK	single		1	SE40PWBCHM3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se45124.pdf	DO-218AC	single		1	SE45124HM3_A/I	DO-218AC	DIODE-DO-218AC-VISHAY	1:K,2:A
+datasheets/diode/vishay/se50124.pdf	DO-218AC	single		1	SE50124HM3_A/I	DO-218AC	DIODE-DO-218AC-VISHAY	1:K,2:A
+datasheets/diode/vishay/se50n6d_se50n6g_se50n6j.pdf	DFN6546A	single		6	SE50N6D-M3/I	DFN6546A	DFN6546A-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se50pab.pdf	DO-221BC (SMPA)	single		6	SE50PADHM3/I	SMPA	DIODE-SMPA-VISHAY	1:K,2:A
+datasheets/diode/vishay/se60pwbc.pdf	SlimDPAK	single		1	SE60PWJCHM3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se70pb.pdf	TO-277A (SMPC)	single		4	SE70PGHM3_A/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se80n6d_se80n6g_se80n6j.pdf	DFN6546A	single		6	SE80N6D-M3/I	DFN6546A	DFN6546A-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se80pwbdgj.pdf	SlimDPAK	single		1	SE80PWJHM3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se80pwtg_se80pwtj.pdf	SlimDPAK	single		4	SE80PWTG-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se80pwtlk.pdf	SlimDPAK	single		1	SE80PWTLK-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/se8d20d_g_j.pdf	SlimSMAW (DO-221AD)	single		3	SE8D20DHM3/I	SlimSMAW	DIODE-SLIMSMAW-VISHAY	1:K,2:A
+datasheets/diode/vishay/se8d30d_g_j.pdf	SlimSMAW (DO-221AD)	single		4	SE8D30D-M3/I	SlimSMAW	DIODE-SLIMSMAW-VISHAY	1:K,2:A
+datasheets/diode/vishay/seg10fg.pdf	DO-219AB (SMF)	single		1	SEG10FG-M3/I	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/sep4512.pdf	TO-247AD	array	1 Pair Series Connection	1	SEP4512-M3/P	TO-247	TO-247-3-VISHAY	1:K1,2:A1K2,3:A2
+datasheets/diode/vishay/sf1200.pdf	SOD-57	single		3	SF1200-TAP	SOD-57	DIODE-SOD-57-VISHAY	1:K,2:A
+datasheets/diode/vishay/sf4001.pdf	SOD-57	single		1	SF4007-TR	SOD-57	DIODE-SOD-57-VISHAY	1:K,2:A
+datasheets/diode/vishay/sf5400.pdf	SOD-64	single		3	SF5406-TR	SOD-64	DIODE-SOD-64-VISHAY	1:K,2:A
+datasheets/diode/vishay/sl04-m.pdf	DO-219AB (SMF)	single		1	SL04-M3-08	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/sl04.pdf	DO-219AB (SMF)	single		2	SL04-E3-08	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/sl12.pdf	DO-214AC (SMA)	single		4	SL12-E3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/sl22.pdf	DO-214AA (SMB)	single		4	SL22-E3/52T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/sl42.pdf	DO-214AB (SMC)	single		8	SL42-E3/57T	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/smaz59xb.pdf	DO-214AC (SMA)	zener		24	SMAZ5919B-E3/5A	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/sml4738.pdf	DO-214AC (SMA)	zener		25	SML4738-E3/5A	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/smpz39x.pdf	DO-220AA (SMP)	zener		4	SMPZ3919B-M3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/smzj.pdf	DO-214AA (SMB)	zener		1	SMZJ3799BHM3_B/H	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss10p3cl.pdf	TO-277A (SMPC)	array	1 Pair Common Cathode	3	SS10P2CL-M3/86A	SMPC	SMPC-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/ss10p4.pdf	TO-277A (SMPC)	single		5	SS10P3-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/ss10p4c.pdf	TO-277A (SMPC)	array	1 Pair Common Cathode	2	SS10P3C-M3/86A	SMPC	SMPC-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/ss10p6.pdf	TO-277A (SMPC)	single		7	SS10P5-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/ss10ph10.pdf	TO-277A (SMPC)	single		5	SS10PH10-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/ss10ph102.pdf	TO-277A (SMPC)	single		2	SS10PH102-M3/I	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/ss10ph45.pdf	TO-277A (SMPC)	single		4	SS10PH45-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/ss12.pdf	DO-214AC (SMA)	single		16	SS12-E3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss12p3l.pdf	TO-277A (SMPC)	single		3	SS12P2L-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/ss12p4c.pdf	TO-277A (SMPC)	array	1 Pair Common Cathode	1	SS12P4C-M3/86A	SMPC	SMPC-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/ss12p4s.pdf	TO-277A (SMPC)	single		1	SS12P4S-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/ss12ph10.pdf	TO-277A (SMPC)	single		2	SS12PH102-M3/I	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/ss15p3s.pdf	TO-277A (SMPC)	single		2	SS15P3S-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/ss15ph102.pdf	TO-277A (SMPC)	single		2	SS15PH102-M3/I	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/ss1f4.pdf	DO-219AB (SMF)	single		3	SS1F4-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss1fh10.pdf	DO-219AB (SMF)	single		3	SS1FH10-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss1fh6.pdf	DO-219AB (SMF)	single		3	SS1FH6-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss1fl3.pdf	DO-219AB (SMF)	single		2	SS1FL3-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss1fl4.pdf	DO-219AB (SMF)	single		1	SS1FL4HM3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss1fn6.pdf	DO-219AB (SMF)	single		2	SS1FN6-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss1h9.pdf	DO-214AC (SMA)	single		7	SS1H10-E3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss1p3.pdf	DO-220AA (SMP)	single		2	SS1P3-M3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss1p3l.pdf	DO-220AA (SMP)	single		7	SS1P3L-M3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss1p5l.pdf	DO-220AA (SMP)	single		4	SS1P5L-M3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss20k42.pdf	FlatPAK (5x6)	single		6	SS20K42-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/ss20kh102.pdf	FlatPAK (5x6)	single		6	SS20KH102-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/ss20kh170.pdf	FlatPAK (5x6)	single		2	SS20KH170-M3/I	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/ss20ph102.pdf	TO-277A (SMPC)	single		2	SS20PH102-M3/I	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/ss22.pdf	DO-214AA (SMB)	single		14	SS22-E3/52T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss22s-m3.pdf	DO-214AC (SMA)	single		1	SS24S-M3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss22s.pdf	DO-214AA (SMB)	single		1	SS23S-E3/61T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss22s.pdf	DO-214AC (SMA)	single		4	SS24S-E3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss25ph102.pdf	TO-277A (SMPC)	single		2	SS25PH102-M3/I	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/ss26s-0c57fb.pdf	DO-214AC (SMA)	single		7	SS25S-E3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss26s-ee82f4.pdf	DO-214AC (SMA)	single		1	SS26S-M3/61T	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss29.pdf	DO-214AA (SMB)	single		4	SS210-E3/52T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss2fh10.pdf	DO-219AB (SMF)	single		3	SS2FH10-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss2fh6.pdf	DO-219AB (SMF)	single		2	SS2FH6-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss2fl3.pdf	DO-219AB (SMF)	single		2	SS2FL3-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss2fl4.pdf	DO-219AB (SMF)	single		2	SS2FL4-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss2fn6.pdf	DO-219AB (SMF)	single		1	SS2FN6HM3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss2h9.pdf	DO-214AA (SMB)	single		6	SS2H10-E3/52T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss2p2.pdf	DO-220AA (SMP)	single		5	SS2P2-M3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss2p2l.pdf	DO-220AA (SMP)	single		3	SS2P2L-M3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss2p5.pdf	DO-220AA (SMP)	single		6	SS2P5-M3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss2ph5.pdf	DO-220AA (SMP)	single		2	SS2PH5HM3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss2ph9.pdf	DO-220AA (SMP)	single		7	SS2PH10-M3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss30kh102.pdf	FlatPAK (5x6)	single		6	SS30KH102-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/ss30kh170.pdf	FlatPAK (5x6)	single		2	SS30KH170-M3/I	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/ss30kh170s.pdf	FlatPAK (5x6)	single		2	SS30KH170S-M3/I	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/ss32.pdf	DO-214AB (SMC)	single		15	SS32-E3/57T	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss3h9-m3.pdf	DO-214AB (SMC)	single		1	SS3H10-M3/9AT	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss3h9.pdf	DO-214AB (SMC)	single		7	SS3H10-E3/57T	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss3p3.pdf	DO-220AA (SMP)	single		2	SS3P3-M3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss3p4l.pdf	TO-277A (SMPC)	single		3	SS3P4L-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/ss3p5.pdf	DO-220AA (SMP)	single		7	SS3P5-M3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss3p6l.pdf	TO-277A (SMPC)	single		5	SS3P5L-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/ss5p10.pdf	TO-277A (SMPC)	single		8	SS5P10-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/ss5p4.pdf	TO-277A (SMPC)	single		5	SS5P3-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/ss5p6.pdf	TO-277A (SMPC)	single		6	SS5P5-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/ss5ph102.pdf	TO-277A (SMPC)	single		2	SS5PH102-M3/I	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/ss6p4c.pdf	TO-277A (SMPC)	array	1 Pair Common Cathode	1	SS6P4C-M3/86A	SMPC	SMPC-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/ss8nh102s.pdf	DFN3820A	single		2	SS8NH102S-M3/H	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/ss8p3c.pdf	TO-277A (SMPC)	array	1 Pair Common Cathode	3	SS8P3C-M3/86A	SMPC	SMPC-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/ss8p3l.pdf	TO-277A (SMPC)	single		5	SS8P2L-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/ss8p6c.pdf	TO-277A (SMPC)	array	1 Pair Common Cathode	4	SS8P5C-M3/86A	SMPC	SMPC-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/ss8ph10.pdf	TO-277A (SMPC)	single		6	SS8PH10-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/ss8ph102.pdf	TO-277A (SMPC)	single		2	SS8PH102-M3/I	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/ssa23l-56f02b.pdf	DO-214AC (SMA)	single		1	SSA23L-M3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/ssa23l-caae34.pdf	DO-214AC (SMA)	single		6	SSA23L-E3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/ssa33l-bad9db.pdf	DO-214AC (SMA)	single		2	SSA33L-M3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/ssa33l-fb1fd3.pdf	DO-214AC (SMA)	single		7	SSA33L-E3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/ssb43l.pdf	DO-214AA (SMB)	single		11	SSB43L-E3/52T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/ssc53l-a641f6.pdf	DO-214AB (SMC)	single		7	SSC53L-E3/57T	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/ssc53l-e84d3c.pdf	DO-214AB (SMC)	single		3	SSC53L-M3/57T	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/tlz.pdf	SOD-80 MiniMELF	zener		67	TLZ10A-GS18	MiniMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/tzm.pdf	SOD-80 MiniMELF	zener		98	TZMB10-GS08	MiniMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/tzm5221.pdf	SOD-80 MiniMELF	zener		44	TZM5221B-GS08	MiniMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/tzq5221b.pdf	SOD-80 QuadroMELF	zener		9	TZQ5222B-GS18	QuadroMELF	DIODE-MINIMELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/tzxserie.pdf	DO-204AH (DO-35)	zener		151	TZX10A-TAP	DO-35	DIODE-DO-35-VISHAY	1:K,2:A
+datasheets/diode/vishay/uf4001.pdf	DO-204AL (DO-41)	single		19	UF4001-E3/54	DO-41	DIODE-DO-41-VISHAY	1:K,2:A
+datasheets/diode/vishay/uf5400.pdf	DO-201AD	single		15	UF5400-E3/54	DO-201AD	DIODE-DO-201AD-VISHAY	1:K,2:A
+datasheets/diode/vishay/ug1a.pdf	DO-204AL (DO-41)	single		2	UG1D-E3/54	DO-41	DIODE-DO-41-VISHAY	1:K,2:A
+datasheets/diode/vishay/ug2a.pdf	DO-204AC (DO-15)	single		2	UG2D-E3/54	DO-15	DIODE-DO-15-VISHAY	1:K,2:A
+datasheets/diode/vishay/ug4a.pdf	DO-201AD	single		3	UG4A-E3/54	DO-201AD	DIODE-DO-201AD-VISHAY	1:K,2:A
+datasheets/diode/vishay/us1_test_dcicons.pdf	DO-214AC (SMA)	single		29	US1A-E3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/usb260.pdf	DO-214AA (SMB)	single		2	USB260-M3/52T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/v10150s-03ab9f.pdf	TO-263AB (D2PAK)	single		1	VB10150S-E3/8W	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10d170c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V10D170C-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v10d60c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V10D60CHM3_A/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v10dl63c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V10DL63CHM3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v10dm153c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	2	V10DM153C-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v10dm63c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V10DM63CHM3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v10k100c.pdf	FlatPAK (5x6)	array	1 Pair Common Cathode	2	V10K100C-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A1,2:A1,3:A2,4:A2,5:K
+datasheets/diode/vishay/v10k150c.pdf	FlatPAK (5x6)	array	1 Pair Common Cathode	1	V10K150C-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A1,2:A1,3:A2,4:A2,5:K
+datasheets/diode/vishay/v10km120c.pdf	FlatPAK (5x6)	array	1 Pair Common Cathode	1	V10KM120C-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A1,2:A1,3:A2,4:A2,5:K
+datasheets/diode/vishay/v10km45c.pdf	FlatPAK (5x6)	array	1 Pair Common Cathode	1	V10KM45CHM3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A1,2:A1,3:A2,4:A2,5:K
+datasheets/diode/vishay/v10km60c.pdf	FlatPAK (5x6)	array	1 Pair Common Cathode	1	V10KM60C-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A1,2:A1,3:A2,4:A2,5:K
+datasheets/diode/vishay/v10p10.pdf	TO-277A (SMPC)	single		4	V10P10-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10p104.pdf	TO-277A (SMPC)	single		4	V10P104-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10p12.pdf	TO-277A (SMPC)	single		1	V10P12-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10p15.pdf	TO-277A (SMPC)	single		2	V10P15-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10p20.pdf	TO-277A (SMPC)	single		2	V10P20-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10p22.pdf	TO-277A (SMPC)	single		2	V10P22-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10p22c.pdf	TO-277A (SMPC)	array	1 Pair Common Cathode	1	V10P22CHM3_A/I	SMPC	SMPC-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v10p45.pdf	TO-277A (SMPC)	single		3	V10P45-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10p45s-m3.pdf	TO-277A (SMPC)	single		2	V10P45S-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10p6.pdf	TO-277A (SMPC)	single		2	V10P6-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10p8.pdf	TO-277A (SMPC)	single		1	V10P8-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10pl45-m3.pdf	TO-277A (SMPC)	single		2	V10PL45-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10pl63.pdf	TO-277A (SMPC)	single		3	V10PL63-M3/I	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10pl64.pdf	TO-277A (SMPC)	single		4	V10PL64-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10pm10.pdf	TO-277A (SMPC)	single		2	V10PM10-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10pm104.pdf	TO-277A (SMPC)	single		4	V10PM104-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10pm104s.pdf	TO-277A (SMPC)	single		4	V10PM104S-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10pm15.pdf	TO-277A (SMPC)	single		2	V10PM15-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10pm153.pdf	TO-277A (SMPC)	single		4	V10PM153-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10pm45.pdf	TO-277A (SMPC)	single		2	V10PM45-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10pm6.pdf	TO-277A (SMPC)	single		2	V10PM6-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10pm63.pdf	TO-277A (SMPC)	single		4	V10PM63-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10pm64.pdf	TO-277A (SMPC)	single		4	V10PM64-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10pn50-m3.pdf	TO-277A (SMPC)	single		1	V10PN50-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10pw10_.pdf	SlimDPAK	single		1	V10PW10-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10pw12.pdf	SlimDPAK	single		1	V10PW12HM3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10pw60.pdf	SlimDPAK	single		2	V10PW60-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10pwl45.pdf	SlimDPAK	single		1	V10PWL45-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10pwl63.pdf	SlimDPAK	single		2	V10PWL63-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10pwl63c.pdf	SlimDPAK	array	1 Pair Common Cathode	2	V10PWL63C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v10pwm10.pdf	SlimDPAK	single		1	V10PWM10-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10pwm12.pdf	SlimDPAK	single		1	V10PWM12HM3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10pwm153.pdf	SlimDPAK	single		2	V10PWM153-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10pwm153c.pdf	SlimDPAK	array	1 Pair Common Cathode	2	V10PWM153C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v10pwm45.pdf	SlimDPAK	single		2	V10PWM45-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10pwm60.pdf	SlimDPAK	single		1	V10PWM60HM3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10pwm63.pdf	SlimDPAK	single		2	V10PWM63-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v10pwm63c.pdf	SlimDPAK	array	1 Pair Common Cathode	2	V10PWM63C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v12p10.pdf	TO-277A (SMPC)	single		3	V12P10-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v12p104.pdf	TO-277A (SMPC)	single		4	V12P104-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v12p12.pdf	TO-277A (SMPC)	single		2	V12P12-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v12p15.pdf	TO-277A (SMPC)	single		1	V12P15-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v12p22.pdf	TO-277A (SMPC)	single		1	V12P22-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v12p45.pdf	TO-277A (SMPC)	single		1	V12P45HM3_A/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v12p6.pdf	TO-277A (SMPC)	single		2	V12P6-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v12p8.pdf	TO-277A (SMPC)	single		1	V12P8HM3_A/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v12pl63.pdf	TO-277A (SMPC)	single		4	V12PL63-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v12pl64.pdf	TO-277A (SMPC)	single		4	V12PL64-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v12pm10.pdf	TO-277A (SMPC)	single		1	V12PM10-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v12pm104.pdf	TO-277A (SMPC)	single		4	V12PM104-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v12pm12.pdf	TO-277A (SMPC)	single		1	V12PM12HM3_A/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v12pm15.pdf	TO-277A (SMPC)	single		2	V12PM15-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v12pm153.pdf	TO-277A (SMPC)	single		4	V12PM153-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v12pm45.pdf	TO-277A (SMPC)	single		1	V12PM45-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v12pm6.pdf	TO-277A (SMPC)	single		1	V12PM6-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v12pm63.pdf	TO-277A (SMPC)	single		4	V12PM63-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v12pm64.pdf	TO-277A (SMPC)	single		4	V12PM64-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v15k100c.pdf	FlatPAK (5x6)	array	1 Pair Common Cathode	1	V15K100C-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A1,2:A1,3:A2,4:A2,5:K
+datasheets/diode/vishay/v15k150c.pdf	FlatPAK (5x6)	array	1 Pair Common Cathode	2	V15K150C-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A1,2:A1,3:A2,4:A2,5:K
+datasheets/diode/vishay/v15k170c.pdf	FlatPAK (5x6)	array	1 Pair Common Cathode	1	V15K170C-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A1,2:A1,3:A2,4:A2,5:K
+datasheets/diode/vishay/v15k202c.pdf	FlatPAK (5x6)	array	1 Pair Common Cathode	1	V15K202C-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A1,2:A1,3:A2,4:A2,5:K
+datasheets/diode/vishay/v15kl45c.pdf	FlatPAK (5x6)	array	1 Pair Common Cathode	1	V15KL45C-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A1,2:A1,3:A2,4:A2,5:K
+datasheets/diode/vishay/v15km120c.pdf	FlatPAK (5x6)	array	1 Pair Common Cathode	1	V15KM120C-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A1,2:A1,3:A2,4:A2,5:K
+datasheets/diode/vishay/v15km150c.pdf	FlatPAK (5x6)	array	1 Pair Common Cathode	1	V15KM150C-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A1,2:A1,3:A2,4:A2,5:K
+datasheets/diode/vishay/v15km45c.pdf	FlatPAK (5x6)	array	1 Pair Common Cathode	1	V15KM45C-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A1,2:A1,3:A2,4:A2,5:K
+datasheets/diode/vishay/v15km60c.pdf	FlatPAK (5x6)	array	1 Pair Common Cathode	1	V15KM60CHM3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A1,2:A1,3:A2,4:A2,5:K
+datasheets/diode/vishay/v15p10.pdf	TO-277A (SMPC)	single		2	V15P10-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v15p104.pdf	TO-277A (SMPC)	single		4	V15P104-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v15p12.pdf	TO-277A (SMPC)	single		2	V15P12-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v15p15.pdf	TO-277A (SMPC)	single		2	V15P15-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v15p22.pdf	TO-277A (SMPC)	single		1	V15P22-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v15p45.pdf	TO-277A (SMPC)	single		2	V15P45-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v15p45s-m3.pdf	TO-277A (SMPC)	array	1 Pair Common Cathode	1	V15P45S-M3/86A	SMPC	SMPC-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v15p6.pdf	TO-277A (SMPC)	single		2	V15P6-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v15p8.pdf	TO-277A (SMPC)	single		3	V15P8-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v15pl50.pdf	TO-277A (SMPC)	single		1	V15PL50-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v15pl63.pdf	TO-277A (SMPC)	single		4	V15PL63-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v15pl64.pdf	TO-277A (SMPC)	single		4	V15PL64-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v15pm10.pdf	TO-277A (SMPC)	single		2	V15PM10-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v15pm104.pdf	TO-277A (SMPC)	single		4	V15PM104-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v15pm12.pdf	TO-277A (SMPC)	single		1	V15PM12HM3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v15pm15.pdf	TO-277A (SMPC)	single		2	V15PM15-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v15pm153.pdf	TO-277A (SMPC)	single		4	V15PM153-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v15pm45.pdf	TO-277A (SMPC)	single		2	V15PM45-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v15pm6.pdf	TO-277A (SMPC)	single		3	V15PM6-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v15pm63.pdf	TO-277A (SMPC)	single		4	V15PM63-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v15pm64.pdf	TO-277A (SMPC)	single		4	V15PM64-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v15pn50-m3.pdf	TO-277A (SMPC)	single		1	V15PN50-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v1f22.pdf	DO-219AB (SMF)	single		1	V1F22-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/v1f6.pdf	DO-219AB (SMF)	single		3	V1F6-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/v1fl45.pdf	DO-219AB (SMF)	single		2	V1FL45-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/v1fm10.pdf	DO-219AB (SMF)	single		4	V1FM10-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/v1fm12.pdf	DO-219AB (SMF)	single		2	V1FM12-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/v1fm15.pdf	DO-219AB (SMF)	single		2	V1FM15-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/v1p22.pdf	DO-219AD (MicroSMP)	single		2	V1P22-M3/H	MicroSMP	DIODE-MICROSMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v1p6.pdf	DO-219AD (MicroSMP)	single		2	V1P6-M3/H	MicroSMP	DIODE-MICROSMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v1pl45.pdf	DO-219AD (MicroSMP)	single		1	V1PL45-M3/H	MicroSMP	DIODE-MICROSMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v1pm10.pdf	DO-219AD (MicroSMP)	single		2	V1PM10-M3/H	MicroSMP	DIODE-MICROSMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v1pm12.pdf	DO-219AD (MicroSMP)	single		2	V1PM12-M3/H	MicroSMP	DIODE-MICROSMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v1pm15.pdf	DO-219AD (MicroSMP)	single		2	V1PM15-M3/H	MicroSMP	DIODE-MICROSMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v20100c-0da7eb.pdf	ITO-220AB	array	1 Pair Common Cathode	1	VF20100C-E3/4W	ITO-220	ITO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v20100c-0da7eb.pdf	TO-220-3	array	1 Pair Common Cathode	1	V20100C-E3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v20100c-0da7eb.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	2	VB20100C-E3/4W	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v20100c-25b06b.pdf	TO-220-3	array	1 Pair Common Cathode	1	V20100C-M3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v20100s.pdf	ITO-220AB	single		1	VF20100S-E3/4W	ITO-220	ITO-220-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/v20100s.pdf	TO-220-3	single		1	V20100S-E3/4W	TO-220	TO-220-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/v20100s.pdf	TO-263AB (D2PAK)	single		2	VB20100S-E3/4W	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20120c.pdf	ITO-220AB	array	1 Pair Common Cathode	1	VF20120C-E3/4W	ITO-220	ITO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v20120c.pdf	TO-220-3	array	1 Pair Common Cathode	1	V20120C-E3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v20120s.pdf	TO-220-3	single		1	V20120S-E3/4W	TO-220	TO-220-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/v20150c.pdf	ITO-220AB	array	1 Pair Common Cathode	1	VF20150C-E3/4W	ITO-220	ITO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v20150c.pdf	TO-220-3	array	1 Pair Common Cathode	1	V20150C-E3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v20150c.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VB20150C-E3/8W	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v20150s.pdf	TO-263AB (D2PAK)	single		1	VB20150S-E3/8W	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20150sg.pdf	TO-263AB (D2PAK)	single		2	VB20150SG-E3/4W	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20200c.pdf	ITO-220AB	array	1 Pair Common Cathode	1	VF20200C-E3/4W	ITO-220	ITO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v20200c.pdf	TO-220-3	array	1 Pair Common Cathode	1	V20200C-E3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v20200c.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VB20200C-E3/8W	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v20200g.pdf	ITO-220AB	array	1 Pair Common Cathode	1	VF20200G-E3/4W	ITO-220	ITO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v20200g.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	2	VB20200G-E3/4W	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v20202c.pdf	TO-220-3	array	1 Pair Common Cathode	1	V20202C-M3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v20202c.pdf	TO-262AA	array	1 Pair Common Cathode	1	VI20202C-M3/4W	TO-262	TO-262-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v20202c.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VB20202C-M3/4W	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v20202g-m3.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	2	VB20202G-M3/4W	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v20c103.pdf	SMPD	single		2	V20C103-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20c120.pdf	SMPD	single		2	V20C120-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20c153.pdf	SMPD	single		2	V20C153-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20c202.pdf	SMPD	single		2	V20C202-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20cm45.pdf	SMPD	single		2	V20CM45-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20cm63.pdf	SMPD	single		2	V20CM63-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20d100c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	2	V20D100C-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v20d170c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V20D170C-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v20d45c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V20D45C-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v20dl45.pdf	TO-263AC (SMPD)	single		2	V20DL45-M3/I	SMPD	SMPD-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20dl45bp.pdf	SMPD	single		1	V20DL45BP-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20dl63c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V20DL63CHM3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v20dm100c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V20DM100CHM3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v20dm120.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	2	V20DM120-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v20dm153c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	2	V20DM153C-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v20dm63c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V20DM63CHM3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v20k170.pdf	FlatPAK (5x6)	single		1	V20K170-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v20k202.pdf	FlatPAK (5x6)	single		1	V20K202-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v20k60.pdf	FlatPAK (5x6)	single		1	V20K60-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v20kl45.pdf	FlatPAK (5x6)	single		1	V20KL45-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v20km100.pdf	FlatPAK (5x6)	single		2	V20KM100-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v20km120.pdf	FlatPAK (5x6)	single		1	V20KM120HM3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v20km45.pdf	FlatPAK (5x6)	single		2	V20KM45-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v20km60.pdf	FlatPAK (5x6)	single		2	V20KM60-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v20m120m.pdf	TO-220-3	array	1 Pair Common Cathode	1	V20M120M-E3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v20p103s.pdf	TO-277A (SMPC)	single		1	V20P103SHM3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20pl50.pdf	TO-277A (SMPC)	single		1	V20PL50-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20pl60.pdf	TO-277A (SMPC)	single		1	V20PL60-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20pl63.pdf	TO-277A (SMPC)	single		4	V20PL63-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20pl64.pdf	TO-277A (SMPC)	single		4	V20PL64-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20pm63.pdf	TO-277A (SMPC)	single		4	V20PM63-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20pm64.pdf	TO-277A (SMPC)	single		4	V20PM64-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20pw10.pdf	SlimDPAK	single		2	V20PW10-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20pw10c.pdf	SlimDPAK	array	1 Pair Common Cathode	2	V20PW10C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v20pw15.pdf	SlimDPAK	single		2	V20PW15-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20pw15c.pdf	SlimDPAK	array	1 Pair Common Cathode	2	V20PW15C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v20pw22.pdf	SlimDPAK	single		1	V20PW22-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20pw22c.pdf	SlimDPAK	array	1 Pair Common Cathode	1	V20PW22C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v20pw45.pdf	SlimDPAK	single		2	V20PW45-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20pw45c.pdf	SlimDPAK	array	1 Pair Common Cathode	2	V20PW45C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v20pw60.pdf	SlimDPAK	single		2	V20PW60-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20pw60c.pdf	SlimDPAK	array	1 Pair Common Cathode	1	V20PW60C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v20pwl63.pdf	SlimDPAK	single		2	V20PWL63-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20pwl63c.pdf	SlimDPAK	array	1 Pair Common Cathode	2	V20PWL63C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v20pwm10.pdf	SlimDPAK	single		2	V20PWM10-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20pwm10c.pdf	SlimDPAK	array	1 Pair Common Cathode	2	V20PWM10C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v20pwm12.pdf	SlimDPAK	single		2	V20PWM12-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20pwm12c.pdf	SlimDPAK	array	1 Pair Common Cathode	2	V20PWM12C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v20pwm15.pdf	SlimDPAK	single		2	V20PWM15-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20pwm153.pdf	SlimDPAK	single		2	V20PWM153-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20pwm153c.pdf	SlimDPAK	array	1 Pair Common Cathode	2	V20PWM153C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v20pwm15c.pdf	SlimDPAK	array	1 Pair Common Cathode	2	V20PWM15C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v20pwm45.pdf	SlimDPAK	single		2	V20PWM45-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20pwm45c.pdf	SlimDPAK	array	1 Pair Common Cathode	2	V20PWM45C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v20pwm60.pdf	SlimDPAK	single		2	V20PWM60-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20pwm60c.pdf	SlimDPAK	array	1 Pair Common Cathode	1	V20PWM60C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v20pwm63.pdf	SlimDPAK	single		2	V20PWM63-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v20pwm63c.pdf	SlimDPAK	array	1 Pair Common Cathode	2	V20PWM63C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v25pl60.pdf	TO-277A (SMPC)	single		1	V25PL60-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v25pn60.pdf	TO-277A (SMPC)	single		1	V25PN60-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v2f22.pdf	DO-219AB (SMF)	single		2	V2F22-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/v2f6.pdf	DO-219AB (SMF)	single		1	V2F6HM3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/v2fm10.pdf	DO-219AB (SMF)	single		1	V2FM10HM3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/v2fm12.pdf	DO-219AB (SMF)	single		2	V2FM12-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/v2fm15.pdf	DO-219AB (SMF)	single		2	V2FM15-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/v2n103.pdf	DFN3820A	single		2	V2N103-M3/I	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/v2nl63.pdf	DFN3820A	single		2	V2NL63-M3/I	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/v2nm103.pdf	DFN3820A	single		2	V2NM103-M3/I	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/v2nm153.pdf	DFN3820A	single		2	V2NM153-M3/I	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/v2nm63.pdf	DFN3820A	single		2	V2NM63-M3/I	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/v2p22.pdf	DO-219AD (MicroSMP)	single		2	V2P22-M3/H	MicroSMP	DIODE-MICROSMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v2p22l.pdf	DO-220AA (SMP)	single		2	V2P22L-M3/H	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v2p6.pdf	DO-219AD (MicroSMP)	single		2	V2P6-M3/H	MicroSMP	DIODE-MICROSMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v2p6l.pdf	DO-220AA (SMP)	single		1	V2P6LHM3/H	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v2p6x.pdf	DO-220AA (SMP)	single		2	V2P6X-M3/H	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v2pl45.pdf	DO-219AD (MicroSMP)	single		2	V2PL45-M3/H	MicroSMP	DIODE-MICROSMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v2pl63l.pdf	DO-220AA (SMP)	single		2	V2PL63L-M3/H	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v2pm10.pdf	DO-219AD (MicroSMP)	single		2	V2PM10-M3/H	MicroSMP	DIODE-MICROSMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v2pm10l.pdf	DO-220AA (SMP)	single		2	V2PM10L-M3/H	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v2pm12.pdf	DO-219AD (MicroSMP)	single		2	V2PM12-M3/H	MicroSMP	DIODE-MICROSMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v2pm12l.pdf	DO-220AA (SMP)	single		2	V2PM12L-M3/H	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v2pm15.pdf	DO-219AD (MicroSMP)	single		2	V2PM15-M3/H	MicroSMP	DIODE-MICROSMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v2pm15l.pdf	DO-220AA (SMP)	single		2	V2PM15L-M3/H	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v2pm63l.pdf	DO-220AA (SMP)	single		2	V2PM63L-M3/H	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v30100c-4e236f.pdf	TO-220-3	array	1 Pair Common Cathode	1	V30100C-M3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v30100c-f893fd.pdf	TO-262AA	array	1 Pair Common Cathode	1	VI30100C-E3/4W	TO-262	TO-262-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v30100c-f893fd.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	2	VB30100C-E3/4W	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v30100s-3b9e32.pdf	ITO-220AB	single		1	VF30100S-E3/4W	ITO-220	ITO-220-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/v30100s-3b9e32.pdf	TO-220-3	single		1	V30100S-E3/4W	TO-220	TO-220-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/v30100s-3b9e32.pdf	TO-262AA	single		1	VI30100S-E3/4W	TO-262	TO-262-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/v30100s-3b9e32.pdf	TO-263AB (D2PAK)	single		2	VB30100S-E3/4W	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v30100s-d3bfea.pdf	TO-220-3	single		1	V30100S-M3/4W	TO-220	TO-220-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/v30100sg.pdf	ITO-220AB	single		1	VF30100SG-E3/4W	ITO-220	ITO-220-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/v30100sg.pdf	TO-220-3	single		1	V30100SG-E3/4W	TO-220	TO-220-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/v30150c.pdf	ITO-220AB	array	1 Pair Common Cathode	1	VF30150C-E3/4W	ITO-220	ITO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v30200c.pdf	ITO-220AB	array	1 Pair Common Cathode	1	VF30200C-E3/4W	ITO-220	ITO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v30200c.pdf	TO-220-3	array	1 Pair Common Cathode	1	V30200C-E3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v30200c.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	2	VB30200C-E3/4W	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v30c103.pdf	SMPD	single		2	V30C103-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v30c120.pdf	SMPD	single		2	V30C120-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v30c153.pdf	SMPD	single		1	V30C153-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v30c202.pdf	SMPD	single		2	V30C202-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v30cm45.pdf	SMPD	single		2	V30CM45-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v30cm63.pdf	SMPD	single		2	V30CM63-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v30d170c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V30D170C-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v30d202c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V30D202C-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v30d45c.pdf	SMPD	array	1 Pair Common Cathode	1	V30D45C-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v30d45c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V30D45CHM3_A/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v30d60c.pdf	SMPD	array	1 Pair Common Cathode	1	V30D60C-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v30d60c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V30D60CHM3_A/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v30d60cl.pdf	SMPD	array	1 Pair Common Cathode	1	V30D60CL-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v30d60cl.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V30D60CLHM3_A/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v30dl45.pdf	TO-263AC (SMPD)	single		1	V30DL45-M3/I	SMPD	SMPD-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v30dl45bp.pdf	SMPD	single		1	V30DL45BP-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v30dl50c.pdf	SMPD	array	1 Pair Common Cathode	1	V30DL50C-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v30dl50c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V30DL50CHM3_A/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v30dl63c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V30DL63CHM3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v30dl63cl.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V30DL63CLHM3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v30dm100c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	2	V30DM100C-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v30dm120c.pdf	SMPD	array	1 Pair Common Cathode	1	V30DM120C-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v30dm150c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	2	V30DM150C-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v30dm153c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	2	V30DM153C-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v30dm45c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V30DM45C-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v30dm60cl.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V30DM60CL-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v30dm63cl.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V30DM63CLHM3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v30k150.pdf	FlatPAK (5x6)	single		2	V30K150-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v30k170.pdf	FlatPAK (5x6)	single		1	V30K170-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v30k202.pdf	FlatPAK (5x6)	single		2	V30K202-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v30k45.pdf	FlatPAK (5x6)	single		2	V30K45-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v30k60.pdf	FlatPAK (5x6)	single		1	V30K60-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v30kl45.pdf	FlatPAK (5x6)	single		2	V30KL45-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v30km100.pdf	FlatPAK (5x6)	single		2	V30KM100-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v30km120.pdf	FlatPAK (5x6)	single		2	V30KM120-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v30km45.pdf	FlatPAK (5x6)	single		1	V30KM45HM3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v30km60.pdf	FlatPAK (5x6)	single		2	V30KM60-M3/H	FlatPAK 5x6	FLATPAK-5X6-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v30m100m.pdf	TO-220-3	array	1 Pair Common Cathode	1	V30M100M-E3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v30m120c.pdf	TO-220-3	array	1 Pair Common Cathode	1	V30M120C-M3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v35pw10.pdf	SlimDPAK	single		2	V35PW10-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v35pw12.pdf	SlimDPAK	single		2	V35PW12-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v35pw15.pdf	SlimDPAK	single		2	V35PW15-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v35pw22.pdf	SlimDPAK	single		1	V35PW22-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v35pw45.pdf	SlimDPAK	single		2	V35PW45-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v35pw60.pdf	SlimDPAK	single		2	V35PW60-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v35pwl63.pdf	SlimDPAK	single		2	V35PWL63-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v35pwm10.pdf	SlimDPAK	single		2	V35PWM10-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v35pwm12.pdf	SlimDPAK	single		2	V35PWM12-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v35pwm15.pdf	SlimDPAK	single		2	V35PWM15-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v35pwm153.pdf	SlimDPAK	single		2	V35PWM153-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v35pwm45.pdf	SlimDPAK	single		2	V35PWM45-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v35pwm60.pdf	SlimDPAK	single		2	V35PWM60-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v35pwm63.pdf	SlimDPAK	single		2	V35PWM63-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v3f6.pdf	DO-219AB (SMF)	single		3	V3F6-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/v3fl45.pdf	DO-219AB (SMF)	single		3	V3FL45-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/v3fm10.pdf	DO-219AB (SMF)	single		2	V3FM10-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/v3fm12.pdf	DO-219AB (SMF)	single		2	V3FM12-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/v3fm15.pdf	DO-219AB (SMF)	single		1	V3FM15-M3/H	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/v3n103.pdf	DFN3820A	single		2	V3N103-M3/I	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/v3nl63.pdf	DFN3820A	single		2	V3NL63-M3/I	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/v3nm103.pdf	DFN3820A	single		2	V3NM103-M3/I	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/v3nm153.pdf	DFN3820A	single		2	V3NM153-M3/I	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/v3nm63.pdf	DFN3820A	single		2	V3NM63-M3/I	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/v3p22.pdf	DO-220AA (SMP)	single		2	V3P22-M3/H	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v3p6.pdf	DO-220AA (SMP)	single		3	V3P6-M3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v3p6l.pdf	DO-220AA (SMP)	single		2	V3P6L-M3/H	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v3pal45.pdf	DO-221BC (SMPA)	single		2	V3PAL45-M3/I	SMPA	DIODE-SMPA-VISHAY	1:K,2:A
+datasheets/diode/vishay/v3pl45.pdf	DO-220AA (SMP)	single		2	V3PL45-M3/H	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v3pl63.pdf	DO-220AA (SMP)	single		2	V3PL63-M3/H	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v3pm10.pdf	DO-220AA (SMP)	single		3	V3PM10-M3/H	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v3pm15.pdf	DO-220AA (SMP)	single		2	V3PM15-M3/H	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v3pm6.pdf	DO-220AA (SMP)	single		3	V3PM6-M3/H	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v3pm63.pdf	DO-220AA (SMP)	single		2	V3PM63-M3/H	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/v40100c-57f31a.pdf	TO-220-3	array	1 Pair Common Cathode	1	V40100C-M3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v40100c-b0dede.pdf	TO-220-3	array	1 Pair Common Cathode	1	V40100C-E3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v40100c-b0dede.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	2	VB40100C-E3/4W	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v40120c.pdf	TO-220-3	array	1 Pair Common Cathode	1	V40120C-M3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v40150c.pdf	TO-220-3	array	1 Pair Common Cathode	1	V40150C-E3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v40150c.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	2	VB40150C-E3/4W	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v40170c-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	V40170C-M3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v40c103.pdf	SMPD	single		2	V40C103-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v40c120.pdf	SMPD	single		2	V40C120-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v40c153.pdf	SMPD	single		2	V40C153-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v40c202.pdf	SMPD	single		2	V40C202-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v40cm45.pdf	SMPD	single		2	V40CM45-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v40cm63.pdf	SMPD	single		2	V40CM63-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v40d100c.pdf	SMPD	array	1 Pair Common Cathode	1	V40D100C-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v40d45c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V40D45C-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v40dl45.pdf	TO-263AC (SMPD)	single		2	V40DL45-M3/I	SMPD	SMPD-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v40dl45bp.pdf	TO-263AC (SMPD)	single		1	V40DL45BP-M3/I	SMPD	SMPD-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v40dl63c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V40DL63CHM3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v40dm100c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	2	V40DM100C-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v40dm150c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	2	V40DM150C-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v40dm153c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	2	V40DM153C-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v40dm45c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V40DM45C-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v40dm60c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	2	V40DM60C-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v40dm63c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V40DM63CHM3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v40m120c.pdf	TO-220-3	array	1 Pair Common Cathode	1	V40M120C-M3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v40pw10c.pdf	SlimDPAK	array	1 Pair Common Cathode	2	V40PW10C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v40pw15c.pdf	SlimDPAK	array	1 Pair Common Cathode	1	V40PW15C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v40pw22c.pdf	SlimDPAK	array	1 Pair Common Cathode	1	V40PW22C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v40pw45c.pdf	SlimDPAK	array	1 Pair Common Cathode	2	V40PW45C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v40pw60c.pdf	SlimDPAK	array	1 Pair Common Cathode	2	V40PW60C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v40pwl63c.pdf	SlimDPAK	array	1 Pair Common Cathode	2	V40PWL63C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v40pwm10c.pdf	SlimDPAK	array	1 Pair Common Cathode	2	V40PWM10C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v40pwm12c.pdf	SlimDPAK	array	1 Pair Common Cathode	1	V40PWM12C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v40pwm153c.pdf	SlimDPAK	array	1 Pair Common Cathode	2	V40PWM153C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v40pwm15c.pdf	SlimDPAK	array	1 Pair Common Cathode	2	V40PWM15C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v40pwm45c.pdf	SlimDPAK	array	1 Pair Common Cathode	2	V40PWM45C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v40pwm60c.pdf	SlimDPAK	array	1 Pair Common Cathode	2	V40PWM60C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v40pwm63c.pdf	SlimDPAK	array	1 Pair Common Cathode	2	V40PWM63C-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v4pal45.pdf	DO-221BC (SMPA)	single		2	V4PAL45-M3/I	SMPA	DIODE-SMPA-VISHAY	1:K,2:A
+datasheets/diode/vishay/v4pan50.pdf	DO-221BC (SMPA)	single		1	V4PAN50-M3/I	SMPA	DIODE-SMPA-VISHAY	1:K,2:A
+datasheets/diode/vishay/v5n103.pdf	DFN3820A	single		2	V5N103-M3/I	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/v5n3103.pdf	DFN33A	single		2	V5N3103-M3/I	DFN33A	DFN33A-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v5n3202.pdf	DFN33A	single		2	V5N3202-M3/I	DFN33A	DFN33A-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v5n3l63.pdf	DFN33A	single		2	V5N3L63-M3/I	DFN33A	DFN33A-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v5n3m103.pdf	DFN33A	single		2	V5N3M103-M3/I	DFN33A	DFN33A-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v5n3m153.pdf	DFN33A	single		2	V5N3M153-M3/I	DFN33A	DFN33A-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v5n3m63.pdf	DFN33A	single		2	V5N3M63-M3/I	DFN33A	DFN33A-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v5nl63.pdf	DFN3820A	single		2	V5NL63-M3/I	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/v5nm103.pdf	DFN3820A	single		2	V5NM103-M3/I	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/v5nm153.pdf	DFN3820A	single		2	V5NM153-M3/I	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/v5nm63.pdf	DFN3820A	single		2	V5NM63-M3/I	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/v5p104.pdf	TO-277A (SMPC)	single		4	V5P104-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v5pa22.pdf	DO-221BC (SMPA)	single		1	V5PA22-M3/I	SMPA	DIODE-SMPA-VISHAY	1:K,2:A
+datasheets/diode/vishay/v5pl64.pdf	TO-277A (SMPC)	single		4	V5PL64-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v5pm104.pdf	TO-277A (SMPC)	single		4	V5PM104-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v5pm64.pdf	TO-277A (SMPC)	single		4	V5PM64-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v60100c-802a77.pdf	TO-220-3	array	1 Pair Common Cathode	1	V60100C-M3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v60100c-e4e5ed.pdf	TO-220-3	array	1 Pair Common Cathode	1	V60100C-E3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v60100c-e4e5ed.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	2	VB60100C-E3/4W	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v60120c.pdf	TO-220-3	array	1 Pair Common Cathode	1	V60120C-E3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v60120c.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VB60120C-E3/8W	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v60170g-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	V60170G-M3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v60c103c.pdf	SMPD	array	1 Pair Common Cathode	2	V60C103C-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v60c120c.pdf	SMPD	array	1 Pair Common Cathode	2	V60C120C-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v60c153c.pdf	SMPD	array	1 Pair Common Cathode	2	V60C153C-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v60c202c.pdf	SMPD	array	1 Pair Common Cathode	2	V60C202C-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v60cm45c.pdf	SMPD	array	1 Pair Common Cathode	2	V60CM45C-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v60cm63c.pdf	SMPD	array	1 Pair Common Cathode	2	V60CM63C-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v60d100c.pdf	SMPD	array	1 Pair Common Cathode	1	V60D100C-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v60d100c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V60D100CHM3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v60d120c.pdf	SMPD	array	1 Pair Common Cathode	1	V60D120C-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v60d120c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V60D120CHM3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v60d45c.pdf	SMPD	array	1 Pair Common Cathode	1	V60D45C-M3/I	SMPD	SMPD-ECOOL-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v60d45c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V60D45CHM3_A/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v60d60c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	2	V60D60C-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v60dl63c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V60DL63CHM3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v60dm100c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	2	V60DM100C-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v60dm120c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	2	V60DM120C-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v60dm45c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	2	V60DM45C-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v60dm63c.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	V60DM63CHM3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v6n3103.pdf	DFN33A	single		2	V6N3103-M3/I	DFN33A	DFN33A-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v6n3m103.pdf	DFN33A	single		2	V6N3M103-M3/I	DFN33A	DFN33A-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v6p22c.pdf	TO-277A (SMPC)	array	1 Pair Common Cathode	1	V6P22C-M3/H	SMPC	SMPC-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v6pw10.pdf	SlimDPAK	single		1	V6PW10HM3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v6pwl45.pdf	SlimDPAK	single		1	V6PWL45-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v6pwm10.pdf	SlimDPAK	single		2	V6PWM10-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v6pwm12.pdf	SlimDPAK	single		1	V6PWM12HM3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v6pwm45.pdf	SlimDPAK	single		1	V6PWM45-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v7n103.pdf	DFN3820A	single		2	V7N103-M3/I	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/v7n3103.pdf	DFN33A	single		2	V7N3103-M3/I	DFN33A	DFN33A-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v7n3l63_.pdf	DFN33A	single		2	V7N3L63-M3/I	DFN33A	DFN33A-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v7n3m103.pdf	DFN33A	single		2	V7N3M103-M3/I	DFN33A	DFN33A-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v7n3m153.pdf	DFN33A	single		2	V7N3M153-M3/I	DFN33A	DFN33A-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v7n3m63.pdf	DFN33A	single		2	V7N3M63-M3/I	DFN33A	DFN33A-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v7nl63.pdf	DFN3820A	single		1	V7NL63HM3/I	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/v7nm103.pdf	DFN3820A	single		2	V7NM103-M3/I	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/v7nm153.pdf	DFN3820A	single		2	V7NM153-M3/I	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/v7nm63.pdf	DFN3820A	single		2	V7NM63-M3/I	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/v8n3170.pdf	DFN33A	single		2	V8N3170-M3/I	DFN33A	DFN33A-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v8n3m103s.pdf	DFN33A	single		2	V8N3M103S-M3/I	DFN33A	DFN33A-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v8p10.pdf	TO-277A (SMPC)	single		4	V8P10-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v8p104.pdf	TO-277A (SMPC)	single		4	V8P104-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v8p12.pdf	TO-277A (SMPC)	single		2	V8P12-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v8p15.pdf	TO-277A (SMPC)	single		2	V8P15-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v8p20.pdf	TO-277A (SMPC)	single		1	V8P20-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v8p22.pdf	TO-277A (SMPC)	single		2	V8P22-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v8p45.pdf	TO-277A (SMPC)	single		1	V8P45-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v8p6.pdf	TO-277A (SMPC)	single		3	V8P6-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v8p8.pdf	TO-277A (SMPC)	single		2	V8P8-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v8pa10.pdf	DO-221BC (SMPA)	single		2	V8PA10-M3/I	SMPA	DIODE-SMPA-VISHAY	1:K,2:A
+datasheets/diode/vishay/v8pa12.pdf	DO-221BC (SMPA)	single		2	V8PA12-M3/I	SMPA	DIODE-SMPA-VISHAY	1:K,2:A
+datasheets/diode/vishay/v8pa15.pdf	DO-221BC (SMPA)	single		2	V8PA15-M3/I	SMPA	DIODE-SMPA-VISHAY	1:K,2:A
+datasheets/diode/vishay/v8pa22.pdf	DO-221BC (SMPA)	single		1	V8PA22-M3/H	SMPA	DIODE-SMPA-VISHAY	1:K,2:A
+datasheets/diode/vishay/v8pa6.pdf	DO-221BC (SMPA)	single		1	V8PA6HM3/I	SMPA	DIODE-SMPA-VISHAY	1:K,2:A
+datasheets/diode/vishay/v8pal45.pdf	DO-221BC (SMPA)	single		2	V8PAL45-M3/I	SMPA	DIODE-SMPA-VISHAY	1:K,2:A
+datasheets/diode/vishay/v8pal50.pdf	DO-221BC (SMPA)	single		1	V8PAL50-M3/I	SMPA	DIODE-SMPA-VISHAY	1:K,2:A
+datasheets/diode/vishay/v8pam10.pdf	DO-221BC (SMPA)	single		2	V8PAM10-M3/I	SMPA	DIODE-SMPA-VISHAY	1:K,2:A
+datasheets/diode/vishay/v8pam10s.pdf	DO-221BC (SMPA)	single		4	V8PAM10S-M3/H	SMPA	DIODE-SMPA-VISHAY	1:K,2:A
+datasheets/diode/vishay/v8pam12.pdf	DO-221BC (SMPA)	single		2	V8PAM12-M3/I	SMPA	DIODE-SMPA-VISHAY	1:K,2:A
+datasheets/diode/vishay/v8pan50.pdf	DO-221BC (SMPA)	single		1	V8PAN50-M3/I	SMPA	DIODE-SMPA-VISHAY	1:K,2:A
+datasheets/diode/vishay/v8pl6-m3.pdf	TO-277A (SMPC)	single		1	V8PL6-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v8pl63.pdf	TO-277A (SMPC)	single		4	V8PL63-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v8pl64.pdf	TO-277A (SMPC)	single		4	V8PL64-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v8pm10.pdf	TO-277A (SMPC)	single		2	V8PM10-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v8pm104.pdf	TO-277A (SMPC)	single		4	V8PM104-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v8pm10s.pdf	TO-277A (SMPC)	single		4	V8PM10S-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v8pm12.pdf	TO-277A (SMPC)	single		2	V8PM12-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v8pm15.pdf	TO-277A (SMPC)	single		3	V8PM15-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v8pm153.pdf	TO-277A (SMPC)	single		4	V8PM153-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v8pm45.pdf	TO-277A (SMPC)	single		2	V8PM45-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v8pm63.pdf	TO-277A (SMPC)	single		4	V8PM63-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v8pm64.pdf	TO-277A (SMPC)	single		4	V8PM64-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v8pm64s.pdf	TO-277A (SMPC)	single		4	V8PM64S-M3/H	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/v9n3103.pdf	DFN33A	single		2	V9N3103-M3/I	DFN33A	DFN33A-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v9n3202.pdf	DFN33A	single		2	V9N3202-M3/I	DFN33A	DFN33A-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v9n3l63.pdf	DFN33A	single		2	V9N3L63-M3/I	DFN33A	DFN33A-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v9n3m103.pdf	DFN33A	single		2	V9N3M103-M3/I	DFN33A	DFN33A-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v9n3m153.pdf	DFN33A	single		2	V9N3M153-M3/I	DFN33A	DFN33A-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/v9n3m63.pdf	DFN33A	single		2	V9N3M63-M3/I	DFN33A	DFN33A-5-VISHAY	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/vishay/vb10170c.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VB10170C-E3/4W	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vb30150c-m3.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VB30150C-M3/8W	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vb40170c.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VB40170C-E3/8W	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vb60170g.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VB60170G-E3/8W	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vbt1045bp.pdf	TO-263AB (D2PAK)	single		1	VBT1045BP-E3/8W	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vbt145cb.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VBT1045CBP-E3/8W	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vbt2045bp.pdf	TO-263AB (D2PAK)	single		2	VBT2045BP-E3/4W	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vbt245cb.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VBT2045CBP-E3/8W	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vbt3045bp.pdf	TO-263AB (D2PAK)	single		2	VBT3045BP-E3/4W	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vbt3045c.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VBT3045C-E3/8W	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vbt30l60c.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VBT30L60C-E3/4W	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vbt4045bp.pdf	TO-263AB (D2PAK)	single		2	VBT4045BP-E3/4W	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vbt4045c.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VBT4045C-E3/8W	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vbt6045c-71381e.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VBT6045C-E3/8W	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vbt6045c-a0c63a.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VBT6045CBP-E3/4W	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vf20100c.pdf	ITO-220AB	array	1 Pair Common Cathode	1	VF20100C-M3/4W	ITO-220	ITO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vf20150c.pdf	ITO-220AB	array	1 Pair Common Cathode	1	VF20150C-M3/4W	ITO-220	ITO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vf40100c.pdf	ITO-220AB	array	1 Pair Common Cathode	1	VF40100C-M3/4W	ITO-220	ITO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vf40150c.pdf	ITO-220AB	array	1 Pair Common Cathode	1	VF40150C-M3/4W	ITO-220	ITO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vft1045bp.pdf	ITO-220AC	single		1	VFT1045BP-M3/4W	ITO-220	TO-220FP-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vft2045bp.pdf	ITO-220AC	single		1	VFT2045BP-M3/4W	ITO-220	TO-220FP-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vft3045bp.pdf	ITO-220AC	single		1	VFT3045BP-M3/4W	ITO-220	TO-220FP-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vft3045c-m3.pdf	ITO-220AB	array	1 Pair Common Cathode	1	VFT3045C-M3/4W	ITO-220	ITO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vft345cb.pdf	ITO-220AB	array	1 Pair Common Cathode	1	VFT3045CBP-M3/4W	ITO-220	ITO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vft4045bp.pdf	ITO-220AC	single		1	VFT4045BP-M3/4W	ITO-220	TO-220FP-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vft645cb.pdf	ITO-220AB	array	1 Pair Common Cathode	1	VFT6045CBP-M3/4W	ITO-220	ITO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-10bq015hm3.pdf	DO-214AA (SMB)	single		1	VS-10BQ015HM3/5BT	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-10bq030-m3.pdf	DO-214AA (SMB)	single		1	VS-10BQ030-M3/5BT	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-10bq030hm3.pdf	DO-214AA (SMB)	single		1	VS-10BQ030HM3/5BT	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-10bq040hm3.pdf	DO-214AA (SMB)	single		1	VS-10BQ040HM3/5BT	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-10bq040m.pdf	DO-214AA (SMB)	single		1	VS-10BQ040-M3/5BT	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-10bq060hm3.pdf	DO-214AA (SMB)	single		1	VS-10BQ060HM3/5BT	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-10bq060m.pdf	DO-214AA (SMB)	single		1	VS-10BQ060-M3/5BT	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-10bq100hm3.pdf	DO-214AA (SMB)	single		1	VS-10BQ100HM3/5BT	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-10bq100m.pdf	DO-214AA (SMB)	single		1	VS-10BQ100-M3/5BT	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-10cdu06-m3.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	VS-10CDU06-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-10crh02-m3.pdf	DFN6546A	array	1 Pair Common Cathode	1	VS-10CRH02-M3/I	DFN6546A	DFN6546A-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-10crh02hm3.pdf	DFN6546A	array	1 Pair Common Cathode	1	VS-10CRH02HM3/I	DFN6546A	DFN6546A-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-10csh01-m3.pdf	TO-277A (SMPC)	array	1 Pair Common Cathode	1	VS-10CSH01-M3/86A	SMPC	SMPC-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-10csh01hm3.pdf	TO-277A (SMPC)	array	1 Pair Common Cathode	2	VS-10CSH01HM3/86A	SMPC	SMPC-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-10csh02-m3.pdf	TO-277A (SMPC)	array	1 Pair Common Cathode	1	VS-10CSH02-M3/87A	SMPC	SMPC-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-10csh02hm3.pdf	TO-277A (SMPC)	array	1 Pair Common Cathode	1	VS-10CSH02HM3/86A	SMPC	SMPC-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-10ctq150-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-10CTQ150-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-10ctq150s-m3.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	2	VS-10CTQ150S-M3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-10cwh02f.pdf	TO-252AA (DPAK)	array	1 Pair Common Cathode	3	VS-10CWH02FN-M3	DPAK	DPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-10erh02-m3.pdf	DFN6546A	single		1	VS-10ERH02-M3/I	DFN6546A	DFN6546A-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-10erh02hm3.pdf	DFN6546A	single		1	VS-10ERH02HM3/I	DFN6546A	DFN6546A-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-10etf06slhm3.pdf	TO-263AB (D2PAK)	single		1	VS-10ETF06SLHM3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-10etf06thm3.pdf	TO-220AC	single		1	VS-10ETF06THM3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-10etf0m3.pdf	TO-220AC	single		1	VS-10ETF04-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-10etf10_12fp-m3.pdf	TO-220-2 Full Pack	single		2	VS-10ETF10FP-M3	TO-220 Full Pack	TO-220FP-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-10etf10s-m3.pdf	TO-263AB (D2PAK)	single		2	VS-10ETF10S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-10etf12slhm3.pdf	TO-263AB (D2PAK)	single		1	VS-10ETF12SLHM3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-10etf12thm3.pdf	TO-220AC	single		1	VS-10ETF12THM3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-10etf1m3.pdf	TO-220AC	single		2	VS-10ETF10-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-10ets08_12fp-m3.pdf	TO-220-2 Full Pack	single		2	VS-10ETS08FP-M3	TO-220 Full Pack	TO-220FP-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-10ets08s.pdf	TO-263AB (D2PAK)	single		4	VS-10ETS08S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-10ets12slhm3.pdf	TO-263AB (D2PAK)	single		1	VS-10ETS12SLHM3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-10ets12thm3.pdf	TO-220AC	single		1	VS-10ETS12THM3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-10etsm3.pdf	TO-220AC	single		2	VS-10ETS08-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-10mq040hm3.pdf	DO-214AC (SMA)	single		1	VS-10MQ040HM3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-10mq040m.pdf	DO-214AC (SMA)	single		1	VS-10MQ040-M3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-10mq040ntrpbf.pdf	DO-214AC (SMA)	single		1	VS-10MQ040NTRPBF	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-10mq060hm3.pdf	DO-214AC (SMA)	single		1	VS-10MQ060HM3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-10mq060m.pdf	DO-214AC (SMA)	single		1	VS-10MQ060-M3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-10mq060ntrpbf.pdf	DO-214AC (SMA)	single		1	VS-10MQ060NTRPBF	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-10mq100hm3.pdf	DO-214AC (SMA)	single		1	VS-10MQ100HM3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-10mq100ntrpbf.pdf	DO-214AC (SMA)	single		1	VS-10MQ100NTRPBF	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-10tq035-m3.pdf	TO-220AC	single		3	VS-10TQ035-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-10tq035s-m3.pdf	TO-263AB (D2PAK)	single		3	VS-10TQ035S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-10wq045f.pdf	TO-252AA (DPAK)	single		2	VS-10WQ045FN-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-12cdu06-m3.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	VS-12CDU06-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-12cdu06hm3.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	VS-12CDU06HM3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-12ctq035_040_045-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-12CTQ045-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-12ctqs-m3.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VS-12CTQ045STRL-M3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-12cwq03f.pdf	TO-252AA (DPAK)	array	1 Pair Common Cathode	3	VS-12CWQ03FN-M3	DPAK	DPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-12cwq04f.pdf	TO-252AA (DPAK)	array	1 Pair Common Cathode	3	VS-12CWQ04FN-M3	DPAK	DPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-12cwq06f.pdf	TO-252AA (DPAK)	array	1 Pair Common Cathode	3	VS-12CWQ06FN-M3	DPAK	DPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-12ewh06fn-m3.pdf	TO-252AA (DPAK)	single		1	VS-12EWH06FN-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-12tq035-m3.pdf	TO-220AC	single		2	VS-12TQ040-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-12tq035s.pdf	TO-263AB (D2PAK)	single		3	VS-12TQ035S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-15crh02-m3.pdf	DFN6546A	array	1 Pair Common Cathode	1	VS-15CRH02-M3/I	DFN6546A	DFN6546A-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-15crh02hm3.pdf	DFN6546A	array	1 Pair Common Cathode	1	VS-15CRH02HM3/I	DFN6546A	DFN6546A-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-15ctqs-m3series.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VS-15CTQ045S-M3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-15erh02-m3.pdf	DFN6546A	single		1	VS-15ERH02-M3/I	DFN6546A	DFN6546A-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-15erh02hm3.pdf	DFN6546A	single		1	VS-15ERH02HM3/I	DFN6546A	DFN6546A-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-15eth03-m3.pdf	TO-220AC	single		1	VS-15ETH03-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-15eth03s-m3.pdf	TO-262AA	single		1	VS-15ETH03-1-M3	TO-262	TO-262-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-15eth03s-m3.pdf	TO-263AB (D2PAK)	single		1	VS-15ETH03STRL-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-15eth03shm3.pdf	TO-263AB (D2PAK)	single		1	VS-15ETH03SHM3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-15eth06.pdf	TO-220AC	single		1	VS-15ETH06-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-15eth06hn3.pdf	TO-220AC	single		1	VS-15ETH06HN3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-15eth06s-m3-1-m3.pdf	TO-263AB (D2PAK)	single		3	VS-15ETH06S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-15etl06.pdf	TO-220AC	single		1	VS-15ETL06-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-15etl06hn3.pdf	TO-220AC	single		1	VS-15ETL06HN3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-15etl06s-m3-1-m3.pdf	TO-263AB (D2PAK)	single		2	VS-15ETL06S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-15etu12-m3.pdf	TO-220AC	single		1	VS-15ETU12-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-15etx06.pdf	TO-220AC	single		1	VS-15ETX06-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-15etx06fp.pdf	TO-220-2 Full Pack	single		1	VS-15ETX06FP-N3	TO-220 Full Pack	TO-220FP-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-15etx06s-m3-1-m3.pdf	TO-263AB (D2PAK)	single		1	VS-15ETX06S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-15evh06hm3.pdf	SlimDPAK	single		1	VS-15EVH06HM3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-15evl06-m3.pdf	SlimDPAK	single		1	VS-15EVL06-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-15evl06hm3.pdf	SlimDPAK	single		1	VS-15EVL06HM3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-15evu06hm3.pdf	SlimDPAK	single		1	VS-15EVU06HM3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-15ewh06fn-m3.pdf	TO-252AA (DPAK)	single		3	VS-15EWH06FN-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-15ewl06fn-m3.pdf	TO-252AA (DPAK)	single		4	VS-15AWL06FN-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-15ewx06fn-m3.pdf	TO-252AA (DPAK)	single		2	VS-15EWX06FN-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-15mq040hm3.pdf	DO-214AC (SMA)	single		1	VS-15MQ040HM3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-15mq040m.pdf	DO-214AC (SMA)	single		1	VS-15MQ040-M3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-15mq040ntrpbf.pdf	DO-214AC (SMA)	single		1	VS-15MQ040NTRPBF	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-15tq060-m3.pdf	TO-220AC	single		1	VS-15TQ060-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-15tq060s-m3.pdf	TO-263AB (D2PAK)	single		3	VS-15TQ060S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-16cdu06-m3.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	VS-16CDU06-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-16cdu06hm3.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	VS-16CDU06HM3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-16ctq060_080_100-m3.pdf	TO-220-3	array	1 Pair Common Cathode	2	VS-16CTQ080-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-16ctqs-m3series.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	5	VS-16CTQ060STRL-M3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-16ctu04s-m3.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	2	VS-16CTU04S-M3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-16edh02-m3.pdf	TO-263AC (SMPD)	single		1	VS-16EDH02-M3/I	SMPD	SMPD-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-16edh02hm3.pdf	TO-263AC (SMPD)	single		1	VS-16EDH02HM3/I	SMPD	SMPD-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-16edh06-m3.pdf	TO-263AC (SMPD)	single		1	VS-16EDH06-M3/I	SMPD	SMPD-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-16edu06-m3.pdf	TO-263AC (SMPD)	single		1	VS-16EDU06-M3/I	SMPD	SMPD-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-16edu06hm3.pdf	TO-263AC (SMPD)	single		1	VS-16EDU06HM3/I	SMPD	SMPD-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-18tq035-m3.pdf	TO-220AC	single		1	VS-18TQ045-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-19tq015-m3.pdf	TO-220AC	single		1	VS-19TQ015-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-19tq015s-m3.pdf	TO-263AB (D2PAK)	single		2	VS-19TQ015S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-1eah02-m3.pdf	DFN3820A	single		2	VS-1EAH02-M3/H	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-1eah02hm3.pdf	DFN3820A	single		2	VS-1EAH02HM3/H	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-1efh01-m3.pdf	DO-219AB (SMF)	single		1	VS-1EFH01-M3/I	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-1efh01hm3.pdf	DO-219AB (SMF)	single		1	VS-1EFH01HM3/I	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-1efh02-m3.pdf	DO-219AB (SMF)	single		1	VS-1EFH02-M3/I	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-1efh02hm3.pdf	DO-219AB (SMF)	single		1	VS-1EFH02HM3/I	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-1efu06-m3.pdf	DO-219AB (SMF)	single		1	VS-1EFU06-M3/I	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-1efu06hm3.pdf	DO-219AB (SMF)	single		1	VS-1EFU06HM3/I	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-1emh01-m3.pdf	DO-214AC (SMA)	single		1	VS-1EMH01-M3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-1emh01hm3.pdf	DO-214AC (SMA)	single		1	VS-1EMH01HM3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-1emh02-m3.pdf	DO-214AC (SMA)	single		1	VS-1EMH02-M3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-1emh02hm3.pdf	DO-214AC (SMA)	single		1	VS-1EMH02HM3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-1enh01-m3_vs-1enh02-m3.pdf	DO-220AA (SMP)	single		2	VS-1ENH01-M3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-1enh02hm3.pdf	DO-220AA (SMP)	single		2	VS-1ENH01HM3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-1eqh01-m3.pdf	DO-219AD (MicroSMP)	single		2	VS-1EQH01-M3/H	MicroSMP	DIODE-MICROSMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-1eqh02hm3.pdf	DO-219AD (MicroSMP)	single		1	VS-1EQH01HM3/H	MicroSMP	DIODE-MICROSMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-1eqh02hm3.pdf	DO-220AA (SMP)	single		1	VS-1EQH02HM3/H	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-20bq030hm3.pdf	DO-214AA (SMB)	single		1	VS-20BQ030HM3/5BT	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-20bq030m.pdf	DO-214AA (SMB)	single		1	VS-20BQ030-M3/5BT	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-20cdh02-m3.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	VS-20CDH02-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-20cdh02hm3.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	VS-20CDH02HM3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-20cth03.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-20CTH03-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-20cth03s-m3.pdf	TO-262AA	array	1 Pair Common Cathode	1	VS-20CTH03-1-M3	TO-262	TO-262-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-20cth03s-m3.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VS-20CTH03S-M3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-20cth03s-m3.pdf	TO-263AB (D2PAK)	single		1	VS-20CTH03STRL-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-20ctq035_040_045-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-20CTQ045-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-20ctq150-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-20CTQ150-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-20ctq150s-m3.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	2	VS-20CTQ150S-M3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-20etf02_04_06fp-m3.pdf	TO-220-2 Full Pack	single		1	VS-20ETF06FP-M3	TO-220 Full Pack	TO-220FP-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-20etf02s-m3.pdf	TO-263AB (D2PAK)	single		4	VS-20ETF04STRL-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-20etf06slhm3.pdf	TO-263AB (D2PAK)	single		1	VS-20ETF06SLHM3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-20etf06thm3.pdf	TO-220AC	single		1	VS-20ETF06THM3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-20etf08s-m3.pdf	TO-263AB (D2PAK)	single		1	VS-20ETF12S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-20etf12slhm3.pdf	TO-263AB (D2PAK)	single		1	VS-20ETF12SLHM3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-20etf12thm3.pdf	TO-220AC	single		1	VS-20ETF12THM3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-20etfm3.pdf	TO-220AC	single		3	VS-20ETF08-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-20etfm3series.pdf	TO-220AC	single		1	VS-20ETF06-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-20ets08_12fp-m3.pdf	TO-220-2 Full Pack	single		2	VS-20ETS08FP-M3	TO-220 Full Pack	TO-220FP-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-20ets08s.pdf	TO-263AB (D2PAK)	single		4	VS-20ETS08S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-20ets12thm3_vs-20ats12hm3.pdf	TO-220-3	single		1	VS-20ATS12HM3	TO-220	TO-220-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-20ets12thm3_vs-20ats12hm3.pdf	TO-220AC	single		1	VS-20ETS12THM3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-20ets16-m3.pdf	TO-220-3	single		1	VS-20ETS16-M3	TO-220	TO-220-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-20ets16thm3.pdf	TO-220AC	single		1	VS-20ETS16THM3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-20etsm3_vs-20atsm3.pdf	TO-220AC	single		2	VS-20ETS08-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-20l15t-m3.pdf	TO-220AC	single		1	VS-20L15T-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-20l15ts-m3.pdf	TO-263AB (D2PAK)	single		2	VS-20L15TS-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-20mq060trpbf.pdf	DO-214AC (SMA)	single		1	VS-20MQ060NTRPBF	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-20mq100m.pdf	DO-214AC (SMA)	single		1	VS-20MQ100-M3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-20mq100ntrpbf.pdf	DO-214AC (SMA)	single		1	VS-20MQ100NTRPBF	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-20tq035-m3.pdf	TO-220AC	single		2	VS-20TQ035-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-20tq035s-m3.pdf	TO-263AB (D2PAK)	single		1	VS-20TQ045S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-25ctq035_040_045-m3.pdf	TO-220-3	array	1 Pair Common Cathode	2	VS-25CTQ040-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-25ets12s.pdf	TO-263AB (D2PAK)	single		1	VS-25ETS08S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-25ets12s2lhm3.pdf	TO-263AB (D2PAK)	single		1	VS-25ETS12S2LHM3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-25ets12slhm3.pdf	TO-263AB (D2PAK)	single		1	VS-25ETS12SLHM3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-2eah02-m3.pdf	DFN3820A	single		2	VS-2EAH02-M3/H	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-2eah02hm3.pdf	DFN3820A	single		2	VS-2EAH02HM3/H	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-2efh01-m3.pdf	DO-219AB (SMF)	single		1	VS-2EFH01-M3/I	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-2efh01hm3.pdf	DO-219AB (SMF)	single		1	VS-2EFH01HM3/I	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-2efh02-m3.pdf	DO-219AB (SMF)	single		1	VS-2EFH02-M3/I	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-2efh02hm3.pdf	DO-219AB (SMF)	single		1	VS-2EFH02HM3/I	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-2efu06-m3.pdf	DO-219AB (SMF)	single		1	VS-2EFU06-M3/I	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-2efu06hm3.pdf	DO-219AB (SMF)	single		1	VS-2EFU06HM3/I	SMF	DIODE-SMF-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-2egh02hm3.pdf	DO-214AA (SMB)	single		1	VS-2EGH02HM3_A/I	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-2ejh01hm3.pdf	DO-221AC (SlimSMA)	single		1	VS-2EJH01HM3/6B	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-2ejh02-m3.pdf	DO-221AC (SlimSMA)	single		1	VS-2EJH02-M3/6B	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-2ejh02hm3.pdf	DO-221AC (SlimSMA)	single		2	VS-2EJH02HM3/6A	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-2emh01-m3.pdf	DO-214AC (SMA)	single		1	VS-2EMH01-M3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-2emh01hm3.pdf	DO-214AC (SMA)	single		1	VS-2EMH01HM3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-2emh02hm3.pdf	DO-214AC (SMA)	single		1	VS-2EMH02HM3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-2enh01-m3_vs-2enh02-m3.pdf	DO-220AA (SMP)	single		3	VS-2ENH01-M3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-2enh02hm3.pdf	DO-220AA (SMP)	single		2	VS-2ENH01HM3/84A	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-2eqh01-m3.pdf	DO-220AA (SMP)	single		2	VS-2EQH01-M3/H	SMP	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-2eqh02hm3.pdf	DO-219AD (MicroSMP)	single		2	VS-2EQH01HM3/H	MicroSMP	DIODE-MICROSMP-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-2eyh01-m3.pdf	SlimSMAW (DO-221AD)	single		3	VS-2EYH01-M3/H	SlimSMAW	DIODE-SLIMSMAW-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-2eyh02hm3.pdf	SlimSMAW (DO-221AD)	single		3	VS-2EYH01HM3/I	SlimSMAW	DIODE-SLIMSMAW-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-30bq015hm3.pdf	DO-214AB (SMC)	single		1	VS-30BQ015HM3/9AT	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-30bq015m.pdf	DO-214AB (SMC)	single		1	VS-30BQ015-M3/9AT	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-30bq040hm3.pdf	DO-214AB (SMC)	single		1	VS-30BQ040HM3/9AT	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-30bq040m.pdf	DO-214AB (SMC)	single		1	VS-30BQ040-M3/9AT	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-30bq060hm3.pdf	DO-214AB (SMC)	single		1	VS-30BQ060HM3/9AT	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-30bq060m.pdf	DO-214AB (SMC)	single		1	VS-30BQ060-M3/9AT	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-30bq100m.pdf	DO-214AB (SMC)	single		1	VS-30BQ100-M3/9AT	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-30cdu06-m3.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	VS-30CDU06-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-30cdu06hm3.pdf	TO-263AC (SMPD)	array	1 Pair Common Cathode	1	VS-30CDU06HM3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-30cph03p.pdf	TO-247AC	array	1 Pair Common Cathode	1	VS-30CPH03-N3	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-30cpq050-n3.pdf	TO-247AC	array	1 Pair Common Cathode	1	VS-30CPQ060-N3	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-30cpu04p.pdf	TO-247AC	array	1 Pair Common Cathode	1	VS-30CPU04-N3	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-30cth02s-m3.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	2	VS-30CTH02S-M3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-30cth03-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-30CTH03-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-30ctq035_040_045-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-30CTQ045-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-30ctq050_060-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-30CTQ060-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-30ctq080_100-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-30CTQ100-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-30ctqs-m3-series.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	2	VS-30CTQ100S-M3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-30ctqs-m3series-1a1c5e.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	2	VS-30CTQ060S-M3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-30ctqs-m3series-fd2b31.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VS-30CTQ045STRL-M3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-30eph06l-n3.pdf	TO-247AD	single		1	VS-30EPH06L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-30eph06p.pdf	TO-247AC-2L	single		1	VS-30EPH06-N3	TO-247	TO-247-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-30eth06-m3.pdf	TO-220AC	single		1	VS-30ETH06-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-30eth06s-m3.pdf	TO-263AB (D2PAK)	single		3	VS-30ETH06S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-30etu12-m3.pdf	TO-220AC	single		1	VS-30ETU12-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-30mq040hm3.pdf	DO-214AC (SMA)	single		1	VS-30MQ040HM3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-30mq040m.pdf	DO-214AC (SMA)	single		1	VS-30MQ040-M3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-30pf0-m3series.pdf	TO-247AC-2L	single		1	VS-30EPF12-M3	TO-247	TO-247-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-30pf0_m3series.pdf	TO-247AC-2L	single		1	VS-30EPF06-M3	TO-247	TO-247-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-30wq04fn.pdf	TO-252AA (DPAK)	single		3	VS-30WQ04FN-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-30wq06fn.pdf	TO-252AA (DPAK)	single		2	VS-30WQ06FN-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-30wq10fn.pdf	TO-252AA (DPAK)	single		2	VS-30WQ10FN-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-32ctq025_030-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-32CTQ030-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-32ctqs-m3series.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	2	VS-32CTQ030S-M3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-35epf06l-m3_vs-35apf06l-m3.pdf	TO-247AD	single		1	VS-35EPF06L-M3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-35epf06lhm3_vs-35apf06lhm3.pdf	TO-247AD (TO-3P)	single		1	VS-35APF06LHM3	TO-3P	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-35epf12l-m3.pdf	TO-247AD	single		1	VS-35EPF12L-M3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-35epf12lhm3.pdf	TO-247AD	single		1	VS-35EPF12LHM3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-3eah02-m3.pdf	DFN3820A	single		1	VS-3EAH02-M3/H	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-3eah02hm3.pdf	DFN3820A	single		2	VS-3EAH02HM3/H	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-3egh06-m3.pdf	DO-214AA (SMB)	single		1	VS-3EGH06-M3/5BT	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-3egu06-m3.pdf	DO-214AA (SMB)	single		1	VS-3EGU06-M3/5BT	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-3egu06whm3.pdf	DO-214AA (SMB)	single		1	VS-3EGU06WHM3/5BT	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-3ejh01-m3.pdf	DO-221AC (SlimSMA)	single		1	VS-3EJH01-M3/6B	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-3ejh01hm3.pdf	DO-221AC (SlimSMA)	single		2	VS-3EJH01HM3/6A	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-3ejh02-m3.pdf	DO-221AC (SlimSMA)	single		2	VS-3EJH02-M3/6A	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-3ejh02hm3.pdf	DO-221AC (SlimSMA)	single		2	VS-3EJH02HM3/6A	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-3eju06-m3.pdf	DO-221AC (SlimSMA)	single		1	VS-3EJU06-M3/6A	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-3eju06hm3.pdf	DO-221AC (SlimSMA)	single		2	VS-3EJU06HM3/6A	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-3emh06-m3.pdf	DO-214AC (SMA)	single		1	VS-3EMH06-M3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-3emu06-m3.pdf	DO-214AC (SMA)	single		1	VS-3EMU06-M3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-3eyh02-m3.pdf	SlimSMAW (DO-221AD)	single		4	VS-3EYH01-M3/H	SlimSMAW	DIODE-SLIMSMAW-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-3eyh02hm3.pdf	SlimSMAW (DO-221AD)	single		4	VS-3EYH01HM3/H	SlimSMAW	DIODE-SLIMSMAW-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-40ctq045-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-40CTQ045-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-40ctq045s-m3.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	2	VS-40CTQ045S-M3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-40ctq150-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-40CTQ150-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-40ctq150s-m3.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	3	VS-40CTQ150S-M3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-40epf-m3series.pdf	TO-247AC-2L	single		1	VS-40EPF12-M3	TO-247	TO-247-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-40epf0-m3series.pdf	TO-247AC-2L	single		2	VS-40EPF02-M3	TO-247	TO-247-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-40eps-m3series.pdf	TO-247AC-2L	single		2	VS-40EPS08-M3	TO-247	TO-247-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-40eps16-m3.pdf	TO-247AC-2L	single		1	VS-40EPS16-M3	TO-247	TO-247-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-40l15ct-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-40L15CT-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-40l15cts-m3.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VS-40L15CTS-M3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-40l15cw-n3.pdf	TO-247AC	array	1 Pair Common Cathode	1	VS-40L15CW-N3	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-42ctq030-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-42CTQ030-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-42ctq030s-m3.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	2	VS-42CTQ030S-M3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-43ctq100-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-43CTQ100-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-43ctqs-m3.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	3	VS-43CTQ100S-M3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-43ctqxxxshm3.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	2	VS-43CTQ100SHM3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-45eps12lhm3.pdf	TO-247AD (TO-3P)	single		1	VS-45APS12LHM3	TO-3P	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-45eps16l-m3.pdf	TO-247AD	single		1	VS-45EPS16L-M3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-45eps16lhm3.pdf	TO-247AD	single		1	VS-45EPS16LHM3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-45eps16lhm3.pdf	TO-247AD (TO-3P)	single		1	VS-45APS16LHM3	TO-3P	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-45epsl-m3.pdf	TO-247AD	single		1	VS-45EPS12L-M3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-47ctq020-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-47CTQ020-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-47ctq020s-m3.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VS-47CTQ020S-M3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-48ctq060-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-48CTQ060-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-48ctq060s-m3.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	2	VS-48CTQ060S-M3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-4csh01-m3.pdf	TO-277A (SMPC)	array	1 Pair Common Cathode	1	VS-4CSH01-M3/86A	SMPC	SMPC-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-4csh02-m3.pdf	TO-277A (SMPC)	array	1 Pair Common Cathode	1	VS-4CSH02-M3/86A	SMPC	SMPC-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-4ech06-m3.pdf	DO-214AB (SMC)	single		1	VS-4ECH06-M3/9AT	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-4ecu06-m3.pdf	DO-214AB (SMC)	single		1	VS-4ECU06-M3/9AT	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-4egh06-m3.pdf	DO-214AA (SMB)	single		1	VS-4EGH06-M3/5BT	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-4egu06-m3.pdf	DO-214AA (SMB)	single		1	VS-4EGU06-M3/5BT	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-4esh01-m3.pdf	TO-277A (SMPC)	single		2	VS-4ESH01-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-4esh01hm3.pdf	TO-277A (SMPC)	single		1	VS-4ESH01HM3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-4esh02hm3.pdf	TO-277A (SMPC)	single		1	VS-4ESH02HM3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-4evh02-m3.pdf	SlimDPAK	single		1	VS-4EVH02-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-4evh02hm3.pdf	SlimDPAK	single		1	VS-4EVH02HM3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-4ewh02fn.pdf	TO-252AA (DPAK)	single		2	VS-4EWH02FN-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-50wq04fn.pdf	TO-252AA (DPAK)	single		2	VS-50WQ04FN-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-50wq10fn.pdf	TO-252AA (DPAK)	single		4	VS-50WQ10FN-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-5eah02-m3.pdf	DFN3820A	single		2	VS-5EAH02-M3/H	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-5eah02hm3.pdf	DFN3820A	single		2	VS-5EAH02HM3/H	DFN3820A	DIODE-DFN3820A-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-5ech06-m3.pdf	DO-214AB (SMC)	single		1	VS-5ECH06-M3/9AT	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-5ecu06-m3.pdf	DO-214AB (SMC)	single		1	VS-5ECU06-M3/9AT	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-5ewh06fn-m3.pdf	TO-252AA (DPAK)	single		2	VS-5EWH06FN-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-5ewl06fn-m3.pdf	TO-252AA (DPAK)	single		2	VS-5EWL06FN-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-60aph03-n3.pdf	TO-247AC	single		1	VS-60APH03-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-60aph03l-n3.pdf	TO-247AD	single		1	VS-60APH03L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-60cpu02-n3.pdf	TO-247AC	array	1 Pair Common Cathode	1	VS-60CPU02-N3	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-60cpu06f.pdf	TO-247AC	array	1 Pair Common Cathode	1	VS-60CPU06-N3	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-60ctq035_040_045-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-60CTQ045-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-60ctq150-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-60CTQ150-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-60eps-m3series.pdf	TO-247AC-2L	single		2	VS-60EPS08-M3	TO-247	TO-247-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-60eps16-m3.pdf	TO-247AC-2L	single		1	VS-60EPS16-M3	TO-247	TO-247-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-60epu02-n3.pdf	TO-247AC	single		1	VS-60APU02-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-60epu02-n3.pdf	TO-247AC-2L	single		1	VS-60EPU02-N3	TO-247	TO-247-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-60epu04-n3.pdf	TO-247AC	single		1	VS-60APU04-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-60epu04-n3.pdf	TO-247AC-2L	single		1	VS-60EPU04-N3	TO-247	TO-247-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-60epu04lhn3_vs-60apu04lhn3.pdf	TO-247AD	single		2	VS-60APU04LHN3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-60epu06-n3.pdf	TO-247AC-2L	single		1	VS-60EPU06-N3	TO-247	TO-247-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-60epu06l-n3.pdf	TO-247AD	single		1	VS-60EPU06L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-60pf0-m3series.pdf	TO-247AC-2L	single		2	VS-60EPF04-M3	TO-247	TO-247-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-60pf1-m3series.pdf	TO-247AC	single		1	VS-60APF12-M3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-60pf1-m3series.pdf	TO-247AC-2L	single		1	VS-60EPF12-M3	TO-247	TO-247-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-62ctq030-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-62CTQ030-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-63ctq100-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-63CTQ100-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-65epf06lhm3.pdf	TO-247AD (TO-3P)	single		1	VS-65APF06LHM3	TO-3P	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-65eps12lhm3.pdf	TO-247AD	single		1	VS-65EPS12LHM3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-65eps16l-m3.pdf	TO-247AD	single		2	VS-65APS16L-M3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-65epsl-m3.pdf	TO-247AD	single		1	VS-65EPS12L-M3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-6crh02-m3.pdf	DFN6546A	array	1 Pair Common Cathode	1	VS-6CRH02-M3/I	DFN6546A	DFN6546A-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-6crh02hm3.pdf	DFN6546A	array	1 Pair Common Cathode	1	VS-6CRH02HM3/I	DFN6546A	DFN6546A-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-6csh01-m3.pdf	TO-277A (SMPC)	array	1 Pair Common Cathode	1	VS-6CSH01-M3/86A	SMPC	SMPC-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-6csh02hm3.pdf	TO-277A (SMPC)	array	1 Pair Common Cathode	1	VS-6CSH02HM3/86A	SMPC	SMPC-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-6cwq04fn.pdf	TO-252AA (DPAK)	array	1 Pair Common Cathode	2	VS-6CWQ04FN-M3	DPAK	DPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-6cwq06fn.pdf	TO-252AA (DPAK)	array	1 Pair Common Cathode	3	VS-6CWQ06FN-M3	DPAK	DPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-6cwq10fn.pdf	TO-252AA (DPAK)	array	1 Pair Common Cathode	1	VS-6CWQ10FNHM3	DPAK	DPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-6erh02-m3.pdf	DFN6546A	single		1	VS-6ERH02-M3/I	DFN6546A	DFN6546A-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-6erh02hm3.pdf	DFN6546A	single		1	VS-6ERH02HM3/I	DFN6546A	DFN6546A-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-6esh01hm3.pdf	TO-277A (SMPC)	single		2	VS-6ESH01HM3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-6esh02-m3.pdf	TO-277A (SMPC)	single		1	VS-6ESH02-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-6esh02hm3.pdf	TO-277A (SMPC)	single		1	VS-6ESH02HM3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-6esh06-m3.pdf	TO-277A (SMPC)	single		1	VS-6ESH06-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-6esh06hm3.pdf	TO-277A (SMPC)	single		1	VS-6ESH06HM3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-6esu06-m3.pdf	TO-277A (SMPC)	single		2	VS-6ESU06-M3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-6esu06hm3.pdf	TO-277A (SMPC)	single		2	VS-6ESU06HM3/86A	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-6evh06-m3.pdf	SlimDPAK	single		1	VS-6EVH06-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-6evl06-m3.pdf	SlimDPAK	single		1	VS-6EVL06-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-6evl06hm3.pdf	SlimDPAK	single		1	VS-6EVL06HM3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-6evx06hm3.pdf	SlimDPAK	single		1	VS-6EVX06HM3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-6ewh06fn-m3.pdf	TO-252AA (DPAK)	single		2	VS-6EWH06FN-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-6ewl06fn-m3.pdf	TO-252AA (DPAK)	single		3	VS-6EWL06FN-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-6ewx06fn-m3.pdf	TO-252AA (DPAK)	single		1	VS-6EWX06FN-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-6tq035-m3.pdf	TO-220AC	single		1	VS-6TQ045-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-6tqs-m3.pdf	TO-263AB (D2PAK)	single		3	VS-6TQ035S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-75epu12l-n3.pdf	TO-247AD	single		1	VS-75EPU12L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-80apf0-m3series.pdf	TO-247AC	single		1	VS-80APF06-M3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-80apf1-m3series.pdf	TO-247AC	single		2	VS-80APF10-M3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-80aps-m3series.pdf	TO-247AC	single		2	VS-80APS08-M3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-80cph03-n3.pdf	TO-247AC	array	1 Pair Common Cathode	1	VS-80CPH03-N3	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-80cpq020-n3.pdf	TO-247AC	array	1 Pair Common Cathode	1	VS-80CPQ020-N3	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-80cpu02-n3.pdf	TO-247AC	array	1 Pair Common Cathode	1	VS-80CPU02-N3	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-8crh02-m3.pdf	DFN6546A	array	1 Pair Common Cathode	1	VS-8CRH02-M3/I	DFN6546A	DFN6546A-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-8crh02hm3.pdf	DFN6546A	array	1 Pair Common Cathode	1	VS-8CRH02HM3/I	DFN6546A	DFN6546A-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-8csh01-m3.pdf	TO-277A (SMPC)	array	1 Pair Common Cathode	1	VS-8CSH01-M3/86A	SMPC	SMPC-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-8csh01hm3.pdf	TO-277A (SMPC)	array	1 Pair Common Cathode	1	VS-8CSH01HM3/86A	SMPC	SMPC-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-8csh02-m3.pdf	TO-277A (SMPC)	array	1 Pair Common Cathode	1	VS-8CSH02-M3/86A	SMPC	SMPC-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-8cwh02fn.pdf	TO-252AA (DPAK)	array	1 Pair Common Cathode	2	VS-8CWH02FN-M3	DPAK	DPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-8erh02-m3.pdf	DFN6546A	single		1	VS-8ERH02-M3/I	DFN6546A	DFN6546A-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-8erh02hm3.pdf	DFN6546A	single		1	VS-8ERH02HM3/I	DFN6546A	DFN6546A-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-8eth03s-m3.pdf	TO-263AB (D2PAK)	single		2	VS-8ETH03S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-8eth06.pdf	TO-220AC	single		1	VS-8ETH06-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-8eth06fp.pdf	TO-220-2 Full Pack	single		1	VS-8ETH06FP-N3	TO-220 Full Pack	TO-220FP-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-8eth06s-m3.pdf	TO-263AB (D2PAK)	single		1	VS-8ETH06S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-8etl06s-m3.pdf	TO-263AB (D2PAK)	single		1	VS-8ETL06S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-8etl06shm3.pdf	TO-263AB (D2PAK)	single		1	VS-8ETL06STRRHM3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-8etu04-m3.pdf	TO-220AC	single		1	VS-8ETU04-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-8etu04hn3.pdf	TO-220AC	single		1	VS-8ETU04HN3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-8etu04s-m3.pdf	TO-263AB (D2PAK)	single		2	VS-8ETU04S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-8etu12-m3.pdf	TO-220AC	single		1	VS-8ETU12-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-8etx06.pdf	TO-220AC	single		1	VS-8ETX06-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-8etx06fp.pdf	TO-220-2 Full Pack	single		1	VS-8ETX06FP-N3	TO-220 Full Pack	TO-220FP-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-8evl06-m3.pdf	SlimDPAK	single		1	VS-8EVL06-M3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-8evx06hm3.pdf	SlimDPAK	single		1	VS-8EVX06HM3/I	SlimDPAK	SLIMDPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-8ewf02sm.pdf	TO-252AA (DPAK)	single		4	VS-8EWF02S-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-8ewf06slhm3.pdf	TO-252AA (DPAK)	single		1	VS-8EWF06SLHM3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-8ewf12slhm3.pdf	TO-252AA (DPAK)	single		1	VS-8EWF12SLHM3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-8ewf12sm.pdf	TO-252AA (DPAK)	single		3	VS-8EWF10S-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-8ewh02fn.pdf	TO-252AA (DPAK)	single		2	VS-8EWH02FN-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-8ewh06fn-m3.pdf	TO-252AA (DPAK)	single		3	VS-8EWH06FN-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-8ewl06fn-m3.pdf	TO-252AA (DPAK)	single		3	VS-8EWL06FN-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-8ews08sm.pdf	TO-252AA (DPAK)	single		6	VS-8EWS08S-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-8ews12shm3.pdf	TO-252AA (DPAK)	single		1	VS-8EWS12SLHM3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-8ews16slhm3.pdf	TO-252AA (DPAK)	single		1	VS-8EWS16SLHM3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-8ews16sm.pdf	TO-252AA (DPAK)	single		2	VS-8EWS16S-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-8ewx06fn-m3.pdf	TO-252AA (DPAK)	single		2	VS-8EWX06FN-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-8tq060-m3.pdf	TO-220AC	single		3	VS-8TQ060-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-8tqs-m3.pdf	TO-263AB (D2PAK)	single		4	VS-8TQ080S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-90eps16l-m3.pdf	TO-247AD	single		2	VS-90APS16L-M3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-90epsl-m3.pdf	TO-247AD	single		3	VS-90APS12L-M3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-a5ph6006l-n3.pdf	TO-247AD	single		1	VS-A5PH6006L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-a5px3006l-n3.pdf	TO-247AD	single		1	VS-A5PX3006L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-aph3006n3.pdf	TO-247AC	single		1	VS-APH3006-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-aph3006n3.pdf	TO-247AC-2L	single		1	VS-EPH3006-N3	TO-247	TO-247-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-azh3106fp-m3.pdf	TO-3PF	single		1	VS-AZH3106FP-M3	TO-3PF	TO-3PF-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-c4ph3006l-n3.pdf	TO-247AD	single		1	VS-C4PH3006L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-c4pu3006l-n3.pdf	TO-247AD	single		1	VS-C4PU3006L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-c4pu6006l-n3.pdf	TO-247AD	single		1	VS-C4PU6006L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-c4zu3006fp-m3.pdf	TO-3PF	array	1 Pair Common Cathode	1	VS-C4ZU3006FP-M3	TO-3PF	TO-3PF-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-c4zu6006fp-m3.pdf	TO-3PF	array	1 Pair Common Cathode	1	VS-C4ZU6006FP-M3	TO-3PF	TO-3PF-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-c5ph3012l-n3.pdf	TO-247AD	array		1	VS-C5PH3012L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-c5ph6006lhn3.pdf	TO-247AD	array	1 Pair Common Cathode	1	VS-C5PH6006LHN3	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-c5ph6012l-n3.pdf	TO-247AD	array		1	VS-C5PH6012L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-c5pw6006lhn3.pdf	TO-247AD	array	1 Pair Common Cathode	1	VS-C5PW6006LHN3	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-c5px3012l-n3.pdf	TO-247AD	array		1	VS-C5PX3012L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-c5px6006lhn3.pdf	TO-247AD	array	1 Pair Common Cathode	1	VS-C5PX6006LHN3	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-cpu6006-n3.pdf	TO-247AC	array	1 Pair Common Cathode	1	VS-CPU6006-N3	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-cpu6006l-n3.pdf	TO-247AD	single		1	VS-CPU6006L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-czh6106fp-m3.pdf	TO-3PF	array	1 Pair Common Cathode	1	VS-CZH6106FP-M3	TO-3PF	TO-3PF-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-e4ph6006l-n3.pdf	TO-247AC-2L	single		1	VS-E4PH6006L-N3	TO-247	TO-247-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-e4ph6006lhn3.pdf	TO-247AD	single		1	VS-E4PH6006LHN3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-e4pu3006l-n3.pdf	TO-247AD	single		1	VS-E4PU3006L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-e4pu6006l-n3.pdf	TO-247AD	single		1	VS-E4PU6006L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-e4tu2006fp-n3.pdf	TO-220-2 Full Pack	single		1	VS-E4TU2006FP-N3	TO-220 Full Pack	TO-220FP-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-e5ph3006l-n3.pdf	TO-247AD	single		1	VS-E5PH3006L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-e5ph3006lhn3.pdf	TO-247AD	single		1	VS-E5PH3006LHN3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-e5ph3012l-n3.pdf	TO-247AD	single		1	VS-E5PH3012L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-e5ph6006l-n3.pdf	TO-247AD	single		1	VS-E5PH6006L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-e5ph6012l-n3.pdf	TO-247AD	single		1	VS-E5PH6012L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-e5ph6012lhn3.pdf	TO-247AD	single		1	VS-E5PH6012LHN3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-e5ph7506l-n3.pdf	TO-247AD	single		1	VS-E5PH7506L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-e5ph7512l-n3.pdf	TO-247AD	single		1	VS-E5PH7512L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-e5pw3006lhn3.pdf	TO-247AD	single		1	VS-E5PW3006LHN3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-e5pw6006lhn3.pdf	TO-247AD	single		1	VS-E5PW6006LHN3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-e5px3006lhn3.pdf	TO-247AD	single		1	VS-E5PX3006LHN3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-e5px3012l-n3.pdf	TO-247AD	single		1	VS-E5PX3012L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-e5px6012l-n3.pdf	TO-247AD	single		1	VS-E5PX6012L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-e5px6012lhn3.pdf	TO-247AD	single		1	VS-E5PX6012LHN3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-e5px7506l-n3.pdf	TO-247AD	single		1	VS-E5PX7506L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-e5px7512l-n3.pdf	TO-247AD	single		1	VS-E5PX7512L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-e5th0812-m3.pdf	TO-220AC	single		1	VS-E5TH0812-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-e5th1506-m3.pdf	TO-220AC	single		1	VS-E5TH1506-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-e5th1506s2l-m3.pdf	TO-263AB (D2PAK)	single		1	VS-E5TH1506S2L-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-e5th1506thn3.pdf	TO-220AC	single		1	VS-E5TH1506THN3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-e5th1512-m3.pdf	TO-220AC	single		1	VS-E5TH1512-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-e5th1512s2l-m3.pdf	TO-263AB (D2PAK)	single		1	VS-E5TH1512S2L-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-e5th1512s2lhm3.pdf	TO-263AB (D2PAK)	single		1	VS-E5TH1512S2LHM3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-e5th2106s2l-m3.pdf	TO-263AB (D2PAK)	single		1	VS-E5TH2106S2L-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-e5th2106s2lhm3.pdf	TO-263AB (D2PAK)	single		1	VS-E5TH2106S2LHM3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-e5th2112s2lhm3.pdf	TO-263AB (D2PAK)	single		1	VS-E5TH2112S2LHM3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-e5th3006-m3.pdf	TO-220AC	single		1	VS-E5TH3006-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-e5th3006s2l-m3.pdf	TO-263AB (D2PAK)	single		1	VS-E5TH3006S2L-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-e5th3006s2lhm3.pdf	TO-263AB (D2PAK)	single		1	VS-E5TH3006S2LHM3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-e5th3006thn3.pdf	TO-220AC	single		1	VS-E5TH3006THN3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-e5th3012-m3.pdf	TO-220AC	single		1	VS-E5TH3012-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-e5th3012s2l-m3.pdf	TO-263AB (D2PAK)	single		1	VS-E5TH3012S2L-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-e5tw1206fp-n3.pdf	TO-220-2 Full Pack	single		1	VS-E5TW1206FP-N3	TO-220 Full Pack	TO-220FP-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-e5tw1506fp-n3.pdf	TO-220-2 Full Pack	single		1	VS-E5TW1506FP-N3	TO-220 Full Pack	TO-220FP-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-e5tx0812-m3.pdf	TO-220AC	single		1	VS-E5TX0812-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-e5tx1206fp-n3.pdf	TO-220-2 Full Pack	single		1	VS-E5TX1206FP-N3	TO-220 Full Pack	TO-220FP-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-e5tx1506fp-n3.pdf	TO-220-2 Full Pack	single		1	VS-E5TX1506FP-N3	TO-220 Full Pack	TO-220FP-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-e5tx1506s2l-n3.pdf	TO-263AB (D2PAK)	single		1	VS-E5TX1506S2L-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-e5tx1512-m3.pdf	TO-220AC	single		1	VS-E5TX1512-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-e5tx1512s2l-m3.pdf	TO-263AB (D2PAK)	single		1	VS-E5TX1512S2L-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-e5tx1512s2lhm3.pdf	TO-263AB (D2PAK)	single		1	VS-E5TX1512S2LHM3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-e5tx2106s2l-m3.pdf	TO-263AB (D2PAK)	single		1	VS-E5TX2106S2L-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-e5tx2106s2lhn3.pdf	TO-263AB (D2PAK)	single		1	VS-E5TX2106S2LHM3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-e5tx2112s2l-m3.pdf	TO-263AB (D2PAK)	single		1	VS-E5TX2112S2L-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-e5tx2112s2lhm3.pdf	TO-263AB (D2PAK)	single		1	VS-E5TX2112S2LHM3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-e5tx3006-m3.pdf	TO-220AC	single		1	VS-E5TX3006-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-e5tx3006s2l-m3.pdf	TO-263AB (D2PAK)	single		1	VS-E5TX3006S2L-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-e5tx3006s2lhm3.pdf	TO-263AB (D2PAK)	single		1	VS-E5TX3006S2LHM3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-e5tx3006thn3.pdf	TO-220AC	single		1	VS-E5TX3006THN3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-e5tx3012-m3.pdf	TO-220AC	single		1	VS-E5TX3012-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-e5tx3012s2l-m3.pdf	TO-263AB (D2PAK)	single		1	VS-E5TX3012S2L-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-e5tx3012s2lhm3.pdf	TO-263AB (D2PAK)	single		1	VS-E5TX3012S2LHM3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-e7jx0112-m3.pdf	DO-221AC (SlimSMA)	single		2	VS-E7JX0112-M3/H	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-e7jx0112hm3.pdf	DO-221AC (SlimSMA)	single		2	VS-E7JX0112HM3/H	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-e7jx0212-m3.pdf	DO-221AC (SlimSMA)	single		2	VS-E7JX0212-M3/H	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-e7jx0212hm3.pdf	DO-221AC (SlimSMA)	single		2	VS-E7JX0212HM3/H	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-e7mh0112-m3.pdf	DO-214AC (SMA)	single		1	VS-E7MH0112-M3/I	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-e7mh0112hm3.pdf	DO-214AC (SMA)	single		1	VS-E7MH0112HM3/I	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-e7sx0112-m3v.pdf	TO-277A (SMPC)	single		1	VS-E7SX0112-M3V/I	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-e7sx0112hm3v.pdf	TO-277A (SMPC)	single		1	VS-E7SX0112HM3V/I	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-e7sx0212-m3v.pdf	TO-277A (SMPC)	single		1	VS-E7SX0212-M3V/I	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-e7sx0212hm3v.pdf	TO-277A (SMPC)	single		1	VS-E7SX0212HM3V/I	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-e7sx0312-m3v.pdf	TO-277A (SMPC)	single		1	VS-E7SX0312-M3V/I	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-e7sx0312hm3v.pdf	TO-277A (SMPC)	single		1	VS-E7SX0312HM3V/I	SMPC	SMPC-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-eph3006l-n3.pdf	TO-247AD	single		1	VS-EPH3006L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-eph3006lhn3.pdf	TO-247AD	single		1	VS-EPH3006LHN3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-eph3007l-n3.pdf	TO-247AD	single		1	VS-EPH3007L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-eph6007l-n3.pdf	TO-247AD	single		1	VS-EPH6007L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-epu3006lhn3.pdf	TO-247AD	single		1	VS-EPU3006LHN3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-epu3006n3.pdf	TO-247AC	single		1	VS-APU3006-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-epu6006l-n3.pdf	TO-247AD	single		1	VS-EPU6006L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-epu6006n3.pdf	TO-247AC	single		1	VS-APU6006-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-epu6006n3.pdf	TO-247AC-2L	single		1	VS-EPU6006-N3	TO-247	TO-247-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-epu_apu6006lhn3.pdf	TO-247AD	single		1	VS-EPU6006LHN3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-epx3007l-n3.pdf	TO-247AD	single		1	VS-EPX3007L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-epx6007l-n3.pdf	TO-247AD	single		1	VS-EPX6007L-N3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-eth0806m3.pdf	TO-220AC	single		1	VS-ETH0806-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-eth1506fpm3.pdf	TO-220-2 Full Pack	single		1	VS-ETH1506FP-M3	TO-220 Full Pack	TO-220FP-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-eth1506s-m3.pdf	TO-263AB (D2PAK)	single		2	VS-ETH1506S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-eth3006-m3.pdf	TO-220AC	single		1	VS-ETH3006-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-eth3006fpm3.pdf	TO-220-2 Full Pack	single		1	VS-ETH3006FP-M3	TO-220 Full Pack	TO-220FP-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-eth3006s-m3.pdf	TO-263AB (D2PAK)	single		2	VS-ETH3006S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-eth3007-m3.pdf	TO-220AC	single		1	VS-ETH3007-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-eth3007thn3.pdf	TO-220AC	single		1	VS-ETH3007THN3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-eth3106fp-n3.pdf	TO-220AC Full Pack	single		1	VS-ETH3106FP-N3	TO-220 Full Pack	TO-220FP-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-etl0806-m3.pdf	TO-220AC	single		1	VS-ETL0806-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-etl1506fpm3.pdf	TO-220-2 Full Pack	single		1	VS-ETL1506FP-M3	TO-220 Full Pack	TO-220FP-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-etl1506s-m3.pdf	TO-263AB (D2PAK)	single		1	VS-ETL1506S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-etu1506fpm3.pdf	TO-220-2 Full Pack	single		1	VS-ETU1506FP-M3	TO-220 Full Pack	TO-220FP-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-etu1506m3.pdf	TO-220AC	single		1	VS-ETU1506-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-etu1506sm3.pdf	TO-263AB (D2PAK)	single		1	VS-ETU1506S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-etu3006fpm3.pdf	TO-220-2 Full Pack	single		1	VS-ETU3006FP-M3	TO-220 Full Pack	TO-220FP-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-etu3006hsm3.pdf	TO-263AB (D2PAK)	single		1	VS-ETU3006STRLHM3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-etu3006s-m3.pdf	TO-263AB (D2PAK)	single		2	VS-ETU3006S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-etx0806-m3.pdf	TO-220AC	single		1	VS-ETX0806-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-etx0806fpm3.pdf	TO-220-2 Full Pack	single		1	VS-ETX0806FP-M3	TO-220 Full Pack	TO-220FP-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-etx1506fpm3.pdf	TO-220-2 Full Pack	single		1	VS-ETX1506FP-M3	TO-220 Full Pack	TO-220FP-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-etx3007-m3.pdf	TO-220AC	single		1	VS-ETX3007-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-etx3007hn3.pdf	TO-220AC	single		1	VS-ETX3007THN3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-hfa04tb60-m3.pdf	TO-220AC	single		1	VS-HFA04TB60-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-hfa04tb60s-m3.pdf	TO-263AB (D2PAK)	single		1	VS-HFA04TB60S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-hfa06tb120-m3.pdf	TO-220AC	single		1	VS-HFA06TB120-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-hfa06tb120s-m3.pdf	TO-263AB (D2PAK)	single		1	VS-HFA06TB120S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-hfa08pb1.pdf	TO-247AC-2L	single		1	VS-HFA08PB120-N3	TO-247	TO-247-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-hfa08pb6.pdf	TO-247AC-2L	single		1	VS-HFA08PB60-N3	TO-247	TO-247-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-hfa08sd6.pdf	TO-252AA (DPAK)	single		2	VS-HFA08SD60S-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-hfa08ta60c-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-HFA08TA60C-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-hfa08ta60cs-m3.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VS-HFA08TA60CS-M3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-hfa08tb120-m3.pdf	TO-220AC	single		1	VS-HFA08TB120-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-hfa08tb120s-m3.pdf	TO-263AB (D2PAK)	single		1	VS-HFA08TB120S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-hfa08tb60-m3.pdf	TO-220AC	single		1	VS-HFA08TB60-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-hfa08tb60hn3.pdf	TO-220AC	single		1	VS-HFA08TB60HN3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-hfa08tb60s-m3.pdf	TO-263AB (D2PAK)	single		1	VS-HFA08TB60S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-hfa15pb6.pdf	TO-247AC-2L	single		1	VS-HFA15PB60-N3	TO-247	TO-247-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-hfa15tb60-m3.pdf	TO-220AC	single		1	VS-HFA15TB60-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-hfa15tb60s-m3.pdf	TO-220-3	single		1	VS-HFA15TB60-1-M3	TO-220	TO-220-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vs-hfa15tb60s-m3.pdf	TO-263AB (D2PAK)	single		1	VS-HFA15TB60S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-hfa16pa120c-n3.pdf	TO-247AC	array	1 Pair Common Cathode	1	VS-HFA16PA120C-N3	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-hfa16ta60c-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-HFA16TA60C-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-hfa16ta60cs-m3.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VS-HFA16TA60CS-M3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-hfa16tb120-m3.pdf	TO-220AC	single		1	VS-HFA16TB120-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-hfa16tb120s-m3.pdf	TO-263AB (D2PAK)	single		1	VS-HFA16TB120S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-hfa25pb6.pdf	TO-247AC-2L	single		1	VS-HFA25PB60-N3	TO-247	TO-247-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-hfa25tb60-m3.pdf	TO-220AC	single		1	VS-HFA25TB60-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-hfa25tb60s-m3.pdf	TO-263AB (D2PAK)	single		1	VS-HFA25TB60S-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-hfa30pb1.pdf	TO-247AC-2L	single		1	VS-HFA30PB120-N3	TO-247	TO-247-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-hfa30ta60c-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-HFA30TA60C-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-hfa30ta60cs-m3.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VS-HFA30TA60CS-M3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-hfa50pa60c-n3.pdf	TO-247AC	array	1 Pair Common Cathode	1	VS-HFA50PA60C-N3	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-mbr1035-m3.pdf	TO-220AC	single		2	VS-MBR1035-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-mbr1535_45ct-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-MBR1545CT-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-mbr1635-m3.pdf	TO-220AC	single		1	VS-MBR1645-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-mbr2035_45ct-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-MBR2045CT-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-mbr2080_90_100ct-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-MBR20100CT-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-mbr2535_45ct-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-MBR2545CT-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-mbr4045ct-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-MBR4045CT-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-mbr4045wt-n3.pdf	TO-247AC	array	1 Pair Common Cathode	1	VS-MBR4045WT-N3	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-mbr4060wt-n3.pdf	TO-247AC	array	1 Pair Common Cathode	1	VS-MBR4060WT-N3	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-mbr6045wt-n3.pdf	TO-247AC	array	1 Pair Common Cathode	1	VS-MBR6045WT-N3	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-mbr735-m3.pdf	TO-220AC	single		2	VS-MBR735-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-mbra140-m3.pdf	DO-214AC (SMA)	single		1	VS-MBRA140-M3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-mbra140trpbf.pdf	DO-214AC (SMA)	single		1	VS-MBRA140TRPBF	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-mbrb1635-m3.pdf	TO-263AB (D2PAK)	single		2	VS-MBRB1635-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-mbrb20ct-m3.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	2	VS-MBRB20100CT-M3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-mbrb735-m3.pdf	TO-263AB (D2PAK)	single		2	VS-MBRB735-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-mbrd320p.pdf	TO-252AA (DPAK)	single		2	VS-MBRD340-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-mbrd650c.pdf	TO-252AA (DPAK)	array	1 Pair Common Cathode	2	VS-MBRD650CTTRL-M3	DPAK	DPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-mbrs130-m3.pdf	DO-214AA (SMB)	single		1	VS-MBRS130-M3/5BT	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-mbrs340m3.pdf	DO-214AB (SMC)	single		1	VS-MBRS340-M3/9AT	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-mbrs360m3.pdf	DO-214AB (SMC)	single		1	VS-MBRS360-M3/9AT	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-mur1020ct-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-MUR1020CT-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-mur1520-m3.pdf	TO-220AC	single		1	VS-MUR1520-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-mur1620ct-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-MUR1620CT-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-mur2020ct-m3.pdf	TO-220-3	array	1 Pair Common Cathode	1	VS-MUR2020CT-M3	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-mur3020wt-n3.pdf	TO-247AC	array	1 Pair Common Cathode	1	VS-MUR3020WT-N3	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-mur820-m3.pdf	TO-220AC	single		1	VS-MUR820-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs-murb1020ct-m3.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	2	VS-MURB1020CT-M3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-murb1520-m3-1-m3.pdf	TO-263AB (D2PAK)	single		2	VS-MURB1520-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-murb1620ct-m3.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	2	VS-MURB1620CT-M3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-murb2020ct-m3.pdf	TO-262AA	array	1 Pair Common Cathode	1	VS-MURB2020CT-1-M3	TO-262	TO-262-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-murb2020ct-m3.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	3	VS-MURB2020CT-M3	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-murb820-m3.pdf	TO-263AB (D2PAK)	single		2	VS-MURB820-M3	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-stps1045.pdf	TO-252AA (DPAK)	single		3	VS-STPS1045B-M3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs-stps20l15d-m3.pdf	TO-220AC	single		1	VS-STPS20L15D-M3	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs12cwq06f.pdf	TO-252AA (DPAK)	array	1 Pair Common Cathode	1	VS-12CWQ06FNTRLHM3	DPAK	DPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs12cwq10f.pdf	TO-252AA (DPAK)	array	1 Pair Common Cathode	1	VS-12CWQ10FNHM3	DPAK	DPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs30bq100hm3.pdf	DO-214AB (SMC)	single		1	VS-30BQ100HM3/9AT	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/vs50wq06fn.pdf	TO-252AA (DPAK)	single		2	VS-50WQ06FNHM3	DPAK	DPAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vs6cwq06fn.pdf	TO-252AA (DPAK)	array	1 Pair Common Cathode	1	VS-6CWQ06FNHM3	DPAK	DPAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs90epf12l.pdf	TO-247AD	single		1	VS-90EPF12L-M3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vsapu3006hn3.pdf	TO-247AC	single		1	VS-APU3006HN3	TO-247	TO-247-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vsky02300603.pdf	CLP0603-2M	single		1	VSKY02300603-G4-08	CLP0603-2M	DIODE-CLP0603-VISHAY	1:K,2:A
+datasheets/diode/vishay/vsky023063.pdf	CLP0603-2M	single		1	VSKY023063HG4-08	CLP0603-2M	DIODE-CLP0603-VISHAY	1:K,2:A
+datasheets/diode/vishay/vsky05201006.pdf	CLP1006-2L	single		1	VSKY05201006-G4-08	CLP1006-2L	DIODE-CLP1006-VISHAY	1:K,2:A
+datasheets/diode/vishay/vsky05301006.pdf	CLP1006-2L	single		1	VSKY05301006-G4-08	CLP1006-2L	DIODE-CLP1006-VISHAY	1:K,2:A
+datasheets/diode/vishay/vsky05401006.pdf	CLP1006-2L	single		1	VSKY05401006-G4-08	CLP1006-2L	DIODE-CLP1006-VISHAY	1:K,2:A
+datasheets/diode/vishay/vsky10201406.pdf	CLP1406-2L	single		1	VSKY10201406-G4-08	CLP1406-2L	DIODE-CLP1406-VISHAY	1:K,2:A
+datasheets/diode/vishay/vsky10401406.pdf	CLP1406-2L	single		1	VSKY10401406-G4-08	CLP1406-2L	DIODE-CLP1406-VISHAY	1:K,2:A
+datasheets/diode/vishay/vsky20301608.pdf	CLP1608-2L	single		1	VSKY20301608-G4-08	CLP1608-2L	DIODE-CLP1608-VISHAY	1:K,2:A
+datasheets/diode/vishay/vsky2030g8.pdf	CLP1608-2L	single		1	VSKY2030G8HG4-08	CLP1608-2L	DIODE-CLP1608-VISHAY	1:K,2:A
+datasheets/diode/vishay/vsky20401608.pdf	CLP1608-2L	single		1	VSKY20401608-G4-08	CLP1608-2L	DIODE-CLP1608-VISHAY	1:K,2:A
+datasheets/diode/vishay/vsmbrs130lm3.pdf	DO-214AA (SMB)	single		1	VS-MBRS130L-M3/5BT	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vsmbrs140m3.pdf	DO-214AA (SMB)	single		1	VS-MBRS140-M3/5BT	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vsmbrs190m3.pdf	DO-214AA (SMB)	single		2	VS-MBRS1100-M3/5BT	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vss8d2m10.pdf	SlimSMAW (DO-221AD)	single		4	VSS8D2M10-M3/H	SlimSMAW	DIODE-SLIMSMAW-VISHAY	1:K,2:A
+datasheets/diode/vishay/vss8d2m12.pdf	SlimSMAW (DO-221AD)	single		2	VSS8D2M12-M3/H	SlimSMAW	DIODE-SLIMSMAW-VISHAY	1:K,2:A
+datasheets/diode/vishay/vss8d2m15.pdf	SlimSMAW (DO-221AD)	single		4	VSS8D2M15-M3/H	SlimSMAW	DIODE-SLIMSMAW-VISHAY	1:K,2:A
+datasheets/diode/vishay/vss8d2m6.pdf	SlimSMAW (DO-221AD)	single		4	VSS8D2M6-M3/H	SlimSMAW	DIODE-SLIMSMAW-VISHAY	1:K,2:A
+datasheets/diode/vishay/vss8d3m10.pdf	SlimSMAW (DO-221AD)	single		4	VSS8D3M10-M3/H	SlimSMAW	DIODE-SLIMSMAW-VISHAY	1:K,2:A
+datasheets/diode/vishay/vss8d3m12.pdf	SlimSMAW (DO-221AD)	single		3	VSS8D3M12-M3/H	SlimSMAW	DIODE-SLIMSMAW-VISHAY	1:K,2:A
+datasheets/diode/vishay/vss8d3m15.pdf	SlimSMAW (DO-221AD)	single		1	VSS8D3M15HM3/H	SlimSMAW	DIODE-SLIMSMAW-VISHAY	1:K,2:A
+datasheets/diode/vishay/vss8d3m6.pdf	SlimSMAW (DO-221AD)	single		3	VSS8D3M6-M3/I	SlimSMAW	DIODE-SLIMSMAW-VISHAY	1:K,2:A
+datasheets/diode/vishay/vss8d5m10.pdf	SlimSMAW (DO-221AD)	single		4	VSS8D5M10-M3/H	SlimSMAW	DIODE-SLIMSMAW-VISHAY	1:K,2:A
+datasheets/diode/vishay/vss8d5m12.pdf	SlimSMAW (DO-221AD)	single		3	VSS8D5M12-M3/H	SlimSMAW	DIODE-SLIMSMAW-VISHAY	1:K,2:A
+datasheets/diode/vishay/vss8d5m15_1.pdf	SlimSMAW (DO-221AD)	single		4	VSS8D5M15-M3/H	SlimSMAW	DIODE-SLIMSMAW-VISHAY	1:K,2:A
+datasheets/diode/vishay/vss8d5m6.pdf	SlimSMAW (DO-221AD)	single		4	VSS8D5M6-M3/H	SlimSMAW	DIODE-SLIMSMAW-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssa210-322cd6.pdf	DO-214AC (SMA)	single		2	VSSA210HM3_A/H	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssa210-7fc0b6.pdf	DO-214AC (SMA)	single		2	VSSA210-E3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssa310s-c20949.pdf	DO-214AC (SMA)	single		2	VSSA310S-E3/5AT	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssa310s-d98b6d.pdf	DO-214AC (SMA)	single		1	VSSA310SHM3_A/H	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssa36s-m3.pdf	DO-214AC (SMA)	single		1	VSSA36S-M3/61T	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssa3l6s-m3.pdf	DO-214AC (SMA)	single		1	VSSA3L6S-M3/61T	SMA	DIODE-SMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssaf3l45.pdf	DO-221AC (SlimSMA)	single		3	VSSAF3L45-M3/6A	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssaf3l63.pdf	DO-221AC (SlimSMA)	single		2	VSSAF3L63-M3/H	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssaf3m10.pdf	DO-221AC (SlimSMA)	single		2	VSSAF3M10-M3/H	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssaf3m6.pdf	DO-221AC (SlimSMA)	single		4	VSSAF3M6-M3/H	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssaf3m63.pdf	DO-221AC (SlimSMA)	single		2	VSSAF3M63-M3/H	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssaf3n50.pdf	DO-221AC (SlimSMA)	single		1	VSSAF3N50-M3/6A	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssaf510.pdf	DO-221AC (SlimSMA)	single		2	VSSAF510-M3/H	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssaf512.pdf	DO-221AC (SlimSMA)	single		2	VSSAF512-M3/H	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssaf515.pdf	DO-221AC (SlimSMA)	single		2	VSSAF515-M3/H	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssaf522.pdf	DO-221AC (SlimSMA)	single		2	VSSAF522-M3/H	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssaf56.pdf	DO-221AC (SlimSMA)	single		4	VSSAF56-M3/6A	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssaf5l45.pdf	DO-221AC (SlimSMA)	single		4	VSSAF5L45-M3/6A	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssaf5l63.pdf	DO-221AC (SlimSMA)	single		2	VSSAF5L63-M3/H	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssaf5m10.pdf	DO-221AC (SlimSMA)	single		3	VSSAF5M10-M3/H	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssaf5m12.pdf	DO-221AC (SlimSMA)	single		1	VSSAF5M12HM3/H	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssaf5m15.pdf	DO-221AC (SlimSMA)	single		2	VSSAF5M15-M3/H	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssaf5m6.pdf	DO-221AC (SlimSMA)	single		4	VSSAF5M6-M3/H	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssaf5m63.pdf	DO-221AC (SlimSMA)	single		2	VSSAF5M63-M3/H	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssaf5n50.pdf	DO-221AC (SlimSMA)	single		2	VSSAF5N50-M3/6A	SlimSMA	DIODE-SLIMSMA-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssb310-e3.pdf	DO-214AA (SMB)	single		1	VSSB310-E3/52T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssb310-m3.pdf	DO-214AA (SMB)	single		1	VSSB310-M3/52T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssb3l6s-m3.pdf	DO-214AA (SMB)	single		1	VSSB3L6S-M3/5BT	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssb410s-e3.pdf	DO-214AA (SMB)	single		2	VSSB410S-E3/52T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssb410s-m3.pdf	DO-214AA (SMB)	single		1	VSSB410S-M3/52T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssb420s-m3.pdf	DO-214AA (SMB)	single		2	VSSB420S-M3/52T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssb7l45-m3.pdf	DO-214AA (SMB)	single		1	VSSB7L45-M3/52T	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssc520s-m3.pdf	DO-214AB (SMC)	single		2	VSSC520S-M3/57T	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/vssc8l45-m3.pdf	DO-214AB (SMC)	single		2	VSSC8L45-M3/57T	SMC	DIODE-SMC-VISHAY	1:K,2:A
+datasheets/diode/vishay/vt10200c-68b0de.pdf	TO-220-3	array	1 Pair Common Cathode	1	VT10200C-E3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vt10202c.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VBT10202C-M3/4W	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vt2045bp.pdf	TO-220AC	single		1	VT2045BP-M3/4W	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vt2080s.pdf	TO-263AB (D2PAK)	single		2	VBT2080S-E3/4W	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vt3045bp.pdf	TO-220AC	single		1	VT3045BP-M3/4W	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vt3060c.pdf	ITO-220AB	array	1 Pair Common Cathode	1	VFT3060C-E3/4W	ITO-220	ITO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vt3080c.pdf	ITO-220AB	array	1 Pair Common Cathode	1	VFT3080C-E3/4W	ITO-220	ITO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vt3080c.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	VBT3080C-E3/8W	D2PAK	D2PAK-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vt3080s.pdf	TO-220-3	single		2	VFT3080S-E3/4W	TO-220	TO-220-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/vishay/vt3080s.pdf	TO-263AB (D2PAK)	single		1	VBT3080S-E3/8W	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vt30l60c.pdf	TO-220-3	array	1 Pair Common Cathode	1	VT30L60C-E3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vt4045bp.pdf	TO-220AC	single		1	VT4045BP-M3/4W	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vt5200.pdf	TO-220AC	single		1	VT5200-E3/4W	TO-220	TO-220-2-VISHAY	1:K,2:A
+datasheets/diode/vishay/vt5202-m3.pdf	TO-263AB (D2PAK)	single		2	VBT5202-M3/4W	D2PAK	D2PAK-3-VISHAY	1:A,2:A,3:K
+datasheets/diode/vishay/vt6045c.pdf	TO-220-3	array	1 Pair Common Cathode	1	VT6045C-M3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vt6045cb.pdf	TO-220-3	array	1 Pair Common Cathode	1	VT6045CBP-M3/4W	TO-220	TO-220-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vx100h103pw.pdf	TO-247AD	array	1 Pair Common Cathode	2	VX100H103PW-M3/P	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vx120h103pw.pdf	TO-247AD	array	1 Pair Common Cathode	2	VX120H103PW-M3/P	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vx60202pgw.pdf	TO-247AD	array	1 Pair Common Cathode	1	VX60202PGW-M3/P	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vx60202pw.pdf	TO-247AD	array	1 Pair Common Cathode	1	VX60202PW-M3/P	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vx6060pw.pdf	TO-247AD	array	1 Pair Common Cathode	1	VX6060PW-M3/P	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vx60m100pw.pdf	TO-247AD	array	1 Pair Common Cathode	2	VX60M100PW-M3/P	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vx60m153pw.pdf	TO-247AD	array	1 Pair Common Cathode	2	VX60M153PW-M3/P	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vx60m60pw.pdf	TO-247AD	array	1 Pair Common Cathode	1	VX60M60PW-M3/P	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vx80153pw.pdf	TO-247AD	array	1 Pair Common Cathode	2	VX80153PW-M3/P	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vx80170pw.pdf	TO-247AD	array	1 Pair Common Cathode	1	VX80170PW-M3/P	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vx80m100pw.pdf	TO-247AD	array	1 Pair Common Cathode	1	VX80M100PW-M3/P	TO-247	TO-247-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/z4ke.pdf	DO-204AL (DO-41)	zener		2	Z4KE100A-E3/54	DO-41	DIODE-DO-41-VISHAY	1:K,2:A
+datasheets/diode/vishay/zgl41.pdf	DO-213AB (GL41)	zener		2	ZGL41-120A-E3/96	GL41	DIODE-GL41-VISHAY	1:K,2:A
+datasheets/diode/vishay/zm4728a.pdf	DO-213AB	zener		52	ZM4728A-GS08	MELF	DIODE-MELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/zmy3v9.pdf	DO-213AB	zener		48	ZMY10-GS08	MELF	DIODE-MELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/zpy3v9.pdf	DO-204AL (DO-41)	zener		38	ZPY10-TAP	DO-41	DIODE-DO-41-VISHAY	1:K,2:A

@@ -1,0 +1,505 @@
+datasheet	supplier_package	category	configurations	parts	first_mpn	package	footprint	pins
+datasheets/diode/onsemi/1N4001-D.PDF	Axial	single		15	1N4001G	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/1N4148WS-D.PDF	SOD-323F	single		2	1N4148WS	SOD-323F	DIODE-SOD-323FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/1N4149-D.PDF	DO-35	single		2	1N4149	DO-35	DIODE-DO-35-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/1N4447-D.PDF	DO-35	single		1	1N4447	DO-35	DIODE-DO-35-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/1N4454-D.PDF	DO-35	single		2	1N4454	DO-35	DIODE-DO-35-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/1N456A-D.PDF	DO-35	single		2	1N456A	DO-35	DIODE-DO-35-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/1N457A-D.PDF	DO-35	single		3	1N457	DO-35	DIODE-DO-35-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/1N458A-D.PDF	DO-35	single		2	1N458A	DO-35	DIODE-DO-35-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/1N459A-D.PDF	DO-35	single		2	1N459	DO-35	DIODE-DO-35-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/1N485B-D.PDF	DO-35	single		2	1N485B	DO-35	DIODE-DO-35-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/1N4933-D.PDF	Axial	single		10	1N4933G	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/1N5282-D.PDF	DO-35	single		2	1N5282	DO-35	DIODE-DO-35-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/1N5400-D.PDF	Axial	single		14	1N5400G	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/1N5817-D.PDF	Axial	single		6	1N5817G	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/1N5820-D.PDF	Axial	single		4	1N5820G	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/1N914-D.PDF	DO-35	single		16	1N4148	DO-35	DIODE-DO-35-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/1N914-D.PDF	SOD-80	single		7	FDLL4148	MiniMELF	DIODE-MINIMELF-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/1N914BWT-D.pdf	SOD-523F	single		2	1N4148WT	SOD-523F	DIODE-SOD-523-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/1PMT5920B-D.PDF	Powermite	zener		8	1PMT5920BT1G	Powermite	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/onsemi/1SS400T1-D.PDF		single		1	1SS400T1	SOD-523	DIODE-SOD-523-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/1SS400T1-D.PDF	SOD-523	single		2	1SS400T1G	SOD-523	DIODE-SOD-523-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/1n4736at-d.pdf	DO-41	zener		76	1N4728A	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/1n5221b-d.pdf	DO-35	zener		56	1N5221B	DO-35	DIODE-DO-35-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/1n5333b-d.pdf	Axial	zener		94	1N5333BG	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/1n5913b-d.pdf	Axial	zener		23	1N5913BRLG	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/1sma5913bt3-d-0969b2.pdf	SMA	zener		4	SZ1SMA5914BT3G	SMA	DIODE-SMA-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/1sma5913bt3-d-2491c0.pdf	SMA	zener		57	1SMA5913BT3G	SMA	DIODE-SMA-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/1smb5913bt3-d.pdf	SMB	zener		79	1SMB5913BT3G	SMB	DIODE-SMB-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/80SQ045N-D.PDF	Axial	single		2	80SQ045NG	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/BAL99LT1-D.PDF	SOT-23-3 (TO-236)	single		1	BAL99LT1G	SOT-23	SOT23-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/BAS116TT1-D.PDF	SC-75, SOT-416	single		1	BAS116TT1G	SC-75	SC75-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/BAS16M3-D.PDF	SOT-723	single		1	BAS16M3T5G	SOT-723	SOT723-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/BAS16P2-D.PDF	SOD-923	single		1	BAS16P2T5G	SOD-923	DIODE-SOD-923-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/BAS16TT1-D.PDF	SC-75, SOT-416	single		2	BAS16TT1G	SC-75	SC75-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/BAS21SLT1-D.PDF	SOT-23-3 (TO-236)	array	1 Pair Series Connection	1	BAS21SLT1G	SOT-23	SOT23-3-ONSEMI	1:A1,2:K2,3:K1A2
+datasheets/diode/onsemi/BAS21XV2-D.PDF	SOD-523	single		1	BAS21XV2T5G	SOD-523	DIODE-SOD-523-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/BAS29-D.pdf	SOT-23-3	single		1	BAS29	SOT-23	SOT23-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/BAS31-D.PDF	SOT-23-3	array	1 Pair Series Connection	2	BAS31	SOT-23	SOT23-3-ONSEMI	1:A1,2:K2,3:K1A2
+datasheets/diode/onsemi/BAS35-D.pdf	SOT-23-3	array	1 Pair Common Anode	1	BAS35	SOT-23	SOT23-3-ONSEMI	1:K1,2:K2,3:A
+datasheets/diode/onsemi/BAS40P2-D.PDF	SOD-923	single		1	BAS40P2T5G	SOD-923	DIODE-SOD-923-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/BAT43XV2-D.PDF	SOD-523F	single		1	BAT43XV2	SOD-523F	DIODE-SOD-523-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/BAT54T1-D.PDF	SOD-123	single		1	BAT54T1G	SOD-123	DIODE-SOD-123-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/BAV102-D.PDF	SOD-80	single		1	BAV102	MiniMELF	DIODE-MINIMELF-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/BAV103-D.PDF	SOD-80	single		1	BAV103	MiniMELF	DIODE-MINIMELF-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/BAV19-D.PDF	DO-35	single		1	BAV19TR	DO-35	DIODE-DO-35-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/BAV23S-D.PDF	SOT-23-3	array	1 Pair Series Connection	1	BAV23S	SOT-23	SOT23-3-ONSEMI	1:A1,2:K2,3:K1A2
+datasheets/diode/onsemi/BAV74LT1-D.PDF	SOT-23-3 (TO-236)	array	1 Pair Common Cathode	1	BAV74LT1G	SOT-23	SOT23-3-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/BAW56M3-D.PDF	SOT-723	array	1 Pair Common Anode	1	BAW56M3T5G	SOT-723	SOT723-3-ONSEMI	1:K1,2:K2,3:A
+datasheets/diode/onsemi/BAX16-D.pdf	DO-35	single		1	BAX16	DO-35	DIODE-DO-35-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/BAY73-D.pdf	DO-35	single		1	BAY73	DO-35	DIODE-DO-35-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/BYV32-200-D.PDF	TO-220	array	1 Pair Common Cathode	1	BYV32-200G	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/onsemi/BYW29-D.PDF	TO-220-2	single		1	BYW29-200G	TO-220	TO-220-2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/BYW51-200-D.PDF	TO-220	array	1 Pair Common Cathode	1	BYW51-200G	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/onsemi/BYW80-D.PDF	TO-220-2	single		1	BYW80-200G	TO-220	TO-220-2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/DAN222M3-D.PDF	SOT-723	array	1 Pair Common Cathode	1	DAN222M3T5G	SOT-723	SOT723-3-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/DAP222M3-D.PDF	SOT-723	array	1 Pair Common Anode	1	DAP222M3T5G	SOT-723	SOT723-3-ONSEMI	1:K1,2:K2,3:A
+datasheets/diode/onsemi/EGF1D-D.PDF	DO-214AC (SMA)	single		4	EGF1A	SMA	DIODE-SMA-403AE-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/EGP10K-D.pdf	DO-41	single		5	EGP10B	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/EGP20K-D.pdf	DO-15	single		8	EGP20A	DO-15	DIODE-DO-15-VISHAY	1:K,2:A
+datasheets/diode/onsemi/EGP30K-D.PDF	DO-201AD	single		6	EGP30A	DO-201AD	DIODE-DO-201AD-TSC	1:K,2:A
+datasheets/diode/onsemi/ES1D-D.PDF	DO-214AC (SMA)	single		4	ES1A	SMA	DIODE-SMA-403AE-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/ES1J-D.PDF	DO-214AC (SMA)	single		4	ES1F	SMA	DIODE-SMA-403AE-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/ES1JAF-D.PDF	DO-214AD (SMAF)	single		2	ES1DAF	SMAF	DIODE-SMAF-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/ES1JFL-D.PDF	SOD-123F	single		1	ES1JFL	SOD-123F	DIODE-SOD-123F-TSC	1:K,2:A
+datasheets/diode/onsemi/ES2D-D.pdf	DO-214AA (SMB)	single		4	ES2A	SMB	DIODE-SMB-403AF-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/ES2DAF-D.PDF	DO-214AD (SMAF)	single		1	ES2DAF	SMAF	DIODE-SMAF-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/ES3J-D.PDF		single		1	ES3D	SOD-523	DIODE-SOD-523-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/ES3J-D.PDF	DO-214AB (SMC)	single		4	ES3A	SMC	DIODE-SMC-403AG-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/FDH300-D.PDF	DO-35	single		5	FDH300A	DO-35	DIODE-DO-35-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/FDH300-D.PDF	SOD-80	single		2	FDLL300A	MiniMELF	DIODE-MINIMELF-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/FDH3595-D.PDF	DO-35	single		1	FDH3595	DO-35	DIODE-DO-35-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/FDH444-D.pdf	DO-35	single		2	FDH444	DO-35	DIODE-DO-35-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/FDLL3595-D.pdf	SOD-80	single		1	FDLL3595	MiniMELF	DIODE-MINIMELF-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/FDLL400-D.PDF	DO-35	single		2	FDH400	DO-35	DIODE-DO-35-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/FDLL400-D.PDF	SOD-80	single		1	FDLL400	MiniMELF	DIODE-MINIMELF-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/FDLL4150-D.pdf	SOD-80	single		1	FDLL4150	MiniMELF	DIODE-MINIMELF-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/FDLL457A-D.PDF	SOD-80	single		1	FDLL457A	MiniMELF	DIODE-MINIMELF-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/FDLL485B-D.PDF	SOD-80	single		1	FDLL485B	MiniMELF	DIODE-MINIMELF-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/FFSH2065ADN-F155-D.PDF		array		1	FFSH2065ADN-F155	SOD-523	DIODE-SOD-523-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/FSV1550V-D.PDF	TO-277-3	single		1	FSV1550V	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/GF1A-D.PDF	DO-214AC (SMA)	single		4	GF1A	SMA	DIODE-SMA-403AE-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/GF1M-D.pdf	DO-214AC (SMA)	single		3	GF1J	SMA	DIODE-SMA-403AE-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/LL4148-D.PDF	SOD-80	single		1	LL4148	MiniMELF	DIODE-MINIMELF-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/MBR20200CT-D.PDF	TO-220	array	1 Pair Common Cathode	1	MBR20200CTG	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/onsemi/MMBD1202-D.PDF	SOT-23-3	array	1 Pair Common Cathode|1 Pair Series Connection	2	MMBD1203	SOT-23	SOT23-3-ONSEMI	cc=1:A1,2:A2,3:K;series=1:A1,2:K2,3:K1A2
+datasheets/diode/onsemi/MMBD1202-D.PDF	SOT-23-3	single		1	MMBD1201	SOT-23	SOT23-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/MSRD620CTR-D.PDF	DPAK	array	1 Pair Common Anode	1	NRVSRD620VCTT4RG	DPAK	TO-252-2-TAB-ONSEMI	1:K1,2:K2,3:A
+datasheets/diode/onsemi/MURD330-D.PDF	DPAK	single		1	SURD8330T4G-VF01	DPAK	TO-252-2-TAB-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/MURD530-D.PDF	DPAK	single		1	SURD8530T4G-VF01	DPAK	TO-252-2-TAB-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/NRTS12100PFS-D.PDF	TO-277-3	single		2	NRTS12100PFST3G	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/NRTS1260PFS-D.PDF	TO-277-3	single		1	NRTS1260PFST3G	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/NRTS1560PFS-D.PDF	TO-277-3	single		2	NRTS1560PFST3G	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/NRTS8100PFS-D.PDF	TO-277-3	single		2	NRTS8100PFST3G	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/NRTS860PFS-D.PDF	TO-277-3	single		2	NRTS860PFST3G	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/RGP10M-D.pdf	DO-41	single		7	RGP10A	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/S1M-D.PDF	DO-214AC (SMA)	single		7	S1A	SMA	DIODE-SMA-403AE-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/SBT700-06RH-D.PDF		array		1	SBT700-06RH-1E	SOD-523	DIODE-SOD-523-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/bas116lt1-d.pdf	SOT-23-3 (TO-236)	single		3	BAS116LT1G	SOT-23	SOT23-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/bas16-d.pdf	SOT-23-3	single		1	BAS16-D87Z	SOT-23	SOT23-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/bas16ht1-d.pdf	SOD-323	single		4	BAS16HT1G	SOD-323	DIODE-SOD-323-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/bas16lt1-d.pdf	SOT-23-3 (TO-236)	single		4	BAS16LT1G	SOT-23	SOT23-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/bas16wt1-d.pdf	SC-70-3 (SOT323)	single		2	BAS16WT1G	SC-70	SOT323-3-TSC	1:A,2:NC,3:K
+datasheets/diode/onsemi/bas16xv2t1-d.pdf	SOD-523	single		2	BAS16XV2T5G	SOD-523	DIODE-SOD-523-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/bas19lt1-d.pdf	SOT-23-3 (TO-236)	single		11	BAS19LT1G	SOT-23	SOT23-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/bas20ht1-d.pdf	SOD-323	single		2	BAS20HT1G	SOD-323	DIODE-SOD-323-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/bas21ht1-d.pdf	SOD-323	single		2	NSVBAS21HT1G	SOD-323	DIODE-SOD-323-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/bas21m3-d.pdf	SOT-723	single		2	BAS21M3T5G	SOT-723	SOT723-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/bas40-04lt1-d.pdf	SOT-23-3 (TO-236)	array	1 Pair Series Connection	2	BAS40-04LT1G	SOT-23	SOT23-3-ONSEMI	1:A1,2:K2,3:K1A2
+datasheets/diode/onsemi/bas40-06lt1-d.pdf	SOT-23-3 (TO-236)	array	1 Pair Common Anode	2	BAS40-06LT1G	SOT-23	SOT23-3-ONSEMI	1:K1,2:K2,3:A
+datasheets/diode/onsemi/bas40lt1-d.pdf	SOT-23-3 (TO-236)	single		3	BAS40LT1G	SOT-23	SOT23-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/bas70-04lt1-d.pdf	SOT-23-3 (TO-236)	array	1 Pair Series Connection	1	SBAS70-04LT1G	SOT-23	SOT23-3-ONSEMI	1:A1,2:K2,3:K1A2
+datasheets/diode/onsemi/bas70lt1-d.pdf	SOT-23-3 (TO-236)	single		2	BAS70LT1G	SOT-23	SOT23-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/bash16mx2w-d.pdf	2-X2DFNW (1x0.6)	single		4	BASH16MX2WT5G	X2DFNW	DIODE-X2DFNW2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/bash19l-d.pdf	SOT-23-3 (TO-236)	single		6	BASH19LT1G	SOT-23	SOT23-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/bat54alt1-d.pdf	SOT-23-3 (TO-236)	array	1 Pair Common Anode	3	BAT54ALT1G	SOT-23	SOT23-3-ONSEMI	1:K1,2:K2,3:A
+datasheets/diode/onsemi/bat54awt1-d.pdf	SC-70-3 (SOT323)	array	1 Pair Common Anode	2	BAT54AWT1G	SC-70	SOT323-3-TSC	1:K1,2:K2,3:A
+datasheets/diode/onsemi/bat54clt1-d.pdf	SOT-23-3 (TO-236)	array	1 Pair Common Cathode	3	BAT54CLT1G	SOT-23	SOT23-3-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/bat54ctt1-d.pdf	SC-75, SOT-416	array	1 Pair Common Cathode	2	BAT54CTT1G	SC-75	SC75-3-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/bat54cwt1-d.pdf	SC-70-3 (SOT323)	array	1 Pair Common Cathode	2	BAT54CWT1G	SC-70	SOT323-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/onsemi/bat54ht1-d.pdf	SOD-323	single		1	NSVBAT54HT1G	SOD-323	DIODE-SOD-323-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/bat54lt1-d.pdf	SOT-23-3 (TO-236)	single		2	BAT54LT1G	SOT-23	SOT23-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/bat54m3-d.pdf	SOT-723	single		2	BAT54M3T5G	SOT-723	SOT723-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/bat54slt1-d.pdf	SOT-23-3 (TO-236)	array	1 Pair Series Connection	2	BAT54SLT1G	SOT-23	SOT23-3-ONSEMI	1:A1,2:K2,3:K1A2
+datasheets/diode/onsemi/bat54swt1-d.pdf	SC-70-3 (SOT323)	array	1 Pair Series Connection	1	NSVBAT54SWT1G	SC-70	SOT323-3-TSC	1:A1,2:K2,3:K1A2
+datasheets/diode/onsemi/bat54wt1-d.pdf	SC-70-3 (SOT323)	single		2	BAT54WT1G	SC-70	SOT323-3-TSC	1:A,2:NC,3:K
+datasheets/diode/onsemi/bat54xv2t1-d.pdf	SOD-523	single		2	SBAT54XV2T1G	SOD-523	DIODE-SOD-523-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/bav199lt1-d.pdf	SOT-23-3 (TO-236)	array	1 Pair Series Connection	3	BAV199LT1G	SOT-23	SOT23-3-ONSEMI	1:A1,2:K2,3:K1A2
+datasheets/diode/onsemi/bav23clt1-d.pdf	SOT-23-3 (TO-236)	array	1 Pair Common Cathode	1	NSVBAV23CLT1G	SOT-23	SOT23-3-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/bav70lt1-d.pdf	SOT-23-3 (TO-236)	array	1 Pair Common Cathode	4	BAV70LT1G	SOT-23	SOT23-3-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/bav70tt1-d.pdf	SC-75, SOT-416	array	1 Pair Common Cathode	3	BAV70TT1G	SC-75	SC75-3-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/bav70wt1-d.pdf	SC-70-3 (SOT323)	array	1 Pair Common Cathode	2	BAV70WT1G	SC-70	SOT323-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/onsemi/bav99lt1-d.pdf	SOT-23-3 (TO-236)	array	1 Pair Series Connection	4	BAV99LT1G	SOT-23	SOT23-3-ONSEMI	1:A1,2:K2,3:K1A2
+datasheets/diode/onsemi/bav99wt1-d.pdf	SC-70-3 (SOT323)	array	1 Pair Series Connection	5	BAV99WT1G	SC-70	SOT323-3-TSC	1:A1,2:K2,3:K1A2
+datasheets/diode/onsemi/baw56lt1-d.pdf	SOT-23-3 (TO-236)	array	1 Pair Common Anode	4	BAW56LT1G	SOT-23	SOT23-3-ONSEMI	1:K1,2:K2,3:A
+datasheets/diode/onsemi/baw56tt1-d.pdf	SC-75, SOT-416	array	1 Pair Common Anode	2	BAW56TT1G	SC-75	SC75-3-ONSEMI	1:K1,2:K2,3:A
+datasheets/diode/onsemi/baw56wt1-d.pdf	SC-70-3 (SOT323)	array	1 Pair Common Anode	2	BAW56WT1G	SC-70	SOT323-3-TSC	1:K1,2:K2,3:A
+datasheets/diode/onsemi/bawh56w-d.pdf	SC-70-3 (SOT323)	single		1	NSVBAWH56WT1G	SC-70	SOT323-3-TSC	1:A,2:NC,3:K
+datasheets/diode/onsemi/bzx79c2v4-d.pdf	DO-35	zener		40	BZX79C10	DO-35	DIODE-DO-35-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/bzx84c2v4et1-d.pdf	SOT-23-3 (TO-236)	zener		44	BZX84C5V6ET3G	SOT-23	SOT23-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/bzx84c2v4lt1-d.pdf	SOT-23-3 (TO-236)	zener		137	BZX84B10LT1G	SOT-23	SOT23-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/bzx85c3v3-d.pdf	DO-41	zener		10	BZX85C10	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/dan222-d.pdf	SC-75, SOT-416	array	1 Pair Common Cathode	3	DAN222G	SC-75	SC75-3-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/dap222-d.pdf	SC-75, SOT-416	array	1 Pair Common Anode	3	DAP222G	SC-75	SC75-3-ONSEMI	1:K1,2:K2,3:A
+datasheets/diode/onsemi/en2997-d.pdf	3-CP	single		1	SB07-03C-TB-E	CP	SC59-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/fes10d-d.pdf	TO-277-3	single		3	FES10D	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/fes6d-d.pdf	TO-277-3	single		5	FES6D	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/ffaf30ua60s-d.pdf	TO-3PF-3	single		1	FFAF30UA60S	TO-3PF	TO-3PF-3-ONSEMI	1:NC,2:K,3:A
+datasheets/diode/onsemi/ffh60up60s-d.pdf	TO-247-3	single		1	FFH60UP60S3	TO-247	TO-247-3-ONSEMI	1:A1,2:K,3:A2
+datasheets/diode/onsemi/fs8m-d.pdf	TO-277-3	single		4	FS8G	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/fsv10100v-d.pdf	TO-277-3	single		1	FSV10100V	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/fsv10120v-d.pdf	TO-277-3	single		1	FSV10120V	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/fsv10150v-d.pdf	TO-277-3	single		1	FSV10150V	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/fsv1045v-d.pdf	TO-277-3	single		1	FSV1045V	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/fsv1060v-d.pdf	TO-277-3	single		1	FSV1060V	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/fsv12100v-d.pdf	TO-277-3	single		1	FSV12100V	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/fsv12120v-d.pdf	TO-277-3	single		1	FSV12120V	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/fsv12150v-d.pdf	TO-277-3	single		1	FSV12150V	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/fsv15100v-d.pdf	TO-277-3	single		1	FSV15100V	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/fsv15120v-d.pdf	TO-277-3	single		1	FSV15120V	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/fsv15150v-d.pdf	TO-277-3	single		1	FSV15150V	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/fsv20100v-d.pdf	TO-277-3	single		1	FSV20100V	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/fsv20120v-d.pdf	TO-277-3	single		1	FSV20120V	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/fsv20150v-d.pdf	TO-277-3	single		1	FSV20150V	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/fsv2050v-d.pdf	TO-277-3	single		1	FSV2050V	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/fsv2060l-d.pdf	TO-277-3	single		1	FSV2060L	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/fsv540-d.pdf	TO-277-3	single		1	FSV540	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/fsv560-d.pdf	TO-277-3	single		1	FSV560	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/fsv8100v-d.pdf	TO-277-3	single		1	FSV8100V	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/isl9r1560p-f085-d.pdf	TO-220-2	single		1	ISL9R1560P2-F085	TO-220	TO-220-2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/isl9r3060g2-f085-d.pdf	TO-247-2	single		1	ISL9R3060G2-F085	TO-247	TO-247-2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/m1ma141kt1-d.pdf	SC-70-3 (SOT323)	single		1	M1MA141KT1G	SC-70	SOT323-3-TSC	1:A,2:NC,3:K
+datasheets/diode/onsemi/m1ma141wat1-d.pdf	SC-70-3 (SOT323)	array	1 Pair Common Anode	3	M1MA141WAT1G	SC-70	SOT323-3-TSC	1:K1,2:K2,3:A
+datasheets/diode/onsemi/m1ma141wkt1-d.pdf	SC-70-3 (SOT323)	array	1 Pair Common Cathode	2	M1MA142WKT1G	SC-70	SOT323-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/onsemi/m1ma151kt1-d.pdf	SC-59	single		2	M1MA151KT1G	SC-59	SC59-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/m1ma151wat1-d.pdf	SC-59	array	1 Pair Common Anode	2	M1MA151WAT1G	SC-59	SC59-3-ONSEMI	1:K1,2:K2,3:A
+datasheets/diode/onsemi/m1ma151wkt1-d.pdf	SC-59	array	1 Pair Common Cathode	4	M1MA151WKT1G	SC-59	SC59-3-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/mbd301-d.pdf	SOT-23-3 (TO-236)	single		1	SMMBD301LT3G	SOT-23	SOT23-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/mbr0520lt1-d.pdf	SOD-123	single		2	MBR0520LT1G	SOD-123	DIODE-SOD-123-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbr0530t1-d.pdf		single		1	MBR0530	SOD-523	DIODE-SOD-523-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbr0530t1-d.pdf	SOD-123	single		3	MBR0530T1G	SOD-123	DIODE-SOD-123-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbr0540t1-d.pdf	SOD-123	single		2	NRVB0540T1G	SOD-123	DIODE-SOD-123-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbr10100mfs-d.pdf	5-DFN (5x6) (8-SOFL)	single		1	NRVB10100MFST1G	SO-8FL	SO8FL-5-ONSEMI	1:A,2:A,3:A,4:NC,5:K
+datasheets/diode/onsemi/mbr1035-d.pdf	TO-220-2	single		1	MBR1045G	TO-220	TO-220-2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbr1060-d.pdf	TO-220-2	single		1	MBR1060G	TO-220	TO-220-2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbr1080-d.pdf	TO-220-2	single		1	MBR10100G	TO-220	TO-220-2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbr1100-d.pdf	Axial	single		2	MBR1100G	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbr120esft1-d.pdf	SOD-123FL	single		1	MBR120ESFT3G	SOD-123FL	DIODE-SOD-123FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbr120lsft1-d.pdf	SOD-123FL	single		2	MBR120LSFT1G	SOD-123FL	DIODE-SOD-123FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbr120vlsft1-d.pdf	SOD-123FL	single		3	MBR120VLSFT1G	SOD-123FL	DIODE-SOD-123FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbr1240mfs-d.pdf	5-DFN (5x6) (8-SOFL)	single		1	NRVB1240MFST1G	SO-8FL	SO8FL-5-ONSEMI	1:A,2:A,3:A,4:NC,5:K
+datasheets/diode/onsemi/mbr130lsft1-d.pdf	SOD-123FL	single		2	MBR130LSFT1G	SOD-123FL	DIODE-SOD-123FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbr140esf-d.pdf	SOD-123FL	single		2	MBR140ESFT1G	SOD-123FL	DIODE-SOD-123FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbr140sft1-d.pdf	SOD-123FL	single		3	MBR140SFT1G	SOD-123FL	DIODE-SOD-123FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbr150-d.pdf	Axial	single		3	MBR150RLG	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbr1535ct-d.pdf	TO-220	array	1 Pair Common Cathode	1	MBR1545CTG	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/onsemi/mbr1635-d.pdf	TO-220-2	single		1	MBR1645G	TO-220	TO-220-2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbr1h100sf-d.pdf	SOD-123FL	single		2	MBR1H100SFT3G	SOD-123FL	DIODE-SOD-123FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbr20100ct-d.pdf	TO-220	array	1 Pair Common Cathode	1	MBR2090CTG	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/onsemi/mbr2045emfs-d.pdf	5-DFN (5x6) (8-SOFL)	single		2	NRVB2045EMFST1G	SO-8FL	SO8FL-5-ONSEMI	1:A,2:A,3:A,4:NC,5:K
+datasheets/diode/onsemi/mbr2045mfs-d.pdf	5-DFN (5x6) (8-SOFL)	single		2	MBR2045MFST1G	SO-8FL	SO8FL-5-ONSEMI	1:A,2:A,3:A,4:NC,5:K
+datasheets/diode/onsemi/mbr20h100ct-d.pdf	D2PAK	array	1 Pair Common Cathode	1	MBRB20H100CTT4G	D2PAK	TO-263-2-TAB-418B-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/mbr20l60ct-d.pdf	TO-220FP	array	1 Pair Common Cathode	1	MBRF20L60CTG	TO-220FP	TO-220-FULL-PACK-3-ONSEMI	1:A1,2:K,3:A2
+datasheets/diode/onsemi/mbr230lsft1-d.pdf	SOD-123FL	single		1	MBR230LSFT1G	SOD-123FL	DIODE-SOD-123FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbr2535ct-d.pdf	TO-220	array	1 Pair Common Cathode	2	MBR2535CTG	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/onsemi/mbr2535ctl-d.pdf	TO-220	array	1 Pair Common Cathode	1	MBR2535CTLG	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/onsemi/mbr2h100sf-d.pdf	SOD-123FL	single		2	MBR2H100SFT3G	SOD-123FL	DIODE-SOD-123FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbr2h200sf-d.pdf	SOD-123FL	single		1	MBR2H200SFT3G	SOD-123FL	DIODE-SOD-123FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbr30170mfs-d.pdf	5-DFN (5x6) (8-SOFL)	single		2	MBR30170MFST1G	SO-8FL	SO8FL-5-ONSEMI	1:A,2:A,3:A,4:NC,5:K
+datasheets/diode/onsemi/mbr30h100ct-d.pdf	TO-220FP	array	1 Pair Common Cathode	1	MBRF30H100CTG	TO-220FP	TO-220-FULL-PACK-3-ONSEMI	1:A1,2:K,3:A2
+datasheets/diode/onsemi/mbr30h100mfs-d.pdf	5-DFN (5x6) (8-SOFL)	single		3	MBR30H100MFST3G	SO-8FL	SO8FL-5-ONSEMI	1:A,2:A,3:A,4:NC,5:K
+datasheets/diode/onsemi/mbr30l60ct-d.pdf	TO-220FP	array	1 Pair Common Cathode	1	MBRF30L60CTG	TO-220FP	TO-220-FULL-PACK-3-ONSEMI	1:A1,2:K,3:A2
+datasheets/diode/onsemi/mbr3100-d.pdf	Axial	single		1	MBR3100RLG	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbr350-d.pdf	Axial	single		2	MBR360G	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbr4015lwt-d.pdf	TO-247-3	array	1 Pair Common Cathode	1	MBR4015LWTG	TO-247	TO-247-3-ONSEMI	1:A1,2:K,3:A2
+datasheets/diode/onsemi/mbr40250-d.pdf	TO-220	single		1	MBR40250TG	TO-220	TO-220AB-3-VISHAY	1:A,2:K,3:A
+datasheets/diode/onsemi/mbr40250-d.pdf	TO-220-2	single		1	MBR40250G	TO-220	TO-220-2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbr40250-d.pdf	TO-220FP	single		1	MBRF40250TG	TO-220FP	TO-220-FULL-PACK-3-ONSEMI	1:A,2:K,3:A
+datasheets/diode/onsemi/mbr40l45ct-d.pdf	D2PAK	array	1 Pair Common Cathode	1	NRVBB40L45CTT4G	D2PAK	TO-263-2-TAB-418B-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/mbr40l60ct-d.pdf	TO-220	array	1 Pair Common Cathode	1	MBR40L60CTG	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/onsemi/mbr41h100ct-d.pdf	TO-220	array	1 Pair Common Cathode	1	MBR41H100CTG	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/onsemi/mbr440mfs-d.pdf	5-DFN (5x6) (8-SOFL)	single		2	NRVB440MFSWFT1G	SO-8FL	SO8FL-5-ONSEMI	1:A,2:A,3:A,4:NC,5:K
+datasheets/diode/onsemi/mbr460mfs-d.pdf	5-DFN (5x6) (8-SOFL)	single		2	MBR460MFST1G	SO-8FL	SO8FL-5-ONSEMI	1:A,2:A,3:A,4:NC,5:K
+datasheets/diode/onsemi/mbr5100mfs-d.pdf	5-DFN (5x6) (8-SOFL)	single		1	NRVB5100MFST1G	SO-8FL	SO8FL-5-ONSEMI	1:A,2:A,3:A,4:NC,5:K
+datasheets/diode/onsemi/mbr540mfs-d.pdf	5-DFN (5x6) (8-SOFL)	single		1	NRVB540MFST1G	SO-8FL	SO8FL-5-ONSEMI	1:A,2:A,3:A,4:NC,5:K
+datasheets/diode/onsemi/mbr560mfs-d.pdf	5-DFN (5x6) (8-SOFL)	single		2	NRVB560MFST1G	SO-8FL	SO8FL-5-ONSEMI	1:A,2:A,3:A,4:NC,5:K
+datasheets/diode/onsemi/mbr5h100mfs-d.pdf	5-DFN (5x6) (8-SOFL)	single		2	MBR5H100MFST1G	SO-8FL	SO8FL-5-ONSEMI	1:A,2:A,3:A,4:NC,5:K
+datasheets/diode/onsemi/mbr60h100ct-d.pdf	D2PAK	array	1 Pair Common Cathode	1	NRVBB60H100CTT4G	D2PAK	TO-263-2-TAB-418B-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/mbr60h100ct-d.pdf	TO-220	array	1 Pair Common Cathode	1	MBR60H100CTG	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/onsemi/mbr60l45ct-d.pdf	TO-220	array	1 Pair Common Cathode	1	MBR60L45CTG	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/onsemi/mbr7030wt-d.pdf	TO-247-3	array	1 Pair Common Cathode	1	MBR7030WTG	TO-247	TO-247-3-ONSEMI	1:A1,2:K,3:A2
+datasheets/diode/onsemi/mbr735-d.pdf	TO-220-2	single		1	MBR745G	TO-220	TO-220-2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbr760-d.pdf	TO-220-2L	single		2	MBR750	TO-220	ITO-220-2-TSC	1:K,2:A
+datasheets/diode/onsemi/mbr8170tfs-d.pdf	8-WDFN (3.3x3.3)	single		2	MBR8170TFSTAG	WDFN8	WDFN8-5-ONSEMI	1:A,2:A,3:A,4:NC,5:K
+datasheets/diode/onsemi/mbr8h100mfs-d.pdf	5-DFN (5x6) (8-SOFL)	single		3	MBR8H100MFST1G	SO-8FL	SO8FL-5-ONSEMI	1:A,2:A,3:A,4:NC,5:K
+datasheets/diode/onsemi/mbra120et3-d.pdf	SMA	single		2	MBRA120ET3G	SMA	DIODE-SMA-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbra130lt3-d.pdf	SMA	single		2	MBRA130LT3G	SMA	DIODE-SMA-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbra140t3-d.pdf	SMA	single		2	MBRA140T3G	SMA	DIODE-SMA-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbra160t3-d.pdf	SMA	single		2	MBRA160T3G	SMA	DIODE-SMA-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbra1h100-d.pdf	SMA	single		2	MBRA1H100T3G	SMA	DIODE-SMA-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbra210lt3-d.pdf	SMA	single		2	MBRA210LT3G	SMA	DIODE-SMA-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbra320-d.pdf	SMA	single		2	NRVBA320NT3G	SMA	DIODE-SMA-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbra340t3-d.pdf	SMA	single		2	MBRA340T3G	SMA	DIODE-SMA-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbraf1540-d.pdf	SMA-FL	single		1	NRVBAF1540T3G	SMA-FL	DIODE-SMA-FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbraf260-d.pdf	SMA-FL	single		2	MBRAF260T3G	SMA-FL	DIODE-SMA-FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbraf360-d.pdf	SMA-FL	single		1	NRVBAF360T3G	SMA-FL	DIODE-SMA-FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbraf440t3-d.pdf	SMA-FL	single		2	MBRAF440T3G	SMA-FL	DIODE-SMA-FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbrb1045-d.pdf	DPAK	single		1	MBRD1045T4G	DPAK	TO-252-2-TAB-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/mbrb1545ct-d.pdf	D2PAK	array	1 Pair Common Cathode	1	MBRB1545CTT4G	D2PAK	TO-263-2-TAB-418B-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/mbrb20100ct-d.pdf	D2PAK	array	1 Pair Common Cathode	2	MBRB20100CTT4G	D2PAK	TO-263-2-TAB-418B-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/mbrb20200ct-d.pdf	D2PAK	array	1 Pair Common Cathode	2	MBRB20200CTT4G	D2PAK	TO-263-2-TAB-418B-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/mbrb2545ct-d.pdf	D2PAK	array	1 Pair Common Cathode	1	MBRB2545CTT4G	D2PAK	TO-263-2-TAB-418B-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/mbrb30h30ct-1-d.pdf	TO-220	array	1 Pair Common Cathode	1	MBR30H30CTG	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/onsemi/mbrb30h60ct-d.pdf	D2PAK	array	1 Pair Common Cathode	1	NRVBB30H60CTT4G	D2PAK	TO-263-2-TAB-418B-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/mbrb8h100-d.pdf	D2PAK	single		1	MBRB8H100T4G	D2PAK	TO-263-2-TAB-418B-ONSEMI	1:NC,2:A,3:K
+datasheets/diode/onsemi/mbrd1035ctl-d.pdf	DPAK	array	1 Pair Common Cathode	1	MBRD1035CTLT4G	DPAK	TO-252-2-TAB-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/mbrd320-d.pdf	DPAK	single		3	MBRD340T4G	DPAK	TO-252-2-TAB-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/mbrd5h100-d.pdf	DPAK	single		2	MBRD5H100T4G	DPAK	TO-252-2-TAB-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/mbrd620ct-d.pdf	DPAK	array	1 Pair Common Cathode	6	MBRD620CTT4G	DPAK	TO-252-2-TAB-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/mbrd835l-d.pdf	DPAK	single		2	MBRD835LT4G	DPAK	TO-252-2-TAB-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/mbrf10h150ct-d.pdf	TO-220FP	array	1 Pair Common Cathode	1	MBRF10H150CTG	TO-220FP	TO-220-FULL-PACK-3-ONSEMI	1:A1,2:K,3:A2
+datasheets/diode/onsemi/mbrf20100ct-d.pdf	TO-220FP	array	1 Pair Common Cathode	1	MBRF20100CTG	TO-220FP	TO-220-FULL-PACK-3-ONSEMI	1:A1,2:K,3:A2
+datasheets/diode/onsemi/mbrf20200ct-d.pdf	TO-220FP	array	1 Pair Common Cathode	1	MBRF20200CTG	TO-220FP	TO-220-FULL-PACK-3-ONSEMI	1:A1,2:K,3:A2
+datasheets/diode/onsemi/mbrf20h150ct-d.pdf	TO-220	array	1 Pair Common Cathode	1	MBR20H150CTG	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/onsemi/mbrf2545ct-d.pdf	TO-220FP	array	1 Pair Common Cathode	1	MBRF2545CTG	TO-220FP	TO-220-FULL-PACK-3-ONSEMI	1:A1,2:K,3:A2
+datasheets/diode/onsemi/mbrm120e-d.pdf	Powermite	single		3	MBRM120ET1G	Powermite	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/onsemi/mbrm120l-d.pdf	Powermite	single		3	MBRM120LT1G	Powermite	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/onsemi/mbrm130l-d.pdf	Powermite	single		2	MBRM130LT1G	Powermite	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/onsemi/mbrm140-d.pdf	Powermite	single		3	MBRM140T1G	Powermite	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/onsemi/mbrm1h100-d.pdf	Powermite	single		1	MBRM1H100T3G	Powermite	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/onsemi/mbrm2h100-d.pdf	Powermite	single		2	MBRM2H100T3G	Powermite	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/onsemi/mbrs1100t3-d.pdf	SMB	single		4	MBRS1100T3G	SMB	DIODE-SMB-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbrs120t3-d.pdf	SMB	single		2	MBRS120T3G	SMB	DIODE-SMB-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbrs130lt3-d.pdf	SMB	single		2	MBRS130LT3G	SMB	DIODE-SMB-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbrs130t3-d.pdf	SMB	single		2	MBRS130T3G	SMB	DIODE-SMB-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbrs140t3-d.pdf	SMB	single		2	MBRS140T3G	SMB	DIODE-SMB-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbrs1540t3-d.pdf	SMB	single		1	MBRS1540T3G	SMB	DIODE-SMB-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbrs2040lt3-d.pdf	SMB	single		2	MBRS2040LT3G	SMB	DIODE-SMB-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbrs230lt3-d.pdf	SMB	single		2	MBRS230LT3G	SMB	DIODE-SMB-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbrs240lt3-d.pdf	SMB	single		2	MBRS240LT3G	SMB	DIODE-SMB-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbrs260t3-d.pdf	SMB	single		2	MBRS260T3G	SMB	DIODE-SMB-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbrs2h100-d.pdf	SMA	single		2	MBRA2H100T3G	SMA	DIODE-SMA-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbrs2h100-d.pdf	SMB	single		2	MBRS2H100T3G	SMB	DIODE-SMB-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbrs3100t3-d.pdf	SMC	single		2	MBRS3100T3G	SMC	DIODE-SMC-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbrs3200t3-d.pdf	SMB	single		2	MBRS3200T3G	SMB	DIODE-SMB-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbrs3201t3-d.pdf	SMC	single		1	MBRS3201T3G	SMC	DIODE-SMC-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbrs340t3-d.pdf	SMC	single		4	MBRS320T3G	SMC	DIODE-SMC-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbrs360t3-d.pdf	SMB	single		2	MBRS360BT3G	SMB	DIODE-SMB-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbrs360t3-d.pdf	SMC	single		2	MBRS360T3G	SMC	DIODE-SMC-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbrs4201t3-d.pdf	SMC	single		2	MBRS4201T3G	SMC	DIODE-SMC-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mbrs540t3-d.pdf	SMC	single		2	MBRS540T3G	SMC	DIODE-SMC-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mm3z2v4st1-d.pdf	SOD-323	zener		38	MM3Z10VST1G	SOD-323	DIODE-SOD-323-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mm3z2v4t1-d.pdf	SOD-323	zener		29	MM3Z11VT1G	SOD-323	DIODE-SOD-323-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mm3z9v1b-d.pdf	SOD-323F	zener		35	MM3Z10VB	SOD-323F	DIODE-SOD-323FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mm3z9v1c-d.pdf	SOD-323F	zener		33	MM3Z10VC	SOD-323F	DIODE-SOD-323FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mm5z2v4st1-d.pdf	SOD-523	zener		14	MM5Z2V4ST1G	SOD-523	DIODE-SOD-523-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mm5z2v4t1-d-3c6979.pdf	SOD-523	zener		4	MM5Z22VT5G	SOD-523	DIODE-SOD-523-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mm5z2v4t1-d-ff3af6.pdf	SOD-523	zener		61	MM5Z10VT1G	SOD-523	DIODE-SOD-523-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mm5z4678t1-d.pdf	SOD-523	zener		20	MM5Z4678T1G	SOD-523	DIODE-SOD-523-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mmbd1401al-d.pdf	SOT-23-3	single		1	MMBD1401ALT1G	SOT-23	SOT23-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/mmbd1405-d.pdf	SOT-23-3	array	1 Pair Common Anode|1 Pair Common Cathode|1 Pair Series Connection	3	MMBD1403	SOT-23	SOT23-3-ONSEMI	ca=1:K1,2:K2,3:A;cc=1:A1,2:A2,3:K;series=1:A1,2:K2,3:K1A2
+datasheets/diode/onsemi/mmbd1405-d.pdf	SOT-23-3	single		1	MMBD1401	SOT-23	SOT23-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/mmbd1405-d.pdf	SOT-23-3 (TO-236)	array	1 Pair Series Connection	1	NSVMMBD1403LT1G	SOT-23	SOT23-3-ONSEMI	1:A1,2:K2,3:K1A2
+datasheets/diode/onsemi/mmbd1405a-d.pdf	SOT-23-3	array	1 Pair Common Cathode	1	MMBD1404A	SOT-23	SOT23-3-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/mmbd1501-d.pdf	SOT-23-3	array	1 Pair Common Anode|1 Pair Common Cathode|1 Pair Series Connection	3	MMBD1503A-D87Z	SOT-23	SOT23-3-ONSEMI	ca=1:K1,2:K2,3:A;cc=1:A1,2:A2,3:K;series=1:A1,2:K2,3:K1A2
+datasheets/diode/onsemi/mmbd1501-d.pdf	SOT-23-3	single		1	MMBD1501A	SOT-23	SOT23-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/mmbd1501-d.pdf	SOT-23-3 (TO-236)	array	1 Pair Common Cathode	1	NSVMMBD1504ALT1G	SOT-23	SOT23-3-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/mmbd1501-d.pdf	SOT-23-3 (TO-236)	single		1	NSVMMBD1501ALT3G	SOT-23	SOT23-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/mmbd2835lt1-d.pdf	SOT-23-3 (TO-236)	array	1 Pair Common Anode	3	MMBD2835LT1G	SOT-23	SOT23-3-ONSEMI	1:K1,2:K2,3:A
+datasheets/diode/onsemi/mmbd2837lt1-d.pdf	SOT-23-3 (TO-236)	array	1 Pair Common Cathode	3	MMBD2837LT1G	SOT-23	SOT23-3-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/mmbd4148se-d.pdf	SOT-23-3	array	1 Pair Common Anode|1 Pair Series Connection	2	MMBD4148CA	SOT-23	SOT23-3-ONSEMI	ca=1:K1,2:K2,3:A;series=1:A1,2:K2,3:K1A2
+datasheets/diode/onsemi/mmbd6050lt1-d.pdf	SOT-23-3 (TO-236)	single		2	MMBD6050LT1G	SOT-23	SOT23-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/mmbd6100lt1-d.pdf	SOT-23-3 (TO-236)	array	1 Pair Common Cathode	1	MMBD6100LT1G	SOT-23	SOT23-3-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/mmbd7000lt1-d.pdf	SOT-23-3 (TO-236)	array	1 Pair Series Connection	4	MMBD7000LT1G	SOT-23	SOT23-3-ONSEMI	1:A1,2:K2,3:K1A2
+datasheets/diode/onsemi/mmbd914lt1-d.pdf	SOT-23-3 (TO-236)	single		3	MMBD914LT1G	SOT-23	SOT23-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/mmbz16val-d.pdf	SOT-23-3 (TO-236)	zener-array	1 Pair Common Anode	2	SZMMBZ16VALT1G	SOT-23	SOT23-3-ONSEMI	1:K1,2:K2,3:A
+datasheets/diode/onsemi/mmbz5221blt1-d.pdf	SOT-23-3 (TO-236)	zener		86	MMBZ5221BLT1G	SOT-23	SOT23-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/mmbz5221elt1-d.pdf	SOT-23-3 (TO-236)	zener		16	MMBZ5231ELT1G	SOT-23	SOT23-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/mmbz5v6alt1-d.pdf	SOT-23-3 (TO-236)	zener-array	1 Pair Common Anode	24	MMBZ12VALT1G	SOT-23	SOT23-3-ONSEMI	1:K1,2:K2,3:A
+datasheets/diode/onsemi/mmdl6050t1-d.pdf	SOD-323	single		1	MMDL6050T1G	SOD-323	DIODE-SOD-323-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mmdl914t1-d.pdf	SOD-323	single		3	MMDL914T1G	SOD-323	DIODE-SOD-323-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mmsd103t1-d.pdf	SOD-123	single		2	MMSD103T1G	SOD-123	DIODE-SOD-123-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mmsd301t1-d.pdf	SOD-123	single		3	MMSD301T1G	SOD-123	DIODE-SOD-123-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mmsd4148t1-d.pdf	SOD-123	single		4	MMSD4148T1G	SOD-123	DIODE-SOD-123-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mmsd4448-d.pdf	SOD-123	single		1	MMSD4448	SOD-123	DIODE-SOD-123-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mmsd914t1-d.pdf	SOD-123	single		4	MMSD914T1G	SOD-123	DIODE-SOD-123-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mmsz2v4et1-d.pdf	SOD-123	zener		8	MMSZ18ET1G	SOD-123	DIODE-SOD-123-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mmsz2v4t1-d.pdf	SOD-123	zener		67	MMSZ10T1G	SOD-123	DIODE-SOD-123-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mmsz4678et1-d.pdf	SOD-123	zener		4	MMSZ4680ET1G	SOD-123	DIODE-SOD-123-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mmsz4678t1-d.pdf	SOD-123	zener		64	MMSZ4679T1G	SOD-123	DIODE-SOD-123-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mmsz5221bt1-d.pdf	SOD-123	zener		109	MMSZ5221BT1G	SOD-123	DIODE-SOD-123-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mmsz5221et1-d.pdf	SOD-123	zener		24	MMSZ5235ET1G	SOD-123	DIODE-SOD-123-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mr850-d.pdf	Axial	single		3	MR851RLG	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mra4003t3-d.pdf	SMA	single		11	MRA4003T3G	SMA	DIODE-SMA-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mrs1504t3-d.pdf	SMB	single		1	MRS1504T3G	SMB	DIODE-SMB-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/msr1560-d.pdf	TO-220-2	single		1	MSR1560G	TO-220	TO-220-2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/msrd620ct-d.pdf	DPAK	array	1 Pair Common Cathode	2	MSRD620CTT4G	DPAK	TO-252-2-TAB-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/mur120-d.pdf	Axial	single		8	MUR110G	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mur1520-d.pdf	TO-220-2	single		2	MUR1520G	TO-220	TO-220-2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mur1520-d.pdf	TO-220FP	single		1	MURF1560G	TO-220FP	TO-220-FULL-PACK-3-ONSEMI	1:A,2:K,3:A
+datasheets/diode/onsemi/mur1620ct-d.pdf	TO-220	array	1 Pair Common Cathode	3	MUR1620CTG	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/onsemi/mur1620ctr-d.pdf	TO-220	array	1 Pair Common Anode	1	MUR1620CTRG	TO-220	TO-220AB-3-VISHAY	1:K1,2:A,3:K2
+datasheets/diode/onsemi/mur180e-d.pdf	Axial	single		2	MUR1100EG	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mur2020r-d.pdf	TO-220-2	single		1	MUR2020RG	TO-220	TO-220-2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mur210-d.pdf	Axial	single		1	MUR210RLG	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mur2100e-d.pdf	Axial	single		2	MUR2100EG	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mur220-d.pdf	Axial	single		2	MUR220G	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mur240-d.pdf	Axial	single		1	MUR240RLG	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mur260-d.pdf	Axial	single		1	MUR260RLG	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mur420-d.pdf	Axial	single		8	MUR410G	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mur480e-d.pdf	Axial	single		3	MUR4100EG	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mur550-d.pdf	Axial	single		1	MUR550APFRLG	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mur550-d.pdf	DPAK	single		1	MURD550PFT4G	DPAK	TO-252-2-TAB-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/mur620ct-d.pdf	TO-220	array	1 Pair Common Cathode	1	MUR620CTG	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/onsemi/mur820-d.pdf		single		1	SUR8840G	SOD-523	DIODE-SOD-523-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mur820-d.pdf	TO-220-2	single		5	MUR810G	TO-220	TO-220-2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mur820-d.pdf	TO-220FP	single		1	MURF860G	TO-220FP	TO-220-FULL-PACK-3-ONSEMI	1:A,2:K,3:A
+datasheets/diode/onsemi/mura105t3-d.pdf	SMA	single		3	MURA105T3G	SMA	DIODE-SMA-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mura115t3-d.pdf	SMA	single		3	MURA115T3G	SMA	DIODE-SMA-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mura130t3-d.pdf	SMA	single		2	MURA140T3G	SMA	DIODE-SMA-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mura160t3-d.pdf	SMA	single		2	MURA160T3G	SMA	DIODE-SMA-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mura205t3-d.pdf	SMA	single		3	MURA205T3G	SMA	DIODE-SMA-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mura215t3-d.pdf	SMA	single		3	MURA220T3G	SMA	DIODE-SMA-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mura230t3-d.pdf	SMA	single		2	MURA230T3G	SMA	DIODE-SMA-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mura260t3-d.pdf	SMA	single		2	MURA260T3G	SMA	DIODE-SMA-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/murb1620ct-d.pdf	D2PAK	array	1 Pair Common Cathode	1	MURB1620CTT4G	D2PAK	TO-263-2-TAB-418B-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/murb1660ct-d.pdf	D2PAK	array	1 Pair Common Cathode	1	NRVUB1660CTT4G	D2PAK	TO-263-2-TAB-418B-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/murd320-d.pdf	DPAK	single		2	MURD320T4G	DPAK	TO-252-2-TAB-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/murd620ct-d.pdf	DPAK	array	1 Pair Common Cathode	3	MURD620CTT4G	DPAK	TO-252-2-TAB-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/murf1620ct-d.pdf	TO-220FP	array	1 Pair Common Cathode	1	MURF1620CTG	TO-220FP	TO-220-FULL-PACK-3-ONSEMI	1:A1,2:K,3:A2
+datasheets/diode/onsemi/murh840ct-d.pdf	TO-220	array	1 Pair Common Cathode	1	MURH840CTG	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/onsemi/murh860ct-d.pdf	TO-220	array	1 Pair Common Cathode	1	MURH860CTG	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/onsemi/murhd560-d-0ed12b.pdf	DPAK	single		1	SSURHD8560W1T4G	DPAK	TO-252-2-TAB-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/murhd560-d-781641.pdf	DPAK	single		2	MURHD560T4G	DPAK	TO-252-2-TAB-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/murhs160-d.pdf	SMB	single		1	NRVUHS160VT3G	SMB	DIODE-SMB-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/murs120t3-d.pdf	SMB	single		8	MURS105T3G	SMB	DIODE-SMB-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/murs220t3-d.pdf	SMB	single		2	MURS220T3G	SMB	DIODE-SMB-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/murs230t3-d.pdf	SMB	single		2	MURS240T3G	SMB	DIODE-SMB-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/murs260t3-d.pdf	SMB	single		2	MURS260T3G	SMB	DIODE-SMB-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/murs320t3-d-1374a9.pdf	SMC	single		5	MURS320T3G	SMC	DIODE-SMC-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/murs320t3-d-8a72c8.pdf	SMC	single		1	SURS8360T3G-VF01	SMC	DIODE-SMC-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/murs360bt3-d.pdf	SMB	single		2	MURS360BT3G	SMB	DIODE-SMB-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nhp120sf-d.pdf	SOD-123FL	single		2	NHP120SFT3G	SOD-123FL	DIODE-SOD-123FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nhp140sf-d.pdf	SOD-123FL	single		2	NHP140SFT3G	SOD-123FL	DIODE-SOD-123FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nhp220sf-d.pdf	SOD-123FL	single		2	NHP220SFT3G	SOD-123FL	DIODE-SOD-123FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nhp260sf-d.pdf	SOD-123FL	single		1	NRVHP260SFT3G	SOD-123FL	DIODE-SOD-123FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nhp420lfs-d.pdf	LFPAK4 (5x6)	single		1	NHP420LFST1G	LFPAK4	LFPAK4-5-ONSEMI	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/onsemi/nhp620lfs-d.pdf	LFPAK4 (5x6)	single		1	NRVHP620LFST1G	LFPAK4	LFPAK4-5-ONSEMI	1:A,2:A,3:A,4:A,5:K
+datasheets/diode/onsemi/nhpaf320-d.pdf	SMA-FL	single		1	NRVHPAF320T3G	SMA-FL	DIODE-SMA-FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nhpm120-d.pdf	Powermite	single		1	NRVHPM120T3G	Powermite	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/onsemi/nhpm220-d.pdf	Powermite	single		1	NRVHPM220T3G	Powermite	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/onsemi/nhpm260-d.pdf	Powermite	single		1	NRVHPM260T3G	Powermite	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/onsemi/nrts10100pfs-d.pdf	TO-277-3	single		2	NRTS10100PFST3G	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/nrts1060pfs-d.pdf	TO-277-3	single		2	NRTS1060PFST3G	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/nrts15100pfs-d.pdf	TO-277-3	single		2	NRTS15100PFST3G	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/nrts30100mfs-d.pdf	5-DFN (5x6) (8-SOFL)	single		1	NRTS30100MFST3G	SO-8FL	SO8FL-5-ONSEMI	1:A,2:A,3:A,4:NC,5:K
+datasheets/diode/onsemi/nrts30120mfs-d.pdf	5-DFN (5x6) (8-SOFL)	single		1	NRTS30120MFST3G	SO-8FL	SO8FL-5-ONSEMI	1:A,2:A,3:A,4:NC,5:K
+datasheets/diode/onsemi/nrts3060mfs-d.pdf	5-DFN (5x6) (8-SOFL)	single		1	NRTS3060MFST3G	SO-8FL	SO8FL-5-ONSEMI	1:A,2:A,3:A,4:NC,5:K
+datasheets/diode/onsemi/nrts6100pfs-d.pdf	TO-277-3	single		2	NRTS6100PFST3G	TO-277	TO-277-3-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/nrts6100tfs-d.pdf	8-WDFN (3.3x3.3)	single		1	NRTS6100TFSTAG	WDFN8	WDFN8-5-ONSEMI	1:A,2:A,3:A,4:NC,5:K
+datasheets/diode/onsemi/nrvts2h60esf-d.pdf	Powermite	single		2	NRVTSM260EV2T1G	Powermite	DIODE-SMP-VISHAY	1:K,2:A
+datasheets/diode/onsemi/nrvts2h60esf-d.pdf	SOD-123FL	single		2	NRVTS2H60ESFT1G	SOD-123FL	DIODE-SOD-123FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nrvts30120mfs-d.pdf	5-DFN (5x6) (8-SOFL)	single		1	NRVTS30120MFST3G	SO-8FL	SO8FL-5-ONSEMI	1:A,2:A,3:A,4:NC,5:K
+datasheets/diode/onsemi/nrvts3060mfs-d.pdf	5-DFN (5x6) (8-SOFL)	single		1	NRVTS3060MFST3G	SO-8FL	SO8FL-5-ONSEMI	1:A,2:A,3:A,4:NC,5:K
+datasheets/diode/onsemi/nrvts5100etfs-d.pdf	8-WDFN (3.3x3.3)	single		1	NRVTS5100ETFSTAG	WDFN8	WDFN8-5-ONSEMI	1:A,2:A,3:A,4:NC,5:K
+datasheets/diode/onsemi/nsd070al-d.pdf	SOT-23-3 (TO-236)	array	1 Pair Common Anode	2	NSD070ALT1G	SOT-23	SOT23-3-ONSEMI	1:K1,2:K2,3:A
+datasheets/diode/onsemi/nsd350h-d.pdf	SOD-323	single		2	NSD350HT1G	SOD-323	DIODE-SOD-323-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr0130p2-d.pdf	SOD-923	single		1	NSR0130P2T5G	SOD-923	DIODE-SOD-923-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr0140p2-d.pdf	SOD-923	single		1	NSR0140P2T5G	SOD-923	DIODE-SOD-923-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr0170-d.pdf	2-X2DFNW (1x0.6)	single		1	NSVR0170MX2WT5G	X2DFNW	DIODE-X2DFNW2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr0170-d.pdf	SOD-323	single		2	NSR0170HT1G	SOD-323	DIODE-SOD-323-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr0170-d.pdf	SOD-923	single		2	NSR0170P2T5G	SOD-923	DIODE-SOD-923-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr01f30-d.pdf	2-DSN (0.60x0.30)	single		1	NSR01F30NXT5G	DSN2	DIODE-DSN2-0.6X0.3-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr01l30-d.pdf	2-DSN (0.60x0.30)	single		1	NSR01L30NXT5G	DSN2	DIODE-DSN2-0.6X0.3-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr01l30mx-d.pdf	2-X3DFN (0.6x0.3) (0201)	single		1	NSR01L30MXT5G	X3DFN	DIODE-X3DFN2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr02100ht1-d.pdf	SOD-323	single		1	NSVR02100HT1G	SOD-323	DIODE-SOD-323-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr0230-d.pdf	SOD-723	single		1	NSVR0230M2T5G	SOD-723	DIODE-SOD-723-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr0230p2-d.pdf	SOD-923	single		2	NSR0230P2T5G	SOD-923	DIODE-SOD-923-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr0240h-d.pdf	SOD-323	single		2	NSR0240HT1G	SOD-323	DIODE-SOD-323-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr0240mx2-d.pdf	2-X2DFN (1x0.6)	single		1	NSR0240MX2T5G	X2DFN	DIODE-X2DFN2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr0240mx2-d.pdf	2-X2DFNW (1x0.6)	single		2	NSR0240MX2WT5G	X2DFNW	DIODE-X2DFNW2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr0240p2-d.pdf	SOD-923	single		2	NSR0240P2T5G	SOD-923	DIODE-SOD-923-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr02f30-d.pdf	2-DSN (0.60x0.30)	single		1	NSR02F30NXT5G	DSN2	DIODE-DSN2-0.6X0.3-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr02l30-d.pdf	2-DSN (0.60x0.30)	single		1	NSR02L30NXT5G	DSN2	DIODE-DSN2-0.6X0.3-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr02l40mx2w-d.pdf	2-X2DFNW (1x0.6)	single		2	NSR02L40MX2WT5G	X2DFNW	DIODE-X2DFNW2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr0320mw2t1-d.pdf	SOD-323	single		2	NSR0320MW2T1G	SOD-323	DIODE-SOD-323-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr0340h-d.pdf	SOD-323	single		2	NSR0340HT1G	SOD-323	DIODE-SOD-323-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr0340p2-d.pdf	SOD-923	single		1	NSR0340P2T5G	SOD-923	DIODE-SOD-923-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr0340v2t1-d.pdf	SOD-523	single		1	NSR0340V2T1G	SOD-523	DIODE-SOD-523-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr0520v2t1-d.pdf	SOD-523	single		1	NSVR0520V2T5G	SOD-523	DIODE-SOD-523-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr0530p2-d.pdf	SOD-923	single		2	NSR0530P2T5G	SOD-923	DIODE-SOD-923-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr05f30.pdf	2-DSN (1x0.6), (0402)	single		1	NSR05F30NXT5G	DSN2	DIODE-DSN2-1.0X0.6-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr05f40-d.pdf	2-DSN (1x0.6), (0402)	single		2	NSR05F40NXT5G	DSN2	DIODE-DSN2-1.0X0.6-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr0620p2-d.pdf	SOD-923	single		2	NSR0620P2T5G	SOD-923	DIODE-SOD-923-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr0620sp2-d.pdf	SOD-923	single		1	NSR0620SP2T5G	SOD-923	DIODE-SOD-923-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr1020mw2t1-d.pdf	SOD-323	single		1	NSVR1020MW2T1G	SOD-323	DIODE-SOD-323-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr10f20-d.pdf	2-DSN (1.4x0.6)	single		1	NSR10F20NXT5G	DSN2	DIODE-DSN2-1.4X0.6-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr10f30-d.pdf	2-DSN (1.4x0.6)	single		1	NSR10F30NXT5G	DSN2	DIODE-DSN2-1.4X0.6-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr10f40-d.pdf	2-DSN (1.4x0.6)	single		1	NSR10F40NXT5G	DSN2	DIODE-DSN2-1.4X0.6-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr20f20-d.pdf	2-DSN (1.6x.80)	single		1	NSR20F20NXT5G	DSN2	DIODE-DSN2-1.6X0.8-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr20f30-d.pdf	2-DSN (1.6x.80)	single		1	NSR20F30NXT5G	DSN2	DIODE-DSN2-1.6X0.8-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr20f40-d.pdf	2-DSN (1.6x0.8), (0603)	single		1	NSR20F40NXT5G	DSN2	DIODE-DSN2-1.6X0.8-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsr30cm3t5g-d.pdf	SOT-723	array	1 Pair Common Cathode	2	NSR30CM3T5G	SOT-723	SOT723-3-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/nsrll30xv2-d.pdf	SOD-523	single		1	NSRLL30XV2T1G	SOD-523	DIODE-SOD-523-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nsvr02hl40mx2w-d.pdf	2-X2DFNW (1x0.6)	single		1	NSVR02HL40MX2WT5G	X2DFNW	DIODE-X2DFNW2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/ntss3100-d.pdf		single		1	NTSS3100T3G	SOD-523	DIODE-SOD-523-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nz8f2v4mx2w-d.pdf	2-X2DFNW (1x0.6)	zener		47	NZ8F13VSMX2WT5G	X2DFNW	DIODE-X2DFNW2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nz9f2v4-d.pdf	SOD-923	zener		23	NZ9F10VT5G	SOD-923	DIODE-SOD-923-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nz9f2v4s-d.pdf	SOD-923	zener		22	NZ9F10VST5G	SOD-923	DIODE-SOD-923-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/nzd5v1mu-d.pdf	2-X3DFN (0.6x0.3) (0201)	zener		15	NZD2V2MUT5G	X3DFN	DIODE-X3DFN2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/rb520s30t1-d.pdf	SOD-523	single		1	RB520S30T5G	SOD-523	DIODE-SOD-523-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/rb521s30t1-d.pdf	SOD-523	single		3	NSVRB521S30T1G	SOD-523	DIODE-SOD-523-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/rb751v40t1-d.pdf	SOD-323	single		2	NSVRB751V40T1G	SOD-323	DIODE-SOD-323-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/rgf1m-d.pdf	DO-214AC (SMA)	single		7	RGF1A	SMA	DIODE-SMA-403AE-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/rgf1m-d.pdf	SMA	single		2	NRVRGF1J	SMA	DIODE-SMA-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/rhrg3060_f085-d.pdf	TO-247-2	single		1	RHRG3060-F085	TO-247	TO-247-2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/rhrg5060_f085-d.pdf	TO-247-2	single		1	RHRG5060-F085	TO-247	TO-247-2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/rs1afa-d.pdf	SOD-123FA	single		7	RS1AFA	SOD-123FA	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/onsemi/rs1afa-d.pdf	SOD-123FL	single		2	NRVHPRS1KFA	SOD-123FL	DIODE-SOD-123FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/rs1m-d.pdf	DO-214AC (SMA)	single		7	RS1A	SMA	DIODE-SMA-403AE-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/rs1mfp-d.pdf	SOD-123HE	single		3	RS1JFP	SOD-123HE	DIODE-SOD-123HE-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/rurd4120s_f085-d.pdf	TO-252AA	single		1	RURD4120S9A-F085	DPAK	TO-252-2-TAB-369AS-ONSEMI	1:A,2:A,3:K
+datasheets/diode/onsemi/rurd620ccs9a-d.pdf	TO-252AA	array	1 Pair Common Cathode	1	RURD620CCS9A-F085	DPAK	TO-252-2-TAB-369AS-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/rurg3060_f085-d.pdf	TO-247-2	single		1	RURG3060-F085	TO-247	TO-247-2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/rurg5060_f085-d.pdf	TO-247-2	single		1	RURG5060-F085	TO-247	TO-247-2-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/s110fa-d.pdf	SOD-123FA	single		5	S110FA	SOD-123FA	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/onsemi/s110fp-d.pdf	SOD-123HE	single		6	S110FP	SOD-123HE	DIODE-SOD-123HE-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/s1jhe-d.pdf	SOD-323HE	single		4	NRVS1GHE	SOD-323HE	DIODE-SOD-323HE-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/s1mfl-d.pdf	SOD-123F	single		12	NRVS1AFL	SOD-123F	DIODE-SOD-123F-TSC	1:K,2:A
+datasheets/diode/onsemi/s1mfp-d.pdf	SOD-123HE	single		2	S1JFP	SOD-123HE	DIODE-SOD-123HE-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/s2m-d.pdf	DO-214AA (SMB)	single		3	S2B	SMB	DIODE-SMB-403AF-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/s2m-d.pdf	SMB	single		3	NRVS2B	SMB	DIODE-SMB-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/s320-d.pdf	DO-214AA (SMB)	single		1	S320	SMB	DIODE-SMB-403AF-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/s3mb-d.pdf	DO-214AA (SMB)	single		6	NRVS3MB	SMB	DIODE-SMB-403AF-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/s3n-d.pdf	DO-214AB (SMC)	single		7	S3A	SMC	DIODE-SMC-403AG-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/sb007-03c-d.pdf	3-CP	single		1	SB007-03C-TB-E	CP	SC59-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/sb007-03q-d.pdf	3-MCP	single		1	SB007-03Q-TL-E	MCP	MCP-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/sb01-05c-d.pdf	3-CP	single		1	SB01-05C-TB-E	CP	SC59-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/sb01-05q-d.pdf	3-MCP	single		1	SB01-05Q-TL-E	MCP	MCP-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/sb02-09c-d.pdf	3-CP	single		1	SB02-09C-TB-E	CP	SC59-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/sb05-03q-d.pdf	3-MCP	single		1	SB05-03Q-TL-E	MCP	MCP-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/sb05-05c-d.pdf	3-CP	single		1	SB05-05C-TB-E	CP	SC59-3-ONSEMI	1:A,2:NC,3:K
+datasheets/diode/onsemi/sb05w05c-d.pdf	3-CP	array	1 Pair Common Cathode	1	SB05W05C-TB-E	CP	SC59-3-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/sb10-05p-d.pdf	SOT-89/PCP-1	single		1	SB10-05P-TD-E	PCP	SOT89-3-ONSEMI	1:A,2:K,3:NC
+datasheets/diode/onsemi/ss13he-d.pdf	SOD-323HE	single		6	NRVBSS13HE	SOD-323HE	DIODE-SOD-323HE-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/ss16-d.pdf	SMA	single		2	SBRA8160NT3G	SMA	DIODE-SMA-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/ss19-d.pdf	DO-214AC (SMA)	single		7	S100	SMA	DIODE-SMA-403AE-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/ss24-d.pdf	SMB	single		1	NRVBSS24NT3G	SMB	DIODE-SMB-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/ss26-d.pdf	SMB	single		2	NRVBSS26NT3G	SMB	DIODE-SMB-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/ss26fl-d.pdf	SOD-123F	single		2	SS24FL	SOD-123F	DIODE-SOD-123F-TSC	1:K,2:A
+datasheets/diode/onsemi/ss29-d.pdf	DO-214AA (SMB)	single		5	S210	SMB	DIODE-SMB-403AF-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/ss29fa-d.pdf	SOD-123FA	single		6	NRVBS215FA	SOD-123FA	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/onsemi/ss29fa-d.pdf	SOD-123FL	single		1	SS25FA	SOD-123FL	DIODE-SOD-123FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/ss36fa-d.pdf	SOD-123FA	single		3	S310FA	SOD-123FA	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/onsemi/ss36fa-d.pdf	SOD-123FL	single		3	NRVBS310FA	SOD-123FL	DIODE-SOD-123FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/ss39-d.pdf	DO-214AB (SMC)	single		8	S310	SMC	DIODE-SMC-403AG-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/ssa210-d.pdf	DO-214AC (SMA)	single		1	SSA210	SMA	DIODE-SMA-403AE-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/ssa24-d.pdf	DO-214AC (SMA)	single		1	SSA24	SMA	DIODE-SMA-403AE-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/ssa36-d.pdf	DO-214AC (SMA)	single		1	SSA36	SMA	DIODE-SMA-403AE-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/sz1smb59xxbt3g-vf01-d.pdf	SMB	zener		2	SZ1SMB5933BT3G-VF01	SMB	DIODE-SMB-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/uf4007-d.pdf	DO-41	single		7	UF4001	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/us1mfa-d-174a84.pdf	SOD-123FL	single		6	NRVUS1BFA	SOD-123FL	DIODE-SOD-123FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/us1mfa-d-4a95c5.pdf	SOD-123FA	single		5	US1AFA	SOD-123FA	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/onsemi/us1mfa-d-4a95c5.pdf	SOD-123FL	single		1	US1GFA	SOD-123FL	DIODE-SOD-123FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/us2aa-d.pdf	DO-214AC (SMA)	single		7	NRVUS2KA	SMA	DIODE-SMA-403AE-ONSEMI	1:K,2:A

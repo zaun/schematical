@@ -1,0 +1,767 @@
+datasheet	supplier_package	category	configurations	parts	first_mpn	package	footprint	pins
+datasheets/diode/tsc/1N4001G-SERIES_P2104.pdf	DO-204AL (DO-41)	single		11	1N4001G	DO-41	DIODE-DO-41-TSC	1:K,2:A
+datasheets/diode/tsc/1N4001G-SERIES_P2104.pdf	SOD-123W	single		1	UF1DLW	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/1N4148-SERIES_K2301.pdf	DO-35	single		1	1N4148 A0G	DO-35	DIODE-DO-35-TSC	1:K,2:A
+datasheets/diode/tsc/1N4148W-G_D1601.pdf	SOD-123	single		1	1N4148W-G RHG	SOD-123	DIODE-SOD-123-TSC	1:K,2:A
+datasheets/diode/tsc/1N4148W-SERIES_K1804.pdf	SOD-123F	single		3	1N4148W RHG	SOD-123F	DIODE-SOD-123F-TSC	1:K,2:A
+datasheets/diode/tsc/1N4148WH_A2501.pdf	SOD-123	single		1	1N4148WH RHG	SOD-123	DIODE-SOD-123-TSC	1:K,2:A
+datasheets/diode/tsc/1N4148WS-G_C2211.pdf	SOD-323	single		1	1N4148WS-G RVG	SOD-323	DIODE-SOD-323-TSC	1:K,2:A
+datasheets/diode/tsc/1N4148WS-SERIES_N2212.pdf	SOD-323F	single		4	1N4148WS R9G	SOD-323F	DIODE-SOD-323F-TSC	1:K,2:A
+datasheets/diode/tsc/1N4148WSH_A2501.pdf	SOD-323	single		1	1N4148WSH RRG	SOD-323	DIODE-SOD-323-TSC	1:K,2:A
+datasheets/diode/tsc/1N4148WTH_A2501.pdf	SOD-523F	single		1	1N4148WTH RSG	SOD-523F	DIODE-SOD-523F-TSC	1:K,2:A
+datasheets/diode/tsc/1N4740A-SERIES_O2104.pdf	DO-204AL (DO-41)	zener		16	1N4741A	DO-41	DIODE-DO-41-TSC	1:K,2:A
+datasheets/diode/tsc/1N4933G-SERIES_I2104.pdf	DO-204AL (DO-41)	single		3	1N4936G	DO-41	DIODE-DO-41-TSC	1:K,2:A
+datasheets/diode/tsc/1N5221B-SERIES_H2301.pdf	DO-35	zener		20	1N5221B R0G	DO-35	DIODE-DO-35-TSC	1:K,2:A
+datasheets/diode/tsc/1N5391G-SERIES_G2309.pdf	DO-204AC (DO-15)	single		8	1N5395G	DO-15	DIODE-DO-15-TSC	1:K,2:A
+datasheets/diode/tsc/1N5400G-SERIES_K2105.pdf	DO-201AD	single		11	1N5401G	DO-201AD	DIODE-DO-201AD-TSC	1:K,2:A
+datasheets/diode/tsc/1N5817-SERIES_H2104.pdf	DO-204AL (DO-41)	single		1	1N5819	DO-41	DIODE-DO-41-TSC	1:K,2:A
+datasheets/diode/tsc/1N5820-SERIES_I2105.pdf	DO-201AD	single		2	1N5821	DO-201AD	DIODE-DO-201AD-TSC	1:K,2:A
+datasheets/diode/tsc/1PGSMA-SERIES_B2102.pdf	DO-214AC (SMA)	zener		1	1PGSMA4744	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/1PGSMAH-SERIES_A2102.pdf	DO-214AC (SMA)	zener		2	1PGSMA4744H	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/1PGSMB5926-SERIES_C2102.pdf	DO-214AA (SMB)	zener		1	1PGSMB5926	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/1PGSMB5926H-SERIES_A2102.pdf	DO-214AA (SMB)	zener		2	1PGSMB5927H	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/1PGSMC5348-SERIES_D2102.pdf	DO-214AB (SMC)	zener		1	1PGSMC5352	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/1PGSMC5348H-SERIES_A2102.pdf	DO-214AB (SMC)	zener		19	1PGSMC5348H	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/1SMA4737-SERIES_P2102.pdf	DO-214AC (SMA)	zener		10	1SMA120Z	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/1SMA4737H-SERIES_A2102.pdf	DO-214AC (SMA)	zener		6	1SMA4746H	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/1SMA5926-SERIES_L2102.pdf	DO-214AC (SMA)	zener		5	1SMA5927	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/1SMB5926-SERIES_M2102.pdf	DO-214AA (SMB)	zener		2	1SMB5929	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/1SMB5926H-SERIES_A2102.pdf	DO-214AA (SMB)	zener		1	1SMB5931H	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/1SS355_D2212.pdf	SOD-323F	single		2	1SS355 R9G	SOD-323F	DIODE-SOD-323F-TSC	1:K,2:A
+datasheets/diode/tsc/1T1G-SERIES_H2104.pdf	TS-1	single		8	1T4G	TS-1	DIODE-TS-1-TSC	1:K,2:A
+datasheets/diode/tsc/2A01G-SERIES_I2105.pdf	DO-204AC (DO-15)	single		8	2A04G	DO-15	DIODE-DO-15-TSC	1:K,2:A
+datasheets/diode/tsc/31DF4-SERIES_G2105.pdf	DO-201AD	single		2	31DF4	DO-201AD	DIODE-DO-201AD-TSC	1:K,2:A
+datasheets/diode/tsc/3A60-SERIES_B2105.pdf	DO-204AC (DO-15)	single		3	3A100H	DO-15	DIODE-DO-15-TSC	1:K,2:A
+datasheets/diode/tsc/AZ23C2V7-SERIES_D2001.pdf	SOT-23	zener-array	1 Pair Common Anode	30	AZ23C10 RFG	SOT-23	SOT23-3-TSC	1:K1,2:K2,3:A
+datasheets/diode/tsc/B0520LW-SERIES_J2112.pdf	SOD-123	single		2	B0520LW RHG	SOD-123	DIODE-SOD-123-TSC	1:K,2:A
+datasheets/diode/tsc/B0520LWF-SERIES_C14.pdf	SOD-123F	single		1	B0540WF RHG	SOD-123F	DIODE-SOD-123F-TSC	1:K,2:A
+datasheets/diode/tsc/B0530WS_K2212.pdf	SOD-323F	single		1	B0530WS RRG	SOD-323F	DIODE-SOD-323F-TSC	1:K,2:A
+datasheets/diode/tsc/BA157G-SERIES_I2106.pdf	DO-204AL (DO-41)	single		6	BA157G	DO-41	DIODE-DO-41-TSC	1:K,2:A
+datasheets/diode/tsc/BAS116_F2001.pdf	SOT-23	single		1	BAS116 RFG	SOT-23	SOT23-3-TSC	1:A,2:NC,3:K
+datasheets/diode/tsc/BAS16H_A2412.pdf	SOT-23	single		1	BAS16H RFG	SOT-23	SOT23-3-TSC	1:A,2:NC,3:K
+datasheets/diode/tsc/BAS16_F2001.pdf	SOT-23	single		1	BAS16 R5G	SOT-23	SOT23-3-TSC	1:A,2:NC,3:K
+datasheets/diode/tsc/BAS19-SERIES_C2001.pdf	SOT-23	single		2	BAS19 RFG	SOT-23	SOT23-3-TSC	1:A,2:NC,3:K
+datasheets/diode/tsc/BAS19W-SERIES_B14.pdf	SOT-323	single		3	BAS19W RVG	SOT-323	SOT323-3-TSC	1:A,2:NC,3:K
+datasheets/diode/tsc/BAS21-SERIES_E2001.pdf	SOT-23	array	1 Pair Common Anode|1 Pair Common Cathode|1 Pair Series Connection	3	BAS21A RFG	SOT-23	SOT23-3-TSC	ca=1:K1,2:K2,3:A;cc=1:A1,2:A2,3:K;series=1:A1,2:K2,3:K1A2
+datasheets/diode/tsc/BAS21-SERIES_E2001.pdf	SOT-23	single		1	BAS21 RFG	SOT-23	SOT23-3-TSC	1:A,2:NC,3:K
+datasheets/diode/tsc/BAS21H_A2412.pdf	SOT-23	single		1	BAS21H RFG	SOT-23	SOT23-3-TSC	1:A,2:NC,3:K
+datasheets/diode/tsc/BAS316WS_F2212.pdf	SOD-323F	single		1	BAS316WS RRG	SOD-323F	DIODE-SOD-323F-TSC	1:K,2:A
+datasheets/diode/tsc/BAS316_E1907.pdf	SOD-323	single		1	BAS316 RRG	SOD-323	DIODE-SOD-323-TSC	1:K,2:A
+datasheets/diode/tsc/BAS40-SERIES_I2606.pdf	SOT-23	array	1 Pair Common Anode|1 Pair Common Cathode|1 Pair Series Connection	3	BAS40-04 RFG	SOT-23	SOT23-3-TSC	ca=1:K1,2:K2,3:A;cc=1:A1,2:A2,3:K;series=1:A1,2:K2,3:K1A2
+datasheets/diode/tsc/BAS40-SERIES_I2606.pdf	SOT-23	single		1	BAS40 RFG	SOT-23	SOT23-3-TSC	1:A,2:NC,3:K
+datasheets/diode/tsc/BAT201M3_B2609.pdf	SOD-323F	single		1	BAT201M3 RRG	SOD-323F	DIODE-SOD-323F-TSC	1:K,2:A
+datasheets/diode/tsc/BAT42W-SERIES_H2606.pdf	SOD-123	single		2	BAT42W RHG	SOD-123	DIODE-SOD-123-TSC	1:K,2:A
+datasheets/diode/tsc/BAT42WS-SERIES_J2606.pdf	SOD-323F	single		2	BAT42WS RRG	SOD-323F	DIODE-SOD-323F-TSC	1:K,2:A
+datasheets/diode/tsc/BAT42WSH-SERIES_A2502.pdf	SOD-323	single		2	BAT42WSH RRG	SOD-323	DIODE-SOD-323-TSC	1:K,2:A
+datasheets/diode/tsc/BAT54AH_A2501.pdf	SOT-23	array	1 Pair Common Anode	1	BAT54AH RFG	SOT-23	SOT23-3-TSC	1:K1,2:K2,3:A
+datasheets/diode/tsc/BAT54CH_A2501.pdf	SOT-23	array	1 Pair Common Cathode	1	BAT54CH RFG	SOT-23	SOT23-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/BAT54CWH_A2501.pdf	SOT-323	array	1 Pair Common Cathode	1	BAT54CWH RFG	SOT-323	SOT323-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/BAT54GWH_A2501.pdf	SOD-123	single		1	BAT54GWH RHG	SOD-123	DIODE-SOD-123-TSC	1:K,2:A
+datasheets/diode/tsc/BAT54H_A2501.pdf	SOT-23	single		1	BAT54H RFG	SOT-23	SOT23-3-TSC	1:A,2:NC,3:K
+datasheets/diode/tsc/BAT54SH_A2501.pdf	SOT-23	array	1 Pair Series Connection	1	BAT54SH RFG	SOT-23	SOT23-3-TSC	1:A1,2:K2,3:K1A2
+datasheets/diode/tsc/BAT54SWH_A2501.pdf	SOT-323	array	1 Pair Series Connection	1	BAT54SWH RFG	SOT-323	SOT323-3-TSC	1:A1,2:K2,3:K1A2
+datasheets/diode/tsc/BAT54T-SERIES_H2111.pdf	SOT-363	array	2 Pair Common Cathode	1	BAT54CD RFG	SOT-363	SOT363-6-TSC	1:A1,2:A1,3:K2,4:A2,5:A2,6:K1
+datasheets/diode/tsc/BAT54T-SERIES_H2111.pdf	SOT-363	single		2	BAT54BR RFG			
+datasheets/diode/tsc/BAT54W-SERIES_D2102.pdf	SOT-323	array	1 Pair Common Anode|1 Pair Common Cathode|1 Pair Series Connection	3	BAT54AW RFG	SOT-323	SOT323-3-TSC	ca=1:K1,2:K2,3:A;cc=1:A1,2:A2,3:K;series=1:A1,2:K2,3:K1A2
+datasheets/diode/tsc/BAT54W-SERIES_D2102.pdf	SOT-323	single		1	BAT54W RFG	SOT-323	SOT323-3-TSC	1:A,2:NC,3:K
+datasheets/diode/tsc/BAT54WH_A2501.pdf	SOT-323	single		1	BAT54WH RFG	SOT-323	SOT323-3-TSC	1:A,2:NC,3:K
+datasheets/diode/tsc/BAV19W-G-SERIES_D1603.pdf	SOD-123	single		3	BAV19W-G RHG	SOD-123	DIODE-SOD-123-TSC	1:K,2:A
+datasheets/diode/tsc/BAV19W-SERIES_E15.pdf	SOD-123F	single		3	BAV19W RHG	SOD-123F	DIODE-SOD-123F-TSC	1:K,2:A
+datasheets/diode/tsc/BAV19WS-G-SERIES_A15.pdf	SOD-323	single		3	BAV19WS-G RRG	SOD-323	DIODE-SOD-323-TSC	1:K,2:A
+datasheets/diode/tsc/BAV19WS-SERIES_K2212.pdf	SOD-323F	single		3	BAV19WS RRG	SOD-323F	DIODE-SOD-323F-TSC	1:K,2:A
+datasheets/diode/tsc/BAV21WH_A2412.pdf	SOD-123	single		1	BAV21WH RHG	SOD-123	DIODE-SOD-123-TSC	1:K,2:A
+datasheets/diode/tsc/BAV23CH_A2501.pdf	SOT-23	array	1 Pair Common Cathode	1	BAV23CH RFG	SOT-23	SOT23-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/BAV23SH_A2501.pdf	SOT-23	array	1 Pair Series Connection	1	BAV23SH RFG	SOT-23	SOT23-3-TSC	1:A1,2:K2,3:K1A2
+datasheets/diode/tsc/BAV70H_A2412.pdf	SOT-23	array	1 Pair Common Cathode	1	BAV70H RFG	SOT-23	SOT23-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/BAV70WH_A2412.pdf	SOT-323	array	1 Pair Common Cathode	1	BAV70WH RFG	SOT-323	SOT323-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/BAV99H_A2412.pdf	SOT-23	array	1 Pair Series Connection	1	BAV99H RFG	SOT-23	SOT23-3-TSC	1:A1,2:K2,3:K1A2
+datasheets/diode/tsc/BAV99W_C2102.pdf	SOT-323	array	1 Pair Series Connection	1	BAV99W RFG	SOT-323	SOT323-3-TSC	1:A1,2:K2,3:K1A2
+datasheets/diode/tsc/BAW56-SERIES_I2001.pdf	SOT-23	array	1 Pair Common Anode|1 Pair Common Cathode|1 Pair Series Connection	3	BAV70 RFG	SOT-23	SOT23-3-TSC	ca=1:K1,2:K2,3:A;cc=1:A1,2:A2,3:K;series=1:A1,2:K2,3:K1A2
+datasheets/diode/tsc/BAW56H_A2412.pdf	SOT-23	array	1 Pair Common Anode	1	BAW56H RFG	SOT-23	SOT23-3-TSC	1:K1,2:K2,3:A
+datasheets/diode/tsc/BAW56WH_A2412.pdf	SOT-323	array	1 Pair Common Anode	1	BAW56WH RFG	SOT-323	SOT323-3-TSC	1:K1,2:K2,3:A
+datasheets/diode/tsc/BY251G-SERIES_D2105.pdf	DO-201AD	single		3	BY252G	DO-201AD	DIODE-DO-201AD-TSC	1:K,2:A
+datasheets/diode/tsc/BYG20D-SERIES_F2102.pdf	DO-214AC (SMA)	single		3	BYG20D	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/BYG20DH-SERIES_A2102.pdf	DO-214AC (SMA)	single		3	BYG20DH	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/BYG21MH_A2102.pdf	DO-214AC (SMA)	single		1	BYG21MH	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/BYG21M_B2102.pdf	DO-214AC (SMA)	single		1	BYG21M	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/BYG23MH_A2102.pdf	DO-214AC (SMA)	single		1	BYG23MH	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/BYG23M_C2102.pdf	DO-214AC (SMA)	single		1	BYG23M	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/BZD27C11PW-SERIES_D2203.pdf	SOD-123W	zener		13	BZD27C100PW	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/BZD27C11PWH-SERIES_B2203.pdf	SOD-123W	zener		15	BZD27C100PWH	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/BZT52B2V4-G-SERIES_H2002.pdf	SOD-123	zener		27	BZT52B11-G RHG	SOD-123	DIODE-SOD-123-TSC	1:K,2:A
+datasheets/diode/tsc/BZT52B2V4-G-SERIES_H2002.pdf	SOD-123F	zener		6	BZT52B47-G RHG	SOD-123F	DIODE-SOD-123F-TSC	1:K,2:A
+datasheets/diode/tsc/BZT52B2V4-series_F15.pdf	SOD-123F	zener		27	BZT52B10 RHG	SOD-123F	DIODE-SOD-123F-TSC	1:K,2:A
+datasheets/diode/tsc/BZT52B2V4S-SERIES_I2411.pdf	SOD-323F	zener		27	BZT52B10S R9G	SOD-323F	DIODE-SOD-323F-TSC	1:K,2:A
+datasheets/diode/tsc/BZT52C2V4-G-SERIES_C2007.pdf	SOD-123	zener		1	BZT52C3V3-G RHG	SOD-123	DIODE-SOD-123-TSC	1:K,2:A
+datasheets/diode/tsc/BZT52C2V4-G-SERIES_C2007.pdf	SOD-123F	zener		6	BZT52C47-G RHG	SOD-123F	DIODE-SOD-123F-TSC	1:K,2:A
+datasheets/diode/tsc/BZT52C2V4-SERIES_G1804.pdf	SOD-123F	zener		35	BZT52C10 RHG	SOD-123F	DIODE-SOD-123F-TSC	1:K,2:A
+datasheets/diode/tsc/BZT52C2V4S-SERIES_K2411.pdf	SOD-323F	zener		39	BZT52C10S R9G	SOD-323F	DIODE-SOD-323F-TSC	1:K,2:A
+datasheets/diode/tsc/BZT52C2V7K-SERIES_H2510.pdf	SOD-523F	zener		27	BZT52C10K RKG	SOD-523F	DIODE-SOD-523F-TSC	1:K,2:A
+datasheets/diode/tsc/BZV55B2V4-SERIES_G2301.pdf	Mini MELF	zener		1	BZV55B15 L0G	MiniMELF	DIODE-MINIMELF-TSC	1:K,2:A
+datasheets/diode/tsc/BZV55C2V4-SERIES_H2301.pdf	Mini MELF	zener		2	BZV55C12 L0G	MiniMELF	DIODE-MINIMELF-TSC	1:K,2:A
+datasheets/diode/tsc/BZX584B2V4-SERIES_E2609.pdf	SOD-523F	zener		32	BZX584B10 RSG	SOD-523F	DIODE-SOD-523F-TSC	1:K,2:A
+datasheets/diode/tsc/BZX585B2V4H-SERIES_A2503.pdf	SOD-523F	zener		10	BZX585B12H RSG	SOD-523F	DIODE-SOD-523F-TSC	1:K,2:A
+datasheets/diode/tsc/BZX84C2V4-SERIES_F2001.pdf	SOT-23	zener		30	BZX84C10 RFG	SOT-23	SOT23-3-TSC	1:A,2:NC,3:K
+datasheets/diode/tsc/BZX84C2V4H-SERIES_A2503.pdf	SOT-23	zener		12	BZX84C12H RFG	SOT-23	SOT23-3-TSC	1:A,2:NC,3:K
+datasheets/diode/tsc/BZX84JB2V4H-SERIES_A2503.pdf	SOD-323F	zener		7	BZX84JB16H RRG	SOD-323F	DIODE-SOD-323F-TSC	1:K,2:A
+datasheets/diode/tsc/ES15DLW-SERIES_C2103.pdf	SOD-123W	single		3	ES15DLW	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/ES15DLWH-SERIES_A2103.pdf	SOD-123W	single		3	ES15DLWH	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/ES1A-SERIES_O2112.pdf	DO-214AC (SMA)	single		5	ES1B	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/ES1AH-SERIES_B2112.pdf	DO-214AC (SMA)	single		5	ES1BH	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/ES1BAL-SERIES_C2103.pdf	Thin SMA	single		4	ES1BAL	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/ES1BALH-SERIES_B2103.pdf	Thin SMA	single		4	ES1BALH	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/ES1BFS-SERIES_C2103.pdf	SOD-128	single		4	ES1BFS	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/ES1BFSH-SERIES_B2103.pdf	SOD-128	single		3	ES1DFSH	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/ES1DF-T-SERIES_B2103.pdf	SMAF	single		3	ES1DF-T	SMAF	DIODE-SMAF-TSC	1:K,2:A
+datasheets/diode/tsc/ES1DFL-SERIES_D2103.pdf	SOD-123F	single		3	ES1DFL	SOD-123F	DIODE-SOD-123F-TSC	1:K,2:A
+datasheets/diode/tsc/ES1DLW-SERIES_C2103.pdf	SOD-123W	single		3	ES1DLW	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/ES1DLWH-SERIES_B2110.pdf	SOD-123W	single		3	ES1DLWH	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/ES1DVH_A2102.pdf	DO-214AC (SMA)	single		1	ES1DVH	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/ES1DV_C2102.pdf	DO-214AC (SMA)	single		1	ES1DV	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/ES2A-SERIES_L2102.pdf	DO-214AA (SMB)	single		5	ES2C	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/ES2AA-SERIES_M2102.pdf	DO-214AC (SMA)	single		4	ES2DA	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/ES2AAH-SERIES_A2102.pdf	DO-214AC (SMA)	single		4	ES2DAH	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/ES2AH-SERIES_A2102.pdf	DO-214AA (SMB)	single		4	ES2DH	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/ES2BAL-SERIES_D2103.pdf	Thin SMA	single		4	ES2BAL	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/ES2BALH-SERIES_B2103.pdf	Thin SMA	single		4	ES2BALH	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/ES2BFS-SERIES_D2103.pdf	SOD-128	single		3	ES2BFS	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/ES2BFSH-SERIES_B2103.pdf	SOD-128	single		4	ES2BFSH	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/ES2DAF-T-SERIES_B2103.pdf	SMAF	single		3	ES2DAF-T	SMAF	DIODE-SMAF-TSC	1:K,2:A
+datasheets/diode/tsc/ES2DFL-SERIES_B2103.pdf	SOD-123F	single		3	ES2DFL	SOD-123F	DIODE-SOD-123F-TSC	1:K,2:A
+datasheets/diode/tsc/ES2DV_C2102.pdf	DO-214AA (SMB)	single		1	ES2DV	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/ES2LD-SERIES_C2102.pdf	DO-214AA (SMB)	single		1	ES2LG	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/ES2LDH-SERIES_A2102.pdf	DO-214AA (SMB)	single		1	ES2LGH	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/ES3A-SERIES_N2102.pdf	DO-214AB (SMC)	single		4	ES3D	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/ES3AB-SERIES_C2102.pdf	DO-214AA (SMB)	single		4	ES3DB	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/ES3ABH-SERIES_A2102.pdf	DO-214AA (SMB)	single		3	ES3DBH	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/ES3AH-SERIES_A2102.pdf	DO-214AB (SMC)	single		4	ES3DH	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/ES3DVH_A2102.pdf	DO-214AB (SMC)	single		1	ES3DVH	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/ES3DV_D2102.pdf	DO-214AB (SMC)	single		1	ES3DV	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/ES5D-T-SERIES_C2602.pdf	DO-214AB (SMC)	single		3	ES5D-T	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/ESDLW-SERIES_D2103.pdf	SOD-123W	single		3	ESDLW	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/ESDLWH-SERIES_A2103.pdf	SOD-123W	single		3	ESDLWH	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/ESH1B-SERIES_F2102.pdf	DO-214AC (SMA)	single		3	ESH1B	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/ESH1BH-SERIES_A2102.pdf	DO-214AC (SMA)	single		3	ESH1BH	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/ESH1DFSH_C2103.pdf	SOD-128	single		1	ESH1DFSH	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/ESH1DMH_B2110.pdf	Micro SMA	single		1	ESH1DMH	Micro SMA	DIODE-MICRO-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/ESH1DM_E2110.pdf	Micro SMA	single		1	ESH1DM	Micro SMA	DIODE-MICRO-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/ESH2B-SERIES_J2102.pdf	DO-214AA (SMB)	single		3	ESH2B	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/ESH2BA-SERIES_F2102.pdf	DO-214AC (SMA)	single		3	ESH2BA	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/ESH2BAH-SERIES_A2102.pdf	DO-214AC (SMA)	single		3	ESH2BAH	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/ESH2BH-SERIES_A2102.pdf	DO-214AA (SMB)	single		3	ESH2BH	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/ESH2DFSH_C2103.pdf	SOD-128	single		1	ESH2DFSH	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/ESH3B-SERIES_I2102.pdf	DO-214AB (SMC)	single		3	ESH3B	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/ESH3BH-SERIES_A2102.pdf	DO-214AB (SMC)	single		3	ESH3BH	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/ESH3DFSH_B2103.pdf	SOD-128	single		1	ESH3DFSH	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/F1T1G-SERIES_H2104.pdf	TS-1	single		8	F1T4G	TS-1	DIODE-TS-1-TSC	1:K,2:A
+datasheets/diode/tsc/FR101G-SERIES_H2104.pdf	DO-204AL (DO-41)	single		11	FR103G A0G	DO-41	DIODE-DO-41-TSC	1:K,2:A
+datasheets/diode/tsc/FR151G-SERIES_I2105.pdf	DO-204AC (DO-15)	single		8	FR154G	DO-15	DIODE-DO-15-TSC	1:K,2:A
+datasheets/diode/tsc/FR201G-SERIES_H2105.pdf	DO-204AC (DO-15)	single		8	FR204G	DO-15	DIODE-DO-15-TSC	1:K,2:A
+datasheets/diode/tsc/FR301G-SERIES_H2105.pdf	DO-201AD	single		8	FR304G	DO-201AD	DIODE-DO-201AD-TSC	1:K,2:A
+datasheets/diode/tsc/FRAF10JG_A2206.pdf	ITO-220AC	single		2	FRAF10JG	ITO-220	ITO-220-2-TSC	1:K,2:A
+datasheets/diode/tsc/FRAF8JG_A2206.pdf	ITO-220AC	single		2	FRAF8JG	ITO-220	ITO-220-2-TSC	1:K,2:A
+datasheets/diode/tsc/GP1001-SERIES_G2104.pdf	TO-220AB	array	1 Pair Common Cathode	5	GP1004	TO-220	TO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/GP1601-SERIES_G2104.pdf	TO-220AB	array	1 Pair Common Cathode	5	GP1604H	TO-220	TO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/GPA801-SERIES_G2103.pdf	TO-220AC	single		5	GPA805	TO-220	TO-220-2-TSC	1:K,2:A
+datasheets/diode/tsc/GPAS1001-SERIES_D2211.pdf	TO-263AB (D2PAK)	single		4	GPAS1004	D2PAK	D2PAK-3-TSC	1:K,2:A,3:K
+datasheets/diode/tsc/GS1Z_A2510.pdf	DO-214AC (SMA)	single		1	GS1Z	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/HER1001G-SERIES_I2104.pdf	TO-220AB	array	1 Pair Common Cathode	9	HER1004G	TO-220	TO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/HER101G-SERIES_L2104.pdf	DO-204AL (DO-41)	single		13	HER102G	DO-41	DIODE-DO-41-TSC	1:K,2:A
+datasheets/diode/tsc/HER151G-SERIES_I2105.pdf	DO-204AC (DO-15)	single		10	HER154G	DO-15	DIODE-DO-15-TSC	1:K,2:A
+datasheets/diode/tsc/HER1601G-SERIES_J2104.pdf	TO-220AB	array	1 Pair Common Cathode	7	HER1604G	TO-220	TO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/HER1601PT-SERIES_H2103.pdf	TO-247AD (TO-3P)	array	1 Pair Common Cathode	10	HER1604PT	TO-247	TO-247-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/HER201G-SERIES_G2105.pdf	DO-204AC (DO-15)	single		11	HER203G A0G	DO-15	DIODE-DO-15-TSC	1:K,2:A
+datasheets/diode/tsc/HER3001PT-SERIES_I2103.pdf	TO-247AD (TO-3P)	array	1 Pair Common Cathode	5	HER3004PT	TO-247	TO-247-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/HER301G-SERIES_I2105.pdf	DO-201AD	single		11	HER304G	DO-201AD	DIODE-DO-201AD-TSC	1:K,2:A
+datasheets/diode/tsc/HER3L03G-SERIES_C2105.pdf	DO-201AD	single		2	HER3L03GH	DO-201AD	DIODE-DO-201AD-TSC	1:K,2:A
+datasheets/diode/tsc/HERA801G-SERIES_J2103.pdf	TO-220AC	single		10	HERA804G	TO-220	TO-220-2-TSC	1:K,2:A
+datasheets/diode/tsc/HERAF1001G-SERIES_I2105.pdf	ITO-220AC	single		8	HERAF1004G	ITO-220	ITO-220-2-TSC	1:K,2:A
+datasheets/diode/tsc/HERAF1601G-SERIES_K2105.pdf	ITO-220AC	single		3	HERAF1604G	ITO-220	ITO-220-2-TSC	1:K,2:A
+datasheets/diode/tsc/HERAF801G-SERIES_K2105.pdf	ITO-220AC	single		10	HERAF804G	ITO-220	ITO-220-2-TSC	1:K,2:A
+datasheets/diode/tsc/HERF1001G-SERIES_I2105.pdf	ITO-220AB	array	1 Pair Common Cathode	9	HERF1004G	ITO-220	ITO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/HERF1007GA-SERIES_B2105.pdf	ITO-220AB	array	1 Pair Common Anode	2	HERF1007GA	ITO-220	ITO-220-3-TSC	1:K1,2:A,3:K2
+datasheets/diode/tsc/HERF1007GA-SERIES_B2105.pdf	ITO-220AB	single		1	HERF1007GAH	ITO-220	ITO-220-3-TSC	1:A,2:K,3:A
+datasheets/diode/tsc/HERF1601G-SERIES_I2105.pdf	ITO-220AB	array	1 Pair Common Cathode	7	HERF1604GH	ITO-220	ITO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/HS15DLW-SERIES_C2103.pdf	SOD-123W	single		5	HS15DLW	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/HS15DLWH-SERIES_A2103.pdf	SOD-123W	single		5	HS15DLWH	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/HS1A-SERIES_M2401.pdf	DO-214AC (SMA)	single		6	HS1D	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/HS1AFL-SERIES_B2103.pdf	SOD-123F	single		5	HS1AFL	SOD-123F	DIODE-SOD-123F-TSC	1:K,2:A
+datasheets/diode/tsc/HS1AFL-SERIES_B2103.pdf	SOD-123FL	single		1	HS1BFL	SOD-123FL	DIODE-SOD-123FL-TSC	1:K,2:A
+datasheets/diode/tsc/HS1AH-SERIES_B2401.pdf	DO-214AC (SMA)	single		6	HS1DH	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/HS1DAL-SERIES_D2103.pdf	Thin SMA	single		5	HS1DAL	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/HS1DALH-SERIES_B2103.pdf	Thin SMA	single		5	HS1DALH	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/HS1DF-T-SERIES_B2103.pdf	SMAF	single		5	HS1DF-T	SMAF	DIODE-SMAF-TSC	1:K,2:A
+datasheets/diode/tsc/HS1DFS-SERIES_C2103.pdf	SOD-128	single		4	HS1DFS	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/HS1DFSH-SERIES_B2103.pdf	SOD-128	single		5	HS1DFSH	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/HS1DLW-SERIES_C2103.pdf	SOD-123W	single		5	HS1DLW	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/HS1DLWH-SERIES_A2103.pdf	SOD-123W	single		5	HS1DLWH	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/HS1QALH_A2505.pdf	Thin SMA	single		1	HS1QALH	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/HS1QAL_A2505.pdf	Thin SMA	single		1	HS1QAL	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/HS1QBH_A2408.pdf	DO-214AA (SMB)	single		1	HS1QBH	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/HS1QB_A2408.pdf	DO-214AA (SMB)	single		1	HS1QB	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/HS1QFSH_A2505.pdf	SOD-128	single		1	HS1QFSH	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/HS1QFS_A2505.pdf	SOD-128	single		1	HS1QFS	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/HS1QH_A2408.pdf	DO-214AC (SMA)	single		1	HS1QH	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/HS1Q_A2408.pdf	DO-214AC (SMA)	single		1	HS1Q	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/HS1YBH_A2501.pdf	DO-214AA (SMB)	single		1	HS1YBH	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/HS1YB_A2501.pdf	DO-214AA (SMB)	single		1	HS1YB	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/HS1YH_A2501.pdf	DO-214AC (SMA)	single		1	HS1YH	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/HS1Y_A2501.pdf	DO-214AC (SMA)	single		1	HS1Y	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/HS2A-SERIES_L2102.pdf	DO-214AA (SMB)	single		5	HS2F	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/HS2AA-SERIES_J2102.pdf	DO-214AC (SMA)	single		6	HS2DA	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/HS2AAH-SERIES_A2102.pdf	DO-214AC (SMA)	single		6	HS2DAH	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/HS2AH-SERIES_A2102.pdf	DO-214AA (SMB)	single		6	HS2DH	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/HS2DAF-T-SERIES_B2103.pdf	SMAF	single		5	HS2DAF-T	SMAF	DIODE-SMAF-TSC	1:K,2:A
+datasheets/diode/tsc/HS2DAL-SERIES_C2103.pdf	Thin SMA	single		5	HS2DAL	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/HS2DALH-SERIES_B2103.pdf	Thin SMA	single		5	HS2DALH	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/HS2DFL-SERIES_B2103.pdf	SOD-123F	single		5	HS2DFL	SOD-123F	DIODE-SOD-123F-TSC	1:K,2:A
+datasheets/diode/tsc/HS2DFS-SERIES_C2103.pdf	SOD-128	single		5	HS2DFS	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/HS2DFSH-SERIES_B2103.pdf	SOD-128	single		5	HS2DFSH	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/HS3A-SERIES_K2102.pdf	DO-214AB (SMC)	single		6	HS3D	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/HS3AB-SERIES_L2102.pdf	DO-214AA (SMB)	single		5	HS3DB	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/HS3ABH-SERIES_A2102.pdf	DO-214AA (SMB)	single		6	HS3DBH	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/HS3AH-SERIES_A2102.pdf	DO-214AB (SMC)	single		5	HS3DH	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/HS5A-SERIES_K2102.pdf	DO-214AB (SMC)	single		6	HS5D	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/HS5AH-SERIES_A2102.pdf	DO-214AB (SMC)	single		5	HS5DH	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/HSDLW-SERIES_C2103.pdf	SOD-123W	single		4	HSDLW	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/HSDLWH-SERIES_A2103.pdf	SOD-123W	single		4	HSDLWH	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/HT11G-SERIES_H2104.pdf	TS-1	single		10	HT14G	TS-1	DIODE-TS-1-TSC	1:K,2:A
+datasheets/diode/tsc/LL4148-SERIES_K2301.pdf	Mini MELF	single		1	LL4448 L0G	MiniMELF	DIODE-MINIMELF-TSC	1:K,2:A
+datasheets/diode/tsc/M3Z2V0C-SERIES_B2008.pdf	SOD-323F	zener		39	M3Z10VC RRG	SOD-323F	DIODE-SOD-323F-TSC	1:K,2:A
+datasheets/diode/tsc/MBR1035-SERIES_M2103.pdf	TO-220AC	single		1	MBR10100	TO-220	TO-220-2-TSC	1:K,2:A
+datasheets/diode/tsc/MBR1035CT-SERIES_O2104.pdf	TO-220AB	array	1 Pair Common Cathode	1	MBR10150CT	TO-220	TO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/MBR10H100CT-SERIES_J2104.pdf	TO-220AB	array	1 Pair Common Cathode	2	MBR10H150CT	TO-220	TO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/MBR1635-SERIES_K2103.pdf	TO-220AC	single		1	MBR16150	TO-220	TO-220-2-TSC	1:K,2:A
+datasheets/diode/tsc/MBR2035CT-SERIES_M2104.pdf	TO-220AB	array	1 Pair Common Cathode	4	MBR20100CT	TO-220	TO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/MBR20H100CT-SERIES_I2104.pdf	TO-220AB	array	1 Pair Common Cathode	2	MBR20H150CT	TO-220	TO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/MBR20L100CT-SERIES_H2104.pdf	TO-220AB	array	1 Pair Common Cathode	2	MBR20L100CT	TO-220	TO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/MBR3035PT-SERIES_K2103.pdf	TO-247AD (TO-3P)	array	1 Pair Common Cathode	1	MBR3045PT	TO-247	TO-247-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/MBR6035PT-SERIES_H2103.pdf	TO-247AD (TO-3P)	array	1 Pair Common Cathode	1	MBR6060PT	TO-247	TO-247-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/MBRAD10100DH_A2303.pdf	ThinDPAK	array	1 Pair Common Cathode	1	MBRAD10100DH	ThinDPAK	THINDPAK-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/MBRAD10100H_A2303.pdf	ThinDPAK	single		1	MBRAD10100H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/MBRAD10150DH_A2303.pdf	ThinDPAK	array	1 Pair Common Cathode	1	MBRAD10150DH	ThinDPAK	THINDPAK-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/MBRAD10150H_A2303.pdf	ThinDPAK	single		1	MBRAD10150H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/MBRAD10200DH_A2303.pdf	ThinDPAK	array	1 Pair Common Cathode	1	MBRAD10200DH	ThinDPAK	THINDPAK-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/MBRAD10200H_A2303.pdf	ThinDPAK	single		1	MBRAD10200H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/MBRAD1045DH_A2303.pdf	ThinDPAK	array	1 Pair Common Cathode	1	MBRAD1045DH	ThinDPAK	THINDPAK-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/MBRAD1045H_A2302.pdf	ThinDPAK	single		1	MBRAD1045H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/MBRAD1060DH_A2303.pdf	ThinDPAK	array	1 Pair Common Cathode	1	MBRAD1060DH	ThinDPAK	THINDPAK-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/MBRAD1060H_A2302.pdf	ThinDPAK	single		1	MBRAD1060H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/MBRAD15100DH_A2303.pdf	ThinDPAK	array	1 Pair Common Cathode	1	MBRAD15100DH	ThinDPAK	THINDPAK-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/MBRAD15100H_A2303.pdf	ThinDPAK	single		1	MBRAD15100H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/MBRAD15150DH_A2303.pdf	ThinDPAK	array	1 Pair Common Cathode	1	MBRAD15150DH	ThinDPAK	THINDPAK-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/MBRAD15150H_A2303.pdf	ThinDPAK	single		1	MBRAD15150H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/MBRAD15200DH_A2303.pdf	ThinDPAK	array	1 Pair Common Cathode	1	MBRAD15200DH	ThinDPAK	THINDPAK-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/MBRAD1545DH_A2303.pdf	ThinDPAK	array	1 Pair Common Cathode	1	MBRAD1545DH	ThinDPAK	THINDPAK-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/MBRAD1545H_A2303.pdf	ThinDPAK	single		1	MBRAD1545H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/MBRAD1560DH_A2303.pdf	ThinDPAK	array	1 Pair Common Cathode	1	MBRAD1560DH	ThinDPAK	THINDPAK-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/MBRAD1560H_A2303.pdf	ThinDPAK	single		1	MBRAD1560H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/MBRAD20100H_A2303.pdf	ThinDPAK	single		1	MBRAD20100H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/MBRAD20150H_A2303.pdf	ThinDPAK	single		1	MBRAD20150H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/MBRAD20200H_A2303.pdf	ThinDPAK	single		1	MBRAD20200H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/MBRAD2060H_A2303.pdf	ThinDPAK	single		1	MBRAD2060H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/MBRAD5100H_A2303.pdf	ThinDPAK	single		1	MBRAD5100H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/MBRAD5150H_A2303.pdf	ThinDPAK	single		1	MBRAD5150H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/MBRAD5200H_A2303.pdf	ThinDPAK	single		1	MBRAD5200H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/MBRAD545H_A2302.pdf	ThinDPAK	single		1	MBRAD545H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/MBRAD560H_A2302.pdf	ThinDPAK	single		1	MBRAD560H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/MBRAD8100H_A2303.pdf	ThinDPAK	single		1	MBRAD8100H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/MBRAD8150H_A2303.pdf	ThinDPAK	single		1	MBRAD8150H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/MBRAD8200H_A2303.pdf	ThinDPAK	single		1	MBRAD8200H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/MBRAD845H_A2302.pdf	ThinDPAK	single		1	MBRAD845H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/MBRAD860H_A2302.pdf	ThinDPAK	single		1	MBRAD860H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/MBRF1035-SERIES_M2105.pdf	ITO-220AC	single		1	MBRF10200	ITO-220	ITO-220-2-TSC	1:K,2:A
+datasheets/diode/tsc/MBRF1035CT-SERIES_M2105.pdf	ITO-220AB	array	1 Pair Common Cathode	2	MBRF10200CT	ITO-220	ITO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/MBRF1045CT-Y-SERIES_B2105.pdf	ITO-220AB	array	1 Pair Common Cathode	1	MBRF10200CT-Y	ITO-220	ITO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/MBRF1535CT-SERIES_J2105.pdf	ITO-220AB	array	1 Pair Common Cathode	1	MBRF1545CT	ITO-220	ITO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/MBRF2035CT-SERIES_O2105.pdf	ITO-220AB	array	1 Pair Common Cathode	1	MBRF20200CT	ITO-220	ITO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/MBRF2045CT-Y-SERIES_C2105.pdf	ITO-220AB	array	1 Pair Common Cathode	1	MBRF20200CT-Y	ITO-220	ITO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/MBRS2035CTH-SERIES_A2103.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	1	MBRS20100CTH	D2PAK	D2PAK-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/MMBD3004-SERIES_C2001.pdf	SOT-23	array	1 Pair Common Anode|1 Pair Common Cathode|1 Pair Series Connection	3	MMBD3004CA RFG	SOT-23	SOT23-3-TSC	ca=1:K1,2:K2,3:A;cc=1:A1,2:A2,3:K;series=1:A1,2:K2,3:K1A2
+datasheets/diode/tsc/MMBD3004-SERIES_C2001.pdf	SOT-23	single		1	MMBD3004 RFG	SOT-23	SOT23-3-TSC	1:A,2:NC,3:K
+datasheets/diode/tsc/MMBD4148-SERIES_F2112.pdf	SOT-23	array	1 Pair Common Cathode|1 Pair Series Connection	2	MMBD4148CC RFG	SOT-23	SOT23-3-TSC	cc=1:A1,2:A2,3:K;series=1:A1,2:K2,3:K1A2
+datasheets/diode/tsc/MMBD4148-SERIES_F2112.pdf	SOT-23	single		1	MMBD4148 RFG	SOT-23	SOT23-3-TSC	1:A,2:NC,3:K
+datasheets/diode/tsc/MMSZ4678-SERIES_A2311.pdf	SOD-123	zener		36	MMSZ4678 RHG	SOD-123	DIODE-SOD-123-TSC	1:K,2:A
+datasheets/diode/tsc/MMSZ5221BH-SERIES_A2503.pdf	SOD-123	zener		13	MMSZ5230BH RHG	SOD-123	DIODE-SOD-123-TSC	1:K,2:A
+datasheets/diode/tsc/MUR105S-SERIES_L2102.pdf	DO-214AA (SMB)	single		6	MUR105S	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/MUR105SH-SERIES_A2102.pdf	DO-214AA (SMB)	single		6	MUR105SH	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/MUR160-SERIES_L2107.pdf	DO-204AC (DO-15)	single		4	MUR160	DO-15	DIODE-DO-15-TSC	1:K,2:A
+datasheets/diode/tsc/MUR160A-SERIES_I2302.pdf	DO-204AL (DO-41)	single		2	MUR160A	DO-41	DIODE-DO-41-TSC	1:K,2:A
+datasheets/diode/tsc/MUR1620CT-SERIES_I2104.pdf	TO-220AB	array	1 Pair Common Cathode	4	MUR1620CTH	TO-220	TO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/MUR260_D2105.pdf	DO-204AC (DO-15)	single		2	MUR260	DO-15	DIODE-DO-15-TSC	1:K,2:A
+datasheets/diode/tsc/MUR305S-SERIES_J2212.pdf	DO-214AB (SMC)	single		6	MUR305S	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/MUR305SB-SERIES_C2102.pdf	DO-214AA (SMB)	single		4	MUR305SB	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/MUR305SBH-SERIES_A2102.pdf	DO-214AA (SMB)	single		4	MUR305SBH	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/MUR305SH-SERIES_B2212.pdf	DO-214AB (SMC)	single		6	MUR305SH	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/MUR340SB-SERIES_D2211.pdf	DO-214AA (SMB)	single		2	MUR340SB	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/MUR420-SERIES_J2105.pdf	DO-201AD	single		7	MUR420	DO-201AD	DIODE-DO-201AD-TSC	1:K,2:A
+datasheets/diode/tsc/MUR420S-SERIES_F2102.pdf	DO-214AB (SMC)	single		3	MUR420S	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/MUR420SH-SERIES_A2102.pdf	DO-214AB (SMC)	single		3	MUR420SH	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/MUR4L20-SERIES_C2308.pdf	DO-201AD	single		4	MUR4L20	DO-201AD	DIODE-DO-201AD-TSC	1:K,2:A
+datasheets/diode/tsc/MUR820-SERIES_K2103.pdf	TO-220AC	single		6	MUR820	TO-220	TO-220-2-TSC	1:K,2:A
+datasheets/diode/tsc/MUR8L60_B2103.pdf	TO-220AC	single		2	MUR8L60	TO-220	TO-220-2-TSC	1:K,2:A
+datasheets/diode/tsc/MURF1620CT-SERIES_K2105.pdf	ITO-220AB	array	1 Pair Common Cathode	5	MURF1620CTH	ITO-220	ITO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/MURF880G_C2105.pdf	ITO-220AC	single		1	MURF880G	ITO-220	ITO-220-2-TSC	1:K,2:A
+datasheets/diode/tsc/MURF8L60_C2105.pdf	ITO-220AC	single		2	MURF8L60	ITO-220	ITO-220-2-TSC	1:K,2:A
+datasheets/diode/tsc/P2500M_D2511.pdf	DO-201AD	single		2	P2500M	DO-201AD	DIODE-DO-201AD-TSC	1:K,2:A
+datasheets/diode/tsc/PE1BA-SERIES_A2301.pdf	DO-214AC (SMA)	single		2	PE1BA	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/PE1BAH-SERIES_A2212.pdf	DO-214AC (SMA)	single		2	PE1BAH	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/PE2BB-SERIES_A2301.pdf	DO-214AA (SMB)	single		2	PE2BB	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/PE2BBH-SERIES_A2212.pdf	DO-214AA (SMB)	single		2	PE2BBH	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/PE4BC-SERIES_A2301.pdf	DO-214AB (SMC)	single		2	PE4BC	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/PE4BCH-SERIES_A2212.pdf	DO-214AB (SMC)	single		2	PE4BCH	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/PHAD10JH_A2412.pdf	ThinDPAK	single		1	PHAD10JH	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PHAD10J_A2412.pdf	ThinDPAK	single		1	PHAD10J	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PHAD12JH_A2412.pdf	ThinDPAK	single		1	PHAD12JH	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PHAD12J_A2412.pdf	ThinDPAK	single		1	PHAD12J	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PHAD6JH_A2412.pdf	ThinDPAK	single		1	PHAD6JH	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PHAD6J_A2412.pdf	ThinDPAK	single		1	PHAD6J	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PHAD8JH_A2412.pdf	ThinDPAK	single		1	PHAD8JH	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PHAD8J_A2412.pdf	ThinDPAK	single		1	PHAD8J	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PLAD10JH_B2606.pdf	ThinDPAK	single		1	PLAD10JH	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PLAD10J_B2606.pdf	ThinDPAK	single		1	PLAD10J	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PLAD15Q_B2606.pdf	ThinDPAK	single		1	PLAD15Q	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PLAH30Q_C2607.pdf	TO-247BD	single		1	PLAH30Q	TO-247	TO-247-2-TSC	1:K,2:A
+datasheets/diode/tsc/PLAH60Q_C2607.pdf	TO-247BD	single		1	PLAH60Q	TO-247	TO-247-2-TSC	1:K,2:A
+datasheets/diode/tsc/PLDS20JH_E2606.pdf	D2PAK-D	single		1	PLDS20JH	D2PAK-D	D2PAK-D-3-TSC	1:A,2:K,3:A
+datasheets/diode/tsc/PLDS20J_E2606.pdf	D2PAK-D	single		1	PLDS20J	D2PAK-D	D2PAK-D-3-TSC	1:A,2:K,3:A
+datasheets/diode/tsc/PLDS3060H_C2510.pdf	TO-263 (D2PAK)	single		1	PLDS3060H	D2PAK	D2PAK-D-3-TSC	1:A,2:K,3:A
+datasheets/diode/tsc/PLDS3080H_E2510.pdf	TO-263 (D2PAK)	single		1	PLDS3080H	D2PAK	D2PAK-D-3-TSC	1:A,2:K,3:A
+datasheets/diode/tsc/PLDS30JH_E2606.pdf	D2PAK-D	single		1	PLDS30JH	D2PAK-D	D2PAK-D-3-TSC	1:A,2:K,3:A
+datasheets/diode/tsc/PLDS30J_E2606.pdf	D2PAK-D	single		1	PLDS30J	D2PAK-D	D2PAK-D-3-TSC	1:A,2:K,3:A
+datasheets/diode/tsc/PLDS30Q_B2606.pdf	D2PAK-D	single		1	PLDS30Q	D2PAK-D	D2PAK-D-3-TSC	1:A,2:K,3:A
+datasheets/diode/tsc/PSAD15JH_A2411.pdf	ThinDPAK	single		1	PSAD15JH	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PSAD15J_A2411.pdf	ThinDPAK	single		1	PSAD15J	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PU1BA-SERIES_A2210.pdf	DO-214AC (SMA)	single		2	PU1BA	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/PU1BAH-SERIES_B2110.pdf	DO-214AC (SMA)	single		2	PU1BAH	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/PU1BB-SERIES_A2510.pdf	DO-214AA (SMB)	single		2	PU1BB	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/PU1BBH-SERIES_A2510.pdf	DO-214AA (SMB)	single		2	PU1BBH	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/PU1BFS-SERIES_A2210.pdf	SOD-128	single		1	PU1DFS	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/PU1BFSH-SERIES_A2109.pdf	SOD-128	single		2	PU1BFSH	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/PU1BLS-SERIES_A2210.pdf	SOD-123HE	single		2	PU1BLS	SOD-123HE	DIODE-SOD-123HE-TSC	1:K,2:A
+datasheets/diode/tsc/PU1BLSH-SERIES_B2109.pdf	SOD-123HE	single		2	PU1BLSH	SOD-123HE	DIODE-SOD-123HE-TSC	1:K,2:A
+datasheets/diode/tsc/PU1BLW-SERIES_A2210.pdf	SOD-123W	single		2	PU1BLW	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/PU1BLWH-SERIES_A2109.pdf	SOD-123W	single		2	PU1BLWH	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/PU1BM-SERIES_B2103.pdf	Micro SMA	single		2	PU1BM	Micro SMA	DIODE-MICRO-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/PU1BMH-SERIES_C2103.pdf	Micro SMA	single		2	PU1BMH	Micro SMA	DIODE-MICRO-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/PU1JAH_A2409.pdf	DO-214AC (SMA)	single		2	PU1JA	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/PU1JFSH_A2409.pdf	SOD-128	single		2	PU1JFS	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/PU1JLSH_A2409.pdf	SOD-123H	single		1	PU1JLSH	SOD-123HE	DIODE-SOD-123HE-TSC	1:K,2:A
+datasheets/diode/tsc/PU2BA-SERIES_A2210.pdf	DO-214AC (SMA)	single		2	PU2BA	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/PU2BAH-SERIES_C2110.pdf	DO-214AC (SMA)	single		2	PU2BAH	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/PU2BB-SERIES_A2210.pdf	DO-214AA (SMB)	single		2	PU2BB	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/PU2BBH-SERIES_B2109.pdf	DO-214AA (SMB)	single		2	PU2BBH	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/PU2BFS-SERIES_A2210.pdf	SOD-128	single		2	PU2BFS	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/PU2BFSH-SERIES_B2109.pdf	SOD-128	single		2	PU2BFSH	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/PU2BLS-SERIES_A2210.pdf	SOD-123HE	single		2	PU2BLS	SOD-123HE	DIODE-SOD-123HE-TSC	1:K,2:A
+datasheets/diode/tsc/PU2BLSH-SERIES_B2109.pdf	SOD-123HE	single		2	PU2BLSH	SOD-123HE	DIODE-SOD-123HE-TSC	1:K,2:A
+datasheets/diode/tsc/PU2BLW-SERIES_A2210.pdf	SOD-123W	single		2	PU2BLW	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/PU2BLWH-SERIES_B2109.pdf	SOD-123W	single		1	PU2DLWH	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/PU2BM-SERIES_B2103.pdf	Micro SMA	single		2	PU2BM	Micro SMA	DIODE-MICRO-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/PU2BMH-SERIES_C2103.pdf	Micro SMA	single		2	PU2BMH	Micro SMA	DIODE-MICRO-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/PU2JAH_A2412.pdf	DO-214AC (SMA)	single		2	PU2JA	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/PU2JBH_A2412.pdf	DO-214AA (SMB)	single		2	PU2JB	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/PU2JFSH_A2412.pdf	SOD-128	single		2	PU2JFS	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/PU2JLSH_A2412.pdf	SOD-123H	single		1	PU2JLSH	SOD-123HE	DIODE-SOD-123HE-TSC	1:K,2:A
+datasheets/diode/tsc/PU2JLWH_A2412.pdf	SOD-123W	single		1	PU2JLWH	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/PU3BA-SERIES_A2210.pdf	DO-214AC (SMA)	single		2	PU3BA	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/PU3BAH-SERIES_B2109.pdf	DO-214AC (SMA)	single		2	PU3BAH	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/PU3BB-SERIES_A2210.pdf	DO-214AA (SMB)	single		2	PU3BB	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/PU3BBH-SERIES_B2109.pdf	DO-214AA (SMB)	single		2	PU3BBH	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/PU3BC-SERIES_A2210.pdf	DO-214AB (SMC)	single		2	PU3BC	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/PU3BCH-SERIES_C2110.pdf	DO-214AB (SMC)	single		1	PU3DCH	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/PU3BFS-SERIES_A2210.pdf	SOD-128	single		2	PU3BFS	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/PU3BFSH-SERIES_B2109.pdf	SOD-128	single		1	PU3DFSH	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/PU3JAH_A2409.pdf	DO-214AC (SMA)	single		2	PU3JA	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/PU3JBH_A2409.pdf	DO-214AA (SMB)	single		2	PU3JB	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/PU3JCH_A2409.pdf	DO-214AB (SMC)	single		2	PU3JC	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/PU3JFSH_A2409.pdf	SOD-128	single		2	PU3JFS	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/PU4BB-SERIES_A2210.pdf	DO-214AA (SMB)	single		2	PU4BB	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/PU4BBH-SERIES_B2109.pdf	DO-214AA (SMB)	single		2	PU4BBH	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/PU4BC-SERIES_A2210.pdf	DO-214AB (SMC)	single		2	PU4BC	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/PU4BCH-SERIES_C2110.pdf	DO-214AB (SMC)	single		2	PU4BCH	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/PU6BB-SERIES_A2210.pdf	DO-214AA (SMB)	single		2	PU6BB	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/PU6BBH-SERIES_B2109.pdf	DO-214AA (SMB)	single		2	PU6BBH	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/PU6BC-SERIES_A2210.pdf	DO-214AB (SMC)	single		2	PU6BC	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/PU6BCH-SERIES_C2110.pdf	DO-214AB (SMC)	single		2	PU6BCH	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/PU6JBH_A2412.pdf	DO-214AA (SMB)	single		2	PU6JB	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/PU6JCH_A2412.pdf	DO-214AB (SMC)	single		2	PU6JC	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/PUAD10BC-SERIES_A2302.pdf	ThinDPAK	array	1 Pair Common Cathode	2	PUAD10BC	ThinDPAK	THINDPAK-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/PUAD10BCH-SERIES_A2302.pdf	ThinDPAK	array	1 Pair Common Cathode	2	PUAD10BCH	ThinDPAK	THINDPAK-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/PUAD4B-SERIES_A2302.pdf	ThinDPAK	single		2	PUAD4B	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PUAD4BH-SERIES_A2302.pdf	ThinDPAK	single		2	PUAD4BH	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PUAD6BC-SERIES_A2302.pdf	ThinDPAK	array	1 Pair Common Cathode	2	PUAD6BC	ThinDPAK	THINDPAK-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/PUAD6BCH-SERIES_A2302.pdf	ThinDPAK	array	1 Pair Common Cathode	2	PUAD6BCH	ThinDPAK	THINDPAK-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/PUAD6JH_A2411.pdf	ThinDPAK	single		1	PUAD6JH	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PUAD6J_A2411.pdf	ThinDPAK	single		1	PUAD6J	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PUAD8B-SERIES_A2302.pdf	ThinDPAK	single		2	PUAD8B	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PUAD8BC-SERIES_A2302.pdf	ThinDPAK	array	1 Pair Common Cathode	2	PUAD8BC	ThinDPAK	THINDPAK-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/PUAD8BCH-SERIES_A2302.pdf	ThinDPAK	array	1 Pair Common Cathode	2	PUAD8BCH	ThinDPAK	THINDPAK-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/PUAD8BH-SERIES_A2302.pdf	ThinDPAK	single		2	PUAD8BH	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PUAD8JH_A2411.pdf	ThinDPAK	single		1	PUAD8JH	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PUAD8J_A2411.pdf	ThinDPAK	single		1	PUAD8J	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PUUP10JH_A2412.pdf	TO-277A (SMPC4.6U)	single		2	PUUP10J	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PUUP12JH_A2409.pdf	TO-277A (SMPC4.6U)	single		2	PUUP12J	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PUUP3B-SERIES_A2210.pdf	SMPC4.6U	single		2	PUUP3B	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PUUP3BH-SERIES_B2109.pdf	TO-277A (SMPC)	single		2	PUUP3BH	SMPC	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PUUP3JH_A2409.pdf	TO-277A (SMPC4.6U)	single		2	PUUP3J	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PUUP4B-SERIES_A2210.pdf	SMPC4.6U	single		2	PUUP4B	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PUUP4BH-SERIES_B2109.pdf	TO-277A (SMPC)	single		2	PUUP4BH	SMPC	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PUUP6B-SERIES_A2210.pdf	SMPC4.6U	single		2	PUUP6B	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PUUP6BH-SERIES_C2109.pdf	TO-277A (SMPC)	single		2	PUUP6BH	SMPC	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PUUP6JH_A2412.pdf	TO-277A (SMPC4.6U)	single		2	PUUP6J	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PUUP8B-SERIES_A2210.pdf	SMPC4.6U	single		2	PUUP8B	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PUUP8BH-SERIES_A2111.pdf	TO-277A (SMPC)	single		2	PUUP8BH	SMPC	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PUUP8JH_A2409.pdf	TO-277A (SMPC)	single		1	PUUP8J	SMPC	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/PUUP8JH_A2409.pdf	TO-277A (SMPC4.6U)	single		1	PUUP8JH	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/RB495D_G14.pdf	SOT-23	array	1 Pair Common Cathode	1	RB495D RFG	SOT-23	SOT23-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/RB500V-40H_A2502.pdf	SOD-323	single		1	RB500V-40H RRG	SOD-323	DIODE-SOD-323-TSC	1:K,2:A
+datasheets/diode/tsc/RB500V-40_E2304.pdf	SOD-323F	single		1	RB500V-40 RRG	SOD-323F	DIODE-SOD-323F-TSC	1:K,2:A
+datasheets/diode/tsc/RB706F-40_C2102.pdf	SOT-323	array	1 Pair Series Connection	1	RB706F-40 RFG	SOT-323	SOT323-3-TSC	1:A1,2:K2,3:K1A2
+datasheets/diode/tsc/RB751M5-40_A2005.pdf	SOD-523F	single		1	RB751M5-40 RSG	SOD-523F	DIODE-SOD-523F-TSC	1:K,2:A
+datasheets/diode/tsc/RB751V-40WS_E2212.pdf	SOD-323F	single		1	RB751V-40WS RRG	SOD-323F	DIODE-SOD-323F-TSC	1:K,2:A
+datasheets/diode/tsc/RB751V-40_E1701.pdf	SOD-323	single		1	RB751V-40 RRG	SOD-323	DIODE-SOD-323-TSC	1:K,2:A
+datasheets/diode/tsc/RS1A-SERIES_M2304.pdf	DO-214AC (SMA)	single		5	RS1A	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/RS1AFL-SERIES_B2103.pdf	SOD-123F	single		3	RS1DFL	SOD-123F	DIODE-SOD-123F-TSC	1:K,2:A
+datasheets/diode/tsc/RS1AFL-SERIES_B2103.pdf	SOD-123FL	single		1	RS1JFL	SOD-123FL	DIODE-SOD-123FL-TSC	1:K,2:A
+datasheets/diode/tsc/RS1AH-SERIES_B2304.pdf	DO-214AC (SMA)	single		5	RS1DH	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/RS1DAL-SERIES_C2304.pdf	Thin SMA	single		4	RS1DAL	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/RS1DALH-SERIES_C2304.pdf	Thin SMA	single		5	RS1DALH	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/RS1DF-T-SERIES_B2103.pdf	SMAF	single		5	RS1DF-T	SMAF	DIODE-SMAF-TSC	1:K,2:A
+datasheets/diode/tsc/RS1DFS-SERIES_D2304.pdf	SOD-128	single		5	RS1DFS	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/RS1DFSH-SERIES_B2304.pdf	SOD-128	single		4	RS1DFSH	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/RS1DLW-SERIES_C2103.pdf	SOD-123W	single		4	RS1DLW	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/RS1DLWH-SERIES_A2103.pdf	SOD-123W	single		4	RS1DLWH	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/RS1JLS-SERIES_E2304.pdf	SOD-123HE	single		3	RS1JLS	SOD-123HE	DIODE-SOD-123HE-TSC	1:K,2:A
+datasheets/diode/tsc/RS1JLSH-SERIES_B2304.pdf	SOD-123HE	single		3	RS1JLSH	SOD-123HE	DIODE-SOD-123HE-TSC	1:K,2:A
+datasheets/diode/tsc/RS1JM-SERIES_B2103.pdf	Micro SMA	single		2	RS1JM	Micro SMA	DIODE-MICRO-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/RS2A-SERIES_L2304.pdf	DO-214AA (SMB)	single		5	RS2D	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/RS2AA-SERIES_I2304.pdf	DO-214AC (SMA)	single		5	RS2DA	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/RS2AAH-SERIES_B2304.pdf	DO-214AC (SMA)	single		5	RS2DAH	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/RS2AH-SERIES_B2304.pdf	DO-214AA (SMB)	single		6	RS2BH	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/RS2DAF-T-SERIES_B2103.pdf	SMAF	single		5	RS2DAF-T	SMAF	DIODE-SMAF-TSC	1:K,2:A
+datasheets/diode/tsc/RS2DAL-SERIES_C2304.pdf	Thin SMA	single		4	RS2DAL	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/RS2DALH-SERIES_C2304.pdf	Thin SMA	single		5	RS2DALH	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/RS2DFL-SERIES_B2103.pdf	SOD-123F	single		4	RS2DFL	SOD-123F	DIODE-SOD-123F-TSC	1:K,2:A
+datasheets/diode/tsc/RS2DFS-SERIES_C2304.pdf	SOD-128	single		4	RS2DFS	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/RS2DFSH-SERIES_C2304.pdf	SOD-128	single		5	RS2DFSH	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/RS3A-SERIES_M2304.pdf	DO-214AB (SMC)	single		5	RS3D	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/RS3AH-SERIES_B2304.pdf	DO-214AB (SMC)	single		5	RS3DH	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/RS3DB-T-SERIES_C2102.pdf	DO-214AA (SMB)	single		5	RS3DB-T	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/RS3MFSH_B2304.pdf	SOD-128	single		1	RS3MFSH	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/RS3MFS_D2304.pdf	SOD-128	single		1	RS3MFS	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/S10GC-SERIES_D2102.pdf	DO-214AB (SMC)	single		4	S10GC	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/S10GCH-SERIES_A2102.pdf	DO-214AB (SMC)	single		3	S10GCH	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/S12GC-SERIES_D2102.pdf	DO-214AB (SMC)	single		3	S12GC	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/S12GCH-SERIES_A2102.pdf	DO-214AB (SMC)	single		3	S12GCH	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/S15DLW-SERIES_C2103.pdf	SOD-123W	single		5	S15DLW	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/S15DLWH-SERIES_A2103.pdf	SOD-123W	single		5	S15DLWH	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/S15GC-SERIES_C2102.pdf	DO-214AB (SMC)	single		4	S15GC	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/S15GCH-SERIES_A2102.pdf	DO-214AB (SMC)	single		4	S15GCH	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/S1A-SERIES_S2102.pdf	DO-214AC (SMA)	single		6	S1A	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/S1AB-SERIES_I2102.pdf	DO-214AA (SMB)	single		5	S1DB	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/S1ABH-SERIES_A2102.pdf	DO-214AA (SMB)	single		5	S1DBH	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/S1AH-SERIES_A2102.pdf	DO-214AC (SMA)	single		6	S1BH	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/S1DAL-SERIES_B2103.pdf	Thin SMA	single		5	S1DAL	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/S1DALH-SERIES_B2103.pdf	Thin SMA	single		4	S1DALH	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/S1DF-T-SERIES_B2103.pdf	SMAF	single		5	S1DF-T	SMAF	DIODE-SMAF-TSC	1:K,2:A
+datasheets/diode/tsc/S1DFS-SERIES_C2103.pdf	SOD-128	single		4	S1DFS	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/S1DFSH-SERIES_B2306.pdf	SOD-128	single		5	S1DFSH	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/S1DLS-SERIES_H2103.pdf	SOD-123HE	single		4	S1GLS	SOD-123HE	DIODE-SOD-123HE-TSC	1:K,2:A
+datasheets/diode/tsc/S1DLSH-SERIES_A2103.pdf	SOD-123HE	single		4	S1DLSH	SOD-123HE	DIODE-SOD-123HE-TSC	1:K,2:A
+datasheets/diode/tsc/S1DLW-SERIES_D2109.pdf	SOD-123W	single		3	S1DLW	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/S1DLWH-SERIES_B2109.pdf	SOD-123W	single		4	S1DLWH	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/S1GFL-SERIES_E2103.pdf	SOD-123FL	single		3	S1GFL	SOD-123FL	DIODE-SOD-123FL-TSC	1:K,2:A
+datasheets/diode/tsc/S1GM-SERIES_I2103.pdf	Micro SMA	single		2	S1GM	Micro SMA	DIODE-MICRO-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/S1GMH-SERIES_A2103.pdf	Micro SMA	single		1	S1GMH	Micro SMA	DIODE-MICRO-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/S1Q_B2102.pdf	DO-214AC (SMA)	single		1	S1Q	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/S1YH_A2408.pdf	DO-214AC (SMA)	single		1	S1YH	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/S1Y_A2408.pdf	DO-214AC (SMA)	single		1	S1Y	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/S2A-SERIES_N2102.pdf	DO-214AA (SMB)	single		8	S2B	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/S2AA-SERIES_K2102.pdf	DO-214AC (SMA)	single		6	S2BA	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/S2AAH-SERIES_A2102.pdf	DO-214AC (SMA)	single		6	S2BAH	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/S2AH-SERIES_A2102.pdf	DO-214AA (SMB)	single		7	S2DH	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/S2DAF-T-SERIES_B2103.pdf	SMAF	single		5	S2DAF-T	SMAF	DIODE-SMAF-TSC	1:K,2:A
+datasheets/diode/tsc/S2DAL-SERIES_B2103.pdf	Thin SMA	single		4	S2DAL	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/S2DALH-SERIES_B2103.pdf	Thin SMA	single		5	S2DALH	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/S2DFL-SERIES_B2103.pdf	SOD-123F	single		4	S2DFL	SOD-123F	DIODE-SOD-123F-TSC	1:K,2:A
+datasheets/diode/tsc/S2DFS-SERIES_B2103.pdf	SOD-128	single		4	S2DFS	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/S2DFSH-SERIES_B2103.pdf	SOD-128	single		5	S2DFSH	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/S2YAH_A2408.pdf	DO-214AC (SMA)	single		1	S2YAH	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/S2YA_A2408.pdf	DO-214AC (SMA)	single		1	S2YA	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/S2YH_A2408.pdf	DO-214AA (SMB)	single		2	S2Y	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/S3A-SERIES_O2301.pdf	DO-214AB (SMC)	single		4	S3D	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/S3AB-SERIES_M2102.pdf	DO-214AA (SMB)	single		4	S3DB	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/S3ABH-SERIES_B2207.pdf	DO-214AA (SMB)	single		5	S3DBH	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/S3AH-SERIES_B2301.pdf	DO-214AB (SMC)	single		4	S3DH	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/S3JALH_A2303.pdf	Thin SMA	single		1	S3JALH	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/S3JAL_A2303.pdf	Thin SMA	single		1	S3JAL	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/S3JFSH_A2303.pdf	SOD-128	single		1	S3JFSH	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/S3JFS_A2303.pdf	SOD-128	single		1	S3JFS	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/S3Q_C2102.pdf	DO-214AB (SMC)	single		1	S3Q	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/S4A-SERIES_K2102.pdf	DO-214AB (SMC)	single		5	S4D	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/S4AH-SERIES_A2102.pdf	DO-214AB (SMC)	single		5	S4DH	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/S5A-SERIES_F2102.pdf	DO-214AB (SMC)	single		2	S5J	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/S5AH-SERIES_A2102.pdf	DO-214AB (SMC)	single		5	S5DH	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/S5GB-SERIES_D2102.pdf	DO-214AA (SMB)	single		4	S5GB	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/S5GBH-SERIES_A2102.pdf	DO-214AA (SMB)	single		4	S5GBH	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/S5QB_B2102.pdf	DO-214AA (SMB)	single		1	S5QB	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/S5Q_C2102.pdf	DO-214AB (SMC)	single		1	S5Q	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/S8GC-SERIES_G2210.pdf	DO-214AB (SMC)	single		4	S8GC	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/S8GCH-SERIES_B2210.pdf	DO-214AB (SMC)	single		4	S8GCH	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/SD103AWH-SERIES_A2502.pdf	SOD-123	single		3	SD103AWH RHG	SOD-123	DIODE-SOD-123-TSC	1:K,2:A
+datasheets/diode/tsc/SDLW-SERIES_C2103.pdf	SOD-123W	single		3	SDLW	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/SDLWH-SERIES_A2103.pdf	SOD-123W	single		5	SDLWH	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/SF1001G-SERIES_K2104.pdf	TO-220AB	array	1 Pair Common Cathode	4	SF1004GH	TO-220	TO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/SF1001G-SERIES_K2104.pdf	TO-220AB	single		3	SF1005G	TO-220	TO-220-3-TSC	1:A,2:K,3:A
+datasheets/diode/tsc/SF11G-SERIES_H2104.pdf	DO-204AL (DO-41)	single		7	SF14G	DO-41	DIODE-DO-41-TSC	1:K,2:A
+datasheets/diode/tsc/SF1601G-SERIES_I2104.pdf	TO-220AB	array	1 Pair Common Cathode	3	SF1604GH	TO-220	TO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/SF1601G-SERIES_I2104.pdf	TO-220AB	single		3	SF1604G	TO-220	TO-220-3-TSC	1:A,2:K,3:A
+datasheets/diode/tsc/SF1601PT-SERIES_G2103.pdf	TO-247AD (TO-3P)	array	1 Pair Common Cathode	4	SF1604PT	TO-247	TO-247-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/SF1601PT-SERIES_G2103.pdf	TO-247AD (TO-3P)	single		1	SF1606PT	TO-247	TO-247-3-TSC	1:A,2:K,3:A
+datasheets/diode/tsc/SF2001G-SERIES_I2104.pdf	TO-220AB	array	1 Pair Common Cathode	4	SF2004GH	TO-220	TO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/SF2001G-SERIES_I2104.pdf	TO-220AB	single		3	SF2004G	TO-220	TO-220-3-TSC	1:A,2:K,3:A
+datasheets/diode/tsc/SF2001PT-SERIES_I2103.pdf	TO-247AD (TO-3P)	single		8	SF2004PT	TO-247	TO-247-3-TSC	1:A,2:K,3:A
+datasheets/diode/tsc/SF21G-SERIES_H2105.pdf	DO-204AC (DO-15)	single		9	SF24G	DO-15	DIODE-DO-15-TSC	1:K,2:A
+datasheets/diode/tsc/SF2L4G-SERIES_B2105.pdf	DO-204AC (DO-15)	single		6	SF2L4G	DO-15	DIODE-DO-15-TSC	1:K,2:A
+datasheets/diode/tsc/SF3001PT-SERIES_J2103.pdf	TO-247AD (TO-3P)	array	1 Pair Common Cathode	2	SF3004PTH	TO-247	TO-247-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/SF3001PT-SERIES_J2103.pdf	TO-247AD (TO-3P)	single		3	SF3006PT	TO-247	TO-247-3-TSC	1:A,2:K,3:A
+datasheets/diode/tsc/SF31G-SERIES_H2105.pdf	DO-201AD	single		8	SF34G	DO-201AD	DIODE-DO-201AD-TSC	1:K,2:A
+datasheets/diode/tsc/SF41G-SERIES_G2105.pdf	DO-201AD	single		8	SF44G	DO-201AD	DIODE-DO-201AD-TSC	1:K,2:A
+datasheets/diode/tsc/SF61G-SERIES_G2105.pdf	DO-201AD	single		9	SF63G	DO-201AD	DIODE-DO-201AD-TSC	1:K,2:A
+datasheets/diode/tsc/SF801G-SERIES_I2104.pdf	TO-220AB	array	1 Pair Common Cathode	5	SF804G	TO-220	TO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/SF801G-SERIES_I2104.pdf	TO-220AB	single		1	SF808G	TO-220	TO-220-3-TSC	1:A,2:K,3:A
+datasheets/diode/tsc/SFA1001G-SERIES_K2103.pdf	TO-220AC	single		6	SFA1004G	TO-220	TO-220-2-TSC	1:K,2:A
+datasheets/diode/tsc/SFA801G-SERIES_K2103.pdf	TO-220AC	single		6	SFA804G	TO-220	TO-220-2-TSC	1:K,2:A
+datasheets/diode/tsc/SFAF1001G-SERIES_H2105.pdf	ITO-220AC	single		5	SFAF1004G	ITO-220	ITO-220-2-TSC	1:K,2:A
+datasheets/diode/tsc/SFAF1601G-SERIES_H2105.pdf	ITO-220AC	single		6	SFAF1604G	ITO-220	ITO-220-2-TSC	1:K,2:A
+datasheets/diode/tsc/SFAF2001G-SERIES_J2105.pdf	ITO-220AC	single		6	SFAF2004G	ITO-220	ITO-220-2-TSC	1:K,2:A
+datasheets/diode/tsc/SFAF501G-SERIES_I2105.pdf	ITO-220AC	single		6	SFAF504G	ITO-220	ITO-220-2-TSC	1:K,2:A
+datasheets/diode/tsc/SFAF801G-SERIES_L2106.pdf	ITO-220AC	single		5	SFAF804GH	ITO-220	ITO-220-2-TSC	1:K,2:A
+datasheets/diode/tsc/SFAS1008GH_A2103.pdf	TO-263AB (D2PAK)	single		1	SFAS1008GH	D2PAK	D2PAK-3-TSC	1:K,2:A,3:K
+datasheets/diode/tsc/SFAS1008G_E2103.pdf	TO-263AB (D2PAK)	single		1	SFAS1008G	D2PAK	D2PAK-3-TSC	1:K,2:A,3:K
+datasheets/diode/tsc/SFAS801G-SERIES_N2103.pdf	TO-263AB (D2PAK)	single		4	SFAS804G	D2PAK	D2PAK-3-TSC	1:K,2:A,3:K
+datasheets/diode/tsc/SFAS801GH-SERIES_A2103.pdf	TO-263AB (D2PAK)	single		4	SFAS804GH	D2PAK	D2PAK-3-TSC	1:K,2:A,3:K
+datasheets/diode/tsc/SFF1001G-SERIES_M2105.pdf	ITO-220AB	array	1 Pair Common Cathode	8	SFF1004G	ITO-220	ITO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/SFF1001GA-SERIES_E2105.pdf	ITO-220AB	array	1 Pair Common Anode	5	SFF1004GAH	ITO-220	ITO-220-3-TSC	1:K1,2:A,3:K2
+datasheets/diode/tsc/SFF10L04G-SERIES_E2108.pdf	ITO-220AB	array	1 Pair Common Cathode	7	SFF10L04G	ITO-220	ITO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/SFF10L04GA-SERIES_E2108.pdf	ITO-220AB	array	1 Pair Common Anode	8	SFF10L04GA	ITO-220	ITO-220-3-TSC	1:K1,2:A,3:K2
+datasheets/diode/tsc/SFF1601G-SERIES_I2105.pdf	ITO-220AB	array	1 Pair Common Cathode	5	SFF1604G	ITO-220	ITO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/SFF2001G-SERIES_I2105.pdf	ITO-220AB	array	1 Pair Common Cathode	1	SFF2004GH	ITO-220	ITO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/SFF2001G-SERIES_I2105.pdf	ITO-220AB	single		4	SFF2004G	ITO-220	ITO-220-3-TSC	1:A,2:K,3:A
+datasheets/diode/tsc/SFF2004GA-SERIES_F2105.pdf	ITO-220AB	array	1 Pair Common Anode	8	SFF2004GA	ITO-220	ITO-220-3-TSC	1:K1,2:A,3:K2
+datasheets/diode/tsc/SFF501G-SERIES_I2105.pdf	ITO-220AB	array	1 Pair Common Cathode	4	SFF504GH	ITO-220	ITO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/SFF501G-SERIES_I2105.pdf	ITO-220AB	single		2	SFF504G	ITO-220	ITO-220-3-TSC	1:A,2:K,3:A
+datasheets/diode/tsc/SFS1001G-SERIES_I2103.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	2	SFS1004G	D2PAK	D2PAK-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/SFS1001G-SERIES_I2103.pdf	TO-263AB (D2PAK)	single		2	SFS1006G	D2PAK	D2PAK-3-TSC	1:K,2:A,3:K
+datasheets/diode/tsc/SFS1001GH-SERIES_A2103.pdf	TO-263AB (D2PAK)	array	1 Pair Common Cathode	3	SFS1004GH	D2PAK	D2PAK-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/SFS1001GH-SERIES_A2103.pdf	TO-263AB (D2PAK)	single		1	SFS1006GH	D2PAK	D2PAK-3-TSC	1:K,2:A,3:K
+datasheets/diode/tsc/SFS1601G-SERIES_O2103.pdf	TO-263AB (D2PAK)	single		4	SFS1604G	D2PAK	D2PAK-3-TSC	1:K,2:A,3:K
+datasheets/diode/tsc/SFS1601GH-SERIES_A2103.pdf	TO-263AB (D2PAK)	single		3	SFS1604GH	D2PAK	D2PAK-3-TSC	1:K,2:A,3:K
+datasheets/diode/tsc/SFT11G-SERIES_J2104.pdf	TS-1	single		7	SFT14GH	TS-1	DIODE-TS-1-TSC	1:K,2:A
+datasheets/diode/tsc/SK12B-SERIES_M2212.pdf	DO-214AA (SMB)	single		2	SK110B	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/SK12BH-SERIES_B2212.pdf	DO-214AA (SMB)	single		1	SK110BH	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/SK22A-SERIES_S2307.pdf	DO-214AC (SMA)	single		5	SK215A	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/SK22AH-SERIES_C2307.pdf	DO-214AC (SMA)	single		2	SK23AH	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/SK32A-SERIES_W2304.pdf	DO-214AC (SMA)	single		4	SK315A	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/SK32AH-SERIES_B2304.pdf	DO-214AC (SMA)	single		2	SK310AH	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/SK32B-SERIES_P2212.pdf	DO-214AA (SMB)	single		3	SK310B	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/SK32BH-SERIES_B2212.pdf	DO-214AA (SMB)	single		4	SK310BH	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/SK52B-SERIES_Q2309.pdf	DO-214AA (SMB)	single		2	SK510B	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/SK52BH-SERIES_B2309.pdf	DO-214AA (SMB)	single		1	SK510BH	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/SK52C-SERIES_S2311.pdf	DO-214AB (SMC)	single		4	SK510C	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/SK52CH-SERIES_C2311.pdf	DO-214AB (SMC)	single		2	SK520CH	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/SK82C-SERIES_L2102.pdf	DO-214AB (SMC)	single		3	SK810C	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/SR102-SERIES_G2104.pdf	DO-204AL (DO-41)	single		3	SR104 A0G	DO-41	DIODE-DO-41-TSC	1:K,2:A
+datasheets/diode/tsc/SR1202-SERIES_G2105.pdf	DO-201AD	single		1	SR1204	DO-201AD	DIODE-DO-201AD-TSC	1:K,2:A
+datasheets/diode/tsc/SR202-SERIES_L2105.pdf	DO-204AC (DO-15)	single		2	SR204	DO-15	DIODE-DO-15-TSC	1:K,2:A
+datasheets/diode/tsc/SR302-SERIES_J2105.pdf	DO-201AD	single		3	SR304 A0G	DO-201AD	DIODE-DO-201AD-TSC	1:K,2:A
+datasheets/diode/tsc/SR502-SERIES_J2105.pdf	DO-201AD	single		4	SR504 A0G	DO-201AD	DIODE-DO-201AD-TSC	1:K,2:A
+datasheets/diode/tsc/SR802-SERIES_J2105.pdf	DO-201AD	single		1	SR806	DO-201AD	DIODE-DO-201AD-TSC	1:K,2:A
+datasheets/diode/tsc/SRAS2020-SERIES_M2103.pdf	TO-263AB (D2PAK)	single		1	SRAS2040	D2PAK	D2PAK-3-TSC	1:K,2:A,3:K
+datasheets/diode/tsc/SRF2020-SERIES_J2105.pdf	ITO-220AB	array	1 Pair Common Cathode	1	SRF2060	ITO-220	ITO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/SS12-SERIES_R2305.pdf	DO-214AC (SMA)	single		8	SS110	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/SS12H-SERIES_B2305.pdf	DO-214AC (SMA)	single		3	SS110H	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/SS12LS-SERIES_D2212.pdf	SOD-123HE	single		5	SS110LS	SOD-123HE	DIODE-SOD-123HE-TSC	1:K,2:A
+datasheets/diode/tsc/SS12LSH-SERIES_B2212.pdf	SOD-123HE	single		4	SS110LSH	SOD-123HE	DIODE-SOD-123HE-TSC	1:K,2:A
+datasheets/diode/tsc/SS13M-SERIES_O2103.pdf	Micro SMA	single		3	SS13M	Micro SMA	DIODE-MICRO-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/SS13MH-SERIES_A2103.pdf	Micro SMA	single		2	SS14MH	Micro SMA	DIODE-MICRO-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/SS14LW-SERIES_D2305.pdf	SOD-123W	single		4	SS110LW	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/SS14LWH-SERIES_B2305.pdf	SOD-123W	single		3	SS110LWH	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/SS1H4LS-SERIES_C2208.pdf	SOD-123HE	single		3	SS1H10LS	SOD-123HE	DIODE-SOD-123HE-TSC	1:K,2:A
+datasheets/diode/tsc/SS1H4LSH-SERIES_B2209.pdf	SOD-123HE	single		5	SS1H10LSH	SOD-123HE	DIODE-SOD-123HE-TSC	1:K,2:A
+datasheets/diode/tsc/SS22-SERIES_N2306.pdf	DO-214AA (SMB)	single		4	SS210	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/SS22H-SERIES_B2306.pdf	DO-214AA (SMB)	single		3	SS210H	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/SS22M-SERIES_M2103.pdf	Micro SMA	single		2	SS22M	Micro SMA	DIODE-MICRO-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/SS22MH-SERIES_A2103.pdf	Micro SMA	single		3	SS22MH	Micro SMA	DIODE-MICRO-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/SS24FSH-SERIES_B2103.pdf	SOD-128	single		1	SS24FSH	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/SS24LW-SERIES_D2301.pdf	SOD-123W	single		5	SS210LW	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/SS24LWH-SERIES_B2301.pdf	SOD-123W	single		4	SS210LWH	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/SS32-SERIES_Q2412.pdf	DO-214AB (SMC)	single		5	SS310	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/SS54FSH-SERIES_B2103.pdf	SOD-128	single		2	SS510FSH	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/SSA1H100H_A2504.pdf	DO-214AC (SMA)	single		1	SSA1H100H	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/SSA1H40H_A2504.pdf	DO-214AC (SMA)	single		1	SSA1H40H	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/SSA1H60H_A2504.pdf	DO-214AC (SMA)	single		1	SSA1H60H	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/SSA2H100H_A2504.pdf	DO-214AC (SMA)	single		1	SSA2H100H	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/SSA2H40H_A2504.pdf	DO-214AC (SMA)	single		1	SSA2H40H	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/SSA2H60H_A2504.pdf	DO-214AC (SMA)	single		1	SSA2H60H	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/SSA3H100H_A2504.pdf	DO-214AC (SMA)	single		1	SSA3H100H	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/SSA3H40H_A2504.pdf	DO-214AC (SMA)	single		1	SSA3H40H	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/SSA3H60H_A2504.pdf	DO-214AC (SMA)	single		1	SSA3H60H	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/SSB1H100H_A2504.pdf	DO-214AA (SMB)	single		1	SSB1H100H	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/SSB1H40H_A2504.pdf	DO-214AA (SMB)	single		1	SSB1H40H	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/SSB1H60H_A2504.pdf	DO-214AA (SMB)	single		1	SSB1H60H	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/SSB2H100H_A2504.pdf	DO-214AA (SMB)	single		1	SSB2H100H	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/SSB2H40H_A2504.pdf	DO-214AA (SMB)	single		1	SSB2H40H	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/SSB2H60H_A2504.pdf	DO-214AA (SMB)	single		1	SSB2H60H	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/SSB3H100H_A2504.pdf	DO-214AA (SMB)	single		1	SSB3H100H	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/SSB3H40H_A2504.pdf	DO-214AA (SMB)	single		1	SSB3H40H	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/SSB3H60H_A2504.pdf	DO-214AA (SMB)	single		1	SSB3H60H	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/SSB44_C2309.pdf	DO-214AA (SMB)	single		1	SSB44	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/SSC3H100H_A2504.pdf	DO-214AB (SMC)	single		1	SSC3H100H	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/SSC3H40H_A2504.pdf	DO-214AB (SMC)	single		1	SSC3H40H	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/SSC3H60H_A2504.pdf	DO-214AB (SMC)	single		1	SSC3H60H	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/SSC5H40H_A2504.pdf	DO-214AB (SMC)	single		1	SSC5H40H	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/SSC5H60H_A2504.pdf	DO-214AB (SMC)	single		1	SSC5H60H	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/SSH210H_B2310.pdf	DO-214AA (SMB)	single		1	SSH210H	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/SSL12-SERIES_I2304.pdf	DO-214AC (SMA)	single		2	SSL12	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/SSL22H-SERIES_B2309.pdf	DO-214AA (SMB)	single		1	SSL24H	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/SSL32-SERIES_K2310.pdf	DO-214AB (SMC)	single		1	SSL34	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/SSU1H40H_A2508.pdf	Micro SMA	single		1	SSU1H40H	Micro SMA	DIODE-MICRO-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/SSU1H60H_A2508.pdf	Micro SMA	single		1	SSU1H60H	Micro SMA	DIODE-MICRO-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/SSUP10H100H_A2505.pdf	TO-277A (SMPC4.6U)	single		1	SSUP10H100H	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/SSUP5H100H_A2505.pdf	TO-277A (SMPC4.6U)	single		1	SSUP5H100H	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/SSUP8H100H_A2505.pdf	TO-277A (SMPC4.6U)	single		1	SSUP8H100H	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/SSW2H100H_A2504.pdf	SOD-123W	single		1	SSW2H100H	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/SSW2H40H_A2504.pdf	SOD-123W	single		1	SSW2H40H	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/SSW2H60H_A2504.pdf	SOD-123W	single		1	SSW2H60H	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/TPMR10D-SERIES_D2309.pdf	TO-277A (SMPC)	single		1	TPMR10J	SMPC	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TPMR10D-SERIES_D2309.pdf	TO-277A (SMPC4.6U)	single		1	TPMR10G	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TS4148-SERIES_A2301.pdf	0603	single		1	TS4148 RCG	0603	DIODE-0603-TSC	1:K,2:A
+datasheets/diode/tsc/TS4148-SERIES_A2301.pdf	0805	single		1	TS4148 RBG	0805	DIODE-0805-TSC	1:K,2:A
+datasheets/diode/tsc/TS4148-SERIES_A2301.pdf	1206	single		1	TS4148 RAG	1206	DIODE-1206-TSC	1:K,2:A
+datasheets/diode/tsc/TS4448-RG_H1612.pdf	0603	single		1	TS4448 RGG	0603	DIODE-0603-TSC	1:K,2:A
+datasheets/diode/tsc/TSAD10H100CH_A2601.pdf	ThinDPAK	array	1 Pair Common Cathode	1	TSAD10H100CH	ThinDPAK	THINDPAK-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/TSAD10H120CH_A2601.pdf	ThinDPAK	array	1 Pair Common Cathode	1	TSAD10H120CH	ThinDPAK	THINDPAK-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/TSAD10H120H_A2601.pdf	ThinDPAK	single		1	TSAD10H120H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSAD10M45CH_A2601.pdf	ThinDPAK	array	1 Pair Common Cathode	1	TSAD10M45CH	ThinDPAK	THINDPAK-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/TSAD10M45H_A2601.pdf	ThinDPAK	single		1	TSAD10M45H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSAD10M60CH_A2601.pdf	ThinDPAK	array	1 Pair Common Cathode	1	TSAD10M60CH	ThinDPAK	THINDPAK-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/TSAD10M60H_A2601.pdf	ThinDPAK	single		1	TSAD10M60H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSAD20H100H_A2601.pdf	ThinDPAK	single		1	TSAD20H100H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSAD20H120CH_A2601.pdf	ThinDPAK	array	1 Pair Common Cathode	1	TSAD20H120CH	ThinDPAK	THINDPAK-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/TSAD20H120H_A2601.pdf	ThinDPAK	single		1	TSAD20H120H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSAD20M45CH_A2601.pdf	ThinDPAK	array	1 Pair Common Cathode	1	TSAD20M45CH	ThinDPAK	THINDPAK-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/TSAD20M45H_A2601.pdf	ThinDPAK	single		1	TSAD20M45H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSAD20M60CH_A2601.pdf	ThinDPAK	array	1 Pair Common Cathode	1	TSAD20M60CH	ThinDPAK	THINDPAK-3-TSC	1:A1,2:A2,3:K
+datasheets/diode/tsc/TSAD35H100H_A2601.pdf	ThinDPAK	single		1	TSAD35H100H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSAD35H120H_A2601.pdf	ThinDPAK	single		1	TSAD35H120H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSAD35M60H_A2601.pdf	ThinDPAK	single		1	TSAD35M60H	ThinDPAK	THINDPAK-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSAL3H100H_A2510.pdf	Thin SMA	single		1	TSAL3H100H	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/TSAL3M45H_A2510.pdf	Thin SMA	single		1	TSAL3M45H	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/TSAL5H100H_A2510.pdf	Thin SMA	single		1	TSAL5H100H	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/TSAL5M45H_A2510.pdf	Thin SMA	single		1	TSAL5M45H	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/TSD1GLW-SERIES_A2309.pdf	SOD-123W	single		2	TSD1GLW	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/TSD1GLWH-SERIES_B2312.pdf	SOD-123W	single		2	TSD1GLWH	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/TSD1G_E2102.pdf	DO-214AC (SMA)	single		1	TSD1G	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/TSD2GAL-SERIES_A2309.pdf	Thin SMA	single		2	TSD2GAL	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/TSD2GALH-SERIES_B2312.pdf	Thin SMA	single		2	TSD2GALH	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/TSD2GFS-SERIES_A2309.pdf	SOD-128	single		2	TSD2GFS	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/TSD2GFSH-SERIES_B2312.pdf	SOD-128	single		2	TSD2GFSH	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/TSD2GH_A2102.pdf	DO-214AA (SMB)	single		1	TSD2GH	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/TSD2G_F2102.pdf	DO-214AA (SMB)	single		1	TSD2G	SMB	DIODE-SMB-TSC	1:K,2:A
+datasheets/diode/tsc/TSD3GAL-SERIES_A2309.pdf	Thin SMA	single		2	TSD3GAL	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/TSD3GALH-SERIES_B2312.pdf	Thin SMA	single		2	TSD3GALH	Thin SMA	DIODE-THIN-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/TSD3GFS-SERIES_A2309.pdf	SOD-128	single		2	TSD3GFS	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/TSD3GFSH-SERIES_B2312.pdf	SOD-128	single		2	TSD3GFSH	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/TSD3G_F2102.pdf	DO-214AB (SMC)	single		1	TSD3G	SMC	DIODE-SMC-TSC	1:K,2:A
+datasheets/diode/tsc/TSDGLW_F2103.pdf	SOD-123W	single		1	TSDGLW	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/TSFS3H100H_A2510.pdf	SOD-128	single		1	TSFS3H100H	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/TSFS3M45H_A2510.pdf	SOD-128	single		1	TSFS3M45H	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/TSFS5M60H_A2510.pdf	SOD-128	single		1	TSFS5M60H	SOD-128	DIODE-SOD-128-TSC	1:K,2:A
+datasheets/diode/tsc/TSH60H100CH_A2601.pdf	TO-247AD (TO-3P)	array	1 Pair Common Cathode	1	TSH60H100CH	TO-247	TO-247-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/TSH80H100CH_A2601.pdf	TO-247AD (TO-3P)	array	1 Pair Common Cathode	1	TSH80H100CH	TO-247	TO-247-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/TSS0340U_D1604.pdf	0603	single		1	TSS0340U RGG	0603	DIODE-0603-TSC	1:K,2:A
+datasheets/diode/tsc/TSSA3U45H_B2307.pdf	DO-214AC (SMA)	single		1	TSSA3U45H	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/TSSA3U45_P2307.pdf	DO-214AC (SMA)	single		1	TSSA3U45	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/TSSA5U50-SERIES_F2307.pdf	DO-214AC (SMA)	single		1	TSSA5U50	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/TSSA5U50H-SERIES_B2307.pdf	DO-214AC (SMA)	single		1	TSSA5U60H	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/TSSE3H45-SERIES_E2305.pdf	SOD-123HE	single		2	TSSE3H45	SOD-123HE	DIODE-SOD-123HE-TSC	1:K,2:A
+datasheets/diode/tsc/TSSE3U45-SERIES_I2103.pdf	SOD-123HE	single		2	TSSE3U45	SOD-123HE	DIODE-SOD-123HE-TSC	1:K,2:A
+datasheets/diode/tsc/TSSE3U45H-SERIES_A2103.pdf	SOD-123HE	single		2	TSSE3U45H	SOD-123HE	DIODE-SOD-123HE-TSC	1:K,2:A
+datasheets/diode/tsc/TSSW1H120H_A2510.pdf	SOD-123W	single		1	TSSW1H120H	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/TSSW1M45H_A2510.pdf	SOD-123W	single		1	TSSW1M45H	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/TSSW2H120H_A2510.pdf	SOD-123W	single		1	TSSW2H120H	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/TSSW2M45H_A2510.pdf	SOD-123W	single		1	TSSW2M45H	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/TSSW3H120H_A2510.pdf	SOD-123W	single		1	TSSW3H120H	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/TSSW3M45H_A2510.pdf	SOD-123W	single		1	TSSW3M45H	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/TSSW3U45-SERIES_B2103.pdf	SOD-123W	single		2	TSSW3U45	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/TSSW3U45H-SERIES_A2103.pdf	SOD-123W	single		2	TSSW3U45H	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/TST20U45C-SERIES_D2104.pdf	TO-220AB	single		1	TST20U45C	TO-220	TO-220-3-TSC	1:A,2:K,3:A
+datasheets/diode/tsc/TST30L45C_C2104.pdf	TO-220AB	array	1 Pair Common Cathode	1	TST30L45C	TO-220	TO-220-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/TSU1H100H_A2507.pdf	Micro SMA	single		1	TSU1H100H	Micro SMA	DIODE-MICRO-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/TSU1H120H_A2507.pdf	Micro SMA	single		1	TSU1H120H	Micro SMA	DIODE-MICRO-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/TSU1M45H_B2211.pdf	Micro SMA	single		1	TSU1M45H	Micro SMA	DIODE-MICRO-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/TSU1M60H_A2207.pdf	Micro SMA	single		1	TSU1M60H	Micro SMA	DIODE-MICRO-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/TSU2H100H_A2507.pdf	Micro SMA	single		1	TSU2H100H	Micro SMA	DIODE-MICRO-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/TSU2H120H_A2507.pdf	Micro SMA	single		1	TSU2H120H	Micro SMA	DIODE-MICRO-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/TSU2M45H_A2207.pdf	Micro SMA	single		1	TSU2M45H	Micro SMA	DIODE-MICRO-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/TSU2M60H_B2208.pdf	Micro SMA	single		1	TSU2M60H	Micro SMA	DIODE-MICRO-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/TSUP10102_B2508.pdf	TO-277A (SMPC4.6U)	single		1	TSUP10102	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP10150H_A2505.pdf	TO-277A (SMPC4.6U)	single		1	TSUP10150H	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP10200H_A2505.pdf	TO-277A (SMPC4.6U)	single		1	TSUP10200H	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP10M45SH_B2103.pdf	TO-277A (SMPC4.6U)	single		1	TSUP10M45SH	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP10S150H_A2604.pdf	TO-277A (SMPC4.6U)	single		1	TSUP10S150H	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP10S200H_A2604.pdf	TO-277A (SMPC4.6U)	single		1	TSUP10S200H	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP12122_B2508.pdf	TO-277A (SMPC4.6U)	single		1	TSUP12122	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP12150H_A2505.pdf	TO-277A (SMPC4.6U)	single		1	TSUP12150H	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP12200H_A2505.pdf	TO-277A (SMPC4.6U)	single		1	TSUP12200H	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP12S150H_A2604.pdf	TO-277A (SMPC4.6U)	single		1	TSUP12S150H	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP12S200H_A2604.pdf	TO-277A (SMPC4.6U)	single		1	TSUP12S200H	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP15102_B2508.pdf	TO-277A (SMPC4.6U)	single		1	TSUP15102	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP15150H_A2505.pdf	TO-277A (SMPC4.6U)	single		1	TSUP15150H	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP15200H_A2505.pdf	TO-277A (SMPC4.6U)	single		1	TSUP15200H	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP15M45SH_B2103.pdf	TO-277A (SMPC4.6U)	single		1	TSUP15M45SH	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP15S150H_A2604.pdf	TO-277A (SMPC4.6U)	single		1	TSUP15S150H	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP15S200H_A2604.pdf	TO-277A (SMPC4.6U)	single		1	TSUP15S200H	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP3150H_A2505.pdf	TO-277A (SMPC4.6U)	single		1	TSUP3150H	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP3S150H_A2604.pdf	TO-277A (SMPC4.6U)	single		1	TSUP3S150H	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP5102_B2508.pdf	TO-277A (SMPC4.6U)	single		1	TSUP5102	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP5150H_A2505.pdf	TO-277A (SMPC4.6U)	single		1	TSUP5150H	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP5S150H_A2604.pdf	TO-277A (SMPC4.6U)	single		1	TSUP5S150H	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP8150H_A2505.pdf	TO-277A (SMPC4.6U)	single		1	TSUP8150H	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP8200H_A2505.pdf	TO-277A (SMPC4.6U)	single		1	TSUP8200H	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP8H100H_A2403.pdf	TO-277A (SMPC4.6U)	single		1	TSUP8H100H	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP8H100SH_A2505.pdf	TO-277A (SMPC4.6U)	single		1	TSUP8H100SH	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP8M45SH_B2103.pdf	TO-277A (SMPC4.6U)	single		1	TSUP8M45SH	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP8M60SH_B2103.pdf	TO-277A (SMPC4.6U)	single		1	TSUP8M60SH	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP8S150H_A2604.pdf	TO-277A (SMPC4.6U)	single		1	TSUP8S150H	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TSUP8S200H_A2604.pdf	TO-277A (SMPC4.6U)	single		1	TSUP8S200H	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TUAR4DH-SERIES_A2111.pdf	SMPC4.6U	single		5	TUAR4DH	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TUAS3DH-SERIES_A2111.pdf	TO-277A (SMPC4.6U)	single		5	TUAS3DH	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TUAS4DH-SERIES_A2111.pdf	SMPC4.6U	single		3	TUAS4GH	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TUAS4DH-SERIES_A2111.pdf	TO-277A (SMPC4.6U)	single		1	TUAS4JH	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TUAS6DH-SERIES_A2111.pdf	SMPC4.6U	single		5	TUAS6DH	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TUAS8D-SERIES_C2109.pdf	SMPC4.6U	single		5	TUAS8D	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TUAS8DH-SERIES_A2111.pdf	SMPC4.6U	single		5	TUAS8DH	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TUAU10DH-SERIES_A2111.pdf	SMPC4.6U	single		5	TUAU10DH	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TUAU4DH-SERIES_A2111.pdf	SMPC4.6U	single		5	TUAU4DH	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TUAU6DH-SERIES_C2111.pdf	SMPC4.6U	single		5	TUAU6DH	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/TUAU8DH-SERIES_A2111.pdf	SMPC4.6U	single		5	TUAU8DH	SMPC4.6U	TO-277A-3-TSC	1:A,2:A,3:K
+datasheets/diode/tsc/UDZS3V6B-SERIES_I2606.pdf	SOD-323F	zener		25	UDZS10B R9G	SOD-323F	DIODE-SOD-323F-TSC	1:K,2:A
+datasheets/diode/tsc/UF1A-SERIES_G2104.pdf	DO-204AL (DO-41)	single		10	UF1D	DO-41	DIODE-DO-41-TSC	1:K,2:A
+datasheets/diode/tsc/UF1DLWH-SERIES_C2601.pdf	SOD-123W	single		2	UF1DLWH	SOD-123W	DIODE-SOD-123W-TSC	1:K,2:A
+datasheets/diode/tsc/UF4001-SERIES_P2104.pdf	DO-204AL (DO-41)	single		8	UF4004	DO-41	DIODE-DO-41-TSC	1:K,2:A
+datasheets/diode/tsc/UG06A-SERIES_G2104.pdf	TS-1	single		8	UG06A	TS-1	DIODE-TS-1-TSC	1:K,2:A
+datasheets/diode/tsc/UG10G-SERIES_F2603.pdf	TO-220AC	single		4	UG10G	TO-220	TO-220-2-TSC	1:K,2:A
+datasheets/diode/tsc/UG2004PT_F2103.pdf	TO-247AD (TO-3P)	array	1 Pair Common Cathode	2	UG2004PT	TO-247	TO-247-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/UG2D_F2105.pdf	DO-204AC (DO-15)	single		2	UG2D	DO-15	DIODE-DO-15-TSC	1:K,2:A
+datasheets/diode/tsc/UG2JA_D2102.pdf	DO-214AC (SMA)	single		1	UG2JA	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/UG4D_B2201.pdf	DO-201AD	single		1	UG4D	DO-201AD	DIODE-DO-201AD-TSC	1:K,2:A
+datasheets/diode/tsc/UG54GS_C2105.pdf	DO-204AC (DO-15)	single		2	UG54GS	DO-15	DIODE-DO-15-TSC	1:K,2:A
+datasheets/diode/tsc/UG6005PT_E2103.pdf	TO-247AD (TO-3P)	array	1 Pair Common Cathode	2	UG6005PT	TO-247	TO-247-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/UGF12JD_C2105.pdf	ITO-220AC	single		2	UGF12JD	ITO-220	ITO-220-2-TSC	1:K,2:A
+datasheets/diode/tsc/UGF8JD_D2105.pdf	ITO-220AC	single		2	UGF8JD	ITO-220	ITO-220-2-TSC	1:K,2:A
+datasheets/diode/tsc/UGS5J_C2103.pdf	TO-263AB (D2PAK)	single		1	UGS5J	D2PAK	D2PAK-3-TSC	1:K,2:A,3:K
+datasheets/diode/tsc/US1A-SERIES_N2102.pdf	DO-214AC (SMA)	single		5	US1D	SMA	DIODE-SMA-TSC	1:K,2:A
+datasheets/diode/tsc/US1AH-SERIES_A2102.pdf	DO-214AC (SMA)	single		5	US1DH	SMA	DIODE-SMA-TSC	1:K,2:A

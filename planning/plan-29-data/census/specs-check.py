@@ -8,7 +8,8 @@ smd = "Surface Mount" or "Surface Mount, Wettable Flank", th = "Through Hole";
 a blank mounting is in scope only with no --mounting): no row is still
 pending / candidate / check, and each `add` row's spec row (same maker,
 category, datasheet path, supplier package) has `package`, `pinout`, `pins`,
-`footprint`; `pins` is `<number>:<name>,...` with distinct numbers 1..N; the
+`footprint`; `pins` is `<number>:<name>,...` with distinct numbers 1..N
+(or `<config>=<map>;...`, one map per configuration, `pinout` naming each); the
 footprint is an id in planning/plan-29-data/footprints-*.json or
 Parts/footprints.json with N pins whose pad designators equal those numbers;
 and one `pinout` name has one `pins` map in the whole file.  Prints
@@ -58,17 +59,22 @@ def problems_of(spec, fps):
             out.append(f"no {col}")
     if out:
         return out
-    pins = parse_pins(spec["pins"])
-    if pins is None:
-        return [f"pins {spec['pins']!r} not <number>:<name>,..."]
-    nums = [n for n, _ in pins]
-    if sorted(nums, key=int) != [str(i) for i in range(1, len(nums) + 1)]:
-        out.append(f"pins {spec['pins']!r} are not 1..{len(nums)}")
     fp = fps.get(spec["footprint"])
     if fp is None:
         out.append(f"footprint {spec['footprint']!r} not in any footprints file")
-    elif pads(fp) != set(nums):
-        out.append(f"footprint {fp['id']} pads {sorted(pads(fp), key=int)} != pins {nums}")
+    maps = [x.split("=", 1)[-1] for x in spec["pins"].split(";")]
+    if len(maps) != len(spec["pinout"].split(";")):
+        out.append(f"pinout {spec['pinout']!r} does not name each of {len(maps)} maps")
+    for text in maps:
+        pins = parse_pins(text)
+        if pins is None:
+            out.append(f"pins {text!r} not <number>:<name>,...")
+            continue
+        nums = [n for n, _ in pins]
+        if sorted(nums, key=int) != [str(i) for i in range(1, len(nums) + 1)]:
+            out.append(f"pins {text!r} are not 1..{len(nums)}")
+        if fp is not None and pads(fp) != set(nums):
+            out.append(f"footprint {fp['id']} pads {sorted(pads(fp), key=int)} != pins {nums}")
     return out
 
 
@@ -90,7 +96,8 @@ def main():
     maps = collections.defaultdict(set)
     for s in specs:
         if s["pinout"]:
-            maps[s["pinout"]].add(s["pins"])
+            for name, text in zip(s["pinout"].split(";"), s["pins"].split(";")):
+                maps[name].add(text.split("=", 1)[-1])
     for name, m in sorted(maps.items()):
         if len(m) > 1:
             bad.append(f"pinout {name} has {len(m)} pin maps: {sorted(m)}")

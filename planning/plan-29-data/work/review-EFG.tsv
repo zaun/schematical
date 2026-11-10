@@ -1,0 +1,219 @@
+datasheet	supplier_package	category	configurations	parts	first_mpn	package	footprint	pins
+datasheets/diode/onsemi/1n5913b-d.pdf	DO-204AL (DO-41)	zener		2	1N5933B	DO-41	DIODE-DO-41-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/BAS16DXV6-D.PDF	SOT-563	array	2 Independent	1	BAS16DXV6T1G	SOT-563	SOT563-6-ONSEMI	1:K1,2:NC,3:K2,4:A2,5:NC,6:A1
+datasheets/diode/onsemi/BAT54CXV3-D.PDF	SC-89-3	array	1 Pair Common Cathode	1	BAT54CXV3T1G	SC-89	SC89-3-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/DF10S-D.PDF	4-SDIP	bridge		6	DF01S	SDIP	SDIP-4-ONSEMI	1:+,2:-,3:AC1,4:AC2
+datasheets/diode/onsemi/DF10S1-D.PDF	4-SDIP	bridge		1	DF08S1	SDIP	SDIP-4-ONSEMI	1:+,2:-,3:AC1,4:AC2
+datasheets/diode/onsemi/DFB2080-D.pdf	TS-6P	bridge		6	DFB2010	TS-6P	TS-6P-4-ONSEMI	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/onsemi/DFB2505-D.PDF	TS-6P	bridge		6	DFB2505	TS-6P	TS-6P-4-ONSEMI	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/onsemi/GBU4M-D.PDF	GBU	bridge		6	GBU4A	GBU	GBU-4-ONSEMI	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/onsemi/GBU8B-D.PDF	GBU	bridge		7	GBU8A	GBU	GBU-4-ONSEMI	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/onsemi/MDB8S-D.PDF	4-MicroDIP/SMD	bridge		3	MDB10S	MicroDIP	MICRODIP-4-ONSEMI	1:+,2:-,3:AC1,4:AC2
+datasheets/diode/onsemi/SBE805-D.PDF	5-CPH	array	2 Independent	1	SBE805-TL-W	CPH	CPH-5-ONSEMI	1:K1,2:K2,3:A2,4:NC,5:A1
+datasheets/diode/onsemi/bas16w1-d.pdf	SC-88/SC70-6/SOT-363	array	3 Independent	1	NSVBAS16W1T1G	SC-88	SC88-6-ONSEMI	1:K1,2:K2,3:K3,4:A3,5:A2,6:A1
+datasheets/diode/onsemi/bas19lt1-d.pdf	SC-88A (SC-70-5/SOT-353)	array	2 Independent	3	BAS21DW5T1G	SC-88A	SC88A-5-ONSEMI	1:A1,2:NC,3:A2,4:K2,5:K1
+datasheets/diode/onsemi/bas21tmr6-d.pdf	SC-74	array	3 Independent	3	BAS21TMR6T1G			
+datasheets/diode/onsemi/ffa60up20dn-d.pdf	TO-3PN	array	1 Pair Common Cathode	1	FFA60UP20DNTU	TO-3PN	TO-3P-3-ONSEMI	1:A1,2:K,3:A2
+datasheets/diode/onsemi/ffa60up30dn-d.pdf	TO-3P	array	1 Pair Common Cathode	1	FFA60UP30DNTU	TO-3P	TO-3P-3-ONSEMI	1:A1,2:K,3:A2
+datasheets/diode/onsemi/ffb20u20dn-f085-d.pdf	TO-263 (D2PAK)	array	1 Pair Common Cathode	1	FFB20UP20DN-F085	D2PAK	TO-263-2-TAB-ONSEMI	1:A1,2:A2,3:K
+datasheets/diode/onsemi/gbpc3510-d.pdf	GBPC-W	bridge		19	GBPC1204W	GBPC-W	GBPC-W-4-ONSEMI	1:-,2:AC1,3:+,4:AC2
+datasheets/diode/onsemi/gbu6m-d.pdf	GBU	bridge		7	GBU6A	GBU	GBU-4-ONSEMI	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/onsemi/gbu8ks-d.pdf	GBU	bridge		1	GBU8KS	GBU	GBU-4-ONSEMI	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/onsemi/hn2d02futw1t1-d.pdf	SC-88/SC70-6/SOT-363	array	3 Independent	2	HN2D02FUTW1T1G	SC-88	SC88-6-ONSEMI	1:K1,2:K2,3:K3,4:A3,5:A2,6:A1
+datasheets/diode/onsemi/mb10s-d.pdf	4-SOIC	bridge		1	MB10S	SOIC	SOIC-4-ONSEMI	1:+,2:-,3:AC1,4:AC2
+datasheets/diode/onsemi/mb8s-d.pdf	4-SOIC	bridge		5	MB1S	SOIC	SOIC-4-ONSEMI	1:+,2:-,3:AC1,4:AC2
+datasheets/diode/onsemi/mbd54dwt1-d.pdf	SC-88/SC70-6/SOT-363	array	2 Independent	1	MBD54DWT1G			
+datasheets/diode/onsemi/mbd770dw-d.pdf	SC-88/SC70-6/SOT-363	array	2 Independent	2	MBD770DWT1G			
+datasheets/diode/onsemi/mbr1560ct-d.pdf	TO-220-3	array	1 Pair Common Cathode	1	MBR1560CT	TO-220	TO-220-3-ONSEMI	1:A1,2:K,3:A2
+datasheets/diode/onsemi/mbr2560ct-d.pdf	TO-220-3	array	1 Pair Common Cathode	2	MBR2550CT	TO-220	TO-220-3-ONSEMI	1:A1,2:K,3:A2
+datasheets/diode/onsemi/mm3z9v1c-d.pdf	SOD-323FL	zener		1	MM3Z56VC	SOD-323FL	DIODE-SOD-323FL-ONSEMI	1:K,2:A
+datasheets/diode/onsemi/mur1620ctr-d.pdf	TO-263 (D2PAK)	array	1 Pair Common Anode	1	MURB1620CTRT4G	D2PAK	TO-263-2-TAB-ONSEMI	1:K1,2:K2,3:A
+datasheets/diode/onsemi/nhp420mfd-d.pdf	8-DFN (5x6) Dual Flag (SO8FL-Dual)	array	2 Independent	1	NRVHP420MFDT1G	SO8FL-Dual	SO8FL-DUAL-6-ONSEMI	1:A1,2:NC,3:A2,4:NC,5:K2,6:K1
+datasheets/diode/onsemi/nhp620mfd-d.pdf	8-DFN (5x6) Dual Flag (SO8FL-Dual)	array	2 Independent	2	NRVHP620MFDT1G	SO8FL-Dual	SO8FL-DUAL-6-ONSEMI	1:A1,2:NC,3:A2,4:NC,5:K2,6:K1
+datasheets/diode/onsemi/nhp820mfd-d.pdf	8-DFN (5x6) Dual Flag (SO8FL-Dual)	array	2 Independent	1	NRVHP820MFDT1G	SO8FL-Dual	SO8FL-DUAL-6-ONSEMI	1:A1,2:NC,3:A2,4:NC,5:K2,6:K1
+datasheets/diode/onsemi/nsdemp11xv6t1-d.pdf	SOT-563	array	2 Pair Common Anode	1	NSDEMP11XV6T1G			
+datasheets/diode/onsemi/nsr2030qmu-d.pdf	4-UDFN (3.5x3.5)	bridge		1	NSR2030QMUTWG	UDFN 3.5x3.5	UDFN-4-ONSEMI	1:AC1,2:+,3:AC2,4:-
+datasheets/diode/onsemi/nzl5v6axv3t1-d.pdf	SC-89-3	zener-array	1 Pair Common Anode	1	SZNZL7V5AXV3T1G	SC-89	SC89-3-ONSEMI	1:K1,2:K2,3:A
+datasheets/diode/tsc/ABS15J-SERIES_E2103.pdf	ABS	bridge		4	ABS15J	ABS	ABS-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/ABS2-SERIES_M2103.pdf	ABS	bridge		7	ABS10	ABS	ABS-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/ABS20M_B2103.pdf	ABS	bridge		2	ABS20M	ABS	ABS-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/D2SB05-SERIES_K2103.pdf	GBL	bridge		4	D2SB60	GBL	GBL-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/DBL101G-SERIES_R2103.pdf	DBL	bridge		8	DBL104G	DBL	DBL-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/DBL151G-SERIES_L2103.pdf	DBL	bridge		12	DBL154G	DBL	DBL-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/DBL201G-SERIES_K2103.pdf	DBL	bridge		12	DBL204G	DBL	DBL-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/DBLS101G-SERIES_P2103.pdf	DBLS	bridge		8	DBLS104G	DBLS	DBLS-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/DBLS151G-SERIES_M2103.pdf	DBLS	bridge		12	DBLS154G	DBLS	DBLS-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/DBLS201G-SERIES_J2103.pdf	DBLS	bridge		11	DBLS203G	DBLS	DBLS-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/EABS1D-SERIES_C2103.pdf	ABS	bridge		6	EABS1D	ABS	ABS-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/GBJ15KGLV_B2603.pdf	TS-6P	bridge		1	GBJ15KGLV	TS-6P	TS-6P-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/GBJ20KGLV_B2603.pdf	TS-6P	bridge		1	GBJ20KGLV	TS-6P	TS-6P-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/GBJ25KGLV_B2603.pdf	TS-6P	bridge		1	GBJ25KGLV	TS-6P	TS-6P-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/GBJ35KGALV_B2603.pdf	TS-6P	bridge		1	GBJ35KGALV	TS-6P	TS-6P-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/GBJ35KGLV_B2603.pdf	TS-6P	bridge		1	GBJ35KGLV	TS-6P	TS-6P-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/GBJL15J_C2606.pdf	TS-6P	bridge		1	GBJL15J	TS-6P	TS-6P-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/GBJL25J_D2606.pdf	TS-6P	bridge		1	GBJL25J	TS-6P	TS-6P-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/GBJL45J_D2606.pdf	TS-6P	bridge		1	GBJL45J	TS-6P	TS-6P-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/GBL005-SERIES_K2103.pdf	GBL	bridge		6	GBL04	GBL	GBL-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/GBL201-SERIES_J2103.pdf	GBL	bridge		7	GBL204	GBL	GBL-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/GBPC15_25_35-SERIES_M2211.pdf	GBPC-W	bridge		12	GBPC1504W	GBPC-W	GBPC-W-4-TSC	1:-,2:AC1,3:+,4:AC2
+datasheets/diode/tsc/GBU1001-SERIES_M2103.pdf	GBU	bridge		5	GBU1004H	GBU	GBU-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/GBU1505-SERIES_B2305.pdf	GBU	bridge		2	GBU1505	GBU	GBU-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/GBU15KGLV_A2507.pdf	GBU	bridge		1	GBU15KGLV	GBU	GBU-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/GBU15L05-SERIES_C2103.pdf	GBU	bridge		2	GBU15L05H	GBU	GBU-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/GBU20KGLV_A2507.pdf	GBU	bridge		1	GBU20KGLV	GBU	GBU-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/GBU2504-SERIES_E2205.pdf	GBU	bridge		2	GBU2504	GBU	GBU-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/GBU25KGLV_A2507.pdf	GBU	bridge		1	GBU25KGLV	GBU	GBU-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/GBU401-SERIES_M2103.pdf	GBU	bridge		4	GBU405	GBU	GBU-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/GBU601-SERIES_N2103.pdf	GBU	bridge		6	GBU604H	GBU	GBU-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/GBU801-SERIES_M2103.pdf	GBU	bridge		9	GBU802	GBU	GBU-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/GBUL15J_C2606.pdf	GBU	bridge		1	GBUL15J	GBU	GBU-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/GBUL25J_D2606.pdf	GBU	bridge		1	GBUL25J	GBU	GBU-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/HDBL101G-SERIES_G2103.pdf	DBL	bridge		10	HDBL103G	DBL	DBL-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/HDBLS101G-SERIES_G2103.pdf	DBLS	bridge		10	HDBLS103G	DBLS	DBLS-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/KBL401G-SERIES_J2308.pdf	KBL	bridge		4	KBL404G	KBL	KBL-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/KBL601G-SERIES_H2308.pdf	KBL	bridge		4	KBL604G	KBL	KBL-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/KBPF204G-SERIES_B2103.pdf	KBPF	bridge		4	KBPF204G	KBPF	KBPF-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/KBPF304G-SERIES_B2103.pdf	KBPF	bridge		4	KBPF304G	KBPF	KBPF-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/KBPF404G-SERIES_B2103.pdf	KBPF	bridge		4	KBPF404G	KBPF	KBPF-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/KBU1001G-SERIES_J2103.pdf	KBU	bridge		4	KBU1004G	KBU	KBU-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/KBU401G-SERIES_J2103.pdf	KBU	bridge		3	KBU405G	KBU	KBU-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/KBU601G-SERIES_J2103.pdf	KBU	bridge		4	KBU604G	KBU	KBU-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/KBU801G-SERIES_J2103.pdf	KBU	bridge		4	KBU804G	KBU	KBU-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/MBS2-SERIES_Q2309.pdf	MBS	bridge		4	MBS10	MBS	MBS-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/MBS2-SERIES_Q2309.pdf	TO-269AA (MBS)	bridge		5	MBS10H	MBS	MBS-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/RABS15M_D2103.pdf	ABS-L	bridge		1	RABS15M	ABS-L	ABS-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/RABS20M_C2304.pdf	ABS	bridge		1	RABS20M	ABS	ABS-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/RDBLS207G_B2103.pdf	DBLS	bridge		2	RDBLS207G	DBLS	DBLS-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/RMB2S-SERIES_I2103.pdf	MBS	bridge		2	RMB2S	MBS	MBS-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/RMB2S-SERIES_I2103.pdf	TO-269AA (MBS)	bridge		4	RMB2SH	MBS	MBS-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/RTBS40M_B2103.pdf	TBS	bridge		1	RTBS40M	TBS	TBS-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/RTBS60M_A2111.pdf	TBS	bridge		1	RTBS60M	TBS	TBS-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/SBS24-SERIES_C2103.pdf	ABS	bridge		1	SBS25	ABS	ABS-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/SBS34-SERIES_F2103.pdf	ABS	bridge		1	SBS34	ABS	ABS-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/T10JA05G-K-SERIES_B2103.pdf	TS-6P	bridge		3	T10JA05G-K	TS-6P	TS-6P-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/T15JA05G-K-SERIES_B2103.pdf	TS-6P	bridge		3	T15JA05G-K	TS-6P	TS-6P-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/T25JA05G-K-SERIES_B2103.pdf	TS-6P	bridge		2	T25JA05G-K	TS-6P	TS-6P-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/TBS406-SERIES_B2103.pdf	TBS	bridge		2	TBS406	TBS	TBS-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/TBS606-SERIES_B2103.pdf	TBS	bridge		3	TBS606	TBS	TBS-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/TBS806-SERIES_A2010.pdf	TBS	bridge		3	TBS806	TBS	TBS-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/TS10K40-A-SERIES_D2103.pdf	TS4K	bridge		1	TS10K60-A	TS4K	TS4K-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/TS10K40-SERIES_F2101.pdf	TS4K	bridge		3	TS10K60H	TS4K	TS4K-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/TS10KL60-SERIES_G2104.pdf	KBJL	bridge		5	TS10KL100	KBJL	TS4K-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/TS10P01G-SERIES_L2203.pdf	TS-6P	bridge		5	TS10P05G	TS-6P	TS-6P-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/TS15P01G-SERIES_N2203.pdf	TS-6P	bridge		3	TS15P05G	TS-6P	TS-6P-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/TS15PL05G-SERIES_H2203.pdf	TS-6P	bridge		3	TS15PL05G	TS-6P	TS-6P-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/TS20K40-T-SERIES_A2208.pdf	TS4K	bridge		3	TS20K100-T	TS4K	TS4K-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/TS20P01G-SERIES_O2203.pdf	TS-6P	bridge		2	TS20P05G	TS-6P	TS-6P-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/TS25P01G-SERIES_Q2203.pdf	TS-6P	bridge		7	TS25P04GH	TS-6P	TS-6P-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/TS25PL05G-SERIES_H2203.pdf	TS-6P	bridge		4	TS25PL05G	TS-6P	TS-6P-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/TS35P05G-SERIES_F2203.pdf	TS-6P	bridge		5	TS35P05G	TS-6P	TS-6P-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/TS40P05G-SERIES_G2203.pdf	TS-6P	bridge		5	TS40P05G	TS-6P	TS-6P-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/TS4K40-SERIES_F2101.pdf	TS4K	bridge		3	TS4K60	TS4K	TS4K-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/TS50P05G-SERIES_H2203.pdf	TS-6P	bridge		4	TS50P05G	TS-6P	TS-6P-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/TS6K40-SERIES_F2101.pdf	TS4K	bridge		4	TS6K60	TS4K	TS4K-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/TS6KL60-SERIES_E2104.pdf	KBJL	bridge		6	TS6KL100	KBJL	TS4K-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/TS6P01G-SERIES_M2203.pdf	TS-6P	bridge		4	TS6P04GH	TS-6P	TS-6P-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/TS8P01G-SERIES_M2203.pdf	TS-6P	bridge		4	TS8P05G	TS-6P	TS-6P-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/TSCDH16065G1_A2404.pdf	TO-247	array	1 Pair Common Cathode	1	TSCDH16065G1	TO-247	TO-247-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/TSCDH20065G1_A2404.pdf	TO-247	array	1 Pair Common Cathode	1	TSCDH20065G1	TO-247	TO-247-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/TSCDH30065G1_A2404.pdf	TO-247	array	1 Pair Common Cathode	1	TSCDH30065G1	TO-247	TO-247-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/TSCDH40065G1_A2404.pdf	TO-247	array	1 Pair Common Cathode	1	TSCDH40065G1	TO-247	TO-247-3-TSC	1:A1,2:K,3:A2
+datasheets/diode/tsc/UR2KB60-SERIES_L2104.pdf	D3K	bridge		3	UR2KB100	D3K	D3K-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/UR3KB60-SERIES_J2104.pdf	D3K	bridge		3	UR3KB100	D3K	D3K-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/UR4KB60-B-SERIES_D2104.pdf	D3K	bridge		3	UR4KB100-B	D3K	D3K-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/UR8KB60-SERIES_C2104.pdf	D3K	bridge		3	UR8KB100	D3K	D3K-4-TSC	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/tsc/YBS2204G-SERIES_D2103.pdf	YBS	bridge		4	YBS2204G	YBS	YBS-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/tsc/YBS3004G-SERIES_D2103.pdf	YBS	bridge		2	YBS3004G	YBS	YBS-4-TSC	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/vishay/2w005g.pdf	WOG	bridge		7	2W005G-E4/51	WOG	WOG-4-VISHAY	1:AC1,2:-,3:AC2,4:+
+datasheets/diode/vishay/800dm.pdf	DFM	bridge		4	B250C800DM-E3/45	DFM	DFM-4-VISHAY	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/vishay/800g.pdf	WOG	bridge		4	B250C800G-E4/51	WOG	WOG-4-VISHAY	1:AC1,2:-,3:AC2,4:+
+datasheets/diode/vishay/b2s.pdf	TO-269AA (MBS)	bridge		2	B4S-E3/80	MBS	MBS-4-VISHAY	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/vishay/b40c1000g.pdf	WOG	bridge		5	B125C1000G-E4/51	WOG	WOG-4-VISHAY	1:AC1,2:-,3:AC2,4:+
+datasheets/diode/vishay/b40c1500g.pdf	WOG	bridge		5	B125C1500G-E4/51	WOG	WOG-4-VISHAY	1:AC1,2:-,3:AC2,4:+
+datasheets/diode/vishay/bu1006.pdf	isoCINK+™ BU	bridge		2	BU1006-M3/45	BU	GBU-4-VISHAY	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/vishay/bu1006a.pdf	isoCINK+™ BU	bridge		1	BU1006A-M3/45	BU	GBU-4-VISHAY	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/vishay/bu1206.pdf	isoCINK+™ BU	bridge		3	BU1206-E3/45	BU	GBU-4-VISHAY	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/vishay/bu1506.pdf	isoCINK+™ BU	bridge		3	BU1506-E3/51	BU	GBU-4-VISHAY	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/vishay/bu2006.pdf	isoCINK+™ BU	bridge		5	BU2006-E3/45	BU	GBU-4-VISHAY	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/vishay/bu2506.pdf	isoCINK+™ BU	bridge		3	BU2506-E3/51	BU	GBU-4-VISHAY	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/vishay/df15005s.pdf	DFS	bridge		8	DF15005S-E3/77	DFS	DFS-4-VISHAY	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/vishay/dfl15005.pdf	DFS	bridge		4	DFL1501S-E3/45	DFS	DFS-4-VISHAY	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/vishay/dfm.pdf	DFM	bridge		6	DF005M-E3/45	DFM	DFM-4-VISHAY	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/vishay/dfma.pdf	DFM	bridge		6	DF01MA-E3/45	DFM	DFM-4-VISHAY	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/vishay/dfs.pdf	DFS	bridge		14	DF005S-E3/45	DFS	DFS-4-VISHAY	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/vishay/dfsa.pdf	DFS	bridge		8	DF005SA-E3/77	DFS	DFS-4-VISHAY	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/vishay/edf1am.pdf	DFM	bridge		2	EDF1AM-E3/45	DFM	DFM-4-VISHAY	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/vishay/edf1as.pdf	DFS	bridge		4	EDF1AS-E3/45	DFS	DFS-4-VISHAY	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/vishay/g3sba20.pdf	GBU	bridge		2	G3SBA20-E3/51	GBU	GBU-4-VISHAY	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/vishay/gblxxe.pdf	GBL	bridge		10	GBL01E-E3/P	GBL	GBL-4-VISHAY	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/vishay/gbpc12.pdf	GBPC-W	bridge		16	GBPC12005-E4/51	GBPC-W	GBPC-W-4-VISHAY	1:AC1,2:+,3:AC2,4:-
+datasheets/diode/vishay/gbpc6.pdf	GBPC6	bridge		7	GBPC6005-E4/51	GBPC6	GBPC6-4-VISHAY	1:AC1,2:+,3:AC2,4:-
+datasheets/diode/vishay/gbu25h08.pdf	GBU	bridge		1	GBU25H08-M3/P	GBU	GBU-4-VISHAY	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/vishay/gbu4a.pdf	GBU	bridge		9	GBU4D-E3/45	GBU	GBU-4-VISHAY	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/vishay/gbu6a.pdf	GBU	bridge		10	GBU6B-E3/45	GBU	GBU-4-VISHAY	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/vishay/gbu8a.pdf	GBU	bridge		9	GBU8B-E3/51	GBU	GBU-4-VISHAY	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/vishay/gbue2560.pdf	GBU	bridge		1	GBUE2560-M3/P	GBU	GBU-4-VISHAY	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/vishay/gbue2580.pdf	GBU	bridge		1	GBUE2580-M3/P	GBU	GBU-4-VISHAY	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/vishay/gll4735.pdf	DO-213AB (MELF)	zener		4	GLL4735A-E3/96	MELF	DIODE-MELF-VISHAY	1:K,2:A
+datasheets/diode/vishay/gsib1520n.pdf	GSIB-5S	bridge		1	GSIB1580N-M3/45	GSIB-5S	GSIB-5S-4-VISHAY	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/vishay/gsib15ax.pdf	GSIB-5S	bridge		1	GSIB15A80-E3/45	GSIB-5S	GSIB-5S-4-VISHAY	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/vishay/gsib15xx.pdf	GSIB-5S	bridge		4	GSIB1520-E3/45	GSIB-5S	GSIB-5S-4-VISHAY	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/vishay/gsib20xx.pdf	GSIB-5S	bridge		1	GSIB2060-E3/45	GSIB-5S	GSIB-5S-4-VISHAY	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/vishay/gsib2520n.pdf	GSIB-5S	bridge		1	GSIB2580N-M3/45	GSIB-5S	GSIB-5S-4-VISHAY	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/vishay/gsib25xx.pdf	GSIB-5S	bridge		2	GSIB2560-E3/45	GSIB-5S	GSIB-5S-4-VISHAY	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/vishay/gsib620.pdf	GSIB-5S	bridge		2	GSIB660-E3/45	GSIB-5S	GSIB-5S-4-VISHAY	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/vishay/kbpc8series.pdf	D-72	bridge		6	VS-KBPC8005	D-72	D-72-4-VISHAY	1:+,2:AC1,3:-,4:AC2
+datasheets/diode/vishay/kbpe0480.pdf	KBP	bridge		1	KBPE0480-M3/P	KBP	KBP-4-VISHAY	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/vishay/kbu6.pdf	KBU	bridge		3	KBU6G-M3/P	KBU	KBU-4-VISHAY	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/vishay/lvb2560.pdf	GSIB-5S	bridge		1	LVB2560-M3/45	GSIB-5S	GSIB-5S-4-VISHAY	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/vishay/lve2560e.pdf	GSIB-5S	bridge		1	LVE2560E-M3/P	GSIB-5S	GSIB-5S-4-VISHAY	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/vishay/lve3060e.pdf	GSIB-5S	bridge		1	LVE3060E-M3/P	GSIB-5S	GSIB-5S-4-VISHAY	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/vishay/lve5060e.pdf	GSIB-5S	bridge		1	LVE5060E-M3/P	GSIB-5S	GSIB-5S-4-VISHAY	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/vishay/mb2s.pdf	TO-269AA (MBS)	bridge		6	MB2S-E3/45	MBS	MBS-4-VISHAY	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/vishay/pb3006.pdf	isoCINK+™ PB	bridge		3	PB3006-E3/45	PB	GSIB-5S-4-VISHAY	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/vishay/pb3506.pdf	isoCINK+™ PB	bridge		3	PB3506-E3/45	PB	GSIB-5S-4-VISHAY	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/vishay/pb4006.pdf	isoCINK+™ PB	bridge		3	PB4006-E3/45	PB	GSIB-5S-4-VISHAY	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/vishay/pb5006.pdf	isoCINK+™ PB	bridge		3	PB5006-E3/45	PB	GSIB-5S-4-VISHAY	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/vishay/rmbs.pdf	TO-269AA (MBS)	bridge		4	RMB2S-E3/45	MBS	MBS-4-VISHAY	1:-,2:AC1,3:AC2,4:+
+datasheets/diode/vishay/smbz5945b.pdf	DO-214AA (SMBJ)	zener		16	SMBZ5919B-E3/52	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/smzj.pdf	DO-214AA (SMBJ)	zener		9	SMZJ3788B-E3/52	SMB	DIODE-SMB-VISHAY	1:K,2:A
+datasheets/diode/vishay/v10k100du.pdf	FlatPAK 5x6 (Dual)	array	2 Independent	2	V10K100DU-M3/H	FlatPAK 5x6 (Dual)	FLATPAK-5X6-DUAL-6-VISHAY	1:A1,2:A1,3:A2,4:A2,5:K2,6:K1
+datasheets/diode/vishay/v10km120du.pdf	FlatPAK 5x6 (Dual)	array	2 Independent	3	V10KM120DU-M3/H	FlatPAK 5x6 (Dual)	FLATPAK-5X6-DUAL-6-VISHAY	1:A1,2:A1,3:A2,4:A2,5:K2,6:K1
+datasheets/diode/vishay/v20d202c.pdf		array	1 Pair Common Cathode	1	V20D202C-M3/I	SMPD	SMPD-3-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/v30100ci.pdf	TO-220AB	array	1 Pair Common Cathode	1	V30100CI-M3/P	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v31103c.pdf	TO-220AB	array	1 Pair Common Cathode	1	V31103C-M3/P	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v31m103c.pdf	TO-220AB	array	1 Pair Common Cathode	1	V31M103C-M3/P	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v40100ci.pdf	TO-220AB	array	1 Pair Common Cathode	1	V40100CI-M3/P	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v40120ci.pdf	TO-220AB	array	1 Pair Common Cathode	1	V40120CI-M3/P	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v41103c.pdf	TO-220AB	array	1 Pair Common Cathode	1	V41103C-M3/P	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v41m103c.pdf	TO-220AB	array	1 Pair Common Cathode	1	V41M103C-M3/P	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v61103c.pdf	TO-220AB	array	1 Pair Common Cathode	1	V61103C-M3/P	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v61m103c.pdf	TO-220AB	array	1 Pair Common Cathode	1	V61M103C-M3/P	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/v6k100du.pdf	FlatPAK 5x6 (Dual)	array	2 Independent	2	V6K100DU-M3/H	FlatPAK 5x6 (Dual)	FLATPAK-5X6-DUAL-6-VISHAY	1:A1,2:A1,3:A2,4:A2,5:K2,6:K1
+datasheets/diode/vishay/v8k202du.pdf	FlatPAK 5x6 (Dual)	array	2 Independent	1	V8K202DU-M3/H	FlatPAK 5x6 (Dual)	FLATPAK-5X6-DUAL-6-VISHAY	1:A1,2:A1,3:A2,4:A2,5:K2,6:K1
+datasheets/diode/vishay/vs-16ctqs-m3series.pdf	TO-262-3	array	1 Pair Common Cathode	1	VS-16CTQ100-1-M3	TO-262	I2PAK-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-1kabeseries.pdf	D-38	bridge		3	VS-1KAB10E	D-38	D-38-4-VISHAY	1:AC1,2:-,3:AC2,4:+
+datasheets/diode/vishay/vs-20cth03fp.pdf	TO-220 Full Pack	array	1 Pair Common Cathode	1	VS-20CTH03FP-N3	TO-220 Full Pack	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-20cth03shm3.pdf	TO-263 (D2PAK)	array	1 Pair Common Cathode	1	VS-20CTH03SHM3	D2PAK	TO-263-2-TAB-VISHAY	1:A1,2:A2,3:K
+datasheets/diode/vishay/vs-2kbbseries.pdf	2KBB	bridge		11	VS-2KBB10	2KBB	2KBB-4-VISHAY	1:-,2:AC1,3:+,4:AC2
+datasheets/diode/vishay/vs-2kbpseries.pdf	D-44	bridge		6	VS-2KBP005	D-44	D-44-4-VISHAY	1:+,2:AC1,3:AC2,4:-
+datasheets/diode/vishay/vs-30ctqs-m3series-1a1c5e.pdf	TO-262-3	array	1 Pair Common Cathode	1	VS-30CTQ060-1-M3	TO-262	I2PAK-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-40ctq045s-m3.pdf	TO-262-3	array	1 Pair Common Cathode	1	VS-40CTQ045-1-M3	TO-262	I2PAK-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-43ctqs-m3.pdf	TO-262-3	array	1 Pair Common Cathode	1	VS-43CTQ100-1-M3	TO-262	I2PAK-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-48ctq060s-m3.pdf	TO-262-3	array	1 Pair Common Cathode	1	VS-48CTQ060-1-M3	TO-262	I2PAK-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vs-6dkh02-m3.pdf	FlatPAK 5x6 (Dual)	array	2 Independent	2	VS-6DKH02-M3/H	FlatPAK 5x6 (Dual)	FLATPAK-5X6-DUAL-6-VISHAY	1:A1,2:A1,3:A2,4:A2,5:K2,6:K1
+datasheets/diode/vishay/vs-6dkh02hm3.pdf	FlatPAK 5x6 (Dual)	array	2 Independent	1	VS-6DKH02HM3/H	FlatPAK 5x6 (Dual)	FLATPAK-5X6-DUAL-6-VISHAY	1:A1,2:A1,3:A2,4:A2,5:K2,6:K1
+datasheets/diode/vishay/vs-8dkh02-m3.pdf	FlatPAK 5x6 (Dual)	array	2 Independent	1	VS-8DKH02-M3/H	FlatPAK 5x6 (Dual)	FLATPAK-5X6-DUAL-6-VISHAY	1:A1,2:A1,3:A2,4:A2,5:K2,6:K1
+datasheets/diode/vishay/vs-c5th3012-m3.pdf	TO-220AB	array		1	VS-C5TH3012-M3			
+datasheets/diode/vishay/vs-c5tx3012-m3.pdf	TO-220AB	array		1	VS-C5TX3012-M3			
+datasheets/diode/vishay/vs-gbpc25.pdf	GBPC-W	bridge		9	VS-GBPC2502W	GBPC-W	GBPC-W-4-VISHAY	1:AC1,2:+,3:AC2,4:-
+datasheets/diode/vishay/vs-kbpc1series.pdf	D-72	bridge		5	VS-KBPC601	D-72	D-72-4-VISHAY	1:+,2:AC1,3:-,4:AC2
+datasheets/diode/vishay/vs-kbpc1series.pdf	KBPC1	bridge		6	VS-KBPC1005	KBPC1	KBPC1-4-VISHAY	1:+,2:AC1,3:-,4:AC2
+datasheets/diode/vishay/vt2045c.pdf	TO-220AB	array	1 Pair Common Cathode	1	VT2045C-M3/4W	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vx4045c.pdf	TO-220AB	array	1 Pair Common Cathode	1	VX4045C-M3/P	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vx40m100c.pdf	TO-220AB	array	1 Pair Common Cathode	2	VX40M100C-M3/P	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vx60100c.pdf	TO-220AB	array	1 Pair Common Cathode	1	VX60100C-M3/P	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vx6045c.pdf	TO-220AB	array	1 Pair Common Cathode	1	VX6045C-M3/P	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vx60m100c.pdf	TO-220AB	array	1 Pair Common Cathode	2	VX60M100C-M3/P	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/vx60m60c.pdf	TO-220AB	array	1 Pair Common Cathode	1	VX60M60C-M3/P	TO-220	TO-220AB-3-VISHAY	1:A1,2:K,3:A2
+datasheets/diode/vishay/w005g.pdf	WOG	bridge		7	W005G-E4/51	WOG	WOG-4-VISHAY	1:AC1,2:-,3:AC2,4:+
