@@ -1,8 +1,8 @@
 import SwiftUI
 
-/// The limits a design rule check holds a board to, in mm. Nothing checks
-/// them yet; Settings only stores them.
-nonisolated struct DesignRules: Codable, Equatable, Sendable {
+/// The limits the design rule check (Window › Design Rule Check) holds a
+/// board to, in mm.
+nonisolated struct DesignRules: Codable, Hashable, Sendable {
     var minTraceWidth: Double
     var minClearance: Double
     var minDrill: Double

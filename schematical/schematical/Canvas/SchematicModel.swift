@@ -1281,6 +1281,11 @@ final class SchematicDocument {
         if items != boardSelection.items { boardSelection.set(items) }
     }
 
+    /// Selects exactly `items` on the PCB page (a Design Rule Check line).
+    func selectBoardItems(_ items: Set<BoardItem>) {
+        if items != boardSelection.items { boardSelection.set(items) }
+    }
+
     /// Clears the Schematic page's selection: items, bus and port.
     func clearSchematicSelection() {
         schematicSelection.clear()
