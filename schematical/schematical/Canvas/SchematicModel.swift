@@ -1879,7 +1879,7 @@ final class SchematicDocument {
     func moveFootprint(_ id: UUID, to centre: CGPoint) {
         recordEdit(.pcb, "Move") {
             guard let index = chips.firstIndex(where: { $0.id == id }),
-                  let board = chips[index].board,
+                  let board = chips[index].board, !board.locked,
                   let footprint = chips[index].footprint else { return }
             var moved = board
             moved.centre = centre
@@ -1893,7 +1893,7 @@ final class SchematicDocument {
     func moveFootprintOrigin(_ id: UUID, to point: CGPoint) {
         recordEdit(.pcb, "Move") {
             guard let index = chips.firstIndex(where: { $0.id == id }),
-                  let board = chips[index].board,
+                  let board = chips[index].board, !board.locked,
                   let footprint = chips[index].footprint else { return }
             let pad1 = chips[index].part.firstPinDesignator
             let current = BoardLayout.originPoint(of: board, footprint: footprint, pad1: pad1)
@@ -1909,7 +1909,7 @@ final class SchematicDocument {
     func rotateFootprint(_ id: UUID) {
         recordEdit(.pcb, "Rotate") {
             guard let index = chips.firstIndex(where: { $0.id == id }),
-                  let board = chips[index].board,
+                  let board = chips[index].board, !board.locked,
                   let footprint = chips[index].footprint else { return }
             let pad1 = chips[index].part.firstPinDesignator
             let before = BoardLayout.originPoint(of: board, footprint: footprint, pad1: pad1)
@@ -2208,7 +2208,7 @@ final class SchematicDocument {
     /// Moves a text's anchor to `point`, snapped to the grid.
     func moveText(_ id: UUID, to point: CGPoint) {
         recordEdit(.pcb, "Move") {
-            guard let index = texts.firstIndex(where: { $0.id == id }) else { return }
+            guard let index = texts.firstIndex(where: { $0.id == id }), !texts[index].locked else { return }
             texts[index].anchor = BoardGrid.snap(point, spacing: self.board.grid)
         }
     }
@@ -2217,7 +2217,7 @@ final class SchematicDocument {
     func setTextRotation(_ id: UUID, _ rotation: Int) {
         recordEdit(.pcb, "Rotate") {
             guard BoardPlacement.rotations.contains(rotation),
-                  let index = texts.firstIndex(where: { $0.id == id }) else { return }
+                  let index = texts.firstIndex(where: { $0.id == id }), !texts[index].locked else { return }
             texts[index].rotation = rotation
         }
     }
@@ -2225,7 +2225,7 @@ final class SchematicDocument {
     /// Turns a text 90° clockwise about its anchor.
     func rotateText(_ id: UUID) {
         recordEdit(.pcb, "Rotate") {
-            guard let index = texts.firstIndex(where: { $0.id == id }) else { return }
+            guard let index = texts.firstIndex(where: { $0.id == id }), !texts[index].locked else { return }
             texts[index].rotation = (texts[index].rotation + 90) % 360
         }
     }
@@ -2515,7 +2515,7 @@ final class SchematicDocument {
     /// each one where it now lands.
     func moveTraces(_ ids: Set<UUID>, by offset: CGSize) {
         recordEdit(.pcb, "Move") {
-            for index in traces.indices where ids.contains(traces[index].id) {
+            for index in traces.indices where ids.contains(traces[index].id) && !traces[index].locked {
                 traces[index].points = traces[index].points.map {
                     CGPoint(x: $0.x + offset.width, y: $0.y + offset.height)
                 }
@@ -2585,7 +2585,7 @@ final class SchematicDocument {
     /// Moves a via's centre to `point`, snapped to the trace grid.
     func moveVia(_ id: UUID, to point: CGPoint) {
         recordEdit(.pcb, "Move") {
-            guard let index = vias.firstIndex(where: { $0.id == id }) else { return }
+            guard let index = vias.firstIndex(where: { $0.id == id }), !vias[index].locked else { return }
             let target = BoardGrid.snap(point, spacing: self.board.traceGrid)
             if vias[index].centre != target { vias[index].centre = target }
         }
@@ -2594,7 +2594,8 @@ final class SchematicDocument {
     /// Moves a via's centre to exactly `point` (the sidebar's X and Y).
     func setViaCentre(_ id: UUID, _ point: CGPoint) {
         recordEdit(.pcb, "Move") {
-            guard let index = vias.firstIndex(where: { $0.id == id }), vias[index].centre != point else { return }
+            guard let index = vias.firstIndex(where: { $0.id == id }), !vias[index].locked,
+                  vias[index].centre != point else { return }
             vias[index].centre = point
         }
     }
@@ -2709,14 +2710,46 @@ final class SchematicDocument {
         return true
     }
 
+    // MARK: Lock Position (PCB)
+
+    /// Whether a PCB item's position is locked. False for an item that
+    /// isn't there.
+    func isLocked(_ item: BoardItem) -> Bool {
+        switch item {
+        case let .footprint(id): chips.first { $0.id == id }?.board?.locked ?? false
+        case let .text(id): texts.first { $0.id == id }?.locked ?? false
+        case let .trace(id): traces.first { $0.id == id }?.locked ?? false
+        case let .via(id): vias.first { $0.id == id }?.locked ?? false
+        }
+    }
+
+    /// Locks or unlocks a PCB item's position (the sidebar's Lock Position).
+    func setLocked(_ item: BoardItem, _ locked: Bool) {
+        guard isLocked(item) != locked else { return }
+        recordEdit(.pcb, locked ? "Lock Position" : "Unlock Position") {
+            switch item {
+            case let .footprint(id):
+                if let index = chips.firstIndex(where: { $0.id == id }), chips[index].board != nil {
+                    chips[index].board?.locked = locked
+                }
+            case let .text(id):
+                if let index = texts.firstIndex(where: { $0.id == id }) { texts[index].locked = locked }
+            case let .trace(id):
+                if let index = traces.firstIndex(where: { $0.id == id }) { traces[index].locked = locked }
+            case let .via(id):
+                if let index = vias.firstIndex(where: { $0.id == id }) { vias[index].locked = locked }
+            }
+        }
+    }
+
     // MARK: Group drags (PCB)
 
     /// Where every selected footprint (its centre) and text (its anchor) is
-    /// now, for a group drag.
+    /// now, for a group drag. Locked items are left out, so they stay put.
     func boardGroupBase(grab: CGPoint? = nil) -> BoardGroupBase {
         var base = BoardGroupBase()
         base.grab = grab
-        for item in boardSelection.items {
+        for item in boardSelection.items where !isLocked(item) {
             switch item {
             case let .footprint(id):
                 if let centre = chips.first(where: { $0.id == id })?.board?.centre { base.footprints[id] = centre }

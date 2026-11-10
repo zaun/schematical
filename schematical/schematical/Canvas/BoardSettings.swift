@@ -318,6 +318,9 @@ nonisolated struct BoardText: Identifiable, Hashable, Sendable {
     var rotation: Int = 0
     /// On Bottom the text is drawn mirrored inside its own box.
     var side: BoardSide = .top
+    /// Locked: dragging, the sidebar's X and Y, and Rotate leave it where
+    /// it is.
+    var locked = false
 
     static let sizeRange = 10...1000
     static let defaultSize = 50

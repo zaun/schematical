@@ -125,11 +125,12 @@ struct ContentView: View {
 
     /// Exactly one footprint or board text selected, which Rotate turns
     /// (plan-15: never a group). A trace doesn't turn. Rotate is only on
-    /// the PCB page, where the simulation never runs.
+    /// the PCB page, where the simulation never runs. Not when it is locked.
     private var canRotate: Bool {
-        if document.selectedTextID != nil { return true }
-        guard let id = document.selectedFootprintID else { return false }
-        return document.chips.first { $0.id == id }?.board != nil
+        if let id = document.selectedTextID { return !document.isLocked(.text(id)) }
+        guard let id = document.selectedFootprintID,
+              let board = document.chips.first(where: { $0.id == id })?.board else { return false }
+        return !board.locked
     }
 
     /// The Rotate button: turns the selected board text, else the selected

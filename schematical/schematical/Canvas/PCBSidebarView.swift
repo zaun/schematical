@@ -92,6 +92,23 @@ struct PCBSidebarView: View {
     }
 }
 
+// MARK: - Lock Position
+
+/// The Lock Position switch of a selected PCB item. A locked item can't be
+/// dragged, and its X, Y and rotation can't be changed. Off by default.
+private struct LockToggle: View {
+    let document: SchematicDocument
+    let item: BoardItem
+
+    var body: some View {
+        Toggle("Lock Position", isOn: Binding(
+            get: { document.isLocked(item) },
+            set: { document.setLocked(item, $0) }
+        ))
+        .help("A locked item can't be moved")
+    }
+}
+
 // MARK: - Grid
 
 /// The snap grids: the component grid, which footprints and texts snap to
@@ -466,21 +483,25 @@ private struct TextPanel: View {
         }
 
         Section("Position") {
-            LengthField(title: "X", millimetres: text.anchor.x, units: units) {
-                move(to: CGPoint(x: $0, y: text.anchor.y)).x
-            }
-            LengthField(title: "Y", millimetres: text.anchor.y, units: units) {
-                move(to: CGPoint(x: text.anchor.x, y: $0)).y
-            }
-            Picker("Rotation", selection: Binding(
-                get: { text.rotation },
-                set: { document.setTextRotation(text.id, $0) }
-            )) {
-                ForEach(BoardPlacement.rotations, id: \.self) { rotation in
-                    Text("\(rotation)°").tag(rotation)
+            LockToggle(document: document, item: .text(text.id))
+            Group {
+                LengthField(title: "X", millimetres: text.anchor.x, units: units) {
+                    move(to: CGPoint(x: $0, y: text.anchor.y)).x
                 }
+                LengthField(title: "Y", millimetres: text.anchor.y, units: units) {
+                    move(to: CGPoint(x: text.anchor.x, y: $0)).y
+                }
+                Picker("Rotation", selection: Binding(
+                    get: { text.rotation },
+                    set: { document.setTextRotation(text.id, $0) }
+                )) {
+                    ForEach(BoardPlacement.rotations, id: \.self) { rotation in
+                        Text("\(rotation)°").tag(rotation)
+                    }
+                }
+                .pickerStyle(.segmented)
             }
-            .pickerStyle(.segmented)
+            .disabled(text.locked)
         }
 
         .onAppear {
@@ -538,14 +559,18 @@ private struct ViaPanel: View {
     var body: some View {
         let units = document.board.units
         Section("Via") {
-            LengthField(title: "X", millimetres: via.centre.x, units: units, precise: true) {
-                document.setViaCentre(via.id, CGPoint(x: $0, y: via.centre.y))
-                return current.centre.x
+            LockToggle(document: document, item: .via(via.id))
+            Group {
+                LengthField(title: "X", millimetres: via.centre.x, units: units, precise: true) {
+                    document.setViaCentre(via.id, CGPoint(x: $0, y: via.centre.y))
+                    return current.centre.x
+                }
+                LengthField(title: "Y", millimetres: via.centre.y, units: units, precise: true) {
+                    document.setViaCentre(via.id, CGPoint(x: via.centre.x, y: $0))
+                    return current.centre.y
+                }
             }
-            LengthField(title: "Y", millimetres: via.centre.y, units: units, precise: true) {
-                document.setViaCentre(via.id, CGPoint(x: via.centre.x, y: $0))
-                return current.centre.y
-            }
+            .disabled(via.locked)
             LengthField(title: "Hole", millimetres: via.drill, units: units, precise: true) {
                 document.setViaDrill(via.id, $0)
                 return current.drill
@@ -627,6 +652,7 @@ struct TracePanel: View {
                 }
             }
             .pickerStyle(.menu)
+            LockToggle(document: document, item: .trace(trace.id))
         }
 
         Section("Connects") {
@@ -721,13 +747,17 @@ private struct FootprintPanel: View {
                 }
             }
             .pickerStyle(.menu)
+            LockToggle(document: document, item: .footprint(chip.id))
             if let point = chip.boardOrigin {
-                LengthField(title: "X", millimetres: point.x, units: units) {
-                    move(to: CGPoint(x: $0, y: point.y)).x
+                Group {
+                    LengthField(title: "X", millimetres: point.x, units: units) {
+                        move(to: CGPoint(x: $0, y: point.y)).x
+                    }
+                    LengthField(title: "Y", millimetres: point.y, units: units) {
+                        move(to: CGPoint(x: point.x, y: $0)).y
+                    }
                 }
-                LengthField(title: "Y", millimetres: point.y, units: units) {
-                    move(to: CGPoint(x: point.x, y: $0)).y
-                }
+                .disabled(placement.locked)
             }
             LabeledContent("Rotation", value: "\(placement.rotation)°")
         }

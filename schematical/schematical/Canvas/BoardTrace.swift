@@ -15,6 +15,8 @@ nonisolated struct BoardTrace: Identifiable, Hashable, Sendable {
     /// Not snapped to the grid: a bend, a crossing of two diagonals, or a
     /// pad centre, can be off it.
     var points: [CGPoint]
+    /// Locked: dragging leaves it where it is.
+    var locked = false
 
     static let widthRange = 5...100
     static let defaultWidth = 10
@@ -229,6 +231,8 @@ nonisolated struct BoardVia: Identifiable, Hashable, Sendable {
     /// The metal's outer diameter, within `diameterRange` and at least
     /// `minimumRing` × 2 more than the hole.
     var diameter: Double = BoardVia.defaultDiameter
+    /// Locked: dragging and the sidebar's X and Y leave it where it is.
+    var locked = false
 
     static let defaultDrill = 0.4
     static let defaultDiameter = 0.8

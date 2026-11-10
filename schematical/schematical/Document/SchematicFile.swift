@@ -117,6 +117,8 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         var style: String? = nil
         /// `BoardSide` raw value; missing means top.
         var side: String? = nil
+        /// True when its position is locked; left out otherwise.
+        var locked: Bool? = nil
     }
 
     /// The PCB: size in mm, copper layers, colour and sidebar units (raw
@@ -183,6 +185,8 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
             var y: Double
             var drill: Double? = nil
             var diameter: Double? = nil
+            /// True when its position is locked; left out otherwise.
+            var locked: Bool? = nil
         }
 
         /// A trace: its copper layer (`CopperLayer` raw value), width in
@@ -192,6 +196,8 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
             var layer: String
             var width: Int? = nil
             var points: [Point]
+            /// True when its position is locked; left out otherwise.
+            var locked: Bool? = nil
         }
 
         /// A copper layer's colour ("#RRGGBB") and type (`LayerType` raw
@@ -214,6 +220,8 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
             var rotation: Int? = nil
             /// `BoardSide` raw value; missing means top.
             var side: String? = nil
+            /// True when its position is locked; left out otherwise.
+            var locked: Bool? = nil
         }
     }
 
@@ -453,7 +461,7 @@ extension SchematicFile {
                               origin: $0.origin.rawValue, outline: $0.outline.rawValue,
                               pin1: $0.pin1.rawValue, reference: $0.reference.rawValue,
                               style: chip.part.connectorFootprint == nil ? nil : $0.style.rawValue,
-                              side: $0.side.rawValue)
+                              side: $0.side.rawValue, locked: $0.locked ? true : nil)
                 },
                 memoryFile: chip.memoryFile.map {
                     MemoryFileEntry(path: MemoryFileAccess.path(of: $0.url, schematic: fileURL),
@@ -516,14 +524,16 @@ extension SchematicFile {
             texts: document.texts.map { text in
                 Board.Text(id: text.id, text: text.text, x: text.anchor.x, y: text.anchor.y,
                            size: text.size, layer: text.layer.rawValue, rotation: text.rotation,
-                           side: text.side.rawValue)
+                           side: text.side.rawValue, locked: text.locked ? true : nil)
             },
             traces: document.traces.map { trace in
                 Board.TraceEntry(id: trace.id, layer: trace.layer.rawValue, width: trace.width,
-                                 points: trace.points.map { Point(x: $0.x, y: $0.y) })
+                                 points: trace.points.map { Point(x: $0.x, y: $0.y) },
+                                 locked: trace.locked ? true : nil)
             },
             vias: document.vias.isEmpty ? nil : document.vias.map { via in
-                Board.ViaEntry(id: via.id, x: via.centre.x, y: via.centre.y, drill: via.drill, diameter: via.diameter)
+                Board.ViaEntry(id: via.id, x: via.centre.x, y: via.centre.y, drill: via.drill, diameter: via.diameter,
+                               locked: via.locked ? true : nil)
             }
         )
     }
@@ -784,7 +794,8 @@ extension SchematicFile {
             }
             let via = BoardVia(id: entry.id, centre: CGPoint(x: entry.x, y: entry.y),
                                drill: entry.drill ?? BoardVia.defaultDrill,
-                               diameter: entry.diameter ?? BoardVia.defaultDiameter)
+                               diameter: entry.diameter ?? BoardVia.defaultDiameter,
+                               locked: entry.locked ?? false)
             if let problem = BoardVia.problem(drill: via.drill, diameter: via.diameter) {
                 throw SchematicFileError.badPCB("\(name) \(problem)")
             }
@@ -947,7 +958,7 @@ extension SchematicFile {
         if let problem = TraceRoute.problem(points) {
             throw SchematicFileError.badPCB("\(name) \(problem)")
         }
-        return BoardTrace(id: entry.id, layer: layer, width: width, points: points)
+        return BoardTrace(id: entry.id, layer: layer, width: width, points: points, locked: entry.locked ?? false)
     }
 
     /// A stored footprint placement, with defaults for missing keys.
@@ -963,6 +974,7 @@ extension SchematicFile {
         placement.reference = try Self.value(pcb.reference, of: MarkLayer.self, "\(reference) reference",
                                              default: placement.reference)
         placement.side = try Self.value(pcb.side, of: BoardSide.self, "\(reference) side", default: placement.side)
+        placement.locked = pcb.locked ?? false
         return placement
     }
 
@@ -983,6 +995,7 @@ extension SchematicFile {
         }
         result.layer = try Self.value(text.layer, of: TextLayer.self, "\(name) layer", default: result.layer)
         result.side = try Self.value(text.side, of: BoardSide.self, "\(name) side", default: result.side)
+        result.locked = text.locked ?? false
         if let rotation = text.rotation {
             guard BoardPlacement.rotations.contains(rotation) else {
                 throw SchematicFileError.badPCB("\(name) rotation \(rotation) must be 0, 90, 180 or 270")
