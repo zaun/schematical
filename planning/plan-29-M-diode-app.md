@@ -30,8 +30,8 @@ plan-29-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-29-L complete | `ls planning/completed/plan-29-L-*.md` → exists | NOT MET (2026-11-08: plan written) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p29-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-08 at 8cce726: `** BUILD SUCCEEDED **`; re-run, H–L have landed since) |
+| plan-29-L complete | `ls planning/completed/plan-29-L-*.md` → exists | MET (2026-11-09; Phase 2 only, § Corrections) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p29-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-09 after L, derived data /tmp/p29w-dd: `** BUILD SUCCEEDED **`) |
 
 Everything below is written against the world where these hold.
 
@@ -132,12 +132,29 @@ Commit: 27d5433
 
 ### Phase 2 — Harness proof
 
-- [ ] The plan-24-I harness: print `kindName`, facts and symbol for a
+- [x] The plan-24-I harness: print `kindName`, facts and symbol for a
       Vishay rectifier, a Schottky, a Zener, an array and a bridge (§ 1);
       run the diode-OR circuit and print the LED's light per 1 µs step
       while the two inverter inputs walk 00, 01, 10, 11; render a placed
       1N4148, a Schottky and a Zener with `screencapture -l` and look at the
-      PNG.
+      PNG. Done with the maintained harness `scripts/harness/build.sh`
+      (`scripts/harness/diode-app.swift`, kept in the tree): each input pair
+      is its own document run 0.6 s by the app's `SimulationController`,
+      and the pictures are offscreen renders of the app's real canvas and
+      sidebar views (`Harness.renderCanvas` / `renderSidebar`) instead of
+      `screencapture -l`. Output: `ok 1 drawer: Discrete → Diodes leaves
+      [Bridge, Fast recovery, Rectifier, Schottky, Switching, Zener]` (6893
+      parts shown; the 4259 automotive ones are hidden by the default
+      drawer filter, 6893 + 4259 = 11152); 1N4001-E3/54 `Kind: Diode; …;
+      Type: Rectifier; Reverse voltage: 50 V; Forward current: 1 A`, symbol
+      plainDiode; 1N5817-E3/54 Schottky, plainDiode; 1N4728A `Type: Zener;
+      Zener voltage: 3.3 V; Power: 1 W`, plainDiode; BAS21SLT1G array
+      `Diodes: 2`, block; 2W01G-E4/51 `Type: Bridge; Diodes: 4`, block;
+      diode-OR `inputs 00: LED lit`, `01: LED lit`, `10: LED lit`, `11: LED
+      dark`; `all checks ok`. /tmp/p29-symbols.png looked at: plain bar
+      (1N4148, label Switching), hooked S bar (Schottky), bent Z bar
+      (Zener), no light arrows; /tmp/p29-sidebar.png: Kind Diode, Type
+      Zener, Zener voltage 3.3 V, Power 1 W.
 
 Acceptance: the printed facts and lights match § 1 (LED off only for
 inverter inputs 11, i.e. both outputs 0), and the three symbols show their
@@ -145,6 +162,7 @@ marks.
   Check: the harness's output lines and the PNG (est. 15 min: the harness
   build is the slow part; nothing smaller runs the app's catalog code and
   the backend together).
+  Result: as above, `all checks ok`, exit 0.
 Commit: —
 
 ## Validation Plan
@@ -172,6 +190,12 @@ Commit: —
   struct and `PART_DIODE` (plan-29-H) and no part; it landed right after H,
   before the parts. Phase 2 (the harness on real parts) still waits for L.
   The "plan-29-L complete" prerequisite applies to Phase 2.
+- **Harness** — plan-24-I's ad-hoc harness is now the maintained
+  `scripts/harness/build.sh`; Phase 2's checks are
+  `scripts/harness/diode-app.swift`, with offscreen renders of the real
+  views in place of `screencapture -l`.
+- **Reference prefix** — a placed diode is `U<n>` like every other part
+  (the app numbers all parts U); not a diode gap.
 
 ## Summary
 
