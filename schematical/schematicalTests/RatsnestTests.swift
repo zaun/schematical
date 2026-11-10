@@ -72,4 +72,60 @@ final class RatsnestTests: XCTestCase {
         // 0–1 then 1–10, never the long 0–10.
         XCTAssertFalse(lines.contains { Set([$0.0.x, $0.1.x]) == [0, 10] })
     }
+
+    private func isLine(_ line: (CGPoint, CGPoint), _ a: CGPoint, _ b: CGPoint) -> Bool {
+        same(line.0, a) && same(line.1, b) || same(line.0, b) && same(line.1, a)
+    }
+
+    /// Two LEDs, each `pin` wired to a supply symbol of its own.
+    private func onSupplies(_ pin: String, _ one: String, _ two: String) throws -> (SchematicDocument, CGPoint, CGPoint) {
+        let doc = TestSupport.newDocument()
+        var centres: [CGPoint] = []
+        for (n, supply) in [one, two].enumerated() {
+            let led = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 100 + 300 * n, y: 100))
+            let rail = try TestSupport.place(doc, supply, at: CGPoint(x: 100 + 300 * n, y: 400))
+            let ref = try TestSupport.pin(led, pin)
+            XCTAssertNil(doc.connect(.pin(ref), .pin(PinRef(chipID: rail.id, index: 0))))
+            centres.append(try centre(doc, ref))
+        }
+        return (doc, centres[0], centres[1])
+    }
+
+    func testGroundSymbolsAreOneNet() throws {
+        let (doc, a, b) = try onSupplies("K", "GND", "GND")
+        let lines = doc.ratsnest()
+        XCTAssertEqual(lines.count, 1)
+        XCTAssertTrue(isLine(try XCTUnwrap(lines.first), a, b), "\(lines)")
+    }
+
+    func testPowerSymbolsOfOneVoltageAreOneNet() throws {
+        let (doc, a, b) = try onSupplies("A", "5V", "5V")
+        let lines = doc.ratsnest()
+        XCTAssertEqual(lines.count, 1)
+        XCTAssertTrue(isLine(try XCTUnwrap(lines.first), a, b), "\(lines)")
+    }
+
+    func testDifferentVoltagesStayApart() throws {
+        let (doc, _, _) = try onSupplies("A", "5V", "3V3")
+        XCTAssertTrue(doc.ratsnest().isEmpty)
+    }
+
+    /// A pull-up's far pad is on its rail: it gets a line to a pin wired
+    /// to that rail's symbol, and to another pull-up's far pad.
+    func testPullResistorFarPadIsOnItsRail() throws {
+        let doc = TestSupport.newDocument()
+        let led = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
+        let rail = try TestSupport.place(doc, "5V", at: CGPoint(x: 100, y: 400))
+        let anode = try TestSupport.pin(led, "A")
+        XCTAssertNil(doc.connect(.pin(anode), .pin(PinRef(chipID: rail.id, index: 0))))
+        let pull = try TestSupport.place(doc, "PULLUP-5V", at: CGPoint(x: 400, y: 100))
+        let far = try XCTUnwrap(pull.boardPads.first { $0.designator == "2" })
+        let lines = doc.ratsnest()
+        XCTAssertEqual(lines.count, 1)
+        XCTAssertTrue(isLine(try XCTUnwrap(lines.first), try centre(doc, anode),
+                             CGPoint(x: far.rect.midX, y: far.rect.midY)), "\(lines)")
+
+        try TestSupport.place(doc, "PULLUP-5V", at: CGPoint(x: 700, y: 100))
+        XCTAssertEqual(doc.ratsnest().count, 2)
+    }
 }

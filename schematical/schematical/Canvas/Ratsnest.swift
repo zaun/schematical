@@ -4,7 +4,8 @@ import Foundation
 /// The PCB's unrouted connections: for each schematic net, the pads its
 /// pins have on the board (and the card's edge fingers, through the bus the
 /// card edge uses, as if it were a hidden port with every wire of that
-/// bus), grouped by the copper that already joins them
+/// bus; every VCC or GND symbol of one voltage as one net, with the far pad
+/// of each pull resistor on its rail), grouped by the copper that already joins them
 /// (traces, through-hole pads and vias between layers, pads of one pin). Each net
 /// with more than one group gets the shortest lines that join its groups
 /// (a minimum spanning tree), each between the closest points of two
@@ -134,6 +135,37 @@ extension SchematicDocument {
                 netOfPad[p] = net
             }
         }
+
+        // Power and ground: every VCC or GND symbol of one voltage is one
+        // rail, so pins wired to different symbols of it share a net. A pull
+        // resistor's pad that no pin has (its far end) is on its rail too.
+        var railNet: [UInt32: Int] = [:]
+        var alias: [Int: Int] = [:]
+        func merged(_ net: Int) -> Int {
+            var net = net
+            while let next = alias[net] { net = next }
+            return net
+        }
+        for connection in netlist.connections {
+            guard case let .supply(_, mv, false) = chips[connection.part].part.details else { continue }
+            guard let rail = railNet[mv] else { railNet[mv] = connection.net; continue }
+            let a = merged(connection.net), b = merged(rail)
+            if a != b { alias[a] = b }
+        }
+        var nextNet = netlist.netCount
+        for (index, chip) in chips.enumerated() {
+            guard case let .supply(_, mv, true) = chip.part.details else { continue }
+            let pins = Set(chip.part.pins.map(\.designator))
+            for pad in chip.boardPads {
+                guard let designator = pad.designator, !pins.contains(designator) else { continue }
+                if railNet[mv] == nil {
+                    railNet[mv] = nextNet
+                    nextNet += 1
+                }
+                for p in padsOfPin["\(index)/\(designator)"] ?? [] { netOfPad[p] = railNet[mv] }
+            }
+        }
+        netOfPad = netOfPad.mapValues(merged)
         return BoardConnectivity(pads: pads, traces: copper, vias: vias,
                                  root: parent.indices.map(find), netOfPad: netOfPad)
     }
