@@ -396,7 +396,7 @@ Commit: f33a538
 
 Acceptance: the docs name the kind and the links.
   Check: `grep -c '### `diode`' docs/parts-format.md` → 1 and `grep -c 'diode_test' docs/backend.md` → ≥ 1 (est. 1 min).
-Commit: —
+Commit: 9147d40
 
 ## Validation Plan
 
