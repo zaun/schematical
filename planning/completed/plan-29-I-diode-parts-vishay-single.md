@@ -137,7 +137,7 @@ diode (J–L add to it).
 
 Acceptance: a dry run over I's scope names N_I parts and no missing spec.
   Check: `python3 -I planning/plan-29-data/census/gen-parts.py --maker Vishay --category single --dry-run` → `N_I parts, 0 without spec, 0 unknown footprint` (est. 1 min).
-Commit: (with phase 2)
+Commit: 0396b84
 
 ### Phase 2 — Vishay single diodes
 
@@ -158,7 +158,7 @@ Commit: (with phase 2)
 Acceptance: the parts load and the goldens only grow.
   Check: `cmake --build /tmp/logic-p29 -j8 && ctest --test-dir /tmp/logic-p29` → `100% tests passed`; `grep -c '|diode|' backend/tests/golden/parts.txt` → N_I; `git diff backend/tests/golden | grep -c '^-[^-]'` → 0 (est. 6 min).
   Result 2026-11-09: `100% tests passed, 0 tests failed out of 30`; 3179; 0.
-Commit: —
+Commit: 0396b84
 
 ## Validation Plan
 

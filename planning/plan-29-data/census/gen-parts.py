@@ -16,7 +16,10 @@ Footprint ids (plan-29-B § 4.4).  The owners wrote provisional ids
 but id, description, note) is identical are one footprint.  Then, per BASE
 in letter order (B C D E F G files), the first footprint gets the bare BASE
 (unless Parts/footprints.json already has that id), the others keep their
-tag.  Ids that already exist in Parts/footprints.json are reused as they are.
+tag.  Ids that already exist in Parts/footprints.json are reused as they are,
+and so is a shipped footprint whose geometry a ready object has (a later
+scope reuses what an earlier one shipped); the run prints `reused <id>` for
+each shipped footprint the scope's parts name.
 
 Devices (§ 3.1): one per (type, diode pairs); a second pin naming of the
 same shape gets the id `<type>-<shape>-b` (then -c, …).  The pairs come from the pin
@@ -78,15 +81,26 @@ def base_of(i):
     return i
 
 
-def id_map(existing_ids):
-    """provisional id -> (final id, object)."""
+def id_map(existing):
+    """provisional id -> (final id, object); object None = already shipped.
+    `existing` is Parts/footprints.json's objects by id: a ready object with
+    the geometry of a shipped footprint maps to that footprint (so a later
+    scope reuses what an earlier one shipped)."""
+    existing_ids = set(existing)
+    shipped = {}
+    for i, o in existing.items():
+        shipped.setdefault(geometry(o), i)
     objs = ready_objects()
     by_geom = {}
     first = {}
+    out = {}
     for o in objs:
         if o["id"] in existing_ids:
             continue
         g = geometry(o)
+        if g in shipped:
+            out[o["id"]] = (shipped[g], None)
+            continue
         if g not in by_geom:
             by_geom[g] = o
         first.setdefault(o["id"], by_geom[g])
@@ -101,7 +115,6 @@ def id_map(existing_ids):
         else:
             final[o["id"]] = o["id"]
         taken.add(final[o["id"]])
-    out = {}
     for pid, canonical in first.items():
         out[pid] = (final[canonical["id"]], canonical)
     for e in existing_ids:
@@ -218,7 +231,7 @@ def main():
 
     fps_doc = load_json("footprints.json")
     existing_fp = {o["id"]: o for o in fps_doc["footprints"]}
-    ids = id_map(set(existing_fp))
+    ids = id_map(existing_fp)
     if a.ids:
         for pid in sorted(ids):
             if ids[pid][1] is not None:
@@ -244,6 +257,7 @@ def main():
     ds_by_url = {d["url"]: d["id"] for d in ds_doc["datasheets"]}
 
     no_spec = unknown_fp = 0
+    reused = set()
     new_fp = {}
     new_ds = 0
     parts = 0
@@ -268,6 +282,9 @@ def main():
             print("unknown footprint:", r["mpn"], fid)
             continue
         final_fp, obj = ids[fid]
+        if obj is None and final_fp not in reused:
+            reused.add(final_fp)
+            print("reused", final_fp)
         if obj is not None and final_fp not in existing_fp:
             o = dict(obj)
             o["id"] = final_fp
