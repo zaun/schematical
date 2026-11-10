@@ -76,7 +76,7 @@ A's re-run (§ Corrections of A) replaces these numbers.
 
 Acceptance: every spec row of this phase's scope is complete and the objects load.
   Check: `python3 -I planning/plan-29-data/census/specs-check.py --maker "Taiwan Semiconductor" --category single --mounting smd` → `specs ok` (est. 4 min).
-Commit: —
+Commit: 11aff53
 
 ### Phase 2 — Through-hole packages
 
@@ -85,7 +85,7 @@ Commit: —
 
 Acceptance: every spec row of this phase's scope is complete and the objects load.
   Check: `python3 -I planning/plan-29-data/census/specs-check.py --maker "Taiwan Semiconductor" --category single && planning/plan-29-data/census/fp-load.sh planning/plan-29-data/footprints-[B-D].json` → `specs ok`, then only extra/unused failures for the new ids` (est. 4 min).
-Commit: —
+Commit: 11aff53
 
 
 ## Validation Plan

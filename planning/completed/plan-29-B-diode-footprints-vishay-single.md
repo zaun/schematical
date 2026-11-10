@@ -226,7 +226,7 @@ Commit: e71850f
 
 Acceptance: every Vishay single SMD spec row is complete.
   Check: `python3 -I planning/plan-29-data/census/specs-check.py --maker Vishay --category single --mounting smd` → `specs ok` (est. 1 min).
-Commit: —
+Commit: 11aff53
 
 ### Phase 3 — Through-hole packages
 
@@ -236,7 +236,7 @@ Commit: —
 
 Acceptance: every Vishay single spec row is complete and the objects load.
   Check: `python3 -I planning/plan-29-data/census/specs-check.py --maker Vishay --category single && planning/plan-29-data/census/fp-load.sh planning/plan-29-data/footprints-B.json` → `specs ok`, then only extra/unused failures for B's ids (est. 4 min).
-Commit: —
+Commit: 11aff53
 
 ## Validation Plan
 
