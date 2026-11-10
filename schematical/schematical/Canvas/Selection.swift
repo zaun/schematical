@@ -139,6 +139,10 @@ nonisolated struct SchematicGroupBase: Equatable {
     /// Affected wires whose route was all right angles at the press; the
     /// release keeps them that way.
     var orthogonalWires: Set<UUID> = []
+    /// Full routes at the press of the orthogonal wires that are not
+    /// selected but have a moved end. Each frame refits them from here
+    /// (`OrthogonalRoute.refit`), so a wire keeps the way it leaves its pin.
+    var paths: [UUID: [CGPoint]] = [:]
     /// Selected text blocks' top-lefts.
     var notes: [UUID: CGPoint] = [:]
 

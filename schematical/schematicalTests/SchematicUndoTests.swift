@@ -142,7 +142,10 @@ final class SchematicUndoTests: XCTestCase {
 
     func testSettleSchematicGroup() throws {
         let c = try wiredPair()
+        // With the wire selected too, the drag only shifts its bends, so the
+        // release has a wire end to re-fit (unselected wires refit live).
         c.doc.select(.chip(c.right.id))
+        c.doc.toggleSelection(.wire(c.wire))
         let base = c.doc.schematicGroupBase()
         c.doc.moveSchematicGroup(base, by: CGSize(width: 40, height: 60))
         try assertStep(c.doc, "Move") { c.doc.settleSchematicGroup(base) }
@@ -202,6 +205,7 @@ final class SchematicUndoTests: XCTestCase {
     func testSettleWiresAttachedToPart() throws {
         let c = try wiredPair()
         c.doc.select(.chip(c.right.id))
+        c.doc.toggleSelection(.wire(c.wire))
         c.doc.moveSchematicGroup(c.doc.schematicGroupBase(), by: CGSize(width: 40, height: 60))
         try assertStep(c.doc, "Move") { c.doc.settleWires(attachedTo: c.right.id) }
     }

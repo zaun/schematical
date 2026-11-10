@@ -967,6 +967,54 @@ nonisolated enum OrthogonalRoute {
         return Array(removeDoubleBacks(mergeCoincident(points)).dropFirst().dropLast())
     }
 
+    /// `path` (all right angles) with its ends moved to `start` and `end`.
+    /// Each end's segment keeps its direction: a wire that left its pin
+    /// sideways still does, and one that left it up or down still does. A
+    /// slanted segment left over gets a corner; at an end, the corner keeps
+    /// that end's direction.
+    static func refit(_ path: [CGPoint], start: CGPoint, end: CGPoint) -> [CGPoint] {
+        guard path.count >= 2 else { return path }
+        func axis(_ a: CGPoint, _ b: CGPoint) -> RouteAxis? {
+            a == b ? nil : a.y == b.y ? .horizontal : a.x == b.x ? .vertical : nil
+        }
+        let last = path.count - 1
+        let startAxis = axis(path[0], path[1])
+        let endAxis = axis(path[last - 1], path[last])
+        if path.count == 2 {
+            return [start] + leg(from: start, to: end, first: startAxis, last: endAxis, preferred: .horizontal)
+        }
+
+        var points = path
+        points[0] = start
+        points[last] = end
+        if start != path[0], let startAxis {
+            if startAxis == .horizontal { points[1].y = start.y } else { points[1].x = start.x }
+        }
+        if end != path[last], let endAxis {
+            if endAxis == .horizontal { points[last - 1].y = end.y } else { points[last - 1].x = end.x }
+        }
+
+        var result = [points[0]]
+        for index in 1...last {
+            let p = result[result.count - 1], q = points[index]
+            if p.x != q.x, p.y != q.y {
+                // Leave the start along its axis, reach the end along its
+                // axis; elsewhere go across first.
+                let across: Bool
+                if index == 1, let startAxis {
+                    across = startAxis == .horizontal
+                } else if index == last, let endAxis {
+                    across = endAxis == .vertical
+                } else {
+                    across = true
+                }
+                result.append(across ? CGPoint(x: q.x, y: p.y) : CGPoint(x: p.x, y: q.y))
+            }
+            result.append(q)
+        }
+        return removeDoubleBacks(mergeCoincident(result))
+    }
+
     /// Drops a vertex where the route turns straight back on itself (three
     /// points on one line, the middle one outside the other two). That is
     /// what an end moving past a stored vertex leaves behind. The first and
@@ -1764,8 +1812,10 @@ final class SchematicDocument {
         }
         for wire in wires where base.wires[wire.id] != nil || moves(wire.start, in: base) || moves(wire.end, in: base) {
             base.affectedWires.insert(wire.id)
-            if OrthogonalRoute.isOrthogonal(path(forWire: wire.id)) {
+            let route = path(forWire: wire.id)
+            if OrthogonalRoute.isOrthogonal(route) {
                 base.orthogonalWires.insert(wire.id)
+                if base.wires[wire.id] == nil { base.paths[wire.id] = route }
             }
         }
         return base
@@ -1807,6 +1857,12 @@ final class SchematicDocument {
                 guard let origin = base.notes[notes[index].id] else { continue }
                 let moved = shifted(origin)
                 if notes[index].origin != moved { notes[index].origin = moved }
+            }
+            for index in wires.indices {
+                guard let route = base.paths[wires[index].id],
+                      let start = endTip(wires[index].start), let end = endTip(wires[index].end) else { continue }
+                let fitted = Array(OrthogonalRoute.refit(route, start: start, end: end).dropFirst().dropLast())
+                if wires[index].interior != fitted { wires[index].interior = fitted }
             }
         }
     }
@@ -3096,6 +3152,8 @@ final class SchematicDocument {
             // Resolve the start first, so a split for it is in place before the end is looked up.
             guard let from = endpoint(for: start), let to = endpoint(for: end),
                   let fromTip = endTip(from), let toTip = endTip(to) else {
+                // A split made for the start is joined back up.
+                joinThroughJunctions()
                 return nil
             }
             // The ends are always the tips; a drawn path gives the bends between.
@@ -3203,7 +3261,52 @@ final class SchematicDocument {
         junctions.removeAll { junction in
             !wires.contains { $0.start == .junction(junction.id) || $0.end == .junction(junction.id) }
         }
+        joinThroughJunctions()
         pruneSelection()
+    }
+
+    /// Joins the two wires at every plain junction where only two wire ends
+    /// meet, as removing a branch leaves them: one wire runs through the
+    /// spot instead, with a bend there only if the route turns. Loose
+    /// junctions (plan-30) stay, since a pin can still land on them.
+    private func joinThroughJunctions() {
+        var changed = true
+        while changed {
+            changed = false
+            for junction in junctions where !junction.isLoose {
+                let here = WireEnd.junction(junction.id)
+                let on = wires.indices.filter { wires[$0].start == here || wires[$0].end == here }
+                guard on.count == 2 else { continue }
+                // The first wire runs into the junction, the second out of it.
+                var first = wires[on[0]], second = wires[on[1]]
+                if first.start == here { first = Self.reversed(first) }
+                if second.end == here { second = Self.reversed(second) }
+                // A wire on the junction at both ends, or two wires between
+                // the same two ends, would join into a loop.
+                guard first.end == here, second.start == here, first.start != here, second.end != here,
+                      first.start != second.end,
+                      let from = endTip(first.start), let to = endTip(second.end) else { continue }
+                var route = [from] + first.interior + [junction.point] + second.interior + [to]
+                // Drop the junction's spot when the run goes straight through it.
+                let k = first.interior.count + 1
+                let a = route[k - 1], b = route[k], c = route[k + 1]
+                if (a.y == b.y && b.y == c.y) || (a.x == b.x && b.x == c.x) {
+                    route.remove(at: k)
+                }
+                route = OrthogonalRoute.removeDoubleBacks(OrthogonalRoute.mergeCoincident(route))
+                wires[on[0]] = Wire(id: wires[on[0]].id, start: first.start, end: second.end,
+                                    interior: Array(route.dropFirst().dropLast()))
+                wires.remove(at: on[1])
+                junctions.removeAll { $0.id == junction.id }
+                changed = true
+                break
+            }
+        }
+    }
+
+    /// The same wire, its start and end swapped.
+    private static func reversed(_ wire: Wire) -> Wire {
+        Wire(id: wire.id, start: wire.end, end: wire.start, interior: wire.interior.reversed())
     }
 
     /// Turns every wire end that `matches` into a loose junction at that
