@@ -160,8 +160,36 @@ enum BusProblem: Equatable {
 
 /// A thick line that carries 2–999 named wires. It is made of straight lines
 /// that meet only at an L or a T.
+/// What a bus carries: free wires (`.custom`), or the edge of one of the
+/// PCB's card types, whose pins become its wires (`pinNames`), count and
+/// names both, until the type is Custom again. The type's settings are the
+/// board's (`CardOptions`, `CustomCard`).
+struct BusCard: Hashable {
+    var type: BoardType = .custom
+    var cardOptions = CardOptions()
+    var customCard = CustomCard()
+
+    var isCustom: Bool { type == .custom }
+
+    /// The card's pin names, each once, in natural order ("A1", "A2", …,
+    /// "A10", "B1"; numbers before letters). Nil for Custom.
+    var pinNames: [String]? {
+        guard type != .custom else { return nil }
+        var board = BoardSettings()
+        board.type = type
+        board.cardOptions = cardOptions
+        board.customCard = customCard
+        return board.pinNames
+    }
+}
+
 struct Bus: Identifiable, Hashable {
     let id: UUID
+    /// Shown in the bus editor; "BUS 1", "BUS 2", … when drawn. Unique
+    /// (ignoring case); empty only until the document names it.
+    var name = ""
+    /// Custom, or a card type whose pins set the wires.
+    var card = BusCard()
     /// ≥ 1 line, all joined into one piece by T and L joints.
     var lines: [BusLine]
     /// The bus's wires in list order. 2…999 of them. Every line carries all
@@ -176,11 +204,23 @@ struct Bus: Identifiable, Hashable {
     /// Four times a wire's 1.5.
     static let lineWidth: CGFloat = 6
 
-    init(id: UUID = UUID(), lines: [BusLine], wires: [BusWire], ports: [BusPort] = []) {
+    init(id: UUID = UUID(), name: String = "", card: BusCard = BusCard(), lines: [BusLine], wires: [BusWire],
+         ports: [BusPort] = []) {
         self.id = id
+        self.name = name
+        self.card = card
         self.lines = lines
         self.wires = wires
         self.ports = ports
+    }
+
+    /// "BUS <n>" for the lowest n from 1 that no name in `taken` has
+    /// (ignoring case).
+    static func defaultBusName(taken: [String]) -> String {
+        let used = Set(taken.map { $0.lowercased() })
+        var n = 1
+        while used.contains("bus \(n)") { n += 1 }
+        return "BUS \(n)"
     }
 
     /// `B<index>`, or else the first free `B<n>` (case-insensitive).
@@ -725,8 +765,10 @@ enum BusJoin {
         let lines = first.lines + second.lines
         let ports = first.ports + second.ports
         if first.ports.isEmpty || second.ports.isEmpty {
-            let wires = first.ports.isEmpty && !second.ports.isEmpty ? second.wires : first.wires
-            return (Bus(id: first.id, lines: lines, wires: wires, ports: ports), [:])
+            // The wires (and the type that set them) of the one with ports.
+            let keep = first.ports.isEmpty && !second.ports.isEmpty ? second : first
+            return (Bus(id: first.id, name: first.name, card: keep.card, lines: lines, wires: keep.wires,
+                        ports: ports), [:])
         }
 
         var wires = first.wires
@@ -746,7 +788,9 @@ enum BusJoin {
         let allPorts = first.ports + moved
         let used = allPorts.reduce(into: Set<UUID>()) { $0.formUnion($1.wireIDs) }
         let ordered = wires.filter { used.contains($0.id) } + wires.filter { !used.contains($0.id) }
-        return (Bus(id: first.id, lines: lines, wires: ordered, ports: allPorts), wireMap)
+        // The type holds only while the wires are still exactly its pins.
+        let card = ordered.map(\.name) == first.card.pinNames ? first.card : BusCard()
+        return (Bus(id: first.id, name: first.name, card: card, lines: lines, wires: ordered, ports: allPorts), wireMap)
     }
 
     /// A corner touch, for a drag that leaves it along `segment` (from or to
@@ -854,7 +898,8 @@ enum BusJoin {
                                         at: path[index + 1]))
         }
 
-        let result = Bus(id: base.id, lines: lines + added, wires: base.wires, ports: ports)
+        let result = Bus(id: base.id, name: base.name, card: base.card, lines: lines + added, wires: base.wires,
+                         ports: ports)
         guard result.isValid, result.portsFit else { return nil }
         guard Bus.firstTouch(others + [result]) == nil else { return nil }
         guard result.jointShapes == baseShapes.union(expected.map(\.shape)) else { return nil }

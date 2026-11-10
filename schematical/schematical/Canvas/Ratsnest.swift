@@ -2,7 +2,9 @@ import CoreGraphics
 import Foundation
 
 /// The PCB's unrouted connections: for each schematic net, the pads its
-/// pins have on the board, grouped by the copper that already joins them
+/// pins have on the board (and the card's edge fingers, through the bus the
+/// card edge uses, as if it were a hidden port with every wire of that
+/// bus), grouped by the copper that already joins them
 /// (traces, through-hole pads and vias between layers, pads of one pin). Each net
 /// with more than one group gets the shortest lines that join its groups
 /// (a minimum spanning tree), each between the closest points of two
@@ -13,7 +15,24 @@ extension SchematicDocument {
     /// reached only from its last point, so the line follows the cursor.
     func ratsnest(drawing: BoardTrace? = nil) -> [(CGPoint, CGPoint)] {
         let netlist = NetlistBuilder.build(chips: chips, wires: wires, buses: buses)
-        guard !netlist.connections.isEmpty else { return [] }
+        // The card edge is a hidden port on its bus: pin i is the bus's wire
+        // i, on whatever net that wire's port pins are wired into.
+        var fingerNets: [String: Int] = [:]
+        if let busID = edgeBusID, let bus = bus(busID) {
+            let portIDs = Set(bus.ports.map(\.id))
+            var netOfBusWire: [UUID: Int] = [:]
+            for wire in wires {
+                for end in [wire.start, wire.end] {
+                    guard case let .busPin(ref) = end, portIDs.contains(ref.portID),
+                          let net = netlist.netOfWire[wire.id] else { continue }
+                    netOfBusWire[ref.wireID] = net
+                }
+            }
+            for (name, wire) in zip(board.pinNames, bus.wires) {
+                if let net = netOfBusWire[wire.id] { fingerNets[name] = net }
+            }
+        }
+        guard !netlist.connections.isEmpty || !fingerNets.isEmpty else { return [] }
 
         // Nodes: every placed pad, then every trace (`drawing` last).
         struct Pad { let chip: Int; let pad: PlacedPad; let side: BoardSide }
@@ -27,6 +46,13 @@ extension SchematicDocument {
                 }
                 pads.append(Pad(chip: index, pad: pad, side: side))
             }
+        }
+        // The card's fingers that are on a net, as pads of the card (chip −1).
+        for finger in board.fingers where fingerNets[finger.name] != nil {
+            padsOfPin["edge/\(finger.name)", default: []].append(pads.count)
+            pads.append(Pad(chip: -1, pad: PlacedPad(designator: finger.name, rect: finger.rect, drill: 0,
+                                                     shape: .rect, radius: 0, chamfer: 0, corners: []),
+                            side: finger.side))
         }
         let copper = traces + (drawing.map { [$0] } ?? [])
         // Vias come after the traces.
@@ -86,6 +112,11 @@ extension SchematicDocument {
         for connection in netlist.connections {
             for p in padsOfPin["\(connection.part)/\(connection.pin)"] ?? [] {
                 netPads[connection.net, default: []].insert(p)
+            }
+        }
+        for (name, net) in fingerNets {
+            for p in padsOfPin["edge/\(name)"] ?? [] {
+                netPads[net, default: []].insert(p)
             }
         }
         var lines: [(CGPoint, CGPoint)] = []

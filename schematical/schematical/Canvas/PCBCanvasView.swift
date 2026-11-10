@@ -202,10 +202,11 @@ struct PCBCanvasView: View {
         let board = document.board
         let colour = board.color
 
-        // The board, under the grid so the dots show on it.
-        let boardRect = CGRect(x: 0, y: 0, width: board.width, height: board.height)
-        context.fill(Path(boardRect), with: .color(colour.fill))
-        context.stroke(Path(boardRect), with: .color(colour.silkscreen), lineWidth: 0.2)
+        // The board, under the grid so the dots show on it: a rectangle,
+        // or a card's outline with its edge tab.
+        let boardShape = Path { path in path.addLines(board.outline); path.closeSubpath() }
+        context.fill(boardShape, with: .color(colour.fill))
+        context.stroke(boardShape, with: .color(colour.silkscreen), lineWidth: 0.2)
         drawGrid(in: context, size: size)
 
         let visible = shown
@@ -215,13 +216,17 @@ struct PCBCanvasView: View {
         for layer in board.copperLayers.reversed() {
             let style = board.style(of: layer)
             if visible.showsPlane(layer, style: style) {
-                context.fill(Path(boardRect), with: .color(style.color.color.opacity(0.2)))
+                context.fill(boardShape, with: .color(style.color.color.opacity(0.2)))
             }
             if visible.showsTrace(on: layer) {
                 drawTraces(on: layer, colour: style.color.color, in: &context)
             }
             let side: BoardSide? = layer == .top ? .top : layer == .bottom ? .bottom : nil
             if let side, visible.shows(.copper(layer)) {
+                // A card's gold fingers on this side.
+                for finger in board.fingers where finger.side == side {
+                    context.fill(Path(finger.rect), with: .color(style.color.color))
+                }
                 for chip in document.chips where chip.board?.side == side {
                     for pad in chip.boardPads where pad.drill == 0 {
                         context.fill(Self.outline(of: pad), with: .color(style.color.color))

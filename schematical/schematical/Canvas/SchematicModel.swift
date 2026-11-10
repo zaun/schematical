@@ -1358,10 +1358,17 @@ final class SchematicDocument {
         self.notes = notes
         self.wires = wires
         self.junctions = junctions
-        self.buses = buses
+        // Buses from older files have no name: number them in order.
+        var named: [Bus] = []
+        for var bus in buses {
+            if bus.name.isEmpty { bus.name = Bus.defaultBusName(taken: (buses + named).map(\.name)) }
+            named.append(bus)
+        }
+        self.buses = named
         self.nextReference = max(nextReference, 1)
         self.board = board
         self.texts = texts
+        defer { if self.board.edgeBus != nil, edgeBusID == nil { self.board.edgeBus = nil } }
         self.traces = traces
         self.vias = vias
         editingNoteID = nil
@@ -1465,6 +1472,10 @@ final class SchematicDocument {
             outerCoalescing = nil
         }
         guard let start = recordingStart else { return }
+        // A card-edge bus link that no longer counts (the card's pin count
+        // changed, the board stopped being a card, or the bus is gone) is
+        // set back to None, in the same step, so no hidden link stays.
+        if board.edgeBus != nil, edgeBusID == nil { board.edgeBus = nil }
         let changes = UndoDiff.changes(from: start, to: state)
         guard !changes.isEmpty else { return }
         let pages = changes.keys.reduce(into: Set([recordingPage])) { $0.formUnion($1.pages) }
@@ -1990,8 +2001,71 @@ final class SchematicDocument {
     func setBoardSize(width: Double, height: Double) {
         recordEdit(.pcb, "Change Board Size") {
             let range = BoardSettings.sizeRange
+            if board.type == .customCard {
+                // A custom card is as high as you like above its tab, and at
+                // least long enough for it.
+                let card = board.customCard.clamped()
+                board.width = min(max(width, card.indent + card.tabLength), range.upperBound)
+                board.height = min(max(height, card.depth + 1), range.upperBound)
+                return
+            }
+            if let card = board.card {
+                // A card's height is the standard's; only its length changes,
+                // between the shortest that clears its connector and full length.
+                board.width = min(max(width, card.minimumLength), card.maximumLength)
+                board.height = card.height
+                return
+            }
             board.width = min(max(width, range.lowerBound), range.upperBound)
             board.height = min(max(height, range.lowerBound), range.upperBound)
+        }
+    }
+
+    /// Sets the card settings (lanes, length, key, size, memory) and fits
+    /// the board to them: the standard's height, and its length unless the
+    /// card's length is free (PCI Express), when it stays within range.
+    func setCardOptions(_ options: CardOptions) {
+        recordEdit(.pcb, "Change Card") {
+            guard board.cardOptions != options else { return }
+            board.cardOptions = options
+            guard board.type.hasOptions, let card = board.card else { return }
+            board.height = card.height
+            board.width = card.isFixedSize ? card.length : min(max(board.width, card.minimumLength), card.maximumLength)
+        }
+    }
+
+    /// Sets the custom card's edge connector (clamped to fit), and grows
+    /// the board to hold its tab.
+    func setCustomCard(_ card: CustomCard) {
+        recordEdit(.pcb, "Change Card Edge") {
+            let value = card.clamped()
+            if board.customCard != value { board.customCard = value }
+            guard board.type == .customCard else { return }
+            board.width = max(board.width, value.indent + value.tabLength)
+            board.height = max(board.height, value.depth + 1)
+        }
+    }
+
+    /// Makes the board a custom rectangle, a custom card (keeping its size,
+    /// grown to fit the tab) or a standard card. A card takes
+    /// its standard's height and length (the length stays editable), and
+    /// at least 2 layers, since its fingers are on both sides. Back to
+    /// Custom keeps the size. Nothing on the board moves.
+    func setBoardType(_ type: BoardType) {
+        recordEdit(.pcb, "Change Board Type") {
+            guard board.type != type else { return }
+            board.type = type
+            if type != .customCard, let card = board.card {
+                board.width = card.length
+                board.height = card.height
+            }
+            if type == .customCard {
+                // Keep the size, grown to fit the tab.
+                let card = board.customCard.clamped()
+                board.width = max(board.width, card.indent + card.tabLength)
+                board.height = max(board.height, card.depth + 1)
+            }
+            if type.isCard, board.layers < 2 { board.layers = 2 }
         }
     }
 
@@ -2037,6 +2111,9 @@ final class SchematicDocument {
         }
         if count == 1, !vias.isEmpty {
             return "Delete the vias first."
+        }
+        if count == 1, board.type.isCard {
+            return "A card has fingers on both sides."
         }
         return nil
     }
@@ -2198,7 +2275,8 @@ final class SchematicDocument {
     }
 
     /// Where a trace end pressed or released at `point` lands on `layer`:
-    /// the centre of a pad there, else of a via, else a vertex of a trace on that layer
+    /// the centre of a pad there, else of a via, else the inner end of a
+    /// card's edge finger there (`EdgeFinger.contact`), else a vertex of a trace on that layer
     /// within `tolerance`, else the nearest point of a trace segment within
     /// `tolerance`, else the nearest trace-grid point (`BoardSettings.traceGrid`).
     func traceAnchor(at point: CGPoint, layer: CopperLayer, tolerance: CGFloat) -> CGPoint {
@@ -2206,6 +2284,9 @@ final class SchematicDocument {
             return CGPoint(x: hit.pad.rect.midX, y: hit.pad.rect.midY)
         }
         if let via = via(at: point) { return via.centre }
+        if let finger = board.fingers.last(where: { $0.side.copperLayer == layer && $0.rect.contains(point) }) {
+            return finger.contact
+        }
         let same = traces.filter { $0.layer == layer }
         var best: (point: CGPoint, distance: CGFloat)?
         for trace in same {
@@ -2311,6 +2392,12 @@ final class SchematicDocument {
                 trace.segments.contains { Self.segment($0.0, $0.1, touches: pad.rect) }
             }
             if touched { found.append((chip.reference, pad.designator ?? "EP")) }
+        }
+        for finger in board.fingers where finger.side.copperLayer == layer {
+            let touched = members.contains { trace in
+                trace.segments.contains { Self.segment($0.0, $0.1, touches: finger.rect) }
+            }
+            if touched { found.append(("Edge", finger.name)) }
         }
         return found
             .sorted {
@@ -3331,7 +3418,9 @@ final class SchematicDocument {
             if let index = draft.busIndex {
                 buses[index] = draft.bus
             } else {
-                buses.append(draft.bus)
+                var added = draft.bus
+                added.name = Bus.defaultBusName(taken: buses.map(\.name))
+                buses.append(added)
             }
             if let gone = draft.absorbedIndex {
                 absorb(buses[gone], wireMap: draft.wireMap)
@@ -3369,6 +3458,8 @@ final class SchematicDocument {
         return recordEdit(.schematic, "Change Bus Width") { () -> String? in
             guard let index = buses.firstIndex(where: { $0.id == id }) else { return nil }
             let bus = buses[index]
+            if bus.id == edgeBusID { return edgeBusLock(bus) }
+            if !bus.card.isCustom { return Self.typeSetsWires }
             let used = bus.ports.reduce(into: Set<UUID>()) { $0.formUnion($1.wireIDs) }
             if let highest = bus.wires.lastIndex(where: { used.contains($0.id) }), count < highest + 1 {
                 return "\(bus.wires[highest].name) is used by a port; this bus needs at least \(highest + 1) wires."
@@ -3392,6 +3483,7 @@ final class SchematicDocument {
         return recordEdit(.schematic, "Rename Bus Wire") { () -> String? in
             guard let index = buses.firstIndex(where: { $0.id == id }),
                   let w = buses[index].wires.firstIndex(where: { $0.id == wireID }) else { return nil }
+            if !buses[index].card.isCustom { return Self.typeSetsWires }
             let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
             if trimmed.isEmpty { return "A wire name can't be empty." }
             if trimmed.count > Bus.nameLengthRange.upperBound { return "A wire name is at most 4 characters." }
@@ -3401,6 +3493,87 @@ final class SchematicDocument {
                 return "\(trimmed) is already used on this bus."
             }
             buses[index].wires[w].name = trimmed
+            return nil
+        }
+    }
+
+    private static let typeSetsWires = "The bus type sets its wires; set Type to Custom to change them."
+
+    /// The bus the board's card edge uses, while the board is a card and
+    /// the bus has as many wires as the card has pins.
+    var edgeBusID: UUID? {
+        guard board.type.isCard, let id = board.edgeBus, let bus = bus(id),
+              bus.wires.count == board.pinCount else { return nil }
+        return id
+    }
+
+    /// The buses a card edge can use: those with as many wires as the card
+    /// has pins. Only the count matters, not the names.
+    var edgeBusChoices: [Bus] {
+        guard board.type.isCard else { return [] }
+        return buses.filter { $0.wires.count == board.pinCount }
+    }
+
+    /// Chooses the bus the card edge uses, or none. A bus with the wrong
+    /// wire count is ignored.
+    func setEdgeBus(_ id: UUID?) {
+        recordEdit(.pcb, "Change Card Bus") {
+            if let id, !edgeBusChoices.contains(where: { $0.id == id }) { return }
+            if board.edgeBus != id { board.edgeBus = id }
+        }
+    }
+
+    private func edgeBusUndeletable(_ bus: Bus) -> String {
+        "\(bus.name) is in use as the card edge, so it can't be deleted. Set the PCB's Bus to None first."
+    }
+
+    private func edgeBusLock(_ bus: Bus) -> String {
+        "\(bus.name) is in use as the card edge; its wire count is locked."
+    }
+
+    /// Renames a bus. Refused, with why, when the name is empty or another
+    /// bus has it (ignoring case).
+    func setBusName(_ id: UUID, _ name: String) -> String? {
+        return recordEdit(.schematic, "Rename Bus") { () -> String? in
+            guard let index = buses.firstIndex(where: { $0.id == id }) else { return nil }
+            let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+            if trimmed.isEmpty { return "A bus name can't be empty." }
+            if buses.contains(where: { $0.id != id && $0.name.lowercased() == trimmed.lowercased() }) {
+                return "\(trimmed) is already used by another bus."
+            }
+            if buses[index].name != trimmed { buses[index].name = trimmed }
+            return nil
+        }
+    }
+
+    /// Sets what a bus carries. A card type makes the wires its pins, in
+    /// order: existing wires keep their places (and ids, so ports and their
+    /// wire ends stay) and are renamed, and wires are added or dropped at
+    /// the end. Custom keeps the wires as they are, to edit freely.
+    /// Refused, with why, when a port uses a wire the card has no pin for,
+    /// or the card has fewer than 2 pins.
+    func setBusCard(_ id: UUID, _ card: BusCard) -> String? {
+        return recordEdit(.schematic, "Change Bus Type") { () -> String? in
+            guard let index = buses.firstIndex(where: { $0.id == id }), buses[index].card != card else { return nil }
+            guard let names = card.pinNames else {
+                buses[index].card = card
+                return nil
+            }
+            let bus = buses[index]
+            guard Bus.wireCountRange.contains(names.count) else {
+                return "A bus needs \(Bus.wireCountRange.lowerBound) to \(Bus.wireCountRange.upperBound) wires; this card has \(names.count) pins."
+            }
+            if bus.id == edgeBusID, names.count != bus.wires.count { return edgeBusLock(bus) }
+            let used = bus.ports.reduce(into: Set<UUID>()) { $0.formUnion($1.wireIDs) }
+            if let highest = bus.wires.lastIndex(where: { used.contains($0.id) }), highest >= names.count {
+                return "\(bus.wires[highest].name) is used by a port; this card has only \(names.count) pins."
+            }
+            var wires = Array(bus.wires.prefix(names.count))
+            for (i, name) in names.enumerated() {
+                if i < wires.count { wires[i].name = name } else { wires.append(BusWire(name: name)) }
+            }
+            buses[index].wires = wires
+            buses[index].card = card
             return nil
         }
     }
@@ -3703,6 +3876,10 @@ final class SchematicDocument {
     private func removeBusLine(bus id: UUID, line lineID: UUID) {
         guard let index = buses.firstIndex(where: { $0.id == id }) else { return }
         var bus = buses[index]
+        if bus.id == edgeBusID, bus.lines.count == 1 {
+            editorMessage = edgeBusUndeletable(bus)
+            return
+        }
         // Loosen first, while the removed ports' pin tips still resolve.
         for port in bus.ports where port.line == lineID {
             loosen { endsOn($0, port: port.id) }
@@ -3740,7 +3917,8 @@ final class SchematicDocument {
                 wires[w].start = remap(wires[w].start)
                 wires[w].end = remap(wires[w].end)
             }
-            split.append(Bus(lines: piece, wires: newWires, ports: moved))
+            split.append(Bus(name: Bus.defaultBusName(taken: (buses + split).map(\.name)), card: bus.card,
+                             lines: piece, wires: newWires, ports: moved))
         }
         bus.lines = pieces[0]
         bus.ports = ports(on: pieces[0])
@@ -3779,6 +3957,11 @@ final class SchematicDocument {
             } else if let hit = segmentHit(at: point, tolerance: tolerance) {
                 wires.removeAll { $0.id == hit.wire }
             } else if let hit = busHit(at: point, tolerance: tolerance), let bus = bus(hit.bus) {
+                // The card edge's bus can't go: not its last line.
+                if bus.id == edgeBusID, bus.lines.count == 1 {
+                    editorMessage = edgeBusUndeletable(bus)
+                    return
+                }
                 let ports = bus.ports.filter { $0.line == hit.line }
                 if ports.isEmpty {
                     removeBusLine(bus: hit.bus, line: hit.line)

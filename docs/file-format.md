@@ -139,7 +139,11 @@ An EEPROM can name the file loaded into it when the simulation starts:
 
 | Field    | Type    | Meaning                                                                |
 |----------|---------|------------------------------------------------------------------------|
-| `width`, `height` | number | The board rectangle from (0, 0), in mm, each 1 to 1000. Default 100 × 80. |
+| `type`   | string  | Optional. `"custom"` (default; the plain rectangle), `"customCard"` (a card whose edge is built from `card`, below), a standard add-in card — `"isa8"` (PC/XT, 62 fingers A1–A31 component side / B1–B31 solder side), `"isa16"` (PC/AT, plus C1–C18 / D1–D18 after a key notch) or `"pci"` (32-bit Universal, B1–B62 component side / A1–A62 solder side, no fingers at the 12–13 and 50–51 key notches) — or a cartridge: `"nes"` (100 × 110 mm, 72 fingers at 2.50 mm, pins 1–36 on the label side, pin 1 at the right, N + 36 behind N), `"atari2600"` (41.3 × 47 mm, 24 fingers, pins 13–24 on the component side from the left, N behind 25 − N), `"atari5200"` (50.8 × 50.8 mm, 36 fingers, 1–18 on the component side from the left, 37 − N behind N; 18 and 36 shorter), `"atari7800"` (46.99 × 82.55 mm, 32 fingers across the edge between two slots, 1–16 on the component side from the left with a skipped place after 2 and after 14, 33 − N behind N), `"atari8bit"` (400/800/XL/XE, 53.8 × 64.8 mm, 30 fingers, 1–15 on the component side from the left, A–S behind them without G, I, O, Q), `"atariST"` (55.5 × 25.5 mm, 40 fingers at 2.0 mm, odd pins on the component side with 1 at the right, each even pin behind the odd before it), `"jaguar"` (94 × 49.2 mm, A1–A54 component side from the left and B1–B54 behind, at 1.5 mm, no 13 or 14 at the key slot) or `"lynx"` (55 × 22 mm, 34 fingers at 1/16" on the back only, 1 at the left seen from the component side); or a modern expansion card, set by `cardOptions` (below): `"pcie"` (PCI Express, B side on the component side and A behind, B1 nearest the bracket, the key between 11 and 12), `"m2"` (M.2 Type 22, odd pins on top with 1 at the right, even pins on the bottom), `"miniPCIe"` (odd pins on top with 1 at the left, each even pin on the bottom 0.4 mm right of the odd before it), `"sodimm"` (odd pins on the front, each even pin behind the odd before it, half a pitch right) or `"dimm"` (pins from 1 on the front, 121 (DDR3) or 145 (DDR4, DDR5) behind 1) or `"coco"` (TRS-80 Color Computer, 53.34 × 44.45 mm, 40 fingers, odd pins on the component side from the left, each even pin behind the odd before it). A card's outline has its edge tab along the bottom, the bracket end at x = 0; its fingers are copper pads on Top and Bottom that traces join (not stored; cartridge fingers are named by pin number). A card needs 2 or more layers. Written only for a card; older builds ignore it. |
+| `cardOptions` | object | Only with `type` `"pcie"`, `"m2"`, `"miniPCIe"`, `"sodimm"` or `"dimm"`; written whole, missing keys take their defaults: `lanes` (PCI Express: 1, 4, 8 or 16, default 1), `lowProfile` (PCI Express: 68.90 mm high and at most 167.65 long instead of 111.15 and 312, default false), `length` (M.2: 30, 42, 60, 80 or 110 mm, default 80), `key` (M.2: `"b"`, `"m"`, `"bm"`, `"e"` or `"ae"`, default `"m"`), `halfSize` (Mini PCIe: 26.80 mm long instead of 50.95, default false), `memory` (SO-DIMM, DIMM: `"ddr3"`, `"ddr4"` or `"ddr5"`, default `"ddr4"`) and `registered` (a DDR5 RDIMM, whose key is 2.45 mm further right, default false). Each sets the card's size; only a PCI Express card's length (`width`) is free, from just past its tab to its longest. |
+| `edgeBus` | UUID  | Optional. The schematic bus the card's edge uses: its wires are the card's pins, in order (only the count has to match, not the names). The edge acts as a hidden port on that bus with every wire: each finger joins its wire's net, so the PCB's unrouted lines run to it. Written only for a card, while that bus exists and has as many wires as the card has pins. The app sets it back to none as soon as that stops being true (the card's pin count changes, or the bus goes), and ignores one that doesn't hold when opening. That bus can't be deleted, and its wire count can't change. |
+| `card`   | object  | Only with `type` `"customCard"`: the edge connector, in mm — `pads` (fingers per side, 1–200, default 20), `pitch` (0.5–10, default 2.54), `padWidth` (default 1.524, less than the pitch), `padLength` (default 7.62), `padOffset` (from the card's bottom edge up to the fingers, default 0), `depth` (how far the tab reaches below the card, 1–50, default 7.62), `indent` (card's left edge to the tab, default 10), `margin` (tab end to the outermost finger's centre, default 2.54), `chamfer` (the tab's lower corners, default 0.5) and `bothSides` (fingers B1… on Bottom too, default true). Fingers are A1… on Top, numbered from the left. Out-of-range values are brought into range. |
+| `width`, `height` | number | The board rectangle from (0, 0), in mm, each 1 to 1000. Default 100 × 80. For a cartridge, both are the cartridge's (stored ones are ignored). For a custom card, both are free, at least big enough for the tab. For a standard card, the box round the card and its tab: `height` is the standard's (106.68 for ISA 8-bit and PCI, 121.92 for ISA 16-bit; a stored one is ignored) and `width` is the card's length, at least 103 (ISA 8-bit), 157 (ISA 16-bit) or 122 (PCI) and at most full length (333.5 ISA, 312 PCI). |
 | `layers` | integer | Copper layers: 1, 2, 4 or 6. Default 2. Layer 1 is `top` and the last is `bottom`; the ones between are `inner2` to `inner5`. A 1-layer board has only `top`. |
 | `layerStyles` | array | Optional. Each copper layer's colour and type: `layer` (`"top"`, `"inner2"` to `"inner5"`, or `"bottom"`), `color` (`"#RRGGBB"`, sRGB) and `type` (`"component"` for `top` and `bottom`, which is all they can be; `"plane"` or `"wire"` for an inner layer). Written for every layer on the board, in stack order. A missing entry, `color` or `type` takes its default: `top` `#C83737` red, `inner2` `#D8B23A` gold, `inner3` `#3AAE5C` green, `inner4` `#B04AD0` purple, `inner5` `#3AB8C8` cyan, `bottom` `#3A6FD8` blue; inner layers are `plane`. Older builds ignore it. |
 | `color`  | string  | The board colour: `"green"` (default), `"black"`, `"red"`, `"blue"`, `"yellow"`, `"white"` or `"purple"`. |
@@ -249,7 +253,7 @@ the schematic and connects to nothing by itself.
 
 ```json
 "buses": [
-  { "id": "…",
+  { "id": "…", "name": "BUS 1",
     "lines": [
       { "id": "…", "a": { "x": 100, "y": 200 }, "b": { "x": 300, "y": 200 } },
       { "id": "…", "a": { "x": 180, "y": 200 }, "b": { "x": 180, "y": 300 } }
@@ -263,6 +267,9 @@ the schematic and connects to nothing by itself.
 | Field   | Type  | Meaning                                                              |
 |---------|-------|----------------------------------------------------------------------|
 | `id`    | UUID  | Unique within the file.                                              |
+| `name`  | string | The bus's name, shown in its editor: "BUS 1", "BUS 2", … when drawn. Unique ignoring case. Always written; a bus without one (older files) is named "BUS <n>" in file order. |
+| `type`  | string | Optional. What the bus carries: missing for Custom (free wires), or one of the board `type` values for a card (`"isa8"`, `"pcie"`, `"nes"`, …; see [Board](#board)), whose pin names, in natural order (A1, A2, … A10, B1; numbers before letters), are the bus's `wires` (the app locks them until the type is Custom again). A type whose pins don't match `wires` is dropped. The board's `edgeBus` is what ties a bus to the card. |
+| `card`, `cardOptions` | object | Optional. The type's settings, as the board's `card` (a custom card: only `pads` and `bothSides` change its pins) and `cardOptions` (PCI Express lanes, M.2 key, memory generation, …). Written only for the types that use them. |
 | `lines` | array | The bus's straight lines, at least one. Each has an `id` (UUID) and two ends `a` and `b` (canvas units, on the 10-unit grid). A line is horizontal or vertical, with length > 0. |
 | `wires` | array | The bus's wires in list order, 2 to 999. Each has an `id` (UUID; ports refer to it) and a `name`: 1 to 4 characters with no spaces, unique in the bus ignoring case. |
 | `ports` | array | The bus's ports ([Ports](#ports)). Always written, empty when there are none; missing means none. |
@@ -353,6 +360,10 @@ Opening fails, and the canvas is left unchanged, if:
   one of:
   - `board width 0 must be 1 to 1000 mm` (same for `height`);
   - `board grid 0 must be 0.01 to 10 mm`;
+  - `board type "eisa" must be custom, customCard, isa8, isa16, pci, nes, atari2600, atari5200, atari7800, atari8bit, atariST, jaguar, lynx, coco, pcie, m2, miniPCIe, sodimm or dimm`;
+  - `board type isa8 needs 2 or more layers`;
+  - `card lanes 2 must be 1, 4, 8 or 16`;
+  - `card length 50 must be 30, 42, 60, 80 or 110`;
   - `board layers 3 must be 1, 2, 4 or 6`;
   - `board color "pink" must be green, black, red, blue, yellow, white or purple`;
   - `board units "cm" must be mm or in`;
@@ -397,6 +408,8 @@ Opening fails, and the canvas is left unchanged, if:
   - `bus <id> has <n> wires; it must have 2 to 999`;
   - `bus <id> wire name "<name>" must be 1 to 4 characters with no spaces`;
   - `bus <id> uses the wire name "<name>" twice`;
+  - `bus <id> type "eisa" must be custom, customCard, isa8, …` (the board types; likewise `card lanes`, `card length`, `card key` and `card memory` for its settings);
+  - `the bus name "<name>" is used twice`;
   - `port <id> line <id> is not on bus <id>`;
   - `port <id> side "<s>" must be top or bottom on a horizontal line` (left
     or right on a vertical one);

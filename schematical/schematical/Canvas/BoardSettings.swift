@@ -223,7 +223,23 @@ nonisolated struct LayerStyle: Hashable, Sendable {
 /// The board: a rectangle from (0, 0), its copper layers and colour, and
 /// the units the sidebar uses.
 nonisolated struct BoardSettings: Hashable, Sendable {
-    /// mm, within `sizeRange`.
+    /// What the board is: a free rectangle, or a standard add-in card with
+    /// its edge connector (`BoardType`).
+    var type: BoardType = .custom
+    /// A custom card's edge connector; used only when `type` is
+    /// `.customCard`, but kept so it comes back.
+    var customCard = CustomCard()
+    /// The settings of the card types that have them (PCI Express, M.2,
+    /// Mini PCIe, SO-DIMM, DIMM); kept across type changes.
+    var cardOptions = CardOptions()
+    /// The schematic bus chosen as the card's edge: its wires are the
+    /// card's pins, in order. Set back to nil as soon as it stops counting
+    /// (`SchematicDocument.edgeBusID`): the board isn't a card, the card's
+    /// pin count changed, or the bus is gone.
+    var edgeBus: UUID?
+    /// mm, within `sizeRange`. For a card, the bounding box of the card
+    /// with its edge tab: `width` is the card's length (at least the card's
+    /// least), `height` the standard's.
     var width: Double = 100
     var height: Double = 80
     /// The copper layer count, one of `layerCounts`: Top first, then the
@@ -249,6 +265,35 @@ nonisolated struct BoardSettings: Hashable, Sendable {
 
     /// The board's copper layers in stack order.
     var copperLayers: [CopperLayer] { CopperLayer.allCases(for: layers) }
+
+    /// The board's outline, clockwise from the top-left (mm): the
+    /// rectangle, or a card's shape with its edge tab and key notches.
+    var outline: [CGPoint] {
+        card?.outline(length: width) ?? [CGPoint(x: 0, y: 0), CGPoint(x: width, y: 0),
+                                         CGPoint(x: width, y: height), CGPoint(x: 0, y: height)]
+    }
+
+    /// A card's gold fingers; none on a custom board.
+    var fingers: [EdgeFinger] { card?.fingers ?? [] }
+
+    /// How many pins the card has: its distinct finger names (a finger on
+    /// each side with one name is one pin). 0 on a custom board.
+    var pinCount: Int { pinNames.count }
+
+    /// The card's pin names, each once, in natural order ("A1", "A2", …,
+    /// "A10", "B1"; numbers before letters), as a bus of its type names its
+    /// wires. Pin `i` is the edge bus's wire `i`.
+    var pinNames: [String] {
+        var seen = Set<String>()
+        return fingers.map(\.name).filter { seen.insert($0).inserted }
+            .sorted { $0.localizedStandardCompare($1) == .orderedAscending }
+    }
+
+    /// The card the board is: a standard's, or the custom card built from
+    /// `customCard` at the board's height. Nil for a plain board.
+    var card: CardSpec? {
+        type == .customCard ? customCard.spec(height: height) : type.card(cardOptions)
+    }
 
     /// The layers a trace can go on: every board layer that isn't a Plane.
     var traceLayers: [CopperLayer] { copperLayers.filter { style(of: $0).type != .plane } }
