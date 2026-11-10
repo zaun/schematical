@@ -147,7 +147,7 @@ def on_disk():
     found = set()
     for dirpath, _, names in os.walk(os.path.join(ROOT, BASE)):
         for f in names:
-            if f.endswith(".pdf"):
+            if f.lower().endswith(".pdf"):
                 found.add(os.path.relpath(os.path.join(dirpath, f), ROOT))
     return found
 

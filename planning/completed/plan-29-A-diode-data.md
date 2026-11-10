@@ -447,6 +447,10 @@ Commit: 2dbcd2b
   PFC" name no part. 148 rows had `dead` = 1; 13 parts are `out`. The plan's
   example `1N4003G` is live (1N4001-D.PDF p.5 lists it above the
   DISCONTINUED heading, under which only `1N4003` / `1N4003RL` sit).
+- **`place.py` matched `.pdf` case-sensitively** (found by plan-29-N's
+  datasheet gate): `--prune` and `--verify` skipped onsemi's `.PDF` files,
+  so `onsemi/NSR0530H-D.PDF` stayed after its one row became skip. Fixed
+  (`f.lower().endswith(".pdf")`) and pruned: 3010 PDFs for 3010 URLs.
 - **Phase 1 reuses the planning-day 280 listings** — `list.sh` skips a piece
   whose `.done` exists, and `/tmp/p29/raw` kept `280-vishay`, `280-tsc` and
   `280-onsemi` from 2026-11-08, so Day 1 (2026-11-09) listed the other 12

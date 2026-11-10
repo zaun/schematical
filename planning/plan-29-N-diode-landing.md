@@ -1,6 +1,6 @@
 # plan-29-N: Landing tier — full gates, harness, runtime proof
 
-Last updated: 2026-11-08
+Last updated: 2026-11-09
 Effort: small (< 1h)
 Depends on: plan-29-M
 
@@ -17,7 +17,7 @@ plan-29-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-29-M complete | `ls planning/completed/plan-29-M-*.md` → exists | NOT MET (2026-11-08: plan written) |
+| plan-29-M complete | `ls planning/completed/plan-29-M-*.md` → exists | MET (2026-11-09) |
 
 Everything below is written against the world where these hold.
 
@@ -42,9 +42,30 @@ values are recorded under it.
 
 ### Phase 1 — Landing tier
 
-- [ ] Run every gate of the table on a fresh build dir and record the
-      observed values.
-- [ ] Move `plan-29-A` … `plan-29-N` to `planning/completed/`.
+- [x] Run every gate of the table on a fresh build dir and record the
+      observed values (2026-11-09, after merging main at 927c595; fresh
+      `/tmp/logic-p29-land`; the commands are /tmp/p29-land.sh):
+      - Backend tests: `100% tests passed, 0 tests failed out of 30`;
+        30 programs (T0 29 + `diode_test`).
+      - Goldens vs plan-29 start: `git diff 737b58d^ -- backend/tests/golden
+        | grep -c '^-[^-]'` → 0.
+      - Part counts: `|diode|` lines 11152 = add rows 11152
+        (N_I 3179 + N_J 2730 + N_K 2492 + N_L 2751).
+      - Parts total: 26366 = P0 15214 + 11152; other plans' Parts commits
+        since a98aecb: 0.
+      - Datasheets: 3010 PDFs = 3010 distinct add-row URLs (the first run
+        showed 3011: `place.py` pruned `.pdf` only, so
+        `onsemi/NSR0530H-D.PDF`, whose one row became skip, stayed; fixed
+        and pruned, plan-29-A § Corrections).
+      - Skipped parts listed: `0 skip rows missing from skipped-parts.md`.
+      - App: `** BUILD SUCCEEDED **`.
+      - Runtime proof: `scripts/harness/diode-app.swift` → the five
+        symbol/fact lines ok (1N4001-E3/54 rectifier 50 V / 1 A plainDiode,
+        1N5817-E3/54 Schottky, 1N4728A Zener 3.3 V / 1 W, BAS21SLT1G array
+        block, 2W01G-E4/51 bridge block), diode-OR `00 lit, 01 lit, 10 lit,
+        11 dark`, `all checks ok`.
+- [x] Move `plan-29-A` … `plan-29-N` to `planning/completed/` (A–M were
+      archived as each completed; N with this commit).
 
 | Gate | Command | Expected |
 |---|---|---|
@@ -60,6 +81,7 @@ values are recorded under it.
 Acceptance: every gate's observed value matches.
   Check: the table's commands (est. 25 min: the fresh backend build and the
   harness; this is the plan's one landing run).
+  Result: every gate matches (above).
 Commit: —
 
 ## Validation Plan
@@ -71,6 +93,11 @@ Commit: —
 - Landing tier as plan-24-I's, plus the runtime proof of M.
 
 ## Corrections
+
+- **The datasheet gate found a prune bug** — `place.py` matched `.pdf`
+  case-sensitively, so its `--prune` / `--verify` skipped onsemi's `.PDF`
+  files; one (`NSR0530H-D.PDF`) had no add row left. Fixed in `place.py`
+  (plan-29-A's script) and the gate re-run: 3010 = 3010.
 
 ## Summary
 
