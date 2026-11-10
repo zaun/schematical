@@ -27,8 +27,8 @@ plan-29-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-29-A complete | `ls planning/completed/plan-29-A-*.md` → exists | NOT MET (2026-11-08: plan written) |
-| `specs.tsv` skeleton exists | `test -s planning/plan-29-data/specs.tsv && echo ok` → `ok` | NOT MET (A Phase 5 writes it) |
+| plan-29-A complete | `ls planning/completed/plan-29-A-*.md` → exists | MET (2026-11-09: archived at this commit) |
+| `specs.tsv` skeleton exists | `test -s planning/plan-29-data/specs.tsv && echo ok` → `ok` | MET (2026-11-09: `ok`) |
 
 Everything below is written against the world where these hold.
 
@@ -198,12 +198,13 @@ nowhere in that PDF) is `skip`. `census/scheme-check.py` (A Phase 4) sets
 
 ### Phase 1 — Tools
 
-- [~] `planning/plan-29-data/census/fp-load.sh` (§ 4.4) and
+- [x] `planning/plan-29-data/census/fp-load.sh` (§ 4.4) and
       `census/specs-check.py` (written 2026-11-09; `fp-load.sh` passes on
       an empty file: `0 new footprints: load ok`, exit 0; its helper
       `fp-merge.py` is plan-27's, fixed to leave `footprints.json` alone
-      when there is nothing to append; remaining: run `specs-check.py` once
-      A's `specs.tsv` exists): every `add` row's spec row has `package`,
+      when there is nothing to append; `specs-check.py --maker Vishay
+      --category single` runs on A's skeleton: `5990 problems in 2253 add
+      rows` (every spec row still empty, every pending row listed)): every `add` row's spec row has `package`,
       `pinout`, `pins`, `footprint`; the footprint exists in
       `Parts/footprints.json` or a `footprints-*.json`; its pad designators
       equal the pin numbers in `pins`; one `pinout` name has one `pins` map.
