@@ -26,7 +26,7 @@ struct RouteDraft: Equatable {
 
     /// The live leg's first axis when nothing forces it: across the last
     /// locked segment, so the new leg turns; horizontal with no locks.
-    /// `/` swaps it.
+    /// `/` swaps it (`liveLeg` also swaps a forced first axis).
     var preferredAxis: RouteAxis {
         let locked = [start] + legs.flatMap { $0 }
         var axis = RouteAxis.horizontal
@@ -42,18 +42,25 @@ struct RouteDraft: Equatable {
     private var firstAxis: RouteAxis? { legs.isEmpty ? startAxis : nil }
 
     /// The live leg to `end`. `endAxis` is the axis a pin at `end` forces.
+    /// `/` turns the leg's first segment the other way, even off a pin: a
+    /// diode lead can then run straight up or down.
     func liveLeg(to end: CGPoint, endAxis: RouteAxis?) -> [CGPoint] {
-        OrthogonalRoute.leg(from: legStart, to: end, first: firstAxis, last: endAxis, preferred: preferredAxis)
+        var first = firstAxis
+        if flipped {
+            if let forced = firstAxis {
+                first = forced.other
+            } else if let endAxis {
+                // The end's axis alone picks an L; flipped, the leg starts
+                // along it too (a Z).
+                first = endAxis
+            }
+        }
+        return OrthogonalRoute.leg(from: legStart, to: end, first: first, last: endAxis, preferred: preferredAxis)
     }
 
     /// The whole route to `end`, start included, cleaned up.
     func path(to end: CGPoint, endAxis: RouteAxis?) -> [CGPoint] {
         OrthogonalRoute.simplified([start] + legs.flatMap { $0 } + liveLeg(to: end, endAxis: endAxis))
-    }
-
-    /// Whether `/` changes the live leg: only when neither of its ends is forced.
-    func canFlip(endAxis: RouteAxis?) -> Bool {
-        firstAxis == nil && endAxis == nil
     }
 
     mutating func flip() {
@@ -85,7 +92,7 @@ struct RouteDraft: Equatable {
     /// live leg flipped.
     func busCandidates(to end: CGPoint) -> [[CGPoint]] {
         var candidates = [path(to: end, endAxis: nil)]
-        if canFlip(endAxis: nil), liveLeg(to: end, endAxis: nil).count == 2 {
+        if liveLeg(to: end, endAxis: nil).count == 2 {
             var other = self
             other.flip()
             candidates.append(other.path(to: end, endAxis: nil))

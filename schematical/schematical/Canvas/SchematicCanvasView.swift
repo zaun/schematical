@@ -491,7 +491,7 @@ struct SchematicCanvasView: View {
                 // Dropping the whole drawing leaves the rest of the drag doing nothing.
                 if !draft.unlock() { interaction = .idle; return true }
             case .flip:
-                if draft.canFlip(endAxis: end.axis) { draft.flip() }
+                draft.flip()
             }
             interaction = .connecting(from: from, draft: draft, cursor: cursor)
             return true
@@ -513,7 +513,7 @@ struct SchematicCanvasView: View {
             case .back:
                 if !draft.unlock() { interaction = .idle; return true }
             case .flip:
-                if draft.canFlip(endAxis: nil) { draft.flip() }
+                draft.flip()
             }
             interaction = .drawingBus(draft: draft, cursor: cursor)
             return true

@@ -49,15 +49,36 @@ final class RouteDraftTests: XCTestCase {
         XCTAssertEqual(draft.liveLeg(to: p(140, 160), endAxis: nil), [p(80, 160), p(140, 160)])
     }
 
-    func testFlipChangesAFreeLegOnly() {
+    func testFlipChangesAFreeLeg() {
         var draft = RouteDraft(start: p(0, 0), startAxis: nil)
-        XCTAssertTrue(draft.canFlip(endAxis: nil))
         XCTAssertEqual(draft.liveLeg(to: p(100, 60), endAxis: nil), [p(100, 0), p(100, 60)])
         draft.flip()
         XCTAssertEqual(draft.liveLeg(to: p(100, 60), endAxis: nil), [p(0, 60), p(100, 60)])
-        XCTAssertFalse(draft.canFlip(endAxis: .horizontal), "a pin at the end forces the leg")
-        let pinned = RouteDraft(start: p(0, 0), startAxis: .vertical)
-        XCTAssertFalse(pinned.canFlip(endAxis: nil), "a pin at the start forces the first leg")
+    }
+
+    /// `/` off a side pin (a diode lead) runs the first segment up or down.
+    func testFlipTurnsALegOffAPin() {
+        var draft = RouteDraft(start: p(0, 0), startAxis: .horizontal)
+        XCTAssertEqual(draft.liveLeg(to: p(100, 60), endAxis: nil), [p(100, 0), p(100, 60)])
+        draft.flip()
+        XCTAssertEqual(draft.liveLeg(to: p(100, 60), endAxis: nil), [p(0, 60), p(100, 60)])
+    }
+
+    /// Pin to pin, both sideways: the Z, or flipped an L that still reaches
+    /// the far pin sideways.
+    func testFlipBetweenTwoSidePinsIsAnL() {
+        var draft = RouteDraft(start: p(0, 0), startAxis: .horizontal)
+        XCTAssertEqual(draft.liveLeg(to: p(100, 60), endAxis: .horizontal), [p(50, 0), p(50, 60), p(100, 60)])
+        draft.flip()
+        XCTAssertEqual(draft.liveLeg(to: p(100, 60), endAxis: .horizontal), [p(0, 60), p(100, 60)])
+    }
+
+    /// From a free point to a side pin: the L, or flipped a Z.
+    func testFlipIntoAPinIsAZ() {
+        var draft = RouteDraft(start: p(0, 0), startAxis: nil)
+        XCTAssertEqual(draft.liveLeg(to: p(100, 60), endAxis: .horizontal), [p(0, 60), p(100, 60)])
+        draft.flip()
+        XCTAssertEqual(draft.liveLeg(to: p(100, 60), endAxis: .horizontal), [p(50, 0), p(50, 60), p(100, 60)])
     }
 
     func testFlipResetsOnLockAndUnlock() {
@@ -77,7 +98,7 @@ final class RouteDraftTests: XCTestCase {
         // A later leg is free again.
         var locked = draft
         locked.lock(to: p(100, 60), endAxis: nil)
-        XCTAssertTrue(locked.canFlip(endAxis: nil))
+        XCTAssertEqual(locked.liveLeg(to: p(160, 100), endAxis: nil), [p(100, 100), p(160, 100)])
     }
 
     func testBusCandidatesAddTheFlippedLiveLeg() {
