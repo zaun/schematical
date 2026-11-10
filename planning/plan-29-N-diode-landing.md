@@ -48,10 +48,10 @@ values are recorded under it.
 
 | Gate | Command | Expected |
 |---|---|---|
-| Backend tests | `cmake -S backend -B /tmp/logic-p29-land && cmake --build /tmp/logic-p29-land -j8 && ctest --test-dir /tmp/logic-p29-land` | `100% tests passed`, T0 + 1 programs (28 with T0 = 27) |
+| Backend tests | `cmake -S backend -B /tmp/logic-p29-land && cmake --build /tmp/logic-p29-land -j8 && ctest --test-dir /tmp/logic-p29-land` | `100% tests passed`, T0 + 1 programs (30 with T0 = 29) |
 | Goldens vs plan-29 start | `git diff <plan-29-H first commit>^ -- backend/tests/golden \| grep -c '^-[^-]'` | 0 (only added lines) |
 | Part counts | `grep -c '\|diode\|' backend/tests/golden/parts.txt` | N_I + N_J + N_K + N_L = the `add` rows of `candidates.tsv` (`awk -F'\t' '$24=="add"' planning/plan-29-data/candidates.tsv \| wc -l`) |
-| Parts total | `wc -l < backend/tests/golden/parts.txt` | P0 (15189) + that count, plus any part other plans landed meanwhile (`git log --oneline <plan-29-A commit>.. -- schematical/schematical/Parts \| grep -v plan-29`) |
+| Parts total | `wc -l < backend/tests/golden/parts.txt` | P0 (15214) + that count, plus any part other plans landed meanwhile (`git log --oneline <plan-29-A commit>.. -- schematical/schematical/Parts \| grep -v plan-29`) |
 | Datasheets | `ls datasheets/diode/*/*.pdf \| wc -l` | the distinct PDFs the `add` rows cite (`awk -F'\t' '$24=="add" {print $23}' planning/plan-29-data/candidates.tsv \| sort -u \| wc -l`) |
 | Skipped parts listed | `python3 -I planning/plan-29-data/census/decide.py --verify-skipped` | `0 skip rows missing from skipped-parts.md` |
 | App | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p29-dd CODE_SIGNING_ALLOWED=NO build` | `** BUILD SUCCEEDED **` |

@@ -64,8 +64,8 @@ of A) replaces these numbers.
 
 ## 2. Current State
 
-- `footprints.json` has no diode land pattern: 766 footprints
-  (`wc -l < backend/tests/golden/footprints.txt` → 766 at 0f87917; 508 at 8cce726), none named for a
+- `footprints.json` has no diode land pattern: 772 footprints
+  (`wc -l < backend/tests/golden/footprints.txt` → 772 at f68e13f; 766 at 0f87917; 508 at 8cce726), none named for a
   diode package (`grep -c -i 'SOD\|SMA\|DO-\|MELF\|TO-2' backend/tests/golden/footprints.txt` → 0).
   `RES-AXIAL-10.16` is a resistor pattern (plan-26-A, generic), not from a
   diode drawing, so it is not reused.

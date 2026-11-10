@@ -14,7 +14,7 @@ Zener / Bridge**. In play mode a diode passes logic one way: a 1 from anode
 to cathode, a 0 from cathode to anode, so diode-OR and diode-AND gates work.
 
 The single behavioral outcome of plan-29: loading the part files gives the
-baseline 15189 parts plus one `diode` part per `add` row of
+baseline 15214 parts (P0, § Prerequisites) plus one `diode` part per `add` row of
 `planning/plan-29-data/candidates.tsv`; the app lists them under the six
 drawer leaves; in play mode two inverters driving a diode-OR into a
 pull-down light an LED while either output is 1; `ctest` passes T0 + 1
@@ -59,12 +59,12 @@ Every other letter points here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend tests green | `cmake -S backend -B /tmp/logic-p29 && cmake --build /tmp/logic-p29 -j8 && ctest --test-dir /tmp/logic-p29` → `100% tests passed` | MET 2026-11-09 at fd18906 (main merged in; build dir /tmp/logic-p29w): `100% tests passed, 0 tests failed out of 28`; **T0 = 28** (`grep -c '^logic_test' backend/CMakeLists.txt` → 28) |
-| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `traces.txt`; `footprints.txt` | MET: **P0 = 15189**, **R0 = 15189**, **F0 = 766** (2026-11-09 at fd18906, unchanged) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p29-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-09 at fd18906, derived data /tmp/p29w-dd: `** BUILD SUCCEEDED **`) |
-| No diode support yet | `grep -c 'PART_DIODE' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/diode.json` → no such file; `ls datasheets/diode` → no such directory | MET (2026-11-09 at fd18906: 0, no file, no directory) |
-| No other open plan adds diodes | `grep -l -i '"diode"\|PART_DIODE\|datasheets/diode' planning/plan-*.md \| grep -v plan-29 \| wc -l` → 0 | MET (2026-11-09 at fd18906: 0) |
-| DigiKey credentials and quota | `DIGIKEY_CLIENT_ID`/`_SECRET` exported in `~/.zshrc`; Phase 1 needs about 1250 calls over two days (§ 2); a day allows about 1000, shared with other sessions | **NOT MET** (2026-11-09, re-run at /follow-plan: the command printed `159 left today`; 2026-11-08 it printed 160, so the counter had not reset; credentials present). Planning census left 163. Start Phase 1 on a day whose first call reports ≥ 600 left (`scripts/digikey.js --category 295 --manufacturer 1801 --in-stock --pages 1 --json` prints `… N left today`) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p29 && cmake --build /tmp/logic-p29 -j8 && ctest --test-dir /tmp/logic-p29` → `100% tests passed` | MET 2026-11-09 14:10 at f68e13f (main merged in; build dir /tmp/logic-p29w): `100% tests passed, 0 tests failed out of 29`; **T0 = 29** (`grep -c '^logic_test' backend/CMakeLists.txt` → 29) |
+| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `traces.txt`; `footprints.txt` | MET: **P0 = 15214**, **R0 = 15214**, **F0 = 772** (2026-11-09 at f68e13f) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p29-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-09 at f68e13f, derived data /tmp/p29w-dd: `** BUILD SUCCEEDED **`) |
+| No diode support yet | `grep -c 'PART_DIODE' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/diode.json` → no such file; `ls datasheets/diode` → no such directory | MET (2026-11-09 at f68e13f: 0, no file, no directory) |
+| No other open plan adds diodes | `grep -l -i '"diode"\|PART_DIODE\|datasheets/diode' planning/plan-*.md \| grep -v plan-29 \| wc -l` → 0 | MET (2026-11-09 at f68e13f: 0) |
+| DigiKey credentials and quota | `DIGIKEY_CLIENT_ID`/`_SECRET` exported in `~/.zshrc`; Phase 1 needs about 1250 calls over two days (§ 2); a day allows about 1000, shared with other sessions | **MET** (2026-11-09 14:05 HST: the command printed `999 left today`; 159 at the morning re-run; credentials present). Planning census left 163. Start Phase 1 on a day whose first call reports ≥ 600 left (`scripts/digikey.js --category 295 --manufacturer 1801 --in-stock --pages 1 --json` prints `… N left today`) |
 
 Everything below is written against the world where these hold.
 
@@ -370,8 +370,16 @@ Commit: —
 - **Baseline moved before the plan started** — the Prerequisites were measured at
   8cce726 (T0 = 27, P0 = R0 = 13158, F0 = 508); main took plan-27's merge
   (d12a1bb) before plan-29 was committed. Re-measured at 0f87917: T0 = 28,
-  P0 = R0 = 15189, F0 = 766. Every letter's "T0 + 1" and golden-growth checks
-  use these values.
+  P0 = R0 = 15189, F0 = 766. Main moved again before Phase 1 (merged at
+  f68e13f, 2026-11-09): T0 = 29, P0 = R0 = 15214, F0 = 772
+  (`grep -c '^logic_test' backend/CMakeLists.txt`; `wc -l` of the three
+  goldens). Every letter's "T0 + 1" and golden-growth checks use these
+  values; H § 1 and N's table are corrected to them.
+- **Phase 1 reuses the planning-day 280 listings** — `list.sh` skips a piece
+  whose `.done` exists, and `/tmp/p29/raw` kept `280-vishay`, `280-tsc` and
+  `280-onsemi` from 2026-11-08, so Day 1 (2026-11-09) listed the other 12
+  pieces. Their stock is a day older than the rest; Phase 1's count check
+  compares them with the planning-day `ProductsCount` (§ 2).
 
 ## Summary
 
