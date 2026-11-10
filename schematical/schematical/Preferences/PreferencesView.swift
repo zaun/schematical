@@ -89,19 +89,21 @@ enum NewPartOptions {
 
 /// The Settings window (Schematical ▸ Settings…, ⌘,).
 struct PreferencesView: View {
+    var body: some View {
+        TabView {
+            PartListPreferencesView()
+                .tabItem { Label("Part List", systemImage: "list.bullet") }
+            DefaultsPreferencesView()
+                .tabItem { Label("Defaults", systemImage: "slider.horizontal.3") }
+        }
+    }
+}
+
+/// Settings ▸ Part List: which parts the parts drawer includes.
+private struct PartListPreferencesView: View {
     @AppStorage(PreferenceKey.showObsoleteParts) private var showObsolete = false
     @AppStorage(PreferenceKey.showMilitaryParts) private var showMilitary = false
     @AppStorage(PreferenceKey.showAutomotiveParts) private var showAutomotive = false
-    @AppStorage(PreferenceKey.genericLEDColor) private var ledColor = ""
-    @AppStorage(PreferenceKey.genericLEDFootprint) private var ledFootprint = ""
-    @AppStorage(PreferenceKey.headerRows) private var headerRows = 0
-    @AppStorage(PreferenceKey.headerPinsPerRow) private var headerPinsPerRow = 0
-    @AppStorage(PreferenceKey.headerGender) private var headerGender = ""
-    @AppStorage(PreferenceKey.headerFootprintType) private var headerFootprintType = ""
-    @AppStorage(PreferenceKey.pullResistorOhms) private var pullOhms = 0.0
-    @AppStorage(PreferenceKey.pullResistorFootprint) private var pullFootprint = ""
-    /// The app-wide catalog, loaded once at launch.
-    private let catalog = PartCatalogStore.shared
 
     var body: some View {
         Form {
@@ -116,6 +118,28 @@ struct PreferencesView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
+        }
+        .formStyle(.grouped)
+        .frame(width: 420)
+        .fixedSize(horizontal: false, vertical: true)
+    }
+}
+
+/// Settings ▸ Defaults: the options a newly placed part starts with.
+private struct DefaultsPreferencesView: View {
+    @AppStorage(PreferenceKey.genericLEDColor) private var ledColor = ""
+    @AppStorage(PreferenceKey.genericLEDFootprint) private var ledFootprint = ""
+    @AppStorage(PreferenceKey.headerRows) private var headerRows = 0
+    @AppStorage(PreferenceKey.headerPinsPerRow) private var headerPinsPerRow = 0
+    @AppStorage(PreferenceKey.headerGender) private var headerGender = ""
+    @AppStorage(PreferenceKey.headerFootprintType) private var headerFootprintType = ""
+    @AppStorage(PreferenceKey.pullResistorOhms) private var pullOhms = 0.0
+    @AppStorage(PreferenceKey.pullResistorFootprint) private var pullFootprint = ""
+    /// The app-wide catalog, loaded once at launch.
+    private let catalog = PartCatalogStore.shared
+
+    var body: some View {
+        Form {
             if let led = catalog.part(named: NewPartOptions.genericLED) {
                 Section {
                     if !led.colors.isEmpty {
