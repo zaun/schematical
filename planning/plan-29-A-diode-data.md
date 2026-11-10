@@ -350,16 +350,19 @@ Commit: e1e1cce
 
 ### Phase 5 — `specs.tsv` skeleton and the data README
 
-- [ ] `planning/plan-29-data/specs.tsv`: header `maker category datasheet
+- [x] `planning/plan-29-data/specs.tsv`: header `maker category datasheet
       supplier_package mpn_regex package pinout pins footprint vr_io_checked
       note`, one row per distinct (maker, category, datasheet PDF, supplier
       package) of the `add` and `pending` rows, `mpn_regex` `.*` for
-      groups with no `pending` row, the drawing columns empty.
-- [ ] `planning/plan-29-data/README.md`: update the file map.
+      groups with no `pending` row, the drawing columns empty. Written by
+      `census/specs-skeleton.py`: `3198 rows`, 643 with an empty
+      `mpn_regex` (they have pending rows). `datasheet` is the PDF's path.
+- [x] `planning/plan-29-data/README.md`: update the file map.
 
 Acceptance: one spec row per group.
   Check: `awk -F'\t' '$24=="add" || $24=="pending" {print $2"|"$1"|"$23"|"$22}' planning/plan-29-data/candidates.tsv | sort -u | wc -l` equals `awk 'END{print NR-1}' planning/plan-29-data/specs.tsv` (est. 1 min; for sibling rows `$23` is the sibling PDF's URL, which `decide.py` writes into `datasheet_url`).
-Commit: —
+  Result: 3198 = 3198.
+Commit: 2dbcd2b
 
 ## Validation Plan
 
@@ -456,7 +459,7 @@ Decisions (2026-11-09, `candidates.tsv`, 13249 rows): **add 6559**,
 **pending 4991**, **skip 1053** (no maker-site datasheet: DigiKey copy
 440, HTTP 404 133, no URL 172, Rochester 177, a copy on another site 68,
 Waldom 35, SnapEDA 21, other 7), **out 646** (mounting 416, SiC 217,
-datasheet status 13). 109 rows take a same-maker sibling PDF.
+datasheet status 13). 133 rows take a same-maker sibling PDF.
 
 A's risk is volume and the quota, not design: 13263 parts to list over two
 days, one piece already known to be capped (onsemi singles, re-checked by
