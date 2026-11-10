@@ -199,7 +199,7 @@ static int diode_load_part(KindContext *ctx, const void *raw, const void *bound,
 
     (void)bound;
     if (info == NULL ||
-        optional_number(ctx, json, "vr", 3000, &vr, &has_vr) != 0 ||
+        optional_number(ctx, json, "vr", 10000, &vr, &has_vr) != 0 ||
         optional_number(ctx, json, "io", 1000, &io, &has_io) != 0 ||
         optional_number(ctx, json, "vz", 1000, &vz, &has_vz) != 0 ||
         optional_number(ctx, json, "pd", 100, &pd, &has_pd) != 0) {

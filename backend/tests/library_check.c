@@ -367,7 +367,7 @@ static void check_diode_cases(void) {
     expect_fail("diode missing vr", DIODE_DEVICE("rectifier", DIODE_KA, DIODE_PAIR, ",'io':1"),
                 "missing \"vr\"");
     expect_fail("diode vr out of range", DIODE_DEVICE("rectifier", DIODE_KA, DIODE_PAIR, ",'vr':0,'io':1"),
-                "\"vr\" must be above 0 and at most 3000");
+                "\"vr\" must be above 0 and at most 10000");
     expect_fail("zener with vr", DIODE_DEVICE("zener", DIODE_KA, DIODE_PAIR, ",'vr':5,'vz':5.1,'pd':0.5"),
                 "\"vr\" is not a zener key");
 }

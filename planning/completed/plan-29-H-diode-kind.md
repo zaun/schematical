@@ -430,6 +430,11 @@ Commit: 9147d40
   (`footprints-*.json`, `specs.tsv`). H runs after A's gate, beside A–G;
   I still needs H (the kind) and B (footprints). The G-complete
   prerequisite row is moot.
+- **`vr` limit 3000 → 10000 V** (2026-11-09, found by plan-29-I): Vishay's
+  GP02-35 and GP02-40 are 3500 V and 4000 V rectifiers (`gp02-20.pdf`), so
+  § 5.1's `0 < v ≤ 3000` rejected in-stock parts. `diode.c`,
+  `library_check`'s range case and `docs/parts-format.md` § `diode` now say
+  10000.
 - **Build dir** — the worktree's build dir is `/tmp/logic-p29w` (the
   commands' `/tmp/logic-p29` is the main checkout's).
 

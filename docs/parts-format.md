@@ -544,7 +544,8 @@ allowed at the footprint level.
   reuses one whose land pattern matches its package drawing; otherwise add a
   footprint from the datasheet's package drawing, using the pad rules R1–R6
   (`planning/completed/plan-03-B-logic-footprints.md` §3: the board layout
-  if the datasheet gives one, else the outline rules), with a `note` naming
+  if the datasheet gives one, else the outline rules) and R7 (axial leads,
+  below), with a `note` naming
   the drawing, file and page. `footprint_check` fails on a footprint no part
   uses (as its `footprint`, `connectorFootprint` or one of its
   `footprintChoices`).
@@ -573,6 +574,14 @@ allowed at the footprint level.
   dimension with only one bound, a BSC value or a single value is used as
   printed. The `note` records the mid-value and its range, e.g.
   `lead 0.46 mid (0.38-0.53)`.
+- **R7 — axial leads** (plan-29-B § 4.1; DO-35, DO-41, DO-15, DO-201AD,
+  SOD-57, SOD-64): style `dual`, `pins` 2, `perSide` 1; `span` = the
+  smallest multiple of 2.54 mm that is at least the body length (max) +
+  3.0 mm (1.5 mm bend room at each end); `drill` and round `pad` as R5 from
+  the lead diameter (max: the hole must take the largest lead); pin 1 is
+  the cathode (the band end) with a `rect` pad. R7 is the one rule that
+  takes max values. The `note` gives the body length, lead diameter and
+  the arithmetic, e.g. `DO-41 body 5.2 max -> 8.2 -> span 10.16`.
 - **No overlapping pads.** If a land pattern's max-only pad sizes make
   pads touch (PLCC-32's corner pads at Y1 = .100 in max), shorten the pads
   and keep their centres, and say so in the `note`.
@@ -693,7 +702,7 @@ Part keys (numbers):
 
 | Key | Types | Value |
 |---|---|---|
-| `"vr"` | all but `zener` (required) | max repetitive reverse voltage in volts, above 0 and at most 3000 |
+| `"vr"` | all but `zener` (required) | max repetitive reverse voltage in volts, above 0 and at most 10000 |
 | `"io"` | all but `zener` (required) | average forward current per diode in amps, above 0 and at most 1000 |
 | `"vz"` | `zener` only (required) | nominal Zener voltage in volts, above 0 and at most 1000 |
 | `"pd"` | `zener` only (required) | max power dissipation in watts, above 0 and at most 100 |
