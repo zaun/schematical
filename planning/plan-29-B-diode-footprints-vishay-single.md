@@ -218,10 +218,11 @@ Commit: e71850f
 
 ### Phase 2 — Surface-mount packages
 
-- [ ] For each Vishay single SMD line of `footprints-needed.txt` (Surface
+- [x] For each Vishay single SMD line of `footprints-needed.txt` (Surface
       Mount and Wettable Flank), in descending part count: read the drawing,
       reuse or add the footprint (§ 4.1, § 4.4), fill the spec rows (§ 4.2,
       § 4.3), settle pending rows (§ 4.5).
+      Done 2026-11-09 by parallel owner agents (§ Corrections of plan-29-B: the work split); results checked: specs-check --maker Vishay --category single --mounting smd → `specs ok (2524 add rows)`.
 
 Acceptance: every Vishay single SMD spec row is complete.
   Check: `python3 -I planning/plan-29-data/census/specs-check.py --maker Vishay --category single --mounting smd` → `specs ok` (est. 1 min).
@@ -229,8 +230,9 @@ Commit: —
 
 ### Phase 3 — Through-hole packages
 
-- [ ] The same for the Through Hole lines (axial R7; TO-220 / ITO-220 /
+- [x] The same for the Through Hole lines (axial R7; TO-220 / ITO-220 /
       TO-247 R5 or R1).
+      Done 2026-11-09 by parallel owner agents (§ Corrections of plan-29-B: the work split); results checked: specs-check --maker Vishay --category single → `specs ok (3179 add rows)`; fp-load footprints-B.json → `56 new footprints: load ok`.
 
 Acceptance: every Vishay single spec row is complete and the objects load.
   Check: `python3 -I planning/plan-29-data/census/specs-check.py --maker Vishay --category single && planning/plan-29-data/census/fp-load.sh planning/plan-29-data/footprints-B.json` → `specs ok`, then only extra/unused failures for B's ids (est. 4 min).
@@ -257,6 +259,51 @@ Commit: —
   rejects unused footprints; plan-27-B precedent).
 
 ## Corrections
+
+- **B–G ran in parallel, split by package owner** (2026-11-09). The
+  chain B → … → G serialized work that is independent per (maker, package):
+  `census/packages.py` writes `packages.tsv`, one line per (maker, supplier
+  package, mounting) of the add/pending rows with its **owner**, the first
+  letter of B C D E F G that uses it; the owner reads the drawing and draws
+  the footprint, later letters reuse it. Four agents drew the footprints
+  (B; C; D; E + F + G) into `footprints-[B-G].json` and `packages-[B-G].tsv`
+  (package name, footprint, pin map per configuration), five wrote the
+  ordering keys (`work/regex-[B-G].tsv`, applied by `census/apply-regex.py`).
+  The "plan-29-<previous letter> complete" prerequisite rows of C–G are moot.
+- **Spec rows are filled by script, then reviewed per PDF.** `census/assign.py`
+  fills `package`, `footprint`, `pins`, `pinout` of each spec row from its
+  package line and the group's DigiKey configuration; each owner then read
+  every PDF on its lines and wrote `work/assign-overrides-<X>.tsv` (B 257,
+  C 47, D 214, EFG 18 lines) where the PDF's own drawing, pin STYLE or
+  package name differs (older drawing revisions, ex-Fairchild outlines,
+  lead-1-NC singles, dual-die "singles", DigiKey-misfiled packages). A part
+  that differs from the rest of its spec row is set in
+  `work/part-overrides.tsv` (gen-parts.py; 19 parts: 2-lead EP parts on
+  3-lead PDFs, the 2KBB R parts, BAT54T, SBAV99RWT1G, MMBD1405, …).
+- **`pins` may hold one map per configuration** (`cc=…;series=…`, `pinout`
+  naming each) for a PDF that covers several (BAV70/BAV99/BAW56 on one
+  sheet); gen-parts.py picks by each part's configuration.
+- **Pin names** are tokens A<i> / K<i> (anode / cathode of diode i), A / K
+  (common), joined for a shared pin (`K1A2` series middle, `A1A2` the anode
+  two diodes share, `K1K2`), bridges AC1 AC2 + -, NC.
+- **Mid-values for R5** (docs/parts-format.md § Footprints); R7 keeps max
+  (documented with R7 there, plan-29-I).
+- **Footprint ids** were provisional `<BASE>-<VISHAY|ONSEMI|TSC>`;
+  gen-parts.py merges identical objects and gives the first letter's the
+  bare BASE (212 drawn → 204).
+- **Counts after A** (2026-11-09; replace § 1's planning numbers): spec
+  rows 3139; footprints drawn B 56, C 46, D 52, E 3, F 15, G 40; add rows
+  per scope: Vishay single 3179, onsemi single 853, TSC single 1658, zener
+  3766, zener-array 96, array 948, bridge 652 (11152).
+- **Pending rows settled**: 4991 → 4686 add, 305 skip (keys per PDF).
+- **Rows taken out while reading** (`work/skip-extra.tsv`, `census/wrong-pdf.py`):
+  13 rows whose DigiKey link is another product's PDF (an IRL620 MOSFET, a
+  PE60 potentiometer, IHLP inductors; 3 found verbatim in a sibling PDF,
+  10 skip); 5 parts whose datasheet gives no forward current (LS103A/B/C,
+  MMBD717LT1G, MMDL770T1G); 90 part numbers two makers both sell
+  (`1N4001G` …: the higher-ranked maker kept, Vishay > onsemi > TSC; part
+  names are unique across the library); GBPC12005-E4/51 `out` (quick-connect
+  terminals). PDFs no add row uses were pruned (`place.py --prune`).
 
 ## Summary
 

@@ -1,0 +1,19 @@
+datasheet	supplier_package	footprint	pins	note
+datasheets/diode/onsemi/ffb20u20dn-f085-d.pdf	*	TO-263-2-TAB-FCS-ONSEMI		own Fairchild TO263A02 land pattern (p.5): tab 10.67 x 9.45, leads 1.05 x 3.80, 10.00 tab-to-lead centres; 418AJ differs by >0.05 mm (tab 11.07 x 9.30, leads 1.60 x 4.29). Pins default cc (1, 3 anodes; tab cathode)
+datasheets/diode/tsc/RMB2S-SERIES_I2103.pdf	MBS	MBS-4-RMB-TSC		RMB2S drawing p.5: pad columns 2.60 apart (E 1.30 each side), not the MBS2 2.50
+datasheets/diode/tsc/RMB2S-SERIES_I2103.pdf	TO-269AA (MBS)	MBS-4-RMB-TSC		RMB2S drawing p.5: pad columns 2.60 apart (E 1.30 each side), not the MBS2 2.50
+datasheets/diode/vishay/vs-gbpc25.pdf	*	GBPC-W-4-VS-VISHAY	1:AC2,2:+,3:AC1,4:-	outline 95331 p.6: 17.9 +-0.2 lead spacing, 1.0 leads (gbpc12.pdf: 18.1, 1.02 -> other drill); AC1/AC2 as printed, mirrored terminal face
+datasheets/diode/vishay/vx4045c.pdf	*	TO-220-3-VISHAY		VS-style TO-220AB table (b 0.69-1.01, e 2.41-2.67), the footprints-B.json TO-220-3-VISHAY drawing (96154), not the GS TO-220AB (lead 0.70-0.90)
+datasheets/diode/vishay/vx40m100c.pdf	*	TO-220-3-VISHAY		VS-style TO-220AB table (b 0.69-1.01), as vx4045c.pdf: footprints-B.json TO-220-3-VISHAY
+datasheets/diode/vishay/vx60100c.pdf	*	TO-220-3-VISHAY		VS-style TO-220AB table (b 0.69-1.01), as vx4045c.pdf: footprints-B.json TO-220-3-VISHAY
+datasheets/diode/vishay/vx6045c.pdf	*	TO-220-3-VISHAY		VS-style TO-220AB table (b 0.69-1.01), as vx4045c.pdf: footprints-B.json TO-220-3-VISHAY
+datasheets/diode/vishay/vx60m100c.pdf	*	TO-220-3-VISHAY		VS-style TO-220AB table (b 0.69-1.01), as vx4045c.pdf: footprints-B.json TO-220-3-VISHAY
+datasheets/diode/vishay/vx60m60c.pdf	*	TO-220-3-VISHAY		VS-style TO-220AB table (b 0.69-1.01), as vx4045c.pdf: footprints-B.json TO-220-3-VISHAY
+datasheets/diode/vishay/vs-c5th3012-m3.pdf	*	TO-220-3-VISHAY	1:A1,2:K,3:A2	TO-220AB 3L outline 96154 p.6 = footprints-B.json TO-220-3-VISHAY; p.1: anodes 1, 3, base common cathode 2 (DigiKey configuration blank)
+datasheets/diode/vishay/vs-c5tx3012-m3.pdf	*	TO-220-3-VISHAY	1:A1,2:K,3:A2	TO-220AB 3L outline 96154 p.6 = footprints-B.json TO-220-3-VISHAY; p.1: anodes 1, 3, base common cathode 2 (DigiKey configuration blank)
+datasheets/diode/vishay/vs-43ctqs-m3.pdf	TO-262-3	I2PAK-3-VISHAY		TO-262AA outline 96165 p.7 = the footprints-B.json TO-262-3-VISHAY drawing (the other VS TO-262 PDFs use 95419)
+datasheets/diode/onsemi/bas16w1-d.pdf	*		1:A1,2:A2,3:A3,4:K3,5:K2,6:K1	SC-88 STYLE 15 (p.1): the three diodes point the other way from HN2D02FU: anodes 1-3, cathodes 6-4
+datasheets/diode/onsemi/bas21tmr6-d.pdf	*		1:K1,2:K2,3:K3,4:A3,5:A2,6:A1	p.1: anodes 6, 5, 4 -> cathodes 1, 2, 3 (line map named ind, row configuration 3 Independent)
+datasheets/diode/onsemi/mbd770dw-d.pdf	*		1:A1,2:NC,3:K2,4:A2,5:NC,6:K1	STYLE 6 (p.1): anode 1 -> cathode 6, anode 4 -> cathode 3, 2 and 5 N/C
+datasheets/diode/onsemi/mbd54dwt1-d.pdf	*		1:A1,2:NC,3:K2,4:A2,5:NC,6:K1	STYLE 6 (p.1): anode 1 -> cathode 6, anode 4 -> cathode 3, 2 and 5 N/C
+datasheets/diode/onsemi/nsdemp11xv6t1-d.pdf	*		1:K4,2:K3,3:A1A2,4:K1,5:K2,6:A3A4	p.1: anode 3 -> cathodes 4, 5; anode 6 -> cathodes 1, 2 (2 Pair Common Anode)

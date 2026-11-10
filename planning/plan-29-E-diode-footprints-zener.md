@@ -1,6 +1,6 @@
 # plan-29-E: Footprints and specs — Zener diodes and Zener arrays (all three makers)
 
-Last updated: 2026-11-08
+Last updated: 2026-11-09
 Effort: large (3h–1d)
 Depends on: plan-29-D
 
@@ -19,8 +19,8 @@ plan-29-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-29-D complete | `ls planning/completed/plan-29-D-*.md` → exists | NOT MET (2026-11-08: plan written) |
-| B's tools exist | `test -x planning/plan-29-data/census/fp-load.sh && test -s planning/plan-29-data/census/specs-check.py && echo ok` → `ok` | NOT MET (plan-29-B Phase 1) |
+| plan-29-D complete | `ls planning/completed/plan-29-D-*.md` → exists | moot (2026-11-09: B–G ran in parallel by package owner, plan-29-B § Corrections) |
+| B's tools exist | `test -x planning/plan-29-data/census/fp-load.sh && test -s planning/plan-29-data/census/specs-check.py && echo ok` → `ok` | MET (2026-11-09: `ok`) |
 
 Everything below is written against the world where these hold.
 
@@ -72,7 +72,8 @@ A's re-run (§ Corrections of A) replaces these numbers.
 
 ### Phase 1 — Single Zeners
 
-- [ ] For each single-Zener (maker, package) line: reuse or add the footprint, fill the spec rows, settle pending rows (plan-29-B § 4).
+- [x] For each single-Zener (maker, package) line: reuse or add the footprint, fill the spec rows, settle pending rows (plan-29-B § 4).
+      Done 2026-11-09 by parallel owner agents (§ Corrections of plan-29-B: the work split); results checked: specs-check --category zener → `specs ok (3766 add rows)`.
 
 Acceptance: every spec row of this phase's scope is complete and the objects load.
   Check: `python3 -I planning/plan-29-data/census/specs-check.py --category zener` → `specs ok` (est. 4 min).
@@ -80,7 +81,8 @@ Commit: —
 
 ### Phase 2 — Zener arrays
 
-- [ ] The same for the Zener-array lines; each array spec row also records its configuration in `note` (common anode / common cathode / count).
+- [x] The same for the Zener-array lines; each array spec row also records its configuration in `note` (common anode / common cathode / count).
+      Done 2026-11-09 by parallel owner agents (§ Corrections of plan-29-B: the work split); results checked: specs-check --category zener-array → `specs ok (96 add rows)`; fp-load footprints-[B-E].json → `157 new footprints: load ok`.
 
 Acceptance: every spec row of this phase's scope is complete and the objects load.
   Check: `python3 -I planning/plan-29-data/census/specs-check.py --category zener-array && planning/plan-29-data/census/fp-load.sh planning/plan-29-data/footprints-[B-E].json` → `specs ok`, then only extra/unused failures for the new ids` (est. 4 min).
@@ -101,6 +103,9 @@ Commit: —
 - Zener arrays share the `zener` type; the drawer leaf is Zener (plan-29-A § 3).
 
 ## Corrections
+
+- See plan-29-B § Corrections (2026-11-09): B–G ran in parallel by package
+  owner; per-PDF overrides; counts.
 
 ## Summary
 

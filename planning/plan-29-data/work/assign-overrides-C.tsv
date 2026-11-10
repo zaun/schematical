@@ -1,0 +1,48 @@
+datasheet	supplier_package	footprint	pins	note	package
+datasheets/diode/onsemi/1N5400-D.PDF	Axial	DIODE-DO-201AD-TSC		CASE 267-05 axial (DigiKey DO-201AA), R7 span 12.70 drill 1.55	DO-201AA
+datasheets/diode/onsemi/1N5820-D.PDF	Axial	DIODE-DO-201AD-TSC		CASE 267-05 axial (DigiKey DO-201AA), R7 span 12.70 drill 1.55	DO-201AA
+datasheets/diode/onsemi/80SQ045N-D.PDF	Axial	DIODE-DO-201AD-TSC		CASE 267-05 axial (DigiKey DO-201AA), R7 span 12.70 drill 1.55	DO-201AA
+datasheets/diode/onsemi/mbr3100-d.pdf	Axial	DIODE-DO-201AD-TSC		CASE 267-05 axial (DigiKey DO-201AA), R7 span 12.70 drill 1.55	DO-201AA
+datasheets/diode/onsemi/mbr350-d.pdf	Axial	DIODE-DO-201AD-TSC		CASE 267-05 axial (DigiKey DO-201AA), R7 span 12.70 drill 1.55	DO-201AA
+datasheets/diode/onsemi/mr850-d.pdf	Axial	DIODE-DO-201AD-TSC		CASE 267-05 axial (DigiKey DO-201AA), R7 span 12.70 drill 1.55	DO-201AA
+datasheets/diode/onsemi/mur420-d.pdf	Axial	DIODE-DO-201AD-TSC		CASE 267-05 axial (DigiKey DO-201AA), R7 span 12.70 drill 1.55	DO-201AA
+datasheets/diode/onsemi/mur480e-d.pdf	Axial	DIODE-DO-201AD-TSC		CASE 267-05 axial (DigiKey DO-201AA), R7 span 12.70 drill 1.55	DO-201AA
+datasheets/diode/onsemi/mur550-d.pdf	Axial	DIODE-DO-201AD-TSC		CASE 267-05 axial (DigiKey DO-201AA), R7 span 12.70 drill 1.55	DO-201AA
+datasheets/diode/onsemi/1n5333b-d.pdf	Axial	DIODE-T-18-ONSEMI		CASE 017AA Surmetic 40 (DigiKey T-18), R7	T-18
+datasheets/diode/onsemi/BAS31-D.PDF	SOT-23-3	SOT23-3-318BM-ONSEMI		CASE 318BM / Fairchild MA03DREV10 land pattern (1.00 x 1.40 pads, 2.20 rows)	
+datasheets/diode/onsemi/BAS35-D.pdf	SOT-23-3	SOT23-3-318BM-ONSEMI		CASE 318BM / Fairchild MA03DREV10 land pattern (1.00 x 1.40 pads, 2.20 rows)	
+datasheets/diode/onsemi/bas16-d.pdf	SOT-23-3	SOT23-3-318BM-ONSEMI		CASE 318BM / Fairchild MA03DREV10 land pattern (1.00 x 1.40 pads, 2.20 rows)	
+datasheets/diode/onsemi/mmbz16val-d.pdf	SOT-23-3 (TO-236)	SOT23-3-TSC		prints CASE 318-08 issue AR soldering footprint (0.80 x 0.90 pads, 0.95, 2.90 outer -> 2.00 rows), within 0.05 of footprints-D.json SOT23-3-TSC (0.85 x 0.85, 2.00)	
+datasheets/diode/onsemi/rs1afa-d.pdf	SOD-123FL	DIODE-SOD-123W-TSC		CASE 425AB SOD-123FA land (1.20 x 1.40, span 3.10)	SOD-123FA
+datasheets/diode/onsemi/ss29fa-d.pdf	SOD-123FL	DIODE-SOD-123W-TSC		CASE 425AB SOD-123FA land (1.20 x 1.40, span 3.10)	SOD-123FA
+datasheets/diode/onsemi/ss36fa-d.pdf	SOD-123FL	DIODE-SOD-123W-TSC		CASE 425AB SOD-123FA land (1.20 x 1.40, span 3.10)	SOD-123FA
+datasheets/diode/onsemi/us1mfa-d-174a84.pdf	SOD-123FL	DIODE-SOD-123W-TSC		CASE 425AB SOD-123FA land (1.20 x 1.40, span 3.10)	SOD-123FA
+datasheets/diode/onsemi/us1mfa-d-4a95c5.pdf	SOD-123FL	DIODE-SOD-123W-TSC		CASE 425AB SOD-123FA land (1.20 x 1.40, span 3.10)	SOD-123FA
+datasheets/diode/onsemi/rgf1m-d.pdf	SMA	DIODE-SMA-403AE-ONSEMI		CASE 403AE (ex-Fairchild) SMA land pattern	
+datasheets/diode/onsemi/s2m-d.pdf	SMB	DIODE-SMB-403AF-ONSEMI		CASE 403AF (ex-Fairchild) SMB land pattern	
+datasheets/diode/onsemi/isl9r1560p-f085-d.pdf	TO-220-2	ITO-220-2-TSC		Fairchild TO220A02 (lead 0.70 mid -> drill 0.95), not CASE 221B	
+datasheets/diode/onsemi/mur820-d.pdf	TO-220FP	ITO-220-2-TSC	1:K,2:A	2-lead FullPack (MURF8xx/MURF15xx, p.1 CASE 221AG; drawing in msr1560-d.pdf p.7): pin 1 K, pin 3 -> 2 A	
+datasheets/diode/onsemi/mur1520-d.pdf	TO-220FP	ITO-220-2-TSC	1:K,2:A	2-lead FullPack (MURF8xx/MURF15xx, p.1 CASE 221AG; drawing in msr1560-d.pdf p.7): pin 1 K, pin 3 -> 2 A	
+datasheets/diode/onsemi/ffh60up60s-d.pdf	TO-247-3	TO-247-3-340CK-ONSEMI	1:A,2:K,3:A	FFH60UP60S3 CASE 340CK (5.56 pitch); 1, 3 anode, 2 cathode (p.1)	
+datasheets/diode/onsemi/NRTS12100PFS-D.PDF	TO-277-3	TO-277-3-340CZ-ONSEMI		CASE 340CZ land pattern (not 340BQ)	
+datasheets/diode/onsemi/NRTS1260PFS-D.PDF	TO-277-3	TO-277-3-340CZ-ONSEMI		CASE 340CZ land pattern (not 340BQ)	
+datasheets/diode/onsemi/NRTS1560PFS-D.PDF	TO-277-3	TO-277-3-340CZ-ONSEMI		CASE 340CZ land pattern (not 340BQ)	
+datasheets/diode/onsemi/NRTS8100PFS-D.PDF	TO-277-3	TO-277-3-340CZ-ONSEMI		CASE 340CZ land pattern (not 340BQ)	
+datasheets/diode/onsemi/NRTS860PFS-D.PDF	TO-277-3	TO-277-3-340CZ-ONSEMI		CASE 340CZ land pattern (not 340BQ)	
+datasheets/diode/onsemi/nrts10100pfs-d.pdf	TO-277-3	TO-277-3-340CZ-ONSEMI		CASE 340CZ land pattern (not 340BQ)	
+datasheets/diode/onsemi/nrts1060pfs-d.pdf	TO-277-3	TO-277-3-340CZ-ONSEMI		CASE 340CZ land pattern (not 340BQ)	
+datasheets/diode/onsemi/nrts15100pfs-d.pdf	TO-277-3	TO-277-3-340CZ-ONSEMI		CASE 340CZ land pattern (not 340BQ)	
+datasheets/diode/onsemi/nrts6100pfs-d.pdf	TO-277-3	TO-277-3-340CZ-ONSEMI		CASE 340CZ land pattern (not 340BQ)	
+datasheets/diode/onsemi/mbrd5h100-d.pdf	DPAK		1:NC,2:A,3:K	DPAK STYLE 8: pin 1 no connect, 3 anode, tab cathode (p.1)	
+datasheets/diode/onsemi/mur550-d.pdf	DPAK		1:NC,2:A,3:K	DPAK STYLE 8: pin 1 no connect, 3 anode, tab cathode (p.1)	
+datasheets/diode/onsemi/murhd560-d-0ed12b.pdf	DPAK		1:NC,2:A,3:K	DPAK STYLE 8: pin 1 no connect, 3 anode, tab cathode (p.1)	
+datasheets/diode/onsemi/ES3J-D.PDF		DIODE-SMC-403AG-ONSEMI		blank supplier package: ES3D, CASE 403AG SMC (package column says SOD-523; should be SMC)	SMC
+datasheets/diode/onsemi/FFSH2065ADN-F155-D.PDF		TO-247-3-340CK-ONSEMI	1:A1,2:K,3:A2	blank supplier package: CASE 340CH TO-247-3 (package column should be TO-247)	TO-247
+datasheets/diode/onsemi/SBT700-06RH-D.PDF		TO-3PF-3-ONSEMI	1:A1,2:K,3:A2	blank supplier package: ex-Sanyo TO-3PF-3L (package column should be TO-3PF)	TO-3PF
+datasheets/diode/onsemi/mbr0530t1-d.pdf		DIODE-SOD-123-ONSEMI		blank supplier package: CASE 425 SOD-123 (package column should be SOD-123)	SOD-123
+datasheets/diode/onsemi/mur820-d.pdf		TO-220-2-ONSEMI		blank supplier package: SUR8840G, CASE 221B TO-220-2 (package column should be TO-220)	TO-220
+datasheets/diode/onsemi/ntss3100-d.pdf		DIODE-SMB-ONSEMI		blank supplier package: CASE 403A SMB (package column should be SMB)	SMB
+datasheets/diode/onsemi/bas21tmr6-d.pdf	SC-74		1:K1,2:K2,3:K3,4:A3,5:A2,6:A1	3 Independent: packages-F.tsv ind map (CASE 318F, diodes 6->1, 5->2, 4->3)	
+datasheets/diode/onsemi/mbd54dwt1-d.pdf	SC-88/SC70-6/SOT-363		1:A1,2:NC,3:K2,4:A2,5:NC,6:K1	2 Independent: packages-F.tsv map (STYLE 6: anode 1 -> 6, anode 4 -> 3, 2/5 N/C)	
+datasheets/diode/onsemi/mbd770dw-d.pdf	SC-88/SC70-6/SOT-363		1:A1,2:NC,3:K2,4:A2,5:NC,6:K1	2 Independent: packages-F.tsv map (STYLE 6)	
+datasheets/diode/onsemi/nsdemp11xv6t1-d.pdf	SOT-563		1:K4,2:K3,3:A1A2,4:K1,5:K2,6:A3A4	2 Pair Common Anode: packages-F.tsv ca map (anode 3 -> 4, 5; anode 6 -> 1, 2)	

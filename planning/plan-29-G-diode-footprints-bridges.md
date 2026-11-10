@@ -1,6 +1,6 @@
 # plan-29-G: Footprints and specs — bridge rectifiers (all three makers)
 
-Last updated: 2026-11-08
+Last updated: 2026-11-09
 Effort: large (3h–1d)
 Depends on: plan-29-F
 
@@ -19,8 +19,8 @@ plan-29-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-29-F complete | `ls planning/completed/plan-29-F-*.md` → exists | NOT MET (2026-11-08: plan written) |
-| B's tools exist | `test -x planning/plan-29-data/census/fp-load.sh && test -s planning/plan-29-data/census/specs-check.py && echo ok` → `ok` | NOT MET (plan-29-B Phase 1) |
+| plan-29-F complete | `ls planning/completed/plan-29-F-*.md` → exists | moot (2026-11-09: B–G ran in parallel by package owner, plan-29-B § Corrections) |
+| B's tools exist | `test -x planning/plan-29-data/census/fp-load.sh && test -s planning/plan-29-data/census/specs-check.py && echo ok` → `ok` | MET (2026-11-09: `ok`) |
 
 Everything below is written against the world where these hold.
 
@@ -70,7 +70,8 @@ A's re-run (§ Corrections of A) replaces these numbers.
 
 ### Phase 1 — Surface-mount bridges
 
-- [ ] For each SMD bridge (maker, package) line: reuse or add the footprint, fill the spec rows (pins `AC1`, `AC2`, `+`, `-` per the datasheet), settle pending rows (plan-29-B § 4).
+- [x] For each SMD bridge (maker, package) line: reuse or add the footprint, fill the spec rows (pins `AC1`, `AC2`, `+`, `-` per the datasheet), settle pending rows (plan-29-B § 4).
+      Done 2026-11-09 by parallel owner agents (§ Corrections of plan-29-B: the work split); results checked: specs-check --category bridge --mounting smd → `specs ok (164 add rows)`.
 
 Acceptance: every spec row of this phase's scope is complete and the objects load.
   Check: `python3 -I planning/plan-29-data/census/specs-check.py --category bridge --mounting smd` → `specs ok` (est. 4 min).
@@ -78,7 +79,8 @@ Commit: —
 
 ### Phase 2 — Through-hole bridges
 
-- [ ] The same for the Through Hole lines; an in-line package is `explicit` (one row of four pads, pad 1 `rect`).
+- [x] The same for the Through Hole lines; an in-line package is `explicit` (one row of four pads, pad 1 `rect`).
+      Done 2026-11-09 by parallel owner agents (§ Corrections of plan-29-B: the work split); results checked: specs-check --category bridge → `specs ok (652 add rows)`; fp-load footprints-[B-G].json → `212 new footprints: load ok`; every in-line bridge footprint is `explicit` with pad 1 `rect` (GBU, KBU, KBL, GBL, KBP, KBPF, D3K, D-44, GSIB-5S, TS-6P, TS4K, 2KBB); square / dual-row ones are `dual`.
 
 Acceptance: every spec row of this phase's scope is complete and the objects load.
   Check: `python3 -I planning/plan-29-data/census/specs-check.py --category bridge && planning/plan-29-data/census/fp-load.sh planning/plan-29-data/footprints-[B-G].json` → `specs ok`, then only extra/unused failures for the new ids` (est. 4 min).
@@ -99,6 +101,9 @@ Commit: —
 - Bridge pins are named `AC1`, `AC2`, `+`, `-` whatever the datasheet prints (`~`, `AC`), so every bridge shares one device shape per pin order.
 
 ## Corrections
+
+- See plan-29-B § Corrections (2026-11-09): B–G ran in parallel by package
+  owner; per-PDF overrides; counts.
 
 ## Summary
 

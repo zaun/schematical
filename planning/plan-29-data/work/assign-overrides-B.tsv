@@ -1,0 +1,258 @@
+datasheet	supplier_package	footprint	pins	note	package
+datasheets/diode/vishay/bzg03b-m-serie.pdf	DO-214AC (SMA)	DIODE-SMA-BZG-VISHAY		BZG footprint recommendation p.4: pads 2.2 x 2.21, span 4.5 (not the GS SMA layout)	
+datasheets/diode/vishay/bzg03c-m-series.pdf	DO-214AC (SMA)	DIODE-SMA-BZG-VISHAY		BZG footprint recommendation p.4: pads 2.2 x 2.21, span 4.5 (not the GS SMA layout)	
+datasheets/diode/vishay/bzg05b-m-series.pdf	DO-214AC (SMA)	DIODE-SMA-BZG-VISHAY		BZG footprint recommendation p.4: pads 2.2 x 2.21, span 4.5 (not the GS SMA layout)	
+datasheets/diode/vishay/bzg05c-m-series.pdf	DO-214AC (SMA)	DIODE-SMA-BZG-VISHAY		BZG footprint recommendation p.4: pads 2.2 x 2.21, span 4.5 (not the GS SMA layout)	
+datasheets/diode/vishay/1n6478.pdf	DO-213AB	DIODE-GL41-VISHAY		PDF prints the GL41 (DO-213AB) mounting pad layout, gap 3.5 (not the glass MELF 4.0)	
+datasheets/diode/vishay/bym10-xxx.pdf	DO-213AB	DIODE-GL41-VISHAY		PDF prints the GL41 (DO-213AB) mounting pad layout, gap 3.5 (not the glass MELF 4.0)	
+datasheets/diode/vishay/bym1150.pdf	DO-213AB	DIODE-GL41-VISHAY		PDF prints the GL41 (DO-213AB) mounting pad layout, gap 3.5 (not the glass MELF 4.0)	
+datasheets/diode/vishay/egl41.pdf	DO-213AB	DIODE-GL41-VISHAY		PDF prints the GL41 (DO-213AB) mounting pad layout, gap 3.5 (not the glass MELF 4.0)	
+datasheets/diode/vishay/ss22s.pdf	DO-214AA (SMB)	DIODE-SMA-VISHAY		DigiKey lists SS23S under SMB; the datasheet is SMA (DO-214AC) only	SMA
+datasheets/diode/vishay/vs-1eqh02hm3.pdf	DO-220AA (SMP)	DIODE-MICROSMP-VISHAY		DigiKey lists SMP; datasheet case is MicroSMP (DO-219AD); package column stays SMP (line value)	MicroSMP
+datasheets/diode/vishay/vs-2eqh01-m3.pdf	DO-220AA (SMP)	DIODE-MICROSMP-VISHAY		DigiKey lists SMP; datasheet case is MicroSMP (DO-219AD); package column stays SMP (line value)	MicroSMP
+datasheets/diode/vishay/bal99.pdf	SOT-23-3		1:NC,2:K,3:A	BAL99 p.1 figure: diode from pin 3 (anode) to pin 2 (cathode), pin 1 unconnected	
+datasheets/diode/vishay/VT10200C-1ad2bb.pdf	ITO-220AB	TO-220AB-3-VISHAY		old GS ITO-220AB drawing p.4: lead 0.64-0.89 mid 0.765 -> drill 1.05, pad 1.75 (= TO-220AB-3 land)	
+datasheets/diode/vishay/v20202c.pdf	TO-262AA	TO-220AB-3-VISHAY		GS TO-262AA drawing: lead 0.70-0.90 mid 0.80 -> drill 1.05, pitch 2.54 (= TO-220AB-3 land)	
+datasheets/diode/vishay/v30100c-f893fd.pdf	TO-262AA	TO-220AB-3-VISHAY		GS TO-262AA drawing: lead 0.70-0.90 mid 0.80 -> drill 1.05, pitch 2.54 (= TO-220AB-3 land)	
+datasheets/diode/vishay/v30100s-3b9e32.pdf	TO-262AA	TO-220AB-3-VISHAY		GS TO-262AA drawing: lead 0.70-0.90 mid 0.80 -> drill 1.05, pitch 2.54 (= TO-220AB-3 land)	
+datasheets/diode/vishay/vs-10ctq150-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-12ctq035_040_045-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-15eth03s-m3.pdf	TO-262AA		1:NC,2:K,3:A	VS-15ETH03-1-M3: pin 1 N/C, 2 K, 3 A (p.1 figure)	
+datasheets/diode/vishay/vs-16ctq060_080_100-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-20cth03.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-20ctq035_040_045-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-20ctq150-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-20ets12thm3_vs-20ats12hm3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-20ets16-m3.pdf	TO-220-3	TO-220-2-VISHAY	1:K,2:A	2L TO-220AC part (doc 96156; DigiKey says TO-220-3): leads 1 K, 3 A	
+datasheets/diode/vishay/vs-25ctq035_040_045-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-30cth03-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-30ctq035_040_045-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-30ctq050_060-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-30ctq080_100-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-30eph06l-n3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-32ctq025_030-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-35epf06l-m3_vs-35apf06l-m3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-35epf12l-m3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-35epf12lhm3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-40ctq045-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-40ctq150-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-40l15ct-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-42ctq030-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-43ctq100-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-45eps16l-m3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-45eps16lhm3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-45epsl-m3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-47ctq020-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-48ctq060-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-60ctq035_040_045-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-60ctq150-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-60epu06l-n3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-62ctq030-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-63ctq100-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-65eps12lhm3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-65epsl-m3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-75epu12l-n3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-c4ph3006l-n3.pdf	TO-247AD		1:A1,2:K,3:A2	p.1: common cathode (Anode 1, cathode 2, Anode 3), two diodes	
+datasheets/diode/vishay/vs-c4pu3006l-n3.pdf	TO-247AD		1:A1,2:K,3:A2	p.1: common cathode (Anode 1, cathode 2, Anode 3), two diodes	
+datasheets/diode/vishay/vs-c4pu6006l-n3.pdf	TO-247AD		1:A1,2:K,3:A2	p.1: common cathode (Anode 1, cathode 2, Anode 3), two diodes	
+datasheets/diode/vishay/vs-c5ph3012l-n3.pdf	TO-247AD		1:A1,2:K,3:A2	p.1: common cathode (Anode 1, cathode 2, Anode 3), two diodes	
+datasheets/diode/vishay/vs-c5ph6012l-n3.pdf	TO-247AD		1:A1,2:K,3:A2	p.1: common cathode (Anode 1, cathode 2, Anode 3), two diodes	
+datasheets/diode/vishay/vs-c5px3012l-n3.pdf	TO-247AD		1:A1,2:K,3:A2	p.1: common cathode (Anode 1, cathode 2, Anode 3), two diodes	
+datasheets/diode/vishay/vs-cpu6006l-n3.pdf	TO-247AD		1:A1,2:K,3:A2	p.1: common cathode (Anode 1, cathode 2, Anode 3), two diodes	
+datasheets/diode/vishay/vs-e4ph6006lhn3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-e4pu3006l-n3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-e4pu6006l-n3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-e5ph3006l-n3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-e5ph3006lhn3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-e5ph3012l-n3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-e5ph6006l-n3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-e5ph6012l-n3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-e5ph6012lhn3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-e5ph7506l-n3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-e5ph7512l-n3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-e5pw3006lhn3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-e5pw6006lhn3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-e5px3006lhn3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-e5px3012l-n3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-e5px6012l-n3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-e5px6012lhn3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-e5px7506l-n3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-e5px7512l-n3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-eph3006l-n3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-eph3006lhn3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-eph3007l-n3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-eph6007l-n3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-epu3006lhn3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-epu6006l-n3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-epu_apu6006lhn3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-epx3007l-n3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-epx6007l-n3.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-hfa08ta60c-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-hfa15tb60s-m3.pdf	TO-220-3	I2PAK-3-VISHAY	1:NC,2:K,3:A	VS-HFA15TB60-1 is TO-262AA (doc 96165, b 0.51-0.99): pin 1 N/C, 2 K, 3 A	TO-262
+datasheets/diode/vishay/vs-hfa16ta60c-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-hfa30ta60c-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-mbr1535_45ct-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-mbr2035_45ct-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-mbr2080_90_100ct-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-mbr2535_45ct-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-mbr4045ct-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-mur1020ct-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-mur1620ct-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs-mur2020ct-m3.pdf	TO-220-3	TO-220-3-VISHAY		VS TO-220AB 3L (doc 96154): b 0.69-1.01 -> drill 1.10	
+datasheets/diode/vishay/vs90epf12l.pdf	TO-247AD	TO-247-2-VISHAY	1:K,2:A	TO-247AD 2L part: lead 1 K, lead 3 A	
+datasheets/diode/vishay/vs-c5th3012-m3.pdf	TO-220AB	TO-220-3-VISHAY	1:A1,2:K,3:A2	VS TO-220AB 3L (doc 96154, b 0.69-1.01 -> drill 1.10), common cathode	
+datasheets/diode/vishay/vs-c5tx3012-m3.pdf	TO-220AB	TO-220-3-VISHAY	1:A1,2:K,3:A2	VS TO-220AB 3L (doc 96154, b 0.69-1.01 -> drill 1.10), common cathode	
+datasheets/diode/vishay/byv32.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/fes16jt.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY	1:K,2:A,3:K	PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38; figure: PIN 1 to K/heatsink, PIN 2 anode	
+datasheets/diode/vishay/mbr10hxx.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY	1:K,2:A,3:K	PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38; figure: PIN 1 to K/heatsink, PIN 2 anode	
+datasheets/diode/vishay/mbr10xx.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY	1:K,2:A,3:K	PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38; figure: PIN 1 to K/heatsink, PIN 2 anode	
+datasheets/diode/vishay/mbr20100-b4ca3b.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/mbrb2535ct.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/mbrb30hxxct.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/mbrb7xx.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY	1:K,2:A,3:K	PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38; figure: PIN 1 to K/heatsink, PIN 2 anode	
+datasheets/diode/vishay/mbrf16xx.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY	1:K,2:A,3:K	PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38; figure: PIN 1 to K/heatsink, PIN 2 anode	
+datasheets/diode/vishay/ns8xt.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY	1:K,2:A,3:K	PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38; figure: PIN 1 to K/heatsink, PIN 2 anode	
+datasheets/diode/vishay/se100pwtg_tj.pdf	SlimDPAK	SLIMDPAK-2L-3-VISHAY		PDF draws SlimDPAK 2L	
+datasheets/diode/vishay/se100pwtlk.pdf	SlimDPAK	SLIMDPAK-2L-3-VISHAY		PDF draws SlimDPAK 2L	
+datasheets/diode/vishay/se10dtg_tj.pdf	SMPD	SMPD-2L-3-VISHAY		PDF draws SMPD 2L	
+datasheets/diode/vishay/se10dtlg_se10dtlj.pdf	SMPD	SMPD-2L-3-VISHAY		PDF draws SMPD 2L	
+datasheets/diode/vishay/se10dtlk.pdf	SMPD	SMPD-2L-3-VISHAY		PDF draws SMPD 2L	
+datasheets/diode/vishay/se12dtg_se12dtj.pdf	SMPD	SMPD-2L-3-VISHAY		PDF draws SMPD 2L	
+datasheets/diode/vishay/se12dtlg_se12dtlj.pdf	SMPD	SMPD-2L-3-VISHAY		PDF draws SMPD 2L	
+datasheets/diode/vishay/se12dtlk.pdf	SMPD	SMPD-2L-3-VISHAY		PDF draws SMPD 2L	
+datasheets/diode/vishay/se20dtg_se20dtj.pdf	SMPD	SMPD-2L-3-VISHAY		PDF draws SMPD 2L	
+datasheets/diode/vishay/se20dtlg_se20dtlj.pdf	SMPD	SMPD-2L-3-VISHAY		PDF draws SMPD 2L	
+datasheets/diode/vishay/se30dt12.pdf	SMPD	SMPD-2L-3-VISHAY		PDF draws SMPD 2L	
+datasheets/diode/vishay/se40pwbx.pdf	SlimDPAK		1:A1,2:A2,3:K	row is single but PDF says common cathode	
+datasheets/diode/vishay/se60pwbc.pdf	SlimDPAK		1:A1,2:A2,3:K	row is single but PDF says common cathode	
+datasheets/diode/vishay/se80pwtg_se80pwtj.pdf	SlimDPAK	SLIMDPAK-2L-3-VISHAY		PDF draws SlimDPAK 2L	
+datasheets/diode/vishay/se80pwtlk.pdf	SlimDPAK	SLIMDPAK-2L-3-VISHAY		PDF draws SlimDPAK 2L	
+datasheets/diode/vishay/v10150s-03ab9f.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY	1:NC,2:A,3:K	PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38; figure: NC (lead 1), A (lead 2), K heatsink	
+datasheets/diode/vishay/v15p45s-m3.pdf	TO-277A (SMPC)		1:A,2:A,3:K	row is array but PDF says single (both leads anode)	
+datasheets/diode/vishay/v20100c-0da7eb.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/v20100s.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY	1:NC,2:A,3:K	PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38; figure: NC (lead 1), A (lead 2), K heatsink	
+datasheets/diode/vishay/v20150c.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/v20150s.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY	1:NC,2:A,3:K	PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38; figure: NC (lead 1), A (lead 2), K heatsink	
+datasheets/diode/vishay/v20150sg.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY	1:NC,2:A,3:K	PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38; figure: NC (lead 1), A (lead 2), K heatsink	
+datasheets/diode/vishay/v20200c.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/v20200g.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/v20202c.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/v20202g-m3.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/v20dl45bp.pdf	SMPD	SMPD-3-VISHAY		PDF draws SMPD (TO-263AC)	
+datasheets/diode/vishay/v20dm120.pdf	TO-263AC (SMPD)		1:A,2:A,3:K	row is array but PDF says single (both leads anode)	
+datasheets/diode/vishay/v30100c-f893fd.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/v30100s-3b9e32.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY	1:NC,2:A,3:K	PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38; figure: NC (lead 1), A (lead 2), K heatsink	
+datasheets/diode/vishay/v30200c.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/v30d45c.pdf	SMPD	SMPD-3-VISHAY		PDF draws SMPD (TO-263AC)	
+datasheets/diode/vishay/v30d60c.pdf	SMPD	SMPD-3-VISHAY		PDF draws SMPD (TO-263AC)	
+datasheets/diode/vishay/v30d60cl.pdf	SMPD	SMPD-3-VISHAY		PDF draws SMPD (TO-263AC)	
+datasheets/diode/vishay/v30dl45bp.pdf	SMPD	SMPD-3-VISHAY		PDF draws SMPD (TO-263AC)	
+datasheets/diode/vishay/v30dl50c.pdf	SMPD	SMPD-3-VISHAY		PDF draws SMPD (TO-263AC)	
+datasheets/diode/vishay/v30dm120c.pdf	SMPD	SMPD-3-VISHAY		PDF draws SMPD (TO-263AC)	
+datasheets/diode/vishay/v40100c-b0dede.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/v40150c.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/v40d100c.pdf	SMPD	SMPD-3-VISHAY		PDF draws SMPD (TO-263AC)	
+datasheets/diode/vishay/v60100c-e4e5ed.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/v60120c.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/v60d100c.pdf	SMPD	SMPD-3-VISHAY		PDF draws SMPD (TO-263AC)	
+datasheets/diode/vishay/v60d120c.pdf	SMPD	SMPD-3-VISHAY		PDF draws SMPD (TO-263AC)	
+datasheets/diode/vishay/v60d45c.pdf	SMPD	SMPD-3-VISHAY		PDF draws SMPD (TO-263AC)	
+datasheets/diode/vishay/vb10170c.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/vb30150c-m3.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/vb40170c.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/vb60170g.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/vbt1045bp.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/vbt145cb.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/vbt2045bp.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/vbt245cb.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/vbt3045bp.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/vbt3045c.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/vbt30l60c.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/vbt4045bp.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/vbt4045c.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/vbt6045c-71381e.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/vbt6045c-a0c63a.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/vs-10tq035s-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-12ewh06fn-m3.pdf	TO-252AA (DPAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-12tq035s.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-15eth03s-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-15eth03shm3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-15eth06s-m3-1-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-15etl06s-m3-1-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-15etx06s-m3-1-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-15ewh06fn-m3.pdf	TO-252AA (DPAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-15ewx06fn-m3.pdf	TO-252AA (DPAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-15tq060s-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-19tq015s-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-20cth03s-m3.pdf	TO-263AB (D2PAK)		1:A1,2:A2,3:K	row is single but PDF says common cathode	
+datasheets/diode/vishay/vs-20l15ts-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-20tq035s-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-25ets12s2lhm3.pdf	TO-263AB (D2PAK)	D2PAK-2L-3-VISHAY		PDF draws VS D2PAK 2L (doc 96683)	
+datasheets/diode/vishay/vs-30eth06s-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-4ewh02fn.pdf	TO-252AA (DPAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-5ewh06fn-m3.pdf	TO-252AA (DPAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-5ewl06fn-m3.pdf	TO-252AA (DPAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-6ewh06fn-m3.pdf	TO-252AA (DPAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-6ewl06fn-m3.pdf	TO-252AA (DPAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-6ewx06fn-m3.pdf	TO-252AA (DPAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-6tqs-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-8eth03s-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-8eth06s-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-8etl06s-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-8etl06shm3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-8etu04s-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-8ewh02fn.pdf	TO-252AA (DPAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-8ewh06fn-m3.pdf	TO-252AA (DPAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-8ewl06fn-m3.pdf	TO-252AA (DPAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-8ewx06fn-m3.pdf	TO-252AA (DPAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-8tqs-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-e5th1506s2l-m3.pdf	TO-263AB (D2PAK)	D2PAK-2L-3-VISHAY	1:NC,2:A,3:K	PDF draws VS D2PAK 2L (doc 96683); figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-e5th1512s2l-m3.pdf	TO-263AB (D2PAK)	D2PAK-2L-3-VISHAY	1:NC,2:A,3:K	PDF draws VS D2PAK 2L (doc 96683); figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-e5th1512s2lhm3.pdf	TO-263AB (D2PAK)	D2PAK-2L-3-VISHAY	1:NC,2:A,3:K	PDF draws VS D2PAK 2L (doc 96683); figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-e5th2106s2l-m3.pdf	TO-263AB (D2PAK)	D2PAK-2L-3-VISHAY	1:NC,2:A,3:K	PDF draws VS D2PAK 2L (doc 96683); figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-e5th2106s2lhm3.pdf	TO-263AB (D2PAK)	D2PAK-2L-3-VISHAY	1:NC,2:A,3:K	PDF draws VS D2PAK 2L (doc 96683); figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-e5th2112s2lhm3.pdf	TO-263AB (D2PAK)	D2PAK-2L-3-VISHAY	1:NC,2:A,3:K	PDF draws VS D2PAK 2L (doc 96683); figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-e5th3006s2l-m3.pdf	TO-263AB (D2PAK)	D2PAK-2L-3-VISHAY	1:NC,2:A,3:K	PDF draws VS D2PAK 2L (doc 96683); figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-e5th3006s2lhm3.pdf	TO-263AB (D2PAK)	D2PAK-2L-3-VISHAY	1:NC,2:A,3:K	PDF draws VS D2PAK 2L (doc 96683); figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-e5th3012s2l-m3.pdf	TO-263AB (D2PAK)	D2PAK-2L-3-VISHAY	1:NC,2:A,3:K	PDF draws VS D2PAK 2L (doc 96683); figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-e5tx1506s2l-n3.pdf	TO-263AB (D2PAK)	D2PAK-2L-3-VISHAY	1:NC,2:A,3:K	PDF draws VS D2PAK 2L (doc 96683); figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-e5tx1512s2l-m3.pdf	TO-263AB (D2PAK)	D2PAK-2L-3-VISHAY	1:NC,2:A,3:K	PDF draws VS D2PAK 2L (doc 96683); figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-e5tx1512s2lhm3.pdf	TO-263AB (D2PAK)	D2PAK-2L-3-VISHAY	1:NC,2:A,3:K	PDF draws VS D2PAK 2L (doc 96683); figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-e5tx2106s2l-m3.pdf	TO-263AB (D2PAK)	D2PAK-2L-3-VISHAY	1:NC,2:A,3:K	PDF draws VS D2PAK 2L (doc 96683); figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-e5tx2106s2lhn3.pdf	TO-263AB (D2PAK)	D2PAK-2L-3-VISHAY	1:NC,2:A,3:K	PDF draws VS D2PAK 2L (doc 96683); figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-e5tx2112s2l-m3.pdf	TO-263AB (D2PAK)	D2PAK-2L-3-VISHAY	1:NC,2:A,3:K	PDF draws VS D2PAK 2L (doc 96683); figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-e5tx2112s2lhm3.pdf	TO-263AB (D2PAK)	D2PAK-2L-3-VISHAY	1:NC,2:A,3:K	PDF draws VS D2PAK 2L (doc 96683); figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-e5tx3006s2l-m3.pdf	TO-263AB (D2PAK)	D2PAK-2L-3-VISHAY	1:NC,2:A,3:K	PDF draws VS D2PAK 2L (doc 96683); figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-e5tx3006s2lhm3.pdf	TO-263AB (D2PAK)	D2PAK-2L-3-VISHAY	1:NC,2:A,3:K	PDF draws VS D2PAK 2L (doc 96683); figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-e5tx3012s2l-m3.pdf	TO-263AB (D2PAK)	D2PAK-2L-3-VISHAY	1:NC,2:A,3:K	PDF draws VS D2PAK 2L (doc 96683); figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-e5tx3012s2lhm3.pdf	TO-263AB (D2PAK)	D2PAK-2L-3-VISHAY	1:NC,2:A,3:K	PDF draws VS D2PAK 2L (doc 96683); figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-e7sx0112-m3v.pdf	TO-277A (SMPC)	SMPC-HV-3-VISHAY		PDF draws SMPC HV	
+datasheets/diode/vishay/vs-e7sx0112hm3v.pdf	TO-277A (SMPC)	SMPC-HV-3-VISHAY		PDF draws SMPC HV	
+datasheets/diode/vishay/vs-e7sx0212-m3v.pdf	TO-277A (SMPC)	SMPC-HV-3-VISHAY		PDF draws SMPC HV	
+datasheets/diode/vishay/vs-e7sx0212hm3v.pdf	TO-277A (SMPC)	SMPC-HV-3-VISHAY		PDF draws SMPC HV	
+datasheets/diode/vishay/vs-e7sx0312-m3v.pdf	TO-277A (SMPC)	SMPC-HV-3-VISHAY		PDF draws SMPC HV	
+datasheets/diode/vishay/vs-e7sx0312hm3v.pdf	TO-277A (SMPC)	SMPC-HV-3-VISHAY		PDF draws SMPC HV	
+datasheets/diode/vishay/vs-eth1506s-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-eth3006s-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-etl1506s-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-etu1506sm3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-etu3006hsm3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-etu3006s-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-hfa04tb60s-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-hfa06tb120s-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-hfa08sd6.pdf	TO-252AA (DPAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-hfa08tb120s-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-hfa08tb60s-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-hfa15tb60s-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-hfa16tb120s-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-hfa25tb60s-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-mbrb1635-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-mbrb735-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-murb1520-m3-1-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vs-murb820-m3.pdf	TO-263AB (D2PAK)		1:NC,2:A,3:K	figure: 1 N/C, 3 Anode, 2/4 cathode; leads renumbered 1,2,3	
+datasheets/diode/vishay/vt10202c.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/vt2080s.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY	1:NC,2:A,3:K	PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38; figure: NC (lead 1), A (lead 2), K heatsink	
+datasheets/diode/vishay/vt3080c.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY		PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38	
+datasheets/diode/vishay/vt3080s.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY	1:NC,2:A,3:K	PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38; figure: NC (lead 1), A (lead 2), K heatsink	
+datasheets/diode/vishay/vt5202-m3.pdf	TO-263AB (D2PAK)	D2PAK-GS-3-VISHAY	1:NC,2:A,3:K	PDF draws GS D2PAK (TO-263AB) pad layout 10.66 x 8.38; figure: NC (lead 1), A (lead 2), K heatsink	
+datasheets/diode/vishay/vs-43ctqs-m3.pdf	TO-263AB (D2PAK)	D2PAK-3-VISHAY		VS D2PAK doc 96164 row: keeps the line default; shields it from the EFG `*` override meant for the PDF's TO-262 row	

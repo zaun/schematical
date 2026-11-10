@@ -1,6 +1,6 @@
 # plan-29-D: Footprints and specs — Taiwan Semiconductor single diodes
 
-Last updated: 2026-11-08
+Last updated: 2026-11-09
 Effort: large (3h–1d)
 Depends on: plan-29-C
 
@@ -19,8 +19,8 @@ plan-29-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-29-C complete | `ls planning/completed/plan-29-C-*.md` → exists | NOT MET (2026-11-08: plan written) |
-| B's tools exist | `test -x planning/plan-29-data/census/fp-load.sh && test -s planning/plan-29-data/census/specs-check.py && echo ok` → `ok` | NOT MET (plan-29-B Phase 1) |
+| plan-29-C complete | `ls planning/completed/plan-29-C-*.md` → exists | moot (2026-11-09: B–G ran in parallel by package owner, plan-29-B § Corrections) |
+| B's tools exist | `test -x planning/plan-29-data/census/fp-load.sh && test -s planning/plan-29-data/census/specs-check.py && echo ok` → `ok` | MET (2026-11-09: `ok`) |
 
 Everything below is written against the world where these hold.
 
@@ -71,7 +71,8 @@ A's re-run (§ Corrections of A) replaces these numbers.
 
 ### Phase 1 — Surface-mount packages
 
-- [ ] For each TSC single SMD line of `footprints-needed.txt`, in descending part count: read the drawing and pad layout, reuse or add the footprint, fill the spec rows, settle pending rows (plan-29-B § 4).
+- [x] For each TSC single SMD line of `footprints-needed.txt`, in descending part count: read the drawing and pad layout, reuse or add the footprint, fill the spec rows, settle pending rows (plan-29-B § 4).
+      Done 2026-11-09 by parallel owner agents (§ Corrections of plan-29-B: the work split); results checked: specs-check --maker Taiwan --category single --mounting smd → `specs ok (1254 add rows)`.
 
 Acceptance: every spec row of this phase's scope is complete and the objects load.
   Check: `python3 -I planning/plan-29-data/census/specs-check.py --maker "Taiwan Semiconductor" --category single --mounting smd` → `specs ok` (est. 4 min).
@@ -79,7 +80,8 @@ Commit: —
 
 ### Phase 2 — Through-hole packages
 
-- [ ] The same for the Through Hole lines.
+- [x] The same for the Through Hole lines.
+      Done 2026-11-09 by parallel owner agents (§ Corrections of plan-29-B: the work split); results checked: specs-check --maker Taiwan --category single → `specs ok (1658 add rows)`; fp-load footprints-[B-D].json → `154 new footprints: load ok`.
 
 Acceptance: every spec row of this phase's scope is complete and the objects load.
   Check: `python3 -I planning/plan-29-data/census/specs-check.py --maker "Taiwan Semiconductor" --category single && planning/plan-29-data/census/fp-load.sh planning/plan-29-data/footprints-[B-D].json` → `specs ok`, then only extra/unused failures for the new ids` (est. 4 min).
@@ -99,6 +101,9 @@ Commit: —
 - Rules, ids and reuse as plan-29-B § Decisions; a TSC drawing that matches a Vishay or onsemi land pattern reuses that id.
 
 ## Corrections
+
+- See plan-29-B § Corrections (2026-11-09): B–G ran in parallel by package
+  owner; per-PDF overrides; counts.
 
 ## Summary
 

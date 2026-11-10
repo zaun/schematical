@@ -10,8 +10,10 @@ zener rows `single`, arrays and zener arrays by DigiKey's configuration
 (1 Pair Common Cathode → cc, … Common Anode → ca, … Series Connection →
 series, N Independent → ind or the configuration text), bridges `bridge`.
 Then every line of work/assign-overrides-*.tsv (datasheet, supplier_package,
-footprint, pins, note; supplier_package `*` = every row of that PDF)
-replaces the row's footprint and pins.  A group whose add rows have several
+footprint, pins, note, and optionally package; supplier_package `*` = every
+row of that PDF) replaces the row's footprint, pins and package.  A part
+whose own drawing or pins differ from the rest of its spec row is set in
+work/part-overrides.tsv (gen-parts.py).  A group whose add rows have several
 configurations gets one map per configuration: pins `cc=<map>;series=<map>`
 and pinout `<name>;<name>` in the same order (gen-parts.py picks by the
 row's configuration).  A `single` row with no single map on its line takes
@@ -108,13 +110,15 @@ def main(dry):
             pins = ";".join(f"{k}={v}" for k, v in found.items()) if all(found.values()) else None
         footprint = line["footprint"].split("|")[0]
         o = over.get((s["datasheet"], s["supplier_package"])) or over.get((s["datasheet"], "*"))
+        package = line["package"]
         if o:
             footprint = o["footprint"] or footprint
             pins = o["pins"] or pins
+            package = o.get("package") or package
         if not pins or footprint in ("", "NONE"):
             bad.append(f"{s['datasheet']} {s['supplier_package']}: no {'pins for ' + key if not pins else 'footprint'} (line maps: {sorted(mp)})")
             continue
-        s["package"] = line["package"]
+        s["package"] = package
         s["footprint"] = footprint
         s["pins"] = pins
         s["pinout"] = ";".join(pinout_name(x.split("=", 1)[-1]) for x in pins.split(";"))

@@ -1,0 +1,215 @@
+datasheet	supplier_package	footprint	pins	note	package
+datasheets/diode/tsc/1N4001G-SERIES_P2104.pdf	SOD-123W			the PDF (1N4001G series) draws only DO-41; the UF1DLW row keeps the SOD-123W default	
+datasheets/diode/tsc/1N4148W-G_D1601.pdf	SOD-123	DIODE-SOD-123-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/1N4148WS-G_C2211.pdf	SOD-323	DIODE-SOD-323-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/1PGSMA-SERIES_B2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/1PGSMAH-SERIES_A2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/1PGSMB5926-SERIES_C2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/1PGSMB5926H-SERIES_A2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/1PGSMC5348-SERIES_D2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/1PGSMC5348H-SERIES_A2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/1SMA4737-SERIES_P2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/1SMA4737H-SERIES_A2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/1SMA5926-SERIES_L2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/1SMB5926-SERIES_M2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/1SMB5926H-SERIES_A2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/AZ23C2V7-SERIES_D2001.pdf	SOT-23	SOT23-3-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/B0520LW-SERIES_J2112.pdf	SOD-123	DIODE-SOD-123-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/B0520LWF-SERIES_C14.pdf	SOD-123F	DIODE-SOD-123-TSC-C		older-revision drawing differs from the line's current drawing by more than 0.05 mm (0.91 x 1.22 @ 3.28)	
+datasheets/diode/tsc/BAS116_F2001.pdf	SOT-23	SOT23-3-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/BAS16_F2001.pdf	SOT-23	SOT23-3-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/BAS19-SERIES_C2001.pdf	SOT-23	SOT23-3-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/BAS19W-SERIES_B14.pdf	SOT-323	SOT323-3-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/BAS21-SERIES_E2001.pdf	SOT-23	SOT23-3-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/BAS316_E1907.pdf	SOD-323	DIODE-SOD-323-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/BAT54T-SERIES_H2111.pdf	SOT-363		single=1:-,2:-,3:AC2,4:+,5:+,6:AC1;2 Pair Common Cathode=1:A1,2:A2,3:K3K4,4:A3,5:A4,6:K1K2	p.1 pin configuration: BAT54BR bridge (A1/A2 = -, C1/C2 = +, AC1, AC2); BAT54CD 2 pair cc; UNRESOLVED: the single row also holds BAT54T (3 independent: 1:A1,2:A2,3:A3,4:K3,5:K2,6:K1), which needs its own map	
+datasheets/diode/tsc/BAV19W-G-SERIES_D1603.pdf	SOD-123	DIODE-SOD-123-TSC-C		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/BAV19WS-G-SERIES_A15.pdf	SOD-323	DIODE-SOD-323-TSC-C		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/BAW56-SERIES_I2001.pdf	SOT-23	SOT23-3-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/BYG20D-SERIES_F2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/BYG20DH-SERIES_A2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/BYG21MH_A2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/BYG21M_B2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/BYG23MH_A2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/BYG23M_C2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/BZT52B2V4-G-SERIES_H2002.pdf	SOD-123	DIODE-SOD-123-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/BZT52B2V4-G-SERIES_H2002.pdf	SOD-123F	DIODE-SOD-123-TSC-B		the datasheet draws SOD-123 (older table), not SOD-123F	SOD-123
+datasheets/diode/tsc/BZT52B2V4-series_F15.pdf	SOD-123F	DIODE-SOD-123F-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm (0.80 x 0.80 @ 3.30)	
+datasheets/diode/tsc/BZT52C2V4-G-SERIES_C2007.pdf	SOD-123	DIODE-SOD-123-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/BZT52C2V4-G-SERIES_C2007.pdf	SOD-123F	DIODE-SOD-123-TSC-B		the datasheet draws SOD-123 (older table), not SOD-123F	SOD-123
+datasheets/diode/tsc/BZX84C2V4-SERIES_F2001.pdf	SOT-23	SOT23-3-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ES1AH-SERIES_B2112.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ES1BFS-SERIES_C2103.pdf	SOD-128	DIODE-THIN-SMA-TSC		older-revision drawing differs from the line's current drawing by more than 0.05 mm; its pads (1.40 x 2.10 @ 4.40) equal the Thin SMA land pattern, so that footprint is shared	
+datasheets/diode/tsc/ES1BFSH-SERIES_B2103.pdf	SOD-128	DIODE-THIN-SMA-TSC		older-revision drawing differs from the line's current drawing by more than 0.05 mm; its pads (1.40 x 2.10 @ 4.40) equal the Thin SMA land pattern, so that footprint is shared	
+datasheets/diode/tsc/ES1DFL-SERIES_D2103.pdf	SOD-123F	DIODE-SOD-123FL-TSC		the datasheet draws SOD-123FL (package SOD-123FL), not SOD-123F	SOD-123FL
+datasheets/diode/tsc/ES1DVH_A2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ES1DV_C2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ES2A-SERIES_L2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ES2AA-SERIES_M2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ES2AAH-SERIES_A2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ES2AH-SERIES_A2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ES2BFS-SERIES_D2103.pdf	SOD-128	DIODE-THIN-SMA-TSC		older-revision drawing differs from the line's current drawing by more than 0.05 mm; its pads (1.40 x 2.10 @ 4.40) equal the Thin SMA land pattern, so that footprint is shared	
+datasheets/diode/tsc/ES2BFSH-SERIES_B2103.pdf	SOD-128	DIODE-THIN-SMA-TSC		older-revision drawing differs from the line's current drawing by more than 0.05 mm; its pads (1.40 x 2.10 @ 4.40) equal the Thin SMA land pattern, so that footprint is shared	
+datasheets/diode/tsc/ES2DFL-SERIES_B2103.pdf	SOD-123F	DIODE-SOD-123FL-TSC		the datasheet draws SOD-123FL (package SOD-123FL), not SOD-123F	SOD-123FL
+datasheets/diode/tsc/ES2DV_C2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ES2LD-SERIES_C2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ES2LDH-SERIES_A2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ES3A-SERIES_N2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ES3AB-SERIES_C2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ES3ABH-SERIES_A2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ES3AH-SERIES_A2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ES3DVH_A2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ES3DV_D2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ESH1B-SERIES_F2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ESH1BH-SERIES_A2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ESH1DFSH_C2103.pdf	SOD-128	DIODE-THIN-SMA-TSC		older-revision drawing differs from the line's current drawing by more than 0.05 mm; its pads (1.40 x 2.10 @ 4.40) equal the Thin SMA land pattern, so that footprint is shared	
+datasheets/diode/tsc/ESH1DMH_B2110.pdf	Micro SMA	DIODE-MICRO-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ESH1DM_E2110.pdf	Micro SMA	DIODE-MICRO-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ESH2B-SERIES_J2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ESH2BA-SERIES_F2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ESH2BAH-SERIES_A2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ESH2BH-SERIES_A2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ESH2DFSH_C2103.pdf	SOD-128	DIODE-THIN-SMA-TSC		older-revision drawing differs from the line's current drawing by more than 0.05 mm; its pads (1.40 x 2.10 @ 4.40) equal the Thin SMA land pattern, so that footprint is shared	
+datasheets/diode/tsc/ESH3B-SERIES_I2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ESH3BH-SERIES_A2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/ESH3DFSH_B2103.pdf	SOD-128	DIODE-THIN-SMA-TSC		older-revision drawing differs from the line's current drawing by more than 0.05 mm; its pads (1.40 x 2.10 @ 4.40) equal the Thin SMA land pattern, so that footprint is shared	
+datasheets/diode/tsc/HERF1007GA-SERIES_B2105.pdf	ITO-220AB		1:K1,2:A,3:K2	common anode (p.1: pins 1,3 cathode, pin 2 anode) for the single (HERF1007GAH) and array rows alike	
+datasheets/diode/tsc/HS1AFL-SERIES_B2103.pdf	SOD-123F	DIODE-SOD-123FL-TSC		the datasheet draws SOD-123FL (package SOD-123FL), not SOD-123F	SOD-123FL
+datasheets/diode/tsc/HS1DFS-SERIES_C2103.pdf	SOD-128	DIODE-THIN-SMA-TSC		older-revision drawing differs from the line's current drawing by more than 0.05 mm; its pads (1.40 x 2.10 @ 4.40) equal the Thin SMA land pattern, so that footprint is shared	
+datasheets/diode/tsc/HS1DFSH-SERIES_B2103.pdf	SOD-128	DIODE-THIN-SMA-TSC		older-revision drawing differs from the line's current drawing by more than 0.05 mm; its pads (1.40 x 2.10 @ 4.40) equal the Thin SMA land pattern, so that footprint is shared	
+datasheets/diode/tsc/HS1QALH_A2505.pdf	Thin SMA	DIODE-THIN-SMA-HV-TSC		TSMAHV-139 high-voltage drawing (1.40 x 2.10 @ 4.60)	
+datasheets/diode/tsc/HS1QAL_A2505.pdf	Thin SMA	DIODE-THIN-SMA-HV-TSC		TSMAHV-139 high-voltage drawing (1.40 x 2.10 @ 4.60)	
+datasheets/diode/tsc/HS1QBH_A2408.pdf	DO-214AA (SMB)	DIODE-SMB-HV-TSC		SMBHV-128 high-voltage drawing (1.85 x 2.60 @ 4.35)	
+datasheets/diode/tsc/HS1QB_A2408.pdf	DO-214AA (SMB)	DIODE-SMB-HV-TSC		SMBHV-128 high-voltage drawing (1.85 x 2.60 @ 4.35)	
+datasheets/diode/tsc/HS1QFSH_A2505.pdf	SOD-128	DIODE-SOD-128HV-TSC		SOD128HV-138 high-voltage drawing (1.20 x 2.30 @ 4.40)	
+datasheets/diode/tsc/HS1QFS_A2505.pdf	SOD-128	DIODE-SOD-128HV-TSC		SOD128HV-138 high-voltage drawing (1.20 x 2.30 @ 4.40)	
+datasheets/diode/tsc/HS1QH_A2408.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		SMAHV-121 high-voltage drawing: its pads equal the older SMA table (1.52 x 1.68 @ 3.93)	
+datasheets/diode/tsc/HS1Q_A2408.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		SMAHV-121 high-voltage drawing: its pads equal the older SMA table (1.52 x 1.68 @ 3.93)	
+datasheets/diode/tsc/HS1YBH_A2501.pdf	DO-214AA (SMB)	DIODE-SMB-HV-TSC		SMBHV-128 high-voltage drawing (1.85 x 2.60 @ 4.35)	
+datasheets/diode/tsc/HS1YB_A2501.pdf	DO-214AA (SMB)	DIODE-SMB-HV-TSC		SMBHV-128 high-voltage drawing (1.85 x 2.60 @ 4.35)	
+datasheets/diode/tsc/HS1YH_A2501.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		SMAHV-121 high-voltage drawing: its pads equal the older SMA table (1.52 x 1.68 @ 3.93)	
+datasheets/diode/tsc/HS1Y_A2501.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		SMAHV-121 high-voltage drawing: its pads equal the older SMA table (1.52 x 1.68 @ 3.93)	
+datasheets/diode/tsc/HS2A-SERIES_L2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/HS2AA-SERIES_J2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/HS2AAH-SERIES_A2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/HS2AH-SERIES_A2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/HS2DFL-SERIES_B2103.pdf	SOD-123F	DIODE-SOD-123FL-TSC		the datasheet draws SOD-123FL (package SOD-123FL), not SOD-123F	SOD-123FL
+datasheets/diode/tsc/HS2DFS-SERIES_C2103.pdf	SOD-128	DIODE-THIN-SMA-TSC		older-revision drawing differs from the line's current drawing by more than 0.05 mm; its pads (1.40 x 2.10 @ 4.40) equal the Thin SMA land pattern, so that footprint is shared	
+datasheets/diode/tsc/HS2DFSH-SERIES_B2103.pdf	SOD-128	DIODE-THIN-SMA-TSC		older-revision drawing differs from the line's current drawing by more than 0.05 mm; its pads (1.40 x 2.10 @ 4.40) equal the Thin SMA land pattern, so that footprint is shared	
+datasheets/diode/tsc/HS3A-SERIES_K2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/HS3AB-SERIES_L2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/HS3ABH-SERIES_A2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/HS3AH-SERIES_A2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/HS5A-SERIES_K2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/HS5AH-SERIES_A2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/M3Z2V0C-SERIES_B2008.pdf	SOD-323F	DIODE-SOD-323-TSC-C		older-revision drawing differs from the line's current drawing by more than 0.05 mm (0.63 x 0.83 @ 2.23)	
+datasheets/diode/tsc/MMBD3004-SERIES_C2001.pdf	SOT-23	SOT23-3-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/MMBD4148-SERIES_F2112.pdf	SOT-23	SOT23-3-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/MUR105S-SERIES_L2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/MUR105SH-SERIES_A2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/MUR305SB-SERIES_C2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/MUR305SBH-SERIES_A2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/MUR420S-SERIES_F2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/MUR420SH-SERIES_A2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/PLDS3060H_C2510.pdf	TO-263 (D2PAK)			the datasheet names and draws D2PAK-D (2 leads + tab, HQ2SD07-D2PAKD-066)	D2PAK-D
+datasheets/diode/tsc/PLDS3080H_E2510.pdf	TO-263 (D2PAK)			the datasheet names and draws D2PAK-D (2 leads + tab, HQ2SD07-D2PAKD-066)	D2PAK-D
+datasheets/diode/tsc/PU1BA-SERIES_A2210.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/PU1BAH-SERIES_B2110.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/PU1BFS-SERIES_A2210.pdf	SOD-128	DIODE-THIN-SMA-TSC		older-revision drawing differs from the line's current drawing by more than 0.05 mm; its pads (1.40 x 2.10 @ 4.40) equal the Thin SMA land pattern, so that footprint is shared	
+datasheets/diode/tsc/PU1BFSH-SERIES_A2109.pdf	SOD-128	DIODE-THIN-SMA-TSC		older-revision drawing differs from the line's current drawing by more than 0.05 mm; its pads (1.40 x 2.10 @ 4.40) equal the Thin SMA land pattern, so that footprint is shared	
+datasheets/diode/tsc/PU1BM-SERIES_B2103.pdf	Micro SMA	DIODE-MICRO-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/PU1BMH-SERIES_C2103.pdf	Micro SMA	DIODE-MICRO-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/PU2BA-SERIES_A2210.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/PU2BAH-SERIES_C2110.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/PU2BB-SERIES_A2210.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/PU2BBH-SERIES_B2109.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/PU2BFS-SERIES_A2210.pdf	SOD-128	DIODE-THIN-SMA-TSC		older-revision drawing differs from the line's current drawing by more than 0.05 mm; its pads (1.40 x 2.10 @ 4.40) equal the Thin SMA land pattern, so that footprint is shared	
+datasheets/diode/tsc/PU2BFSH-SERIES_B2109.pdf	SOD-128	DIODE-THIN-SMA-TSC		older-revision drawing differs from the line's current drawing by more than 0.05 mm; its pads (1.40 x 2.10 @ 4.40) equal the Thin SMA land pattern, so that footprint is shared	
+datasheets/diode/tsc/PU2BM-SERIES_B2103.pdf	Micro SMA	DIODE-MICRO-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/PU2BMH-SERIES_C2103.pdf	Micro SMA	DIODE-MICRO-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/PU3BA-SERIES_A2210.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/PU3BAH-SERIES_B2109.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/PU3BB-SERIES_A2210.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/PU3BBH-SERIES_B2109.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/PU3BC-SERIES_A2210.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/PU3BCH-SERIES_C2110.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/PU3BFS-SERIES_A2210.pdf	SOD-128	DIODE-THIN-SMA-TSC		older-revision drawing differs from the line's current drawing by more than 0.05 mm; its pads (1.40 x 2.10 @ 4.40) equal the Thin SMA land pattern, so that footprint is shared	
+datasheets/diode/tsc/PU3BFSH-SERIES_B2109.pdf	SOD-128	DIODE-THIN-SMA-TSC		older-revision drawing differs from the line's current drawing by more than 0.05 mm; its pads (1.40 x 2.10 @ 4.40) equal the Thin SMA land pattern, so that footprint is shared	
+datasheets/diode/tsc/PU4BB-SERIES_A2210.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/PU4BBH-SERIES_B2109.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/PU4BC-SERIES_A2210.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/PU4BCH-SERIES_C2110.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/PU6BB-SERIES_A2210.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/PU6BBH-SERIES_B2109.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/PU6BC-SERIES_A2210.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/PU6BCH-SERIES_C2110.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/PUUP3BH-SERIES_B2109.pdf	TO-277A (SMPC)			the datasheet names and draws TO-277A (SMPC4.6U)	SMPC4.6U
+datasheets/diode/tsc/PUUP4BH-SERIES_B2109.pdf	TO-277A (SMPC)			the datasheet names and draws TO-277A (SMPC4.6U)	SMPC4.6U
+datasheets/diode/tsc/PUUP6BH-SERIES_C2109.pdf	TO-277A (SMPC)			the datasheet names and draws TO-277A (SMPC4.6U)	SMPC4.6U
+datasheets/diode/tsc/PUUP8BH-SERIES_A2111.pdf	TO-277A (SMPC)			the datasheet names and draws TO-277A (SMPC4.6U)	SMPC4.6U
+datasheets/diode/tsc/PUUP8JH_A2409.pdf	TO-277A (SMPC)			the datasheet names and draws TO-277A (SMPC4.6U)	SMPC4.6U
+datasheets/diode/tsc/RB495D_G14.pdf	SOT-23			pad layout table (X 0.7, Y 0.9, C 1.9, E 1.0: pins +-0.65) contradicts its own SOT-23 outline (pitch 1.78-2.04); default SOT23-3-TSC kept	
+datasheets/diode/tsc/RB751M5-40_A2005.pdf	SOD-523F	DIODE-SOD-523F-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/RB751V-40_E1701.pdf	SOD-323	DIODE-SOD-323-TSC-C		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/RS1AFL-SERIES_B2103.pdf	SOD-123F	DIODE-SOD-123FL-TSC		the datasheet draws SOD-123FL (package SOD-123FL), not SOD-123F	SOD-123FL
+datasheets/diode/tsc/RS1JM-SERIES_B2103.pdf	Micro SMA	DIODE-MICRO-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/RS2DFL-SERIES_B2103.pdf	SOD-123F	DIODE-SOD-123FL-TSC		the datasheet draws SOD-123FL (package SOD-123FL), not SOD-123F	SOD-123FL
+datasheets/diode/tsc/RS3DB-T-SERIES_C2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/S10GC-SERIES_D2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/S10GCH-SERIES_A2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/S12GC-SERIES_D2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/S12GCH-SERIES_A2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/S15GC-SERIES_C2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/S15GCH-SERIES_A2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/S1AB-SERIES_I2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/S1ABH-SERIES_A2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/S1AH-SERIES_A2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/S1DFS-SERIES_C2103.pdf	SOD-128	DIODE-THIN-SMA-TSC		older-revision drawing differs from the line's current drawing by more than 0.05 mm; its pads (1.40 x 2.10 @ 4.40) equal the Thin SMA land pattern, so that footprint is shared	
+datasheets/diode/tsc/S1GM-SERIES_I2103.pdf	Micro SMA	DIODE-MICRO-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/S1GMH-SERIES_A2103.pdf	Micro SMA	DIODE-MICRO-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/S1Q_B2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/S1YH_A2408.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		SMAHV-121 high-voltage drawing: its pads equal the older SMA table (1.52 x 1.68 @ 3.93)	
+datasheets/diode/tsc/S1Y_A2408.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		SMAHV-121 high-voltage drawing: its pads equal the older SMA table (1.52 x 1.68 @ 3.93)	
+datasheets/diode/tsc/S2A-SERIES_N2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/S2AA-SERIES_K2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/S2AAH-SERIES_A2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/S2AH-SERIES_A2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/S2DFL-SERIES_B2103.pdf	SOD-123F	DIODE-SOD-123FL-TSC		the datasheet draws SOD-123FL (package SOD-123FL), not SOD-123F	SOD-123FL
+datasheets/diode/tsc/S2DFS-SERIES_B2103.pdf	SOD-128	DIODE-THIN-SMA-TSC		older-revision drawing differs from the line's current drawing by more than 0.05 mm; its pads (1.40 x 2.10 @ 4.40) equal the Thin SMA land pattern, so that footprint is shared	
+datasheets/diode/tsc/S2DFSH-SERIES_B2103.pdf	SOD-128	DIODE-THIN-SMA-TSC		older-revision drawing differs from the line's current drawing by more than 0.05 mm; its pads (1.40 x 2.10 @ 4.40) equal the Thin SMA land pattern, so that footprint is shared	
+datasheets/diode/tsc/S2YAH_A2408.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		SMAHV-121 high-voltage drawing: its pads equal the older SMA table (1.52 x 1.68 @ 3.93)	
+datasheets/diode/tsc/S2YA_A2408.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		SMAHV-121 high-voltage drawing: its pads equal the older SMA table (1.52 x 1.68 @ 3.93)	
+datasheets/diode/tsc/S2YH_A2408.pdf	DO-214AA (SMB)	DIODE-SMB-HV-TSC		SMBHV-128 high-voltage drawing (1.85 x 2.60 @ 4.35)	
+datasheets/diode/tsc/S3ABH-SERIES_B2207.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/S3Q_C2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/S4A-SERIES_K2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/S4AH-SERIES_A2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/S5A-SERIES_F2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/S5AH-SERIES_A2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/S5GB-SERIES_D2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/S5GBH-SERIES_A2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/S5QB_B2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/S5Q_C2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/SFS1001G-SERIES_I2103.pdf	TO-263AB (D2PAK)		1:A1,2:A2,3:K	dual-die: p.1 pin 1 and pin 2 anode, tab K (single and array rows alike)	
+datasheets/diode/tsc/SFS1001GH-SERIES_A2103.pdf	TO-263AB (D2PAK)		1:A1,2:A2,3:K	dual-die: p.1 pin 1 and pin 2 anode, tab K (single and array rows alike)	
+datasheets/diode/tsc/SFS1601G-SERIES_O2103.pdf	TO-263AB (D2PAK)		1:A1,2:A2,3:K	dual-die: p.1 pin 1 and pin 2 anode, tab K (single and array rows alike)	
+datasheets/diode/tsc/SFS1601GH-SERIES_A2103.pdf	TO-263AB (D2PAK)		1:A1,2:A2,3:K	dual-die: p.1 pin 1 and pin 2 anode, tab K (single and array rows alike)	
+datasheets/diode/tsc/SK82C-SERIES_L2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/SS13M-SERIES_O2103.pdf	Micro SMA	DIODE-MICRO-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/SS13MH-SERIES_A2103.pdf	Micro SMA	DIODE-MICRO-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/SS22M-SERIES_M2103.pdf	Micro SMA	DIODE-MICRO-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/SS22MH-SERIES_A2103.pdf	Micro SMA	DIODE-MICRO-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/SS24FSH-SERIES_B2103.pdf	SOD-128	DIODE-THIN-SMA-TSC		older-revision drawing differs from the line's current drawing by more than 0.05 mm; its pads (1.40 x 2.10 @ 4.40) equal the Thin SMA land pattern, so that footprint is shared	
+datasheets/diode/tsc/SS54FSH-SERIES_B2103.pdf	SOD-128	DIODE-THIN-SMA-TSC		older-revision drawing differs from the line's current drawing by more than 0.05 mm; its pads (1.40 x 2.10 @ 4.40) equal the Thin SMA land pattern, so that footprint is shared	
+datasheets/diode/tsc/TPMR10D-SERIES_D2309.pdf	TO-277A (SMPC)			the datasheet names and draws TO-277A (SMPC4.6U)	SMPC4.6U
+datasheets/diode/tsc/TSD1G_E2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/TSD2GH_A2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/TSD2G_F2102.pdf	DO-214AA (SMB)	DIODE-SMB-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/TSD3G_F2102.pdf	DO-214AB (SMC)	DIODE-SMC-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/TSU1M45H_B2211.pdf	Micro SMA	DIODE-MICRO-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/TSU1M60H_A2207.pdf	Micro SMA	DIODE-MICRO-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/TSU2M45H_A2207.pdf	Micro SMA	DIODE-MICRO-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/TSU2M60H_B2208.pdf	Micro SMA	DIODE-MICRO-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/UG2JA_D2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/US1A-SERIES_N2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	
+datasheets/diode/tsc/US1AH-SERIES_A2102.pdf	DO-214AC (SMA)	DIODE-SMA-TSC-B		older-revision drawing differs from the line's current drawing by more than 0.05 mm	

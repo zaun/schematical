@@ -1,6 +1,6 @@
 # plan-29-C: Footprints and specs — onsemi single diodes
 
-Last updated: 2026-11-08
+Last updated: 2026-11-09
 Effort: large (3h–1d)
 Depends on: plan-29-B
 
@@ -19,8 +19,8 @@ plan-29-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-29-B complete | `ls planning/completed/plan-29-B-*.md` → exists | NOT MET (2026-11-08: plan written) |
-| B's tools exist | `test -x planning/plan-29-data/census/fp-load.sh && test -s planning/plan-29-data/census/specs-check.py && echo ok` → `ok` | NOT MET (plan-29-B Phase 1) |
+| plan-29-B complete | `ls planning/completed/plan-29-B-*.md` → exists | moot (2026-11-09: B–G ran in parallel by package owner, plan-29-B § Corrections) |
+| B's tools exist | `test -x planning/plan-29-data/census/fp-load.sh && test -s planning/plan-29-data/census/specs-check.py && echo ok` → `ok` | MET (2026-11-09: `ok`) |
 
 Everything below is written against the world where these hold.
 
@@ -72,7 +72,8 @@ A's re-run (§ Corrections of A) replaces these numbers.
 
 ### Phase 1 — Surface-mount packages
 
-- [ ] For each onsemi single SMD line of `footprints-needed.txt`, in descending part count: read the case outline, reuse or add the footprint (plan-29-B § 4.1, § 4.4), fill the spec rows (§ 4.2, § 4.3), settle pending rows (§ 4.5).
+- [x] For each onsemi single SMD line of `footprints-needed.txt`, in descending part count: read the case outline, reuse or add the footprint (plan-29-B § 4.1, § 4.4), fill the spec rows (§ 4.2, § 4.3), settle pending rows (§ 4.5).
+      Done 2026-11-09 by parallel owner agents (§ Corrections of plan-29-B: the work split); results checked: specs-check --maker onsemi --category single --mounting smd → `specs ok (649 add rows)`.
 
 Acceptance: every spec row of this phase's scope is complete and the objects load.
   Check: `python3 -I planning/plan-29-data/census/specs-check.py --maker onsemi --category single --mounting smd` → `specs ok` (est. 4 min).
@@ -80,7 +81,8 @@ Commit: —
 
 ### Phase 2 — Through-hole packages
 
-- [ ] The same for the Through Hole lines (axial R7; TO-220 / TO-247 R5).
+- [x] The same for the Through Hole lines (axial R7; TO-220 / TO-247 R5).
+      Done 2026-11-09 by parallel owner agents (§ Corrections of plan-29-B: the work split); results checked: specs-check --maker onsemi --category single → `specs ok (853 add rows)`; fp-load footprints-[B-C].json → `102 new footprints: load ok`.
 
 Acceptance: every spec row of this phase's scope is complete and the objects load.
   Check: `python3 -I planning/plan-29-data/census/specs-check.py --maker onsemi --category single && planning/plan-29-data/census/fp-load.sh planning/plan-29-data/footprints-[B-C].json` → `specs ok`, then only extra/unused failures for the new ids` (est. 4 min).
@@ -100,6 +102,9 @@ Commit: —
 - Rules, ids and reuse as plan-29-B § Decisions.
 
 ## Corrections
+
+- See plan-29-B § Corrections (2026-11-09): B–G ran in parallel by package
+  owner; per-PDF overrides; counts.
 
 ## Summary
 
