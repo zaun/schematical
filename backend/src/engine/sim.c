@@ -47,6 +47,12 @@ typedef struct {
     uint32_t gen;      /* EVENT_DRIVE: the pin's gen when scheduled */
 } Event;
 
+/* A one-way link (diode) between two nets, collected by sim_start. */
+typedef struct {
+    SimNet *anode;
+    SimNet *cathode;
+} Diode;
+
 /* A contact between two pins of one instance. Pins are stored lowest first. */
 typedef struct {
     SimInstance *instance;
@@ -101,6 +107,28 @@ struct Sim {
     size_t contact_count;
     size_t contact_capacity;
     size_t closed_contact_count;
+
+    /* Diode links (plan-29-H), fixed at sim_start. */
+    Diode *diodes;
+    size_t diode_count;
+    size_t diode_capacity;
+
+    /*
+     * Clusters: contact groups joined by diode links, per net (allocated
+     * only when diode_count > 0, rebuilt with the groups). cluster_root[i]
+     * is net i's cluster root; members chain from cluster_head[root] through
+     * cluster_next; the cluster's links chain from link_head[root] through
+     * link_next (per diode). node_strong / node_weak are resolve_cluster's
+     * driver masks, per group root.
+     */
+    size_t *cluster_parent;
+    size_t *cluster_root;
+    size_t *cluster_head;
+    size_t *cluster_next;
+    size_t *link_head;
+    size_t *link_next;
+    unsigned char *node_strong;
+    unsigned char *node_weak;
 };
 
 static void set_error(Sim *sim, const char *message) {
@@ -175,6 +203,15 @@ void sim_destroy(Sim *sim) {
     }
 
     free(sim->contacts);
+    free(sim->diodes);
+    free(sim->cluster_parent);
+    free(sim->cluster_root);
+    free(sim->cluster_head);
+    free(sim->cluster_next);
+    free(sim->link_head);
+    free(sim->link_next);
+    free(sim->node_strong);
+    free(sim->node_weak);
     free(sim->events);
     free(sim->batch);
     free(sim->dirty);
@@ -706,6 +743,46 @@ static size_t find_root(size_t *parent, size_t index) {
 }
 
 /*
+ * Joins the contact groups (group_root, already built) by every diode link
+ * into clusters: cluster_root per net, member chains, and per cluster the
+ * chain of its links, each in ascending order.
+ */
+static void build_clusters(Sim *sim) {
+    size_t *parent = sim->cluster_parent;
+    size_t none = sim->net_count;
+    size_t i;
+
+    for (i = 0; i < sim->net_count; i++) {
+        parent[i] = sim->group_root[i];
+    }
+    for (i = 0; i < sim->diode_count; i++) {
+        size_t root_a = find_root(parent, sim->diodes[i].anode->index);
+        size_t root_c = find_root(parent, sim->diodes[i].cathode->index);
+
+        if (root_a != root_c) {
+            parent[root_a] = root_c;
+        }
+    }
+    for (i = 0; i < sim->net_count; i++) {
+        sim->cluster_root[i] = find_root(parent, i);
+        sim->cluster_head[i] = none;
+        sim->link_head[i] = sim->diode_count;
+    }
+    for (i = sim->net_count; i-- > 0;) {
+        size_t root = sim->cluster_root[i];
+
+        sim->cluster_next[i] = sim->cluster_head[root];
+        sim->cluster_head[root] = i;
+    }
+    for (i = sim->diode_count; i-- > 0;) {
+        size_t root = sim->cluster_root[sim->diodes[i].anode->index];
+
+        sim->link_next[i] = sim->link_head[root];
+        sim->link_head[root] = i;
+    }
+}
+
+/*
  * Groups nets joined by closed contacts (union-find) into the cached arrays:
  * group_root[i] is net i's group root, and each root's members are chained
  * from group_head[root] through group_next, in ascending net index.
@@ -751,6 +828,9 @@ static void build_groups(Sim *sim) {
         sim->group_next[i] = sim->group_head[root];
         sim->group_head[root] = i;
     }
+    if (sim->diode_count > 0) {
+        build_clusters(sim);
+    }
     sim->groups_valid = 1;
 }
 
@@ -767,13 +847,105 @@ static void resolve_group(Sim *sim, size_t root) {
 }
 
 /*
- * Resolves every net (at start). Without closed contacts each net stands
- * alone; with them, each group of joined nets is resolved as one net.
+ * Passes values along one link's masks: a 1 or X from the anode node to the
+ * cathode node, a 0 or X back. Returns whether either mask grew.
+ */
+static int pass_link(unsigned char *anode, unsigned char *cathode) {
+    unsigned char forward = (unsigned char)(*anode & (NET_MASK(LOGIC_1) | NET_MASK(LOGIC_X)));
+    unsigned char back = (unsigned char)(*cathode & (NET_MASK(LOGIC_0) | NET_MASK(LOGIC_X)));
+    int grew = 0;
+
+    if ((*cathode | forward) != *cathode) {
+        *cathode |= forward;
+        grew = 1;
+    }
+    if ((*anode | back) != *anode) {
+        *anode |= back;
+        grew = 1;
+    }
+    return grew;
+}
+
+/*
+ * Resolves the cluster whose root is `root` (plan-29-H section 4.3). Nodes
+ * are its contact groups; each gets the masks of its own drivers, strong
+ * values pass along the links until nothing changes, then weak values pass
+ * between nodes no strong value reaches. A node reads its strong values if
+ * any, else its weak ones; it is shorted when its strong values hold a 0 and
+ * a 1. A cluster with no link is a plain group.
+ */
+static void resolve_cluster(Sim *sim, size_t root) {
+    size_t none = sim->net_count;
+    unsigned char *strong = sim->node_strong;
+    unsigned char *weak = sim->node_weak;
+    size_t j;
+    size_t d;
+    int grew;
+
+    if (sim->link_head[root] == sim->diode_count) {
+        resolve_group(sim, root);
+        return;
+    }
+
+    for (j = sim->cluster_head[root]; j != none; j = sim->cluster_next[j]) {
+        size_t g = sim->group_root[j];
+
+        strong[g] = 0;
+        weak[g] = 0;
+    }
+    for (j = sim->cluster_head[root]; j != none; j = sim->cluster_next[j]) {
+        size_t g = sim->group_root[j];
+        unsigned s;
+        unsigned w;
+
+        net_drivers(&sim->nets[j], 1, &s, &w);
+        strong[g] |= (unsigned char)s;
+        weak[g] |= (unsigned char)w;
+    }
+
+    do {
+        grew = 0;
+        for (d = sim->link_head[root]; d != sim->diode_count; d = sim->link_next[d]) {
+            size_t a = sim->group_root[sim->diodes[d].anode->index];
+            size_t c = sim->group_root[sim->diodes[d].cathode->index];
+
+            if (a != c && pass_link(&strong[a], &strong[c])) {
+                grew = 1;
+            }
+        }
+    } while (grew);
+
+    do {
+        grew = 0;
+        for (d = sim->link_head[root]; d != sim->diode_count; d = sim->link_next[d]) {
+            size_t a = sim->group_root[sim->diodes[d].anode->index];
+            size_t c = sim->group_root[sim->diodes[d].cathode->index];
+
+            if (a != c && strong[a] == 0 && strong[c] == 0 &&
+                pass_link(&weak[a], &weak[c])) {
+                grew = 1;
+            }
+        }
+    } while (grew);
+
+    for (j = sim->cluster_head[root]; j != none; j = sim->cluster_next[j]) {
+        size_t g = sim->group_root[j];
+        SimNet *net = sim->nets[j];
+
+        net->value = net_mask_value(strong[g] != 0 ? strong[g] : weak[g]);
+        net->shorted = net_mask_shorted(strong[g]);
+    }
+}
+
+/*
+ * Resolves every net (at start). Without closed contacts or diodes each net
+ * stands alone; with contacts, each group of joined nets is resolved as one
+ * net; with diodes, each cluster by resolve_cluster.
  */
 static void resolve_nets(Sim *sim) {
     size_t i;
 
-    if (sim->closed_contact_count == 0) {
+    if (sim->closed_contact_count == 0 && sim->diode_count == 0) {
         for (i = 0; i < sim->net_count; i++) {
             net_resolve(sim->nets[i]);
         }
@@ -782,7 +954,11 @@ static void resolve_nets(Sim *sim) {
 
     build_groups(sim);
     for (i = 0; i < sim->net_count; i++) {
-        if (sim->group_root[i] == i) {
+        if (sim->diode_count > 0) {
+            if (sim->cluster_root[i] == i) {
+                resolve_cluster(sim, i);
+            }
+        } else if (sim->group_root[i] == i) {
             resolve_group(sim, i);
         }
     }
@@ -808,6 +984,94 @@ static int alloc_round_arrays(Sim *sim) {
         set_error(sim, "out of memory");
         return 0;
     }
+    if (sim->diode_count > 0) {
+        size_t links = sim->diode_count;
+
+        sim->cluster_parent = malloc(n * sizeof(*sim->cluster_parent));
+        sim->cluster_root = malloc(n * sizeof(*sim->cluster_root));
+        sim->cluster_head = malloc(n * sizeof(*sim->cluster_head));
+        sim->cluster_next = malloc(n * sizeof(*sim->cluster_next));
+        sim->link_head = malloc(n * sizeof(*sim->link_head));
+        sim->link_next = malloc(links * sizeof(*sim->link_next));
+        sim->node_strong = malloc(n);
+        sim->node_weak = malloc(n);
+        if (sim->cluster_parent == NULL || sim->cluster_root == NULL ||
+            sim->cluster_head == NULL || sim->cluster_next == NULL ||
+            sim->link_head == NULL || sim->link_next == NULL ||
+            sim->node_strong == NULL || sim->node_weak == NULL) {
+            set_error(sim, "out of memory");
+            return 0;
+        }
+    }
+    return 1;
+}
+
+/*
+ * Collects every instance's diode links (the `diodes` hook) whose two pins
+ * are on two different nets. 0 (error set) on failure.
+ */
+static int collect_diodes(Sim *sim) {
+    size_t i;
+
+    for (i = 0; i < sim->instance_count; i++) {
+        SimInstance *instance = sim->instances[i];
+        size_t local_anode[16];
+        size_t local_cathode[16];
+        size_t *anode = local_anode;
+        size_t *cathode = local_cathode;
+        size_t count;
+        size_t k;
+
+        if (instance->type->diodes == NULL) {
+            continue;
+        }
+        count = instance->type->diodes(instance->state, anode, cathode, 16);
+        if (count > 16) {
+            anode = malloc(count * sizeof(*anode));
+            cathode = malloc(count * sizeof(*cathode));
+            if (anode == NULL || cathode == NULL) {
+                free(anode);
+                free(cathode);
+                set_error(sim, "out of memory");
+                return 0;
+            }
+            count = instance->type->diodes(instance->state, anode, cathode, count);
+        }
+        for (k = 0; k < count; k++) {
+            SimNet *a;
+            SimNet *c;
+
+            if (anode[k] >= instance->pin_count || cathode[k] >= instance->pin_count) {
+                continue;
+            }
+            a = instance->pins[anode[k]].net;
+            c = instance->pins[cathode[k]].net;
+            if (a == NULL || c == NULL || a == c) {
+                continue;
+            }
+            if (sim->diode_count == sim->diode_capacity) {
+                Diode *grown = grow_array(sim->diodes, &sim->diode_capacity,
+                                          sizeof(*sim->diodes));
+
+                if (grown == NULL) {
+                    if (anode != local_anode) {
+                        free(anode);
+                        free(cathode);
+                    }
+                    set_error(sim, "out of memory");
+                    return 0;
+                }
+                sim->diodes = grown;
+            }
+            sim->diodes[sim->diode_count].anode = a;
+            sim->diodes[sim->diode_count].cathode = c;
+            sim->diode_count++;
+        }
+        if (anode != local_anode) {
+            free(anode);
+            free(cathode);
+        }
+    }
     return 1;
 }
 
@@ -825,7 +1089,7 @@ int sim_start(Sim *sim) {
 
     sim->started = 1;
 
-    if (!alloc_round_arrays(sim)) {
+    if (!collect_diodes(sim) || !alloc_round_arrays(sim)) {
         return 0;
     }
 
@@ -955,7 +1219,7 @@ static int process_round(Sim *sim, SimTime time) {
         }
     }
 
-    if (sim->closed_contact_count == 0) {
+    if (sim->closed_contact_count == 0 && sim->diode_count == 0) {
         for (i = 0; i < sim->dirty_count; i++) {
             net_resolve(sim->nets[sim->dirty[i]]);
         }
@@ -970,17 +1234,32 @@ static int process_round(Sim *sim, SimTime time) {
             build_groups(sim);
         }
         for (i = 0; i < touched; i++) {
-            size_t root = sim->group_root[sim->dirty[i]];
+            size_t k = sim->dirty[i];
             size_t j;
 
-            for (j = sim->group_head[root]; j != none; j = sim->group_next[j]) {
-                mark_dirty(sim, j);
+            if (sim->diode_count > 0) {
+                /* A cluster holds its groups whole. */
+                size_t root = sim->cluster_root[k];
+
+                for (j = sim->cluster_head[root]; j != none; j = sim->cluster_next[j]) {
+                    mark_dirty(sim, j);
+                }
+            } else {
+                size_t root = sim->group_root[k];
+
+                for (j = sim->group_head[root]; j != none; j = sim->group_next[j]) {
+                    mark_dirty(sim, j);
+                }
             }
         }
         for (i = 0; i < sim->dirty_count; i++) {
             size_t k = sim->dirty[i];
 
-            if (sim->group_root[k] == k) {
+            if (sim->diode_count > 0) {
+                if (sim->cluster_root[k] == k) {
+                    resolve_cluster(sim, k);
+                }
+            } else if (sim->group_root[k] == k) {
                 resolve_group(sim, k);
             }
         }

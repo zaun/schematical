@@ -172,6 +172,11 @@ typedef struct {
     size_t (*registers)(const void *state, struct ConverterRegister *out, size_t cap);
     /* RTCs: fills out with the clock's counters now. 1 when filled. */
     int (*rtc_time)(const void *state, struct RtcTime *out);
+    /* Diodes (plan-29-H): the one-way links between pins of this instance,
+       up to cap of them; returns how many there are. Link i passes a 1 from
+       pin anode[i] to pin cathode[i] and a 0 from cathode[i] to anode[i].
+       Called once, by sim_start. NULL = none. */
+    size_t (*diodes)(const void *state, size_t *anode, size_t *cathode, size_t cap);
 } SimComponentType;
 
 /* All times are in picoseconds. */

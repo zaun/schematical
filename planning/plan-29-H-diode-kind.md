@@ -332,17 +332,23 @@ values after `circuit_advance`, plus:
 
 Acceptance: every trace unchanged.
   Check: `cmake --build /tmp/logic-p29 -j8 && /tmp/logic-p29/trace_check && /tmp/logic-p29/engine_test` → both pass (est. 2 min).
-Commit: —
+Commit: 737b58d
 
 ### Phase 2 — Diode links in the engine
 
-- [ ] `sim.h`: the `diodes` hook (§ 4.1). `sim.c`: `Diode` array, collection
-      in `sim_start`, clusters (§ 4.2), `resolve_cluster` (§ 4.3), the
-      `process_round` / `resolve_nets` branches.
-- [ ] `diode_test.c` with an engine-only fixture component (a
+- [x] `sim.h`: the `diodes` hook (§ 4.1). `sim.c`: `Diode` array, collection
+      in `sim_start` (`collect_diodes`), clusters (§ 4.2, `build_clusters`,
+      called from `build_groups`), `resolve_cluster` (§ 4.3; the passes are
+      fixed-point loops over the cluster's link chain, the same result as
+      the breadth-first wording), the `process_round` / `resolve_nets`
+      branches.
+- [x] `diode_test.c` with an engine-only fixture component (a
       `SimComponentType` whose `diodes` hook returns one link; no part
-      library) for the ten § 4.3 rows; `logic_test(diode_test)` in
-      `backend/CMakeLists.txt`.
+      library) for the ten § 4.3 rows, plus the § 6 diode-OR run case (it
+      needs no part library, so it lives here); `logic_test(diode_test)` in
+      `backend/CMakeLists.txt`. Checked: `diode_test` → 13 PASS,
+      `0 failure(s)`; `trace_check` → `15214 parts compared, 0 skipped`,
+      exit 0; `circuit_check`, `switch_test` exit 0.
 
 Acceptance: the § 4.3 table holds and no existing trace moved.
   Check: `cmake --build /tmp/logic-p29 -j8 && /tmp/logic-p29/diode_test && /tmp/logic-p29/trace_check` → `0 failure(s)` and pass (est. 3 min).
