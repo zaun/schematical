@@ -163,7 +163,7 @@ marks.
   build is the slow part; nothing smaller runs the app's catalog code and
   the backend together).
   Result: as above, `all checks ok`, exit 0.
-Commit: —
+Commit: 1a747ab
 
 ## Validation Plan
 
