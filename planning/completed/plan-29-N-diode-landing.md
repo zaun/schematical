@@ -82,7 +82,7 @@ Acceptance: every gate's observed value matches.
   Check: the table's commands (est. 25 min: the fresh backend build and the
   harness; this is the plan's one landing run).
   Result: every gate matches (above).
-Commit: —
+Commit: 16d9f5b
 
 ## Validation Plan
 
