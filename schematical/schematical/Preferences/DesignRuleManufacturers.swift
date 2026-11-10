@@ -3,9 +3,9 @@ import Foundation
 // Each manufacturer's published design rules, for Settings ▸ DRC Defaults.
 // Every set is for a standard 2-layer board with 1 oz copper, from the
 // manufacturer's own pages as read in Nov 2026. Where a page gives no value,
-// the set uses the app's fallback: hole to hole 0.5 mm, silkscreen text
-// height 1.0 mm, silkscreen to pad 0.15 mm, mask dam 0.1 mm and mask
-// expansion 0.05 mm. Each set's comment names what it takes from where.
+// the set uses the fallback in `DesignRules.Fallback`: the most conservative
+// value any manufacturer here publishes. Each set's comment names what it
+// takes from where.
 
 /// Whose design rules Settings ▸ DRC Defaults shows.
 nonisolated enum DRCManufacturer: String, CaseIterable, Hashable, Sendable {
@@ -64,11 +64,27 @@ nonisolated enum DRCManufacturer: String, CaseIterable, Hashable, Sendable {
 }
 
 extension DesignRules {
+    /// What a set uses for a value its manufacturer doesn't publish: the
+    /// most conservative value published by the manufacturers here.
+    enum Fallback {
+        /// Elecrow's IC mask dam.
+        static let solderMaskDam = 0.25
+        /// Sunstone's text height.
+        static let silkscreenHeight = 1.27
+        /// JLCPCB's and Seeed Fusion's hole to hole.
+        static let holeToHole = 0.45
+        /// NextPCB's and Seeed Fusion's 6 mil.
+        static let silkscreenToPad = 0.1524
+        /// Advanced Circuits' 0.0025" per side: the widest opening, so the
+        /// mask stays off the pad through the most registration error.
+        static let solderMaskExpansion = 0.0635
+    }
+
     /// Advanced Circuits' (4pcb.com, now advancedpcb.com) standard 2-layer,
     /// 1 oz spec (resources/tolerances and services/standard-pcbs). Annular
     /// ring is the component-hole minimum (vias may be 0.127 mm); via
     /// diameter is the hole plus their 0.010" pad rule. Not published, so
-    /// the app's fallbacks: hole to hole, silkscreen text height,
+    /// the fallbacks: hole to hole, silkscreen text height,
     /// silkscreen to pad and mask dam.
     static let advancedCircuits = DesignRules(
         minTraceWidth: 0.127,
@@ -77,12 +93,12 @@ extension DesignRules {
         minViaDrill: 0.254,
         minViaDiameter: 0.508,
         minAnnularRing: 0.1778,
-        minHoleToHole: 0.5,
+        minHoleToHole: Fallback.holeToHole,
         minCopperToEdge: 0.254,
         minSilkscreenWidth: 0.127,
-        minSilkscreenHeight: 1.0,
-        minSilkscreenToPad: 0.15,
-        minSolderMaskDam: 0.1,
+        minSilkscreenHeight: Fallback.silkscreenHeight,
+        minSilkscreenToPad: Fallback.silkscreenToPad,
+        minSolderMaskDam: Fallback.solderMaskDam,
         solderMaskExpansion: 0.0635
     )
 
@@ -107,7 +123,7 @@ extension DesignRules {
 
     /// ALLPCB's 1 oz limits (allpcb.com/advanced_pcb_manufacturing_capability).
     /// Vias are their double-sided 0.2 / 0.5 mm; annular ring is their
-    /// plated-hole limit. Not published, so the app's fallbacks: hole to
+    /// plated-hole limit. Not published, so the fallbacks: hole to
     /// hole and mask expansion.
     static let allpcb = DesignRules(
         minTraceWidth: 0.0762,
@@ -116,18 +132,18 @@ extension DesignRules {
         minViaDrill: 0.2,
         minViaDiameter: 0.5,
         minAnnularRing: 0.18,
-        minHoleToHole: 0.5,
+        minHoleToHole: Fallback.holeToHole,
         minCopperToEdge: 0.3,
         minSilkscreenWidth: 0.1,
         minSilkscreenHeight: 0.75,
         minSilkscreenToPad: 0.15,
         minSolderMaskDam: 0.075,
-        solderMaskExpansion: 0.05
+        solderMaskExpansion: Fallback.solderMaskExpansion
     )
 
     /// Elecrow's Regular Custom PCB, 2 layer, 1 oz (PCB Specification && FAQ
     /// PDF from elecrow.com). Via diameter is the via drill plus the
-    /// 2-layer annular ring. Not published, so the app's fallbacks:
+    /// 2-layer annular ring. Not published, so the fallbacks:
     /// silkscreen to pad and mask expansion.
     static let elecrow = DesignRules(
         minTraceWidth: 0.15,
@@ -140,9 +156,9 @@ extension DesignRules {
         minCopperToEdge: 0.7,
         minSilkscreenWidth: 0.15,
         minSilkscreenHeight: 0.8,
-        minSilkscreenToPad: 0.15,
+        minSilkscreenToPad: Fallback.silkscreenToPad,
         minSolderMaskDam: 0.25,
-        solderMaskExpansion: 0.05
+        solderMaskExpansion: Fallback.solderMaskExpansion
     )
 
     /// Eurocircuits' pattern class 6 and drill class B, 35 µm outer copper
@@ -209,7 +225,7 @@ extension DesignRules {
 
     /// OSH Park's 2-layer service (docs.oshpark.com/services/two-layer).
     /// Via diameter is the min drill plus two annular rings; hole to hole is
-    /// their recommended clearance. Not published, so the app's fallbacks:
+    /// their recommended clearance. Not published, so the fallbacks:
     /// silkscreen text height, silkscreen to pad and mask expansion.
     static let oshpark = DesignRules(
         minTraceWidth: 0.1524,
@@ -221,10 +237,10 @@ extension DesignRules {
         minHoleToHole: 0.127,
         minCopperToEdge: 0.381,
         minSilkscreenWidth: 0.127,
-        minSilkscreenHeight: 1.0,
-        minSilkscreenToPad: 0.15,
+        minSilkscreenHeight: Fallback.silkscreenHeight,
+        minSilkscreenToPad: Fallback.silkscreenToPad,
         minSolderMaskDam: 0.1016,
-        solderMaskExpansion: 0.05
+        solderMaskExpansion: Fallback.solderMaskExpansion
     )
 
     /// PCBgogo's standard FR-4 limits
@@ -253,8 +269,8 @@ extension DesignRules {
     /// (pcbway.com/capabilities.html and PCB_Manufacturing_tolerances).
     /// Values the pages don't give directly: via diameter is the min via
     /// drill plus two annular rings; hole to hole is the advanced table's
-    /// 16 mil for component holes; silkscreen to pad uses the silkscreen
-    /// page's 5 mil spacing between silkscreen elements.
+    /// 16 mil for component holes. Not published, so the fallback:
+    /// silkscreen to pad.
     static let pcbway = DesignRules(
         minTraceWidth: 0.1,
         minClearance: 0.1,
@@ -266,7 +282,7 @@ extension DesignRules {
         minCopperToEdge: 0.25,
         minSilkscreenWidth: 0.15,
         minSilkscreenHeight: 0.8,
-        minSilkscreenToPad: 0.127,
+        minSilkscreenToPad: Fallback.silkscreenToPad,
         minSolderMaskDam: 0.1,
         solderMaskExpansion: 0.05
     )
@@ -275,7 +291,7 @@ extension DesignRules {
     /// 2019), 1 oz. Annular ring and hole to hole are for plated holes (vias
     /// 0.1 / 0.3 mm); via diameter is the via drill plus the via ring. Mask
     /// dam is their 0.1 mm option for green (0.32 mm otherwise). Not
-    /// published, so the app's fallback: mask expansion.
+    /// published, so the fallback: mask expansion.
     static let seeedFusion = DesignRules(
         minTraceWidth: 0.1016,
         minClearance: 0.1016,
@@ -289,7 +305,7 @@ extension DesignRules {
         minSilkscreenHeight: 0.5842,
         minSilkscreenToPad: 0.1524,
         minSolderMaskDam: 0.1,
-        solderMaskExpansion: 0.05
+        solderMaskExpansion: Fallback.solderMaskExpansion
     )
 
     /// Sunstone's Limited Review service, 1 oz finished copper
@@ -304,12 +320,12 @@ extension DesignRules {
         minViaDrill: 0.254,
         minViaDiameter: 0.508,
         minAnnularRing: 0.2032,
-        minHoleToHole: 0.5,
+        minHoleToHole: Fallback.holeToHole,
         minCopperToEdge: 0.508,
         minSilkscreenWidth: 0.1524,
         minSilkscreenHeight: 1.27,
-        minSilkscreenToPad: 0.15,
+        minSilkscreenToPad: Fallback.silkscreenToPad,
         minSolderMaskDam: 0.1016,
-        solderMaskExpansion: 0.05
+        solderMaskExpansion: Fallback.solderMaskExpansion
     )
 }
