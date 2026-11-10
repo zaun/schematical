@@ -70,7 +70,7 @@ Planning-time population (2026-11-08), before the datasheet rules:
 
 Acceptance: the parts load.
   Check: `cmake --build /tmp/logic-p29 -j8 && /tmp/logic-p29/library_check` → pass (est. 3 min).
-Commit: —
+Commit: 3194c1b
 
 ### Phase 2 — Goldens
 
@@ -82,7 +82,7 @@ Commit: —
 
 Acceptance: tests pass and the goldens only grew by the scope.
   Check: `ctest --test-dir /tmp/logic-p29` → `100% tests passed`; `git diff backend/tests/golden/parts.txt | grep -c '^+[^+].*|diode|'` → N_K; `git diff backend/tests/golden | grep -c '^-[^-]'` → 0 (est. 6 min).
-Commit: —
+Commit: 3194c1b
 
 ## Validation Plan
 
