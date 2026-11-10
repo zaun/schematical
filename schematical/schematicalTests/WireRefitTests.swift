@@ -79,9 +79,42 @@ final class WireRefitTests: XCTestCase {
         XCTAssertTrue(doc.junctions.isEmpty)
         let wire = try XCTUnwrap(doc.wires.first)
         XCTAssertEqual(Set([wire.start, wire.end]), Set([WireEnd.pin(y), WireEnd.pin(a)]))
-        var joined = OrthogonalRoute.simplified(doc.path(forWire: wire.id))
-        if wire.start != .pin(y) { joined.reverse() }
-        XCTAssertEqual(joined, original)
+        var bends = wire.interior
+        if wire.start != .pin(y) { bends.reverse() }
+        XCTAssertEqual(bends, Array(original.dropFirst().dropLast()), "no bend left where the branch was")
+    }
+
+    /// Branch off a straight wire, then erase the branch: one straight wire
+    /// with no stored bends, like a freshly drawn one.
+    func testErasingABranchOffAStraightWireLeavesOneSegment() throws {
+        let doc = TestSupport.newDocument()
+        let left = try TestSupport.place(doc, "SN74HC00N", at: p(200, 200))
+        let right = try TestSupport.place(doc, "SN74HC00N", at: p(600, 200))
+        let below = try TestSupport.place(doc, "SN74HC00N", at: p(400, 500))
+        let y = try TestSupport.pin(left, "1Y")
+        let yTip = try XCTUnwrap(doc.pinTip(y))
+        // Right's input on 1Y's row: right moves so its 1A tip lines up.
+        let a = try TestSupport.pin(right, "1A")
+        let aTip = try XCTUnwrap(doc.pinTip(a))
+        doc.select(.chip(right.id))
+        doc.moveSchematicGroup(doc.schematicGroupBase(), by: CGSize(width: 0, height: yTip.y - aTip.y))
+        XCTAssertNil(doc.connect(.pin(y), .pin(a)))
+        XCTAssertEqual(doc.wires.first?.interior, [])
+        let lined = try XCTUnwrap(doc.pinTip(a))
+        XCTAssertEqual(lined.y, yTip.y)
+
+        // Branch between the pin and the shown midpoint, so the far half
+        // would hold that midpoint if it were kept.
+        XCTAssertNil(doc.connect(.point(p(yTip.x + 20, yTip.y)), .pin(try TestSupport.pin(below, "1A"))))
+        XCTAssertTrue(doc.wires.filter { $0.end != .pin(try! TestSupport.pin(below, "1A")) }.allSatisfy { $0.interior.isEmpty },
+                      "each straight half is one segment")
+        let branch = try XCTUnwrap(doc.wires.first { $0.end == .pin(try TestSupport.pin(below, "1A")) })
+        let branchPath = doc.path(forWire: branch.id)
+        doc.erase(at: CGPoint(x: (branchPath[0].x + branchPath[1].x) / 2, y: (branchPath[0].y + branchPath[1].y) / 2))
+
+        XCTAssertEqual(doc.wires.count, 1)
+        XCTAssertTrue(doc.junctions.isEmpty)
+        XCTAssertEqual(doc.wires.first?.interior, [])
     }
 
     /// A loose end (a deleted pin's spot) with two wires on it stays.

@@ -3233,14 +3233,21 @@ final class SchematicDocument {
         let created = Junction(point: point)
         junctions.append(created)
 
+        // A wire with no stored bends only shows a midpoint (`settled`);
+        // neither half keeps it, so each straight half stays one segment.
+        func bends(_ piece: ArraySlice<CGPoint>) -> [CGPoint] {
+            let points = Array(piece)
+            let kept = hit.wire.interior.isEmpty ? OrthogonalRoute.simplified(points) : points
+            return Array(kept.dropFirst().dropLast())
+        }
         let original = wires[index]
         wires[index].end = .junction(created.id)
-        wires[index].interior = Array(path[1..<k])
+        wires[index].interior = bends(path[0...k])
         wires.insert(
             Wire(
                 start: .junction(created.id),
                 end: original.end,
-                interior: Array(path[(k + 1)..<(path.count - 1)])
+                interior: bends(path[k...])
             ),
             at: index + 1
         )
@@ -3267,7 +3274,7 @@ final class SchematicDocument {
 
     /// Joins the two wires at every plain junction where only two wire ends
     /// meet, as removing a branch leaves them: one wire runs through the
-    /// spot instead, with a bend there only if the route turns. Loose
+    /// spot instead, with bends only where the route turns. Loose
     /// junctions (plan-30) stay, since a pin can still land on them.
     private func joinThroughJunctions() {
         var changed = true
@@ -3286,14 +3293,10 @@ final class SchematicDocument {
                 guard first.end == here, second.start == here, first.start != here, second.end != here,
                       first.start != second.end,
                       let from = endTip(first.start), let to = endTip(second.end) else { continue }
-                var route = [from] + first.interior + [junction.point] + second.interior + [to]
-                // Drop the junction's spot when the run goes straight through it.
-                let k = first.interior.count + 1
-                let a = route[k - 1], b = route[k], c = route[k + 1]
-                if (a.y == b.y && b.y == c.y) || (a.x == b.x && b.x == c.x) {
-                    route.remove(at: k)
-                }
-                route = OrthogonalRoute.removeDoubleBacks(OrthogonalRoute.mergeCoincident(route))
+                // Bends on a straight run go, the junction's spot among them,
+                // so a straight line comes back as one segment.
+                let route = OrthogonalRoute.simplified(
+                    [from] + first.interior + [junction.point] + second.interior + [to])
                 wires[on[0]] = Wire(id: wires[on[0]].id, start: first.start, end: second.end,
                                     interior: Array(route.dropFirst().dropLast()))
                 wires.remove(at: on[1])
