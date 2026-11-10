@@ -22,6 +22,8 @@ final class DesignRuleSettingsTests: XCTestCase {
         defaults.set(DRCManufacturer.pcbway.rawValue, forKey: PreferenceKey.drcManufacturer)
         XCTAssertEqual(DesignRules.current(defaults: defaults), .pcbway)
         XCTAssertEqual(DesignRules.pcbway.minTraceWidth, 0.1)
+        defaults.set(DRCManufacturer.jlcpcb.rawValue, forKey: PreferenceKey.drcManufacturer)
+        XCTAssertEqual(DesignRules.current(defaults: defaults), .jlcpcb)
 
         // Back to Custom: the edit is still there.
         defaults.set(DRCManufacturer.custom.rawValue, forKey: PreferenceKey.drcManufacturer)

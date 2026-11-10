@@ -3,12 +3,13 @@ import SwiftUI
 /// Whose design rules Settings ▸ DRC Defaults shows. Raw values are the
 /// stored values.
 nonisolated enum DRCManufacturer: String, CaseIterable, Hashable, Sendable {
-    case custom, pcbway
+    case custom, pcbway, jlcpcb
 
     var title: String {
         switch self {
         case .custom: "Custom"
         case .pcbway: "PCBWay"
+        case .jlcpcb: "JLCPCB"
         }
     }
 
@@ -18,6 +19,7 @@ nonisolated enum DRCManufacturer: String, CaseIterable, Hashable, Sendable {
         switch self {
         case .custom: nil
         case .pcbway: .pcbway
+        case .jlcpcb: .jlcpcb
         }
     }
 }
@@ -59,6 +61,28 @@ nonisolated struct DesignRules: Codable, Equatable, Sendable {
         minSilkscreenToPad: 0.127,
         minSolderMaskDam: 0.1,
         solderMaskExpansion: 0.05
+    )
+
+    /// JLCPCB's rigid 1–2 layer, 1 oz limits with no extra charge
+    /// (jlcpcb.com/capabilities/pcb-capabilities, Nov 2026). Holes under
+    /// 0.2 mm, and 0.2 mm vias under 0.45 mm across, cost more, so those are
+    /// the minimums. Annular ring is the plated-hole absolute minimum; hole
+    /// to hole is for pad holes (vias may be 0.2 mm apart). The mask
+    /// opening may match the pad (1:1), so expansion is 0.
+    static let jlcpcb = DesignRules(
+        minTraceWidth: 0.1,
+        minClearance: 0.1,
+        minDrill: 0.2,
+        minViaDrill: 0.2,
+        minViaDiameter: 0.45,
+        minAnnularRing: 0.18,
+        minHoleToHole: 0.45,
+        minCopperToEdge: 0.2,
+        minSilkscreenWidth: 0.15,
+        minSilkscreenHeight: 1.0,
+        minSilkscreenToPad: 0.15,
+        minSolderMaskDam: 0.1,
+        solderMaskExpansion: 0
     )
 
     /// What Custom starts as: PCBWay's rules.
@@ -125,7 +149,7 @@ nonisolated struct DesignRules: Codable, Equatable, Sendable {
 }
 
 /// Settings ▸ DRC Defaults: the manufacturer and the design rules it sets.
-/// PCBWay's rules are shown read only; Custom's are editable and kept when
+/// A manufacturer's rules are shown read only; Custom's are editable and kept when
 /// another manufacturer is picked.
 struct DesignRulePreferencesView: View {
     @AppStorage(PreferenceKey.drcManufacturer) private var manufacturer = DRCManufacturer.custom
