@@ -18,9 +18,9 @@ final class TraceToolTests: XCTestCase {
     private func drag(_ doc: SchematicDocument, from: CGPoint, to: CGPoint, layer: CopperLayer = .top,
                       visible: BoardVisibility = BoardVisibility(),
                       onShowLayer: (CopperLayer) -> Void = { _ in }) -> UUID? {
-        let start = TraceDrawing.anchor(doc, at: from, layer: layer, scale: scale)
-        _ = TraceDrawing.preview(doc, from: start, to: to, layer: layer, scale: scale, diagonalFirst: false)
-        return TraceDrawing.finish(doc, from: start, to: to, layer: layer, scale: scale, diagonalFirst: false,
+        let draft = TraceDraft(start: TraceDrawing.anchor(doc, at: from, layer: layer, scale: scale))
+        _ = TraceDrawing.preview(doc, draft: draft, to: to, layer: layer, scale: scale, angle: 45)
+        return TraceDrawing.finish(doc, draft: draft, to: to, layer: layer, scale: scale, angle: 45,
                                    visible: visible, onShowLayer: onShowLayer)
     }
 

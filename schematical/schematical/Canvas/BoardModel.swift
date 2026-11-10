@@ -8,19 +8,23 @@ nonisolated enum BoardScale {
     static let pointsPerMM: CGFloat = 20
 }
 
-/// Footprints snap to a 0.635 mm (25 mil) grid by their origin point; by
-/// default the top-left corner of their bounding box (body plus pads, as
-/// turned), so edges of parts line up.
+/// Footprints and texts snap to the board's component grid
+/// (`BoardSettings.grid`, 0.635 mm = 25 mil by default) by their origin
+/// point; by default the top-left corner of their bounding box (body plus
+/// pads, as turned), so edges of parts line up. Trace ends snap to the
+/// trace grid, which has a point between each two of the component grid's
+/// (`BoardSettings.traceGrid`).
 nonisolated enum BoardGrid {
+    /// The default component grid.
     static let spacing: CGFloat = 0.635
 
-    static func snap(_ value: CGFloat) -> CGFloat {
+    static func snap(_ value: CGFloat, spacing: CGFloat = spacing) -> CGFloat {
         // Adding 0 turns -0 into 0.
         (value / spacing).rounded() * spacing + 0
     }
 
-    static func snap(_ point: CGPoint) -> CGPoint {
-        CGPoint(x: snap(point.x), y: snap(point.y))
+    static func snap(_ point: CGPoint, spacing: CGFloat = spacing) -> CGPoint {
+        CGPoint(x: snap(point.x, spacing: spacing), y: snap(point.y, spacing: spacing))
     }
 }
 
@@ -38,7 +42,8 @@ nonisolated struct BoardPlacement: Hashable, Sendable {
     var centre: CGPoint
     /// 0, 90, 180 or 270, clockwise.
     var rotation: Int
-    var origin: FootprintOrigin = .topLeft
+    /// New placements use the centre of pad 1.
+    var origin: FootprintOrigin = .pad1Center
     /// The body outline (the "bounding box" mark).
     var outline: MarkLayer = .document
     var pin1: MarkLayer = .silkscreen
@@ -201,28 +206,31 @@ nonisolated enum BoardLayout {
         }
     }
 
-    /// The placement moved so its origin point sits on the grid.
-    static func snapped(_ placement: BoardPlacement, footprint: Footprint, pad1: String) -> BoardPlacement {
+    /// The placement moved so its origin point sits on the component grid
+    /// (`grid`, mm).
+    static func snapped(_ placement: BoardPlacement, footprint: Footprint, pad1: String,
+                        grid: CGFloat = BoardGrid.spacing) -> BoardPlacement {
         let point = originPoint(of: placement, footprint: footprint, pad1: pad1)
         var snapped = placement
-        snapped.centre.x += BoardGrid.snap(point.x) - point.x
-        snapped.centre.y += BoardGrid.snap(point.y) - point.y
+        snapped.centre.x += BoardGrid.snap(point.x, spacing: grid) - point.x
+        snapped.centre.y += BoardGrid.snap(point.y, spacing: grid) - point.y
         return snapped
     }
 
     /// Where a newly placed footprint goes: the first at (0, 0); later ones to
     /// the right of everything already placed, 2.54 mm apart, top edges
-    /// aligned. Origin top left, snapped to the grid; default marks.
-    static func nextSpot(for footprint: Footprint, among chips: [PlacedChip]) -> BoardPlacement {
+    /// aligned. Origin the centre of pad 1 (`pad1`, the part's first pin),
+    /// snapped to the grid; default marks.
+    static func nextSpot(for footprint: Footprint, among chips: [PlacedChip], pad1: String,
+                         grid: CGFloat = BoardGrid.spacing) -> BoardPlacement {
         let placed = chips.compactMap(\.boardBounds)
-        // The top-left origin does not use pad 1, so none is named.
         guard let first = placed.first else {
-            return snapped(BoardPlacement(centre: .zero, rotation: 0), footprint: footprint, pad1: "")
+            return snapped(BoardPlacement(centre: .zero, rotation: 0), footprint: footprint, pad1: pad1, grid: grid)
         }
         let union = placed.dropFirst().reduce(first) { $0.union($1) }
         let local = localBounds(of: footprint)
         let centre = CGPoint(x: union.maxX + 2.54 - local.minX, y: union.minY - local.minY)
-        return snapped(BoardPlacement(centre: centre, rotation: 0), footprint: footprint, pad1: "")
+        return snapped(BoardPlacement(centre: centre, rotation: 0), footprint: footprint, pad1: pad1, grid: grid)
     }
 }
 

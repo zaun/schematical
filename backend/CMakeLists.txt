@@ -67,6 +67,7 @@ add_library(logic STATIC
     src/models/serial_i8251.c
     src/models/serial_i82510.c
     src/models/serial_acia6551.c
+    src/models/serial_usbuart.c
     src/models/serial_hs82c52.c
     src/models/serial_com78c80x.c
     src/models/serial_sc18is604.c
@@ -164,6 +165,7 @@ endif()
 logic_test(cpu_test)
 logic_test(charlcd_test)
 logic_test(serial_test)
+logic_test(usbuart_test)
 logic_test(pio_test)
 logic_test(converter_test)
 logic_test(rtc_test)

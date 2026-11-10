@@ -383,6 +383,12 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   program sets the ports, sends `HI`, takes a VIA Timer 1 interrupt and
   reads the looped-back byte (`io_board ok`).
 
+- `usbuart_test` — the USB-to-UART bridges (model `usbuart`) on the
+  shipped parts, through the circuit API: terminal bytes out TXD and
+  looped back into RXD, the 9600 8N1 default waveform, RTS/CTS flow
+  control, two channels, reset and the TX LED, the USB supply domain in
+  the voltage check, and `circuit_serial_configure`'s errors.
+
 - `serial_test` — the serial kind on fixture devices
   (`tests/support/serial_fixture.h`: a PC16550D-shaped `ns16550` in plcc44
   and dip40, and a 16450 twin) with a bench that clocks XIN and wires

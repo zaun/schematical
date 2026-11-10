@@ -552,6 +552,9 @@ struct SchematicCanvasView: View {
             return
         }
 
+        // The whole press, whatever it does, is one undo step (plan-31-B).
+        if interaction == nil { document.beginGesture(.schematic) }
+
         switch tool {
         case .pointer:
             if interaction == nil {
@@ -807,6 +810,7 @@ struct SchematicCanvasView: View {
         }
         selectionPress = nil
         interaction = nil
+        if document.isGestureOpen { document.endGesture() }
     }
 
     /// A press that ended about where it started, in screen points.

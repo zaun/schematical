@@ -330,6 +330,16 @@ nonisolated final class SimulationEngine: @unchecked Sendable {
         return circuit_error(circuit).map { String(cString: $0) } ?? "The send was refused."
     }
 
+    /// Sets a USB bridge channel's port, as the PC would: nil on success, else the reason.
+    func serialConfigure(part: Int, channel: Int, port: SerialPort) -> String? {
+        lock.lock()
+        defer { lock.unlock() }
+        guard !destroyed else { return "The simulation is not running." }
+        guard channel >= 0 else { return "No such channel." }
+        if port.apply(to: circuit, part: part, channel: channel) { return nil }
+        return circuit_error(circuit).map { String(cString: $0) } ?? "The port settings were refused."
+    }
+
     /// A processor part's state (cpu kind), or nil for any other part.
     func cpuState(part: Int) -> CpuSnapshot? {
         lock.lock()

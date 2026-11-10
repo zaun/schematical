@@ -20,15 +20,25 @@ import SwiftUI
 /// empty space to pan, which also clears the selection; Shift-drag empty
 /// space to draw a box that adds every drawn item it touches. With
 /// the Text tool, a press places a text and goes back to Select. With the
-/// Trace tool, a drag draws a 45° trace on `traceLayer` (`TraceDrawing`):
-/// a live preview in the layer's colour while dragging, a green ring where
-/// the end lands, and on release the trace is added, joined and selected.
-/// The tool stays Trace. Option puts the diagonal first. Nothing runs while
-/// this page shows (`ContentView` stops a run when switching to it).
+/// Trace tool, a drag draws a trace on `traceLayer` at `traceAngle`
+/// (`TraceDrawing`, `TraceDraft`): a live preview in the layer's colour
+/// while dragging, a green ring where the end lands, and on release the
+/// trace is added, joined and selected. While dragging, as with the
+/// schematic's Line tool, Space locks a corner, `/` puts the angled leg
+/// first and Esc drops the last lock (or, with none, the trace). The tool
+/// stays Trace. With the Via tool, a press places a via (on a trace there,
+/// else on the trace grid) and the drag moves it; the tool stays Via. With
+/// the Delete tool, a press deletes the text, via or trace under it;
+/// footprints are never deleted. Nothing runs while this page
+/// shows (`ContentView` stops a run when switching to it).
 ///
 /// Traces draw with their layer's copper, in its colour, at their width. A
 /// selected trace gets an accent underlay; the rest of its joined run gets
 /// a fainter one.
+///
+/// Connections the schematic makes that no copper does yet show as thin red
+/// lines between their pads (`SchematicDocument.ratsnest`), over the marks.
+/// While a trace is drawn, its net's line runs from the trace's end.
 ///
 /// Board positions are millimetres; the view draws `BoardScale.pointsPerMM`
 /// world units per mm and the viewport maps world units to the screen.
@@ -40,9 +50,14 @@ struct PCBCanvasView: View {
     var visible = BoardVisibility()
     /// The layer the Trace tool draws on.
     var traceLayer: CopperLayer = .top
+    /// The Trace tool's angle (`TraceRoute.angles`), between the straight
+    /// run and the angled leg.
+    var traceAngle = TraceRoute.defaultAngle
     /// Called with a hidden layer the Trace tool just drew on; the owner
     /// shows it.
     var onShowLayer: (CopperLayer) -> Void = { _ in }
+    /// Where the pointer is over the board, for ⌘V; set as it moves.
+    var pointer: BoardPointer?
     /// Called when the Text tool has placed a text; the owner returns to Select.
     var onPlaced: () -> Void = {}
 
@@ -53,6 +68,8 @@ struct PCBCanvasView: View {
     @State private var pressLocation: CGPoint = .zero
     /// What the current press did to the selection; a click finishes it.
     @State private var selectionPress: SelectionPress<BoardItem>?
+    /// Space, `/` and Esc while a trace is being drawn.
+    @State private var drawingKeyMonitor: Any?
 
     enum Interaction: Equatable {
         /// Moves every selected footprint, text and trace from where they
@@ -62,9 +79,12 @@ struct PCBCanvasView: View {
         /// Shift-drag on empty board: a selection box from the press to
         /// `to` (screen points), adding to `base`, the selection at the press.
         case boxSelect(base: Set<BoardItem>, to: CGPoint)
-        /// A trace being drawn from `start` (already anchored) towards the
-        /// pointer at `cursor` (board mm).
-        case drawTrace(start: CGPoint, cursor: CGPoint)
+        /// A trace being drawn: its draft (start already anchored, plus any
+        /// locked legs) and the pointer at `cursor` (board mm).
+        case drawTrace(draft: TraceDraft, cursor: CGPoint)
+        /// The rest of a press that does nothing more: a Delete click, or a
+        /// trace dropped with Esc.
+        case idle
     }
 
     static let background = Color(white: 0.13)
@@ -118,10 +138,53 @@ struct PCBCanvasView: View {
         )
         .onContinuousHover { phase in
             switch phase {
-            case let .active(location): hoverPoint = board(location)
-            case .ended: hoverPoint = nil
+            case let .active(location):
+                hoverPoint = board(location)
+                pointer?.point = hoverPoint
+            case .ended:
+                hoverPoint = nil
+                pointer?.point = nil
             }
         }
+        .onAppear { installDrawingKeyMonitor() }
+        .onDisappear { removeDrawingKeyMonitor() }
+    }
+
+    private func installDrawingKeyMonitor() {
+        guard drawingKeyMonitor == nil else { return }
+        drawingKeyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+            handleDrawingKey(event) ? nil : event
+        }
+    }
+
+    private func removeDrawingKeyMonitor() {
+        if let drawingKeyMonitor { NSEvent.removeMonitor(drawingKeyMonitor) }
+        drawingKeyMonitor = nil
+    }
+
+    /// Space, Esc and `/` while a trace is being drawn. Returns whether the
+    /// key was used; any other key, or any key when no trace is being
+    /// drawn, is left alone.
+    private func handleDrawingKey(_ event: NSEvent) -> Bool {
+        guard case let .drawTrace(draft, cursor)? = interaction else { return false }
+        var next = draft
+        if event.keyCode == 53 {
+            // Esc with nothing locked drops the whole trace; the rest of the
+            // drag does nothing.
+            if !next.unlock() { interaction = .idle; return true }
+        } else if event.keyCode == 49 {
+            if !event.isARepeat {
+                next.lock(to: TraceDrawing.anchor(document, at: cursor, layer: traceLayer, scale: scale),
+                          angle: traceAngle)
+            }
+        } else if event.charactersIgnoringModifiers == "/",
+                  event.modifierFlags.intersection([.command, .control, .option]).isEmpty {
+            next.flip()
+        } else {
+            return false
+        }
+        interaction = .drawTrace(draft: next, cursor: cursor)
+        return true
     }
 
     /// A screen point in board millimetres.
@@ -171,9 +234,15 @@ struct PCBCanvasView: View {
         }
         // A 1-layer board has no Bottom layer, and nothing on its bottom.
 
-        // Through-hole pads go through every layer: copper, with the canvas
-        // showing through the drill.
+        // Through-hole pads and vias go through every layer: copper, with
+        // the canvas showing through the drill.
         if visible.showsAnyCopper {
+            for via in document.vias {
+                context.fill(Path(ellipseIn: via.rect), with: .color(Self.copper))
+                let d = via.drill
+                let hole = CGRect(x: via.centre.x - d / 2, y: via.centre.y - d / 2, width: d, height: d)
+                context.fill(Path(ellipseIn: hole), with: .color(Self.background))
+            }
             for chip in document.chips {
                 for pad in chip.boardPads where pad.drill > 0 {
                     context.fill(Self.outline(of: pad), with: .color(Self.copper))
@@ -186,6 +255,7 @@ struct PCBCanvasView: View {
 
         drawMarksAndTexts(on: .top, in: &context, colour: colour, visible: visible)
 
+        drawRatsnest(in: &context)
         drawTraceTool(in: &context)
 
         // Selection boxes, one per selected item that is drawn, on top of
@@ -200,6 +270,13 @@ struct PCBCanvasView: View {
                 selected = document.texts.first { $0.id == id && visible.showsText($0) }?.boardRect
             case .trace:
                 // A selected trace has its own underlay (`drawTraces`).
+                selected = nil
+            case let .via(id):
+                // A ring just outside the via's metal.
+                if visible.showsAnyCopper, let via = document.vias.first(where: { $0.id == id }) {
+                    context.stroke(Path(ellipseIn: via.rect.insetBy(dx: -margin, dy: -margin)),
+                                   with: .color(.accentColor), lineWidth: 2 / scale)
+                }
                 selected = nil
             }
             if let selected {
@@ -234,14 +311,37 @@ struct PCBCanvasView: View {
         }
     }
 
+    /// A thin red line for each connection the schematic makes that no
+    /// copper does yet (`SchematicDocument.ratsnest`). While a trace is
+    /// being drawn it counts, so its net's line runs from where it ends.
+    private func drawRatsnest(in context: inout GraphicsContext) {
+        var drawing: BoardTrace?
+        if tool == .trace, case let .drawTrace(draft, cursor) = interaction {
+            let route = TraceDrawing.preview(document, draft: draft, to: cursor, layer: traceLayer, scale: scale,
+                                             angle: traceAngle)
+            if TraceRoute.isLegal(route) {
+                drawing = BoardTrace(id: UUID(), layer: traceLayer, width: BoardTrace.defaultWidth, points: route)
+            }
+        }
+        let lines = document.ratsnest(drawing: drawing)
+        guard !lines.isEmpty else { return }
+        let path = Path { path in
+            for (a, b) in lines {
+                path.move(to: a)
+                path.addLine(to: b)
+            }
+        }
+        context.stroke(path, with: .color(.red), lineWidth: 1 / scale)
+    }
+
     /// The Trace tool's preview while dragging, and the green ring where a
     /// press or release would land.
     private func drawTraceTool(in context: inout GraphicsContext) {
         guard tool == .trace else { return }
         let ring: CGPoint?
-        if case let .drawTrace(start, cursor) = interaction {
-            let route = TraceDrawing.preview(document, from: start, to: cursor, layer: traceLayer, scale: scale,
-                                             diagonalFirst: NSEvent.modifierFlags.contains(.option))
+        if case let .drawTrace(draft, cursor) = interaction {
+            let route = TraceDrawing.preview(document, draft: draft, to: cursor, layer: traceLayer, scale: scale,
+                                             angle: traceAngle)
             let colour = document.board.style(of: traceLayer).color.color.opacity(0.6)
             context.stroke(Self.path(route), with: .color(colour),
                            style: Self.traceStyle(width: Double(BoardTrace.defaultWidth) * 0.0254))
@@ -339,10 +439,11 @@ struct PCBCanvasView: View {
         }
     }
 
-    /// Dots every 2.54 mm (4 grid steps), hidden when they would be closer
-    /// than 8 points on screen.
+    /// Dots every 4 component-grid steps (2.54 mm on the default grid),
+    /// hidden when they would be closer than 8 points on screen. The trace
+    /// grid gets no dots.
     private func drawGrid(in context: GraphicsContext, size: CGSize) {
-        let step = BoardGrid.spacing * 4
+        let step = document.board.grid * 4
         guard step * scale >= 8 else { return }
         let topLeft = board(.zero)
         let bottomRight = board(CGPoint(x: size.width, y: size.height))
@@ -370,7 +471,11 @@ struct PCBCanvasView: View {
     /// what the drag is doing.
     @discardableResult
     func handle(start: CGPoint, translation: CGSize) -> Interaction {
-        if interaction == nil { pressLocation = start }
+        if interaction == nil {
+            pressLocation = start
+            // The whole press is one undo step (plan-31-C).
+            document.beginGesture(.pcb)
+        }
         let current = interaction ?? begin(at: start)
         interaction = current
         let offset = CGSize(width: translation.width / scale, height: translation.height / scale)
@@ -391,10 +496,12 @@ struct PCBCanvasView: View {
                 base: base, visible: shown
             )
             return .boxSelect(base: base, to: to)
-        case let .drawTrace(start, _):
+        case let .drawTrace(draft, _):
             let cursor = board(CGPoint(x: pressLocation.x + translation.width, y: pressLocation.y + translation.height))
-            interaction = .drawTrace(start: start, cursor: cursor)
-            return .drawTrace(start: start, cursor: cursor)
+            interaction = .drawTrace(draft: draft, cursor: cursor)
+            return .drawTrace(draft: draft, cursor: cursor)
+        case .idle:
+            break
         }
         return current
     }
@@ -406,7 +513,17 @@ struct PCBCanvasView: View {
         switch tool {
         case .trace:
             let anchored = TraceDrawing.anchor(document, at: point, layer: traceLayer, scale: scale)
-            return .drawTrace(start: anchored, cursor: point)
+            return .drawTrace(draft: TraceDraft(start: anchored), cursor: point)
+        case .via:
+            // A press places a via (snapped onto a trace, or the trace grid)
+            // and the drag moves it. Nothing on a 1-layer board.
+            let anchored = document.viaAnchor(at: point, tolerance: TraceDrawing.tolerance / scale)
+            guard document.addVia(at: anchored) != nil else { return .idle }
+            return .moveGroup(base: document.boardGroupBase())
+        case .delete:
+            // One deletion per press: the text, via or trace where it started.
+            document.deleteBoardItem(at: point, tolerance: TraceDrawing.tolerance / scale, visible: shown)
+            return .idle
         case .text:
             // The new text is the whole selection, and the drag moves it.
             document.addText(at: point)
@@ -415,7 +532,7 @@ struct PCBCanvasView: View {
         case .select:
             if let item = document.boardItem(at: point, tolerance: TraceDrawing.tolerance / scale, visible: shown) {
                 selectionPress = document.pressSelection(item, shift: shift)
-                return .moveGroup(base: document.boardGroupBase())
+                return .moveGroup(base: document.boardGroupBase(grab: point))
             }
             if shift {
                 return .boxSelect(base: document.boardSelection.items, to: start)
@@ -428,10 +545,9 @@ struct PCBCanvasView: View {
     /// The end of a press: a click (under 3 points of movement) finishes
     /// what the press left pending in the selection.
     private func end(translation: CGSize) {
-        if case let .drawTrace(start, cursor) = interaction {
-            TraceDrawing.finish(document, from: start, to: cursor, layer: traceLayer, scale: scale,
-                                diagonalFirst: NSEvent.modifierFlags.contains(.option),
-                                visible: shown, onShowLayer: onShowLayer)
+        if case let .drawTrace(draft, cursor) = interaction {
+            TraceDrawing.finish(document, draft: draft, to: cursor, layer: traceLayer, scale: scale,
+                                angle: traceAngle, visible: shown, onShowLayer: onShowLayer)
         }
         if case let .moveGroup(base) = interaction {
             document.settleBoardGroup(base)
@@ -441,7 +557,15 @@ struct PCBCanvasView: View {
         }
         selectionPress = nil
         interaction = nil
+        if document.isGestureOpen { document.endGesture() }
     }
+}
+
+/// Where the pointer is over a PCB canvas (board mm), or nil when it is off
+/// it. A plain class, so the pointer moving doesn't redraw its owner.
+@MainActor
+final class BoardPointer {
+    var point: CGPoint?
 }
 
 /// The steps of a Trace tool drag, kept apart from the view so tests can
@@ -460,21 +584,21 @@ enum TraceDrawing {
         document.traceAnchor(at: point, layer: layer, tolerance: tolerance / scale)
     }
 
-    /// The route a release at `cursor` would add.
-    static func preview(_ document: SchematicDocument, from start: CGPoint, to cursor: CGPoint,
-                        layer: CopperLayer, scale: CGFloat, diagonalFirst: Bool) -> [CGPoint] {
-        TraceRoute.route(from: start, to: anchor(document, at: cursor, layer: layer, scale: scale),
-                         diagonalFirst: diagonalFirst)
+    /// The route a release at `cursor` would add: the draft's locked legs,
+    /// then the live leg at `angle` to where the cursor lands.
+    static func preview(_ document: SchematicDocument, draft: TraceDraft, to cursor: CGPoint,
+                        layer: CopperLayer, scale: CGFloat, angle: Int) -> [CGPoint] {
+        draft.path(to: anchor(document, at: cursor, layer: layer, scale: scale), angle: angle)
     }
 
     /// The release: adds the trace (nothing for a zero-length one), makes it
     /// the whole selection, and asks for its layer to be shown if hidden.
     @discardableResult
-    static func finish(_ document: SchematicDocument, from start: CGPoint, to cursor: CGPoint, layer: CopperLayer,
-                       scale: CGFloat, diagonalFirst: Bool, visible: BoardVisibility,
+    static func finish(_ document: SchematicDocument, draft: TraceDraft, to cursor: CGPoint, layer: CopperLayer,
+                       scale: CGFloat, angle: Int, visible: BoardVisibility,
                        onShowLayer: (CopperLayer) -> Void) -> UUID? {
-        let end = anchor(document, at: cursor, layer: layer, scale: scale)
-        guard let id = document.addTrace(from: start, to: end, layer: layer, diagonalFirst: diagonalFirst) else {
+        let points = preview(document, draft: draft, to: cursor, layer: layer, scale: scale, angle: angle)
+        guard let id = document.addTrace(points: points, layer: layer) else {
             return nil
         }
         document.select(.trace(id))
@@ -484,11 +608,14 @@ enum TraceDrawing {
 }
 
 /// The PCB page's tools: Select (move footprints, texts and traces, pan),
-/// Text (click to place a text) and Trace (drag to draw a trace).
+/// Text (click to place a text), Trace (drag to draw a trace), Via (click
+/// to place a via) and Delete (click a text, via or trace to delete it).
 enum PCBTool: String, CaseIterable, Identifiable {
     case select
     case text
     case trace
+    case via
+    case delete
 
     var id: String { rawValue }
 
@@ -497,6 +624,18 @@ enum PCBTool: String, CaseIterable, Identifiable {
         case .select: "Select"
         case .text: "Text"
         case .trace: "Trace"
+        case .via: "Via"
+        case .delete: "Delete"
+        }
+    }
+
+    /// The toolbar tooltip: the title, plus the drawing keys for Trace.
+    var tooltip: String {
+        switch self {
+        case .trace: "Trace — Space: lock a corner · /: flip the bend · A: change the angle · Esc: undo a corner"
+        case .via: "Via — click to place a via, drag to move it (2 or more layers)"
+        case .delete: "Delete — click a trace, via or text to delete it (footprints stay)"
+        default: title
         }
     }
 
@@ -505,6 +644,8 @@ enum PCBTool: String, CaseIterable, Identifiable {
         case .select: "cursorarrow"
         case .text: "textformat"
         case .trace: "line.diagonal"
+        case .via: "circle.circle"
+        case .delete: "eraser"
         }
     }
 }

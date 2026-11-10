@@ -1240,13 +1240,17 @@ helpers (`serial_bus.c`).
 
 | Key | Value |
 |---|---|
-| `"model"` | `"ns16550"` (the 16450/16550 family and the I2C/SPI bridges built on it), `"max3100"` (MAX3100, MAX3140), `"max310x"` (MAX3107, MAX3108, MAX3109, MAX14830), `"sc18is604"` (the SC18IS604 SPI-to-I2C bridge); `"ay1013"`, `"i8251"`, `"i82510"`, `"acia6551"`, `"hs82c52"`, `"com78c80x"` (the classic UARTs, plan-12-H); more models in later plans |
+| `"model"` | `"ns16550"` (the 16450/16550 family and the I2C/SPI bridges built on it), `"max3100"` (MAX3100, MAX3140), `"max310x"` (MAX3107, MAX3108, MAX3109, MAX14830), `"sc18is604"` (the SC18IS604 SPI-to-I2C bridge); `"ay1013"`, `"i8251"`, `"i82510"`, `"acia6551"`, `"hs82c52"`, `"com78c80x"` (the classic UARTs, plan-12-H); `"usbuart"` (the USB-to-UART bridges); more models in later plans |
 | `"grades"` | grade name → the model's timing names (ns; a missing name is 0), plus optional `"vcc"`, `"inputMax"`, `"note"` |
 | the model's keys | below; a key of another model is rejected (`"x" is not a key of model "y"`) |
 
 Part keys: `"grade"` (a key of `"grades"`), optional `"vcc"`, `"inputMax"`
 (the part's own range when its row differs from its grade's). `PartSerial`
-holds the model, the channel count and the grade.
+holds the model, the channel count, the grade and the host-side interface
+(`host`: `"spi"`, `"i2c"` or `"i2c-spi"` from the `"bus"` style, `"usb"`
+for the `usbuart` model, otherwise `"parallel"`), which the parts drawer
+shows on each serial part's second line ("Parallel", "SPI", "I²C",
+"I²C/SPI", "USB").
 
 **Signal rules (every model).** Power-on is the reset state, then the reset
 pin applies at start; registers the reset does not touch power on X. An
@@ -1571,6 +1575,47 @@ with I2CStat 0xF0 (done), 0xF1 (address NACK), 0xF2 (data NACK), 0xF8
 of 0 or more than the bytes sent), asserting INT; 0xF3 while busy. No
 internal pull-ups: put pull parts on SCL, SDA and INT. MISO is Z while CS is
 high, during the command byte and where a command defines no output.
+
+#### `usbuart`
+
+USB-to-UART bridges (CP210x, CY7C64225/65213, MCP2200, XR21B14xx,
+XR21V141x). The USB side is the app's terminal, playing the PC: what is
+typed into a channel's terminal goes out its TXD pin, and the characters
+the circuit sends into RXD show in the terminal. The PC sets the port
+(`circuit_serial_configure`; the terminal's Port menus): baud, data bits
+(5–8), parity, stop bits and RTS/CTS flow control, by default 9600 8N1 with
+no flow control. The drawer shows these parts as host bus "USB".
+
+```json
+"model": "usbuart",
+"channels": [{"txd": "TXD", "rxd": "RXD", "rts": "RTS", "cts": "CTS", "dtr": "DTR",
+              "dsr": "DSR", "dcd": "DCD", "ri": "RI"}],
+"reset": "RSTb", "suspend": "SUSPEND", "suspendLow": "SUSPENDb",
+"grades": {"-": {"vcc": [3.0, 3.6]}}
+```
+
+| Key | Value |
+|---|---|
+| `"channels"` | 1–8 objects, one per UART. `"txd"` (output) and `"rxd"` (input) are required; `"rts"`, `"dtr"` (outputs, active low), `"cts"`, `"dsr"`, `"dcd"`, `"ri"` (inputs, active low), `"txLed"`, `"rxLed"` (outputs, active low: a pin whose fixed or default function is TX / RX activity) are optional |
+| `"reset"` | optional; the reset input (active low; Z reads inactive) |
+| `"suspend"` | optional; the USB-suspend output that is high while suspended |
+| `"suspendLow"` | optional; the USB-suspend output that is low while suspended |
+
+No timing names; a grade holds `"vcc"` (the supply the logic pins run
+from) and an optional `"note"`. Pins the model does not name (USB D+ and
+D−, VBUS, regulator pins, GPIO, configuration straps) take the roles of
+§ Pinouts and pins and are left alone: an `"inout"` or `"output"` pin the
+model does not name is never driven.
+
+Behavior: the line runs on the bridge's own clock (sim timers at 16 ticks a
+bit), exact to the set baud. With the port open and the USB link up, RTS
+and DTR are driven 0 (asserted), SUSPEND 0 and SUSPEND-bar 1, and TXD idles
+at 1. `txLed` / `rxLed` are 0 while a frame is sent / received. With RTS/CTS
+flow control a frame starts only while CTS reads 0. DSR, DCD and RI are
+read by nothing. RXD and CTS at Z read 1 (the bridges' pull-ups). A
+received break is not shown; a character with a parity or framing error
+is. While `"reset"` is 0 every named output is released (Z) and the
+terminal's queue is dropped; while it is X every named output is X.
 
 #### `max3100`
 

@@ -7400,6 +7400,22 @@ static void run_e_cases(void) {
     case_e28();
 }
 
+/* PartSerial.host: the host-side interface the drawer shows, from "bus". */
+static void case_host(void) {
+    static const struct { const char *part, *host; } CASES[] = {
+        {"SC16IS750IBS,128", "i2c-spi"}, {"MAX3100CEE+", "spi"}, {"SC18IS604PWJ", "spi"},
+        {"TL16C550CFN", "parallel"}, {"AY-5-1013A", "parallel"},
+    };
+    size_t i;
+
+    for (i = 0; i < sizeof(CASES) / sizeof(CASES[0]); i++) {
+        const Part *part = part_library_find(library, CASES[i].part);
+
+        check(part != NULL && part->serial != NULL && part->serial->host != NULL &&
+              strcmp(part->serial->host, CASES[i].host) == 0, CASES[i].part);
+    }
+}
+
 int main(void) {
     library = part_library_create();
     if (load_parts_dir(library, PARTS_DIR) != 0 || load_serial_fixture(library) != 0 ||
@@ -7425,6 +7441,7 @@ int main(void) {
     run_d_cases();
     case_d24();
     case_shipped();
+    case_host();
     case_jf_spi();
     case_jf_i2c();
     case_j1();

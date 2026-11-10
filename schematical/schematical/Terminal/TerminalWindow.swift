@@ -9,6 +9,11 @@
 //  drives the RX pin as a real serial waveform at the channel's current baud
 //  and format.
 //
+//  A USB-to-UART bridge is the other way round: the terminal is the PC on
+//  its USB side. Typing goes out the bridge's TXD pin, the transcript is
+//  what the circuit sends into its RXD pin, and the Port menus set the baud,
+//  format and flow control, as a PC does (SerialPort).
+//
 
 import AppKit
 import SwiftUI
@@ -130,7 +135,7 @@ struct TerminalInspector: View {
 
     /// The part's channels, from its facts (the same while stopped).
     private var channels: Int {
-        if case let .serial(_, count, _)? = chip?.part.details { return count }
+        if case let .serial(_, count, _, _)? = chip?.part.details { return count }
         return 0
     }
 
@@ -149,6 +154,42 @@ struct TerminalInspector: View {
             }
         }
         .frame(minWidth: 480, minHeight: 300)
+    }
+
+    /// A USB-to-UART bridge: the PC sets its port.
+    private var isUSBBridge: Bool {
+        if case let .serial(_, _, _, host)? = chip?.part.details { return host == "usb" }
+        return false
+    }
+
+    /// The channel's port, read from and written to the simulation.
+    private var port: Binding<SerialPort> {
+        Binding(
+            get: { simulation.serialPort(of: chipID, channel: channel) },
+            set: { error = simulation.setSerialPort($0, of: chipID, channel: channel) }
+        )
+    }
+
+    /// Baud, format and flow control of a bridge's channel.
+    @ViewBuilder private var portControls: some View {
+        Picker("Baud", selection: port.baud) {
+            ForEach(SerialPort.bauds, id: \.self) { Text(String($0)).tag($0) }
+        }
+        .fixedSize()
+        Picker("Format", selection: Binding(
+            get: { port.wrappedValue.formatName },
+            set: { name in
+                if let format = SerialPort.formats.first(where: { $0.formatName == name }) {
+                    port.wrappedValue = port.wrappedValue.withFormat(format)
+                }
+            }
+        )) {
+            ForEach(SerialPort.formats, id: \.formatName) { Text($0.formatName).tag($0.formatName) }
+        }
+        .labelsHidden()
+        .fixedSize()
+        Toggle("RTS/CTS", isOn: port.rtsCts)
+            .help("Hardware flow control: the bridge sends only while CTS is low")
     }
 
     /// The transcript now: refreshed in the body, so every `stateVersion`
@@ -176,6 +217,7 @@ struct TerminalInspector: View {
                     .labelsHidden()
                     .frame(maxWidth: 240)
                 }
+                if isUSBBridge { portControls }
                 Spacer()
                 Button("Clear") { log.clear(channel: channel) }
             }
@@ -211,7 +253,8 @@ struct TerminalInspector: View {
         }
     }
 
-    /// Types `text` (and a CR for Return) into the channel's RX pin.
+    /// Types `text` (and a CR for Return) into the channel's RX pin (a
+    /// bridge: out its TXD pin).
     func send(_ text: String, carriageReturn: Bool) {
         var bytes = Array(text.utf8)
         if carriageReturn { bytes.append(0x0D) }

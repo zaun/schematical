@@ -242,7 +242,8 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case characterLCD(CharacterLCDInfo)
         /// A serial controller (plan-12): its model, its serial channels
         /// (0 for the SPI-to-I2C bridge) and its grade.
-        case serial(model: String, channels: Int, grade: String)
+        /// `host`: the host-side interface ("parallel", "spi", "i2c", "i2c-spi").
+        case serial(model: String, channels: Int, grade: String, host: String)
         case connector(centerPinUM: UInt32, ratedMV: UInt32, ratedMA: UInt32, contacts: Int)
         /// A parallel I/O peripheral on the 65xx bus (plan-14): its model
         /// ("pia6521", "via6522"), speed grade and highest clock.
@@ -374,7 +375,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
 
     /// A serial part with at least one channel: a part with a terminal window.
     var hasTerminal: Bool {
-        if case let .serial(_, channels, _) = details { return channels > 0 }
+        if case let .serial(_, channels, _, _) = details { return channels > 0 }
         return false
     }
 
@@ -469,7 +470,8 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .cpu(_, _, maxHz): return ["\(maxHz / 1_000_000) MHz"]
         case let .characterLCD(info):
             return [info.panel.title] + (info.backlightColor.map { ["\($0) backlight"] } ?? [])
-        case let .serial(_, channels, _): return channels > 1 ? ["\(channels) channels"] : []
+        case let .serial(_, channels, _, host):
+            return [PartFacts.serialHost(host)] + (channels > 1 ? ["\(channels) channels"] : [])
         case let .pio(_, _, maxHz): return ["\(maxHz / 1_000_000) MHz"]
         case let .connector(centerPinUM, _, ratedMA, contacts):
             return [String(format: "%.1f mm", Double(centerPinUM) / 1000),
@@ -631,7 +633,7 @@ extension CatalogPart {
             ))
         } else if let serial = part.serial?.pointee {
             details = .serial(model: string(serial.model), channels: Int(serial.channels),
-                              grade: string(serial.grade))
+                              grade: string(serial.grade), host: string(serial.host))
         } else if let pio = part.pio?.pointee {
             details = .pio(model: string(pio.model), grade: string(pio.grade), maxHz: pio.max_hz)
         } else if let header = part.header?.pointee {
@@ -758,9 +760,9 @@ struct DrawerFilter: Equatable {
     var displaySize: String?
     /// Actuator ("Standard", "Round Button", ...). Only narrows tactile switches.
     var tactileActuator: String?
-    /// Resolution and channel count, by converter type ("adc", "dac"), so the
-    /// ADC and DAC groups filter separately.
-    var converterBits: [String: Int] = [:]
+    /// Channel count, by converter type ("adc", "dac"), so the ADC and DAC
+    /// groups filter separately. Resolution is not a filter: the groups are
+    /// split by bits instead (`FunctionGroup.bitGroups`).
     var converterChannels: [String: Int] = [:]
     /// Supply rail in millivolts. Keeps parts whose supply range covers it and
     /// switches rated for at least it; LEDs and displays have no supply and stay.
@@ -819,8 +821,20 @@ final class PartCatalogStore {
         /// ("6 × 6 mm"; `CatalogPart.drawerLeaf`).
         let function: String
         let parts: [CatalogPart]
+        /// For ADCs and DACs, `parts` split by resolution, fewest bits first;
+        /// empty for other parts.
+        var bitGroups: [BitGroup] = []
 
         var id: String { function }
+    }
+
+    /// A converter function group's parts with one resolution.
+    struct BitGroup: Identifiable, Hashable {
+        let bits: Int
+        let parts: [CatalogPart]
+
+        var id: Int { bits }
+        var title: String { "\(bits)-bit" }
     }
 
     struct SubcategoryGroup: Identifiable, Hashable {
@@ -903,24 +917,12 @@ final class PartCatalogStore {
         return type
     }
 
-    /// Resolutions of one converter type, ascending. With `channels`, only
-    /// those of converters with that many channels, so the two menus never
-    /// pick a pair no part has.
-    func converterBits(type: String, channels: Int?) -> [Int] {
-        Array(Set(converters(type).filter { channels == nil || $0.channels == channels }.map(\.bits))).sorted()
-    }
-
-    /// Channel counts of one converter type, ascending; with `bits`, only
-    /// those of converters with that resolution.
-    func converterChannels(type: String, bits: Int?) -> [Int] {
-        Array(Set(converters(type).filter { bits == nil || $0.bits == bits }.map(\.channels))).sorted()
-    }
-
-    private func converters(_ type: String) -> [(bits: Int, channels: Int)] {
-        entries.compactMap { part in
-            guard case let .converter(partType, bits, channels) = part.details, partType == type else { return nil }
-            return (bits, channels)
-        }
+    /// Channel counts of one converter type, ascending.
+    func converterChannels(type: String) -> [Int] {
+        Array(Set(entries.compactMap { part -> Int? in
+            guard case let .converter(partType, _, channels) = part.details, partType == type else { return nil }
+            return channels
+        })).sorted()
     }
 
     /// LED and display colors in a category.
@@ -988,13 +990,9 @@ final class PartCatalogStore {
             if part.kind == PART_SWITCH, !part.isTactileSwitch, let count = filter.switchPositions, part.count != count {
                 return false
             }
-            if case let .converter(type, bits, channels) = part.details {
-                if let wanted = filter.converterBits[type], bits != wanted {
-                    return false
-                }
-                if let wanted = filter.converterChannels[type], channels != wanted {
-                    return false
-                }
+            if case let .converter(type, _, channels) = part.details,
+               let wanted = filter.converterChannels[type], channels != wanted {
+                return false
             }
             if let mv = filter.voltageMV {
                 if let vcc = part.vcc, !(vcc.minMV...vcc.maxMV ~= mv) {
@@ -1073,11 +1071,21 @@ final class PartCatalogStore {
         Dictionary(grouping: parts, by: \.drawerLeaf)
             .sorted { $0.key.localizedStandardCompare($1.key) == .orderedAscending }
             .map { function, parts in
-                FunctionGroup(
-                    function: function,
-                    parts: parts.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
-                )
+                let sorted = parts.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+                return FunctionGroup(function: function, parts: sorted, bitGroups: bitGroups(sorted))
             }
+    }
+
+    /// Converters split by resolution, fewest bits first; empty when the
+    /// parts are not converters.
+    private static func bitGroups(_ parts: [CatalogPart]) -> [BitGroup] {
+        let byBits = Dictionary(grouping: parts) { part -> Int? in
+            guard case let .converter(_, bits, _) = part.details else { return nil }
+            return bits
+        }
+        guard byBits[nil] == nil else { return [] }
+        return byBits.compactMap { bits, parts in bits.map { BitGroup(bits: $0, parts: parts) } }
+            .sorted { $0.bits < $1.bits }
     }
 
     private func sortedNames(_ names: [String]) -> [String] {

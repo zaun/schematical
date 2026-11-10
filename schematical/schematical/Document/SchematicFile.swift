@@ -120,14 +120,16 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
     }
 
     /// The PCB: size in mm, copper layers, colour and sidebar units (raw
-    /// values of `BoardColor` and `BoardUnits`), and free texts. Missing keys
-    /// mean the defaults of `BoardSettings`.
+    /// values of `BoardColor` and `BoardUnits`), the component grid in mm,
+    /// and free texts. Missing keys mean the defaults of `BoardSettings`.
     struct Board: Codable, Equatable, Sendable {
         var width: Double? = nil
         var height: Double? = nil
         var layers: Int? = nil
         var color: String? = nil
         var units: String? = nil
+        /// The component grid, mm; the trace grid is half of it.
+        var grid: Double? = nil
         /// One entry per copper layer on the board, in stack order. Missing
         /// entries, colours or types mean the defaults.
         var layerStyles: [LayerStyleEntry]? = nil
@@ -135,6 +137,19 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         /// Copper traces, in drawing order. Always written (`[]` when there
         /// are none); missing means none.
         var traces: [TraceEntry]? = nil
+        /// Vias, in drawing order. Written only when there are some;
+        /// missing means none.
+        var vias: [ViaEntry]? = nil
+
+        /// A via: its centre, hole (`drill`) and metal (`diameter`), in mm.
+        /// Missing sizes mean the defaults (0.4 and 0.8).
+        struct ViaEntry: Codable, Equatable, Sendable {
+            var id: UUID
+            var x: Double
+            var y: Double
+            var drill: Double? = nil
+            var diameter: Double? = nil
+        }
 
         /// A trace: its copper layer (`CopperLayer` raw value), width in
         /// mil (default 10) and points in mm, kept as saved (not snapped).
@@ -442,6 +457,7 @@ extension SchematicFile {
             layers: settings.layers,
             color: settings.color.rawValue,
             units: settings.units.rawValue,
+            grid: settings.grid,
             layerStyles: settings.copperLayers.map { layer in
                 let style = settings.style(of: layer)
                 return Board.LayerStyleEntry(layer: layer.rawValue, color: style.color.hex, type: style.type.rawValue)
@@ -454,6 +470,9 @@ extension SchematicFile {
             traces: document.traces.map { trace in
                 Board.TraceEntry(id: trace.id, layer: trace.layer.rawValue, width: trace.width,
                                  points: trace.points.map { Point(x: $0.x, y: $0.y) })
+            },
+            vias: document.vias.isEmpty ? nil : document.vias.map { via in
+                Board.ViaEntry(id: via.id, x: via.centre.x, y: via.centre.y, drill: via.drill, diameter: via.diameter)
             }
         )
     }
@@ -588,7 +607,8 @@ extension SchematicFile {
                 chip.board = stored
                 let footprint = chip.footprint!
                 board = pcb.origin == nil
-                    ? BoardLayout.snapped(stored, footprint: footprint, pad1: catalogPart.firstPinDesignator)
+                    ? BoardLayout.snapped(stored, footprint: footprint, pad1: catalogPart.firstPinDesignator,
+                                          grid: settings.grid)
                     : stored
             }
             chip.board = board
@@ -601,7 +621,9 @@ extension SchematicFile {
         // ones, in file order.
         for index in chips.indices where chips[index].board == nil {
             if let footprint = chips[index].footprint {
-                chips[index].board = BoardLayout.nextSpot(for: footprint, among: chips)
+                chips[index].board = BoardLayout.nextSpot(for: footprint, among: chips,
+                                                          pad1: chips[index].part.firstPinDesignator,
+                                                          grid: settings.grid)
             }
         }
 
@@ -683,7 +705,7 @@ extension SchematicFile {
         var texts: [BoardText] = []
         for text in board?.texts ?? [] {
             try claim(text.id)
-            let placed = try boardText(text)
+            let placed = try boardText(text, grid: settings.grid)
             if placed.side == .bottom, settings.layers == 1 {
                 throw SchematicFileError.badPCB("text \(text.id.uuidString) is on the bottom of a 1-layer board")
             }
@@ -694,6 +716,22 @@ extension SchematicFile {
         for entry in board?.traces ?? [] {
             try claim(entry.id)
             traces.append(try Self.boardTrace(entry, settings: settings))
+        }
+
+        var vias: [BoardVia] = []
+        for entry in board?.vias ?? [] {
+            try claim(entry.id)
+            let name = "via \(entry.id.uuidString)"
+            guard settings.layers > 1 else {
+                throw SchematicFileError.badPCB("\(name) is on a 1-layer board")
+            }
+            let via = BoardVia(id: entry.id, centre: CGPoint(x: entry.x, y: entry.y),
+                               drill: entry.drill ?? BoardVia.defaultDrill,
+                               diameter: entry.diameter ?? BoardVia.defaultDiameter)
+            if let problem = BoardVia.problem(drill: via.drill, diameter: via.diameter) {
+                throw SchematicFileError.badPCB("\(name) \(problem)")
+            }
+            vias.append(via)
         }
 
         var placedNotes: [SchematicNote] = []
@@ -718,6 +756,7 @@ extension SchematicFile {
             board: settings,
             texts: texts,
             traces: traces,
+            vias: vias,
             notes: placedNotes
         )
     }
@@ -764,6 +803,12 @@ extension SchematicFile {
         }
         settings.color = try Self.value(board.color, of: BoardColor.self, "board color", default: settings.color)
         settings.units = try Self.value(board.units, of: BoardUnits.self, "board units", default: settings.units)
+        if let grid = board.grid {
+            guard BoardSettings.gridRange.contains(grid) else {
+                throw SchematicFileError.badPCB("board grid \(Self.number(grid)) must be 0.01 to 10 mm")
+            }
+            settings.grid = grid
+        }
         settings.styles = try Self.layerStyles(board.layerStyles ?? [], layers: settings.layers)
         return settings
     }
@@ -831,8 +876,10 @@ extension SchematicFile {
     /// A stored footprint placement, with defaults for missing keys.
     private func placement(_ pcb: Placement, reference: String) throws -> BoardPlacement {
         var placement = BoardPlacement(centre: CGPoint(x: pcb.x, y: pcb.y), rotation: pcb.rotation)
+        // A placement saved without an origin is from before origins: those
+        // were all top left. New placements default to pad 1's centre.
         placement.origin = try Self.value(pcb.origin, of: FootprintOrigin.self, "\(reference) origin",
-                                          default: placement.origin)
+                                          default: .topLeft)
         placement.outline = try Self.value(pcb.outline, of: MarkLayer.self, "\(reference) outline",
                                            default: placement.outline)
         placement.pin1 = try Self.value(pcb.pin1, of: MarkLayer.self, "\(reference) pin1", default: placement.pin1)
@@ -843,13 +890,13 @@ extension SchematicFile {
     }
 
     /// A stored board text, with defaults for missing keys. Its anchor is
-    /// snapped to the grid.
-    private func boardText(_ text: Board.Text) throws -> BoardText {
+    /// snapped to the component grid (`grid`, mm).
+    private func boardText(_ text: Board.Text, grid: Double) throws -> BoardText {
         let name = "text \(text.id.uuidString)"
         guard !text.text.isEmpty else {
             throw SchematicFileError.badPCB("\(name) is empty")
         }
-        var result = BoardText(id: text.id, text: text.text, anchor: BoardGrid.snap(CGPoint(x: text.x, y: text.y)),
+        var result = BoardText(id: text.id, text: text.text, anchor: BoardGrid.snap(CGPoint(x: text.x, y: text.y), spacing: grid),
                                size: BoardText.defaultSize)
         if let size = text.size {
             guard BoardText.sizeRange.contains(size) else {
