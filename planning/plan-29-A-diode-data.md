@@ -248,20 +248,35 @@ treatment with the prefixes of its own listed rows' part families.
 
 ### Phase 1 — The census (two quota days)
 
-- [ ] Day 1 (≥ 600 calls left): `planning/plan-29-data/census/list.sh
+- [x] Day 1 (≥ 600 calls left): `planning/plan-29-data/census/list.sh
       /tmp/p29/raw` (load `DIGIKEY_*` from `~/.zshrc`, as the script does).
       It skips pieces whose `.done` file exists, so a piece cut by the
       quota is re-run whole the next day: delete that piece's `.jsonl` /
-      `.err` first.
-- [ ] Day 2: the same command again, until all 15 pieces have a `.done`.
-- [ ] Every piece's summary `N of M parts` has N = M, or the piece is cut
+      `.err` first. Ran 2026-11-09 (999 calls left): the 12 pieces not
+      listed on 2026-11-08 (`/tmp/p29/list-day2.log`); the three 280 pieces
+      kept their planning-day listing (§ Corrections).
+- [x] ~~Day 2: the same command again, until all 15 pieces have a `.done`.~~
+      — moot: all 15 pieces have a `.done` after Day 1
+      (`ls /tmp/p29/raw/2??-{vishay,onsemi,tsc}.done | wc -l` → 15).
+- [x] Every piece's summary `N of M parts` has N = M, or the piece is cut
       (§ 5): write `census/recheck.sh` and run it for each cut piece.
-- [ ] Compare each piece's count with § 2; a different count goes into
+      Short pieces: 280 onsemi (cap, 462 of 1113), 287 onsemi (cap,
+      `series=-: 1080 parts`, 766 of 1546), 287 TSC (DigiKey answered one
+      page with HTTP 500: 563 of 596), 299 onsemi (100 of 101: one part
+      number listed twice, 101 product rows, 100 distinct). `recheck.sh`
+      runs (`/tmp/p29/recheck.log`, `recheck287.log`): 280 onsemi with
+      § 5's 49 prefixes plus 24 package keywords (AXIAL, SOD123, SMA,
+      DO41, …) → 1107 of 1110; 287 onsemi with 43 Zener family prefixes →
+      1541 of 1546; 287 TSC with 26 → 594 of 596. Shortfall 10 parts
+      (§ Corrections).
+- [x] Compare each piece's count with § 2; a different count goes into
       § Corrections with the date and is carried into B–L's goal tables.
 
 Acceptance: every in-scope part is listed.
   Check: `python3 -I planning/plan-29-data/census/build.py /tmp/p29/raw /tmp/p29/all.tsv` → `<N> parts` with N = the sum of the 15 `ProductsCount` values of the day (13263 at planning time) minus the § 5 shortfall in § Corrections (est. 2 days of quota; nothing smaller re-measures stock).
-Commit: —
+  Result 2026-11-09: `13249 parts`; the 15 counts sum to 13260 (Vishay
+  7039, onsemi 3043, TSC 3178; 280 onsemi re-counted today: 1110); 13260 −
+  10 unlisted − 1 duplicate part number = 13249.
 
 ### Phase 2 — Downloads and scans
 
@@ -375,6 +390,23 @@ Commit: —
   (`grep -c '^logic_test' backend/CMakeLists.txt`; `wc -l` of the three
   goldens). Every letter's "T0 + 1" and golden-growth checks use these
   values; H § 1 and N's table are corrected to them.
+- **Counts moved** (2026-11-09 against § 2's 2026-11-08 values): Vishay
+  286 693 → 692, 287 2242 → 2243, 299 382 → 383; onsemi 280 1113 → 1110
+  (`--pages 1` count), 287 1547 → 1546. Total in scope 13263 → 13260. The
+  per-letter goal tables (B–L) take their numbers from Phase 2's tables,
+  which replace the planning-time ones.
+- **A third short piece, and a duplicate** — 287 onsemi was capped too
+  (`series=-: 1080 parts and no way to split it`), and 287 TSC lost pages
+  to a DigiKey HTTP 500 (`POST /search/keyword failed (500)`); both were
+  re-checked by prefix (§ 5's method). 299 onsemi's "100 of 101" is one
+  part number DigiKey lists as two products, not a gap.
+- **§ 5 shortfall: 10 parts** (2026-11-09): 280 onsemi 3 (1107 of 1110),
+  287 onsemi 5 (1541 of 1546), 287 TSC 2 (594 of 596). The part-by-part
+  search of every ordering-table base number was not run: it costs one
+  call per number (thousands), and 141 calls were left. These 10 parts
+  are not listed, so they are not added (they cannot be shown in stock).
+  Package keywords (`AXIAL` alone found 17 onsemi rectifiers the `UF`
+  prefix missed) were the better splitter; one, `SMA`, cost 79 calls.
 - **Phase 1 reuses the planning-day 280 listings** — `list.sh` skips a piece
   whose `.done` exists, and `/tmp/p29/raw` kept `280-vishay`, `280-tsc` and
   `280-onsemi` from 2026-11-08, so Day 1 (2026-11-09) listed the other 12
