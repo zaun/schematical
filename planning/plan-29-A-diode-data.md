@@ -319,26 +319,34 @@ Commit: 9543c80
 
 ### Phase 4 — First decisions
 
-- [ ] Write `census/decide.py` applying § 3 rules 1–5: maker PDF and `hit`
+- [x] Write `census/decide.py` applying § 3 rules 1–5: maker PDF and `hit`
       and not dead → `add`; maker PDF and no hit → `pending`; no maker PDF →
       `skip` with the host reason; `dead` → read (rule 5) and record each
       verdict in `census/dead-verdicts.tsv` (mpn, PDF, page, word, `out` or
-      `add`), which `decide.py` reads.
-- [ ] Write `census/scheme-check.py` (used by B–G): applies `specs.tsv`'s
+      `add`), which `decide.py` reads. The verdicts are written by a new
+      `census/dead-scan.py` (§ Corrections: the `dead` flag misses parts),
+      406 verdicts, 13 `out`; checked by hand on s2m-d.pdf (S2A/G/J/K under
+      "DISCONTINUED (Note 2)", S2B/D/M live), mur8100e-d.pdf, mbr1060-d.pdf
+      (MBR1060G live, MBR1060 discontinued), 1N4001-D.PDF (every …G live).
+- [x] Write `census/scheme-check.py` (used by B–G): applies `specs.tsv`'s
       `mpn_regex` to the `pending` rows of each spec row.
-- [ ] `datasheets/skipped-parts.md`: a "Diodes (plan-29)" section, one table
+- [x] `datasheets/skipped-parts.md`: a "Diodes (plan-29)" section, one table
       row per (maker, reason): the part numbers, "would have gone into
       `diode` / Discrete → Diodes", the reason (format of the existing
       sections).
-- [ ] Delete from `datasheets/diode/` any PDF no `add` or `pending` row
+- [x] Delete from `datasheets/diode/` any PDF no `add` or `pending` row
       uses (`decide.py` prints them); add to `obsolete-not-included.md` each
       PDF whose every part is `out` for datasheet status (PDF name, `diode`,
-      Discrete → Diodes → <leaf>, the word and page, the URL).
-- [ ] Record the counts of each `decision` in § Summary.
+      Discrete → Diodes → <leaf>, the word and page, the URL). One:
+      `onsemi/mur8100e-d.pdf` (its one in-stock part, MUR880EG, is under
+      "DISCONTINUED (Note 1)"); `place.py --prune` → `1 PDFs deleted, 3048
+      kept`; `place.py --verify` → `3048 URLs, 3048 PDFs, 0 missing, 0 unused`.
+- [x] Record the counts of each `decision` in § Summary.
 
 Acceptance: no row is `candidate` or `check`; every `skip` is listed.
   Check: `awk -F'\t' 'NR>1 && ($24=="candidate" || $24=="check")' planning/plan-29-data/candidates.tsv | wc -l` → 0, and `python3 -I planning/plan-29-data/census/decide.py --verify-skipped` → `0 skip rows missing from skipped-parts.md` (est. 1 min; the `dead` reading is about 44 rows × 1 min).
-Commit: —
+  Result 2026-11-09: 0; `0 skip rows missing from skipped-parts.md`.
+Commit: e1e1cce
 
 ### Phase 5 — `specs.tsv` skeleton and the data README
 
@@ -423,6 +431,19 @@ Commit: —
   C 59 (onsemi single; planning 35 from a partial listing), D 42 (TSC
   single; planning 42), E 52 (zener + zener-array), F 57 (array), G 45
   (bridge). B–G's scope numbers are these.
+- **The `dead` flag misses parts** (Phase 4) — textscan.py's `dead` looks
+  only within 300 characters of the *first* place a part number is
+  printed, so onsemi's S2A (first in the ratings table, again under
+  "DISCONTINUED (Note 2)" on p.2 of s2m-d.pdf) read as `add`. Rule 5 is
+  applied by `census/dead-scan.py` to every hit row of a PDF with a dead
+  word: onsemi's DISCONTINUED sections (read in reading order: on
+  two-column pages `-layout` splits the heading onto another column's
+  line), plus revision-history lines that mark OPNs discontinued; case
+  outline notes ("267-04 OBSOLETE, NEW STANDARD 267-05"), Fairchild's status
+  legend ("Obsolete / Not In Production") and Vishay's "Discontinuous Mode
+  PFC" name no part. 148 rows had `dead` = 1; 13 parts are `out`. The plan's
+  example `1N4003G` is live (1N4001-D.PDF p.5 lists it above the
+  DISCONTINUED heading, under which only `1N4003` / `1N4003RL` sit).
 - **Phase 1 reuses the planning-day 280 listings** — `list.sh` skips a piece
   whose `.done` exists, and `/tmp/p29/raw` kept `280-vishay`, `280-tsc` and
   `280-onsemi` from 2026-11-08, so Day 1 (2026-11-09) listed the other 12
@@ -430,6 +451,12 @@ Commit: —
   compares them with the planning-day `ProductsCount` (§ 2).
 
 ## Summary
+
+Decisions (2026-11-09, `candidates.tsv`, 13249 rows): **add 6559**,
+**pending 4991**, **skip 1053** (no maker-site datasheet: DigiKey copy
+440, HTTP 404 133, no URL 172, Rochester 177, a copy on another site 68,
+Waldom 35, SnapEDA 21, other 7), **out 646** (mounting 416, SiC 217,
+datasheet status 13). 109 rows take a same-maker sibling PDF.
 
 A's risk is volume and the quota, not design: 13263 parts to list over two
 days, one piece already known to be capped (onsemi singles, re-checked by

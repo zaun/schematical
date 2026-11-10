@@ -15,7 +15,9 @@ A `candidate` / `check` row (rows already add/pending/skip/out are kept):
                                               becomes the sibling's URL, pdf = hit = 1,
                                               dead from the sibling's text
   else                                     -> skip, "no datasheet on the maker's site (<why>)"
-  with a datasheet: dead = 1 -> the verdict in dead-verdicts.tsv (`out` "datasheet
+  with a datasheet: a verdict in dead-verdicts.tsv (dead-scan.py writes one
+  for every hit row of a PDF with a dead word; dead = 1 without one is an
+  error) -> the verdict (`out` "datasheet
   status: <word>", or `add`); hit = 1 -> add; hit = 0 -> pending.
 A `check` row keeps "check; mounting from the datasheet" in its reason.
 Every datasheet_url is rewritten to the first URL (sorted) of its file
@@ -111,6 +113,8 @@ def why(index, url):
     if entry is None:
         return f"not downloaded, {h}"
     code = entry[1]
+    if entry[3] == "%PDF":
+        return f"a copy on another site, {h}"
     if code in ("000", "none", "", "timeout"):
         return f"no answer, {h}"
     if code.startswith("2") or code.startswith("3"):
@@ -175,8 +179,8 @@ def decide(argv):
         else:
             r["reason"] = note
         r["datasheet_url"] = canon.get(r["datasheet_url"], r["datasheet_url"])
-        if r["hit"] == "1" and r["dead"] == "1":
-            verdict = v.get((r["mpn"], r["datasheet_url"]))
+        verdict = v.get((r["mpn"], r["datasheet_url"])) if r["hit"] == "1" else None
+        if verdict is not None or (r["hit"] == "1" and r["dead"] == "1"):
             if verdict is None:
                 unresolved.append(r)
                 r["decision"] = "candidate" if not note else "check"
