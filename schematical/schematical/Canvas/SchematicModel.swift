@@ -115,6 +115,9 @@ nonisolated enum PartSymbol: Hashable {
     case block
     case oscillator
     case diode
+    /// A diode part (plan-29): the diode symbol with no light; its cathode
+    /// bar follows the part's type (`DiodeMark`).
+    case plainDiode
     case vcc
     case ground
     case pullUp
@@ -220,7 +223,7 @@ nonisolated struct ChipLayout: Hashable {
             self = Self.barrelJack(pins)
         case .header:
             self = Self.header(pins, rows: part.headerSize?.rows ?? 1)
-        case .diode:
+        case .diode, .plainDiode:
             self = Self.diode(pins)
         case .vcc:
             self = Self.supply(pins, side: .bottom)

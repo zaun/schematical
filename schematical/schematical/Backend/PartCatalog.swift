@@ -256,6 +256,11 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case converter(type: String, bits: Int, channels: Int)
         /// A real-time clock (plan-24): no kind-specific facts.
         case rtc
+        /// A diode part (plan-29): its type ("rectifier", "fast",
+        /// "switching", "schottky", "zener", "bridge"), the diodes in the
+        /// package, reverse voltage and forward current per diode (0 for a
+        /// Zener), and a Zener's voltage and power (else 0).
+        case diode(type: String, diodes: Int, vrMV: UInt32, ioMA: UInt32, vzMV: UInt32, pdMW: UInt32)
     }
 
     let name: String
@@ -480,6 +485,11 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .converter(_, bits, channels):
             return ["\(bits)-bit"] + (channels > 1 ? ["\(channels) channels"] : [])
         case .rtc: return []
+        case let .diode(type, _, vrMV, ioMA, vzMV, pdMW):
+            if type == "zener" {
+                return ["\(PartFacts.milli(vzMV)) V", "\(PartFacts.milli(pdMW)) W"]
+            }
+            return ["\(PartFacts.milli(vrMV)) V", "\(PartFacts.milli(ioMA)) A"]
         }
     }
 }
@@ -648,6 +658,9 @@ extension CatalogPart {
                                  channels: Int(converter.channels))
         } else if part.kind == PART_RTC {
             details = .rtc
+        } else if let diode = part.diode?.pointee {
+            details = .diode(type: string(diode.type), diodes: Int(diode.diode_count),
+                             vrMV: diode.vr_mv, ioMA: diode.io_ma, vzMV: diode.vz_mv, pdMW: diode.pd_mw)
         } else {
             details = .supply(level: 0, mv: 0, pull: false)
         }
@@ -799,6 +812,13 @@ func symbol(for part: CatalogPart) -> PartSymbol {
         return level == 0 ? .ground : .vcc
     case PART_CONNECTOR: return .barrelJack
     case PART_HEADER: return .header
+    case PART_DIODE:
+        // A single diode with one anode and cathode draws as a diode; arrays
+        // and bridges as a block.
+        guard case let .diode(_, diodes, _, _, _, _) = part.details, diodes == 1,
+              part.pins.contains(where: { $0.name == "A" }),
+              part.pins.contains(where: { $0.name == "K" }) else { return .block }
+        return .plainDiode
     default: return .block
     }
 }

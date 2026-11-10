@@ -106,6 +106,16 @@ nonisolated enum PartFacts {
             add("Channels", String(channels))
         case .rtc:
             break
+        case let .diode(type, diodes, vrMV, ioMA, vzMV, pdMW):
+            add("Type", diodeType(type))
+            if diodes > 1 { add("Diodes", String(diodes)) }
+            if type == "zener" {
+                add("Zener voltage", "\(milli(vzMV)) V")
+                add("Power", "\(milli(pdMW)) W")
+            } else {
+                add("Reverse voltage", "\(milli(vrMV)) V")
+                add("Forward current", "\(milli(ioMA)) A")
+            }
         }
 
         if part.supplyDomains.count == 2 {
@@ -149,6 +159,7 @@ nonisolated enum PartFacts {
         case PART_ARITH: return "Arithmetic"
         case PART_CONVERTER: return "Converter"
         case PART_RTC: return "RTC"
+        case PART_DIODE: return "Diode"
         default: return ""
         }
     }
@@ -166,6 +177,28 @@ nonisolated enum PartFacts {
             }
         }
         return kindName(part.kind)
+    }
+
+    /// A diode type as shown (plan-29): "Rectifier", "Fast recovery", ….
+    static func diodeType(_ type: String) -> String {
+        switch type {
+        case "rectifier": return "Rectifier"
+        case "fast": return "Fast recovery"
+        case "switching": return "Switching"
+        case "schottky": return "Schottky"
+        case "zener": return "Zener"
+        case "bridge": return "Bridge"
+        default: return type
+        }
+    }
+
+    /// Thousandths as a trimmed decimal: 50000 → "50", 500 → "0.5",
+    /// 75 → "0.075" (millivolts as volts, milliamps as amps, …).
+    static func milli(_ value: UInt32) -> String {
+        var text = String(format: "%.3f", Double(value) / 1000)
+        while text.hasSuffix("0") { text.removeLast() }
+        if text.hasSuffix(".") { text.removeLast() }
+        return text
     }
 
     /// A parallel I/O model as shown: "6521 PIA", "6522 VIA"; others raw.

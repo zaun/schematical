@@ -1,8 +1,8 @@
 # plan-29-M: The app — diodes in the drawer, on the canvas and in the sidebar
 
-Last updated: 2026-11-08
+Last updated: 2026-11-09
 Effort: medium (1h–2h)
-Depends on: plan-29-L
+Depends on: plan-29-H (Phase 1), plan-29-L (Phase 2) — corrected 2026-11-09, § Corrections
 
 M shows the diode parts: the drawer lists them under **Discrete → Diodes →
 Rectifier / Fast recovery / Switching / Schottky / Zener / Bridge** (that
@@ -113,13 +113,18 @@ Everything below is written against the world where these hold.
 
 ### Phase 1 — Catalog, facts, symbol
 
-- [ ] `PartCatalog.swift`: `Details.diode`, its builder, `detailLabels`,
+- [x] `PartCatalog.swift`: `Details.diode`, its builder, `detailLabels`,
       `symbol(for:)` (§ 3).
-- [ ] `SchematicModel.swift`: `PartSymbol.plainDiode`, its layout case.
-- [ ] `DiodeSymbolView.swift`: `DiodeMark` and the three new marks;
+- [x] `SchematicModel.swift`: `PartSymbol.plainDiode`, its layout case.
+- [x] `DiodeSymbolView.swift`: `DiodeMark` and the three new marks;
       `SchematicCanvasView.swift`, `SchematicExportScene.swift`: the
-      `.plainDiode` case.
-- [ ] `PartFacts.swift`: `"Diode"` and the rows.
+      `.plainDiode` case. `DiodeMark(part:)` picks the mark from
+      `Details.diode.type`; `paint(…, mark:)` defaults to `.led`, so the
+      LED callers are unchanged.
+- [x] `PartFacts.swift`: `"Diode"` and the rows. Numbers use a new
+      `PartFacts.milli` (three decimals, trimmed: `0.075 A`), since
+      `VoltageCheck.volts` rounds to two. Checked: `xcodebuild … -derivedDataPath
+      /tmp/p29w-dd … build` → `** BUILD SUCCEEDED **` (2026-11-09).
 
 Acceptance: the app builds.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p29-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 2 min).
@@ -162,6 +167,11 @@ Commit: —
   enough for 9–13 thousand parts split six ways.
 
 ## Corrections
+
+- **Phase 1 needs only H** (2026-11-09) — Phase 1 reads the `PartDiode`
+  struct and `PART_DIODE` (plan-29-H) and no part; it landed right after H,
+  before the parts. Phase 2 (the harness on real parts) still waits for L.
+  The "plan-29-L complete" prerequisite applies to Phase 2.
 
 ## Summary
 

@@ -44,6 +44,9 @@ struct SchematicScene {
                 HeaderSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
             case .diode:
                 DiodeSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, level: 0)
+            case .plainDiode:
+                DiodeSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, level: 0,
+                                      mark: DiodeMark(part: chip.part))
             case .vcc, .ground, .pullUp, .pullDown:
                 SupplySymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
             case .dipSwitch:

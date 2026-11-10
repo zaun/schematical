@@ -1,5 +1,29 @@
 import SwiftUI
 
+/// What a diode symbol's cathode end shows: an LED (plain bar, two light
+/// arrows, a glow in play mode), or a diode part's bar (plan-29): plain,
+/// Schottky (both ends hooked back, the S) or Zener (the ends bent opposite
+/// ways, the Z). Diode parts have no arrows and no glow.
+nonisolated enum DiodeMark: Hashable {
+    case led
+    case plain
+    case schottky
+    case zener
+
+    /// The mark of a placed part: a diode part's by its type, else `.led`.
+    init(part: CatalogPart) {
+        guard case let .diode(type, _, _, _, _, _) = part.details else {
+            self = .led
+            return
+        }
+        switch type {
+        case "schottky": self = .schottky
+        case "zener": self = .zener
+        default: self = .plain
+        }
+    }
+}
+
 /// Draws one placed LED with the standard diode symbol: a filled triangle
 /// pointing from the anode (left) to the cathode (right), a bar across the
 /// cathode, and two arrows for the emitted light. The function label sits below.
@@ -13,6 +37,8 @@ struct DiodeSymbolView: View {
     /// Play mode: brightness 0…1, the share of the last frame the LED was on
     /// (anode high, cathode low). A lit LED glows in its own color.
     var level: Double = 0
+    /// `.led` for an LED; a diode part's mark otherwise.
+    var mark: DiodeMark = .led
 
     /// The LED's color: the placed LED's own color (Red, Green, Blue, Amber,
     /// White), or a 7-segment display's (also Yellow and Orange).
@@ -45,14 +71,16 @@ struct DiodeSymbolView: View {
 
         Canvas { context, _ in
             var painter = ScreenPainter(context)
-            Self.paint(&painter, chip: chip, isSelected: isSelected, isHovered: isHovered, level: level)
+            Self.paint(&painter, chip: chip, isSelected: isSelected, isHovered: isHovered, level: level,
+                       mark: mark)
         }
         .frame(width: layout.size.width + 2 * margin, height: layout.size.height)
     }
 
     /// Draws the LED, its frame's top-left corner at (0, 0).
     static func paint<P: SchematicPainter>(_ painter: inout P, chip: PlacedChip, isSelected: Bool, isHovered: Bool,
-                                           level: Double) {
+                                           level: Double, mark: DiodeMark = .led) {
+        let level = mark == .led ? level : 0
         let layout = chip.layout
         let margin = ChipLayout.labelMargin
         let stub = ChipLayout.stubLength
@@ -96,9 +124,36 @@ struct DiodeSymbolView: View {
         }
 
         var cathodeBar = Path()
-        cathodeBar.move(to: point(26, mid - 6))
-        cathodeBar.addLine(to: point(26, mid + 6))
+        switch mark {
+        case .led, .plain:
+            cathodeBar.move(to: point(26, mid - 6))
+            cathodeBar.addLine(to: point(26, mid + 6))
+        case .schottky:
+            // The S: each end hooked back 3 pt, top end toward the anode,
+            // bottom end away from it.
+            cathodeBar.move(to: point(23, mid - 3))
+            cathodeBar.addLine(to: point(23, mid - 6))
+            cathodeBar.addLine(to: point(26, mid - 6))
+            cathodeBar.addLine(to: point(26, mid + 6))
+            cathodeBar.addLine(to: point(29, mid + 6))
+            cathodeBar.addLine(to: point(29, mid + 3))
+        case .zener:
+            // The Z: the top end bent toward the anode, the bottom end away.
+            cathodeBar.move(to: point(23, mid - 8))
+            cathodeBar.addLine(to: point(26, mid - 6))
+            cathodeBar.addLine(to: point(26, mid + 6))
+            cathodeBar.addLine(to: point(29, mid + 8))
+        }
         painter.stroke(cathodeBar, with: outline, lineWidth: lineWidth)
+
+        guard mark == .led else {
+            painter.draw(
+                PaintedText(chip.part.function, size: 10, weight: .medium, ink: .secondary),
+                at: point(width / 2, layout.size.height - 8),
+                anchor: .center
+            )
+            return
+        }
 
         // Light emitted up and to the right, with open arrowheads.
         var arrows = Path()
