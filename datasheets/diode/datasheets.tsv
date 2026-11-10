@@ -1,6 +1,4 @@
 path	url	bytes	sha256
-datasheets/diode/onsemi/1N3070-D.pdf	https://www.onsemi.com/pub/Collateral/1N3070-D.pdf	136597	82ef8d323431a415443b8ecdfd0b96997e64ee9c2a04a0a349ad933e1fd549d9
-datasheets/diode/onsemi/1N3595-D.pdf	https://www.onsemi.com/pub/Collateral/1N3595-D.pdf	143313	2c2528feff26344845cd677f03440c8e698318efa806014d016415453f8792c4
 datasheets/diode/onsemi/1N4001-D.PDF	https://www.onsemi.com/pub/Collateral/1N4001-D.PDF	182638	072081c6267bf6ae0af513c6c1d6bf25f0f95dca4a9dcd548fc3f1f69a72a998
 datasheets/diode/onsemi/1N4148WS-D.PDF	https://www.onsemi.com/pub/Collateral/1N4148WS-D.PDF	205587	b3f8406b2cf2f853af28aa273e227f9cf071bb20d26fbe575e5fc0ab5a8cc2ae
 datasheets/diode/onsemi/1N4149-D.PDF	https://www.onsemi.com/pub/Collateral/1N4149-D.PDF	150313	59cdbe24cecc0ad1a3e292137c4d50bbd5f85762bdc421140090da5bc4a3f683
@@ -50,7 +48,6 @@ datasheets/diode/onsemi/BAV23S-D.PDF	https://www.onsemi.com/pub/Collateral/BAV23
 datasheets/diode/onsemi/BAV74LT1-D.PDF	https://www.onsemi.com/pub/Collateral/BAV74LT1-D.PDF	234187	b3ca9052243ec46dce0d1f4190053b42474f3be00b12656e852cb00158812fcb
 datasheets/diode/onsemi/BAW56M3-D.PDF	https://www.onsemi.com/pub/Collateral/BAW56M3-D.PDF	213067	d69b8a842988ff580a4bc69edbe8eaba77c1294a90ba91ba291f0c9570ed4af7
 datasheets/diode/onsemi/BAX16-D.pdf	https://www.onsemi.com/pub/Collateral/BAX16-D.pdf	540231	40f306003da868df920281c2d26782507f5845e1e5085a70f83664ddc66de708
-datasheets/diode/onsemi/BAY72-D.pdf	https://www.onsemi.com/pub/Collateral/BAY72-D.pdf	169731	5a5f58282302060750af72159795db3cc19e0705e92ffbca64370aac179da487
 datasheets/diode/onsemi/BAY73-D.pdf	https://www.onsemi.com/pub/Collateral/BAY73-D.pdf	137347	d3e1934fd08e886578a8684df0c12069d7b2647082af63b77191f0411ad4c6e8
 datasheets/diode/onsemi/BYV32-200-D.PDF	https://www.onsemi.com/pub/Collateral/BYV32-200-D.PDF	236549	196966eb3d1554be38b2b48f6997a8caaa7a6735121fda66ac71be86613952cf
 datasheets/diode/onsemi/BYW29-D.PDF	https://www.onsemi.com/pub/Collateral/BYW29-D.PDF	240742	1b518a11a888ca066dcf3ab4c973bc6200473fb182a7bd5aef327355e19a99eb
@@ -99,7 +96,6 @@ datasheets/diode/onsemi/NRTS1260PFS-D.PDF	https://www.onsemi.com/pub/Collateral/
 datasheets/diode/onsemi/NRTS1560PFS-D.PDF	https://www.onsemi.com/pub/Collateral/NRTS1560PFS-D.PDF	281570	7fa3922c549dfe5133593123a7c1b4ebc03701fe657bf388fbb3d2b4dfbc50fe
 datasheets/diode/onsemi/NRTS8100PFS-D.PDF	https://www.onsemi.com/pub/Collateral/NRTS8100PFS-D.PDF	227136	f036dc0b94865f54651350a67de9ead3a073d20306cec2d2ceb20a839b76acf8
 datasheets/diode/onsemi/NRTS860PFS-D.PDF	https://www.onsemi.com/pub/Collateral/NRTS860PFS-D.PDF	290781	0b09acb4f6c8b4c44dc7ad4af6a18c85bae5b5b57c4147b944dbe7c98f4f474e
-datasheets/diode/onsemi/NSR0530H-D.PDF	https://www.onsemi.com/pub/Collateral/NSR0530H-D.PDF	214657	f4718fca4a07c974bcb6c0d4e341ec66fd2678a8e0522d8e812036397d41cb9f
 datasheets/diode/onsemi/RGP10M-D.pdf	https://www.onsemi.com/pub/Collateral/RGP10M-D.pdf	151892	4e7500e14b2fd1f3b2c7f93c4080f2a39ac116a3f794c491335d971afe959508
 datasheets/diode/onsemi/S1M-D.PDF	https://www.onsemi.com/pub/Collateral/S1M-D.PDF	156543	b0c14acb1c6d5c3be3fe181fff90fece17f9090ba534dcbda71178fbf4bca658
 datasheets/diode/onsemi/SBE805-D.PDF	https://www.onsemi.com/pub/Collateral/SBE805-D.PDF	182751	4e10e356b65e684225f37c6f1d1636020ed5d7b40f459b5701f9ec5f7fa5649a
@@ -473,8 +469,6 @@ datasheets/diode/onsemi/rurd4120s_f085-d.pdf	https://www.onsemi.com/pdf/datashee
 datasheets/diode/onsemi/rurd620ccs9a-d.pdf	https://www.onsemi.com/download/data-sheet/pdf/rurd620ccs9a-d.pdf	252678	e9b513ff4109866889452df71f883a5da200a188c8c648bca7a56c0e9d75fedf
 datasheets/diode/onsemi/rurg3060_f085-d.pdf	https://www.onsemi.com/pdf/datasheet/rurg3060_f085-d.pdf	1105398	f10933df5db7e70e40a4ca8ce231a9725b50ed2698a82f5f36215946d41ed6f0
 datasheets/diode/onsemi/rurg5060_f085-d.pdf	https://www.onsemi.com/pdf/datasheet/rurg5060_f085-d.pdf	1410267	d6698a15b00a39bd0c76d79c6ae0d43758076f578c20f97f4a3f69b3a89d30a6
-datasheets/diode/onsemi/rurp15100_f085-d.pdf	https://www.onsemi.com/pdf/datasheet/rurp15100_f085-d.pdf	654500	c0c2a422b4eb2ef915b5e2d8408d53a48010c9d7487ff87aeaab5838edcf1481
-datasheets/diode/onsemi/rurp1560_f085-d.pdf	https://www.onsemi.com/pdf/datasheet/rurp1560_f085-d.pdf	604898	894f4787e4de665a3ddcb37bf85f2824afc490c295a04c9245f76ddca13e14b0
 datasheets/diode/onsemi/s110fa-d.pdf	https://www.onsemi.com/pdf/datasheet/s110fa-d.pdf	167309	7a7a4c0cb7ae3fb4f0a7bf52939983a54d46d93438d46a0172131b9f54e0d6bb
 datasheets/diode/onsemi/s110fp-d.pdf	https://www.onsemi.com/pdf/datasheet/s110fp-d.pdf	214565	b42a87dae01ff25611f28406c54ee89ac6cc94f473e1b3dee20c009dee09053d
 datasheets/diode/onsemi/s1jhe-d.pdf	https://www.onsemi.com/pdf/datasheet/s1jhe-d.pdf	214857	2be65856857ed86b29e7461f437348f4b6a20add24ad550ad80c3d362625faa8
@@ -521,7 +515,6 @@ datasheets/diode/tsc/1N4148WS-SERIES_N2212.pdf	https://services.taiwansemi.com/s
 datasheets/diode/tsc/1N4148WSH_A2501.pdf	https://www.taiwansemi.com/assets/datasheet/pdf.php?pn=1N4148WSH	439092	c23aef02b9346e199a12c2dd4e4c1df26168b0c44811b1b8c94dbcce4a9d7b5d
 datasheets/diode/tsc/1N4148WTH_A2501.pdf	https://www.taiwansemi.com/assets/datasheet/pdf.php?pn=1N4148WTH	475018	bc7b967604c477533f44dbafb7a5f4a1e5a9ffa49b4afa52a191e2d261d88399
 datasheets/diode/tsc/1N4740A-SERIES_O2104.pdf	https://services.taiwansemi.com/storage/resources/datasheet/1N4740A SERIES_O2104.pdf	453940	95c7c95b89d1d4aced58dc9a739806da412b465a868650a0b664a3a7df07b4a8
-datasheets/diode/tsc/1N4933G-K-SERIES_B2104.pdf	https://services.taiwansemi.com/storage/resources/datasheet/1N4933G-K SERIES_B2104.pdf	525079	0dfc10e0db666850cca33d7b0c6e9d7e1987836cf6b0533c99b15c620418e6ac
 datasheets/diode/tsc/1N4933G-SERIES_I2104.pdf	https://services.taiwansemi.com/storage/resources/datasheet/1N4933G SERIES_I2104.pdf	526340	28ee9b95011fdd72bd99261bbd078d7e4f660fb91f1108c2ec6906527155ac10
 datasheets/diode/tsc/1N5221B-SERIES_H2301.pdf	https://services.taiwansemi.com/storage/resources/datasheet/1N5221B SERIES_H2301.pdf	391023	5a1997ad8896ae0b54fb4104aa12e2f53f5e4c0be813f1f07bee3b2736e75736
 datasheets/diode/tsc/1N5391G-SERIES_G2309.pdf	https://services.taiwansemi.com/storage/resources/datasheet/1N5391G SERIES_G2309.pdf	318653	43a7668c4014308561bd62bf7de6423c4b414c9cb3e5b11d993ea400660aff28
@@ -597,7 +590,6 @@ datasheets/diode/tsc/BYG21MH_A2102.pdf	https://services.taiwansemi.com/storage/r
 datasheets/diode/tsc/BYG21M_B2102.pdf	https://services.taiwansemi.com/storage/resources/datasheet/BYG21M_B2102.pdf	382221	d14b8a17b2d05c05db9bc1cef34d15591f7158f7916642893151b5c1a5ab78b4
 datasheets/diode/tsc/BYG23MH_A2102.pdf	https://services.taiwansemi.com/storage/resources/datasheet/BYG23MH_A2102.pdf	509058	5efac1ca59c98c761a08461cab9e2d0b04c087af255ecaa8161bd8b1763a21d5
 datasheets/diode/tsc/BYG23M_C2102.pdf	https://services.taiwansemi.com/storage/resources/datasheet/BYG23M_C2102.pdf	508093	6e1654c50de2a1ea9eb338562fd368433b8276aebd1bd050a494f327bf420085
-datasheets/diode/tsc/BZD27C-SERIES_AB2103.pdf	https://services.ts.com.tw/storage/resources/datasheet/BZD27C%20SERIES_AB2103.pdf	475005	4b83ce14965b619de70dea7e7362b4aef5609d26265f785e5be5bf9f7d1c4bf6
 datasheets/diode/tsc/BZD27C11PW-SERIES_D2203.pdf	https://services.taiwansemi.com/storage/resources/datasheet/BZD27C11PW SERIES_D2203.pdf	540362	7a4c056c658410dbedaa40a3180d1ba2a9b5a82ee11852a646456c1415af478c
 datasheets/diode/tsc/BZD27C11PWH-SERIES_B2203.pdf	https://services.taiwansemi.com/storage/resources/datasheet/BZD27C11PWH SERIES_B2203.pdf	534411	1e403cfb8dcea352a6bccd3f2e1ed206d664d626bcad9252c090d900212a2b43
 datasheets/diode/tsc/BZT52B2V4-G-SERIES_H2002.pdf	https://services.taiwansemi.com/storage/resources/datasheet/BZT52B2V4-G SERIES_H2002.pdf	333115	b1286633061cd8735f7178b4dd4c41fdd3aece4c8aabc4a194c37aab51459012
@@ -1281,7 +1273,6 @@ datasheets/diode/tsc/TSUP10102_B2508.pdf	https://www.taiwansemi.com/assets/datas
 datasheets/diode/tsc/TSUP10150H_A2505.pdf	https://www.taiwansemi.com/assets/datasheet/pdf.php?pn=TSUP10150H	483038	c58fb9f5180010592f30ba3b197ac54a7136587e77b5f078eecefb22e22df7cb
 datasheets/diode/tsc/TSUP10200H_A2505.pdf	https://www.taiwansemi.com/assets/datasheet/pdf.php?pn=TSUP10200H	482112	917202f664efed82b3d6549a747b7e5a3fe7891c07194c24c5d264884f69c931
 datasheets/diode/tsc/TSUP10M45SH_B2103.pdf	https://services.taiwansemi.com/storage/resources/datasheet/TSUP10M45SH_B2103.pdf	437450	eee767a995e28683c83bc9bc527414e464032600ff44d01c3c8f2e294f5658f0
-datasheets/diode/tsc/TSUP10M60SH_B2103.pdf	https://services.taiwansemi.com/storage/resources/datasheet/TSUP10M60SH_B2103.pdf	437470	7edf652200e203bb18a4df5386679b5f0c04f01a3213b42a39465306c115c6d5
 datasheets/diode/tsc/TSUP10S150H_A2604.pdf	https://services.taiwansemi.com/storage/resources/datasheet/TSUP10S150H_A2604.pdf	579466	c444c85d28cf9b3d9c4782b12ce15ecf00e897081f7be3eed931b8027716f081
 datasheets/diode/tsc/TSUP10S200H_A2604.pdf	https://services.taiwansemi.com/storage/resources/datasheet/TSUP10S200H_A2604.pdf	577680	db267548eaeaac9a0faf03f8dd6e739c93bec51034cc4479afc845ceba3cf853
 datasheets/diode/tsc/TSUP12122_B2508.pdf	https://www.taiwansemi.com/assets/datasheet/pdf.php?pn=TSUP12122	347166	969a3581b450a38f1c70567be99c75bd1ba049fe847e74f951a79427a4bdf3c2
@@ -1293,14 +1284,12 @@ datasheets/diode/tsc/TSUP15102_B2508.pdf	https://www.taiwansemi.com/assets/datas
 datasheets/diode/tsc/TSUP15150H_A2505.pdf	https://www.taiwansemi.com/assets/datasheet/pdf.php?pn=TSUP15150H	483328	c486c785ebb275120fb7e2f0c4b557777ccff57d5248160bc6a2fabd3644604b
 datasheets/diode/tsc/TSUP15200H_A2505.pdf	https://www.taiwansemi.com/assets/datasheet/pdf.php?pn=TSUP15200H	481521	26de27e3ad82d394ddd5ff64cde36ebc1cda8580134c1bc56ef24438e054186f
 datasheets/diode/tsc/TSUP15M45SH_B2103.pdf	https://services.taiwansemi.com/storage/resources/datasheet/TSUP15M45SH_B2103.pdf	437572	dbd0ec4644cda8ef2ee48722c14432b4cfffb1f3a344f0cd7f4d0ba1cab57291
-datasheets/diode/tsc/TSUP15M60SH_B2103.pdf	https://services.taiwansemi.com/storage/resources/datasheet/TSUP15M60SH_B2103.pdf	438174	9635359d8a6302a90890ecc1ad5623d66d02d217bd0fdf736fbc8a5a3421edf4
 datasheets/diode/tsc/TSUP15S150H_A2604.pdf	https://services.taiwansemi.com/storage/resources/datasheet/TSUP15S150H_A2604.pdf	579414	afe55cfcd60e1b39490cbdb2393eef8ed1daecbae16bd11f93174431f3e2de8b
 datasheets/diode/tsc/TSUP15S200H_A2604.pdf	https://services.taiwansemi.com/storage/resources/datasheet/TSUP15S200H_A2604.pdf	577047	4a6577dd8cede509393567055b28bce6f00ee7a0bef6ef049cab5dcb61b2939c
 datasheets/diode/tsc/TSUP3150H_A2505.pdf	https://www.taiwansemi.com/assets/datasheet/pdf.php?pn=TSUP3150H	481538	bbf5f5d9f9544861a23957964219fb57856f53b4023a64abc52aaec6929a65ec
 datasheets/diode/tsc/TSUP3S150H_A2604.pdf	https://services.taiwansemi.com/storage/resources/datasheet/TSUP3S150H_A2604.pdf	577620	2763a79c0212122bdb47fb5bdc1e3d4384a2a7009bafd80fcf2e062de2d661c3
 datasheets/diode/tsc/TSUP5102_B2508.pdf	https://www.taiwansemi.com/assets/datasheet/pdf.php?pn=TSUP5102	349946	16ff4cecc23c81a9f0685ba8296e6a193ce37dedd05e43afc9288052a2bf481a
 datasheets/diode/tsc/TSUP5150H_A2505.pdf	https://www.taiwansemi.com/assets/datasheet/pdf.php?pn=TSUP5150H	482675	2277230569d49bbe3c26de6a1a5f18dc123b2df0c86a7d840949b5364fb16058
-datasheets/diode/tsc/TSUP5M45SH_B2103.pdf	https://services.taiwansemi.com/storage/resources/datasheet/TSUP5M45SH_B2103.pdf	436975	006fff38a28b16e5e14bed1ebf3bac7a294a71ce7f7322d41026a2d56fbfbcb8
 datasheets/diode/tsc/TSUP5S150H_A2604.pdf	https://services.taiwansemi.com/storage/resources/datasheet/TSUP5S150H_A2604.pdf	578463	87da687680a638c267a22c68e92b9dfe421caf6ecf4cf22b79b6eb0274fc8d21
 datasheets/diode/tsc/TSUP8150H_A2505.pdf	https://www.taiwansemi.com/assets/datasheet/pdf.php?pn=TSUP8150H	481692	377e4e08664baa0a3aea75be1e648c9aab19ab9cb958011cf3743c14e60155bd
 datasheets/diode/tsc/TSUP8200H_A2505.pdf	https://www.taiwansemi.com/assets/datasheet/pdf.php?pn=TSUP8200H	481313	8144d0f561d860454046aa8bd68864a6a6d66a749059851be93b944ff81daef1
@@ -1377,7 +1366,6 @@ datasheets/diode/vishay/2w005g.pdf	https://www.vishay.com/docs/88528/2w005g.pdf	
 datasheets/diode/vishay/30wq03fn.pdf	https://www.vishay.com/docs/93296/30wq03fn.pdf	136451	eadab687d9aad00fafa9126c3bc4f8f042530b0f899d4f3632bad26acbba101f
 datasheets/diode/vishay/31gf6-90acdd.pdf	https://www.vishay.com/docs/88530/31gf6.pdf	70895	d762249ac333476f5f17f924f1ab1952d58e5eba8ea0053f05219b05c016b270
 datasheets/diode/vishay/31gf6-df62a1.pdf	https://www.vishay.com/docs/89434/31gf6.pdf	71057	b0af9c402229dada2fc95e3afba127d5d75245143180d9f458d9f4375e244767
-datasheets/diode/vishay/49415.pdf	https://www.vishay.com/docs/49415/49415.pdf	447326	1f42fea99eed17a4139f7e0a91d59f8e460319fce625c94710cf788407a94d86
 datasheets/diode/vishay/50wq03fn.pdf	https://www.vishay.com/docs/93311/50wq03fn.pdf	138867	c5743b885b8e61945d588c21b3a20ed35e68d95f2835b2a5e69dcca7b9e8a6cf
 datasheets/diode/vishay/50wq06fn.pdf	https://www.vishay.com/docs/93313/50wq06fn.pdf	139741	a3d825dd2a74fb4db9652cbe49deb4b8fa6d7bc0005623dc90263f037a9c3388
 datasheets/diode/vishay/800dm.pdf	https://www.vishay.com/docs/88533/800dm.pdf	84893	a9552497f7f0497ace93e330c3e249dce13dae4c803abcd6a7aeccd54032d7b4
@@ -1524,7 +1512,6 @@ datasheets/diode/vishay/byw178.pdf	https://www.vishay.com/docs/86047/byw178.pdf	
 datasheets/diode/vishay/byw29200.pdf	https://www.vishay.com/docs/88560/byw29200.pdf	121759	d5012704d4c20a75999dde96b0b819f800ea9e216fcab4f34c65c69d578cda9b
 datasheets/diode/vishay/byw32.pdf	https://www.vishay.com/docs/86048/byw32.pdf	120788	44427cfa221b6762ccd515f38b6fe06437a1197d4831a1dcb639d51257699061
 datasheets/diode/vishay/byw52.pdf	https://www.vishay.com/docs/86049/byw52.pdf	137995	61bf80446bbeb39f2f2f30aaa2ba62bd3b41d419863237efb4dd8f38f380747e
-datasheets/diode/vishay/byw72.pdf	https://www.vishay.com/docs/86050/byw72.pdf	123935	35105051f4002a6c40e7d906d64a03edfe0b28ba1dc0473acbff6de03e414c53
 datasheets/diode/vishay/byw82.pdf	https://www.vishay.com/docs/86051/byw82.pdf	126226	905a6581f6578af8aa6a2dd6ddf641f9edb89f3bdd7f7a6c48cba53342695c2b
 datasheets/diode/vishay/byx82.pdf	https://www.vishay.com/docs/86052/byx82.pdf	150042	ef5ee3806a62729c49dd58ac06c263938bb994693a4bb0519be4ccac56c14f8b
 datasheets/diode/vishay/bzd27b-mseries.pdf	https://www.vishay.com/docs/85922/bzd27b-mseries.pdf	120408	da7ae74fd2b0d41c2d96502d9b8ffb5b98db3244ad81f000c92a9295049a37d3
@@ -1557,7 +1544,6 @@ datasheets/diode/vishay/dz23-g_series.pdf	https://www.vishay.com/docs/86341/dz23
 datasheets/diode/vishay/dz23_series.pdf	https://www.vishay.com/docs/86346/dz23_series.pdf	131700	346c26ec95bffec5e340f5ed393168696cb8f57eeb648aaf78d0ed10f21c26c4
 datasheets/diode/vishay/edf1am.pdf	https://www.vishay.com/docs/88577/edf1am.pdf	85508	5e446481d325b7f87b26f66c6c4d811e90d620ebf75c4fc2cf52ac6475be2842
 datasheets/diode/vishay/edf1as.pdf	https://www.vishay.com/docs/88578/edf1as.pdf	91625	4b77c2c49010a8e051f96216c949bdca499b6b75d2e012e799787b1b416cb233
-datasheets/diode/vishay/egf1a.pdf	https://www.vishay.com/docs/88579/egf1a.pdf	86474	585c460dd39ee173a9526126964e6569a4fa59e3c0bf99a8a28cc812fe0ebdf1
 datasheets/diode/vishay/egf1t.pdf	https://www.vishay.com/docs/88904/egf1t.pdf	85626	3c70b7d54ba502460617099533df9a18994ebacf2d4e57ec781bc5cc268ff18b
 datasheets/diode/vishay/egl34.pdf	https://www.vishay.com/docs/88580/egl34.pdf	77209	426c6d53eaf9924b1a6ff1ba265db2a661a760e9b42b17ffe46c99105f49485c
 datasheets/diode/vishay/egl41.pdf	https://www.vishay.com/docs/88581/egl41.pdf	77517	96c1223d3346aa64234739d89ad45a4824b611048aa9148c0533ea9013d0dce6
@@ -1591,7 +1577,6 @@ datasheets/diode/vishay/gbu8a.pdf	https://www.vishay.com/docs/88616/gbu8a.pdf	11
 datasheets/diode/vishay/gbue2560.pdf	https://www.vishay.com/docs/87633/gbue2560.pdf	141016	726277e8b5d6ba64fc27bb951fe469a2cee48f53a261e6650ebd19f80dcf6f51
 datasheets/diode/vishay/gbue2580.pdf	https://www.vishay.com/docs/98660/gbue2580.pdf	137730	bdb62f20736eb0111b5a19570a9ba74c3f50030630598c38d19cb175f4d034b2
 datasheets/diode/vishay/gdz.pdf	https://www.vishay.com/doc?86475	100465	35bba3a78a55e51f971cdf143e28e32b7665ea5429e970f4306e34e2def6def7
-datasheets/diode/vishay/gf1x.pdf	https://www.vishay.com/docs/88617/gf1x.pdf	85738	4abf6cad0c71569edc3514927ecd6bb1907dc841cd7dccba5071bd50015edb6b
 datasheets/diode/vishay/gi11200g.pdf	https://www.vishay.com/docs/88622/gi11200g.pdf	74488	ca273174c00c464bc4ad32fb82fe67f4faafacbbd76d6f171b397ae163987976
 datasheets/diode/vishay/gi1401.pdf	https://www.vishay.com/docs/88623/gi1401.pdf	111606	f3de9fcb4ae199fbee6eaa7b5a3f257d22519c1297b9e7b3c3651dc14a64cd2b
 datasheets/diode/vishay/gi500.pdf	https://www.vishay.com/docs/88626/gi500.pdf	70097	0a666b4ac2d1084dd1a1e6210c9a665f3a3cbc58cabdf4bec82effbd8c75f7ee
@@ -1617,12 +1602,8 @@ datasheets/diode/vishay/gsib20xx.pdf	https://www.vishay.com/docs/88645/gsib20xx.
 datasheets/diode/vishay/gsib2520n.pdf	https://www.vishay.com/docs/89389/gsib2520n.pdf	88524	a476c8bb34f00b50d4ce9b7b7dd35f3db9ad98c155be52e742e0ab482b037c0a
 datasheets/diode/vishay/gsib25xx.pdf	https://www.vishay.com/docs/88646/gsib25xx.pdf	89144	56843bd6578097b78534125b0c2efb2916b923ef9bd727f3c53a30133bab6434
 datasheets/diode/vishay/gsib620.pdf	https://www.vishay.com/docs/88648/gsib620.pdf	90150	e3eb8182204e5cfc8b2579cf718715c182aaa78432619bff4ce68ff86fccfe3e
-datasheets/diode/vishay/ihlp-4040dz-51.pdf	https://www.vishay.com/doc?34346	826646	0955d482c5633a1181b02746c1c32550203d2ab5e637b8a61d2e4e02b0cee88c
-datasheets/diode/vishay/ihlp5050fd-5a.pdf	https://www.vishay.com/doc?34337	896534	b458a8937d28ce6406fc35f4226e3b4d5c71af5fa86345d1ce18e8c7ed69e7c2
-datasheets/diode/vishay/ihlp5050fd-8a.pdf	https://www.vishay.com/doc?34386	902781	50bbf8fe2f4dc6dfb8e9588faf88253dda6e9c62dd1f8c40d695dd9146aa192e
 datasheets/diode/vishay/imbd4148.pdf	https://www.vishay.com/docs/86390/imbd4148.pdf	126344	2c8fdb99de6bb91e06a662dacb2a0b65dce8448b5d6e21e273e0ef86b914a0a9
 datasheets/diode/vishay/imbd4448.pdf	https://www.vishay.com/docs/86392/imbd4448.pdf	116702	06da8bcfd59caaaa763049054f12ff7aa26df2b24c3a09b33f35a18977fc3103
-datasheets/diode/vishay/irl620.pdf	https://www.vishay.com/docs/91301/irl620.pdf	1233512	714503c264cbb4f4096360d7035b03d652687d80700ac130dae0b19b5e17b817
 datasheets/diode/vishay/kbpc8series.pdf	https://www.vishay.com/docs/93586/kbpc8series.pdf	118154	f267faebf667c504c42232bf704332450f538701790a98471ab0c118cb6a62e2
 datasheets/diode/vishay/kbpe0480.pdf	https://www.vishay.com/doc?98775	241528	1128e88bd98b9beeebb0bc10707e2602e24b8417e15676d8167b5df019c8be12
 datasheets/diode/vishay/kbu6.pdf	https://www.vishay.com/docs/98732/kbu6.pdf	91759	99b781f1531ea10c964bfd6a2306361f6b2166dc6f5d4f083d6cfd044511afb5
@@ -1645,7 +1626,6 @@ datasheets/diode/vishay/lve2560e.pdf	https://www.vishay.com/docs/98363/lve2560e.
 datasheets/diode/vishay/lve3060e.pdf	https://www.vishay.com/docs/98787/lve3060e.pdf	126517	1fd177cfa35bc261cde7461207d4ff2521c4bf36e61a038808a5b63f8202edfe
 datasheets/diode/vishay/lve5060e.pdf	https://www.vishay.com/docs/98790/lve5060e.pdf	126498	44da89e7c1c5779cd87fa5bfcaf28833b06451a0c704f13e9ec12641414d1b4e
 datasheets/diode/vishay/mb2s.pdf	https://www.vishay.com/docs/88661/mb2s.pdf	97993	398f6b8adaaf00ef540fa438fd51cd87e583d686cb755984cd7cb775331289af
-datasheets/diode/vishay/mbr10100-m3.pdf	https://www.vishay.com/docs/87981/mbr10100-m3.pdf	88000	59a1cb65681a3df4ff26753a14234c3c1c1c61f19c7340d0c66f4f8f80a1411d
 datasheets/diode/vishay/mbr10100.pdf	https://www.vishay.com/docs/89193/mbr10100.pdf	591400	a8f4f70172efdf6c87051af08b8f2dd3eeba4b60c43e297d66d9b9a7fe2a7da1
 datasheets/diode/vishay/mbr1090c.pdf	https://www.vishay.com/docs/89125/mbr1090c.pdf	120797	1584349848333372649c57c1ae27aa06f9a17fc645629aab2f8bcdde90d8eba0
 datasheets/diode/vishay/mbr10hxx.pdf	https://www.vishay.com/docs/88667/mbr10hxx.pdf	127638	0f582521a978d8101cb6b58cbd0df7ee93600151f52e1518b97e1ab600c16f63
@@ -1656,7 +1636,6 @@ datasheets/diode/vishay/mbr1545ct.pdf	https://www.vishay.com/docs/87589/mbr1545c
 datasheets/diode/vishay/mbr20100-63461e.pdf	https://www.vishay.com/docs/89192/mbr20100.pdf	121057	50b2840aa3259e5632e2eb71d5e1a201c312f06a4745e12618a05e193fc0488b
 datasheets/diode/vishay/mbr20100-b4ca3b.pdf	https://www.vishay.com/docs/89033/mbr20100.pdf	207441	c03783459e8a1e6b156f4ca595b08eba2b90dba9e50ea648e4fe6b815b7accca
 datasheets/diode/vishay/mbr25xxct.pdf	https://www.vishay.com/docs/88675/mbr25xxct.pdf	133955	1646f2fcf98b4cb56d992e22500167d593887883064ac293a2afbf70f5d72da7
-datasheets/diode/vishay/mbr30h100ct.pdf	https://www.vishay.com/docs/88791/mbr30h100ct.pdf	156363	267d78046a4e8137838d4cae2f7d6d37f2e6fe64db1652fa62a1078fb10e6217
 datasheets/diode/vishay/mbr7xx.pdf	https://www.vishay.com/docs/88680/mbr7xx.pdf	106890	eb47841218a9673cb6d4bff53cc9dc37cd9e18fbd718ef3c06e11163e3fd8d4d
 datasheets/diode/vishay/mbrb2535ct.pdf	https://www.vishay.com/docs/87592/mbrb2535ct.pdf	88425	ee8f699a97811f5d9d29143821ab5598a8b6ab93ea25634b347ac9ae8d0d1036
 datasheets/diode/vishay/mbrb30hxxct.pdf	https://www.vishay.com/docs/87539/mbrb30hxxct.pdf	83062	972888b99b3c0f19e985998405de7de39537a760f24c5f529732682173e224fc
@@ -1703,10 +1682,8 @@ datasheets/diode/vishay/pb3006.pdf	https://www.vishay.com/docs/84806/pb3006.pdf	
 datasheets/diode/vishay/pb3506.pdf	https://www.vishay.com/docs/84807/pb3506.pdf	144581	cf2494c998e4d3902b2084e558bfa06a5c36b46ff01ae77e5e5340198b32266f
 datasheets/diode/vishay/pb4006.pdf	https://www.vishay.com/docs/84808/pb4006.pdf	124976	494187d84ed4b20a7092c8164e83432031968475a60c824d36428ec0bb4cbe21
 datasheets/diode/vishay/pb5006.pdf	https://www.vishay.com/docs/84809/pb5006.pdf	110956	08178f867c1b580d4a230fb03b950035a8eb6a2bbc1ec33539a151630a2b6da7
-datasheets/diode/vishay/pe60.pdf	https://www.vishay.com/doc?51005	137286	db19be14e387f1d913b6a84b31e1ade22dd83d000fba13c872e46cca2f7eb87f
 datasheets/diode/vishay/plzseries.pdf	https://www.vishay.com/docs/84830/plzseries.pdf	188594	6141ad1ce8b436eda129af514235d331ea45f08773b9e8eab012cc2ddda95d31
 datasheets/diode/vishay/ptvxxb.pdf	https://www.vishay.com/docs/88484/ptvxxb.pdf	91301	1fb02bc94d9e5fb2b112c58c45cddeb296bafb717e627e730ed8a367b18d0f6b
-datasheets/diode/vishay/rgf1.pdf	https://www.vishay.com/docs/88697/rgf1.pdf	86729	e9544fa31e6c8d61465c0839e89e559184d12af3851e7440dcbb7a1960592198
 datasheets/diode/vishay/rgl34a.pdf	https://www.vishay.com/docs/88698/rgl34a.pdf	77468	9b67d7edb7ce4db85242eee3662ac4306f8a60733e108bf5e0ba957189f50ee4
 datasheets/diode/vishay/rgp02.pdf	https://www.vishay.com/docs/88699/rgp02.pdf	69243	9593d41fcb42c20afd87ace0fa4938c3bfdeeddf85350af4f426a05ffad60c35
 datasheets/diode/vishay/rgp10a.pdf	https://www.vishay.com/docs/88700/rgp10a.pdf	77694	5398c65abb4205ed54855ffd36d793b02d316fcf368805a85532b4d2712d57a8
@@ -1832,8 +1809,6 @@ datasheets/diode/vishay/sep4512.pdf	https://www.vishay.com/docs/98365/sep4512.pd
 datasheets/diode/vishay/sf1200.pdf	https://www.vishay.com/docs/86059/sf1200.pdf	134941	1117fed7185b1cf41c2f21e6618019ec6efc0dcdebd8a41ac4e2ec5b280cd64c
 datasheets/diode/vishay/sf4001.pdf	https://www.vishay.com/docs/86060/sf4001.pdf	139173	bd016cc29b416d619eda52e952bbd6c9853ee0c08b5b97ba66dfe1211a1e8f27
 datasheets/diode/vishay/sf5400.pdf	https://www.vishay.com/docs/86061/sf5400.pdf	130193	b30e3be3c60d03e0f9922c34070d0ea8d80a19c2b3dfb1afb0fbe600494025b0
-datasheets/diode/vishay/sl02.pdf	https://www.vishay.com/docs/85687/sl02.pdf	111144	83d72c6b30c5b5368b30f7c0382044328d1e64d8bc795db7374da520737c3ab5
-datasheets/diode/vishay/sl02m.pdf	https://www.vishay.com/docs/85190/sl02m.pdf	112232	477db6374f1f213767edd0dbbd89230185c13bdb9dcb6776f11dc2a3e3600f93
 datasheets/diode/vishay/sl04-m.pdf	https://www.vishay.com/docs/85941/sl04-m.pdf	111191	8f964cd7652e7d399e78f0dc7d851a9582d4aad7bd407a36bcede8e5338b8188
 datasheets/diode/vishay/sl04.pdf	https://www.vishay.com/docs/85942/sl04.pdf	110232	86374a00282686269c5b11a091d995f7e043f53b35879b4e10d250cbd48b0841
 datasheets/diode/vishay/sl12.pdf	https://www.vishay.com/docs/88740/sl12.pdf	90869	2d110d8f255ed2270431ad844eed2b600678458bb716cc7bb17a025a5d25ee60
@@ -1930,9 +1905,7 @@ datasheets/diode/vishay/ug2a.pdf	https://www.vishay.com/docs/88761/ug2a.pdf	7146
 datasheets/diode/vishay/ug4a.pdf	https://www.vishay.com/docs/88763/ug4a.pdf	77880	96689fd21838aa8a1be98789cf5ccbddeb1cc636151270c71cb2ce938c631950
 datasheets/diode/vishay/us1_test_dcicons.pdf	https://www.vishay.com/docs/88768/us1_test_dcicons.pdf	114769	b515f5339da631a3fc59493afa1bb3cc4fb6ec77d0b12b1a5fb613074be22dc5
 datasheets/diode/vishay/usb260.pdf	https://www.vishay.com/docs/89483/usb260.pdf	103236	e918b60e1b010a9433b04d85cd3ea8d980c70b428d3e38d520f9bb926746eb1b
-datasheets/diode/vishay/v10150c.pdf	https://www.vishay.com/docs/89154/v10150c.pdf	615868	b300147a08a4c6011156d868e8f29c047e70d818f714c2dde02d3712376da587
 datasheets/diode/vishay/v10150s-03ab9f.pdf	https://www.vishay.com/docs/89058/v10150s.pdf	214177	4e759f775e3d3c7c9601e208404642d649725bd444c5b17dcce7558ff84a9da7
-datasheets/diode/vishay/v10150s-8f646e.pdf	https://www.vishay.com/docs/89246/v10150s.pdf	135568	1cd8492166b7faaa58f1f64a6f3507db323b3d4ee9a0112dbbda5257ddefc6ee
 datasheets/diode/vishay/v10d170c.pdf	https://www.vishay.com/docs/87450/v10d170c.pdf	123762	9d186f7829cab201b412d0c4625bb69421a712b06f5a4f2ca17cffbf7053a95d
 datasheets/diode/vishay/v10d60c.pdf	https://www.vishay.com/docs/89993/v10d60c.pdf	133952	afe80752996ff9a2df96b23c8f5793789bfdd60169a1f36f06f360c16f45a1a7
 datasheets/diode/vishay/v10dl63c.pdf	https://www.vishay.com/docs/98243/v10dl63c.pdf	128969	5eb72a49b4985cec6a7ccde6527cad9aadcaf4a6a25c86506cdea281bcd3e3ee
@@ -2405,7 +2378,6 @@ datasheets/diode/vishay/vs-10csh02-m3.pdf	https://www.vishay.com/docs/94974/vs-1
 datasheets/diode/vishay/vs-10csh02hm3.pdf	https://www.vishay.com/docs/94975/vs-10csh02hm3.pdf	128787	1e0159388c63ead12b4695a72604b27dcc13677988c6c53c185ce9ff9c40a804
 datasheets/diode/vishay/vs-10ctq150-m3.pdf	https://www.vishay.com/docs/96245/vs-10ctq150-m3.pdf	166210	66788117c4c44aee275c48e8b01c9d9e475d69221d3c90f980201ab05ce6aaf3
 datasheets/diode/vishay/vs-10ctq150s-m3.pdf	https://www.vishay.com/docs/95729/vs-10ctq150s-m3.pdf	223822	a862397f8b0900f8b6d858afa0d656237730b28f66a6fe623f992639129d01a2
-datasheets/diode/vishay/vs-10cvh01-m3.pdf	https://www.vishay.com/docs/96098/vs-10cvh01-m3.pdf	158969	890173437cefa30614b3c8b30b98dda640f3f103b5d696ef4dcee91f9bf10655
 datasheets/diode/vishay/vs-10cwh02f.pdf	https://www.vishay.com/docs/93263/vs-10cwh02f.pdf	165197	bfc384a3b72fda2704d0c1cff683ff9a6c7b23cf76be1c94dee8e2a94294bd6b
 datasheets/diode/vishay/vs-10erh02-m3.pdf	https://www.vishay.com/doc?97364	158694	14957bbda81e63e98d5c37231d892688df90902b645b1833bf4b5d315739c72a
 datasheets/diode/vishay/vs-10erh02hm3.pdf	https://www.vishay.com/doc?97378	159662	5e485410131e576277b62602af75e319724ef3e454f77f3bbaaadf43b9dbc04e
@@ -2706,7 +2678,6 @@ datasheets/diode/vishay/vs-6evx06hm3.pdf	https://www.vishay.com/docs/96146/vs-6e
 datasheets/diode/vishay/vs-6ewh06fn-m3.pdf	https://www.vishay.com/docs/93514/vs-6ewh06fn-m3.pdf	149935	12702ccd377f6d5a4979f88fcb586e3491f1a206e26eaa82f8442b76c74cde23
 datasheets/diode/vishay/vs-6ewl06fn-m3.pdf	https://www.vishay.com/docs/93502/vs-6ewl06fn-m3.pdf	160976	53b3b17feb959747ea99d7e45887ccdb4902fbf9f81be6a9eb0d59860f4ec770
 datasheets/diode/vishay/vs-6ewx06fn-m3.pdf	https://www.vishay.com/docs/93249/vs-6ewx06fn-m3.pdf	155272	a995359fed08a1b893a26554e269b12d4582e476a352f5f3d5ad7136ef4d13b0
-datasheets/diode/vishay/vs-6ewx06fn.pdf	https://www.vishay.com/docs/94745/vs-6ewx06fn.pdf	149578	d54acc332deb4807704531ea310cc1a331850835a25322d5cba7685e940afd95
 datasheets/diode/vishay/vs-6tq035-m3.pdf	https://www.vishay.com/docs/96264/vs-6tq035-m3.pdf	173272	a35115ef542895256b6b82b16fc577d03d577961d16f9978b68284d48111adc2
 datasheets/diode/vishay/vs-6tqs-m3.pdf	https://www.vishay.com/docs/94945/vs-6tqs-m3.pdf	177077	1a7486546809e4c4b64e8ef5ef94af8929dbbfa7c61fecd2c9ff502ddd7e2114
 datasheets/diode/vishay/vs-75epu12l-n3.pdf	https://www.vishay.com/docs/95939/vs-75epu12l-n3.pdf	146780	5ba16ef1380cc9a07f4f81d08af9b0e4742537d3d3293bfedcacbfebd3f04c8f

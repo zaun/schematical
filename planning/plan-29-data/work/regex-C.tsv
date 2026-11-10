@@ -1,0 +1,22 @@
+maker	category	datasheet	supplier_package	mpn_regex	note
+onsemi	single	datasheets/diode/onsemi/1N3070-D.pdf	DO-35	1N3070	no ordering information (Fairchild sheet); only the number it prints, 1N3070 (title, ratings)
+onsemi	single	datasheets/diode/onsemi/1N3595-D.pdf	DO-35	1N3595	no ordering information (Fairchild sheet); only the number it prints, 1N3595 (title, ratings)
+onsemi	single	datasheets/diode/onsemi/1N459A-D.PDF	DO-35	1N459A?	no ordering information (Fairchild sheet); only the numbers it prints, 1N459 / 1N459A (title, ratings)
+onsemi	single	datasheets/diode/onsemi/BAX16-D.pdf	DO-35	BAX16	no ordering information (Fairchild sheet); only the number it prints, BAX16 (title, ratings)
+onsemi	single	datasheets/diode/onsemi/BAY72-D.pdf	DO-35	BAY72	no ordering information (Fairchild sheet); only the number it prints, BAY72 (title, ratings)
+onsemi	single	datasheets/diode/onsemi/NSR0530H-D.PDF	SOD-323	NSR0530HT1G	p.1 ORDERING INFORMATION: NSR0530HT1G only
+onsemi	single	datasheets/diode/onsemi/RGP10M-D.pdf	DO-41	RGP10[ABDGJKM]	no ordering table (Fairchild sheet); bases from p.1 title RGP10A - RGP10M and ratings columns 10A/10B/10D/10G/10J/10K/10M
+onsemi	single	datasheets/diode/onsemi/bat54xv2t1-d.pdf	SOD-523	S?BAT54XV2T[15]G	p.1 ORDERING INFORMATION: BAT54XV2T1G, BAT54XV2T5G, SBAT54XV2T1G, SBAT54XV2T5G
+onsemi	single	datasheets/diode/onsemi/mbr760-d.pdf	TO-220-2L	MBR7(35|45|50|60)	no ordering table (Fairchild sheet); bases from p.1 title MBR735 - MBR760 and ratings columns 735/745/750/760
+onsemi	single	datasheets/diode/onsemi/mbra320-d.pdf	SMA	MBRA320T3G|NRVBA320N?T3G	p.1 ORDERING INFORMATION: MBRA320T3G, NRVBA320T3G*, NRVBA320NT3G*
+onsemi	single	datasheets/diode/onsemi/mbrs1100t3-d.pdf	SMB	MBRS1(100|90)T3G|SBRS81(100|90)NT3G	p.2 ORDERING INFORMATION: MBRS1100T3G, MBRS190T3G, SBRS81100NT3G*, SBRS8190NT3G*; rev. 17 history removes SBRS81100T3G(-VF01), SBRS8190T3G
+onsemi	single	datasheets/diode/onsemi/mura105t3-d.pdf		MURA1(05|10)T3G|SURA81(05|10)T3G|NRVUA110VT3G(-GA01)?	p.1 ORDERING INFORMATION: MURA105T3G, SURA8105T3G*, MURA110T3G, NRVUA110VT3G*, NRVUA110VT3G-GA01*, SURA8110T3G*
+onsemi	single	datasheets/diode/onsemi/mura205t3-d.pdf	SMA	MURA2(05|10)T3G|SURA8205T3G(-GA01)?|NRVUA210VT3G(-GA01)?|SURA8210T3G	p.1 ORDERING INFORMATION: MURA205T3G, SURA8205T3G(-GA01)*, MURA210T3G, NRVUA210VT3G(-GA01)*, SURA8210T3G*
+onsemi	single	datasheets/diode/onsemi/mura230t3-d.pdf	SMA	MURA2[34]0T3G|SURA8240T3G(-GA01)?	p.1 ORDERING INFORMATION: MURA230T3G, MURA240T3G, SURA8240T3G*, SURA8240T3G-GA01*
+onsemi	single	datasheets/diode/onsemi/murs120t3-d.pdf	SMB	MURS1(05|10|20|40|60)T3G|NRVUS1(10|20|60)VT3G(-GA01)?	p.3 DEVICE MARKING AND ORDERING INFORMATION: MURS105/110/120/140/160T3G, NRVUS110/120/160VT3G(-GA01)*; rev. 21 history removes MURS115 and SURS8105-SURS8160
+onsemi	single	datasheets/diode/onsemi/nsr0320mw2t1-d.pdf	SOD-323	NSR0320MW2T[13]G|NSVR0320MW2T1G	p.1 ORDERING INFORMATION: NSR0320MW2T1G, NSR0320MW2T3G, NSVR0320MW2T1G
+onsemi	single	datasheets/diode/onsemi/rurp15100_f085-d.pdf	TO-220-2	RURP15100-F085	p.1 Package Marking and Ordering Information: RURP15100-F085 only
+onsemi	single	datasheets/diode/onsemi/rurp1560_f085-d.pdf	TO-220-2	RURP1560-F085	p.1 Package Marking and Ordering Information: RURP1560-F085 only
+onsemi	single	datasheets/diode/onsemi/s2m-d.pdf	DO-214AA (SMB)	(NRV)?S2[BDM]	p.2 ORDERING INFORMATION: S2B/S2D/S2M and NRV* versions; S2A/S2G/S2J/S2K are in DISCONTINUED (Note 2), excluded
+onsemi	single	datasheets/diode/onsemi/ss16-d.pdf	SMA	SS16T3G|SBRA8160N?T3G	p.1 ORDERING INFORMATION: SS16T3G, SBRA8160T3G*, SBRA8160NT3G*
+onsemi	single	datasheets/diode/onsemi/ss24-d.pdf	SMB	SS24T3G|NRVBSS24NT3G	p.1 ORDERING INFORMATION: SS24T3G, NRVBSS24NT3G* (features line 'add T3 suffix' read as the T3 part of SS24T3G)

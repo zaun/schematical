@@ -1,0 +1,7 @@
+maker	supplier_package	mounting	package	footprint	pins	pdf	page	note
+TSC	Sub SMA	Surface Mount	Sub SMA	DIODE-SUB-SMA-TSC	single=1:K,2:A	tsc/BZD27C-SERIES_AB2103.pdf	5	suggested pad layout, R1
+Vishay	DO-213AB (MELF)	Surface Mount	MELF	DIODE-MELF-VISHAY	single=1:K,2:A	vishay/gll4735.pdf	4	foot print recommendation, R1 (pads 1.25 x 3, gap 4 max, 6.5 ref -> span 5.25); reuses footprints-B.json DIODE-MELF-VISHAY (same pads and span; B body 5.0 x 2.5 from zm4728a.pdf, this drawing 4.95 x 2.54)
+Vishay	DO-214AA (SMBJ)	Surface Mount	SMB	DIODE-SMB-VISHAY	single=1:K,2:A	vishay/smbz5945b.pdf	4	mounting pad layout, R1; pad width (5.59 - 2.159) / 2 = 1.715, span 3.875 (same drawing in smzj.pdf); reuses footprints-B.json DIODE-SMB-VISHAY (same numbers from the same Vishay SMB layout)
+onsemi	DO-204AL (DO-41)	Through Hole	DO-41	DIODE-DO-41-ONSEMI	single=1:K,2:A	onsemi/1n5913b-d.pdf	7	R7; CASE 59-10 and the glass CASE 017AH (bzx85c3v3-d.pdf p.3) give the same maxima
+onsemi	SC-89-3	Surface Mount	SC-89	SC89-3-ONSEMI	cc=1:A1,2:A2,3:K;ca=1:K1,2:K2,3:A	onsemi/BAT54CXV3-D.PDF	4	CASE 463C footprint, R1; cc = STYLE 3 (BAT54CXV3), ca = STYLE 4 (NZL5V6AXV3, nzl5v6axv3t1-d.pdf p.1)
+onsemi	SOD-323FL	Surface Mount	SOD-323FL	DIODE-SOD-323FL-ONSEMI	single=1:K,2:A	onsemi/mm3z9v1c-d.pdf	5	CASE 477AB footprint, R1; datasheet numbers the cathode 2, pin 1 = cathode by the two-terminal rule
