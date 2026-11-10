@@ -214,7 +214,7 @@ nowhere in that PDF) is `skip`. `census/scheme-check.py` (A Phase 4) sets
 
 Acceptance: both run on an empty `footprints-B.json`.
   Check: `echo '{"footprints":[]}' > /tmp/fp0.json && planning/plan-29-data/census/fp-load.sh /tmp/fp0.json` → `footprint_check` passes (est. 3 min).
-Commit: —
+Commit: e71850f
 
 ### Phase 2 — Surface-mount packages
 

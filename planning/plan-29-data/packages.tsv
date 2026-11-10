@@ -1,0 +1,226 @@
+owner	letters	maker	supplier_package	mounting	parts	spec_rows	cases	configurations	top_pdfs
+B	B	Vishay			1	1			datasheets/diode/vishay/byw72.pdf
+B	B	Vishay	CLP0603-2M	Surface Mount	2	2	0201 (0603 Metric)		datasheets/diode/vishay/vsky02300603.pdf datasheets/diode/vishay/vsky023063.pdf
+B	B	Vishay	CLP1006-2L	Surface Mount	3	3	0402 (1006 Metric)		datasheets/diode/vishay/vsky05201006.pdf datasheets/diode/vishay/vsky05301006.pdf datasheets/diode/vishay/vsky05401006.pdf
+B	B	Vishay	CLP1406-2L	Surface Mount	2	2	0502 (1406 Metric)		datasheets/diode/vishay/vsky10201406.pdf datasheets/diode/vishay/vsky10401406.pdf
+B	B	Vishay	CLP1608-2L	Surface Mount	3	3	0603 (1608 Metric)		datasheets/diode/vishay/vsky20301608.pdf datasheets/diode/vishay/vsky2030g8.pdf datasheets/diode/vishay/vsky20401608.pdf
+B	BE	Vishay	DFN1006-2A	Surface Mount	41	5	0402 (1006 Metric)		datasheets/diode/vishay/bzx884l-series.pdf datasheets/diode/vishay/bas16l.pdf datasheets/diode/vishay/bas16lth.pdf
+B	B	Vishay	DFN33A	Surface Mount	42	21	8-PowerVDFN		datasheets/diode/vishay/v5n3103.pdf datasheets/diode/vishay/v5n3202.pdf datasheets/diode/vishay/v5n3l63.pdf
+B	B	Vishay	DFN3820A	Surface Mount, Wettable Flank	79	32	2-SMD, No Lead; 2-VDFN		datasheets/diode/vishay/ss8nh102s.pdf datasheets/diode/vishay/se20nd_se20ng_se20nj.pdf datasheets/diode/vishay/se40nd_se40ng_se40nj.pdf
+B	BF	Vishay	DFN6546A	Surface Mount, Wettable Flank	40	20	8-PowerVDFN	1 Pair Common Cathode	datasheets/diode/vishay/se100n6d_se100n6g_se100n6j.pdf datasheets/diode/vishay/se120n6d_se120n6g_se120n6j.pdf datasheets/diode/vishay/se50n6d_se50n6g_se50n6j.pdf
+B	B	Vishay	DO-201AD	Through Hole	103	20	DO-201AD, Axial		datasheets/diode/vishay/1n5400.pdf datasheets/diode/vishay/uf5400.pdf datasheets/diode/vishay/sb520.pdf
+B	B	Vishay	DO-204AC (DO-15)	Through Hole	36	12	DO-204AC, DO-15, Axial		datasheets/diode/vishay/gpp20a.pdf datasheets/diode/vishay/sb220.pdf datasheets/diode/vishay/sbyv27.pdf
+B	BE	Vishay	DO-204AH (DO-35)	Through Hole	415	20	DO-204AH, DO-35, Axial		datasheets/diode/vishay/tzxserie.pdf datasheets/diode/vishay/bzx55.pdf datasheets/diode/vishay/1n5221.pdf
+B	BE	Vishay	DO-204AL (DO-41)	Through Hole	246	24	DO-204AL, DO-41, Axial		datasheets/diode/vishay/1n4728a.pdf datasheets/diode/vishay/zpy3v9.pdf datasheets/diode/vishay/1n4001.pdf
+B	B	Vishay	DO-213AA (GL34)	Surface Mount	20	4	DO-213AA (Glass)		datasheets/diode/vishay/egl34.pdf datasheets/diode/vishay/gl34a.pdf datasheets/diode/vishay/rgl34a.pdf
+B	BE	Vishay	DO-213AB	Surface Mount	159	6	DO-213AB, MELF (Glass)		datasheets/diode/vishay/zm4728a.pdf datasheets/diode/vishay/zmy3v9.pdf datasheets/diode/vishay/bym10-xxx.pdf
+B	BE	Vishay	DO-213AB (GL41)	Surface Mount	11	3	DO-213AB, MELF		datasheets/diode/vishay/bym13.pdf datasheets/diode/vishay/zgl41.pdf datasheets/diode/vishay/irl620.pdf
+B	BE	Vishay	DO-214AA (SMB)	Surface Mount	186	58	DO-214AA, SMB		datasheets/diode/vishay/ss22.pdf datasheets/diode/vishay/es2.pdf datasheets/diode/vishay/rs2a.pdf
+B	B	Vishay	DO-214AB (SMC)	Surface Mount	197	47	DO-214AB, SMC		datasheets/diode/vishay/s3a.pdf datasheets/diode/vishay/s5a.pdf datasheets/diode/vishay/ss32.pdf
+B	BE	Vishay	DO-214AC (SMA)	Surface Mount	471	79	DO-214AC, SMA		datasheets/diode/vishay/bzg03c-m-series.pdf datasheets/diode/vishay/bzg05c-m-series.pdf datasheets/diode/vishay/s1.pdf
+B	B	Vishay	DO-214BA (GF1)	Surface Mount	23	4	DO-214BA		datasheets/diode/vishay/gf1x.pdf datasheets/diode/vishay/rgf1.pdf datasheets/diode/vishay/egf1a.pdf
+B	B	Vishay	DO-218AC	Surface Mount	4	4	DO-218AC		datasheets/diode/vishay/se30124.pdf datasheets/diode/vishay/se40124.pdf datasheets/diode/vishay/se45124.pdf
+B	BE	Vishay	DO-219AB (SMF)	Surface Mount	275	63	DO-219AB		datasheets/diode/vishay/bzd27series.pdf datasheets/diode/vishay/bzd27b-mseries.pdf datasheets/diode/vishay/rs07bm.pdf
+B	BE	Vishay	DO-219AC (microSMF)	Surface Mount	120	2	DO-219AC		datasheets/diode/vishay/plzseries.pdf datasheets/diode/vishay/bat165.pdf
+B	B	Vishay	DO-219AD (MicroSMP)	Surface Mount	71	24	DO-219AD		datasheets/diode/vishay/mse1pj.pdf datasheets/diode/vishay/mse07pb.pdf datasheets/diode/vishay/msx1pb-msx1pd-msx1pg-msx1pj.pdf
+B	BE	Vishay	DO-220AA (SMP)	Surface Mount	173	46	DO-220AA		datasheets/diode/vishay/au1pm.pdf datasheets/diode/vishay/s1pb.pdf datasheets/diode/vishay/ptvxxb.pdf
+B	B	Vishay	DO-221AC (SlimSMA)	Surface Mount	91	36	DO-221AC, SMA Flat Leads		datasheets/diode/vishay/se30afb.pdf datasheets/diode/vishay/se20afb.pdf datasheets/diode/vishay/s3afg_s3afj.pdf
+B	B	Vishay	DO-221BC (SMPA)	Surface Mount	36	18	DO-221BC, SMA Flat Leads Exposed Pad		datasheets/diode/vishay/se50pab.pdf datasheets/diode/vishay/v8pam10s.pdf datasheets/diode/vishay/se30pab.pdf
+B	BF	Vishay	FlatPAK (5x6)	Surface Mount	69	38	8-PowerTDFN	1 Pair Common Cathode	datasheets/diode/vishay/ss20k42.pdf datasheets/diode/vishay/ss20kh102.pdf datasheets/diode/vishay/ss30kh102.pdf
+B	BF	Vishay	ITO-220AB	Through Hole	22	22	TO-220-3 Full Pack, Isolated Tab	1 Pair Common Cathode	datasheets/diode/vishay/mbr20100-b4ca3b.pdf datasheets/diode/vishay/v10150c.pdf datasheets/diode/vishay/v20100c-0da7eb.pdf
+B	B	Vishay	ITO-220AC	Through Hole	5	5	TO-220-2 Full Pack, Isolated Tab		datasheets/diode/vishay/mbr10xxx.pdf datasheets/diode/vishay/vft1045bp.pdf datasheets/diode/vishay/vft2045bp.pdf
+B	B	Vishay	MPG06	Through Hole	6	1	MPG06, Axial		datasheets/diode/vishay/rmpg06.pdf
+B	BE	Vishay	MicroMELF	Surface Mount	97	9	2-SMD, No Lead		datasheets/diode/vishay/bzm55.pdf datasheets/diode/vishay/bav300.pdf datasheets/diode/vishay/bas381.pdf
+B	B	Vishay	P600	Through Hole	22	2	P600, Axial		datasheets/diode/vishay/p600a.pdf datasheets/diode/vishay/gi750.pdf
+B	BF	Vishay	SMPD	Surface Mount	90	46	TO-263-3, D2PAK (2 Leads + Tab), Variant	1 Pair Common Cathode	datasheets/diode/vishay/se10dtg_tj.pdf datasheets/diode/vishay/se10dtlg_se10dtlj.pdf datasheets/diode/vishay/se12dtg_se12dtj.pdf
+B	BE	Vishay	SOD-123	Surface Mount	338	22	SOD-123		datasheets/diode/vishay/mmsz5225_to_mmsz5267.pdf datasheets/diode/vishay/bzt52.pdf datasheets/diode/vishay/mmsz4681_to_mmsz4717.pdf
+B	BE	Vishay	SOD-323	Surface Mount	65	18	SC-76, SOD-323		datasheets/diode/vishay/gdz.pdf datasheets/diode/vishay/bzx384.pdf datasheets/diode/vishay/bav19ws_bav20ws_bav21ws.pdf
+B	BE	Vishay	SOD-523	Surface Mount	48	4	SC-79, SOD-523		datasheets/diode/vishay/bzx584c-series.pdf datasheets/diode/vishay/bas581-02v.pdf datasheets/diode/vishay/bat5402v.pdf
+B	BE	Vishay	SOD-57	Through Hole	106	19	SOD-57, Axial		datasheets/diode/vishay/bzt03.pdf datasheets/diode/vishay/byv26.pdf datasheets/diode/vishay/byw52.pdf
+B	B	Vishay	SOD-64	Through Hole	33	13	SOD-64, Axial		datasheets/diode/vishay/1n5624.pdf datasheets/diode/vishay/byv2850.pdf datasheets/diode/vishay/byw82.pdf
+B	BE	Vishay	SOD-80 MiniMELF	Surface Mount	264	20	DO-213AC, MINI-MELF, SOD-80		datasheets/diode/vishay/tzm.pdf datasheets/diode/vishay/tlz.pdf datasheets/diode/vishay/tzm5221.pdf
+B	BE	Vishay	SOD-80 QuadroMELF	Surface Mount	79	11	SOD-80 Variant		datasheets/diode/vishay/bzt55.pdf datasheets/diode/vishay/tzq5221b.pdf datasheets/diode/vishay/bav200.pdf
+B	BEF	Vishay	SOT-23-3	Surface Mount	230	32	TO-236-3, SC-59, SOT-23-3	1 Pair Common Anode; 1 Pair Common Cathode; 1 Pair Series Connection	datasheets/diode/vishay/bzx84_series.pdf datasheets/diode/vishay/bzx84-g_series.pdf datasheets/diode/vishay/az23_series.pdf
+B	BF	Vishay	SlimDPAK	Surface Mount	154	93	TO-252-3, DPAK (2 Leads + Tab), SC-63	1 Pair Common Cathode	datasheets/diode/vishay/se100pwtg_tj.pdf datasheets/diode/vishay/se80pwtg_se80pwtj.pdf datasheets/diode/vishay/v10pw60.pdf
+B	B	Vishay	SlimSMAW (DO-221AD)	Surface Mount	61	18	DO-221AC, SMA Flat Leads		datasheets/diode/vishay/se8d30d_g_j.pdf datasheets/diode/vishay/vs-3eyh02-m3.pdf datasheets/diode/vishay/vs-3eyh02hm3.pdf
+B	B	Vishay	TO-220-2 Full Pack	Through Hole	22	19	TO-220-2 Full Pack		datasheets/diode/vishay/vs-10etf10_12fp-m3.pdf datasheets/diode/vishay/vs-10ets08_12fp-m3.pdf datasheets/diode/vishay/vs-20ets08_12fp-m3.pdf
+B	BF	Vishay	TO-220-3	Through Hole	94	81	TO-220-3	1 Pair Common Cathode	datasheets/diode/vishay/fep16jt.pdf datasheets/diode/vishay/mbr1545ct.pdf datasheets/diode/vishay/mbr25xxct.pdf
+B	B	Vishay	TO-220AC	Through Hole	109	85	TO-220-2		datasheets/diode/vishay/fes16jt.pdf datasheets/diode/vishay/ns8xt.pdf datasheets/diode/vishay/byw29200.pdf
+B	B	Vishay	TO-220AC Full Pack	Through Hole	1	1	TO-220-2 Full Pack		datasheets/diode/vishay/vs-eth3106fp-n3.pdf
+B	BF	Vishay	TO-247AC	Through Hole	31	28	TO-247-3	1 Pair Common Cathode	datasheets/diode/vishay/vs-60cpu06f.pdf datasheets/diode/vishay/vs-80apf1-m3series.pdf datasheets/diode/vishay/vs-80aps-m3series.pdf
+B	B	Vishay	TO-247AC-2L	Through Hole	26	22	TO-247-2		datasheets/diode/vishay/vs-40epf0-m3series.pdf datasheets/diode/vishay/vs-40eps-m3series.pdf datasheets/diode/vishay/vs-60pf0-m3series.pdf
+B	BF	Vishay	TO-247AD	Through Hole	80	69	TO-247-2; TO-247-3	1 Pair Common Cathode; 1 Pair Series Connection	datasheets/diode/vishay/vs-90epsl-m3.pdf datasheets/diode/vishay/vs-60epu04lhn3_vs-60apu04lhn3.pdf datasheets/diode/vishay/vs-65eps16l-m3.pdf
+B	BF	Vishay	TO-247AD (TO-3P)	Through Hole	6	5	TO-3P-3, SC-65-3	1 Pair Common Cathode	datasheets/diode/vishay/fep30xp.pdf datasheets/diode/vishay/vs-35epf06lhm3_vs-35apf06lhm3.pdf datasheets/diode/vishay/vs-45eps12lhm3.pdf
+B	BF	Vishay	TO-252AA (DPAK)	Surface Mount	108	48	TO-252-3, DPAK (2 Leads + Tab), SC-63	1 Pair Common Cathode	datasheets/diode/vishay/vs-8ews08sm.pdf datasheets/diode/vishay/vs-15ewl06fn-m3.pdf datasheets/diode/vishay/vs-50wq10fn.pdf
+B	BF	Vishay	TO-262AA	Through Hole	7	7	TO-262-3 Long Leads, I2PAK, TO-262AA	1 Pair Common Cathode	datasheets/diode/vishay/v20202c.pdf datasheets/diode/vishay/v30100c-f893fd.pdf datasheets/diode/vishay/v30100s-3b9e32.pdf
+B	BF	Vishay	TO-263AB (D2PAK)	Surface Mount	231	150	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	1 Pair Common Cathode	datasheets/diode/vishay/vs-16ctqs-m3series.pdf datasheets/diode/vishay/vs-10ets08s.pdf datasheets/diode/vishay/vs-20etf02s-m3.pdf
+B	BF	Vishay	TO-263AC (SMPD)	Surface Mount	97	68	TO-263-3, D2PAK (2 Leads + Tab), Variant	1 Pair Common Cathode	datasheets/diode/vishay/se20dlg-se20dlj.pdf datasheets/diode/vishay/v60d60c.pdf datasheets/diode/vishay/se10dlg-se10dlj.pdf
+B	BF	Vishay	TO-277A (SMPC)	Surface Mount	419	168	TO-277, 3-PowerDFN	1 Pair Common Cathode	datasheets/diode/vishay/ss5p10.pdf datasheets/diode/vishay/ss10p6.pdf datasheets/diode/vishay/s4pm.pdf
+B	BF	Vishay	TO-3PF	Through Hole	4	4	SC-94; TO-3PF	1 Pair Common Cathode	datasheets/diode/vishay/vs-azh3106fp-m3.pdf datasheets/diode/vishay/vs-c4zu3006fp-m3.pdf datasheets/diode/vishay/vs-c4zu6006fp-m3.pdf
+C	CEF	onsemi			9	9			datasheets/diode/onsemi/1SS400T1-D.PDF datasheets/diode/onsemi/bzx85c3v3-d.pdf datasheets/diode/onsemi/ES3J-D.PDF
+C	C	onsemi	2-DSN (0.60x0.30)	Surface Mount	4	4	0201 (0603 Metric)		datasheets/diode/onsemi/nsr01f30-d.pdf datasheets/diode/onsemi/nsr01l30-d.pdf datasheets/diode/onsemi/nsr02f30-d.pdf
+C	C	onsemi	2-DSN (1.4x0.6)	Surface Mount	3	3	2-XDFN		datasheets/diode/onsemi/nsr10f20-d.pdf datasheets/diode/onsemi/nsr10f30-d.pdf datasheets/diode/onsemi/nsr10f40-d.pdf
+C	C	onsemi	2-DSN (1.6x.80)	Surface Mount	2	2	2-XDFN		datasheets/diode/onsemi/nsr20f20-d.pdf datasheets/diode/onsemi/nsr20f30-d.pdf
+C	C	onsemi	2-DSN (1.6x0.8), (0603)	Surface Mount	1	1	0603 (1608 Metric)		datasheets/diode/onsemi/nsr20f40-d.pdf
+C	C	onsemi	2-DSN (1x0.6), (0402)	Surface Mount	3	2	0402 (1006 Metric)		datasheets/diode/onsemi/nsr05f40-d.pdf datasheets/diode/onsemi/nsr05f30.pdf
+C	C	onsemi	2-X2DFN (1x0.6)	Surface Mount	1	1	2-XDFN		datasheets/diode/onsemi/nsr0240mx2-d.pdf
+C	CE	onsemi	2-X2DFNW (1x0.6)	Surface Mount, Wettable Flank	57	6	2-XDFN		datasheets/diode/onsemi/nz8f2v4mx2w-d.pdf datasheets/diode/onsemi/bash16mx2w-d.pdf datasheets/diode/onsemi/nsr0240mx2-d.pdf
+C	CE	onsemi	2-X3DFN (0.6x0.3) (0201)	Surface Mount	16	2	0201 (0603 Metric)		datasheets/diode/onsemi/nzd5v1mu-d.pdf datasheets/diode/onsemi/nsr01l30mx-d.pdf
+C	CF	onsemi	3-CP	Surface Mount	6	6	TO-236-3, SC-59, SOT-23-3	1 Pair Common Cathode	datasheets/diode/onsemi/sb007-03c-d.pdf datasheets/diode/onsemi/sb01-05c-d.pdf datasheets/diode/onsemi/sb02-09c-d.pdf
+C	C	onsemi	3-MCP	Surface Mount	3	3	SC-70, SOT-323		datasheets/diode/onsemi/sb007-03q-d.pdf datasheets/diode/onsemi/sb01-05q-d.pdf datasheets/diode/onsemi/sb05-03q-d.pdf
+C	C	onsemi	5-DFN (5x6) (8-SOFL)	Surface Mount	29	18	8-PowerTDFN, 5 Leads		datasheets/diode/onsemi/mbr30h100mfs-d.pdf datasheets/diode/onsemi/mbr8h100mfs-d.pdf datasheets/diode/onsemi/mbr2045mfs-d.pdf
+C	C	onsemi	8-WDFN (3.3x3.3)	Surface Mount	4	3	8-PowerWDFN		datasheets/diode/onsemi/mbr8170tfs-d.pdf datasheets/diode/onsemi/nrts6100tfs-d.pdf datasheets/diode/onsemi/nrvts5100etfs-d.pdf
+C	CE	onsemi	Axial	Through Hole	208	23	Axial; DO-201AA, DO-27, Axial; DO-204AL, DO-41, Axial; T-18, Axial		datasheets/diode/onsemi/1n5333b-d.pdf datasheets/diode/onsemi/1n5913b-d.pdf datasheets/diode/onsemi/1N4001-D.PDF
+C	CF	onsemi	D2PAK	Surface Mount	13	11	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	1 Pair Common Cathode	datasheets/diode/onsemi/mbrb20100ct-d.pdf datasheets/diode/onsemi/mbrb20200ct-d.pdf datasheets/diode/onsemi/mbrb1545ct-d.pdf
+C	C	onsemi	DO-15	Through Hole	8	1	DO-204AC, DO-15, Axial		datasheets/diode/onsemi/EGP20K-D.pdf
+C	C	onsemi	DO-201AD	Through Hole	6	1	DO-201AD, Axial		datasheets/diode/onsemi/EGP30K-D.PDF
+C	C	onsemi	DO-214AA (SMB)	Surface Mount	20	5	DO-214AA, SMB		datasheets/diode/onsemi/s3mb-d.pdf datasheets/diode/onsemi/ss29-d.pdf datasheets/diode/onsemi/ES2D-D.pdf
+C	C	onsemi	DO-214AB (SMC)	Surface Mount	19	3	DO-214AB, SMC		datasheets/diode/onsemi/ss39-d.pdf datasheets/diode/onsemi/s3n-d.pdf datasheets/diode/onsemi/ES3J-D.PDF
+C	C	onsemi	DO-214AC (SMA)	Surface Mount	57	13	DO-214AC, SMA		datasheets/diode/onsemi/us2aa-d.pdf datasheets/diode/onsemi/rgf1m-d.pdf datasheets/diode/onsemi/rs1m-d.pdf
+C	C	onsemi	DO-214AD (SMAF)	Surface Mount	3	2	DO-214AD, SMAF		datasheets/diode/onsemi/ES1JAF-D.PDF datasheets/diode/onsemi/ES2DAF-D.PDF
+C	CE	onsemi	DO-35	Through Hole	159	22	DO-204AH, DO-35, Axial		datasheets/diode/onsemi/1n5221b-d.pdf datasheets/diode/onsemi/bzx79c2v4-d.pdf datasheets/diode/onsemi/1N914-D.PDF
+C	CE	onsemi	DO-41	Through Hole	110	5	DO-204AL, DO-41, Axial		datasheets/diode/onsemi/1n4736at-d.pdf datasheets/diode/onsemi/bzx85c3v3-d.pdf datasheets/diode/onsemi/RGP10M-D.pdf
+C	CF	onsemi	DPAK	Surface Mount	29	15	TO-252-3, DPAK (2 Leads + Tab), SC-63	1 Pair Common Anode; 1 Pair Common Cathode	datasheets/diode/onsemi/mbrd620ct-d.pdf datasheets/diode/onsemi/mbrd320-d.pdf datasheets/diode/onsemi/murd620ct-d.pdf
+C	C	onsemi	LFPAK4 (5x6)	Surface Mount	2	2	SOT-1023, 4-LFPAK		datasheets/diode/onsemi/nhp420lfs-d.pdf datasheets/diode/onsemi/nhp620lfs-d.pdf
+C	CE	onsemi	Powermite	Surface Mount	27	11	DO-216AA		datasheets/diode/onsemi/1PMT5920B-D.PDF datasheets/diode/onsemi/mbrm120e-d.pdf datasheets/diode/onsemi/mbrm120l-d.pdf
+C	CF	onsemi	SC-59	Surface Mount	8	3	TO-236-3, SC-59, SOT-23-3	1 Pair Common Anode; 1 Pair Common Cathode	datasheets/diode/onsemi/m1ma151wkt1-d.pdf datasheets/diode/onsemi/m1ma151kt1-d.pdf datasheets/diode/onsemi/m1ma151wat1-d.pdf
+C	CF	onsemi	SC-70-3 (SOT323)	Surface Mount	26	13	SC-70, SOT-323	1 Pair Common Anode; 1 Pair Common Cathode; 1 Pair Series Connection	datasheets/diode/onsemi/bav99wt1-d.pdf datasheets/diode/onsemi/m1ma141wat1-d.pdf datasheets/diode/onsemi/bas16wt1-d.pdf
+C	CF	onsemi	SC-75, SOT-416	Surface Mount	16	7	SC-75, SOT-416	1 Pair Common Anode; 1 Pair Common Cathode	datasheets/diode/onsemi/bav70tt1-d.pdf datasheets/diode/onsemi/dan222-d.pdf datasheets/diode/onsemi/dap222-d.pdf
+C	CE	onsemi	SMA	Surface Mount	118	22	DO-214AC, SMA		datasheets/diode/onsemi/1sma5913bt3-d-2491c0.pdf datasheets/diode/onsemi/mra4003t3-d.pdf datasheets/diode/onsemi/mura205t3-d.pdf
+C	C	onsemi	SMA-FL	Surface Mount	7	5	DO-221AC, SMA Flat Leads		datasheets/diode/onsemi/mbraf260-d.pdf datasheets/diode/onsemi/mbraf440t3-d.pdf datasheets/diode/onsemi/mbraf1540-d.pdf
+C	CE	onsemi	SMB	Surface Mount	138	25	DO-214AA, SMB		datasheets/diode/onsemi/1smb5913bt3-d.pdf datasheets/diode/onsemi/murs120t3-d.pdf datasheets/diode/onsemi/mbrs1100t3-d.pdf
+C	C	onsemi	SMC	Surface Mount	19	8	DO-214AB, SMC		datasheets/diode/onsemi/murs320t3-d-1374a9.pdf datasheets/diode/onsemi/mbrs340t3-d.pdf datasheets/diode/onsemi/mbrs3100t3-d.pdf
+C	CE	onsemi	SOD-123	Surface Mount	302	15	SOD-123		datasheets/diode/onsemi/mmsz5221bt1-d.pdf datasheets/diode/onsemi/mmsz2v4t1-d.pdf datasheets/diode/onsemi/mmsz4678t1-d.pdf
+C	C	onsemi	SOD-123F	Surface Mount	15	3	SOD-123F		datasheets/diode/onsemi/s1mfl-d.pdf datasheets/diode/onsemi/ss26fl-d.pdf datasheets/diode/onsemi/ES1JFL-D.PDF
+C	C	onsemi	SOD-123FA	Surface Mount	26	5	SOD-123W		datasheets/diode/onsemi/rs1afa-d.pdf datasheets/diode/onsemi/ss29fa-d.pdf datasheets/diode/onsemi/s110fa-d.pdf
+C	C	onsemi	SOD-123FL	Surface Mount	41	20	SOD-123F		datasheets/diode/onsemi/us1mfa-d-174a84.pdf datasheets/diode/onsemi/mbr120vlsft1-d.pdf datasheets/diode/onsemi/mbr140sft1-d.pdf
+C	C	onsemi	SOD-123HE	Surface Mount	11	3	SOD-123H		datasheets/diode/onsemi/s110fp-d.pdf datasheets/diode/onsemi/rs1mfp-d.pdf datasheets/diode/onsemi/s1mfp-d.pdf
+C	CE	onsemi	SOD-323	Surface Mount	98	18	SC-76, SOD-323		datasheets/diode/onsemi/mm3z2v4st1-d.pdf datasheets/diode/onsemi/mm3z2v4t1-d.pdf datasheets/diode/onsemi/bas16ht1-d.pdf
+C	CE	onsemi	SOD-323F	Surface Mount	70	3	SC-90, SOD-323F		datasheets/diode/onsemi/mm3z9v1b-d.pdf datasheets/diode/onsemi/mm3z9v1c-d.pdf datasheets/diode/onsemi/1N4148WS-D.PDF
+C	C	onsemi	SOD-323HE	Surface Mount	10	2	SOD-323HE		datasheets/diode/onsemi/ss13he-d.pdf datasheets/diode/onsemi/s1jhe-d.pdf
+C	CE	onsemi	SOD-523	Surface Mount	114	13	SC-79, SOD-523		datasheets/diode/onsemi/mm5z2v4t1-d-ff3af6.pdf datasheets/diode/onsemi/mm5z4678t1-d.pdf datasheets/diode/onsemi/mm5z2v4st1-d.pdf
+C	C	onsemi	SOD-523F	Surface Mount	3	2	SC-79, SOD-523F		datasheets/diode/onsemi/1N914BWT-D.pdf datasheets/diode/onsemi/BAT43XV2-D.PDF
+C	C	onsemi	SOD-723	Surface Mount	1	1	SOD-723		datasheets/diode/onsemi/nsr0230-d.pdf
+C	C	onsemi	SOD-80	Surface Mount	17	10	DO-213AC, MINI-MELF, SOD-80		datasheets/diode/onsemi/1N914-D.PDF datasheets/diode/onsemi/FDH300-D.PDF datasheets/diode/onsemi/BAV102-D.PDF
+C	CE	onsemi	SOD-923	Surface Mount	61	13	SOD-923		datasheets/diode/onsemi/nz9f2v4-d.pdf datasheets/diode/onsemi/nz9f2v4s-d.pdf datasheets/diode/onsemi/nsr0170-d.pdf
+C	CF	onsemi	SOT-23-3	Surface Mount	21	14	TO-236-3, SC-59, SOT-23-3	1 Pair Common Anode; 1 Pair Common Cathode; 1 Pair Series Connection	datasheets/diode/onsemi/mmbd1405-d.pdf datasheets/diode/onsemi/mmbd1501-d.pdf datasheets/diode/onsemi/MMBD1202-D.PDF
+C	CEF	onsemi	SOT-23-3 (TO-236)	Surface Mount	398	38	TO-236-3, SC-59, SOT-23-3	1 Pair Common Anode; 1 Pair Common Cathode; 1 Pair Series Connection	datasheets/diode/onsemi/bzx84c2v4lt1-d.pdf datasheets/diode/onsemi/mmbz5221blt1-d.pdf datasheets/diode/onsemi/bzx84c2v4et1-d.pdf
+C	CF	onsemi	SOT-723	Surface Mount	10	7	SOT-723	1 Pair Common Anode; 1 Pair Common Cathode	datasheets/diode/onsemi/bas21m3-d.pdf datasheets/diode/onsemi/bat54m3-d.pdf datasheets/diode/onsemi/nsr30cm3t5g-d.pdf
+C	C	onsemi	SOT-89/PCP-1	Surface Mount	1	1	TO-243AA		datasheets/diode/onsemi/sb10-05p-d.pdf
+C	CF	onsemi	TO-220	Through Hole	22	19	TO-220-3	1 Pair Common Anode; 1 Pair Common Cathode	datasheets/diode/onsemi/mur1620ct-d.pdf datasheets/diode/onsemi/mbr2535ct-d.pdf datasheets/diode/onsemi/BYV32-200-D.PDF
+C	C	onsemi	TO-220-2	Through Hole	20	15	TO-220-2		datasheets/diode/onsemi/mur820-d.pdf datasheets/diode/onsemi/mur1520-d.pdf datasheets/diode/onsemi/BYW29-D.PDF
+C	C	onsemi	TO-220-2L	Through Hole	2	1	TO-220-2		datasheets/diode/onsemi/mbr760-d.pdf
+C	CF	onsemi	TO-220FP	Through Hole	11	11	TO-220-2 Full Pack; TO-220-3 Full Pack	1 Pair Common Cathode	datasheets/diode/onsemi/mbrf10h150ct-d.pdf datasheets/diode/onsemi/mbrf20100ct-d.pdf datasheets/diode/onsemi/mbrf20200ct-d.pdf
+C	C	onsemi	TO-247-2	Through Hole	5	5	TO-247-2		datasheets/diode/onsemi/isl9r3060g2-f085-d.pdf datasheets/diode/onsemi/rhrg3060_f085-d.pdf datasheets/diode/onsemi/rhrg5060_f085-d.pdf
+C	CF	onsemi	TO-247-3	Through Hole	3	3	TO-247-3	1 Pair Common Cathode	datasheets/diode/onsemi/ffh60up60s-d.pdf datasheets/diode/onsemi/mbr4015lwt-d.pdf datasheets/diode/onsemi/mbr7030wt-d.pdf
+C	CF	onsemi	TO-252AA	Surface Mount	2	2	TO-252-3, DPAK (2 Leads + Tab), SC-63	1 Pair Common Cathode	datasheets/diode/onsemi/rurd4120s_f085-d.pdf datasheets/diode/onsemi/rurd620ccs9a-d.pdf
+C	C	onsemi	TO-277-3	Surface Mount	49	32	TO-277, 3-PowerDFN		datasheets/diode/onsemi/fes6d-d.pdf datasheets/diode/onsemi/fs8m-d.pdf datasheets/diode/onsemi/fes10d-d.pdf
+C	C	onsemi	TO-3PF-3	Through Hole	1	1	TO-3P-3 Full Pack		datasheets/diode/onsemi/ffaf30ua60s-d.pdf
+D	D	TSC	0603	Surface Mount	3	3	0201 (0603 Metric); 0603 (1608 Metric)		datasheets/diode/tsc/TS4148-SERIES_A2301.pdf datasheets/diode/tsc/TS4448-RG_H1612.pdf datasheets/diode/tsc/TSS0340U_D1604.pdf
+D	D	TSC	0805	Surface Mount	1	1	0805 (2012 Metric)		datasheets/diode/tsc/TS4148-SERIES_A2301.pdf
+D	D	TSC	1206	Surface Mount	1	1	1206 (3216 Metric)		datasheets/diode/tsc/TS4148-SERIES_A2301.pdf
+D	D	TSC	D2PAK-D	Surface Mount	5	5	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB		datasheets/diode/tsc/PLDS20J_E2606.pdf datasheets/diode/tsc/PLDS20JH_E2606.pdf datasheets/diode/tsc/PLDS30J_E2606.pdf
+D	D	TSC	DO-201AD	Through Hole	87	18	DO-201AD, Axial		datasheets/diode/tsc/1N5400G-SERIES_K2105.pdf datasheets/diode/tsc/HER301G-SERIES_I2105.pdf datasheets/diode/tsc/SF61G-SERIES_G2105.pdf
+D	D	TSC	DO-204AC (DO-15)	Through Hole	83	14	DO-204AC, DO-15, Axial		datasheets/diode/tsc/HER201G-SERIES_G2105.pdf datasheets/diode/tsc/HER151G-SERIES_I2105.pdf datasheets/diode/tsc/SF21G-SERIES_H2105.pdf
+D	DE	TSC	DO-204AL (DO-41)	Through Hole	92	13	DO-204AL, DO-41, Axial		datasheets/diode/tsc/1N4740A-SERIES_O2104.pdf datasheets/diode/tsc/HER101G-SERIES_L2104.pdf datasheets/diode/tsc/1N4001G-SERIES_P2104.pdf
+D	DE	TSC	DO-214AA (SMB)	Surface Mount	207	76	DO-214AA, SMB		datasheets/diode/tsc/RS3DB-T-SERIES_C2102.pdf datasheets/diode/tsc/S2A-SERIES_N2102.pdf datasheets/diode/tsc/S2AH-SERIES_A2102.pdf
+D	DE	TSC	DO-214AB (SMC)	Surface Mount	185	56	DO-214AB, SMC		datasheets/diode/tsc/1PGSMC5348H-SERIES_A2102.pdf datasheets/diode/tsc/HS3A-SERIES_K2102.pdf datasheets/diode/tsc/HS5A-SERIES_K2102.pdf
+D	DE	TSC	DO-214AC (SMA)	Surface Mount	217	78	DO-214AC, SMA		datasheets/diode/tsc/1SMA4737-SERIES_P2102.pdf datasheets/diode/tsc/SS12-SERIES_R2305.pdf datasheets/diode/tsc/1SMA4737H-SERIES_A2102.pdf
+D	DE	TSC	DO-35	Through Hole	22	3	DO-204AH, DO-35, Axial		datasheets/diode/tsc/1N5221B-SERIES_H2301.pdf datasheets/diode/tsc/1N4148-SERIES_K2301.pdf datasheets/diode/tsc/1N4148WS-SERIES_N2212.pdf
+D	DF	TSC	ITO-220AB	Through Hole	83	21	TO-220-3 Full Pack, Isolated Tab	1 Pair Common Anode; 1 Pair Common Cathode	datasheets/diode/tsc/HERF1001G-SERIES_I2105.pdf datasheets/diode/tsc/SFF1001G-SERIES_M2105.pdf datasheets/diode/tsc/SFF10L04GA-SERIES_E2108.pdf
+D	D	TSC	ITO-220AC	Through Hole	61	15	TO-220-2 Full Pack		datasheets/diode/tsc/HERAF801G-SERIES_K2105.pdf datasheets/diode/tsc/HERAF1001G-SERIES_I2105.pdf datasheets/diode/tsc/SFAF1601G-SERIES_H2105.pdf
+D	D	TSC	Micro SMA	Surface Mount	38	23	2-SMD, Flat Leads		datasheets/diode/tsc/SS13M-SERIES_O2103.pdf datasheets/diode/tsc/SS22MH-SERIES_A2103.pdf datasheets/diode/tsc/ESH1DM_E2110.pdf
+D	DE	TSC	Mini MELF	Surface Mount	4	3	DO-213AC, MINI-MELF, SOD-80		datasheets/diode/tsc/BZV55C2V4-SERIES_H2301.pdf datasheets/diode/tsc/BZV55B2V4-SERIES_G2301.pdf datasheets/diode/tsc/LL4148-SERIES_K2301.pdf
+D	D	TSC	SMAF	Surface Mount	36	8	DO-221AC, SMA Flat Leads		datasheets/diode/tsc/HS1DF-T-SERIES_B2103.pdf datasheets/diode/tsc/HS2DAF-T-SERIES_B2103.pdf datasheets/diode/tsc/RS1DF-T-SERIES_B2103.pdf
+D	D	TSC	SMPC4.6U	Surface Mount	53	13	TO-277, 3-PowerDFN		datasheets/diode/tsc/TUAU6DH-SERIES_C2111.pdf datasheets/diode/tsc/TUAR4DH-SERIES_A2111.pdf datasheets/diode/tsc/TUAS6DH-SERIES_A2111.pdf
+D	DE	TSC	SOD-123	Surface Mount	91	12	SOD-123		datasheets/diode/tsc/MMSZ4678-SERIES_A2311.pdf datasheets/diode/tsc/BZT52B2V4-G-SERIES_H2002.pdf datasheets/diode/tsc/MMSZ5221BH-SERIES_A2503.pdf
+D	DE	TSC	SOD-123F	Surface Mount	108	14	SOD-123F		datasheets/diode/tsc/BZT52C2V4-SERIES_G1804.pdf datasheets/diode/tsc/BZT52B2V4-series_F15.pdf datasheets/diode/tsc/BZT52B2V4-G-SERIES_H2002.pdf
+D	D	TSC	SOD-123FL	Surface Mount	5	3	SOD-123F		datasheets/diode/tsc/S1GFL-SERIES_E2103.pdf datasheets/diode/tsc/HS1AFL-SERIES_B2103.pdf datasheets/diode/tsc/RS1AFL-SERIES_B2103.pdf
+D	D	TSC	SOD-123H	Surface Mount	2	2	SOD-123H		datasheets/diode/tsc/PU1JLSH_A2409.pdf datasheets/diode/tsc/PU2JLSH_A2412.pdf
+D	D	TSC	SOD-123HE	Surface Mount	47	15	SOD-123H		datasheets/diode/tsc/SS12LS-SERIES_D2212.pdf datasheets/diode/tsc/SS1H4LSH-SERIES_B2209.pdf datasheets/diode/tsc/S1DLSH-SERIES_A2103.pdf
+D	DE	TSC	SOD-123W	Surface Mount	155	47	SOD-123W		datasheets/diode/tsc/BZD27C11PWH-SERIES_B2203.pdf datasheets/diode/tsc/BZD27C11PW-SERIES_D2203.pdf datasheets/diode/tsc/HS15DLW-SERIES_C2103.pdf
+D	D	TSC	SOD-128	Surface Mount	115	43	SOD-128		datasheets/diode/tsc/S1DFS-SERIES_C2103.pdf datasheets/diode/tsc/S2DFS-SERIES_B2103.pdf datasheets/diode/tsc/HS1DFSH-SERIES_B2103.pdf
+D	DE	TSC	SOD-323	Surface Mount	23	8	SC-76, SOD-323		datasheets/diode/tsc/BZT52B2V4S-SERIES_I2411.pdf datasheets/diode/tsc/BAV19WS-G-SERIES_A15.pdf datasheets/diode/tsc/BAT42WSH-SERIES_A2502.pdf
+D	DE	TSC	SOD-323F	Surface Mount	153	14	SC-90, SOD-323F		datasheets/diode/tsc/BZT52C2V4S-SERIES_K2411.pdf datasheets/diode/tsc/M3Z2V0C-SERIES_B2008.pdf datasheets/diode/tsc/BZT52B2V4S-SERIES_I2411.pdf
+D	DE	TSC	SOD-523F	Surface Mount	71	5	SC-79, SOD-523		datasheets/diode/tsc/BZX584B2V4-SERIES_E2609.pdf datasheets/diode/tsc/BZT52C2V7K-SERIES_H2510.pdf datasheets/diode/tsc/BZX585B2V4H-SERIES_A2503.pdf
+D	DEF	TSC	SOT-23	Surface Mount	106	27	TO-236-3, SC-59, SOT-23-3	1 Pair Common Anode; 1 Pair Common Cathode; 1 Pair Series Connection	datasheets/diode/tsc/AZ23C2V7-SERIES_D2001.pdf datasheets/diode/tsc/BZX84C2V4-SERIES_F2001.pdf datasheets/diode/tsc/BZX84C2V4H-SERIES_A2503.pdf
+D	DF	TSC	SOT-323	Surface Mount	14	10	SC-70, SOT-323	1 Pair Common Anode; 1 Pair Common Cathode; 1 Pair Series Connection	datasheets/diode/tsc/BAT54W-SERIES_D2102.pdf datasheets/diode/tsc/BAS19W-SERIES_B14.pdf datasheets/diode/tsc/BAT54CWH_A2501.pdf
+D	DF	TSC	SOT-363	Surface Mount	3	2	6-TSSOP, SC-88, SOT-363	2 Pair Common Cathode	datasheets/diode/tsc/BAT54T-SERIES_H2111.pdf
+D	DF	TSC	TO-220AB	Through Hole	69	20	TO-220-3	1 Pair Common Cathode	datasheets/diode/tsc/HER1001G-SERIES_I2104.pdf datasheets/diode/tsc/HER1601G-SERIES_J2104.pdf datasheets/diode/tsc/SF1001G-SERIES_K2104.pdf
+D	D	TSC	TO-220AC	Through Hole	41	9	TO-220-2		datasheets/diode/tsc/HERA801G-SERIES_J2103.pdf datasheets/diode/tsc/MUR820-SERIES_K2103.pdf datasheets/diode/tsc/SFA1001G-SERIES_K2103.pdf
+D	DF	TSC	TO-247AD (TO-3P)	Through Hole	41	13	TO-247-3	1 Pair Common Cathode	datasheets/diode/tsc/HER1601PT-SERIES_H2103.pdf datasheets/diode/tsc/SF2001PT-SERIES_I2103.pdf datasheets/diode/tsc/HER3001PT-SERIES_I2103.pdf
+D	D	TSC	TO-247BD	Through Hole	2	2	TO-247-2		datasheets/diode/tsc/PLAH30Q_C2607.pdf datasheets/diode/tsc/PLAH60Q_C2607.pdf
+D	D	TSC	TO-263 (D2PAK)	Surface Mount	2	2	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB		datasheets/diode/tsc/PLDS3060H_C2510.pdf datasheets/diode/tsc/PLDS3080H_E2510.pdf
+D	DF	TSC	TO-263AB (D2PAK)	Surface Mount	32	14	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	1 Pair Common Cathode	datasheets/diode/tsc/GPAS1001-SERIES_D2211.pdf datasheets/diode/tsc/SFAS801G-SERIES_N2103.pdf datasheets/diode/tsc/SFAS801GH-SERIES_A2103.pdf
+D	D	TSC	TO-277A (SMPC)	Surface Mount	10	6	TO-277, 3-PowerDFN		datasheets/diode/tsc/PUUP3BH-SERIES_B2109.pdf datasheets/diode/tsc/PUUP4BH-SERIES_B2109.pdf datasheets/diode/tsc/PUUP6BH-SERIES_C2109.pdf
+D	D	TSC	TO-277A (SMPC4.6U)	Surface Mount, Wettable Flank	52	44	TO-277, 3-PowerDFN		datasheets/diode/tsc/TUAS3DH-SERIES_A2111.pdf datasheets/diode/tsc/PUUP10JH_A2412.pdf datasheets/diode/tsc/PUUP12JH_A2409.pdf
+D	D	TSC	TS-1	Through Hole	41	5	T-18, Axial		datasheets/diode/tsc/HT11G-SERIES_H2104.pdf datasheets/diode/tsc/1T1G-SERIES_H2104.pdf datasheets/diode/tsc/F1T1G-SERIES_H2104.pdf
+D	D	TSC	Thin SMA	Surface Mount	88	28	DO-221AC, SMA Flat Leads		datasheets/diode/tsc/HS1DAL-SERIES_D2103.pdf datasheets/diode/tsc/HS1DALH-SERIES_B2103.pdf datasheets/diode/tsc/HS2DAL-SERIES_C2103.pdf
+D	DF	TSC	ThinDPAK	Surface Mount	86	76	TO-252-3, DPAK (2 Leads + Tab), SC-63	1 Pair Common Cathode	datasheets/diode/tsc/PUAD10BC-SERIES_A2302.pdf datasheets/diode/tsc/PUAD10BCH-SERIES_A2302.pdf datasheets/diode/tsc/PUAD4B-SERIES_A2302.pdf
+E	E	TSC	Sub SMA	Surface Mount	4	1	DO-219AB		datasheets/diode/tsc/BZD27C-SERIES_AB2103.pdf
+E	E	Vishay	DO-213AB (MELF)	Surface Mount	4	1	DO-213AB, MELF		datasheets/diode/vishay/gll4735.pdf
+E	E	Vishay	DO-214AA (SMBJ)	Surface Mount	25	2	DO-214AA, SMB		datasheets/diode/vishay/smbz5945b.pdf datasheets/diode/vishay/smzj.pdf
+E	E	onsemi	DO-204AL (DO-41)	Through Hole	6	2	DO-204AL, DO-41, Axial		datasheets/diode/onsemi/bzx85c3v3-d.pdf datasheets/diode/onsemi/1n5913b-d.pdf
+E	EF	onsemi	SC-89-3	Surface Mount	2	2	SC-89, SOT-490	1 Pair Common Anode; 1 Pair Common Cathode	datasheets/diode/onsemi/BAT54CXV3-D.PDF datasheets/diode/onsemi/nzl5v6axv3t1-d.pdf
+E	E	onsemi	SOD-323FL	Surface Mount	1	1	SC-90, SOD-323F		datasheets/diode/onsemi/mm3z9v1c-d.pdf
+F	F	TSC	TO-247	Through Hole	4	4	TO-247-3	1 Pair Common Cathode	datasheets/diode/tsc/TSCDH16065G1_A2404.pdf datasheets/diode/tsc/TSCDH20065G1_A2404.pdf datasheets/diode/tsc/TSCDH30065G1_A2404.pdf
+F	F	Vishay		Surface Mount	1	1	TO-263-3, D2PAK (2 Leads + Tab), Variant	1 Pair Common Cathode	datasheets/diode/vishay/v20d202c.pdf
+F	F	Vishay	FlatPAK 5x6 (Dual)	Surface Mount	12	7	8-PowerTDFN	2 Independent	datasheets/diode/vishay/v10km120du.pdf datasheets/diode/vishay/v10k100du.pdf datasheets/diode/vishay/v6k100du.pdf
+F	F	Vishay	TO-220 Full Pack	Through Hole	1	1	TO-220-3 Full Pack	1 Pair Common Cathode	datasheets/diode/vishay/vs-20cth03fp.pdf
+F	F	Vishay	TO-220AB	Through Hole	21	18	TO-220-3	1 Pair Common Cathode	datasheets/diode/vishay/v30100ci.pdf datasheets/diode/vishay/vx40m100c.pdf datasheets/diode/vishay/vx60m100c.pdf
+F	F	Vishay	TO-262-3	Through Hole	5	5	TO-262-3 Long Leads, I2PAK, TO-262AA	1 Pair Common Cathode	datasheets/diode/vishay/vs-16ctqs-m3series.pdf datasheets/diode/vishay/vs-30ctqs-m3series-1a1c5e.pdf datasheets/diode/vishay/vs-40ctq045s-m3.pdf
+F	F	Vishay	TO-263 (D2PAK)	Surface Mount	1	1	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	1 Pair Common Cathode	datasheets/diode/vishay/vs-20cth03shm3.pdf
+F	F	onsemi	5-CPH	Surface Mount	1	1	SC-74A, SOT-753	2 Independent	datasheets/diode/onsemi/SBE805-D.PDF
+F	F	onsemi	8-DFN (5x6) Dual Flag (SO8FL-Dual)	Surface Mount	4	3	8-PowerTDFN	2 Independent	datasheets/diode/onsemi/nhp620mfd-d.pdf datasheets/diode/onsemi/nhp420mfd-d.pdf datasheets/diode/onsemi/nhp820mfd-d.pdf
+F	F	onsemi	SC-74	Surface Mount	3	1	SC-74, SOT-457	3 Independent	datasheets/diode/onsemi/bas21tmr6-d.pdf
+F	F	onsemi	SC-88/SC70-6/SOT-363	Surface Mount	6	4	6-TSSOP, SC-88, SOT-363	2 Independent; 3 Independent	datasheets/diode/onsemi/hn2d02futw1t1-d.pdf datasheets/diode/onsemi/mbd770dw-d.pdf datasheets/diode/onsemi/mbd54dwt1-d.pdf
+F	F	onsemi	SC-88A (SC-70-5/SOT-353)	Surface Mount	3	1	5-TSSOP, SC-70-5, SOT-353	2 Independent	datasheets/diode/onsemi/bas19lt1-d.pdf
+F	F	onsemi	SOT-563	Surface Mount	2	2	SOT-563, SOT-666	2 Independent; 2 Pair Common Anode	datasheets/diode/onsemi/BAS16DXV6-D.PDF datasheets/diode/onsemi/nsdemp11xv6t1-d.pdf
+F	F	onsemi	TO-220-3	Through Hole	3	2	TO-220-3	1 Pair Common Cathode	datasheets/diode/onsemi/mbr2560ct-d.pdf datasheets/diode/onsemi/mbr1560ct-d.pdf
+F	F	onsemi	TO-220-3 Full Pack	Through Hole	1	1	TO-220-3 Full Pack	1 Pair Common Cathode	datasheets/diode/onsemi/murf1620ct-d.pdf
+F	F	onsemi	TO-263 (D2PAK)	Surface Mount	2	2	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	1 Pair Common Anode; 1 Pair Common Cathode	datasheets/diode/onsemi/ffb20u20dn-f085-d.pdf datasheets/diode/onsemi/mur1620ctr-d.pdf
+F	F	onsemi	TO-3P	Through Hole	1	1	TO-3P-3, SC-65-3	1 Pair Common Cathode	datasheets/diode/onsemi/ffa60up30dn-d.pdf
+F	F	onsemi	TO-3PN	Through Hole	1	1	TO-3P-3, SC-65-3	1 Pair Common Cathode	datasheets/diode/onsemi/ffa60up20dn-d.pdf
+G	G	TSC	ABS	Surface Mount	23	7	4-SMD, Gull Wing		datasheets/diode/tsc/ABS2-SERIES_M2103.pdf datasheets/diode/tsc/EABS1D-SERIES_C2103.pdf datasheets/diode/tsc/ABS15J-SERIES_E2103.pdf
+G	G	TSC	ABS-L	Surface Mount	1	1	4-SMD, Gull Wing		datasheets/diode/tsc/RABS15M_D2103.pdf
+G	G	TSC	D3K	Through Hole	12	4	4-ESIP		datasheets/diode/tsc/UR2KB60-SERIES_L2104.pdf datasheets/diode/tsc/UR3KB60-SERIES_J2104.pdf datasheets/diode/tsc/UR4KB60-B-SERIES_D2104.pdf
+G	G	TSC	DBL	Through Hole	42	4	4-DIP (0.300", 7.62mm)		datasheets/diode/tsc/DBL151G-SERIES_L2103.pdf datasheets/diode/tsc/DBL201G-SERIES_K2103.pdf datasheets/diode/tsc/HDBL101G-SERIES_G2103.pdf
+G	G	TSC	DBLS	Surface Mount	43	5	4-SMD, Gull Wing		datasheets/diode/tsc/DBLS151G-SERIES_M2103.pdf datasheets/diode/tsc/DBLS201G-SERIES_J2103.pdf datasheets/diode/tsc/HDBLS101G-SERIES_G2103.pdf
+G	G	TSC	GBL	Through Hole	17	3	4-SIP, GBL		datasheets/diode/tsc/GBL201-SERIES_J2103.pdf datasheets/diode/tsc/GBL005-SERIES_K2103.pdf datasheets/diode/tsc/D2SB05-SERIES_K2103.pdf
+G	G	TSC	GBPC-W	Through Hole	12	1	4-Square, GBPC-W		datasheets/diode/tsc/GBPC15_25_35-SERIES_M2211.pdf
+G	G	TSC	GBU	Through Hole	35	12	4-ESIP, GBU; 4-SIP, GBU		datasheets/diode/tsc/GBU801-SERIES_M2103.pdf datasheets/diode/tsc/GBU601-SERIES_N2103.pdf datasheets/diode/tsc/GBU1001-SERIES_M2103.pdf
+G	G	TSC	KBJL	Through Hole	11	2	4-SIP, KBJL		datasheets/diode/tsc/TS6KL60-SERIES_E2104.pdf datasheets/diode/tsc/TS10KL60-SERIES_G2104.pdf
+G	G	TSC	KBL	Through Hole	8	2	4-SIP, KBL		datasheets/diode/tsc/KBL401G-SERIES_J2308.pdf datasheets/diode/tsc/KBL601G-SERIES_H2308.pdf
+G	G	TSC	KBPF	Through Hole	12	3	4-SIP, KBPF		datasheets/diode/tsc/KBPF204G-SERIES_B2103.pdf datasheets/diode/tsc/KBPF304G-SERIES_B2103.pdf datasheets/diode/tsc/KBPF404G-SERIES_B2103.pdf
+G	G	TSC	KBU	Through Hole	15	4	4-SIP, KBU		datasheets/diode/tsc/KBU1001G-SERIES_J2103.pdf datasheets/diode/tsc/KBU601G-SERIES_J2103.pdf datasheets/diode/tsc/KBU801G-SERIES_J2103.pdf
+G	G	TSC	MBS	Surface Mount	6	2	4-BESOP (0.173", 4.40mm Width)		datasheets/diode/tsc/MBS2-SERIES_Q2309.pdf datasheets/diode/tsc/RMB2S-SERIES_I2103.pdf
+G	G	TSC	TBS	Surface Mount	10	5	4-SMD, Gull Wing		datasheets/diode/tsc/TBS606-SERIES_B2103.pdf datasheets/diode/tsc/TBS806-SERIES_A2010.pdf datasheets/diode/tsc/TBS406-SERIES_B2103.pdf
+G	G	TSC	TO-269AA (MBS)	Surface Mount	9	2	TO-269AA, 4-BESOP		datasheets/diode/tsc/MBS2-SERIES_Q2309.pdf datasheets/diode/tsc/RMB2S-SERIES_I2103.pdf
+G	G	TSC	TS-6P	Through Hole	62	22	4-SIP, TS-6P		datasheets/diode/tsc/TS25P01G-SERIES_Q2203.pdf datasheets/diode/tsc/TS10P01G-SERIES_L2203.pdf datasheets/diode/tsc/TS35P05G-SERIES_F2203.pdf
+G	G	TSC	TS4K	Through Hole	14	5	4-SIP, GBL; 4-SIP, TS4K		datasheets/diode/tsc/TS6K40-SERIES_F2101.pdf datasheets/diode/tsc/TS10K40-SERIES_F2101.pdf datasheets/diode/tsc/TS20K40-T-SERIES_A2208.pdf
+G	G	TSC	YBS	Surface Mount	6	2	4-SMD, Flat Leads		datasheets/diode/tsc/YBS2204G-SERIES_D2103.pdf datasheets/diode/tsc/YBS3004G-SERIES_D2103.pdf
+G	G	Vishay	2KBB	Through Hole	11	1	4-SIP, 2KBB		datasheets/diode/vishay/vs-2kbbseries.pdf
+G	G	Vishay	D-38	Through Hole	3	1	4-Square, D-38		datasheets/diode/vishay/vs-1kabeseries.pdf
+G	G	Vishay	D-44	Through Hole	6	1	4-SIP, D-44		datasheets/diode/vishay/vs-2kbpseries.pdf
+G	G	Vishay	D-72	Through Hole	22	2	4-Square, D-72		datasheets/diode/vishay/vs-kbpc1series.pdf datasheets/diode/vishay/kbpc8series.pdf
+G	G	Vishay	DFM	Through Hole	18	4	4-EDIP (0.300", 7.62mm)		datasheets/diode/vishay/dfm.pdf datasheets/diode/vishay/dfma.pdf datasheets/diode/vishay/800dm.pdf
+G	G	Vishay	DFS	Surface Mount	40	6	4-SMD, Gull Wing		datasheets/diode/vishay/dfs.pdf datasheets/diode/vishay/dfsa.pdf datasheets/diode/vishay/df15005s.pdf
+G	G	Vishay	GBL	Through Hole	10	1	4-SIP, GBL		datasheets/diode/vishay/gblxxe.pdf
+G	G	Vishay	GBPC-W	Through Hole	25	2	4-Square, GBPC-W		datasheets/diode/vishay/gbpc12.pdf datasheets/diode/vishay/vs-gbpc25.pdf
+G	G	Vishay	GBPC6	Through Hole	7	1	4-Square, GBPC-6		datasheets/diode/vishay/gbpc6.pdf
+G	G	Vishay	GBU	Through Hole	33	7	4-SIP, GBU		datasheets/diode/vishay/gbu6a.pdf datasheets/diode/vishay/gbu4a.pdf datasheets/diode/vishay/gbu8a.pdf
+G	G	Vishay	GSIB-5S	Through Hole	16	11	4-SIP, GSIB-5S		datasheets/diode/vishay/gsib15xx.pdf datasheets/diode/vishay/gsib25xx.pdf datasheets/diode/vishay/gsib620.pdf
+G	G	Vishay	KBP	Through Hole	1	1	4-ESIP, KBP		datasheets/diode/vishay/kbpe0480.pdf
+G	G	Vishay	KBPC1	Through Hole	6	1	4-Square, KBPC-1		datasheets/diode/vishay/vs-kbpc1series.pdf
+G	G	Vishay	KBU	Through Hole	6	4	4-SIP, KBU		datasheets/diode/vishay/kbu6.pdf datasheets/diode/vishay/ihlp-4040dz-51.pdf datasheets/diode/vishay/ihlp5050fd-5a.pdf
+G	G	Vishay	TO-269AA (MBS)	Surface Mount	12	3	TO-269AA, 4-BESOP		datasheets/diode/vishay/mb2s.pdf datasheets/diode/vishay/rmbs.pdf datasheets/diode/vishay/b2s.pdf
+G	G	Vishay	WOG	Through Hole	29	5	4-Circular, WOG		datasheets/diode/vishay/2w005g.pdf datasheets/diode/vishay/w005g.pdf datasheets/diode/vishay/b40c1000g.pdf
+G	G	Vishay	isoCINK+™ BU	Through Hole	18	6	4-SIP, BU		datasheets/diode/vishay/bu2006.pdf datasheets/diode/vishay/bu1206.pdf datasheets/diode/vishay/bu1506.pdf
+G	G	Vishay	isoCINK+™ PB	Through Hole	12	4	4-SIP, PB		datasheets/diode/vishay/pb3006.pdf datasheets/diode/vishay/pb3506.pdf datasheets/diode/vishay/pb4006.pdf
+G	G	onsemi	4-MicroDIP/SMD	Surface Mount	3	1	4-SMD, Gull Wing		datasheets/diode/onsemi/MDB8S-D.PDF
+G	G	onsemi	4-SDIP	Surface Mount	7	2	4-SMD, Gull Wing		datasheets/diode/onsemi/DF10S-D.PDF datasheets/diode/onsemi/DF10S1-D.PDF
+G	G	onsemi	4-SOIC	Surface Mount	6	2	TO-269AA, 4-BESOP		datasheets/diode/onsemi/mb8s-d.pdf datasheets/diode/onsemi/mb10s-d.pdf
+G	G	onsemi	4-UDFN (3.5x3.5)	Surface Mount	1	1	4-UDFN Exposed Pad		datasheets/diode/onsemi/nsr2030qmu-d.pdf
+G	G	onsemi	GBPC-W	Through Hole	19	1	4-Square, GBPC-W		datasheets/diode/onsemi/gbpc3510-d.pdf
+G	G	onsemi	GBU	Through Hole	21	4	4-SIP, GBU		datasheets/diode/onsemi/gbu6m-d.pdf datasheets/diode/onsemi/GBU8B-D.PDF datasheets/diode/onsemi/GBU4M-D.PDF
+G	G	onsemi	TS-6P	Through Hole	12	2	4-SIP, TS-6P		datasheets/diode/onsemi/DFB2080-D.pdf datasheets/diode/onsemi/DFB2505-D.PDF
