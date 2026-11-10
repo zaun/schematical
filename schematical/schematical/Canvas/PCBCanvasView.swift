@@ -250,10 +250,11 @@ struct PCBCanvasView: View {
             }
             for chip in document.chips {
                 for pad in chip.boardPads where pad.drill > 0 {
-                    context.fill(Self.outline(of: pad), with: .color(Self.copper))
-                    let d = pad.drill
-                    let hole = CGRect(x: pad.rect.midX - d / 2, y: pad.rect.midY - d / 2, width: d, height: d)
-                    context.fill(Path(ellipseIn: hole), with: .color(Self.background))
+                    // A non-plated hole has no copper: just the hole.
+                    if pad.plated { context.fill(Self.outline(of: pad), with: .color(Self.copper)) }
+                    if let hole = pad.holeRect {
+                        context.fill(Path(roundedRect: hole, cornerRadius: pad.drill / 2), with: .color(Self.background))
+                    }
                 }
             }
         }

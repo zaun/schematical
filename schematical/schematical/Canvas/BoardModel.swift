@@ -102,6 +102,30 @@ nonisolated struct PlacedPad: Hashable {
     let chamfer: Double
     /// Already turned with the placement.
     let corners: Footprint.Corners
+    /// A slotted hole's length, along the pad's longer side; 0 = round hole.
+    var slotLength: Double = 0
+    /// False for a non-plated hole: a hole with no copper.
+    var plated: Bool = true
+
+    /// The hole's outline box: a `drill` circle, or a `drill` × `slotLength`
+    /// slot along the pad's longer side. Nil for a surface-mount pad.
+    var holeRect: CGRect? {
+        guard drill > 0 else { return nil }
+        let long = max(slotLength, drill)
+        let size = rect.width >= rect.height ? CGSize(width: long, height: drill) : CGSize(width: drill, height: long)
+        return CGRect(x: rect.midX - size.width / 2, y: rect.midY - size.height / 2,
+                      width: size.width, height: size.height)
+    }
+
+    /// The hole as a segment and radius (a capsule; a point for a round hole).
+    var holeSegment: (a: CGPoint, b: CGPoint, radius: Double)? {
+        guard let hole = holeRect else { return nil }
+        let r = drill / 2
+        if hole.width >= hole.height {
+            return (CGPoint(x: hole.minX + r, y: hole.midY), CGPoint(x: hole.maxX - r, y: hole.midY), r)
+        }
+        return (CGPoint(x: hole.midX, y: hole.minY + r), CGPoint(x: hole.midX, y: hole.maxY - r), r)
+    }
 }
 
 // MARK: - A placed part's footprint
@@ -126,7 +150,8 @@ extension PlacedChip {
             return PlacedPad(designator: pad.designator,
                              rect: board.board(centre: pad.centre, size: pad.size),
                              drill: pad.drill, shape: pad.shape, radius: pad.radius,
-                             chamfer: pad.chamfer, corners: pad.corners.mirrored(board.side == .bottom).rotated(by: board.rotation))
+                             chamfer: pad.chamfer, corners: pad.corners.mirrored(board.side == .bottom).rotated(by: board.rotation),
+                             slotLength: pad.slotLength, plated: pad.plated)
         }
     }
 

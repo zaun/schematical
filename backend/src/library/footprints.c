@@ -45,7 +45,8 @@ static const char *const HEADER_KEYS[] = {
 static const char *const SIZE_KEYS[] = {"width", "height", "shape", "radius", "chamfer", "corners", NULL};
 static const char *const BODY_KEYS[] = {"width", "height", "round", NULL};
 static const char *const PAD_KEYS[] = {
-    "pin", "x", "y", "width", "height", "shape", "drill", "radius", "chamfer", "corners", NULL
+    "pin", "x", "y", "width", "height", "shape", "drill", "slotLength", "plated", "radius", "chamfer",
+    "corners", NULL
 };
 static const char *const CORNER_NAMES[] = {"tl", "tr", "br", "bl"};   /* bit 1 << index */
 
@@ -676,6 +677,61 @@ static int load_grid(KindContext *ctx, const cJSON *json, PartFootprint *fp) {
 
 /* ---- explicit ------------------------------------------------------------- */
 
+/*
+ * An explicit pad's hole: "drill" (0 = none), an optional "slotLength" (a
+ * slot along the pad's longer side) and "plated": false (a non-plated hole
+ * on a pin 0 pad; the pad is the hole itself, no copper).
+ */
+static int explicit_hole(KindContext *ctx, const cJSON *item, uint64_t pin, FootprintPad *pad) {
+    const cJSON *plated = cJSON_GetObjectItemCaseSensitive(item, "plated");
+    double shorter = pad->width < pad->height ? pad->width : pad->height;
+    double longer = pad->width < pad->height ? pad->height : pad->width;
+
+    if (cJSON_GetObjectItemCaseSensitive(item, "slotLength") != NULL) {
+        if (kind_number(ctx, item, "slotLength", &pad->slot_length) != 0) {
+            return -1;
+        }
+        if (!(pad->drill > 0)) {
+            return kind_error(ctx, "\"slotLength\" needs a \"drill\"");
+        }
+        if (!(pad->slot_length > pad->drill)) {
+            return kind_error(ctx, "\"slotLength\" %g must be more than the drill %g", pad->slot_length,
+                              pad->drill);
+        }
+    }
+    if (plated != NULL) {
+        if (!cJSON_IsFalse(plated)) {
+            return kind_error(ctx, "\"plated\" may only be false");
+        }
+        if (pin != 0) {
+            return kind_error(ctx, "a non-plated hole is a \"pin\": 0 pad");
+        }
+        if (!(pad->drill > 0)) {
+            return kind_error(ctx, "a non-plated hole needs a \"drill\"");
+        }
+        if (pad->shape != PAD_ROUND || fabs(shorter - pad->drill) > 1e-9 ||
+            fabs(longer - (pad->slot_length > 0 ? pad->slot_length : pad->drill)) > 1e-9) {
+            return kind_error(ctx, "a non-plated pad is the hole itself: round, its short side the "
+                                   "drill and its long side the slotLength (or the drill)");
+        }
+        pad->npth = 1;
+        return 0;
+    }
+    if (check_drill(ctx, pad->drill, pad->width, pad->height) != 0) {
+        return -1;
+    }
+    if (pad->slot_length > 0) {
+        if (fabs(pad->width - pad->height) < 1e-9) {
+            return kind_error(ctx, "a slotted pad must be longer along its slot (not square)");
+        }
+        if (pad->slot_length >= longer) {
+            return kind_error(ctx, "\"slotLength\" %g must be smaller than the pad's long side %g",
+                              pad->slot_length, longer);
+        }
+    }
+    return 0;
+}
+
 static int load_explicit(KindContext *ctx, const cJSON *json, PartFootprint *fp) {
     const cJSON *pads_json = kind_member(ctx, json, "pads", 1);
     const cJSON *item;
@@ -721,7 +777,7 @@ static int load_explicit(KindContext *ctx, const cJSON *json, PartFootprint *fp)
             kind_number(ctx, item, "drill", &pad->drill) != 0) {
             return -1;
         }
-        if (check_drill(ctx, pad->drill, pad->width, pad->height) != 0) {
+        if (explicit_hole(ctx, item, number, pad) != 0) {
             return -1;
         }
         pad->x = clean(pad->x);

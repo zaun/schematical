@@ -99,7 +99,7 @@ extension SchematicDocument {
         for (t, trace) in copper.enumerated() {
             let node = pads.count + t
             for (p, pad) in pads.enumerated()
-            where pad.pad.drill > 0 || pad.side.copperLayer == trace.layer {
+            where pad.pad.plated && (pad.pad.drill > 0 || pad.side.copperLayer == trace.layer) {
                 if trace.segments.contains(where: { Self.segment($0.0, $0.1, touches: pad.pad.rect) }) {
                     union(node, p)
                 }

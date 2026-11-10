@@ -93,7 +93,11 @@ nonisolated enum PartFacts {
             add("Model", modelName(model))
             add("Speed grade", grade)
             add("Max clock", "\(maxHz / 1_000_000) MHz")
-        case let .connector(centerPinUM, ratedMV, ratedMA, contacts):
+        case let .connector(_, ratedMV, ratedMA, _, usb?):
+            add("Type", "USB-\(usb)")
+            if ratedMV > 0 { add("Rated voltage", "\(VoltageCheck.volts(ratedMV)) V") }
+            if ratedMA > 0 { add("Rated current", String(format: "%.1f A", Double(ratedMA) / 1000)) }
+        case let .connector(centerPinUM, ratedMV, ratedMA, contacts, nil):
             add("Centre pin", String(format: "%.1f mm", Double(centerPinUM) / 1000))
             add("Rating", "\(VoltageCheck.volts(ratedMV)) V, \(String(format: "%.1f", Double(ratedMA) / 1000)) A")
             add("Sleeve contact", contacts > 0 ? "Normally closed when unplugged" : "None")
@@ -169,6 +173,7 @@ nonisolated enum PartFacts {
     /// kinds as `kindName(_: PartKind)`.
     static func kindName(_ part: CatalogPart) -> String {
         if part.isTactileSwitch { return "Tactile switch" }
+        if case .connector(_, _, _, _, _?) = part.details { return "USB connector" }
         if case let .converter(type, _, _) = part.details {
             switch type {
             case "adc": return "ADC"

@@ -320,7 +320,8 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   ```
 - `footprint_check` — every footprint in `footprints.json`, expanded to
   pads, against `tests/golden/footprints.txt` (one line per footprint:
-  `id|pins=N|body=WxH|pads=<designator>:x,y,wxh,shape[,d<drill>][,r<radius>][,c<chamfer>:<corners>];…`,
+  `id|pins=N|body=WxH|pads=<designator>:x,y,wxh,shape[,d<drill>][,s<slotLength>][,npth][,r<radius>][,c<chamfer>:<corners>];…`,
+  `s` a slotted hole's length, `npth` a non-plated hole,
   corners `tl+tr+br+bl` order; `-`
   for an unnumbered pad), and every footprint used by some part (`footprint`
   or `connectorFootprint`). After an

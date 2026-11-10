@@ -2333,7 +2333,7 @@ final class SchematicDocument {
         chips.flatMap { chip -> [(chip: PlacedChip, pad: PlacedPad)] in
             guard let side = chip.board?.side else { return [] }
             return chip.boardPads
-                .filter { $0.drill > 0 || side.copperLayer == layer }
+                .filter { $0.plated && ($0.drill > 0 || side.copperLayer == layer) }
                 .map { (chip: chip, pad: $0) }
         }
     }

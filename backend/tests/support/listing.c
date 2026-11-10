@@ -181,6 +181,11 @@ static void print_details(FILE *out, const Part *part) {
                     part->serial->channels, part->serial->grade);
             break;
         case PART_CONNECTOR:
+            if (part->connector->usb != 0) {
+                fprintf(out, "usb=%c rated=%uV/%umA", part->connector->usb,
+                        (unsigned)(part->connector->rated_mv / 1000), (unsigned)part->connector->rated_ma);
+                break;
+            }
             fprintf(out, "center_um=%u rated=%uV/%umA contacts=%u",
                     (unsigned)part->connector->center_diameter_um,
                     (unsigned)(part->connector->rated_mv / 1000),

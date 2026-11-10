@@ -186,6 +186,11 @@ nonisolated struct Footprint: Hashable, Sendable {
         /// Rect pads only: `corners` cut at 45°, this far along each edge.
         let chamfer: Double
         let corners: Corners
+        /// A slotted hole's length along the pad's longer side (its width is
+        /// `drill`); 0 = a round hole.
+        var slotLength: Double = 0
+        /// False for a non-plated hole: no copper, the pad is the hole itself.
+        var plated: Bool = true
     }
 
     let id: String
@@ -244,7 +249,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// (0 for the SPI-to-I2C bridge) and its grade.
         /// `host`: the host-side interface ("parallel", "spi", "i2c", "i2c-spi").
         case serial(model: String, channels: Int, grade: String, host: String)
-        case connector(centerPinUM: UInt32, ratedMV: UInt32, ratedMA: UInt32, contacts: Int)
+        /// A barrel jack (`usb` nil) or a USB connector (`usb` "A", "B" or
+        /// "C"; no centre pin or contacts, ratings 0 when not given).
+        case connector(centerPinUM: UInt32, ratedMV: UInt32, ratedMA: UInt32, contacts: Int, usb: String?)
         /// A parallel I/O peripheral on the 65xx bus (plan-14): its model
         /// ("pia6521", "via6522"), speed grade and highest clock.
         case pio(model: String, grade: String, maxHz: UInt64)
@@ -320,7 +327,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .dipSwitch(_, _, ratedMV) where ratedMV > 0,
              let .tactileSwitch(_, ratedMV, _, _, _) where ratedMV > 0:
             return "\(VoltageCheck.volts(ratedMV)) V max"
-        case let .connector(_, ratedMV, _, _) where ratedMV > 0:
+        case let .connector(_, ratedMV, _, _, _) where ratedMV > 0:
             return "\(VoltageCheck.volts(ratedMV)) V max"
         default:
             return nil
@@ -478,7 +485,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .serial(_, channels, _, host):
             return [PartFacts.serialHost(host)] + (channels > 1 ? ["\(channels) channels"] : [])
         case let .pio(_, _, maxHz): return ["\(maxHz / 1_000_000) MHz"]
-        case let .connector(centerPinUM, _, ratedMA, contacts):
+        case let .connector(_, _, ratedMA, _, usb?):
+            return ["USB-\(usb)"] + (ratedMA > 0 ? [String(format: "%.1f A", Double(ratedMA) / 1000)] : [])
+        case let .connector(centerPinUM, _, ratedMA, contacts, nil):
             return [String(format: "%.1f mm", Double(centerPinUM) / 1000),
                     String(format: "%.1f A", Double(ratedMA) / 1000)] + (contacts > 0 ? ["switched"] : [])
         case let .header(rows, perRow, _): return ["\(rows)×\(perRow)"]
@@ -541,7 +550,9 @@ extension Footprint {
                        shape: pad.shape == PAD_ROUND ? .round : .rect,
                        radius: pad.radius,
                        chamfer: pad.chamfer,
-                       corners: Corners(rawValue: Int(pad.corners)))
+                       corners: Corners(rawValue: Int(pad.corners)),
+                       slotLength: pad.slot_length,
+                       plated: pad.npth == 0)
         }
     }
 }
@@ -652,7 +663,9 @@ extension CatalogPart {
                               genders: (0..<header.gender_count).map { string(header.genders?[$0]) })
         } else if let connector = part.connector?.pointee {
             details = .connector(centerPinUM: connector.center_diameter_um, ratedMV: connector.rated_mv,
-                                 ratedMA: connector.rated_ma, contacts: Int(connector.contacts))
+                                 ratedMA: connector.rated_ma, contacts: Int(connector.contacts),
+                                 usb: connector.usb == 0 ? nil
+                                     : String(UnicodeScalar(UInt8(bitPattern: connector.usb))))
         } else if let converter = part.converter?.pointee {
             details = .converter(type: string(converter.type), bits: Int(converter.bits),
                                  channels: Int(converter.channels))
@@ -810,7 +823,10 @@ func symbol(for part: CatalogPart) -> PartSymbol {
         guard case let .supply(level, _, pull) = part.details else { return .vcc }
         if pull { return level == 0 ? .pullDown : .pullUp }
         return level == 0 ? .ground : .vcc
-    case PART_CONNECTOR: return .barrelJack
+    case PART_CONNECTOR:
+        // A USB connector is a plain block of its pins.
+        if case .connector(_, _, _, _, _?) = part.details { return .block }
+        return .barrelJack
     case PART_HEADER: return .header
     case PART_DIODE:
         // A single diode with one anode and cathode draws as a diode; arrays

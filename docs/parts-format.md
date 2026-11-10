@@ -523,13 +523,31 @@ beside it (the pins past the housing are not drawn).
 
 For land patterns the parametric styles cannot express (mixed pad sizes).
 `"pads"` is a non-empty array of `{"pin", "x", "y", "width", "height",
-"shape"}` plus optional `"drill"` and corner keys, in the coordinates above. Every pin
+"shape"}` plus optional `"drill"`, `"slotLength"`, `"plated"` and corner
+keys, in the coordinates above. Every pin
 1…`pins` has at least one pad. A pin may have several (the same
 connection in more places, e.g. a module's two header rows); they are
 listed together, in file order. The app draws each and uses the pin's
 first pad for the pin-1 mark and the `Pad 1 Center` origin. `"pin": 0` is
 an unnumbered pad (any number of them). `pad`, `drill`, `slots`, `centre` and `pin1Shape` are not
 allowed at the footprint level.
+
+Holes on explicit pads (USB connector shell legs and locating pegs):
+
+| Key | Value |
+|---|---|
+| `"slotLength"` | optional, with `drill`: a slotted (oblong) hole, `drill` wide and `slotLength` long (> `drill`), along the pad's longer side. The pad must not be square, and `slotLength` must be smaller than its long side |
+| `"plated"` | optional, only `false`: a non-plated hole (NPTH) with no copper. Only on `"pin": 0` pads, with a `drill`; the pad is the hole itself: `"round"`, its short side equal to `drill` and its long side to `slotLength` (or `drill` for a round hole). The drill-smaller-than-pad rule does not apply |
+
+```json
+{"pin": 5, "x": -6.57, "y": -1, "width": 1.6, "height": 3.0, "shape": "round", "drill": 0.9, "slotLength": 2.3},
+{"pin": 0, "x": 0, "y": -3, "width": 1.0, "height": 1.0, "shape": "round", "drill": 1.0, "plated": false}
+```
+
+The app draws a slot as a capsule and a non-plated hole as a hole with no
+copper; neither the ratsnest nor traces connect to a non-plated hole, and
+the design-rule check counts it only as a hole (hole to hole, silkscreen,
+solder mask), not as copper.
 
 ### The `"footprint"` part key
 
@@ -876,6 +894,50 @@ are the connector ratings. A two-terminal jack has centre and sleeve pins.
 A switched jack additionally names `"contacts": [["Sleeve", "Switch"]]`:
 the listed contact is normally closed while unplugged and opens when a plug
 is inserted through `circuit_set_connector_plug`.
+
+**USB connectors** name `"usb"`: `"A"`, `"B"` or `"C"` (Type-A, Type-B,
+Type-C). They have no `centerPin` and no `contacts` (both rejected), and
+`ratedVolts` / `ratedAmps` are optional (the datasheet's rating, the VBUS
+contact's current when it lists several; absent = not given, 0 in
+`PartConnector`). Every pin is a passive `inout` terminal (`nc` for a pad
+the datasheet marks not connected); the model drives nothing. The app draws
+them as a plain block of their pins.
+
+| | |
+|---|---|
+| drawer | `["Connector", "USB"]` |
+| function | `USB-A receptacle`, `USB-A plug`, `USB-B receptacle`, `USB-B plug`, `USB-C receptacle`, `USB-C plug` |
+| package | by the signal contacts (shell legs do not count): `SMD right angle`, `SMD vertical`, `Through hole right angle`, `Through hole vertical`, `Hybrid right angle`, `Hybrid vertical` (signal contacts partly SMD, partly through hole), `Mid mount` (in a board cut-out, below the board or straddling its edge) |
+
+Pins, numbered 1 … N:
+
+- **Type-A and Type-B**: the contacts as the datasheet numbers them, named
+  `VBUS`, `D-`, `D+`, `GND` (1–4); USB 3.x adds 5–9: Type-A `SSRX-`,
+  `SSRX+`, `GND_DRAIN`, `SSTX-`, `SSTX+`; Type-B `SSTX-`, `SSTX+`,
+  `GND_DRAIN`, `SSRX-`, `SSRX+`. Stacked parts number every port's
+  contacts as the datasheet does.
+- **Type-C**: one pin per distinct signal pad of the land pattern;
+  unloaded (dummy) positions have no pin. Pads with one contact each are
+  ordered by contact label, A1 … A12 then B1 … B12. The common 12-pad
+  USB 2.0 layout, whose outer pads each carry two contacts, is always
+  pins 1–12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4,
+  A12/B1. Names: `GND`, `VBUS`, `CC1`, `CC2` (`VCONN` on a plug), `D+`,
+  `D-`, `SBU1`, `SBU2`, `TX1+`, `TX1-`, `RX1+`, `RX1-`, `TX2+`, `TX2-`,
+  `RX2+`, `RX2-`. The device `note` gives the pin-to-contact mapping.
+- **Extra pads** the datasheet names come after the contacts: mid-plate
+  ground holes are `GND` pins, and 73725-0010BLF's sensor contact is
+  `SENSE`.
+- **Shield**: the shell's tabs and legs are one last pin, `SHIELD`, with a
+  pad per leg in the footprint.
+
+USB footprints (`USB-SS-…` Same Sky, `USB-AMP-…` Amphenol ICC) are
+`explicit`, from each drawing's recommended PCB layout (the `note` gives
+every number used). The origin is the centre of the housing's top-view
+outline, and a right-angle or mid-mount connector's mating face points up
+(−y). A mid-mount part's board cut-out is not part of the footprint; its
+size is in the footprint `note`. Parts that need pads on the bottom
+layer, rotated slots or L-shaped / keyhole shell slots are not in the
+library (`datasheets/skipped-parts.md`).
 
 ### `header`
 

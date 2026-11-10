@@ -225,6 +225,8 @@ enum DatasheetPayload {
                         "x": pad.centre.x, "y": pad.centre.y,
                         "w": pad.size.width, "h": pad.size.height,
                         "drill": pad.drill,
+                        "slot": pad.slotLength,
+                        "plated": pad.plated,
                         "shape": pad.shape == .round ? "round" : "rect",
                     ]
                 },

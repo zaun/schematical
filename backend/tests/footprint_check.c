@@ -5,7 +5,7 @@
  *
  *     footprint_check --print > tests/golden/footprints.txt   regenerates it
  *
- * A pad is `designator:x,y,wxh,shape[,d<drill>][,r<radius>][,c<chamfer>:<corners>]`,
+ * A pad is `designator:x,y,wxh,shape[,d<drill>][,s<slotLength>][,npth][,r<radius>][,c<chamfer>:<corners>]`,
  * corners joined by '+' in tl, tr, br, bl order.
  */
 
@@ -56,6 +56,13 @@ static char *footprint_line(const PartFootprint *fp) {
         if (pad->drill > 0) {
             fputs(",d", out);
             print_number(out, pad->drill);
+        }
+        if (pad->slot_length > 0) {
+            fputs(",s", out);
+            print_number(out, pad->slot_length);
+        }
+        if (pad->npth) {
+            fputs(",npth", out);
         }
         if (pad->radius > 0) {
             fputs(",r", out);

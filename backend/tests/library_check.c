@@ -1603,6 +1603,46 @@ static void check_switch_cases(void) {
                 "contacts[1]: a contact joins two different pins, not \"2A\" twice");
 }
 
+/* A USB connector device with KEYS (JSON members, each ending in a comma). */
+#define USB_DEVICE(KEYS) \
+    HEAD("connector") "{'id':'u','function':'USB-C receptacle','description':'d','drawer':['Connector','USB']," \
+    KEYS "'pinouts':{'p':[{'number':1,'name':'VBUS','role':'inout'},{'number':2,'name':'D-','role':'inout'}," \
+    "{'number':3,'name':'D+','role':'inout'},{'number':4,'name':'GND','role':'inout'}," \
+    "{'number':5,'name':'SHIELD','role':'inout'}]}," \
+    "'parts':[{'name':'USB-T','manufacturer':'M','package':'SMD right angle','pinout':'p','footprint':'T5'}]}" TAIL
+
+static void check_usb_connector(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library, USB_DEVICE("'usb':'C','ratedVolts':20,'ratedAmps':5,"), &error) == 0);
+    part = part_library_find(library, "USB-T");
+    CHECK(part != NULL && part->kind == PART_CONNECTOR && part->connector->usb == 'C' &&
+          part->connector->rated_mv == 20000 && part->connector->rated_ma == 5000 &&
+          part->connector->contacts == 0 && part->connector->center_diameter_um == 0);
+    free(error);
+    error = NULL;
+    part_library_destroy(library);
+    library = part_library_create();
+    CHECK(load(library, USB_DEVICE("'usb':'A',"), &error) == 0);
+    part = part_library_find(library, "USB-T");
+    CHECK(part != NULL && part->connector->usb == 'A' && part->connector->rated_mv == 0 &&
+          part->connector->rated_ma == 0);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   USB connector loads; ratings optional\n");
+
+    expect_fail("usb: bad type", USB_DEVICE("'usb':'D',"), "\"usb\" must be \"A\", \"B\" or \"C\"");
+    expect_fail("usb: centre pin", USB_DEVICE("'usb':'A','centerPin':2,"), "a USB connector has no \"centerPin\"");
+    expect_fail("usb: contacts", USB_DEVICE("'usb':'A','contacts':[['VBUS','GND']],"),
+                "a USB connector has no \"contacts\"");
+    expect_fail("usb: zero amps", USB_DEVICE("'usb':'B','ratedAmps':0,"),
+                "\"ratedAmps\" must be above 0 and at most 100");
+    expect_fail("barrel: still needs its centre pin", USB_DEVICE("'ratedVolts':20,'ratedAmps':5,"),
+                "\"centerPin\"");
+}
+
 /* DQ_EXTRA, VCC_EXTRA: more keys on DQ0 (pin 2) and VCC (pin 6), such as "side". */
 #define SRAM_PINS_DEVICE(GRADE, DQ_EXTRA, VCC_EXTRA) \
     HEAD("sram") "{'id':'m','function':'1 KB','description':'d','drawer':['Memory','SRAM']," \
@@ -2459,6 +2499,61 @@ static void check_explicit_repeated_pins(void) {
                    FP_EXPLICIT_WITH("'pads':[" EPAD("1", "-1") "," EPAD("1", "1") "]"), "pin 2 has no pad");
 }
 
+/* Slotted and non-plated holes on explicit pads (USB connector shells). */
+#define SLOT_PAD(KEYS) "{'pin':2,'x':3,'y':0,'width':1.0,'height':2.0,'shape':'round','drill':0.6" KEYS "}"
+#define NPTH_PAD(KEYS) "{'pin':0,'x':-3,'y':0,'shape':'round'," KEYS "}"
+static void check_explicit_holes(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const PartFootprint *fp;
+
+    CHECK(load_fp(library,
+                  FP_EXPLICIT_WITH("'pads':[" EPAD("1", "0") "," SLOT_PAD(",'slotLength':1.4") ","
+                                   NPTH_PAD("'width':0.9,'height':0.9,'drill':0.9,'plated':false") ","
+                                   NPTH_PAD("'width':0.6,'height':1.2,'drill':0.6,'slotLength':1.2,'plated':false") "]"),
+                  &error) == 0);
+    fp = part_library_find_footprint(library, "F");
+    CHECK(fp != NULL && fp->pad_count == 4);
+    CHECK(fp->pads[0].slot_length == 0 && !fp->pads[0].npth);
+    CHECK(fp->pads[1].drill == 0.6 && fp->pads[1].slot_length == 1.4 && !fp->pads[1].npth);
+    CHECK(fp->pads[2].npth && fp->pads[2].drill == 0.9 && fp->pads[2].slot_length == 0);
+    CHECK(fp->pads[3].npth && fp->pads[3].slot_length == 1.2);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   explicit: slotted and non-plated holes load\n");
+
+    expect_fp_fail("explicit: slot without drill",
+                   FP_EXPLICIT_WITH("'pads':[" EPAD("1", "0") ",{'pin':2,'x':3,'y':0,'width':1.0,'height':2.0,"
+                                    "'shape':'round','slotLength':1.4}]"),
+                   "\"slotLength\" needs a \"drill\"");
+    expect_fp_fail("explicit: slot not longer than drill",
+                   FP_EXPLICIT_WITH("'pads':[" EPAD("1", "0") "," SLOT_PAD(",'slotLength':0.6") "]"),
+                   "\"slotLength\" 0.6 must be more than the drill 0.6");
+    expect_fp_fail("explicit: slot past the pad",
+                   FP_EXPLICIT_WITH("'pads':[" EPAD("1", "0") "," SLOT_PAD(",'slotLength':2.0") "]"),
+                   "\"slotLength\" 2 must be smaller than the pad's long side 2");
+    expect_fp_fail("explicit: slot in a square pad",
+                   FP_EXPLICIT_WITH("'pads':[" EPAD("1", "0") ",{'pin':2,'x':3,'y':0,'width':1.5,'height':1.5,"
+                                    "'shape':'round','drill':0.6,'slotLength':1.0}]"),
+                   "a slotted pad must be longer along its slot (not square)");
+    expect_fp_fail("explicit: plated true",
+                   FP_EXPLICIT_WITH("'pads':[" EPAD("1", "0") "," EPAD("2", "1") ","
+                                    NPTH_PAD("'width':0.9,'height':0.9,'drill':0.9,'plated':true") "]"),
+                   "\"plated\" may only be false");
+    expect_fp_fail("explicit: non-plated pin",
+                   FP_EXPLICIT_WITH("'pads':[" EPAD("1", "0") ",{'pin':2,'x':3,'y':0,'width':0.9,'height':0.9,"
+                                    "'shape':'round','drill':0.9,'plated':false}]"),
+                   "a non-plated hole is a \"pin\": 0 pad");
+    expect_fp_fail("explicit: non-plated without drill",
+                   FP_EXPLICIT_WITH("'pads':[" EPAD("1", "0") "," EPAD("2", "1") ","
+                                    NPTH_PAD("'width':0.9,'height':0.9,'plated':false") "]"),
+                   "a non-plated hole needs a \"drill\"");
+    expect_fp_fail("explicit: non-plated pad bigger than its hole",
+                   FP_EXPLICIT_WITH("'pads':[" EPAD("1", "0") "," EPAD("2", "1") ","
+                                    NPTH_PAD("'width':1.5,'height':1.5,'drill':0.9,'plated':false") "]"),
+                   "a non-plated pad is the hole itself");
+}
+
 /* An LED with one pinout of PINS whose part names FOOTPRINT (a JSON value). */
 #define FP_LED(PINS, FOOTPRINT) \
     HEAD("led") "{'id':'led-fp','function':'LED','description':'d','drawer':[]," \
@@ -2884,6 +2979,8 @@ int main(void) {
     check_datasheets();
     check_footprint_styles();
     check_explicit_repeated_pins();
+    check_explicit_holes();
+    check_usb_connector();
     check_footprint_corners();
     check_footprint_cases();
     check_header_footprints();

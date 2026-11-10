@@ -1,13 +1,14 @@
-/* Barrel power connectors. They are passive terminals; a three-terminal jack
- * additionally has a normally-closed sleeve contact that opens when a plug
- * is inserted. */
+/* Barrel power connectors and USB connectors. They are passive terminals; a
+ * three-terminal barrel jack additionally has a normally-closed sleeve
+ * contact that opens when a plug is inserted. A USB connector ("usb": "A",
+ * "B" or "C") has no centre pin and no contacts; its ratings are optional. */
 
 #include <math.h>
 #include <string.h>
 
 #include "kind.h"
 
-static const char *const DEVICE_KEYS[] = {"centerPin", "ratedVolts", "ratedAmps", "contacts", NULL};
+static const char *const DEVICE_KEYS[] = {"centerPin", "ratedVolts", "ratedAmps", "contacts", "usb", NULL};
 
 typedef struct {
     PartConnector info;
@@ -16,6 +17,33 @@ typedef struct {
 
 typedef struct { size_t count; size_t (*pins)[2]; } ConnectorPins;
 
+static int usb_load(KindContext *ctx, const cJSON *json, ConnectorDevice *device) {
+    const char *type;
+    double amps;
+
+    if (kind_string(ctx, json, "usb", &type) != 0) return -1;
+    if (strcmp(type, "A") != 0 && strcmp(type, "B") != 0 && strcmp(type, "C") != 0) {
+        return kind_error(ctx, "\"usb\" must be \"A\", \"B\" or \"C\"");
+    }
+    if (cJSON_GetObjectItemCaseSensitive(json, "centerPin") != NULL) {
+        return kind_error(ctx, "a USB connector has no \"centerPin\"");
+    }
+    if (cJSON_GetObjectItemCaseSensitive(json, "contacts") != NULL) {
+        return kind_error(ctx, "a USB connector has no \"contacts\"");
+    }
+    device->info.usb = type[0];
+    if (cJSON_GetObjectItemCaseSensitive(json, "ratedVolts") != NULL) {
+        if (kind_volts(ctx, json, "ratedVolts", 1000, &device->info.rated_mv) != 0) return -1;
+        if (device->info.rated_mv == 0) return kind_error(ctx, "ratings must be above 0");
+    }
+    if (cJSON_GetObjectItemCaseSensitive(json, "ratedAmps") != NULL) {
+        if (kind_number(ctx, json, "ratedAmps", &amps) != 0) return -1;
+        if (amps <= 0 || amps > 100) return kind_error(ctx, "\"ratedAmps\" must be above 0 and at most 100");
+        device->info.rated_ma = (uint32_t)llround(amps * 1000);
+    }
+    return 0;
+}
+
 static void *connector_load_device(KindContext *ctx, const cJSON *json) {
     ConnectorDevice *device = kind_alloc(ctx, sizeof(*device));
     const cJSON *contacts;
@@ -23,7 +51,11 @@ static void *connector_load_device(KindContext *ctx, const cJSON *json) {
     double center_pin, amps;
     size_t count = 0;
 
-    if (device == NULL || kind_number(ctx, json, "centerPin", &center_pin) != 0 ||
+    if (device == NULL) return NULL;
+    if (cJSON_GetObjectItemCaseSensitive(json, "usb") != NULL) {
+        return usb_load(ctx, json, device) == 0 ? device : NULL;
+    }
+    if (kind_number(ctx, json, "centerPin", &center_pin) != 0 ||
         kind_volts(ctx, json, "ratedVolts", 1000, &device->info.rated_mv) != 0 ||
         kind_number(ctx, json, "ratedAmps", &amps) != 0) return NULL;
     if (center_pin <= 0 || center_pin > 10) {

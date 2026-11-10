@@ -7,7 +7,8 @@
 //   devices    the catalog devices the front matter names:
 //              {kind, id, description, pinouts: {name: [pin]}, parts: [part]}
 //   footprints catalog footprints by id, pads expanded:
-//              {description, body: {w, h}, round, pads: [{d, x, y, w, h, drill, shape}]}
+//              {description, body: {w, h}, round, pads: [{d, x, y, w, h, drill, slot, plated, shape}]}
+//              slot: a slotted hole's length (0 = round); plated false: a bare hole
 //   figures    shared figure and sidecar SVG text by ref / src
 //
 // markdown-it (markdown-it.min.js) renders the prose; WaveDrom
@@ -421,14 +422,23 @@
     }
     for (const p of pads) {
       const cls = p.d === "1" ? "pad pin1" : "pad";
-      if (p.shape === "round") {
+      if (p.plated === false) {
+        // A non-plated hole: no copper, drawn below as the hole only.
+      } else if (p.shape === "round") {
         svg += '<ellipse class="' + cls + '" cx="' + X(p.x) + '" cy="' + Y(p.y) + '" rx="' + (p.w * scale) / 2 +
           '" ry="' + (p.h * scale) / 2 + '"/>';
       } else {
         svg += '<rect class="' + cls + '" x="' + X(p.x - p.w / 2) + '" y="' + Y(p.y - p.h / 2) + '" width="' +
           p.w * scale + '" height="' + p.h * scale + '"/>';
       }
-      if (p.drill > 0) {
+      if (p.drill > 0 && p.slot > p.drill) {
+        // A slot along the pad's longer side.
+        const across = p.w >= p.h;
+        const sw = (across ? p.slot : p.drill) * scale;
+        const sh = (across ? p.drill : p.slot) * scale;
+        svg += '<rect class="drill" x="' + (X(p.x) - sw / 2) + '" y="' + (Y(p.y) - sh / 2) + '" width="' + sw +
+          '" height="' + sh + '" rx="' + (p.drill * scale) / 2 + '"/>';
+      } else if (p.drill > 0) {
         svg += '<circle class="drill" cx="' + X(p.x) + '" cy="' + Y(p.y) + '" r="' + (p.drill * scale) / 2 + '"/>';
       }
       if (labels && p.d !== null && labels[p.d] !== undefined) {

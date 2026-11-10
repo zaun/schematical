@@ -225,7 +225,7 @@ private struct DesignRuleChecker {
     private func endIsConnected(_ point: CGPoint, of index: Int) -> Bool {
         let trace = copper.traces[index]
         let reach = trace.widthMM / 2
-        for pad in copper.pads where pad.pad.drill > 0 || pad.side.copperLayer == trace.layer {
+        for pad in copper.pads where pad.pad.plated && (pad.pad.drill > 0 || pad.side.copperLayer == trace.layer) {
             if pad.pad.rect.insetBy(dx: -Self.tolerance, dy: -Self.tolerance).contains(point) { return true }
         }
         for via in copper.vias where SchematicDocument.distance(from: point, to: via.centre) <= via.diameter / 2 + reach {
@@ -417,8 +417,9 @@ private struct DesignRuleChecker {
 
     /// Every piece of copper: pads, trace segments, vias.
     private func copperShapes() -> [Shape] {
-        var shapes = copper.pads.enumerated().map { p, pad in
-            Self.shape(of: pad.pad, layers: padLayers(pad), node: p)
+        // A non-plated hole is no copper.
+        var shapes = copper.pads.enumerated().compactMap { p, pad in
+            pad.pad.plated ? Self.shape(of: pad.pad, layers: padLayers(pad), node: p) : nil
         }
         for (t, trace) in copper.traces.enumerated() {
             for (a, b) in trace.segments {
@@ -548,6 +549,7 @@ private struct DesignRuleChecker {
             if pad.pad.drill < rules.minDrill - Self.tolerance {
                 small["\(pad.chip)/\(pad.pad.drill)", default: (pad.chip, pad.pad.drill, [])].pads.append(name)
             }
+            guard pad.pad.plated else { continue }  // a non-plated hole has no ring
             let ring = (min(pad.pad.rect.width, pad.pad.rect.height) - pad.pad.drill) / 2
             if ring < rules.minAnnularRing - Self.tolerance {
                 thin["\(pad.chip)/\(ring)", default: (pad.chip, ring, [])].pads.append(name)
@@ -566,8 +568,10 @@ private struct DesignRuleChecker {
 
         // Hole to hole: every pad hole and via, edge to edge.
         var holes: [Shape] = []
-        for (p, pad) in copper.pads.enumerated() where pad.pad.drill > 0 {
-            holes.append(Shape(core: .segment(pad.centre, pad.centre), radius: pad.pad.drill / 2, layers: nil, node: p))
+        for (p, pad) in copper.pads.enumerated() {
+            // A slot is a capsule: a segment along the pad's long side.
+            guard let hole = pad.pad.holeSegment else { continue }
+            holes.append(Shape(core: .segment(hole.a, hole.b), radius: hole.radius, layers: nil, node: p))
         }
         for (v, via) in copper.vias.enumerated() {
             holes.append(Shape(core: .segment(via.centre, via.centre), radius: via.drill / 2, layers: nil,

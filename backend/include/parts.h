@@ -99,9 +99,11 @@ typedef struct {
    "i2c-spi" (either, picked by a pin), "usb" (a USB-to-UART bridge), or
    "parallel" (any other bus). */
 typedef struct { const char *model; unsigned channels; const char *grade; const char *host; } PartSerial;
-/* A barrel connector. center_diameter_um is the mating plug's centre-pin
-   diameter; contacts is the number of normally-closed contacts. */
-typedef struct { uint32_t center_diameter_um, rated_mv, rated_ma; unsigned contacts; } PartConnector;
+/* A barrel or USB connector. usb: 'A', 'B' or 'C' for a USB connector, 0
+   for a barrel jack. center_diameter_um is a barrel's mating plug centre-pin
+   diameter (0 for USB); contacts is the number of normally-closed contacts
+   (0 for USB). rated_mv / rated_ma: 0 = not given (USB only). */
+typedef struct { uint32_t center_diameter_um, rated_mv, rated_ma; unsigned contacts; char usb; } PartConnector;
 /* A supply domain of a dual-supply part (plan-20-F): the pins powered from
    one supply. power_pins: the supply's pins (one name, possibly several
    pins, e.g. two VCCB); pins: every other pin of the domain (not ground or
@@ -140,7 +142,9 @@ typedef struct {
     const char *designator;  /* "14" or "A1", matching PartPin.designator; NULL = unnumbered centre pad */
     double x, y;             /* centre */
     double width, height;
-    double drill;            /* 0 = surface mount */
+    double drill;            /* 0 = surface mount; a slot's width */
+    double slot_length;      /* explicit only: a slotted hole's length along the pad's long side; 0 = round hole */
+    int npth;                /* explicit only: 1 = a non-plated hole, no copper (the pad is the hole itself) */
     PadShape shape;
     double radius;           /* rect only: every corner rounded by this radius; 0 = square */
     double chamfer;          /* rect only: `corners` cut at 45 deg, this far along each edge; 0 = none */
