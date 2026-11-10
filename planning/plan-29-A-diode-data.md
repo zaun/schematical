@@ -306,13 +306,16 @@ Commit: 75a9190
 
 ### Phase 3 — Place the datasheets
 
-- [ ] Write `census/place.py` per § 4 (with `--verify`).
-- [ ] Run it for every row that § 3 rule 3 gives a PDF; `git add` only
-      `datasheets/diode/`.
+- [x] Write `census/place.py` per § 4 (with `--verify`; also `--prune`, used in
+      Phase 4). Files with the same SHA-256 under two URLs share one file.
+- [x] Run it for every row that § 3 rule 3 gives a PDF; `git add` only
+      `datasheets/diode/`. `3049 PDFs placed for 3229 URLs` (730 MB; the
+      tree already holds 3.7 GB of datasheet PDFs as plain files).
 
 Acceptance: every row with a maker datasheet has its PDF in the tree.
   Check: `python3 -I planning/plan-29-data/census/place.py --verify planning/plan-29-data/candidates.tsv` → `0 missing` (est. 2 min).
-Commit: —
+  Result: `3229 URLs, 3049 PDFs, 0 missing, 0 unused`.
+Commit: 9543c80
 
 ### Phase 4 — First decisions
 
