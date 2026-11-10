@@ -280,21 +280,29 @@ Acceptance: every in-scope part is listed.
 
 ### Phase 2 — Downloads and scans
 
-- [ ] `python3 -I census/select.py /tmp/p29/all.tsv /tmp/p29/cand.tsv`;
+- [x] `python3 -I census/select.py /tmp/p29/all.tsv /tmp/p29/cand.tsv`;
       `census/fetch.py /tmp/p29/cand.tsv /tmp/p29/pdf` (the 2125 PDFs of
       the planning run are cached if `/tmp/p29/pdf` survives; else about
       70 minutes for singles and more for the other categories);
       `census/textscan.py /tmp/p29/cand.tsv /tmp/p29/pdf
       planning/plan-29-data/candidates.tsv`; `census/sibling.py`.
-- [ ] `python3 -I census/footprint-lines.py planning/plan-29-data/candidates.tsv
+      Results 2026-11-09: select → 12419 candidate, 197 check, 416 out
+      (mounting), 217 out (SiC); fetch → `3563 urls; 3386 are PDFs`;
+      textscan (candidate + check, pdf/hit/dead) → 6442 hit, 148 hit and
+      dead, 5465 PDF without a verbatim hit, 561 no PDF; sibling → need
+      TSC 285, Vishay 497, onsemi 404, found verbatim in a same-maker PDF
+      TSC 39, Vishay 30, onsemi 64.
+- [x] `python3 -I census/footprint-lines.py planning/plan-29-data/candidates.tsv
       > planning/plan-29-data/footprints-needed.txt`; write the per-letter
       line counts (B: Vishay single; C: onsemi single; D: TSC single; E:
       zener, zener-array; F: array; G: bridge) into § Corrections when they
-      differ from B–G's tables.
+      differ from B–G's tables. Lines: B 58, C 59, D 42, E 52, F 57, G 45
+      (313; § Corrections).
 
 Acceptance: `candidates.tsv` covers every listed row.
   Check: `awk 'END{print NR-1}' planning/plan-29-data/candidates.tsv` equals the Phase 1 `<N>` (est. 2 h, the downloads; nothing smaller fetches the PDFs).
-Commit: —
+  Result: 13249 = N.
+Commit: 75a9190
 
 ### Phase 3 — Place the datasheets
 
@@ -407,6 +415,11 @@ Commit: —
   are not listed, so they are not added (they cannot be shown in stock).
   Package keywords (`AXIAL` alone found 17 onsemi rectifiers the `UF`
   prefix missed) were the better splitter; one, `SMA`, cost 79 calls.
+- **Footprint lines per letter** (Phase 2, 2026-11-09, `footprint-lines.py`,
+  candidate + check rows with a PDF): B 58 (Vishay single; planning 58),
+  C 59 (onsemi single; planning 35 from a partial listing), D 42 (TSC
+  single; planning 42), E 52 (zener + zener-array), F 57 (array), G 45
+  (bridge). B–G's scope numbers are these.
 - **Phase 1 reuses the planning-day 280 listings** — `list.sh` skips a piece
   whose `.done` exists, and `/tmp/p29/raw` kept `280-vishay`, `280-tsc` and
   `280-onsemi` from 2026-11-08, so Day 1 (2026-11-09) listed the other 12

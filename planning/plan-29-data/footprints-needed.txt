@@ -3,139 +3,231 @@
 # Columns: parts, maker / supplier package, mounting, DigiKey Package / Case value(s), drawer leaves.
 # Existing footprints that match: none (footprints.json has no diode package; RES-AXIAL-10.16 is a
 # resistor land pattern, not taken from a diode drawing).
-# 135 lines, 108 distinct supplier packages, 5434 parts.
-  389  Vishay / TO-277A (SMPC)  |  Surface Mount  |  TO-277, 3-PowerDFN  |  Fast recovery, Rectifier, Schottky
-  307  Vishay / DO-214AC (SMA)  |  Surface Mount  |  DO-214AC, SMA  |  Fast recovery, Rectifier, Schottky
-  202  Vishay / DO-219AB (SMF)  |  Surface Mount  |  DO-219AB  |  Fast recovery, Rectifier, Schottky
-  198  TSC / DO-214AA (SMB)  |  Surface Mount  |  DO-214AA, SMB  |  Fast recovery, Rectifier, Schottky
-  197  Vishay / DO-214AA (SMB)  |  Surface Mount  |  DO-214AA, SMB  |  Fast recovery, Rectifier, Schottky
+# 227 lines, 182 distinct supplier packages, 12055 parts.
+  537  Vishay / DO-214AC (SMA)  |  Surface Mount  |  DO-214AC, SMA  |  Fast recovery, Rectifier, Schottky, Zener
+  419  Vishay / TO-277A (SMPC)  |  Surface Mount  |  TO-277, 3-PowerDFN  |  Fast recovery, Rectifier, Schottky
+  417  Vishay / DO-204AH (DO-35)  |  Through Hole  |  DO-204AH, DO-35, Axial  |  Fast recovery, Schottky, Switching, Zener
+  398  onsemi / SOT-23-3 (TO-236)  |  Surface Mount  |  TO-236-3, SC-59, SOT-23-3  |  Fast recovery, Rectifier, Schottky, Switching, Zener
+  362  Vishay / SOD-123  |  Surface Mount  |  SOD-123  |  Fast recovery, Schottky, Switching, Zener
+  320  Vishay / DO-204AL (DO-41)  |  Through Hole  |  DO-204AL, DO-41, Axial  |  Fast recovery, Rectifier, Schottky, Zener
+  309  Vishay / DO-219AB (SMF)  |  Surface Mount  |  DO-219AB  |  Fast recovery, Rectifier, Schottky, Zener
+  301  onsemi / SOD-123  |  Surface Mount  |  SOD-123  |  Schottky, Switching, Zener
+  275  Vishay / SOD-80 MiniMELF  |  Surface Mount  |  DO-213AC, MINI-MELF, SOD-80  |  Fast recovery, Schottky, Switching, Zener
+  247  Vishay / SOT-23-3  |  Surface Mount  |  TO-236-3, SC-59, SOT-23-3  |  Fast recovery, Schottky, Switching, Zener
+  230  Vishay / TO-263AB (D2PAK)  |  Surface Mount  |  TO-263-3, D2PAK (2 Leads + Tab), TO-263AB  |  Fast recovery, Rectifier, Schottky
+  213  TSC / DO-214AC (SMA)  |  Surface Mount  |  DO-214AC, SMA  |  Fast recovery, Rectifier, Schottky, Zener
+  207  onsemi / Axial  |  Through Hole  |  Axial; DO-201AA, DO-27, Axial; DO-204AL, DO-41, Axial; T-18, Axial  |  Fast recovery, Rectifier, Schottky, Zener
+  206  TSC / DO-214AA (SMB)  |  Surface Mount  |  DO-214AA, SMB  |  Fast recovery, Rectifier, Schottky, Zener
+  198  Vishay / DO-214AA (SMB)  |  Surface Mount  |  DO-214AA, SMB  |  Fast recovery, Rectifier, Schottky, Zener
   197  Vishay / DO-214AB (SMC)  |  Surface Mount  |  DO-214AB, SMC  |  Fast recovery, Rectifier, Schottky
-  189  TSC / DO-214AC (SMA)  |  Surface Mount  |  DO-214AC, SMA  |  Fast recovery, Rectifier, Schottky
-  163  TSC / DO-214AB (SMC)  |  Surface Mount  |  DO-214AB, SMC  |  Fast recovery, Rectifier, Schottky
-  161  Vishay / DO-220AA (SMP)  |  Surface Mount  |  DO-220AA  |  Fast recovery, Rectifier, Schottky
-  143  Vishay / DO-204AL (DO-41)  |  Through Hole  |  DO-204AL, DO-41, Axial  |  Fast recovery, Rectifier, Schottky
-  137  Vishay / TO-263AB (D2PAK)  |  Surface Mount  |  TO-263-3, D2PAK (2 Leads + Tab), TO-263AB  |  Fast recovery, Rectifier, Schottky
-  129  TSC / SOD-123W  |  Surface Mount  |  SOD-123W  |  Fast recovery, Rectifier, Schottky
+  176  TSC / DO-214AB (SMC)  |  Surface Mount  |  DO-214AB, SMC  |  Fast recovery, Rectifier, Schottky, Zener
+  173  Vishay / DO-220AA (SMP)  |  Surface Mount  |  DO-220AA  |  Fast recovery, Rectifier, Schottky, Zener
+  168  Vishay / SOD-323  |  Surface Mount  |  SC-76, SOD-323  |  Fast recovery, Schottky, Switching, Zener
+  163  Vishay / DO-213AB  |  Surface Mount  |  DO-213AB, MELF (Glass)  |  Fast recovery, Rectifier, Zener
+  158  onsemi / DO-35  |  Through Hole  |  DO-204AH, DO-35, Axial  |  Fast recovery, Rectifier, Switching, Zener
+  157  TSC / SOD-123W  |  Surface Mount  |  SOD-123W  |  Fast recovery, Rectifier, Schottky, Zener
+  154  TSC / SOD-323F  |  Surface Mount  |  SC-90, SOD-323F  |  Fast recovery, Schottky, Switching, Zener
+  154  Vishay / SlimDPAK  |  Surface Mount  |  TO-252-3, DPAK (2 Leads + Tab), SC-63  |  Fast recovery, Rectifier, Schottky
+  137  onsemi / SMB  |  Surface Mount  |  DO-214AA, SMB  |  Fast recovery, Rectifier, Schottky, Zener
+  127  onsemi / SOD-323  |  Surface Mount  |  SC-76, SOD-323  |  Schottky, Switching, Zener
+  120  TSC / SOD-123  |  Surface Mount  |  SOD-123  |  Schottky, Switching, Zener
+  120  Vishay / DO-219AC (microSMF)  |  Surface Mount  |  DO-219AC  |  Schottky, Zener
+  118  onsemi / SMA  |  Surface Mount  |  DO-214AC, SMA  |  Fast recovery, Rectifier, Schottky, Zener
   117  TSC / SOD-128  |  Surface Mount  |  SOD-128  |  Fast recovery, Rectifier, Schottky
+  116  onsemi / SOD-523  |  Surface Mount  |  SC-79, SOD-523  |  Schottky, Switching, Zener
   114  Vishay / TO-220AC  |  Through Hole  |  TO-220-2  |  Fast recovery, Rectifier, Schottky
+  112  Vishay / TO-252AA (DPAK)  |  Surface Mount  |  TO-252-3, DPAK (2 Leads + Tab), SC-63  |  Fast recovery, Rectifier, Schottky
+  110  onsemi / DO-41  |  Through Hole  |  DO-204AL, DO-41, Axial  |  Fast recovery, Zener
+  107  TSC / SOD-123F  |  Surface Mount  |  SOD-123F  |  Fast recovery, Rectifier, Schottky, Switching, Zener
+  107  Vishay / SOD-57  |  Through Hole  |  SOD-57, Axial  |  Fast recovery, Rectifier, Zener
+  106  TSC / SOT-23  |  Surface Mount  |  TO-236-3, SC-59, SOT-23-3  |  Fast recovery, Schottky, Switching, Zener
   106  Vishay / DO-201AD  |  Through Hole  |  DO-201AD, Axial  |  Fast recovery, Rectifier, Schottky
-  101  Vishay / SlimDPAK  |  Surface Mount  |  TO-252-3, DPAK (2 Leads + Tab), SC-63  |  Fast recovery, Rectifier, Schottky
+   98  Vishay / TO-220-3  |  Through Hole  |  TO-220-3  |  Fast recovery, Rectifier, Schottky
+   97  Vishay / MicroMELF  |  Surface Mount  |  2-SMD, No Lead  |  Fast recovery, Schottky, Switching, Zener
+   97  Vishay / SOD-80 QuadroMELF  |  Surface Mount  |  SOD-80 Variant  |  Fast recovery, Schottky, Switching, Zener
+   97  Vishay / TO-263AC (SMPD)  |  Surface Mount  |  TO-263-3, D2PAK (2 Leads + Tab), Variant  |  Fast recovery, Rectifier, Schottky
+   92  TSC / DO-204AL (DO-41)  |  Through Hole  |  DO-204AL, DO-41, Axial  |  Fast recovery, Rectifier, Schottky, Zener
    91  Vishay / DO-221AC (SlimSMA)  |  Surface Mount  |  DO-221AC, SMA Flat Leads  |  Fast recovery, Rectifier, Schottky
+   90  Vishay / SMPD  |  Surface Mount  |  TO-263-3, D2PAK (2 Leads + Tab), Variant  |  Fast recovery, Rectifier, Schottky
    88  TSC / Thin SMA  |  Surface Mount  |  DO-221AC, SMA Flat Leads  |  Fast recovery, Rectifier, Schottky
    87  TSC / DO-201AD  |  Through Hole  |  DO-201AD, Axial  |  Fast recovery, Rectifier, Schottky
-   87  Vishay / TO-252AA (DPAK)  |  Surface Mount  |  TO-252-3, DPAK (2 Leads + Tab), SC-63  |  Fast recovery, Rectifier, Schottky
+   86  TSC / ThinDPAK  |  Surface Mount  |  TO-252-3, DPAK (2 Leads + Tab), SC-63  |  Fast recovery, Rectifier, Schottky
    83  TSC / DO-204AC (DO-15)  |  Through Hole  |  DO-204AC, DO-15, Axial  |  Fast recovery, Rectifier, Schottky
+   83  TSC / ITO-220AB  |  Through Hole  |  TO-220-3 Full Pack, Isolated Tab  |  Fast recovery, Rectifier, Schottky
+   80  Vishay / TO-247AD  |  Through Hole  |  TO-247-2; TO-247-3  |  Fast recovery, Rectifier, Schottky
    79  Vishay / DFN3820A  |  Surface Mount, Wettable Flank  |  2-SMD, No Lead; 2-VDFN  |  Fast recovery, Rectifier, Schottky
-   79  onsemi / Axial  |  Through Hole  |  DO-201AA, DO-27, Axial; DO-204AL, DO-41, Axial  |  Fast recovery, Rectifier, Schottky
-   76  TSC / DO-204AL (DO-41)  |  Through Hole  |  DO-204AL, DO-41, Axial  |  Fast recovery, Rectifier, Schottky
    76  Vishay / DO-219AD (MicroSMP)  |  Surface Mount  |  DO-219AD  |  Fast recovery, Rectifier, Schottky
-   69  Vishay / SMPD  |  Surface Mount  |  TO-263-3, D2PAK (2 Leads + Tab), Variant  |  Fast recovery, Rectifier, Schottky
+   71  TSC / SOD-523F  |  Surface Mount  |  SC-79, SOD-523  |  Schottky, Switching, Zener
+   70  onsemi / SOD-323F  |  Surface Mount  |  SC-90, SOD-323F  |  Switching, Zener
+   69  TSC / TO-220AB  |  Through Hole  |  TO-220-3  |  Fast recovery, Rectifier, Schottky
+   69  Vishay / FlatPAK (5x6)  |  Surface Mount  |  8-PowerTDFN  |  Schottky
    63  TSC / ITO-220AC  |  Through Hole  |  TO-220-2 Full Pack  |  Fast recovery, Schottky
+   62  TSC / TS-6P  |  Through Hole  |  4-SIP, TS-6P  |  Bridge
+   62  onsemi / SOD-923  |  Surface Mount  |  SOD-923  |  Schottky, Switching, Zener
    61  Vishay / SlimSMAW (DO-221AD)  |  Surface Mount  |  DO-221AC, SMA Flat Leads  |  Fast recovery, Rectifier, Schottky
-   59  Vishay / DO-213AB  |  Surface Mount  |  DO-213AB, MELF (Glass)  |  Fast recovery, Rectifier
-   58  Vishay / SOD-57  |  Through Hole  |  SOD-57, Axial  |  Fast recovery, Rectifier
-   57  TSC / ThinDPAK  |  Surface Mount  |  TO-252-3, DPAK (2 Leads + Tab), SC-63  |  Fast recovery, Rectifier, Schottky
-   57  Vishay / TO-247AD  |  Through Hole  |  TO-247-2; TO-247-3  |  Fast recovery, Rectifier
+   60  onsemi / DO-214AC (SMA)  |  Surface Mount  |  DO-214AC, SMA  |  Fast recovery, Rectifier, Schottky
+   57  onsemi / 2-X2DFNW (1x0.6)  |  Surface Mount, Wettable Flank  |  2-XDFN  |  Schottky, Switching, Zener
    53  TSC / SMPC4.6U  |  Surface Mount  |  TO-277, 3-PowerDFN  |  Fast recovery, Rectifier
-   53  Vishay / FlatPAK (5x6)  |  Surface Mount  |  8-PowerTDFN  |  Schottky
-   52  onsemi / DO-35  |  Through Hole  |  DO-204AH, DO-35, Axial  |  Fast recovery, Rectifier, Switching
    49  TSC / TO-277A (SMPC4.6U)  |  Surface Mount, Wettable Flank  |  TO-277, 3-PowerDFN  |  Fast recovery, Rectifier, Schottky
+   49  onsemi / TO-277-3  |  Surface Mount  |  TO-277, 3-PowerDFN  |  Fast recovery, Rectifier, Schottky
    48  TSC / SOD-123HE  |  Surface Mount  |  SOD-123H  |  Fast recovery, Rectifier, Schottky
-   46  Vishay / SOD-80 MiniMELF  |  Surface Mount  |  DO-213AC, MINI-MELF, SOD-80  |  Fast recovery, Schottky, Switching
-   45  Vishay / DO-204AH (DO-35)  |  Through Hole  |  DO-204AH, DO-35, Axial  |  Fast recovery, Schottky, Switching
-   45  Vishay / SOD-123  |  Surface Mount  |  SOD-123  |  Fast recovery, Schottky, Switching
+   48  Vishay / SOD-523  |  Surface Mount  |  SC-79, SOD-523  |  Schottky, Zener
+   43  TSC / DBLS  |  Surface Mount  |  4-SMD, Gull Wing  |  Bridge
+   42  TSC / DBL  |  Through Hole  |  4-DIP (0.300", 7.62mm)  |  Bridge
    42  Vishay / DFN33A  |  Surface Mount  |  8-PowerVDFN  |  Schottky
+   41  TSC / TO-247AD (TO-3P)  |  Through Hole  |  TO-247-3  |  Fast recovery, Schottky
    41  TSC / TS-1  |  Through Hole  |  T-18, Axial  |  Fast recovery, Rectifier
+   41  Vishay / DFN1006-2A  |  Surface Mount  |  0402 (1006 Metric)  |  Fast recovery, Schottky, Zener
+   41  Vishay / TO-247AC  |  Through Hole  |  TO-247-3  |  Fast recovery, Rectifier, Schottky
    40  TSC / TO-220AC  |  Through Hole  |  TO-220-2  |  Fast recovery, Rectifier, Schottky
+   40  Vishay / DFN6546A  |  Surface Mount, Wettable Flank  |  8-PowerVDFN  |  Fast recovery, Rectifier
+   40  Vishay / DFS  |  Surface Mount  |  4-SMD, Gull Wing  |  Bridge
+   40  onsemi / SOD-123FL  |  Surface Mount  |  SOD-123F  |  Fast recovery, Schottky
    39  TSC / Micro SMA  |  Surface Mount  |  2-SMD, Flat Leads  |  Fast recovery, Rectifier, Schottky
-   39  Vishay / SOD-323  |  Surface Mount  |  SC-76, SOD-323  |  Fast recovery, Schottky, Switching
    37  Vishay / DO-204AC (DO-15)  |  Through Hole  |  DO-204AC, DO-15, Axial  |  Fast recovery, Rectifier, Schottky
+   36  TSC / GBU  |  Through Hole  |  4-ESIP, GBU; 4-SIP, GBU  |  Bridge
    36  TSC / SMAF  |  Surface Mount  |  DO-221AC, SMA Flat Leads  |  Fast recovery, Rectifier
    36  Vishay / DO-221BC (SMPA)  |  Surface Mount  |  DO-221BC, SMA Flat Leads Exposed Pad  |  Rectifier, Schottky
-   33  TSC / SOD-123F  |  Surface Mount  |  SOD-123F  |  Fast recovery, Rectifier, Schottky, Switching
+   34  Vishay / GBU  |  Through Hole  |  4-SIP, GBU  |  Bridge
    33  Vishay / SOD-64  |  Through Hole  |  SOD-64, Axial  |  Fast recovery, Rectifier
-   32  Vishay / DFN6546A  |  Surface Mount, Wettable Flank  |  8-PowerVDFN  |  Fast recovery, Rectifier
-   26  TSC / TO-263AB (D2PAK)  |  Surface Mount  |  TO-263-3, D2PAK (2 Leads + Tab), TO-263AB  |  Fast recovery, Rectifier, Schottky
+   32  TSC / TO-263AB (D2PAK)  |  Surface Mount  |  TO-263-3, D2PAK (2 Leads + Tab), TO-263AB  |  Fast recovery, Rectifier, Schottky
+   30  onsemi / 5-DFN (5x6) (8-SOFL)  |  Surface Mount  |  8-PowerTDFN, 5 Leads  |  Schottky
+   30  onsemi / DPAK  |  Surface Mount  |  TO-252-3, DPAK (2 Leads + Tab), SC-63  |  Fast recovery, Schottky
+   29  Vishay / WOG  |  Through Hole  |  4-Circular, WOG  |  Bridge
+   27  onsemi / Powermite  |  Surface Mount  |  DO-216AA  |  Fast recovery, Schottky, Zener
    26  Vishay / TO-247AC-2L  |  Through Hole  |  TO-247-2  |  Fast recovery, Rectifier
+   26  onsemi / SC-70-3 (SOT323)  |  Surface Mount  |  SC-70, SOT-323  |  Fast recovery, Schottky, Switching
+   26  onsemi / SOD-123FA  |  Surface Mount  |  SOD-123W  |  Fast recovery, Schottky
+   25  Vishay / DO-214AA (SMBJ)  |  Surface Mount  |  DO-214AA, SMB  |  Zener
+   25  Vishay / GBPC-W  |  Through Hole  |  4-Square, GBPC-W  |  Bridge
+   24  Vishay / ITO-220AB  |  Through Hole  |  TO-220-3 Full Pack, Isolated Tab  |  Schottky
+   24  onsemi / DO-214AA (SMB)  |  Surface Mount  |  DO-214AA, SMB  |  Fast recovery, Rectifier, Schottky
+   23  TSC / ABS  |  Surface Mount  |  4-SMD, Gull Wing  |  Bridge
+   23  TSC / SOD-323  |  Surface Mount  |  SC-76, SOD-323  |  Fast recovery, Schottky, Switching, Zener
    23  Vishay / DO-214BA (GF1)  |  Surface Mount  |  DO-214BA  |  Fast recovery, Rectifier
-   23  Vishay / SOT-23-3  |  Surface Mount  |  TO-236-3, SC-59, SOT-23-3  |  Fast recovery, Schottky, Switching
    23  Vishay / TO-220-2 Full Pack  |  Through Hole  |  TO-220-2 Full Pack  |  Fast recovery, Rectifier
-   23  Vishay / TO-263AC (SMPD)  |  Surface Mount  |  TO-263-3, D2PAK (2 Leads + Tab), Variant  |  Fast recovery, Rectifier, Schottky
+   23  onsemi / SOT-23-3  |  Surface Mount  |  TO-236-3, SC-59, SOT-23-3  |  Schottky, Switching
+   23  onsemi / TO-220  |  Through Hole  |  TO-220-3  |  Fast recovery, Schottky
+   22  TSC / DO-35  |  Through Hole  |  DO-204AH, DO-35, Axial  |  Switching, Zener
+   22  Vishay / D-72  |  Through Hole  |  4-Square, D-72  |  Bridge
    22  Vishay / DO-213AA (GL34)  |  Surface Mount  |  DO-213AA (Glass)  |  Fast recovery, Rectifier
-   22  Vishay / MicroMELF  |  Surface Mount  |  2-SMD, No Lead  |  Fast recovery, Schottky, Switching
    22  Vishay / P600  |  Through Hole  |  P600, Axial  |  Rectifier
-   19  Vishay / SOD-80 QuadroMELF  |  Surface Mount  |  SOD-80 Variant  |  Fast recovery, Schottky, Switching
-   19  onsemi / TO-220-2  |  Through Hole  |  TO-220-2  |  Fast recovery, Schottky
-   17  TSC / SOD-323F  |  Surface Mount  |  SC-90, SOD-323F  |  Fast recovery, Schottky, Switching
-   16  onsemi / SOT-23-3 (TO-236)  |  Surface Mount  |  TO-236-3, SC-59, SOT-23-3  |  Schottky, Switching
+   21  Vishay / TO-220AB  |  Through Hole  |  TO-220-3  |  Fast recovery, Schottky
+   21  onsemi / GBU  |  Through Hole  |  4-SIP, GBU  |  Bridge
+   21  onsemi / TO-220-2  |  Through Hole  |  TO-220-2  |  Fast recovery, Schottky
+   19  Vishay / DFM  |  Through Hole  |  4-EDIP (0.300", 7.62mm)  |  Bridge
+   19  onsemi / DO-214AB (SMC)  |  Surface Mount  |  DO-214AB, SMC  |  Fast recovery, Rectifier, Schottky
+   19  onsemi / GBPC-W  |  Through Hole  |  4-Square, GBPC-W  |  Bridge
+   19  onsemi / SMC  |  Surface Mount  |  DO-214AB, SMC  |  Fast recovery, Schottky
+   18  Vishay / isoCINK+™ BU  |  Through Hole  |  4-SIP, BU  |  Bridge
+   17  TSC / GBL  |  Through Hole  |  4-SIP, GBL  |  Bridge
+   17  Vishay / FlatPAK 5x6 (Dual)  |  Surface Mount  |  8-PowerTDFN  |  Fast recovery, Schottky
+   17  Vishay / GSIB-5S  |  Through Hole  |  4-SIP, GSIB-5S  |  Bridge
+   16  onsemi /   |    |    |  Rectifier, Switching, Zener
+   16  onsemi / 2-X3DFN (0.6x0.3) (0201)  |  Surface Mount  |  0201 (0603 Metric)  |  Schottky, Zener
+   16  onsemi / SC-75, SOT-416  |  Surface Mount  |  SC-75, SOT-416  |  Schottky, Switching
+   16  onsemi / SOD-80  |  Surface Mount  |  DO-213AC, MINI-MELF, SOD-80  |  Switching
+   15  TSC / KBU  |  Through Hole  |  4-SIP, KBU  |  Bridge
    15  Vishay / MPG06  |  Through Hole  |  MPG06, Axial  |  Fast recovery, Rectifier
-   15  onsemi / SOD-80  |  Surface Mount  |  DO-213AC, MINI-MELF, SOD-80  |  Switching
-   14  Vishay / TO-220-3  |  Through Hole  |  TO-220-3  |  Fast recovery, Rectifier, Schottky
-   14  Vishay / TO-247AC  |  Through Hole  |  TO-247-3  |  Fast recovery, Rectifier, Schottky
-   13  TSC / SOD-123  |  Surface Mount  |  SOD-123  |  Schottky, Switching
-   12  TSC / TO-247AD (TO-3P)  |  Through Hole  |  TO-247-3  |  Fast recovery
-   12  onsemi / DO-214AC (SMA)  |  Surface Mount  |  DO-214AC, SMA  |  Fast recovery
-   11  TSC / TO-220AB  |  Through Hole  |  TO-220-3  |  Fast recovery, Schottky
-   11  Vishay / DO-213AB (GL41)  |  Surface Mount  |  DO-213AB, MELF  |  Schottky
-   10  TSC / SOD-323  |  Surface Mount  |  SC-76, SOD-323  |  Fast recovery, Schottky, Switching
-   10  TSC / SOT-23  |  Surface Mount  |  TO-236-3, SC-59, SOT-23-3  |  Fast recovery, Schottky, Switching
-   10  onsemi / DPAK  |  Surface Mount  |  TO-252-3, DPAK (2 Leads + Tab), SC-63  |  Fast recovery, Schottky
+   15  onsemi / SOD-123F  |  Surface Mount  |  SOD-123F  |  Fast recovery, Rectifier, Schottky
+   14  TSC / SOT-323  |  Surface Mount  |  SC-70, SOT-323  |  Schottky, Switching
+   14  TSC / TS4K  |  Through Hole  |  4-SIP, GBL; 4-SIP, TS4K  |  Bridge
+   14  Vishay / KBU  |  Through Hole  |  4-SIP, KBU  |  Bridge
+   13  Vishay / DO-213AB (GL41)  |  Surface Mount  |  DO-213AB, MELF  |  Schottky, Zener
+   13  onsemi / D2PAK  |  Surface Mount  |  TO-263-3, D2PAK (2 Leads + Tab), TO-263AB  |  Fast recovery, Schottky
+   12  TSC / D3K  |  Through Hole  |  4-ESIP  |  Bridge
+   12  TSC / GBPC-W  |  Through Hole  |  4-Square, GBPC-W  |  Bridge
+   12  TSC / KBPF  |  Through Hole  |  4-SIP, KBPF  |  Bridge
+   12  Vishay / TO-269AA (MBS)  |  Surface Mount  |  TO-269AA, 4-BESOP  |  Bridge
+   12  Vishay / isoCINK+™ PB  |  Through Hole  |  4-SIP, PB  |  Bridge
+   11  TSC / KBJL  |  Through Hole  |  4-SIP, KBJL  |  Bridge
+   11  TSC / Sub SMA  |  Surface Mount  |  DO-219AB  |  Fast recovery, Schottky, Zener
+   11  Vishay / 2KBB  |  Through Hole  |  4-SIP, 2KBB  |  Bridge
+   11  onsemi / SOD-123HE  |  Surface Mount  |  SOD-123H  |  Fast recovery, Rectifier, Schottky
+   11  onsemi / TO-220FP  |  Through Hole  |  TO-220-2 Full Pack; TO-220-3 Full Pack  |  Fast recovery, Schottky
+   11  onsemi / TS-6P  |  Through Hole  |  4-SIP, TS-6P  |  Bridge
+   10  TSC / TBS  |  Surface Mount  |  4-SMD, Gull Wing  |  Bridge
+   10  Vishay / GBL  |  Through Hole  |  4-SIP, GBL  |  Bridge
+   10  onsemi / SOD-323HE  |  Surface Mount  |  SOD-323HE  |  Rectifier, Schottky
+   10  onsemi / SOT-723  |  Surface Mount  |  SOT-723  |  Schottky, Switching
+    9  TSC / TO-269AA (MBS)  |  Surface Mount  |  TO-269AA, 4-BESOP  |  Bridge
+    8  TSC / KBL  |  Through Hole  |  4-SIP, KBL  |  Bridge
     8  TSC / TO-277A (SMPC)  |  Surface Mount  |  TO-277, 3-PowerDFN  |  Fast recovery
-    8  onsemi /   |    |    |  Rectifier
     8  onsemi / DO-15  |  Through Hole  |  DO-204AC, DO-15, Axial  |  Fast recovery
-    7  TSC / ITO-220AB  |  Through Hole  |  TO-220-3 Full Pack, Isolated Tab  |  Fast recovery
-    7  TSC / Sub SMA  |  Surface Mount  |  DO-219AB  |  Fast recovery, Schottky
-    7  Vishay / DFN1006-2A  |  Surface Mount  |  0402 (1006 Metric)  |  Fast recovery, Schottky
+    8  onsemi / SC-59  |  Surface Mount  |  TO-236-3, SC-59, SOT-23-3  |  Switching
+    7  Vishay / GBPC6  |  Through Hole  |  4-Square, GBPC-6  |  Bridge
+    7  Vishay / TO-262AA  |  Through Hole  |  TO-262-3 Long Leads, I2PAK, TO-262AA  |  Fast recovery, Schottky
+    7  onsemi / 4-SDIP  |  Surface Mount  |  4-SMD, Gull Wing  |  Bridge
+    7  onsemi / SMA-FL  |  Surface Mount  |  DO-221AC, SMA Flat Leads  |  Fast recovery, Schottky
+    6  TSC / MBS  |  Surface Mount  |  4-BESOP (0.173", 4.40mm Width)  |  Bridge
+    6  TSC / YBS  |  Surface Mount  |  4-SMD, Flat Leads  |  Bridge
+    6  Vishay / D-44  |  Through Hole  |  4-SIP, D-44  |  Bridge
+    6  Vishay / KBPC1  |  Through Hole  |  4-Square, KBPC-1  |  Bridge
+    6  Vishay / TO-247AD (TO-3P)  |  Through Hole  |  TO-3P-3, SC-65-3  |  Fast recovery, Rectifier
+    6  onsemi / 3-CP  |  Surface Mount  |  TO-236-3, SC-59, SOT-23-3  |  Schottky
+    6  onsemi / 4-SOIC  |  Surface Mount  |  TO-269AA, 4-BESOP  |  Bridge
     6  onsemi / DO-201AD  |  Through Hole  |  DO-201AD, Axial  |  Fast recovery
-    6  onsemi / TO-277-3  |  Surface Mount  |  TO-277, 3-PowerDFN  |  Fast recovery
+    6  onsemi / SC-88/SC70-6/SOT-363  |  Surface Mount  |  6-TSSOP, SC-88, SOT-363  |  Schottky, Switching
     5  TSC / D2PAK-D  |  Surface Mount  |  TO-263-3, D2PAK (2 Leads + Tab), TO-263AB  |  Rectifier
     5  TSC / SOD-123FL  |  Surface Mount  |  SOD-123F  |  Fast recovery, Rectifier
-    5  TSC / SOT-323  |  Surface Mount  |  SC-70, SOT-323  |  Schottky, Switching
     5  Vishay / ITO-220AC  |  Through Hole  |  TO-220-2 Full Pack, Isolated Tab  |  Schottky
-    5  Vishay / SOD-523  |  Surface Mount  |  SC-79, SOD-523  |  Schottky
-    5  onsemi / DO-41  |  Through Hole  |  DO-204AL, DO-41, Axial  |  Fast recovery
-    5  onsemi / Powermite  |  Surface Mount  |  DO-216AA  |  Fast recovery, Schottky
-    5  onsemi / SOD-523  |  Surface Mount  |  SC-79, SOD-523  |  Schottky, Switching
+    5  Vishay / TO-262-3  |  Through Hole  |  TO-262-3 Long Leads, I2PAK, TO-262AA  |  Schottky
+    5  onsemi / TO-247-2  |  Through Hole  |  TO-247-2  |  Fast recovery
+    4  TSC / Mini MELF  |  Surface Mount  |  DO-213AC, MINI-MELF, SOD-80  |  Switching, Zener
+    4  TSC / TO-247  |  Through Hole  |  TO-247-3  |  Schottky
+    4  Vishay / DO-213AB (MELF)  |  Surface Mount  |  DO-213AB, MELF  |  Zener
     4  Vishay / DO-218AC  |  Surface Mount  |  DO-218AC  |  Rectifier
-    4  Vishay / TO-247AD (TO-3P)  |  Through Hole  |  TO-3P-3, SC-65-3  |  Fast recovery, Rectifier
-    4  onsemi / DO-214AA (SMB)  |  Surface Mount  |  DO-214AA, SMB  |  Fast recovery
-    4  onsemi / DO-214AB (SMC)  |  Surface Mount  |  DO-214AB, SMC  |  Fast recovery
+    4  Vishay / KBL  |  Through Hole  |  4-SIP, KBL  |  Bridge
+    4  Vishay / TO-3PF  |  Through Hole  |  SC-94; TO-3PF  |  Fast recovery, Rectifier
+    4  onsemi / 2-DSN (0.60x0.30)  |  Surface Mount  |  0201 (0603 Metric)  |  Schottky
+    4  onsemi / 2-DSN (1.4x0.6)  |  Surface Mount  |  2-XDFN  |  Schottky
+    4  onsemi / 2-DSN (1x0.6), (0402)  |  Surface Mount  |  0402 (1006 Metric)  |  Schottky
+    4  onsemi / 8-DFN (5x6) Dual Flag (SO8FL-Dual)  |  Surface Mount  |  8-PowerTDFN  |  Fast recovery, Schottky
+    4  onsemi / 8-WDFN (3.3x3.3)  |  Surface Mount  |  8-PowerWDFN  |  Schottky
+    4  onsemi / DO-204AL (DO-41)  |  Through Hole  |  DO-204AL, DO-41, Axial  |  Zener
+    4  onsemi / TO-220-3  |  Through Hole  |  TO-220-3  |  Schottky
     3  TSC / 0603  |  Surface Mount  |  0201 (0603 Metric); 0603 (1608 Metric)  |  Schottky, Switching
+    3  TSC / SOT-363  |  Surface Mount  |  6-TSSOP, SC-88, SOT-363  |  Schottky
     3  Vishay / CLP1006-2L  |  Surface Mount  |  0402 (1006 Metric)  |  Schottky
     3  Vishay / CLP1608-2L  |  Surface Mount  |  0603 (1608 Metric)  |  Schottky
-    3  Vishay / ITO-220AB  |  Through Hole  |  TO-220-3 Full Pack, Isolated Tab  |  Schottky
+    3  Vishay / D-38  |  Through Hole  |  4-Square, D-38  |  Bridge
+    3  onsemi / 3-MCP  |  Surface Mount  |  SC-70, SOT-323  |  Schottky
+    3  onsemi / 4-MicroDIP/SMD  |  Surface Mount  |  4-SMD, Gull Wing  |  Bridge
     3  onsemi / DO-214AD (SMAF)  |  Surface Mount  |  DO-214AD, SMAF  |  Fast recovery
-    3  onsemi / SOD-323  |  Surface Mount  |  SC-76, SOD-323  |  Switching
+    3  onsemi / SC-74  |  Surface Mount  |  SC-74, SOT-457  |  Switching
+    3  onsemi / SC-88A (SC-70-5/SOT-353)  |  Surface Mount  |  5-TSSOP, SC-70-5, SOT-353  |  Switching
     3  onsemi / SOD-523F  |  Surface Mount  |  SC-79, SOD-523F  |  Schottky, Switching
-    3  onsemi / SOT-23-3  |  Surface Mount  |  TO-236-3, SC-59, SOT-23-3  |  Schottky, Switching
-    3  onsemi / SOT-723  |  Surface Mount  |  SOT-723  |  Schottky, Switching
-    3  onsemi / TO-220FP  |  Through Hole  |  TO-220-2 Full Pack; TO-220-3 Full Pack  |  Fast recovery, Schottky
-    2  TSC / DO-35  |  Through Hole  |  DO-204AH, DO-35, Axial  |  Switching
+    3  onsemi / TO-247-3  |  Through Hole  |  TO-247-3  |  Fast recovery, Schottky
     2  TSC / SOD-123H  |  Surface Mount  |  SOD-123H  |  Fast recovery
-    2  TSC / SOD-523F  |  Surface Mount  |  SC-79, SOD-523  |  Schottky, Switching
-    2  TSC / SOT-363  |  Surface Mount  |  6-TSSOP, SC-88, SOT-363  |  Schottky
     2  TSC / TO-247BD  |  Through Hole  |  TO-247-2  |  Rectifier
     2  TSC / TO-263 (D2PAK)  |  Surface Mount  |  TO-263-3, D2PAK (2 Leads + Tab), TO-263AB  |  Rectifier
     2  Vishay / CLP0603-2M  |  Surface Mount  |  0201 (0603 Metric)  |  Schottky
     2  Vishay / CLP1406-2L  |  Surface Mount  |  0502 (1406 Metric)  |  Schottky
-    2  Vishay / DO-219AC (microSMF)  |  Surface Mount  |  DO-219AC  |  Schottky
-    2  Vishay / TO-262AA  |  Through Hole  |  TO-262-3 Long Leads, I2PAK, TO-262AA  |  Fast recovery, Schottky
-    2  onsemi / 2-X2DFNW (1x0.6)  |  Surface Mount, Wettable Flank  |  2-XDFN  |  Switching
-    2  onsemi / SC-70-3 (SOT323)  |  Surface Mount  |  SC-70, SOT-323  |  Schottky, Switching
-    2  onsemi / SC-75, SOT-416  |  Surface Mount  |  SC-75, SOT-416  |  Switching
-    2  onsemi / SOD-323F  |  Surface Mount  |  SC-90, SOD-323F  |  Switching
-    2  onsemi / SOD-923  |  Surface Mount  |  SOD-923  |  Schottky, Switching
+    2  onsemi / 2-DSN (1.6x.80)  |  Surface Mount  |  2-XDFN  |  Schottky
+    2  onsemi / LFPAK4 (5x6)  |  Surface Mount  |  SOT-1023, 4-LFPAK  |  Fast recovery
+    2  onsemi / SC-89-3  |  Surface Mount  |  SC-89, SOT-490  |  Schottky, Zener
+    2  onsemi / SOT-563  |  Surface Mount  |  SOT-563, SOT-666  |  Switching
+    2  onsemi / TO-220-2L  |  Through Hole  |  TO-220-2  |  Schottky
+    2  onsemi / TO-252AA  |  Surface Mount  |  TO-252-3, DPAK (2 Leads + Tab), SC-63  |  Fast recovery
+    2  onsemi / TO-263 (D2PAK)  |  Surface Mount  |  TO-263-3, D2PAK (2 Leads + Tab), TO-263AB  |  Fast recovery
     1  TSC / 0805  |  Surface Mount  |  0805 (2012 Metric)  |  Switching
     1  TSC / 1206  |  Surface Mount  |  1206 (3216 Metric)  |  Switching
-    1  TSC / Mini MELF  |  Surface Mount  |  DO-213AC, MINI-MELF, SOD-80  |  Switching
+    1  TSC / ABS-L  |  Surface Mount  |  4-SMD, Gull Wing  |  Bridge
     1  Vishay /   |    |    |  Fast recovery
+    1  Vishay /   |  Surface Mount  |  TO-263-3, D2PAK (2 Leads + Tab), Variant  |  Schottky
+    1  Vishay / KBP  |  Through Hole  |  4-ESIP, KBP  |  Bridge
+    1  Vishay / TO-220 Full Pack  |  Through Hole  |  TO-220-3 Full Pack  |  Fast recovery
     1  Vishay / TO-220AC Full Pack  |  Through Hole  |  TO-220-2 Full Pack  |  Fast recovery
-    1  Vishay / TO-3PF  |  Through Hole  |  SC-94  |  Fast recovery
-    1  onsemi / 5-DFN (5x6) (8-SOFL)  |  Surface Mount  |  8-PowerTDFN, 5 Leads  |  Schottky
-    1  onsemi / D2PAK  |  Surface Mount  |  TO-263-3, D2PAK (2 Leads + Tab), TO-263AB  |  Schottky
-    1  onsemi / SOD-123  |  Surface Mount  |  SOD-123  |  Schottky
-    1  onsemi / SOD-123F  |  Surface Mount  |  SOD-123F  |  Fast recovery
-    1  onsemi / TO-220  |  Through Hole  |  TO-220-3  |  Schottky
-    1  onsemi / TO-247-2  |  Through Hole  |  TO-247-2  |  Fast recovery
-    1  onsemi / TO-247-3  |  Through Hole  |  TO-247-3  |  Fast recovery
+    1  Vishay / TO-263 (D2PAK)  |  Surface Mount  |  TO-263-3, D2PAK (2 Leads + Tab), TO-263AB  |  Fast recovery
+    1  onsemi /   |  Through Hole  |  4-SIP, DBF  |  Bridge
+    1  onsemi / 2-DSN (1.6x0.8), (0603)  |  Surface Mount  |  0603 (1608 Metric)  |  Schottky
+    1  onsemi / 2-X2DFN (1x0.6)  |  Surface Mount  |  2-XDFN  |  Schottky
+    1  onsemi / 4-UDFN (3.5x3.5)  |  Surface Mount  |  4-UDFN Exposed Pad  |  Bridge
+    1  onsemi / 5-CPH  |  Surface Mount  |  SC-74A, SOT-753  |  Schottky
+    1  onsemi / SOD-323FL  |  Surface Mount  |  SC-90, SOD-323F  |  Zener
+    1  onsemi / SOD-723  |  Surface Mount  |  SOD-723  |  Schottky
+    1  onsemi / SOT-89/PCP-1  |  Surface Mount  |  TO-243AA  |  Schottky
+    1  onsemi / TO-220-3 Full Pack  |  Through Hole  |  TO-220-3 Full Pack  |  Fast recovery
+    1  onsemi / TO-3P  |  Through Hole  |  TO-3P-3, SC-65-3  |  Fast recovery
     1  onsemi / TO-3PF-3  |  Through Hole  |  TO-3P-3 Full Pack  |  Fast recovery
+    1  onsemi / TO-3PN  |  Through Hole  |  TO-3P-3, SC-65-3  |  Fast recovery
