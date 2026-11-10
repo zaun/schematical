@@ -17,6 +17,11 @@ int led_pins(const Part *part, size_t *anode, size_t *cathode);
 /* led_pins for charlcd parts (charlcd.c). */
 int charlcd_backlight_pins(const Part *part, size_t *anode, size_t *cathode);
 
+/* A diode part's k-th link (0-based): its anode and cathode pins, as
+   indices into Part.pins (diode.c). Links are the device's pairs, then the
+   ties between same-named pins (both ways). 0 past the last link. */
+int diode_pair(const Part *part, size_t k, size_t *anode, size_t *cathode);
+
 /* A switch position's (1-based) two contact pins, as indices into Part.pins. */
 int switch_contact_pins(const Part *part, unsigned position, size_t *a, size_t *b);
 

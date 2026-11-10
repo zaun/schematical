@@ -12,6 +12,7 @@
 #include "read_file.h"
 #include "voltage.h"
 #include "voltage_fixture.h"
+#include "diode_fixture.h"
 
 static int failures;
 static PartLibrary *library;
@@ -376,6 +377,43 @@ static void check_leds(void) {
     expect(none(&n), "an LED carries voltage anode to cathode only");
 }
 
+/* plan-29-H: a diode carries its anode's level to its cathode net. */
+static void check_diodes(void) {
+    Netlist n = {0};
+    size_t auc;
+    size_t hc;
+    size_t d;
+    size_t cathode;
+
+    hc = powered_gate(&n, "VFX-HC1G00", "5V");
+    d = add(&n, "DFX-D1");
+    cathode = net(&n);
+    wire(&n, d, "2", supply(&n, "5V"));       /* anode */
+    wire(&n, d, "1", cathode);
+    wire(&n, hc, "1", cathode);
+    expect(none(&n), "a diode carries 5 V to a 5 V gate's input on its cathode: fine");
+
+    memset(&n, 0, sizeof n);
+    auc = powered_gate(&n, "VFX-AUC1G00", "1V8");
+    d = add(&n, "DFX-D1");
+    cathode = net(&n);
+    wire(&n, d, "2", supply(&n, "5V"));       /* anode */
+    wire(&n, d, "1", cathode);
+    wire(&n, auc, "1", cathode);
+    expect(only(&n, VOLTAGE_INPUT_OVER) && n.problems[0].net == cathode &&
+               n.problems[0].mv == 5000 && n.problems[0].part == auc,
+           "a diode carries its anode's 5 V to a 3.6 V-max input on its cathode");
+
+    memset(&n, 0, sizeof n);
+    auc = powered_gate(&n, "VFX-AUC1G00", "1V8");
+    d = add(&n, "DFX-D1");
+    cathode = net(&n);
+    wire(&n, d, "1", supply(&n, "5V"));       /* cathode on 5V */
+    wire(&n, d, "2", cathode);                /* anode net */
+    wire(&n, auc, "1", cathode);
+    expect(none(&n), "a diode carries voltage anode to cathode only");
+}
+
 static void check_no_data(void) {
     Netlist n = {0};
     Part copy;
@@ -580,7 +618,7 @@ static void check_analog(void) {
 int main(void) {
     library = part_library_create();
     if (library == NULL || load_parts_dir(library, PARTS_DIR) != 0 ||
-        load_voltage_fixture(library) != 0) {
+        load_voltage_fixture(library) != 0 || load_diode_fixture(library) != 0) {
         printf("FAIL: cannot load the part library\n");
         return 1;
     }
@@ -590,6 +628,7 @@ int main(void) {
     check_supplies();
     check_switches();
     check_leds();
+    check_diodes();
     check_no_data();
     check_order();
     check_domains();

@@ -19,7 +19,7 @@
 #include "trace_core.h"
 
 /* The last PartKind (plan-10 moves it as kinds are added). */
-#define TRACE_LAST_KIND PART_RTC
+#define TRACE_LAST_KIND PART_DIODE
 
 static int set_switch(Sim *sim, SimInstance *instance, size_t position, int on) {
     const SimComponentType *type = sim_instance_type(instance);

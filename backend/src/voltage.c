@@ -280,6 +280,38 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
                     continue;
                 }
             }
+            /* A diode: each link carries its anode's level to its cathode
+               net. A diode has no vcc. */
+            if (part->kind == PART_DIODE) {
+                size_t k;
+
+                for (k = 0; diode_pair(part, k, &anode, &cathode); k++) {
+                    Level from = {0, 0};
+                    Level to;
+
+                    for (j = 0; j < connection_count; j++) {
+                        if (connections[j].part == i && connections[j].pin == anode &&
+                            connections[j].net < net_count) {
+                            Level e = effective(supply, driven, pulled, carried, find(parent, connections[j].net));
+
+                            if (e.known) {
+                                level_raise(&from, e.mv);
+                            }
+                        }
+                    }
+                    for (j = 0; from.known && j < connection_count; j++) {
+                        if (connections[j].part == i && connections[j].pin == cathode &&
+                            connections[j].net < net_count) {
+                            size_t g = find(parent, connections[j].net);
+
+                            to = carried[g];
+                            level_raise(&carried[g], from.mv);
+                            changed |= to.known != carried[g].known || to.mv != carried[g].mv;
+                        }
+                    }
+                }
+                continue;
+            }
             if (part->vcc == NULL) {
                 continue;
             }

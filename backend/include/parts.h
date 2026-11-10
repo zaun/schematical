@@ -25,7 +25,7 @@ typedef enum {
     PART_GATE, PART_DFF, PART_JKFF, PART_SRAM, PART_SWITCH,
     PART_LED, PART_7SEG, PART_OSCILLATOR, PART_SUPPLY, PART_EEPROM, PART_LATCH, PART_COUNTER,
     PART_SHIFT, PART_CPU, PART_CHARLCD, PART_SERIAL, PART_CONNECTOR, PART_PIO, PART_DECODER,
-    PART_BUFFER, PART_MUX, PART_HEADER, PART_ARITH, PART_CONVERTER, PART_RTC
+    PART_BUFFER, PART_MUX, PART_HEADER, PART_ARITH, PART_CONVERTER, PART_RTC, PART_DIODE
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -120,6 +120,13 @@ typedef struct { unsigned rows; const char *const *genders; size_t gender_count;
 /* An ADC or DAC (plan-24-D): type "adc" or "dac"; bits: resolution; channels:
    ADC inputs / DAC outputs. Only the digital side is simulated. */
 typedef struct { const char *type; unsigned bits, channels; } PartConverter;
+/* A diode part (plan-29-H): type "rectifier", "fast", "switching",
+   "schottky", "zener" or "bridge"; diode_count: the device's (anode,
+   cathode) pairs. vr_mv / io_ma: max repetitive reverse voltage and average
+   forward current per diode (0 for a zener); vz_mv / pd_mw: nominal Zener
+   voltage and max power dissipation (zener only, else 0). */
+typedef struct { const char *type; size_t diode_count;
+                 uint32_t vr_mv, io_ma, vz_mv, pd_mw; } PartDiode;
 
 /* ---- Footprints (Parts/footprints.json, docs/parts-format.md) ----------- */
 
@@ -169,6 +176,7 @@ typedef struct Part {
     const PartSram *sram;
     const PartSwitch *dip_switch;
     const PartLed *led;
+    const PartDiode *diode;
     const PartDisplay *display;
     const PartOscillator *oscillator;
     const PartSupply *supply;

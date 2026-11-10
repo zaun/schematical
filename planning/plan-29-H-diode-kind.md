@@ -352,20 +352,35 @@ Commit: 737b58d
 
 Acceptance: the § 4.3 table holds and no existing trace moved.
   Check: `cmake --build /tmp/logic-p29 -j8 && /tmp/logic-p29/diode_test && /tmp/logic-p29/trace_check` → `0 failure(s)` and pass (est. 3 min).
-Commit: —
+Commit: ef417a0
 
 ### Phase 3 — The `diode` kind and the voltage carry
 
-- [ ] `parts.h`, `models/diode.c`, `kinds.c`, `model_pins.h`, `voltage.c`,
+- [x] `parts.h`, `models/diode.c`, `kinds.c`, `model_pins.h`, `voltage.c`,
       `listing.c`, `listing_check.c`, `trace_check.c`, `Parts/diode.json`
-      (empty) (§ 5.2).
-- [ ] `diode_test.c`: the fixture-device cases of § 6 (run, tab tie,
+      (empty) (§ 5.2). Also `backend/CMakeLists.txt` (`src/models/diode.c`
+      in the library sources). Part keys are checked per type in
+      `load_part`: a zener refuses `vr` / `io`, the others refuse `vz` /
+      `pd`.
+- [x] `diode_test.c`: the fixture-device cases of § 6 (run, tab tie,
       contact in a cluster); `library_check.c`: the loader errors;
-      `voltage_test.c`: the two voltage cases.
+      `voltage_test.c`: the two voltage cases. The fixtures (DFX-D1 K A,
+      DFX-D2 A1 A2 K, DFX-D3 K A K-tab) are `tests/support/diode_fixture.h`,
+      shared by both tests; the run case is the engine one of Phase 2, and
+      a DFX-D2 diode-OR in a library circuit is added. The voltage cases use
+      the plan-07-B fixture gates (VFX-HC1G00 on 5 V for "carried, fine",
+      VFX-AUC1G00, 3.6 V input max, for the input problem) instead of
+      SN74HC00N, plus the reverse case (cathode on 5 V carries nothing).
+      Checked: `diode_test` → 17 PASS, `0 failure(s)`; `library_check` →
+      `ok   valid diode parts` and 9 `ok` error cases (unknown type, empty
+      `diodes`, unknown pin, `input` pin, inout pin in no diode, `vz` on a
+      rectifier, missing `vr`, `vr` 0, zener with `vr`), exit 0;
+      `voltage_test` → the 3 diode PASS lines, `all passed`.
 
 Acceptance: the kind loads, its errors are named, and the voltage check
 carries through a diode.
-  Check: `cmake --build /tmp/logic-p29 -j8 && ctest --test-dir /tmp/logic-p29` → `100% tests passed`, 28 programs (T0 + 1), and `git diff --stat backend/tests/golden` → empty (est. 5 min).
+  Check: `cmake --build /tmp/logic-p29 -j8 && ctest --test-dir /tmp/logic-p29` → `100% tests passed`, 30 programs (T0 + 1, T0 = 29), and `git diff --stat backend/tests/golden` → empty (est. 5 min).
+  Result 2026-11-09: `100% tests passed, 0 tests failed out of 30`; `grep -c '^logic_test' backend/CMakeLists.txt` → 30; golden diff empty.
 Commit: —
 
 ### Phase 4 — Docs

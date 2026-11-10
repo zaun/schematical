@@ -30,6 +30,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_ARITH: return "arith";
         case PART_CONVERTER: return "converter";
         case PART_RTC: return "rtc";
+        case PART_DIODE: return "diode";
     }
     return "?";
 }
@@ -80,6 +81,16 @@ static void print_details(FILE *out, const Part *part) {
             break;
         case PART_RTC:
             fputs("clock", out);
+            break;
+        case PART_DIODE:
+            fprintf(out, "type=%s diodes=%zu", part->diode->type, part->diode->diode_count);
+            if (part->diode->vz_mv > 0) {
+                fprintf(out, " vz=%u pd=%u", (unsigned)part->diode->vz_mv,
+                        (unsigned)part->diode->pd_mw);
+            } else {
+                fprintf(out, " vr=%u io=%u", (unsigned)part->diode->vr_mv,
+                        (unsigned)part->diode->io_ma);
+            }
             break;
         case PART_SRAM:
             fprintf(out, "words=%u bits=%u access_ps=%llu", (unsigned)part->sram->words,

@@ -20,6 +20,7 @@ add_library(logic STATIC
     src/models/dff.c
     src/models/jkff.c
     src/models/switch.c
+    src/models/diode.c
     src/models/sram.c
     src/models/display7.c
     src/models/supply.c

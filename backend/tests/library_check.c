@@ -316,6 +316,66 @@ static void check_rtc_cases(void) {
 #undef CONV_DEVICE
 #undef CONV_REG
 
+/* plan-29-H: the diode kind. */
+#define DIODE_PIN(N, NAME, ROLE) "{'number':" #N ",'name':'" NAME "','role':'" ROLE "'}"
+#define DIODE_DEVICE(TYPE, PINS, DIODES, PART_KEYS) \
+    HEAD("diode") "{'id':'D','function':'Diode','description':'d','drawer':['Discrete','Diodes']," \
+    "'pinouts':{'p':[" PINS "]},'type':'" TYPE "','diodes':[" DIODES "]," \
+    "'parts':[{'name':'D-1','package':'SMA','pinout':'p','footprint':'T2'" PART_KEYS "}]}" TAIL
+#define DIODE_KA DIODE_PIN(1, "K", "inout") "," DIODE_PIN(2, "A", "inout")
+#define DIODE_PAIR "{'anode':'A','cathode':'K'}"
+
+static void check_diode_cases(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library, DIODE_DEVICE("schottky", DIODE_KA, DIODE_PAIR, ",'vr':40,'io':1"), &error) == 0);
+    part = part_library_find(library, "D-1");
+    CHECK(part != NULL && part->kind == PART_DIODE && part->vcc == NULL && part->diode != NULL &&
+          strcmp(part->diode->type, "schottky") == 0 && part->diode->diode_count == 1 &&
+          part->diode->vr_mv == 40000 && part->diode->io_ma == 1000);
+    free(error);
+    part_library_destroy(library);
+    library = part_library_create();
+    error = NULL;
+    CHECK(load(library, DIODE_DEVICE("zener", DIODE_KA, DIODE_PAIR, ",'vz':5.1,'pd':0.5"), &error) == 0);
+    part = part_library_find(library, "D-1");
+    CHECK(part != NULL && part->diode->vz_mv == 5100 && part->diode->pd_mw == 500 &&
+          part->diode->vr_mv == 0);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   valid diode parts\n");
+    expect_fail("diode unknown type", DIODE_DEVICE("tunnel", DIODE_KA, DIODE_PAIR, ",'vr':40,'io':1"),
+                "unknown diode type \"tunnel\"");
+    expect_fail("diode empty diodes", DIODE_DEVICE("rectifier", DIODE_KA, "", ",'vr':40,'io':1"),
+                "\"diodes\" must be a non-empty array");
+    expect_fail("diode unknown pin name",
+                DIODE_DEVICE("rectifier", DIODE_KA, "{'anode':'A','cathode':'C'}", ",'vr':40,'io':1"),
+                "no pin named \"C\"");
+    expect_fail("diode input pin",
+                DIODE_DEVICE("rectifier", DIODE_PIN(1, "K", "inout") "," DIODE_PIN(2, "A", "input"),
+                             DIODE_PAIR, ",'vr':40,'io':1"),
+                "diode pin \"A\" must be inout");
+    expect_fail("diode inout pin in no diode",
+                DIODE_DEVICE("rectifier", DIODE_KA "," DIODE_PIN(3, "X", "inout"), DIODE_PAIR,
+                             ",'vr':40,'io':1"),
+                "pin \"X\" is in no diode");
+    expect_fail("diode vz on a rectifier",
+                DIODE_DEVICE("rectifier", DIODE_KA, DIODE_PAIR, ",'vr':40,'io':1,'vz':5"),
+                "\"vz\" is only for a zener");
+    expect_fail("diode missing vr", DIODE_DEVICE("rectifier", DIODE_KA, DIODE_PAIR, ",'io':1"),
+                "missing \"vr\"");
+    expect_fail("diode vr out of range", DIODE_DEVICE("rectifier", DIODE_KA, DIODE_PAIR, ",'vr':0,'io':1"),
+                "\"vr\" must be above 0 and at most 3000");
+    expect_fail("zener with vr", DIODE_DEVICE("zener", DIODE_KA, DIODE_PAIR, ",'vr':5,'vz':5.1,'pd':0.5"),
+                "\"vr\" is not a zener key");
+}
+#undef DIODE_PIN
+#undef DIODE_DEVICE
+#undef DIODE_KA
+#undef DIODE_PAIR
+
 /* plan-14-A: the pio kind checks "model" against its model table. */
 #define PIO_DEVICE(KEYS) \
     HEAD("pio") "{'id':'U','function':'PIA','description':'d','drawer':['Interface']," \
@@ -2846,6 +2906,7 @@ int main(void) {
     check_pio();
     check_converter_cases();
     check_rtc_cases();
+    check_diode_cases();
     check_valid_led();
     check_footprint_choices();
     check_duplicate_across_calls();
