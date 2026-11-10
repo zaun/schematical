@@ -52,6 +52,9 @@ nonisolated struct BoardPlacement: Hashable, Sendable {
     /// use it.
     var style: FootprintStyle = .module
     var side: BoardSide = .top
+    /// Locked: dragging, the sidebar's X and Y, and Rotate leave it where
+    /// it is. New placements are unlocked.
+    var locked = false
 
     static let rotations = [0, 90, 180, 270]
 

@@ -57,6 +57,7 @@ struct ContentView: View {
     @State private var registerWindows: Set<RegisterWindowTarget> = []
     @State private var terminalWindows: Set<TerminalWindowTarget> = []
     @State private var isBillOfMaterialsOpen = false
+    @State private var isDesignRuleCheckOpen = false
     /// Watches for the editing keys: R rotates, A changes the trace angle
     /// and ⌘C / ⌘V copy and paste traces on the PCB, F flips on the
     /// Schematic, ⌘⌫ deletes on both.
@@ -125,11 +126,12 @@ struct ContentView: View {
 
     /// Exactly one footprint or board text selected, which Rotate turns
     /// (plan-15: never a group). A trace doesn't turn. Rotate is only on
-    /// the PCB page, where the simulation never runs.
+    /// the PCB page, where the simulation never runs. Not when it is locked.
     private var canRotate: Bool {
-        if document.selectedTextID != nil { return true }
-        guard let id = document.selectedFootprintID else { return false }
-        return document.chips.first { $0.id == id }?.board != nil
+        if let id = document.selectedTextID { return !document.isLocked(.text(id)) }
+        guard let id = document.selectedFootprintID,
+              let board = document.chips.first(where: { $0.id == id })?.board else { return false }
+        return !board.locked
     }
 
     /// The Rotate button: turns the selected board text, else the selected
@@ -544,6 +546,10 @@ struct ContentView: View {
                     dismissWindow(id: "bom", value: BillOfMaterialsTarget(sessionID: sessionID))
                     isBillOfMaterialsOpen = false
                 }
+                if isDesignRuleCheckOpen {
+                    dismissWindow(id: "drc", value: DesignRuleCheckTarget(sessionID: sessionID))
+                    isDesignRuleCheckOpen = false
+                }
             }
             .focusedSceneValue(\.schematicFile, file)
             // Edit › Undo / Redo act on the page shown (plan-31-D).
@@ -552,6 +558,11 @@ struct ContentView: View {
                 isBillOfMaterialsOpen = true
                 openWindow(id: "bom", value: BillOfMaterialsTarget(sessionID: sessionID))
             }
+            // The check is of the PCB, so it opens from the PCB page only.
+            .focusedSceneValue(\.openDesignRuleCheck, page == .pcb ? {
+                isDesignRuleCheckOpen = true
+                openWindow(id: "drc", value: DesignRuleCheckTarget(sessionID: sessionID))
+            } : nil)
             .background(WindowReader { file.window = $0 })
             .navigationTitle(file.displayName)
     }

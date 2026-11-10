@@ -117,6 +117,8 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         var style: String? = nil
         /// `BoardSide` raw value; missing means top.
         var side: String? = nil
+        /// True when its position is locked; left out otherwise.
+        var locked: Bool? = nil
     }
 
     /// The PCB: size in mm, copper layers, colour and sidebar units (raw
@@ -130,6 +132,40 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         var units: String? = nil
         /// The component grid, mm; the trace grid is half of it.
         var grid: Double? = nil
+        /// `BoardType` raw value; missing means custom.
+        var type: String? = nil
+        /// The id of the bus the card edge uses; written only while it
+        /// counts (a card, and a bus with as many wires as its pins).
+        var edgeBus: UUID? = nil
+        /// A custom card's edge (`type` "customCard"); missing keys mean
+        /// the defaults.
+        var card: CardEntry? = nil
+        /// The settings of a PCI Express, M.2, Mini PCIe, SO-DIMM or DIMM
+        /// card; missing keys mean the defaults.
+        var cardOptions: OptionsEntry? = nil
+
+        struct OptionsEntry: Codable, Equatable, Sendable {
+            var lanes: Int? = nil
+            var lowProfile: Bool? = nil
+            var length: Int? = nil
+            var key: String? = nil
+            var halfSize: Bool? = nil
+            var memory: String? = nil
+            var registered: Bool? = nil
+        }
+
+        struct CardEntry: Codable, Equatable, Sendable {
+            var pads: Int? = nil
+            var pitch: Double? = nil
+            var padWidth: Double? = nil
+            var padLength: Double? = nil
+            var padOffset: Double? = nil
+            var depth: Double? = nil
+            var indent: Double? = nil
+            var margin: Double? = nil
+            var chamfer: Double? = nil
+            var bothSides: Bool? = nil
+        }
         /// One entry per copper layer on the board, in stack order. Missing
         /// entries, colours or types mean the defaults.
         var layerStyles: [LayerStyleEntry]? = nil
@@ -149,6 +185,8 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
             var y: Double
             var drill: Double? = nil
             var diameter: Double? = nil
+            /// True when its position is locked; left out otherwise.
+            var locked: Bool? = nil
         }
 
         /// A trace: its copper layer (`CopperLayer` raw value), width in
@@ -158,6 +196,8 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
             var layer: String
             var width: Int? = nil
             var points: [Point]
+            /// True when its position is locked; left out otherwise.
+            var locked: Bool? = nil
         }
 
         /// A copper layer's colour ("#RRGGBB") and type (`LayerType` raw
@@ -180,6 +220,8 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
             var rotation: Int? = nil
             /// `BoardSide` raw value; missing means top.
             var side: String? = nil
+            /// True when its position is locked; left out otherwise.
+            var locked: Bool? = nil
         }
     }
 
@@ -267,6 +309,15 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
     /// touch) and its wires in list order.
     struct Bus: Codable, Equatable, Sendable {
         var id: UUID
+        /// Always written; missing (older files) means "BUS <n>", numbered
+        /// in file order.
+        var name: String? = nil
+        /// `BoardType` raw value; written only when not custom.
+        var type: String? = nil
+        /// A custom card's edge, for `type` "customCard".
+        var card: Board.CardEntry? = nil
+        /// The settings of a PCI Express, M.2, Mini PCIe, SO-DIMM or DIMM type.
+        var cardOptions: Board.OptionsEntry? = nil
         var lines: [BusLineEntry]
         var wires: [BusWireEntry]
         /// Always written (empty allowed); missing means none.
@@ -410,7 +461,7 @@ extension SchematicFile {
                               origin: $0.origin.rawValue, outline: $0.outline.rawValue,
                               pin1: $0.pin1.rawValue, reference: $0.reference.rawValue,
                               style: chip.part.connectorFootprint == nil ? nil : $0.style.rawValue,
-                              side: $0.side.rawValue)
+                              side: $0.side.rawValue, locked: $0.locked ? true : nil)
                 },
                 memoryFile: chip.memoryFile.map {
                     MemoryFileEntry(path: MemoryFileAccess.path(of: $0.url, schematic: fileURL),
@@ -436,6 +487,10 @@ extension SchematicFile {
         buses = document.buses.map { bus in
             Bus(
                 id: bus.id,
+                name: bus.name,
+                type: bus.card.isCustom ? nil : bus.card.type.rawValue,
+                card: bus.card.type == .customCard ? Self.entry(bus.card.customCard) : nil,
+                cardOptions: bus.card.type.hasOptions ? Self.entry(bus.card.cardOptions) : nil,
                 lines: bus.lines.map {
                     BusLineEntry(id: $0.id, a: Point(x: $0.a.x, y: $0.a.y), b: Point(x: $0.b.x, y: $0.b.y))
                 },
@@ -458,6 +513,10 @@ extension SchematicFile {
             color: settings.color.rawValue,
             units: settings.units.rawValue,
             grid: settings.grid,
+            type: settings.type == .custom ? nil : settings.type.rawValue,
+            edgeBus: document.edgeBusID,
+            card: settings.type == .customCard ? Self.entry(settings.customCard) : nil,
+            cardOptions: settings.type.hasOptions ? Self.entry(settings.cardOptions) : nil,
             layerStyles: settings.copperLayers.map { layer in
                 let style = settings.style(of: layer)
                 return Board.LayerStyleEntry(layer: layer.rawValue, color: style.color.hex, type: style.type.rawValue)
@@ -465,14 +524,16 @@ extension SchematicFile {
             texts: document.texts.map { text in
                 Board.Text(id: text.id, text: text.text, x: text.anchor.x, y: text.anchor.y,
                            size: text.size, layer: text.layer.rawValue, rotation: text.rotation,
-                           side: text.side.rawValue)
+                           side: text.side.rawValue, locked: text.locked ? true : nil)
             },
             traces: document.traces.map { trace in
                 Board.TraceEntry(id: trace.id, layer: trace.layer.rawValue, width: trace.width,
-                                 points: trace.points.map { Point(x: $0.x, y: $0.y) })
+                                 points: trace.points.map { Point(x: $0.x, y: $0.y) },
+                                 locked: trace.locked ? true : nil)
             },
             vias: document.vias.isEmpty ? nil : document.vias.map { via in
-                Board.ViaEntry(id: via.id, x: via.centre.x, y: via.centre.y, drill: via.drill, diameter: via.diameter)
+                Board.ViaEntry(id: via.id, x: via.centre.x, y: via.centre.y, drill: via.drill, diameter: via.diameter,
+                               locked: via.locked ? true : nil)
             }
         )
     }
@@ -645,6 +706,12 @@ extension SchematicFile {
             for port in bus.ports ?? [] { try claim(port.id) }
             placedBuses.append(try Self.modelBus(bus))
         }
+        var busNames = Set<String>()
+        for bus in placedBuses where !bus.name.isEmpty {
+            guard busNames.insert(bus.name.lowercased()).inserted else {
+                throw SchematicFileError.badBus("the bus name \"\(bus.name)\" is used twice")
+            }
+        }
         if let (first, second, point) = SchematicModelBus.firstTouch(placedBuses) {
             throw SchematicFileError.badBus(
                 "buses \(first.uuidString) and \(second.uuidString) touch at \(Self.pointText(point))")
@@ -727,7 +794,8 @@ extension SchematicFile {
             }
             let via = BoardVia(id: entry.id, centre: CGPoint(x: entry.x, y: entry.y),
                                drill: entry.drill ?? BoardVia.defaultDrill,
-                               diameter: entry.diameter ?? BoardVia.defaultDiameter)
+                               diameter: entry.diameter ?? BoardVia.defaultDiameter,
+                               locked: entry.locked ?? false)
             if let problem = BoardVia.problem(drill: via.drill, diameter: via.diameter) {
                 throw SchematicFileError.badPCB("\(name) \(problem)")
             }
@@ -810,6 +878,26 @@ extension SchematicFile {
             settings.grid = grid
         }
         settings.styles = try Self.layerStyles(board.layerStyles ?? [], layers: settings.layers)
+        settings.type = try Self.value(board.type, of: BoardType.self, "board type", default: .custom)
+        settings.edgeBus = board.edgeBus
+        if let entry = board.card { settings.customCard = Self.customCard(entry) }
+        if let entry = board.cardOptions { settings.cardOptions = try Self.cardOptions(entry) }
+        if settings.type.isCard, settings.layers < 2 {
+            throw SchematicFileError.badPCB("board type \(settings.type.rawValue) needs 2 or more layers")
+        }
+        if settings.type == .customCard {
+            let card = settings.customCard
+            settings.width = max(settings.width, card.indent + card.tabLength)
+            settings.height = max(settings.height, card.depth + 1)
+        }
+        if settings.type != .customCard, let card = settings.card {
+            guard settings.layers > 1 else {
+                throw SchematicFileError.badPCB("board type \(settings.type.rawValue) needs 2 or more layers")
+            }
+            // A card's height is its standard's; its length is at least the least.
+            settings.height = card.height
+            settings.width = min(max(settings.width, card.minimumLength), card.maximumLength)
+        }
         return settings
     }
 
@@ -870,7 +958,7 @@ extension SchematicFile {
         if let problem = TraceRoute.problem(points) {
             throw SchematicFileError.badPCB("\(name) \(problem)")
         }
-        return BoardTrace(id: entry.id, layer: layer, width: width, points: points)
+        return BoardTrace(id: entry.id, layer: layer, width: width, points: points, locked: entry.locked ?? false)
     }
 
     /// A stored footprint placement, with defaults for missing keys.
@@ -886,6 +974,7 @@ extension SchematicFile {
         placement.reference = try Self.value(pcb.reference, of: MarkLayer.self, "\(reference) reference",
                                              default: placement.reference)
         placement.side = try Self.value(pcb.side, of: BoardSide.self, "\(reference) side", default: placement.side)
+        placement.locked = pcb.locked ?? false
         return placement
     }
 
@@ -906,6 +995,7 @@ extension SchematicFile {
         }
         result.layer = try Self.value(text.layer, of: TextLayer.self, "\(name) layer", default: result.layer)
         result.side = try Self.value(text.side, of: BoardSide.self, "\(name) side", default: result.side)
+        result.locked = text.locked ?? false
         if let rotation = text.rotation {
             guard BoardPlacement.rotations.contains(rotation) else {
                 throw SchematicFileError.badPCB("\(name) rotation \(rotation) must be 0, 90, 180 or 270")
@@ -917,6 +1007,61 @@ extension SchematicFile {
 
     /// The case whose raw value is `raw`, `fallback` when there is none, or
     /// a `badPCB` error listing the allowed values.
+    // MARK: Card settings (the board's, and a bus's)
+
+    static func entry(_ card: CustomCard) -> Board.CardEntry {
+        Board.CardEntry(pads: card.pads, pitch: card.pitch, padWidth: card.padWidth, padLength: card.padLength,
+                        padOffset: card.padOffset, depth: card.depth, indent: card.indent, margin: card.margin,
+                        chamfer: card.chamfer, bothSides: card.bothSides)
+    }
+
+    static func entry(_ options: CardOptions) -> Board.OptionsEntry {
+        Board.OptionsEntry(lanes: options.pcieLanes, lowProfile: options.lowProfile, length: options.m2Length,
+                           key: options.m2Key.rawValue, halfSize: options.halfSize,
+                           memory: options.memory.rawValue, registered: options.registered)
+    }
+
+    /// A stored custom card edge; missing keys are the defaults, and
+    /// out-of-range settings are brought into range, as the sidebar does.
+    static func customCard(_ entry: Board.CardEntry) -> CustomCard {
+        var card = CustomCard()
+        card.pads = entry.pads ?? card.pads
+        card.pitch = entry.pitch ?? card.pitch
+        card.padWidth = entry.padWidth ?? card.padWidth
+        card.padLength = entry.padLength ?? card.padLength
+        card.padOffset = entry.padOffset ?? card.padOffset
+        card.depth = entry.depth ?? card.depth
+        card.indent = entry.indent ?? card.indent
+        card.margin = entry.margin ?? card.margin
+        card.chamfer = entry.chamfer ?? card.chamfer
+        card.bothSides = entry.bothSides ?? card.bothSides
+        return card.clamped()
+    }
+
+    /// Stored card settings; missing keys are the defaults. Throws `badPCB`.
+    static func cardOptions(_ entry: Board.OptionsEntry) throws -> CardOptions {
+        var options = CardOptions()
+        if let lanes = entry.lanes {
+            guard CardOptions.pcieLaneCounts.contains(lanes) else {
+                throw SchematicFileError.badPCB("card lanes \(lanes) must be 1, 4, 8 or 16")
+            }
+            options.pcieLanes = lanes
+        }
+        options.lowProfile = entry.lowProfile ?? options.lowProfile
+        if let length = entry.length {
+            guard CardOptions.m2Lengths.contains(length) else {
+                throw SchematicFileError.badPCB("card length \(length) must be 30, 42, 60, 80 or 110")
+            }
+            options.m2Length = length
+        }
+        options.m2Key = try Self.value(entry.key, of: M2Key.self, "card key", default: options.m2Key)
+        options.halfSize = entry.halfSize ?? options.halfSize
+        options.memory = try Self.value(entry.memory, of: MemoryGeneration.self, "card memory",
+                                        default: options.memory)
+        options.registered = entry.registered ?? options.registered
+        return options
+    }
+
     private static func value<Choice: RawRepresentable & CaseIterable>(
         _ raw: String?, of type: Choice.Type, _ name: String, default fallback: Choice
     ) throws -> Choice where Choice.RawValue == String {
@@ -946,8 +1091,19 @@ extension SchematicFile {
         let lines = bus.lines.map {
             BusLine(id: $0.id, a: CGPoint(x: $0.a.x, y: $0.a.y), b: CGPoint(x: $0.b.x, y: $0.b.y))
         }
-        let model = SchematicModelBus(
+        var model = SchematicModelBus(
             id: bus.id, lines: lines, wires: bus.wires.map { BusWire(id: $0.id, name: $0.name) })
+        model.name = bus.name?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        // Its type, kept only while the wires are still exactly the card's pins.
+        do {
+            var card = BusCard()
+            card.type = try Self.value(bus.type, of: BoardType.self, "type", default: .custom)
+            if let entry = bus.card { card.customCard = Self.customCard(entry) }
+            if let entry = bus.cardOptions { card.cardOptions = try Self.cardOptions(entry) }
+            if card.pinNames == nil || card.pinNames == model.wires.map(\.name) { model.card = card }
+        } catch let SchematicFileError.badPCB(detail) {
+            throw SchematicFileError.badBus("bus \(id) \(detail)")
+        }
 
         switch model.problem {
         case nil:

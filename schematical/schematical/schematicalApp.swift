@@ -44,6 +44,7 @@ struct schematicalApp: App {
         .commands {
             SchematicFileCommands()
             BillOfMaterialsCommands()
+            DesignRuleCheckCommands()
             UndoCommands()
         }
 
@@ -92,6 +93,15 @@ struct schematicalApp: App {
             }
         }
         .defaultSize(width: 760, height: 420)
+        .restorationBehavior(.disabled)
+
+        // One Design Rule Check per schematic window (Window menu, ⇧⌘D).
+        WindowGroup("Design Rule Check", id: "drc", for: DesignRuleCheckTarget.self) { $target in
+            if let target {
+                DesignRuleCheckWindowView(target: target)
+            }
+        }
+        .defaultSize(width: 720, height: 420)
         .restorationBehavior(.disabled)
 
         // One window per datasheet, opened from a part's Open Datasheet button.

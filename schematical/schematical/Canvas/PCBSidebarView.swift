@@ -78,10 +78,34 @@ struct PCBSidebarView: View {
             case .board:
                 GridSection(document: document)
                 BoardPanel(document: document)
+                if document.board.type == .customCard {
+                    CustomCardSection(document: document)
+                }
+                if document.board.type.hasOptions {
+                    CardOptionsSection(type: document.board.type, options: { document.board.cardOptions },
+                                       set: { document.setCardOptions($0) })
+                }
                 LayersSection(document: document)
             }
         }
         .formStyle(.grouped)
+    }
+}
+
+// MARK: - Lock Position
+
+/// The Lock Position switch of a selected PCB item. A locked item can't be
+/// dragged, and its X, Y and rotation can't be changed. Off by default.
+private struct LockToggle: View {
+    let document: SchematicDocument
+    let item: BoardItem
+
+    var body: some View {
+        Toggle("Lock Position", isOn: Binding(
+            get: { document.isLocked(item) },
+            set: { document.setLocked(item, $0) }
+        ))
+        .help("A locked item can't be moved")
     }
 }
 
@@ -110,21 +134,188 @@ private struct GridSection: View {
     }
 }
 
+// MARK: - Card options
+
+/// The settings of a PCI Express, M.2, Mini PCIe, SO-DIMM or DIMM card;
+/// each picks the matching standard shape and size. Used for the board and
+/// for a bus's type (`options` reads them, `set` stores them).
+struct CardOptionsSection: View {
+    let type: BoardType
+    let options: () -> CardOptions
+    let set: (CardOptions) -> Void
+
+    var body: some View {
+        Section("Card") {
+            switch type {
+            case .pcie:
+                Picker("Lanes", selection: binding(\.pcieLanes)) {
+                    ForEach(CardOptions.pcieLaneCounts, id: \.self) { Text("x\($0)").tag($0) }
+                }
+                .pickerStyle(.segmented)
+                Picker("Bracket", selection: binding(\.lowProfile)) {
+                    Text("Full height").tag(false)
+                    Text("Low profile").tag(true)
+                }
+                .pickerStyle(.segmented)
+            case .m2:
+                Picker("Length", selection: binding(\.m2Length)) {
+                    ForEach(CardOptions.m2Lengths, id: \.self) { Text("22\($0)").tag($0) }
+                }
+                .pickerStyle(.menu)
+                Picker("Key", selection: binding(\.m2Key)) {
+                    ForEach(M2Key.allCases, id: \.self) { Text($0.title).tag($0) }
+                }
+                .pickerStyle(.segmented)
+            case .miniPCIe:
+                Picker("Size", selection: binding(\.halfSize)) {
+                    Text("Full").tag(false)
+                    Text("Half").tag(true)
+                }
+                .pickerStyle(.segmented)
+            case .sodimm, .dimm:
+                Picker("Memory", selection: binding(\.memory)) {
+                    ForEach(MemoryGeneration.allCases, id: \.self) { Text($0.title).tag($0) }
+                }
+                .pickerStyle(.segmented)
+                if type == .dimm, options().memory == .ddr5 {
+                    Toggle("Registered (RDIMM)", isOn: binding(\.registered))
+                        .help("A DDR5 RDIMM's key sits 2.45 mm further right than an unbuffered DIMM's")
+                }
+            default:
+                EmptyView()
+            }
+        }
+    }
+
+    private func binding<Value>(_ field: WritableKeyPath<CardOptions, Value>) -> Binding<Value> {
+        Binding(get: { options()[keyPath: field] }, set: { value in
+            var next = options()
+            next[keyPath: field] = value
+            set(next)
+        })
+    }
+}
+
+// MARK: - Custom card
+
+/// A custom card's edge connector: how many fingers, their size and
+/// spacing, and the tab they sit on. Each change is clamped to fit
+/// (`CustomCard.clamped`) and grows the board to hold the tab.
+private struct CustomCardSection: View {
+    @Bindable var document: SchematicDocument
+
+    var body: some View {
+        let card = document.board.customCard
+        let units = document.board.units
+        Section("Card Edge") {
+            LabeledContent("Pads per side") {
+                HStack {
+                    TextField("Pads per side", value: Binding(
+                        get: { card.pads },
+                        set: { change { $0.pads = $1 }($0) }
+                    ), format: .number)
+                    .multilineTextAlignment(.trailing)
+                    .labelsHidden()
+                    Stepper("", value: Binding(get: { card.pads }, set: { change { $0.pads = $1 }($0) }),
+                            in: CustomCard.padRange)
+                        .labelsHidden()
+                }
+            }
+            Toggle("Both sides", isOn: Binding(get: { card.bothSides }, set: { value in
+                var next = card
+                next.bothSides = value
+                document.setCustomCard(next)
+            }))
+            .help("Fingers on Bottom too (B1, B2, …), under the Top ones (A1, A2, …)")
+            length("Pitch", \.pitch, help: "Finger centre to centre")
+            length("Pad width", \.padWidth)
+            length("Pad length", \.padLength)
+            length("Pad offset", \.padOffset, help: "From the card's bottom edge up to the fingers")
+            length("Depth", \.depth, help: "How far the tab reaches below the card")
+            length("Indent", \.indent, help: "From the card's left edge to the tab")
+            length("Margin", \.margin, help: "From each end of the tab to its outermost finger's centre")
+            length("Chamfer", \.chamfer, help: "The tab's lower corners")
+            LabeledContent("Tab length") {
+                Text(LengthField.format(card.tabLength, units: units, precise: true) + " " + units.title)
+            }
+        }
+    }
+
+    /// A length setting of the card; the field shows what the document kept.
+    private func length(_ title: String, _ field: WritableKeyPath<CustomCard, Double>,
+                        help: String = "") -> some View {
+        LengthField(title: title, millimetres: document.board.customCard[keyPath: field],
+                    units: document.board.units, precise: true) { typed in
+            var next = document.board.customCard
+            next[keyPath: field] = typed
+            document.setCustomCard(next)
+            return document.board.customCard[keyPath: field]
+        }
+        .help(help)
+    }
+
+    /// An integer setting of the card.
+    private func change(_ set: @escaping (inout CustomCard, Int) -> Void) -> (Int) -> Void {
+        { value in
+            var next = document.board.customCard
+            set(&next, value)
+            document.setCustomCard(next)
+        }
+    }
+}
+
 // MARK: - Board
 
-/// Size, copper layers and colour of the board.
+/// Type, size, copper layers and colour of the board.
 private struct BoardPanel: View {
     @Bindable var document: SchematicDocument
 
     var body: some View {
         Section("Board") {
-            LengthField(title: "Width", millimetres: document.board.width, units: document.board.units) {
-                document.setBoardSize(width: $0, height: document.board.height)
-                return document.board.width
+            Picker("Type", selection: Binding(get: { document.board.type }, set: { document.setBoardType($0) })) {
+                ForEach(BoardType.allCases, id: \.self) { type in
+                    Text(type.title).tag(type)
+                }
             }
-            LengthField(title: "Height", millimetres: document.board.height, units: document.board.units) {
-                document.setBoardSize(width: document.board.width, height: $0)
-                return document.board.height
+            .pickerStyle(.menu)
+            .help("Custom is a free rectangle; a card type sets a standard card's size, edge connector and fingers")
+            if document.board.type.isCard {
+                // The schematic bus whose wires are the card's pins, in
+                // order. Only buses with as many wires as the card has pins.
+                Picker("Bus", selection: Binding(get: { document.edgeBusID }, set: { document.setEdgeBus($0) })) {
+                    Text("None").tag(UUID?.none)
+                    ForEach(document.edgeBusChoices) { bus in
+                        Text(bus.name).tag(Optional(bus.id))
+                    }
+                }
+                .pickerStyle(.menu)
+                .help("Buses with \(document.board.pinCount) wires, one per pin of this card")
+            }
+            if document.board.card?.isFixedSize == true {
+                // A cartridge's size is fixed by its shell.
+                LabeledContent("Width") {
+                    Text(LengthField.format(document.board.width, units: document.board.units)
+                         + " " + document.board.units.title)
+                }
+                .help("Fixed by the cartridge")
+            } else {
+                LengthField(title: "Width", millimetres: document.board.width, units: document.board.units) {
+                    document.setBoardSize(width: $0, height: document.board.height)
+                    return document.board.width
+                }
+            }
+            if document.board.type == .custom || document.board.type == .customCard {
+                LengthField(title: "Height", millimetres: document.board.height, units: document.board.units) {
+                    document.setBoardSize(width: document.board.width, height: $0)
+                    return document.board.height
+                }
+            } else {
+                // A card's height is fixed by its standard.
+                LabeledContent("Height") {
+                    Text(LengthField.format(document.board.height, units: document.board.units)
+                         + " " + document.board.units.title)
+                }
+                .help("Fixed by the card standard")
             }
             Picker("Layers", selection: Binding(
                 get: { document.board.layers },
@@ -292,21 +483,25 @@ private struct TextPanel: View {
         }
 
         Section("Position") {
-            LengthField(title: "X", millimetres: text.anchor.x, units: units) {
-                move(to: CGPoint(x: $0, y: text.anchor.y)).x
-            }
-            LengthField(title: "Y", millimetres: text.anchor.y, units: units) {
-                move(to: CGPoint(x: text.anchor.x, y: $0)).y
-            }
-            Picker("Rotation", selection: Binding(
-                get: { text.rotation },
-                set: { document.setTextRotation(text.id, $0) }
-            )) {
-                ForEach(BoardPlacement.rotations, id: \.self) { rotation in
-                    Text("\(rotation)°").tag(rotation)
+            LockToggle(document: document, item: .text(text.id))
+            Group {
+                LengthField(title: "X", millimetres: text.anchor.x, units: units) {
+                    move(to: CGPoint(x: $0, y: text.anchor.y)).x
                 }
+                LengthField(title: "Y", millimetres: text.anchor.y, units: units) {
+                    move(to: CGPoint(x: text.anchor.x, y: $0)).y
+                }
+                Picker("Rotation", selection: Binding(
+                    get: { text.rotation },
+                    set: { document.setTextRotation(text.id, $0) }
+                )) {
+                    ForEach(BoardPlacement.rotations, id: \.self) { rotation in
+                        Text("\(rotation)°").tag(rotation)
+                    }
+                }
+                .pickerStyle(.segmented)
             }
-            .pickerStyle(.segmented)
+            .disabled(text.locked)
         }
 
         .onAppear {
@@ -364,14 +559,18 @@ private struct ViaPanel: View {
     var body: some View {
         let units = document.board.units
         Section("Via") {
-            LengthField(title: "X", millimetres: via.centre.x, units: units, precise: true) {
-                document.setViaCentre(via.id, CGPoint(x: $0, y: via.centre.y))
-                return current.centre.x
+            LockToggle(document: document, item: .via(via.id))
+            Group {
+                LengthField(title: "X", millimetres: via.centre.x, units: units, precise: true) {
+                    document.setViaCentre(via.id, CGPoint(x: $0, y: via.centre.y))
+                    return current.centre.x
+                }
+                LengthField(title: "Y", millimetres: via.centre.y, units: units, precise: true) {
+                    document.setViaCentre(via.id, CGPoint(x: via.centre.x, y: $0))
+                    return current.centre.y
+                }
             }
-            LengthField(title: "Y", millimetres: via.centre.y, units: units, precise: true) {
-                document.setViaCentre(via.id, CGPoint(x: via.centre.x, y: $0))
-                return current.centre.y
-            }
+            .disabled(via.locked)
             LengthField(title: "Hole", millimetres: via.drill, units: units, precise: true) {
                 document.setViaDrill(via.id, $0)
                 return current.drill
@@ -453,6 +652,7 @@ struct TracePanel: View {
                 }
             }
             .pickerStyle(.menu)
+            LockToggle(document: document, item: .trace(trace.id))
         }
 
         Section("Connects") {
@@ -547,13 +747,17 @@ private struct FootprintPanel: View {
                 }
             }
             .pickerStyle(.menu)
+            LockToggle(document: document, item: .footprint(chip.id))
             if let point = chip.boardOrigin {
-                LengthField(title: "X", millimetres: point.x, units: units) {
-                    move(to: CGPoint(x: $0, y: point.y)).x
+                Group {
+                    LengthField(title: "X", millimetres: point.x, units: units) {
+                        move(to: CGPoint(x: $0, y: point.y)).x
+                    }
+                    LengthField(title: "Y", millimetres: point.y, units: units) {
+                        move(to: CGPoint(x: point.x, y: $0)).y
+                    }
                 }
-                LengthField(title: "Y", millimetres: point.y, units: units) {
-                    move(to: CGPoint(x: point.x, y: $0)).y
-                }
+                .disabled(placement.locked)
             }
             LabeledContent("Rotation", value: "\(placement.rotation)°")
         }

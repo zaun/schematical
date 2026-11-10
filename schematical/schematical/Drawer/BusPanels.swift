@@ -1,9 +1,14 @@
 import SwiftUI
 
-/// The inspector for a selected bus: how many wires it carries, and each
-/// wire's display name. Fields commit on Return or when focus leaves them; a
-/// refused value shows the reason in red and puts the field back (the
-/// `ReferenceSection` pattern).
+/// The inspector for a selected bus: its name, its type (Custom, or one of
+/// the PCB's card types, whose pins set the wires), how many wires it
+/// carries, and each wire's display name. A card type sets the wires, so
+/// their count and names are locked until the type is Custom again. The
+/// PCB's card edge using the bus ("In use as card edge") locks the count
+/// only; the names can still change.
+/// Fields commit on Return or when focus leaves them; a refused value shows
+/// the reason in red and puts the field back (the `ReferenceSection`
+/// pattern). Nothing links a bus to the board.
 struct BusPanel: View {
     let document: SchematicDocument
     let busID: UUID
@@ -11,22 +16,91 @@ struct BusPanel: View {
     @State private var countText = ""
     @State private var countError: String?
     @FocusState private var countFocused: Bool
+    @State private var nameText = ""
+    @State private var nameError: String?
+    @FocusState private var nameFocused: Bool
+    @State private var typeError: String?
 
     private var bus: Bus? { document.bus(busID) }
 
     var body: some View {
         if let bus {
+            let inUse = document.edgeBusID == busID
+            let locked = !bus.card.isCustom || inUse
             Form {
                 Section {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("Bus")
+                        Text(bus.name.isEmpty ? "Bus" : bus.name)
                             .font(.title2.bold())
                         Text("\(bus.lines.count) \(bus.lines.count == 1 ? "line" : "lines")")
                             .font(.callout)
                             .foregroundStyle(.secondary)
+                        if inUse {
+                            Label("In use as card edge", systemImage: "info.circle")
+                                .font(.callout)
+                                .foregroundStyle(.secondary)
+                                .help("The PCB's card edge uses this bus: its wire count is locked and it can't be deleted. Its wire names can still change.")
+                        }
                     }
                 }
                 Section("Bus") {
+                    TextField("Name", text: $nameText)
+                        .focused($nameFocused)
+                        .onSubmit(commitName)
+                        .onChange(of: nameFocused) { old, new in
+                            if old, !new { commitName() }
+                        }
+                    if let nameError {
+                        Text(nameError)
+                            .font(.caption)
+                            .foregroundStyle(.red)
+                    }
+                }
+                Section("Details") {
+                    Picker("Type", selection: Binding(get: { bus.card.type }, set: { type in
+                        var card = bus.card
+                        card.type = type
+                        setCard(card)
+                    })) {
+                        ForEach(BoardType.allCases, id: \.self) { type in
+                            Text(type.title).tag(type)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .help("Custom wires are free; a card type sets the wires to the card's pins")
+                    if bus.card.type == .customCard {
+                        LabeledContent("Pads per side") {
+                            Stepper("\(bus.card.customCard.pads)", value: Binding(
+                                get: { bus.card.customCard.pads },
+                                set: { pads in
+                                    var card = bus.card
+                                    card.customCard.pads = pads
+                                    card.customCard = card.customCard.clamped()
+                                    setCard(card)
+                                }
+                            ), in: CustomCard.padRange)
+                        }
+                        Toggle("Both sides", isOn: Binding(get: { bus.card.customCard.bothSides }, set: { on in
+                            var card = bus.card
+                            card.customCard.bothSides = on
+                            setCard(card)
+                        }))
+                    }
+                    if let typeError {
+                        Text(typeError)
+                            .font(.caption)
+                            .foregroundStyle(.red)
+                    }
+                }
+                if bus.card.type.hasOptions {
+                    CardOptionsSection(type: bus.card.type, options: { document.bus(busID)?.card.cardOptions ?? CardOptions() },
+                                       set: { options in
+                                           guard var card = document.bus(busID)?.card else { return }
+                                           card.cardOptions = options
+                                           setCard(card)
+                                       })
+                }
+                Section("Wires") {
                     LabeledContent("Wires") {
                         HStack {
                             TextField("Wires", value: countBinding, format: .number)
@@ -39,6 +113,8 @@ struct BusPanel: View {
                                 .labelsHidden()
                         }
                     }
+                    .disabled(locked)
+                    .help(inUse ? "Locked: in use as the card edge" : locked ? "Set by the bus type" : "")
                     .onChange(of: countFocused) { old, new in
                         if old, !new { commitCount() }
                     }
@@ -52,14 +128,30 @@ struct BusPanel: View {
                     LazyVStack(alignment: .leading, spacing: 6) {
                         ForEach(Array(bus.wires.enumerated()), id: \.element.id) { index, wire in
                             BusWireNameRow(document: document, busID: busID, index: index, wire: wire)
+                                .disabled(!bus.card.isCustom)
+                                .help(bus.card.isCustom ? "" : "Set by the bus type; set Type to Custom to change it")
                         }
                     }
                 }
             }
             .formStyle(.grouped)
-            .onAppear(perform: resetCount)
+            .onAppear {
+                resetCount()
+                nameText = bus.name
+            }
             .onChange(of: bus.wires.count) { _, _ in resetCount() }
+            // Undo, redo and other edits change the name from outside the field.
+            .onChange(of: bus.name) { _, new in nameText = new }
         }
+    }
+
+    private func commitName() {
+        nameError = document.setBusName(busID, nameText)
+        nameText = document.bus(busID)?.name ?? nameText
+    }
+
+    private func setCard(_ card: BusCard) {
+        typeError = document.setBusCard(busID, card)
     }
 
     /// The count field edits `countText`; it is read back on commit.
