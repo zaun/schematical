@@ -1,8 +1,8 @@
 # plan-29-H: Backend — one-way diode links in the engine, the `diode` kind, tests, docs
 
-Last updated: 2026-11-08
+Last updated: 2026-11-09
 Effort: large (3h–1d)
-Depends on: plan-29-G
+Depends on: plan-29-A § Prerequisites only (corrected 2026-11-09, § Corrections)
 
 H adds what a diode does: a one-way link in the net engine (a 1 passes from
 anode to cathode, a 0 from cathode to anode, nothing the other way), the
@@ -38,9 +38,9 @@ plan-29-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-29-G complete | `ls planning/completed/plan-29-G-*.md` → exists | NOT MET (2026-11-08: plan written) |
-| No `diode` kind yet | `grep -c 'PART_DIODE' backend/include/parts.h` → 0 | MET (2026-11-08 at 8cce726) |
-| No other open plan adds an engine link type or a kind after `PART_RTC` | `grep -l 'PART_[A-Z]* *after PART_RTC\|sim_.*diode\|"diodes" hook' planning/plan-*.md \| grep -v plan-29 \| wc -l` → 0 | MET (2026-11-08) |
+| ~~plan-29-G complete~~ (dropped 2026-11-09, § Corrections) | — | moot: H reads no B–G output |
+| No `diode` kind yet | `grep -c 'PART_DIODE' backend/include/parts.h` → 0 | MET (2026-11-09 at a98aecb: 0) |
+| No other open plan adds an engine link type or a kind after `PART_RTC` | `grep -l 'PART_[A-Z]* *after PART_RTC\|sim_.*diode\|"diodes" hook' planning/plan-*.md \| grep -v plan-29 \| wc -l` → 0 | MET (2026-11-09: 0) |
 
 Everything below is written against the world where these hold.
 
@@ -324,8 +324,11 @@ values after `circuit_advance`, plus:
 
 ### Phase 1 — Resolver refactor (neutral)
 
-- [ ] `net.c`: `net_drivers` (§ 4.3 step 1) and `net_resolve_group` on top
-      of it, same results.
+- [x] `net.c`: `net_drivers` (§ 4.3 step 1) and `net_resolve_group` on top
+      of it, same results. Also `net_mask_value`, `net_mask_shorted` (the
+      mask → value / short reading `resolve_cluster` shares). Checked:
+      `trace_check` → `15214 parts compared, 0 skipped`, exit 0;
+      `engine_test` → `0 failure(s)` (build dir /tmp/logic-p29w).
 
 Acceptance: every trace unchanged.
   Check: `cmake --build /tmp/logic-p29 -j8 && /tmp/logic-p29/trace_check && /tmp/logic-p29/engine_test` → both pass (est. 2 min).
@@ -395,6 +398,15 @@ Commit: —
 - **No analog checks** — author (§ 3 Rejected).
 
 ## Corrections
+
+- **H does not depend on G** (2026-11-09) — the chain A → … → G → H in A's
+  header was a serialization, not a data edge: H's engine, kind and tests
+  use inline fixture devices (§ 6) and read nothing B–G produce
+  (`footprints-*.json`, `specs.tsv`). H runs after A's gate, beside A–G;
+  I still needs H (the kind) and B (footprints). The G-complete
+  prerequisite row is moot.
+- **Build dir** — the worktree's build dir is `/tmp/logic-p29w` (the
+  commands' `/tmp/logic-p29` is the main checkout's).
 
 ## Summary
 

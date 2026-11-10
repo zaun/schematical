@@ -42,4 +42,19 @@ void net_resolve(SimNet *net);
  */
 void net_resolve_group(SimNet *const *nets, size_t count);
 
+/* One bit per driven value (LOGIC_0, LOGIC_1, LOGIC_X). */
+#define NET_MASK(value) (1u << (value))
+
+/*
+ * The values driven on the nets, as masks: strong gets a bit per value some
+ * pin drives strong, weak per value some pin drives weak. Z drives are left
+ * out. net_resolve_group is these masks read by net_mask_value.
+ */
+void net_drivers(SimNet *const *nets, size_t count,
+                 unsigned *strong, unsigned *weak);
+/* Z for an empty mask, the value for a single bit, else X. */
+LogicValue net_mask_value(unsigned mask);
+/* Whether a strong mask holds both a 0 and a 1 (a short). */
+int net_mask_shorted(unsigned strong);
+
 #endif

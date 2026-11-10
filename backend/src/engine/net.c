@@ -83,11 +83,10 @@ void net_resolve(SimNet *net) {
     net_resolve_group(&net, 1);
 }
 
-void net_resolve_group(SimNet *const *nets, size_t count) {
-    int strongest = -1;
-    LogicValue result = LOGIC_Z;
-    int strong_high = 0;
-    int strong_low = 0;
+void net_drivers(SimNet *const *nets, size_t count,
+                 unsigned *strong, unsigned *weak) {
+    unsigned s = 0;
+    unsigned w = 0;
     size_t n;
     size_t i;
 
@@ -96,34 +95,52 @@ void net_resolve_group(SimNet *const *nets, size_t count) {
 
         for (i = 0; i < net->pin_count; i++) {
             const SimNetPin *pin = &net->pins[i];
-            int strength;
 
             if (pin->drive == LOGIC_Z) {
                 continue;
             }
-
             if (pin->strength == DRIVE_STRONG) {
-                if (pin->drive == LOGIC_1) {
-                    strong_high = 1;
-                } else if (pin->drive == LOGIC_0) {
-                    strong_low = 1;
-                }
-            }
-
-            strength = (int)pin->strength;
-
-            if (strength > strongest) {
-                strongest = strength;
-                result = pin->drive;
-            } else if (strength == strongest && result != pin->drive) {
-                result = LOGIC_X;
+                s |= NET_MASK(pin->drive);
+            } else {
+                w |= NET_MASK(pin->drive);
             }
         }
     }
+    *strong = s;
+    *weak = w;
+}
+
+LogicValue net_mask_value(unsigned mask) {
+    switch (mask) {
+    case 0:
+        return LOGIC_Z;
+    case NET_MASK(LOGIC_0):
+        return LOGIC_0;
+    case NET_MASK(LOGIC_1):
+        return LOGIC_1;
+    default:
+        return LOGIC_X;
+    }
+}
+
+int net_mask_shorted(unsigned strong) {
+    return (strong & NET_MASK(LOGIC_0)) && (strong & NET_MASK(LOGIC_1));
+}
+
+void net_resolve_group(SimNet *const *nets, size_t count) {
+    unsigned strong;
+    unsigned weak;
+    LogicValue result;
+    int shorted;
+    size_t n;
+
+    net_drivers(nets, count, &strong, &weak);
+    result = net_mask_value(strong != 0 ? strong : weak);
+    shorted = net_mask_shorted(strong);
 
     for (n = 0; n < count; n++) {
         nets[n]->value = result;
-        nets[n]->shorted = strong_high && strong_low;
+        nets[n]->shorted = shorted;
     }
 }
 

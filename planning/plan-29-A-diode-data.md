@@ -1,7 +1,7 @@
 # plan-29-A: Diodes — census, datasheet downloads, first decisions
 
 Last updated: 2026-11-09
-Overall Effort: huge (> 3d) — plan-29 is A → B → C → D → E → F → G → H → I → J → K → L → M → N
+Overall Effort: huge (> 3d) — plan-29 is A → B → C → D → E → F → G → I → J → K → L → M → N, with H after A only (H → I; corrected 2026-11-09, H § Corrections)
 Effort: large (3h–1d)
 Depends on: nothing (§ Prerequisites)
 
