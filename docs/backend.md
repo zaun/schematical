@@ -76,10 +76,40 @@ Notes:
   (plan-27-D).
 - `circuit_advance` returns 0 once the run has stopped (a short circuit is
   `"smoke: ..."`, and `circuit_shorted_net` names the net).
+- **Diodes** (plan-29-H). A diode part drives nothing; each of its
+  (anode, cathode) pairs is a one-way link in the engine, reported by the
+  model's `diodes` hook (`sim.h`) and collected once by `sim_start`. A 1
+  passes from anode to cathode and a 0 from cathode to anode. Contact
+  groups joined by links form a *cluster*, resolved as one unit by
+  `resolve_cluster` (`sim.c`): each group gets the masks of its own
+  drivers' values (strong and weak, `net_drivers` in `net.c`); strong
+  values pass along the links until nothing changes; then weak values pass
+  between groups no strong value reached. A group reads its strong values
+  if any (one value, else X), else its weak ones, else Z; it is shorted
+  when its strong values hold a 0 and a 1. Values are recomputed from the
+  drivers every round, so nothing latches. A circuit with no diode (and no
+  closed contact) takes the old per-net path unchanged. What it gives:
+
+  | Circuit | Result |
+  |---|---|
+  | strong 1 on anode, cathode pulled down | cathode 1 |
+  | strong 0 on anode, cathode pulled down | cathode 0 (the pull) |
+  | two gates on two anodes, common cathode pulled down (diode-OR) | OR of the gates; the gates' nets do not change |
+  | two gates on two cathodes, common anode pulled up (diode-AND) | AND of the gates |
+  | strong 1 on anode, strong 0 on cathode | `smoke:` |
+  | strong 0 on anode, strong 1 on cathode | no conduction; both keep their values |
+  | two diodes in series, strong 1 at the first anode, pull-down at the end | end and middle read 1 |
+  | antiparallel pair, a weak 1 on one side | both 1; both Z again when the 1 goes |
+  | X driven strong on an anode | cathode X |
+  | nothing on either side | both Z |
+
+  Pins that share a name on one diode part (a tab and a lead) are tied by
+  links both ways, so they pass every value.
 - **Voltages** (`voltage.h`, plan-07). The simulation is logic-only; a
   separate static check, `voltage_check`, works out each net's voltage from
   its supplies (`PartSupply.mv`), the outputs of powered parts and what an
-  LED carries from anode to cathode, and reports every power pin outside
+  LED or a diode (each link, `diode_pair` in `model_pins.h`) carries from
+  anode to cathode, and reports every power pin outside
   its part's `vcc` range, input above its part's input max, switch contact
   above its rating, and two different non-zero supplies on one net.
   `voltage_describe` gives the text, e.g. `voltage: 5 V on pin 14 (VCC) of
@@ -193,8 +223,10 @@ backend/
                            share: timing entries, controls, X rules,
                            outputs), and lights.c (on-time tracking for
                            lights);
-                           model_pins.h (LED, switch and open-drain pin
-                           facts for the voltage check);
+                           model_pins.h (LED, diode, switch and
+                           open-drain pin facts for the voltage check);
+                           diode.c (the diode kind: loader, the
+                           links-only model, plan-29-H);
                            cpu.c + cpu.h (the cpu kind: loader, the model
                            that forwards to a core adapter, input sampling,
                            the instruction tracker), cpu6502.c (the
@@ -324,6 +356,12 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   protection (an inline fixture device, then real parts).
 - `engine_test` — engine timing with a real gate (SN74HC32N): an output
   edge that is already pending is kept, a too-short pulse is swallowed.
+- `diode_test` — diode links (plan-29-H): the ten engine cases of the
+  Diodes table above with an engine-only fixture diode, a diode-OR run,
+  then the fixture diode parts (`tests/support/diode_fixture.h`) in
+  circuits: a tab tied to its lead, a diode-OR in a library circuit, and a
+  switch contact inside a cluster. The kind's loader errors are in
+  `library_check`, its voltage carry in `voltage_test`.
 - `circuit_check` — the circuit API, including the voltage refusal at
   start and the running switch stop (fixture parts from
   `tests/support/voltage_fixture.h`).

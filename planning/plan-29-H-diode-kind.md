@@ -381,14 +381,18 @@ Acceptance: the kind loads, its errors are named, and the voltage check
 carries through a diode.
   Check: `cmake --build /tmp/logic-p29 -j8 && ctest --test-dir /tmp/logic-p29` → `100% tests passed`, 30 programs (T0 + 1, T0 = 29), and `git diff --stat backend/tests/golden` → empty (est. 5 min).
   Result 2026-11-09: `100% tests passed, 0 tests failed out of 30`; `grep -c '^logic_test' backend/CMakeLists.txt` → 30; golden diff empty.
-Commit: —
+Commit: f33a538
 
 ### Phase 4 — Docs
 
-- [ ] `docs/parts-format.md`: kind table row, `### diode` (§ 5.1),
+- [x] `docs/parts-format.md`: kind table row, `### diode` (§ 5.1),
       `"diode"` in the intro's list of kinds.
-- [ ] `docs/backend.md`: diode links (§ 4, the table of § 4.3), the voltage
+- [x] `docs/backend.md`: diode links (§ 4, the table of § 4.3), the voltage
       carry, `diode_test` in the test list, `models/diode.c` in Layout.
+      Checked: `grep -c '### `diode`' docs/parts-format.md` → 1;
+      `grep -c 'diode_test' docs/backend.md` → 1. Final gate:
+      `ctest --test-dir /tmp/logic-p29w` → `100% tests passed, 0 tests
+      failed out of 30`; `git diff --stat backend/tests/golden` → empty.
 
 Acceptance: the docs name the kind and the links.
   Check: `grep -c '### `diode`' docs/parts-format.md` → 1 and `grep -c 'diode_test' docs/backend.md` → ≥ 1 (est. 1 min).

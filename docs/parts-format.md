@@ -1,7 +1,7 @@
 # Part file format
 
 Every orderable part (gate, flip-flop, latch, decoder, counter, shift register, SRAM, EEPROM, switch, LED,
-7-segment display, character LCD module, oscillator, supply, microprocessor, serial controller) is described in a JSON part file in
+diode, 7-segment display, character LCD module, oscillator, supply, microprocessor, serial controller) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
 | File | Kind |
@@ -26,6 +26,7 @@ Every orderable part (gate, flip-flop, latch, decoder, counter, shift register, 
 | `connector.json` | `connector` |
 | `converter.json` | `converter` |
 | `rtc.json` | `rtc` |
+| `diode.json` | `diode` |
 
 Beside them, `datasheets.json` holds the datasheet URLs parts name with
 `"datasheet"` (see [Datasheets](#datasheets)), and `footprints.json` the land
@@ -661,6 +662,45 @@ step). Device keys:
 Parts carry no kind keys. The library has one LED part, `GENERIC-LED`, whose
 `footprintChoices` list the eleven LED footprints (0402 … Radial; default
 `LED-RADIAL-5MM`).
+
+### `diode`
+
+Diodes (plan-29): rectifier, fast recovery, switching, Schottky and Zener
+diodes, diode arrays and bridge rectifiers, `"kind": "diode"`, run by
+`backend/src/models/diode.c`. A diode drives nothing: each (anode,
+cathode) pair is a one-way link in the engine, so a 1 passes from anode to
+cathode and a 0 from cathode to anode, and nothing the other way. A strong
+1 on the anode against a strong 0 on the cathode is a short (`smoke:`);
+the reverse (0 on the anode, 1 on the cathode) leaves both nets alone. A
+diode-OR (gates on the anodes, the common cathode pulled down) reads the
+OR of the gates; the mirrored diode-AND (gates on the cathodes, the common
+anode pulled up) reads the AND. There is no forward drop, no Zener
+breakdown and no reverse-rating check; the voltage check carries the
+anode's level to the cathode net, as for an LED.
+
+Device keys:
+
+| Key | Value |
+|---|---|
+| `"type"` | `"rectifier"`, `"fast"`, `"switching"`, `"schottky"`, `"zener"` or `"bridge"` |
+| `"diodes"` | non-empty array of `{"anode": <pin name>, "cathode": <pin name>}`, one per diode in the package. Each name names at least one pin of every pinout; a name that several pins carry (a tab and a lead) ties those pins together |
+
+Every pin of every pinout is `inout`, `nc` or `absent` (`diode pin "X"
+must be inout`), and every `inout` pin is in some pair (`pin "X" is in no
+diode`).
+
+Part keys (numbers):
+
+| Key | Types | Value |
+|---|---|---|
+| `"vr"` | all but `zener` (required) | max repetitive reverse voltage in volts, above 0 and at most 3000 |
+| `"io"` | all but `zener` (required) | average forward current per diode in amps, above 0 and at most 1000 |
+| `"vz"` | `zener` only (required) | nominal Zener voltage in volts, above 0 and at most 1000 |
+| `"pd"` | `zener` only (required) | max power dissipation in watts, above 0 and at most 100 |
+
+A key of the other group is an error (`"vz" is only for a zener`, `"vr"
+is not a zener key`). The values are facts for the app (`PartDiode`); the
+simulation does not use them.
 
 ### `oscillator`
 
