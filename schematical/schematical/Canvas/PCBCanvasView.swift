@@ -202,14 +202,15 @@ struct PCBCanvasView: View {
         let board = document.board
         let colour = board.color
 
+        let visible = shown
         // The board, under the grid so the dots show on it: a rectangle,
-        // or a card's outline with its edge tab.
+        // or a card's outline with its edge tab. With the PCB layer hidden,
+        // only its outline, so the Planes' shading shows on the canvas.
         let boardShape = Path { path in path.addLines(board.outline); path.closeSubpath() }
-        context.fill(boardShape, with: .color(colour.fill))
+        if visible.shows(.board) { context.fill(boardShape, with: .color(colour.fill)) }
         context.stroke(boardShape, with: .color(colour.silkscreen), lineWidth: 0.2)
         drawGrid(in: context, size: size)
 
-        let visible = shown
         // The copper's nets, read only when a Plane is drawn.
         let planeCopper = board.copperLayers.contains { visible.showsPlane($0, style: board.style(of: $0)) }
             ? document.connectivity() : nil
@@ -221,7 +222,7 @@ struct PCBCanvasView: View {
             let style = board.style(of: layer)
             if visible.showsPlane(layer, style: style), let planeCopper {
                 drawPlane(on: layer, colour: style.color.color, shape: boardShape, copper: planeCopper,
-                          rules: rules, in: &context)
+                          rules: rules, opacity: visible.shows(.board) ? 0.2 : 0.45, in: &context)
             }
             if visible.showsTrace(on: layer) {
                 drawTraces(on: layer, colour: style.color.color, in: &context)
@@ -342,16 +343,16 @@ struct PCBCanvasView: View {
         return (metal, edges, drills)
     }
 
-    /// A Plane layer: its tint over the board, pulled back from the
+    /// A Plane layer: its tint (`opacity`) over the board, pulled back from the
     /// board's edge, with `planeCuts` cleared out of it: the copper not on
     /// its net by `rules.minClearance`, non-plated holes and the edge by
     /// `rules.minCopperToEdge`, and the drills of what joins it. Plated
     /// pads and vias on its net join the Plane solid round their drill.
     private func drawPlane(on layer: CopperLayer, colour: Color, shape: Path, copper: BoardConnectivity,
-                           rules: DesignRules, in context: inout GraphicsContext) {
+                           rules: DesignRules, opacity: Double, in context: inout GraphicsContext) {
         let cuts = Self.planeCuts(on: layer, copper: copper)
         context.drawLayer { plane in
-            plane.fill(shape, with: .color(colour.opacity(0.2)))
+            plane.fill(shape, with: .color(colour.opacity(opacity)))
             plane.blendMode = .clear
             // A clearance is the cut's outline grown by it all round: a
             // stroke twice as wide, with round joins, over the filled cut.

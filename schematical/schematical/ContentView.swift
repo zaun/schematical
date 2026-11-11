@@ -665,7 +665,7 @@ struct ReachedSpeedLabel: View {
 }
 
 /// The PCB page's View popover: a checkbox per copper layer (with its
-/// colour), then Silkscreen and Document, then Ratsnest (the unrouted
+/// colour), then PCB (the board's fill), Silkscreen and Document, then Ratsnest (the unrouted
 /// lines), and Show All. It stays open while
 /// the user ticks several boxes; a menu would close after each one.
 private struct LayerViewPopover: View {
@@ -685,6 +685,15 @@ private struct LayerViewPopover: View {
                 }
             }
             Divider()
+            toggle(.board) {
+                HStack(spacing: 6) {
+                    RoundedRectangle(cornerRadius: 2)
+                        .fill(board.color.fill)
+                        .frame(width: 12, height: 12)
+                    Text("PCB")
+                }
+            }
+            .help("The board's colour; hidden, only its outline shows, so the Planes' shading is easier to see")
             toggle(.silkscreen) { Text("Silkscreen") }
             toggle(.document) { Text("Document") }
             Divider()

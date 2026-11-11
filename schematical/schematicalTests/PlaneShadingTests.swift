@@ -70,4 +70,13 @@ final class PlaneShadingTests: XCTestCase {
         XCTAssertTrue(visible.showsAnyCopper, "only the lines go")
         XCTAssertEqual(BoardViewLayer.ratsnest.title, "Ratsnest")
     }
+
+    func testBoardFillCanBeHidden() {
+        var visible = BoardVisibility()
+        XCTAssertTrue(visible.shows(.board))
+        visible.hidden.insert(.board)
+        XCTAssertFalse(visible.shows(.board))
+        XCTAssertTrue(visible.showsAnyCopper)
+        XCTAssertEqual(BoardViewLayer.board.title, "PCB")
+    }
 }
