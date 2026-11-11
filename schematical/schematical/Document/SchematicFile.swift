@@ -140,26 +140,10 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         /// A custom card's edge (`type` "customCard"); missing keys mean
         /// the defaults.
         var card: CardEntry? = nil
-        /// The settings of a type that has them (PCI Express, M.2, Mini
-        /// PCIe, SO-DIMM, DIMM, Arduino shield, Pmod, mikroBUS); missing keys
+        /// The settings of a type that has them, by option id
+        /// (`boards.json`: PCI Express `lanes`, M.2 `key`, …); missing keys
         /// mean the defaults.
-        var cardOptions: OptionsEntry? = nil
-
-        struct OptionsEntry: Codable, Equatable, Sendable {
-            var lanes: Int? = nil
-            var lowProfile: Bool? = nil
-            var length: Int? = nil
-            var key: String? = nil
-            var halfSize: Bool? = nil
-            var memory: String? = nil
-            var registered: Bool? = nil
-            /// An Arduino shield's ICSP header holes.
-            var icsp: Bool? = nil
-            /// A Pmod's pin count, 6 or 12.
-            var pins: Int? = nil
-            /// A mikroBUS board's size: "s", "m" or "l".
-            var size: String? = nil
-        }
+        var cardOptions: [String: BoardValue]? = nil
 
         struct CardEntry: Codable, Equatable, Sendable {
             var pads: Int? = nil
@@ -365,9 +349,9 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         var type: String? = nil
         /// A custom card's edge, for `type` "customCard".
         var card: Board.CardEntry? = nil
-        /// The settings of a type whose settings change its pins (PCI
-        /// Express, M.2, Mini PCIe, SO-DIMM, DIMM, Pmod).
-        var cardOptions: Board.OptionsEntry? = nil
+        /// The settings of a type that change its pins (`onBus` options),
+        /// by option id.
+        var cardOptions: [String: BoardValue]? = nil
         var lines: [BusLineEntry]
         var wires: [BusWireEntry]
         /// Always written (empty allowed); missing means none.
@@ -550,7 +534,8 @@ extension SchematicFile {
                 name: bus.name,
                 type: bus.card.isCustom ? nil : bus.card.type.rawValue,
                 card: bus.card.type == .customCard ? Self.entry(bus.card.customCard) : nil,
-                cardOptions: bus.card.type.hasBusOptions ? Self.entry(bus.card.cardOptions) : nil,
+                cardOptions: bus.card.type.hasBusOptions ? Self.entry(bus.card.cardOptions, of: bus.card.type, bus: true)
+                    : nil,
                 lines: bus.lines.map {
                     BusLineEntry(id: $0.id, a: Point(x: $0.a.x, y: $0.a.y), b: Point(x: $0.b.x, y: $0.b.y))
                 },
@@ -580,7 +565,7 @@ extension SchematicFile {
             type: settings.type == .custom ? nil : settings.type.rawValue,
             edgeBus: document.edgeBusID,
             card: settings.type == .customCard ? Self.entry(settings.customCard) : nil,
-            cardOptions: settings.type.hasOptions ? Self.entry(settings.cardOptions) : nil,
+            cardOptions: settings.type.hasOptions ? Self.entry(settings.cardOptions, of: settings.type, bus: false) : nil,
             layerStyles: settings.copperLayers.map { layer in
                 let style = settings.style(of: layer)
                 return Board.LayerStyleEntry(layer: layer.rawValue, color: style.color.hex, type: style.type.rawValue,
@@ -1007,7 +992,7 @@ extension SchematicFile {
         settings.type = try Self.value(board.type, of: BoardType.self, "board type", default: .custom)
         settings.edgeBus = board.edgeBus
         if let entry = board.card { settings.customCard = Self.customCard(entry) }
-        if let entry = board.cardOptions { settings.cardOptions = try Self.cardOptions(entry) }
+        if let entry = board.cardOptions { settings.cardOptions = try Self.cardOptions(entry, of: settings.type) }
         if settings.needsTwoLayers, settings.layers < 2 {
             throw SchematicFileError.badPCB("board type \(settings.type.rawValue) needs 2 or more layers")
         }
@@ -1146,11 +1131,12 @@ extension SchematicFile {
                         chamfer: card.chamfer, bothSides: card.bothSides)
     }
 
-    static func entry(_ options: CardOptions) -> Board.OptionsEntry {
-        Board.OptionsEntry(lanes: options.pcieLanes, lowProfile: options.lowProfile, length: options.m2Length,
-                           key: options.m2Key.rawValue, halfSize: options.halfSize,
-                           memory: options.memory.rawValue, registered: options.registered,
-                           icsp: options.icsp, pins: options.pmodPins, size: options.mikroBusSize.rawValue)
+    /// The type's settings as written: every option's value (only the
+    /// `onBus` ones for a bus), defaults included.
+    static func entry(_ options: CardOptions, of type: BoardType, bus: Bool) -> [String: BoardValue] {
+        guard let definition = type.definition else { return [:] }
+        let values = definition.resolved(options)
+        return values.filter { id, _ in !bus || definition.options.contains { $0.id == id && $0.onBus } }
     }
 
     /// A stored custom card edge; missing keys are the defaults, and
@@ -1170,36 +1156,18 @@ extension SchematicFile {
         return card.clamped()
     }
 
-    /// Stored card settings; missing keys are the defaults. Throws `badPCB`.
-    static func cardOptions(_ entry: Board.OptionsEntry) throws -> CardOptions {
+    /// Stored settings of `type`; missing keys are the defaults, and keys
+    /// that aren't its options are ignored. Throws `badPCB` for a value
+    /// that isn't one of its option's choices.
+    static func cardOptions(_ entry: [String: BoardValue], of type: BoardType) throws -> CardOptions {
         var options = CardOptions()
-        if let lanes = entry.lanes {
-            guard CardOptions.pcieLaneCounts.contains(lanes) else {
-                throw SchematicFileError.badPCB("card lanes \(lanes) must be 1, 4, 8 or 16")
+        for option in type.definition?.options ?? [] {
+            guard let value = entry[option.id] else { continue }
+            guard option.choice(for: value) != nil else {
+                throw SchematicFileError.badPCB("card \(option.id) \(value.quoted) must be \(option.choiceList)")
             }
-            options.pcieLanes = lanes
+            options[option.id] = value
         }
-        options.lowProfile = entry.lowProfile ?? options.lowProfile
-        if let length = entry.length {
-            guard CardOptions.m2Lengths.contains(length) else {
-                throw SchematicFileError.badPCB("card length \(length) must be 30, 42, 60, 80 or 110")
-            }
-            options.m2Length = length
-        }
-        options.m2Key = try Self.value(entry.key, of: M2Key.self, "card key", default: options.m2Key)
-        options.halfSize = entry.halfSize ?? options.halfSize
-        options.memory = try Self.value(entry.memory, of: MemoryGeneration.self, "card memory",
-                                        default: options.memory)
-        options.registered = entry.registered ?? options.registered
-        options.icsp = entry.icsp ?? options.icsp
-        if let pins = entry.pins {
-            guard CardOptions.pmodPinCounts.contains(pins) else {
-                throw SchematicFileError.badPCB("card pins \(pins) must be 6 or 12")
-            }
-            options.pmodPins = pins
-        }
-        options.mikroBusSize = try Self.value(entry.size, of: MikroBusSize.self, "card size",
-                                              default: options.mikroBusSize)
         return options
     }
 
@@ -1240,7 +1208,7 @@ extension SchematicFile {
             var card = BusCard()
             card.type = try Self.value(bus.type, of: BoardType.self, "type", default: .custom)
             if let entry = bus.card { card.customCard = Self.customCard(entry) }
-            if let entry = bus.cardOptions { card.cardOptions = try Self.cardOptions(entry) }
+            if let entry = bus.cardOptions { card.cardOptions = try Self.cardOptions(entry, of: card.type) }
             if card.pinNames == nil || card.pinNames == model.wires.map(\.name) { model.card = card }
         } catch let SchematicFileError.badPCB(detail) {
             throw SchematicFileError.badBus("bus \(id) \(detail)")

@@ -162,7 +162,7 @@ final class HeaderBoardTests: XCTestCase {
         XCTAssertTrue(doc.board.extraPads.isEmpty, "off by default")
 
         var options = doc.board.cardOptions
-        options.icsp = true
+        options["icsp"] = .bool(true)
         doc.setCardOptions(options)
         XCTAssertEqual(doc.undoName(on: .pcb), "Change Card")
         let pads = doc.board.extraPads
@@ -196,16 +196,16 @@ final class HeaderBoardTests: XCTestCase {
         XCTAssertEqual(doc.pads(touching: [trace]), ["ICSP.4"])
 
         let opened = try BoardLayersTests.roundTrip(doc)
-        XCTAssertTrue(opened.board.cardOptions.icsp)
+        XCTAssertEqual(opened.board.cardOptions["icsp"], .bool(true))
         XCTAssertEqual(opened.board.extraPads.count, 6)
 
         // A bus of the shield's type has no ICSP setting to save.
         var card = BusCard()
         card.type = .arduinoShield
-        card.cardOptions.icsp = true
+        card.cardOptions["icsp"] = .bool(true)
         XCTAssertNil(doc.setBusCard(id, card))
         let file = try SchematicFile.decode(SchematicFile(document: doc, fileURL: nil).encoded())
         XCTAssertNil(file.buses?.first?.cardOptions)
-        XCTAssertNotNil(file.board?.cardOptions?.icsp)
+        XCTAssertNotNil(file.board?.cardOptions?["icsp"])
     }
 }

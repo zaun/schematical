@@ -89,7 +89,7 @@ final class AddOnBoardTests: XCTestCase {
 
         // 12 pins: pins 7–12 at the edge, 1–6 a column further in.
         var options = doc.board.cardOptions
-        options.pmodPins = 12
+        options["pins"] = .number(12)
         doc.setCardOptions(options)
         board = doc.board
         XCTAssertEqual(board.pinCount, 12)
@@ -101,15 +101,15 @@ final class AddOnBoardTests: XCTestCase {
 
         let opened = try BoardLayersTests.roundTrip(doc)
         XCTAssertEqual(opened.board.type, .pmod)
-        XCTAssertEqual(opened.board.cardOptions.pmodPins, 12)
+        XCTAssertEqual(opened.board.cardOptions["pins"], .number(12))
         XCTAssertEqual(opened.board.width, 0.4 * inch, accuracy: 1e-9)
 
         // A bus of the Pmod type carries its pin count.
         var card = BusCard()
         card.type = .pmod
-        card.cardOptions.pmodPins = 12
+        card.cardOptions["pins"] = .number(12)
         XCTAssertEqual(card.pinNames?.count, 12)
-        card.cardOptions.pmodPins = 6
+        card.cardOptions["pins"] = .number(6)
         XCTAssertEqual(card.pinNames?.count, 6)
 
         XCTAssertEqual(BoardLayersTests.pcbError {
@@ -137,7 +137,7 @@ final class AddOnBoardTests: XCTestCase {
         assertInside(board)
 
         var options = doc.board.cardOptions
-        options.mikroBusSize = .l
+        options["size"] = .string("l")
         doc.setCardOptions(options)
         board = doc.board
         XCTAssertEqual(board.height, 57.15, accuracy: 1e-9)
@@ -145,18 +145,18 @@ final class AddOnBoardTests: XCTestCase {
         assertInside(board)
 
         let opened = try BoardLayersTests.roundTrip(doc)
-        XCTAssertEqual(opened.board.cardOptions.mikroBusSize, .l)
+        XCTAssertEqual(opened.board.cardOptions["size"], .string("l"))
         XCTAssertEqual(opened.board.height, 57.15, accuracy: 1e-9)
 
         // The size moves no pin: a bus of the type saves none.
         let id = try XCTUnwrap(doc.addBus(from: p(100, 100), to: p(300, 100)))
         var card = BusCard()
         card.type = .mikroBus
-        card.cardOptions.mikroBusSize = .m
+        card.cardOptions["size"] = .string("m")
         XCTAssertNil(doc.setBusCard(id, card))
         let file = try SchematicFile.decode(SchematicFile(document: doc, fileURL: nil).encoded())
         XCTAssertNil(file.buses?.first?.cardOptions)
-        XCTAssertEqual(file.board?.cardOptions?.size, "l")
+        XCTAssertEqual(file.board?.cardOptions?["size"], .string("l"))
     }
 
     func testBeagleCape() throws {

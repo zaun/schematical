@@ -62,9 +62,7 @@ struct BusPanel: View {
                         card.type = type
                         setCard(card)
                     })) {
-                        ForEach(BoardType.allCases, id: \.self) { type in
-                            Text(type.title).tag(type)
-                        }
+                        BoardTypeMenuItems()
                     }
                     .pickerStyle(.menu)
                     .help("Custom wires are free; a card type sets the wires to the card's pins")
@@ -93,7 +91,7 @@ struct BusPanel: View {
                     }
                 }
                 if bus.card.type.hasBusOptions {
-                    CardOptionsSection(type: bus.card.type, options: { document.bus(busID)?.card.cardOptions ?? CardOptions() },
+                    CardOptionsSection(type: bus.card.type, bus: true, options: { document.bus(busID)?.card.cardOptions ?? CardOptions() },
                                        set: { options in
                                            guard var card = document.bus(busID)?.card else { return }
                                            card.cardOptions = options

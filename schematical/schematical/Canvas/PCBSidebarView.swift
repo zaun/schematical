@@ -145,79 +145,66 @@ private struct GridSection: View {
 
 // MARK: - Card options
 
-/// The settings of a PCI Express, M.2, Mini PCIe, SO-DIMM or DIMM card
-/// (each picks the matching standard shape and size), whether an Arduino
-/// shield has its ICSP header, a Pmod's pin count or a mikroBUS board's
-/// size. Used for the board and
-/// for a bus's type (`options` reads them, `set` stores them).
+/// The type menus' items: Custom and Custom Card, then the standard
+/// boards in `boards.json` order, a section per group.
+struct BoardTypeMenuItems: View {
+    var body: some View {
+        let types = BoardType.allCases
+        ForEach(types.filter { $0.group == nil }, id: \.self) { Text($0.title).tag($0) }
+        let groups = types.compactMap(\.group).reduce(into: [String]()) { if !$0.contains($1) { $0.append($1) } }
+        ForEach(groups, id: \.self) { group in
+            Section(group) {
+                ForEach(types.filter { $0.group == group }, id: \.self) { Text($0.title).tag($0) }
+            }
+        }
+    }
+}
+
+/// The settings a board type has in `boards.json` (PCI Express lanes, M.2
+/// length and key, …), each a picker or toggle. Used for the board and,
+/// with `bus`, for a bus's type (only the settings that change the pins).
+/// `options` reads them, `set` stores them.
 struct CardOptionsSection: View {
     let type: BoardType
+    var bus = false
     let options: () -> CardOptions
     let set: (CardOptions) -> Void
 
     var body: some View {
         Section(type.optionsTitle) {
-            switch type {
-            case .pcie:
-                Picker("Lanes", selection: binding(\.pcieLanes)) {
-                    ForEach(CardOptions.pcieLaneCounts, id: \.self) { Text("x\($0)").tag($0) }
+            if let definition = type.definition {
+                ForEach(definition.options.filter { (!bus || $0.onBus) && definition.shows($0, with: options()) },
+                        id: \.id) { option in
+                    control(option, of: definition)
                 }
-                .pickerStyle(.segmented)
-                Picker("Bracket", selection: binding(\.lowProfile)) {
-                    Text("Full height").tag(false)
-                    Text("Low profile").tag(true)
-                }
-                .pickerStyle(.segmented)
-            case .m2:
-                Picker("Length", selection: binding(\.m2Length)) {
-                    ForEach(CardOptions.m2Lengths, id: \.self) { Text("22\($0)").tag($0) }
-                }
-                .pickerStyle(.menu)
-                Picker("Key", selection: binding(\.m2Key)) {
-                    ForEach(M2Key.allCases, id: \.self) { Text($0.title).tag($0) }
-                }
-                .pickerStyle(.segmented)
-            case .miniPCIe:
-                Picker("Size", selection: binding(\.halfSize)) {
-                    Text("Full").tag(false)
-                    Text("Half").tag(true)
-                }
-                .pickerStyle(.segmented)
-            case .sodimm, .dimm:
-                Picker("Memory", selection: binding(\.memory)) {
-                    ForEach(MemoryGeneration.allCases, id: \.self) { Text($0.title).tag($0) }
-                }
-                .pickerStyle(.segmented)
-                if type == .dimm, options().memory == .ddr5 {
-                    Toggle("Registered (RDIMM)", isOn: binding(\.registered))
-                        .help("A DDR5 RDIMM's key sits 2.45 mm further right than an unbuffered DIMM's")
-                }
-            case .arduinoShield:
-                Toggle("ICSP header", isOn: binding(\.icsp))
-                    .help("The 2 × 3 ICSP header's holes by the cut corner; they are on the board only, not the bus")
-            case .pmod:
-                Picker("Pins", selection: binding(\.pmodPins)) {
-                    ForEach(CardOptions.pmodPinCounts, id: \.self) { Text($0 == 6 ? "6 (1 × 6)" : "12 (2 × 6)").tag($0) }
-                }
-                .pickerStyle(.segmented)
-            case .mikroBus:
-                Picker("Size", selection: binding(\.mikroBusSize)) {
-                    ForEach(MikroBusSize.allCases, id: \.self) { Text($0.title).tag($0) }
-                }
-                .pickerStyle(.segmented)
-                .help("25.4 mm wide; S is 28.6 mm long, M 42.9 mm, L 57.15 mm")
-            default:
-                EmptyView()
             }
         }
     }
 
-    private func binding<Value>(_ field: WritableKeyPath<CardOptions, Value>) -> Binding<Value> {
-        Binding(get: { options()[keyPath: field] }, set: { value in
-            var next = options()
-            next[keyPath: field] = value
-            set(next)
-        })
+    @ViewBuilder
+    private func control(_ option: BoardOption, of definition: BoardDefinition) -> some View {
+        let value = Binding<BoardValue>(get: { definition.resolved(options())[option.id] ?? option.default },
+                                        set: { value in
+                                            var next = options()
+                                            next[option.id] = value
+                                            set(next)
+                                        })
+        switch option.style {
+        case .toggle:
+            Toggle(option.title, isOn: Binding(get: { value.wrappedValue == .bool(true) },
+                                               set: { value.wrappedValue = .bool($0) }))
+                .help(option.help ?? "")
+        case .segmented, .menu:
+            let picker = Picker(option.title, selection: value) {
+                ForEach(option.choices, id: \.value) { Text($0.title).tag($0.value) }
+            }
+            .help(option.help ?? "")
+            if option.style == .menu {
+                picker.pickerStyle(.menu)
+            } else {
+                picker.pickerStyle(.segmented)
+            }
+        }
     }
 }
 
@@ -298,9 +285,7 @@ private struct BoardPanel: View {
     var body: some View {
         Section("Board") {
             Picker("Type", selection: Binding(get: { document.board.type }, set: { document.setBoardType($0) })) {
-                ForEach(BoardType.allCases, id: \.self) { type in
-                    Text(type.title).tag(type)
-                }
+                BoardTypeMenuItems()
             }
             .pickerStyle(.menu)
             .help("Custom is a free rectangle; a card type sets a standard card's size, edge connector and fingers; a HAT or shield its size, header and holes")

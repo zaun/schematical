@@ -266,8 +266,8 @@ nonisolated struct BoardSettings: Hashable, Sendable {
     /// A custom card's edge connector; used only when `type` is
     /// `.customCard`, but kept so it comes back.
     var customCard = CustomCard()
-    /// The settings of the card types that have them (PCI Express, M.2,
-    /// Mini PCIe, SO-DIMM, DIMM); kept across type changes.
+    /// The settings of the board types that have them (`boards.json`
+    /// options: PCI Express lanes, M.2 key, …); kept across type changes.
     var cardOptions = CardOptions()
     /// The schematic bus chosen as the card's edge: its wires are the
     /// card's pins, in order. Set back to nil as soon as it stops counting
@@ -306,8 +306,8 @@ nonisolated struct BoardSettings: Hashable, Sendable {
     /// The board's outline, clockwise from the top-left (mm): the
     /// rectangle, or a card's shape with its edge tab and key notches.
     var outline: [CGPoint] {
-        card?.outline(length: width) ?? [CGPoint(x: 0, y: 0), CGPoint(x: width, y: 0),
-                                         CGPoint(x: width, y: height), CGPoint(x: 0, y: height)]
+        card?.outline ?? [CGPoint(x: 0, y: 0), CGPoint(x: width, y: 0), CGPoint(x: width, y: height),
+                          CGPoint(x: 0, y: height)]
     }
 
     /// The connector's pins: a card's gold fingers, or a HAT's or
@@ -343,10 +343,11 @@ nonisolated struct BoardSettings: Hashable, Sendable {
             .sorted { $0.localizedStandardCompare($1) == .orderedAscending }
     }
 
-    /// The card the board is: a standard's, or the custom card built from
-    /// `customCard` at the board's height. Nil for a plain board.
+    /// The card the board is, at the board's length: a standard's (built
+    /// from `boards.json`), or the custom card built from `customCard` at
+    /// the board's height. Nil for a plain board.
     var card: CardSpec? {
-        type == .customCard ? customCard.spec(height: height) : type.card(cardOptions)
+        type == .customCard ? customCard.spec(height: height, length: width) : type.card(cardOptions, width: width)
     }
 
     /// The layers a trace can go on: every board layer that isn't a Plane.

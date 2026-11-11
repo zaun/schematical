@@ -66,7 +66,7 @@ final class BusTypeTests: XCTestCase {
 
         // Options: a PCI Express x4 card has 32 pins a side.
         card.type = .pcie
-        card.cardOptions.pcieLanes = 4
+        card.cardOptions["lanes"] = .number(4)
         XCTAssertNil(doc.setBusCard(id, card))
         XCTAssertEqual(try bus(doc, id).wires.count, 64)
 
@@ -138,7 +138,7 @@ final class BusTypeTests: XCTestCase {
         XCTAssertNil(doc.setBusName(id, "Slot 1"))
         var card = BusCard()
         card.type = .m2
-        card.cardOptions.m2Key = .e
+        card.cardOptions["key"] = .string("e")
         XCTAssertNil(doc.setBusCard(id, card))
         let plain = try XCTUnwrap(doc.addBus(from: p(100, 400), to: p(300, 400)))
 

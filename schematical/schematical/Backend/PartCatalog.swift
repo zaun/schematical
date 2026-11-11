@@ -699,7 +699,8 @@ nonisolated enum BackendCatalog {
 
     /// The footprint file.
     static let footprintsFile = "footprints.json"
-    /// The datasheet file; every other bundled JSON resource is a part file.
+    /// The datasheet file; every other bundled JSON resource except
+    /// `boards.json` is a part file.
     static let datasheetsFile = "datasheets.json"
 
     /// Loads `datasheets.json` and `footprints.json` first (part files name
@@ -716,7 +717,9 @@ nonisolated enum BackendCatalog {
         }
         try loadFile(datasheetsURL, with: load_datasheets, into: library)
         try loadFile(footprintsURL, with: load_footprints, into: library)
-        for url in urls where url != footprintsURL && url != datasheetsURL {
+        // The board standards (`boards.json`) are read by `BoardCatalog`.
+        for url in urls where url != footprintsURL && url != datasheetsURL
+            && url.lastPathComponent != BoardCatalog.fileName {
             try loadFile(url, with: load_parts, into: library)
         }
 

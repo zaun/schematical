@@ -96,7 +96,7 @@ final class BoardCardTests: XCTestCase {
         for type in [BoardType.isa8, .isa16, .pci] {
             var board = BoardSettings()
             board.type = type
-            let card = type.card!
+            let card = type.card(CardOptions())!
             board.width = card.length
             board.height = card.height
             let outline = board.outline
@@ -177,7 +177,8 @@ final class BoardCardTests: XCTestCase {
         XCTAssertEqual(card.board.width, 122)
 
         XCTAssertEqual(BoardLayersTests.pcbError { _ = try BoardLayersTests.open(board: #"{ "type": "eisa" }"#) },
-                       #"board type "eisa" must be custom, customCard, isa8, isa16, pci, nes, atari2600, atari5200, atari7800, atari8bit, atariST, jaguar, lynx, coco, pcie, m2, miniPCIe, sodimm, dimm, piHat, arduinoShield, featherWing, pmod, mikroBus or beagleCape"#)
+                       "board type \"eisa\" must be " + BoardType.allCases.dropLast().map(\.rawValue).joined(separator: ", ")
+                       + " or " + BoardType.allCases.last!.rawValue)
         XCTAssertEqual(BoardLayersTests.pcbError {
             _ = try BoardLayersTests.open(board: #"{ "type": "isa8", "layers": 1 }"#)
         }, "board type isa8 needs 2 or more layers")
@@ -414,7 +415,7 @@ final class BoardCardTests: XCTestCase {
         XCTAssertEqual(doc.board.width, 167.65)
         for (lanes, pins) in [(1, 18), (4, 32), (8, 49), (16, 82)] {
             var options = doc.board.cardOptions
-            options.pcieLanes = lanes
+            options["lanes"] = .number(Double(lanes))
             doc.setCardOptions(options)
             XCTAssertEqual(doc.board.fingers.count, 2 * pins, "x\(lanes)")
             XCTAssertNotNil(doc.board.fingers.first { $0.name == "B\(pins)" })
@@ -429,7 +430,7 @@ final class BoardCardTests: XCTestCase {
         XCTAssertLessThan(try finger(doc.board, "A1", .bottom).rect.height, b1.rect.height, "PRSNT1# is short")
 
         var options = doc.board.cardOptions
-        options.lowProfile = true
+        options["lowProfile"] = .bool(true)
         doc.setCardOptions(options)
         XCTAssertEqual(doc.board.height, 68.90)
         doc.setBoardSize(width: 300, height: 0)
@@ -450,8 +451,8 @@ final class BoardCardTests: XCTestCase {
         XCTAssertEqual(doc.board.width, 22)
         XCTAssertEqual(doc.board.height, 80, "2280 by default")
         var options = doc.board.cardOptions
-        options.m2Length = 42
-        options.m2Key = .bm
+        options["length"] = .number(42)
+        options["key"] = .string("bm")
         doc.setCardOptions(options)
         XCTAssertEqual(doc.board.height, 42)
         XCTAssertEqual(doc.board.fingers.count, 75 - 16, "B and M drop 8 pins each")
@@ -484,7 +485,7 @@ final class BoardCardTests: XCTestCase {
         XCTAssertEqual(try finger(doc.board, "17", .top).rect.midX - (try finger(doc.board, "15", .top).rect.midX),
                        4.0, accuracy: 1e-9, "the key between 15 and 17")
         var options = doc.board.cardOptions
-        options.halfSize = true
+        options["halfSize"] = .bool(true)
         doc.setCardOptions(options)
         XCTAssertEqual(doc.board.height, 26.8)
     }
@@ -493,8 +494,8 @@ final class BoardCardTests: XCTestCase {
         let doc = TestSupport.newDocument()
         doc.setBoardType(.m2)
         var options = doc.board.cardOptions
-        options.m2Length = 30
-        options.m2Key = .ae
+        options["length"] = .number(30)
+        options["key"] = .string("ae")
         doc.setCardOptions(options)
         let opened = try BoardLayersTests.roundTrip(doc)
         XCTAssertEqual(opened.board.type, .m2)
@@ -513,14 +514,14 @@ final class BoardCardTests: XCTestCase {
     func testMemoryModules() throws {
         let doc = TestSupport.newDocument()
         doc.setBoardType(.sodimm)
-        let expected: [(BoardType, MemoryGeneration, Double, Double, Int)] = [
-            (.sodimm, .ddr3, 67.6, 30, 204), (.sodimm, .ddr4, 69.6, 30, 260), (.sodimm, .ddr5, 69.6, 30, 262),
-            (.dimm, .ddr3, 133.35, 30, 240), (.dimm, .ddr4, 133.35, 31.25, 288), (.dimm, .ddr5, 133.35, 31.25, 288),
+        let expected: [(BoardType, String, Double, Double, Int)] = [
+            (.sodimm, "ddr3", 67.6, 30, 204), (.sodimm, "ddr4", 69.6, 30, 260), (.sodimm, "ddr5", 69.6, 30, 262),
+            (.dimm, "ddr3", 133.35, 30, 240), (.dimm, "ddr4", 133.35, 31.25, 288), (.dimm, "ddr5", 133.35, 31.25, 288),
         ]
         for (type, memory, width, height, pins) in expected {
             doc.setBoardType(type)
             var options = doc.board.cardOptions
-            options.memory = memory
+            options["memory"] = .string(memory)
             doc.setCardOptions(options)
             XCTAssertEqual(doc.board.width, width, "\(type) \(memory)")
             XCTAssertEqual(doc.board.height, height, "\(type) \(memory)")
@@ -537,7 +538,7 @@ final class BoardCardTests: XCTestCase {
         // SO-DIMM rows: each even pin behind the odd one, half a pitch right.
         doc.setBoardType(.sodimm)
         var options = doc.board.cardOptions
-        options.memory = .ddr4
+        options["memory"] = .string("ddr4")
         doc.setCardOptions(options)
         let one = try finger(doc.board, "1", .top), two = try finger(doc.board, "2", .bottom)
         XCTAssertEqual(one.rect.midX, 1.425, accuracy: 1e-9)
@@ -553,13 +554,13 @@ final class BoardCardTests: XCTestCase {
 
         // DDR5: the registered key sits further right.
         options = doc.board.cardOptions
-        options.memory = .ddr5
+        options["memory"] = .string("ddr5")
         doc.setCardOptions(options)
         let shape = CGMutablePath()
         shape.addLines(between: doc.board.outline)
         shape.closeSubpath()
         XCTAssertFalse(shape.contains(CGPoint(x: 68.10, y: 31.25 - 1)), "UDIMM key")
-        options.registered = true
+        options["registered"] = .bool(true)
         doc.setCardOptions(options)
         let rdimm = CGMutablePath()
         rdimm.addLines(between: doc.board.outline)
