@@ -150,4 +150,62 @@ final class HeaderBoardTests: XCTestCase {
         XCTAssertTrue(holes.allSatisfy { !copper.pads[$0].pad.plated })
         XCTAssertTrue(Set(holes).isSubset(of: copper.planeClearances(on: .bottom).pads))
     }
+
+    /// The ICSP header is the shield's holes only: on the board when
+    /// chosen, never on the bus, and joined only by copper.
+    func testArduinoICSPHeader() throws {
+        let doc = TestSupport.newDocument()
+        let id = try XCTUnwrap(doc.addBus(from: p(100, 100), to: p(300, 100)))
+        XCTAssertNil(doc.setBusWireCount(id, 32))
+        doc.setBoardType(.arduinoShield)
+        doc.setEdgeBus(id)
+        XCTAssertTrue(doc.board.extraPads.isEmpty, "off by default")
+
+        var options = doc.board.cardOptions
+        options.icsp = true
+        doc.setCardOptions(options)
+        XCTAssertEqual(doc.undoName(on: .pcb), "Change Card")
+        let pads = doc.board.extraPads
+        XCTAssertEqual(pads.map(\.name), (1...6).map { "ICSP.\($0)" })
+        XCTAssertEqual(doc.board.pinCount, 32, "not on the bus")
+        XCTAssertEqual(doc.edgeBusID, id, "the bus stays")
+        XCTAssertFalse(pads[0].round, "pin 1 is square")
+        XCTAssertTrue(pads.allSatisfy { $0.isThroughHole })
+        // Mils from the bottom-left (SparkFun ARDUINO_R3): MISO, then VCC
+        // beside it, SCK and MOSI below them.
+        let height = 2.1 * 25.4
+        XCTAssertEqual(pads[0].rect.midX, 63.64, accuracy: 1e-9)
+        XCTAssertEqual(pads[0].rect.midY, height - 30.43, accuracy: 1e-9)
+        XCTAssertEqual(pads[1].rect.midX, 66.18, accuracy: 1e-9)
+        XCTAssertEqual(pads[2].rect.midY, height - 27.89, accuracy: 1e-9)
+        let shape = CGMutablePath()
+        shape.addLines(between: doc.board.outline)
+        shape.closeSubpath()
+        XCTAssertTrue(pads.allSatisfy { shape.contains(centre($0)) })
+
+        let copper = doc.connectivity()
+        let icsp = copper.pads.indices.filter { copper.pads[$0].label.hasPrefix("ICSP.") }
+        XCTAssertEqual(icsp.count, 6)
+        XCTAssertTrue(icsp.allSatisfy { copper.netOfPad[$0] == nil })
+
+        let tolerance = TraceDrawing.tolerance / BoardScale.pointsPerMM
+        let inside = p(pads[3].rect.midX + 0.3, pads[3].rect.midY)
+        XCTAssertEqual(doc.traceAnchor(at: inside, layer: .bottom, tolerance: tolerance), centre(pads[3]))
+        let trace = try XCTUnwrap(doc.addTrace(from: p(68.2, centre(pads[3]).y), to: centre(pads[3]), layer: .top,
+                                               diagonalFirst: false))
+        XCTAssertEqual(doc.pads(touching: [trace]), ["ICSP.4"])
+
+        let opened = try BoardLayersTests.roundTrip(doc)
+        XCTAssertTrue(opened.board.cardOptions.icsp)
+        XCTAssertEqual(opened.board.extraPads.count, 6)
+
+        // A bus of the shield's type has no ICSP setting to save.
+        var card = BusCard()
+        card.type = .arduinoShield
+        card.cardOptions.icsp = true
+        XCTAssertNil(doc.setBusCard(id, card))
+        let file = try SchematicFile.decode(SchematicFile(document: doc, fileURL: nil).encoded())
+        XCTAssertNil(file.buses?.first?.cardOptions)
+        XCTAssertNotNil(file.board?.cardOptions?.icsp)
+    }
 }

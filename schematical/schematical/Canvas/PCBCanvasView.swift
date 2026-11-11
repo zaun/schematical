@@ -255,7 +255,7 @@ struct PCBCanvasView: View {
             }
             // The board's own header pads and mounting holes, and the
             // drilled holes.
-            let boardPads = board.fingers.filter(\.isThroughHole).map(\.pad) + board.holes.map(\.pad)
+            let boardPads = (board.fingers.filter(\.isThroughHole) + board.extraPads).map(\.pad) + board.holes.map(\.pad)
                 + document.holes.map(\.pad)
             for pad in boardPads + document.chips.flatMap({ $0.boardPads.filter { $0.drill > 0 } }) {
                 // A non-plated hole has no copper: just the hole.

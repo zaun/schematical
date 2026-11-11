@@ -2648,7 +2648,7 @@ final class SchematicDocument {
            let contact = hole.contact(nearest: point) {
             return contact
         }
-        if let finger = board.fingers.last(where: { $0.isOn(layer) && $0.rect.contains(point) }) {
+        if let finger = (board.fingers + board.extraPads).last(where: { $0.isOn(layer) && $0.rect.contains(point) }) {
             return finger.contact
         }
         let same = traces.filter { $0.layer == layer }
@@ -2762,6 +2762,14 @@ final class SchematicDocument {
                 trace.segments.contains { Self.segment($0.0, $0.1, touches: finger.rect) }
             }
             if touched { found.append((board.connectorName, finger.name)) }
+        }
+        for pad in board.extraPads where pad.isOn(layer) {
+            let touched = members.contains { trace in
+                trace.segments.contains { Self.segment($0.0, $0.1, touches: pad.rect) }
+            }
+            // "ICSP.1": its group and pin.
+            let parts = pad.name.split(separator: ".", maxSplits: 1).map(String.init)
+            if touched, parts.count == 2 { found.append((parts[0], parts[1])) }
         }
         return found
             .sorted {

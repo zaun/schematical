@@ -54,7 +54,11 @@ nonisolated enum BoardType: String, CaseIterable, Hashable, Sendable {
 
     /// Whether the type has settings of its own (`CardOptions`), shown in
     /// the sidebar's Card section.
-    var hasOptions: Bool { [.pcie, .m2, .miniPCIe, .sodimm, .dimm].contains(self) }
+    var hasOptions: Bool { [.pcie, .m2, .miniPCIe, .sodimm, .dimm, .arduinoShield].contains(self) }
+
+    /// Whether its settings change the pins a bus of this type carries. An
+    /// Arduino shield's ICSP header is on the board only, not the bus.
+    var hasBusOptions: Bool { hasOptions && self != .arduinoShield }
 
     /// The card's spec with `options`: the types with settings build it
     /// from them; the rest are `card`.
@@ -65,6 +69,7 @@ nonisolated enum BoardType: String, CaseIterable, Hashable, Sendable {
         case .miniPCIe: .miniPCIe(half: options.halfSize)
         case .sodimm: .sodimm(options.memory)
         case .dimm: .dimm(options.memory, registered: options.registered)
+        case .arduinoShield: .arduinoShield(icsp: options.icsp)
         default: card
         }
     }
@@ -87,8 +92,7 @@ nonisolated enum BoardType: String, CaseIterable, Hashable, Sendable {
         case .lynx: .lynx
         case .coco: .coco
         case .piHat: .piHat
-        case .arduinoShield: .arduinoShield
-        case .pcie, .m2, .miniPCIe, .sodimm, .dimm: card(CardOptions())
+        case .pcie, .m2, .miniPCIe, .sodimm, .dimm, .arduinoShield: card(CardOptions())
         }
     }
 
@@ -98,8 +102,9 @@ nonisolated enum BoardType: String, CaseIterable, Hashable, Sendable {
 }
 
 /// The settings of the card types that have them: PCI Express lanes and
-/// bracket height, M.2 length and key, Mini PCIe size, and the memory
-/// generation of a SO-DIMM or DIMM. Raw values are the file values.
+/// bracket height, M.2 length and key, Mini PCIe size, the memory
+/// generation of a SO-DIMM or DIMM, and an Arduino shield's ICSP header.
+/// Raw values are the file values.
 nonisolated struct CardOptions: Hashable, Sendable {
     var pcieLanes = 1
     /// A low-profile bracket (a shorter card).
@@ -113,6 +118,8 @@ nonisolated struct CardOptions: Hashable, Sendable {
     /// A registered DDR5 DIMM (RDIMM), whose key sits further right than
     /// an unbuffered one's. Other modules key the same either way.
     var registered = false
+    /// An Arduino shield's 2 × 3 ICSP header holes.
+    var icsp = false
 
     static let pcieLaneCounts = [1, 4, 8, 16]
     static let m2Lengths = [30, 42, 60, 80, 110]
@@ -310,6 +317,9 @@ nonisolated struct CardSpec: Hashable, Sendable {
     var fixedOutline: [CGPoint]? = nil
     /// The standard's mounting holes (a HAT's or shield's).
     var holes: [MountingHole] = []
+    /// Header pads that aren't the connector's pins, so no bus carries
+    /// them (an Arduino shield's ICSP header), named "ICSP.1" and so on.
+    var extraPads: [EdgeFinger] = []
     /// The pin names in the connector's own order, when natural order
     /// isn't it (an Arduino shield's D0…D13, A0…A5, power pins).
     var pinOrder: [String]? = nil
@@ -1047,9 +1057,11 @@ nonisolated struct CardSpec: Hashable, Sendable {
     /// pins are GND1–GND3, NC the unused one): the 10-pin SCL…D8 and 8-pin
     /// D7…D0 headers along the top edge, the 8-pin power header (NC, IORF,
     /// RST, 3V3, 5V, GND1, GND2, VIN) and A0…A5 along the bottom. The
-    /// ICSP header is left out. The bus carries D0–D13, A0–A5, then SDA,
-    /// SCL, AREF and the power pins.
-    static let arduinoShield: CardSpec = {
+    /// ICSP header (2 × 3, pin 1 MISO square, at the far end by the cut
+    /// corner) is there when `icsp` is set: its holes only, ICSP.1 to
+    /// ICSP.6, on no bus. The bus carries D0–D13, A0–A5, then SDA, SCL, AREF
+    /// and the power pins.
+    static func arduinoShield(icsp: Bool) -> CardSpec {
         let inch = 25.4, width = 2.7 * inch, height = 2.1 * inch
         // The library's frame: mils from the bottom-left, y up.
         func at(_ x: Double, _ y: Double) -> CGPoint { CGPoint(x: x * inch / 1000, y: height - y * inch / 1000) }
@@ -1069,7 +1081,16 @@ nonisolated struct CardSpec: Hashable, Sendable {
             .map { MountingHole(centre: $0, drill: 0.125 * inch) }
         let order = (0...13).map { "D\($0)" } + (0...5).map { "A\($0)" }
             + ["SDA", "SCL", "AREF", "IORF", "RST", "3V3", "5V", "VIN", "GND1", "GND2", "GND3", "NC"]
-        return headerBoard(width: width, height: height, pins: pins, outline: outline, holes: holes,
-                           pinOrder: order)
-    }()
+        var spec = headerBoard(width: width, height: height, pins: pins, outline: outline, holes: holes,
+                               pinOrder: order)
+        if icsp {
+            // MISO VCC / SCK MOSI / RESET GND, in two columns 0.1 in apart,
+            // as SparkFun-Boards.lbr places them (mm from the bottom-left).
+            spec.extraPads = (0..<6).map { n in
+                let centre = CGPoint(x: 63.64 + Double(n % 2) * 2.54, y: height - (30.43 - Double(n / 2) * 2.54))
+                return .header("ICSP.\(n + 1)", centre: centre, round: n != 0)
+            }
+        }
+        return spec
+    }
 }

@@ -317,6 +317,10 @@ nonisolated struct BoardSettings: Hashable, Sendable {
     /// The standard's mounting holes; none on a custom board or a card.
     var holes: [MountingHole] { card?.holes ?? [] }
 
+    /// The standard's header pads that no bus carries (an Arduino shield's
+    /// ICSP header, when chosen).
+    var extraPads: [EdgeFinger] { card?.extraPads ?? [] }
+
     /// What the connector's pins are labelled in lists: "Edge" or "Header".
     var connectorName: String { card?.connectorName ?? "Edge" }
 

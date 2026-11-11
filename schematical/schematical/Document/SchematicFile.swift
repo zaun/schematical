@@ -152,6 +152,8 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
             var halfSize: Bool? = nil
             var memory: String? = nil
             var registered: Bool? = nil
+            /// An Arduino shield's ICSP header holes.
+            var icsp: Bool? = nil
         }
 
         struct CardEntry: Codable, Equatable, Sendable {
@@ -542,7 +544,7 @@ extension SchematicFile {
                 name: bus.name,
                 type: bus.card.isCustom ? nil : bus.card.type.rawValue,
                 card: bus.card.type == .customCard ? Self.entry(bus.card.customCard) : nil,
-                cardOptions: bus.card.type.hasOptions ? Self.entry(bus.card.cardOptions) : nil,
+                cardOptions: bus.card.type.hasBusOptions ? Self.entry(bus.card.cardOptions) : nil,
                 lines: bus.lines.map {
                     BusLineEntry(id: $0.id, a: Point(x: $0.a.x, y: $0.a.y), b: Point(x: $0.b.x, y: $0.b.y))
                 },
@@ -1141,7 +1143,8 @@ extension SchematicFile {
     static func entry(_ options: CardOptions) -> Board.OptionsEntry {
         Board.OptionsEntry(lanes: options.pcieLanes, lowProfile: options.lowProfile, length: options.m2Length,
                            key: options.m2Key.rawValue, halfSize: options.halfSize,
-                           memory: options.memory.rawValue, registered: options.registered)
+                           memory: options.memory.rawValue, registered: options.registered,
+                           icsp: options.icsp)
     }
 
     /// A stored custom card edge; missing keys are the defaults, and
@@ -1182,6 +1185,7 @@ extension SchematicFile {
         options.memory = try Self.value(entry.memory, of: MemoryGeneration.self, "card memory",
                                         default: options.memory)
         options.registered = entry.registered ?? options.registered
+        options.icsp = entry.icsp ?? options.icsp
         return options
     }
 

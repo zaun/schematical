@@ -145,8 +145,9 @@ private struct GridSection: View {
 
 // MARK: - Card options
 
-/// The settings of a PCI Express, M.2, Mini PCIe, SO-DIMM or DIMM card;
-/// each picks the matching standard shape and size. Used for the board and
+/// The settings of a PCI Express, M.2, Mini PCIe, SO-DIMM or DIMM card
+/// (each picks the matching standard shape and size), or whether an
+/// Arduino shield has its ICSP header. Used for the board and
 /// for a bus's type (`options` reads them, `set` stores them).
 struct CardOptionsSection: View {
     let type: BoardType
@@ -154,7 +155,7 @@ struct CardOptionsSection: View {
     let set: (CardOptions) -> Void
 
     var body: some View {
-        Section("Card") {
+        Section(type == .arduinoShield ? "Shield" : "Card") {
             switch type {
             case .pcie:
                 Picker("Lanes", selection: binding(\.pcieLanes)) {
@@ -190,6 +191,9 @@ struct CardOptionsSection: View {
                     Toggle("Registered (RDIMM)", isOn: binding(\.registered))
                         .help("A DDR5 RDIMM's key sits 2.45 mm further right than an unbuffered DIMM's")
                 }
+            case .arduinoShield:
+                Toggle("ICSP header", isOn: binding(\.icsp))
+                    .help("The 2 × 3 ICSP header's holes by the cut corner; they are on the board only, not the bus")
             default:
                 EmptyView()
             }

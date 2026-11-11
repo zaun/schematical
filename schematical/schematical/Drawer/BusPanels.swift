@@ -92,7 +92,7 @@ struct BusPanel: View {
                             .foregroundStyle(.red)
                     }
                 }
-                if bus.card.type.hasOptions {
+                if bus.card.type.hasBusOptions {
                     CardOptionsSection(type: bus.card.type, options: { document.bus(busID)?.card.cardOptions ?? CardOptions() },
                                        set: { options in
                                            guard var card = document.bus(busID)?.card else { return }

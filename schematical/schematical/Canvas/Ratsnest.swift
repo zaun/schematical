@@ -77,6 +77,10 @@ extension SchematicDocument {
             pads.append(Pad(chip: -1, pad: finger.pad, side: finger.side,
                             label: "\(board.connectorName).\(finger.name)"))
         }
+        // Header pads off the bus: on no net, joined only by copper.
+        for pad in board.extraPads {
+            pads.append(Pad(chip: -1, pad: pad.pad, side: pad.side, label: pad.name))
+        }
         for (n, hole) in board.holes.enumerated() {
             pads.append(Pad(chip: -1, pad: hole.pad, side: .top, label: "Board hole \(n + 1)"))
         }
