@@ -42,9 +42,9 @@ struct ContentView: View {
     @State private var isLayerViewShown = false
     /// The layer the PCB Trace tool draws on (the trace layer menu).
     @State private var traceLayer: CopperLayer = .top
-    @State private var isDrawerShown = true
-    /// The PCB page's inspector (board, footprint or text settings).
-    @State private var isPCBSidebarShown = true
+    /// Whether the sidebar is shown: the parts drawer on the Schematic page,
+    /// the inspector on the PCB page. One flag for both pages.
+    @State private var isSidebarShown = true
     @State private var simulation: SimulationController
     @State private var file: SchematicFileController
     /// Identifies this window to the memory windows it opens.
@@ -107,19 +107,8 @@ struct ContentView: View {
     }
 
     /// One inspector column: the parts drawer on the Schematic page, the PCB
-    /// sidebar on the PCB page. Each page remembers whether it is shown.
-    private var inspectorBinding: Binding<Bool> {
-        Binding(
-            get: { page == .schematic ? isDrawerShown : isPCBSidebarShown },
-            set: { shown in
-                if page == .schematic {
-                    isDrawerShown = shown
-                } else {
-                    isPCBSidebarShown = shown
-                }
-            }
-        )
-    }
+    /// sidebar on the PCB page. Both pages share one shown flag.
+    private var inspectorBinding: Binding<Bool> { $isSidebarShown }
 
     /// The layers the Trace tool can draw on: the board's, less its planes.
     private var traceLayers: [CopperLayer] { document.board.traceLayers }
@@ -449,13 +438,13 @@ struct ContentView: View {
 
                 ToolbarItem(placement: .primaryAction) {
                     if page == .schematic {
-                        Toggle(isOn: $isDrawerShown) {
+                        Toggle(isOn: $isSidebarShown) {
                             Label("Parts Drawer", systemImage: "sidebar.trailing")
                         }
                         .toggleStyle(.button)
                         .help("Show or hide the parts drawer")
                     } else {
-                        Toggle(isOn: $isPCBSidebarShown) {
+                        Toggle(isOn: $isSidebarShown) {
                             Label("Inspector", systemImage: "sidebar.trailing")
                         }
                         .toggleStyle(.button)
