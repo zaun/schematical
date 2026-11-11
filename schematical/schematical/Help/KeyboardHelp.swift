@@ -74,6 +74,8 @@ nonisolated enum KeyboardHelp {
         HelpSection(title: "Editing", entries: [
             entry("F", "Flip the selected part or net label left to right"),
             entry("⌘⌫", "Delete the selection"),
+            entry("⌘C", "Copy the selected parts, labels, text and wires"),
+            entry("⌘V", "Paste, centred on the pointer"),
             entry("Click a switch lever", "Flip that DIP switch position (also in play mode)"),
         ]),
         HelpSection(title: "Line and Bus tools (while dragging)", entries: [

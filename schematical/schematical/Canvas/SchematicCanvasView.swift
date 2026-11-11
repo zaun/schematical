@@ -61,6 +61,9 @@ struct SchematicCanvasView: View {
     var onOpenCpu: (UUID) -> Void = { _ in }
     var onOpenTerminal: (UUID) -> Void = { _ in }
     var onOpenRegisters: (UUID) -> Void = { _ in }
+    /// Where the pointer is over the canvas (canvas units), for ⌘V; set as
+    /// it moves.
+    var pointer: BoardPointer?
     /// Called after a part dragged from the drawer is placed on the canvas,
     /// and after the Text tool adds or picks a text block.
     var onPartPlaced: () -> Void = {}
@@ -144,8 +147,10 @@ struct SchematicCanvasView: View {
             .onContinuousHover { phase in
                 switch phase {
                 case let .active(location):
+                    pointer?.point = viewport.world(location)
                     updateHover(at: viewport.world(location))
                 case .ended:
+                    pointer?.point = nil
                     clearHover()
                 }
             }

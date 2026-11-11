@@ -1641,25 +1641,7 @@ final class SchematicDocument {
             let origin = SchematicGrid.snap(
                 CGPoint(x: point.x - layout.size.width / 2, y: point.y - layout.size.height / 2)
             )
-            let used = Set(chips.map(\.reference))
-            let reference: String
-            if part.isPullResistor {
-                // A pull resistor is the lowest R<n> no part uses.
-                var number = 1
-                while used.contains("R\(number)") {
-                    number += 1
-                }
-                reference = "R\(number)"
-            } else {
-                // The first U<n> from nextReference on that no part uses, since a
-                // part may have been renamed to one.
-                var number = nextReference
-                while used.contains("U\(number)") {
-                    number += 1
-                }
-                reference = "U\(number)"
-                nextReference = number + 1
-            }
+            let reference = takeReference(for: part)
             var placed = PlacedChip(
                 reference: reference,
                 part: part,
@@ -1676,6 +1658,27 @@ final class SchematicDocument {
             chips.append(placed)
             adoptLooseEnds(chips: [placed.id])
         }
+    }
+
+    /// The reference for a new part, taken: a pull resistor gets the lowest
+    /// R<n> no part uses; any other part the first U<n> from
+    /// `nextReference` on that no part uses (a part may have been renamed
+    /// to one), which moves `nextReference` past it.
+    private func takeReference(for part: CatalogPart) -> String {
+        let used = Set(chips.map(\.reference))
+        if part.isPullResistor {
+            var number = 1
+            while used.contains("R\(number)") {
+                number += 1
+            }
+            return "R\(number)"
+        }
+        var number = nextReference
+        while used.contains("U\(number)") {
+            number += 1
+        }
+        nextReference = number + 1
+        return "U\(number)"
     }
 
     /// Sets an LED's color. Does nothing for a part that isn't an LED, or a
@@ -1908,6 +1911,101 @@ final class SchematicDocument {
             }
             adoptLooseEnds(chips: Set(base.chips.keys), junctions: Set(base.junctions.keys),
                            labels: Set(base.labels.keys))
+        }
+    }
+
+    // MARK: Copy and paste (Schematic)
+
+    /// Adds a copy (`SchematicCopy`) moved by `offset` (snapped to the
+    /// grid), as one step, and makes it the selection. Every item gets a new
+    /// id; parts get new references (as a placed part does) and a footprint
+    /// spot to the right of the board's parts. Net labels keep their names,
+    /// so they join the nets of those names. Loose ends that land on a pin
+    /// connect. Refused, with nothing changed, when it would put a voltage
+    /// out of range on a part (`editorMessage` says why). Returns whether
+    /// anything was pasted.
+    @discardableResult
+    func pasteSchematic(_ copy: SchematicCopy, offset: CGSize) -> Bool {
+        guard !copy.isEmpty else { return false }
+        return recordEdit(.schematic, "Paste") { () -> Bool in
+            let dx = SchematicGrid.snap(offset.width), dy = SchematicGrid.snap(offset.height)
+            func shifted(_ point: CGPoint) -> CGPoint { CGPoint(x: point.x + dx, y: point.y + dy) }
+            var newID: [UUID: UUID] = [:]
+            func renamed(_ id: UUID) -> UUID {
+                if let id = newID[id] { return id }
+                let fresh = UUID()
+                newID[id] = fresh
+                return fresh
+            }
+
+            let savedNextReference = nextReference
+            var pastedChips: [PlacedChip] = []
+            for chip in copy.chips {
+                var placed = PlacedChip(
+                    id: renamed(chip.id), reference: takeReference(for: chip.part), part: chip.part,
+                    symbol: chip.symbol, origin: shifted(chip.origin), isFlipped: chip.isFlipped,
+                    switchesOn: chip.switchesOn, memoryFile: chip.memoryFile, color: chip.color,
+                    footprintID: chip.footprintID, gender: chip.gender, ohms: chip.ohms
+                )
+                placed.board = placed.footprint.map {
+                    BoardLayout.nextSpot(for: $0, among: chips + pastedChips, pad1: placed.part.firstPinDesignator,
+                                         grid: self.board.grid)
+                }
+                pastedChips.append(placed)
+            }
+            let pastedJunctions = copy.junctions.map {
+                Junction(id: renamed($0.id), point: shifted($0.point), isLoose: $0.isLoose)
+            }
+            let pastedLabels = copy.labels.map {
+                NetLabel(id: renamed($0.id), name: $0.name, style: $0.style, origin: shifted($0.origin),
+                         isFlipped: $0.isFlipped)
+            }
+            let pastedNotes = copy.notes.map {
+                SchematicNote(id: renamed($0.id), text: $0.text, origin: shifted($0.origin), size: $0.size,
+                              framed: $0.framed)
+            }
+            func end(_ end: WireEnd) -> WireEnd {
+                switch end {
+                case let .pin(ref): .pin(PinRef(chipID: renamed(ref.chipID), index: ref.index))
+                case let .junction(id): .junction(renamed(id))
+                case let .label(id): .label(renamed(id))
+                // A copy never holds one (`schematicCopy` loosens them).
+                case let .busPin(ref): .busPin(ref)
+                }
+            }
+            let pastedWires = copy.wires.map {
+                Wire(id: renamed($0.id), start: end($0.start), end: end($0.end), interior: $0.interior.map(shifted))
+            }
+
+            // Labels join existing nets by name, which can put a voltage
+            // out of range.
+            if let library,
+               let issue = VoltageCheck.firstNew(before: chips, wires, after: chips + pastedChips,
+                                                 wires + pastedWires, buses: buses, labels: netLabels,
+                                                 afterLabels: netLabels + pastedLabels, library: library) {
+                nextReference = savedNextReference
+                editorMessage = VoltageCheck.message(issue, chips: chips + pastedChips, edit: .connect)
+                return false
+            }
+            editorMessage = nil
+            chips += pastedChips
+            junctions += pastedJunctions
+            netLabels += pastedLabels
+            notes += pastedNotes
+            wires += pastedWires
+
+            var selection = Set<SchematicItem>()
+            selection.formUnion(pastedChips.map { .chip($0.id) })
+            selection.formUnion(pastedLabels.map { .label($0.id) })
+            selection.formUnion(pastedNotes.map { .note($0.id) })
+            selection.formUnion(pastedWires.map { .wire($0.id) })
+            clearSchematicSelection()
+            for item in selection { toggleSelection(item) }
+            pruneJunctions()
+            adoptLooseEnds(chips: Set(pastedChips.map(\.id)),
+                           junctions: Set(pastedJunctions.filter(\.isLoose).map(\.id)),
+                           labels: Set(pastedLabels.map(\.id)))
+            return true
         }
     }
 

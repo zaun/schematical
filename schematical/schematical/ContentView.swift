@@ -60,7 +60,7 @@ struct ContentView: View {
     @State private var isDesignRuleCheckOpen = false
     /// Watches for the editing keys: R rotates, A changes the trace angle
     /// and ⌘C / ⌘V copy and paste traces on the PCB, F flips on the
-    /// Schematic, ⌘⌫ deletes on both.
+    /// Schematic, ⌘C / ⌘V copy and paste its selection, ⌘⌫ deletes on both.
     @State private var editKeyMonitor: Any?
     /// The Trace tool's angle, kept until changed; not saved in the file.
     @State private var traceAngle = TraceRoute.defaultAngle
@@ -71,6 +71,8 @@ struct ContentView: View {
     @State private var angleFlashID = UUID()
     /// Where the pointer is over the PCB, for ⌘V.
     @State private var boardPointer = BoardPointer()
+    /// Where the pointer is over the Schematic, for ⌘V.
+    @State private var schematicPointer = BoardPointer()
     /// Simulation speed (circuit time per wall time), an app preference.
     @AppStorage("simulationSpeed") private var simulationSpeed = 1.0
     /// The supply the VCC tool places (a `SupplyChoice` name), an app preference.
@@ -144,10 +146,12 @@ struct ContentView: View {
     /// The editing keys, in this window only and never while a text field
     /// is being typed in: R presses Rotate on the PCB (when it is enabled);
     /// A steps the Trace tool's angle while Trace is the PCB tool; F flips
-    /// the selected part on the Schematic; ⌘⌫
+    /// the selected part or net label on the Schematic; ⌘⌫
     /// deletes the selection (on the PCB only its texts and traces); ⌘C
     /// copies the selected traces on the PCB and ⌘V pastes them centred on
-    /// the pointer (`TraceClipboard`). Every other key, and a key with nothing to act
+    /// the pointer (`TraceClipboard`); on the Schematic they copy the
+    /// selection and paste it the same way (`SchematicClipboard`; not while
+    /// the simulation runs). Every other key, and a key with nothing to act
     /// on, is left alone.
     private func installEditKeyMonitor() {
         guard editKeyMonitor == nil else { return }
@@ -176,11 +180,23 @@ struct ContentView: View {
                     : !simulation.isRunning && document.deleteSchematicSelection()
                 guard deleted else { return event }
             case .copy:
-                let copied = page == .pcb ? document.selectedTraces() : []
+                if page == .schematic {
+                    guard let copied = document.schematicCopy() else { return event }
+                    SchematicClipboard.copy(copied)
+                    return nil
+                }
+                let copied = document.selectedTraces()
                 guard !copied.isEmpty else { return event }
                 TraceClipboard.copy(copied)
             case .paste:
-                guard page == .pcb, !TraceClipboard.traces.isEmpty else { return event }
+                if page == .schematic {
+                    guard !simulation.isRunning, let copied = SchematicClipboard.contents else { return event }
+                    let offset = schematicPointer.point.map { SchematicClipboard.offset(centring: copied, on: $0) }
+                        ?? SchematicClipboard.nextOffset()
+                    document.pasteSchematic(copied, offset: offset)
+                    return nil
+                }
+                guard !TraceClipboard.traces.isEmpty else { return event }
                 let copied = TraceClipboard.traces
                 let offset = boardPointer.point.map { TraceClipboard.offset(centring: copied, on: $0, grid: document.board.traceGrid) }
                     ?? TraceClipboard.nextOffset()
@@ -266,7 +282,8 @@ struct ContentView: View {
                     let target = RegisterWindowTarget(sessionID: sessionID, chipID: chipID)
                     registerWindows.insert(target)
                     openWindow(id: "registers", value: target)
-                }
+                },
+                pointer: schematicPointer
             ) {
                 // Placing a part from the drawer returns to the Pointer tool.
                 tool = .pointer
