@@ -381,8 +381,8 @@ private struct BoardPanel: View {
 
 /// One row per copper layer, Top first: a colour well, the name and the
 /// type. Top and Bottom are always Component; an inner layer is Plane or
-/// Wire. A Plane has a second row: the net it carries (None, GND, a power
-/// rail or a signal net).
+/// Wire. A Plane also has its net (None, GND, a power rail or a signal
+/// net), between the name and the type.
 struct LayersSection: View {
     let document: SchematicDocument
 
@@ -390,15 +390,12 @@ struct LayersSection: View {
         let choices = document.planeNetChoices()
         Section("Layers") {
             ForEach(document.board.copperLayers, id: \.self) { layer in
-                row(layer)
-                if layer.isInner, document.board.style(of: layer).type == .plane {
-                    netRow(layer, choices: choices)
-                }
+                row(layer, choices: choices)
             }
         }
     }
 
-    private func row(_ layer: CopperLayer) -> some View {
+    private func row(_ layer: CopperLayer, choices: [(net: PlaneNet, title: String)]) -> some View {
         let style = document.board.style(of: layer)
         return HStack(spacing: 8) {
             ColorPicker("\(layer.title) colour", selection: Binding(
@@ -408,6 +405,9 @@ struct LayersSection: View {
             .labelsHidden()
             Text(layer.title)
             Spacer()
+            if layer.isInner, style.type == .plane {
+                netPicker(layer, choices: choices)
+            }
             if layer.isInner {
                 Picker("\(layer.title) type", selection: Binding(
                     get: { style.type },
@@ -433,10 +433,10 @@ struct LayersSection: View {
 
     /// The Plane's net. A net the schematic no longer has stays listed, as
     /// "Missing net", until another is chosen.
-    private func netRow(_ layer: CopperLayer, choices: [(net: PlaneNet, title: String)]) -> some View {
+    private func netPicker(_ layer: CopperLayer, choices: [(net: PlaneNet, title: String)]) -> some View {
         let current = document.board.style(of: layer).net
         let missing = current.map { net in !choices.contains { $0.net == net } } ?? false
-        return Picker("Net", selection: Binding(
+        return Picker("\(layer.title) net", selection: Binding(
             get: { current },
             set: { document.setLayerNet(layer, $0) }
         )) {
@@ -449,8 +449,9 @@ struct LayersSection: View {
             }
         }
         .pickerStyle(.menu)
-        .accessibilityLabel("\(layer.title) net")
-        .padding(.leading, 28)
+        .labelsHidden()
+        // Shrinks (a long signal net truncates) before the name or type do.
+        .layoutPriority(-1)
     }
 }
 
