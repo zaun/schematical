@@ -17,6 +17,7 @@ struct PCBSidebarView: View {
         case text(UUID)
         case trace(UUID)
         case via(UUID)
+        case hole(UUID)
         case selection
     }
 
@@ -32,6 +33,9 @@ struct PCBSidebarView: View {
         }
         if let id = document.selectedViaID, document.vias.contains(where: { $0.id == id }) {
             return .via(id)
+        }
+        if let id = document.selectedHoleID, document.holes.contains(where: { $0.id == id }) {
+            return .hole(id)
         }
         return document.boardSelection.isEmpty ? .board : .selection
     }
@@ -68,6 +72,11 @@ struct PCBSidebarView: View {
                 if let via = document.vias.first(where: { $0.id == id }) {
                     ViaPanel(document: document, via: via)
                         .id(via.id)
+                }
+            case let .hole(id):
+                if let hole = document.holes.first(where: { $0.id == id }) {
+                    HolePanel(document: document, hole: hole)
+                        .id(hole.id)
                 }
             case .selection:
                 SelectionListSection(
@@ -630,6 +639,89 @@ private struct ViaPanel: View {
     /// The via as the document now has it, after an edit clamped it.
     private var current: BoardVia {
         document.vias.first { $0.id == via.id } ?? via
+    }
+}
+
+// MARK: - Hole
+
+/// The selected drilled hole: where it is, its size (a screw size or
+/// Custom), whether it is plated, and a plated hole's land, net and the
+/// traces it joins. ⌘⌫ or the Delete tool deletes it.
+private struct HolePanel: View {
+    let document: SchematicDocument
+    let hole: BoardHole
+
+    var body: some View {
+        let units = document.board.units
+        Section("Hole") {
+            LockToggle(document: document, item: .hole(hole.id))
+            Group {
+                LengthField(title: "X", millimetres: hole.centre.x, units: units, precise: true) {
+                    document.setHoleCentre(hole.id, CGPoint(x: $0, y: hole.centre.y))
+                    return current.centre.x
+                }
+                LengthField(title: "Y", millimetres: hole.centre.y, units: units, precise: true) {
+                    document.setHoleCentre(hole.id, CGPoint(x: hole.centre.x, y: $0))
+                    return current.centre.y
+                }
+            }
+            .disabled(hole.locked)
+            Picker("Size", selection: Binding(get: { hole.size }, set: { document.setHoleSize(hole.id, $0) })) {
+                ForEach(HoleSize.allCases, id: \.self) { size in
+                    Text(size.title).tag(size)
+                }
+            }
+            .help("A screw size sets the hole and its land; Custom sets them by hand")
+            LengthField(title: "Drill", millimetres: hole.drill, units: units, precise: true) {
+                document.setHoleDrill(hole.id, $0)
+                return current.drill
+            }
+            .help("The hole's diameter")
+            Toggle("Plated", isOn: Binding(get: { hole.plated }, set: { document.setHolePlated(hole.id, $0) }))
+                .help("A plated hole has a copper land on every layer that traces join and a net")
+        }
+        if hole.plated {
+            Section("Copper") {
+                LengthField(title: "Land", millimetres: hole.diameter, units: units, precise: true) {
+                    document.setHoleDiameter(hole.id, $0)
+                    return current.diameter
+                }
+                .help("The copper's outer diameter, at least 0.2 mm more than the hole")
+                LabeledContent("Ring") {
+                    Text(LengthField.format(hole.ring, units: units, precise: true) + " " + units.title)
+                }
+                .help("The copper left round the hole, each side")
+                netPicker
+                let joined = document.traces(touching: hole)
+                LabeledContent("Traces") {
+                    Text(joined.isEmpty ? "None" : "\(joined.count)")
+                }
+                .help("Traces join the land at four points: right, below, left and above the hole")
+            }
+        }
+    }
+
+    /// The net: None, GND, a power rail or a signal net, as a Plane's. A
+    /// net the schematic no longer has stays listed, as "Missing net",
+    /// until another is chosen.
+    private var netPicker: some View {
+        let choices = document.planeNetChoices()
+        let missing = hole.net.map { net in !choices.contains { $0.net == net } } ?? false
+        return Picker("Net", selection: Binding(get: { hole.net }, set: { document.setHoleNet(hole.id, $0) })) {
+            Text("None").tag(PlaneNet?.none)
+            if missing, let net = hole.net {
+                Text("Missing net").tag(Optional(net))
+            }
+            ForEach(choices, id: \.net) { choice in
+                Text(choice.title).tag(Optional(choice.net))
+            }
+        }
+        .help("The net the hole's copper is on")
+    }
+
+    /// The hole as the document now has it, after an edit clamped it.
+    private var current: BoardHole {
+        document.holes.first { $0.id == hole.id } ?? hole
     }
 }
 

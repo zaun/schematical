@@ -1228,6 +1228,12 @@ final class SchematicDocument {
         return nil
     }
 
+    /// The hole, when it is the only thing selected on the PCB page.
+    var selectedHoleID: UUID? {
+        if case let .hole(id)? = boardSelection.sole { return id }
+        return nil
+    }
+
     // MARK: Selecting
 
     /// Selects only `item` on the Schematic page.
@@ -1329,6 +1335,7 @@ final class SchematicDocument {
         }
         if visible.showsAnyCopper {
             for via in vias where via.rect.intersects(rect) { items.insert(.via(via.id)) }
+            for hole in holes where hole.rect.intersects(rect) { items.insert(.hole(hole.id)) }
         }
         return items
     }
@@ -1383,13 +1390,14 @@ final class SchematicDocument {
             }
         }
         let footprints = Set(chips.filter { $0.board != nil }.map(\.id))
-        let traceIDs = Set(traces.map(\.id)), viaIDs = Set(vias.map(\.id))
+        let traceIDs = Set(traces.map(\.id)), viaIDs = Set(vias.map(\.id)), holeIDs = Set(holes.map(\.id))
         boardSelection.filter { item in
             switch item {
             case let .footprint(id): footprints.contains(id)
             case let .text(id): textIDs.contains(id)
             case let .trace(id): traceIDs.contains(id)
             case let .via(id): viaIDs.contains(id)
+            case let .hole(id): holeIDs.contains(id)
             }
         }
     }
@@ -1403,6 +1411,9 @@ final class SchematicDocument {
     private(set) var traces: [BoardTrace] = []
     /// Vias on the PCB, in drawing order.
     private(set) var vias: [BoardVia] = []
+    /// Drilled holes on the PCB (mounting holes and others), in drawing
+    /// order.
+    private(set) var holes: [BoardHole] = []
 
     /// Lowest number tried for the next part's reference ("U" plus a number).
     private(set) var nextReference = 1
@@ -1424,8 +1435,8 @@ final class SchematicDocument {
     /// just opened. Clears the selection.
     func replaceContents(chips: [PlacedChip], wires: [Wire], junctions: [Junction], buses: [Bus],
                          nextReference: Int, board: BoardSettings, texts: [BoardText],
-                         traces: [BoardTrace], vias: [BoardVia] = [], notes: [SchematicNote] = [],
-                         netLabels: [NetLabel] = []) {
+                         traces: [BoardTrace], vias: [BoardVia] = [], holes: [BoardHole] = [],
+                         notes: [SchematicNote] = [], netLabels: [NetLabel] = []) {
         self.chips = chips
         self.notes = notes
         self.netLabels = netLabels
@@ -1444,6 +1455,7 @@ final class SchematicDocument {
         defer { if self.board.edgeBus != nil, edgeBusID == nil { self.board.edgeBus = nil } }
         self.traces = traces
         self.vias = vias
+        self.holes = holes
         editingNoteID = nil
         clearAllSelections()
         editorMessage = nil
@@ -1482,7 +1494,7 @@ final class SchematicDocument {
     /// The saved part of the document, as a value.
     var state: DocumentState {
         DocumentState(chips: chips, wires: wires, junctions: junctions, buses: buses, notes: notes,
-                      netLabels: netLabels, nextReference: nextReference, board: board, texts: texts, traces: traces, vias: vias)
+                      netLabels: netLabels, nextReference: nextReference, board: board, texts: texts, traces: traces, vias: vias, holes: holes)
     }
 
     /// Writes a state back (undo, redo), then drops selections and editor
@@ -1499,6 +1511,7 @@ final class SchematicDocument {
         if texts != s.texts { texts = s.texts }
         if traces != s.traces { traces = s.traces }
         if vias != s.vias { vias = s.vias }
+        if holes != s.holes { holes = s.holes }
         pruneSelection()
         if let id = editingNoteID, !notes.contains(where: { $0.id == id }) { editingNoteID = nil }
         if let id = selectedBusID, bus(id) == nil { selectedBusID = nil }
@@ -2610,7 +2623,8 @@ final class SchematicDocument {
     }
 
     /// Where a trace end pressed or released at `point` lands on `layer`:
-    /// the centre of a pad there, else of a via, else the inner end of a
+    /// the centre of a pad there, else of a via, else the nearest of a
+    /// plated hole's four contacts (`BoardHole.contacts`), else the inner end of a
     /// card's edge finger or header pad there (`EdgeFinger.contact`), else a vertex of a trace on that layer
     /// within `tolerance`, else the nearest point of a trace segment within
     /// `tolerance`, else the nearest trace-grid point (`BoardSettings.traceGrid`).
@@ -2619,6 +2633,10 @@ final class SchematicDocument {
             return CGPoint(x: hit.pad.rect.midX, y: hit.pad.rect.midY)
         }
         if let via = via(at: point) { return via.centre }
+        if let hole = holes.last(where: { $0.plated && Self.distance(from: point, to: $0.centre) <= $0.diameter / 2 }),
+           let contact = hole.contact(nearest: point) {
+            return contact
+        }
         if let finger = board.fingers.last(where: { $0.isOn(layer) && $0.rect.contains(point) }) {
             return finger.contact
         }
@@ -2782,6 +2800,10 @@ final class SchematicDocument {
             deleteVia(hit.id)
             return true
         }
+        if let hit = hole(at: point, visible: visible) {
+            deleteHole(hit.id)
+            return true
+        }
         if let hit = trace(at: point, tolerance: tolerance, visible: visible) {
             deleteTrace(hit.id)
             return true
@@ -2823,24 +2845,27 @@ final class SchematicDocument {
         }
     }
 
-    /// ⌘⌫ on the PCB: deletes every selected text, trace and via, as one
-    /// step. Selected footprints stay. Returns whether anything was deleted.
+    /// ⌘⌫ on the PCB: deletes every selected text, trace, via and hole, as
+    /// one step. Selected footprints stay. Returns whether anything was
+    /// deleted.
     @discardableResult
     func deleteBoardSelection() -> Bool {
-        var textIDs: Set<UUID> = [], traceIDs: Set<UUID> = [], viaIDs: Set<UUID> = []
+        var textIDs: Set<UUID> = [], traceIDs: Set<UUID> = [], viaIDs: Set<UUID> = [], holeIDs: Set<UUID> = []
         for item in boardSelection.items {
             switch item {
             case let .text(id): textIDs.insert(id)
             case let .trace(id): traceIDs.insert(id)
             case let .via(id): viaIDs.insert(id)
+            case let .hole(id): holeIDs.insert(id)
             case .footprint: break
             }
         }
-        guard !textIDs.isEmpty || !traceIDs.isEmpty || !viaIDs.isEmpty else { return false }
+        guard !textIDs.isEmpty || !traceIDs.isEmpty || !viaIDs.isEmpty || !holeIDs.isEmpty else { return false }
         recordEdit(.pcb, "Delete") {
             texts.removeAll { textIDs.contains($0.id) }
             traces.removeAll { traceIDs.contains($0.id) }
             vias.removeAll { viaIDs.contains($0.id) }
+            holes.removeAll { holeIDs.contains($0.id) }
             pruneSelection()
         }
         return true
@@ -2973,6 +2998,118 @@ final class SchematicDocument {
         }
     }
 
+    // MARK: Holes (PCB)
+
+    /// The hole under `point` (mm): the last one drawn there, within its
+    /// land (plated) or its hole. Holes are drawn while any copper layer is.
+    func hole(at point: CGPoint, visible: BoardVisibility = BoardVisibility()) -> BoardHole? {
+        guard visible.showsAnyCopper else { return nil }
+        return holes.last { Self.distance(from: point, to: $0.centre) <= $0.outer / 2 }
+    }
+
+    /// Adds a hole at `point`, snapped to the trace grid, and selects it.
+    /// It takes the size, plating and net of the last hole added, so a set
+    /// of mounting holes is quick to place; the first is a non-plated M3.
+    @discardableResult
+    func addHole(at point: CGPoint) -> UUID {
+        recordEdit(.pcb, "Add Hole") { () -> UUID in
+            let like = holes.last ?? BoardHole(id: UUID(), centre: .zero)
+            let hole = BoardHole(id: UUID(), centre: BoardGrid.snap(point, spacing: self.board.traceGrid),
+                                 size: like.size, drill: like.drill, diameter: like.diameter, plated: like.plated,
+                                 net: like.net)
+            holes.append(hole)
+            boardSelection.replace(with: .hole(hole.id))
+            return hole.id
+        }
+    }
+
+    /// Moves a hole's centre to `point`, snapped to the trace grid.
+    func moveHole(_ id: UUID, to point: CGPoint) {
+        recordEdit(.pcb, "Move") {
+            guard let index = holes.firstIndex(where: { $0.id == id }), !holes[index].locked else { return }
+            let target = BoardGrid.snap(point, spacing: self.board.traceGrid)
+            if holes[index].centre != target { holes[index].centre = target }
+        }
+    }
+
+    /// Moves a hole's centre to exactly `point` (the sidebar's X and Y).
+    func setHoleCentre(_ id: UUID, _ point: CGPoint) {
+        recordEdit(.pcb, "Move") {
+            guard let index = holes.firstIndex(where: { $0.id == id }), !holes[index].locked,
+                  holes[index].centre != point else { return }
+            holes[index].centre = point
+        }
+    }
+
+    /// Sets a hole's size: a screw size sets its hole and land.
+    func setHoleSize(_ id: UUID, _ size: HoleSize) {
+        recordEdit(.pcb, "Change Hole Size") {
+            guard let index = holes.firstIndex(where: { $0.id == id }) else { return }
+            var hole = holes[index]
+            hole.apply(size)
+            if holes[index] != hole { holes[index] = hole }
+        }
+    }
+
+    /// Sets a hole's drill, clamped to `BoardHole.drillRange`. The land
+    /// grows to keep the thinnest ring round it. The size becomes Custom.
+    func setHoleDrill(_ id: UUID, _ mm: Double) {
+        recordEdit(.pcb, "Change Hole Size") {
+            guard let index = holes.firstIndex(where: { $0.id == id }) else { return }
+            var hole = holes[index]
+            hole.drill = min(max(mm, BoardHole.drillRange.lowerBound), BoardHole.drillRange.upperBound)
+            hole.diameter = max(hole.diameter, hole.drill + 2 * BoardHole.minimumRing)
+            if hole.drill != holes[index].drill { hole.size = .custom }
+            if holes[index] != hole { holes[index] = hole }
+        }
+    }
+
+    /// Sets a hole's land diameter, clamped to `BoardHole.diameterRange` and
+    /// to keep the thinnest ring round its hole. The size becomes Custom.
+    func setHoleDiameter(_ id: UUID, _ mm: Double) {
+        recordEdit(.pcb, "Change Hole Size") {
+            guard let index = holes.firstIndex(where: { $0.id == id }) else { return }
+            let least = max(BoardHole.diameterRange.lowerBound, holes[index].drill + 2 * BoardHole.minimumRing)
+            let value = max(min(mm, BoardHole.diameterRange.upperBound), least)
+            guard holes[index].diameter != value else { return }
+            holes[index].diameter = value
+            holes[index].size = .custom
+        }
+    }
+
+    /// Makes a hole plated (a copper land that can carry a net) or bare.
+    func setHolePlated(_ id: UUID, _ plated: Bool) {
+        recordEdit(.pcb, plated ? "Plate Hole" : "Unplate Hole") {
+            guard let index = holes.firstIndex(where: { $0.id == id }), holes[index].plated != plated else { return }
+            holes[index].plated = plated
+        }
+    }
+
+    /// Sets a plated hole's net (`planeNetChoices`), or none.
+    func setHoleNet(_ id: UUID, _ net: PlaneNet?) {
+        recordEdit(.pcb, "Change Hole Net") {
+            guard let index = holes.firstIndex(where: { $0.id == id }), holes[index].net != net else { return }
+            holes[index].net = net
+        }
+    }
+
+    func deleteHole(_ id: UUID) {
+        recordEdit(.pcb, "Delete Hole") {
+            holes.removeAll { $0.id == id }
+            pruneSelection()
+        }
+    }
+
+    /// The traces whose copper touches a plated hole's land, on any layer.
+    func traces(touching hole: BoardHole) -> [BoardTrace] {
+        guard hole.plated else { return [] }
+        return traces.filter { trace in
+            trace.segments.contains {
+                Self.distance(from: hole.centre, toSegment: $0.0, $0.1) <= hole.diameter / 2 + trace.widthMM / 2
+            }
+        }
+    }
+
     // MARK: Trace geometry
 
     /// The point of segment a–b nearest `point`.
@@ -3055,6 +3192,7 @@ final class SchematicDocument {
         case let .text(id): texts.first { $0.id == id }?.locked ?? false
         case let .trace(id): traces.first { $0.id == id }?.locked ?? false
         case let .via(id): vias.first { $0.id == id }?.locked ?? false
+        case let .hole(id): holes.first { $0.id == id }?.locked ?? false
         }
     }
 
@@ -3073,6 +3211,8 @@ final class SchematicDocument {
                 if let index = traces.firstIndex(where: { $0.id == id }) { traces[index].locked = locked }
             case let .via(id):
                 if let index = vias.firstIndex(where: { $0.id == id }) { vias[index].locked = locked }
+            case let .hole(id):
+                if let index = holes.firstIndex(where: { $0.id == id }) { holes[index].locked = locked }
             }
         }
     }
@@ -3094,6 +3234,8 @@ final class SchematicDocument {
                 if let points = traces.first(where: { $0.id == id })?.points { base.traces[id] = points }
             case let .via(id):
                 if let centre = vias.first(where: { $0.id == id })?.centre { base.vias[id] = centre }
+            case let .hole(id):
+                if let centre = holes.first(where: { $0.id == id })?.centre { base.holes[id] = centre }
             }
         }
         return base
@@ -3134,7 +3276,13 @@ final class SchematicDocument {
                 if let (id, anchor) = base.texts.first { moveText(id, to: moved(anchor, by: delta)) }
                 // A via placed on a trace stays there until the pointer moves.
                 if let (id, centre) = base.vias.first, delta != .zero { moveVia(id, to: moved(centre, by: delta)) }
+                if let (id, centre) = base.holes.first { moveHole(id, to: moved(centre, by: delta)) }
                 return
+            }
+            for index in holes.indices {
+                guard let centre = base.holes[holes[index].id] else { continue }
+                let target = moved(centre, by: offset)
+                if holes[index].centre != target { holes[index].centre = target }
             }
             for index in vias.indices {
                 guard let centre = base.vias[vias[index].id] else { continue }
@@ -3169,6 +3317,7 @@ final class SchematicDocument {
                    visible: BoardVisibility = BoardVisibility()) -> BoardItem? {
         if let text = text(at: point, visible: visible) { return .text(text.id) }
         if let via = via(at: point, visible: visible) { return .via(via.id) }
+        if let hole = hole(at: point, visible: visible) { return .hole(hole.id) }
         if let trace = trace(at: point, tolerance: tolerance, visible: visible) { return .trace(trace.id) }
         if let chip = footprint(at: point, visible: visible), chip.board != nil { return .footprint(chip.id) }
         return nil

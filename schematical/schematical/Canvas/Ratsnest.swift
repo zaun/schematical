@@ -78,7 +78,13 @@ extension SchematicDocument {
                             label: "\(board.connectorName).\(finger.name)"))
         }
         for (n, hole) in board.holes.enumerated() {
-            pads.append(Pad(chip: -1, pad: hole.pad, side: .top, label: "Hole \(n + 1)"))
+            pads.append(Pad(chip: -1, pad: hole.pad, side: .top, label: "Board hole \(n + 1)"))
+        }
+        // The drilled holes (H1, H2, … in drawing order): a plated one is a
+        // pad on its net.
+        let holeBase = pads.count
+        for (n, hole) in holes.enumerated() {
+            pads.append(Pad(chip: -1, pad: hole.pad, side: .top, label: "H\(n + 1)", hole: hole.id))
         }
         let copper = traces + (drawing.map { [$0] } ?? [])
         // Vias come after the traces.
@@ -171,25 +177,32 @@ extension SchematicDocument {
         }
         netOfPad = netOfPad.mapValues(merged)
 
+        // The schematic net a Plane or plated hole names, if the schematic
+        // still has it.
+        func resolve(_ net: PlaneNet) -> Int? {
+            switch net {
+            case let .rail(mv):
+                return railNet[mv].map(merged)
+            case let .pin(chipID, designator):
+                guard let part = chips.firstIndex(where: { $0.id == chipID }) else { return nil }
+                if let pad = padsOfPin["\(part)/\(designator)"]?.first, let found = netOfPad[pad] {
+                    return found
+                }
+                return netlist.connections.first { $0.part == part && $0.pin == designator }
+                    .map { merged($0.net) }
+            }
+        }
+        for (n, hole) in holes.enumerated() where hole.plated {
+            if let net = hole.net.flatMap(resolve) { netOfPad[holeBase + n] = net }
+        }
+
         // A Plane joins every plated through-hole pad and via on its net
         // (one whose copper already reaches a pad of the net).
         var planeNets: [CopperLayer: Int] = [:]
         for layer in board.copperLayers {
             let style = board.style(of: layer)
             guard style.type == .plane, let net = style.net else { continue }
-            switch net {
-            case let .rail(mv):
-                if let rail = railNet[mv] { planeNets[layer] = merged(rail) }
-            case let .pin(chipID, designator):
-                guard let part = chips.firstIndex(where: { $0.id == chipID }) else { continue }
-                if let pad = padsOfPin["\(part)/\(designator)"]?.first, let found = netOfPad[pad] {
-                    planeNets[layer] = found
-                } else if let connection = netlist.connections.first(where: {
-                    $0.part == part && $0.pin == designator
-                }) {
-                    planeNets[layer] = merged(connection.net)
-                }
-            }
+            if let found = resolve(net) { planeNets[layer] = found }
         }
         if !planeNets.isEmpty {
             var netOfRoot: [Int: Int] = [:]
@@ -272,8 +285,10 @@ nonisolated struct BoardConnectivity {
         let pad: PlacedPad
         let side: BoardSide
         /// "U1.3", "U1.EP" for an unnumbered centre pad, "Edge.A1",
-        /// "Header.40", "Hole 1".
+        /// "Header.40", "Board hole 1", "H1".
         let label: String
+        /// The drilled hole (`BoardHole`) this pad is, if one.
+        var hole: UUID? = nil
 
         var centre: CGPoint { CGPoint(x: pad.rect.midX, y: pad.rect.midY) }
     }

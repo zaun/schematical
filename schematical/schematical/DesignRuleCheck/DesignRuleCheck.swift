@@ -120,8 +120,10 @@ private struct DesignRuleChecker {
         return "Text “\(line.count > 24 ? line.prefix(23) + "…" : line)”"
     }
 
-    /// What selecting a pad selects: its footprint (an edge finger, nothing).
+    /// What selecting a pad selects: its footprint, or the drilled hole it
+    /// is (an edge finger or board hole, nothing).
     private func item(ofPad pad: Int) -> Set<BoardItem> {
+        if let hole = copper.pads[pad].hole { return [.hole(hole)] }
         let chip = copper.pads[pad].chip
         return chip >= 0 ? [.footprint(chips[chip].id)] : []
     }
@@ -173,8 +175,11 @@ private struct DesignRuleChecker {
                 let loose = pads.filter { copper.netOfPad[$0] == nil }.map { copper.pads[$0].label }
                 guard !loose.isEmpty else { continue }
                 let netPad = pads.first { copper.netOfPad[$0] != nil }.map { copper.pads[$0].label } ?? ""
+                // A plated hole has no schematic wire: its net is set on it.
+                let onlyHoles = pads.allSatisfy { copper.netOfPad[$0] != nil || copper.pads[$0].hole != nil }
                 add(.short, list(loose),
-                    "Joined to the net of \(netPad), but not wired to anything in the schematic", items)
+                    onlyHoles ? "Joined to the net of \(netPad), but the hole's net isn't set to it"
+                        : "Joined to the net of \(netPad), but not wired to anything in the schematic", items)
             }
         }
 
@@ -517,7 +522,9 @@ private struct DesignRuleChecker {
             // listed once, under Placement.
             if shape.node < copper.pads.count {
                 let chip = copper.pads[shape.node].chip
-                if chip < 0 || offBoardChips.contains(chips[chip].reference) { continue }
+                if chip < 0 ? copper.pads[shape.node].hole == nil : offBoardChips.contains(chips[chip].reference) {
+                    continue
+                }
             }
             let gap = edges.map { shape.gap(to: $0) }.min() ?? .infinity
             let centre = CGPoint(x: shape.bounds.midX, y: shape.bounds.midY)

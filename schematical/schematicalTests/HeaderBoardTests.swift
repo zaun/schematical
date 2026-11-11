@@ -145,7 +145,7 @@ final class HeaderBoardTests: XCTestCase {
         let doc = TestSupport.newDocument()
         doc.setBoardType(.piHat)
         let copper = doc.connectivity()
-        let holes = copper.pads.indices.filter { copper.pads[$0].label.hasPrefix("Hole") }
+        let holes = copper.pads.indices.filter { copper.pads[$0].label.hasPrefix("Board hole") }
         XCTAssertEqual(holes.count, 4)
         XCTAssertTrue(holes.allSatisfy { !copper.pads[$0].pad.plated })
         XCTAssertTrue(Set(holes).isSubset(of: copper.planeClearances(on: .bottom).pads))

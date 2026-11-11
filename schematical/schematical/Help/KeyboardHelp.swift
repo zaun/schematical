@@ -101,7 +101,7 @@ nonisolated enum KeyboardHelp {
 
     static let pcb: [HelpSection] = [
         HelpSection(title: "Selecting and moving", entries: [
-            entry("Click", "Select a text, trace, via or footprint"),
+            entry("Click", "Select a text, trace, via, hole or footprint"),
             entry("⇧-click", "Add to the selection, or take out of it"),
             entry("Drag", "Move the item, snapped to the grid"),
             entry("⇧-drag, or drag a selected item", "Move the whole selection"),
@@ -110,7 +110,7 @@ nonisolated enum KeyboardHelp {
         ]),
         HelpSection(title: "Editing", entries: [
             entry("R or ⌥⌘R", "Rotate the selected footprint or text 90°"),
-            entry("⌘⌫", "Delete the selected texts, traces and vias (footprints stay)"),
+            entry("⌘⌫", "Delete the selected texts, traces, vias and holes (footprints stay)"),
             entry("⌘C", "Copy the selected traces"),
             entry("⌘V", "Paste traces, centred on the pointer"),
         ]),
@@ -125,7 +125,8 @@ nonisolated enum KeyboardHelp {
             entry("Text", "Click to place a text"),
             entry("Trace", "Drag to draw a trace on the layer the menu picks"),
             entry("Via", "Click to place a via, drag to move it"),
-            entry("Delete", "Click a trace, via or text to delete it"),
+            entry("Hole", "Click to place a drilled or mounting hole, drag to move it"),
+            entry("Delete", "Click a trace, via, hole or text to delete it"),
         ]),
         HelpSection(title: "Checks", entries: [
             entry("⇧⌘D", "Design Rule Check"),

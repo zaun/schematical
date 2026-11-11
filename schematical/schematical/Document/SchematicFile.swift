@@ -176,6 +176,27 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         /// Vias, in drawing order. Written only when there are some;
         /// missing means none.
         var vias: [ViaEntry]? = nil
+        /// Drilled holes, in drawing order. Written only when there are
+        /// some; missing means none.
+        var holes: [HoleEntry]? = nil
+
+        /// A drilled hole: its centre, size (`HoleSize` raw value, default
+        /// "m3"), hole (`drill`) and land (`diameter`) in mm, whether it is
+        /// plated, and its net (`PlaneNet.fileValue`, kept while not plated).
+        /// Missing sizes are the size's, or for Custom the M3 sizes.
+        struct HoleEntry: Codable, Equatable, Sendable {
+            var id: UUID
+            var x: Double
+            var y: Double
+            var size: String? = nil
+            var drill: Double? = nil
+            var diameter: Double? = nil
+            /// True when plated; left out otherwise.
+            var plated: Bool? = nil
+            var net: String? = nil
+            /// True when its position is locked; left out otherwise.
+            var locked: Bool? = nil
+        }
 
         /// A via: its centre, hole (`drill`) and metal (`diameter`), in mm.
         /// Missing sizes mean the defaults (0.4 and 0.8).
@@ -569,6 +590,11 @@ extension SchematicFile {
             vias: document.vias.isEmpty ? nil : document.vias.map { via in
                 Board.ViaEntry(id: via.id, x: via.centre.x, y: via.centre.y, drill: via.drill, diameter: via.diameter,
                                locked: via.locked ? true : nil)
+            },
+            holes: document.holes.isEmpty ? nil : document.holes.map { hole in
+                Board.HoleEntry(id: hole.id, x: hole.centre.x, y: hole.centre.y, size: hole.size.rawValue,
+                                drill: hole.drill, diameter: hole.diameter, plated: hole.plated ? true : nil,
+                                net: hole.net?.fileValue, locked: hole.locked ? true : nil)
             }
         )
     }
@@ -849,6 +875,28 @@ extension SchematicFile {
             vias.append(via)
         }
 
+        var holes: [BoardHole] = []
+        for entry in board?.holes ?? [] {
+            try claim(entry.id)
+            let name = "hole \(entry.id.uuidString)"
+            var hole = BoardHole(id: entry.id, centre: CGPoint(x: entry.x, y: entry.y))
+            hole.apply(try Self.value(entry.size, of: HoleSize.self, "\(name) size", default: .m3))
+            hole.drill = entry.drill ?? hole.drill
+            hole.diameter = entry.diameter ?? hole.diameter
+            hole.plated = entry.plated ?? false
+            hole.locked = entry.locked ?? false
+            if let raw = entry.net {
+                guard let net = PlaneNet(fileValue: raw) else {
+                    throw SchematicFileError.badPCB("\(name) net \"\(raw)\" must be ground, power:<mV> or pin:<part id>/<pin>")
+                }
+                hole.net = net
+            }
+            if let problem = BoardHole.problem(drill: hole.drill, diameter: hole.diameter) {
+                throw SchematicFileError.badPCB("\(name) \(problem)")
+            }
+            holes.append(hole)
+        }
+
         var placedNotes: [SchematicNote] = []
         for entry in notes ?? [] {
             try claim(entry.id)
@@ -872,6 +920,7 @@ extension SchematicFile {
             texts: texts,
             traces: traces,
             vias: vias,
+            holes: holes,
             notes: placedNotes,
             netLabels: placedLabels
         )

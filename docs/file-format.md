@@ -154,6 +154,7 @@ An EEPROM can name the file loaded into it when the simulation starts:
 | `texts`  | array   | Free texts on the board, in drawing order. Default none.              |
 | `traces` | array   | Copper traces, in drawing order ([Traces](#traces)). Always written, `[]` when there are none; missing means none. Older builds ignore it. |
 | `vias`   | array   | Vias, in drawing order ([Vias](#vias)). Written only when there are some; missing means none. Older builds ignore it. |
+| `holes`  | array   | Drilled holes (mounting holes and others), in drawing order ([Holes](#holes)). Written only when there are some; missing means none. Older builds ignore it. |
 
 A missing key takes its default. A text:
 
@@ -204,6 +205,33 @@ overlaps. A 1-layer board has none.
 | `drill`    | number | The hole's diameter in mm, 0.1 to 5. Default 0.4.                  |
 | `diameter` | number | The metal's outer diameter in mm, 0.2 to 10, and at least 0.1 more than `drill` (a 0.05 mm ring). Default 0.8. |
 | `locked`   | boolean | Lock Position: a locked via can't be dragged or moved by X and Y. Default `false`. Written only when `true`; older builds ignore it. |
+
+### Holes
+
+```json
+"holes": [ { "id": "...", "x": 3.5, "y": 3.5, "size": "m3", "drill": 3.2, "diameter": 6, "plated": true, "net": "ground" } ]
+```
+
+A drilled hole through the board, such as a mounting hole for a screw.
+A bare (non-plated) hole has no copper: a Plane is cut away round it and
+nothing joins it. A plated hole has a round copper land on every layer.
+It joins every trace whose copper touches the land on any layer, and
+every pad the land overlaps. Its `net` puts it on that net, as a pad wired
+to it is: it gets unrouted lines to the net's other pads, and a Plane on
+that net joins it. The Trace tool snaps a trace end on its land to the
+nearest of four points in the middle of the ring: right of, below, left
+of and above the hole. In lists it is `H1`, `H2`, … in drawing order.
+
+| Field      | Type    | Meaning |
+|------------|---------|---------|
+| `id`       | UUID    | Unique within the file, across every other ID. |
+| `x`, `y`   | number  | The centre, in mm. Kept as saved, not snapped. |
+| `size`     | string  | `"custom"`, or a screw size, which sets `drill` and `diameter` (a close-fit clearance hole, and a land as wide as the screw's pan head): `"m2"` (2.2 / 4.0), `"m2.5"` (2.7 / 5.0), `"m3"` (3.2 / 6.0), `"m4"` (4.3 / 8.0), `"m5"` (5.3 / 10.0), `"m6"` (6.4 / 12.0), `"#2"` (2.4 / 4.5), `"#4"` (3.0 / 6.0), `"#6"` (3.7 / 7.0), `"#8"` (4.3 / 8.5) or `"#10"` (5.0 / 9.5). Default `"m3"`. |
+| `drill`    | number  | The hole's diameter in mm, 0.3 to 10. Default the size's (a custom hole's: 3.2). |
+| `diameter` | number  | The land's outer diameter in mm, 0.5 to 20, and at least 0.2 more than `drill` (a 0.1 mm ring). Kept while not plated. Default the size's (a custom hole's: 6.0). |
+| `plated`   | boolean | A plated hole, with its land. Default `false`. Written only when `true`. |
+| `net`      | string  | The plated hole's net, as a Plane layer's (`"ground"`, `"power:<mV>"` or `"pin:<part UUID>/<designator>"`). Missing is none. Kept while not plated. |
+| `locked`   | boolean | Lock Position: a locked hole can't be dragged or moved by X and Y. Default `false`. Written only when `true`. |
 
 ## Junctions
 
@@ -431,6 +459,10 @@ Opening fails, and the canvas is left unchanged, if:
   - `via <id> drill 0.05 must be 0.1 to 5 mm`;
   - `via <id> diameter 11 must be 0.2 to 10 mm`;
   - `via <id> diameter 0.55 must be at least 0.1 mm more than its drill 0.5`;
+  - `hole <id> size "m7" must be custom, m2, m2.5, m3, m4, m5, m6, #2, #4, #6, #8 or #10`;
+  - `hole <id> drill 0.2 must be 0.3 to 10 mm`;
+  - `hole <id> diameter 3.1 must be at least 0.2 mm more than its drill 3`;
+  - `hole <id> net "vcc" must be ground, power:<mV> or pin:<part id>/<pin>`;
 - a bus is not valid. The message is "The bus is not valid: <detail>.",
   where the detail is one of:
   - `bus <id> has no lines`;

@@ -19,6 +19,7 @@ struct DocumentState: Equatable {
     var texts: [BoardText] = []
     var traces: [BoardTrace] = []
     var vias: [BoardVia] = []
+    var holes: [BoardHole] = []
 }
 
 /// One thing a step can change. A part is split three ways, so the two pages
@@ -27,14 +28,14 @@ struct DocumentState: Equatable {
 enum UndoKey: Hashable {
     case part(UUID), reference(UUID), footprint(UUID)
     case wire(UUID), junction(UUID), bus(UUID), note(UUID), label(UUID), nextReference
-    case text(UUID), trace(UUID), via(UUID), board
+    case text(UUID), trace(UUID), via(UUID), hole(UUID), board
 
     /// The pages that show this key. A step goes on the list of each.
     var pages: Set<EditorPage> {
         switch self {
         case .part, .wire, .junction, .bus, .note, .label, .nextReference: [.schematic]
         case .reference: [.schematic, .pcb]
-        case .footprint, .text, .trace, .via, .board: [.pcb]
+        case .footprint, .text, .trace, .via, .hole, .board: [.pcb]
         }
     }
 }
@@ -47,6 +48,7 @@ enum UndoValue: Equatable {
     case wire(Wire, index: Int), junction(Junction, index: Int)
     case bus(Bus, index: Int), note(SchematicNote, index: Int), label(NetLabel, index: Int)
     case text(BoardText, index: Int), trace(BoardTrace, index: Int), via(BoardVia, index: Int)
+    case hole(BoardHole, index: Int)
     case nextReference(Int), board(BoardSettings)
 }
 
@@ -124,6 +126,7 @@ enum UndoDiff {
         diff(old.texts, new.texts, key: UndoKey.text, wrap: UndoValue.text, into: &changes)
         diff(old.traces, new.traces, key: UndoKey.trace, wrap: UndoValue.trace, into: &changes)
         diff(old.vias, new.vias, key: UndoKey.via, wrap: UndoValue.via, into: &changes)
+        diff(old.holes, new.holes, key: UndoKey.hole, wrap: UndoValue.hole, into: &changes)
         if old.nextReference != new.nextReference {
             changes[.nextReference] = UndoChange(before: .nextReference(old.nextReference),
                                                  after: .nextReference(new.nextReference))
@@ -171,6 +174,7 @@ enum UndoDiff {
         var buses: [(UUID, UndoValue?)] = [], notes: [(UUID, UndoValue?)] = []
         var texts: [(UUID, UndoValue?)] = [], traces: [(UUID, UndoValue?)] = []
         var vias: [(UUID, UndoValue?)] = [], labels: [(UUID, UndoValue?)] = []
+        var holes: [(UUID, UndoValue?)] = []
         for (key, change) in changes {
             let value = target(change)
             switch key {
@@ -187,6 +191,7 @@ enum UndoDiff {
             case let .text(id): texts.append((id, value))
             case let .trace(id): traces.append((id, value))
             case let .via(id): vias.append((id, value))
+            case let .hole(id): holes.append((id, value))
             case .nextReference:
                 if case let .nextReference(n)? = value { state.nextReference = n }
             case .board:
@@ -221,6 +226,7 @@ enum UndoDiff {
         place(texts, in: &state.texts, unwrap: { if case let .text(t, i) = $0 { (t, i) } else { nil } })
         place(traces, in: &state.traces, unwrap: { if case let .trace(t, i) = $0 { (t, i) } else { nil } })
         place(vias, in: &state.vias, unwrap: { if case let .via(v, i) = $0 { (v, i) } else { nil } })
+        place(holes, in: &state.holes, unwrap: { if case let .hole(h, i) = $0 { (h, i) } else { nil } })
         return state != original
     }
 

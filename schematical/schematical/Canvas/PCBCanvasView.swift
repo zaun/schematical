@@ -253,8 +253,10 @@ struct PCBCanvasView: View {
                 let hole = CGRect(x: via.centre.x - d / 2, y: via.centre.y - d / 2, width: d, height: d)
                 context.fill(Path(ellipseIn: hole), with: .color(Self.background))
             }
-            // The board's own header pads, and its mounting holes.
+            // The board's own header pads and mounting holes, and the
+            // drilled holes.
             let boardPads = board.fingers.filter(\.isThroughHole).map(\.pad) + board.holes.map(\.pad)
+                + document.holes.map(\.pad)
             for pad in boardPads + document.chips.flatMap({ $0.boardPads.filter { $0.drill > 0 } }) {
                 // A non-plated hole has no copper: just the hole.
                 if pad.plated { context.fill(Self.outline(of: pad), with: .color(Self.copper)) }
@@ -286,6 +288,13 @@ struct PCBCanvasView: View {
                 // A ring just outside the via's metal.
                 if visible.showsAnyCopper, let via = document.vias.first(where: { $0.id == id }) {
                     context.stroke(Path(ellipseIn: via.rect.insetBy(dx: -margin, dy: -margin)),
+                                   with: .color(.accentColor), lineWidth: 2 / scale)
+                }
+                selected = nil
+            case let .hole(id):
+                // A ring just outside the hole's land (or bare hole).
+                if visible.showsAnyCopper, let hole = document.holes.first(where: { $0.id == id }) {
+                    context.stroke(Path(ellipseIn: hole.rect.insetBy(dx: -margin, dy: -margin)),
                                    with: .color(.accentColor), lineWidth: 2 / scale)
                 }
                 selected = nil
@@ -554,8 +563,13 @@ struct PCBCanvasView: View {
             let anchored = document.viaAnchor(at: point, tolerance: TraceDrawing.tolerance / scale)
             guard document.addVia(at: anchored) != nil else { return .idle }
             return .moveGroup(base: document.boardGroupBase())
+        case .hole:
+            // A press places a hole on the trace grid, and the drag moves it.
+            document.addHole(at: point)
+            return .moveGroup(base: document.boardGroupBase())
         case .delete:
-            // One deletion per press: the text, via or trace where it started.
+            // One deletion per press: the text, via, hole or trace where it
+            // started.
             document.deleteBoardItem(at: point, tolerance: TraceDrawing.tolerance / scale, visible: shown)
             return .idle
         case .text:
@@ -643,12 +657,14 @@ enum TraceDrawing {
 
 /// The PCB page's tools: Select (move footprints, texts and traces, pan),
 /// Text (click to place a text), Trace (drag to draw a trace), Via (click
-/// to place a via) and Delete (click a text, via or trace to delete it).
+/// to place a via), Hole (click to place a drilled hole) and Delete (click
+/// a text, via, hole or trace to delete it).
 enum PCBTool: String, CaseIterable, Identifiable {
     case select
     case text
     case trace
     case via
+    case hole
     case delete
 
     var id: String { rawValue }
@@ -659,6 +675,7 @@ enum PCBTool: String, CaseIterable, Identifiable {
         case .text: "Text"
         case .trace: "Trace"
         case .via: "Via"
+        case .hole: "Hole"
         case .delete: "Delete"
         }
     }
@@ -668,7 +685,8 @@ enum PCBTool: String, CaseIterable, Identifiable {
         switch self {
         case .trace: "Trace — Space: lock a corner · /: flip the bend · A: change the angle · Esc: undo a corner"
         case .via: "Via — click to place a via, drag to move it (2 or more layers)"
-        case .delete: "Delete — click a trace, via or text to delete it (footprints stay)"
+        case .hole: "Hole — click to place a mounting or drilled hole, drag to move it"
+        case .delete: "Delete — click a trace, via, hole or text to delete it (footprints stay)"
         default: title
         }
     }
@@ -679,6 +697,7 @@ enum PCBTool: String, CaseIterable, Identifiable {
         case .text: "textformat"
         case .trace: "line.diagonal"
         case .via: "circle.circle"
+        case .hole: "smallcircle.circle"
         case .delete: "eraser"
         }
     }

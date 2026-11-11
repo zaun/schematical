@@ -15,12 +15,13 @@ nonisolated enum SchematicItem: Hashable, Sendable {
 }
 
 /// One thing that can be selected on the PCB page: a part's footprint (by
-/// the part's id), a board text or a trace.
+/// the part's id), a board text, a trace, a via or a hole.
 nonisolated enum BoardItem: Hashable, Sendable {
     case footprint(UUID)
     case text(UUID)
     case trace(UUID)
     case via(UUID)
+    case hole(UUID)
 }
 
 // MARK: - Selection set
@@ -163,12 +164,14 @@ nonisolated struct BoardGroupBase: Equatable {
     var traces: [UUID: [CGPoint]] = [:]
     /// Selected vias' centres.
     var vias: [UUID: CGPoint] = [:]
+    /// Selected holes' centres.
+    var holes: [UUID: CGPoint] = [:]
     /// Where the drag took hold (board mm), if known. A lone trace snaps
     /// the end nearest it to the trace grid.
     var grab: CGPoint?
 
-    var isEmpty: Bool { footprints.isEmpty && texts.isEmpty && traces.isEmpty && vias.isEmpty }
-    var count: Int { footprints.count + texts.count + traces.count + vias.count }
+    var isEmpty: Bool { count == 0 }
+    var count: Int { footprints.count + texts.count + traces.count + vias.count + holes.count }
 }
 
 extension OrthogonalRoute {

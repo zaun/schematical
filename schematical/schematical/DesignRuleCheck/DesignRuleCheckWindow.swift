@@ -64,6 +64,7 @@ private struct DesignRuleCheckInput: Hashable {
     let texts: [BoardText]
     let traces: [BoardTrace]
     let vias: [BoardVia]
+    let holes: [BoardHole]
     let rules: DesignRules
 }
 
@@ -80,7 +81,7 @@ struct DesignRuleCheckTable: View {
     private var input: DesignRuleCheckInput {
         DesignRuleCheckInput(chips: document.chips, wires: document.wires, buses: document.buses,
                              board: document.board, texts: document.texts, traces: document.traces,
-                             vias: document.vias, rules: rules)
+                             vias: document.vias, holes: document.holes, rules: rules)
     }
 
     var body: some View {

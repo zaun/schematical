@@ -63,6 +63,11 @@ enum SelectionRows {
                                      detail: "\(LengthField.format(via.drill, units: .mm)) / "
                                          + "\(LengthField.format(via.diameter, units: .mm)) mm"))
         }
+        for hole in document.holes where selection.contains(.hole(hole.id)) {
+            let size = hole.size == .custom ? LengthField.format(hole.drill, units: .mm) + " mm" : hole.size.title
+            rows.append(SelectionRow(item: .hole(hole.id), title: "Hole",
+                                     detail: size + (hole.plated ? ", plated" : "")))
+        }
         return rows
     }
 
