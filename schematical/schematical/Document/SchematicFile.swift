@@ -140,8 +140,9 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         /// A custom card's edge (`type` "customCard"); missing keys mean
         /// the defaults.
         var card: CardEntry? = nil
-        /// The settings of a PCI Express, M.2, Mini PCIe, SO-DIMM or DIMM
-        /// card; missing keys mean the defaults.
+        /// The settings of a type that has them (PCI Express, M.2, Mini
+        /// PCIe, SO-DIMM, DIMM, Arduino shield, Pmod, mikroBUS); missing keys
+        /// mean the defaults.
         var cardOptions: OptionsEntry? = nil
 
         struct OptionsEntry: Codable, Equatable, Sendable {
@@ -154,6 +155,10 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
             var registered: Bool? = nil
             /// An Arduino shield's ICSP header holes.
             var icsp: Bool? = nil
+            /// A Pmod's pin count, 6 or 12.
+            var pins: Int? = nil
+            /// A mikroBUS board's size: "s", "m" or "l".
+            var size: String? = nil
         }
 
         struct CardEntry: Codable, Equatable, Sendable {
@@ -360,7 +365,8 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         var type: String? = nil
         /// A custom card's edge, for `type` "customCard".
         var card: Board.CardEntry? = nil
-        /// The settings of a PCI Express, M.2, Mini PCIe, SO-DIMM or DIMM type.
+        /// The settings of a type whose settings change its pins (PCI
+        /// Express, M.2, Mini PCIe, SO-DIMM, DIMM, Pmod).
         var cardOptions: Board.OptionsEntry? = nil
         var lines: [BusLineEntry]
         var wires: [BusWireEntry]
@@ -1144,7 +1150,7 @@ extension SchematicFile {
         Board.OptionsEntry(lanes: options.pcieLanes, lowProfile: options.lowProfile, length: options.m2Length,
                            key: options.m2Key.rawValue, halfSize: options.halfSize,
                            memory: options.memory.rawValue, registered: options.registered,
-                           icsp: options.icsp)
+                           icsp: options.icsp, pins: options.pmodPins, size: options.mikroBusSize.rawValue)
     }
 
     /// A stored custom card edge; missing keys are the defaults, and
@@ -1186,6 +1192,14 @@ extension SchematicFile {
                                         default: options.memory)
         options.registered = entry.registered ?? options.registered
         options.icsp = entry.icsp ?? options.icsp
+        if let pins = entry.pins {
+            guard CardOptions.pmodPinCounts.contains(pins) else {
+                throw SchematicFileError.badPCB("card pins \(pins) must be 6 or 12")
+            }
+            options.pmodPins = pins
+        }
+        options.mikroBusSize = try Self.value(entry.size, of: MikroBusSize.self, "card size",
+                                              default: options.mikroBusSize)
         return options
     }
 

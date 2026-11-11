@@ -25,6 +25,10 @@ nonisolated enum BoardType: String, CaseIterable, Hashable, Sendable {
     case dimm
     case piHat
     case arduinoShield
+    case featherWing
+    case pmod
+    case mikroBus
+    case beagleCape
 
     var title: String {
         switch self {
@@ -49,16 +53,31 @@ nonisolated enum BoardType: String, CaseIterable, Hashable, Sendable {
         case .dimm: "DIMM"
         case .piHat: "Raspberry Pi HAT"
         case .arduinoShield: "Arduino Uno Shield"
+        case .featherWing: "Adafruit FeatherWing"
+        case .pmod: "Digilent Pmod"
+        case .mikroBus: "mikroBUS Add-on Board"
+        case .beagleCape: "BeagleBone Cape"
+        }
+    }
+
+    /// The sidebar's heading over the type's settings.
+    var optionsTitle: String {
+        switch self {
+        case .arduinoShield: "Shield"
+        case .pmod: "Module"
+        case .mikroBus: "Add-on Board"
+        default: "Card"
         }
     }
 
     /// Whether the type has settings of its own (`CardOptions`), shown in
     /// the sidebar's Card section.
-    var hasOptions: Bool { [.pcie, .m2, .miniPCIe, .sodimm, .dimm, .arduinoShield].contains(self) }
+    var hasOptions: Bool { [.pcie, .m2, .miniPCIe, .sodimm, .dimm, .arduinoShield, .pmod, .mikroBus].contains(self) }
 
     /// Whether its settings change the pins a bus of this type carries. An
-    /// Arduino shield's ICSP header is on the board only, not the bus.
-    var hasBusOptions: Bool { hasOptions && self != .arduinoShield }
+    /// Arduino shield's ICSP header is on the board only, not the bus, and
+    /// a mikroBUS board's size moves no pin.
+    var hasBusOptions: Bool { hasOptions && self != .arduinoShield && self != .mikroBus }
 
     /// The card's spec with `options`: the types with settings build it
     /// from them; the rest are `card`.
@@ -70,6 +89,8 @@ nonisolated enum BoardType: String, CaseIterable, Hashable, Sendable {
         case .sodimm: .sodimm(options.memory)
         case .dimm: .dimm(options.memory, registered: options.registered)
         case .arduinoShield: .arduinoShield(icsp: options.icsp)
+        case .pmod: .pmod(pins: options.pmodPins)
+        case .mikroBus: .mikroBus(options.mikroBusSize)
         default: card
         }
     }
@@ -92,7 +113,9 @@ nonisolated enum BoardType: String, CaseIterable, Hashable, Sendable {
         case .lynx: .lynx
         case .coco: .coco
         case .piHat: .piHat
-        case .pcie, .m2, .miniPCIe, .sodimm, .dimm, .arduinoShield: card(CardOptions())
+        case .featherWing: .featherWing
+        case .beagleCape: .beagleCape
+        case .pcie, .m2, .miniPCIe, .sodimm, .dimm, .arduinoShield, .pmod, .mikroBus: card(CardOptions())
         }
     }
 
@@ -103,8 +126,9 @@ nonisolated enum BoardType: String, CaseIterable, Hashable, Sendable {
 
 /// The settings of the card types that have them: PCI Express lanes and
 /// bracket height, M.2 length and key, Mini PCIe size, the memory
-/// generation of a SO-DIMM or DIMM, and an Arduino shield's ICSP header.
-/// Raw values are the file values.
+/// generation of a SO-DIMM or DIMM, an Arduino shield's ICSP header, a
+/// Pmod's pin count and a mikroBUS board's size. Raw values are the file
+/// values.
 nonisolated struct CardOptions: Hashable, Sendable {
     var pcieLanes = 1
     /// A low-profile bracket (a shorter card).
@@ -120,9 +144,29 @@ nonisolated struct CardOptions: Hashable, Sendable {
     var registered = false
     /// An Arduino shield's 2 × 3 ICSP header holes.
     var icsp = false
+    /// A Pmod's connector: 6 (1 × 6) or 12 (2 × 6) pins.
+    var pmodPins = 6
+    var mikroBusSize: MikroBusSize = .s
 
     static let pcieLaneCounts = [1, 4, 8, 16]
     static let m2Lengths = [30, 42, 60, 80, 110]
+    static let pmodPinCounts = [6, 12]
+}
+
+/// The mikroBUS standard's three add-on board sizes, all 25.4 mm wide.
+nonisolated enum MikroBusSize: String, CaseIterable, Hashable, Sendable {
+    case s, m, l
+
+    var title: String { rawValue.uppercased() }
+
+    /// mm, along the headers.
+    var length: Double {
+        switch self {
+        case .s: 28.6
+        case .m: 42.9
+        case .l: 57.15
+        }
+    }
 }
 
 /// Which M.2 key notches a card has.
@@ -1093,4 +1137,114 @@ nonisolated struct CardSpec: Hashable, Sendable {
         }
         return spec
     }
+
+    /// An Adafruit FeatherWing (Feather specification, Adafruit-Eagle-Library
+    /// package FEATHERWING): 2.0 × 0.9 in with 0.1 in corners and four
+    /// 0.1 in holes 0.1 in in from the edges, the USB end at the left. The
+    /// 16-pin strip along the bottom edge (RST … TX, then the free pin NC)
+    /// is centred 1.0 in from the left, the 12-pin strip along the top
+    /// (VBAT … SDA) 1.2 in, both ending 1.75 in from the left, 0.8 in
+    /// apart. Pads 1.0 mm drill, 1.78 mm round. The bus carries the bottom
+    /// strip left to right, then the top.
+    static let featherWing: CardSpec = {
+        let inch = 25.4, width = 2.0 * inch, height = 0.9 * inch
+        let bottom = ["RST", "3V", "AREF", "GND", "A0", "A1", "A2", "A3", "A4", "A5", "SCK", "MOSI", "MISO",
+                      "RX", "TX", "NC"]
+        let top = ["VBAT", "EN", "USB", "D13", "D12", "D11", "D10", "D9", "D6", "D5", "SCL", "SDA"]
+        func row(_ names: [String], from x: Double, y: Double) -> [EdgeFinger] {
+            names.enumerated().map { i, name in
+                .header(name, centre: CGPoint(x: (x + 0.1 * Double(i)) * inch, y: y * inch), size: 1.78, drill: 1.0)
+            }
+        }
+        let pins = row(bottom, from: 0.25, y: 0.85) + row(top, from: 0.65, y: 0.05)
+        let holes = [CGPoint(x: 0.1, y: 0.1), CGPoint(x: 1.9, y: 0.1), CGPoint(x: 0.1, y: 0.8), CGPoint(x: 1.9, y: 0.8)]
+            .map { MountingHole(centre: CGPoint(x: $0.x * inch, y: $0.y * inch), drill: 0.1 * inch) }
+        return headerBoard(width: width, height: height, pins: pins,
+                           outline: roundedRectangle(width: width, height: height, radius: 0.1 * inch), holes: holes,
+                           pinOrder: bottom + top)
+    }()
+
+    /// A Digilent Pmod peripheral module (Pmod Interface Specification
+    /// 1.3.1): 0.8 in high, its right-angle male header at the left edge,
+    /// centred, pin 1 (square) at the top. Pins 0.1 in apart, 0.15 in in
+    /// from the edge; a 12-pin module's second column (pins 7–12) is the
+    /// one at the edge and pins 1–6 are 0.1 in further in. Pins 1–4 (and
+    /// 7–10) are IO1–IO8, then GND and VCC (GND1, VCC1, GND2, VCC2 on 12
+    /// pins). No standard length or holes: the length is free, 1 in for
+    /// a new module.
+    static func pmod(pins count: Int) -> CardSpec {
+        let inch = 25.4, twelve = count == 12
+        let names = twelve ? ["IO1", "IO2", "IO3", "IO4", "GND1", "VCC1", "IO5", "IO6", "IO7", "IO8", "GND2", "VCC2"]
+            : ["IO1", "IO2", "IO3", "IO4", "GND", "VCC"]
+        let pins = names.enumerated().map { i, name -> EdgeFinger in
+            let x = twelve && i < 6 ? 0.25 : 0.15
+            return .header(name, centre: CGPoint(x: x * inch, y: (0.15 + 0.1 * Double(i % 6)) * inch), round: i != 0)
+        }
+        return CardSpec(height: 0.8 * inch, tabDepth: 0, length: inch, minimumLength: (twelve ? 0.4 : 0.3) * inch,
+                        maximumLength: 4 * inch, tabs: [], notches: [], fingers: pins, pinOrder: names,
+                        connectorName: "Header")
+    }
+
+    /// A mikroBUS add-on board (mikroBUS Standard Specification 2.00):
+    /// 25.4 mm wide and `size` long, its bottom-right corner cut 2.54 mm at
+    /// 45°. Two 1 × 8 headers 22.86 mm apart, centred, at 2.54 mm pitch,
+    /// their bottom pins 3.81 mm above the bottom edge (measured from the
+    /// spec's drawing), holes 0.9 mm (35 mil). Named as the add-on board's
+    /// silkscreen names them, top to bottom: AN (square), RST, CS, SCK,
+    /// SDO, SDI, 3V3, GND1 on the left; PWM, INT, TX, RX, SCL, SDA, 5V,
+    /// GND2 on the right. No mounting holes.
+    static func mikroBus(_ size: MikroBusSize) -> CardSpec {
+        let width = 25.4, height = size.length, pitch = 2.54
+        let left = ["AN", "RST", "CS", "SCK", "SDO", "SDI", "3V3", "GND1"]
+        let right = ["PWM", "INT", "TX", "RX", "SCL", "SDA", "5V", "GND2"]
+        func column(_ names: [String], x: Double) -> [EdgeFinger] {
+            names.enumerated().map { i, name in
+                .header(name, centre: CGPoint(x: x, y: height - 3.81 - pitch * Double(7 - i)), size: 1.7, drill: 0.9,
+                        round: !(x < width / 2 && i == 0))
+            }
+        }
+        let outline = [CGPoint(x: 0, y: 0), CGPoint(x: width, y: 0), CGPoint(x: width, y: height - pitch),
+                       CGPoint(x: width - pitch, y: height), CGPoint(x: 0, y: height)]
+        return headerBoard(width: width, height: height,
+                           pins: column(left, x: 1.27) + column(right, x: width - 1.27), outline: outline, holes: [],
+                           pinOrder: left + right)
+    }
+
+    /// A BeagleBone (Black) cape (KiCad's BeagleBone-Black-Cape template,
+    /// which the System Reference Manual's cape drawing matches): 3.4 ×
+    /// 2.15 in, the Ethernet end at the left with its notch (the board
+    /// cut back 0.225 in above 1.525 in up, and 0.8 in between 0.825 and
+    /// 1.525 in up), 0.25 in corner at the bottom left and 0.5 in corners
+    /// at the right. Four 0.125 in holes. P8 along the top edge and P9
+    /// along the bottom, each 2 × 23 at 0.1 in from 0.775 in, pin 1
+    /// (square) at the Ethernet end, pin 2 0.1 in up from pin 1 on both
+    /// (so P8's odd pins are on the inner row, P9's on the edge row). Pads
+    /// 1.0 mm drill, 1.7 mm. Pins are named "8.1"…"8.46" and "9.1"…"9.46"
+    /// (bus names are 4 letters at most); the bus carries P8 then P9.
+    static let beagleCape: CardSpec = {
+        let inch = 25.4, width = 3.4, height = 2.15
+        func at(_ x: Double, _ y: Double) -> CGPoint { CGPoint(x: x * inch, y: y * inch) }
+        func arcAt(_ x: Double, _ y: Double, _ r: Double, from: Double, to: Double) -> [CGPoint] {
+            arc(at(x, y), r * inch, from: from, to: to)
+        }
+        // Clockwise from the top-left, y down from the top edge.
+        let outline = [at(0.225, 0)]
+            + arcAt(2.9, 0.5, 0.5, from: 270, to: 360)
+            + arcAt(2.9, height - 0.5, 0.5, from: 0, to: 90)
+            + arcAt(0.25, height - 0.25, 0.25, from: 90, to: 180)
+            + [at(0, height - 0.825), at(0.8, height - 0.825), at(0.8, height - 1.525), at(0.225, height - 1.525)]
+        var pins: [EdgeFinger] = []
+        for (header, firstRow) in [(8, height - 1.975), (9, height - 0.075)] {
+            for n in 1...46 {
+                let column = Double((n - 1) / 2)
+                pins.append(.header("\(header).\(n)", centre: at(0.775 + 0.1 * column, firstRow - (n.isMultiple(of: 2) ? 0.1 : 0)),
+                                    size: 1.7, drill: 1.0, round: n != 1))
+            }
+        }
+        let holes = [at(0.575, height - 0.125), at(0.575, height - 2.025), at(3.175, height - 0.25),
+                     at(3.175, height - 1.9)]
+            .map { MountingHole(centre: $0, drill: 0.125 * inch) }
+        return headerBoard(width: width * inch, height: height * inch, pins: pins, outline: outline, holes: holes,
+                           pinOrder: pins.map(\.name))
+    }()
 }

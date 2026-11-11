@@ -146,8 +146,9 @@ private struct GridSection: View {
 // MARK: - Card options
 
 /// The settings of a PCI Express, M.2, Mini PCIe, SO-DIMM or DIMM card
-/// (each picks the matching standard shape and size), or whether an
-/// Arduino shield has its ICSP header. Used for the board and
+/// (each picks the matching standard shape and size), whether an Arduino
+/// shield has its ICSP header, a Pmod's pin count or a mikroBUS board's
+/// size. Used for the board and
 /// for a bus's type (`options` reads them, `set` stores them).
 struct CardOptionsSection: View {
     let type: BoardType
@@ -155,7 +156,7 @@ struct CardOptionsSection: View {
     let set: (CardOptions) -> Void
 
     var body: some View {
-        Section(type == .arduinoShield ? "Shield" : "Card") {
+        Section(type.optionsTitle) {
             switch type {
             case .pcie:
                 Picker("Lanes", selection: binding(\.pcieLanes)) {
@@ -194,6 +195,17 @@ struct CardOptionsSection: View {
             case .arduinoShield:
                 Toggle("ICSP header", isOn: binding(\.icsp))
                     .help("The 2 × 3 ICSP header's holes by the cut corner; they are on the board only, not the bus")
+            case .pmod:
+                Picker("Pins", selection: binding(\.pmodPins)) {
+                    ForEach(CardOptions.pmodPinCounts, id: \.self) { Text($0 == 6 ? "6 (1 × 6)" : "12 (2 × 6)").tag($0) }
+                }
+                .pickerStyle(.segmented)
+            case .mikroBus:
+                Picker("Size", selection: binding(\.mikroBusSize)) {
+                    ForEach(MikroBusSize.allCases, id: \.self) { Text($0.title).tag($0) }
+                }
+                .pickerStyle(.segmented)
+                .help("25.4 mm wide; S is 28.6 mm long, M 42.9 mm, L 57.15 mm")
             default:
                 EmptyView()
             }
