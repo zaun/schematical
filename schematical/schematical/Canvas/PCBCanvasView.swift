@@ -210,13 +210,18 @@ struct PCBCanvasView: View {
         drawGrid(in: context, size: size)
 
         let visible = shown
+        // The copper's nets, read only when a Plane is drawn.
+        let planeCopper = board.copperLayers.contains { visible.showsPlane($0, style: board.style(of: $0)) }
+            ? document.connectivity() : nil
+        let clearance = DesignRules.current().minClearance
         // Copper from Bottom up to Top: each layer's plane tint, then the
         // surface-mount pads of the side it is on. Bottom's marks and texts
         // go straight after Bottom's copper, under everything else.
         for layer in board.copperLayers.reversed() {
             let style = board.style(of: layer)
-            if visible.showsPlane(layer, style: style) {
-                context.fill(boardShape, with: .color(style.color.color.opacity(0.2)))
+            if visible.showsPlane(layer, style: style), let planeCopper {
+                drawPlane(on: layer, colour: style.color.color, shape: boardShape, copper: planeCopper,
+                          clearance: clearance, in: &context)
             }
             if visible.showsTrace(on: layer) {
                 drawTraces(on: layer, colour: style.color.color, in: &context)
@@ -289,6 +294,25 @@ struct PCBCanvasView: View {
                 context.stroke(Path(selected.insetBy(dx: -margin, dy: -margin)),
                                with: .color(.accentColor), lineWidth: 2 / scale)
             }
+        }
+    }
+
+    /// A Plane layer: its tint over the board, cut away `clearance` (the
+    /// DRC's min clearance) around every hole through it that isn't on the
+    /// Plane's net: through-hole pads, non-plated holes and vias. Plated
+    /// pads and vias on its net join the Plane solid.
+    private func drawPlane(on layer: CopperLayer, colour: Color, shape: Path, copper: BoardConnectivity,
+                           clearance: CGFloat, in context: inout GraphicsContext) {
+        let cleared = copper.planeClearances(on: layer)
+        var cut = Path()
+        for p in cleared.pads { cut.addPath(Self.outline(of: copper.pads[p].pad)) }
+        for v in cleared.vias { cut.addPath(Path(ellipseIn: copper.vias[v].rect)) }
+        context.drawLayer { plane in
+            plane.fill(shape, with: .color(colour.opacity(0.2)))
+            guard !cut.isEmpty else { return }
+            plane.blendMode = .clear
+            plane.fill(cut, with: .color(.black))
+            plane.stroke(cut, with: .color(.black), style: StrokeStyle(lineWidth: 2 * clearance, lineJoin: .round))
         }
     }
 

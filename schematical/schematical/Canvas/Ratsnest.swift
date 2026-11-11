@@ -6,7 +6,8 @@ import Foundation
 /// card edge uses, as if it were a hidden port with every wire of that
 /// bus; every VCC or GND symbol of one voltage as one net, with the far pad
 /// of each pull resistor on its rail), grouped by the copper that already joins them
-/// (traces, through-hole pads and vias between layers, pads of one pin). Each net
+/// (traces, through-hole pads and vias between layers, pads of one pin, a
+/// Plane layer's through-hole pads and vias on its net). Each net
 /// with more than one group gets the shortest lines that join its groups
 /// (a minimum spanning tree), each between the closest points of two
 /// groups: a pad centre or a trace vertex.
@@ -36,7 +37,7 @@ extension SchematicDocument {
     /// The board's copper and which of it is joined (see `BoardConnectivity`).
     /// `drawing`, a trace not added yet, counts as the last trace.
     func connectivity(drawing: BoardTrace? = nil) -> BoardConnectivity {
-        let netlist = NetlistBuilder.build(chips: chips, wires: wires, buses: buses)
+        let netlist = NetlistBuilder.build(chips: chips, wires: wires, buses: buses, labels: netLabels)
         // The card edge is a hidden port on its bus: pin i is the bus's wire
         // i, on whatever net that wire's port pins are wired into.
         var fingerNets: [String: Int] = [:]
@@ -166,8 +167,42 @@ extension SchematicDocument {
             }
         }
         netOfPad = netOfPad.mapValues(merged)
+
+        // A Plane joins every plated through-hole pad and via on its net
+        // (one whose copper already reaches a pad of the net).
+        var planeNets: [CopperLayer: Int] = [:]
+        for layer in board.copperLayers {
+            let style = board.style(of: layer)
+            guard style.type == .plane, let net = style.net else { continue }
+            switch net {
+            case let .rail(mv):
+                if let rail = railNet[mv] { planeNets[layer] = merged(rail) }
+            case let .pin(chipID, designator):
+                guard let part = chips.firstIndex(where: { $0.id == chipID }) else { continue }
+                if let pad = padsOfPin["\(part)/\(designator)"]?.first, let found = netOfPad[pad] {
+                    planeNets[layer] = found
+                } else if let connection = netlist.connections.first(where: {
+                    $0.part == part && $0.pin == designator
+                }) {
+                    planeNets[layer] = merged(connection.net)
+                }
+            }
+        }
+        if !planeNets.isEmpty {
+            var netOfRoot: [Int: Int] = [:]
+            for (pad, net) in netOfPad { netOfRoot[find(pad)] = net }
+            let throughNodes = pads.indices.filter { pads[$0].pad.plated && pads[$0].pad.drill > 0 }
+                + vias.indices.map { viaBase + $0 }
+            // Each node's net before any plane joins, so one plane's joins
+            // don't change what the next one reads.
+            let nodeNets = throughNodes.map { netOfRoot[find($0)] }
+            for net in Set(planeNets.values) {
+                let joined = zip(throughNodes, nodeNets).filter { $0.1 == net }.map(\.0)
+                for other in joined.dropFirst() { union(joined[0], other) }
+            }
+        }
         return BoardConnectivity(pads: pads, traces: copper, vias: vias,
-                                 root: parent.indices.map(find), netOfPad: netOfPad)
+                                 root: parent.indices.map(find), netOfPad: netOfPad, planeNets: planeNets)
     }
 
     /// Whether a circle meets a rectangle.
@@ -244,8 +279,33 @@ nonisolated struct BoardConnectivity {
     let root: [Int]
     /// The schematic net of each pad on one (pad index → net).
     let netOfPad: [Int: Int]
+    /// The net each Plane layer carries, for the Planes that have one the
+    /// schematic still has.
+    var planeNets: [CopperLayer: Int] = [:]
 
     func traceNode(_ index: Int) -> Int { pads.count + index }
+
+    /// Each group's net, by root: that of a pad in it. A group reaching no
+    /// pad on a net has none.
+    func netOfRoot() -> [Int: Int] {
+        var found: [Int: Int] = [:]
+        for (pad, net) in netOfPad { found[root[pad]] = net }
+        return found
+    }
+    /// What a Plane on `layer` is cut away around: every hole through it
+    /// not on its net (pad and via indices). A plated through-hole pad or
+    /// via on the Plane's net joins it; a non-plated hole is always cut.
+    /// With no net, every hole is cut.
+    func planeClearances(on layer: CopperLayer) -> (pads: [Int], vias: [Int]) {
+        let net = planeNets[layer]
+        let nets = netOfRoot()
+        func joins(_ node: Int) -> Bool { net != nil && nets[root[node]] == net }
+        let cutPads = pads.indices.filter { p in
+            pads[p].pad.drill > 0 && !(pads[p].pad.plated && joins(p))
+        }
+        return (cutPads, vias.indices.filter { !joins(viaNode($0)) })
+    }
+
     func viaNode(_ index: Int) -> Int { pads.count + traces.count + index }
 
     /// Each net's pads grouped by the copper joining them, nets in order,

@@ -206,6 +206,8 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
             var layer: String
             var color: String? = nil
             var type: String? = nil
+            /// A Plane's net (`PlaneNet.fileValue`); missing means none.
+            var net: String? = nil
         }
 
         /// A board text: top-left at rotation 0 (`x`, `y`, mm), font size in
@@ -519,7 +521,8 @@ extension SchematicFile {
             cardOptions: settings.type.hasOptions ? Self.entry(settings.cardOptions) : nil,
             layerStyles: settings.copperLayers.map { layer in
                 let style = settings.style(of: layer)
-                return Board.LayerStyleEntry(layer: layer.rawValue, color: style.color.hex, type: style.type.rawValue)
+                return Board.LayerStyleEntry(layer: layer.rawValue, color: style.color.hex, type: style.type.rawValue,
+                                             net: style.net?.fileValue)
             },
             texts: document.texts.map { text in
                 Board.Text(id: text.id, text: text.text, x: text.anchor.x, y: text.anchor.y,
@@ -932,6 +935,14 @@ extension SchematicFile {
                     throw SchematicFileError.badPCB("\(name) type \"\(raw)\" must be \(list)")
                 }
                 style.type = type
+            }
+            if let raw = entry.net {
+                guard layer.isInner, let net = PlaneNet(fileValue: raw) else {
+                    throw SchematicFileError.badPCB(layer.isInner
+                        ? "\(name) net \"\(raw)\" must be ground, power:<mV> or pin:<part id>/<pin>"
+                        : "\(name) is not a plane; it has no net")
+                }
+                style.net = net
             }
             styles[layer] = style
         }

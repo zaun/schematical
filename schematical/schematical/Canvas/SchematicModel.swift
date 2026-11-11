@@ -2218,6 +2218,62 @@ final class SchematicDocument {
         }
     }
 
+    /// Sets a Plane layer's net; nil leaves it on no net.
+    func setLayerNet(_ layer: CopperLayer, _ net: PlaneNet?) {
+        recordEdit(.pcb, "Change Plane Net") {
+            guard board.copperLayers.contains(layer), layer.isInner else { return }
+            var style = board.style(of: layer)
+            guard style.net != net else { return }
+            style.net = net
+            board.styles[layer] = style
+        }
+    }
+
+    /// The nets a Plane can carry, as its Net picker lists them: ground,
+    /// then each power rail from low to high (every supply symbol and pull
+    /// resistor of one voltage is one rail), then each signal net the
+    /// schematic wires, named by up to three of its pins ("U1.3, R2.1, …")
+    /// and stored by its first.
+    func planeNetChoices() -> [(net: PlaneNet, title: String)] {
+        let netlist = NetlistBuilder.build(chips: chips, wires: wires, buses: buses)
+        var rails = Set<UInt32>()
+        var railNets = Set<Int>()
+        for chip in chips {
+            if case let .supply(_, mv, _) = chip.part.details { rails.insert(mv) }
+        }
+        for connection in netlist.connections {
+            if case .supply = chips[connection.part].part.details { railNets.insert(connection.net) }
+        }
+        var choices: [(net: PlaneNet, title: String)] = rails.sorted().map { mv in
+            (PlaneNet.rail(mv: mv), Self.planeNetTitle(rail: mv))
+        }
+        var pinsOfNet: [Int: [(chip: PlacedChip, designator: String)]] = [:]
+        for connection in netlist.connections where !railNets.contains(connection.net) {
+            let chip = chips[connection.part]
+            pinsOfNet[connection.net, default: []].append((chip, connection.pin))
+        }
+        typealias NetPin = (chip: PlacedChip, designator: String)
+        func before(_ a: NetPin, _ b: NetPin) -> Bool {
+            let byPart = a.chip.reference.localizedStandardCompare(b.chip.reference)
+            if byPart != .orderedSame { return byPart == .orderedAscending }
+            return a.designator.localizedStandardCompare(b.designator) == .orderedAscending
+        }
+        let signals = pinsOfNet.values.map { $0.sorted(by: before) }
+            .filter { $0.count > 1 }
+            .sorted { before($0[0], $1[0]) }
+        for pins in signals {
+            var title = pins.prefix(3).map { "\($0.chip.reference).\($0.designator)" }.joined(separator: ", ")
+            if pins.count > 3 { title += ", …" }
+            choices.append((.pin(chip: pins[0].chip.id, designator: pins[0].designator), title))
+        }
+        return choices
+    }
+
+    /// "GND" for the 0 mV rail, else its voltage: "5 V", "3.3 V".
+    nonisolated static func planeNetTitle(rail mv: UInt32) -> String {
+        mv == 0 ? "GND" : "\(VoltageCheck.volts(mv)) V"
+    }
+
     // MARK: Board texts
 
     /// Adds a "Text" on the silkscreen with its top-left at `point` (snapped)

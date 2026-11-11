@@ -372,14 +372,19 @@ private struct BoardPanel: View {
 
 /// One row per copper layer, Top first: a colour well, the name and the
 /// type. Top and Bottom are always Component; an inner layer is Plane or
-/// Wire.
+/// Wire. A Plane has a second row: the net it carries (None, GND, a power
+/// rail or a signal net).
 struct LayersSection: View {
     let document: SchematicDocument
 
     var body: some View {
+        let choices = document.planeNetChoices()
         Section("Layers") {
             ForEach(document.board.copperLayers, id: \.self) { layer in
                 row(layer)
+                if layer.isInner, document.board.style(of: layer).type == .plane {
+                    netRow(layer, choices: choices)
+                }
             }
         }
     }
@@ -415,6 +420,28 @@ struct LayersSection: View {
                     .foregroundStyle(.secondary)
             }
         }
+    }
+
+    /// The Plane's net. A net the schematic no longer has stays listed, as
+    /// "Missing net", until another is chosen.
+    private func netRow(_ layer: CopperLayer, choices: [(net: PlaneNet, title: String)]) -> some View {
+        let current = document.board.style(of: layer).net
+        let missing = current.map { net in !choices.contains { $0.net == net } } ?? false
+        return Picker("Net", selection: Binding(
+            get: { current },
+            set: { document.setLayerNet(layer, $0) }
+        )) {
+            Text("None").tag(PlaneNet?.none)
+            if missing, let current {
+                Text("Missing net").tag(Optional(current))
+            }
+            ForEach(choices, id: \.net) { choice in
+                Text(choice.title).tag(Optional(choice.net))
+            }
+        }
+        .pickerStyle(.menu)
+        .accessibilityLabel("\(layer.title) net")
+        .padding(.leading, 28)
     }
 }
 

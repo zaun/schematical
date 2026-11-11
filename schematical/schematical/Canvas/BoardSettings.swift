@@ -199,10 +199,47 @@ nonisolated struct LayerColor: Hashable, Sendable {
     }
 }
 
+/// The schematic net a Plane layer carries: a supply rail (ground is the
+/// 0 mV rail), or a signal net, named by one of its pins (a part's id and
+/// the pin's designator), which outlasts any one wire of it.
+nonisolated enum PlaneNet: Hashable, Sendable {
+    case rail(mv: UInt32)
+    case pin(chip: UUID, designator: String)
+
+    static let ground = PlaneNet.rail(mv: 0)
+
+    /// As the file stores it: "ground", "power:<mV>" or
+    /// "pin:<part UUID>/<designator>".
+    var fileValue: String {
+        switch self {
+        case .rail(0): "ground"
+        case let .rail(mv): "power:\(mv)"
+        case let .pin(chip, designator): "pin:\(chip.uuidString)/\(designator)"
+        }
+    }
+
+    init?(fileValue: String) {
+        if fileValue == "ground" {
+            self = .ground
+        } else if fileValue.hasPrefix("power:"), let mv = UInt32(fileValue.dropFirst(6)), mv > 0 {
+            self = .rail(mv: mv)
+        } else if fileValue.hasPrefix("pin:"), let slash = fileValue.firstIndex(of: "/"),
+                  let chip = UUID(uuidString: String(fileValue[fileValue.index(fileValue.startIndex, offsetBy: 4)..<slash])),
+                  fileValue.index(after: slash) < fileValue.endIndex {
+            self = .pin(chip: chip, designator: String(fileValue[fileValue.index(after: slash)...]))
+        } else {
+            return nil
+        }
+    }
+}
+
 /// How a copper layer is drawn and what it is for.
 nonisolated struct LayerStyle: Hashable, Sendable {
     var color: LayerColor
     var type: LayerType
+    /// A Plane's net; nil is copper on no net. Kept while the layer is a
+    /// Wire layer, so it comes back with the Plane.
+    var net: PlaneNet? = nil
 
     /// Red Top, blue Bottom, and gold, green, purple and cyan inner layers.
     /// Top and Bottom are Component; inner layers start as Plane.
