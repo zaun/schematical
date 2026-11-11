@@ -2109,7 +2109,7 @@ final class SchematicDocument {
     /// Makes the board a custom rectangle, a custom card (keeping its size,
     /// grown to fit the tab) or a standard card. A card takes
     /// its standard's height and length (the length stays editable), and
-    /// at least 2 layers, since its fingers are on both sides. Back to
+    /// at least 2 layers when it has fingers, which are on both sides. Back to
     /// Custom keeps the size. Nothing on the board moves.
     func setBoardType(_ type: BoardType) {
         recordEdit(.pcb, "Change Board Type") {
@@ -2125,7 +2125,7 @@ final class SchematicDocument {
                 board.width = max(board.width, card.indent + card.tabLength)
                 board.height = max(board.height, card.depth + 1)
             }
-            if type.isCard, board.layers < 2 { board.layers = 2 }
+            if board.needsTwoLayers, board.layers < 2 { board.layers = 2 }
         }
     }
 
@@ -2172,7 +2172,7 @@ final class SchematicDocument {
         if count == 1, !vias.isEmpty {
             return "Delete the vias first."
         }
-        if count == 1, board.type.isCard {
+        if count == 1, board.needsTwoLayers {
             return "A card has fingers on both sides."
         }
         return nil
@@ -2392,7 +2392,7 @@ final class SchematicDocument {
 
     /// Where a trace end pressed or released at `point` lands on `layer`:
     /// the centre of a pad there, else of a via, else the inner end of a
-    /// card's edge finger there (`EdgeFinger.contact`), else a vertex of a trace on that layer
+    /// card's edge finger or header pad there (`EdgeFinger.contact`), else a vertex of a trace on that layer
     /// within `tolerance`, else the nearest point of a trace segment within
     /// `tolerance`, else the nearest trace-grid point (`BoardSettings.traceGrid`).
     func traceAnchor(at point: CGPoint, layer: CopperLayer, tolerance: CGFloat) -> CGPoint {
@@ -2400,7 +2400,7 @@ final class SchematicDocument {
             return CGPoint(x: hit.pad.rect.midX, y: hit.pad.rect.midY)
         }
         if let via = via(at: point) { return via.centre }
-        if let finger = board.fingers.last(where: { $0.side.copperLayer == layer && $0.rect.contains(point) }) {
+        if let finger = board.fingers.last(where: { $0.isOn(layer) && $0.rect.contains(point) }) {
             return finger.contact
         }
         let same = traces.filter { $0.layer == layer }
@@ -2509,11 +2509,11 @@ final class SchematicDocument {
             }
             if touched { found.append((chip.reference, pad.designator ?? "EP")) }
         }
-        for finger in board.fingers where finger.side.copperLayer == layer {
+        for finger in board.fingers where finger.isOn(layer) {
             let touched = members.contains { trace in
                 trace.segments.contains { Self.segment($0.0, $0.1, touches: finger.rect) }
             }
-            if touched { found.append(("Edge", finger.name)) }
+            if touched { found.append((board.connectorName, finger.name)) }
         }
         return found
             .sorted {

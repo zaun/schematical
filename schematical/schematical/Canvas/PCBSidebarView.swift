@@ -278,7 +278,7 @@ private struct BoardPanel: View {
                 }
             }
             .pickerStyle(.menu)
-            .help("Custom is a free rectangle; a card type sets a standard card's size, edge connector and fingers")
+            .help("Custom is a free rectangle; a card type sets a standard card's size, edge connector and fingers; a HAT or shield its size, header and holes")
             if document.board.type.isCard {
                 // The schematic bus whose wires are the card's pins, in
                 // order. Only buses with as many wires as the card has pins.
@@ -292,12 +292,12 @@ private struct BoardPanel: View {
                 .help("Buses with \(document.board.pinCount) wires, one per pin of this card")
             }
             if document.board.card?.isFixedSize == true {
-                // A cartridge's size is fixed by its shell.
+                // A cartridge's size is fixed by its shell, a HAT's or shield's by its standard.
                 LabeledContent("Width") {
                     Text(LengthField.format(document.board.width, units: document.board.units)
                          + " " + document.board.units.title)
                 }
-                .help("Fixed by the cartridge")
+                .help(document.board.connectorName == "Header" ? "Fixed by the board standard" : "Fixed by the cartridge")
             } else {
                 LengthField(title: "Width", millimetres: document.board.width, units: document.board.units) {
                     document.setBoardSize(width: $0, height: document.board.height)

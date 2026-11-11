@@ -310,17 +310,30 @@ nonisolated struct BoardSettings: Hashable, Sendable {
                                          CGPoint(x: width, y: height), CGPoint(x: 0, y: height)]
     }
 
-    /// A card's gold fingers; none on a custom board.
+    /// The connector's pins: a card's gold fingers, or a HAT's or
+    /// shield's header pads; none on a custom board.
     var fingers: [EdgeFinger] { card?.fingers ?? [] }
+
+    /// The standard's mounting holes; none on a custom board or a card.
+    var holes: [MountingHole] { card?.holes ?? [] }
+
+    /// What the connector's pins are labelled in lists: "Edge" or "Header".
+    var connectorName: String { card?.connectorName ?? "Edge" }
+
+    /// Whether the board needs a Bottom layer: its connector has fingers
+    /// (a header's pads go through every layer).
+    var needsTwoLayers: Bool { fingers.contains { !$0.isThroughHole } }
 
     /// How many pins the card has: its distinct finger names (a finger on
     /// each side with one name is one pin). 0 on a custom board.
     var pinCount: Int { pinNames.count }
 
     /// The card's pin names, each once, in natural order ("A1", "A2", …,
-    /// "A10", "B1"; numbers before letters), as a bus of its type names its
-    /// wires. Pin `i` is the edge bus's wire `i`.
+    /// "A10", "B1"; numbers before letters), or the standard's own order
+    /// (an Arduino shield's), as a bus of its type names its wires. Pin `i`
+    /// is the edge bus's wire `i`.
     var pinNames: [String] {
+        if let order = card?.pinOrder { return order }
         var seen = Set<String>()
         return fingers.map(\.name).filter { seen.insert($0).inserted }
             .sorted { $0.localizedStandardCompare($1) == .orderedAscending }

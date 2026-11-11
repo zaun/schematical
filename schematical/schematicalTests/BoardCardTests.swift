@@ -177,7 +177,7 @@ final class BoardCardTests: XCTestCase {
         XCTAssertEqual(card.board.width, 122)
 
         XCTAssertEqual(BoardLayersTests.pcbError { _ = try BoardLayersTests.open(board: #"{ "type": "eisa" }"#) },
-                       #"board type "eisa" must be custom, customCard, isa8, isa16, pci, nes, atari2600, atari5200, atari7800, atari8bit, atariST, jaguar, lynx, coco, pcie, m2, miniPCIe, sodimm or dimm"#)
+                       #"board type "eisa" must be custom, customCard, isa8, isa16, pci, nes, atari2600, atari5200, atari7800, atari8bit, atariST, jaguar, lynx, coco, pcie, m2, miniPCIe, sodimm, dimm, piHat or arduinoShield"#)
         XCTAssertEqual(BoardLayersTests.pcbError {
             _ = try BoardLayersTests.open(board: #"{ "type": "isa8", "layers": 1 }"#)
         }, "board type isa8 needs 2 or more layers")

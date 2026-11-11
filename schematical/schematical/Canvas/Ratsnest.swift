@@ -70,12 +70,15 @@ extension SchematicDocument {
                                 label: "\(chip.reference).\(pad.designator ?? "EP")"))
             }
         }
-        // Every finger of the card, as pads of the card (chip −1).
+        // Every finger or header pad of the card, as pads of the card
+        // (chip −1), then its mounting holes (no copper).
         for finger in board.fingers {
             padsOfPin["edge/\(finger.name)", default: []].append(pads.count)
-            pads.append(Pad(chip: -1, pad: PlacedPad(designator: finger.name, rect: finger.rect, drill: 0,
-                                                     shape: .rect, radius: 0, chamfer: 0, corners: []),
-                            side: finger.side, label: "Edge.\(finger.name)"))
+            pads.append(Pad(chip: -1, pad: finger.pad, side: finger.side,
+                            label: "\(board.connectorName).\(finger.name)"))
+        }
+        for (n, hole) in board.holes.enumerated() {
+            pads.append(Pad(chip: -1, pad: hole.pad, side: .top, label: "Hole \(n + 1)"))
         }
         let copper = traces + (drawing.map { [$0] } ?? [])
         // Vias come after the traces.
@@ -256,17 +259,20 @@ extension SchematicDocument {
 }
 
 /// The board's copper as nodes, and which nodes copper joins: every pad
-/// (the parts' pads, then the card's edge fingers), then every trace, then
+/// (the parts' pads, then the card's edge fingers or header pads and its
+/// mounting holes), then every trace, then
 /// every via. Pads of one pin are joined; a trace joins the pads it
 /// touches on its layer (any through-hole pad) and the traces it meets
 /// there; a via joins whatever touches its metal.
 nonisolated struct BoardConnectivity {
     struct Pad {
-        /// Index into the document's chips; −1 for an edge finger.
+        /// Index into the document's chips; −1 for an edge finger, header
+        /// pad or mounting hole of the board.
         let chip: Int
         let pad: PlacedPad
         let side: BoardSide
-        /// "U1.3", "U1.EP" for an unnumbered centre pad, "Edge.A1".
+        /// "U1.3", "U1.EP" for an unnumbered centre pad, "Edge.A1",
+        /// "Header.40", "Hole 1".
         let label: String
 
         var centre: CGPoint { CGPoint(x: pad.rect.midX, y: pad.rect.midY) }

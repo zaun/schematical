@@ -499,7 +499,9 @@ private struct DesignRuleChecker {
     private func owner(_ node: Int) -> String {
         if node < copper.pads.count {
             let chip = copper.pads[node].chip
-            return chip >= 0 ? chips[chip].reference : "Edge"
+            // The board's own: "Edge", "Header", or a mounting hole.
+            return chip >= 0 ? chips[chip].reference
+                : String(copper.pads[node].label.prefix { $0 != "." })
         }
         return describe(node: node).name
     }

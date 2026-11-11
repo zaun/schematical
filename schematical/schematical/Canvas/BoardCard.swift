@@ -23,6 +23,8 @@ nonisolated enum BoardType: String, CaseIterable, Hashable, Sendable {
     case miniPCIe
     case sodimm
     case dimm
+    case piHat
+    case arduinoShield
 
     var title: String {
         switch self {
@@ -45,6 +47,8 @@ nonisolated enum BoardType: String, CaseIterable, Hashable, Sendable {
         case .miniPCIe: "Mini PCIe"
         case .sodimm: "SO-DIMM"
         case .dimm: "DIMM"
+        case .piHat: "Raspberry Pi HAT"
+        case .arduinoShield: "Arduino Uno Shield"
         }
     }
 
@@ -82,11 +86,14 @@ nonisolated enum BoardType: String, CaseIterable, Hashable, Sendable {
         case .jaguar: .jaguar
         case .lynx: .lynx
         case .coco: .coco
+        case .piHat: .piHat
+        case .arduinoShield: .arduinoShield
         case .pcie, .m2, .miniPCIe, .sodimm, .dimm: card(CardOptions())
         }
     }
 
-    /// Whether the board is a card (an edge tab with fingers).
+    /// Whether the board has a connector whose pins a bus can carry: a
+    /// card's edge tab with fingers, or a HAT's or shield's header.
     var isCard: Bool { self != .custom }
 }
 
@@ -199,17 +206,60 @@ nonisolated struct CustomCard: Hashable, Sendable {
     }
 }
 
-/// One gold finger of a card edge: a copper pad on Top (component side)
-/// or Bottom (solder side), named as the bus names it ("A1", "B31").
+/// One pin of the board's connector, named as the bus names it ("A1",
+/// "B31", "40", "D13"): a card's gold finger, a copper pad on Top
+/// (component side) or Bottom (solder side); or a plated through-hole pad
+/// of a header (`drill` > 0), on every layer, round or (pin 1) square.
 nonisolated struct EdgeFinger: Hashable, Sendable {
     let name: String
     /// mm on the board.
     let rect: CGRect
+    /// A finger's side; a header pad is on both.
     let side: BoardSide
+    /// mm; 0 for a finger.
+    var drill: Double = 0
+    /// A round header pad; false is square.
+    var round = false
 
-    /// Where a trace meets it: the middle of its inner end (away from the
-    /// card edge).
-    var contact: CGPoint { CGPoint(x: rect.midX, y: rect.minY) }
+    /// A header pad through every layer.
+    var isThroughHole: Bool { drill > 0 }
+
+    /// Whether its copper is on `layer`.
+    func isOn(_ layer: CopperLayer) -> Bool { isThroughHole || side.copperLayer == layer }
+
+    /// Where a trace meets it: the middle of a finger's inner end (away
+    /// from the card edge), or a header pad's centre.
+    var contact: CGPoint {
+        isThroughHole ? CGPoint(x: rect.midX, y: rect.midY) : CGPoint(x: rect.midX, y: rect.minY)
+    }
+
+    /// As a part's pad, for connectivity and drawing.
+    var pad: PlacedPad {
+        PlacedPad(designator: name, rect: rect, drill: drill, shape: round ? .round : .rect, radius: 0,
+                  chamfer: 0, corners: [])
+    }
+
+    /// A header pad `size` square (or round) about `centre`.
+    static func header(_ name: String, centre: CGPoint, size: Double = 1.8, drill: Double = 1.1,
+                       round: Bool = true) -> EdgeFinger {
+        EdgeFinger(name: name, rect: CGRect(x: centre.x - size / 2, y: centre.y - size / 2, width: size, height: size),
+                   side: .top, drill: drill, round: round)
+    }
+}
+
+/// A non-plated mounting hole of a board standard.
+nonisolated struct MountingHole: Hashable, Sendable {
+    /// mm on the board.
+    let centre: CGPoint
+    let drill: Double
+
+    /// As a non-plated pad, for connectivity (a Plane is cut round it) and
+    /// drawing.
+    var pad: PlacedPad {
+        PlacedPad(designator: nil, rect: CGRect(x: centre.x - drill / 2, y: centre.y - drill / 2, width: drill,
+                                                height: drill),
+                  drill: drill, shape: .round, radius: 0, chamfer: 0, corners: [], plated: false)
+    }
 }
 
 /// A card standard's shape, in board mm with the bracket (rear) edge at
@@ -258,6 +308,14 @@ nonisolated struct CardSpec: Hashable, Sendable {
     /// A cartridge's whole outline, traced from its board, used instead of
     /// the body-plus-tabs shape. Cartridges have a fixed size.
     var fixedOutline: [CGPoint]? = nil
+    /// The standard's mounting holes (a HAT's or shield's).
+    var holes: [MountingHole] = []
+    /// The pin names in the connector's own order, when natural order
+    /// isn't it (an Arduino shield's D0…D13, A0…A5, power pins).
+    var pinOrder: [String]? = nil
+    /// What the connector's pins are labelled in lists ("Edge.A1",
+    /// "Header.40").
+    var connectorName = "Edge"
 
     /// Whether the card's length can't change (a cartridge).
     var isFixedSize: Bool { minimumLength == maximumLength }
@@ -936,4 +994,82 @@ nonisolated struct CardSpec: Hashable, Sendable {
                              topChamfer: topChamfer, bottomChamfer: bottomChamfer)
         return cartridge(width: width, height: height, tabDepth: 4, fingers: fingers, outline: outline)
     }
+
+    // MARK: Header boards
+
+    /// A `width` × `height` rectangle with its corners rounded to
+    /// `radius`, clockwise from the top-left.
+    private static func roundedRectangle(width: Double, height: Double, radius r: Double) -> [CGPoint] {
+        arc(CGPoint(x: r, y: r), r, from: 180, to: 270)
+            + arc(CGPoint(x: width - r, y: r), r, from: 270, to: 360)
+            + arc(CGPoint(x: width - r, y: height - r), r, from: 0, to: 90)
+            + arc(CGPoint(x: r, y: height - r), r, from: 90, to: 180)
+    }
+
+    /// A board with a header and no edge tab: fixed size, outline and holes.
+    private static func headerBoard(width: Double, height: Double, pins: [EdgeFinger], outline: [CGPoint],
+                                    holes: [MountingHole], pinOrder: [String]? = nil) -> CardSpec {
+        CardSpec(height: height, tabDepth: 0, length: width, minimumLength: width, maximumLength: width,
+                 tabs: [], notches: [], fingers: pins, fixedOutline: outline, holes: holes, pinOrder: pinOrder,
+                 connectorName: "Header")
+    }
+
+    /// A Raspberry Pi HAT (HAT board mechanical specification, Raspberry
+    /// Pi 2014/2018): 65 × 56.5 mm with 3 mm corners, four 2.75 mm M2.5
+    /// holes 3.5 mm in from each corner (58 × 49 apart), and the 40-way
+    /// GPIO header centred 29 mm right of the left holes, on their line.
+    /// Seen from the top with the header along the top edge, pin 1 is at
+    /// the left, odd pins on the inner row and even ones on the edge row.
+    /// The optional camera and display flex cutouts are left out.
+    static let piHat: CardSpec = {
+        let width = 65.0, height = 56.5, inset = 3.5
+        let pitch = 2.54, centre = CGPoint(x: inset + 29, y: inset)
+        var pins: [EdgeFinger] = []
+        for column in 0..<20 {
+            let x = centre.x + (Double(column) - 9.5) * pitch
+            let odd = 2 * column + 1
+            pins.append(.header("\(odd)", centre: CGPoint(x: x, y: centre.y + pitch / 2), round: odd != 1))
+            pins.append(.header("\(odd + 1)", centre: CGPoint(x: x, y: centre.y - pitch / 2)))
+        }
+        let holes = [CGPoint(x: inset, y: inset), CGPoint(x: width - inset, y: inset),
+                     CGPoint(x: inset, y: inset + 49), CGPoint(x: width - inset, y: inset + 49)]
+            .map { MountingHole(centre: $0, drill: 2.75) }
+        return headerBoard(width: width, height: height, pins: pins,
+                           outline: roundedRectangle(width: width, height: height, radius: 3), holes: holes)
+    }()
+
+    /// An Arduino Uno R3 shield (SparkFun-Boards.lbr, package ARDUINO_R3):
+    /// 2.7 × 2.1 in, the USB end at the left, the far end cut at 45°
+    /// (0.1 in at the bottom right, 0.1 in from 1.49 to 1.59 in up, and
+    /// 0.06 in at the top right), four 0.125 in holes. Its 32 header pins
+    /// at 0.1 in, named as the board's silkscreen names them (bus names
+    /// are 4 letters at most: IORF is IOREF, RST is RESET; the three GND
+    /// pins are GND1–GND3, NC the unused one): the 10-pin SCL…D8 and 8-pin
+    /// D7…D0 headers along the top edge, the 8-pin power header (NC, IORF,
+    /// RST, 3V3, 5V, GND1, GND2, VIN) and A0…A5 along the bottom. The
+    /// ICSP header is left out. The bus carries D0–D13, A0–A5, then SDA,
+    /// SCL, AREF and the power pins.
+    static let arduinoShield: CardSpec = {
+        let inch = 25.4, width = 2.7 * inch, height = 2.1 * inch
+        // The library's frame: mils from the bottom-left, y up.
+        func at(_ x: Double, _ y: Double) -> CGPoint { CGPoint(x: x * inch / 1000, y: height - y * inch / 1000) }
+        var pins: [EdgeFinger] = []
+        func row(_ names: [String], from x: Double, step: Double, y: Double) {
+            for (i, name) in names.enumerated() {
+                pins.append(.header(name, centre: at(x + Double(i) * step, y)))
+            }
+        }
+        row(["SCL", "SDA", "AREF", "GND3", "D13", "D12", "D11", "D10", "D9", "D8"], from: 740, step: 100, y: 2000)
+        row(["D7", "D6", "D5", "D4", "D3", "D2", "D1", "D0"], from: 1800, step: 100, y: 2000)
+        row(["NC", "IORF", "RST", "3V3", "5V", "GND1", "GND2", "VIN"], from: 1100, step: 100, y: 100)
+        row(["A0", "A1", "A2", "A3", "A4", "A5"], from: 2000, step: 100, y: 100)
+        let outline = [at(0, 2100), at(2540, 2100), at(2600, 2040), at(2600, 1590), at(2700, 1490), at(2700, 200),
+                       at(2600, 100), at(2600, 0), at(0, 0)]
+        let holes = [at(600, 2000), at(2600, 1400), at(2600, 300), at(550, 100)]
+            .map { MountingHole(centre: $0, drill: 0.125 * inch) }
+        let order = (0...13).map { "D\($0)" } + (0...5).map { "A\($0)" }
+            + ["SDA", "SCL", "AREF", "IORF", "RST", "3V3", "5V", "VIN", "GND1", "GND2", "GND3", "NC"]
+        return headerBoard(width: width, height: height, pins: pins, outline: outline, holes: holes,
+                           pinOrder: order)
+    }()
 }

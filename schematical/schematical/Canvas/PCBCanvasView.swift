@@ -229,7 +229,7 @@ struct PCBCanvasView: View {
             let side: BoardSide? = layer == .top ? .top : layer == .bottom ? .bottom : nil
             if let side, visible.shows(.copper(layer)) {
                 // A card's gold fingers on this side.
-                for finger in board.fingers where finger.side == side {
+                for finger in board.fingers where !finger.isThroughHole && finger.side == side {
                     context.fill(Path(finger.rect), with: .color(style.color.color))
                 }
                 for chip in document.chips where chip.board?.side == side {
@@ -253,13 +253,13 @@ struct PCBCanvasView: View {
                 let hole = CGRect(x: via.centre.x - d / 2, y: via.centre.y - d / 2, width: d, height: d)
                 context.fill(Path(ellipseIn: hole), with: .color(Self.background))
             }
-            for chip in document.chips {
-                for pad in chip.boardPads where pad.drill > 0 {
-                    // A non-plated hole has no copper: just the hole.
-                    if pad.plated { context.fill(Self.outline(of: pad), with: .color(Self.copper)) }
-                    if let hole = pad.holeRect {
-                        context.fill(Path(roundedRect: hole, cornerRadius: pad.drill / 2), with: .color(Self.background))
-                    }
+            // The board's own header pads, and its mounting holes.
+            let boardPads = board.fingers.filter(\.isThroughHole).map(\.pad) + board.holes.map(\.pad)
+            for pad in boardPads + document.chips.flatMap({ $0.boardPads.filter { $0.drill > 0 } }) {
+                // A non-plated hole has no copper: just the hole.
+                if pad.plated { context.fill(Self.outline(of: pad), with: .color(Self.copper)) }
+                if let hole = pad.holeRect {
+                    context.fill(Path(roundedRect: hole, cornerRadius: pad.drill / 2), with: .color(Self.background))
                 }
             }
         }

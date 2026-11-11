@@ -885,7 +885,7 @@ extension SchematicFile {
         settings.edgeBus = board.edgeBus
         if let entry = board.card { settings.customCard = Self.customCard(entry) }
         if let entry = board.cardOptions { settings.cardOptions = try Self.cardOptions(entry) }
-        if settings.type.isCard, settings.layers < 2 {
+        if settings.needsTwoLayers, settings.layers < 2 {
             throw SchematicFileError.badPCB("board type \(settings.type.rawValue) needs 2 or more layers")
         }
         if settings.type == .customCard {
@@ -894,9 +894,6 @@ extension SchematicFile {
             settings.height = max(settings.height, card.depth + 1)
         }
         if settings.type != .customCard, let card = settings.card {
-            guard settings.layers > 1 else {
-                throw SchematicFileError.badPCB("board type \(settings.type.rawValue) needs 2 or more layers")
-            }
             // A card's height is its standard's; its length is at least the least.
             settings.height = card.height
             settings.width = min(max(settings.width, card.minimumLength), card.maximumLength)
