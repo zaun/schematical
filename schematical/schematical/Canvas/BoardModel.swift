@@ -173,6 +173,39 @@ extension PlacedChip {
         return BoardLayout.originPoint(of: board, footprint: footprint, pad1: part.firstPinDesignator)
     }
 
+    /// A single diode's cathode band, drawn with the body outline: a line
+    /// across the body, a fifth of its length in from the end nearest the
+    /// cathode's pads, so the board shows which way the diode goes. Nil for
+    /// any other part, or a footprint whose cathode and anode pads don't
+    /// sit apart along one axis.
+    nonisolated var cathodeBand: (a: CGPoint, b: CGPoint)? {
+        guard symbol == .plainDiode, let footprint, let board,
+              let cathode = part.pins.first(where: { $0.name == "K" })?.designator,
+              let anode = part.pins.first(where: { $0.name == "A" })?.designator else { return nil }
+        func centre(_ designator: String) -> CGPoint? {
+            let pads = footprint.pads.filter { $0.designator == designator }
+            guard !pads.isEmpty else { return nil }
+            let n = CGFloat(pads.count)
+            return CGPoint(x: pads.map(\.centre.x).reduce(0, +) / n, y: pads.map(\.centre.y).reduce(0, +) / n)
+        }
+        guard let k = centre(cathode), let a = centre(anode) else { return nil }
+        let dx = k.x - a.x, dy = k.y - a.y
+        guard max(abs(dx), abs(dy)) > 0.01 else { return nil }
+        let horizontal = abs(dx) >= abs(dy)
+        let length = horizontal ? footprint.body.width : footprint.body.height
+        let across = horizontal ? footprint.body.height : footprint.body.width
+        let along = (length / 2 - length / 5) * ((horizontal ? dx : dy) > 0 ? 1 : -1)
+        // On a round body the band is the chord at that point.
+        var half = across / 2
+        if footprint.bodyRound {
+            let t = along / (length / 2)
+            half *= (1 - t * t).squareRoot()
+        }
+        let p = horizontal ? CGPoint(x: along, y: -half) : CGPoint(x: -half, y: along)
+        let q = horizontal ? CGPoint(x: along, y: half) : CGPoint(x: half, y: along)
+        return (board.board(p), board.board(q))
+    }
+
     /// Where the pin-1 mark goes: 0.5 mm outside the body corner nearest the
     /// pad of the part's first pin ("1", or "A1" on a BGA).
     nonisolated var pin1Mark: CGPoint? {

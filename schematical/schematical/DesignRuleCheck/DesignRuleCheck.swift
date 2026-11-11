@@ -647,7 +647,8 @@ private struct DesignRuleChecker {
             let items: Set<BoardItem> = [.footprint(chip.id)]
             if placement.outline == .silkscreen {
                 if Self.outlineWidth < rules.minSilkscreenWidth - Self.tolerance { thinOutlines.append(chip) }
-                for (a, b) in Self.outlineSegments(body.rect, round: body.round) {
+                let band = chip.cathodeBand.map { [($0.a, $0.b)] } ?? []
+                for (a, b) in Self.outlineSegments(body.rect, round: body.round) + band {
                     inks.append(Ink(shape: Shape(core: .segment(a, b), radius: Self.outlineWidth / 2, layers: nil, node: -1),
                                     side: placement.side, owner: chip.reference, what: "Outline", items: items))
                 }

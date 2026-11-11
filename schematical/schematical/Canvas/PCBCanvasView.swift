@@ -402,6 +402,10 @@ struct PCBCanvasView: View {
                 } else {
                     path.addRect(body.rect)
                 }
+                if let band = chip.cathodeBand {
+                    path.move(to: band.a)
+                    path.addLine(to: band.b)
+                }
             }
             context.stroke(outline, with: .color(ink), lineWidth: 0.15)
         }
