@@ -991,7 +991,7 @@ struct NoteLayer: View {
                                style: StrokeStyle(lineWidth: 1.5, dash: [4, 3]))
             }
             for (index, line) in note.lines.enumerated() where !line.isEmpty {
-                painter.draw(PaintedText(line, size: CGFloat(note.size)), at: note.lineOrigin(index),
+                painter.draw(PaintedText(line, size: CGFloat(note.size), monospaced: true), at: note.lineOrigin(index),
                              anchor: .topLeading)
             }
         }

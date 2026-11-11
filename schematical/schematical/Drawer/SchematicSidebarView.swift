@@ -130,7 +130,7 @@ private struct NotePanel: View {
             Text("Text")
                 .font(.title2.bold())
             TextEditor(text: $words)
-                .font(.body)
+                .font(.body.monospaced())
                 .frame(minHeight: 80, maxHeight: 240)
                 .focused($isEditing)
                 .accessibilityLabel("Text")

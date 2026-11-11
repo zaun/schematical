@@ -439,6 +439,7 @@ private struct TextPanel: View {
             Text("Text")
                 .font(.title2.bold())
             TextField("Text", text: $words, axis: .vertical)
+                .font(.body.monospaced())
                 .lineLimit(1...6)
                 .focused($focus, equals: .words)
                 .onSubmit(commitWords)

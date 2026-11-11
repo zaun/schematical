@@ -10,9 +10,9 @@ extension BoardText {
     /// The font size texts are laid out at before scaling.
     nonisolated static let referenceSize: CGFloat = 100
 
-    /// The system font at `referenceSize`; drawn scaled by `drawScale`.
+    /// The monospaced system font at `referenceSize`; drawn scaled by `drawScale`.
     nonisolated var font: NSFont {
-        NSFont.systemFont(ofSize: Self.referenceSize, weight: .medium)
+        NSFont.monospacedSystemFont(ofSize: Self.referenceSize, weight: .medium)
     }
 
     /// Board mm per point of `font`.

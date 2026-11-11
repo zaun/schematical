@@ -21,8 +21,8 @@ nonisolated struct SchematicNote: Identifiable, Hashable, Sendable {
     /// Space between the frame and the text, on every side.
     static let padding: CGFloat = 6
 
-    /// The font the canvas and exports draw the text in.
-    var font: NSFont { NSFont.systemFont(ofSize: CGFloat(size)) }
+    /// The monospaced font the canvas and exports draw the text in.
+    var font: NSFont { NSFont.monospacedSystemFont(ofSize: CGFloat(size), weight: .regular) }
 
     /// The text's lines, empty ones included.
     var lines: [String] {
