@@ -13,6 +13,8 @@ struct SchematicScene {
     /// Every junction that shows a dot (`showsDot`), none selected.
     var junctions: [JunctionDot]
     var notes: [SchematicNote]
+    /// Per chip, the pins with a wire on them (no pin number drawn).
+    var connectedPins: [UUID: Set<Int>]
 
     init(_ document: SchematicDocument) {
         chips = document.chips
@@ -21,6 +23,7 @@ struct SchematicScene {
         // A loose end gets a dot only where it branches, and it exports black.
         junctions = document.junctions.filter(document.showsDot).map { JunctionDot(point: $0.point) }
         notes = document.notes
+        connectedPins = document.connectedPins
     }
 
     var isEmpty: Bool { chips.isEmpty && buses.isEmpty && routes.isEmpty && notes.isEmpty }
@@ -33,11 +36,12 @@ struct SchematicScene {
                         hoveredWireID: nil, preview: nil)
         for chip in chips {
             var placed = painter
+            let wired = connectedPins[chip.id] ?? []
             placed.translateBy(x: chip.viewOrigin.x, y: chip.viewOrigin.y)
             // No `default`: a new symbol must say how it exports.
             switch chip.symbol {
             case .block, .oscillator:
-                ChipBlockView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
+                ChipBlockView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired)
             case .barrelJack:
                 BarrelJackSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
             case .header:
@@ -50,13 +54,13 @@ struct SchematicScene {
             case .vcc, .ground, .pullUp, .pullDown:
                 SupplySymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
             case .dipSwitch:
-                DipSwitchSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
+                DipSwitchSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired)
             case .tactileSwitch:
-                TactileSwitchSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
+                TactileSwitchSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired)
             case .sevenSegment:
-                SevenSegmentSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, levels: [])
+                SevenSegmentSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired, levels: [])
             case .characterLCD:
-                CharacterLCDSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false,
+                CharacterLCDSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired,
                                              frame: nil, backlight: 0)
             }
         }

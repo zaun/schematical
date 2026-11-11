@@ -278,6 +278,7 @@ struct SchematicCanvasView: View {
                 area: gridRect
             )
 
+            let connectedPins = document.connectedPins
             ForEach(document.chips) { chip in
                 Group {
                     switch chip.symbol {
@@ -285,7 +286,8 @@ struct SchematicCanvasView: View {
                         ChipBlockView(
                             chip: chip,
                             isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
+                            isHovered: chip.id == hoveredChipID,
+                            connectedPins: connectedPins[chip.id] ?? []
                         )
                     case .barrelJack:
                         BarrelJackSymbolView(
@@ -323,19 +325,22 @@ struct SchematicCanvasView: View {
                         DipSwitchSymbolView(
                             chip: chip,
                             isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
+                            isHovered: chip.id == hoveredChipID,
+                            connectedPins: connectedPins[chip.id] ?? []
                         )
                     case .tactileSwitch:
                         TactileSwitchSymbolView(
                             chip: chip,
                             isSelected: document.isSelected(.chip(chip.id)),
-                            isHovered: chip.id == hoveredChipID
+                            isHovered: chip.id == hoveredChipID,
+                            connectedPins: connectedPins[chip.id] ?? []
                         )
                     case .sevenSegment:
                         SevenSegmentSymbolView(
                             chip: chip,
                             isSelected: document.isSelected(.chip(chip.id)),
                             isHovered: chip.id == hoveredChipID,
+                            connectedPins: connectedPins[chip.id] ?? [],
                             levels: simulation.lights[chip.id] ?? []
                         )
                     case .characterLCD:
@@ -343,6 +348,7 @@ struct SchematicCanvasView: View {
                             chip: chip,
                             isSelected: document.isSelected(.chip(chip.id)),
                             isHovered: chip.id == hoveredChipID,
+                            connectedPins: connectedPins[chip.id] ?? [],
                             frame: simulation.lcdFrames[chip.id],
                             backlight: simulation.lights[chip.id]?.first ?? 0
                         )

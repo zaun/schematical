@@ -13,6 +13,8 @@ struct CharacterLCDSymbolView: View {
     let chip: PlacedChip
     let isSelected: Bool
     let isHovered: Bool
+    /// Pins (`ChipPin.index`) with a wire on them: their numbers are not drawn.
+    var connectedPins: Set<Int> = []
     /// The dot image of the last frame; nil outside play mode.
     var frame: LCDFrame?
     /// Backlight level 0…1 (its share of the last frame spent on).
@@ -25,6 +27,7 @@ struct CharacterLCDSymbolView: View {
         Canvas { context, _ in
             var painter = ScreenPainter(context)
             Self.paint(&painter, chip: chip, isSelected: isSelected, isHovered: isHovered,
+                       connectedPins: connectedPins,
                        frame: frame, backlight: backlight)
         }
         .frame(width: layout.size.width + 2 * margin, height: layout.size.height)
@@ -32,6 +35,7 @@ struct CharacterLCDSymbolView: View {
 
     /// Draws the module, its frame's top-left corner at (0, 0).
     static func paint<P: SchematicPainter>(_ painter: inout P, chip: PlacedChip, isSelected: Bool, isHovered: Bool,
+                                           connectedPins: Set<Int> = [],
                                            frame: LCDFrame?, backlight: Double) {
         let layout = chip.layout
         let margin = ChipLayout.labelMargin
@@ -67,11 +71,13 @@ struct CharacterLCDSymbolView: View {
             pinStub.addLine(to: CGPoint(x: edgeX, y: slot.centerY))
             painter.stroke(pinStub, with: outline, lineWidth: 1.5)
 
-            painter.draw(
-                PaintedText(slot.pin.designator, size: 9, ink: .secondary),
-                at: CGPoint(x: isLeft ? tipX - 3 : tipX + 3, y: slot.centerY),
-                anchor: isLeft ? .trailing : .leading
-            )
+            if !connectedPins.contains(slot.pin.index) {
+                painter.draw(
+                    PaintedText(slot.pin.designator, size: 9, ink: .secondary),
+                    at: CGPoint(x: isLeft ? tipX - 3 : tipX + 3, y: slot.centerY),
+                    anchor: isLeft ? .trailing : .leading
+                )
+            }
             painter.draw(
                 PaintedText(slot.pin.name, size: 9, weight: .medium, monospaced: true),
                 at: CGPoint(x: isLeft ? edgeX + 4 : edgeX - 4, y: slot.centerY),

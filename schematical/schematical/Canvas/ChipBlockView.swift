@@ -2,7 +2,8 @@ import SwiftUI
 
 /// Draws one placed chip: a box with the part number in the header, the
 /// readable function in the middle, pin stubs and pin names on the left
-/// (inputs, power) and right (outputs, ground), and pin designators outside the box.
+/// (inputs, power) and right (outputs, ground), and the designators of unwired
+/// pins outside the box.
 ///
 /// The view's frame includes `ChipLayout.labelMargin` on each side. The body's
 /// top-left corner sits at `chip.origin`, so the parent offsets by that margin.
@@ -10,6 +11,8 @@ struct ChipBlockView: View {
     let chip: PlacedChip
     let isSelected: Bool
     let isHovered: Bool
+    /// Pins (`ChipPin.index`) with a wire on them: their numbers are not drawn.
+    var connectedPins: Set<Int> = []
 
     var body: some View {
         let layout = chip.layout
@@ -17,13 +20,15 @@ struct ChipBlockView: View {
 
         Canvas { context, _ in
             var painter = ScreenPainter(context)
-            Self.paint(&painter, chip: chip, isSelected: isSelected, isHovered: isHovered)
+            Self.paint(&painter, chip: chip, isSelected: isSelected, isHovered: isHovered,
+                       connectedPins: connectedPins)
         }
         .frame(width: layout.size.width + 2 * margin, height: layout.size.height)
     }
 
     /// Draws the chip, its top-left corner at the view's (0, 0).
-    static func paint<P: SchematicPainter>(_ painter: inout P, chip: PlacedChip, isSelected: Bool, isHovered: Bool) {
+    static func paint<P: SchematicPainter>(_ painter: inout P, chip: PlacedChip, isSelected: Bool, isHovered: Bool,
+                                           connectedPins: Set<Int> = []) {
         let layout = chip.layout
         let margin = ChipLayout.labelMargin
         let stub = ChipLayout.stubLength
@@ -74,11 +79,13 @@ struct ChipBlockView: View {
             pinStub.addLine(to: CGPoint(x: edgeX, y: y))
             painter.stroke(pinStub, with: outline, lineWidth: 1.5)
 
-            painter.draw(
-                PaintedText(slot.pin.designator, size: 9, ink: .secondary),
-                at: CGPoint(x: isLeft ? tipX - 3 : tipX + 3, y: y),
-                anchor: isLeft ? .trailing : .leading
-            )
+            if !connectedPins.contains(slot.pin.index) {
+                painter.draw(
+                    PaintedText(slot.pin.designator, size: 9, ink: .secondary),
+                    at: CGPoint(x: isLeft ? tipX - 3 : tipX + 3, y: y),
+                    anchor: isLeft ? .trailing : .leading
+                )
+            }
 
             painter.draw(
                 PaintedText(slot.pin.name, size: 10, weight: .medium, monospaced: true,

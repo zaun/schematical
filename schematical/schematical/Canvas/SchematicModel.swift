@@ -2992,6 +2992,18 @@ final class SchematicDocument {
         return chip.tip(of: slot)
     }
 
+    /// Per chip, the pins (`ChipPin.index`) a wire ends on. The schematic
+    /// leaves out those pins' numbers.
+    var connectedPins: [UUID: Set<Int>] {
+        var pins: [UUID: Set<Int>] = [:]
+        for wire in wires {
+            for end in [wire.start, wire.end] {
+                if case .pin(let ref) = end { pins[ref.chipID, default: []].insert(ref.index) }
+            }
+        }
+        return pins
+    }
+
     /// Tip position of every pin on every placed chip and bus port.
     var pinTips: [CGPoint] {
         chips.flatMap { chip in

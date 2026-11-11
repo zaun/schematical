@@ -178,4 +178,21 @@ final class SchematicSceneTests: XCTestCase {
         let lastBusStroke = try XCTUnwrap(recorded.lastIndex { $0.kind == .stroke && $0.lineWidth == Bus.lineWidth })
         XCTAssertLessThan(lastBusStroke, wireStroke)
     }
+
+    /// A wired pin's number is left off; an unwired pin keeps it.
+    func testWiredPinsDrawNoNumber() throws {
+        let doc = TestSupport.newDocument()
+        let chip = try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 200, y: 200))
+        let y = try TestSupport.pin(chip, "1Y"), a = try TestSupport.pin(chip, "2A")
+        XCTAssertNil(doc.connect(.pin(y), .pin(a)))
+        XCTAssertEqual(doc.connectedPins[chip.id], [y.index, a.index])
+
+        let designator = { (ref: PinRef) in chip.layout.slots.first { $0.pin.index == ref.index }!.pin.designator }
+        let other = try TestSupport.pin(chip, "1A")
+        let texts = calls(doc).filter { $0.kind == .text }.map(\.string)
+        XCTAssertFalse(texts.contains(designator(y)))
+        XCTAssertFalse(texts.contains(designator(a)))
+        XCTAssertTrue(texts.contains(designator(other)))
+    }
+
 }
