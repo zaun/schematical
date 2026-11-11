@@ -201,8 +201,8 @@ struct Bus: Identifiable, Hashable {
     static let wireCountRange = 2...999
     static let defaultWireCount = 8
     static let nameLengthRange = 1...4
-    /// Four times a wire's 1.5.
-    static let lineWidth: CGFloat = 6
+    /// Wider than a wire's 1.5, so a bus stands out.
+    static let lineWidth: CGFloat = 4
 
     init(id: UUID = UUID(), name: String = "", card: BusCard = BusCard(), lines: [BusLine], wires: [BusWire],
          ports: [BusPort] = []) {
