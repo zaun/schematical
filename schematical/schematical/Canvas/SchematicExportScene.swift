@@ -1,10 +1,10 @@
 import SwiftUI
 
 /// A snapshot of a schematic as an export draws it: every text block, bus,
-/// port, wire, junction and part, with nothing selected or hovered, no tool
+/// port, wire, junction, net label and part, with nothing selected or hovered, no tool
 /// preview and no play-mode state. It paints itself through any
 /// `SchematicPainter`, in the live canvas's order (text blocks, buses,
-/// ports, wires, parts), minus the grid and pin markers (plan-28-B § 3.2).
+/// ports, wires, net labels, parts), minus the grid and pin markers (plan-28-B § 3.2).
 struct SchematicScene {
     var chips: [PlacedChip]
     var buses: [Bus]
@@ -13,6 +13,7 @@ struct SchematicScene {
     /// Every junction that shows a dot (`showsDot`), none selected.
     var junctions: [JunctionDot]
     var notes: [SchematicNote]
+    var netLabels: [NetLabel]
     /// Per chip, the pins with a wire on them (no pin number drawn).
     var connectedPins: [UUID: Set<Int>]
 
@@ -23,10 +24,13 @@ struct SchematicScene {
         // A loose end gets a dot only where it branches, and it exports black.
         junctions = document.junctions.filter(document.showsDot).map { JunctionDot(point: $0.point) }
         notes = document.notes
+        netLabels = document.netLabels
         connectedPins = document.connectedPins
     }
 
-    var isEmpty: Bool { chips.isEmpty && buses.isEmpty && routes.isEmpty && notes.isEmpty }
+    var isEmpty: Bool {
+        chips.isEmpty && buses.isEmpty && routes.isEmpty && notes.isEmpty && netLabels.isEmpty
+    }
 
     func paint<P: SchematicPainter>(into painter: inout P) {
         NoteLayer.paint(&painter, notes: notes, selectedNoteIDs: [], hoveredNoteID: nil)
@@ -34,6 +38,7 @@ struct SchematicScene {
         PortLayer.paint(&painter, buses: buses, selectedPortID: nil, hoveredPortID: nil)
         WireLayer.paint(&painter, routes: routes, junctions: junctions, selectedWireIDs: [],
                         hoveredWireID: nil, preview: nil)
+        NetLabelLayer.paint(&painter, labels: netLabels, selectedIDs: [], hoveredID: nil)
         for chip in chips {
             var placed = painter
             let wired = connectedPins[chip.id] ?? []

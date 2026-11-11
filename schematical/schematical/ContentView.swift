@@ -160,6 +160,10 @@ struct ContentView: View {
                 guard page == .pcb, canRotate else { return event }
                 rotateSelection()
             case .flip:
+                if page == .schematic, !simulation.isRunning, let id = document.selectedNetLabelID {
+                    document.flipNetLabel(id)
+                    return nil
+                }
                 guard let id = flippableChipID else { return event }
                 document.flipChip(id)
             case .angle:

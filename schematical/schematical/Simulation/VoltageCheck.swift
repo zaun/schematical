@@ -54,20 +54,20 @@ enum VoltageCheck {
 
     /// Problems in this drawing. Closed contacts are the switch positions
     /// that are ON (`PlacedChip.switchesOn`).
-    static func issues(chips: [PlacedChip], wires: [Wire], buses: [Bus],
+    static func issues(chips: [PlacedChip], wires: [Wire], buses: [Bus], labels: [NetLabel] = [],
                        library: PartLibraryHandle) -> Set<VoltageIssue> {
-        Set(sortedIssues(chips: chips, wires: wires, buses: buses, library: library))
+        Set(sortedIssues(chips: chips, wires: wires, buses: buses, labels: labels, library: library))
     }
 
     /// Problems in this drawing, ordered by net, then part, then pin.
-    static func sortedIssues(chips: [PlacedChip], wires: [Wire], buses: [Bus],
+    static func sortedIssues(chips: [PlacedChip], wires: [Wire], buses: [Bus], labels: [NetLabel] = [],
                              library: PartLibraryHandle) -> [VoltageIssue] {
         var parts: [UnsafePointer<Part>?] = []
         for chip in chips {
             guard let part = part_library_find(library.pointer, chip.partNumber) else { return [] }
             parts.append(part)
         }
-        let netlist = NetlistBuilder.build(chips: chips, wires: wires, buses: buses)
+        let netlist = NetlistBuilder.build(chips: chips, wires: wires, buses: buses, labels: labels)
         let connections: [VoltageConnection] = netlist.connections.compactMap { connection in
             guard let pin = chips[connection.part].part.pins.first(where: { $0.designator == connection.pin })
             else { return nil }
@@ -107,12 +107,15 @@ enum VoltageCheck {
     }
 
     /// The first problem in `after` that is not in `before`, in net, part,
-    /// pin order; nil when the edit adds none.
+    /// pin order; nil when the edit adds none. `labels` are the net labels
+    /// before; `afterLabels` after, when the edit changes them.
     static func firstNew(before: [PlacedChip], _ beforeWires: [Wire],
                          after: [PlacedChip], _ afterWires: [Wire],
-                         buses: [Bus], library: PartLibraryHandle) -> VoltageIssue? {
-        let old = issues(chips: before, wires: beforeWires, buses: buses, library: library)
-        return sortedIssues(chips: after, wires: afterWires, buses: buses, library: library).first { !old.contains($0) }
+                         buses: [Bus], labels: [NetLabel] = [], afterLabels: [NetLabel]? = nil,
+                         library: PartLibraryHandle) -> VoltageIssue? {
+        let old = issues(chips: before, wires: beforeWires, buses: buses, labels: labels, library: library)
+        return sortedIssues(chips: after, wires: afterWires, buses: buses, labels: afterLabels ?? labels,
+                            library: library).first { !old.contains($0) }
     }
 
     /// Why the edit is refused, for the user, e.g.

@@ -42,9 +42,11 @@ struct SchematicNetlist {
 enum NetlistBuilder {
     /// Two wire ends are the same electrical node when a wire joins them, or
     /// when they meet at a junction. Every bus port pin for the same bus wire,
-    /// on any port of that bus, is one node too. Union-find over the wire ends
-    /// gives the nets.
-    static func build(chips: [PlacedChip], wires: [Wire], buses: [Bus]) -> SchematicNetlist {
+    /// on any port of that bus, is one node too, and so is every net label
+    /// point of one name (ignoring case). Union-find over the wire ends gives
+    /// the nets.
+    static func build(chips: [PlacedChip], wires: [Wire], buses: [Bus],
+                      labels: [NetLabel] = []) -> SchematicNetlist {
         var parent: [WireEnd: WireEnd] = [:]
 
         func find(_ end: WireEnd) -> WireEnd {
@@ -82,6 +84,18 @@ enum NetlistBuilder {
             }
         }
         for group in groups.values {
+            for end in group.dropFirst() {
+                union(group[0], end)
+            }
+        }
+
+        // Net labels of one name are one node, whether or not wires reach
+        // them all.
+        var labelGroups: [String: [WireEnd]] = [:]
+        for label in labels {
+            labelGroups[label.netKey, default: []].append(.label(label.id))
+        }
+        for group in labelGroups.values {
             for end in group.dropFirst() {
                 union(group[0], end)
             }
@@ -258,7 +272,8 @@ final class SimulationController {
     /// file's contents first; a file that can't be read or parsed stops the
     /// start with a message naming the part.
     func start(document: SchematicDocument) {
-        let netlist = NetlistBuilder.build(chips: document.chips, wires: document.wires, buses: document.buses)
+        let netlist = NetlistBuilder.build(chips: document.chips, wires: document.wires, buses: document.buses,
+                                           labels: document.netLabels)
         var loads: [(part: Int, values: [UInt32])] = []
         for (index, chip) in document.chips.enumerated() where chip.part.kind == PART_EEPROM {
             guard let file = chip.memoryFile, let size = chip.part.memorySize else { continue }

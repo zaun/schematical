@@ -10,6 +10,8 @@ nonisolated enum SchematicItem: Hashable, Sendable {
     case junction(UUID)
     /// A text block (`SchematicNote`).
     case note(UUID)
+    /// A net label (`NetLabel`).
+    case label(UUID)
 }
 
 /// One thing that can be selected on the PCB page: a part's footprint (by
@@ -145,8 +147,12 @@ nonisolated struct SchematicGroupBase: Equatable {
     var paths: [UUID: [CGPoint]] = [:]
     /// Selected text blocks' top-lefts.
     var notes: [UUID: CGPoint] = [:]
+    /// Selected net labels' points.
+    var labels: [UUID: CGPoint] = [:]
 
-    var isEmpty: Bool { chips.isEmpty && junctions.isEmpty && wires.isEmpty && notes.isEmpty }
+    var isEmpty: Bool {
+        chips.isEmpty && junctions.isEmpty && wires.isEmpty && notes.isEmpty && labels.isEmpty
+    }
 }
 
 /// Where every selected PCB item was when a group drag started (board mm).

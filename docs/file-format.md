@@ -49,7 +49,8 @@ to the grid on open.
   "wires": [ ... ],
   "buses": [ ... ],
   "board": { ... },
-  "notes": [ ... ]
+  "notes": [ ... ],
+  "labels": [ ... ]
 }
 ```
 
@@ -64,6 +65,7 @@ to the grid on open.
 | `buses`         | array   | Buses ([Buses](#buses)). Always written from version 3 on, empty when there are none; version 1 and 2 files have none. |
 | `board`         | object  | Optional. The PCB's settings and texts ([Board](#board)). Written by every build that has it; a file without it opens with the defaults. |
 | `notes`         | array   | Text blocks on the schematic, in drawing order ([Notes](#notes)). Always written, `[]` when there are none; missing means none. Older builds ignore it. |
+| `labels`        | array   | Net labels on the schematic, in drawing order ([Net labels](#net-labels)). Written only when there are some; missing means none. Older builds ignore it, but refuse a wire that ends on a label. |
 
 On open, `nextReference` is raised if needed so that it is higher than every
 existing `U<n>` reference (references with other prefixes, such as `R3`, do
@@ -244,6 +246,7 @@ An end is one of:
 - `{ "junction": <junction id> }`: a junction.
 - `{ "port": <port id>, "wire": <bus wire id> }`: the pin of a bus port for
   one bus wire ([Ports](#ports)). The wire must be ticked on that port.
+- `{ "label": <label id> }`: the point of a net label ([Net labels](#net-labels)).
 
 The ends' own positions are not stored. They come from the part's pin layout
 or the junction. The app re-fits the bends next to each end when the wire is
@@ -332,6 +335,28 @@ are drawn under everything else and never simulated.
 | `size`     | integer | Font size in points, 6 to 72. Default 12.                            |
 | `framed`   | boolean | Whether the block has a frame around it. Default `true`.             |
 
+## Net labels
+
+Flags the schematic's Net Label tool places. Every label with the same
+name, ignoring case, is one net: the wires on them are connected without
+being drawn to each other (in the simulation, the voltage check and the
+PCB's unrouted lines). A label is never simulated itself.
+
+```json
+"labels": [ { "id": "...", "name": "CLK", "x": 250, "y": 100, "type": "input" },
+            { "id": "...", "name": "clk", "x": 450, "y": 300, "type": "output", "flipped": true } ]
+```
+
+| Field      | Type    | Meaning                                                              |
+|------------|---------|----------------------------------------------------------------------|
+| `id`       | UUID    | Unique within the file, across every other ID.                       |
+| `name`     | string  | The net's name: 1 to 4 characters, no spaces.                        |
+| `x`, `y`   | number  | Canvas units: the label's point, where a wire ends. Snapped to the grid on open. |
+| `type`     | string  | `"input"` (default; the far end points away from the wire), `"output"` (the end at the wire points in at it) or `"inout"` (both ends point). |
+| `flipped`  | boolean | The flag runs left of its point instead of right. Default `false`; written only when `true`. |
+
+The flag is 60 long and 20 high, centred on its point's row.
+
 ## Validation on open
 
 Opening fails, and the canvas is left unchanged, if:
@@ -339,8 +364,11 @@ Opening fails, and the canvas is left unchanged, if:
 - `format` is missing or not `"schematical"`, or `version` is newer than the app supports;
 - the JSON doesn't match this structure;
 - an ID is used more than once across parts, junctions, wires, buses, bus
-  lines, bus wires, ports, board texts, traces and notes;
+  lines, bus wires, ports, board texts, traces, notes and net labels;
 - a note's `text` is empty, or its `size` is not 6 to 72;
+- a net label's `name` is not 1 to 4 characters with no spaces, or its
+  `type` is not `input`, `output` or `inout` ("The net label is not valid:
+  net label <id> …");
 - a `partNumber` is not in the catalog (the error lists every missing one);
 - an LED's `color` is not one of its colors (`U3: "Purple" is not a color of
   GENERIC-LED`), or a `footprint` is not one of the part's footprint choices
@@ -354,6 +382,8 @@ Opening fails, and the canvas is left unchanged, if:
 - a wire end names a port that isn't in the file ("Wire <id> connects to
   port <id>, which is not in the file."), or a bus wire that isn't ticked on
   that port ("Wire <id> connects to a pin port <id> does not have.");
+- a wire end names a net label that isn't in the file ("Wire <id> connects
+  to net label <id>, which is not in the file.");
 - the pins don't match the version: a version 1 file with a string `"pin"`, or a
   version 2 file with an integer `"pin"`. A file uses one or the other;
 - a part with a footprint has a `pcb.rotation` other than 0, 90, 180 or 270

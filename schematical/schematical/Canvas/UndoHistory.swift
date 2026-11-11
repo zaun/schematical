@@ -13,6 +13,7 @@ struct DocumentState: Equatable {
     var junctions: [Junction] = []
     var buses: [Bus] = []
     var notes: [SchematicNote] = []
+    var netLabels: [NetLabel] = []
     var nextReference = 1
     var board = BoardSettings()
     var texts: [BoardText] = []
@@ -25,13 +26,13 @@ struct DocumentState: Equatable {
 /// shows), `.reference` (shown on both) and `.footprint` (what the PCB shows).
 enum UndoKey: Hashable {
     case part(UUID), reference(UUID), footprint(UUID)
-    case wire(UUID), junction(UUID), bus(UUID), note(UUID), nextReference
+    case wire(UUID), junction(UUID), bus(UUID), note(UUID), label(UUID), nextReference
     case text(UUID), trace(UUID), via(UUID), board
 
     /// The pages that show this key. A step goes on the list of each.
     var pages: Set<EditorPage> {
         switch self {
-        case .part, .wire, .junction, .bus, .note, .nextReference: [.schematic]
+        case .part, .wire, .junction, .bus, .note, .label, .nextReference: [.schematic]
         case .reference: [.schematic, .pcb]
         case .footprint, .text, .trace, .via, .board: [.pcb]
         }
@@ -44,7 +45,7 @@ enum UndoValue: Equatable {
     /// For `.part`, `.reference` and `.footprint`: the whole chip.
     case chip(PlacedChip, index: Int)
     case wire(Wire, index: Int), junction(Junction, index: Int)
-    case bus(Bus, index: Int), note(SchematicNote, index: Int)
+    case bus(Bus, index: Int), note(SchematicNote, index: Int), label(NetLabel, index: Int)
     case text(BoardText, index: Int), trace(BoardTrace, index: Int), via(BoardVia, index: Int)
     case nextReference(Int), board(BoardSettings)
 }
@@ -119,6 +120,7 @@ enum UndoDiff {
         diff(old.junctions, new.junctions, key: UndoKey.junction, wrap: UndoValue.junction, into: &changes)
         diff(old.buses, new.buses, key: UndoKey.bus, wrap: UndoValue.bus, into: &changes)
         diff(old.notes, new.notes, key: UndoKey.note, wrap: UndoValue.note, into: &changes)
+        diff(old.netLabels, new.netLabels, key: UndoKey.label, wrap: UndoValue.label, into: &changes)
         diff(old.texts, new.texts, key: UndoKey.text, wrap: UndoValue.text, into: &changes)
         diff(old.traces, new.traces, key: UndoKey.trace, wrap: UndoValue.trace, into: &changes)
         diff(old.vias, new.vias, key: UndoKey.via, wrap: UndoValue.via, into: &changes)
@@ -168,7 +170,7 @@ enum UndoDiff {
         var wires: [(UUID, UndoValue?)] = [], junctions: [(UUID, UndoValue?)] = []
         var buses: [(UUID, UndoValue?)] = [], notes: [(UUID, UndoValue?)] = []
         var texts: [(UUID, UndoValue?)] = [], traces: [(UUID, UndoValue?)] = []
-        var vias: [(UUID, UndoValue?)] = []
+        var vias: [(UUID, UndoValue?)] = [], labels: [(UUID, UndoValue?)] = []
         for (key, change) in changes {
             let value = target(change)
             switch key {
@@ -181,6 +183,7 @@ enum UndoDiff {
             case let .junction(id): junctions.append((id, value))
             case let .bus(id): buses.append((id, value))
             case let .note(id): notes.append((id, value))
+            case let .label(id): labels.append((id, value))
             case let .text(id): texts.append((id, value))
             case let .trace(id): traces.append((id, value))
             case let .via(id): vias.append((id, value))
@@ -214,6 +217,7 @@ enum UndoDiff {
         place(junctions, in: &state.junctions, unwrap: { if case let .junction(j, i) = $0 { (j, i) } else { nil } })
         place(buses, in: &state.buses, unwrap: { if case let .bus(b, i) = $0 { (b, i) } else { nil } })
         place(notes, in: &state.notes, unwrap: { if case let .note(n, i) = $0 { (n, i) } else { nil } })
+        place(labels, in: &state.netLabels, unwrap: { if case let .label(l, i) = $0 { (l, i) } else { nil } })
         place(texts, in: &state.texts, unwrap: { if case let .text(t, i) = $0 { (t, i) } else { nil } })
         place(traces, in: &state.traces, unwrap: { if case let .trace(t, i) = $0 { (t, i) } else { nil } })
         place(vias, in: &state.vias, unwrap: { if case let .via(v, i) = $0 { (v, i) } else { nil } })

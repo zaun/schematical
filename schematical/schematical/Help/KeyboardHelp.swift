@@ -60,9 +60,9 @@ nonisolated enum KeyboardHelp {
 
     static let schematic: [HelpSection] = [
         HelpSection(title: "Selecting and moving", entries: [
-            entry("Click", "Select a part, wire, junction, bus, port or text block"),
+            entry("Click", "Select a part, wire, junction, net label, bus, port or text block"),
             entry("⇧-click", "Add to the selection, or take out of it"),
-            entry("Drag", "Move a part, junction or text block; move a wire's bend or segment"),
+            entry("Drag", "Move a part, junction, net label or text block; move a wire's bend or segment"),
             entry("⇧-drag, or drag a selected item", "Move the whole selection"),
             entry("Drag empty space", "Pan (and clear the selection)"),
             entry("⇧-drag empty space", "Box-select: add everything the box touches"),
@@ -72,7 +72,7 @@ nonisolated enum KeyboardHelp {
                   "Open its window (in play mode too)"),
         ]),
         HelpSection(title: "Editing", entries: [
-            entry("F", "Flip the selected part left to right"),
+            entry("F", "Flip the selected part or net label left to right"),
             entry("⌘⌫", "Delete the selection"),
             entry("Click a switch lever", "Flip that DIP switch position (also in play mode)"),
         ]),
@@ -88,6 +88,7 @@ nonisolated enum KeyboardHelp {
             entry("Bus", "Drag to draw a bus line; start or end on a bus to join it"),
             entry("Bus Port", "Click a bus line to add a port; tick its wires in the sidebar"),
             entry("Text", "Click to add a text block"),
+            entry("Net Label", "Click to add a label; labels with the same name are one net"),
             entry("GND, Pull-down, VCC, Pull-up", "Click to place; the menu picks the supply voltage"),
         ]),
         HelpSection(title: "Simulation", entries: [

@@ -31,6 +31,10 @@ import SwiftUI
 ///   with loose ends. A drag erases nothing.
 /// - Flip: click a part to flip it left and right.
 /// - VCC and GND: click the canvas to place a supply there.
+/// - Net Label: click to add a net label there (or on a label, to select
+///   it); its name and type are edited in the sidebar. Then back to the
+///   Pointer tool. Labels with the same name are one net. With the
+///   Pointer, a label drags like a part, and F flips it.
 /// - Text: click to add a text block there (or on a block, to select it);
 ///   its words are edited in the sidebar. Then back to the Pointer tool.
 ///   With the Pointer, a text block drags like a part, and a double-click
@@ -70,6 +74,7 @@ struct SchematicCanvasView: View {
     @State private var hoveredBusID: UUID?
     @State private var hoveredPortID: UUID?
     @State private var hoveredNoteID: UUID?
+    @State private var hoveredLabelID: UUID?
     /// The connection point under the pointer in Line mode, when not drawing.
     @State private var hoverAnchor: LineAnchor?
     /// Watches for Space, Esc and `/` while a wire or bus is being drawn.
@@ -183,7 +188,7 @@ struct SchematicCanvasView: View {
                     }
                     guard !isRunning else { return }
                     // A text block under nothing else edits its words.
-                    if document.chip(at: point) == nil,
+                    if document.chip(at: point) == nil, document.netLabel(at: point) == nil,
                        document.segmentHit(at: point, tolerance: lineTolerance) == nil,
                        let note = document.note(at: point) {
                         document.select(.note(note.id))
@@ -275,6 +280,13 @@ struct SchematicCanvasView: View {
                 selectedWireIDs: selectedWireIDs,
                 hoveredWireID: hoveredWireID,
                 preview: connectionPreview,
+                area: gridRect
+            )
+
+            NetLabelLayer(
+                labels: document.netLabels,
+                selectedIDs: selectedLabelIDs,
+                hoveredID: hoveredLabelID,
                 area: gridRect
             )
 
@@ -371,6 +383,14 @@ struct SchematicCanvasView: View {
     private var selectedWireIDs: Set<UUID> {
         Set(document.schematicSelection.items.compactMap { item in
             if case let .wire(id) = item { return id }
+            return nil
+        })
+    }
+
+    /// The net labels in the Schematic selection.
+    private var selectedLabelIDs: Set<UUID> {
+        Set(document.schematicSelection.items.compactMap { item in
+            if case let .label(id) = item { return id }
             return nil
         })
     }
@@ -678,6 +698,19 @@ struct SchematicCanvasView: View {
             }
             interaction = .idle
 
+        case .netLabel:
+            // One label per press, its point where the press started. A
+            // press on a label selects that one instead.
+            if interaction == nil {
+                if let hit = document.netLabel(at: start) {
+                    document.select(.label(hit.id))
+                } else {
+                    document.addNetLabel(at: start)
+                }
+                onPartPlaced()
+            }
+            interaction = .idle
+
         case .vcc, .ground, .pullUp, .pullDown:
             // One supply per press, centred under where the press started.
             if interaction == nil,
@@ -704,6 +737,7 @@ struct SchematicCanvasView: View {
         hoveredBusID = nil
         hoveredPortID = nil
         hoveredNoteID = nil
+        hoveredLabelID = nil
         hoverAnchor = nil
     }
 
@@ -718,6 +752,8 @@ struct SchematicCanvasView: View {
         }
         if let chip = document.chip(at: point) {
             hoveredChipID = chip.id
+        } else if let label = document.netLabel(at: point) {
+            hoveredLabelID = label.id
         } else if let port = document.portHit(at: point) {
             hoveredPortID = port
         } else if let wire = document.segmentHit(at: point, tolerance: lineTolerance)?.wire {
@@ -736,6 +772,9 @@ struct SchematicCanvasView: View {
         if let hit = document.chip(at: point) {
             selectionPress = document.pressSelection(.chip(hit.id), shift: shift)
             interaction = .moveGroup(base: document.schematicGroupBase(), lever: shift ? nil : hit.id)
+        } else if let label = document.netLabel(at: point) {
+            selectionPress = document.pressSelection(.label(label.id), shift: shift)
+            interaction = .moveGroup(base: document.schematicGroupBase(), lever: nil)
         } else if let port = document.portHit(at: point), let found = document.port(port) {
             // A press selects the port; dragging slides it along its line.
             document.selectedPortID = port

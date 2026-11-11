@@ -26,6 +26,7 @@ enum SchematicTool: String, CaseIterable, Identifiable {
     case bus
     case busPort
     case text
+    case netLabel
     case vcc
     case ground
     case pullUp
@@ -34,7 +35,7 @@ enum SchematicTool: String, CaseIterable, Identifiable {
     var id: String { rawValue }
 
     /// The toolbar's first group: editing and drawing tools.
-    static let drawingTools: [SchematicTool] = [.pointer, .eraser, .line, .bus, .busPort, .text]
+    static let drawingTools: [SchematicTool] = [.pointer, .eraser, .line, .bus, .busPort, .text, .netLabel]
 
     /// The toolbar's second group, after a gap: the supply tools. VCC and
     /// Pull-up come last so they sit beside the supply voltage menu they use.
@@ -48,6 +49,7 @@ enum SchematicTool: String, CaseIterable, Identifiable {
         case .bus: "Bus"
         case .busPort: "Bus Port"
         case .text: "Text"
+        case .netLabel: "Net Label"
         case .vcc: "VCC"
         case .ground: "GND"
         case .pullUp: "Pull-up"
@@ -60,6 +62,7 @@ enum SchematicTool: String, CaseIterable, Identifiable {
         switch self {
         case .line, .bus: "\(title) — Space: lock a corner · /: flip the bend · Esc: undo a corner"
         case .text: "Text — click to add a text block"
+        case .netLabel: "Net Label — click to add a label; labels with the same name are one net"
         default: title
         }
     }
@@ -72,6 +75,7 @@ enum SchematicTool: String, CaseIterable, Identifiable {
         case .bus: "line.3.horizontal"
         case .busPort: "rectangle.connected.to.line.below"
         case .text: "textformat"
+        case .netLabel: "tag"
         case .vcc: "bolt"
         case .ground: "arrow.down.to.line"
         case .pullUp: "arrow.up.circle"
@@ -786,6 +790,8 @@ enum WireEnd: Hashable {
     case pin(PinRef)
     case junction(UUID)
     case busPin(BusPinRef)
+    /// A net label's point (`NetLabel`).
+    case label(UUID)
 }
 
 /// A grid point where wires meet. Wires that branch from a point on another
@@ -811,6 +817,7 @@ enum LineAnchor: Hashable {
     case pin(PinRef)
     case point(CGPoint)
     case busPin(BusPinRef)
+    case label(UUID)
 }
 
 /// A wire joins two ends. Its route is the start tip, then the bends in
@@ -1093,6 +1100,8 @@ final class SchematicDocument {
     private(set) var buses: [Bus] = []
     /// Text blocks, in drawing order. Drawn under everything else.
     private(set) var notes: [SchematicNote] = []
+    /// Net labels, in drawing order. Labels with the same name are one net.
+    private(set) var netLabels: [NetLabel] = []
     /// A text block whose words the sidebar should start editing: one just
     /// placed, or double-clicked. The sidebar clears it. Editor state only.
     var editingNoteID: UUID?
@@ -1195,6 +1204,12 @@ final class SchematicDocument {
         return nil
     }
 
+    /// The net label, when it is the only thing selected on the Schematic page.
+    var selectedNetLabelID: UUID? {
+        if case let .label(id)? = schematicSelection.sole { return id }
+        return nil
+    }
+
     /// The board text, when it is the only thing selected on the PCB page.
     var selectedTextID: UUID? {
         if case let .text(id)? = boardSelection.sole { return id }
@@ -1285,6 +1300,9 @@ final class SchematicDocument {
         for note in notes where note.rect.intersects(rect) {
             items.insert(.note(note.id))
         }
+        for label in netLabels where label.rect.intersects(rect) {
+            items.insert(.label(label.id))
+        }
         for wire in wires {
             let path = path(forWire: wire.id)
             if zip(path, path.dropFirst()).contains(where: { Self.segment($0, $1, touches: rect) }) {
@@ -1354,13 +1372,14 @@ final class SchematicDocument {
     private func pruneSelection() {
         let chipIDs = Set(chips.map(\.id)), wireIDs = Set(wires.map(\.id))
         let junctionIDs = Set(junctions.map(\.id)), textIDs = Set(texts.map(\.id))
-        let noteIDs = Set(notes.map(\.id))
+        let noteIDs = Set(notes.map(\.id)), labelIDs = Set(netLabels.map(\.id))
         schematicSelection.filter { item in
             switch item {
             case let .chip(id): chipIDs.contains(id)
             case let .wire(id): wireIDs.contains(id)
             case let .junction(id): junctionIDs.contains(id)
             case let .note(id): noteIDs.contains(id)
+            case let .label(id): labelIDs.contains(id)
             }
         }
         let footprints = Set(chips.filter { $0.board != nil }.map(\.id))
@@ -1405,9 +1424,11 @@ final class SchematicDocument {
     /// just opened. Clears the selection.
     func replaceContents(chips: [PlacedChip], wires: [Wire], junctions: [Junction], buses: [Bus],
                          nextReference: Int, board: BoardSettings, texts: [BoardText],
-                         traces: [BoardTrace], vias: [BoardVia] = [], notes: [SchematicNote] = []) {
+                         traces: [BoardTrace], vias: [BoardVia] = [], notes: [SchematicNote] = [],
+                         netLabels: [NetLabel] = []) {
         self.chips = chips
         self.notes = notes
+        self.netLabels = netLabels
         self.wires = wires
         self.junctions = junctions
         // Buses from older files have no name: number them in order.
@@ -1461,7 +1482,7 @@ final class SchematicDocument {
     /// The saved part of the document, as a value.
     var state: DocumentState {
         DocumentState(chips: chips, wires: wires, junctions: junctions, buses: buses, notes: notes,
-                      nextReference: nextReference, board: board, texts: texts, traces: traces, vias: vias)
+                      netLabels: netLabels, nextReference: nextReference, board: board, texts: texts, traces: traces, vias: vias)
     }
 
     /// Writes a state back (undo, redo), then drops selections and editor
@@ -1472,6 +1493,7 @@ final class SchematicDocument {
         if junctions != s.junctions { junctions = s.junctions }
         if buses != s.buses { buses = s.buses }
         if notes != s.notes { notes = s.notes }
+        if netLabels != s.netLabels { netLabels = s.netLabels }
         if nextReference != s.nextReference { nextReference = s.nextReference }
         if board != s.board { board = s.board }
         if texts != s.texts { texts = s.texts }
@@ -1804,6 +1826,8 @@ final class SchematicDocument {
                 if let wire = wires.first(where: { $0.id == id }) { base.wires[id] = wire.interior }
             case let .note(id):
                 if let note = notes.first(where: { $0.id == id }) { base.notes[id] = note.origin }
+            case let .label(id):
+                if let label = netLabels.first(where: { $0.id == id }) { base.labels[id] = label.origin }
             }
         }
         for wire in wires where base.wires[wire.id] != nil || moves(wire.start, in: base) || moves(wire.end, in: base) {
@@ -1817,13 +1841,14 @@ final class SchematicDocument {
         return base
     }
 
-    /// Whether a group drag moves this wire end: a pin of a moved part, or a
-    /// moved junction.
+    /// Whether a group drag moves this wire end: a pin of a moved part, a
+    /// moved junction or a moved net label.
     private func moves(_ end: WireEnd, in base: SchematicGroupBase) -> Bool {
         switch end {
         case let .pin(ref): base.chips[ref.chipID] != nil
         case let .junction(id): base.junctions[id] != nil
         case .busPin: false
+        case let .label(id): base.labels[id] != nil
         }
     }
 
@@ -1854,6 +1879,11 @@ final class SchematicDocument {
                 let moved = shifted(origin)
                 if notes[index].origin != moved { notes[index].origin = moved }
             }
+            for index in netLabels.indices {
+                guard let origin = base.labels[netLabels[index].id] else { continue }
+                let moved = shifted(origin)
+                if netLabels[index].origin != moved { netLabels[index].origin = moved }
+            }
             for index in wires.indices {
                 guard let route = base.paths[wires[index].id],
                       let start = endTip(wires[index].start), let end = endTip(wires[index].end) else { continue }
@@ -1876,8 +1906,99 @@ final class SchematicDocument {
                 }
                 wires[index].interior = interior
             }
-            adoptLooseEnds(chips: Set(base.chips.keys), junctions: Set(base.junctions.keys))
+            adoptLooseEnds(chips: Set(base.chips.keys), junctions: Set(base.junctions.keys),
+                           labels: Set(base.labels.keys))
         }
+    }
+
+    // MARK: Net labels (Schematic)
+
+    /// The lowest "N<n>" no label is named (ignoring case), for a new label.
+    func nextNetLabelName() -> String {
+        let taken = Set(netLabels.map(\.netKey))
+        var n = 1
+        while taken.contains("N\(n)") { n += 1 }
+        return "N\(n)"
+    }
+
+    /// Adds a net label with its point at `point` (snapped), named
+    /// `nextNetLabelName()`, and selects it. A loose wire end at that point
+    /// joins it.
+    @discardableResult
+    func addNetLabel(at point: CGPoint, style: NetLabel.Style = .input) -> UUID {
+        return recordEdit(.schematic, "Add Net Label") { () -> UUID in
+            let label = NetLabel(id: UUID(), name: nextNetLabelName(), style: style, origin: SchematicGrid.snap(point))
+            netLabels.append(label)
+            select(.label(label.id))
+            adoptLooseEnds(labels: [label.id])
+            return label.id
+        }
+    }
+
+    /// Renames a label (`NetLabel.cleanName`). Refused, with the name
+    /// kept, when nothing is left of `value`, or when joining the nets would
+    /// put a voltage out of range on a part (`editorMessage` says why).
+    /// Returns whether the label now has the cleaned name. Typing one name
+    /// is one undo step, until `endCoalescing()`.
+    @discardableResult
+    func setNetLabelName(_ id: UUID, _ value: String) -> Bool {
+        recordEdit(.schematic, "Rename Net Label", coalescing: "label-name:\(id)") { () -> Bool in
+            guard let name = NetLabel.cleanName(value),
+                  let index = netLabels.firstIndex(where: { $0.id == id }) else { return false }
+            guard netLabels[index].name != name else { return true }
+            var renamed = netLabels
+            renamed[index].name = name
+            // Joining two nets can put a voltage out of range on a part.
+            if let library,
+               let issue = VoltageCheck.firstNew(before: chips, wires, after: chips, wires, buses: buses,
+                                                 labels: netLabels, afterLabels: renamed, library: library) {
+                editorMessage = VoltageCheck.message(issue, chips: chips, edit: .connect)
+                return false
+            }
+            netLabels = renamed
+            return true
+        }
+    }
+
+    func setNetLabelStyle(_ id: UUID, _ style: NetLabel.Style) {
+        recordEdit(.schematic, "Change Net Label Type") {
+            guard let index = netLabels.firstIndex(where: { $0.id == id }),
+                  netLabels[index].style != style else { return }
+            netLabels[index].style = style
+        }
+    }
+
+    /// Turns a label to run the other way from its point. Its wires stay on
+    /// the point.
+    func flipNetLabel(_ id: UUID) {
+        recordEdit(.schematic, "Flip") {
+            guard let index = netLabels.firstIndex(where: { $0.id == id }) else { return }
+            netLabels[index].isFlipped.toggle()
+            settle { $0 == .label(id) }
+        }
+    }
+
+    /// Deletes a label; its wires stay, with loose ends at its point.
+    func deleteNetLabel(_ id: UUID) {
+        recordEdit(.schematic, "Delete") {
+            loosen { $0 == .label(id) }
+            netLabels.removeAll { $0.id == id }
+            pruneSelection()
+        }
+    }
+
+    /// The label under a point: the last one drawn there.
+    func netLabel(at point: CGPoint) -> NetLabel? {
+        netLabels.last { $0.rect.contains(point) }
+    }
+
+    /// The label whose point is within `radius` of `point`.
+    func netLabelTip(at point: CGPoint, radius: CGFloat) -> UUID? {
+        netLabels.last { Self.distance(from: point, to: $0.tip) <= radius }?.id
+    }
+
+    func netLabelTip(_ id: UUID) -> CGPoint? {
+        netLabels.first { $0.id == id }?.tip
     }
 
     // MARK: Text blocks (Schematic)
@@ -2235,7 +2356,7 @@ final class SchematicDocument {
     /// schematic wires, named by up to three of its pins ("U1.3, R2.1, …")
     /// and stored by its first.
     func planeNetChoices() -> [(net: PlaneNet, title: String)] {
-        let netlist = NetlistBuilder.build(chips: chips, wires: wires, buses: buses)
+        let netlist = NetlistBuilder.build(chips: chips, wires: wires, buses: buses, labels: netLabels)
         var rails = Set<UInt32>()
         var railNets = Set<Int>()
         for chip in chips {
@@ -2982,7 +3103,7 @@ final class SchematicDocument {
             var candidate = chips
             candidate[index].switchesOn[0] = true
             if let issue = VoltageCheck.firstNew(before: chips, wires, after: candidate, wires,
-                                                 buses: buses, library: library) {
+                                                 buses: buses, labels: netLabels, library: library) {
                 editorMessage = VoltageCheck.message(issue, chips: chips, edit: .turnOn)
                 return nil
             }
@@ -3026,7 +3147,7 @@ final class SchematicDocument {
                 var candidate = chips
                 candidate[index].switchesOn[position - 1] = true
                 if let issue = VoltageCheck.firstNew(before: chips, wires, after: candidate, wires,
-                                                     buses: buses, library: library) {
+                                                     buses: buses, labels: netLabels, library: library) {
                     editorMessage = VoltageCheck.message(issue, chips: chips, edit: .turnOn)
                     return nil
                 }
@@ -3066,7 +3187,7 @@ final class SchematicDocument {
             chip.layout.slots.compactMap { slot in
                 pinTip(PinRef(chipID: chip.id, index: slot.pin.index))
             }
-        } + busPinRefs.compactMap { busPinTip($0) }
+        } + busPinRefs.compactMap { busPinTip($0) } + netLabels.map(\.tip)
     }
 
     /// Every pin on every bus port.
@@ -3114,6 +3235,8 @@ final class SchematicDocument {
             return junctions.first { $0.id == id }?.point
         case let .busPin(ref):
             return busPinTip(ref)
+        case let .label(id):
+            return netLabelTip(id)
         }
     }
 
@@ -3126,6 +3249,8 @@ final class SchematicDocument {
             return point
         case let .busPin(ref):
             return busPinTip(ref)
+        case let .label(id):
+            return netLabelTip(id)
         }
     }
 
@@ -3144,6 +3269,8 @@ final class SchematicDocument {
         case let .busPin(ref):
             guard let (bus, port) = port(ref.portID), let line = bus.line(port.line) else { return nil }
             return line.isHorizontal ? .vertical : .horizontal
+        case .label:
+            return .horizontal
         case .point:
             return nil
         }
@@ -3159,6 +3286,9 @@ final class SchematicDocument {
         }
         if let ref = busPin(at: point, radius: pinRadius) {
             return .busPin(ref)
+        }
+        if let id = netLabelTip(at: point, radius: pinRadius) {
+            return .label(id)
         }
         let grid = SchematicGrid.snap(point)
         guard Self.distance(from: point, to: grid) <= gridRadius,
@@ -3206,7 +3336,7 @@ final class SchematicDocument {
             if let library, let standInStart = standIn(for: start), let standInEnd = standIn(for: end) {
                 let candidate = wires + [Wire(start: standInStart, end: standInEnd, interior: [])]
                 if let issue = VoltageCheck.firstNew(before: chips, wires, after: chips, candidate,
-                                                     buses: buses, library: library) {
+                                                     buses: buses, labels: netLabels, library: library) {
                     editorMessage = VoltageCheck.message(issue, chips: chips, edit: .connect)
                     return editorMessage
                 }
@@ -3256,6 +3386,8 @@ final class SchematicDocument {
             return .junction(UUID())
         case let .busPin(ref):
             return .busPin(ref)
+        case let .label(id):
+            return .label(id)
         }
     }
 
@@ -3268,6 +3400,8 @@ final class SchematicDocument {
             return junction(at: point).map { WireEnd.junction($0) }
         case let .busPin(ref):
             return .busPin(ref)
+        case let .label(id):
+            return .label(id)
         }
     }
 
@@ -3472,10 +3606,11 @@ final class SchematicDocument {
     /// loose and sets `editorMessage`. When two pins share a tip, the first
     /// part in `chips` order wins, then bus order. Removals never call this.
     func adoptLooseEnds(chips chipIDs: Set<UUID> = [], ports portIDs: Set<UUID> = [],
-                        junctions junctionIDs: Set<UUID> = []) {
+                        junctions junctionIDs: Set<UUID> = [], labels labelIDs: Set<UUID> = []) {
         recordEdit(.schematic, "Connect") {
             guard junctions.contains(where: \.isLoose) else { return }
-            @MainActor func tips(of placed: [PlacedChip], ports includes: (BusPort) -> Bool) -> [CGPoint: WireEnd] {
+            @MainActor func tips(of placed: [PlacedChip], ports includes: (BusPort) -> Bool,
+                                 labels: [NetLabel]) -> [CGPoint: WireEnd] {
                 var map: [CGPoint: WireEnd] = [:]
                 for chip in placed {
                     for slot in chip.layout.slots {
@@ -3491,11 +3626,15 @@ final class SchematicDocument {
                         }
                     }
                 }
+                for label in labels where map[label.tip] == nil {
+                    map[label.tip] = .label(label.id)
+                }
                 return map
             }
-            let dropped = tips(of: chips.filter { chipIDs.contains($0.id) }, ports: { portIDs.contains($0.id) })
+            let dropped = tips(of: chips.filter { chipIDs.contains($0.id) }, ports: { portIDs.contains($0.id) },
+                               labels: netLabels.filter { labelIDs.contains($0.id) })
             // A dragged loose end may land on any pin.
-            let every = junctionIDs.isEmpty ? [:] : tips(of: chips, ports: { _ in true })
+            let every = junctionIDs.isEmpty ? [:] : tips(of: chips, ports: { _ in true }, labels: netLabels)
             var adopted = false
             for junction in junctions where junction.isLoose {
                 let lookup = junctionIDs.contains(junction.id) ? every : dropped
@@ -3512,7 +3651,7 @@ final class SchematicDocument {
                 }
                 if let library,
                    let issue = VoltageCheck.firstNew(before: chips, wires, after: chips, candidate,
-                                                     buses: buses, library: library) {
+                                                     buses: buses, labels: netLabels, library: library) {
                     editorMessage = VoltageCheck.message(issue, chips: chips, edit: .connect)
                     continue
                 }
@@ -4155,7 +4294,7 @@ final class SchematicDocument {
     // MARK: Erasing
 
     /// Removes whatever is under `point`: a block first (its wires stay, with
-    /// loose ends where its pins were), then
+    /// loose ends where its pins were), then a net label (the same), then
     /// a bus port, then a wire, then a bus line, then a text block. A port with
     /// wires on its pins, or a bus line with ports, asks first (`pendingRemoval`); while
     /// that is up, nothing is erased.
@@ -4165,6 +4304,8 @@ final class SchematicDocument {
             if let hit = chip(at: point) {
                 loosen { attaches($0, to: hit.id) }
                 chips.removeAll { $0.id == hit.id }
+            } else if let hit = netLabel(at: point) {
+                deleteNetLabel(hit.id)
             } else if let portID = portHit(at: point) {
                 let count = wiresOnPins(port: portID)
                 if count > 0 {
@@ -4226,19 +4367,25 @@ final class SchematicDocument {
             return true
         }
         var chipIDs: Set<UUID> = [], wireIDs: Set<UUID> = [], noteIDs: Set<UUID> = []
+        var labelIDs: Set<UUID> = []
         for item in schematicSelection.items {
             switch item {
             case let .chip(id): chipIDs.insert(id)
             case let .wire(id): wireIDs.insert(id)
             case let .note(id): noteIDs.insert(id)
+            case let .label(id): labelIDs.insert(id)
             case .junction: break
             }
         }
-        guard !chipIDs.isEmpty || !wireIDs.isEmpty || !noteIDs.isEmpty else { return false }
+        guard !chipIDs.isEmpty || !wireIDs.isEmpty || !noteIDs.isEmpty || !labelIDs.isEmpty else { return false }
         recordEdit(.schematic, "Delete") {
             wires.removeAll { wireIDs.contains($0.id) }
-            loosen { end in chipIDs.contains { attaches(end, to: $0) } }
+            loosen { end in
+                if case let .label(id) = end { return labelIDs.contains(id) }
+                return chipIDs.contains { attaches(end, to: $0) }
+            }
             chips.removeAll { chipIDs.contains($0.id) }
+            netLabels.removeAll { labelIDs.contains($0.id) }
             notes.removeAll { noteIDs.contains($0.id) }
             if let editing = editingNoteID, noteIDs.contains(editing) { editingNoteID = nil }
             pruneJunctions()

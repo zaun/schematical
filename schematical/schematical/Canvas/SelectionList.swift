@@ -15,7 +15,8 @@ struct SelectionRow<Item: Hashable>: Identifiable, Equatable {
 }
 
 /// Turns a page's selection into sidebar rows, in the order the items are
-/// drawn: parts, then junctions, then wires, then text blocks (Schematic); footprints, then
+/// drawn: parts, then junctions, then wires, then text blocks, then net
+/// labels (Schematic); footprints, then
 /// texts, then traces (PCB).
 @MainActor
 enum SelectionRows {
@@ -34,6 +35,10 @@ enum SelectionRows {
         }
         for note in document.notes where selection.contains(.note(note.id)) {
             rows.append(SelectionRow(item: .note(note.id), title: "Text", detail: preview(note.text)))
+        }
+        for label in document.netLabels where selection.contains(.label(label.id)) {
+            rows.append(SelectionRow(item: .label(label.id), title: "Net Label",
+                                     detail: "\(label.name) (\(label.style.title))"))
         }
         return rows
     }
@@ -73,6 +78,8 @@ enum SelectionRows {
         case let .busPin(ref):
             let name = document.port(ref.portID)?.bus.wires.first { $0.id == ref.wireID }?.name
             return name.map { "bus port \($0)" } ?? "bus port"
+        case let .label(id):
+            return document.netLabels.first { $0.id == id }.map { "net \($0.name)" } ?? "net label"
         }
     }
 

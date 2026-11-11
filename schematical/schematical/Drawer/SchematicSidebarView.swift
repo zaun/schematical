@@ -3,7 +3,7 @@ import SwiftUI
 /// The Schematic page's inspector. It follows the selection: the parts
 /// library with nothing selected, the part's header, reference fields and
 /// details with only a part selected, the text panel with only a text block
-/// selected, the bus or port panel with a bus or port selected, and a
+/// selected, the net label panel with only a net label selected, the bus or port panel with a bus or port selected, and a
 /// read-only `Selection (N)` list for several items or
 /// a lone wire or junction (plan-15). The library stays in the view tree under
 /// the part panel, so its search, filters, open groups and scroll position
@@ -20,6 +20,7 @@ struct SchematicSidebarView: View {
         case library
         case chip(UUID)
         case note(UUID)
+        case label(UUID)
         case port(UUID)
         case bus(UUID)
         case selection
@@ -35,6 +36,9 @@ struct SchematicSidebarView: View {
         if let id = document.selectedNoteID, document.notes.contains(where: { $0.id == id }) {
             return .note(id)
         }
+        if let id = document.selectedNetLabelID, document.netLabels.contains(where: { $0.id == id }) {
+            return .label(id)
+        }
         if let id = document.selectedPortID, document.port(id) != nil { return .port(id) }
         if let id = document.selectedBusID, document.bus(id) != nil { return .bus(id) }
         if !document.schematicSelection.isEmpty { return .selection }
@@ -45,6 +49,9 @@ struct SchematicSidebarView: View {
         let content = isActive ? Self.content(for: document) : .library
         let chip: PlacedChip? = if case let .chip(id) = content { document.chips.first { $0.id == id } } else { nil }
         let note: SchematicNote? = if case let .note(id) = content { document.notes.first { $0.id == id } } else { nil }
+        let label: NetLabel? = if case let .label(id) = content {
+            document.netLabels.first { $0.id == id }
+        } else { nil }
         let portID: UUID? = if case let .port(id) = content { id } else { nil }
         let busID: UUID? = if case let .bus(id) = content { id } else { nil }
         let showsLibrary = isActive && content == .library
@@ -93,6 +100,13 @@ struct SchematicSidebarView: View {
                 .formStyle(.grouped)
                 // Fresh field state for each block.
                 .id(note.id)
+            } else if let label {
+                Form {
+                    NetLabelPanel(document: document, label: label)
+                }
+                .formStyle(.grouped)
+                // Fresh field state for each label.
+                .id(label.id)
             } else if let portID {
                 BusPortPanel(document: document, portID: portID)
                     // Fresh field state for each port.

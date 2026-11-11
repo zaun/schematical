@@ -238,6 +238,18 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         var framed: Bool? = nil
     }
 
+    /// A net label: its point (`x`, `y`, canvas units), net name, type
+    /// (`"input"`, `"output"` or `"inout"`) and whether it runs left.
+    struct Label: Codable, Equatable, Sendable {
+        var id: UUID
+        var name: String
+        var x: Double
+        var y: Double
+        var type: String? = nil
+        /// True when the flag runs left of its point; left out otherwise.
+        var flipped: Bool? = nil
+    }
+
     struct Junction: Codable, Equatable, Sendable {
         var id: UUID
         var x: Double
@@ -255,19 +267,23 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
     }
 
     /// One end of a wire: `{"part": <id>, "pin": "<designator>"}`,
-    /// `{"junction": <id>}`, or `{"port": <id>, "wire": <bus wire id>}`.
+    /// `{"junction": <id>}`, `{"port": <id>, "wire": <bus wire id>}`, or
+    /// `{"label": <id>}`.
     enum End: Codable, Equatable, Sendable {
         case pin(part: UUID, pin: PinKey)
         case junction(UUID)
         case port(port: UUID, wire: UUID)
+        case label(UUID)
 
         private enum CodingKeys: String, CodingKey {
-            case part, pin, junction, port, wire
+            case part, pin, junction, port, wire, label
         }
 
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            if let port = try container.decodeIfPresent(UUID.self, forKey: .port) {
+            if let label = try container.decodeIfPresent(UUID.self, forKey: .label) {
+                self = .label(label)
+            } else if let port = try container.decodeIfPresent(UUID.self, forKey: .port) {
                 self = .port(port: port, wire: try container.decode(UUID.self, forKey: .wire))
             } else if let junction = try container.decodeIfPresent(UUID.self, forKey: .junction) {
                 self = .junction(junction)
@@ -295,6 +311,8 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
             case let .port(port, wire):
                 try container.encode(port, forKey: .port)
                 try container.encode(wire, forKey: .wire)
+            case let .label(id):
+                try container.encode(id, forKey: .label)
             }
         }
     }
@@ -364,6 +382,9 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
     /// Text blocks on the schematic, in drawing order. Always written (`[]`
     /// when there are none); missing means none.
     var notes: [Note]? = nil
+    /// Net labels, in drawing order. Written only when there are some;
+    /// missing means none.
+    var labels: [Label]? = nil
 }
 
 // MARK: - Errors
@@ -379,6 +400,9 @@ nonisolated enum SchematicFileError: LocalizedError {
     case missingJunction(wire: UUID, junction: UUID)
     case missingPort(wire: UUID, port: UUID)
     case missingPortPin(wire: UUID, port: UUID, busWire: UUID)
+    case missingLabel(wire: UUID, label: UUID)
+    /// A net label that isn't valid; the detail names it.
+    case badLabel(String)
     case badRotation(reference: String, rotation: Int)
     /// A board setting, footprint origin or mark, or board text that isn't
     /// valid; the detail names it.
@@ -414,6 +438,10 @@ nonisolated enum SchematicFileError: LocalizedError {
             "Wire \(wire.uuidString) connects to port \(port.uuidString), which is not in the file."
         case let .missingPortPin(wire, port, _):
             "Wire \(wire.uuidString) connects to a pin port \(port.uuidString) does not have."
+        case let .missingLabel(wire, label):
+            "Wire \(wire.uuidString) connects to net label \(label.uuidString), which is not in the file."
+        case let .badLabel(detail):
+            "The net label is not valid: \(detail)."
         case let .badRotation(reference, rotation):
             "\(reference) has PCB rotation \(rotation); it must be 0, 90, 180 or 270."
         case let .badPCB(detail):
@@ -506,6 +534,10 @@ extension SchematicFile {
         notes = document.notes.map { note in
             Note(id: note.id, text: note.text, x: note.origin.x, y: note.origin.y,
                  size: note.size, framed: note.framed)
+        }
+        labels = document.netLabels.isEmpty ? nil : document.netLabels.map { label in
+            Label(id: label.id, name: label.name, x: label.origin.x, y: label.origin.y,
+                  type: label.style.rawValue, flipped: label.isFlipped ? true : nil)
         }
         let settings = document.board
         board = Board(
@@ -723,6 +755,13 @@ extension SchematicFile {
             placedBuses.flatMap { bus in bus.ports.map { ($0.id, (bus: bus, port: $0)) } },
             uniquingKeysWith: { first, _ in first })
 
+        var placedLabels: [NetLabel] = []
+        for entry in labels ?? [] {
+            try claim(entry.id)
+            placedLabels.append(try Self.label(entry))
+        }
+        let labelIDs = Set(placedLabels.map(\.id))
+
         func resolve(_ end: End, wire: UUID) throws -> WireEnd {
             switch end {
             case let .pin(partID, pin):
@@ -758,6 +797,11 @@ extension SchematicFile {
                     throw SchematicFileError.missingPortPin(wire: wire, port: portID, busWire: busWire)
                 }
                 return .busPin(BusPinRef(portID: portID, wireID: busWire))
+            case let .label(id):
+                guard labelIDs.contains(id) else {
+                    throw SchematicFileError.missingLabel(wire: wire, label: id)
+                }
+                return .label(id)
             }
         }
 
@@ -828,8 +872,29 @@ extension SchematicFile {
             texts: texts,
             traces: traces,
             vias: vias,
-            notes: placedNotes
+            notes: placedNotes,
+            netLabels: placedLabels
         )
+    }
+
+    /// A stored net label, with defaults for missing keys. Its point is
+    /// snapped to the grid.
+    private static func label(_ entry: Label) throws -> NetLabel {
+        let name = "net label \(entry.id.uuidString)"
+        guard NetLabel.cleanName(entry.name) == entry.name else {
+            throw SchematicFileError.badLabel(
+                "\(name) name \"\(entry.name)\" must be 1 to \(NetLabel.maxNameLength) characters with no spaces")
+        }
+        var style = NetLabel.Style.input
+        if let type = entry.type {
+            guard let parsed = NetLabel.Style(rawValue: type) else {
+                throw SchematicFileError.badLabel("\(name) type \"\(type)\" must be input, output or inout")
+            }
+            style = parsed
+        }
+        return NetLabel(id: entry.id, name: entry.name, style: style,
+                        origin: SchematicGrid.snap(CGPoint(x: entry.x, y: entry.y)),
+                        isFlipped: entry.flipped ?? false)
     }
 
     /// A stored text block, with defaults for missing keys. Its top-left is
@@ -1210,6 +1275,8 @@ private extension SchematicFile.End {
             self = .junction(id)
         case let .busPin(ref):
             self = .port(port: ref.portID, wire: ref.wireID)
+        case let .label(id):
+            self = .label(id)
         }
     }
 }
