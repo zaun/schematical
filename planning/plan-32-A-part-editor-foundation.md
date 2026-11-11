@@ -334,6 +334,13 @@ Commit: —
 
 (Filled in during execution.)
 
+- **A 27th kind is planned** (noted 2026-11-11 by plan-33's planning
+  commit) — plan-33 (capacitors) adds the kind `capacitor` and the file
+  `Parts/capacitor.json` (plan-33-E). Once it lands there are 27 kind files;
+  plan-32-C's test (b), which compares `PartDraft.kindNames` with the
+  `Parts/*.json` file names, then sees 27. plan-33 adds no part-editor form
+  for it (plan-33-A § Decisions).
+
 ## Summary
 
 The real risk is the backend's all-or-nothing commit in `load_part_file`: a partial

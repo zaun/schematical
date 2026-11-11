@@ -1,0 +1,1049 @@
+label	capacitance
+al-polymer|Radial|10 V	100 µF
+al-polymer|Radial|10 V	150 µF
+al-polymer|Radial|10 V	330 µF
+al-polymer|Radial|10 V	470 µF
+al-polymer|Radial|10 V	680 µF
+al-polymer|Radial|10 V	1000 µF
+al-polymer|Radial|10 V	1500 µF
+al-polymer|Radial|100 V	4.7 µF
+al-polymer|Radial|100 V	15 µF
+al-polymer|Radial|100 V	22 µF
+al-polymer|Radial|16 V	100 µF
+al-polymer|Radial|16 V	150 µF
+al-polymer|Radial|16 V	220 µF
+al-polymer|Radial|16 V	330 µF
+al-polymer|Radial|16 V	470 µF
+al-polymer|Radial|16 V	680 µF
+al-polymer|Radial|16 V	1000 µF
+al-polymer|Radial|16 V	1500 µF
+al-polymer|Radial|16 V	2200 µF
+al-polymer|Radial|25 V	10 µF
+al-polymer|Radial|25 V	22 µF
+al-polymer|Radial|25 V	33 µF
+al-polymer|Radial|25 V	47 µF
+al-polymer|Radial|25 V	68 µF
+al-polymer|Radial|25 V	100 µF
+al-polymer|Radial|25 V	150 µF
+al-polymer|Radial|25 V	220 µF
+al-polymer|Radial|25 V	330 µF
+al-polymer|Radial|25 V	470 µF
+al-polymer|Radial|25 V	680 µF
+al-polymer|Radial|25 V	1000 µF
+al-polymer|Radial|35 V	10 µF
+al-polymer|Radial|35 V	22 µF
+al-polymer|Radial|35 V	33 µF
+al-polymer|Radial|35 V	47 µF
+al-polymer|Radial|35 V	68 µF
+al-polymer|Radial|35 V	100 µF
+al-polymer|Radial|35 V	150 µF
+al-polymer|Radial|35 V	220 µF
+al-polymer|Radial|35 V	330 µF
+al-polymer|Radial|35 V	470 µF
+al-polymer|Radial|35 V	2200 µF
+al-polymer|Radial|50 V	10 µF
+al-polymer|Radial|50 V	15 µF
+al-polymer|Radial|50 V	22 µF
+al-polymer|Radial|50 V	33 µF
+al-polymer|Radial|50 V	47 µF
+al-polymer|Radial|50 V	68 µF
+al-polymer|Radial|50 V	100 µF
+al-polymer|Radial|50 V	220 µF
+al-polymer|Radial|50 V	330 µF
+al-polymer|Radial|50 V	680 µF
+al-polymer|Radial|6.3 V	100 µF
+al-polymer|Radial|6.3 V	220 µF
+al-polymer|Radial|6.3 V	330 µF
+al-polymer|Radial|6.3 V	470 µF
+al-polymer|Radial|6.3 V	680 µF
+al-polymer|Radial|6.3 V	1000 µF
+al-polymer|Radial|6.3 V	1500 µF
+al-polymer|Radial|6.3 V	2200 µF
+al-polymer|Radial|63 V	10 µF
+al-polymer|Radial|63 V	33 µF
+al-polymer|Radial|63 V	47 µF
+al-polymer|Radial|63 V	68 µF
+al-polymer|Radial|63 V	100 µF
+al-polymer|Radial|63 V	150 µF
+al-polymer|Radial|63 V	220 µF
+al-polymer|SMD|10 V	22 µF
+al-polymer|SMD|10 V	33 µF
+al-polymer|SMD|10 V	68 µF
+al-polymer|SMD|10 V	100 µF
+al-polymer|SMD|10 V	150 µF
+al-polymer|SMD|10 V	220 µF
+al-polymer|SMD|10 V	330 µF
+al-polymer|SMD|10 V	680 µF
+al-polymer|SMD|10 V	1000 µF
+al-polymer|SMD|10 V	1500 µF
+al-polymer|SMD|100 V	10 µF
+al-polymer|SMD|100 V	22 µF
+al-polymer|SMD|16 V	10 µF
+al-polymer|SMD|16 V	22 µF
+al-polymer|SMD|16 V	33 µF
+al-polymer|SMD|16 V	68 µF
+al-polymer|SMD|16 V	100 µF
+al-polymer|SMD|16 V	150 µF
+al-polymer|SMD|16 V	220 µF
+al-polymer|SMD|16 V	330 µF
+al-polymer|SMD|16 V	470 µF
+al-polymer|SMD|16 V	680 µF
+al-polymer|SMD|16 V	1000 µF
+al-polymer|SMD|16 V	1.5 mF
+al-polymer|SMD|25 V	10 µF
+al-polymer|SMD|25 V	15 µF
+al-polymer|SMD|25 V	47 µF
+al-polymer|SMD|25 V	68 µF
+al-polymer|SMD|25 V	100 µF
+al-polymer|SMD|25 V	150 µF
+al-polymer|SMD|25 V	220 µF
+al-polymer|SMD|25 V	330 µF
+al-polymer|SMD|25 V	470 µF
+al-polymer|SMD|25 V	680 µF
+al-polymer|SMD|25 V	1000 µF
+al-polymer|SMD|35 V	15 µF
+al-polymer|SMD|35 V	22 µF
+al-polymer|SMD|35 V	33 µF
+al-polymer|SMD|35 V	47 µF
+al-polymer|SMD|35 V	68 µF
+al-polymer|SMD|35 V	100 µF
+al-polymer|SMD|35 V	150 µF
+al-polymer|SMD|35 V	220 µF
+al-polymer|SMD|35 V	330 µF
+al-polymer|SMD|35 V	470 µF
+al-polymer|SMD|35 V	2200 µF
+al-polymer|SMD|50 V	10 µF
+al-polymer|SMD|50 V	22 µF
+al-polymer|SMD|50 V	33 µF
+al-polymer|SMD|50 V	47 µF
+al-polymer|SMD|50 V	68 µF
+al-polymer|SMD|50 V	100 µF
+al-polymer|SMD|50 V	150 µF
+al-polymer|SMD|50 V	220 µF
+al-polymer|SMD|6.3 V	10 µF
+al-polymer|SMD|6.3 V	33 µF
+al-polymer|SMD|6.3 V	47 µF
+al-polymer|SMD|6.3 V	68 µF
+al-polymer|SMD|6.3 V	100 µF
+al-polymer|SMD|6.3 V	150 µF
+al-polymer|SMD|6.3 V	220 µF
+al-polymer|SMD|6.3 V	330 µF
+al-polymer|SMD|6.3 V	470 µF
+al-polymer|SMD|6.3 V	680 µF
+al-polymer|SMD|63 V	10 µF
+al-polymer|SMD|63 V	22 µF
+al-polymer|SMD|63 V	47 µF
+al-polymer|SMD|63 V	68 µF
+al-polymer|SMD|63 V	100 µF
+al-polymer|SMD|63 V	150 µF
+al-polymer|SMD|63 V	220 µF
+aluminum|Radial|10 V	10 µF
+aluminum|Radial|10 V	22 µF
+aluminum|Radial|10 V	47 µF
+aluminum|Radial|10 V	100 µF
+aluminum|Radial|10 V	220 µF
+aluminum|Radial|10 V	330 µF
+aluminum|Radial|10 V	470 µF
+aluminum|Radial|10 V	680 µF
+aluminum|Radial|10 V	1 mF;1000 µF
+aluminum|Radial|10 V	1500 µF
+aluminum|Radial|10 V	2200 µF;2.2 mF
+aluminum|Radial|10 V	3.3 mF;3300 µF
+aluminum|Radial|10 V	4700 µF
+aluminum|Radial|100 V	1 µF
+aluminum|Radial|100 V	2.2 µF
+aluminum|Radial|100 V	3.3 µF
+aluminum|Radial|100 V	4.7 µF
+aluminum|Radial|100 V	10 µF
+aluminum|Radial|100 V	22 µF
+aluminum|Radial|100 V	33 µF
+aluminum|Radial|100 V	47 µF
+aluminum|Radial|100 V	100 µF
+aluminum|Radial|100 V	220 µF
+aluminum|Radial|100 V	470 µF
+aluminum|Radial|16 V	4.7 µF
+aluminum|Radial|16 V	10 µF
+aluminum|Radial|16 V	22 µF
+aluminum|Radial|16 V	47 µF
+aluminum|Radial|16 V	100 µF
+aluminum|Radial|16 V	220 µF
+aluminum|Radial|16 V	330 µF
+aluminum|Radial|16 V	470 µF
+aluminum|Radial|16 V	680 µF
+aluminum|Radial|16 V	1 mF;1000 µF
+aluminum|Radial|16 V	1500 µF
+aluminum|Radial|16 V	2200 µF
+aluminum|Radial|16 V	4.7 mF;4700 µF
+aluminum|Radial|25 V	4.7 µF
+aluminum|Radial|25 V	10 µF
+aluminum|Radial|25 V	22 µF
+aluminum|Radial|25 V	33 µF
+aluminum|Radial|25 V	47 µF
+aluminum|Radial|25 V	100 µF
+aluminum|Radial|25 V	220 µF
+aluminum|Radial|25 V	330 µF
+aluminum|Radial|25 V	470 µF
+aluminum|Radial|25 V	680 µF
+aluminum|Radial|25 V	1 mF;1000 µF
+aluminum|Radial|25 V	2200 µF
+aluminum|Radial|25 V	3.3 mF
+aluminum|Radial|25 V	4.7 mF;4700 µF
+aluminum|Radial|35 V	4.7 µF
+aluminum|Radial|35 V	10 µF
+aluminum|Radial|35 V	15 µF
+aluminum|Radial|35 V	22 µF
+aluminum|Radial|35 V	33 µF
+aluminum|Radial|35 V	47 µF
+aluminum|Radial|35 V	68 µF
+aluminum|Radial|35 V	100 µF
+aluminum|Radial|35 V	220 µF
+aluminum|Radial|35 V	330 µF
+aluminum|Radial|35 V	470 µF
+aluminum|Radial|35 V	680 µF
+aluminum|Radial|35 V	1 mF;1000 µF
+aluminum|Radial|35 V	1.5 mF;1500 µF
+aluminum|Radial|35 V	2200 µF;2.2 mF
+aluminum|Radial|35 V	3.3 mF
+aluminum|Radial|35 V	4700 µF
+aluminum|Radial|50 V	0.47 µF
+aluminum|Radial|50 V	1 µF
+aluminum|Radial|50 V	2.2 µF
+aluminum|Radial|50 V	3.3 µF
+aluminum|Radial|50 V	4.7 µF
+aluminum|Radial|50 V	10 µF
+aluminum|Radial|50 V	22 µF
+aluminum|Radial|50 V	33 µF
+aluminum|Radial|50 V	47 µF
+aluminum|Radial|50 V	100 µF
+aluminum|Radial|50 V	220 µF
+aluminum|Radial|50 V	330 µF
+aluminum|Radial|50 V	470 µF
+aluminum|Radial|50 V	1 mF;1000 µF
+aluminum|Radial|50 V	2200 µF;2.2 mF
+aluminum|Radial|50 V	3.3 mF
+aluminum|Radial|50 V	4.7 mF
+aluminum|Radial|6.3 V	22 µF
+aluminum|Radial|6.3 V	47 µF
+aluminum|Radial|6.3 V	100 µF
+aluminum|Radial|6.3 V	220 µF
+aluminum|Radial|6.3 V	330 µF
+aluminum|Radial|6.3 V	470 µF
+aluminum|Radial|6.3 V	1 mF;1000 µF
+aluminum|Radial|6.3 V	3.3 mF
+aluminum|Radial|6.3 V	4.7 mF;4700 µF
+aluminum|Radial|63 V	4.7 µF
+aluminum|Radial|63 V	6.8 µF
+aluminum|Radial|63 V	10 µF
+aluminum|Radial|63 V	22 µF
+aluminum|Radial|63 V	33 µF
+aluminum|Radial|63 V	47 µF
+aluminum|Radial|63 V	100 µF
+aluminum|Radial|63 V	220 µF
+aluminum|Radial|63 V	330 µF
+aluminum|Radial|63 V	470 µF
+aluminum|Radial|63 V	680 µF
+aluminum|Radial|63 V	1000 µF
+aluminum|Radial|63 V	3.3 mF
+aluminum|SMD|10 V	33 µF
+aluminum|SMD|10 V	47 µF
+aluminum|SMD|10 V	100 µF
+aluminum|SMD|10 V	220 µF
+aluminum|SMD|10 V	330 µF
+aluminum|SMD|10 V	470 µF
+aluminum|SMD|10 V	680 µF
+aluminum|SMD|10 V	1000 µF
+aluminum|SMD|10 V	1500 µF
+aluminum|SMD|10 V	2200 µF
+aluminum|SMD|100 V	4.7 µF
+aluminum|SMD|100 V	10 µF
+aluminum|SMD|100 V	22 µF
+aluminum|SMD|100 V	33 µF
+aluminum|SMD|100 V	47 µF
+aluminum|SMD|100 V	100 µF
+aluminum|SMD|16 V	4.7 µF
+aluminum|SMD|16 V	10 µF
+aluminum|SMD|16 V	22 µF
+aluminum|SMD|16 V	47 µF
+aluminum|SMD|16 V	100 µF
+aluminum|SMD|16 V	220 µF
+aluminum|SMD|16 V	330 µF
+aluminum|SMD|16 V	470 µF
+aluminum|SMD|16 V	680 µF
+aluminum|SMD|16 V	1 mF;1000 µF
+aluminum|SMD|16 V	1.5 mF;1500 µF
+aluminum|SMD|16 V	2200 µF
+aluminum|SMD|16 V	3300 µF
+aluminum|SMD|16 V	4700 µF
+aluminum|SMD|25 V	4.7 µF
+aluminum|SMD|25 V	10 µF
+aluminum|SMD|25 V	22 µF
+aluminum|SMD|25 V	33 µF
+aluminum|SMD|25 V	47 µF
+aluminum|SMD|25 V	68 µF
+aluminum|SMD|25 V	100 µF
+aluminum|SMD|25 V	150 µF
+aluminum|SMD|25 V	220 µF
+aluminum|SMD|25 V	330 µF
+aluminum|SMD|25 V	470 µF
+aluminum|SMD|25 V	1000 µF
+aluminum|SMD|25 V	2200 µF
+aluminum|SMD|35 V	2.2 µF
+aluminum|SMD|35 V	3.3 µF
+aluminum|SMD|35 V	4.7 µF
+aluminum|SMD|35 V	10 µF
+aluminum|SMD|35 V	22 µF
+aluminum|SMD|35 V	33 µF
+aluminum|SMD|35 V	47 µF
+aluminum|SMD|35 V	68 µF
+aluminum|SMD|35 V	100 µF
+aluminum|SMD|35 V	150 µF
+aluminum|SMD|35 V	220 µF
+aluminum|SMD|35 V	330 µF
+aluminum|SMD|35 V	470 µF
+aluminum|SMD|35 V	680 µF
+aluminum|SMD|35 V	1000 µF
+aluminum|SMD|35 V	1500 µF
+aluminum|SMD|35 V	2200 µF
+aluminum|SMD|50 V	1 µF
+aluminum|SMD|50 V	2.2 µF
+aluminum|SMD|50 V	3.3 µF
+aluminum|SMD|50 V	4.7 µF
+aluminum|SMD|50 V	10 µF
+aluminum|SMD|50 V	22 µF
+aluminum|SMD|50 V	33 µF
+aluminum|SMD|50 V	47 µF
+aluminum|SMD|50 V	68 µF
+aluminum|SMD|50 V	100 µF
+aluminum|SMD|50 V	150 µF
+aluminum|SMD|50 V	220 µF
+aluminum|SMD|50 V	330 µF
+aluminum|SMD|50 V	470 µF
+aluminum|SMD|50 V	680 µF
+aluminum|SMD|50 V	1000 µF
+aluminum|SMD|6.3 V	22 µF
+aluminum|SMD|6.3 V	47 µF
+aluminum|SMD|6.3 V	100 µF
+aluminum|SMD|6.3 V	220 µF
+aluminum|SMD|6.3 V	330 µF
+aluminum|SMD|6.3 V	470 µF
+aluminum|SMD|6.3 V	1 mF;1000 µF
+aluminum|SMD|6.3 V	1.5 mF;1500 µF
+aluminum|SMD|63 V	10 µF
+aluminum|SMD|63 V	22 µF
+aluminum|SMD|63 V	47 µF
+aluminum|SMD|63 V	68 µF
+aluminum|SMD|63 V	100 µF
+aluminum|SMD|63 V	150 µF
+aluminum|SMD|63 V	220 µF
+aluminum|SMD|63 V	470 µF
+ceramic|0402|C0G	10 pF
+ceramic|0402|C0G	15 pF
+ceramic|0402|C0G	22 pF
+ceramic|0402|C0G	33 pF
+ceramic|0402|C0G	47 pF
+ceramic|0402|C0G	68 pF
+ceramic|0402|C0G	100 pF
+ceramic|0402|C0G	150 pF
+ceramic|0402|C0G	220 pF
+ceramic|0402|C0G	330 pF
+ceramic|0402|C0G	470 pF
+ceramic|0402|C0G	680 pF
+ceramic|0402|C0G	1000 pF
+ceramic|0402|C0G	1500 pF
+ceramic|0402|C0G	2200 pF
+ceramic|0402|C0G	3300 pF
+ceramic|0402|C0G	4700 pF
+ceramic|0402|C0G	6800 pF
+ceramic|0402|C0G	10000 pF
+ceramic|0402|other	10 pF
+ceramic|0402|other	15 pF
+ceramic|0402|other	22 pF
+ceramic|0402|other	33 pF
+ceramic|0402|other	47 pF
+ceramic|0402|other	68 pF
+ceramic|0402|other	100 pF
+ceramic|0402|other	150 pF
+ceramic|0402|other	220 pF
+ceramic|0402|other	330 pF
+ceramic|0402|other	470 pF
+ceramic|0402|other	680 pF
+ceramic|0402|other	1000 pF
+ceramic|0402|other	1500 pF
+ceramic|0402|other	2200 pF
+ceramic|0402|other	3300 pF
+ceramic|0402|other	4700 pF
+ceramic|0402|other	6800 pF
+ceramic|0402|other	0.01 µF;10000 pF
+ceramic|0402|other	0.015 µF
+ceramic|0402|other	0.022 µF;22000 pF
+ceramic|0402|other	0.033 µF
+ceramic|0402|other	0.047 µF
+ceramic|0402|other	0.068 µF
+ceramic|0402|other	0.1 µF
+ceramic|0402|other	0.15 µF
+ceramic|0402|other	0.22 µF
+ceramic|0402|other	0.33 µF
+ceramic|0402|other	0.47 µF
+ceramic|0402|other	0.68 µF
+ceramic|0402|other	1 µF
+ceramic|0402|other	2.2 µF
+ceramic|0402|other	3.3 µF
+ceramic|0402|other	4.7 µF
+ceramic|0402|other	10 µF
+ceramic|0402|other	15 µF
+ceramic|0402|other	22 µF
+ceramic|0603|C0G	10 pF
+ceramic|0603|C0G	15 pF
+ceramic|0603|C0G	22 pF
+ceramic|0603|C0G	33 pF
+ceramic|0603|C0G	47 pF
+ceramic|0603|C0G	68 pF
+ceramic|0603|C0G	100 pF
+ceramic|0603|C0G	150 pF
+ceramic|0603|C0G	220 pF
+ceramic|0603|C0G	330 pF
+ceramic|0603|C0G	470 pF
+ceramic|0603|C0G	680 pF
+ceramic|0603|C0G	1000 pF
+ceramic|0603|C0G	1500 pF
+ceramic|0603|C0G	2200 pF
+ceramic|0603|C0G	3300 pF
+ceramic|0603|C0G	4700 pF
+ceramic|0603|C0G	6800 pF
+ceramic|0603|C0G	0.01 µF;10000 pF
+ceramic|0603|C0G	0.015 µF
+ceramic|0603|other	10 pF
+ceramic|0603|other	15 pF
+ceramic|0603|other	22 pF
+ceramic|0603|other	33 pF
+ceramic|0603|other	47 pF
+ceramic|0603|other	68 pF
+ceramic|0603|other	100 pF
+ceramic|0603|other	150 pF
+ceramic|0603|other	220 pF
+ceramic|0603|other	330 pF
+ceramic|0603|other	470 pF
+ceramic|0603|other	680 pF
+ceramic|0603|other	1000 pF
+ceramic|0603|other	1500 pF
+ceramic|0603|other	2200 pF
+ceramic|0603|other	3300 pF
+ceramic|0603|other	4700 pF
+ceramic|0603|other	6800 pF
+ceramic|0603|other	0.01 µF;10000 pF
+ceramic|0603|other	0.015 µF
+ceramic|0603|other	0.022 µF
+ceramic|0603|other	0.033 µF
+ceramic|0603|other	0.047 µF
+ceramic|0603|other	0.068 µF
+ceramic|0603|other	0.1 µF
+ceramic|0603|other	0.15 µF
+ceramic|0603|other	0.22 µF
+ceramic|0603|other	0.33 µF
+ceramic|0603|other	0.47 µF
+ceramic|0603|other	0.68 µF
+ceramic|0603|other	1 µF
+ceramic|0603|other	1.5 µF
+ceramic|0603|other	2.2 µF
+ceramic|0603|other	3.3 µF
+ceramic|0603|other	4.7 µF
+ceramic|0603|other	10 µF
+ceramic|0603|other	22 µF
+ceramic|0603|other	47 µF
+ceramic|0603|other	100 µF
+ceramic|0805|C0G	10 pF
+ceramic|0805|C0G	15 pF
+ceramic|0805|C0G	22 pF
+ceramic|0805|C0G	33 pF
+ceramic|0805|C0G	47 pF
+ceramic|0805|C0G	68 pF
+ceramic|0805|C0G	0.0001 µF;100 pF
+ceramic|0805|C0G	150 pF
+ceramic|0805|C0G	220 pF
+ceramic|0805|C0G	330 pF
+ceramic|0805|C0G	470 pF
+ceramic|0805|C0G	680 pF
+ceramic|0805|C0G	1000 pF
+ceramic|0805|C0G	1500 pF
+ceramic|0805|C0G	2200 pF
+ceramic|0805|C0G	3300 pF
+ceramic|0805|C0G	4700 pF
+ceramic|0805|C0G	6800 pF
+ceramic|0805|C0G	0.01 µF;10000 pF
+ceramic|0805|C0G	0.015 µF
+ceramic|0805|C0G	0.022 µF
+ceramic|0805|C0G	0.033 µF
+ceramic|0805|C0G	0.047 µF
+ceramic|0805|other	10 pF
+ceramic|0805|other	15 pF
+ceramic|0805|other	22 pF
+ceramic|0805|other	33 pF
+ceramic|0805|other	47 pF
+ceramic|0805|other	68 pF
+ceramic|0805|other	100 pF
+ceramic|0805|other	150 pF
+ceramic|0805|other	220 pF
+ceramic|0805|other	330 pF
+ceramic|0805|other	470 pF
+ceramic|0805|other	680 pF
+ceramic|0805|other	1000 pF
+ceramic|0805|other	1500 pF
+ceramic|0805|other	2200 pF
+ceramic|0805|other	3300 pF
+ceramic|0805|other	4700 pF
+ceramic|0805|other	6800 pF
+ceramic|0805|other	0.01 µF;10000 pF
+ceramic|0805|other	0.015 µF
+ceramic|0805|other	0.022 µF;22000 pF
+ceramic|0805|other	0.033 µF
+ceramic|0805|other	0.047 µF
+ceramic|0805|other	0.068 µF
+ceramic|0805|other	0.1 µF
+ceramic|0805|other	0.15 µF
+ceramic|0805|other	0.22 µF
+ceramic|0805|other	0.33 µF
+ceramic|0805|other	0.47 µF
+ceramic|0805|other	0.68 µF
+ceramic|0805|other	1 µF
+ceramic|0805|other	1.5 µF
+ceramic|0805|other	2.2 µF
+ceramic|0805|other	3.3 µF
+ceramic|0805|other	4.7 µF
+ceramic|0805|other	6.8 µF
+ceramic|0805|other	10 µF
+ceramic|0805|other	15 µF
+ceramic|0805|other	22 µF
+ceramic|0805|other	33 µF
+ceramic|0805|other	47 µF
+ceramic|0805|other	100 µF
+ceramic|1206|C0G	10 pF
+ceramic|1206|C0G	15 pF
+ceramic|1206|C0G	22 pF
+ceramic|1206|C0G	33 pF
+ceramic|1206|C0G	47 pF
+ceramic|1206|C0G	68 pF
+ceramic|1206|C0G	100 pF
+ceramic|1206|C0G	150 pF
+ceramic|1206|C0G	220 pF
+ceramic|1206|C0G	330 pF
+ceramic|1206|C0G	470 pF
+ceramic|1206|C0G	680 pF
+ceramic|1206|C0G	1000 pF
+ceramic|1206|C0G	1500 pF
+ceramic|1206|C0G	2200 pF
+ceramic|1206|C0G	3300 pF
+ceramic|1206|C0G	4700 pF
+ceramic|1206|C0G	6800 pF
+ceramic|1206|C0G	0.01 µF;10 nF;10000 pF
+ceramic|1206|C0G	0.015 µF
+ceramic|1206|C0G	0.022 µF
+ceramic|1206|C0G	0.033 µF
+ceramic|1206|C0G	0.047 µF
+ceramic|1206|C0G	0.068 µF
+ceramic|1206|C0G	0.1 µF
+ceramic|1206|other	10 pF
+ceramic|1206|other	15 pF
+ceramic|1206|other	22 pF
+ceramic|1206|other	33 pF
+ceramic|1206|other	47 pF
+ceramic|1206|other	68 pF
+ceramic|1206|other	100 pF
+ceramic|1206|other	150 pF
+ceramic|1206|other	220 pF
+ceramic|1206|other	330 pF
+ceramic|1206|other	470 pF
+ceramic|1206|other	680 pF
+ceramic|1206|other	1000 pF
+ceramic|1206|other	1500 pF
+ceramic|1206|other	2200 pF
+ceramic|1206|other	3300 pF
+ceramic|1206|other	4700 pF
+ceramic|1206|other	6800 pF
+ceramic|1206|other	0.01 µF;10000 pF
+ceramic|1206|other	0.015 µF
+ceramic|1206|other	0.022 µF;22000 pF
+ceramic|1206|other	0.033 µF
+ceramic|1206|other	0.047 µF
+ceramic|1206|other	0.068 µF
+ceramic|1206|other	0.1 µF
+ceramic|1206|other	0.15 µF
+ceramic|1206|other	0.22 µF
+ceramic|1206|other	0.33 µF
+ceramic|1206|other	0.47 µF
+ceramic|1206|other	0.68 µF
+ceramic|1206|other	1 µF
+ceramic|1206|other	1.5 µF
+ceramic|1206|other	2.2 µF
+ceramic|1206|other	3.3 µF
+ceramic|1206|other	4.7 µF
+ceramic|1206|other	6.8 µF
+ceramic|1206|other	10 µF
+ceramic|1206|other	22 µF
+ceramic|1206|other	33 µF
+ceramic|1206|other	47 µF
+ceramic|1206|other	100 µF
+ceramic|Axial|C0G	10 pF
+ceramic|Axial|C0G	15 pF
+ceramic|Axial|C0G	22 pF
+ceramic|Axial|C0G	33 pF
+ceramic|Axial|C0G	47 pF
+ceramic|Axial|C0G	68 pF
+ceramic|Axial|C0G	100 pF
+ceramic|Axial|C0G	150 pF
+ceramic|Axial|C0G	220 pF
+ceramic|Axial|C0G	330 pF
+ceramic|Axial|C0G	470 pF
+ceramic|Axial|C0G	680 pF
+ceramic|Axial|C0G	1000 pF
+ceramic|Axial|C0G	1500 pF
+ceramic|Axial|C0G	2200 pF
+ceramic|Axial|C0G	3300 pF
+ceramic|Axial|C0G	4700 pF
+ceramic|Axial|C0G	6800 pF
+ceramic|Axial|C0G	10000 pF
+ceramic|Axial|C0G	0.015 µF
+ceramic|Axial|C0G	0.022 µF
+ceramic|Axial|C0G	0.047 µF
+ceramic|Axial|C0G	0.068 µF
+ceramic|Axial|C0G	0.1 µF
+ceramic|Axial|other	100 pF
+ceramic|Axial|other	330 pF
+ceramic|Axial|other	470 pF
+ceramic|Axial|other	680 pF
+ceramic|Axial|other	1000 pF
+ceramic|Axial|other	1500 pF
+ceramic|Axial|other	2200 pF
+ceramic|Axial|other	3300 pF
+ceramic|Axial|other	4700 pF
+ceramic|Axial|other	6800 pF
+ceramic|Axial|other	10000 pF
+ceramic|Axial|other	0.015 µF
+ceramic|Axial|other	0.022 µF
+ceramic|Axial|other	0.033 µF
+ceramic|Axial|other	0.047 µF
+ceramic|Axial|other	0.068 µF
+ceramic|Axial|other	0.1 µF
+ceramic|Axial|other	0.15 µF
+ceramic|Axial|other	0.22 µF
+ceramic|Axial|other	0.33 µF
+ceramic|Axial|other	0.47 µF
+ceramic|Axial|other	0.68 µF
+ceramic|Axial|other	1 µF
+ceramic|Axial|other	2.2 µF
+ceramic|Axial|other	4.7 µF
+ceramic|Axial|other	10 µF
+ceramic|Disc|other	10 pF
+ceramic|Disc|other	15 pF
+ceramic|Disc|other	22 pF
+ceramic|Disc|other	47 pF
+ceramic|Disc|other	100 pF
+ceramic|Disc|other	150 pF
+ceramic|Disc|other	220 pF
+ceramic|Disc|other	330 pF
+ceramic|Disc|other	470 pF
+ceramic|Disc|other	680 pF
+ceramic|Disc|other	1000 pF
+ceramic|Disc|other	1500 pF
+ceramic|Disc|other	2200 pF
+ceramic|Disc|other	3300 pF
+ceramic|Disc|other	4700 pF
+ceramic|Disc|other	6800 pF
+ceramic|Disc|other	10000 pF
+ceramic|Radial|C0G	10 pF
+ceramic|Radial|C0G	15 pF
+ceramic|Radial|C0G	22 pF
+ceramic|Radial|C0G	33 pF
+ceramic|Radial|C0G	47 pF
+ceramic|Radial|C0G	68 pF
+ceramic|Radial|C0G	100 pF
+ceramic|Radial|C0G	150 pF
+ceramic|Radial|C0G	220 pF
+ceramic|Radial|C0G	330 pF
+ceramic|Radial|C0G	470 pF
+ceramic|Radial|C0G	680 pF
+ceramic|Radial|C0G	1000 pF
+ceramic|Radial|C0G	1500 pF
+ceramic|Radial|C0G	2200 pF
+ceramic|Radial|C0G	3300 pF
+ceramic|Radial|C0G	4700 pF
+ceramic|Radial|C0G	6800 pF
+ceramic|Radial|C0G	10000 pF
+ceramic|Radial|C0G	0.015 µF
+ceramic|Radial|C0G	0.022 µF
+ceramic|Radial|C0G	0.033 µF
+ceramic|Radial|C0G	0.047 µF
+ceramic|Radial|C0G	0.068 µF
+ceramic|Radial|C0G	0.1 µF
+ceramic|Radial|C0G	0.15 µF
+ceramic|Radial|C0G	0.22 µF
+ceramic|Radial|C0G	0.33 µF
+ceramic|Radial|C0G	0.47 µF
+ceramic|Radial|other	10 pF
+ceramic|Radial|other	22 pF
+ceramic|Radial|other	33 pF
+ceramic|Radial|other	47 pF
+ceramic|Radial|other	68 pF
+ceramic|Radial|other	100 pF
+ceramic|Radial|other	150 pF
+ceramic|Radial|other	220 pF
+ceramic|Radial|other	330 pF
+ceramic|Radial|other	470 pF
+ceramic|Radial|other	680 pF
+ceramic|Radial|other	1000 pF
+ceramic|Radial|other	1500 pF
+ceramic|Radial|other	2200 pF
+ceramic|Radial|other	3300 pF
+ceramic|Radial|other	4700 pF
+ceramic|Radial|other	6800 pF
+ceramic|Radial|other	10000 pF
+ceramic|Radial|other	0.015 µF
+ceramic|Radial|other	0.022 µF
+ceramic|Radial|other	0.033 µF
+ceramic|Radial|other	0.047 µF
+ceramic|Radial|other	0.068 µF
+ceramic|Radial|other	0.1 µF
+ceramic|Radial|other	0.15 µF
+ceramic|Radial|other	0.22 µF
+ceramic|Radial|other	0.33 µF
+ceramic|Radial|other	0.47 µF
+ceramic|Radial|other	0.68 µF
+ceramic|Radial|other	1 µF
+ceramic|Radial|other	1.5 µF
+ceramic|Radial|other	2.2 µF
+ceramic|Radial|other	3.3 µF
+ceramic|Radial|other	4.7 µF
+ceramic|Radial|other	6.8 µF
+ceramic|Radial|other	10 µF
+niobium|SMD|10 V	4.7 µF
+niobium|SMD|10 V	10 µF
+niobium|SMD|10 V	15 µF
+niobium|SMD|10 V	22 µF
+niobium|SMD|10 V	33 µF
+niobium|SMD|10 V	47 µF
+niobium|SMD|4 V	47 µF
+niobium|SMD|4 V	100 µF
+niobium|SMD|4 V	330 µF
+niobium|SMD|4 V	470 µF
+niobium|SMD|6.3 V	4.7 µF
+niobium|SMD|6.3 V	10 µF
+niobium|SMD|6.3 V	15 µF
+niobium|SMD|6.3 V	22 µF
+niobium|SMD|6.3 V	33 µF
+niobium|SMD|6.3 V	47 µF
+niobium|SMD|6.3 V	68 µF
+niobium|SMD|6.3 V	100 µF
+niobium|SMD|6.3 V	150 µF
+niobium|SMD|6.3 V	220 µF
+ta-polymer|SMD|10 V	3.3 µF
+ta-polymer|SMD|10 V	10 µF
+ta-polymer|SMD|10 V	15 µF
+ta-polymer|SMD|10 V	22 µF
+ta-polymer|SMD|10 V	33 µF
+ta-polymer|SMD|10 V	47 µF
+ta-polymer|SMD|10 V	68 µF
+ta-polymer|SMD|10 V	100 µF
+ta-polymer|SMD|10 V	150 µF
+ta-polymer|SMD|10 V	220 µF
+ta-polymer|SMD|10 V	330 µF
+ta-polymer|SMD|10 V	470 µF
+ta-polymer|SMD|16 V	6.8 µF
+ta-polymer|SMD|16 V	10 µF
+ta-polymer|SMD|16 V	15 µF
+ta-polymer|SMD|16 V	22 µF
+ta-polymer|SMD|16 V	33 µF
+ta-polymer|SMD|16 V	47 µF
+ta-polymer|SMD|16 V	68 µF
+ta-polymer|SMD|16 V	100 µF
+ta-polymer|SMD|16 V	150 µF
+ta-polymer|SMD|16 V	220 µF
+ta-polymer|SMD|16 V	330 µF
+ta-polymer|SMD|16 V	470 µF
+ta-polymer|SMD|20 V	10 µF
+ta-polymer|SMD|20 V	15 µF
+ta-polymer|SMD|20 V	22 µF
+ta-polymer|SMD|20 V	33 µF
+ta-polymer|SMD|20 V	47 µF
+ta-polymer|SMD|20 V	68 µF
+ta-polymer|SMD|20 V	100 µF
+ta-polymer|SMD|20 V	150 µF
+ta-polymer|SMD|25 V	1 µF
+ta-polymer|SMD|25 V	4.7 µF
+ta-polymer|SMD|25 V	6.8 µF
+ta-polymer|SMD|25 V	10 µF
+ta-polymer|SMD|25 V	15 µF
+ta-polymer|SMD|25 V	22 µF
+ta-polymer|SMD|25 V	33 µF
+ta-polymer|SMD|25 V	47 µF
+ta-polymer|SMD|25 V	68 µF
+ta-polymer|SMD|25 V	100 µF
+ta-polymer|SMD|25 V	150 µF
+ta-polymer|SMD|35 V	1 µF
+ta-polymer|SMD|35 V	1.5 µF
+ta-polymer|SMD|35 V	2.2 µF
+ta-polymer|SMD|35 V	3.3 µF
+ta-polymer|SMD|35 V	4.7 µF
+ta-polymer|SMD|35 V	6.8 µF
+ta-polymer|SMD|35 V	10 µF
+ta-polymer|SMD|35 V	15 µF
+ta-polymer|SMD|35 V	22 µF
+ta-polymer|SMD|35 V	33 µF
+ta-polymer|SMD|35 V	47 µF
+ta-polymer|SMD|4 V	47 µF
+ta-polymer|SMD|4 V	100 µF
+ta-polymer|SMD|4 V	150 µF
+ta-polymer|SMD|4 V	220 µF
+ta-polymer|SMD|4 V	330 µF
+ta-polymer|SMD|4 V	470 µF
+ta-polymer|SMD|4 V	680 µF
+ta-polymer|SMD|4 V	1000 µF
+ta-polymer|SMD|50 V	0.68 µF
+ta-polymer|SMD|50 V	1 µF
+ta-polymer|SMD|50 V	1.5 µF
+ta-polymer|SMD|50 V	2.2 µF
+ta-polymer|SMD|50 V	3.3 µF
+ta-polymer|SMD|50 V	4.7 µF
+ta-polymer|SMD|50 V	6.8 µF
+ta-polymer|SMD|50 V	10 µF
+ta-polymer|SMD|50 V	15 µF
+ta-polymer|SMD|50 V	22 µF
+ta-polymer|SMD|50 V	33 µF
+ta-polymer|SMD|6.3 V	10 µF
+ta-polymer|SMD|6.3 V	15 µF
+ta-polymer|SMD|6.3 V	22 µF
+ta-polymer|SMD|6.3 V	33 µF
+ta-polymer|SMD|6.3 V	47 µF
+ta-polymer|SMD|6.3 V	68 µF
+ta-polymer|SMD|6.3 V	100 µF
+ta-polymer|SMD|6.3 V	150 µF
+ta-polymer|SMD|6.3 V	220 µF
+ta-polymer|SMD|6.3 V	330 µF
+ta-polymer|SMD|6.3 V	470 µF
+ta-polymer|SMD|6.3 V	680 µF
+tantalum|Radial|10 V	2.2 µF
+tantalum|Radial|10 V	3.3 µF
+tantalum|Radial|10 V	4.7 µF
+tantalum|Radial|10 V	6.8 µF
+tantalum|Radial|10 V	10 µF
+tantalum|Radial|10 V	15 µF
+tantalum|Radial|10 V	22 µF
+tantalum|Radial|10 V	33 µF
+tantalum|Radial|10 V	47 µF
+tantalum|Radial|10 V	68 µF
+tantalum|Radial|10 V	100 µF
+tantalum|Radial|10 V	150 µF
+tantalum|Radial|10 V	220 µF
+tantalum|Radial|10 V	330 µF
+tantalum|Radial|16 V	1.5 µF
+tantalum|Radial|16 V	2.2 µF
+tantalum|Radial|16 V	3.3 µF
+tantalum|Radial|16 V	4.7 µF
+tantalum|Radial|16 V	6.8 µF
+tantalum|Radial|16 V	10 µF
+tantalum|Radial|16 V	15 µF
+tantalum|Radial|16 V	22 µF
+tantalum|Radial|16 V	33 µF
+tantalum|Radial|16 V	47 µF
+tantalum|Radial|16 V	68 µF
+tantalum|Radial|16 V	100 µF
+tantalum|Radial|16 V	150 µF
+tantalum|Radial|16 V	220 µF
+tantalum|Radial|20 V	1 µF
+tantalum|Radial|20 V	2.2 µF
+tantalum|Radial|20 V	3.3 µF
+tantalum|Radial|20 V	4.7 µF
+tantalum|Radial|20 V	10 µF
+tantalum|Radial|20 V	15 µF
+tantalum|Radial|20 V	22 µF
+tantalum|Radial|20 V	33 µF
+tantalum|Radial|20 V	47 µF
+tantalum|Radial|20 V	100 µF
+tantalum|Radial|25 V	1 µF
+tantalum|Radial|25 V	1.5 µF
+tantalum|Radial|25 V	2.2 µF
+tantalum|Radial|25 V	3.3 µF
+tantalum|Radial|25 V	4.7 µF
+tantalum|Radial|25 V	6.8 µF
+tantalum|Radial|25 V	10 µF
+tantalum|Radial|25 V	15 µF
+tantalum|Radial|25 V	22 µF
+tantalum|Radial|25 V	33 µF
+tantalum|Radial|25 V	47 µF
+tantalum|Radial|25 V	68 µF
+tantalum|Radial|35 V	0.1 µF
+tantalum|Radial|35 V	0.15 µF
+tantalum|Radial|35 V	0.22 µF
+tantalum|Radial|35 V	0.33 µF
+tantalum|Radial|35 V	0.47 µF
+tantalum|Radial|35 V	0.68 µF
+tantalum|Radial|35 V	1 µF
+tantalum|Radial|35 V	1.5 µF
+tantalum|Radial|35 V	2.2 µF
+tantalum|Radial|35 V	3.3 µF
+tantalum|Radial|35 V	4.7 µF
+tantalum|Radial|35 V	6.8 µF
+tantalum|Radial|35 V	10 µF
+tantalum|Radial|35 V	15 µF
+tantalum|Radial|35 V	22 µF
+tantalum|Radial|35 V	33 µF
+tantalum|Radial|35 V	47 µF
+tantalum|Radial|50 V	0.1 µF
+tantalum|Radial|50 V	0.15 µF
+tantalum|Radial|50 V	0.22 µF
+tantalum|Radial|50 V	0.33 µF
+tantalum|Radial|50 V	0.47 µF
+tantalum|Radial|50 V	0.68 µF
+tantalum|Radial|50 V	1 µF
+tantalum|Radial|50 V	1.5 µF
+tantalum|Radial|50 V	2.2 µF
+tantalum|Radial|50 V	3.3 µF
+tantalum|Radial|50 V	4.7 µF
+tantalum|Radial|50 V	6.8 µF
+tantalum|Radial|50 V	10 µF
+tantalum|Radial|50 V	15 µF
+tantalum|Radial|50 V	22 µF
+tantalum|Radial|6.3 V	4.7 µF
+tantalum|Radial|6.3 V	6.8 µF
+tantalum|Radial|6.3 V	10 µF
+tantalum|Radial|6.3 V	22 µF
+tantalum|Radial|6.3 V	33 µF
+tantalum|Radial|6.3 V	47 µF
+tantalum|Radial|6.3 V	68 µF
+tantalum|Radial|6.3 V	100 µF
+tantalum|Radial|6.3 V	150 µF
+tantalum|Radial|6.3 V	220 µF
+tantalum|Radial|6.3 V	330 µF
+tantalum|SMD|10 V	0.47 µF
+tantalum|SMD|10 V	1 µF
+tantalum|SMD|10 V	1.5 µF
+tantalum|SMD|10 V	2.2 µF
+tantalum|SMD|10 V	3.3 µF
+tantalum|SMD|10 V	4.7 µF
+tantalum|SMD|10 V	6.8 µF
+tantalum|SMD|10 V	10 µF
+tantalum|SMD|10 V	15 µF
+tantalum|SMD|10 V	22 µF
+tantalum|SMD|10 V	33 µF
+tantalum|SMD|10 V	47 µF
+tantalum|SMD|10 V	68 µF
+tantalum|SMD|10 V	100 µF
+tantalum|SMD|10 V	150 µF
+tantalum|SMD|10 V	220 µF
+tantalum|SMD|10 V	330 µF
+tantalum|SMD|10 V	470 µF
+tantalum|SMD|16 V	0.68 µF
+tantalum|SMD|16 V	1 µF
+tantalum|SMD|16 V	1.5 µF
+tantalum|SMD|16 V	2.2 µF
+tantalum|SMD|16 V	3.3 µF
+tantalum|SMD|16 V	4.7 µF
+tantalum|SMD|16 V	6.8 µF
+tantalum|SMD|16 V	10 µF
+tantalum|SMD|16 V	15 µF
+tantalum|SMD|16 V	22 µF
+tantalum|SMD|16 V	33 µF
+tantalum|SMD|16 V	47 µF
+tantalum|SMD|16 V	68 µF
+tantalum|SMD|16 V	100 µF
+tantalum|SMD|16 V	150 µF
+tantalum|SMD|16 V	220 µF
+tantalum|SMD|16 V	330 µF
+tantalum|SMD|20 V	0.1 µF
+tantalum|SMD|20 V	0.22 µF
+tantalum|SMD|20 V	0.33 µF
+tantalum|SMD|20 V	0.47 µF
+tantalum|SMD|20 V	0.68 µF
+tantalum|SMD|20 V	1 µF
+tantalum|SMD|20 V	1.5 µF
+tantalum|SMD|20 V	2.2 µF
+tantalum|SMD|20 V	3.3 µF
+tantalum|SMD|20 V	4.7 µF
+tantalum|SMD|20 V	6.8 µF
+tantalum|SMD|20 V	10 µF
+tantalum|SMD|20 V	15 µF
+tantalum|SMD|20 V	22 µF
+tantalum|SMD|20 V	33 µF
+tantalum|SMD|20 V	47 µF
+tantalum|SMD|20 V	68 µF
+tantalum|SMD|20 V	100 µF
+tantalum|SMD|20 V	150 µF
+tantalum|SMD|25 V	0.22 µF
+tantalum|SMD|25 V	0.33 µF
+tantalum|SMD|25 V	0.47 µF
+tantalum|SMD|25 V	0.68 µF
+tantalum|SMD|25 V	1 µF
+tantalum|SMD|25 V	1.5 µF
+tantalum|SMD|25 V	2.2 µF
+tantalum|SMD|25 V	3.3 µF
+tantalum|SMD|25 V	4.7 µF
+tantalum|SMD|25 V	6.8 µF
+tantalum|SMD|25 V	10 µF
+tantalum|SMD|25 V	15 µF
+tantalum|SMD|25 V	22 µF
+tantalum|SMD|25 V	33 µF
+tantalum|SMD|25 V	47 µF
+tantalum|SMD|25 V	68 µF
+tantalum|SMD|25 V	100 µF
+tantalum|SMD|35 V	0.1 µF
+tantalum|SMD|35 V	0.15 µF
+tantalum|SMD|35 V	0.22 µF
+tantalum|SMD|35 V	0.33 µF
+tantalum|SMD|35 V	0.47 µF
+tantalum|SMD|35 V	0.68 µF
+tantalum|SMD|35 V	1 µF
+tantalum|SMD|35 V	1.5 µF
+tantalum|SMD|35 V	2.2 µF
+tantalum|SMD|35 V	3.3 µF
+tantalum|SMD|35 V	4.7 µF
+tantalum|SMD|35 V	6.8 µF
+tantalum|SMD|35 V	10 µF
+tantalum|SMD|35 V	15 µF
+tantalum|SMD|35 V	22 µF
+tantalum|SMD|35 V	33 µF
+tantalum|SMD|35 V	47 µF
+tantalum|SMD|4 V	0.33 µF
+tantalum|SMD|4 V	4.7 µF
+tantalum|SMD|4 V	10 µF
+tantalum|SMD|4 V	22 µF
+tantalum|SMD|4 V	33 µF
+tantalum|SMD|4 V	47 µF
+tantalum|SMD|4 V	68 µF
+tantalum|SMD|4 V	100 µF
+tantalum|SMD|4 V	150 µF
+tantalum|SMD|4 V	220 µF
+tantalum|SMD|4 V	330 µF
+tantalum|SMD|4 V	470 µF
+tantalum|SMD|4 V	680 µF
+tantalum|SMD|4 V	1000 µF
+tantalum|SMD|50 V	0.1 µF
+tantalum|SMD|50 V	0.15 µF
+tantalum|SMD|50 V	0.22 µF
+tantalum|SMD|50 V	0.33 µF
+tantalum|SMD|50 V	0.47 µF
+tantalum|SMD|50 V	0.68 µF
+tantalum|SMD|50 V	1 µF
+tantalum|SMD|50 V	1.5 µF
+tantalum|SMD|50 V	2.2 µF
+tantalum|SMD|50 V	3.3 µF
+tantalum|SMD|50 V	4.7 µF
+tantalum|SMD|50 V	6.8 µF
+tantalum|SMD|50 V	10 µF
+tantalum|SMD|50 V	15 µF
+tantalum|SMD|50 V	22 µF
+tantalum|SMD|6.3 V	1 µF
+tantalum|SMD|6.3 V	2.2 µF
+tantalum|SMD|6.3 V	3.3 µF
+tantalum|SMD|6.3 V	4.7 µF
+tantalum|SMD|6.3 V	6.8 µF
+tantalum|SMD|6.3 V	10 µF
+tantalum|SMD|6.3 V	15 µF
+tantalum|SMD|6.3 V	22 µF
+tantalum|SMD|6.3 V	33 µF
+tantalum|SMD|6.3 V	47 µF
+tantalum|SMD|6.3 V	68 µF
+tantalum|SMD|6.3 V	100 µF
+tantalum|SMD|6.3 V	150 µF
+tantalum|SMD|6.3 V	220 µF
+tantalum|SMD|6.3 V	330 µF
+tantalum|SMD|6.3 V	470 µF
+tantalum|SMD|6.3 V	680 µF
+tantalum|SMD|6.3 V	1000 µF

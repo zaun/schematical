@@ -1,0 +1,35 @@
+# plan-33 footprints needed (planning time, 2026-11-11)
+# section 1: measured, rank-1 rows of the 273 listed buckets
+# letter	maker	type	package	size (mm)	lead spacing	rank-1 rows
+C	Cal-Chip Electronics	ceramic	0402	1.00mm x 0.50mm	-	43
+C	Cal-Chip Electronics	ceramic	0603	1.60mm x 0.80mm	-	48
+C	Cal-Chip Electronics	ceramic	0805	2.00mm x 1.25mm	-	50
+C	Cal-Chip Electronics	ceramic	1206	3.20mm x 1.60mm	-	60
+C	KEMET	ceramic	0402	1.00mm x 0.50mm	-	12
+C	KEMET	ceramic	0603	1.60mm x 0.80mm	-	9
+C	KEMET	ceramic	0805	2.00mm x 1.25mm	-	11
+C	KEMET	ceramic	1206	3.20mm x 1.60mm	-	6
+C	KYOCERA AVX	ceramic	0402	1.00mm x 0.50mm	-	1
+C	KYOCERA AVX	ceramic	0603	1.60mm x 0.80mm	-	1
+C	KYOCERA AVX	ceramic	0603	1.60mm x 0.81mm	-	1
+C	KYOCERA AVX	ceramic	0805	2.01mm x 1.25mm	-	4
+D	KEMET	ceramic	Axial	2.29mm x 4.06mm	-	1
+D	KEMET	ceramic	Axial	2.41mm x 4.32mm	-	11
+D	KEMET	ceramic	Axial	2.54mm x 4.32mm	-	4
+D	KEMET	ceramic	Axial	2.54mm x 5.08mm	-	1
+D	KEMET	ceramic	Axial	2.54mm x 6.60mm	-	1
+D	KEMET	ceramic	Axial	3.05mm x 4.32mm	-	1
+D	KEMET	ceramic	Axial	3.81mm x 10.16mm	-	2
+D	KEMET	ceramic	Axial	3.81mm x 6.10mm	-	3
+D	KEMET	ceramic	Axial	3.81mm x 7.37mm	-	3
+# section 2: upper bounds for the unlisted queries (facets.jsonl): letter, type, mount, values, makers, bound
+D	al-polymer	Radial	7 values: 10.00mm, 13.00mm, 16.20mm, 18.20mm, 5.00mm, 6.30mm, 8.00mm	KEMET, KYOCERA AVX	<= 14
+D	al-polymer	SMD	5 values: 10.00mm, 5.00mm, 6.30mm, 7.30mm x 4.30mm, 8.00mm	Cal-Chip Electronics, KEMET, KYOCERA AVX	<= 15
+D	aluminum	Radial	12 values: 10.00mm, 12.00mm, 12.50mm, 13.00mm, 16.00mm, 18.00mm, 22.00mm, 4.00mm, 5.00mm, 6.00mm, 6.30mm, 8.00mm	KEMET, KYOCERA AVX	<= 24
+D	aluminum	SMD	23 values: 10.00mm, 10.00mm x 10.50mm, 12.50mm, 12.50mm x 13.50mm, 16.00mm, 17.00mm, 17.00mm x 17.00mm, 18.00mm, 19.00mm, 19.00mm x 19.00mm, 4.00mm, 4.00mm x 5.40mm, 4.00mm x 5.50mm, 5.00mm, 5.00mm x 5.40mm, 5.00mm x 5.50mm, 6.30mm, 6.30mm x 5.40mm, 6.30mm x 5.80mm, 6.30mm x 7.70mm, 6.30mm x 8.00mm, 8.00mm, 8.00mm x 10.50mm	Cal-Chip Electronics, KEMET, KYOCERA AVX	<= 69
+C	niobium	SMD	4 values: 3216 Metric, 3528 Metric, 6032 Metric, 7343 Metric	KYOCERA AVX	<= 4
+C	ta-polymer	SMD	6 values: 1608 Metric, 2012 Metric, 3216 Metric, 3528 Metric, 6032 Metric, 7343 Metric	Cal-Chip Electronics, KEMET, KYOCERA AVX	<= 18
+D	tantalum	Radial	27 values: 10.00mm, 10.16mm x 6.35mm, 10.20mm, 12.30mm x 7.30mm, 4.45mm, 4.50mm, 4.57mm, 4.70mm x 4.20mm, 5.00mm, 5.08mm, 5.50mm, 5.59mm x 2.79mm, 5.84mm x 2.67mm, 5.84mm x 3.30mm, 6.00mm, 6.30mm, 6.35mm, 6.50mm, 7.00mm, 7.30mm x 4.30mm, 7.60mm, 8.00mm, 8.40mm, 8.50mm, 8.90mm, 9.00mm, 9.53mm x 3.81mm	KEMET, KYOCERA AVX	<= 54
+C	tantalum	SMD	6 values: 1608 Metric, 2012 Metric, 3216 Metric, 3528 Metric, 6032 Metric, 7343 Metric	Cal-Chip Electronics, KEMET, KYOCERA AVX	<= 18
+# section 2 bound total: 216
+# not covered: the unlisted ceramic buckets (Radial 65, Disc 17, Axial 23 of 50); no facet call was left for them on 2026-11-11 (plan-33-A § 2)
