@@ -380,10 +380,16 @@ PCB's unrouted lines). A label is never simulated itself.
 | `id`       | UUID    | Unique within the file, across every other ID.                       |
 | `name`     | string  | The net's name: 1 to 4 characters, no spaces.                        |
 | `x`, `y`   | number  | Canvas units: the label's point, where a wire ends. Snapped to the grid on open. |
-| `type`     | string  | `"input"` (default; the far end points away from the wire), `"output"` (the end at the wire points in at it) or `"inout"` (both ends point). |
+| `type`     | string  | `"input"` (default; the far end points away from the wire), `"output"` (the end at the wire points in at it), `"inout"` (both ends point), `"passive"` (a plain box) or `"noConnect"` (see below). |
 | `flipped`  | boolean | The flag runs left of its point instead of right. Default `false`; written only when `true`. |
 
 The flag is 60 long and 20 high, centred on its point's row.
+
+A `"noConnect"` label is not a net: it is drawn as an X on its point,
+with no name and no flag, and marks a pin as left unconnected on purpose.
+It joins nothing, not even the wires that end on it, so a pin wired to
+one is on a net of its own and the PCB shows no unrouted line for it. It
+still stores a `name` (ignored), so it can turn back into a named label.
 
 ## Validation on open
 
@@ -395,7 +401,7 @@ Opening fails, and the canvas is left unchanged, if:
   lines, bus wires, ports, board texts, traces, notes and net labels;
 - a note's `text` is empty, or its `size` is not 6 to 72;
 - a net label's `name` is not 1 to 4 characters with no spaces, or its
-  `type` is not `input`, `output` or `inout` ("The net label is not valid:
+  `type` is not `input`, `output`, `inout`, `passive` or `noConnect` ("The net label is not valid:
   net label <id> …");
 - a `partNumber` is not in the catalog (the error lists every missing one);
 - an LED's `color` is not one of its colors (`U3: "Purple" is not a color of

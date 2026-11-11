@@ -37,8 +37,9 @@ enum SelectionRows {
             rows.append(SelectionRow(item: .note(note.id), title: "Text", detail: preview(note.text)))
         }
         for label in document.netLabels where selection.contains(.label(label.id)) {
-            rows.append(SelectionRow(item: .label(label.id), title: "Net Label",
-                                     detail: "\(label.name) (\(label.style.title))"))
+            rows.append(label.isNet
+                ? SelectionRow(item: .label(label.id), title: "Net Label", detail: "\(label.name) (\(label.style.title))")
+                : SelectionRow(item: .label(label.id), title: "No Connect", detail: ""))
         }
         return rows
     }
@@ -84,7 +85,8 @@ enum SelectionRows {
             let name = document.port(ref.portID)?.bus.wires.first { $0.id == ref.wireID }?.name
             return name.map { "bus port \($0)" } ?? "bus port"
         case let .label(id):
-            return document.netLabels.first { $0.id == id }.map { "net \($0.name)" } ?? "net label"
+            return document.netLabels.first { $0.id == id }.map { $0.isNet ? "net \($0.name)" : "no connect" }
+                ?? "net label"
         }
     }
 

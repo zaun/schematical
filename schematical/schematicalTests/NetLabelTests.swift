@@ -113,6 +113,45 @@ final class NetLabelTests: XCTestCase {
         XCTAssertEqual(label.tip, CGPoint(x: 100, y: 50))
     }
 
+    func testPassiveIsABox() throws {
+        let label = NetLabel(id: UUID(), name: "A", style: .passive, origin: CGPoint(x: 100, y: 50))
+        XCTAssertEqual(label.outline, [CGPoint(x: 100, y: 40), CGPoint(x: 160, y: 40),
+                                       CGPoint(x: 160, y: 60), CGPoint(x: 100, y: 60)])
+        XCTAssertTrue(label.isNet)
+    }
+
+    func testNoConnectIsAnXThatJoinsNothing() throws {
+        let doc = newDocument()
+        let (left, right, k, a) = try labelledPair(doc)
+        // Even with one name, two No Connects never join.
+        XCTAssertTrue(doc.setNetLabelName(right, "N1"))
+        XCTAssertEqual(net(doc, k), net(doc, a))
+        doc.setNetLabelStyle(left, .noConnect)
+        doc.setNetLabelStyle(right, .noConnect)
+        XCTAssertNotNil(net(doc, k))
+        XCTAssertNotNil(net(doc, a))
+        XCTAssertNotEqual(net(doc, k), net(doc, a))
+        XCTAssertTrue(doc.ratsnest().isEmpty)
+
+        // Two pins wired to the same No Connect stay apart too.
+        XCTAssertNil(doc.connect(.pin(a), .label(left)))
+        XCTAssertNotEqual(net(doc, k), net(doc, a))
+        XCTAssertTrue(doc.ratsnest().isEmpty)
+
+        // An X on the point, no name; a press round the point hits it.
+        let cross = try label(doc, left)
+        XCTAssertFalse(cross.isNet)
+        XCTAssertEqual(cross.rect, CGRect(x: cross.tip.x - 10, y: cross.tip.y - 10, width: 20, height: 20))
+        XCTAssertEqual(doc.netLabel(at: CGPoint(x: cross.tip.x + 4, y: cross.tip.y - 4))?.id, left)
+        let svg = String(decoding: try XCTUnwrap(SchematicExport.svg(SchematicScene(doc))), as: UTF8.self)
+        XCTAssertFalse(svg.contains(">N1</text>"))
+
+        // Saved and opened as it was.
+        let opened = try reopened(doc)
+        XCTAssertEqual(opened.netLabels, doc.netLabels)
+        XCTAssertEqual(opened.netLabels.first?.style, .noConnect)
+    }
+
     func testWiresFollowAMoveAndAFlip() throws {
         let doc = newDocument()
         let (left, _, _, _) = try labelledPair(doc)

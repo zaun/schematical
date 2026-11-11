@@ -43,8 +43,9 @@ enum NetlistBuilder {
     /// Two wire ends are the same electrical node when a wire joins them, or
     /// when they meet at a junction. Every bus port pin for the same bus wire,
     /// on any port of that bus, is one node too, and so is every net label
-    /// point of one name (ignoring case). Union-find over the wire ends gives
-    /// the nets.
+    /// point of one name (ignoring case). A No Connect joins nothing: a wire
+    /// ending on one joins nothing through it, so its pin stays on a net of
+    /// its own. Union-find over the wire ends gives the nets.
     static func build(chips: [PlacedChip], wires: [Wire], buses: [Bus],
                       labels: [NetLabel] = []) -> SchematicNetlist {
         var parent: [WireEnd: WireEnd] = [:]
@@ -65,7 +66,12 @@ enum NetlistBuilder {
             }
         }
 
-        for wire in wires {
+        let noConnects = Set(labels.filter { !$0.isNet }.map(\.id))
+        func isNoConnect(_ end: WireEnd) -> Bool {
+            if case let .label(id) = end { return noConnects.contains(id) }
+            return false
+        }
+        for wire in wires where !isNoConnect(wire.start) && !isNoConnect(wire.end) {
             union(wire.start, wire.end)
         }
 
@@ -92,7 +98,7 @@ enum NetlistBuilder {
         // Net labels of one name are one node, whether or not wires reach
         // them all.
         var labelGroups: [String: [WireEnd]] = [:]
-        for label in labels {
+        for label in labels where label.isNet {
             labelGroups[label.netKey, default: []].append(.label(label.id))
         }
         for group in labelGroups.values {
@@ -115,7 +121,8 @@ enum NetlistBuilder {
 
         var netOfWire: [UUID: Int] = [:]
         for wire in wires {
-            netOfWire[wire.id] = netIndex(of: wire.start)
+            // A wire to a No Connect is on its other end's net.
+            netOfWire[wire.id] = netIndex(of: isNoConnect(wire.start) ? wire.end : wire.start)
         }
 
         var partIndexByChip: [UUID: Int] = [:]

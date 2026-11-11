@@ -2071,11 +2071,22 @@ final class SchematicDocument {
         }
     }
 
+    /// Sets a label's type. Refused, with the type kept, when the change
+    /// would join nets that put a voltage out of range on a part (a No
+    /// Connect turning back into a named label); `editorMessage` says why.
     func setNetLabelStyle(_ id: UUID, _ style: NetLabel.Style) {
         recordEdit(.schematic, "Change Net Label Type") {
             guard let index = netLabels.firstIndex(where: { $0.id == id }),
                   netLabels[index].style != style else { return }
-            netLabels[index].style = style
+            var changed = netLabels
+            changed[index].style = style
+            if let library,
+               let issue = VoltageCheck.firstNew(before: chips, wires, after: chips, wires, buses: buses,
+                                                 labels: netLabels, afterLabels: changed, library: library) {
+                editorMessage = VoltageCheck.message(issue, chips: chips, edit: .connect)
+                return
+            }
+            netLabels = changed
         }
     }
 

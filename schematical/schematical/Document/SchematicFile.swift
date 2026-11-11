@@ -260,7 +260,8 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
     }
 
     /// A net label: its point (`x`, `y`, canvas units), net name, type
-    /// (`"input"`, `"output"` or `"inout"`) and whether it runs left.
+    /// (`"input"`, `"output"`, `"inout"`, `"passive"` or `"noConnect"`)
+    /// and whether it runs left.
     struct Label: Codable, Equatable, Sendable {
         var id: UUID
         var name: String
@@ -937,7 +938,7 @@ extension SchematicFile {
         var style = NetLabel.Style.input
         if let type = entry.type {
             guard let parsed = NetLabel.Style(rawValue: type) else {
-                throw SchematicFileError.badLabel("\(name) type \"\(type)\" must be input, output or inout")
+                throw SchematicFileError.badLabel("\(name) type \"\(type)\" must be input, output, inout, passive or noConnect")
             }
             style = parsed
         }

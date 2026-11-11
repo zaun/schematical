@@ -8,12 +8,17 @@ import SwiftUI
 /// Its point is `origin`, on the grid; a wire ends there, leaving sideways.
 /// The flag runs `length` to the right of it, or to the left when flipped.
 /// Its type sets its ends: an input points away from the wire, an output
-/// points in at the wire, and an in/out points both ways.
+/// points in at the wire, an in/out points both ways and a passive one is a
+/// plain box. A No Connect is not a label at all: an X on its point, with
+/// no name, that marks a pin as deliberately left unconnected. It joins
+/// nothing, not even the wires that end on it.
 nonisolated struct NetLabel: Identifiable, Hashable, Sendable {
     enum Style: String, CaseIterable, Identifiable, Sendable {
         case input
         case output
         case `inout`
+        case passive
+        case noConnect
 
         var id: String { rawValue }
 
@@ -22,14 +27,26 @@ nonisolated struct NetLabel: Identifiable, Hashable, Sendable {
             case .input: "Input"
             case .output: "Output"
             case .inout: "In/Out"
+            case .passive: "Passive"
+            case .noConnect: "No Connect"
             }
         }
 
         /// The end away from the wire is a point.
-        var pointsOut: Bool { self != .output }
+        var pointsOut: Bool { self == .input || self == .inout }
         /// The end at the wire is a point.
-        var pointsIn: Bool { self != .input }
+        var pointsIn: Bool { self == .output || self == .inout }
+        /// A named net label; false for No Connect.
+        var isNet: Bool { self != .noConnect }
     }
+
+    /// Half the size of a No Connect's X.
+    static let crossSize: CGFloat = 5
+    /// What a press hits round a No Connect's point.
+    static let crossHit: CGFloat = 10
+
+    /// The name is drawn and joins labels; not for a No Connect.
+    var isNet: Bool { style.isNet }
 
     let id: UUID
     /// 1 to `maxNameLength` characters, no spaces.
@@ -63,8 +80,12 @@ nonisolated struct NetLabel: Identifiable, Hashable, Sendable {
     /// Where a wire meets it.
     var tip: CGPoint { origin }
 
-    /// The flag's bounds.
+    /// The flag's bounds; a square round the point for a No Connect.
     var rect: CGRect {
+        if !isNet {
+            return CGRect(x: origin.x - Self.crossHit, y: origin.y - Self.crossHit,
+                          width: 2 * Self.crossHit, height: 2 * Self.crossHit)
+        }
         let minX = isFlipped ? origin.x - Self.length : origin.x
         return CGRect(x: minX, y: origin.y - Self.halfHeight, width: Self.length, height: 2 * Self.halfHeight)
     }
@@ -94,10 +115,19 @@ nonisolated struct NetLabel: Identifiable, Hashable, Sendable {
         return local.map { CGPoint(x: origin.x + direction * $0.x, y: origin.y + $0.y) }
     }
 
+    /// The flag's outline, closed; a No Connect's X.
     var path: Path {
         Path { path in
-            path.addLines(outline)
-            path.closeSubpath()
+            if isNet {
+                path.addLines(outline)
+                path.closeSubpath()
+            } else {
+                let d = Self.crossSize
+                path.move(to: CGPoint(x: origin.x - d, y: origin.y - d))
+                path.addLine(to: CGPoint(x: origin.x + d, y: origin.y + d))
+                path.move(to: CGPoint(x: origin.x + d, y: origin.y - d))
+                path.addLine(to: CGPoint(x: origin.x - d, y: origin.y + d))
+            }
         }
     }
 }
@@ -131,6 +161,11 @@ struct NetLabelLayer: View {
             let isSelected = selectedIDs.contains(label.id)
             if label.id == hoveredID, !isSelected {
                 painter.stroke(path, with: Ink.accent.opacity(0.35), lineWidth: 5)
+            }
+            guard label.isNet else {
+                // No Connect: just the X, no name.
+                painter.stroke(path, with: isSelected ? .accent : .primary, lineWidth: isSelected ? 2.5 : 2)
+                continue
             }
             painter.fill(path, with: .paper)
             painter.stroke(path, with: isSelected ? .accent : .primary, lineWidth: isSelected ? 2 : 1.25)
