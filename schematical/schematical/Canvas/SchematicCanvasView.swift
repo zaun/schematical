@@ -1072,7 +1072,7 @@ struct WireLayer: View {
         }
 
         for junction in junctions {
-            let r: CGFloat = junction.isSelected ? 4 : 2.5
+            let r: CGFloat = junction.isSelected ? 5 : 3.5
             let point = junction.point
             let rect = CGRect(x: point.x - r, y: point.y - r, width: 2 * r, height: 2 * r)
             painter.fill(Path(ellipseIn: rect),
