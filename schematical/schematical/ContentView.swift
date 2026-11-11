@@ -9,7 +9,7 @@ import AppKit
 import SwiftUI
 
 /// The window's two pages: the schematic editor and the PCB.
-enum EditorPage: String, CaseIterable, Identifiable {
+nonisolated enum EditorPage: String, CaseIterable, Identifiable, Codable, Sendable {
     case schematic
     case pcb
 
@@ -541,6 +541,7 @@ struct ContentView: View {
                 }
             }
             .focusedSceneValue(\.schematicFile, file)
+            .focusedSceneValue(\.editorPage, page)
             // Edit › Undo / Redo act on the page shown (plan-31-D).
             .focusedSceneValue(\.schematicUndo, UndoTarget(document: document, page: page))
             .focusedSceneValue(\.openBillOfMaterials) {

@@ -46,6 +46,7 @@ struct schematicalApp: App {
             BillOfMaterialsCommands()
             DesignRuleCheckCommands()
             UndoCommands()
+            KeyboardHelpCommands()
         }
 
         // One window per memory part, opened by double-clicking it.
@@ -120,6 +121,13 @@ struct schematicalApp: App {
             }
         }
         .defaultSize(width: 1040, height: 1000)
+        .restorationBehavior(.disabled)
+
+        // Help › Schematic Help and PCB Help: one window per page.
+        WindowGroup("Help", id: "help", for: EditorPage.self) { $page in
+            KeyboardHelpView(page: page ?? .schematic)
+        }
+        .defaultSize(width: 620, height: 640)
         .restorationBehavior(.disabled)
 
         Settings {
