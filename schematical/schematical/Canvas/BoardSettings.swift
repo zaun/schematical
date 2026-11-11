@@ -386,17 +386,20 @@ nonisolated struct BoardText: Identifiable, Hashable, Sendable {
 // MARK: - Layer visibility
 
 /// A layer the PCB page's View popover can show or hide: a copper layer,
-/// the silkscreen, or the document layer.
+/// the silkscreen, the document layer, or the ratsnest (the unrouted
+/// connections' lines).
 nonisolated enum BoardViewLayer: Hashable, Sendable {
     case copper(CopperLayer)
     case silkscreen
     case document
+    case ratsnest
 
     var title: String {
         switch self {
         case let .copper(layer): layer.title
         case .silkscreen: "Silkscreen"
         case .document: "Document"
+        case .ratsnest: "Ratsnest"
         }
     }
 }

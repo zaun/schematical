@@ -665,7 +665,8 @@ struct ReachedSpeedLabel: View {
 }
 
 /// The PCB page's View popover: a checkbox per copper layer (with its
-/// colour), then Silkscreen and Document, and Show All. It stays open while
+/// colour), then Silkscreen and Document, then Ratsnest (the unrouted
+/// lines), and Show All. It stays open while
 /// the user ticks several boxes; a menu would close after each one.
 private struct LayerViewPopover: View {
     let board: BoardSettings
@@ -686,6 +687,16 @@ private struct LayerViewPopover: View {
             Divider()
             toggle(.silkscreen) { Text("Silkscreen") }
             toggle(.document) { Text("Document") }
+            Divider()
+            toggle(.ratsnest) {
+                HStack(spacing: 6) {
+                    Rectangle()
+                        .fill(Color.red)
+                        .frame(width: 12, height: 1)
+                    Text("Ratsnest")
+                }
+            }
+            .help("The unrouted connections: a red line for each the schematic makes that no copper does yet")
             Divider()
             Button("Show All") { hidden.removeAll() }
                 .disabled(hidden.isEmpty)

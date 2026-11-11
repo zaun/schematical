@@ -213,7 +213,7 @@ struct PCBCanvasView: View {
         // The copper's nets, read only when a Plane is drawn.
         let planeCopper = board.copperLayers.contains { visible.showsPlane($0, style: board.style(of: $0)) }
             ? document.connectivity() : nil
-        let clearance = DesignRules.current().minClearance
+        let rules = DesignRules.current()
         // Copper from Bottom up to Top: each layer's plane tint, then the
         // surface-mount pads of the side it is on. Bottom's marks and texts
         // go straight after Bottom's copper, under everything else.
@@ -221,7 +221,7 @@ struct PCBCanvasView: View {
             let style = board.style(of: layer)
             if visible.showsPlane(layer, style: style), let planeCopper {
                 drawPlane(on: layer, colour: style.color.color, shape: boardShape, copper: planeCopper,
-                          clearance: clearance, in: &context)
+                          rules: rules, in: &context)
             }
             if visible.showsTrace(on: layer) {
                 drawTraces(on: layer, colour: style.color.color, in: &context)
@@ -268,7 +268,7 @@ struct PCBCanvasView: View {
 
         drawMarksAndTexts(on: .top, in: &context, colour: colour, visible: visible)
 
-        drawRatsnest(in: &context)
+        if visible.shows(.ratsnest) { drawRatsnest(in: &context) }
         drawTraceTool(in: &context)
 
         // Selection boxes, one per selected item that is drawn, on top of
@@ -306,22 +306,69 @@ struct PCBCanvasView: View {
         }
     }
 
-    /// A Plane layer: its tint over the board, cut away `clearance` (the
-    /// DRC's min clearance) around every hole through it that isn't on the
-    /// Plane's net: through-hole pads, non-plated holes and vias. Plated
-    /// pads and vias on its net join the Plane solid.
-    private func drawPlane(on layer: CopperLayer, colour: Color, shape: Path, copper: BoardConnectivity,
-                           clearance: CGFloat, in context: inout GraphicsContext) {
+    /// What a Plane on `layer` leaves out, by the rule each part keeps:
+    /// `copper`, the copper of every plated through-hole pad and via not on
+    /// its net, kept the copper clearance away; `edges`, every non-plated
+    /// hole's drill (a round hole or a slot), kept the copper-to-edge
+    /// distance away, as the board's own edge is; and `drills`, the bare
+    /// drill of each pad and via that joins the Plane, which has no
+    /// clearance.
+    static func planeCuts(on layer: CopperLayer, copper: BoardConnectivity) -> (copper: Path, edges: Path, drills: Path) {
         let cleared = copper.planeClearances(on: layer)
-        var cut = Path()
-        for p in cleared.pads { cut.addPath(Self.outline(of: copper.pads[p].pad)) }
-        for v in cleared.vias { cut.addPath(Path(ellipseIn: copper.vias[v].rect)) }
+        let cut = Set(cleared.pads), cutVias = Set(cleared.vias)
+        var metal = Path(), edges = Path(), drills = Path()
+        func drill(_ pad: PlacedPad) -> Path? {
+            pad.holeRect.map { Path(roundedRect: $0, cornerRadius: pad.drill / 2) }
+        }
+        for (p, entry) in copper.pads.enumerated() where entry.pad.drill > 0 {
+            guard let hole = drill(entry.pad) else { continue }
+            if !entry.pad.plated {
+                edges.addPath(hole)
+            } else if cut.contains(p) {
+                metal.addPath(outline(of: entry.pad))
+            } else {
+                drills.addPath(hole)
+            }
+        }
+        for (v, via) in copper.vias.enumerated() {
+            if cutVias.contains(v) {
+                metal.addPath(Path(ellipseIn: via.rect))
+            } else {
+                let d = via.drill
+                drills.addPath(Path(ellipseIn: CGRect(x: via.centre.x - d / 2, y: via.centre.y - d / 2,
+                                                      width: d, height: d)))
+            }
+        }
+        return (metal, edges, drills)
+    }
+
+    /// A Plane layer: its tint over the board, pulled back from the
+    /// board's edge, with `planeCuts` cleared out of it: the copper not on
+    /// its net by `rules.minClearance`, non-plated holes and the edge by
+    /// `rules.minCopperToEdge`, and the drills of what joins it. Plated
+    /// pads and vias on its net join the Plane solid round their drill.
+    private func drawPlane(on layer: CopperLayer, colour: Color, shape: Path, copper: BoardConnectivity,
+                           rules: DesignRules, in context: inout GraphicsContext) {
+        let cuts = Self.planeCuts(on: layer, copper: copper)
         context.drawLayer { plane in
             plane.fill(shape, with: .color(colour.opacity(0.2)))
-            guard !cut.isEmpty else { return }
             plane.blendMode = .clear
-            plane.fill(cut, with: .color(.black))
-            plane.stroke(cut, with: .color(.black), style: StrokeStyle(lineWidth: 2 * clearance, lineJoin: .round))
+            // A clearance is the cut's outline grown by it all round: a
+            // stroke twice as wide, with round joins, over the filled cut.
+            func clear(_ path: Path, by distance: Double) {
+                guard !path.isEmpty else { return }
+                plane.fill(path, with: .color(.black))
+                if distance > 0 {
+                    plane.stroke(path, with: .color(.black), style: StrokeStyle(lineWidth: 2 * distance, lineJoin: .round))
+                }
+            }
+            if rules.minCopperToEdge > 0 {
+                plane.stroke(shape, with: .color(.black),
+                             style: StrokeStyle(lineWidth: 2 * rules.minCopperToEdge, lineJoin: .round))
+            }
+            clear(cuts.copper, by: rules.minClearance)
+            clear(cuts.edges, by: rules.minCopperToEdge)
+            clear(cuts.drills, by: 0)
         }
     }
 
