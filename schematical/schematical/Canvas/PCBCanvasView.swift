@@ -222,7 +222,8 @@ struct PCBCanvasView: View {
             let style = board.style(of: layer)
             if visible.showsPlane(layer, style: style), let planeCopper {
                 drawPlane(on: layer, colour: style.color.color, shape: boardShape, copper: planeCopper,
-                          rules: rules, opacity: visible.shows(.board) ? 0.2 : 0.45, in: &context)
+                          clearance: style.clearance(rules: rules), edge: rules.minCopperToEdge,
+                          opacity: visible.shows(.board) ? 0.2 : 0.45, in: &context)
             }
             if visible.showsTrace(on: layer) {
                 drawTraces(on: layer, colour: style.color.color, in: &context)
@@ -345,11 +346,12 @@ struct PCBCanvasView: View {
 
     /// A Plane layer: its tint (`opacity`) over the board, pulled back from the
     /// board's edge, with `planeCuts` cleared out of it: the copper not on
-    /// its net by `rules.minClearance`, non-plated holes and the edge by
-    /// `rules.minCopperToEdge`, and the drills of what joins it. Plated
+    /// its net by the Plane's `clearance` (`LayerStyle.clearance(rules:)`),
+    /// non-plated holes and the edge by `edge` (the DRC's min copper to
+    /// edge), and the drills of what joins it. Plated
     /// pads and vias on its net join the Plane solid round their drill.
     private func drawPlane(on layer: CopperLayer, colour: Color, shape: Path, copper: BoardConnectivity,
-                           rules: DesignRules, opacity: Double, in context: inout GraphicsContext) {
+                           clearance: Double, edge: Double, opacity: Double, in context: inout GraphicsContext) {
         let cuts = Self.planeCuts(on: layer, copper: copper)
         context.drawLayer { plane in
             plane.fill(shape, with: .color(colour.opacity(opacity)))
@@ -363,12 +365,11 @@ struct PCBCanvasView: View {
                     plane.stroke(path, with: .color(.black), style: StrokeStyle(lineWidth: 2 * distance, lineJoin: .round))
                 }
             }
-            if rules.minCopperToEdge > 0 {
-                plane.stroke(shape, with: .color(.black),
-                             style: StrokeStyle(lineWidth: 2 * rules.minCopperToEdge, lineJoin: .round))
+            if edge > 0 {
+                plane.stroke(shape, with: .color(.black), style: StrokeStyle(lineWidth: 2 * edge, lineJoin: .round))
             }
-            clear(cuts.copper, by: rules.minClearance)
-            clear(cuts.edges, by: rules.minCopperToEdge)
+            clear(cuts.copper, by: clearance)
+            clear(cuts.edges, by: edge)
             clear(cuts.drills, by: 0)
         }
     }

@@ -95,6 +95,7 @@ struct PCBSidebarView: View {
                                        set: { document.setCardOptions($0) })
                 }
                 LayersSection(document: document)
+                PlanesSection(document: document)
             }
         }
         .formStyle(.grouped)
@@ -382,21 +383,19 @@ private struct BoardPanel: View {
 
 /// One row per copper layer, Top first: a colour well, the name and the
 /// type. Top and Bottom are always Component; an inner layer is Plane or
-/// Wire. A Plane also has its net (None, GND, a power rail or a signal
-/// net), between the name and the type.
+/// Wire. A Plane's net and clearance are in `PlanesSection`.
 struct LayersSection: View {
     let document: SchematicDocument
 
     var body: some View {
-        let choices = document.planeNetChoices()
         Section("Layers") {
             ForEach(document.board.copperLayers, id: \.self) { layer in
-                row(layer, choices: choices)
+                row(layer)
             }
         }
     }
 
-    private func row(_ layer: CopperLayer, choices: [(net: PlaneNet, title: String)]) -> some View {
+    private func row(_ layer: CopperLayer) -> some View {
         let style = document.board.style(of: layer)
         return HStack(spacing: 8) {
             ColorPicker("\(layer.title) colour", selection: Binding(
@@ -406,9 +405,6 @@ struct LayersSection: View {
             .labelsHidden()
             Text(layer.title)
             Spacer()
-            if layer.isInner, style.type == .plane {
-                netPicker(layer, choices: choices)
-            }
             if layer.isInner {
                 Picker("\(layer.title) type", selection: Binding(
                     get: { style.type },
@@ -431,6 +427,70 @@ struct LayersSection: View {
             }
         }
     }
+}
+
+// MARK: - Planes
+
+/// Each Plane layer, in stack order: its name, the net it carries (None,
+/// GND, a power rail or a signal net) and its clearance, how far its copper
+/// keeps from pads and vias off its net (the DRC's min clearance until set;
+/// a high-voltage plane wants more). Shown only when the board has a Plane.
+struct PlanesSection: View {
+    let document: SchematicDocument
+
+    static func planes(of board: BoardSettings) -> [CopperLayer] {
+        board.copperLayers.filter { $0.isInner && board.style(of: $0).type == .plane }
+    }
+
+    var body: some View {
+        let planes = Self.planes(of: document.board)
+        if !planes.isEmpty {
+            let choices = document.planeNetChoices()
+            let rules = DesignRules.current()
+            Section("Planes") {
+                ForEach(planes, id: \.self) { layer in
+                    header(layer, choices: choices)
+                    clearanceRow(layer, rules: rules)
+                }
+            }
+        }
+    }
+
+    /// The layer's colour and name, then its net.
+    private func header(_ layer: CopperLayer, choices: [(net: PlaneNet, title: String)]) -> some View {
+        HStack(spacing: 8) {
+            RoundedRectangle(cornerRadius: 3)
+                .fill(document.board.style(of: layer).color.color)
+                .frame(width: 14, height: 14)
+            Text(layer.title)
+            Spacer()
+            netPicker(layer, choices: choices)
+        }
+    }
+
+    /// The clearance, with a button back to the DRC's minimum once set.
+    private func clearanceRow(_ layer: CopperLayer, rules: DesignRules) -> some View {
+        let style = document.board.style(of: layer)
+        let units = document.board.units
+        return HStack(spacing: 6) {
+            LengthField(title: "Clearance", millimetres: style.clearance(rules: rules), units: units, precise: true) {
+                document.setLayerClearance(layer, $0)
+                return document.board.style(of: layer).clearance(rules: rules)
+            }
+            .accessibilityLabel("\(layer.title) clearance")
+            if style.clearance != nil {
+                Button {
+                    document.setLayerClearance(layer, nil)
+                } label: {
+                    Image(systemName: "arrow.uturn.backward")
+                }
+                .buttonStyle(.borderless)
+                .help("Use the DRC's min clearance (\(LengthField.format(rules.minClearance, units: units, precise: true)) \(units.title))")
+            }
+        }
+        .help("How far the Plane's copper keeps from pads and vias not on its net; "
+              + (style.clearance == nil ? "the DRC's min clearance until set" : "set for this Plane"))
+    }
 
     /// The Plane's net. A net the schematic no longer has stays listed, as
     /// "Missing net", until another is chosen.
@@ -451,7 +511,7 @@ struct LayersSection: View {
         }
         .pickerStyle(.menu)
         .labelsHidden()
-        // Shrinks (a long signal net truncates) before the name or type do.
+        // Shrinks (a long signal net truncates) before the name does.
         .layoutPriority(-1)
     }
 }

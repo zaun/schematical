@@ -240,6 +240,15 @@ nonisolated struct LayerStyle: Hashable, Sendable {
     /// A Plane's net; nil is copper on no net. Kept while the layer is a
     /// Wire layer, so it comes back with the Plane.
     var net: PlaneNet? = nil
+    /// A Plane's clearance in mm, within `clearanceRange`: how far its
+    /// copper keeps from pads and vias not on its net. Nil is the DRC's
+    /// min clearance. Kept while the layer is a Wire layer.
+    var clearance: Double? = nil
+
+    static let clearanceRange: ClosedRange<Double> = 0.05...10
+
+    /// The clearance the Plane keeps: its own, or the DRC's minimum.
+    func clearance(rules: DesignRules) -> Double { clearance ?? rules.minClearance }
 
     /// Red Top, blue Bottom, and gold, green, purple and cyan inner layers.
     /// Top and Bottom are Component; inner layers start as Plane.

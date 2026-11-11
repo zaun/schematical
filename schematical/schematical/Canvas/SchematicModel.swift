@@ -2472,6 +2472,19 @@ final class SchematicDocument {
         }
     }
 
+    /// Sets a Plane layer's clearance (mm), clamped to
+    /// `LayerStyle.clearanceRange`; nil goes back to the DRC's minimum.
+    func setLayerClearance(_ layer: CopperLayer, _ mm: Double?) {
+        recordEdit(.pcb, "Change Plane Clearance") {
+            guard board.copperLayers.contains(layer), layer.isInner else { return }
+            var style = board.style(of: layer)
+            let value = mm.map { min(max($0, LayerStyle.clearanceRange.lowerBound), LayerStyle.clearanceRange.upperBound) }
+            guard style.clearance != value else { return }
+            style.clearance = value
+            board.styles[layer] = style
+        }
+    }
+
     /// The nets a Plane can carry, as its Net picker lists them: ground,
     /// then each power rail from low to high (every supply symbol and pull
     /// resistor of one voltage is one rail), then each signal net the

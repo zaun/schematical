@@ -79,4 +79,42 @@ final class PlaneShadingTests: XCTestCase {
         XCTAssertTrue(visible.showsAnyCopper)
         XCTAssertEqual(BoardViewLayer.board.title, "PCB")
     }
+
+    /// A Plane's clearance is its own once set, the DRC's minimum till then.
+    func testPlaneClearance() throws {
+        let doc = TestSupport.newDocument()
+        doc.setLayerCount(4)
+        var rules = DesignRules.customDefault
+        rules.minClearance = 0.15
+        XCTAssertNil(doc.board.style(of: .inner(2)).clearance)
+        XCTAssertEqual(doc.board.style(of: .inner(2)).clearance(rules: rules), 0.15)
+
+        doc.setLayerClearance(.inner(2), 0.5)
+        XCTAssertEqual(doc.undoName(on: .pcb), "Change Plane Clearance")
+        XCTAssertEqual(doc.board.style(of: .inner(2)).clearance(rules: rules), 0.5)
+        XCTAssertEqual(doc.board.style(of: .inner(3)).clearance(rules: rules), 0.15, "each Plane its own")
+        doc.setLayerClearance(.inner(2), 50)
+        XCTAssertEqual(doc.board.style(of: .inner(2)).clearance, LayerStyle.clearanceRange.upperBound)
+        doc.setLayerClearance(.top, 1)
+        XCTAssertNil(doc.board.style(of: .top).clearance, "only an inner layer")
+
+        // Kept while a Wire layer, so it comes back with the Plane.
+        doc.setLayerClearance(.inner(2), 0.8)
+        doc.setLayerType(.inner(2), .wire)
+        XCTAssertEqual(PlanesSection.planes(of: doc.board), [.inner(3)])
+        doc.setLayerType(.inner(2), .plane)
+        XCTAssertEqual(doc.board.style(of: .inner(2)).clearance, 0.8)
+        XCTAssertEqual(PlanesSection.planes(of: doc.board), [.inner(2), .inner(3)])
+
+        let opened = try BoardLayersTests.roundTrip(doc)
+        XCTAssertEqual(opened.board.style(of: .inner(2)).clearance, 0.8)
+        XCTAssertNil(opened.board.style(of: .inner(3)).clearance)
+
+        doc.setLayerClearance(.inner(2), nil)
+        XCTAssertNil(doc.board.style(of: .inner(2)).clearance)
+
+        let layers = #"{ "layers": 4, "layerStyles": [ { "layer": "inner2", "clearance": 20 } ] }"#
+        XCTAssertEqual(BoardLayersTests.pcbError { _ = try BoardLayersTests.open(board: layers) },
+                       "layer inner2 clearance 20 must be 0.05 to 10 mm")
+    }
 }

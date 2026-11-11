@@ -220,6 +220,8 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
             var type: String? = nil
             /// A Plane's net (`PlaneNet.fileValue`); missing means none.
             var net: String? = nil
+            /// A Plane's clearance in mm; missing means the DRC's minimum.
+            var clearance: Double? = nil
         }
 
         /// A board text: top-left at rotation 0 (`x`, `y`, mm), font size in
@@ -569,7 +571,7 @@ extension SchematicFile {
             layerStyles: settings.copperLayers.map { layer in
                 let style = settings.style(of: layer)
                 return Board.LayerStyleEntry(layer: layer.rawValue, color: style.color.hex, type: style.type.rawValue,
-                                             net: style.net?.fileValue)
+                                             net: style.net?.fileValue, clearance: style.clearance)
             },
             texts: document.texts.map { text in
                 Board.Text(id: text.id, text: text.text, x: text.anchor.x, y: text.anchor.y,
@@ -1048,6 +1050,13 @@ extension SchematicFile {
                         : "\(name) is not a plane; it has no net")
                 }
                 style.net = net
+            }
+            if let value = entry.clearance {
+                guard layer.isInner else { throw SchematicFileError.badPCB("\(name) is not a plane; it has no clearance") }
+                guard LayerStyle.clearanceRange.contains(value) else {
+                    throw SchematicFileError.badPCB("\(name) clearance \(Self.number(value)) must be 0.05 to 10 mm")
+                }
+                style.clearance = value
             }
             styles[layer] = style
         }
