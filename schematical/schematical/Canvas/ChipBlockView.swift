@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// Draws one placed chip: a box with the part number in the header, the
-/// readable function in the middle, pin stubs and pin names on the left
+/// function in the middle (a line per word), pin stubs and pin names on the left
 /// (inputs, power) and right (outputs, ground), and the designators of unwired
 /// pins outside the box.
 ///
@@ -61,11 +61,18 @@ struct ChipBlockView: View {
             let radius = min(14, (box.maxY - ChipLayout.headerHeight) / 2 - 4)
             drawBarrelGlyph(&painter, centre: bodyCentre, radius: radius, ink: outline)
         } else {
-            painter.draw(
-                PaintedText(chip.part.function, size: 13, weight: .medium, ink: .secondary),
-                at: bodyCentre,
-                anchor: .center
-            )
+            // One line per word ("Bridge UART" is "Bridge" over "UART"),
+            // the lines centred on the body.
+            let words = chip.part.function.split(separator: " ")
+            let lineHeight: CGFloat = 15
+            let top = bodyCentre.y - lineHeight * CGFloat(words.count - 1) / 2
+            for (row, word) in words.enumerated() {
+                painter.draw(
+                    PaintedText(String(word), size: 13, weight: .medium, ink: .secondary),
+                    at: CGPoint(x: bodyCentre.x, y: top + lineHeight * CGFloat(row)),
+                    anchor: .center
+                )
+            }
         }
 
         for slot in layout.slots {

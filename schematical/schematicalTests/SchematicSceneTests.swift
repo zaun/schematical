@@ -195,4 +195,14 @@ final class SchematicSceneTests: XCTestCase {
         XCTAssertTrue(texts.contains(designator(other)))
     }
 
+    /// A block's function is drawn a word per line.
+    func testFunctionIsAWordPerLine() throws {
+        let doc = TestSupport.newDocument()
+        let chip = try TestSupport.place(doc, "MAX3100CPD+", at: CGPoint(x: 200, y: 200))
+        let words = chip.part.function.split(separator: " ").map(String.init)
+        XCTAssertEqual(words, ["Bridge", "UART"])
+        let texts = calls(doc).filter { $0.kind == .text }.map(\.string)
+        XCTAssertFalse(texts.contains(chip.part.function))
+        for word in words { XCTAssertTrue(texts.contains(word), "no line \(word)") }
+    }
 }
