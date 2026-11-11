@@ -35,7 +35,7 @@ int main(void) {
     {
         static const char USB[] =
             "{\"format\":\"schematical-parts\",\"version\":1,\"kind\":\"connector\",\"devices\":["
-            "{\"id\":\"usb-test\",\"function\":\"USB-A receptacle\",\"description\":\"d\","
+            "{\"id\":\"usb-test\",\"function\":\"USB-A Port\",\"description\":\"d\","
             "\"drawer\":[\"Connector\",\"USB\"],\"usb\":\"A\",\"ratedAmps\":1.5,"
             "\"pinouts\":{\"p\":[{\"number\":1,\"name\":\"VBUS\",\"role\":\"inout\"},"
             "{\"number\":2,\"name\":\"D-\",\"role\":\"inout\"},{\"number\":3,\"name\":\"D+\",\"role\":\"inout\"},"

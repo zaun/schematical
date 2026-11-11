@@ -906,7 +906,7 @@ them as a plain block of their pins.
 | | |
 |---|---|
 | drawer | `["Connector", "USB"]` |
-| function | `USB-A receptacle`, `USB-A plug`, `USB-B receptacle`, `USB-B plug`, `USB-C receptacle`, `USB-C plug` |
+| function | `USB-A Port`, `USB-A plug`, `USB-B Port`, `USB-B plug`, `USB-C Port`, `USB-C plug` |
 | package | by the signal contacts (shell legs do not count): `SMD right angle`, `SMD vertical`, `Through hole right angle`, `Through hole vertical`, `Hybrid right angle`, `Hybrid vertical` (signal contacts partly SMD, partly through hole), `Mid mount` (in a board cut-out, below the board or straddling its edge) |
 
 Pins, numbered 1 … N:

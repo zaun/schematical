@@ -126,7 +126,7 @@
     },
     {
       "id": "usb-amp-10117836",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 3.2 Gen 1 Type-A receptacle, 9 contacts, vertical through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol FCI 10117836 drawing p.1 (contact numbering in top view); rating from DigiKey (1.8 A, 30 V AC), the drawing gives none",
@@ -138,7 +138,7 @@
     },
     {
       "id": "usb-amp-10126196",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 4 contacts, mid mount (board cut-out), right-angle through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol FCI 10126196 drawing p.1; the drawing gives no electrical ratings and no contact numbers (pin 1 placed as on 10129475)",
@@ -148,7 +148,7 @@
     },
     {
       "id": "usb-amp-10129475",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 4 contacts, right-angle through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol FCI 10129475 drawing p.1 (POS.1/POS.4 in the front view); the drawing gives no electrical ratings",
@@ -158,7 +158,7 @@
     },
     {
       "id": "usb-amp-73725",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 4 contacts, right-angle through hole, upright",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol ICC 73725 (USB up-right receptacle) p.1 product code: 2nd digit 1 = without sensor contact; layout p.2/p.3 for hold-down styles A/B/D/F (shield options 1, 8, 9, A). 73725-1191 is for 2.30-2.65 mm boards. Rating from DigiKey (2.5 A); the drawing gives none.",
@@ -180,7 +180,7 @@
     },
     {
       "id": "usb-amp-73725-sense",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 5 contacts, right-angle through hole, upright, sensor contact",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol ICC 73725 p.1 (with sensor contact: 2nd digit 0; 5-pin layout). Pin 5 is the sensor (plug-detect) contact. Rating from DigiKey (2.5 A); the drawing gives none.",
@@ -191,7 +191,7 @@
     },
     {
       "id": "usb-amp-74626",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 4 contacts, right-angle SMD, reversed",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol ICC 74626 (USB reversed receptacle SMT) p.1 (4-pin layout, without sensor contact = 2nd digit 1), p.3 product code (74626-11S0BPLF style 2). Rating from DigiKey (3 A); the drawing gives none.",
@@ -202,7 +202,7 @@
     },
     {
       "id": "usb-amp-87520",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 4 contacts, right-angle through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol ICC 87520 p.1 (front view contact positions, layouts), p.2 product code, p.3 (1.20 mm board versions, same land pattern). Rating from DigiKey (3 A); the drawing gives none.",
@@ -226,7 +226,7 @@
     },
     {
       "id": "usb-amp-87583",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 4 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol ICC 87583 p.1 (front view contact positions), p.2 (layout), p.3 product code. Rating from DigiKey (3 A); the drawing gives none.",
@@ -246,7 +246,7 @@
     },
     {
       "id": "usb-amp-gsb111",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 4 contacts, vertical through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB111 straight (vertical) USB-A drawings gsb111x4keu, gsb111xxkeu, gsb111xxalf, gsb111xxbneu p.1 (pin 1-4 marking in the front view, part-number key, PCB layout). Pins 1-4 = VBUS, D-, D+, GND (USB numbering); 5 = shell. No ratings on the drawings: rating from DigiKey (1.5 A, 30 V DC).",
@@ -265,7 +265,7 @@
     },
     {
       "id": "usb-amp-gsb121",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 4 contacts, right-angle through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB121XXRSKEU drawing p.1 (part-number key, pin 1-4 marking, PCB layout). Pins 1-4 = VBUS, D-, D+, GND; 5 = shell. No ratings on the drawing: rating from DigiKey (1.5 A, 30 V DC).",
@@ -281,7 +281,7 @@
     },
     {
       "id": "usb-amp-gsb12j21c1eu",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 4 contacts, mid mount, reverse",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB12J21C1EU drawing p.1 (low-profile reverse R/A in a board cut-out; pin 1-4 marking, PCB layout). Pins 1-4 = VBUS, D-, D+, GND; 5 = shell. No ratings on the drawing: rating from DigiKey (1.5 A, 30 V DC).",
@@ -293,7 +293,7 @@
     },
     {
       "id": "usb-amp-gsb141xxp3eu",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 4 contacts, right-angle SMD, reverse",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB141XXP3EU drawing p.1 (reverse R/A SMT; part-number key, P1/P4 marking, PCB layout). Pins 1-4 = VBUS, D-, D+, GND; 5 = shell. No ratings on the drawing: rating from DigiKey (1.5 A, 30 V DC).",
@@ -305,7 +305,7 @@
     },
     {
       "id": "usb-amp-gsb191",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 4 contacts, right-angle through hole, upright",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB191XXKHR and GSB191XXXKEU drawings p.1 (upright DIP: port on edge; part-number key, POS #1/#4, PCB layout). Pins 1-4 = VBUS, D-, D+, GND; 5 = shell. No ratings on the drawings: rating from DigiKey (1.5 A, 30 V DC).",
@@ -321,7 +321,7 @@
     },
     {
       "id": "usb-amp-gsb1912x7fhr",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 4 contacts, right-angle through hole, upright",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB1912X7FHR drawing p.1 (upright DIP; pin assignment table, part-number key, PCB layout). Pins 1-4 = VBUS, D-, D+, GND; 5 = shell. No ratings on the drawing: rating from DigiKey (30 V DC; DigiKey gives no current).",
@@ -332,7 +332,7 @@
     },
     {
       "id": "usb-amp-gsb3111",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 3.2 Gen 1 Type-A receptacle, 9 contacts, right-angle through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB3111XXX5H4HR (with flange) and GSB3111XXXHR drawings p.1 (pin assignment tables, part-number keys, layouts). Pins 1-9 = VBUS, D-, D+, GND, SSRX-, SSRX+, GND_DRAIN, SSTX-, SSTX+; 10 = shell. No ratings on the drawings: rating from DigiKey (30 V AC; DigiKey gives no current).",
@@ -348,7 +348,7 @@
     },
     {
       "id": "usb-amp-gsb3111316hr",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 3.2 Gen 1 Type-A receptacle, 9 contacts, right-angle through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB3111XXXHR drawing p.1 (pin assignment table, part-number key XX6HR = 3.00 tail, T&R). Pins 1-9 = VBUS, D-, D+, GND, SSRX-, SSRX+, GND_DRAIN, SSTX-, SSTX+; 10 = shell. No ratings on the drawing: rating from DigiKey (0.25 A signal / 1.8 A power; 1.8 A used; DigiKey gives no voltage for this part).",
@@ -359,7 +359,7 @@
     },
     {
       "id": "usb-amp-gsb3114",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 3.2 Gen 1 Type-A receptacle, 9 contacts, mid mount",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB3114XXFHR p.1 / GSB311RXXXC1HR p.1 (USB 3.0 sink DIP type in a board cut-out; pin numbers from GSB3114 front view and layout); rating from DigiKey",
@@ -374,7 +374,7 @@
     },
     {
       "id": "usb-amp-gsb3116",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 3.2 Gen 1 Type-A receptacle, 9 contacts, right-angle through hole, upright",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB3116346FHR / GSB31163XXDHR / GSB31163XXHR p.1 pin assignment (USB 3.0, standard A upright); rating from DigiKey",
@@ -392,7 +392,7 @@
     },
     {
       "id": "usb-amp-gsb311a",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 3.2 Gen 1 Type-A receptacle, 9 contacts, right-angle through hole, reverse",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB311AXXEU p.1 (USB 3.0 reverse type, centre height 4.13; pin numbers from front view and layout); rating from DigiKey",
@@ -404,7 +404,7 @@
     },
     {
       "id": "usb-amp-gsb311j",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 3.2 Gen 1 Type-A receptacle, 9 contacts, right-angle through hole, high-rise",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB311JXX0H3HR p.1 (CH 6.87) and GSB311JXXX2H4EU p.1 (CH 4.1) pin assignment; rating from DigiKey",
@@ -418,7 +418,7 @@
     },
     {
       "id": "usb-amp-gsb3121",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 3.2 Gen 1 Type-A receptacle, 9 contacts, vertical through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB3121XXXC5HR p.1 / GSB3121XXXCHR p.1 pin assignment (USB 3.0 straight); rating from DigiKey",
@@ -433,7 +433,7 @@
     },
     {
       "id": "usb-amp-gsb3121-30v",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 3.2 Gen 1 Type-A receptacle, 9 contacts, vertical through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB3121XXXCHR p.1 pin assignment (USB 3.0 straight; DigiKey lists no current for these); rating from DigiKey",
@@ -447,7 +447,7 @@
     },
     {
       "id": "usb-amp-gsb31d1",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 3.2 Gen 1 Type-A receptacle, 9 contacts, right-angle through hole, upright",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB31D1XXX1HHR p.1 pin assignment (USB 3.0 A upright); rating from DigiKey",
@@ -462,7 +462,7 @@
     },
     {
       "id": "usb-amp-gsb4111",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 3.2 Gen 2 Type-A receptacle, 9 contacts, right-angle through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB4111XXXHR p.1 pin assignment (USB 3.2 Gen2 standard A R/A DIP); no rating on the drawing or DigiKey",
@@ -472,7 +472,7 @@
     },
     {
       "id": "usb-amp-gsb4116",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 3.2 Gen 2 Type-A receptacle, 9 contacts, right-angle through hole, upright",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB411634XHR p.1 pin assignment (USB 3.1, standard A upright); no rating on the drawing or DigiKey",
@@ -482,7 +482,7 @@
     },
     {
       "id": "usb-amp-gsb4116-30v",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 3.2 Gen 2 Type-A receptacle, 9 contacts, right-angle through hole, upright",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB411634XHR p.1 pin assignment (USB 3.1, standard A upright); rating from DigiKey",
@@ -493,7 +493,7 @@
     },
     {
       "id": "usb-amp-gsb4121",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 3.2 Gen 2 Type-A receptacle, 9 contacts, vertical through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB4121XXXCHR p.1 pin assignment (title: GSB4 series USB 3.2 Gen2); no rating on the drawing or DigiKey",
@@ -503,7 +503,7 @@
     },
     {
       "id": "usb-amp-gsb4121-30v",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 3.2 Gen 2 Type-A receptacle, 9 contacts, vertical through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB4121XXXCHR p.1 pin assignment (title: GSB4 series USB 3.2 Gen2); rating from DigiKey",
@@ -514,7 +514,7 @@
     },
     {
       "id": "usb-amp-lusb-3193",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 3.2 Gen 1 Type-A receptacle, 9 contacts, right-angle through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol LUSB-3193-00 drawing lusb319300.pdf p.1 (pin assignment table, note 5: 1.8 A pins 1 and 4, 0.25 A others; no voltage rating), p.2 (PCB layout). Locking latch.",
@@ -525,7 +525,7 @@
     },
     {
       "id": "usb-amp-lusb-a111",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 4 contacts, right-angle through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol LUSB-A111-00 drawing lusba11100.pdf p.1 (pin assignment, note 5 current 1.5 A; no voltage rating), p.2 (PCB layout). Locking latch.",
@@ -536,7 +536,7 @@
     },
     {
       "id": "usb-amp-musb-a111",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 4 contacts, right-angle through hole, panel mount, IP67",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol rugged MUSB-A111-XX (musba111xx.pdf / p-musb-a111-xx.pdf) and MUSBR-A111-XX (musbra111xx.pdf) drawings p.1: ordering code, note 2 IP67, note 3 current 1.5 A (no voltage rating); contact 1 per the front view; PCB layout p.2 (MUSBR-A111 low profile p.3). USB 2.0 Type-A contact names.",
@@ -557,7 +557,7 @@
     },
     {
       "id": "usb-amp-musb-a511",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 4 contacts, vertical through hole, panel mount, IP67",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol rugged MUSB-A511-XX (musba511xx.pdf) and MUSBR-A511-XX (musbra511xx.pdf) drawings p.1: ordering code, note 2 IP67, note 3 current 1.5 A (no voltage rating); PCB layout p.2 (MUSBR-A511 low profile p.3). USB 2.0 Type-A contact names.",
@@ -577,7 +577,7 @@
     },
     {
       "id": "usb-amp-musbr-3193",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 3.2 Gen 1 Type-A receptacle, 9 contacts, right-angle through hole, panel mount, IP67",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol rugged MUSBR-3193-XX drawing musbr3193xx.pdf p.1 (ordering code, note 2 IP67, note 3: 1.8 A pins 1 and 4, 0.25 A others; no voltage rating), p.2 (pin assignment chart, PCB layout).",
@@ -591,7 +591,7 @@
     },
     {
       "id": "usb-amp-musbr-3593",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 3.2 Gen 1 Type-A receptacle, 9 contacts, vertical through hole, panel mount, IP67",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol rugged MUSBR-3593-XX drawing musbr3593xx.pdf p.1 (ordering code, note 2 IP67, note 3: 1.8 A pins 1 and 4, 0.25 A others; no voltage rating), p.2 (pin assignment chart, PCB layout). DigiKey lists MUSBR359330 with 4 contacts; the drawing is the 9-contact USB 3.0 part.",
@@ -605,7 +605,7 @@
     },
     {
       "id": "usb-amp-ue27-acx4",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 4 contacts, right-angle through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol UE27-ACX4-X0X drawing pue27acx4x0x.pdf p.1 (part-number key, pin 1/4 in the front view, note 2 current rating 1.5 A @ 250 V AC, PCB layout).",
@@ -620,7 +620,7 @@
     },
     {
       "id": "usb-amp-ue27-adx4",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 4 contacts, right-angle through hole, upright",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol UE27-ADX4-X32-XX drawing p-ue27-adx4-x32-xx.pdf p.1 (part-number key: style D vertical right angle, positions P1-P4, PCB layout). The drawing has no electrical ratings: rating from DigiKey (1.8 A, 30 V AC).",
@@ -635,7 +635,7 @@
     },
     {
       "id": "usb-amp-ue27-aex4",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 4 contacts, vertical through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol UE27-AEX4-X0X drawing pue27aex4x0x.pdf p.1 (part-number key, pin 1/4 in the front view, note 4 current rating 1.5 A @ 250 V AC, PCB layout).",
@@ -650,7 +650,7 @@
     },
     {
       "id": "usb-amp-ue27-aex4-h01",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 4 contacts, vertical through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol UE27-AEX4-X0H-01 drawing p-ue27-aex4-x0h-01.pdf p.1 (part-number key, pin 1/4 in the front view, note 4 current rating 5 A @ 250 V AC as printed, PCB layout).",
@@ -662,7 +662,7 @@
     },
     {
       "id": "usb-amp-ue27-asx4",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 8 contacts, right-angle through hole, stacked",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol UE27-ASX4-XXX drawing pue27asx4xxx.pdf p.1 (part-number key: style S stacked right angle PCB tail, shielding 3 = rear shield; front view numbers lower port 1-4, upper port 5-8; note 2 current rating 1.5 A @ 250 V AC; PCB layout). DigiKey lists it as surface mount; the drawing shows through-hole tails.",
@@ -674,7 +674,7 @@
     },
     {
       "id": "usb-uj2-a-hr-g-th",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 4 contacts, right-angle through hole",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ2-A-HR-G-TH datasheet p.1 (ratings 5 Vdc, 1.5 A), p.2 (pin connections: 1 VBUS, 2 D-, 3 D+, 4 GND, shell)",
@@ -686,7 +686,7 @@
     },
     {
       "id": "usb-uj2-a-hr-g-v-th",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 4 contacts, right-angle through hole, standing on edge",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ2-A-HR-G-V-TH datasheet p.1 (USB Type A receptacle; ratings 5 Vdc, 1.5 A), p.2 (pin connections 1 VBUS, 2 D-, 3 D+, 4 GND, shell). DigiKey lists it as Type B; the datasheet and drawing (12.50 x 5.12 shell) are Type A.",
@@ -698,7 +698,7 @@
     },
     {
       "id": "usb-uj2-ah-smt",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 4 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ2-AH-SMT series datasheet p.1 (part key UJ2-AH-X-SMT-TR, X = 1 / 4 gold; ratings 30 Vac, 1.5 A), p.2 (front view numbers contacts 1-4; USB-A: 1 VBUS, 2 D-, 3 D+, 4 GND)",
@@ -713,7 +713,7 @@
     },
     {
       "id": "usb-uj2-ah-th",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 4 contacts, right-angle through hole",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ2-AH-4-TH datasheet p.1 (ratings 30 Vac, 1.0 A), p.2 (front view numbers contacts 1-4; USB-A: 1 VBUS, 2 D-, 3 D+, 4 GND)",
@@ -725,7 +725,7 @@
     },
     {
       "id": "usb-uj2-av-smt",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 4 contacts, vertical SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ2-AV-SMT-TR series datasheet p.1 (key UJ2-AV-X-SMT-TR-X: X = 1/2/4 gold, -T = pick-and-place cap; ratings 30 Vac, 1.0 A), p.2 (top view numbers contacts 1 and 4; USB-A: 1 VBUS, 2 D-, 3 D+, 4 GND)",
@@ -742,7 +742,7 @@
     },
     {
       "id": "usb-uj2-av-th",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 2.0 Type-A receptacle, 4 contacts, vertical through hole",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ2-AV-TH series datasheet p.1 (key UJ2-AV-XX-TH: colour blank/W, gold 1/2/4; W only with 30 u\" gold; ratings 30 Vac, 1.0 A), p.2 (layout numbers contacts 1 and 4; USB-A: 1 VBUS, 2 D-, 3 D+, 4 GND)",
@@ -759,7 +759,7 @@
     },
     {
       "id": "usb-uj3-ah-4-th",
-      "function": "USB-A receptacle",
+      "function": "USB-A Port",
       "description": "USB 3.2 Gen 1 Type-A receptacle, 9 contacts, right-angle through hole",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ3-AH-4-TH datasheet p.1 (ratings 30 V AC, 1 A), p.2 (pin numbering, layout). pin 10 = shell",
@@ -771,7 +771,7 @@
     },
     {
       "id": "usb-amp-61729",
-      "function": "USB-B receptacle",
+      "function": "USB-B Port",
       "description": "USB 2.0 Type-B receptacle, 4 contacts, right-angle through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol ICC 61729 p.1 (contact numbering), p.2 (layout style 1 for shield options 1 full back and 2 partial back, which covers every part listed). Rating from DigiKey (1 A); the drawing gives none.",
@@ -792,7 +792,7 @@
     },
     {
       "id": "usb-amp-gsb221",
-      "function": "USB-B receptacle",
+      "function": "USB-B Port",
       "description": "USB 2.0 Type-B receptacle, 4 contacts, right-angle through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB221X0RSKEU drawing p.1 (part-number key, contacts 1-4 in the front view and layout) and GSB221X1WCEU p.1 (with panel bracket; layout unnumbered, see footprint note). Pins 1-4 = VBUS, D-, D+, GND; 5 = shell. No ratings on the drawings: rating from DigiKey (1.5 A, 30 V DC).",
@@ -807,7 +807,7 @@
     },
     {
       "id": "usb-amp-gsb2a1xxh1eu",
-      "function": "USB-B receptacle",
+      "function": "USB-B Port",
       "description": "USB 2.0 Type-B receptacle, 4 contacts, vertical SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB2A1XXH1EU drawing p.1 (straight SMT with posts; part-number key, contacts 1-4, layout). Pins 1-4 = VBUS, D-, D+, GND; 5 = shell. No ratings on the drawing: rating from DigiKey (1.5 A, 30 V DC).",
@@ -819,7 +819,7 @@
     },
     {
       "id": "usb-amp-gsb3211",
-      "function": "USB-B receptacle",
+      "function": "USB-B Port",
       "description": "USB 3.2 Gen 1 Type-B receptacle, 9 contacts, right-angle through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB3211XXXWEU p.1 pin assignment (USB 3.0 B right angle); rating from DigiKey",
@@ -831,7 +831,7 @@
     },
     {
       "id": "usb-amp-gsb4211",
-      "function": "USB-B receptacle",
+      "function": "USB-B Port",
       "description": "USB 3.2 Gen 2 Type-B receptacle, 9 contacts, right-angle through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB4211XXXWEU p.1 pin assignment (USB 3.1 B right angle); no rating on the drawing or DigiKey",
@@ -841,7 +841,7 @@
     },
     {
       "id": "usb-amp-gsb4221",
-      "function": "USB-B receptacle",
+      "function": "USB-B Port",
       "description": "USB 3.2 Gen 2 Type-B receptacle, 9 contacts, vertical through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB4221X7EU p.1 pin assignment (USB 3.1 B vertical); no rating on the drawing or DigiKey",
@@ -851,7 +851,7 @@
     },
     {
       "id": "usb-amp-musb-d111",
-      "function": "USB-B receptacle",
+      "function": "USB-B Port",
       "description": "USB 2.0 Type-B receptacle, 4 contacts, right-angle through hole, panel mount, IP67",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol rugged MUSB-D111-XX drawing musbd111xx.pdf p.1 (ordering code, contact 1 in the front view, note 2 IP67, note 3 current 1.5 A; no voltage rating), p.2 (PCB layout with contacts numbered).",
@@ -869,7 +869,7 @@
     },
     {
       "id": "usb-amp-musb-d511",
-      "function": "USB-B receptacle",
+      "function": "USB-B Port",
       "description": "USB 2.0 Type-B receptacle, 4 contacts, vertical through hole, panel mount, IP67",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol rugged MUSB-D511-XX drawing musbd511xx.pdf p.1 (ordering code, contact 1 in the front view, note 2 IP67, note 3 current 1.5 A; no voltage rating), p.2 (PCB layout with contacts numbered).",
@@ -885,7 +885,7 @@
     },
     {
       "id": "usb-amp-ue27-bcx4",
-      "function": "USB-B receptacle",
+      "function": "USB-B Port",
       "description": "USB 2.0 Type-B receptacle, 4 contacts, right-angle through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol UE27-BCX4-XXX drawing pue27bcx4xxx.pdf p.1 (part-number key, pins 1-4 in the front view, note 4 current and voltage rating 1.5 A, 30 V AC rms), p.2 (PCB layout, views with rear shell).",
@@ -897,7 +897,7 @@
     },
     {
       "id": "usb-amp-ue27-be54",
-      "function": "USB-B receptacle",
+      "function": "USB-B Port",
       "description": "USB 2.0 Type-B receptacle, 4 contacts, vertical through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol Canada P-UE27-BE54-10H drawing p.1 (pin numbering in top view); the drawing gives no electrical ratings",
@@ -907,7 +907,7 @@
     },
     {
       "id": "usb-uj2-b-hr-g-th",
-      "function": "USB-B receptacle",
+      "function": "USB-B Port",
       "description": "USB 2.0 Type-B receptacle, 4 contacts, right-angle through hole",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ2-B-HR-G-TH datasheet p.1 (ratings 5 Vdc, 1.5 A), p.2 (pin connections 1 VBUS, 2 D-, 3 D+, 4 GND, shell)",
@@ -919,7 +919,7 @@
     },
     {
       "id": "usb-uj2-b-hr-g-v",
-      "function": "USB-B receptacle",
+      "function": "USB-B Port",
       "description": "USB 2.0 Type-B receptacle, 4 contacts, vertical through hole",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ2-B-HR-G-V datasheet p.1 (ratings 5 Vdc, 1.5 A), p.2 (pin connections 1 VBUS, 2 D-, 3 D+, 4 GND, shell)",
@@ -931,7 +931,7 @@
     },
     {
       "id": "usb-uj2-bh-th",
-      "function": "USB-B receptacle",
+      "function": "USB-B Port",
       "description": "USB 2.0 Type-B receptacle, 4 contacts, right-angle through hole",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ2-BH-TH series datasheet p.1 (key UJ2-BH-XX-TH: colour blank/W/BL1, gold 1/2/4; ratings 30 Vac, 1.0 A), p.2 (front view and layout number contacts 1-4; USB-B: 1 VBUS, 2 D-, 3 D+, 4 GND)",
@@ -950,7 +950,7 @@
     },
     {
       "id": "usb-uj2-bv-1-th",
-      "function": "USB-B receptacle",
+      "function": "USB-B Port",
       "description": "USB 2.0 Type-B receptacle, 4 contacts, vertical through hole",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ2-BV-1-TH datasheet p.1 (ratings 30 Vac, 1.5 A), p.2 (drawing; contacts 1 VBUS, 2 D-, 3 D+, 4 GND per USB-B)",
@@ -1046,7 +1046,7 @@
     },
     {
       "id": "usb-amp-10133476",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 2 Type-C receptacle, 24 contacts, right-angle hybrid (SMD + through hole)",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol FCI 10133476 drawing p.2 (pin assignments, current rating 5.0 A max); 10137062 drawing p.2 (5.0 A for VBUS); no voltage rating on either. Pins 1-12 = A1..A12 (SMD), 13-24 = B1..B12 (through hole).",
@@ -1060,7 +1060,7 @@
     },
     {
       "id": "usb-amp-10137061",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 1 Type-C receptacle, 24 contacts, right-angle hybrid (SMD + through hole)",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol FCI 10137061 drawing p.2 (pin assignments, 5.0 A for VBUS/GND); no voltage rating (100 V AC is the withstanding voltage). Pins 1-12 = A1..A12 (SMD), 13-24 = B1..B12 (through hole).",
@@ -1071,7 +1071,7 @@
     },
     {
       "id": "usb-amp-10137066",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 2 Type-C receptacle, 24 contacts, right-angle hybrid (SMD + through hole)",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol FCI 10137066 drawing p.2 (pin table, 5.0 A for VBUS/GND); no voltage rating. Pins 1-12 = A1..A12 (SMD), 13-24 = B1..B12, 25/26 = the two extra through-hole pads the layout marks GND",
@@ -1082,7 +1082,7 @@
     },
     {
       "id": "usb-amp-10151348",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 14 contacts, right-angle through hole, upright",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol FCI 10151348 drawing p.1 (pin table; current rating 5.0 A, voltage rating 5.0 V). Pins 1-14 = A1, A4, A5, A6, A7, A9, A12, B1, B4, B5, B6, B7, B9, B12",
@@ -1094,7 +1094,7 @@
     },
     {
       "id": "usb-amp-10155435",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol FCI 10155435 drawing p.1 (pin table; current rating 5.0 A with C1814 contacts, 3.0 A with special materials; voltage rating 5.0 V) and 10171167 drawing p.1 (5 V, 5 A). Pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1",
@@ -1109,7 +1109,7 @@
     },
     {
       "id": "usb-amp-10157529",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 2 Type-C receptacle, 24 contacts, vertical SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol FCI 10157529 drawing p.1 (current rating 5.0 A, voltage rating 5.0 V), p.2 (pin assignments). Pins 1-24 = A1..A12, B1..B12",
@@ -1121,7 +1121,7 @@
     },
     {
       "id": "usb-amp-10159872",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 2 Type-C receptacle, 24 contacts, right-angle hybrid (SMD + through hole)",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol FCI 10159872 drawing p.1 (pin table, current rating 5.0 A, voltage rating 5.0 V). Pins 1-12 = A1..A12 (SMD), 13-24 = B1..B12 (through hole).",
@@ -1133,7 +1133,7 @@
     },
     {
       "id": "usb-amp-10163259",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 2 Type-C receptacle, 24 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol FCI 10163259 drawing p.1 (contact current rating 5 A max; no voltage rating), p.2 (pin table). Pins 1-24 = A1..A12, B1..B12",
@@ -1144,7 +1144,7 @@
     },
     {
       "id": "usb-amp-10164359",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB Type-C power-only receptacle, 6 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol FCI 10164359 drawing p.1 (voltage rating 20 V DC/AC, current rating 3 A), p.2 (pin assignments). Pins 1-6 = A5, A9, A12, B5, B9, B12",
@@ -1156,7 +1156,7 @@
     },
     {
       "id": "usb-amp-10164986",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 2 Type-C receptacle, 24 contacts, mid mount (board cut-out), hybrid SMD + through hole, IP67",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol FCI 10164986 drawing p.1 (contact current rating 5 A for VBUS; no voltage rating, 100 V AC is the withstanding voltage). Pins 1-12 = A1..A12 (SMD), 13-24 = B1..B12 (through hole)",
@@ -1167,7 +1167,7 @@
     },
     {
       "id": "usb-amp-10167129",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 2 Type-C receptacle, 24 contacts, right-angle SMD, upright",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol FCI 10167129 drawing p.1 (pin assignment; contact current rating 5.0 A for VBUS, rated voltage 30 V max). Pins 1-24 = A1..A12, B1..B12",
@@ -1179,7 +1179,7 @@
     },
     {
       "id": "usb-amp-10168207",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, vertical SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol FCI 10168207 drawing p.1 (voltage rating 5 V, current rating 5 A for VBUS/GND), p.2 (pin assignments). Pins 1-16 = A1, A4, A5, A6, A7, A8, A9, A12, B1, B4, B5, B6, B7, B8, B9, B12",
@@ -1191,7 +1191,7 @@
     },
     {
       "id": "usb-amp-10168357",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB Type-C power-only receptacle, 6 contacts, vertical SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol FCI 10168357 drawing p.1 (voltage rating 20 V DC/AC, current rating 3 A min), p.2 (pin assignments). Pins 1-6 = A5, A9, A12, B5, B9, B12",
@@ -1203,7 +1203,7 @@
     },
     {
       "id": "usb-amp-10174819",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB Type-C power-only receptacle, 6 contacts, mid mount",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol ICC 10174819 p.1 (20 V max, 3 A VBUS, pin assignment). pins 1-6 = A5, A9, A12, B5, B9, B12; 7 = SHIELD",
@@ -1215,7 +1215,7 @@
     },
     {
       "id": "usb-amp-10176546",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, right-angle through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol ICC 10176546 p.1 (electrical: 5.0 V, 5.0 A), p.2 (pin assignment). Pins 1-8 = A1, A4, A5, A6, A7, A8, A9, A12; 9-16 = B1, B4, B5, B6, B7, B8, B9, B12 (each contact has its own hole); 17 = SHIELD.",
@@ -1227,7 +1227,7 @@
     },
     {
       "id": "usb-amp-10176592",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Type-C receptacle, 24 contacts, mid mount",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol ICC 10176592 p.1 (electrical: 3 A VBUS, 5.0 V), p.2 (full-featured pin assignment; the drawing gives no SuperSpeed data rate). pins 1-12 = A1-A12, 13-24 = B1-B12, 25 = SHIELD",
@@ -1239,7 +1239,7 @@
     },
     {
       "id": "usb-amp-10176593",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Type-C receptacle, 24 contacts, right-angle through hole + SMD, waterproof IPX7",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol ICC 10176593 p.1 (IPX7; 1.25 A per GND/VBUS pin, paralleled 5 A total; 5.0 V), p.2 (pin assignment; drawing gives no SuperSpeed data rate; its B-row names are printed shifted, USB spec names used). pins 1-12 = A1-A12, 13-24 = B1-B12, 25 = SHIELD",
@@ -1251,7 +1251,7 @@
     },
     {
       "id": "usb-amp-10176783",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 8 contacts, vertical through hole",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol ICC 10176783 p.1 (current 3.0 A max, voltage 48 V AC; contact labels in the front view and PCB layout). Pins 1-8 = A1, A5, A6, A7, A12, B4, B5, B9; 9 = SHIELD.",
@@ -1263,7 +1263,7 @@
     },
     {
       "id": "usb-amp-10177070",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol ICC 10177070 p.2 (pin assignment, electrical: 20 V, 5 A total VBUS/GND). pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1; 13 = SHIELD",
@@ -1275,7 +1275,7 @@
     },
     {
       "id": "usb-amp-10177822",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB Type-C power-only receptacle, 6 contacts, mid mount",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol ICC 10177822 p.1 (5.0 V, 3.0 A), p.2 (pin assignment). pins 1-6 = A5, A9, A12, B5, B9, B12; 7 = SHIELD",
@@ -1287,7 +1287,7 @@
     },
     {
       "id": "usb-amp-10178589",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 8 contacts, mid mount, waterproof IPX5",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol ICC 10178589 p.2 (5 V, 3 A total VBUS/GND, IPX5, pin assignment). Pins 1-8 = A5, A6, A7, A9, A12, B5, B9, B12; 9 = SHIELD.",
@@ -1299,7 +1299,7 @@
     },
     {
       "id": "usb-amp-10179753",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB Type-C power-only receptacle, 6 contacts, right-angle SMD, waterproof IPX7",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol ICC 10179753 p.1 (pin assignment), p.2 (3.0 A, IPX7; no voltage rating given). pins 1-6 = A5, A9, A12, B5, B9, B12; 7 = SHIELD",
@@ -1310,7 +1310,7 @@
     },
     {
       "id": "usb-amp-12401598",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 2 Type-C receptacle, 24 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol 12401598XXX2A customer drawing p.1 (pin table), p.2 (ratings 2.2: 5 A; no voltage rating; order key 12401598XXX2A); pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = SHIELD (shell)",
@@ -1321,7 +1321,7 @@
     },
     {
       "id": "usb-amp-12401610",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 2 Type-C receptacle, 24 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol 12401610E4#2A reference drawing p.1 (pin table, recommended PCB layout identical to 12401598); no ratings on the drawing or DigiKey; pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = SHIELD (shell)",
@@ -1331,7 +1331,7 @@
     },
     {
       "id": "usb-amp-12401808",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 2 Type-C receptacle, 24 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol C12401808 customer drawing rev A (pin table; P/N 12401808E412A). No ratings on the drawing or DigiKey; USB 3.2 Gen 2 from DigiKey; pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = SHIELD (shell)",
@@ -1341,7 +1341,7 @@
     },
     {
       "id": "usb-amp-12401826",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 2 Type-C receptacle, 24 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol 12401826XX12A customer drawing rev 7 p.1 (pin table), p.2 (2.2 current rating 6 A; no voltage rating; order key 12401826XX12A). Drawing says USB 3.2; Gen 2 from DigiKey; pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = SHIELD (shell)",
@@ -1352,7 +1352,7 @@
     },
     {
       "id": "usb-amp-12401861",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 1 Type-C receptacle, 24 contacts, right-angle SMD, IP68",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol C12401861 customer drawing rev 6 p.1 (pin table; title USB 3.1 Gen1 R/A top mount CH=1.50 waterproof IP68), p.2 (2.2 current rating 5 A; no voltage rating); pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = SHIELD (shell)",
@@ -1363,7 +1363,7 @@
     },
     {
       "id": "usb-amp-12401879",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 1 Type-C receptacle, 24 contacts, right-angle SMD, IPX8, screw flange",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol C12401879 customer drawing rev 3 p.1 (pin table; title USB 3.1 Gen1 R/A top mount CH=1.50 waterproof IPX8, flange holes 2-dia 1.60), p.2 (2.2 current rating 5 A; no voltage rating); pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = SHIELD (shell)",
@@ -1374,7 +1374,7 @@
     },
     {
       "id": "usb-amp-12401880",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 1 Type-C receptacle, 24 contacts, right-angle SMD, IPX8",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol C12401880 customer drawing rev 5 p.1 (pin table; title USB 3.1 Gen1 R/A top mount CH=1.50 waterproof IPX8), p.2 (2.2 current rating 5 A; no voltage rating); pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = SHIELD (shell)",
@@ -1385,7 +1385,7 @@
     },
     {
       "id": "usb-amp-12401937",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 1 Type-C receptacle, 24 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol 12401937XX12A customer drawing p.1 (pin table; title USB 3.1 Gen 1, CH=1.50), p.2 (2.2 current rating 5 A; no voltage rating; order key 12401937XX12A, plating 21); pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = SHIELD (shell)",
@@ -1396,7 +1396,7 @@
     },
     {
       "id": "usb-amp-12401948",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, mid mount",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol C12401948 customer drawing rev 3 p.1 (pin table; USB 2.0 R/A middle mount single SMT CH=0.65), p.2 (2.2 current rating 5 A; no voltage rating); pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1; pin 13 = SHIELD (shell)",
@@ -1407,7 +1407,7 @@
     },
     {
       "id": "usb-amp-12401951",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 1 Type-C receptacle, 24 contacts, vertical SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol 12401951XX12A customer drawing rev 10 p.1 (pin table; title USB 3.1 vertical L=12mm, Gen not stated, Gen 1 from DigiKey), p.2 (note 3: contact current rating 5 A max; voltage not given, 20 V rating from DigiKey); the middle pair of slots are mid-plate legs, tied to SHIELD; pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = SHIELD (shell)",
@@ -1419,7 +1419,7 @@
     },
     {
       "id": "usb-amp-12402012",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol 12402012XX12A customer drawing rev 10 p.1 (pin assignment), p.2 (note 3: contact current rating 5 A max; no voltage rating; order key 12402012XX12A); pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1; pin 13 = SHIELD (shell)",
@@ -1430,7 +1430,7 @@
     },
     {
       "id": "usb-amp-12402032",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 1 Type-C receptacle, 24 contacts, vertical SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol 12402032XXX2A customer drawing rev 12 p.1 (pin table; title USB 3.1 Gen 1 vertical L=6.50mm), p.2 (2.2 current rating 5 A; no voltage rating); pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = SHIELD (shell)",
@@ -1441,7 +1441,7 @@
     },
     {
       "id": "usb-amp-12402054",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 14 contacts, right-angle through hole, standing on edge",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol 12402054XX1XA customer drawing rev 7 p.1 (pin table: 14 loaded contacts, no SBU, others dummy), p.2 (2.1 current rating 3 A; no voltage rating); pins 1-14 = A1, A4, A5, A6, A7, A9, A12, B1, B4, B5, B6, B7, B9, B12; pin 15 = SHIELD (shell)",
@@ -1452,7 +1452,7 @@
     },
     {
       "id": "usb-amp-12402056",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB4 Type-C receptacle, 24 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol C12402056 customer drawing rev 5 p.1 (pin table; USB4 Type C socket R/A double SMT CH=1.57, not waterproof), p.2 (2.2 current rating 5 A; no voltage rating); pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = SHIELD (shell)",
@@ -1463,7 +1463,7 @@
     },
     {
       "id": "usb-amp-12402072",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB4 Type-C receptacle, 24 contacts, mid mount",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol C12402072 customer drawing rev 7 p.1 (pin table; USB4 sink mount D/R SMT CH=-0.10, not waterproof), p.2. No current or voltage rating on the drawing: 5 A / 20 V rating from DigiKey; pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = SHIELD (shell)",
@@ -1475,7 +1475,7 @@
     },
     {
       "id": "usb-amp-12402136",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB4 Type-C receptacle, 24 contacts, mid mount, IP68",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol 12402136E512A customer drawing rev X2 p.1 (pin table; R/A double SMT, CH=0.40, waterproof IP68), p.2 (order key). No ratings on the drawing or DigiKey; USB4 Gen 3 from DigiKey; pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = SHIELD (shell)",
@@ -1485,7 +1485,7 @@
     },
     {
       "id": "usb-amp-12402143",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB4 Type-C receptacle, 24 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol 12402143E512A customer drawing rev 4 p.1 (pin table; USB4 Type C top mount CH=1.57), p.2 (2.2 current rating 5 A; no voltage rating); pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = SHIELD (shell)",
@@ -1496,7 +1496,7 @@
     },
     {
       "id": "usb-amp-12402305",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 2 Type-C receptacle, 24 contacts, vertical SMD, IPX7",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol 12402305XXX2A customer drawing rev 5 p.1 (pin table; USBC 24Pin DR-SMT vertical L=6.00mm IPX7), p.2 (2.2 current rating 5 A; voltage not given, 20 V rating from DigiKey; USB 3.2 Gen 2 from DigiKey); pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = SHIELD (shell)",
@@ -1508,7 +1508,7 @@
     },
     {
       "id": "usb-amp-12402362",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB4 Type-C receptacle, 24 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol 12402362E512A customer drawing rev 1 p.1 (pin table; USB4 24P SCK DR-SMT CH=3.40), p.2 (2.1 current rating 5 A; voltage not given, 20 V rating from DigiKey); pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = SHIELD (shell)",
@@ -1520,7 +1520,7 @@
     },
     {
       "id": "usb-amp-12402408",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, right-angle through hole, standing on edge",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol 12402408XX12A customer drawing rev 2 p.1 (pin table, circuit mapping), p.2 (2.1 current rating 5 A; voltage not given, 20 V rating from DigiKey); pins 1-16 = A1, A4, A5, A6, A7, A8, A9, A12, B1, B4, B5, B6, B7, B8, B9, B12; pin 17 = SHIELD (shell)",
@@ -1532,7 +1532,7 @@
     },
     {
       "id": "usb-amp-12402484",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, right-angle SMD, IPX8",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol 12402484XX12A customer drawing rev 1 p.1 (pin assignment; USBC 2.0 16P R-SMT CH=1.58 IPX8), p.2 (2.2 current rating 5 A; voltage not given, 20 V rating from DigiKey); pins 1-16 = A1, A4, A5, A6, A7, A8, A9, A12, B1, B4, B5, B6, B7, B8, B9, B12; pin 17 = SHIELD (shell)",
@@ -1544,7 +1544,7 @@
     },
     {
       "id": "usb-amp-c12402073",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB4 Type-C receptacle, 24 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol C12402073 customer drawing p.1 (pin table, title), p.2 (layout; note 2.2 current rating 5 A; order code 12402073XX12A, E5 = 12402073E512A). No voltage rating on the sheet (2.4 is the 100 V AC withstanding voltage, which DigiKey lists as the rating; left out). pins 1-12 = A1..A12, 13-24 = B1..B12; 25 = shell",
@@ -1555,7 +1555,7 @@
     },
     {
       "id": "usb-amp-c12402075",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB4 Type-C receptacle, 24 contacts, mid mount",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol C12402075 customer drawing p.1 (pin table, mid mount CH=0.47), p.2 (layout; order code 12402075XX12A, E5). No electrical ratings on the sheet: rating from DigiKey (5 A). pins 1-12 = A1..A12, 13-24 = B1..B12; 25 = shell",
@@ -1566,7 +1566,7 @@
     },
     {
       "id": "usb-amp-c12402076",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB4 Type-C receptacle, 24 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol C12402076 customer drawing p.1 (pin table), p.2 (layout; note 2.2 current rating 5 A; order code 12402076E512A). Voltage 20 V from DigiKey (sheet gives only a 100 V AC withstanding voltage). pins 1-12 = A1..A12, 13-24 = B1..B12; 25 = shell",
@@ -1578,7 +1578,7 @@
     },
     {
       "id": "usb-amp-c12402082",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB4 Type-C receptacle, 24 contacts, vertical SMD, IPX8",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol C12402082 customer drawing p.1 (pin table, vertical, IPX8), p.2 (layout; note 2.2 current 5 A, note 3 IPX8; order code 12402082E512A). Voltage 20 V from DigiKey (sheet gives only a 100 V AC withstanding voltage). pins 1-12 = A1..A12, 13-24 = B1..B12; 25 = shell",
@@ -1590,7 +1590,7 @@
     },
     {
       "id": "usb-amp-c16-mid",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, mid mount",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol ICC 10172013 p.1 and 10174570 p.1-2 (16P sink type, pin assignment, electrical: 5 V, 5 A total VBUS/GND). DigiKey lists these as 6-pin power-only, but both drawings show all 16 contacts and 12 pads. 10174570 styles A/B/C differ only in sink depth. pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1; 13 = SHIELD",
@@ -1607,7 +1607,7 @@
     },
     {
       "id": "usb-amp-c16-smd",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol ICC 10171746 p.1 and 10174739 p.1-2 (pin assignment, electrical: 5 V, 5 A total VBUS/GND). pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1; 13 = SHIELD",
@@ -1622,7 +1622,7 @@
     },
     {
       "id": "usb-amp-c6-vert",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB Type-C power-only receptacle, 6 contacts, vertical SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol ICC 10173568 p.1 (5 V, 3 A) p.2 (pin assignment); 10178591 p.1 (5 V, 3 A) p.2. pins 1-6 = A5, A9, A12, B5, B9, B12; 7 = SHIELD",
@@ -1637,7 +1637,7 @@
     },
     {
       "id": "usb-amp-gsb1c4-12",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB1C41X1X1DS1HR p.1 and GSB1C4KX1DVHR p.1 drawings (pin assignment table, layout labels; 12 pads, 4 of them shared). pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1; 13 = shell. No ratings on the drawings: rating from DigiKey (5 A).",
@@ -1651,7 +1651,7 @@
     },
     {
       "id": "usb-amp-gsb1c41x1dyhr",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB1C41X1DYHR drawing p.1 (pin assignment table; 16 separate pads at 0.40 pitch). pins 1-16 = A1, A4, A5, A6, A7, A8, A9, A12, B1, B4, B5, B6, B7, B8, B9, B12; 17 = shell. No ratings on the drawing: rating from DigiKey (5 A).",
@@ -1662,7 +1662,7 @@
     },
     {
       "id": "usb-amp-gsb1c46-12",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, mid mount",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB1C46X1DS1HR, GSB1C46X1DS2HR, GSB1C46X1DSHR drawings (sink SMT, CH 0.58 / 0.52 / 0.78; pin assignment table, layout labels; 12 pads, 4 shared). pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1; 13 = shell. No ratings on the drawings: rating from DigiKey (5 A).",
@@ -1677,7 +1677,7 @@
     },
     {
       "id": "usb-amp-gsb1c46x1dyhr",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, mid mount",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB1C46X1DYHR drawing p.1 (sink SMT CH=0.22; pin assignment table; 16 separate pads at 0.40 pitch). pins 1-16 = A1, A4, A5, A6, A7, A8, A9, A12, B1, B4, B5, B6, B7, B8, B9, B12; 17 = shell. No ratings on the drawing: rating from DigiKey (5 A).",
@@ -1688,7 +1688,7 @@
     },
     {
       "id": "usb-amp-gsb3c31",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 1 Type-C receptacle, 24 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol GSB3C31X31DYHR p.1-3 / GSB3C31X3DSYHR p.1-3 pin assignment (drawings titled USB 3.1 / 3.2; GSB3 = Gen 1 family as DigiKey's description); pins 1-24 = A1..A12, B1..B12 (no shared pads), 25 = shell; A8 shown as RFU1 on the drawing; no rating on the drawing or DigiKey",
@@ -1701,7 +1701,7 @@
     },
     {
       "id": "usb-amp-musbr-m1c1",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB Type-C receptacle, 24 contacts, right-angle through hole, panel mount, IP67",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol rugged MUSBR-M1C1-XX drawing musbrm1c1xx.pdf p.1 (ordering code, contact A1/A12/B1/B12 locations, note 2 IP67, note 3 ratings), p.2 (PCB layout with contact labels). pins 1-12 = A1..A12, 13-24 = B1..B12 (every contact has its own hole), 25 = mid-plate ground G1-G6 (named GND), 26 = shell. Rating note 3: VBUS pins A4, A9, B4, B9 collectively 5 A; B5 1.25 A; others 0.25 A; no voltage rating. The drawing gives no USB data-rate version.",
@@ -1716,7 +1716,7 @@
     },
     {
       "id": "usb-amp-musbr-m5c1",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB Type-C receptacle, 24 contacts, vertical through hole, panel mount, IP67",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol rugged MUSBR-M5C1-XX drawings musbrm5c1xx.pdf (rev F) / p-musbr-m5c1-xx.pdf (rev H) p.1 (ordering code, note 2 IP67, note 3 ratings), p.2 (PCB layout with contact labels). pins 1-12 = A1..A12, 13-24 = B1..B12 (every contact has its own hole), 25 = mid-plate ground G1-G6 (named GND), 26 = shell. Rating note 3: VBUS pins A4, A9, B4, B9 collectively 5 A; B5 1.25 A; others 0.25 A; no voltage rating. The drawing gives no USB data-rate version.",
@@ -1730,7 +1730,7 @@
     },
     {
       "id": "usb-amp-utcxr0111003",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB Type-C receptacle, 24 contacts, mid mount (board cut-out), right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Amphenol UTCXR0111003SR (HSBridge+) drawing p.2 (pin description), p.3 (ratings: current rating 5 A); the drawing gives no voltage rating, 5 V is DigiKey's; USB version not stated on the drawing. Pins 1-24 = A1..A12, B1..B12",
@@ -1742,7 +1742,7 @@
     },
     {
       "id": "usb-uj20-c-g-msmt-68",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, mid mount, IP68",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-G-MSMT-TR-68 datasheet p.1 (IP68; 20 Vdc; power pins collectively 5.0 A, VCONN 1.25 A, others 0.25 A), p.3 (pin connections). pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1; pin 13 = SHIELD (shell legs)",
@@ -1754,7 +1754,7 @@
     },
     {
       "id": "usb-uj20-c-h-g-msmt-1a-67",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, mid mount, IP67",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-H-G-MSMT-1A-P16-TR-67 datasheet p.1 (IP67 with o-ring; 20 Vdc; power pins collectively 5.0 A, VCONN 1.25 A, others 0.25 A), p.3 (pin connections). pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1; pin 13 = SHIELD (shell legs)",
@@ -1766,7 +1766,7 @@
     },
     {
       "id": "usb-uj20-c-h-g-msmt-2b",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, mid mount",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-H-G-MSMT-2B-P16-TR datasheet p.1 (20 Vdc; power pins collectively 3.0 A, VCONN 1.25 A, others 0.25 A), p.3 (pin connections). pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1; pin 13 = SHIELD (shell legs)",
@@ -1778,7 +1778,7 @@
     },
     {
       "id": "usb-uj20-c-h-g-msmt-8b-p8",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 8 contacts, mid mount, IPX5",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-H-G-MSMT-8B-P8-TR-X5 datasheet p.1 (IPX5; 20 Vdc; power pins A9, A12, B9, B12 collectively 3.0 A, VCONN 1.25 A, others 0.25 A), p.3 (pin connections A5 CC1, A6 D+, A7 D-, A9 VBUS, A12 GND, B5 CC2, B9 VBUS, B12 GND; the rest unloaded). pins 1-8 = A5, A6, A7, A9, A12, B5, B9, B12; pin 9 = SHIELD",
@@ -1790,7 +1790,7 @@
     },
     {
       "id": "usb-uj20-c-h-g-msmt-ft-p16-67",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, mid mount, IP67",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-H-G-MSMT-FT-P16-TR-67: UJ20-C-H-G-MSMT-FT-P16-TR-67.pdf p.1 (ratings), p.3 (pin table, layout). Rated 20 V DC; 3 A = VBUS/GND contacts collectively (VCONN 1.25 A, other signals 0.25 A). pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1; pin 13 SHIELD = all shell legs/tabs.",
@@ -1802,7 +1802,7 @@
     },
     {
       "id": "usb-uj20-c-h-g-msmt-p16",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, mid mount",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-H-G-MSMT-1..6-P16-TR datasheets p.1 (48 Vdc; power pins collectively 5.0 A, VCONN 1.25 A, others 0.25 A), p.3 (pin connections). pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1; pin 13 = SHIELD (shell legs)",
@@ -1821,7 +1821,7 @@
     },
     {
       "id": "usb-uj20-c-h-g-msmt-p16-67",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, mid mount, IPX7",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-H-G-MSMT-P16-TR-67: uj20-c-h-g-msmt-p16-tr-67.pdf p.1 (ratings), p.3 (pin table, layout). Rated 48 V DC; 5 A = VBUS/GND contacts collectively (VCONN 1.25 A, other signals 0.25 A). pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1; pin 13 SHIELD = all shell legs/tabs.",
@@ -1833,7 +1833,7 @@
     },
     {
       "id": "usb-uj20-c-h-g-msmt-p16-tr",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, mid mount",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-H-G-MSMT-P16-TR: uj20-c-h-g-msmt-p16-tr.pdf p.1 (ratings), p.3 (pin table, layout). Rated 48 V DC; 5 A = VBUS/GND contacts collectively (VCONN 1.25 A, other signals 0.25 A). pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1; pin 13 SHIELD = all shell legs/tabs.",
@@ -1845,7 +1845,7 @@
     },
     {
       "id": "usb-uj20-c-h-g-msmt-r-1c-p16",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, mid mount",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-H-G-MSMT-R-1C-P16-TR, UJ20-C-H-G-MSMT-R-4C-P16-TR: UJ20-C-H-G-MSMT-R-1C-P16-TR.pdf p.1 (ratings), p.3 (pin table, layout); UJ20-C-H-G-MSMT-R-4C-P16-TR.pdf p.1 (ratings), p.3 (pin table, layout). Rated 20 V DC; 3 A = VBUS/GND contacts collectively (VCONN 1.25 A, other signals 0.25 A). pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1; pin 13 SHIELD = all shell legs/tabs.",
@@ -1860,7 +1860,7 @@
     },
     {
       "id": "usb-uj20-c-h-g-msmt-r-2c-p16",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, mid mount",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-H-G-MSMT-R-2C-P16-TR, UJ20-C-H-MSMT-7B-P16-TR: uj20-c-h-g-msmt-r-2c-p16-tr.pdf p.1 (ratings), p.3 (pin table, layout); UJ20-C-H-MSMT-7B-P16-TR.pdf p.1 (ratings), p.3 (pin table, layout). Rated 20 V DC; 5 A = VBUS/GND contacts collectively (VCONN 1.25 A, other signals 0.25 A). pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1; pin 13 SHIELD = all shell legs/tabs.",
@@ -1875,7 +1875,7 @@
     },
     {
       "id": "usb-uj20-c-h-g-msmt-r-3c-p16",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, mid mount",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-H-G-MSMT-R-3C-P16-TR: UJ20-C-H-G-MSMT-R-3C-P16-TR.pdf p.1 (ratings), p.3 (pin table, layout). Rated 30 V DC; 3 A = VBUS/GND contacts collectively (VCONN 1.25 A, other signals 0.25 A). pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1; pin 13 SHIELD = all shell legs/tabs.",
@@ -1887,7 +1887,7 @@
     },
     {
       "id": "usb-uj20-c-h-g-msmt-r-5c-p16",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, mid mount",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-H-G-MSMT-R-5C-P16-TR: UJ20-C-H-G-MSMT-R-5C-P16-TR.pdf p.1 (ratings), p.3 (pin table, layout). Rated 20 V DC; 3 A = VBUS/GND contacts collectively (VCONN 1.25 A, other signals 0.25 A). pins 1-16 = A1, A4, A5, A6, A7, A8, A9, A12, B1, B4, B5, B6, B7, B8, B9, B12; pin 17 SHIELD = all shell legs/tabs and the two MID (mid-plate) pads.",
@@ -1899,7 +1899,7 @@
     },
     {
       "id": "usb-uj20-c-h-g-smt",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, right-angle through hole",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-H-G-SMT-TR: uj20-c-h-g-smt-tr.pdf p.1 (ratings), p.3 (pin table, layout). Rated 20 V DC; 5 A = VBUS/GND contacts collectively (VCONN 1.25 A, other signals 0.25 A). pins 1-16 = A1, A4, A5, A6, A7, A8, A9, A12, B1, B4, B5, B6, B7, B8, B9, B12; pin 17 SHIELD = all shell legs/tabs.",
@@ -1911,7 +1911,7 @@
     },
     {
       "id": "usb-uj20-c-h-g-smt-1-p16",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-H-G-SMT-1-P16-TR, UJ20-C-H-G-SMT-2-P16-TR, UJ20-C-H-G-SMT-4-P16-TR, UJ20-C-H-G-SMT-5-P16-TR, UJ20-C-H-G-SMT-P16-TR: uj20-c-h-g-smt-1-p16-tr.pdf p.1 (ratings), p.3 (pin table, layout); uj20-c-h-g-smt-2-p16-tr.pdf p.1 (ratings), p.3 (pin table, layout); uj20-c-h-g-smt-4-p16-tr.pdf p.1 (ratings), p.3 (pin table, layout); uj20-c-h-g-smt-5-p16-tr.pdf p.1 (ratings), p.3 (pin table, layout); uj20-c-h-g-smt-p16-tr.pdf p.1 (ratings), p.3 (pin table, layout). Rated 48 V DC; 5 A = VBUS/GND contacts collectively (VCONN 1.25 A, other signals 0.25 A). pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1; pin 13 SHIELD = all shell legs/tabs.",
@@ -1929,7 +1929,7 @@
     },
     {
       "id": "usb-uj20-c-h-g-smt-14b-p16-67",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, right-angle SMD, IP67",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-H-G-SMT-14B-P16-TR-67: UJ20-C-H-G-SMT-14B-P16-TR-67.pdf p.1 (ratings), p.3 (pin table, layout). Rated 20 V DC; 5 A = VBUS/GND contacts collectively (VCONN 1.25 A, other signals 0.25 A). pins 1-16 = A1, A4, A5, A6, A7, A8, A9, A12, B1, B4, B5, B6, B7, B8, B9, B12; pin 17 SHIELD = all shell legs/tabs.",
@@ -1941,7 +1941,7 @@
     },
     {
       "id": "usb-uj20-c-h-g-smt-1a-p16",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-H-G-SMT-1A-P16-TR, UJ20-C-H-G-SMT-3A-P16-TR: UJ20-C-H-G-SMT-1A-P16-TR.pdf p.1 (ratings), p.3 (pin table, layout); uj20-c-h-g-smt-3a-p16-tr.pdf p.1 (ratings), p.3 (pin table, layout). Rated 20 V DC; 3 A = VBUS/GND contacts collectively (VCONN 1.25 A, other signals 0.25 A). pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1; pin 13 SHIELD = all shell legs/tabs.",
@@ -1956,7 +1956,7 @@
     },
     {
       "id": "usb-uj20-c-h-g-smt-2a-p16",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-H-G-SMT-2A-P16-TR, UJ20-C-H-G-SMT-9B-P16-TR: UJ20-C-H-G-SMT-2A-P16-TR.pdf p.1 (ratings), p.3 (pin table, layout); UJ20-C-H-G-SMT-9B-P16-TR.pdf p.1 (ratings), p.3 (pin table, layout). Rated 20 V DC; 5 A = VBUS/GND contacts collectively (VCONN 1.25 A, other signals 0.25 A). pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1; pin 13 SHIELD = all shell legs/tabs.",
@@ -1971,7 +1971,7 @@
     },
     {
       "id": "usb-uj20-c-h-g-smt-3-p16",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, right-angle SMD, raised (5.90 mm centre line)",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-H-G-SMT-3-P16-TR: uj20-c-h-g-smt-3-p16-tr.pdf p.1 (ratings), p.3 (pin table, layout). Rated 48 V DC; 5 A = VBUS/GND contacts collectively (VCONN 1.25 A, other signals 0.25 A). pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1; pin 13 SHIELD = all shell legs/tabs.",
@@ -1983,7 +1983,7 @@
     },
     {
       "id": "usb-uj20-c-h-g-smt-6-p16",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, right-angle hybrid (SMD A row, through-hole B row)",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-H-G-SMT-6-P16-TR: uj20-c-h-g-smt-6-p16-tr.pdf p.1 (ratings), p.3 (pin table, layout). Rated 48 V DC; 5 A = VBUS/GND contacts collectively (VCONN 1.25 A, other signals 0.25 A). pins 1-16 = A1, A4, A5, A6, A7, A8, A9, A12, B1, B4, B5, B6, B7, B8, B9, B12; pin 17 SHIELD = all shell legs/tabs.",
@@ -1995,7 +1995,7 @@
     },
     {
       "id": "usb-uj20-c-h-g-smt-p16-67",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, right-angle SMD, IPX7",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-H-G-SMT-P16-TR-67: uj20-c-h-g-smt-p16-tr-67.pdf p.1 (ratings), p.3 (pin table, layout). Rated 48 V DC; 5 A = VBUS/GND contacts collectively (VCONN 1.25 A, other signals 0.25 A). pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1; pin 13 SHIELD = all shell legs/tabs.",
@@ -2007,7 +2007,7 @@
     },
     {
       "id": "usb-uj20-c-h-g-smt-t-1d-p16",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, right-angle SMD, raised (5.90 mm centre line)",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-H-G-SMT-T-1D-P16-TR: UJ20-C-H-G-SMT-T-1D-P16-TR.pdf p.1 (ratings), p.3 (pin table, layout). Rated 20 V DC; 5 A = VBUS/GND contacts collectively (VCONN 1.25 A, other signals 0.25 A). pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1; pin 13 SHIELD = all shell legs/tabs.",
@@ -2019,7 +2019,7 @@
     },
     {
       "id": "usb-uj20-c-h-g-smt-t-5d-p16",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, right-angle SMD, raised (3.18 mm centre line)",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-H-G-SMT-T-5D-P16-TR: uj20-c-h-g-smt-t-5d-p16-tr.pdf p.1 (ratings), p.3 (pin table, layout). Rated 20 V DC; 5 A = VBUS/GND contacts collectively (VCONN 1.25 A, other signals 0.25 A). pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1; pin 13 SHIELD = all shell legs/tabs.",
@@ -2031,7 +2031,7 @@
     },
     {
       "id": "usb-uj20-c-h-g-th-p16",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, right-angle through hole",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-H-G-TH-P16-TR: uj20-c-h-g-th-p16-tr.pdf p.1 (ratings), p.3 (pin table, layout). Rated 48 V DC; 5 A = VBUS/GND contacts collectively (VCONN 1.25 A, other signals 0.25 A). pins 1-16 = A1, A4, A5, A6, A7, A8, A9, A12, B1, B4, B5, B6, B7, B8, B9, B12; pin 17 SHIELD = all shell legs/tabs.",
@@ -2043,7 +2043,7 @@
     },
     {
       "id": "usb-uj20-c-h-msmt-16b-p16-67",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, mid mount, IP67",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-H-MSMT-16B-P16-TR-67: UJ20-C-H-MSMT-16B-P16-TR-67.pdf p.1 (ratings), p.3 (pin table, layout). Rated 20 V DC; 3 A = VBUS/GND contacts collectively (VCONN 1.25 A, other signals 0.25 A). pins 1-16 = A1, A4, A5, A6, A7, A8, A9, A12, B1, B4, B5, B6, B7, B8, B9, B12; pin 17 SHIELD = all shell legs/tabs.",
@@ -2055,7 +2055,7 @@
     },
     {
       "id": "usb-uj20-c-msmt",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, mid mount",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-H-C-MSMT-TR and UJ20-C-H-G-MSMT-9B-P16-TR datasheets p.1 (20 Vdc; power pins collectively 5.0 A, VCONN 1.25 A, others 0.25 A), p.3 (pin connections). DigiKey lists UJ20-C-H-C-MSMT-TR as 6-pin power-only; the datasheet shows all 16 contacts. pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1; pin 13 = SHIELD (shell legs)",
@@ -2070,7 +2070,7 @@
     },
     {
       "id": "usb-uj20-c-r-g-th-1-p14",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 14 contacts, right-angle through hole, sideways (tongue perpendicular to the board)",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-R-G-TH-1-P14-TR, UJ20-C-R-G-TH-2-P14-TR, UJ20-C-R-G-TH-3-P14: uj20-c-r-g-th-1-p14-tr.pdf p.1 (ratings), p.3 (pin table, layout); uj20-c-r-g-th-2-p14-tr.pdf p.1 (ratings), p.3 (pin table, layout); uj20-c-r-g-th-3-p14.pdf p.1 (ratings), p.3 (pin table, layout). Rated 30 V DC; 5 A = VBUS/GND contacts collectively (VCONN 1.25 A, other signals 0.25 A). pins 1-14 = A1, A4, A5, A6, A7, A9, A12, B1, B4, B5, B6, B7, B9, B12; pin 15 SHIELD = all shell legs/tabs.",
@@ -2086,7 +2086,7 @@
     },
     {
       "id": "usb-uj20-c-r-g-th-p14",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 14 contacts, right-angle through hole, side mount (on edge)",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-R-G-TH-P14 datasheet p.1 (ratings), p.3 (pin connections, layout). pins 1-14 = A1, A4, A5, A6, A7, A9, A12, B1, B4, B5, B6, B7, B9, B12; 15 = shell",
@@ -2098,7 +2098,7 @@
     },
     {
       "id": "usb-uj20-c-smt",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-H-C-1/-2/-3/-4-SMT-TR and UJ20-C-H-G-1-SMT-TR datasheets p.1 (ratings 20 Vdc; power pins collectively 5.0 A, VCONN 1.25 A, others 0.25 A), p.3 (pin connections A1/B12 GND, A4/B9 VBUS, A5 CC1, A6 Dp1, A7 Dn1, A8 SBU1, B5 CC2, B6 Dp2, B7 Dn2, B8 SBU2). DigiKey lists -1/-2 as 6-pin power-only and -3 as 8-contact, but every datasheet shows all 16 contacts on 12 pads. pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B1; pin 13 = SHIELD (shell legs)",
@@ -2116,7 +2116,7 @@
     },
     {
       "id": "usb-uj20-c-v-c-1-smt",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, vertical SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-V-C-1-SMT-TR datasheet p.1 (ratings), p.3 (pin connections, layout). pins 1-16 = A1, A4, A5, A6, A7, A8, A9, A12, B1, B4, B5, B6, B7, B8, B9, B12; 17 = shell",
@@ -2128,7 +2128,7 @@
     },
     {
       "id": "usb-uj20-c-v-c-2-smt",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, vertical through hole",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-V-C-2-SMT-TR / -3-SMT-TR datasheets p.1 (ratings), p.3 (pin connections, layout). pins 1-16 = A1, A4, A5, A6, A7, A8, A9, A12, B1, B4, B5, B6, B7, B8, B9, B12; 17 = shell",
@@ -2143,7 +2143,7 @@
     },
     {
       "id": "usb-uj20-c-v-g-smt-23b-p16-x5",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, vertical SMD, waterproof (o-ring)",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-V-G-SMT-23B-P16-TR-X5 datasheet p.1 (ratings), p.3 (pin connections, layout). pins 1-16 = A1, A4, A5, A6, A7, A8, A9, A12, B1, B4, B5, B6, B7, B8, B9, B12; 17 = shell",
@@ -2155,7 +2155,7 @@
     },
     {
       "id": "usb-uj20-c-v-g-smt-48v",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, vertical SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-V-G-SMT-2-P16-TR and -3-P16-TR datasheets p.1 (ratings 48 V), p.3 (pin connections, layouts). pins 1-16 = A1, A4, A5, A6, A7, A8, A9, A12, B1, B4, B5, B6, B7, B8, B9, B12; 17 = shell",
@@ -2170,7 +2170,7 @@
     },
     {
       "id": "usb-uj20-c-v-g-smt-p16",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, vertical SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-V-G-SMT-P16-TR datasheet p.1 (ratings 30 V), p.3 (pin connections, layout). pins 1-16 = A1, A4, A5, A6, A7, A8, A9, A12, B1, B4, B5, B6, B7, B8, B9, B12; 17 = shell",
@@ -2182,7 +2182,7 @@
     },
     {
       "id": "usb-uj20-c-v-g-smt-p16-65",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, vertical SMD, IPX5",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-V-G-SMT-P16-TR-65 datasheet p.1 (ratings 48 V, IPX5), p.3 (pin connections; layout identical to UJ20-C-V-G-SMT-23B-P16-TR-X5 p.3). pins 1-16 = A1, A4, A5, A6, A7, A8, A9, A12, B1, B4, B5, B6, B7, B8, B9, B12; 17 = shell",
@@ -2194,7 +2194,7 @@
     },
     {
       "id": "usb-uj20-c-v-g-smt-p16-66",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, vertical SMD, IPX6",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-V-G-SMT-P16-TR-66 datasheet p.1 (ratings 20 V, 3 A, IPX6), p.3 (pin connections; layout identical to UJ20-C-V-TH-12B-P16-TR-X6 p.3). pins 1-16 = A1, A4, A5, A6, A7, A8, A9, A12, B1, B4, B5, B6, B7, B8, B9, B12; 17 = shell",
@@ -2206,7 +2206,7 @@
     },
     {
       "id": "usb-uj20-c-v-g-smt-p8",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 8 contacts, vertical SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-V-G-SMT-P8-TR datasheet p.1 (ratings: 20 V, 3 A), p.3 (pin connections, layout). pins 1-8 = A1, A3, A4, A6, A7, A9, A10, A12 (datasheet names A3 TX1-, A10 RX2-); 9 = shell",
@@ -2218,7 +2218,7 @@
     },
     {
       "id": "usb-uj20-c-v-smt-68",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, vertical SMD, IP68",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-V-SMT-TR-68 datasheet p.1 (ratings, IP68), p.3 (pin connections, layout). pins 1-16 = A1, A4, A5, A6, A7, A8, A9, A12, B1, B4, B5, B6, B7, B8, B9, B12; 17 = shell",
@@ -2230,7 +2230,7 @@
     },
     {
       "id": "usb-uj20-c-v-th-12b-p16-x6",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 2.0 Type-C receptacle, 16 contacts, vertical SMD, waterproof (o-ring)",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ20-C-V-TH-12B-P16-TR-X6 datasheet p.1 (ratings), p.3 (pin connections, layout). pins 1-16 = A1, A4, A5, A6, A7, A8, A9, A12, B1, B4, B5, B6, B7, B8, B9, B12; 17 = shell",
@@ -2242,7 +2242,7 @@
     },
     {
       "id": "usb-uj31-ch-3-msmt-67",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 2 Type-C receptacle, 24 contacts, mid mount, IP67",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ31-CH-3-MSMT-TR-67 datasheet p.1 (ratings 20 V, VBUS 5 A), p.3 (pin connections, layout). pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; 25 = shell",
@@ -2254,7 +2254,7 @@
     },
     {
       "id": "usb-uj31-ch-g2-smt",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 2 Type-C receptacle, 24 contacts, right-angle hybrid (SMD + through hole)",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ31-CH-G2-SMT-TR datasheet p.1 (ratings 20 V; VBUS pins 5 A, GND pins 6.25 A), p.3 (pin connections, layout). pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; 25 = shell",
@@ -2266,7 +2266,7 @@
     },
     {
       "id": "usb-uj32-1-c-h-g1-mhmt-p24-x7",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 1 Type-C receptacle, 24 contacts, mid mount, IPX7",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ32-1-C-H-G1-MHMT-P24-TR-X7 datasheet p.1 (ratings, IPX7), p.3 (pin connections, layout). pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; 25 = shell",
@@ -2278,7 +2278,7 @@
     },
     {
       "id": "usb-uj32-1-c-v-g-smt-1e-p24",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 1 Type-C receptacle, 24 contacts, vertical SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ32-1-C-V-G-SMT-1E-P24-TR datasheet p.1 (ratings), p.3 (pin connections, layout). pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; 25 = shell",
@@ -2290,7 +2290,7 @@
     },
     {
       "id": "usb-uj32-21-c-h-g-hmt-lt-p24",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 2 Type-C receptacle, 24 contacts, right-angle hybrid (SMD + through hole)",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ32-21-C-H-G-HMT-LT-P24-TR datasheet p.1 (ratings), p.3 (pin connections, layout). pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; 25 = shell",
@@ -2302,7 +2302,7 @@
     },
     {
       "id": "usb-uj32-21-c-h-g-mhmt-p24",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 2 Type-C receptacle, 24 contacts, mid mount",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ32-21-C-H-G-MHMT-P24-TR datasheet p.1 (ratings; USB 3.2 Gen 2x1), p.3 (pin connections, layout). pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; 25 = shell",
@@ -2314,7 +2314,7 @@
     },
     {
       "id": "usb-uj32-21-c-h-g1-smt-t-p24",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 2 Type-C receptacle, 24 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ32-21-C-H-G1-SMT-T-P24-TR datasheet p.1 (ratings; USB 3.2 Gen 2x1), p.3 (pin connections, layout). pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; 25 = shell",
@@ -2326,7 +2326,7 @@
     },
     {
       "id": "usb-uj32-21-c-h-g30-hmt-rt",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 2 Type-C receptacle, 24 contacts, right-angle hybrid (SMD + through hole)",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky datasheets p.1 (ratings: 20 V DC, VBUS/power pins 3 A collectively, VCONN 1.25 A, signal 0.25 A), p.3 (pin connections). pins 1-12 = A1-A12, 13-24 = B1-B12 (every contact has its own pad); pin 25 = mid-plate GND pins, 26 = shell",
@@ -2338,7 +2338,7 @@
     },
     {
       "id": "usb-uj32-22-c-ra-g-smt",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 2x2 Type-C receptacle, 24 contacts, right-angle SMD, side-standing",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky datasheets p.1 (ratings: 20 V DC, VBUS/power pins 5 A collectively, VCONN 1.25 A, signal 0.25 A), p.3 (pin connections). pins 1-12 = A1-A12, 13-24 = B1-B12 (every contact has its own pad); pin 25 = shell",
@@ -2350,7 +2350,7 @@
     },
     {
       "id": "usb-uj32-22-c-v-g-smt",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 2x2 Type-C receptacle, 24 contacts, vertical SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky datasheets p.1 (ratings: 20 V DC, VBUS/power pins 5 A collectively, VCONN 1.25 A, signal 0.25 A), p.3 (pin connections). pins 1-12 = A1-A12, 13-24 = B1-B12 (every contact has its own pad); pin 25 = shell",
@@ -2366,7 +2366,7 @@
     },
     {
       "id": "usb-uj32-c-gen1-hybrid-ra-20v",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 1 Type-C receptacle, 24 contacts, right-angle hybrid (SMD + through hole)",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky datasheets p.1 (ratings: 20 V DC, VBUS/power pins 5 A collectively, VCONN 1.25 A, signal 0.25 A), p.3 (pin connections). pins 1-12 = A1-A12, 13-24 = B1-B12 (every contact has its own pad); pin 25 = shell",
@@ -2378,7 +2378,7 @@
     },
     {
       "id": "usb-uj32-c-gen1-hybrid-ra-30v",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 1 Type-C receptacle, 24 contacts, right-angle hybrid (SMD + through hole)",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky datasheets p.1 (ratings: 30 V DC, VBUS/power pins 5 A collectively, VCONN 1.25 A, signal 0.25 A), p.3 (pin connections). pins 1-12 = A1-A12, 13-24 = B1-B12 (every contact has its own pad); pin 25 = shell",
@@ -2390,7 +2390,7 @@
     },
     {
       "id": "usb-uj32-c-gen1-hybrid-ra-48v",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 1 Type-C receptacle, 24 contacts, right-angle hybrid (SMD + through hole)",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky datasheets p.1 (ratings: 48 V DC, VBUS/power pins 5 A collectively, VCONN 1.25 A, signal 0.25 A), p.3 (pin connections). pins 1-12 = A1-A12, 13-24 = B1-B12 (every contact has its own pad); pin 25 = shell",
@@ -2407,7 +2407,7 @@
     },
     {
       "id": "usb-uj32-c-gen1-smd-ra-48v",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 1 Type-C receptacle, 24 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky datasheets p.1 (ratings: 48 V DC, VBUS/power pins 5 A collectively, VCONN 1.25 A, signal 0.25 A), p.3 (pin connections). pins 1-12 = A1-A12, 13-24 = B1-B12 (every contact has its own pad); pin 25 = shell",
@@ -2419,7 +2419,7 @@
     },
     {
       "id": "usb-uj32-c-gen2x2-hybrid-mid",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 2x2 Type-C receptacle, 24 contacts, mid mount, hybrid (SMD + through hole)",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky datasheets p.1 (ratings: 20 V DC, VBUS/power pins 5 A collectively, VCONN 1.25 A, signal 0.25 A), p.3 (pin connections). pins 1-12 = A1-A12, 13-24 = B1-B12 (every contact has its own pad); pin 25 = shell",
@@ -2435,7 +2435,7 @@
     },
     {
       "id": "usb-uj32-c-gen2x2-hybrid-ra",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 2x2 Type-C receptacle, 24 contacts, right-angle hybrid (SMD + through hole)",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky datasheets p.1 (ratings: 20 V DC, VBUS/power pins 5 A collectively, VCONN 1.25 A, signal 0.25 A), p.3 (pin connections). pins 1-12 = A1-A12, 13-24 = B1-B12 (every contact has its own pad); pin 25 = shell",
@@ -2452,7 +2452,7 @@
     },
     {
       "id": "usb-uj32-c-gen2x2-hybrid-ra-ip68",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 2x2 Type-C receptacle, 24 contacts, right-angle hybrid (SMD + through hole), waterproof IP68",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky datasheets p.1 (ratings: 20 V DC, VBUS/power pins 5 A collectively, VCONN 1.25 A, signal 0.25 A), p.3 (pin connections). pins 1-12 = A1-A12, 13-24 = B1-B12 (every contact has its own pad); pin 25 = shell",
@@ -2464,7 +2464,7 @@
     },
     {
       "id": "usb-uj32-c-h-g-smt",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 2x2 Type-C receptacle, 24 contacts, right-angle hybrid (SMD + through hole)",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ32-C-H-G-SMT-TR datasheet p.1 (ratings: 20 V DC, 5 A power pins collectively), p.2-3 (pin connections, drawing). pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = shell.",
@@ -2476,7 +2476,7 @@
     },
     {
       "id": "usb-uj32-c-h-g-smt-4-ipx8",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 1 Type-C receptacle, 24 contacts, mid mount, SMD, waterproof IPX8",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky datasheets p.1 (ratings: 48 V DC, VBUS/power pins 5 A collectively, VCONN 1.25 A, signal 0.25 A), p.3 (pin connections). pins 1-12 = A1-A12, 13-24 = B1-B12 (every contact has its own pad); pin 25 = mid-plate GND pins, 26 = shell; VCONN rating given for B5 only on this sheet",
@@ -2488,7 +2488,7 @@
     },
     {
       "id": "usb-uj32-c-h-msmt-68",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 1 Type-C receptacle, 24 contacts, mid mount, hybrid (SMD + through hole), IP68",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ32-C-H-MSMT-TR-68 datasheet p.1 (ratings: 20 V DC, 5 A power pins collectively), p.2-3 (pin connections, drawing). pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = shell.",
@@ -2500,7 +2500,7 @@
     },
     {
       "id": "usb-uj32-c-r-g-smt",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 1 Type-C receptacle, 24 contacts, right-angle SMD, upright (side entry)",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ32-C-R-G-SMT-P24-TR datasheet p.1 (ratings: 30 V DC, 5 A power pins collectively), p.2-3 (pin connections, drawing). pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = shell.",
@@ -2512,7 +2512,7 @@
     },
     {
       "id": "usb-uj32-c-v-g-smt",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 1 Type-C receptacle, 24 contacts, vertical SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ32-C-V-G-SMT-P24-TR datasheet p.1 (ratings: 30 V DC, 5 A power pins collectively), p.2-3 (pin connections, drawing). pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = shell.",
@@ -2524,7 +2524,7 @@
     },
     {
       "id": "usb-uj32-c-v-g-smt-b",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 2x2 Type-C receptacle, 24 contacts, vertical SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ32-C-V-G-SMT-TR datasheet p.1 (ratings: 20 V DC, 5 A power pins collectively), p.2-3 (pin connections, drawing). pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = shell.",
@@ -2536,7 +2536,7 @@
     },
     {
       "id": "usb-uj32-c-v-g-th-2",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 1 Type-C receptacle, 24 contacts, vertical SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ32-C-V-G-TH-2-P24-TR datasheet p.1 (ratings: 20 V DC, 5 A power pins collectively), p.2-3 (pin connections, drawing). pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = shell.",
@@ -2548,7 +2548,7 @@
     },
     {
       "id": "usb-uj32-c-v-g-th-5",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 1 Type-C receptacle, 24 contacts, vertical SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ32-C-V-G-TH-5-P24-TR datasheet p.1 (ratings: 48 V DC, 5 A power pins collectively), p.2-3 (pin connections, drawing). pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = shell.",
@@ -2564,7 +2564,7 @@
     },
     {
       "id": "usb-uj32-c-v-g-th-6",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 1 Type-C receptacle, 24 contacts, vertical SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ32-C-V-G-TH-6-P24-TR datasheet p.1 (ratings: 48 V DC, 5 A power pins collectively), p.2-3 (pin connections, drawing). pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = shell.",
@@ -2576,7 +2576,7 @@
     },
     {
       "id": "usb-uj32-c-v-g-th-8",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB 3.2 Gen 1 Type-C receptacle, 24 contacts, vertical SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ32-C-V-G-TH-8-P24-TR datasheet p.1 (ratings: 48 V DC, 5 A power pins collectively), p.2-3 (pin connections, drawing). pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = shell.",
@@ -2588,7 +2588,7 @@
     },
     {
       "id": "usb-uj40-32-c-h-g-smt",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB4 Type-C receptacle, 24 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ40-32-C-H-G-SMT-P24-TR datasheet p.1 (ratings: 20 V DC, 5 A power pins collectively), p.2-3 (pin connections, drawing). pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = shell.",
@@ -2600,7 +2600,7 @@
     },
     {
       "id": "usb-uj40-32-c-h-g3-msmt-r",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB4 Type-C receptacle, 24 contacts, mid mount",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ40-32-C-H-G3-MSMT-R-P24-TR datasheet p.1 (ratings: 20 V DC, 5 A power pins collectively), p.2-3 (pin connections, drawing). pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = shell.",
@@ -2612,7 +2612,7 @@
     },
     {
       "id": "usb-uj40-c-h-g-l1-smt",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB4 Type-C receptacle, 24 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ40-C-H-G-L1-SMT-TR datasheet p.1 (ratings: no voltage rating given (DigiKey none either), 5 A power pins collectively), p.2-3 (pin connections, drawing). pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = shell.",
@@ -2623,7 +2623,7 @@
     },
     {
       "id": "usb-uj40-c-h-g-msmt",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB4 Type-C receptacle, 24 contacts, mid mount, hybrid (SMD + through hole)",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ40-C-H-G-MSMT-TR datasheet p.1 (ratings: no voltage rating given (DigiKey none either), 5 A power pins collectively), p.2-3 (pin connections, drawing). pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = shell.",
@@ -2634,7 +2634,7 @@
     },
     {
       "id": "usb-uj40-c-h-g-msmt-22b-68",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB4 Type-C receptacle, 24 contacts, mid mount",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ40-C-H-G-MSMT-22B-P24-TR-68 datasheet p.1 (ratings: 20 V DC, 5 A power pins collectively), p.2-3 (pin connections, drawing). pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = shell.",
@@ -2646,7 +2646,7 @@
     },
     {
       "id": "usb-uj40-c-msmt-68",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB4 Type-C receptacle, 24 contacts, mid mount, single row, IP68",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ40-C-MSMT-TR-68 datasheet p.1 (ratings: 20 V DC, 5 A power pins collectively), p.2-3 (pin connections, drawing). pins 1-20 = A1/B12, A2, A3, A4/B9, A5, A6, A7, A8, A9/B4, A10, A11, A12/B1, B2, B3, B5, B6, B7, B8, B10, B11; pin 21 = shell.",
@@ -2658,7 +2658,7 @@
     },
     {
       "id": "usb-uj40-c-v-g-smt",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB4 Type-C receptacle, 24 contacts, vertical SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ40-C-V-G-SMT-TR datasheet p.1 (ratings: no voltage rating given (DigiKey none either), 5 A power pins collectively), p.2-3 (pin connections, drawing). pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = shell.",
@@ -2669,7 +2669,7 @@
     },
     {
       "id": "usb-uj40-c-v-smt-68",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB4 Type-C receptacle, 24 contacts, vertical SMD, IP68",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJ40-C-V-SMT-TR-68 datasheet p.1 (ratings: 20 V DC, 5 A power pins collectively), p.2-3 (pin connections, drawing). pins 1-24 = A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, B1, B2, B3, B4, B5, B6, B7, B8, B9, B10, B11, B12; pin 25 = shell.",
@@ -2681,7 +2681,7 @@
     },
     {
       "id": "usb-ujc-h-g-msmt-p6-65",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB Type-C power-only receptacle, 6 contacts, mid mount, IPX5",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJC-H-G-MSMT-P6-TR-65 datasheet p.1 (ratings: 30 V DC, 3 A power pins collectively), p.2-3 (pin connections, drawing). pins 1-6 = A5, A9, A12, B5, B9, B12; pin 7 = shell.",
@@ -2693,7 +2693,7 @@
     },
     {
       "id": "usb-ujc-h-g-msmt-p6-66",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB Type-C power-only receptacle, 6 contacts, mid mount, IP66",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJC-H-G-MSMT-P6-TR-66 datasheet p.1 (20 Vdc; power pins 3.0 A collectively; IP66), p.3 (pin connections, layout). pins 1-6 = A5, A9, A12, B5, B9, B12; pin 7 = SHIELD",
@@ -2705,7 +2705,7 @@
     },
     {
       "id": "usb-ujc-h-g-smt-1-p6",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB Type-C power-only receptacle, 6 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJC-H-G-SMT-1-P6-TR datasheet p.1 (20 Vdc; power pins 3.0 A collectively), p.3 (pin connections, layout). pins 1-6 = A5, A9, A12, B5, B9, B12; pin 7 = SHIELD",
@@ -2717,7 +2717,7 @@
     },
     {
       "id": "usb-ujc-h-g-smt-1-p6-65",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB Type-C power-only receptacle, 6 contacts, right-angle SMD, IPX5",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJC-H-G-SMT-1-P6-TR-65 datasheet p.1 (30 Vdc; power pins 3.0 A collectively; IPX5), p.3 (pin connections, layout). pins 1-6 = A5, A9, A12, B5, B9, B12; pin 7 = SHIELD",
@@ -2729,7 +2729,7 @@
     },
     {
       "id": "usb-ujc-h-g-smt-2-p6",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB Type-C power-only receptacle, 6 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJC-H-G-SMT-2-P6-TR datasheet p.1 (30 Vdc; power pins 5.0 A collectively), p.3 (pin connections, layout). pins 1-6 = A5, A9, A12, B5, B9, B12; pin 7 = SHIELD",
@@ -2741,7 +2741,7 @@
     },
     {
       "id": "usb-ujc-h-g-smt-p6",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB Type-C power-only receptacle, 6 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJC-H-G-SMT-P6-TR datasheet p.1 (30 Vdc; VBUS/GND pins 3.0 A collectively), p.3 (pin connections, layout). pins 1-6 = A5, A9, A12, B5, B9, B12; pin 7 = SHIELD",
@@ -2753,7 +2753,7 @@
     },
     {
       "id": "usb-ujc-h-g1-msmt-ft-p6-67",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB Type-C power-only receptacle, 6 contacts, mid mount, flanged, IP67",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJC-H-G1-MSMT-FT-P6-TR-67 datasheet p.1 (20 Vdc; power pins 3.0 A collectively; IP67), p.3 (pin connections, layout). pins 1-6 = A5, A9, A12, B5, B9, B12; pin 7 = SHIELD",
@@ -2765,7 +2765,7 @@
     },
     {
       "id": "usb-ujc-h-g1-smt-p6-67",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB Type-C power-only receptacle, 6 contacts, right-angle SMD, IP67",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJC-H-G1-SMT-P6-TR-67 datasheet p.1 (20 Vdc; power pins 3.0 A collectively; IP67), p.3 (pin connections, layout). pins 1-6 = A5, A9, A12, B5, B9, B12; pin 7 = SHIELD",
@@ -2777,7 +2777,7 @@
     },
     {
       "id": "usb-ujc-hp-3-smt",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB Type-C power-only receptacle, 6 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJC-HP-3-SMT-TR datasheet p.1 (20 Vdc; power/GND pins 3 A collectively), p.2 (pin connections, layout). pins 1-6 = A5, A9, A12, B5, B9, B12; pin 7 = SHIELD",
@@ -2789,7 +2789,7 @@
     },
     {
       "id": "usb-ujc-hp-g-5-msmt",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB Type-C power-only receptacle, 6 contacts, mid mount",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJC-HP-L-G-5-MSMT-TR / UJC-HP-M-G-5-MSMT-TR datasheets p.1 (20 Vdc; power pins 3.0 A collectively), p.3 (pin connections, layout); L and M differ only in how deep the body sinks. pins 1-6 = A5, A9, A12, B5, B9, B12; pin 7 = SHIELD",
@@ -2804,7 +2804,7 @@
     },
     {
       "id": "usb-ujc-hp-g-5-smt",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB Type-C power-only receptacle, 6 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJC-HP-G-5-SMT-TR datasheet p.1 (20 Vdc; power pins 3.0 A collectively), p.3 (pin connections, layout). pins 1-6 = A5, A9, A12, B5, B9, B12; pin 7 = SHIELD",
@@ -2816,7 +2816,7 @@
     },
     {
       "id": "usb-ujc-hp2-3-smt",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB Type-C power-only receptacle, 6 contacts, right-angle SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJC-HP2-3-SMT-TR datasheet p.1 (20 Vdc, 3.0 A), p.3 (pin connections, layout). pins 1-6 = A5, A9, A12, B5, B9, B12; pin 7 = SHIELD",
@@ -2828,7 +2828,7 @@
     },
     {
       "id": "usb-ujc-v-g-smt-p6",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB Type-C power-only receptacle, 6 contacts, vertical SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJC-V-G-SMT-P6-TR datasheet p.1 (30 Vdc; power pins 5.0 A collectively), p.3 (pin connections, layout). pins 1-6 = A5, A9, A12, B5, B9, B12; pin 7 = SHIELD",
@@ -2840,7 +2840,7 @@
     },
     {
       "id": "usb-ujc-vp-3-smt",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB Type-C power-only receptacle, 6 contacts, vertical SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJC-VP-3-SMT-TR datasheet p.1 (20 Vdc; Vbus/GND pins 3 A), p.2 (pin connections, layout). pins 1-6 = A5, A9, A12, B5, B9, B12; pin 7 = SHIELD",
@@ -2852,7 +2852,7 @@
     },
     {
       "id": "usb-ujc-vp-g-smt",
-      "function": "USB-C receptacle",
+      "function": "USB-C Port",
       "description": "USB Type-C power-only receptacle, 6 contacts, vertical SMD",
       "drawer": ["Connector", "USB"],
       "note": "Same Sky UJC-VP-G-SMT-TR datasheet p.1 (20 Vdc; power pins 3.0 A collectively), p.3 (pin connections, layout). pins 1-6 = A5, A9, A12, B5, B9, B12; pin 7 = SHIELD",

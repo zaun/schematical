@@ -1605,7 +1605,7 @@ static void check_switch_cases(void) {
 
 /* A USB connector device with KEYS (JSON members, each ending in a comma). */
 #define USB_DEVICE(KEYS) \
-    HEAD("connector") "{'id':'u','function':'USB-C receptacle','description':'d','drawer':['Connector','USB']," \
+    HEAD("connector") "{'id':'u','function':'USB-C Port','description':'d','drawer':['Connector','USB']," \
     KEYS "'pinouts':{'p':[{'number':1,'name':'VBUS','role':'inout'},{'number':2,'name':'D-','role':'inout'}," \
     "{'number':3,'name':'D+','role':'inout'},{'number':4,'name':'GND','role':'inout'}," \
     "{'number':5,'name':'SHIELD','role':'inout'}]}," \
