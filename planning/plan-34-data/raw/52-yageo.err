@@ -1,0 +1,41 @@
+piece ±1%/0201 (0603 Metric): 300 of 915 (cut at 300: 24225)
+piece ±1%/0402 (1005 Metric): 300 of 2562 (cut at 300: 150184)
+piece ±1%/0603 (1608 Metric): 300 of 2858 (cut at 300: 104527)
+piece ±1%/0805 (2012 Metric): 300 of 2355 (cut at 300: 55839)
+piece ±1%/01005 (0402 Metric): 254 of 254
+piece ±1%/1206 (3216 Metric): 300 of 2275 (cut at 300: 40000)
+piece ±1%/1210 (3225 Metric): 300 of 351 (cut at 300: 1392)
+piece ±1%/2010 (5025 Metric): 300 of 311 (cut at 300: 119)
+piece ±1%/2512 (6332 Metric): 300 of 639 (cut at 300: 4007)
+piece ±1%/2512 (6432 Metric): 7 of 7
+piece ±1%/009005 (0301 Metric): 8 of 8
+piece ±1%/MELF, 0204: 41 of 41
+piece ±1%/MELF, 0207: 16 of 16
+piece ±1%/MELF, 0309: 7 of 7
+piece ±1%/Nonstandard: 48 of 48
+piece ±1%/Wide 0603 (1608 Metric), 0306: 5 of 5
+piece ±1%/Wide 0805 (2012 Metric), 0508: 2 of 2
+piece ±1%/Wide 1206 (3216 Metric), 0612: 36 of 36
+piece ±1%/Wide 1508 (3720 Metric), 0815: 1 of 1
+piece ±1%/Wide 1812 (4532 Metric), 1218: 65 of 65
+piece ±1%/Wide 2010 (5025 Metric), 1020: 2 of 2
+piece ±1%/Wide 2512 (6432 Metric), 1225: 2 of 2
+piece ±5%/0201 (0603 Metric): 222 of 222
+piece ±5%/0402 (1005 Metric): 300 of 496 (cut at 300: 13358)
+piece ±5%/0603 (1608 Metric): 300 of 533 (cut at 300: 8549)
+piece ±5%/0805 (2012 Metric): 300 of 498 (cut at 300: 6665)
+piece ±5%/01005 (0402 Metric): 66 of 66
+piece ±5%/1206 (3216 Metric): 300 of 568 (cut at 300: 7850)
+piece ±5%/1210 (3225 Metric): 150 of 150
+piece ±5%/2010 (5025 Metric): 129 of 129
+piece ±5%/2512 (6332 Metric): 264 of 264
+piece ±5%/009005 (0301 Metric): 10 of 10
+piece ±5%/MELF, 0204: 2 of 2
+piece ±5%/MELF, 0207: 8 of 8
+piece ±5%/MELF, 0309: 5 of 5
+piece ±5%/Nonstandard: 8 of 8
+piece ±5%/Wide 1206 (3216 Metric), 0612: 4 of 4
+piece ±5%/Wide 1812 (4532 Metric), 1218: 59 of 59
+piece ±5%/Wide 2512 (6432 Metric), 1225: 1 of 1
+piece Jumper: 90 of 90
+top.js: 52/13: 5112 parts, 124 calls, 613 left today

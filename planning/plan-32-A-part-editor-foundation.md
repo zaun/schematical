@@ -340,6 +340,11 @@ Commit: —
   plan-32-C's test (b), which compares `PartDraft.kindNames` with the
   `Parts/*.json` file names, then sees 27. plan-33 adds no part-editor form
   for it (plan-33-A § Decisions).
+- **A 28th kind is planned** (noted 2026-11-11 by plan-34's planning
+  commit) — plan-34 (resistors) adds the kind `resistor` and the file
+  `Parts/resistor.json` (plan-34-E, F). Once both plans land there are 28
+  kind files, and plan-32-C's test (b) sees 28. plan-34 adds no part-editor
+  form for it (plan-34-G § Decisions).
 
 ## Summary
 

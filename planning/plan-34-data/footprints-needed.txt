@@ -1,0 +1,88 @@
+# category	maker	datasheet	package	body	rows
+array	Viking Tech	AS42_AS43_Series_Draft_5-20-19.pdf	0804, Concave, Long Side Terminals	8 pins, Isolated	4
+array	Viking Tech	ASN_Series.pdf	0804, Concave, Long Side Terminals	8 pins, Isolated	1
+array	Viking Tech	CN_Series.pdf	0302 (0805 Metric), Convex, Long Side Terminals	4 pins, Isolated	1
+array	Viking Tech	CN_Series.pdf	0804, Convex, Long Side Terminals	8 pins, Isolated	4
+array	Vishay Dale	msm.pdf	10-SIP	10 pins, Bussed	1
+array	Vishay Dale	msm.pdf	6-SIP	6 pins, Isolated	1
+array	Vishay Dale	msp.pdf	8-SIP	8 pins, Isolated	1
+array	Vishay Dale	somc.pdf	16-SOIC (0.220", 5.59mm Width)	16 pins, Bussed	1
+array	Vishay Dale	somc.pdf	16-SOIC (0.220", 5.59mm Width)	16 pins, Isolated	4
+array	YAGEO	PYU-AF122_124_162_164_51_ROHS_L	0804, Convex, Long Side Terminals	8 pins, Isolated	6
+array	YAGEO	PYU-YC_TC_GROUP_51_ROHS_L	0404 (1010 Metric), Convex	4 pins, Isolated	1
+array	YAGEO	PYU-YC_TC_GROUP_51_ROHS_L	0804, Convex, Long Side Terminals	8 pins, Isolated	7
+array	YAGEO	PYU-YC_TC_GROUP_51_ROHS_L	1206 (3216 Metric), Concave, Long Side Terminals	8 pins, Isolated	3
+array	YAGEO	PYU-YC_TC_GROUP_51_ROHS_L	1206 (3216 Metric), Convex, Long Side Terminals	10 pins, Bussed	21
+array	YAGEO	PYU-YC_TC_GROUP_51_ROHS_L	1206 (3216 Metric), Convex, Long Side Terminals	8 pins, Isolated	9
+array	YAGEO	PYU-YC_TC_GROUP_51_ROHS_L	2512 (6432 Metric), Convex, Long Side Terminals	10 pins, Bussed	18
+array	YAGEO	yageo_PYu-R_Mount_10_19050818_343.pdf	0404 (1010 Metric), Convex	4 pins, Isolated	3
+array	YAGEO	yageo_PYu-R_Mount_10_19050818_343.pdf	0804, Convex, Long Side Terminals	8 pins, Isolated	1
+array	YAGEO	yageo_PYu-R_Mount_10_19050818_343.pdf	1206 (3216 Metric), Convex, Long Side Terminals	8 pins, Isolated	7
+chip	Viking Tech	AS%20Series%20Datasheet.pdf	0402 (1005 Metric)		2
+chip	Viking Tech	AS_Series.pdf	0402 (1005 Metric)		1
+chip	Viking Tech	CR_Series.pdf	0201 (0603 Metric)		2
+chip	Viking Tech	CR_Series.pdf	0402 (1005 Metric)		5
+chip	Viking Tech	CR_Series.pdf	0603 (1608 Metric)		1
+chip	Viking Tech	CR_Series.pdf	0805 (2012 Metric)		2
+chip	Vishay Dale	crcw01005e3.pdf	01005 (0402 Metric)		4
+chip	Vishay Dale	crcw0201e3.pdf	0201 (0603 Metric)		44
+chip	Vishay Dale	crcwce3.pdf	0402 (1005 Metric)		96
+chip	Vishay Dale	crcwce3.pdf	0603 (1608 Metric)		94
+chip	Vishay Dale	crcwce3.pdf	0805 (2012 Metric)		35
+chip	Vishay Dale	crcwce3.pdf	1206 (3216 Metric)		18
+chip	Vishay Dale	dcrcwhre3.pdf	0603 (1608 Metric)		3
+chip	Vishay Dale	rcge3.pdf	0402 (1005 Metric)		3
+chip	Vishay Dale	rcge3.pdf	0603 (1608 Metric)		2
+chip	YAGEO	PYU-AC_51_ROHS_L	0402 (1005 Metric)		1
+chip	YAGEO	PYU-RC_51_ROHS_P	0201 (0603 Metric)		1
+chip	YAGEO	PYU-RC_51_ROHS_P	0402 (1005 Metric)		1
+chip	YAGEO	PYU-RC_51_ROHS_P	0603 (1608 Metric)		2
+chip	YAGEO	PYU-RC_GROUP_51_ROHS_L	01005 (0402 Metric)		4
+chip	YAGEO	PYU-RC_GROUP_51_ROHS_L	0201 (0603 Metric)		141
+chip	YAGEO	PYU-RC_GROUP_51_ROHS_L	0402 (1005 Metric)		321
+chip	YAGEO	PYU-RC_GROUP_51_ROHS_L	0603 (1608 Metric)		291
+chip	YAGEO	PYU-RC_GROUP_51_ROHS_L	0805 (2012 Metric)		223
+chip	YAGEO	PYU-RC_GROUP_51_ROHS_L	1206 (3216 Metric)		164
+chip	YAGEO	PYU-RC_GROUP_51_ROHS_L	1210 (3225 Metric)		13
+chip	YAGEO	PYU-RC_GROUP_51_ROHS_L	2010 (5025 Metric)		4
+chip	YAGEO	PYU-RC_GROUP_51_ROHS_L	2512 (6332 Metric)		6
+chip	YAGEO	PYU-RC_GROUP_51_ROHS_L	Wide 1812 (4532 Metric), 1218		1
+chip	YAGEO	PYU-RE_105_ROHS_L.pdf	0805 (2012 Metric)		2
+chip	YAGEO	PYU-RT_1-TO-0-01_ROHS_L	0603 (1608 Metric)		6
+chip	YAGEO	PYU-RT_1-TO-0-01_ROHS_L	0805 (2012 Metric)		3
+chip	YAGEO	PYU-RT_1-TO-0-01_ROHS_L	1206 (3216 Metric)		3
+chip	YAGEO	YAGEO-MMF_DATASHEET	MELF, 0204		1
+through-hole	Viking Tech	MFR_Series.pdf	Axial	2.30mm x 6.30mm	1
+through-hole	Vishay Dale	cmfind.pdf	Axial	1.65mm x 3.81mm	1
+through-hole	Vishay Dale	cmfind.pdf	Axial	2.29mm x 6.10mm	5
+through-hole	Vishay Dale	cmfind.pdf	Axial	4.20mm x 11.90mm	4
+through-hole	Vishay Dale	cmfmil.pdf	Axial	2.29mm x 6.10mm	1
+through-hole	Vishay Dale	cmfmil.pdf	Axial	3.68mm x 8.74mm	2
+through-hole	Vishay Dale	erl.pdf	Axial	2.29mm x 6.35mm	1
+through-hole	Vishay Dale	rsns.pdf	Axial	2.39mm x 10.31mm	1
+through-hole	YAGEO	NKN%20Series%20Spec.pdf	Axial	5.30mm x 15.50mm	1
+through-hole	YAGEO	YAGEO-FKN_DATASHEET	Axial	2.40mm x 6.30mm	2
+through-hole	YAGEO	YAGEO-FKN_DATASHEET	Axial	3.30mm x 9.00mm	2
+through-hole	YAGEO	YAGEO-FKN_DATASHEET	Axial	4.50mm x 11.50mm	2
+through-hole	YAGEO	YAGEO-FKN_DATASHEET	Axial	4.60mm x 11.50mm	1
+through-hole	YAGEO	YAGEO-FMP_DATASHEET	Axial	2.40mm x 6.30mm	29
+through-hole	YAGEO	YAGEO-FMP_DATASHEET	Axial	3.90mm x 9.00mm	25
+through-hole	YAGEO	YAGEO-FMP_DATASHEET	Axial	4.50mm x 11.50mm	1
+through-hole	YAGEO	YAGEO-FMP_DATASHEET	Axial	5.00mm x 15.50mm	2
+through-hole	YAGEO	YAGEO-HHV_DATASHEET	Axial	2.40mm x 6.30mm	5
+through-hole	YAGEO	YAGEO-KNP_DATASHEET	Axial	3.50mm x 9.00mm	1
+through-hole	YAGEO	YAGEO-KNP_DATASHEET	Axial	4.60mm x 11.50mm	4
+through-hole	YAGEO	YAGEO-KNP_DATASHEET	Axial	5.20mm x 15.50mm	1
+through-hole	YAGEO	YAGEO-MF0_DATASHEET	Axial	2.40mm x 6.30mm	29
+through-hole	YAGEO	YAGEO-MFR_DATASHEET.pdf	Axial	1.90mm x 3.40mm	12
+through-hole	YAGEO	YAGEO-MFR_DATASHEET.pdf	Axial	2.40mm x 6.30mm	223
+through-hole	YAGEO	YAGEO-MFR_DATASHEET.pdf	Axial	3.30mm x 9.00mm	2
+through-hole	YAGEO	YAGEO-PNP-V_DATASHEET	Axial	5.50mm x 13.00mm	1
+through-hole	YAGEO	YAGEO-PNP_DATASHEET	Axial	4.60mm x 11.50mm	8
+through-hole	YAGEO	YAGEO-RSF_DATASHEET.pdf	Axial	3.30mm x 9.00mm	1
+through-hole	YAGEO	YAGEO-RSF_DATASHEET.pdf	Axial	4.50mm x 11.50mm	16
+through-hole	YAGEO	YAGEO-RSF_DATASHEET.pdf	Axial	5.00mm x 15.50mm	10
+through-hole	YAGEO	YAGEO-SQP_NSP_DATASHEET	Axial	9.50mm x 9.00mm x 22.00mm	2
+through-hole	YAGEO	YAGEO-SQP_NSP_DATASHEET	Axial	9.50mm x 9.00mm x 48.00mm	1
+through-hole	YAGEO	yageo-zor_datasheet.pdf	Axial	1.80mm x 3.30mm	1
+through-hole	YAGEO	yageo-zor_datasheet.pdf	Axial	2.30mm x 6.30mm	2

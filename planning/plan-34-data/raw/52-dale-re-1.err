@@ -1,0 +1,87 @@
+piece ±1%/-: 1 of 1
+piece ±1%/*/-/0201 (0603 Metric)/-200/ +400ppm/°C: 34 of 34
+piece ±1%/*/-/0201 (0603 Metric)/±100ppm/°C: 275 of 275
+piece ±1%/*/-/0201 (0603 Metric)/±200ppm/°C: 300 of 536 (cut at 300: 9611)
+piece ±1%/*/-/0402 (1005 Metric)/±100ppm/°C: 300 of 309 (cut at 300: 2648)
+piece ±1%/*/-/0402 (1005 Metric)/±150ppm/°C: 1 of 1
+piece ±1%/*/-/0505 (1313 Metric): 1 of 1
+piece ±1%/*/-/0603 (1608 Metric)/0.1W, 1/10W: 300 of 314 (cut at 300: 5979)
+piece ±1%/*/-/0603 (1608 Metric)/1.5W: 55 of 55
+piece ±1%/*/-/0805 (2012 Metric): 216 of 216
+piece ±1%/*/-/01005 (0402 Metric): 32 of 32
+piece ±1%/*/-/1206 (3216 Metric): 202 of 202
+piece ±1%/*/-/2512 (6332 Metric): 52 of 52
+piece ±1%/*/Anti-Sulfur: 7 of 7
+piece ±1%/*/Anti-Sulfur, Automotive AEC-Q200: 237 of 237
+piece ±1%/*/Anti-Sulfur, Automotive AEC-Q200, Current Sense: 12 of 12
+piece ±1%/*/Anti-Sulfur, Automotive AEC-Q200, Current Sense, Flame Retardant Coating, Pulse Withstanding, Safety: 1 of 1
+piece ±1%/*/Anti-Sulfur, Automotive AEC-Q200, Current Sense, Moisture Resistant: 1 of 1
+piece ±1%/*/Anti-Sulfur, Automotive AEC-Q200, Current Sense, Moisture Resistant, Pulse Withstanding/0603 (1608 Metric): 41 of 41
+piece ±1%/*/Anti-Sulfur, Automotive AEC-Q200, Current Sense, Moisture Resistant, Pulse Withstanding/0805 (2012 Metric): 53 of 53
+piece ±1%/*/Anti-Sulfur, Automotive AEC-Q200, Current Sense, Moisture Resistant, Pulse Withstanding/1206 (3216 Metric): 73 of 73
+piece ±1%/*/Anti-Sulfur, Automotive AEC-Q200, Current Sense, Moisture Resistant, Pulse Withstanding/2010 (5025 Metric): 71 of 71
+piece ±1%/*/Anti-Sulfur, Automotive AEC-Q200, Current Sense, Moisture Resistant, Pulse Withstanding/2512 (6332 Metric): 109 of 109
+piece ±1%/*/Anti-Sulfur, Automotive AEC-Q200, Current Sense, Moisture Resistant, Pulse Withstanding/3920 (1052 Metric): 1 of 1
+piece ±1%/*/Anti-Sulfur, Automotive AEC-Q200, Current Sense, Moisture Resistant, Pulse Withstanding/4527 J-Lead: 117 of 117
+piece ±1%/*/Anti-Sulfur, Automotive AEC-Q200, Current Sense, Moisture Resistant, Pulse Withstanding/Nonstandard: 105 of 105
+piece ±1%/*/Anti-Sulfur, Automotive AEC-Q200, Current Sense, Moisture Resistant, Pulse Withstanding/Wide 1206 (3216 Metric), 0612: 6 of 6
+piece ±1%/*/Anti-Sulfur, Automotive AEC-Q200, Current Sense, Moisture Resistant, Pulse Withstanding/Wide 2010 (5025 Metric), 1020: 4 of 4
+piece ±1%/*/Anti-Sulfur, Automotive AEC-Q200, Current Sense, Pulse Withstanding: 18 of 18
+piece ±1%/*/Anti-Sulfur, Automotive AEC-Q200, High Voltage, Moisture Resistant: 4 of 4
+piece ±1%/*/Anti-Sulfur, Automotive AEC-Q200, Moisture Resistant: 31 of 31
+piece ±1%/*/Anti-Sulfur, Automotive AEC-Q200, Pulse Withstanding: 17 of 17
+piece ±1%/*/Anti-Sulfur, Current Sense: 105 of 105
+piece ±1%/*/Anti-Sulfur, Current Sense, Moisture Resistant, Pulse Withstanding: 7 of 7
+piece ±1%/*/Anti-Sulfur, Current Sense, Pulse Withstanding: 5 of 5
+piece ±1%/*/Anti-Sulfur, Military/0402 (1005 Metric): 55 of 55
+piece ±1%/*/Anti-Sulfur, Military/0505 (1313 Metric): 12 of 12
+piece ±1%/*/Anti-Sulfur, Military/0603 (1608 Metric): 96 of 96
+piece ±1%/*/Anti-Sulfur, Military/0805 (2012 Metric): 199 of 199
+piece ±1%/*/Anti-Sulfur, Military/1206 (3216 Metric): 183 of 183
+piece ±1%/*/Anti-Sulfur, Military/2010 (5025 Metric): 10 of 10
+piece ±1%/*/Anti-Sulfur, Military/2512 (6332 Metric): 11 of 11
+piece ±1%/*/Anti-Sulfur, Military/Nonstandard: 33 of 33
+piece ±1%/*/Automotive AEC-Q200/0201 (0603 Metric): 117 of 117
+piece ±1%/*/Automotive AEC-Q200/0402 (1005 Metric)/0.063W, 1/16W/±50ppm/°C: 2 of 2
+piece ±1%/*/Automotive AEC-Q200/0402 (1005 Metric)/0.063W, 1/16W/±100ppm/°C: 300 of 1074 (cut at 300: 69150)
+piece ±1%/*/Automotive AEC-Q200/0402 (1005 Metric)/0.063W, 1/16W/±200ppm/°C: 15 of 15
+piece ±1%/*/Automotive AEC-Q200/0402 (1005 Metric)/0.125W, 1/8W: 23 of 23
+piece ±1%/*/Automotive AEC-Q200/0603 (1608 Metric)/Thick Film/0.1W, 1/10W/±50ppm/°C: 22 of 22
+piece ±1%/*/Automotive AEC-Q200/0603 (1608 Metric)/Thick Film/0.1W, 1/10W/±100ppm/°C: 300 of 1142 (cut at 300: 44239)
+piece ±1%/*/Automotive AEC-Q200/0603 (1608 Metric)/Thick Film/0.1W, 1/10W/±200ppm/°C: 21 of 21
+piece ±1%/*/Automotive AEC-Q200/0603 (1608 Metric)/Thick Film/0.2W, 1/5W: 22 of 22
+piece ±1%/*/Automotive AEC-Q200/0603 (1608 Metric)/Thick Film/0.333W, 1/3W: 4 of 4
+piece ±1%/*/Automotive AEC-Q200/0603 (1608 Metric)/Thin Film: 3 of 3
+piece ±1%/*/Automotive AEC-Q200/0805 (2012 Metric)/Thick Film/0.125W, 1/8W/±50ppm/°C: 25 of 25
+piece ±1%/*/Automotive AEC-Q200/0805 (2012 Metric)/Thick Film/0.125W, 1/8W/±100ppm/°C: 300 of 991 (cut at 300: 25441)
+piece ±1%/*/Automotive AEC-Q200/0805 (2012 Metric)/Thick Film/0.125W, 1/8W/±200ppm/°C: 15 of 15
+piece ±1%/*/Automotive AEC-Q200/0805 (2012 Metric)/Thick Film/0.25W, 1/4W: 22 of 22
+piece ±1%/*/Automotive AEC-Q200/0805 (2012 Metric)/Thin Film: 1 of 1
+piece ±1%/*/Automotive AEC-Q200/1206 (3216 Metric)/0.25W, 1/4W/±50ppm/°C: 12 of 12
+piece ±1%/*/Automotive AEC-Q200/1206 (3216 Metric)/0.25W, 1/4W/±100ppm/°C: 300 of 898 (cut at 300: 17676)
+piece ±1%/*/Automotive AEC-Q200/1206 (3216 Metric)/0.25W, 1/4W/±200ppm/°C: 17 of 17
+piece ±1%/*/Automotive AEC-Q200/1206 (3216 Metric)/0.5W, 1/2W: 68 of 68
+piece ±1%/*/Automotive AEC-Q200/1210 (3225 Metric): 247 of 247
+piece ±1%/*/Automotive AEC-Q200/2010 (5025 Metric): 228 of 228
+piece ±1%/*/Automotive AEC-Q200/2012 J-Lead: 3 of 3
+piece ±1%/*/Automotive AEC-Q200/2512 (6332 Metric)/±100ppm/°C: 300 of 319 (cut at 300: 103)
+piece ±1%/*/Automotive AEC-Q200/2512 (6332 Metric)/±200ppm/°C: 14 of 14
+piece ±1%/*/Automotive AEC-Q200/2515 J-Lead: 30 of 30
+piece ±1%/*/Automotive AEC-Q200/4527 J-Lead: 15 of 15
+piece ±1%/*/Automotive AEC-Q200/6927 J-Lead: 3 of 3
+piece ±1%/*/Automotive AEC-Q200/Wide 0604 (1610 Metric), 0406: 1 of 1
+piece ±1%/*/Automotive AEC-Q200/Wide 1206 (3216 Metric), 0612: 90 of 90
+piece ±1%/*/Automotive AEC-Q200/Wide 1812 (4532 Metric), 1218: 19 of 19
+piece ±1%/*/Automotive AEC-Q200/Wide 2010 (5025 Metric), 1020: 6 of 6
+piece ±1%/*/Automotive AEC-Q200/Wide 2512 (6432 Metric), 1225: 45 of 45
+top.js: rate limited: 
+            {
+                "type": "https://www.rfc-editor.org/rfc/rfc6585.html#section-4",
+                "title": "Too Many Requests",
+                "status": 429,
+                "detail": "Daily Ratelimit exceeded. Please try again after the number of seconds in the Retry-After header",
+                "instance": "",
+                "correlationId": "138f8862-62e3-485a-8a2a-b3d7dffc7ee9",
+                "errors": {}
+            }
+        ; 189 calls, 0 left

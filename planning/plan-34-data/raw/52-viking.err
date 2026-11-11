@@ -1,0 +1,13 @@
+piece ±1%/0201 (0603 Metric): 7 of 7
+piece ±1%/0402 (1005 Metric): 300 of 1317 (cut at 300: 10000)
+piece ±1%/0603 (1608 Metric): 300 of 1612 (cut at 300: 5000)
+piece ±1%/0805 (2012 Metric): 300 of 2034 (cut at 300: 5000)
+piece ±1%/1206 (3216 Metric): 300 of 2229 (cut at 300: 5000)
+piece ±1%/1210 (3225 Metric): 3 of 3
+piece ±1%/2010 (5025 Metric): 2 of 2
+piece ±1%/2512 (6332 Metric): 5 of 5
+piece ±1%/MELF, 0207: 1 of 1
+piece ±1%/Wide 1206 (3216 Metric), 0612: 1 of 1
+piece ±5%: 39 of 39
+piece Jumper: 1 of 1
+top.js: 52/2577: 1259 parts, 33 calls, 821 left today
