@@ -155,7 +155,7 @@ struct ContentView: View {
     /// The editing keys, in this window only and never while a text field
     /// is being typed in: R presses Rotate on the PCB (when it is enabled);
     /// A steps the Trace tool's angle while Trace is the PCB tool; F flips
-    /// the selected part on the Schematic, as the Flip tool would; ⌘⌫
+    /// the selected part on the Schematic; ⌘⌫
     /// deletes the selection (on the PCB only its texts and traces); ⌘C
     /// copies the selected traces on the PCB and ⌘V pastes them centred on
     /// the pointer (`TraceClipboard`). Every other key, and a key with nothing to act

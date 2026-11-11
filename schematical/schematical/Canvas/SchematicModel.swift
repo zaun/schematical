@@ -25,7 +25,6 @@ enum SchematicTool: String, CaseIterable, Identifiable {
     case line
     case bus
     case busPort
-    case flip
     case text
     case vcc
     case ground
@@ -35,7 +34,7 @@ enum SchematicTool: String, CaseIterable, Identifiable {
     var id: String { rawValue }
 
     /// The toolbar's first group: editing and drawing tools.
-    static let drawingTools: [SchematicTool] = [.pointer, .eraser, .line, .bus, .busPort, .flip, .text]
+    static let drawingTools: [SchematicTool] = [.pointer, .eraser, .line, .bus, .busPort, .text]
 
     /// The toolbar's second group, after a gap: the supply tools. VCC and
     /// Pull-up come last so they sit beside the supply voltage menu they use.
@@ -48,7 +47,6 @@ enum SchematicTool: String, CaseIterable, Identifiable {
         case .line: "Line"
         case .bus: "Bus"
         case .busPort: "Bus Port"
-        case .flip: "Flip"
         case .text: "Text"
         case .vcc: "VCC"
         case .ground: "GND"
@@ -61,7 +59,6 @@ enum SchematicTool: String, CaseIterable, Identifiable {
     var tooltip: String {
         switch self {
         case .line, .bus: "\(title) — Space: lock a corner · /: flip the bend · Esc: undo a corner"
-        case .flip: "Flip — click a part to flip it, or press F to flip the selected part"
         case .text: "Text — click to add a text block"
         default: title
         }
@@ -74,7 +71,6 @@ enum SchematicTool: String, CaseIterable, Identifiable {
         case .line: "line.diagonal"
         case .bus: "line.3.horizontal"
         case .busPort: "rectangle.connected.to.line.below"
-        case .flip: "arrow.left.and.right"
         case .text: "textformat"
         case .vcc: "bolt"
         case .ground: "arrow.down.to.line"

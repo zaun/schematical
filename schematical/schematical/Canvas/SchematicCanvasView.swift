@@ -658,13 +658,6 @@ struct SchematicCanvasView: View {
                 interaction = .erasing
             }
 
-        case .flip:
-            // One flip per press: the part under where the press started.
-            if interaction == nil, let hit = document.chip(at: start) {
-                document.flipChip(hit.id)
-            }
-            interaction = .idle
-
         case .text:
             // One block per press, its top-left where the press started. A
             // press on a block selects that one instead.
