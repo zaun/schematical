@@ -263,13 +263,15 @@ nonisolated struct ChipLayout: Hashable {
         )
     }
 
-    /// Bus pins on the left (RS, R/W, E, a one-row gap, DB0-DB7); every
-    /// other drawn pin on the right, in pin order (VSS, VDD, V0, LED+, LED-).
+    /// Bus pins on the left (RS, R/W, E — or E1, E2 on a two-controller
+    /// module — a one-row gap, DB0-DB7); every other drawn pin on the right,
+    /// in pin order (VSS, VDD, V0, LED+, LED-).
     private static func characterLCD(_ pins: [ChipPin], info: CharacterLCDInfo?) -> ChipLayout {
         guard let info else { return ChipLayout(pins: pins) }
         let byIndex = Dictionary(pins.map { ($0.index, $0) }, uniquingKeysWith: { first, _ in first })
         let bus = info.busPins.compactMap { byIndex[$0] }
-        let left = stack([Array(bus.prefix(3)), Array(bus.dropFirst(3))])
+        let control = 2 + max(info.enables, 1)
+        let left = stack([Array(bus.prefix(control)), Array(bus.dropFirst(control))])
         let busSet = Set(info.busPins)
         let right = pins.filter { !busSet.contains($0.index) }.sorted { $0.index < $1.index }
         let face = lcdFaceSize(info)

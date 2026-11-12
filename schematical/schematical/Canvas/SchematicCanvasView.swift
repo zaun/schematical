@@ -367,7 +367,7 @@ struct SchematicCanvasView: View {
                             isHovered: chip.id == hoveredChipID,
                             connectedPins: connectedPins[chip.id] ?? [],
                             frame: simulation.lcdFrames[chip.id],
-                            backlight: simulation.lights[chip.id]?.first ?? 0
+                            backlights: simulation.lights[chip.id] ?? []
                         )
                     }
                 }

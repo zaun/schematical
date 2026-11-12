@@ -66,7 +66,7 @@ struct SchematicScene {
                 SevenSegmentSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired, levels: [])
             case .characterLCD:
                 CharacterLCDSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired,
-                                             frame: nil, backlight: 0)
+                                             frame: nil, backlights: [])
             }
         }
     }

@@ -82,8 +82,8 @@ nonisolated enum PartFacts {
             add("Characters", "\(info.columns) × \(info.rows)")
             add("Controller", info.controller)
             add("Character ROM", info.rom == "A00" ? "A00 (Japanese)" : info.rom)
-            add("Panel", info.panel == .blueNegative ? "STN blue, negative" : "STN yellow-green, positive")
-            add("Backlight", info.backlightColor ?? "None")
+            add("Panel", info.panel.facts)
+            add("Backlight", info.backlightColors.isEmpty ? "None" : info.backlightColors.joined(separator: ", "))
         case let .serial(model, channels, grade, host):
             add("Model", model)
             add("Host bus", serialHost(host))

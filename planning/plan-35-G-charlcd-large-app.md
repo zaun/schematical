@@ -33,8 +33,8 @@ The gate is plan-35-A § Prerequisites. G adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-35-F complete | `grep -c '^Commit: —' planning/plan-35-F-charlcd-large-parts-focus.md` → 0 (or in `planning/completed/`) | NOT MET (2026-11-11) |
-| `PartCharLcd.enables` exists | `grep -n 'unsigned enables;' backend/include/parts.h` → one line | NOT MET (D) |
+| plan-35-F complete | `grep -c '^Commit: —' planning/plan-35-F-charlcd-large-parts-focus.md` → 0 (or in `planning/completed/`) | MET (2026-11-11, F's last hash recorded in this commit: 0) |
+| `PartCharLcd.enables` exists | `grep -n 'unsigned enables;' backend/include/parts.h` → one line | MET (2026-11-11: parts.h:98) |
 
 Everything below is written against the world where these hold.
 
@@ -139,14 +139,17 @@ glass/backlight pairs.
 
 ### Phase 1 — catalog, facts, layout, palette
 
-- [ ] `PartCatalog.swift`: `LCDPanel` cases, the mapping, the
-      `CharacterLCDInfo` fields, and the drawer label.
-- [ ] `PartFacts.swift`: the panel and backlight rows.
-- [ ] `SchematicModel.swift`: the `2 + enables` left column.
-- [ ] `CharacterLCDSymbolView.swift`: the two palettes and `backlights:
+- [x] `PartCatalog.swift`: `LCDPanel` cases, the mapping, the
+      `CharacterLCDInfo` fields, and the drawer label. — `LCDPanel(_:)`
+      maps the four strings; `backlightColors`, `enables`, and
+      `backlightTitle` ("RGB" for Red, Green, Blue) for the drawer.
+- [x] `PartFacts.swift`: the panel and backlight rows.
+- [x] `SchematicModel.swift`: the `2 + enables` left column.
+- [x] `CharacterLCDSymbolView.swift`: the two palettes and `backlights:
       [Double]` with the RGB mix; `SchematicCanvasView.swift:370` and
-      `SchematicExportScene.swift:69` callers.
-- [ ] `schematical/schematicalTests/CharacterLCDTests.swift`:
+      `SchematicExportScene.swift:69` callers. — the mix is
+      `faceColors(_:backlights:)` (internal, for the tests).
+- [x] `schematical/schematicalTests/CharacterLCDTests.swift`:
   - (a) NHD-0440WH-ATFH-JT# from the real catalog: `enables` 2, 12 bus
     pins, left slots in order RS, R/W, E1, E2, then DB0 after one empty
     row;
@@ -158,9 +161,12 @@ glass/backlight pairs.
     face background with levels [0, 1, 0] has g > r and g > b;
   - (e) an `LCDFrame` built from an `LcdState` with `rows` 4 holds
     4 × 8 × `columns` × 5 dots.
+  - (plus) a one-LED face keeps the panel palette.
 
 Check: the two `xcodebuild` commands of § 1 (est. 8 min: an app build
-plus two test classes; no smaller check compiles the Swift).
+plus two test classes; no smaller check compiles the Swift). — 2026-11-11:
+`** BUILD SUCCEEDED **`; test: CharacterLCDTests 6 tests, SchematicSVGTests
+6 tests, "Executed 12 tests, with 0 failures", `** TEST SUCCEEDED **`.
 
 Commit: —
 

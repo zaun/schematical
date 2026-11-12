@@ -113,11 +113,37 @@ nonisolated enum LCDPanel: Hashable, Sendable {
     case yellowGreen
     /// STN negative: light dots on blue.
     case blueNegative
+    /// STN positive: dark dots on light gray (plan-35).
+    case gray
+    /// FSTN positive: black dots on white (plan-35).
+    case white
+
+    /// The part file's `"panel"` string; anything unknown is yellow-green.
+    init(_ name: String) {
+        switch name {
+        case "blue-negative": self = .blueNegative
+        case "gray": self = .gray
+        case "white": self = .white
+        default: self = .yellowGreen
+        }
+    }
 
     var title: String {
         switch self {
         case .yellowGreen: return "Yellow-green"
         case .blueNegative: return "Blue negative"
+        case .gray: return "Gray"
+        case .white: return "White"
+        }
+    }
+
+    /// The Facts sidebar's "Panel" row.
+    var facts: String {
+        switch self {
+        case .yellowGreen: return "STN yellow-green, positive"
+        case .blueNegative: return "STN blue, negative"
+        case .gray: return "STN gray, positive"
+        case .white: return "FSTN white, positive"
         }
     }
 }
@@ -130,10 +156,27 @@ nonisolated struct CharacterLCDInfo: Hashable, Sendable {
     /// The character ROM ("A00").
     let rom: String
     let panel: LCDPanel
-    /// Nil when the module has no backlight.
-    let backlightColor: String?
-    /// Pin indices (into `CatalogPart.pins`): RS, R/W, E, DB0-DB7.
+    /// The backlight LEDs' colors, in the order the simulation reports their
+    /// lights; empty when the module has no backlight (plan-35: 1 or 3).
+    let backlightColors: [String]
+    /// Pin indices (into `CatalogPart.pins`): RS, R/W, E (or E1, E2),
+    /// DB0-DB7.
     let busPins: [Int]
+    /// 1, or 2 for a module with two controllers (a 40 x 4: E1 and E2).
+    let enables: Int
+
+    /// The first LED's color; nil when the module has no backlight.
+    var backlightColor: String? { backlightColors.first }
+
+    /// The Facts sidebar's "Backlight" row and the drawer's second line.
+    var backlightTitle: String? {
+        switch backlightColors.count {
+        case 0: return nil
+        case 1: return backlightColors[0]
+        default:
+            return backlightColors == ["Red", "Green", "Blue"] ? "RGB" : backlightColors.joined(separator: ", ")
+        }
+    }
 }
 
 /// A part's land pattern, copied from the backend's `PartFootprint`. Sizes and
@@ -481,7 +524,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case .supply: return []
         case let .cpu(_, _, maxHz): return ["\(maxHz / 1_000_000) MHz"]
         case let .characterLCD(info):
-            return [info.panel.title] + (info.backlightColor.map { ["\($0) backlight"] } ?? [])
+            return [info.panel.title] + (info.backlightTitle.map { ["\($0) backlight"] } ?? [])
         case let .serial(_, channels, _, host):
             return [PartFacts.serialHost(host)] + (channels > 1 ? ["\(channels) channels"] : [])
         case let .pio(_, _, maxHz): return ["\(maxHz / 1_000_000) MHz"]
@@ -648,9 +691,10 @@ extension CatalogPart {
                 rows: Int(lcd.rows),
                 controller: string(lcd.controller),
                 rom: string(lcd.rom),
-                panel: string(lcd.panel) == "blue-negative" ? .blueNegative : .yellowGreen,
-                backlightColor: lcd.backlight_color.map { String(cString: $0) },
-                busPins: indices(lcd.bus_pins, lcd.bus_pin_count)
+                panel: LCDPanel(string(lcd.panel)),
+                backlightColors: (0..<Int(lcd.backlight_count)).compactMap { lcd.backlight_colors?[$0].map { String(cString: $0) } },
+                busPins: indices(lcd.bus_pins, lcd.bus_pin_count),
+                enables: Int(lcd.enables)
             ))
         } else if let serial = part.serial?.pointee {
             details = .serial(model: string(serial.model), channels: Int(serial.channels),

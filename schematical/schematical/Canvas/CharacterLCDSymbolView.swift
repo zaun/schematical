@@ -17,8 +17,9 @@ struct CharacterLCDSymbolView: View {
     var connectedPins: Set<Int> = []
     /// The dot image of the last frame; nil outside play mode.
     var frame: LCDFrame?
-    /// Backlight level 0…1 (its share of the last frame spent on).
-    var backlight: Double = 0
+    /// Each backlight LED's level 0…1 (its share of the last frame spent
+    /// on), in `CharacterLCDInfo.backlightColors` order.
+    var backlights: [Double] = []
 
     var body: some View {
         let layout = chip.layout
@@ -28,7 +29,7 @@ struct CharacterLCDSymbolView: View {
             var painter = ScreenPainter(context)
             Self.paint(&painter, chip: chip, isSelected: isSelected, isHovered: isHovered,
                        connectedPins: connectedPins,
-                       frame: frame, backlight: backlight)
+                       frame: frame, backlights: backlights)
         }
         .frame(width: layout.size.width + 2 * margin, height: layout.size.height)
     }
@@ -36,7 +37,7 @@ struct CharacterLCDSymbolView: View {
     /// Draws the module, its frame's top-left corner at (0, 0).
     static func paint<P: SchematicPainter>(_ painter: inout P, chip: PlacedChip, isSelected: Bool, isHovered: Bool,
                                            connectedPins: Set<Int> = [],
-                                           frame: LCDFrame?, backlight: Double) {
+                                           frame: LCDFrame?, backlights: [Double]) {
         let layout = chip.layout
         let margin = ChipLayout.labelMargin
         let stub = ChipLayout.stubLength
@@ -87,14 +88,14 @@ struct CharacterLCDSymbolView: View {
 
         if let info = chip.part.characterLCD {
             drawFace(&painter, info: info, box: box, frame: frame,
-                     backlight: frame == nil ? 0 : backlight)
+                     backlights: frame == nil ? [] : backlights)
         }
     }
 
     // MARK: Face
 
     /// An RGB color, for blending.
-    private struct RGB {
+    struct RGB: Equatable {
         var r, g, b: Double
 
         init(_ hex: UInt32) {
@@ -117,28 +118,79 @@ struct CharacterLCDSymbolView: View {
             RGB(r: r * (1 - fraction), g: g * (1 - fraction), b: b * (1 - fraction))
         }
 
+        /// Channel by channel.
+        func tinted(_ other: RGB) -> RGB {
+            RGB(r: r * other.r, g: g * other.g, b: b * other.b)
+        }
+
         var ink: Ink { .display(r, g, b) }
     }
 
-    /// The face's colors for a panel at a backlight level (plan-11-D §4.2).
+    /// The face's colors for a panel at a backlight level (plan-11-D §4.2;
+    /// gray and white, plan-35-G).
     private static func palette(_ panel: LCDPanel, backlight: Double)
         -> (background: RGB, lit: RGB, unlit: RGB, unknown: RGB) {
         let t = min(1, max(0, backlight))
-        let background: RGB, lit: RGB
+        let (dark, bright) = backgrounds(panel)
+        let background = dark.mix(bright, t)
+        let lit: RGB
         switch panel {
-        case .yellowGreen:
-            background = RGB(0x7A8A3A).mix(RGB(0xA9C53C), t)
-            lit = RGB(0x1E2810)
-        case .blueNegative:
-            background = RGB(0x0E1D5C).mix(RGB(0x1F45D6), t)
-            lit = RGB(0x34467F).mix(RGB(0xEAF2FF), t)
+        case .yellowGreen: lit = RGB(0x1E2810)
+        case .blueNegative: lit = RGB(0x34467F).mix(RGB(0xEAF2FF), t)
+        case .gray: lit = RGB(0x20241C)
+        case .white: lit = RGB(0x111417)
         }
         let unlit = background.darkened(0.06)
         return (background, lit, unlit, lit.mix(unlit, 0.5))
     }
 
+    /// A panel's background with the backlight off and fully on.
+    private static func backgrounds(_ panel: LCDPanel) -> (dark: RGB, bright: RGB) {
+        switch panel {
+        case .yellowGreen: return (RGB(0x7A8A3A), RGB(0xA9C53C))
+        case .blueNegative: return (RGB(0x0E1D5C), RGB(0x1F45D6))
+        case .gray: return (RGB(0x7E817A), RGB(0xC4C8BE))
+        case .white: return (RGB(0x8E9296), RGB(0xEEF1F3))
+        }
+    }
+
+    /// The light of one LED of a multi-LED backlight, by its color name;
+    /// a name with no entry lights the panel in its own color.
+    private static func ledColor(_ name: String) -> RGB {
+        switch name.lowercased() {
+        case "red": return RGB(0xFF3B30)
+        case "green": return RGB(0x34C759)
+        case "blue": return RGB(0x0A84FF)
+        default: return RGB(r: 1, g: 1, b: 1)
+        }
+    }
+
+    /// The face's colors for a module's backlight levels. One LED (or none)
+    /// uses the panel palette at that level. Several LEDs: each level times
+    /// its color, added per channel and clamped to 1, tints the panel's lit
+    /// background, mixed in from the dark background by the largest level.
+    static func faceColors(_ info: CharacterLCDInfo, backlights: [Double])
+        -> (background: RGB, lit: RGB, unlit: RGB, unknown: RGB) {
+        let levels = backlights.map { min(1, max(0, $0)) }
+        guard info.backlightColors.count > 1, !levels.isEmpty else {
+            return palette(info.panel, backlight: levels.first ?? 0)
+        }
+        var sum = RGB(r: 0, g: 0, b: 0)
+        for (level, name) in zip(levels, info.backlightColors) {
+            let c = ledColor(name)
+            sum = RGB(r: sum.r + level * c.r, g: sum.g + level * c.g, b: sum.b + level * c.b)
+        }
+        sum = RGB(r: min(1, sum.r), g: min(1, sum.g), b: min(1, sum.b))
+        let peak = levels.max() ?? 0
+        let base = palette(info.panel, backlight: peak)
+        let (dark, bright) = backgrounds(info.panel)
+        let background = dark.mix(bright.tinted(sum), peak)
+        let unlit = background.darkened(0.06)
+        return (background, base.lit, unlit, base.lit.mix(unlit, 0.5))
+    }
+
     private static func drawFace<P: SchematicPainter>(_ painter: inout P, info: CharacterLCDInfo, box: CGRect,
-                                                      frame: LCDFrame?, backlight: Double) {
+                                                      frame: LCDFrame?, backlights: [Double]) {
         let size = ChipLayout.lcdFaceSize(info)
         let bodyTop = ChipLayout.headerHeight
         let face = CGRect(
@@ -147,7 +199,7 @@ struct CharacterLCDSymbolView: View {
             width: size.width,
             height: size.height
         )
-        let colors = palette(info.panel, backlight: backlight)
+        let colors = faceColors(info, backlights: backlights)
         let facePath = Path(roundedRect: face, cornerRadius: 3)
         painter.fill(facePath, with: colors.background.ink)
         // Outlines the face where the fill is not drawn (the export).
