@@ -74,11 +74,13 @@ struct SupplySymbolView: View {
             strokes.addLine(to: point(20, y1))
         }
         if symbol == .pullUp {
-            // Label above the bar, bar at y = 14, resistor down to the
-            // bottom edge, pin tip `pad` below it.
-            strokes.move(to: point(10, 14))
-            strokes.addLine(to: point(30, 14))
-            resistor(14, height)
+            // Label above the bar, bar on the grid row at y = 20 (like VCC's),
+            // the 60-tall resistor down to the bottom edge, pin tip `pad`
+            // below it.
+            let bar = height - ChipLayout.pullResistorHeight
+            strokes.move(to: point(10, bar))
+            strokes.addLine(to: point(30, bar))
+            resistor(bar, height)
             strokes.move(to: point(20, height))
             strokes.addLine(to: point(20, height + pad))
         } else if symbol == .pullDown {
@@ -118,7 +120,7 @@ struct SupplySymbolView: View {
                 ? String(chip.part.name.dropFirst("PULLUP-".count)) : chip.part.function
             painter.draw(
                 PaintedText(label, size: 10, weight: .semibold, monospaced: true),
-                at: point(20, symbol == .pullUp ? 5 : (isGround ? 18 : 8)),
+                at: point(20, isGround ? 18 : 8),
                 anchor: .center
             )
         }
@@ -126,7 +128,7 @@ struct SupplySymbolView: View {
         // halfway along it. 9 pt keeps the longest value ("1.234kΩ")
         // inside the margin.
         if symbol == .pullUp || symbol == .pullDown {
-            let mid: CGFloat = symbol == .pullUp ? 47 : 30
+            let mid: CGFloat = symbol == .pullUp ? 50 : 30
             painter.draw(
                 PaintedText(ResistorValue.text(chip.ohms ?? ResistorValue.defaultOhms), size: 9, monospaced: true),
                 at: point(30, mid),
