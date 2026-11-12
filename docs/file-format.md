@@ -380,7 +380,7 @@ PCB's unrouted lines). A label is never simulated itself.
 | `id`       | UUID    | Unique within the file, across every other ID.                       |
 | `name`     | string  | The net's name: 1 to 4 characters, no spaces.                        |
 | `x`, `y`   | number  | Canvas units: the label's point, where a wire ends. Snapped to the grid on open. |
-| `type`     | string  | `"input"` (default; the far end points away from the wire), `"output"` (the end at the wire points in at it), `"inout"` (both ends point), `"passive"` (a plain box) or `"noConnect"` (see below). |
+| `type`     | string  | `"input"` (default; the end at the wire points in at it), `"output"` (the far end points away from the wire), `"inout"` (both ends point), `"passive"` (a plain box) or `"noConnect"` (see below). |
 | `flipped`  | boolean | The flag runs left of its point instead of right. Default `false`; written only when `true`. |
 
 The flag is 60 long and 20 high, centred on its point's row.

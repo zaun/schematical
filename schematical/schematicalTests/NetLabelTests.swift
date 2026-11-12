@@ -91,14 +91,19 @@ final class NetLabelTests: XCTestCase {
 
     func testShapeFollowsType() throws {
         var label = NetLabel(id: UUID(), name: "A", origin: CGPoint(x: 100, y: 50))
-        // Input: flat at the wire, a point away from it.
+        // Input: a point at the wire, flat away from it.
+        XCTAssertEqual(label.outline.count, 5)
+        XCTAssertTrue(label.outline.contains(CGPoint(x: 100, y: 50)))
+        XCTAssertFalse(label.outline.contains(CGPoint(x: 160, y: 50)))
+        // Output: flat at the wire, a point away from it.
+        label.style = .output
         XCTAssertEqual(label.outline.count, 5)
         XCTAssertTrue(label.outline.contains(CGPoint(x: 160, y: 50)))
         XCTAssertFalse(label.outline.contains(CGPoint(x: 100, y: 50)))
-        // Output: a point at the wire, flat away from it.
-        label.style = .output
-        XCTAssertEqual(label.outline.count, 5)
-        XCTAssertTrue(label.outline.contains(CGPoint(x: 100, y: 50)))
+        // Passive: a plain box.
+        label.style = .passive
+        XCTAssertEqual(label.outline.count, 4)
+        XCTAssertFalse(label.outline.contains(CGPoint(x: 100, y: 50)))
         XCTAssertFalse(label.outline.contains(CGPoint(x: 160, y: 50)))
         // In/out: both.
         label.style = .inout
