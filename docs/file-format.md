@@ -1,8 +1,10 @@
 # Schematical file format
 
 Schematical saves a schematic as a UTF-8 JSON file with the extension
-`.schematical`. This document describes version 4. Version 1, 2 and 3 files
-open too (see [Older versions](#older-versions)).
+`.schematical`. This document describes version 5, which is version 4 plus
+the custom parts a schematic places ([Custom parts](#custom-parts)); a
+schematic with no custom part is still written as version 4. Version 1, 2
+and 3 files open too (see [Older versions](#older-versions)).
 
 Code: `schematical/schematical/Document/SchematicFile.swift` (the format) and
 `SchematicFileController.swift` (Save, Save As, Open).
@@ -12,7 +14,9 @@ Code: `schematical/schematical/Document/SchematicFile.swift` (the format) and
 - **Parts are stored by part number only.** Pins, pin roles, symbol and layout
   come from the part library (`schematical/schematical/Parts/*.json`) when the
   file is opened. Files stay small, and fixes to a part's model apply to
-  existing files.
+  existing files. The one exception is a custom part (plan-32): it is in no
+  bundled library, so its whole definition is embedded, once
+  ([Custom parts](#custom-parts)).
 - **Connections are explicit.** A wire end names a part and pin designator, or a
   junction. Connectivity never depends on two coordinates touching.
 - **IDs are stable.** Every part, junction, wire, bus, bus line and bus wire
@@ -66,6 +70,7 @@ to the grid on open.
 | `board`         | object  | Optional. The PCB's settings and texts ([Board](#board)). Written by every build that has it; a file without it opens with the defaults. |
 | `notes`         | array   | Text blocks on the schematic, in drawing order ([Notes](#notes)). Always written, `[]` when there are none; missing means none. Older builds ignore it. |
 | `labels`        | array   | Net labels on the schematic, in drawing order ([Net labels](#net-labels)). Written only when there are some; missing means none. Older builds ignore it, but refuse a wire that ends on a label. |
+| `customParts`   | array   | Version 5. The custom parts the schematic places ([Custom parts](#custom-parts)). Written only when there are some, and then `version` is 5; missing means none. |
 
 On open, `nextReference` is raised if needed so that it is higher than every
 existing `U<n>` reference (references with other prefixes, such as `R3`, do
@@ -127,6 +132,7 @@ An EEPROM can name the file loaded into it when the simulation starts:
 | `footprint`  | string  | Version 4. Parts with footprint choices only (`GENERIC-LED`, the pull resistors `PULLUP-…`/`PULLDOWN` and the headers `GENERIC-HEADER-…`): the id of the chosen footprint, one of the part's `footprintChoices` (`docs/parts-format.md`), such as `"LED-0805"`, `"RES-0805"` or `"PINHDR-1X08-RA"`. The PCB uses it. Always written for those parts; missing means the part's default footprint (`LED-RADIAL-5MM` for the LED, `RES-RADIAL-2.54` for a pull resistor, the `-V` (Straight) footprint for a header). Ignored on other parts. |
 | `ohms`       | number  | Version 4. Pull resistors only (`PULLUP-…`, `PULLDOWN`): the resistance in ohms, more than 0 and at most 1e9 (1 GΩ), such as `4700`. Shown on the symbol and in the Bill of Materials; the simulation ignores it. Always written for pull resistors; missing means `1000`. Ignored on other parts. An older version-4 build ignores it. |
 | `gender`     | string  | Headers only (`GENERIC-HEADER-…`): one of the part's genders, `"Male"` or `"Female"`. The symbol draws pins or sockets; the footprint doesn't change. Always written for a header; missing means the part's default (`Male`). Ignored on other parts. An optional field, so the version stays 4 (a file with headers names parts an older build doesn't have, which it refuses anyway). |
+| `partUUID`   | string  | Version 5. Custom parts only: the part's `uuid`, one of the file's `customParts`. The placed part resolves by it, not by `partNumber`; `partNumber` is the name the part had when saved (with its suffix, such as `SN74HC00N.2`), so a reader that ignores custom parts still sees a name. Written exactly for custom parts. |
 | `memoryFile` | object  | EEPROMs only, optional: the file (raw binary, or Intel HEX for `.hex`/`.ihx`/`.ihex`) loaded into the chip at every start; without it the chip starts erased (every byte FF). `path` (string) is the file's path relative to the schematic's folder (`../roms/boot.bin`), or absolute for a schematic that had never been saved. `bookmark` (base64 string, optional) is an app-scoped security bookmark; on the Mac that wrote it, it is tried first, so the sandboxed app can read the file after a restart, and `path` is the fallback. Ignored on other parts. |
 
 ## Board
@@ -391,11 +397,51 @@ It joins nothing, not even the wires that end on it, so a pin wired to
 one is on a net of its own and the PCB shows no unrouted line for it. It
 still stores a `name` (ignored), so it can turn back into a named label.
 
+## Custom parts
+
+A custom part is one loaded from a single part file (`.schpart`,
+`docs/parts-format.md` § Single part files) by File › Load Part… or made in
+the Part Editor. A schematic that places one embeds it, so the schematic
+opens on a Mac where the part was never loaded:
+
+```json
+{
+  "format": "schematical",
+  "version": 5,
+  "customParts": [
+    { "format": "schematical-part", "version": 1, "uuid": "6F1C2E8A-…", "kind": "gate",
+      "footprints": [ … ], "devices": [ … ] }
+  ],
+  "parts": [
+    { "id": "…", "reference": "U1", "partNumber": "SN74HC00N.2", "partUUID": "6F1C2E8A-…",
+      "x": 200, "y": 120, "flipped": false }
+  ]
+}
+```
+
+- `customParts` holds each custom part's single part file object, as it was
+  loaded (its name with any suffix the app gave it), once per part, in order
+  of first placement. Bundled parts are never embedded.
+- `version` is 5 exactly when `customParts` is written. A schematic with no
+  custom part is written as version 4, byte for byte as before, so an older
+  build still opens it; an older build refuses a version 5 file as "saved by a
+  newer version of Schematical (file format 5)".
+- On open, every `customParts` entry is loaded first, with File › Load Part…'s
+  rules: one whose uuid is already loaded with the same content is that part;
+  one whose uuid is loaded with other content fails the open ("… has the
+  identity …, which a different loaded part already has"); one the part
+  loader refuses fails the open with the loader's message. A name already
+  taken gets the lowest free suffix (`.2`, `.3`, …). Loaded parts stay for the
+  rest of the session, even if the open fails later.
+- A placed part with a `partUUID` resolves to the custom part with that uuid;
+  one with no matching entry is an unknown part.
+
 ## Validation on open
 
 Opening fails, and the canvas is left unchanged, if:
 
 - `format` is missing or not `"schematical"`, or `version` is newer than the app supports;
+- a `customParts` entry can't be loaded ([Custom parts](#custom-parts));
 - the JSON doesn't match this structure;
 - an ID is used more than once across parts, junctions, wires, buses, bus
   lines, bus wires, ports, board texts, traces, notes and net labels;

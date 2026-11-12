@@ -24,7 +24,7 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-32-A is complete: the register path exists and its tests pass | `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/PartRegistrationTests` → `passed` | NOT MET at writing (plan-32-A not started); the sub-plan starts only after it passes |
+| plan-32-A is complete: the register path exists and its tests pass | `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/PartRegistrationTests` → `passed` | MET (run 2026-11-11 in the P-32 worktree: `Test Suite 'PartRegistrationTests' passed`, 7 cases) |
 
 Everything below is written against the world where this holds.
 
@@ -162,41 +162,44 @@ the save path.
 
 One line: the file can hold the new keys and reads them back, with no open or save behavior yet.
 
-- [ ] `schematical/schematical/Document/SchematicFile.swift`: add `JSONValue` (recursive `Codable`).
-- [ ] `SchematicFile`: add `customParts: [JSONValue]?` (written only when non-empty, sorted keys), and `Part.partUUID: String?` (written only when non-nil).
-- [ ] `SchematicFile.currentVersion` → 5; `version` written as 5 only when `customParts` is non-empty, else 4 (§ 4.3). A version 4 document with no custom parts encodes byte-identically to the build at HEAD.
-- [ ] Tests: `schematical/schematicalTests/SchematicFileV5Tests.swift`: (a) a version 4 document with no custom parts encodes with `"version" : 4` and no `customParts` key; (b) a version 5 document with a `customParts` element decodes and re-encodes to the same JSON value (sorted keys); (c) a version 6 document is refused with `newerVersion(6)`.
+- [x] `schematical/schematical/Document/SchematicFile.swift`: add `JSONValue` (recursive `Codable`).
+- [x] `SchematicFile`: add `customParts: [JSONValue]?` (written only when non-empty, sorted keys), and `Part.partUUID: String?` (written only when non-nil).
+- [x] `SchematicFile.currentVersion` → 5; `version` written as 5 only when `customParts` is non-empty, else 4 (§ 4.3). A version 4 document with no custom parts encodes byte-identically to the build at HEAD.
+- [x] Tests: `schematical/schematicalTests/SchematicFileV5Tests.swift`: (a) a version 4 document with no custom parts encodes with `"version" : 4` and no `customParts` key; (b) a version 5 document with a `customParts` element decodes and re-encodes to the same JSON value (sorted keys); (c) a version 6 document is refused with `newerVersion(6)`.
 
 Acceptance: the three `SchematicFileV5Tests` cases pass, and the version 4 encoding in (a) equals the HEAD encoding of the same document.
   Check: `xcodebuild test … -only-testing:schematicalTests/SchematicFileV5Tests` → `passed`; the HEAD comparison is the test's own golden string, written from `git show HEAD:schematical/schematical/Document/SchematicFile.swift` by running the HEAD build's encoder once (est. 6 min, one build).
-Commit: —
+  Result (2026-11-11): the golden was captured by building commit 656b6d1 (`git archive` into `/tmp/p32-head`, a one-off `GoldenCaptureTests` printing save → open → save of SN74HC00N + 5V + GENERIC-LED); case (a) asserts the new build's save of it is equal byte for byte. `Test Suite 'SchematicFileV5Tests' passed` (10 cases a–j).
+Commit: (this commit, with Phases 2–3)
 
 ### Phase 2 — Open: register the document's custom parts and resolve by UUID
 
 One line: a version 5 document opens with its custom parts registered, and its placed parts resolve by UUID.
 
-- [ ] `schematical/schematical/Backend/PartCatalog.swift`: `PartCatalogStore.part(uuid:)` (a `[String: CatalogPart]` map kept beside `partsByName`, filled by `register`).
-- [ ] `PartCatalog.swift`: `register` stores the re-encoded file text in a `[uuid: String]` private map (used by Phase 3).
-- [ ] `SchematicFile.swift`: `SchematicFileError.customPartConflict(uuid:name:)` and `badCustomPart(String)` with their `errorDescription` texts.
-- [ ] `SchematicFile.apply(to:catalog:fileURL:)`: register each `customParts` element before the placed-part loop (§ 4.2); resolve each placed part by `partUUID` first.
-- [ ] Tests (added to `SchematicFileV5Tests.swift`): (d) a version 5 file whose custom part is not in the catalog opens and the placed part's `chip.part.uuid` equals the stored UUID; (e) the same file opened twice does not duplicate the part in `entries`; (f) a file whose `customParts` UUID is already registered with different content throws `customPartConflict` and the document's `chips` is unchanged; (g) a placed `partUUID` with no `customParts` entry is reported in `unknownParts`.
+- [x] `schematical/schematical/Backend/PartCatalog.swift`: `PartCatalogStore.part(uuid:)` (landed with plan-32-A Phase 3, f1502df, since `register` fills it) (a `[String: CatalogPart]` map kept beside `partsByName`, filled by `register`).
+- [x] `PartCatalog.swift`: `register` stores the re-encoded file text in a `[uuid: String]` private map (used by Phase 3). (Also f1502df: `registeredTexts`, read through `registeredText(uuid:)`.)
+- [x] `SchematicFile.swift`: `SchematicFileError.customPartConflict(uuid:name:)` and `badCustomPart(String)` with their `errorDescription` texts.
+- [x] `SchematicFile.apply(to:catalog:fileURL:)`: register each `customParts` element before the placed-part loop (§ 4.2); resolve each placed part by `partUUID` first.
+- [x] Tests (added to `SchematicFileV5Tests.swift`): (d) a version 5 file whose custom part is not in the catalog opens and the placed part's `chip.part.uuid` equals the stored UUID; (e) the same file opened twice does not duplicate the part in `entries`; (f) a file whose `customParts` UUID is already registered with different content throws `customPartConflict` and the document's `chips` is unchanged; (g) a placed `partUUID` with no `customParts` entry is reported in `unknownParts`.
 
 Acceptance: cases (d)–(g) pass.
   Check: `xcodebuild test … -only-testing:schematicalTests/SchematicFileV5Tests` → `passed` (est. 4 min).
-Commit: —
+  Result (2026-11-11): passed, cases (d)–(g) included.
+Commit: (this commit, with Phases 1 and 3)
 
 ### Phase 3 — Save: write the custom parts a document uses
 
 One line: saving a document with custom parts writes version 5 with exactly the parts it uses.
 
-- [ ] `SchematicDocument` save path: collect custom parts by `partUUID` in placement order, deduplicate, and read their text from the store's `[uuid: String]` map (Phase 2) into `customParts`.
-- [ ] Set `version` to 5 when `customParts` is non-empty, else 4 (§ 4.3).
-- [ ] `partNumber` written for a custom part is its registered name (suffix included).
-- [ ] Tests (added to `SchematicFileV5Tests.swift`): (h) a document with two placements of one custom part writes one `customParts` element; (i) a document with one custom and one bundled part writes `partUUID` on the custom placement only and no `partUUID` on the bundled one; (j) save → open → save produces identical bytes.
+- [x] `SchematicDocument` save path (`SchematicFile.init(document:fileURL:catalog:)`; `catalog` nil means the app's catalog, read only when a custom part is placed): collect custom parts by `partUUID` in placement order, deduplicate, and read their text from the store's `[uuid: String]` map (Phase 2) into `customParts`.
+- [x] Set `version` to 5 when `customParts` is non-empty, else 4 (§ 4.3).
+- [x] `partNumber` written for a custom part is its registered name (suffix included).
+- [x] Tests (added to `SchematicFileV5Tests.swift`): (h) a document with two placements of one custom part writes one `customParts` element; (i) a document with one custom and one bundled part writes `partUUID` on the custom placement only and no `partUUID` on the bundled one; (j) save → open → save produces identical bytes.
 
 Acceptance: cases (h)–(j) pass.
   Check: `xcodebuild test … -only-testing:schematicalTests/SchematicFileV5Tests` → `passed` (est. 4 min).
-Commit: —
+  Result (2026-11-11): passed, cases (h)–(j) included; (i) also checks a suffixed name (`SN74HC00N.2`) is the saved `partNumber`.
+Commit: (this commit, with Phases 1–2)
 
 ## Validation Plan
 
@@ -215,7 +218,20 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **`currentVersion` is the newest version read; two new constants name what is
+  written** (2026-11-11). § Phase 1 says "`currentVersion` → 5; `version` written as 5
+  only when …". `currentVersion` was also what `init(document:)` wrote, so it is now 5
+  (the decode gate) and the writer uses `plainVersion` (4) or `customPartsVersion` (5).
+- **The save path needs the catalog** (2026-11-11). § 4.3 reads the registered text "from
+  the store"; `SchematicFile.init(document:fileURL:)` had no store, so it gains
+  `catalog: PartCatalogStore? = nil` (the app's `PartCatalogStore.shared` when nil, used
+  only when a placed part has a uuid, so plain saves never touch it).
+- **Doc sync done** (2026-11-11): `docs/file-format.md` describes version 5 (header,
+  design rule, `customParts`, `partUUID`, § Custom parts, § Validation on open);
+  `rg -c 'version' docs/file-format.md` → 38.
+- **Runtime proof** (Validation Plan) is folded into plan-32-C Phase 4's app session,
+  which places a custom part from the editor and saves the schematic; the unit cases (d)
+  and (j) cover open-after-save without the part loaded beforehand in this build's store.
 
 ## Summary
 

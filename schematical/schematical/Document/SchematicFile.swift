@@ -4,7 +4,8 @@ import UniformTypeIdentifiers
 
 // MARK: - File format
 
-/// The on-disk form of a schematic, version 4. See `docs/file-format.md`.
+/// The on-disk form of a schematic, version 4, or 5 when it embeds custom
+/// parts (plan-32-B). See `docs/file-format.md`.
 /// Version 1 files (pins by number) are converted when opened; version 1 and
 /// 2 files have no buses; version 1–3 files have no part `color` or
 /// `footprint`.
@@ -13,7 +14,13 @@ import UniformTypeIdentifiers
 /// backend catalog when the file is opened.
 nonisolated struct SchematicFile: Codable, Equatable, Sendable {
     static let formatName = "schematical"
-    static let currentVersion = 4
+    /// The newest version this build reads.
+    static let currentVersion = 5
+    /// The version written for a schematic with no custom part, so older
+    /// builds still open it.
+    static let plainVersion = 4
+    /// The version written when `customParts` is present.
+    static let customPartsVersion = 5
     static let fileExtension = "schematical"
 
     /// Parts removed from the library, and the part each one opens as. A file
@@ -90,6 +97,10 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         /// Pull resistors only (version 4): the resistance in ohms. Always
         /// written for them; missing means 1000; ignored on other parts.
         var ohms: Double? = nil
+        /// Custom parts only (version 5): the part's uuid, one of the file's
+        /// `customParts`. The part resolves by it; `partNumber` is the name it
+        /// had when saved.
+        var partUUID: String? = nil
     }
 
     /// An EEPROM's load file: the path relative to the schematic's folder (or
@@ -401,6 +412,60 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
     /// Net labels, in drawing order. Written only when there are some;
     /// missing means none.
     var labels: [Label]? = nil
+    /// Version 5: the single part files (plan-32-A) of the custom parts the
+    /// schematic places, once each, in order of first placement. Written only
+    /// when there are some.
+    var customParts: [JSONValue]? = nil
+}
+
+/// Any JSON value, for the custom parts a schematic embeds whole.
+nonisolated enum JSONValue: Codable, Equatable, Sendable {
+    case object([String: JSONValue])
+    case array([JSONValue])
+    case string(String)
+    case number(Double)
+    case bool(Bool)
+    case null
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if container.decodeNil() {
+            self = .null
+        } else if let value = try? container.decode(Bool.self) {
+            self = .bool(value)
+        } else if let value = try? container.decode(Double.self) {
+            self = .number(value)
+        } else if let value = try? container.decode(String.self) {
+            self = .string(value)
+        } else if let value = try? container.decode([JSONValue].self) {
+            self = .array(value)
+        } else {
+            self = .object(try container.decode([String: JSONValue].self))
+        }
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .object(value): try container.encode(value)
+        case let .array(value): try container.encode(value)
+        case let .string(value): try container.encode(value)
+        case let .number(value): try container.encode(value)
+        case let .bool(value): try container.encode(value)
+        case .null: try container.encodeNil()
+        }
+    }
+
+    /// The value's JSON text, keys sorted.
+    func text() throws -> String {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes]
+        return String(decoding: try encoder.encode(self), as: UTF8.self)
+    }
+
+    init(text: String) throws {
+        self = try JSONDecoder().decode(JSONValue.self, from: Data(text.utf8))
+    }
 }
 
 // MARK: - Errors
@@ -431,6 +496,10 @@ nonisolated enum SchematicFileError: LocalizedError {
     case badPartOption(reference: String, detail: String)
     /// A pull resistor's resistance that isn't more than 0 and at most 1 GΩ.
     case badOhms(reference: String, ohms: Double)
+    /// An embedded custom part's uuid is loaded with other content.
+    case customPartConflict(uuid: String, name: String)
+    /// An embedded custom part the part loader refused.
+    case badCustomPart(String)
 
     var errorDescription: String? {
         switch self {
@@ -470,6 +539,10 @@ nonisolated enum SchematicFileError: LocalizedError {
             "\(reference): \(detail)"
         case let .badOhms(reference, ohms):
             "\(reference) has resistance \(Self.number(ohms)) Ω; it must be more than 0 and at most 1 GΩ."
+        case let .customPartConflict(uuid, name):
+            "This schematic's part \(name) has the identity \(uuid), which a different loaded part already has."
+        case let .badCustomPart(detail):
+            "One of this schematic's custom parts could not be loaded: \(detail)"
         }
     }
 
@@ -488,10 +561,22 @@ extension SchematicFile {
     /// A snapshot of the document. The selection is not saved. `fileURL` is
     /// where it will be (or was) saved: load-file paths are relative to its
     /// folder, or absolute when it is nil.
+    /// Custom parts' file text comes from `catalog` (the app's catalog when
+    /// nil; read only when the schematic places a custom part).
     @MainActor
-    init(document: SchematicDocument, fileURL: URL?) {
+    init(document: SchematicDocument, fileURL: URL?, catalog: PartCatalogStore? = nil) {
         format = Self.formatName
-        version = Self.currentVersion
+        var custom: [JSONValue] = []
+        var embedded = Set<String>()
+        for chip in document.chips {
+            guard let uuid = chip.part.uuid, embedded.insert(uuid).inserted else { continue }
+            let store = catalog ?? PartCatalogStore.shared
+            if let text = store.registeredText(uuid: uuid), let value = try? JSONValue(text: text) {
+                custom.append(value)
+            }
+        }
+        customParts = custom.isEmpty ? nil : custom
+        version = custom.isEmpty ? Self.plainVersion : Self.customPartsVersion
         nextReference = document.nextReference
         parts = document.chips.map { chip in
             Part(
@@ -516,7 +601,8 @@ extension SchematicFile {
                 color: chip.color,
                 footprint: chip.footprintID,
                 gender: chip.gender,
-                ohms: chip.ohms
+                ohms: chip.ohms,
+                partUUID: chip.part.uuid
             )
         }
         junctions = document.junctions.map {
@@ -652,13 +738,26 @@ extension SchematicFile {
 
         let settings = try boardSettings()
 
+        // Custom parts first (plan-32-B), so placed parts can resolve to them.
+        // Registering one is for the session, like File › Load Part….
+        for (index, entry) in (customParts ?? []).enumerated() {
+            do {
+                try catalog.register(fileText: try entry.text(), source: "customParts[\(index)]")
+            } catch let PartRegistrationError.uuidInUse(uuid, name) {
+                throw SchematicFileError.customPartConflict(uuid: uuid, name: name)
+            } catch let error as PartRegistrationError {
+                throw SchematicFileError.badCustomPart(error.localizedDescription)
+            }
+        }
+
         var chips: [PlacedChip] = []
         var unknown: [String] = []
         for part in parts {
             try claim(part.id)
             let legacy = Self.legacyLEDs[part.partNumber]
             let name = legacy != nil ? Self.genericLED : Self.renamedParts[part.partNumber] ?? part.partNumber
-            guard let catalogPart = catalog.part(named: name) else {
+            let found = part.partUUID.map { catalog.part(uuid: $0) } ?? catalog.part(named: name)
+            guard let catalogPart = found else {
                 unknown.append(part.partNumber)
                 continue
             }
