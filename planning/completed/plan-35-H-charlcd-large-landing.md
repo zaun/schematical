@@ -107,7 +107,7 @@ Check: `ls planning/plan-35-*.md` → no matches;
 `ls planning/completed/plan-35-*.md | wc -l` → 8. — done in this commit
 (its hash is in the merge report; a commit cannot name itself).
 
-Commit: the archive commit after ecc13ba ("plan-35-H Phase 2"; Corrections)
+Commit: dad9455
 
 ## Validation Plan
 
