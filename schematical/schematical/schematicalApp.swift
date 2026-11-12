@@ -127,7 +127,8 @@ struct schematicalApp: App {
         Window("New Part", id: PartKindPicker.windowID) {
             PartKindPicker()
         }
-        .defaultSize(width: 340, height: 520)
+        // Tall enough to list all 26 kinds without scrolling.
+        .defaultSize(width: 340, height: 760)
         .restorationBehavior(.disabled)
 
         // One Part Editor per part being made (plan-32-C).

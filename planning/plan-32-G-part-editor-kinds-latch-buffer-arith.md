@@ -150,11 +150,12 @@ Commit: 675327c
 
 One line: one part of each kind is created, saved and loaded back in the app.
 
-- [ ] No code. From New Part…, create a latch, a buffer (translator model, two domains) and an arith part; save and load each with File › Load Part….
+- [x] No code. From New Part…, create a latch, a buffer (translator model, two domains) and an arith part; save and load each with File › Load Part….
 
 Acceptance: each loads back into the drawer.
   Check: the run skill's session (est. 25 min).
-Commit: —
+  Result (2026-11-11, `/tmp/p32/scripts/guarded.sh`, this build frontmost before and after every cycle): New Part… → the kind's row opened the kind's editor, Open Part… a copy of a shipped part filled it (the window took the file's name), ⌘S rewrote the file (new mtime), and File › Load Part… registered it. The drawer count went 26,636 → 26,646 over the ten loads of this session (G's three, then H's two, I's three, J's two): ZZG-LATCH (CD74AC373E, model transparent), ZZG-BUFFER (SN74AVC1T45DBVR, model translator, two domains), ZZG-ARITH (CD74HC85E, model compare); the searches ZZG-BUFFER and ZZG-ARITH show Logic, and the count reads 26,638 and 26,639 after them.
+Commit: (this commit)
 
 ## Validation Plan
 

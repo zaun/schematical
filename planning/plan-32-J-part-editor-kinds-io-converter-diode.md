@@ -133,7 +133,7 @@ listing the keys the form lacks.
 Acceptance: the test fails listing the missing keys of the nine kinds.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindKeysTests` → `failed`, listing the keys (est. 3 min).
   Result (2026-11-11, RED): failed, `["header": ["genders", "rows"], "convert…`, every key of the nine kinds; arrays parsed cpu 2, pio 4, serial 62, charlcd 6, connector 1, converter 13, rtc 13, diode 3, header 1.
-Commit: (this commit, with Phases 2–3)
+Commit: 299b328
 
 ### Phase 2 — Forms for the nine kinds
 
@@ -146,7 +146,7 @@ One line: each kind's form covers every key of Phase 1.
 Acceptance: `PartKindKeysTests` passes for the nine kinds.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindKeysTests` → `passed` (est. 6 min).
   Result (2026-11-11): passed, all 26 kinds (converter without `load_clock`'s array, rtc without `load_choice`/`load_time`/`load_conversion`/`load_dac`'s, each checked to exist; Corrections).
-Commit: (this commit)
+Commit: 299b328
 
 ### Phase 3 — Round trip over every shipped part
 
@@ -157,18 +157,19 @@ One line: all 13811 shipped parts of the nine kinds round-trip with no key in `e
 Acceptance: zero mismatched, zero with extras, zero rejected, for cpu (21), pio (7), serial (247), charlcd (5), connector (374), converter (1911), rtc (14), diode (11152) and header (80).
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindRoundTripTests` → `passed`, with nine count lines (est. 15 min; the diode population dominates).
   Result (2026-11-11): passed: cpu 21, pio 7, serial 247, charlcd 5, connector 374, converter 1911, rtc 14, diode 11152, header 80 — each `0 mismatched, 0 with extras, 0 rejected`; the same run has every other kind 0/0/0 and the gate test `checked 3438 parts, 0 mismatched, 0 with extras, 0 rejected`.
-Commit: (this commit)
+Commit: 299b328
 
 ### Phase 4 — Completion check and runtime proof
 
 One line: the picker lists all 26 kinds, enabled, and one part of a new kind is saved and loaded.
 
 - [x] `PartEditorWindowTests.swift` case (a) changes to `PartDraft.enabledKinds` equal to all 26 kinds (the list of Phase 1 of plan-32-C).
-- [ ] No other code. From New Part…, create a diode (Zener) and a converter (ADC); save and load each.
+- [x] No other code. From New Part…, create a diode (Zener) and a converter (ADC); save and load each.
 
 Acceptance: `PartEditorWindowTests` passes with all 26 enabled; the Zener and ADC parts load back into the drawer.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartEditorWindowTests` → `passed` (est. 4 min); the app session is the run skill's (est. 15 min).
-Commit: —
+  Result (2026-11-11, `/tmp/p32/scripts/guarded.sh`, this build frontmost before and after every cycle): New Part… → the kind's row opened the kind's editor, Open Part… a copy of a shipped part filled it (the window took the file's name), ⌘S rewrote the file (new mtime), and File › Load Part… registered it. The drawer count went 26,636 → 26,646 over the ten loads of this session (G's three, then H's two, I's three, J's two): ZZJ-ZENER (1N4728A, type zener) and ZZJ-ADC (ADC081S021CIMF/NOPB, type adc); the last count reads 26,646 parts. `PartEditorWindowTests` passed with all 26 kinds enabled (plan-32-J Phase 3's run).
+Commit: (this commit)
 
 ## Validation Plan
 

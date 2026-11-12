@@ -147,11 +147,12 @@ Commit: cee14eb
 
 One line: one part of a seven-kind set is created, saved and loaded back in the app.
 
-- [ ] No code. From New Part…, create an SRAM, a 7-segment display and an oscillator; save and load each with File › Load Part….
+- [x] No code. From New Part…, create an SRAM, a 7-segment display and an oscillator; save and load each with File › Load Part….
 
 Acceptance: each loads back into the drawer.
   Check: the run skill's session (est. 20 min).
-Commit: —
+  Result (2026-11-11, `/tmp/p32/scripts/guarded.sh`, this build frontmost before and after every cycle): New Part… → the kind's row opened the kind's editor, Open Part… a copy of a shipped part filled it (the window took the file's name), ⌘S rewrote the file (new mtime), and File › Load Part… registered it. The drawer count went 26,636 → 26,646 over the ten loads of this session (G's three, then H's two, I's three, J's two): ZZI-SRAM (AS6C6264-55PCN; its block preview showed the 8 K × 8 SRAM's pins), ZZI-7SEG (LTC-4727JR), ZZI-OSC (OSC-SIT1534-2012).
+Commit: (this commit)
 
 ## Validation Plan
 
