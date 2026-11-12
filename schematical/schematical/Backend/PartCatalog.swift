@@ -271,6 +271,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     }
 
     let name: String
+    /// A custom part's identity: the `uuid` of the single part file it was
+    /// registered from (plan-32-A). Nil for every bundled part.
+    let uuid: String?
     let kind: PartKind
     let package: String
     /// The parts-drawer leaf: "NAND", "32 KB", "LED", a frequency band.
@@ -309,9 +312,13 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
 
     var id: String { name }
 
-    // Names are unique across the library, so a part is its name.
-    static func == (a: CatalogPart, b: CatalogPart) -> Bool { a.name == b.name }
-    func hash(into hasher: inout Hasher) { hasher.combine(name) }
+    // Names are unique across the library, so a part is its name (and, for a
+    // custom part, its uuid).
+    static func == (a: CatalogPart, b: CatalogPart) -> Bool { a.name == b.name && a.uuid == b.uuid }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(uuid)
+    }
 
     /// The voltage shown in the drawer: the supply range ("2–6 V") for logic,
     /// memory and oscillators, the forward voltage ("VF 2–2.6 V") for a
@@ -574,6 +581,7 @@ extension CatalogPart {
             return (power, range.min_mv, range.max_mv, range.input_max_mv)
         }
         name = string(part.name)
+        uuid = part.uuid.map { String(cString: $0) }
         kind = part.kind
         package = string(part.package)
         function = string(part.function)
@@ -732,19 +740,23 @@ nonisolated enum BackendCatalog {
         let count = part_library_count(library.pointer)
         return (0..<count).compactMap { index in
             part_library_at(library.pointer, index).map { part in
-                CatalogPart(part.pointee,
-                            footprint: part.pointee.footprint.flatMap { footprints[string($0.pointee.id)] },
-                            connectorFootprint: part.pointee.connector_footprint
-                                .flatMap { footprints[string($0.pointee.id)] },
-                            footprintChoices: (0..<part.pointee.footprint_choice_count).compactMap { k in
-                                guard let choice = part.pointee.footprint_choices?[k],
-                                      let footprint = choice.footprint.flatMap({ footprints[string($0.pointee.id)] })
-                                else { return nil }
-                                return CatalogPart.FootprintChoice(package: string(choice.package),
-                                                                   footprint: footprint)
-                            })
+                catalogPart(part.pointee) { footprints[string($0.pointee.id)] }
             }
         }
+    }
+
+    /// Copies one backend part, its footprints looked up by `footprint`.
+    static func catalogPart(_ part: Part,
+                            footprint: (UnsafePointer<PartFootprint>) -> Footprint?) -> CatalogPart {
+        CatalogPart(part,
+                    footprint: part.footprint.flatMap(footprint),
+                    connectorFootprint: part.connector_footprint.flatMap(footprint),
+                    footprintChoices: (0..<part.footprint_choice_count).compactMap { k in
+                        guard let choice = part.footprint_choices?[k],
+                              let copy = choice.footprint.flatMap(footprint)
+                        else { return nil }
+                        return CatalogPart.FootprintChoice(package: string(choice.package), footprint: copy)
+                    })
     }
 
     /// Reads one bundled file and hands it to a backend loader.
@@ -766,6 +778,86 @@ nonisolated enum BackendCatalog {
             free(error)
             throw LoadError.malformed(message)
         }
+    }
+}
+
+// MARK: - Custom parts (plan-32-A)
+
+/// Why a single part file (`.schpart`) could not be added to the catalog.
+nonisolated enum PartRegistrationError: LocalizedError, Equatable {
+    /// A different part file with this uuid is already loaded.
+    case uuidInUse(uuid: String, name: String)
+    /// The backend's loader refused the file; its message names the place.
+    case backend(String)
+    /// The file is not a part file at all (not UTF-8 text, or not a JSON object).
+    case notAPartFile(String)
+
+    var errorDescription: String? {
+        switch self {
+        case .uuidInUse(let uuid, let name):
+            return "A different part with this identity (\(uuid)) is already loaded as \(name)."
+        case .backend(let message):
+            return message
+        case .notAPartFile(let detail):
+            return "This is not a part file (\(detail))."
+        }
+    }
+}
+
+/// Reads a `.schpart` file's text for `PartCatalogStore.register`.
+nonisolated enum PartFileReader {
+    static func read(url: URL) throws -> String {
+        let data: Data
+        do {
+            data = try Data(contentsOf: url)
+        } catch {
+            throw PartRegistrationError.notAPartFile("\(url.lastPathComponent): \(error.localizedDescription)")
+        }
+        guard let text = String(data: data, encoding: .utf8) else {
+            throw PartRegistrationError.notAPartFile("\(url.lastPathComponent) is not UTF-8 text")
+        }
+        return text
+    }
+}
+
+/// A single part file as a JSON object, for the store's clash rules.
+nonisolated struct PartFileObject {
+    var object: [String: Any]
+
+    init(text: String) throws {
+        guard let data = text.data(using: .utf8),
+              let object = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any] else {
+            throw PartRegistrationError.notAPartFile("not a JSON object")
+        }
+        self.object = object
+    }
+
+    var uuid: String? { object["uuid"] as? String }
+
+    /// The one part's name (`devices[0].parts[0].name`).
+    var name: String? {
+        get {
+            let device = (object["devices"] as? [Any])?.first as? [String: Any]
+            let part = (device?["parts"] as? [Any])?.first as? [String: Any]
+            return part?["name"] as? String
+        }
+        set {
+            guard var devices = object["devices"] as? [Any], var device = devices.first as? [String: Any],
+                  var parts = device["parts"] as? [Any], var part = parts.first as? [String: Any]
+            else { return }
+            part["name"] = newValue
+            parts[0] = part
+            device["parts"] = parts
+            devices[0] = device
+            object["devices"] = devices
+        }
+    }
+
+    /// Sorted keys, so equal content is equal text.
+    var canonicalText: String {
+        guard let data = try? JSONSerialization.data(
+            withJSONObject: object, options: [.sortedKeys, .withoutEscapingSlashes]) else { return "" }
+        return String(decoding: data, as: UTF8.self)
     }
 }
 
@@ -912,6 +1004,10 @@ final class PartCatalogStore {
     /// Listed parts (a non-empty drawer path).
     private var entries: [CatalogPart] = []
     private var partsByName: [String: CatalogPart] = [:]
+    /// Registered custom parts (plan-32-A), by uuid, and the text each was
+    /// registered with.
+    private var partsByUUID: [String: CatalogPart] = [:]
+    private var registeredTexts: [String: String] = [:]
 
     var partCount: Int { entries.count }
 
@@ -1002,6 +1098,61 @@ final class PartCatalogStore {
     /// Any part by name, listed or not (VCC and GND are not listed).
     func part(named name: String) -> CatalogPart? {
         partsByName[name]
+    }
+
+    /// A registered custom part by its uuid.
+    func part(uuid: String) -> CatalogPart? {
+        partsByUUID[uuid]
+    }
+
+    /// The text a custom part was registered with (sorted keys, its name as
+    /// registered, suffix included); nil for an unknown uuid.
+    func registeredText(uuid: String) -> String? {
+        registeredTexts[uuid]
+    }
+
+    /// Adds a single part file's part to the catalog for the rest of the
+    /// session (plan-32-A § 4.3). The same uuid with the same content returns
+    /// the registered part; with other content it is refused. A name that is
+    /// taken gets the lowest free suffix `.2`, `.3`, …. The backend checks the
+    /// file; a failure changes nothing.
+    @discardableResult
+    func register(fileText: String, source: String) throws -> CatalogPart {
+        var file = try PartFileObject(text: fileText)
+        if let uuid = file.uuid, let registered = partsByUUID[uuid] {
+            // The registered text carries the name as registered (maybe
+            // suffixed); compare with the new file under that name.
+            file.name = registered.name
+            if file.canonicalText == registeredTexts[uuid] {
+                return registered
+            }
+            throw PartRegistrationError.uuidInUse(uuid: uuid, name: registered.name)
+        }
+        if let name = file.name, partsByName[name] != nil {
+            var n = 2
+            while partsByName["\(name).\(n)"] != nil {
+                n += 1
+            }
+            file.name = "\(name).\(n)"
+        }
+        let text = file.canonicalText
+        var error: UnsafeMutablePointer<CChar>?
+        if load_part_file(library.pointer, text, source, &error) != 0 {
+            let message = error.map { String(cString: $0) } ?? source
+            free(error)
+            throw PartRegistrationError.backend(message)
+        }
+        guard let uuid = file.uuid, let loaded = part_library_find_uuid(library.pointer, uuid) else {
+            throw PartRegistrationError.backend("\(source): the part did not load")
+        }
+        let part = BackendCatalog.catalogPart(loaded.pointee) { Footprint($0.pointee) }
+        partsByName[part.name] = part
+        partsByUUID[uuid] = part
+        registeredTexts[uuid] = text
+        if !part.drawer.isEmpty {
+            entries.append(part)
+        }
+        return part
     }
 
     /// Parts grouped by drawer path, then by function, after applying the filter.

@@ -266,6 +266,60 @@ is `Part.vcc`; domain 1 the B side. Single-supply parts have
   are unique within a kind.
 - A failed `load_parts` adds nothing from that file; parts from earlier files
   stay.
+- A single part file (below) is loaded with `load_part_file`, which still
+  rejects a duplicate part name. A name clash is resolved by the app before
+  it calls the loader: the new part is renamed with the lowest free numeric
+  suffix from 2 (`SN74HC00N.2`, `SN74HC00N.3`).
+
+## Single part files
+
+A custom part is kept in a file of its own, a **single part file**
+(extension `.schpart`, plan-32-A). The app loads one with File › Load Part…
+for the rest of the session (it is not copied anywhere), and a schematic that
+places one embeds it. It holds exactly one device with exactly one part, and
+optionally the custom footprints that part uses.
+
+```json
+{
+  "format": "schematical-part",
+  "version": 1,
+  "uuid": "6F1C2E8A-3B7D-4C55-9A61-0E2B4D7F9C10",
+  "kind": "gate",
+  "footprints": [
+    { "id": "CUSTOM-6F1C2E8A", "description": "Test pads", "style": "explicit", "pins": 5,
+      "body": { "width": 3.0, "height": 3.0 },
+      "pads": [ { "pin": 1, "x": -1, "y": -1, "width": 0.6, "height": 0.6, "shape": "rect" }, … ] }
+  ],
+  "devices": [
+    { "id": "1G00", "function": "NAND", "description": "Single 2-input NAND gate",
+      "drawer": ["Custom", "Gates"], "pinouts": { "p5": [ … ] },
+      "gates": [ { "op": "nand", "inputs": ["A", "B"], "output": "Y" } ],
+      "timing": { "HC": { "rise": 9, "fall": 9, "vcc": [2, 6] } },
+      "parts": [ { "name": "MY-NAND", "manufacturer": "Generic", "package": "SOT-23",
+                   "pinout": "p5", "footprint": "CUSTOM-6F1C2E8A", "family": "HC" } ] }
+  ]
+}
+```
+
+| Key | Rule |
+|---|---|
+| `"format"` | exactly `"schematical-part"` |
+| `"version"` | exactly `1` |
+| `"uuid"` | required; the part's identity: 36 characters, uppercase hexadecimal digits and hyphens in the 8-4-4-4-12 layout (Foundation's `UUID.uuidString`). Bundled parts have none |
+| `"kind"` | one of the kinds below, as in a part file |
+| `"footprints"` | optional array; each entry is a `footprints.json` entry (§ Footprints). Its ids must be new to the library |
+| `"devices"` | exactly one device (§ Devices), holding exactly one part (§ Parts) |
+
+No other top-level key is allowed. The part's `"footprint"` may name a
+bundled footprint id or one listed in `"footprints"`. The device id need not
+be new: a copy of a bundled device keeps its id, and several custom parts may
+share one. The part name must be new (see § Loading rules for how the app
+renames a clash), and so must the uuid.
+
+The uuid is what the app goes by. Loading a file whose uuid is already loaded
+returns the loaded part when the content is the same (compared with the name
+as it was registered, so a suffixed copy counts as the same), and is refused
+when the content differs. A failed load adds nothing: no footprint, no part.
 
 ## Datasheets
 

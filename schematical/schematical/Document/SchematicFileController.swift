@@ -2,6 +2,7 @@ import AppKit
 import Foundation
 import Observation
 import SwiftUI
+import UniformTypeIdentifiers
 
 /// Save and Open for one window. Tracks which file the window's schematic came
 /// from and whether it has changed since it was last saved or opened.
@@ -318,6 +319,67 @@ final class SchematicFileController {
     }
 }
 
+// MARK: - Single part files (plan-32-A)
+
+/// The single part file type (`.schpart`), declared in the app's Info.plist.
+enum PartFileType {
+    static let fileExtension = "schpart"
+    static let contentType = UTType(exportedAs: "jgz.schematical.part", conformingTo: .json)
+
+    /// The declared type, plus whatever type the system gives a `.schpart`
+    /// file before the declaration is registered (as `SchematicFile.openableTypes`).
+    static var openableTypes: [UTType] {
+        var types = [contentType]
+        if let byExtension = UTType(filenameExtension: fileExtension), byExtension != contentType {
+            types.append(byExtension)
+        }
+        return types
+    }
+}
+
+/// File › Load Part…: adds a `.schpart` file's part to the catalog for the
+/// rest of the session. A failure shows the reason; nothing changes.
+@MainActor
+enum PartFileLoading {
+    static func loadPart(catalog: PartCatalogStore = .shared) async {
+        let panel = NSOpenPanel()
+        panel.allowedContentTypes = PartFileType.openableTypes
+        panel.allowsMultipleSelection = false
+        panel.canChooseDirectories = false
+        panel.message = "Choose a part file to add to the parts drawer"
+        let response: NSApplication.ModalResponse
+        if let window = NSApp.keyWindow {
+            response = await panel.beginSheetModal(for: window)
+        } else {
+            response = panel.runModal()
+        }
+        guard response == .OK, let url = panel.url else { return }
+        do {
+            let text = try PartFileReader.read(url: url)
+            try catalog.register(fileText: text, source: url.lastPathComponent)
+        } catch {
+            let alert = NSAlert()
+            alert.alertStyle = .warning
+            alert.messageText = "Couldn't load “\(url.lastPathComponent)”"
+            alert.informativeText = error.localizedDescription
+            if let window = NSApp.keyWindow {
+                _ = await alert.beginSheetModal(for: window)
+            } else {
+                alert.runModal()
+            }
+        }
+    }
+}
+
+/// The File menu's part file items, after Open….
+struct PartFileMenuItems: View {
+    var body: some View {
+        Button("Load Part…") {
+            Task { await PartFileLoading.loadPart() }
+        }
+    }
+}
+
 // MARK: - Menu commands
 
 extension FocusedValues {
@@ -336,6 +398,8 @@ struct SchematicFileCommands: Commands {
             }
             .keyboardShortcut("o", modifiers: .command)
             .disabled(file == nil)
+
+            PartFileMenuItems()
 
             // Here rather than in a `.saveItem` group: the File menu of a
             // WindowGroup app never showed that group (only New, Open… and
