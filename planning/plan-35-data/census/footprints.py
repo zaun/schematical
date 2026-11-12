@@ -6,7 +6,7 @@ HDR={
 'LCM-FOCUS-C204ALB-98':'1x16 top-left','LCM-FOCUS-C204AXB':'1x16 top','LCM-FOCUS-C204BLB-146':'1x16 top-left',
 'LCM-FOCUS-C204DLB':'1x16 top-left','LCM-FOCUS-C204ALB-155':'1x16 top-left','LCM-FOCUS-C204BLB-155':'1x16 top-left',
 'LCM-FOCUS-C204CXB':'1x16 top-left','LCM-FOCUS-C204HLB':'1x20 bottom','LCM-FOCUS-C402ALB-285':'2x8 left (15-16 NC)',
-'LCM-FOCUS-C402A3':'2x8 left','LCM-FOCUS-C402ALB':'2x8 left','LCM-FOCUS-C402ASB':'1x16 (mechanical diagram p.2)',
+'LCM-FOCUS-C402A3':'2x8 left','LCM-FOCUS-C402ALB':'2x8 left','LCM-FOCUS-C402ASB':'2x8 left (mechanical diagram p.2)',
 'LCM-FOCUS-C404ALB':'2x9 left','LCM-MIDAS-MC42004':'1x16 (drawing rotated 90 deg)','LCM-MIDAS-MC42004-SPR':'1x16 (rotated)',
 'LCM-MIDAS-MD42004':'1x18 (rotated)','LCM-MIDAS-MC42005':'1x16 (rotated)','LCM-MIDAS-MD42005C':'1x18 (rotated)',
 'LCM-MIDAS-MC42008':'1x16 (rotated)','LCM-MIDAS-MD24005':'2x7 interface plus 4 backlight pads A, K(R), K(G), K(B) (rotated)',

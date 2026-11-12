@@ -80,7 +80,7 @@ pages are PDF pages):
 | LCM-FOCUS-C402ALB-285 | 285 × 56 | 16 | 2x8 left (15–16 NC) | C402ALBSGN06WT50PAB_Spec.pdf p.3 | C402ALBSGN06WT50PAB |
 | LCM-FOCUS-C402A3 | 182 × 33.5 | 16 | 2x8 left | C402A3-BW-LW65_Spec.pdf p.3 | C402A3-BW-LW65 |
 | LCM-FOCUS-C402ALB | 182 × 33.5 | 16 | 2x8 left | C402ALBFKSW6WT55XAA_Spec.pdf p.3 | C402ALBFKSW6WT55XAA, C402ALBFWSW6WT33XAA, C402ALBSBSW6WN33XAA, C402ALBSBSW6WN55XAA, C402ALBSYLY6WT33XAA, C402ALBSYLY6WT55XAA |
-| LCM-FOCUS-C402ASB | 182 × 33.5 | 16 | 1x16 | C402ASBSYLY6WT55PAB_Spec.pdf p.2 | C402ASBSYLY6WT55PAB |
+| LCM-FOCUS-C402ASB | 182 × 33.5 | 16 | 2x8 left (corrected, was 1x16) | C402ASBSYLY6WT55PAB_Spec.pdf p.2 | C402ASBSYLY6WT55PAB |
 | LCM-FOCUS-C404ALB | 190 × 54 | 18 | 2x9 left | C404ALBFKSW6WT55PAB_Spec.pdf p.3 | C404ALBFKSW6WT55PAB, C404ALBFWSW6WT33PAB, C404ALBSBSW6WF33PAB, C404ALBSBSW6WN55PAB, C404ALBSYLY6WT33PAB |
 
 ### Measured populations
@@ -116,12 +116,14 @@ footprints:
 
 - **Coordinates:** origin at the PCB's centre, x right, y down, mm, front
   view. Body = the PCB outline (W × H as drawn).
-- **Interface pins:** the drawn hole (Ø1.0 on every Focus sheet viewed);
+- **Interface pins:** the drawn hole (Ø1.0 where a sheet prints it; four
+  sheets print none and Ø1.0 is assumed there, see Corrections);
   pad Ø1.8 round, pin 1 square, unless the drawing prints a pad size.
   Positions come from the drawing's pitch chain (`P2.54*15=38.1`) and the
   pin-1 offset.
-- **Mounting holes:** `"pin": 0` pads, drilled as drawn (Ø2.5, R1.25
-  half-holes, or Ø3.5 on the 40 × 4). Pad = the drawn pad, otherwise
+- **Mounting holes:** `"pin": 0` pads, drilled as drawn (Ø2.5 or R1.25 =
+  Ø2.5 full holes on the 20 × 4 sheets, Ø3.0 on C204ABB, Ø4.0 on C204CXB,
+  Ø3.5 on every 40 × 2 and 40 × 4 sheet). Pad = the drawn pad, otherwise
   drill + 2.5 (Ø2.5 → Ø5.0, plan-11's size). Half-holes and edge slots
   are drawn as full holes at their centres.
 - **Mid-values:** a toleranced dimension uses its mid-value (`98±0.5` →
@@ -153,34 +155,45 @@ number is the risk here; the comparison is the check.
 
 ### Phase 1 — 20 × 4 footprints (11)
 
-- [ ] Render each sheet of the eleven `LCM-FOCUS-C204*` rows at 300 dpi
+- [x] Render each sheet of the eleven `LCM-FOCUS-C204*` rows at 300 dpi
       into `/tmp/p35-fp-img/`, read outline, holes, pin row and pitch, and
       write one object per row into `planning/plan-35-data/footprints-B.json`
       (`{"footprints":[…]}`, `footprints.json` object format, style
-      `explicit`).
-- [ ] For each row with several parts, open every other member's sheet
+      `explicit`). — 11 objects; pin 1 / pitch / holes of C204A-BW,
+      C204BLB-146, C204ALB-155, C204CXB and C204HLB were overlaid back on
+      their 300 dpi renders (pads land on the drawn holes; C404ALB's overlay
+      was also viewed by the parent session).
+- [x] For each row with several parts, open every other member's sheet
       once and check its outline, holes and pin-1 position against the
       object. A member whose numbers differ gets its own footprint
       (`<id>-<part-suffix>`), recorded in Corrections with both sets of
       numbers, and `census/footprint-groups.tsv` plus `footprints-needed.txt`
-      are updated.
+      are updated. — every member matched its group's object (C204AXB 2,
+      C204BLB-146 3, C204ALB-155 3, C204BLB-155 2, C204CXB 2); no split.
 
 Check: `planning/plan-35-data/census/fp-load.sh planning/plan-35-data/footprints-B.json`
-→ 11 appended; only extra/unused lines for those ids (est. 3 min).
+→ 11 appended; only extra/unused lines for those ids (est. 3 min). — run
+once for all 16 (Phases 1 and 2 landed together, one commit): see Phase 2.
 
 Commit: —
 
 ### Phase 2 — 40 × 2 and 40 × 4 footprints (5)
 
-- [ ] As Phase 1, for `LCM-FOCUS-C402ALB-285`, `C402A3`, `C402ALB`,
+- [x] As Phase 1, for `LCM-FOCUS-C402ALB-285`, `C402A3`, `C402ALB`,
       `C402ASB`, `C404ALB`. For the 2x8 and 2x9 headers, number the pads
       zigzag as the drawing does. `C402ALB-285` has pads 15 and 16 (NC)
-      because its pin table lists them.
-- [ ] Member check for `C402ALB` (6 parts) and `C404ALB` (5 parts) as in
-      Phase 1.
+      because its pin table lists them. — 5 objects; C402ALB-285, C402ALB
+      and C404ALB overlaid on their renders.
+- [x] Member check for `C402ALB` (6 parts) and `C404ALB` (5 parts) as in
+      Phase 1. — all 11 members' sheets carry the group's numbers; no split.
 
 Check: `fp-load.sh planning/plan-35-data/footprints-B.json` → 16 appended;
-only extra/unused lines for the 16 ids (est. 3 min).
+only extra/unused lines for the 16 ids (est. 3 min). — run on a frozen copy
+of the backend (`/tmp/p35-snap`, because plan-35-D was editing `backend/`
+at the same time; same script and inputs): "16 footprints appended",
+"16 new footprints: load ok", no other line. Pin-coverage script (each
+object's `pins` = its parts' `candidates.tsv` `pins`, every pin 1…`pins`
+padded): "all 16 OK".
 
 Commit: —
 
@@ -201,7 +214,41 @@ golden in F, and the landing tier is H.
 
 ## Corrections
 
-(none yet)
+Found while drawing (2026-11-11, evidence = the 300 dpi renders of the
+sheets named):
+
+1. **C402ASB's header is 2x8, not 1x16.** Its p.2 diagram prints `16-Ø1.0`
+   in two columns, `2.54*7=17.78`, `2.5±0.5`, the pin-1 row `7.96±0.5`
+   from the bottom and the 15/16 row `7.76±0.3` from the top. § 2's table,
+   `footprints-needed.txt` and `census/footprints.py` are corrected.
+2. **§ 3's hole sizes were wrong in detail.** `4-R1.25` on C204A-BW and
+   C204ALB-98 is a radius callout for full round holes, not half-holes;
+   Ø3.5 is on every 40 × 2 sheet as well as the 40 × 4 (C402ALB-285 calls
+   it R1.75); C204ABB uses Ø3.0 ("4*Ø3") and C204CXB Ø4.0; C204ADB prints
+   no hole size (scaled to Ø2.5 from the render). § 3 is corrected.
+3. **"Ø1.0 on every Focus sheet viewed" is false.** C204A-BW-LW25 p.4,
+   C204ALBSYLY6WM55PAA p.3, C204HLBSYLY6WM p.3 and C402ALBSGN06WT50PAB
+   p.3 print no pin drill; Ø1.0 is assumed there and the notes say so.
+   C404ALB's callout reads "16-Ø1.0" although 18 pins are drawn.
+4. **Where pin 1 sits in the two-row headers** ("2x8 left" did not say):
+   on the 40 × 2 sheets pin 1 is at the bottom of the inner column, pin 2
+   at the board edge; on C404ALB pin 1 is at the top of the outer column.
+   The objects follow each drawing.
+5. **C402A3 and C402ALB give only the 26.5 hole spacing**, no vertical
+   position; the holes are centred (3.5 from each edge), as C402ASB's
+   sheet dimensions them. The notes say so.
+6. **Not drawn, on purpose:** the bezel-tab notches in the top edge of
+   C204BLB-146 / C204DLB (not mounting holes) and the 4 backlight-lead
+   holes at the right edge of C402ALB-285 (the module's own LED leads,
+   as plan-11-C's NHD-0216K1Z).
+7. **C204HLB's holes are not centred vertically**: 2.5 from the top and
+   3.5 from the bottom (91 × 60 apart); the object uses the drawn values.
+8. **C204ABB's drawing is PDF p.5** (its page footer says 4); § 2's page
+   number is the PDF page and stands.
+9. **The fp-load runs used a frozen copy of the backend** (`/tmp/p35-snap`,
+   made at a5b0fcf), because plan-35-D's backend edits ran at the same
+   time as B and C. B, C and D touch disjoint files: B and C write only
+   `planning/plan-35-data/`, and D adds no part or footprint.
 
 ## Summary
 
