@@ -142,19 +142,23 @@ footprints come from `footprints-generic.json` (plan-33-C § 4.6, D § 4.6).
 Acceptance: the generic part loads with its six choices.
   Check: `cmake --build /tmp/logic-p33 -j8 && ctest --test-dir /tmp/logic-p33 -R 'listing_check|trace_check|footprint_check'` → 3 passed; `grep -c '^GENERIC-CAPACITOR|capacitor|Disc|Capacitors|Generic' backend/tests/golden/parts.txt` → 1 (est. 3 min).
   Observed (build dir `/tmp/logic-p33wt`): `100% tests passed, 0 tests failed out of 3`; `1`.
-Commit: (this commit; hash in the next)
+Commit: cea454b
 
 ### Phase 2 — Ceramic capacitors
 
-- [ ] `python3 -I gen-parts.py --type ceramic` (it prints `reused <id>`
+- [x] `python3 -I gen-parts.py --type ceramic` (it prints `reused <id>`
       for footprints already shipped and the count of parts written).
-- [ ] Regenerate the goldens; the diff only adds lines: `N_F` parts and
+      Observed: `376 parts written; 43 devices, 45 new footprints` (no
+      `reused`: no shipped CAP footprint has a maker drawing's geometry).
+- [x] Regenerate the goldens; the diff only adds lines: `N_F` parts and
       traces, and one footprint line per new ceramic footprint (C and D's
-      ceramic counts).
+      ceramic counts). Observed: `git diff --numstat` → parts.txt 376 / 0,
+      traces.txt 376 / 0, footprints.txt 45 / 0.
 
 Acceptance: every ceramic `add` row is a part.
   Check: `ctest --test-dir /tmp/logic-p33` → `100% tests passed … out of 31`; `grep -c '|capacitor|' backend/tests/golden/parts.txt` → `N_F` + 1; `git diff <Phase 1 commit>^ -- backend/tests/golden | grep -c '^-[^-]'` → 0 (est. 5 min).
-Commit: —
+  Observed: `100% tests passed, 0 tests failed out of 31`; `377` (`N_F` 376 + 1); `git diff cea454b^ -- backend/tests/golden | grep -c '^-[^-]'` → `0`.
+Commit: (this commit; hash in the next)
 
 ## Validation Plan
 
@@ -175,7 +179,18 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+1. **`N_F` is 376**, not B's first 377: `CK12BX101K` (a military part by its
+   series name) left the ceramic picks (plan-33-B § Corrections 8).
+2. **Footprints come from fpgroups.tsv by group key**, the key including
+   the maker's case code (plan-33-D § Corrections 1); gen-parts.py imports
+   `footprint-lines.py`'s `maker_case` so both agree.
+3. **`volts` is DigiKey's `Voltage - Rated` number**, which the scheme check
+   matched against the datasheet's voltage code (plan-33-B); for the AC-rated
+   safety discs it is the X1 VAC rating (plan-33-B § Corrections 6).
+4. **One datasheet entry per PDF**: two URLs that are one file (place.py)
+   share the id of the first URL, so `datasheets.json` gains one line per
+   kept PDF the scope cites.
+5. **Build directory** `/tmp/logic-p33wt` (plan-33-A § Corrections 1).
 
 ## Summary
 

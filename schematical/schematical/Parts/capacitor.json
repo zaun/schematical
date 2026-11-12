@@ -4,6 +4,5279 @@
  "kind": "capacitor",
  "devices": [
   {
+   "id": "ceramic-1.5nF",
+   "function": "1.5 nF",
+   "description": "Ceramic capacitor, 1.5 nF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 1.5e-09,
+   "parts": [
+    {
+     "name": "C0402C152K5RACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1002_x7r_smd",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-KEMET",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C0805C152K5RACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1002_x7r_smd",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-KEMET",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C322C152K5R5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1050_goldmax_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-5.08X4.07",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C326C152J5G5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1049_goldmax_c0g",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-2.54-5.08X3.18",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C410C152K5R5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1041_aximax_x7r",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C412C152F5G5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1040_aximax_c0g",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D3.05",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±1%"
+    },
+    {
+     "name": "C711U152MYVDBA7317",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1103_kjy",
+     "package": "Disc",
+     "pinout": "two-pin",
+     "footprint": "CAP-DISC-10-D8-KJY",
+     "volts": 400,
+     "dielectric": "Y5V (F)",
+     "tolerance": "±20%"
+    },
+    {
+     "name": "GMC04CG152J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC10CG152G50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±2%"
+    },
+    {
+     "name": "GMC10X7R152K50NTD",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC21CG152J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC31CG152J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC31X7R152J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±5%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-1.5uF",
+   "function": "1.5 µF",
+   "description": "Ceramic capacitor, 1.5 µF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 1.5e-06,
+   "parts": [
+    {
+     "name": "C340C155K5R5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1050_goldmax_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-7.36X4.07",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC10X5R155K16NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 16,
+     "dielectric": "X5R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC21X7R155K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC31X7R155K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-100nF",
+   "function": "100 nF",
+   "description": "Ceramic capacitor, 100 nF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 1e-07,
+   "parts": [
+    {
+     "name": "C052H104K5G5GAT500",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1073_ht_radial_molded_c0g",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-4.83X2.29",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C0805C104K5RACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1002_x7r_smd",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-KEMET",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C1206C104K5RACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1002_x7r_smd",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-KEMET",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C320C104K5R5TA7303",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1050_goldmax_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-2.54-5.08X3.18",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C420C104K5R5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1041_aximax_x7r",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-10.16-L5.08-D2.54",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C430C104F3G5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1040_aximax_c0g",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-10.16-L6.1-D3.81",
+     "volts": 25,
+     "dielectric": "C0G",
+     "tolerance": "±1%"
+    },
+    {
+     "name": "GMC04X7R104K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC10X7R104K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC31CG104G50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±2%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-100pF",
+   "function": "100 pF",
+   "description": "Ceramic capacitor, 100 pF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 1e-10,
+   "parts": [
+    {
+     "name": "C315C101K5G5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1049_goldmax_c0g",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-2.54-3.81X2.54",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C322C101K5R5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1050_goldmax_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-5.08X4.07",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C410C101J5G5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1040_aximax_c0g",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C711U101KYYDAA7317",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1103_kjy",
+     "package": "Disc",
+     "pinout": "two-pin",
+     "footprint": "CAP-DISC-10-D8-KJY",
+     "volts": 400,
+     "dielectric": "Y5P (B)",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC04CG101J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC04X7R101J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC10CG101G50NTD",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±2%"
+    },
+    {
+     "name": "GMC10X7R101J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC21CG101J50NTD",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC21X7R101J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC31CG101J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC31X7R101J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±5%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-100uF",
+   "function": "100 µF",
+   "description": "Ceramic capacitor, 100 µF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 0.0001,
+   "parts": [
+    {
+     "name": "GMC21X5R107M6R3NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 6.3,
+     "dielectric": "X5R",
+     "tolerance": "±20%"
+    },
+    {
+     "name": "GMC31X5R107M10NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 10,
+     "dielectric": "X5R",
+     "tolerance": "±20%"
+    },
+    {
+     "name": "KGM15CS60E107MT",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kgm_series_e",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-AVX",
+     "volts": 2.5,
+     "dielectric": "X6S",
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-10nF",
+   "function": "10 nF",
+   "description": "Ceramic capacitor, 10 nF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 1e-08,
+   "parts": [
+    {
+     "name": "C0603C103K5RACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1002_x7r_smd",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-KEMET",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C322C103J5G5TA7301",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1049_goldmax_c0g",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-5.08X3.18",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C410C103K5R5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1041_aximax_x7r",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C440C103J5G5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1040_aximax_c0g",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-10.16-L6.6-D3.81",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C795U103MYVDBAWL25",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1103_kjy",
+     "package": "Disc",
+     "pinout": "two-pin",
+     "footprint": "CAP-DISC-5-D16-KJY",
+     "volts": 400,
+     "dielectric": "Y5V (F)",
+     "tolerance": "±20%"
+    },
+    {
+     "name": "GMC04CG103J25NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 25,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC04X7R103K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC10CG103J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC21CG103J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC21X7R103K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC31CG103F50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±1%"
+    },
+    {
+     "name": "GMC31X7R103J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "SR155C103KARTR1",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "sr-series",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-2.54-3.81X2.54",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-10pF",
+   "function": "10 pF",
+   "description": "Ceramic capacitor, 10 pF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 1e-11,
+   "parts": [
+    {
+     "name": "08055C100KAT2A",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "x7rdielectric",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-AVX",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C0402C100J5GACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1003_c0g_smd",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-KEMET",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C0402C100K5RACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1002_x7r_smd",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-KEMET",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C0603C100J5RACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1002_x7r_smd",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-KEMET",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C1206C100K5RACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1002_x7r_smd",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-KEMET",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C315C100J5G5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1049_goldmax_c0g",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-2.54-3.81X2.54",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C315C100KCR5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1055_hivolt_goldmax_300_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-2.54-3.81X3.14",
+     "volts": 500,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C410C100K5G5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1040_aximax_c0g",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "CGP5C100KHSDAA7301",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1127_cgp",
+     "package": "Disc",
+     "pinout": "two-pin",
+     "footprint": "CAP-DISC-5-D6.5-CGP",
+     "volts": 3000,
+     "dielectric": "SL",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC10CG100G50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±2%"
+    },
+    {
+     "name": "GMC21CG100J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC31CG100B50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±0.1pF"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-10uF",
+   "function": "10 µF",
+   "description": "Ceramic capacitor, 10 µF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 1e-05,
+   "parts": [
+    {
+     "name": "C322C106K3R5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1050_goldmax_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-5.08X4.07",
+     "volts": 25,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C430C106K3R5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1041_aximax_x7r",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-10.16-L6.1-D3.81",
+     "volts": 25,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC04X5R106M10NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 10,
+     "dielectric": "X5R",
+     "tolerance": "±20%"
+    },
+    {
+     "name": "GMC10X7R106K10NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 10,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC21X7R106K16NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 16,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC31X7R106K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-150nF",
+   "function": "150 nF",
+   "description": "Ceramic capacitor, 150 nF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 1.5e-07,
+   "parts": [
+    {
+     "name": "C330C154F5G5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1049_goldmax_c0g",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-7.11X4.07",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±1%"
+    },
+    {
+     "name": "C330C154K5R5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1050_goldmax_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-7.11X4.07",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C430C154K5R5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1041_aximax_x7r",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-10.16-L6.1-D3.81",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC04X7R154K16NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 16,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC10X7R154K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC31X7R154J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "KGM21ER71H154KU",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kgm_x7r",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-AVX",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-150pF",
+   "function": "150 pF",
+   "description": "Ceramic capacitor, 150 pF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 1.5e-10,
+   "parts": [
+    {
+     "name": "C315C151K2R5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1050_goldmax_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-2.54-3.81X2.54",
+     "volts": 200,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C317C151J5G5TA7301",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1049_goldmax_c0g",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-3.81X2.54",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C410C151K5G5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1040_aximax_c0g",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C721U151KWYDCAWL50",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1104_kjn",
+     "package": "Disc",
+     "pinout": "two-pin",
+     "footprint": "CAP-DISC-10-D9-KJN",
+     "volts": 760,
+     "dielectric": "Y5P (B)",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC04CG151J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC04X7R151J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC10CG151J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC10X7R151J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC21CG151G50NTD",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±2%"
+    },
+    {
+     "name": "GMC21X7R151J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC31CG151J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC31X7R151J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±5%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-15nF",
+   "function": "15 nF",
+   "description": "Ceramic capacitor, 15 nF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 1.5e-08,
+   "parts": [
+    {
+     "name": "C0603C153J3GACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1003_c0g_smd",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-KEMET",
+     "volts": 25,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C320C153F1G5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1049_goldmax_c0g",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-2.54-5.08X3.18",
+     "volts": 100,
+     "dielectric": "C0G",
+     "tolerance": "±1%"
+    },
+    {
+     "name": "C320C153K5R5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1050_goldmax_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-2.54-5.08X3.18",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C410C153K5R5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1041_aximax_x7r",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C440C153J5G5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1040_aximax_c0g",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-10.16-L6.6-D3.81",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC04X7R153J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC10X7R153J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC21CG153J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC21X7R153K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC31CG153J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC31X7R153K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-15pF",
+   "function": "15 pF",
+   "description": "Ceramic capacitor, 15 pF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 1.5e-11,
+   "parts": [
+    {
+     "name": "C0402C150F4HACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1007_x8r_ultra_150c_smd",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-KEMET",
+     "volts": 16,
+     "dielectric": "X8R",
+     "tolerance": "±1%"
+    },
+    {
+     "name": "C0805C150K5RACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1002_x7r_smd",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-KEMET",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C1206C150KGRACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1010_x7r_hv_smd",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-KEMET",
+     "volts": 2000,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C317C150J5G5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1049_goldmax_c0g",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-3.81X2.54",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C410C150J1G5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1040_aximax_c0g",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 100,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "CGP5C150KHSDAA7301",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1127_cgp",
+     "package": "Disc",
+     "pinout": "two-pin",
+     "footprint": "CAP-DISC-5-D6.5-CGP",
+     "volts": 3000,
+     "dielectric": "SL",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC04CG150J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC10CG150J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC10X7R150K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC21CG150G50NTD",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±2%"
+    },
+    {
+     "name": "GMC31CG150F50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±1%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-15uF",
+   "function": "15 µF",
+   "description": "Ceramic capacitor, 15 µF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 1.5e-05,
+   "parts": [
+    {
+     "name": "GMC04X5R156M6R3NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 6.3,
+     "dielectric": "X5R",
+     "tolerance": "±20%"
+    },
+    {
+     "name": "GMC21X5R156M35NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 35,
+     "dielectric": "X5R",
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-1nF",
+   "function": "1 nF",
+   "description": "Ceramic capacitor, 1 nF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 1e-09,
+   "parts": [
+    {
+     "name": "C0603C102K5RACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1002_x7r_smd",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-KEMET",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C315C102K5R5TA7301",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1050_goldmax_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-2.54-3.81X2.54",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C410C102J5G5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1040_aximax_c0g",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C410C102K5R5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1041_aximax_x7r",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C717U102MYWDBA7301",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1103_kjy",
+     "package": "Disc",
+     "pinout": "two-pin",
+     "footprint": "CAP-DISC-7.5-D8-KJY",
+     "volts": 400,
+     "dielectric": "Y5U (E)",
+     "tolerance": "±20%"
+    },
+    {
+     "name": "GMC04CG102J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC04X7R102J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC10CG102J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC21CG102F50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±1%"
+    },
+    {
+     "name": "GMC21X7R102K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC31CG102J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC31X7R102J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "SR215A102JARTR1",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "sr-series",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-5.08X3.17",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-1uF",
+   "function": "1 µF",
+   "description": "Ceramic capacitor, 1 µF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 1e-06,
+   "parts": [
+    {
+     "name": "C330C105K5R5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1050_goldmax_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-7.11X4.07",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C420C105K5R5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1041_aximax_x7r",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-10.16-L5.08-D2.54",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC04X7R105M10NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 10,
+     "dielectric": "X7R",
+     "tolerance": "±20%"
+    },
+    {
+     "name": "GMC10X7R105K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC21X7R105K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC31X7R105K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-2.2nF",
+   "function": "2.2 nF",
+   "description": "Ceramic capacitor, 2.2 nF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 2.2e-09,
+   "parts": [
+    {
+     "name": "C0603C222K5RACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1002_x7r_smd",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-KEMET",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C410C222M5R5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1041_aximax_x7r",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±20%"
+    },
+    {
+     "name": "C420C222J5G5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1040_aximax_c0g",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-10.16-L5.08-D2.54",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C731U222MYWDAAWL25",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1103_kjy",
+     "package": "Disc",
+     "pinout": "two-pin",
+     "footprint": "CAP-DISC-10-D10-KJY",
+     "volts": 400,
+     "dielectric": "Y5U (E)",
+     "tolerance": "±20%"
+    },
+    {
+     "name": "GMC04CG222J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC04X7R222K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC10CG222G50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±2%"
+    },
+    {
+     "name": "GMC21CG222G50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±2%"
+    },
+    {
+     "name": "GMC21X7R222J50NTD",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC31CG222G50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±2%"
+    },
+    {
+     "name": "GMC31X7R222K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "SR215A222JARTR1",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "sr-series",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-5.08X3.17",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "SR215C222KAR",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "sr-series",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-5.08X3.17",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-2.2uF",
+   "function": "2.2 µF",
+   "description": "Ceramic capacitor, 2.2 µF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 2.2e-06,
+   "parts": [
+    {
+     "name": "C430C225K5R5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1041_aximax_x7r",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-10.16-L6.1-D3.81",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC04X7R225K10NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 10,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC10X7R225K25NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 25,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC21X7R225K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC31X7R225K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "SR405C225KARTR1",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "sr-series",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-10.16X3.81",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-220nF",
+   "function": "220 nF",
+   "description": "Ceramic capacitor, 220 nF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 2.2e-07,
+   "parts": [
+    {
+     "name": "C0805C224K5RACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1002_x7r_smd",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-KEMET",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C330C224K1G5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1049_goldmax_c0g",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-7.11X4.07",
+     "volts": 100,
+     "dielectric": "C0G",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C430C224K5R5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1041_aximax_x7r",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-10.16-L6.1-D3.81",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC04X7R224K35NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 35,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC10X7R224K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC31X7R224K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "SR215C224KAR",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "sr-series",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-5.08X3.17",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-220pF",
+   "function": "220 pF",
+   "description": "Ceramic capacitor, 220 pF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 2.2e-10,
+   "parts": [
+    {
+     "name": "C0402C221K5RACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1002_x7r_smd",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-KEMET",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C315C221K5R5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1050_goldmax_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-2.54-3.81X2.54",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C317C221J5G5TA7301",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1049_goldmax_c0g",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-3.81X2.54",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C410C221J5G5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1040_aximax_c0g",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C717U221KYYDBAWL35",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1103_kjy",
+     "package": "Disc",
+     "pinout": "two-pin",
+     "footprint": "CAP-DISC-7.5-D8-KJY",
+     "volts": 400,
+     "dielectric": "Y5P (B)",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC04CG221G50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±2%"
+    },
+    {
+     "name": "GMC10CG221J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC10X7R221K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC21CG221G50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±2%"
+    },
+    {
+     "name": "GMC21X7R221K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC31CG221J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC31X7R221J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±5%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-22nF",
+   "function": "22 nF",
+   "description": "Ceramic capacitor, 22 nF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 2.2e-08,
+   "parts": [
+    {
+     "name": "C0805C223K5GEC7210",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1091_c0g_esd",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-KEMET",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C0805C223K5RACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1002_x7r_smd",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-KEMET",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C315C223K5R5TA7303",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1050_goldmax_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-2.54-3.81X2.54",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C410C223M5R5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1041_aximax_x7r",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±20%"
+    },
+    {
+     "name": "C430C223JAG5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1040_aximax_c0g",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-10.16-L6.1-D3.81",
+     "volts": 250,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC04X7R223K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC10X7R223K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC31CG223J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC31X7R223J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "SR305A223JAR",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "sr-series",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-7.62X3.81",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-22pF",
+   "function": "22 pF",
+   "description": "Ceramic capacitor, 22 pF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 2.2e-11,
+   "parts": [
+    {
+     "name": "08055C220KAT2A",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "x7rdielectric",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-AVX",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C0402C220K5RACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1002_x7r_smd",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-KEMET",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C052C220K2R5TA7301",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1059_radial_molded_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-4.83X2.29",
+     "volts": 200,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C0603C220K5RACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1002_x7r_smd",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-KEMET",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C1206C220KBRACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1010_x7r_hv_smd",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-KEMET",
+     "volts": 630,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C315C220K5G5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1049_goldmax_c0g",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-2.54-3.81X2.54",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C410C220J5G5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1040_aximax_c0g",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC04CG220J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC10CG220G50NTD",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±2%"
+    },
+    {
+     "name": "GMC21CG220J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC31CG220J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-22uF",
+   "function": "22 µF",
+   "description": "Ceramic capacitor, 22 µF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 2.2e-05,
+   "parts": [
+    {
+     "name": "GMC04X5R226M10NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 10,
+     "dielectric": "X5R",
+     "tolerance": "±20%"
+    },
+    {
+     "name": "GMC10X5R226M16NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 16,
+     "dielectric": "X5R",
+     "tolerance": "±20%"
+    },
+    {
+     "name": "GMC21X7R226M10NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 10,
+     "dielectric": "X7R",
+     "tolerance": "±20%"
+    },
+    {
+     "name": "GMC31X7R226M16NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 16,
+     "dielectric": "X7R",
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-3.3nF",
+   "function": "3.3 nF",
+   "description": "Ceramic capacitor, 3.3 nF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 3.3e-09,
+   "parts": [
+    {
+     "name": "C317C332K5R5TA7301",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1050_goldmax_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-3.81X2.54",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C322C332J5G5TA7301",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1049_goldmax_c0g",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-5.08X3.18",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C410C332K5R5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1041_aximax_x7r",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C430C332J5G5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1040_aximax_c0g",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-10.16-L6.1-D3.81",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C737U332MYVDBA7317",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1103_kjy",
+     "package": "Disc",
+     "pinout": "two-pin",
+     "footprint": "CAP-DISC-7.5-D10-KJY",
+     "volts": 400,
+     "dielectric": "Y5V (F)",
+     "tolerance": "±20%"
+    },
+    {
+     "name": "GMC04CG332J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC04X7R332K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC10CG332J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC10X7R332K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC21CG332F50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±1%"
+    },
+    {
+     "name": "GMC21X7R332K50NTD",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC31CG332G50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±2%"
+    },
+    {
+     "name": "GMC31X7R332J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±5%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-3.3uF",
+   "function": "3.3 µF",
+   "description": "Ceramic capacitor, 3.3 µF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 3.3e-06,
+   "parts": [
+    {
+     "name": "C350C335K5R5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1050_goldmax_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-10.16-8.38X5.08",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC04X5R335K10NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 10,
+     "dielectric": "X5R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC10X5R335K25NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 25,
+     "dielectric": "X5R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC21X7R335K25NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 25,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC31X7R335K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-330nF",
+   "function": "330 nF",
+   "description": "Ceramic capacitor, 330 nF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 3.3e-07,
+   "parts": [
+    {
+     "name": "C330C334M5R5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1050_goldmax_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-7.11X4.07",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±20%"
+    },
+    {
+     "name": "C350C334J1G5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1049_goldmax_c0g",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-10.16-8.38X5.08",
+     "volts": 100,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C440C334K5R5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1041_aximax_x7r",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-10.16-L6.6-D3.81",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC04X7R334K16NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 16,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC10X7R334K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC21X7R334K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC31X7R334K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-330pF",
+   "function": "330 pF",
+   "description": "Ceramic capacitor, 330 pF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 3.3e-10,
+   "parts": [
+    {
+     "name": "C0805C331K5RACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1002_x7r_smd",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-KEMET",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C315C331K2R5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1050_goldmax_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-2.54-3.81X2.54",
+     "volts": 200,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C317C331J5G5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1049_goldmax_c0g",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-3.81X2.54",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C410C331J5G5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1040_aximax_c0g",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C410C331K1H5TA91707200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1071_aximax_x8r",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 100,
+     "dielectric": "X8R",
+     "tolerance": "±10%",
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "C721U331KSYDBAWL50",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1104_kjn",
+     "package": "Disc",
+     "pinout": "two-pin",
+     "footprint": "CAP-DISC-10-D9-KJN",
+     "volts": 440,
+     "dielectric": "Y5P (B)",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC04CG331J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC04X7R331K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC10CG331G50NTD",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±2%"
+    },
+    {
+     "name": "GMC10X7R331K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC21CG331J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC31CG331G50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±2%"
+    },
+    {
+     "name": "GMC31X7R331K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-33nF",
+   "function": "33 nF",
+   "description": "Ceramic capacitor, 33 nF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 3.3e-08,
+   "parts": [
+    {
+     "name": "C327C333K5R5TA7305",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1050_goldmax_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-5.08X4.07",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C331C333J1G5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1049_goldmax_c0g",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-6.35-7.62X4.07",
+     "volts": 100,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C410C333K5R5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1041_aximax_x7r",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC04X7R333K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC10X7R333K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC21CG333J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC21X7R333K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC31CG333J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC31X7R333K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-33pF",
+   "function": "33 pF",
+   "description": "Ceramic capacitor, 33 pF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 3.3e-11,
+   "parts": [
+    {
+     "name": "08055C330KAT2A",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "x7rdielectric",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-AVX",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C0402C330J5GACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1003_c0g_smd",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-KEMET",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C0402C330K5RACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1002_x7r_smd",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-KEMET",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C052C330K2R5TA7301",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1059_radial_molded_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-4.83X2.29",
+     "volts": 200,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C0603C330K5RACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1002_x7r_smd",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-KEMET",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C1206C330KBRACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1010_x7r_hv_smd",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-KEMET",
+     "volts": 630,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C322C330K5G5TA7301",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1049_goldmax_c0g",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-5.08X3.18",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C410C330J1G5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1040_aximax_c0g",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 100,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC10CG330G50NTD",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±2%"
+    },
+    {
+     "name": "GMC21CG330G50NTD",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±2%"
+    },
+    {
+     "name": "GMC31CG330J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-33uF",
+   "function": "33 µF",
+   "description": "Ceramic capacitor, 33 µF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 3.3e-05,
+   "parts": [
+    {
+     "name": "GMC21X5R336M10NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 10,
+     "dielectric": "X5R",
+     "tolerance": "±20%"
+    },
+    {
+     "name": "GMC31X5R336M25NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 25,
+     "dielectric": "X5R",
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-4.7nF",
+   "function": "4.7 nF",
+   "description": "Ceramic capacitor, 4.7 nF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 4.7e-09,
+   "parts": [
+    {
+     "name": "C0603C472K5RACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1002_x7r_smd",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-KEMET",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C315C472K5R5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1050_goldmax_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-2.54-3.81X2.54",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C322C472J5G5TA7301",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1049_goldmax_c0g",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-5.08X3.18",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C410C472K5R5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1041_aximax_x7r",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C430C472J5G5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1040_aximax_c0g",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-10.16-L6.1-D3.81",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C757U472MYVDBA7317",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1103_kjy",
+     "package": "Disc",
+     "pinout": "two-pin",
+     "footprint": "CAP-DISC-7.5-D12-KJY",
+     "volts": 400,
+     "dielectric": "Y5V (F)",
+     "tolerance": "±20%"
+    },
+    {
+     "name": "GMC04CG472J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC04X7R472K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC10CG472J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC21CG472J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC21X7R472K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC31CG472F50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±1%"
+    },
+    {
+     "name": "GMC31X7R472K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-4.7uF",
+   "function": "4.7 µF",
+   "description": "Ceramic capacitor, 4.7 µF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 4.7e-06,
+   "parts": [
+    {
+     "name": "04023D475MAT2A",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "cx5r",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-AVX",
+     "volts": 25,
+     "dielectric": "X5R",
+     "tolerance": "±20%"
+    },
+    {
+     "name": "C322C475K5R5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1050_goldmax_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-5.08X4.07",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C430C475K3R5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1041_aximax_x7r",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-10.16-L6.1-D3.81",
+     "volts": 25,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC10X7R475K10NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 10,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC21X7R475K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC31X7R475K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-470nF",
+   "function": "470 nF",
+   "description": "Ceramic capacitor, 470 nF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 4.7e-07,
+   "parts": [
+    {
+     "name": "C315C474K5R5TA7303",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1050_goldmax_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-2.54-3.81X2.54",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C330C474K5G5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1049_goldmax_c0g",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-7.11X4.07",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C410C474K5R5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1041_aximax_x7r",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC04X7R474K10NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 10,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC10X7R474K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC21X7R474K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC31X7R474K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-470pF",
+   "function": "470 pF",
+   "description": "Ceramic capacitor, 470 pF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 4.7e-10,
+   "parts": [
+    {
+     "name": "C315C471K5R5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1050_goldmax_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-2.54-3.81X2.54",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C317C471J5G5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1049_goldmax_c0g",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-3.81X2.54",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C410C471J5G5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1040_aximax_c0g",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C410C471K1R5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1041_aximax_x7r",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 100,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C711U471KYYDAAWL25",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1103_kjy",
+     "package": "Disc",
+     "pinout": "two-pin",
+     "footprint": "CAP-DISC-10-D8-KJY",
+     "volts": 400,
+     "dielectric": "Y5P (B)",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC04CG471J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC04X7R471K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC10CG471G50NTD",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±2%"
+    },
+    {
+     "name": "GMC10X7R471K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC21CG471J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC21X7R471K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC31CG471J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC31X7R471J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±5%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-47nF",
+   "function": "47 nF",
+   "description": "Ceramic capacitor, 47 nF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 4.7e-08,
+   "parts": [
+    {
+     "name": "C0805C473K3GECTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1091_c0g_esd",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-KEMET",
+     "volts": 25,
+     "dielectric": "C0G",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C322C473K5R5TA7301",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1050_goldmax_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-5.08X4.07",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C331C473K5G5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1049_goldmax_c0g",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-6.35-7.62X4.07",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C410C473K5R5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1041_aximax_x7r",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C420C473J5G5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1040_aximax_c0g",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-10.16-L5.08-D2.54",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC04X7R473K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC10X7R473K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC21X7R473K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC31CG473J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC31X7R473K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-47pF",
+   "function": "47 pF",
+   "description": "Ceramic capacitor, 47 pF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 4.7e-11,
+   "parts": [
+    {
+     "name": "C0402C470J5GACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1003_c0g_smd",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-KEMET",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C0402C470K5RACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1002_x7r_smd",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-KEMET",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C0603C470K5RACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1002_x7r_smd",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-KEMET",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C0805C470K5RACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1002_x7r_smd",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-KEMET",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C1206C470KBRACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1010_x7r_hv_smd",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-KEMET",
+     "volts": 630,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C317C470K5G5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1049_goldmax_c0g",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-3.81X2.54",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C317C470KCR5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1055_hivolt_goldmax_300_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-3.81X3.14",
+     "volts": 500,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C410C470K5G5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1040_aximax_c0g",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C741U470JSSDBAWL50",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1104_kjn",
+     "package": "Disc",
+     "pinout": "two-pin",
+     "footprint": "CAP-DISC-10-D11-KJN",
+     "volts": 440,
+     "dielectric": "SL",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC10CG470G50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±2%"
+    },
+    {
+     "name": "GMC21CG470J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC31CG470J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-47uF",
+   "function": "47 µF",
+   "description": "Ceramic capacitor, 47 µF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 4.7e-05,
+   "parts": [
+    {
+     "name": "GMC10X5R476M6R3NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 6.3,
+     "dielectric": "X5R",
+     "tolerance": "±20%"
+    },
+    {
+     "name": "GMC21X5R476M10NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 10,
+     "dielectric": "X5R",
+     "tolerance": "±20%"
+    },
+    {
+     "name": "GMC31X5R476M25NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 25,
+     "dielectric": "X5R",
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-6.8nF",
+   "function": "6.8 nF",
+   "description": "Ceramic capacitor, 6.8 nF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 6.8e-09,
+   "parts": [
+    {
+     "name": "C315C682F5G5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1049_goldmax_c0g",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-2.54-3.81X2.54",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±1%"
+    },
+    {
+     "name": "C315C682K5R5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1050_goldmax_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-2.54-3.81X2.54",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C410C682K5R5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1041_aximax_x7r",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C430C682J5G5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1040_aximax_c0g",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-10.16-L6.1-D3.81",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C781U682MZVDAAWL25",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1103_kjy",
+     "package": "Disc",
+     "pinout": "two-pin",
+     "footprint": "CAP-DISC-10-D15-KJY",
+     "volts": 440,
+     "dielectric": "Y5V (F)",
+     "tolerance": "±20%"
+    },
+    {
+     "name": "GMC04CG682J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC04X7R682K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC10CG682G50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±2%"
+    },
+    {
+     "name": "GMC10X7R682K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC21CG682J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC21X7R682J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC31CG682G50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±2%"
+    },
+    {
+     "name": "GMC31X7R682K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-6.8uF",
+   "function": "6.8 µF",
+   "description": "Ceramic capacitor, 6.8 µF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 6.8e-06,
+   "parts": [
+    {
+     "name": "GMC21X7R685K10NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 10,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC31X7R685K25NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 25,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "SE041C685KAR",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "se-style",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-10.2X5.08",
+     "volts": 100,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-680nF",
+   "function": "680 nF",
+   "description": "Ceramic capacitor, 680 nF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 6.8e-07,
+   "parts": [
+    {
+     "name": "C0805C684K5RACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1002_x7r_smd",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-KEMET",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C315C684K5R5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1050_goldmax_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-2.54-3.81X2.54",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C410C684K5R5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1041_aximax_x7r",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC04X5R684K16NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 16,
+     "dielectric": "X5R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC10X7R684K35NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 35,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC31X7R684K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-680pF",
+   "function": "680 pF",
+   "description": "Ceramic capacitor, 680 pF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 6.8e-10,
+   "parts": [
+    {
+     "name": "ACR05B681JGS",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1118_a-series",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-5.08X2.54",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C315C681K2R5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1050_goldmax_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-2.54-3.81X2.54",
+     "volts": 200,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C410C681J1G5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1040_aximax_c0g",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 100,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C410C681K1R5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1041_aximax_x7r",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 100,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C731U681KSYDBAWL35",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1104_kjn",
+     "package": "Disc",
+     "pinout": "two-pin",
+     "footprint": "CAP-DISC-10-D10-KJN",
+     "volts": 440,
+     "dielectric": "Y5P (B)",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC04CG681J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC04X7R681K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC10CG681F50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±1%"
+    },
+    {
+     "name": "GMC10X7R681J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC21CG681J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC21X7R681K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC31CG681F50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±1%"
+    },
+    {
+     "name": "GMC31X7R681K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-68nF",
+   "function": "68 nF",
+   "description": "Ceramic capacitor, 68 nF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 6.8e-08,
+   "parts": [
+    {
+     "name": "C322C683K5R5TA7301",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1050_goldmax_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-5.08X4.07",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C410C683K5R5TA7200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1041_aximax_x7r",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C430C683G3G5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1040_aximax_c0g",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-10.16-L6.1-D3.81",
+     "volts": 25,
+     "dielectric": "C0G",
+     "tolerance": "±2%"
+    },
+    {
+     "name": "GMC04X7R683K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC10X7R683K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC21X7R683K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "GMC31CG683J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC31X7R683K50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "SCR08B683KGS",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1119_s-series",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-10.16-12.7X2.54",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "ceramic-68pF",
+   "function": "68 pF",
+   "description": "Ceramic capacitor, 68 pF",
+   "drawer": [
+    "Capacitors",
+    "Ceramic"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 6.8e-11,
+   "parts": [
+    {
+     "name": "C0402C680K5RACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1002_x7r_smd",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-KEMET",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C052C680K2R5CA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1059_radial_molded_x7r",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-5.08-4.83X2.29",
+     "volts": 200,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C0603C680J5RACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1002_x7r_smd",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-KEMET",
+     "volts": 50,
+     "dielectric": "X7R",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C0805C680JCRACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1010_x7r_hv_smd",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-KEMET",
+     "volts": 500,
+     "dielectric": "X7R",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C1206C680KBRACTU",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1010_x7r_hv_smd",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-KEMET",
+     "volts": 630,
+     "dielectric": "X7R",
+     "tolerance": "±10%"
+    },
+    {
+     "name": "C315C680J5G5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1049_goldmax_c0g",
+     "package": "Radial",
+     "pinout": "two-pin",
+     "footprint": "CAP-RAD-2.54-3.81X2.54",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "C410C680J1G5TA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_c1040_aximax_c0g",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "CAP-AX-7.62-L4.32-D2.41",
+     "volts": 100,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC04CG680J50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "CAP-0402-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±5%"
+    },
+    {
+     "name": "GMC10CG680G50NTD",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0603",
+     "pinout": "two-pin",
+     "footprint": "CAP-0603-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±2%"
+    },
+    {
+     "name": "GMC21CG680G50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "0805",
+     "pinout": "two-pin",
+     "footprint": "CAP-0805-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±2%"
+    },
+    {
+     "name": "GMC31CG680G50NT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "gmc-series-3",
+     "package": "1206",
+     "pinout": "two-pin",
+     "footprint": "CAP-1206-CALCHIP",
+     "volts": 50,
+     "dielectric": "C0G",
+     "tolerance": "±2%"
+    }
+   ]
+  },
+  {
    "id": "ceramic-generic",
    "function": "Generic",
    "description": "Generic capacitor",
