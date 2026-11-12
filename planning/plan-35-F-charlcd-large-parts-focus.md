@@ -26,10 +26,10 @@ The gate is plan-35-A § Prerequisites. F adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-35-E complete | `grep -c '^Commit: —' planning/plan-35-E-charlcd-large-parts-nhd-midas.md` → 0 (or in `planning/completed/`) | NOT MET (2026-11-11) |
-| The generator exists | `ls planning/plan-35-data/census/gen-parts.py planning/plan-35-data/specs.tsv` → both | NOT MET (E Phase 1) |
-| footprints-B.json loads | `planning/plan-35-data/census/fp-load.sh planning/plan-35-data/footprints-B.json` → only extra/unused for its ids | NOT MET (B) |
-| E's line counts recorded | `wc -l < backend/tests/golden/parts.txt` and `footprints.txt` at E's last commit (E_P, E_F) | record at start |
+| plan-35-E complete | `grep -c '^Commit: —' planning/plan-35-E-charlcd-large-parts-nhd-midas.md` → 0 (or in `planning/completed/`) | MET (2026-11-11, with E Phase 3's hash recorded in this commit: 0) |
+| The generator exists | `ls planning/plan-35-data/census/gen-parts.py planning/plan-35-data/specs.tsv` → both | MET (2026-11-11: both) |
+| footprints-B.json loads | `planning/plan-35-data/census/fp-load.sh planning/plan-35-data/footprints-B.json` → only extra/unused for its ids | MET (2026-11-11: B + C → "34 new footprints: load ok" on the live backend; with C now merged, B alone is the new set) |
+| E's line counts recorded | `wc -l < backend/tests/golden/parts.txt` and `footprints.txt` at E's last commit (E_P, E_F) | recorded at 25938c8: E_P = 26764, E_F = 1230 |
 
 Everything below is written against the world where these hold.
 
@@ -94,11 +94,18 @@ and the devices use the PDFs' color.
 
 ### Phase 1 — specs
 
-- [ ] One `specs.tsv` row per Focus part, by plan-35-E § 3 (pages
+- [x] One `specs.tsv` row per Focus part, by plan-35-E § 3 (pages
       recorded; images rendered at 300 dpi). Manufacturer "Focus LCDs".
+      — 32 rows appended (pages in each `note`; C204ABB's timing and
+      instruction tables and C204ADB's read table read from 300 dpi
+      renders). Nine timing sets and six exec sets, each as its PDF prints
+      it (e.g. 500/300/100/10/60/10/90/20 on the 20 ALB/BLB/DLB/HLB/C402A3
+      parts; 1200/140/100/10/40/10/100/10 on four C404ALB). Controllers:
+      ST7066U 18, SPLC780D 8, ST7066U-0A 4, ST7066-0A 1, S6A0069 1.
 
 Check: `python3 -I planning/plan-35-data/census/gen-parts.py --check planning/plan-35-data/specs.tsv planning/plan-35-data/candidates.tsv`
-→ 67 rows, all keys present, pin counts match (est. 1 min).
+→ 67 rows, all keys present, pin counts match (est. 1 min). — 2026-11-11:
+"67 rows ok".
 
 Commit: —
 
@@ -128,7 +135,34 @@ Per-phase checks. The landing tier is H.
 
 ## Corrections
 
-(none yet)
+Phase 1 (2026-11-11, evidence = the PDFs' pages, in each device note):
+
+1. **§ 2's controller set misses two names and three parts are
+   different from DigiKey's column:** C204HLB prints ST7066-0A and
+   C204AXBSYLY6WT only "S6A0069 or equivalent" (p.2); C402A3-BW-LW65
+   prints ST7066U-0A (pp.1–3, DigiKey: ST7066); C402ASBSYLY6WT55PAB
+   prints SPLC780D (p.1; DigiKey: ST7066U); C204ADBFGSW6WT55PAB prints
+   "ST7066U-OA or Eqv." (p.2). The devices use the PDFs.
+2. **The C404ALB devices are SPLC780D**, the "Controller=" entry on p.1 of
+   all five; "ST7066U or SPLC780D" is in two of their drawing notes and
+   "ST7066U or equivalent" on p.2. § 2's "The C404ALB notes say ST7066U or
+   SPLC780D" stands; the device notes quote the alternatives.
+3. **C402ALBSGN06WT50PAB contradicts itself:** p.1 says SPLC780D and
+   transflective, pp.2–3 say ST7066U and the drawing "GRAY/Positive/
+   Reflective". With no backlight the device is reflective, controller as
+   p.1; pins 15–16 print "-" in the table and NC on the drawing (NC used).
+4. **C204ABBSYSY6WT55PAB's VDD is 3.0–5.5** (p.4 "Logic Supply Voltage
+   VDD 3.0 5.0 5.5"), not DigiKey's 5 V; its read timing is on p.9, not
+   with the write table on p.8.
+5. **Init waits**: 25 Focus PDFs print no initialization flow; their
+   `powerOn` is 40 ms from `ST7066U.pdf` p.26 (noted). C402ASB prints
+   ">15 ms after VDD rises to 0.9 VDD" (p.5) and uses 15 ms; C204ADB
+   prints >30 ms (4.5 V) and >40 ms (2.7 V) and uses 40 ms.
+6. **Only-2.7 V timing on C204CXBSGSW6WT33XAA** (p.6): tpw 460 write / 480
+   read, 480 used (as plan-35-E's 3 V Newhaven parts).
+7. **Page-1 size typos** (no effect; the drawings and footprints agree
+   with § 2): C404ALBSBSW6WF33PAB "40x4(183x47)" vs 190 × 54 on p.2;
+   C204ALBSYLY6WM55PAA and C204ADB "93x55" vs 98 × 60.
 
 ## Summary
 

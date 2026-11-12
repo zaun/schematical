@@ -297,7 +297,7 @@ Sanity: E2's init and WORLD sent through E1, ROW3's 0x94 changed to 0xD4
 on board 1, and board 2's E2 gate fed /A13 → 9 FAILs (the 7 two-enable
 parts and both boards); restored → 0.
 
-Commit: —
+Commit: 25938c8
 
 ## Validation Plan
 
