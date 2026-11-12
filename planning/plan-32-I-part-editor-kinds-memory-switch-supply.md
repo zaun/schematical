@@ -39,7 +39,7 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-32-H complete: counter and shift pass their round trip | `xcodebuild test … -only-testing:schematicalTests/PartKindRoundTripTests` → `passed` with the counter and shift lines | NOT MET at writing; starts after plan-32-H |
+| plan-32-H complete: counter and shift pass their round trip | `xcodebuild test … -only-testing:schematicalTests/PartKindRoundTripTests` → `passed` with the counter and shift lines | MET (run 2026-11-11 in the P-32 worktree: `PartKindRoundTripTests` passed with the counter and shift lines 0/0/0) |
 
 Everything below is written against the world where this holds.
 
@@ -111,34 +111,37 @@ seven files.
 
 One line: the drift test fails listing the backend keys of the seven kinds that the form lacks.
 
-- [ ] `PartKindKeysTests.swift`: add the seven kinds; `7seg` maps to `display7.c`.
-- [ ] Run it; RED.
+- [x] `PartKindKeysTests.swift`: add the seven kinds; `7seg` maps to `display7.c`.
+- [x] Run it; RED.
 
 Acceptance: the test fails listing the missing keys.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindKeysTests` → `failed`, listing the keys (est. 3 min).
-Commit: —
+  Result (2026-11-11, RED): failed, `["supply": ["pull", "volts"], "sram": ["address", "byteEnable", "chipEnable", …], …]`; arrays parsed sram 2, eeprom 2, switch 1, led 1, 7seg 3, oscillator 2, supply 1 (as § Kinds).
+Commit: (this commit, with Phases 2–3)
 
 ### Phase 2 — Forms for the seven kinds
 
 One line: each kind's form covers every key of Phase 1.
 
-- [ ] One draft per kind in `schematical/schematical/Editor/` (`SramDraft.swift`, `EepromDraft.swift`, `SwitchDraft.swift`, `LedDraft.swift`, `SevenSegDraft.swift`, `OscillatorDraft.swift`, `SupplyDraft.swift`), each with `init(device:part:)`, `encoded()`, `extras`.
-- [ ] `PartEditorWindow.swift`: a section per kind.
-- [ ] `PartDraft.enabledKinds` gains the seven kinds.
+- [x] One draft per kind in `schematical/schematical/Editor/` (`SramDraft.swift`, `EepromDraft.swift`, `SwitchDraft.swift`, `LedDraft.swift`, `SevenSegDraft.swift`, `OscillatorDraft.swift`, `SupplyDraft.swift`), each with `init(device:part:)`, `encoded()`, `extras`.
+- [x] `PartEditorWindow.swift`: a section per kind.
+- [x] `PartDraft.enabledKinds` gains the seven kinds.
 
 Acceptance: `PartKindKeysTests` passes for the seven kinds.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindKeysTests` → `passed` (est. 5 min).
-Commit: —
+  Result (2026-11-11): passed.
+Commit: (this commit)
 
 ### Phase 3 — Round trip over every shipped part
 
 One line: all 3615 shipped parts round-trip with no key in `extras`, and the backend accepts each.
 
-- [ ] `PartKindRoundTripTests.swift`: the seven kinds added to the loop.
+- [x] `PartKindRoundTripTests.swift`: the seven kinds added to the loop.
 
 Acceptance: zero mismatched, zero with extras, zero rejected, for sram (172), eeprom (174), switch (2067), led (1), 7seg (49), oscillator (1138) and supply (14).
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindRoundTripTests` → `passed`, with seven count lines (est. 8 min).
-Commit: —
+  Result (2026-11-11): passed: sram 172, eeprom 174, switch 2067, led 1, 7seg 49, oscillator 1138, supply 14 — each `0 mismatched, 0 with extras, 0 rejected` (and every F–H kind still 0/0/0 in the same run).
+Commit: (this commit)
 
 ### Phase 4 — Runtime proof
 
@@ -165,7 +168,19 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **Speed-grade keys are a `TIMING_NAMES[]` table** (found 2026-11-11). sram and eeprom
+  `grades` are objects keyed by grade name, each entry keyed by the kind's
+  `TIMING_NAMES[]` (`trc`, `taa`, … 24 for sram) plus `vcc`, `inputMax`, `note`. The
+  generator reads `TIMING_NAMES[]` as keys, so a grade is a named map of those fields;
+  timing names no shipped grade uses (sram `tas`, `tdh`, `twr`; eeprom `tas`, `tch`, `tcs`,
+  `toes`, `toh`) are placed by hand so every accepted key has a control.
+- **Hand-placed keys** (`scripts/part-editor-schema-extra.py`): sram/eeprom part `vcc`,
+  `inputMax` and grade `inputMax` (`PART_KEYS`, `kind_part_voltage`; the grades'
+  `kind_voltage`); oscillator device and part `inputMax` (`DEVICE_KEYS`, `PART_KEYS`).
+- **The LED's and pull supplies' `footprintChoices`** are the generic part field of
+  plan-32-F's Corrections, so led (1 part) and supply (14) round-trip with no extras.
+- **Forms are generated** (plan-32-F Corrections): `SramDraft`, `EepromDraft`, `SwitchDraft`,
+  `LedDraft`, `SevenSegDraft`, `OscillatorDraft`, `SupplyDraft`.
 
 ## Summary
 

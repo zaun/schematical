@@ -107,7 +107,7 @@ One line: the drift test fails listing every backend key of the two kinds that t
 Acceptance: the test fails listing the missing keys.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindKeysTests` → `failed`, listing the keys (est. 3 min).
   Result (2026-11-11, RED): failed, `["shift": ["a", "aEnable", "active", "address", "asyncSync", "b", "chipSelect", …], "counter": [...]]`; arrays parsed counter 31, shift 24 (Corrections).
-Commit: (this commit, with Phases 2–3)
+Commit: 092efcb
 
 ### Phase 2 — Forms for counter and shift
 
@@ -121,7 +121,7 @@ One line: each kind's form covers every key of Phase 1 for each model.
 Acceptance: `PartKindKeysTests` passes for the two kinds.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindKeysTests` → `passed` (est. 5 min).
   Result (2026-11-11): passed (`counter: 31 KEYS arrays, 89 keys, seq.c helper keys not read: ["when"]`, `shift: 24 KEYS arrays, 82 keys, seq.c helper keys not read: []`).
-Commit: (this commit)
+Commit: 092efcb
 
 ### Phase 3 — Round trip over every shipped part
 
@@ -132,7 +132,7 @@ One line: all 1313 shipped parts round-trip with no key in `extras`, and the bac
 Acceptance: zero mismatched, zero with extras, zero rejected, for counter (730) and shift (583).
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindRoundTripTests` → `passed`, with the lines `checked 730 parts of counter, 0 mismatched, 0 with extras, 0 rejected` and `checked 583 parts of shift, …` (est. 6 min).
   Result (2026-11-11): passed: `checked 730 parts of counter, 0 mismatched, 0 with extras, 0 rejected`, `checked 583 parts of shift, 0 mismatched, 0 with extras, 0 rejected`. `sections` is a list of section entries (model `ripple`), each section's keys its own fields; `byteBus` an object (model `sync`).
-Commit: (this commit)
+Commit: 092efcb
 
 ### Phase 4 — Runtime proof
 

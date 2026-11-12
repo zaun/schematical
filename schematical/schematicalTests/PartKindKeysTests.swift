@@ -16,6 +16,8 @@ final class PartKindKeysTests: XCTestCase {
         "latch": ["latch.c", "seq.c"], "buffer": ["buffer.c", "buffer_reg.c", "seq.c"],
         "arith": ["arith.c", "arith_alu.c", "seq.c"],
         "counter": ["counter.c", "counter_div.c", "seq.c"], "shift": ["shift.c", "shift_special.c", "seq.c"],
+        "sram": ["sram.c"], "eeprom": ["eeprom.c"], "switch": ["switch.c"], "led": ["led.c"],
+        "7seg": ["display7.c"], "oscillator": ["oscillator.c"], "supply": ["supply.c"],
     ]
 
     static var models: URL {

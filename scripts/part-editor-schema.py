@@ -63,6 +63,9 @@ def source_keys(repo, kind):
         # FIFO_EXTRA): {{"stage", 1}, {NULL, 0}}.
         for body in re.findall(r"_EXTRA\[\]\s*=\s*\{(.*?)\};", text, re.S):
             keys.update(re.findall(r'"([^"]*)"', body))
+        # The memories' speed-grade timing keys (sram.c, eeprom.c TIMING_NAMES).
+        for body in re.findall(r"TIMING_NAMES\[\]\s*=\s*\{(.*?)\};", text, re.S):
+            keys.update(re.findall(r'"([^"]*)"', body))
     return keys
 
 

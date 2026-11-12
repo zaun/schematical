@@ -12,6 +12,7 @@ final class PartKindRoundTripTests: XCTestCase {
         "dff": 706, "jkff": 186, "mux": 346, "decoder": 322,
         "latch": 750, "buffer": 2135, "arith": 107,
         "counter": 730, "shift": 583,
+        "sram": 172, "eeprom": 174, "switch": 2067, "led": 1, "7seg": 49, "oscillator": 1138, "supply": 14,
     ]
 
     private func check(_ kind: String) {
@@ -34,4 +35,11 @@ final class PartKindRoundTripTests: XCTestCase {
     func testArith() { check("arith") }
     func testCounter() { check("counter") }
     func testShift() { check("shift") }
+    func testSram() { check("sram") }
+    func testEeprom() { check("eeprom") }
+    func testSwitch() { check("switch") }
+    func testLed() { check("led") }
+    func testSevenSeg() { check("7seg") }
+    func testOscillator() { check("oscillator") }
+    func testSupply() { check("supply") }
 }
