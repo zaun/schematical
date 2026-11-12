@@ -70,6 +70,14 @@ Every other letter points here.
 | No other open plan adds capacitors | `grep -l -i '"capacitor"\|PART_CAPACITOR\|datasheets/capacitor' planning/plan-*.md \| grep -v plan-33 \| wc -l` → 0 | MET (2026-11-11: 0; re-run at 656b6d1: 1, `plan-34-E-resistor-kind.md`, whose only hit (:82) says plan-33-E appends `PART_CAPACITOR` first: a coordination note, not a plan that adds capacitors) |
 | DigiKey credentials and quota | `DIGIKEY_CLIENT_ID`/`_SECRET` exported in `~/.zshrc`; Phase 1 needs at most 779 calls (775 unlisted buckets, one call each, plus one re-login retry per 10 minutes of run; § 2), a day allows about 1000 (`scripts/digikey.js --help`), shared with other sessions | MET (2026-11-11: credentials present; planning used 649 calls; at execution the probe printed `999 left today`). Start Phase 1 on a day whose first call reports ≥ 800 left (`scripts/digikey.js --category 67 --manufacturer 478 --in-stock --pages 1 --json` prints `… N left today`) |
 
+**Re-run after the landing (2026-11-11, main at 33e64ca, every row's command):**
+backend tests `100% tests passed, 0 tests failed out of 31` (`grep -c '^logic_test'` → 31: T0 30 +
+`capacitor_test`) — MET; golden sizes 27761 / 27761 / 1352 (P0 / R0 / F0 + plan-33's 1032 / 1032 / 140) —
+MET; app `** BUILD SUCCEEDED **` — MET; "no capacitor support yet" → `PART_CAPACITOR` 1, `capacitor.json`
+present, `datasheets/capacitor/` present — the entry gate's world, now changed by this plan as intended; "no
+other open plan adds capacitors" → `plan-34-E-resistor-kind.md` only, whose hit (:82) orders its kind after
+`PART_CAPACITOR` — MET; DigiKey quota — not needed after Phase 1 (no later letter calls DigiKey).
+
 Everything below is written against the world where these hold.
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
