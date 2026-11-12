@@ -43,7 +43,7 @@ struct BusPanel: View {
                         }
                     }
                 }
-                Section("Bus") {
+                Section("Details") {
                     TextField("Name", text: $nameText)
                         .focused($nameFocused)
                         .onSubmit(commitName)
@@ -55,8 +55,6 @@ struct BusPanel: View {
                             .font(.caption)
                             .foregroundStyle(.red)
                     }
-                }
-                Section("Details") {
                     Picker("Type", selection: Binding(get: { bus.card.type }, set: { type in
                         var card = bus.card
                         card.type = type
@@ -89,16 +87,6 @@ struct BusPanel: View {
                             .font(.caption)
                             .foregroundStyle(.red)
                     }
-                }
-                if bus.card.type.hasBusOptions {
-                    CardOptionsSection(type: bus.card.type, bus: true, options: { document.bus(busID)?.card.cardOptions ?? CardOptions() },
-                                       set: { options in
-                                           guard var card = document.bus(busID)?.card else { return }
-                                           card.cardOptions = options
-                                           setCard(card)
-                                       })
-                }
-                Section("Wires") {
                     LabeledContent("Wires") {
                         HStack {
                             TextField("Wires", value: countBinding, format: .number)
@@ -121,6 +109,14 @@ struct BusPanel: View {
                             .font(.caption)
                             .foregroundStyle(.red)
                     }
+                }
+                if bus.card.type.hasBusOptions {
+                    CardOptionsSection(type: bus.card.type, bus: true, options: { document.bus(busID)?.card.cardOptions ?? CardOptions() },
+                                       set: { options in
+                                           guard var card = document.bus(busID)?.card else { return }
+                                           card.cardOptions = options
+                                           setCard(card)
+                                       })
                 }
                 Section("Wire Names") {
                     LazyVStack(alignment: .leading, spacing: 6) {
