@@ -85,7 +85,7 @@ Observed (2026-11-11, worktree-P-33 at 23916c5):
 Acceptance: every gate's observed value matches.
   Check: the table's commands (est. 30 min: the fresh backend build, the app
   tests and the harness; this is the plan's one landing run).
-Commit: (this commit; hash recorded in the merge report)
+Commit: 050d310
 
 ## Validation Plan
 
