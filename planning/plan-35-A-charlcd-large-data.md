@@ -230,21 +230,28 @@ Commit: —
 
 ### Phase 2 — datasheets into the tree
 
-- [ ] Download every `add` row's `datasheet_url` with
+- [x] Download every `add` row's `datasheet_url` with
       `planning/plan-35-data/census/dl.sh` (input: `maker\tpart\turl`
       from `candidates.tsv` columns 1, 2, 14) into a new empty
       `/tmp/p35-pdf/`, plus `ST7066U.pdf` from the focuslcds.com URL above.
-- [ ] Compare with `pdf-sha256.tsv` (`shasum -a 256`). A changed file is
+      — 2026-11-11: 68 files, every one `file -b` → PDF document.
+- [x] Compare with `pdf-sha256.tsv` (`shasum -a 256`). A changed file is
       the maker's newer revision: keep it, re-read the pages B–F cite from
       it (outline, pins, font, timing), and record what changed in
       Corrections. A file that is no longer a PDF moves its part to
-      `skip` (no datasheet) as in Phase 1.
-- [ ] Copy them to `datasheets/module-disp-char/` under the `pdf` column's
+      `skip` (no datasheet) as in Phase 1. — 2026-11-11: `shasum -a 256`
+      of all 68 vs `pdf-sha256.tsv` columns 1–2: `diff` empty (IDENTICAL),
+      so no newer revision and nothing to re-read.
+- [x] Copy them to `datasheets/module-disp-char/` under the `pdf` column's
       name (the Midas files keep their own names; the DigiKey `3086_`
-      prefix is gone because the own-site URL has none).
-- [ ] Append 67 entries to `schematical/schematical/Parts/datasheets.json`
+      prefix is gone because the own-site URL has none). — the 67 names
+      equal the `pdf` column (`diff` empty); `ls datasheets/module-disp-char/*.pdf | wc -l` → 75.
+- [x] Append 67 entries to `schematical/schematical/Parts/datasheets.json`
       (`{"id": <lower-case pdf name without .pdf>, "url": <datasheet_url>}`),
-      in the file's sorted position.
+      in the file's sorted position. — `git diff --stat` → 67 insertions;
+      the id list was and stays in plain sorted order; `json.load` → 6432
+      entries; `node scripts/check-datasheets.js <67 ids>` → "67 of 67 URLs
+      serve a PDF; 0 failed".
 
 Check: `ls datasheets/module-disp-char/*.pdf | wc -l` → 75;
 `python3 -c` count of `datasheets.json` ids that match a `candidates.tsv`
