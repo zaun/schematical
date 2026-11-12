@@ -53,7 +53,49 @@ static void expect(int ok, const char *what) {
 static const char FOOTPRINTS[] =
     "{'format':'schematical-footprints','version':1,'footprints':[{'id':'FX16',"
     "'description':'d','style':'dual','pins':16,'body':{'width':1,'height':1},'pitch':1,"
+    "'span':2,'pad':{'width':0.5,'height':0.5,'shape':'rect'}},{'id':'FX18',"
+    "'description':'d','style':'dual','pins':18,'body':{'width':1,'height':1},'pitch':1,"
     "'span':2,'pad':{'width':0.5,'height':0.5,'shape':'rect'}}]}";
+
+/* plan-35-D fixtures. p18-dual: the C404ALB 40x4 pin table (E1 pin 9 for
+   the top two lines, E2 pin 15 for the bottom two). p18-rgb: the Midas
+   MD42004A6W-FPTLRGB table (LED+ 15, K(B) 16, K(G) 17, K(R) 18). */
+#define PINOUT_P18_DUAL \
+    "'pinouts':{'p18-dual':[" \
+    "{'number':1,'name':'DB7','role':'inout','group':'data'}," \
+    "{'number':2,'name':'DB6','role':'inout','group':'data'}," \
+    "{'number':3,'name':'DB5','role':'inout','group':'data'}," \
+    "{'number':4,'name':'DB4','role':'inout','group':'data'}," \
+    "{'number':5,'name':'DB3','role':'inout','group':'data'}," \
+    "{'number':6,'name':'DB2','role':'inout','group':'data'}," \
+    "{'number':7,'name':'DB1','role':'inout','group':'data'}," \
+    "{'number':8,'name':'DB0','role':'inout','group':'data'}," \
+    "{'number':9,'name':'E1','role':'input'},{'number':10,'name':'R/W','role':'input'}," \
+    "{'number':11,'name':'RS','role':'input'},{'number':12,'name':'V0','role':'input'}," \
+    "{'number':13,'name':'VSS','role':'ground'},{'number':14,'name':'VDD','role':'power'}," \
+    "{'number':15,'name':'E2','role':'input'},{'number':16,'name':'NC','role':'nc'}," \
+    "{'number':17,'name':'LED+','role':'input'},{'number':18,'name':'LED-','role':'input'}]}"
+
+#define PINOUT_P18_RGB \
+    "'pinouts':{'p18-rgb':[{'number':1,'name':'VSS','role':'ground'}," \
+    "{'number':2,'name':'VDD','role':'power'},{'number':3,'name':'V0','role':'input'}," \
+    "{'number':4,'name':'RS','role':'input'},{'number':5,'name':'R/W','role':'input'}," \
+    "{'number':6,'name':'E','role':'input'}," \
+    "{'number':7,'name':'DB0','role':'inout','group':'data'}," \
+    "{'number':8,'name':'DB1','role':'inout','group':'data'}," \
+    "{'number':9,'name':'DB2','role':'inout','group':'data'}," \
+    "{'number':10,'name':'DB3','role':'inout','group':'data'}," \
+    "{'number':11,'name':'DB4','role':'inout','group':'data'}," \
+    "{'number':12,'name':'DB5','role':'inout','group':'data'}," \
+    "{'number':13,'name':'DB6','role':'inout','group':'data'}," \
+    "{'number':14,'name':'DB7','role':'inout','group':'data'}," \
+    "{'number':15,'name':'LED+','role':'input'},{'number':16,'name':'K(B)','role':'input'}," \
+    "{'number':17,'name':'K(G)','role':'input'},{'number':18,'name':'K(R)','role':'input'}]}"
+
+#define RGB_BACKLIGHT \
+    "'backlight':[{'anode':'LED+','cathode':'K(R)','color':'Red'}," \
+    "{'anode':'LED+','cathode':'K(G)','color':'Green'}," \
+    "{'anode':'LED+','cathode':'K(B)','color':'Blue'}],"
 
 static char *dequote(const char *text) {
     size_t n = strlen(text);
@@ -83,6 +125,28 @@ static char *device_file(const char *name, const char *columns, const char *rows
              "'timing':%s,'exec':%s,"
              "'parts':[{'name':'%s','package':'Module','pinout':'p16','footprint':'FX16'}]}]}",
              name, columns, rows, rom, panel, data, extra, timing, exec, name);
+    return dequote(text);
+}
+
+/*
+ * A plan-35-D device file: as device_file, with the pinouts text, its pinout
+ * id, the footprint and the "bus".e value given; the timing and exec are the
+ * fixture's; `extra` holds the backlight and vcc pairs.
+ */
+static char *large_file(const char *name, const char *pinouts, const char *pinout,
+                        const char *footprint, const char *columns, const char *rows,
+                        const char *panel, const char *e, const char *extra) {
+    static char text[8192];
+
+    snprintf(text, sizeof text,
+             "{'format':'schematical-parts','version':1,'kind':'charlcd','devices':[{"
+             "'id':'%s','function':'%sx%s','description':'d','drawer':[],%s,"
+             "'columns':%s,'rows':%s,'controller':'ST7066U','rom':'A00','panel':%s,"
+             "'bus':{'rs':'RS','rw':'R/W','e':%s,'data':" DATA "},'contrast':'V0',%s"
+             "'timing':" TIMING ",'exec':" EXEC ","
+             "'parts':[{'name':'%s','package':'Module','pinout':'%s','footprint':'%s'}]}]}",
+             name, columns, rows, pinouts, columns, rows, panel, e, extra, name, pinout,
+             footprint);
     return dequote(text);
 }
 
@@ -157,13 +221,13 @@ static void check_loader(void) {
                  "\"columns\" must be 1 to 40");
     expect_error("rows 3", device_file("B", "16", "3", "'A00'", "'yellow-green'", DATA, TIMING,
                                        EXEC, BACKLIGHT VCC),
-                 "\"rows\" must be 1 or 2");
+                 "\"rows\" must be 1, 2 or 4");
     expect_error("rom A02", device_file("B", "16", "2", "'A02'", "'yellow-green'", DATA, TIMING,
                                         EXEC, BACKLIGHT VCC),
                  "unknown rom \"A02\"");
     expect_error("panel green", device_file("B", "16", "2", "'A00'", "'green'", DATA, TIMING,
                                             EXEC, BACKLIGHT VCC),
-                 "\"panel\" must be yellow-green or blue-negative");
+                 "\"panel\" must be yellow-green, blue-negative, gray or white");
     expect_error("7 data pins", device_file("B", "16", "2", "'A00'", "'yellow-green'",
                                             "['DB0','DB1','DB2','DB3','DB4','DB5','DB6']",
                                             TIMING, EXEC, BACKLIGHT VCC),
@@ -199,6 +263,122 @@ static void check_loader(void) {
     expect_error("no vcc", device_file("B", "16", "2", "'A00'", "'yellow-green'", DATA, TIMING,
                                        EXEC, BACKLIGHT),
                  "missing \"vcc\"");
+}
+
+/* ---- plan-35-D case 1: loader ---------------------------------------------- */
+
+static int bus_is(const Part *part, const char *const *names, size_t count) {
+    const PartCharLcd *l = part->charlcd;
+    size_t i;
+
+    if (l->bus_pin_count != count) {
+        return 0;
+    }
+    for (i = 0; i < count; i++) {
+        if (strcmp(part->pins[l->bus_pins[i]].name, names[i]) != 0) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+static void check_loader_large(void) {
+    static const char *const BUS_ONE[] = {"RS", "R/W", "E", "DB0", "DB1", "DB2", "DB3",
+                                          "DB4", "DB5", "DB6", "DB7"};
+    static const char *const BUS_TWO[] = {"RS", "R/W", "E1", "E2", "DB0", "DB1", "DB2",
+                                          "DB3", "DB4", "DB5", "DB6", "DB7"};
+    const Part *part;
+    const PartCharLcd *l;
+
+    part = part_library_find(library, "FX-2004");
+    l = part != NULL ? part->charlcd : NULL;
+    expect(l != NULL && l->columns == 20 && l->rows == 4 && l->enables == 1 &&
+               strcmp(l->panel, "gray") == 0 && l->backlight_count == 1 &&
+               strcmp(l->backlight_colors[0], "White") == 0 &&
+               l->backlight_color == l->backlight_colors[0] && bus_is(part, BUS_ONE, 11),
+           "D1 loader: 20x4 on one E loads (rows 4, panel gray, enables 1, 1 LED, bus of 11)");
+    part = part_library_find(library, "FX-4004");
+    l = part != NULL ? part->charlcd : NULL;
+    expect(l != NULL && l->columns == 40 && l->rows == 4 && l->enables == 2 &&
+               strcmp(l->panel, "white") == 0 && l->backlight_count == 1 &&
+               bus_is(part, BUS_TWO, 12),
+           "D1 loader: 40x4 with two enables loads (enables 2, panel white, bus RS R/W E1 E2 DB0-7: 12)");
+    part = part_library_find(library, "FX-RGB");
+    l = part != NULL ? part->charlcd : NULL;
+    expect(l != NULL && l->rows == 4 && l->enables == 1 && l->backlight_count == 3 &&
+               l->backlight_colors != NULL && strcmp(l->backlight_colors[0], "Red") == 0 &&
+               strcmp(l->backlight_colors[1], "Green") == 0 &&
+               strcmp(l->backlight_colors[2], "Blue") == 0 &&
+               l->backlight_color == l->backlight_colors[0] && bus_is(part, BUS_ONE, 11),
+           "D1 loader: a 3-LED backlight loads (backlight_count 3: Red, Green, Blue; color = [0])");
+    part = part_library_find(library, "FX-LCD");
+    l = part != NULL ? part->charlcd : NULL;
+    expect(l != NULL && l->enables == 1 && l->backlight_count == 1 &&
+               strcmp(l->backlight_colors[0], "White") == 0 && bus_is(part, BUS_ONE, 11),
+           "D1 loader: the 16x2 fixture has enables 1, one LED, the same 11 bus pins");
+    part = part_library_find(library, "FX-LCD-NB");
+    expect(part != NULL && part->charlcd->backlight_count == 0 &&
+               part->charlcd->backlight_colors == NULL,
+           "D1 loader: no backlight: backlight_count 0, backlight_colors NULL");
+
+    expect_error("rows 4, one E, 21 columns",
+                 large_file("B", PINOUT, "p16", "FX16", "21", "4", "'white'", "'E'", BACKLIGHT VCC),
+                 "4 rows on one controller need \"columns\" of 20 or less");
+    expect_error("rows 3", large_file("B", PINOUT, "p16", "FX16", "20", "3", "'white'", "'E'",
+                                      BACKLIGHT VCC),
+                 "\"rows\" must be 1, 2 or 4");
+    expect_error("two enables on 2 rows",
+                 large_file("B", PINOUT_P18_DUAL, "p18-dual", "FX18", "40", "2", "'white'",
+                            "['E1','E2']", VCC),
+                 "two enables need \"rows\": 4");
+    expect_error("three enables",
+                 large_file("B", PINOUT_P18_DUAL, "p18-dual", "FX18", "40", "4", "'white'",
+                            "['E1','E2','E1']", VCC),
+                 "\"e\" must be a pin name or 2 pin names");
+    expect_error("one enable in an array",
+                 large_file("B", PINOUT_P18_DUAL, "p18-dual", "FX18", "40", "4", "'white'",
+                            "['E1']", VCC),
+                 "\"e\" must be a pin name or 2 pin names");
+    expect_error("e a number",
+                 large_file("B", PINOUT_P18_DUAL, "p18-dual", "FX18", "40", "4", "'white'", "9",
+                            VCC),
+                 "\"e\" must be a pin name or 2 pin names");
+    expect_error("E2 with no pin",
+                 large_file("B", PINOUT_P18_DUAL, "p18-dual", "FX18", "40", "4", "'white'",
+                            "['E1','E3']", VCC),
+                 "no pin named \"E3\"");
+    expect_error("panel black", large_file("B", PINOUT, "p16", "FX16", "20", "4", "'black'", "'E'",
+                                           BACKLIGHT VCC),
+                 "\"panel\" must be yellow-green, blue-negative, gray or white");
+    expect_error("backlight of 4 LEDs",
+                 large_file("B", PINOUT_P18_RGB, "p18-rgb", "FX18", "20", "4", "'white'", "'E'",
+                            "'backlight':[{'anode':'LED+','cathode':'K(R)','color':'Red'},"
+                            "{'anode':'LED+','cathode':'K(G)','color':'Green'},"
+                            "{'anode':'LED+','cathode':'K(B)','color':'Blue'},"
+                            "{'anode':'LED+','cathode':'K(B)','color':'Blue'}]," VCC),
+                 "\"backlight\" must be an object or 1 to 3 objects");
+    expect_error("backlight empty array",
+                 large_file("B", PINOUT_P18_RGB, "p18-rgb", "FX18", "20", "4", "'white'", "'E'",
+                            "'backlight':[]," VCC),
+                 "\"backlight\" must be an object or 1 to 3 objects");
+    expect_error("backlight a string",
+                 large_file("B", PINOUT_P18_RGB, "p18-rgb", "FX18", "20", "4", "'white'", "'E'",
+                            "'backlight':'White'," VCC),
+                 "\"backlight\" must be an object or 1 to 3 objects");
+    expect_error("backlight array of a string",
+                 large_file("B", PINOUT_P18_RGB, "p18-rgb", "FX18", "20", "4", "'white'", "'E'",
+                            "'backlight':['White']," VCC),
+                 "\"backlight\" must be an object or 1 to 3 objects");
+    expect_error("backlight LED without a color",
+                 large_file("B", PINOUT_P18_RGB, "p18-rgb", "FX18", "20", "4", "'white'", "'E'",
+                            "'backlight':[{'anode':'LED+','cathode':'K(R)','color':'Red'},"
+                            "{'anode':'LED+','cathode':'K(G)'}]," VCC),
+                 "backlight[1]");
+    expect_error("backlight cathode with no pin",
+                 large_file("B", PINOUT_P18_RGB, "p18-rgb", "FX18", "20", "4", "'white'", "'E'",
+                            "'backlight':[{'anode':'LED+','cathode':'K(R)','color':'Red'},"
+                            "{'anode':'LED+','cathode':'K(W)','color':'White'}]," VCC),
+                 "no pin named \"K(W)\"");
 }
 
 /* ---- Character ROM (section 5.2) ------------------------------------------ */
@@ -1457,6 +1637,23 @@ int main(int argc, char **argv) {
                                                DATA, TIMING, EXEC, VCC),
                           "fx-lcd-nb.json");
     }
+    /* plan-35-D fixtures: the NHD-0420DZ 20x4 facts on p16, the C404ALB
+       40x4 on p18-dual, a Midas RGB 20x4 on p18-rgb. */
+    if (error == NULL) {
+        error = load_file(library, large_file("FX-2004", PINOUT, "p16", "FX16", "20", "4",
+                                              "'gray'", "'E'", BACKLIGHT VCC),
+                          "fx-2004.json");
+    }
+    if (error == NULL) {
+        error = load_file(library, large_file("FX-4004", PINOUT_P18_DUAL, "p18-dual", "FX18", "40",
+                                              "4", "'white'", "['E1','E2']", BACKLIGHT VCC),
+                          "fx-4004.json");
+    }
+    if (error == NULL) {
+        error = load_file(library, large_file("FX-RGB", PINOUT_P18_RGB, "p18-rgb", "FX18", "20",
+                                              "4", "'white'", "'E'", RGB_BACKLIGHT VCC),
+                          "fx-rgb.json");
+    }
     if (error == NULL) {
         /* The pull parts name resistor footprints (plan-26-A). */
         char *footprints = read_file(PARTS_DIR "/footprints.json");
@@ -1481,6 +1678,7 @@ int main(int argc, char **argv) {
         return 1;
     }
     check_loader();
+    check_loader_large();
     check_rom();
     check_power_up();
     check_init8();

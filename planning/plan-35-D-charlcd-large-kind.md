@@ -40,9 +40,9 @@ The gate is plan-35-A § Prerequisites. D adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-35-C complete | `grep -c '^Commit: —' planning/plan-35-C-charlcd-large-footprints-midas-nhd.md` → 0 (or in `planning/completed/`) | NOT MET (2026-11-11) |
-| The kind is plan-11's | `grep -n 'must be 1 or 2' backend/src/models/charlcd.c` → one line | MET (2026-11-11 at 48e059b: charlcd.c:120; see Corrections for the command) |
-| Tests pass before D | `cmake -S backend -B /tmp/logic-p35 && cmake --build /tmp/logic-p35 -j8 && ctest --test-dir /tmp/logic-p35` → `100% tests passed` | re-run at start |
+| plan-35-C complete | `grep -c '^Commit: —' planning/plan-35-C-charlcd-large-footprints-midas-nhd.md` → 0 (or in `planning/completed/`) | NOT MET (2026-11-11 at a5b0fcf: → 2; C is being worked in parallel. D adds no part and no footprint, so it touches nothing C writes; D was started on the session owner's instruction with this row open) |
+| The kind is plan-11's | `grep -n 'must be 1 or 2' backend/src/models/charlcd.c` → one line | MET at the start of D (2026-11-11 at a5b0fcf: charlcd.c:120; see Corrections for the command). D Phase 1 replaces the message, so the command now → 0 lines by design |
+| Tests pass before D | `cmake -S backend -B /tmp/logic-p35 && cmake --build /tmp/logic-p35 -j8 && ctest --test-dir /tmp/logic-p35` → `100% tests passed` | MET (2026-11-11 at a5b0fcf, untouched tree: `100% tests passed, 0 tests failed out of 30`; `charlcd_test`: 100 PASS, 0 FAIL) |
 
 Everything below is written against the world where these hold.
 
@@ -62,7 +62,9 @@ Everything below is written against the world where these hold.
 
 - The five 16 × 2 parts behave exactly as before. Their listing lines,
   trace hashes and every existing `charlcd_test` case are unchanged (the
-  existing cases are only edited where `LcdState` fields become arrays, § 4.5).
+  existing cases are only edited where `LcdState` fields become arrays, § 4.5,
+  and where an existing loader case expects one of the two messages § 4.2
+  replaces: `"rows" must be …` and `"panel" must be …`; see Corrections).
 - `PartCharLcd` keeps every existing field and offset; new fields are
   appended. `bus_pins` keeps its order for one-enable parts.
 - Not modeled (as in plan-11-B): contrast, the 5×10 font, other ROMs,
@@ -105,7 +107,7 @@ Everything below is written against the world where these hold.
   - one anode→cathode carry per part.
 - **Listing** (`backend/tests/support/listing.c:173`) prints `columns rows
   controller rom panel backlight bus=`; `backlight` is
-  `PartCharLcd.backlight_color` or `-`.
+  `PartCharLcd.backlight_color` or `none` (see Corrections).
 - **Tests**:
   - `charlcd_test.c` has 1519 lines;
   - 25 lines use `LcdState.ddram`, `.busy` or `.cgram`
@@ -321,7 +323,8 @@ Cases:
    driver; the voltage check carries VCC's level to all three (as it does
    for the single backlight).
 10. **16 × 2 unchanged:** every existing case passes untouched apart from
-    the `[0]` edits.
+    the `[0]` edits and the two replaced loader messages (rows 3, panel
+    green).
 
 ## Phases
 
@@ -331,12 +334,21 @@ Cases:
 
 ### Phase 1 — facts and loader
 
-- [ ] `parts.h`: append the three `PartCharLcd` fields (§ 4.1).
-- [ ] `charlcd.c` loader and binder: § 4.2 keys and messages; `enables`,
+- [x] `parts.h`: append the three `PartCharLcd` fields (§ 4.1).
+- [x] `charlcd.c` loader and binder: § 4.2 keys and messages; `enables`,
       `bus_pins` with E2, the backlight array; `charlcd_backlight_pins`
       with an index; `model_pins.h`, `led.c`, `voltage.c` callers.
-- [ ] `listing.c`: § 4.6 printing.
-- [ ] `charlcd_test`: case 1.
+      (The model still watches E1 and LED 0 only until Phase 3.)
+- [x] `listing.c`: § 4.6 printing.
+- [x] `charlcd_test`: case 1 (`check_loader_large`, "D1 loader" lines plus
+      14 `expect_error` cases; fixtures FX-2004, FX-4004, FX-RGB and a
+      fixture footprint FX18). Check run 2026-11-11:
+      `cmake --build /tmp/logic-p35 -j8 && /tmp/logic-p35/charlcd_test | grep -c '^FAIL'`
+      → `0` (`grep -c '^PASS'` → 119, was 100);
+      `/tmp/logic-p35/listing_check && /tmp/logic-p35/trace_check` → both
+      exit 0, each `26729 parts compared, 0 skipped`; also
+      `ctest --test-dir /tmp/logic-p35` → `100% tests passed, 0 tests failed out of 30`
+      and `git diff --exit-code backend/tests/golden` → exit 0.
 
 Check: `cmake --build /tmp/logic-p35 -j8 && /tmp/logic-p35/charlcd_test | grep -c '^FAIL'`
 → 0; `/tmp/logic-p35/listing_check && /tmp/logic-p35/trace_check` pass
@@ -401,6 +413,17 @@ move. The landing tier is H.
   The prerequisite row, Phase 3's check and plan-35-E's prerequisite now
   grep the C file with `-F 'rows\" must be 1, 2 or 4'`; the docs file keeps
   the plain form.
+
+- **No-backlight listing word** (2026-11-11, Phase 1): § 2 said the
+  listing prints `-` for a module without a backlight; `listing.c:176` (at a5b0fcf)
+  prints `none` (`l->backlight_color != NULL ? l->backlight_color : "none"`).
+  § 2 now says `none`; Phase 1 keeps `none` for `backlight_count` 0.
+- **Two existing loader cases change their expected message** (2026-11-11,
+  Phase 1): § 1 Non-goals said existing `charlcd_test` cases are edited only
+  for the `[0]` arrays, but `check_loader`'s "rows 3" and "panel green"
+  cases expect `"rows" must be 1 or 2` and `"panel" must be yellow-green or
+  blue-negative` (charlcd_test.c:160, 166), which § 4.2 replaces. Both cases
+  stay and now expect the § 4.2 messages; the Non-goals and case 10 say so.
 
 ## Summary
 

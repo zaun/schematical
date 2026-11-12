@@ -249,31 +249,37 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
             size_t anode;
             size_t cathode;
 
-            /* An LED, or a character LCD's backlight: the anode's level is
-               carried to the cathode net. Only an LED skips the vcc checks. */
-            if ((part->kind == PART_LED || part->kind == PART_CHARLCD) &&
-                led_pins(part, &anode, &cathode)) {
-                Level from = {0, 0};
-                Level to;
+            /* An LED, or each LED of a character LCD's backlight: the
+               anode's level is carried to the cathode net. Only an LED skips
+               the vcc checks. */
+            if (part->kind == PART_LED || part->kind == PART_CHARLCD) {
+                size_t k;
 
-                for (j = 0; j < connection_count; j++) {
-                    if (connections[j].part == i && connections[j].pin == anode &&
-                        connections[j].net < net_count) {
-                        Level e = effective(supply, driven, pulled, carried, find(parent, connections[j].net));
+                for (k = 0; part->kind == PART_LED ? k == 0 && led_pins(part, &anode, &cathode)
+                                                   : charlcd_backlight_pins(part, k, &anode, &cathode);
+                     k++) {
+                    Level from = {0, 0};
+                    Level to;
 
-                        if (e.known) {
-                            level_raise(&from, e.mv);
+                    for (j = 0; j < connection_count; j++) {
+                        if (connections[j].part == i && connections[j].pin == anode &&
+                            connections[j].net < net_count) {
+                            Level e = effective(supply, driven, pulled, carried, find(parent, connections[j].net));
+
+                            if (e.known) {
+                                level_raise(&from, e.mv);
+                            }
                         }
                     }
-                }
-                for (j = 0; from.known && j < connection_count; j++) {
-                    if (connections[j].part == i && connections[j].pin == cathode &&
-                        connections[j].net < net_count) {
-                        size_t g = find(parent, connections[j].net);
+                    for (j = 0; from.known && j < connection_count; j++) {
+                        if (connections[j].part == i && connections[j].pin == cathode &&
+                            connections[j].net < net_count) {
+                            size_t g = find(parent, connections[j].net);
 
-                        to = carried[g];
-                        level_raise(&carried[g], from.mv);
-                        changed |= to.known != carried[g].known || to.mv != carried[g].mv;
+                            to = carried[g];
+                            level_raise(&carried[g], from.mv);
+                            changed |= to.known != carried[g].known || to.mv != carried[g].mv;
+                        }
                     }
                 }
                 if (part->kind == PART_LED) {

@@ -24,7 +24,9 @@
 #include "model_pins.h"
 
 #define LCD_DATA_BITS 8
-#define LCD_BUS_PINS (3 + LCD_DATA_BITS)
+#define LCD_MAX_BUS_PINS (4 + LCD_DATA_BITS)   /* RS, R/W, E1, E2, DB0-DB7 */
+#define LCD_MAX_ENABLES 2
+#define LCD_MAX_LEDS 3
 
 static const char *const DEVICE_KEYS[] = {
     "columns", "rows", "controller", "rom", "panel", "bus", "contrast", "backlight", "timing",
@@ -45,21 +47,25 @@ typedef struct {
 } CharLcdTiming;
 
 typedef struct {
-    unsigned columns, rows;
+    unsigned columns, rows, enables;
     const char *controller, *rom, *panel, *backlight_color;
-    const char *rs, *rw, *e;
+    const char *rs, *rw, *e[LCD_MAX_ENABLES];   /* e[1]: NULL with one enable */
     const char *const *data;
     const char *contrast;
-    const char *anode, *cathode;      /* NULL without a backlight */
+    size_t leds;                                 /* backlight LEDs, 0-3 */
+    const char *anode[LCD_MAX_LEDS], *cathode[LCD_MAX_LEDS];
+    const char *colors[LCD_MAX_LEDS];
     CharLcdTiming t;
     const PartVoltage *vcc;
 } CharLcdDevice;
 
 /* Pin indices for one pinout. */
 typedef struct {
-    size_t rs, rw, e, db[LCD_DATA_BITS], contrast, anode, cathode;
-    int has_backlight;
-    size_t bus[LCD_BUS_PINS];
+    size_t rs, rw, e[LCD_MAX_ENABLES], db[LCD_DATA_BITS], contrast;
+    unsigned enables;
+    size_t anode[LCD_MAX_LEDS], cathode[LCD_MAX_LEDS];
+    size_t leds;
+    size_t bus[LCD_MAX_BUS_PINS];
     PartCharLcd info;
     const CharLcdDevice *device;
 } CharLcdPins;
@@ -94,6 +100,69 @@ static int more_than_zero(KindContext *ctx, SimTime value, const char *what) {
     return value > 0 ? 0 : kind_error(ctx, "\"%s\" must be more than 0", what);
 }
 
+/* "bus".e: one pin name, or two (E1, E2). */
+static int load_enables(KindContext *ctx, const cJSON *bus, CharLcdDevice *device) {
+    const cJSON *e = kind_member(ctx, bus, "e", 1);
+
+    if (e == NULL) {
+        return -1;
+    }
+    if (cJSON_IsString(e)) {
+        device->enables = 1;
+        return kind_string(ctx, bus, "e", &device->e[0]);
+    }
+    if (cJSON_IsArray(e) && cJSON_GetArraySize(e) == LCD_MAX_ENABLES) {
+        const char *const *names;
+        size_t count;
+
+        if (kind_names(ctx, bus, "e", &names, &count) != 0) {
+            return -1;
+        }
+        if (count == LCD_MAX_ENABLES) {
+            device->enables = LCD_MAX_ENABLES;
+            device->e[0] = names[0];
+            device->e[1] = names[1];
+            return 0;
+        }
+    }
+    return kind_error(ctx, "\"e\" must be a pin name or 2 pin names");
+}
+
+/* "backlight": one LED object, or an array of 1-3. */
+static int load_backlight(KindContext *ctx, const cJSON *backlight, CharLcdDevice *device) {
+    int array = cJSON_IsArray(backlight);
+    int count = array ? cJSON_GetArraySize(backlight) : cJSON_IsObject(backlight) ? 1 : 0;
+    int i;
+
+    if (count < 1 || count > LCD_MAX_LEDS) {
+        return kind_error(ctx, "\"backlight\" must be an object or 1 to 3 objects");
+    }
+    for (i = 0; i < count; i++) {
+        const cJSON *led = array ? cJSON_GetArrayItem(backlight, i) : backlight;
+        int failed;
+
+        if (!cJSON_IsObject(led)) {
+            return kind_error(ctx, "\"backlight\" must be an object or 1 to 3 objects");
+        }
+        if (array) {
+            kind_push(ctx, "backlight[%d]", i);
+        }
+        failed = kind_check_keys(ctx, led, BACKLIGHT_KEYS, NULL) != 0 ||
+                 kind_string(ctx, led, "anode", &device->anode[i]) != 0 ||
+                 kind_string(ctx, led, "cathode", &device->cathode[i]) != 0 ||
+                 kind_string(ctx, led, "color", &device->colors[i]) != 0;
+        if (array) {
+            kind_pop(ctx);
+        }
+        if (failed) {
+            return -1;
+        }
+    }
+    device->leds = (size_t)count;
+    device->backlight_color = device->colors[0];
+    return 0;
+}
+
 static void *charlcd_load_device(KindContext *ctx, const cJSON *json) {
     CharLcdDevice *device = kind_alloc(ctx, sizeof(*device));
     CharLcdTiming *t;
@@ -116,8 +185,8 @@ static void *charlcd_load_device(KindContext *ctx, const cJSON *json) {
     if (kind_uint(ctx, json, "rows", 1000000, &rows) != 0) {
         return NULL;
     }
-    if (rows < 1 || rows > 2) {
-        kind_error(ctx, "\"rows\" must be 1 or 2");
+    if (rows != 1 && rows != 2 && rows != 4) {
+        kind_error(ctx, "\"rows\" must be 1, 2 or 4");
         return NULL;
     }
     device->columns = (unsigned)columns;
@@ -133,8 +202,9 @@ static void *charlcd_load_device(KindContext *ctx, const cJSON *json) {
     if (kind_string(ctx, json, "panel", &device->panel) != 0) {
         return NULL;
     }
-    if (strcmp(device->panel, "yellow-green") != 0 && strcmp(device->panel, "blue-negative") != 0) {
-        kind_error(ctx, "\"panel\" must be yellow-green or blue-negative");
+    if (strcmp(device->panel, "yellow-green") != 0 && strcmp(device->panel, "blue-negative") != 0 &&
+        strcmp(device->panel, "gray") != 0 && strcmp(device->panel, "white") != 0) {
+        kind_error(ctx, "\"panel\" must be yellow-green, blue-negative, gray or white");
         return NULL;
     }
 
@@ -149,7 +219,15 @@ static void *charlcd_load_device(KindContext *ctx, const cJSON *json) {
     if (kind_check_keys(ctx, bus, BUS_KEYS, NULL) != 0 ||
         kind_string(ctx, bus, "rs", &device->rs) != 0 ||
         kind_string(ctx, bus, "rw", &device->rw) != 0 ||
-        kind_string(ctx, bus, "e", &device->e) != 0) {
+        load_enables(ctx, bus, device) != 0) {
+        return NULL;
+    }
+    if (device->enables == 2 && device->rows != 4) {
+        kind_error(ctx, "two enables need \"rows\": 4");
+        return NULL;
+    }
+    if (device->enables == 1 && device->rows == 4 && device->columns > 20) {
+        kind_error(ctx, "4 rows on one controller need \"columns\" of 20 or less");
         return NULL;
     }
     {
@@ -169,17 +247,8 @@ static void *charlcd_load_device(KindContext *ctx, const cJSON *json) {
     }
 
     backlight = cJSON_GetObjectItemCaseSensitive(json, "backlight");
-    if (backlight != NULL) {
-        if (!cJSON_IsObject(backlight)) {
-            kind_error(ctx, "\"backlight\" must be an object");
-            return NULL;
-        }
-        if (kind_check_keys(ctx, backlight, BACKLIGHT_KEYS, NULL) != 0 ||
-            kind_string(ctx, backlight, "anode", &device->anode) != 0 ||
-            kind_string(ctx, backlight, "cathode", &device->cathode) != 0 ||
-            kind_string(ctx, backlight, "color", &device->backlight_color) != 0) {
-            return NULL;
-        }
+    if (backlight != NULL && load_backlight(ctx, backlight, device) != 0) {
+        return NULL;
     }
 
     {
@@ -213,32 +282,43 @@ static void *charlcd_bind_pinout(KindContext *ctx, const void *raw, const PartPi
                                  size_t pin_count) {
     const CharLcdDevice *device = raw;
     CharLcdPins *bound = kind_alloc(ctx, sizeof(*bound));
-    size_t i;
+    size_t i, n;
 
     if (bound == NULL ||
         kind_pin(ctx, pins, pin_count, device->rs, &bound->rs) != 0 ||
-        kind_pin(ctx, pins, pin_count, device->rw, &bound->rw) != 0 ||
-        kind_pin(ctx, pins, pin_count, device->e, &bound->e) != 0 ||
-        kind_pin(ctx, pins, pin_count, device->contrast, &bound->contrast) != 0) {
+        kind_pin(ctx, pins, pin_count, device->rw, &bound->rw) != 0) {
         return NULL;
     }
+    for (i = 0; i < device->enables; i++) {
+        if (kind_pin(ctx, pins, pin_count, device->e[i], &bound->e[i]) != 0) {
+            return NULL;
+        }
+    }
+    if (kind_pin(ctx, pins, pin_count, device->contrast, &bound->contrast) != 0) {
+        return NULL;
+    }
+    bound->enables = device->enables;
     for (i = 0; i < LCD_DATA_BITS; i++) {
         if (kind_pin(ctx, pins, pin_count, device->data[i], &bound->db[i]) != 0) {
             return NULL;
         }
     }
-    if (device->anode != NULL) {
-        if (kind_pin(ctx, pins, pin_count, device->anode, &bound->anode) != 0 ||
-            kind_pin(ctx, pins, pin_count, device->cathode, &bound->cathode) != 0) {
+    for (i = 0; i < device->leds; i++) {
+        if (kind_pin(ctx, pins, pin_count, device->anode[i], &bound->anode[i]) != 0 ||
+            kind_pin(ctx, pins, pin_count, device->cathode[i], &bound->cathode[i]) != 0) {
             return NULL;
         }
-        bound->has_backlight = 1;
     }
-    bound->bus[0] = bound->rs;
-    bound->bus[1] = bound->rw;
-    bound->bus[2] = bound->e;
+    bound->leds = device->leds;
+    /* RS, R/W, E (or E1, E2), DB0-DB7. */
+    n = 0;
+    bound->bus[n++] = bound->rs;
+    bound->bus[n++] = bound->rw;
+    for (i = 0; i < device->enables; i++) {
+        bound->bus[n++] = bound->e[i];
+    }
     for (i = 0; i < LCD_DATA_BITS; i++) {
-        bound->bus[3 + i] = bound->db[i];
+        bound->bus[n++] = bound->db[i];
     }
     bound->info.columns = device->columns;
     bound->info.rows = device->rows;
@@ -247,7 +327,10 @@ static void *charlcd_bind_pinout(KindContext *ctx, const void *raw, const PartPi
     bound->info.panel = device->panel;
     bound->info.backlight_color = device->backlight_color;
     bound->info.bus_pins = bound->bus;
-    bound->info.bus_pin_count = LCD_BUS_PINS;
+    bound->info.bus_pin_count = n;
+    bound->info.enables = device->enables;
+    bound->info.backlight_count = device->leds;
+    bound->info.backlight_colors = device->leds > 0 ? device->colors : NULL;
     bound->device = device;
     return bound;
 }
@@ -260,18 +343,18 @@ static int charlcd_load_part(KindContext *ctx, const void *raw, const void *boun
     return kind_part_voltage(ctx, json, device->vcc, &out->vcc);
 }
 
-int charlcd_backlight_pins(const Part *part, size_t *anode, size_t *cathode) {
+int charlcd_backlight_pins(const Part *part, size_t index, size_t *anode, size_t *cathode) {
     const CharLcdPins *pins;
 
     if (part == NULL || part->kind != PART_CHARLCD) {
         return 0;
     }
     pins = part_internal(part)->bound;
-    if (!pins->has_backlight) {
+    if (index >= pins->leds) {
         return 0;
     }
-    *anode = pins->anode;
-    *cathode = pins->cathode;
+    *anode = pins->anode[index];
+    *cathode = pins->cathode[index];
     return 1;
 }
 
@@ -815,9 +898,9 @@ static void e_fall(Sim *sim, SimInstance *instance, CharLcdState *st, SimTime no
 }
 
 static void update_light(Sim *sim, SimInstance *instance, CharLcdState *st) {
-    if (st->pins.has_backlight) {
-        int on = sim_read_pin(sim, instance, st->pins.anode) == LOGIC_1 &&
-                 sim_read_pin(sim, instance, st->pins.cathode) == LOGIC_0;
+    if (st->pins.leds > 0) {
+        int on = sim_read_pin(sim, instance, st->pins.anode[0]) == LOGIC_1 &&
+                 sim_read_pin(sim, instance, st->pins.cathode[0]) == LOGIC_0;
 
         lights_set(&st->light, 0, on, sim_now(sim));
     }
@@ -847,7 +930,7 @@ static void charlcd_destroy(void *state) {
 static void charlcd_start(Sim *sim, SimInstance *instance, void *raw) {
     CharLcdState *st = raw;
 
-    st->e = level(sim, instance, st->pins.e);
+    st->e = level(sim, instance, st->pins.e[0]);
     update_light(sim, instance, st);
 }
 
@@ -859,11 +942,11 @@ static void charlcd_pin_changed(Sim *sim, SimInstance *instance, void *raw, size
 
     (void)old_value;
     (void)new_value;
-    if (st->pins.has_backlight && (pin == st->pins.anode || pin == st->pins.cathode)) {
+    if (st->pins.leds > 0 && (pin == st->pins.anode[0] || pin == st->pins.cathode[0])) {
         update_light(sim, instance, st);
     }
-    if (pin == st->pins.e) {
-        int e = level(sim, instance, st->pins.e);
+    if (pin == st->pins.e[0]) {
+        int e = level(sim, instance, st->pins.e[0]);
         int was = st->e;
 
         st->e = e;
@@ -958,7 +1041,7 @@ static size_t charlcd_lights(const Sim *sim, const SimInstance *instance, const 
 
     (void)sim;
     (void)instance;
-    return st->pins.has_backlight ? lights_read(&st->light, 1, since, out, cap) : 0;
+    return st->pins.leds > 0 ? lights_read(&st->light, 1, since, out, cap) : 0;
 }
 
 static size_t charlcd_light_time(const Sim *sim, const SimInstance *instance, const void *raw,
@@ -966,7 +1049,7 @@ static size_t charlcd_light_time(const Sim *sim, const SimInstance *instance, co
     const CharLcdState *st = raw;
 
     (void)instance;
-    return st->pins.has_backlight ? lights_time(&st->light, 1, sim_now(sim), out, cap) : 0;
+    return st->pins.leds > 0 ? lights_time(&st->light, 1, sim_now(sim), out, cap) : 0;
 }
 
 /* ---- The image (section 4.7) ---- */

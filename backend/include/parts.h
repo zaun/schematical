@@ -85,13 +85,19 @@ typedef struct { uint32_t words; unsigned bits; uint64_t access_ps; const char *
                  unsigned page_bytes; uint64_t write_cycle_ps; } PartEeprom;
 /* core: "6502", "65c02" or "z80". max_hz = floor(1e12 / the grade's clock period in ps). */
 typedef struct { const char *core; const char *grade; uint64_t max_hz; } PartCpu;
-/* Character LCD module (charlcd). panel: "yellow-green" (STN positive: dark
-   dots on yellow-green) or "blue-negative" (STN negative: light dots on
-   blue). backlight_color: NULL when the module has no backlight. */
+/* Character LCD module (charlcd). rows: 1, 2 or 4. panel: "yellow-green"
+   (STN positive: dark dots on yellow-green), "blue-negative" (STN negative:
+   light dots on blue), "gray" (STN positive: dark dots on light gray) or
+   "white" (FSTN positive: black dots on white). backlight_color: the first
+   LED's color, NULL when the module has no backlight. enables: 1, or 2 (a
+   40x4 with two controllers: E1 drives rows 0-1, E2 rows 2-3). */
 typedef struct {
     unsigned columns, rows;
     const char *controller, *rom, *panel, *backlight_color;
     const size_t *bus_pins; size_t bus_pin_count;  /* RS, R/W, E, DB0-DB7: indices into Part.pins */
+    unsigned enables;                          /* 1, or 2: bus_pins is RS, R/W, E1, E2, DB0-DB7 */
+    size_t backlight_count;                    /* 0-3 LEDs */
+    const char *const *backlight_colors;       /* backlight_count colors; [0] == backlight_color */
 } PartCharLcd;
 /* model: the serial model ("ns16550", "i8251", ...); channels: serial
    channels on the chip; grade: the part's speed/supply grade; host: the

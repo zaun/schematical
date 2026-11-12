@@ -170,9 +170,21 @@ static void print_details(FILE *out, const Part *part) {
         case PART_CHARLCD: {
             const PartCharLcd *l = part->charlcd;
 
-            fprintf(out, "columns=%u rows=%u controller=%s rom=%s panel=%s backlight=%s bus=",
-                    l->columns, l->rows, l->controller, l->rom, l->panel,
-                    l->backlight_color != NULL ? l->backlight_color : "none");
+            size_t k;
+
+            fprintf(out, "columns=%u rows=%u", l->columns, l->rows);
+            if (l->enables == 2) {
+                fprintf(out, " enables=2");
+            }
+            fprintf(out, " controller=%s rom=%s panel=%s backlight=", l->controller, l->rom,
+                    l->panel);
+            if (l->backlight_count == 0) {
+                fprintf(out, "none");
+            }
+            for (k = 0; k < l->backlight_count; k++) {
+                fprintf(out, "%s%s", k > 0 ? "," : "", l->backlight_colors[k]);
+            }
+            fprintf(out, " bus=");
             print_numbers(out, part->pins, l->bus_pins, l->bus_pin_count);
             break;
         }
