@@ -14,8 +14,13 @@ struct PartEditorWindowView: View {
     }
 
     var body: some View {
-        PartEditorForm(model: model)
-            .frame(minWidth: 620, minHeight: 480)
+        HSplitView {
+            PartEditorForm(model: model)
+                .frame(minWidth: 520)
+            PartPreviewPane(model: model)
+                .frame(minWidth: 260, idealWidth: 340)
+        }
+            .frame(minWidth: 820, minHeight: 480)
             .navigationTitle(model.title)
             .background(WindowReader { model.window = $0 })
             .focusedSceneValue(\.partEditor, model)
@@ -28,6 +33,24 @@ struct PartEditorWindowView: View {
                         .disabled(!model.isValid)
                 }
             }
+    }
+}
+
+/// The preview beside the form: the last part the backend accepted, so it
+/// stays while the draft has an error.
+struct PartPreviewPane: View {
+    let model: PartEditorModel
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            if let part = model.lastValidPart {
+                FootprintPreviewView(part: part, revision: model.previewRevision)
+            } else {
+                ContentUnavailableView("No preview", systemImage: "square.dashed",
+                                       description: Text("The preview shows the part once it loads."))
+            }
+        }
+        .padding(8)
     }
 }
 
@@ -124,7 +147,21 @@ struct PartEditorForm: View {
         }
     }
 
-    private var footprint: some View {
+    @ViewBuilder private var footprint: some View {
+        if model.draft.customFootprint != nil {
+            Section("Custom Footprint") {
+                CustomFootprintEditor(
+                    footprint: Binding(get: { model.draft.customFootprint! },
+                                       set: { model.draft.customFootprint = $0 }),
+                    pinNumbers: model.draft.pinNumbers,
+                    onRemove: { model.draft.customFootprint = nil })
+            }
+        } else {
+            bundledFootprint
+        }
+    }
+
+    private var bundledFootprint: some View {
         Section("Footprint") {
             let pins = model.draft.pinCount
             let choices = model.validator.footprints.filter { Int($0.pins) == pins }
@@ -139,6 +176,16 @@ struct PartEditorForm: View {
             }
             Text("Bundled footprints with \(pins) pads (the part's pinout has \(pins) pins).")
                 .font(.caption).foregroundStyle(.secondary)
+            Button("Custom Footprint…") {
+                var custom = CustomFootprintDraft.starter(id: CustomFootprintDraft.id(forPart: model.draft.uuid),
+                                                          pins: pins)
+                // Number the starter's pads with the pinout's own pin numbers.
+                let numbers = model.draft.pinNumbers
+                for index in custom.pads.indices where index < numbers.count {
+                    custom.pads[index].pin = numbers[index]
+                }
+                model.draft.customFootprint = custom
+            }
         }
     }
 

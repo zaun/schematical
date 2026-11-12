@@ -32,7 +32,7 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-32-C complete: the editor's footprint section chooses a bundled footprint | `xcodebuild test … -only-testing:schematicalTests/PartValidatorTests` → `passed` | NOT MET at writing; starts after plan-32-C |
+| plan-32-C complete: the editor's footprint section chooses a bundled footprint | `xcodebuild test … -only-testing:schematicalTests/PartValidatorTests` → `passed` | MET (run 2026-11-11 in the P-32 worktree: `PartValidatorTests` passed, 4 cases) |
 
 Everything below is written against the world where this holds.
 
@@ -163,39 +163,42 @@ Body: `width`, `height` (mm), and `round` (boolean, for a round body).
 
 One line: the explicit footprint's keys are fixed from the backend source and the shipped explicit footprints parse back to the same entries.
 
-- [ ] `CustomFootprintDraft.encoded()` writes the § 4.1 keys (`pin`, `x`, `y`, `width`, `height`, `shape`, `drill`, `slotLength`, `plated`, `radius`, `chamfer`, `corners`) and the § 4.2 entry shape.
-- [ ] `schematical/schematical/Editor/CustomFootprintDraft.swift`: `CustomFootprintDraft` (id, description, body, pads as `PadDraft`), `init(footprint: Footprint)` for an explicit bundled footprint, and `encoded()` in the § 4.2 form.
-- [ ] Tests: `CustomFootprintDraftTests.swift`: for every shipped explicit footprint (424, § 2), `init(footprint:)` → `encoded()` → `load_footprint_entries` (plan-32-A) accepts it, and the re-expanded `pads` equal the originals.
+- [x] `CustomFootprintDraft.encoded()` writes the § 4.1 keys (`pin`, `x`, `y`, `width`, `height`, `shape`, `drill`, `slotLength`, `plated`, `radius`, `chamfer`, `corners`) and the § 4.2 entry shape.
+- [x] `schematical/schematical/Editor/CustomFootprintDraft.swift`: `CustomFootprintDraft` (id, description, body, pads as `PadDraft`), `init(footprint: Footprint)` for an explicit bundled footprint, and `encoded()` in the § 4.2 form.
+- [x] Tests: `CustomFootprintDraftTests.swift`: for every shipped explicit footprint (424, § 2), `init(footprint:)` → `encoded()` → `load_footprint_entries` (plan-32-A; it is `footprint_read_entries`, reached through `load_footprints` on a one-entry file) accepts it, and the re-expanded `pads` equal the originals.
 
 Acceptance: all 424 shipped explicit footprints round-trip through the draft, and the backend accepts each encoded entry.
   Check: `xcodebuild test … -only-testing:schematicalTests/CustomFootprintDraftTests` → `passed` with the count line `checked 424 explicit footprints, 0 mismatched` (est. 4 min; the population is every explicit footprint, which is the set that exercises every pad key).
-Commit: —
+  Result (2026-11-11): passed, `checked 424 explicit footprints, 0 mismatched` (pads, body, round flag and description compared; the entry also reads back to the same draft through `CustomFootprintDraft(json:)`).
+Commit: (this commit, with Phases 2–3)
 
 ### Phase 2 — Preview: the PCB footprint preview draws the same pads as the PCB page
 
 One line: the preview's pad geometry equals the PCB page's geometry for the same footprint.
 
-- [ ] `schematical/schematical/Editor/FootprintPreviewView.swift`: builds a `PlacedChip` from a `CatalogPart` with a zero `BoardPlacement`, draws `boardPads` (via `PCBCanvasView.outline(of:)`), the body outline (`body.width`/`height`, round when `body_round`), the pin-1 mark (`PlacedChip.pin1Mark`), and designators, using `BoardColors`.
-- [ ] Zoom and pan use `CanvasViewport` (the PCB page's type), not a new one.
-- [ ] Tests: `FootprintPreviewTests.swift`: for three shipped footprints, `PDIP-14` (a DIP, the id verified in `footprints.json`), `SON-6-DRY` and `X2SON-8` (both explicit, verified above), the preview's `boardPads` rectangles equal the PCB page's `boardPads` for a placed bundled part that uses the same footprint, to within 1e-9 mm.
+- [x] `schematical/schematical/Editor/FootprintPreviewView.swift`: builds a `PlacedChip` from a `CatalogPart` with a zero `BoardPlacement`, draws `boardPads` (via `PCBCanvasView.outline(of:)`), the body outline (`body.width`/`height`, round when `body_round`), the pin-1 mark (`PlacedChip.pin1Mark`), and designators, using `BoardColors`.
+- [x] Zoom and pan use `CanvasViewport` (the PCB page's type), not a new one.
+- [x] Tests: `FootprintPreviewTests.swift`: for three shipped footprints, `PDIP-14` (a DIP, the id verified in `footprints.json`), `SON-6-DRY` and `X2SON-8` (both explicit, verified above), the preview's `boardPads` rectangles equal the PCB page's `boardPads` for a placed bundled part that uses the same footprint, to within 1e-9 mm.
 
 Acceptance: the three footprints' pads match the PCB page's pads (within 1e-9 mm).
   Check: `xcodebuild test … -only-testing:schematicalTests/FootprintPreviewTests` → `passed` (est. 4 min). This is the smallest check that compares preview geometry with the PCB page's geometry.
-Commit: —
+  Result (2026-11-11): passed (testDIP, testSON6, testX2SON8): pad rects (moved by the placed part's centre), drill, shape and corners equal, within 1e-9 mm.
+Commit: (this commit)
 
 ### Phase 3 — Editor: Custom footprint… and the pad table
 
 One line: a user builds a custom footprint and sees it on the preview.
 
-- [ ] `PartEditorWindow.swift`: the Footprint section gets **Custom footprint…**, which creates a `CustomFootprintDraft` (id `CUSTOM-` + first 8 characters of the part's UUID, style `explicit`, pins = pinout pin count) or edits the existing one.
-- [ ] The pad table: a SwiftUI `Table` of `PadDraft` rows with the § 4.1 columns; add and remove rows; the designator is picked from the pinout's pins.
-- [ ] The part's `footprint` key is the custom footprint's id; `footprints` in the file carries its entry (plan-32-A § 4.1). Removing the custom footprint restores the bundled picker.
-- [ ] The preview (Phase 2) sits beside the form and updates on each validated change.
-- [ ] Tests: `PartEditorFootprintTests.swift`: (a) a part with a custom footprint saves a `footprints` array with one entry and the part's `footprint` equals its id; (b) a pad whose designator is not a pinout pin is shown as a backend error; (c) removing the custom footprint removes the `footprints` key.
+- [x] `PartEditorWindow.swift`: the Footprint section gets **Custom footprint…**, which creates a `CustomFootprintDraft` (id `CUSTOM-` + first 8 characters of the part's UUID, style `explicit`, pins = pinout pin count) or edits the existing one.
+- [x] The pad table: a SwiftUI `Table` of `PadDraft` rows with the § 4.1 columns; add and remove rows; the designator is picked from the pinout's pins.
+- [x] The part's `footprint` key is the custom footprint's id; `footprints` in the file carries its entry (plan-32-A § 4.1). Removing the custom footprint restores the bundled picker.
+- [x] The preview (Phase 2) sits beside the form and updates on each validated change.
+- [x] Tests: `PartEditorFootprintTests.swift`: (a) a part with a custom footprint saves a `footprints` array with one entry and the part's `footprint` equals its id; (b) a pad whose designator is not a pinout pin is shown as a backend error; (c) removing the custom footprint removes the `footprints` key.
 
 Acceptance: the three cases pass, and in a launched app a custom footprint created in the editor appears on the preview with its pads.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartEditorFootprintTests` → `passed` (est. 5 min); the preview's visual check is the run skill's (est. 10 min).
-Commit: —
+  Result (2026-11-11): passed (a–c; (b)'s message is `b.schpart: footprints[0] (CUSTOM-…): pads[13]: "pin" must be a whole number from 0 to 14`). Real app: Copy to Editor… on SN74HC00N showed PDIP-14 in the preview (copper pads, holes, body, pin-1 mark); Custom Footprint… replaced the bundled picker with the pad table (14 rows) and the preview redrew as `CUSTOM-302737FE: 14 pads`, a 2.54 mm row of 0.8 mm-drill pads.
+Commit: (this commit)
 
 ## Validation Plan
 
@@ -214,7 +217,25 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **The preview did not redraw for the same part** (found in the app, 2026-11-11).
+  `CatalogPart` and `Footprint` compare by name / id only, so SwiftUI skipped a
+  `FootprintPreviewView` whose part kept its name while its custom footprint's pads
+  changed. `PartEditorModel.previewRevision` (one more per accepted check) is passed to
+  the previews, so they redraw on every validated change.
+- **The preview shows the last part the backend accepted** (`lastValidPart`), so it stays
+  while the draft has an error.
+- **The preview sits in a pane beside the form** (an `HSplitView`); plan-32-E adds the
+  Block | Footprint segment above it.
+- **The PCB preview fits the footprint, then zooms with `CanvasViewport`'s zoom steps
+  and pans by drag** (the viewport's `zoom` and `offset`); Fit resets both.
+- **Doc sync done**: `docs/parts-format.md` § Footprints › Custom footprints in a part
+  file.
+- **Runtime proof (Validation Plan)**: the preview half is Phase 3's app check above. The
+  Load Part… half (a saved custom-footprint part loads with that footprint) is checked by
+  `PartEditorFootprintTests` (a), whose validator loads the draft through
+  `load_part_file` and reads back `CUSTOM-…` with 14 pads, and by plan-32-A's
+  `part_file_test` (a) and the Load Part… session in plan-32-A Phase 4 (a fixture with an
+  inline footprint).
 
 ## Summary
 

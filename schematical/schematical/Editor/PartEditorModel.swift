@@ -18,7 +18,20 @@ final class PartEditorModel {
     private(set) var savedText: String?
     /// The backend's verdict on the current draft: the part as it would load,
     /// or the loader's message. Nil until the first check finishes.
-    private(set) var validation: Result<CatalogPart, PartValidator.Failure>?
+    private(set) var validation: Result<CatalogPart, PartValidator.Failure>? {
+        didSet {
+            if case let .success(part)? = validation {
+                lastValidPart = part
+                previewRevision += 1
+            }
+        }
+    }
+    /// Counts accepted checks. `CatalogPart` compares by name and uuid only,
+    /// so the previews take this too, to redraw when the same part changes.
+    private(set) var previewRevision = 0
+    /// The last part the backend accepted, for the previews (they keep
+    /// showing it while the draft has an error).
+    private(set) var lastValidPart: CatalogPart?
     /// A one-line result of the last Add to Library or Save.
     var status: String?
     /// A message for a target that could not be opened (an unknown part name).

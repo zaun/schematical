@@ -232,7 +232,7 @@ One line: an empty editor window opens from File › New Part…, with the kind 
 Acceptance: the two `PartEditorWindowTests` cases pass, and the New Part… item opens the picker in a launched app.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartEditorWindowTests` → `passed` (est. 4 min); the picker's appearance is the run skill's check (est. 5 min).
   Result (2026-11-11): `PartEditorWindowTests` passed (a, b — 26 kind files read from `Parts/` — c, and a new-draft case). Real app: ⇧⌘N opened the "New Part" window listing all 26 kinds, Gate enabled, the rest "Coming soon"; choosing Gate opened "New Gate Part".
-Commit: (this commit, with Phases 2–5)
+Commit: 694d8d0
 
 ### Phase 2 — `PartDraft` round trip over every shipped gate part
 
@@ -246,7 +246,7 @@ One line: the draft reproduces every shipped gate part's file exactly, and the b
 Acceptance: over all 3438 gate parts, the encoded draft equals the copy and the backend accepts it; zero mismatches and zero rejections.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartDraftRoundTripTests` → `passed` with the test's own count line `checked 3438 parts, 0 mismatched, 0 rejected` (est. 6 min; the population is the whole gate kind, which is the smallest set that exercises every gate key).
   Result (2026-11-11): passed, `checked 3438 parts, 0 mismatched, 0 with extras, 0 rejected` (4.2 s); the line also counts parts with keys left in `extras` (plan-32-F's measure), and nested keys a field has no control for count as extras.
-Commit: (this commit)
+Commit: 694d8d0
 
 ### Phase 3 — Validator and the window's form (Identity, Pinouts, Footprint, Supply, gate section)
 
@@ -260,7 +260,7 @@ One line: the window shows the form for a gate part and reports backend errors a
 Acceptance: the three validator cases pass; a launched app shows an error message for a deliberately wrong pin name in the form.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartValidatorTests` → `passed` (est. 4 min); the form error is the run skill's check (est. 10 min).
   Result (2026-11-11): `PartValidatorTests` passed (a–c, plus five checks in a row leaving the scratch library clean). Real app: Copy to Editor… on SN74HC00N, renamed to ZZEDIT-NAND, pin `1A` of pinout `lccc20` renamed `1AX` → the form showed `ZZEDIT-NAND.schpart: devices[0] (74_00): pinouts.lccc20: gates[0]: no pin named "1A"`, and Save Part…/Add to Library went disabled; renaming it back showed "The part loads: 14 pins".
-Commit: (this commit)
+Commit: 694d8d0
 
 ### Phase 4 — Save, Open, Add to Library and Copy to Editor…
 
@@ -274,7 +274,7 @@ One line: a part leaves the editor as a `.schpart` file or as a library part, an
 Acceptance: the three save/open cases pass, and in a launched app a part saved from the editor is loaded back with File › Load Part… (plan-32-A) and appears in the drawer.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartFileSaveOpenTests` → `passed` (est. 5 min); the app round trip is the run skill's check (est. 10 min).
   Result (2026-11-11): `PartFileSaveOpenTests` passed (a–c, plus a copy-has-new-uuid / bad-save-refused case). Real app: ⌘S in the editor saved `ZZEDIT-NAND.schpart` (9645 bytes); File › Load Part… on it raised the drawer count 26,636 → 26,637 and the search `ZZEDIT` shows Logic › Gates › NAND › `ZZEDIT-NAND  DIP · HC · 2–6 V`. The same session is plan-32-B's runtime proof (see there).
-Commit: (this commit)
+Commit: 694d8d0
 
 ### Phase 5 — Help and keys
 
@@ -286,7 +286,7 @@ One line: the editor's keys are on the Schematic Help page.
 Acceptance: the Help page text contains "New Part" and "⇧⌘N" (test in `PartEditorWindowTests`, case c).
   Check: `xcodebuild test … -only-testing:schematicalTests/PartEditorWindowTests` → `passed` (est. 4 min).
   Result (2026-11-11): passed, case (c) included; `rg -o '^\| `[a-z0-9]+\.json`' docs/parts-format.md | wc -l` → 26.
-Commit: (this commit)
+Commit: 694d8d0
 
 ## Validation Plan
 

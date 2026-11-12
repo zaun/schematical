@@ -612,6 +612,19 @@ copper; neither the ratsnest nor traces connect to a non-plated hole, and
 the design-rule check counts it only as a hole (hole to hole, silkscreen,
 solder mask), not as copper.
 
+### Custom footprints in a part file
+
+A single part file (§ [Single part files](#single-part-files)) may carry
+its own footprints in `"footprints"`, each an entry in exactly this format;
+the part's `"footprint"` names one. The Part Editor's **Custom Footprint…**
+writes one `explicit` entry with the id `CUSTOM-` and the first eight
+characters of the part's uuid, one pad per pinout pin, and never writes
+`footprints.json`. A custom part has a `"footprint"` only:
+`"connectorFootprint"` and `"footprintChoices"` stay with the bundled parts
+that use them (the generic LED, character LCDs, headers and pull resistors),
+whose footprint menus the PCB sidebar owns. A custom footprint's pads are
+numbered (`"pin"`); a ball pinout has no custom footprint.
+
 ### The `"footprint"` part key
 
 - Every part names one, except VCC/GND supplies: a part without

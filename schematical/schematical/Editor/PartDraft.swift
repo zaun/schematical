@@ -357,6 +357,37 @@ struct PartDraft: Equatable, Sendable {
         return pinouts.flatMap(\.pins).map(\.name).filter { seen.insert($0).inserted }
     }
 
+    /// The part's custom footprint (plan-32-D): the file's inline `explicit`
+    /// footprint the part's `footprint` names. Setting one makes it the file's
+    /// only inline footprint and the part's footprint; setting nil removes the
+    /// `footprints` key and leaves the part with no footprint, for the bundled
+    /// picker.
+    var customFootprint: CustomFootprintDraft? {
+        get {
+            guard let footprint, let entries = footprints else { return nil }
+            for entry in entries {
+                if case let .object(keys) = entry, keys["id"] == .string(footprint) {
+                    return CustomFootprintDraft(json: entry)
+                }
+            }
+            return nil
+        }
+        set {
+            if let newValue {
+                footprints = [newValue.encoded()]
+                footprint = newValue.id
+            } else {
+                if let current = customFootprint, footprint == current.id { footprint = nil }
+                footprints = nil
+            }
+        }
+    }
+
+    /// The pin numbers of the part's pinout, for the pad table.
+    var pinNumbers: [Int] {
+        (pinouts.first { $0.name == pinout }?.pins ?? []).compactMap { Int($0.designator) }
+    }
+
     /// The pin count of the part's pinout.
     var pinCount: Int {
         pinouts.first { $0.name == pinout }?.pins.count ?? 0
