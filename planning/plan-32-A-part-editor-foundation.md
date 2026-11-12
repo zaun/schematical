@@ -261,7 +261,7 @@ Phase 3, so this lands alone.
 Acceptance: `part_file_test` passes all cases (a)–(h), and bundled loading is unchanged.
   Check: `cmake --build /tmp/logic-build && ctest --test-dir /tmp/logic-build -R 'part_file|listing|footprint'` → 100% passed (est. 3 min; the scoped run includes the existing `listing_check` and footprint tests, which would catch a change to bundled loading).
   Result (2026-11-11, `/tmp/p32-build`): `100% tests passed, 0 tests failed out of 3`.
-Commit: (see next commit)
+Commit: 62218fe
 
 ### Phase 2 — Golden and fixture check for the shared loader
 
@@ -273,46 +273,49 @@ One line: prove the refactor of `load_footprints` changed nothing for bundled da
 Acceptance: the regenerated `footprints.txt` and `parts.txt` are byte-identical to the goldens.
   Check: `/tmp/logic-build/footprint_check --print > /tmp/fp.txt && cmp /tmp/fp.txt backend/tests/golden/footprints.txt` → exit 0 (est. 1 min); `/tmp/logic-build/listing_check --print > /tmp/parts.txt && cmp /tmp/parts.txt backend/tests/golden/parts.txt` → exit 0 (est. 1 min). (The `--print` form is the one `docs/backend.md` gives.)
   Result (2026-11-11, `/tmp/p32-build`, files in `/tmp/p32/`): `cmp` footprints → exit 0; `cmp` parts → exit 0.
-Commit: (same commit as Phase 1)
+Commit: 62218fe
 
 ### Phase 3 — Swift: runtime registration
 
 One line: the catalog accepts a part at run time, with the clash rules, and the drawer lists it.
 
-- [ ] `schematical/schematical/Backend/PartCatalog.swift`: add `PartRegistrationError` (`uuidInUse`, `backend(String)`, `notAPartFile`) with `errorDescription` texts.
-- [ ] `PartCatalog.swift`: add `CatalogPart.uuid: String?` (nil for bundled parts; included in `Hashable`).
-- [ ] `PartCatalog.swift`: implement `PartCatalogStore.register(fileText:source:) throws -> CatalogPart` per § 4.3 (steps 1–5). The name rewrite (step 3) edits the JSON object and re-serializes it with sorted keys.
-- [ ] `PartCatalog.swift`: `register` inserts into `entries` and `partsByName`; because `categories`, `packages` and `kinds(inCategory:)` read `entries`, the drawer reflects the new part with no other change.
-- [ ] Tests: new `schematical/schematicalTests/PartRegistrationTests.swift`: (a) a valid file registers and `part(named:)` returns it, with its drawer path in `categories`; (b) registering the same file twice returns the existing part (no duplicate in `entries`); (c) a different file with the same uuid throws `uuidInUse`; (d) a new uuid with a bundled name registers as `SN74HC00N.2`, then a third as `SN74HC00N.3`; (e) a file the backend rejects throws `backend(...)` and `entries.count` is unchanged; (f) a registered part's `kind` and `pins` equal the backend's.
+- [x] `schematical/schematical/Backend/PartCatalog.swift`: add `PartRegistrationError` (`uuidInUse`, `backend(String)`, `notAPartFile`) with `errorDescription` texts.
+- [x] `PartCatalog.swift`: add `CatalogPart.uuid: String?` (nil for bundled parts; included in `Hashable`).
+- [x] `PartCatalog.swift`: implement `PartCatalogStore.register(fileText:source:) throws -> CatalogPart` per § 4.3 (steps 1–5). The name rewrite (step 3) edits the JSON object and re-serializes it with sorted keys. (`PartFileObject` holds the object; step 2 compares under the registered name, see Corrections. `BackendCatalog.catalogPart` is factored out of `load` so both paths copy a part the same way. `part(uuid:)` and `registeredText(uuid:)` are added here for plan-32-B.)
+- [x] `PartCatalog.swift`: `register` inserts into `entries` and `partsByName`; because `categories`, `packages` and `kinds(inCategory:)` read `entries`, the drawer reflects the new part with no other change.
+- [x] Tests: new `schematical/schematicalTests/PartRegistrationTests.swift`: (a) a valid file registers and `part(named:)` returns it, with its drawer path in `categories`; (b) registering the same file twice returns the existing part (no duplicate in `entries`); (c) a different file with the same uuid throws `uuidInUse`; (d) a new uuid with a bundled name registers as `SN74HC00N.2`, then a third as `SN74HC00N.3`; (e) a file the backend rejects throws `backend(...)` and `entries.count` is unchanged; (f) a registered part's `kind` and `pins` equal the backend's. The tests use a store of their own (not `TestSupport.catalog`), so the parts they add stay out of other tests' drawer.
 
 Acceptance: all six `PartRegistrationTests` cases pass.
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -only-testing:schematicalTests/PartRegistrationTests` → `Test Suite 'PartRegistrationTests' passed` (est. 4 min, the first build dominates; it is the smallest scope that runs the registration path against the real backend).
-Commit: —
+  Result (2026-11-11, `-derivedDataPath /tmp/p32-dd -destination 'platform=macOS'`): `Test Suite 'PartRegistrationTests' passed`, 7 cases (a–f here, g from Phase 4), `** TEST SUCCEEDED **`.
+Commit: f1502df
 
 ### Phase 4 — File › Load Part…
 
 One line: the menu item and its open panel, reusing Phase 3's `register`.
 
-- [ ] `schematical/schematical/Document/SchematicFileController.swift`: add `Button("Load Part…")` to `SchematicFileCommands` after Open…; the action runs an `NSOpenPanel` (`allowedContentTypes` for `com.schematical.part`) and calls `PartCatalogStore.shared.register(fileText:source:)`.
-- [ ] Error path: `PartRegistrationError` → `NSAlert` with `errorDescription`; no state changes.
-- [ ] `schematical/Info.plist`: exported type `com.schematical.part`, extension `schpart`, conforming to `public.json`.
-- [ ] Tests: `PartRegistrationTests` gains (g): the open-panel handler's file-reading helper (factored out as `PartFileReader.read(url:) throws -> String`) returns the file's text and throws `notAPartFile` for a non-UTF-8 file.
+- [x] `schematical/schematical/Document/SchematicFileController.swift`: add `Button("Load Part…")` to `SchematicFileCommands` after Open…; the action runs an `NSOpenPanel` (`allowedContentTypes` for `com.schematical.part`) and calls `PartCatalogStore.shared.register(fileText:source:)`. (`PartFileMenuItems` view after Open…; `PartFileLoading.loadPart()` runs the panel; `PartFileType` declares the type.)
+- [x] Error path: `PartRegistrationError` → `NSAlert` with `errorDescription`; no state changes.
+- [x] `schematical/Info.plist`: exported type `com.schematical.part`, extension `schpart`, conforming to `public.json`. Declared as `jgz.schematical.part`, the app's own prefix (Corrections).
+- [x] Tests: `PartRegistrationTests` gains (g): the open-panel handler's file-reading helper (factored out as `PartFileReader.read(url:) throws -> String`) returns the file's text and throws `notAPartFile` for a non-UTF-8 file.
 
 Acceptance: the Load Part… menu item exists in the File menu, and a fixture `.schpart` file opened from it appears in the drawer (runtime proof, § Validation).
   Check: `xcodebuild test … -only-testing:schematicalTests/PartRegistrationTests` → passed (est. 4 min); then the run skill's app launch with `File › Load Part…` on a fixture, observed in the drawer's search for the part's name (est. 10 min; this is the only check that needs the real app, because the menu wiring cannot be unit-tested).
-Commit: —
+  Result (2026-11-11): `PartRegistrationTests` passed (7 cases). Real app (`/tmp/p32-dd` Debug build, driven by pid with CGEvents): File menu shows `Open… ⌘O`, `Load Part…`; Load Part… on a fixture `.schpart` (gate, inline explicit footprint `CUSTOM-7A2B3C4D`, part `ZZCUSTOM-NAND1`) → the drawer count went 26,636 → 26,637 and searching `ZZCUSTOM` shows Custom › Gates › NAND › `ZZCUSTOM-NAND1  SOT-23 · HC · 2–6 V`.
+Commit: f1502df
 
 ### Phase 5 — Format documentation
 
 One line: the shipped format doc and the backend doc describe the new file.
 
-- [ ] `docs/parts-format.md`: new section "Single part files" with the § 4.1 table, the one-device rule, the uuid rule, the suffix rule of § 4.3, and an example file.
-- [ ] `docs/backend.md`: finish the `load_part_file` paragraph (Phase 1's stub), and the `Part.uuid` field.
-- [ ] `docs/parts-format.md` § Loading rules: one bullet that a single part file's name clashes are resolved by the app (suffix), not by the loader (the loader still rejects a duplicate name, per `load_part_file`).
+- [x] `docs/parts-format.md`: new section "Single part files" with the § 4.1 table, the one-device rule, the uuid rule, the suffix rule of § 4.3, and an example file.
+- [x] `docs/backend.md`: finish the `load_part_file` paragraph (Phase 1's stub), and the `Part.uuid` field.
+- [x] `docs/parts-format.md` § Loading rules: one bullet that a single part file's name clashes are resolved by the app (suffix), not by the loader (the loader still rejects a duplicate name, per `load_part_file`).
 
 Acceptance: the new section and the bullet exist, and every key in § 4.1 appears in the section's table.
   Check: `rg -c '"uuid"|"footprints"|"schematical-part"' docs/parts-format.md` → at least 3 (est. 1 min).
-Commit: —
+  Result (2026-11-11): `8`.
+Commit: f1502df
 
 ## Validation Plan
 
@@ -321,6 +324,7 @@ Commit: —
 - Runtime proof: launch the app (run skill), File › Load Part… on a fixture `.schpart` with a custom footprint, then the drawer's search finds the fixture's name. The fixture is created by hand in `/tmp` with the § 4.1 shape.
 - Doc sync: `docs/parts-format.md` (new section), `docs/backend.md` (entry point, `Part.uuid`).
 - Final gate (run once, after Phase 5): `cmake -S backend -B /tmp/logic-build && cmake --build /tmp/logic-build && ctest --test-dir /tmp/logic-build` in the background per the project's test tiers (est. 15–25 min), plus the Phase 3–4 Swift scheme run (est. 4 min). Per-phase checks stay scoped.
+  Result (2026-11-11): `ctest --test-dir /tmp/p32-build -j 8` → `100% tests passed, 0 tests failed out of 31`; the Swift run is `PartRegistrationTests` passed (Phase 3–4). The full Swift scheme runs once at the end of plan-32 (the landing tier).
 
 ## Decisions
 
@@ -353,6 +357,22 @@ Commit: —
   (`1G00`), as do several custom parts of one device. A single part file therefore skips
   the library device check and adds no device id (`FileParts.single`); the part name and
   uuid stay unique. `part_file_test` (a) and (b) both load a `1G00` device copy.
+- **Same uuid, same content, compared under the registered name** (2026-11-11). § 4.3
+  step 2 compares "the stored text and the new text". The stored text carries the name
+  as registered, so a suffixed part (`SN74HC00N.2`) re-registered from its original file
+  (`SN74HC00N`), or from the document's embedded copy (plan-32-B, which stores the
+  suffixed name), must not count as different content. The new file is compared after
+  its name is set to the registered name. `PartRegistrationTests` (d) checks both.
+- **The type identifier is `jgz.schematical.part`, not `com.schematical.part`**
+  (2026-11-11). `Info.plist`'s existing type is `jgz.schematical.schematic`
+  (`SchematicFile.contentType`); the part type uses the same prefix. Plan-32-C and
+  later sub-plans read "the `.schpart` type" as this one.
+- **A GUI check of this app must not use System Events by process** (2026-11-11). The
+  owner's own Xcode build runs with the same bundle id (`jgz.schematical`), and System
+  Events' `first process whose unix id is …` read and drove the owner's app's menus
+  (no Load Part… there), not the worktree build's (lldb showed the item in the worktree
+  build's `NSApp.mainMenu`). Driving by pid (`NSRunningApplication.activate`, CGEvent
+  clicks, `/tmp/p25drive/drive`) worked.
 - **The backend also keeps the uuid** (2026-11-11). § 1 asks for the part to be
   retrievable "by UUID"; no task named the function. Added
   `part_library_find_uuid`, and a second file with a loaded uuid is rejected
