@@ -1,6 +1,66 @@
 {
-  "format": "schematical-parts",
-  "version": 1,
-  "kind": "capacitor",
-  "devices": []
+ "format": "schematical-parts",
+ "version": 1,
+ "kind": "capacitor",
+ "devices": [
+  {
+   "id": "ceramic-generic",
+   "function": "Generic",
+   "description": "Generic capacitor",
+   "drawer": [
+    "Capacitors"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "ceramic",
+   "farads": 1e-07,
+   "parts": [
+    {
+     "name": "GENERIC-CAPACITOR",
+     "manufacturer": "Generic",
+     "package": "Disc",
+     "pinout": "two-pin",
+     "footprint": "CAP-DISC-5.08",
+     "footprintChoices": [
+      {
+       "package": "0402",
+       "footprint": "CAP-0402"
+      },
+      {
+       "package": "0603",
+       "footprint": "CAP-0603"
+      },
+      {
+       "package": "0805",
+       "footprint": "CAP-0805"
+      },
+      {
+       "package": "1206",
+       "footprint": "CAP-1206"
+      },
+      {
+       "package": "Disc",
+       "footprint": "CAP-DISC-5.08"
+      },
+      {
+       "package": "Radial",
+       "footprint": "CAP-RADIAL-2.54"
+      }
+     ]
+    }
+   ]
+  }
+ ]
 }

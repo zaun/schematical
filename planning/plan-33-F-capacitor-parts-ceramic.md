@@ -34,9 +34,9 @@ plan-33-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-33-E complete | `ls planning/completed/plan-33-E-*.md` → exists | NOT MET (2026-11-11: planning) |
-| The kind loads an empty file | `grep -c '"devices": \[\]' schematical/schematical/Parts/capacitor.json` → 1 | NOT MET (E creates it) |
-| No other plan wrote capacitor parts | `grep -c '"name"' schematical/schematical/Parts/capacitor.json` → 0 | NOT MET (E creates the file) |
+| plan-33-E complete | `ls planning/completed/plan-33-E-*.md` → exists | MET (2026-11-11, at execution: d97e95d) |
+| The kind loads an empty file | `grep -c '"devices": \[\]' schematical/schematical/Parts/capacitor.json` → 1 | MET (at execution: 1) |
+| No other plan wrote capacitor parts | `grep -c '"name"' schematical/schematical/Parts/capacitor.json` → 0 | MET (at execution: 0) |
 
 Everything below is written against the world where these hold.
 
@@ -127,19 +127,22 @@ footprints come from `footprints-generic.json` (plan-33-C § 4.6, D § 4.6).
 
 ### Phase 1 — The generator and the generic part
 
-- [ ] `planning/plan-33-data/census/gen-parts.py`: copied from plan-29's;
+- [x] `planning/plan-33-data/census/gen-parts.py`: copied from plan-29's;
       `--type <t>[,<t>…]` scope, `--generic`, `--dry-run`, `--ids`; the
       reuse of a shipped footprint with identical geometry is limited to
       ids starting with `CAP` (plan-33-C § 4.6);
       devices, pinouts, parts and value text per § 3; footprints from
       `footprints-C.json`, `footprints-D.json`, `footprints-generic.json`.
-- [ ] `python3 -I gen-parts.py --generic`; regenerate the goldens
+- [x] `python3 -I gen-parts.py --generic`; regenerate the goldens
       (`docs/backend.md` § Tests) and review the diff: 1 new line in
-      `parts.txt` and `traces.txt`, 6 in `footprints.txt`.
+      `parts.txt` and `traces.txt`, 6 in `footprints.txt`. Observed: `1 parts
+      written; 1 devices, 6 new footprints`; `git diff --numstat` → 6 / 1 / 1
+      added, 0 removed (26730, 26730, 1218 lines).
 
 Acceptance: the generic part loads with its six choices.
   Check: `cmake --build /tmp/logic-p33 -j8 && ctest --test-dir /tmp/logic-p33 -R 'listing_check|trace_check|footprint_check'` → 3 passed; `grep -c '^GENERIC-CAPACITOR|capacitor|Disc|Capacitors|Generic' backend/tests/golden/parts.txt` → 1 (est. 3 min).
-Commit: —
+  Observed (build dir `/tmp/logic-p33wt`): `100% tests passed, 0 tests failed out of 3`; `1`.
+Commit: (this commit; hash in the next)
 
 ### Phase 2 — Ceramic capacitors
 

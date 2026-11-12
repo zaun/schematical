@@ -9709,6 +9709,7 @@ GDZ3V9B-HE3_A08|diode|SOD-323|Discrete/Diodes|Zener||automotive|type=zener diode
 GDZ5V1B-HE3_A08|diode|SOD-323|Discrete/Diodes|Zener||automotive|type=zener diodes=1 vz=5100 pd=200|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=gdz|footprint=DIODE-SOD-323
 GDZ8V2B-HE3_A08|diode|SOD-323|Discrete/Diodes|Zener||automotive|type=zener diodes=1 vz=8200 pd=200|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=gdz|footprint=DIODE-SOD-323
 GDZ9V1B-HE3_A08|diode|SOD-323|Discrete/Diodes|Zener||automotive|type=zener diodes=1 vz=9100 pd=200|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=gdz|footprint=DIODE-SOD-323
+GENERIC-CAPACITOR|capacitor|Disc|Capacitors|Generic|||type=ceramic ff=100000000 rated=0|1:1:input:default,2:2:input:default|mfr=Generic|footprint=CAP-DISC-5.08|choices=0402:CAP-0402,0603:CAP-0603,0805:CAP-0805,1206:CAP-1206,Disc:CAP-DISC-5.08,Radial:CAP-RADIAL-2.54
 GENERIC-HEADER-1X01|header|Straight|Connector/Header|Header|||rows=1 genders=Male,Female|1:1:inout:default|mfr=Generic|footprint=PINHDR-1X01-V|choices=Straight:PINHDR-1X01-V,Right angle:PINHDR-1X01-RA
 GENERIC-HEADER-1X02|header|Straight|Connector/Header|Header|||rows=1 genders=Male,Female|1:1:inout:default,2:2:inout:default|mfr=Generic|footprint=PINHDR-1X02-V|choices=Straight:PINHDR-1X02-V,Right angle:PINHDR-1X02-RA
 GENERIC-HEADER-1X03|header|Straight|Connector/Header|Header|||rows=1 genders=Male,Female|1:1:inout:default,2:2:inout:default,3:3:inout:default|mfr=Generic|footprint=PINHDR-1X03-V|choices=Straight:PINHDR-1X03-V,Right angle:PINHDR-1X03-RA

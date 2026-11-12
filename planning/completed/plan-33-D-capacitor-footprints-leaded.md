@@ -100,7 +100,7 @@ makers with different land tables gives two footprints, which is correct.
 Acceptance: those objects load.
   Check: `planning/plan-33-data/census/fp-load.sh planning/plan-33-data/footprints-C.json planning/plan-33-data/footprints-D.json planning/plan-33-data/footprints-generic.json` → only extra / unused lines (est. 3 min).
   Observed (with Phase 2's objects in the same file): `196 new footprints: load ok`.
-Commit: (this commit; hash in the next)
+Commit: a4b16d7
 
 ### Phase 2 — Cans and dipped tantalums
 
@@ -111,7 +111,7 @@ Commit: (this commit; hash in the next)
 Acceptance: § 1, both bullets.
   Check: the `awk` of § 1 → 0 and the Phase 1 `fp-load.sh` command → only extra / unused lines (est. 3 min).
   Observed: `0`; `152 footprints in footprints-D.json`; `196 footprints appended`, `196 new footprints: load ok`.
-Commit: (this commit; hash in the next)
+Commit: a4b16d7
 
 ## Validation Plan
 
