@@ -209,15 +209,18 @@ drives rows 2–3. Each is a 2-line controller of `columns` columns.
 - `CharLcdPins` gets `e[2]`, `enables`, and `anode[3]`, `cathode[3]`
   with `leds` (replacing `anode`, `cathode`, `has_backlight`).
 - `CharLcdState` keeps the shared parts: pins, timing, RS/R/W/DB change
-  times, `seq`, and `Light light[3]`. Everything per controller moves into
+  times, and `Light light[3]`. Everything per controller moves into
   `CharLcdCtl ctl[2]`:
   - registers and RAM;
   - busy and BF-X times;
   - nibble phase and high nibble;
-  - E level, rise times and the access record;
+  - E level, rise times and the access record, with its `seq` (see
+    Corrections);
   - read drive;
   - the pending write.
-- Every function that took the state now takes `(CharLcdState *, CharLcdCtl *)`.
+- Every function that took the state now takes `(CharLcdState *, CharLcdCtl *)`,
+  or only the `CharLcdCtl *` when it reads nothing shared (busy flag, LOST,
+  AC and shift steps, DDRAM index, the byte a read returns, the image dot).
 - `charlcd_pin_changed` routes an E pin's change to its controller. RS,
   R/W and DB changes go to both, since each checks its own windows.
 - **Reads:** a controller drives DB as today. When both drive at the same
@@ -259,7 +262,7 @@ typedef struct LcdState {
 } LcdState;
 ```
 
-The 25 existing test lines become `[0]` uses. `docs/backend.md:152`
+The 25 existing test lines (28, see Corrections) become `[0]` uses. `docs/backend.md:152`
 mentions `controllers`.
 
 ### 4.6 Lights, voltage, listing
@@ -354,12 +357,17 @@ Check: `cmake --build /tmp/logic-p35 -j8 && /tmp/logic-p35/charlcd_test | grep -
 → 0; `/tmp/logic-p35/listing_check && /tmp/logic-p35/trace_check` pass
 (est. 3 min).
 
-Commit: —
+Commit: d0131fd
 
 ### Phase 2 — split the controller state (no behavior change)
 
-- [ ] `CharLcdState` → shared part + `CharLcdCtl ctl[2]` (§ 4.3), with only
-      `ctl[0]` used. `lcd_state.h` § 4.5 and the 25 test lines.
+- [x] `CharLcdState` → shared part + `CharLcdCtl ctl[2]` (§ 4.3), with only
+      `ctl[0]` used. `lcd_state.h` § 4.5 and the 25 test lines (28 lines
+      in fact, see Corrections; no new test case). Check run 2026-11-11:
+      `ctest --test-dir /tmp/logic-p35` → `100% tests passed, 0 tests failed out of 30`;
+      `git diff --exit-code backend/tests/golden` → exit 0 (and
+      `listing_check` / `trace_check` → `26729 parts compared, 0 skipped`);
+      `charlcd_test`: 119 PASS, 0 FAIL, as after Phase 1.
 
 Check: `ctest --test-dir /tmp/logic-p35` → `100% tests passed`;
 `git diff --exit-code backend/tests/golden` → 0 (est. 4 min). Both must
@@ -424,6 +432,20 @@ move. The landing tier is H.
   cases expect `"rows" must be 1 or 2` and `"panel" must be yellow-green or
   blue-negative` (charlcd_test.c:160, 166), which § 4.2 replaces. Both cases
   stay and now expect the § 4.2 messages; the Non-goals and case 10 say so.
+- **`seq` is per controller, not shared** (2026-11-11, Phase 2): § 4.3
+  listed `seq` with the shared parts. `seq` is the access count a timer
+  carries so `charlcd_timer` can drop timers from an earlier access
+  (`(id >> 2) != seq`). Shared, an E2 rise would bump it and silently drop
+  controller 1's pending `TIMER_WRITE` / `TIMER_READ_OFF` (a write on E1
+  followed within its hold window by an E2 access would be lost). Each
+  `CharLcdCtl` keeps its own `seq`; with one controller the timer ids are
+  the same as before (the goldens prove it), and Phase 3's top id bit names
+  the controller.
+- **The `[0]` test edits are 28 lines, not 25** (2026-11-11, Phase 2): the
+  § 2 grep (`ddram\[\|\.busy\|cgram\[`) misses `ddram_known` uses and
+  `memcmp(st.ddram, …)` arguments. Every `LcdState` RAM/busy use was edited
+  (`git diff -U0 backend/tests/charlcd_test.c | grep -c '^+[^+]'` → 28 at
+  Phase 2): `st.`/`lcd.`/`before.`/`after.` `ddram`, `ddram_known`, `busy`.
 
 ## Summary
 

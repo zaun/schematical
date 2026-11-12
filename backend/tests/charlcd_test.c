@@ -690,7 +690,7 @@ static void check_power_up(void) {
     expect(k == 0xFF && v == 0x00, "1 power-up: at 41 ms BF = 0 and AC = 0");
     lcd_state(&l, &st);
     for (i = 0; i < 80; i++) {
-        spaces = spaces && st.ddram[i] == 0x20 && st.ddram_known[i] == 0xFF;
+        spaces = spaces && st.ddram[0][i] == 0x20 && st.ddram_known[0][i] == 0xFF;
     }
     expect(spaces, "1 power-up: the write at 1 ms was not accepted (DDRAM all 20)");
     expect(image_all(&st, LCD_DOT_OFF), "1 power-up: display off (D = 0): every dot off");
@@ -706,7 +706,7 @@ static void check_init8(void) {
     clear(&l);
     text(&l, "HELLO");
     lcd_state(&l, &st);
-    expect(memcmp(st.ddram, "HELLO", 5) == 0, "2 8-bit init: ddram[0..4] = 48 45 4C 4C 4F");
+    expect(memcmp(st.ddram[0], "HELLO", 5) == 0, "2 8-bit init: ddram[0..4] = 48 45 4C 4C 4F");
     expect(read_ac(&l) == 0x05, "2 8-bit init: AC = 05");
     expect(cell_is_rom(&st, 0, 0, 0x48) && cell_is_rom(&st, 0, 4, 0x4F),
            "2 8-bit init: cell 0 shows ROM 48, cell 4 ROM 4F");
@@ -742,7 +742,7 @@ static void check_init4(void) {
            "3 4-bit init: BF/AC read in two nibbles gives 0 then 2");
     expect(l.db_low_z, "3 4-bit init: DB0-3 stay Z through every read");
     lcd_state(&l, &st);
-    expect(memcmp(st.ddram, "Hi", 2) == 0 && cell_is_rom(&st, 0, 0, 'H') &&
+    expect(memcmp(st.ddram[0], "Hi", 2) == 0 && cell_is_rom(&st, 0, 0, 'H') &&
                cell_is_rom(&st, 0, 1, 'i'),
            "3 4-bit init: \"Hi\" in ddram[0..1] and on the face");
     at(&l, blink_time(now_ps(&l), 1));
@@ -772,7 +772,7 @@ static void check_busy(void) {
     wr(&l, 1, 'B');
     bench_run(l.b, US(40));
     lcd_state(&l, &st);
-    expect(st.ddram[0] == 'A' && st.ddram[1] == 0x20,
+    expect(st.ddram[0][0] == 'A' && st.ddram[0][1] == 0x20,
            "4 busy: a data write 10 us after another is not accepted");
     wr(&l, 0, 0x01);
     fall = now_ps(&l) - US(2);
@@ -797,7 +797,7 @@ static void check_clear_home(void) {
     clear(&l);
     lcd_state(&l, &st);
     for (i = 0; i < 80; i++) {
-        spaces = spaces && st.ddram[i] == 0x20 && st.ddram_known[i] == 0xFF;
+        spaces = spaces && st.ddram[0][i] == 0x20 && st.ddram_known[0][i] == 0xFF;
     }
     expect(spaces && read_ac(&l) == 0, "5 clear: DDRAM all 20, AC 0");
     text(&l, "AB");
@@ -807,8 +807,8 @@ static void check_clear_home(void) {
     expect(cell_is_rom(&st, 0, 0, 'B'), "5 home: after a shift, column 0 shows address 01");
     cmd(&l, 0x02, MS(2));
     lcd_state(&l, &st);
-    expect(cell_is_rom(&st, 0, 0, 'A') && cell_is_rom(&st, 0, 1, 'B') && st.ddram[0] == 'A' &&
-               st.ddram[1] == 'B' && read_ac(&l) == 0,
+    expect(cell_is_rom(&st, 0, 0, 'A') && cell_is_rom(&st, 0, 1, 'B') && st.ddram[0][0] == 'A' &&
+               st.ddram[0][1] == 'B' && read_ac(&l) == 0,
            "5 home: shift back to 0, AC 0, DDRAM unchanged");
     bench_destroy(l.b);
 }
@@ -823,7 +823,7 @@ static void check_entry_shift(void) {
     cmd(&l, 0x85, US(40));
     text(&l, "AB");
     lcd_state(&l, &st);
-    expect(st.ddram[5] == 'A' && st.ddram[4] == 'B' && read_ac(&l) == 0x03,
+    expect(st.ddram[0][5] == 'A' && st.ddram[0][4] == 'B' && read_ac(&l) == 0x03,
            "6 entry mode: I/D = 0 writes go leftward (05, 04; AC 03)");
     clear(&l);
     cmd(&l, 0x06, US(40));
@@ -845,7 +845,7 @@ static void check_wrap(void) {
     cmd(&l, 0xA7, US(40));
     text(&l, "PQ");
     lcd_state(&l, &st);
-    expect(st.ddram[39] == 'P' && st.ddram[40] == 'Q' && read_ac(&l) == 0x41,
+    expect(st.ddram[0][39] == 'P' && st.ddram[0][40] == 'Q' && read_ac(&l) == 0x41,
            "7 2-line wrap: 27 then 40 (indices 39, 40), AC 41");
     cmd(&l, 0x80, US(40));
     cmd(&l, 0x10, US(40));
@@ -864,8 +864,8 @@ static void check_no_cell(void) {
     cmd(&l, 0xA8, US(40));
     text(&l, "Z");
     lcd_state(&l, &after);
-    expect(memcmp(before.ddram, after.ddram, 80) == 0 &&
-               memcmp(before.ddram_known, after.ddram_known, 80) == 0,
+    expect(memcmp(before.ddram[0], after.ddram[0], 80) == 0 &&
+               memcmp(before.ddram_known[0], after.ddram_known[0], 80) == 0,
            "8 no-cell address: a write at 28 changes no cell");
     expect(read_ac(&l) == 0x29, "8 no-cell address: AC = 29");
     cmd(&l, 0xA8, US(40));
@@ -938,7 +938,7 @@ static void check_display_off(void) {
     text(&l, "A");
     cmd(&l, 0x08, US(40));
     lcd_state(&l, &st);
-    expect(image_all(&st, LCD_DOT_OFF) && st.ddram[0] == 'A',
+    expect(image_all(&st, LCD_DOT_OFF) && st.ddram[0][0] == 'A',
            "11 display off: every dot off, DDRAM kept");
     bench_destroy(l.b);
 }
@@ -967,7 +967,7 @@ static void check_one_line(void) {
     cmd(&l, 0xCF, US(40));
     text(&l, "Z");
     lcd_state(&l, &st);
-    expect(st.ddram[79] == 'Z' && read_ac(&l) == 0x00, "12 1-line: AC wraps 4F -> 00");
+    expect(st.ddram[0][79] == 'Z' && read_ac(&l) == 0x00, "12 1-line: AC wraps 4F -> 00");
     bench_destroy(l.b);
 }
 
@@ -1022,7 +1022,7 @@ static int cell0_lost_ac1(Lcd *l) {
 
     bench_run(l->b, US(40));
     lcd_state(l, &st);
-    return st.ddram_known[0] == 0 && cell_all(&st, 0, 0, LCD_DOT_X) && read_ac(l) == 1;
+    return st.ddram_known[0][0] == 0 && cell_all(&st, 0, 0, LCD_DOT_X) && read_ac(l) == 1;
 }
 
 static void check_write_violations(void) {
@@ -1120,7 +1120,7 @@ static void check_lost(void) {
     bench_run(l.b, US(40));
     lcd_state(&l, &st);
     rd(&l, 0, &v, &k);
-    expect(image_all(&st, LCD_DOT_X) && st.busy == -1 && !(k & 0x80),
+    expect(image_all(&st, LCD_DOT_X) && st.busy[0] == -1 && !(k & 0x80),
            "15 LOST: an instruction write with RS X: every dot X, BF reads X");
     bench_run(l.b, MS(1));
     cmd(&l, 0x30, MS(5));
@@ -1131,14 +1131,14 @@ static void check_lost(void) {
     cmd(&l, 0x0C, US(40));
     cmd(&l, 0x06, US(40));
     lcd_state(&l, &st);
-    expect(image_all(&st, LCD_DOT_X) && st.busy == 0,
+    expect(image_all(&st, LCD_DOT_X) && st.busy[0] == 0,
            "15 resync: after the init sequence BF is known; the X DDRAM cells show X");
     clear(&l);
     lcd_state(&l, &st);
     expect(image_all(&st, LCD_DOT_OFF), "15 resync: after Clear every dot is off");
     text(&l, "HELLO");
     lcd_state(&l, &st);
-    expect(memcmp(st.ddram, "HELLO", 5) == 0 && cell_is_rom(&st, 0, 0, 'H') &&
+    expect(memcmp(st.ddram[0], "HELLO", 5) == 0 && cell_is_rom(&st, 0, 0, 'H') &&
                cell_is_rom(&st, 0, 4, 'O'),
            "15 resync: HELLO shows");
     bench_destroy(l.b);
@@ -1150,7 +1150,7 @@ static void check_lost(void) {
     bench_set(l.b, "E", LOGIC_0);
     bench_run(l.b, US(1));
     lcd_state(&l, &st);
-    expect(st.busy == -1 && st.ddram_known[0] == 0, "15 LOST: E reading X makes every field X");
+    expect(st.busy[0] == -1 && st.ddram_known[0][0] == 0, "15 LOST: E reading X makes every field X");
     bench_destroy(l.b);
 
     /* E reading X with R/W 1 is a possible read: only AC goes X. */
@@ -1168,7 +1168,7 @@ static void check_lost(void) {
         uint8_t v, k;
 
         rd(&l, 0, &v, &k);
-        expect(st.busy == 0 && st.ddram[0] == 'A' && st.ddram[1] == 'B' && st.ddram_known[0] == 0xFF &&
+        expect(st.busy[0] == 0 && st.ddram[0][0] == 'A' && st.ddram[0][1] == 'B' && st.ddram_known[0][0] == 0xFF &&
                    cell_is_rom(&st, 0, 0, 'A') && (k & 0x80) && !(v & 0x80) && (k & 0x7F) == 0,
                "15 E X with R/W 1 (a possible read): BF and RAM known, only AC X");
         cmd(&l, 0x80, US(40));
@@ -1183,7 +1183,7 @@ static void check_lost(void) {
     bench_set(l.b, "E", LOGIC_0);
     at(&l, MS(41));
     lcd_state(&l, &st);
-    expect(st.busy == 0 && st.ddram_known[0] == 0xFF && read_ac(&l) == 0,
+    expect(st.busy[0] == 0 && st.ddram_known[0][0] == 0xFF && read_ac(&l) == 0,
            "15 power-on: E X before exec.powerOn does not make the controller LOST");
     bench_destroy(l.b);
 }
@@ -1312,7 +1312,7 @@ static void check_api(void) {
 
     c = circuit_create(library);
     circuit_add_part(c, "FX-LCD", &index);
-    expect(circuit_lcd_state(c, 0, &st) == 0 && st.columns == 16 && st.rows == 2 && st.busy == 1,
+    expect(circuit_lcd_state(c, 0, &st) == 0 && st.columns == 16 && st.rows == 2 && st.busy[0] == 1,
            "19 api: circuit_lcd_state on the LCD: 0, 16x2, busy at power-up");
     circuit_destroy(c);
 }
@@ -1343,7 +1343,7 @@ static void check_real_parts(void) {
         lcd_state(&l, &st);
         snprintf(line, sizeof line, "C 4.5 %s: 8-bit init, HELLO in ddram[0..4], cell 0 = ROM 48",
                  NAMES[i]);
-        expect(memcmp(st.ddram, "HELLO", 5) == 0 && cell_is_rom(&st, 0, 0, 0x48), line);
+        expect(memcmp(st.ddram[0], "HELLO", 5) == 0 && cell_is_rom(&st, 0, 0, 0x48), line);
         bench_destroy(l.b);
     }
     /* A second data write 40 us after the first (E fall to E fall). */
@@ -1359,10 +1359,10 @@ static void check_real_parts(void) {
         bench_run(l.b, US(50));
         lcd_state(&l, &st);
         if (i == 0) {
-            expect(st.ddram[1] == 'B', "C 4.5 exec: a data write 40 us after another is accepted on "
+            expect(st.ddram[0][1] == 'B', "C 4.5 exec: a data write 40 us after another is accepted on "
                                        "NHD-0216K1Z-NSW-BBW-L (data 37 us)");
         } else {
-            expect(st.ddram[1] == 0x20, "C 4.5 exec: and not accepted on 162H BC BW (data 43 us)");
+            expect(st.ddram[0][1] == 0x20, "C 4.5 exec: and not accepted on 162H BC BW (data 43 us)");
         }
         bench_destroy(l.b);
     }
@@ -1585,8 +1585,8 @@ static void check_cpu_board(void) {
     for (c = 0; c < 5; c++) {
         cells = cells && cell_is_rom(&lcd, 0, c, (unsigned)"HELLO"[c]);
     }
-    expect(ok && memcmp(lcd.ddram, "HELLO", 5) == 0 && lcd.ddram[5] == 0x20 && cells &&
-               lcd.busy == 0,
+    expect(ok && memcmp(lcd.ddram[0], "HELLO", 5) == 0 && lcd.ddram[0][5] == 0x20 && cells &&
+               lcd.busy[0] == 0,
            "C 4.6 MPS6502 board: HELLO in ddram[0..4], ddram[5] = 20, cells 0-4 = ROM, BF 0");
     printf("     cpu: status %d, last \"%s\"\n", (int)cpu.status, cpu.instruction_text);
     expect(ok && cpu.status == CPU_RUNNING && cpu.has_instruction &&
@@ -1601,7 +1601,7 @@ static void check_cpu_board(void) {
     for (c = 0; c < 5; c++) {
         cells = cells && cell_is_rom(&lcd, 0, c, (unsigned)"HELLO"[c]);
     }
-    expect(ok && memcmp(lcd.ddram, "HELLO", 5) == 0 && cells && lcd.busy == 0 &&
+    expect(ok && memcmp(lcd.ddram[0], "HELLO", 5) == 0 && cells && lcd.busy[0] == 0 &&
                cpu.status == CPU_RUNNING && strcmp(cpu.instruction_text, "JMP $8029") == 0,
            "C 4.6 MPS6502 board, reset held 100 ms: HELLO, BF 0, the CPU RUNNING at JMP $8029");
 
@@ -1611,7 +1611,7 @@ static void check_cpu_board(void) {
             all_x = all_x && lcd.dots[y][x] == LCD_DOT_X;
         }
     }
-    expect(ok && all_x && lcd.busy == -1,
+    expect(ok && all_x && lcd.busy[0] == -1,
            "C 4.6 W65C02S board: the first STA $4000 broke the hold time: every dot X, BF X (LOST)");
     printf("     cpu: status %d, last \"%s\"\n", (int)cpu.status, cpu.instruction_text);
     expect(ok && cpu.status == CPU_LOST,
