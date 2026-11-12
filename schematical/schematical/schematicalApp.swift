@@ -12,6 +12,11 @@ import SwiftUI
 /// in the Dock with no window.
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
+    /// The Edit menu ends at Reset References (`EditMenuTrimmer`).
+    func applicationWillFinishLaunching(_ notification: Notification) {
+        EditMenuTrimmer.install()
+    }
+
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         true
     }
@@ -46,6 +51,7 @@ struct schematicalApp: App {
             BillOfMaterialsCommands()
             DesignRuleCheckCommands()
             UndoCommands()
+            EditCommands()
             KeyboardHelpCommands()
         }
 

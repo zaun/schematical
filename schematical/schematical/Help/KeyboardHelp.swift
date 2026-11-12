@@ -73,9 +73,12 @@ nonisolated enum KeyboardHelp {
         ]),
         HelpSection(title: "Editing", entries: [
             entry("F", "Flip the selected part or net label left to right"),
-            entry("⌘⌫", "Delete the selection"),
+            entry("⌘⌫ or ⌘D", "Delete the selection"),
+            entry("⌘A", "Select everything"),
+            entry("⌘X", "Cut the selected parts, labels, text and wires"),
             entry("⌘C", "Copy the selected parts, labels, text and wires"),
             entry("⌘V", "Paste, centred on the pointer"),
+            entry("Edit › Reset References…", "Give every part its default prefix and number them again"),
             entry("Click a switch lever", "Flip that DIP switch position (also in play mode)"),
         ]),
         HelpSection(title: "Line and Bus tools (while dragging)", entries: [
@@ -117,7 +120,9 @@ nonisolated enum KeyboardHelp {
         ]),
         HelpSection(title: "Editing", entries: [
             entry("R or ⌥⌘R", "Rotate the selected footprint or text 90°"),
-            entry("⌘⌫", "Delete the selected texts, traces, vias and holes (footprints stay)"),
+            entry("⌘⌫ or ⌘D", "Delete the selected texts, traces, vias and holes (footprints stay)"),
+            entry("⌘A", "Select every shown footprint, text, trace, via and hole"),
+            entry("⌘X", "Cut the selected traces"),
             entry("⌘C", "Copy the selected traces"),
             entry("⌘V", "Paste traces, centred on the pointer"),
         ]),

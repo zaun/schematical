@@ -59,9 +59,12 @@ struct ContentView: View {
     @State private var isBillOfMaterialsOpen = false
     @State private var isDesignRuleCheckOpen = false
     /// Watches for the editing keys: R rotates, A changes the trace angle
-    /// and ⌘C / ⌘V copy and paste traces on the PCB, F flips on the
-    /// Schematic, ⌘C / ⌘V copy and paste its selection, ⌘⌫ deletes on both.
+    /// and ⌘X / ⌘C / ⌘V cut, copy and paste traces on the PCB, F flips on
+    /// the Schematic, ⌘X / ⌘C / ⌘V cut, copy and paste its selection, ⌘⌫
+    /// and ⌘D delete and ⌘A selects all on both.
     @State private var editKeyMonitor: Any?
+    /// Edit › Reset References is asking whether to go on.
+    @State private var isConfirmingResetReferences = false
     /// The Trace tool's angle, kept until changed; not saved in the file.
     @State private var traceAngle = TraceRoute.defaultAngle
     /// The angle shown in the middle of the PCB after A, and how opaque it
@@ -146,13 +149,15 @@ struct ContentView: View {
     /// The editing keys, in this window only and never while a text field
     /// is being typed in: R presses Rotate on the PCB (when it is enabled);
     /// A steps the Trace tool's angle while Trace is the PCB tool; F flips
-    /// the selected part or net label on the Schematic; ⌘⌫
-    /// deletes the selection (on the PCB only its texts and traces); ⌘C
-    /// copies the selected traces on the PCB and ⌘V pastes them centred on
-    /// the pointer (`TraceClipboard`); on the Schematic they copy the
+    /// the selected part or net label on the Schematic; ⌘⌫ and ⌘D delete
+    /// the selection (on the PCB only its texts, traces, vias and holes);
+    /// ⌘C copies the selected traces on the PCB and ⌘V pastes them centred
+    /// on the pointer (`TraceClipboard`); on the Schematic they copy the
     /// selection and paste it the same way (`SchematicClipboard`; not while
-    /// the simulation runs). Every other key, and a key with nothing to act
-    /// on, is left alone.
+    /// the simulation runs); ⌘X copies and then deletes what it copied; ⌘A
+    /// selects everything on the page. These are the Edit menu's items too
+    /// (`EditCommands`). Every other key, and a key with nothing to act on,
+    /// is left alone.
     private func installEditKeyMonitor() {
         guard editKeyMonitor == nil else { return }
         editKeyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
@@ -175,35 +180,88 @@ struct ContentView: View {
                 traceAngle = TraceRoute.nextAngle(after: traceAngle)
                 flashAngle(traceAngle)
             case .delete:
-                let deleted = page == .pcb
-                    ? document.deleteBoardSelection()
-                    : !simulation.isRunning && document.deleteSchematicSelection()
-                guard deleted else { return event }
+                guard deleteSelection() else { return event }
+            case .cut:
+                guard cutSelection() else { return event }
             case .copy:
-                if page == .schematic {
-                    guard let copied = document.schematicCopy() else { return event }
-                    SchematicClipboard.copy(copied)
-                    return nil
-                }
-                let copied = document.selectedTraces()
-                guard !copied.isEmpty else { return event }
-                TraceClipboard.copy(copied)
+                guard copySelection() else { return event }
             case .paste:
-                if page == .schematic {
-                    guard !simulation.isRunning, let copied = SchematicClipboard.contents else { return event }
-                    let offset = schematicPointer.point.map { SchematicClipboard.offset(centring: copied, on: $0) }
-                        ?? SchematicClipboard.nextOffset()
-                    document.pasteSchematic(copied, offset: offset)
-                    return nil
-                }
-                guard !TraceClipboard.traces.isEmpty else { return event }
-                let copied = TraceClipboard.traces
-                let offset = boardPointer.point.map { TraceClipboard.offset(centring: copied, on: $0, grid: document.board.traceGrid) }
-                    ?? TraceClipboard.nextOffset()
-                document.pasteTraces(copied, offset: offset)
+                guard pasteClipboard() else { return event }
+            case .selectAll:
+                selectAll()
             }
             return nil
         }
+    }
+
+    // MARK: Edit menu
+
+    /// ⌘⌫ / ⌘D: deletes the selection (on the PCB only its texts, traces,
+    /// vias and holes). Returns whether anything was deleted.
+    private func deleteSelection() -> Bool {
+        page == .pcb
+            ? document.deleteBoardSelection()
+            : !simulation.isRunning && document.deleteSchematicSelection()
+    }
+
+    /// ⌘C: the Schematic selection to `SchematicClipboard`, or the selected
+    /// traces to `TraceClipboard`. Returns whether anything was copied.
+    private func copySelection() -> Bool {
+        if page == .schematic {
+            guard let copied = document.schematicCopy() else { return false }
+            SchematicClipboard.copy(copied)
+            return true
+        }
+        let copied = document.selectedTraces()
+        guard !copied.isEmpty else { return false }
+        TraceClipboard.copy(copied)
+        return true
+    }
+
+    /// ⌘X: copies as ⌘C, then deletes what was copied (on the PCB, the
+    /// selected traces). Not on the Schematic while the simulation runs.
+    private func cutSelection() -> Bool {
+        if page == .schematic {
+            guard !simulation.isRunning, copySelection() else { return false }
+            return document.deleteSchematicSelection(named: "Cut")
+        }
+        guard copySelection() else { return false }
+        return document.cutBoardTraces()
+    }
+
+    /// ⌘V: pastes centred on the pointer, or one step on from the last
+    /// paste with the pointer off the page. Returns whether it pasted.
+    private func pasteClipboard() -> Bool {
+        if page == .schematic {
+            guard !simulation.isRunning, let copied = SchematicClipboard.contents else { return false }
+            let offset = schematicPointer.point.map { SchematicClipboard.offset(centring: copied, on: $0) }
+                ?? SchematicClipboard.nextOffset()
+            return document.pasteSchematic(copied, offset: offset)
+        }
+        guard !TraceClipboard.traces.isEmpty else { return false }
+        let copied = TraceClipboard.traces
+        let offset = boardPointer.point.map { TraceClipboard.offset(centring: copied, on: $0, grid: document.board.traceGrid) }
+            ?? TraceClipboard.nextOffset()
+        return !document.pasteTraces(copied, offset: offset).isEmpty
+    }
+
+    /// ⌘A: everything on the page shown (on the PCB, what is drawn).
+    @discardableResult
+    private func selectAll() -> Bool {
+        if page == .pcb {
+            document.selectAllBoard(visible: BoardVisibility(hidden: hiddenLayers))
+        } else {
+            document.selectAllSchematic()
+        }
+        return true
+    }
+
+    /// The Edit menu's actions for this window.
+    private var editActions: EditActions {
+        EditActions(cut: cutSelection, copy: copySelection, paste: pasteClipboard,
+                    delete: deleteSelection, selectAll: selectAll,
+                    resetReferences: { isConfirmingResetReferences = true },
+                    canResetReferences: !document.chips.isEmpty && !simulation.isRunning)
     }
 
     private func removeEditKeyMonitor() {
@@ -225,11 +283,11 @@ struct ContentView: View {
         }
     }
 
-    enum EditKey { case rotate, flip, angle, delete, copy, paste }
+    enum EditKey { case rotate, flip, angle, delete, cut, copy, paste, selectAll }
 
     /// The editing key a press is: a bare R, F or A (no ⌘, ⌃, ⌥ or ⇧), or
-    /// ⌘⌫, ⌘C or ⌘V (⌘ alone). Never a held-key repeat. Nil for anything
-    /// else.
+    /// ⌘⌫, ⌘D, ⌘X, ⌘C, ⌘V or ⌘A (⌘ alone). Never a held-key repeat. Nil
+    /// for anything else.
     nonisolated static func editKey(keyCode: UInt16, _ characters: String?, _ modifiers: NSEvent.ModifierFlags,
                                     isRepeat: Bool) -> EditKey? {
         guard !isRepeat else { return nil }
@@ -238,8 +296,11 @@ struct ContentView: View {
         if keyCode == 51 { return held == .command ? .delete : nil }
         if held == .command {
             switch characters {
+            case "d": return .delete
+            case "x": return .cut
             case "c": return .copy
             case "v": return .paste
+            case "a": return .selectAll
             default: return nil
             }
         }
@@ -313,6 +374,18 @@ struct ContentView: View {
     }
 
     var body: some View {
+        editor
+            // Edit › Cut, Copy, Paste, Delete, Select All, Reset References.
+            .focusedSceneValue(\.schematicEdit, editActions)
+            .alert("Reset References?", isPresented: $isConfirmingResetReferences) {
+                Button("Reset") { document.resetReferences(page: page) }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("Every part gets its default prefix back (U, or R and C for resistors and capacitors) and is numbered again from 1, top to bottom and left to right. You can undo this.")
+            }
+    }
+
+    private var editor: some View {
         pageContent
             .inspector(isPresented: inspectorBinding) {
                 ZStack {

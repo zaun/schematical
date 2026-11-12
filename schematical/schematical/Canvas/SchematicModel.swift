@@ -1392,6 +1392,36 @@ final class SchematicDocument {
         if items != boardSelection.items { boardSelection.set(items) }
     }
 
+    /// Edit › Select All on the Schematic: every part, wire, junction, text
+    /// block and net label.
+    func selectAllSchematic() {
+        var items = Set<SchematicItem>()
+        items.formUnion(chips.map { .chip($0.id) })
+        items.formUnion(wires.map { .wire($0.id) })
+        items.formUnion(junctions.map { .junction($0.id) })
+        items.formUnion(notes.map { .note($0.id) })
+        items.formUnion(netLabels.map { .label($0.id) })
+        if items != schematicSelection.items { schematicSelection.set(items) }
+    }
+
+    /// Edit › Select All on the PCB: every footprint, text, trace, via and
+    /// hole drawn with `visible` (as a box select would take them).
+    func selectAllBoard(visible: BoardVisibility = BoardVisibility()) {
+        var items = Set<BoardItem>()
+        for chip in chips where chip.board != nil && visible.showsFootprint(chip) {
+            items.insert(.footprint(chip.id))
+        }
+        for text in texts where visible.showsText(text) { items.insert(.text(text.id)) }
+        for trace in traces where board.copperLayers.contains(trace.layer) && visible.showsTrace(on: trace.layer) {
+            items.insert(.trace(trace.id))
+        }
+        if visible.showsAnyCopper {
+            items.formUnion(vias.map { .via($0.id) })
+            items.formUnion(holes.map { .hole($0.id) })
+        }
+        if items != boardSelection.items { boardSelection.set(items) }
+    }
+
     /// Clears the Schematic page's selection: items, bus and port.
     func clearSchematicSelection() {
         schematicSelection.clear()
@@ -1859,6 +1889,44 @@ final class SchematicDocument {
             chips[index].reference = reference
             return nil
         }
+    }
+
+    /// The prefix a new part's reference gets: "R" for a pull resistor, "C"
+    /// for a capacitor, "U" for every other part.
+    nonisolated static func defaultReferencePrefix(for part: CatalogPart) -> String {
+        if part.isPullResistor { return "R" }
+        if part.kind == PART_CAPACITOR { return "C" }
+        return "U"
+    }
+
+    /// Edit › Reset References: every part gets its default prefix back
+    /// (`defaultReferencePrefix`) and is numbered again from 1 within its
+    /// prefix, in reading order on the Schematic (top to bottom, then left
+    /// to right), as one step. The next new part continues the U numbers.
+    /// Returns whether any reference changed.
+    @discardableResult
+    func resetReferences(page: EditorPage) -> Bool {
+        let order = chips.indices.sorted { a, b in
+            let ca = chips[a], cb = chips[b]
+            if ca.origin.y != cb.origin.y { return ca.origin.y < cb.origin.y }
+            if ca.origin.x != cb.origin.x { return ca.origin.x < cb.origin.x }
+            return ca.reference.localizedStandardCompare(cb.reference) == .orderedAscending
+        }
+        var counts: [String: Int] = [:]
+        var renamed = chips
+        for index in order {
+            let prefix = Self.defaultReferencePrefix(for: chips[index].part)
+            let number = (counts[prefix] ?? 0) + 1
+            counts[prefix] = number
+            renamed[index].reference = ReferenceParts.reference(prefix: prefix, number: number)
+        }
+        let next = (counts["U"] ?? 0) + 1
+        guard renamed != chips || next != nextReference else { return false }
+        recordEdit(page, "Reset References") {
+            chips = renamed
+            nextReference = next
+        }
+        return true
     }
 
     /// Swaps the side of every pin on a placed part, and re-fits the wires
@@ -2953,6 +3021,20 @@ final class SchematicDocument {
             traces.removeAll { traceIDs.contains($0.id) }
             vias.removeAll { viaIDs.contains($0.id) }
             holes.removeAll { holeIDs.contains($0.id) }
+            pruneSelection()
+        }
+        return true
+    }
+
+    /// ⌘X on the PCB, after the selected traces were copied: deletes just
+    /// those traces (what ⌘C takes), as one step named "Cut". Returns
+    /// whether any were deleted.
+    @discardableResult
+    func cutBoardTraces() -> Bool {
+        let traceIDs = Set(selectedTraces().map(\.id))
+        guard !traceIDs.isEmpty else { return false }
+        recordEdit(.pcb, "Cut") {
+            traces.removeAll { traceIDs.contains($0.id) }
             pruneSelection()
         }
         return true
@@ -4684,8 +4766,9 @@ final class SchematicDocument {
     /// is deleted as the Eraser deletes one, asking first when wires are on
     /// its pins. A selected bus is left alone. Returns whether anything was
     /// deleted or asked.
+    /// ⌘X passes `name` "Cut" (with no port selected: a port isn't copied).
     @discardableResult
-    func deleteSchematicSelection() -> Bool {
+    func deleteSchematicSelection(named name: String = "Delete") -> Bool {
         guard pendingRemoval == nil else { return false }
         if let portID = selectedPortID {
             recordEdit(.schematic, "Delete") {
@@ -4712,7 +4795,7 @@ final class SchematicDocument {
             }
         }
         guard !chipIDs.isEmpty || !wireIDs.isEmpty || !noteIDs.isEmpty || !labelIDs.isEmpty else { return false }
-        recordEdit(.schematic, "Delete") {
+        recordEdit(.schematic, name) {
             wires.removeAll { wireIDs.contains($0.id) }
             loosen { end in
                 if case let .label(id) = end { return labelIDs.contains(id) }
