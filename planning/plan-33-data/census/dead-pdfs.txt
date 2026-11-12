@@ -1,0 +1,13 @@
+datasheets/capacitor/kemet/C901U100JZSDAAWL20.pdf
+datasheets/capacitor/kemet/C901U102MYVDAAWL30.pdf
+datasheets/capacitor/kemet/C901U331KVYDBAWL45.pdf
+datasheets/capacitor/kemet/C931U222MUWDAAWL20.pdf
+datasheets/capacitor/kemet/C971U472MUWDBAWL40.pdf
+datasheets/capacitor/kemet/C971U472MVWDCAWL50.pdf
+datasheets/capacitor/kemet/KEM_A4115_PHH227.pdf
+datasheets/capacitor/kemet/KEM_A4123_PHH223.pdf
+datasheets/capacitor/kemet/KEM_A4134_PHV223.pdf
+datasheets/capacitor/kemet/KEM_A4136_PHV227.pdf
+datasheets/capacitor/kemet/KEM_T2073_T59X.pdf
+datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf
+datasheets/capacitor/kemet/KEM_T2079_SSD.pdf

@@ -25,7 +25,8 @@ typedef enum {
     PART_GATE, PART_DFF, PART_JKFF, PART_SRAM, PART_SWITCH,
     PART_LED, PART_7SEG, PART_OSCILLATOR, PART_SUPPLY, PART_EEPROM, PART_LATCH, PART_COUNTER,
     PART_SHIFT, PART_CPU, PART_CHARLCD, PART_SERIAL, PART_CONNECTOR, PART_PIO, PART_DECODER,
-    PART_BUFFER, PART_MUX, PART_HEADER, PART_ARITH, PART_CONVERTER, PART_RTC, PART_DIODE
+    PART_BUFFER, PART_MUX, PART_HEADER, PART_ARITH, PART_CONVERTER, PART_RTC, PART_DIODE,
+    PART_CAPACITOR
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -135,6 +136,15 @@ typedef struct { const char *type; unsigned bits, channels; } PartConverter;
    voltage and max power dissipation (zener only, else 0). */
 typedef struct { const char *type; size_t diode_count;
                  uint32_t vr_mv, io_ma, vz_mv, pd_mw; } PartDiode;
+/* A capacitor part (plan-33-E): type "ceramic", "aluminum",
+   "aluminum-polymer", "tantalum", "tantalum-polymer" or "niobium-oxide";
+   polarized: 1 for every type but ceramic. capacitance_ff: femtofarads
+   (100 nF = 100000000). rated_mv: the rated DC voltage, 0 = no rating (the
+   generic part). dielectric (ceramic only) and tolerance: as the datasheet
+   gives them, NULL when not given. */
+typedef struct { const char *type; int polarized; uint64_t capacitance_ff;
+                 uint32_t rated_mv; const char *dielectric;
+                 const char *tolerance; } PartCapacitor;
 
 /* ---- Footprints (Parts/footprints.json, docs/parts-format.md) ----------- */
 
@@ -208,6 +218,7 @@ typedef struct Part {
     const PartPio *pio;
     const PartHeader *header;
     const PartConverter *converter;
+    const PartCapacitor *capacitor;
     /* Dual-supply parts (plan-20-F): domain 0 is the A side (its vcc is
        Part.vcc), domain 1 the B side; NULL/0 for single-supply parts. */
     const PartSupplyDomain *domains; size_t domain_count;

@@ -56,6 +56,8 @@ struct SchematicScene {
             case .plainDiode:
                 DiodeSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, level: 0,
                                       mark: DiodeMark(part: chip.part))
+            case .capacitor:
+                CapacitorSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
             case .vcc, .ground, .pullUp, .pullDown:
                 SupplySymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
             case .dipSwitch:

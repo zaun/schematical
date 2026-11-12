@@ -120,6 +120,12 @@ nonisolated enum PartFacts {
                 add("Reverse voltage", "\(milli(vrMV)) V")
                 add("Forward current", "\(milli(ioMA)) A")
             }
+        case let .capacitor(type, _, farads, ratedMV, dielectric, tolerance):
+            add("Type", capacitorType(type))
+            add("Capacitance", CapacitorValue.text(chip.farads ?? farads))
+            if ratedMV > 0 { add("Rated voltage", "\(milli(ratedMV)) V") }
+            add("Dielectric", dielectric ?? "")
+            add("Tolerance", tolerance ?? "")
         }
 
         if part.supplyDomains.count == 2 {
@@ -164,6 +170,7 @@ nonisolated enum PartFacts {
         case PART_CONVERTER: return "Converter"
         case PART_RTC: return "RTC"
         case PART_DIODE: return "Diode"
+        case PART_CAPACITOR: return "Capacitor"
         default: return ""
         }
     }
@@ -185,6 +192,19 @@ nonisolated enum PartFacts {
     }
 
     /// A diode type as shown (plan-29): "Rectifier", "Fast recovery", ….
+    /// A capacitor type as shown (plan-33-H).
+    static func capacitorType(_ type: String) -> String {
+        switch type {
+        case "ceramic": return "Ceramic"
+        case "aluminum": return "Aluminum electrolytic"
+        case "aluminum-polymer": return "Aluminum polymer"
+        case "tantalum": return "Tantalum"
+        case "tantalum-polymer": return "Tantalum polymer"
+        case "niobium-oxide": return "Niobium oxide"
+        default: return type
+        }
+    }
+
     static func diodeType(_ type: String) -> String {
         switch type {
         case "rectifier": return "Rectifier"

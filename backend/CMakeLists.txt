@@ -21,6 +21,7 @@ add_library(logic STATIC
     src/models/jkff.c
     src/models/switch.c
     src/models/diode.c
+    src/models/capacitor.c
     src/models/sram.c
     src/models/display7.c
     src/models/supply.c
@@ -172,6 +173,7 @@ logic_test(converter_test)
 logic_test(rtc_test)
 logic_test(tactile_test)
 logic_test(diode_test)
+logic_test(capacitor_test)
 
 # Engine speed bench (plan-05-A). Not a ctest: a wall-clock check would be
 # flaky. Build Release to get meaningful numbers.

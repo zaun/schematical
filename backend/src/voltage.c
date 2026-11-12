@@ -466,6 +466,13 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
             p.kind = VOLTAGE_SWITCH_OVER;
             p.min_mv = 0;
             p.max_mv = part->dip_switch->rated_mv;
+        } else if (part->kind == PART_CAPACITOR && part->capacitor != NULL &&
+                   part->capacitor->rated_mv > 0 && e.mv > part->capacitor->rated_mv) {
+            /* Either pin: a pin's net level against ground is the voltage
+               across a part whose other pin is on ground (plan-33-E § 3.3). */
+            p.kind = VOLTAGE_CAPACITOR_OVER;
+            p.min_mv = 0;
+            p.max_mv = part->capacitor->rated_mv;
         } else {
             continue;
         }
@@ -513,6 +520,7 @@ int voltage_describe(const Part *const *parts, const VoltageProblem *problem,
                             pin_designator(part, problem->pin), pin_name(part, problem->pin),
                             part->name, problem->max_mv / 1000.0);
         case VOLTAGE_SWITCH_OVER:
+        case VOLTAGE_CAPACITOR_OVER:
             return snprintf(buffer, size, "voltage: %g V on pin %s (%s) of %s; it is rated %g V", v,
                             pin_designator(part, problem->pin), pin_name(part, problem->pin),
                             part->name, problem->max_mv / 1000.0);

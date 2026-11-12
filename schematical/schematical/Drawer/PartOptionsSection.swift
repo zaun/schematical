@@ -90,6 +90,11 @@ struct PartOptionsSection: View {
                     document.setPartOhms(chip.id, ohms)
                 }
             }
+            if current.part.isGenericCapacitor {
+                CapacitanceField(farads: current.farads ?? CapacitorValue.defaultFarads) { farads in
+                    document.setPartFarads(chip.id, farads)
+                }
+            }
             if !current.part.footprintChoices.isEmpty {
                 FootprintChoicePicker(choices: current.part.footprintChoices, selection: Binding(
                     get: { current.footprintID ?? current.part.footprint?.id ?? "" },
@@ -175,6 +180,84 @@ struct OhmsField: View {
         let number = ResistorValue.parse(text) ?? ResistorValue.split(ohms).number
         guard let value = ResistorValue.ohms(number: number, unit: newUnit) else {
             show(ohms)
+            return
+        }
+        commit(value)
+        show(value)
+    }
+}
+
+/// The generic capacitor's capacitance (plan-33-H): a number field and a
+/// unit menu (pF, nF, µF), showing `farads` in the largest unit with a
+/// number of at least 1. Commits like `OhmsField`: on Return, on losing
+/// focus, or on picking a unit; input that doesn't parse, or isn't
+/// `CapacitorValue.isValid`, puts the row back.
+struct CapacitanceField: View {
+    let farads: Double
+    let commit: (Double) -> Void
+
+    @State private var text = ""
+    @State private var shown = ""
+    @State private var unit: CapacitorValue.Unit = .nano
+    @FocusState private var isFocused: Bool
+
+    var body: some View {
+        LabeledContent("Capacitance") {
+            HStack(spacing: 6) {
+                TextField("Capacitance", text: $text)
+                    .labelsHidden()
+                    .focused($isFocused)
+                    .multilineTextAlignment(.trailing)
+                    .frame(minWidth: 60)
+                    .onSubmit(apply)
+                    .onChange(of: isFocused) { _, focused in
+                        if !focused { apply() }
+                    }
+                Picker("Unit", selection: Binding(get: { unit }, set: pick)) {
+                    ForEach(CapacitorValue.Unit.allCases, id: \.self) { unit in
+                        Text(unit.symbol).tag(unit)
+                    }
+                }
+                .pickerStyle(.menu)
+                .labelsHidden()
+                .fixedSize()
+            }
+        }
+        .onChange(of: farads) { refresh() }
+        .onAppear { show(farads) }
+    }
+
+    private func refresh() {
+        if !isFocused || text == shown {
+            show(farads)
+        } else {
+            unit = CapacitorValue.split(farads).unit
+        }
+    }
+
+    private func show(_ value: Double) {
+        let split = CapacitorValue.split(value)
+        shown = CapacitorValue.numberText(split.number)
+        text = shown
+        unit = split.unit
+    }
+
+    private func apply() {
+        guard text != shown else { return }
+        guard let number = CapacitorValue.parse(text),
+              let value = CapacitorValue.farads(number: number, unit: unit) else {
+            show(farads)
+            return
+        }
+        commit(value)
+        show(value)
+    }
+
+    private func pick(_ newUnit: CapacitorValue.Unit) {
+        guard newUnit != unit else { return }
+        let number = CapacitorValue.parse(text) ?? CapacitorValue.split(farads).number
+        guard let value = CapacitorValue.farads(number: number, unit: newUnit) else {
+            show(farads)
             return
         }
         commit(value)
