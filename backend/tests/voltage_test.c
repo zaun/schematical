@@ -13,6 +13,7 @@
 #include "voltage.h"
 #include "voltage_fixture.h"
 #include "diode_fixture.h"
+#include "capacitor_fixture.h"
 
 static int failures;
 static PartLibrary *library;
@@ -414,6 +415,31 @@ static void check_diodes(void) {
     expect(none(&n), "a diode carries voltage anode to cathode only");
 }
 
+static void check_capacitors(void) {
+    Netlist n = {0};
+    size_t c;
+
+    c = add(&n, "TESTCAP");
+    wire(&n, c, "1", supply(&n, "12V"));
+    wire(&n, c, "2", supply(&n, "GND"));
+    expect(only(&n, VOLTAGE_CAPACITOR_OVER) && n.problems[0].mv == 12000 &&
+               n.problems[0].max_mv == 6300 && n.problems[0].pin == 0 &&
+               text_is(&n, 0, "voltage: 12 V on pin 1 (+) of TESTCAP; it is rated 6.3 V"),
+           "12V on the + pin of a capacitor rated 6.3 V is CAPACITOR_OVER");
+
+    memset(&n, 0, sizeof n);
+    c = add(&n, "TESTCAP");
+    wire(&n, c, "1", supply(&n, "5V"));
+    wire(&n, c, "2", supply(&n, "GND"));
+    expect(none(&n), "5V on a capacitor rated 6.3 V is fine");
+
+    memset(&n, 0, sizeof n);
+    c = add(&n, "TESTCAP-N");
+    wire(&n, c, "1", supply(&n, "12V"));
+    wire(&n, c, "2", supply(&n, "GND"));
+    expect(none(&n), "12V on a ceramic capacitor with no rating is fine");
+}
+
 static void check_no_data(void) {
     Netlist n = {0};
     Part copy;
@@ -618,7 +644,8 @@ static void check_analog(void) {
 int main(void) {
     library = part_library_create();
     if (library == NULL || load_parts_dir(library, PARTS_DIR) != 0 ||
-        load_voltage_fixture(library) != 0 || load_diode_fixture(library) != 0) {
+        load_voltage_fixture(library) != 0 || load_diode_fixture(library) != 0 ||
+        load_capacitor_fixture(library) != 0) {
         printf("FAIL: cannot load the part library\n");
         return 1;
     }
@@ -629,6 +656,7 @@ int main(void) {
     check_switches();
     check_leds();
     check_diodes();
+    check_capacitors();
     check_no_data();
     check_order();
     check_domains();

@@ -363,12 +363,18 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   circuits: a tab tied to its lead, a diode-OR in a library circuit, and a
   switch contact inside a cluster. The kind's loader errors are in
   `library_check`, its voltage carry in `voltage_test`.
+- `capacitor_test` — the capacitor kind (plan-33-E): the fixture
+  capacitors (`tests/support/capacitor_fixture.h`, one tantalum and one
+  ceramic device) load and their `PartCapacitor` facts read back; a
+  capacitor between 5V and GND drives nothing (both nets keep their values
+  after 1 us). The kind's loader errors are in `library_check`, its rating
+  check (`VOLTAGE_CAPACITOR_OVER`) in `voltage_test`.
 - `circuit_check` — the circuit API, including the voltage refusal at
   start and the running switch stop (fixture parts from
   `tests/support/voltage_fixture.h`).
 - `voltage_test` — `voltage_check` and `voltage_describe`, one case per
   rule (supplies, power range, input max, driven and carried voltages,
-  open-drain, closed contacts, switch rating, ordering, and the two supply
+  open-drain, closed contacts, switch rating, capacitor rating, ordering, and the two supply
   domains of a translator: each side powered from its own pin, its pins
   judged against its own range), on the fixture parts and the real
   supplies.

@@ -39,9 +39,9 @@ plan-33-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-33-D complete | `ls planning/completed/plan-33-D-*.md` → exists | NOT MET (2026-11-11: planning) |
-| No `capacitor` kind yet | `grep -c 'PART_CAPACITOR' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/capacitor.json` → no such file | MET (2026-11-11 at 8b1770b: 0, no file) |
-| `PART_CAPACITOR` and `VOLTAGE_CAPACITOR_OVER` absent | `grep -rc 'PART_CAPACITOR\|VOLTAGE_CAPACITOR_OVER' backend/include` → 0 per file | MET (2026-11-11 at 8b1770b) |
+| plan-33-D complete | `ls planning/completed/plan-33-D-*.md` → exists | NOT MET when E ran (2026-11-11), and not needed: E reads no census, footprint or part data (§ Corrections 1) |
+| No `capacitor` kind yet | `grep -c 'PART_CAPACITOR' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/capacitor.json` → no such file | MET (2026-11-11 at 656b6d1, worktree-P-33: 0, no file) |
+| `PART_CAPACITOR` and `VOLTAGE_CAPACITOR_OVER` absent | `grep -rc 'PART_CAPACITOR\|VOLTAGE_CAPACITOR_OVER' backend/include` → 0 per file | MET (2026-11-11 at 656b6d1: 0 in every file) |
 
 Everything below is written against the world where these hold.
 
@@ -197,70 +197,82 @@ moved.
 
 ### Phase 1 — The kind
 
-- [ ] `backend/include/parts.h`: `PART_CAPACITOR`, `PartCapacitor`, the
+- [x] `backend/include/parts.h`: `PART_CAPACITOR`, `PartCapacitor`, the
       `capacitor` pointer (§ 3.1).
-- [ ] `backend/src/models/capacitor.c`: keys, `load_device` (type, farads,
+- [x] `backend/src/models/capacitor.c`: keys, `load_device` (type, farads,
       polarity pins), `bind_pinout` (2 pins, both `input`; `positive` /
       `negative` bound with `kind_pin`), `load_part` (volts, dielectric,
       tolerance), the empty model (§ 3.2). Add it to the backend sources in
       `backend/CMakeLists.txt` beside `diode.c`.
-- [ ] `backend/src/library/kinds.c`: `extern const PartKindOps
+- [x] `backend/src/library/kinds.c`: `extern const PartKindOps
       CAPACITOR_KIND;` and `&CAPACITOR_KIND,` as the last `KINDS[]` entry.
-- [ ] `schematical/schematical/Parts/capacitor.json`: `{"format":
+- [x] `schematical/schematical/Parts/capacitor.json`: `{"format":
       "schematical-parts", "version": 1, "kind": "capacitor", "devices":
       []}`; the app bundles every file in `Parts/` (the diode precedent,
       plan-29-H).
-- [ ] Tests' kind arrays: `listing.c` name and facts (§ 3.4); the three
+- [x] Tests' kind arrays: `listing.c` name and facts (§ 3.4); the three
       last-kind references (`listing_check.c` `<last> + 1` twice,
       `trace_check.c` `TRACE_LAST_KIND <last>`) move from the current last
       kind to `PART_CAPACITOR` (`grep -rn 'TRACE_LAST_KIND PART_\|\[PART_[A-Z_]* + 1\]'
-      backend/tests` shows them: 3 lines today).
+      backend/tests` shows them: 3 lines today). After: the same grep → 3
+      lines, all `PART_CAPACITOR`.
 
 Acceptance: the existing tests pass with the goldens untouched.
   Check: `cmake --build /tmp/logic-p33 -j8 && ctest --test-dir /tmp/logic-p33 -R 'listing_check|trace_check|library_check'` → 3 passed, and `git diff --stat backend/tests/golden` → empty (est. 3 min).
-Commit: —
+  Observed (build dir `/tmp/logic-p33wt`, § Corrections 2): `100% tests passed, 0 tests failed out of 3`; `git status --short backend/tests/golden` → empty.
+Commit: (this commit; hash in the next)
 
 ### Phase 2 — The rating check
 
-- [ ] `backend/include/voltage.h`: `VOLTAGE_CAPACITOR_OVER` last.
-- [ ] `backend/src/voltage.c`: the step-4 branch and the description (§ 3.3).
-- [ ] `backend/tests/voltage_test.c`: an inline fixture capacitor
+- [x] `backend/include/voltage.h`: `VOLTAGE_CAPACITOR_OVER` last.
+- [x] `backend/src/voltage.c`: the step-4 branch and the description (§ 3.3).
+- [x] `backend/tests/voltage_test.c`: an inline fixture capacitor
       (`TESTCAP`, type tantalum, `+`/`-` pins, `volts` 6.3): `+` on a 12 V
       supply net, `-` on GND → one `VOLTAGE_CAPACITOR_OVER`, `mv` 12000,
       `max_mv` 6300, pin 0, and `voltage_describe` gives the § Goal text;
       on 5 V → no problem; a ceramic fixture with no `volts` on 12 V → no
-      problem.
+      problem. (Fixture in `tests/support/capacitor_fixture.h`, shared with
+      `capacitor_test`: `TESTCAP`, `TESTCAP-C`, `TESTCAP-N`.) Observed:
+      `PASS: 12V on the + pin of a capacitor rated 6.3 V is CAPACITOR_OVER`
+      (mv 12000, max_mv 6300, pin 0, the § Goal text), `PASS: 5V on a
+      capacitor rated 6.3 V is fine`, `PASS: 12V on a ceramic capacitor with
+      no rating is fine`.
 
 Acceptance: the new cases pass and the old ones still do.
   Check: `cmake --build /tmp/logic-p33 -j8 && ctest --test-dir /tmp/logic-p33 -R voltage_test` → passed (est. 2 min).
-Commit: —
+  Observed: `100% tests passed, 0 tests failed out of 1`.
+Commit: (this commit; hash in the next)
 
 ### Phase 3 — `capacitor_test`, loader cases, docs
 
-- [ ] `backend/tests/capacitor_test.c` and `logic_test(capacitor_test)` in
+- [x] `backend/tests/capacitor_test.c` and `logic_test(capacitor_test)` in
       `backend/CMakeLists.txt`: an inline device file with one ceramic and
       one tantalum device loads; `PartCapacitor` facts read back
       (`capacitance_ff` 100000000 for `"farads": 1e-7`, `rated_mv` 50000,
       `polarized` 0 / 1, `dielectric` `X7R`, `tolerance` `±10%`); a sim with
       the capacitor between two driven nets runs 1 µs and its nets keep the
-      drivers' values (it drives nothing).
-- [ ] `backend/tests/library_check.c`: one rejection case per message of
+      drivers' values (it drives nothing). Observed: 7 PASS lines,
+      `capacitor_test: all passed`.
+- [x] `backend/tests/library_check.c`: one rejection case per message of
       § 3.2 (unknown type, farads 0 and 11, ceramic with `positive`,
       tantalum without `positive`, 3 pins, an `inout` pin, `dielectric` on a
-      tantalum part, `volts` 0).
-- [ ] `docs/parts-format.md`: `| capacitor.json | capacitor |` in the kind
+      tantalum part, `volts` 0). Observed: `ok   valid capacitor parts` and
+      9 `ok   capacitor …` / `ok   … tantalum …` rejection lines, each with
+      § 3.2's message.
+- [x] `docs/parts-format.md`: `| capacitor.json | capacitor |` in the kind
       table (add the row only if absent: `grep -c '^| `capacitor.json`'
       docs/parts-format.md` → 0 before; plan-32-C Phase 5 also edits that
       table and adds only missing rows); a `### capacitor` section after
       `### diode` with § 3.2's tables and the rating check; the file list in
       the first paragraph gains "capacitor".
-- [ ] `docs/backend.md`: the `voltage_test` entry (:369–374, "…, switch
+- [x] `docs/backend.md`: the `voltage_test` entry (:369–374, "…, switch
       rating, ordering, …") gains "capacitor rating"; the `capacitor_test`
       entry is added to the test list beside `diode_test`'s.
 
 Acceptance: T0 + 1 programs pass.
   Check: `cmake -S backend -B /tmp/logic-p33 && cmake --build /tmp/logic-p33 -j8 && ctest --test-dir /tmp/logic-p33` → `100% tests passed, 0 tests failed out of 31` (est. 3 min).
-Commit: —
+  Observed: `100% tests passed, 0 tests failed out of 31`; the goldens untouched.
+Commit: (this commit; hash in the next)
 
 ## Validation Plan
 
@@ -287,7 +299,19 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+1. **E ran before B–D finished** (2026-11-11). The graph's D → E edge is
+   not a data dependency: E touches no census, footprint or part file
+   (§ Non-goals; `Parts/capacitor.json` ships with no devices), so it was
+   done while plan-33-A's census listed buckets. F still waits for B–E.
+2. **Build directory.** `/tmp/logic-p33` was configured from the main
+   checkout (`cmake` refuses a second source tree: "does not match the
+   source … used to generate cache"), so the worktree builds in
+   `/tmp/logic-p33wt`. Same commands, same tests.
+3. **The fixture lives in a header**, `tests/support/capacitor_fixture.h`
+   (the `diode_fixture.h` precedent), shared by `voltage_test` and
+   `capacitor_test`; § 3.2's "inline fixture" is that header's string.
+4. **`circuit_advance` takes picoseconds** (`circuit.h:58`), so "runs
+   1 µs" is `circuit_advance(c, 1000000)`.
 
 ## Summary
 

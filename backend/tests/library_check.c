@@ -373,6 +373,68 @@ static void check_diode_cases(void) {
 }
 #undef DIODE_PIN
 #undef DIODE_DEVICE
+
+/* plan-33-E: the capacitor kind. */
+#define CAP_PIN(N, NAME, ROLE) "{'number':" #N ",'name':'" NAME "','role':'" ROLE "'}"
+#define CAP_DEVICE(TYPE, DEVICE_KEYS, PINS, PART_KEYS) \
+    HEAD("capacitor") "{'id':'C','function':'100 nF','description':'c','drawer':['Capacitors']," \
+    "'pinouts':{'p':[" PINS "]},'type':'" TYPE "'" DEVICE_KEYS "," \
+    "'parts':[{'name':'C-1','package':'0402','pinout':'p','footprint':'T2'" PART_KEYS "}]}" TAIL
+#define CAP_12 CAP_PIN(1, "1", "input") "," CAP_PIN(2, "2", "input")
+#define CAP_PM CAP_PIN(1, "+", "input") "," CAP_PIN(2, "-", "input")
+#define CAP_POL ",'farads':1e-5,'positive':'+','negative':'-'"
+
+static void check_capacitor_cases(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library, CAP_DEVICE("ceramic", ",'farads':1e-7", CAP_12,
+                                   ",'volts':50,'dielectric':'X7R','tolerance':'10%'"), &error) == 0);
+    part = part_library_find(library, "C-1");
+    CHECK(part != NULL && part->kind == PART_CAPACITOR && part->vcc == NULL &&
+          part->capacitor != NULL && strcmp(part->capacitor->type, "ceramic") == 0 &&
+          part->capacitor->polarized == 0 && part->capacitor->capacitance_ff == 100000000ULL &&
+          part->capacitor->rated_mv == 50000 && strcmp(part->capacitor->dielectric, "X7R") == 0);
+    free(error);
+    part_library_destroy(library);
+    library = part_library_create();
+    error = NULL;
+    CHECK(load(library, CAP_DEVICE("tantalum", CAP_POL, CAP_PM, ",'volts':6.3"), &error) == 0);
+    part = part_library_find(library, "C-1");
+    CHECK(part != NULL && part->capacitor->polarized == 1 && part->capacitor->rated_mv == 6300);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   valid capacitor parts\n");
+    expect_fail("capacitor unknown type", CAP_DEVICE("film", ",'farads':1e-7", CAP_12, ""),
+                "unknown capacitor type \"film\"");
+    expect_fail("capacitor farads 0", CAP_DEVICE("ceramic", ",'farads':0", CAP_12, ""),
+                "\"farads\" must be above 0 and at most 10");
+    expect_fail("capacitor farads 11", CAP_DEVICE("ceramic", ",'farads':11", CAP_12, ""),
+                "\"farads\" must be above 0 and at most 10");
+    expect_fail("ceramic capacitor with positive",
+                CAP_DEVICE("ceramic", ",'farads':1e-7,'positive':'1','negative':'2'", CAP_12, ""),
+                "a ceramic capacitor has no polarity");
+    expect_fail("tantalum capacitor without positive",
+                CAP_DEVICE("tantalum", ",'farads':1e-5", CAP_PM, ""), "missing \"positive\"");
+    expect_fail("capacitor with 3 pins",
+                CAP_DEVICE("ceramic", ",'farads':1e-7", CAP_12 "," CAP_PIN(3, "3", "input"), ""),
+                "a capacitor has 2 pins");
+    expect_fail("capacitor inout pin",
+                CAP_DEVICE("ceramic", ",'farads':1e-7",
+                           CAP_PIN(1, "1", "input") "," CAP_PIN(2, "2", "inout"), ""),
+                "capacitor pin \"2\" must be input");
+    expect_fail("dielectric on a tantalum part",
+                CAP_DEVICE("tantalum", CAP_POL, CAP_PM, ",'dielectric':'X7R'"),
+                "\"dielectric\" is only for a ceramic capacitor");
+    expect_fail("capacitor volts 0", CAP_DEVICE("ceramic", ",'farads':1e-7", CAP_12, ",'volts':0"),
+                "\"volts\" must be above 0 and at most 10000");
+}
+#undef CAP_PIN
+#undef CAP_DEVICE
+#undef CAP_12
+#undef CAP_PM
+#undef CAP_POL
 #undef DIODE_KA
 #undef DIODE_PAIR
 
@@ -3004,6 +3066,7 @@ int main(void) {
     check_converter_cases();
     check_rtc_cases();
     check_diode_cases();
+    check_capacitor_cases();
     check_valid_led();
     check_footprint_choices();
     check_duplicate_across_calls();

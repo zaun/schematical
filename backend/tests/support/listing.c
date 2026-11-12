@@ -31,6 +31,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_CONVERTER: return "converter";
         case PART_RTC: return "rtc";
         case PART_DIODE: return "diode";
+        case PART_CAPACITOR: return "capacitor";
     }
     return "?";
 }
@@ -90,6 +91,17 @@ static void print_details(FILE *out, const Part *part) {
             } else {
                 fprintf(out, " vr=%u io=%u", (unsigned)part->diode->vr_mv,
                         (unsigned)part->diode->io_ma);
+            }
+            break;
+        case PART_CAPACITOR:
+            fprintf(out, "type=%s ff=%llu rated=%u", part->capacitor->type,
+                    (unsigned long long)part->capacitor->capacitance_ff,
+                    (unsigned)part->capacitor->rated_mv);
+            if (part->capacitor->dielectric != NULL) {
+                fprintf(out, " dielectric=%s", part->capacitor->dielectric);
+            }
+            if (part->capacitor->tolerance != NULL) {
+                fprintf(out, " tol=%s", part->capacitor->tolerance);
             }
             break;
         case PART_SRAM:

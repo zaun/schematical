@@ -1,7 +1,7 @@
 # Part file format
 
 Every orderable part (gate, flip-flop, latch, decoder, counter, shift register, SRAM, EEPROM, switch, LED,
-diode, 7-segment display, character LCD module, oscillator, supply, microprocessor, serial controller) is described in a JSON part file in
+diode, capacitor, 7-segment display, character LCD module, oscillator, supply, microprocessor, serial controller) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
 | File | Kind |
@@ -27,6 +27,7 @@ diode, 7-segment display, character LCD module, oscillator, supply, microprocess
 | `converter.json` | `converter` |
 | `rtc.json` | `rtc` |
 | `diode.json` | `diode` |
+| `capacitor.json` | `capacitor` |
 
 Beside them, `datasheets.json` holds the datasheet URLs parts name with
 `"datasheet"` (see [Datasheets](#datasheets)), and `footprints.json` the land
@@ -600,6 +601,17 @@ solder mask), not as copper.
   the cathode (the band end) with a `rect` pad. R7 is the one rule that
   takes max values. The `note` gives the body length, lead diameter and
   the arithmetic, e.g. `DO-41 body 5.2 max -> 8.2 -> span 10.16`.
+- **R8 — radial leads** (plan-33-C § 4.1; radial cans, leaded MLCCs,
+  ceramic discs, dipped tantalums): style `dual`, `pins` 2, `perSide` 1,
+  `pitch` 1; `span` = the datasheet's lead spacing (F or LS, mid-value);
+  `drill` and round `pad` as R5 from the lead diameter (d); body: a can or
+  round dipped body is `{"width": D, "height": D, "round": true}` (D the
+  body diameter, mid-value), a leaded MLCC box is W × T, a disc is D × T
+  (its diameter by its thickness, as seen from above); `pin1Shape`
+  `rect`. A polarized part's pin 1 is `+`.
+- **R9 — SMD cans (V-chip)** (plan-33-C § 4.1): the datasheet's land
+  table for the can size (R1); else R4 on the base plate's terminal
+  drawing; body the base plate (A × B, mid-values). Pin 1 is `+`.
 - **No overlapping pads.** If a land pattern's max-only pad sizes make
   pads touch (PLCC-32's corner pads at Y1 = .100 in max), shorten the pads
   and keep their centres, and say so in the `note`.
@@ -728,6 +740,43 @@ Part keys (numbers):
 A key of the other group is an error (`"vz" is only for a zener`, `"vr"
 is not a zener key`). The values are facts for the app (`PartDiode`); the
 simulation does not use them.
+
+### `capacitor`
+
+Capacitors (plan-33): ceramic, aluminum electrolytic, aluminum polymer,
+tantalum, tantalum polymer and niobium oxide, `"kind": "capacitor"`, run by
+`backend/src/models/capacitor.c`. A capacitor is passive: it drives
+nothing and has no charge, delay or ripple in the logic simulation. Its
+one behavior is the voltage check's **rating test**: a pin whose net is
+above the part's `"volts"` is refused (`VOLTAGE_CAPACITOR_OVER`, `voltage:
+12 V on pin 1 (+) of TESTCAP; it is rated 6.3 V`). Either pin counts: a
+pin's net level against ground is the voltage across a part whose other
+pin is on ground. A part with no `"volts"` (`GENERIC-CAPACITOR`) is never
+refused. There is no reverse-polarity check.
+
+Device keys (one device is one capacitance; its `function` is that value,
+the drawer leaf, e.g. `"100 nF"`):
+
+| Key | Value |
+|---|---|
+| `"type"` | `"ceramic"`, `"aluminum"`, `"aluminum-polymer"`, `"tantalum"`, `"tantalum-polymer"` or `"niobium-oxide"`; anything else is `unknown capacitor type "X"` |
+| `"farads"` | the capacitance in farads, above 0 and at most 10 (`"farads" must be above 0 and at most 10`) |
+| `"positive"`, `"negative"` | pin names (exactly one pin each): required for every type but `ceramic` (`missing "positive"`), rejected for `ceramic` (`a ceramic capacitor has no polarity`) |
+
+Every pinout has exactly 2 pins (`a capacitor has 2 pins`), both `input`
+(`capacitor pin "X" must be input`). Ceramic pinouts name them `1` and `2`;
+polarized ones `+` and `-` (pin 1 is `+`).
+
+Part keys (all optional):
+
+| Key | Value |
+|---|---|
+| `"volts"` | rated DC voltage in volts, above 0 and at most 10000 (`"volts" must be above 0 and at most 10000`); the rating test above |
+| `"dielectric"` | `ceramic` only (`"dielectric" is only for a ceramic capacitor`): the code as DigiKey and the datasheet give it, e.g. `"C0G"`, `"X7R"`, `"Y5V"` |
+| `"tolerance"` | as the datasheet prints it, e.g. `"±10%"`, `"±0.25pF"`, `"-20%, +80%"` |
+
+The values are facts for the app (`PartCapacitor`: capacitance in
+femtofarads, rating in millivolts).
 
 ### `oscillator`
 
