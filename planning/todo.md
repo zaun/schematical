@@ -43,7 +43,7 @@
 - [x] Add a Generic Capacitor. Axial (ceramic) default, 0.1pf default (plan-33)
 - [x] Add top 3 Capacitor manufactuerers and their active capacitors (plan-33)
 - [ ] Add Slide Switches, top 3 manufactuerers and their active switches
-- [ ] Add 20x4 and 40x2 and 40x4 character LCD modules
+- [x] Add 20x4 and 40x2 and 40x4 character LCD modules
 - [ ] Add a KiCad export for the schematic.
 - [ ] Add a Gerber export for the PCB
 

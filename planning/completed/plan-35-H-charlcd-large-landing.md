@@ -97,9 +97,9 @@ Commit: ecc13ba
 - [x] Mark `planning/todo.md`'s item "Add 20x4 and 40x2 and 40x4
       character LCD modules" `[x]` (`grep -n '20x4 and 40x2' planning/todo.md`
       → line 46 on 2026-11-11). Commit only that line's change: other edits
-      in that file may belong to the owner. — ticked in the main
-      checkout's working copy (line 46); not committed: the line exists
-      only in the owner's uncommitted `todo.md` (Corrections).
+      in that file may belong to the owner. — committed after main's
+      b08e1fb committed the owner's `todo.md` edits (line 46 now in the
+      tree); this commit changes only that line (Corrections).
 - [x] `git mv planning/plan-35-*.md planning/completed/`. The data folder
       `planning/plan-35-data/` stays where it is, as plan-29's does.
 
@@ -125,7 +125,16 @@ Commit: the archive commit after ecc13ba ("plan-35-H Phase 2"; Corrections)
   checkout's working copy has it at line 46, among the owner's
   uncommitted edits). Committing the tick would commit the owner's line
   too, so the tick is made in the working copy only and left for the
-  owner to commit with the rest of their edits.
+  owner to commit with the rest of their edits. *Update:* main's b08e1fb
+  then committed the owner's `todo.md` edits with the line unticked; after
+  merging main (a6b80e1), the tick is committed on its own, and the
+  working-copy tick in the main checkout (the only difference there) is
+  dropped before the final merge.
+- **main moved twice during landing** (1be9390, then b08e1fb). The second
+  move changed only `planning/todo.md` (`git diff --stat dad9455 a6b80e1`
+  → `planning/todo.md | 32`), a file no gate reads, so § 2's results on
+  b604b9d stand for the merged tree: every file the gates build or read
+  is byte-identical.
 - **Phase 2's Commit line** stays as this archive commit: its hash cannot
   be written inside it, and the plan files leave `planning/` in it.
 
