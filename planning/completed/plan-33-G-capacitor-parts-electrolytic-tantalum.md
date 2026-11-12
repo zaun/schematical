@@ -86,7 +86,7 @@ Commit: 0aac36b
 Acceptance: every `add` row is a part.
   Check: `ctest --test-dir /tmp/logic-p33` → `100% tests passed … out of 31`; § 1's three counts (est. 5 min).
   Observed: `100% tests passed, 0 tests failed out of 31`; capacitor lines 1032 = 1031 add rows + 1; polarized lines 655 (`N_G`), none `rated=0`; `git diff cea454b^ -- backend/tests/golden | grep -c '^-[^-]'` → 0.
-Commit: (this commit; hash in the next)
+Commit: 67ea9ea
 
 ## Validation Plan
 

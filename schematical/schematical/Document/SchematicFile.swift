@@ -90,6 +90,10 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         /// Pull resistors only (version 4): the resistance in ohms. Always
         /// written for them; missing means 1000; ignored on other parts.
         var ohms: Double? = nil
+        /// `GENERIC-CAPACITOR` only (plan-33-H): the capacitance in farads.
+        /// Always written for it; missing means 1e-7 (0.1 µF); ignored on
+        /// other parts. Optional like `gender`: the version stays 4.
+        var farads: Double? = nil
     }
 
     /// An EEPROM's load file: the path relative to the schematic's folder (or
@@ -431,6 +435,8 @@ nonisolated enum SchematicFileError: LocalizedError {
     case badPartOption(reference: String, detail: String)
     /// A pull resistor's resistance that isn't more than 0 and at most 1 GΩ.
     case badOhms(reference: String, ohms: Double)
+    /// The generic capacitor's capacitance that isn't at least 0.1 pF and at most 1 F.
+    case badFarads(reference: String, farads: Double)
 
     var errorDescription: String? {
         switch self {
@@ -470,6 +476,8 @@ nonisolated enum SchematicFileError: LocalizedError {
             "\(reference): \(detail)"
         case let .badOhms(reference, ohms):
             "\(reference) has resistance \(Self.number(ohms)) Ω; it must be more than 0 and at most 1 GΩ."
+        case let .badFarads(reference, farads):
+            "\(reference) has capacitance \(Self.number(farads)) F; it must be more than 0 and at most 1 F."
         }
     }
 
@@ -516,7 +524,8 @@ extension SchematicFile {
                 color: chip.color,
                 footprint: chip.footprintID,
                 gender: chip.gender,
-                ohms: chip.ohms
+                ohms: chip.ohms,
+                farads: chip.farads
             )
         }
         junctions = document.junctions.map {
@@ -684,6 +693,10 @@ extension SchematicFile {
             if catalogPart.isPullResistor, let ohms = part.ohms, !ResistorValue.isValid(ohms) {
                 throw SchematicFileError.badOhms(reference: part.reference, ohms: ohms)
             }
+            // The generic capacitor's capacitance; missing is 0.1 µF, ignored elsewhere.
+            if catalogPart.isGenericCapacitor, let farads = part.farads, !CapacitorValue.isValid(farads) {
+                throw SchematicFileError.badFarads(reference: part.reference, farads: farads)
+            }
             // A load file counts only on an EEPROM.
             var memoryFile: MemoryFile?
             if catalogPart.kind == PART_EEPROM, let entry = part.memoryFile {
@@ -702,7 +715,8 @@ extension SchematicFile {
                 color: color,
                 footprintID: footprintID,
                 gender: part.gender,
-                ohms: catalogPart.isPullResistor ? part.ohms : nil
+                ohms: catalogPart.isPullResistor ? part.ohms : nil,
+                farads: catalogPart.isGenericCapacitor ? part.farads : nil
             )
             // A stored placement counts only for a part with a footprint.
             var board: BoardPlacement?

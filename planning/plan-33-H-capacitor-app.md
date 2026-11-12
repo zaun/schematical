@@ -46,8 +46,8 @@ plan-33-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-33-G complete | `ls planning/completed/plan-33-G-*.md` → exists | NOT MET (2026-11-11: planning) |
-| No capacitor app code yet | `grep -rc 'PART_CAPACITOR' schematical/schematical --include='*.swift' \| grep -v ':0' \| wc -l` → 0 | MET (2026-11-11 at 8b1770b: 0) |
+| plan-33-G complete | `ls planning/completed/plan-33-G-*.md` → exists | MET (2026-11-11, at execution: 67ea9ea) |
+| No capacitor app code yet | `grep -rc 'PART_CAPACITOR' schematical/schematical --include='*.swift' \| grep -v ':0' \| wc -l` → 0 | MET (2026-11-11 at 8b1770b: 0; at execution, before H's edits: 0) |
 
 Everything below is written against the world where these hold.
 
@@ -158,34 +158,36 @@ Everything below is written against the world where these hold.
 
 ### Phase 1 — Catalog, drawer order, symbol, facts, references
 
-- [ ] `PartCatalog.swift`: `Details.capacitor`, its builder, `detailLabels`,
+- [x] `PartCatalog.swift`: `Details.capacitor`, its builder, `detailLabels`,
       `isGenericCapacitor`, `symbol(for:)`, the capacitor leaf order in
       `functionGroups`.
-- [ ] `SchematicModel.swift`: `PartSymbol.capacitor` and its layout case;
+- [x] `SchematicModel.swift`: `PartSymbol.capacitor` and its layout case;
       `takeReference` `C<n>`.
-- [ ] `Canvas/CapacitorSymbolView.swift` (new); `SchematicCanvasView.swift`,
+- [x] `Canvas/CapacitorSymbolView.swift` (new); `SchematicCanvasView.swift`,
       `SchematicExportScene.swift`: the `.capacitor` case.
-- [ ] `PartFacts.swift`: `case PART_CAPACITOR: return "Capacitor"` and the
+- [x] `PartFacts.swift`: `case PART_CAPACITOR: return "Capacitor"` and the
       rows.
 
 Acceptance: the app builds.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p33-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 3 min).
-Commit: —
+  Observed: `** BUILD SUCCEEDED **`.
+Commit: (this commit, with Phase 2; hash in the next)
 
 ### Phase 2 — The generic value: field, file, undo, paste, BOM
 
-- [ ] `Canvas/CapacitorValue.swift` (new); `PlacedChip.farads` and its init
+- [x] `Canvas/CapacitorValue.swift` (new); `PlacedChip.farads` and its init
       rule; `setPartFarads`; the paste path (:1961) carries `farads`.
-- [ ] `Drawer/PartOptionsSection.swift`: `CapacitanceField` for the generic
+- [x] `Drawer/PartOptionsSection.swift`: `CapacitanceField` for the generic
       capacitor beside the Footprint picker.
-- [ ] `Document/SchematicFile.swift`: `farads` read and write, `badFarads`.
-- [ ] `BillOfMaterials/BillOfMaterialsWindow.swift`: the two capacitor lines.
-- [ ] `docs/file-format.md`: the `farads` row, the `reference` and
+- [x] `Document/SchematicFile.swift`: `farads` read and write, `badFarads`.
+- [x] `BillOfMaterials/BillOfMaterialsWindow.swift`: the two capacitor lines.
+- [x] `docs/file-format.md`: the `farads` row, the `reference` and
       `partNumber` rows.
 
 Acceptance: the app builds and a file without capacitors is written as before.
   Check: the Phase 1 build → `** BUILD SUCCEEDED **`, then `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p33-dd test -only-testing:schematicalTests/PullResistorTests -only-testing:schematicalTests/BillOfMaterialsTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 5 min).
-Commit: —
+  Observed: `Executed 14 tests, with 0 failures`, `** TEST SUCCEEDED **`.
+Commit: (this commit; hash in the next)
 
 ### Phase 3 — Tests and the harness proof
 
