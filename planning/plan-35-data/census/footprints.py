@@ -11,7 +11,7 @@ HDR={
 'LCM-MIDAS-MD42004':'1x18 (rotated)','LCM-MIDAS-MC42005':'1x16 (rotated)','LCM-MIDAS-MD42005C':'1x18 (rotated)',
 'LCM-MIDAS-MC42008':'1x16 (rotated)','LCM-MIDAS-MD24005':'2x7 interface plus 4 backlight pads A, K(R), K(G), K(B) (rotated)',
 'LCM-MIDAS-MC44005':'2x9 (rotated)','LCM-MIDAS-MC44005-SPTLY':'2x9 (rotated)','LCM-MIDAS-MD44005':'2x10 (rotated)',
-'LCM-NHD-0420AZ':'1x16 top-left','LCM-NHD-0420DZ':'1x16 top-left','LCM-NHD-0420E2Z':'1x16 top-left',
+'LCM-NHD-0420AZ':'1x16 top-left','LCM-NHD-0420DZ':'1x16 top-left','LCM-NHD-0420E2Z':'1x16 top-left','LCM-NHD-0420E2Z-NSW-BBW':'1x18 top-left (17-18 NC, unnumbered pads)',
 'LCM-NHD-0420H1Z':'two 1x8 columns: pins 1-8 left edge, 9-16 right edge','LCM-NHD-0240AZ':'2x8 left','LCM-NHD-0440AZ':'2x9 left','LCM-NHD-0440WH':'2x9 left'}
 rows=[r for r in csv.DictReader(open(sys.argv[1]),delimiter='\t') if r['verdict']=='add']
 groups={}

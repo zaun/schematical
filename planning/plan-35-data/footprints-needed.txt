@@ -1,4 +1,4 @@
-# plan-35 footprints needed (2026-11-11): 33 module footprints for 67 parts; 0 connector footprints.
+# plan-35 footprints needed (2026-11-11): 34 module footprints for 67 parts; 0 connector footprints.
 # Connector footprints are reused: HDR-1X16-P2.54 (16 pins), PINHDR-1X18-V, PINHDR-1X20-V
 # (all three already in footprints.json; Connector Only = a plain 1xN header in pin order, plan-11 rule).
 # One module footprint per (maker, outline, drawing sheet); Newhaven: one per model code.
@@ -31,7 +31,8 @@ LCM-MIDAS-MC44005-SPTLY	190.00mm x 54.00mm	18	2x9 (rotated)	MC44005A6W-SPTLY-V2.
 LCM-MIDAS-MD44005	190.00mm x 54.00mm	20	2x10 (rotated)	MD44005A6W-FPTLRGB.pdf p6	MD44005A6W-FPTLRGB
 LCM-NHD-0420AZ	77.00mm x 47.00mm	16	1x16 top-left	NHD-0420AZ-FL-GBW-33V3.pdf p4	NHD-0420AZ-FL-GBW-33V3 NHD-0420AZ-FL-YBW-33V3 NHD-0420AZ-FSW-GBW-33V3
 LCM-NHD-0420DZ	98.00mm x 60.00mm	16	1x16 top-left	NHD-0420DZ-FL-GBW.pdf p3	NHD-0420DZ-FL-GBW NHD-0420DZ-FL-YBW NHD-0420DZ-FL-YBW-33V3 NHD-0420DZ-FSW-FBW NHD-0420DZ-NSW-BBW
-LCM-NHD-0420E2Z	146.00mm x 62.50mm	16	1x16 top-left	NHD-0420E2Z-FL-GBW.pdf p3	NHD-0420E2Z-FL-GBW NHD-0420E2Z-FL-YBW NHD-0420E2Z-FSW-GBW NHD-0420E2Z-NSW-BBW
+LCM-NHD-0420E2Z	146.00mm x 62.50mm	16	1x16 top-left	NHD-0420E2Z-FL-GBW.pdf p3	NHD-0420E2Z-FL-GBW NHD-0420E2Z-FL-YBW NHD-0420E2Z-FSW-GBW
+LCM-NHD-0420E2Z-NSW-BBW	146.00mm x 62.50mm	16	1x18 top-left (17-18 NC, unnumbered pads)	NHD-0420E2Z-NSW-BBW.pdf p3	NHD-0420E2Z-NSW-BBW
 LCM-NHD-0420H1Z	79.00mm x 36.00mm	16	two 1x8 columns: pins 1-8 left edge, 9-16 right edge	NHD-0420H1Z-FL-GBW-33V3.pdf p3	NHD-0420H1Z-FL-GBW-33V3 NHD-0420H1Z-FSW-GBW NHD-0420H1Z-FSW-GBW-33V3
 LCM-NHD-0240AZ	182.00mm x 33.50mm	16	2x8 left	NHD-0240AZ-FL-GBW.pdf p4	NHD-0240AZ-FL-GBW NHD-0240AZ-FL-YBW NHD-0240AZ-FSW-FBW NHD-0240AZ-NSW-BBW
 LCM-NHD-0440AZ	190.00mm x 54.00mm	18	2x9 left	NHD-0440AZ-RN-FBW.pdf p4	NHD-0440AZ-RN-FBW
