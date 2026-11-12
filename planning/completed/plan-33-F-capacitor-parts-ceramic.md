@@ -158,7 +158,7 @@ Commit: cea454b
 Acceptance: every ceramic `add` row is a part.
   Check: `ctest --test-dir /tmp/logic-p33` → `100% tests passed … out of 31`; `grep -c '|capacitor|' backend/tests/golden/parts.txt` → `N_F` + 1; `git diff <Phase 1 commit>^ -- backend/tests/golden | grep -c '^-[^-]'` → 0 (est. 5 min).
   Observed: `100% tests passed, 0 tests failed out of 31`; `377` (`N_F` 376 + 1); `git diff cea454b^ -- backend/tests/golden | grep -c '^-[^-]'` → `0`.
-Commit: (this commit; hash in the next)
+Commit: d12f5c4
 
 ## Validation Plan
 

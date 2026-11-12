@@ -27,7 +27,7 @@ plan-33-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-33-F complete | `ls planning/completed/plan-33-F-*.md` → exists | NOT MET (2026-11-11: planning) |
+| plan-33-F complete | `ls planning/completed/plan-33-F-*.md` → exists | MET (2026-11-11, at execution: d12f5c4) |
 
 Everything below is written against the world where these hold.
 
@@ -65,12 +65,15 @@ al-polymer, tantalum, ta-polymer, niobium) with their footprints in
 
 ### Phase 1 — Electrolytic
 
-- [ ] `python3 -I gen-parts.py --type aluminum,aluminum-polymer`;
-      regenerate the goldens; the diff only adds lines.
+- [x] `python3 -I gen-parts.py --type aluminum,aluminum-polymer`;
+      regenerate the goldens; the diff only adds lines. Observed: `323 parts
+      written; 81 devices, 48 new footprints`; numstat parts 323 / 0, traces
+      323 / 0, footprints 48 / 0.
 
 Acceptance: every electrolytic `add` row is a part.
   Check: `ctest --test-dir /tmp/logic-p33 -R 'listing_check|trace_check|footprint_check'` → 3 passed; the electrolytic line count equals `awk -F'\t' '$25=="add" && ($2=="aluminum" || $2=="al-polymer")' planning/plan-33-data/candidates.tsv | wc -l` (est. 4 min).
-Commit: —
+  Observed: `100% tests passed, 0 tests failed out of 3`; `type=aluminum` lines 323 = 323 add rows.
+Commit: (this commit; hash in the next)
 
 ### Phase 2 — Tantalum and niobium oxide
 

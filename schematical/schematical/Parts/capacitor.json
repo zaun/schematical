@@ -4,6 +4,4353 @@
  "kind": "capacitor",
  "devices": [
   {
+   "id": "aluminum-1000uF",
+   "function": "1000 µF",
+   "description": "Aluminum electrolytic capacitor, 1000 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum",
+   "farads": 0.001,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "AEA1616102M035R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-aea-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-1616-AEA",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "CV2-1C102MH10-R",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "cv2-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-H10-CV2",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EDH108M025A9RAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4049_edh",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-12.5-9R-EDH",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EDH108M050A9TAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4049_edh",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-16-9T-EDH",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EEV108M010A9PAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4002_eev",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-10-9P-EDH",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EEV108M6R3A9MAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4002_eev",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-8-9M-EDK",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESE108M010AG4KA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4055_ese",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8-3.5-L0.6",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESE108M035AL3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4055_ese",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-13-5-L0.6",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESH108M6R3AH1AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4005_esh",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK108M016AH2AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK108M025AH4EA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK108M050AL4AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-13-5-L0.6",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESL108M063AM9AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4074_esl",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-16-7.5-L0.8",
+     "volts": 63,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-100uF",
+   "function": "100 µF",
+   "description": "Aluminum electrolytic capacitor, 100 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum",
+   "farads": 0.0001,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "AEA1616101M100R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-aea-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-1616-AEA",
+     "volts": 100,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "CV2-1A101ME55-R",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "cv2-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-E55-CV2",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "CV2-1C101MF55-R",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "cv2-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-F55-CV2",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "CVH-1H101MG10-R",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "cvh-series-1",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-G10-CVH",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "CVL-1E101MF80-R",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "cvl-series-1",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-F80-CVL",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EDK107M6R3A9GAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4001_edk",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-6.3-9G-EDK",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EEV107M035A9HAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4002_eev",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-6.3-9G-EDK",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EEV107M063A9PAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4002_eev",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-10-9P-EDH",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESH107M050AG3KA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4005_esh",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8-3.5-L0.6",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESH107M100AH4AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4005_esh",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 100,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESH107M6R3AC3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4005_esh",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK107M010AC3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK107M063AH1EA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESL107M035AE3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4074_esl",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESS107M025AE2AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4057_ess",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.45",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESW107M016AE3EA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4009_esw",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 16,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-10uF",
+   "function": "10 µF",
+   "description": "Aluminum electrolytic capacitor, 10 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum",
+   "farads": 1e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "CV2-2A100MG10-R",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "cv2-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-G10-CV2",
+     "volts": 100,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EDH106M050A9DAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4049_edh",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-5-9D-EDH",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EDK106M016A9BAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4001_edk",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-4-9B-EDH",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EDK106M035A9BAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4001_edk",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-4-9B-EDH",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EDK106M063A9GAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4001_edk",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-6.3-9G-EDK",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EEV106M025A9BAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4002_eev",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-4-9B-EDH",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK106M010AC3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK106M016AC3KA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK106M025AC3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK106M050AC3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK106M063AC3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESS106M035AC2AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4057_ess",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.45",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESY106M100AE3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4007_esy",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 100,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-1500uF",
+   "function": "1500 µF",
+   "description": "Aluminum electrolytic capacitor, 1500 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum",
+   "farads": 0.0015,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "AEA1213152M010R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-aea-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-1213-AEA",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "AEA1616152M035R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-aea-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-1616-AEA",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "CVH-1C152MK14-R",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "cvh-series-1",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-K14-CVH",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "CVH-OJ152MH10-R",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "cvh-series-1",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-H10-CVH",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESH158M035AM7AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4005_esh",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-16-7.5-L0.8",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EST158M016AH5AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4010_est",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESY158M010AH5AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4007_esy",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 10,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-150uF",
+   "function": "150 µF",
+   "description": "Aluminum electrolytic capacitor, 150 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum",
+   "farads": 0.00015,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "AEA0810151M025R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-aea-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-0810-AEA",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "AEA0810151M035R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-aea-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-0810-AEA",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EDH157M063A9PAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4049_edh",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-10-9P-EDH",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EXV157M050A9PAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4003_exv",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-10-9P-EXV",
+     "volts": 50,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-15uF",
+   "function": "15 µF",
+   "description": "Aluminum electrolytic capacitor, 15 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum",
+   "farads": 1.5e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "ESY156M035AC2AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4007_esy",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.45",
+     "volts": 35,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-1uF",
+   "function": "1 µF",
+   "description": "Aluminum electrolytic capacitor, 1 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum",
+   "farads": 1e-06,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "EDH105M050A9BAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4049_edh",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-4-9B-EDH",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK105M050AC3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK105M100AC3FA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 100,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-2.2uF",
+   "function": "2.2 µF",
+   "description": "Aluminum electrolytic capacitor, 2.2 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum",
+   "farads": 2.2e-06,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "ESH225M050AC3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4005_esh",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK225M100AC3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 100,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EXV225M050A9BAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4003_exv",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-4-9B-EDH",
+     "volts": 50,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-2200uF",
+   "function": "2200 µF",
+   "description": "Aluminum electrolytic capacitor, 2200 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum",
+   "farads": 0.0022,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "AEA1213222M010R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-aea-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-1213-AEA",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EDH228M025A9TAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4049_edh",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-16-9T-EDH",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESC228M010AL3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4006_esc",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-13-5-L0.6",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK228M025AL4EA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-13-5-L0.6",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK228M035AM7AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-16-7.5-L0.8",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EST228M050AN2AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4010_est",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-18-7.5-L0.8",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "REA1325222M016K",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "rea-series",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-13.25-5-L0.6",
+     "volts": 16,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-220uF",
+   "function": "220 µF",
+   "description": "Aluminum electrolytic capacitor, 220 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum",
+   "farads": 0.00022,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "AEA1213221M063R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-aea-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-1213-AEA",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "CV2-1E221MG10-R",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "cv2-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-G10-CV2",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "CVH-1C221MF80-R",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "cvh-series-1",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-F60-CVH",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "CVH-1H221MH10-R",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "cvh-series-1",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-H10-CVH",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "CVH-1V221MG10-R",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "cvh-series-1",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-G10-CVH",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EDH227M010A9HAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4049_edh",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-6.3-9G-EDK",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EDK227M6R3A9HAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4001_edk",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-6.3-9G-EDK",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESE227M035AG3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4055_ese",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8-3.5-L0.6",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESE227M050AH9EA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4055_ese",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK227M010AC3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK227M016AE3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK227M025AG3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8-3.5-L0.6",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK227M063AH4AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK227M6R3AC3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "REA1626221M100B",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "rea-series",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-16.25-7.5-L0.8",
+     "volts": 100,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-22uF",
+   "function": "22 µF",
+   "description": "Aluminum electrolytic capacitor, 22 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum",
+   "farads": 2.2e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "AEA0810220M100R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-aea-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-0810-AEA",
+     "volts": 100,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "CVH-1H220MF60-R",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "cvh-series-1",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-F60-CVH",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EDK226M063A9HAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4001_edk",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-6.3-9G-EDK",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EEV226M035A9DAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4002_eev",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-5-9D-EDH",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EEV226M6R3A9BAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4002_eev",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-4-9B-EDH",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESE226M016AC3FA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4055_ese",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK226M025AC3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK226M050AC3FA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK226M063AE3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK226M100AE3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 100,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK226M6R3AC3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESS226M035AE2EA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4057_ess",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.45",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EXV226M016A9BAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4003_exv",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-4-9B-EDH",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EXV226M025A9DAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4003_exv",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-5-9D-EDH",
+     "volts": 25,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-3.3uF",
+   "function": "3.3 µF",
+   "description": "Aluminum electrolytic capacitor, 3.3 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum",
+   "farads": 3.3e-06,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "EDK335M035A9BAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4001_edk",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-4-9B-EDH",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESH335M050AC3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4005_esh",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK335M100AC3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 100,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EXV335M050A9BAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4003_exv",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-4-9B-EDH",
+     "volts": 50,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-3300uF",
+   "function": "3300 µF",
+   "description": "Aluminum electrolytic capacitor, 3300 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum",
+   "farads": 0.0033,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "AEA1616332M016R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-aea-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-1616-AEA",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESC338M025AM3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4006_esc",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-16-7.5-L0.8",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK338M010AL3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-13-5-L0.6",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK338M063AQ4AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-22-10-L0.8",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "REA1321332M006K",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "rea-series",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-13.25-5-L0.6",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "REA1835332M035B",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "rea-series",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-18.25-7.5-L0.8",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "REA1840332M050B",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "rea-series",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-18.25-7.5-L0.8",
+     "volts": 50,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-330uF",
+   "function": "330 µF",
+   "description": "Aluminum electrolytic capacitor, 330 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum",
+   "farads": 0.00033,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "CV2-OJ331MF80-R",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "cv2-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-F55-CV2",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "CVH-1E331MG10-R",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "cvh-series-1",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-G10-CVH",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "CVH-1V331MH10-R",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "cvh-series-1",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-H10-CVH",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EDK337M010A9MAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4001_edk",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-8-9M-EDK",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESH337M016AG3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4005_esh",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8-3.5-L0.6",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESH337M025AG3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4005_esh",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8-3.5-L0.6",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK337M6R3AE3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESW337M050AH4EA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4009_esw",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EXV337M016A9MAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4003_exv",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-8-9M-EDK",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EXV337M050S9RAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4003_exv",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-12.5-9R-EDH",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "REA0812331M010K",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "rea-series",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8.25-3.5-L0.5",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "REA1321331M063K",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "rea-series",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-13.25-5-L0.6",
+     "volts": 63,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-33uF",
+   "function": "33 µF",
+   "description": "Aluminum electrolytic capacitor, 33 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum",
+   "farads": 3.3e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "EDH336M100A9PAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4049_edh",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-10-9P-EDH",
+     "volts": 100,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EDK336M025A9GAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4001_edk",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-6.3-9G-EDK",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EDK336M050A9MAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4001_edk",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-8-9M-EDK",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESH336M025AC3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4005_esh",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESH336M035AC3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4005_esh",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESH336M050AE3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4005_esh",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESH336M063AG3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4005_esh",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8-3.5-L0.6",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EXV336M010A9DAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4003_exv",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-5-9D-EDH",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EXV336M035A9GAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4003_exv",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-6.3-9G-EDK",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "REA1013330M100K",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "rea-series",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10.25-5-L0.6",
+     "volts": 100,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-4.7uF",
+   "function": "4.7 µF",
+   "description": "Aluminum electrolytic capacitor, 4.7 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum",
+   "farads": 4.7e-06,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "EDK475M016A9BAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4001_edk",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-4-9B-EDH",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EDK475M025A9BAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4001_edk",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-4-9B-EDH",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EDK475M050A9DAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4001_edk",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-5-9D-EDH",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EDK475M100A9HAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4001_edk",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-6.3-9G-EDK",
+     "volts": 100,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESC475M063AC3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4006_esc",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESH475M050AC3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4005_esh",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK475M016AC3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK475M035AC3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK475M100AC3FA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 100,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EXV475M035A9BAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4003_exv",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-4-9B-EDH",
+     "volts": 35,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-4700uF",
+   "function": "4700 µF",
+   "description": "Aluminum electrolytic capacitor, 4700 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum",
+   "farads": 0.0047,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "ESH478M016AM7AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4005_esh",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-16-7.5-L0.8",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESH478M035AN2AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4005_esh",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-18-7.5-L0.8",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK478M010AL4AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-13-5-L0.6",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK478M025AM2AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-16-7.5-L0.8",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK478M050AQ3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-22-10-L0.8",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK478M6R3AL3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-13-5-L0.6",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-470uF",
+   "function": "470 µF",
+   "description": "Aluminum electrolytic capacitor, 470 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum",
+   "farads": 0.00047,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "AEA1616471M063R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-aea-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-1616-AEA",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "CV2-OJ471MF80-R",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "cv2-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-F55-CV2",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "CVH-1A471MH10-R",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "cvh-series-1",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-H10-CVH",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EDH477M035A9RAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4049_edh",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-12.5-9R-EDH",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EDK477M016A9MAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4001_edk",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-8-9M-EDK",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EEV477M025A9PAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4002_eev",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-10-9P-EDH",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESC477M035AH4EA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4006_esc",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESH477M010AE3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4005_esh",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESH477M100AM2AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4005_esh",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-16-7.5-L0.8",
+     "volts": 100,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK477M016AG3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8-3.5-L0.6",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK477M050AH4KA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK477M063AL4AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-13-5-L0.6",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESY477M025AG6AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4007_esy",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8-3.5-L0.6",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "REA0812471M006K",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "rea-series",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8.25-3.5-L0.5",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-47uF",
+   "function": "47 µF",
+   "description": "Aluminum electrolytic capacitor, 47 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum",
+   "farads": 4.7e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "CV2-1J470MG10-R",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "cv2-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-G10-CV2",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "CV2-2A470MH10-R",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "cv2-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-H10-CV2",
+     "volts": 100,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "CVH-1V470MF60-R",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "cvh-series-1",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-F60-CVH",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EDH476M010A9DAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4049_edh",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-5-9D-EDH",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EDH476M6R3A9BAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4049_edh",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-4-9B-EDH",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EDK476M016A9DAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4001_edk",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-5-9D-EDH",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EDK476M050A9HAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4001_edk",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-6.3-9G-EDK",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESE476M050AE3DA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4055_ese",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESE476M063AG3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4055_ese",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8-3.5-L0.6",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESH476M010AC3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4005_esh",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESH476M100AH9AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4005_esh",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 100,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESK476M6R3AC3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4004_esk",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESS476M016AE2EA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4057_ess",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.45",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EST476M025AC3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4010_est",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESW476M035AE3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4009_esw",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EXV476M025A9GAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4003_exv",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-6.3-9G-EDK",
+     "volts": 25,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-6.8uF",
+   "function": "6.8 µF",
+   "description": "Aluminum electrolytic capacitor, 6.8 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum",
+   "farads": 6.8e-06,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "ESH685M063AC3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4005_esh",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 63,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-680uF",
+   "function": "680 µF",
+   "description": "Aluminum electrolytic capacitor, 680 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum",
+   "farads": 0.00068,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "AEA1010681M010R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-aea-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-1010-AEA",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "AEA1213681M035R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-aea-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-1213-AEA",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "AEA1616681M050R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-aea-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-1616-AEA",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EDK687M016A9PAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4001_edk",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-10-9P-EDH",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESL687M063AK3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4074_esl",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-12.5-5-L0.6",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EST687M035AH6AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4010_est",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESY687M016AG6AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4007_esy",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8-3.5-L0.6",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESY687M025AH4AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4007_esy",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 25,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-68uF",
+   "function": "68 µF",
+   "description": "Aluminum electrolytic capacitor, 68 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum",
+   "farads": 6.8e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "AEA0810680M050R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-aea-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-0810-AEA",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EEV686M025A9GAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4002_eev",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-6.3-9G-EDK",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "ESC686M035AE3AA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4006_esc",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "EXV686M035A9HAA",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4003_exv",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-6.3-9G-EDK",
+     "volts": 35,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-polymer-1000uF",
+   "function": "1000 µF",
+   "description": "Aluminum polymer capacitor, 1000 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum-polymer",
+   "farads": 0.001,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "A750KK108M0JAAE015",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4067_a750",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8-3.5-L0.6",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A750MV108M1EAAE014",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4067_a750",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A755MS108M1AAAE013",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4068_a755",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A768MS108M1CLAE015",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4088_a768",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-10-MN-A740",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "APA1010102M010R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-apa-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-1010-APA",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "CCJ1E102M10X13-R",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "ccj-series-2",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-10X13-CCJ",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "RPA1012102M016K",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "rpa-series",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 16,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-polymer-100uF",
+   "function": "100 µF",
+   "description": "Aluminum polymer capacitor, 100 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum-polymer",
+   "farads": 0.0001,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "A700X107M010ATE010",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2091_a700-a720",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A758EK107M1AAAE016",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4069_a758",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A759EK107M1CAAE018",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4072_a759",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A759KS107M1VAAE031",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4072_a759",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8-3.5-L0.6",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A765BC107M0JLAE025",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4070_a765",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-5-BC-A765",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A765EB107M1CLAE025",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4070_a765",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-6.3-EB-A765",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A765KN107M1ELAE024",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4070_a765",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-8-KN-A765",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A767MU107M1VLAE029",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4071_a767",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-10-MN-A740",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A768MS107M1JLAE027",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4088_a768",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-10-MN-A740",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A7C0MS107M1JAAS030",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4144_a7c0",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 63,
+     "tolerance": "±20%",
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "APA1010101M050R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-apa-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-1010-APA",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "RPA0606101M006K",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "rpa-series",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.45",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "RPA0609101M025B",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "rpa-series",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "RPA1010101M050K",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "rpa-series",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 50,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-polymer-10uF",
+   "function": "10 µF",
+   "description": "Aluminum polymer capacitor, 10 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum-polymer",
+   "farads": 1e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "A700V106M006ATE055",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2091_a700-a720",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A700V106M016ATE045",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2091_a700-a720",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A758BG106M1EDAE070",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4069_a758",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A759BQ106M1HAAE105",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4072_a759",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A759BQ106M1VAAE090",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4072_a759",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A759EA106M1JAAE060",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4072_a759",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.45",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A766KE106M1ELAE060",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4089_a766",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-8-KE-A766",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A767KS106M2ALAE045",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4071_a767",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-8-KN-A765",
+     "volts": 100,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "APA0606100M050R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-apa-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-0606-APA",
+     "volts": 50,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-polymer-1500uF",
+   "function": "1500 µF",
+   "description": "Aluminum polymer capacitor, 1500 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum-polymer",
+   "farads": 0.0015,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "A750MV158M1CAAE010",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4067_a750",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A755MS158M0JAAE013",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4068_a755",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A759MS158M1AAAE012",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4072_a759",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A765MU158M1ALAE014",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4070_a765",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-10-MN-A740",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "CCJ1C152M10X13-R",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "ccj-series-2",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-10X13-CCJ",
+     "volts": 16,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-polymer-150uF",
+   "function": "150 µF",
+   "description": "Aluminum polymer capacitor, 150 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum-polymer",
+   "farads": 0.00015,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "A700D157M006ATE010",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2091_a700-a720",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A700X157M010ATE010",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2091_a700-a720",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A750MV157M1JAAE022",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4067_a750",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A758EK157M1AAAE016",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4069_a758",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A758KK157M1CAAE015",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4069_a758",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8-3.5-L0.6",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A759KS157M1EAAE025",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4072_a759",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8-3.5-L0.6",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A765EG157M1CLAE027",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4070_a765",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-6.3-EB-A765",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A768KE157M1ELAE029",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4088_a768",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-8-KE-A766",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A768MS157M1HLAE024",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4088_a768",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-10-MN-A740",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A782MW157M1JLAS017",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4124_a782",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-10-MN-A740",
+     "volts": 63,
+     "tolerance": "±20%",
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "AHA1010151M035R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-aha-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-1010-AEA",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "RPA0812151M035K",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "rpa-series",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8-3.5-L0.6",
+     "volts": 35,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-polymer-15uF",
+   "function": "15 µF",
+   "description": "Aluminum polymer capacitor, 15 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum-polymer",
+   "farads": 1.5e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "A700D156M035ATE040",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2091_a700-a720",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A700V156M025ATE040",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2091_a700-a720",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "RHA0607150M050K",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "rha-series",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "RHA1011150M100K",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "rha-series",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 100,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-polymer-2200uF",
+   "function": "2200 µF",
+   "description": "Aluminum polymer capacitor, 2200 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum-polymer",
+   "farads": 0.0022,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "A750MW228M1CAAE010",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4067_a750",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A759MS228M0JAAE013",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4072_a759",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-polymer-220uF",
+   "function": "220 µF",
+   "description": "Aluminum polymer capacitor, 220 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum-polymer",
+   "farads": 0.00022,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "A700X227M006ATE007",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2091_a700-a720",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A750BG227M0JAAE020",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4067_a750",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A750MV227M1HAAE020",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4067_a750",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A759KR227M1VAAE024",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4072_a759",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8-3.5-L0.6",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A759KS227M1EAAE025",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4072_a759",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8-3.5-L0.6",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A759MY227M1JAAE045",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4072_a759",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A765KN227M1CLAE016",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4070_a765",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-8-KN-A765",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A765MU227M1ELAE050",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4070_a765",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-10-MN-A740",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A785MW227M1HLAS015",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4125_a785",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-10-MN-A740",
+     "volts": 50,
+     "tolerance": "±20%",
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "APA0608221M010R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-apa-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-0606-APA",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "APA1010221M035R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-apa-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-1010-APA",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "CCJ1J221M10X13-R",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "ccj-series-2",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-10X13-CCJ",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "RPA0608221M016B",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "rpa-series",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 16,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-polymer-22uF",
+   "function": "22 µF",
+   "description": "Aluminum polymer capacitor, 22 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum-polymer",
+   "farads": 2.2e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "A700D226M016ATE018",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2091_a700-a720",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A700V226M010ATE028",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2091_a700-a720",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A758EK226M1EAAE050",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4069_a758",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A759BQ226M1HAAE075",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4072_a759",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A759BQ226M1VAAE080",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4072_a759",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A759MS226M2AAAE045",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4072_a759",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 100,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A767KN226M1HLAE050",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4071_a767",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-8-KN-A765",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A767MU226M2ALAE038",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4071_a767",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-10-MN-A740",
+     "volts": 100,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A768KE226M1JLAE054",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4088_a768",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-8-KE-A766",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "APA0606220M035R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-apa-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-0606-APA",
+     "volts": 35,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-polymer-330uF",
+   "function": "330 µF",
+   "description": "Aluminum polymer capacitor, 330 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum-polymer",
+   "farads": 0.00033,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "A750BG337M0JAAE020",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4067_a750",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A750EM337M1CAAE015",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4067_a750",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A750MW337M1HAAE020",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4067_a750",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A759EK337M1AAAE018",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4072_a759",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A759MU337M1VAAE022",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4072_a759",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A765EG337M0JLAE017",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4070_a765",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-6.3-EB-A765",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A768KS337M1ELAE019",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4088_a768",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-8-KN-A765",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A768MS337M1VLAE022",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4088_a768",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-10-MN-A740",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "APA0609331M010R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-apa-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-0606-APA",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "APA0809331M016R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-apa-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-0809-APA",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "RPA1010331M025K",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "rpa-series",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 25,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-polymer-33uF",
+   "function": "33 µF",
+   "description": "Aluminum polymer capacitor, 33 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum-polymer",
+   "farads": 3.3e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "A700V336M006ATE028",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2091_a700-a720",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A700V336M010ATE028",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2091_a700-a720",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A700V336M016ATE040",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2091_a700-a720",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A758EK336M1EAAE040",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4069_a758",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A759BQ336M1VAAE075",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4072_a759",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-5-2-L0.5",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A759KK336M1JAAE036",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4072_a759",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8-3.5-L0.6",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A767KN336M1VLAE031",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4071_a767",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-8-KN-A765",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A768KE336M1HLAE042",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4088_a768",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-8-KE-A766",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "RPA0608330M050K",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "rpa-series",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 50,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-polymer-4.7uF",
+   "function": "4.7 µF",
+   "description": "Aluminum polymer capacitor, 4.7 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum-polymer",
+   "farads": 4.7e-06,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "A759EQ475M2AAAE160",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4072_a759",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 100,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-polymer-470uF",
+   "function": "470 µF",
+   "description": "Aluminum polymer capacitor, 470 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum-polymer",
+   "farads": 0.00047,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "A740MN477M1VLAV016",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4147_a740",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-10-MN-A740",
+     "volts": 35,
+     "tolerance": "±20%",
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "A750MV477M1VAAE018",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4067_a750",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A759EK477M0JAAE016",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4072_a759",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A759KS477M1AAAE014",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4072_a759",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8-3.5-L0.6",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A759MS477M1CAAE015",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4072_a759",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A768KS477M1CLAE017",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4088_a768",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-8-KN-A765",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A768MS477M1ELAE017",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4088_a768",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-10-MN-A740",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "APA0609471M006R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-apa-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-0606-APA",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "RPA1012471M025K",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "rpa-series",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 25,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-polymer-47uF",
+   "function": "47 µF",
+   "description": "Aluminum polymer capacitor, 47 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum-polymer",
+   "farads": 4.7e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "A700V476M006ATE018",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2091_a700-a720",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A759KS476M1JAAE068",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4072_a759",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8-3.5-L0.6",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A767KN476M1HLAE029",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4071_a767",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-8-KN-A765",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A768EB476M1ELAE042",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4088_a768",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-6.3-EB-A765",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A768EB476M1VLAE042",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4088_a768",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-6.3-EB-A765",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A768KS476M1JLAE031",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4088_a768",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-8-KN-A765",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A7C0EB476M1VAAS070",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4144_a7c0",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 35,
+     "tolerance": "±20%",
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "RPA0606470M025K",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "rpa-series",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.45",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "RPA0808470M050K",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "rpa-series",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8-3.5-L0.6",
+     "volts": 50,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-polymer-680uF",
+   "function": "680 µF",
+   "description": "Aluminum polymer capacitor, 680 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum-polymer",
+   "farads": 0.00068,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "A750EQ687M1AAAE015",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4067_a750",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A750KK687M0JAAE016",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4067_a750",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8-3.5-L0.6",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A750KW687M1EAAE016",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4067_a750",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8-3.5-L0.6",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A759PY687M1HAAE026",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4072_a759",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-13-5-L0.6",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A765KN687M0JLAE012",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4070_a765",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-8-KN-A765",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A765MU687M1ALAE013",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4070_a765",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-10-MN-A740",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A765MU687M1CLAE018",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4070_a765",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-10-MN-A740",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "CCJ1E681M8X12-R",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "ccj-series-2",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-8X12-CCJ",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "RPA1010681M016K",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "rpa-series",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 16,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "aluminum-polymer-68uF",
+   "function": "68 µF",
+   "description": "Aluminum polymer capacitor, 68 µF",
+   "drawer": [
+    "Capacitors",
+    "Electrolytic"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "aluminum-polymer",
+   "farads": 6.8e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "A700V686M006ATE028",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2091_a700-a720",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A759MS686M1JAAE047",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4072_a759",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-10-5-L0.6",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A766EB686M1ALAE030",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4089_a766",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-6.3-EB-A765",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A766EB686M1CLAE030",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4089_a766",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-6.3-EB-A765",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "A767MU686M1JLAE030",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_a4071_a767",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-10-MN-A740",
+     "volts": 63,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "AHA0608680M025R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-aha-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-0606-APA",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "APA0609680M035R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-apa-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-0606-APA",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "APA0812680M050R",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "kyocera-avx-apa-series",
+     "package": "SMD can",
+     "pinout": "polar",
+     "footprint": "CAPE-SMD-0809-APA",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "RHA0607680M025B",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "rha-series",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "RPA0608680M035K",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "rpa-series",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-6.3-2.5-L0.5",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "RPA0812680M050K",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "rpa-series",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPE-RAD-8-3.5-L0.6",
+     "volts": 50,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
    "id": "ceramic-1.5nF",
    "function": "1.5 nF",
    "description": "Ceramic capacitor, 1.5 nF",
