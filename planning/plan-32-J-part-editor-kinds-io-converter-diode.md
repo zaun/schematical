@@ -44,7 +44,7 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-32-I complete: the seven fixed-key kinds pass their round trip | `xcodebuild test … -only-testing:schematicalTests/PartKindRoundTripTests` → `passed` with the seven lines | NOT MET at writing; starts after plan-32-I |
+| plan-32-I complete: the seven fixed-key kinds pass their round trip | `xcodebuild test … -only-testing:schematicalTests/PartKindRoundTripTests` → `passed` with the seven lines | MET (run 2026-11-11 in the P-32 worktree: `PartKindRoundTripTests` passed with the seven I lines 0/0/0) |
 
 Everything below is written against the world where this holds.
 
@@ -126,41 +126,44 @@ source files.
 One line: the drift test covers every `KEYS[]` array in the nine kinds' source files, and fails
 listing the keys the form lacks.
 
-- [ ] `PartKindKeysTests.swift`: add the nine kinds with their source-file globs (`<kind>*.c`).
-- [ ] Measure the file set before the test is written: `rg -l 'KEYS\[\] = ' backend/src/models/{cpu,pio,serial,charlcd,connector,converter,rtc,diode,header}*.c` and record its output in Corrections.
-- [ ] Run it; RED.
+- [x] `PartKindKeysTests.swift`: add the nine kinds with their source-file globs (`<kind>*.c`).
+- [x] Measure the file set before the test is written: `rg -l 'KEYS\[\] = ' backend/src/models/{cpu,pio,serial,charlcd,connector,converter,rtc,diode,header}*.c` and record its output in Corrections.
+- [x] Run it; RED.
 
 Acceptance: the test fails listing the missing keys of the nine kinds.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindKeysTests` → `failed`, listing the keys (est. 3 min).
-Commit: —
+  Result (2026-11-11, RED): failed, `["header": ["genders", "rows"], "convert…`, every key of the nine kinds; arrays parsed cpu 2, pio 4, serial 62, charlcd 6, connector 1, converter 13, rtc 13, diode 3, header 1.
+Commit: (this commit, with Phases 2–3)
 
 ### Phase 2 — Forms for the nine kinds
 
 One line: each kind's form covers every key of Phase 1.
 
-- [ ] One draft per kind in `schematical/schematical/Editor/` (`CpuDraft`, `PioDraft`, `SerialDraft`, `CharLcdDraft`, `ConnectorDraft`, `ConverterDraft`, `RtcDraft`, `DiodeDraft`, `HeaderDraft`), each with `init(device:part:)`, `encoded()`, `extras`; the model- or type-keyed kinds (`pio`, `serial`, `converter`, `diode`) hold one sub-draft per model or type.
-- [ ] `PartEditorWindow.swift`: a section per kind.
-- [ ] `PartDraft.enabledKinds` gains the nine kinds; after this, all 26 kinds are enabled.
+- [x] One draft per kind in `schematical/schematical/Editor/` (`CpuDraft`, `PioDraft`, `SerialDraft`, `CharLcdDraft`, `ConnectorDraft`, `ConverterDraft`, `RtcDraft`, `DiodeDraft`, `HeaderDraft`), each with `init(device:part:)`, `encoded()`, `extras`; the model- or type-keyed kinds (`pio`, `serial`, `converter`, `diode`) hold one sub-draft per model or type.
+- [x] `PartEditorWindow.swift`: a section per kind.
+- [x] `PartDraft.enabledKinds` gains the nine kinds; after this, all 26 kinds are enabled.
 
 Acceptance: `PartKindKeysTests` passes for the nine kinds.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindKeysTests` → `passed` (est. 6 min).
-Commit: —
+  Result (2026-11-11): passed, all 26 kinds (converter without `load_clock`'s array, rtc without `load_choice`/`load_time`/`load_conversion`/`load_dac`'s, each checked to exist; Corrections).
+Commit: (this commit)
 
 ### Phase 3 — Round trip over every shipped part
 
 One line: all 13811 shipped parts of the nine kinds round-trip with no key in `extras`, and the backend accepts each.
 
-- [ ] `PartKindRoundTripTests.swift`: the nine kinds added to the loop.
+- [x] `PartKindRoundTripTests.swift`: the nine kinds added to the loop.
 
 Acceptance: zero mismatched, zero with extras, zero rejected, for cpu (21), pio (7), serial (247), charlcd (5), connector (374), converter (1911), rtc (14), diode (11152) and header (80).
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindRoundTripTests` → `passed`, with nine count lines (est. 15 min; the diode population dominates).
-Commit: —
+  Result (2026-11-11): passed: cpu 21, pio 7, serial 247, charlcd 5, connector 374, converter 1911, rtc 14, diode 11152, header 80 — each `0 mismatched, 0 with extras, 0 rejected`; the same run has every other kind 0/0/0 and the gate test `checked 3438 parts, 0 mismatched, 0 with extras, 0 rejected`.
+Commit: (this commit)
 
 ### Phase 4 — Completion check and runtime proof
 
 One line: the picker lists all 26 kinds, enabled, and one part of a new kind is saved and loaded.
 
-- [ ] `PartEditorWindowTests.swift` case (a) changes to `PartDraft.enabledKinds` equal to all 26 kinds (the list of Phase 1 of plan-32-C).
+- [x] `PartEditorWindowTests.swift` case (a) changes to `PartDraft.enabledKinds` equal to all 26 kinds (the list of Phase 1 of plan-32-C).
 - [ ] No other code. From New Part…, create a diode (Zener) and a converter (ADC); save and load each.
 
 Acceptance: `PartEditorWindowTests` passes with all 26 enabled; the Zener and ADC parts load back into the drawer.
@@ -182,7 +185,42 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **Phase 1 file set** (`rg -l 'KEYS\[\] = ' backend/src/models/{cpu,pio,serial,charlcd,connector,converter,rtc,diode,header}*.c backend/src/models/ns16550*.c`,
+  2026-11-11): charlcd.c connector.c converter.c converter_load.c cpu.c diode.c header.c
+  ns16550.c ns16550_bridge.c ns16550_exar.c pio.c pio_pia6521.c pio_via6522.c rtc.c
+  serial.c serial_acia6551.c serial_ay1013.c serial_com78c80x.c serial_hs82c52.c
+  serial_i8251.c serial_i82510.c serial_max3100.c serial_max310x.c serial_sc18is604.c
+  serial_target.c serial_usbuart.c. `converter_par.c` has no arrays. rtc's loader is
+  converter_load.c's `cv_load_device` (rtc.c calls it), so rtc's set is rtc.c +
+  converter_load.c.
+- **Shared loader, per-kind branches** (2026-11-11): `cv_load_device(ctx, json, rtc)` reads
+  `clock` only for rtc and `dac`, `codeFormat` and `conversion` only for converters (rtc.c's
+  `DEVICE_KEYS` has no "conversion"). The drift test skips the arrays in loader functions a
+  kind's branch never calls (`notCalled`: converter skips `load_clock`; rtc skips
+  `load_choice`, `load_time`, `load_conversion`, `load_dac`) and checks each named function
+  still has an array, so a rename fails the test.
+- **A comment quoted a string inside a `KEYS[]` array** (2026-11-11): ns16550.c's
+  `BUS_KEYS` has `/* plan-12-E: "intel-motorola" */`; the drift test and the generator strip
+  C comments before reading the arrays.
+- **Generator additions** (scripts/part-editor-schema.py): speed-grade tables
+  (`TIMING_6502`/`_Z80`/`_65816`, pio's `TIMING`, the grades' `EXTRA`) are keys, so cpu and
+  pio grades are named maps of their timing fields; rtc and converter take shapes from
+  each other's shipped parts for the keys they share (`bus`, `configBus`, `pins`,
+  `protocol`, `ready`, `registers`, `timing`, `analog`, `vcc`, `inputMax`, and the part
+  keys), so each form has controls for the shared loader's keys the other kind's parts
+  use; an object whose keys all read as field names (`note`, `edge`, `tAcc`) is an object,
+  not a map (one `note` had made whole converter structures maps). Hand-placed keys
+  (part-editor-schema-extra.py): the `i2c-spi` bus's `selectPin`, `spiLevel`, `spi`,
+  `i2c` and the never-read `selectSampled` (raw JSON control), commands' `wordBits`;
+  cpu/pio/serial/charlcd part `vcc`/`inputMax` and grade `inputMax`; serial's `ctsA`.
+  Re-running the generator over the F–I kinds changed only CounterDraft (its `clears`
+  entries are now objects of `pin`/`active`/`to`/`when` fields), which still round-trips.
+- **The diode's `vz` and `pd` show for Zeners only** (§ Decisions): the generator marks
+  them `variants: ["zener"]` and the form filters part fields by the device's `type`
+  (`KindSchema.partFields(variant:)`); no other part key is limited by model.
+- **Connector and header footprint choices** (§ Non-goals): they have controls after
+  all — plan-32-F Corrections (a copy of a bundled header keeps its `footprintChoices`, and
+  this sub-plan's acceptance is zero parts with extras).
 
 ## Summary
 

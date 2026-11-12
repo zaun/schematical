@@ -117,7 +117,7 @@ One line: the drift test fails listing the backend keys of the seven kinds that 
 Acceptance: the test fails listing the missing keys.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindKeysTests` → `failed`, listing the keys (est. 3 min).
   Result (2026-11-11, RED): failed, `["supply": ["pull", "volts"], "sram": ["address", "byteEnable", "chipEnable", …], …]`; arrays parsed sram 2, eeprom 2, switch 1, led 1, 7seg 3, oscillator 2, supply 1 (as § Kinds).
-Commit: (this commit, with Phases 2–3)
+Commit: cee14eb
 
 ### Phase 2 — Forms for the seven kinds
 
@@ -130,7 +130,7 @@ One line: each kind's form covers every key of Phase 1.
 Acceptance: `PartKindKeysTests` passes for the seven kinds.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindKeysTests` → `passed` (est. 5 min).
   Result (2026-11-11): passed.
-Commit: (this commit)
+Commit: cee14eb
 
 ### Phase 3 — Round trip over every shipped part
 
@@ -141,7 +141,7 @@ One line: all 3615 shipped parts round-trip with no key in `extras`, and the bac
 Acceptance: zero mismatched, zero with extras, zero rejected, for sram (172), eeprom (174), switch (2067), led (1), 7seg (49), oscillator (1138) and supply (14).
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindRoundTripTests` → `passed`, with seven count lines (est. 8 min).
   Result (2026-11-11): passed: sram 172, eeprom 174, switch 2067, led 1, 7seg 49, oscillator 1138, supply 14 — each `0 mismatched, 0 with extras, 0 rejected` (and every F–H kind still 0/0/0 in the same run).
-Commit: (this commit)
+Commit: cee14eb
 
 ### Phase 4 — Runtime proof
 

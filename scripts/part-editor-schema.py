@@ -37,6 +37,14 @@ GENERIC_DEVICE = {"id", "function", "description", "drawer", "note", "pinouts", 
 GENERIC_PART = {"name", "package", "pinout", "flags", "footprint", "manufacturer", "datasheet",
                 "connectorFootprint", "footprintChoices"}
 
+CV_SHARED_DEVICE = {"vcc", "inputMax", "analog", "bus", "configBus", "timing", "registers", "protocol", "ready",
+                    "pins"}
+CV_SHARED_PART = {"vcc", "inputMax", "i2cAddress", "i2c", "resets"}
+BORROW = {"rtc": ("converter", CV_SHARED_DEVICE, CV_SHARED_PART),
+          "converter": ("rtc", CV_SHARED_DEVICE, CV_SHARED_PART)}
+
+PART_VARIANT_KEYS = {"diode": {"vz", "pd"}}
+
 VOLT_KEYS = {"vcc", "vccB"}
 # Strings the shared loaders accept only from a fixed list (seq.c, gate.c).
 ENUMS = {"active": ["high", "low"], "edge": ["rising", "falling"], "when": ["async", "clock"],
@@ -53,18 +61,40 @@ def kind_files(repo, kind):
     return KIND_FILES[kind]
 
 
-def source_keys(repo, kind):
+def strip_comments(text):
+    """C source without its comments (a comment may quote a string, as
+    ns16550.c's BUS_KEYS does: /* plan-12-E: "intel-motorola" */)."""
+    return re.sub(r"/\*.*?\*/|//[^\n]*", "", text, flags=re.S)
+
+
+# Loader functions a kind never calls (see PartKindKeysTests.notCalled).
+NOT_CALLED = {"converter": {"load_clock"},
+              "rtc": {"load_choice", "load_time", "load_conversion", "load_dac"}}
+
+
+def source_keys(repo, kind, report=False):
+    """The kind's keys. With report, only arrays in functions the kind calls
+    (for the missing-keys line); otherwise every array (shapes)."""
     keys = set()
     for name in kind_files(repo, kind):
-        text = open(os.path.join(repo, "backend/src/models", name)).read()
-        for body in re.findall(r"KEYS\[\]\s*=\s*\{(.*?)\}", text, re.S):
-            keys.update(re.findall(r'"([^"]*)"', body))
+        text = strip_comments(open(os.path.join(repo, "backend/src/models", name)).read())
+        skip = NOT_CALLED.get(kind, set()) if report else set()
+        starts = [(m.start(), m.group(1)) for m in
+                  re.finditer(r"(?m)^[A-Za-z][^\n;]*?\b([a-z_0-9]+)\([^;{]*\)\s*\{", text)]
+        for m in re.finditer(r"KEYS\[\]\s*=\s*\{(.*?)\}", text, re.S):
+            inside = [n for s, n in starts if s < m.start()]
+            if inside and inside[-1] in skip and text[m.start() - 1] != "\n":
+                line = text.rfind("\n", 0, m.start()) + 1
+                if text[line] == " ":
+                    continue
+            keys.update(re.findall(r'"([^"]*)"', m.group(1)))
         # A model's extra timing keys (counter.c RIPPLE_EXTRA, shift_special.c
         # FIFO_EXTRA): {{"stage", 1}, {NULL, 0}}.
         for body in re.findall(r"_EXTRA\[\]\s*=\s*\{(.*?)\};", text, re.S):
             keys.update(re.findall(r'"([^"]*)"', body))
-        # The memories' speed-grade timing keys (sram.c, eeprom.c TIMING_NAMES).
-        for body in re.findall(r"TIMING_NAMES\[\]\s*=\s*\{(.*?)\};", text, re.S):
+        # Speed-grade timing keys: sram.c / eeprom.c TIMING_NAMES, cpu.c
+        # TIMING_6502 …, pio_*.c TIMING, and the grades' EXTRA (note, vcc, inputMax).
+        for body in re.findall(r"\b(?:TIMING_NAMES|TIMING(?:_[A-Z0-9]+)?|EXTRA)\[\]\s*=\s*\{(.*?)\};", text, re.S):
             keys.update(re.findall(r'"([^"]*)"', body))
     return keys
 
@@ -138,13 +168,28 @@ def infer(key, items, known):
             return ("list", fields([(e, p) for e, p in elements], known))
         return ("listOf", infer(key, elements, known))
     if cat == "dict":
-        if all(set(v) <= known for v, _ in vals):
+        if is_object([v for v, _ in vals], known):
             return ("object", fields(vals, known))
         entries = [(e, p) for v, p in vals for e in v.values()]
-        if entries and all(category(e) == "dict" and set(e) <= known for e, _ in entries):
+        if entries and all(category(e) == "dict" for e, _ in entries) and is_object([e for e, _ in entries], known):
             return ("map", "Name", fields(entries, known))
         return ("valueMap", "Name", infer(key, entries, known) if entries else ("text",))
     return ("json",)
+
+
+def is_object(dicts, known):
+    """Objects with fixed keys (fields) rather than a map keyed by data: every key
+    is a source key or reads like a field name (lowercase camelCase: "note",
+    "edge", "tAcc"), and at least one is a source key or there are few keys.
+    Map keys look like data: family names ("HC"), register fields ("CONFIG.OS"),
+    codes ("0,1"), channels ("DAC0")."""
+    keys = set()
+    for d in dicts:
+        keys |= set(d)
+    if not keys:
+        return True
+    fieldlike = all(k in known or re.fullmatch(r"[a-z][a-zA-Z]*", k) for k in keys)
+    return fieldlike and (any(k in known for k in keys) or len(keys) <= 16)
 
 
 def fields(objects, known):
@@ -211,31 +256,59 @@ def generate(repo, kind, extra):
     data = json.load(open(os.path.join(repo, "schematical/schematical/Parts/%s.json" % kind)))
     known = source_keys(repo, kind)
     devices, parts = [], []
+    part_device = []  # each own part's device object, for part-key variants
     for d in data["devices"]:
         pins = {p["name"] for po in d["pinouts"].values() for p in po}
         devices.append(({k: v for k, v in d.items() if k not in GENERIC_DEVICE}, pins))
         for p in d["parts"]:
             parts.append(({k: v for k, v in p.items() if k not in GENERIC_PART}, pins))
+            part_device.append(d)
     variant_key = None
     for vk in ("model", "type"):
         if all(vk in d for d, _ in devices) and all(isinstance(d[vk], str) for d, _ in devices):
             variant_key = vk
             break
+    # Keys a kind shares a loader with another kind (rtc and converter:
+    # cv_load_device) take shapes from both kinds' shipped parts.
+    own_devices, own_parts = list(devices), list(parts)
+    if kind in BORROW:
+        other, dev_keys, part_keys = BORROW[kind]
+        known |= source_keys(repo, other)
+        odata = json.load(open(os.path.join(repo, "schematical/schematical/Parts/%s.json" % other)))
+        for d in odata["devices"]:
+            pins = {p["name"] for po in d["pinouts"].values() for p in po}
+            devices.append(({k: v for k, v in d.items() if k in dev_keys}, pins))
+            for p in d["parts"]:
+                parts.append(({k: v for k, v in p.items() if k in part_keys}, pins))
     dev_fields = fields(devices, known)
     part_fields = fields(parts, known)
+    # A top-level key is required when every one of the kind's own objects has it.
+    dev_fields = [(k, t, all(k in d for d, _ in own_devices)) for k, t, _ in dev_fields]
+    part_fields = [(k, t, all(k in p for p, _ in own_parts)) for k, t, _ in part_fields]
     if variant_key:
-        models = sorted({d[variant_key] for d, _ in devices})
+        models = sorted({d[variant_key] for d, _ in own_devices})
         dev_fields = [(k, ("choice", models) if k == variant_key else t, r) for k, t, r in dev_fields]
     # Variants per top-level device key.
     variants = {}
     if variant_key:
-        allv = {d[variant_key] for d, _ in devices}
+        allv = {d[variant_key] for d, _ in own_devices}
         for k, _, _ in dev_fields:
             if k == variant_key:
                 continue
-            seen = {d[variant_key] for d, _ in devices if k in d}
-            if seen != allv:
+            seen = {d[variant_key] for d, _ in own_devices if k in d}
+            if seen and seen != allv:
                 variants[k] = sorted(seen)
+    # Part keys shown only for some variants: only where decided (plan-32-J: a
+    # diode's vz and pd, Zeners only); a part key is otherwise every model's.
+    part_variants = {}
+    if variant_key:
+        allv = {d[variant_key] for d, _ in own_devices}
+        for k, _, _ in part_fields:
+            if k not in PART_VARIANT_KEYS.get(kind, set()):
+                continue
+            seen = {part_device[i][variant_key] for i, (p, _) in enumerate(own_parts) if k in p}
+            if seen and seen != allv:
+                part_variants[k] = sorted(seen)
     for entry in extra.get(kind, []):
         where, key, type_, path = entry[:4]
         target = dev_fields if where == "device" else part_fields
@@ -263,7 +336,12 @@ def generate(repo, kind, extra):
         if f[0] in variants:
             decls[-1] = decls[-1][:-1] + ", variants: [%s])" % ", ".join(json.dumps(v) for v in variants[f[0]])
         top_dev.append(name)
-    top_part = [emit(f) for f in part_fields]
+    top_part = []
+    for f in part_fields:
+        name = emit(f)
+        if f[0] in part_variants:
+            decls[-1] = decls[-1][:-1] + ", variants: [%s])" % ", ".join(json.dumps(v) for v in part_variants[f[0]])
+        top_part.append(name)
 
     cls = NAMES.get(kind, kind[:1].upper() + kind[1:]) + "Draft"
     lines = [
@@ -294,7 +372,7 @@ def generate(repo, kind, extra):
     for k, t, _ in dev_fields + part_fields:
         covered.add(k)
         covered |= keys_of(t)
-    missing = sorted(known - covered)
+    missing = sorted(source_keys(repo, kind, report=True) - covered)
     print("%s: %d devices, %d parts, variant %s, %d source keys, missing %s -> %s" % (
         kind, len(devices), len(parts), variant_key, len(known), missing, out))
 
@@ -315,6 +393,8 @@ def add_extra(target, path, key, type_):
                 sub = t[1]
             elif t[0] == "map":
                 sub = t[2]
+            elif t[0] == "listOf" and t[1][0] in ("object", "list"):
+                sub = t[1][1]
             if sub is None:
                 raise ValueError("cannot add under %s" % path)
             add_extra(sub, path[1:], key, type_)

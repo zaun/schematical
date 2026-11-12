@@ -89,7 +89,8 @@ struct PartEditorForm: View {
                 Section(PartDraft.displayName(of: model.draft.kind)) {
                     FieldsEditor(fields: schema.deviceFields(variant: model.draft.variant),
                                  object: $model.draft.kindDevice, pinNames: model.draft.pinNames)
-                    FieldsEditor(fields: schema.part.filter { !Self.supplyKeys.contains($0.key) },
+                    FieldsEditor(fields: schema.partFields(variant: model.draft.variant)
+                                     .filter { !Self.supplyKeys.contains($0.key) },
                                  object: $model.draft.kindPart, pinNames: model.draft.pinNames)
                 }
             } else {

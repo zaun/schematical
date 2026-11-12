@@ -142,6 +142,12 @@ struct KindSchema: Sendable {
         guard variantKey != nil, let variant else { return device }
         return device.filter { $0.variants == nil || $0.variants!.contains(variant) }
     }
+
+    /// The part fields shown for a variant (a diode's `vz` and `pd`: Zeners only).
+    func partFields(variant: String?) -> [Field] {
+        guard variantKey != nil, let variant else { return part }
+        return part.filter { $0.variants == nil || $0.variants!.contains(variant) }
+    }
 }
 
 // MARK: - Keys a value has that its field has no control for
@@ -219,6 +225,8 @@ enum PartKinds {
             CounterDraft.schema, ShiftDraft.schema,
             SramDraft.schema, EepromDraft.schema, SwitchDraft.schema, LedDraft.schema, SevenSegDraft.schema,
             OscillatorDraft.schema, SupplyDraft.schema,
+            CpuDraft.schema, PioDraft.schema, SerialDraft.schema, CharLcdDraft.schema, ConnectorDraft.schema,
+            ConverterDraft.schema, RtcDraft.schema, DiodeDraft.schema, HeaderDraft.schema,
         ] {
             schemas[schema.kind] = schema
         }

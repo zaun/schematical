@@ -8,11 +8,10 @@ final class PartEditorWindowTests: XCTestCase {
     /// Kept for the life of the test process (see PartFileSaveOpenTests).
     static var kept: [PartEditorModel] = []
 
-    /// (a) Only the kinds with a form are enabled.
+    /// (a) Every kind has a form (plan-32-J Phase 4: all 26 enabled).
     func testEnabledKinds() {
-        XCTAssertEqual(PartDraft.enabledKinds, ["7seg", "arith", "buffer", "counter", "decoder", "dff", "eeprom", "gate",
-                                                "jkff", "latch", "led", "mux", "oscillator", "shift", "sram", "supply",
-                                                "switch"])
+        XCTAssertEqual(PartDraft.enabledKinds, PartDraft.kindNames)
+        XCTAssertEqual(PartDraft.enabledKinds.count, 26)
     }
 
     /// (b) The picker lists one kind per bundled part file.
