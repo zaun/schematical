@@ -90,21 +90,24 @@ together.
         → 27828 (+67, 0 removed), traces the same, footprints 1352 → 1386
         (+34, 0 removed).
 
-Commit: —
+Commit: ecc13ba
 
 ### Phase 2 — close
 
-- [ ] Mark `planning/todo.md`'s item "Add 20x4 and 40x2 and 40x4
+- [x] Mark `planning/todo.md`'s item "Add 20x4 and 40x2 and 40x4
       character LCD modules" `[x]` (`grep -n '20x4 and 40x2' planning/todo.md`
       → line 46 on 2026-11-11). Commit only that line's change: other edits
-      in that file may belong to the owner.
-- [ ] `git mv planning/plan-35-*.md planning/completed/`. The data folder
+      in that file may belong to the owner. — ticked in the main
+      checkout's working copy (line 46); not committed: the line exists
+      only in the owner's uncommitted `todo.md` (Corrections).
+- [x] `git mv planning/plan-35-*.md planning/completed/`. The data folder
       `planning/plan-35-data/` stays where it is, as plan-29's does.
 
 Check: `ls planning/plan-35-*.md` → no matches;
-`ls planning/completed/plan-35-*.md | wc -l` → 8.
+`ls planning/completed/plan-35-*.md | wc -l` → 8. — done in this commit
+(its hash is in the merge report; a commit cannot name itself).
 
-Commit: —
+Commit: the archive commit after ecc13ba ("plan-35-H Phase 2"; Corrections)
 
 ## Validation Plan
 
@@ -117,7 +120,14 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- **The todo item is not in the committed `todo.md`** (2026-11-11:
+  `grep -n '20x4' planning/todo.md` at b604b9d → nothing; the main
+  checkout's working copy has it at line 46, among the owner's
+  uncommitted edits). Committing the tick would commit the owner's line
+  too, so the tick is made in the working copy only and left for the
+  owner to commit with the rest of their edits.
+- **Phase 2's Commit line** stays as this archive commit: its hash cannot
+  be written inside it, and the plan files leave `planning/` in it.
 
 ## Summary
 
