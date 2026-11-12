@@ -170,7 +170,7 @@ One line: the explicit footprint's keys are fixed from the backend source and th
 Acceptance: all 424 shipped explicit footprints round-trip through the draft, and the backend accepts each encoded entry.
   Check: `xcodebuild test … -only-testing:schematicalTests/CustomFootprintDraftTests` → `passed` with the count line `checked 424 explicit footprints, 0 mismatched` (est. 4 min; the population is every explicit footprint, which is the set that exercises every pad key).
   Result (2026-11-11): passed, `checked 424 explicit footprints, 0 mismatched` (pads, body, round flag and description compared; the entry also reads back to the same draft through `CustomFootprintDraft(json:)`).
-Commit: (this commit, with Phases 2–3)
+Commit: 599bc30
 
 ### Phase 2 — Preview: the PCB footprint preview draws the same pads as the PCB page
 
@@ -183,7 +183,7 @@ One line: the preview's pad geometry equals the PCB page's geometry for the same
 Acceptance: the three footprints' pads match the PCB page's pads (within 1e-9 mm).
   Check: `xcodebuild test … -only-testing:schematicalTests/FootprintPreviewTests` → `passed` (est. 4 min). This is the smallest check that compares preview geometry with the PCB page's geometry.
   Result (2026-11-11): passed (testDIP, testSON6, testX2SON8): pad rects (moved by the placed part's centre), drill, shape and corners equal, within 1e-9 mm.
-Commit: (this commit)
+Commit: 599bc30
 
 ### Phase 3 — Editor: Custom footprint… and the pad table
 
@@ -198,7 +198,7 @@ One line: a user builds a custom footprint and sees it on the preview.
 Acceptance: the three cases pass, and in a launched app a custom footprint created in the editor appears on the preview with its pads.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartEditorFootprintTests` → `passed` (est. 5 min); the preview's visual check is the run skill's (est. 10 min).
   Result (2026-11-11): passed (a–c; (b)'s message is `b.schpart: footprints[0] (CUSTOM-…): pads[13]: "pin" must be a whole number from 0 to 14`). Real app: Copy to Editor… on SN74HC00N showed PDIP-14 in the preview (copper pads, holes, body, pin-1 mark); Custom Footprint… replaced the bundled picker with the pad table (14 rows) and the preview redrew as `CUSTOM-302737FE: 14 pads`, a 2.54 mm row of 0.8 mm-drill pads.
-Commit: (this commit)
+Commit: 599bc30
 
 ## Validation Plan
 

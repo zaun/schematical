@@ -28,7 +28,7 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-32-D complete: the editor's footprint section and its preview exist | `xcodebuild test … -only-testing:schematicalTests/FootprintPreviewTests` → `passed` | NOT MET at writing; starts after plan-32-D |
+| plan-32-D complete: the editor's footprint section and its preview exist | `xcodebuild test … -only-testing:schematicalTests/FootprintPreviewTests` → `passed` | MET (run 2026-11-11 in the P-32 worktree: `FootprintPreviewTests` passed, 3 cases) |
 
 Everything below is written against the world where this holds.
 
@@ -130,35 +130,38 @@ The fixed id is used only by the preview; it never reaches a document.
 
 One line: a `PlacedChip` for an editor part, built without a document.
 
-- [ ] `schematical/schematical/Editor/PartPreview.swift`: `PartPreview.chip(for:)` (§ 4.1).
-- [ ] Tests: `PartPreviewTests.swift`: for a bundled gate part (`SN74HC00N`), `PartPreview.chip(for:).layout.size` equals the layout size of a `PlacedChip` the schematic page builds for the same part (built through the same `PlacedChip.init` with the same `symbol(for:)`, so the test checks the factory adds nothing else).
+- [x] `schematical/schematical/Editor/PartPreview.swift`: `PartPreview.chip(for:)` (§ 4.1).
+- [x] Tests: `PartPreviewTests.swift`: for a bundled gate part (`SN74HC00N`), `PartPreview.chip(for:).layout.size` equals the layout size of a `PlacedChip` the schematic page builds for the same part (built through the same `PlacedChip.init` with the same `symbol(for:)`, so the test checks the factory adds nothing else).
 
 Acceptance: the layout size of the factory's chip equals the placed chip's layout size for `SN74HC00N`, and for every gate part in `Parts/gate.json`'s first device.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartPreviewTests` → `passed` (est. 3 min).
-Commit: —
+  Result (2026-11-11): passed; the comparison is with a chip the schematic page places in a document (`placeChip`, as a drop does), for SN74HC00N and every part of gate.json's first device (`74_00`): layout size, symbol and pin slot rows equal.
+Commit: (this commit, with Phases 2–3)
 
 ### Phase 2 — The block view
 
 One line: the editor draws the block of its validated part, at the page's scale.
 
-- [ ] `schematical/schematical/Editor/BlockPreviewView.swift`: `BlockPreviewView(chip:)` (§ 4.2).
-- [ ] `PartEditorWindow.swift`: the view takes the validator's `CatalogPart` (plan-32-C § 4.7) through `PartPreview.chip(for:)`; it refreshes on each validated change.
-- [ ] Tests: `BlockPreviewViewTests.swift`: the view's `pinPositions` (the pin-stub endpoints computed by a test-only `ScreenPainter` capture of `ChipBlockView.paint`'s line segments) for `SN74HC00N` equal those for a placed chip in the schematic (the same painter run on `PlacedChip`).
+- [x] `schematical/schematical/Editor/BlockPreviewView.swift`: `BlockPreviewView(chip:)` (§ 4.2).
+- [x] `PartEditorWindow.swift`: the view takes the validator's `CatalogPart` (plan-32-C § 4.7) through `PartPreview.chip(for:)`; it refreshes on each validated change.
+- [x] Tests: `BlockPreviewViewTests.swift`: the view's `pinPositions` (the pin-stub endpoints computed by a test-only `ScreenPainter` capture of `ChipBlockView.paint`'s line segments) for `SN74HC00N` equal those for a placed chip in the schematic (the same painter run on `PlacedChip`).
 
 Acceptance: the pin endpoints for `SN74HC00N` from the preview equal the schematic chip's, within 1e-9 pt.
   Check: `xcodebuild test … -only-testing:schematicalTests/BlockPreviewViewTests` → `passed` (est. 4 min).
-Commit: —
+  Result (2026-11-11): passed; a test painter (`CapturePainter`, in `PartPreviewTests.swift`) records every stroked path's points and every text's position for both chips: same count, every point within 1e-9 pt.
+Commit: (this commit)
 
 ### Phase 3 — Segment with the footprint preview; run check
 
 One line: the pane shows the block and the footprint, one at a time.
 
-- [ ] `PartEditorWindow.swift`: a segmented control (Block | Footprint) above the preview pane; Block shows `BlockPreviewView`, Footprint shows plan-32-D's `FootprintPreviewView`.
-- [ ] Tests: `PartEditorWindowTests.swift` gains (d): the pane's selected segment defaults to Block.
+- [x] `PartEditorWindow.swift`: a segmented control (Block | Footprint) above the preview pane; Block shows `BlockPreviewView`, Footprint shows plan-32-D's `FootprintPreviewView`.
+- [x] Tests: `PartEditorWindowTests.swift` gains (d): the pane's selected segment defaults to Block.
 
 Acceptance: the segment defaults to Block and switches to Footprint; in a launched app, the block of a gate part shows pins with their names on the sides.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartEditorWindowTests` → `passed` (est. 4 min); the visual check is the run skill's (est. 10 min).
-Commit: —
+  Result (2026-11-11): passed (d). Real app: Copy to Editor… on SN74HC00N opens with Block selected, the block centred (header SN74HC00N, VCC/1A…4B on the left, 1Y…4Y/GND on the right, designators outside, NAND in the body); Footprint shows PDIP-14.
+Commit: (this commit)
 
 ## Validation Plan
 
@@ -176,7 +179,14 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **The segment lives in the model** (2026-11-11): `PartEditorModel.previewPane`
+  (`.block` by default), so test (d) checks it without a view.
+- **The view takes the preview revision** (2026-11-11), as plan-32-D's preview does:
+  `CatalogPart` compares by name and uuid, so a redraw needs the revision.
+- **Centring** (found in the app, 2026-11-11): a `ScrollView` with
+  `defaultScrollAnchor(.center)` put the block in the pane's bottom-right corner; the
+  view now centres the block when it fits and scrolls only when it does not
+  (`ViewThatFits`).
 
 ## Summary
 

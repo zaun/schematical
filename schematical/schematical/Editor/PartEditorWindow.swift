@@ -36,15 +36,26 @@ struct PartEditorWindowView: View {
     }
 }
 
-/// The preview beside the form: the last part the backend accepted, so it
-/// stays while the draft has an error.
+/// The preview beside the form: the part as the schematic draws it (Block)
+/// or as the PCB does (Footprint), one at a time (plan-32-E). It shows the
+/// last part the backend accepted, so it stays while the draft has an error.
 struct PartPreviewPane: View {
-    let model: PartEditorModel
+    @Bindable var model: PartEditorModel
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
+            Picker("Preview", selection: $model.previewPane) {
+                ForEach(PartEditorModel.PreviewPane.allCases, id: \.self) { Text($0.title).tag($0) }
+            }
+            .pickerStyle(.segmented)
+            .labelsHidden()
             if let part = model.lastValidPart {
-                FootprintPreviewView(part: part, revision: model.previewRevision)
+                switch model.previewPane {
+                case .block:
+                    BlockPreviewView(chip: PartPreview.chip(for: part), revision: model.previewRevision)
+                case .footprint:
+                    FootprintPreviewView(part: part, revision: model.previewRevision)
+                }
             } else {
                 ContentUnavailableView("No preview", systemImage: "square.dashed",
                                        description: Text("The preview shows the part once it loads."))

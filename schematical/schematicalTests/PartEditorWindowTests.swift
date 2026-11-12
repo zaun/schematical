@@ -48,4 +48,14 @@ final class PartEditorWindowTests: XCTestCase {
         Self.kept.append(model)
         XCTAssertEqual(model.title, "New Gate Part")
     }
+
+    /// (d) The preview pane starts on Block, and switches to Footprint.
+    func testPreviewPaneDefaultsToBlock() {
+        let model = PartEditorModel(target: PartEditorTarget(source: .copy(name: "SN74HC00N")))
+        Self.kept.append(model)
+        XCTAssertEqual(model.previewPane, .block)
+        model.previewPane = .footprint
+        XCTAssertEqual(model.previewPane, .footprint)
+        XCTAssertEqual(PartEditorModel.PreviewPane.allCases.map(\.title), ["Block", "Footprint"])
+    }
 }

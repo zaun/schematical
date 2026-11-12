@@ -32,6 +32,21 @@ final class PartEditorModel {
     /// The last part the backend accepted, for the previews (they keep
     /// showing it while the draft has an error).
     private(set) var lastValidPart: CatalogPart?
+    /// The preview pane's segment (plan-32-E).
+    enum PreviewPane: String, CaseIterable, Sendable {
+        case block, footprint
+
+        var title: String {
+            switch self {
+            case .block: "Block"
+            case .footprint: "Footprint"
+            }
+        }
+    }
+
+    /// Which preview shows; Block until the user picks Footprint.
+    var previewPane: PreviewPane = .block
+
     /// A one-line result of the last Add to Library or Save.
     var status: String?
     /// A message for a target that could not be opened (an unknown part name).
