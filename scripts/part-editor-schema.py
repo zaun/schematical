@@ -59,6 +59,10 @@ def source_keys(repo, kind):
         text = open(os.path.join(repo, "backend/src/models", name)).read()
         for body in re.findall(r"KEYS\[\]\s*=\s*\{(.*?)\}", text, re.S):
             keys.update(re.findall(r'"([^"]*)"', body))
+        # A model's extra timing keys (counter.c RIPPLE_EXTRA, shift_special.c
+        # FIFO_EXTRA): {{"stage", 1}, {NULL, 0}}.
+        for body in re.findall(r"_EXTRA\[\]\s*=\s*\{(.*?)\};", text, re.S):
+            keys.update(re.findall(r'"([^"]*)"', body))
     return keys
 
 

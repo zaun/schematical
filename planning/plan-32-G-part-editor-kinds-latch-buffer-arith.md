@@ -119,7 +119,7 @@ One line: the drift test fails listing every backend key of the three kinds that
 Acceptance: the test fails with the missing keys of the three kinds.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindKeysTests` → `failed`, listing the keys (est. 3 min).
   Result (2026-11-11, RED): failed, `["buffer": ["a", "ab", "active", "b", "ba", "ce", "clk", …], …]`; arrays parsed latch 17, buffer 22, arith 18 (Corrections).
-Commit: (this commit, with Phases 2–3)
+Commit: 675327c
 
 ### Phase 2 — Forms for latch, buffer and arith
 
@@ -133,7 +133,7 @@ One line: each kind's form covers every key of Phase 1 for each of its models.
 Acceptance: `PartKindKeysTests` passes for the three kinds.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindKeysTests` → `passed` (est. 5 min).
   Result (2026-11-11): passed (seq.c helper keys not read: latch edge/op/when, buffer op/when, arith edge/op/when — derived from the sources as in plan-32-F).
-Commit: (this commit)
+Commit: 675327c
 
 ### Phase 3 — Round trip over every shipped part
 
@@ -144,7 +144,7 @@ One line: all 2992 shipped parts round-trip with no key in `extras`, and the bac
 Acceptance: zero mismatched, zero with extras, zero rejected, for latch (750), buffer (2135) and arith (107).
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindRoundTripTests` → `passed`, with the lines `checked 750 parts of latch, 0 mismatched, 0 with extras, 0 rejected`, `checked 2135 parts of buffer, …`, `checked 107 parts of arith, …` (est. 10 min; the populations are the whole of each kind).
   Result (2026-11-11): passed: `checked 750 parts of latch, 0 mismatched, 0 with extras, 0 rejected`, `checked 2135 parts of buffer, 0 mismatched, 0 with extras, 0 rejected`, `checked 107 parts of arith, 0 mismatched, 0 with extras, 0 rejected` (the F kinds still 0/0/0 in the same run).
-Commit: (this commit)
+Commit: 675327c
 
 ### Phase 4 — Runtime proof
 

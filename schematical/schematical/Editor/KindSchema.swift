@@ -216,6 +216,7 @@ enum PartKinds {
             GateDraft.schema,
             DffDraft.schema, JkffDraft.schema, MuxDraft.schema, DecoderDraft.schema,
             LatchDraft.schema, BufferDraft.schema, ArithDraft.schema,
+            CounterDraft.schema, ShiftDraft.schema,
         ] {
             schemas[schema.kind] = schema
         }

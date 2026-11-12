@@ -11,6 +11,7 @@ final class PartKindRoundTripTests: XCTestCase {
     static let expected: [String: Int] = [
         "dff": 706, "jkff": 186, "mux": 346, "decoder": 322,
         "latch": 750, "buffer": 2135, "arith": 107,
+        "counter": 730, "shift": 583,
     ]
 
     private func check(_ kind: String) {
@@ -31,4 +32,6 @@ final class PartKindRoundTripTests: XCTestCase {
     func testLatch() { check("latch") }
     func testBuffer() { check("buffer") }
     func testArith() { check("arith") }
+    func testCounter() { check("counter") }
+    func testShift() { check("shift") }
 }

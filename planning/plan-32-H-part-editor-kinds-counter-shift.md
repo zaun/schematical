@@ -33,7 +33,7 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-32-G complete: latch, buffer and arith pass their round trip | `xcodebuild test … -only-testing:schematicalTests/PartKindRoundTripTests` → `passed` with the latch, buffer and arith lines | NOT MET at writing; starts after plan-32-G |
+| plan-32-G complete: latch, buffer and arith pass their round trip | `xcodebuild test … -only-testing:schematicalTests/PartKindRoundTripTests` → `passed` with the latch, buffer and arith lines | MET (run 2026-11-11 in the P-32 worktree: `PartKindRoundTripTests` passed with the latch, buffer and arith lines 0/0/0) |
 
 Everything below is written against the world where this holds.
 
@@ -101,35 +101,38 @@ over `counter.c`, `counter_div.c`, `shift.c`, `shift_special.c`), not from this 
 
 One line: the drift test fails listing every backend key of the two kinds that the form lacks.
 
-- [ ] `PartKindKeysTests.swift`: add counter and shift, with their `_div` and `_special` files.
-- [ ] Run it; RED.
+- [x] `PartKindKeysTests.swift`: add counter and shift, with their `_div` and `_special` files.
+- [x] Run it; RED.
 
 Acceptance: the test fails listing the missing keys.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindKeysTests` → `failed`, listing the keys (est. 3 min).
-Commit: —
+  Result (2026-11-11, RED): failed, `["shift": ["a", "aEnable", "active", "address", "asyncSync", "b", "chipSelect", …], "counter": [...]]`; arrays parsed counter 31, shift 24 (Corrections).
+Commit: (this commit, with Phases 2–3)
 
 ### Phase 2 — Forms for counter and shift
 
 One line: each kind's form covers every key of Phase 1 for each model.
 
-- [ ] `Editor/CounterDraft.swift`, `ShiftDraft.swift`: `model`, one sub-draft per model, `init(device:part:)`, `encoded()`; unknown keys stay in `extras`.
-- [ ] `CounterDraft.sections`: a list editor; each section's keys in its own sub-draft.
-- [ ] `PartEditorWindow.swift`: a kind section per kind; the chosen model's sections only.
-- [ ] `PartDraft.enabledKinds` gains `counter`, `shift`.
+- [x] `Editor/CounterDraft.swift`, `ShiftDraft.swift`: `model`, one sub-draft per model, `init(device:part:)`, `encoded()`; unknown keys stay in `extras`.
+- [x] `CounterDraft.sections`: a list editor; each section's keys in its own sub-draft.
+- [x] `PartEditorWindow.swift`: a kind section per kind; the chosen model's sections only.
+- [x] `PartDraft.enabledKinds` gains `counter`, `shift`.
 
 Acceptance: `PartKindKeysTests` passes for the two kinds.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindKeysTests` → `passed` (est. 5 min).
-Commit: —
+  Result (2026-11-11): passed (`counter: 31 KEYS arrays, 89 keys, seq.c helper keys not read: ["when"]`, `shift: 24 KEYS arrays, 82 keys, seq.c helper keys not read: []`).
+Commit: (this commit)
 
 ### Phase 3 — Round trip over every shipped part
 
 One line: all 1313 shipped parts round-trip with no key in `extras`, and the backend accepts each.
 
-- [ ] `PartKindRoundTripTests.swift`: counter and shift added to the loop.
+- [x] `PartKindRoundTripTests.swift`: counter and shift added to the loop.
 
 Acceptance: zero mismatched, zero with extras, zero rejected, for counter (730) and shift (583).
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindRoundTripTests` → `passed`, with the lines `checked 730 parts of counter, 0 mismatched, 0 with extras, 0 rejected` and `checked 583 parts of shift, …` (est. 6 min).
-Commit: —
+  Result (2026-11-11): passed: `checked 730 parts of counter, 0 mismatched, 0 with extras, 0 rejected`, `checked 583 parts of shift, 0 mismatched, 0 with extras, 0 rejected`. `sections` is a list of section entries (model `ripple`), each section's keys its own fields; `byteBus` an object (model `sync`).
+Commit: (this commit)
 
 ### Phase 4 — Runtime proof
 
@@ -156,7 +159,17 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **Arrays parsed** (2026-11-11): counter 31 (counter.c 20 + counter_div.c 5 + seq.c 6),
+  shift 24 (shift.c 12 + shift_special.c 6 + seq.c 6). § Kinds counted 32 in the two main
+  files; with their helper files the drift test parses 55.
+- **Timing keys outside the `KEYS[]` arrays** (found 2026-11-11): a model's extra timing
+  keys are tables of their own, `RIPPLE_EXTRA = {{"stage", 1}}` (counter.c) and
+  `FIFO_EXTRA = {{"fallThrough", 1}}` (shift_special.c), passed to `seq_timing`. The
+  generator reads `*_EXTRA[]` tables too, so the timing map's entries have `stage` /
+  `fallThrough` fields (only ripple counters and FIFOs use them); without them the
+  timing entries looked like free-form maps and `rise`/`fall`/`inputMax` had no control.
+  Regenerating the F and G kinds with this change left their files unchanged.
+- **Forms are generated** (plan-32-F Corrections): `CounterDraft`, `ShiftDraft`.
 
 ## Summary
 

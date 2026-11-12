@@ -10,7 +10,8 @@ final class PartEditorWindowTests: XCTestCase {
 
     /// (a) Only the kinds with a form are enabled.
     func testEnabledKinds() {
-        XCTAssertEqual(PartDraft.enabledKinds, ["arith", "buffer", "decoder", "dff", "gate", "jkff", "latch", "mux"])
+        XCTAssertEqual(PartDraft.enabledKinds, ["arith", "buffer", "counter", "decoder", "dff", "gate", "jkff", "latch",
+                                                "mux", "shift"])
     }
 
     /// (b) The picker lists one kind per bundled part file.

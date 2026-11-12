@@ -15,6 +15,7 @@ final class PartKindKeysTests: XCTestCase {
         "mux": ["mux.c", "mux_stored.c", "seq.c"], "decoder": ["decoder.c", "seq.c"],
         "latch": ["latch.c", "seq.c"], "buffer": ["buffer.c", "buffer_reg.c", "seq.c"],
         "arith": ["arith.c", "arith_alu.c", "seq.c"],
+        "counter": ["counter.c", "counter_div.c", "seq.c"], "shift": ["shift.c", "shift_special.c", "seq.c"],
     ]
 
     static var models: URL {
