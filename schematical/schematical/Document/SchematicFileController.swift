@@ -420,6 +420,18 @@ extension FocusedValues {
     @Entry var schematicFile: SchematicFileController?
 }
 
+/// File › New Project (⌘N): a new, empty schematic window.
+struct NewProjectMenuItem: View {
+    @Environment(\.openWindow) private var openWindow
+
+    var body: some View {
+        Button("New Project") {
+            openWindow(id: "schematic")
+        }
+        .keyboardShortcut("n", modifiers: .command)
+    }
+}
+
 /// File menu items for the focused window's schematic. In a Part Editor
 /// window (plan-32-C) Open… and Save are that window's Open Part… and Save
 /// Part…, so each key has one item.
@@ -428,6 +440,13 @@ struct SchematicFileCommands: Commands {
     @FocusedValue(\.partEditor) private var editor
 
     var body: some Commands {
+        // SwiftUI fills File › New with a submenu naming every WindowGroup
+        // (Memory, Processor, Terminal, …); those open from their parts, so
+        // the File menu offers only a new schematic window.
+        CommandGroup(replacing: .newItem) {
+            NewProjectMenuItem()
+        }
+
         CommandGroup(after: .newItem) {
             PartEditorCommands(editor: editor)
 

@@ -48,7 +48,7 @@ nonisolated enum KeyboardHelp {
 
     /// Shared by both pages.
     static let window = HelpSection(title: "Window", entries: [
-        entry("⌘N", "New window"),
+        entry("⌘N", "New Project"),
         entry("⌘O", "Open a schematic"),
         entry("⌘S / ⇧⌘S", "Save / Save As"),
         entry("⌘Z / ⇧⌘Z", "Undo / Redo on the page shown"),
