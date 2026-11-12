@@ -66,6 +66,22 @@ part_library_destroy(library);         /* the library outlives its circuits */
 
 Notes:
 
+- **Single part files** (plan-32-A). `load_part_file(library, text, source,
+  &error)` loads one `.schpart` file (format `schematical-part`,
+  `docs/parts-format.md` § Single part files) into a library that already
+  holds `footprints.json`, `datasheets.json` and the bundled part files: one
+  device with one part, a required `uuid`, and optional inline `footprints`
+  (the `footprints.json` entry format, checked by the same code,
+  `footprint_read_entries` in `footprints.c`). The part's `footprint` may
+  name a bundled id or an inline one. All or nothing: the file is checked
+  whole with the inline footprints staged (visible only to that load's
+  footprint lookups), and its footprints, part, name and uuid are added only
+  when every check passed. The device id is not checked against the
+  library's devices, so a copy of a bundled device loads; the part name
+  still must be new (the app renames a clash, plan-32-A § 4.3). The loaded
+  `Part.uuid` is the file's `uuid` (NULL for every bundled part), and
+  `part_library_find_uuid` finds the part by it. Errors read like
+  `load_parts`': `x.schpart: devices[0] (1G00): parts[0] (MY-NAND): …`.
 - Building calls (`circuit_add_part`, `_add_net`, `_connect`) work only
   before `circuit_start`; `circuit_set_switch` works before and after.
 - `circuit_set_switch(…, position, on)`: ON = contact closed, for every
@@ -330,6 +346,12 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   against the drawing. Listing lines in `parts.txt` end in
   `|footprint=<id>` for parts that name one, then `|connector=<id>` for
   parts with a `connectorFootprint`.
+- `part_file_test` — `load_part_file` (plan-32-A) on top of the bundled
+  library: an inline-footprint part and a bundled-footprint part load
+  (found by name and by uuid), and each rejected file (no or bad uuid, two
+  devices or parts, an inline id equal to a bundled one, a footprint pad
+  missing, a part rejected after its footprint checked, an unknown key)
+  reports its message and leaves the part and footprint counts unchanged.
 - `switch_test`, `sram_test`, `display7_test` — model benches.
 - `latch_test` — the `latch` kind's five models, one case per function-table
   row of the devices that use them (inline fixture devices copied from the

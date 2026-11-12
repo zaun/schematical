@@ -951,7 +951,6 @@ int footprint_read_file(KindContext *ctx, const cJSON *root, const PartLibrary *
     const cJSON *item;
     const char *format;
     uint64_t version;
-    size_t i = 0;
 
     if (kind_check_keys(ctx, root, FILE_KEYS, NULL) != 0 ||
         kind_string(ctx, root, "format", &format) != 0) {
@@ -970,10 +969,18 @@ int footprint_read_file(KindContext *ctx, const cJSON *root, const PartLibrary *
     if (item == NULL) {
         return -1;
     }
-    if (!cJSON_IsArray(item)) {
+    return footprint_read_entries(ctx, item, library, out);
+}
+
+int footprint_read_entries(KindContext *ctx, const cJSON *array, const PartLibrary *library,
+                           FootprintList *out) {
+    const cJSON *item;
+    size_t i = 0;
+
+    if (!cJSON_IsArray(array)) {
         return kind_error(ctx, "\"footprints\" must be an array");
     }
-    for (item = item->child; item != NULL; item = item->next) {
+    for (item = array->child; item != NULL; item = item->next) {
         PartFootprint *fp = kind_alloc(ctx, sizeof(*fp));
 
         if (fp == NULL) {

@@ -35,8 +35,8 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| No uncommitted edits to the files this plan touches | `git status --short backend schematical/schematical/Backend schematical/schematical/Document schematical/schematicalTests docs` → no output | MET (run 2026-11-11, empty) |
-| The backend builds from a clean configure | `cmake -S backend -B /tmp/logic-build && cmake --build /tmp/logic-build` → exit 0 | run by the implementer before Phase 1 |
+| No uncommitted edits to the files this plan touches | `git status --short backend schematical/schematical/Backend schematical/schematical/Document schematical/schematicalTests docs` → no output | MET (re-run 2026-11-11 in the P-32 worktree, empty) |
+| The backend builds from a clean configure | `cmake -S backend -B /tmp/logic-build && cmake --build /tmp/logic-build` → exit 0 | MET (run 2026-11-11 in the P-32 worktree as `/tmp/p32-build`, exit 0; `/tmp/logic-build` is the main checkout's cache, see Corrections) |
 
 Everything below is written against the world where these hold.
 
@@ -251,27 +251,29 @@ may name a bundled footprint id or an id listed in `footprints`.
 One line: a new loader entry point with no caller; nothing in the app changes until
 Phase 3, so this lands alone.
 
-- [ ] `backend/include/parts.h`: add `const char *uuid;` to `struct Part` (after `name`); declare `load_part_file`.
-- [ ] `backend/src/library/footprints.c`: extract the per-entry body of `load_footprints` into `load_footprint_entries` (declared in `backend/src/library/library_internal.h`); `load_footprints` calls it.
-- [ ] `backend/src/library/library.c`: implement `load_part_file` with `PART_FILE_KEYS`, the format/version/uuid checks, the one-device one-part shape check, staged footprints, and the all-or-nothing commit (§ 4.2).
-- [ ] `backend/src/library/library.c`: set `Part.uuid` from the file; bundled parts stay NULL.
-- [ ] Tests: new `backend/tests/part_file_test.c`, registered in `backend/CMakeLists.txt` beside the other `*_test` programs. Cases: (a) a valid gate file with one inline footprint loads, `part_library_find` returns it, `uuid` matches; (b) bundled footprint id used with no inline footprints loads; (c) missing `uuid` → error naming `uuid`; (d) two devices → error; (e) an inline footprint id equal to a bundled id → `duplicate footprint id`; (f) a bad inline footprint pad count → the footprint error text; (g) a rejected file leaves `part_library_count` and `part_library_footprint_count` unchanged; (h) an unknown top-level key → error.
-- [ ] `docs/backend.md`: one paragraph under "Using it" for `load_part_file` (Phase 5 finishes the docs).
+- [x] `backend/include/parts.h`: add `const char *uuid;` to `struct Part` (after `name`); declare `load_part_file`. Also declares `part_library_find_uuid` (§ 1 Goal: "retrievable … by UUID"; no task named it).
+- [x] `backend/src/library/footprints.c`: extract the per-entry body of `load_footprints` into `load_footprint_entries` (declared in `backend/src/library/library_internal.h`); `load_footprints` calls it. Done as `footprint_read_entries`, declared in `footprint.h` (Corrections): `footprint_read_file` calls it.
+- [x] `backend/src/library/library.c`: implement `load_part_file` with `PART_FILE_KEYS`, the format/version/uuid checks, the one-device one-part shape check, staged footprints, and the all-or-nothing commit (§ 4.2). Staging: `PartLibrary.staged_footprints`, read by `part_library_find_footprint` only during the load; the commit is `commit_parts` (shared with `load_parts`), which builds every grown table on the side before swapping.
+- [x] `backend/src/library/library.c`: set `Part.uuid` from the file; bundled parts stay NULL. (`part_file_test` (a) checks `SN74AHC1G00DBVR`'s uuid is NULL.)
+- [x] Tests: new `backend/tests/part_file_test.c`, registered in `backend/CMakeLists.txt` beside the other `*_test` programs. Cases: (a) a valid gate file with one inline footprint loads, `part_library_find` returns it, `uuid` matches; (b) bundled footprint id used with no inline footprints loads; (c) missing `uuid` → error naming `uuid`; (d) two devices → error; (e) an inline footprint id equal to a bundled id → `duplicate footprint id`; (f) a bad inline footprint pad count → the footprint error text; (g) a rejected file leaves `part_library_count` and `part_library_footprint_count` unchanged; (h) an unknown top-level key → error. `/tmp/p32-build/part_file_test` → `PASS: load_part_file (plan-32-A cases a-h)`; (g) is a part rejected (duplicate name) after its inline footprint checked, and also checks the footprint id and uuid are not found afterwards.
+- [x] `docs/backend.md`: one paragraph under "Using it" for `load_part_file` (Phase 5 finishes the docs). Also a `part_file_test` entry under § Tests.
 
 Acceptance: `part_file_test` passes all cases (a)–(h), and bundled loading is unchanged.
   Check: `cmake --build /tmp/logic-build && ctest --test-dir /tmp/logic-build -R 'part_file|listing|footprint'` → 100% passed (est. 3 min; the scoped run includes the existing `listing_check` and footprint tests, which would catch a change to bundled loading).
-Commit: —
+  Result (2026-11-11, `/tmp/p32-build`): `100% tests passed, 0 tests failed out of 3`.
+Commit: (see next commit)
 
 ### Phase 2 — Golden and fixture check for the shared loader
 
 One line: prove the refactor of `load_footprints` changed nothing for bundled data.
 
-- [ ] Run the existing footprint and listing checks against the goldens: `backend/tests/golden/footprints.txt` and `backend/tests/golden/parts.txt` are regenerated only into `/tmp` and diffed, never written.
-- [ ] No file under `backend/tests/golden/` is changed.
+- [x] Run the existing footprint and listing checks against the goldens: `backend/tests/golden/footprints.txt` and `backend/tests/golden/parts.txt` are regenerated only into `/tmp` and diffed, never written.
+- [x] No file under `backend/tests/golden/` is changed. (`git diff --stat backend/tests/golden` → empty.)
 
 Acceptance: the regenerated `footprints.txt` and `parts.txt` are byte-identical to the goldens.
   Check: `/tmp/logic-build/footprint_check --print > /tmp/fp.txt && cmp /tmp/fp.txt backend/tests/golden/footprints.txt` → exit 0 (est. 1 min); `/tmp/logic-build/listing_check --print > /tmp/parts.txt && cmp /tmp/parts.txt backend/tests/golden/parts.txt` → exit 0 (est. 1 min). (The `--print` form is the one `docs/backend.md` gives.)
-Commit: —
+  Result (2026-11-11, `/tmp/p32-build`, files in `/tmp/p32/`): `cmp` footprints → exit 0; `cmp` parts → exit 0.
+Commit: (same commit as Phase 1)
 
 ### Phase 3 — Swift: runtime registration
 
@@ -332,7 +334,30 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **Build directory** (2026-11-11). `/tmp/logic-build` is configured from the main
+  checkout (`cmake -S backend -B /tmp/logic-build` in the worktree → "does not match the
+  source … used to generate cache"). Every check of this plan that names
+  `/tmp/logic-build` runs in `/tmp/p32-build`, configured from the P-32 worktree; same
+  commands otherwise.
+- **The footprint loader's shape differs from § 2 / § 4.2** (read 2026-11-11).
+  `load_footprints` is in `library.c` (not `footprints.c:855`); `footprints.c` has
+  `footprint_read_file`, which already stages a file's footprints into a `FootprintList`
+  before `load_footprints` commits them, and the shared header is `footprint.h`
+  (`library_internal.h` holds only the arena context). So the extracted helper is
+  `footprint_read_entries(KindContext *, const cJSON *array, const PartLibrary *, FootprintList *)`,
+  declared in `footprint.h`, called by `footprint_read_file` and `load_part_file`. The
+  design (staged footprints, all-or-nothing commit) is unchanged.
+- **A copied device would have been rejected as a duplicate device** (found 2026-11-11,
+  not in the plan). `load_device` checks `"<kind>/<device id>"` against every loaded
+  device, and a copy of a bundled part (plan-32-C § 4.5) keeps the bundled device id
+  (`1G00`), as do several custom parts of one device. A single part file therefore skips
+  the library device check and adds no device id (`FileParts.single`); the part name and
+  uuid stay unique. `part_file_test` (a) and (b) both load a `1G00` device copy.
+- **The backend also keeps the uuid** (2026-11-11). § 1 asks for the part to be
+  retrievable "by UUID"; no task named the function. Added
+  `part_library_find_uuid`, and a second file with a loaded uuid is rejected
+  (`uuid "…" is already loaded`); the Swift side (§ 4.3 step 2) answers a same-uuid
+  file before calling the backend, so this is the backstop.
 
 - **A 27th kind is planned** (noted 2026-11-11 by plan-33's planning
   commit) — plan-33 (capacitors) adds the kind `capacitor` and the file

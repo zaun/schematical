@@ -172,7 +172,10 @@ typedef struct { const char *id, *url, *md; } PartDatasheet;
 
 typedef struct Part {
     PartKind kind;
-    const char *name, *package, *function, *description;
+    const char *name;
+    const char *uuid;                  /* a single part file's "uuid" (load_part_file);
+                                          NULL for every part of a load_parts file */
+    const char *package, *function, *description;
     const char *const *drawer; size_t drawer_count;
     unsigned flags;
     const PartPin *pins; size_t pin_count;
@@ -217,6 +220,16 @@ void part_library_destroy(PartLibrary *library);
 int load_parts(PartLibrary *library, const char *json, const char *source, char **error);
 
 /*
+ * Parses a single part file (format "schematical-part", docs/parts-format.md
+ * § Single part files): one device with one part, a required "uuid", and
+ * optional inline "footprints" in the footprints.json entry format. Same
+ * contract as load_parts: on failure nothing from the file (no footprint, no
+ * part) is added. Load footprints.json and datasheets.json first; the part's
+ * footprint may name a bundled id or an inline one.
+ */
+int load_part_file(PartLibrary *library, const char *json, const char *source, char **error);
+
+/*
  * Parses a footprints file (format "schematical-footprints"). Same contract
  * as load_parts. Load it before any part file that names its footprints;
  * ids are unique across calls.
@@ -241,5 +254,7 @@ const PartFootprint *part_library_find_footprint(const PartLibrary *library, con
 size_t part_library_count(const PartLibrary *library);
 const Part *part_library_at(const PartLibrary *library, size_t index);
 const Part *part_library_find(const PartLibrary *library, const char *name);
+/* The part load_part_file loaded with this "uuid"; NULL if none. */
+const Part *part_library_find_uuid(const PartLibrary *library, const char *uuid);
 
 #endif

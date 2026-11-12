@@ -20,4 +20,13 @@ typedef struct {
 int footprint_read_file(KindContext *ctx, const cJSON *root, const PartLibrary *library,
                         FootprintList *out);
 
+/*
+ * The per-footprint part of footprint_read_file: checks and expands every
+ * entry of a "footprints" array (the footprints.json entry format) into
+ * `out`. Ids must be new to `library` and to `out`. Used by footprints.json
+ * and by a single part file's inline "footprints" (load_part_file).
+ */
+int footprint_read_entries(KindContext *ctx, const cJSON *array, const PartLibrary *library,
+                           FootprintList *out);
+
 #endif

@@ -123,6 +123,10 @@ struct PartLibrary {
     const PartDatasheet **datasheets;
     size_t datasheet_count;
     NameSet datasheet_ids;
+    NameSet uuids;       /* single part files' "uuid" (load_part_file) */
+    /* A single part file's inline footprints while load_part_file checks it;
+       NULL otherwise. part_library_find_footprint looks here too. */
+    const FootprintList *staged_footprints;
     ArenaChunk *arenas;
 };
 
@@ -150,6 +154,7 @@ void part_library_destroy(PartLibrary *library) {
     name_set_free(&library->datasheet_ids);
     name_set_free(&library->names);
     name_set_free(&library->devices);
+    name_set_free(&library->uuids);
     free_chunks(library->arenas);
     free(library);
 }
@@ -169,6 +174,13 @@ const Part *part_library_find(const PartLibrary *library, const char *name) {
     return name_set_get(&library->names, name);
 }
 
+const Part *part_library_find_uuid(const PartLibrary *library, const char *uuid) {
+    if (library == NULL || uuid == NULL) {
+        return NULL;
+    }
+    return name_set_get(&library->uuids, uuid);
+}
+
 size_t part_library_footprint_count(const PartLibrary *library) {
     return library != NULL ? library->footprint_count : 0;
 }
@@ -178,10 +190,22 @@ const PartFootprint *part_library_footprint_at(const PartLibrary *library, size_
 }
 
 const PartFootprint *part_library_find_footprint(const PartLibrary *library, const char *id) {
+    const PartFootprint *found;
+
     if (library == NULL || id == NULL) {
         return NULL;
     }
-    return name_set_get(&library->footprint_ids, id);
+    found = name_set_get(&library->footprint_ids, id);
+    if (found == NULL && library->staged_footprints != NULL) {
+        size_t i;
+
+        for (i = 0; i < library->staged_footprints->count; i++) {
+            if (strcmp(library->staged_footprints->items[i]->id, id) == 0) {
+                return library->staged_footprints->items[i];
+            }
+        }
+    }
+    return found;
 }
 
 size_t part_library_datasheet_count(const PartLibrary *library) {
@@ -236,6 +260,10 @@ typedef struct {
     size_t capacity;
     NameSet names;
     NameSet devices;
+    /* A single part file (load_part_file): its device id is not checked
+       against the library's, and is not added to it, so a copy of a bundled
+       device and several custom parts of one device all load. */
+    int single;
 } FileParts;
 
 static int file_add_part(FileParts *file, const Part *part) {
@@ -694,7 +722,7 @@ static int load_device(KindContext *ctx, PartLibrary *library, FileParts *file,
         return -1;
     }
     sprintf(device_key, "%s/%s", ops->name, id);
-    if (name_set_contains(&library->devices, device_key) ||
+    if ((!file->single && name_set_contains(&library->devices, device_key)) ||
         name_set_contains(&file->devices, device_key)) {
         return kind_error(ctx, "duplicate device id \"%s\"", id);
     }
@@ -852,6 +880,110 @@ static void report(KindContext *ctx, int result, char **error) {
     }
 }
 
+/* A footprint list grown by `extra`, built on the side (0, or -1 out of memory). */
+typedef struct {
+    const PartFootprint **all;
+    size_t count;
+    NameSet ids;
+} FootprintTable;
+
+static int footprint_table_build(const PartLibrary *library, const FootprintList *extra,
+                                 FootprintTable *out) {
+    size_t needed = library->footprint_count + extra->count;
+    size_t i;
+    int ok;
+
+    memset(out, 0, sizeof *out);
+    out->all = malloc((needed > 0 ? needed : 1) * sizeof(*out->all));
+    ok = out->all != NULL && name_set_merge(&out->ids, &library->footprint_ids) == 0;
+    for (i = 0; ok && i < extra->count; i++) {
+        ok = name_set_add(&out->ids, extra->items[i]->id, extra->items[i]) == 0;
+    }
+    if (!ok) {
+        free(out->all);
+        name_set_free(&out->ids);
+        memset(out, 0, sizeof *out);
+        return -1;
+    }
+    if (library->footprint_count > 0) {
+        memcpy(out->all, library->footprints, library->footprint_count * sizeof(*out->all));
+    }
+    if (extra->count > 0) {
+        memcpy(out->all + library->footprint_count, extra->items, extra->count * sizeof(*out->all));
+    }
+    out->count = needed;
+    return 0;
+}
+
+static void footprint_table_adopt(PartLibrary *library, FootprintTable *table) {
+    free(library->footprints);
+    name_set_free(&library->footprint_ids);
+    library->footprints = table->all;
+    library->footprint_count = table->count;
+    library->footprint_ids = table->ids;
+}
+
+/*
+ * Adds a loaded file's parts (and, for a single part file, its footprints and
+ * its uuid) to the library, all or nothing: every grown table is built on the
+ * side first, so an out-of-memory failure leaves the library as it was. Takes
+ * the context's arena on success.
+ */
+static int commit_parts(KindContext *ctx, PartLibrary *library, const FileParts *file,
+                        const FootprintList *footprints, const char *uuid) {
+    size_t needed = library->count + file->count;
+    NameSet names = {0};
+    NameSet devices = {0};
+    NameSet uuids = {0};
+    FootprintTable table = {0};
+    int ok;
+
+    if (needed > library->capacity) {
+        size_t capacity = library->capacity == 0 ? 1024 : library->capacity;
+        const Part **parts;
+
+        while (capacity < needed) {
+            capacity *= 2;
+        }
+        /* Growing the array alone changes nothing the library reports. */
+        parts = realloc(library->parts, capacity * sizeof(*parts));
+        if (parts == NULL) {
+            return kind_error(ctx, "out of memory");
+        }
+        library->parts = parts;
+        library->capacity = capacity;
+    }
+    ok = name_set_merge(&names, &library->names) == 0 &&
+         name_set_merge(&names, &file->names) == 0 &&
+         name_set_merge(&devices, &library->devices) == 0 &&
+         (file->single || name_set_merge(&devices, &file->devices) == 0) &&
+         name_set_merge(&uuids, &library->uuids) == 0 &&
+         (uuid == NULL || file->count != 1 || name_set_add(&uuids, uuid, file->parts[0]) == 0) &&
+         (footprints == NULL || footprints->count == 0 ||
+          footprint_table_build(library, footprints, &table) == 0);
+    if (!ok) {
+        name_set_free(&names);
+        name_set_free(&devices);
+        name_set_free(&uuids);
+        free(table.all);
+        name_set_free(&table.ids);
+        return kind_error(ctx, "out of memory");
+    }
+    name_set_free(&library->names);
+    name_set_free(&library->devices);
+    name_set_free(&library->uuids);
+    library->names = names;
+    library->devices = devices;
+    library->uuids = uuids;
+    if (table.all != NULL) {
+        footprint_table_adopt(library, &table);
+    }
+    memcpy(library->parts + library->count, file->parts, file->count * sizeof(*file->parts));
+    library->count += file->count;
+    adopt_arena(library, ctx);
+    return 0;
+}
+
 int load_footprints(PartLibrary *library, const char *json, const char *source, char **error) {
     KindContext ctx;
     FootprintList file = {0};
@@ -876,29 +1008,12 @@ int load_footprints(PartLibrary *library, const char *json, const char *source, 
 
         kind_error(&ctx, "invalid JSON at byte %ld", where != NULL ? (long)(where - json) : -1L);
     } else if (footprint_read_file(&ctx, root, library, &file) == 0 && !kind_failed(&ctx)) {
-        size_t needed = library->footprint_count + file.count;
-        const PartFootprint **all = malloc((needed > 0 ? needed : 1) * sizeof(*all));
-        NameSet ids = {0};
-        size_t i;
-        int ok = all != NULL && name_set_merge(&ids, &library->footprint_ids) == 0;
+        FootprintTable table;
 
-        for (i = 0; ok && i < file.count; i++) {
-            ok = name_set_add(&ids, file.items[i]->id, file.items[i]) == 0;
-        }
-        if (!ok) {
-            free(all);
-            name_set_free(&ids);
+        if (footprint_table_build(library, &file, &table) != 0) {
             kind_error(&ctx, "out of memory");
         } else {
-            if (library->footprint_count > 0) {
-                memcpy(all, library->footprints, library->footprint_count * sizeof(*all));
-            }
-            memcpy(all + library->footprint_count, file.items, file.count * sizeof(*all));
-            free(library->footprints);
-            name_set_free(&library->footprint_ids);
-            library->footprints = all;
-            library->footprint_count = needed;
-            library->footprint_ids = ids;
+            footprint_table_adopt(library, &table);
             adopt_arena(library, &ctx);
             result = 0;
         }
@@ -1079,52 +1194,164 @@ int load_parts(PartLibrary *library, const char *json, const char *source, char 
 
         kind_error(&ctx, "invalid JSON at byte %ld",
                    where != NULL ? (long)(where - json) : -1L);
-    } else if (load_file(&ctx, library, &file, root) == 0 && !kind_failed(&ctx)) {
-        size_t needed = library->count + file.count;
-
-        if (needed > library->capacity) {
-            size_t capacity = library->capacity == 0 ? 1024 : library->capacity;
-            const Part **parts;
-
-            while (capacity < needed) {
-                capacity *= 2;
-            }
-            parts = realloc(library->parts, capacity * sizeof(*parts));
-            if (parts == NULL) {
-                kind_error(&ctx, "out of memory");
-            } else {
-                library->parts = parts;
-                library->capacity = capacity;
-            }
-        }
-        if (!kind_failed(&ctx)) {
-            NameSet names = {0};
-            NameSet devices = {0};
-            /* Build the grown sets on the side so a failure leaves the library as it was. */
-            int ok = name_set_merge(&names, &library->names) == 0 &&
-                     name_set_merge(&names, &file.names) == 0 &&
-                     name_set_merge(&devices, &library->devices) == 0 &&
-                     name_set_merge(&devices, &file.devices) == 0;
-
-            if (!ok) {
-                name_set_free(&names);
-                name_set_free(&devices);
-                kind_error(&ctx, "out of memory");
-            } else {
-                name_set_free(&library->names);
-                name_set_free(&library->devices);
-                library->names = names;
-                library->devices = devices;
-                memcpy(library->parts + library->count, file.parts, file.count * sizeof(*file.parts));
-                library->count += file.count;
-                adopt_arena(library, &ctx);
-                result = 0;
-            }
-        }
+    } else if (load_file(&ctx, library, &file, root) == 0 && !kind_failed(&ctx) &&
+               commit_parts(&ctx, library, &file, NULL, NULL) == 0) {
+        result = 0;
     }
 
     cJSON_Delete(root);
     free(file.parts);
+    name_set_free(&file.names);
+    name_set_free(&file.devices);
+    free_chunks(ctx.arena);
+    report(&ctx, result, error);
+    return result;
+}
+
+/* ---- Single part files (format "schematical-part") ------------------------ */
+
+static const char *const PART_FILE_KEYS[] = {
+    "format", "version", "uuid", "kind", "footprints", "devices", NULL
+};
+
+/* 8-4-4-4-12 uppercase hexadecimal digits: Foundation's UUID.uuidString. */
+static int valid_uuid(const char *text) {
+    size_t i;
+
+    if (strlen(text) != 36) {
+        return 0;
+    }
+    for (i = 0; i < 36; i++) {
+        char c = text[i];
+
+        if (i == 8 || i == 13 || i == 18 || i == 23) {
+            if (c != '-') {
+                return 0;
+            }
+        } else if (!((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F'))) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+/* Checks one part file and loads its footprints and its device into the
+   context's arena (`file`, `footprints`); the library itself is not changed. */
+static int read_part_file(KindContext *ctx, PartLibrary *library, const cJSON *root,
+                          FileParts *file, FootprintList *footprints, const char **uuid) {
+    const cJSON *devices;
+    const cJSON *device;
+    const cJSON *parts;
+    const cJSON *inline_footprints;
+    const char *format;
+    const char *kind_name;
+    const PartKindOps *ops;
+    uint64_t version;
+    int status;
+
+    if (!cJSON_IsObject(root)) {
+        return kind_error(ctx, "expected an object");
+    }
+    if (kind_check_keys(ctx, root, PART_FILE_KEYS, NULL) != 0 ||
+        kind_string(ctx, root, "format", &format) != 0) {
+        return -1;
+    }
+    if (strcmp(format, "schematical-part") != 0) {
+        return kind_error(ctx, "\"format\" must be \"schematical-part\", not \"%s\"", format);
+    }
+    if (kind_uint(ctx, root, "version", UINT32_MAX, &version) != 0) {
+        return -1;
+    }
+    if (version != 1) {
+        return kind_error(ctx, "unsupported version %llu (expected 1)",
+                          (unsigned long long)version);
+    }
+    if (kind_string(ctx, root, "uuid", uuid) != 0) {
+        return -1;
+    }
+    if (!valid_uuid(*uuid)) {
+        return kind_error(ctx, "\"uuid\" must be an uppercase UUID "
+                          "(XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX), not \"%s\"", *uuid);
+    }
+    if (name_set_contains(&library->uuids, *uuid)) {
+        return kind_error(ctx, "uuid \"%s\" is already loaded", *uuid);
+    }
+    if (kind_string(ctx, root, "kind", &kind_name) != 0) {
+        return -1;
+    }
+    ops = kind_find(kind_name);
+    if (ops == NULL) {
+        return kind_error(ctx, "unknown kind \"%s\"", kind_name);
+    }
+    inline_footprints = cJSON_GetObjectItemCaseSensitive(root, "footprints");
+    if (inline_footprints != NULL &&
+        (footprint_read_entries(ctx, inline_footprints, library, footprints) != 0 ||
+         kind_failed(ctx))) {
+        return -1;
+    }
+    devices = kind_member(ctx, root, "devices", 1);
+    if (devices == NULL) {
+        return -1;
+    }
+    if (!cJSON_IsArray(devices) || cJSON_GetArraySize(devices) != 1) {
+        return kind_error(ctx, "\"devices\" must be an array of exactly one device");
+    }
+    device = devices->child;
+    kind_push(ctx, "devices[0]");
+    parts = cJSON_IsObject(device) ? cJSON_GetObjectItemCaseSensitive(device, "parts") : NULL;
+    if (cJSON_IsArray(parts) && cJSON_GetArraySize(parts) != 1) {
+        return kind_error(ctx, "\"parts\" must be an array of exactly one part");
+    }
+    /* The inline footprints resolve like bundled ones while the part loads. */
+    library->staged_footprints = footprints;
+    status = load_device(ctx, library, file, ops, device);
+    library->staged_footprints = NULL;
+    if (status != 0 || kind_failed(ctx)) {
+        return -1;
+    }
+    kind_pop(ctx);
+    if (file->count != 1) {
+        return kind_error(ctx, "\"devices\" must hold exactly one part");
+    }
+    ((Part *)file->parts[0])->uuid = *uuid;
+    return 0;
+}
+
+int load_part_file(PartLibrary *library, const char *json, const char *source, char **error) {
+    KindContext ctx;
+    FileParts file = {0};
+    FootprintList footprints = {0};
+    const char *uuid = NULL;
+    cJSON *root;
+    int result = -1;
+
+    if (error != NULL) {
+        *error = NULL;
+    }
+    if (library == NULL || json == NULL) {
+        if (error != NULL) {
+            *error = copy_message("load_part_file: no library or text");
+        }
+        return -1;
+    }
+    memset(&ctx, 0, sizeof ctx);
+    ctx.source = source != NULL ? source : "part";
+    file.single = 1;
+
+    root = cJSON_ParseWithLength(json, strlen(json));
+    if (root == NULL) {
+        const char *where = cJSON_GetErrorPtr();
+
+        kind_error(&ctx, "invalid JSON at byte %ld", where != NULL ? (long)(where - json) : -1L);
+    } else if (read_part_file(&ctx, library, root, &file, &footprints, &uuid) == 0 &&
+               !kind_failed(&ctx) && commit_parts(&ctx, library, &file, &footprints, uuid) == 0) {
+        result = 0;
+    }
+
+    library->staged_footprints = NULL;
+    cJSON_Delete(root);
+    free(file.parts);
+    free(footprints.items);
     name_set_free(&file.names);
     name_set_free(&file.devices);
     free_chunks(ctx.arena);
