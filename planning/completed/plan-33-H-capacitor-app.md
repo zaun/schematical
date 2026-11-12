@@ -171,7 +171,7 @@ Everything below is written against the world where these hold.
 Acceptance: the app builds.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p33-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 3 min).
   Observed: `** BUILD SUCCEEDED **`.
-Commit: (this commit, with Phase 2; hash in the next)
+Commit: f0b2a93
 
 ### Phase 2 — The generic value: field, file, undo, paste, BOM
 
@@ -187,11 +187,11 @@ Commit: (this commit, with Phase 2; hash in the next)
 Acceptance: the app builds and a file without capacitors is written as before.
   Check: the Phase 1 build → `** BUILD SUCCEEDED **`, then `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p33-dd test -only-testing:schematicalTests/PullResistorTests -only-testing:schematicalTests/BillOfMaterialsTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 5 min).
   Observed: `Executed 14 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: (this commit; hash in the next)
+Commit: f0b2a93
 
 ### Phase 3 — Tests and the harness proof
 
-- [ ] `schematical/schematicalTests/CapacitorTests.swift` (new, as
+- [x] `schematical/schematicalTests/CapacitorTests.swift` (new, as
       `PullResistorTests`): placing `GENERIC-CAPACITOR` gives `C1`, then
       `C2`, and a gate after them `U1`; `farads` 1e-7 and footprint
       `CAP-DISC-5.08`; `setPartFarads` 4.7e-9 then undo → 1e-7; file round
@@ -200,16 +200,20 @@ Commit: (this commit; hash in the next)
       `CapacitorValue.text` for 1e-13, 1e-12, 4.7e-9, 1e-7, 4.7e-6, 4.7e-3
       → `0.1 pF`, `1 pF`, `4.7 nF`, `100 nF`, `4.7 µF`, `4700 µF`; the BOM
       lines (generic → `CAPACITOR`, `100 nF`; a real ceramic → its part
-      number and value).
-- [ ] `scripts/harness/capacitor-app.swift` (new, run with
+      number and value). Observed: `Executed 8 tests, with 0 failures`.
+- [x] `scripts/harness/capacitor-app.swift` (new, run with
       `scripts/harness/build.sh`): the § 1 checks; renders a placed
       ceramic, an electrolytic and a tantalum with `Harness.renderCanvas` to
       `/tmp/p33-symbols.png`, and the sidebar of the generic capacitor to
-      `/tmp/p33-sidebar.png`; look at both PNGs.
+      `/tmp/p33-sidebar.png`; look at both PNGs. Looked: the ceramic's two
+      flat plates, the electrolytic's and tantalum's curved negative plate
+      and `+`, values below; the sidebar shows C1, Capacitance 100 nF,
+      the disc footprint and Kind Capacitor.
 
 Acceptance: the tests pass and the harness prints `all checks ok`.
   Check: `xcodebuild … test -only-testing:schematicalTests/CapacitorTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **`; `scripts/harness/build.sh scripts/harness/capacitor-app.swift` → `all checks ok`, exit 0 (est. 15 min: the harness build; nothing smaller runs the catalog and the backend together).
-Commit: —
+  Observed: `** TEST SUCCEEDED **`; the harness: drawer Capacitors → [Generic] and Ceramic / Electrolytic / Tantalum (42 / 22 / 25 leaves, each strictly increasing), `08055C100KAT2A` Capacitor with Type, Capacitance, Rated voltage, Dielectric, Tolerance, GENERIC-CAPACITOR C1 100 nF on CAP-DISC-5.08, 4.7 nF kept through save and reopen, undo to 0.1 µF, `Can't connect: C1 pin 1 (+) gets 12 V; TACL105K006XTA is rated 6.3 V.`, `all checks ok`, exit 0.
+Commit: (this commit; hash in the next)
 
 ## Validation Plan
 
@@ -235,7 +239,19 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+1. **"0.1 µF" is written "100 nF".** § 3's value rule (the largest unit
+   whose number is at least 1, plan-33-F § 3.3) gives `100 nF` for 1e-7 F;
+   the § intro's "showing 0.1 µF" is the same value. The harness checks
+   `farads` = 1e-7 and the text `100 nF`.
+2. **Code written before G landed.** Phases 1–2's code was drafted while
+   plan-33-A's census ran (it needs no part data) and built and tested in
+   order after G (f0b2a93).
+3. **The drawer hides automotive parts by default** (`DrawerFilter`), so it
+   lists 375 of the 376 ceramic parts, 318 of 323 electrolytic and 331 of
+   332 tantalum ones; the order check covers every listed leaf.
+4. **`CapacitorValue.isValid` takes 0.1 pF to 1 F** (§ 3), so `badFarads`'s
+   text keeps the plan's wording ("more than 0 and at most 1 F") for the
+   common mistake, a 0 value; `farads: 1` opens.
 
 ## Summary
 
