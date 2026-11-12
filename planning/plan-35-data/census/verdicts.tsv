@@ -1,0 +1,127 @@
+maker	part	verdict	reason
+Focus LCDs	C204A-BW-LW25	add	
+Focus LCDs	C204A-BW-LW63	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C204A-BW-LW65	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C204A-FTW-LW63	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C204A-FTW-LW65	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C204A-YTY-LW63	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C204A-YTY-LW65	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C204A1-KW-XW65	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C204ABBSYSY6WT55PAB	add	
+Focus LCDs	C204ADBFGSW6WT55PAB	add	
+Focus LCDs	C204ALBFWSW6WT33XAA	add	
+Focus LCDs	C204ALBSBSW6WN33XAA	add	
+Focus LCDs	C204ALBSYLY6WM55PAA	add	
+Focus LCDs	C204ALBSYLY6WT33XAA	add	
+Focus LCDs	C204AS-BW-LW63	skip	serial/I2C/SPI front end (ST7066U and PIC16F690); owner: parallel LCD only
+Focus LCDs	C204AS-BW-LW65	skip	serial/I2C/SPI front end (ST7066U and PIC16F690); owner: parallel LCD only
+Focus LCDs	C204AS-FTW-LW63	skip	serial/I2C/SPI front end (ST7066U and PIC16F690); owner: parallel LCD only
+Focus LCDs	C204AS-FTW-LW65	skip	serial/I2C/SPI front end (ST7066U and PIC16F690); owner: parallel LCD only
+Focus LCDs	C204AS-YTY-LW63	skip	serial/I2C/SPI front end (ST7066U and PIC16F690); owner: parallel LCD only
+Focus LCDs	C204AS-YTY-LW65	skip	serial/I2C/SPI front end (ST7066U and PIC16F690); owner: parallel LCD only
+Focus LCDs	C204AXBSGN06WR50XAA	add	
+Focus LCDs	C204AXBSYLY6WT	add	
+Focus LCDs	C204B-BW-LW63	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C204B-BW-LW65	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C204B-FTW-LW63	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C204B-FTW-LW65	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C204B-YTY-LW63	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C204B-YTY-LW65	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C204BLBFKSW6WT55XAA	skip	datasheet font is English/European (not ROM A00); owner: non-A00 fonts out
+Focus LCDs	C204BLBFWSW6WT33XAA	add	
+Focus LCDs	C204BLBSBSW6WN33PAB	add	
+Focus LCDs	C204BLBSBSW6WN55XAA	add	
+Focus LCDs	C204BLBSYLY6WT33PAB	add	
+Focus LCDs	C204BLBSYLY6WT55XAA	add	
+Focus LCDs	C204C-BW-LW63	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C204C-BW-LW65	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C204C-FTW-LW63	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C204C-FTW-LW65	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C204C-YTY-LW63	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C204C-YTY-LW65	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C204CXBSGSW6WT33XAA	add	
+Focus LCDs	C204CXBSGSW6WT55XAA	add	
+Focus LCDs	C204DLBSBSW6WN55XAA	add	
+Focus LCDs	C204HLBSYLY6WM	add	
+Focus LCDs	C204IXBSGN06WR50XAC	skip	FPC tail (conductive/stiffener side, p.2): no through-hole pins, no board footprint without a separate FPC connector
+Focus LCDs	C402A-BW-LW63	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C402A-BW-LW65	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C402A-FTW-LW63	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C402A-FTW-LW65	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C402A-KW-LW65	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C402A-YTY-LW63	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C402A-YTY-LW65	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C402A3-BW-LW65	add	
+Focus LCDs	C402ALBFKSW6WT55XAA	add	
+Focus LCDs	C402ALBFWSW6WT33XAA	add	
+Focus LCDs	C402ALBSBSW6WN33XAA	add	
+Focus LCDs	C402ALBSBSW6WN55XAA	add	
+Focus LCDs	C402ALBSGN06WT50PAB	add	
+Focus LCDs	C402ALBSYLY6WT33XAA	add	
+Focus LCDs	C402ALBSYLY6WT55XAA	add	
+Focus LCDs	C402ASBSYLY6WT55PAB	add	
+Focus LCDs	C404A-BW-LW63	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C404A-BW-LW65	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C404A-FTB-LW65	skip	Focus PDF is a 2-page overview: no pinout, timing or drawing
+Focus LCDs	C404A-FTW-LW63	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C404A-FTW-LW65	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C404A-YTY-LW63	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C404A-YTY-LW65	skip	datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11)
+Focus LCDs	C404ALBFKSW6WT55PAB	add	
+Focus LCDs	C404ALBFWSW6WT33PAB	add	
+Focus LCDs	C404ALBSBSW6WF33PAB	add	
+Focus LCDs	C404ALBSBSW6WN55PAB	add	
+Focus LCDs	C404ALBSYLY6WT33PAB	add	
+Focus LCDs	O204B-CY-YS5	skip	character OLED; owner: parallel LCD only
+Focus LCDs	O402A-CW-SW3	skip	character OLED; owner: parallel LCD only
+Midas Displays	MC42004A6W-FPTLW-V2	add	
+Midas Displays	MC42004A6W-SPR-V2	add	
+Midas Displays	MC42004A6WK-FPTLW-V2	skip	datasheet font is English/European (not ROM A00); owner: non-A00 fonts out
+Midas Displays	MC42004A6WK-SPTLY-V2	skip	datasheet font is English/European (not ROM A00); owner: non-A00 fonts out
+Midas Displays	MC42005A6W-FPTLW-V2	add	
+Midas Displays	MC42005A6W-SPTLY-V2	add	
+Midas Displays	MC42005A6WK-FPTLW-V2	skip	datasheet font is English/European (not ROM A00); owner: non-A00 fonts out
+Midas Displays	MC42008A6W-FPTLW	add	
+Midas Displays	MC42008A6W-SPR	skip	no datasheet on midasdisplays.com (no product page or PDF, 2026-11-11); only a DigiKey-hosted copy
+Midas Displays	MC42008A6W-SPTLY	add	
+Midas Displays	MC44005A6W-BNMLW-V2	add	
+Midas Displays	MC44005A6W-FPTLW-V2	add	
+Midas Displays	MC44005A6W-SPTLY-V2	add	
+Midas Displays	MD24005A6W-FPTLRGB	add	
+Midas Displays	MD42004A6W-FPTLRGB	add	
+Midas Displays	MD42005C6W-FPTLRGB	add	
+Midas Displays	MD44005A6W-FPTLRGB	add	
+Newhaven Display Intl	NHD-0240AZ-FL-GBW	add	
+Newhaven Display Intl	NHD-0240AZ-FL-YBW	add	
+Newhaven Display Intl	NHD-0240AZ-FSW-FBW	add	
+Newhaven Display Intl	NHD-0240AZ-NSW-BBW	add	
+Newhaven Display Intl	NHD-0420AZ-FL-GBW-33V3	add	
+Newhaven Display Intl	NHD-0420AZ-FL-YBW-33V3	add	
+Newhaven Display Intl	NHD-0420AZ-FSW-GBW-33V3	add	
+Newhaven Display Intl	NHD-0420CW-AB3	skip	character OLED; owner: parallel LCD only
+Newhaven Display Intl	NHD-0420CW-AG3	skip	character OLED; owner: parallel LCD only
+Newhaven Display Intl	NHD-0420CW-AW3	skip	character OLED; owner: parallel LCD only
+Newhaven Display Intl	NHD-0420D3Z-FL-GBW-V3	skip	serial/I2C/SPI front end (PIC16F698); owner: parallel LCD only
+Newhaven Display Intl	NHD-0420D3Z-NSW-BBW-V3	skip	serial/I2C/SPI front end (PIC16F699); owner: parallel LCD only
+Newhaven Display Intl	NHD-0420DZ-FL-GBW	add	
+Newhaven Display Intl	NHD-0420DZ-FL-YBW	add	
+Newhaven Display Intl	NHD-0420DZ-FL-YBW-33V3	add	
+Newhaven Display Intl	NHD-0420DZ-FSW-FBW	add	
+Newhaven Display Intl	NHD-0420DZ-NSW-BBW	add	
+Newhaven Display Intl	NHD-0420DZW-AB5	skip	character OLED; owner: parallel LCD only
+Newhaven Display Intl	NHD-0420DZW-AG5	skip	character OLED; owner: parallel LCD only
+Newhaven Display Intl	NHD-0420DZW-AY5	skip	character OLED; owner: parallel LCD only
+Newhaven Display Intl	NHD-0420E2Z-FL-GBW	add	
+Newhaven Display Intl	NHD-0420E2Z-FL-YBW	add	
+Newhaven Display Intl	NHD-0420E2Z-FSW-GBW	add	
+Newhaven Display Intl	NHD-0420E2Z-NSW-BBW	add	
+Newhaven Display Intl	NHD-0420H1Z-FL-GBW-33V3	add	
+Newhaven Display Intl	NHD-0420H1Z-FSW-GBW	add	
+Newhaven Display Intl	NHD-0420H1Z-FSW-GBW-33V3	add	
+Newhaven Display Intl	NHD-0440AZ-RN-FBW	add	
+Newhaven Display Intl	NHD-0440WH-ATFH-JT#	add	
+Newhaven Display Intl	NHD-0440WH-ATMI-JT#	add	
+Newhaven Display Intl	NHD-C0420AZ-FSW-FBW-3V3	skip	serial/I2C/SPI front end (IST3602); owner: parallel LCD only
+Newhaven Display Intl	NHD-C0420AZ-NSW-BBW-3V3	skip	serial/I2C/SPI front end (IST3602); owner: parallel LCD only
+Newhaven Display Intl	NHD-C0420BZ-FSW-FBW-3V3	skip	serial/I2C/SPI front end (IST3602); owner: parallel LCD only
+Newhaven Display Intl	NHD-C0420BZ-NSW-BBW-3V3	skip	serial/I2C/SPI front end (IST3602); owner: parallel LCD only

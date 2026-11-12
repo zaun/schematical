@@ -7,9 +7,9 @@ import SwiftUI
 ///
 /// Its point is `origin`, on the grid; a wire ends there, leaving sideways.
 /// The flag runs `length` to the right of it, or to the left when flipped.
-/// Its type sets its ends: an input points away from the wire, an output
-/// points in at the wire, an in/out points both ways and a passive one is a
-/// plain box. A No Connect is not a label at all: an X on its point, with
+/// Its type sets its ends: an output points away from the wire (`---|__>`),
+/// an input points in at the wire (`---<__|`), an in/out points both ways
+/// (`---<__>`) and a passive one is a plain box (`---|__|`). A No Connect is not a label at all: an X on its point, with
 /// no name, that marks a pin as deliberately left unconnected. It joins
 /// nothing, not even the wires that end on it.
 nonisolated struct NetLabel: Identifiable, Hashable, Sendable {
@@ -33,9 +33,9 @@ nonisolated struct NetLabel: Identifiable, Hashable, Sendable {
         }
 
         /// The end away from the wire is a point.
-        var pointsOut: Bool { self == .input || self == .inout }
+        var pointsOut: Bool { self == .output || self == .inout }
         /// The end at the wire is a point.
-        var pointsIn: Bool { self == .output || self == .inout }
+        var pointsIn: Bool { self == .input || self == .inout }
         /// A named net label; false for No Connect.
         var isNet: Bool { self != .noConnect }
     }
