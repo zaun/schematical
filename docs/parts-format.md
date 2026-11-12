@@ -2669,13 +2669,14 @@ lists them under Displays → Character. The example is the
 
 | Key | Value |
 |---|---|
-| `"columns"`, `"rows"` | characters per line (1–40) and lines (1–2) |
+| `"columns"` | characters per line, 1–40; with 4 rows and one enable, at most 20 (`4 rows on one controller need "columns" of 20 or less`) |
+| `"rows"` | lines: 1, 2 or 4 (`"rows" must be 1, 2 or 4`) |
 | `"controller"` | shown as is, e.g. `"ST7066U"` |
 | `"rom"` | `"A00"`, the only character ROM the model has |
-| `"panel"` | `"yellow-green"` (STN positive: dark dots on yellow-green) or `"blue-negative"` (STN negative: light dots on blue) |
-| `"bus"` | `{"rs", "rw", "e", "data"}`: pin names; `data` is 8 names, DB0 first. Each names exactly one pin. `PartCharLcd.bus_pins` holds RS, R/W, E, DB0–DB7 as indices into `Part.pins` |
+| `"panel"` | `"yellow-green"` (STN positive: dark dots on yellow-green), `"blue-negative"` (STN negative: light dots on blue), `"gray"` (STN positive: dark dots on light gray) or `"white"` (FSTN positive: black dots on white). Error: `"panel" must be yellow-green, blue-negative, gray or white` |
+| `"bus"` | `{"rs", "rw", "e", "data"}`: pin names; `data` is 8 names, DB0 first. Each names exactly one pin. `e` is a pin name, or an array of 2 names `["E1", "E2"]` for a module with two controllers; two need `"rows": 4` (`two enables need "rows": 4`), any other array: `"e" must be a pin name or 2 pin names`. `PartCharLcd.enables` is 1 or 2, and `PartCharLcd.bus_pins` holds RS, R/W, E (or E1, E2), DB0–DB7 as indices into `Part.pins`: 11 or 12 |
 | `"contrast"` | the V0 pin's name (one pin); the model ignores it |
-| `"backlight"` | optional `{"anode", "cathode", "color"}`: pin names (one pin each) and the shown color. Without it `PartCharLcd.backlight_color` is NULL |
+| `"backlight"` | optional `{"anode", "cathode", "color"}`: pin names (one pin each) and the shown color; or an array of 1–3 such objects, one per LED (an RGB backlight: the LEDs may share the anode pin, each cathode is its own pin). Error: `"backlight" must be an object or 1 to 3 objects`. `PartCharLcd.backlight_count` is the number of LEDs and `backlight_colors` their colors in array order; `backlight_color` is the first color. Without it the count is 0 and both are NULL |
 | `"timing"` | ns: `tc tpw tas tah tdsw th tddr tdhr` (the datasheet's bus timing), every key required, each ≥ 0; `tc` and `tpw` > 0 |
 | `"exec"` | ns: `instruction` (every instruction but Clear and Home), `data` (a data read or write), `clearHome`, `powerOn` (busy time after power-up), each > 0 |
 | `"vcc"`, `"inputMax"` | the supply range (§ Supply voltage); also allowed on the part |
@@ -2721,9 +2722,22 @@ Behavior (the HD44780 family as the module datasheets print it;
   (dot row 7 of AC's cell) and blink (all dots of AC's cell, on while
   `floor(t / 379 259 259 ps)` is even). A dot is X when anything it depends
   on is X. `circuit_lcd_state` reads it.
-- **Backlight.** One light, on while the anode reads 1 and the cathode
-  reads 0. The voltage check carries the anode's level to the cathode net,
-  as for an LED, and checks VDD against `vcc`.
+- **Rows and controllers.** Display row r shows a controller's line:
+  with two enables, controller r / 2 (E1 for rows 0–1, E2 for rows 2–3,
+  each a 2-line controller of `columns` columns), line r % 2, offset 0;
+  with one enable, the one controller, line r % 2, offset (r / 2) ×
+  `columns` (0 for 1- and 2-row modules). For 2-line mode (N = 1) the cell
+  in column c is address `line × 0x40 + (shift + offset + c) mod 40`; in
+  1-line mode (N = 0) rows on line 1 are off and line-0 rows show address
+  `(shift + offset + c) mod 80`. So a 20 × 4 on one controller shows
+  addresses 00–13, 40–53, 14–27, 54–67 on rows 0–3. Each controller of a
+  40 × 4 has its own registers, RAM, busy flag, timing checks and
+  power-on reset; RS, R/W and DB are shared. A read with E1 and E2 both
+  high drives each DB bit where the two disagree, or either is X, as X.
+- **Backlight.** One light per LED, in `backlight` order, on while its
+  anode reads 1 and its cathode reads 0. The voltage check carries each
+  anode's level to its cathode net, as for an LED, and checks VDD against
+  `vcc`.
 
 ### `buffer`
 

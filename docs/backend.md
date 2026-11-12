@@ -137,7 +137,8 @@ Notes:
     unchanged.
 - Lights (`circuit_part_lights`) are LEDs (one light), 7-segment
   displays (`PartDisplay.leds` order) and character LCD backlights (one
-  light, on while the anode reads 1 and the cathode 0; a module without a
+  light per LED in `backlight` order, e.g. three for an RGB backlight,
+  each on while its anode reads 1 and its cathode 0; a module without a
   backlight has none); a light counts as on if it was on at any time during
   the last `circuit_advance`, so multiplexed digits show.
 - Memory contents (SRAM, EEPROM): `circuit_memory_size`,
@@ -151,11 +152,14 @@ Notes:
   frame, as the memory window reads `circuit_memory_read`.
 - Character LCDs (`charlcd` kind): `circuit_lcd_state` fills an
   `LcdState` (`lcd_state.h`): the dot image the display shows now
-  (`dots[row * 8 + y][column * 5 + x]`, each `LCD_DOT_OFF`, `_ON` or `_X`;
-  the cursor blink phase comes from the circuit time), the busy flag (1, 0
-  or -1 for X), and DDRAM and CGRAM with known masks. The image does not
-  depend on the backlight or V0; the app dims the face by the backlight
-  light. Any other kind: -1, `part N is not a character LCD`.
+  (`dots[row * 8 + y][column * 5 + x]`, up to 4 rows, each `LCD_DOT_OFF`,
+  `_ON` or `_X`; the cursor blink phase comes from the circuit time),
+  `controllers` (1, or 2 for a 40 × 4 with E1 and E2), and per controller
+  the busy flag (`busy[k]`: 1, 0 or -1 for X) and DDRAM and CGRAM with
+  known masks (`ddram[k]`, `ddram_known[k]`, `cgram[k]`, `cgram_known[k]`;
+  k = 0 is E1's, k = 1 E2's). The image does not depend on the backlight
+  or V0; the app dims the face by the backlight lights (one per LED). Any
+  other kind: -1, `part N is not a character LCD`.
 - Converters and RTCs (`converter`, `rtc` kinds, plan-24):
   `circuit_converter_registers` copies the part's registers
   (`ConverterRegister`, `converter_state.h`: name, bus address or -1 for an

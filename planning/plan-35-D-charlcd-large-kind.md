@@ -373,17 +373,38 @@ Check: `ctest --test-dir /tmp/logic-p35` → `100% tests passed`;
 `git diff --exit-code backend/tests/golden` → 0 (est. 4 min). Both must
 hold with no new test case.
 
-Commit: —
+Commit: d6754ea
 
 ### Phase 3 — 4 rows, two controllers, RGB lights
 
-- [ ] § 4.3 E routing, the read clash and timer ids; § 4.4 image; § 4.6
-      lights and voltage.
-- [ ] `charlcd_test` cases 2–9.
-- [ ] `docs/parts-format.md` § `charlcd`: the key table of § 4.2, the
+- [x] § 4.3 E routing, the read clash and timer ids; § 4.4 image; § 4.6
+      lights and voltage. (`e_changed` per controller; `drive` merges what
+      every controller drives per DB bit; timer id bit 31 = controller,
+      bits 2–30 = that controller's `seq`; `image_dot` takes line and
+      offset; `light[3]`. The voltage loop over `charlcd_backlight_pins`
+      landed in Phase 1.)
+- [x] `charlcd_test` cases 2–9: `check_2004_map` (D2, and D3 on the same
+      bench), `check_2004_one_line` (D4), `check_4004` (D5),
+      `check_4004_clash` (D6), `check_4004_timing` (D7, plus one line for
+      the per-controller `seq` of Corrections: an E2 write rising 5 ns
+      after an E1 write's fall leaves both writes in effect),
+      `check_rgb_lights` (D8), `check_rgb_voltage` (D9: `voltage_check`
+      with each cathode net on an input of a 3.6 V-max probe fixture,
+      FX-LCD-3V: 3 INPUT_OVER at 5 V, and 2 with GND on K(G)'s net).
+      Mutation check (reverted): the voltage loop cut to LED 0, the read
+      merge cut to "last controller wins", the row offset forced to 0, the
+      timer's controller forced to 0, and a shared `seq` each make D cases
+      FAIL (16 FAIL for the first four together, 5 for the shared `seq`).
+- [x] `docs/parts-format.md` § `charlcd`: the key table of § 4.2, the
       row/controller map of § 4.4, the backlight array, the two panels.
       `docs/backend.md:152`: `LcdState.controllers` and the per-controller
-      arrays.
+      arrays (and the Lights bullet: one light per backlight LED).
+      Check run 2026-11-11: `ctest --test-dir /tmp/logic-p35` →
+      `100% tests passed, 0 tests failed out of 30` (T0 = 30 programs, as
+      before D); `git diff --exit-code backend/tests/golden` → exit 0;
+      `grep -c '"rows" must be 1, 2 or 4' docs/parts-format.md` → `1`;
+      `grep -c -F 'rows\" must be 1, 2 or 4' backend/src/models/charlcd.c`
+      → `1`. `charlcd_test`: 150 PASS (100 before D), 0 FAIL.
 
 Check: `ctest --test-dir /tmp/logic-p35` → `100% tests passed`, T0
 programs; `git diff --exit-code backend/tests/golden` → 0;

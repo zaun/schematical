@@ -8,7 +8,10 @@
  * instruction set, the busy flag and execution times, power-on reset, the
  * bus timing checks and the X rules (an access whose effect is unknown makes
  * everything it could change X; "LOST" is every field X). The backend
- * renders the dot image (circuit_lcd_state); the backlight is one light.
+ * renders the dot image (circuit_lcd_state); each backlight LED is a light.
+ * plan-35-D: 4-row modules (one controller's two 40-cell lines, each split
+ * in two rows) and 40x4 modules with two controllers on one bus, E1 for
+ * rows 0-1 and E2 for rows 2-3, each with its own state.
  * Not modeled: V0 and contrast, the 5x10 font (F is stored), ROM A02, tR/tF,
  * serial interfaces.
  */
@@ -369,7 +372,10 @@ int charlcd_backlight_pins(const Part *part, size_t index, size_t *anode, size_t
 #define LCD_NEVER UINT64_MAX
 #define LCD_BLINK_PS 379259259ull   /* 409.6 ms x 250 kHz / 270 kHz */
 
+/* A timer id: the kind in bits 0-1, the access's seq in bits 2-30, the
+   controller in bit 31. */
 enum { TIMER_READ_DATA, TIMER_READ_OFF, TIMER_WRITE };
+#define TIMER_SEQ_MASK 0x1FFFFFFFu
 
 /* One controller: an HD44780 with its own registers, RAM, busy flag,
    enable pin and access record (a 40x4 has two on one bus). */
@@ -400,6 +406,7 @@ typedef struct {
     int driving, drive_x;
     uint8_t drive_mask, read_value, read_known;
     uint8_t read_byte, read_byte_known;   /* 4-bit: the byte whose nibbles a read returns */
+    uint8_t out_mask, out_value, out_known;   /* what it drives on DB now (out_mask 0: nothing) */
 
     /* A write waiting out its hold window. */
     int pending, pend_rs, pend_violated;
@@ -416,7 +423,7 @@ typedef struct {
     SimTime rs_time, rw_time, db_time[LCD_DATA_BITS];
 
     CharLcdCtl ctl[LCD_MAX_ENABLES];   /* ctl[1] only with two enables */
-    Light light;
+    Light light[LCD_MAX_LEDS];         /* one per backlight LED */
 } CharLcdState;
 
 static int level(const Sim *sim, const SimInstance *instance, size_t pin) {
@@ -757,21 +764,39 @@ static void read_byte(const CharLcdCtl *ctl, SimTime now, int rs, uint8_t *value
     }
 }
 
+/*
+ * The controller drives its read (z = 0: X while drive_x, else the read
+ * value; z = 1: releases DB). The pins of its drive_mask get what every
+ * controller drives there: Z when none does; one controller's bit; with
+ * two (E1 and E2 both reading), X where they disagree or either is X.
+ */
 static void drive(Sim *sim, SimInstance *instance, CharLcdState *st, CharLcdCtl *ctl, int z) {
-    unsigned i;
+    unsigned i, k;
 
+    if (z) {
+        ctl->out_mask = 0;
+    } else {
+        ctl->out_mask = ctl->drive_mask;
+        ctl->out_known = ctl->drive_x ? 0 : ctl->read_known;
+        ctl->out_value = ctl->read_value;
+    }
     for (i = 0; i < LCD_DATA_BITS; i++) {
-        LogicValue v;
+        LogicValue v = LOGIC_Z;
 
         if (!((ctl->drive_mask >> i) & 1u)) {
             continue;
         }
-        if (z) {
-            v = LOGIC_Z;
-        } else if (ctl->drive_x || !((ctl->read_known >> i) & 1u)) {
-            v = LOGIC_X;
-        } else {
-            v = (ctl->read_value >> i) & 1u ? LOGIC_1 : LOGIC_0;
+        for (k = 0; k < st->pins.enables; k++) {
+            const CharLcdCtl *one = &st->ctl[k];
+            LogicValue mine;
+
+            if (!((one->out_mask >> i) & 1u)) {
+                continue;
+            }
+            mine = !((one->out_known >> i) & 1u) ? LOGIC_X
+                   : (one->out_value >> i) & 1u  ? LOGIC_1
+                                                 : LOGIC_0;
+            v = v == LOGIC_Z || v == mine ? mine : LOGIC_X;
         }
         sim_schedule_drive(sim, instance, st->pins.db[i], v, DRIVE_STRONG, 0);
     }
@@ -779,7 +804,10 @@ static void drive(Sim *sim, SimInstance *instance, CharLcdState *st, CharLcdCtl 
 
 static void schedule(Sim *sim, SimInstance *instance, CharLcdState *st, CharLcdCtl *ctl,
                      unsigned kind, SimTime delay) {
-    sim_schedule_timer(sim, instance, (uint32_t)(kind | (ctl->seq << 2)), delay);
+    uint32_t which = (uint32_t)(ctl - st->ctl);
+    uint32_t id = (uint32_t)(kind | ((ctl->seq & TIMER_SEQ_MASK) << 2) | (which << 31));
+
+    sim_schedule_timer(sim, instance, id, delay);
 }
 
 static void start_read(Sim *sim, SimInstance *instance, CharLcdState *st, CharLcdCtl *ctl,
@@ -910,12 +938,15 @@ static void e_fall(Sim *sim, SimInstance *instance, CharLcdState *st, CharLcdCtl
     }
 }
 
+/* Light i: LED i, on while its anode reads 1 and its cathode 0. */
 static void update_light(Sim *sim, SimInstance *instance, CharLcdState *st) {
-    if (st->pins.leds > 0) {
-        int on = sim_read_pin(sim, instance, st->pins.anode[0]) == LOGIC_1 &&
-                 sim_read_pin(sim, instance, st->pins.cathode[0]) == LOGIC_0;
+    size_t i;
 
-        lights_set(&st->light, 0, on, sim_now(sim));
+    for (i = 0; i < st->pins.leds; i++) {
+        int on = sim_read_pin(sim, instance, st->pins.anode[i]) == LOGIC_1 &&
+                 sim_read_pin(sim, instance, st->pins.cathode[i]) == LOGIC_0;
+
+        lights_set(st->light, i, on, sim_now(sim));
     }
 }
 
@@ -946,60 +977,75 @@ static void charlcd_destroy(void *state) {
 
 static void charlcd_start(Sim *sim, SimInstance *instance, void *raw) {
     CharLcdState *st = raw;
+    unsigned k;
 
-    st->ctl[0].e = level(sim, instance, st->pins.e[0]);
+    for (k = 0; k < st->pins.enables; k++) {
+        st->ctl[k].e = level(sim, instance, st->pins.e[k]);
+    }
     update_light(sim, instance, st);
 }
 
+/* A controller's enable pin changed. */
+static void e_changed(Sim *sim, SimInstance *instance, CharLcdState *st, CharLcdCtl *ctl,
+                      size_t pin, SimTime now) {
+    int e = level(sim, instance, pin);
+    int was = ctl->e;
+
+    ctl->e = e;
+    if (e == was) {
+        return;
+    }
+    if (was == 1) {
+        e_fall(sim, instance, st, ctl, now);
+    }
+    if (e == 1) {
+        e_rise(sim, instance, st, ctl, now);
+    } else if (e < 0 && !in_power_on(st, now)) {
+        /* E reading X may be an access. With R/W reading 1 it can only be
+           a read, which changes no more than AC (a data read moves it)
+           and, in 4-bit mode, the nibble phase. Anything else may be a
+           write: LOST. */
+        int rw = was == 1 ? ctl->acc_rw : level(sim, instance, st->pins.rw);
+
+        if (rw == 1) {
+            if (level(sim, instance, st->pins.rs) != 0) {
+                ctl->ac = -1;
+            }
+            if (ctl->dl != 1) {
+                ctl->phase = -1;
+            }
+        } else {
+            lose(ctl);
+            ctl->pending = 0;
+        }
+        if (ctl->driving) {
+            ctl->drive_x = 1;
+            drive(sim, instance, st, ctl, 0);
+        }
+    }
+}
+
+/* E (E1, E2) goes to its controller; RS, R/W and DB go to every controller,
+   each checking its own hold windows. */
 static void charlcd_pin_changed(Sim *sim, SimInstance *instance, void *raw, size_t pin,
                                 LogicValue old_value, LogicValue new_value) {
     CharLcdState *st = raw;
-    CharLcdCtl *ctl = &st->ctl[0];
     SimTime now = sim_now(sim);
-    unsigned i;
+    unsigned i, k;
 
     (void)old_value;
     (void)new_value;
-    if (st->pins.leds > 0 && (pin == st->pins.anode[0] || pin == st->pins.cathode[0])) {
-        update_light(sim, instance, st);
+    for (k = 0; k < st->pins.leds; k++) {
+        if (pin == st->pins.anode[k] || pin == st->pins.cathode[k]) {
+            update_light(sim, instance, st);
+            break;
+        }
     }
-    if (pin == st->pins.e[0]) {
-        int e = level(sim, instance, st->pins.e[0]);
-        int was = ctl->e;
-
-        ctl->e = e;
-        if (e == was) {
+    for (k = 0; k < st->pins.enables; k++) {
+        if (pin == st->pins.e[k]) {
+            e_changed(sim, instance, st, &st->ctl[k], pin, now);
             return;
         }
-        if (was == 1) {
-            e_fall(sim, instance, st, ctl, now);
-        }
-        if (e == 1) {
-            e_rise(sim, instance, st, ctl, now);
-        } else if (e < 0 && !in_power_on(st, now)) {
-            /* E reading X may be an access. With R/W reading 1 it can only be
-               a read, which changes no more than AC (a data read moves it)
-               and, in 4-bit mode, the nibble phase. Anything else may be a
-               write: LOST. */
-            int rw = was == 1 ? ctl->acc_rw : level(sim, instance, st->pins.rw);
-
-            if (rw == 1) {
-                if (level(sim, instance, st->pins.rs) != 0) {
-                    ctl->ac = -1;
-                }
-                if (ctl->dl != 1) {
-                    ctl->phase = -1;
-                }
-            } else {
-                lose(ctl);
-                ctl->pending = 0;
-            }
-            if (ctl->driving) {
-                ctl->drive_x = 1;
-                drive(sim, instance, st, ctl, 0);
-            }
-        }
-        return;
     }
     if (pin == st->pins.rs || pin == st->pins.rw) {
         if (pin == st->pins.rs) {
@@ -1007,16 +1053,25 @@ static void charlcd_pin_changed(Sim *sim, SimInstance *instance, void *raw, size
         } else {
             st->rw_time = now;
         }
-        if (ctl->pending && now - ctl->pend_fall < st->t->tah) {
-            ctl->pend_violated = 1;
+        for (k = 0; k < st->pins.enables; k++) {
+            CharLcdCtl *ctl = &st->ctl[k];
+
+            if (ctl->pending && now - ctl->pend_fall < st->t->tah) {
+                ctl->pend_violated = 1;
+            }
         }
         return;
     }
     for (i = 0; i < LCD_DATA_BITS; i++) {
         if (pin == st->pins.db[i]) {
             st->db_time[i] = now;
-            if (ctl->pending && ((ctl->pend_mask >> i) & 1u) && now - ctl->pend_fall < st->t->th) {
-                ctl->pend_violated = 1;
+            for (k = 0; k < st->pins.enables; k++) {
+                CharLcdCtl *ctl = &st->ctl[k];
+
+                if (ctl->pending && ((ctl->pend_mask >> i) & 1u) &&
+                    now - ctl->pend_fall < st->t->th) {
+                    ctl->pend_violated = 1;
+                }
             }
             return;
         }
@@ -1025,10 +1080,10 @@ static void charlcd_pin_changed(Sim *sim, SimInstance *instance, void *raw, size
 
 static void charlcd_timer(Sim *sim, SimInstance *instance, void *raw, uint32_t id) {
     CharLcdState *st = raw;
-    CharLcdCtl *ctl = &st->ctl[0];
+    CharLcdCtl *ctl = &st->ctl[id >> 31];
     unsigned kind = id & 3u;
 
-    if ((id >> 2) != (ctl->seq & 0x3FFFFFFFu)) {
+    if (((id >> 2) & TIMER_SEQ_MASK) != (ctl->seq & TIMER_SEQ_MASK)) {
         return;   /* from an earlier access */
     }
     switch (kind) {
@@ -1053,14 +1108,15 @@ static void charlcd_timer(Sim *sim, SimInstance *instance, void *raw, uint32_t i
 
 /* ---- Lights ---- */
 
-/* One light, the backlight; a module without one has no lights. */
+/* One light per backlight LED, in "backlight" order; a module without a
+   backlight has no lights. */
 static size_t charlcd_lights(const Sim *sim, const SimInstance *instance, const void *raw,
                              SimTime since, unsigned char *out, size_t cap) {
     const CharLcdState *st = raw;
 
     (void)sim;
     (void)instance;
-    return st->pins.leds > 0 ? lights_read(&st->light, 1, since, out, cap) : 0;
+    return st->pins.leds > 0 ? lights_read(st->light, st->pins.leds, since, out, cap) : 0;
 }
 
 static size_t charlcd_light_time(const Sim *sim, const SimInstance *instance, const void *raw,
@@ -1068,7 +1124,7 @@ static size_t charlcd_light_time(const Sim *sim, const SimInstance *instance, co
     const CharLcdState *st = raw;
 
     (void)instance;
-    return st->pins.leds > 0 ? lights_time(&st->light, 1, sim_now(sim), out, cap) : 0;
+    return st->pins.leds > 0 ? lights_time(st->light, st->pins.leds, sim_now(sim), out, cap) : 0;
 }
 
 /* ---- The image (section 4.7) ---- */
@@ -1081,22 +1137,24 @@ static int t_and(int a, int b) {
     return a == 0 || b == 0 ? 0 : a < 0 || b < 0 ? -1 : 1;
 }
 
-/* One dot for a known N: 1, 0 or -1. */
-static int image_dot(const CharLcdCtl *ctl, int n, int blink_on, unsigned row, unsigned column,
-                     unsigned y, unsigned x) {
+/* One dot for a known N: 1, 0 or -1. `line` is the controller's line
+   (0 or 1) the row shows, `offset` the row's first cell within that line
+   (section 4.4: 20 for rows 2-3 of a 20x4 on one controller, else 0). */
+static int image_dot(const CharLcdCtl *ctl, int n, int blink_on, unsigned line, unsigned offset,
+                     unsigned column, unsigned y, unsigned x) {
     int address = -1, index = -1, glyph, here, extra;
 
-    if (n == 0 && row == 1) {
+    if (n == 0 && line == 1) {
         return 0;
     }
     if (ctl->shift >= 0) {
         if (n == 1) {
-            unsigned pos = ((unsigned)ctl->shift + column) % 40;
+            unsigned pos = ((unsigned)ctl->shift + offset + column) % 40;
 
-            address = (int)(row * 0x40 + pos);
-            index = (int)(row * 40 + pos);
+            address = (int)(line * 0x40 + pos);
+            index = (int)(line * 40 + pos);
         } else {
-            address = index = (int)(((unsigned)ctl->shift + column) % 80);
+            address = index = (int)(((unsigned)ctl->shift + offset + column) % 80);
         }
     }
     if (index < 0 || ctl->ddram_known[index] != 0xFF) {
@@ -1131,7 +1189,6 @@ static int image_dot(const CharLcdCtl *ctl, int n, int blink_on, unsigned row, u
 static int charlcd_lcd_state(const Sim *sim, const void *raw, LcdState *out) {
     const CharLcdState *st = raw;
     const PartCharLcd *info = &st->pins.info;
-    const CharLcdCtl *ctl = &st->ctl[0];
     SimTime now = sim_now(sim);
     int blink_on = (now / LCD_BLINK_PS) % 2 == 0;
     unsigned row, column, y, x, k;
@@ -1150,16 +1207,22 @@ static int charlcd_lcd_state(const Sim *sim, const void *raw, LcdState *out) {
         memcpy(out->cgram_known[k], one->cgram_known, sizeof out->cgram_known[k]);
     }
     for (row = 0; row < info->rows; row++) {
+        /* Section 4.4: two enables: controller row / 2; one: controller 0,
+           rows 2-3 continuing rows 0-1's lines. */
+        const CharLcdCtl *ctl = &st->ctl[info->enables == 2 ? row / 2 : 0];
+        unsigned line = row % 2;
+        unsigned offset = info->enables == 2 ? 0 : (row / 2) * info->columns;
+
         for (column = 0; column < info->columns; column++) {
             for (y = 0; y < LCD_STATE_CELL_HEIGHT; y++) {
                 for (x = 0; x < LCD_STATE_CELL_WIDTH; x++) {
                     int dot;
 
                     if (ctl->n >= 0) {
-                        dot = image_dot(ctl, ctl->n, blink_on, row, column, y, x);
+                        dot = image_dot(ctl, ctl->n, blink_on, line, offset, column, y, x);
                     } else {
-                        int a = image_dot(ctl, 0, blink_on, row, column, y, x);
-                        int b = image_dot(ctl, 1, blink_on, row, column, y, x);
+                        int a = image_dot(ctl, 0, blink_on, line, offset, column, y, x);
+                        int b = image_dot(ctl, 1, blink_on, line, offset, column, y, x);
 
                         dot = a == b ? a : -1;
                     }

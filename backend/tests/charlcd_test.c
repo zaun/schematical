@@ -16,6 +16,7 @@
 #include "parts.h"
 #include "read_file.h"
 #include "sim.h"
+#include "voltage.h"
 
 static int failures = 0;
 static PartLibrary *library;
@@ -444,6 +445,7 @@ typedef struct {
     const Part *part;
     int four;            /* 4-bit mode: bytes go as two nibbles */
     int db_low_z;        /* every 4-bit read saw DB0-3 at Z */
+    const char *e;       /* the enable the accesses pulse: "E", or "E1" / "E2" on a 40x4 */
 } Lcd;
 
 static const char *const DB[8] = {"DB0", "DB1", "DB2", "DB3", "DB4", "DB5", "DB6", "DB7"};
@@ -459,7 +461,13 @@ static Lcd lcd_open(const char *name) {
     }
     l.b = bench_create(l.part);
     l.db_low_z = 1;
-    bench_set(l.b, "E", LOGIC_0);
+    l.e = bench_has_pin(l.b, "E") ? "E" : "E1";
+    if (bench_has_pin(l.b, "E")) {
+        bench_set(l.b, "E", LOGIC_0);
+    } else {
+        bench_set(l.b, "E1", LOGIC_0);
+        bench_set(l.b, "E2", LOGIC_0);
+    }
     bench_set(l.b, "RS", LOGIC_0);
     bench_set(l.b, "R/W", LOGIC_0);
     bench_run(l.b, 1);
@@ -499,9 +507,9 @@ static void access_write(Lcd *l, int rs, uint8_t v, uint8_t mask) {
     lv(l, "R/W", 0);
     put_db(l, v, mask);
     bench_run(l->b, NS(50));
-    lv(l, "E", 1);
+    lv(l, l->e, 1);
     bench_run(l->b, NS(500));
-    lv(l, "E", 0);
+    lv(l, l->e, 0);
     bench_run(l->b, US(2));
 }
 
@@ -513,7 +521,7 @@ static void access_read(Lcd *l, int rs, uint8_t *v, uint8_t *k) {
     lv(l, "R/W", 1);
     put_db(l, 0, 0);
     bench_run(l->b, NS(50));
-    lv(l, "E", 1);
+    lv(l, l->e, 1);
     bench_run(l->b, NS(500));
     *v = *k = 0;
     for (i = 0; i < 8; i++) {
@@ -527,7 +535,7 @@ static void access_read(Lcd *l, int rs, uint8_t *v, uint8_t *k) {
             l->db_low_z = 0;
         }
     }
-    lv(l, "E", 0);
+    lv(l, l->e, 0);
     bench_run(l->b, US(2));
     lv(l, "R/W", 0);
 }
@@ -1220,6 +1228,393 @@ static void check_partial_x(void) {
     bench_destroy(l.b);
 }
 
+/* ---- plan-35-D cases 2-9: 4 rows, two controllers, RGB backlight ---------- */
+
+/* The 8-bit init with Function Set `fs` (0x38: N = 1, 0x30: N = 0), then Clear. */
+static void init8_fs(Lcd *l, uint8_t fs) {
+    at(l, MS(100));
+    cmd(l, 0x30, MS(5));
+    cmd(l, 0x30, US(160));
+    cmd(l, 0x30, US(160));
+    cmd(l, fs, US(40));
+    cmd(l, 0x10, US(40));
+    cmd(l, 0x0C, US(40));
+    cmd(l, 0x06, US(40));
+    clear(l);
+}
+
+/* Data bytes 50 us apart. */
+static void data_bytes(Lcd *l, const uint8_t *bytes, size_t count) {
+    size_t i;
+
+    for (i = 0; i < count; i++) {
+        wr(l, 1, bytes[i]);
+        bench_run(l->b, US(50));
+    }
+}
+
+/* Row `row` columns 0..count-1 show ROM codes bytes[first + c]. */
+static int row_shows(const LcdState *st, unsigned row, const uint8_t *bytes, unsigned first,
+                     unsigned count) {
+    unsigned c;
+
+    for (c = 0; c < count; c++) {
+        if (!cell_is_rom(st, row, c, bytes[first + c])) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+/* 80 distinct ROM codes, 30-7F; byte i is the i-th write. */
+static void eighty(uint8_t bytes[80]) {
+    unsigned i;
+
+    for (i = 0; i < 80; i++) {
+        bytes[i] = (uint8_t)(0x30 + i);
+    }
+}
+
+static void check_2004_map(void) {
+    Lcd l = lcd_open("FX-2004");
+    LcdState st;
+    uint8_t bytes[80];
+    int ac;
+
+    eighty(bytes);
+    init8_fs(&l, 0x38);
+    data_bytes(&l, bytes, 80);
+    ac = read_ac(&l);
+    lcd_state(&l, &st);
+    expect(ac == 0x00 && st.ddram[0][39] == bytes[39] && st.ddram[0][40] == bytes[40] &&
+               st.ddram[0][79] == bytes[79],
+           "D2 20x4 map: 80 writes from 00 wrap 27 -> 40 and 67 -> 00 (AC 00 after)");
+    expect(st.rows == 4 && st.controllers == 1 && row_shows(&st, 0, bytes, 0, 20),
+           "D2 20x4 map: row 0 shows bytes 0-19 (addresses 00-13)");
+    expect(row_shows(&st, 1, bytes, 40, 20), "D2 20x4 map: row 1 shows bytes 40-59 (addresses 40-53)");
+    expect(row_shows(&st, 2, bytes, 20, 20), "D2 20x4 map: row 2 shows bytes 20-39 (addresses 14-27)");
+    expect(row_shows(&st, 3, bytes, 60, 20), "D2 20x4 map: row 3 shows bytes 60-79 (addresses 54-67)");
+
+    /* Case 3: shift the display left once. */
+    cmd(&l, 0x18, US(40));
+    lcd_state(&l, &st);
+    expect(cell_is_rom(&st, 2, 0, bytes[0x15]) && cell_is_rom(&st, 0, 19, bytes[0x14]),
+           "D3 20x4 shift: after one left shift row 2 column 0 shows address 15, row 0 column 19 address 14");
+    expect(cell_is_rom(&st, 1, 0, bytes[40 + 1]) && cell_is_rom(&st, 3, 19, bytes[40]),
+           "D3 20x4 shift: row 1 column 0 shows address 41, row 3 column 19 wraps to address 40");
+    bench_destroy(l.b);
+}
+
+static void check_2004_one_line(void) {
+    Lcd l = lcd_open("FX-2004");
+    LcdState st;
+    uint8_t bytes[80];
+
+    eighty(bytes);
+    init8_fs(&l, 0x30);
+    data_bytes(&l, bytes, 80);
+    lcd_state(&l, &st);
+    expect(row_all(&st, 1, 20, LCD_DOT_OFF) && row_all(&st, 3, 20, LCD_DOT_OFF),
+           "D4 20x4 1-line: N = 0: rows 1 and 3 are off");
+    expect(row_shows(&st, 0, bytes, 0, 20) && row_shows(&st, 2, bytes, 20, 20),
+           "D4 20x4 1-line: row 0 shows addresses 00-13, row 2 addresses 14-27");
+    bench_destroy(l.b);
+}
+
+static void check_4004(void) {
+    Lcd l = lcd_open("FX-4004");
+    LcdState st;
+    uint8_t v, k;
+    unsigned i;
+    int spaces;
+
+    l.e = "E1";
+    init8_fs(&l, 0x38);
+    text(&l, "TOP");
+    lcd_state(&l, &st);
+    expect(st.rows == 4 && st.columns == 40 && cell_is_rom(&st, 0, 0, 'T') &&
+               cell_is_rom(&st, 0, 1, 'O') && cell_is_rom(&st, 0, 2, 'P') &&
+               row_all(&st, 1, 40, LCD_DOT_OFF),
+           "D5 40x4: E1 init + TOP shows on row 0");
+    expect(row_all(&st, 2, 40, LCD_DOT_OFF) && row_all(&st, 3, 40, LCD_DOT_OFF),
+           "D5 40x4: rows 2-3 stay blank while E2 is not initialised (its display is off)");
+    l.e = "E2";
+    init8_fs(&l, 0x38);
+    text(&l, "LOW");
+    lcd_state(&l, &st);
+    expect(cell_is_rom(&st, 2, 0, 'L') && cell_is_rom(&st, 2, 1, 'O') && cell_is_rom(&st, 2, 2, 'W') &&
+               row_all(&st, 3, 40, LCD_DOT_OFF) && cell_is_rom(&st, 0, 0, 'T'),
+           "D5 40x4: then E2 init + LOW shows on row 2; row 0 keeps TOP");
+    expect(st.controllers == 2 && st.ddram[1][0] == 'L' && st.ddram[0][0] == 'T' &&
+               st.ddram[1][3] == 0x20 && st.ddram[0][3] == 0x20,
+           "D5 40x4: LcdState.controllers 2, ddram[0][0] = T, ddram[1][0] = L");
+    wr(&l, 0, 0x01);   /* Clear on E2: busy 1.52 ms */
+    lcd_state(&l, &st);
+    expect(st.busy[1] == 1 && st.busy[0] == 0,
+           "D5 40x4: busy[] are separate: E2 busy after its Clear, E1 not");
+    l.e = "E1";
+    expect(read_ac(&l) == 0x03, "D5 40x4: a BF/AC read through E1 meanwhile: BF 0, AC 03");
+    l.e = "E2";
+    rd(&l, 0, &v, &k);
+    expect((k & 0x80) && (v & 0x80), "D5 40x4: a BF read through E2 meanwhile: BF 1");
+    bench_destroy(l.b);
+
+    /* E2 never initialised: during its power-on BF = 1 and writes are ignored. */
+    l = lcd_open("FX-4004");
+    l.e = "E2";
+    at(&l, MS(1));
+    rd(&l, 0, &v, &k);
+    expect((k & 0x80) && (v & 0x80), "D5 40x4: at 1 ms a BF read through E2: BF 1 (power-on)");
+    text(&l, "XY");
+    l.e = "E1";
+    init8_fs(&l, 0x38);
+    text(&l, "TOP");
+    lcd_state(&l, &st);
+    spaces = 1;
+    for (i = 0; i < 80; i++) {
+        spaces = spaces && st.ddram[1][i] == 0x20 && st.ddram_known[1][i] == 0xFF;
+    }
+    expect(spaces && row_all(&st, 2, 40, LCD_DOT_OFF) && row_all(&st, 3, 40, LCD_DOT_OFF) &&
+               cell_is_rom(&st, 0, 0, 'T'),
+           "D5 40x4: E2 never initialised: its writes at 1 ms were ignored (DDRAM spaces), rows 2-3 blank");
+    bench_destroy(l.b);
+}
+
+/* A 40x4 with both controllers initialised; "TOP" through E1, "LOW" through E2. */
+static Lcd ready_4004(void) {
+    Lcd l = lcd_open("FX-4004");
+
+    l.e = "E1";
+    init8_fs(&l, 0x38);
+    text(&l, "TOP");
+    l.e = "E2";
+    init8_fs(&l, 0x38);
+    text(&l, "LOW");
+    return l;
+}
+
+/* A read access with E1 and E2 both high; DB sampled before they fall. */
+static void read_both(Lcd *l, int rs, uint8_t *v, uint8_t *k) {
+    unsigned i;
+
+    lv(l, "RS", rs);
+    lv(l, "R/W", 1);
+    put_db(l, 0, 0);
+    bench_run(l->b, NS(50));
+    lv(l, "E1", 1);
+    lv(l, "E2", 1);
+    bench_run(l->b, NS(500));
+    *v = *k = 0;
+    for (i = 0; i < 8; i++) {
+        LogicValue x = bench_get(l->b, DB[i]);
+
+        if (x == LOGIC_0 || x == LOGIC_1) {
+            *k |= (uint8_t)(1u << i);
+            *v |= (uint8_t)((x == LOGIC_1) << i);
+        }
+    }
+    lv(l, "E1", 0);
+    lv(l, "E2", 0);
+    bench_run(l->b, US(2));
+    lv(l, "R/W", 0);
+}
+
+static void check_4004_clash(void) {
+    Lcd l = ready_4004();
+    uint8_t v, k;
+
+    /* Both AC are 03. Set E1's to 00, then Clear E2 (AC 00, busy 1.52 ms):
+       the AC values agree and only BF differs. */
+    l.e = "E1";
+    cmd(&l, 0x80, US(40));
+    l.e = "E2";
+    wr(&l, 0, 0x01);
+    read_both(&l, 0, &v, &k);
+    expect(k == 0x7F && (v & 0x7F) == 0x00,
+           "D6 40x4 read clash: BF read with E1 and E2 high, busy flags differ: DB7 X, DB6-0 = AC 00");
+    bench_run(l.b, MS(2));
+    read_both(&l, 0, &v, &k);
+    expect(k == 0xFF && v == 0x00, "D6 40x4 read clash: both BF 0 and AC 00: every DB bit known (00)");
+    bench_run(l.b, US(1));
+    expect(db_all(&l, LOGIC_Z), "D6 40x4 read clash: after both reads end, DB is released (Z)");
+    l.e = "E1";
+    cmd(&l, 0x83, US(40));
+    read_both(&l, 0, &v, &k);
+    expect(k == 0xFC && (v & 0xFC) == 0x00,
+           "D6 40x4 read clash: AC 03 and 00: DB1-0 X, the agreeing bits known");
+    bench_destroy(l.b);
+}
+
+static void check_4004_timing(void) {
+    Lcd l = ready_4004();
+    LcdState st;
+
+    /* Each controller has its own access count for its timers: an E2 access
+       starting inside an E1 write's hold window leaves that write pending. */
+    lv(&l, "RS", 1);
+    lv(&l, "R/W", 0);
+    put_db(&l, 'A', 0xFF);
+    bench_run(l.b, NS(50));
+    lv(&l, "E1", 1);
+    bench_run(l.b, NS(500));
+    lv(&l, "E1", 0);
+    bench_run(l.b, NS(5));
+    lv(&l, "E2", 1);
+    bench_run(l.b, NS(500));
+    lv(&l, "E2", 0);
+    bench_run(l.b, US(50));
+    lcd_state(&l, &st);
+    expect(st.ddram[0][3] == 'A' && st.ddram_known[0][3] == 0xFF && st.ddram[1][3] == 'A' &&
+               st.ddram_known[1][3] == 0xFF,
+           "D7 40x4 timing: an E2 write rising 5 ns after an E1 write's fall: both take effect");
+
+    /* An instruction write through E2 with E2 high 100 ns (< tpw 140). */
+    lv(&l, "RS", 0);
+    lv(&l, "R/W", 0);
+    put_db(&l, 0x01, 0xFF);
+    bench_run(l.b, NS(50));
+    lv(&l, "E2", 1);
+    bench_run(l.b, NS(100));
+    lv(&l, "E2", 0);
+    bench_run(l.b, US(40));
+    lcd_state(&l, &st);
+    expect(st.busy[1] == -1 && st.ddram_known[1][0] == 0 && row_all(&st, 2, 40, LCD_DOT_X) &&
+               row_all(&st, 3, 40, LCD_DOT_X),
+           "D7 40x4 timing: an E2 pulse shorter than tpw makes controller 2 LOST (BF, RAM, rows 2-3 X)");
+    expect(st.busy[0] == 0 && st.ddram_known[0][0] == 0xFF && cell_is_rom(&st, 0, 0, 'T') &&
+               cell_is_rom(&st, 0, 2, 'P') && row_all(&st, 1, 40, LCD_DOT_OFF),
+           "D7 40x4 timing: controller 1 stays known (BF 0, TOP on row 0)");
+    l.e = "E1";
+    expect(read_ac(&l) == 0x04, "D7 40x4 timing: E1 reads BF 0, AC 04");
+    bench_destroy(l.b);
+}
+
+/* FX-RGB in a circuit: VSS, V0 on GND, VDD and LED+ on 5V, and each
+   cathode K(R) 18, K(G) 17, K(B) 16 on 5V (1) or GND (0). */
+static Circuit *rgb_circuit(int red, int green, int blue, size_t *part) {
+    Circuit *c = circuit_create(library);
+    size_t p5, pg, n5, ng;
+
+    circuit_add_part(c, "FX-RGB", part);
+    circuit_add_part(c, "5V", &p5);
+    circuit_add_part(c, "GND", &pg);
+    circuit_add_net(c, &n5);
+    circuit_add_net(c, &ng);
+    circuit_connect(c, p5, "1", n5);
+    circuit_connect(c, pg, "1", ng);
+    circuit_connect(c, *part, "1", ng);
+    circuit_connect(c, *part, "2", n5);
+    circuit_connect(c, *part, "3", ng);
+    circuit_connect(c, *part, "15", n5);
+    circuit_connect(c, *part, "18", red ? n5 : ng);
+    circuit_connect(c, *part, "17", green ? n5 : ng);
+    circuit_connect(c, *part, "16", blue ? n5 : ng);
+    return c;
+}
+
+static void check_rgb_lights(void) {
+    Circuit *c;
+    size_t part;
+    unsigned char on[4] = {9, 9, 9, 9};
+    uint64_t time[4] = {0};
+    size_t lights = 0, times = 0;
+    int started;
+
+    c = rgb_circuit(1, 0, 1, &part);
+    started = circuit_start(c) == 0 && circuit_advance(c, US(10));
+    if (started) {
+        lights = circuit_part_lights(c, part, on, 4);
+    }
+    expect(started && lights == 3 && on[0] == 0 && on[1] == 1 && on[2] == 0,
+           "D8 RGB lights: three lights; K(G) low, K(R) and K(B) high: lights R, G, B = 0/1/0");
+    started = started && circuit_advance(c, US(10));
+    if (started) {
+        times = circuit_part_light_time(c, part, time, 4);
+    }
+    expect(started && times == 3 && time[0] == 0 && time[2] == 0 && time[1] >= US(19) &&
+               time[1] <= US(20),
+           "D8 RGB lights: light times per LED: green on ~20 us, red and blue 0");
+    circuit_destroy(c);
+    c = rgb_circuit(0, 1, 0, &part);
+    started = circuit_start(c) == 0 && circuit_advance(c, US(10));
+    if (started) {
+        lights = circuit_part_lights(c, part, on, 4);
+    }
+    expect(started && lights == 3 && on[0] == 1 && on[1] == 0 && on[2] == 1,
+           "D8 RGB lights: K(R) and K(B) low, K(G) high: 1/0/1");
+    circuit_destroy(c);
+}
+
+static size_t pin_number(const Part *part, unsigned number) {
+    char text[8];
+    size_t i;
+
+    snprintf(text, sizeof text, "%u", number);
+    for (i = 0; i < part->pin_count; i++) {
+        if (strcmp(part->pins[i].designator, text) == 0) {
+            return i;
+        }
+    }
+    fprintf(stderr, "%s has no pin %u\n", part->name, number);
+    exit(1);
+}
+
+static void check_rgb_voltage(void) {
+    /* FX-RGB with LED+ on 5V and K(R), K(G), K(B) on three nets with no
+       other driver; each net goes to an input of a 3.6 V-max probe. */
+    const Part *rgb = part_library_find(library, "FX-RGB");
+    const Part *probe = part_library_find(library, "FX-LCD-3V");
+    const Part *five = part_library_find(library, "5V");
+    const Part *parts[3];
+    VoltageConnection conn[8];
+    VoltageProblem problems[8];
+    size_t count, n = 0, i;
+    int seen[3] = {0, 0, 0};
+    int ok;
+
+    if (rgb == NULL || probe == NULL || five == NULL) {
+        expect(0, "D9 RGB voltage: fixture parts");
+        return;
+    }
+    parts[0] = rgb;
+    parts[1] = probe;
+    parts[2] = five;
+    /* net 0: 5V; nets 1-3: K(R), K(G), K(B). */
+    conn[n++] = (VoltageConnection){2, 0, 0};
+    conn[n++] = (VoltageConnection){0, pin_number(rgb, 15), 0};
+    conn[n++] = (VoltageConnection){0, pin_number(rgb, 18), 1};
+    conn[n++] = (VoltageConnection){0, pin_number(rgb, 17), 2};
+    conn[n++] = (VoltageConnection){0, pin_number(rgb, 16), 3};
+    conn[n++] = (VoltageConnection){1, pin_number(probe, 4), 1};   /* RS */
+    conn[n++] = (VoltageConnection){1, pin_number(probe, 5), 2};   /* R/W */
+    conn[n++] = (VoltageConnection){1, pin_number(probe, 6), 3};   /* E */
+    count = voltage_check(parts, 3, 4, conn, n, NULL, 0, problems, 8);
+    ok = count == 3;
+    for (i = 0; ok && i < count; i++) {
+        ok = problems[i].kind == VOLTAGE_INPUT_OVER && problems[i].part == 1 &&
+             problems[i].mv == 5000 && problems[i].net >= 1 && problems[i].net <= 3;
+        if (ok) {
+            seen[problems[i].net - 1] = 1;
+        }
+    }
+    expect(ok && seen[0] && seen[1] && seen[2],
+           "D9 RGB voltage: LED+ on 5V carries 5 V to all three cathode nets (3 INPUT_OVER on the probe)");
+    /* The same with K(G) also on GND: that net is 0 V. */
+    {
+        const Part *ground = part_library_find(library, "GND");
+
+        parts[2] = five;
+        if (ground != NULL) {
+            const Part *more[4] = {rgb, probe, five, ground};
+
+            conn[n] = (VoltageConnection){3, 0, 2};
+            count = voltage_check(more, 4, 4, conn, n + 1, NULL, 0, problems, 8);
+            expect(count == 2 && problems[0].net == 1 && problems[1].net == 3,
+                   "D9 RGB voltage: GND on K(G)'s net overrides the carried level (2 problems: K(R), K(B))");
+        }
+    }
+}
+
 /* ---- Cases 17-18: backlight and voltage ---- */
 
 /* A circuit of `lcd` with 5V, 3V3 and GND; VSS and LED- on GND, V0 on GND,
@@ -1655,6 +2050,12 @@ int main(int argc, char **argv) {
                           "fx-rgb.json");
     }
     if (error == NULL) {
+        /* A 3.6 V-max probe for case 9: its inputs flag a carried 5 V. */
+        error = load_file(library, device_file("FX-LCD-3V", "16", "2", "'A00'", "'yellow-green'",
+                                               DATA, TIMING, EXEC, "'vcc':[2.7,3.6],"),
+                          "fx-lcd-3v.json");
+    }
+    if (error == NULL) {
         /* The pull parts name resistor footprints (plan-26-A). */
         char *footprints = read_file(PARTS_DIR "/footprints.json");
 
@@ -1696,6 +2097,13 @@ int main(int argc, char **argv) {
     check_write_violations();
     check_lost();
     check_partial_x();
+    check_2004_map();
+    check_2004_one_line();
+    check_4004();
+    check_4004_clash();
+    check_4004_timing();
+    check_rgb_lights();
+    check_rgb_voltage();
     check_backlight();
     check_voltage();
     check_api();
