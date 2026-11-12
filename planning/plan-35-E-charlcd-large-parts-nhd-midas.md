@@ -51,8 +51,8 @@ Everything below is written against the world where these hold.
 - `git diff backend/tests/golden/parts.txt | grep -c '^-[^-]'` → 0 (was 5
   drawer lines; moot, Corrections 9); `git diff backend/tests/golden/traces.txt | grep -c '^-[^-]'` → 0.
 - `ctest --test-dir /tmp/logic-p35` → `100% tests passed`.
-- `charlcd_test` shows text on every one of the 40 `charlcd` parts (§ 4.3)
-  and passes the two CPU boards (§ 4.4).
+- `charlcd_test` shows text on every one of the 40 `charlcd` parts (§ 4.1)
+  and passes the two CPU boards (§ 4.3; corrected, Corrections 10).
 
 ### Non-goals (explicit constraints)
 
@@ -164,11 +164,14 @@ Everything below is written against the world where these hold.
 
 `check_real_parts` loops over `library` parts with `kind == PART_CHARLCD`:
 
+- through the part's own bus pins (`bus_pins`) and its own timing and
+  exec times;
 - 8-bit init, clear, then `"HELLO"`, through E (or E1);
-- two-enable parts do the same through E2 with `"WORLD"`;
-- a 4-row part also sets DDRAM 0x14 and writes `"ROW3"`;
-- expect cell (0,0) = ROM 'H'; on 4-row parts cell (2,0) = 'R' and,
-  with two enables, cell (2,0) = 'W'.
+- a 4-row part then sets DDRAM 0x14 and writes `"ROW3"`, through E (or E1);
+- two-enable parts then init, clear and write `"WORLD"` through E2;
+- expect cells (0,0…4) = ROM `HELLO`; on one-enable 4-row parts cell
+  (2,0) = 'R'; with two enables, 0x14 is controller 1's line 0, column 20,
+  so cell (0,20) = 'R' and cell (2,0) = 'W' (corrected, Corrections 10).
 
 The line names the part, so a failure says which one.
 
@@ -186,7 +189,10 @@ adds `NHD-0420DZ-FL-YBW` (37 µs exec) and `MC44005A6W-FPTLW-V2` (ST7066U
    `LINE3`, `LINE4`. Expect rows 0–3 to show them, and BF 0.
 2. **40 × 4: the same board with NHD-0440WH-ATFH-JT#.** A13 selects E1
    (A13 = 0) or E2 (A13 = 1): E1 = PHI2 · A14 · /A15 · /A13,
-   E2 = PHI2 · A14 · /A15 · A13, two more SN74HC11N gates. The program
+   E2 = PHI2 · A14 · /A15 · A13, two more SN74HC11N gates (gate 1 becomes
+   SEL = A14 · /A15, gates 2 and 3 are PHI2 · SEL · /A13 and
+   PHI2 · SEL · A13; /A13 is SN74HC00N gate 3; corrected, Corrections 11).
+   The program
    initialises both controllers and writes `TOP` through E1 and `BOTTOM`
    through E2. Expect row 0 `TOP` and row 2 `BOTTOM`.
    - The timing margins are those of plan-11-C § 2's MPS6502 analysis
@@ -253,15 +259,43 @@ footprints.txt 1230 (F0 1212 + 18), `grep -c '|charlcd|'` → 40,
 `git diff backend/tests/golden | grep -c '^-[^-]'` → 0; ctest "100% tests
 passed, 0 tests failed out of 30".
 
-Commit: —
+Commit: 0c364c6
 
 ### Phase 3 — every-part check and the boards
 
-- [ ] § 4.1, § 4.2 and § 4.3 in `charlcd_test.c`.
+- [x] § 4.1, § 4.2 and § 4.3 in `charlcd_test.c`. — `check_every_part`
+      loops over the library's `PART_CHARLCD` parts; pin names come from
+      `bus_pins`, the access shape (setup tAS, E high max(tPW, tDSW, tDDR),
+      hold max(tH, tAH, tDHR), cycle ≥ tC, each + 20 ns) and the waits
+      (exec + 1 µs, power-on + 1 ms) from the part's device in
+      `charlcd.json`. The boards' programs are assembled in the test (one
+      BF-polled list loop per controller, no indexed store to the LCD).
+- [x] Timing margins (§ 4.3): NHD-0440WH-ATFH-JT.pdf pp.7–8 (images, read
+      at 300 dpi): tC 1200, tPW 140, tR/tF ≤ 25, tAS 0, tAH 10, tDSW 40,
+      tH 10, tDDR ≤ 100 ns — the same as NHD-0420DZ-FL-YBW and the 16 × 2
+      NHD parts. Both boards keep PHI2 → E (E1, E2) at one SN74HC11N gate
+      (10 ns), so plan-11-C § 2 holds unchanged: tPW ≈ 500 ≥ 140 (+360);
+      tAS 210 ≥ 0 (RS, R/W valid 300 ns after PHI2 falls, E rises 510 ns
+      after); tDSW 310 ≥ 40 (+270); tH = tAH = 30 − 10 = 20 ≥ 10 (+10);
+      tR/tF 10 ≤ 25; LCD accesses ≥ 4 cycles apart ≥ tC 1200; read data
+      valid 110 ns after PHI2 rises, sampled at its fall (+390). A second
+      gate level in the PHI2 path would leave tH = 30 − 20 = 10, zero
+      margin, hence the SEL arrangement (Corrections 11).
 
 Check: `/tmp/logic-p35/charlcd_test | grep -c '^FAIL'` → 0, with one
 every-part PASS line per `charlcd` part (40) and the two board lines
-(est. 2 min).
+(est. 2 min). — 2026-11-11: FAIL count 0 (`all passed`); 40 every-part
+PASS lines (`E 4.1 every part: <name> (…)`) plus "40 charlcd parts run";
+"PASS: E 4.3 MPS6502 + NHD-0420DZ-FL-YBW board: DDRAM 00/40/14/54 =
+LINE1-4 on rows 0-3 (ROM cells), BF 0, the CPU RUNNING at its JMP"
+(`JMP $8022`) and "PASS: E 4.3 MPS6502 + NHD-0440WH-ATFH-JT# board: TOP
+through E1 on row 0, BOTTOM through E2 on row 2, rows 1 and 3 blank, both
+BF 0, the CPU RUNNING at its JMP" (`JMP $8042`); the four § 4.2 exec lines
+pass; `ctest --test-dir /tmp/logic-p35` → "100% tests passed, 0 tests
+failed out of 30"; `git diff --exit-code backend/tests/golden` → exit 0.
+Sanity: E2's init and WORLD sent through E1, ROW3's 0x94 changed to 0xD4
+on board 1, and board 2's E2 gate fed /A13 → 9 FAILs (the 7 two-enable
+parts and both boards); restored → 0.
 
 Commit: —
 
@@ -333,6 +367,25 @@ Phase 2 (2026-11-11):
    use `["Displays", "Character"]` with `function` 20x4 / 40x2 / 40x4
    (gen-parts.py corrected), and parts.txt changes no existing line (§ 1
    corrected from 5 to 0).
+
+Phase 3 (2026-11-11):
+
+10. **§ 4.1's expectations contradicted each other on two-enable parts**
+    ("on 4-row parts cell (2,0) = 'R' and, with two enables, cell (2,0) =
+    'W'"). With two enables each controller is a 2-line controller of 40
+    columns (plan-35-D § 4.2, § 4.4), so DDRAM 0x14 written through E1 is
+    row 0, column 20, and row 2 is E2's line 0. § 4.1 now writes ROW3
+    through E (E1) and expects (2,0) = 'R' on one-enable 4-row parts, and
+    (0,20) = 'R' and (2,0) = 'W' with two enables. § 1 also pointed at
+    § 4.3 / § 4.4 for the check and boards; they are § 4.1 / § 4.3.
+11. **Board 2's gates: SEL first, not a 4-input AND after the old E.**
+    Chaining /A13 after the board's PHI2 · A14 · /A15 gate puts two gate
+    levels (20 ns) between PHI2 and E1/E2, leaving tH = tAH = 30 − 20 =
+    10 ns, exactly the limit. SN74HC11N gate 1 makes SEL = A14 · /A15 (1C
+    tied to 5V), gates 2 and 3 make E1 = PHI2 · SEL · /A13 and
+    E2 = PHI2 · SEL · A13, and SN74HC00N gate 3 makes /A13: still "two
+    more SN74HC11N gates", plus one NAND as an inverter, and PHI2 → E stays
+    10 ns as in plan-11-C § 2. Board 1 keeps the HELLO board's single gate.
 
 ## Summary
 

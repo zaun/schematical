@@ -10,6 +10,7 @@
 #include <string.h>
 
 #include "bench.h"
+#include "cJSON.h"
 #include "circuit.h"
 #include "charlcd_font.h"
 #include "kind.h"
@@ -446,12 +447,57 @@ typedef struct {
     int four;            /* 4-bit mode: bytes go as two nibbles */
     int db_low_z;        /* every 4-bit read saw DB0-3 at Z */
     const char *e;       /* the enable the accesses pulse: "E", or "E1" / "E2" on a 40x4 */
+    /* The bus pins' names, from the part's bus_pins (RS, R/W, E or E1 and
+       E2, DB0-DB7); the bench finds a pin by its name. */
+    const char *rs, *rw, *en[2], *db[8];
+    unsigned enables;
+    int pins_ok;         /* each bus pin is the first pin of its name */
+    /* One access: RS, R/W and DB set `setup` before E rises, E high `high`,
+       then `after` with E low before the next change. */
+    SimTime setup, high, after;
 } Lcd;
 
 static const char *const DB[8] = {"DB0", "DB1", "DB2", "DB3", "DB4", "DB5", "DB6", "DB7"};
 
+/* The bus pin names from part->charlcd->bus_pins: RS, R/W, E (E1, E2),
+   DB0-DB7. pins_ok: the counts are right and each bus pin is the first pin
+   of its name (the one the bench drives). */
+static void lcd_pins(Lcd *l) {
+    const PartCharLcd *c = l->part->charlcd;
+    const char **names[12];
+    size_t i, n = 0, j;
+
+    names[n++] = &l->rs;
+    names[n++] = &l->rw;
+    l->enables = c != NULL && c->enables == 2 ? 2 : 1;
+    names[n++] = &l->en[0];
+    if (l->enables == 2) {
+        names[n++] = &l->en[1];
+    }
+    for (i = 0; i < 8; i++) {
+        names[n++] = &l->db[i];
+    }
+    l->pins_ok = c != NULL && c->bus_pin_count == n;
+    for (i = 0; i < n; i++) {
+        size_t index = l->pins_ok ? c->bus_pins[i] : 0;
+
+        if (!l->pins_ok || index >= l->part->pin_count) {
+            fprintf(stderr, "%s: bad bus_pins\n", l->part->name);
+            exit(1);
+        }
+        *names[i] = l->part->pins[index].name;
+        for (j = 0; j < index; j++) {
+            l->pins_ok = l->pins_ok && strcmp(l->part->pins[j].name, *names[i]) != 0;
+        }
+    }
+    if (l->enables == 1) {
+        l->en[1] = NULL;
+    }
+}
+
 static Lcd lcd_open(const char *name) {
     Lcd l;
+    unsigned i;
 
     memset(&l, 0, sizeof l);
     l.part = part_library_find(library, name);
@@ -461,15 +507,16 @@ static Lcd lcd_open(const char *name) {
     }
     l.b = bench_create(l.part);
     l.db_low_z = 1;
-    l.e = bench_has_pin(l.b, "E") ? "E" : "E1";
-    if (bench_has_pin(l.b, "E")) {
-        bench_set(l.b, "E", LOGIC_0);
-    } else {
-        bench_set(l.b, "E1", LOGIC_0);
-        bench_set(l.b, "E2", LOGIC_0);
+    l.setup = NS(50);
+    l.high = NS(500);
+    l.after = US(2);
+    lcd_pins(&l);
+    l.e = l.en[0];
+    for (i = 0; i < l.enables; i++) {
+        bench_set(l.b, l.en[i], LOGIC_0);
     }
-    bench_set(l.b, "RS", LOGIC_0);
-    bench_set(l.b, "R/W", LOGIC_0);
+    bench_set(l.b, l.rs, LOGIC_0);
+    bench_set(l.b, l.rw, LOGIC_0);
     bench_run(l.b, 1);
     return l;
 }
@@ -494,38 +541,39 @@ static void put_db(Lcd *l, uint8_t v, uint8_t mask) {
 
     for (i = 0; i < 8; i++) {
         if ((mask >> i) & 1u) {
-            lv(l, DB[i], (v >> i) & 1u);
+            lv(l, l->db[i], (v >> i) & 1u);
         } else {
-            bench_set(l->b, DB[i], LOGIC_Z);
+            bench_set(l->b, l->db[i], LOGIC_Z);
         }
     }
 }
 
-/* One write access: E high 500 ns, every setup and hold met, 2 us after. */
+/* One write access: setup, E high, after (by default 50 ns, 500 ns, 2 us:
+   every setup and hold met). */
 static void access_write(Lcd *l, int rs, uint8_t v, uint8_t mask) {
-    lv(l, "RS", rs);
-    lv(l, "R/W", 0);
+    lv(l, l->rs, rs);
+    lv(l, l->rw, 0);
     put_db(l, v, mask);
-    bench_run(l->b, NS(50));
+    bench_run(l->b, l->setup);
     lv(l, l->e, 1);
-    bench_run(l->b, NS(500));
+    bench_run(l->b, l->high);
     lv(l, l->e, 0);
-    bench_run(l->b, US(2));
+    bench_run(l->b, l->after);
 }
 
 /* One read access; the DB values sampled just before E falls. */
 static void access_read(Lcd *l, int rs, uint8_t *v, uint8_t *k) {
     unsigned i;
 
-    lv(l, "RS", rs);
-    lv(l, "R/W", 1);
+    lv(l, l->rs, rs);
+    lv(l, l->rw, 1);
     put_db(l, 0, 0);
-    bench_run(l->b, NS(50));
+    bench_run(l->b, l->setup);
     lv(l, l->e, 1);
-    bench_run(l->b, NS(500));
+    bench_run(l->b, l->high);
     *v = *k = 0;
     for (i = 0; i < 8; i++) {
-        LogicValue x = bench_get(l->b, DB[i]);
+        LogicValue x = bench_get(l->b, l->db[i]);
 
         if (x == LOGIC_0 || x == LOGIC_1) {
             *k |= (uint8_t)(1u << i);
@@ -536,8 +584,8 @@ static void access_read(Lcd *l, int rs, uint8_t *v, uint8_t *k) {
         }
     }
     lv(l, l->e, 0);
-    bench_run(l->b, US(2));
-    lv(l, "R/W", 0);
+    bench_run(l->b, l->after);
+    lv(l, l->rw, 0);
 }
 
 static void wr(Lcd *l, int rs, uint8_t byte) {
@@ -1712,14 +1760,193 @@ static void check_api(void) {
     circuit_destroy(c);
 }
 
-/* ---- plan-11-C section 4.5: the real parts ---- */
+/* ---- plan-35-E section 4.1: every charlcd part in the library ---- */
 
 static PartLibrary *real_library;
 
+/* A part's timing and exec times (ps), read from its device in charlcd.json
+   (the library keeps them private to the model). */
+typedef struct {
+    SimTime tc, tpw, tas, tah, tdsw, th, tddr, tdhr;
+    SimTime instruction, data, clear_home, power_on;
+} RealTiming;
+
+static cJSON *charlcd_json;
+
+static int json_ns(const cJSON *object, const char *key, SimTime *out) {
+    const cJSON *item = cJSON_GetObjectItemCaseSensitive(object, key);
+
+    if (!cJSON_IsNumber(item) || item->valuedouble < 0.0) {
+        return 0;
+    }
+    *out = (SimTime)(item->valuedouble * 1000.0 + 0.5);
+    return 1;
+}
+
+/* 1 when part_name's device was found and every time read. */
+static int real_timing(const char *part_name, RealTiming *t) {
+    cJSON *devices = cJSON_GetObjectItemCaseSensitive(charlcd_json, "devices");
+    cJSON *device, *p;
+
+    cJSON_ArrayForEach(device, devices) {
+        cJSON_ArrayForEach(p, cJSON_GetObjectItemCaseSensitive(device, "parts")) {
+            const cJSON *name = cJSON_GetObjectItemCaseSensitive(p, "name");
+            const cJSON *tm = cJSON_GetObjectItemCaseSensitive(device, "timing");
+            const cJSON *ex = cJSON_GetObjectItemCaseSensitive(device, "exec");
+
+            if (!cJSON_IsString(name) || strcmp(name->valuestring, part_name) != 0) {
+                continue;
+            }
+            return json_ns(tm, "tc", &t->tc) && json_ns(tm, "tpw", &t->tpw) &&
+                   json_ns(tm, "tas", &t->tas) && json_ns(tm, "tah", &t->tah) &&
+                   json_ns(tm, "tdsw", &t->tdsw) && json_ns(tm, "th", &t->th) &&
+                   json_ns(tm, "tddr", &t->tddr) && json_ns(tm, "tdhr", &t->tdhr) &&
+                   json_ns(ex, "instruction", &t->instruction) && json_ns(ex, "data", &t->data) &&
+                   json_ns(ex, "clearHome", &t->clear_home) && json_ns(ex, "powerOn", &t->power_on);
+        }
+    }
+    return 0;
+}
+
+static SimTime max_time(SimTime a, SimTime b) {
+    return a > b ? a : b;
+}
+
+/* The access shape from the part's own limits, each with 20 ns to spare:
+   setup tAS, E high max(tPW, tDSW, tDDR), E low after max(tH, tAH, tDHR),
+   and an E cycle of at least tC. */
+static void real_bus(Lcd *l, const RealTiming *t) {
+    l->setup = t->tas + NS(20);
+    l->high = max_time(max_time(t->tpw, t->tdsw), t->tddr) + NS(20);
+    l->after = max_time(max_time(t->th, t->tah), t->tdhr) + NS(20);
+    if (l->setup + l->high + l->after < t->tc) {
+        l->after = t->tc - l->setup - l->high;
+    }
+}
+
+/* A write, then the part's exec time + 1 us. */
+static void real_write(Lcd *l, int rs, uint8_t byte, SimTime exec) {
+    wr(l, rs, byte);
+    bench_run(l->b, exec + US(1));
+}
+
+/* After the part's power-on wait (+1 ms; no wait once past it): the 8-bit
+   init of init8, then Clear, through l->e. */
+static void real_init(Lcd *l, const RealTiming *t) {
+    static const uint8_t INIT[] = {0x30, 0x30, 0x30, 0x38, 0x10, 0x0C, 0x06};
+    size_t i;
+
+    at(l, t->power_on + MS(1));
+    for (i = 0; i < sizeof INIT; i++) {
+        real_write(l, 0, INIT[i], t->instruction);
+    }
+    real_write(l, 0, 0x01, t->clear_home);
+}
+
+static void real_text(Lcd *l, const char *s, const RealTiming *t) {
+    for (; *s != '\0'; s++) {
+        real_write(l, 1, (uint8_t)*s, t->data);
+    }
+}
+
+/* Row `row` from `column` shows the ROM glyphs of s. */
+static int cells_show(const LcdState *st, unsigned row, unsigned column, const char *s) {
+    for (; *s != '\0'; s++, column++) {
+        if (!cell_is_rom(st, row, column, (unsigned char)*s)) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+/* plan-35-E section 4.1: each charlcd part through its own bus pins and
+   timing: init, clear, HELLO through E (E1); a 4-row part then sets DDRAM
+   14 and writes ROW3 there; a two-enable part does init, clear, WORLD
+   through E2. One enable: ROW3 is row 2. Two enables: E1's 14 is its line 0,
+   column 20 (row 0), and WORLD is row 2 (E2's line 0). */
+static void check_every_part(void) {
+    PartLibrary *fixture = library;
+    char *json = read_file(PARTS_DIR "/charlcd.json");
+    size_t i, n = 0;
+
+    charlcd_json = json != NULL ? cJSON_Parse(json) : NULL;
+    free(json);
+    library = real_library;
+    for (i = 0; i < part_library_count(real_library); i++) {
+        const Part *part = part_library_at(real_library, i);
+        RealTiming t;
+        LcdState st;
+        Lcd l;
+        char line[320];
+        int ok, two, four;
+
+        if (part->kind != PART_CHARLCD) {
+            continue;
+        }
+        n++;
+        memset(&t, 0, sizeof t);
+        ok = real_timing(part->name, &t);
+        l = lcd_open(part->name);
+        two = l.enables == 2;
+        four = part->charlcd->rows == 4;
+        if (ok) {
+            real_bus(&l, &t);
+            real_init(&l, &t);
+            real_text(&l, "HELLO", &t);
+            if (four) {
+                real_write(&l, 0, 0x80 | 0x14, t.instruction);
+                real_text(&l, "ROW3", &t);
+            }
+            if (two) {
+                l.e = l.en[1];
+                real_init(&l, &t);
+                real_text(&l, "WORLD", &t);
+            }
+        }
+        lcd_state(&l, &st);
+        ok = ok && l.pins_ok && memcmp(st.ddram[0], "HELLO", 5) == 0 && cells_show(&st, 0, 0, "HELLO") &&
+             st.busy[0] == 0;
+        if (four && !two) {
+            ok = ok && cells_show(&st, 2, 0, "ROW3");
+        }
+        if (two) {
+            ok = ok && st.controllers == 2 && cells_show(&st, 0, 20, "ROW3") &&
+                 memcmp(st.ddram[1], "WORLD", 5) == 0 && cells_show(&st, 2, 0, "WORLD") &&
+                 st.busy[1] == 0;
+        }
+        snprintf(line, sizeof line,
+                 "E 4.1 every part: %s (%ux%u, enable %s%s%s, tPW %llu ns): init, clear, HELLO at (0,0)%s%s",
+                 part->name, part->charlcd->columns, part->charlcd->rows, l.en[0], two ? "+" : "",
+                 two ? l.en[1] : "", (unsigned long long)(t.tpw / 1000u),
+                 four && !two ? ", ROW3 at DDRAM 14 = (2,0)" : "",
+                 two ? ", ROW3 at E1 DDRAM 14 = (0,20), WORLD through E2 at (2,0)" : "");
+        expect(ok, line);
+        bench_destroy(l.b);
+    }
+    {
+        char line[96];
+
+        snprintf(line, sizeof line, "E 4.1 every part: %zu charlcd parts run (40 at plan-35-E)", n);
+        expect(n >= 40, line);
+    }
+    cJSON_Delete(charlcd_json);
+    charlcd_json = NULL;
+    library = fixture;
+}
+
+/* ---- plan-11-C section 4.5, plan-35-E section 4.2: exec, facts ---- */
+
 static void check_real_parts(void) {
-    static const char *const NAMES[] = {
-        "NHD-0216BZ-FL-YBW", "NHD-0216K1Z-FL-YBW", "NHD-0216K1Z-NSW-BBW-L", "162H BC BW",
-        "AMC1602GR-B-Y6WFDY"
+    /* A second data write 40 us after the first (E fall to E fall):
+       accepted where the data time is 37 us, refused at 43 us. */
+    static const struct {
+        const char *name, *data;
+        int accepted;
+    } EXEC40[] = {
+        {"NHD-0216K1Z-NSW-BBW-L", "data 37 us", 1},
+        {"162H BC BW", "data 43 us", 0},
+        {"NHD-0420DZ-FL-YBW", "20x4, data 37 us", 1},
+        {"MC44005A6W-FPTLW-V2", "40x4 through E1, ST7066U data 37 us", 1},
     };
     PartLibrary *fixture = library;
     const Part *part;
@@ -1727,24 +1954,10 @@ static void check_real_parts(void) {
     unsigned pins1 = 0;
 
     library = real_library;
-    for (i = 0; i < 5; i++) {
-        Lcd l = lcd_open(NAMES[i]);
+    for (i = 0; i < sizeof EXEC40 / sizeof EXEC40[0]; i++) {
+        Lcd l = lcd_open(EXEC40[i].name);
         LcdState st;
-        char line[160];
-
-        init8(&l);
-        clear(&l);
-        text(&l, "HELLO");
-        lcd_state(&l, &st);
-        snprintf(line, sizeof line, "C 4.5 %s: 8-bit init, HELLO in ddram[0..4], cell 0 = ROM 48",
-                 NAMES[i]);
-        expect(memcmp(st.ddram[0], "HELLO", 5) == 0 && cell_is_rom(&st, 0, 0, 0x48), line);
-        bench_destroy(l.b);
-    }
-    /* A second data write 40 us after the first (E fall to E fall). */
-    for (i = 0; i < 2; i++) {
-        Lcd l = lcd_open(i == 0 ? "NHD-0216K1Z-NSW-BBW-L" : "162H BC BW");
-        LcdState st;
+        char line[200];
 
         init8(&l);
         clear(&l);
@@ -1753,12 +1966,9 @@ static void check_real_parts(void) {
         wr(&l, 1, 'B');
         bench_run(l.b, US(50));
         lcd_state(&l, &st);
-        if (i == 0) {
-            expect(st.ddram[0][1] == 'B', "C 4.5 exec: a data write 40 us after another is accepted on "
-                                       "NHD-0216K1Z-NSW-BBW-L (data 37 us)");
-        } else {
-            expect(st.ddram[0][1] == 0x20, "C 4.5 exec: and not accepted on 162H BC BW (data 43 us)");
-        }
+        snprintf(line, sizeof line, "C 4.5 exec: a data write 40 us after another is %s on %s (%s)",
+                 EXEC40[i].accepted ? "accepted" : "not accepted", EXEC40[i].name, EXEC40[i].data);
+        expect(st.ddram[0][0] == 'A' && st.ddram[0][1] == (EXEC40[i].accepted ? 'B' : 0x20), line);
         bench_destroy(l.b);
     }
     library = fixture;
@@ -1849,9 +2059,65 @@ static const uint8_t HELLO_PROGRAM[] = {
     0x45, 0x4C, 0x4C, 0x4F, 0x00
 };
 
+/* What a board carries: the LCD part, its decode, and the EEPROM image
+   (from offset 0, address 8000) with NMI and IRQ pointing at `halt`. */
+typedef struct {
+    const char *lcd;
+    int two;                 /* two enables: E1 at 4000 (A13 = 0), E2 at 6000 (A13 = 1) */
+    const uint8_t *program;
+    size_t size;
+    unsigned halt;           /* the program's JMP-to-itself address */
+} BoardSpec;
+
+static const BoardSpec HELLO_BOARD = {"NHD-0216K1Z-NSW-BBW-L", 0, HELLO_PROGRAM,
+                                      sizeof HELLO_PROGRAM, 0x8029};
+
+/* Connects the pin with this designator to the net `net`. */
+static void board_wire_pin(Board *b, size_t index, const char *designator, const char *net) {
+    if (circuit_connect(b->c, index, designator, board_net(b, net)) != 0) {
+        b->failed = 1;
+    }
+}
+
+/* The LCD: power and ground pins by role, V0 on GND, LED+ on 5V, LED- on
+   GND, and its bus by bus_pins: RS = A0, R/W, E (or E1, E2), DB = D0-D7. */
+static void board_wire_lcd(Board *b, size_t index, const char *name, const char *const *data_names) {
+    const Part *part = part_library_find(real_library, name);
+    const PartCharLcd *c = part != NULL ? part->charlcd : NULL;
+    size_t i, n;
+
+    if (c == NULL || c->bus_pin_count != 2 + c->enables + 8) {
+        fprintf(stderr, "board: %s is not a charlcd\n", name);
+        b->failed = 1;
+        return;
+    }
+    for (i = 0; i < part->pin_count; i++) {
+        const PartPin *pin = &part->pins[i];
+
+        if (pin->role == PIN_GROUND || strcmp(pin->name, "V0") == 0 || strcmp(pin->name, "LED-") == 0) {
+            board_wire_pin(b, index, pin->designator, "GND");
+        } else if (pin->role == PIN_POWER || strcmp(pin->name, "LED+") == 0) {
+            board_wire_pin(b, index, pin->designator, "5V");
+        }
+    }
+    n = 0;
+    board_wire_pin(b, index, part->pins[c->bus_pins[n++]].designator, "A0");
+    board_wire_pin(b, index, part->pins[c->bus_pins[n++]].designator, "RW");
+    if (c->enables == 2) {
+        board_wire_pin(b, index, part->pins[c->bus_pins[n++]].designator, "E1");
+        board_wire_pin(b, index, part->pins[c->bus_pins[n++]].designator, "E2");
+    } else {
+        board_wire_pin(b, index, part->pins[c->bus_pins[n++]].designator, "E");
+    }
+    for (i = 0; i < 8; i++) {
+        board_wire_pin(b, index, part->pins[c->bus_pins[n++]].designator, data_names[i]);
+    }
+}
+
 /* Builds the board, holds reset for `reset_ps`, then runs 50 ms; wdc picks
    the W65C02S. */
-static void run_board(int wdc, SimTime reset_ps, LcdState *lcd, CpuState *cpu, int *ok) {
+static void run_board(int wdc, const BoardSpec *spec, SimTime reset_ps, LcdState *lcd, CpuState *cpu,
+                      int *ok) {
     static uint32_t image[32768];
     const char *cpu_name = wdc ? "W65C02S6TPG-14" : "MPS6502";
     Board b;
@@ -1859,6 +2125,7 @@ static void run_board(int wdc, SimTime reset_ps, LcdState *lcd, CpuState *cpu, i
     unsigned i;
     char name[8];
     static char addr_names[16][8], data_names[8][8];
+    const char *data_list[8];
 
     memset(&b, 0, sizeof b);
     b.c = circuit_create(real_library);
@@ -1870,7 +2137,7 @@ static void run_board(int wdc, SimTime reset_ps, LcdState *lcd, CpuState *cpu, i
     hc00 = board_part(&b, "SN74HC00N");
     hc11 = board_part(&b, "SN74HC11N");
     sw = board_part(&b, "TE-GDS0204");
-    lcd_i = board_part(&b, "NHD-0216K1Z-NSW-BBW-L");
+    lcd_i = board_part(&b, spec->lcd);
 
     board_wire(&b, p5, "5V", "VCC", "5V");
     board_wire(&b, pg, "GND", "GND", "GND");
@@ -1886,11 +2153,6 @@ static void run_board(int wdc, SimTime reset_ps, LcdState *lcd, CpuState *cpu, i
     board_wire(&b, hc11, "SN74HC11N", "GND", "GND");
     board_wire(&b, osc, "ECS-2100A-010", "+5V DC", "5V");
     board_wire(&b, osc, "ECS-2100A-010", "GND", "GND");
-    board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", "VSS", "GND");
-    board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", "VDD", "5V");
-    board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", "V0", "GND");
-    board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", "LED+", "5V");
-    board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", "LED-", "GND");
     /* Address and data. */
     for (i = 0; i < 16; i++) {
         snprintf(addr_names[i], sizeof addr_names[i], "A%u", i);
@@ -1899,15 +2161,15 @@ static void run_board(int wdc, SimTime reset_ps, LcdState *lcd, CpuState *cpu, i
             board_wire(&b, ee, "AT28C256-15PU", addr_names[i], addr_names[i]);
         }
     }
-    board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", "RS", "A0");
     for (i = 0; i < 8; i++) {
         snprintf(data_names[i], sizeof data_names[i], "D%u", i);
+        data_list[i] = data_names[i];
         board_wire(&b, cpu_i, cpu_name, data_names[i], data_names[i]);
         snprintf(name, sizeof name, "I/O%u", i);
         board_wire(&b, ee, "AT28C256-15PU", name, data_names[i]);
-        snprintf(name, sizeof name, "DB%u", i);
-        board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", name, data_names[i]);
     }
+    /* The LCD: power, RS = A0, R/W, E (E1, E2), DB0-7 on D0-7. */
+    board_wire_lcd(&b, lcd_i, spec->lcd, data_list);
     /* Decode. */
     board_wire(&b, hc00, "SN74HC00N", "1A", "A15");
     board_wire(&b, hc00, "SN74HC00N", "1B", "A15");
@@ -1918,12 +2180,33 @@ static void run_board(int wdc, SimTime reset_ps, LcdState *lcd, CpuState *cpu, i
     board_wire(&b, hc00, "SN74HC00N", "2B", "RW");
     board_wire(&b, hc00, "SN74HC00N", "2Y", "OE");
     board_wire(&b, ee, "AT28C256-15PU", "OE#", "OE");
-    board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", "R/W", "RW");
-    board_wire(&b, hc11, "SN74HC11N", "1A", "PHI2");
-    board_wire(&b, hc11, "SN74HC11N", "1B", "A14");
-    board_wire(&b, hc11, "SN74HC11N", "1C", "NA15");
-    board_wire(&b, hc11, "SN74HC11N", "1Y", "E");
-    board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", "E", "E");
+    if (spec->two) {
+        /* plan-35-E section 4.3: E1 = PHI2 . A14 . /A15 . /A13 and
+           E2 = PHI2 . A14 . /A15 . A13. The address terms are gated first
+           (SEL = A14 . /A15, /A13 from HC00 gate 3), so PHI2 still reaches
+           E1 and E2 through one gate (10 ns), as on the one-enable board;
+           SEL and /A13 settle while PHI2 is low. */
+        board_wire(&b, hc00, "SN74HC00N", "3A", "A13");
+        board_wire(&b, hc00, "SN74HC00N", "3B", "A13");
+        board_wire(&b, hc00, "SN74HC00N", "3Y", "NA13");
+        board_wire(&b, hc11, "SN74HC11N", "1A", "A14");
+        board_wire(&b, hc11, "SN74HC11N", "1B", "NA15");
+        board_wire(&b, hc11, "SN74HC11N", "1C", "5V");
+        board_wire(&b, hc11, "SN74HC11N", "1Y", "SEL");
+        board_wire(&b, hc11, "SN74HC11N", "2A", "PHI2");
+        board_wire(&b, hc11, "SN74HC11N", "2B", "SEL");
+        board_wire(&b, hc11, "SN74HC11N", "2C", "NA13");
+        board_wire(&b, hc11, "SN74HC11N", "2Y", "E1");
+        board_wire(&b, hc11, "SN74HC11N", "3A", "PHI2");
+        board_wire(&b, hc11, "SN74HC11N", "3B", "SEL");
+        board_wire(&b, hc11, "SN74HC11N", "3C", "A13");
+        board_wire(&b, hc11, "SN74HC11N", "3Y", "E2");
+    } else {
+        board_wire(&b, hc11, "SN74HC11N", "1A", "PHI2");
+        board_wire(&b, hc11, "SN74HC11N", "1B", "A14");
+        board_wire(&b, hc11, "SN74HC11N", "1C", "NA15");
+        board_wire(&b, hc11, "SN74HC11N", "1Y", "E");
+    }
     /* Clock and reset. */
     if (wdc) {
         board_wire(&b, osc, "ECS-2100A-010", "OUTPUT", "PHI2");
@@ -1939,14 +2222,14 @@ static void run_board(int wdc, SimTime reset_ps, LcdState *lcd, CpuState *cpu, i
     board_wire(&b, sw, "TE-GDS0204", "1B", "GND");
 
     for (i = 0; i < 32768; i++) {
-        image[i] = i < sizeof HELLO_PROGRAM ? HELLO_PROGRAM[i] : 0xFF;
+        image[i] = i < spec->size ? spec->program[i] : 0xFF;
     }
-    image[0x7FFA] = 0x29;   /* NMI -> 8029 */
-    image[0x7FFB] = 0x80;
-    image[0x7FFC] = 0x00;   /* RESET -> 8000 */
+    image[0x7FFA] = spec->halt & 0xFFu;   /* NMI -> halt */
+    image[0x7FFB] = spec->halt >> 8;
+    image[0x7FFC] = 0x00;                  /* RESET -> 8000 */
     image[0x7FFD] = 0x80;
-    image[0x7FFE] = 0x29;   /* IRQ -> 8029 */
-    image[0x7FFF] = 0x80;
+    image[0x7FFE] = spec->halt & 0xFFu;   /* IRQ -> halt */
+    image[0x7FFF] = spec->halt >> 8;
     *ok = !b.failed && circuit_memory_load(b.c, ee, 0, image, 32768) == 0 &&
           circuit_set_switch(b.c, sw, 1, 1) == 0 && circuit_start(b.c) == 0;
     if (!*ok) {
@@ -1969,14 +2252,158 @@ static void run_board(int wdc, SimTime reset_ps, LcdState *lcd, CpuState *cpu, i
     circuit_destroy(b.c);
 }
 
+/* ---- plan-35-E section 4.3: programs for the 20x4 and 40x4 boards ---- */
+
+/* An EEPROM image being assembled at `pc` (address 8000 = offset 0). */
+typedef struct {
+    uint8_t bytes[256];
+    unsigned pc;
+} Asm;
+
+static void asm_byte(Asm *a, unsigned byte) {
+    a->bytes[a->pc++ - 0x8000u] = (uint8_t)byte;
+}
+
+static void asm_abs(Asm *a, unsigned opcode, unsigned address) {
+    asm_byte(a, opcode);
+    asm_byte(a, address & 0xFFu);
+    asm_byte(a, address >> 8);
+}
+
+enum { LCD_LOOP_SIZE = 29 };
+
+/* Sends the list at `list` to the LCD at `base` (instructions; base + 1
+   data). The list is pairs (0, instruction) / (1, data byte), ended by FF.
+   Each pair waits for BF 0 with BIT base. No indexed store touches the LCD
+   (STA abs,Y would first read base + Y: a data read moves AC).
+       LDX #0
+   P:  BIT base ; BMI P
+       LDA list+1,X ; LDY list,X ; BMI END ; BNE DATA
+       STA base ; BEQ NEXT
+   DATA: STA base+1
+   NEXT: INX ; INX ; BNE P
+   END: */
+static void asm_lcd_loop(Asm *a, unsigned base, unsigned list) {
+    unsigned p;
+
+    asm_byte(a, 0xA2);
+    asm_byte(a, 0x00);
+    p = a->pc;
+    asm_abs(a, 0x2C, base);
+    asm_byte(a, 0x30);
+    asm_byte(a, (uint8_t)(p - (a->pc + 1)));
+    asm_abs(a, 0xBD, list + 1);
+    asm_abs(a, 0xBC, list);
+    asm_byte(a, 0x30);
+    asm_byte(a, 0x0E);       /* BMI END: +14 */
+    asm_byte(a, 0xD0);
+    asm_byte(a, 0x05);       /* BNE DATA: +5 */
+    asm_abs(a, 0x8D, base);
+    asm_byte(a, 0xF0);
+    asm_byte(a, 0x03);       /* BEQ NEXT: +3 (Z from LDY #0) */
+    asm_abs(a, 0x8D, base + 1);
+    asm_byte(a, 0xE8);
+    asm_byte(a, 0xE8);
+    asm_byte(a, 0xD0);
+    asm_byte(a, (uint8_t)(p - (a->pc + 1)));
+}
+
+static void asm_command(Asm *a, unsigned byte) {
+    asm_byte(a, 0x00);
+    asm_byte(a, byte);
+}
+
+static void asm_text(Asm *a, const char *s) {
+    for (; *s != '\0'; s++) {
+        asm_byte(a, 0x01);
+        asm_byte(a, (unsigned char)*s);
+    }
+}
+
+static void asm_end(Asm *a) {
+    asm_byte(a, 0xFF);
+    asm_byte(a, 0x00);
+}
+
+/* Function set (8-bit, 2 lines), display on, clear, entry mode. */
+static void asm_init(Asm *a) {
+    asm_command(a, 0x38);
+    asm_command(a, 0x0C);
+    asm_command(a, 0x01);
+    asm_command(a, 0x06);
+}
+
+/* Board 1: an unpolled 80 (as HELLO_PROGRAM), then LINE1 at 00, LINE2 at
+   40, LINE3 at 14, LINE4 at 54. */
+static BoardSpec board_2004(Asm *a) {
+    unsigned list = 0x8000 + 5 + LCD_LOOP_SIZE + 3, halt;
+    BoardSpec spec;
+
+    a->pc = 0x8000;
+    asm_byte(a, 0xA9);
+    asm_byte(a, 0x80);
+    asm_abs(a, 0x8D, 0x4000);
+    asm_lcd_loop(a, 0x4000, list);
+    halt = a->pc;
+    asm_abs(a, 0x4C, halt);
+    asm_init(a);
+    asm_text(a, "LINE1");
+    asm_command(a, 0x80 | 0x40);
+    asm_text(a, "LINE2");
+    asm_command(a, 0x80 | 0x14);
+    asm_text(a, "LINE3");
+    asm_command(a, 0x80 | 0x54);
+    asm_text(a, "LINE4");
+    asm_end(a);
+    spec.lcd = "NHD-0420DZ-FL-YBW";
+    spec.two = 0;
+    spec.program = a->bytes;
+    spec.size = a->pc - 0x8000;
+    spec.halt = halt;
+    return list == halt + 3 ? spec : (spec.size = 0, spec);
+}
+
+/* Board 2: an unpolled 80 to each controller, then E1 init + TOP, then
+   E2 init + BOTTOM. */
+static BoardSpec board_4004(Asm *a) {
+    unsigned list1 = 0x8000 + 8 + 2 * LCD_LOOP_SIZE + 3, list2, halt;
+    BoardSpec spec;
+
+    list2 = list1 + 2 * (4 + 3) + 2;
+    a->pc = 0x8000;
+    asm_byte(a, 0xA9);
+    asm_byte(a, 0x80);
+    asm_abs(a, 0x8D, 0x4000);
+    asm_abs(a, 0x8D, 0x6000);
+    asm_lcd_loop(a, 0x4000, list1);
+    asm_lcd_loop(a, 0x6000, list2);
+    halt = a->pc;
+    asm_abs(a, 0x4C, halt);
+    asm_init(a);
+    asm_text(a, "TOP");
+    asm_end(a);
+    asm_init(a);
+    asm_text(a, "BOTTOM");
+    asm_end(a);
+    spec.lcd = "NHD-0440WH-ATFH-JT#";
+    spec.two = 1;
+    spec.program = a->bytes;
+    spec.size = a->pc - 0x8000;
+    spec.halt = halt;
+    return list1 == halt + 3 ? spec : (spec.size = 0, spec);
+}
+
 static void check_cpu_board(void) {
     LcdState lcd;
     CpuState cpu;
     int ok;
     unsigned c;
     int cells = 1, all_x = 1, y, x;
+    Asm a;
+    BoardSpec spec;
+    char jmp[16];
 
-    run_board(0, US(10), &lcd, &cpu, &ok);
+    run_board(0, &HELLO_BOARD, US(10), &lcd, &cpu, &ok);
     for (c = 0; c < 5; c++) {
         cells = cells && cell_is_rom(&lcd, 0, c, (unsigned)"HELLO"[c]);
     }
@@ -1991,7 +2418,7 @@ static void check_cpu_board(void) {
     /* The app's flow: the reset switch opened by hand long after the LCD's
        40 ms power-on; E pulses X all that time (the CPU's address bus is X
        in reset). */
-    run_board(0, MS(100), &lcd, &cpu, &ok);
+    run_board(0, &HELLO_BOARD, MS(100), &lcd, &cpu, &ok);
     cells = 1;
     for (c = 0; c < 5; c++) {
         cells = cells && cell_is_rom(&lcd, 0, c, (unsigned)"HELLO"[c]);
@@ -2000,7 +2427,7 @@ static void check_cpu_board(void) {
                cpu.status == CPU_RUNNING && strcmp(cpu.instruction_text, "JMP $8029") == 0,
            "C 4.6 MPS6502 board, reset held 100 ms: HELLO, BF 0, the CPU RUNNING at JMP $8029");
 
-    run_board(1, US(10), &lcd, &cpu, &ok);
+    run_board(1, &HELLO_BOARD, US(10), &lcd, &cpu, &ok);
     for (y = 0; y < 16; y++) {
         for (x = 0; x < 80; x++) {
             all_x = all_x && lcd.dots[y][x] == LCD_DOT_X;
@@ -2011,6 +2438,36 @@ static void check_cpu_board(void) {
     printf("     cpu: status %d, last \"%s\"\n", (int)cpu.status, cpu.instruction_text);
     expect(ok && cpu.status == CPU_LOST,
            "C 4.6 W65C02S board: the CPU is LOST (its BIT $4000 read an X busy flag)");
+
+    /* plan-35-E section 4.3, board 1: the 20x4 on the HELLO board's wiring. */
+    memset(&a, 0, sizeof a);
+    spec = board_2004(&a);
+    snprintf(jmp, sizeof jmp, "JMP $%04X", spec.halt);
+    run_board(0, &spec, US(10), &lcd, &cpu, &ok);
+    printf("     cpu: status %d, last \"%s\"\n", (int)cpu.status, cpu.instruction_text);
+    expect(spec.size > 0 && ok && lcd.rows == 4 && memcmp(lcd.ddram[0], "LINE1", 5) == 0 &&
+               memcmp(lcd.ddram[0] + 40, "LINE2", 5) == 0 && memcmp(lcd.ddram[0] + 20, "LINE3", 5) == 0 &&
+               memcmp(lcd.ddram[0] + 60, "LINE4", 5) == 0 && cells_show(&lcd, 0, 0, "LINE1") &&
+               cells_show(&lcd, 1, 0, "LINE2") && cells_show(&lcd, 2, 0, "LINE3") &&
+               cells_show(&lcd, 3, 0, "LINE4") && lcd.busy[0] == 0 && cpu.status == CPU_RUNNING &&
+               strcmp(cpu.instruction_text, jmp) == 0,
+           "E 4.3 MPS6502 + NHD-0420DZ-FL-YBW board: DDRAM 00/40/14/54 = LINE1-4 on rows 0-3 "
+           "(ROM cells), BF 0, the CPU RUNNING at its JMP");
+
+    /* Board 2: the 40x4, E1 at 4000 and E2 at 6000 (A13). */
+    memset(&a, 0, sizeof a);
+    spec = board_4004(&a);
+    snprintf(jmp, sizeof jmp, "JMP $%04X", spec.halt);
+    run_board(0, &spec, US(10), &lcd, &cpu, &ok);
+    printf("     cpu: status %d, last \"%s\"\n", (int)cpu.status, cpu.instruction_text);
+    expect(spec.size > 0 && ok && lcd.controllers == 2 && memcmp(lcd.ddram[0], "TOP ", 4) == 0 &&
+               memcmp(lcd.ddram[1], "BOTTOM ", 7) == 0 && cells_show(&lcd, 0, 0, "TOP") &&
+               cells_show(&lcd, 0, 3, " ") && row_all(&lcd, 1, 40, LCD_DOT_OFF) &&
+               cells_show(&lcd, 2, 0, "BOTTOM") && row_all(&lcd, 3, 40, LCD_DOT_OFF) &&
+               lcd.busy[0] == 0 && lcd.busy[1] == 0 && cpu.status == CPU_RUNNING &&
+               strcmp(cpu.instruction_text, jmp) == 0,
+           "E 4.3 MPS6502 + NHD-0440WH-ATFH-JT# board: TOP through E1 on row 0, BOTTOM through E2 "
+           "on row 2, rows 1 and 3 blank, both BF 0, the CPU RUNNING at its JMP");
 }
 
 /* ---- main ----------------------------------------------------------------- */
@@ -2112,6 +2569,7 @@ int main(int argc, char **argv) {
         printf("FAIL: cannot load the part library\n");
         return 1;
     }
+    check_every_part();
     check_real_parts();
     check_cpu_board();
     part_library_destroy(real_library);
