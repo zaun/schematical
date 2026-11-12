@@ -69,8 +69,26 @@ together.
 
 ### Phase 1 — run the tier
 
-- [ ] Run every gate of § 2 on one commit; record each command's result
-      line here.
+- [x] Run every gate of § 2 on one commit; record each command's result
+      line here. — all on b604b9d (plan-35 merged with main at 1be9390,
+      plan-33 included), 2026-11-11:
+      - Backend tests: `ctest --test-dir /tmp/logic-p35-land` → "100% tests
+        passed, 0 tests failed out of 31" (T0 30 + plan-33's one program;
+        `grep -c '^logic_test' backend/CMakeLists.txt` → 31).
+      - Character LCD parts: `grep -c '|charlcd|' backend/tests/golden/parts.txt`
+        → 72 (5 + 67 `add` rows).
+      - Every-part check: `/tmp/logic-p35-land/charlcd_test | grep -c '^FAIL'` → 0.
+      - Footprints used: `/tmp/logic-p35-land/footprint_check` → "1386
+        footprints compared, 27828 parts loaded", no failure line.
+      - New datasheets: `node scripts/check-datasheets.js <67 ids>` → "67 of 67
+        URLs serve a PDF; 0 failed".
+      - Skipped parts: `census/skipcheck.py` → "59 skip names; 59 found exactly once".
+      - App: `xcodebuild … build` → `** BUILD SUCCEEDED **`.
+      - App tests (CharacterLCDTests, SchematicSVGTests, DatasheetCatalogTests)
+        → "Executed 15 tests, with 0 failures", `** TEST SUCCEEDED **`.
+      - The merge's goldens are main's lines plus plan-35's only: parts 27761
+        → 27828 (+67, 0 removed), traces the same, footprints 1352 → 1386
+        (+34, 0 removed).
 
 Commit: —
 
