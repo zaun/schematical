@@ -610,8 +610,8 @@ extension SchematicFile {
                 footprint: chip.footprintID,
                 gender: chip.gender,
                 ohms: chip.ohms,
-                farads: chip.farads,
-                partUUID: chip.part.uuid
+                partUUID: chip.part.uuid,
+                farads: chip.farads
             )
         }
         junctions = document.junctions.map {

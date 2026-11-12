@@ -143,7 +143,7 @@ One line: a counter and a shift part are created, saved and loaded back in the a
 Acceptance: each loads back into the drawer.
   Check: the run skill's session (est. 20 min).
   Result (2026-11-11, `/tmp/p32/scripts/guarded.sh`, this build frontmost before and after every cycle): New Part… → the kind's row opened the kind's editor, Open Part… a copy of a shipped part filled it (the window took the file's name), ⌘S rewrote the file (new mtime), and File › Load Part… registered it. The drawer count went 26,636 → 26,646 over the ten loads of this session (G's three, then H's two, I's three, J's two): ZZH-COUNTER (SN74LS90DR, model ripple, with `sections`) and ZZH-SHIFT (CD74AC164BQAR).
-Commit: (this commit)
+Commit: c9f23e5
 
 ## Validation Plan
 

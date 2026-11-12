@@ -63,7 +63,7 @@ final class CustomFootprintDraftTests: XCTestCase {
             }
         }
         print("checked \(ids.count) explicit footprints, \(mismatched.count + rejected.count) mismatched")
-        XCTAssertEqual(ids.count, 424)
+        XCTAssertEqual(ids.count, 458)
         XCTAssertEqual(mismatched, [])
         XCTAssertEqual(rejected, [:])
     }

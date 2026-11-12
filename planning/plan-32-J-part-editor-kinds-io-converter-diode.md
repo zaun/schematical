@@ -169,7 +169,7 @@ One line: the picker lists all 26 kinds, enabled, and one part of a new kind is 
 Acceptance: `PartEditorWindowTests` passes with all 26 enabled; the Zener and ADC parts load back into the drawer.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartEditorWindowTests` → `passed` (est. 4 min); the app session is the run skill's (est. 15 min).
   Result (2026-11-11, `/tmp/p32/scripts/guarded.sh`, this build frontmost before and after every cycle): New Part… → the kind's row opened the kind's editor, Open Part… a copy of a shipped part filled it (the window took the file's name), ⌘S rewrote the file (new mtime), and File › Load Part… registered it. The drawer count went 26,636 → 26,646 over the ten loads of this session (G's three, then H's two, I's three, J's two): ZZJ-ZENER (1N4728A, type zener) and ZZJ-ADC (ADC081S021CIMF/NOPB, type adc); the last count reads 26,646 parts. `PartEditorWindowTests` passed with all 26 kinds enabled (plan-32-J Phase 3's run).
-Commit: (this commit)
+Commit: c9f23e5
 
 ## Validation Plan
 

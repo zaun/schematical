@@ -338,6 +338,24 @@ Commit: f1502df
 
 ## Corrections
 
+- **Landing (plan-32 A–J, 2026-11-11).** Before the merge, on c9f23e5: backend
+  `ctest` 31/31 passed; the full Swift scheme `** TEST SUCCEEDED **` (576 test cases
+  passed). main had advanced to 7515511 (plan-33 capacitors, plan-35 character LCDs);
+  merged into worktree-P-32 as 6027956: two conflicts, both additive (the kind table's
+  rows; `SchematicFile.Part`'s `partUUID` beside main's `farads`, and the error cases
+  beside `badFarads`). The merge makes `capacitor` the 27th kind: the New Part list shows
+  it disabled ("Coming soon"; plan-33-A gives it no form), so 26 of 27 kinds are enabled
+  and `PartEditorWindowTests` (b) sees 27 part files; charlcd now has 72 shipped parts and
+  `CharLcdDraft` was regenerated for them. No Rust workspace exists in this repository
+  (no `Cargo.toml`, no `repository/`), so the `cargo fmt` step does not apply.
+  Landing tier on the merged tree: backend `ctest` `100% tests passed, 0 tests failed out
+  of 32` (main added one); the full Swift scheme first failed to compile (the merged
+  `Part(…)` call had `farads:` before `partUUID:`, against the property order; fixed),
+  then `CustomFootprintDraftTests` reported `checked 458 explicit footprints, 0
+  mismatched` against an expected 424 (main's LCD footprints added 34 explicit ones;
+  `python3` count of `footprints.json` → 458; the expectation is now 458), then
+  `** TEST SUCCEEDED **` with 590 test cases passed.
+
 - **Build directory** (2026-11-11). `/tmp/logic-build` is configured from the main
   checkout (`cmake -S backend -B /tmp/logic-build` in the worktree → "does not match the
   source … used to generate cache"). Every check of this plan that names
