@@ -213,7 +213,7 @@ Commit: f0b2a93
 Acceptance: the tests pass and the harness prints `all checks ok`.
   Check: `xcodebuild … test -only-testing:schematicalTests/CapacitorTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **`; `scripts/harness/build.sh scripts/harness/capacitor-app.swift` → `all checks ok`, exit 0 (est. 15 min: the harness build; nothing smaller runs the catalog and the backend together).
   Observed: `** TEST SUCCEEDED **`; the harness: drawer Capacitors → [Generic] and Ceramic / Electrolytic / Tantalum (42 / 22 / 25 leaves, each strictly increasing), `08055C100KAT2A` Capacitor with Type, Capacitance, Rated voltage, Dielectric, Tolerance, GENERIC-CAPACITOR C1 100 nF on CAP-DISC-5.08, 4.7 nF kept through save and reopen, undo to 0.1 µF, `Can't connect: C1 pin 1 (+) gets 12 V; TACL105K006XTA is rated 6.3 V.`, `all checks ok`, exit 0.
-Commit: (this commit; hash in the next)
+Commit: 23916c5
 
 ## Validation Plan
 
