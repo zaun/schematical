@@ -40,7 +40,7 @@ The gate is plan-35-A § Prerequisites. D adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-35-C complete | `grep -c '^Commit: —' planning/plan-35-C-charlcd-large-footprints-midas-nhd.md` → 0 (or in `planning/completed/`) | NOT MET (2026-11-11 at a5b0fcf: → 2; C is being worked in parallel. D adds no part and no footprint, so it touches nothing C writes; D was started on the session owner's instruction with this row open) |
+| plan-35-C complete | `grep -c '^Commit: —' planning/plan-35-C-charlcd-large-footprints-midas-nhd.md` → 0 (or in `planning/completed/`) | NOT MET (2026-11-11 at a5b0fcf and again at 8579d87: → 2; C is being worked in parallel. D adds no part and no footprint, so it touches nothing C writes; D was started on the session owner's instruction with this row open) |
 | The kind is plan-11's | `grep -n 'must be 1 or 2' backend/src/models/charlcd.c` → one line | MET at the start of D (2026-11-11 at a5b0fcf: charlcd.c:120; see Corrections for the command). D Phase 1 replaces the message, so the command now → 0 lines by design |
 | Tests pass before D | `cmake -S backend -B /tmp/logic-p35 && cmake --build /tmp/logic-p35 -j8 && ctest --test-dir /tmp/logic-p35` → `100% tests passed` | MET (2026-11-11 at a5b0fcf, untouched tree: `100% tests passed, 0 tests failed out of 30`; `charlcd_test`: 100 PASS, 0 FAIL) |
 
@@ -412,7 +412,7 @@ programs; `git diff --exit-code backend/tests/golden` → 0;
 `grep -c -F 'rows\" must be 1, 2 or 4' backend/src/models/charlcd.c`
 → 1 each (est. 5 min).
 
-Commit: —
+Commit: 8579d87
 
 ## Validation Plan
 
