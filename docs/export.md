@@ -1,7 +1,7 @@
 # Export
 
 **File > Export** (after Save As…) writes the focused window's schematic to a
-file. Added in plan-28.
+file (added in plan-28), or its board as Gerber files (see Gerber below).
 
 | Item | File | Background | Size |
 |---|---|---|---|
@@ -21,6 +21,39 @@ file. Added in plan-28.
 - Wires with a loose end are gray on screen and black in an export, like every
   wire. A loose end gets a dot only where 3 or more wires meet, on screen and
   in an export.
+
+## Gerber
+
+**File > Export > Gerber PCB** writes the board as Gerber X2 (RS-274X, mm,
+`%FSLAX46Y46*%`) files, one per layer, in one zip (stored, not compressed),
+named `<schematic> Gerbers.zip`. The files inside are named after the
+schematic, with anything but letters, digits, `-` and `_` turned into `_`
+(`gerberBaseName`), and use the Protel extensions fabs expect:
+
+| File | Layer | What is on it |
+|---|---|---|
+| `.GTL` | Top copper | traces on Top, Top surface-mount pads and card fingers, every plated through-hole pad, via and plated hole land |
+| `.G1`…`.G4` | inner copper, in stack order | as above for the layer; a Plane is the board pulled back by the min copper-to-edge, less its clearances, as the PCB page draws it |
+| `.GBL` | Bottom copper | as Top, for Bottom |
+| `.GTS` / `.GBS` | solder mask (`FilePolarity,Negative`: drawn = opening) | the side's surface-mount pads and fingers, every plated through-hole pad, every bare hole, each grown by the Mask expansion design rule. Vias are tented |
+| `.GTP` / `.GBP` | paste | the side's surface-mount part pads (not fingers) |
+| `.GTO` / `.GBO` | silkscreen | silkscreen texts, references (1 mm, centred on the body), pin-1 dots (0.4 mm), body outlines and cathode bands (0.15 mm pen), each only when its layer is Silkscreen |
+| `.GKO` | outline (`Profile,NP`) | the board outline, 0.1 mm pen |
+
+- Everything is seen from the top, as on the PCB page: bottom silkscreen
+  reads mirrored. Board y grows down; Gerber y grows up, so a file's y is
+  the board's top edge minus the board y, and the board sits at y ≥ 0.
+- A 1-layer board has only the Top files and the outline.
+- Circles and plain rectangles are aperture flashes; ellipses, rounded and
+  chamfered rectangles are regions of the same outline the canvas fills
+  (`PCBCanvasView.outline(of:)`), curves cut into steps of at most 0.05 mm.
+  A grown shape (mask expansion, Plane clearance) is the shape plus its
+  outline stroked with a round pen twice the growth wide.
+- Text is real glyph outlines, from the same fonts the canvas uses. Each
+  glyph's counters (the hole in an O) are drawn in clear polarity, so a
+  silkscreen file draws its text before its lines and dots.
+- Not included yet: drill files (Excellon), pick-and-place, and the
+  Document layer (never printed).
 
 ## Black line art
 
@@ -79,10 +112,14 @@ PNG puts them; the padding keeps a wider font from clipping. A turned label
 | `SVGPainter` | `schematical/schematical/Canvas/SVGPainter.swift` |
 | `SchematicExport` (`svg`, `png`, `jpg`, padding, pixel scale) | `schematical/schematical/Document/SchematicExport.swift` |
 | `SchematicExportFormat`, `SchematicExportMenu` (the submenu; `SchematicFileCommands` adds it to File) | `schematical/schematical/Document/SchematicExportCommands.swift` |
-| `export(_:)`, `writeExport(_:to:)` | `schematical/schematical/Document/SchematicFileController.swift` |
+| `export(_:)`, `writeExport(_:to:)`, `exportGerber()`, `writeGerber(to:)` | `schematical/schematical/Document/SchematicFileController.swift` |
+| `GerberExport` (the layer files) | `schematical/schematical/Document/GerberExport.swift` |
+| `GerberWriter` (apertures, flashes, strokes, regions, polarity), `GerberOutline` (path flattening, glyph outlines) | `schematical/schematical/Document/GerberWriter.swift` |
+| `ZipArchive` | `schematical/schematical/Document/ZipArchive.swift` |
 
 Tests: `SchematicPainterTests`, `SchematicSceneTests`, `SVGPainterTests`,
-`SchematicSVGTests`, `SchematicRasterTests`, `SchematicExportActionTests`.
+`SchematicSVGTests`, `SchematicRasterTests`, `SchematicExportActionTests`,
+`GerberExportTests`.
 Harness: `scripts/harness/painter-gate.swift` (the canvas must stay
 pixel-identical when drawing code moves onto the painter),
 `scripts/harness/export-svg.swift` (SVG next to the app's own export render),
