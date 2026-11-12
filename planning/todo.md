@@ -45,7 +45,7 @@
 - [ ] Add Slide Switches, top 3 manufactuerers and their active switches
 - [x] Add 20x4 and 40x2 and 40x4 character LCD modules
 - [ ] Add a KiCad export for the schematic.
-- [ ] Add a Gerber export for the PCB
+- [x] Add a Gerber export for the PCB
 
 ## Datasheets
 
