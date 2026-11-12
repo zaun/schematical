@@ -434,6 +434,18 @@ struct ContentView: View {
                 .inspectorColumnWidth(min: 350, ideal: 350, max: 500)
             }
             .toolbar {
+                // The page picker on the left; the tools stay centred.
+                ToolbarItem(placement: .navigation) {
+                    Picker("Page", selection: $page) {
+                        ForEach(EditorPage.allCases) { page in
+                            Text(page.title).tag(page)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .labelsHidden()
+                    .help("Show the schematic or the PCB")
+                }
+
                 // Run/Stop and the speed are in the Simulation menu
                 // (`SimulationCommands`); only the slow-down notice is here.
                 if page == .schematic {
@@ -443,15 +455,6 @@ struct ContentView: View {
                 }
 
                 ToolbarItemGroup(placement: .principal) {
-                    Picker("Page", selection: $page) {
-                        ForEach(EditorPage.allCases) { page in
-                            Text(page.title).tag(page)
-                        }
-                    }
-                    .pickerStyle(.segmented)
-                    .labelsHidden()
-                    .help("Show the schematic or the PCB")
-
                     if page == .schematic {
                         // Two pickers on one selection, so the supply tools
                         // stand apart from the drawing tools.
