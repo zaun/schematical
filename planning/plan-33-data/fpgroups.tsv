@@ -1,0 +1,303 @@
+letter	maker	type	package	size	spacing	size_code	height	pdf	rows	footprint	part_package	pinout	note
+C	Cal-Chip	ceramic	0402 (1005 Metric)	"0.039"" L x 0.020"" W (1.00mm x 0.50mm)"	-		-	datasheets/capacitor/calchip/GMC-Series-3.pdf	44				
+C	Cal-Chip	ceramic	0603 (1608 Metric)	"0.063"" L x 0.031"" W (1.60mm x 0.80mm)"			"0.039"" (1.00mm)"	datasheets/capacitor/calchip/GMC-Series-3.pdf	2				
+C	Cal-Chip	ceramic	0603 (1608 Metric)	"0.063"" L x 0.031"" W (1.60mm x 0.80mm)"	-		-	datasheets/capacitor/calchip/GMC-Series-3.pdf	46				
+C	Cal-Chip	ceramic	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.00mm x 1.25mm)"			"0.037"" (0.95mm)"	datasheets/capacitor/calchip/GMC-Series-3.pdf	36				
+C	Cal-Chip	ceramic	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.00mm x 1.25mm)"	-		-	datasheets/capacitor/calchip/GMC-Series-3.pdf	14				
+C	Cal-Chip	ceramic	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"			-	datasheets/capacitor/calchip/GMC-Series-3.pdf	41				
+C	Cal-Chip	ceramic	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-		-	datasheets/capacitor/calchip/GMC-Series-3.pdf	18				
+C	Cal-Chip	ta-polymer	0805 (2012 Metric)	"0.081"" L x 0.051"" W (2.05mm x 1.30mm)"	-	P	"0.067"" (1.70mm)"	datasheets/capacitor/calchip/PT-SERIES.pdf	1				
+C	Cal-Chip	ta-polymer	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	A	"0.071"" (1.80mm)"	datasheets/capacitor/calchip/PT-SERIES.pdf	2				
+C	Cal-Chip	ta-polymer	1411 (3528 Metric)	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	B	"0.083"" (2.10mm)"	datasheets/capacitor/calchip/PT-SERIES.pdf	2				
+C	Cal-Chip	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	Y	"0.079"" (2.00mm)"	datasheets/capacitor/calchip/PT-SERIES.pdf	1				
+C	Cal-Chip	tantalum	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"			"0.071"" (1.80mm)"	datasheets/capacitor/calchip/TC-Series.pdf	1				
+C	Cal-Chip	tantalum	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	A	"0.071"" (1.80mm)"	datasheets/capacitor/calchip/TC-Series.pdf	21				
+C	Cal-Chip	tantalum	1411 (3528 Metric)	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"			"0.083"" (2.10mm)"	datasheets/capacitor/calchip/TC-Series.pdf	1				
+C	Cal-Chip	tantalum	1411 (3528 Metric)	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	B	"0.083"" (2.10mm)"	datasheets/capacitor/calchip/TC-Series.pdf	6				
+C	Cal-Chip	tantalum	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"			"0.110"" (2.80mm)"	datasheets/capacitor/calchip/TC-Series.pdf	1				
+C	Cal-Chip	tantalum	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"	-	C	"0.110"" (2.80mm)"	datasheets/capacitor/calchip/TC-Series.pdf	6				
+C	Cal-Chip	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"			"0.122"" (3.10mm)"	datasheets/capacitor/calchip/TC-Series.pdf	1				
+C	Cal-Chip	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	D	"0.122"" (3.10mm)"	datasheets/capacitor/calchip/TC-Series.pdf	18				
+C	Cal-Chip	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	E	"0.169"" (4.30mm)"	datasheets/capacitor/calchip/TC-Series.pdf	1				
+C	KEMET	al-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-		"0.079"" (2.00mm)"	datasheets/capacitor/kemet/KEM_T2091_A700-A720.pdf	15				
+C	KEMET	ceramic	0402 (1005 Metric)	"0.039"" L x 0.020"" W (1.00mm x 0.50mm)"	-		-	datasheets/capacitor/kemet/KEM_C1003_C0G_SMD.pdf	3				
+C	KEMET	ceramic	0402 (1005 Metric)	"0.039"" L x 0.020"" W (1.00mm x 0.50mm)"	-		-	datasheets/capacitor/kemet/KEM_C1002_X7R_SMD.pdf	7				
+C	KEMET	ceramic	0402 (1005 Metric)	"0.039"" L x 0.020"" W (1.00mm x 0.50mm)"	-		-	datasheets/capacitor/kemet/KEM_C1007_X8R_ULTRA_150C_SMD.pdf	1				
+C	KEMET	ceramic	0603 (1608 Metric)	"0.063"" L x 0.031"" W (1.60mm x 0.80mm)"	-		-	datasheets/capacitor/kemet/KEM_C1003_C0G_SMD.pdf	1				
+C	KEMET	ceramic	0603 (1608 Metric)	"0.063"" L x 0.031"" W (1.60mm x 0.80mm)"	-		-	datasheets/capacitor/kemet/KEM_C1002_X7R_SMD.pdf	9				
+C	KEMET	ceramic	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.00mm x 1.25mm)"	-		-	datasheets/capacitor/kemet/KEM_C1091_C0G_ESD.pdf	2				
+C	KEMET	ceramic	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.00mm x 1.25mm)"	-		-	datasheets/capacitor/kemet/KEM_C1002_X7R_SMD.pdf	8				
+C	KEMET	ceramic	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.00mm x 1.25mm)"	-		-	datasheets/capacitor/kemet/KEM_C1010_X7R_HV_SMD.pdf	1				
+C	KEMET	ceramic	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-		-	datasheets/capacitor/kemet/KEM_C1002_X7R_SMD.pdf	2				
+C	KEMET	ceramic	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-		-	datasheets/capacitor/kemet/KEM_C1010_X7R_HV_SMD.pdf	5				
+C	KEMET	ta-polymer	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.00mm x 1.25mm)"	-	P	"0.039"" (1.00mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	3				
+C	KEMET	ta-polymer	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	A	"0.071"" (1.80mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	4				
+C	KEMET	ta-polymer	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	-	"0.047"" (1.20mm)"	datasheets/capacitor/kemet/KEM_T2073_T59X.pdf	1				
+C	KEMET	ta-polymer	1411 (3528 Metric)	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	B	"0.079"" (2.00mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	15				
+C	KEMET	ta-polymer	1411 (3528 Metric)	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	T	"0.047"" (1.20mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	1				
+C	KEMET	ta-polymer	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"	-	C	"0.110"" (2.80mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	2				
+C	KEMET	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	V	"0.075"" (1.90mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	6				
+C	KEMET	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	X	"0.169"" (4.30mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	6				
+C	KEMET	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	X	"0.169"" (4.30mm)"	datasheets/capacitor/kemet/KEM_T2073_T59X.pdf	1				
+C	KEMET	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	D	"0.122"" (3.10mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	6				
+C	KEMET	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	Y	"0.157"" (4.00mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	1				
+C	KEMET	tantalum	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	A	"0.071"" (1.80mm)"	datasheets/capacitor/kemet/KEM_T2005_T491.pdf	19				
+C	KEMET	tantalum	1411 (3528 Metric)	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	B	"0.083"" (2.10mm)"	datasheets/capacitor/kemet/KEM_T2005_T491.pdf	4				
+C	KEMET	tantalum	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"	-	C	"0.110"" (2.80mm)"	datasheets/capacitor/kemet/KEM_T2005_T491.pdf	3				
+C	KEMET	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	X	"0.169"" (4.30mm)"	datasheets/capacitor/kemet/KEM_T2009_T495.pdf	4				
+C	KEMET	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	D	"0.122"" (3.10mm)"	datasheets/capacitor/kemet/KEM_T2005_T491.pdf	2				
+C	KEMET	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	X	"0.169"" (4.30mm)"	datasheets/capacitor/kemet/KEM_T2005_T491.pdf	4				
+C	KEMET	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	D	"0.122"" (3.10mm)"	datasheets/capacitor/kemet/KEM_T2009_T495.pdf	2				
+C	KEMET	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	X	"0.169"" (4.30mm)"	datasheets/capacitor/kemet/KEM_T2014_T510.pdf	1				
+C	AVX	ceramic	0402 (1005 Metric)	"0.039"" L x 0.020"" W (1.00mm x 0.50mm)"	-		-	datasheets/capacitor/avx/cx5r.pdf	1				
+C	AVX	ceramic	0603 (1608 Metric)	"0.063"" L x 0.031"" W (1.60mm x 0.80mm)"	-		-	datasheets/capacitor/avx/KGM_Series_e.pdf	1				
+C	AVX	ceramic	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.01mm x 1.25mm)"	-		-	datasheets/capacitor/avx/X7RDielectric.pdf	3				
+C	AVX	ceramic	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.01mm x 1.25mm)"	-		-	datasheets/capacitor/avx/KGM_X7R.pdf	1				
+C	AVX	niobium	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"		A	"0.071"" (1.80mm)"	datasheets/capacitor/avx/NOJ.pdf	6				
+C	AVX	niobium	1411 (3528 Metric), 1210	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"		B	"0.083"" (2.10mm)"	datasheets/capacitor/avx/NOJ.pdf	4				
+C	AVX	niobium	1411 (3528 Metric), 1210	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"		B	"0.083"" (2.10mm)"	datasheets/capacitor/avx/NOS.pdf	1				
+C	AVX	niobium	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"		C	"0.110"" (2.80mm)"	datasheets/capacitor/avx/NOJ.pdf	3				
+C	AVX	niobium	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"		C	"0.110"" (2.80mm)"	datasheets/capacitor/avx/NOS.pdf	2				
+C	AVX	niobium	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"		D	"0.122"" (3.10mm)"	datasheets/capacitor/avx/NOS.pdf	3				
+C	AVX	niobium	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"		D	"0.122"" (3.10mm)"	datasheets/capacitor/avx/NOJ.pdf	1				
+C	AVX	ta-polymer	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	A	"0.071"" (1.80mm)"	datasheets/capacitor/avx/TCJ.pdf	4				
+C	AVX	ta-polymer	1411 (3528 Metric), 1210	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	B	"0.083"" (2.10mm)"	datasheets/capacitor/avx/TCJ.pdf	12				
+C	AVX	ta-polymer	1411 (3528 Metric), 1210	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	T	"0.047"" (1.20mm)"	datasheets/capacitor/avx/TCJ.pdf	1				
+C	AVX	ta-polymer	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"	-	C	"0.110"" (2.80mm)"	datasheets/capacitor/avx/TCJ.pdf	2				
+C	AVX	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	Y	"0.079"" (2.00mm)"	datasheets/capacitor/avx/TCJ.pdf	6				
+C	AVX	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	E	"0.169"" (4.30mm)"	datasheets/capacitor/avx/TCJ.pdf	2				
+C	AVX	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	5	"0.157"" (4.00mm)"	datasheets/capacitor/avx/TCJ.pdf	1				
+C	AVX	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	D	"0.122"" (3.10mm)"	datasheets/capacitor/avx/TCJ.pdf	4				
+C	AVX	tantalum	0603 (1608 Metric)	"0.063"" L x 0.033"" W (1.60mm x 0.85mm)"	-	L	"0.039"" (1.00mm)"	datasheets/capacitor/avx/TAC.pdf	2				
+C	AVX	tantalum	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.00mm x 1.25mm)"	-	P	"0.039"" (1.00mm)"	datasheets/capacitor/avx/F92.pdf	2				
+C	AVX	tantalum	0805 (2012 Metric)	"0.081"" L x 0.051"" W (2.05mm x 1.30mm)"	-	R	"0.047"" (1.20mm)"	datasheets/capacitor/avx/TAJ.pdf	3				
+C	AVX	tantalum	0805 (2012 Metric)	"0.081"" L x 0.051"" W (2.05mm x 1.30mm)"	-	R	"0.047"" (1.20mm)"	datasheets/capacitor/avx/TAZ.pdf	1				
+C	AVX	tantalum	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	A	"0.071"" (1.80mm)"	datasheets/capacitor/avx/TAJ.pdf	8				
+C	AVX	tantalum	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	S	"0.047"" (1.20mm)"	datasheets/capacitor/avx/TAJ.pdf	3				
+C	AVX	tantalum	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	A	"0.071"" (1.80mm)"	datasheets/capacitor/avx/F93.pdf	1				
+C	AVX	tantalum	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	A	"0.071"" (1.80mm)"	datasheets/capacitor/avx/TPS.pdf	1				
+C	AVX	tantalum	1411 (3528 Metric)	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	B	"0.091"" (2.30mm)"	datasheets/capacitor/avx/F93.pdf	2				
+C	AVX	tantalum	1411 (3528 Metric), 1210	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	B	"0.083"" (2.10mm)"	datasheets/capacitor/avx/TAJ.pdf	6				
+C	AVX	tantalum	1411 (3528 Metric), 1210	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	B	"0.083"" (2.10mm)"	datasheets/capacitor/avx/TLJ.pdf	1				
+C	AVX	tantalum	1411 (3528 Metric), 1210	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	H	"0.059"" (1.50mm)"	datasheets/capacitor/avx/TLJ.pdf	1				
+C	AVX	tantalum	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"	-	C	"0.110"" (2.80mm)"	datasheets/capacitor/avx/TPS.pdf	1				
+C	AVX	tantalum	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"	-	C	"0.110"" (2.80mm)"	datasheets/capacitor/avx/TAJ.pdf	1				
+C	AVX	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	D	"0.122"" (3.10mm)"	datasheets/capacitor/avx/TPS.pdf	3				
+C	AVX	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	E	"0.169"" (4.30mm)"	datasheets/capacitor/avx/TPM.pdf	1				
+C	AVX	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	X	"0.059"" (1.50mm)"	datasheets/capacitor/avx/TPS.pdf	1				
+C	AVX	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	D	"0.122"" (3.10mm)"	datasheets/capacitor/avx/TAJ.pdf	1				
+C	AVX	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	E	"0.169"" (4.30mm)"	datasheets/capacitor/avx/TAJ.pdf	1				
+D	Cal-Chip	al-polymer	Radial, Can - SMD	"0.315"" Dia (8.00mm)"	-		"0.512"" (13.00mm)"	datasheets/capacitor/calchip/CCJ-SERIES-2.pdf	1				
+D	Cal-Chip	al-polymer	Radial, Can - SMD	"0.394"" Dia (10.00mm)"	-		"0.551"" (14.00mm)"	datasheets/capacitor/calchip/CCJ-SERIES-2.pdf	3				
+D	Cal-Chip	aluminum	Radial, Can - SMD	"0.197"" Dia x 0.213"" L (5.00mm x 5.40mm)"	-		-	datasheets/capacitor/calchip/CV2-SERIES.pdf	1				
+D	Cal-Chip	aluminum	Radial, Can - SMD	"0.248"" Dia x 0.213"" L (6.30mm x 5.40mm)"	-		-	datasheets/capacitor/calchip/CV2-SERIES.pdf	1				
+D	Cal-Chip	aluminum	Radial, Can - SMD	"0.248"" Dia x 0.228"" L (6.30mm x 5.80mm)"	-		-	datasheets/capacitor/calchip/CVH-SERIES-1.pdf	2				
+D	Cal-Chip	aluminum	Radial, Can - SMD	"0.248"" Dia x 0.303"" L (6.30mm x 7.70mm)"	-		-	datasheets/capacitor/calchip/CVH-SERIES-1.pdf	1				
+D	Cal-Chip	aluminum	Radial, Can - SMD	"0.248"" Dia x 0.303"" L (6.30mm x 7.70mm)"	-		-	datasheets/capacitor/calchip/CVL-SERIES-1.pdf	1				
+D	Cal-Chip	aluminum	Radial, Can - SMD	"0.248"" Dia x 0.303"" L (6.30mm x 7.70mm)"	-		-	datasheets/capacitor/calchip/CV2-SERIES.pdf	2				
+D	Cal-Chip	aluminum	Radial, Can - SMD	"0.315"" Dia x 0.413"" L (8.00mm x 10.50mm)"	-		-	datasheets/capacitor/calchip/CV2-SERIES.pdf	3				
+D	Cal-Chip	aluminum	Radial, Can - SMD	"0.315"" Dia x 0.413"" L (8.00mm x 10.50mm)"	-		-	datasheets/capacitor/calchip/CVH-SERIES-1.pdf	3				
+D	Cal-Chip	aluminum	Radial, Can - SMD	"0.394"" Dia x 0.413"" L (10.00mm x 10.50mm)"	-		-	datasheets/capacitor/calchip/CVH-SERIES-1.pdf	4				
+D	Cal-Chip	aluminum	Radial, Can - SMD	"0.394"" Dia x 0.413"" L (10.00mm x 10.50mm)"	-		-	datasheets/capacitor/calchip/CV2-SERIES.pdf	2				
+D	Cal-Chip	aluminum	Radial, Can - SMD	"0.492"" Dia x 0.4531"" L (12.50mm x 13.50mm)"	-		-	datasheets/capacitor/calchip/CVH-SERIES-1.pdf	1				
+D	KEMET	al-polymer	Radial, Can	"0.197"" Dia (5.00mm)"	"0.079"" (2.00mm)"		"0.315"" (8.00mm)"	datasheets/capacitor/kemet/KEM_A4069_A758.pdf	1				
+D	KEMET	al-polymer	Radial, Can	"0.197"" Dia (5.00mm)"	"0.079"" (2.00mm)"		"0.472"" (12.00mm)"	datasheets/capacitor/kemet/KEM_A4072_A759.pdf	5				
+D	KEMET	al-polymer	Radial, Can	"0.197"" Dia (5.00mm)"	"0.079"" (2.00mm)"		"0.315"" (8.00mm)"	datasheets/capacitor/kemet/KEM_A4067_A750.pdf	2				
+D	KEMET	al-polymer	Radial, Can	"0.248"" Dia (6.30mm)"	"0.098"" (2.50mm)"		"0.354"" (9.00mm)"	datasheets/capacitor/kemet/KEM_A4069_A758.pdf	4				
+D	KEMET	al-polymer	Radial, Can	"0.248"" Dia (6.30mm)"	"0.098"" (2.50mm)"		"0.354"" (9.00mm)"	datasheets/capacitor/kemet/KEM_A4072_A759.pdf	5				
+D	KEMET	al-polymer	Radial, Can	"0.248"" Dia (6.30mm)"	"0.098"" (2.50mm)"		"0.472"" (12.00mm)"	datasheets/capacitor/kemet/KEM_A4067_A750.pdf	2				
+D	KEMET	al-polymer	Radial, Can	"0.248"" Dia (6.30mm)"	"0.098"" (2.50mm)"		"0.236"" (6.00mm)"	datasheets/capacitor/kemet/KEM_A4144_A7C0.pdf	1				
+D	KEMET	al-polymer	Radial, Can	"0.315"" Dia (8.00mm)"	"0.138"" (3.50mm)"		"0.512"" (13.00mm)"	datasheets/capacitor/kemet/KEM_A4072_A759.pdf	7				
+D	KEMET	al-polymer	Radial, Can	"0.315"" Dia (8.00mm)"	"0.138"" (3.50mm)"		"0.354"" (9.00mm)"	datasheets/capacitor/kemet/KEM_A4069_A758.pdf	1				
+D	KEMET	al-polymer	Radial, Can	"0.315"" Dia (8.00mm)"	"0.138"" (3.50mm)"		"0.630"" (16.00mm)"	datasheets/capacitor/kemet/KEM_A4067_A750.pdf	3				
+D	KEMET	al-polymer	Radial, Can	"0.394"" Dia (10.00mm)"	"0.197"" (5.00mm)"		"0.512"" (13.00mm)"	datasheets/capacitor/kemet/KEM_A4068_A755.pdf	2				
+D	KEMET	al-polymer	Radial, Can	"0.394"" Dia (10.00mm)"	"0.197"" (5.00mm)"		"0.512"" (13.00mm)"	datasheets/capacitor/kemet/KEM_A4072_A759.pdf	7				
+D	KEMET	al-polymer	Radial, Can	"0.394"" Dia (10.00mm)"	"0.197"" (5.00mm)"		"0.630"" (16.00mm)"	datasheets/capacitor/kemet/KEM_A4067_A750.pdf	7				
+D	KEMET	al-polymer	Radial, Can	"0.394"" Dia (10.00mm)"	"0.197"" (5.00mm)"		"0.492"" (12.50mm)"	datasheets/capacitor/kemet/KEM_A4144_A7C0.pdf	1				
+D	KEMET	al-polymer	Radial, Can	"0.512"" Dia (13.00mm)"	"0.197"" (5.00mm)"		"0.866"" (22.00mm)"	datasheets/capacitor/kemet/KEM_A4072_A759.pdf	1				
+D	KEMET	al-polymer	Radial, Can	"0.717"" Dia (18.20mm)"	"0.600"" (15.24mm)"		"1.130"" (28.70mm)"	datasheets/capacitor/kemet/KEM_A4115_PHH227.pdf	1				
+D	KEMET	al-polymer	Radial, Can - SMD	-	-		"1.177"" (29.90mm)"	datasheets/capacitor/kemet/KEM_A4136_PHV227.pdf	1				
+D	KEMET	al-polymer	Radial, Can - SMD	"0.197"" Dia (5.00mm)"	-		"0.248"" (6.30mm)"	datasheets/capacitor/kemet/KEM_A4070_A765.pdf	1				
+D	KEMET	al-polymer	Radial, Can - SMD	"0.248"" Dia (6.30mm)"	-		"0.236"" (6.00mm)"	datasheets/capacitor/kemet/KEM_A4089_A766.pdf	2				
+D	KEMET	al-polymer	Radial, Can - SMD	"0.248"" Dia (6.30mm)"	-		"0.236"" (6.00mm)"	datasheets/capacitor/kemet/KEM_A4070_A765.pdf	3				
+D	KEMET	al-polymer	Radial, Can - SMD	"0.248"" Dia (6.30mm)"	-		"0.236"" (6.00mm)"	datasheets/capacitor/kemet/KEM_A4088_A768.pdf	2				
+D	KEMET	al-polymer	Radial, Can - SMD	"0.315"" Dia (8.00mm)"	-		"0.492"" (12.50mm)"	datasheets/capacitor/kemet/KEM_A4071_A767.pdf	4				
+D	KEMET	al-polymer	Radial, Can - SMD	"0.315"" Dia (8.00mm)"	-		"0.394"" (10.00mm)"	datasheets/capacitor/kemet/KEM_A4070_A765.pdf	3				
+D	KEMET	al-polymer	Radial, Can - SMD	"0.315"" Dia (8.00mm)"	-		"0.492"" (12.50mm)"	datasheets/capacitor/kemet/KEM_A4088_A768.pdf	6				
+D	KEMET	al-polymer	Radial, Can - SMD	"0.315"" Dia (8.00mm)"	-		"0.276"" (7.00mm)"	datasheets/capacitor/kemet/KEM_A4089_A766.pdf	1				
+D	KEMET	al-polymer	Radial, Can - SMD	"0.394"" Dia (10.00mm)"	-		"0.508"" (12.90mm)"	datasheets/capacitor/kemet/KEM_A4070_A765.pdf	4				
+D	KEMET	al-polymer	Radial, Can - SMD	"0.394"" Dia (10.00mm)"	-		"0.508"" (12.90mm)"	datasheets/capacitor/kemet/KEM_A4071_A767.pdf	3				
+D	KEMET	al-polymer	Radial, Can - SMD	"0.394"" Dia (10.00mm)"	-		"0.500"" (12.70mm)"	datasheets/capacitor/kemet/KEM_A4088_A768.pdf	5				
+D	KEMET	al-polymer	Radial, Can - SMD	"0.394"" Dia (10.00mm)"	-		"0.421"" (10.70mm)"	datasheets/capacitor/kemet/KEM_A4147_A740.pdf	1				
+D	KEMET	al-polymer	Radial, Can - SMD	"0.394"" Dia (10.00mm)"	-		"0.669"" (17.00mm)"	datasheets/capacitor/kemet/KEM_A4125_A785.pdf	1				
+D	KEMET	al-polymer	Radial, Can - SMD	"0.394"" Dia (10.00mm)"	-		"0.669"" (17.00mm)"	datasheets/capacitor/kemet/KEM_A4124_A782.pdf	1				
+D	KEMET	aluminum	Radial, Can	"0.197"" Dia (5.00mm)"	"0.079"" (2.00mm)"		"0.492"" (12.50mm)"	datasheets/capacitor/kemet/KEM_A4004_ESK.pdf	19				
+D	KEMET	aluminum	Radial, Can	"0.197"" Dia (5.00mm)"	"0.079"" (2.00mm)"		"0.492"" (12.50mm)"	datasheets/capacitor/kemet/KEM_A4005_ESH.pdf	8				
+D	KEMET	aluminum	Radial, Can	"0.197"" Dia (5.00mm)"	"0.079"" (2.00mm)"		"0.492"" (12.50mm)"	datasheets/capacitor/kemet/KEM_A4055_ESE.pdf	1				
+D	KEMET	aluminum	Radial, Can	"0.197"" Dia (5.00mm)"	"0.079"" (2.00mm)"		"0.492"" (12.50mm)"	datasheets/capacitor/kemet/KEM_A4010_EST.pdf	1				
+D	KEMET	aluminum	Radial, Can	"0.197"" Dia (5.00mm)"	"0.079"" (2.00mm)"		"0.335"" (8.50mm)"	datasheets/capacitor/kemet/KEM_A4057_ESS.pdf	1				
+D	KEMET	aluminum	Radial, Can	"0.197"" Dia (5.00mm)"	"0.079"" (2.00mm)"		"0.335"" (8.50mm)"	datasheets/capacitor/kemet/KEM_A4007_ESY.pdf	1				
+D	KEMET	aluminum	Radial, Can	"0.197"" Dia (5.00mm)"	"0.079"" (2.00mm)"		"0.492"" (12.50mm)"	datasheets/capacitor/kemet/KEM_A4006_ESC.pdf	1				
+D	KEMET	aluminum	Radial, Can	"0.236"" Dia (6.00mm)"	"0.098"" (2.50mm)"		"0.492"" (12.50mm)"	datasheets/capacitor/kemet/KEM_A4006_ESC.pdf	1				
+D	KEMET	aluminum	Radial, Can	"0.248"" Dia (6.30mm)"	"0.098"" (2.50mm)"		"0.492"" (12.50mm)"	datasheets/capacitor/kemet/KEM_A4005_ESH.pdf	2				
+D	KEMET	aluminum	Radial, Can	"0.248"" Dia (6.30mm)"	"0.098"" (2.50mm)"		"0.492"" (12.50mm)"	datasheets/capacitor/kemet/KEM_A4007_ESY.pdf	1				
+D	KEMET	aluminum	Radial, Can	"0.248"" Dia (6.30mm)"	"0.098"" (2.50mm)"		"0.492"" (12.50mm)"	datasheets/capacitor/kemet/KEM_A4004_ESK.pdf	4				
+D	KEMET	aluminum	Radial, Can	"0.248"" Dia (6.30mm)"	"0.098"" (2.50mm)"		"0.335"" (8.50mm)"	datasheets/capacitor/kemet/KEM_A4057_ESS.pdf	3				
+D	KEMET	aluminum	Radial, Can	"0.248"" Dia (6.30mm)"	"0.098"" (2.50mm)"		"0.492"" (12.50mm)"	datasheets/capacitor/kemet/KEM_A4009_ESW.pdf	2				
+D	KEMET	aluminum	Radial, Can	"0.248"" Dia (6.30mm)"	"0.098"" (2.50mm)"		"0.492"" (12.50mm)"	datasheets/capacitor/kemet/KEM_A4074_ESL.pdf	1				
+D	KEMET	aluminum	Radial, Can	"0.248"" Dia (6.30mm)"	"0.197"" (5.00mm)"		"0.492"" (12.50mm)"	datasheets/capacitor/kemet/KEM_A4055_ESE.pdf	1				
+D	KEMET	aluminum	Radial, Can	"0.315"" Dia (8.00mm)"	"0.138"" (3.50mm)"		"0.669"" (17.00mm)"	datasheets/capacitor/kemet/KEM_A4055_ESE.pdf	3				
+D	KEMET	aluminum	Radial, Can	"0.315"" Dia (8.00mm)"	"0.138"" (3.50mm)"		"0.492"" (12.50mm)"	datasheets/capacitor/kemet/KEM_A4005_ESH.pdf	4				
+D	KEMET	aluminum	Radial, Can	"0.315"" Dia (8.00mm)"	"0.138"" (3.50mm)"		"0.492"" (12.50mm)"	datasheets/capacitor/kemet/KEM_A4004_ESK.pdf	2				
+D	KEMET	aluminum	Radial, Can	"0.315"" Dia (8.00mm)"	"0.138"" (3.50mm)"		"0.866"" (22.00mm)"	datasheets/capacitor/kemet/KEM_A4007_ESY.pdf	2				
+D	KEMET	aluminum	Radial, Can	"0.394"" Dia (10.00mm)"	"0.197"" (5.00mm)"		"1.063"" (27.00mm)"	datasheets/capacitor/kemet/KEM_A4007_ESY.pdf	2				
+D	KEMET	aluminum	Radial, Can	"0.394"" Dia (10.00mm)"	"0.197"" (5.00mm)"		"0.551"" (14.00mm)"	datasheets/capacitor/kemet/KEM_A4005_ESH.pdf	3				
+D	KEMET	aluminum	Radial, Can	"0.394"" Dia (10.00mm)"	"0.197"" (5.00mm)"		"0.669"" (17.00mm)"	datasheets/capacitor/kemet/KEM_A4004_ESK.pdf	5				
+D	KEMET	aluminum	Radial, Can	"0.394"" Dia (10.00mm)"	"0.197"" (5.00mm)"		"1.063"" (27.00mm)"	datasheets/capacitor/kemet/KEM_A4010_EST.pdf	2				
+D	KEMET	aluminum	Radial, Can	"0.394"" Dia (10.00mm)"	"0.197"" (5.00mm)"		"0.866"" (22.00mm)"	datasheets/capacitor/kemet/KEM_A4006_ESC.pdf	1				
+D	KEMET	aluminum	Radial, Can	"0.394"" Dia (10.00mm)"	"0.197"" (5.00mm)"		"0.551"" (14.00mm)"	datasheets/capacitor/kemet/KEM_A4055_ESE.pdf	1				
+D	KEMET	aluminum	Radial, Can	"0.394"" Dia (10.00mm)"	"0.197"" (5.00mm)"		"0.827"" (21.00mm)"	datasheets/capacitor/kemet/KEM_A4009_ESW.pdf	1				
+D	KEMET	aluminum	Radial, Can	"0.492"" Dia (12.50mm)"	"0.197"" (5.00mm)"		"1.457"" (37.00mm)"	datasheets/capacitor/kemet/KEM_A4074_ESL.pdf	1				
+D	KEMET	aluminum	Radial, Can	"0.512"" Dia (13.00mm)"	"0.197"" (5.00mm)"		"0.866"" (22.00mm)"	datasheets/capacitor/kemet/KEM_A4006_ESC.pdf	1				
+D	KEMET	aluminum	Radial, Can	"0.512"" Dia (13.00mm)"	"0.197"" (5.00mm)"		"0.866"" (22.00mm)"	datasheets/capacitor/kemet/KEM_A4004_ESK.pdf	6				
+D	KEMET	aluminum	Radial, Can	"0.512"" Dia (13.00mm)"	"0.197"" (5.00mm)"		"0.866"" (22.00mm)"	datasheets/capacitor/kemet/KEM_A4055_ESE.pdf	1				
+D	KEMET	aluminum	Radial, Can	"0.630"" Dia (16.00mm)"	"0.295"" (7.50mm)"		"1.339"" (34.00mm)"	datasheets/capacitor/kemet/KEM_A4005_ESH.pdf	3				
+D	KEMET	aluminum	Radial, Can	"0.630"" Dia (16.00mm)"	"0.295"" (7.50mm)"		"1.496"" (38.00mm)"	datasheets/capacitor/kemet/KEM_A4006_ESC.pdf	1				
+D	KEMET	aluminum	Radial, Can	"0.630"" Dia (16.00mm)"	"0.295"" (7.50mm)"		"1.339"" (34.00mm)"	datasheets/capacitor/kemet/KEM_A4004_ESK.pdf	2				
+D	KEMET	aluminum	Radial, Can	"0.630"" Dia (16.00mm)"	"0.295"" (7.50mm)"		"1.260"" (32.00mm)"	datasheets/capacitor/kemet/KEM_A4074_ESL.pdf	1				
+D	KEMET	aluminum	Radial, Can	"0.709"" Dia (18.00mm)"	"0.295"" (7.50mm)"		"1.496"" (38.00mm)"	datasheets/capacitor/kemet/KEM_A4005_ESH.pdf	1				
+D	KEMET	aluminum	Radial, Can	"0.709"" Dia (18.00mm)"	"0.295"" (7.50mm)"		"1.496"" (38.00mm)"	datasheets/capacitor/kemet/KEM_A4010_EST.pdf	1				
+D	KEMET	aluminum	Radial, Can	"0.866"" Dia (22.00mm)"	"0.394"" (10.00mm)"		"1.457"" (37.00mm)"	datasheets/capacitor/kemet/KEM_A4004_ESK.pdf	2				
+D	KEMET	aluminum	Radial, Can - SMD	"0.157"" Dia (4.00mm)"	-		"0.222"" (5.65mm)"	datasheets/capacitor/kemet/KEM_A4001_EDK.pdf	5				
+D	KEMET	aluminum	Radial, Can - SMD	"0.157"" Dia (4.00mm)"	-		"0.222"" (5.65mm)"	datasheets/capacitor/kemet/KEM_A4003_EXV.pdf	4				
+D	KEMET	aluminum	Radial, Can - SMD	"0.157"" Dia (4.00mm)"	-		"0.222"" (5.65mm)"	datasheets/capacitor/kemet/KEM_A4002_EEV.pdf	2				
+D	KEMET	aluminum	Radial, Can - SMD	"0.157"" Dia (4.00mm)"	-		"0.222"" (5.65mm)"	datasheets/capacitor/kemet/KEM_A4049_EDH.pdf	2				
+D	KEMET	aluminum	Radial, Can - SMD	"0.197"" Dia (5.00mm)"	-		"0.222"" (5.65mm)"	datasheets/capacitor/kemet/KEM_A4003_EXV.pdf	2				
+D	KEMET	aluminum	Radial, Can - SMD	"0.197"" Dia (5.00mm)"	-		"0.222"" (5.65mm)"	datasheets/capacitor/kemet/KEM_A4049_EDH.pdf	2				
+D	KEMET	aluminum	Radial, Can - SMD	"0.197"" Dia (5.00mm)"	-		"0.222"" (5.65mm)"	datasheets/capacitor/kemet/KEM_A4001_EDK.pdf	2				
+D	KEMET	aluminum	Radial, Can - SMD	"0.197"" Dia (5.00mm)"	-		"0.222"" (5.65mm)"	datasheets/capacitor/kemet/KEM_A4002_EEV.pdf	1				
+D	KEMET	aluminum	Radial, Can - SMD	"0.248"" Dia (6.30mm)"	-		"0.315"" (8.00mm)"	datasheets/capacitor/kemet/KEM_A4049_EDH.pdf	1				
+D	KEMET	aluminum	Radial, Can - SMD	"0.248"" Dia (6.30mm)"	-		"0.315"" (8.00mm)"	datasheets/capacitor/kemet/KEM_A4001_EDK.pdf	7				
+D	KEMET	aluminum	Radial, Can - SMD	"0.248"" Dia (6.30mm)"	-		"0.222"" (5.65mm)"	datasheets/capacitor/kemet/KEM_A4003_EXV.pdf	3				
+D	KEMET	aluminum	Radial, Can - SMD	"0.248"" Dia (6.30mm)"	-		"0.222"" (5.65mm)"	datasheets/capacitor/kemet/KEM_A4002_EEV.pdf	2				
+D	KEMET	aluminum	Radial, Can - SMD	"0.315"" Dia (8.00mm)"	-		"0.413"" (10.50mm)"	datasheets/capacitor/kemet/KEM_A4001_EDK.pdf	3				
+D	KEMET	aluminum	Radial, Can - SMD	"0.315"" Dia (8.00mm)"	-		"0.413"" (10.50mm)"	datasheets/capacitor/kemet/KEM_A4003_EXV.pdf	1				
+D	KEMET	aluminum	Radial, Can - SMD	"0.315"" Dia (8.00mm)"	-		"0.413"" (10.50mm)"	datasheets/capacitor/kemet/KEM_A4002_EEV.pdf	1				
+D	KEMET	aluminum	Radial, Can - SMD	"0.394"" Dia (10.00mm)"	-		"0.413"" (10.50mm)"	datasheets/capacitor/kemet/KEM_A4002_EEV.pdf	3				
+D	KEMET	aluminum	Radial, Can - SMD	"0.394"" Dia (10.00mm)"	-		"0.413"" (10.50mm)"	datasheets/capacitor/kemet/KEM_A4049_EDH.pdf	2				
+D	KEMET	aluminum	Radial, Can - SMD	"0.394"" Dia (10.00mm)"	-		"0.413"" (10.50mm)"	datasheets/capacitor/kemet/KEM_A4001_EDK.pdf	1				
+D	KEMET	aluminum	Radial, Can - SMD	"0.394"" Dia (10.00mm)"	-		"0.413"" (10.50mm)"	datasheets/capacitor/kemet/KEM_A4003_EXV.pdf	1				
+D	KEMET	aluminum	Radial, Can - SMD	"0.492"" Dia (12.50mm)"	-		"0.551"" (14.00mm)"	datasheets/capacitor/kemet/KEM_A4049_EDH.pdf	2				
+D	KEMET	aluminum	Radial, Can - SMD	"0.492"" Dia (12.50mm)"	-		"0.571"" (14.50mm)"	datasheets/capacitor/kemet/KEM_A4003_EXV.pdf	1				
+D	KEMET	aluminum	Radial, Can - SMD	"0.630"" Dia (16.00mm)"	-		"0.689"" (17.50mm)"	datasheets/capacitor/kemet/KEM_A4049_EDH.pdf	2				
+D	KEMET	ceramic	Axial	"0.090"" Dia x 0.160"" L (2.29mm x 4.06mm)"	-		-	datasheets/capacitor/kemet/C114K101K1X5CA.pdf	1				
+D	KEMET	ceramic	Axial	"0.095"" Dia x 0.170"" L (2.41mm x 4.32mm)"	-		-	datasheets/capacitor/kemet/KEM_C1040_AXIMAX_C0G.pdf	10				
+D	KEMET	ceramic	Axial	"0.095"" Dia x 0.170"" L (2.41mm x 4.32mm)"	-		-	datasheets/capacitor/kemet/KEM_C1071_AXIMAX_X8R.pdf	1				
+D	KEMET	ceramic	Axial	"0.095"" Dia x 0.170"" L (2.41mm x 4.32mm)"	-		-	datasheets/capacitor/kemet/KEM_C1041_AXIMAX_X7R.pdf	4				
+D	KEMET	ceramic	Axial	"0.100"" Dia x 0.170"" L (2.54mm x 4.32mm)"	-		-	datasheets/capacitor/kemet/KEM_C1040_AXIMAX_C0G.pdf	3				
+D	KEMET	ceramic	Axial	"0.100"" Dia x 0.170"" L (2.54mm x 4.32mm)"	-		-	datasheets/capacitor/kemet/KEM_C1041_AXIMAX_X7R.pdf	12				
+D	KEMET	ceramic	Axial	"0.100"" Dia x 0.200"" L (2.54mm x 5.08mm)"	-		-	datasheets/capacitor/kemet/KEM_C1040_AXIMAX_C0G.pdf	1				
+D	KEMET	ceramic	Axial	"0.100"" Dia x 0.200"" L (2.54mm x 5.08mm)"	-		-	datasheets/capacitor/kemet/KEM_C1041_AXIMAX_X7R.pdf	1				
+D	KEMET	ceramic	Axial	"0.100"" Dia x 0.260"" L (2.54mm x 6.60mm)"	-		-	datasheets/capacitor/kemet/KEM_C1040_AXIMAX_C0G.pdf	1				
+D	KEMET	ceramic	Axial	"0.100"" Dia x 0.260"" L (2.54mm x 6.60mm)"	-		-	datasheets/capacitor/kemet/KEM_C1041_AXIMAX_X7R.pdf	1				
+D	KEMET	ceramic	Axial	"0.120"" Dia x 0.170"" L (3.05mm x 4.32mm)"	-		-	datasheets/capacitor/kemet/KEM_C1040_AXIMAX_C0G.pdf	1				
+D	KEMET	ceramic	Axial	"0.150"" Dia x 0.240"" L (3.81mm x 6.10mm)"	-		-	datasheets/capacitor/kemet/KEM_C1040_AXIMAX_C0G.pdf	3				
+D	KEMET	ceramic	Axial	"0.150"" Dia x 0.240"" L (3.81mm x 6.10mm)"	-		-	datasheets/capacitor/kemet/KEM_C1041_AXIMAX_X7R.pdf	1				
+D	KEMET	ceramic	Axial	"0.150"" Dia x 0.290"" L (3.81mm x 7.37mm)"	-		-	datasheets/capacitor/kemet/KEM_C1040_AXIMAX_C0G.pdf	3				
+D	KEMET	ceramic	Axial	"0.150"" Dia x 0.290"" L (3.81mm x 7.37mm)"	-		-	datasheets/capacitor/kemet/KEM_C1041_AXIMAX_X7R.pdf	4				
+D	KEMET	ceramic	Axial	"0.150"" Dia x 0.400"" L (3.81mm x 10.16mm)"	-		-	datasheets/capacitor/kemet/KEM_C1040_AXIMAX_C0G.pdf	2				
+D	KEMET	ceramic	Axial	"0.150"" Dia x 0.400"" L (3.81mm x 10.16mm)"	-		-	datasheets/capacitor/kemet/KEM_C1041_AXIMAX_X7R.pdf	1				
+D	KEMET	ceramic	Radial	"0.150"" L x 0.100"" W (3.81mm x 2.54mm)"	"0.100"" (2.54mm)"		"0.183"" (4.66mm)"	datasheets/capacitor/kemet/KEM_C1049_GOLDMAX_C0G.pdf	5				
+D	KEMET	ceramic	Radial	"0.150"" L x 0.100"" W (3.81mm x 2.54mm)"	"0.100"" (2.54mm)"		"0.183"" (4.66mm)"	datasheets/capacitor/kemet/KEM_C1050_GOLDMAX_X7R.pdf	11				
+D	KEMET	ceramic	Radial	"0.150"" L x 0.100"" W (3.81mm x 2.54mm)"	"0.200"" (5.08mm)"		"0.200"" (5.08mm)"	datasheets/capacitor/kemet/KEM_C1049_GOLDMAX_C0G.pdf	6				
+D	KEMET	ceramic	Radial	"0.150"" L x 0.100"" W (3.81mm x 2.54mm)"	"0.200"" (5.08mm)"		"0.200"" (5.08mm)"	datasheets/capacitor/kemet/KEM_C1055_HIVOLT_GOLDMAX_300_X7R.pdf	1				
+D	KEMET	ceramic	Radial	"0.150"" L x 0.100"" W (3.81mm x 2.54mm)"	"0.200"" (5.08mm)"		"0.200"" (5.08mm)"	datasheets/capacitor/kemet/KEM_C1050_GOLDMAX_X7R.pdf	1				
+D	KEMET	ceramic	Radial	"0.150"" L x 0.124"" W (3.81mm x 3.14mm)"	"0.100"" (2.54mm)"		"0.190"" (4.82mm)"	datasheets/capacitor/kemet/KEM_C1055_HIVOLT_GOLDMAX_300_X7R.pdf	1				
+D	KEMET	ceramic	Radial	"0.190"" L x 0.090"" W (4.83mm x 2.29mm)"	"0.200"" (5.08mm)"		"0.245"" (6.22mm)"	datasheets/capacitor/kemet/KEM_C1073_HT_RADIAL_MOLDED_C0G.pdf	1				
+D	KEMET	ceramic	Radial	"0.190"" L x 0.090"" W (4.83mm x 2.29mm)"	"0.200"" (5.08mm)"		"0.200"" (5.08mm)"	datasheets/capacitor/kemet/KEM_C1059_RADIAL_MOLDED_X7R.pdf	3				
+D	KEMET	ceramic	Radial	"0.200"" L x 0.100"" W (5.08mm x 2.54mm)"	"0.200"" (5.08mm)"		"0.224"" (5.70mm)"	datasheets/capacitor/kemet/KEM_C1118_A-SERIES.pdf	1				
+D	KEMET	ceramic	Radial	"0.200"" L x 0.125"" W (5.08mm x 3.18mm)"	"0.100"" (2.54mm)"		"0.300"" (7.62mm)"	datasheets/capacitor/kemet/KEM_C1049_GOLDMAX_C0G.pdf	2				
+D	KEMET	ceramic	Radial	"0.200"" L x 0.125"" W (5.08mm x 3.18mm)"	"0.100"" (2.54mm)"		"0.290"" (7.36mm)"	datasheets/capacitor/kemet/KEM_C1050_GOLDMAX_X7R.pdf	2				
+D	KEMET	ceramic	Radial	"0.200"" L x 0.125"" W (5.08mm x 3.18mm)"	"0.200"" (5.08mm)"		"0.260"" (6.60mm)"	datasheets/capacitor/kemet/KEM_C1049_GOLDMAX_C0G.pdf	4				
+D	KEMET	ceramic	Radial	"0.200"" L x 0.125"" W (5.08mm x 3.18mm)"	"0.200"" (5.08mm)"		"0.260"" (6.60mm)"	datasheets/capacitor/kemet/KEM_C1050_GOLDMAX_X7R.pdf	6				
+D	KEMET	ceramic	Radial	"0.200"" L x 0.160"" W (5.08mm x 4.07mm)"	"0.200"" (5.08mm)"		"0.260"" (6.60mm)"	datasheets/capacitor/kemet/KEM_C1050_GOLDMAX_X7R.pdf	1				
+D	KEMET	ceramic	Radial	"0.280"" L x 0.160"" W (7.11mm x 4.07mm)"	"0.200"" (5.08mm)"		"0.360"" (9.14mm)"	datasheets/capacitor/kemet/KEM_C1049_GOLDMAX_C0G.pdf	3				
+D	KEMET	ceramic	Radial	"0.280"" L x 0.160"" W (7.11mm x 4.07mm)"	"0.200"" (5.08mm)"		"0.360"" (9.14mm)"	datasheets/capacitor/kemet/KEM_C1050_GOLDMAX_X7R.pdf	3				
+D	KEMET	ceramic	Radial	"0.280"" L x 0.160"" W (7.11mm x 4.07mm)"	"0.250"" (6.35mm)"		"0.360"" (9.14mm)"	datasheets/capacitor/kemet/KEM_C1049_GOLDMAX_C0G.pdf	2				
+D	KEMET	ceramic	Radial	"0.290"" L x 0.160"" W (7.36mm x 4.07mm)"	"0.200"" (5.08mm)"		"0.400"" (10.16mm)"	datasheets/capacitor/kemet/KEM_C1050_GOLDMAX_X7R.pdf	1				
+D	KEMET	ceramic	Radial	"0.330"" L x 0.200"" W (8.38mm x 5.08mm)"	"0.400"" (10.16mm)"		"0.400"" (10.16mm)"	datasheets/capacitor/kemet/KEM_C1049_GOLDMAX_C0G.pdf	1				
+D	KEMET	ceramic	Radial	"0.330"" L x 0.200"" W (8.38mm x 5.08mm)"	"0.400"" (10.16mm)"		"0.400"" (10.16mm)"	datasheets/capacitor/kemet/KEM_C1050_GOLDMAX_X7R.pdf	1				
+D	KEMET	ceramic	Radial	"0.500"" L x 0.100"" W (12.70mm x 2.54mm)"	"0.400"" (10.16mm)"		"0.500"" (12.70mm)"	datasheets/capacitor/kemet/KEM_C1119_S-SERIES.pdf	1				
+D	KEMET	ceramic	Radial, Disc	"0.256"" Dia (6.50mm)"	"0.197"" (5.00mm)"		"0.374"" (9.50mm)"	datasheets/capacitor/kemet/KEM_C1127_CGP.pdf	2				
+D	KEMET	ceramic	Radial, Disc	"0.315"" Dia (8.00mm)"	"0.295"" (7.50mm)"		"0.472"" (12.00mm)"	datasheets/capacitor/kemet/KEM_C1103_KJY.pdf	2				
+D	KEMET	ceramic	Radial, Disc	"0.315"" Dia (8.00mm)"	"0.394"" (10.00mm)"		"0.433"" (11.00mm)"	datasheets/capacitor/kemet/KEM_C1103_KJY.pdf	3				
+D	KEMET	ceramic	Radial, Disc	"0.354"" Dia (9.00mm)"	"0.394"" (10.00mm)"		-	datasheets/capacitor/kemet/KEM_C1104_KJN.pdf	2				
+D	KEMET	ceramic	Radial, Disc	"0.394"" Dia (10.00mm)"	"0.295"" (7.50mm)"		"0.551"" (14.00mm)"	datasheets/capacitor/kemet/KEM_C1103_KJY.pdf	1				
+D	KEMET	ceramic	Radial, Disc	"0.394"" Dia (10.00mm)"	"0.394"" (10.00mm)"		-	datasheets/capacitor/kemet/KEM_C1104_KJN.pdf	1				
+D	KEMET	ceramic	Radial, Disc	"0.394"" Dia (10.00mm)"	"0.394"" (10.00mm)"		"0.512"" (13.00mm)"	datasheets/capacitor/kemet/KEM_C1103_KJY.pdf	1				
+D	KEMET	ceramic	Radial, Disc	"0.433"" Dia (11.00mm)"	"0.394"" (10.00mm)"		-	datasheets/capacitor/kemet/KEM_C1104_KJN.pdf	1				
+D	KEMET	ceramic	Radial, Disc	"0.472"" Dia (12.00mm)"	"0.295"" (7.50mm)"		"0.630"" (16.00mm)"	datasheets/capacitor/kemet/KEM_C1103_KJY.pdf	1				
+D	KEMET	ceramic	Radial, Disc	"0.591"" Dia (15.00mm)"	"0.394"" (10.00mm)"		"0.709"" (18.00mm)"	datasheets/capacitor/kemet/KEM_C1103_KJY.pdf	1				
+D	KEMET	ceramic	Radial, Disc	"0.630"" Dia (16.00mm)"	"0.197"" (5.00mm)"		"0.787"" (20.00mm)"	datasheets/capacitor/kemet/KEM_C1103_KJY.pdf	1				
+D	KEMET	tantalum	Radial	"0.177"" Dia (4.50mm)"	"0.100"" (2.54mm)"	A	"0.280"" (7.11mm)"	datasheets/capacitor/kemet/T354K476K020AT.pdf	3				
+D	KEMET	tantalum	Radial	"0.177"" Dia (4.50mm)"	"0.200"" (5.08mm)"	A	"0.339"" (8.60mm)"	datasheets/capacitor/kemet/T354K476K020AT.pdf	4				
+D	KEMET	tantalum	Radial	"0.177"" Dia (4.50mm)"	"0.200"" (5.08mm)"	B	"0.350"" (8.90mm)"	datasheets/capacitor/kemet/T354K476K020AT.pdf	1				
+D	KEMET	tantalum	Radial	"0.197"" Dia (5.00mm)"	"0.100"" (2.54mm)"	D	"0.339"" (8.60mm)"	datasheets/capacitor/kemet/T354K476K020AT.pdf	1				
+D	KEMET	tantalum	Radial	"0.197"" Dia (5.00mm)"	"0.200"" (5.08mm)"	C	"0.378"" (9.60mm)"	datasheets/capacitor/kemet/T354K476K020AT.pdf	1				
+D	KEMET	tantalum	Radial	"0.217"" Dia (5.50mm)"	"0.100"" (2.54mm)"	E	"0.350"" (8.90mm)"	datasheets/capacitor/kemet/T354K476K020AT.pdf	1				
+D	KEMET	tantalum	Radial	"0.248"" Dia (6.30mm)"	"0.200"" (5.08mm)"	G	"0.449"" (11.40mm)"	datasheets/capacitor/kemet/T354K476K020AT.pdf	1				
+D	KEMET	tantalum	Radial	"0.299"" Dia (7.60mm)"	"0.100"" (2.54mm)"	H	"0.402"" (10.20mm)"	datasheets/capacitor/kemet/T354K476K020AT.pdf	1				
+D	KEMET	tantalum	Radial	"0.402"" Dia (10.20mm)"	"0.200"" (5.08mm)"	M	"0.732"" (18.60mm)"	datasheets/capacitor/kemet/T354K476K020AT.pdf	1				
+D	AVX	al-polymer	Radial, Can	"0.248"" Dia (6.30mm)"	"0.098"" (2.50mm)"		"0.374"" (9.50mm)"	datasheets/capacitor/avx/rpa-series.pdf	6				
+D	AVX	al-polymer	Radial, Can	"0.248"" Dia (6.30mm)"	"0.098"" (2.50mm)"		"0.343"" (8.70mm)"	datasheets/capacitor/avx/rha-series.pdf	2				
+D	AVX	al-polymer	Radial, Can	"0.315"" Dia (8.00mm)"	"0.138"" (3.50mm)"		"0.531"" (13.50mm)"	datasheets/capacitor/avx/rpa-series.pdf	3				
+D	AVX	al-polymer	Radial, Can	"0.394"" Dia (10.00mm)"	"0.197"" (5.00mm)"		"0.512"" (13.00mm)"	datasheets/capacitor/avx/rha-series.pdf	1				
+D	AVX	al-polymer	Radial, Can	"0.394"" Dia (10.00mm)"	"0.197"" (5.00mm)"		"0.453"" (11.50mm)"	datasheets/capacitor/avx/rpa-series.pdf	5				
+D	AVX	al-polymer	Radial, Can - SMD	"0.248"" Dia (6.30mm)"	-		"0.335"" (8.50mm)"	datasheets/capacitor/avx/kyocera-avx-apa-series.pdf	6				
+D	AVX	al-polymer	Radial, Can - SMD	"0.248"" Dia (6.30mm)"	-		"0.335"" (8.50mm)"	datasheets/capacitor/avx/kyocera-avx-aha-series.pdf	1				
+D	AVX	al-polymer	Radial, Can - SMD	"0.315"" Dia (8.00mm)"	-		"0.394"" (10.00mm)"	datasheets/capacitor/avx/kyocera-avx-apa-series.pdf	2				
+D	AVX	al-polymer	Radial, Can - SMD	"0.394"" Dia (10.00mm)"	-		"0.433"" (11.00mm)"	datasheets/capacitor/avx/kyocera-avx-apa-series.pdf	3				
+D	AVX	al-polymer	Radial, Can - SMD	"0.394"" Dia (10.00mm)"	-		"0.433"" (11.00mm)"	datasheets/capacitor/avx/kyocera-avx-aha-series.pdf	1				
+D	AVX	aluminum	Radial, Can	"0.315"" Dia (8.00mm)"	"0.138"" (3.50mm)"		"0.512"" (13.00mm)"	datasheets/capacitor/avx/rea-series.pdf	2				
+D	AVX	aluminum	Radial, Can	"0.394"" Dia (10.00mm)"	"0.197"" (5.00mm)"		"0.551"" (14.00mm)"	datasheets/capacitor/avx/rea-series.pdf	1				
+D	AVX	aluminum	Radial, Can	"0.512"" Dia (13.00mm)"	"0.197"" (5.00mm)"		"1.063"" (27.00mm)"	datasheets/capacitor/avx/rea-series.pdf	3				
+D	AVX	aluminum	Radial, Can	"0.630"" Dia (16.00mm)"	"0.295"" (7.50mm)"		"1.102"" (28.00mm)"	datasheets/capacitor/avx/rea-series.pdf	1				
+D	AVX	aluminum	Radial, Can	"0.709"" Dia (18.00mm)"	"0.295"" (7.50mm)"		"1.457"" (37.00mm)"	datasheets/capacitor/avx/rea-series.pdf	2				
+D	AVX	aluminum	Radial, Can - SMD	"0.315"" Dia (8.00mm)"	-		"0.413"" (10.50mm)"	datasheets/capacitor/avx/kyocera-avx-aea-series.pdf	4				
+D	AVX	aluminum	Radial, Can - SMD	"0.394"" Dia (10.00mm)"	-		"0.394"" (10.00mm)"	datasheets/capacitor/avx/kyocera-avx-aea-series.pdf	1				
+D	AVX	aluminum	Radial, Can - SMD	"0.492"" Dia (12.50mm)"	-		"0.531"" (13.50mm)"	datasheets/capacitor/avx/kyocera-avx-aea-series.pdf	4				
+D	AVX	aluminum	Radial, Can - SMD	"0.630"" Dia (16.00mm)"	-		"0.669"" (17.00mm)"	datasheets/capacitor/avx/kyocera-avx-aea-series.pdf	6				
+D	AVX	ceramic	Radial	"0.150"" L x 0.100"" W (3.81mm x 2.54mm)"	"0.100"" (2.54mm)"		"0.150"" (3.81mm)"	datasheets/capacitor/avx/SR-Series.pdf	1				
+D	AVX	ceramic	Radial	"0.200"" L x 0.125"" W (5.08mm x 3.18mm)"	"0.200"" (5.08mm)"		"0.300"" (7.62mm)"	datasheets/capacitor/avx/SR-Series.pdf	4				
+D	AVX	ceramic	Radial	"0.300"" L x 0.150"" W (7.62mm x 3.81mm)"	"0.200"" (5.08mm)"		"0.360"" (9.14mm)"	datasheets/capacitor/avx/SR-Series.pdf	1				
+D	AVX	ceramic	Radial	"0.400"" L x 0.150"" W (10.16mm x 3.81mm)"	"0.200"" (5.08mm)"		"0.460"" (11.68mm)"	datasheets/capacitor/avx/SR-Series.pdf	1				
+D	AVX	ceramic	Radial	"0.402"" L x 0.402"" W (10.20mm x 10.20mm)"	"0.200"" (5.08mm)"		"0.200"" (5.08mm)"	datasheets/capacitor/avx/SE-Style.pdf	1				
+D	AVX	tantalum	Radial	"0.177"" Dia (4.50mm)"	"0.098"" (2.50mm)"	A	"0.276"" (7.00mm)"	datasheets/capacitor/avx/tap.pdf	13				
+D	AVX	tantalum	Radial	"0.177"" Dia (4.50mm)"	"0.098"" (2.50mm)"	B	"0.295"" (7.50mm)"	datasheets/capacitor/avx/tap.pdf	4				
+D	AVX	tantalum	Radial	"0.177"" Dia (4.50mm)"	"0.197"" (5.00mm)"	A	"0.335"" (8.50mm)"	datasheets/capacitor/avx/tap.pdf	5				
+D	AVX	tantalum	Radial	"0.177"" Dia (4.50mm)"	"0.197"" (5.00mm)"	B	"0.354"" (9.00mm)"	datasheets/capacitor/avx/tap.pdf	1				
+D	AVX	tantalum	Radial	"0.180"" Dia (4.57mm)"	"0.200"" (5.08mm)"	A	"0.330"" (8.50mm)"	datasheets/capacitor/avx/tap.pdf	1				
+D	AVX	tantalum	Radial	"0.197"" Dia (5.00mm)"	"0.098"" (2.50mm)"	C	"0.335"" (8.50mm)"	datasheets/capacitor/avx/tap.pdf	4				
+D	AVX	tantalum	Radial	"0.197"" Dia (5.00mm)"	"0.098"" (2.50mm)"	D	"0.354"" (9.00mm)"	datasheets/capacitor/avx/tap.pdf	5				
+D	AVX	tantalum	Radial	"0.197"" Dia (5.00mm)"	"0.197"" (5.00mm)"	C	"0.394"" (10.00mm)"	datasheets/capacitor/avx/tap.pdf	1				
+D	AVX	tantalum	Radial	"0.217"" Dia (5.50mm)"	"0.098"" (2.50mm)"	E	"0.354"" (9.00mm)"	datasheets/capacitor/avx/tap.pdf	5				
+D	AVX	tantalum	Radial	"0.217"" Dia (5.50mm)"	"0.197"" (5.00mm)"	E	"0.413"" (10.50mm)"	datasheets/capacitor/avx/tap.pdf	1				
+D	AVX	tantalum	Radial	"0.236"" Dia (6.00mm)"	"0.098"" (2.50mm)"	F	"0.394"" (10.00mm)"	datasheets/capacitor/avx/tap.pdf	4				
+D	AVX	tantalum	Radial	"0.236"" Dia (6.00mm)"	"0.197"" (5.00mm)"	F	"0.453"" (11.50mm)"	datasheets/capacitor/avx/tap.pdf	4				
+D	AVX	tantalum	Radial	"0.240"" Dia (6.00mm)"	-	F	"0.602"" (15.30mm)"	datasheets/capacitor/avx/tap.pdf	1				
+D	AVX	tantalum	Radial	"0.256"" Dia (6.50mm)"	"0.098"" (2.50mm)"	G	"0.394"" (10.00mm)"	datasheets/capacitor/avx/tap.pdf	1				
+D	AVX	tantalum	Radial	"0.256"" Dia (6.50mm)"	"0.125"" (3.18mm)"	G	"0.453"" (11.50mm)"	datasheets/capacitor/avx/tap.pdf	1				
+D	AVX	tantalum	Radial	"0.276"" Dia (7.00mm)"	"0.098"" (2.50mm)"	H	"0.413"" (10.50mm)"	datasheets/capacitor/avx/tap.pdf	1				
+D	AVX	tantalum	Radial	"0.276"" Dia (7.00mm)"	"0.125"" (3.18mm)"	H	"0.472"" (12.00mm)"	datasheets/capacitor/avx/tap.pdf	1				
+D	AVX	tantalum	Radial	"0.276"" Dia (7.00mm)"	"0.197"" (5.00mm)"	H	"0.472"" (12.00mm)"	datasheets/capacitor/avx/tap.pdf	2				
+D	AVX	tantalum	Radial	"0.276"" Dia (7.00mm)"	"0.250"" (6.35mm)"	H	"0.472"" (12.00mm)"	datasheets/capacitor/avx/tap.pdf	1				
+D	AVX	tantalum	Radial	"0.315"" Dia (8.00mm)"	"0.098"" (2.50mm)"	J	"0.453"" (11.50mm)"	datasheets/capacitor/avx/tap.pdf	2				
+D	AVX	tantalum	Radial	"0.315"" Dia (8.00mm)"	"0.197"" (5.00mm)"	J	"0.512"" (13.00mm)"	datasheets/capacitor/avx/tap.pdf	2				
+D	AVX	tantalum	Radial	"0.335"" Dia (8.50mm)"	"0.098"" (2.50mm)"	K	"0.492"" (12.50mm)"	datasheets/capacitor/avx/tap.pdf	1				
+D	AVX	tantalum	Radial	"0.335"" Dia (8.50mm)"	"0.197"" (5.00mm)"	K	"0.551"" (14.00mm)"	datasheets/capacitor/avx/tap.pdf	3				
+D	AVX	tantalum	Radial	"0.335"" Dia (8.50mm)"	"0.250"" (6.35mm)"	K	"0.551"" (14.00mm)"	datasheets/capacitor/avx/tap.pdf	1				
+D	AVX	tantalum	Radial	"0.354"" Dia (9.00mm)"	"0.197"" (5.00mm)"	N	"0.630"" (16.00mm)"	datasheets/capacitor/avx/tap.pdf	6				
+D	AVX	tantalum	Radial	"0.354"" Dia (9.00mm)"	"0.197"" (5.00mm)"	L	"0.551"" (14.00mm)"	datasheets/capacitor/avx/tap.pdf	1				
+D	AVX	tantalum	Radial	"0.354"" Dia (9.00mm)"	"0.197"" (5.00mm)"	M	"0.571"" (14.50mm)"	datasheets/capacitor/avx/tap.pdf	3				
+D	AVX	tantalum	Radial	"0.394"" Dia (10.00mm)"	"0.197"" (5.00mm)"	P	"0.669"" (17.00mm)"	datasheets/capacitor/avx/tap.pdf	2				
+D	AVX	tantalum	Radial	"0.394"" Dia (10.00mm)"	"0.197"" (5.00mm)"	R	"0.728"" (18.50mm)"	datasheets/capacitor/avx/tap.pdf	2				

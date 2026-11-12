@@ -1,0 +1,23 @@
+pdf	pattern	page	word	verdict
+datasheets/capacitor/kemet/C901U102MYVDAAWL30.pdf	.*	1	OBSOLETE (every page)	out
+datasheets/capacitor/kemet/C901U100JZSDAAWL20.pdf	.*	1	OBSOLETE (every page)	out
+datasheets/capacitor/kemet/C901U331KVYDBAWL45.pdf	.*	1	Obsolete	out
+datasheets/capacitor/kemet/C931U222MUWDAAWL20.pdf	.*	1	Obsolete	out
+datasheets/capacitor/kemet/C971U472MUWDBAWL40.pdf	.*	1	Obsolete	out
+datasheets/capacitor/kemet/KEM_A4115_PHH227.pdf	.*			add
+datasheets/capacitor/kemet/KEM_A4123_PHH223.pdf	.*			add
+datasheets/capacitor/kemet/KEM_A4134_PHV223.pdf	.*			add
+datasheets/capacitor/kemet/KEM_A4136_PHV227.pdf	.*			add
+datasheets/capacitor/kemet/KEM_T2073_T59X.pdf	.*			add
+datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	T520B106M016A[A-Z]E100.*	25	not recommended for new designs (blue font)	out
+datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	T520W476M016A[A-Z]E045.*	26	not recommended for new designs (blue font)	out
+datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	T520V476M016A[A-Z]E070.*	26	not recommended for new designs (blue font)	out
+datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	T520D476M016A[A-Z]E070.*	26	not recommended for new designs (blue font)	out
+datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	T520V226M020A[A-Z]E090.*	28	not recommended for new designs (blue font)	out
+datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	T520V156M025A[A-Z]E090.*	29	not recommended for new designs (blue font)	out
+datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	.*			add
+datasheets/capacitor/kemet/KEM_T2079_SSD.pdf	T545H158M006ATE0(35|55).*	6	not recommended for new designs (orange font)	out
+datasheets/capacitor/kemet/KEM_T2079_SSD.pdf	T523V157M016APE(050|070|100).*	6	not recommended for new designs (orange font)	out
+datasheets/capacitor/kemet/KEM_T2079_SSD.pdf	T548H337M016APE070.*	7	not recommended for new designs (orange font)	out
+datasheets/capacitor/kemet/KEM_T2079_SSD.pdf	.*			add
+datasheets/capacitor/kemet/C971U472MVWDCAWL50.pdf	.*	1	OBSOLETE (every page)	out

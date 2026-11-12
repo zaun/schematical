@@ -258,7 +258,7 @@ A part becomes `add` only when all hold:
 Acceptance: every bucket is listed.
   Check: `gunzip -c planning/plan-33-data/raw/parts-*.jsonl.gz | wc -l` → 1048 (est. 35 min of wall time at 23.5 buckets/min; nothing smaller lists the buckets).
   Observed: `1048` (`raw/parts-2026-11-11.jsonl.gz`; about 30 minutes).
-Commit: (this commit; hash in the next)
+Commit: a7ddd66
 
 ### Phase 2 — Ranking, downloads and scans
 
@@ -282,7 +282,7 @@ Commit: (this commit; hash in the next)
 Acceptance: every listed part has a row and every rank ≤ 10 URL was tried.
   Check: `awk 'END{print NR-1}' planning/plan-33-data/candidates.tsv` equals the summed `products` of the raw lines (`gunzip -c raw/parts-*.jsonl.gz | jq '.products|length' | paste -sd+ | bc`), and `fetch.py --verify` → `0 untried` (est. 1 h, the downloads).
   Observed: 18111 = 18111; `231 urls, 212 PDFs, 0 untried`.
-Commit: (this commit; hash in the next)
+Commit: a7ddd66
 
 ### Phase 3 — Place the datasheets
 
@@ -294,7 +294,7 @@ Commit: (this commit; hash in the next)
 Acceptance: every such row's PDF is in the tree.
   Check: `python3 -I planning/plan-33-data/census/place.py --verify planning/plan-33-data/candidates.tsv` → `0 missing` (est. 2 min).
   Observed: `195 URLs, 186 PDFs, 0 missing, 0 unused`.
-Commit: (this commit; hash in the next)
+Commit: a7ddd66
 
 ### Phase 4 — `specs.tsv` skeleton and the README
 
@@ -308,7 +308,7 @@ Commit: (this commit; hash in the next)
 Acceptance: one spec row per placed PDF.
   Check: `ls datasheets/capacitor/*/*.pdf | wc -l` equals `awk 'END{print NR-1}' planning/plan-33-data/specs.tsv` (est. 1 min).
   Observed: 186 = 186.
-Commit: (this commit; hash in the next)
+Commit: a7ddd66
 
 ## Validation Plan
 
