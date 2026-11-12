@@ -8,8 +8,8 @@ import SwiftUI
 /// layer, zipped the way fabs take them. See `docs/export.md` § Gerber.
 ///
 /// Everything is drawn as the PCB page draws it: the same pads, traces,
-/// vias, holes, Planes (with their clearances) and silkscreen marks.
-/// Drill files (Excellon) are not part of it yet.
+/// vias, holes, Planes (with their clearances) and silkscreen marks. The
+/// holes go in Excellon drill files alongside (`DrillExport`).
 @MainActor
 enum GerberExport {
     /// One file of the set: its name in the zip and its bytes.
@@ -31,7 +31,8 @@ enum GerberExport {
 
     /// Every layer file of the board, names starting `base`. Copper Top,
     /// inner layers and Bottom first, then solder mask, paste, silkscreen
-    /// and the outline. A 1-layer board has no bottom files.
+    /// and the outline, then the drill files: plated holes, and non-plated
+    /// ones when the board has any. A 1-layer board has no bottom files.
     static func files(for document: SchematicDocument, base: String,
                       rules: DesignRules = .current()) -> [File] {
         let board = document.board
@@ -83,6 +84,16 @@ enum GerberExport {
         var profile = writer("Profile,NP")
         profile.stroke(board.outline, width: profileWidth, closed: true)
         files.append(File(name: "\(base).GKO", data: profile.data()))
+        let holes = DrillExport.holes(copper)
+        let software = "Schematical,\(version)"
+        files.append(File(name: "\(base)-PTH.drl",
+                          data: DrillExport.file(holes.plated, plated: true, layers: layers.count, top: top,
+                                                 software: software)))
+        if !holes.bare.isEmpty {
+            files.append(File(name: "\(base)-NPTH.drl",
+                              data: DrillExport.file(holes.bare, plated: false, layers: layers.count, top: top,
+                                                     software: software)))
+        }
         return files
     }
 

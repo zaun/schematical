@@ -25,7 +25,7 @@ file (added in plan-28), or its board as Gerber files (see Gerber below).
 ## Gerber
 
 **File > Export > Gerber PCB** writes the board as Gerber X2 (RS-274X, mm,
-`%FSLAX46Y46*%`) files, one per layer, in one zip (stored, not compressed),
+`%FSLAX46Y46*%`) files, one per layer, and its Excellon drill files, in one zip (stored, not compressed),
 named `<schematic> Gerbers.zip`. The files inside are named after the
 schematic, with anything but letters, digits, `-` and `_` turned into `_`
 (`gerberBaseName`), and use the Protel extensions fabs expect:
@@ -39,6 +39,8 @@ schematic, with anything but letters, digits, `-` and `_` turned into `_`
 | `.GTP` / `.GBP` | paste | the side's surface-mount part pads (not fingers) |
 | `.GTO` / `.GBO` | silkscreen | silkscreen texts, references (1 mm, centred on the body), pin-1 dots (0.4 mm), body outlines and cathode bands (0.15 mm pen), each only when its layer is Silkscreen |
 | `.GKO` | outline (`Profile,NP`) | the board outline, 0.1 mm pen |
+| `-PTH.drl` | plated drill (Excellon) | through-hole pads, vias, plated holes, header pads |
+| `-NPTH.drl` | non-plated drill (Excellon), only when the board has any | bare holes, a standard's mounting holes, non-plated footprint holes |
 
 - Everything is seen from the top, as on the PCB page: bottom silkscreen
   reads mirrored. Board y grows down; Gerber y grows up, so a file's y is
@@ -52,8 +54,17 @@ schematic, with anything but letters, digits, `-` and `_` turned into `_`
 - Text is real glyph outlines, from the same fonts the canvas uses. Each
   glyph's counters (the hole in an O) are drawn in clear polarity, so a
   silkscreen file draws its text before its lines and dots.
-- Not included yet: drill files (Excellon), pick-and-place, and the
-  Document layer (never printed).
+- Not included yet: pick-and-place, and the Document layer (never printed).
+
+### Drill files
+
+Excellon (`DrillExport`), as KiCad writes it: `M48` header with
+`FMAT,2`, `METRIC` and the X2 `; #@! TF.FileFunction,Plated,1,<layers>,PTH`
+(or `NonPlated…NPTH`) comment, one tool per hole diameter (to 1 µm,
+smallest first), then `%`, `G90`, `G05`, each tool's hits and `M30`.
+Coordinates are absolute decimal mm in the Gerber files' frame (y up from
+the board's bottom edge), so they line up with the copper. A slot is a
+routed `G85` slot from one end centre to the other, its width the tool.
 
 ## Black line art
 
@@ -115,6 +126,7 @@ PNG puts them; the padding keeps a wider font from clipping. A turned label
 | `export(_:)`, `writeExport(_:to:)`, `exportGerber()`, `writeGerber(to:)` | `schematical/schematical/Document/SchematicFileController.swift` |
 | `GerberExport` (the layer files) | `schematical/schematical/Document/GerberExport.swift` |
 | `GerberWriter` (apertures, flashes, strokes, regions, polarity), `GerberOutline` (path flattening, glyph outlines) | `schematical/schematical/Document/GerberWriter.swift` |
+| `DrillExport` (the Excellon files) | `schematical/schematical/Document/DrillExport.swift` |
 | `ZipArchive` | `schematical/schematical/Document/ZipArchive.swift` |
 
 Tests: `SchematicPainterTests`, `SchematicSceneTests`, `SVGPainterTests`,

@@ -21,8 +21,8 @@ final class GerberExportTests: XCTestCase {
     func testTwoLayerBoardHasEveryFile() {
         let doc = TestSupport.newDocument()
         let files = GerberExport.files(for: doc, base: "b", rules: rules)
-        XCTAssertEqual(files.map(\.name), ["b.GTL", "b.GBL", "b.GTS", "b.GBS", "b.GTP", "b.GBP", "b.GTO", "b.GBO", "b.GKO"])
-        for file in files {
+        XCTAssertEqual(files.map(\.name), ["b.GTL", "b.GBL", "b.GTS", "b.GBS", "b.GTP", "b.GBP", "b.GTO", "b.GBO", "b.GKO", "b-PTH.drl"])
+        for file in files where !file.name.hasSuffix(".drl") {
             XCTAssertTrue(file.text.contains("%FSLAX46Y46*%"), file.name)
             XCTAssertTrue(file.text.contains("%MOMM*%"), file.name)
             XCTAssertTrue(file.text.hasSuffix("M02*\n"), file.name)
@@ -45,7 +45,7 @@ final class GerberExportTests: XCTestCase {
         let doc = TestSupport.newDocument()
         doc.setLayerCount(1)
         let names = GerberExport.files(for: doc, base: "b", rules: rules).map(\.name)
-        XCTAssertEqual(names, ["b.GTL", "b.GTS", "b.GTP", "b.GTO", "b.GKO"])
+        XCTAssertEqual(names, ["b.GTL", "b.GTS", "b.GTP", "b.GTO", "b.GKO", "b-PTH.drl"])
     }
 
     func testOutlineIsTheBoardRectangleYUp() throws {
@@ -171,6 +171,49 @@ final class GerberExportTests: XCTestCase {
         let listed = String(decoding: pipe.fileHandleForReading.readDataToEndOfFile(), as: UTF8.self)
             .split(separator: "\n").map(String.init)
         XCTAssertEqual(listed, GerberExport.files(for: doc, base: "b", rules: rules).map(\.name))
+    }
+
+    func testDrillFilesSplitPlatedAndBareHoles() throws {
+        let doc = TestSupport.newDocument()
+        doc.setBoardSize(width: 50, height: 30)
+        _ = try XCTUnwrap(doc.addVia(at: CGPoint(x: 5, y: 5)))
+        let holeID = doc.addHole(at: CGPoint(x: 20, y: 20))
+        let hole = try XCTUnwrap(doc.holes.first { $0.id == holeID }).centre
+        let files = GerberExport.files(for: doc, base: "b", rules: rules)
+        XCTAssertEqual(Array(files.map(\.name).suffix(2)), ["b-PTH.drl", "b-NPTH.drl"])
+        let plated = try file(files, "-PTH.drl")
+        XCTAssertTrue(plated.hasPrefix("M48\n"))
+        XCTAssertTrue(plated.contains("; #@! TF.FileFunction,Plated,1,2,PTH"))
+        XCTAssertTrue(plated.contains("METRIC"))
+        XCTAssertTrue(plated.contains("T1C0.400\n"))
+        // Board (5, 5) on a 30 mm board is y 25 up.
+        XCTAssertTrue(plated.contains("\nX5.000Y25.000\n"))
+        XCTAssertTrue(plated.hasSuffix("M30\n"))
+        let bare = try file(files, "-NPTH.drl")
+        XCTAssertTrue(bare.contains("; #@! TF.FileFunction,NonPlated,1,2,NPTH"))
+        XCTAssertTrue(bare.contains("T1C3.200\n"))
+        // Holes snap to the trace grid.
+        let at = "X\(DrillExport.number(hole.x))Y\(DrillExport.number(30 - hole.y))"
+        XCTAssertTrue(bare.contains("\n\(at)\n"), bare)
+    }
+
+    func testThroughHolePartHolesAreToolsBySize() throws {
+        let doc = TestSupport.newDocument()
+        _ = try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 200, y: 200))
+        let plated = try file(GerberExport.files(for: doc, base: "b", rules: rules), "-PTH.drl")
+        let hits = lines(plated).filter { $0.hasPrefix("X") }
+        XCTAssertEqual(hits.count, 14)
+        let tools = lines(plated).filter { $0.hasPrefix("T") && $0.contains("C") }
+        XCTAssertFalse(tools.isEmpty)
+    }
+
+    func testSlotIsRouted() {
+        let slot = DrillExport.Hole(a: CGPoint(x: 1, y: 2), b: CGPoint(x: 3, y: 2), diameter: 1)
+        let text = String(decoding: DrillExport.file([slot], plated: false, layers: 2, top: 10, software: "S"),
+                          as: UTF8.self)
+        XCTAssertTrue(text.contains("\nX1.000Y8.000G85X3.000Y8.000\n"), text)
+        XCTAssertEqual(DrillExport.number(0.0005), "0.0005")
+        XCTAssertEqual(DrillExport.number(1.2), "1.200")
     }
 
     func testCRC32() {
