@@ -24,7 +24,7 @@ number in plan-35 comes from these files and the commands below.
 | `census/footprints.py` | builds `footprints-needed.txt` from `candidates.tsv` and `footprint-groups.tsv` |
 | `census/recheck.sh` | plan-35-A: part-by-part stock and status re-check (67 calls) |
 | `candidates.tsv` | 126 rows (67 `add`, 59 `skip`); the facts used by plan-35-B..F |
-| `footprints-needed.txt` | the 33 module footprints, their parts, drawing page and header |
+| `footprints-needed.txt` | the 34 module footprints (33 at planning + the NHD-0420E2Z-NSW-BBW split, plan-35-C Corrections), their parts, drawing page and header |
 | `pdf-sha256.tsv` | sha256 / bytes / pages of the 67 module PDFs and `ST7066U.pdf` as downloaded 2026-11-11 |
 
 ## Counts (2026-11-11)

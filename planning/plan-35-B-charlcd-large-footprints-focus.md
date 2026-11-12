@@ -175,7 +175,7 @@ Check: `planning/plan-35-data/census/fp-load.sh planning/plan-35-data/footprints
 → 11 appended; only extra/unused lines for those ids (est. 3 min). — run
 once for all 16 (Phases 1 and 2 landed together, one commit): see Phase 2.
 
-Commit: —
+Commit: a8f5af5
 
 ### Phase 2 — 40 × 2 and 40 × 4 footprints (5)
 
@@ -195,7 +195,7 @@ at the same time; same script and inputs): "16 footprints appended",
 object's `pins` = its parts' `candidates.tsv` `pins`, every pin 1…`pins`
 padded): "all 16 OK".
 
-Commit: —
+Commit: a8f5af5
 
 ## Validation Plan
 

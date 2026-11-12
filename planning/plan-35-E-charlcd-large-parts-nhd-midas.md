@@ -5,14 +5,14 @@ Effort: large (3h–1d)
 Depends on: plan-35-D
 
 E adds the 35 Newhaven and Midas parts to `Parts/charlcd.json`, one device
-per datasheet as plan-11-C did. It merges their 17 footprints from
+per datasheet as plan-11-C did. It merges their 18 footprints from
 `footprints-C.json` into `footprints.json`, moves the five 16 × 2 parts to
 the `16x2` drawer leaf, and regenerates the goldens. `charlcd_test`'s
 real-part check stops listing five names and instead runs every `charlcd`
 part in the library. Two CPU boards show the new geometry end to end.
 
 Outcome of E: parts.txt P0 + 35 lines (5 lines change only in the drawer
-field), traces.txt P0 + 35 (no hash changes), footprints.txt F0 + 17;
+field), traces.txt P0 + 35 (no hash changes), footprints.txt F0 + 18;
 `ctest` passes.
 
 References:
@@ -47,7 +47,7 @@ Everything below is written against the world where these hold.
 
 - `grep -c '|charlcd|' backend/tests/golden/parts.txt` → 5 + 35 = 40.
 - `wc -l < backend/tests/golden/parts.txt` → P0 + 35; `traces.txt` the
-  same; `footprints.txt` → F0 + 17.
+  same; `footprints.txt` → F0 + 18 (17 at planning; plan-35-C Corrections 1).
 - `git diff backend/tests/golden/parts.txt | grep -c '^-[^-]'` → 5, each a
   16 × 2 line whose only change is `Displays/Character` →
   `Displays/Character/16x2`; `git diff backend/tests/golden/traces.txt | grep -c '^-[^-]'` → 0.
@@ -90,7 +90,7 @@ Everything below is written against the world where these hold.
 |---|---|---|
 | Newhaven parts | 22 | `awk -F'\t' '$1=="Newhaven Display Intl" && $4=="add"' planning/plan-35-data/candidates.tsv \| wc -l` |
 | Midas parts | 13 | `… $1=="Midas Displays" …` |
-| Their footprints | 17 | `grep -c '^LCM-MIDAS\|^LCM-NHD' planning/plan-35-data/footprints-needed.txt` |
+| Their footprints | 18 (17 at planning; plan-35-C Corrections 1) | `grep -c '^LCM-MIDAS\|^LCM-NHD' planning/plan-35-data/footprints-needed.txt` |
 | Devices whose timing and exec come from `ST7066U.pdf` | 13 Midas (timing and exec), 3 Newhaven (exec only: NHD-0240AZ-FSW-FBW, NHD-0240AZ-NSW-BBW, NHD-0440AZ-RN-FBW) | plan-35-A § 2 |
 
 ### Verified properties

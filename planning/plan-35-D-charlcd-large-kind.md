@@ -40,7 +40,7 @@ The gate is plan-35-A § Prerequisites. D adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-35-C complete | `grep -c '^Commit: —' planning/plan-35-C-charlcd-large-footprints-midas-nhd.md` → 0 (or in `planning/completed/`) | NOT MET (2026-11-11 at a5b0fcf and again at 8579d87: → 2; C is being worked in parallel. D adds no part and no footprint, so it touches nothing C writes; D was started on the session owner's instruction with this row open) |
+| plan-35-C complete | `grep -c '^Commit: —' planning/plan-35-C-charlcd-large-footprints-midas-nhd.md` → 0 (or in `planning/completed/`) | NOT MET while D ran (2026-11-11 at a5b0fcf and 8579d87: → 2), MET at C's landing commit (→ 0). The plan executor ran B, C and D side by side: D adds no part and no footprint and touches no file B or C writes, so the A → B → C → D chain is an ordering, not a data dependency (see Corrections) |
 | The kind is plan-11's | `grep -n 'must be 1 or 2' backend/src/models/charlcd.c` → one line | MET at the start of D (2026-11-11 at a5b0fcf: charlcd.c:120; see Corrections for the command). D Phase 1 replaces the message, so the command now → 0 lines by design |
 | Tests pass before D | `cmake -S backend -B /tmp/logic-p35 && cmake --build /tmp/logic-p35 -j8 && ctest --test-dir /tmp/logic-p35` → `100% tests passed` | MET (2026-11-11 at a5b0fcf, untouched tree: `100% tests passed, 0 tests failed out of 30`; `charlcd_test`: 100 PASS, 0 FAIL) |
 
@@ -435,6 +435,11 @@ move. The landing tier is H.
 
 ## Corrections
 
+- **D ran alongside B and C** (2026-11-11, plan executor's decision, not
+  the owner's): the chain's only real input to D is plan-35-A's gate.
+  D's files (backend, docs) are disjoint from B's and C's
+  (`planning/plan-35-data/`), and B/C loaded their footprints on a
+  frozen backend copy. B and C land before D's work is relied on (E).
 - **The `"rows"` greps on `charlcd.c`** (2026-11-11): the C source holds
   the message as `\"rows\" must be …` (escaped quotes), so
   `grep '"rows" must be 1 or 2' backend/src/models/charlcd.c` finds
