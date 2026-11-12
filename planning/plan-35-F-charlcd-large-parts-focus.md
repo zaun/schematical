@@ -107,18 +107,28 @@ Check: `python3 -I planning/plan-35-data/census/gen-parts.py --check planning/pl
 → 67 rows, all keys present, pin counts match (est. 1 min). — 2026-11-11:
 "67 rows ok".
 
-Commit: —
+Commit: 9827d8a
 
 ### Phase 2 — parts, footprints, goldens
 
-- [ ] Paste the 32 Focus devices into `charlcd.json`; merge
+- [x] Paste the 32 Focus devices into `charlcd.json`; merge
       `footprints-B.json` with `fp-merge.py`; regenerate the three goldens;
       hand-check four new lines (p16, p16-nc, p18-dual, p20-fgnd) against
-      their PDFs.
+      their PDFs. — `gen-parts.py --maker "Focus LCDs"` → 32 devices
+      appended (drawer `["Displays", "Character"]`, plan-35-E Corrections 9);
+      `fp-merge.py` → "16 footprints appended". Hand-checked: C204A-BW-LW25
+      (p16: 15 A, 16 K p.5; VDD 4.8–5.2 p.6), C204AXBSGN06WR50XAA (p16-nc:
+      15/16 NC, no backlight), C404ALBFKSW6WT55PAB (p18-dual: 9 E1, 15 E2,
+      `enables=2`, `bus=11,10,9,15,…`), C204HLBSYLY6WM (p20-fgnd: 15 VSS,
+      18 FGND ground, 19/20 LED) — each matches its pin table.
 
 Check: § 1 counts; `ctest --test-dir /tmp/logic-p35` → `100% tests passed`;
 `/tmp/logic-p35/charlcd_test | grep -c '^FAIL'` → 0 with 72 every-part
-PASS lines (est. 5 min).
+PASS lines (est. 5 min). — 2026-11-11: parts.txt 26796 (E_P 26764 + 32),
+traces.txt 26796, footprints.txt 1246 (E_F 1230 + 16), `grep -c
+'|charlcd|'` → 72, `git diff backend/tests/golden | grep -c '^-[^-]'` → 0;
+ctest "100% tests passed, 0 tests failed out of 30"; charlcd_test 0 FAIL,
+72 every-part PASS lines plus "72 charlcd parts run".
 
 Commit: —
 
