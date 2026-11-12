@@ -168,17 +168,24 @@ plus two test classes; no smaller check compiles the Swift). — 2026-11-11:
 `** BUILD SUCCEEDED **`; test: CharacterLCDTests 6 tests, SchematicSVGTests
 6 tests, "Executed 12 tests, with 0 failures", `** TEST SUCCEEDED **`.
 
-Commit: —
+Commit: 69bef71
 
 ### Phase 2 — the real app
 
-- [ ] Launch the app (`run` skill) and place NHD-0420DZ-FL-YBW,
+- [x] Launch the app (`run` skill) and place NHD-0420DZ-FL-YBW,
       NHD-0440WH-ATFH-JT# and MD44005A6W-FPTLRGB on a new schematic. Check:
       - the 20 × 4 face has 4 rows;
       - the 40 × 4 shows E1 and E2 on the left;
       - in play mode, with VCC on the RGB module's LED+ and GND on K(G)
         only, its face turns green.
-      Take one screenshot, then move the pointer to (0, 0).
+      Take one screenshot, then move the pointer to (0, 0). — 2026-11-11,
+      Debug build of 69bef71 (`/tmp/p35-dd`): a schematic with the three
+      modules plus 5V on MD44005's LED+ and GND on its K(G) (written by a
+      throwaway test with `TestSupport.place` / `doc.connect`, opened with
+      File › Open). Screenshot `planning/plan-35-data/g-app-check.png`:
+      the 20 × 4 face has 4 rows; NHD-0440WH's left column reads RS, R/W,
+      E1, E2, gap, DB0…DB7; in play mode the RGB face is green while the
+      other two stay unlit. Pointer moved to (0, 0); the app instance quit.
 
 Check: the screenshot shows the three faces as described (est. 10 min;
 a visual result can only be checked by looking).
@@ -198,7 +205,15 @@ Per-phase checks. The landing tier is H.
 
 ## Corrections
 
-(none yet)
+- **Phase 2's schematic was built by a throwaway test, not by hand**
+  (2026-11-11): the three parts, a 5V and a GND supply and two wires were
+  placed with `TestSupport.place` / `doc.connect` and saved with
+  `SchematicFile`, then opened in the real app. The test file was deleted
+  afterwards (not committed); the check itself (what the app shows) is as
+  planned.
+- **The commit carries the screenshot as a file**
+  (`planning/plan-35-data/g-app-check.png`), since a commit message cannot
+  hold an image.
 
 ## Summary
 
