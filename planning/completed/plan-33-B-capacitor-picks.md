@@ -264,13 +264,14 @@ Commit: 5b514d4
 
 ## Summary
 
-Decisions (2026-11-11, after § Corrections 8): 1033 `add`, 16902 `alt`, 61
-`skip`, 115 `out` (2 bi-polar, 106 military, 7 datasheet status). **`N_F` =
-376** (ceramic `add` rows), **`N_G` = 657** (aluminum 188, aluminum polymer
-137, tantalum 228, tantalum polymer 84, niobium oxide 20). Makers: KEMET 506,
-Cal-Chip 288, KYOCERA AVX 239; 9 automotive. Empty buckets (15,
-`buckets-empty.tsv`): ceramic 2 (Disc 22 pF, Axial 100 pF), aluminum 11,
-aluminum polymer 1, tantalum polymer 1. Datasheets kept: 83. Footprint
+Decisions (2026-11-11, after § Corrections 8 and plan-33-D § Corrections 2):
+1031 `add`, 16900 `alt`, 61 `skip`, 119 `out` (2 bi-polar, 106 military, 4
+crown, 7 datasheet status). **`N_F` = 376** (ceramic `add` rows), **`N_G` =
+655** (aluminum 188, aluminum polymer 135, tantalum 228, tantalum polymer 84,
+niobium oxide 20). Makers: KEMET 504, Cal-Chip 288, KYOCERA AVX 239; 9
+automotive. Empty buckets (17, `buckets-empty.tsv`): ceramic 2 (Disc 22 pF,
+Axial 100 pF), aluminum 11, aluminum polymer 3, tantalum polymer 1.
+Datasheets kept: 81. Footprint
 groups (`fpgroups.tsv`): **C 88**, **D 214** at B (302); plan-33-D split the
 D groups by the maker's case code (D 248, § plan-33-D Corrections).
 

@@ -9681,6 +9681,4982 @@
      ]
     }
    ]
+  },
+  {
+   "id": "niobium-oxide-100uF",
+   "function": "100 µF",
+   "description": "Niobium oxide capacitor, 100 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "niobium-oxide",
+   "farads": 0.0001,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "NOSC107M004R0070",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "nos",
+     "package": "2312",
+     "pinout": "polar",
+     "footprint": "CAPM-6032-C",
+     "volts": 4,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "NOSD107M006R0100",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "nos",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "niobium-oxide-10uF",
+   "function": "10 µF",
+   "description": "Niobium oxide capacitor, 10 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "niobium-oxide",
+   "farads": 1e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "NOJA106M006RWJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "noj",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "NOJB106M010RWJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "noj",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 10,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "niobium-oxide-150uF",
+   "function": "150 µF",
+   "description": "Niobium oxide capacitor, 150 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "niobium-oxide",
+   "farads": 0.00015,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "NOJD157M006RWJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "noj",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "niobium-oxide-15uF",
+   "function": "15 µF",
+   "description": "Niobium oxide capacitor, 15 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "niobium-oxide",
+   "farads": 1.5e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "NOJA156M006RWJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "noj",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "NOJB156M010RWJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "noj",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 10,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "niobium-oxide-220uF",
+   "function": "220 µF",
+   "description": "Niobium oxide capacitor, 220 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "niobium-oxide",
+   "farads": 0.00022,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "NOJC227M006RWJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "noj",
+     "package": "2312",
+     "pinout": "polar",
+     "footprint": "CAPM-6032-C",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "niobium-oxide-22uF",
+   "function": "22 µF",
+   "description": "Niobium oxide capacitor, 22 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "niobium-oxide",
+   "farads": 2.2e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "NOJA226M006RWJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "noj",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "NOJB226M010RWJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "noj",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 10,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "niobium-oxide-330uF",
+   "function": "330 µF",
+   "description": "Niobium oxide capacitor, 330 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "niobium-oxide",
+   "farads": 0.00033,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "NOSD337M004R0100",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "nos",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 4,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "niobium-oxide-33uF",
+   "function": "33 µF",
+   "description": "Niobium oxide capacitor, 33 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "niobium-oxide",
+   "farads": 3.3e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "NOJB336M006RWJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "noj",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "NOJC336M010RWJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "noj",
+     "package": "2312",
+     "pinout": "polar",
+     "footprint": "CAPM-6032-C",
+     "volts": 10,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "niobium-oxide-4.7uF",
+   "function": "4.7 µF",
+   "description": "Niobium oxide capacitor, 4.7 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "niobium-oxide",
+   "farads": 4.7e-06,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "NOJA475M006RWJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "noj",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "NOJA475M010RWJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "noj",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 10,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "niobium-oxide-470uF",
+   "function": "470 µF",
+   "description": "Niobium oxide capacitor, 470 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "niobium-oxide",
+   "farads": 0.00047,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "NOSD477M004R0100",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "nos",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 4,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "niobium-oxide-47uF",
+   "function": "47 µF",
+   "description": "Niobium oxide capacitor, 47 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "niobium-oxide",
+   "farads": 4.7e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "NOJA476M004RWJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "noj",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 4,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "NOJC476M010SWJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "noj",
+     "package": "2312",
+     "pinout": "polar",
+     "footprint": "CAPM-6032-C",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "NOSB476M006R0500",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "nos",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "niobium-oxide-68uF",
+   "function": "68 µF",
+   "description": "Niobium oxide capacitor, 68 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "niobium-oxide",
+   "farads": 6.8e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "NOSC686M006R0200",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "nos",
+     "package": "2312",
+     "pinout": "polar",
+     "footprint": "CAPM-6032-C",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-1.5uF",
+   "function": "1.5 µF",
+   "description": "Tantalum capacitor, 1.5 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum",
+   "farads": 1.5e-06,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T356A155K016AT",
+     "manufacturer": "KEMET",
+     "datasheet": "t354k476k020at",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5.08-D4.5",
+     "volts": 16,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "T356A155K025AT",
+     "manufacturer": "KEMET",
+     "datasheet": "t354k476k020at",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5.08-D4.5",
+     "volts": 25,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "T491A155K020AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A-KEMET",
+     "volts": 20,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "T491A155M010AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A-KEMET",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TAJA155K016RNJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "taj",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 16,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAJB155K035RNJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "taj",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 35,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAJC155K050RNJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "taj",
+     "package": "2312",
+     "pinout": "polar",
+     "footprint": "CAPM-6032-C",
+     "volts": 50,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP155K050SCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D5",
+     "volts": 50,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP155M035SRW",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D4.5",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCKIE155AT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 25,
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-1000uF",
+   "function": "1000 µF",
+   "description": "Tantalum capacitor, 1000 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum",
+   "farads": 0.001,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T495X108K004ATE030",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2009_t495",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 4,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "T495X108K006ATE100",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2009_t495",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 6.3,
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-100nF",
+   "function": "100 nF",
+   "description": "Tantalum capacitor, 100 nF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum",
+   "farads": 1e-07,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T350A104K050AT",
+     "manufacturer": "KEMET",
+     "datasheet": "t354k476k020at",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.54-D4.5",
+     "volts": 50,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "T491A104K035AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A-KEMET",
+     "volts": 35,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "T491A104K050AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A-KEMET",
+     "volts": 50,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAJS104K020RNJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "taj",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 20,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP104K035SCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D4.5",
+     "volts": 35,
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-100uF",
+   "function": "100 µF",
+   "description": "Tantalum capacitor, 100 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum",
+   "farads": 0.0001,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "F930G107MAA",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "f93",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 4,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T491X107K025AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 25,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP107K006CCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D7",
+     "volts": 6.3,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP107K010CCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D8.5",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP107K016CCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D9",
+     "volts": 16,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP107K020CCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D9",
+     "volts": 20,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIA107DT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIC107DT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 16,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKOJ107BT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 6.3,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TPSD107M020R0085",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tps",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 20,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-10uF",
+   "function": "10 µF",
+   "description": "Tantalum capacitor, 10 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum",
+   "farads": 1e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "F920G106MPA",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "f92",
+     "package": "0805",
+     "pinout": "polar",
+     "footprint": "CAPM-2012-P",
+     "volts": 4,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T491A106K010AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A-KEMET",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "T491A106M020AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A-KEMET",
+     "volts": 20,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T491C106K025AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "2312",
+     "pinout": "polar",
+     "footprint": "CAPM-6032-C-KEMET",
+     "volts": 25,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "T491C106K035AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "2312",
+     "pinout": "polar",
+     "footprint": "CAPM-6032-C-KEMET",
+     "volts": 35,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAJA106K006RNJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "taj",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 6.3,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAJA106K016RNJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "taj",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 16,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP106K006SCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D4.5",
+     "volts": 6.3,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP106K010SRS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D5",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP106K016SCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D5",
+     "volts": 16,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP106K020SCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D5.5",
+     "volts": 20,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP106K025SCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D5.5",
+     "volts": 25,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP106K035SCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D6",
+     "volts": 35,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP106K050CRW",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D8",
+     "volts": 50,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIX106ET",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 50,
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-150nF",
+   "function": "150 nF",
+   "description": "Tantalum capacitor, 150 nF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum",
+   "farads": 1.5e-07,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "TAP154K035CCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D4.5",
+     "volts": 35,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP154K050SCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D4.5",
+     "volts": 50,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIV154AT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 35,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TPSA154K050R9000",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tps",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 50,
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-150uF",
+   "function": "150 µF",
+   "description": "Tantalum capacitor, 150 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum",
+   "farads": 0.00015,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T491X157K020AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 20,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAJB157M004RNJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "taj",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 4,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TAP157K010CCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D9",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP157M006CCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D8.5",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TAP157M016CRS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D9",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TLJB157M010R0500",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tlj",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TLJH157M006R0900",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tlj",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TPSD157M016R0150",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tps",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 16,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-15uF",
+   "function": "15 µF",
+   "description": "Tantalum capacitor, 15 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum",
+   "farads": 1.5e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T491B156K025AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B-KEMET",
+     "volts": 25,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAJA156K010SNJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "taj",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAJE156K050RNJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "taj",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 50,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP156K010SCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D5",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP156K016SRS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D5.5",
+     "volts": 16,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP156K020CCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D6",
+     "volts": 20,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP156K050CCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D8.5",
+     "volts": 50,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP156M025SRW",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D6",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TAP156M035HSB",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-6.35-D7",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCKIC156AT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 16,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKID156CT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2312",
+     "pinout": "polar",
+     "footprint": "CAPM-6032-C",
+     "volts": 20,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIV156DT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 35,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKOJ156BT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 6.3,
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-1uF",
+   "function": "1 µF",
+   "description": "Tantalum capacitor, 1 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum",
+   "farads": 1e-06,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T356A105M020AT7301",
+     "manufacturer": "KEMET",
+     "datasheet": "t354k476k020at",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5.08-D4.5",
+     "volts": 20,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T491A105K010AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A-KEMET",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "T491A105K020AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A-KEMET",
+     "volts": 20,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "T491A105K050AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A-KEMET",
+     "volts": 50,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "T491B105K035AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B-KEMET",
+     "volts": 35,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TACL105K006XTA",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tac",
+     "package": "0603",
+     "pinout": "polar",
+     "footprint": "CAPM-1608-L",
+     "volts": 6.3,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP105K025CRS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5.08-D4.5",
+     "volts": 25,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP105K050CRW",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D5",
+     "volts": 50,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP105M035SRW",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D4.5",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCKIC105AT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 16,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIE105AT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 25,
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-2.2uF",
+   "function": "2.2 µF",
+   "description": "Tantalum capacitor, 2.2 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum",
+   "farads": 2.2e-06,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T350A225K010AT",
+     "manufacturer": "KEMET",
+     "datasheet": "t354k476k020at",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.54-D4.5",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "T356A225K020AT",
+     "manufacturer": "KEMET",
+     "datasheet": "t354k476k020at",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5.08-D4.5",
+     "volts": 20,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "T356C225K035AT7301",
+     "manufacturer": "KEMET",
+     "datasheet": "t354k476k020at",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5.08-D5",
+     "volts": 35,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "T491A225K006AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A-KEMET",
+     "volts": 6.3,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "T491A225M010AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A-KEMET",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TAJA225K016RNJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "taj",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 16,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP225K016SRW",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D4.5",
+     "volts": 16,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP225K025SRW",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D4.5",
+     "volts": 25,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP225M050CRW",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D5.5",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCKID225AT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 20,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIE225AT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 25,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIV225CT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2312",
+     "pinout": "polar",
+     "footprint": "CAPM-6032-C",
+     "volts": 35,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIX225DT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 50,
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-220nF",
+   "function": "220 nF",
+   "description": "Tantalum capacitor, 220 nF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum",
+   "farads": 2.2e-07,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T491A224K035AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A-KEMET",
+     "volts": 35,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAJA224M050RNJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "taj",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TAJR224K025RNJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "taj",
+     "package": "0805",
+     "pinout": "polar",
+     "footprint": "CAPM-2012-P",
+     "volts": 25,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAJS224K020RNJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "taj",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 20,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP224K035SRW",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D4.5",
+     "volts": 35,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP224K050SCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D4.5",
+     "volts": 50,
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-220uF",
+   "function": "220 µF",
+   "description": "Tantalum capacitor, 220 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum",
+   "farads": 0.00022,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "F930G227KBA",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "f93",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 4,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "F930J227MBA",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "f93",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T491D227K016AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 16,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP227K006CCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D9",
+     "volts": 6.3,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP227K010CCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D10",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP227K016CCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D10",
+     "volts": 16,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIA227DT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 10,
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-22uF",
+   "function": "22 µF",
+   "description": "Tantalum capacitor, 22 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum",
+   "farads": 2.2e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T350E226K010AT",
+     "manufacturer": "KEMET",
+     "datasheet": "t354k476k020at",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.54-D5.5",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "T356M226K050AT",
+     "manufacturer": "KEMET",
+     "datasheet": "t354k476k020at",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5.08-D10.2",
+     "volts": 50,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "T491A226K004AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A-KEMET",
+     "volts": 4,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "T491X226M050AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T495D226K035ATE300",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2009_t495",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 35,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAJB226K010RNJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "taj",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAJB226K020RNJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "taj",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 20,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP226K006SCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D5",
+     "volts": 6.3,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP226K016SCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D6",
+     "volts": 16,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP226K020SCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D7",
+     "volts": 20,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP226K035SCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D8.5",
+     "volts": 35,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP226M025CCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D7",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCKIC226DT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 16,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIE226DT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 25,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKOJ226AT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 6.3,
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-3.3uF",
+   "function": "3.3 µF",
+   "description": "Tantalum capacitor, 3.3 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum",
+   "farads": 3.3e-06,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T350D335K035AT",
+     "manufacturer": "KEMET",
+     "datasheet": "t354k476k020at",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.54-D5",
+     "volts": 35,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAJA335K020RNJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "taj",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 20,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP335K010SCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D4.5",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP335K016CRS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D4.5",
+     "volts": 16,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP335K020SRW",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D4.5",
+     "volts": 20,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP335K025SRS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D4.5",
+     "volts": 25,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP335M050CRW",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D6",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCKIA335AT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIC335AT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 16,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIE335AT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 25,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIX335CT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2312",
+     "pinout": "polar",
+     "footprint": "CAPM-6032-C",
+     "volts": 50,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKOJ335AT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 6.3,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TPSC335K035R0700",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tps",
+     "package": "2312",
+     "pinout": "polar",
+     "footprint": "CAPM-6032-C",
+     "volts": 35,
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-330nF",
+   "function": "330 nF",
+   "description": "Tantalum capacitor, 330 nF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum",
+   "farads": 3.3e-07,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T491A334K025AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A-KEMET",
+     "volts": 25,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAJR334K020RNJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "taj",
+     "package": "0805",
+     "pinout": "polar",
+     "footprint": "CAPM-2012-P",
+     "volts": 20,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAJS334K050RNJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "taj",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 50,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP334K035CCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D4.5",
+     "volts": 35,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP334K050CCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D4.5",
+     "volts": 50,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAZR334K004CWSZ0900",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "taz",
+     "package": "0805",
+     "pinout": "polar",
+     "footprint": "CAPM-2012-P",
+     "volts": 4,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIV334AT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 35,
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-330uF",
+   "function": "330 µF",
+   "description": "Tantalum capacitor, 330 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum",
+   "farads": 0.00033,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T495D337K006ATE100",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2009_t495",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 6.3,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP337K006CRW",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D10",
+     "volts": 6.3,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP337K010CCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D10",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIA337DT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TPME337M016R0050",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tpm",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TPSX337K004R0100",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tps",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 4,
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-33uF",
+   "function": "33 µF",
+   "description": "Tantalum capacitor, 33 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum",
+   "farads": 3.3e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T491A336K004AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A-KEMET",
+     "volts": 4,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "T491D336K035AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 35,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAJB336K016RNJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "taj",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 16,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP336K006SRW",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D5.5",
+     "volts": 6.3,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP336K010SCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D6",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP336K020SCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D8",
+     "volts": 20,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP336K025CCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D8",
+     "volts": 25,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP336M016CCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D6",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TAP336M035CRS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D9",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCKIA336BT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKID336DT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 20,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIE336DT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 25,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCMOJ336CT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2312",
+     "pinout": "polar",
+     "footprint": "CAPM-6032-C",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-4.7uF",
+   "function": "4.7 µF",
+   "description": "Tantalum capacitor, 4.7 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum",
+   "farads": 4.7e-06,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T350A475K010AT",
+     "manufacturer": "KEMET",
+     "datasheet": "t354k476k020at",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.54-D4.5",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "T356G475K050AT",
+     "manufacturer": "KEMET",
+     "datasheet": "t354k476k020at",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5.08-D6.3",
+     "volts": 50,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "T491A475K004AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A-KEMET",
+     "volts": 4,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "T491A475K016AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A-KEMET",
+     "volts": 16,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "T491A475K025AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A-KEMET",
+     "volts": 25,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAJA475K010RNJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "taj",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP475K006SCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D4.5",
+     "volts": 6.3,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP475K016CRW",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D4.5",
+     "volts": 16,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP475K020SRW",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D5",
+     "volts": 20,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP475K025SRW",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D5",
+     "volts": 25,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP475K035SCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D5.5",
+     "volts": 35,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKID475AT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 20,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIV475BT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 35,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIX475CT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2312",
+     "pinout": "polar",
+     "footprint": "CAPM-6032-C",
+     "volts": 50,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKOJ475AT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 6.3,
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-470nF",
+   "function": "470 nF",
+   "description": "Tantalum capacitor, 470 nF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum",
+   "farads": 4.7e-07,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T491B474K050AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B-KEMET",
+     "volts": 50,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TACL474K010XTA",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tac",
+     "package": "0603",
+     "pinout": "polar",
+     "footprint": "CAPM-1608-L",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAJR474M020RNJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "taj",
+     "package": "0805",
+     "pinout": "polar",
+     "footprint": "CAPM-2012-P",
+     "volts": 20,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TAP474M035SRS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D4.5",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TAP474M050CRS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D4.5",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCKIE474AT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 25,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIV474AT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 35,
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-470uF",
+   "function": "470 µF",
+   "description": "Tantalum capacitor, 470 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum",
+   "farads": 0.00047,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T495X477K010ATE100",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2009_t495",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKOJ477DT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 6.3,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TPSD477K004R0045",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tps",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 4,
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-47uF",
+   "function": "47 µF",
+   "description": "Tantalum capacitor, 47 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum",
+   "farads": 4.7e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T491C476K010AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "2312",
+     "pinout": "polar",
+     "footprint": "CAPM-6032-C-KEMET",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "T495X476M035ATE300",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2009_t495",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TAP476K006CRW",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D6",
+     "volts": 6.3,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP476K010SCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D6.5",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP476K020HSB",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-6.35-D8.5",
+     "volts": 20,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP476K025CRW",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D9",
+     "volts": 25,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP476K035CRW",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D9",
+     "volts": 35,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP476M016SCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D8",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCKIC476DT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 16,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKID476DT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 20,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIE476DT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 25,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKOG476BT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 4,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKOJ476DT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 6.3,
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-6.8uF",
+   "function": "6.8 µF",
+   "description": "Tantalum capacitor, 6.8 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum",
+   "farads": 6.8e-06,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T491B685K020AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B-KEMET",
+     "volts": 20,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP685K006SCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D4.5",
+     "volts": 6.3,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP685K010SCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D4.5",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP685K016SCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D5",
+     "volts": 16,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP685K025SCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D5",
+     "volts": 25,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP685K035CCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D6",
+     "volts": 35,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP685K050GSB",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-3.18-D7",
+     "volts": 50,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIA685AT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIC685AT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 16,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIE685CT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2312",
+     "pinout": "polar",
+     "footprint": "CAPM-6032-C",
+     "volts": 25,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIV685CT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2312",
+     "pinout": "polar",
+     "footprint": "CAPM-6032-C",
+     "volts": 35,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIX685DT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 50,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKOJ685AT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 6.3,
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-680nF",
+   "function": "680 nF",
+   "description": "Tantalum capacitor, 680 nF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum",
+   "farads": 6.8e-07,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "F921C684MPA",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "f92",
+     "package": "0805",
+     "pinout": "polar",
+     "footprint": "CAPM-2012-P",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T356B684K050AT",
+     "manufacturer": "KEMET",
+     "datasheet": "t354k476k020at",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5.08-D4.5",
+     "volts": 50,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "T491A684K020AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A-KEMET",
+     "volts": 20,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAJB684K050RNJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "taj",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 50,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP684K035SCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.5-D4.5",
+     "volts": 35,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIE684AT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 25,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIV684AT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 35,
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-680uF",
+   "function": "680 µF",
+   "description": "Tantalum capacitor, 680 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum",
+   "farads": 0.00068,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T510X687K006ATE023",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2014_t510",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 6.3,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAJD687K004RNJ",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "taj",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 4,
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-68uF",
+   "function": "68 µF",
+   "description": "Tantalum capacitor, 68 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum",
+   "farads": 6.8e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T350H686K010AT",
+     "manufacturer": "KEMET",
+     "datasheet": "t354k476k020at",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-2.54-D7.6",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "T491X686K025AT",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2005_t491",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 25,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP686K006GSB",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-3.18-D6.5",
+     "volts": 6.3,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP686K016CRW",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D9",
+     "volts": 16,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TAP686K025CCS",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tap",
+     "package": "Radial",
+     "pinout": "polar",
+     "footprint": "CAPT-RAD-5-D9",
+     "volts": 25,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIA686DT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 10,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKIC686DT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 16,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKID686DT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 20,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKOG686BT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 4,
+     "tolerance": "±10%"
+    },
+    {
+     "name": "TCKOJ686BT",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "tc-series",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 6.3,
+     "tolerance": "±10%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-polymer-1.5uF",
+   "function": "1.5 µF",
+   "description": "Tantalum polymer capacitor, 1.5 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum-polymer",
+   "farads": 1.5e-06,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "TCJB155M035R0200",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJB155M050R0300",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 50,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-polymer-1000uF",
+   "function": "1000 µF",
+   "description": "Tantalum polymer capacitor, 1000 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum-polymer",
+   "farads": 0.001,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T530X108M004ATE006",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 4,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-polymer-100uF",
+   "function": "100 µF",
+   "description": "Tantalum polymer capacitor, 100 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum-polymer",
+   "farads": 0.0001,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T520A107M006ATE045",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A-KEMET",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T520B107M004ATE035",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B-KEMET",
+     "volts": 4,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T520C107M010ATE025",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "2312",
+     "pinout": "polar",
+     "footprint": "CAPM-6032-C-KEMET",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJD107M025R0055",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJY107M016R0050E",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJY107M020R0055",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 20,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-polymer-10uF",
+   "function": "10 µF",
+   "description": "Tantalum polymer capacitor, 10 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum-polymer",
+   "farads": 1e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "PTMIE106AT150",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "pt-series",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T520A106M010ATE080",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A-KEMET",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T529P106M006AAE200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "0805",
+     "pinout": "polar",
+     "footprint": "CAPM-2012-P-KEMET",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJA106M020R0150",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 20,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJB106M035S0200",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJD106M050R0120",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJT106M016R0150",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 16,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-polymer-150uF",
+   "function": "150 µF",
+   "description": "Tantalum polymer capacitor, 150 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum-polymer",
+   "farads": 0.00015,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "PTMIC157YT050",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "pt-series",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T520B157M004ATE040",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B-KEMET",
+     "volts": 4,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T520B157M006ATE035",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B-KEMET",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T520V157M010ATE018",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T521D157M020ATE065",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 20,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T521D157M025ATE040",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 25,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-polymer-15uF",
+   "function": "15 µF",
+   "description": "Tantalum polymer capacitor, 15 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum-polymer",
+   "farads": 1.5e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "PTMIA156AT200",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "pt-series",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "PTMIE156BT100",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "pt-series",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T520T156M006ATE100",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B-KEMET",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T521B156M016ATE090",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B-KEMET",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T521B156M020ATE090",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B-KEMET",
+     "volts": 20,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJB156M035R0200E",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJE156M050R0100E",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 50,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-polymer-1uF",
+   "function": "1 µF",
+   "description": "Tantalum polymer capacitor, 1 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum-polymer",
+   "farads": 1e-06,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "PTMIE105PT500",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "pt-series",
+     "package": "0805",
+     "pinout": "polar",
+     "footprint": "CAPM-2012-P-CALCHIP",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T597S105M035APE100",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2073_t59x",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-S",
+     "volts": 35,
+     "tolerance": "±20%",
+     "flags": [
+      "automotive"
+     ]
+    },
+    {
+     "name": "TCJB105M050R0300",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 50,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-polymer-2.2uF",
+   "function": "2.2 µF",
+   "description": "Tantalum polymer capacitor, 2.2 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum-polymer",
+   "farads": 2.2e-06,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T521B225M050ATE200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B-KEMET",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJB225M035R0200",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 35,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-polymer-220uF",
+   "function": "220 µF",
+   "description": "Tantalum polymer capacitor, 220 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum-polymer",
+   "farads": 0.00022,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T520V227M010ATE045",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T521X227M016ATE050",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJB227M004R0035",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 4,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJB227M006R0070",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-polymer-22uF",
+   "function": "22 µF",
+   "description": "Tantalum polymer capacitor, 22 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum-polymer",
+   "farads": 2.2e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "PTMIE226BT100",
+     "manufacturer": "Cal-Chip Electronics",
+     "datasheet": "pt-series",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T520A226M006ATE100",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A-KEMET",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T520V226M020ATE040",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 20,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T521X226M050ATE075",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T529P226M010AAE200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "0805",
+     "pinout": "polar",
+     "footprint": "CAPM-2012-P-KEMET",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJB226M016R0150",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJD226M035R0070",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 35,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-polymer-3.3uF",
+   "function": "3.3 µF",
+   "description": "Tantalum polymer capacitor, 3.3 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum-polymer",
+   "farads": 3.3e-06,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T521B335M050ATE200",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B-KEMET",
+     "volts": 50,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJA335M035R0500E",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 35,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-polymer-330uF",
+   "function": "330 µF",
+   "description": "Tantalum polymer capacitor, 330 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum-polymer",
+   "farads": 0.00033,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T520D337M006ATE015",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T520V337M004ATE007",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 4,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T520X337M010ATE040",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJE337M016R0050E",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 16,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-polymer-33uF",
+   "function": "33 µF",
+   "description": "Tantalum polymer capacitor, 33 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum-polymer",
+   "farads": 3.3e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T520B336M006ATE025",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B-KEMET",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T520B336M010ATE040",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B-KEMET",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T521B336M016ATE070",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B-KEMET",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T521B336M020ATE090",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B-KEMET",
+     "volts": 20,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T521D336M025ATE060",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T521D336M035ATE065",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T521X336M050ATE075",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 50,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-polymer-4.7uF",
+   "function": "4.7 µF",
+   "description": "Tantalum polymer capacitor, 4.7 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum-polymer",
+   "farads": 4.7e-06,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T529P475M025AAE300",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "0805",
+     "pinout": "polar",
+     "footprint": "CAPM-2012-P-KEMET",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJB475M035R0200",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJC475M050R0200E",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "2312",
+     "pinout": "polar",
+     "footprint": "CAPM-6032-C",
+     "volts": 50,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-polymer-470uF",
+   "function": "470 µF",
+   "description": "Tantalum polymer capacitor, 470 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum-polymer",
+   "farads": 0.00047,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T520D477M004ATE012",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 4,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T520V477M006ATE055",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T591X477M010ATE025",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2073_t59x",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJ5477M016R0100E",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 16,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-polymer-47uF",
+   "function": "47 µF",
+   "description": "Tantalum polymer capacitor, 47 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum-polymer",
+   "farads": 4.7e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T520A476M004ATE070",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A-KEMET",
+     "volts": 4,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T520B476M006ATE070",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B-KEMET",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T521B476M016ATE090",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B-KEMET",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T521V476M020ATE090",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 20,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJB476M010R0070E",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJD476M025R0100",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJY476M035R0100E",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 35,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-polymer-6.8uF",
+   "function": "6.8 µF",
+   "description": "Tantalum polymer capacitor, 6.8 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum-polymer",
+   "farads": 6.8e-06,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T521B685M035ATE150",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B-KEMET",
+     "volts": 35,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJA685M016R0200",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJA685M025R0150",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "1206",
+     "pinout": "polar",
+     "footprint": "CAPM-3216-A",
+     "volts": 25,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJC685M050R0200",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "2312",
+     "pinout": "polar",
+     "footprint": "CAPM-6032-C",
+     "volts": 50,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-polymer-680nF",
+   "function": "680 nF",
+   "description": "Tantalum polymer capacitor, 680 nF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum-polymer",
+   "farads": 6.8e-07,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "TCJB684M050R0400",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B",
+     "volts": 50,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-polymer-680uF",
+   "function": "680 µF",
+   "description": "Tantalum polymer capacitor, 680 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum-polymer",
+   "farads": 0.00068,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T520Y687M006ATE025",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T530X687M004ATE010",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-D",
+     "volts": 4,
+     "tolerance": "±20%"
+    }
+   ]
+  },
+  {
+   "id": "tantalum-polymer-68uF",
+   "function": "68 µF",
+   "description": "Tantalum polymer capacitor, 68 µF",
+   "drawer": [
+    "Capacitors",
+    "Tantalum"
+   ],
+   "pinouts": {
+    "polar": [
+     {
+      "number": 1,
+      "name": "+",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "-",
+      "role": "input"
+     }
+    ]
+   },
+   "type": "tantalum-polymer",
+   "farads": 6.8e-05,
+   "positive": "+",
+   "negative": "-",
+   "parts": [
+    {
+     "name": "T520B686M006ATE040",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "1411",
+     "pinout": "polar",
+     "footprint": "CAPM-3528-B-KEMET",
+     "volts": 6.3,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "T520C686M010ATE045",
+     "manufacturer": "KEMET",
+     "datasheet": "kem_t2076_t52x-530",
+     "package": "2312",
+     "pinout": "polar",
+     "footprint": "CAPM-6032-C-KEMET",
+     "volts": 10,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJY686M016R0050",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 16,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJY686M020R0050E",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 20,
+     "tolerance": "±20%"
+    },
+    {
+     "name": "TCJY686M025R0100E",
+     "manufacturer": "KYOCERA AVX",
+     "datasheet": "tcj",
+     "package": "2917",
+     "pinout": "polar",
+     "footprint": "CAPM-7343-5",
+     "volts": 25,
+     "tolerance": "±20%"
+    }
+   ]
   }
  ]
 }

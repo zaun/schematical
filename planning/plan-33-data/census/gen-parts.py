@@ -53,6 +53,8 @@ DRAWER = {"ceramic": "Ceramic", "aluminum": "Electrolytic", "aluminum-polymer": 
           "tantalum": "Tantalum", "tantalum-polymer": "Tantalum", "niobium-oxide": "Tantalum"}
 MAKER = {"KEMET": "KEMET", "Cal-Chip Electronics": "Cal-Chip Electronics", "KYOCERA AVX": "KYOCERA AVX"}
 GEOMETRY_SKIP = {"id", "description", "note"}
+# http datasheet links and the https URL the same PDF answers at (checked with curl: 200 application/pdf).
+HTTPS = {"http://datasheets.avx.com/tap.pdf": "https://datasheets.kyocera-avx.com/tap.pdf"}
 TAGS = ("-KEMET", "-CALCHIP", "-AVX")
 PINOUTS = {"two-pin": [{"number": 1, "name": "1", "role": "input"}, {"number": 2, "name": "2", "role": "input"}],
            "polar": [{"number": 1, "name": "+", "role": "input"}, {"number": 2, "name": "-", "role": "input"}]}
@@ -261,6 +263,10 @@ def main():
             kt = KIND_TYPE[r["type"]]
             dev = device_for(devices, kt, float(r["farads"]))
             url = first_url[path]
+            if url.startswith("http://"):
+                # datasheets.json takes https only; the maker serves the same PDF there
+                # (http://datasheets.avx.com/tap.pdf -> https://datasheets.kyocera-avx.com/tap.pdf).
+                url = HTTPS.get(url, "https://" + url[len("http://"):])
             did = ds_by_url.get(url)
             if did is None:
                 did = os.path.basename(path)[:-4].lower()
