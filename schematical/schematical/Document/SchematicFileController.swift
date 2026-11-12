@@ -341,7 +341,8 @@ enum PartFileType {
 /// rest of the session. A failure shows the reason; nothing changes.
 @MainActor
 enum PartFileLoading {
-    static func loadPart(catalog: PartCatalogStore = .shared) async {
+    static func loadPart(catalog: PartCatalogStore? = nil) async {
+        let catalog = catalog ?? PartCatalogStore.shared
         let panel = NSOpenPanel()
         panel.allowedContentTypes = PartFileType.openableTypes
         panel.allowsMultipleSelection = false
@@ -387,17 +388,31 @@ extension FocusedValues {
     @Entry var schematicFile: SchematicFileController?
 }
 
-/// File menu items for the focused window's schematic.
+/// File menu items for the focused window's schematic. In a Part Editor
+/// window (plan-32-C) Open… and Save are that window's Open Part… and Save
+/// Part…, so each key has one item.
 struct SchematicFileCommands: Commands {
     @FocusedValue(\.schematicFile) private var file
+    @FocusedValue(\.partEditor) private var editor
 
     var body: some Commands {
         CommandGroup(after: .newItem) {
-            Button("Open…") {
-                Task { await file?.open() }
+            PartEditorCommands(editor: editor)
+
+            Divider()
+
+            if let editor {
+                Button("Open Part…") {
+                    Task { await editor.open() }
+                }
+                .keyboardShortcut("o", modifiers: .command)
+            } else {
+                Button("Open…") {
+                    Task { await file?.open() }
+                }
+                .keyboardShortcut("o", modifiers: .command)
+                .disabled(file == nil)
             }
-            .keyboardShortcut("o", modifiers: .command)
-            .disabled(file == nil)
 
             PartFileMenuItems()
 
@@ -406,11 +421,19 @@ struct SchematicFileCommands: Commands {
             // Close appeared, and ⌘S did nothing).
             Divider()
 
-            Button("Save") {
-                Task { await file?.save() }
+            if let editor {
+                Button("Save Part…") {
+                    Task { await editor.save() }
+                }
+                .keyboardShortcut("s", modifiers: .command)
+                .disabled(!editor.isValid)
+            } else {
+                Button("Save") {
+                    Task { await file?.save() }
+                }
+                .keyboardShortcut("s", modifiers: .command)
+                .disabled(file == nil)
             }
-            .keyboardShortcut("s", modifiers: .command)
-            .disabled(file == nil)
 
             Button("Save As…") {
                 Task { await file?.saveAs() }

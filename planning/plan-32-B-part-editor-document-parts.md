@@ -170,7 +170,7 @@ One line: the file can hold the new keys and reads them back, with no open or sa
 Acceptance: the three `SchematicFileV5Tests` cases pass, and the version 4 encoding in (a) equals the HEAD encoding of the same document.
   Check: `xcodebuild test … -only-testing:schematicalTests/SchematicFileV5Tests` → `passed`; the HEAD comparison is the test's own golden string, written from `git show HEAD:schematical/schematical/Document/SchematicFile.swift` by running the HEAD build's encoder once (est. 6 min, one build).
   Result (2026-11-11): the golden was captured by building commit 656b6d1 (`git archive` into `/tmp/p32-head`, a one-off `GoldenCaptureTests` printing save → open → save of SN74HC00N + 5V + GENERIC-LED); case (a) asserts the new build's save of it is equal byte for byte. `Test Suite 'SchematicFileV5Tests' passed` (10 cases a–j).
-Commit: (this commit, with Phases 2–3)
+Commit: 64872af
 
 ### Phase 2 — Open: register the document's custom parts and resolve by UUID
 
@@ -185,7 +185,7 @@ One line: a version 5 document opens with its custom parts registered, and its p
 Acceptance: cases (d)–(g) pass.
   Check: `xcodebuild test … -only-testing:schematicalTests/SchematicFileV5Tests` → `passed` (est. 4 min).
   Result (2026-11-11): passed, cases (d)–(g) included.
-Commit: (this commit, with Phases 1 and 3)
+Commit: 64872af
 
 ### Phase 3 — Save: write the custom parts a document uses
 
@@ -199,7 +199,7 @@ One line: saving a document with custom parts writes version 5 with exactly the 
 Acceptance: cases (h)–(j) pass.
   Check: `xcodebuild test … -only-testing:schematicalTests/SchematicFileV5Tests` → `passed` (est. 4 min).
   Result (2026-11-11): passed, cases (h)–(j) included; (i) also checks a suffixed name (`SN74HC00N.2`) is the saved `partNumber`.
-Commit: (this commit, with Phases 1–2)
+Commit: 64872af
 
 ## Validation Plan
 
@@ -229,9 +229,12 @@ Commit: (this commit, with Phases 1–2)
 - **Doc sync done** (2026-11-11): `docs/file-format.md` describes version 5 (header,
   design rule, `customParts`, `partUUID`, § Custom parts, § Validation on open);
   `rg -c 'version' docs/file-format.md` → 38.
-- **Runtime proof** (Validation Plan) is folded into plan-32-C Phase 4's app session,
-  which places a custom part from the editor and saves the schematic; the unit cases (d)
-  and (j) cover open-after-save without the part loaded beforehand in this build's store.
+- **Runtime proof** (Validation Plan), done in plan-32-C Phase 4's app session
+  (2026-11-11): ZZEDIT-NAND (made in the Part Editor, saved, loaded with Load Part…)
+  dragged onto a schematic, saved as `custom-doc.schematical` (`version` 5, one
+  `customParts` entry, the placement's `partUUID` set); the app quit and relaunched (the
+  part not loaded), File › Open… on the file showed ZZEDIT-NAND with its 14 pins and
+  names, and the drawer count was 26,637 (the part registered from the file).
 
 ## Summary
 

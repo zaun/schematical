@@ -27,6 +27,11 @@ diode, 7-segment display, character LCD module, oscillator, supply, microprocess
 | `converter.json` | `converter` |
 | `rtc.json` | `rtc` |
 | `diode.json` | `diode` |
+| `mux.json` | `mux` |
+| `buffer.json` | `buffer` |
+| `arith.json` | `arith` |
+| `header.json` | `header` |
+| `pio.json` | `pio` |
 
 Beside them, `datasheets.json` holds the datasheet URLs parts name with
 `"datasheet"` (see [Datasheets](#datasheets)), and `footprints.json` the land
@@ -154,6 +159,10 @@ exactly one pin reject such names. (One exception, a part key: an
 oscillator's `enablePin` is a pin designator; see below.)
 
 ## Parts
+
+A custom part is authored in the app's Part Editor (File › New Part…, or a
+drawer part's Copy to Editor…) and saved as a single part file, which holds
+one device with one of these parts (see [Single part files](#single-part-files)).
 
 ```json
 {"name": "SN74HC00N", "manufacturer": "Texas Instruments", "datasheet": "sn74hc00", "package": "DIP", "pinout": "p14", "footprint": "PDIP-14", "family": "HC", "flags": ["obsolete"]}

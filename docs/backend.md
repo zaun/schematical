@@ -82,6 +82,10 @@ Notes:
   `Part.uuid` is the file's `uuid` (NULL for every bundled part), and
   `part_library_find_uuid` finds the part by it. Errors read like
   `load_parts`': `x.schpart: devices[0] (1G00): parts[0] (MY-NAND): …`.
+  `part_library_unload_last_part_file` takes back the latest
+  `load_part_file` (its part, name, uuid, inline footprints and arena
+  memory) while nothing else was loaded since; the Part Editor's validator
+  (plan-32-C) loads each draft into one scratch library this way.
 - Building calls (`circuit_add_part`, `_add_net`, `_connect`) work only
   before `circuit_start`; `circuit_set_switch` works before and after.
 - `circuit_set_switch(…, position, on)`: ON = contact closed, for every

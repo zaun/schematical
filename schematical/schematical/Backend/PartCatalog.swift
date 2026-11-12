@@ -745,6 +745,17 @@ nonisolated enum BackendCatalog {
         }
     }
 
+    /// Loads only `datasheets.json` and `footprints.json`: what a single part
+    /// file's references resolve against (the Part Editor's validator).
+    static func loadSupportFiles(into library: PartLibraryHandle) throws {
+        guard let datasheets = Bundle.main.url(forResource: "datasheets", withExtension: "json"),
+              let footprints = Bundle.main.url(forResource: "footprints", withExtension: "json") else {
+            throw LoadError.unavailable
+        }
+        try loadFile(datasheets, with: load_datasheets, into: library)
+        try loadFile(footprints, with: load_footprints, into: library)
+    }
+
     /// Copies one backend part, its footprints looked up by `footprint`.
     static func catalogPart(_ part: Part,
                             footprint: (UnsafePointer<PartFootprint>) -> Footprint?) -> CatalogPart {

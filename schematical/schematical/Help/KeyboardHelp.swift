@@ -96,6 +96,13 @@ nonisolated enum KeyboardHelp {
         HelpSection(title: "Simulation", entries: [
             entry("⌘R", "Run or stop the simulation"),
         ]),
+        HelpSection(title: "Custom parts", entries: [
+            entry("⇧⌘N", "New Part…: pick a kind, then fill in the Part Editor"),
+            entry("⌘S (Part Editor)", "Save Part…: write the part to a .schpart file"),
+            entry("⌘O (Part Editor)", "Open Part…: read a .schpart file into the editor"),
+            entry("Right-click a drawer part", "Copy to Editor…: edit a copy of a library part"),
+            entry("File › Load Part…", "Add a .schpart file's part to the drawer for this session"),
+        ]),
         window,
     ]
 

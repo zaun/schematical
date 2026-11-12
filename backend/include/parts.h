@@ -230,6 +230,15 @@ int load_parts(PartLibrary *library, const char *json, const char *source, char 
 int load_part_file(PartLibrary *library, const char *json, const char *source, char **error);
 
 /*
+ * Takes back the latest load_part_file: its part, name, uuid and inline
+ * footprints leave the library and its memory is freed, so a checker can
+ * load one draft after another into one library (the app's part editor).
+ * Only while nothing else was loaded since: 0, or -1 (nothing changed) when
+ * there is no such load. Pointers into that part are invalid afterwards.
+ */
+int part_library_unload_last_part_file(PartLibrary *library);
+
+/*
  * Parses a footprints file (format "schematical-footprints"). Same contract
  * as load_parts. Load it before any part file that names its footprints;
  * ids are unique across calls.

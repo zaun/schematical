@@ -181,6 +181,51 @@ int main(void) {
                  DEVICE("H-PART", "SOT23-5") "]}",
                  "extra");
 
+    /* (i) part_library_unload_last_part_file takes back the latest file: its
+       part, uuid and inline footprint go, and the same file loads again. */
+    {
+        static const char TEXT[] = HEAD("77777777-2222-4333-8444-555555555555") "\"footprints\":["
+                                   FOOTPRINT("CUSTOM-77777777", PAD5) "],\"devices\":["
+                                   DEVICE("I-PART", "CUSTOM-77777777") "]}";
+        size_t before = part_library_count(library);
+        size_t before_fp = part_library_footprint_count(library);
+        int round;
+
+        for (round = 0; round < 3; round++) {
+            CHECK(load_part_file(library, TEXT, "i.schpart", &error) == 0, "(i) %s", error);
+            free(error);
+            error = NULL;
+            CHECK(part_library_find(library, "I-PART") != NULL, "(i) round %d: not loaded", round);
+            CHECK(part_library_unload_last_part_file(library) == 0, "(i) round %d: unload", round);
+            CHECK(part_library_find(library, "I-PART") == NULL, "(i) round %d: name stayed", round);
+            CHECK(part_library_find_uuid(library, "77777777-2222-4333-8444-555555555555") == NULL,
+                  "(i) round %d: uuid stayed", round);
+            CHECK(part_library_find_footprint(library, "CUSTOM-77777777") == NULL,
+                  "(i) round %d: footprint stayed", round);
+            CHECK(part_library_count(library) == before &&
+                      part_library_footprint_count(library) == before_fp,
+                  "(i) round %d: counts changed", round);
+            CHECK(part_library_unload_last_part_file(library) == -1, "(i) round %d: second unload",
+                  round);
+        }
+        CHECK(part_library_find(library, "MY-NAND") != NULL &&
+                  part_library_find(library, "SN74AHC1G00DBVR") != NULL &&
+                  part_library_find_uuid(library, UUID_A) != NULL,
+              "(i) earlier parts lost");
+        /* Any other load ends the chance to take a part file back. */
+        CHECK(load_part_file(library, TEXT, "i.schpart", &error) == 0, "(i) reload %s", error);
+        free(error);
+        error = NULL;
+        CHECK(load_footprints(library,
+                              "{\"format\":\"schematical-footprints\",\"version\":1,\"footprints\":[]}",
+                              "empty.json", &error) == 0, "(i) empty footprints %s", error);
+        free(error);
+        error = NULL;
+        CHECK(part_library_unload_last_part_file(library) == -1, "(i) unload after another load");
+        CHECK(part_library_find(library, "I-PART") != NULL, "(i) part lost by a refused unload");
+        puts("ok (i) unload takes back the latest part file");
+    }
+
     /* load_parts still rejects the single part format, and keeps its rules. */
     {
         if (load_parts(library, HEAD("66666666-2222-4333-8444-555555555555") "\"devices\":[]}",
@@ -196,6 +241,6 @@ int main(void) {
         fprintf(stderr, "%d failure(s)\n", failures);
         return 1;
     }
-    puts("PASS: load_part_file (plan-32-A cases a-h)");
+    puts("PASS: load_part_file (plan-32-A cases a-h, plan-32-C unload case i)");
     return 0;
 }

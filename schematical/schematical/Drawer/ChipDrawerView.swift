@@ -35,6 +35,7 @@ struct ChipDrawerView: View, Equatable {
         lhs.catalog === rhs.catalog
     }
 
+    @Environment(\.openWindow) private var openWindow
     @State private var filter = DrawerFilter()
     @AppStorage(PreferenceKey.showObsoleteParts) private var showObsolete = false
     @AppStorage(PreferenceKey.showMilitaryParts) private var showMilitary = false
@@ -350,6 +351,14 @@ struct ChipDrawerView: View, Equatable {
         .overlay(alignment: .bottom) { Divider() }
         .contentShape(Rectangle())
         .draggable(ChipPartDragItem(partNumber: part.name))
+        .contextMenu {
+            // plan-32-C: a copy with a new uuid; the library part is never edited.
+            if let kind = PartKinds.name(of: part.kind), PartDraft.enabledKinds.contains(kind) {
+                Button("Copy to Editor…") {
+                    openWindow(id: PartEditorScene.id, value: PartEditorTarget(source: .copy(name: part.name)))
+                }
+            }
+        }
     }
 
     /// Package, then the kind's facts: family, speed grade, actuator or color;

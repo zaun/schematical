@@ -35,7 +35,7 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-32-B complete: version 5 documents and `PartCatalogStore.register` exist | `xcodebuild test … -only-testing:schematicalTests/SchematicFileV5Tests` → `passed` | NOT MET at writing; starts after plan-32-B |
+| plan-32-B complete: version 5 documents and `PartCatalogStore.register` exist | `xcodebuild test … -only-testing:schematicalTests/SchematicFileV5Tests` → `passed` | MET (run 2026-11-11 in the P-32 worktree: `SchematicFileV5Tests` passed, 10 cases) |
 
 Everything below is written against the world where this holds.
 
@@ -222,66 +222,71 @@ shipped gate part before any UI is built on it (Phase 2 before Phase 3).
 
 One line: an empty editor window opens from File › New Part…, with the kind picker.
 
-- [ ] `schematical/schematical/Editor/PartEditorTarget.swift`: `PartEditorTarget` and its `Source` (§ 4.1).
-- [ ] `schematical/schematicalApp.swift`: the `part-editor` `WindowGroup` (§ 4.1).
-- [ ] `schematical/schematical/Editor/PartEditorWindow.swift`: `PartEditorWindowView` with an empty Identity section and the title "New Gate Part" (the kind's display name from `PartDraft.kindNames`).
-- [ ] `schematical/schematical/Editor/PartKindPicker.swift`: the sheet listing the 26 kinds, enabled = `PartDraft.enabledKinds` (`["gate"]`); disabled rows show the kind's name and "Coming soon".
-- [ ] `SchematicFileController.swift`: `SchematicFileCommands` gets Button("New Part…") with ⇧⌘N, opening the picker.
-- [ ] Tests: `schematical/schematicalTests/PartEditorWindowTests.swift`: (a) `PartDraft.enabledKinds == ["gate"]`; (b) the 26 kind names in `PartDraft.kindNames` equal the sorted `Parts/*.json` file names minus `footprints.json` and `datasheets.json` (measured: 26; the kind table in `docs/parts-format.md` lists only 21 of them, `rg -o '^\| `[a-z0-9]+\.json`' docs/parts-format.md | wc -l` → 21, so Phase 5 adds the missing five rows).
+- [x] `schematical/schematical/Editor/PartEditorTarget.swift`: `PartEditorTarget` and its `Source` (§ 4.1).
+- [x] `schematical/schematicalApp.swift`: the `part-editor` `WindowGroup` (§ 4.1).
+- [x] `schematical/schematical/Editor/PartEditorWindow.swift`: `PartEditorWindowView` with an empty Identity section and the title "New Gate Part" (the kind's display name from `PartDraft.kindNames`).
+- [x] `schematical/schematical/Editor/PartKindPicker.swift`: the sheet (a small `Window`, Corrections) listing the 26 kinds, enabled = `PartDraft.enabledKinds` (`["gate"]`); disabled rows show the kind's name and "Coming soon".
+- [x] `SchematicFileController.swift`: `SchematicFileCommands` gets Button("New Part…") with ⇧⌘N, opening the picker.
+- [x] Tests: `schematical/schematicalTests/PartEditorWindowTests.swift`: (a) `PartDraft.enabledKinds == ["gate"]`; (b) the 26 kind names in `PartDraft.kindNames` equal the sorted `Parts/*.json` file names minus `footprints.json` and `datasheets.json` (measured: 26; the kind table in `docs/parts-format.md` lists only 21 of them, `rg -o '^\| `[a-z0-9]+\.json`' docs/parts-format.md | wc -l` → 21, so Phase 5 adds the missing five rows).
 
 Acceptance: the two `PartEditorWindowTests` cases pass, and the New Part… item opens the picker in a launched app.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartEditorWindowTests` → `passed` (est. 4 min); the picker's appearance is the run skill's check (est. 5 min).
-Commit: —
+  Result (2026-11-11): `PartEditorWindowTests` passed (a, b — 26 kind files read from `Parts/` — c, and a new-draft case). Real app: ⇧⌘N opened the "New Part" window listing all 26 kinds, Gate enabled, the rest "Coming soon"; choosing Gate opened "New Gate Part".
+Commit: (this commit, with Phases 2–5)
 
 ### Phase 2 — `PartDraft` round trip over every shipped gate part
 
 One line: the draft reproduces every shipped gate part's file exactly, and the backend accepts it.
 
-- [ ] `schematical/schematical/Editor/PartDraft.swift`: `PartDraft` with the § 4.2 fields, `init(file:)` and `encoded()`, with `extras` for every key without a field.
-- [ ] `schematical/schematical/Editor/GateDraft.swift`: `GateDraft` for `gates`, `output`, `timing`, `units` (§ 4.4).
-- [ ] `schematical/schematical/Editor/BundledPartFile.swift`: the copy path (§ 4.5).
-- [ ] Tests: `schematical/schematicalTests/PartDraftRoundTripTests.swift`: for every gate part in `Parts/gate.json` (3438 parts, measured above), `copy(name:)` → `PartDraft(file:)` → `encoded()` equals the copy as JSON values with `uuid` excluded; and `PartValidator`'s `load_part_file` accepts each encoded file.
+- [x] `schematical/schematical/Editor/PartDraft.swift`: `PartDraft` with the § 4.2 fields, `init(file:)` and `encoded()`, with `extras` for every key without a field.
+- [x] `schematical/schematical/Editor/GateDraft.swift`: `GateDraft` for `gates`, `output`, `timing`, `units` (§ 4.4).
+- [x] `schematical/schematical/Editor/BundledPartFile.swift`: the copy path (§ 4.5).
+- [x] Tests: `schematical/schematicalTests/PartDraftRoundTripTests.swift`: for every gate part in `Parts/gate.json` (3438 parts, measured above), `copy(name:)` → `PartDraft(file:)` → `encoded()` equals the copy as JSON values with `uuid` excluded; and `PartValidator`'s `load_part_file` accepts each encoded file.
 
 Acceptance: over all 3438 gate parts, the encoded draft equals the copy and the backend accepts it; zero mismatches and zero rejections.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartDraftRoundTripTests` → `passed` with the test's own count line `checked 3438 parts, 0 mismatched, 0 rejected` (est. 6 min; the population is the whole gate kind, which is the smallest set that exercises every gate key).
-Commit: —
+  Result (2026-11-11): passed, `checked 3438 parts, 0 mismatched, 0 with extras, 0 rejected` (4.2 s); the line also counts parts with keys left in `extras` (plan-32-F's measure), and nested keys a field has no control for count as extras.
+Commit: (this commit)
 
 ### Phase 3 — Validator and the window's form (Identity, Pinouts, Footprint, Supply, gate section)
 
 One line: the window shows the form for a gate part and reports backend errors at the form.
 
-- [ ] `schematical/schematical/Editor/PartValidator.swift`: scratch library (cached per window), `validate(draft) async -> Result<CatalogPart, String>`, debounced by the window (§ 4.7).
-- [ ] `PartEditorWindow.swift`: Identity, Pinouts (add, remove, reorder rows; numbered or ball style), Footprint (picker of bundled footprints with equal pin count, from `footprints.json`), Supply (vcc min/max, inputMax), and the gate section (`GateDraft`: operations list, output, timing, units, family).
-- [ ] The validation message is shown under the form; Add to Library and Save are disabled while it is an error.
-- [ ] Tests: `PartValidatorTests.swift`: (a) a valid draft validates to a `CatalogPart` with the expected `pins.count`; (b) a draft whose gate names an unknown pin returns an error that contains the pin name; (c) a draft with a footprint whose pad count differs from the pinout returns the backend's footprint message.
+- [x] `schematical/schematical/Editor/PartValidator.swift`: scratch library (cached per window), `validate(draft) async -> Result<CatalogPart, String>`, debounced by the window (§ 4.7).
+- [x] `PartEditorWindow.swift`: Identity, Pinouts (add, remove, reorder rows; numbered or ball style), Footprint (picker of bundled footprints with equal pin count, from `footprints.json`), Supply (vcc min/max, inputMax), and the gate section (`GateDraft`: operations list, output, timing, units, family).
+- [x] The validation message is shown under the form; Add to Library and Save are disabled while it is an error.
+- [x] Tests: `PartValidatorTests.swift`: (a) a valid draft validates to a `CatalogPart` with the expected `pins.count`; (b) a draft whose gate names an unknown pin returns an error that contains the pin name; (c) a draft with a footprint whose pad count differs from the pinout returns the backend's footprint message.
 
 Acceptance: the three validator cases pass; a launched app shows an error message for a deliberately wrong pin name in the form.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartValidatorTests` → `passed` (est. 4 min); the form error is the run skill's check (est. 10 min).
-Commit: —
+  Result (2026-11-11): `PartValidatorTests` passed (a–c, plus five checks in a row leaving the scratch library clean). Real app: Copy to Editor… on SN74HC00N, renamed to ZZEDIT-NAND, pin `1A` of pinout `lccc20` renamed `1AX` → the form showed `ZZEDIT-NAND.schpart: devices[0] (74_00): pinouts.lccc20: gates[0]: no pin named "1A"`, and Save Part…/Add to Library went disabled; renaming it back showed "The part loads: 14 pins".
+Commit: (this commit)
 
 ### Phase 4 — Save, Open, Add to Library and Copy to Editor…
 
 One line: a part leaves the editor as a `.schpart` file or as a library part, and comes back the same.
 
-- [ ] `PartEditorWindow.swift`: Save Part… (⌘S, focused value), Open Part… (⌘O, focused value), Add to Library (calls `PartCatalogStore.register`).
-- [ ] `schematical/schematical/Editor/PartEditorCommands.swift`: `FocusedValues` entry for the focused editor; the commands.
-- [ ] `schematical/schematical/Drawer/ChipDrawerView.swift`: the context-menu item Copy to Editor… on a part of an enabled kind (opens `.copy(name:)`).
-- [ ] Tests: `PartFileSaveOpenTests.swift`: (a) `PartDraft` saved, then opened, then saved gives identical bytes; (b) a file the backend rejects is not replaced in the draft (the open reports the message); (c) Add to Library of a validated draft makes `PartCatalogStore.shared.part(named:)` return it.
+- [x] `PartEditorWindow.swift`: Save Part… (⌘S, focused value), Open Part… (⌘O, focused value), Add to Library (calls `PartCatalogStore.register`).
+- [x] `schematical/schematical/Editor/PartEditorCommands.swift`: `FocusedValues` entry for the focused editor; the commands.
+- [x] `schematical/schematical/Drawer/ChipDrawerView.swift`: the context-menu item Copy to Editor… on a part of an enabled kind (opens `.copy(name:)`).
+- [x] Tests: `PartFileSaveOpenTests.swift`: (a) `PartDraft` saved, then opened, then saved gives identical bytes; (b) a file the backend rejects is not replaced in the draft (the open reports the message); (c) Add to Library of a validated draft makes `PartCatalogStore.shared.part(named:)` return it.
 
 Acceptance: the three save/open cases pass, and in a launched app a part saved from the editor is loaded back with File › Load Part… (plan-32-A) and appears in the drawer.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartFileSaveOpenTests` → `passed` (est. 5 min); the app round trip is the run skill's check (est. 10 min).
-Commit: —
+  Result (2026-11-11): `PartFileSaveOpenTests` passed (a–c, plus a copy-has-new-uuid / bad-save-refused case). Real app: ⌘S in the editor saved `ZZEDIT-NAND.schpart` (9645 bytes); File › Load Part… on it raised the drawer count 26,636 → 26,637 and the search `ZZEDIT` shows Logic › Gates › NAND › `ZZEDIT-NAND  DIP · HC · 2–6 V`. The same session is plan-32-B's runtime proof (see there).
+Commit: (this commit)
 
 ### Phase 5 — Help and keys
 
 One line: the editor's keys are on the Schematic Help page.
 
-- [ ] `schematical/schematical/Help/KeyboardHelp.swift`: the Schematic Help page lists ⇧⌘N (New Part…), and the Part Editor's ⌘S, ⌘O and the Copy to Editor… item.
-- [ ] `docs/parts-format.md`: add the five missing rows to the kind table (`mux.json` → `mux`, `buffer.json` → `buffer`, `arith.json` → `arith`, `header.json` → `header`, `pio.json` → `pio`); a line in § Parts that a single part file is authored in the Part Editor (link to plan-32-A § 4.1 for the shape).
+- [x] `schematical/schematical/Help/KeyboardHelp.swift`: the Schematic Help page lists ⇧⌘N (New Part…), and the Part Editor's ⌘S, ⌘O and the Copy to Editor… item.
+- [x] `docs/parts-format.md`: add the five missing rows to the kind table (`mux.json` → `mux`, `buffer.json` → `buffer`, `arith.json` → `arith`, `header.json` → `header`, `pio.json` → `pio`); a line in § Parts that a single part file is authored in the Part Editor (link to plan-32-A § 4.1 for the shape).
 
 Acceptance: the Help page text contains "New Part" and "⇧⌘N" (test in `PartEditorWindowTests`, case c).
   Check: `xcodebuild test … -only-testing:schematicalTests/PartEditorWindowTests` → `passed` (est. 4 min).
-Commit: —
+  Result (2026-11-11): passed, case (c) included; `rg -o '^\| `[a-z0-9]+\.json`' docs/parts-format.md | wc -l` → 26.
+Commit: (this commit)
 
 ## Validation Plan
 
@@ -301,7 +306,40 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **The kind forms are schema-driven** (2026-11-11). § 3 describes a typed `GateDraft`
+  struct; the implementation gives each kind a `KindSchema` (`Editor/KindSchema.swift`):
+  a list of `Field`s, each a key with its control type (text, number with unit, choice,
+  pin, pin list, volt range, nested object, list of objects, family-keyed map, …).
+  `GateDraft.schema` (in `Editor/GateDraft.swift`) lists gate.c's keys; the form renders
+  every field with its typed control (`Editor/FieldEditors.swift`), and the draft keeps
+  each kind value as JSON (`PartDraft.kindDevice` / `kindPart`). This is not the rejected
+  "generic key/value grid": every key has a typed, labelled control with the backend's
+  rule as help. It is what makes F–J's 25 kinds (some with 20 key arrays) feasible with
+  the same guarantees: `PartDraft.formKeys(kind)` is the schema's key set (nested keys
+  included) for the drift tests, and `extraKeys` lists both top-level extras and nested
+  keys a field has no control for, so "empty extras" is checked at every depth.
+- **The validator needs to take a load back** (2026-11-11). § 4.7's scratch library
+  would keep every draft it loads, so the second check of a draft fails as a duplicate
+  name. New backend call `part_library_unload_last_part_file` (it removes the latest
+  single part file's part, name, uuid and inline footprints and frees its arena, while
+  nothing else was loaded since); `part_file_test` case (i) checks it, `docs/backend.md`
+  describes it. The scratch library is one shared `PartValidator.shared` (loaded once,
+  locked), not one per window.
+- **The kind picker is a small window, not a sheet** (2026-11-11). File › New Part… must
+  work with no window open; a sheet needs one. `Window("New Part", id: "new-part")`.
+- **⌘O and ⌘S are one item each** (2026-11-11). § 4.6 gives the editor ⌘S and ⌘O, which
+  the schematic's Open… and Save already use. `SchematicFileCommands` shows Open Part… /
+  Save Part… in place of Open… / Save while a Part Editor window is focused
+  (`FocusedValues.partEditor`), and adds New Part… (⇧⌘N), Save Part As… and Add to
+  Library (`PartEditorCommands`).
+- **Datasheet field** (2026-11-11). § 4.3 asks for a picker of the `datasheets.json` ids;
+  there are thousands, so it is a text field with a menu of the matching ids (first 40).
+- **Test hosts keep the editor models** (2026-11-11). Freeing a `PartEditorModel` inside
+  a test aborts the host (`pointer being freed was not allocated`, the isolated-deinit
+  problem `TestSupport.newDocument()` documents); the tests keep their models in a static
+  array.
+- **Phase 4 (c) uses `PartCatalogStore.shared`, as written**; PartRegistrationTests and
+  SchematicFileV5Tests use stores of their own.
 
 ## Summary
 

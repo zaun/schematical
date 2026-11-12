@@ -127,6 +127,12 @@ struct PartLibrary {
     /* A single part file's inline footprints while load_part_file checks it;
        NULL otherwise. part_library_find_footprint looks here too. */
     const FootprintList *staged_footprints;
+    /* The latest load_part_file, for part_library_unload_last_part_file:
+       the counts and the arena head from before it; cleared by any other
+       load. */
+    int last_part_file;
+    size_t last_count, last_footprint_count;
+    ArenaChunk *last_arenas;
     ArenaChunk *arenas;
 };
 
@@ -857,10 +863,13 @@ static char *copy_message(const char *text) {
     return copy;
 }
 
-/* Hands a loaded file's arena to the library. */
+/* Hands a loaded file's arena to the library. Every load ends here, so it
+   also forgets the latest single part file (only load_part_file sets it
+   again, after this). */
 static void adopt_arena(PartLibrary *library, KindContext *ctx) {
     ArenaChunk *last = ctx->arena;
 
+    library->last_part_file = 0;
     if (last != NULL) {
         while (last->next != NULL) {
             last = last->next;
@@ -1344,8 +1353,18 @@ int load_part_file(PartLibrary *library, const char *json, const char *source, c
 
         kind_error(&ctx, "invalid JSON at byte %ld", where != NULL ? (long)(where - json) : -1L);
     } else if (read_part_file(&ctx, library, root, &file, &footprints, &uuid) == 0 &&
-               !kind_failed(&ctx) && commit_parts(&ctx, library, &file, &footprints, uuid) == 0) {
-        result = 0;
+               !kind_failed(&ctx)) {
+        size_t count = library->count;
+        size_t footprint_count = library->footprint_count;
+        ArenaChunk *arenas = library->arenas;
+
+        if (commit_parts(&ctx, library, &file, &footprints, uuid) == 0) {
+            library->last_part_file = 1;
+            library->last_count = count;
+            library->last_footprint_count = footprint_count;
+            library->last_arenas = arenas;
+            result = 0;
+        }
     }
 
     library->staged_footprints = NULL;
@@ -1357,4 +1376,49 @@ int load_part_file(PartLibrary *library, const char *json, const char *source, c
     free_chunks(ctx.arena);
     report(&ctx, result, error);
     return result;
+}
+
+int part_library_unload_last_part_file(PartLibrary *library) {
+    NameSet names = {0};
+    NameSet uuids = {0};
+    NameSet ids = {0};
+    size_t i;
+    int ok = 1;
+
+    if (library == NULL || !library->last_part_file) {
+        return -1;
+    }
+    /* Rebuild the name tables from what stays. */
+    for (i = 0; ok && i < library->last_count; i++) {
+        const Part *part = library->parts[i];
+
+        ok = name_set_add(&names, part->name, part) == 0 &&
+             (part->uuid == NULL || name_set_add(&uuids, part->uuid, part) == 0);
+    }
+    for (i = 0; ok && i < library->last_footprint_count; i++) {
+        ok = name_set_add(&ids, library->footprints[i]->id, library->footprints[i]) == 0;
+    }
+    if (!ok) {
+        name_set_free(&names);
+        name_set_free(&uuids);
+        name_set_free(&ids);
+        return -1;
+    }
+    name_set_free(&library->names);
+    name_set_free(&library->uuids);
+    name_set_free(&library->footprint_ids);
+    library->names = names;
+    library->uuids = uuids;
+    library->footprint_ids = ids;
+    library->count = library->last_count;
+    library->footprint_count = library->last_footprint_count;
+    /* The file's arena chunks were put in front of the old head. */
+    while (library->arenas != library->last_arenas) {
+        ArenaChunk *next = library->arenas->next;
+
+        free(library->arenas);
+        library->arenas = next;
+    }
+    library->last_part_file = 0;
+    return 0;
 }
