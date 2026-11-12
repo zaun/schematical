@@ -125,8 +125,6 @@ D    1  KEMET | al-polymer | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm
 D    1  KEMET | al-polymer | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) | MS | KEM_A4144_A7C0.pdf
 D    1  KEMET | al-polymer | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) | MY | KEM_A4072_A759.pdf
 D    1  KEMET | al-polymer | Radial, Can | 0.512" Dia (13.00mm) | 0.197" (5.00mm) | PY | KEM_A4072_A759.pdf
-D    1  KEMET | al-polymer | Radial, Can | 0.717" Dia (18.20mm) | 0.600" (15.24mm) | LL | KEM_A4115_PHH227.pdf
-D    1  KEMET | al-polymer | Radial, Can - SMD | - | - | LL | KEM_A4136_PHV227.pdf
 D    1  KEMET | al-polymer | Radial, Can - SMD | 0.197" Dia (5.00mm) | - | BC | KEM_A4070_A765.pdf
 D    2  KEMET | al-polymer | Radial, Can - SMD | 0.248" Dia (6.30mm) | - | EB | KEM_A4089_A766.pdf
 D    1  KEMET | al-polymer | Radial, Can - SMD | 0.248" Dia (6.30mm) | - | EB | KEM_A4070_A765.pdf

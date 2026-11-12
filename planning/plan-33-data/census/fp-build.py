@@ -27,6 +27,10 @@ def r2(x):
     return round(x + 1e-9, 3)
 
 
+def geometry(o):
+    return json.dumps({k: v for k, v in o.items() if k not in ("id", "description", "note")}, sort_keys=True)
+
+
 def chip(fid, desc, body_w, body_h, pad_w, pad_h, span, note):
     """A two-pad chip: `pad_w` along x (the pad length), `pad_h` across."""
     return {"id": fid, "description": desc, "note": note, "style": "dual", "pins": 2, "perSide": 1,

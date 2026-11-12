@@ -607,8 +607,9 @@ solder mask), not as copper.
   `drill` and round `pad` as R5 from the lead diameter (d); body: a can or
   round dipped body is `{"width": D, "height": D, "round": true}` (D the
   body diameter, mid-value), a leaded MLCC box is W × T, a disc is D × T
-  (its diameter by its thickness, as seen from above); `pin1Shape`
-  `rect`. A polarized part's pin 1 is `+`.
+  (its diameter by its thickness, as seen from above). A polarized
+  part's pin 1 is `+` and has `pin1Shape` `rect`; a ceramic (not
+  polarized) one has no `pin1Shape` (the `RES-RADIAL-2.54` precedent).
 - **R9 — SMD cans (V-chip)** (plan-33-C § 4.1): the datasheet's land
   table for the can size (R1); else R4 on the base plate's terminal
   drawing; body the base plate (A × B, mid-values). Pin 1 is `+`.

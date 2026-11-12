@@ -31,7 +31,7 @@ plan-33-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-33-C complete | `ls planning/completed/plan-33-C-*.md` → exists | NOT MET (2026-11-11: planning) |
+| plan-33-C complete | `ls planning/completed/plan-33-C-*.md` → exists | MET (2026-11-11, at execution: 8c8f82e) |
 
 Everything below is written against the world where these hold.
 
@@ -92,23 +92,26 @@ makers with different land tables gives two footprints, which is correct.
 
 ### Phase 1 — Ceramic leaded parts and the generic ones
 
-- [ ] `footprints-generic.json`: `CAP-DISC-5.08`, `CAP-RADIAL-2.54` (§ 3).
-- [ ] `footprints-D.json`: one object per ceramic radial, disc and axial row;
-      fill the rows' columns.
+- [x] `footprints-generic.json`: `CAP-DISC-5.08`, `CAP-RADIAL-2.54` (§ 3).
+      (Committed with plan-33-C, 8c8f82e.)
+- [x] `footprints-D.json`: one object per ceramic radial, disc and axial row;
+      fill the rows' columns. `census/fp-build.py D` (`fp-build-d.py`).
 
 Acceptance: those objects load.
   Check: `planning/plan-33-data/census/fp-load.sh planning/plan-33-data/footprints-C.json planning/plan-33-data/footprints-D.json planning/plan-33-data/footprints-generic.json` → only extra / unused lines (est. 3 min).
-Commit: —
+  Observed (with Phase 2's objects in the same file): `196 new footprints: load ok`.
+Commit: (this commit; hash in the next)
 
 ### Phase 2 — Cans and dipped tantalums
 
-- [ ] `footprints-D.json`: one object per aluminum and aluminum-polymer
+- [x] `footprints-D.json`: one object per aluminum and aluminum-polymer
       can row (radial R8, SMD R9) and per dipped tantalum row (R8); fill the
-      rows' columns.
+      rows' columns. 152 D objects in all for the 246 D rows (§ Corrections).
 
 Acceptance: § 1, both bullets.
   Check: the `awk` of § 1 → 0 and the Phase 1 `fp-load.sh` command → only extra / unused lines (est. 3 min).
-Commit: —
+  Observed: `0`; `152 footprints in footprints-D.json`; `196 footprints appended`, `196 new footprints: load ok`.
+Commit: (this commit; hash in the next)
 
 ## Validation Plan
 
@@ -126,7 +129,53 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+1. **D groups split by the maker's case code.** One diameter can come in
+   cases with different terminals (KEMET EDK 8 mm: 9L C 9.5 P 2.2 W 0.65,
+   9M C 10.0 P 3.1 W 0.9) or leads (ESY 5 mm: C2 d 0.45, C3 d 0.50), so
+   `footprint-lines.py` keys a D row with no DigiKey size code on the case
+   code in its part number (`maker_case`): 214 → 248 groups (246 after the
+   corrections below).
+2. **Out after B: military by series, and crown capacitors.** `CK12BX101K`
+   (series `Military, MIL-C-11015`) was a pick; `census/military-out.py`
+   (plan-33-B § Corrections 8). KEMET PHH227 / PHV227 (and their PHH223 /
+   PHV223 alternates) are multi-terminal "crown" parts — a ring of tabs round
+   the + pin (`KEM_A4115_PHH227.pdf` p.3), a four-pad land
+   (`KEM_A4136_PHV227.pdf` p.8) with no pole named per pad — which the
+   kind's two-pin pinouts cannot hold: `census/crown-out.py` set the 4 rows
+   `out` (`crown terminals (not a two-lead part)`); their two buckets are
+   empty (17 in all, `buckets-empty.tsv`), their PDFs pruned (`place.py
+   --verify` → `82 URLs, 81 PDFs, 0 missing, 0 unused`). Picks: 1031.
+3. **Tables parsed from the PDFs.** `fp-build-d.py` reads the KEMET radial
+   (D L P d; polymer D L d P), V-chip (D A C P W) and polymer SMD (D W H C R
+   P) tables, the KYOCERA AVX radial tables (D L d P) and the GOLDMAX style
+   tables from the placed PDFs; picture tables (Cal-Chip cans, AVX SMD lands
+   and plates, discs, AXIMAX, A/S series, SR, SE, TAP, T35X) are transcribed
+   in the script with their page. The GOLDMAX C0G and X7R tables are
+   identical; the high-voltage C1055 table is its own.
+4. **R9 used R1 where a land is printed** (KYOCERA AVX APA, AHA, AEA) and
+   R4 on the terminals elsewhere: terminal length = (C − P) / 2 where C is
+   tip to tip (KEMET, CCJ), or the printed terminal length (Cal-Chip CV2 C,
+   CVH / CVL A); inner pad edges stay at the gap P, so span = P + T + 0.3.
+5. **TAP lead diameter** is not in `tap.pdf` (it points to catalog page
+   222); KYOCERA AVX's TAP/TEP tape-and-reel sheet prints it: d 0.50 ±0.05
+   (`TapTep-2.pdf` p.2, https://www.kyocera-avx.com/docs/techinfo/Tantalum-NiobiumCapacitors/TapTep-2.pdf,
+   found through the catalog https://catalogs.kyocera-avx.com/TantalumNiobium.pdf).
+   One C-wire part (`TAP476K006CRW`) has no DigiKey lead spacing and no
+   wire-form spacing table in either sheet; C wires are 5.00 mm on 159 of
+   the 161 C-wire TAP listings at DigiKey, so 5.0.
+6. **Footprint ids carry what makes the geometry differ**: lead diameter
+   (`CAPE-RAD-5-2-L0.45-KEMET`), the series for SMD cans and discs
+   (`CAPE-SMD-10-9P-EXV-KEMET`: EXV prints C 13.0, EDK 12.0;
+   `CAP-DISC-10-D10-KJN-KEMET`), the body diameter for axials
+   (`CAP-AX-7.62-L4.32-D3.05-KEMET`). The generator merges identical
+   geometry (plan-33-F § 3).
+7. **`pin1Shape` only on polarized parts**: R8's text in
+   `docs/parts-format.md` now says so (ceramic radials and discs follow the
+   generic `CAP-RADIAL-2.54` / `RES-RADIAL-2.54`, which have none).
+8. **Mid-values where a range is printed** (AVX REA's D +0.50 −0 → D +
+   0.25; GOLDMAX lead 0.51 +0.10 −0.025 → 0.548); single-bound maxima
+   (GOLDMAX L, T; disc D, T; TAP D) as printed; AXIMAX takes R7's maximum
+   lead (0.535).
 
 ## Summary
 

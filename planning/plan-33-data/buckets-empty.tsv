@@ -1,4 +1,6 @@
 bucket	tried	reasons
+al-polymer|Radial|35 V|2200 µF	2	crown terminals x2
+al-polymer|SMD|35 V|2200 µF	2	crown terminals x2
 al-polymer|SMD|63 V|10 µF	1	not in the datasheet's ordering table x1
 aluminum|Radial|10 V|22 µF	1	not in the datasheet's ordering table x1
 aluminum|Radial|10 V|680 µF	1	not in the datasheet's ordering table x1
