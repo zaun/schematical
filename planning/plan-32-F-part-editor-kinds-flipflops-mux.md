@@ -34,7 +34,7 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-32-E complete (the editor's preview pane exists) | `xcodebuild test … -only-testing:schematicalTests/BlockPreviewViewTests` → `passed` | NOT MET at writing; starts after plan-32-E |
+| plan-32-E complete (the editor's preview pane exists) | `xcodebuild test … -only-testing:schematicalTests/BlockPreviewViewTests` → `passed` | MET (run 2026-11-11 in the P-32 worktree: `BlockPreviewViewTests` passed) |
 
 Everything below is written against the world where this holds.
 
@@ -139,46 +139,50 @@ kind names of plan-32-C.
 
 One line: a failing test lists every backend key the form has no control for, for the four kinds.
 
-- [ ] `schematical/schematicalTests/PartKindKeysTests.swift`: for each kind in {dff, jkff, mux, decoder}, parse the `KEYS[] = { … }` arrays from `backend/src/models/<kind>.c` (path from `#filePath`), and assert `PartDraft.formKeys(kind)` (a `Set<String>`, empty until Phase 2) contains each key.
-- [ ] Run the test; it fails with the missing key names listed (the RED state of this sub-plan).
+- [x] `schematical/schematicalTests/PartKindKeysTests.swift`: for each kind in {dff, jkff, mux, decoder}, parse the `KEYS[] = { … }` arrays from `backend/src/models/<kind>.c` (path from `#filePath`), and assert `PartDraft.formKeys(kind)` (a `Set<String>`, empty until Phase 2) contains each key.
+- [x] Run the test; it fails with the missing key names listed (the RED state of this sub-plan).
 
 Acceptance: the test fails listing the keys of the four kinds (RED); the failure output is the list used by Phase 2.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindKeysTests` → `failed`, with the message naming every missing key of the four kinds (est. 3 min).
-Commit: —
+  Result (2026-11-11, RED): failed, `keys the form has no control for: ["mux": ["active", "bits", "d", "data", …], "jkff": ["clearActiveHigh", "clk", …], "decoder": [...], "dff": [...]]` — every key of the four kinds (the generated schemas were held out of the target for this run). Arrays parsed: dff 4, jkff 4, mux 13, decoder 12 (Corrections).
+Commit: (this commit, with Phases 2–4)
 
 ### Phase 2 — Kind forms
 
 One line: each of the four kinds has a typed draft and a form section covering every key of Phase 1.
 
-- [ ] `schematical/schematical/Editor/DffDraft.swift`, `JkffDraft.swift`, `MuxDraft.swift`, `DecoderDraft.swift`: each with `init(device:part:)` and `encoded()`; each unknown key stays in `extras`.
-- [ ] `PartEditorWindow.swift`: a kind section per kind (§ 4.1).
-- [ ] `PartDraft.formKeys(kind)` returns the keys each draft has controls for; `PartDraft.enabledKinds` gains the four kinds.
-- [ ] Tests: `PartKindKeysTests` passes for the four kinds.
+- [x] `schematical/schematical/Editor/DffDraft.swift`, `JkffDraft.swift`, `MuxDraft.swift`, `DecoderDraft.swift`: each with `init(device:part:)` and `encoded()`; each unknown key stays in `extras`.
+- [x] `PartEditorWindow.swift`: a kind section per kind (§ 4.1).
+- [x] `PartDraft.formKeys(kind)` returns the keys each draft has controls for; `PartDraft.enabledKinds` gains the four kinds.
+- [x] Tests: `PartKindKeysTests` passes for the four kinds.
 
 Acceptance: `PartKindKeysTests` passes for all four kinds.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindKeysTests` → `passed` (est. 5 min).
-Commit: —
+  Result (2026-11-11): passed; per kind the test prints `mux: 13 KEYS arrays, 43 keys, seq.c helper keys not read: ["op", "when"]`, `decoder: 12 KEYS arrays, 48 keys, seq.c helper keys not read: ["edge", "op", "when"]`, dff 4/20, jkff 4/19, gate 6/14.
+Commit: (this commit)
 
 ### Phase 3 — Round trip over every shipped part of the four kinds
 
 One line: all 1560 shipped parts round-trip with no key in `extras`, and the backend accepts each.
 
-- [ ] `schematical/schematicalTests/PartKindRoundTripTests.swift`: for each kind, for every part of `Parts/<kind>.json`: copy (plan-32-C § 4.5) → draft → encode → equal to the copy with `uuid` excluded; `extras` empty; `PartValidator` accepts the encoded file.
-- [ ] The test prints `checked <N> parts of <kind>, <m> mismatched, <k> with extras, <r> rejected` per kind.
+- [x] `schematical/schematicalTests/PartKindRoundTripTests.swift`: for each kind, for every part of `Parts/<kind>.json`: copy (plan-32-C § 4.5) → draft → encode → equal to the copy with `uuid` excluded; `extras` empty; `PartValidator` accepts the encoded file.
+- [x] The test prints `checked <N> parts of <kind>, <m> mismatched, <k> with extras, <r> rejected` per kind.
 
 Acceptance: for dff (706), jkff (186), mux (346) and decoder (322), zero mismatched, zero with extras, zero rejected.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindRoundTripTests` → `passed` with the four count lines reading `checked 706 parts of dff, 0 mismatched, 0 with extras, 0 rejected` and the matching lines for the other three (est. 8 min; the population is the whole of each kind, the smallest set that exercises every key of the kind).
-Commit: —
+  Result (2026-11-11): passed: `checked 706 parts of dff, 0 mismatched, 0 with extras, 0 rejected`, `checked 186 parts of jkff, …0, 0, 0`, `checked 346 parts of mux, …0, 0, 0`, `checked 322 parts of decoder, …0, 0, 0` (extras counted at every depth, plan-32-C Corrections).
+Commit: (this commit)
 
 ### Phase 4 — Runtime proof
 
 One line: a part of each kind is created in the app and saved.
 
-- [ ] No code. Create one part of each of the four kinds from New Part…, save each, and load each back with File › Load Part….
+- [x] No code. Create one part of each of the four kinds from New Part…, save each, and load each back with File › Load Part…. (Done as: New Part… → the kind → Open Part… a copy of a shipped part of that kind → Save Part (⌘S) → File › Load Part… on it; Corrections.)
 
 Acceptance: each of the four parts loads back and appears in the drawer.
   Check: the run skill's app session (est. 25 min for four kinds).
-Commit: —
+  Result (2026-11-11): for each kind (`/tmp/p32/scripts/cycle.sh`): the New Part window's row opened "New D Flip-Flop Part" (etc.), Open Part… filled the form (dff shows its block preview, "The part loads: 14 pins"), ⌘S rewrote the file in the app's format (new mtimes 16:15–16:18), and Load Part… registered it: the drawer count went 26,636 → 26,640 for the four. ZZF-DFF and ZZF-MUX show in the drawer search; ZZF-JKFF (a military part) and ZZF-DECODER (automotive) are registered but hidden by the drawer's default Military/Automotive preferences, as their bundled originals are.
+Commit: (this commit)
 
 ## Validation Plan
 
@@ -199,7 +203,51 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **The key arrays are in more files than § 1's table counts** (measured 2026-11-11,
+  `rg -c 'KEYS\[\] = ' backend/src/models/…`): mux's loaders are `mux.c` (4) and
+  `mux_stored.c` (3, the stored and register-file models), and both call `seq.c`'s
+  helpers (6); decoder calls `seq.c` too. The drift test parses mux 13 arrays
+  (mux.c + mux_stored.c + seq.c) and decoder 12 (decoder.c + seq.c); dff 4 and jkff 4 as
+  written.
+- **`seq.c` helper keys a kind never reads are exempt, derived from the source.**
+  `seq.c` serves every sequential kind; its control helpers read `"op"`
+  (`seq_gate_name`), `"edge"` (`seq_clock_name`) and `"when"` (`seq_control_name` /
+  `seq_control_object` with `allow_when`). A kind whose own sources never call that helper
+  (in that mode) does not accept the key, so no control is wanted: the test computes the
+  exemption from the kind's own files (`helperOnlyKeys`) and prints it. mux: op, when;
+  decoder: edge, op, when.
+- **The kind forms come from a generator** (2026-11-11; plan-32-C Corrections: forms are
+  `KindSchema`s). `scripts/part-editor-schema.py` reads a kind's `KEYS[]` arrays and its
+  shipped part file and writes `Editor/<Kind>Draft.swift` (`DffDraft`, `JkffDraft`,
+  `MuxDraft`, `DecoderDraft`): one field per device and part key, nested keys included,
+  with its control inferred from the shipped values (a pin name → a pin picker, a list of
+  pin names → pin pickers, a family-keyed object → a named map, `[min, max]` → a volt
+  range, the fixed lists `active`/`edge`/`when`/`output` → choices, the model key → a
+  choice of the models, each device key shown only for the models that use it). Keys the
+  sources accept but no shipped part uses are placed by hand from the source in
+  `scripts/part-editor-schema-extra.py`: mux `output` (`seq_output_style`, every
+  model), decoder `units[].clock` (a pin, `UNIT_KEYS`) and seg7 `phase` (a pin,
+  `SEG7_KEYS`).
+- **`connectorFootprint` and `footprintChoices` get controls** (2026-11-11). plan-32-D
+  made them bundled-only and plan-32-J's non-goal says the forms do not offer them, but a
+  copy of a bundled part that has them (headers, the generic LED, pull resistors, character
+  LCDs) would then keep them as extras, and J's acceptance is zero parts with extras. They
+  are generic part fields (`PartDraft.connectorFootprint`, `footprintChoices`), shown in
+  the Footprint section; plan-32-D's rule still holds for a custom footprint (a custom
+  part's own footprint is its only one).
+- **A blank New Part counted as changed** (found in this runtime proof, 2026-11-11):
+  `isDirty` compared with a fresh blank draft, whose uuid is new each time, so Open Part…
+  in a new window always asked to discard. The window now records the draft's text as it
+  opened it; `PartEditorWindowTests` (new-draft case) checks a new draft is clean until
+  edited.
+- **`.oneOf` field type** (2026-11-11): a key the backend reads in more than one JSON
+  shape gets a shape picker and that shape's control; a value whose shape no field has is
+  counted as an extra (`(shape)`), so the round trip catches it.
+- **Runtime proof path**: filling a blank multi-model form by mouse is not practical to
+  drive; each kind's proof opens New Part… for that kind and Open Part… a copy of a shipped
+  part (made by `/tmp/p32/scripts/mkcopy.py`, a renamed part with a new uuid), then saves
+  and loads it. The New Part form itself is the same view the unit tests and gate's run
+  exercised.
 
 ## Summary
 

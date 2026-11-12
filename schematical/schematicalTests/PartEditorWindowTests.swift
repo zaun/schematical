@@ -10,7 +10,7 @@ final class PartEditorWindowTests: XCTestCase {
 
     /// (a) Only the kinds with a form are enabled.
     func testEnabledKinds() {
-        XCTAssertEqual(PartDraft.enabledKinds, ["gate"])
+        XCTAssertEqual(PartDraft.enabledKinds, ["decoder", "dff", "gate", "jkff", "mux"])
     }
 
     /// (b) The picker lists one kind per bundled part file.
@@ -47,6 +47,10 @@ final class PartEditorWindowTests: XCTestCase {
         let model = PartEditorModel(target: PartEditorTarget(source: .new(kind: "gate")))
         Self.kept.append(model)
         XCTAssertEqual(model.title, "New Gate Part")
+        // A new part is unchanged until edited (Open Part… asks only then).
+        XCTAssertFalse(model.isDirty)
+        model.draft.name = "CHANGED"
+        XCTAssertTrue(model.isDirty)
     }
 
     /// (d) The preview pane starts on Block, and switches to Footprint.

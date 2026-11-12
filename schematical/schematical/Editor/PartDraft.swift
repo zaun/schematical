@@ -27,6 +27,37 @@ struct PinDraft: Hashable, Identifiable, Sendable {
     }
 }
 
+/// One of a part's `footprintChoices`: a package name and a bundled footprint id.
+struct FootprintChoiceDraft: Hashable, Identifiable, Sendable {
+    var id = UUID()
+    var package: String
+    var footprint: String
+
+    init(package: String, footprint: String) {
+        self.package = package
+        self.footprint = footprint
+    }
+
+    init?(json: JSONValue) {
+        guard case let .object(keys) = json, keys.count == 2, case let .string(package)? = keys["package"],
+              case let .string(footprint)? = keys["footprint"] else { return nil }
+        self.init(package: package, footprint: footprint)
+    }
+
+    func encoded() -> JSONValue {
+        .object(["package": .string(package), "footprint": .string(footprint)])
+    }
+
+    static func == (a: FootprintChoiceDraft, b: FootprintChoiceDraft) -> Bool {
+        a.package == b.package && a.footprint == b.footprint
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(package)
+        hasher.combine(footprint)
+    }
+}
+
 /// One named pinout of the device.
 struct PinoutDraft: Hashable, Identifiable, Sendable {
     enum Style: String, Hashable, Sendable { case numbered, ball }
@@ -85,6 +116,11 @@ struct PartDraft: Equatable, Sendable {
     var footprint: String? = nil
     var manufacturer: String? = nil
     var datasheet: String? = nil
+    /// The PCB Style option's second footprint (bundled character LCDs).
+    var connectorFootprint: String? = nil
+    /// The footprints a placed part may use, each with its package name
+    /// (bundled parts: the generic LED, headers, pull resistors).
+    var footprintChoices: [FootprintChoiceDraft]? = nil
 
     /// The kind's own device and part keys (its `KindSchema`).
     var kindDevice: [String: JSONValue] = [:]
@@ -111,7 +147,8 @@ struct PartDraft: Equatable, Sendable {
 
     /// The generic keys every kind's form edits.
     static let genericDeviceKeys: Set<String> = ["id", "function", "description", "drawer", "note", "pinouts", "parts"]
-    static let genericPartKeys: Set<String> = ["name", "package", "pinout", "flags", "footprint", "manufacturer", "datasheet"]
+    static let genericPartKeys: Set<String> = ["name", "package", "pinout", "flags", "footprint", "manufacturer",
+                                               "datasheet", "connectorFootprint", "footprintChoices"]
     static let pinKeys: Set<String> = ["number", "ball", "name", "role", "group", "side"]
 
     /// Every key the form has a control for, for a kind: the generic ones and
@@ -224,6 +261,14 @@ struct PartDraft: Equatable, Sendable {
         footprint = takeString(&part, "footprint")
         manufacturer = takeString(&part, "manufacturer")
         datasheet = takeString(&part, "datasheet")
+        connectorFootprint = takeString(&part, "connectorFootprint")
+        if case let .array(items)? = part["footprintChoices"] {
+            let choices = items.compactMap(FootprintChoiceDraft.init(json:))
+            if choices.count == items.count {
+                footprintChoices = choices
+                part.removeValue(forKey: "footprintChoices")
+            }
+        }
 
         if let schema = PartKinds.schemas[kind] {
             for field in schema.device {
@@ -308,6 +353,8 @@ struct PartDraft: Equatable, Sendable {
         if let footprint { part["footprint"] = .string(footprint) }
         if let manufacturer { part["manufacturer"] = .string(manufacturer) }
         if let datasheet { part["datasheet"] = .string(datasheet) }
+        if let connectorFootprint { part["connectorFootprint"] = .string(connectorFootprint) }
+        if let footprintChoices { part["footprintChoices"] = .array(footprintChoices.map { $0.encoded() }) }
         part.merge(kindPart) { _, new in new }
         device["parts"] = .array([.object(part)])
 

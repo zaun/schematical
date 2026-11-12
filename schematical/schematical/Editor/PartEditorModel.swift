@@ -14,7 +14,8 @@ final class PartEditorModel {
     }
     /// The file the draft was last saved to or opened from.
     private(set) var fileURL: URL?
-    /// The draft's text when it was last saved or opened; nil for a new part.
+    /// The draft's text when it was last saved or opened, or as the window
+    /// opened it (a new part or a copy): what `isDirty` compares with.
     private(set) var savedText: String?
     /// The backend's verdict on the current draft: the part as it would load,
     /// or the loader's message. Nil until the first check finishes.
@@ -92,6 +93,8 @@ final class PartEditorModel {
                 openError = error.localizedDescription
             }
         }
+        // A new part or a copy is unchanged until it is edited.
+        if savedText == nil { savedText = draft.fileText() }
         scheduleValidation(delay: .zero)
     }
 
@@ -113,7 +116,7 @@ final class PartEditorModel {
     // MARK: State
 
     var isDirty: Bool {
-        draft.fileText() != (savedText ?? PartDraft(newOf: draft.kind).fileText())
+        draft.fileText() != savedText
     }
 
     var isValid: Bool {

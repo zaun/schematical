@@ -187,6 +187,15 @@ struct PartEditorForm: View {
             }
             Text("Bundled footprints with \(pins) pads (the part's pinout has \(pins) pins).")
                 .font(.caption).foregroundStyle(.secondary)
+            Picker("Connector footprint", selection: $model.draft.connectorFootprint) {
+                Text("None").tag(String?.none)
+                ForEach(choices, id: \.id) { Text($0.id).tag(String?.some($0.id)) }
+                if let current = model.draft.connectorFootprint, !choices.contains(where: { $0.id == current }) {
+                    Text(current).tag(String?.some(current))
+                }
+            }
+            FootprintChoicesEditor(choices: $model.draft.footprintChoices,
+                                   ids: model.validator.footprints.map(\.id))
             Button("Custom Footprint…") {
                 var custom = CustomFootprintDraft.starter(id: CustomFootprintDraft.id(forPart: model.draft.uuid),
                                                           pins: pins)
@@ -232,6 +241,33 @@ struct PartEditorForm: View {
 extension Footprint {
     /// Its designated pad count, as `footprints.json` names it (`pins`).
     var pins: Int { Set(pads.compactMap(\.designator)).count }
+}
+
+/// `footprintChoices`: the footprints a placed part may use, each with the
+/// package name the PCB sidebar shows; one is the part's own footprint.
+struct FootprintChoicesEditor: View {
+    @Binding var choices: [FootprintChoiceDraft]?
+    let ids: [String]
+
+    var body: some View {
+        LabeledContent("Footprint choices") {
+            VStack(alignment: .trailing, spacing: 4) {
+                ForEach(Binding(get: { choices ?? [] }, set: { choices = $0.isEmpty ? nil : $0 })) { $choice in
+                    HStack {
+                        TextField("Package", text: $choice.package).frame(width: 120)
+                        TextField("Footprint id", text: $choice.footprint).frame(width: 160)
+                        Button { choices?.removeAll { $0.id == choice.id }; if choices?.isEmpty == true { choices = nil } }
+                            label: { Image(systemName: "minus.circle") }
+                            .buttonStyle(.borderless)
+                    }
+                }
+                Button { choices = (choices ?? []) + [FootprintChoiceDraft(package: "", footprint: "")] } label: {
+                    Label("Add Choice", systemImage: "plus.circle")
+                }
+                .buttonStyle(.borderless)
+            }
+        }
+    }
 }
 
 /// The datasheet id: a text field and a menu of the bundled ids that match it.

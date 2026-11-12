@@ -152,6 +152,8 @@ struct FieldValueEditor: View {
             ValueListEditor(label: label, entryType: entryType, items: $value.array(), pinNames: pinNames)
         case .json:
             JSONTextEditor(label: label, value: $value, required: required)
+        case let .oneOf(types):
+            OneOfEditor(label: label, types: types, required: required, value: $value, pinNames: pinNames)
         }
     }
 
@@ -471,6 +473,30 @@ struct MapEditor: View {
                 }
                 .disabled(newKey.trimmingCharacters(in: .whitespaces).isEmpty)
             }
+        }
+    }
+}
+
+/// A key the backend accepts in several shapes: a shape picker and the
+/// chosen shape's control. Changing the shape starts that shape empty.
+struct OneOfEditor: View {
+    let label: String
+    let types: [FieldType]
+    let required: Bool
+    @Binding var value: JSONValue?
+    let pinNames: [String]
+
+    var body: some View {
+        let index = value.flatMap { current in types.firstIndex { $0.matches(current) } } ?? 0
+        VStack(alignment: .leading, spacing: 4) {
+            Picker("\(label) as", selection: Binding<Int>(
+                get: { index },
+                set: { value = types[$0].emptyValue })) {
+                ForEach(types.indices, id: \.self) { Text(types[$0].shape).tag($0) }
+            }
+            .pickerStyle(.segmented)
+            AnyView(FieldValueEditor(label: label, type: types[index], required: required, value: $value,
+                                     pinNames: pinNames))
         }
     }
 }

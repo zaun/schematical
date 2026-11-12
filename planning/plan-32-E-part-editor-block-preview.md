@@ -136,7 +136,7 @@ One line: a `PlacedChip` for an editor part, built without a document.
 Acceptance: the layout size of the factory's chip equals the placed chip's layout size for `SN74HC00N`, and for every gate part in `Parts/gate.json`'s first device.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartPreviewTests` → `passed` (est. 3 min).
   Result (2026-11-11): passed; the comparison is with a chip the schematic page places in a document (`placeChip`, as a drop does), for SN74HC00N and every part of gate.json's first device (`74_00`): layout size, symbol and pin slot rows equal.
-Commit: (this commit, with Phases 2–3)
+Commit: d0aa1ca
 
 ### Phase 2 — The block view
 
@@ -149,7 +149,7 @@ One line: the editor draws the block of its validated part, at the page's scale.
 Acceptance: the pin endpoints for `SN74HC00N` from the preview equal the schematic chip's, within 1e-9 pt.
   Check: `xcodebuild test … -only-testing:schematicalTests/BlockPreviewViewTests` → `passed` (est. 4 min).
   Result (2026-11-11): passed; a test painter (`CapturePainter`, in `PartPreviewTests.swift`) records every stroked path's points and every text's position for both chips: same count, every point within 1e-9 pt.
-Commit: (this commit)
+Commit: d0aa1ca
 
 ### Phase 3 — Segment with the footprint preview; run check
 
@@ -161,7 +161,7 @@ One line: the pane shows the block and the footprint, one at a time.
 Acceptance: the segment defaults to Block and switches to Footprint; in a launched app, the block of a gate part shows pins with their names on the sides.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartEditorWindowTests` → `passed` (est. 4 min); the visual check is the run skill's (est. 10 min).
   Result (2026-11-11): passed (d). Real app: Copy to Editor… on SN74HC00N opens with Block selected, the block centred (header SN74HC00N, VCC/1A…4B on the left, 1Y…4Y/GND on the right, designators outside, NAND in the body); Footprint shows PDIP-14.
-Commit: (this commit)
+Commit: d0aa1ca
 
 ## Validation Plan
 

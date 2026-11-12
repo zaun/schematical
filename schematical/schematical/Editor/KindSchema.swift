@@ -41,6 +41,30 @@ indirect enum FieldType: Sendable {
     case listOf(FieldType)
     /// A key the backend accepts in more than one shape: edited as JSON text.
     case json
+    /// A key the backend accepts in more than one shape, each with its own
+    /// control: a shape picker, then that shape's control.
+    case oneOf([FieldType])
+
+    /// The JSON shape this type edits (for `oneOf`).
+    var shape: String {
+        switch self {
+        case .text, .note, .choice, .suggested, .pin: "text"
+        case .number, .integer: "number"
+        case .bool: "yes/no"
+        case .pins, .names, .numbers, .voltRange, .list, .listOf: "list"
+        case .object, .map, .valueMap: "group"
+        case .json, .oneOf: "JSON"
+        }
+    }
+
+    /// Whether a value has this type's JSON shape.
+    func matches(_ value: JSONValue) -> Bool {
+        switch (shape, value) {
+        case ("text", .string), ("number", .number), ("yes/no", .bool), ("list", .array), ("group", .object): true
+        case ("JSON", _): true
+        default: false
+        }
+    }
 
     /// The keys of nested objects, for `formKeys`.
     var nestedKeys: Set<String> {
@@ -49,6 +73,8 @@ indirect enum FieldType: Sendable {
             return Field.keys(fields)
         case let .valueMap(_, type), let .listOf(type):
             return type.nestedKeys
+        case let .oneOf(types):
+            return types.reduce(into: Set<String>()) { $0.formUnion($1.nestedKeys) }
         default:
             return []
         }
@@ -67,6 +93,7 @@ indirect enum FieldType: Sendable {
             return .object(Dictionary(uniqueKeysWithValues: fields.filter(\.required).map { ($0.key, $0.type.emptyValue) }))
         case .map, .valueMap: return .object([:])
         case .json: return .null
+        case let .oneOf(types): return types.first?.emptyValue ?? .null
         }
     }
 }
@@ -124,23 +151,28 @@ extension FieldType {
     /// for. They are kept (the value is stored whole) but not editable, so
     /// the round-trip tests count them as extras.
     func unknownKeys(in value: JSONValue, path: String) -> [String] {
+        // A value of another shape has no control either.
+        guard matches(value) else { return ["\(path) (shape)"] }
         switch (self, value) {
         case let (.object(fields), .object(object)):
             return Field.unknownKeys(in: object, fields: fields, path: path)
         case let (.list(fields), .array(items)):
             return items.enumerated().flatMap { index, item -> [String] in
-                guard case let .object(object) = item else { return [] }
+                guard case let .object(object) = item else { return ["\(path)[\(index)] (shape)"] }
                 return Field.unknownKeys(in: object, fields: fields, path: "\(path)[\(index)]")
             }
         case let (.map(_, fields), .object(object)):
             return object.flatMap { key, item -> [String] in
-                guard case let .object(entry) = item else { return [] }
+                guard case let .object(entry) = item else { return ["\(path).\(key) (shape)"] }
                 return Field.unknownKeys(in: entry, fields: fields, path: "\(path).\(key)")
             }
         case let (.valueMap(_, type), .object(object)):
             return object.flatMap { key, item in type.unknownKeys(in: item, path: "\(path).\(key)") }
         case let (.listOf(type), .array(items)):
             return items.enumerated().flatMap { index, item in type.unknownKeys(in: item, path: "\(path)[\(index)]") }
+        case let (.oneOf(types), value):
+            guard let type = types.first(where: { $0.matches(value) }) else { return ["\(path) (shape)"] }
+            return type.unknownKeys(in: value, path: path)
         default:
             return []
         }
@@ -180,7 +212,7 @@ enum PartKinds {
     /// Each kind's editor schema; a kind is enabled in the editor once it has one.
     static let schemas: [String: KindSchema] = {
         var schemas: [String: KindSchema] = [:]
-        for schema in [GateDraft.schema] {
+        for schema in [GateDraft.schema, DffDraft.schema, JkffDraft.schema, MuxDraft.schema, DecoderDraft.schema] {
             schemas[schema.kind] = schema
         }
         return schemas
