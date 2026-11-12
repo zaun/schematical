@@ -190,7 +190,7 @@ Commit: 69bef71
 Check: the screenshot shows the three faces as described (est. 10 min;
 a visual result can only be checked by looking).
 
-Commit: —
+Commit: 216d5d8
 
 ## Validation Plan
 

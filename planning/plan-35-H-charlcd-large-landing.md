@@ -23,7 +23,7 @@ The gate is plan-35-A § Prerequisites. H adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-35-A..G complete | `grep -c '^Commit: —' planning/plan-35-[A-G]-*.md` → 0 for each (or the files are in `planning/completed/`) | NOT MET (2026-11-11) |
+| plan-35-A..G complete | `grep -c '^Commit: —' planning/plan-35-[A-G]-*.md` → 0 for each (or the files are in `planning/completed/`) | MET (2026-11-11: 0 for each of A–G) |
 
 Everything below is written against the world where these hold.
 
