@@ -166,6 +166,16 @@ final class SchematicFileController {
         claimedOpen = Self.pendingOpens.removeFirst()
     }
 
+    /// File › New Project: the window about to open becomes a tab of the
+    /// focused schematic window, or else of the frontmost schematic window.
+    /// With none open it is a window of its own.
+    static func tabNewProject(focused: SchematicFileController?) {
+        let visible = all.allObjects.compactMap(\.window).filter(\.isVisible)
+        let front = NSApp.orderedWindows.first { visible.contains($0) }
+        guard let group = focused?.window ?? front else { return }
+        tabNextWindow(into: group)
+    }
+
     /// Makes the next schematic window that opens a tab of `group`, the way
     /// document apps open a file: straight into a tab, never as a window of
     /// its own first. It is caught as it becomes key, which is before its
@@ -420,12 +430,15 @@ extension FocusedValues {
     @Entry var schematicFile: SchematicFileController?
 }
 
-/// File › New Project (⌘N): a new, empty schematic window.
+/// File › New Project (⌘N): a new, empty schematic, as a tab of the
+/// schematic window in front.
 struct NewProjectMenuItem: View {
+    let file: SchematicFileController?
     @Environment(\.openWindow) private var openWindow
 
     var body: some View {
         Button("New Project") {
+            SchematicFileController.tabNewProject(focused: file)
             openWindow(id: "schematic")
         }
         .keyboardShortcut("n", modifiers: .command)
@@ -444,7 +457,7 @@ struct SchematicFileCommands: Commands {
         // (Memory, Processor, Terminal, …); those open from their parts, so
         // the File menu offers only a new schematic window.
         CommandGroup(replacing: .newItem) {
-            NewProjectMenuItem()
+            NewProjectMenuItem(file: file)
         }
 
         CommandGroup(after: .newItem) {
