@@ -184,6 +184,20 @@ Commit: —
 
 (Filled in during execution.)
 
+- **plan-35 (2026-11-11) extends `charlcd`.** When plan-35-D and -F have
+  landed:
+  - `rows` takes 4;
+  - `bus.e` is a pin name or two names (E1, E2);
+  - `backlight` is an object or an array of 1–3 LED objects;
+  - `panel` adds `gray` and `white`;
+  - `charlcd.json` has 72 parts (5 + 67).
+
+  The `CharLcdDraft` round trip has to keep the array forms, and the
+  charlcd count in this plan's Acceptance line is re-measured at the start
+  (`grep -c '"name"' schematical/schematical/Parts/charlcd.json`). The
+  keys are listed in `docs/parts-format.md` § `charlcd` once plan-35-D
+  lands.
+
 ## Summary
 
 The largest risk is the diode population (11152 parts); the round trip covers all of them. This sub-plan
