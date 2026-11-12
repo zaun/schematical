@@ -220,7 +220,7 @@ moved.
 Acceptance: the existing tests pass with the goldens untouched.
   Check: `cmake --build /tmp/logic-p33 -j8 && ctest --test-dir /tmp/logic-p33 -R 'listing_check|trace_check|library_check'` → 3 passed, and `git diff --stat backend/tests/golden` → empty (est. 3 min).
   Observed (build dir `/tmp/logic-p33wt`, § Corrections 2): `100% tests passed, 0 tests failed out of 3`; `git status --short backend/tests/golden` → empty.
-Commit: (this commit; hash in the next)
+Commit: d97e95d
 
 ### Phase 2 — The rating check
 
@@ -241,7 +241,7 @@ Commit: (this commit; hash in the next)
 Acceptance: the new cases pass and the old ones still do.
   Check: `cmake --build /tmp/logic-p33 -j8 && ctest --test-dir /tmp/logic-p33 -R voltage_test` → passed (est. 2 min).
   Observed: `100% tests passed, 0 tests failed out of 1`.
-Commit: (this commit; hash in the next)
+Commit: d97e95d
 
 ### Phase 3 — `capacitor_test`, loader cases, docs
 
@@ -272,7 +272,7 @@ Commit: (this commit; hash in the next)
 Acceptance: T0 + 1 programs pass.
   Check: `cmake -S backend -B /tmp/logic-p33 && cmake --build /tmp/logic-p33 -j8 && ctest --test-dir /tmp/logic-p33` → `100% tests passed, 0 tests failed out of 31` (est. 3 min).
   Observed: `100% tests passed, 0 tests failed out of 31`; the goldens untouched.
-Commit: (this commit; hash in the next)
+Commit: d97e95d
 
 ## Validation Plan
 

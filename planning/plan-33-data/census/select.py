@@ -14,10 +14,17 @@ parts) and writes one row per (bucket, part) with the bucket's pick order in
   5. part number.
 
 A part is `out` before ranking (reason in `reason`) when it is military
-(Ratings or Grade naming MIL) or a wet tantalum (Features). Every other row
-starts as `candidate`; plan-33-A/B set `add`, `alt`, `skip` or `out`.
+(Ratings or Grade naming MIL), a wet tantalum (Features), or a bi-polar
+(non-polarized) electrolytic: its series is in BIPOLAR (the datasheet says
+so) or its description ends in `BP` / `NP` (plan-33-A § Corrections: the
+kind's polarized types cannot hold one). Every other row starts as
+`candidate`; plan-33-A/B set `add`, `alt`, `skip` or `out`.
 """
 import csv, gzip, json, re, sys
+
+# Series whose datasheet calls them bi-polar / non-polar (plan-33-A Phase 2):
+# Cal-Chip CVB ("Bi-Polar", CVB-SERIES.pdf p.1).
+BIPOLAR = {'CVB'}
 
 COLUMNS = ['bucket', 'type', 'mount', 'key', 'capacitance', 'farads', 'rank', 'mpn',
            'maker', 'status', 'stock', 'series', 'voltage', 'dielectric', 'tolerance',
@@ -63,6 +70,9 @@ def main(args):
                     why = 'military'
                 elif 'Wet Tantalum' in (p.get('description') or ''):
                     why = 'wet tantalum'
+                elif typ != 'ceramic' and (p['series'] in BIPOLAR or
+                                           re.search(r'\b(BP|NP)$', p.get('description') or '')):
+                    why = 'bi-polar'
                 (gone if why else kept).append((p, why))
             kept.sort(key=lambda pw: key(typ, bucket_key, pw[0]))
             for rank, (p, why) in enumerate(kept + gone, 1):

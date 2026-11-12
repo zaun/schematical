@@ -63,12 +63,12 @@ Every other letter points here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend tests green | `cmake -S backend -B /tmp/logic-p33 && cmake --build /tmp/logic-p33 -j8 && ctest --test-dir /tmp/logic-p33` → `100% tests passed` | MET 2026-11-11 at 8b1770b: `100% tests passed, 0 tests failed out of 30`; **T0 = 30** (`grep -c '^logic_test' backend/CMakeLists.txt` → 30) |
-| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `traces.txt`; `footprints.txt` | MET: **P0 = 26729**, **R0 = 26729**, **F0 = 1212** (2026-11-11 at 8b1770b) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p33-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-11 at 8b1770b) |
-| No capacitor support yet | `grep -c 'PART_CAPACITOR' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/capacitor.json` → no such file; `ls datasheets/capacitor` → no such directory | MET (2026-11-11 at 8b1770b: 0, no file, no directory) |
-| No other open plan adds capacitors | `grep -l -i '"capacitor"\|PART_CAPACITOR\|datasheets/capacitor' planning/plan-*.md \| grep -v plan-33 \| wc -l` → 0 | MET (2026-11-11: 0) |
-| DigiKey credentials and quota | `DIGIKEY_CLIENT_ID`/`_SECRET` exported in `~/.zshrc`; Phase 1 needs at most 779 calls (775 unlisted buckets, one call each, plus one re-login retry per 10 minutes of run; § 2), a day allows about 1000 (`scripts/digikey.js --help`), shared with other sessions | MET (2026-11-11: credentials present; planning used 649 calls). Start Phase 1 on a day whose first call reports ≥ 800 left (`scripts/digikey.js --category 67 --manufacturer 478 --in-stock --pages 1 --json` prints `… N left today`) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p33 && cmake --build /tmp/logic-p33 -j8 && ctest --test-dir /tmp/logic-p33` → `100% tests passed` | MET 2026-11-11 at 8b1770b: `100% tests passed, 0 tests failed out of 30`; **T0 = 30** (`grep -c '^logic_test' backend/CMakeLists.txt` → 30). Re-run at execution (656b6d1, worktree-P-33, build dir `/tmp/logic-p33wt`, § Corrections 1): `100% tests passed, 0 tests failed out of 30`; 30 |
+| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `traces.txt`; `footprints.txt` | MET: **P0 = 26729**, **R0 = 26729**, **F0 = 1212** (2026-11-11 at 8b1770b; re-run at 656b6d1: 26729, 26729, 1212) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p33-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-11 at 8b1770b; re-run at 656b6d1: `** BUILD SUCCEEDED **`) |
+| No capacitor support yet | `grep -c 'PART_CAPACITOR' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/capacitor.json` → no such file; `ls datasheets/capacitor` → no such directory | MET (2026-11-11 at 8b1770b: 0, no file, no directory; re-run at 656b6d1: the same) |
+| No other open plan adds capacitors | `grep -l -i '"capacitor"\|PART_CAPACITOR\|datasheets/capacitor' planning/plan-*.md \| grep -v plan-33 \| wc -l` → 0 | MET (2026-11-11: 0; re-run at 656b6d1: 1, `plan-34-E-resistor-kind.md`, whose only hit (:82) says plan-33-E appends `PART_CAPACITOR` first: a coordination note, not a plan that adds capacitors) |
+| DigiKey credentials and quota | `DIGIKEY_CLIENT_ID`/`_SECRET` exported in `~/.zshrc`; Phase 1 needs at most 779 calls (775 unlisted buckets, one call each, plus one re-login retry per 10 minutes of run; § 2), a day allows about 1000 (`scripts/digikey.js --help`), shared with other sessions | MET (2026-11-11: credentials present; planning used 649 calls; at execution the probe printed `999 left today`). Start Phase 1 on a day whose first call reports ≥ 800 left (`scripts/digikey.js --category 67 --manufacturer 478 --in-stock --pages 1 --json` prints `… N left today`) |
 
 Everything below is written against the world where these hold.
 
@@ -239,62 +239,76 @@ A part becomes `add` only when all hold:
 
 ### Phase 1 — The census (one quota day)
 
-- [ ] `mkdir -p /tmp/p33/raw && gunzip -c planning/plan-33-data/raw/ceramic-2026-11-11.jsonl.gz > /tmp/p33/raw/parts.jsonl`,
+- [x] `mkdir -p /tmp/p33/raw && gunzip -c planning/plan-33-data/raw/ceramic-2026-11-11.jsonl.gz > /tmp/p33/raw/parts.jsonl`,
       then (DIGIKEY_* loaded from `~/.zshrc` in a script file, as
       `planning/plan-33-data/README.md` shows) `node
       planning/plan-33-data/census/bucket-parts.mjs
       planning/plan-33-data/buckets.tsv /tmp/p33/raw/parts.jsonl`. It skips
       listed buckets and stops on HTTP 429; re-run the next day until done.
-- [ ] Any bucket whose listing now has `count` 0 (stock moved since
-      2026-11-11) is recorded in § Corrections; it gets no part.
-- [ ] `gzip -c /tmp/p33/raw/parts.jsonl > planning/plan-33-data/raw/parts-<date>.jsonl.gz`
+      Done in one day: run 1 → `777 calls, 225 calls left today`, 1047
+      buckets (one answered HTTP 500, `ta-polymer|SMD|6.3 V` 10 µF); run 2
+      → `1 calls, 224 calls left today`, 1048.
+- [x] Any bucket whose listing now has `count` 0 (stock moved since
+      2026-11-11) is recorded in § Corrections; it gets no part. None:
+      every line has `count` > 0 and at least one product (18111 in all).
+- [x] `gzip -c /tmp/p33/raw/parts.jsonl > planning/plan-33-data/raw/parts-<date>.jsonl.gz`
       and delete `raw/ceramic-2026-11-11.jsonl.gz` (its lines are in the new
       file).
 
 Acceptance: every bucket is listed.
   Check: `gunzip -c planning/plan-33-data/raw/parts-*.jsonl.gz | wc -l` → 1048 (est. 35 min of wall time at 23.5 buckets/min; nothing smaller lists the buckets).
-Commit: —
+  Observed: `1048` (`raw/parts-2026-11-11.jsonl.gz`; about 30 minutes).
+Commit: (this commit; hash in the next)
 
 ### Phase 2 — Ranking, downloads and scans
 
-- [ ] `python3 -I census/select.py planning/plan-33-data/raw/parts-*.jsonl.gz
+- [x] `python3 -I census/select.py planning/plan-33-data/raw/parts-*.jsonl.gz
       planning/plan-33-data/candidates.tsv` (replaces the planning-time
-      ceramic-only file).
-- [ ] `census/fetch.py` (from plan-29, with the AVX user agent of § 2: bare
+      ceramic-only file). Observed: `1048 buckets, 18111 rows, 2 out`
+      (both bi-polar, § Corrections 2).
+- [x] `census/fetch.py` (from plan-29, with the AVX user agent of § 2: bare
       `curl -sL` first, then `-A 'Mozilla/5.0 (Macintosh)'`): download every
       distinct `datasheet_url` of the rows with `rank` ≤ 10 to
-      `/tmp/p33/pdf/<md5>.pdf`.
-- [ ] `census/textscan.py` (from plan-29): fill `pdf`, `hit` (part number
+      `/tmp/p33/pdf/<md5>.pdf`. Observed: 231 URLs, 212 PDFs (`fetch.py
+      --verify` → `231 urls, 212 PDFs, 0 untried`).
+- [x] `census/textscan.py` (from plan-29): fill `pdf`, `hit` (part number
       between non-alphanumeric boundaries), `dead` (an obsolete /
       discontinued / NRND / end-of-life word within 300 characters of any
-      hit) for the rank ≤ 10 rows.
-- [ ] Record in § Corrections: rows per type, the distinct URLs, the PDFs
+      hit) for the rank ≤ 10 rows. Observed: `6638 rows scanned, 6573 with
+      a PDF, 378 hit` (3 `dead`).
+- [x] Record in § Corrections: rows per type, the distinct URLs, the PDFs
       downloaded, the rows with a maker-site PDF, the `hit` rows.
 
 Acceptance: every listed part has a row and every rank ≤ 10 URL was tried.
   Check: `awk 'END{print NR-1}' planning/plan-33-data/candidates.tsv` equals the summed `products` of the raw lines (`gunzip -c raw/parts-*.jsonl.gz | jq '.products|length' | paste -sd+ | bc`), and `fetch.py --verify` → `0 untried` (est. 1 h, the downloads).
-Commit: —
+  Observed: 18111 = 18111; `231 urls, 212 PDFs, 0 untried`.
+Commit: (this commit; hash in the next)
 
 ### Phase 3 — Place the datasheets
 
-- [ ] `census/place.py` (from plan-29, `.pdf` matched case-blind, plan-29-A
+- [x] `census/place.py` (from plan-29, `.pdf` matched case-blind, plan-29-A
       § Corrections) for every rank ≤ 10 row with a maker-site PDF;
-      `git add` only `datasheets/capacitor/`.
+      `git add` only `datasheets/capacitor/`. Observed: `186 PDFs placed
+      for 195 URLs`.
 
 Acceptance: every such row's PDF is in the tree.
   Check: `python3 -I planning/plan-33-data/census/place.py --verify planning/plan-33-data/candidates.tsv` → `0 missing` (est. 2 min).
-Commit: —
+  Observed: `195 URLs, 186 PDFs, 0 missing, 0 unused`.
+Commit: (this commit; hash in the next)
 
 ### Phase 4 — `specs.tsv` skeleton and the README
 
-- [ ] `census/specs-skeleton.py`: `planning/plan-33-data/specs.tsv`, header
+- [x] `census/specs-skeleton.py`: `planning/plan-33-data/specs.tsv`, header
       `maker datasheet url mpn_regex cap_group volt_group volt_map
       case_group note`, one row per placed PDF, the scheme columns empty.
-- [ ] `planning/plan-33-data/README.md`: the file map.
+      Observed: `186 rows`.
+- [x] `planning/plan-33-data/README.md`: the file map (A's files, and
+      the files B–F add).
 
 Acceptance: one spec row per placed PDF.
   Check: `ls datasheets/capacitor/*/*.pdf | wc -l` equals `awk 'END{print NR-1}' planning/plan-33-data/specs.tsv` (est. 1 min).
-Commit: —
+  Observed: 186 = 186.
+Commit: (this commit; hash in the next)
 
 ## Validation Plan
 
@@ -347,7 +361,31 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+1. **Build directory** (2026-11-11). `/tmp/logic-p33` had been configured
+   from the main checkout; the worktree builds in `/tmp/logic-p33wt` (the
+   same commands). Every later letter uses it.
+2. **Bi-polar electrolytics are `out`** (select.py). Cal-Chip's CVB series
+   is bi-polar ("Bi-Polar", `CVB-SERIES.pdf` p.1), and the kind's
+   `aluminum` type is polarized (`+`/`-`, plan-33-E § 3.2), so a bi-polar
+   part cannot be one. `select.py` makes a row `out`, reason `bi-polar`,
+   when its series is in `BIPOLAR` (`CVB`) or its description ends in `BP`
+   / `NP`: 2 rows (`CVB-1V2R2MD55-R`, twice). Every rank ≤ 10 electrolytic
+   PDF was searched for `bi-?polar|non-?polar`: the only other hit is
+   Arcotronics' catalog on mm.digikey.com (not a maker-site PDF; its KEMET
+   ESX rows' own datasheet, `KEM_A4073_ESX`, is a polarized series).
+3. **Phase 2 counts.** Rows per type: ceramic 11432, aluminum 769,
+   al-polymer 393, tantalum 4443, ta-polymer 1040, niobium 34 (18111).
+   Distinct URLs at rank ≤ 10: 231; downloaded as PDFs: 212 (the 19 others:
+   `content.kemet.com`, whose TLS handshake never completes — `curl -v`
+   stops after "Client hello" — 16, two cloudfront links, and one
+   `connect.kemet.com:7667` link that answers HTTP 500); rows with a
+   maker-site PDF: 6533; verbatim `hit` rows: 378 (365 of them on a
+   maker-site PDF); `dead`: 3.
+4. **One DigiKey 500.** Run 1 got HTTP 500 ("ServiceCallout SC-Quota
+   failed") for `ta-polymer|SMD|6.3 V` 10 µF and went on; run 2 listed it
+   (1 call).
+5. **The day's quota** began at 999 (not the ≤ 800 the gate expected);
+   Phase 1 used 778 calls.
 
 ## Summary
 

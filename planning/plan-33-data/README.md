@@ -27,8 +27,26 @@ node /Users/justinzaun/Development/logic/planning/plan-33-data/census/bucket-par
 | `candidates.tsv` | one row per (bucket, listed part): `bucket type mount key capacitance farads rank mpn maker status stock series voltage dielectric tolerance package mounting size height spacing ratings size_code datasheet_url flags decision reason pdf hit dead` (9653 rows at planning time, all `candidate`) |
 | `footprints-needed.txt` | footprint groups: section 1 measured, section 2 upper bounds (plan-33-C § 2, D § 2) |
 
-Written later: `census/fetch.py`, `textscan.py`, `place.py`,
-`specs-skeleton.py`, `specs.tsv` (A); `scheme-check.py`, `dead-scan.py`,
-`decide.py`, `bucket-more.mjs`, `footprint-lines.py`, `buckets-empty.tsv`,
-`fpgroups.tsv` (B); `fp-load.sh`, `footprints-C.json`,
-`footprints-generic.json` (C); `footprints-D.json` (D); `gen-parts.py` (F).
+Written by plan-33-A (2026-11-11, at execution):
+
+| File | What |
+|---|---|
+| `raw/parts-2026-11-11.jsonl.gz` | every bucket of `buckets.tsv` listed (Phase 1; replaces `raw/ceramic-2026-11-11.jsonl.gz`) |
+| `census/fetch.py` | downloads each distinct `datasheet_url` of the rows with `rank` ≤ N (default 10) to `/tmp/p33/pdf/<md5>.pdf` (bare curl, then a `Mozilla/5.0` agent, then Safari headers); `--verify` → `N untried` |
+| `census/textscan.py` | fills `pdf`, `hit`, `dead` in place for the scanned ranks |
+| `census/place.py` | copies the maker-site PDFs to `datasheets/capacitor/<kemet\|calchip\|avx>/`, writes `datasheets/capacitor/datasheets.tsv`; `--verify`, `--prune` |
+| `census/specs-skeleton.py` | `specs.tsv`: one row per placed PDF (`maker datasheet url`), scheme columns empty |
+| `specs.tsv` | the part-number schemes (B fills them) |
+
+Written by plan-33-B: `census/specs-fill.py` (the schemes, read from each
+PDF's guide), `census/scheme-check.py` (column `check`),
+`census/dead-scan.py` (`census/dead-pdfs.txt`), `census/dead-verdicts.tsv`,
+`census/decide.py` (the walk; `--skipped`, `--verify-skipped`, `--empty`),
+`buckets-empty.tsv`, `census/footprint-lines.py`, `fpgroups.tsv`,
+`footprints-needed.txt`. plan-33-C: `census/fp-load.sh` and
+`census/fp-merge.py` (from plan-29), `footprints-C.json`,
+`footprints-generic.json`. plan-33-D: `footprints-D.json`. plan-33-F:
+`census/gen-parts.py`.
+
+The working files (PDF downloads and their text) live in `/tmp/p33/pdf/`
+and are not kept; `fetch.py` and `textscan.py` rebuild them.
