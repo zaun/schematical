@@ -59,12 +59,12 @@ This gate covers all of plan-35. Sub-plans B–H point here, plus their own
 
 | Must be true | Command | Status |
 |---|---|---|
-| The census data is in the tree | `ls planning/plan-35-data/candidates.tsv planning/plan-35-data/footprints-needed.txt` → both listed | MET (2026-11-11, written with this plan) |
-| DigiKey credentials are available | `grep -c '^export DIGIKEY_CLIENT_\(ID\|SECRET\)=' ~/.zshrc` → 2 | MET (2026-11-11: 2) |
-| DigiKey quota for the re-check | the stderr summary of any `node scripts/digikey.js` call shows ≥ 67 calls left today | MET (2026-11-11: 874 left after the census) |
-| Poppler and ImageMagick are installed | `which pdftotext pdftoppm pdfinfo magick` → four paths | MET (2026-11-11) |
-| The `charlcd` kind exists (plan-11) | `grep -c 'CHARLCD_KIND' backend/src/library/kinds.c` → 2 | MET (2026-11-11 at 656b6d1: 2) |
-| Baseline recorded: P0 parts, F0 footprints, T0 tests | `wc -l < backend/tests/golden/parts.txt`; `wc -l < backend/tests/golden/footprints.txt`; `grep -c '^logic_test' backend/CMakeLists.txt` | recorded, not a gate (2026-11-11 at 656b6d1: 26729 / 1212 / 30). Re-measure when E starts: plans 33 and 34 add parts, footprints and tests before or after this plan, and every count below is relative |
+| The census data is in the tree | `ls planning/plan-35-data/candidates.tsv planning/plan-35-data/footprints-needed.txt` → both listed | MET (2026-11-11, re-run at follow-plan start: both listed) |
+| DigiKey credentials are available | `grep -c '^export DIGIKEY_CLIENT_\(ID\|SECRET\)=' ~/.zshrc` → 2 | MET (2026-11-11, re-run: 2) |
+| DigiKey quota for the re-check | the stderr summary of any `node scripts/digikey.js` call shows ≥ 67 calls left today | MET (2026-11-11, re-run: 223 left) |
+| Poppler and ImageMagick are installed | `which pdftotext pdftoppm pdfinfo magick` → four paths | MET (2026-11-11, re-run: four paths) |
+| The `charlcd` kind exists (plan-11) | `grep -c 'CHARLCD_KIND' backend/src/library/kinds.c` → 2 | MET (2026-11-11 at b16d32d: 2) |
+| Baseline recorded: P0 parts, F0 footprints, T0 tests | `wc -l < backend/tests/golden/parts.txt`; `wc -l < backend/tests/golden/footprints.txt`; `grep -c '^logic_test' backend/CMakeLists.txt` | recorded, not a gate (2026-11-11 at 656b6d1: 26729 / 1212 / 30; re-run at b16d32d: 26729 / 1212 / 30). Re-measure when E starts: plans 33 and 34 add parts, footprints and tests before or after this plan, and every count below is relative |
 
 plan-35 does not depend on any other open plan. Plans 33 (capacitors) and
 34 (resistors) add other kinds; they share only `footprints.json`,
@@ -213,10 +213,11 @@ part by part.
 
 ### Phase 1 — stock re-check, part by part
 
-- [ ] Run `planning/plan-35-data/census/recheck.sh planning/plan-35-data/candidates.tsv planning/plan-35-data/stock-check.tsv`
+- [x] Run `planning/plan-35-data/census/recheck.sh planning/plan-35-data/candidates.tsv planning/plan-35-data/stock-check.tsv`
       (67 API calls; about 2 minutes). It prints the rows that fail the
-      stock or status rule.
-- [ ] For each printed row: set its `candidates.tsv` verdict to `skip`
+      stock or status rule. — 2026-11-11: printed nothing; `wc -l` → 67;
+      `cut -f2 | sort | uniq -c` → 67 Active.
+- [x] ~~For each printed row:~~ — moot: recheck printed no row (awk of § 1 → 0 lines). For each printed row: set its `candidates.tsv` verdict to `skip`
       with the reason `out of stock / <status> on <date>`, remove the part
       from `census/footprint-groups.tsv` (drop the group if it empties),
       re-run `census/footprints.py`, and record the row in Corrections.
