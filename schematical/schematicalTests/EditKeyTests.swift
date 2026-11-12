@@ -2,16 +2,20 @@ import AppKit
 import XCTest
 @testable import schematical
 
-/// A bare R presses the PCB Rotate button, A steps the trace angle, F flips
-/// the selected schematic part, ⌘⌫ / ⌘D delete, ⌘X / ⌘C / ⌘V cut, copy and
-/// paste and ⌘A selects all; anything else is left alone.
+/// ⌘R / ⇧⌘R rotate on the PCB, A steps the trace angle, ⌘F flips the
+/// selected schematic part, ⌘⌫ deletes, ⌘X / ⌘C / ⌘V cut, copy and paste and
+/// ⌘A selects all; anything else is left alone.
 final class EditKeyTests: XCTestCase {
-    func testBareKeys() {
-        XCTAssertEqual(ContentView.editKey(keyCode: 0, "r", [], isRepeat: false), .rotate)
-        XCTAssertEqual(ContentView.editKey(keyCode: 0, "f", [], isRepeat: false), .flip)
+    func testFlipAndRotate() {
+        XCTAssertEqual(ContentView.editKey(keyCode: 15, "r", [.command], isRepeat: false), .rotate)
+        // With Shift held, charactersIgnoringModifiers is the capital.
+        XCTAssertEqual(ContentView.editKey(keyCode: 15, "R", [.command, .shift], isRepeat: false), .rotateBack)
+        XCTAssertEqual(ContentView.editKey(keyCode: 3, "f", [.command], isRepeat: false), .flip)
         // Caps Lock doesn't count as a modifier.
-        XCTAssertEqual(ContentView.editKey(keyCode: 0, "r", [.capsLock], isRepeat: false), .rotate)
-        XCTAssertEqual(ContentView.editKey(keyCode: 0, "f", [.capsLock], isRepeat: false), .flip)
+        XCTAssertEqual(ContentView.editKey(keyCode: 15, "r", [.command, .capsLock], isRepeat: false), .rotate)
+        XCTAssertEqual(ContentView.editKey(keyCode: 3, "f", [.command, .capsLock], isRepeat: false), .flip)
+        XCTAssertNil(ContentView.editKey(keyCode: 15, "r", [.command, .option], isRepeat: false), "⌥⌘R no longer rotates")
+        XCTAssertNil(ContentView.editKey(keyCode: 3, "F", [.command, .shift], isRepeat: false))
     }
 
     func testAngleAndDelete() {
@@ -21,6 +25,7 @@ final class EditKeyTests: XCTestCase {
         XCTAssertNil(ContentView.editKey(keyCode: 51, "\u{7F}", [], isRepeat: false))
         XCTAssertNil(ContentView.editKey(keyCode: 51, "\u{7F}", [.command, .shift], isRepeat: false))
         XCTAssertNil(ContentView.editKey(keyCode: 51, "\u{7F}", [.command], isRepeat: true))
+        XCTAssertNil(ContentView.editKey(keyCode: 2, "d", [.command], isRepeat: false), "⌘D does not delete")
     }
 
     func testCopyAndPaste() {
@@ -33,19 +38,16 @@ final class EditKeyTests: XCTestCase {
         XCTAssertNil(ContentView.editKey(keyCode: 7, "x", [.command, .shift], isRepeat: false))
     }
 
-    func testDeleteAndSelectAll() {
-        XCTAssertEqual(ContentView.editKey(keyCode: 2, "d", [.command], isRepeat: false), .delete)
-        XCTAssertNil(ContentView.editKey(keyCode: 2, "d", [.command, .shift], isRepeat: false), "⇧⌘D is the Design Rule Check")
-        XCTAssertNil(ContentView.editKey(keyCode: 2, "d", [], isRepeat: false))
+    func testSelectAll() {
         XCTAssertEqual(ContentView.editKey(keyCode: 0, "a", [.command], isRepeat: false), .selectAll)
         XCTAssertNil(ContentView.editKey(keyCode: 0, "a", [.command], isRepeat: true))
     }
 
     func testOtherKeysDoNot() {
         for key in ["r", "f"] {
-            XCTAssertNil(ContentView.editKey(keyCode: 0, key, [], isRepeat: true))
-            XCTAssertNil(ContentView.editKey(keyCode: 0, key, [.command], isRepeat: false))
-            XCTAssertNil(ContentView.editKey(keyCode: 0, key, [.command, .option], isRepeat: false))
+            // The bare keys no longer rotate or flip.
+            XCTAssertNil(ContentView.editKey(keyCode: 0, key, [], isRepeat: false))
+            XCTAssertNil(ContentView.editKey(keyCode: 0, key, [.command], isRepeat: true))
             XCTAssertNil(ContentView.editKey(keyCode: 0, key, [.control], isRepeat: false))
             XCTAssertNil(ContentView.editKey(keyCode: 0, key, [.shift], isRepeat: false))
         }

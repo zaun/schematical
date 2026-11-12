@@ -102,3 +102,18 @@ final class EditMenuTests: XCTestCase {
         XCTAssertEqual(reference(pull), "R9")
     }
 }
+
+/// ⇧⌘R turns a footprint or board text the other way from ⌘R.
+@MainActor
+final class RotateBackTests: XCTestCase {
+    func testCounterclockwiseUndoesClockwise() throws {
+        let doc = TestSupport.newDocument()
+        let led = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
+        func rotation() -> Int? { doc.chips.first { $0.id == led.id }?.board?.rotation }
+        let start = try XCTUnwrap(rotation())
+        doc.rotateFootprint(led.id, counterclockwise: true)
+        XCTAssertEqual(rotation(), (start + 270) % 360)
+        doc.rotateFootprint(led.id)
+        XCTAssertEqual(rotation(), start)
+    }
+}

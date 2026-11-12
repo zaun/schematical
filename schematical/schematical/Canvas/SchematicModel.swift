@@ -2332,7 +2332,7 @@ final class SchematicDocument {
 
     /// Turns a footprint 90° clockwise about its origin point, which stays
     /// where it was.
-    func rotateFootprint(_ id: UUID) {
+    func rotateFootprint(_ id: UUID, counterclockwise: Bool = false) {
         recordEdit(.pcb, "Rotate") {
             guard let index = chips.firstIndex(where: { $0.id == id }),
                   let board = chips[index].board, !board.locked,
@@ -2340,7 +2340,7 @@ final class SchematicDocument {
             let pad1 = chips[index].part.firstPinDesignator
             let before = BoardLayout.originPoint(of: board, footprint: footprint, pad1: pad1)
             var turned = board
-            turned.rotation = (board.rotation + 90) % 360
+            turned.rotation = (board.rotation + (counterclockwise ? 270 : 90)) % 360
             let after = BoardLayout.originPoint(of: turned, footprint: footprint, pad1: pad1)
             turned.centre.x += before.x - after.x
             turned.centre.y += before.y - after.y
@@ -2718,10 +2718,10 @@ final class SchematicDocument {
     }
 
     /// Turns a text 90° clockwise about its anchor.
-    func rotateText(_ id: UUID) {
+    func rotateText(_ id: UUID, counterclockwise: Bool = false) {
         recordEdit(.pcb, "Rotate") {
             guard let index = texts.firstIndex(where: { $0.id == id }), !texts[index].locked else { return }
-            texts[index].rotation = (texts[index].rotation + 90) % 360
+            texts[index].rotation = (texts[index].rotation + (counterclockwise ? 270 : 90)) % 360
         }
     }
 

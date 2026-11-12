@@ -72,8 +72,8 @@ nonisolated enum KeyboardHelp {
                   "Open its window (in play mode too)"),
         ]),
         HelpSection(title: "Editing", entries: [
-            entry("F", "Flip the selected part or net label left to right"),
-            entry("⌘⌫ or ⌘D", "Delete the selection"),
+            entry("⌘F", "Flip the selected part or net label left to right"),
+            entry("⌘⌫", "Delete the selection"),
             entry("⌘A", "Select everything"),
             entry("⌘X", "Cut the selected parts, labels, text and wires"),
             entry("⌘C", "Copy the selected parts, labels, text and wires"),
@@ -119,8 +119,9 @@ nonisolated enum KeyboardHelp {
             entry("⇧-drag empty space", "Box-select: add every shown item the box touches"),
         ]),
         HelpSection(title: "Editing", entries: [
-            entry("R or ⌥⌘R", "Rotate the selected footprint or text 90°"),
-            entry("⌘⌫ or ⌘D", "Delete the selected texts, traces, vias and holes (footprints stay)"),
+            entry("⌘R", "Rotate the selected footprint or text 90° clockwise"),
+            entry("⇧⌘R", "Rotate it 90° counterclockwise"),
+            entry("⌘⌫", "Delete the selected texts, traces, vias and holes (footprints stay)"),
             entry("⌘A", "Select every shown footprint, text, trace, via and hole"),
             entry("⌘X", "Cut the selected traces"),
             entry("⌘C", "Copy the selected traces"),

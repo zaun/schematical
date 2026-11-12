@@ -58,10 +58,10 @@ struct ContentView: View {
     @State private var terminalWindows: Set<TerminalWindowTarget> = []
     @State private var isBillOfMaterialsOpen = false
     @State private var isDesignRuleCheckOpen = false
-    /// Watches for the editing keys: R rotates, A changes the trace angle
-    /// and ⌘X / ⌘C / ⌘V cut, copy and paste traces on the PCB, F flips on
-    /// the Schematic, ⌘X / ⌘C / ⌘V cut, copy and paste its selection, ⌘⌫
-    /// and ⌘D delete and ⌘A selects all on both.
+    /// Watches for the editing keys: ⌘R / ⇧⌘R rotate, A changes the trace
+    /// angle and ⌘X / ⌘C / ⌘V cut, copy and paste traces on the PCB, ⌘F
+    /// flips on the Schematic, ⌘X / ⌘C / ⌘V cut, copy and paste its
+    /// selection, ⌘⌫ deletes and ⌘A selects all on both.
     @State private var editKeyMonitor: Any?
     /// Edit › Reset References is asking whether to go on.
     @State private var isConfirmingResetReferences = false
@@ -128,14 +128,35 @@ struct ContentView: View {
         return !board.locked
     }
 
-    /// The Rotate button: turns the selected board text, else the selected
-    /// footprint.
-    private func rotateSelection() {
+    /// The Rotate button and ⌘R: turns the selected board text, else the
+    /// selected footprint, 90° clockwise; ⇧⌘R turns it the other way.
+    /// Returns whether it turned anything.
+    @discardableResult
+    private func rotateSelection(counterclockwise: Bool = false) -> Bool {
+        guard page == .pcb, canRotate else { return false }
         if let id = document.selectedTextID {
-            document.rotateText(id)
+            document.rotateText(id, counterclockwise: counterclockwise)
         } else if let id = document.selectedFootprintID {
-            document.rotateFootprint(id)
+            document.rotateFootprint(id, counterclockwise: counterclockwise)
         }
+        return true
+    }
+
+    /// ⌘F: flips the selected net label, else the selected part, on the
+    /// Schematic. Returns whether it flipped anything.
+    private func flipSelection() -> Bool {
+        if page == .schematic, !simulation.isRunning, let id = document.selectedNetLabelID {
+            document.flipNetLabel(id)
+            return true
+        }
+        guard let id = flippableChipID else { return false }
+        document.flipChip(id)
+        return true
+    }
+
+    /// Whether ⌘F has something to flip.
+    private var canFlip: Bool {
+        (page == .schematic && !simulation.isRunning && document.selectedNetLabelID != nil) || flippableChipID != nil
     }
 
     /// The part Flip would turn: the sole selected part on the Schematic,
@@ -147,10 +168,10 @@ struct ContentView: View {
     }
 
     /// The editing keys, in this window only and never while a text field
-    /// is being typed in: R presses Rotate on the PCB (when it is enabled);
-    /// A steps the Trace tool's angle while Trace is the PCB tool; F flips
-    /// the selected part or net label on the Schematic; ⌘⌫ and ⌘D delete
-    /// the selection (on the PCB only its texts, traces, vias and holes);
+    /// is being typed in: ⌘R presses Rotate on the PCB (when it is enabled)
+    /// and ⇧⌘R turns the other way; A steps the Trace tool's angle while
+    /// Trace is the PCB tool; ⌘F flips the selected part or net label on the
+    /// Schematic; ⌘⌫ deletes the selection (on the PCB only its texts, traces, vias and holes);
     /// ⌘C copies the selected traces on the PCB and ⌘V pastes them centred
     /// on the pointer (`TraceClipboard`); on the Schematic they copy the
     /// selection and paste it the same way (`SchematicClipboard`; not while
@@ -166,15 +187,12 @@ struct ContentView: View {
                                          event.modifierFlags, isRepeat: event.isARepeat) else { return event }
             switch key {
             case .rotate:
-                guard page == .pcb, canRotate else { return event }
-                rotateSelection()
+                // On the Schematic ⌘R is Run, so it is passed on.
+                guard rotateSelection() else { return event }
+            case .rotateBack:
+                guard rotateSelection(counterclockwise: true) else { return event }
             case .flip:
-                if page == .schematic, !simulation.isRunning, let id = document.selectedNetLabelID {
-                    document.flipNetLabel(id)
-                    return nil
-                }
-                guard let id = flippableChipID else { return event }
-                document.flipChip(id)
+                guard flipSelection() else { return event }
             case .angle:
                 guard page == .pcb, pcbTool == .trace else { return event }
                 traceAngle = TraceRoute.nextAngle(after: traceAngle)
@@ -196,7 +214,7 @@ struct ContentView: View {
 
     // MARK: Edit menu
 
-    /// ⌘⌫ / ⌘D: deletes the selection (on the PCB only its texts, traces,
+    /// ⌘⌫: deletes the selection (on the PCB only its texts, traces,
     /// vias and holes). Returns whether anything was deleted.
     private func deleteSelection() -> Bool {
         page == .pcb
@@ -260,6 +278,8 @@ struct ContentView: View {
     private var editActions: EditActions {
         EditActions(cut: cutSelection, copy: copySelection, paste: pasteClipboard,
                     delete: deleteSelection, selectAll: selectAll,
+                    flip: flipSelection, canFlip: canFlip,
+                    rotate: { rotateSelection(counterclockwise: $0) }, canRotate: page == .pcb && canRotate,
                     resetReferences: { isConfirmingResetReferences = true },
                     canResetReferences: !document.chips.isEmpty && !simulation.isRunning)
     }
@@ -283,20 +303,24 @@ struct ContentView: View {
         }
     }
 
-    enum EditKey { case rotate, flip, angle, delete, cut, copy, paste, selectAll }
+    enum EditKey { case rotate, rotateBack, flip, angle, delete, cut, copy, paste, selectAll }
 
-    /// The editing key a press is: a bare R, F or A (no ⌘, ⌃, ⌥ or ⇧), or
-    /// ⌘⌫, ⌘D, ⌘X, ⌘C, ⌘V or ⌘A (⌘ alone). Never a held-key repeat. Nil
-    /// for anything else.
+    /// The editing key a press is: a bare A (no ⌘, ⌃, ⌥ or ⇧), ⇧⌘R, or
+    /// ⌘⌫, ⌘R, ⌘F, ⌘X, ⌘C, ⌘V or ⌘A (⌘ alone). Never a held-key repeat.
+    /// Nil for anything else.
     nonisolated static func editKey(keyCode: UInt16, _ characters: String?, _ modifiers: NSEvent.ModifierFlags,
                                     isRepeat: Bool) -> EditKey? {
         guard !isRepeat else { return nil }
         let held = modifiers.intersection([.command, .control, .option, .shift])
         // 51 is the Delete (backspace) key.
         if keyCode == 51 { return held == .command ? .delete : nil }
+        if held == [.command, .shift] {
+            return characters?.lowercased() == "r" ? .rotateBack : nil
+        }
         if held == .command {
             switch characters {
-            case "d": return .delete
+            case "r": return .rotate
+            case "f": return .flip
             case "x": return .cut
             case "c": return .copy
             case "v": return .paste
@@ -305,12 +329,7 @@ struct ContentView: View {
             }
         }
         guard held.isEmpty else { return nil }
-        switch characters {
-        case "r": return .rotate
-        case "f": return .flip
-        case "a": return .angle
-        default: return nil
-        }
+        return characters == "a" ? .angle : nil
     }
 
     @ViewBuilder
@@ -505,8 +524,7 @@ struct ContentView: View {
                         } label: {
                             Label("Rotate", systemImage: "rotate.right")
                         }
-                        .keyboardShortcut("r", modifiers: [.command, .option])
-                        .help("Rotate the selection 90° (R or ⌥⌘R)")
+                        .help("Rotate the selection 90° clockwise (⌘R; ⇧⌘R turns it the other way)")
                         .disabled(!canRotate)
                     }
                 }

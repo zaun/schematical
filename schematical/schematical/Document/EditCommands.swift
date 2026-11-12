@@ -1,7 +1,8 @@
 import AppKit
 import SwiftUI
 
-// Edit › Cut, Copy, Paste, Delete, Select All and Reset References. In a
+// Edit › Cut, Copy, Paste, Delete, Select All, Flip, Rotate and Reset
+// References. In a
 // schematic window they act on the page it shows; while a text field is
 // being edited, the first five are that field's own, as in any Mac app.
 
@@ -13,6 +14,13 @@ struct EditActions {
     var paste: () -> Bool
     var delete: () -> Bool
     var selectAll: () -> Bool
+    /// The Schematic's Flip; `canFlip` when something there can flip.
+    var flip: () -> Bool
+    var canFlip: Bool
+    /// The PCB's Rotate, counterclockwise when passed true; `canRotate`
+    /// on the PCB with a rotatable selection.
+    var rotate: (_ counterclockwise: Bool) -> Bool
+    var canRotate: Bool
     /// Asks first; see `SchematicDocument.resetReferences`.
     var resetReferences: () -> Void
     /// Whether Reset References can run: there are parts and the
@@ -60,9 +68,21 @@ struct EditCommands: Commands {
             Button("Paste") { perform(.paste) }
                 .keyboardShortcut("v", modifiers: .command)
             Button("Delete") { perform(.delete) }
-                .keyboardShortcut("d", modifiers: .command)
+                .keyboardShortcut(.delete, modifiers: .command)
             Button("Select All") { perform(.selectAll) }
                 .keyboardShortcut("a", modifiers: .command)
+            Divider()
+            // Flip is the Schematic's, Rotate the PCB's. On the Schematic
+            // the window's Run button takes ⌘R before this menu does.
+            Button("Flip") { _ = target?.flip() }
+                .keyboardShortcut("f", modifiers: .command)
+                .disabled(target?.canFlip != true)
+            Button("Rotate Clockwise") { _ = target?.rotate(false) }
+                .keyboardShortcut("r", modifiers: .command)
+                .disabled(target?.canRotate != true)
+            Button("Rotate Counterclockwise") { _ = target?.rotate(true) }
+                .keyboardShortcut("r", modifiers: [.command, .shift])
+                .disabled(target?.canRotate != true)
             Divider()
             Button("Reset References…") { target?.resetReferences() }
                 .disabled(target?.canResetReferences != true)
