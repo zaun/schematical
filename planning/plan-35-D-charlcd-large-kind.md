@@ -41,7 +41,7 @@ The gate is plan-35-A § Prerequisites. D adds:
 | Must be true | Command | Status |
 |---|---|---|
 | plan-35-C complete | `grep -c '^Commit: —' planning/plan-35-C-charlcd-large-footprints-midas-nhd.md` → 0 (or in `planning/completed/`) | NOT MET (2026-11-11) |
-| The kind is plan-11's | `grep -n '"rows" must be 1 or 2' backend/src/models/charlcd.c` → one line | MET (2026-11-11 at 656b6d1: charlcd.c:120) |
+| The kind is plan-11's | `grep -n 'must be 1 or 2' backend/src/models/charlcd.c` → one line | MET (2026-11-11 at 48e059b: charlcd.c:120; see Corrections for the command) |
 | Tests pass before D | `cmake -S backend -B /tmp/logic-p35 && cmake --build /tmp/logic-p35 -j8 && ctest --test-dir /tmp/logic-p35` → `100% tests passed` | re-run at start |
 
 Everything below is written against the world where these hold.
@@ -367,7 +367,8 @@ Commit: —
 
 Check: `ctest --test-dir /tmp/logic-p35` → `100% tests passed`, T0
 programs; `git diff --exit-code backend/tests/golden` → 0;
-`grep -c '"rows" must be 1, 2 or 4' docs/parts-format.md backend/src/models/charlcd.c`
+`grep -c '"rows" must be 1, 2 or 4' docs/parts-format.md` and
+`grep -c -F 'rows\" must be 1, 2 or 4' backend/src/models/charlcd.c`
 → 1 each (est. 5 min).
 
 Commit: —
@@ -393,7 +394,13 @@ move. The landing tier is H.
 
 ## Corrections
 
-(none yet)
+- **The `"rows"` greps on `charlcd.c`** (2026-11-11): the C source holds
+  the message as `\"rows\" must be …` (escaped quotes), so
+  `grep '"rows" must be 1 or 2' backend/src/models/charlcd.c` finds
+  nothing (measured: 0 lines; `grep -n 'must be 1 or 2'` → charlcd.c:120).
+  The prerequisite row, Phase 3's check and plan-35-E's prerequisite now
+  grep the C file with `-F 'rows\" must be 1, 2 or 4'`; the docs file keeps
+  the plain form.
 
 ## Summary
 

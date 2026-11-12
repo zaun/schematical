@@ -31,9 +31,9 @@ The gate is plan-35-A § Prerequisites. B adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-35-A complete | `grep -c '^Commit: —' planning/plan-35-A-charlcd-large-data.md` → 0 (or the file is in `planning/completed/`) | NOT MET (2026-11-11: A not started) |
-| The Focus PDFs are in the tree | `awk -F'\t' '$1=="Focus LCDs" && $4=="add"{print "datasheets/module-disp-char/"$13}' planning/plan-35-data/candidates.tsv \| xargs ls \| wc -l` → the Focus `add` count (32 at planning) | NOT MET (A Phase 2) |
-| The loader probe works | `echo '{"footprints":[]}' > /tmp/p35-fp0.json && planning/plan-35-data/census/fp-load.sh /tmp/p35-fp0.json` → `0 new footprints: load ok` | MET (2026-11-11) |
+| plan-35-A complete | `grep -c '^Commit: —' planning/plan-35-A-charlcd-large-data.md` → 0 (or the file is in `planning/completed/`) | MET (2026-11-11: 0, A Phase 3 hash recorded) |
+| The Focus PDFs are in the tree | `awk -F'\t' '$1=="Focus LCDs" && $4=="add"{print "datasheets/module-disp-char/"$13}' planning/plan-35-data/candidates.tsv \| xargs ls \| wc -l` → the Focus `add` count (32 at planning) | MET (2026-11-11: 32) |
+| The loader probe works | `echo '{"footprints":[]}' > /tmp/p35-fp0.json && planning/plan-35-data/census/fp-load.sh /tmp/p35-fp0.json` → `0 new footprints: load ok` | MET (2026-11-11, re-run: `0 new footprints: load ok`) |
 
 Everything below is written against the world where these hold.
 

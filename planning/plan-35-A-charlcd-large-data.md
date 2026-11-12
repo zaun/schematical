@@ -277,7 +277,7 @@ Commit: 12bed59
 Check: every `skip` part name is found once in the new section (a
 `grep -c -F` loop over the 59 names → 59 ones; est. 1 min).
 
-Commit: —
+Commit: 48e059b
 
 ## Validation Plan
 

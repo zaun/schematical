@@ -32,7 +32,7 @@ The gate is plan-35-A § Prerequisites. E adds:
 | Must be true | Command | Status |
 |---|---|---|
 | plan-35-D complete | `grep -c '^Commit: —' planning/plan-35-D-charlcd-large-kind.md` → 0 (or in `planning/completed/`) | NOT MET (2026-11-11) |
-| The kind takes 4 rows | `grep -c '"rows" must be 1, 2 or 4' backend/src/models/charlcd.c` → 1 | NOT MET (D) |
+| The kind takes 4 rows | `grep -c -F 'rows\" must be 1, 2 or 4' backend/src/models/charlcd.c` → 1 (corrected, plan-35-D Corrections) | NOT MET (D) |
 | footprints-C.json loads | `planning/plan-35-data/census/fp-load.sh planning/plan-35-data/footprints-C.json` → only extra/unused for its ids | NOT MET (C) |
 | Baseline measured now | `wc -l < backend/tests/golden/parts.txt` (P0), `… footprints.txt` (F0) | record at start (26729 / 1212 at 656b6d1) |
 

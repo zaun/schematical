@@ -27,7 +27,7 @@ The gate is plan-35-A § Prerequisites. C adds:
 | Must be true | Command | Status |
 |---|---|---|
 | plan-35-B complete | `grep -c '^Commit: —' planning/plan-35-B-charlcd-large-footprints-focus.md` → 0 (or in `planning/completed/`) | NOT MET (2026-11-11) |
-| The Midas and Newhaven PDFs are in the tree | `awk -F'\t' '($1=="Midas Displays" \|\| $1=="Newhaven Display Intl") && $4=="add"{print "datasheets/module-disp-char/"$13}' planning/plan-35-data/candidates.tsv \| xargs ls \| wc -l` → their `add` count (35 at planning) | NOT MET (A Phase 2) |
+| The Midas and Newhaven PDFs are in the tree | `awk -F'\t' '($1=="Midas Displays" \|\| $1=="Newhaven Display Intl") && $4=="add"{print "datasheets/module-disp-char/"$13}' planning/plan-35-data/candidates.tsv \| xargs ls \| wc -l` → their `add` count (35 at planning) | MET (2026-11-11: 35) |
 
 Everything below is written against the world where these hold.
 
