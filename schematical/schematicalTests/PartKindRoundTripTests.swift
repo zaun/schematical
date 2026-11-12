@@ -10,6 +10,7 @@ final class PartKindRoundTripTests: XCTestCase {
     /// The shipped part count of each kind (`rg -o '"manufacturer"' Parts/<kind>.json | wc -l`).
     static let expected: [String: Int] = [
         "dff": 706, "jkff": 186, "mux": 346, "decoder": 322,
+        "latch": 750, "buffer": 2135, "arith": 107,
     ]
 
     private func check(_ kind: String) {
@@ -27,4 +28,7 @@ final class PartKindRoundTripTests: XCTestCase {
     func testJkff() { check("jkff") }
     func testMux() { check("mux") }
     func testDecoder() { check("decoder") }
+    func testLatch() { check("latch") }
+    func testBuffer() { check("buffer") }
+    func testArith() { check("arith") }
 }

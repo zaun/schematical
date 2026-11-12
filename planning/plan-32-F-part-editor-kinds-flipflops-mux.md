@@ -145,7 +145,7 @@ One line: a failing test lists every backend key the form has no control for, fo
 Acceptance: the test fails listing the keys of the four kinds (RED); the failure output is the list used by Phase 2.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindKeysTests` → `failed`, with the message naming every missing key of the four kinds (est. 3 min).
   Result (2026-11-11, RED): failed, `keys the form has no control for: ["mux": ["active", "bits", "d", "data", …], "jkff": ["clearActiveHigh", "clk", …], "decoder": [...], "dff": [...]]` — every key of the four kinds (the generated schemas were held out of the target for this run). Arrays parsed: dff 4, jkff 4, mux 13, decoder 12 (Corrections).
-Commit: (this commit, with Phases 2–4)
+Commit: 18183c8
 
 ### Phase 2 — Kind forms
 
@@ -159,7 +159,7 @@ One line: each of the four kinds has a typed draft and a form section covering e
 Acceptance: `PartKindKeysTests` passes for all four kinds.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindKeysTests` → `passed` (est. 5 min).
   Result (2026-11-11): passed; per kind the test prints `mux: 13 KEYS arrays, 43 keys, seq.c helper keys not read: ["op", "when"]`, `decoder: 12 KEYS arrays, 48 keys, seq.c helper keys not read: ["edge", "op", "when"]`, dff 4/20, jkff 4/19, gate 6/14.
-Commit: (this commit)
+Commit: 18183c8
 
 ### Phase 3 — Round trip over every shipped part of the four kinds
 
@@ -171,7 +171,7 @@ One line: all 1560 shipped parts round-trip with no key in `extras`, and the bac
 Acceptance: for dff (706), jkff (186), mux (346) and decoder (322), zero mismatched, zero with extras, zero rejected.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindRoundTripTests` → `passed` with the four count lines reading `checked 706 parts of dff, 0 mismatched, 0 with extras, 0 rejected` and the matching lines for the other three (est. 8 min; the population is the whole of each kind, the smallest set that exercises every key of the kind).
   Result (2026-11-11): passed: `checked 706 parts of dff, 0 mismatched, 0 with extras, 0 rejected`, `checked 186 parts of jkff, …0, 0, 0`, `checked 346 parts of mux, …0, 0, 0`, `checked 322 parts of decoder, …0, 0, 0` (extras counted at every depth, plan-32-C Corrections).
-Commit: (this commit)
+Commit: 18183c8
 
 ### Phase 4 — Runtime proof
 
@@ -182,7 +182,7 @@ One line: a part of each kind is created in the app and saved.
 Acceptance: each of the four parts loads back and appears in the drawer.
   Check: the run skill's app session (est. 25 min for four kinds).
   Result (2026-11-11): for each kind (`/tmp/p32/scripts/cycle.sh`): the New Part window's row opened "New D Flip-Flop Part" (etc.), Open Part… filled the form (dff shows its block preview, "The part loads: 14 pins"), ⌘S rewrote the file in the app's format (new mtimes 16:15–16:18), and Load Part… registered it: the drawer count went 26,636 → 26,640 for the four. ZZF-DFF and ZZF-MUX show in the drawer search; ZZF-JKFF (a military part) and ZZF-DECODER (automotive) are registered but hidden by the drawer's default Military/Automotive preferences, as their bundled originals are.
-Commit: (this commit)
+Commit: 18183c8
 
 ## Validation Plan
 

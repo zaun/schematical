@@ -8,4 +8,7 @@ EXTRA = {
     # SEG7_KEYS "phase" (seq_optional_name, a pin).
     "decoder": [("device", "clock", ("pin",), ["units"]),
                 ("device", "phase", ("pin",), [], ["seg7"])],
+    # arith.c PART_KEYS and seq_timing's BASE_KEYS take "inputMax".
+    "arith": [("part", "inputMax", ("number", "V"), []),
+              ("device", "inputMax", ("number", "V"), ["timing"])],
 }

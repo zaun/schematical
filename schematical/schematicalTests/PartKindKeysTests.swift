@@ -13,6 +13,8 @@ final class PartKindKeysTests: XCTestCase {
         "gate": ["gate.c"],
         "dff": ["dff.c"], "jkff": ["jkff.c"],
         "mux": ["mux.c", "mux_stored.c", "seq.c"], "decoder": ["decoder.c", "seq.c"],
+        "latch": ["latch.c", "seq.c"], "buffer": ["buffer.c", "buffer_reg.c", "seq.c"],
+        "arith": ["arith.c", "arith_alu.c", "seq.c"],
     ]
 
     static var models: URL {

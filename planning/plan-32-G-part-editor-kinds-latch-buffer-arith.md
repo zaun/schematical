@@ -31,7 +31,7 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-32-F complete: the flip-flop and decoder forms pass their round trip | `xcodebuild test … -only-testing:schematicalTests/PartKindRoundTripTests` → `passed` | NOT MET at writing; starts after plan-32-F |
+| plan-32-F complete: the flip-flop and decoder forms pass their round trip | `xcodebuild test … -only-testing:schematicalTests/PartKindRoundTripTests` → `passed` | MET (run 2026-11-11 in the P-32 worktree: `PartKindRoundTripTests` passed, the four F kinds 0/0/0) |
 
 Everything below is written against the world where this holds.
 
@@ -113,35 +113,38 @@ against the backend, not against this document.
 
 One line: the drift test fails listing every backend key of the three kinds that the form lacks.
 
-- [ ] `schematical/schematicalTests/PartKindKeysTests.swift`: add latch, buffer and arith to the kinds the test covers.
-- [ ] Run it; it fails listing the missing keys (RED).
+- [x] `schematical/schematicalTests/PartKindKeysTests.swift`: add latch, buffer and arith to the kinds the test covers.
+- [x] Run it; it fails listing the missing keys (RED).
 
 Acceptance: the test fails with the missing keys of the three kinds.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindKeysTests` → `failed`, listing the keys (est. 3 min).
-Commit: —
+  Result (2026-11-11, RED): failed, `["buffer": ["a", "ab", "active", "b", "ba", "ce", "clk", …], …]`; arrays parsed latch 17, buffer 22, arith 18 (Corrections).
+Commit: (this commit, with Phases 2–3)
 
 ### Phase 2 — Forms for latch, buffer and arith
 
 One line: each kind's form covers every key of Phase 1 for each of its models.
 
-- [ ] `Editor/LatchDraft.swift`, `BufferDraft.swift`, `ArithDraft.swift`: each with `model`, one sub-draft per model, `init(device:part:)` and `encoded()`; unknown keys stay in `extras`.
-- [ ] `BufferDraft`: the translator's `domains` as two pin-name pickers (power pin name and the domain's other pins), and `vccB`/`inputMaxB` on the timing entries.
-- [ ] `PartEditorWindow.swift`: a kind section per kind; the chosen model's sections only.
-- [ ] `PartDraft.enabledKinds` gains `latch`, `buffer`, `arith`.
+- [x] `Editor/LatchDraft.swift`, `BufferDraft.swift`, `ArithDraft.swift`: each with `model`, one sub-draft per model, `init(device:part:)` and `encoded()`; unknown keys stay in `extras`.
+- [x] `BufferDraft`: the translator's `domains` as two pin-name pickers (power pin name and the domain's other pins), and `vccB`/`inputMaxB` on the timing entries.
+- [x] `PartEditorWindow.swift`: a kind section per kind; the chosen model's sections only.
+- [x] `PartDraft.enabledKinds` gains `latch`, `buffer`, `arith`.
 
 Acceptance: `PartKindKeysTests` passes for the three kinds.
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindKeysTests` → `passed` (est. 5 min).
-Commit: —
+  Result (2026-11-11): passed (seq.c helper keys not read: latch edge/op/when, buffer op/when, arith edge/op/when — derived from the sources as in plan-32-F).
+Commit: (this commit)
 
 ### Phase 3 — Round trip over every shipped part
 
 One line: all 2992 shipped parts round-trip with no key in `extras`, and the backend accepts each.
 
-- [ ] `PartKindRoundTripTests.swift`: the three kinds added to the loop of plan-32-F Phase 3.
+- [x] `PartKindRoundTripTests.swift`: the three kinds added to the loop of plan-32-F Phase 3.
 
 Acceptance: zero mismatched, zero with extras, zero rejected, for latch (750), buffer (2135) and arith (107).
   Check: `xcodebuild test … -only-testing:schematicalTests/PartKindRoundTripTests` → `passed`, with the lines `checked 750 parts of latch, 0 mismatched, 0 with extras, 0 rejected`, `checked 2135 parts of buffer, …`, `checked 107 parts of arith, …` (est. 10 min; the populations are the whole of each kind).
-Commit: —
+  Result (2026-11-11): passed: `checked 750 parts of latch, 0 mismatched, 0 with extras, 0 rejected`, `checked 2135 parts of buffer, 0 mismatched, 0 with extras, 0 rejected`, `checked 107 parts of arith, 0 mismatched, 0 with extras, 0 rejected` (the F kinds still 0/0/0 in the same run).
+Commit: (this commit)
 
 ### Phase 4 — Runtime proof
 
@@ -168,7 +171,23 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **Arrays parsed** (2026-11-11): latch 17 (latch.c 11 + seq.c 6), buffer 22 (buffer.c 11 +
+  buffer_reg.c 5 + seq.c 6), arith 18 (arith.c 7 + arith_alu.c 5 + seq.c 6). § Kinds
+  counted only the first file; `buffer_reg.c` (the registered buffers) and `arith_alu.c`
+  (the ALUs) are those kinds' model files too.
+- **Forms are generated** (plan-32-F Corrections): `LatchDraft`, `BufferDraft`,
+  `ArithDraft` from `scripts/part-editor-schema.py`. The translator's `domains` is a list
+  of `{power: pin, pins: [pins]}` entries, a pin picker and a pin list each, shown for
+  model `translator` only; `vccB`/`inputMaxB` are fields of the timing entries. Hand-placed
+  keys (`scripts/part-editor-schema-extra.py`): arith's part `inputMax` and timing
+  `inputMax` (`PART_KEYS`; `seq_timing`'s `BASE_KEYS`), which no shipped arith part uses.
+- **GUI runs collide with another session** (2026-11-11): the plan-35 session drives its
+  own build of the app on the same screen; during this sub-plan's first runtime attempt
+  its typed path landed in this build's editor (a window titled with its
+  `P-35/p35-check.schematical`), so that attempt is void. Nothing was written outside
+  this worktree (P-35's file holds its own LCD parts, written by its app, pid 43685).
+  Runtime proofs now run through `/tmp/p32/scripts/guarded.sh`, which records the
+  frontmost app before and after, and are redone when another app took the front.
 
 ## Summary
 

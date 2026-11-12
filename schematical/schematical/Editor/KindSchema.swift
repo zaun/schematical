@@ -212,7 +212,11 @@ enum PartKinds {
     /// Each kind's editor schema; a kind is enabled in the editor once it has one.
     static let schemas: [String: KindSchema] = {
         var schemas: [String: KindSchema] = [:]
-        for schema in [GateDraft.schema, DffDraft.schema, JkffDraft.schema, MuxDraft.schema, DecoderDraft.schema] {
+        for schema in [
+            GateDraft.schema,
+            DffDraft.schema, JkffDraft.schema, MuxDraft.schema, DecoderDraft.schema,
+            LatchDraft.schema, BufferDraft.schema, ArithDraft.schema,
+        ] {
             schemas[schema.kind] = schema
         }
         return schemas
