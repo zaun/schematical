@@ -187,7 +187,7 @@ its own ids), so the generator's reuse of shipped identical geometry
 Acceptance: the MLCC and generic objects load.
   Check: `planning/plan-33-data/census/fp-load.sh planning/plan-33-data/footprints-C.json planning/plan-33-data/footprints-generic.json` → only extra / unused lines for the new ids (est. 3 min).
   Observed: `44 footprints appended`, `44 new footprints: load ok` (fp-merge.py's verdict: only extra / unused lines, for exactly the new ids).
-Commit: (this commit; hash in the next)
+Commit: 8c8f82e
 
 ### Phase 2 — Molded chips
 
@@ -199,7 +199,7 @@ Commit: (this commit; hash in the next)
 Acceptance: § 1, both bullets.
   Check: the `awk` of § 1 → 0, and the Phase 1 `fp-load.sh` command → only extra / unused lines (est. 3 min).
   Observed: `0`; `38 footprints in footprints-C.json`; `44 new footprints: load ok`.
-Commit: (this commit; hash in the next)
+Commit: 8c8f82e
 
 ## Validation Plan
 

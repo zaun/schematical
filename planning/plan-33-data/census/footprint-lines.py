@@ -3,7 +3,8 @@
 usage: python3 -I footprint-lines.py
 
 One fpgroups.tsv row per (maker, type, DigiKey package, size, lead spacing,
-size code, datasheet) of the `add` rows, with the rows' count.  `letter` is
+size code, datasheet) of the `add` rows (a D row with no DigiKey size code
+takes its maker's case code from the part number, maker_case), with the rows' count.  `letter` is
 C for chips (0402-1206 MLCC; molded tantalum, tantalum polymer and niobium
 oxide chips; the 2917 aluminum polymer chip) and D for the rest (cans,
 leaded MLCC, discs, axials, dipped tantalums).  `height` is DigiKey's seated
@@ -15,6 +16,7 @@ line, C first.
 import collections
 import csv
 import os
+import re
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.dirname(HERE)
@@ -22,6 +24,25 @@ ROOT = os.path.dirname(os.path.dirname(DATA))
 COLS = ["letter", "maker", "type", "package", "size", "spacing", "size_code", "height", "pdf", "rows",
         "footprint", "part_package", "pinout", "note"]
 SHORT = {"KEMET": "KEMET", "Cal-Chip Electronics": "Cal-Chip", "KYOCERA AVX": "AVX"}
+
+
+def maker_case(r):
+    """A D row's case code from its part number when DigiKey gives none: one diameter can come in
+    several cases with different terminals or leads (KEMET EDK 8 mm: 9L and 9M), plan-33-D § Corrections."""
+    if r["size_code"] not in ("", "-") or letter(r) != "D":
+        return r["size_code"]
+    m = r["mpn"]
+    pats = [r"^E[A-Z]{2}\d{3}M(?:\dR\d|\d{3})[AS]([0-9A-Z]{2})",        # KEMET ES*/ED*/EE*/EX*
+            r"^A7[0-9C]\d([A-Z]{2})\d{3}M",                            # KEMET A7xx polymer
+            r"^PH[HV]227[A-Z]([A-Z]{2})\d{3}",                         # KEMET PHH/PHV
+            r"^(?:REA|RHA|RPA|APA|AHA|AEA)(\d{4})\d{3}M",               # KYOCERA AVX cans
+            r"^CV[0-9A-Z]-?[0-9A-Z]{2}[0-9R]{3}M([A-Z]\d{1,2})-R$",     # Cal-Chip SMD cans
+            r"^CC[A-Z][0-9A-Z]{2}[0-9R]{3}M([\d.]+X[\d.]+)-R$"]         # Cal-Chip CCJ
+    for p in pats:
+        mm = re.match(p, m)
+        if mm:
+            return mm.group(1)
+    return r["size_code"]
 
 
 def letter(r):
@@ -45,7 +66,7 @@ def main():
             old[tuple(g[c] for c in COLS[1:7] + ["pdf"])] = g
     groups = collections.OrderedDict()
     for r in sorted(rows, key=lambda r: (letter(r), r["maker"], r["type"], r["package"], r["size"], r["spacing"])):
-        key = (SHORT[r["maker"]], r["type"], r["package"], r["size"], r["spacing"], r["size_code"],
+        key = (SHORT[r["maker"]], r["type"], r["package"], r["size"], r["spacing"], maker_case(r),
                paths[r["datasheet_url"]])
         g = groups.get(key)
         if g is None:

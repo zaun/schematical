@@ -11,5 +11,6 @@ aluminum|SMD|35 V|2.2 µF	2	bi-polar x2
 aluminum|SMD|35 V|2200 µF	1	not in the datasheet's ordering table x1
 aluminum|SMD|50 V|470 µF	2	not in the datasheet's ordering table x2
 aluminum|SMD|63 V|68 µF	1	not in the datasheet's ordering table x1
+ceramic|Axial|other|100 pF	1	military x1
 ceramic|Disc|other|22 pF	1	datasheet status: OBSOLETE x1
 ta-polymer|SMD|10 V|3.3 µF	1	no datasheet on the maker's site x1

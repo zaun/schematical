@@ -21,6 +21,11 @@ unchecked rows remain (scan ranks 11-50: fetch.py / textscan.py
 bucket's DigiKey count is above the rows listed (bucket-more.mjs), else
 `empty: <bucket>`.
 
+Run the walk before `place.py --prune`: it looks rows' PDFs up in
+datasheets/capacitor/datasheets.tsv, and a pruned PDF's rows would lose their
+status verdict (census/military-out.py changes decisions after the prune
+without a walk).
+
 dead-verdicts.tsv: `pdf` (the datasheet path), `pattern` (a regex the part
 number must fullmatch; `.*` for every part of the PDF), `page`, `word`,
 `verdict` (`out` or `add`).  Every `ok` row whose PDF has a dead word
@@ -50,6 +55,7 @@ SHORT = {"KEMET": "KEMET", "Cal-Chip Electronics": "Cal-Chip", "KYOCERA AVX": "K
 TYPE_LEAF = {"ceramic": "Ceramic", "aluminum": "Electrolytic", "al-polymer": "Electrolytic",
              "tantalum": "Tantalum", "ta-polymer": "Tantalum", "niobium": "Tantalum"}
 DECIDED = ("add", "alt", "skip", "out")
+MILITARY = re.compile(r"\bMIL\b|MIL-|Military|^CWR\d")
 
 
 def full(url):
@@ -128,6 +134,11 @@ def decide(argv):
     for r in rows:
         if not r["rank"]:
             continue  # out before ranking (select.py: military, wet tantalum, bi-polar)
+        if MILITARY.search(r["series"] + " " + r["ratings"]):
+            # Military by series name too (`Military, MIL-C-11015, CK12`, `CWR11`), which
+            # select.py's Ratings test missed (plan-33-D section Corrections).
+            r["decision"], r["reason"] = "out", "military"
+            continue
         if r["decision"] in DECIDED:
             r["decision"], r["reason"] = "candidate", ""
         if r["decision"] == "candidate":

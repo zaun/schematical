@@ -66,7 +66,7 @@ def main(args):
             for p in b['products']:
                 p = {k: (v if v is not None else '') for k, v in p.items()}
                 why = ''
-                if re.search(r'MIL', p['ratings'] or ''):
+                if re.search(r'MIL', p['ratings'] or '') or re.search(r'Military|MIL-|^CWR\d', p['series'] or ''):
                     why = 'military'
                 elif 'Wet Tantalum' in (p.get('description') or ''):
                     why = 'wet tantalum'

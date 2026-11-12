@@ -88,110 +88,135 @@ C    1  AVX | tantalum | 2917 (7343 Metric) | 0.287" L x 0.169" W (7.30mm x 4.30
 C    1  AVX | tantalum | 2917 (7343 Metric) | 0.287" L x 0.169" W (7.30mm x 4.30mm) | - | X | TPS.pdf
 C    1  AVX | tantalum | 2917 (7343 Metric) | 0.287" L x 0.169" W (7.30mm x 4.30mm) | - | D | TAJ.pdf
 C    1  AVX | tantalum | 2917 (7343 Metric) | 0.287" L x 0.169" W (7.30mm x 4.30mm) | - | E | TAJ.pdf
-D    1  Cal-Chip | al-polymer | Radial, Can - SMD | 0.315" Dia (8.00mm) | - |  | CCJ-SERIES-2.pdf
-D    3  Cal-Chip | al-polymer | Radial, Can - SMD | 0.394" Dia (10.00mm) | - |  | CCJ-SERIES-2.pdf
-D    1  Cal-Chip | aluminum | Radial, Can - SMD | 0.197" Dia x 0.213" L (5.00mm x 5.40mm) | - |  | CV2-SERIES.pdf
-D    1  Cal-Chip | aluminum | Radial, Can - SMD | 0.248" Dia x 0.213" L (6.30mm x 5.40mm) | - |  | CV2-SERIES.pdf
-D    2  Cal-Chip | aluminum | Radial, Can - SMD | 0.248" Dia x 0.228" L (6.30mm x 5.80mm) | - |  | CVH-SERIES-1.pdf
-D    1  Cal-Chip | aluminum | Radial, Can - SMD | 0.248" Dia x 0.303" L (6.30mm x 7.70mm) | - |  | CVH-SERIES-1.pdf
-D    1  Cal-Chip | aluminum | Radial, Can - SMD | 0.248" Dia x 0.303" L (6.30mm x 7.70mm) | - |  | CVL-SERIES-1.pdf
-D    2  Cal-Chip | aluminum | Radial, Can - SMD | 0.248" Dia x 0.303" L (6.30mm x 7.70mm) | - |  | CV2-SERIES.pdf
-D    3  Cal-Chip | aluminum | Radial, Can - SMD | 0.315" Dia x 0.413" L (8.00mm x 10.50mm) | - |  | CV2-SERIES.pdf
-D    3  Cal-Chip | aluminum | Radial, Can - SMD | 0.315" Dia x 0.413" L (8.00mm x 10.50mm) | - |  | CVH-SERIES-1.pdf
-D    4  Cal-Chip | aluminum | Radial, Can - SMD | 0.394" Dia x 0.413" L (10.00mm x 10.50mm) | - |  | CVH-SERIES-1.pdf
-D    2  Cal-Chip | aluminum | Radial, Can - SMD | 0.394" Dia x 0.413" L (10.00mm x 10.50mm) | - |  | CV2-SERIES.pdf
-D    1  Cal-Chip | aluminum | Radial, Can - SMD | 0.492" Dia x 0.4531" L (12.50mm x 13.50mm) | - |  | CVH-SERIES-1.pdf
-D    1  KEMET | al-polymer | Radial, Can | 0.197" Dia (5.00mm) | 0.079" (2.00mm) |  | KEM_A4069_A758.pdf
-D    5  KEMET | al-polymer | Radial, Can | 0.197" Dia (5.00mm) | 0.079" (2.00mm) |  | KEM_A4072_A759.pdf
-D    2  KEMET | al-polymer | Radial, Can | 0.197" Dia (5.00mm) | 0.079" (2.00mm) |  | KEM_A4067_A750.pdf
-D    4  KEMET | al-polymer | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) |  | KEM_A4069_A758.pdf
-D    5  KEMET | al-polymer | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) |  | KEM_A4072_A759.pdf
-D    2  KEMET | al-polymer | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) |  | KEM_A4067_A750.pdf
-D    1  KEMET | al-polymer | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) |  | KEM_A4144_A7C0.pdf
-D    7  KEMET | al-polymer | Radial, Can | 0.315" Dia (8.00mm) | 0.138" (3.50mm) |  | KEM_A4072_A759.pdf
-D    1  KEMET | al-polymer | Radial, Can | 0.315" Dia (8.00mm) | 0.138" (3.50mm) |  | KEM_A4069_A758.pdf
-D    3  KEMET | al-polymer | Radial, Can | 0.315" Dia (8.00mm) | 0.138" (3.50mm) |  | KEM_A4067_A750.pdf
-D    2  KEMET | al-polymer | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) |  | KEM_A4068_A755.pdf
-D    7  KEMET | al-polymer | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) |  | KEM_A4072_A759.pdf
-D    7  KEMET | al-polymer | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) |  | KEM_A4067_A750.pdf
-D    1  KEMET | al-polymer | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) |  | KEM_A4144_A7C0.pdf
-D    1  KEMET | al-polymer | Radial, Can | 0.512" Dia (13.00mm) | 0.197" (5.00mm) |  | KEM_A4072_A759.pdf
-D    1  KEMET | al-polymer | Radial, Can | 0.717" Dia (18.20mm) | 0.600" (15.24mm) |  | KEM_A4115_PHH227.pdf
-D    1  KEMET | al-polymer | Radial, Can - SMD | - | - |  | KEM_A4136_PHV227.pdf
-D    1  KEMET | al-polymer | Radial, Can - SMD | 0.197" Dia (5.00mm) | - |  | KEM_A4070_A765.pdf
-D    2  KEMET | al-polymer | Radial, Can - SMD | 0.248" Dia (6.30mm) | - |  | KEM_A4089_A766.pdf
-D    3  KEMET | al-polymer | Radial, Can - SMD | 0.248" Dia (6.30mm) | - |  | KEM_A4070_A765.pdf
-D    2  KEMET | al-polymer | Radial, Can - SMD | 0.248" Dia (6.30mm) | - |  | KEM_A4088_A768.pdf
-D    4  KEMET | al-polymer | Radial, Can - SMD | 0.315" Dia (8.00mm) | - |  | KEM_A4071_A767.pdf
-D    3  KEMET | al-polymer | Radial, Can - SMD | 0.315" Dia (8.00mm) | - |  | KEM_A4070_A765.pdf
-D    6  KEMET | al-polymer | Radial, Can - SMD | 0.315" Dia (8.00mm) | - |  | KEM_A4088_A768.pdf
-D    1  KEMET | al-polymer | Radial, Can - SMD | 0.315" Dia (8.00mm) | - |  | KEM_A4089_A766.pdf
-D    4  KEMET | al-polymer | Radial, Can - SMD | 0.394" Dia (10.00mm) | - |  | KEM_A4070_A765.pdf
-D    3  KEMET | al-polymer | Radial, Can - SMD | 0.394" Dia (10.00mm) | - |  | KEM_A4071_A767.pdf
-D    5  KEMET | al-polymer | Radial, Can - SMD | 0.394" Dia (10.00mm) | - |  | KEM_A4088_A768.pdf
-D    1  KEMET | al-polymer | Radial, Can - SMD | 0.394" Dia (10.00mm) | - |  | KEM_A4147_A740.pdf
-D    1  KEMET | al-polymer | Radial, Can - SMD | 0.394" Dia (10.00mm) | - |  | KEM_A4125_A785.pdf
-D    1  KEMET | al-polymer | Radial, Can - SMD | 0.394" Dia (10.00mm) | - |  | KEM_A4124_A782.pdf
-D   19  KEMET | aluminum | Radial, Can | 0.197" Dia (5.00mm) | 0.079" (2.00mm) |  | KEM_A4004_ESK.pdf
-D    8  KEMET | aluminum | Radial, Can | 0.197" Dia (5.00mm) | 0.079" (2.00mm) |  | KEM_A4005_ESH.pdf
-D    1  KEMET | aluminum | Radial, Can | 0.197" Dia (5.00mm) | 0.079" (2.00mm) |  | KEM_A4055_ESE.pdf
-D    1  KEMET | aluminum | Radial, Can | 0.197" Dia (5.00mm) | 0.079" (2.00mm) |  | KEM_A4010_EST.pdf
-D    1  KEMET | aluminum | Radial, Can | 0.197" Dia (5.00mm) | 0.079" (2.00mm) |  | KEM_A4057_ESS.pdf
-D    1  KEMET | aluminum | Radial, Can | 0.197" Dia (5.00mm) | 0.079" (2.00mm) |  | KEM_A4007_ESY.pdf
-D    1  KEMET | aluminum | Radial, Can | 0.197" Dia (5.00mm) | 0.079" (2.00mm) |  | KEM_A4006_ESC.pdf
-D    1  KEMET | aluminum | Radial, Can | 0.236" Dia (6.00mm) | 0.098" (2.50mm) |  | KEM_A4006_ESC.pdf
-D    2  KEMET | aluminum | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) |  | KEM_A4005_ESH.pdf
-D    1  KEMET | aluminum | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) |  | KEM_A4007_ESY.pdf
-D    4  KEMET | aluminum | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) |  | KEM_A4004_ESK.pdf
-D    3  KEMET | aluminum | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) |  | KEM_A4057_ESS.pdf
-D    2  KEMET | aluminum | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) |  | KEM_A4009_ESW.pdf
-D    1  KEMET | aluminum | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) |  | KEM_A4074_ESL.pdf
-D    1  KEMET | aluminum | Radial, Can | 0.248" Dia (6.30mm) | 0.197" (5.00mm) |  | KEM_A4055_ESE.pdf
-D    3  KEMET | aluminum | Radial, Can | 0.315" Dia (8.00mm) | 0.138" (3.50mm) |  | KEM_A4055_ESE.pdf
-D    4  KEMET | aluminum | Radial, Can | 0.315" Dia (8.00mm) | 0.138" (3.50mm) |  | KEM_A4005_ESH.pdf
-D    2  KEMET | aluminum | Radial, Can | 0.315" Dia (8.00mm) | 0.138" (3.50mm) |  | KEM_A4004_ESK.pdf
-D    2  KEMET | aluminum | Radial, Can | 0.315" Dia (8.00mm) | 0.138" (3.50mm) |  | KEM_A4007_ESY.pdf
-D    2  KEMET | aluminum | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) |  | KEM_A4007_ESY.pdf
-D    3  KEMET | aluminum | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) |  | KEM_A4005_ESH.pdf
-D    5  KEMET | aluminum | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) |  | KEM_A4004_ESK.pdf
-D    2  KEMET | aluminum | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) |  | KEM_A4010_EST.pdf
-D    1  KEMET | aluminum | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) |  | KEM_A4006_ESC.pdf
-D    1  KEMET | aluminum | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) |  | KEM_A4055_ESE.pdf
-D    1  KEMET | aluminum | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) |  | KEM_A4009_ESW.pdf
-D    1  KEMET | aluminum | Radial, Can | 0.492" Dia (12.50mm) | 0.197" (5.00mm) |  | KEM_A4074_ESL.pdf
-D    1  KEMET | aluminum | Radial, Can | 0.512" Dia (13.00mm) | 0.197" (5.00mm) |  | KEM_A4006_ESC.pdf
-D    6  KEMET | aluminum | Radial, Can | 0.512" Dia (13.00mm) | 0.197" (5.00mm) |  | KEM_A4004_ESK.pdf
-D    1  KEMET | aluminum | Radial, Can | 0.512" Dia (13.00mm) | 0.197" (5.00mm) |  | KEM_A4055_ESE.pdf
-D    3  KEMET | aluminum | Radial, Can | 0.630" Dia (16.00mm) | 0.295" (7.50mm) |  | KEM_A4005_ESH.pdf
-D    1  KEMET | aluminum | Radial, Can | 0.630" Dia (16.00mm) | 0.295" (7.50mm) |  | KEM_A4006_ESC.pdf
-D    2  KEMET | aluminum | Radial, Can | 0.630" Dia (16.00mm) | 0.295" (7.50mm) |  | KEM_A4004_ESK.pdf
-D    1  KEMET | aluminum | Radial, Can | 0.630" Dia (16.00mm) | 0.295" (7.50mm) |  | KEM_A4074_ESL.pdf
-D    1  KEMET | aluminum | Radial, Can | 0.709" Dia (18.00mm) | 0.295" (7.50mm) |  | KEM_A4005_ESH.pdf
-D    1  KEMET | aluminum | Radial, Can | 0.709" Dia (18.00mm) | 0.295" (7.50mm) |  | KEM_A4010_EST.pdf
-D    2  KEMET | aluminum | Radial, Can | 0.866" Dia (22.00mm) | 0.394" (10.00mm) |  | KEM_A4004_ESK.pdf
-D    5  KEMET | aluminum | Radial, Can - SMD | 0.157" Dia (4.00mm) | - |  | KEM_A4001_EDK.pdf
-D    4  KEMET | aluminum | Radial, Can - SMD | 0.157" Dia (4.00mm) | - |  | KEM_A4003_EXV.pdf
-D    2  KEMET | aluminum | Radial, Can - SMD | 0.157" Dia (4.00mm) | - |  | KEM_A4002_EEV.pdf
-D    2  KEMET | aluminum | Radial, Can - SMD | 0.157" Dia (4.00mm) | - |  | KEM_A4049_EDH.pdf
-D    2  KEMET | aluminum | Radial, Can - SMD | 0.197" Dia (5.00mm) | - |  | KEM_A4003_EXV.pdf
-D    2  KEMET | aluminum | Radial, Can - SMD | 0.197" Dia (5.00mm) | - |  | KEM_A4049_EDH.pdf
-D    2  KEMET | aluminum | Radial, Can - SMD | 0.197" Dia (5.00mm) | - |  | KEM_A4001_EDK.pdf
-D    1  KEMET | aluminum | Radial, Can - SMD | 0.197" Dia (5.00mm) | - |  | KEM_A4002_EEV.pdf
-D    1  KEMET | aluminum | Radial, Can - SMD | 0.248" Dia (6.30mm) | - |  | KEM_A4049_EDH.pdf
-D    7  KEMET | aluminum | Radial, Can - SMD | 0.248" Dia (6.30mm) | - |  | KEM_A4001_EDK.pdf
-D    3  KEMET | aluminum | Radial, Can - SMD | 0.248" Dia (6.30mm) | - |  | KEM_A4003_EXV.pdf
-D    2  KEMET | aluminum | Radial, Can - SMD | 0.248" Dia (6.30mm) | - |  | KEM_A4002_EEV.pdf
-D    3  KEMET | aluminum | Radial, Can - SMD | 0.315" Dia (8.00mm) | - |  | KEM_A4001_EDK.pdf
-D    1  KEMET | aluminum | Radial, Can - SMD | 0.315" Dia (8.00mm) | - |  | KEM_A4003_EXV.pdf
-D    1  KEMET | aluminum | Radial, Can - SMD | 0.315" Dia (8.00mm) | - |  | KEM_A4002_EEV.pdf
-D    3  KEMET | aluminum | Radial, Can - SMD | 0.394" Dia (10.00mm) | - |  | KEM_A4002_EEV.pdf
-D    2  KEMET | aluminum | Radial, Can - SMD | 0.394" Dia (10.00mm) | - |  | KEM_A4049_EDH.pdf
-D    1  KEMET | aluminum | Radial, Can - SMD | 0.394" Dia (10.00mm) | - |  | KEM_A4001_EDK.pdf
-D    1  KEMET | aluminum | Radial, Can - SMD | 0.394" Dia (10.00mm) | - |  | KEM_A4003_EXV.pdf
-D    2  KEMET | aluminum | Radial, Can - SMD | 0.492" Dia (12.50mm) | - |  | KEM_A4049_EDH.pdf
-D    1  KEMET | aluminum | Radial, Can - SMD | 0.492" Dia (12.50mm) | - |  | KEM_A4003_EXV.pdf
-D    2  KEMET | aluminum | Radial, Can - SMD | 0.630" Dia (16.00mm) | - |  | KEM_A4049_EDH.pdf
-D    1  KEMET | ceramic | Axial | 0.090" Dia x 0.160" L (2.29mm x 4.06mm) | - |  | C114K101K1X5CA.pdf
+D    1  Cal-Chip | al-polymer | Radial, Can - SMD | 0.315" Dia (8.00mm) | - | 8X12 | CCJ-SERIES-2.pdf
+D    3  Cal-Chip | al-polymer | Radial, Can - SMD | 0.394" Dia (10.00mm) | - | 10X13 | CCJ-SERIES-2.pdf
+D    1  Cal-Chip | aluminum | Radial, Can - SMD | 0.197" Dia x 0.213" L (5.00mm x 5.40mm) | - | E55 | CV2-SERIES.pdf
+D    1  Cal-Chip | aluminum | Radial, Can - SMD | 0.248" Dia x 0.213" L (6.30mm x 5.40mm) | - | F55 | CV2-SERIES.pdf
+D    2  Cal-Chip | aluminum | Radial, Can - SMD | 0.248" Dia x 0.228" L (6.30mm x 5.80mm) | - | F60 | CVH-SERIES-1.pdf
+D    1  Cal-Chip | aluminum | Radial, Can - SMD | 0.248" Dia x 0.303" L (6.30mm x 7.70mm) | - | F80 | CVH-SERIES-1.pdf
+D    1  Cal-Chip | aluminum | Radial, Can - SMD | 0.248" Dia x 0.303" L (6.30mm x 7.70mm) | - | F80 | CVL-SERIES-1.pdf
+D    2  Cal-Chip | aluminum | Radial, Can - SMD | 0.248" Dia x 0.303" L (6.30mm x 7.70mm) | - | F80 | CV2-SERIES.pdf
+D    3  Cal-Chip | aluminum | Radial, Can - SMD | 0.315" Dia x 0.413" L (8.00mm x 10.50mm) | - | G10 | CV2-SERIES.pdf
+D    3  Cal-Chip | aluminum | Radial, Can - SMD | 0.315" Dia x 0.413" L (8.00mm x 10.50mm) | - | G10 | CVH-SERIES-1.pdf
+D    4  Cal-Chip | aluminum | Radial, Can - SMD | 0.394" Dia x 0.413" L (10.00mm x 10.50mm) | - | H10 | CVH-SERIES-1.pdf
+D    2  Cal-Chip | aluminum | Radial, Can - SMD | 0.394" Dia x 0.413" L (10.00mm x 10.50mm) | - | H10 | CV2-SERIES.pdf
+D    1  Cal-Chip | aluminum | Radial, Can - SMD | 0.492" Dia x 0.4531" L (12.50mm x 13.50mm) | - | K14 | CVH-SERIES-1.pdf
+D    1  KEMET | al-polymer | Radial, Can | 0.197" Dia (5.00mm) | 0.079" (2.00mm) | BG | KEM_A4069_A758.pdf
+D    5  KEMET | al-polymer | Radial, Can | 0.197" Dia (5.00mm) | 0.079" (2.00mm) | BQ | KEM_A4072_A759.pdf
+D    2  KEMET | al-polymer | Radial, Can | 0.197" Dia (5.00mm) | 0.079" (2.00mm) | BG | KEM_A4067_A750.pdf
+D    4  KEMET | al-polymer | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) | EK | KEM_A4069_A758.pdf
+D    3  KEMET | al-polymer | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) | EK | KEM_A4072_A759.pdf
+D    1  KEMET | al-polymer | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) | EQ | KEM_A4067_A750.pdf
+D    1  KEMET | al-polymer | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) | EQ | KEM_A4072_A759.pdf
+D    1  KEMET | al-polymer | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) | EM | KEM_A4067_A750.pdf
+D    1  KEMET | al-polymer | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) | EB | KEM_A4144_A7C0.pdf
+D    1  KEMET | al-polymer | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) | EA | KEM_A4072_A759.pdf
+D    5  KEMET | al-polymer | Radial, Can | 0.315" Dia (8.00mm) | 0.138" (3.50mm) | KS | KEM_A4072_A759.pdf
+D    1  KEMET | al-polymer | Radial, Can | 0.315" Dia (8.00mm) | 0.138" (3.50mm) | KK | KEM_A4069_A758.pdf
+D    1  KEMET | al-polymer | Radial, Can | 0.315" Dia (8.00mm) | 0.138" (3.50mm) | KW | KEM_A4067_A750.pdf
+D    1  KEMET | al-polymer | Radial, Can | 0.315" Dia (8.00mm) | 0.138" (3.50mm) | KR | KEM_A4072_A759.pdf
+D    2  KEMET | al-polymer | Radial, Can | 0.315" Dia (8.00mm) | 0.138" (3.50mm) | KK | KEM_A4067_A750.pdf
+D    1  KEMET | al-polymer | Radial, Can | 0.315" Dia (8.00mm) | 0.138" (3.50mm) | KK | KEM_A4072_A759.pdf
+D    2  KEMET | al-polymer | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) | MS | KEM_A4068_A755.pdf
+D    5  KEMET | al-polymer | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) | MS | KEM_A4072_A759.pdf
+D    5  KEMET | al-polymer | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) | MV | KEM_A4067_A750.pdf
+D    2  KEMET | al-polymer | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) | MW | KEM_A4067_A750.pdf
+D    1  KEMET | al-polymer | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) | MU | KEM_A4072_A759.pdf
+D    1  KEMET | al-polymer | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) | MS | KEM_A4144_A7C0.pdf
+D    1  KEMET | al-polymer | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) | MY | KEM_A4072_A759.pdf
+D    1  KEMET | al-polymer | Radial, Can | 0.512" Dia (13.00mm) | 0.197" (5.00mm) | PY | KEM_A4072_A759.pdf
+D    1  KEMET | al-polymer | Radial, Can | 0.717" Dia (18.20mm) | 0.600" (15.24mm) | LL | KEM_A4115_PHH227.pdf
+D    1  KEMET | al-polymer | Radial, Can - SMD | - | - | LL | KEM_A4136_PHV227.pdf
+D    1  KEMET | al-polymer | Radial, Can - SMD | 0.197" Dia (5.00mm) | - | BC | KEM_A4070_A765.pdf
+D    2  KEMET | al-polymer | Radial, Can - SMD | 0.248" Dia (6.30mm) | - | EB | KEM_A4089_A766.pdf
+D    1  KEMET | al-polymer | Radial, Can - SMD | 0.248" Dia (6.30mm) | - | EB | KEM_A4070_A765.pdf
+D    2  KEMET | al-polymer | Radial, Can - SMD | 0.248" Dia (6.30mm) | - | EG | KEM_A4070_A765.pdf
+D    2  KEMET | al-polymer | Radial, Can - SMD | 0.248" Dia (6.30mm) | - | EB | KEM_A4088_A768.pdf
+D    1  KEMET | al-polymer | Radial, Can - SMD | 0.315" Dia (8.00mm) | - | KS | KEM_A4071_A767.pdf
+D    3  KEMET | al-polymer | Radial, Can - SMD | 0.315" Dia (8.00mm) | - | KN | KEM_A4070_A765.pdf
+D    3  KEMET | al-polymer | Radial, Can - SMD | 0.315" Dia (8.00mm) | - | KS | KEM_A4088_A768.pdf
+D    1  KEMET | al-polymer | Radial, Can - SMD | 0.315" Dia (8.00mm) | - | KE | KEM_A4089_A766.pdf
+D    3  KEMET | al-polymer | Radial, Can - SMD | 0.315" Dia (8.00mm) | - | KE | KEM_A4088_A768.pdf
+D    3  KEMET | al-polymer | Radial, Can - SMD | 0.315" Dia (8.00mm) | - | KN | KEM_A4071_A767.pdf
+D    4  KEMET | al-polymer | Radial, Can - SMD | 0.394" Dia (10.00mm) | - | MU | KEM_A4070_A765.pdf
+D    3  KEMET | al-polymer | Radial, Can - SMD | 0.394" Dia (10.00mm) | - | MU | KEM_A4071_A767.pdf
+D    5  KEMET | al-polymer | Radial, Can - SMD | 0.394" Dia (10.00mm) | - | MS | KEM_A4088_A768.pdf
+D    1  KEMET | al-polymer | Radial, Can - SMD | 0.394" Dia (10.00mm) | - | MN | KEM_A4147_A740.pdf
+D    1  KEMET | al-polymer | Radial, Can - SMD | 0.394" Dia (10.00mm) | - | MW | KEM_A4125_A785.pdf
+D    1  KEMET | al-polymer | Radial, Can - SMD | 0.394" Dia (10.00mm) | - | MW | KEM_A4124_A782.pdf
+D   19  KEMET | aluminum | Radial, Can | 0.197" Dia (5.00mm) | 0.079" (2.00mm) | C3 | KEM_A4004_ESK.pdf
+D    8  KEMET | aluminum | Radial, Can | 0.197" Dia (5.00mm) | 0.079" (2.00mm) | C3 | KEM_A4005_ESH.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.197" Dia (5.00mm) | 0.079" (2.00mm) | C3 | KEM_A4055_ESE.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.197" Dia (5.00mm) | 0.079" (2.00mm) | C3 | KEM_A4010_EST.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.197" Dia (5.00mm) | 0.079" (2.00mm) | C2 | KEM_A4057_ESS.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.197" Dia (5.00mm) | 0.079" (2.00mm) | C2 | KEM_A4007_ESY.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.197" Dia (5.00mm) | 0.079" (2.00mm) | C3 | KEM_A4006_ESC.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.236" Dia (6.00mm) | 0.098" (2.50mm) | E3 | KEM_A4006_ESC.pdf
+D    2  KEMET | aluminum | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) | E3 | KEM_A4005_ESH.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) | E3 | KEM_A4007_ESY.pdf
+D    4  KEMET | aluminum | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) | E3 | KEM_A4004_ESK.pdf
+D    3  KEMET | aluminum | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) | E2 | KEM_A4057_ESS.pdf
+D    2  KEMET | aluminum | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) | E3 | KEM_A4009_ESW.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) | E3 | KEM_A4074_ESL.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.248" Dia (6.30mm) | 0.197" (5.00mm) | E3 | KEM_A4055_ESE.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.315" Dia (8.00mm) | 0.138" (3.50mm) | G4 | KEM_A4055_ESE.pdf
+D    4  KEMET | aluminum | Radial, Can | 0.315" Dia (8.00mm) | 0.138" (3.50mm) | G3 | KEM_A4005_ESH.pdf
+D    2  KEMET | aluminum | Radial, Can | 0.315" Dia (8.00mm) | 0.138" (3.50mm) | G3 | KEM_A4004_ESK.pdf
+D    2  KEMET | aluminum | Radial, Can | 0.315" Dia (8.00mm) | 0.138" (3.50mm) | G6 | KEM_A4007_ESY.pdf
+D    2  KEMET | aluminum | Radial, Can | 0.315" Dia (8.00mm) | 0.138" (3.50mm) | G3 | KEM_A4055_ESE.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) | H5 | KEM_A4007_ESY.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) | H9 | KEM_A4005_ESH.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) | H4 | KEM_A4005_ESH.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) | H2 | KEM_A4004_ESK.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) | H5 | KEM_A4010_EST.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) | H4 | KEM_A4007_ESY.pdf
+D    3  KEMET | aluminum | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) | H4 | KEM_A4004_ESK.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) | H4 | KEM_A4006_ESC.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) | H6 | KEM_A4010_EST.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) | H9 | KEM_A4055_ESE.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) | H4 | KEM_A4009_ESW.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) | H1 | KEM_A4005_ESH.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) | H1 | KEM_A4004_ESK.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.492" Dia (12.50mm) | 0.197" (5.00mm) | K3 | KEM_A4074_ESL.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.512" Dia (13.00mm) | 0.197" (5.00mm) | L3 | KEM_A4006_ESC.pdf
+D    2  KEMET | aluminum | Radial, Can | 0.512" Dia (13.00mm) | 0.197" (5.00mm) | L3 | KEM_A4004_ESK.pdf
+D    4  KEMET | aluminum | Radial, Can | 0.512" Dia (13.00mm) | 0.197" (5.00mm) | L4 | KEM_A4004_ESK.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.512" Dia (13.00mm) | 0.197" (5.00mm) | L3 | KEM_A4055_ESE.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.630" Dia (16.00mm) | 0.295" (7.50mm) | M2 | KEM_A4005_ESH.pdf
+D    2  KEMET | aluminum | Radial, Can | 0.630" Dia (16.00mm) | 0.295" (7.50mm) | M7 | KEM_A4005_ESH.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.630" Dia (16.00mm) | 0.295" (7.50mm) | M3 | KEM_A4006_ESC.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.630" Dia (16.00mm) | 0.295" (7.50mm) | M2 | KEM_A4004_ESK.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.630" Dia (16.00mm) | 0.295" (7.50mm) | M7 | KEM_A4004_ESK.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.630" Dia (16.00mm) | 0.295" (7.50mm) | M9 | KEM_A4074_ESL.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.709" Dia (18.00mm) | 0.295" (7.50mm) | N2 | KEM_A4005_ESH.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.709" Dia (18.00mm) | 0.295" (7.50mm) | N2 | KEM_A4010_EST.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.866" Dia (22.00mm) | 0.394" (10.00mm) | Q3 | KEM_A4004_ESK.pdf
+D    1  KEMET | aluminum | Radial, Can | 0.866" Dia (22.00mm) | 0.394" (10.00mm) | Q4 | KEM_A4004_ESK.pdf
+D    5  KEMET | aluminum | Radial, Can - SMD | 0.157" Dia (4.00mm) | - | 9B | KEM_A4001_EDK.pdf
+D    4  KEMET | aluminum | Radial, Can - SMD | 0.157" Dia (4.00mm) | - | 9B | KEM_A4003_EXV.pdf
+D    2  KEMET | aluminum | Radial, Can - SMD | 0.157" Dia (4.00mm) | - | 9B | KEM_A4002_EEV.pdf
+D    2  KEMET | aluminum | Radial, Can - SMD | 0.157" Dia (4.00mm) | - | 9B | KEM_A4049_EDH.pdf
+D    2  KEMET | aluminum | Radial, Can - SMD | 0.197" Dia (5.00mm) | - | 9D | KEM_A4003_EXV.pdf
+D    2  KEMET | aluminum | Radial, Can - SMD | 0.197" Dia (5.00mm) | - | 9D | KEM_A4049_EDH.pdf
+D    2  KEMET | aluminum | Radial, Can - SMD | 0.197" Dia (5.00mm) | - | 9D | KEM_A4001_EDK.pdf
+D    1  KEMET | aluminum | Radial, Can - SMD | 0.197" Dia (5.00mm) | - | 9D | KEM_A4002_EEV.pdf
+D    1  KEMET | aluminum | Radial, Can - SMD | 0.248" Dia (6.30mm) | - | 9H | KEM_A4049_EDH.pdf
+D    4  KEMET | aluminum | Radial, Can - SMD | 0.248" Dia (6.30mm) | - | 9H | KEM_A4001_EDK.pdf
+D    3  KEMET | aluminum | Radial, Can - SMD | 0.248" Dia (6.30mm) | - | 9G | KEM_A4001_EDK.pdf
+D    2  KEMET | aluminum | Radial, Can - SMD | 0.248" Dia (6.30mm) | - | 9G | KEM_A4003_EXV.pdf
+D    1  KEMET | aluminum | Radial, Can - SMD | 0.248" Dia (6.30mm) | - | 9G | KEM_A4002_EEV.pdf
+D    1  KEMET | aluminum | Radial, Can - SMD | 0.248" Dia (6.30mm) | - | 9H | KEM_A4003_EXV.pdf
+D    1  KEMET | aluminum | Radial, Can - SMD | 0.248" Dia (6.30mm) | - | 9H | KEM_A4002_EEV.pdf
+D    3  KEMET | aluminum | Radial, Can - SMD | 0.315" Dia (8.00mm) | - | 9M | KEM_A4001_EDK.pdf
+D    1  KEMET | aluminum | Radial, Can - SMD | 0.315" Dia (8.00mm) | - | 9M | KEM_A4003_EXV.pdf
+D    1  KEMET | aluminum | Radial, Can - SMD | 0.315" Dia (8.00mm) | - | 9M | KEM_A4002_EEV.pdf
+D    3  KEMET | aluminum | Radial, Can - SMD | 0.394" Dia (10.00mm) | - | 9P | KEM_A4002_EEV.pdf
+D    2  KEMET | aluminum | Radial, Can - SMD | 0.394" Dia (10.00mm) | - | 9P | KEM_A4049_EDH.pdf
+D    1  KEMET | aluminum | Radial, Can - SMD | 0.394" Dia (10.00mm) | - | 9P | KEM_A4001_EDK.pdf
+D    1  KEMET | aluminum | Radial, Can - SMD | 0.394" Dia (10.00mm) | - | 9P | KEM_A4003_EXV.pdf
+D    2  KEMET | aluminum | Radial, Can - SMD | 0.492" Dia (12.50mm) | - | 9R | KEM_A4049_EDH.pdf
+D    1  KEMET | aluminum | Radial, Can - SMD | 0.492" Dia (12.50mm) | - | 9R | KEM_A4003_EXV.pdf
+D    2  KEMET | aluminum | Radial, Can - SMD | 0.630" Dia (16.00mm) | - | 9T | KEM_A4049_EDH.pdf
 D   10  KEMET | ceramic | Axial | 0.095" Dia x 0.170" L (2.41mm x 4.32mm) | - |  | KEM_C1040_AXIMAX_C0G.pdf
 D    1  KEMET | ceramic | Axial | 0.095" Dia x 0.170" L (2.41mm x 4.32mm) | - |  | KEM_C1071_AXIMAX_X8R.pdf
 D    4  KEMET | ceramic | Axial | 0.095" Dia x 0.170" L (2.41mm x 4.32mm) | - |  | KEM_C1041_AXIMAX_X7R.pdf
@@ -249,25 +274,34 @@ D    1  KEMET | tantalum | Radial | 0.217" Dia (5.50mm) | 0.100" (2.54mm) | E | 
 D    1  KEMET | tantalum | Radial | 0.248" Dia (6.30mm) | 0.200" (5.08mm) | G | T354K476K020AT.pdf
 D    1  KEMET | tantalum | Radial | 0.299" Dia (7.60mm) | 0.100" (2.54mm) | H | T354K476K020AT.pdf
 D    1  KEMET | tantalum | Radial | 0.402" Dia (10.20mm) | 0.200" (5.08mm) | M | T354K476K020AT.pdf
-D    6  AVX | al-polymer | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) |  | rpa-series.pdf
-D    2  AVX | al-polymer | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) |  | rha-series.pdf
-D    3  AVX | al-polymer | Radial, Can | 0.315" Dia (8.00mm) | 0.138" (3.50mm) |  | rpa-series.pdf
-D    1  AVX | al-polymer | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) |  | rha-series.pdf
-D    5  AVX | al-polymer | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) |  | rpa-series.pdf
-D    6  AVX | al-polymer | Radial, Can - SMD | 0.248" Dia (6.30mm) | - |  | kyocera-avx-apa-series.pdf
-D    1  AVX | al-polymer | Radial, Can - SMD | 0.248" Dia (6.30mm) | - |  | kyocera-avx-aha-series.pdf
-D    2  AVX | al-polymer | Radial, Can - SMD | 0.315" Dia (8.00mm) | - |  | kyocera-avx-apa-series.pdf
-D    3  AVX | al-polymer | Radial, Can - SMD | 0.394" Dia (10.00mm) | - |  | kyocera-avx-apa-series.pdf
-D    1  AVX | al-polymer | Radial, Can - SMD | 0.394" Dia (10.00mm) | - |  | kyocera-avx-aha-series.pdf
-D    2  AVX | aluminum | Radial, Can | 0.315" Dia (8.00mm) | 0.138" (3.50mm) |  | rea-series.pdf
-D    1  AVX | aluminum | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) |  | rea-series.pdf
-D    3  AVX | aluminum | Radial, Can | 0.512" Dia (13.00mm) | 0.197" (5.00mm) |  | rea-series.pdf
-D    1  AVX | aluminum | Radial, Can | 0.630" Dia (16.00mm) | 0.295" (7.50mm) |  | rea-series.pdf
-D    2  AVX | aluminum | Radial, Can | 0.709" Dia (18.00mm) | 0.295" (7.50mm) |  | rea-series.pdf
-D    4  AVX | aluminum | Radial, Can - SMD | 0.315" Dia (8.00mm) | - |  | kyocera-avx-aea-series.pdf
-D    1  AVX | aluminum | Radial, Can - SMD | 0.394" Dia (10.00mm) | - |  | kyocera-avx-aea-series.pdf
-D    4  AVX | aluminum | Radial, Can - SMD | 0.492" Dia (12.50mm) | - |  | kyocera-avx-aea-series.pdf
-D    6  AVX | aluminum | Radial, Can - SMD | 0.630" Dia (16.00mm) | - |  | kyocera-avx-aea-series.pdf
+D    3  AVX | al-polymer | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) | 0608 | rpa-series.pdf
+D    2  AVX | al-polymer | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) | 0606 | rpa-series.pdf
+D    2  AVX | al-polymer | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) | 0607 | rha-series.pdf
+D    1  AVX | al-polymer | Radial, Can | 0.248" Dia (6.30mm) | 0.098" (2.50mm) | 0609 | rpa-series.pdf
+D    2  AVX | al-polymer | Radial, Can | 0.315" Dia (8.00mm) | 0.138" (3.50mm) | 0812 | rpa-series.pdf
+D    1  AVX | al-polymer | Radial, Can | 0.315" Dia (8.00mm) | 0.138" (3.50mm) | 0808 | rpa-series.pdf
+D    1  AVX | al-polymer | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) | 1011 | rha-series.pdf
+D    3  AVX | al-polymer | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) | 1010 | rpa-series.pdf
+D    2  AVX | al-polymer | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) | 1012 | rpa-series.pdf
+D    1  AVX | al-polymer | Radial, Can - SMD | 0.248" Dia (6.30mm) | - | 0608 | kyocera-avx-apa-series.pdf
+D    3  AVX | al-polymer | Radial, Can - SMD | 0.248" Dia (6.30mm) | - | 0609 | kyocera-avx-apa-series.pdf
+D    1  AVX | al-polymer | Radial, Can - SMD | 0.248" Dia (6.30mm) | - | 0608 | kyocera-avx-aha-series.pdf
+D    2  AVX | al-polymer | Radial, Can - SMD | 0.248" Dia (6.30mm) | - | 0606 | kyocera-avx-apa-series.pdf
+D    1  AVX | al-polymer | Radial, Can - SMD | 0.315" Dia (8.00mm) | - | 0809 | kyocera-avx-apa-series.pdf
+D    1  AVX | al-polymer | Radial, Can - SMD | 0.315" Dia (8.00mm) | - | 0812 | kyocera-avx-apa-series.pdf
+D    3  AVX | al-polymer | Radial, Can - SMD | 0.394" Dia (10.00mm) | - | 1010 | kyocera-avx-apa-series.pdf
+D    1  AVX | al-polymer | Radial, Can - SMD | 0.394" Dia (10.00mm) | - | 1010 | kyocera-avx-aha-series.pdf
+D    2  AVX | aluminum | Radial, Can | 0.315" Dia (8.00mm) | 0.138" (3.50mm) | 0812 | rea-series.pdf
+D    1  AVX | aluminum | Radial, Can | 0.394" Dia (10.00mm) | 0.197" (5.00mm) | 1013 | rea-series.pdf
+D    1  AVX | aluminum | Radial, Can | 0.512" Dia (13.00mm) | 0.197" (5.00mm) | 1325 | rea-series.pdf
+D    2  AVX | aluminum | Radial, Can | 0.512" Dia (13.00mm) | 0.197" (5.00mm) | 1321 | rea-series.pdf
+D    1  AVX | aluminum | Radial, Can | 0.630" Dia (16.00mm) | 0.295" (7.50mm) | 1626 | rea-series.pdf
+D    1  AVX | aluminum | Radial, Can | 0.709" Dia (18.00mm) | 0.295" (7.50mm) | 1835 | rea-series.pdf
+D    1  AVX | aluminum | Radial, Can | 0.709" Dia (18.00mm) | 0.295" (7.50mm) | 1840 | rea-series.pdf
+D    4  AVX | aluminum | Radial, Can - SMD | 0.315" Dia (8.00mm) | - | 0810 | kyocera-avx-aea-series.pdf
+D    1  AVX | aluminum | Radial, Can - SMD | 0.394" Dia (10.00mm) | - | 1010 | kyocera-avx-aea-series.pdf
+D    4  AVX | aluminum | Radial, Can - SMD | 0.492" Dia (12.50mm) | - | 1213 | kyocera-avx-aea-series.pdf
+D    6  AVX | aluminum | Radial, Can - SMD | 0.630" Dia (16.00mm) | - | 1616 | kyocera-avx-aea-series.pdf
 D    1  AVX | ceramic | Radial | 0.150" L x 0.100" W (3.81mm x 2.54mm) | 0.100" (2.54mm) |  | SR-Series.pdf
 D    4  AVX | ceramic | Radial | 0.200" L x 0.125" W (5.08mm x 3.18mm) | 0.200" (5.08mm) |  | SR-Series.pdf
 D    1  AVX | ceramic | Radial | 0.300" L x 0.150" W (7.62mm x 3.81mm) | 0.200" (5.08mm) |  | SR-Series.pdf

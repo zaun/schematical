@@ -250,17 +250,29 @@ Commit: 5b514d4
    `candidate` / `add`), so a scheme written after a walk re-decides rows the
    walk had skipped (2 `CGP` rows had been skipped before their scheme
    existed).
+8. **Military by series name** (found in plan-33-D, 2026-11-11). select.py
+   tested only Ratings / Grade for MIL; KEMET files its MIL-spec parts under
+   series such as `Military, MIL-C-11015, CK12` (and AVX `CWR11`) with no MIL
+   in Ratings, so `CK12BX101K` had become the pick of `ceramic|Axial|other|100
+   pF`. `census/military-out.py` set the 106 such rows `out` (`military`):
+   105 were `alt`, the CK12 bucket had no other part and is now empty; its
+   PDF `C114K101K1X5CA.pdf` left with `place.py --prune` (`1 PDFs deleted, 83
+   kept`; `--verify` → `84 URLs, 83 PDFs, 0 missing, 0 unused`) and its spec
+   row with `specs-prune.py`. select.py and decide.py now test the series
+   too (`Military|MIL-|^CWR\d`). A full re-walk after the prune is unsafe
+   (decide.py's docstring), so the change was applied without one.
 
 ## Summary
 
-Decisions (2026-11-11): 1034 `add`, 17007 `alt`, 61 `skip`, 9 `out`
-(2 bi-polar before ranking, 7 datasheet status). **`N_F` = 377** (ceramic
-`add` rows), **`N_G` = 657** (aluminum 188, aluminum polymer 137, tantalum
-228, tantalum polymer 84, niobium oxide 20). Makers: KEMET 507, Cal-Chip
-288, KYOCERA AVX 239; 9 automotive; 1001 picks are rank 1. Empty buckets
-(14, `buckets-empty.tsv`): ceramic 1 (Disc 22 pF), aluminum 11, aluminum
-polymer 1, tantalum polymer 1. Footprint groups (`fpgroups.tsv`): **C 88**,
-**D 214** (302).
+Decisions (2026-11-11, after § Corrections 8): 1033 `add`, 16902 `alt`, 61
+`skip`, 115 `out` (2 bi-polar, 106 military, 7 datasheet status). **`N_F` =
+376** (ceramic `add` rows), **`N_G` = 657** (aluminum 188, aluminum polymer
+137, tantalum 228, tantalum polymer 84, niobium oxide 20). Makers: KEMET 506,
+Cal-Chip 288, KYOCERA AVX 239; 9 automotive. Empty buckets (15,
+`buckets-empty.tsv`): ceramic 2 (Disc 22 pF, Axial 100 pF), aluminum 11,
+aluminum polymer 1, tantalum polymer 1. Datasheets kept: 83. Footprint
+groups (`fpgroups.tsv`): **C 88**, **D 214** at B (302); plan-33-D split the
+D groups by the maker's case code (D 248, § plan-33-D Corrections).
 
 B's risk is a wrong regex taking a part outside its datasheet's table; the
 decoded capacitance and voltage checks catch a regex that is too loose on
