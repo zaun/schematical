@@ -31,10 +31,10 @@ The gate is plan-35-A § Prerequisites. E adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-35-D complete | `grep -c '^Commit: —' planning/plan-35-D-charlcd-large-kind.md` → 0 (or in `planning/completed/`) | NOT MET (2026-11-11) |
-| The kind takes 4 rows | `grep -c -F 'rows\" must be 1, 2 or 4' backend/src/models/charlcd.c` → 1 (corrected, plan-35-D Corrections) | NOT MET (D) |
-| footprints-C.json loads | `planning/plan-35-data/census/fp-load.sh planning/plan-35-data/footprints-C.json` → only extra/unused for its ids | NOT MET (C) |
-| Baseline measured now | `wc -l < backend/tests/golden/parts.txt` (P0), `… footprints.txt` (F0) | record at start (26729 / 1212 at 656b6d1) |
+| plan-35-D complete | `grep -c '^Commit: —' planning/plan-35-D-charlcd-large-kind.md` → 0 (or in `planning/completed/`) | MET (2026-11-11 at fcbda57: 0) |
+| The kind takes 4 rows | `grep -c -F 'rows\" must be 1, 2 or 4' backend/src/models/charlcd.c` → 1 (corrected, plan-35-D Corrections) | MET (2026-11-11 at fcbda57: 1) |
+| footprints-C.json loads | `planning/plan-35-data/census/fp-load.sh planning/plan-35-data/footprints-C.json` → only extra/unused for its ids | MET (2026-11-11: B + C on the live backend → "34 new footprints: load ok", plan-35-C Phase 2) |
+| Baseline measured now | `wc -l < backend/tests/golden/parts.txt` (P0), `… footprints.txt` (F0) | recorded at start: P0 = 26729, F0 = 1212 (2026-11-11 at fcbda57; unchanged since 656b6d1) |
 
 Everything below is written against the world where these hold.
 
@@ -203,16 +203,25 @@ adds `NHD-0420DZ-FL-YBW` (37 µs exec) and `MC44005A6W-FPTLW-V2` (ST7066U
 
 ### Phase 1 — specs from the PDFs
 
-- [ ] Write `planning/plan-35-data/census/gen-parts.py` (§ 3) and
-      `planning/plan-35-data/specs.tsv` with its header.
-- [ ] Fill one `specs.tsv` row per Newhaven and Midas part from its PDF:
+- [x] Write `planning/plan-35-data/census/gen-parts.py` (§ 3) and
+      `planning/plan-35-data/specs.tsv` with its header. — the column
+      format is the script's docstring; pin roles come from the names
+      (VSS/GND/FGND ground, VDD power, NC nc, the 8 data pins inout);
+      `-` in `candidates.tsv` `backlight` means none.
+- [x] Fill one `specs.tsv` row per Newhaven and Midas part from its PDF:
       pin table, electrical table, timing page (render at 300 dpi where it
       is an image), instruction table, init flow; `ST7066U.pdf` for the 16
-      devices of § 2. Record each page used.
+      devices of § 2. Record each page used. — 35 rows, pages in each
+      `note`. Timing: 1200/140/0/10/40/10/100/10 on 32 (19 Newhaven own
+      tables, 13 Midas from ST7066U.pdf p.36), 1200/480/0/10/80/10/320/10
+      on the three Newhaven parts with a 3 V table (tpw: 460 write / 480
+      read printed, 480 used). Exec 37/37/1520 µs + 40 ms on 33,
+      39/43/1530 µs on the two NHD-0420H1Z 5 V-table parts. Every
+      controller string is `ST7066U` (see Corrections).
 
 Check: `python3 -I planning/plan-35-data/census/gen-parts.py --check planning/plan-35-data/specs.tsv planning/plan-35-data/candidates.tsv`
 → 35 rows, every key present, every pin count matching `candidates.tsv`
-(est. 1 min).
+(est. 1 min). — 2026-11-11: "35 rows ok".
 
 Commit: —
 
@@ -262,7 +271,41 @@ Per-phase checks. The landing tier is H.
 
 ## Corrections
 
-(none yet)
+Phase 1 (2026-11-11, evidence = the PDFs' own pages, in each device note):
+
+1. **NHD-0420E2Z's controller is ST7066U**, not KS0066U: all four
+   NHD-0420E2Z PDFs print "Built-in ST7066U" (p.2, p.5) and "Driver IC:
+   ST7066U" (p.3). The KS0066U came from DigiKey. § 2's "Every Newhaven and
+   Midas PDF names its controller" stands; every row's controller is
+   ST7066U (six Midas PDFs print "ST7066U+ST7063C"; the notes quote it).
+2. **Only the 13 Midas devices take exec from `ST7066U.pdf`, not 16.**
+   NHD-0240AZ-FSW-FBW, NHD-0240AZ-NSW-BBW and NHD-0440AZ-RN-FBW print the
+   instruction table as an image on p.7 (37 µs, 1.52 ms at 270 kHz). § 2's
+   measured-population row and plan-35-A § 2's sentence about them
+   overstated it; their exec comes from their own PDF.
+3. **Three 3.3 V Newhaven modules print only the 5 V timing table**
+   (NHD-0420AZ-FL-YBW-33V3, NHD-0420DZ-FL-YBW-33V3,
+   NHD-0420H1Z-FSW-GBW-33V3: tpw 140, tdsw 40, tddr 100). Their devices use
+   the table as printed (§ 3 "timing from the PDF"); the notes say so. The
+   other three 3.3 V modules print a 2.7 V table and use it.
+4. **"powerOn 40 ms on every flow seen" is not quite true:** NHD-0440WH
+   (p.10) and NHD-0440AZ-RN-FBW (pp.11–12) print example code with
+   `delay(15)` and no unit. They take 40 ms from `ST7066U.pdf` p.25 ("busy
+   state lasts for 40 ms after VCC rises to 4.5 V"), as the Midas devices.
+5. **10 of the 13 Midas PDFs give VDD as a typical 5.0 V only.** Their
+   `vcc` is 4.5–5.5 from `ST7066U.pdf` p.38 (the controller's DC table),
+   noted per device. MC42005A6W-FPTLW-V2 (4.5–5.5, p.5) and
+   MD24005A6W-FPTLRGB (4.7–5.5, p.2) print a range and use it. No Midas
+   module is 3.3 V.
+6. **The PDFs' VDD ranges differ from DigiKey's (`candidates.tsv`
+   `dk_vcc`)**; the devices use the PDFs (e.g. NHD-0240AZ-FL-GBW
+   4.8–5.2, NHD-0420AZ-FSW-GBW-33V3 3.0–3.5, NHD-0420DZ-FSW-FBW 4.7–5.3).
+7. **MC44005A6W-BNMLW-V2 contradicts itself**: p.2 says "PIN15: LED+,
+   PIN16: LED-", its pin table p.4 says 17 LED+, 18 LED-. The device
+   follows the pin table (the drawing agrees, plan-35-C).
+8. **RGB cathode order differs per module**: MD42004 and MD44005 number
+   K(B), K(G), K(R); MD42005C numbers K(R), K(G), K(B). Pins are as
+   printed; every `backlight` array is Red, Green, Blue by name.
 
 ## Summary
 
