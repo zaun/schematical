@@ -226,7 +226,7 @@ part by part.
 Check: `wc -l < planning/plan-35-data/stock-check.tsv` → 67 and the awk
 of § 1 prints only rows now marked `skip` (est. 2 min).
 
-Commit: —
+Commit: c92ae88
 
 ### Phase 2 — datasheets into the tree
 
@@ -258,17 +258,21 @@ Check: `ls datasheets/module-disp-char/*.pdf | wc -l` → 75;
 `add` row → 67; `node scripts/check-datasheets.js` on the new ids → all
 PDF (est. 3 min).
 
-Commit: —
+Commit: 12bed59
 
 ### Phase 3 — skipped parts
 
-- [ ] Add a section `## Character LCDs, 20x4 / 40x2 / 40x4 (plan-35)` to
+- [x] Add a section `## Character LCDs, 20x4 / 40x2 / 40x4 (plan-35)` to
       `datasheets/skipped-parts.md` with the file's table columns (Part(s) |
       Device | Would have gone into | Why skipped). Group rows by reason:
       one row per reason and family, listing every part. Every `skip` row
       of `candidates.tsv` appears exactly once. "Would have gone into" is
       `charlcd` / Displays → Character → <size>. Why: the `reason` column,
-      with "owner, 2026-11-11" on the scope rows.
+      with "owner, 2026-11-11" on the scope rows. — 12 rows (reason ×
+      maker); the check is now a script,
+      `python3 -I planning/plan-35-data/census/skipcheck.py planning/plan-35-data/candidates.tsv datasheets/skipped-parts.md`
+      → "59 skip names; 59 found exactly once" (whole-name match, so a
+      name inside a longer one does not count).
 
 Check: every `skip` part name is found once in the new section (a
 `grep -c -F` loop over the 59 names → 59 ones; est. 1 min).
@@ -306,7 +310,11 @@ Per-phase checks only. The landing tier is plan-35-H.
 
 ## Corrections
 
-(none yet)
+- **Phase 3's grep loop became `census/skipcheck.py`** (2026-11-11): a
+  `grep -c -F` loop counts lines, not whole names, and the worktree shell
+  refuses loops; the script counts whole-name matches in the plan-35
+  section only, which is the same check, stricter. plan-35-H's
+  "Skipped parts listed" gate runs it.
 
 ## Summary
 

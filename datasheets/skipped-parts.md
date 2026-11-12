@@ -629,3 +629,25 @@ listings were not part of this. 363 of the 463 parts were added to `connector.js
 | UP31-CV-G-CM, UP32-1-C-H-G-BMT-P24, UP32-C-F-G-FL-1-P24, UP40-C-V-G-BMT-10B-P24-TR | Same Sky | `connector` / Connector → USB → USB-C plug | straddle mount on a paddle-card edge: half the pads are on the bottom copper layer, which the footprint format cannot express |
 | 12401832E402A, 124019362112A, 12401945E212A, 124019572112A, 124019772112A, GSB12111031EU, GSB12121031EU, GSB1212103EU, GSB12121RSKHR, GSB12621A1EU, GSB19110KEU, GSB19111KEU, GSB19121TP2EU, GSB19151TP2EU, GSB1C211110DS1HR, GSB1C41110SSHR, GSB1C4K11DSHR, GSB3116344KHHR, GSB312137CHR, GSB3C3133DS2HR, GSB3CA11310DSHR, GSB3CN1130DSHR, GSB417131HR, LUSB359300, MUSBRM1CB30, UE28AM54130 | Amphenol ICC | `connector` / Connector → USB → USB-A plug; `connector` / Connector → USB → USB-A receptacle; `connector` / Connector → USB → USB-C plug; `connector` / Connector → USB → USB-C receptacle | the part's customer drawing is only on Amphenol's sites (cdn.amphenol-cs.com, amphenol-icc.com), which refuse automated downloads (Cloudflare, HTTP 403), and no copy was found on Amphenol's S3 mirror (s3.us-west-2.amazonaws.com/catsy.925) |
 | UJ20-C-H-G-SMT-13B-P16-TR-67, UJ20-C-H-G-SMT-15B-P16-TR-X7, UJ20-C-V-G-TH-11B-P16-TR-X7, UJ32-1-C-H-SMT-19B-P24-TR-X8 | Same Sky | `connector` / Connector → USB → USB-C receptacle | no datasheet on the maker's site (sameskydevices.com/product/resource/<part>.pdf answers 404) |
+
+## Character LCDs, 20x4 / 40x2 / 40x4 (plan-35)
+
+In-stock 20x4 / 40x2 / 40x4 character modules (DigiKey category 99) of the three makers with the
+most of them: Focus LCDs, Newhaven Display Intl and Midas Displays (census and part-by-part
+re-check 2026-11-11, `planning/plan-35-data/candidates.tsv`). 67 were added to `charlcd.json`;
+these 59 were left out.
+
+| Part(s) | Device | Would have gone into | Why skipped |
+|---|---|---|---|
+| C204IXBSGN06WR50XAC | Focus LCDs character 20x4 module | `charlcd` / Displays → Character → 20x4 | FPC tail (conductive/stiffener side, p.2): no through-hole pins, no board footprint without a separate FPC connector |
+| C404A-FTB-LW65 | Focus LCDs character 40x4 module | `charlcd` / Displays → Character → 40x4 | Focus PDF is a 2-page overview: no pinout, timing or drawing |
+| O204B-CY-YS5, O402A-CW-SW3 | Focus LCDs character 20x4 / 40x2 modules | `charlcd` / Displays → Character → 20x4; `charlcd` / Displays → Character → 40x2 | Character OLED. Owner, 2026-11-11: parallel LCD only |
+| NHD-0420CW-AB3, NHD-0420CW-AG3, NHD-0420CW-AW3, NHD-0420DZW-AB5, NHD-0420DZW-AG5, NHD-0420DZW-AY5 | Newhaven Display Intl character 20x4 modules | `charlcd` / Displays → Character → 20x4 | Character OLED. Owner, 2026-11-11: parallel LCD only |
+| C204BLBFKSW6WT55XAA | Focus LCDs character 20x4 module | `charlcd` / Displays → Character → 20x4 | Datasheet font is English/European (not ROM A00). Owner, 2026-11-11: non-A00 fonts out |
+| MC42004A6WK-FPTLW-V2, MC42004A6WK-SPTLY-V2, MC42005A6WK-FPTLW-V2 | Midas Displays character 20x4 modules | `charlcd` / Displays → Character → 20x4 | Datasheet font is English/European (not ROM A00). Owner, 2026-11-11: non-A00 fonts out |
+| C204A-BW-LW63, C204A-BW-LW65, C204A-FTW-LW63, C204A-FTW-LW65, C204A-YTY-LW63, C204A-YTY-LW65, C204A1-KW-XW65, C204B-BW-LW63, C204B-BW-LW65, C204B-FTW-LW63, C204B-FTW-LW65, C204B-YTY-LW63, C204B-YTY-LW65, C204C-BW-LW63, C204C-BW-LW65, C204C-FTW-LW63, C204C-FTW-LW65, C204C-YTY-LW63, C204C-YTY-LW65, C402A-BW-LW63, C402A-BW-LW65, C402A-FTW-LW63, C402A-FTW-LW65, C402A-KW-LW65, C402A-YTY-LW63, C402A-YTY-LW65, C404A-BW-LW63, C404A-BW-LW65, C404A-FTW-LW63, C404A-FTW-LW65, C404A-YTY-LW63, C404A-YTY-LW65 | Focus LCDs character 20x4 / 40x2 / 40x4 modules | `charlcd` / Displays → Character → 20x4; `charlcd` / Displays → Character → 40x2; `charlcd` / Displays → Character → 40x4 | Datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11) |
+| MC42008A6W-SPR | Midas Displays character 20x4 module | `charlcd` / Displays → Character → 20x4 | No datasheet on midasdisplays.com (no product page or PDF, 2026-11-11); only a DigiKey-hosted copy |
+| NHD-C0420AZ-FSW-FBW-3V3, NHD-C0420AZ-NSW-BBW-3V3, NHD-C0420BZ-FSW-FBW-3V3, NHD-C0420BZ-NSW-BBW-3V3 | Newhaven Display Intl character 20x4 modules | `charlcd` / Displays → Character → 20x4 | Serial/I2C/SPI front end (IST3602). Owner, 2026-11-11: parallel LCD only |
+| NHD-0420D3Z-FL-GBW-V3 | Newhaven Display Intl character 20x4 module | `charlcd` / Displays → Character → 20x4 | Serial/I2C/SPI front end (PIC16F698). Owner, 2026-11-11: parallel LCD only |
+| NHD-0420D3Z-NSW-BBW-V3 | Newhaven Display Intl character 20x4 module | `charlcd` / Displays → Character → 20x4 | Serial/I2C/SPI front end (PIC16F699). Owner, 2026-11-11: parallel LCD only |
+| C204AS-BW-LW63, C204AS-BW-LW65, C204AS-FTW-LW63, C204AS-FTW-LW65, C204AS-YTY-LW63, C204AS-YTY-LW65 | Focus LCDs character 20x4 modules | `charlcd` / Displays → Character → 20x4 | Serial/I2C/SPI front end (ST7066U and PIC16F690). Owner, 2026-11-11: parallel LCD only |
