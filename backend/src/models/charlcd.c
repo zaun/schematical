@@ -8,7 +8,10 @@
  * instruction set, the busy flag and execution times, power-on reset, the
  * bus timing checks and the X rules (an access whose effect is unknown makes
  * everything it could change X; "LOST" is every field X). The backend
- * renders the dot image (circuit_lcd_state); the backlight is one light.
+ * renders the dot image (circuit_lcd_state); each backlight LED is a light.
+ * plan-35-D: 4-row modules (one controller's two 40-cell lines, each split
+ * in two rows) and 40x4 modules with two controllers on one bus, E1 for
+ * rows 0-1 and E2 for rows 2-3, each with its own state.
  * Not modeled: V0 and contrast, the 5x10 font (F is stored), ROM A02, tR/tF,
  * serial interfaces.
  */
@@ -24,7 +27,9 @@
 #include "model_pins.h"
 
 #define LCD_DATA_BITS 8
-#define LCD_BUS_PINS (3 + LCD_DATA_BITS)
+#define LCD_MAX_BUS_PINS (4 + LCD_DATA_BITS)   /* RS, R/W, E1, E2, DB0-DB7 */
+#define LCD_MAX_ENABLES 2
+#define LCD_MAX_LEDS 3
 
 static const char *const DEVICE_KEYS[] = {
     "columns", "rows", "controller", "rom", "panel", "bus", "contrast", "backlight", "timing",
@@ -45,21 +50,25 @@ typedef struct {
 } CharLcdTiming;
 
 typedef struct {
-    unsigned columns, rows;
+    unsigned columns, rows, enables;
     const char *controller, *rom, *panel, *backlight_color;
-    const char *rs, *rw, *e;
+    const char *rs, *rw, *e[LCD_MAX_ENABLES];   /* e[1]: NULL with one enable */
     const char *const *data;
     const char *contrast;
-    const char *anode, *cathode;      /* NULL without a backlight */
+    size_t leds;                                 /* backlight LEDs, 0-3 */
+    const char *anode[LCD_MAX_LEDS], *cathode[LCD_MAX_LEDS];
+    const char *colors[LCD_MAX_LEDS];
     CharLcdTiming t;
     const PartVoltage *vcc;
 } CharLcdDevice;
 
 /* Pin indices for one pinout. */
 typedef struct {
-    size_t rs, rw, e, db[LCD_DATA_BITS], contrast, anode, cathode;
-    int has_backlight;
-    size_t bus[LCD_BUS_PINS];
+    size_t rs, rw, e[LCD_MAX_ENABLES], db[LCD_DATA_BITS], contrast;
+    unsigned enables;
+    size_t anode[LCD_MAX_LEDS], cathode[LCD_MAX_LEDS];
+    size_t leds;
+    size_t bus[LCD_MAX_BUS_PINS];
     PartCharLcd info;
     const CharLcdDevice *device;
 } CharLcdPins;
@@ -94,6 +103,69 @@ static int more_than_zero(KindContext *ctx, SimTime value, const char *what) {
     return value > 0 ? 0 : kind_error(ctx, "\"%s\" must be more than 0", what);
 }
 
+/* "bus".e: one pin name, or two (E1, E2). */
+static int load_enables(KindContext *ctx, const cJSON *bus, CharLcdDevice *device) {
+    const cJSON *e = kind_member(ctx, bus, "e", 1);
+
+    if (e == NULL) {
+        return -1;
+    }
+    if (cJSON_IsString(e)) {
+        device->enables = 1;
+        return kind_string(ctx, bus, "e", &device->e[0]);
+    }
+    if (cJSON_IsArray(e) && cJSON_GetArraySize(e) == LCD_MAX_ENABLES) {
+        const char *const *names;
+        size_t count;
+
+        if (kind_names(ctx, bus, "e", &names, &count) != 0) {
+            return -1;
+        }
+        if (count == LCD_MAX_ENABLES) {
+            device->enables = LCD_MAX_ENABLES;
+            device->e[0] = names[0];
+            device->e[1] = names[1];
+            return 0;
+        }
+    }
+    return kind_error(ctx, "\"e\" must be a pin name or 2 pin names");
+}
+
+/* "backlight": one LED object, or an array of 1-3. */
+static int load_backlight(KindContext *ctx, const cJSON *backlight, CharLcdDevice *device) {
+    int array = cJSON_IsArray(backlight);
+    int count = array ? cJSON_GetArraySize(backlight) : cJSON_IsObject(backlight) ? 1 : 0;
+    int i;
+
+    if (count < 1 || count > LCD_MAX_LEDS) {
+        return kind_error(ctx, "\"backlight\" must be an object or 1 to 3 objects");
+    }
+    for (i = 0; i < count; i++) {
+        const cJSON *led = array ? cJSON_GetArrayItem(backlight, i) : backlight;
+        int failed;
+
+        if (!cJSON_IsObject(led)) {
+            return kind_error(ctx, "\"backlight\" must be an object or 1 to 3 objects");
+        }
+        if (array) {
+            kind_push(ctx, "backlight[%d]", i);
+        }
+        failed = kind_check_keys(ctx, led, BACKLIGHT_KEYS, NULL) != 0 ||
+                 kind_string(ctx, led, "anode", &device->anode[i]) != 0 ||
+                 kind_string(ctx, led, "cathode", &device->cathode[i]) != 0 ||
+                 kind_string(ctx, led, "color", &device->colors[i]) != 0;
+        if (array) {
+            kind_pop(ctx);
+        }
+        if (failed) {
+            return -1;
+        }
+    }
+    device->leds = (size_t)count;
+    device->backlight_color = device->colors[0];
+    return 0;
+}
+
 static void *charlcd_load_device(KindContext *ctx, const cJSON *json) {
     CharLcdDevice *device = kind_alloc(ctx, sizeof(*device));
     CharLcdTiming *t;
@@ -116,8 +188,8 @@ static void *charlcd_load_device(KindContext *ctx, const cJSON *json) {
     if (kind_uint(ctx, json, "rows", 1000000, &rows) != 0) {
         return NULL;
     }
-    if (rows < 1 || rows > 2) {
-        kind_error(ctx, "\"rows\" must be 1 or 2");
+    if (rows != 1 && rows != 2 && rows != 4) {
+        kind_error(ctx, "\"rows\" must be 1, 2 or 4");
         return NULL;
     }
     device->columns = (unsigned)columns;
@@ -133,8 +205,9 @@ static void *charlcd_load_device(KindContext *ctx, const cJSON *json) {
     if (kind_string(ctx, json, "panel", &device->panel) != 0) {
         return NULL;
     }
-    if (strcmp(device->panel, "yellow-green") != 0 && strcmp(device->panel, "blue-negative") != 0) {
-        kind_error(ctx, "\"panel\" must be yellow-green or blue-negative");
+    if (strcmp(device->panel, "yellow-green") != 0 && strcmp(device->panel, "blue-negative") != 0 &&
+        strcmp(device->panel, "gray") != 0 && strcmp(device->panel, "white") != 0) {
+        kind_error(ctx, "\"panel\" must be yellow-green, blue-negative, gray or white");
         return NULL;
     }
 
@@ -149,7 +222,15 @@ static void *charlcd_load_device(KindContext *ctx, const cJSON *json) {
     if (kind_check_keys(ctx, bus, BUS_KEYS, NULL) != 0 ||
         kind_string(ctx, bus, "rs", &device->rs) != 0 ||
         kind_string(ctx, bus, "rw", &device->rw) != 0 ||
-        kind_string(ctx, bus, "e", &device->e) != 0) {
+        load_enables(ctx, bus, device) != 0) {
+        return NULL;
+    }
+    if (device->enables == 2 && device->rows != 4) {
+        kind_error(ctx, "two enables need \"rows\": 4");
+        return NULL;
+    }
+    if (device->enables == 1 && device->rows == 4 && device->columns > 20) {
+        kind_error(ctx, "4 rows on one controller need \"columns\" of 20 or less");
         return NULL;
     }
     {
@@ -169,17 +250,8 @@ static void *charlcd_load_device(KindContext *ctx, const cJSON *json) {
     }
 
     backlight = cJSON_GetObjectItemCaseSensitive(json, "backlight");
-    if (backlight != NULL) {
-        if (!cJSON_IsObject(backlight)) {
-            kind_error(ctx, "\"backlight\" must be an object");
-            return NULL;
-        }
-        if (kind_check_keys(ctx, backlight, BACKLIGHT_KEYS, NULL) != 0 ||
-            kind_string(ctx, backlight, "anode", &device->anode) != 0 ||
-            kind_string(ctx, backlight, "cathode", &device->cathode) != 0 ||
-            kind_string(ctx, backlight, "color", &device->backlight_color) != 0) {
-            return NULL;
-        }
+    if (backlight != NULL && load_backlight(ctx, backlight, device) != 0) {
+        return NULL;
     }
 
     {
@@ -213,32 +285,43 @@ static void *charlcd_bind_pinout(KindContext *ctx, const void *raw, const PartPi
                                  size_t pin_count) {
     const CharLcdDevice *device = raw;
     CharLcdPins *bound = kind_alloc(ctx, sizeof(*bound));
-    size_t i;
+    size_t i, n;
 
     if (bound == NULL ||
         kind_pin(ctx, pins, pin_count, device->rs, &bound->rs) != 0 ||
-        kind_pin(ctx, pins, pin_count, device->rw, &bound->rw) != 0 ||
-        kind_pin(ctx, pins, pin_count, device->e, &bound->e) != 0 ||
-        kind_pin(ctx, pins, pin_count, device->contrast, &bound->contrast) != 0) {
+        kind_pin(ctx, pins, pin_count, device->rw, &bound->rw) != 0) {
         return NULL;
     }
+    for (i = 0; i < device->enables; i++) {
+        if (kind_pin(ctx, pins, pin_count, device->e[i], &bound->e[i]) != 0) {
+            return NULL;
+        }
+    }
+    if (kind_pin(ctx, pins, pin_count, device->contrast, &bound->contrast) != 0) {
+        return NULL;
+    }
+    bound->enables = device->enables;
     for (i = 0; i < LCD_DATA_BITS; i++) {
         if (kind_pin(ctx, pins, pin_count, device->data[i], &bound->db[i]) != 0) {
             return NULL;
         }
     }
-    if (device->anode != NULL) {
-        if (kind_pin(ctx, pins, pin_count, device->anode, &bound->anode) != 0 ||
-            kind_pin(ctx, pins, pin_count, device->cathode, &bound->cathode) != 0) {
+    for (i = 0; i < device->leds; i++) {
+        if (kind_pin(ctx, pins, pin_count, device->anode[i], &bound->anode[i]) != 0 ||
+            kind_pin(ctx, pins, pin_count, device->cathode[i], &bound->cathode[i]) != 0) {
             return NULL;
         }
-        bound->has_backlight = 1;
     }
-    bound->bus[0] = bound->rs;
-    bound->bus[1] = bound->rw;
-    bound->bus[2] = bound->e;
+    bound->leds = device->leds;
+    /* RS, R/W, E (or E1, E2), DB0-DB7. */
+    n = 0;
+    bound->bus[n++] = bound->rs;
+    bound->bus[n++] = bound->rw;
+    for (i = 0; i < device->enables; i++) {
+        bound->bus[n++] = bound->e[i];
+    }
     for (i = 0; i < LCD_DATA_BITS; i++) {
-        bound->bus[3 + i] = bound->db[i];
+        bound->bus[n++] = bound->db[i];
     }
     bound->info.columns = device->columns;
     bound->info.rows = device->rows;
@@ -247,7 +330,10 @@ static void *charlcd_bind_pinout(KindContext *ctx, const void *raw, const PartPi
     bound->info.panel = device->panel;
     bound->info.backlight_color = device->backlight_color;
     bound->info.bus_pins = bound->bus;
-    bound->info.bus_pin_count = LCD_BUS_PINS;
+    bound->info.bus_pin_count = n;
+    bound->info.enables = device->enables;
+    bound->info.backlight_count = device->leds;
+    bound->info.backlight_colors = device->leds > 0 ? device->colors : NULL;
     bound->device = device;
     return bound;
 }
@@ -260,18 +346,18 @@ static int charlcd_load_part(KindContext *ctx, const void *raw, const void *boun
     return kind_part_voltage(ctx, json, device->vcc, &out->vcc);
 }
 
-int charlcd_backlight_pins(const Part *part, size_t *anode, size_t *cathode) {
+int charlcd_backlight_pins(const Part *part, size_t index, size_t *anode, size_t *cathode) {
     const CharLcdPins *pins;
 
     if (part == NULL || part->kind != PART_CHARLCD) {
         return 0;
     }
     pins = part_internal(part)->bound;
-    if (!pins->has_backlight) {
+    if (index >= pins->leds) {
         return 0;
     }
-    *anode = pins->anode;
-    *cathode = pins->cathode;
+    *anode = pins->anode[index];
+    *cathode = pins->cathode[index];
     return 1;
 }
 
@@ -286,12 +372,14 @@ int charlcd_backlight_pins(const Part *part, size_t *anode, size_t *cathode) {
 #define LCD_NEVER UINT64_MAX
 #define LCD_BLINK_PS 379259259ull   /* 409.6 ms x 250 kHz / 270 kHz */
 
+/* A timer id: the kind in bits 0-1, the access's seq in bits 2-30, the
+   controller in bit 31. */
 enum { TIMER_READ_DATA, TIMER_READ_OFF, TIMER_WRITE };
+#define TIMER_SEQ_MASK 0x1FFFFFFFu
 
+/* One controller: an HD44780 with its own registers, RAM, busy flag,
+   enable pin and access record (a 40x4 has two on one bus). */
 typedef struct {
-    CharLcdPins pins;
-    const CharLcdTiming *t;
-
     /* Registers: 0/1 (or a value), -1 = X. */
     int dl, n, f, d, c, b, id, s;
     int ac;                  /* 0-127 */
@@ -305,27 +393,37 @@ typedef struct {
     uint8_t ddram[80], ddram_known[80];
     uint8_t cgram[64], cgram_known[64];
 
-    /* Inputs. */
+    /* Its enable. */
     int e;                   /* E as last seen: 0, 1, -1 */
-    SimTime rs_time, rw_time, db_time[LCD_DATA_BITS];
     SimTime rise_time, prev_rise;
     int have_rise;
 
     /* The access in progress (E high). */
     int acc_rs, acc_rw, acc_violated;
-    uint32_t seq;
+    uint32_t seq;            /* counts this controller's accesses; stale timers carry an old one */
 
     /* Read drive. */
     int driving, drive_x;
     uint8_t drive_mask, read_value, read_known;
     uint8_t read_byte, read_byte_known;   /* 4-bit: the byte whose nibbles a read returns */
+    uint8_t out_mask, out_value, out_known;   /* what it drives on DB now (out_mask 0: nothing) */
 
     /* A write waiting out its hold window. */
     int pending, pend_rs, pend_violated;
     SimTime pend_fall;
     uint8_t pend_value, pend_known, pend_mask;
+} CharLcdCtl;
 
-    Light light;
+/* The module: the shared bus inputs, the controllers and the backlight. */
+typedef struct {
+    CharLcdPins pins;
+    const CharLcdTiming *t;
+
+    /* Shared inputs: RS, R/W and DB change times. */
+    SimTime rs_time, rw_time, db_time[LCD_DATA_BITS];
+
+    CharLcdCtl ctl[LCD_MAX_ENABLES];   /* ctl[1] only with two enables */
+    Light light[LCD_MAX_LEDS];         /* one per backlight LED */
 } CharLcdState;
 
 static int level(const Sim *sim, const SimInstance *instance, size_t pin) {
@@ -338,11 +436,11 @@ static int bit_of(uint8_t value, uint8_t known, unsigned bit) {
     return (known >> bit) & 1u ? (int)((value >> bit) & 1u) : -1;
 }
 
-static int busy_flag(const CharLcdState *st, SimTime now) {
-    if (now < st->bf_x_until) {
+static int busy_flag(const CharLcdCtl *ctl, SimTime now) {
+    if (now < ctl->bf_x_until) {
         return -1;
     }
-    return now < st->busy_until;
+    return now < ctl->busy_until;
 }
 
 static int in_power_on(const CharLcdState *st, SimTime now) {
@@ -351,39 +449,39 @@ static int in_power_on(const CharLcdState *st, SimTime now) {
 
 /* The DB pins the current mode reads and drives: DB4-7 in 4-bit mode,
    all eight in 8-bit mode or when DL is X. */
-static uint8_t mode_mask(const CharLcdState *st) {
-    return st->dl == 0 ? 0xF0 : 0xFF;
+static uint8_t mode_mask(const CharLcdCtl *ctl) {
+    return ctl->dl == 0 ? 0xF0 : 0xFF;
 }
 
-static void power_up(CharLcdState *st) {
-    st->dl = 1;
-    st->n = st->f = st->d = st->c = st->b = st->s = 0;
-    st->id = 1;
-    st->ac = 0;
-    st->ram = 0;
-    st->shift = 0;
-    st->phase = 0;
-    memset(st->ddram, 0x20, sizeof st->ddram);
-    memset(st->ddram_known, 0xFF, sizeof st->ddram_known);
-    memset(st->cgram, 0, sizeof st->cgram);
-    memset(st->cgram_known, 0, sizeof st->cgram_known);
-    st->busy_until = st->t->power_on;
-    st->bf_x_until = 0;
+static void power_up(CharLcdState *st, CharLcdCtl *ctl) {
+    ctl->dl = 1;
+    ctl->n = ctl->f = ctl->d = ctl->c = ctl->b = ctl->s = 0;
+    ctl->id = 1;
+    ctl->ac = 0;
+    ctl->ram = 0;
+    ctl->shift = 0;
+    ctl->phase = 0;
+    memset(ctl->ddram, 0x20, sizeof ctl->ddram);
+    memset(ctl->ddram_known, 0xFF, sizeof ctl->ddram_known);
+    memset(ctl->cgram, 0, sizeof ctl->cgram);
+    memset(ctl->cgram_known, 0, sizeof ctl->cgram_known);
+    ctl->busy_until = st->t->power_on;
+    ctl->bf_x_until = 0;
 }
 
 /* LOST: every register field, every RAM cell and BF X. */
-static void lose(CharLcdState *st) {
-    st->dl = st->n = st->f = st->d = st->c = st->b = st->id = st->s = -1;
-    st->ac = st->ram = st->shift = st->phase = -1;
-    memset(st->ddram_known, 0, sizeof st->ddram_known);
-    memset(st->cgram_known, 0, sizeof st->cgram_known);
-    st->bf_x_until = LCD_NEVER;
+static void lose(CharLcdCtl *ctl) {
+    ctl->dl = ctl->n = ctl->f = ctl->d = ctl->c = ctl->b = ctl->id = ctl->s = -1;
+    ctl->ac = ctl->ram = ctl->shift = ctl->phase = -1;
+    memset(ctl->ddram_known, 0, sizeof ctl->ddram_known);
+    memset(ctl->cgram_known, 0, sizeof ctl->cgram_known);
+    ctl->bf_x_until = LCD_NEVER;
 }
 
-static void start_busy(CharLcdState *st, SimTime now, SimTime length) {
-    st->busy_until = now + length;
-    if (st->bf_x_until > now) {
-        st->bf_x_until = st->busy_until;   /* BF is known again when this ends */
+static void start_busy(CharLcdCtl *ctl, SimTime now, SimTime length) {
+    ctl->busy_until = now + length;
+    if (ctl->bf_x_until > now) {
+        ctl->bf_x_until = ctl->busy_until;   /* BF is known again when this ends */
     }
 }
 
@@ -404,11 +502,11 @@ static int ddram_index_n(int n, int address) {
 }
 
 /* -2 when N is X and the two modes disagree. */
-static int ddram_index(const CharLcdState *st, int address) {
+static int ddram_index(const CharLcdCtl *ctl, int address) {
     int a, b;
 
-    if (st->n >= 0) {
-        return ddram_index_n(st->n, address);
+    if (ctl->n >= 0) {
+        return ddram_index_n(ctl->n, address);
     }
     a = ddram_index_n(0, address);
     b = ddram_index_n(1, address);
@@ -429,77 +527,79 @@ static int ddram_step_n(int n, int address, int up) {
 }
 
 /* Moves AC one step; dir 1 up, 0 down, -1 X. */
-static void ac_step(CharLcdState *st, int dir) {
-    if (st->ac < 0 || st->ram < 0 || dir < 0) {
-        st->ac = -1;
+static void ac_step(CharLcdCtl *ctl, int dir) {
+    if (ctl->ac < 0 || ctl->ram < 0 || dir < 0) {
+        ctl->ac = -1;
         return;
     }
-    if (st->ram == 1) {
-        st->ac = (st->ac + (dir ? 1 : 63)) & 0x3F;
+    if (ctl->ram == 1) {
+        ctl->ac = (ctl->ac + (dir ? 1 : 63)) & 0x3F;
         return;
     }
-    if (st->n >= 0) {
-        st->ac = ddram_step_n(st->n, st->ac, dir);
+    if (ctl->n >= 0) {
+        ctl->ac = ddram_step_n(ctl->n, ctl->ac, dir);
     } else {
-        int a = ddram_step_n(0, st->ac, dir);
-        int b = ddram_step_n(1, st->ac, dir);
+        int a = ddram_step_n(0, ctl->ac, dir);
+        int b = ddram_step_n(1, ctl->ac, dir);
 
-        st->ac = a == b ? a : -1;
+        ctl->ac = a == b ? a : -1;
     }
 }
 
 /* Shifts the display one step; dir 1 = +1 (content moves left), 0 = -1, -1 = X. */
-static void shift_step(CharLcdState *st, int dir) {
-    if (st->shift < 0 || dir < 0) {
-        st->shift = -1;
+static void shift_step(CharLcdCtl *ctl, int dir) {
+    if (ctl->shift < 0 || dir < 0) {
+        ctl->shift = -1;
         return;
     }
-    st->shift = (st->shift + (dir ? 1 : 79)) % 80;
+    ctl->shift = (ctl->shift + (dir ? 1 : 79)) % 80;
 }
 
 /* ---- Instructions and data (sections 4.4, 4.5) ---- */
 
-static void write_data(CharLcdState *st, SimTime now, uint8_t value, uint8_t known, int violated) {
-    start_busy(st, now, st->t->data);
+static void write_data(CharLcdState *st, CharLcdCtl *ctl, SimTime now, uint8_t value,
+                       uint8_t known, int violated) {
+    start_busy(ctl, now, st->t->data);
     if (violated) {
         known = 0;
     }
-    if (st->ram < 0 || st->ac < 0) {
+    if (ctl->ram < 0 || ctl->ac < 0) {
         /* Every cell of the RAM it could have hit. */
-        if (st->ram != 1) {
-            memset(st->ddram_known, 0, sizeof st->ddram_known);
-            if (st->s != 0) {
-                st->shift = -1;
+        if (ctl->ram != 1) {
+            memset(ctl->ddram_known, 0, sizeof ctl->ddram_known);
+            if (ctl->s != 0) {
+                ctl->shift = -1;
             }
         }
-        if (st->ram != 0) {
-            memset(st->cgram_known, 0, sizeof st->cgram_known);
+        if (ctl->ram != 0) {
+            memset(ctl->cgram_known, 0, sizeof ctl->cgram_known);
         }
-        st->ac = -1;
+        ctl->ac = -1;
         return;
     }
-    if (st->ram == 1) {
-        st->cgram[st->ac & 0x3F] = value;
-        st->cgram_known[st->ac & 0x3F] = known;
+    if (ctl->ram == 1) {
+        ctl->cgram[ctl->ac & 0x3F] = value;
+        ctl->cgram_known[ctl->ac & 0x3F] = known;
     } else {
-        int index = ddram_index(st, st->ac);
+        int index = ddram_index(ctl, ctl->ac);
 
         if (index == -2) {
-            memset(st->ddram_known, 0, sizeof st->ddram_known);
+            memset(ctl->ddram_known, 0, sizeof ctl->ddram_known);
         } else if (index >= 0) {
-            st->ddram[index] = value;
-            st->ddram_known[index] = known;
+            ctl->ddram[index] = value;
+            ctl->ddram_known[index] = known;
         }
-        if (st->s == 1) {
-            shift_step(st, st->id);
-        } else if (st->s < 0) {
-            st->shift = -1;
+        if (ctl->s == 1) {
+            shift_step(ctl, ctl->id);
+        } else if (ctl->s < 0) {
+            ctl->shift = -1;
         }
     }
-    ac_step(st, st->id);
+    ac_step(ctl, ctl->id);
 }
 
-static void write_instruction(CharLcdState *st, SimTime now, uint8_t v, uint8_t k) {
+static void write_instruction(CharLcdState *st, CharLcdCtl *ctl, SimTime now, uint8_t v,
+                              uint8_t k) {
     int which = -1;
     int i;
 
@@ -507,7 +607,7 @@ static void write_instruction(CharLcdState *st, SimTime now, uint8_t v, uint8_t 
         int bit = bit_of(v, k, (unsigned)i);
 
         if (bit < 0) {
-            lose(st);   /* the instruction is not known */
+            lose(ctl);   /* the instruction is not known */
             return;
         }
         if (bit == 1) {
@@ -518,119 +618,119 @@ static void write_instruction(CharLcdState *st, SimTime now, uint8_t v, uint8_t 
     if (which < 0) {
         return;   /* 0000 0000: no instruction, no busy time */
     }
-    start_busy(st, now, which <= 1 ? st->t->clear_home : st->t->instruction);
+    start_busy(ctl, now, which <= 1 ? st->t->clear_home : st->t->instruction);
     switch (which) {
         case 0:   /* Clear display */
-            memset(st->ddram, 0x20, sizeof st->ddram);
-            memset(st->ddram_known, 0xFF, sizeof st->ddram_known);
-            st->ac = 0;
-            st->ram = 0;
-            st->shift = 0;
-            st->id = 1;
+            memset(ctl->ddram, 0x20, sizeof ctl->ddram);
+            memset(ctl->ddram_known, 0xFF, sizeof ctl->ddram_known);
+            ctl->ac = 0;
+            ctl->ram = 0;
+            ctl->shift = 0;
+            ctl->id = 1;
             break;
         case 1:   /* Return home */
-            st->ac = 0;
-            st->ram = 0;
-            st->shift = 0;
+            ctl->ac = 0;
+            ctl->ram = 0;
+            ctl->shift = 0;
             break;
         case 2:   /* Entry mode set */
-            st->id = bit_of(v, k, 1);
-            st->s = bit_of(v, k, 0);
+            ctl->id = bit_of(v, k, 1);
+            ctl->s = bit_of(v, k, 0);
             break;
         case 3:   /* Display on/off */
-            st->d = bit_of(v, k, 2);
-            st->c = bit_of(v, k, 1);
-            st->b = bit_of(v, k, 0);
+            ctl->d = bit_of(v, k, 2);
+            ctl->c = bit_of(v, k, 1);
+            ctl->b = bit_of(v, k, 0);
             break;
         case 4: { /* Cursor/display shift */
             int sc = bit_of(v, k, 3);
             int rl = bit_of(v, k, 2);
 
             if (sc < 0) {
-                st->ac = -1;
-                st->shift = -1;
+                ctl->ac = -1;
+                ctl->shift = -1;
             } else if (sc == 1) {
-                shift_step(st, rl < 0 ? -1 : !rl);   /* right: shift - 1 */
+                shift_step(ctl, rl < 0 ? -1 : !rl);   /* right: shift - 1 */
             } else {
-                ac_step(st, rl);                     /* right: AC + 1 */
+                ac_step(ctl, rl);                     /* right: AC + 1 */
             }
             break;
         }
         case 5:   /* Function set */
-            st->dl = bit_of(v, k, 4);
-            st->n = bit_of(v, k, 3);
-            st->f = bit_of(v, k, 2);
-            st->phase = 0;
+            ctl->dl = bit_of(v, k, 4);
+            ctl->n = bit_of(v, k, 3);
+            ctl->f = bit_of(v, k, 2);
+            ctl->phase = 0;
             break;
         case 6:   /* Set CGRAM address */
-            st->ac = (k & 0x3F) == 0x3F ? (v & 0x3F) : -1;
-            st->ram = 1;
+            ctl->ac = (k & 0x3F) == 0x3F ? (v & 0x3F) : -1;
+            ctl->ram = 1;
             break;
         default:  /* Set DDRAM address */
-            st->ac = (k & 0x7F) == 0x7F ? (v & 0x7F) : -1;
-            st->ram = 0;
+            ctl->ac = (k & 0x7F) == 0x7F ? (v & 0x7F) : -1;
+            ctl->ram = 0;
             break;
     }
 }
 
 /* A write takes effect (E fall + the hold window). */
-static void apply_write(CharLcdState *st, SimTime now) {
-    uint8_t v = st->pend_value, k = st->pend_known;
-    int rs = st->pend_rs;
-    int violated = st->pend_violated;
+static void apply_write(CharLcdState *st, CharLcdCtl *ctl, SimTime now) {
+    uint8_t v = ctl->pend_value, k = ctl->pend_known;
+    int rs = ctl->pend_rs;
+    int violated = ctl->pend_violated;
 
-    st->pending = 0;
-    if (busy_flag(st, now) == 1) {
+    ctl->pending = 0;
+    if (busy_flag(ctl, now) == 1) {
         return;   /* not accepted while busy; the nibble phase does not move */
     }
     if (rs < 0) {
-        lose(st);
+        lose(ctl);
         return;
     }
-    if (st->dl < 0 || (st->dl == 0 && st->phase < 0)) {
+    if (ctl->dl < 0 || (ctl->dl == 0 && ctl->phase < 0)) {
         /* Resync: RS = 0, DB7-4 = 0011 is Function Set with DL = 1. */
         if (rs == 0 && (k & 0xF0) == 0xF0 && (v & 0xF0) == 0x30 && !violated) {
-            start_busy(st, now, st->t->instruction);
-            st->dl = 1;
-            st->phase = 0;
-            st->n = bit_of(v, k, 3);
-            st->f = bit_of(v, k, 2);
+            start_busy(ctl, now, st->t->instruction);
+            ctl->dl = 1;
+            ctl->phase = 0;
+            ctl->n = bit_of(v, k, 3);
+            ctl->f = bit_of(v, k, 2);
         } else {
-            lose(st);
+            lose(ctl);
         }
         return;
     }
-    if (st->dl == 0) {
-        if (st->phase == 0) {
-            st->high = (uint8_t)(v >> 4);
-            st->high_known = (uint8_t)(k >> 4);
-            st->high_violated = violated;
-            st->phase = 1;
+    if (ctl->dl == 0) {
+        if (ctl->phase == 0) {
+            ctl->high = (uint8_t)(v >> 4);
+            ctl->high_known = (uint8_t)(k >> 4);
+            ctl->high_violated = violated;
+            ctl->phase = 1;
             return;
         }
-        v = (uint8_t)((st->high << 4) | (v >> 4));
-        k = (uint8_t)((st->high_known << 4) | (k >> 4));
-        violated |= st->high_violated;
-        st->phase = 0;
+        v = (uint8_t)((ctl->high << 4) | (v >> 4));
+        k = (uint8_t)((ctl->high_known << 4) | (k >> 4));
+        violated |= ctl->high_violated;
+        ctl->phase = 0;
     }
     if (rs == 1) {
-        write_data(st, now, v, k, violated);
+        write_data(st, ctl, now, v, k, violated);
     } else if (violated) {
-        lose(st);
+        lose(ctl);
     } else {
-        write_instruction(st, now, v, k);
+        write_instruction(st, ctl, now, v, k);
     }
 }
 
 /* ---- Reads ---- */
 
 /* What a read of this bus state returns now: BF and AC, or RAM[AC]. */
-static void read_byte(const CharLcdState *st, SimTime now, int rs, uint8_t *value,
+static void read_byte(const CharLcdCtl *ctl, SimTime now, int rs, uint8_t *value,
                       uint8_t *known) {
     *value = 0;
     *known = 0;
     if (rs == 0) {
-        int bf = busy_flag(st, now);
+        int bf = busy_flag(ctl, now);
 
         *known = 0xFF;
         if (bf < 0) {
@@ -638,142 +738,166 @@ static void read_byte(const CharLcdState *st, SimTime now, int rs, uint8_t *valu
         } else if (bf) {
             *value |= 0x80;
         }
-        if (st->ac < 0) {
+        if (ctl->ac < 0) {
             *known &= 0x80;
         } else {
-            *value |= (uint8_t)(st->ac & 0x7F);
-            if (st->ram < 0) {
+            *value |= (uint8_t)(ctl->ac & 0x7F);
+            if (ctl->ram < 0) {
                 *known &= (uint8_t)~0x40;
             }
         }
     } else if (rs == 1) {
-        if (busy_flag(st, now) != 0 || st->ram < 0 || st->ac < 0) {
+        if (busy_flag(ctl, now) != 0 || ctl->ram < 0 || ctl->ac < 0) {
             return;
         }
-        if (st->ram == 1) {
-            *value = st->cgram[st->ac & 0x3F];
-            *known = st->cgram_known[st->ac & 0x3F];
+        if (ctl->ram == 1) {
+            *value = ctl->cgram[ctl->ac & 0x3F];
+            *known = ctl->cgram_known[ctl->ac & 0x3F];
         } else {
-            int index = ddram_index(st, st->ac);
+            int index = ddram_index(ctl, ctl->ac);
 
             if (index >= 0) {
-                *value = st->ddram[index];
-                *known = st->ddram_known[index];
+                *value = ctl->ddram[index];
+                *known = ctl->ddram_known[index];
             }
         }
     }
 }
 
-static void drive(Sim *sim, SimInstance *instance, CharLcdState *st, int z) {
-    unsigned i;
+/*
+ * The controller drives its read (z = 0: X while drive_x, else the read
+ * value; z = 1: releases DB). The pins of its drive_mask get what every
+ * controller drives there: Z when none does; one controller's bit; with
+ * two (E1 and E2 both reading), X where they disagree or either is X.
+ */
+static void drive(Sim *sim, SimInstance *instance, CharLcdState *st, CharLcdCtl *ctl, int z) {
+    unsigned i, k;
 
+    if (z) {
+        ctl->out_mask = 0;
+    } else {
+        ctl->out_mask = ctl->drive_mask;
+        ctl->out_known = ctl->drive_x ? 0 : ctl->read_known;
+        ctl->out_value = ctl->read_value;
+    }
     for (i = 0; i < LCD_DATA_BITS; i++) {
-        LogicValue v;
+        LogicValue v = LOGIC_Z;
 
-        if (!((st->drive_mask >> i) & 1u)) {
+        if (!((ctl->drive_mask >> i) & 1u)) {
             continue;
         }
-        if (z) {
-            v = LOGIC_Z;
-        } else if (st->drive_x || !((st->read_known >> i) & 1u)) {
-            v = LOGIC_X;
-        } else {
-            v = (st->read_value >> i) & 1u ? LOGIC_1 : LOGIC_0;
+        for (k = 0; k < st->pins.enables; k++) {
+            const CharLcdCtl *one = &st->ctl[k];
+            LogicValue mine;
+
+            if (!((one->out_mask >> i) & 1u)) {
+                continue;
+            }
+            mine = !((one->out_known >> i) & 1u) ? LOGIC_X
+                   : (one->out_value >> i) & 1u  ? LOGIC_1
+                                                 : LOGIC_0;
+            v = v == LOGIC_Z || v == mine ? mine : LOGIC_X;
         }
         sim_schedule_drive(sim, instance, st->pins.db[i], v, DRIVE_STRONG, 0);
     }
 }
 
-static void schedule(Sim *sim, SimInstance *instance, CharLcdState *st, unsigned kind,
-                     SimTime delay) {
-    sim_schedule_timer(sim, instance, (uint32_t)(kind | (st->seq << 2)), delay);
+static void schedule(Sim *sim, SimInstance *instance, CharLcdState *st, CharLcdCtl *ctl,
+                     unsigned kind, SimTime delay) {
+    uint32_t which = (uint32_t)(ctl - st->ctl);
+    uint32_t id = (uint32_t)(kind | ((ctl->seq & TIMER_SEQ_MASK) << 2) | (which << 31));
+
+    sim_schedule_timer(sim, instance, id, delay);
 }
 
-static void start_read(Sim *sim, SimInstance *instance, CharLcdState *st, SimTime now) {
+static void start_read(Sim *sim, SimInstance *instance, CharLcdState *st, CharLcdCtl *ctl,
+                       SimTime now) {
     uint8_t v = 0, k = 0;
 
-    st->drive_mask = mode_mask(st);
-    st->driving = 1;
-    st->drive_x = 0;
-    if (st->acc_rw == 1 && !st->acc_violated) {
-        if (st->dl == 1) {
-            read_byte(st, now, st->acc_rs, &v, &k);
-        } else if (st->dl == 0 && st->phase == 0) {
-            read_byte(st, now, st->acc_rs, &st->read_byte, &st->read_byte_known);
-            v = st->read_byte;
-            k = st->read_byte_known;
-        } else if (st->dl == 0 && st->phase == 1) {
-            v = (uint8_t)(st->read_byte << 4);
-            k = (uint8_t)(st->read_byte_known << 4);
+    ctl->drive_mask = mode_mask(ctl);
+    ctl->driving = 1;
+    ctl->drive_x = 0;
+    if (ctl->acc_rw == 1 && !ctl->acc_violated) {
+        if (ctl->dl == 1) {
+            read_byte(ctl, now, ctl->acc_rs, &v, &k);
+        } else if (ctl->dl == 0 && ctl->phase == 0) {
+            read_byte(ctl, now, ctl->acc_rs, &ctl->read_byte, &ctl->read_byte_known);
+            v = ctl->read_byte;
+            k = ctl->read_byte_known;
+        } else if (ctl->dl == 0 && ctl->phase == 1) {
+            v = (uint8_t)(ctl->read_byte << 4);
+            k = (uint8_t)(ctl->read_byte_known << 4);
         }
     }
-    st->read_value = v;
-    st->read_known = k;
+    ctl->read_value = v;
+    ctl->read_known = k;
     /* X from E rise; the data at + tddr. */
-    st->drive_x = 1;
-    drive(sim, instance, st, 0);
-    st->drive_x = 0;
-    schedule(sim, instance, st, TIMER_READ_DATA, st->t->tddr);
+    ctl->drive_x = 1;
+    drive(sim, instance, st, ctl, 0);
+    ctl->drive_x = 0;
+    schedule(sim, instance, st, ctl, TIMER_READ_DATA, st->t->tddr);
 }
 
 /* ---- Bus events (section 4.3) ---- */
 
-static void e_rise(Sim *sim, SimInstance *instance, CharLcdState *st, SimTime now) {
-    if (st->pending) {
-        apply_write(st, now);
+static void e_rise(Sim *sim, SimInstance *instance, CharLcdState *st, CharLcdCtl *ctl,
+                   SimTime now) {
+    if (ctl->pending) {
+        apply_write(st, ctl, now);
     }
-    st->seq++;
-    st->acc_violated = 0;
-    if (st->have_rise && now - st->prev_rise < st->t->tc) {
-        st->acc_violated = 1;
+    ctl->seq++;
+    ctl->acc_violated = 0;
+    if (ctl->have_rise && now - ctl->prev_rise < st->t->tc) {
+        ctl->acc_violated = 1;
     }
     if (now - st->rs_time < st->t->tas || now - st->rw_time < st->t->tas) {
-        st->acc_violated = 1;
+        ctl->acc_violated = 1;
     }
-    st->prev_rise = now;
-    st->rise_time = now;
-    st->have_rise = 1;
-    st->acc_rs = level(sim, instance, st->pins.rs);
-    st->acc_rw = level(sim, instance, st->pins.rw);
-    if (st->driving && st->acc_rw == 0) {
-        drive(sim, instance, st, 1);
-        st->driving = 0;
+    ctl->prev_rise = now;
+    ctl->rise_time = now;
+    ctl->have_rise = 1;
+    ctl->acc_rs = level(sim, instance, st->pins.rs);
+    ctl->acc_rw = level(sim, instance, st->pins.rw);
+    if (ctl->driving && ctl->acc_rw == 0) {
+        drive(sim, instance, st, ctl, 1);
+        ctl->driving = 0;
     }
-    if (st->acc_rw == 1) {
-        start_read(sim, instance, st, now);
-    } else if (st->acc_rw < 0) {
+    if (ctl->acc_rw == 1) {
+        start_read(sim, instance, st, ctl, now);
+    } else if (ctl->acc_rw < 0) {
         /* An unknown access: it may be a read, so the bus goes X. */
         if (!in_power_on(st, now)) {
-            lose(st);
+            lose(ctl);
         }
-        start_read(sim, instance, st, now);
+        start_read(sim, instance, st, ctl, now);
     }
 }
 
-static void e_fall(Sim *sim, SimInstance *instance, CharLcdState *st, SimTime now) {
-    if (now - st->rise_time < st->t->tpw) {
-        st->acc_violated = 1;
+static void e_fall(Sim *sim, SimInstance *instance, CharLcdState *st, CharLcdCtl *ctl,
+                   SimTime now) {
+    if (now - ctl->rise_time < st->t->tpw) {
+        ctl->acc_violated = 1;
     }
-    if (st->acc_rw != 0) {
+    if (ctl->acc_rw != 0) {
         /* A read (or an unknown access) ends: Z at + tdhr. */
-        schedule(sim, instance, st, TIMER_READ_OFF, st->t->tdhr);
-        if (st->acc_rw == 1) {
-            int data_end = st->dl == 1 || (st->dl == 0 && st->phase == 1);
+        schedule(sim, instance, st, ctl, TIMER_READ_OFF, st->t->tdhr);
+        if (ctl->acc_rw == 1) {
+            int data_end = ctl->dl == 1 || (ctl->dl == 0 && ctl->phase == 1);
 
-            if (st->dl == 0 && st->phase >= 0) {
-                st->phase = !st->phase;
+            if (ctl->dl == 0 && ctl->phase >= 0) {
+                ctl->phase = !ctl->phase;
             }
-            if (st->acc_rs == 1 && data_end) {
-                ac_step(st, st->id);   /* AC moves after a data read (not while LOST) */
-            } else if (st->acc_rs < 0 || (st->acc_rs == 1 && st->dl < 0)) {
-                st->ac = -1;
+            if (ctl->acc_rs == 1 && data_end) {
+                ac_step(ctl, ctl->id);   /* AC moves after a data read (not while LOST) */
+            } else if (ctl->acc_rs < 0 || (ctl->acc_rs == 1 && ctl->dl < 0)) {
+                ctl->ac = -1;
             }
         }
         return;
     }
     {
         int rw = level(sim, instance, st->pins.rw);
-        uint8_t mask = mode_mask(st);
+        uint8_t mask = mode_mask(ctl);
         uint8_t v = 0, k = 0;
         unsigned i;
 
@@ -789,37 +913,40 @@ static void e_fall(Sim *sim, SimInstance *instance, CharLcdState *st, SimTime no
                 v |= (uint8_t)(bit << i);
             }
             if (now - st->db_time[i] < st->t->tdsw) {
-                st->acc_violated = 1;
+                ctl->acc_violated = 1;
             }
         }
-        st->pending = 1;
-        st->pend_fall = now;
-        st->pend_rs = level(sim, instance, st->pins.rs);
+        ctl->pending = 1;
+        ctl->pend_fall = now;
+        ctl->pend_rs = level(sim, instance, st->pins.rs);
         if (rw != 0) {
-            st->pend_rs = -1;   /* R/W X at a write: LOST when it takes effect */
+            ctl->pend_rs = -1;   /* R/W X at a write: LOST when it takes effect */
         }
-        st->pend_value = v;
-        st->pend_known = k;
-        st->pend_mask = mask;
-        st->pend_violated = st->acc_violated;
+        ctl->pend_value = v;
+        ctl->pend_known = k;
+        ctl->pend_mask = mask;
+        ctl->pend_violated = ctl->acc_violated;
         {
             SimTime hold = st->t->th > st->t->tah ? st->t->th : st->t->tah;
 
             if (hold == 0) {
-                apply_write(st, now);
+                apply_write(st, ctl, now);
             } else {
-                schedule(sim, instance, st, TIMER_WRITE, hold);
+                schedule(sim, instance, st, ctl, TIMER_WRITE, hold);
             }
         }
     }
 }
 
+/* Light i: LED i, on while its anode reads 1 and its cathode 0. */
 static void update_light(Sim *sim, SimInstance *instance, CharLcdState *st) {
-    if (st->pins.has_backlight) {
-        int on = sim_read_pin(sim, instance, st->pins.anode) == LOGIC_1 &&
-                 sim_read_pin(sim, instance, st->pins.cathode) == LOGIC_0;
+    size_t i;
 
-        lights_set(&st->light, 0, on, sim_now(sim));
+    for (i = 0; i < st->pins.leds; i++) {
+        int on = sim_read_pin(sim, instance, st->pins.anode[i]) == LOGIC_1 &&
+                 sim_read_pin(sim, instance, st->pins.cathode[i]) == LOGIC_0;
+
+        lights_set(st->light, i, on, sim_now(sim));
     }
 }
 
@@ -832,10 +959,14 @@ static void *charlcd_create(const void *config) {
     CharLcdState *st = calloc(1, sizeof(*st));
 
     if (st != NULL) {
+        unsigned i;
+
         st->pins = *pins;
         st->t = &pins->device->t;
-        st->e = -1;
-        power_up(st);
+        for (i = 0; i < LCD_MAX_ENABLES; i++) {
+            st->ctl[i].e = -1;
+            power_up(st, &st->ctl[i]);
+        }
     }
     return st;
 }
@@ -846,59 +977,75 @@ static void charlcd_destroy(void *state) {
 
 static void charlcd_start(Sim *sim, SimInstance *instance, void *raw) {
     CharLcdState *st = raw;
+    unsigned k;
 
-    st->e = level(sim, instance, st->pins.e);
+    for (k = 0; k < st->pins.enables; k++) {
+        st->ctl[k].e = level(sim, instance, st->pins.e[k]);
+    }
     update_light(sim, instance, st);
 }
 
+/* A controller's enable pin changed. */
+static void e_changed(Sim *sim, SimInstance *instance, CharLcdState *st, CharLcdCtl *ctl,
+                      size_t pin, SimTime now) {
+    int e = level(sim, instance, pin);
+    int was = ctl->e;
+
+    ctl->e = e;
+    if (e == was) {
+        return;
+    }
+    if (was == 1) {
+        e_fall(sim, instance, st, ctl, now);
+    }
+    if (e == 1) {
+        e_rise(sim, instance, st, ctl, now);
+    } else if (e < 0 && !in_power_on(st, now)) {
+        /* E reading X may be an access. With R/W reading 1 it can only be
+           a read, which changes no more than AC (a data read moves it)
+           and, in 4-bit mode, the nibble phase. Anything else may be a
+           write: LOST. */
+        int rw = was == 1 ? ctl->acc_rw : level(sim, instance, st->pins.rw);
+
+        if (rw == 1) {
+            if (level(sim, instance, st->pins.rs) != 0) {
+                ctl->ac = -1;
+            }
+            if (ctl->dl != 1) {
+                ctl->phase = -1;
+            }
+        } else {
+            lose(ctl);
+            ctl->pending = 0;
+        }
+        if (ctl->driving) {
+            ctl->drive_x = 1;
+            drive(sim, instance, st, ctl, 0);
+        }
+    }
+}
+
+/* E (E1, E2) goes to its controller; RS, R/W and DB go to every controller,
+   each checking its own hold windows. */
 static void charlcd_pin_changed(Sim *sim, SimInstance *instance, void *raw, size_t pin,
                                 LogicValue old_value, LogicValue new_value) {
     CharLcdState *st = raw;
     SimTime now = sim_now(sim);
-    unsigned i;
+    unsigned i, k;
 
     (void)old_value;
     (void)new_value;
-    if (st->pins.has_backlight && (pin == st->pins.anode || pin == st->pins.cathode)) {
-        update_light(sim, instance, st);
+    for (k = 0; k < st->pins.leds; k++) {
+        if (pin == st->pins.anode[k] || pin == st->pins.cathode[k]) {
+            update_light(sim, instance, st);
+            break;
+        }
     }
-    if (pin == st->pins.e) {
-        int e = level(sim, instance, st->pins.e);
-        int was = st->e;
-
-        st->e = e;
-        if (e == was) {
+    for (k = 0; k < st->pins.enables; k++) {
+        if (pin == st->pins.e[k]) {
+            e_changed(sim, instance, st, &st->ctl[k], pin, now);
             return;
         }
-        if (was == 1) {
-            e_fall(sim, instance, st, now);
-        }
-        if (e == 1) {
-            e_rise(sim, instance, st, now);
-        } else if (e < 0 && !in_power_on(st, now)) {
-            /* E reading X may be an access. With R/W reading 1 it can only be
-               a read, which changes no more than AC (a data read moves it)
-               and, in 4-bit mode, the nibble phase. Anything else may be a
-               write: LOST. */
-            int rw = was == 1 ? st->acc_rw : level(sim, instance, st->pins.rw);
-
-            if (rw == 1) {
-                if (level(sim, instance, st->pins.rs) != 0) {
-                    st->ac = -1;
-                }
-                if (st->dl != 1) {
-                    st->phase = -1;
-                }
-            } else {
-                lose(st);
-                st->pending = 0;
-            }
-            if (st->driving) {
-                st->drive_x = 1;
-                drive(sim, instance, st, 0);
-            }
-        }
-        return;
     }
     if (pin == st->pins.rs || pin == st->pins.rw) {
         if (pin == st->pins.rs) {
@@ -906,16 +1053,25 @@ static void charlcd_pin_changed(Sim *sim, SimInstance *instance, void *raw, size
         } else {
             st->rw_time = now;
         }
-        if (st->pending && now - st->pend_fall < st->t->tah) {
-            st->pend_violated = 1;
+        for (k = 0; k < st->pins.enables; k++) {
+            CharLcdCtl *ctl = &st->ctl[k];
+
+            if (ctl->pending && now - ctl->pend_fall < st->t->tah) {
+                ctl->pend_violated = 1;
+            }
         }
         return;
     }
     for (i = 0; i < LCD_DATA_BITS; i++) {
         if (pin == st->pins.db[i]) {
             st->db_time[i] = now;
-            if (st->pending && ((st->pend_mask >> i) & 1u) && now - st->pend_fall < st->t->th) {
-                st->pend_violated = 1;
+            for (k = 0; k < st->pins.enables; k++) {
+                CharLcdCtl *ctl = &st->ctl[k];
+
+                if (ctl->pending && ((ctl->pend_mask >> i) & 1u) &&
+                    now - ctl->pend_fall < st->t->th) {
+                    ctl->pend_violated = 1;
+                }
             }
             return;
         }
@@ -924,26 +1080,27 @@ static void charlcd_pin_changed(Sim *sim, SimInstance *instance, void *raw, size
 
 static void charlcd_timer(Sim *sim, SimInstance *instance, void *raw, uint32_t id) {
     CharLcdState *st = raw;
+    CharLcdCtl *ctl = &st->ctl[id >> 31];
     unsigned kind = id & 3u;
 
-    if ((id >> 2) != (st->seq & 0x3FFFFFFFu)) {
+    if (((id >> 2) & TIMER_SEQ_MASK) != (ctl->seq & TIMER_SEQ_MASK)) {
         return;   /* from an earlier access */
     }
     switch (kind) {
         case TIMER_READ_DATA:
-            if (st->driving) {
-                drive(sim, instance, st, 0);
+            if (ctl->driving) {
+                drive(sim, instance, st, ctl, 0);
             }
             break;
         case TIMER_READ_OFF:
-            if (st->driving) {
-                drive(sim, instance, st, 1);
-                st->driving = 0;
+            if (ctl->driving) {
+                drive(sim, instance, st, ctl, 1);
+                ctl->driving = 0;
             }
             break;
         case TIMER_WRITE:
-            if (st->pending) {
-                apply_write(st, sim_now(sim));
+            if (ctl->pending) {
+                apply_write(st, ctl, sim_now(sim));
             }
             break;
     }
@@ -951,14 +1108,15 @@ static void charlcd_timer(Sim *sim, SimInstance *instance, void *raw, uint32_t i
 
 /* ---- Lights ---- */
 
-/* One light, the backlight; a module without one has no lights. */
+/* One light per backlight LED, in "backlight" order; a module without a
+   backlight has no lights. */
 static size_t charlcd_lights(const Sim *sim, const SimInstance *instance, const void *raw,
                              SimTime since, unsigned char *out, size_t cap) {
     const CharLcdState *st = raw;
 
     (void)sim;
     (void)instance;
-    return st->pins.has_backlight ? lights_read(&st->light, 1, since, out, cap) : 0;
+    return st->pins.leds > 0 ? lights_read(st->light, st->pins.leds, since, out, cap) : 0;
 }
 
 static size_t charlcd_light_time(const Sim *sim, const SimInstance *instance, const void *raw,
@@ -966,7 +1124,7 @@ static size_t charlcd_light_time(const Sim *sim, const SimInstance *instance, co
     const CharLcdState *st = raw;
 
     (void)instance;
-    return st->pins.has_backlight ? lights_time(&st->light, 1, sim_now(sim), out, cap) : 0;
+    return st->pins.leds > 0 ? lights_time(st->light, st->pins.leds, sim_now(sim), out, cap) : 0;
 }
 
 /* ---- The image (section 4.7) ---- */
@@ -979,51 +1137,53 @@ static int t_and(int a, int b) {
     return a == 0 || b == 0 ? 0 : a < 0 || b < 0 ? -1 : 1;
 }
 
-/* One dot for a known N: 1, 0 or -1. */
-static int image_dot(const CharLcdState *st, int n, int blink_on, unsigned row, unsigned column,
-                     unsigned y, unsigned x) {
+/* One dot for a known N: 1, 0 or -1. `line` is the controller's line
+   (0 or 1) the row shows, `offset` the row's first cell within that line
+   (section 4.4: 20 for rows 2-3 of a 20x4 on one controller, else 0). */
+static int image_dot(const CharLcdCtl *ctl, int n, int blink_on, unsigned line, unsigned offset,
+                     unsigned column, unsigned y, unsigned x) {
     int address = -1, index = -1, glyph, here, extra;
 
-    if (n == 0 && row == 1) {
+    if (n == 0 && line == 1) {
         return 0;
     }
-    if (st->shift >= 0) {
+    if (ctl->shift >= 0) {
         if (n == 1) {
-            unsigned pos = ((unsigned)st->shift + column) % 40;
+            unsigned pos = ((unsigned)ctl->shift + offset + column) % 40;
 
-            address = (int)(row * 0x40 + pos);
-            index = (int)(row * 40 + pos);
+            address = (int)(line * 0x40 + pos);
+            index = (int)(line * 40 + pos);
         } else {
-            address = index = (int)(((unsigned)st->shift + column) % 80);
+            address = index = (int)(((unsigned)ctl->shift + offset + column) % 80);
         }
     }
-    if (index < 0 || st->ddram_known[index] != 0xFF) {
+    if (index < 0 || ctl->ddram_known[index] != 0xFF) {
         glyph = -1;
     } else {
-        unsigned code = st->ddram[index];
+        unsigned code = ctl->ddram[index];
         unsigned mask = 0x10u >> x;
 
         if (code < 0x10) {
             unsigned cell = (code & 7u) * 8 + y;
 
-            glyph = (st->cgram_known[cell] & mask) ? (st->cgram[cell] & mask ? 1 : 0) : -1;
+            glyph = (ctl->cgram_known[cell] & mask) ? (ctl->cgram[cell] & mask ? 1 : 0) : -1;
         } else {
             glyph = CHARLCD_ROM_A00[code][y] & mask ? 1 : 0;
         }
     }
     /* Is AC's address shown here? */
-    if (st->ram == 1) {
+    if (ctl->ram == 1) {
         here = 0;
-    } else if (st->ac >= 0 && address >= 0) {
-        here = address == st->ac ? (st->ram == 0 ? 1 : -1) : 0;
+    } else if (ctl->ac >= 0 && address >= 0) {
+        here = address == ctl->ac ? (ctl->ram == 0 ? 1 : -1) : 0;
     } else {
         here = -1;
     }
-    extra = y == 7 ? t_and(st->c, here) : 0;
+    extra = y == 7 ? t_and(ctl->c, here) : 0;
     if (blink_on) {
-        extra = t_or(extra, t_and(st->b, here));
+        extra = t_or(extra, t_and(ctl->b, here));
     }
-    return t_and(st->d, t_or(glyph, extra));
+    return t_and(ctl->d, t_or(glyph, extra));
 }
 
 static int charlcd_lcd_state(const Sim *sim, const void *raw, LcdState *out) {
@@ -1031,27 +1191,38 @@ static int charlcd_lcd_state(const Sim *sim, const void *raw, LcdState *out) {
     const PartCharLcd *info = &st->pins.info;
     SimTime now = sim_now(sim);
     int blink_on = (now / LCD_BLINK_PS) % 2 == 0;
-    unsigned row, column, y, x;
+    unsigned row, column, y, x, k;
 
     memset(out, 0, sizeof(*out));
     out->columns = info->columns;
     out->rows = info->rows;
-    out->busy = busy_flag(st, now);
-    memcpy(out->ddram, st->ddram, sizeof out->ddram);
-    memcpy(out->ddram_known, st->ddram_known, sizeof out->ddram_known);
-    memcpy(out->cgram, st->cgram, sizeof out->cgram);
-    memcpy(out->cgram_known, st->cgram_known, sizeof out->cgram_known);
+    out->controllers = info->enables;
+    for (k = 0; k < info->enables; k++) {
+        const CharLcdCtl *one = &st->ctl[k];
+
+        out->busy[k] = busy_flag(one, now);
+        memcpy(out->ddram[k], one->ddram, sizeof out->ddram[k]);
+        memcpy(out->ddram_known[k], one->ddram_known, sizeof out->ddram_known[k]);
+        memcpy(out->cgram[k], one->cgram, sizeof out->cgram[k]);
+        memcpy(out->cgram_known[k], one->cgram_known, sizeof out->cgram_known[k]);
+    }
     for (row = 0; row < info->rows; row++) {
+        /* Section 4.4: two enables: controller row / 2; one: controller 0,
+           rows 2-3 continuing rows 0-1's lines. */
+        const CharLcdCtl *ctl = &st->ctl[info->enables == 2 ? row / 2 : 0];
+        unsigned line = row % 2;
+        unsigned offset = info->enables == 2 ? 0 : (row / 2) * info->columns;
+
         for (column = 0; column < info->columns; column++) {
             for (y = 0; y < LCD_STATE_CELL_HEIGHT; y++) {
                 for (x = 0; x < LCD_STATE_CELL_WIDTH; x++) {
                     int dot;
 
-                    if (st->n >= 0) {
-                        dot = image_dot(st, st->n, blink_on, row, column, y, x);
+                    if (ctl->n >= 0) {
+                        dot = image_dot(ctl, ctl->n, blink_on, line, offset, column, y, x);
                     } else {
-                        int a = image_dot(st, 0, blink_on, row, column, y, x);
-                        int b = image_dot(st, 1, blink_on, row, column, y, x);
+                        int a = image_dot(ctl, 0, blink_on, line, offset, column, y, x);
+                        int b = image_dot(ctl, 1, blink_on, line, offset, column, y, x);
 
                         dot = a == b ? a : -1;
                     }

@@ -29,6 +29,7 @@ extern const PartKindOps ARITH_KIND;
 extern const PartKindOps CONVERTER_KIND;
 extern const PartKindOps RTC_KIND;
 extern const PartKindOps DIODE_KIND;
+extern const PartKindOps CAPACITOR_KIND;
 
 /* One line per kind. Adding a kind: docs/backend.md, "Adding a kind". */
 const PartKindOps *const KINDS[] = {
@@ -58,6 +59,7 @@ const PartKindOps *const KINDS[] = {
     &CONVERTER_KIND,
     &RTC_KIND,
     &DIODE_KIND,
+    &CAPACITOR_KIND,
     NULL
 };
 

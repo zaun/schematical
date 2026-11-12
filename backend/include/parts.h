@@ -25,7 +25,8 @@ typedef enum {
     PART_GATE, PART_DFF, PART_JKFF, PART_SRAM, PART_SWITCH,
     PART_LED, PART_7SEG, PART_OSCILLATOR, PART_SUPPLY, PART_EEPROM, PART_LATCH, PART_COUNTER,
     PART_SHIFT, PART_CPU, PART_CHARLCD, PART_SERIAL, PART_CONNECTOR, PART_PIO, PART_DECODER,
-    PART_BUFFER, PART_MUX, PART_HEADER, PART_ARITH, PART_CONVERTER, PART_RTC, PART_DIODE
+    PART_BUFFER, PART_MUX, PART_HEADER, PART_ARITH, PART_CONVERTER, PART_RTC, PART_DIODE,
+    PART_CAPACITOR
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -85,13 +86,19 @@ typedef struct { uint32_t words; unsigned bits; uint64_t access_ps; const char *
                  unsigned page_bytes; uint64_t write_cycle_ps; } PartEeprom;
 /* core: "6502", "65c02" or "z80". max_hz = floor(1e12 / the grade's clock period in ps). */
 typedef struct { const char *core; const char *grade; uint64_t max_hz; } PartCpu;
-/* Character LCD module (charlcd). panel: "yellow-green" (STN positive: dark
-   dots on yellow-green) or "blue-negative" (STN negative: light dots on
-   blue). backlight_color: NULL when the module has no backlight. */
+/* Character LCD module (charlcd). rows: 1, 2 or 4. panel: "yellow-green"
+   (STN positive: dark dots on yellow-green), "blue-negative" (STN negative:
+   light dots on blue), "gray" (STN positive: dark dots on light gray) or
+   "white" (FSTN positive: black dots on white). backlight_color: the first
+   LED's color, NULL when the module has no backlight. enables: 1, or 2 (a
+   40x4 with two controllers: E1 drives rows 0-1, E2 rows 2-3). */
 typedef struct {
     unsigned columns, rows;
     const char *controller, *rom, *panel, *backlight_color;
     const size_t *bus_pins; size_t bus_pin_count;  /* RS, R/W, E, DB0-DB7: indices into Part.pins */
+    unsigned enables;                          /* 1, or 2: bus_pins is RS, R/W, E1, E2, DB0-DB7 */
+    size_t backlight_count;                    /* 0-3 LEDs */
+    const char *const *backlight_colors;       /* backlight_count colors; [0] == backlight_color */
 } PartCharLcd;
 /* model: the serial model ("ns16550", "i8251", ...); channels: serial
    channels on the chip; grade: the part's speed/supply grade; host: the
@@ -129,6 +136,15 @@ typedef struct { const char *type; unsigned bits, channels; } PartConverter;
    voltage and max power dissipation (zener only, else 0). */
 typedef struct { const char *type; size_t diode_count;
                  uint32_t vr_mv, io_ma, vz_mv, pd_mw; } PartDiode;
+/* A capacitor part (plan-33-E): type "ceramic", "aluminum",
+   "aluminum-polymer", "tantalum", "tantalum-polymer" or "niobium-oxide";
+   polarized: 1 for every type but ceramic. capacitance_ff: femtofarads
+   (100 nF = 100000000). rated_mv: the rated DC voltage, 0 = no rating (the
+   generic part). dielectric (ceramic only) and tolerance: as the datasheet
+   gives them, NULL when not given. */
+typedef struct { const char *type; int polarized; uint64_t capacitance_ff;
+                 uint32_t rated_mv; const char *dielectric;
+                 const char *tolerance; } PartCapacitor;
 
 /* ---- Footprints (Parts/footprints.json, docs/parts-format.md) ----------- */
 
@@ -205,6 +221,7 @@ typedef struct Part {
     const PartPio *pio;
     const PartHeader *header;
     const PartConverter *converter;
+    const PartCapacitor *capacitor;
     /* Dual-supply parts (plan-20-F): domain 0 is the A side (its vcc is
        Part.vcc), domain 1 the B side; NULL/0 for single-supply parts. */
     const PartSupplyDomain *domains; size_t domain_count;

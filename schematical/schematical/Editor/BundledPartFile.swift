@@ -92,6 +92,7 @@ extension PartKinds {
         case PART_RTC: "rtc"
         case PART_DIODE: "diode"
         case PART_HEADER: "header"
+        case PART_CAPACITOR: "capacitor"
         default: nil
         }
     }

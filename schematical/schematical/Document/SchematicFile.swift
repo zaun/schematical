@@ -101,6 +101,10 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         /// `customParts`. The part resolves by it; `partNumber` is the name it
         /// had when saved.
         var partUUID: String? = nil
+        /// `GENERIC-CAPACITOR` only (plan-33-H): the capacitance in farads.
+        /// Always written for it; missing means 1e-7 (0.1 µF); ignored on
+        /// other parts. Optional like `gender`: the version stays 4.
+        var farads: Double? = nil
     }
 
     /// An EEPROM's load file: the path relative to the schematic's folder (or
@@ -500,6 +504,8 @@ nonisolated enum SchematicFileError: LocalizedError {
     case customPartConflict(uuid: String, name: String)
     /// An embedded custom part the part loader refused.
     case badCustomPart(String)
+    /// The generic capacitor's capacitance that isn't at least 0.1 pF and at most 1 F.
+    case badFarads(reference: String, farads: Double)
 
     var errorDescription: String? {
         switch self {
@@ -543,6 +549,8 @@ nonisolated enum SchematicFileError: LocalizedError {
             "This schematic's part \(name) has the identity \(uuid), which a different loaded part already has."
         case let .badCustomPart(detail):
             "One of this schematic's custom parts could not be loaded: \(detail)"
+        case let .badFarads(reference, farads):
+            "\(reference) has capacitance \(Self.number(farads)) F; it must be more than 0 and at most 1 F."
         }
     }
 
@@ -602,6 +610,7 @@ extension SchematicFile {
                 footprint: chip.footprintID,
                 gender: chip.gender,
                 ohms: chip.ohms,
+                farads: chip.farads,
                 partUUID: chip.part.uuid
             )
         }
@@ -783,6 +792,10 @@ extension SchematicFile {
             if catalogPart.isPullResistor, let ohms = part.ohms, !ResistorValue.isValid(ohms) {
                 throw SchematicFileError.badOhms(reference: part.reference, ohms: ohms)
             }
+            // The generic capacitor's capacitance; missing is 0.1 µF, ignored elsewhere.
+            if catalogPart.isGenericCapacitor, let farads = part.farads, !CapacitorValue.isValid(farads) {
+                throw SchematicFileError.badFarads(reference: part.reference, farads: farads)
+            }
             // A load file counts only on an EEPROM.
             var memoryFile: MemoryFile?
             if catalogPart.kind == PART_EEPROM, let entry = part.memoryFile {
@@ -801,7 +814,8 @@ extension SchematicFile {
                 color: color,
                 footprintID: footprintID,
                 gender: part.gender,
-                ohms: catalogPart.isPullResistor ? part.ohms : nil
+                ohms: catalogPart.isPullResistor ? part.ohms : nil,
+                farads: catalogPart.isGenericCapacitor ? part.farads : nil
             )
             // A stored placement counts only for a part with a footprint.
             var board: BoardPlacement?

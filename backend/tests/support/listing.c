@@ -31,6 +31,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_CONVERTER: return "converter";
         case PART_RTC: return "rtc";
         case PART_DIODE: return "diode";
+        case PART_CAPACITOR: return "capacitor";
     }
     return "?";
 }
@@ -90,6 +91,17 @@ static void print_details(FILE *out, const Part *part) {
             } else {
                 fprintf(out, " vr=%u io=%u", (unsigned)part->diode->vr_mv,
                         (unsigned)part->diode->io_ma);
+            }
+            break;
+        case PART_CAPACITOR:
+            fprintf(out, "type=%s ff=%llu rated=%u", part->capacitor->type,
+                    (unsigned long long)part->capacitor->capacitance_ff,
+                    (unsigned)part->capacitor->rated_mv);
+            if (part->capacitor->dielectric != NULL) {
+                fprintf(out, " dielectric=%s", part->capacitor->dielectric);
+            }
+            if (part->capacitor->tolerance != NULL) {
+                fprintf(out, " tol=%s", part->capacitor->tolerance);
             }
             break;
         case PART_SRAM:
@@ -170,9 +182,21 @@ static void print_details(FILE *out, const Part *part) {
         case PART_CHARLCD: {
             const PartCharLcd *l = part->charlcd;
 
-            fprintf(out, "columns=%u rows=%u controller=%s rom=%s panel=%s backlight=%s bus=",
-                    l->columns, l->rows, l->controller, l->rom, l->panel,
-                    l->backlight_color != NULL ? l->backlight_color : "none");
+            size_t k;
+
+            fprintf(out, "columns=%u rows=%u", l->columns, l->rows);
+            if (l->enables == 2) {
+                fprintf(out, " enables=2");
+            }
+            fprintf(out, " controller=%s rom=%s panel=%s backlight=", l->controller, l->rom,
+                    l->panel);
+            if (l->backlight_count == 0) {
+                fprintf(out, "none");
+            }
+            for (k = 0; k < l->backlight_count; k++) {
+                fprintf(out, "%s%s", k > 0 ? "," : "", l->backlight_colors[k]);
+            }
+            fprintf(out, " bus=");
             print_numbers(out, part->pins, l->bus_pins, l->bus_pin_count);
             break;
         }

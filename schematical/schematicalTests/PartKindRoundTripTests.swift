@@ -13,7 +13,7 @@ final class PartKindRoundTripTests: XCTestCase {
         "latch": 750, "buffer": 2135, "arith": 107,
         "counter": 730, "shift": 583,
         "sram": 172, "eeprom": 174, "switch": 2067, "led": 1, "7seg": 49, "oscillator": 1138, "supply": 14,
-        "cpu": 21, "pio": 7, "serial": 247, "charlcd": 5, "connector": 374, "converter": 1911, "rtc": 14,
+        "cpu": 21, "pio": 7, "serial": 247, "charlcd": 72, "connector": 374, "converter": 1911, "rtc": 14,
         "diode": 11152, "header": 80,
     ]
 

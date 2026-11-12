@@ -332,6 +332,12 @@ struct SchematicCanvasView: View {
                             isHovered: chip.id == hoveredChipID,
                             mark: DiodeMark(part: chip.part)
                         )
+                    case .capacitor:
+                        CapacitorSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID
+                        )
                     case .vcc, .ground, .pullUp, .pullDown:
                         SupplySymbolView(
                             chip: chip,
@@ -367,7 +373,7 @@ struct SchematicCanvasView: View {
                             isHovered: chip.id == hoveredChipID,
                             connectedPins: connectedPins[chip.id] ?? [],
                             frame: simulation.lcdFrames[chip.id],
-                            backlight: simulation.lights[chip.id]?.first ?? 0
+                            backlights: simulation.lights[chip.id] ?? []
                         )
                     }
                 }

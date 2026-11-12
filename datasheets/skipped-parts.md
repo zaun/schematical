@@ -629,3 +629,63 @@ listings were not part of this. 363 of the 463 parts were added to `connector.js
 | UP31-CV-G-CM, UP32-1-C-H-G-BMT-P24, UP32-C-F-G-FL-1-P24, UP40-C-V-G-BMT-10B-P24-TR | Same Sky | `connector` / Connector → USB → USB-C plug | straddle mount on a paddle-card edge: half the pads are on the bottom copper layer, which the footprint format cannot express |
 | 12401832E402A, 124019362112A, 12401945E212A, 124019572112A, 124019772112A, GSB12111031EU, GSB12121031EU, GSB1212103EU, GSB12121RSKHR, GSB12621A1EU, GSB19110KEU, GSB19111KEU, GSB19121TP2EU, GSB19151TP2EU, GSB1C211110DS1HR, GSB1C41110SSHR, GSB1C4K11DSHR, GSB3116344KHHR, GSB312137CHR, GSB3C3133DS2HR, GSB3CA11310DSHR, GSB3CN1130DSHR, GSB417131HR, LUSB359300, MUSBRM1CB30, UE28AM54130 | Amphenol ICC | `connector` / Connector → USB → USB-A plug; `connector` / Connector → USB → USB-A receptacle; `connector` / Connector → USB → USB-C plug; `connector` / Connector → USB → USB-C receptacle | the part's customer drawing is only on Amphenol's sites (cdn.amphenol-cs.com, amphenol-icc.com), which refuse automated downloads (Cloudflare, HTTP 403), and no copy was found on Amphenol's S3 mirror (s3.us-west-2.amazonaws.com/catsy.925) |
 | UJ20-C-H-G-SMT-13B-P16-TR-67, UJ20-C-H-G-SMT-15B-P16-TR-X7, UJ20-C-V-G-TH-11B-P16-TR-X7, UJ32-1-C-H-SMT-19B-P24-TR-X8 | Same Sky | `connector` / Connector → USB → USB-C receptacle | no datasheet on the maker's site (sameskydevices.com/product/resource/<part>.pdf answers 404) |
+
+## Character LCDs, 20x4 / 40x2 / 40x4 (plan-35)
+
+In-stock 20x4 / 40x2 / 40x4 character modules (DigiKey category 99) of the three makers with the
+most of them: Focus LCDs, Newhaven Display Intl and Midas Displays (census and part-by-part
+re-check 2026-11-11, `planning/plan-35-data/candidates.tsv`). 67 were added to `charlcd.json`;
+these 59 were left out.
+
+| Part(s) | Device | Would have gone into | Why skipped |
+|---|---|---|---|
+| C204IXBSGN06WR50XAC | Focus LCDs character 20x4 module | `charlcd` / Displays → Character → 20x4 | FPC tail (conductive/stiffener side, p.2): no through-hole pins, no board footprint without a separate FPC connector |
+| C404A-FTB-LW65 | Focus LCDs character 40x4 module | `charlcd` / Displays → Character → 40x4 | Focus PDF is a 2-page overview: no pinout, timing or drawing |
+| O204B-CY-YS5, O402A-CW-SW3 | Focus LCDs character 20x4 / 40x2 modules | `charlcd` / Displays → Character → 20x4; `charlcd` / Displays → Character → 40x2 | Character OLED. Owner, 2026-11-11: parallel LCD only |
+| NHD-0420CW-AB3, NHD-0420CW-AG3, NHD-0420CW-AW3, NHD-0420DZW-AB5, NHD-0420DZW-AG5, NHD-0420DZW-AY5 | Newhaven Display Intl character 20x4 modules | `charlcd` / Displays → Character → 20x4 | Character OLED. Owner, 2026-11-11: parallel LCD only |
+| C204BLBFKSW6WT55XAA | Focus LCDs character 20x4 module | `charlcd` / Displays → Character → 20x4 | Datasheet font is English/European (not ROM A00). Owner, 2026-11-11: non-A00 fonts out |
+| MC42004A6WK-FPTLW-V2, MC42004A6WK-SPTLY-V2, MC42005A6WK-FPTLW-V2 | Midas Displays character 20x4 modules | `charlcd` / Displays → Character → 20x4 | Datasheet font is English/European (not ROM A00). Owner, 2026-11-11: non-A00 fonts out |
+| C204A-BW-LW63, C204A-BW-LW65, C204A-FTW-LW63, C204A-FTW-LW65, C204A-YTY-LW63, C204A-YTY-LW65, C204A1-KW-XW65, C204B-BW-LW63, C204B-BW-LW65, C204B-FTW-LW63, C204B-FTW-LW65, C204B-YTY-LW63, C204B-YTY-LW65, C204C-BW-LW63, C204C-BW-LW65, C204C-FTW-LW63, C204C-FTW-LW65, C204C-YTY-LW63, C204C-YTY-LW65, C402A-BW-LW63, C402A-BW-LW65, C402A-FTW-LW63, C402A-FTW-LW65, C402A-KW-LW65, C402A-YTY-LW63, C402A-YTY-LW65, C404A-BW-LW63, C404A-BW-LW65, C404A-FTW-LW63, C404A-FTW-LW65, C404A-YTY-LW63, C404A-YTY-LW65 | Focus LCDs character 20x4 / 40x2 / 40x4 modules | `charlcd` / Displays → Character → 20x4; `charlcd` / Displays → Character → 40x2; `charlcd` / Displays → Character → 40x4 | Datasheet shows no font table, ROM code or font choice (10-page template, read 2026-11-11) |
+| MC42008A6W-SPR | Midas Displays character 20x4 module | `charlcd` / Displays → Character → 20x4 | No datasheet on midasdisplays.com (no product page or PDF, 2026-11-11); only a DigiKey-hosted copy |
+| NHD-C0420AZ-FSW-FBW-3V3, NHD-C0420AZ-NSW-BBW-3V3, NHD-C0420BZ-FSW-FBW-3V3, NHD-C0420BZ-NSW-BBW-3V3 | Newhaven Display Intl character 20x4 modules | `charlcd` / Displays → Character → 20x4 | Serial/I2C/SPI front end (IST3602). Owner, 2026-11-11: parallel LCD only |
+| NHD-0420D3Z-FL-GBW-V3 | Newhaven Display Intl character 20x4 module | `charlcd` / Displays → Character → 20x4 | Serial/I2C/SPI front end (PIC16F698). Owner, 2026-11-11: parallel LCD only |
+| NHD-0420D3Z-NSW-BBW-V3 | Newhaven Display Intl character 20x4 module | `charlcd` / Displays → Character → 20x4 | Serial/I2C/SPI front end (PIC16F699). Owner, 2026-11-11: parallel LCD only |
+| C204AS-BW-LW63, C204AS-BW-LW65, C204AS-FTW-LW63, C204AS-FTW-LW65, C204AS-YTY-LW63, C204AS-YTY-LW65 | Focus LCDs character 20x4 modules | `charlcd` / Displays → Character → 20x4 | Serial/I2C/SPI front end (ST7066U and PIC16F690). Owner, 2026-11-11: parallel LCD only |
+
+## Capacitors (plan-33)
+
+In-stock Active / Last Time Buy capacitors of the three makers of plan-33
+(KEMET, Cal-Chip Electronics, KYOCERA AVX; ceramic, aluminum electrolytic and
+polymer, tantalum, tantalum polymer and niobium oxide) left out. plan-33 takes one
+part per bucket (type, package, E6 capacitance, and the dielectric class or rated
+voltage; `planning/plan-33-data/candidates.tsv`): a bucket's parts are tried in
+pick order and the first that passes is taken, so only the parts ranked above a
+bucket's pick were tried, and only those are listed here. This section is written
+by `planning/plan-33-data/census/decide.py --skipped`.
+
+| Part(s) | Maker | Would have gone into | Why skipped |
+|---|---|---|---|
+| GMC31X7R681K100NT | Cal-Chip | `capacitor` / Capacitors → Ceramic | not in the datasheet's ordering table (cap, GMC-Series-3.pdf) |
+| CHR1J100M6.3X6.0R | Cal-Chip | `capacitor` / Capacitors → Electrolytic | not in the datasheet's ordering table (regex, CHR-SERIES.pdf) |
+| CV2-1C222MK16-R, CV2-1C222ML17-R, CV2-1C332ML17-R, CV2-1C472MM17-R, CV2-1E222ML17-R, CV2-1H102MM17-R, CV2-1H471MK16-R, CV2-1H471ML17-R, CV2-1H681ML17-R, CV2-1V102MK16-R, CV2-1V102ML17-R, CV2-1V222MM17-R, CV3-1J680MH10-R | Cal-Chip | `capacitor` / Capacitors → Electrolytic | not in the datasheet's ordering table (regex, CV2-SERIES.pdf) |
+| TCKOG107BTLSR200, TCKOG107BTLSR250, TCKOG107BTLSR350, TCKOG107BTLSR500, TCMOG107BTLSR200, TCMOG107BTLSR250, TCMOG107BTLSR350, TCMOG107BTLSR500 | Cal-Chip | `capacitor` / Capacitors → Tantalum | not in the datasheet's ordering table (regex, TC-Series.pdf) |
+| C921U152MVWDCA7317 | KEMET | `capacitor` / Capacitors → Ceramic | no datasheet on the maker's site (Waldom copy, www.waldom.com) |
+| C921U681KVYDBAWL35 | KEMET | `capacitor` / Capacitors → Ceramic | no datasheet on the maker's site (no answer, content.kemet.com) |
+| C971U472MUWDAAWL50 | KEMET | `capacitor` / Capacitors → Ceramic | not in the datasheet's ordering table (regex, C971U472MUWDAAWL50.pdf) |
+| C0402C471J5GAC3112 | KEMET | `capacitor` / Capacitors → Ceramic | not in the datasheet's ordering table (regex, KEM_C1003_C0G_SMD.pdf) |
+| A765EG157M1CLA, ESK228M016AL4AA | KEMET | `capacitor` / Capacitors → Electrolytic | no datasheet on the maker's site (Waldom copy, www.waldomemea.com) |
+| ESE227M050AH2EA, ESH108M010AH1AA, ESH226M016AC3DA, ESH227M050AH1AA, ESH337M035AH1AA, ESK108M010AH2AA, ESK227M050AH1EA, ESK337M050AH4AA, ESK477M025AH1AA | KEMET | `capacitor` / Capacitors → Electrolytic | no datasheet on the maker's site (no URL) |
+| ESK227M050AH1AA, ESY477M010AG3AA | KEMET | `capacitor` / Capacitors → Electrolytic | no datasheet on the maker's site (no answer, content.kemet.com) |
+| EA750EK107M1CAA | KEMET | `capacitor` / Capacitors → Electrolytic | not in the datasheet's ordering table (regex, KEM_A4067_A750.pdf) |
+| ESH108M016AH4AA | KEMET | `capacitor` / Capacitors → Electrolytic | not in the datasheet's ordering table (table, KEM_A4005_ESH.pdf) |
+| ESC227M050AH2EA, ESC687M010AH1AA | KEMET | `capacitor` / Capacitors → Electrolytic | not in the datasheet's ordering table (table, KEM_A4006_ESC.pdf) |
+| ESY108M010AH2EA, ESY337M035AH2AA | KEMET | `capacitor` / Capacitors → Electrolytic | not in the datasheet's ordering table (table, KEM_A4007_ESY.pdf) |
+| ESW226M010AC3AA, ESW337M035AG6AA, ESW337M035AH2AA, ESW475M025AC3AA | KEMET | `capacitor` / Capacitors → Electrolytic | not in the datasheet's ordering table (table, KEM_A4009_ESW.pdf) |
+| T543X687K006AHW010 | KEMET | `capacitor` / Capacitors → Tantalum | not in the datasheet's ordering table (regex, KEM_T2061_T543.pdf) |
+| T491A107M004AT | KEMET | `capacitor` / Capacitors → Tantalum | not in the datasheet's ordering table (table, KEM_T2005_T491.pdf) |
+| 06035C680KAT2A | KYOCERA AVX | `capacitor` / Capacitors → Ceramic | not in the datasheet's ordering table (regex, C0GNP0-Dielectric.pdf) |
+| MR045A682EAA | KYOCERA AVX | `capacitor` / Capacitors → Ceramic | not in the datasheet's ordering table (regex, MR-Series.pdf) |
+| SR155A471JAA, SR295C332KAT, SR305A103FARTR2, SR655C106KARTR1 | KYOCERA AVX | `capacitor` / Capacitors → Ceramic | not in the datasheet's ordering table (regex, SR-Series.pdf) |
+| REA0511R47M050K | KYOCERA AVX | `capacitor` / Capacitors → Electrolytic | not in the datasheet's ordering table (regex, rea-series.pdf) |
+| TCTOM1A335M8R | KYOCERA AVX | `capacitor` / Capacitors → Tantalum | no datasheet on the maker's site (no answer, d1d2qsbl8m0m72.cloudfront.net) |
+| TAP105J020SCS | KYOCERA AVX | `capacitor` / Capacitors → Tantalum | not in the datasheet's ordering table (regex, tap.pdf) |

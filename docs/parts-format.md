@@ -1,7 +1,7 @@
 # Part file format
 
 Every orderable part (gate, flip-flop, latch, decoder, counter, shift register, SRAM, EEPROM, switch, LED,
-diode, 7-segment display, character LCD module, oscillator, supply, microprocessor, serial controller) is described in a JSON part file in
+diode, capacitor, 7-segment display, character LCD module, oscillator, supply, microprocessor, serial controller) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
 | File | Kind |
@@ -32,6 +32,7 @@ diode, 7-segment display, character LCD module, oscillator, supply, microprocess
 | `arith.json` | `arith` |
 | `header.json` | `header` |
 | `pio.json` | `pio` |
+| `capacitor.json` | `capacitor` |
 
 Beside them, `datasheets.json` holds the datasheet URLs parts name with
 `"datasheet"` (see [Datasheets](#datasheets)), and `footprints.json` the land
@@ -676,6 +677,18 @@ numbered (`"pin"`); a ball pinout has no custom footprint.
   the cathode (the band end) with a `rect` pad. R7 is the one rule that
   takes max values. The `note` gives the body length, lead diameter and
   the arithmetic, e.g. `DO-41 body 5.2 max -> 8.2 -> span 10.16`.
+- **R8 — radial leads** (plan-33-C § 4.1; radial cans, leaded MLCCs,
+  ceramic discs, dipped tantalums): style `dual`, `pins` 2, `perSide` 1,
+  `pitch` 1; `span` = the datasheet's lead spacing (F or LS, mid-value);
+  `drill` and round `pad` as R5 from the lead diameter (d); body: a can or
+  round dipped body is `{"width": D, "height": D, "round": true}` (D the
+  body diameter, mid-value), a leaded MLCC box is W × T, a disc is D × T
+  (its diameter by its thickness, as seen from above). A polarized
+  part's pin 1 is `+` and has `pin1Shape` `rect`; a ceramic (not
+  polarized) one has no `pin1Shape` (the `RES-RADIAL-2.54` precedent).
+- **R9 — SMD cans (V-chip)** (plan-33-C § 4.1): the datasheet's land
+  table for the can size (R1); else R4 on the base plate's terminal
+  drawing; body the base plate (A × B, mid-values). Pin 1 is `+`.
 - **No overlapping pads.** If a land pattern's max-only pad sizes make
   pads touch (PLCC-32's corner pads at Y1 = .100 in max), shorten the pads
   and keep their centres, and say so in the `note`.
@@ -804,6 +817,43 @@ Part keys (numbers):
 A key of the other group is an error (`"vz" is only for a zener`, `"vr"
 is not a zener key`). The values are facts for the app (`PartDiode`); the
 simulation does not use them.
+
+### `capacitor`
+
+Capacitors (plan-33): ceramic, aluminum electrolytic, aluminum polymer,
+tantalum, tantalum polymer and niobium oxide, `"kind": "capacitor"`, run by
+`backend/src/models/capacitor.c`. A capacitor is passive: it drives
+nothing and has no charge, delay or ripple in the logic simulation. Its
+one behavior is the voltage check's **rating test**: a pin whose net is
+above the part's `"volts"` is refused (`VOLTAGE_CAPACITOR_OVER`, `voltage:
+12 V on pin 1 (+) of TESTCAP; it is rated 6.3 V`). Either pin counts: a
+pin's net level against ground is the voltage across a part whose other
+pin is on ground. A part with no `"volts"` (`GENERIC-CAPACITOR`) is never
+refused. There is no reverse-polarity check.
+
+Device keys (one device is one capacitance; its `function` is that value,
+the drawer leaf, e.g. `"100 nF"`):
+
+| Key | Value |
+|---|---|
+| `"type"` | `"ceramic"`, `"aluminum"`, `"aluminum-polymer"`, `"tantalum"`, `"tantalum-polymer"` or `"niobium-oxide"`; anything else is `unknown capacitor type "X"` |
+| `"farads"` | the capacitance in farads, above 0 and at most 10 (`"farads" must be above 0 and at most 10`) |
+| `"positive"`, `"negative"` | pin names (exactly one pin each): required for every type but `ceramic` (`missing "positive"`), rejected for `ceramic` (`a ceramic capacitor has no polarity`) |
+
+Every pinout has exactly 2 pins (`a capacitor has 2 pins`), both `input`
+(`capacitor pin "X" must be input`). Ceramic pinouts name them `1` and `2`;
+polarized ones `+` and `-` (pin 1 is `+`).
+
+Part keys (all optional):
+
+| Key | Value |
+|---|---|
+| `"volts"` | rated DC voltage in volts, above 0 and at most 10000 (`"volts" must be above 0 and at most 10000`); the rating test above |
+| `"dielectric"` | `ceramic` only (`"dielectric" is only for a ceramic capacitor`): the code as DigiKey and the datasheet give it, e.g. `"C0G"`, `"X7R"`, `"Y5V"` |
+| `"tolerance"` | as the datasheet prints it, e.g. `"±10%"`, `"±0.25pF"`, `"-20%, +80%"` |
+
+The values are facts for the app (`PartCapacitor`: capacitance in
+femtofarads, rating in millivolts).
 
 ### `oscillator`
 
@@ -2745,13 +2795,14 @@ lists them under Displays → Character. The example is the
 
 | Key | Value |
 |---|---|
-| `"columns"`, `"rows"` | characters per line (1–40) and lines (1–2) |
+| `"columns"` | characters per line, 1–40; with 4 rows and one enable, at most 20 (`4 rows on one controller need "columns" of 20 or less`) |
+| `"rows"` | lines: 1, 2 or 4 (`"rows" must be 1, 2 or 4`) |
 | `"controller"` | shown as is, e.g. `"ST7066U"` |
 | `"rom"` | `"A00"`, the only character ROM the model has |
-| `"panel"` | `"yellow-green"` (STN positive: dark dots on yellow-green) or `"blue-negative"` (STN negative: light dots on blue) |
-| `"bus"` | `{"rs", "rw", "e", "data"}`: pin names; `data` is 8 names, DB0 first. Each names exactly one pin. `PartCharLcd.bus_pins` holds RS, R/W, E, DB0–DB7 as indices into `Part.pins` |
+| `"panel"` | `"yellow-green"` (STN positive: dark dots on yellow-green), `"blue-negative"` (STN negative: light dots on blue), `"gray"` (STN positive: dark dots on light gray) or `"white"` (FSTN positive: black dots on white). Error: `"panel" must be yellow-green, blue-negative, gray or white` |
+| `"bus"` | `{"rs", "rw", "e", "data"}`: pin names; `data` is 8 names, DB0 first. Each names exactly one pin. `e` is a pin name, or an array of 2 names `["E1", "E2"]` for a module with two controllers; two need `"rows": 4` (`two enables need "rows": 4`), any other array: `"e" must be a pin name or 2 pin names`. `PartCharLcd.enables` is 1 or 2, and `PartCharLcd.bus_pins` holds RS, R/W, E (or E1, E2), DB0–DB7 as indices into `Part.pins`: 11 or 12 |
 | `"contrast"` | the V0 pin's name (one pin); the model ignores it |
-| `"backlight"` | optional `{"anode", "cathode", "color"}`: pin names (one pin each) and the shown color. Without it `PartCharLcd.backlight_color` is NULL |
+| `"backlight"` | optional `{"anode", "cathode", "color"}`: pin names (one pin each) and the shown color; or an array of 1–3 such objects, one per LED (an RGB backlight: the LEDs may share the anode pin, each cathode is its own pin). Error: `"backlight" must be an object or 1 to 3 objects`. `PartCharLcd.backlight_count` is the number of LEDs and `backlight_colors` their colors in array order; `backlight_color` is the first color. Without it the count is 0 and both are NULL |
 | `"timing"` | ns: `tc tpw tas tah tdsw th tddr tdhr` (the datasheet's bus timing), every key required, each ≥ 0; `tc` and `tpw` > 0 |
 | `"exec"` | ns: `instruction` (every instruction but Clear and Home), `data` (a data read or write), `clearHome`, `powerOn` (busy time after power-up), each > 0 |
 | `"vcc"`, `"inputMax"` | the supply range (§ Supply voltage); also allowed on the part |
@@ -2797,9 +2848,22 @@ Behavior (the HD44780 family as the module datasheets print it;
   (dot row 7 of AC's cell) and blink (all dots of AC's cell, on while
   `floor(t / 379 259 259 ps)` is even). A dot is X when anything it depends
   on is X. `circuit_lcd_state` reads it.
-- **Backlight.** One light, on while the anode reads 1 and the cathode
-  reads 0. The voltage check carries the anode's level to the cathode net,
-  as for an LED, and checks VDD against `vcc`.
+- **Rows and controllers.** Display row r shows a controller's line:
+  with two enables, controller r / 2 (E1 for rows 0–1, E2 for rows 2–3,
+  each a 2-line controller of `columns` columns), line r % 2, offset 0;
+  with one enable, the one controller, line r % 2, offset (r / 2) ×
+  `columns` (0 for 1- and 2-row modules). For 2-line mode (N = 1) the cell
+  in column c is address `line × 0x40 + (shift + offset + c) mod 40`; in
+  1-line mode (N = 0) rows on line 1 are off and line-0 rows show address
+  `(shift + offset + c) mod 80`. So a 20 × 4 on one controller shows
+  addresses 00–13, 40–53, 14–27, 54–67 on rows 0–3. Each controller of a
+  40 × 4 has its own registers, RAM, busy flag, timing checks and
+  power-on reset; RS, R/W and DB are shared. A read with E1 and E2 both
+  high drives each DB bit where the two disagree, or either is X, as X.
+- **Backlight.** One light per LED, in `backlight` order, on while its
+  anode reads 1 and its cathode reads 0. The voltage check carries each
+  anode's level to its cathode net, as for an LED, and checks VDD against
+  `vcc`.
 
 ### `buffer`
 

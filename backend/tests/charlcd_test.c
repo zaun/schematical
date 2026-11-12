@@ -10,12 +10,14 @@
 #include <string.h>
 
 #include "bench.h"
+#include "cJSON.h"
 #include "circuit.h"
 #include "charlcd_font.h"
 #include "kind.h"
 #include "parts.h"
 #include "read_file.h"
 #include "sim.h"
+#include "voltage.h"
 
 static int failures = 0;
 static PartLibrary *library;
@@ -53,7 +55,49 @@ static void expect(int ok, const char *what) {
 static const char FOOTPRINTS[] =
     "{'format':'schematical-footprints','version':1,'footprints':[{'id':'FX16',"
     "'description':'d','style':'dual','pins':16,'body':{'width':1,'height':1},'pitch':1,"
+    "'span':2,'pad':{'width':0.5,'height':0.5,'shape':'rect'}},{'id':'FX18',"
+    "'description':'d','style':'dual','pins':18,'body':{'width':1,'height':1},'pitch':1,"
     "'span':2,'pad':{'width':0.5,'height':0.5,'shape':'rect'}}]}";
+
+/* plan-35-D fixtures. p18-dual: the C404ALB 40x4 pin table (E1 pin 9 for
+   the top two lines, E2 pin 15 for the bottom two). p18-rgb: the Midas
+   MD42004A6W-FPTLRGB table (LED+ 15, K(B) 16, K(G) 17, K(R) 18). */
+#define PINOUT_P18_DUAL \
+    "'pinouts':{'p18-dual':[" \
+    "{'number':1,'name':'DB7','role':'inout','group':'data'}," \
+    "{'number':2,'name':'DB6','role':'inout','group':'data'}," \
+    "{'number':3,'name':'DB5','role':'inout','group':'data'}," \
+    "{'number':4,'name':'DB4','role':'inout','group':'data'}," \
+    "{'number':5,'name':'DB3','role':'inout','group':'data'}," \
+    "{'number':6,'name':'DB2','role':'inout','group':'data'}," \
+    "{'number':7,'name':'DB1','role':'inout','group':'data'}," \
+    "{'number':8,'name':'DB0','role':'inout','group':'data'}," \
+    "{'number':9,'name':'E1','role':'input'},{'number':10,'name':'R/W','role':'input'}," \
+    "{'number':11,'name':'RS','role':'input'},{'number':12,'name':'V0','role':'input'}," \
+    "{'number':13,'name':'VSS','role':'ground'},{'number':14,'name':'VDD','role':'power'}," \
+    "{'number':15,'name':'E2','role':'input'},{'number':16,'name':'NC','role':'nc'}," \
+    "{'number':17,'name':'LED+','role':'input'},{'number':18,'name':'LED-','role':'input'}]}"
+
+#define PINOUT_P18_RGB \
+    "'pinouts':{'p18-rgb':[{'number':1,'name':'VSS','role':'ground'}," \
+    "{'number':2,'name':'VDD','role':'power'},{'number':3,'name':'V0','role':'input'}," \
+    "{'number':4,'name':'RS','role':'input'},{'number':5,'name':'R/W','role':'input'}," \
+    "{'number':6,'name':'E','role':'input'}," \
+    "{'number':7,'name':'DB0','role':'inout','group':'data'}," \
+    "{'number':8,'name':'DB1','role':'inout','group':'data'}," \
+    "{'number':9,'name':'DB2','role':'inout','group':'data'}," \
+    "{'number':10,'name':'DB3','role':'inout','group':'data'}," \
+    "{'number':11,'name':'DB4','role':'inout','group':'data'}," \
+    "{'number':12,'name':'DB5','role':'inout','group':'data'}," \
+    "{'number':13,'name':'DB6','role':'inout','group':'data'}," \
+    "{'number':14,'name':'DB7','role':'inout','group':'data'}," \
+    "{'number':15,'name':'LED+','role':'input'},{'number':16,'name':'K(B)','role':'input'}," \
+    "{'number':17,'name':'K(G)','role':'input'},{'number':18,'name':'K(R)','role':'input'}]}"
+
+#define RGB_BACKLIGHT \
+    "'backlight':[{'anode':'LED+','cathode':'K(R)','color':'Red'}," \
+    "{'anode':'LED+','cathode':'K(G)','color':'Green'}," \
+    "{'anode':'LED+','cathode':'K(B)','color':'Blue'}],"
 
 static char *dequote(const char *text) {
     size_t n = strlen(text);
@@ -83,6 +127,28 @@ static char *device_file(const char *name, const char *columns, const char *rows
              "'timing':%s,'exec':%s,"
              "'parts':[{'name':'%s','package':'Module','pinout':'p16','footprint':'FX16'}]}]}",
              name, columns, rows, rom, panel, data, extra, timing, exec, name);
+    return dequote(text);
+}
+
+/*
+ * A plan-35-D device file: as device_file, with the pinouts text, its pinout
+ * id, the footprint and the "bus".e value given; the timing and exec are the
+ * fixture's; `extra` holds the backlight and vcc pairs.
+ */
+static char *large_file(const char *name, const char *pinouts, const char *pinout,
+                        const char *footprint, const char *columns, const char *rows,
+                        const char *panel, const char *e, const char *extra) {
+    static char text[8192];
+
+    snprintf(text, sizeof text,
+             "{'format':'schematical-parts','version':1,'kind':'charlcd','devices':[{"
+             "'id':'%s','function':'%sx%s','description':'d','drawer':[],%s,"
+             "'columns':%s,'rows':%s,'controller':'ST7066U','rom':'A00','panel':%s,"
+             "'bus':{'rs':'RS','rw':'R/W','e':%s,'data':" DATA "},'contrast':'V0',%s"
+             "'timing':" TIMING ",'exec':" EXEC ","
+             "'parts':[{'name':'%s','package':'Module','pinout':'%s','footprint':'%s'}]}]}",
+             name, columns, rows, pinouts, columns, rows, panel, e, extra, name, pinout,
+             footprint);
     return dequote(text);
 }
 
@@ -157,13 +223,13 @@ static void check_loader(void) {
                  "\"columns\" must be 1 to 40");
     expect_error("rows 3", device_file("B", "16", "3", "'A00'", "'yellow-green'", DATA, TIMING,
                                        EXEC, BACKLIGHT VCC),
-                 "\"rows\" must be 1 or 2");
+                 "\"rows\" must be 1, 2 or 4");
     expect_error("rom A02", device_file("B", "16", "2", "'A02'", "'yellow-green'", DATA, TIMING,
                                         EXEC, BACKLIGHT VCC),
                  "unknown rom \"A02\"");
     expect_error("panel green", device_file("B", "16", "2", "'A00'", "'green'", DATA, TIMING,
                                             EXEC, BACKLIGHT VCC),
-                 "\"panel\" must be yellow-green or blue-negative");
+                 "\"panel\" must be yellow-green, blue-negative, gray or white");
     expect_error("7 data pins", device_file("B", "16", "2", "'A00'", "'yellow-green'",
                                             "['DB0','DB1','DB2','DB3','DB4','DB5','DB6']",
                                             TIMING, EXEC, BACKLIGHT VCC),
@@ -199,6 +265,122 @@ static void check_loader(void) {
     expect_error("no vcc", device_file("B", "16", "2", "'A00'", "'yellow-green'", DATA, TIMING,
                                        EXEC, BACKLIGHT),
                  "missing \"vcc\"");
+}
+
+/* ---- plan-35-D case 1: loader ---------------------------------------------- */
+
+static int bus_is(const Part *part, const char *const *names, size_t count) {
+    const PartCharLcd *l = part->charlcd;
+    size_t i;
+
+    if (l->bus_pin_count != count) {
+        return 0;
+    }
+    for (i = 0; i < count; i++) {
+        if (strcmp(part->pins[l->bus_pins[i]].name, names[i]) != 0) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+static void check_loader_large(void) {
+    static const char *const BUS_ONE[] = {"RS", "R/W", "E", "DB0", "DB1", "DB2", "DB3",
+                                          "DB4", "DB5", "DB6", "DB7"};
+    static const char *const BUS_TWO[] = {"RS", "R/W", "E1", "E2", "DB0", "DB1", "DB2",
+                                          "DB3", "DB4", "DB5", "DB6", "DB7"};
+    const Part *part;
+    const PartCharLcd *l;
+
+    part = part_library_find(library, "FX-2004");
+    l = part != NULL ? part->charlcd : NULL;
+    expect(l != NULL && l->columns == 20 && l->rows == 4 && l->enables == 1 &&
+               strcmp(l->panel, "gray") == 0 && l->backlight_count == 1 &&
+               strcmp(l->backlight_colors[0], "White") == 0 &&
+               l->backlight_color == l->backlight_colors[0] && bus_is(part, BUS_ONE, 11),
+           "D1 loader: 20x4 on one E loads (rows 4, panel gray, enables 1, 1 LED, bus of 11)");
+    part = part_library_find(library, "FX-4004");
+    l = part != NULL ? part->charlcd : NULL;
+    expect(l != NULL && l->columns == 40 && l->rows == 4 && l->enables == 2 &&
+               strcmp(l->panel, "white") == 0 && l->backlight_count == 1 &&
+               bus_is(part, BUS_TWO, 12),
+           "D1 loader: 40x4 with two enables loads (enables 2, panel white, bus RS R/W E1 E2 DB0-7: 12)");
+    part = part_library_find(library, "FX-RGB");
+    l = part != NULL ? part->charlcd : NULL;
+    expect(l != NULL && l->rows == 4 && l->enables == 1 && l->backlight_count == 3 &&
+               l->backlight_colors != NULL && strcmp(l->backlight_colors[0], "Red") == 0 &&
+               strcmp(l->backlight_colors[1], "Green") == 0 &&
+               strcmp(l->backlight_colors[2], "Blue") == 0 &&
+               l->backlight_color == l->backlight_colors[0] && bus_is(part, BUS_ONE, 11),
+           "D1 loader: a 3-LED backlight loads (backlight_count 3: Red, Green, Blue; color = [0])");
+    part = part_library_find(library, "FX-LCD");
+    l = part != NULL ? part->charlcd : NULL;
+    expect(l != NULL && l->enables == 1 && l->backlight_count == 1 &&
+               strcmp(l->backlight_colors[0], "White") == 0 && bus_is(part, BUS_ONE, 11),
+           "D1 loader: the 16x2 fixture has enables 1, one LED, the same 11 bus pins");
+    part = part_library_find(library, "FX-LCD-NB");
+    expect(part != NULL && part->charlcd->backlight_count == 0 &&
+               part->charlcd->backlight_colors == NULL,
+           "D1 loader: no backlight: backlight_count 0, backlight_colors NULL");
+
+    expect_error("rows 4, one E, 21 columns",
+                 large_file("B", PINOUT, "p16", "FX16", "21", "4", "'white'", "'E'", BACKLIGHT VCC),
+                 "4 rows on one controller need \"columns\" of 20 or less");
+    expect_error("rows 3", large_file("B", PINOUT, "p16", "FX16", "20", "3", "'white'", "'E'",
+                                      BACKLIGHT VCC),
+                 "\"rows\" must be 1, 2 or 4");
+    expect_error("two enables on 2 rows",
+                 large_file("B", PINOUT_P18_DUAL, "p18-dual", "FX18", "40", "2", "'white'",
+                            "['E1','E2']", VCC),
+                 "two enables need \"rows\": 4");
+    expect_error("three enables",
+                 large_file("B", PINOUT_P18_DUAL, "p18-dual", "FX18", "40", "4", "'white'",
+                            "['E1','E2','E1']", VCC),
+                 "\"e\" must be a pin name or 2 pin names");
+    expect_error("one enable in an array",
+                 large_file("B", PINOUT_P18_DUAL, "p18-dual", "FX18", "40", "4", "'white'",
+                            "['E1']", VCC),
+                 "\"e\" must be a pin name or 2 pin names");
+    expect_error("e a number",
+                 large_file("B", PINOUT_P18_DUAL, "p18-dual", "FX18", "40", "4", "'white'", "9",
+                            VCC),
+                 "\"e\" must be a pin name or 2 pin names");
+    expect_error("E2 with no pin",
+                 large_file("B", PINOUT_P18_DUAL, "p18-dual", "FX18", "40", "4", "'white'",
+                            "['E1','E3']", VCC),
+                 "no pin named \"E3\"");
+    expect_error("panel black", large_file("B", PINOUT, "p16", "FX16", "20", "4", "'black'", "'E'",
+                                           BACKLIGHT VCC),
+                 "\"panel\" must be yellow-green, blue-negative, gray or white");
+    expect_error("backlight of 4 LEDs",
+                 large_file("B", PINOUT_P18_RGB, "p18-rgb", "FX18", "20", "4", "'white'", "'E'",
+                            "'backlight':[{'anode':'LED+','cathode':'K(R)','color':'Red'},"
+                            "{'anode':'LED+','cathode':'K(G)','color':'Green'},"
+                            "{'anode':'LED+','cathode':'K(B)','color':'Blue'},"
+                            "{'anode':'LED+','cathode':'K(B)','color':'Blue'}]," VCC),
+                 "\"backlight\" must be an object or 1 to 3 objects");
+    expect_error("backlight empty array",
+                 large_file("B", PINOUT_P18_RGB, "p18-rgb", "FX18", "20", "4", "'white'", "'E'",
+                            "'backlight':[]," VCC),
+                 "\"backlight\" must be an object or 1 to 3 objects");
+    expect_error("backlight a string",
+                 large_file("B", PINOUT_P18_RGB, "p18-rgb", "FX18", "20", "4", "'white'", "'E'",
+                            "'backlight':'White'," VCC),
+                 "\"backlight\" must be an object or 1 to 3 objects");
+    expect_error("backlight array of a string",
+                 large_file("B", PINOUT_P18_RGB, "p18-rgb", "FX18", "20", "4", "'white'", "'E'",
+                            "'backlight':['White']," VCC),
+                 "\"backlight\" must be an object or 1 to 3 objects");
+    expect_error("backlight LED without a color",
+                 large_file("B", PINOUT_P18_RGB, "p18-rgb", "FX18", "20", "4", "'white'", "'E'",
+                            "'backlight':[{'anode':'LED+','cathode':'K(R)','color':'Red'},"
+                            "{'anode':'LED+','cathode':'K(G)'}]," VCC),
+                 "backlight[1]");
+    expect_error("backlight cathode with no pin",
+                 large_file("B", PINOUT_P18_RGB, "p18-rgb", "FX18", "20", "4", "'white'", "'E'",
+                            "'backlight':[{'anode':'LED+','cathode':'K(R)','color':'Red'},"
+                            "{'anode':'LED+','cathode':'K(W)','color':'White'}]," VCC),
+                 "no pin named \"K(W)\"");
 }
 
 /* ---- Character ROM (section 5.2) ------------------------------------------ */
@@ -264,12 +446,58 @@ typedef struct {
     const Part *part;
     int four;            /* 4-bit mode: bytes go as two nibbles */
     int db_low_z;        /* every 4-bit read saw DB0-3 at Z */
+    const char *e;       /* the enable the accesses pulse: "E", or "E1" / "E2" on a 40x4 */
+    /* The bus pins' names, from the part's bus_pins (RS, R/W, E or E1 and
+       E2, DB0-DB7); the bench finds a pin by its name. */
+    const char *rs, *rw, *en[2], *db[8];
+    unsigned enables;
+    int pins_ok;         /* each bus pin is the first pin of its name */
+    /* One access: RS, R/W and DB set `setup` before E rises, E high `high`,
+       then `after` with E low before the next change. */
+    SimTime setup, high, after;
 } Lcd;
 
 static const char *const DB[8] = {"DB0", "DB1", "DB2", "DB3", "DB4", "DB5", "DB6", "DB7"};
 
+/* The bus pin names from part->charlcd->bus_pins: RS, R/W, E (E1, E2),
+   DB0-DB7. pins_ok: the counts are right and each bus pin is the first pin
+   of its name (the one the bench drives). */
+static void lcd_pins(Lcd *l) {
+    const PartCharLcd *c = l->part->charlcd;
+    const char **names[12];
+    size_t i, n = 0, j;
+
+    names[n++] = &l->rs;
+    names[n++] = &l->rw;
+    l->enables = c != NULL && c->enables == 2 ? 2 : 1;
+    names[n++] = &l->en[0];
+    if (l->enables == 2) {
+        names[n++] = &l->en[1];
+    }
+    for (i = 0; i < 8; i++) {
+        names[n++] = &l->db[i];
+    }
+    l->pins_ok = c != NULL && c->bus_pin_count == n;
+    for (i = 0; i < n; i++) {
+        size_t index = l->pins_ok ? c->bus_pins[i] : 0;
+
+        if (!l->pins_ok || index >= l->part->pin_count) {
+            fprintf(stderr, "%s: bad bus_pins\n", l->part->name);
+            exit(1);
+        }
+        *names[i] = l->part->pins[index].name;
+        for (j = 0; j < index; j++) {
+            l->pins_ok = l->pins_ok && strcmp(l->part->pins[j].name, *names[i]) != 0;
+        }
+    }
+    if (l->enables == 1) {
+        l->en[1] = NULL;
+    }
+}
+
 static Lcd lcd_open(const char *name) {
     Lcd l;
+    unsigned i;
 
     memset(&l, 0, sizeof l);
     l.part = part_library_find(library, name);
@@ -279,9 +507,16 @@ static Lcd lcd_open(const char *name) {
     }
     l.b = bench_create(l.part);
     l.db_low_z = 1;
-    bench_set(l.b, "E", LOGIC_0);
-    bench_set(l.b, "RS", LOGIC_0);
-    bench_set(l.b, "R/W", LOGIC_0);
+    l.setup = NS(50);
+    l.high = NS(500);
+    l.after = US(2);
+    lcd_pins(&l);
+    l.e = l.en[0];
+    for (i = 0; i < l.enables; i++) {
+        bench_set(l.b, l.en[i], LOGIC_0);
+    }
+    bench_set(l.b, l.rs, LOGIC_0);
+    bench_set(l.b, l.rw, LOGIC_0);
     bench_run(l.b, 1);
     return l;
 }
@@ -306,38 +541,39 @@ static void put_db(Lcd *l, uint8_t v, uint8_t mask) {
 
     for (i = 0; i < 8; i++) {
         if ((mask >> i) & 1u) {
-            lv(l, DB[i], (v >> i) & 1u);
+            lv(l, l->db[i], (v >> i) & 1u);
         } else {
-            bench_set(l->b, DB[i], LOGIC_Z);
+            bench_set(l->b, l->db[i], LOGIC_Z);
         }
     }
 }
 
-/* One write access: E high 500 ns, every setup and hold met, 2 us after. */
+/* One write access: setup, E high, after (by default 50 ns, 500 ns, 2 us:
+   every setup and hold met). */
 static void access_write(Lcd *l, int rs, uint8_t v, uint8_t mask) {
-    lv(l, "RS", rs);
-    lv(l, "R/W", 0);
+    lv(l, l->rs, rs);
+    lv(l, l->rw, 0);
     put_db(l, v, mask);
-    bench_run(l->b, NS(50));
-    lv(l, "E", 1);
-    bench_run(l->b, NS(500));
-    lv(l, "E", 0);
-    bench_run(l->b, US(2));
+    bench_run(l->b, l->setup);
+    lv(l, l->e, 1);
+    bench_run(l->b, l->high);
+    lv(l, l->e, 0);
+    bench_run(l->b, l->after);
 }
 
 /* One read access; the DB values sampled just before E falls. */
 static void access_read(Lcd *l, int rs, uint8_t *v, uint8_t *k) {
     unsigned i;
 
-    lv(l, "RS", rs);
-    lv(l, "R/W", 1);
+    lv(l, l->rs, rs);
+    lv(l, l->rw, 1);
     put_db(l, 0, 0);
-    bench_run(l->b, NS(50));
-    lv(l, "E", 1);
-    bench_run(l->b, NS(500));
+    bench_run(l->b, l->setup);
+    lv(l, l->e, 1);
+    bench_run(l->b, l->high);
     *v = *k = 0;
     for (i = 0; i < 8; i++) {
-        LogicValue x = bench_get(l->b, DB[i]);
+        LogicValue x = bench_get(l->b, l->db[i]);
 
         if (x == LOGIC_0 || x == LOGIC_1) {
             *k |= (uint8_t)(1u << i);
@@ -347,9 +583,9 @@ static void access_read(Lcd *l, int rs, uint8_t *v, uint8_t *k) {
             l->db_low_z = 0;
         }
     }
-    lv(l, "E", 0);
-    bench_run(l->b, US(2));
-    lv(l, "R/W", 0);
+    lv(l, l->e, 0);
+    bench_run(l->b, l->after);
+    lv(l, l->rw, 0);
 }
 
 static void wr(Lcd *l, int rs, uint8_t byte) {
@@ -510,7 +746,7 @@ static void check_power_up(void) {
     expect(k == 0xFF && v == 0x00, "1 power-up: at 41 ms BF = 0 and AC = 0");
     lcd_state(&l, &st);
     for (i = 0; i < 80; i++) {
-        spaces = spaces && st.ddram[i] == 0x20 && st.ddram_known[i] == 0xFF;
+        spaces = spaces && st.ddram[0][i] == 0x20 && st.ddram_known[0][i] == 0xFF;
     }
     expect(spaces, "1 power-up: the write at 1 ms was not accepted (DDRAM all 20)");
     expect(image_all(&st, LCD_DOT_OFF), "1 power-up: display off (D = 0): every dot off");
@@ -526,7 +762,7 @@ static void check_init8(void) {
     clear(&l);
     text(&l, "HELLO");
     lcd_state(&l, &st);
-    expect(memcmp(st.ddram, "HELLO", 5) == 0, "2 8-bit init: ddram[0..4] = 48 45 4C 4C 4F");
+    expect(memcmp(st.ddram[0], "HELLO", 5) == 0, "2 8-bit init: ddram[0..4] = 48 45 4C 4C 4F");
     expect(read_ac(&l) == 0x05, "2 8-bit init: AC = 05");
     expect(cell_is_rom(&st, 0, 0, 0x48) && cell_is_rom(&st, 0, 4, 0x4F),
            "2 8-bit init: cell 0 shows ROM 48, cell 4 ROM 4F");
@@ -562,7 +798,7 @@ static void check_init4(void) {
            "3 4-bit init: BF/AC read in two nibbles gives 0 then 2");
     expect(l.db_low_z, "3 4-bit init: DB0-3 stay Z through every read");
     lcd_state(&l, &st);
-    expect(memcmp(st.ddram, "Hi", 2) == 0 && cell_is_rom(&st, 0, 0, 'H') &&
+    expect(memcmp(st.ddram[0], "Hi", 2) == 0 && cell_is_rom(&st, 0, 0, 'H') &&
                cell_is_rom(&st, 0, 1, 'i'),
            "3 4-bit init: \"Hi\" in ddram[0..1] and on the face");
     at(&l, blink_time(now_ps(&l), 1));
@@ -592,7 +828,7 @@ static void check_busy(void) {
     wr(&l, 1, 'B');
     bench_run(l.b, US(40));
     lcd_state(&l, &st);
-    expect(st.ddram[0] == 'A' && st.ddram[1] == 0x20,
+    expect(st.ddram[0][0] == 'A' && st.ddram[0][1] == 0x20,
            "4 busy: a data write 10 us after another is not accepted");
     wr(&l, 0, 0x01);
     fall = now_ps(&l) - US(2);
@@ -617,7 +853,7 @@ static void check_clear_home(void) {
     clear(&l);
     lcd_state(&l, &st);
     for (i = 0; i < 80; i++) {
-        spaces = spaces && st.ddram[i] == 0x20 && st.ddram_known[i] == 0xFF;
+        spaces = spaces && st.ddram[0][i] == 0x20 && st.ddram_known[0][i] == 0xFF;
     }
     expect(spaces && read_ac(&l) == 0, "5 clear: DDRAM all 20, AC 0");
     text(&l, "AB");
@@ -627,8 +863,8 @@ static void check_clear_home(void) {
     expect(cell_is_rom(&st, 0, 0, 'B'), "5 home: after a shift, column 0 shows address 01");
     cmd(&l, 0x02, MS(2));
     lcd_state(&l, &st);
-    expect(cell_is_rom(&st, 0, 0, 'A') && cell_is_rom(&st, 0, 1, 'B') && st.ddram[0] == 'A' &&
-               st.ddram[1] == 'B' && read_ac(&l) == 0,
+    expect(cell_is_rom(&st, 0, 0, 'A') && cell_is_rom(&st, 0, 1, 'B') && st.ddram[0][0] == 'A' &&
+               st.ddram[0][1] == 'B' && read_ac(&l) == 0,
            "5 home: shift back to 0, AC 0, DDRAM unchanged");
     bench_destroy(l.b);
 }
@@ -643,7 +879,7 @@ static void check_entry_shift(void) {
     cmd(&l, 0x85, US(40));
     text(&l, "AB");
     lcd_state(&l, &st);
-    expect(st.ddram[5] == 'A' && st.ddram[4] == 'B' && read_ac(&l) == 0x03,
+    expect(st.ddram[0][5] == 'A' && st.ddram[0][4] == 'B' && read_ac(&l) == 0x03,
            "6 entry mode: I/D = 0 writes go leftward (05, 04; AC 03)");
     clear(&l);
     cmd(&l, 0x06, US(40));
@@ -665,7 +901,7 @@ static void check_wrap(void) {
     cmd(&l, 0xA7, US(40));
     text(&l, "PQ");
     lcd_state(&l, &st);
-    expect(st.ddram[39] == 'P' && st.ddram[40] == 'Q' && read_ac(&l) == 0x41,
+    expect(st.ddram[0][39] == 'P' && st.ddram[0][40] == 'Q' && read_ac(&l) == 0x41,
            "7 2-line wrap: 27 then 40 (indices 39, 40), AC 41");
     cmd(&l, 0x80, US(40));
     cmd(&l, 0x10, US(40));
@@ -684,8 +920,8 @@ static void check_no_cell(void) {
     cmd(&l, 0xA8, US(40));
     text(&l, "Z");
     lcd_state(&l, &after);
-    expect(memcmp(before.ddram, after.ddram, 80) == 0 &&
-               memcmp(before.ddram_known, after.ddram_known, 80) == 0,
+    expect(memcmp(before.ddram[0], after.ddram[0], 80) == 0 &&
+               memcmp(before.ddram_known[0], after.ddram_known[0], 80) == 0,
            "8 no-cell address: a write at 28 changes no cell");
     expect(read_ac(&l) == 0x29, "8 no-cell address: AC = 29");
     cmd(&l, 0xA8, US(40));
@@ -758,7 +994,7 @@ static void check_display_off(void) {
     text(&l, "A");
     cmd(&l, 0x08, US(40));
     lcd_state(&l, &st);
-    expect(image_all(&st, LCD_DOT_OFF) && st.ddram[0] == 'A',
+    expect(image_all(&st, LCD_DOT_OFF) && st.ddram[0][0] == 'A',
            "11 display off: every dot off, DDRAM kept");
     bench_destroy(l.b);
 }
@@ -787,7 +1023,7 @@ static void check_one_line(void) {
     cmd(&l, 0xCF, US(40));
     text(&l, "Z");
     lcd_state(&l, &st);
-    expect(st.ddram[79] == 'Z' && read_ac(&l) == 0x00, "12 1-line: AC wraps 4F -> 00");
+    expect(st.ddram[0][79] == 'Z' && read_ac(&l) == 0x00, "12 1-line: AC wraps 4F -> 00");
     bench_destroy(l.b);
 }
 
@@ -842,7 +1078,7 @@ static int cell0_lost_ac1(Lcd *l) {
 
     bench_run(l->b, US(40));
     lcd_state(l, &st);
-    return st.ddram_known[0] == 0 && cell_all(&st, 0, 0, LCD_DOT_X) && read_ac(l) == 1;
+    return st.ddram_known[0][0] == 0 && cell_all(&st, 0, 0, LCD_DOT_X) && read_ac(l) == 1;
 }
 
 static void check_write_violations(void) {
@@ -940,7 +1176,7 @@ static void check_lost(void) {
     bench_run(l.b, US(40));
     lcd_state(&l, &st);
     rd(&l, 0, &v, &k);
-    expect(image_all(&st, LCD_DOT_X) && st.busy == -1 && !(k & 0x80),
+    expect(image_all(&st, LCD_DOT_X) && st.busy[0] == -1 && !(k & 0x80),
            "15 LOST: an instruction write with RS X: every dot X, BF reads X");
     bench_run(l.b, MS(1));
     cmd(&l, 0x30, MS(5));
@@ -951,14 +1187,14 @@ static void check_lost(void) {
     cmd(&l, 0x0C, US(40));
     cmd(&l, 0x06, US(40));
     lcd_state(&l, &st);
-    expect(image_all(&st, LCD_DOT_X) && st.busy == 0,
+    expect(image_all(&st, LCD_DOT_X) && st.busy[0] == 0,
            "15 resync: after the init sequence BF is known; the X DDRAM cells show X");
     clear(&l);
     lcd_state(&l, &st);
     expect(image_all(&st, LCD_DOT_OFF), "15 resync: after Clear every dot is off");
     text(&l, "HELLO");
     lcd_state(&l, &st);
-    expect(memcmp(st.ddram, "HELLO", 5) == 0 && cell_is_rom(&st, 0, 0, 'H') &&
+    expect(memcmp(st.ddram[0], "HELLO", 5) == 0 && cell_is_rom(&st, 0, 0, 'H') &&
                cell_is_rom(&st, 0, 4, 'O'),
            "15 resync: HELLO shows");
     bench_destroy(l.b);
@@ -970,7 +1206,7 @@ static void check_lost(void) {
     bench_set(l.b, "E", LOGIC_0);
     bench_run(l.b, US(1));
     lcd_state(&l, &st);
-    expect(st.busy == -1 && st.ddram_known[0] == 0, "15 LOST: E reading X makes every field X");
+    expect(st.busy[0] == -1 && st.ddram_known[0][0] == 0, "15 LOST: E reading X makes every field X");
     bench_destroy(l.b);
 
     /* E reading X with R/W 1 is a possible read: only AC goes X. */
@@ -988,7 +1224,7 @@ static void check_lost(void) {
         uint8_t v, k;
 
         rd(&l, 0, &v, &k);
-        expect(st.busy == 0 && st.ddram[0] == 'A' && st.ddram[1] == 'B' && st.ddram_known[0] == 0xFF &&
+        expect(st.busy[0] == 0 && st.ddram[0][0] == 'A' && st.ddram[0][1] == 'B' && st.ddram_known[0][0] == 0xFF &&
                    cell_is_rom(&st, 0, 0, 'A') && (k & 0x80) && !(v & 0x80) && (k & 0x7F) == 0,
                "15 E X with R/W 1 (a possible read): BF and RAM known, only AC X");
         cmd(&l, 0x80, US(40));
@@ -1003,7 +1239,7 @@ static void check_lost(void) {
     bench_set(l.b, "E", LOGIC_0);
     at(&l, MS(41));
     lcd_state(&l, &st);
-    expect(st.busy == 0 && st.ddram_known[0] == 0xFF && read_ac(&l) == 0,
+    expect(st.busy[0] == 0 && st.ddram_known[0][0] == 0xFF && read_ac(&l) == 0,
            "15 power-on: E X before exec.powerOn does not make the controller LOST");
     bench_destroy(l.b);
 }
@@ -1038,6 +1274,393 @@ static void check_partial_x(void) {
     }
     expect(ok, "16 partial X: 0000 11X0 makes only C X: the cursor cell's row 7 is X, every other dot right");
     bench_destroy(l.b);
+}
+
+/* ---- plan-35-D cases 2-9: 4 rows, two controllers, RGB backlight ---------- */
+
+/* The 8-bit init with Function Set `fs` (0x38: N = 1, 0x30: N = 0), then Clear. */
+static void init8_fs(Lcd *l, uint8_t fs) {
+    at(l, MS(100));
+    cmd(l, 0x30, MS(5));
+    cmd(l, 0x30, US(160));
+    cmd(l, 0x30, US(160));
+    cmd(l, fs, US(40));
+    cmd(l, 0x10, US(40));
+    cmd(l, 0x0C, US(40));
+    cmd(l, 0x06, US(40));
+    clear(l);
+}
+
+/* Data bytes 50 us apart. */
+static void data_bytes(Lcd *l, const uint8_t *bytes, size_t count) {
+    size_t i;
+
+    for (i = 0; i < count; i++) {
+        wr(l, 1, bytes[i]);
+        bench_run(l->b, US(50));
+    }
+}
+
+/* Row `row` columns 0..count-1 show ROM codes bytes[first + c]. */
+static int row_shows(const LcdState *st, unsigned row, const uint8_t *bytes, unsigned first,
+                     unsigned count) {
+    unsigned c;
+
+    for (c = 0; c < count; c++) {
+        if (!cell_is_rom(st, row, c, bytes[first + c])) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+/* 80 distinct ROM codes, 30-7F; byte i is the i-th write. */
+static void eighty(uint8_t bytes[80]) {
+    unsigned i;
+
+    for (i = 0; i < 80; i++) {
+        bytes[i] = (uint8_t)(0x30 + i);
+    }
+}
+
+static void check_2004_map(void) {
+    Lcd l = lcd_open("FX-2004");
+    LcdState st;
+    uint8_t bytes[80];
+    int ac;
+
+    eighty(bytes);
+    init8_fs(&l, 0x38);
+    data_bytes(&l, bytes, 80);
+    ac = read_ac(&l);
+    lcd_state(&l, &st);
+    expect(ac == 0x00 && st.ddram[0][39] == bytes[39] && st.ddram[0][40] == bytes[40] &&
+               st.ddram[0][79] == bytes[79],
+           "D2 20x4 map: 80 writes from 00 wrap 27 -> 40 and 67 -> 00 (AC 00 after)");
+    expect(st.rows == 4 && st.controllers == 1 && row_shows(&st, 0, bytes, 0, 20),
+           "D2 20x4 map: row 0 shows bytes 0-19 (addresses 00-13)");
+    expect(row_shows(&st, 1, bytes, 40, 20), "D2 20x4 map: row 1 shows bytes 40-59 (addresses 40-53)");
+    expect(row_shows(&st, 2, bytes, 20, 20), "D2 20x4 map: row 2 shows bytes 20-39 (addresses 14-27)");
+    expect(row_shows(&st, 3, bytes, 60, 20), "D2 20x4 map: row 3 shows bytes 60-79 (addresses 54-67)");
+
+    /* Case 3: shift the display left once. */
+    cmd(&l, 0x18, US(40));
+    lcd_state(&l, &st);
+    expect(cell_is_rom(&st, 2, 0, bytes[0x15]) && cell_is_rom(&st, 0, 19, bytes[0x14]),
+           "D3 20x4 shift: after one left shift row 2 column 0 shows address 15, row 0 column 19 address 14");
+    expect(cell_is_rom(&st, 1, 0, bytes[40 + 1]) && cell_is_rom(&st, 3, 19, bytes[40]),
+           "D3 20x4 shift: row 1 column 0 shows address 41, row 3 column 19 wraps to address 40");
+    bench_destroy(l.b);
+}
+
+static void check_2004_one_line(void) {
+    Lcd l = lcd_open("FX-2004");
+    LcdState st;
+    uint8_t bytes[80];
+
+    eighty(bytes);
+    init8_fs(&l, 0x30);
+    data_bytes(&l, bytes, 80);
+    lcd_state(&l, &st);
+    expect(row_all(&st, 1, 20, LCD_DOT_OFF) && row_all(&st, 3, 20, LCD_DOT_OFF),
+           "D4 20x4 1-line: N = 0: rows 1 and 3 are off");
+    expect(row_shows(&st, 0, bytes, 0, 20) && row_shows(&st, 2, bytes, 20, 20),
+           "D4 20x4 1-line: row 0 shows addresses 00-13, row 2 addresses 14-27");
+    bench_destroy(l.b);
+}
+
+static void check_4004(void) {
+    Lcd l = lcd_open("FX-4004");
+    LcdState st;
+    uint8_t v, k;
+    unsigned i;
+    int spaces;
+
+    l.e = "E1";
+    init8_fs(&l, 0x38);
+    text(&l, "TOP");
+    lcd_state(&l, &st);
+    expect(st.rows == 4 && st.columns == 40 && cell_is_rom(&st, 0, 0, 'T') &&
+               cell_is_rom(&st, 0, 1, 'O') && cell_is_rom(&st, 0, 2, 'P') &&
+               row_all(&st, 1, 40, LCD_DOT_OFF),
+           "D5 40x4: E1 init + TOP shows on row 0");
+    expect(row_all(&st, 2, 40, LCD_DOT_OFF) && row_all(&st, 3, 40, LCD_DOT_OFF),
+           "D5 40x4: rows 2-3 stay blank while E2 is not initialised (its display is off)");
+    l.e = "E2";
+    init8_fs(&l, 0x38);
+    text(&l, "LOW");
+    lcd_state(&l, &st);
+    expect(cell_is_rom(&st, 2, 0, 'L') && cell_is_rom(&st, 2, 1, 'O') && cell_is_rom(&st, 2, 2, 'W') &&
+               row_all(&st, 3, 40, LCD_DOT_OFF) && cell_is_rom(&st, 0, 0, 'T'),
+           "D5 40x4: then E2 init + LOW shows on row 2; row 0 keeps TOP");
+    expect(st.controllers == 2 && st.ddram[1][0] == 'L' && st.ddram[0][0] == 'T' &&
+               st.ddram[1][3] == 0x20 && st.ddram[0][3] == 0x20,
+           "D5 40x4: LcdState.controllers 2, ddram[0][0] = T, ddram[1][0] = L");
+    wr(&l, 0, 0x01);   /* Clear on E2: busy 1.52 ms */
+    lcd_state(&l, &st);
+    expect(st.busy[1] == 1 && st.busy[0] == 0,
+           "D5 40x4: busy[] are separate: E2 busy after its Clear, E1 not");
+    l.e = "E1";
+    expect(read_ac(&l) == 0x03, "D5 40x4: a BF/AC read through E1 meanwhile: BF 0, AC 03");
+    l.e = "E2";
+    rd(&l, 0, &v, &k);
+    expect((k & 0x80) && (v & 0x80), "D5 40x4: a BF read through E2 meanwhile: BF 1");
+    bench_destroy(l.b);
+
+    /* E2 never initialised: during its power-on BF = 1 and writes are ignored. */
+    l = lcd_open("FX-4004");
+    l.e = "E2";
+    at(&l, MS(1));
+    rd(&l, 0, &v, &k);
+    expect((k & 0x80) && (v & 0x80), "D5 40x4: at 1 ms a BF read through E2: BF 1 (power-on)");
+    text(&l, "XY");
+    l.e = "E1";
+    init8_fs(&l, 0x38);
+    text(&l, "TOP");
+    lcd_state(&l, &st);
+    spaces = 1;
+    for (i = 0; i < 80; i++) {
+        spaces = spaces && st.ddram[1][i] == 0x20 && st.ddram_known[1][i] == 0xFF;
+    }
+    expect(spaces && row_all(&st, 2, 40, LCD_DOT_OFF) && row_all(&st, 3, 40, LCD_DOT_OFF) &&
+               cell_is_rom(&st, 0, 0, 'T'),
+           "D5 40x4: E2 never initialised: its writes at 1 ms were ignored (DDRAM spaces), rows 2-3 blank");
+    bench_destroy(l.b);
+}
+
+/* A 40x4 with both controllers initialised; "TOP" through E1, "LOW" through E2. */
+static Lcd ready_4004(void) {
+    Lcd l = lcd_open("FX-4004");
+
+    l.e = "E1";
+    init8_fs(&l, 0x38);
+    text(&l, "TOP");
+    l.e = "E2";
+    init8_fs(&l, 0x38);
+    text(&l, "LOW");
+    return l;
+}
+
+/* A read access with E1 and E2 both high; DB sampled before they fall. */
+static void read_both(Lcd *l, int rs, uint8_t *v, uint8_t *k) {
+    unsigned i;
+
+    lv(l, "RS", rs);
+    lv(l, "R/W", 1);
+    put_db(l, 0, 0);
+    bench_run(l->b, NS(50));
+    lv(l, "E1", 1);
+    lv(l, "E2", 1);
+    bench_run(l->b, NS(500));
+    *v = *k = 0;
+    for (i = 0; i < 8; i++) {
+        LogicValue x = bench_get(l->b, DB[i]);
+
+        if (x == LOGIC_0 || x == LOGIC_1) {
+            *k |= (uint8_t)(1u << i);
+            *v |= (uint8_t)((x == LOGIC_1) << i);
+        }
+    }
+    lv(l, "E1", 0);
+    lv(l, "E2", 0);
+    bench_run(l->b, US(2));
+    lv(l, "R/W", 0);
+}
+
+static void check_4004_clash(void) {
+    Lcd l = ready_4004();
+    uint8_t v, k;
+
+    /* Both AC are 03. Set E1's to 00, then Clear E2 (AC 00, busy 1.52 ms):
+       the AC values agree and only BF differs. */
+    l.e = "E1";
+    cmd(&l, 0x80, US(40));
+    l.e = "E2";
+    wr(&l, 0, 0x01);
+    read_both(&l, 0, &v, &k);
+    expect(k == 0x7F && (v & 0x7F) == 0x00,
+           "D6 40x4 read clash: BF read with E1 and E2 high, busy flags differ: DB7 X, DB6-0 = AC 00");
+    bench_run(l.b, MS(2));
+    read_both(&l, 0, &v, &k);
+    expect(k == 0xFF && v == 0x00, "D6 40x4 read clash: both BF 0 and AC 00: every DB bit known (00)");
+    bench_run(l.b, US(1));
+    expect(db_all(&l, LOGIC_Z), "D6 40x4 read clash: after both reads end, DB is released (Z)");
+    l.e = "E1";
+    cmd(&l, 0x83, US(40));
+    read_both(&l, 0, &v, &k);
+    expect(k == 0xFC && (v & 0xFC) == 0x00,
+           "D6 40x4 read clash: AC 03 and 00: DB1-0 X, the agreeing bits known");
+    bench_destroy(l.b);
+}
+
+static void check_4004_timing(void) {
+    Lcd l = ready_4004();
+    LcdState st;
+
+    /* Each controller has its own access count for its timers: an E2 access
+       starting inside an E1 write's hold window leaves that write pending. */
+    lv(&l, "RS", 1);
+    lv(&l, "R/W", 0);
+    put_db(&l, 'A', 0xFF);
+    bench_run(l.b, NS(50));
+    lv(&l, "E1", 1);
+    bench_run(l.b, NS(500));
+    lv(&l, "E1", 0);
+    bench_run(l.b, NS(5));
+    lv(&l, "E2", 1);
+    bench_run(l.b, NS(500));
+    lv(&l, "E2", 0);
+    bench_run(l.b, US(50));
+    lcd_state(&l, &st);
+    expect(st.ddram[0][3] == 'A' && st.ddram_known[0][3] == 0xFF && st.ddram[1][3] == 'A' &&
+               st.ddram_known[1][3] == 0xFF,
+           "D7 40x4 timing: an E2 write rising 5 ns after an E1 write's fall: both take effect");
+
+    /* An instruction write through E2 with E2 high 100 ns (< tpw 140). */
+    lv(&l, "RS", 0);
+    lv(&l, "R/W", 0);
+    put_db(&l, 0x01, 0xFF);
+    bench_run(l.b, NS(50));
+    lv(&l, "E2", 1);
+    bench_run(l.b, NS(100));
+    lv(&l, "E2", 0);
+    bench_run(l.b, US(40));
+    lcd_state(&l, &st);
+    expect(st.busy[1] == -1 && st.ddram_known[1][0] == 0 && row_all(&st, 2, 40, LCD_DOT_X) &&
+               row_all(&st, 3, 40, LCD_DOT_X),
+           "D7 40x4 timing: an E2 pulse shorter than tpw makes controller 2 LOST (BF, RAM, rows 2-3 X)");
+    expect(st.busy[0] == 0 && st.ddram_known[0][0] == 0xFF && cell_is_rom(&st, 0, 0, 'T') &&
+               cell_is_rom(&st, 0, 2, 'P') && row_all(&st, 1, 40, LCD_DOT_OFF),
+           "D7 40x4 timing: controller 1 stays known (BF 0, TOP on row 0)");
+    l.e = "E1";
+    expect(read_ac(&l) == 0x04, "D7 40x4 timing: E1 reads BF 0, AC 04");
+    bench_destroy(l.b);
+}
+
+/* FX-RGB in a circuit: VSS, V0 on GND, VDD and LED+ on 5V, and each
+   cathode K(R) 18, K(G) 17, K(B) 16 on 5V (1) or GND (0). */
+static Circuit *rgb_circuit(int red, int green, int blue, size_t *part) {
+    Circuit *c = circuit_create(library);
+    size_t p5, pg, n5, ng;
+
+    circuit_add_part(c, "FX-RGB", part);
+    circuit_add_part(c, "5V", &p5);
+    circuit_add_part(c, "GND", &pg);
+    circuit_add_net(c, &n5);
+    circuit_add_net(c, &ng);
+    circuit_connect(c, p5, "1", n5);
+    circuit_connect(c, pg, "1", ng);
+    circuit_connect(c, *part, "1", ng);
+    circuit_connect(c, *part, "2", n5);
+    circuit_connect(c, *part, "3", ng);
+    circuit_connect(c, *part, "15", n5);
+    circuit_connect(c, *part, "18", red ? n5 : ng);
+    circuit_connect(c, *part, "17", green ? n5 : ng);
+    circuit_connect(c, *part, "16", blue ? n5 : ng);
+    return c;
+}
+
+static void check_rgb_lights(void) {
+    Circuit *c;
+    size_t part;
+    unsigned char on[4] = {9, 9, 9, 9};
+    uint64_t time[4] = {0};
+    size_t lights = 0, times = 0;
+    int started;
+
+    c = rgb_circuit(1, 0, 1, &part);
+    started = circuit_start(c) == 0 && circuit_advance(c, US(10));
+    if (started) {
+        lights = circuit_part_lights(c, part, on, 4);
+    }
+    expect(started && lights == 3 && on[0] == 0 && on[1] == 1 && on[2] == 0,
+           "D8 RGB lights: three lights; K(G) low, K(R) and K(B) high: lights R, G, B = 0/1/0");
+    started = started && circuit_advance(c, US(10));
+    if (started) {
+        times = circuit_part_light_time(c, part, time, 4);
+    }
+    expect(started && times == 3 && time[0] == 0 && time[2] == 0 && time[1] >= US(19) &&
+               time[1] <= US(20),
+           "D8 RGB lights: light times per LED: green on ~20 us, red and blue 0");
+    circuit_destroy(c);
+    c = rgb_circuit(0, 1, 0, &part);
+    started = circuit_start(c) == 0 && circuit_advance(c, US(10));
+    if (started) {
+        lights = circuit_part_lights(c, part, on, 4);
+    }
+    expect(started && lights == 3 && on[0] == 1 && on[1] == 0 && on[2] == 1,
+           "D8 RGB lights: K(R) and K(B) low, K(G) high: 1/0/1");
+    circuit_destroy(c);
+}
+
+static size_t pin_number(const Part *part, unsigned number) {
+    char text[8];
+    size_t i;
+
+    snprintf(text, sizeof text, "%u", number);
+    for (i = 0; i < part->pin_count; i++) {
+        if (strcmp(part->pins[i].designator, text) == 0) {
+            return i;
+        }
+    }
+    fprintf(stderr, "%s has no pin %u\n", part->name, number);
+    exit(1);
+}
+
+static void check_rgb_voltage(void) {
+    /* FX-RGB with LED+ on 5V and K(R), K(G), K(B) on three nets with no
+       other driver; each net goes to an input of a 3.6 V-max probe. */
+    const Part *rgb = part_library_find(library, "FX-RGB");
+    const Part *probe = part_library_find(library, "FX-LCD-3V");
+    const Part *five = part_library_find(library, "5V");
+    const Part *parts[3];
+    VoltageConnection conn[8];
+    VoltageProblem problems[8];
+    size_t count, n = 0, i;
+    int seen[3] = {0, 0, 0};
+    int ok;
+
+    if (rgb == NULL || probe == NULL || five == NULL) {
+        expect(0, "D9 RGB voltage: fixture parts");
+        return;
+    }
+    parts[0] = rgb;
+    parts[1] = probe;
+    parts[2] = five;
+    /* net 0: 5V; nets 1-3: K(R), K(G), K(B). */
+    conn[n++] = (VoltageConnection){2, 0, 0};
+    conn[n++] = (VoltageConnection){0, pin_number(rgb, 15), 0};
+    conn[n++] = (VoltageConnection){0, pin_number(rgb, 18), 1};
+    conn[n++] = (VoltageConnection){0, pin_number(rgb, 17), 2};
+    conn[n++] = (VoltageConnection){0, pin_number(rgb, 16), 3};
+    conn[n++] = (VoltageConnection){1, pin_number(probe, 4), 1};   /* RS */
+    conn[n++] = (VoltageConnection){1, pin_number(probe, 5), 2};   /* R/W */
+    conn[n++] = (VoltageConnection){1, pin_number(probe, 6), 3};   /* E */
+    count = voltage_check(parts, 3, 4, conn, n, NULL, 0, problems, 8);
+    ok = count == 3;
+    for (i = 0; ok && i < count; i++) {
+        ok = problems[i].kind == VOLTAGE_INPUT_OVER && problems[i].part == 1 &&
+             problems[i].mv == 5000 && problems[i].net >= 1 && problems[i].net <= 3;
+        if (ok) {
+            seen[problems[i].net - 1] = 1;
+        }
+    }
+    expect(ok && seen[0] && seen[1] && seen[2],
+           "D9 RGB voltage: LED+ on 5V carries 5 V to all three cathode nets (3 INPUT_OVER on the probe)");
+    /* The same with K(G) also on GND: that net is 0 V. */
+    {
+        const Part *ground = part_library_find(library, "GND");
+
+        parts[2] = five;
+        if (ground != NULL) {
+            const Part *more[4] = {rgb, probe, five, ground};
+
+            conn[n] = (VoltageConnection){3, 0, 2};
+            count = voltage_check(more, 4, 4, conn, n + 1, NULL, 0, problems, 8);
+            expect(count == 2 && problems[0].net == 1 && problems[1].net == 3,
+                   "D9 RGB voltage: GND on K(G)'s net overrides the carried level (2 problems: K(R), K(B))");
+        }
+    }
 }
 
 /* ---- Cases 17-18: backlight and voltage ---- */
@@ -1132,19 +1755,198 @@ static void check_api(void) {
 
     c = circuit_create(library);
     circuit_add_part(c, "FX-LCD", &index);
-    expect(circuit_lcd_state(c, 0, &st) == 0 && st.columns == 16 && st.rows == 2 && st.busy == 1,
+    expect(circuit_lcd_state(c, 0, &st) == 0 && st.columns == 16 && st.rows == 2 && st.busy[0] == 1,
            "19 api: circuit_lcd_state on the LCD: 0, 16x2, busy at power-up");
     circuit_destroy(c);
 }
 
-/* ---- plan-11-C section 4.5: the real parts ---- */
+/* ---- plan-35-E section 4.1: every charlcd part in the library ---- */
 
 static PartLibrary *real_library;
 
+/* A part's timing and exec times (ps), read from its device in charlcd.json
+   (the library keeps them private to the model). */
+typedef struct {
+    SimTime tc, tpw, tas, tah, tdsw, th, tddr, tdhr;
+    SimTime instruction, data, clear_home, power_on;
+} RealTiming;
+
+static cJSON *charlcd_json;
+
+static int json_ns(const cJSON *object, const char *key, SimTime *out) {
+    const cJSON *item = cJSON_GetObjectItemCaseSensitive(object, key);
+
+    if (!cJSON_IsNumber(item) || item->valuedouble < 0.0) {
+        return 0;
+    }
+    *out = (SimTime)(item->valuedouble * 1000.0 + 0.5);
+    return 1;
+}
+
+/* 1 when part_name's device was found and every time read. */
+static int real_timing(const char *part_name, RealTiming *t) {
+    cJSON *devices = cJSON_GetObjectItemCaseSensitive(charlcd_json, "devices");
+    cJSON *device, *p;
+
+    cJSON_ArrayForEach(device, devices) {
+        cJSON_ArrayForEach(p, cJSON_GetObjectItemCaseSensitive(device, "parts")) {
+            const cJSON *name = cJSON_GetObjectItemCaseSensitive(p, "name");
+            const cJSON *tm = cJSON_GetObjectItemCaseSensitive(device, "timing");
+            const cJSON *ex = cJSON_GetObjectItemCaseSensitive(device, "exec");
+
+            if (!cJSON_IsString(name) || strcmp(name->valuestring, part_name) != 0) {
+                continue;
+            }
+            return json_ns(tm, "tc", &t->tc) && json_ns(tm, "tpw", &t->tpw) &&
+                   json_ns(tm, "tas", &t->tas) && json_ns(tm, "tah", &t->tah) &&
+                   json_ns(tm, "tdsw", &t->tdsw) && json_ns(tm, "th", &t->th) &&
+                   json_ns(tm, "tddr", &t->tddr) && json_ns(tm, "tdhr", &t->tdhr) &&
+                   json_ns(ex, "instruction", &t->instruction) && json_ns(ex, "data", &t->data) &&
+                   json_ns(ex, "clearHome", &t->clear_home) && json_ns(ex, "powerOn", &t->power_on);
+        }
+    }
+    return 0;
+}
+
+static SimTime max_time(SimTime a, SimTime b) {
+    return a > b ? a : b;
+}
+
+/* The access shape from the part's own limits, each with 20 ns to spare:
+   setup tAS, E high max(tPW, tDSW, tDDR), E low after max(tH, tAH, tDHR),
+   and an E cycle of at least tC. */
+static void real_bus(Lcd *l, const RealTiming *t) {
+    l->setup = t->tas + NS(20);
+    l->high = max_time(max_time(t->tpw, t->tdsw), t->tddr) + NS(20);
+    l->after = max_time(max_time(t->th, t->tah), t->tdhr) + NS(20);
+    if (l->setup + l->high + l->after < t->tc) {
+        l->after = t->tc - l->setup - l->high;
+    }
+}
+
+/* A write, then the part's exec time + 1 us. */
+static void real_write(Lcd *l, int rs, uint8_t byte, SimTime exec) {
+    wr(l, rs, byte);
+    bench_run(l->b, exec + US(1));
+}
+
+/* After the part's power-on wait (+1 ms; no wait once past it): the 8-bit
+   init of init8, then Clear, through l->e. */
+static void real_init(Lcd *l, const RealTiming *t) {
+    static const uint8_t INIT[] = {0x30, 0x30, 0x30, 0x38, 0x10, 0x0C, 0x06};
+    size_t i;
+
+    at(l, t->power_on + MS(1));
+    for (i = 0; i < sizeof INIT; i++) {
+        real_write(l, 0, INIT[i], t->instruction);
+    }
+    real_write(l, 0, 0x01, t->clear_home);
+}
+
+static void real_text(Lcd *l, const char *s, const RealTiming *t) {
+    for (; *s != '\0'; s++) {
+        real_write(l, 1, (uint8_t)*s, t->data);
+    }
+}
+
+/* Row `row` from `column` shows the ROM glyphs of s. */
+static int cells_show(const LcdState *st, unsigned row, unsigned column, const char *s) {
+    for (; *s != '\0'; s++, column++) {
+        if (!cell_is_rom(st, row, column, (unsigned char)*s)) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+/* plan-35-E section 4.1: each charlcd part through its own bus pins and
+   timing: init, clear, HELLO through E (E1); a 4-row part then sets DDRAM
+   14 and writes ROW3 there; a two-enable part does init, clear, WORLD
+   through E2. One enable: ROW3 is row 2. Two enables: E1's 14 is its line 0,
+   column 20 (row 0), and WORLD is row 2 (E2's line 0). */
+static void check_every_part(void) {
+    PartLibrary *fixture = library;
+    char *json = read_file(PARTS_DIR "/charlcd.json");
+    size_t i, n = 0;
+
+    charlcd_json = json != NULL ? cJSON_Parse(json) : NULL;
+    free(json);
+    library = real_library;
+    for (i = 0; i < part_library_count(real_library); i++) {
+        const Part *part = part_library_at(real_library, i);
+        RealTiming t;
+        LcdState st;
+        Lcd l;
+        char line[320];
+        int ok, two, four;
+
+        if (part->kind != PART_CHARLCD) {
+            continue;
+        }
+        n++;
+        memset(&t, 0, sizeof t);
+        ok = real_timing(part->name, &t);
+        l = lcd_open(part->name);
+        two = l.enables == 2;
+        four = part->charlcd->rows == 4;
+        if (ok) {
+            real_bus(&l, &t);
+            real_init(&l, &t);
+            real_text(&l, "HELLO", &t);
+            if (four) {
+                real_write(&l, 0, 0x80 | 0x14, t.instruction);
+                real_text(&l, "ROW3", &t);
+            }
+            if (two) {
+                l.e = l.en[1];
+                real_init(&l, &t);
+                real_text(&l, "WORLD", &t);
+            }
+        }
+        lcd_state(&l, &st);
+        ok = ok && l.pins_ok && memcmp(st.ddram[0], "HELLO", 5) == 0 && cells_show(&st, 0, 0, "HELLO") &&
+             st.busy[0] == 0;
+        if (four && !two) {
+            ok = ok && cells_show(&st, 2, 0, "ROW3");
+        }
+        if (two) {
+            ok = ok && st.controllers == 2 && cells_show(&st, 0, 20, "ROW3") &&
+                 memcmp(st.ddram[1], "WORLD", 5) == 0 && cells_show(&st, 2, 0, "WORLD") &&
+                 st.busy[1] == 0;
+        }
+        snprintf(line, sizeof line,
+                 "E 4.1 every part: %s (%ux%u, enable %s%s%s, tPW %llu ns): init, clear, HELLO at (0,0)%s%s",
+                 part->name, part->charlcd->columns, part->charlcd->rows, l.en[0], two ? "+" : "",
+                 two ? l.en[1] : "", (unsigned long long)(t.tpw / 1000u),
+                 four && !two ? ", ROW3 at DDRAM 14 = (2,0)" : "",
+                 two ? ", ROW3 at E1 DDRAM 14 = (0,20), WORLD through E2 at (2,0)" : "");
+        expect(ok, line);
+        bench_destroy(l.b);
+    }
+    {
+        char line[96];
+
+        snprintf(line, sizeof line, "E 4.1 every part: %zu charlcd parts run (40 at plan-35-E)", n);
+        expect(n >= 40, line);
+    }
+    cJSON_Delete(charlcd_json);
+    charlcd_json = NULL;
+    library = fixture;
+}
+
+/* ---- plan-11-C section 4.5, plan-35-E section 4.2: exec, facts ---- */
+
 static void check_real_parts(void) {
-    static const char *const NAMES[] = {
-        "NHD-0216BZ-FL-YBW", "NHD-0216K1Z-FL-YBW", "NHD-0216K1Z-NSW-BBW-L", "162H BC BW",
-        "AMC1602GR-B-Y6WFDY"
+    /* A second data write 40 us after the first (E fall to E fall):
+       accepted where the data time is 37 us, refused at 43 us. */
+    static const struct {
+        const char *name, *data;
+        int accepted;
+    } EXEC40[] = {
+        {"NHD-0216K1Z-NSW-BBW-L", "data 37 us", 1},
+        {"162H BC BW", "data 43 us", 0},
+        {"NHD-0420DZ-FL-YBW", "20x4, data 37 us", 1},
+        {"MC44005A6W-FPTLW-V2", "40x4 through E1, ST7066U data 37 us", 1},
     };
     PartLibrary *fixture = library;
     const Part *part;
@@ -1152,24 +1954,10 @@ static void check_real_parts(void) {
     unsigned pins1 = 0;
 
     library = real_library;
-    for (i = 0; i < 5; i++) {
-        Lcd l = lcd_open(NAMES[i]);
+    for (i = 0; i < sizeof EXEC40 / sizeof EXEC40[0]; i++) {
+        Lcd l = lcd_open(EXEC40[i].name);
         LcdState st;
-        char line[160];
-
-        init8(&l);
-        clear(&l);
-        text(&l, "HELLO");
-        lcd_state(&l, &st);
-        snprintf(line, sizeof line, "C 4.5 %s: 8-bit init, HELLO in ddram[0..4], cell 0 = ROM 48",
-                 NAMES[i]);
-        expect(memcmp(st.ddram, "HELLO", 5) == 0 && cell_is_rom(&st, 0, 0, 0x48), line);
-        bench_destroy(l.b);
-    }
-    /* A second data write 40 us after the first (E fall to E fall). */
-    for (i = 0; i < 2; i++) {
-        Lcd l = lcd_open(i == 0 ? "NHD-0216K1Z-NSW-BBW-L" : "162H BC BW");
-        LcdState st;
+        char line[200];
 
         init8(&l);
         clear(&l);
@@ -1178,12 +1966,9 @@ static void check_real_parts(void) {
         wr(&l, 1, 'B');
         bench_run(l.b, US(50));
         lcd_state(&l, &st);
-        if (i == 0) {
-            expect(st.ddram[1] == 'B', "C 4.5 exec: a data write 40 us after another is accepted on "
-                                       "NHD-0216K1Z-NSW-BBW-L (data 37 us)");
-        } else {
-            expect(st.ddram[1] == 0x20, "C 4.5 exec: and not accepted on 162H BC BW (data 43 us)");
-        }
+        snprintf(line, sizeof line, "C 4.5 exec: a data write 40 us after another is %s on %s (%s)",
+                 EXEC40[i].accepted ? "accepted" : "not accepted", EXEC40[i].name, EXEC40[i].data);
+        expect(st.ddram[0][0] == 'A' && st.ddram[0][1] == (EXEC40[i].accepted ? 'B' : 0x20), line);
         bench_destroy(l.b);
     }
     library = fixture;
@@ -1274,9 +2059,65 @@ static const uint8_t HELLO_PROGRAM[] = {
     0x45, 0x4C, 0x4C, 0x4F, 0x00
 };
 
+/* What a board carries: the LCD part, its decode, and the EEPROM image
+   (from offset 0, address 8000) with NMI and IRQ pointing at `halt`. */
+typedef struct {
+    const char *lcd;
+    int two;                 /* two enables: E1 at 4000 (A13 = 0), E2 at 6000 (A13 = 1) */
+    const uint8_t *program;
+    size_t size;
+    unsigned halt;           /* the program's JMP-to-itself address */
+} BoardSpec;
+
+static const BoardSpec HELLO_BOARD = {"NHD-0216K1Z-NSW-BBW-L", 0, HELLO_PROGRAM,
+                                      sizeof HELLO_PROGRAM, 0x8029};
+
+/* Connects the pin with this designator to the net `net`. */
+static void board_wire_pin(Board *b, size_t index, const char *designator, const char *net) {
+    if (circuit_connect(b->c, index, designator, board_net(b, net)) != 0) {
+        b->failed = 1;
+    }
+}
+
+/* The LCD: power and ground pins by role, V0 on GND, LED+ on 5V, LED- on
+   GND, and its bus by bus_pins: RS = A0, R/W, E (or E1, E2), DB = D0-D7. */
+static void board_wire_lcd(Board *b, size_t index, const char *name, const char *const *data_names) {
+    const Part *part = part_library_find(real_library, name);
+    const PartCharLcd *c = part != NULL ? part->charlcd : NULL;
+    size_t i, n;
+
+    if (c == NULL || c->bus_pin_count != 2 + c->enables + 8) {
+        fprintf(stderr, "board: %s is not a charlcd\n", name);
+        b->failed = 1;
+        return;
+    }
+    for (i = 0; i < part->pin_count; i++) {
+        const PartPin *pin = &part->pins[i];
+
+        if (pin->role == PIN_GROUND || strcmp(pin->name, "V0") == 0 || strcmp(pin->name, "LED-") == 0) {
+            board_wire_pin(b, index, pin->designator, "GND");
+        } else if (pin->role == PIN_POWER || strcmp(pin->name, "LED+") == 0) {
+            board_wire_pin(b, index, pin->designator, "5V");
+        }
+    }
+    n = 0;
+    board_wire_pin(b, index, part->pins[c->bus_pins[n++]].designator, "A0");
+    board_wire_pin(b, index, part->pins[c->bus_pins[n++]].designator, "RW");
+    if (c->enables == 2) {
+        board_wire_pin(b, index, part->pins[c->bus_pins[n++]].designator, "E1");
+        board_wire_pin(b, index, part->pins[c->bus_pins[n++]].designator, "E2");
+    } else {
+        board_wire_pin(b, index, part->pins[c->bus_pins[n++]].designator, "E");
+    }
+    for (i = 0; i < 8; i++) {
+        board_wire_pin(b, index, part->pins[c->bus_pins[n++]].designator, data_names[i]);
+    }
+}
+
 /* Builds the board, holds reset for `reset_ps`, then runs 50 ms; wdc picks
    the W65C02S. */
-static void run_board(int wdc, SimTime reset_ps, LcdState *lcd, CpuState *cpu, int *ok) {
+static void run_board(int wdc, const BoardSpec *spec, SimTime reset_ps, LcdState *lcd, CpuState *cpu,
+                      int *ok) {
     static uint32_t image[32768];
     const char *cpu_name = wdc ? "W65C02S6TPG-14" : "MPS6502";
     Board b;
@@ -1284,6 +2125,7 @@ static void run_board(int wdc, SimTime reset_ps, LcdState *lcd, CpuState *cpu, i
     unsigned i;
     char name[8];
     static char addr_names[16][8], data_names[8][8];
+    const char *data_list[8];
 
     memset(&b, 0, sizeof b);
     b.c = circuit_create(real_library);
@@ -1295,7 +2137,7 @@ static void run_board(int wdc, SimTime reset_ps, LcdState *lcd, CpuState *cpu, i
     hc00 = board_part(&b, "SN74HC00N");
     hc11 = board_part(&b, "SN74HC11N");
     sw = board_part(&b, "TE-GDS0204");
-    lcd_i = board_part(&b, "NHD-0216K1Z-NSW-BBW-L");
+    lcd_i = board_part(&b, spec->lcd);
 
     board_wire(&b, p5, "5V", "VCC", "5V");
     board_wire(&b, pg, "GND", "GND", "GND");
@@ -1311,11 +2153,6 @@ static void run_board(int wdc, SimTime reset_ps, LcdState *lcd, CpuState *cpu, i
     board_wire(&b, hc11, "SN74HC11N", "GND", "GND");
     board_wire(&b, osc, "ECS-2100A-010", "+5V DC", "5V");
     board_wire(&b, osc, "ECS-2100A-010", "GND", "GND");
-    board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", "VSS", "GND");
-    board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", "VDD", "5V");
-    board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", "V0", "GND");
-    board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", "LED+", "5V");
-    board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", "LED-", "GND");
     /* Address and data. */
     for (i = 0; i < 16; i++) {
         snprintf(addr_names[i], sizeof addr_names[i], "A%u", i);
@@ -1324,15 +2161,15 @@ static void run_board(int wdc, SimTime reset_ps, LcdState *lcd, CpuState *cpu, i
             board_wire(&b, ee, "AT28C256-15PU", addr_names[i], addr_names[i]);
         }
     }
-    board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", "RS", "A0");
     for (i = 0; i < 8; i++) {
         snprintf(data_names[i], sizeof data_names[i], "D%u", i);
+        data_list[i] = data_names[i];
         board_wire(&b, cpu_i, cpu_name, data_names[i], data_names[i]);
         snprintf(name, sizeof name, "I/O%u", i);
         board_wire(&b, ee, "AT28C256-15PU", name, data_names[i]);
-        snprintf(name, sizeof name, "DB%u", i);
-        board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", name, data_names[i]);
     }
+    /* The LCD: power, RS = A0, R/W, E (E1, E2), DB0-7 on D0-7. */
+    board_wire_lcd(&b, lcd_i, spec->lcd, data_list);
     /* Decode. */
     board_wire(&b, hc00, "SN74HC00N", "1A", "A15");
     board_wire(&b, hc00, "SN74HC00N", "1B", "A15");
@@ -1343,12 +2180,33 @@ static void run_board(int wdc, SimTime reset_ps, LcdState *lcd, CpuState *cpu, i
     board_wire(&b, hc00, "SN74HC00N", "2B", "RW");
     board_wire(&b, hc00, "SN74HC00N", "2Y", "OE");
     board_wire(&b, ee, "AT28C256-15PU", "OE#", "OE");
-    board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", "R/W", "RW");
-    board_wire(&b, hc11, "SN74HC11N", "1A", "PHI2");
-    board_wire(&b, hc11, "SN74HC11N", "1B", "A14");
-    board_wire(&b, hc11, "SN74HC11N", "1C", "NA15");
-    board_wire(&b, hc11, "SN74HC11N", "1Y", "E");
-    board_wire(&b, lcd_i, "NHD-0216K1Z-NSW-BBW-L", "E", "E");
+    if (spec->two) {
+        /* plan-35-E section 4.3: E1 = PHI2 . A14 . /A15 . /A13 and
+           E2 = PHI2 . A14 . /A15 . A13. The address terms are gated first
+           (SEL = A14 . /A15, /A13 from HC00 gate 3), so PHI2 still reaches
+           E1 and E2 through one gate (10 ns), as on the one-enable board;
+           SEL and /A13 settle while PHI2 is low. */
+        board_wire(&b, hc00, "SN74HC00N", "3A", "A13");
+        board_wire(&b, hc00, "SN74HC00N", "3B", "A13");
+        board_wire(&b, hc00, "SN74HC00N", "3Y", "NA13");
+        board_wire(&b, hc11, "SN74HC11N", "1A", "A14");
+        board_wire(&b, hc11, "SN74HC11N", "1B", "NA15");
+        board_wire(&b, hc11, "SN74HC11N", "1C", "5V");
+        board_wire(&b, hc11, "SN74HC11N", "1Y", "SEL");
+        board_wire(&b, hc11, "SN74HC11N", "2A", "PHI2");
+        board_wire(&b, hc11, "SN74HC11N", "2B", "SEL");
+        board_wire(&b, hc11, "SN74HC11N", "2C", "NA13");
+        board_wire(&b, hc11, "SN74HC11N", "2Y", "E1");
+        board_wire(&b, hc11, "SN74HC11N", "3A", "PHI2");
+        board_wire(&b, hc11, "SN74HC11N", "3B", "SEL");
+        board_wire(&b, hc11, "SN74HC11N", "3C", "A13");
+        board_wire(&b, hc11, "SN74HC11N", "3Y", "E2");
+    } else {
+        board_wire(&b, hc11, "SN74HC11N", "1A", "PHI2");
+        board_wire(&b, hc11, "SN74HC11N", "1B", "A14");
+        board_wire(&b, hc11, "SN74HC11N", "1C", "NA15");
+        board_wire(&b, hc11, "SN74HC11N", "1Y", "E");
+    }
     /* Clock and reset. */
     if (wdc) {
         board_wire(&b, osc, "ECS-2100A-010", "OUTPUT", "PHI2");
@@ -1364,14 +2222,14 @@ static void run_board(int wdc, SimTime reset_ps, LcdState *lcd, CpuState *cpu, i
     board_wire(&b, sw, "TE-GDS0204", "1B", "GND");
 
     for (i = 0; i < 32768; i++) {
-        image[i] = i < sizeof HELLO_PROGRAM ? HELLO_PROGRAM[i] : 0xFF;
+        image[i] = i < spec->size ? spec->program[i] : 0xFF;
     }
-    image[0x7FFA] = 0x29;   /* NMI -> 8029 */
-    image[0x7FFB] = 0x80;
-    image[0x7FFC] = 0x00;   /* RESET -> 8000 */
+    image[0x7FFA] = spec->halt & 0xFFu;   /* NMI -> halt */
+    image[0x7FFB] = spec->halt >> 8;
+    image[0x7FFC] = 0x00;                  /* RESET -> 8000 */
     image[0x7FFD] = 0x80;
-    image[0x7FFE] = 0x29;   /* IRQ -> 8029 */
-    image[0x7FFF] = 0x80;
+    image[0x7FFE] = spec->halt & 0xFFu;   /* IRQ -> halt */
+    image[0x7FFF] = spec->halt >> 8;
     *ok = !b.failed && circuit_memory_load(b.c, ee, 0, image, 32768) == 0 &&
           circuit_set_switch(b.c, sw, 1, 1) == 0 && circuit_start(b.c) == 0;
     if (!*ok) {
@@ -1394,19 +2252,163 @@ static void run_board(int wdc, SimTime reset_ps, LcdState *lcd, CpuState *cpu, i
     circuit_destroy(b.c);
 }
 
+/* ---- plan-35-E section 4.3: programs for the 20x4 and 40x4 boards ---- */
+
+/* An EEPROM image being assembled at `pc` (address 8000 = offset 0). */
+typedef struct {
+    uint8_t bytes[256];
+    unsigned pc;
+} Asm;
+
+static void asm_byte(Asm *a, unsigned byte) {
+    a->bytes[a->pc++ - 0x8000u] = (uint8_t)byte;
+}
+
+static void asm_abs(Asm *a, unsigned opcode, unsigned address) {
+    asm_byte(a, opcode);
+    asm_byte(a, address & 0xFFu);
+    asm_byte(a, address >> 8);
+}
+
+enum { LCD_LOOP_SIZE = 29 };
+
+/* Sends the list at `list` to the LCD at `base` (instructions; base + 1
+   data). The list is pairs (0, instruction) / (1, data byte), ended by FF.
+   Each pair waits for BF 0 with BIT base. No indexed store touches the LCD
+   (STA abs,Y would first read base + Y: a data read moves AC).
+       LDX #0
+   P:  BIT base ; BMI P
+       LDA list+1,X ; LDY list,X ; BMI END ; BNE DATA
+       STA base ; BEQ NEXT
+   DATA: STA base+1
+   NEXT: INX ; INX ; BNE P
+   END: */
+static void asm_lcd_loop(Asm *a, unsigned base, unsigned list) {
+    unsigned p;
+
+    asm_byte(a, 0xA2);
+    asm_byte(a, 0x00);
+    p = a->pc;
+    asm_abs(a, 0x2C, base);
+    asm_byte(a, 0x30);
+    asm_byte(a, (uint8_t)(p - (a->pc + 1)));
+    asm_abs(a, 0xBD, list + 1);
+    asm_abs(a, 0xBC, list);
+    asm_byte(a, 0x30);
+    asm_byte(a, 0x0E);       /* BMI END: +14 */
+    asm_byte(a, 0xD0);
+    asm_byte(a, 0x05);       /* BNE DATA: +5 */
+    asm_abs(a, 0x8D, base);
+    asm_byte(a, 0xF0);
+    asm_byte(a, 0x03);       /* BEQ NEXT: +3 (Z from LDY #0) */
+    asm_abs(a, 0x8D, base + 1);
+    asm_byte(a, 0xE8);
+    asm_byte(a, 0xE8);
+    asm_byte(a, 0xD0);
+    asm_byte(a, (uint8_t)(p - (a->pc + 1)));
+}
+
+static void asm_command(Asm *a, unsigned byte) {
+    asm_byte(a, 0x00);
+    asm_byte(a, byte);
+}
+
+static void asm_text(Asm *a, const char *s) {
+    for (; *s != '\0'; s++) {
+        asm_byte(a, 0x01);
+        asm_byte(a, (unsigned char)*s);
+    }
+}
+
+static void asm_end(Asm *a) {
+    asm_byte(a, 0xFF);
+    asm_byte(a, 0x00);
+}
+
+/* Function set (8-bit, 2 lines), display on, clear, entry mode. */
+static void asm_init(Asm *a) {
+    asm_command(a, 0x38);
+    asm_command(a, 0x0C);
+    asm_command(a, 0x01);
+    asm_command(a, 0x06);
+}
+
+/* Board 1: an unpolled 80 (as HELLO_PROGRAM), then LINE1 at 00, LINE2 at
+   40, LINE3 at 14, LINE4 at 54. */
+static BoardSpec board_2004(Asm *a) {
+    unsigned list = 0x8000 + 5 + LCD_LOOP_SIZE + 3, halt;
+    BoardSpec spec;
+
+    a->pc = 0x8000;
+    asm_byte(a, 0xA9);
+    asm_byte(a, 0x80);
+    asm_abs(a, 0x8D, 0x4000);
+    asm_lcd_loop(a, 0x4000, list);
+    halt = a->pc;
+    asm_abs(a, 0x4C, halt);
+    asm_init(a);
+    asm_text(a, "LINE1");
+    asm_command(a, 0x80 | 0x40);
+    asm_text(a, "LINE2");
+    asm_command(a, 0x80 | 0x14);
+    asm_text(a, "LINE3");
+    asm_command(a, 0x80 | 0x54);
+    asm_text(a, "LINE4");
+    asm_end(a);
+    spec.lcd = "NHD-0420DZ-FL-YBW";
+    spec.two = 0;
+    spec.program = a->bytes;
+    spec.size = a->pc - 0x8000;
+    spec.halt = halt;
+    return list == halt + 3 ? spec : (spec.size = 0, spec);
+}
+
+/* Board 2: an unpolled 80 to each controller, then E1 init + TOP, then
+   E2 init + BOTTOM. */
+static BoardSpec board_4004(Asm *a) {
+    unsigned list1 = 0x8000 + 8 + 2 * LCD_LOOP_SIZE + 3, list2, halt;
+    BoardSpec spec;
+
+    list2 = list1 + 2 * (4 + 3) + 2;
+    a->pc = 0x8000;
+    asm_byte(a, 0xA9);
+    asm_byte(a, 0x80);
+    asm_abs(a, 0x8D, 0x4000);
+    asm_abs(a, 0x8D, 0x6000);
+    asm_lcd_loop(a, 0x4000, list1);
+    asm_lcd_loop(a, 0x6000, list2);
+    halt = a->pc;
+    asm_abs(a, 0x4C, halt);
+    asm_init(a);
+    asm_text(a, "TOP");
+    asm_end(a);
+    asm_init(a);
+    asm_text(a, "BOTTOM");
+    asm_end(a);
+    spec.lcd = "NHD-0440WH-ATFH-JT#";
+    spec.two = 1;
+    spec.program = a->bytes;
+    spec.size = a->pc - 0x8000;
+    spec.halt = halt;
+    return list1 == halt + 3 ? spec : (spec.size = 0, spec);
+}
+
 static void check_cpu_board(void) {
     LcdState lcd;
     CpuState cpu;
     int ok;
     unsigned c;
     int cells = 1, all_x = 1, y, x;
+    Asm a;
+    BoardSpec spec;
+    char jmp[16];
 
-    run_board(0, US(10), &lcd, &cpu, &ok);
+    run_board(0, &HELLO_BOARD, US(10), &lcd, &cpu, &ok);
     for (c = 0; c < 5; c++) {
         cells = cells && cell_is_rom(&lcd, 0, c, (unsigned)"HELLO"[c]);
     }
-    expect(ok && memcmp(lcd.ddram, "HELLO", 5) == 0 && lcd.ddram[5] == 0x20 && cells &&
-               lcd.busy == 0,
+    expect(ok && memcmp(lcd.ddram[0], "HELLO", 5) == 0 && lcd.ddram[0][5] == 0x20 && cells &&
+               lcd.busy[0] == 0,
            "C 4.6 MPS6502 board: HELLO in ddram[0..4], ddram[5] = 20, cells 0-4 = ROM, BF 0");
     printf("     cpu: status %d, last \"%s\"\n", (int)cpu.status, cpu.instruction_text);
     expect(ok && cpu.status == CPU_RUNNING && cpu.has_instruction &&
@@ -1416,26 +2418,56 @@ static void check_cpu_board(void) {
     /* The app's flow: the reset switch opened by hand long after the LCD's
        40 ms power-on; E pulses X all that time (the CPU's address bus is X
        in reset). */
-    run_board(0, MS(100), &lcd, &cpu, &ok);
+    run_board(0, &HELLO_BOARD, MS(100), &lcd, &cpu, &ok);
     cells = 1;
     for (c = 0; c < 5; c++) {
         cells = cells && cell_is_rom(&lcd, 0, c, (unsigned)"HELLO"[c]);
     }
-    expect(ok && memcmp(lcd.ddram, "HELLO", 5) == 0 && cells && lcd.busy == 0 &&
+    expect(ok && memcmp(lcd.ddram[0], "HELLO", 5) == 0 && cells && lcd.busy[0] == 0 &&
                cpu.status == CPU_RUNNING && strcmp(cpu.instruction_text, "JMP $8029") == 0,
            "C 4.6 MPS6502 board, reset held 100 ms: HELLO, BF 0, the CPU RUNNING at JMP $8029");
 
-    run_board(1, US(10), &lcd, &cpu, &ok);
+    run_board(1, &HELLO_BOARD, US(10), &lcd, &cpu, &ok);
     for (y = 0; y < 16; y++) {
         for (x = 0; x < 80; x++) {
             all_x = all_x && lcd.dots[y][x] == LCD_DOT_X;
         }
     }
-    expect(ok && all_x && lcd.busy == -1,
+    expect(ok && all_x && lcd.busy[0] == -1,
            "C 4.6 W65C02S board: the first STA $4000 broke the hold time: every dot X, BF X (LOST)");
     printf("     cpu: status %d, last \"%s\"\n", (int)cpu.status, cpu.instruction_text);
     expect(ok && cpu.status == CPU_LOST,
            "C 4.6 W65C02S board: the CPU is LOST (its BIT $4000 read an X busy flag)");
+
+    /* plan-35-E section 4.3, board 1: the 20x4 on the HELLO board's wiring. */
+    memset(&a, 0, sizeof a);
+    spec = board_2004(&a);
+    snprintf(jmp, sizeof jmp, "JMP $%04X", spec.halt);
+    run_board(0, &spec, US(10), &lcd, &cpu, &ok);
+    printf("     cpu: status %d, last \"%s\"\n", (int)cpu.status, cpu.instruction_text);
+    expect(spec.size > 0 && ok && lcd.rows == 4 && memcmp(lcd.ddram[0], "LINE1", 5) == 0 &&
+               memcmp(lcd.ddram[0] + 40, "LINE2", 5) == 0 && memcmp(lcd.ddram[0] + 20, "LINE3", 5) == 0 &&
+               memcmp(lcd.ddram[0] + 60, "LINE4", 5) == 0 && cells_show(&lcd, 0, 0, "LINE1") &&
+               cells_show(&lcd, 1, 0, "LINE2") && cells_show(&lcd, 2, 0, "LINE3") &&
+               cells_show(&lcd, 3, 0, "LINE4") && lcd.busy[0] == 0 && cpu.status == CPU_RUNNING &&
+               strcmp(cpu.instruction_text, jmp) == 0,
+           "E 4.3 MPS6502 + NHD-0420DZ-FL-YBW board: DDRAM 00/40/14/54 = LINE1-4 on rows 0-3 "
+           "(ROM cells), BF 0, the CPU RUNNING at its JMP");
+
+    /* Board 2: the 40x4, E1 at 4000 and E2 at 6000 (A13). */
+    memset(&a, 0, sizeof a);
+    spec = board_4004(&a);
+    snprintf(jmp, sizeof jmp, "JMP $%04X", spec.halt);
+    run_board(0, &spec, US(10), &lcd, &cpu, &ok);
+    printf("     cpu: status %d, last \"%s\"\n", (int)cpu.status, cpu.instruction_text);
+    expect(spec.size > 0 && ok && lcd.controllers == 2 && memcmp(lcd.ddram[0], "TOP ", 4) == 0 &&
+               memcmp(lcd.ddram[1], "BOTTOM ", 7) == 0 && cells_show(&lcd, 0, 0, "TOP") &&
+               cells_show(&lcd, 0, 3, " ") && row_all(&lcd, 1, 40, LCD_DOT_OFF) &&
+               cells_show(&lcd, 2, 0, "BOTTOM") && row_all(&lcd, 3, 40, LCD_DOT_OFF) &&
+               lcd.busy[0] == 0 && lcd.busy[1] == 0 && cpu.status == CPU_RUNNING &&
+               strcmp(cpu.instruction_text, jmp) == 0,
+           "E 4.3 MPS6502 + NHD-0440WH-ATFH-JT# board: TOP through E1 on row 0, BOTTOM through E2 "
+           "on row 2, rows 1 and 3 blank, both BF 0, the CPU RUNNING at its JMP");
 }
 
 /* ---- main ----------------------------------------------------------------- */
@@ -1456,6 +2488,29 @@ int main(int argc, char **argv) {
         error = load_file(library, device_file("FX-LCD-NB", "16", "2", "'A00'", "'yellow-green'",
                                                DATA, TIMING, EXEC, VCC),
                           "fx-lcd-nb.json");
+    }
+    /* plan-35-D fixtures: the NHD-0420DZ 20x4 facts on p16, the C404ALB
+       40x4 on p18-dual, a Midas RGB 20x4 on p18-rgb. */
+    if (error == NULL) {
+        error = load_file(library, large_file("FX-2004", PINOUT, "p16", "FX16", "20", "4",
+                                              "'gray'", "'E'", BACKLIGHT VCC),
+                          "fx-2004.json");
+    }
+    if (error == NULL) {
+        error = load_file(library, large_file("FX-4004", PINOUT_P18_DUAL, "p18-dual", "FX18", "40",
+                                              "4", "'white'", "['E1','E2']", BACKLIGHT VCC),
+                          "fx-4004.json");
+    }
+    if (error == NULL) {
+        error = load_file(library, large_file("FX-RGB", PINOUT_P18_RGB, "p18-rgb", "FX18", "20",
+                                              "4", "'white'", "'E'", RGB_BACKLIGHT VCC),
+                          "fx-rgb.json");
+    }
+    if (error == NULL) {
+        /* A 3.6 V-max probe for case 9: its inputs flag a carried 5 V. */
+        error = load_file(library, device_file("FX-LCD-3V", "16", "2", "'A00'", "'yellow-green'",
+                                               DATA, TIMING, EXEC, "'vcc':[2.7,3.6],"),
+                          "fx-lcd-3v.json");
     }
     if (error == NULL) {
         /* The pull parts name resistor footprints (plan-26-A). */
@@ -1481,6 +2536,7 @@ int main(int argc, char **argv) {
         return 1;
     }
     check_loader();
+    check_loader_large();
     check_rom();
     check_power_up();
     check_init8();
@@ -1498,6 +2554,13 @@ int main(int argc, char **argv) {
     check_write_violations();
     check_lost();
     check_partial_x();
+    check_2004_map();
+    check_2004_one_line();
+    check_4004();
+    check_4004_clash();
+    check_4004_timing();
+    check_rgb_lights();
+    check_rgb_voltage();
     check_backlight();
     check_voltage();
     check_api();
@@ -1506,6 +2569,7 @@ int main(int argc, char **argv) {
         printf("FAIL: cannot load the part library\n");
         return 1;
     }
+    check_every_part();
     check_real_parts();
     check_cpu_board();
     part_library_destroy(real_library);

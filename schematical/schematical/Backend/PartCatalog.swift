@@ -113,11 +113,37 @@ nonisolated enum LCDPanel: Hashable, Sendable {
     case yellowGreen
     /// STN negative: light dots on blue.
     case blueNegative
+    /// STN positive: dark dots on light gray (plan-35).
+    case gray
+    /// FSTN positive: black dots on white (plan-35).
+    case white
+
+    /// The part file's `"panel"` string; anything unknown is yellow-green.
+    init(_ name: String) {
+        switch name {
+        case "blue-negative": self = .blueNegative
+        case "gray": self = .gray
+        case "white": self = .white
+        default: self = .yellowGreen
+        }
+    }
 
     var title: String {
         switch self {
         case .yellowGreen: return "Yellow-green"
         case .blueNegative: return "Blue negative"
+        case .gray: return "Gray"
+        case .white: return "White"
+        }
+    }
+
+    /// The Facts sidebar's "Panel" row.
+    var facts: String {
+        switch self {
+        case .yellowGreen: return "STN yellow-green, positive"
+        case .blueNegative: return "STN blue, negative"
+        case .gray: return "STN gray, positive"
+        case .white: return "FSTN white, positive"
         }
     }
 }
@@ -130,10 +156,27 @@ nonisolated struct CharacterLCDInfo: Hashable, Sendable {
     /// The character ROM ("A00").
     let rom: String
     let panel: LCDPanel
-    /// Nil when the module has no backlight.
-    let backlightColor: String?
-    /// Pin indices (into `CatalogPart.pins`): RS, R/W, E, DB0-DB7.
+    /// The backlight LEDs' colors, in the order the simulation reports their
+    /// lights; empty when the module has no backlight (plan-35: 1 or 3).
+    let backlightColors: [String]
+    /// Pin indices (into `CatalogPart.pins`): RS, R/W, E (or E1, E2),
+    /// DB0-DB7.
     let busPins: [Int]
+    /// 1, or 2 for a module with two controllers (a 40 x 4: E1 and E2).
+    let enables: Int
+
+    /// The first LED's color; nil when the module has no backlight.
+    var backlightColor: String? { backlightColors.first }
+
+    /// The Facts sidebar's "Backlight" row and the drawer's second line.
+    var backlightTitle: String? {
+        switch backlightColors.count {
+        case 0: return nil
+        case 1: return backlightColors[0]
+        default:
+            return backlightColors == ["Red", "Green", "Blue"] ? "RGB" : backlightColors.joined(separator: ", ")
+        }
+    }
 }
 
 /// A part's land pattern, copied from the backend's `PartFootprint`. Sizes and
@@ -268,6 +311,13 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// package, reverse voltage and forward current per diode (0 for a
         /// Zener), and a Zener's voltage and power (else 0).
         case diode(type: String, diodes: Int, vrMV: UInt32, ioMA: UInt32, vzMV: UInt32, pdMW: UInt32)
+        /// A capacitor (plan-33): its type ("ceramic", "aluminum",
+        /// "aluminum-polymer", "tantalum", "tantalum-polymer",
+        /// "niobium-oxide"), whether it is polarized, its capacitance in
+        /// farads, its rated voltage (0 = none: the generic part), and a
+        /// ceramic's dielectric and the tolerance when given.
+        case capacitor(type: String, polarized: Bool, farads: Double, ratedMV: UInt32,
+                       dielectric: String?, tolerance: String?)
     }
 
     let name: String
@@ -392,6 +442,16 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         return false
     }
 
+    /// `GENERIC-CAPACITOR` (plan-33): a capacitor of no one maker, with a
+    /// capacitance per placed part (`PlacedChip.farads`) and footprint choices.
+    var isGenericCapacitor: Bool { kind == PART_CAPACITOR && manufacturer == "Generic" }
+
+    /// The capacitance of a capacitor part; nil for every other kind.
+    var capacitorFarads: Double? {
+        if case let .capacitor(_, _, farads, _, _, _) = details { return farads }
+        return nil
+    }
+
     /// A serial part with at least one channel: a part with a terminal window.
     var hasTerminal: Bool {
         if case let .serial(_, channels, _, _) = details { return channels > 0 }
@@ -488,7 +548,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case .supply: return []
         case let .cpu(_, _, maxHz): return ["\(maxHz / 1_000_000) MHz"]
         case let .characterLCD(info):
-            return [info.panel.title] + (info.backlightColor.map { ["\($0) backlight"] } ?? [])
+            return [info.panel.title] + (info.backlightTitle.map { ["\($0) backlight"] } ?? [])
         case let .serial(_, channels, _, host):
             return [PartFacts.serialHost(host)] + (channels > 1 ? ["\(channels) channels"] : [])
         case let .pio(_, _, maxHz): return ["\(maxHz / 1_000_000) MHz"]
@@ -506,6 +566,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
                 return ["\(PartFacts.milli(vzMV)) V", "\(PartFacts.milli(pdMW)) W"]
             }
             return ["\(PartFacts.milli(vrMV)) V", "\(PartFacts.milli(ioMA)) A"]
+        case let .capacitor(_, _, farads, ratedMV, dielectric, _):
+            return [CapacitorValue.text(farads)] + (ratedMV > 0 ? ["\(PartFacts.milli(ratedMV)) V"] : [])
+                + (dielectric.map { [$0] } ?? [])
         }
     }
 }
@@ -656,9 +719,10 @@ extension CatalogPart {
                 rows: Int(lcd.rows),
                 controller: string(lcd.controller),
                 rom: string(lcd.rom),
-                panel: string(lcd.panel) == "blue-negative" ? .blueNegative : .yellowGreen,
-                backlightColor: lcd.backlight_color.map { String(cString: $0) },
-                busPins: indices(lcd.bus_pins, lcd.bus_pin_count)
+                panel: LCDPanel(string(lcd.panel)),
+                backlightColors: (0..<Int(lcd.backlight_count)).compactMap { lcd.backlight_colors?[$0].map { String(cString: $0) } },
+                busPins: indices(lcd.bus_pins, lcd.bus_pin_count),
+                enables: Int(lcd.enables)
             ))
         } else if let serial = part.serial?.pointee {
             details = .serial(model: string(serial.model), channels: Int(serial.channels),
@@ -682,6 +746,12 @@ extension CatalogPart {
         } else if let diode = part.diode?.pointee {
             details = .diode(type: string(diode.type), diodes: Int(diode.diode_count),
                              vrMV: diode.vr_mv, ioMA: diode.io_ma, vzMV: diode.vz_mv, pdMW: diode.pd_mw)
+        } else if let capacitor = part.capacitor?.pointee {
+            details = .capacitor(type: string(capacitor.type), polarized: capacitor.polarized != 0,
+                                 farads: Double(capacitor.capacitance_ff) / 1e15,
+                                 ratedMV: capacitor.rated_mv,
+                                 dielectric: capacitor.dielectric.map { String(cString: $0) },
+                                 tolerance: capacitor.tolerance.map { String(cString: $0) })
         } else {
             details = .supply(level: 0, mv: 0, pull: false)
         }
@@ -941,6 +1011,7 @@ func symbol(for part: CatalogPart) -> PartSymbol {
               part.pins.contains(where: { $0.name == "A" }),
               part.pins.contains(where: { $0.name == "K" }) else { return .block }
         return .plainDiode
+    case PART_CAPACITOR: return .capacitor
     default: return .block
     }
 }
@@ -1268,9 +1339,22 @@ final class PartCatalogStore {
 
     /// Parts grouped by `drawerLeaf` (the function, or a tactile switch's
     /// size), groups and parts in natural order ("8 KB" before "32 KB").
+    /// Capacitor leaves ("10 pF" … "4700 µF") go by capacitance instead
+    /// (plan-33-H): the smallest `farads` of each group, ties by name.
     private static func functionGroups(_ parts: [CatalogPart]) -> [FunctionGroup] {
-        Dictionary(grouping: parts, by: \.drawerLeaf)
-            .sorted { $0.key.localizedStandardCompare($1.key) == .orderedAscending }
+        let groups = Dictionary(grouping: parts, by: \.drawerLeaf)
+        let byValue = !parts.isEmpty && parts.allSatisfy { $0.capacitorFarads != nil }
+        func smallest(_ parts: [CatalogPart]) -> Double {
+            parts.compactMap(\.capacitorFarads).min() ?? 0
+        }
+        return groups
+            .sorted {
+                if byValue {
+                    let a = smallest($0.value), b = smallest($1.value)
+                    if a != b { return a < b }
+                }
+                return $0.key.localizedStandardCompare($1.key) == .orderedAscending
+            }
             .map { function, parts in
                 let sorted = parts.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
                 return FunctionGroup(function: function, parts: sorted, bitGroups: bitGroups(sorted))

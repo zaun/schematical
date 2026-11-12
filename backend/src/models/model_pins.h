@@ -10,12 +10,13 @@
 
 #include "parts.h"
 
-/* An LED's anode and cathode, as indices into Part.pins; also a character
-   LCD's backlight anode and cathode (0 for a module without a backlight). */
+/* An LED's anode and cathode, as indices into Part.pins. */
 int led_pins(const Part *part, size_t *anode, size_t *cathode);
 
-/* led_pins for charlcd parts (charlcd.c). */
-int charlcd_backlight_pins(const Part *part, size_t *anode, size_t *cathode);
+/* A character LCD's backlight LED `index` (0-based, in the device's
+   "backlight" order): its anode and cathode, as indices into Part.pins
+   (charlcd.c). 0 past the last LED, and for a module without a backlight. */
+int charlcd_backlight_pins(const Part *part, size_t index, size_t *anode, size_t *cathode);
 
 /* A diode part's k-th link (0-based): its anode and cathode pins, as
    indices into Part.pins (diode.c). Links are the device's pairs, then the

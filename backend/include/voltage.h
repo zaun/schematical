@@ -27,7 +27,8 @@ typedef enum {
     VOLTAGE_SUPPLY_CLASH,   /* two supplies of different non-zero voltage on one net */
     VOLTAGE_POWER_RANGE,    /* power pin outside the part's vcc range */
     VOLTAGE_INPUT_OVER,     /* input/inout pin above the part's input max */
-    VOLTAGE_SWITCH_OVER     /* switch contact pin above its rating */
+    VOLTAGE_SWITCH_OVER,    /* switch contact pin above its rating */
+    VOLTAGE_CAPACITOR_OVER  /* capacitor pin above its rated voltage (plan-33-E) */
 } VoltageProblemKind;
 
 typedef struct { size_t part; size_t pin; size_t net; } VoltageConnection;  /* pin: index into Part.pins */

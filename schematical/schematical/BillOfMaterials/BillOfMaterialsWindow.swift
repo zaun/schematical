@@ -22,7 +22,8 @@ nonisolated struct BillOfMaterialsTarget: Codable, Hashable, Sendable {
 nonisolated struct BillOfMaterialsLine: Identifiable, Hashable, Sendable {
     let partNumber: String
     let package: String
-    /// A pull resistor's resistance ("4.7kΩ"); empty for every other part.
+    /// A pull resistor's resistance ("4.7kΩ") or a capacitor's capacitance
+    /// ("100 nF", plan-33-H); empty for every other part.
     let value: String
     /// An LED's color; empty for every other part.
     let color: String
@@ -54,6 +55,9 @@ nonisolated enum BillOfMaterials {
     /// The part number and description of a pull resistor's line.
     static let resistorPartNumber = "RESISTOR"
     static let resistorDescription = "Resistor"
+    /// `GENERIC-CAPACITOR`'s line (plan-33-H): any value, so its own part number.
+    static let capacitorPartNumber = "CAPACITOR"
+    static let capacitorDescription = "Capacitor"
 
     private static func line(for chip: PlacedChip, references: [String]) -> BillOfMaterialsLine {
         let package = chip.footprintChoice?.package ?? chip.part.package
@@ -67,10 +71,20 @@ nonisolated enum BillOfMaterials {
                 references: references
             )
         }
+        if chip.part.isGenericCapacitor {
+            return BillOfMaterialsLine(
+                partNumber: capacitorPartNumber,
+                package: package,
+                value: CapacitorValue.text(chip.farads ?? CapacitorValue.defaultFarads),
+                color: "",
+                description: capacitorDescription,
+                references: references
+            )
+        }
         return BillOfMaterialsLine(
             partNumber: chip.partNumber,
             package: package,
-            value: "",
+            value: chip.part.capacitorFarads.map(CapacitorValue.text) ?? "",
             color: chip.color ?? "",
             description: chip.part.description,
             references: references

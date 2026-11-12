@@ -118,6 +118,9 @@ nonisolated enum PartSymbol: Hashable {
     /// A diode part (plan-29): the diode symbol with no light; its cathode
     /// bar follows the part's type (`DiodeMark`).
     case plainDiode
+    /// A capacitor (plan-33): two plates; a polarized one has a curved
+    /// negative plate and a `+` by its positive pin (`CapacitorSymbolView`).
+    case capacitor
     case vcc
     case ground
     case pullUp
@@ -225,6 +228,8 @@ nonisolated struct ChipLayout: Hashable {
             self = Self.header(pins, rows: part.headerSize?.rows ?? 1)
         case .diode, .plainDiode:
             self = Self.diode(pins)
+        case .capacitor:
+            self = Self.capacitor(pins)
         case .vcc:
             self = Self.supply(pins, side: .bottom)
         case .ground:
@@ -263,13 +268,15 @@ nonisolated struct ChipLayout: Hashable {
         )
     }
 
-    /// Bus pins on the left (RS, R/W, E, a one-row gap, DB0-DB7); every
-    /// other drawn pin on the right, in pin order (VSS, VDD, V0, LED+, LED-).
+    /// Bus pins on the left (RS, R/W, E — or E1, E2 on a two-controller
+    /// module — a one-row gap, DB0-DB7); every other drawn pin on the right,
+    /// in pin order (VSS, VDD, V0, LED+, LED-).
     private static func characterLCD(_ pins: [ChipPin], info: CharacterLCDInfo?) -> ChipLayout {
         guard let info else { return ChipLayout(pins: pins) }
         let byIndex = Dictionary(pins.map { ($0.index, $0) }, uniquingKeysWith: { first, _ in first })
         let bus = info.busPins.compactMap { byIndex[$0] }
-        let left = stack([Array(bus.prefix(3)), Array(bus.dropFirst(3))])
+        let control = 2 + max(info.enables, 1)
+        let left = stack([Array(bus.prefix(control)), Array(bus.dropFirst(control))])
         let busSet = Set(info.busPins)
         let right = pins.filter { !busSet.contains($0.index) }.sorted { $0.index < $1.index }
         let face = lcdFaceSize(info)
@@ -459,6 +466,23 @@ nonisolated struct ChipLayout: Hashable {
     /// Anode (pin 2, "A") on the left and cathode (pin 1, "K") on the right.
     /// Other pins, such as no-connects on a 4-DIP, are not drawn. Falls back to
     /// the block layout if either terminal is missing.
+    /// A capacitor (plan-33-H): pin 1 (`1`, or `+` on a polarized part) on
+    /// the left, pin 2 (`2` or `-`) on the right, the diode's box.
+    private static func capacitor(_ pins: [ChipPin]) -> ChipLayout {
+        guard pins.count == 2,
+              let first = pins.first(where: { $0.name == "+" || $0.name == "1" }),
+              let second = pins.first(where: { $0.name == "-" || $0.name == "2" }) else {
+            return ChipLayout(pins: pins)
+        }
+        return ChipLayout(
+            size: diodeSize,
+            slots: [
+                PinSlot(pin: first, side: .left, centerY: diodeCentreY),
+                PinSlot(pin: second, side: .right, centerY: diodeCentreY),
+            ]
+        )
+    }
+
     private static func diode(_ pins: [ChipPin]) -> ChipLayout {
         guard let anode = pins.first(where: { $0.name == "A" }),
               let cathode = pins.first(where: { $0.name == "K" }) else {
@@ -607,6 +631,10 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     /// A pull resistor's resistance in ohms (`ResistorValue.isValid`). Nil
     /// for every other part.
     var ohms: Double?
+    /// The generic capacitor's capacitance in farads (`CapacitorValue.isValid`,
+    /// plan-33-H). Nil for every other part, real capacitors included (their
+    /// value is their part's).
+    var farads: Double?
 
     private let baseLayout: ChipLayout
 
@@ -623,7 +651,8 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         color: String? = nil,
         footprintID: String? = nil,
         gender: String? = nil,
-        ohms: Double? = nil
+        ohms: Double? = nil,
+        farads: Double? = nil
     ) {
         self.id = id
         self.reference = reference
@@ -658,6 +687,11 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         } else {
             self.ohms = nil
         }
+        if part.isGenericCapacitor {
+            self.farads = farads.flatMap { CapacitorValue.isValid($0) ? $0 : nil } ?? CapacitorValue.defaultFarads
+        } else {
+            self.farads = nil
+        }
         // A switch has one state per position, OFF unless given; others none.
         // A tactile switch has one, "pressed", and always starts released
         // (the file never stores it; plan-27-J).
@@ -685,7 +719,7 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         return PlacedChip(id: id, reference: reference, part: newPart, symbol: symbol, origin: origin,
                           isFlipped: isFlipped, switchesOn: switchesOn, board: board,
                           memoryFile: memoryFile, color: color, footprintID: footprint, gender: gender,
-                          ohms: ohms)
+                          ohms: ohms, farads: farads)
     }
 
     /// The chosen footprint choice, for a part with footprint choices.
@@ -1648,7 +1682,7 @@ final class SchematicDocument {
     /// doesn't have) is the part's default.
     func placeChip(part: CatalogPart, symbol: PartSymbol, centeredAt point: CGPoint,
                    color: String? = nil, footprintID: String? = nil, gender: String? = nil,
-                   ohms: Double? = nil) {
+                   ohms: Double? = nil, farads: Double? = nil) {
         recordEdit(.schematic, "Add Part") {
             let layout = ChipLayout(part: part, symbol: symbol)
             let origin = SchematicGrid.snap(
@@ -1663,7 +1697,8 @@ final class SchematicDocument {
                 color: color,
                 footprintID: footprintID,
                 gender: gender,
-                ohms: ohms
+                ohms: ohms,
+                farads: farads
             )
             placed.board = placed.footprint.map {
                 BoardLayout.nextSpot(for: $0, among: chips, pad1: placed.part.firstPinDesignator, grid: self.board.grid)
@@ -1685,6 +1720,15 @@ final class SchematicDocument {
                 number += 1
             }
             return "R\(number)"
+        }
+        if part.kind == PART_CAPACITOR {
+            // Capacitors (plan-33-H): the lowest C<n> no part uses, as the
+            // pull resistors' R<n>; nextReference does not move.
+            var number = 1
+            while used.contains("C\(number)") {
+                number += 1
+            }
+            return "C\(number)"
         }
         var number = nextReference
         while used.contains("U\(number)") {
@@ -1758,6 +1802,17 @@ final class SchematicDocument {
                   chips[index].part.isPullResistor,
                   ResistorValue.isValid(ohms) else { return }
             chips[index].ohms = ohms
+        }
+    }
+
+    /// Sets the generic capacitor's capacitance (plan-33-H). Does nothing for
+    /// any other part, or a value that isn't `CapacitorValue.isValid`.
+    func setPartFarads(_ id: UUID, _ farads: Double) {
+        recordEdit(.schematic, "Change Capacitance") {
+            guard let index = chips.firstIndex(where: { $0.id == id }),
+                  chips[index].part.isGenericCapacitor,
+                  CapacitorValue.isValid(farads) else { return }
+            chips[index].farads = farads
         }
     }
 
@@ -1958,7 +2013,7 @@ final class SchematicDocument {
                     id: renamed(chip.id), reference: takeReference(for: chip.part), part: chip.part,
                     symbol: chip.symbol, origin: shifted(chip.origin), isFlipped: chip.isFlipped,
                     switchesOn: chip.switchesOn, memoryFile: chip.memoryFile, color: chip.color,
-                    footprintID: chip.footprintID, gender: chip.gender, ohms: chip.ohms
+                    footprintID: chip.footprintID, gender: chip.gender, ohms: chip.ohms, farads: chip.farads
                 )
                 placed.board = placed.footprint.map {
                     BoardLayout.nextSpot(for: $0, among: chips + pastedChips, pad1: placed.part.firstPinDesignator,
