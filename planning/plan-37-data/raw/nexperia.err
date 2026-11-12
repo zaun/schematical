@@ -1,0 +1,29 @@
+piece t/4-XFDFN Exposed Pad: 5 of 5
+piece t/5-TSSOP, SC-70-5, SOT-353: 7 of 7
+piece t/6-TSSOP, SC-88, SOT-363: 5 of 5
+piece t/6-XFDFN: 37 of 37
+piece t/8-TSSOP, 8-MSOP (0.118", 3.00mm Width): 5 of 5
+piece t/8-VFSOP (0.091", 2.30mm Width): 7 of 7
+piece t/8-XFDFN: 23 of 23
+piece t/8-XFDFN Exposed Pad: 1 of 1
+piece t/8-XFQFN Exposed Pad: 4 of 4
+piece t/14-SOIC (0.154", 3.90mm Width): 25 of 25
+piece t/14-SSOP (0.209", 5.30mm Width): 8 of 8
+piece t/14-TSSOP (0.173", 4.40mm Width): 14 of 14
+piece t/14-VFQFN Exposed Pad: 7 of 7
+piece t/14-XFQFN Exposed Pad: 5 of 5
+piece t/16-SOIC (0.154", 3.90mm Width): 22 of 22
+piece t/16-SSOP (0.209", 5.30mm Width): 3 of 3
+piece t/16-TSSOP (0.173", 4.40mm Width): 17 of 17
+piece t/20-SOIC (0.295", 7.50mm Width): 33 of 33
+piece t/20-SSOP (0.209", 5.30mm Width): 11 of 11
+piece t/20-TSSOP (0.173", 4.40mm Width): 28 of 28
+piece t/20-VFQFN Exposed Pad: 9 of 9
+piece t/24-VFQFN Exposed Pad: 1 of 1
+piece t/48-BSSOP (0.295", 7.50mm Width): 2 of 2
+piece t/48-TFSOP (0.240", 6.10mm Width): 6 of 6
+piece t/56-BSSOP (0.295", 7.50mm Width): 2 of 2
+piece t/56-TFSOP (0.240", 6.10mm Width): 1 of 1
+piece t/SC-74, SOT-457: 2 of 2
+piece t/SC-74A, SOT-753: 6 of 6
+list.js: 283 parts, 29 calls, 39 left today
