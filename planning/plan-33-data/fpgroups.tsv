@@ -1,92 +1,92 @@
 letter	maker	type	package	size	spacing	size_code	height	pdf	rows	footprint	part_package	pinout	note
-C	Cal-Chip	ceramic	0402 (1005 Metric)	"0.039"" L x 0.020"" W (1.00mm x 0.50mm)"	-		-	datasheets/capacitor/calchip/GMC-Series-3.pdf	44				
-C	Cal-Chip	ceramic	0603 (1608 Metric)	"0.063"" L x 0.031"" W (1.60mm x 0.80mm)"			"0.039"" (1.00mm)"	datasheets/capacitor/calchip/GMC-Series-3.pdf	2				
-C	Cal-Chip	ceramic	0603 (1608 Metric)	"0.063"" L x 0.031"" W (1.60mm x 0.80mm)"	-		-	datasheets/capacitor/calchip/GMC-Series-3.pdf	46				
-C	Cal-Chip	ceramic	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.00mm x 1.25mm)"			"0.037"" (0.95mm)"	datasheets/capacitor/calchip/GMC-Series-3.pdf	36				
-C	Cal-Chip	ceramic	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.00mm x 1.25mm)"	-		-	datasheets/capacitor/calchip/GMC-Series-3.pdf	14				
-C	Cal-Chip	ceramic	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"			-	datasheets/capacitor/calchip/GMC-Series-3.pdf	41				
-C	Cal-Chip	ceramic	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-		-	datasheets/capacitor/calchip/GMC-Series-3.pdf	18				
-C	Cal-Chip	ta-polymer	0805 (2012 Metric)	"0.081"" L x 0.051"" W (2.05mm x 1.30mm)"	-	P	"0.067"" (1.70mm)"	datasheets/capacitor/calchip/PT-SERIES.pdf	1				
-C	Cal-Chip	ta-polymer	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	A	"0.071"" (1.80mm)"	datasheets/capacitor/calchip/PT-SERIES.pdf	2				
-C	Cal-Chip	ta-polymer	1411 (3528 Metric)	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	B	"0.083"" (2.10mm)"	datasheets/capacitor/calchip/PT-SERIES.pdf	2				
-C	Cal-Chip	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	Y	"0.079"" (2.00mm)"	datasheets/capacitor/calchip/PT-SERIES.pdf	1				
-C	Cal-Chip	tantalum	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"			"0.071"" (1.80mm)"	datasheets/capacitor/calchip/TC-Series.pdf	1				
-C	Cal-Chip	tantalum	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	A	"0.071"" (1.80mm)"	datasheets/capacitor/calchip/TC-Series.pdf	21				
-C	Cal-Chip	tantalum	1411 (3528 Metric)	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"			"0.083"" (2.10mm)"	datasheets/capacitor/calchip/TC-Series.pdf	1				
-C	Cal-Chip	tantalum	1411 (3528 Metric)	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	B	"0.083"" (2.10mm)"	datasheets/capacitor/calchip/TC-Series.pdf	6				
-C	Cal-Chip	tantalum	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"			"0.110"" (2.80mm)"	datasheets/capacitor/calchip/TC-Series.pdf	1				
-C	Cal-Chip	tantalum	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"	-	C	"0.110"" (2.80mm)"	datasheets/capacitor/calchip/TC-Series.pdf	6				
-C	Cal-Chip	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"			"0.122"" (3.10mm)"	datasheets/capacitor/calchip/TC-Series.pdf	1				
-C	Cal-Chip	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	D	"0.122"" (3.10mm)"	datasheets/capacitor/calchip/TC-Series.pdf	18				
-C	Cal-Chip	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	E	"0.169"" (4.30mm)"	datasheets/capacitor/calchip/TC-Series.pdf	1				
-C	KEMET	al-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-		"0.079"" (2.00mm)"	datasheets/capacitor/kemet/KEM_T2091_A700-A720.pdf	15				
-C	KEMET	ceramic	0402 (1005 Metric)	"0.039"" L x 0.020"" W (1.00mm x 0.50mm)"	-		-	datasheets/capacitor/kemet/KEM_C1003_C0G_SMD.pdf	3				
-C	KEMET	ceramic	0402 (1005 Metric)	"0.039"" L x 0.020"" W (1.00mm x 0.50mm)"	-		-	datasheets/capacitor/kemet/KEM_C1002_X7R_SMD.pdf	7				
-C	KEMET	ceramic	0402 (1005 Metric)	"0.039"" L x 0.020"" W (1.00mm x 0.50mm)"	-		-	datasheets/capacitor/kemet/KEM_C1007_X8R_ULTRA_150C_SMD.pdf	1				
-C	KEMET	ceramic	0603 (1608 Metric)	"0.063"" L x 0.031"" W (1.60mm x 0.80mm)"	-		-	datasheets/capacitor/kemet/KEM_C1003_C0G_SMD.pdf	1				
-C	KEMET	ceramic	0603 (1608 Metric)	"0.063"" L x 0.031"" W (1.60mm x 0.80mm)"	-		-	datasheets/capacitor/kemet/KEM_C1002_X7R_SMD.pdf	9				
-C	KEMET	ceramic	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.00mm x 1.25mm)"	-		-	datasheets/capacitor/kemet/KEM_C1091_C0G_ESD.pdf	2				
-C	KEMET	ceramic	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.00mm x 1.25mm)"	-		-	datasheets/capacitor/kemet/KEM_C1002_X7R_SMD.pdf	8				
-C	KEMET	ceramic	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.00mm x 1.25mm)"	-		-	datasheets/capacitor/kemet/KEM_C1010_X7R_HV_SMD.pdf	1				
-C	KEMET	ceramic	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-		-	datasheets/capacitor/kemet/KEM_C1002_X7R_SMD.pdf	2				
-C	KEMET	ceramic	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-		-	datasheets/capacitor/kemet/KEM_C1010_X7R_HV_SMD.pdf	5				
-C	KEMET	ta-polymer	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.00mm x 1.25mm)"	-	P	"0.039"" (1.00mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	3				
-C	KEMET	ta-polymer	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	A	"0.071"" (1.80mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	4				
-C	KEMET	ta-polymer	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	-	"0.047"" (1.20mm)"	datasheets/capacitor/kemet/KEM_T2073_T59X.pdf	1				
-C	KEMET	ta-polymer	1411 (3528 Metric)	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	B	"0.079"" (2.00mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	15				
-C	KEMET	ta-polymer	1411 (3528 Metric)	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	T	"0.047"" (1.20mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	1				
-C	KEMET	ta-polymer	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"	-	C	"0.110"" (2.80mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	2				
-C	KEMET	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	V	"0.075"" (1.90mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	6				
-C	KEMET	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	X	"0.169"" (4.30mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	6				
-C	KEMET	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	X	"0.169"" (4.30mm)"	datasheets/capacitor/kemet/KEM_T2073_T59X.pdf	1				
-C	KEMET	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	D	"0.122"" (3.10mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	6				
-C	KEMET	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	Y	"0.157"" (4.00mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	1				
-C	KEMET	tantalum	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	A	"0.071"" (1.80mm)"	datasheets/capacitor/kemet/KEM_T2005_T491.pdf	19				
-C	KEMET	tantalum	1411 (3528 Metric)	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	B	"0.083"" (2.10mm)"	datasheets/capacitor/kemet/KEM_T2005_T491.pdf	4				
-C	KEMET	tantalum	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"	-	C	"0.110"" (2.80mm)"	datasheets/capacitor/kemet/KEM_T2005_T491.pdf	3				
-C	KEMET	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	X	"0.169"" (4.30mm)"	datasheets/capacitor/kemet/KEM_T2009_T495.pdf	4				
-C	KEMET	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	D	"0.122"" (3.10mm)"	datasheets/capacitor/kemet/KEM_T2005_T491.pdf	2				
-C	KEMET	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	X	"0.169"" (4.30mm)"	datasheets/capacitor/kemet/KEM_T2005_T491.pdf	4				
-C	KEMET	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	D	"0.122"" (3.10mm)"	datasheets/capacitor/kemet/KEM_T2009_T495.pdf	2				
-C	KEMET	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	X	"0.169"" (4.30mm)"	datasheets/capacitor/kemet/KEM_T2014_T510.pdf	1				
-C	AVX	ceramic	0402 (1005 Metric)	"0.039"" L x 0.020"" W (1.00mm x 0.50mm)"	-		-	datasheets/capacitor/avx/cx5r.pdf	1				
-C	AVX	ceramic	0603 (1608 Metric)	"0.063"" L x 0.031"" W (1.60mm x 0.80mm)"	-		-	datasheets/capacitor/avx/KGM_Series_e.pdf	1				
-C	AVX	ceramic	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.01mm x 1.25mm)"	-		-	datasheets/capacitor/avx/X7RDielectric.pdf	3				
-C	AVX	ceramic	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.01mm x 1.25mm)"	-		-	datasheets/capacitor/avx/KGM_X7R.pdf	1				
-C	AVX	niobium	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"		A	"0.071"" (1.80mm)"	datasheets/capacitor/avx/NOJ.pdf	6				
-C	AVX	niobium	1411 (3528 Metric), 1210	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"		B	"0.083"" (2.10mm)"	datasheets/capacitor/avx/NOJ.pdf	4				
-C	AVX	niobium	1411 (3528 Metric), 1210	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"		B	"0.083"" (2.10mm)"	datasheets/capacitor/avx/NOS.pdf	1				
-C	AVX	niobium	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"		C	"0.110"" (2.80mm)"	datasheets/capacitor/avx/NOJ.pdf	3				
-C	AVX	niobium	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"		C	"0.110"" (2.80mm)"	datasheets/capacitor/avx/NOS.pdf	2				
-C	AVX	niobium	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"		D	"0.122"" (3.10mm)"	datasheets/capacitor/avx/NOS.pdf	3				
-C	AVX	niobium	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"		D	"0.122"" (3.10mm)"	datasheets/capacitor/avx/NOJ.pdf	1				
-C	AVX	ta-polymer	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	A	"0.071"" (1.80mm)"	datasheets/capacitor/avx/TCJ.pdf	4				
-C	AVX	ta-polymer	1411 (3528 Metric), 1210	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	B	"0.083"" (2.10mm)"	datasheets/capacitor/avx/TCJ.pdf	12				
-C	AVX	ta-polymer	1411 (3528 Metric), 1210	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	T	"0.047"" (1.20mm)"	datasheets/capacitor/avx/TCJ.pdf	1				
-C	AVX	ta-polymer	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"	-	C	"0.110"" (2.80mm)"	datasheets/capacitor/avx/TCJ.pdf	2				
-C	AVX	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	Y	"0.079"" (2.00mm)"	datasheets/capacitor/avx/TCJ.pdf	6				
-C	AVX	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	E	"0.169"" (4.30mm)"	datasheets/capacitor/avx/TCJ.pdf	2				
-C	AVX	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	5	"0.157"" (4.00mm)"	datasheets/capacitor/avx/TCJ.pdf	1				
-C	AVX	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	D	"0.122"" (3.10mm)"	datasheets/capacitor/avx/TCJ.pdf	4				
-C	AVX	tantalum	0603 (1608 Metric)	"0.063"" L x 0.033"" W (1.60mm x 0.85mm)"	-	L	"0.039"" (1.00mm)"	datasheets/capacitor/avx/TAC.pdf	2				
-C	AVX	tantalum	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.00mm x 1.25mm)"	-	P	"0.039"" (1.00mm)"	datasheets/capacitor/avx/F92.pdf	2				
-C	AVX	tantalum	0805 (2012 Metric)	"0.081"" L x 0.051"" W (2.05mm x 1.30mm)"	-	R	"0.047"" (1.20mm)"	datasheets/capacitor/avx/TAJ.pdf	3				
-C	AVX	tantalum	0805 (2012 Metric)	"0.081"" L x 0.051"" W (2.05mm x 1.30mm)"	-	R	"0.047"" (1.20mm)"	datasheets/capacitor/avx/TAZ.pdf	1				
-C	AVX	tantalum	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	A	"0.071"" (1.80mm)"	datasheets/capacitor/avx/TAJ.pdf	8				
-C	AVX	tantalum	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	S	"0.047"" (1.20mm)"	datasheets/capacitor/avx/TAJ.pdf	3				
-C	AVX	tantalum	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	A	"0.071"" (1.80mm)"	datasheets/capacitor/avx/F93.pdf	1				
-C	AVX	tantalum	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	A	"0.071"" (1.80mm)"	datasheets/capacitor/avx/TPS.pdf	1				
-C	AVX	tantalum	1411 (3528 Metric)	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	B	"0.091"" (2.30mm)"	datasheets/capacitor/avx/F93.pdf	2				
-C	AVX	tantalum	1411 (3528 Metric), 1210	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	B	"0.083"" (2.10mm)"	datasheets/capacitor/avx/TAJ.pdf	6				
-C	AVX	tantalum	1411 (3528 Metric), 1210	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	B	"0.083"" (2.10mm)"	datasheets/capacitor/avx/TLJ.pdf	1				
-C	AVX	tantalum	1411 (3528 Metric), 1210	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	H	"0.059"" (1.50mm)"	datasheets/capacitor/avx/TLJ.pdf	1				
-C	AVX	tantalum	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"	-	C	"0.110"" (2.80mm)"	datasheets/capacitor/avx/TPS.pdf	1				
-C	AVX	tantalum	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"	-	C	"0.110"" (2.80mm)"	datasheets/capacitor/avx/TAJ.pdf	1				
-C	AVX	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	D	"0.122"" (3.10mm)"	datasheets/capacitor/avx/TPS.pdf	3				
-C	AVX	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	E	"0.169"" (4.30mm)"	datasheets/capacitor/avx/TPM.pdf	1				
-C	AVX	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	X	"0.059"" (1.50mm)"	datasheets/capacitor/avx/TPS.pdf	1				
-C	AVX	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	D	"0.122"" (3.10mm)"	datasheets/capacitor/avx/TAJ.pdf	1				
-C	AVX	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	E	"0.169"" (4.30mm)"	datasheets/capacitor/avx/TAJ.pdf	1				
+C	Cal-Chip	ceramic	0402 (1005 Metric)	"0.039"" L x 0.020"" W (1.00mm x 0.50mm)"	-		-	datasheets/capacitor/calchip/GMC-Series-3.pdf	44	CAP-0402-CALCHIP	0402	two-pin	R4: GMC04 L 1.0, W 0.5, BW 0.225 mid (0.1-0.35); GMC-Series-3.pdf
+C	Cal-Chip	ceramic	0603 (1608 Metric)	"0.063"" L x 0.031"" W (1.60mm x 0.80mm)"			"0.039"" (1.00mm)"	datasheets/capacitor/calchip/GMC-Series-3.pdf	2	CAP-0603-CALCHIP	0603	two-pin	R4: GMC10 L 1.6, W 0.8, BW 0.25 mid (0.1-0.4); GMC-Series-3.pdf
+C	Cal-Chip	ceramic	0603 (1608 Metric)	"0.063"" L x 0.031"" W (1.60mm x 0.80mm)"	-		-	datasheets/capacitor/calchip/GMC-Series-3.pdf	46	CAP-0603-CALCHIP	0603	two-pin	R4: GMC10 L 1.6, W 0.8, BW 0.25 mid (0.1-0.4); GMC-Series-3.pdf
+C	Cal-Chip	ceramic	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.00mm x 1.25mm)"			"0.037"" (0.95mm)"	datasheets/capacitor/calchip/GMC-Series-3.pdf	36	CAP-0805-CALCHIP	0805	two-pin	R4: GMC21 L 2.0, W 1.25, BW 0.5 mid (0.25-0.75); GMC-Series-3.pdf
+C	Cal-Chip	ceramic	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.00mm x 1.25mm)"	-		-	datasheets/capacitor/calchip/GMC-Series-3.pdf	14	CAP-0805-CALCHIP	0805	two-pin	R4: GMC21 L 2.0, W 1.25, BW 0.5 mid (0.25-0.75); GMC-Series-3.pdf
+C	Cal-Chip	ceramic	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"			-	datasheets/capacitor/calchip/GMC-Series-3.pdf	41	CAP-1206-CALCHIP	1206	two-pin	R4: GMC31 L 3.2, W 1.6, BW 0.5 mid (0.25-0.75); GMC-Series-3.pdf
+C	Cal-Chip	ceramic	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-		-	datasheets/capacitor/calchip/GMC-Series-3.pdf	18	CAP-1206-CALCHIP	1206	two-pin	R4: GMC31 L 3.2, W 1.6, BW 0.5 mid (0.25-0.75); GMC-Series-3.pdf
+C	Cal-Chip	ta-polymer	0805 (2012 Metric)	"0.081"" L x 0.051"" W (2.05mm x 1.30mm)"	-	P	"0.067"" (1.70mm)"	datasheets/capacitor/calchip/PT-SERIES.pdf	1	CAPM-2012-P-CALCHIP	0805	polar	R4: Cal-Chip case dimensions (TC-Series.pdf p.1; PT-SERIES.pdf
+C	Cal-Chip	ta-polymer	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	A	"0.071"" (1.80mm)"	datasheets/capacitor/calchip/PT-SERIES.pdf	2	CAPM-3216-A-CALCHIP	1206	polar	R4: Cal-Chip case dimensions (TC-Series.pdf p.1; PT-SERIES.pdf
+C	Cal-Chip	ta-polymer	1411 (3528 Metric)	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	B	"0.083"" (2.10mm)"	datasheets/capacitor/calchip/PT-SERIES.pdf	2	CAPM-3528-B-CALCHIP	1411	polar	R4: Cal-Chip case dimensions (TC-Series.pdf p.1; PT-SERIES.pdf
+C	Cal-Chip	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	Y	"0.079"" (2.00mm)"	datasheets/capacitor/calchip/PT-SERIES.pdf	1	CAPM-7343-Y-CALCHIP	2917	polar	R4: Cal-Chip case dimensions (TC-Series.pdf p.1; PT-SERIES.pdf
+C	Cal-Chip	tantalum	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"			"0.071"" (1.80mm)"	datasheets/capacitor/calchip/TC-Series.pdf	1	CAPM-3216-A-CALCHIP	1206	polar	R4: Cal-Chip case dimensions (TC-Series.pdf p.1; TC-Series.pdf
+C	Cal-Chip	tantalum	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	A	"0.071"" (1.80mm)"	datasheets/capacitor/calchip/TC-Series.pdf	21	CAPM-3216-A-CALCHIP	1206	polar	R4: Cal-Chip case dimensions (TC-Series.pdf p.1; TC-Series.pdf
+C	Cal-Chip	tantalum	1411 (3528 Metric)	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"			"0.083"" (2.10mm)"	datasheets/capacitor/calchip/TC-Series.pdf	1	CAPM-3528-B-CALCHIP	1411	polar	R4: Cal-Chip case dimensions (TC-Series.pdf p.1; TC-Series.pdf
+C	Cal-Chip	tantalum	1411 (3528 Metric)	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	B	"0.083"" (2.10mm)"	datasheets/capacitor/calchip/TC-Series.pdf	6	CAPM-3528-B-CALCHIP	1411	polar	R4: Cal-Chip case dimensions (TC-Series.pdf p.1; TC-Series.pdf
+C	Cal-Chip	tantalum	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"			"0.110"" (2.80mm)"	datasheets/capacitor/calchip/TC-Series.pdf	1	CAPM-6032-C-CALCHIP	2312	polar	R4: Cal-Chip case dimensions (TC-Series.pdf p.1; TC-Series.pdf
+C	Cal-Chip	tantalum	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"	-	C	"0.110"" (2.80mm)"	datasheets/capacitor/calchip/TC-Series.pdf	6	CAPM-6032-C-CALCHIP	2312	polar	R4: Cal-Chip case dimensions (TC-Series.pdf p.1; TC-Series.pdf
+C	Cal-Chip	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"			"0.122"" (3.10mm)"	datasheets/capacitor/calchip/TC-Series.pdf	1	CAPM-7343-D-CALCHIP	2917	polar	R4: Cal-Chip case dimensions (TC-Series.pdf p.1; TC-Series.pdf
+C	Cal-Chip	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	D	"0.122"" (3.10mm)"	datasheets/capacitor/calchip/TC-Series.pdf	18	CAPM-7343-D-CALCHIP	2917	polar	R4: Cal-Chip case dimensions (TC-Series.pdf p.1; TC-Series.pdf
+C	Cal-Chip	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	E	"0.169"" (4.30mm)"	datasheets/capacitor/calchip/TC-Series.pdf	1	CAPM-7343-E-CALCHIP	2917	polar	R4: Cal-Chip case dimensions (TC-Series.pdf p.1; TC-Series.pdf
+C	KEMET	al-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-		"0.079"" (2.00mm)"	datasheets/capacitor/kemet/KEM_T2091_A700-A720.pdf	15	CAPM-7343-D-KEMET	2917	polar	R1: KEMET Table 2 Land Dimensions, case D (7343) level B W 2.43 L 2.37 S 3.87 (span S + L); KEM_T2091_A700-A720.pdf
+C	KEMET	ceramic	0402 (1005 Metric)	"0.039"" L x 0.020"" W (1.00mm x 0.50mm)"	-		-	datasheets/capacitor/kemet/KEM_C1003_C0G_SMD.pdf	3	CAP-0402-KEMET	0402	two-pin	R1: KEMET IPC-7351 level B C 0.45 Y 0.62 X 0.62 (span 2C), KEM_C1002_X7R_SMD.pdf p.12 (same in KEM_C1003, C1007, C1010, C1091); KEM_C1003_C0G_SMD.pdf
+C	KEMET	ceramic	0402 (1005 Metric)	"0.039"" L x 0.020"" W (1.00mm x 0.50mm)"	-		-	datasheets/capacitor/kemet/KEM_C1002_X7R_SMD.pdf	7	CAP-0402-KEMET	0402	two-pin	R1: KEMET IPC-7351 level B C 0.45 Y 0.62 X 0.62 (span 2C), KEM_C1002_X7R_SMD.pdf p.12 (same in KEM_C1003, C1007, C1010, C1091); KEM_C1002_X7R_SMD.pdf
+C	KEMET	ceramic	0402 (1005 Metric)	"0.039"" L x 0.020"" W (1.00mm x 0.50mm)"	-		-	datasheets/capacitor/kemet/KEM_C1007_X8R_ULTRA_150C_SMD.pdf	1	CAP-0402-KEMET	0402	two-pin	R1: KEMET IPC-7351 level B C 0.45 Y 0.62 X 0.62 (span 2C), KEM_C1002_X7R_SMD.pdf p.12 (same in KEM_C1003, C1007, C1010, C1091); KEM_C1007_X8R_ULTRA_150C_SMD.pdf
+C	KEMET	ceramic	0603 (1608 Metric)	"0.063"" L x 0.031"" W (1.60mm x 0.80mm)"	-		-	datasheets/capacitor/kemet/KEM_C1003_C0G_SMD.pdf	1	CAP-0603-KEMET	0603	two-pin	R1: KEMET IPC-7351 level B C 0.8 Y 0.95 X 1.0 (span 2C), KEM_C1002_X7R_SMD.pdf p.12 (same in KEM_C1003, C1007, C1010, C1091); KEM_C1003_C0G_SMD.pdf
+C	KEMET	ceramic	0603 (1608 Metric)	"0.063"" L x 0.031"" W (1.60mm x 0.80mm)"	-		-	datasheets/capacitor/kemet/KEM_C1002_X7R_SMD.pdf	9	CAP-0603-KEMET	0603	two-pin	R1: KEMET IPC-7351 level B C 0.8 Y 0.95 X 1.0 (span 2C), KEM_C1002_X7R_SMD.pdf p.12 (same in KEM_C1003, C1007, C1010, C1091); KEM_C1002_X7R_SMD.pdf
+C	KEMET	ceramic	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.00mm x 1.25mm)"	-		-	datasheets/capacitor/kemet/KEM_C1091_C0G_ESD.pdf	2	CAP-0805-KEMET	0805	two-pin	R1: KEMET IPC-7351 level B C 0.9 Y 1.15 X 1.45 (span 2C), KEM_C1002_X7R_SMD.pdf p.12 (same in KEM_C1003, C1007, C1010, C1091); KEM_C1091_C0G_ESD.pdf
+C	KEMET	ceramic	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.00mm x 1.25mm)"	-		-	datasheets/capacitor/kemet/KEM_C1002_X7R_SMD.pdf	8	CAP-0805-KEMET	0805	two-pin	R1: KEMET IPC-7351 level B C 0.9 Y 1.15 X 1.45 (span 2C), KEM_C1002_X7R_SMD.pdf p.12 (same in KEM_C1003, C1007, C1010, C1091); KEM_C1002_X7R_SMD.pdf
+C	KEMET	ceramic	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.00mm x 1.25mm)"	-		-	datasheets/capacitor/kemet/KEM_C1010_X7R_HV_SMD.pdf	1	CAP-0805-KEMET	0805	two-pin	R1: KEMET IPC-7351 level B C 0.9 Y 1.15 X 1.45 (span 2C), KEM_C1002_X7R_SMD.pdf p.12 (same in KEM_C1003, C1007, C1010, C1091); KEM_C1010_X7R_HV_SMD.pdf
+C	KEMET	ceramic	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-		-	datasheets/capacitor/kemet/KEM_C1002_X7R_SMD.pdf	2	CAP-1206-KEMET	1206	two-pin	R1: KEMET IPC-7351 level B C 1.5 Y 1.15 X 1.8 (span 2C), KEM_C1002_X7R_SMD.pdf p.12 (same in KEM_C1003, C1007, C1010, C1091); KEM_C1002_X7R_SMD.pdf
+C	KEMET	ceramic	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-		-	datasheets/capacitor/kemet/KEM_C1010_X7R_HV_SMD.pdf	5	CAP-1206-KEMET	1206	two-pin	R1: KEMET IPC-7351 level B C 1.5 Y 1.15 X 1.8 (span 2C), KEM_C1002_X7R_SMD.pdf p.12 (same in KEM_C1003, C1007, C1010, C1091); KEM_C1010_X7R_HV_SMD.pdf
+C	KEMET	ta-polymer	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.00mm x 1.25mm)"	-	P	"0.039"" (1.00mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	3	CAPM-2012-P-KEMET	0805	polar	R1: KEMET JEITA land, case P: G 0.725 mid (0.4-1.05), Z 2.325 mid (2.05-2.6), X 0.9 mid (0.8-1.0); KEM_T2076_T52X-530.pdf
+C	KEMET	ta-polymer	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	A	"0.071"" (1.80mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	4	CAPM-3216-A-KEMET	1206	polar	R1: KEMET Table 2 Land Dimensions, case A (3216) level B W 1.23 L 1.8 S 0.82 (span S + L); KEM_T2076_T52X-530.pdf
+C	KEMET	ta-polymer	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	-	"0.047"" (1.20mm)"	datasheets/capacitor/kemet/KEM_T2073_T59X.pdf	1	CAPM-3216-S-KEMET	1206	polar	R1: KEMET JEITA land, case S: G 1.325 mid (1.0-1.65), Z 3.525 mid (3.25-3.8), X 1.2 mid (1.1-1.3); KEM_T2073_T59X.pdf
+C	KEMET	ta-polymer	1411 (3528 Metric)	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	B	"0.079"" (2.00mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	15	CAPM-3528-B-KEMET	1411	polar	R1: KEMET Table 2 Land Dimensions, case B (3528) level B W 2.23 L 1.8 S 1.12 (span S + L); KEM_T2076_T52X-530.pdf
+C	KEMET	ta-polymer	1411 (3528 Metric)	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	T	"0.047"" (1.20mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	1	CAPM-3528-B-KEMET	1411	polar	R1: KEMET Table 2 Land Dimensions, case B (3528) level B W 2.23 L 1.8 S 1.12 (span S + L); KEM_T2076_T52X-530.pdf
+C	KEMET	ta-polymer	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"	-	C	"0.110"" (2.80mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	2	CAPM-6032-C-KEMET	2312	polar	R1: KEMET Table 2 Land Dimensions, case C (6032) level B W 2.23 L 2.37 S 2.57 (span S + L); KEM_T2076_T52X-530.pdf
+C	KEMET	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	V	"0.075"" (1.90mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	6	CAPM-7343-D-KEMET	2917	polar	R1: KEMET Table 2 Land Dimensions, case D (7343) level B W 2.43 L 2.37 S 3.87 (span S + L); KEM_T2076_T52X-530.pdf
+C	KEMET	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	X	"0.169"" (4.30mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	6	CAPM-7343-D-KEMET	2917	polar	R1: KEMET Table 2 Land Dimensions, case D (7343) level B W 2.43 L 2.37 S 3.87 (span S + L); KEM_T2076_T52X-530.pdf
+C	KEMET	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	X	"0.169"" (4.30mm)"	datasheets/capacitor/kemet/KEM_T2073_T59X.pdf	1	CAPM-7343-D-KEMET	2917	polar	R1: KEMET Table 2 Land Dimensions, case D (7343) level B W 2.43 L 2.37 S 3.87 (span S + L); KEM_T2073_T59X.pdf
+C	KEMET	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	D	"0.122"" (3.10mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	6	CAPM-7343-D-KEMET	2917	polar	R1: KEMET Table 2 Land Dimensions, case D (7343) level B W 2.43 L 2.37 S 3.87 (span S + L); KEM_T2076_T52X-530.pdf
+C	KEMET	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	Y	"0.157"" (4.00mm)"	datasheets/capacitor/kemet/KEM_T2076_T52X-530.pdf	1	CAPM-7343-D-KEMET	2917	polar	R1: KEMET Table 2 Land Dimensions, case D (7343) level B W 2.43 L 2.37 S 3.87 (span S + L); KEM_T2076_T52X-530.pdf
+C	KEMET	tantalum	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	A	"0.071"" (1.80mm)"	datasheets/capacitor/kemet/KEM_T2005_T491.pdf	19	CAPM-3216-A-KEMET	1206	polar	R1: KEMET Table 2 Land Dimensions, case A (3216) level B W 1.23 L 1.8 S 0.82 (span S + L); KEM_T2005_T491.pdf
+C	KEMET	tantalum	1411 (3528 Metric)	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	B	"0.083"" (2.10mm)"	datasheets/capacitor/kemet/KEM_T2005_T491.pdf	4	CAPM-3528-B-KEMET	1411	polar	R1: KEMET Table 2 Land Dimensions, case B (3528) level B W 2.23 L 1.8 S 1.12 (span S + L); KEM_T2005_T491.pdf
+C	KEMET	tantalum	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"	-	C	"0.110"" (2.80mm)"	datasheets/capacitor/kemet/KEM_T2005_T491.pdf	3	CAPM-6032-C-KEMET	2312	polar	R1: KEMET Table 2 Land Dimensions, case C (6032) level B W 2.23 L 2.37 S 2.57 (span S + L); KEM_T2005_T491.pdf
+C	KEMET	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	X	"0.169"" (4.30mm)"	datasheets/capacitor/kemet/KEM_T2009_T495.pdf	4	CAPM-7343-D-KEMET	2917	polar	R1: KEMET Table 2 Land Dimensions, case D (7343) level B W 2.43 L 2.37 S 3.87 (span S + L); KEM_T2009_T495.pdf
+C	KEMET	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	D	"0.122"" (3.10mm)"	datasheets/capacitor/kemet/KEM_T2005_T491.pdf	2	CAPM-7343-D-KEMET	2917	polar	R1: KEMET Table 2 Land Dimensions, case D (7343) level B W 2.43 L 2.37 S 3.87 (span S + L); KEM_T2005_T491.pdf
+C	KEMET	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	X	"0.169"" (4.30mm)"	datasheets/capacitor/kemet/KEM_T2005_T491.pdf	4	CAPM-7343-D-KEMET	2917	polar	R1: KEMET Table 2 Land Dimensions, case D (7343) level B W 2.43 L 2.37 S 3.87 (span S + L); KEM_T2005_T491.pdf
+C	KEMET	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	D	"0.122"" (3.10mm)"	datasheets/capacitor/kemet/KEM_T2009_T495.pdf	2	CAPM-7343-D-KEMET	2917	polar	R1: KEMET Table 2 Land Dimensions, case D (7343) level B W 2.43 L 2.37 S 3.87 (span S + L); KEM_T2009_T495.pdf
+C	KEMET	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	X	"0.169"" (4.30mm)"	datasheets/capacitor/kemet/KEM_T2014_T510.pdf	1	CAPM-7343-D-KEMET	2917	polar	R1: KEMET Table 2 Land Dimensions, case D (7343) level B W 2.43 L 2.37 S 3.87 (span S + L); KEM_T2014_T510.pdf
+C	AVX	ceramic	0402 (1005 Metric)	"0.039"" L x 0.020"" W (1.00mm x 0.50mm)"	-		-	datasheets/capacitor/avx/cx5r.pdf	1	CAP-0402-AVX	0402	two-pin	R4: cx5r.pdf p.3: L 1.00 +-0.20, W 0.50 +-0.20, t 0.25 +-0.10; cx5r.pdf
+C	AVX	ceramic	0603 (1608 Metric)	"0.063"" L x 0.031"" W (1.60mm x 0.80mm)"	-		-	datasheets/capacitor/avx/KGM_Series_e.pdf	1	CAP-0603-AVX	0603	two-pin	R1: KGM_Series_e.pdf p.22 recommended land, 0603 (15) L 1.6 +-0.2 row: a 0.9 mid (0.8-1.0), b 0.9 mid (0.8-1.0), c 0.95 mid (0.8-1.1); KGM_Series_e.pdf
+C	AVX	ceramic	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.01mm x 1.25mm)"	-		-	datasheets/capacitor/avx/X7RDielectric.pdf	3	CAP-0805-AVX	0805	two-pin	R4: X7RDielectric.pdf p.3 and KGM_X7R.pdf p.3: L 2.01 +-0.20, W 1.25 +-0.20, t 0.50 +-0.25; X7RDielectric.pdf
+C	AVX	ceramic	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.01mm x 1.25mm)"	-		-	datasheets/capacitor/avx/KGM_X7R.pdf	1	CAP-0805-AVX	0805	two-pin	R4: X7RDielectric.pdf p.3 and KGM_X7R.pdf p.3: L 2.01 +-0.20, W 1.25 +-0.20, t 0.50 +-0.25; KGM_X7R.pdf
+C	AVX	niobium	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"		A	"0.071"" (1.80mm)"	datasheets/capacitor/avx/NOJ.pdf	6	CAPM-3216-A-AVX	1206	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; NOJ.pdf
+C	AVX	niobium	1411 (3528 Metric), 1210	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"		B	"0.083"" (2.10mm)"	datasheets/capacitor/avx/NOJ.pdf	4	CAPM-3528-B-AVX	1411	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; NOJ.pdf
+C	AVX	niobium	1411 (3528 Metric), 1210	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"		B	"0.083"" (2.10mm)"	datasheets/capacitor/avx/NOS.pdf	1	CAPM-3528-B-AVX	1411	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; NOS.pdf
+C	AVX	niobium	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"		C	"0.110"" (2.80mm)"	datasheets/capacitor/avx/NOJ.pdf	3	CAPM-6032-C-AVX	2312	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; NOJ.pdf
+C	AVX	niobium	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"		C	"0.110"" (2.80mm)"	datasheets/capacitor/avx/NOS.pdf	2	CAPM-6032-C-AVX	2312	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; NOS.pdf
+C	AVX	niobium	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"		D	"0.122"" (3.10mm)"	datasheets/capacitor/avx/NOS.pdf	3	CAPM-7343-D-AVX	2917	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; NOS.pdf
+C	AVX	niobium	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"		D	"0.122"" (3.10mm)"	datasheets/capacitor/avx/NOJ.pdf	1	CAPM-7343-D-AVX	2917	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; NOJ.pdf
+C	AVX	ta-polymer	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	A	"0.071"" (1.80mm)"	datasheets/capacitor/avx/TCJ.pdf	4	CAPM-3216-A-AVX	1206	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; TCJ.pdf
+C	AVX	ta-polymer	1411 (3528 Metric), 1210	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	B	"0.083"" (2.10mm)"	datasheets/capacitor/avx/TCJ.pdf	12	CAPM-3528-B-AVX	1411	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; TCJ.pdf
+C	AVX	ta-polymer	1411 (3528 Metric), 1210	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	T	"0.047"" (1.20mm)"	datasheets/capacitor/avx/TCJ.pdf	1	CAPM-3528-T-AVX	1411	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; TCJ.pdf
+C	AVX	ta-polymer	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"	-	C	"0.110"" (2.80mm)"	datasheets/capacitor/avx/TCJ.pdf	2	CAPM-6032-C-AVX	2312	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; TCJ.pdf
+C	AVX	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	Y	"0.079"" (2.00mm)"	datasheets/capacitor/avx/TCJ.pdf	6	CAPM-7343-Y-AVX	2917	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; TCJ.pdf
+C	AVX	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	E	"0.169"" (4.30mm)"	datasheets/capacitor/avx/TCJ.pdf	2	CAPM-7343-E-AVX	2917	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; TCJ.pdf
+C	AVX	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	5	"0.157"" (4.00mm)"	datasheets/capacitor/avx/TCJ.pdf	1	CAPM-7343-5-AVX	2917	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; TCJ.pdf
+C	AVX	ta-polymer	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	D	"0.122"" (3.10mm)"	datasheets/capacitor/avx/TCJ.pdf	4	CAPM-7343-D-AVX	2917	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; TCJ.pdf
+C	AVX	tantalum	0603 (1608 Metric)	"0.063"" L x 0.033"" W (1.60mm x 0.85mm)"	-	L	"0.039"" (1.00mm)"	datasheets/capacitor/avx/TAC.pdf	2	CAPM-1608-L-AVX	0603	polar	R4: TAC.pdf p.1 case L: L 1.70 mid (1.60 +0.20 -0), W 0.925 mid (0.85 +0.15 -0), terminal spacing S 0.55 min, so terminal length (L - S)/2 = 0.575; TAC.pdf
+C	AVX	tantalum	0805 (2012 Metric)	"0.079"" L x 0.049"" W (2.00mm x 1.25mm)"	-	P	"0.039"" (1.00mm)"	datasheets/capacitor/avx/F92.pdf	2	CAPM-2012-P-AVX	0805	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; F92.pdf
+C	AVX	tantalum	0805 (2012 Metric)	"0.081"" L x 0.051"" W (2.05mm x 1.30mm)"	-	R	"0.047"" (1.20mm)"	datasheets/capacitor/avx/TAJ.pdf	3	CAPM-2012-R-AVX	0805	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; TAJ.pdf
+C	AVX	tantalum	0805 (2012 Metric)	"0.081"" L x 0.051"" W (2.05mm x 1.30mm)"	-	R	"0.047"" (1.20mm)"	datasheets/capacitor/avx/TAZ.pdf	1	CAPM-2012-R-AVX	0805	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; TAZ.pdf
+C	AVX	tantalum	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	A	"0.071"" (1.80mm)"	datasheets/capacitor/avx/TAJ.pdf	8	CAPM-3216-A-AVX	1206	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; TAJ.pdf
+C	AVX	tantalum	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	S	"0.047"" (1.20mm)"	datasheets/capacitor/avx/TAJ.pdf	3	CAPM-3216-S-AVX	1206	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; TAJ.pdf
+C	AVX	tantalum	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	A	"0.071"" (1.80mm)"	datasheets/capacitor/avx/F93.pdf	1	CAPM-3216-A-AVX	1206	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; F93.pdf
+C	AVX	tantalum	1206 (3216 Metric)	"0.126"" L x 0.063"" W (3.20mm x 1.60mm)"	-	A	"0.071"" (1.80mm)"	datasheets/capacitor/avx/TPS.pdf	1	CAPM-3216-A-AVX	1206	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; TPS.pdf
+C	AVX	tantalum	1411 (3528 Metric)	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	B	"0.091"" (2.30mm)"	datasheets/capacitor/avx/F93.pdf	2	CAPM-3528-B-AVX	1411	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; F93.pdf
+C	AVX	tantalum	1411 (3528 Metric), 1210	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	B	"0.083"" (2.10mm)"	datasheets/capacitor/avx/TAJ.pdf	6	CAPM-3528-B-AVX	1411	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; TAJ.pdf
+C	AVX	tantalum	1411 (3528 Metric), 1210	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	B	"0.083"" (2.10mm)"	datasheets/capacitor/avx/TLJ.pdf	1	CAPM-3528-B-AVX	1411	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; TLJ.pdf
+C	AVX	tantalum	1411 (3528 Metric), 1210	"0.138"" L x 0.110"" W (3.50mm x 2.80mm)"	-	H	"0.059"" (1.50mm)"	datasheets/capacitor/avx/TLJ.pdf	1	CAPM-3528-H-AVX	1411	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; TLJ.pdf
+C	AVX	tantalum	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"	-	C	"0.110"" (2.80mm)"	datasheets/capacitor/avx/TPS.pdf	1	CAPM-6032-C-AVX	2312	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; TPS.pdf
+C	AVX	tantalum	2312 (6032 Metric)	"0.236"" L x 0.126"" W (6.00mm x 3.20mm)"	-	C	"0.110"" (2.80mm)"	datasheets/capacitor/avx/TAJ.pdf	1	CAPM-6032-C-AVX	2312	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; TAJ.pdf
+C	AVX	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	D	"0.122"" (3.10mm)"	datasheets/capacitor/avx/TPS.pdf	3	CAPM-7343-D-AVX	2917	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; TPS.pdf
+C	AVX	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	E	"0.169"" (4.30mm)"	datasheets/capacitor/avx/TPM.pdf	1	CAPM-7343-E-AVX	2917	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; TPM.pdf
+C	AVX	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	X	"0.059"" (1.50mm)"	datasheets/capacitor/avx/TPS.pdf	1	CAPM-7343-X-AVX	2917	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; TPS.pdf
+C	AVX	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	D	"0.122"" (3.10mm)"	datasheets/capacitor/avx/TAJ.pdf	1	CAPM-7343-D-AVX	2917	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; TAJ.pdf
+C	AVX	tantalum	2917 (7343 Metric)	"0.287"" L x 0.169"" W (7.30mm x 4.30mm)"	-	E	"0.169"" (4.30mm)"	datasheets/capacitor/avx/TAJ.pdf	1	CAPM-7343-E-AVX	2917	polar	R4: KYOCERA AVX case dimensions (TAJ.pdf p.1; TAJ.pdf
 D	Cal-Chip	al-polymer	Radial, Can - SMD	"0.315"" Dia (8.00mm)"	-		"0.512"" (13.00mm)"	datasheets/capacitor/calchip/CCJ-SERIES-2.pdf	1				
 D	Cal-Chip	al-polymer	Radial, Can - SMD	"0.394"" Dia (10.00mm)"	-		"0.551"" (14.00mm)"	datasheets/capacitor/calchip/CCJ-SERIES-2.pdf	3				
 D	Cal-Chip	aluminum	Radial, Can - SMD	"0.197"" Dia x 0.213"" L (5.00mm x 5.40mm)"	-		-	datasheets/capacitor/calchip/CV2-SERIES.pdf	1				

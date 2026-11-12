@@ -128,7 +128,7 @@ passing part: `buckets-empty.tsv` (bucket, rows tried, the reasons).
 Acceptance: every spec row is filled.
   Check: `awk -F'\t' 'NR>1 && ($4=="" || $5=="" || $7=="")' planning/plan-33-data/specs.tsv | wc -l` → 0 (est. 3 min per PDF; the reading is the work).
   Observed (after Phase 3's prune): `0`; `census/specs-prune.py` → `102 rows dropped, 84 kept, 0 kept rows without a scheme`.
-Commit: (this commit; hash in the next)
+Commit: 5b514d4
 
 ### Phase 2 — Check and walk
 
@@ -149,7 +149,7 @@ Commit: (this commit; hash in the next)
 Acceptance: § 1's second bullet.
   Check: the two `awk` commands of § 1 → 1048 and 0 (est. 10 min of runs).
   Observed: 1034 + 14 = 1048; `uniq -d` → 0; no `candidate` row.
-Commit: (this commit; hash in the next)
+Commit: 5b514d4
 
 ### Phase 3 — Skipped, obsolete, pruned
 
@@ -174,7 +174,7 @@ Commit: (this commit; hash in the next)
 Acceptance: the tree holds exactly the `add` rows' PDFs and every skip is listed.
   Check: `ls datasheets/capacitor/*/*.pdf | wc -l` equals `awk -F'\t' '$25=="add" {print $27}' planning/plan-33-data/candidates.tsv | sort -u | wc -l`; `decide.py --verify-skipped` → `0 …` (est. 2 min).
   Corrected check (§ Corrections 4): `ls datasheets/capacitor/*/*.pdf | wc -l` → 84 equals the distinct placed paths of the `add` rows' URLs (`place.py --verify` → `85 URLs, 84 PDFs, 0 missing, 0 unused`: two URLs are one file); `0 skip rows missing`.
-Commit: (this commit; hash in the next)
+Commit: 5b514d4
 
 ### Phase 4 — Footprint groups
 
@@ -191,7 +191,7 @@ Commit: (this commit; hash in the next)
 Acceptance: every `add` row is in a group.
   Check: `awk -F'\t' 'NR>1 {s+=$10} END{print s}' planning/plan-33-data/fpgroups.tsv` equals the `add` row count (est. 1 min).
   Observed: 1034 = 1034 (`302 groups (C 88, D 214), 1034 rows`).
-Commit: (this commit; hash in the next)
+Commit: 5b514d4
 
 ## Validation Plan
 

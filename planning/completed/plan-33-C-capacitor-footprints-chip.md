@@ -38,8 +38,8 @@ plan-33-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-33-B complete | `ls planning/completed/plan-33-B-*.md` → exists | NOT MET (2026-11-11: planning) |
-| No shipped footprint id starts with `CAP` | `grep -c '"id":"CAP' schematical/schematical/Parts/footprints.json` → 0 | MET (2026-11-11 at 8b1770b: 0) |
+| plan-33-B complete | `ls planning/completed/plan-33-B-*.md` → exists | MET (2026-11-11, at execution: 5b514d4) |
+| No shipped footprint id starts with `CAP` | `grep -c '"id":"CAP' schematical/schematical/Parts/footprints.json` → 0 | MET (2026-11-11 at 8b1770b: 0; at execution: 0) |
 
 Everything below is written against the world where these hold.
 
@@ -174,25 +174,32 @@ its own ids), so the generator's reuse of shipped identical geometry
 
 ### Phase 1 — Rules, generic chips, MLCC
 
-- [ ] `docs/parts-format.md` § Footprints: R8 and R9 after R7 (§ 4.1).
-- [ ] `census/fp-load.sh` (from plan-29, `/tmp/p33-fp.XXXXXX`).
-- [ ] `footprints-generic.json`: the four chip objects (§ 4.6).
-- [ ] `footprints-C.json`: one object per MLCC row of `fpgroups.tsv`;
-      fill the rows' columns.
+- [x] `docs/parts-format.md` § Footprints: R8 and R9 after R7 (§ 4.1).
+      (Landed in plan-33-E's commit d97e95d, § Corrections 1.)
+- [x] `census/fp-load.sh` (from plan-29, `/tmp/p33-fp.XXXXXX`), with
+      plan-29's `fp-merge.py`.
+- [x] `footprints-generic.json`: the four chip objects (§ 4.6).
+- [x] `footprints-C.json`: one object per MLCC row of `fpgroups.tsv`;
+      fill the rows' columns. `census/fp-build.py C` (the numbers
+      transcribed from each drawing, § Corrections 2): 11 MLCC objects
+      (KEMET 4, Cal-Chip 4, AVX 3) for the 17 MLCC rows.
 
 Acceptance: the MLCC and generic objects load.
   Check: `planning/plan-33-data/census/fp-load.sh planning/plan-33-data/footprints-C.json planning/plan-33-data/footprints-generic.json` → only extra / unused lines for the new ids (est. 3 min).
-Commit: —
+  Observed: `44 footprints appended`, `44 new footprints: load ok` (fp-merge.py's verdict: only extra / unused lines, for exactly the new ids).
+Commit: (this commit; hash in the next)
 
 ### Phase 2 — Molded chips
 
-- [ ] `footprints-C.json`: one object per molded-chip row (tantalum,
+- [x] `footprints-C.json`: one object per molded-chip row (tantalum,
       tantalum polymer, niobium oxide, aluminum polymer 7343); fill the
-      rows' columns.
+      rows' columns. 27 molded objects for the 71 molded rows (KEMET 7,
+      KYOCERA AVX 14, Cal-Chip 6).
 
 Acceptance: § 1, both bullets.
   Check: the `awk` of § 1 → 0, and the Phase 1 `fp-load.sh` command → only extra / unused lines (est. 3 min).
-Commit: —
+  Observed: `0`; `38 footprints in footprints-C.json`; `44 new footprints: load ok`.
+Commit: (this commit; hash in the next)
 
 ## Validation Plan
 
@@ -212,9 +219,34 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+1. **R8 / R9 text** went into `docs/parts-format.md` with plan-33-E's docs
+   commit (d97e95d), which edited the same file.
+2. **Numbers transcribed into a script.** `census/fp-build.py` holds each
+   drawing's numbers (with page and range) and applies the rules; every
+   object's `note` repeats them. One drawing per maker where its datasheets
+   print the same table: KEMET's MLCC land table is identical in C1002,
+   C1003, C1007, C1010 and C1091 (compared row by row); its tantalum /
+   polymer IPC table gives the same level-B numbers for every case of one
+   metric size (A/S2 3216, B/M/T 3528, C/U/L 6032, D/V/W/X/Y/Q 7343) in
+   T491, T495, T510, T52X, T59X and A700, so one object per metric size; the
+   AVX case tables (TAJ, TCJ, TPS, TPM, TLJ, NOJ, NOS, F92, F93, TAZ) print
+   the same L / W / W1 / A per case.
+3. **Rules used.** R1 for KEMET (IPC-7351 level B; JEITA RC-2371 min–max
+   mid-values for cases P and S, which have no IPC row) and for the KYOCERA
+   KGM 0603 (its catalog's recommended land, the `1.6 ±0.2` row: the
+   0603 100 µF part is a high-capacitance build); R4 for Cal-Chip GMC and TC /
+   PT, KYOCERA AVX MLCC (cx5r, X7R, KGM_X7R) and every AVX molded chip,
+   whose datasheets print no land pattern. TAC case L prints only a minimum
+   terminal spacing S (0.55), so its terminal length is (L − S) / 2.
+4. **Rows without DigiKey's size code** (5, one part each) take the case from
+   the part number (Cal-Chip `TCKOJ335AT` → A; KEMET `A700V…` → V,
+   `T597S…` → S).
+5. **No chip has `pin1Shape`**: § 4.2's pin 1 = `+` is pad 1 on the left;
+   the shape marker is the through-hole rule (R5).
 
 ## Summary
 
-C is drawing reading: at most 54 chip drawings plus 4 generic objects. The
+C is drawing reading: at most 54 chip drawings plus 4 generic objects.
+Done: 38 objects (11 MLCC, 27 molded) for the 88 C rows; the generator
+merges the identical ones. The
 rules (§ 4) are what D reuses; the only new ones are R8 and R9.
