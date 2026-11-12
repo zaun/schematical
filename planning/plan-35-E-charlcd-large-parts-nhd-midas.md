@@ -6,13 +6,13 @@ Depends on: plan-35-D
 
 E adds the 35 Newhaven and Midas parts to `Parts/charlcd.json`, one device
 per datasheet as plan-11-C did. It merges their 18 footprints from
-`footprints-C.json` into `footprints.json`, moves the five 16 × 2 parts to
-the `16x2` drawer leaf, and regenerates the goldens. `charlcd_test`'s
+`footprints-C.json` into `footprints.json` and regenerates the goldens.
+(The five 16 × 2 parts are already in the `16x2` drawer leaf: the leaf is
+`function`, Corrections 9.) `charlcd_test`'s
 real-part check stops listing five names and instead runs every `charlcd`
 part in the library. Two CPU boards show the new geometry end to end.
 
-Outcome of E: parts.txt P0 + 35 lines (5 lines change only in the drawer
-field), traces.txt P0 + 35 (no hash changes), footprints.txt F0 + 18;
+Outcome of E: parts.txt P0 + 35 lines (no line changes), traces.txt P0 + 35 (no hash changes), footprints.txt F0 + 18;
 `ctest` passes.
 
 References:
@@ -48,9 +48,8 @@ Everything below is written against the world where these hold.
 - `grep -c '|charlcd|' backend/tests/golden/parts.txt` → 5 + 35 = 40.
 - `wc -l < backend/tests/golden/parts.txt` → P0 + 35; `traces.txt` the
   same; `footprints.txt` → F0 + 18 (17 at planning; plan-35-C Corrections 1).
-- `git diff backend/tests/golden/parts.txt | grep -c '^-[^-]'` → 5, each a
-  16 × 2 line whose only change is `Displays/Character` →
-  `Displays/Character/16x2`; `git diff backend/tests/golden/traces.txt | grep -c '^-[^-]'` → 0.
+- `git diff backend/tests/golden/parts.txt | grep -c '^-[^-]'` → 0 (was 5
+  drawer lines; moot, Corrections 9); `git diff backend/tests/golden/traces.txt | grep -c '^-[^-]'` → 0.
 - `ctest --test-dir /tmp/logic-p35` → `100% tests passed`.
 - `charlcd_test` shows text on every one of the 40 `charlcd` parts (§ 4.3)
   and passes the two CPU boards (§ 4.4).
@@ -58,8 +57,7 @@ Everything below is written against the world where these hold.
 ### Non-goals (explicit constraints)
 
 - No Focus part (F) and no app change (G).
-- No existing part's facts, pins, footprint or trace change, apart from
-  the drawer field of the five 16 × 2 parts.
+- No existing part's facts, pins, footprint or trace change.
 
 ## 2. Current State
 
@@ -114,7 +112,8 @@ Everything below is written against the world where these hold.
     device, so the part name is unique); none clashes with the five
     existing ids.
   - `function`: `20x4`, `40x2` or `40x4`.
-  - `drawer`: `["Displays", "Character", "<function>"]`.
+  - `drawer`: `["Displays", "Character"]`; the `function` is the leaf
+    (corrected, Corrections 9).
 - **Facts per device:**
   - `columns` / `rows` from the size;
   - `controller` as printed; `rom` `A00`;
@@ -147,12 +146,13 @@ Everything below is written against the world where these hold.
 - **MD24005 pin numbers:** the interface is 1–14, and the named backlight
   pads are numbered 15 A, 16 K(R), 17 K(G), 18 K(B) in the datasheet's
   listing order (as C's footprint).
-- **Drawer:** the five 16 × 2 devices change to
-  `["Displays", "Character", "16x2"]`.
+- **Drawer:** ~~the five 16 × 2 devices change to
+  `["Displays", "Character", "16x2"]`~~ — moot: they already list under
+  Displays → Character → 16x2 (Corrections 9).
 
 **Correctness gate:**
 
-- added-lines-only goldens, except the five drawer lines;
+- added-lines-only goldens;
 - `charlcd_test`'s every-part check (each part runs the init sequence
   through its own pins and shows text; two-enable parts on both
   controllers);
@@ -223,22 +223,35 @@ Check: `python3 -I planning/plan-35-data/census/gen-parts.py --check planning/pl
 → 35 rows, every key present, every pin count matching `candidates.tsv`
 (est. 1 min). — 2026-11-11: "35 rows ok".
 
-Commit: —
+Commit: 0420112
 
 ### Phase 2 — parts, footprints, goldens
 
-- [ ] Paste the generator's 35 devices into `charlcd.json`; change the
-      five 16 × 2 drawers to `16x2`.
-- [ ] Merge `footprints-C.json` into `footprints.json` with
+- [x] Paste the generator's 35 devices into `charlcd.json`; ~~change the
+      five 16 × 2 drawers to `16x2`~~ (moot, Corrections 9). — appended
+      after the five, in id order (`json.load` → 40 devices); every
+      device's drawer is `["Displays", "Character"]`.
+- [x] Merge `footprints-C.json` into `footprints.json` with
       `python3 -I planning/plan-35-data/census/fp-merge.py schematical/schematical/Parts/footprints.json planning/plan-35-data/footprints-C.json`
-      (it appends the objects, one line each, and refuses duplicates).
-- [ ] Regenerate the goldens (`docs/backend.md` § goldens:
+      (it appends the objects, one line each, and refuses duplicates). —
+      "18 footprints appended".
+- [x] Regenerate the goldens (`docs/backend.md` § goldens:
       `listing_check --print`, `trace_check --print`, `footprint_check --print`)
       and hand-check five new parts.txt lines, one per pinout shape,
-      against their PDFs.
+      against their PDFs. — NHD-0420DZ-FL-YBW (p16: pins p.3, VDD
+      4.5–5.5 p.4), MC42004A6W-SPR-V2 (p16-nc: 15/16 NC, p.2 table),
+      MD24005A6W-FPTLRGB (p18-rgb-pads: 15 A, 16–18 K(R/G/B)),
+      NHD-0440AZ-RN-FBW (p18-dual-nc: 9 E1, 15 E2, 16–18 NC, no
+      backlight, `bus=11,10,9,15,…`), MD44005A6W-FPTLRGB (p20-rgb-dual:
+      17 LED+, 18 K(B), 19 K(G), 20 K(R), `enables=2`) — each matches its
+      pin table.
 
 Check: § 1's three line counts and the two `grep -c '^-[^-]'` checks;
-`ctest --test-dir /tmp/logic-p35` → `100% tests passed` (est. 5 min).
+`ctest --test-dir /tmp/logic-p35` → `100% tests passed` (est. 5 min). —
+2026-11-11: parts.txt 26764 (P0 26729 + 35), traces.txt 26764,
+footprints.txt 1230 (F0 1212 + 18), `grep -c '|charlcd|'` → 40,
+`git diff backend/tests/golden | grep -c '^-[^-]'` → 0; ctest "100% tests
+passed, 0 tests failed out of 30".
 
 Commit: —
 
@@ -260,8 +273,9 @@ Per-phase checks. The landing tier is H.
 
 - **One device per datasheet** (plan-11-C rule, author).
 - **Size leaves under Displays → Character** (author): with 72 character
-  LCDs after F, a single leaf would be a long, mixed list. The 16 × 2
-  parts move to `16x2` so the leaf has no loose parts beside size folders.
+  LCDs after F, a single leaf would be a long, mixed list. The leaf is the
+  device's `function` (`16x2`, `20x4`, `40x2`, `40x4`), so the 16 × 2
+  parts were already in theirs (Corrections 9).
 - **Exec and timing from `ST7066U.pdf` where the module prints none**
   (author): the Midas PDFs send the reader to it, and the 3 Newhaven PDFs
   name it as their controller.
@@ -306,6 +320,19 @@ Phase 1 (2026-11-11, evidence = the PDFs' own pages, in each device note):
 8. **RGB cathode order differs per module**: MD42004 and MD44005 number
    K(B), K(G), K(R); MD42005C numbers K(R), K(G), K(B). Pins are as
    printed; every `backlight` array is Red, Green, Blue by name.
+
+Phase 2 (2026-11-11):
+
+9. **The drawer leaf is `function`, not a third `drawer` level.**
+   `docs/parts-format.md` § device keys: `"drawer"` is "the parts-drawer
+   path above the function: 0–2 strings"; `library.c:685` rejects a third
+   level (`"drawer" has at most 2 levels`, measured: the first paste with
+   `["Displays", "Character", "16x2"]` failed to load). The five 16 × 2
+   devices already have `"function": "16x2"`, so they already list under
+   Displays → Character → 16x2: the drawer move is moot, the new devices
+   use `["Displays", "Character"]` with `function` 20x4 / 40x2 / 40x4
+   (gen-parts.py corrected), and parts.txt changes no existing line (§ 1
+   corrected from 5 to 0).
 
 ## Summary
 

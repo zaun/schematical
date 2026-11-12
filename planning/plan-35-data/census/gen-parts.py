@@ -130,7 +130,7 @@ def device(r, c):
         'id': r['device'],
         'function': size,
         'description': '%s character LCD module, %s, %s, %s' % (size, PANEL[c['panel']], r['optics'], bdesc),
-        'drawer': ['Displays', 'Character', size],
+        'drawer': ['Displays', 'Character'],
         'note': r['note'],
         'pinouts': {c['pinout']: pinout},
         'columns': cols,
