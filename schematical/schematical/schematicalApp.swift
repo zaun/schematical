@@ -52,6 +52,7 @@ struct schematicalApp: App {
             DesignRuleCheckCommands()
             UndoCommands()
             EditCommands()
+            SimulationCommands()
             KeyboardHelpCommands()
         }
 

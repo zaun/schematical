@@ -97,7 +97,7 @@ nonisolated enum KeyboardHelp {
             entry("GND, Pull-down, VCC, Pull-up", "Click to place; the menu picks the supply voltage"),
         ]),
         HelpSection(title: "Simulation", entries: [
-            entry("⌘R", "Run or stop the simulation"),
+            entry("⇧⌘R", "Run or stop the simulation (Simulation menu, with Speed)"),
         ]),
         HelpSection(title: "Custom parts", entries: [
             entry("⇧⌘N", "New Part…: pick a kind, then fill in the Part Editor"),

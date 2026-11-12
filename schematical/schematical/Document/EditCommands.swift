@@ -72,8 +72,7 @@ struct EditCommands: Commands {
             Button("Select All") { perform(.selectAll) }
                 .keyboardShortcut("a", modifiers: .command)
             Divider()
-            // Flip is the Schematic's, Rotate the PCB's. On the Schematic
-            // the window's Run button takes ⌘R before this menu does.
+            // Flip is the Schematic's, Rotate the PCB's.
             Button("Flip") { _ = target?.flip() }
                 .keyboardShortcut("f", modifiers: .command)
                 .disabled(target?.canFlip != true)
@@ -81,6 +80,8 @@ struct EditCommands: Commands {
                 .keyboardShortcut("r", modifiers: .command)
                 .disabled(target?.canRotate != true)
             Button("Rotate Counterclockwise") { _ = target?.rotate(true) }
+                // Also Simulation › Run's: the window's key monitor sends
+                // ⇧⌘R to Rotate on the PCB and to Run on the Schematic.
                 .keyboardShortcut("r", modifiers: [.command, .shift])
                 .disabled(target?.canRotate != true)
             Divider()

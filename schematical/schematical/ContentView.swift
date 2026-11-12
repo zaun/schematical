@@ -81,16 +81,6 @@ struct ContentView: View {
     /// The supply the VCC tool places (a `SupplyChoice` name), an app preference.
     @AppStorage("supplyVoltage") private var supplyVoltage = SupplyChoice.defaultName
 
-    /// The speed menu's choices: real time down to 1/1,000,000.
-    private static let speeds: [(label: String, value: Double)] = [
-        ("1×", 1), ("1/10", 1e-1), ("1/100", 1e-2), ("1/1,000", 1e-3),
-        ("1/10,000", 1e-4), ("1/100,000", 1e-5), ("1/1,000,000", 1e-6),
-    ]
-
-    private var speedLabel: String {
-        Self.speeds.first { abs($0.value - simulationSpeed) < $0.value * 1e-6 }?.label ?? "1×"
-    }
-
     init() {
         let catalog = PartCatalogStore.shared
         let document = SchematicDocument(library: catalog.library)
@@ -169,7 +159,8 @@ struct ContentView: View {
 
     /// The editing keys, in this window only and never while a text field
     /// is being typed in: ⌘R presses Rotate on the PCB (when it is enabled)
-    /// and ⇧⌘R turns the other way; A steps the Trace tool's angle while
+    /// and ⇧⌘R turns the other way (on the Schematic ⇧⌘R runs or stops the
+    /// simulation); A steps the Trace tool's angle while
     /// Trace is the PCB tool; ⌘F flips the selected part or net label on the
     /// Schematic; ⌘⌫ deletes the selection (on the PCB only its texts, traces, vias and holes);
     /// ⌘C copies the selected traces on the PCB and ⌘V pastes them centred
@@ -187,9 +178,14 @@ struct ContentView: View {
                                          event.modifierFlags, isRepeat: event.isARepeat) else { return event }
             switch key {
             case .rotate:
-                // On the Schematic ⌘R is Run, so it is passed on.
                 guard rotateSelection() else { return event }
             case .rotateBack:
+                // ⇧⌘R is both Edit › Rotate Counterclockwise and Simulation ›
+                // Run; each menu item only works on its own page.
+                if page == .schematic {
+                    toggleSimulation()
+                    return nil
+                }
                 guard rotateSelection(counterclockwise: true) else { return event }
             case .flip:
                 guard flipSelection() else { return event }
@@ -272,6 +268,19 @@ struct ContentView: View {
             document.selectAllSchematic()
         }
         return true
+    }
+
+    /// Simulation › Run / Stop. Play mode starts with the Pointer (and PCB
+    /// Select) tool and nothing selected. The simulation is the Schematic
+    /// page's: nothing happens on the PCB.
+    private func toggleSimulation() {
+        guard page == .schematic else { return }
+        if !simulation.isRunning {
+            tool = .pointer
+            pcbTool = .select
+            document.clearAllSelections()
+        }
+        simulation.toggle(document: document)
     }
 
     /// The Edit menu's actions for this window.
@@ -396,6 +405,10 @@ struct ContentView: View {
         editor
             // Edit › Cut, Copy, Paste, Delete, Select All, Reset References.
             .focusedSceneValue(\.schematicEdit, editActions)
+            .focusedSceneValue(\.schematicSimulation, SimulationTarget(
+                isAvailable: page == .schematic, isRunning: simulation.isRunning, toggle: toggleSimulation))
+            // The speed is an app preference: every window runs at it.
+            .onChange(of: simulationSpeed) { _, speed in simulation.setSpeed(speed) }
             .alert("Reset References?", isPresented: $isConfirmingResetReferences) {
                 Button("Reset") { document.resetReferences(page: page) }
                 Button("Cancel", role: .cancel) {}
@@ -421,41 +434,9 @@ struct ContentView: View {
                 .inspectorColumnWidth(min: 350, ideal: 350, max: 500)
             }
             .toolbar {
-                // The simulation belongs to the Schematic page: the PCB page has
-                // no Run/Stop (so no ⌘R), speed menu or reached speed.
+                // Run/Stop and the speed are in the Simulation menu
+                // (`SimulationCommands`); only the slow-down notice is here.
                 if page == .schematic {
-                    ToolbarItem(placement: .navigation) {
-                        Button {
-                            if !simulation.isRunning {
-                                // Play mode starts with the Pointer (and PCB
-                                // Select) tool and nothing selected.
-                                tool = .pointer
-                                pcbTool = .select
-                                document.clearAllSelections()
-                            }
-                            simulation.toggle(document: document)
-                        } label: {
-                            Label(
-                                simulation.isRunning ? "Stop" : "Run",
-                                systemImage: simulation.isRunning ? "stop.fill" : "play.fill"
-                            )
-                        }
-                        .keyboardShortcut("r", modifiers: .command)
-                        .help(simulation.isRunning ? "Stop the simulation (⌘R)" : "Run the simulation (⌘R)")
-                    }
-
-                    ToolbarItem(placement: .navigation) {
-                        Menu(speedLabel) {
-                            ForEach(Self.speeds, id: \.value) { choice in
-                                Button(choice.label) {
-                                    simulationSpeed = choice.value
-                                    simulation.setSpeed(choice.value)
-                                }
-                            }
-                        }
-                        .help("Simulation speed: circuit time per real time")
-                    }
-
                     ToolbarItem(placement: .navigation) {
                         ReachedSpeedLabel(simulation: simulation)
                     }
