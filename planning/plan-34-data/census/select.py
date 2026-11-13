@@ -196,6 +196,19 @@ def main():
                 if m and '-re-' not in stem and any(
                         l == m.group(1) or l.startswith(m.group(1) + '/') for l in relisted.get(stem, [])):
                     continue
+                if m and '(stock ≥' not in line:
+                    # A listing down to a stock at or below the floor
+                    # (top.js TOP_MIN_QTY, plan-34-A § Corrections 3) of the
+                    # same piece, not itself cut, completes it.
+                    maker_stem = stem.split('-re-')[0]
+                    deep = [(int(q), cut) for e in glob.glob(os.path.join(raw, f'{maker_stem}-re-*.err'))
+                            for l in open(e)
+                            for (lab, cut, q) in re.findall(
+                                r'^piece (.*): \d+ of \d+( \(cut at 300: \d+\))?(?: \(both ends\))? \(stock ≥ (\d+)\)$', l)
+                            if lab == m.group(1) or lab.startswith(m.group(1) + '/')]
+                    if deep and all(q <= floor.get(cat, 0) and not cut for q, cut in deep):
+                        print(f"cap {os.path.basename(err)} {m.group(1)}: 300th stock {m.group(3)}, floor {floor.get(cat)} -> complete (listed down to stock {max(q for q, _ in deep)})")
+                        continue
                 if m:
                     ok = int(m.group(3)) < floor.get(cat, 0)
                     print(f"cap {os.path.basename(err)} {m.group(1)}: 300th stock {m.group(3)}, floor {floor.get(cat)} -> {'complete' if ok else 'NEEDS DEEPER LISTING'}")

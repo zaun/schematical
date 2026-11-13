@@ -21,6 +21,13 @@
 //   piece <label>: failed: HTTP 400 …
 // and the run goes on (one series answers "Parametric Filtering Not Support
 // at Parent Category Level", plan-34-A § Corrections 2).
+//
+// TOP_MIN_QTY=<n> in the environment lists only parts with at least n in
+// stock (plan-34-A § Corrections 3): a piece no facet splits below 300 is
+// complete for the pick when it is listed down to the category's floor.
+// Its piece lines end in ` (stock ≥ n)`. Such a piece of 301 to 600 parts
+// is listed from both ends (descending, then ascending by stock), so every
+// part of it is listed.
 'use strict';
 
 const fs = require('fs');
@@ -46,6 +53,7 @@ if (!creds.id || !creds.secret) {
   process.exit(1);
 }
 
+const MIN_QTY = Math.max(1, Number(process.env.TOP_MIN_QTY || 1));
 let tok = null;
 let calls = 0;
 let left = null;
@@ -84,11 +92,11 @@ async function search(filt, offset, retried) {
           Keywords: '', Limit: PAGE, Offset: offset,
           FilterOptionsRequest: {
             CategoryFilter: [{ Id: category }], ManufacturerFilter: [{ Id: maker }],
-            MinimumQuantityAvailable: 1, StatusFilter: [{ Id: '0' }, { Id: '4' }],
+            MinimumQuantityAvailable: MIN_QTY, StatusFilter: [{ Id: '0' }, { Id: '4' }],
             ParameterFilterRequest: { CategoryFilter: { Id: category }, ParameterFilters: filt.params },
             ...(filt.series ? { SeriesFilter: [{ Id: String(filt.series) }] } : {}),
           },
-          SortOptions: { Field: 'QuantityAvailable', SortOrder: 'Descending' },
+          SortOptions: { Field: 'QuantityAvailable', SortOrder: filt.ascending ? 'Ascending' : 'Descending' },
         }),
       });
       calls++;
@@ -196,8 +204,18 @@ async function piece(label, filt, used) {
     products.forEach((p) => emit(p, label));
     if (products.length) last = products[products.length - 1].QuantityAvailable;
   }
+  if (MIN_QTY > 1 && count > CAP && count <= 2 * CAP) {
+    // Bounded below by TOP_MIN_QTY, the piece is listed from both ends: the
+    // top 300 by stock above, the lowest count - 300 here; together, all.
+    for (let off = 0; off < count - CAP; off += PAGE) {
+      ((await search({ ...filt, ascending: true }, off)).Products || []).slice(0, count - CAP - off)
+        .forEach((p) => emit(p, label));
+    }
+    console.error(`piece ${label}: ${count} of ${count} (both ends) (stock ≥ ${MIN_QTY})`);
+    return;
+  }
   console.error(`piece ${label}: ${Math.min(count, CAP)} of ${count}` +
-    (count > CAP ? ` (cut at 300: ${last})` : ''));
+    (count > CAP ? ` (cut at 300: ${last})` : '') + (MIN_QTY > 1 ? ` (stock ≥ ${MIN_QTY})` : ''));
 }
 
 (async () => {

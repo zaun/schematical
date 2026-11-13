@@ -1,11 +1,25 @@
-top.js: rate limited: 
-            {
-                "type": "https://www.rfc-editor.org/rfc/rfc6585.html#section-4",
-                "title": "Too Many Requests",
-                "status": 429,
-                "detail": "Daily Ratelimit exceeded. Please try again after the number of seconds in the Retry-After header",
-                "instance": "",
-                "correlationId": "d2a044eb-cf76-467e-f439-40ab5ca64659",
-                "errors": {}
-            }
-        ; 1 calls, 0 left
+piece ±1%/0402 (1005 Metric)/AA: 24 of 24
+piece ±1%/0402 (1005 Metric)/AC/0.063W, 1/16W/±50ppm/°C: 1 of 1
+piece ±1%/0402 (1005 Metric)/AC/0.063W, 1/16W/±100ppm/°C: 300 of 533 (cut at 300: 16075)
+piece ±1%/0402 (1005 Metric)/AC/0.063W, 1/16W/±200ppm/°C: 27 of 27
+piece ±1%/0402 (1005 Metric)/AC/0.125W, 1/8W: 98 of 98
+piece ±1%/0402 (1005 Metric)/AF: 177 of 177
+piece ±1%/0402 (1005 Metric)/AR: 4 of 4
+piece ±1%/0402 (1005 Metric)/AT: 15 of 15
+piece ±1%/0402 (1005 Metric)/PA: 2 of 2
+piece ±1%/0402 (1005 Metric)/PA0402: 1 of 1
+piece ±1%/0402 (1005 Metric)/PE_L: 27 of 27
+piece ±1%/0402 (1005 Metric)/PT: 19 of 19
+piece ±1%/0402 (1005 Metric)/RC_L/-: 31 of 31
+piece ±1%/0402 (1005 Metric)/RC_L/Moisture Resistant/0.063W, 1/16W/±100ppm/°C: 300 of 942 (cut at 300: 109184)
+piece ±1%/0402 (1005 Metric)/RC_L/Moisture Resistant/0.063W, 1/16W/±200ppm/°C: 71 of 71
+piece ±1%/0402 (1005 Metric)/RC_L/Moisture Resistant/0.125W, 1/8W: 29 of 29
+piece ±1%/0402 (1005 Metric)/RC_P: 152 of 152
+piece ±1%/0402 (1005 Metric)/RE: 36 of 36
+piece ±1%/0402 (1005 Metric)/RL: 20 of 20
+piece ±1%/0402 (1005 Metric)/RP: 6 of 6
+piece ±1%/0402 (1005 Metric)/RT/-/±25ppm/°C: 8 of 8
+piece ±1%/0402 (1005 Metric)/RT/-/±50ppm/°C: 300 of 301 (cut at 300: 13)
+piece ±1%/0402 (1005 Metric)/RT/Moisture Resistant: 16 of 16
+piece ±1%/0402 (1005 Metric)/SR: 21 of 21
+top.js: 52/13: 1685 parts, 55 calls, 522 left today

@@ -334,17 +334,27 @@ below the floor → the piece is complete for the pick; at or above →
       delete the four `-re-` files, whose runs the quota cut.
       Done 2026-11-13: `ls /tmp/p34/raw | wc -l` → 27 (9 `.jsonl`, 9 `.err`,
       9 `.done`); each base `.err` ends with `top.js:`; no `-re-` file left.
-- [ ] On a day with ≥ 600 calls left: `planning/plan-34-data/census/recheck.sh
-      /tmp/p34/raw` (the five lines of § 2's cut row).
-- [ ] `python3 -I planning/plan-34-data/census/select.py /tmp/p34/raw
+- [x] On a day with ≥ 600 calls left: `planning/plan-34-data/census/recheck.sh
+      /tmp/p34/raw` (the five lines of § 2's cut row). Run 2026-11-13 (999
+      left at start): YAGEO `52/13: 1685 parts, 55 calls`, `52/13: 1867
+      parts, 59 calls`, `53/13: 1490 parts, 42 calls`, `53/13: 2500 parts,
+      72 calls`; Dale ±1% stopped after 80 pieces (244 calls) on an HTTP 400
+      and was resumed (§ Corrections 2): `52/541: 9426 parts, 115 calls, 236
+      left today`.
+- [x] `python3 -I planning/plan-34-data/census/select.py /tmp/p34/raw
       /tmp/p34/cand.tsv --report`; for each `NEEDS DEEPER LISTING` line add a
       `recheck.sh` line (§ 5 rule 1) and run it; repeat until there is none,
-      or record the unsplittable piece in § Corrections.
-- [ ] Compare the counts with § 2; a different count goes into § Corrections
-      with the date and is carried into B's goal table.
+      or record the unsplittable piece in § Corrections. One piece remained
+      (YAGEO ±1% 0402 RC_L / Moisture Resistant / 1/16W / ±100ppm, 942
+      parts, unsplittable by `SPLITS`); `52-yageo-re-3` listed it down to
+      stock 75000 from both ends (§ Corrections 3, 39 calls). Then:
+      `select.py … --report | grep -c 'NEEDS DEEPER'` → 0.
+- [x] Compare the counts with § 2; a different count goes into § Corrections
+      with the date and is carried into B's goal table (§ Corrections 4).
 
 Acceptance: every piece is complete for the pick.
   Check: `python3 -I planning/plan-34-data/census/select.py /tmp/p34/raw /tmp/p34/cand.tsv --report | grep -c 'NEEDS DEEPER'` → 0, or each remaining line is in § Corrections (est. 1 quota day; nothing smaller completes the listing).
+  Result (2026-11-13): 0. The listing is stored in `planning/plan-34-data/raw/` (30 files; the cut `-re-` runs of planning time replaced).
 Commit: —
 
 ### Phase 2 — Part-by-part stock check (one to two quota days)
@@ -470,6 +480,42 @@ Commit: —
    `"kind": "resistor"`) → 0. For E: plans 36 and 37 are open and also append
    a `PartKind`. E appends `PART_RESISTOR` after whatever value is last
    when E runs.
+2. **HTTP 400 pieces; `top.js` resume (2026-11-13).** Dale chip ±1%'s
+   re-listing stopped after 80 pieces (244 calls): DigiKey answered three
+   series pieces with `HTTP 400 … Parametric Filtering Not Support at
+   Parent Category Level`, and `top.js` treated that as fatal. It now writes
+   `piece <label>: failed: HTTP 400 …` and goes on (`select.py --report`
+   prints them as `FAILED PIECE`), and resumes from `<stem>.resume` (a copy
+   of the cut run's `.err`), so only the unfinished pieces cost calls (115,
+   not another 244+). The three refused series, listed without the
+   tolerance filter (`dk.sh --category 52 --manufacturer 541 --series …`,
+   2 calls each): `RCC` 1 part (`RCC040268K0FKED`, Automotive AEC-Q200:
+   out), `WFM` 1 part (`WFMB2512R3300FEA`, Automotive and Current Sense:
+   out), `Military, MIL-PRF-55342, RM0505` 1 part (`M55342K02B10E0RWB`,
+   stock 114, far below the chip floor 89346). None of them can be picked,
+   so the listing is complete for the pick without them.
+3. **An unsplittable piece listed by stock bound (2026-11-13).** YAGEO ±1%
+   0402 / RC_L / Moisture Resistant / 1/16W / ±100ppm (942 parts) is
+   split by no facet of `SPLITS`, and its 300th part (stock 109184) was
+   above the chip floor. A part below the floor is never picked, and
+   adding rows only raises the floor. So `top.js` got `TOP_MIN_QTY`, which
+   lists only parts with at least that stock (DigiKey's
+   `MinimumQuantityAvailable`). A bounded piece of 301–600 parts is listed
+   from both ends: the 300 most-stocked, then the rest by ascending stock.
+   `recheck.sh`'s line `MINQ=75000 run 52-yageo-re-3 …`: `474 of 474 (both
+   ends) (stock ≥ 75000)`. `select.py` counts a cut piece as complete when
+   a listing of it (same category and maker) reaches down to a stock at or
+   below the floor.
+4. **Counts after Phase 1 (2026-11-13; B's goal table uses these).**
+   Listed 24770 parts (§ 2: 14882); picked 1994 (chip 1500, through-hole
+   400, arrays 94), the same total. Per maker: YAGEO chip 1264,
+   through-hole 395, arrays 76; Vishay Dale 223 / 4 / 8; Viking Tech 13 /
+   1 / 10 (§ 2: YAGEO 1188 / 384 / 76, Dale 299 / 15 / 8, Viking 13 / 1 /
+   10). Floors: chip 89346, through-hole 11752, arrays 26 (§ 2: 72373,
+   8982, 26). Out: automotive 12348, current-sense 436, duplicate 2670,
+   below quota 7322. Listing cost: 632 calls (listing 586, the three
+   series probes 6, plus 40 for the min-stock piece). Command:
+   `python3 -I planning/plan-34-data/census/select.py /tmp/p34/raw /tmp/p34/cand.tsv --report`.
 
 ## Summary
 
