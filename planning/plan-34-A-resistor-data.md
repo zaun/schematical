@@ -374,6 +374,12 @@ Commit: bbb514a
       `specs-skeleton.py`, which merges) and their checks (§ Corrections 6).
       Scripted with B–F's re-runs as `census/finish.sh`.
 - [ ] Run it on the picked rows from cut pieces (1778 at planning time);
+      Day 1 (2026-11-13 UTC): 172 checked, 172 `found` 1 (all Active), then
+      stopped at the reserve (`stopped with 19 calls left today`). On the
+      provisional final pick (`/tmp/p34/pick.tsv`, B's verdicts applied)
+      `cut-picked.py` lists the rest. A daily session cron at 14:13 HST
+      (after the ~00:00 UTC quota reset) continues the check. Saved in
+      `planning/plan-34-data/stock-check.tsv`.
       re-run `select.py --stock`; check the newly picked rows from cut
       pieces; repeat until none is unchecked. Copy the result to
       `planning/plan-34-data/stock-check.tsv`.
