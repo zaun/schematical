@@ -14,6 +14,10 @@ files and updates this map.
 | `census/run.sh` | wrapper (credentials from `~/.zshrc`; skips a piece with a `.done`) | planning |
 | `census/candidates.py` | builds `candidates.tsv` from `raw/` and the Parts directory: device, family, kind, scope | planning |
 | `census/footprints.py` | fills `footprint` and writes `footprints-needed.txt` | planning |
+| `census/nxget.py` | one Nexperia URL through `curl_cffi` (browser TLS); exit 1 unless a PDF | A |
+| `census/fetch.py` | one vendor PDF per source (plan-37-A § 3 rule 3) into `datasheets/register/` or `datasheets/ff-d/`; fills `pdf` or `skip`; writes `datasheets.tsv` | A |
+| `census/verdicts.py` | ordering-table verdicts (rules 4–5), `grade`; `--skipped` writes the `skipped-parts.md` section, `--verify-records` checks it | A |
+| `datasheets.tsv` | every plan-37 PDF: path under `datasheets/`, URL, bytes, SHA-256 | A; B adds the two Nexperia package drawings |
 
 Re-running the planning census (64 DigiKey calls on 2026-11-12: nexperia 29, onsemi 6, ti-p 14, ti-k 13, ti-k670 1, facets 1):
 
@@ -32,7 +36,8 @@ Known limits of the planning listing:
 
 - TI's 16- and 20-pin packages were listed by device number (the
   `ti-k<number>` keyword pieces), not in full: the day's DigiKey quota was
-  down to 3 calls. plan-37-A Phase 1 lists them in full.
+  down to 3 calls. plan-37-A Phase 1 listed them in full (the 20 `ti-p`
+  pieces of plan-37-A § 2; `raw/` now holds that listing, 47 pieces).
 - A "Number of Bits per Element" (parameter 2207) filter returns no products
   from the v4 API (`node census/list.js 706 1727 …` with that filter → `0
   products`), so pieces are cut by package, never by width.
