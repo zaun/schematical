@@ -1,0 +1,68 @@
+# plan-36 footprints needed (planning proxy, 2026-11-12): parts<TAB>maker<TAB>DigiKey Package / Case (ESP32: module device)<TAB>Supplier Device Package. C/D/E replace each line by the datasheet's package drawing code.
+4	Espressif Systems	ESP32-C3-MINI-1	module
+2	Espressif Systems	ESP32-C3-WROOM-02	module
+4	Espressif Systems	ESP32-C6-MINI-1	module
+4	Espressif Systems	ESP32-C6-WROOM-1	module
+3	Espressif Systems	ESP32-MINI-1	module
+4	Espressif Systems	ESP32-S2-MINI-2	module
+1	Espressif Systems	ESP32-S2-SOLO	module
+4	Espressif Systems	ESP32-S2-SOLO-2	module
+3	Espressif Systems	ESP32-S3-MINI-1	module
+11	Espressif Systems	ESP32-S3-WROOM-1	module
+4	Espressif Systems	ESP32-WROOM-32	module
+2	Espressif Systems	ESP32-WROOM-DA	module
+5	Espressif Systems	ESP32-WROVER	module
+2	Microchip Technology	-	-
+4	Microchip Technology	10-VFDFN Exposed Pad	10-MLP (3x3)
+38	Microchip Technology	100-TQFP	100-TQFP (14x14)
+4	Microchip Technology	100-VFBGA	100-VFBGA (7x7)
+1	Microchip Technology	12-UFBGA, WLCSP	12-WLCSP (1.56x1.4)
+3	Microchip Technology	14-DIP (0.300", 7.62mm)	14-PDIP
+99	Microchip Technology	14-SOIC (0.154", 3.90mm Width)	14-SOIC
+23	Microchip Technology	14-TSSOP (0.173", 4.40mm Width)	14-TSSOP
+6	Microchip Technology	15-UFBGA	15-UFBGA (3x3)
+8	Microchip Technology	20-DIP (0.300", 7.62mm)	20-PDIP
+83	Microchip Technology	20-SOIC (0.295", 7.50mm Width)	20-SOIC
+22	Microchip Technology	20-SSOP (0.209", 5.30mm Width)	20-SSOP
+10	Microchip Technology	20-TSSOP (0.173", 4.40mm Width)	20-TSSOP
+69	Microchip Technology	20-VFQFN Exposed Pad	20-VQFN (3x3)
+1	Microchip Technology	20-WFQFN Exposed Pad	20-QFN (4x4)
+44	Microchip Technology	20-WFQFN Exposed Pad	20-QFN-EP (4x4)
+4	Microchip Technology	24-SOIC (0.295", 7.50mm Width)	24-SOIC
+24	Microchip Technology	24-VFQFN Exposed Pad	24-VQFN (4x4)
+7	Microchip Technology	24-VFQFN Exposed Pad	24-QFN (4x4)
+14	Microchip Technology	28-DIP (0.300", 7.62mm)	28-PDIP
+28	Microchip Technology	28-DIP (0.300", 7.62mm)	28-SPDIP
+31	Microchip Technology	28-SOIC (0.295", 7.50mm Width)	28-SOIC
+56	Microchip Technology	28-SSOP (0.209", 5.30mm Width)	28-SSOP
+45	Microchip Technology	28-VFQFN Exposed Pad	28-VQFN (4x4)
+159	Microchip Technology	32-TQFP	32-TQFP (7x7)
+3	Microchip Technology	32-UFBGA	32-UFBGA (4x4)
+2	Microchip Technology	32-UFQFN Exposed Pad	32-UQFN (4x4)
+129	Microchip Technology	32-VFQFN Exposed Pad	32-VQFN (5x5)
+6	Microchip Technology	32-VFQFN Exposed Pad	32-QFN (5x5)
+7	Microchip Technology	32-VFQFN Exposed Pad	32-VFQFN (5x5)
+3	Microchip Technology	32-VQFN Exposed Pad	32-QFN (7x7)
+14	Microchip Technology	40-DIP (0.600", 15.24mm)	40-PDIP
+4	Microchip Technology	44-LCC (J-Lead)	44-PLCC (16.6x16.6)
+85	Microchip Technology	44-TQFP	44-TQFP (10x10)
+60	Microchip Technology	44-VFQFN Exposed Pad	44-VQFN (7x7)
+2	Microchip Technology	44-VQFN Dual Rows, Exposed Pad	44-QFN (5x5)
+1	Microchip Technology	48-LQFP	48-LQFP (7x7)
+39	Microchip Technology	48-TQFP	48-TQFP (7x7)
+4	Microchip Technology	48-UFQFN Exposed Pad	48-UQFN (6x6)
+27	Microchip Technology	48-VFQFN Exposed Pad	48-VQFN (6x6)
+9	Microchip Technology	49-VFBGA	49-VFBGA (5x5)
+110	Microchip Technology	64-TQFP	64-TQFP (14x14)
+13	Microchip Technology	64-TQFP	64-TQFP (10x10)
+10	Microchip Technology	64-VFQFN Exposed Pad	64-VQFN (9x9)
+65	Microchip Technology	64-VFQFN Exposed Pad	64-QFN (9x9)
+4	Microchip Technology	64-VQFN Dual Rows, Exposed Pad	64-QFN (7x7)
+9	Microchip Technology	8-DIP (0.300", 7.62mm)	8-PDIP
+33	Microchip Technology	8-SOIC (0.154", 3.90mm Width)	8-SOIC
+28	Microchip Technology	8-SOIC (0.209", 5.30mm Width)	8-SOIC
+4	Microchip Technology	8-TSSOP (0.173", 4.40mm Width)	8-TSSOP
+1	Microchip Technology	8-UFDFN Exposed Pad	8-UDFN (2x3)
+3	Microchip Technology	8-UFDFN Exposed Pad	8-UDFN, USON
+8	Microchip Technology	SOT-23-6	SOT-23-6
+2	Raspberry Pi	56-VFQFN Exposed Pad	56-QFN (7x7)

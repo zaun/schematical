@@ -34,7 +34,7 @@ import SwiftUI
 /// - Net Label: click to add a net label there (or on a label, to select
 ///   it); its name and type are edited in the sidebar. Then back to the
 ///   Pointer tool. Labels with the same name are one net. With the
-///   Pointer, a label drags like a part, and F flips it.
+///   Pointer, a label drags like a part, and ⌘F flips it.
 /// - Text: click to add a text block there (or on a block, to select it);
 ///   its words are edited in the sidebar. Then back to the Pointer tool.
 ///   With the Pointer, a text block drags like a part, and a double-click

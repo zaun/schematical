@@ -48,7 +48,7 @@ nonisolated enum KeyboardHelp {
 
     /// Shared by both pages.
     static let window = HelpSection(title: "Window", entries: [
-        entry("⌘N", "New window"),
+        entry("⌘N", "New Project"),
         entry("⌘O", "Open a schematic"),
         entry("⌘S / ⇧⌘S", "Save / Save As"),
         entry("⌘Z / ⇧⌘Z", "Undo / Redo on the page shown"),
@@ -72,10 +72,13 @@ nonisolated enum KeyboardHelp {
                   "Open its window (in play mode too)"),
         ]),
         HelpSection(title: "Editing", entries: [
-            entry("F", "Flip the selected part or net label left to right"),
+            entry("⌘F", "Flip the selected part or net label left to right"),
             entry("⌘⌫", "Delete the selection"),
+            entry("⌘A", "Select everything"),
+            entry("⌘X", "Cut the selected parts, labels, text and wires"),
             entry("⌘C", "Copy the selected parts, labels, text and wires"),
             entry("⌘V", "Paste, centred on the pointer"),
+            entry("Edit › Reset References…", "Give every part its default prefix and number them again"),
             entry("Click a switch lever", "Flip that DIP switch position (also in play mode)"),
         ]),
         HelpSection(title: "Line and Bus tools (while dragging)", entries: [
@@ -94,7 +97,7 @@ nonisolated enum KeyboardHelp {
             entry("GND, Pull-down, VCC, Pull-up", "Click to place; the menu picks the supply voltage"),
         ]),
         HelpSection(title: "Simulation", entries: [
-            entry("⌘R", "Run or stop the simulation"),
+            entry("⇧⌘R", "Run or stop the simulation (Simulation menu, with Speed)"),
         ]),
         HelpSection(title: "Custom parts", entries: [
             entry("⇧⌘N", "New Part…: pick a kind, then fill in the Part Editor"),
@@ -116,8 +119,11 @@ nonisolated enum KeyboardHelp {
             entry("⇧-drag empty space", "Box-select: add every shown item the box touches"),
         ]),
         HelpSection(title: "Editing", entries: [
-            entry("R or ⌥⌘R", "Rotate the selected footprint or text 90°"),
+            entry("⌘R", "Rotate the selected footprint or text 90° clockwise"),
+            entry("⇧⌘R", "Rotate it 90° counterclockwise"),
             entry("⌘⌫", "Delete the selected texts, traces, vias and holes (footprints stay)"),
+            entry("⌘A", "Select every shown footprint, text, trace, via and hole"),
+            entry("⌘X", "Cut the selected traces"),
             entry("⌘C", "Copy the selected traces"),
             entry("⌘V", "Paste traces, centred on the pointer"),
         ]),

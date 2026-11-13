@@ -166,6 +166,16 @@ final class SchematicFileController {
         claimedOpen = Self.pendingOpens.removeFirst()
     }
 
+    /// File › New Project: the window about to open becomes a tab of the
+    /// focused schematic window, or else of the frontmost schematic window.
+    /// With none open it is a window of its own.
+    static func tabNewProject(focused: SchematicFileController?) {
+        let visible = all.allObjects.compactMap(\.window).filter(\.isVisible)
+        let front = NSApp.orderedWindows.first { visible.contains($0) }
+        guard let group = focused?.window ?? front else { return }
+        tabNextWindow(into: group)
+    }
+
     /// Makes the next schematic window that opens a tab of `group`, the way
     /// document apps open a file: straight into a tab, never as a window of
     /// its own first. It is caught as it becomes key, which is before its
@@ -248,6 +258,38 @@ final class SchematicFileController {
             throw ExportError.nothingToExport
         }
         try data.write(to: url, options: .atomic)
+    }
+
+    /// Asks where to save the board's Gerber files, then writes them there
+    /// as one zip (`GerberExport`). Like any export, not a save.
+    func exportGerber() async {
+        let panel = NSSavePanel()
+        panel.allowedContentTypes = [.zip]
+        panel.canCreateDirectories = true
+        panel.nameFieldStringValue = "\(displayName) Gerbers.zip"
+        if let fileURL {
+            panel.directoryURL = fileURL.deletingLastPathComponent()
+        }
+        guard await run(panel) == .OK, let url = panel.url else { return }
+        do {
+            try writeGerber(to: url)
+        } catch {
+            present(error, title: "Couldn't export “\(displayName)”")
+        }
+    }
+
+    /// Writes the board's Gerber zip to `url`; its files are named after the
+    /// schematic. Throws for a failed write.
+    func writeGerber(to url: URL) throws {
+        try GerberExport.zip(for: document, base: gerberBaseName).write(to: url, options: .atomic)
+    }
+
+    /// The schematic's name with anything but letters, digits, `-` and `_`
+    /// as `_`, so every fab's upload takes the file names.
+    var gerberBaseName: String {
+        let allowed = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "-_"))
+        let name = String(displayName.unicodeScalars.map { $0.isASCII && allowed.contains($0) ? Character($0) : "_" })
+        return name.isEmpty ? "board" : name
     }
 
     enum ExportError: LocalizedError {
@@ -388,6 +430,21 @@ extension FocusedValues {
     @Entry var schematicFile: SchematicFileController?
 }
 
+/// File › New Project (⌘N): a new, empty schematic, as a tab of the
+/// schematic window in front.
+struct NewProjectMenuItem: View {
+    let file: SchematicFileController?
+    @Environment(\.openWindow) private var openWindow
+
+    var body: some View {
+        Button("New Project") {
+            SchematicFileController.tabNewProject(focused: file)
+            openWindow(id: "schematic")
+        }
+        .keyboardShortcut("n", modifiers: .command)
+    }
+}
+
 /// File menu items for the focused window's schematic. In a Part Editor
 /// window (plan-32-C) Open… and Save are that window's Open Part… and Save
 /// Part…, so each key has one item.
@@ -396,6 +453,13 @@ struct SchematicFileCommands: Commands {
     @FocusedValue(\.partEditor) private var editor
 
     var body: some Commands {
+        // SwiftUI fills File › New with a submenu naming every WindowGroup
+        // (Memory, Processor, Terminal, …); those open from their parts, so
+        // the File menu offers only a new schematic window.
+        CommandGroup(replacing: .newItem) {
+            NewProjectMenuItem(file: file)
+        }
+
         CommandGroup(after: .newItem) {
             PartEditorCommands(editor: editor)
 

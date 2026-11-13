@@ -58,10 +58,13 @@ struct ContentView: View {
     @State private var terminalWindows: Set<TerminalWindowTarget> = []
     @State private var isBillOfMaterialsOpen = false
     @State private var isDesignRuleCheckOpen = false
-    /// Watches for the editing keys: R rotates, A changes the trace angle
-    /// and ⌘C / ⌘V copy and paste traces on the PCB, F flips on the
-    /// Schematic, ⌘C / ⌘V copy and paste its selection, ⌘⌫ deletes on both.
+    /// Watches for the editing keys: ⌘R / ⇧⌘R rotate, A changes the trace
+    /// angle and ⌘X / ⌘C / ⌘V cut, copy and paste traces on the PCB, ⌘F
+    /// flips on the Schematic, ⌘X / ⌘C / ⌘V cut, copy and paste its
+    /// selection, ⌘⌫ deletes and ⌘A selects all on both.
     @State private var editKeyMonitor: Any?
+    /// Edit › Reset References is asking whether to go on.
+    @State private var isConfirmingResetReferences = false
     /// The Trace tool's angle, kept until changed; not saved in the file.
     @State private var traceAngle = TraceRoute.defaultAngle
     /// The angle shown in the middle of the PCB after A, and how opaque it
@@ -77,16 +80,6 @@ struct ContentView: View {
     @AppStorage("simulationSpeed") private var simulationSpeed = 1.0
     /// The supply the VCC tool places (a `SupplyChoice` name), an app preference.
     @AppStorage("supplyVoltage") private var supplyVoltage = SupplyChoice.defaultName
-
-    /// The speed menu's choices: real time down to 1/1,000,000.
-    private static let speeds: [(label: String, value: Double)] = [
-        ("1×", 1), ("1/10", 1e-1), ("1/100", 1e-2), ("1/1,000", 1e-3),
-        ("1/10,000", 1e-4), ("1/100,000", 1e-5), ("1/1,000,000", 1e-6),
-    ]
-
-    private var speedLabel: String {
-        Self.speeds.first { abs($0.value - simulationSpeed) < $0.value * 1e-6 }?.label ?? "1×"
-    }
 
     init() {
         let catalog = PartCatalogStore.shared
@@ -125,14 +118,35 @@ struct ContentView: View {
         return !board.locked
     }
 
-    /// The Rotate button: turns the selected board text, else the selected
-    /// footprint.
-    private func rotateSelection() {
+    /// The Rotate button and ⌘R: turns the selected board text, else the
+    /// selected footprint, 90° clockwise; ⇧⌘R turns it the other way.
+    /// Returns whether it turned anything.
+    @discardableResult
+    private func rotateSelection(counterclockwise: Bool = false) -> Bool {
+        guard page == .pcb, canRotate else { return false }
         if let id = document.selectedTextID {
-            document.rotateText(id)
+            document.rotateText(id, counterclockwise: counterclockwise)
         } else if let id = document.selectedFootprintID {
-            document.rotateFootprint(id)
+            document.rotateFootprint(id, counterclockwise: counterclockwise)
         }
+        return true
+    }
+
+    /// ⌘F: flips the selected net label, else the selected part, on the
+    /// Schematic. Returns whether it flipped anything.
+    private func flipSelection() -> Bool {
+        if page == .schematic, !simulation.isRunning, let id = document.selectedNetLabelID {
+            document.flipNetLabel(id)
+            return true
+        }
+        guard let id = flippableChipID else { return false }
+        document.flipChip(id)
+        return true
+    }
+
+    /// Whether ⌘F has something to flip.
+    private var canFlip: Bool {
+        (page == .schematic && !simulation.isRunning && document.selectedNetLabelID != nil) || flippableChipID != nil
     }
 
     /// The part Flip would turn: the sole selected part on the Schematic,
@@ -144,15 +158,18 @@ struct ContentView: View {
     }
 
     /// The editing keys, in this window only and never while a text field
-    /// is being typed in: R presses Rotate on the PCB (when it is enabled);
-    /// A steps the Trace tool's angle while Trace is the PCB tool; F flips
-    /// the selected part or net label on the Schematic; ⌘⌫
-    /// deletes the selection (on the PCB only its texts and traces); ⌘C
-    /// copies the selected traces on the PCB and ⌘V pastes them centred on
-    /// the pointer (`TraceClipboard`); on the Schematic they copy the
+    /// is being typed in: ⌘R presses Rotate on the PCB (when it is enabled)
+    /// and ⇧⌘R turns the other way (on the Schematic ⇧⌘R runs or stops the
+    /// simulation); A steps the Trace tool's angle while
+    /// Trace is the PCB tool; ⌘F flips the selected part or net label on the
+    /// Schematic; ⌘⌫ deletes the selection (on the PCB only its texts, traces, vias and holes);
+    /// ⌘C copies the selected traces on the PCB and ⌘V pastes them centred
+    /// on the pointer (`TraceClipboard`); on the Schematic they copy the
     /// selection and paste it the same way (`SchematicClipboard`; not while
-    /// the simulation runs). Every other key, and a key with nothing to act
-    /// on, is left alone.
+    /// the simulation runs); ⌘X copies and then deletes what it copied; ⌘A
+    /// selects everything on the page. These are the Edit menu's items too
+    /// (`EditCommands`). Every other key, and a key with nothing to act on,
+    /// is left alone.
     private func installEditKeyMonitor() {
         guard editKeyMonitor == nil else { return }
         editKeyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
@@ -161,49 +178,119 @@ struct ContentView: View {
                                          event.modifierFlags, isRepeat: event.isARepeat) else { return event }
             switch key {
             case .rotate:
-                guard page == .pcb, canRotate else { return event }
-                rotateSelection()
-            case .flip:
-                if page == .schematic, !simulation.isRunning, let id = document.selectedNetLabelID {
-                    document.flipNetLabel(id)
+                guard rotateSelection() else { return event }
+            case .rotateBack:
+                // ⇧⌘R is both Edit › Rotate Counterclockwise and Simulation ›
+                // Run; each menu item only works on its own page.
+                if page == .schematic {
+                    toggleSimulation()
                     return nil
                 }
-                guard let id = flippableChipID else { return event }
-                document.flipChip(id)
+                guard rotateSelection(counterclockwise: true) else { return event }
+            case .flip:
+                guard flipSelection() else { return event }
             case .angle:
                 guard page == .pcb, pcbTool == .trace else { return event }
                 traceAngle = TraceRoute.nextAngle(after: traceAngle)
                 flashAngle(traceAngle)
             case .delete:
-                let deleted = page == .pcb
-                    ? document.deleteBoardSelection()
-                    : !simulation.isRunning && document.deleteSchematicSelection()
-                guard deleted else { return event }
+                guard deleteSelection() else { return event }
+            case .cut:
+                guard cutSelection() else { return event }
             case .copy:
-                if page == .schematic {
-                    guard let copied = document.schematicCopy() else { return event }
-                    SchematicClipboard.copy(copied)
-                    return nil
-                }
-                let copied = document.selectedTraces()
-                guard !copied.isEmpty else { return event }
-                TraceClipboard.copy(copied)
+                guard copySelection() else { return event }
             case .paste:
-                if page == .schematic {
-                    guard !simulation.isRunning, let copied = SchematicClipboard.contents else { return event }
-                    let offset = schematicPointer.point.map { SchematicClipboard.offset(centring: copied, on: $0) }
-                        ?? SchematicClipboard.nextOffset()
-                    document.pasteSchematic(copied, offset: offset)
-                    return nil
-                }
-                guard !TraceClipboard.traces.isEmpty else { return event }
-                let copied = TraceClipboard.traces
-                let offset = boardPointer.point.map { TraceClipboard.offset(centring: copied, on: $0, grid: document.board.traceGrid) }
-                    ?? TraceClipboard.nextOffset()
-                document.pasteTraces(copied, offset: offset)
+                guard pasteClipboard() else { return event }
+            case .selectAll:
+                selectAll()
             }
             return nil
         }
+    }
+
+    // MARK: Edit menu
+
+    /// ⌘⌫: deletes the selection (on the PCB only its texts, traces,
+    /// vias and holes). Returns whether anything was deleted.
+    private func deleteSelection() -> Bool {
+        page == .pcb
+            ? document.deleteBoardSelection()
+            : !simulation.isRunning && document.deleteSchematicSelection()
+    }
+
+    /// ⌘C: the Schematic selection to `SchematicClipboard`, or the selected
+    /// traces to `TraceClipboard`. Returns whether anything was copied.
+    private func copySelection() -> Bool {
+        if page == .schematic {
+            guard let copied = document.schematicCopy() else { return false }
+            SchematicClipboard.copy(copied)
+            return true
+        }
+        let copied = document.selectedTraces()
+        guard !copied.isEmpty else { return false }
+        TraceClipboard.copy(copied)
+        return true
+    }
+
+    /// ⌘X: copies as ⌘C, then deletes what was copied (on the PCB, the
+    /// selected traces). Not on the Schematic while the simulation runs.
+    private func cutSelection() -> Bool {
+        if page == .schematic {
+            guard !simulation.isRunning, copySelection() else { return false }
+            return document.deleteSchematicSelection(named: "Cut")
+        }
+        guard copySelection() else { return false }
+        return document.cutBoardTraces()
+    }
+
+    /// ⌘V: pastes centred on the pointer, or one step on from the last
+    /// paste with the pointer off the page. Returns whether it pasted.
+    private func pasteClipboard() -> Bool {
+        if page == .schematic {
+            guard !simulation.isRunning, let copied = SchematicClipboard.contents else { return false }
+            let offset = schematicPointer.point.map { SchematicClipboard.offset(centring: copied, on: $0) }
+                ?? SchematicClipboard.nextOffset()
+            return document.pasteSchematic(copied, offset: offset)
+        }
+        guard !TraceClipboard.traces.isEmpty else { return false }
+        let copied = TraceClipboard.traces
+        let offset = boardPointer.point.map { TraceClipboard.offset(centring: copied, on: $0, grid: document.board.traceGrid) }
+            ?? TraceClipboard.nextOffset()
+        return !document.pasteTraces(copied, offset: offset).isEmpty
+    }
+
+    /// ⌘A: everything on the page shown (on the PCB, what is drawn).
+    @discardableResult
+    private func selectAll() -> Bool {
+        if page == .pcb {
+            document.selectAllBoard(visible: BoardVisibility(hidden: hiddenLayers))
+        } else {
+            document.selectAllSchematic()
+        }
+        return true
+    }
+
+    /// Simulation › Run / Stop. Play mode starts with the Pointer (and PCB
+    /// Select) tool and nothing selected. The simulation is the Schematic
+    /// page's: nothing happens on the PCB.
+    private func toggleSimulation() {
+        guard page == .schematic else { return }
+        if !simulation.isRunning {
+            tool = .pointer
+            pcbTool = .select
+            document.clearAllSelections()
+        }
+        simulation.toggle(document: document)
+    }
+
+    /// The Edit menu's actions for this window.
+    private var editActions: EditActions {
+        EditActions(cut: cutSelection, copy: copySelection, paste: pasteClipboard,
+                    delete: deleteSelection, selectAll: selectAll,
+                    flip: flipSelection, canFlip: canFlip,
+                    rotate: { rotateSelection(counterclockwise: $0) }, canRotate: page == .pcb && canRotate,
+                    resetReferences: { isConfirmingResetReferences = true },
+                    canResetReferences: !document.chips.isEmpty && !simulation.isRunning)
     }
 
     private func removeEditKeyMonitor() {
@@ -225,31 +312,33 @@ struct ContentView: View {
         }
     }
 
-    enum EditKey { case rotate, flip, angle, delete, copy, paste }
+    enum EditKey { case rotate, rotateBack, flip, angle, delete, cut, copy, paste, selectAll }
 
-    /// The editing key a press is: a bare R, F or A (no ⌘, ⌃, ⌥ or ⇧), or
-    /// ⌘⌫, ⌘C or ⌘V (⌘ alone). Never a held-key repeat. Nil for anything
-    /// else.
+    /// The editing key a press is: a bare A (no ⌘, ⌃, ⌥ or ⇧), ⇧⌘R, or
+    /// ⌘⌫, ⌘R, ⌘F, ⌘X, ⌘C, ⌘V or ⌘A (⌘ alone). Never a held-key repeat.
+    /// Nil for anything else.
     nonisolated static func editKey(keyCode: UInt16, _ characters: String?, _ modifiers: NSEvent.ModifierFlags,
                                     isRepeat: Bool) -> EditKey? {
         guard !isRepeat else { return nil }
         let held = modifiers.intersection([.command, .control, .option, .shift])
         // 51 is the Delete (backspace) key.
         if keyCode == 51 { return held == .command ? .delete : nil }
+        if held == [.command, .shift] {
+            return characters?.lowercased() == "r" ? .rotateBack : nil
+        }
         if held == .command {
             switch characters {
+            case "r": return .rotate
+            case "f": return .flip
+            case "x": return .cut
             case "c": return .copy
             case "v": return .paste
+            case "a": return .selectAll
             default: return nil
             }
         }
         guard held.isEmpty else { return nil }
-        switch characters {
-        case "r": return .rotate
-        case "f": return .flip
-        case "a": return .angle
-        default: return nil
-        }
+        return characters == "a" ? .angle : nil
     }
 
     @ViewBuilder
@@ -313,6 +402,22 @@ struct ContentView: View {
     }
 
     var body: some View {
+        editor
+            // Edit › Cut, Copy, Paste, Delete, Select All, Reset References.
+            .focusedSceneValue(\.schematicEdit, editActions)
+            .focusedSceneValue(\.schematicSimulation, SimulationTarget(
+                isAvailable: page == .schematic, isRunning: simulation.isRunning, toggle: toggleSimulation))
+            // The speed is an app preference: every window runs at it.
+            .onChange(of: simulationSpeed) { _, speed in simulation.setSpeed(speed) }
+            .alert("Reset References?", isPresented: $isConfirmingResetReferences) {
+                Button("Reset") { document.resetReferences(page: page) }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("Every part gets its default prefix back (U, or R and C for resistors and capacitors) and is numbered again from 1, top to bottom and left to right. You can undo this.")
+            }
+    }
+
+    private var editor: some View {
         pageContent
             .inspector(isPresented: inspectorBinding) {
                 ZStack {
@@ -329,47 +434,8 @@ struct ContentView: View {
                 .inspectorColumnWidth(min: 350, ideal: 350, max: 500)
             }
             .toolbar {
-                // The simulation belongs to the Schematic page: the PCB page has
-                // no Run/Stop (so no ⌘R), speed menu or reached speed.
-                if page == .schematic {
-                    ToolbarItem(placement: .navigation) {
-                        Button {
-                            if !simulation.isRunning {
-                                // Play mode starts with the Pointer (and PCB
-                                // Select) tool and nothing selected.
-                                tool = .pointer
-                                pcbTool = .select
-                                document.clearAllSelections()
-                            }
-                            simulation.toggle(document: document)
-                        } label: {
-                            Label(
-                                simulation.isRunning ? "Stop" : "Run",
-                                systemImage: simulation.isRunning ? "stop.fill" : "play.fill"
-                            )
-                        }
-                        .keyboardShortcut("r", modifiers: .command)
-                        .help(simulation.isRunning ? "Stop the simulation (⌘R)" : "Run the simulation (⌘R)")
-                    }
-
-                    ToolbarItem(placement: .navigation) {
-                        Menu(speedLabel) {
-                            ForEach(Self.speeds, id: \.value) { choice in
-                                Button(choice.label) {
-                                    simulationSpeed = choice.value
-                                    simulation.setSpeed(choice.value)
-                                }
-                            }
-                        }
-                        .help("Simulation speed: circuit time per real time")
-                    }
-
-                    ToolbarItem(placement: .navigation) {
-                        ReachedSpeedLabel(simulation: simulation)
-                    }
-                }
-
-                ToolbarItemGroup(placement: .principal) {
+                // The page picker on the left; the tools stay centred.
+                ToolbarItem(placement: .navigation) {
                     Picker("Page", selection: $page) {
                         ForEach(EditorPage.allCases) { page in
                             Text(page.title).tag(page)
@@ -378,7 +444,17 @@ struct ContentView: View {
                     .pickerStyle(.segmented)
                     .labelsHidden()
                     .help("Show the schematic or the PCB")
+                }
 
+                // Run/Stop and the speed are in the Simulation menu
+                // (`SimulationCommands`); only the slow-down notice is here.
+                if page == .schematic {
+                    ToolbarItem(placement: .navigation) {
+                        ReachedSpeedLabel(simulation: simulation)
+                    }
+                }
+
+                ToolbarItemGroup(placement: .principal) {
                     if page == .schematic {
                         // Two pickers on one selection, so the supply tools
                         // stand apart from the drawing tools.
@@ -432,8 +508,7 @@ struct ContentView: View {
                         } label: {
                             Label("Rotate", systemImage: "rotate.right")
                         }
-                        .keyboardShortcut("r", modifiers: [.command, .option])
-                        .help("Rotate the selection 90° (R or ⌥⌘R)")
+                        .help("Rotate the selection 90° clockwise (⌘R; ⇧⌘R turns it the other way)")
                         .disabled(!canRotate)
                     }
                 }

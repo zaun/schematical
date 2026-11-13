@@ -1,0 +1,65 @@
+# plan-37: in-scope parts per (footprint id, maker, DigiKey package). NEW = not in Parts/footprints.json (plan-37-B adds it).
+CDIP-16	Texas Instruments	(no DigiKey parameters)	4
+CDIP-16	Texas Instruments	16-CDIP (0.300", 7.62mm)	2
+CDIP-20	Texas Instruments	(no DigiKey parameters)	9
+CDIP-24	Texas Instruments	24-CDIP (0.300", 7.62mm)	1
+CFP-16	Texas Instruments	(no DigiKey parameters)	2
+CFP-20	Texas Instruments	(no DigiKey parameters)	1
+DHVQFN-20  NEW	Nexperia USA Inc.	20-VFQFN Exposed Pad	9
+DHVQFN-24  NEW	Nexperia USA Inc.	24-VFQFN Exposed Pad	1
+DQFN-20-ONSEMI  NEW	onsemi	20-WFQFN Exposed Pad	1
+LCCC-20	Texas Instruments	(no DigiKey parameters)	6
+LCCC-20	Texas Instruments	20-CLCC	1
+PDIP-16	Texas Instruments	(no DigiKey parameters)	2
+PDIP-16	Texas Instruments	16-DIP (0.300", 7.62mm)	7
+PDIP-20	Texas Instruments	(no DigiKey parameters)	2
+PDIP-20	Texas Instruments	20-DIP (0.300", 7.62mm)	21
+PDIP-20	onsemi	20-DIP (0.300", 7.62mm)	1
+QSOP-20	Texas Instruments	20-SSOP (0.154", 3.90mm Width)	1
+QSOP-24	Texas Instruments	24-SSOP (0.154", 3.90mm Width)	2
+SOIC-16	Nexperia USA Inc.	16-SOIC (0.154", 3.90mm Width)	12
+SOIC-16	Texas Instruments	(no DigiKey parameters)	1
+SOIC-16	Texas Instruments	16-SOIC (0.154", 3.90mm Width)	7
+SOIC-16	onsemi	(no DigiKey parameters)	2
+SOIC-16	onsemi	16-SOIC (0.154", 3.90mm Width)	12
+SOIC-20W	Nexperia USA Inc.	20-SOIC (0.295", 7.50mm Width)	33
+SOIC-20W	Texas Instruments	(no DigiKey parameters)	2
+SOIC-20W	Texas Instruments	20-SOIC (0.295", 7.50mm Width)	26
+SOIC-20W	onsemi	(no DigiKey parameters)	2
+SOIC-20W	onsemi	20-SOIC (0.295", 7.50mm Width)	47
+SOIC-24W	Texas Instruments	24-SOIC (0.295", 7.50mm Width)	21
+SOP-16	Texas Instruments	(no DigiKey parameters)	1
+SOP-16	Texas Instruments	16-SOIC (0.209", 5.30mm Width)	3
+SOP-16	onsemi	16-SOIC (0.209", 5.30mm Width)	1
+SOP-20	Texas Instruments	(no DigiKey parameters)	5
+SOP-20	Texas Instruments	20-SOIC (0.209", 5.30mm Width)	13
+SOP-20	onsemi	(no DigiKey parameters)	3
+SOP-20	onsemi	20-SOIC (0.209", 5.30mm Width)	6
+SSOP-16	Nexperia USA Inc.	16-SSOP (0.209", 5.30mm Width)	1
+SSOP-20	Nexperia USA Inc.	20-SSOP (0.209", 5.30mm Width)	11
+SSOP-20	Texas Instruments	(no DigiKey parameters)	3
+SSOP-20	Texas Instruments	20-SSOP (0.209", 5.30mm Width)	4
+SSOP-24	Texas Instruments	24-SSOP (0.209", 5.30mm Width)	3
+SSOP-48	Nexperia USA Inc.	48-BSSOP (0.295", 7.50mm Width)	2
+SSOP-48	Texas Instruments	48-BSSOP (0.295", 7.50mm Width)	19
+SSOP-56	Nexperia USA Inc.	56-BSSOP (0.295", 7.50mm Width)	2
+SSOP-56	Texas Instruments	56-BSSOP (0.295", 7.50mm Width)	13
+TSSOP-16	Nexperia USA Inc.	16-TSSOP (0.173", 4.40mm Width)	12
+TSSOP-16	Texas Instruments	16-TSSOP (0.173", 4.40mm Width)	2
+TSSOP-16	onsemi	16-TSSOP (0.173", 4.40mm Width)	4
+TSSOP-20	Nexperia USA Inc.	20-TSSOP (0.173", 4.40mm Width)	27
+TSSOP-20	Texas Instruments	(no DigiKey parameters)	1
+TSSOP-20	Texas Instruments	20-TSSOP (0.173", 4.40mm Width)	7
+TSSOP-20	onsemi	(no DigiKey parameters)	4
+TSSOP-20	onsemi	20-TSSOP (0.173", 4.40mm Width)	39
+TSSOP-24	Texas Instruments	24-TSSOP (0.173", 4.40mm Width)	6
+TSSOP-48	Nexperia USA Inc.	48-TFSOP (0.240", 6.10mm Width)	6
+TSSOP-48	Texas Instruments	48-TFSOP (0.240", 6.10mm Width)	13
+TSSOP-48	onsemi	(no DigiKey parameters)	1
+TSSOP-48	onsemi	48-TFSOP (0.240", 6.10mm Width)	2
+TSSOP-56	Nexperia USA Inc.	56-TFSOP (0.240", 6.10mm Width)	1
+TSSOP-56	Texas Instruments	56-TFSOP (0.240", 6.10mm Width)	7
+TSSOP-64  NEW	Texas Instruments	64-TFSOP (0.240", 6.10mm Width)	1
+TVSOP-24	Texas Instruments	24-TFSOP (0.173", 4.40mm Width)	2
+TVSOP-48	Texas Instruments	48-TFSOP (0.173", 4.40mm Width)	7
+TVSOP-56	Texas Instruments	56-TFSOP (0.173", 4.40mm Width)	2

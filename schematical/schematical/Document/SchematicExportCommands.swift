@@ -41,9 +41,10 @@ enum SchematicExportFormat: CaseIterable, Identifiable {
     }
 }
 
-/// File > Export, after Save As…: writes the focused window's schematic.
-/// `SchematicFileCommands` puts it in the File menu. The items stay enabled
-/// on an empty schematic; the action says why it can't export.
+/// File > Export, after Save As…: writes the focused window's schematic,
+/// or its board as Gerber files. `SchematicFileCommands` puts it in the
+/// File menu. The schematic items stay enabled on an empty schematic; the
+/// action says why it can't export.
 struct SchematicExportMenu: View {
     let file: SchematicFileController?
 
@@ -55,6 +56,11 @@ struct SchematicExportMenu: View {
                 }
                 .disabled(file == nil)
             }
+            Divider()
+            Button("Gerber PCB") {
+                Task { await file?.exportGerber() }
+            }
+            .disabled(file == nil)
         }
     }
 }
