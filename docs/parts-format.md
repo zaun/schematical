@@ -1,7 +1,7 @@
 # Part file format
 
 Every orderable part (gate, flip-flop, latch, decoder, counter, shift register, SRAM, EEPROM, switch, LED,
-diode, capacitor, 7-segment display, character LCD module, oscillator, supply, microprocessor, serial controller) is described in a JSON part file in
+diode, capacitor, resistor, 7-segment display, character LCD module, oscillator, supply, microprocessor, serial controller) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
 | File | Kind |
@@ -33,6 +33,7 @@ diode, capacitor, 7-segment display, character LCD module, oscillator, supply, m
 | `header.json` | `header` |
 | `pio.json` | `pio` |
 | `capacitor.json` | `capacitor` |
+| `resistor.json` | `resistor` |
 
 Beside them, `datasheets.json` holds the datasheet URLs parts name with
 `"datasheet"` (see [Datasheets](#datasheets)), and `footprints.json` the land
@@ -854,6 +855,55 @@ Part keys (all optional):
 
 The values are facts for the app (`PartCapacitor`: capacitance in
 femtofarads, rating in millivolts).
+
+### `resistor`
+
+Resistors (plan-34): chip, through-hole (axial) and resistor networks /
+arrays, `"kind": "resistor"`, run by `backend/src/models/resistor.c`. A
+resistor drives nothing. Each (a, b) pair is a **weak two-way link** in
+the engine: each end sees the other end's level as a weak drive. So a
+resistor from VCC to a net works like a pull-up, a gate driving that net
+overrides it, and an inverter driving an LED through a series resistor
+lights the LED. A resistor never passes a strong value: two strong
+drivers on its two ends stay two separate values, never a short. A weak
+value through a resistor that meets a pull of the other level reads X, as
+two disagreeing pulls do. Ohms have no effect on logic: there is no
+divider, no current and no power check. The voltage check carries each
+end's level to the other end's net, both ways, so a 5 V rail through a
+resistor to a 3.3 V part's input is refused, as the rail wired straight to
+it would be. A resistor has no `vcc`.
+
+Device keys:
+
+| Key | Value |
+|---|---|
+| `"resistors"` | non-empty array of `{"a": <pin name>, "b": <pin name>}`, one per resistor element (`a` ≠ `b`: `a resistor's a and b must be different pins`). Each name names at least one pin of every pinout; a name that several pins carry (an array's two common pins) makes those pins one node, joined strongly |
+
+Every pin of every pinout is `inout`, `nc` or `absent` (`resistor pin "X"
+must be inout`), and every `inout` pin is in some pair (`pin "X" is in no
+resistor`).
+
+Part keys (numbers):
+
+| Key | Value |
+|---|---|
+| `"ohms"` | required: the resistance in ohms, at least 0 and at most 1e9 (`"ohms" must be at least 0 and at most 1e9`); 0 is a jumper |
+| `"tolerance"` | optional: percent, above 0 and at most 20; a jumper and `GENERIC-RESISTOR` have none |
+| `"power"` | optional: rated watts per element, above 0 and at most 100 |
+
+The values are facts for the app (`PartResistor`: resistance in
+milliohms, tolerance in parts per million, power in milliwatts; 0 = not
+given); the simulation does not use them.
+
+```json
+{"id": "chip-1k-5k", "function": "1 kΩ – 5 kΩ", "description": "Thick film chip resistor",
+ "drawer": ["Resistors", "Chip"],
+ "pinouts": {"two-pin": [{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}]},
+ "resistors": [{"a": "1", "b": "2"}],
+ "parts": [{"name": "RC0603FR-074K7L", "manufacturer": "YAGEO", "package": "0603",
+            "pinout": "two-pin", "footprint": "RES-0603-YAGEO", "datasheet": "yageo-rc",
+            "ohms": 4700, "tolerance": 1, "power": 0.1}]}
+```
 
 ### `oscillator`
 

@@ -242,19 +242,22 @@ Commit: 2751171
 Acceptance: every case passes and the goldens are unchanged.
   Check: `cmake --build /tmp/logic-p34 -j8 && ctest --test-dir /tmp/logic-p34` → `100% tests passed` out of T0 + 1, and `git diff --stat backend/tests/golden` → empty (est. 2 min).
   Result (2026-11-13, `/tmp/logic-p34-wt`): `100% tests passed, 0 tests failed out of 33` (T0 32 + 1); `git diff --stat backend/tests/golden` → empty.
-Commit: —
+Commit: 1655b68
 
 ### Phase 3 — Docs
 
-- [ ] `docs/parts-format.md`: the `resistor.json` | `resistor` row in the
+- [x] `docs/parts-format.md`: the `resistor.json` | `resistor` row in the
       kind table; a § `resistor` section (§ 3.2, § 4's example, the
       behavior of § 3.1 in words).
-- [ ] `docs/backend.md`: a **Resistors** paragraph beside **Diodes** (§ 3.1
-      and the § 6 table), and `resistor.c` in the source map.
+- [x] `docs/backend.md`: a **Resistors** paragraph beside **Diodes** (§ 3.1
+      and the § 6 table), and `resistor.c` in the source map; plus the
+      `resistor_test` entry in § Tests and the resistor carry in
+      **Voltages**.
 
 Acceptance: the docs name the kind and its keys.
   Check: `grep -c '### `resistor`' docs/parts-format.md` → 1, `grep -c 'resistor.json' docs/parts-format.md` → ≥ 1, `grep -c '\*\*Resistors\*\*' docs/backend.md` → 1 (est. 1 min).
-Commit: —
+  Result (2026-11-13): 1, 1, 1. Final gate: `ctest --test-dir /tmp/logic-p34-wt` → `100% tests passed, 0 tests failed out of 33`.
+Commit: (this commit; recorded in the next one)
 
 ## Validation Plan
 

@@ -125,11 +125,38 @@ Notes:
 
   Pins that share a name on one diode part (a tab and a lead) are tied by
   links both ways, so they pass every value.
+- **Resistors** (plan-34-E). A resistor part drives nothing; each of its
+  (a, b) pairs is a two-way *weak* link, reported by the model's
+  `resistors` hook (`sim.h`) and collected by `sim_start` with the diode
+  links (`collect_links`; the link struct's `weak` flag tells them apart).
+  Resistor links join clusters as diode links do. In `resolve_cluster` the
+  strong pass skips them; in the weak pass a resistor link gives each end
+  the other end's level (its strong values if any, else its weak ones) as
+  weak values, both ways, to a fixed point. So a resistor never passes a
+  strong value and never makes a short; a resistor to VCC is a pull-up a
+  real driver overrides. Ohms have no effect on logic. Pins that share a
+  name on one resistor part (an array's two common pins) are tied by
+  diode links both ways (the `diodes` hook), so they are one node. What it
+  gives:
+
+  | Circuit | Result |
+  |---|---|
+  | strong 1 at a, nothing at b | b reads 1 |
+  | strong 0 at a, nothing at b | b reads 0 |
+  | strong 1 at a, strong 0 at b | a 1, b 0, no `smoke:` |
+  | strong 1 at a, pull-down (weak 0) at b | b reads X |
+  | nothing at either end | both Z |
+  | a – R – b – R – c, strong 1 at a | b and c read 1 |
+  | strong 1 at a, b also driven strong 0 later | b follows to 0, then back to 1 when released |
+  | diode-OR of two gates into node n, n – R – m, nothing else at m | m reads the OR |
+
+  The voltage check carries each end's level to the other end's net, both
+  ways (`resistor_pair` in `model_pins.h`).
 - **Voltages** (`voltage.h`, plan-07). The simulation is logic-only; a
   separate static check, `voltage_check`, works out each net's voltage from
   its supplies (`PartSupply.mv`), the outputs of powered parts and what an
   LED or a diode (each link, `diode_pair` in `model_pins.h`) carries from
-  anode to cathode, and reports every power pin outside
+  anode to cathode and a resistor carries both ways, and reports every power pin outside
   its part's `vcc` range, input above its part's input max, switch contact
   above its rating, and two different non-zero supplies on one net.
   `voltage_describe` gives the text, e.g. `voltage: 5 V on pin 14 (VCC) of
@@ -247,10 +274,12 @@ backend/
                            share: timing entries, controls, X rules,
                            outputs), and lights.c (on-time tracking for
                            lights);
-                           model_pins.h (LED, diode, switch and
+                           model_pins.h (LED, diode, resistor, switch and
                            open-drain pin facts for the voltage check);
                            diode.c (the diode kind: loader, the
                            links-only model, plan-29-H);
+                           resistor.c (the resistor kind: loader, the
+                           weak-links-only model, plan-34-E);
                            cpu.c + cpu.h (the cpu kind: loader, the model
                            that forwards to a core adapter, input sampling,
                            the instruction tracker), cpu6502.c (the
@@ -393,6 +422,15 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   circuits: a tab tied to its lead, a diode-OR in a library circuit, and a
   switch contact inside a cluster. The kind's loader errors are in
   `library_check`, its voltage carry in `voltage_test`.
+- `resistor_test` — resistor links and the resistor kind (plan-34-E): the
+  eight engine cases of the Resistors table above with engine-only fixture
+  resistor and diode components; then the fixture parts of
+  `tests/support/resistor_fixture.h`: facts (a two-pin part, a 4-element
+  array's pairs, a 0 Ω bussed array), the loader's rejections, and
+  circuits: a resistor pull-up into an SN74HC04N input, an SN74HC04N
+  lighting a GENERIC-LED through a resistor, 5 V through a resistor
+  refused by a 3.3 V input, and a bussed array's two common pins as one
+  node.
 - `capacitor_test` — the capacitor kind (plan-33-E): the fixture
   capacitors (`tests/support/capacitor_fixture.h`, one tantalum and one
   ceramic device) load and their `PartCapacitor` facts read back; a
