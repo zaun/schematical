@@ -1,0 +1,110 @@
+maker	series	datasheet	mpn_regex	fields_checked	package	pinout	footprint	note
+Viking Tech	-	datasheets/resistor/viking/ASN_Series.pdf						
+Viking Tech	AS	datasheets/resistor/viking/AS_Series.pdf						
+Viking Tech	CN	datasheets/resistor/viking/CN_Series.pdf						
+Viking Tech	CN-42	datasheets/resistor/viking/CN_Series.pdf						
+Viking Tech	CR	datasheets/resistor/viking/CR..A_Series.pdf						
+Viking Tech	CR	datasheets/resistor/viking/CR_Series.pdf						
+Viking Tech	LR	datasheets/resistor/viking/LR_Series.pdf						
+Viking Tech	MFR	datasheets/resistor/viking/MFR_Series.pdf						
+Vishay Dale	*	datasheets/resistor/vishay-dale/crcwce3.pdf						
+Vishay Dale	-	datasheets/resistor/vishay-dale/rcwp.pdf						
+Vishay Dale	-	datasheets/resistor/vishay-dale/rcwp99.pdf						
+Vishay Dale	ALSR	datasheets/resistor/vishay-dale/alsralvr.pdf						
+Vishay Dale	CMF	datasheets/resistor/vishay-dale/cmffuse.pdf						
+Vishay Dale	CMF	datasheets/resistor/vishay-dale/cmfind.pdf						
+Vishay Dale	CMF (Military RN)	datasheets/resistor/vishay-dale/cmfmil.pdf						
+Vishay Dale	CPCF	datasheets/resistor/vishay-dale/cpcp-cpcf.pdf						
+Vishay Dale	CPCP	datasheets/resistor/vishay-dale/cpcp-cpcf.pdf						
+Vishay Dale	CPF	datasheets/resistor/vishay-dale/cpf.pdf						
+Vishay Dale	CRCW-C	datasheets/resistor/vishay-dale/crcwce3.pdf						
+Vishay Dale	CRCW01005 e3	datasheets/resistor/vishay-dale/crcw01005e3.pdf						
+Vishay Dale	CRCW0201 e3	datasheets/resistor/vishay-dale/crcw0201e3.pdf						
+Vishay Dale	CRHV	datasheets/resistor/vishay-dale/crhv.pdf						
+Vishay Dale	CW	datasheets/resistor/vishay-dale/cmfmil.pdf						
+Vishay Dale	CW	datasheets/resistor/vishay-dale/cw-he.pdf						
+Vishay Dale	CW	datasheets/resistor/vishay-dale/cw-hs.pdf						
+Vishay Dale	CW	datasheets/resistor/vishay-dale/cw.pdf						
+Vishay Dale	CW	datasheets/resistor/vishay-dale/rsns.pdf						
+Vishay Dale	CW - High Energy	datasheets/resistor/vishay-dale/cw-he.pdf						
+Vishay Dale	D/CRCW-HR e3	datasheets/resistor/vishay-dale/dcrcwhr.pdf						
+Vishay Dale	D/CRCW-HR e3	datasheets/resistor/vishay-dale/dcrcwhre3.pdf						
+Vishay Dale	MCT - Precision	datasheets/resistor/vishay-dale/mcx0x0xpre.pdf						
+Vishay Dale	MRA-12	datasheets/resistor/vishay-dale/mra.pdf						
+Vishay Dale	MSP	datasheets/resistor/vishay-dale/msp.pdf						
+Vishay Dale	Military, MIL-PRF-22684/01, RL07	datasheets/resistor/vishay-dale/cmfmil.pdf						
+Vishay Dale	Military, MIL-PRF-32159, RCZ0402	datasheets/resistor/vishay-dale/rcwpm-jumper.pdf						
+Vishay Dale	Military, MIL-PRF-32159, RCZ0603	datasheets/resistor/vishay-dale/rcwpm-jumper.pdf						
+Vishay Dale	Military, MIL-PRF-32159, RCZ0705	datasheets/resistor/vishay-dale/rcwpm-jumper.pdf						
+Vishay Dale	Military, MIL-PRF-32159, RCZ1005	datasheets/resistor/vishay-dale/rcwpm-jumper.pdf						
+Vishay Dale	Military, MIL-PRF-32159, RCZ1206	datasheets/resistor/vishay-dale/rcwpm-jumper.pdf						
+Vishay Dale	Military, MIL-PRF-32159, RCZ2010	datasheets/resistor/vishay-dale/rcwpm-jumper.pdf						
+Vishay Dale	Military, MIL-PRF-39017/01, RLR07	datasheets/resistor/vishay-dale/erl.pdf						
+Vishay Dale	Military, MIL-PRF-55182/07, RNC50	datasheets/resistor/vishay-dale/erc.pdf						
+Vishay Dale	Military, MIL-PRF-55342, RCWPM	datasheets/resistor/vishay-dale/dectable.pdf						
+Vishay Dale	Military, MIL-PRF-55342, RCWPM	datasheets/resistor/vishay-dale/rcwpm.pdf						
+Vishay Dale	Military, MIL-PRF-55342, RM0402	datasheets/resistor/vishay-dale/rcwpm.pdf						
+Vishay Dale	Military, MIL-PRF-55342, RM0603	datasheets/resistor/vishay-dale/rcwpm.pdf						
+Vishay Dale	Military, MIL-PRF-55342, RM0705	datasheets/resistor/vishay-dale/rcwpm.pdf						
+Vishay Dale	Military, MIL-PRF-55342, RM1005	datasheets/resistor/vishay-dale/rcwpm.pdf						
+Vishay Dale	Military, MIL-PRF-55342, RM1206	datasheets/resistor/vishay-dale/rcwpm.pdf						
+Vishay Dale	Military, MIL-R-10509/1, RN60	datasheets/resistor/vishay-dale/cmfmil.pdf						
+Vishay Dale	Military, MIL-R-10509/2, RN65	datasheets/resistor/vishay-dale/cmfmil.pdf						
+Vishay Dale	Military, MIL-R-10509/3, RN70	datasheets/resistor/vishay-dale/cmfmil.pdf						
+Vishay Dale	Military, MIL-R-10509/7, RN55	datasheets/resistor/vishay-dale/cmfmil.pdf						
+Vishay Dale	Military, MIL-R-10509/8, RN50	datasheets/resistor/vishay-dale/cmfmil.pdf						
+Vishay Dale	RCA	datasheets/resistor/vishay-dale/rca.pdf						
+Vishay Dale	RCG e3	datasheets/resistor/vishay-dale/rcge3.pdf						
+Vishay Dale	RCP	datasheets/resistor/vishay-dale/rcp.pdf						
+Vishay Dale	RCV	datasheets/resistor/vishay-dale/rcve3.pdf						
+Vishay Dale	RCV e3	datasheets/resistor/vishay-dale/rcve3.pdf						
+Vishay Dale	RCWP	datasheets/resistor/vishay-dale/rcwp.pdf						
+Vishay Dale	RS	datasheets/resistor/vishay-dale/rsns.pdf						
+Vishay Dale	RZ070	datasheets/resistor/vishay-dale/msm.pdf						
+Vishay Dale	RZ090	datasheets/resistor/vishay-dale/msm.pdf						
+Vishay Dale	SOMC	datasheets/resistor/vishay-dale/somc.pdf						
+YAGEO	AC	datasheets/resistor/yageo/PYU-AC_51_ROHS_L.pdf						
+YAGEO	AF	datasheets/resistor/yageo/yageo_PYu-R_Mount_10_19050818_343.pdf						
+YAGEO	AF122	datasheets/resistor/yageo/yageo_PYu-R_Mount_10_19050818_343.pdf						
+YAGEO	AF124	datasheets/resistor/yageo/PYU-AF122_124_162_164_51_ROHS_L.pdf						
+YAGEO	AF164	datasheets/resistor/yageo/yageo_PYu-R_Mount_10_19050818_343.pdf						
+YAGEO	AR	datasheets/resistor/yageo/PYU-AR_51_ROHS_L.pdf						
+YAGEO	FAE	datasheets/resistor/yageo/YAGEO-FAE_DATASHEET.pdf						
+YAGEO	FCR	datasheets/resistor/yageo/YAGEO-FCR_DATASHEET.pdf						
+YAGEO	FKN	datasheets/resistor/yageo/YAGEO-FKN_DATASHEET.pdf						
+YAGEO	FM0	datasheets/resistor/yageo/YAGEO-FM0_DATASHEET.pdf						
+YAGEO	FMP	datasheets/resistor/yageo/YAGEO-FMP_DATASHEET.pdf						
+YAGEO	HHV	datasheets/resistor/yageo/YAGEO-HHV_DATASHEET.pdf						
+YAGEO	KNP	datasheets/resistor/yageo/YAGEO-KNP_DATASHEET.pdf						
+YAGEO	MCF	datasheets/resistor/yageo/YAGEO-MCF_DATASHEET.pdf						
+YAGEO	MCP	datasheets/resistor/yageo/YAGEO-MCP_DATASHEET.pdf						
+YAGEO	MF0	datasheets/resistor/yageo/YAGEO-MF0_DATASHEET.pdf						
+YAGEO	MFR	datasheets/resistor/yageo/YAGEO-MFR_DATASHEET.pdf						
+YAGEO	MMF	datasheets/resistor/yageo/YAGEO-MMF_DATASHEET.pdf						
+YAGEO	MMP	datasheets/resistor/yageo/YAGEO-MMP_DATASHEET.pdf						
+YAGEO	NPM	datasheets/resistor/yageo/YAGEO-NPM_DATASHEET.pdf						
+YAGEO	NSM	datasheets/resistor/yageo/YAGEO-SQM_NSM_DATASHEET.pdf						
+YAGEO	NSP	datasheets/resistor/yageo/YAGEO-SQP_NSP_DATASHEET.pdf						
+YAGEO	PNP	datasheets/resistor/yageo/YAGEO-PNP_DATASHEET.pdf						
+YAGEO	PNPV	datasheets/resistor/yageo/YAGEO-PNP-V_DATASHEET.pdf						
+YAGEO	PSM	datasheets/resistor/yageo/YAGEO-PSM_DATASHEET.pdf						
+YAGEO	PSP	datasheets/resistor/yageo/YAGEO-PSP_DATASHEET.pdf						
+YAGEO	RC	datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf						
+YAGEO	RC_L	datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf						
+YAGEO	RC_P	datasheets/resistor/yageo/PYU-RC_51_ROHS_P.pdf						
+YAGEO	RE	datasheets/resistor/yageo/PYU-RE_105_ROHS_L.pdf						
+YAGEO	RSF	datasheets/resistor/yageo/YAGEO-RSF_DATASHEET.pdf						
+YAGEO	RT	datasheets/resistor/yageo/PYU-RT_1-TO-0-01_ROHS_L.pdf						
+YAGEO	RT	datasheets/resistor/yageo/yageo_PYu-R_Mount_10_19050818_343.pdf						
+YAGEO	SLR	datasheets/resistor/yageo/yageo-slr_datasheet.pdf						
+YAGEO	SQM	datasheets/resistor/yageo/YAGEO-SQM_NSM_DATASHEET.pdf						
+YAGEO	SQP	datasheets/resistor/yageo/YAGEO-SQP_NSP_DATASHEET.pdf						
+YAGEO	SQZ	datasheets/resistor/yageo/YAGEO-SQZ_NSZ_DATASHEET.pdf						
+YAGEO	TC164	datasheets/resistor/yageo/PYU-YC_TC_GROUP_51_ROHS_L.pdf						
+YAGEO	YC122	datasheets/resistor/yageo/PYU-YC_TC_GROUP_51_ROHS_L.pdf						
+YAGEO	YC124	datasheets/resistor/yageo/PYU-YC_TC_GROUP_51_ROHS_L.pdf						
+YAGEO	YC158T	datasheets/resistor/yageo/PYU-YC_TC_GROUP_51_ROHS_L.pdf						
+YAGEO	YC164	datasheets/resistor/yageo/PYU-YC_TC_GROUP_51_ROHS_L.pdf						
+YAGEO	YC358L	datasheets/resistor/yageo/PYU-YC_TC_GROUP_51_ROHS_L.pdf						
+YAGEO	YC358T	datasheets/resistor/yageo/PYU-YC_TC_GROUP_51_ROHS_L.pdf						
+YAGEO	ZOR	datasheets/resistor/yageo/yageo-zor_datasheet.pdf						

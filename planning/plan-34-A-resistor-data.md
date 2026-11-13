@@ -359,9 +359,19 @@ Commit: —
 
 ### Phase 2 — Part-by-part stock check (one to two quota days)
 
-- [ ] Write `census/stock-check.sh <candidates.tsv> <stock-check.tsv>`
+- [x] Write `census/stock-check.sh <candidates.tsv> <stock-check.tsv>`
       (§ 5 rule 2) and give `select.py` a `--stock <tsv>` option: a row with
-      `found` = 0 is `out`, reason `stock check`, before rule 3.
+      `found` = 0 is `out`, reason `stock check`, before rule 3. Written as
+      `stock-check.sh <raw> <candidates.tsv> <stock-check.tsv>`: it needs
+      the raw `.err` files to know the cut pieces (`cut-picked.py`). A row
+      counts as from a cut piece when its piece or the base piece it was
+      split from was cut. That is 1847 picked rows on 2026-11-13 (`cut-picked:
+      1847 picked rows from cut pieces`). Probe: `RC0402FR-0710KL` → 1 call,
+      `found` 1, stock 5552821, Active.
+- [ ] (added) Re-run Phase 3's and 4's scripts on the stock-checked pick
+      (`select.py --stock`, `fetch.py`, `textscan.py`, `sibling.py`,
+      `place.py` after clearing `datasheets/resistor/`, `footprint-lines.py`,
+      `specs-skeleton.py`, which merges) and their checks (§ Corrections 6).
 - [ ] Run it on the picked rows from cut pieces (1778 at planning time);
       re-run `select.py --stock`; check the newly picked rows from cut
       pieces; repeat until none is unchecked. Copy the result to
@@ -373,30 +383,39 @@ Commit: —
 
 ### Phase 3 — Downloads, scans, placement
 
-- [ ] `census/fetch.py /tmp/p34/cand.tsv /tmp/p34/pdf` for every eligible
+- [x] `census/fetch.py /tmp/p34/cand.tsv /tmp/p34/pdf` for every eligible
       row's URL (85 at planning time; § 4's YAGEO rewrite; bare `curl -sL`
       first, as plan-29's `fetch.py`); `census/textscan.py` fills `pdf`,
       `hit`, `dead`; `census/sibling.py` gives a no-PDF row a same-maker PDF
-      that prints its number verbatim.
-- [ ] `census/place.py` per § 4; `git add` only `datasheets/resistor/`.
-- [ ] Copy `/tmp/p34/cand.tsv` to `planning/plan-34-data/candidates.tsv`;
-      `census/footprint-lines.py` → `footprints-needed.txt`.
+      that prints its number verbatim. 2026-11-13: `92 urls; 91 are PDFs; 1
+      fetched by the yageogroup.com rewrite` (the miss:
+      `www.yageo.com/…/rchip/PYu-RE_105_RoHS_L_7.pdf`, 404, not an `/lr/`
+      URL); `11786 rows with an own maker-site PDF; 7 printed verbatim; 0
+      dead`; `200 eligible rows without an own maker-site PDF; 0 printed in
+      a same-maker PDF`.
+- [x] `census/place.py` per § 4; `git add` only `datasheets/resistor/`.
+      `72 PDFs placed for 78 URLs` (yageo 33, vishay-dale 32, viking 7).
+- [x] Copy `/tmp/p34/cand.tsv` to `planning/plan-34-data/candidates.tsv`;
+      `census/footprint-lines.py` → `footprints-needed.txt`. 83 lines:
+      chip 34, through-hole 30, array 19 (§ 2: 86 = 34 / 34 / 18).
 
 Acceptance: every eligible row with a maker datasheet has its PDF in the tree.
   Check: `python3 -I planning/plan-34-data/census/place.py --verify planning/plan-34-data/candidates.tsv` → `0 missing, 0 unused` (est. 2 min after a 10-minute download).
+  Result (2026-11-13, on the pick before the stock check; re-checked by Phase 2's added task): `0 missing, 0 unused`.
 Commit: —
 
 ### Phase 4 — `specs.tsv` skeleton and the data README
 
-- [ ] `census/specs-skeleton.py` → `planning/plan-34-data/specs.tsv`: header
+- [x] `census/specs-skeleton.py` → `planning/plan-34-data/specs.tsv`: header
       `maker series datasheet mpn_regex fields_checked package pinout
       footprint note`, one row per distinct (maker, series, PDF) of the
       eligible rows with a PDF; `mpn_regex` empty (B), `package`,
       `pinout`, `footprint` empty (C, D).
-- [ ] `planning/plan-34-data/README.md`: update the file map.
+- [x] `planning/plan-34-data/README.md`: update the file map.
 
 Acceptance: one spec row per group.
   Check: `awk -F'\t' 'NR>1 && $21!="" && $23!="automotive" && $23!="current-sense" {print $2"|"$18"|"$21}' planning/plan-34-data/candidates.tsv | sort -u | wc -l` equals `awk 'END{print NR-1}' planning/plan-34-data/specs.tsv` (est. 1 min; `$21` is the `pdf` column Phase 3 fills, `$23` the reason).
+  Result (2026-11-13): 109 = 109.
 Commit: —
 
 ## Validation Plan
@@ -516,6 +535,21 @@ Commit: —
    below quota 7322. Listing cost: 632 calls (listing 586, the three
    series probes 6, plus 40 for the min-stock piece). Command:
    `python3 -I planning/plan-34-data/census/select.py /tmp/p34/raw /tmp/p34/cand.tsv --report`.
+5. **Datasheet file names (2026-11-13).** § 4's rule (the URL's last path
+   segment, query dropped) named Vishay's `www.vishay.com/doc?31018` links
+   `doc.pdf`, `doc-38321a.pdf`, …. A file is now named after the first of
+   its URLs with no query string, else after the URL its link redirects to
+   (plan-29's `place.py` did the same): `cmfind.pdf`, `cw-he.pdf`,
+   `alsralvr.pdf`.
+6. **Phases 3–4 ran during Phase 2 (2026-11-13).** Phase 2's stock check
+   needs about two more quota days (1847 calls; 191 were left when it
+   started). Its outcome can only remove picked rows (`out`, `stock
+   check`), which brings in the next rows. So Phases 3 and 4 ran on the
+   pick as it stood, and B's reading could start. A Phase 2 task re-runs
+   them on the final pick; `specs-skeleton.py` merges into the filled
+   `specs.tsv` rather than refusing, and names any dropped group. The
+   eligible rows' URL set changes only if a newly eligible series cites a
+   new PDF, and `fetch.py` adds it.
 
 ## Summary
 

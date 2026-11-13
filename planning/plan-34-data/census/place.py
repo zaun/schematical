@@ -9,7 +9,8 @@ A PDF is needed when an eligible row's `pdf` names it (textscan.py: the
 row's own maker-site URL; sibling.py: a same-maker one). Each distinct file
 (by SHA-256: two URLs of one document share one file) lands at
 datasheets/resistor/<maker-slug>/<name>.pdf: <name> is the last path segment
-of the first (sorted) URL of the file, query dropped, `%20` -> `-`, `.pdf`
+of the first (sorted) URL of the file that has no query string, else of the
+URL the first one redirects to (§ Corrections 5), `%20` -> `-`, `.pdf`
 appended when missing, characters outside A-Za-z0-9._- -> `-`; a clash with
 another file of the same name gets `-<first 6 hex of the md5 of its URL>`.
 The URL recorded is the one that gave the PDF (the yageogroup.com rewrite of
@@ -24,10 +25,11 @@ import hashlib
 import os
 import re
 import shutil
+import subprocess
 import sys
 import urllib.parse
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import common  # noqa: E402
 
 COLS = ["path", "url", "bytes", "sha256", "digikey_url"]
@@ -46,6 +48,20 @@ def name_of(url):
     if not segment.lower().endswith(".pdf"):
         segment += ".pdf"
     return re.sub(r"[^A-Za-z0-9._-]", "-", segment)
+
+
+def effective(url):
+    """The URL a link redirects to (vishay.com/doc?31018 -> …/docs/31018/cmfind.pdf)."""
+    out = subprocess.run(["curl", "-sIL", "--max-time", "40", "-o", "/dev/null", "-w", "%{url_effective}", url],
+                         capture_output=True, text=True, timeout=60).stdout.strip()
+    return out or url
+
+
+def name_source(urls, via):
+    """The URL a file is named after: the first of its URLs with no query
+    string, else where the first one redirects to (plan-34-A § Corrections 5)."""
+    plain = [via[u] for u in urls if "?" not in via[u]]
+    return plain[0] if plain else effective(via[urls[0]])
 
 
 def read(tsv):
@@ -78,7 +94,7 @@ def place(tsv, pdf_dir):
     path_of = {}
     for (maker, digest), urls in sorted(by_sha.items(), key=lambda kv: kv[1][0]):
         first = urls[0]
-        name = name_of(via[first])
+        name = name_of(name_source(urls, via))
         rel = os.path.join("datasheets", "resistor", common.SLUG[maker], name)
         if rel in taken and taken[rel] != digest:
             stem, ext = os.path.splitext(name)
@@ -91,6 +107,7 @@ def place(tsv, pdf_dir):
         for url in urls:
             path_of[url] = rel
             lines.append([rel, via[url], str(os.path.getsize(dst)), digest, url])
+    os.makedirs(common.TREE, exist_ok=True)
     with open(common.PLACED, "w") as out:
         out.write("\t".join(COLS) + "\n")
         for line in sorted(lines):

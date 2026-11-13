@@ -20,7 +20,7 @@ import sys
 import urllib.parse
 from concurrent.futures import ThreadPoolExecutor
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import common  # noqa: E402
 
 SAFARI = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 "
