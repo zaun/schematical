@@ -34,8 +34,8 @@ plan-36-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-36-A complete | `ls planning/completed/plan-36-A-*.md` → exists | NOT MET (2026-11-12: plan written) |
-| The packs are on disk | `ls /tmp/p36/packs/atdf/*.atdf \| wc -l` → 353 (A Phase 1 extracts them) | NOT MET until A Phase 1 |
+| plan-36-A complete | `ls planning/completed/plan-36-A-*.md` → exists | MET 2026-11-13 (`planning/completed/plan-36-A-mcu-data.md`, bfd86c4) |
+| The packs are on disk | `ls /tmp/p36/packs/atdf/*.atdf \| wc -l` → 353 (A Phase 1 extracts them) | MET 2026-11-13: 353 |
 
 ## 1. Goal
 
@@ -220,19 +220,23 @@ as Espressif prints them; `RP2040`), `family` (the drawer folder,
 
 ### Phase 1 — Package codes, roles, the ATDF extractor
 
-- [ ] `planning/plan-36-data/package-codes.tsv` from the distinct
+- [x] `planning/plan-36-data/package-codes.tsv` from the distinct
       `package_code` values of the `add` rows (§ 3.1). Each code's geometry
       and pin count come from the datasheet's package section.
-- [ ] `census/roles.py` (§ 3.2) and `census/pinout-lint.py` (§ 3.4).
-- [ ] `census/pinouts.py`: for each `add` AVR row with an ATDF device,
+      `census/package-codes.py` → 103 (code, pins) rows. The key is the pair because the newer codes repeat across pin counts (`PT` 32/48/64, `SS` = SSOP 20/28 in AVR Dx but SOIC150 8/14 in tinyAVR, `M` 20/24/32/48). Geometry and name come from the datasheet legend or figure (`pkgcheck.ptype`) and DigiKey; DFN codes (`10M1`, `8MA4`, `8-PIN-UDFN`) are `dual`. A column `rows` (use count, families) was added after `footprint`.
+- [x] `census/roles.py` (§ 3.2) and `census/pinout-lint.py` (§ 3.4).
+      As § 3.2 and § 3.4; the lint also checks the pinout name against its pin count and the one-power-one-ground rule (F § 3.3).
+- [x] `census/pinouts.py`: for each `add` AVR row with an ATDF device,
       pick the ATDF pinout whose geometry and pin count equal the row's
       package code (`atdfmatch.geom`/`count`, plus the `plcc` class). Write
       its pins, gaps filled with `NC`, to `pinouts.tsv` (`device pinout
       designator name role src`), and the (device, code) → pinout line to
       `pinout-map.tsv`. Set `pinout_src` = `atdf` in `candidates.tsv`.
+      → `pinouts 321, map lines 493; rows: atdf 1178`. The only ATDF pinouts with positions beyond the package (`MLF20` of ATtiny13/13A: GND at 21, the exposed pad) disagree with the datasheet figure (GND on pad 8) and are listed in `atdf-exclude.tsv`, so they are transcribed in Phase 2.
 
 Acceptance: the ATDF-covered rows have lint-clean pinouts.
   Check: `python3 -I planning/plan-36-data/census/pinout-lint.py planning/plan-36-data/pinouts.tsv` → `0 problems`, and `awk -F'\t' '$25=="atdf"' planning/plan-36-data/candidates.tsv | wc -l` equals the `atdf` count `pinouts.py` prints (1242 before A's verdicts; the new figure and the reason for any change go in § Corrections) (est. 2 min).
+  Result 2026-11-13: lint `321 pinouts, 0 problems`; `awk … | wc -l` → 1178 = `pinouts.py`'s `atdf 1178` (§ Corrections).
 Commit: —
 
 ### Phase 2 — Transcriptions
@@ -292,6 +296,9 @@ Commit: —
   …), so it is a `ground` pin there — author, following each datasheet.
 
 ## Corrections
+
+- **2026-11-13, Phase 1: 1178 ATDF rows, not 1242.** A's verdicts left 1373 AVR add rows (planning: 1468 AVR rows before verdicts), and the pinout is now picked by the ordering-table package code, not DigiKey's package. 245 AVR rows fall to transcription: devices whose ATDF has no pinouts (B § 2's list), packages the ATDF lacks (AVR DB28 has only `DIP28`, so its VQFN28 `STX` is transcribed), and the 3 ATtiny13/13A `MLF20` rows of `atdf-exclude.tsv`.
+- **2026-11-13, `package-codes.tsv` key.** One row per (code, pins), not per code (Phase 1 note). `pinout-map.tsv` has `device code pins pinout src`.
 
 ## Summary
 

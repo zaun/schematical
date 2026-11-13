@@ -1,0 +1,3 @@
+device	atdf_pinout	reason
+ATtiny13	MLF20	ATDF puts GND on position 21 (the exposed pad) and lists no pad 8; the datasheet figure (ATtiny13 20-QFN/MLF) has GND on pad 8 and DNC on the other unused pads. Transcribed instead.
+ATtiny13A	MLF20	same as ATtiny13: ATtiny13A-Data-Sheet-DS40002307A.pdf Figure 1-1 20-WQFN has GND on pad 8 (text lines 290-318); ATDF has GND at 21. Transcribed instead.
