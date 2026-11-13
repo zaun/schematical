@@ -17,6 +17,11 @@ files and updates this map.
 | `census/nxget.py` | one Nexperia URL through `curl_cffi` (browser TLS); exit 1 unless a PDF | A |
 | `census/fetch.py` | one vendor PDF per source (plan-37-A § 3 rule 3) into `datasheets/register/` or `datasheets/ff-d/`; fills `pdf` or `skip`; writes `datasheets.tsv` | A |
 | `census/verdicts.py` | ordering-table verdicts (rules 4–5), `grade`; `--skipped` writes the `skipped-parts.md` section, `--verify-records` checks it | A |
+| `census/register-fixture.py` | prints `register_test.c`'s fixture literals (C) | C |
+| `census/gen-parts.py` | `register.json` devices from `specs/` + the `add` rows; `--check`, `--write`; `--dff` mode for F | D |
+| `census/specs-d.py` | writes `specs/<device>.json` for D's 17 devices | D |
+| `census/ds-add.py` | adds the `add` rows' PDFs to `datasheets.json` | D |
+| `specs/<device>.json` | one register device without its parts (pinouts, groups, timing) | D, E |
 | `datasheets.tsv` | every plan-37 PDF: path under `datasheets/`, URL, bytes, SHA-256 | A; B adds the two Nexperia package drawings |
 
 Re-running the planning census (64 DigiKey calls on 2026-11-12: nexperia 29, onsemi 6, ti-p 14, ti-k 13, ti-k670 1, facets 1):

@@ -1,0 +1,205 @@
+{
+ "id": "74_821",
+ "function": "Register",
+ "description": "10-bit bus-interface flip-flops with 3-state outputs",
+ "drawer": [
+  "Logic",
+  "Registers"
+ ],
+ "note": "Pinout and function table: sn74abt821a p.1, sn74lvc821a, cy74fct821t (CY74FCT821T: OE, D0-D9, CP, Y0-Y9), same pin numbers. OE high: Q = Z.",
+ "model": "parallel",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1D",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "2D",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "3D",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "4D",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "5D",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "6D",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "7D",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "8D",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "9D",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "10D",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "CLK",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "10Q",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "9Q",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "8Q",
+    "role": "output"
+   },
+   {
+    "number": 17,
+    "name": "7Q",
+    "role": "output"
+   },
+   {
+    "number": 18,
+    "name": "6Q",
+    "role": "output"
+   },
+   {
+    "number": 19,
+    "name": "5Q",
+    "role": "output"
+   },
+   {
+    "number": 20,
+    "name": "4Q",
+    "role": "output"
+   },
+   {
+    "number": 21,
+    "name": "3Q",
+    "role": "output"
+   },
+   {
+    "number": 22,
+    "name": "2Q",
+    "role": "output"
+   },
+   {
+    "number": 23,
+    "name": "1Q",
+    "role": "output"
+   },
+   {
+    "number": 24,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "groups": [
+  {
+   "d": [
+    "1D",
+    "2D",
+    "3D",
+    "4D",
+    "5D",
+    "6D",
+    "7D",
+    "8D",
+    "9D",
+    "10D"
+   ],
+   "clk": {
+    "pin": "CLK",
+    "edge": "rising"
+   },
+   "outputs": [
+    {
+     "q": [
+      "1Q",
+      "2Q",
+      "3Q",
+      "4Q",
+      "5Q",
+      "6Q",
+      "7Q",
+      "8Q",
+      "9Q",
+      "10Q"
+     ],
+     "oe": {
+      "pin": "OE",
+      "active": "low"
+     }
+    }
+   ]
+  }
+ ],
+ "timing": {
+  "ABT": {
+   "rise": 4.1,
+   "fall": 4.6,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "CLK to Q typ, 5 V 50 pF; VCC 4.5-5.5 V (sn74abt821a switching characteristics)"
+  },
+  "FCT": {
+   "rise": 10,
+   "fall": 10,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "CP to Y max, A grade (CY74FCT821AT; B 7.5, C 6), 5 V 50 pF (no typ given); VCC 4.75-5.25 V (cy74fct821t switching characteristics)"
+  },
+  "LVC": {
+   "rise": 7.3,
+   "fall": 7.3,
+   "vcc": [
+    1.65,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "CLK to Q max (no typ given), 3.3 V 50 pF; VCC 1.65-3.6 V, inputs 5.5 V (sn74lvc821a switching characteristics)"
+  }
+ }
+}

@@ -1,0 +1,244 @@
+{
+ "id": "74_377",
+ "function": "Register",
+ "description": "Octal D-type flip-flops with clock enable",
+ "drawer": [
+  "Logic",
+  "Registers"
+ ],
+ "note": "Pinout and function table: sn54ls378 (SN54/74LS377) p.1, sn54hc377, sn74hct377, sn54abt377, sn74f377a, cd54hct377 (CD74HC377: E = G, CP = CLK, Dn, Qn), cy74fct377t (CY74FCT377T: CE, CP, D0-D7, O0-O7); Nexperia 74hc_hct377, 74ahc_ahct377, 74lvc377 (E, CP, D0-D7, Q0-Q7); onsemi mc74ac377 (CE, CP, D0-D7, Q0-Q7). All the same pin numbers; FK carriers number 1:1. G low: CLK up loads; G high: hold.",
+ "model": "parallel",
+ "pinouts": {
+  "p20": [
+   {
+    "number": 1,
+    "name": "G",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1Q",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "1D",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "2D",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "2Q",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "3Q",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "3D",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "4D",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "4Q",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "CLK",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "5Q",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "5D",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "6D",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "6Q",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "7Q",
+    "role": "output"
+   },
+   {
+    "number": 17,
+    "name": "7D",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "8D",
+    "role": "input"
+   },
+   {
+    "number": 19,
+    "name": "8Q",
+    "role": "output"
+   },
+   {
+    "number": 20,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "groups": [
+  {
+   "d": [
+    "1D",
+    "2D",
+    "3D",
+    "4D",
+    "5D",
+    "6D",
+    "7D",
+    "8D"
+   ],
+   "clk": {
+    "pin": "CLK",
+    "edge": "rising"
+   },
+   "ce": {
+    "pin": "G",
+    "active": "low"
+   },
+   "outputs": [
+    {
+     "q": [
+      "1Q",
+      "2Q",
+      "3Q",
+      "4Q",
+      "5Q",
+      "6Q",
+      "7Q",
+      "8Q"
+     ]
+    }
+   ]
+  }
+ ],
+ "timing": {
+  "ABT": {
+   "rise": 4.5,
+   "fall": 5.3,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "CLK to Q typ, 5 V 50 pF; VCC 4.5-5.5 V (sn54abt377 switching characteristics)"
+  },
+  "AC": {
+   "rise": 9,
+   "fall": 10,
+   "vcc": [
+    2,
+    6
+   ],
+   "note": "CP to Qn max (no typ given), 5 V 50 pF; VCC 2-6 V (mc74ac377 AC characteristics)"
+  },
+  "ACT": {
+   "rise": 9,
+   "fall": 10,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "CP to Qn max (no typ given), 5 V 50 pF; VCC 4.5-5.5 V (mc74ac377 ACT characteristics)"
+  },
+  "AHCT": {
+   "rise": 4.0,
+   "fall": 4.0,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "CP to Qn typ, 5 V 15 pF; VCC 4.5-5.5 V (Nexperia 74ahc_ahct377 Table 8)"
+  },
+  "F": {
+   "rise": 6.5,
+   "fall": 7,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "CLK to Q typ, 5 V 50 pF; VCC 4.5-5.5 V (sn74f377a switching characteristics)"
+  },
+  "FCT": {
+   "rise": 7.2,
+   "fall": 7.2,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "CP to O max, A grade (CY74FCT377AT), 5 V 50 pF (no typ given); VCC 4.75-5.25 V (cy74fct377t switching characteristics)"
+  },
+  "HC": {
+   "rise": 15,
+   "fall": 15,
+   "vcc": [
+    2,
+    6
+   ],
+   "note": "CLK to Q typ, 4.5 V 50 pF; VCC 2-6 V (sn54hc377 § 6.6)"
+  },
+  "HCT": {
+   "rise": 15,
+   "fall": 15,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "CLK to Q typ, 4.5 V 50 pF; VCC 4.5-5.5 V (sn74hct377 switching characteristics)"
+  },
+  "LS": {
+   "rise": 17,
+   "fall": 18,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "CLK to Q typ, 5 V 15 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn54ls378 p.4)"
+  },
+  "LVC": {
+   "rise": 4.0,
+   "fall": 4.0,
+   "vcc": [
+    1.65,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "CP to Qn typ, 3.0-3.6 V; VCC 1.65-3.6 V, inputs 5.5 V (Nexperia 74lvc377 dynamic characteristics)"
+  }
+ }
+}

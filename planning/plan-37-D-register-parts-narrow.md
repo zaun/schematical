@@ -35,8 +35,8 @@ plan-37-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-37-C complete | `ls planning/completed/plan-37-C-*.md` → exists | NOT MET (2026-11-12: plan written) |
-| `register.json` is empty | `python3 -c "import json;print(len(json.load(open('schematical/schematical/Parts/register.json'))['devices']))"` → 0 | NOT MET until C |
+| plan-37-C complete | `ls planning/completed/plan-37-C-*.md` → exists | MET (2026-11-13: `plan-37-C-register-kind.md`) |
+| `register.json` is empty | `python3 -c "import json;print(len(json.load(open('schematical/schematical/Parts/register.json'))['devices']))"` → 0 | MET (2026-11-13, D start: 0) |
 
 ## 1. Goal
 
@@ -150,32 +150,44 @@ function table.
 
 ### Phase 1 — Specs
 
-- [ ] `census/gen-parts.py`.
-- [ ] `specs/` for the 17 devices of § 2 that have an `add` row.
+- [x] `census/gen-parts.py` (plus `"partVcc"` in a spec for a maker whose
+      range differs: not needed by any D device).
+- [x] `specs/` for the 17 devices of § 2 that have an `add` row, written
+      by `census/specs-d.py` (every device has `add` rows).
 
 Check: `python3 -I planning/plan-37-data/census/gen-parts.py planning/plan-37-data/specs planning/plan-37-data/candidates.tsv --check --device '^(74_(173|377|378|379|534|564|575|576|577|821|823|825|874|11374|29821)|4076B|40174B)$'`
 → `<n> rows ok` with n = D's `add` rows less the 74_670 ones (est. 1 min).
+Observed: `153 rows ok` (D's `register` `add` rows; § Corrections).
 
-Commit: —
+Commit: (this commit)
 
 ### Phase 2 — Part files, footprint, datasheets
 
-- [ ] Append the generated devices to `register.json`; append the 74_670
-      `add` parts to `mux.json` 74_670 (by name order of the existing list).
-- [ ] Merge into `footprints.json` (`fp-merge.py`) every `footprints-B.json`
-      id a D `add` row names (planning: `DHVQFN-24`, for 74LVC823ABQ,118;
-      B drew only ids with an `add` row).
-- [ ] `datasheets.json`: one `{"id", "url"}` per new PDF (A's `datasheets.tsv`).
-- [ ] `register_test` `check_real` (§ 3.4).
-- [ ] Regenerate `parts.txt`, `traces.txt`, `footprints.txt`; review the
-      diff (added lines only).
+- [x] Append the generated devices to `register.json` (`17 devices, 153
+      parts written`); ~~append the 74_670 `add` parts to `mux.json`~~ —
+      moot: A left no 74_670 `add` row (SN74LS670N3 / NS are not in
+      `sn74ls670.pdf`'s PACKAGING INFORMATION, A § Corrections).
+- [x] Merge into `footprints.json` (`fp-merge.py`) every `footprints-B.json`
+      id a D `add` row names: `DHVQFN-24` (74LVC823ABQ,118), `1 footprints
+      appended`.
+- [x] `datasheets.json`: one `{"id", "url"}` per new PDF (A's
+      `datasheets.tsv`), by `census/ds-add.py`: `41 datasheets added`;
+      `node scripts/check-datasheets.js <the 41 ids>` → `41 of 41 URLs serve
+      a PDF; 0 failed`.
+- [x] `register_test` `check_real` (§ 3.4): cases 22–33 on SN74LS173AN,
+      CD4076BE and 5962-87807012A (§ Corrections), all PASS.
+- [x] Regenerate `parts.txt`, `traces.txt`, `footprints.txt`; review the
+      diff (added lines only): +153, +153, +1, 0 removed.
 
 Check: `cmake --build /tmp/logic-p37 -j8 && ctest --test-dir /tmp/logic-p37 -j8`
 → `100% tests passed`; `git diff -- backend/tests/golden | grep -c '^-[^-]'` → 0;
 `grep -c '|register|' backend/tests/golden/parts.txt` → D's `register` `add`
 rows (est. 6 min).
+Observed: `100% tests passed, 0 tests failed out of 33`; removed golden
+lines `0`; `|register|` → `153`; `|mux|` → `346` (unchanged); `parts.txt`
+27828 → 27981.
 
-Commit: —
+Commit: (this commit)
 
 ## Decisions
 
@@ -191,7 +203,26 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- **2026-11-13 — D's counts after A.** 153 `register` `add` rows (TI 129,
+  Nexperia 16, onsemi 8), not 198 in-scope rows: A's verdicts left 25 of
+  D's rows out or skipped (`planning/completed/plan-37-A-register-data.md`
+  § Corrections). Per device: 40174B 6, 4076B 6, 74_11374 1, 74_173 16,
+  74_29821 1, 74_377 47, 74_378 4, 74_379 1, 74_534 18, 74_564 15,
+  74_575 1, 74_576 5, 74_577 1, 74_821 13, 74_823 13, 74_825 2, 74_874 3.
+  The 74_670 has no `add` row, so `|mux|` stays 346.
+- **2026-11-13 — check_real's 74_377 part.** SN74HC377ANSR is `out` (not in
+  `sn54hc377.pdf`'s PACKAGING INFORMATION; TI lists SN74HC377NSR). § 3.4's
+  rule takes the first 74_377 `add` part by name: 5962-87807012A (SMD of
+  the SN54HC377, family HC); its '377 steps pass.
+- **2026-11-13 — timing where the datasheet gives no typical.** Newer TI
+  (AC, ACT, ALS, LVC), CY74FCT and onsemi AC sheets give only min / max;
+  those entries take the max at the nominal supply and say so in their
+  `note`. The CY74FCT speed grades (A, B, C) share family FCT; the entry
+  is the slowest grade the add rows include (A).
+- **2026-11-13 — fixture vs. real pinouts.** C's `fx-74_575` pin numbers
+  were approximate (the fixture only needs the names); the real 74_575 is
+  `sn74als575a.pdf` p.1's (CLR 1, OE 2, D 3–10, NC 11, GND 12, NC 13, CLK
+  14, Q 15–22, NC 23, VCC 24).
 
 ## Summary
 

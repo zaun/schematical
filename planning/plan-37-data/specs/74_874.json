@@ -1,0 +1,219 @@
+{
+ "id": "74_874",
+ "function": "Register",
+ "description": "Dual 4-bit D-type edge-triggered flip-flops with clear and 3-state outputs",
+ "drawer": [
+  "Logic",
+  "Registers"
+ ],
+ "note": "Pinout and function table: sn54als874b (SN54/74ALS874B, SN74AS874) p.1. Each half: nCLR low clears at once; nOE high: nQ = Z.",
+ "model": "parallel",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "1CLR",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "1D1",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "1D2",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "1D3",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "1D4",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "2D1",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "2D2",
+    "role": "input"
+   },
+   {
+    "number": 9,
+    "name": "2D3",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "2D4",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 13,
+    "name": "2CLR",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "2CLK",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "2Q4",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "2Q3",
+    "role": "output"
+   },
+   {
+    "number": 17,
+    "name": "2Q2",
+    "role": "output"
+   },
+   {
+    "number": 18,
+    "name": "2Q1",
+    "role": "output"
+   },
+   {
+    "number": 19,
+    "name": "1Q4",
+    "role": "output"
+   },
+   {
+    "number": 20,
+    "name": "1Q3",
+    "role": "output"
+   },
+   {
+    "number": 21,
+    "name": "1Q2",
+    "role": "output"
+   },
+   {
+    "number": 22,
+    "name": "1Q1",
+    "role": "output"
+   },
+   {
+    "number": 23,
+    "name": "1CLK",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "groups": [
+  {
+   "d": [
+    "1D1",
+    "1D2",
+    "1D3",
+    "1D4"
+   ],
+   "clk": {
+    "pin": "1CLK",
+    "edge": "rising"
+   },
+   "clear": {
+    "pin": "1CLR",
+    "active": "low",
+    "when": "async"
+   },
+   "outputs": [
+    {
+     "q": [
+      "1Q1",
+      "1Q2",
+      "1Q3",
+      "1Q4"
+     ],
+     "oe": {
+      "pin": "1OE",
+      "active": "low"
+     }
+    }
+   ]
+  },
+  {
+   "d": [
+    "2D1",
+    "2D2",
+    "2D3",
+    "2D4"
+   ],
+   "clk": {
+    "pin": "2CLK",
+    "edge": "rising"
+   },
+   "clear": {
+    "pin": "2CLR",
+    "active": "low",
+    "when": "async"
+   },
+   "outputs": [
+    {
+     "q": [
+      "2Q1",
+      "2Q2",
+      "2Q3",
+      "2Q4"
+     ],
+     "oe": {
+      "pin": "2OE",
+      "active": "low"
+     }
+    }
+   ]
+  }
+ ],
+ "timing": {
+  "ALS": {
+   "rise": 14,
+   "fall": 14,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "CLK to Q SN74ALS874B max (no typ given), 5 V 50 pF; VCC 4.5-5.5 V (sn54als874b switching characteristics)"
+  },
+  "AS": {
+   "rise": 8.5,
+   "fall": 10.5,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "CLK to Q SN74AS874 max (no typ given), 5 V 50 pF; VCC 4.5-5.5 V (sn54als874b switching characteristics)"
+  }
+ }
+}

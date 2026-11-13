@@ -880,8 +880,26 @@ static void check_loader(void) {
 
 static PartLibrary *real_library;
 
+/* CD4076B's names for the 173 roles (cd4076b.pdf p.1: DATA 1-4, OUTPUT and DATA INPUT DISABLE). */
+static const Names173 CD4076 = {"D%u", "Q%u", "CLOCK", "G1", "G2", "RESET", "M", "N"};
+
 static void check_real(void) {
-    /* plan-37-D and E add the real-part cases here. */
+    Bench *b;
+
+    /* Real parts have real delays (CD4076B: 300 ns typ): 1 us per step. */
+    step_ps = NS(1000);
+    b = open_part(real_library, "SN74LS173AN");
+    run_173(b, &TI173, "SN74LS173AN", 22);
+    bench_destroy(b);
+    b = open_part(real_library, "CD4076BE");
+    run_173(b, &CD4076, "CD4076BE", 27);
+    bench_destroy(b);
+    /* plan-37-D § 3.4 names SN74HC377ANSR; it is not in sn54hc377.pdf's ordering
+       table (plan-37-A), so the first 74_377 add part by name stands in. */
+    b = open_part(real_library, "5962-87807012A");
+    run_377(b, "%uD", "%uQ", "CLK", "G", "5962-87807012A (74_377 HC)", 32);
+    bench_destroy(b);
+    step_ps = NS(50);
 }
 
 int main(void) {

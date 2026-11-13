@@ -2,5 +2,921 @@
   "format": "schematical-parts",
   "version": 1,
   "kind": "register",
-  "devices": []
+  "devices": [
+    {
+      "id": "40174B",
+      "function": "Register",
+      "description": "CMOS hex D-type flip-flop with common clock and clear",
+      "drawer": ["Logic", "Registers"],
+      "note": "Pinout, truth table: cd40174b p.1, 4 (terminal assignment); mc14174b (onsemi MC14174B: R, C, D0-D5, Q0-Q5), same pin numbers. CLEAR low clears at once.",
+      "model": "parallel",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"CLEAR","role":"input"},
+          {"number":2,"name":"Q1","role":"output"},
+          {"number":3,"name":"D1","role":"input"},
+          {"number":4,"name":"D2","role":"input"},
+          {"number":5,"name":"Q2","role":"output"},
+          {"number":6,"name":"D3","role":"input"},
+          {"number":7,"name":"Q3","role":"output"},
+          {"number":8,"name":"VSS","role":"ground"},
+          {"number":9,"name":"CLOCK","role":"input"},
+          {"number":10,"name":"Q4","role":"output"},
+          {"number":11,"name":"D4","role":"input"},
+          {"number":12,"name":"Q5","role":"output"},
+          {"number":13,"name":"D5","role":"input"},
+          {"number":14,"name":"D6","role":"input"},
+          {"number":15,"name":"Q6","role":"output"},
+          {"number":16,"name":"VDD","role":"power"}
+        ]
+      },
+      "groups": [
+        {"d":["D1","D2","D3","D4","D5","D6"],"clk":{"pin":"CLOCK","edge":"rising"},"clear":{"pin":"CLEAR","active":"low","when":"async"},"outputs":[{"q":["Q1","Q2","Q3","Q4","Q5","Q6"]}]}
+      ],
+      "timing": {
+        "C": {"rise":150,"fall":150,"vcc":[3,18],"note":"Clock to output typ, VDD 5 V 50 pF; VDD 3-18 V (cd40174b p.2, 4)"}
+      },
+      "parts": [
+        {"name":"CD40174BE","manufacturer":"Texas Instruments","datasheet":"cd40174b","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
+        {"name":"CD40174BF3A","manufacturer":"Texas Instruments","datasheet":"cd40174b","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C"},
+        {"name":"CD40174BNSR","manufacturer":"Texas Instruments","datasheet":"cd40174b","package":"SOP","pinout":"p16","footprint":"SOP-16","family":"C"},
+        {"name":"CD40174BPW","manufacturer":"Texas Instruments","datasheet":"cd40174b","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C"},
+        {"name":"MC14174BDR2G","manufacturer":"onsemi","datasheet":"mc14174b-d","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
+        {"name":"NLV14174BDR2G","manufacturer":"onsemi","datasheet":"mc14174b-d","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C","flags":["automotive"]}
+      ]
+    },
+    {
+      "id": "4076B",
+      "function": "Register",
+      "description": "CMOS 4-bit D-type register with 3-state outputs",
+      "drawer": ["Logic", "Registers"],
+      "note": "Pinout, truth table: cd4076b p.1-2 (DATA 1-4 = D1-D4; OUTPUT DISABLE M, N; DATA INPUT DISABLE G1, G2); mc14076b (onsemi MC14076B: A, B output disable; A, B data disable; C clock; R reset; D0-D3, Q0-Q3), same pin numbers. M or N high: Q = Z; G1 or G2 high: hold at the clock edge; RESET high clears at once.",
+      "model": "parallel",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"M","role":"input"},
+          {"number":2,"name":"N","role":"input"},
+          {"number":3,"name":"Q1","role":"output"},
+          {"number":4,"name":"Q2","role":"output"},
+          {"number":5,"name":"Q3","role":"output"},
+          {"number":6,"name":"Q4","role":"output"},
+          {"number":7,"name":"CLOCK","role":"input"},
+          {"number":8,"name":"VSS","role":"ground"},
+          {"number":9,"name":"G1","role":"input"},
+          {"number":10,"name":"G2","role":"input"},
+          {"number":11,"name":"D4","role":"input"},
+          {"number":12,"name":"D3","role":"input"},
+          {"number":13,"name":"D2","role":"input"},
+          {"number":14,"name":"D1","role":"input"},
+          {"number":15,"name":"RESET","role":"input"},
+          {"number":16,"name":"VDD","role":"power"}
+        ]
+      },
+      "groups": [
+        {"d":["D1","D2","D3","D4"],"clk":{"pin":"CLOCK","edge":"rising"},"ce":[{"pin":"G1","active":"low"},{"pin":"G2","active":"low"}],"clear":{"pin":"RESET","active":"high","when":"async"},"outputs":[{"q":["Q1","Q2","Q3","Q4"],"oe":[{"pin":"M","active":"low"},{"pin":"N","active":"low"}]}]}
+      ],
+      "timing": {
+        "C": {"rise":300,"fall":300,"vcc":[3,18],"note":"Clock to Q typ, VDD 5 V 50 pF; VDD 3-18 V (cd4076b p.1, 3)"}
+      },
+      "parts": [
+        {"name":"CD4076BE","manufacturer":"Texas Instruments","datasheet":"cd4076b","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
+        {"name":"CD4076BF","manufacturer":"Texas Instruments","datasheet":"cd4076b","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C"},
+        {"name":"CD4076BM","manufacturer":"Texas Instruments","datasheet":"cd4076b","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
+        {"name":"CD4076BMT","manufacturer":"Texas Instruments","datasheet":"cd4076b","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
+        {"name":"MC14076BDR2G","manufacturer":"onsemi","datasheet":"mc14076b-d","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
+        {"name":"NLV14076BDR2G","manufacturer":"onsemi","datasheet":"mc14076b-d","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C","flags":["automotive"]}
+      ]
+    },
+    {
+      "id": "74_11374",
+      "function": "Register",
+      "description": "Octal edge-triggered D-type flip-flop with 3-state outputs (flow-through, center-pin power)",
+      "drawer": ["Logic", "Registers"],
+      "note": "Pinout and function table: 74act11374 p.1 (GND 5-8, VCC 18-19). OE high: Q = Z.",
+      "model": "parallel",
+      "pinouts": {
+        "p24": [
+          {"number":1,"name":"1Q","role":"output"},
+          {"number":2,"name":"2Q","role":"output"},
+          {"number":3,"name":"3Q","role":"output"},
+          {"number":4,"name":"4Q","role":"output"},
+          {"number":5,"name":"GND","role":"ground"},
+          {"number":6,"name":"GND","role":"ground"},
+          {"number":7,"name":"GND","role":"ground"},
+          {"number":8,"name":"GND","role":"ground"},
+          {"number":9,"name":"5Q","role":"output"},
+          {"number":10,"name":"6Q","role":"output"},
+          {"number":11,"name":"7Q","role":"output"},
+          {"number":12,"name":"8Q","role":"output"},
+          {"number":13,"name":"CLK","role":"input"},
+          {"number":14,"name":"8D","role":"input"},
+          {"number":15,"name":"7D","role":"input"},
+          {"number":16,"name":"6D","role":"input"},
+          {"number":17,"name":"5D","role":"input"},
+          {"number":18,"name":"VCC","role":"power"},
+          {"number":19,"name":"VCC","role":"power"},
+          {"number":20,"name":"4D","role":"input"},
+          {"number":21,"name":"3D","role":"input"},
+          {"number":22,"name":"2D","role":"input"},
+          {"number":23,"name":"1D","role":"input"},
+          {"number":24,"name":"OE","role":"input"}
+        ]
+      },
+      "groups": [
+        {"d":["1D","2D","3D","4D","5D","6D","7D","8D"],"clk":{"pin":"CLK","edge":"rising"},"outputs":[{"q":["1Q","2Q","3Q","4Q","5Q","6Q","7Q","8Q"],"oe":{"pin":"OE","active":"low"}}]}
+      ],
+      "timing": {
+        "ACT": {"rise":8.5,"fall":8.5,"vcc":[4.5,5.5],"note":"CLK to Q typ, 5 V 50 pF; VCC 4.5-5.5 V (74act11374 switching characteristics)"}
+      },
+      "parts": [
+        {"name":"74ACT11374DWR","manufacturer":"Texas Instruments","datasheet":"74act11374","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"ACT"}
+      ]
+    },
+    {
+      "id": "74_173",
+      "function": "Register",
+      "description": "4-bit D-type registers with 3-state outputs",
+      "drawer": ["Logic", "Registers"],
+      "note": "Pinout and function table: sn54173 (SN54173, SN54LS173A, SN74173, SN74LS173A) p.1-2, the FK carrier p.1; cd54hc173 (CD74HC173, CD74HCT173: OE1, OE2 = M, N; E1, E2 = G1, G2; MR = CLR; CP = CLK; Dx, Qx); 74hc_hct173 (Nexperia 74HC173, 74HCT173: OE1, OE2, E1, E2, MR, CP, Dn, Qn) Table 2. M or N high: Q = Z; G1 or G2 high: hold at the clock edge; CLR high clears at once.",
+      "model": "parallel",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"M","role":"input"},
+          {"number":2,"name":"N","role":"input"},
+          {"number":3,"name":"1Q","role":"output"},
+          {"number":4,"name":"2Q","role":"output"},
+          {"number":5,"name":"3Q","role":"output"},
+          {"number":6,"name":"4Q","role":"output"},
+          {"number":7,"name":"CLK","role":"input"},
+          {"number":8,"name":"GND","role":"ground"},
+          {"number":9,"name":"G1","role":"input"},
+          {"number":10,"name":"G2","role":"input"},
+          {"number":11,"name":"4D","role":"input"},
+          {"number":12,"name":"3D","role":"input"},
+          {"number":13,"name":"2D","role":"input"},
+          {"number":14,"name":"1D","role":"input"},
+          {"number":15,"name":"CLR","role":"input"},
+          {"number":16,"name":"VCC","role":"power"}
+        ],
+        "lccc20": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"M","role":"input"},
+          {"number":3,"name":"N","role":"input"},
+          {"number":4,"name":"1Q","role":"output"},
+          {"number":5,"name":"2Q","role":"output"},
+          {"number":6,"name":"NC","role":"nc"},
+          {"number":7,"name":"3Q","role":"output"},
+          {"number":8,"name":"4Q","role":"output"},
+          {"number":9,"name":"CLK","role":"input"},
+          {"number":10,"name":"GND","role":"ground"},
+          {"number":11,"name":"NC","role":"nc"},
+          {"number":12,"name":"G1","role":"input"},
+          {"number":13,"name":"G2","role":"input"},
+          {"number":14,"name":"4D","role":"input"},
+          {"number":15,"name":"3D","role":"input"},
+          {"number":16,"name":"NC","role":"nc"},
+          {"number":17,"name":"2D","role":"input"},
+          {"number":18,"name":"1D","role":"input"},
+          {"number":19,"name":"CLR","role":"input"},
+          {"number":20,"name":"VCC","role":"power"}
+        ]
+      },
+      "groups": [
+        {"d":["1D","2D","3D","4D"],"clk":{"pin":"CLK","edge":"rising"},"ce":[{"pin":"G1","active":"low"},{"pin":"G2","active":"low"}],"clear":{"pin":"CLR","active":"high","when":"async"},"outputs":[{"q":["1Q","2Q","3Q","4Q"],"oe":[{"pin":"M","active":"low"},{"pin":"N","active":"low"}]}]}
+      ],
+      "timing": {
+        "TTL": {"rise":28,"fall":19,"vcc":[4.75,5.25],"note":"CLK to Q typ, 5 V 50 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn54173 p.3-4)"},
+        "LS": {"rise":17,"fall":22,"vcc":[4.75,5.25],"note":"CLK to Q typ, 5 V 45 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn54173 p.5-6)"},
+        "HC": {"rise":17,"fall":17,"vcc":[2,6],"note":"CLK to Q typ, 5 V 15 pF; VCC 2-6 V (cd54hc173 § 5.5)"},
+        "HCT": {"rise":17,"fall":17,"vcc":[4.5,5.5],"note":"CLK to Q typ, 5 V 15 pF; VCC 4.5-5.5 V (cd54hc173 § 5.5)"}
+      },
+      "parts": [
+        {"name":"5962-8682501EA","manufacturer":"Texas Instruments","datasheet":"cd54hc173","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
+        {"name":"74HC173D,652","manufacturer":"Nexperia","datasheet":"74hc_hct173","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"74HC173D,653","manufacturer":"Nexperia","datasheet":"74hc_hct173","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"74HC173PW,112","manufacturer":"Nexperia","datasheet":"74hc_hct173","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
+        {"name":"74HC173PW,118","manufacturer":"Nexperia","datasheet":"74hc_hct173","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
+        {"name":"74HCT173D,652","manufacturer":"Nexperia","datasheet":"74hc_hct173","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
+        {"name":"CD74HC173E","manufacturer":"Texas Instruments","datasheet":"cd54hc173","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HC"},
+        {"name":"CD74HC173M96","manufacturer":"Texas Instruments","datasheet":"cd54hc173","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"CD74HC173PWR","manufacturer":"Texas Instruments","datasheet":"cd54hc173","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
+        {"name":"CD74HCT173E","manufacturer":"Texas Instruments","datasheet":"cd54hc173","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"HCT"},
+        {"name":"CD74HCT173M96","manufacturer":"Texas Instruments","datasheet":"cd54hc173","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
+        {"name":"JM38510/36101BEA","manufacturer":"Texas Instruments","datasheet":"sn54173","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"TTL","flags":["military","ceramic"]},
+        {"name":"SN54LS173AJ","manufacturer":"Texas Instruments","datasheet":"sn54173","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"]},
+        {"name":"SN74LS173AD","manufacturer":"Texas Instruments","datasheet":"sn54173","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
+        {"name":"SN74LS173AN","manufacturer":"Texas Instruments","datasheet":"sn54173","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"},
+        {"name":"SNJ54LS173AFK","manufacturer":"Texas Instruments","datasheet":"sn54173","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"]}
+      ]
+    },
+    {
+      "id": "74_29821",
+      "function": "Register",
+      "description": "10-bit bus-interface flip-flops with 3-state outputs",
+      "drawer": ["Logic", "Registers"],
+      "note": "Pinout and function table: sn74als29821 p.1 (the 74x821 pinout). OE high: Q = Z.",
+      "model": "parallel",
+      "pinouts": {
+        "p24": [
+          {"number":1,"name":"OE","role":"input"},
+          {"number":2,"name":"1D","role":"input"},
+          {"number":3,"name":"2D","role":"input"},
+          {"number":4,"name":"3D","role":"input"},
+          {"number":5,"name":"4D","role":"input"},
+          {"number":6,"name":"5D","role":"input"},
+          {"number":7,"name":"6D","role":"input"},
+          {"number":8,"name":"7D","role":"input"},
+          {"number":9,"name":"8D","role":"input"},
+          {"number":10,"name":"9D","role":"input"},
+          {"number":11,"name":"10D","role":"input"},
+          {"number":12,"name":"GND","role":"ground"},
+          {"number":13,"name":"CLK","role":"input"},
+          {"number":14,"name":"10Q","role":"output"},
+          {"number":15,"name":"9Q","role":"output"},
+          {"number":16,"name":"8Q","role":"output"},
+          {"number":17,"name":"7Q","role":"output"},
+          {"number":18,"name":"6Q","role":"output"},
+          {"number":19,"name":"5Q","role":"output"},
+          {"number":20,"name":"4Q","role":"output"},
+          {"number":21,"name":"3Q","role":"output"},
+          {"number":22,"name":"2Q","role":"output"},
+          {"number":23,"name":"1Q","role":"output"},
+          {"number":24,"name":"VCC","role":"power"}
+        ]
+      },
+      "groups": [
+        {"d":["1D","2D","3D","4D","5D","6D","7D","8D","9D","10D"],"clk":{"pin":"CLK","edge":"rising"},"outputs":[{"q":["1Q","2Q","3Q","4Q","5Q","6Q","7Q","8Q","9Q","10Q"],"oe":{"pin":"OE","active":"low"}}]}
+      ],
+      "timing": {
+        "ALS": {"rise":10,"fall":10,"vcc":[4.75,5.25],"note":"CLK to Q SN74ALS29821 max (no typ given), 5 V 50 pF; VCC SN74 4.75-5.25 V (sn74als29821 switching characteristics)"}
+      },
+      "parts": [
+        {"name":"SN74ALS29821DW","manufacturer":"Texas Instruments","datasheet":"sn74als29821","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"ALS"}
+      ]
+    },
+    {
+      "id": "74_377",
+      "function": "Register",
+      "description": "Octal D-type flip-flops with clock enable",
+      "drawer": ["Logic", "Registers"],
+      "note": "Pinout and function table: sn54ls378 (SN54/74LS377) p.1, sn54hc377, sn74hct377, sn54abt377, sn74f377a, cd54hct377 (CD74HC377: E = G, CP = CLK, Dn, Qn), cy74fct377t (CY74FCT377T: CE, CP, D0-D7, O0-O7); Nexperia 74hc_hct377, 74ahc_ahct377, 74lvc377 (E, CP, D0-D7, Q0-Q7); onsemi mc74ac377 (CE, CP, D0-D7, Q0-Q7). All the same pin numbers; FK carriers number 1:1. G low: CLK up loads; G high: hold.",
+      "model": "parallel",
+      "pinouts": {
+        "p20": [
+          {"number":1,"name":"G","role":"input"},
+          {"number":2,"name":"1Q","role":"output"},
+          {"number":3,"name":"1D","role":"input"},
+          {"number":4,"name":"2D","role":"input"},
+          {"number":5,"name":"2Q","role":"output"},
+          {"number":6,"name":"3Q","role":"output"},
+          {"number":7,"name":"3D","role":"input"},
+          {"number":8,"name":"4D","role":"input"},
+          {"number":9,"name":"4Q","role":"output"},
+          {"number":10,"name":"GND","role":"ground"},
+          {"number":11,"name":"CLK","role":"input"},
+          {"number":12,"name":"5Q","role":"output"},
+          {"number":13,"name":"5D","role":"input"},
+          {"number":14,"name":"6D","role":"input"},
+          {"number":15,"name":"6Q","role":"output"},
+          {"number":16,"name":"7Q","role":"output"},
+          {"number":17,"name":"7D","role":"input"},
+          {"number":18,"name":"8D","role":"input"},
+          {"number":19,"name":"8Q","role":"output"},
+          {"number":20,"name":"VCC","role":"power"}
+        ]
+      },
+      "groups": [
+        {"d":["1D","2D","3D","4D","5D","6D","7D","8D"],"clk":{"pin":"CLK","edge":"rising"},"ce":{"pin":"G","active":"low"},"outputs":[{"q":["1Q","2Q","3Q","4Q","5Q","6Q","7Q","8Q"]}]}
+      ],
+      "timing": {
+        "ABT": {"rise":4.5,"fall":5.3,"vcc":[4.5,5.5],"note":"CLK to Q typ, 5 V 50 pF; VCC 4.5-5.5 V (sn54abt377 switching characteristics)"},
+        "AC": {"rise":9,"fall":10,"vcc":[2,6],"note":"CP to Qn max (no typ given), 5 V 50 pF; VCC 2-6 V (mc74ac377 AC characteristics)"},
+        "ACT": {"rise":9,"fall":10,"vcc":[4.5,5.5],"note":"CP to Qn max (no typ given), 5 V 50 pF; VCC 4.5-5.5 V (mc74ac377 ACT characteristics)"},
+        "AHCT": {"rise":4.0,"fall":4.0,"vcc":[4.5,5.5],"note":"CP to Qn typ, 5 V 15 pF; VCC 4.5-5.5 V (Nexperia 74ahc_ahct377 Table 8)"},
+        "F": {"rise":6.5,"fall":7,"vcc":[4.5,5.5],"note":"CLK to Q typ, 5 V 50 pF; VCC 4.5-5.5 V (sn74f377a switching characteristics)"},
+        "FCT": {"rise":7.2,"fall":7.2,"vcc":[4.75,5.25],"note":"CP to O max, A grade (CY74FCT377AT), 5 V 50 pF (no typ given); VCC 4.75-5.25 V (cy74fct377t switching characteristics)"},
+        "HC": {"rise":15,"fall":15,"vcc":[2,6],"note":"CLK to Q typ, 4.5 V 50 pF; VCC 2-6 V (sn54hc377 § 6.6)"},
+        "HCT": {"rise":15,"fall":15,"vcc":[4.5,5.5],"note":"CLK to Q typ, 4.5 V 50 pF; VCC 4.5-5.5 V (sn74hct377 switching characteristics)"},
+        "LS": {"rise":17,"fall":18,"vcc":[4.75,5.25],"note":"CLK to Q typ, 5 V 15 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn54ls378 p.4)"},
+        "LVC": {"rise":4.0,"fall":4.0,"vcc":[1.65,3.6],"inputMax":5.5,"note":"CP to Qn typ, 3.0-3.6 V; VCC 1.65-3.6 V, inputs 5.5 V (Nexperia 74lvc377 dynamic characteristics)"}
+      },
+      "parts": [
+        {"name":"5962-87807012A","manufacturer":"Texas Instruments","datasheet":"sn54hc377","package":"LCCC","pinout":"p20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]},
+        {"name":"5962-8976901RA","manufacturer":"Texas Instruments","datasheet":"cd54hct377","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"HCT","flags":["military","ceramic"]},
+        {"name":"5962-9314801Q2A","manufacturer":"Texas Instruments","datasheet":"sn54abt377","package":"LCCC","pinout":"p20","footprint":"LCCC-20","family":"ABT","flags":["military","ceramic"]},
+        {"name":"5962-9314801QRA","manufacturer":"Texas Instruments","datasheet":"sn54abt377","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"ABT","flags":["military","ceramic"]},
+        {"name":"74AHCT377PW,118","manufacturer":"Nexperia","datasheet":"74ahc_ahct377","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"AHCT"},
+        {"name":"74HC377D,652","manufacturer":"Nexperia","datasheet":"74hc_hct377","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
+        {"name":"74HC377D,653","manufacturer":"Nexperia","datasheet":"74hc_hct377","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
+        {"name":"74HC377PW,118","manufacturer":"Nexperia","datasheet":"74hc_hct377","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HC"},
+        {"name":"74HC377PW-Q100J","manufacturer":"Nexperia","datasheet":"74hc_hct377_q100","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HC","flags":["automotive"]},
+        {"name":"74HCT377D,652","manufacturer":"Nexperia","datasheet":"74hc_hct377","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HCT"},
+        {"name":"74HCT377D,653","manufacturer":"Nexperia","datasheet":"74hc_hct377","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HCT"},
+        {"name":"74LVC377D,112","manufacturer":"Nexperia","datasheet":"74lvc377","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"LVC"},
+        {"name":"74LVC377D,118","manufacturer":"Nexperia","datasheet":"74lvc377","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"LVC"},
+        {"name":"74LVC377PW,118","manufacturer":"Nexperia","datasheet":"74lvc377","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"LVC"},
+        {"name":"CD54HC377F3A","manufacturer":"Texas Instruments","datasheet":"cd54hct377","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"HC","flags":["military","ceramic"]},
+        {"name":"CD74HC377E","manufacturer":"Texas Instruments","datasheet":"cd54hct377","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"HC"},
+        {"name":"CD74HC377M96","manufacturer":"Texas Instruments","datasheet":"cd54hct377","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
+        {"name":"CD74HC377PWR","manufacturer":"Texas Instruments","datasheet":"cd54hct377","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HC"},
+        {"name":"CD74HCT377E","manufacturer":"Texas Instruments","datasheet":"cd54hct377","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"HCT"},
+        {"name":"CD74HCT377M96","manufacturer":"Texas Instruments","datasheet":"cd54hct377","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HCT"},
+        {"name":"CY74FCT377ATQCT","manufacturer":"Texas Instruments","datasheet":"cy74fct377t","package":"QSOP","pinout":"p20","footprint":"QSOP-20","family":"FCT"},
+        {"name":"CY74FCT377ATSOC","manufacturer":"Texas Instruments","datasheet":"cy74fct377t","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"FCT"},
+        {"name":"JM38510/32504BRA","manufacturer":"Texas Instruments","datasheet":"sn54ls378","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"LS","flags":["military","ceramic"]},
+        {"name":"JM38510/32504BSA","manufacturer":"Texas Instruments","datasheet":"sn54ls378","package":"CFP","pinout":"p20","footprint":"CFP-20","family":"LS","flags":["military","ceramic"]},
+        {"name":"MC74AC377DTG","manufacturer":"onsemi","datasheet":"mc74ac377-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"AC"},
+        {"name":"MC74AC377DTR2G","manufacturer":"onsemi","datasheet":"mc74ac377-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"AC"},
+        {"name":"MC74AC377DWR2G","manufacturer":"onsemi","datasheet":"mc74ac377-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"AC"},
+        {"name":"MC74ACT377DWR2G","manufacturer":"onsemi","datasheet":"mc74ac377-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ACT"},
+        {"name":"SN74ABT377ADBR","manufacturer":"Texas Instruments","datasheet":"sn54abt377","package":"SSOP","pinout":"p20","footprint":"SSOP-20","family":"ABT"},
+        {"name":"SN74ABT377ADW","manufacturer":"Texas Instruments","datasheet":"sn54abt377","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ABT"},
+        {"name":"SN74ABT377ADWR","manufacturer":"Texas Instruments","datasheet":"sn54abt377","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ABT"},
+        {"name":"SN74ABT377AN","manufacturer":"Texas Instruments","datasheet":"sn54abt377","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"ABT"},
+        {"name":"SN74ABT377ANSR","manufacturer":"Texas Instruments","datasheet":"sn54abt377","package":"SOP","pinout":"p20","footprint":"SOP-20","family":"ABT"},
+        {"name":"SN74ABT377APW","manufacturer":"Texas Instruments","datasheet":"sn54abt377","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"ABT"},
+        {"name":"SN74ABT377APWR","manufacturer":"Texas Instruments","datasheet":"sn54abt377","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"ABT"},
+        {"name":"SN74F377AN","manufacturer":"Texas Instruments","datasheet":"sn74f377a","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"F"},
+        {"name":"SN74HC377DWR","manufacturer":"Texas Instruments","datasheet":"sn54hc377","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
+        {"name":"SN74HC377N","manufacturer":"Texas Instruments","datasheet":"sn54hc377","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"HC"},
+        {"name":"SN74HC377NE4","manufacturer":"Texas Instruments","datasheet":"sn54hc377","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"HC"},
+        {"name":"SN74HC377NSR","manufacturer":"Texas Instruments","datasheet":"sn54hc377","package":"SOP","pinout":"p20","footprint":"SOP-20","family":"HC"},
+        {"name":"SN74HCT377DWR","manufacturer":"Texas Instruments","datasheet":"sn74hct377","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HCT"},
+        {"name":"SN74HCT377N","manufacturer":"Texas Instruments","datasheet":"sn74hct377","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"HCT"},
+        {"name":"SN74LS377DWR","manufacturer":"Texas Instruments","datasheet":"sn54ls378","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"LS"},
+        {"name":"SN74LS377N","manufacturer":"Texas Instruments","datasheet":"sn54ls378","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"LS"},
+        {"name":"SN74LS377NE4","manufacturer":"Texas Instruments","datasheet":"sn54ls378","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"LS"},
+        {"name":"SN74LS377NSR","manufacturer":"Texas Instruments","datasheet":"sn54ls378","package":"SOP","pinout":"p20","footprint":"SOP-20","family":"LS"},
+        {"name":"SNJ54HC377J","manufacturer":"Texas Instruments","datasheet":"sn54hc377","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"HC","flags":["military","ceramic"]}
+      ]
+    },
+    {
+      "id": "74_378",
+      "function": "Register",
+      "description": "Hex D-type flip-flops with clock enable",
+      "drawer": ["Logic", "Registers"],
+      "note": "Pinout and function table: sn54ls378 (SN54/74LS378) p.1; mc74f378 / SN74F378 would be the same pins. G low: CLK up loads; G high: hold.",
+      "model": "parallel",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"G","role":"input"},
+          {"number":2,"name":"1Q","role":"output"},
+          {"number":3,"name":"1D","role":"input"},
+          {"number":4,"name":"2D","role":"input"},
+          {"number":5,"name":"2Q","role":"output"},
+          {"number":6,"name":"3D","role":"input"},
+          {"number":7,"name":"3Q","role":"output"},
+          {"number":8,"name":"GND","role":"ground"},
+          {"number":9,"name":"CLK","role":"input"},
+          {"number":10,"name":"4Q","role":"output"},
+          {"number":11,"name":"4D","role":"input"},
+          {"number":12,"name":"5Q","role":"output"},
+          {"number":13,"name":"5D","role":"input"},
+          {"number":14,"name":"6D","role":"input"},
+          {"number":15,"name":"6Q","role":"output"},
+          {"number":16,"name":"VCC","role":"power"}
+        ]
+      },
+      "groups": [
+        {"d":["1D","2D","3D","4D","5D","6D"],"clk":{"pin":"CLK","edge":"rising"},"ce":{"pin":"G","active":"low"},"outputs":[{"q":["1Q","2Q","3Q","4Q","5Q","6Q"]}]}
+      ],
+      "timing": {
+        "LS": {"rise":17,"fall":18,"vcc":[4.75,5.25],"note":"CLK to Q typ, 5 V 15 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn54ls378 p.4)"}
+      },
+      "parts": [
+        {"name":"5962-8992501EA","manufacturer":"Texas Instruments","datasheet":"sn54ls378","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"]},
+        {"name":"SN54LS378J","manufacturer":"Texas Instruments","datasheet":"sn54ls378","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"LS","flags":["military","ceramic"]},
+        {"name":"SN74LS378DR","manufacturer":"Texas Instruments","datasheet":"sn54ls378","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"LS"},
+        {"name":"SN74LS378N","manufacturer":"Texas Instruments","datasheet":"sn54ls378","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"LS"}
+      ]
+    },
+    {
+      "id": "74_379",
+      "function": "Register",
+      "description": "Quadruple D-type flip-flops with clock enable and complementary outputs",
+      "drawer": ["Logic", "Registers"],
+      "note": "Pinout and function table: sn54ls378 (SN54/74LS379) p.1-2, the FK carrier p.2. G low: CLK up loads; G high: hold; Q and QBAR are complementary.",
+      "model": "parallel",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"G","role":"input"},
+          {"number":2,"name":"1Q","role":"output"},
+          {"number":3,"name":"1QBAR","role":"output"},
+          {"number":4,"name":"1D","role":"input"},
+          {"number":5,"name":"2D","role":"input"},
+          {"number":6,"name":"2QBAR","role":"output"},
+          {"number":7,"name":"2Q","role":"output"},
+          {"number":8,"name":"GND","role":"ground"},
+          {"number":9,"name":"CLK","role":"input"},
+          {"number":10,"name":"3Q","role":"output"},
+          {"number":11,"name":"3QBAR","role":"output"},
+          {"number":12,"name":"3D","role":"input"},
+          {"number":13,"name":"4D","role":"input"},
+          {"number":14,"name":"4QBAR","role":"output"},
+          {"number":15,"name":"4Q","role":"output"},
+          {"number":16,"name":"VCC","role":"power"}
+        ],
+        "lccc20": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"G","role":"input"},
+          {"number":3,"name":"1Q","role":"output"},
+          {"number":4,"name":"1QBAR","role":"output"},
+          {"number":5,"name":"1D","role":"input"},
+          {"number":6,"name":"NC","role":"nc"},
+          {"number":7,"name":"2D","role":"input"},
+          {"number":8,"name":"2QBAR","role":"output"},
+          {"number":9,"name":"2Q","role":"output"},
+          {"number":10,"name":"GND","role":"ground"},
+          {"number":11,"name":"NC","role":"nc"},
+          {"number":12,"name":"CLK","role":"input"},
+          {"number":13,"name":"3Q","role":"output"},
+          {"number":14,"name":"3QBAR","role":"output"},
+          {"number":15,"name":"3D","role":"input"},
+          {"number":16,"name":"NC","role":"nc"},
+          {"number":17,"name":"4D","role":"input"},
+          {"number":18,"name":"4QBAR","role":"output"},
+          {"number":19,"name":"4Q","role":"output"},
+          {"number":20,"name":"VCC","role":"power"}
+        ]
+      },
+      "groups": [
+        {"d":["1D","2D","3D","4D"],"clk":{"pin":"CLK","edge":"rising"},"ce":{"pin":"G","active":"low"},"outputs":[{"q":["1Q","2Q","3Q","4Q"]},{"q":["1QBAR","2QBAR","3QBAR","4QBAR"],"invert":true}]}
+      ],
+      "timing": {
+        "LS": {"rise":17,"fall":18,"vcc":[4.75,5.25],"note":"CLK to Q typ, 5 V 15 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn54ls378 p.4)"}
+      },
+      "parts": [
+        {"name":"SNJ54LS379FK","manufacturer":"Texas Instruments","datasheet":"sn54ls378","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"LS","flags":["military","ceramic"]}
+      ]
+    },
+    {
+      "id": "74_534",
+      "function": "Register",
+      "description": "Octal edge-triggered D-type flip-flops with inverted 3-state outputs",
+      "drawer": ["Logic", "Registers"],
+      "note": "Pinout and function table: sn74abt534a, sn74ac534, sn74act534, sn74als534a (the 74x374 pinout with OE on pin 1 and inverted outputs 1Q-8Q), cd74ac534, cd74hc564 (CD74HCT534). OE high: Q = Z; Q = NOT D after CLK up.",
+      "model": "parallel",
+      "pinouts": {
+        "p20": [
+          {"number":1,"name":"OE","role":"input"},
+          {"number":2,"name":"1Q","role":"output"},
+          {"number":3,"name":"1D","role":"input"},
+          {"number":4,"name":"2D","role":"input"},
+          {"number":5,"name":"2Q","role":"output"},
+          {"number":6,"name":"3Q","role":"output"},
+          {"number":7,"name":"3D","role":"input"},
+          {"number":8,"name":"4D","role":"input"},
+          {"number":9,"name":"4Q","role":"output"},
+          {"number":10,"name":"GND","role":"ground"},
+          {"number":11,"name":"CLK","role":"input"},
+          {"number":12,"name":"5Q","role":"output"},
+          {"number":13,"name":"5D","role":"input"},
+          {"number":14,"name":"6D","role":"input"},
+          {"number":15,"name":"6Q","role":"output"},
+          {"number":16,"name":"7Q","role":"output"},
+          {"number":17,"name":"7D","role":"input"},
+          {"number":18,"name":"8D","role":"input"},
+          {"number":19,"name":"8Q","role":"output"},
+          {"number":20,"name":"VCC","role":"power"}
+        ]
+      },
+      "groups": [
+        {"d":["1D","2D","3D","4D","5D","6D","7D","8D"],"clk":{"pin":"CLK","edge":"rising"},"outputs":[{"q":["1Q","2Q","3Q","4Q","5Q","6Q","7Q","8Q"],"invert":true,"oe":{"pin":"OE","active":"low"}}]}
+      ],
+      "timing": {
+        "ABT": {"rise":4.5,"fall":5.5,"vcc":[4.5,5.5],"note":"CLK to Q typ, 5 V 50 pF; VCC 4.5-5.5 V (sn74abt534a switching characteristics)"},
+        "AC": {"rise":10.5,"fall":9.5,"vcc":[2,6],"note":"CLK to Q max (no typ given), 5 V 50 pF; VCC 2-6 V (sn74ac534 switching characteristics)"},
+        "ACT": {"rise":11.5,"fall":10.5,"vcc":[4.5,5.5],"note":"CLK to Q max (no typ given), 5 V 50 pF; VCC 4.5-5.5 V (sn74act534 switching characteristics)"},
+        "ALS": {"rise":12,"fall":16,"vcc":[4.5,5.5],"note":"CLK to Q SN74ALS534A max (no typ given), 5 V 50 pF; VCC 4.5-5.5 V (sn74als534a switching characteristics)"},
+        "HCT": {"rise":14,"fall":14,"vcc":[4.5,5.5],"note":"Clock to output typ, 4.5 V 50 pF; VCC 4.5-5.5 V (cd74hc564, CD74HCT534 switching characteristics)"}
+      },
+      "parts": [
+        {"name":"CD74AC534M96","manufacturer":"Texas Instruments","datasheet":"cd74ac534","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"AC"},
+        {"name":"CD74HCT534E","manufacturer":"Texas Instruments","datasheet":"cd74hc564","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"HCT"},
+        {"name":"SN74ABT534ADBR","manufacturer":"Texas Instruments","datasheet":"sn74abt534a","package":"SSOP","pinout":"p20","footprint":"SSOP-20","family":"ABT"},
+        {"name":"SN74ABT534ADW","manufacturer":"Texas Instruments","datasheet":"sn74abt534a","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ABT"},
+        {"name":"SN74ABT534ADWR","manufacturer":"Texas Instruments","datasheet":"sn74abt534a","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ABT"},
+        {"name":"SN74ABT534AN","manufacturer":"Texas Instruments","datasheet":"sn74abt534a","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"ABT"},
+        {"name":"SN74AC534DBR","manufacturer":"Texas Instruments","datasheet":"sn74ac534","package":"SSOP","pinout":"p20","footprint":"SSOP-20","family":"AC"},
+        {"name":"SN74AC534DWR","manufacturer":"Texas Instruments","datasheet":"sn74ac534","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"AC"},
+        {"name":"SN74AC534N","manufacturer":"Texas Instruments","datasheet":"sn74ac534","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"AC"},
+        {"name":"SN74AC534NSR","manufacturer":"Texas Instruments","datasheet":"sn74ac534","package":"SOP","pinout":"p20","footprint":"SOP-20","family":"AC"},
+        {"name":"SN74AC534PWR","manufacturer":"Texas Instruments","datasheet":"sn74ac534","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"AC"},
+        {"name":"SN74ACT534DWR","manufacturer":"Texas Instruments","datasheet":"sn74act534","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ACT"},
+        {"name":"SN74ACT534N","manufacturer":"Texas Instruments","datasheet":"sn74act534","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"ACT"},
+        {"name":"SN74ACT534NSR","manufacturer":"Texas Instruments","datasheet":"sn74act534","package":"SOP","pinout":"p20","footprint":"SOP-20","family":"ACT"},
+        {"name":"SN74ACT534PWR","manufacturer":"Texas Instruments","datasheet":"sn74act534","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"ACT"},
+        {"name":"SN74ALS534ADWR","manufacturer":"Texas Instruments","datasheet":"sn74als534a","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ALS"},
+        {"name":"SN74ALS534AN","manufacturer":"Texas Instruments","datasheet":"sn74als534a","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"ALS"},
+        {"name":"SN74ALS534ANSR","manufacturer":"Texas Instruments","datasheet":"sn74als534a","package":"SOP","pinout":"p20","footprint":"SOP-20","family":"ALS"}
+      ]
+    },
+    {
+      "id": "74_564",
+      "function": "Register",
+      "description": "Octal edge-triggered D-type flip-flops with inverted 3-state outputs",
+      "drawer": ["Logic", "Registers"],
+      "note": "Pinout and function table: sn74ac564, sn74act564, sn74als564b, cd74hc564 (CD74HC564, CD74HCT564): the 74x574 flow-through pinout with inverted outputs. OE high: Q = Z; Q = NOT D after CLK up.",
+      "model": "parallel",
+      "pinouts": {
+        "p20": [
+          {"number":1,"name":"OE","role":"input"},
+          {"number":2,"name":"1D","role":"input"},
+          {"number":3,"name":"2D","role":"input"},
+          {"number":4,"name":"3D","role":"input"},
+          {"number":5,"name":"4D","role":"input"},
+          {"number":6,"name":"5D","role":"input"},
+          {"number":7,"name":"6D","role":"input"},
+          {"number":8,"name":"7D","role":"input"},
+          {"number":9,"name":"8D","role":"input"},
+          {"number":10,"name":"GND","role":"ground"},
+          {"number":11,"name":"CLK","role":"input"},
+          {"number":12,"name":"8Q","role":"output"},
+          {"number":13,"name":"7Q","role":"output"},
+          {"number":14,"name":"6Q","role":"output"},
+          {"number":15,"name":"5Q","role":"output"},
+          {"number":16,"name":"4Q","role":"output"},
+          {"number":17,"name":"3Q","role":"output"},
+          {"number":18,"name":"2Q","role":"output"},
+          {"number":19,"name":"1Q","role":"output"},
+          {"number":20,"name":"VCC","role":"power"}
+        ]
+      },
+      "groups": [
+        {"d":["1D","2D","3D","4D","5D","6D","7D","8D"],"clk":{"pin":"CLK","edge":"rising"},"outputs":[{"q":["1Q","2Q","3Q","4Q","5Q","6Q","7Q","8Q"],"invert":true,"oe":{"pin":"OE","active":"low"}}]}
+      ],
+      "timing": {
+        "AC": {"rise":4.9,"fall":5,"vcc":[2,6],"note":"CLK to Q typ, 5 V 50 pF; VCC 2-6 V (sn74ac564 switching characteristics)"},
+        "ACT": {"rise":6.5,"fall":6,"vcc":[4.5,5.5],"note":"CLK to Q typ, 5 V 50 pF; VCC 4.5-5.5 V (sn74act564 switching characteristics)"},
+        "ALS": {"rise":14,"fall":14,"vcc":[4.5,5.5],"note":"CLK to Q SN74ALS564B max (no typ given), 5 V 50 pF; VCC 4.5-5.5 V (sn74als564b switching characteristics)"},
+        "HC": {"rise":13,"fall":13,"vcc":[2,6],"note":"Clock to output typ, 4.5 V 50 pF; VCC 2-6 V (cd74hc564 switching characteristics)"},
+        "HCT": {"rise":14,"fall":14,"vcc":[4.5,5.5],"note":"Clock to output typ, 4.5 V 50 pF; VCC 4.5-5.5 V (cd74hc564 switching characteristics)"}
+      },
+      "parts": [
+        {"name":"CD74HC564E","manufacturer":"Texas Instruments","datasheet":"cd74hc564","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"HC"},
+        {"name":"CD74HC564M","manufacturer":"Texas Instruments","datasheet":"cd74hc564","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
+        {"name":"CD74HC564M96","manufacturer":"Texas Instruments","datasheet":"cd74hc564","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
+        {"name":"CD74HCT564E","manufacturer":"Texas Instruments","datasheet":"cd74hc564","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"HCT"},
+        {"name":"CD74HCT564M","manufacturer":"Texas Instruments","datasheet":"cd74hc564","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HCT"},
+        {"name":"SN74AC564DW","manufacturer":"Texas Instruments","datasheet":"sn74ac564","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"AC"},
+        {"name":"SN74AC564N","manufacturer":"Texas Instruments","datasheet":"sn74ac564","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"AC"},
+        {"name":"SN74ACT564DWR","manufacturer":"Texas Instruments","datasheet":"sn74act564","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ACT"},
+        {"name":"SN74ACT564N","manufacturer":"Texas Instruments","datasheet":"sn74act564","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"ACT"},
+        {"name":"SN74ACT564NSR","manufacturer":"Texas Instruments","datasheet":"sn74act564","package":"SOP","pinout":"p20","footprint":"SOP-20","family":"ACT"},
+        {"name":"SN74ACT564PWR","manufacturer":"Texas Instruments","datasheet":"sn74act564","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"ACT"},
+        {"name":"SN74ALS564BDW","manufacturer":"Texas Instruments","datasheet":"sn74als564b","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ALS"},
+        {"name":"SN74ALS564BN","manufacturer":"Texas Instruments","datasheet":"sn74als564b","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"ALS"},
+        {"name":"SN74ALS564BNSR","manufacturer":"Texas Instruments","datasheet":"sn74als564b","package":"SOP","pinout":"p20","footprint":"SOP-20","family":"ALS"},
+        {"name":"SNJ54ALS564BJ","manufacturer":"Texas Instruments","datasheet":"sn74als564b","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"ALS","flags":["military","ceramic"]}
+      ]
+    },
+    {
+      "id": "74_575",
+      "function": "Register",
+      "description": "Octal D-type edge-triggered flip-flops with synchronous clear and 3-state outputs",
+      "drawer": ["Logic", "Registers"],
+      "note": "Pinout and function table: sn74als575a (SN74ALS575A, 24-pin DW / NT) p.1. CLR low at CLK up: Q = 0; OE high: Q = Z.",
+      "model": "parallel",
+      "pinouts": {
+        "p24": [
+          {"number":1,"name":"CLR","role":"input"},
+          {"number":2,"name":"OE","role":"input"},
+          {"number":3,"name":"1D","role":"input"},
+          {"number":4,"name":"2D","role":"input"},
+          {"number":5,"name":"3D","role":"input"},
+          {"number":6,"name":"4D","role":"input"},
+          {"number":7,"name":"5D","role":"input"},
+          {"number":8,"name":"6D","role":"input"},
+          {"number":9,"name":"7D","role":"input"},
+          {"number":10,"name":"8D","role":"input"},
+          {"number":11,"name":"NC","role":"nc"},
+          {"number":12,"name":"GND","role":"ground"},
+          {"number":13,"name":"NC","role":"nc"},
+          {"number":14,"name":"CLK","role":"input"},
+          {"number":15,"name":"8Q","role":"output"},
+          {"number":16,"name":"7Q","role":"output"},
+          {"number":17,"name":"6Q","role":"output"},
+          {"number":18,"name":"5Q","role":"output"},
+          {"number":19,"name":"4Q","role":"output"},
+          {"number":20,"name":"3Q","role":"output"},
+          {"number":21,"name":"2Q","role":"output"},
+          {"number":22,"name":"1Q","role":"output"},
+          {"number":23,"name":"NC","role":"nc"},
+          {"number":24,"name":"VCC","role":"power"}
+        ]
+      },
+      "groups": [
+        {"d":["1D","2D","3D","4D","5D","6D","7D","8D"],"clk":{"pin":"CLK","edge":"rising"},"clear":{"pin":"CLR","active":"low","when":"clock"},"outputs":[{"q":["1Q","2Q","3Q","4Q","5Q","6Q","7Q","8Q"],"oe":{"pin":"OE","active":"low"}}]}
+      ],
+      "timing": {
+        "ALS": {"rise":14,"fall":14,"vcc":[4.5,5.5],"note":"CLK to Q SN74ALS575A max (no typ given), 5 V 50 pF; VCC 4.5-5.5 V (sn74als575a switching characteristics)"}
+      },
+      "parts": [
+        {"name":"SN74ALS575ADW","manufacturer":"Texas Instruments","datasheet":"sn74als575a","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"ALS"}
+      ]
+    },
+    {
+      "id": "74_576",
+      "function": "Register",
+      "description": "Octal edge-triggered D-type flip-flops with inverted 3-state outputs",
+      "drawer": ["Logic", "Registers"],
+      "note": "Pinout and function table: sn54als576b (SN54/74ALS576B) p.1: the 74x574 pinout with inverted outputs. OE high: Q = Z; Q = NOT D after CLK up.",
+      "model": "parallel",
+      "pinouts": {
+        "p20": [
+          {"number":1,"name":"OE","role":"input"},
+          {"number":2,"name":"1D","role":"input"},
+          {"number":3,"name":"2D","role":"input"},
+          {"number":4,"name":"3D","role":"input"},
+          {"number":5,"name":"4D","role":"input"},
+          {"number":6,"name":"5D","role":"input"},
+          {"number":7,"name":"6D","role":"input"},
+          {"number":8,"name":"7D","role":"input"},
+          {"number":9,"name":"8D","role":"input"},
+          {"number":10,"name":"GND","role":"ground"},
+          {"number":11,"name":"CLK","role":"input"},
+          {"number":12,"name":"8Q","role":"output"},
+          {"number":13,"name":"7Q","role":"output"},
+          {"number":14,"name":"6Q","role":"output"},
+          {"number":15,"name":"5Q","role":"output"},
+          {"number":16,"name":"4Q","role":"output"},
+          {"number":17,"name":"3Q","role":"output"},
+          {"number":18,"name":"2Q","role":"output"},
+          {"number":19,"name":"1Q","role":"output"},
+          {"number":20,"name":"VCC","role":"power"}
+        ]
+      },
+      "groups": [
+        {"d":["1D","2D","3D","4D","5D","6D","7D","8D"],"clk":{"pin":"CLK","edge":"rising"},"outputs":[{"q":["1Q","2Q","3Q","4Q","5Q","6Q","7Q","8Q"],"invert":true,"oe":{"pin":"OE","active":"low"}}]}
+      ],
+      "timing": {
+        "ALS": {"rise":14,"fall":14,"vcc":[4.5,5.5],"note":"CLK to Q SN74ALS576B max (no typ given), 5 V 50 pF; VCC 4.5-5.5 V (sn54als576b switching characteristics)"}
+      },
+      "parts": [
+        {"name":"8400102RA","manufacturer":"Texas Instruments","datasheet":"sn54als576b","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"ALS","flags":["military","ceramic"]},
+        {"name":"SN74ALS576BDWR","manufacturer":"Texas Instruments","datasheet":"sn54als576b","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ALS"},
+        {"name":"SN74ALS576BN","manufacturer":"Texas Instruments","datasheet":"sn54als576b","package":"DIP","pinout":"p20","footprint":"PDIP-20","family":"ALS"},
+        {"name":"SN74ALS576BNSR","manufacturer":"Texas Instruments","datasheet":"sn54als576b","package":"SOP","pinout":"p20","footprint":"SOP-20","family":"ALS"},
+        {"name":"SNJ54ALS576BJ","manufacturer":"Texas Instruments","datasheet":"sn54als576b","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"ALS","flags":["military","ceramic"]}
+      ]
+    },
+    {
+      "id": "74_577",
+      "function": "Register",
+      "description": "Octal D-type edge-triggered flip-flops with synchronous clear and inverted 3-state outputs",
+      "drawer": ["Logic", "Registers"],
+      "note": "Pinout and function table: sn54als576b (SN74ALS577A, 24-pin DW / NT) p.1. CLR low at CLK up: Q = 1 (the stored bits clear; the outputs invert); OE high: Q = Z.",
+      "model": "parallel",
+      "pinouts": {
+        "p24": [
+          {"number":1,"name":"CLR","role":"input"},
+          {"number":2,"name":"OE","role":"input"},
+          {"number":3,"name":"1D","role":"input"},
+          {"number":4,"name":"2D","role":"input"},
+          {"number":5,"name":"3D","role":"input"},
+          {"number":6,"name":"4D","role":"input"},
+          {"number":7,"name":"5D","role":"input"},
+          {"number":8,"name":"6D","role":"input"},
+          {"number":9,"name":"7D","role":"input"},
+          {"number":10,"name":"8D","role":"input"},
+          {"number":11,"name":"NC","role":"nc"},
+          {"number":12,"name":"GND","role":"ground"},
+          {"number":13,"name":"NC","role":"nc"},
+          {"number":14,"name":"CLK","role":"input"},
+          {"number":15,"name":"8Q","role":"output"},
+          {"number":16,"name":"7Q","role":"output"},
+          {"number":17,"name":"6Q","role":"output"},
+          {"number":18,"name":"5Q","role":"output"},
+          {"number":19,"name":"4Q","role":"output"},
+          {"number":20,"name":"3Q","role":"output"},
+          {"number":21,"name":"2Q","role":"output"},
+          {"number":22,"name":"1Q","role":"output"},
+          {"number":23,"name":"NC","role":"nc"},
+          {"number":24,"name":"VCC","role":"power"}
+        ]
+      },
+      "groups": [
+        {"d":["1D","2D","3D","4D","5D","6D","7D","8D"],"clk":{"pin":"CLK","edge":"rising"},"clear":{"pin":"CLR","active":"low","when":"clock"},"outputs":[{"q":["1Q","2Q","3Q","4Q","5Q","6Q","7Q","8Q"],"invert":true,"oe":{"pin":"OE","active":"low"}}]}
+      ],
+      "timing": {
+        "ALS": {"rise":14,"fall":14,"vcc":[4.5,5.5],"note":"CLK to Q SN74ALS577A max (no typ given), 5 V 50 pF; VCC 4.5-5.5 V (sn54als576b switching characteristics)"}
+      },
+      "parts": [
+        {"name":"SN74ALS577ADWR","manufacturer":"Texas Instruments","datasheet":"sn54als576b","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"ALS"}
+      ]
+    },
+    {
+      "id": "74_821",
+      "function": "Register",
+      "description": "10-bit bus-interface flip-flops with 3-state outputs",
+      "drawer": ["Logic", "Registers"],
+      "note": "Pinout and function table: sn74abt821a p.1, sn74lvc821a, cy74fct821t (CY74FCT821T: OE, D0-D9, CP, Y0-Y9), same pin numbers. OE high: Q = Z.",
+      "model": "parallel",
+      "pinouts": {
+        "p24": [
+          {"number":1,"name":"OE","role":"input"},
+          {"number":2,"name":"1D","role":"input"},
+          {"number":3,"name":"2D","role":"input"},
+          {"number":4,"name":"3D","role":"input"},
+          {"number":5,"name":"4D","role":"input"},
+          {"number":6,"name":"5D","role":"input"},
+          {"number":7,"name":"6D","role":"input"},
+          {"number":8,"name":"7D","role":"input"},
+          {"number":9,"name":"8D","role":"input"},
+          {"number":10,"name":"9D","role":"input"},
+          {"number":11,"name":"10D","role":"input"},
+          {"number":12,"name":"GND","role":"ground"},
+          {"number":13,"name":"CLK","role":"input"},
+          {"number":14,"name":"10Q","role":"output"},
+          {"number":15,"name":"9Q","role":"output"},
+          {"number":16,"name":"8Q","role":"output"},
+          {"number":17,"name":"7Q","role":"output"},
+          {"number":18,"name":"6Q","role":"output"},
+          {"number":19,"name":"5Q","role":"output"},
+          {"number":20,"name":"4Q","role":"output"},
+          {"number":21,"name":"3Q","role":"output"},
+          {"number":22,"name":"2Q","role":"output"},
+          {"number":23,"name":"1Q","role":"output"},
+          {"number":24,"name":"VCC","role":"power"}
+        ]
+      },
+      "groups": [
+        {"d":["1D","2D","3D","4D","5D","6D","7D","8D","9D","10D"],"clk":{"pin":"CLK","edge":"rising"},"outputs":[{"q":["1Q","2Q","3Q","4Q","5Q","6Q","7Q","8Q","9Q","10Q"],"oe":{"pin":"OE","active":"low"}}]}
+      ],
+      "timing": {
+        "ABT": {"rise":4.1,"fall":4.6,"vcc":[4.5,5.5],"note":"CLK to Q typ, 5 V 50 pF; VCC 4.5-5.5 V (sn74abt821a switching characteristics)"},
+        "FCT": {"rise":10,"fall":10,"vcc":[4.75,5.25],"note":"CP to Y max, A grade (CY74FCT821AT; B 7.5, C 6), 5 V 50 pF (no typ given); VCC 4.75-5.25 V (cy74fct821t switching characteristics)"},
+        "LVC": {"rise":7.3,"fall":7.3,"vcc":[1.65,3.6],"inputMax":5.5,"note":"CLK to Q max (no typ given), 3.3 V 50 pF; VCC 1.65-3.6 V, inputs 5.5 V (sn74lvc821a switching characteristics)"}
+      },
+      "parts": [
+        {"name":"CY74FCT821ATSOC","manufacturer":"Texas Instruments","datasheet":"cy74fct821t","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"FCT"},
+        {"name":"CY74FCT821BTSOC","manufacturer":"Texas Instruments","datasheet":"cy74fct821t","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"FCT"},
+        {"name":"CY74FCT821CTSOC","manufacturer":"Texas Instruments","datasheet":"cy74fct821t","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"FCT"},
+        {"name":"CY74FCT821CTSOCT","manufacturer":"Texas Instruments","datasheet":"cy74fct821t","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"FCT"},
+        {"name":"SN74ABT821ADW","manufacturer":"Texas Instruments","datasheet":"sn74abt821a","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"ABT"},
+        {"name":"SN74ABT821ADWR","manufacturer":"Texas Instruments","datasheet":"sn74abt821a","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"ABT"},
+        {"name":"SN74LVC821ADBR","manufacturer":"Texas Instruments","datasheet":"sn74lvc821a","package":"SSOP","pinout":"p24","footprint":"SSOP-24","family":"LVC"},
+        {"name":"SN74LVC821ADGVR","manufacturer":"Texas Instruments","datasheet":"sn74lvc821a","package":"TVSOP","pinout":"p24","footprint":"TVSOP-24","family":"LVC"},
+        {"name":"SN74LVC821ADW","manufacturer":"Texas Instruments","datasheet":"sn74lvc821a","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"LVC"},
+        {"name":"SN74LVC821ADWR","manufacturer":"Texas Instruments","datasheet":"sn74lvc821a","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"LVC"},
+        {"name":"SN74LVC821APW","manufacturer":"Texas Instruments","datasheet":"sn74lvc821a","package":"TSSOP","pinout":"p24","footprint":"TSSOP-24","family":"LVC"},
+        {"name":"SN74LVC821APWR","manufacturer":"Texas Instruments","datasheet":"sn74lvc821a","package":"TSSOP","pinout":"p24","footprint":"TSSOP-24","family":"LVC"},
+        {"name":"SN74LVC821APWT","manufacturer":"Texas Instruments","datasheet":"sn74lvc821a","package":"TSSOP","pinout":"p24","footprint":"TSSOP-24","family":"LVC"}
+      ]
+    },
+    {
+      "id": "74_823",
+      "function": "Register",
+      "description": "9-bit bus-interface flip-flops with clock enable, clear and 3-state outputs",
+      "drawer": ["Logic", "Registers"],
+      "note": "Pinout and function table: sn74abt823 p.1, sn74lvc823a, cy74fct823t (CY74FCT823T: OE, D0-D8, CLR, CP, EN, Y0-Y8); Nexperia 74lvc823a (OE, D0-D8, MR, CP, CE, Q0-Q8, also DHVQFN24), same pin numbers. CLKEN high: hold at the clock edge; CLR low clears at once; OE high: Q = Z.",
+      "model": "parallel",
+      "pinouts": {
+        "p24": [
+          {"number":1,"name":"OE","role":"input"},
+          {"number":2,"name":"1D","role":"input"},
+          {"number":3,"name":"2D","role":"input"},
+          {"number":4,"name":"3D","role":"input"},
+          {"number":5,"name":"4D","role":"input"},
+          {"number":6,"name":"5D","role":"input"},
+          {"number":7,"name":"6D","role":"input"},
+          {"number":8,"name":"7D","role":"input"},
+          {"number":9,"name":"8D","role":"input"},
+          {"number":10,"name":"9D","role":"input"},
+          {"number":11,"name":"CLR","role":"input"},
+          {"number":12,"name":"GND","role":"ground"},
+          {"number":13,"name":"CLK","role":"input"},
+          {"number":14,"name":"CLKEN","role":"input"},
+          {"number":15,"name":"9Q","role":"output"},
+          {"number":16,"name":"8Q","role":"output"},
+          {"number":17,"name":"7Q","role":"output"},
+          {"number":18,"name":"6Q","role":"output"},
+          {"number":19,"name":"5Q","role":"output"},
+          {"number":20,"name":"4Q","role":"output"},
+          {"number":21,"name":"3Q","role":"output"},
+          {"number":22,"name":"2Q","role":"output"},
+          {"number":23,"name":"1Q","role":"output"},
+          {"number":24,"name":"VCC","role":"power"}
+        ]
+      },
+      "groups": [
+        {"d":["1D","2D","3D","4D","5D","6D","7D","8D","9D"],"clk":{"pin":"CLK","edge":"rising"},"ce":{"pin":"CLKEN","active":"low"},"clear":{"pin":"CLR","active":"low","when":"async"},"outputs":[{"q":["1Q","2Q","3Q","4Q","5Q","6Q","7Q","8Q","9Q"],"oe":{"pin":"OE","active":"low"}}]}
+      ],
+      "timing": {
+        "ABT": {"rise":4.3,"fall":4.4,"vcc":[4.5,5.5],"note":"CLK to Q typ, 5 V 50 pF; VCC 4.5-5.5 V (sn74abt823 switching characteristics)"},
+        "FCT": {"rise":10,"fall":10,"vcc":[4.75,5.25],"note":"CP to Y max, A grade (CY74FCT823AT; C 6), 5 V 50 pF (no typ given); VCC 4.75-5.25 V (cy74fct823t switching characteristics)"},
+        "LVC": {"rise":8,"fall":8,"vcc":[1.65,3.6],"inputMax":5.5,"note":"CLK to Q max (no typ given), 3.3 V 50 pF; VCC 1.65-3.6 V, inputs 5.5 V (sn74lvc823a switching characteristics)"}
+      },
+      "parts": [
+        {"name":"74LVC823ABQ,118","manufacturer":"Nexperia","datasheet":"74lvc823a","package":"DHVQFN","pinout":"p24","footprint":"DHVQFN-24","family":"LVC"},
+        {"name":"CY74FCT823ATQCT","manufacturer":"Texas Instruments","datasheet":"cy74fct823t","package":"QSOP","pinout":"p24","footprint":"QSOP-24","family":"FCT"},
+        {"name":"CY74FCT823ATSOC","manufacturer":"Texas Instruments","datasheet":"cy74fct823t","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"FCT"},
+        {"name":"CY74FCT823CTSOC","manufacturer":"Texas Instruments","datasheet":"cy74fct823t","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"FCT"},
+        {"name":"SN74ABT823DBR","manufacturer":"Texas Instruments","datasheet":"sn74abt823","package":"SSOP","pinout":"p24","footprint":"SSOP-24","family":"ABT"},
+        {"name":"SN74ABT823DW","manufacturer":"Texas Instruments","datasheet":"sn74abt823","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"ABT"},
+        {"name":"SN74ABT823DWR","manufacturer":"Texas Instruments","datasheet":"sn74abt823","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"ABT"},
+        {"name":"SN74LVC823ADBR","manufacturer":"Texas Instruments","datasheet":"sn74lvc823a","package":"SSOP","pinout":"p24","footprint":"SSOP-24","family":"LVC"},
+        {"name":"SN74LVC823ADGVR","manufacturer":"Texas Instruments","datasheet":"sn74lvc823a","package":"TVSOP","pinout":"p24","footprint":"TVSOP-24","family":"LVC"},
+        {"name":"SN74LVC823ADW","manufacturer":"Texas Instruments","datasheet":"sn74lvc823a","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"LVC"},
+        {"name":"SN74LVC823APW","manufacturer":"Texas Instruments","datasheet":"sn74lvc823a","package":"TSSOP","pinout":"p24","footprint":"TSSOP-24","family":"LVC"},
+        {"name":"SN74LVC823APWR","manufacturer":"Texas Instruments","datasheet":"sn74lvc823a","package":"TSSOP","pinout":"p24","footprint":"TSSOP-24","family":"LVC"},
+        {"name":"SN74LVC823APWT","manufacturer":"Texas Instruments","datasheet":"sn74lvc823a","package":"TSSOP","pinout":"p24","footprint":"TSSOP-24","family":"LVC"}
+      ]
+    },
+    {
+      "id": "74_825",
+      "function": "Register",
+      "description": "8-bit bus-interface register with clock enable, clear and three output enables",
+      "drawer": ["Logic", "Registers"],
+      "note": "Pinout and function table: cy74fct825t (CY74FCT825T) p.1. EN high: hold at the clock edge; CLR low clears at once; any of OE1, OE2, OE3 high: Y = Z.",
+      "model": "parallel",
+      "pinouts": {
+        "p24": [
+          {"number":1,"name":"OE1","role":"input"},
+          {"number":2,"name":"OE2","role":"input"},
+          {"number":3,"name":"D0","role":"input"},
+          {"number":4,"name":"D1","role":"input"},
+          {"number":5,"name":"D2","role":"input"},
+          {"number":6,"name":"D3","role":"input"},
+          {"number":7,"name":"D4","role":"input"},
+          {"number":8,"name":"D5","role":"input"},
+          {"number":9,"name":"D6","role":"input"},
+          {"number":10,"name":"D7","role":"input"},
+          {"number":11,"name":"CLR","role":"input"},
+          {"number":12,"name":"GND","role":"ground"},
+          {"number":13,"name":"CP","role":"input"},
+          {"number":14,"name":"EN","role":"input"},
+          {"number":15,"name":"Y7","role":"output"},
+          {"number":16,"name":"Y6","role":"output"},
+          {"number":17,"name":"Y5","role":"output"},
+          {"number":18,"name":"Y4","role":"output"},
+          {"number":19,"name":"Y3","role":"output"},
+          {"number":20,"name":"Y2","role":"output"},
+          {"number":21,"name":"Y1","role":"output"},
+          {"number":22,"name":"Y0","role":"output"},
+          {"number":23,"name":"OE3","role":"input"},
+          {"number":24,"name":"VCC","role":"power"}
+        ]
+      },
+      "groups": [
+        {"d":["D0","D1","D2","D3","D4","D5","D6","D7"],"clk":{"pin":"CP","edge":"rising"},"ce":{"pin":"EN","active":"low"},"clear":{"pin":"CLR","active":"low","when":"async"},"outputs":[{"q":["Y0","Y1","Y2","Y3","Y4","Y5","Y6","Y7"],"oe":[{"pin":"OE1","active":"low"},{"pin":"OE2","active":"low"},{"pin":"OE3","active":"low"}]}]}
+      ],
+      "timing": {
+        "FCT": {"rise":10,"fall":10,"vcc":[4.75,5.25],"note":"CP to Y max, A grade (CY74FCT825AT; C 6), 5 V 50 pF (no typ given); VCC 4.75-5.25 V (cy74fct825t switching characteristics)"}
+      },
+      "parts": [
+        {"name":"CY74FCT825ATSOC","manufacturer":"Texas Instruments","datasheet":"cy74fct825t","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"FCT"},
+        {"name":"CY74FCT825CTQCT","manufacturer":"Texas Instruments","datasheet":"cy74fct825t","package":"QSOP","pinout":"p24","footprint":"QSOP-24","family":"FCT"}
+      ]
+    },
+    {
+      "id": "74_874",
+      "function": "Register",
+      "description": "Dual 4-bit D-type edge-triggered flip-flops with clear and 3-state outputs",
+      "drawer": ["Logic", "Registers"],
+      "note": "Pinout and function table: sn54als874b (SN54/74ALS874B, SN74AS874) p.1. Each half: nCLR low clears at once; nOE high: nQ = Z.",
+      "model": "parallel",
+      "pinouts": {
+        "p24": [
+          {"number":1,"name":"1CLR","role":"input"},
+          {"number":2,"name":"1OE","role":"input"},
+          {"number":3,"name":"1D1","role":"input"},
+          {"number":4,"name":"1D2","role":"input"},
+          {"number":5,"name":"1D3","role":"input"},
+          {"number":6,"name":"1D4","role":"input"},
+          {"number":7,"name":"2D1","role":"input"},
+          {"number":8,"name":"2D2","role":"input"},
+          {"number":9,"name":"2D3","role":"input"},
+          {"number":10,"name":"2D4","role":"input"},
+          {"number":11,"name":"2OE","role":"input"},
+          {"number":12,"name":"GND","role":"ground"},
+          {"number":13,"name":"2CLR","role":"input"},
+          {"number":14,"name":"2CLK","role":"input"},
+          {"number":15,"name":"2Q4","role":"output"},
+          {"number":16,"name":"2Q3","role":"output"},
+          {"number":17,"name":"2Q2","role":"output"},
+          {"number":18,"name":"2Q1","role":"output"},
+          {"number":19,"name":"1Q4","role":"output"},
+          {"number":20,"name":"1Q3","role":"output"},
+          {"number":21,"name":"1Q2","role":"output"},
+          {"number":22,"name":"1Q1","role":"output"},
+          {"number":23,"name":"1CLK","role":"input"},
+          {"number":24,"name":"VCC","role":"power"}
+        ]
+      },
+      "groups": [
+        {"d":["1D1","1D2","1D3","1D4"],"clk":{"pin":"1CLK","edge":"rising"},"clear":{"pin":"1CLR","active":"low","when":"async"},"outputs":[{"q":["1Q1","1Q2","1Q3","1Q4"],"oe":{"pin":"1OE","active":"low"}}]},
+        {"d":["2D1","2D2","2D3","2D4"],"clk":{"pin":"2CLK","edge":"rising"},"clear":{"pin":"2CLR","active":"low","when":"async"},"outputs":[{"q":["2Q1","2Q2","2Q3","2Q4"],"oe":{"pin":"2OE","active":"low"}}]}
+      ],
+      "timing": {
+        "ALS": {"rise":14,"fall":14,"vcc":[4.5,5.5],"note":"CLK to Q SN74ALS874B max (no typ given), 5 V 50 pF; VCC 4.5-5.5 V (sn54als874b switching characteristics)"},
+        "AS": {"rise":8.5,"fall":10.5,"vcc":[4.5,5.5],"note":"CLK to Q SN74AS874 max (no typ given), 5 V 50 pF; VCC 4.5-5.5 V (sn54als874b switching characteristics)"}
+      },
+      "parts": [
+        {"name":"SN54ALS874BJT","manufacturer":"Texas Instruments","datasheet":"sn54als874b","package":"DIP","pinout":"p24","footprint":"CDIP-24","family":"ALS","flags":["military","ceramic"]},
+        {"name":"SN74ALS874BDWR","manufacturer":"Texas Instruments","datasheet":"sn54als874b","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"ALS"},
+        {"name":"SN74AS874DW","manufacturer":"Texas Instruments","datasheet":"sn54als874b","package":"SOIC","pinout":"p24","footprint":"SOIC-24W","family":"AS"}
+      ]
+    }
+  ]
 }

@@ -1,0 +1,139 @@
+{
+ "id": "40174B",
+ "function": "Register",
+ "description": "CMOS hex D-type flip-flop with common clock and clear",
+ "drawer": [
+  "Logic",
+  "Registers"
+ ],
+ "note": "Pinout, truth table: cd40174b p.1, 4 (terminal assignment); mc14174b (onsemi MC14174B: R, C, D0-D5, Q0-Q5), same pin numbers. CLEAR low clears at once.",
+ "model": "parallel",
+ "pinouts": {
+  "p16": [
+   {
+    "number": 1,
+    "name": "CLEAR",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "Q1",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "D1",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "D2",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "Q2",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "D3",
+    "role": "input"
+   },
+   {
+    "number": 7,
+    "name": "Q3",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "VSS",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "CLOCK",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "Q4",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "D4",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "Q5",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "D5",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "D6",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "Q6",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "VDD",
+    "role": "power"
+   }
+  ]
+ },
+ "groups": [
+  {
+   "d": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6"
+   ],
+   "clk": {
+    "pin": "CLOCK",
+    "edge": "rising"
+   },
+   "clear": {
+    "pin": "CLEAR",
+    "active": "low",
+    "when": "async"
+   },
+   "outputs": [
+    {
+     "q": [
+      "Q1",
+      "Q2",
+      "Q3",
+      "Q4",
+      "Q5",
+      "Q6"
+     ]
+    }
+   ]
+  }
+ ],
+ "timing": {
+  "C": {
+   "rise": 150,
+   "fall": 150,
+   "vcc": [
+    3,
+    18
+   ],
+   "note": "Clock to output typ, VDD 5 V 50 pF; VDD 3-18 V (cd40174b p.2, 4)"
+  }
+ }
+}
