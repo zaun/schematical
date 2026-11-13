@@ -347,7 +347,7 @@ Commit: 78d5f3d
 Acceptance: every `add` row's PDF is in the tree, and nothing extra is.
   Check: `python3 -I planning/plan-36-data/census/place.py --verify planning/plan-36-data/candidates.tsv` → `0 missing, 0 unused` (est. 1 min).
   Result 2026-11-13: `1426 add rows, 152 PDFs, 0 missing, 0 unused`.
-Commit: —
+Commit: 462b189
 
 ## Validation Plan
 
@@ -395,6 +395,7 @@ Commit: —
 - **2026-11-13, package codes for megaAVR 0 `M`.** The figure's `M = QFN (UQFN/VQFN)` covers both a 48-pin UQFN and a 48-pin VQFN (DigiKey: 4 `48-UFQFN`, 2 `48-VFQFN`). The code alone does not pick the land pattern. B's `package-codes.tsv` and D must split it by drawing.
 - **2026-11-13, Phase 4: the spike PDFs.** Two of the six spike PDFs are the files add rows use (`atmega328p.pdf`, `attiny13a.pdf`, by SHA-256). The other four (`atmega2560.pdf`, `atmega32u4.pdf`, `atmega4809.pdf`, and `attiny85.pdf`, which matches only a skip row's PDF) are different editions than the ones DigiKey links. They predate plan-36 (fae501f), so `place.py --verify` leaves them out of "unused" and plan-36 does not delete them.
 - **2026-11-13, final A counts.** 1426 add rows on 304 devices (planning: 1521 rows, 316 devices, before the verdicts). B, F, G and H use these figures. G's `|mcu|` count must equal 1426 unless B–E change a verdict.
+- **2026-11-13 (found at the start of B): 13 more package codes.** `pkgcheck.py` compared only pin count and geometry class, so a PDIP code on an SOIC row (both `dual`) or a TQFP code on a QFN row (both `quad`) passed. It now also compares the package type (DIP / SO / SSOP / TSSOP / QFP / QFN / BGA …), and it found 14 rows. Two are XMEGA A4 `-MH` rows that are `out`. The other 13 (ATmega16M1/64M1-MU → `PV`, ATmega8U2/16U2/32U2-MU → `32M1-A`, ATmega32U4-MU → `44PW`, ATtiny25/45/85(V)-SU → `8S2`, ATxmega16A4U-AUR → `44A`) were read in their ordering tables and fixed in `package-overrides.tsv`, with the evidence there. After the fix: `type mismatches` 0 on add rows. Verdicts are unchanged (1426 add).
 - **2026-11-13, `run.sh` calls `/tmp/p36/census/list.js`**, a copy left from planning, not the tree's file; `diff` shows them identical, so the listing ran the tree's code.
 
 ## Summary
