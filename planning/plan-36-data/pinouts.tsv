@@ -15251,49 +15251,6 @@ ESP32-WROOM-32	module39	36	IO22	inout	module-table:esp32-wroom-32e_esp32-wroom-3
 ESP32-WROOM-32	module39	37	IO23	inout	module-table:esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf:module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)
 ESP32-WROOM-32	module39	38	GND	ground	module-table:esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf:module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)
 ESP32-WROOM-32	module39	39	GND	ground	module-table:esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf:module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)
-ESP32-WROOM-DA	module43	1	GND	ground	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	2	3V3	power	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	3	EN	input	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	4	SENSOR_VP	input	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	5	SENSOR_VN	input	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	6	IO34	input	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	7	IO35	input	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	8	IO32	inout	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	9	IO33	inout	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	10	NC	nc	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	11	IO26	inout	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	12	IO27	inout	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	13	IO14	inout	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	14	IO12	inout	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	15	NC	nc	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	16	GND	ground	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	17	IO13	inout	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	18	NC	nc	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	19	NC	nc	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	20	NC	nc	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	21	NC	nc	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	22	NC	nc	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	23	NC	nc	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	24	IO15	inout	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	25	NC	nc	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	26	NC	nc	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	27	IO0	inout	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	28	IO4	inout	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	29	IO16	inout	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	30	IO17	inout	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	31	IO5	inout	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	32	IO18	inout	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	33	IO19	inout	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	34	NC	nc	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	35	IO21	inout	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	36	U0RXD	inout	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	37	U0TXD	inout	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	38	IO22	inout	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	39	IO23	inout	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	40	GND	ground	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	41	NC	nc	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	42	NC	nc	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
-ESP32-WROOM-DA	module43	43	GND	ground	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
 ESP32-WROVER	module39	1	GND	ground	module-table:esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf:module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)
 ESP32-WROVER	module39	2	3V3	power	module-table:esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf:module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)
 ESP32-WROVER	module39	3	EN	input	module-table:esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf:module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)

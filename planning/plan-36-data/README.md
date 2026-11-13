@@ -26,6 +26,11 @@ files and updates this map.
 | `transcribe-units.tsv`, `transcribed*.tsv`, `esp-pads.tsv`, `census/units.py`, `transcribe.py`, `transcribe-hand.py`, `esp-pins.py`, `transcribed-merge.py` | the pinouts the ATDF cannot give: datasheet figures read from the PDF word boxes, hand readings, the ESP32 module pin tables, the RP2040 | B Phase 2 |
 | `pinout-checks.tsv`, `full-checks.tsv`, `eye-checks.tsv`, `census/pinout-check.py`, `full-check.py`, `eye-checks.py` | the name check of every ATDF pinout (text, OCR, by eye) and the ten full checks | B Phase 3 |
 | `devices.tsv`, `facts-overrides*.tsv`, `census/devices.py`, `facts-check.py` | one row per device: core, clock, flash, RAM, EEPROM, supply range; checked against each datasheet | B Phase 3 |
+| `drawings.json`, `drawing-numbers.tsv`, `fp-pages.tsv`, `fp-pages-hand.tsv`, `census/drawings.py`, `drawing-numbers.py`, `fp-codes.py` | each package code's drawing page (hand pages win) | C, D |
+| `footprints-C.json`, `census/fp-specs-C.py` | the dual-row footprints (SOIC, TSSOP, PDIP, SOT-23, DFN) | C |
+| `footprints-D.json`, `footprint-device.tsv`, `census/fp-specs-D.py` | the quad, dual-row QFN, PLCC, grid and RP2040 footprints; per-device footprints of a code with two bodies (QFN32) | D |
+| `footprints-E.json`, `footprint-mpn.tsv`, `census/fp-specs-E.py` | the Espressif module footprints, read from the land-pattern drawings' vectors (needs PyMuPDF in a venv); the U variants' footprints by MPN | E |
+| `census/fp-load.sh`, `fp-merge.py`, `fp-pads-vs-pins.py` | load footprint files through `footprint_check` on a copy; merge into `footprints.json`; every pinout designator has a pad | C, D, E |
 
 ## Verdicts (plan-36-A, listing of 2026-11-13 UTC)
 
@@ -39,12 +44,15 @@ files and updates this map.
 | AVR Lx/Sx | 14 | 0 | 0 | 0 | 0 |
 | AVR XMEGA | 113 | 1 | 24 | 0 | 0 |
 | AVR megaAVR 0 | 58 | 0 | 0 | 0 | 0 |
-| AVR tinyAVR 0/1/2 | 196 | 2 | 0 | 0 | 0 |
-| ESP32 | 49 | 1 | 1 | 0 | 16 |
+| AVR tinyAVR 0/1/2 | 195 | 3 | 0 | 0 | 0 |
+| ESP32 | 48 | 0 | 3 | 0 | 16 |
 | RP2040 | 2 | 0 | 0 | 0 | 0 |
-| **all** | 1426 | 61 | 25 | 11 | 16 |
+| **all** | 1424 | 61 | 27 | 11 | 16 |
 
-1426 `add` rows on 304 devices, 152 PDFs in `datasheets/mcu/` (`datasheets/mcu/datasheets.tsv`). The 8 RP2350 / RP2354 rows are `out (scope)` too and are not in the table.
+1424 `add` rows on 303 devices, 151 PDFs in `datasheets/mcu/` (`datasheets/mcu/datasheets.tsv`;
+`place.py --verify` → `0 missing, 0 unused`). Since A: ATTINY1616-MZ-VAO became `skip` (B),
+ATXMEGA8E5-MUR's code is 32Z (D), and ESP32-WROOM-DA is `out` for its datasheet's "End of
+Life (EOL)" banner (E). The 8 RP2350 / RP2354 rows are `out (scope)` too and are not in the table.
 
 Re-running B: `package-codes.py`, `pinouts.py candidates.tsv /tmp/p36/packs/atdf`, `units.py`, `transcribe.py`, `transcribe-hand.py`, `esp-pins.py`, `transcribed-merge.py`, `pinouts.py ... --transcribed transcribed.tsv`, `pinout-lint.py`, `pinout-check.py --full full-checks.tsv`, `devices.py`, `facts-check.py`.
 

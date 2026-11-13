@@ -2,10 +2,12 @@
 
 usage: python3 -I fp-pads-vs-pins.py <footprints-X.json>... <pinouts.tsv> [--all-rows]
 
-Default (E's check): for each ESP32 module pinout, the footprint named in
-package-codes.tsv for its device has exactly the pinout's designators.
+Default (E's check): for each ESP32 add row, the footprint its MPN gets
+(footprint-mpn.tsv, else package-codes.tsv) has exactly the pinout's
+designators.
 --all-rows: every add row of candidates.tsv (pinout via pinout-map.tsv,
-footprint via footprint-device.tsv, then package-codes.tsv): the
+footprint via footprint-mpn.tsv, footprint-device.tsv, then
+package-codes.tsv): the
 footprint's pin count equals the pinout's, and every pinout designator has a
 pad (numbered footprints `1`..`pins`; grid `balls`; explicit pads; the
 library's footprints.json too). Prints each mismatch and `<n> mismatches`.
@@ -54,6 +56,11 @@ def main(argv):
     if os.path.exists(dp):
         for r in csv.DictReader(open(dp), delimiter="\t"):
             dev_fp[(r["device"].upper(), r["code"], r["pins"])] = r["footprint"]
+    mpn_fp = {}
+    mp = os.path.join(DATA, "footprint-mpn.tsv")
+    if os.path.exists(mp):
+        for r in csv.DictReader(open(mp), delimiter="\t"):
+            mpn_fp[r["mpn"]] = r["footprint"]
     pmap = {}
     for r in csv.DictReader(open(os.path.join(DATA, "pinout-map.tsv")), delimiter="\t"):
         pmap[(r["device"].upper(), r["code"], r["pins"])] = (r["device"], r["pinout"])
@@ -74,7 +81,7 @@ def main(argv):
         if po is None:
             cands = [v for kk, v in pmap.items() if kk[0] in (dev, r["device"].upper()) and kk[1] == k[0]]
             po = cands[0] if cands else None
-        fid = dev_fp.get((r["device"].upper(), k[0], k[1])) or (codes.get(k) or {}).get("footprint")
+        fid = mpn_fp.get(r["mpn"]) or dev_fp.get((r["device"].upper(), k[0], k[1])) or (codes.get(k) or {}).get("footprint")
         if (po, fid) in seen:
             continue
         seen.add((po, fid))
@@ -86,7 +93,8 @@ def main(argv):
         want = set(pins[po])
         f = fps[fid]
         have = designators(f)
-        if f["pins"] != len(want) or not want <= have:
+        exact = r["family"] == "ESP32"
+        if f["pins"] != len(want) or not want <= have or (exact and want != have):
             print(f"{r['mpn']}: {po[0]} {po[1]} ({len(want)} pins) vs {fid} ({f['pins']} pins): missing {sorted(want - have)[:8]}")
             bad += 1
     print(f"{n} (pinout, footprint) pairs, {bad} mismatches")

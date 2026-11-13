@@ -732,4 +732,3 @@ checked against the row's own PDF, every PDF of its device and every same-maker 
 | ATMEGA16U2-MUR | ATMEGA16U2, `doc7799.pdf` | `mcu` / Microcontroller → AVR ATmega | Not in the datasheet's ordering table (`doc7799.pdf`). |
 | ATMEGA169PV-8MCHR | ATMEGA169P, `doc8018.pdf` | `mcu` / Microcontroller → AVR ATmega | Not in the datasheet's ordering table (`doc8018.pdf`). |
 | ATTINY261A-MFR | ATTINY261A, `doc8197.pdf` | `mcu` / Microcontroller → AVR ATtiny | Not in the datasheet's ordering table (`doc8197.pdf`). |
-| ESP32-WROOM-DA-N4 | ESP32-WROOM-DA, `esp32-wroom-da_datasheet_en.pdf` | `mcu` / Microcontroller → ESP32 | Not in the datasheet's ordering table (`esp32-wroom-da_datasheet_en.pdf`). |

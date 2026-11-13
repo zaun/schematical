@@ -10,7 +10,6 @@ datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf	modul
 datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf	module			ESP32-S3-MINI-1	ESP32-S3-MINI-1	3	
 datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf	module			ESP32-S3-WROOM-1	ESP32-S3-WROOM-1	11	
 datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf	module			ESP32-WROOM-32	ESP32-WROOM-32	4	
-datasheets/mcu/espressif/esp32-wroom-da_datasheet_en.pdf	module			ESP32-WROOM-DA	ESP32-WROOM-DA	1	
 datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf	module			ESP32-WROVER	ESP32-WROVER	5	
 datasheets/mcu/microchip/1062s.pdf	quad	32	QFN	32M1-A	ATTINY28V	1	32-pad, 5 x 5 x 1.0 body, Lead Pitch 0.50 mm Thin Plastic Quad Flat No-Lead (VQFN)
 datasheets/mcu/microchip/1477S.pdf	dual	20	SO	20S	ATTINY26	4	20-lead, 0.300" Wide, Plastic Gull Wing Small Outline Package (SOIC)

@@ -300,6 +300,5 @@ ESP32-S2-SOLO-2	ESP32	xtensa-lx7	240000000	4194304	327680	0	3.0	3.6	module datas
 ESP32-S3-MINI-1	ESP32	xtensa-lx7	240000000	4194304	524288	0	3.0	3.6	module datasheet (ESP32-S3 SoC: core, clock, SRAM); flash: smallest part
 ESP32-S3-WROOM-1	ESP32	xtensa-lx7	240000000	4194304	524288	0	3.0	3.6	module datasheet (ESP32-S3 SoC: core, clock, SRAM); flash: smallest part
 ESP32-WROOM-32	ESP32	xtensa-lx6	240000000	4194304	532480	0	3.0	3.6	module datasheet (ESP32 SoC: core, clock, SRAM); flash: smallest part
-ESP32-WROOM-DA	ESP32	xtensa-lx6	240000000	8388608	532480	0	3.0	3.6	module datasheet (ESP32 SoC: core, clock, SRAM); flash: smallest part
 ESP32-WROVER	ESP32	xtensa-lx6	240000000	4194304	532480	0	3.0	3.6	module datasheet (ESP32 SoC: core, clock, SRAM); flash: smallest part
 RP2040	RP2040	cortex-m0plus	133000000	0	270336	0	1.8	3.3	rp2040-datasheet.pdf § 1 (264 KB SRAM, external QSPI flash); DigiKey clock / IOVDD

@@ -53,18 +53,17 @@ code	geometry	pins	name	drawing	footprint	package	rows
 A	quad	32	TQFP	C04-074 + C04-2074: datasheets/mcu/microchip/ATmega3208-3209-Data-Sheet-DS40002174A.pdf p.526 (the same drawing; R1 as PT-32)	LQFP-32-NEY	TQFP	13 AVR megaAVR 0
 A	quad	48	TQFP	C04-300 + C04-2300: datasheets/mcu/microchip/ATmega3208-3209-Data-Sheet-DS40002174A.pdf p.534-535 (R1)	TQFP-48-MC-PT	TQFP	13 AVR megaAVR 0
 A2	quad	64	64-Lead, Thin (1.0 mm / 0.03937 in) Plastic Gull Wing Quad Flat Package.	A2 (Atmel Nantes TQFP64): datasheets/mcu/microchip/7679S.pdf p.14 (image; L 0.45-0.75, f 0.30-0.45, D 16.00 BSC)	TQFP-64-MC-A2	TQFP	3 AVR AT90
-ESP32-C3-MINI-1	module		61-SMD Module				4 ESP32
-ESP32-C3-WROOM-02	module		32-SMD Module				2 ESP32
-ESP32-C6-MINI-1	module		53-SMD Module				4 ESP32
-ESP32-C6-WROOM-1	module		28-SMD Module				4 ESP32
-ESP32-MINI-1	module		55-SMD Module				3 ESP32
-ESP32-S2-MINI-2	module		56-VFQFN Exposed Pad				4 ESP32
-ESP32-S2-SOLO-2	module		41-SMD Module				4 ESP32
-ESP32-S3-MINI-1	module		65-SMD Module				3 ESP32
-ESP32-S3-WROOM-1	module		41-SMD Module				11 ESP32
-ESP32-WROOM-32	module		38-SMD Module				4 ESP32
-ESP32-WROOM-DA	module		43-SMD Module				1 ESP32
-ESP32-WROVER	module		38-SMD Module				5 ESP32
+ESP32-C3-MINI-1	module		61-SMD Module	datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf p.38 Figure 11-1. ESP32-C3-MINI-1 Recommended PCB Land Pattern	ESP32-C3-MINI-1	Module	4 ESP32
+ESP32-C3-WROOM-02	module		32-SMD Module	datasheets/mcu/espressif/esp32-c3-wroom-02_datasheet_en.pdf p.37 Figure 11-1. ESP32-C3-WROOM-02 Recommended PCB Land Pattern	ESP32-C3-WROOM-02	Module	2 ESP32
+ESP32-C6-MINI-1	module		53-SMD Module	datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf p.44 Figure 11-1. ESP32-C6-MINI-1 Recommended PCB Land Pattern	ESP32-C6-MINI-1	Module	4 ESP32
+ESP32-C6-WROOM-1	module		28-SMD Module	datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf p.44 Figure 11-1. ESP32-C6-WROOM-1 Recommended PCB Land Pattern	ESP32-C6-WROOM-1	Module	4 ESP32
+ESP32-MINI-1	module		55-SMD Module	datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf p.44 Figure 14: ESP32-MINI-1 Recommended PCB Land Pattern	ESP32-MINI-1	Module	3 ESP32
+ESP32-S2-MINI-2	module		56-VFQFN Exposed Pad	datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf p.31 Figure 10-1. ESP32-S2-MINI-2 Recommended PCB Land Pattern	ESP32-S2-MINI-2	Module	4 ESP32
+ESP32-S2-SOLO-2	module		41-SMD Module	datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf p.31 Figure 10-1. ESP32-S2-SOLO-2 Recommended PCB Land Pattern	ESP32-S2-SOLO-2	Module	4 ESP32
+ESP32-S3-MINI-1	module		65-SMD Module	datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf p.45 Figure 11-1. ESP32-S3-MINI-1 Recommended PCB Land Pattern	ESP32-S3-MINI-1	Module	3 ESP32
+ESP32-S3-WROOM-1	module		41-SMD Module	datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf p.45 Figure 11-1. ESP32-S3-WROOM-1 Recommended PCB Land Pattern	ESP32-S3-WROOM-1	Module	11 ESP32
+ESP32-WROOM-32	module		38-SMD Module	datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf p.43 Figure 13: ESP32-WROOM-32E Recommended PCB Land Pattern	ESP32-WROOM-32E	Module	4 ESP32
+ESP32-WROVER	module		38-SMD Module	datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf p.45 Figure 15: Recommended PCB Land Pattern	ESP32-WROVER-E	Module	5 ESP32
 M	quad	20	VQFN	C04-21380 (REB): datasheets/mcu/microchip/ATtiny1614-16-17-DataSheet-DS40002204A.pdf p.577-578 (R1: C 3.00, X1 0.20, Y1 0.80, centre 1.80)	VQFN-20-MC-REB	QFN	37 AVR tinyAVR 0/1/2
 M	quad	24	VQFN	C04-21386 (RLB): datasheets/mcu/microchip/ATtiny1614-16-17-DataSheet-DS40002204A.pdf p.581-582 (R1: C 4.00, X1 0.30, Y1 0.85, centre 2.75)	VQFN-24-MC-RLB	QFN	31 AVR tinyAVR 0/1/2
 M	quad	32	VQFN	C04-21395: datasheets/mcu/microchip/ATmega3208-3209-Data-Sheet-DS40002174A.pdf p.530-531 (R1)	HVQFN-32-5X5	QFN	14 AVR megaAVR 0

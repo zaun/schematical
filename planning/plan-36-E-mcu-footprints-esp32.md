@@ -32,12 +32,12 @@ plan-36-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-36-D complete | `ls planning/completed/plan-36-D-*.md` → exists | NOT MET (2026-11-12: plan written) |
+| plan-36-D complete | `ls planning/completed/plan-36-D-*.md` → exists | MET 2026-11-13 (3dadcee) |
 
 ## 1. Goal
 
 - One footprint per distinct land-pattern figure of the in-scope modules
-  (13 devices at planning time: ESP32-WROOM-32, -WROOM-DA, -WROVER,
+  (11 devices after A and E, see Corrections; 13 at planning time: ESP32-WROOM-32, -WROOM-DA, -WROVER,
   -MINI-1, S2-SOLO, S2-SOLO-2, S2-MINI-2, S3-WROOM-1, S3-MINI-1,
   C3-WROOM-02, C3-MINI-1, C6-WROOM-1, C6-MINI-1). The column `footprint`
   of each ESP32 row of `package-codes.tsv` is filled (code = the module
@@ -84,15 +84,19 @@ plan-36-A § Prerequisites, plus:
 
 ### Phase 1 — Module footprints
 
-- [ ] For each module datasheet: find the land-pattern figure's page and
+- [x] For each module datasheet: find the land-pattern figure's page and
       write the object into `footprints-E.json` (§ 3). Fill
       `package-codes.tsv`.
-- [ ] `census/fp-pads-vs-pins.py`: for each ESP32 pinout, the footprint's
+      `census/fp-specs-E.py` (PyMuPDF): 21 footprints from 21 figures, the 11 modules and 10 U variants. Pads come from each figure's vector outlines. Pin numbers come from the module's "Pin Layout (Top View)" figure: ring pads are matched in order around the centre, and the thermal grid takes its one label. Runs are fitted to their pitch (no pad moves > 0.03 mm). Every footprint was compared with its printed dimensions (pad sizes, the 1.27 / 0.8 / 0.85 / 1.5 pitches, the 17.5 / 11.8 column spans); C3-MINI-1 and WROOM-DA (since dropped) were also drawn and compared with their figures. All 11 `module` rows of `package-codes.tsv` are filled (package `Module`). The 23 U-variant MPNs are in `footprint-mpn.tsv`.
+- [x] `census/fp-pads-vs-pins.py`: for each ESP32 pinout, the footprint's
       designators equal the pinout's designators.
-- [ ] Load: `fp-load.sh footprints-C.json footprints-D.json footprints-E.json`.
+      → `21 (pinout, footprint) pairs, 0 mismatches` (designator sets equal for ESP32); `--all-rows` over C+D+E → `631 (pinout, footprint) pairs, 0 mismatches`.
+- [x] Load: `fp-load.sh footprints-C.json footprints-D.json footprints-E.json`.
+      → `63 footprints appended` / `63 new footprints: load ok` (13 + 29 + 21).
 
 Acceptance: every module has a footprint whose pads match its pins, and the footprints load.
   Check: `python3 -I planning/plan-36-data/census/fp-pads-vs-pins.py planning/plan-36-data/footprints-E.json planning/plan-36-data/pinouts.tsv` → `0 mismatches`; the load → only `extra` / `unused` lines (est. 3 min).
+  Result 2026-11-13: `21 (pinout, footprint) pairs, 0 mismatches`; `63 new footprints: load ok`. Coverage: `awk -F'\t' '$2=="module" && $6==""' package-codes.tsv | wc -l` → 0.
 Commit: —
 
 ## Validation Plan
@@ -105,13 +109,20 @@ Commit: —
 
 ## Decisions
 
-- **One designator per small GND pad** — author: the loader requires a pad
+- ~~**One designator per small GND pad**~~ (superseded, see Corrections: the figures number a grid as one pin) — author: the loader requires a pad
   for every pin and matches by designator, and a footprint may not have
   more pads than pins except for pull parts (`docs/parts-format.md`
   § The `"footprint"` part key). So every copper pad is a pin, and they
   are all `GND`, which the format allows (a name used by several pins).
 
 ## Corrections
+
+- **2026-11-13: 11 modules, not 13.** ESP32-S2-SOLO was out in A (its datasheet marks -N4 "End of life"). ESP32-WROOM-DA is out here: its cover is watermarked "END OF LIFE (EOL)" and 30 of its 31 pages carry the banner, which A's ordering-table scan did not read. `dead-verdicts.tsv` gained the line, so A's rule 4 makes -N8 and -N4 `out`. The PDF is deleted, `datasheets/obsolete-not-included.md` has its line and `skipped-parts.md` loses -N4. The add rows are 1424 and the devices 303 (`devices.py` / `facts-check.py` → `303 devices, 0 mismatches`). The other Espressif PDFs carry EOL / NRND marks on 1–6 pages only, on other codes, which A read.
+- **2026-11-13: U variants have their own figures.** Each of the 10 two-variant datasheets draws the U (external antenna, shorter body: 18 x 19.2, 13.2 x 12.5, 15.4 x 15.4, 18 x 14.3, 13.2 x 13.5) as a separate figure. So there are 21 footprints, and the U MPNs are mapped in a new `footprint-mpn.tsv` (G reads it first, plan-36-G § 3.3). WROVER-E / -IE share one figure and one footprint.
+- **2026-11-13: a thermal grid is one pin.** § 3 had each small GND pad get its own designator. But every Pin Layout figure numbers the grid as one pin (C3-MINI-1 "Pin 49", WROOM-32E "39", C6-WROOM-1 "29"), and B's pinouts follow the tables (C3-MINI-1: 53 pins). So the grid's nine pads are all that pin; the format allows several pads per pin (`docs/parts-format.md` § `explicit`). The Decision below is superseded.
+- **2026-11-13: ESP32-MINI-1 is 13.2 x 19.0 mm** (ordering table, and the drawn outline), not the 16.6 assumed.
+- **2026-11-13: ESP32-MINI-1U's figure leaves one thermal pad undrawn**, where dimension lines cross (8 of 9). MINI-1's figure and the shared pin layout show 9, so the 3 x 3 grid is completed; the footprint `note` says so.
+- **2026-11-13: drawing quirks handled.** Pads can be drawn as outline + fill strips (merged), as four loose blue lines (C3-WROOM-02's thermal pads) or as a chamfered polygon (C3-MINI-1's pin-1 thermal pad, drawn as a plain rect). Below the antenna area the WROOM outlines are not drawn, so their length is checked against the L dimension's extension line.
 
 ## Summary
 

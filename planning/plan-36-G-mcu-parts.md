@@ -107,8 +107,9 @@ sets:
 
 `{"name": <mpn>, "manufacturer": "Microchip Technology" | "Espressif
 Systems" | "Raspberry Pi", "datasheet": <id>, "package": <C/D/E package
-value>, "pinout": <B's pinout>, "footprint": <package-codes.tsv>}`. Extra
-keys:
+value>, "pinout": <B's pinout>, "footprint": <footprint-mpn.tsv by MPN (the
+ESP32 U variants, E), else footprint-device.tsv by device (codes with two
+bodies, D), else package-codes.tsv>}`. Extra keys:
 
 - `flags`: `["automotive"]` for `grade` = `automotive` (6 rows at planning).
 - `vcc` / `clock` when the part's DigiKey values differ from the device's

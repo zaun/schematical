@@ -1,0 +1,24 @@
+mpn	code	footprint	drawing
+ESP32-C3-MINI-1U-H4X	ESP32-C3-MINI-1	ESP32-C3-MINI-1U	datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf p.39 Figure 11-2. ESP32-C3-MINI-1U Recommended PCB Land Pattern
+ESP32-C3-MINI-1U-N4X	ESP32-C3-MINI-1	ESP32-C3-MINI-1U	datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf p.39 Figure 11-2. ESP32-C3-MINI-1U Recommended PCB Land Pattern
+ESP32-C3-WROOM-02U-N4	ESP32-C3-WROOM-02	ESP32-C3-WROOM-02U	datasheets/mcu/espressif/esp32-c3-wroom-02_datasheet_en.pdf p.38 Figure 11-2. ESP32-C3-WROOM-02U Recommended PCB Land Pattern
+ESP32-C6-MINI-1U-H4	ESP32-C6-MINI-1	ESP32-C6-MINI-1U	datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf p.45 Figure 11-2. ESP32-C6-MINI-1U Recommended PCB Land Pattern
+ESP32-C6-MINI-1U-N4	ESP32-C6-MINI-1	ESP32-C6-MINI-1U	datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf p.45 Figure 11-2. ESP32-C6-MINI-1U Recommended PCB Land Pattern
+ESP32-C6-WROOM-1U-N4	ESP32-C6-WROOM-1	ESP32-C6-WROOM-1U	datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf p.45 Figure 11-2. ESP32-C6-WROOM-1U Recommended PCB Land Pattern
+ESP32-C6-WROOM-1U-N8	ESP32-C6-WROOM-1	ESP32-C6-WROOM-1U	datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf p.45 Figure 11-2. ESP32-C6-WROOM-1U Recommended PCB Land Pattern
+ESP32-MINI-1U-H4	ESP32-MINI-1	ESP32-MINI-1U	datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf p.45 Figure 15: ESP32-MINI-1U PCB Recommended PCB Land Pattern
+ESP32-MINI-1U-N4	ESP32-MINI-1	ESP32-MINI-1U	datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf p.45 Figure 15: ESP32-MINI-1U PCB Recommended PCB Land Pattern
+ESP32-S2-MINI-2U-N4	ESP32-S2-MINI-2	ESP32-S2-MINI-2U	datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf p.32 Figure 10-2. ESP32-S2-MINI-2U Recommended PCB Land Pattern
+ESP32-S2-MINI-2U-N4R2	ESP32-S2-MINI-2	ESP32-S2-MINI-2U	datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf p.32 Figure 10-2. ESP32-S2-MINI-2U Recommended PCB Land Pattern
+ESP32-S2-SOLO-2U-N4	ESP32-S2-SOLO-2	ESP32-S2-SOLO-2U	datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf p.32 Figure 10-2. ESP32-S2-SOLO-2U Recommended PCB Land Pattern
+ESP32-S2-SOLO-2U-N4R2	ESP32-S2-SOLO-2	ESP32-S2-SOLO-2U	datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf p.32 Figure 10-2. ESP32-S2-SOLO-2U Recommended PCB Land Pattern
+ESP32-S3-MINI-1U-N8	ESP32-S3-MINI-1	ESP32-S3-MINI-1U	datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf p.46 Figure 11-2. ESP32-S3-MINI-1U Recommended PCB Land Pattern
+ESP32-S3-WROOM-1U-N16	ESP32-S3-WROOM-1	ESP32-S3-WROOM-1U	datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf p.46 Figure 11-2. ESP32-S3-WROOM-1U Recommended PCB Land Pattern
+ESP32-S3-WROOM-1U-N16R2	ESP32-S3-WROOM-1	ESP32-S3-WROOM-1U	datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf p.46 Figure 11-2. ESP32-S3-WROOM-1U Recommended PCB Land Pattern
+ESP32-S3-WROOM-1U-N16R8	ESP32-S3-WROOM-1	ESP32-S3-WROOM-1U	datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf p.46 Figure 11-2. ESP32-S3-WROOM-1U Recommended PCB Land Pattern
+ESP32-S3-WROOM-1U-N4R2	ESP32-S3-WROOM-1	ESP32-S3-WROOM-1U	datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf p.46 Figure 11-2. ESP32-S3-WROOM-1U Recommended PCB Land Pattern
+ESP32-S3-WROOM-1U-N4R8	ESP32-S3-WROOM-1	ESP32-S3-WROOM-1U	datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf p.46 Figure 11-2. ESP32-S3-WROOM-1U Recommended PCB Land Pattern
+ESP32-S3-WROOM-1U-N8	ESP32-S3-WROOM-1	ESP32-S3-WROOM-1U	datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf p.46 Figure 11-2. ESP32-S3-WROOM-1U Recommended PCB Land Pattern
+ESP32-S3-WROOM-1U-N8R8	ESP32-S3-WROOM-1	ESP32-S3-WROOM-1U	datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf p.46 Figure 11-2. ESP32-S3-WROOM-1U Recommended PCB Land Pattern
+ESP32-WROOM-32UE-N16	ESP32-WROOM-32	ESP32-WROOM-32UE	datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf p.44 Figure 14: ESP32-WROOM-32UE Recommended PCB Land Pattern
+ESP32-WROOM-32UE-N8	ESP32-WROOM-32	ESP32-WROOM-32UE	datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf p.44 Figure 14: ESP32-WROOM-32UE Recommended PCB Land Pattern

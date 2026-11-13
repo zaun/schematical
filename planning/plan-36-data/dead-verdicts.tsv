@@ -5,3 +5,4 @@ fdad1bc2375dc5972bd66221a4b86d71	ATXMEGA(64|128|192|256)A3-.*	out	datasheet: NRN
 6bf4d9e814ff72b06259e949c58b1913	ESP32-S2-SOLO-N4	out	datasheet: end of life	ESP32-S2-SOLO & SOLO-U datasheet v1.8 p.3 Table 1: "ESP32-S2-SOLO-N4 (End of life)"
 1205b7559a07e9491cfa4939842c5aa0	ESP32-S2-SOLO-2-N4(R2)?	keep		ESP32-S2-SOLO-2 datasheet p.4: only -H4 and -N8 print "(End of life)"; p.35 is the watermark legend
 c12b9af2c3e3ac5c34e94ba852fe2000	ESP32-C3-MINI-1U?-[NH]4X	keep		ESP32-C3-MINI-1 datasheet p.3-4: "(NRND)" marks the v0.4 -N4 / -H4 / -H4-AZ codes; the -N4X / -H4X v1.1 codes are "(Recommended)"
+1ffee8da94caa1b54f7d23a04aef9df1	ESP32-WROOM-DA-.*	out	datasheet: end of life	ESP32-WROOM-DA datasheet v0.7: the cover is watermarked "END OF LIFE (EOL)" and 30 of its 31 pages carry an "End of Life (EOL)" banner (found in plan-36-E: the banner is not next to the ordering table, so textscan.py did not set dead)
