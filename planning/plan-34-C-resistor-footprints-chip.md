@@ -29,8 +29,8 @@ plan-34-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-34-B complete | `ls planning/completed/plan-34-B-*.md` → exists | NOT MET at writing (2026-11-11) |
-| `footprints-needed.txt` from `add` rows | `grep -c '^chip' planning/plan-34-data/footprints-needed.txt` → B's count (34 at planning time) | NOT MET at writing (B Phase 3 regenerates it) |
+| plan-34-B's verdicts and a pick from them | `test -s planning/plan-34-data/verdicts.tsv && echo ok` | MET (2026-11-13: `ok`; the pick of `select.py --stock … --verdicts …` on the stock check as it stood, § Corrections 1) |
+| `footprints-needed.txt` from `add` rows | `grep -c '^chip' planning/plan-34-data/footprints-needed.txt` → B's count (34 at planning time) | MET (2026-11-13: 33, from the 1974 `add` rows of that pick) |
 
 Everything below is written against the world where these hold.
 
@@ -151,31 +151,50 @@ the page; the reviewer of the commit compares the note with the PDF.
 
 ### Phase 1 — Tools and the YAGEO chip sheets
 
-- [ ] Copy `plan-29-data/census/fp-load.sh` and `fp-merge.py` to
+- [x] Copy `plan-29-data/census/fp-load.sh` and `fp-merge.py` to
       `plan-34-data/census/` (paths `/tmp/p34-fp`, `datasheets/resistor`).
-- [ ] Write `census/fp-check.py <category>`: joins the category's lines of
+- [x] Write `census/fp-check.py <category>`: joins the category's lines of
       `footprints-needed.txt` with the `footprint` column of their
       `specs.tsv` rows and the ids of `footprints-C.json`,
       `footprints-D.json` and `Parts/footprints.json`; prints `<n> lines,
-      <m> without a footprint` and each missing line.
-- [ ] YAGEO `PYU-RC_GROUP_51_ROHS_L` (10 sizes), `PYU-RC_51_ROHS_P`,
+      <m> without a footprint` and each missing line. It joins with
+      `planning/plan-34-data/footprint-map.tsv` instead (one row per
+      land-pattern line: footprint id, the part's `package`, the pinout;
+      § Corrections 2), and `census/specs-fill.py` writes the spec rows'
+      `package`, `pinout`, `footprint` from it.
+- [x] YAGEO `PYU-RC_GROUP_51_ROHS_L` (10 sizes), `PYU-RC_51_ROHS_P`,
       `PYU-RT_1-TO-0-01_ROHS_L`, `PYU-RE_105_ROHS_L`, `PYU-AC_51_ROHS_L`,
       `YAGEO-MMF_DATASHEET` (MELF 0204): one object per distinct land
-      pattern (§ 4.3), the spec rows filled.
+      pattern (§ 4.3), the spec rows filled. 19 YAGEO chip lines, 10 new
+      footprints `RES-01005/0201/0402/0603/0805/1206/1210/2010/2512/1218-YAGEO`.
+      The series sheets print no land pattern and point to YAGEO's
+      mounting sheet `datasheets/resistor/yageo/yageo_PYu-R_Mount_10_19050818_343.pdf`
+      p. 4 Table 1 (R1), so one footprint per size is shared by
+      AC/RC/RC_P/RE/RT. No MELF line remains in the pick: MMF is not
+      picked.
 
 Acceptance: the YAGEO objects load.
   Check: `planning/plan-34-data/census/fp-load.sh planning/plan-34-data/footprints-C.json` → only `extra footprint` / `unused footprint` failures, for exactly the new ids (est. 2 min).
+  Result (2026-11-13): `fp-load.sh footprints-C.json footprints-D.json` → `44 new footprints: load ok` (21 in C).
 Commit: —
 
 ### Phase 2 — Vishay Dale and Viking Tech chip sheets
 
-- [ ] Vishay Dale `crcwce3.pdf` (0402–1206), `crcw0201e3.pdf`,
+- [x] Vishay Dale `crcwce3.pdf` (0402–1206), `crcw0201e3.pdf`,
       `crcw01005e3.pdf`, `dcrcwhre3.pdf`, `rcge3.pdf`; Viking Tech
       `CR_Series.pdf`, `AS_Series.pdf`: objects and spec rows as Phase 1.
-- [ ] Any other chip line B's regenerated `footprints-needed.txt` holds.
+      14 lines, 11 new footprints (`RES-01005/0201/0402/0603/0805/1206-VISHAY`,
+      `RES-0603-VISHAY-HR` for the D/CRCW-HR and RCG 0603 drawing,
+      `RES-0201/0402/0603/0805-VIKING`). RCG 0402 reuses `CAP-0402-AVX`
+      (its pads 0.55 × 0.55 against RCG's 0.60 × 0.60, same span 1.05
+      and body: within 0.05 mm, § 4.3 Reuse).
+- [x] Any other chip line B's regenerated `footprints-needed.txt` holds.
+      None: the 33 chip lines are those of the two tasks above (`fp-check.py
+      chip` → `33 lines, 0 without a footprint`).
 
 Acceptance: every chip line has a footprint and every chip spec row is filled.
   Check: `python3 -I planning/plan-34-data/census/fp-check.py chip` → `<n> lines, 0 without a footprint` with `<n>` = `awk -F'\t' '$1=="chip"' planning/plan-34-data/footprints-needed.txt | wc -l` (34 at planning time), and `fp-load.sh footprints-C.json` as Phase 1 (est. 3 min).
+  Result (2026-11-13): `33 lines, 0 without a footprint` (33 chip lines); `44 new footprints: load ok`.
 Commit: —
 
 ## Validation Plan
@@ -205,7 +224,27 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. **C runs on the pick before the stock check ends (2026-11-13).** A's
+   stock check needs about two more quota days, and it can only swap
+   picked rows. C ran on `select.py --stock /tmp/p34/stock-check.tsv
+   --verdicts verdicts.tsv` as it stood (1974 `add`). When the check
+   ends, plan-34-A's added task re-runs the pick and `fp-check.py`. A
+   land-pattern line the swaps add gets its footprint then.
+2. **`footprint-map.tsv` instead of per-row columns.** One spec row
+   (maker, series, PDF) covers many sizes (RC_L: 10). A single `package` /
+   `footprint` cell cannot name them, so the map holds one row per
+   land-pattern line, keyed like `footprints-needed.txt`, plus a `series`
+   column where two series share a line but not a pinout (YC358L /
+   YC358T, D). `specs-fill.py` writes `;`-separated
+   `<package>:<footprint>` lists into the spec rows; a row with no
+   `add` row gets `-`.
+3. **Axial ids use `X`.** § 4.3's example `RES-AX-10.16-6.3x2.4-YAGEO` is
+   not a valid id: the loader takes A-Z, 0-9, `.`, `-` only. They are
+   `RES-AX-<span>-<length>X<diameter>-<MAKER>`.
+4. **R5 as plan-03-B states it.** Drill = lead diameter max + 0.25,
+   rounded up to 0.05 mm; round pad = drill + 0.7, at least 1.5. These are
+   `docs/parts-format.md`'s and the existing `CAP-AX-*` /
+   `DIODE-DO-35-*` values (used by D).
 
 ## Summary
 

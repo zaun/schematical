@@ -1,0 +1,77 @@
+category	maker	datasheet	package	body	series	footprint	part_package	pinout
+chip	YAGEO	PYU-AC_51_ROHS_L.pdf	0402 (1005 Metric)			RES-0402-YAGEO	0402	two-pin
+chip	YAGEO	PYU-RC_51_ROHS_P.pdf	0201 (0603 Metric)			RES-0201-YAGEO	0201	two-pin
+chip	YAGEO	PYU-RC_51_ROHS_P.pdf	0402 (1005 Metric)			RES-0402-YAGEO	0402	two-pin
+chip	YAGEO	PYU-RC_51_ROHS_P.pdf	0603 (1608 Metric)			RES-0603-YAGEO	0603	two-pin
+chip	YAGEO	PYU-RC_GROUP_51_ROHS_L.pdf	01005 (0402 Metric)			RES-01005-YAGEO	01005	two-pin
+chip	YAGEO	PYU-RC_GROUP_51_ROHS_L.pdf	0201 (0603 Metric)			RES-0201-YAGEO	0201	two-pin
+chip	YAGEO	PYU-RC_GROUP_51_ROHS_L.pdf	0402 (1005 Metric)			RES-0402-YAGEO	0402	two-pin
+chip	YAGEO	PYU-RC_GROUP_51_ROHS_L.pdf	0603 (1608 Metric)			RES-0603-YAGEO	0603	two-pin
+chip	YAGEO	PYU-RC_GROUP_51_ROHS_L.pdf	0805 (2012 Metric)			RES-0805-YAGEO	0805	two-pin
+chip	YAGEO	PYU-RC_GROUP_51_ROHS_L.pdf	1206 (3216 Metric)			RES-1206-YAGEO	1206	two-pin
+chip	YAGEO	PYU-RC_GROUP_51_ROHS_L.pdf	1210 (3225 Metric)			RES-1210-YAGEO	1210	two-pin
+chip	YAGEO	PYU-RC_GROUP_51_ROHS_L.pdf	2010 (5025 Metric)			RES-2010-YAGEO	2010	two-pin
+chip	YAGEO	PYU-RC_GROUP_51_ROHS_L.pdf	2512 (6332 Metric)			RES-2512-YAGEO	2512	two-pin
+chip	YAGEO	PYU-RC_GROUP_51_ROHS_L.pdf	Wide 1812 (4532 Metric), 1218			RES-1218-YAGEO	1218	two-pin
+chip	YAGEO	PYU-RE_105_ROHS_L.pdf	0805 (2012 Metric)			RES-0805-YAGEO	0805	two-pin
+chip	YAGEO	PYU-RT_1-TO-0-01_ROHS_L.pdf	0402 (1005 Metric)			RES-0402-YAGEO	0402	two-pin
+chip	YAGEO	PYU-RT_1-TO-0-01_ROHS_L.pdf	0603 (1608 Metric)			RES-0603-YAGEO	0603	two-pin
+chip	YAGEO	PYU-RT_1-TO-0-01_ROHS_L.pdf	0805 (2012 Metric)			RES-0805-YAGEO	0805	two-pin
+chip	YAGEO	PYU-RT_1-TO-0-01_ROHS_L.pdf	1206 (3216 Metric)			RES-1206-YAGEO	1206	two-pin
+chip	Viking Tech	AS_Series.pdf	0402 (1005 Metric)			RES-0402-VIKING	0402	two-pin
+chip	Viking Tech	CR_Series.pdf	0201 (0603 Metric)			RES-0201-VIKING	0201	two-pin
+chip	Viking Tech	CR_Series.pdf	0402 (1005 Metric)			RES-0402-VIKING	0402	two-pin
+chip	Viking Tech	CR_Series.pdf	0603 (1608 Metric)			RES-0603-VIKING	0603	two-pin
+chip	Viking Tech	CR_Series.pdf	0805 (2012 Metric)			RES-0805-VIKING	0805	two-pin
+chip	Vishay Dale	crcw01005e3.pdf	01005 (0402 Metric)			RES-01005-VISHAY	01005	two-pin
+chip	Vishay Dale	crcw0201e3.pdf	0201 (0603 Metric)			RES-0201-VISHAY	0201	two-pin
+chip	Vishay Dale	crcwce3.pdf	0402 (1005 Metric)			RES-0402-VISHAY	0402	two-pin
+chip	Vishay Dale	crcwce3.pdf	0603 (1608 Metric)			RES-0603-VISHAY	0603	two-pin
+chip	Vishay Dale	crcwce3.pdf	0805 (2012 Metric)			RES-0805-VISHAY	0805	two-pin
+chip	Vishay Dale	crcwce3.pdf	1206 (3216 Metric)			RES-1206-VISHAY	1206	two-pin
+chip	Vishay Dale	dcrcwhre3.pdf	0603 (1608 Metric)			RES-0603-VISHAY-HR	0603	two-pin
+chip	Vishay Dale	rcge3.pdf	0402 (1005 Metric)			CAP-0402-AVX	0402	two-pin
+chip	Vishay Dale	rcge3.pdf	0603 (1608 Metric)			RES-0603-VISHAY-HR	0603	two-pin
+through-hole	Viking Tech	MFR_Series.pdf	Axial	2.30mm x 6.30mm		RES-AX-10.0-6.3X2.3-VIKING	Axial	two-pin
+through-hole	Vishay Dale	cmfind.pdf	Axial	2.29mm x 6.10mm		RES-AX-10.16-6.5X2.5-VISHAY	Axial	two-pin
+through-hole	Vishay Dale	cmfind.pdf	Axial	4.20mm x 11.90mm		RES-AX-15.24-11.9X4.2-VISHAY	Axial	two-pin
+through-hole	Vishay Dale	cmfmil.pdf	Axial	3.68mm x 8.74mm		RES-AX-15.24-8.74X3.68-VISHAY	Axial	two-pin
+through-hole	YAGEO	YAGEO-FKN_DATASHEET.pdf	Axial	2.40mm x 6.30mm		RES-AX-10.0-6.3X2.4-YAGEO	Axial	two-pin
+through-hole	YAGEO	YAGEO-FKN_DATASHEET.pdf	Axial	3.30mm x 9.00mm		RES-AX-12.5-9.0X3.3-YAGEO	Axial	two-pin
+through-hole	YAGEO	YAGEO-FKN_DATASHEET.pdf	Axial	4.50mm x 11.50mm		RES-AX-15.0-11.5X4.6-YAGEO	Axial	two-pin
+through-hole	YAGEO	YAGEO-FKN_DATASHEET.pdf	Axial	4.60mm x 11.50mm		RES-AX-15.0-11.5X4.6-YAGEO	Axial	two-pin
+through-hole	YAGEO	YAGEO-FMP_DATASHEET.pdf	Axial	2.40mm x 6.30mm		RES-AX-10.0-6.3X2.4-YAGEO	Axial	two-pin
+through-hole	YAGEO	YAGEO-FMP_DATASHEET.pdf	Axial	3.90mm x 9.00mm		RES-AX-12.7-9.0X3.9-YAGEO	Axial	two-pin
+through-hole	YAGEO	YAGEO-FMP_DATASHEET.pdf	Axial	4.50mm x 11.50mm		RES-AX-17.78-13.0X5.5-YAGEO	Axial	two-pin
+through-hole	YAGEO	YAGEO-FMP_DATASHEET.pdf	Axial	5.00mm x 15.50mm		RES-AX-20.0-15.5X5.0-YAGEO	Axial	two-pin
+through-hole	YAGEO	YAGEO-HHV_DATASHEET.pdf	Axial	2.40mm x 6.30mm		RES-AX-10.0-6.3X2.4-YAGEO	Axial	two-pin
+through-hole	YAGEO	YAGEO-KNP_DATASHEET.pdf	Axial	3.50mm x 9.00mm		RES-AX-12.5-9.0X3.3-YAGEO	Axial	two-pin
+through-hole	YAGEO	YAGEO-KNP_DATASHEET.pdf	Axial	4.60mm x 11.50mm		RES-AX-15.0-11.5X4.6-YAGEO	Axial	two-pin
+through-hole	YAGEO	YAGEO-KNP_DATASHEET.pdf	Axial	5.20mm x 15.50mm		RES-AX-20.0-15.5X5.0-YAGEO	Axial	two-pin
+through-hole	YAGEO	YAGEO-MF0_DATASHEET.pdf	Axial	2.40mm x 6.30mm		RES-AX-10.0-6.3X2.4-YAGEO	Axial	two-pin
+through-hole	YAGEO	YAGEO-MFR_DATASHEET.pdf	Axial	1.90mm x 3.40mm		RES-AX-6.0-3.4X1.9-YAGEO	Axial	two-pin
+through-hole	YAGEO	YAGEO-MFR_DATASHEET.pdf	Axial	2.40mm x 6.30mm		RES-AX-10.0-6.3X2.4-YAGEO	Axial	two-pin
+through-hole	YAGEO	YAGEO-MFR_DATASHEET.pdf	Axial	3.30mm x 9.00mm		RES-AX-12.5-9.0X3.3-YAGEO	Axial	two-pin
+through-hole	YAGEO	YAGEO-PNP-V_DATASHEET.pdf	Axial	5.50mm x 13.00mm		RES-AX-17.78-13.0X5.5-YAGEO	Axial	two-pin
+through-hole	YAGEO	YAGEO-PNP_DATASHEET.pdf	Axial	4.60mm x 11.50mm		RES-AX-15.0-11.5X4.6-YAGEO	Axial	two-pin
+through-hole	YAGEO	YAGEO-RSF_DATASHEET.pdf	Axial	3.30mm x 9.00mm		RES-AX-12.5-9.0X3.3-YAGEO	Axial	two-pin
+through-hole	YAGEO	YAGEO-RSF_DATASHEET.pdf	Axial	4.50mm x 11.50mm		RES-AX-15.0-11.5X4.6-YAGEO	Axial	two-pin
+through-hole	YAGEO	YAGEO-RSF_DATASHEET.pdf	Axial	5.00mm x 15.50mm		RES-AX-20.0-15.5X5.0-YAGEO	Axial	two-pin
+through-hole	YAGEO	YAGEO-SQP_NSP_DATASHEET.pdf	Axial	9.50mm x 9.00mm x 22.00mm		RES-AX-27.94-22.0X9.5-YAGEO	Axial	two-pin
+through-hole	YAGEO	YAGEO-SQP_NSP_DATASHEET.pdf	Axial	9.50mm x 9.00mm x 48.00mm		RES-AX-53.34-48.0X9.5-YAGEO	Axial	two-pin
+through-hole	YAGEO	yageo-zor_datasheet.pdf	Axial	1.80mm x 3.30mm		RES-AX-6.0-3.4X1.9-YAGEO	Axial	two-pin
+through-hole	YAGEO	yageo-zor_datasheet.pdf	Axial	2.30mm x 6.30mm		RES-AX-10.0-6.3X2.4-YAGEO	Axial	two-pin
+array	Viking Tech	CN_Series.pdf	0804, Convex, Long Side Terminals	8 pins, Isolated		RES-ARRAY-0804-8-VIKING	0804	iso-8:1-8,2-7,3-6,4-5
+array	Vishay Dale	msm.pdf	10-SIP	10 pins, Bussed		SIP-10-2.54-VISHAY	10-SIP	bus-10:1-2,1-3,1-4,1-5,1-6,1-7,1-8,1-9,1-10
+array	Vishay Dale	msm.pdf	6-SIP	6 pins, Isolated		SIP-6-2.54-VISHAY	6-SIP	iso-6:1-2,3-4,5-6
+array	Vishay Dale	msp.pdf	8-SIP	8 pins, Isolated		SIP-8-2.54-VISHAY	8-SIP	iso-8:1-2,3-4,5-6,7-8
+array	Vishay Dale	somc.pdf	16-SOIC (0.220", 5.59mm Width)	16 pins, Bussed		SOIC-16-5.59-VISHAY	16-SOIC	bus-16:16-1,16-2,16-3,16-4,16-5,16-6,16-7,16-8,16-9,16-10,16-11,16-12,16-13,16-14,16-15
+array	Vishay Dale	somc.pdf	16-SOIC (0.220", 5.59mm Width)	16 pins, Isolated		SOIC-16-5.59-VISHAY	16-SOIC	iso-16:1-16,2-15,3-14,4-13,5-12,6-11,7-10,8-9
+array	YAGEO	PYU-AF122_124_162_164_51_ROHS_L.pdf	0804, Convex, Long Side Terminals	8 pins, Isolated		RES-ARRAY-0804-8-YAGEO	0804	iso-8:1-5,2-6,3-7,4-8
+array	YAGEO	PYU-YC_TC_GROUP_51_ROHS_L.pdf	0404 (1010 Metric), Convex	4 pins, Isolated		RES-ARRAY-0404-4-YAGEO	0404	iso-4:1-4,2-3
+array	YAGEO	PYU-YC_TC_GROUP_51_ROHS_L.pdf	0804, Convex, Long Side Terminals	8 pins, Isolated		RES-ARRAY-0804-8-YAGEO	0804	iso-8:1-5,2-6,3-7,4-8
+array	YAGEO	PYU-YC_TC_GROUP_51_ROHS_L.pdf	1206 (3216 Metric), Concave, Long Side Terminals	8 pins, Isolated		RES-ARRAY-1206-8-YAGEO	1206	iso-8:1-5,2-6,3-7,4-8
+array	YAGEO	PYU-YC_TC_GROUP_51_ROHS_L.pdf	1206 (3216 Metric), Convex, Long Side Terminals	10 pins, Bussed		RES-ARRAY-1206-10-YAGEO	1206	bus-10:5-1,5-2,5-3,5-4,5-6,5-7,5-8,5-9;common=5,10
+array	YAGEO	PYU-YC_TC_GROUP_51_ROHS_L.pdf	1206 (3216 Metric), Convex, Long Side Terminals	8 pins, Isolated		RES-ARRAY-1206-8-YAGEO	1206	iso-8:1-5,2-6,3-7,4-8
+array	YAGEO	PYU-YC_TC_GROUP_51_ROHS_L.pdf	2512 (6432 Metric), Convex, Long Side Terminals	10 pins, Bussed	YC358L	RES-ARRAY-2512-10-YAGEO	2512	bus-10:1-2,1-3,1-4,1-5,1-7,1-8,1-9,1-10;common=1,6
+array	YAGEO	PYU-YC_TC_GROUP_51_ROHS_L.pdf	2512 (6432 Metric), Convex, Long Side Terminals	10 pins, Bussed	YC358T	RES-ARRAY-2512-10-YAGEO	2512	bus-10:5-1,5-2,5-3,5-4,5-6,5-7,5-8,5-9;common=5,10
