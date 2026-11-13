@@ -77,8 +77,18 @@ def atdf_pinouts(path):
     return dev.get("name"), pos
 
 
+def supply(name):
+    """The ATDF numbers repeated supply pads (`GND0`, `GND1`, `VDD0`); the
+    datasheets print them `GND` / `VDD` (megaAVR 0, AVR Ex/Lx/Sx figures), so
+    the pin takes the printed name. VDDIO2 (AVR DB MVIO) is another rail and
+    keeps its name."""
+    m = re.fullmatch(r"(GND|VDD)\d", name)
+    return m.group(1) if m else name
+
+
 def build(pins, n, numbered):
     """Pad list -> [(designator, name)], gaps filled with NC for a numbered pinout of n pins."""
+    pins = [(d, supply(name)) for d, name in pins]
     by = {d: name for d, name in pins}
     if numbered:
         return [(str(i), by.get(str(i), "NC")) for i in range(1, n + 1)]

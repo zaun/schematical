@@ -20,6 +20,12 @@ files and updates this map.
 | `census/textscan.py`, `census/sibling.py`, `census/pkgcheck.py`, `package-overrides.tsv` | verbatim hits, package codes from the ordering tables, wrong-PDF detection, sibling PDFs, the DigiKey cross-check; two datasheet typos | A Phase 2 |
 | `specs.tsv`, `specs-hand.tsv`, `census/specs-draft.py`, `census/specs-build.py`, `census/verdicts.py` | per-datasheet ordering-code rules (format in `verdicts.py`) and the verdicts | A Phase 3 |
 | `dead-verdicts.tsv`, `census/dead.py`, `census/docs.py`, `census/place.py` | the obsolete / NRND reading, the two datasheets/*.md blocks, placement into `datasheets/mcu/` | A Phase 4 |
+| `package-codes.tsv`, `census/package-codes.py` | one row per (package code, pins): geometry, pins, the datasheet's name; C-E fill drawing and footprint | B Phase 1 |
+| `census/roles.py`, `census/pinout-lint.py` | the pad-name -> role table (B § 3.2), the pinout lint | B Phase 1 |
+| `pinouts.tsv`, `pinout-map.tsv`, `atdf-exclude.tsv`, `census/pinouts.py` | every pinout an add row uses (`device pinout designator name role src`) and the (device, code, pins) -> pinout map; ATDF pinouts found wrong | B Phase 1-2 |
+| `transcribe-units.tsv`, `transcribed*.tsv`, `esp-pads.tsv`, `census/units.py`, `transcribe.py`, `transcribe-hand.py`, `esp-pins.py`, `transcribed-merge.py` | the pinouts the ATDF cannot give: datasheet figures read from the PDF word boxes, hand readings, the ESP32 module pin tables, the RP2040 | B Phase 2 |
+| `pinout-checks.tsv`, `full-checks.tsv`, `eye-checks.tsv`, `census/pinout-check.py`, `full-check.py`, `eye-checks.py` | the name check of every ATDF pinout (text, OCR, by eye) and the ten full checks | B Phase 3 |
+| `devices.tsv`, `facts-overrides*.tsv`, `census/devices.py`, `facts-check.py` | one row per device: core, clock, flash, RAM, EEPROM, supply range; checked against each datasheet | B Phase 3 |
 
 ## Verdicts (plan-36-A, listing of 2026-11-13 UTC)
 
@@ -39,6 +45,8 @@ files and updates this map.
 | **all** | 1426 | 61 | 25 | 11 | 16 |
 
 1426 `add` rows on 304 devices, 152 PDFs in `datasheets/mcu/` (`datasheets/mcu/datasheets.tsv`). The 8 RP2350 / RP2354 rows are `out (scope)` too and are not in the table.
+
+Re-running B: `package-codes.py`, `pinouts.py candidates.tsv /tmp/p36/packs/atdf`, `units.py`, `transcribe.py`, `transcribe-hand.py`, `esp-pins.py`, `transcribed-merge.py`, `pinouts.py ... --transcribed transcribed.tsv`, `pinout-lint.py`, `pinout-check.py --full full-checks.tsv`, `devices.py`, `facts-check.py`.
 
 Re-running A (after the listing): `textscan.py cand.tsv /tmp/p36/pdf /tmp/p36/txt`, `sibling.py`, `specs-draft.py` → `specs-build.py`, `verdicts.py cand.tsv specs.tsv`, `dead.py cand.tsv dead-verdicts.tsv`, `place.py cand.tsv /tmp/p36/pdf`, `docs.py`.
 

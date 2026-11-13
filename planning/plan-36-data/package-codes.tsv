@@ -65,7 +65,7 @@ ESP32-S3-WROOM-1	module		41-SMD Module			11 ESP32
 ESP32-WROOM-32	module		38-SMD Module			4 ESP32
 ESP32-WROOM-DA	module		43-SMD Module			1 ESP32
 ESP32-WROVER	module		38-SMD Module			5 ESP32
-M	quad	20	VQFN			38 AVR tinyAVR 0/1/2
+M	quad	20	VQFN			37 AVR tinyAVR 0/1/2
 M	quad	24	VQFN			31 AVR tinyAVR 0/1/2
 M	quad	32	VQFN			14 AVR megaAVR 0
 M	quad	48	VQFN			6 AVR megaAVR 0

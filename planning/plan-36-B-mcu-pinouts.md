@@ -237,7 +237,7 @@ as Espressif prints them; `RP2040`), `family` (the drawer folder,
 Acceptance: the ATDF-covered rows have lint-clean pinouts.
   Check: `python3 -I planning/plan-36-data/census/pinout-lint.py planning/plan-36-data/pinouts.tsv` → `0 problems`, and `awk -F'\t' '$25=="atdf"' planning/plan-36-data/candidates.tsv | wc -l` equals the `atdf` count `pinouts.py` prints (1242 before A's verdicts; the new figure and the reason for any change go in § Corrections) (est. 2 min).
   Result 2026-11-13: lint `321 pinouts, 0 problems`; `awk … | wc -l` → 1178 = `pinouts.py`'s `atdf 1178` (§ Corrections).
-Commit: —
+Commit: b0f2a45
 
 ### Phase 2 — Transcriptions
 
@@ -255,21 +255,26 @@ Commit: —
 
 Acceptance: every `add` row has a pinout.
   Check: `awk -F'\t' 'NR>1 && $24=="add" && $25==""' planning/plan-36-data/candidates.tsv | wc -l` → 0, and the lint → `0 problems` (est. 2 min after the transcriptions).
-  Result 2026-11-13: `0`; `422 pinouts, 0 problems` (atdf 1178 + transcribed 199 + module-table 49 = 1426).
-Commit: —
+  Result 2026-11-13: `0`; `422 pinouts, 0 problems` (atdf 1178 + transcribed 199 + module-table 49 = 1426; after A's ATtiny202 fix, § Corrections: 1177 + 199 + 49 = 1425).
+Commit: 4c176db
 
 ### Phase 3 — Checks and device facts
 
-- [ ] `census/pinout-check.py` (§ 3.4 name check) over every ATDF pinout
+- [x] `census/pinout-check.py` (§ 3.4 name check) over every ATDF pinout
       used. A failure is read on the figure and either fixed (ATDF wrong:
       transcribe instead, `src` notes the ATDF difference) or recorded as
       a datasheet typo in `pinout-checks.tsv`.
-- [ ] The ten full checks (§ 3.4), recorded in `pinout-checks.tsv`.
-- [ ] `census/devices.py` → `devices.tsv` (§ 3.5); `census/facts-check.py`.
-- [ ] `planning/plan-36-data/README.md`: the B files.
+      321 ATDF pinouts. 312 pass on the text of their pin-configuration pages (TOC pages skipped, the 3 pages after each figure heading read, image pages OCR'd with tesseract at 300 dpi; ATDF spellings of a printed pad accepted as aliases: AGND/GND, AVDD/VDD, REF/AREF, DM/D-, DP/D+). The other 9 were read on the figure and match pin for pin (`eye-checks.tsv`): AVR32SD20/28/32 ×4 (the figures print RESET / UPDI for the ATDF pads PF6 / PF7), ATmega8 ×2, ATxmega64/128/256C3 ×3 (image figures). No ATDF pinout was found wrong besides atdf-exclude.tsv's two.
+- [x] The ten full checks (§ 3.4), recorded in `pinout-checks.tsv`.
+      12 pinouts of the ten devices (`full-checks.tsv`): 9 pin by pin against the figure read from its word boxes (`census/full-check.py`), 3 by eye (ATmega1284P p40 and quad44, ATtiny1614 p14). All `full ok`.
+- [x] `census/devices.py` → `devices.tsv` (§ 3.5); `census/facts-check.py`.
+      304 devices. Core and sizes come from the ATDF (a sibling's core for the 8 devices with no ATDF file, sizes from DigiKey for those). Clock and supply are the most common DigiKey values over the device's add parts. ESP32 / RP2040 come from their datasheets. `facts-check.py` → `304 devices, 0 mismatches`: the supply range is confirmed on pp.1-3 or in Electrical Characteristics, the clock on pp.1-3. 19 values were resolved from the datasheet (`facts-overrides.tsv`: 16 tinyAVR 1-series devices "up to 20 MHz" where DigiKey's most common part is a 16 MHz 125 °C grade; `facts-overrides-hand.tsv`: ATmega325PA and ATmega3290PA 1.8 V, ATtiny5 12 MHz).
+- [x] `planning/plan-36-data/README.md`: the B files.
+      Done (file map and the re-run order).
 
 Acceptance: the checks pass and every device has facts.
   Check: `awk -F'\t' '$5!~/^(ok|full ok|typo:)/' planning/plan-36-data/pinout-checks.tsv | wc -l` → 1 (the header), and `python3 -I planning/plan-36-data/census/facts-check.py planning/plan-36-data/devices.tsv` → `0 mismatches` (est. 5 min).
+  Result 2026-11-13: `1`; `304 devices, 0 mismatches`.
 Commit: —
 
 ## Validation Plan
@@ -303,6 +308,9 @@ Commit: —
 
 - **2026-11-13, Phase 1: 1178 ATDF rows, not 1242.** A's verdicts left 1373 AVR add rows (planning: 1468 AVR rows before verdicts), and the pinout is now picked by the ordering-table package code, not DigiKey's package. 245 AVR rows fall to transcription: devices whose ATDF has no pinouts (B § 2's list), packages the ATDF lacks (AVR DB28 has only `DIP28`, so its VQFN28 `STX` is transcribed), and the 3 ATtiny13/13A `MLF20` rows of `atdf-exclude.tsv`.
 - **2026-11-13, Phase 2: transcription by word boxes.** § 3.3 has each unit typed from a `pdftoppm` image. 75 of the 80 AVR figures are text in the PDF, so `census/transcribe.py` reads them from `pdftotext -bbox`. Every figure it accepts numbers 1..N exactly once with a valid pad name per number. It must match the unit's layout and caption, and when a page draws one package twice, both readings must agree. Four figures read by hand matched its output exactly. The 5 it could not read, the RP2040 and the UFBGA tables were typed from the images. Phase 3's name check and full checks run over these too.
+- **2026-11-13, Phase 3: A's ATtiny202 rows.** The name check showed the ATtiny202/204/402/404 rows on the ATtiny804/1604 datasheet. That datasheet mentions ATtiny202 in its text, so A's `verdicts.py` regex device check accepted it. The check now reads only a datasheet's first three pages (A § Corrections). The rows moved to their own datasheet (`ATtiny202-204-402-404-406-DataSheet-DS40002318A.pdf`), and ATTINY1616-MZ-VAO became `skip`: 1425 add rows.
+- **2026-11-13, Phase 3: supply pad names.** The ATDF numbers repeated supply pads (`GND0`, `GND1`, `VDD0`) where the figures print `GND` / `VDD`. `pinouts.supply` gives the pins the printed name. VDDIO2 stays.
+- **2026-11-13, Phase 3: name check method.** Many Atmel and XMEGA pinout pages are images, and some figures print a pad's function (RESET, UPDI) in place of its port name. The check therefore OCRs image pages and accepts the alias list (Phase 3 note), and the 9 it still cannot read were checked by eye on the figure. That is § 3.4's "read on the figure" step, recorded in `eye-checks.tsv`.
 - **2026-11-13, roles added.** ATmega406 (battery management) and ATtiny43U (boost converter) have pad names outside § 3.2's table. They were added with their datasheet descriptions in `roles.py`: VFET power; VREG, VREF, OC, OD, OPC, LSW output; PV1-4, NV, PI, NI, PPI, NNI, PVT, BATT input; SGND, VREFGND ground; SCL, SDA inout. ATmega406's cell and FET pins work above VCC (up to 25 V, VFET). The edit-time voltage check will judge them as ordinary inputs at the part's `vcc` (F § 3.4), which is a known limit for this one part.
 - **2026-11-13, `package-codes.tsv` key.** One row per (code, pins), not per code (Phase 1 note). `pinout-map.tsv` has `device code pins pinout src`.
 

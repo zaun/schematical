@@ -24,9 +24,9 @@ md5 textscan.py writes in `pdf`). For a row of that PDF:
                    =CODE    this literal code for every row (`=QFN-56`)
   note           the datasheet page or figure the rule was read from
 
-A regex with a `dev` group also needs that device name in the PDF's text
-(textscan.names), so a scheme cannot claim a device the datasheet does not
-cover.
+A regex with a `dev` group also needs that device name on the PDF's first
+three pages (textscan.names, list titles expanded), so a scheme cannot claim
+a device the datasheet only mentions.
 
 Per in-scope row (verdict not already `skip` / `out`):
   1. a verbatim hit with a package code: `add`;
@@ -34,7 +34,7 @@ Per in-scope row (verdict not already `skip` / `out`):
      verbatim hit stays `verbatim`), `package_code` from package_field: `add`;
   3. else the same tests on each other PDF a row of the same device uses,
      then on every other PDF of the same maker (row PDFs and extra-pdfs.tsv)
-     whose text names the device (§ 3 rule 3's sibling rule, for a row whose
+     whose first three pages name the device (§ 3 rule 3's sibling rule, for a row whose
      DigiKey link is a different edition): the row's `pdf` becomes that PDF;
   4. else `skip`, reason `not in the datasheet's ordering table`.
 package-overrides.tsv (beside specs.tsv) then replaces the package code of
@@ -76,7 +76,11 @@ class Texts:
                 T.text(self.pdf_dir, self.dir, h)
             if os.path.exists(p):
                 body = T.dashes(open(p, errors="replace").read())
-                self.cache[h] = (body, T.legend(body), T.names(body.upper()))
+                # the devices a datasheet covers: the names on its first three
+                # pages (title, features, family table), not every name in the
+                # text -- the ATtiny804/1604 datasheet mentions ATtiny202
+                head = "\f".join(body.split("\f")[:3]).upper()
+                self.cache[h] = (body, T.legend(body), T.names(head))
             else:
                 self.cache[h] = None
         return self.cache[h]

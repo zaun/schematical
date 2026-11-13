@@ -1,0 +1,13 @@
+device	pinout	pdf	pages	result
+ATmega328P	p28	datasheets/mcu/atmega328p.pdf	12	full ok (pin by pin against the figure)
+ATmega328P	quad32	datasheets/mcu/atmega328p.pdf	12	full ok (pin by pin against the figure)
+ATmega2560	quad100	datasheets/mcu/microchip/ATmega640-1280-1281-2560-2561-Datasheet-DS40002211A.pdf	2	full ok (pin by pin against the figure)
+ATmega32U4	quad44	datasheets/mcu/microchip/Atmel-7766-8-bit-AVR-ATmega16U4-32U4_Summary.pdf	3	full ok (pin by pin against the figure)
+ATmega1284P	p40	datasheets/mcu/microchip/ATmega164A_PA-324A_PA-644A_PA-1284_P_Data-Sheet-40002070B.pdf	11	full ok (by eye, Figure 1-1 PDIP, every pin)
+ATmega1284P	quad44	datasheets/mcu/microchip/ATmega164A_PA-324A_PA-644A_PA-1284_P_Data-Sheet-40002070B.pdf	11	full ok (by eye, Figure 1-1 TQFP/QFN/MLF, every pin; pin 29 printed AREF for the ATDF REF)
+ATmega4809	quad48	datasheets/mcu/microchip/ATmega4808-09-DataSheet-DS40002173C.pdf	17	full ok (pin by pin against the figure)
+ATtiny85	p8	datasheets/mcu/microchip/Atmel-2586-AVR-8-bit-Microcontroller-ATtiny25-ATtiny45-ATtiny85_Datasheet-Summary.pdf	2	full ok (pin by pin against the figure)
+ATtiny13A	p8	datasheets/mcu/attiny13a.pdf	8	full ok (pin by pin against the figure)
+ATtiny84A	p14	datasheets/mcu/microchip/8183s.pdf	2	full ok (pin by pin against the figure)
+ATtiny1614	p14	datasheets/mcu/microchip/ATtiny1614-16-17-DataSheet-DS40002204A.pdf	14	full ok (by eye, 4.1 14-Pin SOIC, every pin)
+AVR128DA48	quad48	datasheets/mcu/microchip/AVR128DA28-32-48-64-Data-Sheet-DS40002183.pdf	16	full ok (pin by pin against the figure)

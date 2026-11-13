@@ -1,0 +1,334 @@
+device	pinout	pdf	pages	result
+AT90CAN128	quad64	datasheets/mcu/microchip/7679S.pdf	5,6,7,8,9	ok
+AT90CAN32	quad64	datasheets/mcu/microchip/7679S.pdf	5,6,7,8,9	ok
+AT90CAN64	quad64	datasheets/mcu/microchip/7679S.pdf	5,6,7,8,9	ok
+ATmega128	quad64	datasheets/mcu/microchip/2467S.pdf	2,3,4,5	ok
+ATmega1280	quad100	datasheets/mcu/microchip/ATmega640-1280-1281-2560-2561-Datasheet-DS40002211A.pdf	2,3,5,6,7	ok
+ATmega1281	quad64	datasheets/mcu/microchip/ATmega640-1280-1281-2560-2561-Datasheet-DS40002211A.pdf	4,5,6,7	ok
+ATmega1284	quad44	datasheets/mcu/microchip/ATmega164A_PA-324A_PA-644A_PA-1284_P_Data-Sheet-40002070B.pdf	11,13,14,15,16	ok
+ATmega1284	p40	datasheets/mcu/microchip/ATmega164A_PA-324A_PA-644A_PA-1284_P_Data-Sheet-40002070B.pdf	11,13,14,15,16	ok
+ATmega1284P	quad44	datasheets/mcu/microchip/ATmega164A_PA-324A_PA-644A_PA-1284_P_Data-Sheet-40002070B.pdf	11,13,14,15,16	ok
+ATmega1284P	p40	datasheets/mcu/microchip/ATmega164A_PA-324A_PA-644A_PA-1284_P_Data-Sheet-40002070B.pdf	11,13,14,15,16	ok
+ATmega128A	quad64	datasheets/mcu/microchip/Atmel-8151S-8-bit-AVR-ATmega128A_Datasheet-Summary.pdf	9,10,11,12	ok
+ATmega16	quad44	datasheets/mcu/microchip/doc2466.pdf	2,3,4,5	ok
+ATmega16	p40	datasheets/mcu/microchip/2466S.pdf	2,3,4,5,22,23,24,25	ok
+ATmega164A	quad44	datasheets/mcu/microchip/Atmel-42712-ATmega164A_Datasheet_Summary.pdf	9,10,11,12,13,14	ok
+ATmega164A	bga49	datasheets/mcu/microchip/Atmel-42712-ATmega164A_Datasheet_Summary.pdf	9,10,11,12,13,14	ok
+ATmega164A	drqfn44	datasheets/mcu/microchip/ATmega164A_PA-324A_PA-644A_PA-1284_P_Data-Sheet-40002070B.pdf	11,12,13,14,15,16	ok
+ATmega164P	quad44	datasheets/mcu/microchip/ATmega164P-324P-644P-Data-Sheet-40002071A.pdf	11,12,13,14	ok
+ATmega164PA	quad44	datasheets/mcu/microchip/ATmega164A_PA-324A_PA-644A_PA-1284_P_Data-Sheet-40002070B.pdf	11,12,13,14,15,16	ok
+ATmega164PA	bga49	datasheets/mcu/microchip/ATmega164A_PA-324A_PA-644A_PA-1284_P_Data-Sheet-40002070B.pdf	11,12,13,14,15,16	ok
+ATmega164PA	drqfn44	datasheets/mcu/microchip/ATmega164A_PA-324A_PA-644A_PA-1284_P_Data-Sheet-40002070B.pdf	11,12,13,14,15,16	ok
+ATmega168	quad32	datasheets/mcu/microchip/Atmel-2545-8-bit-AVR-Microcontroller-ATmega48-88-168_Summary.pdf	10,11,12,13 (pinout pages of the device's datasheet)	ok
+ATmega168	p28	datasheets/mcu/microchip/Atmel-2545-8-bit-AVR-Microcontroller-ATmega48-88-168_Summary.pdf	10,11,12,13 (pinout pages of the device's datasheet)	ok
+ATmega168A	quad32	datasheets/mcu/atmega328p.pdf	12,13,14,15 (pinout pages of the device's datasheet)	ok
+ATmega168A	quad28	datasheets/mcu/atmega328p.pdf	12,13,14,15 (pinout pages of the device's datasheet)	ok
+ATmega168A	p28	datasheets/mcu/atmega328p.pdf	12,13,14,15 (pinout pages of the device's datasheet)	ok
+ATmega168P	quad32	datasheets/mcu/microchip/ATmega48P_88P_168P-DS40002065A.pdf	10,12	ok
+ATmega168PA	quad32	datasheets/mcu/atmega328p.pdf	12,13,14,15 (pinout pages of the device's datasheet)	ok
+ATmega168PA	quad28	datasheets/mcu/atmega328p.pdf	12,13,14,15 (pinout pages of the device's datasheet)	ok
+ATmega168PA	p28	datasheets/mcu/atmega328p.pdf	12,13,14,15 (pinout pages of the device's datasheet)	ok
+ATmega168PB	quad32	datasheets/mcu/microchip/ATmega48PB-88PB-168PB-DataSheet-DS40001909B.pdf	10,11,12,13,14	ok
+ATmega169A	quad64	datasheets/mcu/microchip/Atmel-8284-8-bit-AVR-microcontroller-ATmega169A_PA_329A_PA_3290A_PA_649A_P_6490A_P_summary.pdf	3,4,5,6,7,8	ok
+ATmega169P	quad64	datasheets/mcu/microchip/doc8018.pdf	2,3,4,5,6	ok
+ATmega169P	drqfn64	datasheets/mcu/microchip/8018s.pdf	2,3,4,5,6,22,23,24	ok
+ATmega169PA	quad64	datasheets/mcu/microchip/Atmel-8284-8-bit-AVR-microcontroller-ATmega169A_PA_329A_PA_3290A_PA_649A_P_6490A_P_summary.pdf	3,5,6,7,8	ok
+ATmega16A	quad44	datasheets/mcu/microchip/Atmel-8154-8-bit-AVR-ATmega16A_Datasheet.pdf	3,4,5,6	ok
+ATmega16A	p40	datasheets/mcu/microchip/Atmel-8154-8-bit-AVR-ATmega16A_Datasheet-Summary.pdf	3,4,5,6	ok
+ATmega16M1	quad32	datasheets/mcu/microchip/Atmel-8209-8-bit-AVR-ATmega16M1-32M1-64M1_Summary.pdf	4,5,6,7,8	ok
+ATmega16U2	quad32	datasheets/mcu/microchip/doc7799.pdf	2,3,4,5	ok
+ATmega16U4	quad44	datasheets/mcu/microchip/Atmel-7766-8-bit-AVR-ATmega16U4-32U4_Summary.pdf	3,4,5,6,7,8,9	ok
+ATmega2560	quad100	datasheets/mcu/microchip/ATmega640-1280-1281-2560-2561-Datasheet-DS40002211A.pdf	2,3,5,6,7	ok
+ATmega2561	quad64	datasheets/mcu/microchip/ATmega640-1280-1281-2560-2561-Datasheet-DS40002211A.pdf	4,5,6,7	ok
+ATmega32	quad44	datasheets/mcu/microchip/doc2503.pdf	2,3,4,5	ok
+ATmega32	p40	datasheets/mcu/microchip/doc2503.pdf	2,3,4,5	ok
+ATmega324A	quad44	datasheets/mcu/microchip/ATmega164A_PA-324A_PA-644A_PA-1284_P_Data-Sheet-40002070B.pdf	11,12,13,14,15,16	ok
+ATmega324P	quad44	datasheets/mcu/microchip/Atmel-42743-ATmega324P_Summary.pdf	10,11,12,13	ok
+ATmega324PA	quad44	datasheets/mcu/microchip/ATmega164A_PA-324A_PA-644A_PA-1284_P_Data-Sheet-40002070B.pdf	11,12,13,14,15,16	ok
+ATmega324PB	quad44	datasheets/mcu/microchip/40001908A.pdf	14,15,16,17	ok
+ATmega328	quad32	datasheets/mcu/atmega328p.pdf	12,13,14,15 (pinout pages of the device's datasheet)	ok
+ATmega328	quad28	datasheets/mcu/atmega328p.pdf	12,13,14,15 (pinout pages of the device's datasheet)	ok
+ATmega328	p28	datasheets/mcu/atmega328p.pdf	12,13,14,15 (pinout pages of the device's datasheet)	ok
+ATmega328P	quad32	datasheets/mcu/atmega328p.pdf	12,13,14,15 (pinout pages of the device's datasheet)	ok
+ATmega328P	quad28	datasheets/mcu/atmega328p.pdf	12,13,14,15 (pinout pages of the device's datasheet)	ok
+ATmega328P	p28	datasheets/mcu/atmega328p.pdf	12,13,14,15 (pinout pages of the device's datasheet)	ok
+ATmega328PB	quad32	datasheets/mcu/microchip/40001907A.pdf	8,9,10,11,12	ok
+ATmega329	quad64	datasheets/mcu/microchip/2552S.pdf	2,3,4,5,6,7,8,9	ok
+ATmega329A	quad64	datasheets/mcu/microchip/Atmel-8284-8-bit-AVR-microcontroller-ATmega169A_PA_329A_PA_3290A_PA_649A_P_6490A_P_datasheet.pdf	3,6,7,8	ok
+ATmega329P	quad64	datasheets/mcu/microchip/Atmel-8021-AVR-ATmega329P-3290P_Summary.pdf	2,3,4,5,6,7,8	ok
+ATmega329PA	quad64	datasheets/mcu/microchip/Atmel-8284-8-bit-AVR-microcontroller-ATmega169A_PA_329A_PA_3290A_PA_649A_P_6490A_P_datasheet.pdf	3,6,7,8	ok
+ATmega32A	quad44	datasheets/mcu/microchip/ATmega32A-DataSheet-Complete-DS40002072A.pdf	10,11,12,13	ok
+ATmega32A	p40	datasheets/mcu/microchip/ATmega32A-DataSheet-Complete-DS40002072A.pdf	10,11,12,13	ok
+ATmega32M1	quad32	datasheets/mcu/microchip/Atmel-8209-8-bit-AVR-ATmega16M1-32M1-64M1_Summary.pdf	4,5,6,7,8	ok
+ATmega32U2	quad32	datasheets/mcu/microchip/7799S.pdf	2,3,4,5	ok
+ATmega32U4	quad44	datasheets/mcu/microchip/Atmel-7766-8-bit-AVR-ATmega16U4-32U4_Summary.pdf	3,4,5,6,7,8,9	ok
+ATmega48	quad32	datasheets/mcu/microchip/Atmel-2545-8-bit-AVR-Microcontroller-ATmega48-88-168_Summary.pdf	10,11,12,13	ok
+ATmega48	p28	datasheets/mcu/microchip/Atmel-2545-8-bit-AVR-Microcontroller-ATmega48-88-168_Summary.pdf	10,11,12,13	ok
+ATmega48A	quad32	datasheets/mcu/atmega328p.pdf	12,13,14,15	ok
+ATmega48A	quad28	datasheets/mcu/atmega328p.pdf	12,13,14,15	ok
+ATmega48P	quad32	datasheets/mcu/microchip/ATmega48P_88P_168P-DS40002065A.pdf	10,11,12,13	ok
+ATmega48PA	quad32	datasheets/mcu/atmega328p.pdf	12,13,14,15 (pinout pages of the device's datasheet)	ok
+ATmega48PA	quad28	datasheets/mcu/atmega328p.pdf	12,13,14,15 (pinout pages of the device's datasheet)	ok
+ATmega48PA	p28	datasheets/mcu/atmega328p.pdf	12,13,14,15 (pinout pages of the device's datasheet)	ok
+ATmega48PB	quad32	datasheets/mcu/microchip/ATmega48PB-88PB-168PB-DataSheet-DS40001909B.pdf	10,11,12,13,14	ok
+ATmega64	quad64	datasheets/mcu/microchip/Atmel-2490-8-bit-AVR-Microcontroller-ATmega64-L_summary.pdf	2,3,4,5	ok
+ATmega640	quad100	datasheets/mcu/microchip/ATmega640-1280-1281-2560-2561-Datasheet-DS40002211A.pdf	2,3,4,5,6,7	ok
+ATmega644	quad44	datasheets/mcu/microchip/2593S.pdf	2,3,4,5,21,22	ok
+ATmega644	p40	datasheets/mcu/microchip/doc2593.pdf	2,3,4,5	ok
+ATmega644A	quad44	datasheets/mcu/microchip/ATmega164A_PA-324A_PA-644A_PA-1284_P_Data-Sheet-40002070B.pdf	11,13,14,15,16	ok
+ATmega644A	p40	datasheets/mcu/microchip/ATmega164A_PA-324A_PA-644A_PA-1284_P_Data-Sheet-40002070B.pdf	11,13,14,15,16	ok
+ATmega644P	quad44	datasheets/mcu/microchip/Atmel-42744-ATmega644P_Summary.pdf	10,11,12,13	ok
+ATmega644P	p40	datasheets/mcu/microchip/Atmel-42744-ATmega644P_Summary.pdf	10,11,12,13	ok
+ATmega644PA	quad44	datasheets/mcu/microchip/ATmega164A_PA-324A_PA-644A_PA-1284_P_Data-Sheet-40002070B.pdf	11,13,14,15,16	ok
+ATmega644PA	p40	datasheets/mcu/microchip/ATmega164A_PA-324A_PA-644A_PA-1284_P_Data-Sheet-40002070B.pdf	11,13,14,15,16	ok
+ATmega649	quad64	datasheets/mcu/microchip/2552S.pdf	2,3,4,5,6,7,8,9	ok
+ATmega649A	quad64	datasheets/mcu/microchip/Atmel-8284-8-bit-AVR-microcontroller-ATmega169A_PA_329A_PA_3290A_PA_649A_P_6490A_P_summary.pdf	3,6,7,8	ok
+ATmega649P	quad64	datasheets/mcu/microchip/Atmel-8284-8-bit-AVR-microcontroller-ATmega169A_PA_329A_PA_3290A_PA_649A_P_6490A_P_summary.pdf	3,6,7,8	ok
+ATmega64A	quad64	datasheets/mcu/microchip/Atmel-8160-8-bit-AVR-Microcontroller-ATmega64A-summary.pdf	9,10,11,12	ok
+ATmega64M1	quad32	datasheets/mcu/microchip/Atmel-8209-8-bit-AVR-ATmega16M1-32M1-64M1_Summary.pdf	4,5,6,7,8	ok
+ATmega8	quad32	datasheets/mcu/microchip/Atmel-2486-8-bit-AVR-microcontroller-ATmega8_L_summary.pdf	2	ok (by eye: TQFP and MLF figures, every pin; the page is an image)
+ATmega8	p28	datasheets/mcu/microchip/Atmel-2486-8-bit-AVR-microcontroller-ATmega8_L_summary.pdf	2	ok (by eye: PDIP figure, every pin; the page is an image)
+ATmega88	quad32	datasheets/mcu/microchip/Atmel-2545-8-bit-AVR-Microcontroller-ATmega48-88-168_Summary.pdf	10,11,12,13 (pinout pages of the device's datasheet)	ok
+ATmega88	p28	datasheets/mcu/microchip/Atmel-2545-8-bit-AVR-Microcontroller-ATmega48-88-168_Summary.pdf	10,11,12,13 (pinout pages of the device's datasheet)	ok
+ATmega88A	quad32	datasheets/mcu/atmega328p.pdf	12,13,14,15 (pinout pages of the device's datasheet)	ok
+ATmega88A	quad28	datasheets/mcu/atmega328p.pdf	12,13,14,15 (pinout pages of the device's datasheet)	ok
+ATmega88A	p28	datasheets/mcu/atmega328p.pdf	12,13,14,15 (pinout pages of the device's datasheet)	ok
+ATmega88P	quad32	datasheets/mcu/microchip/ATmega48P_88P_168P-DS40002065A.pdf	10,12	ok
+ATmega88PA	quad32	datasheets/mcu/atmega328p.pdf	12,13,14,15 (pinout pages of the device's datasheet)	ok
+ATmega88PA	quad28	datasheets/mcu/atmega328p.pdf	12,13,14,15 (pinout pages of the device's datasheet)	ok
+ATmega88PA	p28	datasheets/mcu/atmega328p.pdf	12,13,14,15 (pinout pages of the device's datasheet)	ok
+ATmega88PB	quad32	datasheets/mcu/microchip/ATmega48PB-88PB-168PB-DataSheet-DS40001909B.pdf	10,11,12,13,14	ok
+ATmega8A	quad32	datasheets/mcu/microchip/ATmega8A-Data-Sheet-DS40001974B.pdf	9,10,11,12	ok
+ATmega8A	p28	datasheets/mcu/microchip/ATmega8A-Data-Sheet-DS40001974B.pdf	9,10,11,12	ok
+ATmega8U2	quad32	datasheets/mcu/microchip/7799S.pdf	2,3,4,5	ok
+ATtiny10	p8	datasheets/mcu/microchip/Atmel-8127-AVR-8-bit-Microcontroller-ATtiny4-ATtiny5-ATtiny9-ATtiny10_Datasheet-Summary.pdf	4,5,6,7	ok
+ATtiny10	p6	datasheets/mcu/microchip/Atmel-8127-AVR-8-bit-Microcontroller-ATtiny4-ATtiny5-ATtiny9-ATtiny10_Datasheet-Summary.pdf	4,5,6,7	ok
+ATtiny102	p8	datasheets/mcu/microchip/Atmel-42505-8-bit-AVR-Microcontrollers-ATtiny102-ATtiny104_Summary.pdf	8,9,10,11	ok
+ATtiny104	p14	datasheets/mcu/microchip/Atmel-42505-8-bit-AVR-Microcontrollers-ATtiny102-ATtiny104_Summary.pdf	8,9,10,11	ok
+ATtiny13	p8	datasheets/mcu/microchip/doc2535.pdf	2,3,4,5	ok
+ATtiny13	p10	datasheets/mcu/microchip/2535S.pdf	2,3,4,5,20,21	ok
+ATtiny13A	p10	datasheets/mcu/attiny13a.pdf	8,9,10,11	ok
+ATtiny13A	p8	datasheets/mcu/attiny13a.pdf	8,9,10,11	ok
+ATtiny20	bga15	datasheets/mcu/microchip/Atmel-8235-8-bit-AVR-Microcontroller-ATtiny20_Datasheet_Summary.pdf	2,3,4,5,6,19,20	ok
+ATtiny20	p14	datasheets/mcu/microchip/Atmel-8235-8-bit-AVR-Microcontroller-ATtiny20_Datasheet_Summary.pdf	2,3,4,5,6,19,20	ok
+ATtiny20	wlcsp12	datasheets/mcu/microchip/Atmel-8235-8-bit-AVR-Microcontroller-ATtiny20_Datasheet_Summary.pdf	2,3,4,5,6,19,20	ok
+ATtiny24A	quad20	datasheets/mcu/microchip/8183s.pdf	2,3,4,5,20,21	ok
+ATtiny24A	p14	datasheets/mcu/microchip/8183s.pdf	2,3,4,5,20,21	ok
+ATtiny25	quad20	datasheets/mcu/microchip/Atmel-2586-AVR-8-bit-Microcontroller-ATtiny25-ATtiny45-ATtiny85_Datasheet-Summary.pdf	2,3,4,5,23,24,25,26	ok
+ATtiny25	p8	datasheets/mcu/microchip/Atmel-2586-AVR-8-bit-Microcontroller-ATtiny25-ATtiny45-ATtiny85_Datasheet-Summary.pdf	2,3,4,5,23,24,25,26	ok
+ATtiny4	p8	datasheets/mcu/microchip/Atmel-8127-AVR-8-bit-Microcontroller-ATtiny4-ATtiny5-ATtiny9-ATtiny10_Datasheet-Summary.pdf	4,5,6,7	ok
+ATtiny4	p6	datasheets/mcu/microchip/Atmel-8127-AVR-8-bit-Microcontroller-ATtiny4-ATtiny5-ATtiny9-ATtiny10_Datasheet-Summary.pdf	4,5,6,7	ok
+ATtiny40	quad20	datasheets/mcu/microchip/Atmel-8263-8-bit-AVR-Microcontroller-tinyAVR-ATtiny40_Datasheet_summary.pdf	2,3,4,5	ok
+ATtiny40	p20	datasheets/mcu/microchip/Atmel-8263-8-bit-AVR-Microcontroller-tinyAVR-ATtiny40_Datasheet_summary.pdf	2,3,4,5	ok
+ATtiny441	quad20	datasheets/mcu/microchip/Atmel-8495-8-bit-AVR-Microcontrollers-ATtiny441-ATtiny841_Datasheet-Summary.pdf	2,3,4,5	ok
+ATtiny441	p14	datasheets/mcu/microchip/Atmel-8495-8-bit-AVR-Microcontrollers-ATtiny441-ATtiny841_Datasheet-Summary.pdf	2,3,4,5	ok
+ATtiny44A	quad20	datasheets/mcu/microchip/ATtiny24A-44A-84A-DataSheet-DS40002269A.pdf	8,9,10,11	ok
+ATtiny44A	p14	datasheets/mcu/microchip/ATtiny24A-44A-84A-DataSheet-DS40002269A.pdf	8,9,10,11	ok
+ATtiny45	quad20	datasheets/mcu/microchip/Atmel-2586-AVR-8-bit-Microcontroller-ATtiny25-ATtiny45-ATtiny85_Datasheet-Summary.pdf	2,3,4,5,23,24,25,26	ok
+ATtiny45	p8	datasheets/mcu/microchip/Atmel-2586-AVR-8-bit-Microcontroller-ATtiny25-ATtiny45-ATtiny85_Datasheet-Summary.pdf	2,3,4,5,23,24,25,26	ok
+ATtiny461	quad32	datasheets/mcu/microchip/Atmel-2588-8-bit-AVR-Microcontrollers-tinyAVR-ATtiny261-ATtiny461-ATtiny861_Datasheet-Summary.pdf	2,3,4,5	ok
+ATtiny461	p20	datasheets/mcu/microchip/Atmel-2588-8-bit-AVR-Microcontrollers-tinyAVR-ATtiny261-ATtiny461-ATtiny861_Datasheet.pdf	2,3,4,5	ok
+ATtiny48	quad32	datasheets/mcu/microchip/doc8008.pdf	2,3,4,5	ok
+ATtiny48	quad28	datasheets/mcu/microchip/8008S.pdf	2,3,4,5,24,25	ok
+ATtiny5	p6	datasheets/mcu/microchip/Atmel-8127-AVR-8-bit-Microcontroller-ATtiny4-ATtiny5-ATtiny9-ATtiny10_Datasheet-Summary.pdf	4,5,6,7	ok
+ATtiny841	quad20	datasheets/mcu/microchip/Atmel-8495-8-bit-AVR-Microcontrollers-ATtiny441-ATtiny841_Datasheet-Summary.pdf	2,3,4,5	ok
+ATtiny841	p14	datasheets/mcu/microchip/Atmel-8495-8-bit-AVR-Microcontrollers-ATtiny441-ATtiny841_Datasheet-Summary.pdf	2,3,4,5	ok
+ATtiny84A	quad20	datasheets/mcu/microchip/ATtiny24A-44A-84A-DataSheet-DS40002269A.pdf	8,9,10,11	ok
+ATtiny84A	p14	datasheets/mcu/microchip/8183s.pdf	2,3,4,5,20,21	ok
+ATtiny85	quad20	datasheets/mcu/microchip/Atmel-2586-AVR-8-bit-Microcontroller-ATtiny25-ATtiny45-ATtiny85_Datasheet-Summary.pdf	2,3,4,5,23,24,25,26	ok
+ATtiny85	p8	datasheets/mcu/microchip/Atmel-2586-AVR-8-bit-Microcontroller-ATtiny25-ATtiny45-ATtiny85_Datasheet-Summary.pdf	2,3,4,5,23,24,25,26	ok
+ATtiny861	quad32	datasheets/mcu/microchip/Atmel-2588-8-bit-AVR-Microcontrollers-tinyAVR-ATtiny261-ATtiny461-ATtiny861_Datasheet.pdf	2,3,4,5	ok
+ATtiny861	p20	datasheets/mcu/microchip/Atmel-2588-8-bit-AVR-Microcontrollers-tinyAVR-ATtiny261-ATtiny461-ATtiny861_Datasheet.pdf	2,3,4,5	ok
+ATtiny88	quad32	datasheets/mcu/microchip/doc8008.pdf	2,3,4,5	ok
+ATtiny88	quad28	datasheets/mcu/microchip/8008S.pdf	2,3,4,5,24,25	ok
+ATtiny9	p8	datasheets/mcu/microchip/Atmel-8127-AVR-8-bit-Microcontroller-ATtiny4-ATtiny5-ATtiny9-ATtiny10_Datasheet-Summary.pdf	4,5,6,7	ok
+ATtiny9	p6	datasheets/mcu/microchip/Atmel-8127-AVR-8-bit-Microcontroller-ATtiny4-ATtiny5-ATtiny9-ATtiny10_Datasheet-Summary.pdf	4,5,6,7	ok
+AVR128DA28	p28	datasheets/mcu/microchip/AVR128DA28-32-48-64-DataSheet-DS40002183B.pdf	14,15,16,17,18,19,20,21,22,23	ok
+AVR128DA32	quad32	datasheets/mcu/microchip/AVR128DA28-32-48-64-DataSheet-DS40002183B.pdf	14,15,16,17,18,19,20,21,22,23	ok
+AVR128DA48	quad48	datasheets/mcu/microchip/AVR128DA28-32-48-64-DataSheet-DS40002183B.pdf	14,15,16,17,18,19,20,21,22,23	ok
+AVR128DA64	quad64	datasheets/mcu/microchip/AVR128DA28-32-48-64-DataSheet-DS40002183B.pdf	14,15,16,17,18,19,20,21,22,23	ok
+AVR128DB28	p28	datasheets/mcu/microchip/AVR128DB28-32-48-64-DataSheet-DS40002247A.pdf	14,15,16,17,18,19,20	ok
+AVR128DB32	quad32	datasheets/mcu/microchip/AVR128DB28-32-48-64-DataSheet-DS40002247A.pdf	14,15,16,17,18,19,20	ok
+AVR128DB48	quad48	datasheets/mcu/microchip/AVR128DB28-32-48-64-DataSheet-DS40002247A.pdf	14,15,16,17,18,19,20	ok
+AVR128DB64	quad64	datasheets/mcu/microchip/AVR128DB28-32-48-64-DataSheet-DS40002247A.pdf	14,15,16,17,18,19,20	ok
+AVR16DD14	p14	datasheets/mcu/microchip/AVR32-16DD20-14-Complete-DataSheet-DS40002413.pdf	14,15,16,17,18,19	ok
+AVR16DD20	quad20	datasheets/mcu/microchip/AVR32-16DD20-14-Complete-DataSheet-DS40002413.pdf	14,15,16,17,18,19	ok
+AVR16DD20	p20	datasheets/mcu/microchip/AVR32-16DD20-14-Complete-DataSheet-DS40002413.pdf	14,15,16,17,18,19	ok
+AVR16DD28	p28	datasheets/mcu/microchip/AVR16-32DD28-32-DataSheet-DS40002441.pdf	13,14,15,16,17,18	ok
+AVR16DD28	quad28	datasheets/mcu/microchip/AVR16-32DD28-32-DataSheet-DS40002441.pdf	13,14,15,16,17,18	ok
+AVR16DD32	quad32	datasheets/mcu/microchip/AVR16-32DD28-32-DataSheet-DS40002441.pdf	13,14,15,16,17,18	ok
+AVR16DU14	p14	datasheets/mcu/microchip/AVR32-16DU-14-20-28-32-DataSheet-DS40002576.pdf	15,16,17,18,19,20,21,22,23,27,28,29,30	ok
+AVR16DU20	p20	datasheets/mcu/microchip/AVR32-16DU-14-20-28-32-DataSheet-DS40002576.pdf	15,16,17,18,19,20,21,22,23,27,28,29,30	ok
+AVR16DU20	quad20	datasheets/mcu/microchip/AVR32-16DU-14-20-28-32-DataSheet-DS40002576.pdf	15,16,17,18,19,20,21,22,23,27,28,29,30	ok
+AVR16DU28	p28	datasheets/mcu/microchip/AVR32-16DU-14-20-28-32-DataSheet-DS40002576.pdf	15,16,17,18,19,20,21,22,23,27,28,29,30	ok
+AVR16DU28	quad28	datasheets/mcu/microchip/AVR32-16DU-14-20-28-32-DataSheet-DS40002576.pdf	15,16,17,18,19,20,21,22,23,27,28,29,30	ok
+AVR16DU32	quad32	datasheets/mcu/microchip/AVR32-16DU-14-20-28-32-DataSheet-DS40002576.pdf	15,16,17,18,19,20,21,22,23,27,28,29,30	ok
+AVR32DA28	p28	datasheets/mcu/microchip/AVR32DA28-32-48-Data-Sheet-DS40002228.pdf	14,15,16,17,18,19	ok
+AVR32DA32	quad32	datasheets/mcu/microchip/AVR32DA28-32-48-Data-Sheet-DS40002228.pdf	14,15,16,17,18,19	ok
+AVR32DA48	quad48	datasheets/mcu/microchip/AVR32DA28-32-48-Data-Sheet-DS40002228.pdf	14,15,16,17,18,19	ok
+AVR32DB28	p28	datasheets/mcu/microchip/AVR32DB28-32-48-DataSheet-DS40002301.pdf	14,15,16,17,18,19	ok
+AVR32DB32	quad32	datasheets/mcu/microchip/AVR32DB28-32-48-DataSheet-DS40002301.pdf	14,15,16,17,18,19	ok
+AVR32DB48	quad48	datasheets/mcu/microchip/AVR32DB28-32-48-DataSheet-DS40002301.pdf	14,15,16,17,18,19	ok
+AVR32DD14	p14	datasheets/mcu/microchip/AVR32-16DD20-14-Complete-DataSheet-DS40002413.pdf	14,15,16,17,18,19	ok
+AVR32DD20	quad20	datasheets/mcu/microchip/AVR32-16DD20-14-Complete-DataSheet-DS40002413.pdf	14,15,16,17,18,19	ok
+AVR32DD20	p20	datasheets/mcu/microchip/AVR32-16DD20-14-Complete-DataSheet-DS40002413.pdf	14,15,16,17,18,19	ok
+AVR32DD28	p28	datasheets/mcu/microchip/AVR16-32DD28-32-DataSheet-DS40002441.pdf	13,14,15,16,17,18	ok
+AVR32DD28	quad28	datasheets/mcu/microchip/AVR16-32DD28-32-DataSheet-DS40002441.pdf	13,14,15,16,17,18	ok
+AVR32DD32	quad32	datasheets/mcu/microchip/AVR16-32DD28-32-DataSheet-DS40002441.pdf	13,14,15,16,17,18	ok
+AVR32DU14	p14	datasheets/mcu/microchip/AVR32-16DU-14-20-28-32-DataSheet-DS40002576.pdf	15,16,17,18,19,20,21,22,23,27,28,29,30	ok
+AVR32DU20	p20	datasheets/mcu/microchip/AVR32-16DU-14-20-28-32-DataSheet-DS40002576.pdf	15,16,17,18,19,20,21,22,23,27,28,29,30	ok
+AVR32DU20	quad20	datasheets/mcu/microchip/AVR32-16DU-14-20-28-32-DataSheet-DS40002576.pdf	15,16,17,18,19,20,21,22,23,27,28,29,30	ok
+AVR32DU28	p28	datasheets/mcu/microchip/AVR32-16DU-14-20-28-32-DataSheet-DS40002576.pdf	15,16,17,18,19,20,21,22,23,27,28,29,30	ok
+AVR32DU28	quad28	datasheets/mcu/microchip/AVR32-16DU-14-20-28-32-DataSheet-DS40002576.pdf	15,16,17,18,19,20,21,22,23,27,28,29,30	ok
+AVR32DU32	quad32	datasheets/mcu/microchip/AVR32-16DU-14-20-28-32-DataSheet-DS40002576.pdf	15,16,17,18,19,20,21,22,23,27,28,29,30	ok
+AVR64DA28	p28	datasheets/mcu/microchip/AVR64DA28-32-48-64-DataSheet-DS40002233.pdf	14,15,16,17,18,19,20	ok
+AVR64DA32	quad32	datasheets/mcu/microchip/AVR64DA28-32-48-64-DataSheet-DS40002233.pdf	14,15,16,17,18,19,20	ok
+AVR64DA48	quad48	datasheets/mcu/microchip/AVR64DA28-32-48-64-DataSheet-DS40002233.pdf	14,15,16,17,18,19,20	ok
+AVR64DA64	quad64	datasheets/mcu/microchip/AVR64DA28-32-48-64-DataSheet-DS40002233.pdf	14,15,16,17,18,19,20	ok
+AVR64DB28	p28	datasheets/mcu/microchip/AVR64DB28-32-48-64-DataSheet-DS40002300.pdf	14,15,16,17,18,19,20	ok
+AVR64DB32	quad32	datasheets/mcu/microchip/AVR64DB28-32-48-64-DataSheet-DS40002300.pdf	14,15,16,17,18,19,20	ok
+AVR64DB48	quad48	datasheets/mcu/microchip/AVR64DB28-32-48-64-DataSheet-DS40002300.pdf	14,15,16,17,18,19,20	ok
+AVR64DB64	quad64	datasheets/mcu/microchip/AVR64DB28-32-48-64-DataSheet-DS40002300.pdf	14,15,16,17,18,19,20	ok
+AVR64DD14	p14	datasheets/mcu/microchip/AVR32-16DD20-14-Complete-DataSheet-DS40002413.pdf	14,15,16,17 (pinout pages of the device's datasheet)	ok
+AVR64DD20	p20	datasheets/mcu/microchip/AVR32-16DD20-14-Complete-DataSheet-DS40002413.pdf	14,15,16,17 (pinout pages of the device's datasheet)	ok
+AVR64DD28	p28	datasheets/mcu/microchip/AVR64DD32-28-Complete-DataSheet-DS40002315.pdf	14,15,16,17,18,19	ok
+AVR64DD28	quad28	datasheets/mcu/microchip/AVR64DD32-28-Complete-DataSheet-DS40002315.pdf	14,15,16,17,18,19	ok
+AVR64DD32	quad32	datasheets/mcu/microchip/AVR64DD32-28-Prelim-DataSheet-DS40002315B.pdf	14,15,16,17,18,19	ok
+AVR64DU28	p28	datasheets/mcu/microchip/AVR64DU-28-32-DataSheet-DS40002548.pdf	14,15,16,17,18,19,22,23,24,25	ok
+AVR64DU28	quad28	datasheets/mcu/microchip/AVR64DU-28-32-DataSheet-DS40002548.pdf	14,15,16,17,18,19,22,23,24,25	ok
+AVR64DU32	quad32	datasheets/mcu/microchip/AVR64DU-28-32-DataSheet-DS40002548.pdf	14,15,16,17,18,19,22,23,24,25	ok
+AVR16EA28	p28	datasheets/mcu/microchip/AVR16EA28-32-48-DataSheet-DS40002498.pdf	13,14,15,16,17,18,19	ok
+AVR16EA32	quad32	datasheets/mcu/microchip/AVR16EA28-32-48-DataSheet-DS40002498.pdf	13,14,15,16,17,18,19	ok
+AVR16EA48	quad48	datasheets/mcu/microchip/AVR16EA28-32-48-DataSheet-DS40002498.pdf	13,14,15,16,17,18,19	ok
+AVR16EB14	p14	datasheets/mcu/microchip/AVR16EB14_20_28_32-Prelim-DataSheet-DS40002522.pdf	13,14,15,16,17,18,19,20	ok
+AVR16EB20	p20	datasheets/mcu/microchip/AVR16EB14_20_28_32-Prelim-DataSheet-DS40002522.pdf	13,14,15,16,17,18,19,20	ok
+AVR16EB20	quad20	datasheets/mcu/microchip/AVR16EB14_20_28_32-Prelim-DataSheet-DS40002522.pdf	13,14,15,16,17,18,19,20	ok
+AVR16EB28	p28	datasheets/mcu/microchip/AVR16EB14_20_28_32-Prelim-DataSheet-DS40002522.pdf	13,14,15,16,17,18,19,20	ok
+AVR16EB28	quad28	datasheets/mcu/microchip/AVR16EB14_20_28_32-Prelim-DataSheet-DS40002522.pdf	13,14,15,16,17,18,19,20	ok
+AVR16EB32	quad32	datasheets/mcu/microchip/AVR16EB14_20_28_32-Prelim-DataSheet-DS40002522.pdf	13,14,15,16,17,18,19,20	ok
+AVR32EA28	p28	datasheets/mcu/microchip/AVR32EA28-32-48-DataSheet-DS40002497.pdf	13,14,15,16,17,18,19	ok
+AVR32EA32	quad32	datasheets/mcu/microchip/AVR32EA28-32-48-DataSheet-DS40002497.pdf	13,14,15,16,17,18,19	ok
+AVR32EA48	quad48	datasheets/mcu/microchip/AVR32EA28-32-48-DataSheet-DS40002497.pdf	13,14,15,16,17,18,19	ok
+AVR64EA28	p28	datasheets/mcu/microchip/AVR64EA-28-32-48-DataSheet-DS40002443.pdf	13,14,15,16,17,18,19	ok
+AVR64EA32	quad32	datasheets/mcu/microchip/AVR64EA-28-32-48-DataSheet-DS40002443.pdf	13,14,15,16,17,18,19	ok
+AVR64EA48	quad48	datasheets/mcu/microchip/AVR64EA-28-32-48-DataSheet-DS40002443.pdf	13,14,15,16,17,18,19	ok
+AVR32LA14	p14	datasheets/mcu/microchip/AVR32LA14-20-28-32-DataSheet-DS40002684.pdf	14,15,16,17,18,19,20,21,22,23,24,25	ok
+AVR32LA20	quad20	datasheets/mcu/microchip/AVR32LA14-20-28-32-DataSheet-DS40002684.pdf	14,15,16,17,18,19,20,21,22,23,24,25	ok
+AVR32LA28	p28	datasheets/mcu/microchip/AVR32LA14-20-28-32-DataSheet-DS40002684.pdf	14,15,16,17,18,19,20,21,22,23,24,25	ok
+AVR32LA32	quad32	datasheets/mcu/microchip/AVR32LA14-20-28-32-DataSheet-DS40002684.pdf	14,15,16,17,18,19,20,21,22,23,24,25	ok
+AVR32SD20	p20	datasheets/mcu/microchip/AVR32SD20-28-32-Data-Sheet-DS40002629.pdf	18	ok (by eye: every pin matches; the figure prints the functions RESET / UPDI for the ATDF pads PF6 / PF7)
+AVR32SD28	quad28	datasheets/mcu/microchip/AVR32SD20-28-32-Data-Sheet-DS40002629.pdf	19	ok (by eye: every pin matches; RESET / UPDI printed for PF6 / PF7)
+AVR32SD28	p28	datasheets/mcu/microchip/AVR32SD20-28-32-Data-Sheet-DS40002629.pdf	20	ok (by eye: every pin matches; RESET / UPDI printed for PF6 / PF7)
+AVR32SD32	quad32	datasheets/mcu/microchip/AVR32SD20-28-32-Data-Sheet-DS40002629.pdf	21	ok (by eye: every pin matches; RESET / UPDI printed for PF6 / PF7)
+ATxmega128A1U	quad100	datasheets/mcu/microchip/ATxmega128A1U-64A1U-Data-Sheet-DS40002058A.pdf	9,10,11,12,13,36,37,38,39,40,41,42	ok
+ATxmega128A1U	bga100	datasheets/mcu/microchip/ATxmega128A1U-64A1U-Data-Sheet-DS40002058A.pdf	9,10,11,12,13,36,37,38,39,40,41,42	ok
+ATxmega128A3U	quad64	datasheets/mcu/microchip/Atmel-8386-8-and-16-bit-AVR-Microcontroller-ATxmega64A3U-128A3U-192A3U-256A3U_datasheet.pdf	5,6,7,8 (pinout pages of the device's datasheet)	ok
+ATxmega128A4U	quad44	datasheets/mcu/microchip/ATxmega128-64-32-16A4U-DataSheet-DS40002166A.pdf	10,11,12,13 (pinout pages of the device's datasheet)	ok
+ATxmega128A4U	bga49	datasheets/mcu/microchip/ATxmega128-64-32-16A4U-DataSheet-DS40002166A.pdf	10,11,12,13 (pinout pages of the device's datasheet)	ok
+ATxmega128B1	quad100	datasheets/mcu/microchip/Atmel-8330-8-and-16-bit-AVR-Microcontroller-XMEGA-B-ATxmega64B1-ATxmega128B1_Datasheet.pdf	4,5,6,7 (pinout pages of the device's datasheet)	ok
+ATxmega128B3	quad64	datasheets/mcu/microchip/Atmel-8074-8-and-16-bit-AVR-Microcontroller-XMEGA-B-ATxmega64B3-ATxmega128B3_Datasheet.pdf	5	ok
+ATxmega128C3	quad64	datasheets/mcu/microchip/Atmel-8492-8-and-16-bit-AVR-microcontroller-ATxmega32C3_64C3_128C3_192C3_256C3_datasheet.pdf	4	ok (by eye: Figure 2-1, every pin; an image)
+ATxmega128D3	quad64	datasheets/mcu/microchip/Atmel-8134-8-16-bit-Atmel-XMEGA-D3-Microcontroller_Datasheet.pdf	5,6,7,8 (pinout pages of the device's datasheet)	ok
+ATxmega128D4	quad44	datasheets/mcu/microchip/Atmel-8135-8-and-16-bit-AVR-microcontroller-ATxmega16D4-32D4-64D4-128D4_datasheet.pdf	4,5,6,7 (pinout pages of the device's datasheet)	ok
+ATxmega128D4	bga49	datasheets/mcu/microchip/Atmel-8135-8-and-16-bit-AVR-microcontroller-ATxmega16D4-32D4-64D4-128D4_datasheet.pdf	4,5,6,7 (pinout pages of the device's datasheet)	ok
+ATxmega16A4U	quad44	datasheets/mcu/microchip/ATxmega128-64-32-16A4U-DataSheet-DS40002166A.pdf	10,11,12,13,14,37,38,39,40,41,42,43	ok
+ATxmega16C4	quad44	datasheets/mcu/microchip/Atmel-8493-8-and-32-bit-AVR-XMEGA-Microcontrollers-ATxmega16C4-ATxmega32C4_Datasheet.pdf	4,5,6,7,8,29,30,31,32,33,34,35	ok
+ATxmega16D4	quad44	datasheets/mcu/microchip/Atmel-8135-8-and-16-bit-AVR-microcontroller-ATxmega16D4-32D4-64D4-128D4_datasheet.pdf	4,5,6,7,8,29,30,31,32,33,34,35	ok
+ATxmega16D4	bga49	datasheets/mcu/microchip/Atmel-8135-8-and-16-bit-AVR-microcontroller-ATxmega16D4-32D4-64D4-128D4_datasheet.pdf	4,5,6,7,8,29,30,31,32,33,34,35	ok
+ATxmega16E5	quad32	datasheets/mcu/microchip/ATxmega32E5-16E5-8E5-Data-Sheet-DS40002059A.pdf	10,11,12,13,36,37,38,39,40,41,42	ok
+ATxmega192A3U	quad64	datasheets/mcu/microchip/Atmel-8386-8-and-16-bit-AVR-Microcontroller-ATxmega64A3U-128A3U-192A3U-256A3U_datasheet.pdf	5,6,7,8 (pinout pages of the device's datasheet)	ok
+ATxmega192D3	quad64	datasheets/mcu/microchip/Atmel-8134-8-16-bit-Atmel-XMEGA-D3-Microcontroller_Datasheet.pdf	5,6,7,8 (pinout pages of the device's datasheet)	ok
+ATxmega256A3BU	quad64	datasheets/mcu/microchip/Atmel-8362-8-and-16bit-AVR-microcontroller-ATxmega256A3BU_datasheet.pdf	3,4,5,6 (pinout pages of the device's datasheet)	ok
+ATxmega256A3U	quad64	datasheets/mcu/microchip/Atmel-8386-8-and-16-bit-AVR-Microcontroller-ATxmega64A3U-128A3U-192A3U-256A3U_datasheet.pdf	5,6,7,8 (pinout pages of the device's datasheet)	ok
+ATxmega256C3	quad64	datasheets/mcu/microchip/Atmel-8492-8-and-16-bit-AVR-microcontroller-ATxmega32C3_64C3_128C3_192C3_256C3_datasheet.pdf	4	ok (by eye: Figure 2-1, every pin; an image)
+ATxmega256D3	quad64	datasheets/mcu/microchip/Atmel-8134-8-16-bit-Atmel-XMEGA-D3-Microcontroller_Datasheet.pdf	5,6,7,8 (pinout pages of the device's datasheet)	ok
+ATxmega32A4U	quad44	datasheets/mcu/microchip/ATxmega128-64-32-16A4U-DataSheet-DS40002166A.pdf	10,11,12,13 (pinout pages of the device's datasheet)	ok
+ATxmega32A4U	bga49	datasheets/mcu/microchip/ATxmega128-64-32-16A4U-DataSheet-DS40002166A.pdf	10,11,12,13 (pinout pages of the device's datasheet)	ok
+ATxmega32C4	quad44	datasheets/mcu/microchip/Atmel-8493-8-and-32-bit-AVR-XMEGA-Microcontrollers-ATxmega16C4-ATxmega32C4_Datasheet.pdf	4,5,6,7 (pinout pages of the device's datasheet)	ok
+ATxmega32C4	bga49	datasheets/mcu/microchip/Atmel-8493-8-and-32-bit-AVR-XMEGA-Microcontrollers-ATxmega16C4-ATxmega32C4_Datasheet.pdf	4,5,6,7 (pinout pages of the device's datasheet)	ok
+ATxmega32D3	quad64	datasheets/mcu/microchip/Atmel-8134-8-16-bit-Atmel-XMEGA-D3-Microcontroller_Datasheet.pdf	5,6,7,8,30,31,32,33,34,35,36	ok
+ATxmega32D4	quad44	datasheets/mcu/microchip/Atmel-8135-8-and-16-bit-AVR-microcontroller-ATxmega16D4-32D4-64D4-128D4_datasheet.pdf	4,5,6,7 (pinout pages of the device's datasheet)	ok
+ATxmega32E5	quad32	datasheets/mcu/microchip/ATxmega32E5-16E5-8E5-Data-Sheet-DS40002059A.pdf	10,11,12,13,36,37,38,39,40,41,42	ok
+ATxmega384C3	quad64	datasheets/mcu/microchip/Atmel-8361-8-and-16-bit-AVR-XMEGA-Microcontrollers-ATxmega384C3_Datasheet.pdf	3,4,5,6,28,29,30,31,32,33,34	ok
+ATxmega384D3	quad64	datasheets/mcu/microchip/Atmel-8134-8-16-bit-Atmel-XMEGA-D3-Microcontroller_Datasheet.pdf	5,6,7,8 (pinout pages of the device's datasheet)	ok
+ATxmega64A1U	quad100	datasheets/mcu/microchip/ATxmega128A1U-64A1U-Data-Sheet-DS40002058A.pdf	9,10,11,12,13,36,37,38,39,40,41,42	ok
+ATxmega64A1U	bga100	datasheets/mcu/microchip/ATxmega128A1U-64A1U-Data-Sheet-DS40002058A.pdf	9,10,11,12,13,36,37,38,39,40,41,42	ok
+ATxmega64A3U	quad64	datasheets/mcu/microchip/Atmel-8386-8-and-16-bit-AVR-Microcontroller-ATxmega64A3U-128A3U-192A3U-256A3U_datasheet.pdf	5,6,7,8 (pinout pages of the device's datasheet)	ok
+ATxmega64A4U	quad44	datasheets/mcu/microchip/ATxmega128-64-32-16A4U-DataSheet-DS40002166A.pdf	10,11,12,13 (pinout pages of the device's datasheet)	ok
+ATxmega64A4U	bga49	datasheets/mcu/microchip/ATxmega128-64-32-16A4U-DataSheet-DS40002166A.pdf	10,11,12,13 (pinout pages of the device's datasheet)	ok
+ATxmega64B1	quad100	datasheets/mcu/microchip/Atmel-8330-8-and-16-bit-AVR-Microcontroller-XMEGA-B-ATxmega64B1-ATxmega128B1_Datasheet.pdf	4,5,6,7,8,30,31,32,33,34,35,36	ok
+ATxmega64B3	quad64	datasheets/mcu/microchip/Atmel-8074-8-and-16-bit-AVR-Microcontroller-XMEGA-B-ATxmega64B3-ATxmega128B3_Datasheet.pdf	4,5,6,7 (pinout pages of the device's datasheet)	ok
+ATxmega64C3	quad64	datasheets/mcu/microchip/Atmel-8492-8-and-16-bit-AVR-microcontroller-ATxmega32C3_64C3_128C3_192C3_256C3_datasheet.pdf	4	ok (by eye: Figure 2-1 Block Diagram and Pinout, every pin; an image)
+ATxmega64D3	quad64	datasheets/mcu/microchip/Atmel-8134-8-16-bit-Atmel-XMEGA-D3-Microcontroller_Datasheet.pdf	5,6,7,8 (pinout pages of the device's datasheet)	ok
+ATxmega64D4	quad44	datasheets/mcu/microchip/Atmel-8135-8-and-16-bit-AVR-microcontroller-ATxmega16D4-32D4-64D4-128D4_datasheet.pdf	4,5,6,7 (pinout pages of the device's datasheet)	ok
+ATxmega8E5	quad32	datasheets/mcu/microchip/ATxmega32E5-16E5-8E5-Data-Sheet-DS40002059A.pdf	10,11,12,13,36,37,38,39,40,41,42	ok
+ATmega1608	quad32	datasheets/mcu/microchip/ATmega808-09-1608-09-DataSheet-DS40002172C.pdf	14,15,16,17,18,19,20	ok
+ATmega1608	p28	datasheets/mcu/microchip/ATmega808-09-1608-09-DataSheet-DS40002172C.pdf	14,15,16,17,18,19,20	ok
+ATmega1609	quad48	datasheets/mcu/microchip/ATmega808-09-1608-09-DataSheet-DS40002172C.pdf	14,15,16,17,18,19,20	ok
+ATmega3208	quad32	datasheets/mcu/microchip/ATmega3208-3209-Data-Sheet-DS40002174A.pdf	14,15,16,17,18,19	ok
+ATmega3208	p28	datasheets/mcu/microchip/ATmega3208-3209-Data-Sheet-DS40002174A.pdf	14,15,16,17,18,19	ok
+ATmega3209	quad48	datasheets/mcu/microchip/ATmega3208-3209-Data-Sheet-DS40002174A.pdf	14,15,16,17,18,19	ok
+ATmega4808	quad32	datasheets/mcu/microchip/ATmega4808-09-DataSheet-DS40002173C.pdf	14,15,16,17,18,19,20,21	ok
+ATmega4808	p28	datasheets/mcu/microchip/ATmega4808-09-DataSheet-DS40002173C.pdf	14,15,16,17,18,19,20,21	ok
+ATmega4809	quad48	datasheets/mcu/microchip/ATmega4808-09-DataSheet-DS40002173C.pdf	14,15,16,17,18,19,20,21	ok
+ATmega808	quad32	datasheets/mcu/microchip/ATmega808-09-1608-09-DataSheet-DS40002172C.pdf	14,15,16,17,18,19,20	ok
+ATmega808	p28	datasheets/mcu/microchip/ATmega808-09-1608-09-DataSheet-DS40002172C.pdf	14,15,16,17,18,19,20	ok
+ATmega809	quad48	datasheets/mcu/microchip/ATmega808-09-1608-09-DataSheet-DS40002172C.pdf	14,15,16,17,18,19,20	ok
+ATtiny1604	p14	datasheets/mcu/microchip/ATtiny804-06-07-1604-06-07-DataSheet-DS40002312A.pdf	13,14,15,16,17,18,19,37,38,39,40	ok
+ATtiny1606	quad20	datasheets/mcu/microchip/ATtiny804-06-07-1604-06-07-DataSheet-DS40002312A.pdf	13,14,15,16,17,18,19,37,38,39,40	ok
+ATtiny1606	p20	datasheets/mcu/microchip/ATtiny804-06-07-1604-06-07-DataSheet-DS40002312A.pdf	13,14,15,16,17,18,19,37,38,39,40	ok
+ATtiny1607	quad24	datasheets/mcu/microchip/ATtiny804-06-07-1604-06-07-DataSheet-DS40002312A.pdf	13,14,15,16,17,18,19,37,38,39,40	ok
+ATtiny1614	p14	datasheets/mcu/microchip/ATtiny1614-16-17-DataSheet-DS40002204A.pdf	14,15,16,17,18,19,20,39,40,41,42	ok
+ATtiny1616	quad20	datasheets/mcu/microchip/ATtiny1614-16-17-DataSheet-DS40002204A.pdf	14,15,16,17,18,19,20,39,40,41,42	ok
+ATtiny1616	p20	datasheets/mcu/microchip/ATtiny1614-16-17-DataSheet-DS40002204A.pdf	14,15,16,17,18,19,20,39,40,41,42	ok
+ATtiny1617	quad24	datasheets/mcu/microchip/ATtiny1614-16-17-DataSheet-DS40002204A.pdf	14,15,16,17,18,19,20,39,40,41,42	ok
+ATtiny1624	p14	datasheets/mcu/microchip/ATtiny1624-26-27-DataSheet-DS40002234A.pdf	13,14,15,16,17,18,19	ok
+ATtiny1626	quad20	datasheets/mcu/microchip/ATtiny1624-26-27-DataSheet-DS40002234A.pdf	13,14,15,16,17,18,19	ok
+ATtiny1626	p20	datasheets/mcu/microchip/ATtiny1624-26-27-DataSheet-DS40002234A.pdf	13,14,15,16,17,18,19	ok
+ATtiny1627	quad24	datasheets/mcu/microchip/ATtiny1624-26-27-DataSheet-DS40002234A.pdf	13,14,15,16,17,18,19	ok
+ATtiny202	p8	datasheets/mcu/microchip/ATtiny202-204-402-404-406-DataSheet-DS40002318A.pdf	13,14,15,16,17,18,19,38,39,40,41	ok
+ATtiny204	p14	datasheets/mcu/microchip/ATtiny202-204-402-404-406-DataSheet-DS40002318A.pdf	13,14,15,16,17,18,19,38,39,40,41	ok
+ATtiny212	p8	datasheets/mcu/microchip/ATtiny212-214-412-414-416-DataSheet-DS40002287A.pdf	14,15,16,17,18,19,20,40,41,42,43	ok
+ATtiny214	p14	datasheets/mcu/microchip/ATtiny212-214-412-414-416-DataSheet-DS40002287A.pdf	14,15,16,17,18,19,20,40,41,42,43	ok
+ATtiny3216	p20	datasheets/mcu/microchip/ATtiny3216-17-DataSheet-DS40002205A.pdf	14,15,16,17,18,37,38,39,40	ok
+ATtiny3217	quad24	datasheets/mcu/microchip/ATtiny3216-17-DataSheet-DS40002205A.pdf	14,15,16,17,18,37,38,39,40	ok
+ATtiny3224	p14	datasheets/mcu/microchip/ATtiny3224-3226-3227-Data-Sheet-DS40002345B.pdf	14,15,16,17,18,19,20	ok
+ATtiny3226	quad20	datasheets/mcu/microchip/ATtiny3224-3226-3227-Data-Sheet-DS40002345B.pdf	14,15,16,17,18,19,20	ok
+ATtiny3226	p20	datasheets/mcu/microchip/ATtiny3224-3226-3227-Data-Sheet-DS40002345B.pdf	14,15,16,17,18,19,20	ok
+ATtiny402	p8	datasheets/mcu/microchip/ATtiny202-204-402-404-406-DataSheet-DS40002318A.pdf	13,14,15,16,17,18,19,38,39,40,41	ok
+ATtiny404	p14	datasheets/mcu/microchip/ATtiny202-204-402-404-406-DataSheet-DS40002318A.pdf	13,14,15,16,17,18,19,38,39,40,41	ok
+ATtiny406	quad20	datasheets/mcu/microchip/ATtiny202-204-402-404-406-DataSheet-DS40002318A.pdf	13,14,15,16,17,18,19,38,39,40,41	ok
+ATtiny406	p20	datasheets/mcu/microchip/ATtiny202-204-402-404-406-DataSheet-DS40002318A.pdf	13,14,15,16,17,18,19,38,39,40,41	ok
+ATtiny412	p8	datasheets/mcu/microchip/ATtiny212-214-412-414-416-DataSheet-DS40002287A.pdf	14,15,16,17,18,19,20,40,41,42,43	ok
+ATtiny414	p14	datasheets/mcu/microchip/ATtiny212-214-412-414-416-DataSheet-DS40002287A.pdf	14,15,16,17,18,19,20,40,41,42,43	ok
+ATtiny416	quad20	datasheets/mcu/microchip/ATtiny212-214-412-414-416-DataSheet-DS40002287A.pdf	14,15,16,17,18,19,20,40,41,42,43	ok
+ATtiny416	p20	datasheets/mcu/microchip/ATtiny212-214-412-414-416-DataSheet-DS40002287A.pdf	14,15,16,17,18,19,20,40,41,42,43	ok
+ATtiny417	quad24	datasheets/mcu/microchip/ATtiny417-814-816-817-DataSheet-DS40002288A.pdf	15,16,17,18,19,20,21,40,41,42,43	ok
+ATtiny424	p14	datasheets/mcu/microchip/ATtiny424-426-427-824-826-827-DataSheet-DS40002311A.pdf	13,14,15,16,17,18,19	ok
+ATtiny426	quad20	datasheets/mcu/microchip/ATtiny424-426-427-824-826-827-DataSheet-DS40002311A.pdf	13,14,15,16,17,18,19	ok
+ATtiny426	p20	datasheets/mcu/microchip/ATtiny424-426-427-824-826-827-DataSheet-DS40002311A.pdf	13,14,15,16,17,18,19	ok
+ATtiny427	quad24	datasheets/mcu/microchip/ATtiny424-426-427-824-826-827-DataSheet-DS40002311A.pdf	13,14,15,16,17,18,19	ok
+ATtiny804	p14	datasheets/mcu/microchip/ATtiny804-06-07-1604-06-07-DataSheet-DS40002312A.pdf	13,14,15,16,17,18,19,37,38,39,40	ok
+ATtiny806	quad20	datasheets/mcu/microchip/ATtiny804-06-07-1604-06-07-DataSheet-DS40002312A.pdf	13,14,15,16,17,18,19,37,38,39,40	ok
+ATtiny806	p20	datasheets/mcu/microchip/ATtiny804-06-07-1604-06-07-DataSheet-DS40002312A.pdf	13,14,15,16,17,18,19,37,38,39,40	ok
+ATtiny807	quad24	datasheets/mcu/microchip/ATtiny804-06-07-1604-06-07-DataSheet-DS40002312A.pdf	13,14,15,16,17,18,19,37,38,39,40	ok
+ATtiny814	p14	datasheets/mcu/microchip/ATtiny417-814-816-817-DataSheet-DS40002288A.pdf	15,16,17,18,19,20,21,40,41,42,43	ok
+ATtiny816	quad20	datasheets/mcu/microchip/ATtiny417-814-816-817-DataSheet-DS40002288A.pdf	15,16,17,18,19,20,21,40,41,42,43	ok
+ATtiny816	p20	datasheets/mcu/microchip/ATtiny417-814-816-817-DataSheet-DS40002288A.pdf	15,16,17,18,19,20,21,40,41,42,43	ok
+ATtiny817	quad24	datasheets/mcu/microchip/ATtiny417-814-816-817-DataSheet-DS40002288A.pdf	15,16,17,18,19,20,21,40,41,42,43	ok
+ATtiny824	p14	datasheets/mcu/microchip/ATtiny424-426-427-824-826-827-DataSheet-DS40002311A.pdf	13,14,15,16,17,18,19	ok
+ATtiny826	quad20	datasheets/mcu/microchip/ATtiny424-426-427-824-826-827-DataSheet-DS40002311A.pdf	13,14,15,16,17,18,19	ok
+ATtiny826	p20	datasheets/mcu/microchip/ATtiny424-426-427-824-826-827-DataSheet-DS40002311A.pdf	13,14,15,16,17,18,19	ok
+ATtiny827	quad24	datasheets/mcu/microchip/ATtiny424-426-427-824-826-827-DataSheet-DS40002311A.pdf	13,14,15,16,17,18,19	ok
+ATmega328P	p28	datasheets/mcu/atmega328p.pdf	12	full ok (pin by pin against the figure)
+ATmega328P	quad32	datasheets/mcu/atmega328p.pdf	12	full ok (pin by pin against the figure)
+ATmega2560	quad100	datasheets/mcu/microchip/ATmega640-1280-1281-2560-2561-Datasheet-DS40002211A.pdf	2	full ok (pin by pin against the figure)
+ATmega32U4	quad44	datasheets/mcu/microchip/Atmel-7766-8-bit-AVR-ATmega16U4-32U4_Summary.pdf	3	full ok (pin by pin against the figure)
+ATmega1284P	p40	datasheets/mcu/microchip/ATmega164A_PA-324A_PA-644A_PA-1284_P_Data-Sheet-40002070B.pdf	11	full ok (by eye, Figure 1-1 PDIP, every pin)
+ATmega1284P	quad44	datasheets/mcu/microchip/ATmega164A_PA-324A_PA-644A_PA-1284_P_Data-Sheet-40002070B.pdf	11	full ok (by eye, Figure 1-1 TQFP/QFN/MLF, every pin; pin 29 printed AREF for the ATDF REF)
+ATmega4809	quad48	datasheets/mcu/microchip/ATmega4808-09-DataSheet-DS40002173C.pdf	17	full ok (pin by pin against the figure)
+ATtiny85	p8	datasheets/mcu/microchip/Atmel-2586-AVR-8-bit-Microcontroller-ATtiny25-ATtiny45-ATtiny85_Datasheet-Summary.pdf	2	full ok (pin by pin against the figure)
+ATtiny13A	p8	datasheets/mcu/attiny13a.pdf	8	full ok (pin by pin against the figure)
+ATtiny84A	p14	datasheets/mcu/microchip/8183s.pdf	2	full ok (pin by pin against the figure)
+ATtiny1614	p14	datasheets/mcu/microchip/ATtiny1614-16-17-DataSheet-DS40002204A.pdf	14	full ok (by eye, 4.1 14-Pin SOIC, every pin)
+AVR128DA48	quad48	datasheets/mcu/microchip/AVR128DA28-32-48-64-Data-Sheet-DS40002183.pdf	16	full ok (pin by pin against the figure)
