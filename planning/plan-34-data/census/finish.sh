@@ -8,7 +8,8 @@
 # stock-checked rows (fetch, textscan, sibling, place after clearing
 # datasheets/resistor/, specs-skeleton merge) and their checks. (3) B:
 # verdicts, the final pick into candidates.tsv, skipped-parts.md, prune,
-# footprints-needed.txt. (4) C/D: fp-check per category (stop on a line with
+# footprints-needed.txt. FINISH_DRY=1: skip the unchecked-rows stops and end
+# before (6) (a rehearsal on a copy of the worktree). (4) C/D: fp-check per category (stop on a line with
 # no footprint: draw it). (5) specs-fill. (6) F: gen-parts, goldens, ctest.
 set -e
 here=${0:A:h}
@@ -23,7 +24,7 @@ cp /tmp/p34/stock-check.tsv $st
 echo "== (1) final pick"
 py $here/select.py $raw /tmp/p34/pick.tsv --stock $st --verdicts $data/verdicts.tsv >/dev/null
 py $here/cut-picked.py $raw /tmp/p34/pick.tsv $st > /tmp/p34/unchecked.txt
-if [[ -s /tmp/p34/unchecked.txt ]]; then
+if [[ -s /tmp/p34/unchecked.txt && -z $FINISH_DRY ]]; then
   echo "unchecked picked rows: $(wc -l < /tmp/p34/unchecked.txt); run stock-check.sh $raw /tmp/p34/pick.tsv /tmp/p34/stock-check.tsv"
   exit 3
 fi
@@ -51,7 +52,7 @@ py $here/verdicts.py $data/candidates.tsv $data/specs.tsv $data/verdicts.tsv
 cp $data/candidates.tsv /tmp/p34/cand-a.tsv
 py $here/select.py $raw $data/candidates.tsv --stock $st --verdicts $data/verdicts.tsv --report | grep -v ' -> complete'
 py $here/cut-picked.py $raw $data/candidates.tsv $st > /tmp/p34/unchecked.txt
-if [[ -s /tmp/p34/unchecked.txt ]]; then
+if [[ -s /tmp/p34/unchecked.txt && -z $FINISH_DRY ]]; then
   echo "unchecked picked rows after the verdicts: $(wc -l < /tmp/p34/unchecked.txt); stock-check them, then run again"; exit 3
 fi
 echo "candidate rows left: $(awk -F'\t' '$22=="candidate"' $data/candidates.tsv | wc -l)"
@@ -67,6 +68,7 @@ for c in chip through-hole array; do py $here/fp-check.py $c; done
 echo "== (5) specs-fill"
 py $here/specs-fill.py $data/candidates.tsv
 
+[[ -n $FINISH_DRY ]] && { echo "dry run: stop before (6)"; exit 0; }
 echo "== (6) plan-34-F"
 # datasheets.json and footprints.json as they were before plan-34-F Phase 2
 # (3860182), so an entry the final pick no longer uses does not stay.

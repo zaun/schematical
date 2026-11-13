@@ -7,7 +7,8 @@ Fetches each URL into <pdf-dir>/<md5 of the URL as DigiKey gives it>.pdf (8
 at a time) and writes <pdf-dir>/index.tsv: md5, the attempt that worked (or
 the last HTTP status), bytes, `%PDF` when it is one, the URL, and the URL
 actually fetched. A file already there that starts with %PDF- is kept, so
-the script can be run again. Attempts: a bare `curl -sL` (vishay.com,
+the script can be run again; a file the rewrite gave keeps that URL in
+<md5>.via, so a re-run names and records it the same way (§ Corrections 8). Attempts: a bare `curl -sL` (vishay.com,
 yageogroup.com and viking.com.tw answer it with a PDF, plan-34-A § 2), then
 plan-29's Safari-header attempt; a yageo.com /lr/ URL that gives no PDF is
 fetched from yageogroup.com (§ 4 rule 3). The files are only read
@@ -45,8 +46,10 @@ def attempt(full, flags, path):
 def fetch(args):
     url, directory = args
     path = common.pdf_path(directory, url)
+    via_file = path[:-4] + ".via"   # the rewrite URL that gave a cached file, if one did
     if common.is_pdf(path):
-        return (common.md5(url), "cached", str(os.path.getsize(path)), "%PDF", url, "")
+        via = open(via_file).read().strip() if os.path.exists(via_file) else ""
+        return (common.md5(url), "cached", str(os.path.getsize(path)), "%PDF", url, via)
     targets = [common.full_url(url)]
     if common.rewrite(url):
         targets.append(common.rewrite(url))
@@ -56,6 +59,9 @@ def fetch(args):
             code = attempt(target, flags, path)
             if common.is_pdf(path):
                 via = "" if target == targets[0] else target
+                if via:
+                    with open(via_file, "w") as f:
+                        f.write(via + "\n")
                 return (common.md5(url), name, str(os.path.getsize(path)), "%PDF", url, via)
     size = os.path.getsize(path) if os.path.exists(path) else 0
     if os.path.exists(path):

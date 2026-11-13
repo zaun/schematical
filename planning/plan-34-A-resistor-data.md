@@ -576,6 +576,17 @@ Commit: abb3652
    calls` listed all 11 picked Viking chip rows (all already checked on day
    1). Expected cost for the rest: about 100–150 calls instead of 1677.
    The trial listing is kept in `planning/plan-34-data/relist/`.
+8. **`finish.sh` rehearsed; `fetch.py` keeps the rewrite (2026-11-13).**
+   A dry run of `census/finish.sh` (`FINISH_DRY=1`, on a `git archive`
+   copy of the worktree, stopping before F) found a bug. On a re-run,
+   `fetch.py` served the YAGEO FAE sheet from cache and forgot that it had
+   come through § 4's yageogroup.com rewrite, so `place.py` named it
+   `yageo-fae_datasheet.pdf` and `specs-skeleton.py` dropped the filled
+   `YAGEO|FAE|…/YAGEO-FAE_DATASHEET.pdf` spec row. `fetch.py` now writes
+   the rewrite URL to `<md5>.via` beside the cached PDF and reads it back
+   on a cache hit. Re-run of the rehearsal: `109 rows; 109 kept`, the same
+   1974 `add` rows, `0 skip rows missing`, `fp-check` 33 / 29 / 13 lines
+   with 0 missing, `specs-fill` 0 unmapped.
 
 ## Summary
 
