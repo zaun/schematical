@@ -8,11 +8,12 @@ final class PartEditorWindowTests: XCTestCase {
     /// Kept for the life of the test process (see PartFileSaveOpenTests).
     static var kept: [PartEditorModel] = []
 
-    /// (a) Every kind has a form (plan-32-J Phase 4: all 26 enabled; register, plan-37-C, the 27th).
+    /// (a) Every kind has a form (plan-32-J Phase 4) but the two without one.
     func testEnabledKinds() {
-        // capacitor (plan-33) has no form (plan-33-A § Decisions).
-        XCTAssertEqual(PartDraft.enabledKinds, PartDraft.kindNames.filter { $0 != "capacitor" })
-        XCTAssertEqual(PartDraft.enabledKinds.count, 27)
+        // capacitor (plan-33) and mcu (plan-36) have no form (plan-33-A, plan-36-H § Decisions).
+        let formless: Set = ["capacitor", "mcu"]
+        XCTAssertEqual(PartDraft.enabledKinds, PartDraft.kindNames.filter { !formless.contains($0) })
+        XCTAssertEqual(PartDraft.enabledKinds.count, PartDraft.kindNames.count - formless.count)
     }
 
     /// (b) The picker lists one kind per bundled part file.
@@ -24,7 +25,7 @@ final class PartEditorWindowTests: XCTestCase {
             .filter { $0.hasSuffix(".json") && $0 != "footprints.json" && $0 != "datasheets.json" }
             .map { String($0.dropLast(".json".count)) }
             .sorted()
-        XCTAssertEqual(files.count, 28)
+        XCTAssertEqual(files.count, PartKinds.all.count)
         XCTAssertEqual(PartDraft.kindNames, files)
         for kind in PartDraft.kindNames {
             XCTAssertNotEqual(PartDraft.displayName(of: kind), kind, "no display name for \(kind)")

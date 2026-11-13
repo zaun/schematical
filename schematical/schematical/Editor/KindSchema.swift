@@ -201,7 +201,7 @@ enum PartKinds {
     /// The kinds the backend loads (`kinds.c`), as their part files name them.
     static let all = [
         "7seg", "arith", "buffer", "capacitor", "charlcd", "connector", "converter", "counter", "cpu", "decoder",
-        "dff", "diode", "eeprom", "gate", "header", "jkff", "latch", "led", "mux", "oscillator",
+        "dff", "diode", "eeprom", "gate", "header", "jkff", "latch", "led", "mcu", "mux", "oscillator",
         "pio", "register", "rtc", "serial", "shift", "sram", "supply", "switch",
     ]
 
@@ -211,7 +211,7 @@ enum PartKinds {
         "charlcd": "Character LCD",
         "connector": "Connector", "converter": "Converter", "counter": "Counter", "cpu": "Processor",
         "decoder": "Decoder", "dff": "D Flip-Flop", "diode": "Diode", "eeprom": "EEPROM", "gate": "Gate",
-        "header": "Pin Header", "jkff": "JK Flip-Flop", "latch": "Latch", "led": "LED", "mux": "Multiplexer",
+        "header": "Pin Header", "jkff": "JK Flip-Flop", "latch": "Latch", "led": "LED", "mcu": "Microcontroller", "mux": "Multiplexer",
         "oscillator": "Oscillator", "pio": "Parallel I/O", "register": "Register", "rtc": "Real-Time Clock", "serial": "Serial",
         "shift": "Shift Register", "sram": "SRAM", "supply": "Supply", "switch": "Switch",
     ]

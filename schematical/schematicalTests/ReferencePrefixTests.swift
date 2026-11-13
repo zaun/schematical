@@ -27,6 +27,7 @@ final class ReferencePrefixTests: XCTestCase {
         XCTAssertEqual(try category("PULLUP-5V"), .resistor)
         XCTAssertEqual(try category("1N4728A"), .zenerDiode)
         XCTAssertEqual(try category("W65C02S6TPG-14"), .processor)
+        XCTAssertEqual(try category("ATMEGA328P-PU"), .microcontroller)
         XCTAssertEqual(try category("AS6C6264-55PCN"), .memory)
         XCTAssertEqual(try category("GENERIC-HEADER-1X02", gender: "Male"), .maleConnector)
         XCTAssertEqual(try category("GENERIC-HEADER-1X02", gender: "Female"), .femaleConnector)

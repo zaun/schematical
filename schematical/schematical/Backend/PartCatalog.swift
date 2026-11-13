@@ -318,6 +318,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// ceramic's dielectric and the tolerance when given.
         case capacitor(type: String, polarized: Bool, farads: Double, ratedMV: UInt32,
                        dielectric: String?, tolerance: String?)
+        /// A microcontroller (plan-36): its core ("avr", "avrxt", "riscv", …),
+        /// highest clock, and flash, RAM, EEPROM and PSRAM in bytes (0 = none).
+        case mcu(core: String, maxHz: UInt64, flash: UInt32, ram: UInt32, eeprom: UInt32, psram: UInt32)
     }
 
     let name: String
@@ -344,6 +347,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     let datasheetMarkdown: String?
     let pins: [ChipPin]
     let details: Details
+    /// False for a part the backend has no model for (plan-36: the
+    /// microcontrollers). Run is off while one is on the schematic.
+    let isSimulated: Bool
     /// Nil only for parts with no package (the supplies).
     let footprint: Footprint?
     /// The second footprint the PCB Style option switches to (Connector
@@ -570,6 +576,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .capacitor(_, _, farads, ratedMV, dielectric, _):
             return [CapacitorValue.text(farads)] + (ratedMV > 0 ? ["\(PartFacts.milli(ratedMV)) V"] : [])
                 + (dielectric.map { [$0] } ?? [])
+        case let .mcu(_, maxHz, _, _, _, _): return [PartFacts.hertz(maxHz)]
         }
     }
 }
@@ -647,6 +654,7 @@ extension CatalogPart {
         name = string(part.name)
         uuid = part.uuid.map { String(cString: $0) }
         kind = part.kind
+        isSimulated = part.simulated != 0
         package = string(part.package)
         function = string(part.function)
         description = string(part.description)
@@ -753,6 +761,9 @@ extension CatalogPart {
                                  ratedMV: capacitor.rated_mv,
                                  dielectric: capacitor.dielectric.map { String(cString: $0) },
                                  tolerance: capacitor.tolerance.map { String(cString: $0) })
+        } else if let mcu = part.mcu?.pointee {
+            details = .mcu(core: string(mcu.core), maxHz: mcu.max_hz, flash: mcu.flash, ram: mcu.ram,
+                           eeprom: mcu.eeprom, psram: mcu.psram)
         } else {
             details = .supply(level: 0, mv: 0, pull: false)
         }

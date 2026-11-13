@@ -94,6 +94,7 @@ extension PartKinds {
         case PART_HEADER: "header"
         case PART_CAPACITOR: "capacitor"
         case PART_REGISTER: "register"
+        case PART_MCU: "mcu"
         default: nil
         }
     }

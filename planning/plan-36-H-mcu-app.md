@@ -52,7 +52,7 @@ plan-36-A § Prerequisites, plus:
 | Must be true | Command | Status |
 |---|---|---|
 | plan-36-G complete | `ls planning/completed/plan-36-G-*.md` → exists | MET 2026-11-13 (f012511) |
-| The owner's uncommitted edits in the files H changes are committed | `git status --short schematical/schematical/ContentView.swift schematical/schematical/Simulation/SimulationCommands.swift schematical/schematical/Backend/PartCatalog.swift schematical/schematical/Backend/PartFacts.swift schematical/schematical/Preferences/ReferencePrefixes.swift schematical/schematical/Help/KeyboardHelp.swift schematical/schematical/Editor/KindSchema.swift schematical/schematical/Editor/BundledPartFile.swift schematical/schematicalTests/PartEditorWindowTests.swift schematical/schematicalTests/ReferencePrefixTests.swift` → empty | NOT MET (2026-11-13, the main tree against `main` 0fbc528: `ContentView.swift` modified; `ReferencePrefixes.swift` and `ReferencePrefixTests.swift` untracked, in no commit, so absent from the plan-36 worktree too; the other 7 files clean) |
+| The owner's uncommitted edits in the files H changes are committed | `git status --short schematical/schematical/ContentView.swift schematical/schematical/Simulation/SimulationCommands.swift schematical/schematical/Backend/PartCatalog.swift schematical/schematical/Backend/PartFacts.swift schematical/schematical/Preferences/ReferencePrefixes.swift schematical/schematical/Help/KeyboardHelp.swift schematical/schematical/Editor/KindSchema.swift schematical/schematical/Editor/BundledPartFile.swift schematical/schematicalTests/PartEditorWindowTests.swift schematical/schematicalTests/ReferencePrefixTests.swift` → empty | MET 2026-11-13 (the owner committed them in b3d56b4; all 10 clean against `main` 1167c96, which was merged into the worktree as bdb6970). NOT MET before that (`ContentView.swift` modified; `ReferencePrefixes.swift` and `ReferencePrefixTests.swift` untracked) |
 
 AGENTS.md: touch and commit only your own changes. H cannot edit a file
 that holds someone else's uncommitted work, so this row is a hard gate.
@@ -171,17 +171,20 @@ that holds someone else's uncommitted work, so this row is a hard gate.
 
 ### Phase 1 — Facts, kind lists, references
 
-- [ ] § 3.1 in `PartCatalog.swift` and `PartFacts.swift`.
-- [ ] § 3.3 in `BundledPartFile.swift`, `KindSchema.swift`,
-      `ReferencePrefixes.swift`, `PartEditorWindowTests.swift`.
-- [ ] `schematicalTests/McuTests.swift`: `kindName` of ATMEGA328P-PU is
+- [x] § 3.1 in `PartCatalog.swift` and `PartFacts.swift`. `isSimulated` is a stored `let` (from `part.simulated`); `.mcu` also needed a `detailLabels` arm (the drawer's second line: the clock, as `.cpu` shows it). Sizes under 1 KB show as "N bytes".
+- [x] § 3.3 in `BundledPartFile.swift`, `KindSchema.swift`,
+      `ReferencePrefixes.swift`, `PartEditorWindowTests.swift`. The `:4–5` comment is general ("Some categories have no catalog parts yet") and still true (battery, fuse, …), so it stays. The editor test's counts are derived (`kindNames.count - formless.count`, `PartKinds.all.count`); main's plan-37 had made them 27 / 28. `ReferencePrefixTests` gained ATMEGA328P-PU → `.microcontroller`.
+- [x] `schematicalTests/McuTests.swift`: `kindName` of ATMEGA328P-PU is
       "Microcontroller"; its facts include `Core` "AVR", `Flash` "32 KB",
       `Simulation` "Not simulated"; ESP32-S3-WROOM-1-N8R8 shows `Flash`
       "8 MB" and `PSRAM` "8 MB"; `ReferenceCategory.of` the part is
-      `.microcontroller` and its prefix `U`.
+      `.microcontroller` and its prefix `U`. ESP32-S3-WROOM-1U-N8R8 stands
+      in for -1-N8R8 (see Corrections). Also: a simulated part has no
+      `Simulation` row; a placed ATMEGA328P-PU is `U1`.
 
 Acceptance: the new and the changed tests pass.
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p36-dd CODE_SIGNING_ALLOWED=NO -only-testing:schematicalTests/McuTests -only-testing:schematicalTests/PartEditorWindowTests -only-testing:schematicalTests/ReferencePrefixTests` → `** TEST SUCCEEDED **` (est. 6 min, mostly the build).
+  Result 2026-11-13: `Executed 14 tests, with 0 failures` (McuTests 4, PartEditorWindowTests 5, ReferencePrefixTests 5); `** TEST SUCCEEDED **`.
 Commit: —
 
 ### Phase 2 — Run availability
@@ -246,6 +249,9 @@ Commit: —
   the capacitor kind already ships without one.
 
 ## Corrections
+
+- **2026-11-13: main moved before H started.** `main` 1167c96 (plan-37's `register` kind, the owner's reference-prefix work) was merged into the worktree first (bdb6970), because H edits `ReferencePrefixes.swift`, which existed only on main. `PART_MCU` now follows `PART_REGISTER`. The merge also fixed F's `kinds.c`, which listed `MCU_KIND` twice (both the `extern` and the `KINDS[]` entry); the duplicate was harmless (the loader stops at the first match) but wrong. The goldens were regenerated: against main they only add (63 / 1424 / 1424 lines). ctest 34/34.
+- **2026-11-13: ESP32-S3-WROOM-1-N8R8 is not in the catalog** (not in stock at A's census; the S3-WROOM-1 parts are -N4R8 and the -1U ones). `McuTests` uses ESP32-S3-WROOM-1U-N8R8: 8 MB flash, 8 MB PSRAM.
 
 ## Summary
 

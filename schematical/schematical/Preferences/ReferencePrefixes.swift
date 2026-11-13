@@ -86,6 +86,7 @@ nonisolated enum ReferenceCategory: String, CaseIterable, Identifiable, Sendable
             return (gender ?? part.genders.first) == "Female" ? .femaleConnector : .maleConnector
         case PART_SRAM, PART_EEPROM: return .memory
         case PART_CPU: return .processor
+        case PART_MCU: return .microcontroller
         default: return .integratedCircuit
         }
     }
