@@ -578,6 +578,13 @@ struct SchematicCanvasView: View {
     }
 
     private func handleChanged(_ value: DragGesture.Value) {
+        // A press on the canvas ends any text field's editing (the parts
+        // search, a sidebar field), as a click outside a field does in any
+        // Mac app, so ⌘C / ⌘V / ⌘X / ⌘A then reach the Schematic. A new
+        // window or tab starts with its search field focused.
+        if interaction == nil, let window = NSApp.keyWindow, window.firstResponder is NSText {
+            window.makeFirstResponder(nil)
+        }
         let start = viewport.world(value.startLocation)
         let current = viewport.world(value.location)
         let delta = CGSize(
