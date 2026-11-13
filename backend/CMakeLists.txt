@@ -174,6 +174,7 @@ logic_test(converter_test)
 logic_test(rtc_test)
 logic_test(tactile_test)
 logic_test(diode_test)
+logic_test(resistor_test)
 logic_test(capacitor_test)
 
 # Engine speed bench (plan-05-A). Not a ctest: a wall-clock check would be

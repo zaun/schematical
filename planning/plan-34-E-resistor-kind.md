@@ -35,8 +35,8 @@ plan-34-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-34-D complete | `ls planning/completed/plan-34-D-*.md` → exists | NOT MET at writing (2026-11-11) |
-| No `resistor` kind yet | `grep -c 'PART_RESISTOR' backend/include/parts.h` → 0 | MET (2026-11-11 at 8b1770b: 0) |
+| plan-34-A § Prerequisites MET | plan-34-A's table | MET (2026-11-13 at 942e3e4; was "plan-34-D complete", see § Corrections 1) |
+| No `resistor` kind yet | `grep -c 'PART_RESISTOR' backend/include/parts.h` → 0 | MET (2026-11-13 at 942e3e4: 0) |
 
 Everything below is written against the world where these hold.
 
@@ -196,10 +196,14 @@ through a resistor to the input of a fixture part with `vcc` 3.3 V and
 
 ### Phase 1 — Engine links
 
-- [ ] `sim.h`: the `resistors` hook; `sim.c`: `weak` on the link struct,
+- [x] `sim.h`: the `resistors` hook; `sim.c`: `weak` on the link struct,
       `collect_links`, step 2 skipping weak links, step 3 (§ 3.1).
-- [ ] `backend/tests/resistor_test.c` with the engine cases of § 6;
-      `logic_test(resistor_test)` in `backend/CMakeLists.txt`.
+- [x] `backend/tests/resistor_test.c` with the engine cases of § 6;
+      `logic_test(resistor_test)` in `backend/CMakeLists.txt`. Check
+      (2026-11-13, build dir `/tmp/logic-p34-wt`): `ctest -R
+      'resistor_test|diode_test|trace_check|switch_test'` → `100% tests
+      passed, 0 tests failed out of 4`; `resistor_test` prints 8 `PASS`
+      (the 8 engine rows of § 6), `0 failure(s)`.
 
 Acceptance: the engine cases pass and nothing else moves.
   Check: `cmake --build /tmp/logic-p34 -j8 && ctest --test-dir /tmp/logic-p34 -R 'resistor_test|diode_test|trace_check|switch_test'` → 4 passed (est. 2 min; `trace_check` is the byte-identity gate for every existing part).
@@ -265,7 +269,13 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. **E runs before A–D finish (2026-11-13).** The header says E "reads no
+   census output; it follows D because letter order is implementation
+   order", so the D edge is ordering, not data. The real edge is plan-34-A
+   § Prerequisites only (MET 2026-11-13). E was worked while A's DigiKey
+   runs, which depend on the quota, ran in the background. The
+   "plan-34-D complete" row is replaced by "plan-34-A § Prerequisites MET".
+   F still needs D (footprints) and E.
 
 ## Summary
 

@@ -177,6 +177,13 @@ typedef struct {
        pin anode[i] to pin cathode[i] and a 0 from cathode[i] to anode[i].
        Called once, by sim_start. NULL = none. */
     size_t (*diodes)(const void *state, size_t *anode, size_t *cathode, size_t cap);
+    /* Resistors (plan-34-E): the two-way links between pins of this
+       instance, up to cap of them; returns how many there are. Each end of
+       link i sees the other end's level as a weak drive: pin a[i]'s value
+       reaches pin b[i] weakly and b[i]'s reaches a[i]. Never a strong value,
+       so two strong drivers on the two ends are no short. Called once, by
+       sim_start. NULL = none. */
+    size_t (*resistors)(const void *state, size_t *a, size_t *b, size_t cap);
 } SimComponentType;
 
 /* All times are in picoseconds. */
