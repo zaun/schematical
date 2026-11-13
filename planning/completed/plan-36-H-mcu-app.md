@@ -223,7 +223,7 @@ Commit: 386166f
 Acceptance: the suite passes, and the app behaves as § Goal says.
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p36-dd CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 15 min: the suite is the only check that catches the `allParts` pick changes); the screenshot shows the disabled Run and its line.
   Result 2026-11-13: `Executed 652 tests, with 0 failures`, `** TEST SUCCEEDED **` (ae134a5); `planning/plan-36-data/h-app-check.png` shows Run greyed with `U1 (ATMEGA328P-PU) is not simulated`.
-Commit: ae134a5 (suite); the real-app check and its screenshot in the next commit
+Commit: ae134a5 (suite), 12fb4a6 (real-app check and screenshot)
 
 ## Validation Plan
 
