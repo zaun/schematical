@@ -101,7 +101,7 @@ Check: `python3 -I planning/plan-37-data/census/gen-parts.py planning/plan-37-da
 → `<n> rows ok`, n = E's `add` rows (est. 1 min).
 Observed: `67 rows ok`.
 
-Commit: (this commit)
+Commit: 97316a9
 
 ### Phase 2 — Part file, footprint, datasheets
 
@@ -122,7 +122,7 @@ Check: `cmake --build /tmp/logic-p37 -j8 && ctest --test-dir /tmp/logic-p37 -j8`
 Observed: `100% tests passed, 0 tests failed out of 33`; `0`;
 `|register|` → 220 (D 153 + E 67); `parts.txt` 28048 lines.
 
-Commit: (this commit)
+Commit: 97316a9
 
 ## Decisions
 
