@@ -165,7 +165,7 @@ re-run until none is unchecked.
 Acceptance: every spec row has a scheme.
   Check: `awk -F'\t' 'NR>1 && ($4=="" || $5=="")' planning/plan-34-data/specs.tsv | wc -l` → 0 (est. 3–4 h of reading, 89 series; nothing smaller reads the ordering tables).
   Result (2026-11-13): 0.
-Commit: —
+Commit: 6556935
 
 ### Phase 2 — Verdicts and the final pick
 
