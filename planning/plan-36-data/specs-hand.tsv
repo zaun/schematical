@@ -1,0 +1,10 @@
+pdf	mpn_regex	package_field	note
+592f4c8a04d0684d9930e53adeea8a50	V:(?P<dev>AT90PWM81|AT90PWM161)-16(?P<pkg>M|S)[EFN]	pkg:M=QFN32,S=SO20	§ 26 Ordering Information: the Package column prints QFN32 / SO20 (-16M… / -16S…)
+a0d37f5c7720f39d17c2c90455875d7b	V:(?P<dev>AT90USB1286|AT90USB1287|AT90USB646|AT90USB647)-(?P<pkg>AU|MU)	pkg:AU=MD,MU=PS	§ 7 Ordering Information: -AU = MD (64-lead 14x14 TQFP), -MU = PS (64-lead 9x9 QFN), legend under each table (text lines 1183-1186)
+4a57e2ec0d33870ec00a266064811794	V:(?P<dev>AT90USB1286|AT90USB1287|AT90USB646|AT90USB647)-(?P<pkg>AU|MU)	pkg:AU=MD,MU=PS	Ordering Information: -AU = MD (64-lead TQFP), -MU = PS (64-lead QFN), as in 7593S
+bb1361c125827f106277f3648a08c40f	V:(?P<dev>AT90USB1286|AT90USB1287|AT90USB646|AT90USB647)-(?P<pkg>AU|MU)	pkg:AU=MD,MU=PS	Ordering Information: -AU = MD (64-lead TQFP), -MU = PS (64-lead QFN), text lines 1142-1144
+b47903fa1a76edd5882ddcbe12bff219	AT90USB82-16(?P<pkg>MU)	pkg:MU=QFN32	§ 6 Ordering Information prints "90USB82-16MU" (no AT prefix; the Product Marking column too), Package QFN32 (text line 825)
+b47903fa1a76edd5882ddcbe12bff219	AT90USB162-16(?P<pkg>MU|AU)	pkg:MU=QFN32,AU=TQFP32	§ 6 Ordering Information prints "90USB162-16MU" QFN32 and "90USB162-16AU" TQFP32 (text lines 826-827)
+4d8335f51e3f67663f9713b904dd6f30	V:(?P<dev>ATTINY102)F?-(?P<pkg>M7|M8|SS)[NF]?R	pkg:M7=8-PIN-UDFN,M8=8-PIN-UDFN,SS=8-PIN-SOIC150	§ 3 Ordering Information: the Package column prints "8 pad UDFN" / "8 pin SOIC150"; the codes are § 8's package section titles (8.1 8-pin UDFN, 8.2 8-pin SOIC150)
+4d8335f51e3f67663f9713b904dd6f30	V:(?P<dev>ATTINY104)F?-(?P<pkg>SS)[NF]R	pkg:SS=14-PIN-SOIC150	§ 3 Ordering Information: "14 pin SOIC150"; § 8.3 14-pin SOIC150
+5aa158746d82d364178d53bb0ee62db7	(?P<base>ATXMEGA32E5-AU)R	base	Ordering Information prints "ATxmega32E5AUR(4)" (the dash is missing; note 4 = Tape & Reel), text line 347

@@ -1,6 +1,6 @@
 """plan-36-A Phase 2: download every distinct datasheet URL of the in-scope rows.
 
-usage: python3 -I fetch.py <cand.tsv> <pdf-dir>
+usage: python3 -I fetch.py <cand.tsv> <pdf-dir> [<extra-pdfs.tsv>]
 
 Adapted from planning/plan-29-data/census/fetch.py. Each distinct
 datasheet_url of a `scope` = in row goes to <pdf-dir>/<md5 of the URL>.pdf
@@ -12,6 +12,10 @@ ww1.microchip.com/downloads/aemDocuments/documents/MCU08/ProductDocuments/DataSh
 (same file name); a success is cached under the original URL's md5 and the
 retry URL is recorded in index.tsv. Files already present and valid are kept,
 so the script can be run again. The PDFs are only read by pdftotext later.
+
+extra-pdfs.tsv (`url maker why`) adds maker-site PDFs no row links: the right
+edition of a datasheet whose DigiKey link is another document (verdicts.py
+step 3 finds them by device name).
 
 index.tsv: md5, how (plain / retry / cached / the last http status), bytes,
 url, retry url.
@@ -75,10 +79,13 @@ def fetch(args):
     return (h, code, "0", url, "")
 
 
-def main(tsv, directory):
+def main(tsv, directory, extra=None):
     os.makedirs(directory, exist_ok=True)
     rows = csv.DictReader(open(tsv), delimiter="\t")
-    urls = sorted({r["datasheet_url"] for r in rows if r["scope"] == "in" and r["datasheet_url"]})
+    urls = {r["datasheet_url"] for r in rows if r["scope"] == "in" and r["datasheet_url"]}
+    if extra:
+        urls |= {r["url"] for r in csv.DictReader(open(extra), delimiter="\t")}
+    urls = sorted(urls)
     with ThreadPoolExecutor(6) as pool:
         results = list(pool.map(fetch, [(u, directory) for u in urls]))
     with open(os.path.join(directory, "index.tsv"), "w") as out:
@@ -93,4 +100,4 @@ def main(tsv, directory):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2])
+    main(*sys.argv[1:4])

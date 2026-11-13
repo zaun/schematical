@@ -19,7 +19,9 @@ place, filling for each `scope` = in row:
                 or on the first page; Phase 4 reads each such row by hand
 
 Only a URL on the maker's own site counts (§ 3 rule 3); a distributor copy
-leaves pdf empty for sibling.py. A row whose pdf is already set to something other than its own URL's md5
+leaves pdf empty for sibling.py. A row whose PDF prints neither its part number nor its device name has the
+wrong document (DigiKey links a PIC18F datasheet for some AVR128DA28 rows);
+its pdf is left empty for sibling.py. A row whose pdf is already set to something other than its own URL's md5
 (sibling.py's choice) is scanned against that PDF.
 """
 import csv
@@ -60,7 +62,12 @@ def text(pdf_dir, txt_dir, h):
         subprocess.run(["pdftotext", "-q", "-layout", pdf, txt], check=False, timeout=600)
     if not os.path.exists(txt):
         return None
-    return open(txt, errors="replace").read()
+    return dashes(open(txt, errors="replace").read())
+
+
+def dashes(body):
+    """Atmel tables print some part numbers with an en dash (`ATmega128–16AN`)."""
+    return body.replace("\u2013", "-").replace("\u2011", "-").replace("\u2010", "-")
 
 
 def legend(body):
@@ -167,12 +174,25 @@ def scan(row, body, codes):
     return hit, pkg, dead
 
 
+def names(up):
+    """Every name-like token of an upper-cased text, with list titles
+    expanded: `ATMEGA8U2/16U2/32U2` also names ATMEGA16U2 and ATMEGA32U2,
+    `AVR16/32DD28/32` names AVR16DD28 ... AVR32DD32."""
+    out = set(re.findall(r"[0-9A-Z]+(?:-[0-9A-Z]+)*", up))
+    out |= set(re.findall(r"[0-9A-Z]+", up))
+    for m in re.finditer(r"\b(ATXMEGA|ATMEGA|ATTINY|AT90[A-Z]*)(\d[0-9A-Z]*(?:/\d[0-9A-Z]*)+)", up):
+        out |= {m.group(1) + x for x in m.group(2).split("/")}
+    for m in re.finditer(r"AVR((?:\d+/)*\d+)([A-Z]{2})((?:\d+/)*\d+)", up):
+        out |= {f"AVR{f}{m.group(2)}{q}" for f in m.group(1).split("/") for q in m.group(3).split("/")}
+    return out
+
+
 def main(tsv, pdf_dir, txt_dir):
     os.makedirs(txt_dir, exist_ok=True)
     rows = list(csv.DictReader(open(tsv), delimiter="\t"))
     cols = list(rows[0].keys())
     cache = {}
-    n = {"pdf": 0, "verbatim": 0, "pkg": 0, "dead": 0}
+    n = {"pdf": 0, "verbatim": 0, "pkg": 0, "dead": 0, "wrong": 0}
     for r in rows:
         if r["scope"] != "in":
             continue
@@ -180,13 +200,20 @@ def main(tsv, pdf_dir, txt_dir):
         h = r["pdf"] if r["pdf"] else (md5(url) if url and own_site(url) else "")
         if h and h not in cache:
             body = text(pdf_dir, txt_dir, h)
-            cache[h] = None if body is None else (body, legend(body))
+            cache[h] = None if body is None else (body, legend(body), names(body.upper()))
         if not h or cache[h] is None:
             r["pdf"], r["hit"], r["package_code"], r["dead"] = "", "", "", ""
             continue
-        body, codes = cache[h]
+        body, codes, named = cache[h]
         r["pdf"] = h
         r["hit"], r["package_code"], r["dead"] = scan(r, body, codes if r["family"] in CLASSIC else {})
+        if not r["hit"] and r["device"].upper() not in named:
+            # The wrong document (DigiKey links a PIC18F datasheet for some
+            # AVR128DA28 rows): neither the part number nor the device prints
+            # in it, so sibling.py looks for the right one.
+            r["pdf"], r["hit"], r["package_code"], r["dead"] = "", "", "", ""
+            n["wrong"] += 1
+            continue
         n["pdf"] += 1
         n["verbatim"] += r["hit"] == "verbatim"
         n["pkg"] += bool(r["package_code"])
@@ -195,7 +222,7 @@ def main(tsv, pdf_dir, txt_dir):
         out.write("\t".join(cols) + "\n")
         for r in rows:
             out.write("\t".join(r[c] for c in cols) + "\n")
-    print(f"in-scope rows with a PDF {n['pdf']}, verbatim {n['verbatim']} (with package code {n['pkg']}), dead {n['dead']}")
+    print(f"in-scope rows with a PDF {n['pdf']}, verbatim {n['verbatim']} (with package code {n['pkg']}), dead {n['dead']}, wrong PDF (neither the part number nor the device prints) {n['wrong']}")
 
 
 if __name__ == "__main__":

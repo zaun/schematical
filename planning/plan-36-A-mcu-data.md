@@ -282,7 +282,7 @@ case without `.pdf` (G writes the entries).
 Acceptance: a same-day listing, and every in-scope row has a stock figure above 0.
   Check: `awk -F'\t' 'NR>1 && $5=="in" && ($11=="" || $11==0)' /tmp/p36/cand.tsv | wc -l` → 0 after `--stock` (est. 1 quota day: about 82 calls).
   Result 2026-11-13 UTC: `0`.
-Commit: —
+Commit: 3fb9c6c
 
 ### Phase 2 — Downloads
 
@@ -303,22 +303,25 @@ Commit: —
 Acceptance: every in-scope row has a PDF or a recorded reason.
   Check: `awk -F'\t' 'NR>1 && $5=="in" && $20=="" && $24!="skip"' /tmp/p36/cand.tsv | wc -l` → 0 (`$20` is `pdf`, `$24` is `verdict`; `sibling.py` sets `skip`, reason `no datasheet on the maker's site`, for a row it cannot place) (est. 25 min for 939 MB, then 10 min of `pdftotext`).
   Result 2026-11-13: `0`.
-Commit: —
+Commit: 11ff43c
 
 ### Phase 3 — Ordering-code regexes
 
-- [ ] `planning/plan-36-data/specs.tsv`: one row per PDF that some
+- [x] `planning/plan-36-data/specs.tsv`: one row per PDF that some
       in-scope row without a verbatim hit uses. Each row gets an
       `mpn_regex` from the datasheet's "Ordering Information" / "Product
       Identification System" page, with the named group `pkg` and, where
       the scheme has one, `temp`. The `note` column gives the page, e.g.
       `AVR128DA28-32-48-64-DataSheet-DS40002183B.pdf p.581`.
-- [ ] `census/verdicts.py`: `hit` = `regex` for a full match, plus
+      63 rows (`census/specs-build.py`): 38 drafted by `census/specs-draft.py` from each Product Identification System figure (AVR Dx/Ex/Lx/Sx, tinyAVR 0/1/2, megaAVR 0; the codes are the figure's, plus the ordering table's where the figure is an image or omits some), 14 ESP32 module PDFs (`device`), 1 RP2040 (`=QFN-56`), and 10 hand rows (`specs-hand.tsv`: AT90PWM81/161, AT90USB64x/128x ×3, AT90USB82/162 ×2, ATtiny102/104 ×2, ATxmega32E5). Each figure was read against its draft.
+- [x] `census/verdicts.py`: `hit` = `regex` for a full match, plus
       `package_code` from `pkg`. Rows still without a hit are `skip`, reason
       `not in the datasheet's ordering table`.
+      → `add 1445 skip 67`; `add by hit: {'verbatim': 1400, 'regex': 45}`. The 67 skips: 52 classic part numbers the linked datasheet does not print (mostly `…R` reel twins of old Atmel datasheets, which print only the base number and no reel suffix; the A/AN/AQ automotive and extended grades of ATmega128/128A/164P/165P/64L/644P), 6 ATtiny25/85/261A/XMEGA256A3B variants, `AT90PWM2B-16SUR`, `AT90PWM81-16MN`, `ATTINY1616-XFR`/`-XNR` (no TSSOP in that datasheet), `ESP32-WROOM-DA-N4` (the datasheet lists only N8), and 6 more of the same kind. A row's own PDF is tried first, then every PDF of its device, then every same-maker PDF naming the device (§ Corrections).
 
 Acceptance: every in-scope row with a PDF has a hit or a skip reason.
   Check: `python3 -I planning/plan-36-data/census/verdicts.py /tmp/p36/cand.tsv planning/plan-36-data/specs.tsv --report` → `0 undecided` (est. 3 min after the regexes; nothing smaller checks every row).
+  Result 2026-11-13: `0 undecided` (`add 1445 skip 67`).
 Commit: —
 
 ### Phase 4 — Dead rows, docs, placement
@@ -380,6 +383,11 @@ Commit: —
 - **2026-11-13, `candidates.py` had no `--stock` option** that Phase 1's last task names. It was added (the found = 0 → `out`, found = 1 → its stock figure).
 - **2026-11-13, Phase 2: package codes.** § 3 rule 5 says the verbatim hit's package code is read "off the same line". Atmel-era ordering tables merge the Package cell over several rows, so on only 425 of 1328 hits did the code share the line. `textscan.py` takes the nearest legend code within 12 lines when its own line has none, preferring DigiKey's pin count, and `pkgcheck.py` checks every code (Phase 2 line above). Two datasheet typos are fixed in `planning/plan-36-data/package-overrides.tsv`, which `verdicts.py` applies: `ATMEGA8515-16MU` (`2512S.pdf` "Ordering Information": the table prints `44MI`; the legend's code is `44M1`) and `ATMEGA8535L-8MU` (`doc2502.pdf`: the table prints `44M1`; the legend defines only `44M1-A`).
 - **2026-11-13, Phase 2: newer families' package codes come from the regex.** AVR Dx/Ex/Lx/Sx, tinyAVR 0/1/2 and megaAVR 0 rows print verbatim, but their tables give the package as a word (`SSOP`), and the code is part of the number (`-I/SS`, `-SSF`). Phase 3's `specs.tsv` regex therefore runs on every row that lacks a `package_code`, verbatim hit or not. Such a row keeps `hit` = `verbatim`.
+- **2026-11-13, Phase 2/3: wrong documents.** DigiKey links a PIC18F24/25K40 datasheet for 8 AVR128/64/32DA28 rows and the ATtiny20 datasheet for 13 ATtiny45/261A/461A/861A rows. `textscan.py` now drops a PDF that prints neither the row's number nor its device name (`wrong PDF … 25`), and `sibling.py` finds the right one.
+- **2026-11-13, Phase 3: an extra maker PDF.** The ATtiny202/204/402/404 `-SSF`/`-SSN` rows (16) link only the Automotive edition, whose scheme has temperature codes B/Z. The standard edition is on the maker's site (`ATtiny202-204-402-404-406-DataSheet-DS40002318A.pdf`, ww1 DataSheets path, 200 `application/pdf`). It is listed in `planning/plan-36-data/extra-pdfs.tsv`, `fetch.py` takes that file as a third argument, and `verdicts.py` searches every same-maker PDF that names the device after the row's own and its device's PDFs. That is rule 3's sibling rule applied to a row whose link is another edition.
+- **2026-11-13, Phase 3: specs.tsv format.** "One row per PDF" became one or more rows per PDF (AT90USB82 and -162 print different code sets, and a regex cannot reuse a group name). Two `package_field` forms were added: `pkg:A=X,…` maps the part-number letters to the datasheet's own codes (AT90USB `-AU` → `MD`), and `base` takes a reel twin's code from its base number. A `V:` regex prefix reads the package of a verbatim hit only. The ESP32 and RP2040 rows use `device` and `=QFN-56` (B § 3.1). The format is documented in `verdicts.py`'s docstring.
+- **2026-11-13, Phase 3: en dashes.** Atmel's ATmega128 tables print `ATmega128–16AN` with an en dash. `textscan.dashes` normalises U+2010/2011/2013 to `-` before any match.
+- **2026-11-13, package codes for megaAVR 0 `M`.** The figure's `M = QFN (UQFN/VQFN)` covers both a 48-pin UQFN and a 48-pin VQFN (DigiKey: 4 `48-UFQFN`, 2 `48-VFQFN`). The code alone does not pick the land pattern. B's `package-codes.tsv` and D must split it by drawing.
 - **2026-11-13, `run.sh` calls `/tmp/p36/census/list.js`**, a copy left from planning, not the tree's file; `diff` shows them identical, so the listing ran the tree's code.
 
 ## Summary

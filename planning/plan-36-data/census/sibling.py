@@ -44,7 +44,7 @@ def main(tsv, txt_dir):
     def body(h):
         if h not in bodies:
             p = os.path.join(txt_dir, h + ".txt")
-            b = open(p, errors="replace").read() if os.path.exists(p) else None
+            b = T.dashes(open(p, errors="replace").read()) if os.path.exists(p) else None
             bodies[h] = None if b is None else (b, T.legend(b))
         return bodies[h]
 
