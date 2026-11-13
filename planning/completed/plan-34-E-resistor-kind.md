@@ -257,7 +257,7 @@ Commit: 1655b68
 Acceptance: the docs name the kind and its keys.
   Check: `grep -c '### `resistor`' docs/parts-format.md` → 1, `grep -c 'resistor.json' docs/parts-format.md` → ≥ 1, `grep -c '\*\*Resistors\*\*' docs/backend.md` → 1 (est. 1 min).
   Result (2026-11-13): 1, 1, 1. Final gate: `ctest --test-dir /tmp/logic-p34-wt` → `100% tests passed, 0 tests failed out of 33`.
-Commit: (this commit; recorded in the next one)
+Commit: cfd5987
 
 ## Validation Plan
 
