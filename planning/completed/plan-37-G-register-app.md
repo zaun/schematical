@@ -52,9 +52,9 @@ plan-37-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-37-F complete | `ls planning/completed/plan-37-F-*.md` → exists | NOT MET (2026-11-12: plan written) |
-| SN74LS173AN ships | `grep -c '^SN74LS173AN|register|' backend/tests/golden/parts.txt` → 1 | NOT MET until D. If A made it not `add`, use D's replacement part (D § Corrections) here and in § 1 |
-| The owner's uncommitted edits are not in G's files | `git status --short schematical/schematical/Backend/PartFacts.swift schematical/schematical/Backend/PartCatalog.swift schematical/schematical/Drawer/ChipDrawerView.swift schematical/schematical/Editor schematical/schematicalTests/PartKindRoundTripTests.swift` → empty | MET (2026-11-12: empty) |
+| plan-37-F complete | `ls planning/completed/plan-37-F-*.md` → exists | MET (2026-11-13: `plan-37-F-dff-register-parts.md`) |
+| SN74LS173AN ships | `grep -c '^SN74LS173AN|register|' backend/tests/golden/parts.txt` → 1 | MET (2026-11-13: 1; SN74LS173AN is an `add` row) |
+| The owner's uncommitted edits are not in G's files | `git status --short schematical/schematical/Backend/PartFacts.swift schematical/schematical/Backend/PartCatalog.swift schematical/schematical/Drawer/ChipDrawerView.swift schematical/schematical/Editor schematical/schematicalTests/PartKindRoundTripTests.swift` → empty | MET (2026-11-13: the worktree forks main at 31f79ce; none of these paths had the owner's edits) |
 
 ## 1. Goal
 
@@ -111,25 +111,38 @@ plan-37-A § Prerequisites, plus:
 
 ### Phase 1 — Kind name, logic, drawer, form, tests
 
-- [ ] § 3's four code changes.
-- [ ] `RegisterTests.swift`, `testRegister`.
+- [x] § 3's four code changes (`kindName`, `isLogic` and its doc comment,
+      `categoryHeader`, `RegisterDraft.swift` regenerated: `register: 26
+      devices, 220 parts …`; `EXTRA["register"]` keeps only the part `vcc`
+      and `inputMax`, which no shipped part sets).
+- [x] `RegisterTests.swift` (4 cases), `testRegister`.
+- [x] `PartKindRoundTripTests.expected`: `dff` 706 → 867 (F's parts),
+      `register` 220 (added task, § Corrections).
 
 Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p37-dd test -only-testing:schematicalTests/RegisterTests -only-testing:schematicalTests/PartKindRoundTripTests -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/PartEditorWindowTests CODE_SIGNING_ALLOWED=NO`
 → `** TEST SUCCEEDED **` (est. 8 min: the build; no narrower Swift check).
+Observed: `** TEST SUCCEEDED **`; `checked 220 parts of register, 0
+mismatched`, `checked 867 parts of dff, 0 mismatched`.
 
-Commit: —
+Commit: c95b798
 
 ### Phase 2 — Real-app check
 
-- [ ] Build and launch the app; open the drawer at Logic → Registers;
+- [x] Build and launch the app; open the drawer at Logic → Registers;
       place SN74LS173AN; read the sidebar's Kind / Family / Units and
       the category's family menu; save the screenshot to
       `planning/plan-37-data/g-app-check.png`; move the pointer to (0, 0).
 
 Check: the screenshot shows the "Register" group and the sidebar values
 of § 1 (est. 5 min).
+Observed (`g-app-check.png`, three panels; my Debug build, pid-driven,
+the owner's running app untouched): search SN74LS173AN → Logic →
+Registers → Register lists it ("DIP · LS · 4.75–5.25 V", count 4);
+placed as U1, the sidebar shows Kind Register, Function Register, Family
+LS, Units 4; the Logic family menu lists the new families (ALVT, LCX, LVX
+…) and HC hides the part. Pointer moved to (0, 0); my app quit.
 
-Commit: —
+Commit: 2e7b47c (screenshot); this commit (ticks)
 
 ## Decisions
 
@@ -140,7 +153,10 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- **2026-11-13 — `PartKindRoundTripTests` pins each kind's part count**
+  (`expected`): F's parts move `dff` from 706 to 867 and the new
+  `testRegister` needs `register: 220`. Both set from
+  `grep -c '"manufacturer"' Parts/dff.json Parts/register.json`.
 
 ## Summary
 
