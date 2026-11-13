@@ -2988,19 +2988,19 @@ MMP200JR-100R	add		datasheets/resistor/yageo/YAGEO-MMP_DATASHEET.pdf
 MMP200JR-10R	add		datasheets/resistor/yageo/YAGEO-MMP_DATASHEET.pdf
 MMP200JR-15R	add		datasheets/resistor/yageo/YAGEO-MMP_DATASHEET.pdf
 MMP200JR-200R	add		datasheets/resistor/yageo/YAGEO-MMP_DATASHEET.pdf
-RC0075FR-0710KL	add		datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf
-RC0075FR-07200KL	add		datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf
-RC0075FR-07220KL	add		datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf
-RC0075FR-07300RL	add		datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf
-RC0075FR-07487KL	add		datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf
-RC0075FR-0749R9L	add		datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf
-RC0075FR-07562KL	add		datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf
+RC0075FR-0710KL	skip	not in the datasheet's ordering table	datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf
+RC0075FR-07200KL	skip	not in the datasheet's ordering table	datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf
+RC0075FR-07220KL	skip	not in the datasheet's ordering table	datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf
+RC0075FR-07300RL	skip	not in the datasheet's ordering table	datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf
+RC0075FR-07487KL	skip	not in the datasheet's ordering table	datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf
+RC0075FR-0749R9L	skip	not in the datasheet's ordering table	datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf
+RC0075FR-07562KL	skip	not in the datasheet's ordering table	datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf
 RC0075FS-7N200RP	add		datasheets/resistor/yageo/PYU-RC_51_ROHS_P.pdf
-RC0075JR-07100KL	add		datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf
-RC0075JR-07100RL	add		datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf
-RC0075JR-0710KL	add		datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf
-RC0075JR-071KL	add		datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf
-RC0075JR-0722RL	add		datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf
+RC0075JR-07100KL	skip	not in the datasheet's ordering table	datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf
+RC0075JR-07100RL	skip	not in the datasheet's ordering table	datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf
+RC0075JR-0710KL	skip	not in the datasheet's ordering table	datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf
+RC0075JR-071KL	skip	not in the datasheet's ordering table	datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf
+RC0075JR-0722RL	skip	not in the datasheet's ordering table	datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf
 RC0075JS-7N0RL	add		datasheets/resistor/yageo/PYU-RC_GROUP_51_ROHS_L.pdf
 RC0075JS-7N0RP	add		datasheets/resistor/yageo/PYU-RC_51_ROHS_P.pdf
 RC0075JS-7N100KP	add		datasheets/resistor/yageo/PYU-RC_51_ROHS_P.pdf
@@ -9741,7 +9741,7 @@ MF0207FTE52-9K1	add		datasheets/resistor/yageo/YAGEO-MF0_DATASHEET.pdf
 MF0207FTE52-9K76	add		datasheets/resistor/yageo/YAGEO-MF0_DATASHEET.pdf
 MF0207FTE52-9R1	add		datasheets/resistor/yageo/YAGEO-MF0_DATASHEET.pdf
 MF0207FTE52-9R53	add		datasheets/resistor/yageo/YAGEO-MF0_DATASHEET.pdf
-MF0207JT-52-1K	add		datasheets/resistor/yageo/YAGEO-MF0_DATASHEET.pdf
+MF0207JT-52-1K	skip	not in the datasheet's ordering table	datasheets/resistor/yageo/YAGEO-MF0_DATASHEET.pdf
 MFR-12FRF52-100K	add		datasheets/resistor/yageo/YAGEO-MFR_DATASHEET.pdf
 MFR-12FRF52-10K	add		datasheets/resistor/yageo/YAGEO-MFR_DATASHEET.pdf
 MFR-12FRF52-1K	add		datasheets/resistor/yageo/YAGEO-MFR_DATASHEET.pdf

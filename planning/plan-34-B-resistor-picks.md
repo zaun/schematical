@@ -268,6 +268,35 @@ Commit: —
    allow no datasheet hunting beyond the link and the verbatim sibling
    check, and the sheet prints a pattern, not their part numbers. They
    are listed in `skipped-parts.md`.
+4. **Independent review of the schemes (2026-11-13).** A reviewer read
+   the top-volume rows against their PDFs (RC_L, RC, RC_P, MFR, CRCW-C,
+   CRCW `*`, FMP, CRCW0201 e3, MF0, RT, RSF, the YC/TC group, Viking CR).
+   It found no printed code wrongly rejected, no wrong sizemap and no
+   mislabelled check. It found these codes admitted though not printed,
+   all now fixed in `specs.tsv`:
+   - Every YAGEO value field allowed a letter-first value (`R47`). The
+     sheets print digits first (97R6, 9K76, 1M), so the alternative is
+     removed (40 rows).
+   - MF0 allowed tolerance and TCR `-` for every value; p. 2 prints
+     "- = for 0R". `MF0207JT-52-1K` is now `skip`.
+   - RC_L / RC allowed packing S, R, K and reels 7D, 7N on every size.
+     p. 2 and Table 4 (p. 4) give S only for 0075/0100, R for 0100–1210, K
+     for 1218/2010/2512, 7D for 0201/0402, 7N for 0075/0100. The 12
+     RC0075 parts on packing R (`RC0075FR-0710KL`, …) are now `skip`.
+   - MFR allowed `FB-` on every power; p. 2 says "for -25&50S".
+   Verdicts after the fix: 11687 add, 96 not in the ordering table (was
+   11700 / 83). The pick is unchanged (1974 `add`, same part numbers: a
+   `diff` of the two picks is empty), so F's parts and goldens are
+   unchanged. `skipped-parts.md` re-written and verified (`0 skip rows
+   missing`).
+5. **The prune keeps footprint sources (2026-11-13).** Phase 3's prune
+   deleted YAGEO's mounting guide (`yageo_PYu-R_Mount_10_19050818_343.pdf`),
+   which no part cites as its datasheet. But the YAGEO chip and array
+   footprints cite it as their land-pattern source (plan-34-C), so their
+   notes could no longer be checked in the tree. `place.py` now keeps, for
+   `--prune` and `--verify-add`, every PDF a footprint note of
+   `footprints-C/D.json` cites. The guide is restored with its
+   `datasheets.tsv` line; `--verify-add` → `0 missing, 0 unused`.
 
 ## Summary
 

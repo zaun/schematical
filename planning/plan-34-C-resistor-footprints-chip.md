@@ -245,6 +245,16 @@ Commit: dbc0c8b
    rounded up to 0.05 mm; round pad = drill + 0.7, at least 1.5. These are
    `docs/parts-format.md`'s and the existing `CAP-AX-*` /
    `DIODE-DO-35-*` values (used by D).
+5. **Independent review of the footprints (2026-11-13).** A second
+   reader checked the high-volume ids against their drawings:
+   `RES-0201/0402/0603/0805/1206-YAGEO`, `RES-0201/0402/0603-VISHAY`,
+   `RES-AX-10.0-6.3X2.4-YAGEO`, `RES-AX-12.5-9.0X3.3-YAGEO`,
+   `RES-ARRAY-1206-10-YAGEO`, `RES-ARRAY-2512-10-YAGEO`, and the
+   YC158T / YC358L / YC358T / SOMC pinouts. It confirmed the letter
+   meanings from the drawings, the spans, pads, bodies and pin order, and
+   found no geometry or pinout error. Its one finding: B's prune had
+   deleted the YAGEO mounting guide these footprints cite. It is restored
+   (plan-34-B § Corrections 5).
 
 ## Summary
 

@@ -128,9 +128,21 @@ def tree_files():
     return out
 
 
+def cited():
+    """Tree PDFs a footprint note of footprints-C/D.json cites (a land
+    pattern's source drawing stays in the tree even when no part cites
+    that PDF as its datasheet; plan-34-B § Corrections 4)."""
+    text = ""
+    for f in ("footprints-C.json", "footprints-D.json"):
+        p = os.path.join(common.DATA, f)
+        if os.path.exists(p):
+            text += open(p).read()
+    return {p for p in tree_files() if p.split("/", 2)[2] in text or os.path.basename(p) in text}
+
+
 def verify(tsv, keep):
     rows = read(tsv)
-    need = {r["pdf"] for r in rows if keep(r) and r["pdf"]}
+    need = {r["pdf"] for r in rows if keep(r) and r["pdf"]} | cited()
     have = tree_files()
     listed = {r["path"] for r in csv.DictReader(open(common.PLACED), delimiter="\t")}
     missing = sorted(p for p in need if p not in have or p not in listed)
@@ -145,7 +157,7 @@ def verify(tsv, keep):
 
 def prune(tsv):
     rows = read(tsv)
-    need = {r["pdf"] for r in rows if r["decision"] == "add" and r["pdf"]}
+    need = {r["pdf"] for r in rows if r["decision"] == "add" and r["pdf"]} | cited()
     for p in sorted(tree_files() - need):
         os.remove(os.path.join(common.ROOT, p))
         print("deleted", p)
