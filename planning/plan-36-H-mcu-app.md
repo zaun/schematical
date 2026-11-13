@@ -185,14 +185,14 @@ that holds someone else's uncommitted work, so this row is a hard gate.
 Acceptance: the new and the changed tests pass.
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p36-dd CODE_SIGNING_ALLOWED=NO -only-testing:schematicalTests/McuTests -only-testing:schematicalTests/PartEditorWindowTests -only-testing:schematicalTests/ReferencePrefixTests` → `** TEST SUCCEEDED **` (est. 6 min, mostly the build).
   Result 2026-11-13: `Executed 14 tests, with 0 failures` (McuTests 4, PartEditorWindowTests 5, ReferencePrefixTests 5); `** TEST SUCCEEDED **`.
-Commit: —
+Commit: 9a6398a
 
 ### Phase 2 — Run availability
 
-- [ ] `Simulation/SimulationAvailability.swift` (§ 3.2).
-- [ ] `ContentView.swift`, `SimulationCommands.swift` (§ 3.2);
-      `KeyboardHelp.swift` (§ 3.3).
-- [ ] `schematicalTests/SimulationAvailabilityTests.swift` (§ 1's cases).
+- [x] `Simulation/SimulationAvailability.swift` (§ 3.2): `unsimulated` (reference order, `localizedStandardCompare`), `reason`, `canStart`, `toggle`, and `target(page:chips:isRunning:toggle:)`, which builds the menu's `SimulationTarget` so the PCB-page case is testable without a window.
+- [x] `ContentView.swift`, `SimulationCommands.swift` (§ 3.2);
+      `KeyboardHelp.swift` (§ 3.3). `toggleSimulation` checks `canStart` before it touches the tools, then calls `SimulationAvailability.toggle`. Run stays enabled while running (Stop always works). Speed keeps the page rule: off only when there is no blocked reason and Run is off, which is the PCB page.
+- [x] `schematicalTests/SimulationAvailabilityTests.swift` (§ 1's cases): none → available; one (U2 after a 74HC00) → `U2 (ATMEGA328P-PU) is not simulated`; three → `U1 (ATMEGA328P-PU) and 2 more are not simulated`; reference order (U2 before U10); toggle with the MCU → `isRunning` false and no error; toggle without → starts, then stops; PCB → not available, no reason.
       The toggle case builds a `SimulationController` and a document with
       the part, calls `start(document:)` through the same guard
       `toggleSimulation` uses (the guard is a static on
@@ -200,6 +200,7 @@ Commit: —
 
 Acceptance: the availability rule holds without the GUI.
   Check: `xcodebuild test … -only-testing:schematicalTests/SimulationAvailabilityTests` → `** TEST SUCCEEDED **` (est. 5 min).
+  Result 2026-11-13 (with KeyboardHelpTests, for the changed line): `Executed 11 tests, with 0 failures` (7 + 4); `** TEST SUCCEEDED **`.
 Commit: —
 
 ### Phase 3 — Full suite and the real app
