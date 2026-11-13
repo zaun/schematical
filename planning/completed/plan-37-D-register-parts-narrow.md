@@ -159,7 +159,7 @@ Check: `python3 -I planning/plan-37-data/census/gen-parts.py planning/plan-37-da
 → `<n> rows ok` with n = D's `add` rows less the 74_670 ones (est. 1 min).
 Observed: `153 rows ok` (D's `register` `add` rows; § Corrections).
 
-Commit: (this commit)
+Commit: dd2c1e0
 
 ### Phase 2 — Part files, footprint, datasheets
 
@@ -187,7 +187,7 @@ Observed: `100% tests passed, 0 tests failed out of 33`; removed golden
 lines `0`; `|register|` → `153`; `|mux|` → `346` (unchanged); `parts.txt`
 27828 → 27981.
 
-Commit: (this commit)
+Commit: dd2c1e0
 
 ## Decisions
 
