@@ -1,0 +1,3 @@
+mpn	package_code	note
+ATMEGA8515-16MU	44M1	ordering table prints "44MI"; the Package Type legend defines 44M1 (44-pad 7x7 QFN/MLF), the only 44-pad code
+ATMEGA8535L-8MU	44M1-A	ordering table prints "44M1"; the Package Type legend defines only 44M1-A (44-pad 7x7 QFN/MLF)

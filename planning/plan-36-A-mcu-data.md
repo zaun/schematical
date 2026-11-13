@@ -286,19 +286,23 @@ Commit: —
 
 ### Phase 2 — Downloads
 
-- [ ] `census/fetch.py /tmp/p36/cand.tsv /tmp/p36/pdf`: every distinct URL
+- [x] `census/fetch.py /tmp/p36/cand.tsv /tmp/p36/pdf`: every distinct URL
       of the in-scope rows (193 at planning time, all rows), bare `curl
       -sL`, keep a file only if it starts `%PDF-` and `pdfinfo` reads it.
       Use § 3 rule 3's retry for a Microchip 403.
-- [ ] `census/textscan.py`: `pdftotext -layout` each PDF once into
+      → `186 urls; 183 are PDFs; 993.67557 MB` (186 distinct in-scope URLs; 193 was every listed row's). One Microchip 403 was saved by the ww1 retry (`ATtiny1614-16-17-DataSheet-DS40002204A.pdf`); still none: `AVR64DD-14-20-Prelim-DataSheet-DS40002444.pdf` (403 on ww1 too) and the two product pages. `index.tsv` beside the PDFs.
+- [x] `census/textscan.py`: `pdftotext -layout` each PDF once into
       `/tmp/p36/txt/`, then fill `pdf`, `hit`, `dead` and (verbatim hits)
       `package_code` per row.
-- [ ] `census/sibling.py`: a row with no PDF, or a non-maker one, gets a
+      → `in-scope rows with a PDF 1489, verbatim 1328 (with package code 722), dead 30`. Distributor URLs (`mm.digikey.com`, `cdn-shop.adafruit.com`) are not used (§ 3 rule 3). The package code is read only for the classic families (AT90, ATmega, ATtiny, XMEGA); the others spell it in the part number (Phase 3). `census/pkgcheck.py` (new) checks each code's legend pin count and geometry against DigiKey: `735 rows with a package code, 14 disagree`, of which 12 are consistent on reading (6 SOT-23 rows DigiKey writes without a leading count, 3 dual-row `MC` codes, `10M1` = 10-pad MLF/DFN) and 2 are datasheet typos (§ Corrections; `package-overrides.tsv`).
+- [x] `census/sibling.py`: a row with no PDF, or a non-maker one, gets a
       downloaded same-maker PDF that prints its device name and its part
       number (§ 3 rule 3).
+      → `sibling PDFs given 23, skipped (no datasheet on the maker's site) 0`. 20 of the 23 print verbatim in the sibling PDF; `AVR64DD14-I/SL`, `AVR64DD20-I/SO` (the AVR16/32/64DD14/20 datasheet, prelim URL 403) and `ATXMEGA256A3B-MH` go to Phase 3's regex.
 
 Acceptance: every in-scope row has a PDF or a recorded reason.
   Check: `awk -F'\t' 'NR>1 && $5=="in" && $20=="" && $24!="skip"' /tmp/p36/cand.tsv | wc -l` → 0 (`$20` is `pdf`, `$24` is `verdict`; `sibling.py` sets `skip`, reason `no datasheet on the maker's site`, for a row it cannot place) (est. 25 min for 939 MB, then 10 min of `pdftotext`).
+  Result 2026-11-13: `0`.
 Commit: —
 
 ### Phase 3 — Ordering-code regexes
@@ -374,6 +378,8 @@ Commit: —
 
 - **2026-11-13 (UTC), Phase 1 counts.** The re-listing (`candidates.py` → `rows 1547 in 1523 devices in 316`) differs from planning's 1545 / 1521 / 316. Added: `ATTINY2313-20SU`, `ATXMEGA16D4-CU`, `ATTINY1616-SNR`. Gone (no stock): `AVR128DA48-I/PT`. Family counts: ATtiny 270, Dx 267, XMEGA 138, tinyAVR 0/1/2 198 (others unchanged). The part-by-part check (`stock-check.tsv`) found 11 of the 20 with no stock (`AT90PWM161-16SNR`, `AT90PWM81-16SF`, `AT90PWM81-16SN`, `ATMEGA164PA-CU`, `ATMEGA165PA-AN`, `ATMEGA168PA-CCUR`, `ATMEGA169P-16MCH`, `ATMEGA169P-16MCHR`, `ATMEGA48A-CCUR`, `ATMEGA88A-CCUR`, `ATTINY261-15MAZ`), so they are `out`, reason `stock check`. **In scope after Phase 1: 1512 rows, 315 devices** (AT90 38, ATmega 405, ATtiny 269, Dx 267, Ex 72, Lx/Sx 14, XMEGA 138, megaAVR 0 58, tinyAVR 0/1/2 198, ESP32 51, RP2040 2). B's "316 devices" and G's "1521 rows" are planning figures, and those letters use the verdict counts instead.
 - **2026-11-13, `candidates.py` had no `--stock` option** that Phase 1's last task names. It was added (the found = 0 → `out`, found = 1 → its stock figure).
+- **2026-11-13, Phase 2: package codes.** § 3 rule 5 says the verbatim hit's package code is read "off the same line". Atmel-era ordering tables merge the Package cell over several rows, so on only 425 of 1328 hits did the code share the line. `textscan.py` takes the nearest legend code within 12 lines when its own line has none, preferring DigiKey's pin count, and `pkgcheck.py` checks every code (Phase 2 line above). Two datasheet typos are fixed in `planning/plan-36-data/package-overrides.tsv`, which `verdicts.py` applies: `ATMEGA8515-16MU` (`2512S.pdf` "Ordering Information": the table prints `44MI`; the legend's code is `44M1`) and `ATMEGA8535L-8MU` (`doc2502.pdf`: the table prints `44M1`; the legend defines only `44M1-A`).
+- **2026-11-13, Phase 2: newer families' package codes come from the regex.** AVR Dx/Ex/Lx/Sx, tinyAVR 0/1/2 and megaAVR 0 rows print verbatim, but their tables give the package as a word (`SSOP`), and the code is part of the number (`-I/SS`, `-SSF`). Phase 3's `specs.tsv` regex therefore runs on every row that lacks a `package_code`, verbatim hit or not. Such a row keeps `hit` = `verbatim`.
 - **2026-11-13, `run.sh` calls `/tmp/p36/census/list.js`**, a copy left from planning, not the tree's file; `diff` shows them identical, so the listing ran the tree's code.
 
 ## Summary
