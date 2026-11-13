@@ -176,7 +176,7 @@ the page; the reviewer of the commit compares the note with the PDF.
 Acceptance: the YAGEO objects load.
   Check: `planning/plan-34-data/census/fp-load.sh planning/plan-34-data/footprints-C.json` → only `extra footprint` / `unused footprint` failures, for exactly the new ids (est. 2 min).
   Result (2026-11-13): `fp-load.sh footprints-C.json footprints-D.json` → `44 new footprints: load ok` (21 in C).
-Commit: —
+Commit: dbc0c8b
 
 ### Phase 2 — Vishay Dale and Viking Tech chip sheets
 
@@ -195,7 +195,7 @@ Commit: —
 Acceptance: every chip line has a footprint and every chip spec row is filled.
   Check: `python3 -I planning/plan-34-data/census/fp-check.py chip` → `<n> lines, 0 without a footprint` with `<n>` = `awk -F'\t' '$1=="chip"' planning/plan-34-data/footprints-needed.txt | wc -l` (34 at planning time), and `fp-load.sh footprints-C.json` as Phase 1 (est. 3 min).
   Result (2026-11-13): `33 lines, 0 without a footprint` (33 chip lines); `44 new footprints: load ok`.
-Commit: —
+Commit: dbc0c8b
 
 ## Validation Plan
 

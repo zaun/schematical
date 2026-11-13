@@ -107,7 +107,7 @@ the datasheet's circuit drawing twice (the `note` cites the page).
 Acceptance: every through-hole line has a footprint.
   Check: `python3 -I planning/plan-34-data/census/fp-check.py through-hole` → `<n> lines, 0 without a footprint` (34 at planning time), and `fp-load.sh footprints-C.json footprints-D.json` → only the expected failures (est. 3 min).
   Result (2026-11-13): `29 lines, 0 without a footprint`; `44 new footprints: load ok`.
-Commit: —
+Commit: dbc0c8b
 
 ### Phase 2 — Arrays
 
@@ -130,7 +130,7 @@ Commit: —
 Acceptance: every array line has a footprint and pin pairs.
   Check: `python3 -I planning/plan-34-data/census/fp-check.py array` → `<n> lines, 0 without a footprint` (18 at planning time), `awk -F'\t' 'NR>1 && $7 ~ /^(iso|bus)/ && $7 !~ /:/' planning/plan-34-data/specs.tsv | wc -l` → 0 (every array pinout name carries its `:<pairs>`, Phase 2's format `iso-8:1-8,2-7,3-6,4-5`), and `fp-load.sh` as Phase 1 (est. 3 min).
   Result (2026-11-13): `13 lines, 0 without a footprint`; 0; `44 new footprints: load ok`.
-Commit: —
+Commit: dbc0c8b
 
 ## Validation Plan
 

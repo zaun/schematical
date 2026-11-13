@@ -34,7 +34,7 @@ plan-34-A § Prerequisites, plus:
 |---|---|---|
 | plan-34-E complete | `ls planning/completed/plan-34-E-*.md` → exists | MET (2026-11-13: `planning/completed/plan-34-E-resistor-kind.md`) |
 | The `resistor` kind loads | `grep -c 'RESISTOR_KIND' backend/src/library/kinds.c` → 1 | MET (2026-11-13: 2, the `extern` line and the `KINDS[]` line; the row meant "is in the table") |
-| Phase 2 only: plan-34-D complete | `ls planning/completed/plan-34-D-*.md` → exists | NOT MET (2026-11-13; § Corrections 1) |
+| Phase 2 only: C's and D's footprints and the map | `fp-check.py chip`, `through-hole`, `array` → `0 without a footprint` | MET (2026-11-13 at dbc0c8b: 33, 29, 13 lines, 0 without; § Corrections 2) |
 
 Everything below is written against the world where these hold.
 
@@ -142,19 +142,32 @@ Commit: d242ed9
 
 ### Phase 2 — Every part, footprints, datasheets
 
-- [ ] `census/fp-merge.py footprints-C.json footprints-D.json` appends the
+- [x] `census/fp-merge.py footprints-C.json footprints-D.json` appends the
       objects to `Parts/footprints.json` (sorted as the file is); add each
       id only if absent (`grep -c '"id":"<id>"'
       schematical/schematical/Parts/footprints.json` → 0; a hit is moot,
-      plan-34-C § 4.3).
-- [ ] `gen-parts.py` (all `add` rows) → `resistor.json`; the datasheet
-      entries into `datasheets.json`, each id only if absent.
-- [ ] Regenerate `parts.txt`, `traces.txt`, `footprints.txt`; review
+      plan-34-C § 4.3). `44 footprints appended`.
+- [x] `gen-parts.py` (all `add` rows) → `resistor.json`; the datasheet
+      entries into `datasheets.json`, each id only if absent. `gen-parts:
+      …/resistor.json: 56 devices, 1975 parts; 32 datasheets used, 32 added
+      to datasheets.json`. Arrays have no composition at DigiKey, so their
+      device ids leave it out (`array-iso-8-10k-50k`). Distinct pin maps of
+      one prefix get `-b`, `-c` (the YAGEO 8-pin `iso-8:1-5,…` is
+      `iso-8-b`). An array's two common pins share the name `C`.
+- [x] Regenerate `parts.txt`, `traces.txt`, `footprints.txt`; review
       `git diff --stat backend/tests/golden` (added lines only) and
       hand-check five new footprint lines against their `note`s.
+      `footprints.txt | 44 +`, `parts.txt | 1974 +`, `traces.txt | 1974 +`,
+      0 removed lines. Hand-checked `RES-0402-YAGEO` (span 1.0 → pads
+      ±0.5, 0.5 × 0.6), `RES-0603-VISHAY` (±0.75, 0.5 × 0.9),
+      `RES-AX-10.0-6.3X2.4-YAGEO` (±5.0, drill 0.85 = 0.60 + 0.25, pad
+      1.55), `RES-ARRAY-1206-8-YAGEO` (±0.85, 0.9 × 0.45, pin 5 opposite
+      pin 1 as the datasheet draws), `SOIC-16-5.59-VISHAY` (±3.625, 1.91 ×
+      0.64, pitch 1.27): each as its note says.
 
 Acceptance: the whole set loads and the goldens grow by exactly the new parts and footprints.
   Check: `ctest --test-dir /tmp/logic-p34` → `100% tests passed`; `git diff backend/tests/golden | grep -c '^-[^-]'` → 0; `grep -c '|resistor|' backend/tests/golden/parts.txt` → N + 1 (est. 5 min).
+  Result (2026-11-13, on the pick of plan-34-C § Corrections 1, N = 1974): `100% tests passed, 0 tests failed out of 33`; 0; 1975.
 Commit: —
 
 ## Validation Plan
@@ -190,6 +203,13 @@ Commit: —
    "Phase 2 only" Prerequisites row. Golden counts: P0 is 27828 at
    942e3e4 (not 26729), so after Phase 1 `parts.txt` = 27829, and Phase 2's
    target is 27829 + N.
+2. **Phase 2 on the provisional pick (2026-11-13).** Phase 2 ran on
+   `/tmp/p34/pick.tsv` (`select.py --stock … --verdicts …` with the stock
+   check as it stood), the pick plan-34-C and D drew their footprints for
+   (plan-34-C § Corrections 1). When A's stock check ends, the pick is
+   re-run and written to `candidates.tsv` (B Phase 2). Then `gen-parts.py`
+   is re-run with the goldens and these checks (plan-34-A's added task).
+   `gen-parts.py` takes the candidates file as an argument.
 
 ## Summary
 
