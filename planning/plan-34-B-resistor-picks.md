@@ -30,8 +30,8 @@ plan-34-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-34-A complete | `ls planning/completed/plan-34-A-*.md` → exists | NOT MET at writing (2026-11-11) |
-| `specs.tsv` skeleton exists | `test -s planning/plan-34-data/specs.tsv && echo ok` → `ok` | NOT MET at writing (A Phase 4 writes it) |
+| Phase 1: `specs.tsv` skeleton exists | `test -s planning/plan-34-data/specs.tsv && echo ok` → `ok` | MET (2026-11-13 at abb3652: `ok`, 109 rows) |
+| Phase 2 onward: plan-34-A complete | `ls planning/completed/plan-34-A-*.md` → exists | NOT MET (2026-11-13: A Phase 2's stock check runs over about two more quota days; § Corrections 1) |
 
 Everything below is written against the world where these hold.
 
@@ -130,19 +130,41 @@ re-run until none is unchecked.
 
 ### Phase 1 — Schemes
 
-- [ ] `census/select.py`: verdict `out` → decision `out` with its reason
+- [x] `census/select.py`: verdict `out` → decision `out` with its reason
       (§ 3.2).
-- [ ] Write `census/verdicts.py` (§ 3.2) and `census/scheme-check.py
+- [x] Write `census/verdicts.py` (§ 3.2) and `census/scheme-check.py
       <specs.tsv> <candidates.tsv> <spec row>`: prints, for one spec row,
       the regex's matches and non-matches among its eligible rows, so the
-      reader can see a regex that is too tight or too loose.
-- [ ] Fill `mpn_regex`, `fields_checked` and `note` (PDF page of the
+      reader can see a regex that is too tight or too loose. The field
+      check is `census/scheme.py` (named groups `size`, `tol`, `rkm`,
+      `eia3`, `eia4`, `jumper`; a `sizemap=` for size codes that are not
+      the imperial size, read from the PDF's dimension table). A size agrees
+      when it is a whole token of DigiKey's Package / Case (`1218` in `Wide
+      1812 (4532 Metric), 1218`). `scheme-check.py` also takes a trial
+      regex and fields_checked.
+- [x] Fill `mpn_regex`, `fields_checked` and `note` (PDF page of the
       ordering information) for every `specs.tsv` row, most-picked series
-      first (`RC_L`, `MFR`, `CRCW-C`, `*`, `FMP`, …).
-- [ ] Read every `dead` = 1 row (§ 3.2) into `census/dead-verdicts.tsv`.
+      first (`RC_L`, `MFR`, `CRCW-C`, `*`, `FMP`, …). 109 rows, read by four
+      parallel readers, each regex run through `scheme-check.py`. Results
+      (match / disagree / no match): RC_L 4054/0/0, MFR 1109/0/1 (a jumper
+      with tolerance `-`, not printed), CRCW-C 711/0/0, CRCW `*` 311/0/0,
+      FMP 278/0/0, CRCW0201 e3 621/0/0, RT 734/0/0, RC_P 351/0/0, RSF
+      525/0/1. Every no-match uses a code its PDF does not print (e.g. AC
+      and YC reel `10`, Viking CR value `1M`), or its PDF has no ordering
+      information for the series: the YAGEO mounting guide
+      `yageo_PYu-R_Mount_10_19050818_343.pdf` (AF, AF122, AF164, RT: 14
+      rows), Vishay `dectable.pdf` (25), `cmfmil.pdf` for CW, `rsns.pdf`
+      for CW. Those rows have `(?!)`, `none` and the reason in `note`.
+      Disagreements: MMF25S ×2 (DigiKey MELF 0207, the PDF 0204),
+      PNP1WVJR-52-5R1 (code 5.1 Ω, DigiKey 5 Ω).
+- [x] ~~Read every `dead` = 1 row (§ 3.2) into `census/dead-verdicts.tsv`.~~
+      — moot: no row is `dead` (`awk -F'\t' 'NR>1 && $25=="1"'
+      planning/plan-34-data/candidates.tsv | wc -l` → 0, textscan.py: `0
+      dead`); `verdicts.py` reads the file only when it exists.
 
 Acceptance: every spec row has a scheme.
   Check: `awk -F'\t' 'NR>1 && ($4=="" || $5=="")' planning/plan-34-data/specs.tsv | wc -l` → 0 (est. 3–4 h of reading, 89 series; nothing smaller reads the ordering tables).
+  Result (2026-11-13): 0.
 Commit: —
 
 ### Phase 2 — Verdicts and the final pick
@@ -204,7 +226,14 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. **Phase 1 runs during A's stock check (2026-11-13).** Phase 1 reads
+   only `specs.tsv` and the PDFs, which plan-34-A Phases 3–4 produced
+   (abb3652). A Phase 2 (the part-by-part stock check) needs about two
+   more quota days, and its outcome can only swap picked rows. So the
+   gate is split: Phase 1 needs the skeleton, Phases 2–3 need A complete.
+   A's added Phase 2 task re-runs the skeleton, which merges and keeps
+   these schemes. A spec row it adds for a newly eligible group gets its
+   scheme then.
 
 ## Summary
 

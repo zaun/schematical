@@ -3,9 +3,10 @@
 A spec row's `mpn_regex` is anchored over the whole part number and names
 the fields it checks with named groups:
 
-  size    the size code; agrees when DigiKey's Package / Case starts with
-          it (`0402` ~ `0402 (1005 Metric)`), or with what the spec row's
-          `sizemap=<code>:<size>,…` entry in fields_checked maps it to
+  size    the size code; agrees when it is a whole token of DigiKey's
+          Package / Case (`0402` ~ `0402 (1005 Metric)`, `1218` ~ `Wide 1812
+          (4532 Metric), 1218`), after mapping through the spec row's
+          `sizemap=<code>:<size>,…` entry in fields_checked
           (Viking `03:0603`)
   tol     the tolerance letter (F ±1%, J ±5%, …) against DigiKey's
           Tolerance; a jumper's (Tolerance `Jumper`) letter is not checked
@@ -58,7 +59,7 @@ def check(match, row, fields=""):
         g["size"] = size_map(fields).get(g["size"], g["size"])
     ohms = float(row["ohms"]) if row["ohms"] else None
     jumper = row["tolerance"] == "Jumper"
-    if g.get("size") is not None and not row["package"].startswith(g["size"]):
+    if g.get("size") is not None and g["size"] not in re.split(r"[^0-9A-Za-z]+", row["package"]):
         return "size"
     if g.get("tol") is not None and not jumper:
         if TOL.get(g["tol"]) != tolerance_percent(row["tolerance"]):
