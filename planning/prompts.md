@@ -1,4 +1,4 @@
-Write a new plan (use the write-plan skill) to add tactile switches to the backend and the app, including downloading the datasheets they need.
+Write a new plan (use the write-plan skill) to add Registers (link 74LS173) to the backend and the app, including downloading the datasheets they need. Use only the top 3 manufactuerers.
 
 Before writing:
 1. Ask me your scope questions in one batch (which sub-types, interfaces and extras are in or out). After I answer, ask nothing more: decide everything else yourself and record it under Decisions.

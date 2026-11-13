@@ -47,6 +47,50 @@
 - [ ] Add a KiCad export for the schematic.
 - [x] Add a Gerber export for the PCB
 
+## Manufacturing (a board can't be ordered without these)
+
+- [x] Add an Excellon drill export with the Gerbers (plated and non-plated
+      holes, slots), zipped in the layout fabs expect.
+- [ ] Add a pick-and-place (CPL) export, and a BOM export in the JLCPCB /
+      PCBWay assembly format (see planning/jlcpcb.md).
+- [ ] Print / PDF the schematic, and each PCB layer at 1:1 (for checking
+      footprints against real parts and for home etching).
+- [ ] Later: an "Order this board" flow (JLCPCB / PCBWay API).
+
+## Parts
+
+- [ ] Add BJTs (2N3904, 2N3906, BC547…) and MOSFETs (2N7000, logic-level
+      N-channel), top 3 manufacturers.
+- [ ] Add voltage regulators: 78xx, AMS1117, LM317, LDOs, and common buck
+      modules.
+- [ ] Add hobby microcontrollers: ATmega328P, ATtiny, RP2040, ESP32
+      modules. The bus-CPU kind only covers 6502/65816/Z80. These 
+      microcontrollers need a `simulated` property set to false. When any
+      are added to a schematic the "play" button should be disabled.
+- [ ] Add the 555 timer and common op-amps (LM358, TL07x…).
+- [ ] Add crystals and resonators (oscillators exist, crystals don't).
+- [ ] Add inductors, fuses / polyfuses, relays and buzzers.
+- [ ] Add screw terminals and JST-XH/PH connectors (check what the 222
+      existing connectors already cover first).
+- [ ] Allow parts with a symbol, footprint and BOM data but no simulation
+      model, so passives and analog parts don't each need a backend model.
+
+## PCB
+
+- [ ] Add copper pours on the top/bottom layers (e.g. a GND pour with
+      thermal reliefs), not only whole-layer planes.
+- [ ] Custom board outlines: rounded corners, cutouts, DXF import.
+- [ ] Per-net trace widths (net classes): power nets wider by default.
+- [ ] Import footprints from KiCad's footprint libraries.
+- [ ] Later: teardrops, a simple autorouter, push-and-shove routing.
+
+## Schematic
+
+- [ ] Multiple sheets per schematic, joined by net labels.
+- [ ] Electrical rule check (ERC): unconnected inputs, two outputs on one
+      net, missing power pins. Extends the voltage check.
+- [ ] Renumber references (U1, U2… in order) before building the BOM.
+
 ## Datasheets
 
 - [ ] Create a datasheet format (Markdown or JSON), based on Markdown,
@@ -55,6 +99,3 @@
       IC for ICs that aren't microprocessors or microcontrollers. The app
       should render and print it.
 
-## Future
-
-- [*] Contact anson@pcbway.com about api/integration
