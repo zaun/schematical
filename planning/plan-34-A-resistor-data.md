@@ -73,12 +73,12 @@ Every other letter points here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend tests green | `cmake -S backend -B /tmp/logic-p34 && cmake --build /tmp/logic-p34 -j8 && ctest --test-dir /tmp/logic-p34 -j8` → `100% tests passed` | MET 2026-11-11 at 0f266fa (follow-plan gate, build dir `/tmp/logic-p34-wt`: `/tmp/logic-p34`'s cache belongs to the main checkout): `100% tests passed, 0 tests failed out of 32`; **T0 = 32** (`grep -c '^logic_test'` → 32; was 30 at 8b1770b — plans 32/33/35 landed since) |
-| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `traces.txt`; `footprints.txt` | MET 2026-11-11 at 0f266fa: **P0 = 27828**, **R0 = 27828**, **F0 = 1386** (were 26729 / 26729 / 1212 at 8b1770b; capacitors and character LCDs landed since — the § Goal counts derived from P0/F0/T0 must be re-based when the plan starts) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p34-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-11 at 0f266fa: `** BUILD SUCCEEDED **`) |
-| No resistor kind yet | `grep -c 'PART_RESISTOR' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/resistor.json` → no such file; `ls datasheets/resistor` → no such directory | MET (2026-11-11 at 0f266fa: 0, no file, no directory) |
-| No other open plan adds resistors | `grep -l -i '"resistor"\|PART_RESISTOR\|datasheets/resistor\|GENERIC-RESISTOR' planning/plan-*.md \| grep -v plan-34 \| wc -l` → 0 | MET (2026-11-11 at 0f266fa: 0) |
-| DigiKey credentials and quota | `DIGIKEY_CLIENT_ID`/`_SECRET` exported in `~/.zshrc`; Phase 1 re-lists five pieces (the one re-listed at planning time cost 189 calls before the quota cut it, `52-dale-re-1.err`; `recheck.sh` skips finished pieces, so a cut run goes on the next day) and Phase 2 costs one call per checked part, 1778 at planning time (§ 2); a day allows about 1000, shared with other sessions | **NOT MET** (re-measured 2026-11-11 at follow-plan start: `digikey: 10 of 10 parts, 1 pages, 1 API calls, 153 left today` — 153 < 600; re-checked 2026-11-12: `77 left today` — 77 < 600; credentials present). Start Phase 1 on a day whose first call reports ≥ 600 left (`/tmp/p34/dk.sh --category 50 --manufacturer 2577 --in-stock --pages 1 --json` prints `… N left today`; `dk.sh` is § 6's wrapper) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p34 && cmake --build /tmp/logic-p34 -j8 && ctest --test-dir /tmp/logic-p34 -j8` → `100% tests passed` | MET 2026-11-13 at 942e3e4 (main 31f79ce merged in; build dir `/tmp/logic-p34-wt`): `100% tests passed, 0 tests failed out of 32`; **T0 = 32** |
+| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `traces.txt`; `footprints.txt` | MET 2026-11-13 at 942e3e4: **P0 = 27828**, **R0 = 27828**, **F0 = 1386** (unchanged since 0f266fa: plans 36 and 37 landed only their plan documents) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p34-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-13 at 942e3e4: `** BUILD SUCCEEDED **`) |
+| No resistor kind yet | `grep -c 'PART_RESISTOR' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/resistor.json` → no such file; `ls datasheets/resistor` → no such directory | MET (2026-11-13 at 942e3e4: 0, no file, no directory) |
+| No other open plan adds resistors | `grep -l -i 'datasheets/resistor\|GENERIC-RESISTOR\|Parts/resistor\.json\|"kind": *"resistor"' planning/plan-*.md \| grep -v plan-34 \| wc -l` → 0 | MET (2026-11-13 at 942e3e4: 0. The original command, which also matched `PART_RESISTOR`, gave 2: `plan-36-F-mcu-backend.md:56` and `plan-37-C-register-kind.md:63` name `PART_RESISTOR` only to agree on `PartKind` order, and neither adds a resistor. Corrected, § Corrections 1) |
+| DigiKey credentials and quota | `DIGIKEY_CLIENT_ID`/`_SECRET` exported in `~/.zshrc`; Phase 1 re-lists five pieces (the one re-listed at planning time cost 189 calls before the quota cut it, `52-dale-re-1.err`; `recheck.sh` skips finished pieces, so a cut run goes on the next day) and Phase 2 costs one call per checked part, 1778 at planning time (§ 2); a day allows about 1000, shared with other sessions | MET (2026-11-13 00:08 UTC: `digikey: 10 of 10 parts, 1 pages, 1 API calls, 999 left today`; credentials present. Earlier: NOT MET 2026-11-11 (153 left) and 2026-11-12 (77 left). The quota resets at about 00:00 UTC) |
 
 Everything below is written against the world where these hold.
 
@@ -326,12 +326,14 @@ below the floor → the piece is complete for the pick; at or above →
 
 ### Phase 1 — Complete the listing (one quota day)
 
-- [ ] Restore the planning listing: `mkdir -p /tmp/p34/raw && for f in
+- [x] Restore the planning listing: `mkdir -p /tmp/p34/raw && for f in
       planning/plan-34-data/raw/*.jsonl.gz; do gunzip -c $f >
       /tmp/p34/raw/$(basename $f .gz); done; cp planning/plan-34-data/raw/*.err
       /tmp/p34/raw/`; `touch` a `.done` for the nine base pieces (their
       listings are complete: each `.err` ends with a `top.js:` summary line);
       delete the four `-re-` files, whose runs the quota cut.
+      Done 2026-11-13: `ls /tmp/p34/raw | wc -l` → 27 (9 `.jsonl`, 9 `.err`,
+      9 `.done`); each base `.err` ends with `top.js:`; no `-re-` file left.
 - [ ] On a day with ≥ 600 calls left: `planning/plan-34-data/census/recheck.sh
       /tmp/p34/raw` (the five lines of § 2's cut row).
 - [ ] `python3 -I planning/plan-34-data/census/select.py /tmp/p34/raw
@@ -458,7 +460,16 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. **Prerequisites, "No other open plan adds resistors" (2026-11-13).** The
+   command as written matched `PART_RESISTOR` and gave 2: plans 36 (MCU) and
+   37 (registers), written after this plan, name `PART_RESISTOR` only to
+   agree that each appends its own `PartKind` last
+   (`plan-36-F-mcu-backend.md:56`, `plan-37-C-register-kind.md:63`). Neither
+   adds a resistor. The row now greps for what adding resistors would need
+   (`datasheets/resistor`, `GENERIC-RESISTOR`, `Parts/resistor.json`, a
+   `"kind": "resistor"`) → 0. For E: plans 36 and 37 are open and also append
+   a `PartKind`. E appends `PART_RESISTOR` after whatever value is last
+   when E runs.
 
 ## Summary
 
