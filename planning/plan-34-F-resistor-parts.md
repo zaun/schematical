@@ -138,7 +138,7 @@ owner's decision). No tolerance, no power, no datasheet.
 Acceptance: the generic part loads and lists.
   Check: `cmake --build /tmp/logic-p34 -j8 && ctest --test-dir /tmp/logic-p34 -R 'listing_check|trace_check|library_check'` → 3 passed; `grep -c '^GENERIC-RESISTOR|resistor|' backend/tests/golden/parts.txt` → 1 (est. 3 min).
   Result (2026-11-13, `/tmp/logic-p34-wt`): `100% tests passed, 0 tests failed out of 3`; 1; `parts.txt` 27829 lines (P0 27828 + 1).
-Commit: —
+Commit: d242ed9
 
 ### Phase 2 — Every part, footprints, datasheets
 

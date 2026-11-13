@@ -52,8 +52,9 @@ plan-34-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-34-F complete | `ls planning/completed/plan-34-F-*.md` → exists | NOT MET at writing (2026-11-11) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p34-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET at writing (2026-11-11 at 8b1770b) |
+| Phases 1–2: plan-34-E complete and `GENERIC-RESISTOR` loads | `ls planning/completed/plan-34-E-*.md`; `grep -c '^GENERIC-RESISTOR|resistor|' backend/tests/golden/parts.txt` → 1 | MET (2026-11-13 at d242ed9; § Corrections 1) |
+| Phase 3: plan-34-F complete | `ls planning/completed/plan-34-F-*.md` → exists | NOT MET (2026-11-13) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p34-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-13 at d242ed9) |
 
 Everything below is written against the world where these hold.
 
@@ -157,17 +158,26 @@ Everything below is written against the world where these hold.
 
 ### Phase 1 — Catalog, drawer order, symbol, facts, references
 
-- [ ] `PartCatalog.swift`: `Details.resistor`, its builder, `detailLabels`,
+- [x] `PartCatalog.swift`: `Details.resistor`, its builder, `detailLabels`,
       `isGenericResistor`, `hasOhmsField`, `symbol(for:)`, the resistor
-      order in `functionGroups`.
-- [ ] `SchematicModel.swift`: `PartSymbol.resistor` and its layout case;
-      `takeReference` `R<n>` for `PART_RESISTOR`.
-- [ ] `Canvas/ResistorSymbolView.swift` (new); the `.resistor` case in
+      order in `functionGroups` (plus `resistorOhms`, the ohms the order
+      and the symbol's label read). The order is plan-33-H's by-value sort
+      with resistance as a second value: a group list of all-capacitor or
+      all-resistor parts sorts by its smallest value.
+- [x] `SchematicModel.swift`: `PartSymbol.resistor` and its layout case;
+      `takeReference` `R<n>` for `PART_RESISTOR` (and
+      `defaultReferencePrefix` "R" for it, the prefix Edit › Reset
+      References gives back). The layout is the capacitor's (pins `1` left,
+      `2` right, `diodeSize`).
+- [x] `Canvas/ResistorSymbolView.swift` (new); the `.resistor` case in
       `SchematicCanvasView.swift` and `SchematicExportScene.swift`.
-- [ ] `PartFacts.swift`: "Resistor", "Resistor array", the rows.
+- [x] `PartFacts.swift`: "Resistor", "Resistor array", the rows
+      (Resistance, Tolerance `±1%`, Power `0.1 W`, Resistors for arrays;
+      `percentText`, `wattsText`).
 
 Acceptance: the app builds.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p34-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 3 min).
+  Result (2026-11-13): `** BUILD SUCCEEDED **`.
 Commit: —
 
 ### Phase 2 — Ohms field, file, BOM
@@ -234,7 +244,12 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. **Phases 1–2 run before F Phase 2 (2026-11-13).** Phases 1 and 2 need
+   only the kind (E) and `GENERIC-RESISTOR` (F Phase 1, d242ed9): the code
+   paths do not depend on which maker parts exist. They ran while
+   plan-34-A's DigiKey runs went on. Phase 3 (the tests over real chip parts
+   and the harness's drawer checks) still needs F complete; the
+   Prerequisites table splits the gate that way.
 
 ## Summary
 

@@ -121,6 +121,10 @@ nonisolated enum PartSymbol: Hashable {
     /// A capacitor (plan-33): two plates; a polarized one has a curved
     /// negative plate and a `+` by its positive pin (`CapacitorSymbolView`).
     case capacitor
+    /// A two-terminal resistor (plan-34): a horizontal zig-zag between pin 1
+    /// (left) and pin 2 (right), its value above (`ResistorSymbolView`).
+    /// Resistor arrays are blocks.
+    case resistor
     case vcc
     case ground
     case pullUp
@@ -228,7 +232,7 @@ nonisolated struct ChipLayout: Hashable {
             self = Self.header(pins, rows: part.headerSize?.rows ?? 1)
         case .diode, .plainDiode:
             self = Self.diode(pins)
-        case .capacitor:
+        case .capacitor, .resistor:
             self = Self.capacitor(pins)
         case .vcc:
             self = Self.supply(pins, side: .bottom)
@@ -1744,7 +1748,8 @@ final class SchematicDocument {
     /// to one), which moves `nextReference` past it.
     private func takeReference(for part: CatalogPart) -> String {
         let used = Set(chips.map(\.reference))
-        if part.isPullResistor {
+        // Pulls and every resistor-kind part (plan-34-G): the lowest R<n>.
+        if part.isPullResistor || part.kind == PART_RESISTOR {
             var number = 1
             while used.contains("R\(number)") {
                 number += 1
@@ -1891,10 +1896,10 @@ final class SchematicDocument {
         }
     }
 
-    /// The prefix a new part's reference gets: "R" for a pull resistor, "C"
-    /// for a capacitor, "U" for every other part.
+    /// The prefix a new part's reference gets: "R" for a pull resistor or a
+    /// resistor, "C" for a capacitor, "U" for every other part.
     nonisolated static func defaultReferencePrefix(for part: CatalogPart) -> String {
-        if part.isPullResistor { return "R" }
+        if part.isPullResistor || part.kind == PART_RESISTOR { return "R" }
         if part.kind == PART_CAPACITOR { return "C" }
         return "U"
     }
