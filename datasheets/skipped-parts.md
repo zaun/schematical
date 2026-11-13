@@ -689,3 +689,25 @@ by `planning/plan-33-data/census/decide.py --skipped`.
 | REA0511R47M050K | KYOCERA AVX | `capacitor` / Capacitors → Electrolytic | not in the datasheet's ordering table (regex, rea-series.pdf) |
 | TCTOM1A335M8R | KYOCERA AVX | `capacitor` / Capacitors → Tantalum | no datasheet on the maker's site (no answer, d1d2qsbl8m0m72.cloudfront.net) |
 | TAP105J020SCS | KYOCERA AVX | `capacitor` / Capacitors → Tantalum | not in the datasheet's ordering table (regex, tap.pdf) |
+
+## Registers (plan-37)
+
+In-stock Active / Last Time Buy parts of the plan-37 register devices (DigiKey census of
+2026-11-13: `planning/plan-37-data/census/run.sh`, category 706 Flip Flops, makers Texas
+Instruments, onsemi, Nexperia; `planning/plan-37-data/candidates.tsv`) left out for want of a
+vendor datasheet. Rows missing from their datasheet's ordering table, or obsolete there, are
+`out` in `candidates.tsv`. Written by `planning/plan-37-data/census/verdicts.py --skipped`.
+
+| Part(s) | Maker | Device | Would have gone into | Why skipped |
+|---|---|---|---|---|
+| 74ALVCH16823DL,512 | Nexperia | 74_16823 | `register` / Logic → Registers | no Nexperia data sheet (DigiKey links a Rochester copy; no assets.nexperia.com PDF found) |
+| SN74173N | TI | 74_173 | `register` / Logic → Registers | no TI product folder (ti.com/product/<folder> 404 for every candidate folder, plan-37-A § 3 rule 3) |
+| MC74HCT273ADTR2G, MC74HCT273ADWG, MC74HCT273ADWR2G | onsemi | 74_273 | `dff` / Logic → Flip-flops & latches | no onsemi data sheet (onsemi.com answers "notFound" for it; DigiKey links a Rochester copy or the missing sheet) |
+| MC74HCT374ADTR2G, MC74HCT374ADWG, MC74HCT374ADWR2G, MC74HCT374AFEL, SN74LS374DWR2 | onsemi | 74_374 | `dff` / Logic → Flip-flops & latches | no onsemi data sheet (onsemi.com answers "notFound" for it; DigiKey links a Rochester copy or the missing sheet) |
+| SN74F378DR | TI | 74_378 | `register` / Logic → Registers | no TI product folder (ti.com/product/<folder> 404 for every candidate folder, plan-37-A § 3 rule 3) |
+| MC74F378D | onsemi | 74_378 | `register` / Logic → Registers | no onsemi data sheet (onsemi.com answers "notFound" for it; DigiKey links a Rochester copy or the missing sheet) |
+| SN74LS379N | TI | 74_379 | `register` / Logic → Registers | no TI product folder (ti.com/product/<folder> 404 for every candidate folder, plan-37-A § 3 rule 3) |
+| SN54HC534J, SN74AS534DW, SN74AS534DWR, SN74F534ADWR, SN74F534AN, SNJ54ALS534FK, SNJ54F534FK | TI | 74_534 | `register` / Logic → Registers | no TI product folder (ti.com/product/<folder> 404 for every candidate folder, plan-37-A § 3 rule 3) |
+| MC74HC534AN | onsemi | 74_534 | `register` / Logic → Registers | no onsemi data sheet (onsemi.com answers "notFound" for it; DigiKey links a Rochester copy or the missing sheet) |
+| SN74HCT564N | TI | 74_564 | `register` / Logic → Registers | no TI product folder (ti.com/product/<folder> 404 for every candidate folder, plan-37-A § 3 rule 3) |
+| MC74HCT574ADT, MC74HCT574ADTR2G, MC74HCT574ADWR2G | onsemi | 74_574 | `dff` / Logic → Flip-flops & latches | no onsemi data sheet (onsemi.com answers "notFound" for it; DigiKey links a Rochester copy or the missing sheet) |

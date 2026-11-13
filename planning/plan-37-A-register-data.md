@@ -262,60 +262,90 @@ lookups done for each cut piece; `awk -F'\t' '$6=="in"' candidates.tsv | wc -l`
 recorded here (planning: 472) (est. 25 min, the API pace).
 Observed: `cut at 300` → **0**; in-scope rows → **473**.
 
-Commit: —
+Commit: a1e355f
 
 ### Phase 2 — Datasheets
 
-- [ ] Write `census/nxget.py` (curl_cffi, `impersonate="chrome"`; usage
+- [x] Write `census/nxget.py` (curl_cffi, `impersonate="chrome"`; usage
       `nxget.py <url> <out.pdf>`; prints status, type, bytes; exit 1 unless
       the body starts with `%PDF-`) and `census/fetch.py` (one PDF per
       distinct source of § 3 rule 3, into `datasheets/register/` or
       `datasheets/ff-d/` by the row's `kind`, file name = the URL's last
       path part in lower case; writes `planning/plan-37-data/datasheets.tsv`:
       `file url bytes sha256`). TI and onsemi with `curl -sL`, Nexperia
-      with `nxget.py`, 1 s apart per host.
-- [ ] Fill `pdf` on every in-scope row, or `verdict` `skip` with its reason.
-- [ ] A file name that already exists in the target directory with
+      with `nxget.py`, 1 s apart per host. (Downloads are cached in
+      `/tmp/p37/dl`, probes in `/tmp/p37/fetch-cache.json`; files with
+      equal bytes are kept once. Rule-3 additions: § Corrections.)
+- [x] Fill `pdf` on every in-scope row, or `verdict` `skip` with its reason:
+      448 rows with a `pdf`, 25 `skip` (TI 12, onsemi 12, Nexperia 1);
+      129 PDFs fetched (`fetch.py: 129 PDFs, 448 rows with pdf, 25 skip`).
+- [x] A file name that already exists in the target directory with
       different bytes is a stop: compare the two revisions' ordering tables
-      and keep the newer (the plan-35 rule).
+      and keep the newer (the plan-35 rule). — no such file (`fetch.py`
+      prints `STOP` for one; none printed; every fetched name was new).
+- [x] Delete the PDFs no `add` row names after Phase 3 (added task, §
+      Corrections): `register/74alvch16374.pdf`,
+      `register/74lvc_lvch16374a_q100.pdf`, `register/mc74lcx16374-d.pdf`;
+      126 PDFs left in `datasheets.tsv`.
 
 Check: `awk -F'\t' '$6=="in" && $19!="out" && $17=="" && $19!="skip"' candidates.tsv | wc -l` → 0;
 `for f in $(cut -f1 planning/plan-37-data/datasheets.tsv | tail -n +2); do head -c5 datasheets/*/$f; done | grep -vc '%PDF-'` → 0 (est. 20 min).
+Observed: the first command → **0**; the `%PDF-` count → **0** (the
+`file` column holds `<group>/<name>`, so the loop reads `datasheets/$f`);
+`pdfinfo` opens every one of the 126.
 
-Commit: —
+Commit: (this commit)
 
 ### Phase 3 — Ordering-table verdicts
 
-- [ ] Write `census/verdicts.py`: `pdftotext -layout` each PDF once; apply
+- [x] Write `census/verdicts.py`: `pdftotext -layout` each PDF once; apply
       § 3 rules 4–5 per row; fill `ordering` (the matching table line,
-      whitespace collapsed) and `verdict`.
-- [ ] Hand-check one row per maker per verdict value against the PDF page
-      and record the six (maker, part, page) here.
-- [ ] Flags for D–F, from the ordering table: `military` + `ceramic` for
+      whitespace collapsed) and `verdict`. Result: **382 add** (TI 189,
+      onsemi 94, Nexperia 99), **66 out** (TI 31, onsemi 18, Nexperia 17:
+      62 not in the ordering table, 3 obsolete, 1 NRND), 25 skip.
+      TI's tables print `Last` for Last Time Buy (§ Corrections).
+- [x] Hand-check one row per maker per verdict value against the PDF page
+      and record the six (maker, part, page) here:
+      TI add SN74LS173AN (`register/sn54173.pdf` p.11, PACKAGING
+      INFORMATION `SN74LS173AN Active … PDIP (N) | 16`); TI out CD74HC377M
+      (`register/cd54hct377.pdf` p.9–10, `CD74HC377M Obsolete`); Nexperia
+      add 74HC173D,652 (`register/74hc_hct173.pdf` p.1 Table 1 `74HC173D …
+      SO16`); Nexperia out 74HC377DB,112 (`register/74hc_hct377.pdf` p.1
+      Table 1 lists D and PW only, no DB); onsemi add MC74HC374ADWR2G
+      (`ff-d/mc74hc374a-d.pdf` p.8 `MC74HC374ADWR2G HC374A SOIC-20 Wide`);
+      onsemi out MC74AC273DT (`ff-d/mc74ac273-d.pdf` p.6 lists DWG, DWR2G,
+      DTR2G only).
+- [x] Flags for D–F, from the ordering table: `military` + `ceramic` for
       SNJ54, SN54…J/W/FK, CD54…F, `5962-`, `JM38510/`, `8400102RA`;
       `automotive` for `-Q1`, `-Q100`, `NLV`. Record them in the `grade`
-      column (`military` / `automotive` / empty).
+      column (`military` / `automotive` / empty). Result: in-scope rows
+      military 25 (19 add), automotive 19 (19 add).
 
 Check: `cut -f19 planning/plan-37-data/candidates.tsv | sort | uniq -c` →
 no empty value on an in-scope row (est. 15 min).
+Observed: in scope `add` 382, `out` 66, `skip` 25 (473); no empty value.
 
-Commit: —
+Commit: (this commit)
 
 ### Phase 4 — Records
 
-- [ ] `datasheets/skipped-parts.md`: a `## Registers (plan-37)` section
+- [x] `datasheets/skipped-parts.md`: a `## Registers (plan-37)` section
       (date, the census command) with one table row per (`skip` reason,
       device): part names, device, "`register` / Logic → Registers" or
-      "`dff` / Logic → Flip-flops & latches", why.
-- [ ] Every PDF whose in-scope rows are all `out` for `obsolete` / `nrnd`:
+      "`dff` / Logic → Flip-flops & latches", why. (Written by
+      `verdicts.py --skipped`: 25 rows in 11 table rows.)
+- [x] Every PDF whose in-scope rows are all `out` for `obsolete` / `nrnd`:
       delete it, drop its `datasheets.tsv` line, add a row to
       `datasheets/obsolete-not-included.md` (PDF, family `register` or
-      `dff`, group, note with the URL).
+      `dff`, group, note with the URL). — none: no PDF has only obsolete /
+      NRND rows (the 4 obsolete / NRND rows share their PDFs with `add`
+      rows), so `obsolete-not-included.md` is unchanged.
 
 Check: `python3 -I census/verdicts.py --verify-records` → `0 skip rows
 missing from skipped-parts.md, 0 obsolete PDFs left` (est. 2 min).
+Observed: `0 skip rows missing from skipped-parts.md, 0 obsolete PDFs left`.
 
-Commit: —
+Commit: (this commit)
 
 ## Decisions
 
@@ -373,6 +403,53 @@ Author's decisions:
   `CY74FCT2574…` rows (device '2574, not in the list) stay
   `out:keyword-noise` (= `not in device list`). Counts: D gains one row
   (74_173 17), A § 2's 472 / 272 / TI 228 become 473 / 273 / TI 229.
+- **2026-11-13, Phase 2 — rule 3's TI folder search reaches more folders.**
+  The prefix rule ("longest prefix down to the device number") misses
+  folders TI names otherwise: `CY74FCT<n>T` for CY74FCT…A/B/C…T parts,
+  `SN74…[A]` for unprefixed `74LVCH16374ADGVRE4`, `SN74LVTH16374-EP` for
+  `CLVTH16374IDLREP`, the `A`/`B` revision folder for parts named without
+  it (`SN74ABT377N` → `SN74ABT377A`), and `SN54…` for `SNJ54…` (no SNJ54
+  page exists: `ti.com/product/SNJ54LS173A` → 404, `SN54LS173A` → 200).
+  `fetch.py` `ti_prefixes` tries these after the prefixes (probes:
+  `CY74FCT377T`, `CY74FCT821T`, `CY74FCT823T`, `CY74FCT825T`,
+  `CY74FCT16374T`, `SN74LVCH16374A`, `SN74LVTH16374-EP`, `SN74ABT377A`,
+  `SN74ABT534A` → 200). A folder page whose symlink PDF is missing
+  (`sn74hc377a.pdf` → not a PDF) falls through to the next folder. The
+  ordering table (rule 4) still decides each row.
+- **2026-11-13, Phase 2 — rule 3's sources for Rochester-linked rows.**
+  Nexperia product pages are rendered by script and name no PDF
+  (`nxget.py https://www.nexperia.com/product/74HC173D -` → 100535 bytes,
+  no `.pdf` link), so a Nexperia row whose DigiKey link is a Rochester copy
+  takes the `assets.nexperia.com` URL of another row of the same device and
+  family (a `_Q100` sheet only for `-Q100` parts), else Nexperia's sheet
+  names (`74HC_HCT173.pdf`, `74LVC377.pdf`, `74ALVCH16823.pdf` …). onsemi:
+  `onsemi.com/download/data-sheet/pdf/<stem>-d.pdf`, then another row's
+  sheet of the same device and family (onsemi answers its "notFound" page,
+  HTML, for a missing sheet: `mc74hct273a-d.pdf`, `mc74hc534a-d.pdf`,
+  `mc74f378-d.pdf`).
+- **2026-11-13, Phase 3 — TI status `Last`, onsemi `X` suffix.** TI's
+  PACKAGING INFORMATION tables now print `Last` (Last Time Buy) where the
+  plan says `LIFEBUY` (`sn54als576b.pdf`: `SN74ALS576BDWR Last
+  Production`); `verdicts.py` keeps `Last` as rule 5 keeps LIFEBUY.
+  Fairchild-heritage onsemi sheets list the tube part and say "Specify by
+  appending the suffix letter “X” to the ordering code" for tape and reel
+  (`74vhc273-d.pdf`, `74lcx374-d.pdf`): an `…X` part whose base is listed
+  in such a sheet is in its ordering table.
+- **2026-11-13, Phase 3 — no 74_670 part.** Both in-scope '670 rows are
+  `out`: `sn74ls670.pdf`'s PACKAGING INFORMATION lists SN74LS670D, N and
+  NSR only, not SN74LS670N3 or SN74LS670NS. D adds no `mux` part (D §
+  Corrections).
+- **2026-11-13, Phase 2 — unused PDFs deleted (added task).** Three
+  fetched PDFs are named by no `add` row (their only rows are not in their
+  ordering tables): `74alvch16374.pdf`, `74lvc_lvch16374a_q100.pdf`,
+  `mc74lcx16374-d.pdf`. They are not obsolete (so not in
+  `obsolete-not-included.md`); they are deleted so no PDF is in the tree
+  without a part.
+- **Counts after A** (`awk -F'\t' '$19=="add"' candidates.tsv`): D 153
+  `register` rows (TI 129, Nexperia 16, onsemi 8; 17 devices) and 0 `mux`;
+  E 67 (TI 60, Nexperia 5, onsemi 2; 9 devices); F 162 (onsemi 84,
+  Nexperia 78; 6 devices). The four new footprints keep users: DHVQFN-20
+  9, DHVQFN-24 1, DQFN-20-ONSEMI 1, TSSOP-64 1.
 
 ## Summary
 
