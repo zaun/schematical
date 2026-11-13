@@ -10,8 +10,10 @@ final class PartEditorWindowTests: XCTestCase {
 
     /// (a) Every kind has a form (plan-32-J Phase 4: all 26 enabled).
     func testEnabledKinds() {
-        // capacitor (plan-33) is the 27th kind and has no form (plan-33-A § Decisions).
-        XCTAssertEqual(PartDraft.enabledKinds, PartDraft.kindNames.filter { $0 != "capacitor" })
+        // capacitor (plan-33) is the 27th kind and resistor (plan-34) the 28th; neither has a
+        // form (plan-33-A § Decisions, plan-34-G § Decisions).
+        XCTAssertEqual(PartDraft.enabledKinds,
+                       PartDraft.kindNames.filter { $0 != "capacitor" && $0 != "resistor" })
         XCTAssertEqual(PartDraft.enabledKinds.count, 26)
     }
 
@@ -24,7 +26,7 @@ final class PartEditorWindowTests: XCTestCase {
             .filter { $0.hasSuffix(".json") && $0 != "footprints.json" && $0 != "datasheets.json" }
             .map { String($0.dropLast(".json".count)) }
             .sorted()
-        XCTAssertEqual(files.count, 27)
+        XCTAssertEqual(files.count, 28)
         XCTAssertEqual(PartDraft.kindNames, files)
         for kind in PartDraft.kindNames {
             XCTAssertNotEqual(PartDraft.displayName(of: kind), kind, "no display name for \(kind)")

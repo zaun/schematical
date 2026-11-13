@@ -32,8 +32,9 @@ plan-34-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-34-E complete | `ls planning/completed/plan-34-E-*.md` → exists | NOT MET at writing (2026-11-11) |
-| The `resistor` kind loads | `grep -c 'RESISTOR_KIND' backend/src/library/kinds.c` → 1 | NOT MET at writing |
+| plan-34-E complete | `ls planning/completed/plan-34-E-*.md` → exists | MET (2026-11-13: `planning/completed/plan-34-E-resistor-kind.md`) |
+| The `resistor` kind loads | `grep -c 'RESISTOR_KIND' backend/src/library/kinds.c` → 1 | MET (2026-11-13: 2, the `extern` line and the `KINDS[]` line; the row meant "is in the table") |
+| Phase 2 only: plan-34-D complete | `ls planning/completed/plan-34-D-*.md` → exists | NOT MET (2026-11-13; § Corrections 1) |
 
 Everything below is written against the world where these hold.
 
@@ -116,13 +117,27 @@ owner's decision). No tolerance, no power, no datasheet.
 
 ### Phase 1 — The generator and GENERIC-RESISTOR
 
-- [ ] `planning/plan-34-data/census/gen-parts.py` (§ 3; plan-29's copy):
+- [x] `planning/plan-34-data/census/gen-parts.py` (§ 3; plan-29's copy):
       `--generic-only` writes `resistor.json` with only § 3.3's device.
-- [ ] Load it: `listing_check` lists `GENERIC-RESISTOR`; regenerate
-      `parts.txt` and `traces.txt` (`docs/backend.md` § Tests).
+      Run: `gen-parts: …/Parts/resistor.json: 1 device, 1 part (GENERIC-RESISTOR)`.
+- [x] Load it: `listing_check` lists `GENERIC-RESISTOR`; regenerate
+      `parts.txt` and `traces.txt` (`docs/backend.md` § Tests). `git diff
+      --stat backend/tests/golden` → `parts.txt | 1 +`, `traces.txt | 1 +`;
+      the line: `GENERIC-RESISTOR|resistor|Axial|Resistors|Generic|||resistors=1
+      milliohms=1000000 tol=0 power=0|1:1:inout:default,2:2:inout:default|mfr=Generic|footprint=RES-AXIAL-10.16|choices=0402:RES-0402,…`.
+- [x] (added) The app's kind lists: `"resistor"` in `PartKinds.all` and
+      `displayNames` ("Resistor", `Editor/KindSchema.swift`), `PART_RESISTOR`
+      in `PartKinds.name(of:)` (`Editor/BundledPartFile.swift`), and
+      `PartEditorWindowTests`: 28 part files, `resistor` excluded from the
+      enabled kinds like `capacitor` (no form, plan-34-G § Decisions).
+      `testKindNamesAreThePartFiles` compares the kinds with the
+      `Parts/*.json` files, so it fails once `resistor.json` exists.
+      Check: `xcodebuild … test -only-testing:schematicalTests/PartEditorWindowTests`
+      → `Executed 5 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 
 Acceptance: the generic part loads and lists.
   Check: `cmake --build /tmp/logic-p34 -j8 && ctest --test-dir /tmp/logic-p34 -R 'listing_check|trace_check|library_check'` → 3 passed; `grep -c '^GENERIC-RESISTOR|resistor|' backend/tests/golden/parts.txt` → 1 (est. 3 min).
+  Result (2026-11-13, `/tmp/logic-p34-wt`): `100% tests passed, 0 tests failed out of 3`; 1; `parts.txt` 27829 lines (P0 27828 + 1).
 Commit: —
 
 ### Phase 2 — Every part, footprints, datasheets
@@ -168,7 +183,13 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. **Phase 1 runs before B–D (2026-11-13).** Phase 1 reads no census
+   output: § 3.3's device is fixed. It needs only E's kind, so it ran once
+   E was archived, while plan-34-A's DigiKey runs went on. Phase 2 still
+   needs C's and D's footprints and B's `add` rows. Its gate is the added
+   "Phase 2 only" Prerequisites row. Golden counts: P0 is 27828 at
+   942e3e4 (not 26729), so after Phase 1 `parts.txt` = 27829, and Phase 2's
+   target is 27829 + N.
 
 ## Summary
 

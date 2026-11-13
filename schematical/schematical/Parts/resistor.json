@@ -1,0 +1,71 @@
+{
+ "format": "schematical-parts",
+ "version": 1,
+ "kind": "resistor",
+ "devices": [
+  {
+   "id": "resistor-generic",
+   "function": "Generic",
+   "description": "Generic resistor",
+   "drawer": [
+    "Resistors"
+   ],
+   "pinouts": {
+    "two-pin": [
+     {
+      "number": 1,
+      "name": "1",
+      "role": "inout"
+     },
+     {
+      "number": 2,
+      "name": "2",
+      "role": "inout"
+     }
+    ]
+   },
+   "resistors": [
+    {
+     "a": "1",
+     "b": "2"
+    }
+   ],
+   "parts": [
+    {
+     "name": "GENERIC-RESISTOR",
+     "manufacturer": "Generic",
+     "package": "Axial",
+     "pinout": "two-pin",
+     "footprint": "RES-AXIAL-10.16",
+     "footprintChoices": [
+      {
+       "package": "0402",
+       "footprint": "RES-0402"
+      },
+      {
+       "package": "0603",
+       "footprint": "RES-0603"
+      },
+      {
+       "package": "0805",
+       "footprint": "RES-0805"
+      },
+      {
+       "package": "1206",
+       "footprint": "RES-1206"
+      },
+      {
+       "package": "Axial",
+       "footprint": "RES-AXIAL-10.16"
+      },
+      {
+       "package": "Radial",
+       "footprint": "RES-RADIAL-2.54"
+      }
+     ],
+     "ohms": 1000
+    }
+   ]
+  }
+ ]
+}
