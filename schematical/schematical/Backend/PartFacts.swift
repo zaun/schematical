@@ -171,6 +171,7 @@ nonisolated enum PartFacts {
         case PART_RTC: return "RTC"
         case PART_DIODE: return "Diode"
         case PART_CAPACITOR: return "Capacitor"
+        case PART_REGISTER: return "Register"
         default: return ""
         }
     }
