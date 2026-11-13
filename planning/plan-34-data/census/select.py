@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """plan-34 census: pick the resistors to add from the top.js listings.
 
-usage: python3 -I select.py <raw dir> <candidates.tsv> [--verdicts <tsv>] [--report]
+usage: python3 -I select.py <raw dir> <candidates.tsv> [--verdicts <tsv>] [--stock <tsv>] [--report]
+
+--stock: plan-34-A § 5 rule 2's part-by-part check (stock-check.tsv: mpn,
+found, stock, status, date). A row with found 0 is out, reason 'stock check',
+before rule 2.
 
 --verdicts: plan-34-B's datasheet verdicts, a TSV with columns mpn, verdict
 (add | skip), reason, datasheet (the PDF path). A skip row is never picked
@@ -111,6 +115,15 @@ def main():
         path = sys.argv[sys.argv.index('--verdicts') + 1]
         for v in csv.DictReader(open(path), delimiter='\t'):
             verdicts[v['mpn']] = v
+    stock = {}
+    if '--stock' in sys.argv:
+        path = sys.argv[sys.argv.index('--stock') + 1]
+        for v in csv.DictReader(open(path), delimiter='\t'):
+            stock[v['mpn']] = v
+    for r in rows:
+        s = stock.get(r['mpn'])
+        if r['decision'] == 'candidate' and s and s['found'] != '1':
+            r['decision'], r['reason'] = 'out', 'stock check'
     for r in rows:
         v = verdicts.get(r['mpn'])
         r['pdf'] = v['datasheet'] if v else ''
@@ -175,6 +188,9 @@ def main():
             cat = os.path.basename(err)[:2]
             stem = os.path.basename(err)[:-4]
             for line in open(err):
+                f = re.match(r'piece (.*): failed: (.*)', line)
+                if f:
+                    print(f"FAILED PIECE {os.path.basename(err)} {f.group(1)}: {f.group(2)[:120]}")
                 m = re.match(r'piece (.*): 300 of (\d+) \(cut at 300: (\d+)\)', line)
                 if m and '-re-' not in stem and any(
                         l == m.group(1) or l.startswith(m.group(1) + '/') for l in relisted.get(stem, [])):

@@ -197,7 +197,7 @@ Commit: 6adaadf
 Acceptance: the pulls are unchanged and the app builds.
   Check: the Phase 1 build → `** BUILD SUCCEEDED **`, then `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p34-dd test -only-testing:schematicalTests/PullResistorTests -only-testing:schematicalTests/BillOfMaterialsTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 5 min).
   Result (2026-11-13): `** BUILD SUCCEEDED **`; `Executed 14 tests, with 0 failures` (10 + 4), `** TEST SUCCEEDED **`.
-Commit: —
+Commit: 1c6929f
 
 ### Phase 3 — Tests and the harness
 

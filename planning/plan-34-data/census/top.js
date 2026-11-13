@@ -12,6 +12,15 @@
 // with the fields select.py reads; the summary per piece goes to stderr as
 //   piece <tolerance>[/<package>]: <listed> of <count> (cut at 300: <stock of the 300th>)
 // Credentials: DIGIKEY_CLIENT_ID / DIGIKEY_CLIENT_SECRET in the environment.
+//
+// Resume (plan-34-A § Corrections 2): when <out>.resume exists (a copy of a
+// cut run's .err), its finished pieces are not asked again: their lines are
+// printed as they were, and <out.jsonl> is appended to (its part numbers
+// kept). Only the pieces still to split cost calls.
+// A piece DigiKey refuses with HTTP 400 is written as
+//   piece <label>: failed: HTTP 400 …
+// and the run goes on (one series answers "Parametric Filtering Not Support
+// at Parent Category Level", plan-34-A § Corrections 2).
 'use strict';
 
 const fs = require('fs');
@@ -87,6 +96,9 @@ async function search(filt, offset, retried) {
       if (r.status === 401 && !retried) { tok = await token(true); return search(filt, offset, true); }
       const text = await r.text();
       if (r.status === 429) throw Object.assign(new Error(`rate limited: ${text}`), { fatal: true });
+      if (r.status === 400) {
+        throw Object.assign(new Error(`HTTP 400: ${text.slice(0, 200)}`), { fatal: true, refused: true });
+      }
       if (!r.ok) throw new Error(`HTTP ${r.status}: ${text.slice(0, 200)}`);
       return JSON.parse(text);
     } catch (e) {
@@ -97,8 +109,21 @@ async function search(filt, offset, retried) {
   }
 }
 
-const out = fs.createWriteStream(outFile);
+const resumeFile = outFile.replace(/\.jsonl$/, '') + '.resume';
+const done = new Map();   // piece label -> its summary line, from <out>.resume
 const seen = new Set();
+if (fs.existsSync(resumeFile)) {
+  for (const line of fs.readFileSync(resumeFile, 'utf8').split('\n')) {
+    const m = /^piece (.*): (\d+ of \d+.*)$/.exec(line);
+    if (m) done.set(m[1], line);
+  }
+  if (fs.existsSync(outFile)) {
+    for (const line of fs.readFileSync(outFile, 'utf8').split('\n')) {
+      if (line) seen.add(JSON.parse(line).mpn);
+    }
+  }
+}
+const out = fs.createWriteStream(outFile, { flags: done.size ? 'a' : 'w' });
 
 function emit(p, piece) {
   const key = p.ManufacturerProductNumber;
@@ -131,7 +156,18 @@ function facetValues(page, split) {
 }
 
 async function piece(label, filt, used) {
-  const first = await search(filt, 0);
+  if (done.has(label)) {
+    console.error(done.get(label));
+    return;
+  }
+  let first;
+  try {
+    first = await search(filt, 0);
+  } catch (e) {
+    if (!e.refused) throw e;
+    console.error(`piece ${label}: failed: ${e.message.replace(/\s+/g, ' ')}`);
+    return;
+  }
   const count = first.ProductsCount || 0;
   if (count > CAP) {
     for (let i = 0; i < SPLITS.length; i++) {
