@@ -1,0 +1,37 @@
+import CoreGraphics
+import Foundation
+import XCTest
+@testable import schematical
+
+@MainActor
+final class ZZRouteProbeTests: XCTestCase {
+    func testDump() throws {
+        for name in ["AFU", "LFU", "RegFile"] {
+            let url = URL(fileURLWithPath: "/tmp/route-probe/\(name).schematical")
+            let data = try Data(contentsOf: url)
+            let doc = TestSupport.newDocument()
+            try SchematicFile.decode(data).apply(to: doc, catalog: TestSupport.catalog, fileURL: nil)
+            let c = doc.connectivity()
+            var pads: [[String: Any]] = []
+            for (i, p) in c.pads.enumerated() {
+                pads.append(["i": i, "label": p.label, "x0": p.pad.rect.minX, "y0": p.pad.rect.minY,
+                             "x1": p.pad.rect.maxX, "y1": p.pad.rect.maxY, "drill": p.pad.drill,
+                             "plated": p.pad.plated, "side": p.side.rawValue,
+                             "net": c.netOfPad[i] ?? -1, "root": c.root[i], "round": p.pad.shape == .round])
+            }
+            let rules = DesignRules.customDefault
+            let out: [String: Any] = [
+                "pads": pads, "outline": doc.board.outline.map { [$0.x, $0.y] },
+                "layers": doc.board.layers, "w": doc.board.width, "h": doc.board.height,
+                "minClearance": rules.minClearance, "minTrace": rules.minTraceWidth,
+                "minViaDrill": rules.minViaDrill, "minViaDia": rules.minViaDiameter,
+                "minEdge": rules.minCopperToEdge, "traces": c.traces.count, "vias": c.vias.count,
+                "unrouted": doc.ratsnest().count,
+                "layerTypes": doc.board.copperLayers.map { "\($0.rawValue):\(doc.board.style(of: $0).type.rawValue)" },
+            ]
+            let d = try JSONSerialization.data(withJSONObject: out)
+            try d.write(to: URL(fileURLWithPath: "/tmp/route-probe/\(name).json"))
+            print("PROBE \(name) pads \(pads.count) unrouted \(doc.ratsnest().count) drc \(doc.designRuleCheck(rules: rules).count)")
+        }
+    }
+}

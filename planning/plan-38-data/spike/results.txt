@@ -1,0 +1,32 @@
+Fixtures (planning/plan-38-data/fixtures, sha256 in SHA256SUMS), measured by
+DumpScene at cb6259f with the working-tree copies of 2026-11-13:
+
+            pads  pads-on-a-net  nets  layers  unrouted(ratsnest)  DRC issues
+AFU          177       169         54     2          115               131
+LFU          254       247         59     2          188               188
+RegFile      116        32          8     2           24                32
+(DRC rules: Settings > DRC Defaults "Custom" = PCBWay: clearance 0.1, trace 0.1,
+via 0.5 / drill 0.2, copper-to-edge 0.25. 0 traces, 0 vias, 0 through-hole pads on
+all three; LFU: 201 net pads on Top, 46 on Bottom; two nets have 42 and 28 pads.)
+
+router-v1 (no rip-up), trace 0.254 mm:
+ AFU pitch 0.127 short:  113/115 (98.3%)  0.32 s   | pitch 0.1:  90/115 (78.3%) 0.83 s | pitch 0.05: 85/115 (73.9%) 2.11 s
+ AFU pitch 0.127 short(2nd run) 109/115 (94.8%) 0.63 s; long 103/115 (89.6%) 0.37 s; fewest 94/115 (81.7%) 1.38 s
+ AFU pitch 0.127 trace 0.2 short: 104/115 (90.4%) 0.38 s
+ LFU pitch 0.127 short: 89/188 (47.3%) 1.89 s; long 144/188 (76.6%) 1.02 s; trace 0.2 short 99/188 (52.7%) 1.44 s
+ RegFile pitch 0.127 short: 12/24 (50.0%) 0.51 s  (cause: the prototype blocks cells within the
+   copper-to-edge distance of the outline even inside a pad; the DRC exempts edge fingers
+   (DesignRuleCheck.swift checkEdge), so the router must too)
+
+router-v2 (whole-net rip-up and reroute), pitch 0.127:
+ AFU trace 0.254 short: 115/115 (100%) 1.21 s, 125 vias   | long: 115/115 (100%) 1.52 s, 156 vias
+ AFU trace 0.254 big:   115/115 (100%) 1.03 s, 136 vias
+ LFU 10 runs: 26.1% .. 67.6% of 188 (49 .. 127 connections), 9.1 .. 10.7 s each, 2-4 nets dropped
+   per run. 127/188 (67.6%) is the best; the two rail nets hold 41 + 27 = 68 of the 188
+   connections (188 - 68 = 120 connections are on the other 57 nets), so the failures are the
+   rails, which the prototype drops whole (a failed net keeps no connection).
+
+Connections per net (pad groups of a net minus 1; python over the DumpScene json):
+ AFU 115 connections on 53 nets, largest 26, 20, 9, 3, 2, 2; 41 nets are two-pin (1 connection)
+ LFU 188 connections on 59 nets, largest 41, 27, 10, 4, 4, 4; 38 nets are two-pin
+ RegFile 24 connections on 8 nets, each 3
