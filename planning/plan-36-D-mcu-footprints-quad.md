@@ -104,7 +104,7 @@ plan-36-A § Prerequisites, plus:
 Acceptance: every AVR quad/grid code has a footprint, and the new ones load.
   Check: `awk -F'\t' '$2~/^(quad|drqfn|plcc|grid)$/ && $6==""' planning/plan-36-data/package-codes.tsv | wc -l` → 0 except the RP2040 row; `fp-load.sh footprints-C.json footprints-D.json` → only `extra` / `unused` lines (est. 4 min).
   Result 2026-11-13: `0` (the RP2040 row is filled too, Phase 2); `42 new footprints: load ok`.
-Commit: —
+Commit: 1c07731
 
 ### Phase 2 — RP2040
 
@@ -118,7 +118,7 @@ Commit: —
 Acceptance: all D codes have footprints, and they load.
   Check: `awk -F'\t' '$2~/^(quad|drqfn|plcc|grid)$/ && $6==""' planning/plan-36-data/package-codes.tsv | wc -l` → 0; `fp-load.sh footprints-C.json footprints-D.json` → only `extra` / `unused` lines (est. 3 min).
   Result 2026-11-13: `0`; `42 new footprints: load ok`.
-Commit: —
+Commit: 1c07731
 
 ## Validation Plan
 
