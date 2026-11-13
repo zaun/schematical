@@ -26,6 +26,7 @@ KIND_FILES = {
     "converter": ["converter.c", "converter_load.c", "converter_par.c"],
     "rtc": ["rtc.c", "converter_load.c", "converter_par.c"],
     "diode": ["diode.c"], "header": ["header.c"],
+    "register": ["register.c", "seq.c"],
 }
 
 NAMES = {

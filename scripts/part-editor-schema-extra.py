@@ -10,6 +10,28 @@ CV_EXTRA = [
     ("device", "i2c", ("object", [("scl", ("pin",), True), ("sda", ("pin",), True)]), ["bus"]),
     ("device", "wordBits", ("integer",), ["protocol", "commands"]),
 ]
+_CONTROL = [("active", ("choice", ["high", "low"]), True), ("pin", ("pin",), True)]
+_CONTROLS = ("oneOf", [("object", _CONTROL), ("list", _CONTROL)])
+REGISTER_EXTRA = [
+    ("device", "model", ("choice", ["parallel"]), []),
+    ("device", "groups", ("list", [
+        ("ce", _CONTROLS, False),
+        ("clear", ("object", _CONTROL + [("when", ("choice", ["async", "clock"]), True)]), False),
+        ("clk", ("object", [("edge", ("choice", ["rising", "falling"]), True), ("pin", ("pin",), True)]), True),
+        ("d", ("pins",), True),
+        ("outputs", ("list", [("invert", ("bool",), False), ("oe", _CONTROLS, False), ("q", ("pins",), True)]),
+         True),
+    ]), []),
+    ("device", "timing", ("map", "Name", [
+        ("fall", ("number", "ns"), True), ("inputMax", ("number", "V"), False), ("note", ("note",), False),
+        ("rise", ("number", "ns"), True), ("vcc", ("voltRange",), False),
+    ]), []),
+    ("part", "family", ("suggested", ["ABT", "AC", "ACT", "AHC", "AHCT", "ALS", "ALVC", "ALVT", "AS", "AUC", "AVC",
+                                      "C", "F", "FCT", "HC", "HCT", "LCX", "LS", "LVC", "LVT", "LVX", "TTL", "VHC",
+                                      "VHCT"]), []),
+    ("part", "vcc", ("voltRange",), []),
+    ("part", "inputMax", ("number", "V"), []),
+]
 EXTRA = {
     # mux.c DEVICE_KEYS / seq_output_style: every model takes "output".
     "mux": [("device", "output", OUTPUT, [])],
@@ -47,6 +69,10 @@ EXTRA = {
     # charlcd.c DEVICE_KEYS and PART_KEYS "vcc", "inputMax".
     "charlcd": [("device", "inputMax", ("number", "V"), []), ("part", "vcc", ("voltRange",), []),
                 ("part", "inputMax", ("number", "V"), [])],
+    # register.c (plan-37-C): every device and part key, since register.json
+    # ships no part yet; plan-37-G regenerates from the shipped parts and
+    # keeps only what they do not use.
+    "register": REGISTER_EXTRA,
     # oscillator.c DEVICE_KEYS and PART_KEYS "inputMax".
     "oscillator": [("device", "inputMax", ("number", "V"), []), ("part", "inputMax", ("number", "V"), [])],
 }

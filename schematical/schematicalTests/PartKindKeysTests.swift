@@ -27,6 +27,7 @@ final class PartKindKeysTests: XCTestCase {
         "charlcd": ["charlcd.c"], "connector": ["connector.c"],
         "converter": ["converter.c", "converter_load.c"], "rtc": ["rtc.c", "converter_load.c"],
         "diode": ["diode.c"], "header": ["header.c"],
+        "register": ["register.c", "seq.c"],
     ]
 
     static var models: URL {

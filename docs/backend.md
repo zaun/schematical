@@ -366,6 +366,11 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   real ones), plus loader errors and the open-drain answer. Its bench,
   `tests/support/bench.{h,c}`, drives any part's input pins by name and is
   shared by the sequential kinds' tests.
+- `register_test` — the `register` kind's `parallel` model (plan-37-C):
+  one case per function-table row of each device shape (inline fixture
+  devices with TI's pin names: 74_173, 377, 379, 534, 575, 823, 16820,
+  16823), the X rules, loader errors and the five plan-37 families; then
+  real parts from `register.json` (plan-37-D, E).
 - `mux_test` — the `mux` kind's models (plan-21-B, C): the function-table
   rows of each device shape (inline fixture devices copied from the real
   ones in `planning/plan-21-data/specs.md`), the X rules, storage and the

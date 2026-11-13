@@ -32,6 +32,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_RTC: return "rtc";
         case PART_DIODE: return "diode";
         case PART_CAPACITOR: return "capacitor";
+        case PART_REGISTER: return "register";
     }
     return "?";
 }
@@ -65,6 +66,7 @@ static void print_details(FILE *out, const Part *part) {
         case PART_BUFFER:
         case PART_MUX:
         case PART_ARITH:
+        case PART_REGISTER:
             fprintf(out, "units=%u", part->logic->units);
             break;
         case PART_HEADER: {
@@ -234,7 +236,7 @@ char *listing_line(const Part *part) {
     int logic = part->kind == PART_GATE || part->kind == PART_DFF || part->kind == PART_JKFF ||
                 part->kind == PART_LATCH || part->kind == PART_COUNTER ||
                 part->kind == PART_SHIFT || part->kind == PART_BUFFER || part->kind == PART_MUX ||
-                part->kind == PART_ARITH;
+                part->kind == PART_ARITH || part->kind == PART_REGISTER;
 
     if (out == NULL) {
         return NULL;
