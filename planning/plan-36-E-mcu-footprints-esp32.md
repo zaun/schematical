@@ -97,7 +97,7 @@ plan-36-A § Prerequisites, plus:
 Acceptance: every module has a footprint whose pads match its pins, and the footprints load.
   Check: `python3 -I planning/plan-36-data/census/fp-pads-vs-pins.py planning/plan-36-data/footprints-E.json planning/plan-36-data/pinouts.tsv` → `0 mismatches`; the load → only `extra` / `unused` lines (est. 3 min).
   Result 2026-11-13: `21 (pinout, footprint) pairs, 0 mismatches`; `63 new footprints: load ok`. Coverage: `awk -F'\t' '$2=="module" && $6==""' package-codes.tsv | wc -l` → 0.
-Commit: —
+Commit: 88fa398
 
 ## Validation Plan
 
