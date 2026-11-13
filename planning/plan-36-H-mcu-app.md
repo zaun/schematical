@@ -51,8 +51,8 @@ plan-36-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-36-G complete | `ls planning/completed/plan-36-G-*.md` → exists | NOT MET (2026-11-12: plan written) |
-| The owner's uncommitted edits in the files H changes are committed | `git status --short schematical/schematical/ContentView.swift schematical/schematical/Simulation/SimulationCommands.swift schematical/schematical/Backend/PartCatalog.swift schematical/schematical/Backend/PartFacts.swift schematical/schematical/Preferences/ReferencePrefixes.swift schematical/schematical/Help/KeyboardHelp.swift schematical/schematical/Editor/KindSchema.swift schematical/schematical/Editor/BundledPartFile.swift schematical/schematicalTests/PartEditorWindowTests.swift schematical/schematicalTests/ReferencePrefixTests.swift` → empty | NOT MET (2026-11-12: `ContentView.swift` modified; `ReferencePrefixes.swift` and `ReferencePrefixTests.swift` untracked) |
+| plan-36-G complete | `ls planning/completed/plan-36-G-*.md` → exists | MET 2026-11-13 (f012511) |
+| The owner's uncommitted edits in the files H changes are committed | `git status --short schematical/schematical/ContentView.swift schematical/schematical/Simulation/SimulationCommands.swift schematical/schematical/Backend/PartCatalog.swift schematical/schematical/Backend/PartFacts.swift schematical/schematical/Preferences/ReferencePrefixes.swift schematical/schematical/Help/KeyboardHelp.swift schematical/schematical/Editor/KindSchema.swift schematical/schematical/Editor/BundledPartFile.swift schematical/schematicalTests/PartEditorWindowTests.swift schematical/schematicalTests/ReferencePrefixTests.swift` → empty | NOT MET (2026-11-13, the main tree against `main` 0fbc528: `ContentView.swift` modified; `ReferencePrefixes.swift` and `ReferencePrefixTests.swift` untracked, in no commit, so absent from the plan-36 worktree too; the other 7 files clean) |
 
 AGENTS.md: touch and commit only your own changes. H cannot edit a file
 that holds someone else's uncommitted work, so this row is a hard gate.
