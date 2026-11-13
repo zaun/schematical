@@ -281,11 +281,11 @@ Commit: 817e98b
 Acceptance: the existing tests pass with the goldens untouched.
   Check: `cmake --build /tmp/logic-p36 -j8 && ctest --test-dir /tmp/logic-p36 -R 'listing_check|trace_check|library_check|footprint_check'` → 4 passed; `git diff --stat backend/tests/golden` → empty (est. 3 min).
   Result 2026-11-13: `100% tests passed, 0 tests failed out of 4`; golden diff empty.
-Commit: —
+Commit: 418107b
 
 ### Phase 3 — `mcu_test`, loader cases, docs
 
-- [ ] `backend/tests/mcu_test.c` and `logic_test(mcu_test)` in
+- [x] `backend/tests/mcu_test.c` and `logic_test(mcu_test)` in
       `backend/CMakeLists.txt`. The fixture lives in
       `tests/support/mcu_fixture.h`: one device `TESTMCU`, core `avr`,
       clock 20000000, flash 32768, ram 2048, eeprom 1024, vcc [1.8, 5.5], a
@@ -294,21 +294,26 @@ Commit: —
       read back (clock 10000000 on the part, flash 32768, `simulated` 0);
       that the listing line ends `|unsimulated`; and that
       `circuit_add_part` returns -1 with `part "TESTMCU" is not simulated`.
-- [ ] `library_check.c`: one rejection per message of § 3.3: unknown core,
+      → 7 PASS: loads (8 pins), facts (clock 10000000 over the device's 20 MHz, flash 32768, ram 2048, eeprom 1024), vcc 1.8–5.5, `simulated` 0, the line `TESTMCU|mcu|TSSOP||8-bit MCU|||core=avr clock=10000000 flash=32768 ram=2048 eeprom=1024|…|footprint=TSSOP-8|vcc=1800-5500,in=5500|unsimulated`, the refusal `part "TESTMCU" is not simulated`, and a 5V part still added.
+- [x] `library_check.c`: one rejection per message of § 3.3: unknown core,
       clock 0, `simulated` missing, `simulated` true, a pinout with no
       ground, `missing "vcc"`.
-- [ ] `docs/parts-format.md`: `"simulated"` in § Devices (§ 3.1); `|
+      `check_mcu_cases`: a valid part (part clock and psram override) plus 6 `ok` lines: `unknown mcu core "z80"`, `"clock" must be above 0`, simulated missing and true (`an mcu has no simulation model: "simulated" must be false`), `an mcu pinout needs a ground pin`, `missing "vcc"`.
+- [x] `docs/parts-format.md`: `"simulated"` in § Devices (§ 3.1); `|
       mcu.json | mcu |` in the kind table (add the row only if absent:
       `grep -c '^| `mcu.json`' docs/parts-format.md` → 0 before); a `### mcu`
       section after `### cpu` with § 3.3's tables and § 3.4's voltage note;
       "microcontroller" in the first paragraph's list.
-- [ ] `docs/backend.md`: § Adding a kind gains one sentence (a kind with no
+      The `"simulated"` row, `| mcu.json | mcu |` (the grep gave 0 before), `### mcu` before `### serial` (after cpu's section) with the key tables and the voltage note, and "microcontroller" in the first list.
+- [x] `docs/backend.md`: § Adding a kind gains one sentence (a kind with no
       model sets `"simulated": false` on its devices and ships a passive
       model). The test list gains `mcu_test`. `circuit_check`'s entry names
       the refusal.
+      Plus `mcu_test` in the test list, `circuit_check`'s refusal, and `|unsimulated` in the listing-line format.
 
 Acceptance: T + 1 programs pass.
   Check: `cmake -S backend -B /tmp/logic-p36 && cmake --build /tmp/logic-p36 -j8 && ctest --test-dir /tmp/logic-p36` → `100% tests passed, 0 tests failed out of <T+1>` (est. 3 min).
+  Result 2026-11-13: `100% tests passed, 0 tests failed out of 33` (T = 32); `git diff --stat backend/tests/golden` empty; `ctest -N | grep -c mcu_test` → 1.
 Commit: —
 
 ## Validation Plan

@@ -1,7 +1,7 @@
 # Part file format
 
 Every orderable part (gate, flip-flop, latch, decoder, counter, shift register, SRAM, EEPROM, switch, LED,
-diode, capacitor, 7-segment display, character LCD module, oscillator, supply, microprocessor, serial controller) is described in a JSON part file in
+diode, capacitor, 7-segment display, character LCD module, oscillator, supply, microprocessor, microcontroller, serial controller) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
 | File | Kind |
@@ -33,6 +33,7 @@ diode, capacitor, 7-segment display, character LCD module, oscillator, supply, m
 | `header.json` | `header` |
 | `pio.json` | `pio` |
 | `capacitor.json` | `capacitor` |
+| `mcu.json` | `mcu` |
 
 Beside them, `datasheets.json` holds the datasheet URLs parts name with
 `"datasheet"` (see [Datasheets](#datasheets)), and `footprints.json` the land
@@ -92,6 +93,7 @@ parts that share them.
 | `"description"` | one line for people, e.g. `"Quad 2-input NAND gate"` |
 | `"drawer"` | the parts-drawer path above the function: 0–2 strings, e.g. `["Memory", "SRAM"]`. `[]` means the parts are never listed in the drawer (VCC, GND). Presentation only. |
 | `"note"` | optional; provenance (datasheet, table). The loader ignores it. |
+| `"simulated"` | optional, default `true`. `false` marks a device with no simulation model: its parts can be placed, wired, laid out and listed in the BOM, but a circuit refuses them (`circuit_add_part`: `part "<name>" is not simulated`), so a design holding one does not run. Any kind may set it; an `mcu` device must. |
 | `"pinouts"` | object: pinout name → array of pins (below); at least one |
 | `"parts"` | array of parts |
 
@@ -1472,6 +1474,50 @@ the commit at each PHI2 fall), plus:
 
 Not modeled: the read data hold `tDHR`; timing at supply columns other than
 5 V; the §7.4.1 ABORT exceptions (the snapshot restores every register).
+
+### `mcu`
+
+Microcontrollers (plan-36; `backend/src/models/mcu.c`): 8-bit AVR, ESP32
+modules, RP2040. **Facts only**: no model of the core or its peripherals,
+so every `mcu` device says `"simulated": false` and a circuit refuses its
+parts; the app disables Simulation › Run while one is placed. The engine
+model is passive (no callbacks, like `header`), so the kind needs no
+special case anywhere the engine is used directly.
+
+```json
+"simulated": false,
+"core": "avrxt", "clock": 24000000, "flash": 131072, "ram": 16384, "eeprom": 512,
+"vcc": [1.8, 5.5]
+```
+
+| Key | Value |
+|---|---|
+| `"simulated"` | required, `false` (`an mcu has no simulation model: "simulated" must be false`) |
+| `"core"` | `"avr"`, `"avrrc"`, `"avrxt"`, `"avrxm"` (the AVR instruction-set variants), `"cortex-m0plus"`, `"xtensa-lx6"`, `"xtensa-lx7"` or `"riscv"`; else `unknown mcu core "X"` |
+| `"clock"` | the highest clock, Hz, above 0 (`"clock" must be above 0`) |
+| `"flash"`, `"ram"` | bytes, 0 to 4294967295. Flash 0 = external (RP2040) |
+| `"eeprom"` | optional, bytes (0 = none) |
+| `"vcc"`, `"inputMax"` | optional at device level ([Voltages](#voltages)) |
+
+Part keys:
+
+| Key | Value |
+|---|---|
+| `"vcc"`, `"inputMax"` | override the device's. Every part must end up with a `vcc` (`missing "vcc"`) |
+| `"clock"` | overrides the device's (a 10 MHz `V` grade, a 16 MHz ESP32 part of a 240 MHz device) |
+| `"flash"` | bytes, overrides the device's (an ESP32 module's `N4` / `N8` / `N16` flash) |
+| `"psram"` | bytes (an ESP32 module's `R2` / `R8` PSRAM); default 0 |
+
+Pins: any count, any roles and names; no key names a pin. Each pinout
+needs at least one `power` and one `ground` pin (`an mcu pinout needs a
+power pin` / `… a ground pin`).
+
+**Voltage.** The parts carry `vcc`, so the voltage check judges their
+supply pins and input levels as for any chip (a 3.3 V ESP32 module's `3V3`
+on a 5 V net is refused). The RP2040's 1.1 V core-supply pins (`DVDD`) are
+`power` pins fed by its own `VREG_VOUT` output; the check drives an output
+at the part's level, so `DVDD` sees the I/O level and passes. The check
+cannot judge the 1.1 V rail itself.
 
 ### `serial`
 

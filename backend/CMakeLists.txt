@@ -176,6 +176,7 @@ logic_test(rtc_test)
 logic_test(tactile_test)
 logic_test(diode_test)
 logic_test(capacitor_test)
+logic_test(mcu_test)
 
 # Engine speed bench (plan-05-A). Not a ctest: a wall-clock check would be
 # flaky. Build Release to get meaningful numbers.

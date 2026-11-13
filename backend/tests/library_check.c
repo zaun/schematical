@@ -430,6 +430,57 @@ static void check_capacitor_cases(void) {
     expect_fail("capacitor volts 0", CAP_DEVICE("ceramic", ",'farads':1e-7", CAP_12, ",'volts':0"),
                 "\"volts\" must be above 0 and at most 10000");
 }
+/* plan-36-F: the mcu kind. A device must say "simulated": false; core,
+   clock, flash and ram are required; a pinout needs power and ground; a
+   part must resolve a vcc. */
+#define MCU_PINS(GND_ROLE) \
+    "{'number':1,'name':'VCC','role':'power'},{'number':2,'name':'GND','role':'" GND_ROLE "'}," \
+    "{'number':3,'name':'PB0','role':'inout'},{'number':4,'name':'PB1','role':'inout'}"
+#define MCU_DEVICE(KEYS, GND_ROLE, PART_KEYS) \
+    HEAD("mcu") "{'id':'M','function':'MCU','description':'d','drawer':['Microcontroller']," \
+    "'pinouts':{'p':[" MCU_PINS(GND_ROLE) "]}" KEYS "," \
+    "'parts':[{'name':'M-1','package':'DIP','pinout':'p','footprint':'T4'" PART_KEYS "}]}" TAIL
+#define MCU_OK ",'simulated':false,'core':'avr','clock':20000000,'flash':8192,'ram':512"
+
+static void check_mcu_cases(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library, MCU_DEVICE(MCU_OK ",'eeprom':256,'vcc':[1.8,5.5]", "ground",
+                                   ",'clock':10000000,'psram':2097152"), &error) == 0);
+    part = part_library_find(library, "M-1");
+    CHECK(part != NULL && part->kind == PART_MCU && part->simulated == 0 && part->mcu != NULL &&
+          strcmp(part->mcu->core, "avr") == 0 && part->mcu->max_hz == 10000000ULL &&
+          part->mcu->flash == 8192 && part->mcu->ram == 512 && part->mcu->eeprom == 256 &&
+          part->mcu->psram == 2097152 && part->vcc != NULL && part->vcc->min_mv == 1800 &&
+          part->vcc->max_mv == 5500);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   valid mcu part (part clock and psram override the device)\n");
+    expect_fail("mcu unknown core",
+                MCU_DEVICE(",'simulated':false,'core':'z80','clock':1,'flash':0,'ram':0,'vcc':[3,3.6]",
+                           "ground", ""),
+                "unknown mcu core \"z80\"");
+    expect_fail("mcu clock 0",
+                MCU_DEVICE(",'simulated':false,'core':'avr','clock':0,'flash':0,'ram':0,'vcc':[3,3.6]",
+                           "ground", ""),
+                "\"clock\" must be above 0");
+    expect_fail("mcu without simulated",
+                MCU_DEVICE(",'core':'avr','clock':1,'flash':0,'ram':0,'vcc':[3,3.6]", "ground", ""),
+                "an mcu has no simulation model: \"simulated\" must be false");
+    expect_fail("mcu simulated true",
+                MCU_DEVICE(",'simulated':true,'core':'avr','clock':1,'flash':0,'ram':0,'vcc':[3,3.6]",
+                           "ground", ""),
+                "an mcu has no simulation model: \"simulated\" must be false");
+    expect_fail("mcu pinout with no ground", MCU_DEVICE(MCU_OK ",'vcc':[3,3.6]", "inout", ""),
+                "an mcu pinout needs a ground pin");
+    expect_fail("mcu without vcc", MCU_DEVICE(MCU_OK, "ground", ""), "missing \"vcc\"");
+}
+#undef MCU_OK
+#undef MCU_DEVICE
+#undef MCU_PINS
+
 #undef CAP_PIN
 #undef CAP_DEVICE
 #undef CAP_12
@@ -3149,6 +3200,7 @@ int main(void) {
     check_rtc_cases();
     check_diode_cases();
     check_capacitor_cases();
+    check_mcu_cases();
     check_valid_led();
     check_footprint_choices();
     check_duplicate_across_calls();
