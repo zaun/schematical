@@ -169,12 +169,20 @@ Commit: —
 
 ### Phase 2 — Verdicts and the final pick
 
-- [ ] `python3 -I census/verdicts.py planning/plan-34-data/candidates.tsv
+- [x] `python3 -I census/verdicts.py planning/plan-34-data/candidates.tsv
       planning/plan-34-data/specs.tsv planning/plan-34-data/verdicts.tsv`.
+      2026-11-13: 11700 add; skip: 188 no datasheet on the maker's site
+      (mm.digikey.com), 7 (none), 4 (www.waldom.com), 1 (www.yageo.com), 83
+      not in the datasheet's ordering table, 2 ordering code disagrees
+      (size), 1 (value); 0 out. Verdicts do not depend on the stock check:
+      it can only remove rows.
 - [ ] `select.py --stock … --verdicts … --report` (§ 3.3); stock-check the
       newly picked rows from cut pieces (`census/stock-check.sh`, one call
       each); repeat until clean. Record the counts per decision and reason
-      in § Summary.
+      in § Summary. Provisional run (2026-11-13, stock check 172 of 1847
+      done): `('add', ''): 1974`: chip 1500, through-hole 400, arrays 74.
+      C, D, F and G ran on this pick. Remaining: the final run once A's stock
+      check ends, written to `candidates.tsv`.
 
 Acceptance: every picked row is `add` and confirmed.
   Check: `python3 -I planning/plan-34-data/census/select.py /tmp/p34/raw planning/plan-34-data/candidates.tsv --stock planning/plan-34-data/stock-check.tsv --verdicts planning/plan-34-data/verdicts.tsv --report` exits 0 and prints `kept per category/maker` summing to chip 1500, through-hole 400, arrays ≤ 100, and `awk -F'\t' '$22=="candidate"' planning/plan-34-data/candidates.tsv | wc -l` → 0 (est. 5 min plus any stock calls).
@@ -182,20 +190,30 @@ Commit: —
 
 ### Phase 3 — Skipped parts, obsolete PDFs, footprint lines
 
-- [ ] `datasheets/skipped-parts.md`: a "Resistors (plan-34)" section, one
+- [~] `datasheets/skipped-parts.md`: a "Resistors (plan-34)" section, one
       table row per (maker, reason) for the `skip` rows with stock at or
       above their category's floor: the part numbers, "would have gone into
       `resistor` / Resistors → <Chip|Through-hole|Array>", the reason (the
       existing sections' format). `verdicts.py --verify-skipped` prints
-      `0 skip rows missing from skipped-parts.md`.
-- [ ] Delete from `datasheets/resistor/` any PDF no `add` row uses
+      `0 skip rows missing from skipped-parts.md`. Written on the
+      provisional pick (`verdicts.py --write-skipped`, which replaces the
+      section): `26 skip rows in 6 table rows`, verify `0 skip rows
+      missing`. Remaining: re-write on the final pick.
+- [~] Delete from `datasheets/resistor/` any PDF no `add` row uses
       (`place.py --prune`); add to `obsolete-not-included.md` each PDF whose
       every row is `out` for datasheet status (PDF name, `resistor`,
-      Resistors → <leaf>, the word and page, the URL).
-- [ ] `python3 -I census/footprint-lines.py planning/plan-34-data/candidates.tsv
+      Resistors → <leaf>, the word and page, the URL). Pruned on the
+      provisional pick: 40 PDFs deleted, 32 left (the 32 the parts cite);
+      `place.py --verify-add` → `0 missing, 0 unused`. No PDF is `out` for
+      datasheet status (0 `dead` rows), so `obsolete-not-included.md` gets
+      no row. Remaining: re-check on the final pick (a swap that needs a
+      pruned PDF re-places it from the cache).
+- [~] `python3 -I census/footprint-lines.py planning/plan-34-data/candidates.tsv
       > planning/plan-34-data/footprints-needed.txt` (now from `add` rows);
       write the per-letter line counts (C: chip; D: through-hole and
-      arrays) into § Corrections when they differ from 34 and 52.
+      arrays) into § Corrections when they differ from 34 and 52. On the
+      provisional pick: 75 lines, chip 33, through-hole 29, arrays 13
+      (§ Corrections 2). Remaining: re-run on the final pick.
 
 Acceptance: the tree holds exactly the PDFs the `add` rows need, and every listed skip is recorded.
   Check: `python3 -I planning/plan-34-data/census/place.py --verify planning/plan-34-data/candidates.tsv` → `0 missing, 0 unused`, and `python3 -I planning/plan-34-data/census/verdicts.py --verify-skipped` → `0 skip rows missing` (est. 2 min).
@@ -234,6 +252,22 @@ Commit: —
    A's added Phase 2 task re-runs the skeleton, which merges and keeps
    these schemes. A spec row it adds for a newly eligible group gets its
    scheme then.
+2. **Line counts (2026-11-13, provisional pick).** `footprints-needed.txt`
+   from the `add` rows: chip 33 (planning 34; no MELF), through-hole 29
+   and arrays 13 (planning 34 + 18 = 52). Twenty arrays are skipped,
+   because their only datasheet is a DigiKey copy (`AS42…`, `CN-21…`) or
+   YAGEO's mounting guide (`AF122…`, `AF164…`: their DigiKey link is
+   `yageo_PYu-R_Mount_10_19050818_343.pdf`, which has no ordering table).
+   So arrays are 74 of their quota of 100.
+3. **YAGEO AF / YC parts linked to the mounting guide (2026-11-13).**
+   DigiKey links some AF122 / AF164 / YC124 / YC164 parts to YAGEO's
+   mounting guide rather than their series sheet. The guide is on the
+   maker's site, so § 3 rule 5 takes it as their datasheet; it has no
+   ordering table, so they are `skip`. The series sheet
+   (`PYU-AF122_124_162_164_51_ROHS_L.pdf`) covers them, but A's Non-goals
+   allow no datasheet hunting beyond the link and the verbatim sibling
+   check, and the sheet prints a pattern, not their part numbers. They
+   are listed in `skipped-parts.md`.
 
 ## Summary
 

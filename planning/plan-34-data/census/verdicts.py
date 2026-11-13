@@ -11,6 +11,10 @@ verbatim (`hit` 1) -> add; else its (maker, series, PDF) spec row's
 mpn_regex and field check (scheme.py) -> add or skip. Writes mpn, verdict,
 reason, datasheet (the PDF path).
 
+--write-skipped [<candidates.tsv>]: writes (or replaces) that section of
+datasheets/skipped-parts.md: one table row per (maker, category, reason)
+listing the part numbers.
+
 --verify-skipped: every `skip` row whose stock is at or above its
 category's floor (the stock of the last picked row) is named in
 datasheets/skipped-parts.md's "Resistors (plan-34)" section.
@@ -62,12 +66,47 @@ def main(cand, specs, out):
         print(counts[k], *k)
 
 
-def verify_skipped(cand):
-    rows = list(csv.DictReader(open(cand), delimiter="\t"))
+LEAF = {"chip": "Chip", "through-hole": "Through-hole", "array": "Array"}
+SECTION = "## Resistors (plan-34)"
+
+
+def floors(rows):
     floor = {}
     for r in rows:
         if r["decision"] == "add":
             floor[r["category"]] = min(floor.get(r["category"], 1 << 62), int(r["stock"]))
+    return floor
+
+
+def write_skipped(cand):
+    rows = list(csv.DictReader(open(cand), delimiter="\t"))
+    floor = floors(rows)
+    groups = {}
+    for r in rows:
+        if r["decision"] == "skip" and int(r["stock"]) >= floor.get(r["category"], 1 << 62):
+            groups.setdefault((r["maker"], r["category"], r["reason"]), []).append(r["mpn"])
+    lines = [SECTION, "",
+             "In-stock Active / Last Time Buy resistors of the three makers of plan-34",
+             "(YAGEO, Vishay Dale, Viking Tech; chip, through-hole and arrays, ±1%, ±5% and",
+             "jumpers) that the pick would have taken (stock at or above the stock of the",
+             "last part picked in their category) but that were skipped for their",
+             "datasheet. Written by `planning/plan-34-data/census/verdicts.py --write-skipped`.",
+             "", "| Part(s) | Maker | Would have gone into | Why skipped |", "|---|---|---|---|"]
+    for (maker, cat, why), mpns in sorted(groups.items()):
+        lines.append(f"| {', '.join(sorted(mpns))} | {maker} | `resistor` / Resistors → {LEAF[cat]} | {why} |")
+    text = open(SKIPPED).read()
+    at = text.find(SECTION)
+    if at >= 0:
+        end = text.find("\n## ", at + len(SECTION))
+        text = text[:at] + text[end + 1:] if end >= 0 else text[:at]
+    text = text.rstrip("\n") + "\n\n" + "\n".join(lines) + "\n"
+    open(SKIPPED, "w").write(text)
+    print(sum(len(v) for v in groups.values()), "skip rows in", len(groups), "table rows")
+
+
+def verify_skipped(cand):
+    rows = list(csv.DictReader(open(cand), delimiter="\t"))
+    floor = floors(rows)
     text = open(SKIPPED).read()
     at = text.find("Resistors (plan-34)")
     section = text[at:] if at >= 0 else ""
@@ -80,6 +119,9 @@ def verify_skipped(cand):
 
 
 if __name__ == "__main__":
+    if sys.argv[1] == "--write-skipped":
+        write_skipped(sys.argv[2] if len(sys.argv) > 2 else CANDIDATES)
+        sys.exit(0)
     if sys.argv[1] == "--verify-skipped":
         sys.exit(verify_skipped(sys.argv[2] if len(sys.argv) > 2 else CANDIDATES))
     main(*sys.argv[1:4])

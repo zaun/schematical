@@ -689,3 +689,20 @@ by `planning/plan-33-data/census/decide.py --skipped`.
 | REA0511R47M050K | KYOCERA AVX | `capacitor` / Capacitors → Electrolytic | not in the datasheet's ordering table (regex, rea-series.pdf) |
 | TCTOM1A335M8R | KYOCERA AVX | `capacitor` / Capacitors → Tantalum | no datasheet on the maker's site (no answer, d1d2qsbl8m0m72.cloudfront.net) |
 | TAP105J020SCS | KYOCERA AVX | `capacitor` / Capacitors → Tantalum | not in the datasheet's ordering table (regex, tap.pdf) |
+
+## Resistors (plan-34)
+
+In-stock Active / Last Time Buy resistors of the three makers of plan-34
+(YAGEO, Vishay Dale, Viking Tech; chip, through-hole and arrays, ±1%, ±5% and
+jumpers) that the pick would have taken (stock at or above the stock of the
+last part picked in their category) but that were skipped for their
+datasheet. Written by `planning/plan-34-data/census/verdicts.py --write-skipped`.
+
+| Part(s) | Maker | Would have gone into | Why skipped |
+|---|---|---|---|
+| AS42JTF0100, AS42JTF0180, AS42JTF0300, AS42JTF0330, CN-21JL6---47R, CN-42FL6----1K | Viking Tech | `resistor` / Resistors → Array | no datasheet on the maker's site (mm.digikey.com) |
+| AS42JTF5R10 | Viking Tech | `resistor` / Resistors → Array | not in the datasheet's ordering table |
+| AS02JTE0150, AS02JTE1200 | Viking Tech | `resistor` / Resistors → Chip | no datasheet on the maker's site (mm.digikey.com) |
+| AF122-FR-07127RL, AF122-JR-0722RL, AF122-JR-0739RL, AF124-FR-0733RL, AF124-JR-0710KL, AF164-FR-07100KL, AF164-FR-0710KL, AF164-FR-071KL, AF164-FR-0749R9L, AF164-JR-0710KL, AF164-JR-071KL, AF164-JR-074K7L, YC124-JR-1010KL, YC124-JR-1022RL, YC164-JR-100RL | YAGEO | `resistor` / Resistors → Array | not in the datasheet's ordering table |
+| NKN3WSJR-73-6R8 | YAGEO | `resistor` / Resistors → Through-hole | no datasheet on the maker's site (mm.digikey.com) |
+| MFR-25-T-52-0R | YAGEO | `resistor` / Resistors → Through-hole | not in the datasheet's ordering table |
