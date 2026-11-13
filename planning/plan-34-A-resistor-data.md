@@ -384,7 +384,10 @@ Commit: bbb514a
       checked from day 2 in bulk first (§ Corrections 7: `stock-relist.sh
       /tmp/p34/relist 89345 11717 26`, `stock-merge.py`, then
       `stock-check.sh` for what is left). A daily session cron at 14:13 HST
-      (after the ~00:00 UTC quota reset) continues it.
+      (after the ~00:00 UTC quota reset) continues it. Day 1 end: the bulk
+      relisting of Dale chip (383 parts, cut by the quota after 15 calls,
+      `0 left`; it resumes) confirmed 4 more: 176 of 1849 checked, all
+      found.
 
 Acceptance: every picked row from a cut piece is confirmed in stock.
   Check: `python3 -I planning/plan-34-data/census/select.py /tmp/p34/raw /tmp/p34/cand.tsv --stock planning/plan-34-data/stock-check.tsv --report` and an `awk` join of the picked rows from cut pieces with `stock-check.tsv` → 0 unchecked, 0 picked with `found` = 0 (est. 1–2 quota days at one call per part).
