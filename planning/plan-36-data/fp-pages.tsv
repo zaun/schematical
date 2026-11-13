@@ -1,0 +1,36 @@
+code	geometry	pins	pdf	page	land_page	drawing	title
+10M1	dual	10	datasheets/mcu/microchip/2535S.pdf	16		10M1	
+14-PIN-SOIC150	dual	14	datasheets/mcu/microchip/Atmel-42505-8-bit-AVR-Microcontrollers-ATtiny102-ATtiny104_Summary.pdf	14		TU	8.3 14-pin SOIC150 (image, read by eye)
+14P3	dual	14	datasheets/mcu/microchip/8183s.pdf	15		14P3	
+14S1	dual	14	datasheets/mcu/microchip/8006S.pdf	16		14S1	
+14X	dual	14	datasheets/mcu/microchip/Atmel-8235-8-bit-AVR-Microcontroller-ATtiny20_Datasheet.pdf	210		14X	25.3 14X (dimension callouts, not a table)
+20P3	dual	20	datasheets/mcu/microchip/Atmel-2543-AVR-ATtiny2313_Datasheet.pdf	217		20P3	
+20S	dual	20	datasheets/mcu/microchip/1477S.pdf	12		20S2	20S section prints drawing 20S2 (image)
+20S2	dual	20	datasheets/mcu/microchip/8197S.pdf	16		20S2	7.3 20S2 (image)
+20X	dual	20	datasheets/mcu/microchip/8197S.pdf	17		20X	7.4 20X (image)
+28P3	dual	28	datasheets/mcu/microchip/Atmel-2486-8-bit-AVR-microcontroller-ATmega8_L_summary.pdf	8		28P3	
+40P6	dual	40	datasheets/mcu/microchip/2466S.pdf	14		40P6	
+6ST1	dual	6	datasheets/mcu/microchip/ATtiny4-5-9-10-Data-Sheet-DS40002060A.pdf	161		6ST1	
+8-PIN-SOIC150	dual	8	datasheets/mcu/microchip/Atmel-42505-8-bit-AVR-Microcontrollers-ATtiny102-ATtiny104_Summary.pdf	13		8S1	8.2 8-pin SOIC150 (image)
+8-PIN-UDFN	dual	8	datasheets/mcu/microchip/Atmel-42505-8-bit-AVR-Microcontrollers-ATtiny102-ATtiny104_Summary.pdf	12		8MA2	8.1 8-pin UDFN (image)
+8MA4	dual	8	datasheets/mcu/microchip/Atmel-8127-AVR-8-bit-Microcontroller-ATtiny4-ATtiny5-ATtiny9-ATtiny10_Datasheet-Summary.pdf	13		8MA4	5.2 8MA4 (image)
+8P3	dual	8	datasheets/mcu/microchip/2535S.pdf	12		8P3	
+8S1	dual	8	datasheets/mcu/attiny13a.pdf	175	176	SN	8-Lead Plastic Small Outline (SN) - Narrow, 3.90 mm (.150 In.) Body [SOIC]
+8S2	dual	8	datasheets/mcu/microchip/2535S.pdf	13		8S2	
+8X	dual	8	datasheets/mcu/microchip/Atmel-2586-AVR-8-bit-Microcontroller-ATtiny25-ATtiny45-ATtiny85_Datasheet-Summary.pdf	17		8X	
+P	dual	40	datasheets/mcu/microchip/ATmega4808-09-DataSheet-DS40002173C.pdf	538		C04-016B	40-Lead Plastic Dual In-Line (P) – 600 mil Body [PDIP]
+S	dual	20	datasheets/mcu/microchip/ATtiny1624-26-27-DataSheet-DS40002234A.pdf	508	509	C04-094	20-Lead Plastic Small Outline (SO) - Wide, 7.50 mm Body [SOIC]
+S8S1	dual	8	datasheets/mcu/microchip/2535S.pdf	14		8S1	7.3 S8S1 (image)
+SL	dual	14	datasheets/mcu/microchip/AVR16EB14_20_28_32-Prelim-DataSheet-DS40002522.pdf	587	588	SL	14-Lead Plastic Small Outline (SL) - Narrow, 3.90 mm Body [SOIC]
+SO	dual	20	datasheets/mcu/microchip/AVR32-16DD20-14-Complete-DataSheet-DS40002413.pdf	655	656	C04-094	20-Lead Plastic Small Outline (SO) - Wide, 7.50 mm Body [SOIC]
+SO	dual	28	datasheets/mcu/microchip/AVR64DD32-28-Complete-DataSheet-DS40002315.pdf	651		C04-00052	p.651 drawing-number table (SOIC 28 C04-00052 SO); SOIC-28W is drawn from the same C04-052
+SO24	dual	24	datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	19		TD	7.1 SO24 (image)
+SP	dual	28	datasheets/mcu/microchip/AVR128DA28-32-48-64-DataSheet-DS40002183B.pdf	577		C04-070B	28-Lead Skinny Plastic Dual In-Line (SP) – 300 mil Body [SPDIP]
+SS	dual	14	datasheets/mcu/microchip/ATtiny1614-16-17-DataSheet-DS40002204A.pdf	569	570	SL	14-Lead Plastic Small Outline (SL) - Narrow, 3.90 mm Body [SOIC]
+SS	dual	20	datasheets/mcu/microchip/AVR16EB14_20_28_32-Prelim-DataSheet-DS40002522.pdf	593	594	C04-072	20-Lead Plastic Shrink Small Outline (SS) - 5.30 mm Body [SSOP]
+SS	dual	28	datasheets/mcu/microchip/AVR128DA28-32-48-64-DataSheet-DS40002183B.pdf	582	583	C04-073	28-Lead Plastic Shrink Small Outline (SS) - 5.30 mm Body [SSOP]
+SS	dual	8	datasheets/mcu/microchip/ATtiny202-204-402-404-406-DataSheet-DS40002318A.pdf	497	498	SN	8-Lead Plastic Small Outline (SN) - Narrow, 3.90 mm (.150 In.) Body [SOIC]
+ST	dual	14	datasheets/mcu/microchip/AVR16EB14_20_28_32-Prelim-DataSheet-DS40002522.pdf	590		C04-087	14-Lead Plastic Thin Shrink Small Outline Package [ST] - 4.4 mm Body [TSSOP]
+X	dual	14	datasheets/mcu/microchip/ATtiny1624-26-27-DataSheet-DS40002234A.pdf	505	506	C04-087	
+X	dual	20	datasheets/mcu/microchip/ATtiny1624-26-27-DataSheet-DS40002234A.pdf	510		C04-072B	20-Lead Plastic Shrink Small Outline (SS) – 5.30 mm Body [SSOP]
+X	dual	28	datasheets/mcu/microchip/ATmega3208-3209-Data-Sheet-DS40002174A.pdf	522	523	C04-073	28-Lead Plastic Shrink Small Outline (SS) - 5.30 mm Body [SSOP]

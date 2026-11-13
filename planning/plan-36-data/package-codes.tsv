@@ -1,104 +1,104 @@
-code	geometry	pins	name	drawing	footprint	rows
-100A	quad	100	100-lead, Thin (1.0mm) Plastic Gull Wing Quad Flat Package (TQFP)			34 AVR ATmega,AVR XMEGA
-100C2	grid	100	100-ball, 7 x 7 x 1.0mm body, ball pitch 0.65mm, very thin fine-pitch ball grid array (VFBGA)			2 AVR XMEGA
-10M1	dual	10	10-Lead, 3 x 3 x 1.0 mm Body, Very Thin Plastic Dual Flat (VDFN)			4 AVR ATtiny
-12U-1	grid	12	12-ball 1.540 x 1.388mm Body, 0.433 mm thick, 0.40 mm Pitch (3x4 Staggered Array), WLCSP			1 AVR ATtiny
-14-PIN-SOIC150	dual	14	14-SOIC (0.154", 3.90mm Width)			2 AVR ATtiny
-14P3	dual	14	14-lead, 0.300" Wide, Plastic Dual Inline Package (PDIP)			3 AVR ATtiny
-14S1	dual	14	14-lead, 0.150" Wide Body, Plastic Gull Wing Small Outline Package (SOIC)			34 AVR ATtiny
-14X	dual	14	14-lead, 4.4 mm Body, Thin Shrink Small Outline Package (TSSOP)			2 AVR ATtiny
-15CC1	grid	15	15-ball (4 x 4 Array), 0.65 mm Pitch, 3.0 x 3.0 x 0.6 mm, Ultra Thin, Fine-Pitch Ball Grid Array Package (UFBGA)			6 AVR ATtiny
-20M1	quad	20	20-pad, 4 x 4 x 0.8 mm Body, Quad Flat No-Lead/Micro Lead Frame Package (QFN/MLF)			44 AVR ATtiny
-20M2	quad	20	20-pad, 3 x 3 x 0.85 mm Body, Very Thin Quad Flat No Lead Package (VQFN)			17 AVR ATtiny
-20P3	dual	20	20-lead, 0.300" Wide, Plastic Dual Inline Package (PDIP)			8 AVR ATtiny
-20S	dual	20	20-lead, 0.300" Wide, Plastic Gull Wing Small Outline Package (SOIC)			12 AVR ATtiny
-20S2	dual	20	20-lead, 0.300" Wide, Plastic Gull Wing Small Outline Package (SOIC)			23 AVR ATtiny
-20X	dual	20	20-lead, 4.4 mm Wide, Plastic Thin Shrink Small Outline Package (TSSOP)			10 AVR ATtiny
-28M1	quad	28	28-pad, 4 x 4 x 1.0 body, Lead Pitch 0.45 mm Very Thin Plastic Quad Flat No-Lead (VQFN)			20 AVR ATmega,AVR ATtiny
-28P3	dual	28	28-lead, 0.300” Wide, Skinny Plastic Dual Inline Package (SPDIP)			14 AVR ATmega
-2LX	quad	20	VQFN20			2 AVR Lx/Sx
-32A	quad	32	32-lead, Thin (1.0mm) Plastic Quad Flat Package (TQFP)			92 AVR ATmega,AVR ATtiny,AVR XMEGA
-32M1-A	quad	32	32-pad, 5 x 5 x 1.0 body, Lead Pitch 0.50 mm Thin Plastic Quad Flat No-Lead (VQFN)			60 AVR ATmega,AVR ATtiny
-32MA	quad	32	32-lead, 0.4mm pitch, 4x4x0.60mm Ultra Thin Quad No Lead (UQFN) Package			3 AVR XMEGA
-32MS1	quad	32	32-pad, 5.0x5.0x0.9mm body, Lead Pitch 0.50mm, Very-thin Fine pitch, Quad Flat No Lead			5 AVR ATmega
-32PN	quad	32	32-lead, 0.5mm pitch, 5 x 5 mm Very Thin Quad Flat No Lead Package (VQFN) Sawn			2 AVR ATtiny
-32Z	quad	32	32-lead, 0.5mm pitch, 5x5mm Very Thin quad Flat No Lead Package (VQFN) Sawn			4 AVR XMEGA
-3LW	quad	28	28-VFQFN Exposed Pad			1 AVR Lx/Sx
-40P6	dual	40	40-pin, 0.600” Wide, Plastic Dual Inline Package (PDIP)			13 AVR ATmega
-44A	quad	44	44-lead, Thin (1.0mm) Plastic Gull Wing Quad Flat Package (TQFP)			64 AVR ATmega,AVR XMEGA
-44J	plcc	44	44-lead, Plastic J-Leaded Chip Carrier (PLCC)			2 AVR ATmega
-44M1	quad	44	44-pad, 7 × 7 × 1.0mm body, lead pitch 0.50mm, Thermally Enhanced Plastic Very Thin Quad Flat No-Lead (VQFN)			43 AVR ATmega,AVR XMEGA
-44M1-A	quad	44	44-pad, 7 x 7 x 1.0 mm body, lead pitch 0.50 mm, Quad Flat No-Lead/Micro Lead Frame Package (QFN/MLF)			1 AVR ATmega
-44MC	drqfn	44	44-lead (2-row Staggered), 5 × 5 × 1.0mm body, 2.60 × 2.60mm Exposed Pad, Quad Flat No-Lead Package (VQFN)			2 AVR ATmega
-44ML	quad	44	44-TQFP			3 AVR ATmega
-44PW	quad	44	44-VFQFN Exposed Pad			3 AVR ATmega
-48AA	quad	48	48-lead, 7 x 7 x 1.44 mm body, 0.5 mm lead pitch, Low Profile Plastic Quad Flat Package (LQFP)			1 AVR ATmega
-49C2	grid	49	49-Ball (7 x 7 Array), 0.65mm Pitch, 5.0 x 5.0 x 1.0mm, very thin, fine-pitch ball grid array package (VFBGA)			8 AVR ATmega,AVR XMEGA
-64A	quad	64	64-lead, 14 * 14mm body size, 1.0mm body thickness, 0.8mm lead pitch, thin profile plastic quad flat package (TQFP)			80 AVR ATmega,AVR XMEGA
-64M	quad	64	64-pad, 9 * 9 * 1.0mm body, lead pitch 0.50mm, 7.65mm exposed pad, quad flat no-lead package (QFN)			9 AVR XMEGA
-64M1	quad	64	64-pad, 9 x 9 x 1.0mm, Quad Flat No-Lead/Micro Lead Frame Package (QFN/MLF)			26 AVR ATmega
-64M2	quad	64	64-pad, 9 x 9 x 1.0mm body, lead pitch 0.50mm, 7.65mm exposed pad, quad flat no-lead package (QFN)			11 AVR ATmega,AVR XMEGA
-64MC	drqfn	64	64-lead (2-row Staggered), 7 × 7 × 1.0 mm body, 4.0 × 4.0 mm Exposed Pad, Quad Flat No-Lead Package (QFN)			1 AVR ATmega
-64Z3	quad	64	64-pad, 9 x 9 x 1.0mm body, lead pitch 0.50mm, 7.65 x 7.65mm exposed pad, quad flat no-lead package (VQFN Sawn)			1 AVR XMEGA
-6LX	quad	48	VQFN48			25 AVR Dx,AVR Ex
-6ST1	dual	6	6-lead, 2.90 x 1.60 mm Plastic Small Outline Package (SOT23)			8 AVR ATtiny
-7P	grid	49	49-ball (7 x 7 Array), 0.65mm pitch, 5x5x1.0mm, very thin, fine-pitch ball grid array package (VFBGA)			1 AVR XMEGA
-8-PIN-SOIC150	dual	8	8-SOIC (0.154", 3.90mm Width)			3 AVR ATtiny
-8-PIN-UDFN	dual	8	8-UFDFN Exposed Pad			1 AVR ATtiny
-8MA4	dual	8	8-pad, 2 x 2 x 0.6 mm Plastic Ultra Thin Dual Flat No Lead (UDFN)			3 AVR ATtiny
-8P3	dual	8	8-lead, 0.300" Wide, Plastic Dual Inline Package (PDIP)			9 AVR ATtiny
-8S1	dual	8	8-Lead, 3.90 mm Wide, Plastic Gull-Wing Small Outline (SOIC)			4 AVR ATtiny
-8S2	dual	8	8-lead, 0.208" Wide, Plastic Gull-Wing Small Outline (EIAJ SOIC)			25 AVR ATtiny
-8X	dual	8	8-lead, 4.4 mm Wide, Plastic Thin Shrink Small Outline Package (TSSOP)			4 AVR ATtiny
-A	quad	32	TQFP			13 AVR megaAVR 0
-A	quad	48	TQFP			13 AVR megaAVR 0
-A2	quad	64	64-Lead, Thin (1.0 mm / 0.03937 in) Plastic Gull Wing Quad Flat Package.			3 AVR AT90
-ESP32-C3-MINI-1	module		61-SMD Module			4 ESP32
-ESP32-C3-WROOM-02	module		32-SMD Module			2 ESP32
-ESP32-C6-MINI-1	module		53-SMD Module			4 ESP32
-ESP32-C6-WROOM-1	module		28-SMD Module			4 ESP32
-ESP32-MINI-1	module		55-SMD Module			3 ESP32
-ESP32-S2-MINI-2	module		56-VFQFN Exposed Pad			4 ESP32
-ESP32-S2-SOLO-2	module		41-SMD Module			4 ESP32
-ESP32-S3-MINI-1	module		65-SMD Module			3 ESP32
-ESP32-S3-WROOM-1	module		41-SMD Module			11 ESP32
-ESP32-WROOM-32	module		38-SMD Module			4 ESP32
-ESP32-WROOM-DA	module		43-SMD Module			1 ESP32
-ESP32-WROVER	module		38-SMD Module			5 ESP32
-M	quad	20	VQFN			37 AVR tinyAVR 0/1/2
-M	quad	24	VQFN			31 AVR tinyAVR 0/1/2
-M	quad	32	VQFN			14 AVR megaAVR 0
-M	quad	48	VQFN			6 AVR megaAVR 0
-MD	quad	64	64-TQFP			4 AVR AT90
-MR	quad	64	VQFN64			13 AVR Dx
-P	dual	40	PDIP			1 AVR megaAVR 0
-PS	quad	64	64-VFQFN Exposed Pad			3 AVR AT90
-PT	quad	32	TQFP			48 AVR Dx,AVR Ex,AVR Lx/Sx
-PT	quad	48	TQFP			25 AVR Dx,AVR Ex
-PT	quad	64	TQFP			13 AVR Dx
-PV	quad	32	32-VQFN Exposed Pad			2 AVR ATmega
-PW	quad	44	44-Lead, 7x7x1mm body, lead pitch 0.50mm, 5.20mm exposed pad, thermally enhanced plastic very thin quad no lead package (VQFN)			4 AVR XMEGA
-QFN-56	quad	56	56-VFQFN Exposed Pad			2 RP2040
-QFN32	quad	32	32-Lead, Quad Flat No lead			6 AVR AT90
-QZB	quad	32	VQFN32			2 AVR Lx/Sx
-REB	quad	20	VQFN20			12 AVR Dx,AVR Ex
-RXB	quad	32	VQFN32			43 AVR Dx,AVR Ex
-S	dual	20	SOIC300			37 AVR tinyAVR 0/1/2
-S8S1	dual	8	8-lead, 0.150" Wide, Plastic Gull-Wing Small Outline (JEDEC SOIC)			11 AVR ATtiny
-SL	dual	14	SOIC14			20 AVR Dx,AVR Ex
-SO	dual	20	SOIC20			12 AVR Dx
-SO	dual	28	SOIC			29 AVR Dx
-SO24	dual	24	24-Lead, Small Outline Package			3 AVR AT90
-SP	dual	28	SPDIP			28 AVR Dx,AVR Ex,AVR Lx/Sx
-SS	dual	14	SOIC150			43 AVR tinyAVR 0/1/2
-SS	dual	20	SSOP20, SSOP28			6 AVR Dx,AVR Ex,AVR Lx/Sx
-SS	dual	28	SSOP			45 AVR Dx,AVR Ex,AVR Lx/Sx
-SS	dual	8	SOIC150			15 AVR tinyAVR 0/1/2
-ST	dual	14	TSSOP14			4 AVR Ex,AVR Lx/Sx
-STX	quad	28	VQFN28			25 AVR Dx,AVR Ex
-TQFP32	quad	32	32-TQFP			1 AVR AT90
-X	dual	14	TSSOP, SSOP			16 AVR tinyAVR 0/1/2
-X	dual	20	TSSOP, SSOP			16 AVR tinyAVR 0/1/2
-X	dual	28	SSOP			11 AVR megaAVR 0
-Z64-1	quad	64	64-Lead, QFN, Exposed Die Attach Pad D2/E2: 5.4 ± 0.1mm / 0.212 ± 0.004 in.			1 AVR AT90
-Z64-2	quad	64	64-Lead, QFN, Exposed Die Attach Pad D2/E2: 6.0 ± 0.1mm / 0.236 ± 0.004 in.			2 AVR AT90
+code	geometry	pins	name	drawing	footprint	package	rows
+100A	quad	100	100-lead, Thin (1.0mm) Plastic Gull Wing Quad Flat Package (TQFP)				34 AVR ATmega,AVR XMEGA
+100C2	grid	100	100-ball, 7 x 7 x 1.0mm body, ball pitch 0.65mm, very thin fine-pitch ball grid array (VFBGA)				2 AVR XMEGA
+10M1	dual	10	10-Lead, 3 x 3 x 1.0 mm Body, Very Thin Plastic Dual Flat (VDFN)	10M1: datasheets/mcu/microchip/2535S.pdf p.16 (L 0.30-0.50, b nom 0.25, D = E 3.00; exposed pad 1.64 x 2.60 per the title)	VDFN-10-MC-10M1	DFN	4 AVR ATtiny
+12U-1	grid	12	12-ball 1.540 x 1.388mm Body, 0.433 mm thick, 0.40 mm Pitch (3x4 Staggered Array), WLCSP				1 AVR ATtiny
+14-PIN-SOIC150	dual	14	14-SOIC (0.154", 3.90mm Width)	TU: datasheets/mcu/microchip/Atmel-42505-8-bit-AVR-Microcontrollers-ATtiny102-ATtiny104_Summary.pdf p.14 (image; L 0.40-1.27, b 0.33-0.51, E 5.80-6.20)	SOIC-14-MC-14S1	SOIC	2 AVR ATtiny
+14P3	dual	14	14-lead, 0.300" Wide, Plastic Dual Inline Package (PDIP)	14P3: datasheets/mcu/microchip/8183s.pdf p.15 (B 0.356-0.559, row 7.62)	PDIP-14	DIP	3 AVR ATtiny
+14S1	dual	14	14-lead, 0.150" Wide Body, Plastic Gull Wing Small Outline Package (SOIC)	14S1: datasheets/mcu/microchip/8006S.pdf p.16 (inches: L .016-.050, b .013-.020, H .2284-.244; body E .1497-.1574 x D .3367-.3444)	SOIC-14-MC-14S1	SOIC	34 AVR ATtiny
+14X	dual	14	14-lead, 4.4 mm Body, Thin Shrink Small Outline Package (TSSOP)	14X: datasheets/mcu/microchip/Atmel-8235-8-bit-AVR-Microcontroller-ATtiny20_Datasheet.pdf p.210 (L 0.45-0.75, b 0.19-0.30, E 6.25-6.50; body 4.30-4.50 x 4.90-5.10)	TSSOP-14-MC-14X	TSSOP	2 AVR ATtiny
+15CC1	grid	15	15-ball (4 x 4 Array), 0.65 mm Pitch, 3.0 x 3.0 x 0.6 mm, Ultra Thin, Fine-Pitch Ball Grid Array Package (UFBGA)				6 AVR ATtiny
+20M1	quad	20	20-pad, 4 x 4 x 0.8 mm Body, Quad Flat No-Lead/Micro Lead Frame Package (QFN/MLF)				44 AVR ATtiny
+20M2	quad	20	20-pad, 3 x 3 x 0.85 mm Body, Very Thin Quad Flat No Lead Package (VQFN)				17 AVR ATtiny
+20P3	dual	20	20-lead, 0.300" Wide, Plastic Dual Inline Package (PDIP)	20P3: datasheets/mcu/microchip/Atmel-2543-AVR-ATtiny2313_Datasheet.pdf p.217 (B 0.356-0.559)	PDIP-20	DIP	8 AVR ATtiny
+20S	dual	20	20-lead, 0.300" Wide, Plastic Gull Wing Small Outline Package (SOIC)	20S2: datasheets/mcu/microchip/1477S.pdf p.12 (image; the 20S section prints drawing 20S2)	SOIC-20W-MC-20S2	SOIC	12 AVR ATtiny
+20S2	dual	20	20-lead, 0.300" Wide, Plastic Gull Wing Small Outline Package (SOIC)	20S2: datasheets/mcu/microchip/8197S.pdf p.16 (image; L 0.40-1.27, b 0.33-0.51, H 10.00-10.65; body E 7.40-7.60 x D 12.60-13.00)	SOIC-20W-MC-20S2	SOIC	23 AVR ATtiny
+20X	dual	20	20-lead, 4.4 mm Wide, Plastic Thin Shrink Small Outline Package (TSSOP)	20X: datasheets/mcu/microchip/8197S.pdf p.17 (image; L 0.45-0.75, b 0.19-0.30, E 6.25-6.50; body 4.30-4.50 x 6.40-6.60)	TSSOP-20-MC-20X	TSSOP	10 AVR ATtiny
+28M1	quad	28	28-pad, 4 x 4 x 1.0 body, Lead Pitch 0.45 mm Very Thin Plastic Quad Flat No-Lead (VQFN)				20 AVR ATmega,AVR ATtiny
+28P3	dual	28	28-lead, 0.300” Wide, Skinny Plastic Dual Inline Package (SPDIP)	28P3: datasheets/mcu/microchip/Atmel-2486-8-bit-AVR-microcontroller-ATmega8_L_summary.pdf p.8 (B 0.381-0.533, row 7.62; body E1 7.112-7.493 x D 34.544-34.798)	PDIP-28-MC-28P3	DIP	14 AVR ATmega
+2LX	quad	20	VQFN20				2 AVR Lx/Sx
+32A	quad	32	32-lead, Thin (1.0mm) Plastic Quad Flat Package (TQFP)				92 AVR ATmega,AVR ATtiny,AVR XMEGA
+32M1-A	quad	32	32-pad, 5 x 5 x 1.0 body, Lead Pitch 0.50 mm Thin Plastic Quad Flat No-Lead (VQFN)				60 AVR ATmega,AVR ATtiny
+32MA	quad	32	32-lead, 0.4mm pitch, 4x4x0.60mm Ultra Thin Quad No Lead (UQFN) Package				3 AVR XMEGA
+32MS1	quad	32	32-pad, 5.0x5.0x0.9mm body, Lead Pitch 0.50mm, Very-thin Fine pitch, Quad Flat No Lead				5 AVR ATmega
+32PN	quad	32	32-lead, 0.5mm pitch, 5 x 5 mm Very Thin Quad Flat No Lead Package (VQFN) Sawn				2 AVR ATtiny
+32Z	quad	32	32-lead, 0.5mm pitch, 5x5mm Very Thin quad Flat No Lead Package (VQFN) Sawn				4 AVR XMEGA
+3LW	quad	28	28-VFQFN Exposed Pad				1 AVR Lx/Sx
+40P6	dual	40	40-pin, 0.600” Wide, Plastic Dual Inline Package (PDIP)	40P6: datasheets/mcu/microchip/2466S.pdf p.14 (B 0.356-0.559, row 15.24)	PDIP-40-600	DIP	13 AVR ATmega
+44A	quad	44	44-lead, Thin (1.0mm) Plastic Gull Wing Quad Flat Package (TQFP)				64 AVR ATmega,AVR XMEGA
+44J	plcc	44	44-lead, Plastic J-Leaded Chip Carrier (PLCC)				2 AVR ATmega
+44M1	quad	44	44-pad, 7 × 7 × 1.0mm body, lead pitch 0.50mm, Thermally Enhanced Plastic Very Thin Quad Flat No-Lead (VQFN)				43 AVR ATmega,AVR XMEGA
+44M1-A	quad	44	44-pad, 7 x 7 x 1.0 mm body, lead pitch 0.50 mm, Quad Flat No-Lead/Micro Lead Frame Package (QFN/MLF)				1 AVR ATmega
+44MC	drqfn	44	44-lead (2-row Staggered), 5 × 5 × 1.0mm body, 2.60 × 2.60mm Exposed Pad, Quad Flat No-Lead Package (VQFN)				2 AVR ATmega
+44ML	quad	44	44-TQFP				3 AVR ATmega
+44PW	quad	44	44-VFQFN Exposed Pad				3 AVR ATmega
+48AA	quad	48	48-lead, 7 x 7 x 1.44 mm body, 0.5 mm lead pitch, Low Profile Plastic Quad Flat Package (LQFP)				1 AVR ATmega
+49C2	grid	49	49-Ball (7 x 7 Array), 0.65mm Pitch, 5.0 x 5.0 x 1.0mm, very thin, fine-pitch ball grid array package (VFBGA)				8 AVR ATmega,AVR XMEGA
+64A	quad	64	64-lead, 14 * 14mm body size, 1.0mm body thickness, 0.8mm lead pitch, thin profile plastic quad flat package (TQFP)				80 AVR ATmega,AVR XMEGA
+64M	quad	64	64-pad, 9 * 9 * 1.0mm body, lead pitch 0.50mm, 7.65mm exposed pad, quad flat no-lead package (QFN)				9 AVR XMEGA
+64M1	quad	64	64-pad, 9 x 9 x 1.0mm, Quad Flat No-Lead/Micro Lead Frame Package (QFN/MLF)				26 AVR ATmega
+64M2	quad	64	64-pad, 9 x 9 x 1.0mm body, lead pitch 0.50mm, 7.65mm exposed pad, quad flat no-lead package (QFN)				11 AVR ATmega,AVR XMEGA
+64MC	drqfn	64	64-lead (2-row Staggered), 7 × 7 × 1.0 mm body, 4.0 × 4.0 mm Exposed Pad, Quad Flat No-Lead Package (QFN)				1 AVR ATmega
+64Z3	quad	64	64-pad, 9 x 9 x 1.0mm body, lead pitch 0.50mm, 7.65 x 7.65mm exposed pad, quad flat no-lead package (VQFN Sawn)				1 AVR XMEGA
+6LX	quad	48	VQFN48				25 AVR Dx,AVR Ex
+6ST1	dual	6	6-lead, 2.90 x 1.60 mm Plastic Small Outline Package (SOT23)	6ST1: datasheets/mcu/microchip/ATtiny4-5-9-10-Data-Sheet-DS40002060A.pdf p.161 (L 0.30-0.55, b 0.30-0.50, E 2.60-3.00; body E1 1.50-1.75 x D 2.80-3.00)	SOT23-6-MC-6ST1	SOT	8 AVR ATtiny
+7P	grid	49	49-ball (7 x 7 Array), 0.65mm pitch, 5x5x1.0mm, very thin, fine-pitch ball grid array package (VFBGA)				1 AVR XMEGA
+8-PIN-SOIC150	dual	8	8-SOIC (0.154", 3.90mm Width)	8S1 rev G: datasheets/mcu/microchip/Atmel-42505-8-bit-AVR-Microcontrollers-ATtiny102-ATtiny104_Summary.pdf p.13 (image; R2: L 0.40-1.27, b 0.31-0.51, E 5.79-6.20; body E1 3.81-3.99 x D 4.80-5.05)	SOIC-8-MC-8S1	SOIC	3 AVR ATtiny
+8-PIN-UDFN	dual	8	8-UFDFN Exposed Pad	8MA2: datasheets/mcu/microchip/Atmel-42505-8-bit-AVR-Microcontrollers-ATtiny102-ATtiny104_Summary.pdf p.12 (image; L 0.35-0.45 nom 0.40, b nom 0.25, E 3.00, D 2.00; exposed E2 1.30 x D2 1.50)	UDFN-8-MC-8MA2	DFN	1 AVR ATtiny
+8MA4	dual	8	8-pad, 2 x 2 x 0.6 mm Plastic Ultra Thin Dual Flat No Lead (UDFN)	8MA4: datasheets/mcu/microchip/Atmel-8127-AVR-8-bit-Microcontroller-ATtiny4-ATtiny5-ATtiny9-ATtiny10_Datasheet-Summary.pdf p.13 (image; L 0.20-0.40 nom 0.30, b 0.20-0.30, E 2.00; exposed E2 0.90 x D2 1.50)	UDFN-8-MC-8MA4	DFN	3 AVR ATtiny
+8P3	dual	8	8-lead, 0.300" Wide, Plastic Dual Inline Package (PDIP)	8P3: datasheets/mcu/microchip/2535S.pdf p.12 (inches: b .014-.022, row .300)	PDIP-8	DIP	9 AVR ATtiny
+8S1	dual	8	8-Lead, 3.90 mm Wide, Plastic Gull-Wing Small Outline (SOIC)	C04-057 SN + land: datasheets/mcu/attiny13a.pdf p.175-176 (R1: C 5.40, X1 0.60, Y1 1.55)	SOIC-8	SOIC	4 AVR ATtiny
+8S2	dual	8	8-lead, 0.208" Wide, Plastic Gull-Wing Small Outline (EIAJ SOIC)	8S2: datasheets/mcu/microchip/2535S.pdf p.13 (L 0.51-0.85, b 0.35-0.48, E 7.70-8.26; body E1 5.18-5.40 x D 5.13-5.35)	SOIC-8W-MC-8S2	SOIC	25 AVR ATtiny
+8X	dual	8	8-lead, 4.4 mm Wide, Plastic Thin Shrink Small Outline Package (TSSOP)	8X: datasheets/mcu/microchip/Atmel-2586-AVR-8-bit-Microcontroller-ATtiny25-ATtiny45-ATtiny85_Datasheet-Summary.pdf p.17 (L 0.50-0.70, b 0.25-0.30, E 6.20-6.60; body E1 4.30-4.50 x D 2.90-3.10)	TSSOP-8-MC-8X	TSSOP	4 AVR ATtiny
+A	quad	32	TQFP				13 AVR megaAVR 0
+A	quad	48	TQFP				13 AVR megaAVR 0
+A2	quad	64	64-Lead, Thin (1.0 mm / 0.03937 in) Plastic Gull Wing Quad Flat Package.				3 AVR AT90
+ESP32-C3-MINI-1	module		61-SMD Module				4 ESP32
+ESP32-C3-WROOM-02	module		32-SMD Module				2 ESP32
+ESP32-C6-MINI-1	module		53-SMD Module				4 ESP32
+ESP32-C6-WROOM-1	module		28-SMD Module				4 ESP32
+ESP32-MINI-1	module		55-SMD Module				3 ESP32
+ESP32-S2-MINI-2	module		56-VFQFN Exposed Pad				4 ESP32
+ESP32-S2-SOLO-2	module		41-SMD Module				4 ESP32
+ESP32-S3-MINI-1	module		65-SMD Module				3 ESP32
+ESP32-S3-WROOM-1	module		41-SMD Module				11 ESP32
+ESP32-WROOM-32	module		38-SMD Module				4 ESP32
+ESP32-WROOM-DA	module		43-SMD Module				1 ESP32
+ESP32-WROVER	module		38-SMD Module				5 ESP32
+M	quad	20	VQFN				37 AVR tinyAVR 0/1/2
+M	quad	24	VQFN				31 AVR tinyAVR 0/1/2
+M	quad	32	VQFN				14 AVR megaAVR 0
+M	quad	48	VQFN				6 AVR megaAVR 0
+MD	quad	64	64-TQFP				4 AVR AT90
+MR	quad	64	VQFN64				13 AVR Dx
+P	dual	40	PDIP	C04-016: datasheets/mcu/microchip/ATmega4808-09-DataSheet-DS40002173C.pdf p.538 (inches: b .014-.023, row .600)	PDIP-40-600	DIP	1 AVR megaAVR 0
+PS	quad	64	64-VFQFN Exposed Pad				3 AVR AT90
+PT	quad	32	TQFP				48 AVR Dx,AVR Ex,AVR Lx/Sx
+PT	quad	48	TQFP				25 AVR Dx,AVR Ex
+PT	quad	64	TQFP				13 AVR Dx
+PV	quad	32	32-VQFN Exposed Pad				2 AVR ATmega
+PW	quad	44	44-Lead, 7x7x1mm body, lead pitch 0.50mm, 5.20mm exposed pad, thermally enhanced plastic very thin quad no lead package (VQFN)				4 AVR XMEGA
+QFN-56	quad	56	56-VFQFN Exposed Pad				2 RP2040
+QFN32	quad	32	32-Lead, Quad Flat No lead				6 AVR AT90
+QZB	quad	32	VQFN32				2 AVR Lx/Sx
+REB	quad	20	VQFN20				12 AVR Dx,AVR Ex
+RXB	quad	32	VQFN32				43 AVR Dx,AVR Ex
+S	dual	20	SOIC300	C04-094 SO + land: datasheets/mcu/microchip/ATtiny1624-26-27-DataSheet-DS40002234A.pdf p.508-509 (R1: C 9.40, X 0.60, Y 1.95)	SOIC-20W	SOIC	37 AVR tinyAVR 0/1/2
+S8S1	dual	8	8-lead, 0.150" Wide, Plastic Gull-Wing Small Outline (JEDEC SOIC)	8S1 rev A: datasheets/mcu/microchip/2535S.pdf p.14 (image; maxima only: L 1.27, B 0.51, H 6.20 -> R2 as 8S1 rev G)	SOIC-8-MC-8S1	SOIC	11 AVR ATtiny
+SL	dual	14	SOIC14	C04-065 SL + land: datasheets/mcu/microchip/AVR16EB14_20_28_32-Prelim-DataSheet-DS40002522.pdf p.587-588 (R1)	SOIC-14	SOIC	20 AVR Dx,AVR Ex
+SO	dual	20	SOIC20	C04-094 SO + land: datasheets/mcu/microchip/AVR32-16DD20-14-Complete-DataSheet-DS40002413.pdf p.655-656 (R1)	SOIC-20W	SOIC	12 AVR Dx
+SO	dual	28	SOIC	C04-052 (drawing-number table): datasheets/mcu/microchip/AVR64DD32-28-Complete-DataSheet-DS40002315.pdf drawing-number table: 28 SOIC C04-00052 SO (the drawing pages are images); SOIC-28W is drawn from C04-052C + C04-2052A	SOIC-28W	SOIC	29 AVR Dx
+SO24	dual	24	24-Lead, Small Outline Package	TD: datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf p.19 (image; L 0.40-1.27, B 0.35-0.49, H 10.00-10.65; body E 7.40-7.60 x D 15.20-15.60)	SOIC-24W-MC-TD	SOIC	3 AVR AT90
+SP	dual	28	SPDIP	C04-070: datasheets/mcu/microchip/AVR128DA28-32-48-64-Data-Sheet-DS40002183.pdf p.657 (inches: b .014-.022, row .300 / E .290-.335)	PDIP-28-MC-28P3	DIP	28 AVR Dx,AVR Ex,AVR Lx/Sx
+SS	dual	14	SOIC150	C04-065 SL + land: datasheets/mcu/microchip/ATtiny1614-16-17-DataSheet-DS40002204A.pdf p.569-570 (R1: C 5.40, X 0.60, Y 1.55)	SOIC-14	SOIC	43 AVR tinyAVR 0/1/2
+SS	dual	20	SSOP20, SSOP28	C04-072 SS + land: datasheets/mcu/microchip/AVR16EB14_20_28_32-Prelim-DataSheet-DS40002522.pdf p.593-594 (R1: C 7.00, X1 0.45, Y1 1.85)	SSOP-20	SSOP	6 AVR Dx,AVR Ex,AVR Lx/Sx
+SS	dual	28	SSOP	C04-073 SS + C04-2073: datasheets/mcu/microchip/AVR128DA28-32-48-64-DataSheet-DS40002183B.pdf p.582-583 (R1)	SSOP-28	SSOP	45 AVR Dx,AVR Ex,AVR Lx/Sx
+SS	dual	8	SOIC150	C04-057 SN + land: datasheets/mcu/microchip/ATtiny202-204-402-404-406-DataSheet-DS40002318A.pdf p.497-498 (R1: C 5.40, X1 0.60, Y1 1.55)	SOIC-8	SOIC	15 AVR tinyAVR 0/1/2
+ST	dual	14	TSSOP14	C04-087 + land: datasheets/mcu/microchip/ATtiny1624-26-27-DataSheet-DS40002234A.pdf p.505-506 (R1: C 5.90, X 0.45, Y 1.45; same drawing as AVR16EB14 p.590)	TSSOP-14	TSSOP	4 AVR Ex,AVR Lx/Sx
+STX	quad	28	VQFN28				25 AVR Dx,AVR Ex
+TQFP32	quad	32	32-TQFP				1 AVR AT90
+X	dual	14	TSSOP, SSOP	C04-087 + land: datasheets/mcu/microchip/ATtiny1624-26-27-DataSheet-DS40002234A.pdf p.505-506 (R1)	TSSOP-14	TSSOP	16 AVR tinyAVR 0/1/2
+X	dual	20	TSSOP, SSOP	C04-072 (drawing-number table): datasheets/mcu/microchip/ATtiny424-426-427-824-826-827-DataSheet-DS40002311A.pdf drawing-number table: 20 SSOP C04-00072; land C04-2072 as for SS-20	SSOP-20	SSOP	16 AVR tinyAVR 0/1/2
+X	dual	28	SSOP	C04-073 SS + C04-2073: datasheets/mcu/microchip/ATmega3208-3209-Data-Sheet-DS40002174A.pdf p.522-523 (R1)	SSOP-28	SSOP	11 AVR megaAVR 0
+Z64-1	quad	64	64-Lead, QFN, Exposed Die Attach Pad D2/E2: 5.4 ± 0.1mm / 0.212 ± 0.004 in.				1 AVR AT90
+Z64-2	quad	64	64-Lead, QFN, Exposed Die Attach Pad D2/E2: 6.0 ± 0.1mm / 0.236 ± 0.004 in.				2 AVR AT90

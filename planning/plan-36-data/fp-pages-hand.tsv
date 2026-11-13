@@ -1,0 +1,12 @@
+code	geometry	pins	pdf	page	land_page	drawing	title
+14-PIN-SOIC150	dual	14	datasheets/mcu/microchip/Atmel-42505-8-bit-AVR-Microcontrollers-ATtiny102-ATtiny104_Summary.pdf	14		TU	8.3 14-pin SOIC150 (image, read by eye)
+14X	dual	14	datasheets/mcu/microchip/Atmel-8235-8-bit-AVR-Microcontroller-ATtiny20_Datasheet.pdf	210		14X	25.3 14X (dimension callouts, not a table)
+20S	dual	20	datasheets/mcu/microchip/1477S.pdf	12		20S2	20S section prints drawing 20S2 (image)
+20S2	dual	20	datasheets/mcu/microchip/8197S.pdf	16		20S2	7.3 20S2 (image)
+20X	dual	20	datasheets/mcu/microchip/8197S.pdf	17		20X	7.4 20X (image)
+8-PIN-SOIC150	dual	8	datasheets/mcu/microchip/Atmel-42505-8-bit-AVR-Microcontrollers-ATtiny102-ATtiny104_Summary.pdf	13		8S1	8.2 8-pin SOIC150 (image)
+8-PIN-UDFN	dual	8	datasheets/mcu/microchip/Atmel-42505-8-bit-AVR-Microcontrollers-ATtiny102-ATtiny104_Summary.pdf	12		8MA2	8.1 8-pin UDFN (image)
+8MA4	dual	8	datasheets/mcu/microchip/Atmel-8127-AVR-8-bit-Microcontroller-ATtiny4-ATtiny5-ATtiny9-ATtiny10_Datasheet-Summary.pdf	13		8MA4	5.2 8MA4 (image)
+S8S1	dual	8	datasheets/mcu/microchip/2535S.pdf	14		8S1	7.3 S8S1 (image)
+SO	dual	28	datasheets/mcu/microchip/AVR64DD32-28-Complete-DataSheet-DS40002315.pdf	651		C04-00052	p.651 drawing-number table (SOIC 28 C04-00052 SO); SOIC-28W is drawn from the same C04-052
+SO24	dual	24	datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	19		TD	7.1 SO24 (image)

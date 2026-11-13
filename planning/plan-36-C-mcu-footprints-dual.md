@@ -35,8 +35,8 @@ plan-36-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-36-B complete | `ls planning/completed/plan-36-B-*.md` → exists | NOT MET (2026-11-12: plan written) |
-| The loader probe works | `echo '{"footprints":[]}' > /tmp/p36-fp0.json && planning/plan-36-data/census/fp-load.sh /tmp/p36-fp0.json` → `0 new footprints: load ok` (after Phase 1's copy) | NOT MET until Phase 1 |
+| plan-36-B complete | `ls planning/completed/plan-36-B-*.md` → exists | MET 2026-11-13 (2bb16a5) |
+| The loader probe works | `echo '{"footprints":[]}' > /tmp/p36-fp0.json && planning/plan-36-data/census/fp-load.sh /tmp/p36-fp0.json` → `0 new footprints: load ok` (after Phase 1's copy) | MET 2026-11-13: `0 footprints appended` / `0 new footprints: load ok` |
 
 ## 1. Goal
 
@@ -105,27 +105,33 @@ drawing.
 
 ### Phase 1 — Probe scripts and the code list
 
-- [ ] Copy `planning/plan-35-data/census/fp-load.sh` and `fp-merge.py` to
+- [x] Copy `planning/plan-35-data/census/fp-load.sh` and `fp-merge.py` to
       `planning/plan-36-data/census/`. Change `p35` → `p36` in the temp
       names, then run the empty-file probe (§ Prerequisites).
-- [ ] `census/fp-codes.py`: list the `dual` rows of `package-codes.tsv`
+      Done (`/tmp/p36-fp.XXXXXX`); the probe → `0 new footprints: load ok`.
+- [x] `census/fp-codes.py`: list the `dual` rows of `package-codes.tsv`
       with the PDF and page of each code's drawing (the "Packaging
       Information" page whose text has the code). Write them to
       `fp-pages.tsv`.
+      `census/drawings.py` reads every add-row PDF's package drawings into `drawings.json` (670 drawing pages; dimension tables by column position, land-pattern tables). `census/drawing-numbers.py` reads the newer datasheets' drawing-number tables (`drawing-numbers.tsv`). `fp-codes.py` → `fp-pages.tsv`: a code's drawing in its own PDFs, else the same Microchip drawing (C04 number) printed as text in another datasheet. 11 drawings are image pages, read by eye and listed in `fp-pages-hand.tsv`.
 
 Acceptance: every dual code has a drawing page.
   Check: `awk -F'\t' '$2=="dual" && $5==""' planning/plan-36-data/fp-pages.tsv | wc -l` → 0 (`$5` is the page) (est. 2 min).
+  Result 2026-11-13: `0` (35 dual (code, pins) rows).
 Commit: —
 
 ### Phase 2 — Footprints
 
-- [ ] For each code: apply the reuse rule, or write a new object into
+- [x] For each code: apply the reuse rule, or write a new object into
       `footprints-C.json` (R1/R2/R4/R5). Then fill the `footprint` column of
       `package-codes.tsv`.
-- [ ] Load: `planning/plan-36-data/census/fp-load.sh planning/plan-36-data/footprints-C.json`.
+      `census/fp-specs-C.py` holds each code's numbers with their source and rule. 22 rows reuse an existing footprint: SOIC-8 / SOIC-14 (Microchip SN / SL land patterns equal TI's D0008A / D0014A), SOIC-20W, SOIC-28W (the same Microchip drawing C04-052), SSOP-20 / -28, TSSOP-14, PDIP-8 / -14 / -20 / -40-600. 13 new: SOIC-8-MC-8S1, SOIC-14-MC-14S1, SOIC-8W-MC-8S2, SOIC-20W-MC-20S2, SOIC-24W-MC-TD, TSSOP-8-MC-8X, TSSOP-14-MC-14X, TSSOP-20-MC-20X, PDIP-28-MC-28P3, SOT23-6-MC-6ST1, UDFN-8-MC-8MA4, UDFN-8-MC-8MA2, VDFN-10-MC-10M1 (Atmel outline-only drawings, R2/R4/R5). `package-codes.tsv` gains `footprint`, `drawing` and a `package` column (DIP / SOIC / SSOP / TSSOP / SOT / DFN).
+- [x] Load: `planning/plan-36-data/census/fp-load.sh planning/plan-36-data/footprints-C.json`.
+      → `13 footprints appended` / `13 new footprints: load ok` (`fp-merge.py --expect`: only extra / unused lines for exactly the new ids).
 
 Acceptance: the new footprints load, and every dual code has one.
   Check: `fp-load.sh footprints-C.json` → only `extra footprint` / `unused footprint` lines naming exactly the ids in `footprints-C.json`; `awk -F'\t' '$2=="dual" && $6==""' planning/plan-36-data/package-codes.tsv | wc -l` → 0 (`$6` is `footprint`) (est. 3 min).
+  Result 2026-11-13: `13 new footprints: load ok`; `0`.
 Commit: —
 
 ## Validation Plan
@@ -148,6 +154,10 @@ Commit: —
   name.
 
 ## Corrections
+
+- **2026-11-13: the reuse test's span.** § 3 asks for the same pin count, pitch and span, with each pad side within 0.10 mm. The span is compared within 0.10 mm too: Microchip's SOIC-20 land pattern (C 9.40) against TI's SOIC-20W (9.3), and C04-087's TSSOP-14 (C 5.90) against TSSOP-14 (5.8), are one package. An R2 result further off (Atmel's 14X: 5.95) gets its own footprint. Reuse is also limited to the code's package family (`PDIP-`, `SOIC-`, …), because the first run matched 8P3 to an oscillator's `OSC-DIP8-HALF` and 14P3 to `CDIP-14`.
+- **2026-11-13: image drawings.** 11 of the 35 dual codes have their drawing only as an image (old Atmel summaries). They were read by eye (`fp-pages-hand.tsv`, numbers in `fp-specs-C.py`). SO-28's pages are images in every datasheet that uses it, so it is matched through the drawing-number table to C04-052, the drawing `SOIC-28W` was made from.
+- **2026-11-13: a `package` column** was added to `package-codes.tsv` (G writes it on each part).
 
 ## Summary
 
