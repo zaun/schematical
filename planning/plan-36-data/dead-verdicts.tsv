@@ -1,0 +1,7 @@
+pdf	mpn_regex	verdict	reason	evidence
+5530fd7a7b825741dec939bb4e7d2920	ATXMEGA(128|64)A1-.*	out	datasheet: NRND	every page of the XMEGA A1 datasheet (8067O): "Not recommended for new designs - Use XMEGA A1U series"
+f74c1663bef61da76ce5e3c27cd426bd	ATXMEGA(16|32)A4-.*	out	datasheet: NRND	every page of the XMEGA A4 datasheet (8069R): "Not recommended for new designs - Use XMEGA A4U series"
+fdad1bc2375dc5972bd66221a4b86d71	ATXMEGA(64|128|192|256)A3-.*	out	datasheet: NRND	every page of the XMEGA A3 datasheet (8068U): "Not recommended for new designs - Use XMEGA A3U series"
+6bf4d9e814ff72b06259e949c58b1913	ESP32-S2-SOLO-N4	out	datasheet: end of life	ESP32-S2-SOLO & SOLO-U datasheet v1.8 p.3 Table 1: "ESP32-S2-SOLO-N4 (End of life)"
+1205b7559a07e9491cfa4939842c5aa0	ESP32-S2-SOLO-2-N4(R2)?	keep		ESP32-S2-SOLO-2 datasheet p.4: only -H4 and -N8 print "(End of life)"; p.35 is the watermark legend
+c12b9af2c3e3ac5c34e94ba852fe2000	ESP32-C3-MINI-1U?-[NH]4X	keep		ESP32-C3-MINI-1 datasheet p.3-4: "(NRND)" marks the v0.4 -N4 / -H4 / -H4-AZ codes; the -N4X / -H4X v1.1 codes are "(Recommended)"

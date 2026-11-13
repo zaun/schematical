@@ -322,26 +322,31 @@ Commit: 11ff43c
 Acceptance: every in-scope row with a PDF has a hit or a skip reason.
   Check: `python3 -I planning/plan-36-data/census/verdicts.py /tmp/p36/cand.tsv planning/plan-36-data/specs.tsv --report` → `0 undecided` (est. 3 min after the regexes; nothing smaller checks every row).
   Result 2026-11-13: `0 undecided` (`add 1445 skip 67`).
-Commit: —
+Commit: 78d5f3d
 
 ### Phase 4 — Dead rows, docs, placement
 
-- [ ] Read each `dead` = 1 row's page, and record `out` (reason `datasheet:
+- [x] Read each `dead` = 1 row's page, and record `out` (reason `datasheet:
       obsolete` / `NRND` / `discontinued`) or keep it in `specs.tsv`'s
       `note`. A PDF whose every row is `out` for datasheet status: delete
       it from `/tmp/p36/pdf` and add a line to
       `datasheets/obsolete-not-included.md` (PDF name, family `mcu` /
       Microcontroller / <family>).
-- [ ] `datasheets/skipped-parts.md`: one line per (reason, PDF) of the
+      30 dead = 1 rows read (`dead-verdicts.tsv`, applied by `census/dead.py`): XMEGA A1, A3 and A4 (every page: "Not recommended for new designs") and ESP32-S2-SOLO-N4 ("End of life") → 25 rows `out` (including 6 reel twins already `skip`). Kept: ESP32-S2-SOLO-2-N4/-N4R2 and ESP32-C3-MINI-1(U)-N4X/-H4X (the marks are on other codes of the same table). Every row of those 4 PDFs is out → 4 lines in `datasheets/obsolete-not-included.md`; the PDFs are not placed. `dead.py` → `0 dead = 1 add rows not read`.
+- [x] `datasheets/skipped-parts.md`: one line per (reason, PDF) of the
       `skip` rows, in that file's table format.
-- [ ] `census/place.py` (§ 4). `git add` only `datasheets/mcu/` and the two
+      → a "Microcontrollers (plan-36)" section with 35 lines for the 61 skip rows (`census/docs.py`).
+- [x] `census/place.py` (§ 4). `git add` only `datasheets/mcu/` and the two
       `.md` files.
-- [ ] Copy `/tmp/p36/cand.tsv` to `planning/plan-36-data/candidates.tsv`.
+      → `152 PDFs placed for 164 URLs (2 are spike PDFs already in the tree)` (`atmega328p.pdf`, `attiny13a.pdf`); 780 MB under `datasheets/mcu/{microchip,espressif,raspberry-pi}/`. `pdf` now holds the tree path.
+- [x] Copy `/tmp/p36/cand.tsv` to `planning/plan-36-data/candidates.tsv`.
       Update `planning/plan-36-data/README.md` with the verdict counts per
       family.
+      Done; README has the per-family table (1426 add on 304 devices, 61 skip, 25 out for datasheet status, 11 out for stock).
 
 Acceptance: every `add` row's PDF is in the tree, and nothing extra is.
   Check: `python3 -I planning/plan-36-data/census/place.py --verify planning/plan-36-data/candidates.tsv` → `0 missing, 0 unused` (est. 1 min).
+  Result 2026-11-13: `1426 add rows, 152 PDFs, 0 missing, 0 unused`.
 Commit: —
 
 ## Validation Plan
@@ -388,6 +393,8 @@ Commit: —
 - **2026-11-13, Phase 3: specs.tsv format.** "One row per PDF" became one or more rows per PDF (AT90USB82 and -162 print different code sets, and a regex cannot reuse a group name). Two `package_field` forms were added: `pkg:A=X,…` maps the part-number letters to the datasheet's own codes (AT90USB `-AU` → `MD`), and `base` takes a reel twin's code from its base number. A `V:` regex prefix reads the package of a verbatim hit only. The ESP32 and RP2040 rows use `device` and `=QFN-56` (B § 3.1). The format is documented in `verdicts.py`'s docstring.
 - **2026-11-13, Phase 3: en dashes.** Atmel's ATmega128 tables print `ATmega128–16AN` with an en dash. `textscan.dashes` normalises U+2010/2011/2013 to `-` before any match.
 - **2026-11-13, package codes for megaAVR 0 `M`.** The figure's `M = QFN (UQFN/VQFN)` covers both a 48-pin UQFN and a 48-pin VQFN (DigiKey: 4 `48-UFQFN`, 2 `48-VFQFN`). The code alone does not pick the land pattern. B's `package-codes.tsv` and D must split it by drawing.
+- **2026-11-13, Phase 4: the spike PDFs.** Two of the six spike PDFs are the files add rows use (`atmega328p.pdf`, `attiny13a.pdf`, by SHA-256). The other four (`atmega2560.pdf`, `atmega32u4.pdf`, `atmega4809.pdf`, and `attiny85.pdf`, which matches only a skip row's PDF) are different editions than the ones DigiKey links. They predate plan-36 (fae501f), so `place.py --verify` leaves them out of "unused" and plan-36 does not delete them.
+- **2026-11-13, final A counts.** 1426 add rows on 304 devices (planning: 1521 rows, 316 devices, before the verdicts). B, F, G and H use these figures. G's `|mcu|` count must equal 1426 unless B–E change a verdict.
 - **2026-11-13, `run.sh` calls `/tmp/p36/census/list.js`**, a copy left from planning, not the tree's file; `diff` shows them identical, so the listing ran the tree's code.
 
 ## Summary

@@ -689,3 +689,46 @@ by `planning/plan-33-data/census/decide.py --skipped`.
 | REA0511R47M050K | KYOCERA AVX | `capacitor` / Capacitors → Electrolytic | not in the datasheet's ordering table (regex, rea-series.pdf) |
 | TCTOM1A335M8R | KYOCERA AVX | `capacitor` / Capacitors → Tantalum | no datasheet on the maker's site (no answer, d1d2qsbl8m0m72.cloudfront.net) |
 | TAP105J020SCS | KYOCERA AVX | `capacitor` / Capacitors → Tantalum | not in the datasheet's ordering table (regex, tap.pdf) |
+
+## Microcontrollers (plan-36)
+
+In-stock DigiKey parts in plan-36's scope (8-bit AVR, ESP32 modules, RP2040; listed 2026-11-13)
+left out by plan-36-A § 3: the part number is not in its datasheet's ordering table (rule 5),
+checked against the row's own PDF, every PDF of its device and every same-maker PDF naming the device.
+
+| Part(s) | Device | Would have gone into | Why skipped |
+|---|---|---|---|
+| ATMEGA16-16AUR, ATMEGA16L-8AUR | ATMEGA16, `2466S.pdf` | `mcu` / Microcontroller → AVR ATmega | Not in the datasheet's ordering table (`2466S.pdf`). |
+| ATMEGA8535-16AUR, ATMEGA8535L-8AUR | ATMEGA8535, `2502S.pdf` | `mcu` / Microcontroller → AVR ATmega | Not in the datasheet's ordering table (`2502S.pdf`). |
+| ATMEGA644-20AUR, ATMEGA644V-10AUR | ATMEGA644, `2593S.pdf` | `mcu` / Microcontroller → AVR ATmega | Not in the datasheet's ordering table (`2593S.pdf`). |
+| AT90USB1286-AUR, AT90USB1286-MUR, AT90USB647-AUR | AT90USB1286, AT90USB647, `7593S.pdf` | `mcu` / Microcontroller → AVR AT90 | Not in the datasheet's ordering table (`7593S.pdf`). |
+| AT90USB646-AUR, AT90USB646-MUR | AT90USB646, `7593S.pdf` | `mcu` / Microcontroller → AVR AT90 | Not in the datasheet's ordering table (`7593S.pdf`). |
+| AT90CAN128-16AUR, AT90CAN128-16MUR, AT90CAN32-16AUR, AT90CAN64-16AUR | AT90CAN128, AT90CAN32, AT90CAN64, `7679S.pdf` | `mcu` / Microcontroller → AVR AT90 | Not in the datasheet's ordering table (`7679S.pdf`). |
+| AT90USB162-16AUR, AT90USB162-16MUR, AT90USB82-16MUR | AT90USB162, AT90USB82, `7707S.pdf` | `mcu` / Microcontroller → AVR AT90 | Not in the datasheet's ordering table (`7707S.pdf`). |
+| ATMEGA16U2-AUR, ATMEGA32U2-AUR, ATMEGA32U2-MUR, ATMEGA8U2-AUR | ATMEGA16U2, ATMEGA32U2, ATMEGA8U2, `7799S.pdf` | `mcu` / Microcontroller → AVR ATmega | Not in the datasheet's ordering table (`7799S.pdf`). |
+| ATMEGA169P-16AUR, ATMEGA169PV-8AUR | ATMEGA169P, `8018s.pdf` | `mcu` / Microcontroller → AVR ATmega | Not in the datasheet's ordering table (`8018s.pdf`). |
+| ATMEGA165P-16AN, ATMEGA165P-16AUR | ATMEGA165P, `8019S.pdf` | `mcu` / Microcontroller → AVR ATmega | Not in the datasheet's ordering table (`8019S.pdf`). |
+| ATMEGA325P-20AUR | ATMEGA325P, `8023S.pdf` | `mcu` / Microcontroller → AVR ATmega | Not in the datasheet's ordering table (`8023S.pdf`). |
+| ATMEGA164P-20AQ | ATMEGA164P, `ATmega164P-324P-644P-Data-Sheet-40002071A.pdf` | `mcu` / Microcontroller → AVR ATmega | Not in the datasheet's ordering table (`ATmega164P-324P-644P-Data-Sheet-40002071A.pdf`). |
+| ATTINY1616-XFR, ATTINY1616-XNR | ATTINY1616, `ATtiny1614-16-17-DataSheet-DS40002204A.pdf` | `mcu` / Microcontroller → AVR tinyAVR 0/1/2 | Not in the datasheet's ordering table (`ATtiny1614-16-17-DataSheet-DS40002204A.pdf`). |
+| ATMEGA64L-8AQR | ATMEGA64, `Atmel-2490-8-bit-AVR-Microcontroller-ATmega64-L_summary.pdf` | `mcu` / Microcontroller → AVR ATmega | Not in the datasheet's ordering table (`Atmel-2490-8-bit-AVR-Microcontroller-ATmega64-L_summary.pdf`). |
+| ATMEGA162-16AUR, ATMEGA162V-8AUR | ATMEGA162, `Atmel-2513-8-bit-AVR-Microntroller-ATmega162_Datasheet-Summary.pdf` | `mcu` / Microcontroller → AVR ATmega | Not in the datasheet's ordering table (`Atmel-2513-8-bit-AVR-Microntroller-ATmega162_Datasheet-Summary.pdf`). |
+| ATMEGA162V-8MUR | ATMEGA162, `Atmel-2513-8-bit-AVR-Microntroller-ATmega162_Datasheet.pdf` | `mcu` / Microcontroller → AVR ATmega | Not in the datasheet's ordering table (`Atmel-2513-8-bit-AVR-Microntroller-ATmega162_Datasheet.pdf`). |
+| ATTINY85-20SF | ATTINY85, `Atmel-2586-AVR-8-bit-Microcontroller-ATtiny25-ATtiny45-ATtiny85_Datasheet-Summary.pdf` | `mcu` / Microcontroller → AVR ATtiny | Not in the datasheet's ordering table (`Atmel-2586-AVR-8-bit-Microcontroller-ATtiny25-ATtiny45-ATtiny85_Datasheet-Summary.pdf`). |
+| ATTINY85-20SFR | ATTINY85, `Atmel-2586-AVR-8-bit-Microcontroller-ATtiny25-ATtiny45-ATtiny85_Datasheet.pdf` | `mcu` / Microcontroller → AVR ATtiny | Not in the datasheet's ordering table (`Atmel-2586-AVR-8-bit-Microcontroller-ATtiny25-ATtiny45-ATtiny85_Datasheet.pdf`). |
+| ATMEGA644P-20AQR | ATMEGA644P, `Atmel-42744-ATmega644P_Summary.pdf` | `mcu` / Microcontroller → AVR ATmega | Not in the datasheet's ordering table (`Atmel-42744-ATmega644P_Summary.pdf`). |
+| AT90PWM2B-16SUR | AT90PWM2B, `Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf` | `mcu` / Microcontroller → AVR AT90 | Not in the datasheet's ordering table (`Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf`). |
+| ATTINY25-15ST1 | ATTINY25, `Atmel-7598_Automotive-Microcontrollers-ATtiny25-45-85_Datasheet.pdf` | `mcu` / Microcontroller → AVR ATtiny | Not in the datasheet's ordering table (`Atmel-7598_Automotive-Microcontrollers-ATtiny25-45-85_Datasheet.pdf`). |
+| ATMEGA16U4-AUR, ATMEGA16U4-MUR, ATMEGA32U4-AUR, ATMEGA32U4-MUR, ATMEGA32U4RC-AUR, ATMEGA32U4RC-MUR | ATMEGA16U4, ATMEGA32U4, `Atmel-7766-8-bit-AVR-ATmega16U4-32U4_Summary.pdf` | `mcu` / Microcontroller → AVR ATmega | Not in the datasheet's ordering table (`Atmel-7766-8-bit-AVR-ATmega16U4-32U4_Summary.pdf`). |
+| ATMEGA128A-AN, ATMEGA128A-ANR | ATMEGA128A, `Atmel-8151S-8-bit-AVR-ATmega128A_Datasheet%20Summary.pdf` | `mcu` / Microcontroller → AVR ATmega | Not in the datasheet's ordering table (`Atmel-8151S-8-bit-AVR-ATmega128A_Datasheet%20Summary.pdf`). |
+| ATMEGA32M1-AUR | ATMEGA32M1, `Atmel-8209-8-bit%20AVR%20ATmega16M1-32M1-64M1_Summary.pdf` | `mcu` / Microcontroller → AVR ATmega | Not in the datasheet's ordering table (`Atmel-8209-8-bit%20AVR%20ATmega16M1-32M1-64M1_Summary.pdf`). |
+| ATXMEGA256A3B-MH | ATXMEGA256A3B, `Atmel-8362-8-and-16bit-AVR-microcontroller-ATxmega256A3BU_datasheet.pdf` | `mcu` / Microcontroller → AVR XMEGA | Not in the datasheet's ordering table (`Atmel-8362-8-and-16bit-AVR-microcontroller-ATxmega256A3BU_datasheet.pdf`). |
+| ATMEGA16-16MUR, ATMEGA16L-8MUR | ATMEGA16, `doc2466.pdf` | `mcu` / Microcontroller → AVR ATmega | Not in the datasheet's ordering table (`doc2466.pdf`). |
+| ATMEGA8515-16JUR, ATMEGA8515L-8AUR, ATMEGA8515L-8JUR | ATMEGA8515, `doc2512.pdf` | `mcu` / Microcontroller → AVR ATmega | Not in the datasheet's ordering table (`doc2512.pdf`). |
+| ATMEGA644-20MUR | ATMEGA644, `doc2593.pdf` | `mcu` / Microcontroller → AVR ATmega | Not in the datasheet's ordering table (`doc2593.pdf`). |
+| AT90USB1287-AUR | AT90USB1287, `doc7593.pdf` | `mcu` / Microcontroller → AVR AT90 | Not in the datasheet's ordering table (`doc7593.pdf`). |
+| AT90PWM81-16MN | AT90PWM81, `doc7734.pdf` | `mcu` / Microcontroller → AVR AT90 | Not in the datasheet's ordering table (`doc7734.pdf`). |
+| ATMEGA16U2-MUR | ATMEGA16U2, `doc7799.pdf` | `mcu` / Microcontroller → AVR ATmega | Not in the datasheet's ordering table (`doc7799.pdf`). |
+| ATMEGA169PV-8MCHR | ATMEGA169P, `doc8018.pdf` | `mcu` / Microcontroller → AVR ATmega | Not in the datasheet's ordering table (`doc8018.pdf`). |
+| ATTINY261A-MFR | ATTINY261A, `doc8197.pdf` | `mcu` / Microcontroller → AVR ATtiny | Not in the datasheet's ordering table (`doc8197.pdf`). |
+| ESP32-WROOM-DA-N4 | ESP32-WROOM-DA, `esp32-wroom-da_datasheet_en.pdf` | `mcu` / Microcontroller → ESP32 | Not in the datasheet's ordering table (`esp32-wroom-da_datasheet_en.pdf`). |
