@@ -895,6 +895,13 @@ The values are facts for the app (`PartResistor`: resistance in
 milliohms, tolerance in parts per million, power in milliwatts; 0 = not
 given); the simulation does not use them.
 
+The library's `resistor.json` (plan-34) holds YAGEO, Vishay Dale and Viking
+Tech chip, axial and array resistors, one device per (category,
+composition, pinout, ohms group), under **Resistors → Chip / Through-hole /
+Array → `< 1 kΩ` … `≥ 1 MΩ`**, and `GENERIC-RESISTOR` (Resistors → Generic:
+Axial, 1 kΩ, with the pulls' six footprint choices; its placed value is
+the file's `ohms`).
+
 ```json
 {"id": "chip-1k-5k", "function": "1 kΩ – 5 kΩ", "description": "Thick film chip resistor",
  "drawer": ["Resistors", "Chip"],
