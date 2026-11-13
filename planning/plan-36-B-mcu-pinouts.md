@@ -275,7 +275,7 @@ Commit: 4c176db
 Acceptance: the checks pass and every device has facts.
   Check: `awk -F'\t' '$5!~/^(ok|full ok|typo:)/' planning/plan-36-data/pinout-checks.tsv | wc -l` → 1 (the header), and `python3 -I planning/plan-36-data/census/facts-check.py planning/plan-36-data/devices.tsv` → `0 mismatches` (est. 5 min).
   Result 2026-11-13: `1`; `304 devices, 0 mismatches`.
-Commit: —
+Commit: b6e1357
 
 ## Validation Plan
 
