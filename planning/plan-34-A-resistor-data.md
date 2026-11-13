@@ -372,6 +372,7 @@ Commit: —
       (`select.py --stock`, `fetch.py`, `textscan.py`, `sibling.py`,
       `place.py` after clearing `datasheets/resistor/`, `footprint-lines.py`,
       `specs-skeleton.py`, which merges) and their checks (§ Corrections 6).
+      Scripted with B–F's re-runs as `census/finish.sh`.
 - [ ] Run it on the picked rows from cut pieces (1778 at planning time);
       re-run `select.py --stock`; check the newly picked rows from cut
       pieces; repeat until none is unchecked. Copy the result to
