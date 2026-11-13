@@ -209,7 +209,7 @@ Commit: 386166f
       footprint prefix X" and now gets an `mcu` part is narrowed to its
       original kind (`&& $0.kind == PART_…`), and each such change is noted
       here. None needed: a probe of the picks (`BoardPreviewTests`' PDIP- / SOIC- / PINHDR- / CAPE-RAD / LED-RADIAL, `PCBUndoTests`' connector) got ADS7812PB, MB1S, GENERIC-HEADER-1X02, ESK105M050AC3AA, GENERIC-LED, 162H BC BW; `FootprintPreviewTests` picks exact ids, which plan-36's `-MC-` ids never match. The first run (641 + 11 = 652 tests) failed only `CustomFootprintDraftTests.testEveryExplicitFootprintRoundTrips`: 482 explicit footprints, not 458, and the three that name pads by `ball` (DRQFN-44-MC-44MC, DRQFN-64-MC-64MC, WLCSP-12-MC-12U-3) were written back with `"pins": 0`, since `PadDraft` knew only numbered pads. `PadDraft` gained `ball` (read, written, compared; `pinCount` counts balls), and the count is 482. Rerun: `Executed 652 tests, with 0 failures`; `** TEST SUCCEEDED **`; McuTests and SimulationAvailabilityTests in the log (26 lines).
-- [ ] Real app (the `run` skill; the memory notes on opening files and on
+- [x] Real app (the `run` skill; the memory notes on opening files and on
       other sessions driving the screen apply). On an empty schematic,
       place ATMEGA328P-PU: Simulation › Run is disabled and shows `U1
       (ATMEGA328P-PU) is not simulated`; ⇧⌘R does nothing. Delete it: Run
@@ -218,10 +218,12 @@ Commit: 386166f
       ports on both sides, and the PCB page shows its footprint. Save the
       screenshot of the disabled menu to `planning/plan-36-data/h-app-check.png`.
       Move the pointer to (0, 0) at the end (AGENTS.md).
+      Done 2026-11-13 on the worktree build (pid 46670; the owner's own build, pid 16510, untouched), driven by CGEvents (`/tmp/p32/drive`). ATMEGA328P-PU was dragged from the drawer (search, Microcontroller › AVR ATmega › ATmega328P; row "DIP · 20 MHz · 1.8–5.5 V") onto an empty schematic: U1, a block with ports on both sides. Simulation › Run greyed out, with the greyed line `U1 (ATMEGA328P-PU) is not simulated` under it, and Speed still enabled (`h-app-check.png`). ⇧⌘R: the menu still said Run, and the drawer stayed enabled. The sidebar showed Kind Microcontroller, Core AVR, Clock 20 MHz, Flash 32 KB, RAM 2 KB, EEPROM 1 KB, Simulation Not simulated. Edit › Delete removed it; Run was enabled with no reason line, and Run started (the menu said Stop, the drawer was greyed). A file with ESP32-WROOM-32E-N4 and SC0914(13) (written by a throwaway test, then deleted) showed both as blocks with ports on both sides, and on the PCB page the ESP32-WROOM-32E module footprint (edge pads, 3×3 GND grid) and QFN-56-RP2040. The app was quit and the pointer moved to (0, 0).
 
 Acceptance: the suite passes, and the app behaves as § Goal says.
   Check: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p36-dd CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 15 min: the suite is the only check that catches the `allParts` pick changes); the screenshot shows the disabled Run and its line.
-Commit: —
+  Result 2026-11-13: `Executed 652 tests, with 0 failures`, `** TEST SUCCEEDED **` (ae134a5); `planning/plan-36-data/h-app-check.png` shows Run greyed with `U1 (ATMEGA328P-PU) is not simulated`.
+Commit: ae134a5 (suite); the real-app check and its screenshot in the next commit
 
 ## Validation Plan
 
