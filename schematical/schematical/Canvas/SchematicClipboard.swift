@@ -2,11 +2,11 @@ import CoreGraphics
 import Foundation
 
 /// What ⌘C took from the Schematic: the selected parts, net labels, text
-/// blocks, junctions and wires, plus every wire that runs between copied
-/// items, as they were. A wire end that was on something not copied (a pin
-/// of another part, a label not copied, a bus port pin) is a loose
-/// junction at that spot instead, so the copy stands alone. Buses and
-/// ports are never copied. Ids are the originals'; a paste gives each item
+/// blocks, junctions, wires and buses (whole, with their ports), plus every
+/// wire that runs between copied items, as they were. A wire end that was
+/// on something not copied (a pin of another part, a label not copied, a
+/// pin of a bus not copied) is a loose junction at that spot instead, so
+/// the copy stands alone. Ids are the originals'; a paste gives each item
 /// a new one (`SchematicDocument.pasteSchematic`).
 nonisolated struct SchematicCopy: Equatable {
     var chips: [PlacedChip] = []
@@ -14,12 +14,13 @@ nonisolated struct SchematicCopy: Equatable {
     var junctions: [Junction] = []
     var notes: [SchematicNote] = []
     var labels: [NetLabel] = []
+    var buses: [Bus] = []
     /// Everything copied, in canvas units: what a paste centres on the
     /// pointer.
     var bounds: CGRect = .null
 
     var isEmpty: Bool {
-        chips.isEmpty && wires.isEmpty && junctions.isEmpty && notes.isEmpty && labels.isEmpty
+        chips.isEmpty && wires.isEmpty && junctions.isEmpty && notes.isEmpty && labels.isEmpty && buses.isEmpty
     }
 }
 
@@ -62,7 +63,7 @@ extension SchematicDocument {
     /// nothing copyable is selected.
     func schematicCopy() -> SchematicCopy? {
         var chipIDs = Set<UUID>(), labelIDs = Set<UUID>(), noteIDs = Set<UUID>()
-        var junctionIDs = Set<UUID>(), wireIDs = Set<UUID>()
+        var junctionIDs = Set<UUID>(), wireIDs = Set<UUID>(), busIDs = Set<UUID>()
         for item in schematicSelection.items {
             switch item {
             case let .chip(id): chipIDs.insert(id)
@@ -70,14 +71,17 @@ extension SchematicDocument {
             case let .note(id): noteIDs.insert(id)
             case let .junction(id): junctionIDs.insert(id)
             case let .wire(id): wireIDs.insert(id)
+            case let .bus(id): busIDs.insert(id)
             }
         }
+        let copiedBuses = buses.filter { busIDs.contains($0.id) }
+        let portIDs = Set(copiedBuses.flatMap { $0.ports.map(\.id) })
         func inside(_ end: WireEnd) -> Bool {
             switch end {
             case let .pin(ref): chipIDs.contains(ref.chipID)
             case let .label(id): labelIDs.contains(id)
             case let .junction(id): junctionIDs.contains(id)
-            case .busPin: false
+            case let .busPin(ref): portIDs.contains(ref.portID)
             }
         }
         // Wires that run between copied items come along.
@@ -89,6 +93,7 @@ extension SchematicDocument {
         copy.chips = chips.filter { chipIDs.contains($0.id) }
         copy.labels = netLabels.filter { labelIDs.contains($0.id) }
         copy.notes = notes.filter { noteIDs.contains($0.id) }
+        copy.buses = copiedBuses
         // A junction a copied wire ends on comes along too.
         for wire in wires where wireIDs.contains(wire.id) {
             for end in [wire.start, wire.end] {
@@ -134,6 +139,15 @@ extension SchematicDocument {
         for chip in copy.chips { bounds = bounds.union(chip.bodyRect) }
         for label in copy.labels { bounds = bounds.union(label.rect) }
         for note in copy.notes { bounds = bounds.union(note.rect) }
+        for bus in copy.buses {
+            for line in bus.lines {
+                bounds = bounds.union(CGRect(x: min(line.a.x, line.b.x), y: min(line.a.y, line.b.y),
+                                             width: abs(line.b.x - line.a.x), height: abs(line.b.y - line.a.y)))
+            }
+            for port in bus.ports {
+                if let body = bus.body(of: port) { bounds = bounds.union(body) }
+            }
+        }
         for wire in copy.wires {
             for point in path(forWire: wire.id) { bounds = bounds.union(CGRect(origin: point, size: .zero)) }
         }

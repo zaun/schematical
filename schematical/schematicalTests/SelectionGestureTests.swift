@@ -88,17 +88,20 @@ final class SelectionGestureTests: XCTestCase {
         XCTAssertEqual(doc.schematicSelection.count, 2)
     }
 
-    func testBusPressLeavesItemsAndShiftDoesNotMixThem() throws {
+    func testBusPressSelectsItAndShiftAddsItToTheGroup() throws {
         let doc = doc()
         let a = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
         let bus = try XCTUnwrap(doc.addBus(from: CGPoint(x: 200, y: 300), to: CGPoint(x: 400, y: 300)))
         doc.select(.chip(a.id))
-        // The canvas sets the bus on any press on it, Shift or not.
-        doc.selectedBusID = bus
-        XCTAssertTrue(doc.schematicSelection.isEmpty)
-        _ = doc.pressSelection(.chip(a.id), shift: true)
+        // A plain press: the bus alone, and the drag reshapes it.
+        XCTAssertFalse(doc.pressSelection(.bus(bus), shift: false).dragsGroup)
+        XCTAssertEqual(doc.selectedBusID, bus)
+        XCTAssertEqual(doc.schematicSelection.items, [.bus(bus)])
+        // Shift press on the part: both, and the drag moves the group.
+        XCTAssertTrue(doc.pressSelection(.chip(a.id), shift: true).dragsGroup)
+        XCTAssertEqual(doc.schematicSelection.items, [.bus(bus), .chip(a.id)])
         XCTAssertNil(doc.selectedBusID)
-        XCTAssertEqual(doc.selectedChipID, a.id)
+        XCTAssertNil(doc.selectedChipID)
     }
 
     func testJunctionDragMovesItAndKeepsItsWires() throws {

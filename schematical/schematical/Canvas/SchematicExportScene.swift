@@ -34,7 +34,7 @@ struct SchematicScene {
 
     func paint<P: SchematicPainter>(into painter: inout P) {
         NoteLayer.paint(&painter, notes: notes, selectedNoteIDs: [], hoveredNoteID: nil)
-        BusLayer.paint(&painter, buses: buses, selectedBusID: nil, hoveredBusID: nil, preview: nil)
+        BusLayer.paint(&painter, buses: buses, selectedBusIDs: [], hoveredBusID: nil, preview: nil)
         PortLayer.paint(&painter, buses: buses, selectedPortID: nil, hoveredPortID: nil)
         WireLayer.paint(&painter, routes: routes, junctions: junctions, selectedWireIDs: [],
                         hoveredWireID: nil, preview: nil)
