@@ -53,7 +53,7 @@ plan-34-A § Prerequisites, plus:
 | Must be true | Command | Status |
 |---|---|---|
 | Phases 1–2: plan-34-E complete and `GENERIC-RESISTOR` loads | `ls planning/completed/plan-34-E-*.md`; `grep -c '^GENERIC-RESISTOR|resistor|' backend/tests/golden/parts.txt` → 1 | MET (2026-11-13 at d242ed9; § Corrections 1) |
-| Phase 3: plan-34-F complete | `ls planning/completed/plan-34-F-*.md` → exists | NOT MET (2026-11-13) |
+| Phase 3: plan-34-F's parts loaded | `grep -c '|resistor|' backend/tests/golden/parts.txt` → N + 1 | MET (2026-11-13 at 3860182: 1975, the provisional pick; plan-34-F § Corrections 2) |
 | The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p34-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-13 at d242ed9) |
 
 Everything below is written against the world where these hold.
@@ -201,22 +201,35 @@ Commit: 1c6929f
 
 ### Phase 3 — Tests and the harness
 
-- [ ] `schematical/schematicalTests/ResistorTests.swift` (as
+- [x] `schematical/schematicalTests/ResistorTests.swift` (as
       `PullResistorTests`): placing `GENERIC-RESISTOR` gives `R1`, 1000 Ω,
       footprint `RES-AXIAL-10.16`; a second resistor-kind part and a pull
       take `R2`, `R3`; `setPartOhms` 4700 then undo → 1000; save → `"ohms":
       4700` and reopen restores it; `"ohms": 0` on open → `badOhms`; BOM: a
       generic 4.7 kΩ Axial and a pull 4.7 kΩ Axial share one `RESISTOR`
       line; a maker part's line has `value` `4.7kΩ`; the drawer groups of
-      `Resistors → Chip` are in increasing ohms.
-- [ ] `scripts/harness/resistor-app.swift`: § 1's harness checks, the
+      `Resistors → Chip` are in increasing ohms. 8 tests (the maker part is
+      `RC0603FR-074K7L`; plus an array case: block, "Resistor array",
+      Resistors row, `R1`).
+- [x] `scripts/harness/resistor-app.swift`: § 1's harness checks, the
       LED-through-a-resistor run (inverter input 0 → LED lit, 1 → dark,
       each its own 0.6 s document run, as `diode-app.swift`), and offscreen
       renders of a placed generic resistor, a chip resistor and an array
-      (`Harness.renderCanvas`), looked at.
+      (`Harness.renderCanvas`), looked at. Run on the provisional pick:
+      Resistors → `["Generic"]` and Array / Chip / Through-hole; Chip 8
+      leaves, 1500 parts; Through-hole 8 leaves, 399 shown (400 in the
+      file: one is flagged military, which the drawer's default filter
+      hides); Array 5 leaves, 74 parts; every leaf list in increasing ohms;
+      `AS02JTE2000` kind Resistor, symbol resistor, facts Resistance 200Ω,
+      Tolerance ±5%, Power 0.063 W; `AF124-JR-070RL` Resistor array, block,
+      Resistors 4; GENERIC-RESISTOR R1 1kΩ RES-AXIAL-10.16, 4.7 kΩ saved
+      and reopened, undo 1 kΩ; LED lit with the inverter input 0, dark
+      with 1. The render `/tmp/p34/w/p34-symbols.png` was looked at: zig-zags
+      with `1kΩ` / `200Ω` above, the array a block with pins 1–8.
 
 Acceptance: the tests pass and the harness prints `all checks ok`.
   Check: `xcodebuild … test -only-testing:schematicalTests/ResistorTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **`; `scripts/harness/build.sh scripts/harness/resistor-app.swift /tmp/p34-harness && /tmp/p34-harness/H.app/Contents/MacOS/harness` → `all checks ok`, exit 0 (est. 15 min: the harness build is the slow part; nothing smaller runs the app's catalog code and the backend together).
+  Result (2026-11-13): ResistorTests + PullResistorTests + BillOfMaterialsTests + PartEditorWindowTests → `Executed 27 tests, with 0 failures`, `** TEST SUCCEEDED **`; harness `all checks ok`, exit 0.
 Commit: —
 
 ## Validation Plan
