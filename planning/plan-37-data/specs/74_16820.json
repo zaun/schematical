@@ -1,0 +1,364 @@
+{
+ "id": "74_16820",
+ "function": "Register",
+ "description": "10-bit flip-flops with dual 3-state outputs",
+ "drawer": [
+  "Logic",
+  "Registers"
+ ],
+ "note": "Pinout: sn74alvch16820 p.1. One D per bit, two outputs: nQ1 (enabled by 1OE) and nQ2 (by 2OE), n = 1-10. CLK up loads D; each OE high puts its outputs in Z.",
+ "model": "parallel",
+ "pinouts": {
+  "p56": [
+   {
+    "number": 1,
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1Q1",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "1Q2",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 5,
+    "name": "2Q1",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "2Q2",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 8,
+    "name": "3Q1",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "3Q2",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "4Q1",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 12,
+    "name": "4Q2",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "5Q1",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "5Q2",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "6Q1",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "6Q2",
+    "role": "output"
+   },
+   {
+    "number": 17,
+    "name": "7Q1",
+    "role": "output"
+   },
+   {
+    "number": 18,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 19,
+    "name": "7Q2",
+    "role": "output"
+   },
+   {
+    "number": 20,
+    "name": "8Q1",
+    "role": "output"
+   },
+   {
+    "number": 21,
+    "name": "8Q2",
+    "role": "output"
+   },
+   {
+    "number": 22,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 23,
+    "name": "9Q1",
+    "role": "output"
+   },
+   {
+    "number": 24,
+    "name": "9Q2",
+    "role": "output"
+   },
+   {
+    "number": 25,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 26,
+    "name": "10Q1",
+    "role": "output"
+   },
+   {
+    "number": 27,
+    "name": "10Q2",
+    "role": "output"
+   },
+   {
+    "number": 28,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 29,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 30,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 31,
+    "name": "D10",
+    "role": "input"
+   },
+   {
+    "number": 32,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 33,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 34,
+    "name": "D9",
+    "role": "input"
+   },
+   {
+    "number": 35,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 36,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 37,
+    "name": "D8",
+    "role": "input"
+   },
+   {
+    "number": 38,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 39,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 40,
+    "name": "D7",
+    "role": "input"
+   },
+   {
+    "number": 41,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 42,
+    "name": "D6",
+    "role": "input"
+   },
+   {
+    "number": 43,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 44,
+    "name": "D5",
+    "role": "input"
+   },
+   {
+    "number": 45,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 46,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 47,
+    "name": "D4",
+    "role": "input"
+   },
+   {
+    "number": 48,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 49,
+    "name": "D3",
+    "role": "input"
+   },
+   {
+    "number": 50,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 51,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 52,
+    "name": "D2",
+    "role": "input"
+   },
+   {
+    "number": 53,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 54,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 55,
+    "name": "D1",
+    "role": "input"
+   },
+   {
+    "number": 56,
+    "name": "CLK",
+    "role": "input"
+   }
+  ]
+ },
+ "groups": [
+  {
+   "d": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6",
+    "D7",
+    "D8",
+    "D9",
+    "D10"
+   ],
+   "clk": {
+    "pin": "CLK",
+    "edge": "rising"
+   },
+   "outputs": [
+    {
+     "q": [
+      "1Q1",
+      "2Q1",
+      "3Q1",
+      "4Q1",
+      "5Q1",
+      "6Q1",
+      "7Q1",
+      "8Q1",
+      "9Q1",
+      "10Q1"
+     ],
+     "oe": {
+      "pin": "1OE",
+      "active": "low"
+     }
+    },
+    {
+     "q": [
+      "1Q2",
+      "2Q2",
+      "3Q2",
+      "4Q2",
+      "5Q2",
+      "6Q2",
+      "7Q2",
+      "8Q2",
+      "9Q2",
+      "10Q2"
+     ],
+     "oe": {
+      "pin": "2OE",
+      "active": "low"
+     }
+    }
+   ]
+  }
+ ],
+ "timing": {
+  "ALVC": {
+   "rise": 4.8,
+   "fall": 4.8,
+   "vcc": [
+    1.65,
+    3.6
+   ],
+   "note": "CLK to Q max (no typ given), 3.3 V 50 pF; VCC 1.65-3.6 V (sn74alvch16820 switching characteristics)"
+  }
+ }
+}

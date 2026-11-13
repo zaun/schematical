@@ -618,11 +618,13 @@ static void check_16820(void) {
     bench_destroy(b);
 }
 
-static void check_16823(void) {
-    Bench *b = open_fx("74_16823");
+/* The 16823 shape: group 1 through run_823, then group 2 alongside it. */
+static void run_16823(Bench *b, const char *who, int first) {
+    char what[160];
     int ok;
 
-    run_823(b, "1D%u", "1Q%u", "1CLK", "1CLKEN", "1CLR", "1OE", 1, "fx-74_16823 group 1", 13);
+    snprintf(what, sizeof what, "%s group 1", who);
+    run_823(b, "1D%u", "1Q%u", "1CLK", "1CLKEN", "1CLR", "1OE", 1, what, first);
     set(b, "2OE", L0);
     set(b, "2CLR", L1);
     set(b, "2CLKEN", L0);
@@ -638,7 +640,14 @@ static void check_16823(void) {
     set_bus(b, "1D%u", 1, 9, 0x1FF);
     clock(b, "1CLK");
     ok &= bus_value(b, "1Q%u", 1, 9, 0x1FF) && bus_value(b, "2Q%u", 1, 9, 0x0F0);
-    expect(ok, "14 fx-74_16823 two groups: own CLK, CLKEN, CLR and OE");
+    snprintf(what, sizeof what, "%d %s two groups: own CLK, CLKEN, CLR and OE", first + 1, who);
+    expect(ok, what);
+}
+
+static void check_16823(void) {
+    Bench *b = open_fx("74_16823");
+
+    run_16823(b, "fx-74_16823", 13);
     bench_destroy(b);
 }
 
@@ -898,6 +907,31 @@ static void check_real(void) {
        table (plan-37-A), so the first 74_377 add part by name stands in. */
     b = open_part(real_library, "5962-87807012A");
     run_377(b, "%uD", "%uQ", "CLK", "G", "5962-87807012A (74_377 HC)", 32);
+    bench_destroy(b);
+    /* plan-37-E § 3: two 8-bit groups of a 16374; the 16823 steps. */
+    b = open_part(real_library, "SN74LVC16374ADGGR");
+    {
+        int ok;
+
+        set(b, "1OE", L0);
+        set(b, "2OE", L0);
+        set(b, "1CLK", L0);
+        set(b, "2CLK", L0);
+        set_bus(b, "1D%u", 1, 8, 0xA5);
+        set_bus(b, "2D%u", 1, 8, 0x3C);
+        step(b);
+        clock(b, "1CLK");
+        ok = bus_value(b, "1Q%u", 1, 8, 0xA5) && bus_value(b, "2Q%u", 1, 8, 0x00);
+        clock(b, "2CLK");
+        ok &= bus_value(b, "2Q%u", 1, 8, 0x3C);
+        set(b, "2OE", L1);
+        step(b);
+        ok &= bus_all(b, "2Q%u", 1, 8, LZ) && bus_value(b, "1Q%u", 1, 8, 0xA5);
+        expect(ok, "34 SN74LVC16374ADGGR two groups: 1CLK loads only 1Q; 2OE high puts only 2Q in Z");
+    }
+    bench_destroy(b);
+    b = open_part(real_library, "SN74ALVCH16823DGGR");
+    run_16823(b, "SN74ALVCH16823DGGR", 35);
     bench_destroy(b);
     step_ps = NS(50);
 }

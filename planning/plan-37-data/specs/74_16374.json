@@ -1,0 +1,431 @@
+{
+ "id": "74_16374",
+ "function": "Register",
+ "description": "16-bit edge-triggered D-type flip-flops with 3-state outputs",
+ "drawer": [
+  "Logic",
+  "Registers"
+ ],
+ "note": "Pinout: sn74lvc16374a p.3 (Pin Functions), the same in sn74abt16374a, sn74ahc16374, sn74ahct16374, sn74alvch16374, sn74auc16374, sn74avc16374, sn74lvth16374, 74act16374, cy74fct16374t; Nexperia 74lvc_lvch16374a, 74lvt_lvth16374a; onsemi 74lcx16374. Nexperia (nOE, nCP, nDn, nQn) and onsemi (OEn, CPn, Dn, On) number the same pins. Each half: nCLK up loads nD; nOE high: nQ = Z. Bus hold (H types) and series output resistors (162xxx) are not modeled.",
+ "model": "parallel",
+ "pinouts": {
+  "p48": [
+   {
+    "number": 1,
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1Q1",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "1Q2",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 5,
+    "name": "1Q3",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "1Q4",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 8,
+    "name": "1Q5",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "1Q6",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "1Q7",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "1Q8",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "2Q1",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "2Q2",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 16,
+    "name": "2Q3",
+    "role": "output"
+   },
+   {
+    "number": 17,
+    "name": "2Q4",
+    "role": "output"
+   },
+   {
+    "number": 18,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 19,
+    "name": "2Q5",
+    "role": "output"
+   },
+   {
+    "number": 20,
+    "name": "2Q6",
+    "role": "output"
+   },
+   {
+    "number": 21,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 22,
+    "name": "2Q7",
+    "role": "output"
+   },
+   {
+    "number": 23,
+    "name": "2Q8",
+    "role": "output"
+   },
+   {
+    "number": 24,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 25,
+    "name": "2CLK",
+    "role": "input"
+   },
+   {
+    "number": 26,
+    "name": "2D8",
+    "role": "input"
+   },
+   {
+    "number": 27,
+    "name": "2D7",
+    "role": "input"
+   },
+   {
+    "number": 28,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 29,
+    "name": "2D6",
+    "role": "input"
+   },
+   {
+    "number": 30,
+    "name": "2D5",
+    "role": "input"
+   },
+   {
+    "number": 31,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 32,
+    "name": "2D4",
+    "role": "input"
+   },
+   {
+    "number": 33,
+    "name": "2D3",
+    "role": "input"
+   },
+   {
+    "number": 34,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 35,
+    "name": "2D2",
+    "role": "input"
+   },
+   {
+    "number": 36,
+    "name": "2D1",
+    "role": "input"
+   },
+   {
+    "number": 37,
+    "name": "1D8",
+    "role": "input"
+   },
+   {
+    "number": 38,
+    "name": "1D7",
+    "role": "input"
+   },
+   {
+    "number": 39,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 40,
+    "name": "1D6",
+    "role": "input"
+   },
+   {
+    "number": 41,
+    "name": "1D5",
+    "role": "input"
+   },
+   {
+    "number": 42,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 43,
+    "name": "1D4",
+    "role": "input"
+   },
+   {
+    "number": 44,
+    "name": "1D3",
+    "role": "input"
+   },
+   {
+    "number": 45,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 46,
+    "name": "1D2",
+    "role": "input"
+   },
+   {
+    "number": 47,
+    "name": "1D1",
+    "role": "input"
+   },
+   {
+    "number": 48,
+    "name": "1CLK",
+    "role": "input"
+   }
+  ]
+ },
+ "groups": [
+  {
+   "d": [
+    "1D1",
+    "1D2",
+    "1D3",
+    "1D4",
+    "1D5",
+    "1D6",
+    "1D7",
+    "1D8"
+   ],
+   "clk": {
+    "pin": "1CLK",
+    "edge": "rising"
+   },
+   "outputs": [
+    {
+     "q": [
+      "1Q1",
+      "1Q2",
+      "1Q3",
+      "1Q4",
+      "1Q5",
+      "1Q6",
+      "1Q7",
+      "1Q8"
+     ],
+     "oe": {
+      "pin": "1OE",
+      "active": "low"
+     }
+    }
+   ]
+  },
+  {
+   "d": [
+    "2D1",
+    "2D2",
+    "2D3",
+    "2D4",
+    "2D5",
+    "2D6",
+    "2D7",
+    "2D8"
+   ],
+   "clk": {
+    "pin": "2CLK",
+    "edge": "rising"
+   },
+   "outputs": [
+    {
+     "q": [
+      "2Q1",
+      "2Q2",
+      "2Q3",
+      "2Q4",
+      "2Q5",
+      "2Q6",
+      "2Q7",
+      "2Q8"
+     ],
+     "oe": {
+      "pin": "2OE",
+      "active": "low"
+     }
+    }
+   ]
+  }
+ ],
+ "timing": {
+  "ABT": {
+   "rise": 4.3,
+   "fall": 4.7,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "CLK to Q typ, 5 V 50 pF; VCC 4.5-5.5 V (sn74abt16374a switching characteristics)"
+  },
+  "ACT": {
+   "rise": 8.8,
+   "fall": 8.8,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "CLK to Q typ, 5 V 50 pF; VCC 4.5-5.5 V (74act16374 switching characteristics)"
+  },
+  "AHC": {
+   "rise": 5.4,
+   "fall": 5.4,
+   "vcc": [
+    2,
+    5.5
+   ],
+   "inputMax": 5.5,
+   "note": "CLK to Q typ, 5 V 15 pF; VCC 2-5.5 V, inputs 5.5 V (sn74ahc16374 switching characteristics)"
+  },
+  "AHCT": {
+   "rise": 6.5,
+   "fall": 6.5,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "CLK to Q typ, 5 V 15 pF; VCC 4.5-5.5 V (sn74ahct16374 switching characteristics)"
+  },
+  "ALVC": {
+   "rise": 4.2,
+   "fall": 4.2,
+   "vcc": [
+    1.65,
+    3.6
+   ],
+   "note": "CLK to Q max (no typ given), 3.3 V 50 pF; VCC 1.65-3.6 V (sn74alvch16374 switching characteristics)"
+  },
+  "AUC": {
+   "rise": 1.5,
+   "fall": 1.5,
+   "vcc": [
+    0.8,
+    2.7
+   ],
+   "inputMax": 3.6,
+   "note": "CLK to Q typ, 1.8 V; VCC 0.8-2.7 V, inputs 3.6 V (sn74auc16374 switching characteristics)"
+  },
+  "AVC": {
+   "rise": 3.3,
+   "fall": 3.3,
+   "vcc": [
+    1.4,
+    3.6
+   ],
+   "note": "CLK to Q max (no typ given), 3.3 V; VCC 1.4-3.6 V (sn74avc16374 switching characteristics)"
+  },
+  "FCT": {
+   "rise": 5.2,
+   "fall": 5.2,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "CLK to O max, C grade (CY74FCT16374CT; A 10, plain 6.5) (no typ given), 5 V 50 pF; VCC 4.5-5.5 V (cy74fct16374t switching characteristics)"
+  },
+  "LCX": {
+   "rise": 6.2,
+   "fall": 6.2,
+   "vcc": [
+    2,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "CP to On max (no typ given), 3.0-3.6 V 50 pF; VCC 2.0-3.6 V, inputs 5.5 V (onsemi 74lcx16374 AC characteristics)"
+  },
+  "LVC": {
+   "rise": 4.5,
+   "fall": 4.5,
+   "vcc": [
+    1.65,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "CLK to Q max (no typ given), 3.3 V 50 pF; VCC 1.65-3.6 V, inputs 5.5 V (sn74lvc16374a switching characteristics)"
+  },
+  "LVT": {
+   "rise": 3,
+   "fall": 2.9,
+   "vcc": [
+    2.7,
+    3.6
+   ],
+   "inputMax": 5.5,
+   "note": "CLK to Q typ, 3.3 V 50 pF; VCC 2.7-3.6 V, inputs 5.5 V (sn74lvth16374 switching characteristics)"
+  }
+ }
+}
