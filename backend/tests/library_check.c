@@ -2592,6 +2592,56 @@ static void check_explicit_repeated_pins(void) {
                    FP_EXPLICIT_WITH("'pads':[" EPAD("1", "-1") "," EPAD("1", "1") "]"), "pin 2 has no pad");
 }
 
+/* plan-36-J: explicit pads named by ball (a staggered WLCSP, a dual-row
+   QFN's A1/B1 terminals). Grouped by ball in order of first use, then the
+   unnumbered pads; a ball-pinout part matches them by designator. */
+#define BPAD(BALL, X) "{'ball':'" BALL "','x':" X ",'y':0,'width':0.4,'height':0.4,'shape':'rect'}"
+#define FP_EBALL(PINS, PADS) \
+    FP_FILE("{'id':'EB','description':'d','style':'explicit','pins':" PINS ",'body':{'width':1,'height':1}," \
+            "'pads':[" PADS "]}")
+static void check_explicit_balls(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const PartFootprint *fp;
+    const Part *part;
+    char *parts;
+
+    CHECK(load_fp(library, FP_EBALL("2", BPAD("B2", "0") "," EPAD("0", "3") "," BPAD("A1", "-1") "," BPAD("B2", "1")),
+                  &error) == 0);
+    fp = part_library_find_footprint(library, "EB");
+    CHECK(fp != NULL && fp->pins == 2 && fp->pad_count == 4);
+    check_pad(fp, 0, "B2", 0, 0, 0.4, 0.4, 0, PAD_RECT);
+    check_pad(fp, 1, "B2", 1, 0, 0.4, 0.4, 0, PAD_RECT);
+    check_pad(fp, 2, "A1", -1, 0, 0.4, 0.4, 0, PAD_RECT);
+    check_pad(fp, 3, NULL, 3, 0, 0.4, 0.4, 0, PAD_RECT);
+    printf("ok   explicit ball pads: B2, B2, A1, then the unnumbered pad\n");
+    parts = json(HEAD("led") "{'id':'led-eb','function':'LED','description':'d','drawer':[],"
+                 "'pinouts':{'bga':[" BALL_LED_PINS "]},'colors':['Red'],'anode':'A','cathode':'K',"
+                 "'parts':[{'name':'LED-EB','package':'WLCSP','pinout':'bga','footprint':'EB'}]}" TAIL);
+    CHECK(load_parts(library, parts, "eb.json", &error) == 0);
+    if (error != NULL) {
+        printf("FAIL ball part on explicit ball pads: %s\n", error);
+        failures++;
+    }
+    part = part_library_find(library, "LED-EB");
+    CHECK(part != NULL && part->footprint == fp);
+    free(parts);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   a ball-pinout part loads on an explicit footprint with ball pads A1 B2\n");
+
+    expect_fp_fail("explicit balls: a ball missing", FP_EBALL("2", BPAD("A1", "0") "," BPAD("A1", "1")),
+                   "1 balls for 2 pins");
+    expect_fp_fail("explicit balls: one ball too many",
+                   FP_EBALL("2", BPAD("A1", "0") "," BPAD("B2", "1") "," BPAD("C3", "2")), "more than 2 balls");
+    expect_fp_fail("explicit balls: mixed with numbered pads", FP_EBALL("2", BPAD("A1", "0") "," EPAD("2", "1")),
+                   "\"ball\" pads and numbered pads in one footprint");
+    expect_fp_fail("explicit balls: pin and ball",
+                   FP_EBALL("1", "{'pin':1,'ball':'A1','x':0,'y':0,'width':0.4,'height':0.4,'shape':'rect'}"),
+                   "a pad has \"pin\" or \"ball\", not both");
+    expect_fp_fail("explicit balls: not a ball name", FP_EBALL("1", BPAD("I1", "0")), "\"I1\" is not a ball name");
+}
+
 /* Slotted and non-plated holes on explicit pads (USB connector shells). */
 #define SLOT_PAD(KEYS) "{'pin':2,'x':3,'y':0,'width':1.0,'height':2.0,'shape':'round','drill':0.6" KEYS "}"
 #define NPTH_PAD(KEYS) "{'pin':0,'x':-3,'y':0,'shape':'round'," KEYS "}"
@@ -3072,6 +3122,7 @@ int main(void) {
     check_datasheets();
     check_footprint_styles();
     check_explicit_repeated_pins();
+    check_explicit_balls();
     check_explicit_holes();
     check_usb_connector();
     check_footprint_corners();

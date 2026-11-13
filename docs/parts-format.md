@@ -433,7 +433,7 @@ left side. Pads are axis-aligned.
 | `"description"` | one line for people |
 | `"note"` | optional provenance (drawing code, file, page); ignored |
 | `"style"` | `"dual"`, `"quad"`, `"grid"` or `"explicit"` |
-| `"pins"` | number of designated pads (1–1000). `dual`, `quad` and `explicit` pads are `"1"`…`"<pins>"`; `grid` pads are ball names |
+| `"pins"` | number of designated pads (1–1000). `dual`, `quad` and `explicit` pads are `"1"`…`"<pins>"`; `grid` pads, and `explicit` pads given by `"ball"`, are ball names |
 | `"body"` | `{"width", "height"}` > 0, optional `"round": true` (drawn as an ellipse) |
 | `"pad"` | `{"width", "height", "shape"}`, sizes > 0, shape `"rect"` or `"round"` (an ellipse; a circle when width = height), plus optional corner keys (below). Not on `explicit` |
 | `"drill"` | optional, default 0 (surface mount); a through-hole diameter, smaller than both pad sides. Not on `explicit` |
@@ -589,7 +589,15 @@ For land patterns the parametric styles cannot express (mixed pad sizes).
 `"pads"` is a non-empty array of `{"pin", "x", "y", "width", "height",
 "shape"}` plus optional `"drill"`, `"slotLength"`, `"plated"` and corner
 keys, in the coordinates above. Every pin
-1…`pins` has at least one pad. A pin may have several (the same
+1…`pins` has at least one pad.
+
+A pad may name its pin with `"ball"` instead of `"pin"`: a ball name
+(`"A1"`, `"B12"`), which is then the pad's designator, for a part whose
+pinout names its pins like balls but whose pads are not one regular grid
+(a staggered WLCSP, a dual-row QFN's A/B terminals). A footprint uses one
+scheme: its pads are all `"ball"` or all `"pin"` (`"pin": 0`, an
+unnumbered pad, goes with either), it names exactly `pins` balls, and the
+pads come out grouped by ball in order of first use. A pin may have several (the same
 connection in more places, e.g. a module's two header rows); they are
 listed together, in file order. The app draws each and uses the pin's
 first pad for the pin-1 mark and the `Pad 1 Center` origin. `"pin": 0` is

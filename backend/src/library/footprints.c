@@ -45,8 +45,8 @@ static const char *const HEADER_KEYS[] = {
 static const char *const SIZE_KEYS[] = {"width", "height", "shape", "radius", "chamfer", "corners", NULL};
 static const char *const BODY_KEYS[] = {"width", "height", "round", NULL};
 static const char *const PAD_KEYS[] = {
-    "pin", "x", "y", "width", "height", "shape", "drill", "slotLength", "plated", "radius", "chamfer",
-    "corners", NULL
+    "pin", "ball", "x", "y", "width", "height", "shape", "drill", "slotLength", "plated", "radius",
+    "chamfer", "corners", NULL
 };
 static const char *const CORNER_NAMES[] = {"tl", "tr", "br", "bl"};   /* bit 1 << index */
 
@@ -739,6 +739,9 @@ static int load_explicit(KindContext *ctx, const cJSON *json, PartFootprint *fp)
     FootprintPad *pads;
     unsigned *pin_of;
     size_t *where;                      /* pads per pin */
+    const char **balls;                 /* "ball" pads: the names, in order of first use */
+    size_t ball_count = 0;
+    int scheme = 0;                     /* 1 = numbered pins, 2 = ball names */
     size_t count, i, n = 0;
     unsigned pin;
 
@@ -756,15 +759,60 @@ static int load_explicit(KindContext *ctx, const cJSON *json, PartFootprint *fp)
     if (read == NULL || pads == NULL || pin_of == NULL || where == NULL) {
         return -1;
     }
+    /* A pad names its pin by number ("pin": 1…pins) or, for a part whose
+       pinout names its pins like balls (a staggered WLCSP, a dual-row QFN's
+       A1/B1 terminals; plan-36-J), by "ball": the designator itself. One
+       footprint uses one scheme; "pin": 0 is an unnumbered pad in either. */
+    balls = kind_alloc(ctx, count * sizeof(*balls));
+    if (balls == NULL) {
+        return -1;
+    }
     i = 0;
     cJSON_ArrayForEach(item, pads_json) {
         FootprintPad *pad = &read[i];
-        uint64_t number;
+        uint64_t number = 0;
+        const cJSON *ball_json;
 
         kind_push(ctx, "pads[%zu]", i);
-        if (kind_check_keys(ctx, item, PAD_KEYS, NULL) != 0 ||
-            kind_uint(ctx, item, "pin", fp->pins, &number) != 0 ||
-            kind_number(ctx, item, "x", &pad->x) != 0 ||
+        if (kind_check_keys(ctx, item, PAD_KEYS, NULL) != 0) {
+            return -1;
+        }
+        ball_json = cJSON_GetObjectItemCaseSensitive(item, "ball");
+        if (ball_json != NULL) {
+            const char *name;
+            size_t b;
+
+            if (cJSON_GetObjectItemCaseSensitive(item, "pin") != NULL) {
+                return kind_error(ctx, "a pad has \"pin\" or \"ball\", not both");
+            }
+            if (scheme == 1) {
+                return kind_error(ctx, "\"ball\" pads and numbered pads in one footprint");
+            }
+            scheme = 2;
+            if (kind_string(ctx, item, "ball", &name) != 0) {
+                return -1;
+            }
+            if (!kind_is_ball_name(name)) {
+                return kind_error(ctx, "\"%s\" is not a ball name", name);
+            }
+            for (b = 0; b < ball_count && strcmp(balls[b], name) != 0; b++) {
+            }
+            if (b == ball_count) {
+                if (ball_count == fp->pins) {
+                    return kind_error(ctx, "more than %u balls", fp->pins);
+                }
+                balls[ball_count++] = name;
+            }
+            number = b + 1;
+        } else if (kind_uint(ctx, item, "pin", fp->pins, &number) != 0) {
+            return -1;
+        } else if (number > 0) {
+            if (scheme == 2) {
+                return kind_error(ctx, "\"ball\" pads and numbered pads in one footprint");
+            }
+            scheme = 1;
+        }
+        if (kind_number(ctx, item, "x", &pad->x) != 0 ||
             kind_number(ctx, item, "y", &pad->y) != 0 ||
             positive(ctx, item, "width", &pad->width) != 0 ||
             positive(ctx, item, "height", &pad->height) != 0 ||
@@ -785,7 +833,7 @@ static int load_explicit(KindContext *ctx, const cJSON *json, PartFootprint *fp)
         pin_of[i] = (unsigned)number;
         if (number > 0) {
             where[number]++;
-            pad->designator = number_text(ctx, (unsigned)number);
+            pad->designator = scheme == 2 ? balls[number - 1] : number_text(ctx, (unsigned)number);
             if (pad->designator == NULL) {
                 return -1;
             }
@@ -793,8 +841,11 @@ static int load_explicit(KindContext *ctx, const cJSON *json, PartFootprint *fp)
         kind_pop(ctx);
         i++;
     }
-    /* Grouped by pin, file order within a pin (a pin may have several pads),
-       then the unnumbered pads in file order. */
+    if (scheme == 2 && ball_count != fp->pins) {
+        return kind_error(ctx, "%zu balls for %u pins", ball_count, fp->pins);
+    }
+    /* Grouped by pin (balls: in order of first use), file order within a pin
+       (a pin may have several pads), then the unnumbered pads in file order. */
     for (pin = 1; pin <= fp->pins; pin++) {
         if (where[pin] == 0) {
             return kind_error(ctx, "pin %u has no pad", pin);
