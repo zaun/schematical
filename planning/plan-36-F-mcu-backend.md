@@ -235,20 +235,27 @@ optional key (absent = today's behavior). The refusal is reached only for
 
 ### Phase 1 — `simulated` and the refusal
 
-- [ ] `backend/include/parts.h`: `int simulated;` (§ 3.1).
-- [ ] `backend/src/library/library.c`: the key, its parse, `common.simulated`
+- [x] `backend/include/parts.h`: `int simulated;` (§ 3.1).
+      Done (after `flags`).
+- [x] `backend/src/library/library.c`: the key, its parse, `common.simulated`
       (default 1).
-- [ ] `backend/src/circuit.c`: the refusal (§ 3.2).
-- [ ] `backend/tests/support/listing.c`: `|unsimulated` (§ 3.5).
-- [ ] `backend/tests/library_check.c`: a header device with `"simulated":
+      `DEVICE_KEYS` + the parse after `note` (absent → 1, bool → value, else `"simulated" must be true or false`).
+- [x] `backend/src/circuit.c`: the refusal (§ 3.2).
+      Right after the unknown-part check.
+- [x] `backend/tests/support/listing.c`: `|unsimulated` (§ 3.5).
+      Last field of the line.
+- [x] `backend/tests/library_check.c`: a header device with `"simulated":
       false` loads (its parts have `simulated` 0); `"simulated": 1` fails
       with `"simulated" must be true or false`.
-- [ ] `backend/tests/circuit_check.c`: that header part is refused with
+      `check_header_kind`: `simulated` false → 0, true → 1, `1` → `ok   header simulated 1: test.json: devices[0] (header-2row): "simulated" must be true or false`.
+- [x] `backend/tests/circuit_check.c`: that header part is refused with
       `part "<name>" is not simulated`; the same device without the key is
       added fine.
+      `check_unsimulated_part`: `PASS: an unsimulated part is refused: part "UNSIM-HDR" is not simulated`, `PASS: the same device without "simulated" is added`.
 
 Acceptance: the refusal works, and no golden moved.
   Check: `cmake --build /tmp/logic-p36 -j8 && ctest --test-dir /tmp/logic-p36 -R 'library_check|circuit_check|listing_check|trace_check|footprint_check'` → 5 passed; `git diff --stat backend/tests/golden` → empty (est. 3 min).
+  Result 2026-11-13: `100% tests passed, 0 tests failed out of 5`; golden diff empty.
 Commit: —
 
 ### Phase 2 — The `mcu` kind
@@ -321,6 +328,8 @@ Commit: —
 - **Passive model** — author: § 3 Rejected.
 
 ## Corrections
+
+- **2026-11-13: F Phase 1 ran before B–E.** F's `Depends on: plan-36-E` is letter order only, as the header says ("F reads no census, pinout or footprint data"). Its real preconditions are A's gate and the "no `PART_MCU` / no `simulated` key" row, and both were MET (0, 0). Phase 1 was done while A's downloads ran. The dependency graph edge is E → G (G needs F and the data), not E → F.
 
 ## Summary
 

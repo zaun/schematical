@@ -718,6 +718,37 @@ static void check_header_kind(void) {
                 HDR_DEVICE("'rows':2,'genders':['Male']", "'p':" HDR_PINS3,
                            "{'name':'H','package':'Straight','pinout':'p','footprint':'T4'}"),
                 "a header's pin count must be a multiple of its rows");
+
+    /* plan-36-F: "simulated", a common device key any kind may carry. */
+    library = part_library_create();
+    error = NULL;
+    CHECK(load(library,
+               HDR_DEVICE("'rows':1,'genders':['Male'],'simulated':false", "'p':" HDR_PINS2,
+                          "{'name':'H-UNSIM','package':'Straight','pinout':'p','footprint':'T2'}"),
+               &error) == 0);
+    if (error != NULL) {
+        printf("FAIL header with simulated false: %s\n", error);
+        failures++;
+    }
+    two = part_library_find(library, "H-UNSIM");
+    CHECK(two != NULL && two->simulated == 0);
+    free(error);
+    part_library_destroy(library);
+    library = part_library_create();
+    error = NULL;
+    CHECK(load(library,
+               HDR_DEVICE("'rows':1,'genders':['Male'],'simulated':true", "'p':" HDR_PINS2,
+                          "{'name':'H-SIM','package':'Straight','pinout':'p','footprint':'T2'}"),
+               &error) == 0);
+    two = part_library_find(library, "H-SIM");
+    CHECK(two != NULL && two->simulated == 1);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   header with \"simulated\": false loads unsimulated parts; true and absent simulate\n");
+    expect_fail("header simulated 1",
+                HDR_DEVICE("'rows':1,'genders':['Male'],'simulated':1", "'p':" HDR_PINS2,
+                           "{'name':'H','package':'Straight','pinout':'p','footprint':'T2'}"),
+                "\"simulated\" must be true or false");
 }
 
 /* ---- plan-18-A: LED "colors" and the "footprintChoices" part key -------- */

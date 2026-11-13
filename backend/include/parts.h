@@ -194,6 +194,9 @@ typedef struct Part {
     const char *package, *function, *description;
     const char *const *drawer; size_t drawer_count;
     unsigned flags;
+    int simulated;                     /* 1 = the engine has a model for the part; 0 = the
+                                          device says "simulated": false, and
+                                          circuit_add_part refuses the part */
     const PartPin *pins; size_t pin_count;
     const PartLogic *logic;
     const PartSram *sram;

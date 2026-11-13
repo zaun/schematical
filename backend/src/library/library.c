@@ -236,7 +236,7 @@ const PartDatasheet *part_library_find_datasheet(const PartLibrary *library, con
 
 static const char *const FILE_KEYS[] = {"format", "version", "kind", "devices", NULL};
 static const char *const DEVICE_KEYS[] = {
-    "id", "function", "description", "drawer", "note", "pinouts", "parts", NULL
+    "id", "function", "description", "drawer", "note", "simulated", "pinouts", "parts", NULL
 };
 static const char *const PART_KEYS[] = {
     "name", "package", "pinout", "flags", "footprint", "connectorFootprint",
@@ -721,6 +721,15 @@ static int load_device(KindContext *ctx, PartLibrary *library, FileParts *file,
     item = cJSON_GetObjectItemCaseSensitive(device_json, "note");
     if (item != NULL && !cJSON_IsString(item)) {
         return kind_error(ctx, "\"note\" must be a string");
+    }
+    /* Optional; absent = the part has a model (plan-36-F). */
+    common.simulated = 1;
+    item = cJSON_GetObjectItemCaseSensitive(device_json, "simulated");
+    if (item != NULL) {
+        if (!cJSON_IsBool(item)) {
+            return kind_error(ctx, "\"simulated\" must be true or false");
+        }
+        common.simulated = cJSON_IsTrue(item);
     }
 
     device_key = kind_alloc(ctx, strlen(ops->name) + strlen(id) + 2);

@@ -292,6 +292,10 @@ char *listing_line(const Part *part) {
         fprintf(out, "|vccb=%u-%u,in=%u", (unsigned)b->min_mv, (unsigned)b->max_mv,
                 (unsigned)b->input_max_mv);
     }
+    /* Last field: a device with "simulated": false (plan-36-F). */
+    if (!part->simulated) {
+        fprintf(out, "|unsimulated");
+    }
     fclose(out);
     return text;
 }

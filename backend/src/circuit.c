@@ -134,6 +134,11 @@ int circuit_add_part(Circuit *circuit, const char *part_name, size_t *index) {
     if (part == NULL) {
         return fail(circuit, "unknown part \"%s\"", part_name != NULL ? part_name : "");
     }
+    /* A device with "simulated": false has no model (plan-36-F); refuse it
+       here, where every caller (the app, the tests, sim_bench) comes through. */
+    if (!part->simulated) {
+        return fail(circuit, "part \"%s\" is not simulated", part->name);
+    }
     if (grow((void **)&circuit->parts, &circuit->part_capacity, circuit->part_count,
              sizeof(*circuit->parts)) != 0 ||
         grow((void **)&circuit->instances, &circuit->instance_capacity, circuit->part_count,
