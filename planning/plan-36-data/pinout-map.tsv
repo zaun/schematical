@@ -417,7 +417,7 @@ ATxmega64D3	64M	64	quad64	atdf:ATxmega64D3.atdf:QFP_QFN_64
 ATxmega64D4	44A	44	quad44	atdf:ATxmega64D4.atdf:QFN_QFP_44
 ATxmega64D4	44M1	44	quad44	atdf:ATxmega64D4.atdf:QFN_QFP_44
 ATxmega8E5	32A	32	quad32	atdf:ATxmega8E5.atdf:QFP_QFN_32
-ATxmega8E5	32MA	32	quad32	atdf:ATxmega8E5.atdf:QFP_QFN_32
+ATxmega8E5	32Z	32	quad32	atdf:ATxmega8E5.atdf:QFP_QFN_32
 ATmega1608	A	32	quad32	atdf:ATmega1608.atdf:QFN32
 ATmega1608	M	32	quad32	atdf:ATmega1608.atdf:QFN32
 ATmega1608	X	28	p28	atdf:ATmega1608.atdf:SSOP28

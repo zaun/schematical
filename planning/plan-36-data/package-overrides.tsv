@@ -14,3 +14,4 @@ ATTINY45V-10SU	8S2	same table (text lines 587-588)
 ATTINY85-20SU	8S2	same table (text lines 664-666)
 ATTINY85V-10SU	8S2	same table
 ATXMEGA16A4U-AUR	44A	XMEGA A4U datasheet, Ordering Information: the -AU / -AUR rows are the 44A (TQFP) cell; PW is the -MH (QFN) cell (text lines 308-317)
+ATXMEGA8E5-MUR	32Z	ATxmega32E5/16E5/8E5 datasheet (DS40002059A) Ordering Information: the -MU / -MUR / -MN rows are 32Z (5x5mm VQFN), the -M4U rows 32MA (4x4mm UQFN) (text lines 366-412); textscan took the neighbouring 32MA

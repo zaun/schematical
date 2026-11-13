@@ -1,0 +1,5 @@
+device	code	pins	footprint	drawing
+AT90PWM3B	QFN32	32	QFN-32-MC-PWM7X7	Atmel QFN32 7x7 (MLF): datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf p.15 (image; pitch 0.65, L 0.35-0.75 mid 0.55, b 0.23-0.35 mid 0.29, D 7.00, exposed 2.25-5.25 mid 3.75)
+AT90PWM316	QFN32	32	QFN-32-MC-PWM7X7	Atmel QFN32 7x7 (MLF): datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf p.15 (image; pitch 0.65, L 0.35-0.75 mid 0.55, b 0.23-0.35 mid 0.29, D 7.00, exposed 2.25-5.25 mid 3.75)
+AT90PWM81	QFN32	32	QFN-32-MC-PN	PN (AT90PWM81): datasheets/mcu/microchip/doc7734.pdf p.306 (image; b nom 0.25, L nom 0.40, D 5.00, exposed 1.25-3.60 mid 2.43)
+AT90PWM161	QFN32	32	QFN-32-MC-PN	PN (AT90PWM81): datasheets/mcu/microchip/doc7734.pdf p.306 (image; b nom 0.25, L nom 0.40, D 5.00, exposed 1.25-3.60 mid 2.43)

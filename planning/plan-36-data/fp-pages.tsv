@@ -34,3 +34,59 @@ ST	dual	14	datasheets/mcu/microchip/AVR16EB14_20_28_32-Prelim-DataSheet-DS400025
 X	dual	14	datasheets/mcu/microchip/ATtiny1624-26-27-DataSheet-DS40002234A.pdf	505	506	C04-087	
 X	dual	20	datasheets/mcu/microchip/ATtiny1624-26-27-DataSheet-DS40002234A.pdf	510		C04-072B	20-Lead Plastic Shrink Small Outline (SS) – 5.30 mm Body [SSOP]
 X	dual	28	datasheets/mcu/microchip/ATmega3208-3209-Data-Sheet-DS40002174A.pdf	522	523	C04-073	28-Lead Plastic Shrink Small Outline (SS) - 5.30 mm Body [SSOP]
+100A	quad	100	datasheets/mcu/microchip/2552S.pdf	23		100A	
+100C2	grid	100	datasheets/mcu/microchip/ATxmega128A1U-64A1U-Data-Sheet-DS40002058A.pdf	79		100C2	
+12U-1	grid	12	datasheets/mcu/microchip/Atmel-8235-8-bit-AVR-Microcontroller-ATtiny20_Datasheet_Summary.pdf	13		12U-3	7.1 12U-3 (image; the ordering table's 12U-1, renamed per the revision history)
+15CC1	grid	15	datasheets/mcu/microchip/8183s.pdf	16		15CC1	
+20M1	quad	20	datasheets/mcu/microchip/2535S.pdf	15		20M1	
+20M2	quad	20	datasheets/mcu/microchip/8183s.pdf	18		20M2	
+28M1	quad	28	datasheets/mcu/microchip/8008S.pdf	16		28M1	
+2LX	quad	20	datasheets/mcu/microchip/AVR32LA14-20-28-32-DataSheet-DS40002684.pdf	549	550	C04-476	20-Lead Very Thin Plastic Quad Flat, No Lead Package (2LX) - 3x3 mm Body [VQFN]
+32A	quad	32	datasheets/mcu/microchip/40001910A.pdf	20		32A	
+32M1-A	quad	32	datasheets/mcu/microchip/1062s.pdf	10		32M1-A	
+32MA	quad	32	datasheets/mcu/microchip/ATxmega32E5-16E5-8E5-Data-Sheet-DS40002059A.pdf	77		PM	35.3 32MA (image)
+32MS1	quad	32	datasheets/mcu/microchip/ATmega48PB-88PB-168PB-DataSheet-DS40001909B.pdf	386	387	C04-21395	32-Lead Very Thin Plastic Quad Flat, No Lead Package (RXB) - 5x5x0.9 mm Body [VQFN]
+32PN	quad	32	datasheets/mcu/microchip/ATtiny87-167-DataSheet-DS40002167A.pdf	287	288	C04-21395	32-Lead Very Thin Plastic Quad Flat, No Lead Package (RXB) - 5x5x0.9 mm Body [VQFN]
+32Z	quad	32	datasheets/mcu/microchip/ATxmega32E5-16E5-8E5-Data-Sheet-DS40002059A.pdf	76		PN	35.2 32Z (image)
+3LW	quad	28	datasheets/mcu/microchip/AVR32SD20-28-32-Data-Sheet-DS40002629.pdf	739	740	C04-565	28-Lead Very Thin Plastic Quad Flat, No Lead Package (3LW) – 4x4x1.0 mm Body [VQFN]
+44A	quad	44	datasheets/mcu/microchip/2466S.pdf	13		44A	
+44J	plcc	44	datasheets/mcu/microchip/doc2512.pdf	247		44J	
+44M1	quad	44	datasheets/mcu/microchip/2512S.pdf	17		44M1	
+44M1-A	quad	44	datasheets/mcu/microchip/doc2502.pdf	309		44M1-A	
+44MC	drqfn	44	datasheets/mcu/microchip/ATmega164A_PA-324A_PA-644A_PA-1284_P_Data-Sheet-40002070B.pdf	658	660	C04-21399	35.4 44MC (S3B dual row; the automatic match took C04-21419, the single-row 44-pad VQFN)
+44ML	quad	44	datasheets/mcu/microchip/Atmel-7766-8-bit-AVR-ATmega16U4-32U4_Summary.pdf	18		ML	7.1 TQFP44 (image)
+44PW	quad	44	datasheets/mcu/microchip/Atmel-7766-8-bit-AVR-ATmega16U4-32U4_Summary.pdf	19		PW	7.2 QFN44 (image)
+48AA	quad	48	datasheets/mcu/microchip/Atmel-2548-8-bit-AVR-Microcontroller-Battery-Management-ATmega406_Datasheet-Summary.pdf	18		48AA	
+49C2	grid	49	datasheets/mcu/microchip/Atmel-42712-ATmega164A_Datasheet_Summary.pdf	21		49C2	
+64A	quad	64	datasheets/mcu/microchip/2467S.pdf	13		64A	
+64M	quad	64	datasheets/mcu/microchip/Atmel-8134-8-16-bit-Atmel-XMEGA-D3-Microcontroller_Datasheet.pdf	62		PP	31.2 64M (image)
+64M1	quad	64	datasheets/mcu/microchip/2467S.pdf	14		64M1	
+64M2	quad	64	datasheets/mcu/microchip/ATmega640-1280-1281-2560-2561-Datasheet-DS40002211A.pdf	415		64M2	
+64MC	drqfn	64	datasheets/mcu/microchip/8018s.pdf	20		64MC	
+64Z3	quad	64	datasheets/mcu/microchip/Atmel-8361-8-and-16-bit-AVR-XMEGA-Microcontrollers-ATxmega384C3_Datasheet.pdf	64		PP	34.2 64Z3 (image)
+6LX	quad	48	datasheets/mcu/microchip/AVR128DA28-32-48-64-DataSheet-DS40002183B.pdf	592	592	C04-2494	48-Lead Very Thin Plastic Quad Flat, No Lead (6LX) - 6x6 mm Body [VQFN]
+7P	grid	49	datasheets/mcu/microchip/Atmel-8493-8-and-32-bit-AVR-XMEGA-Microcontrollers-ATxmega16C4-ATxmega32C4_Datasheet.pdf	64		7P	32.3 7P (image)
+A	quad	32	datasheets/mcu/microchip/ATmega3208-3209-Data-Sheet-DS40002174A.pdf	526		C04-074	32-Lead Plastic Thin Quad Flatpack (PT) - 7x7x1.0 mm Body [TQFP]
+A	quad	48	datasheets/mcu/microchip/ATmega3208-3209-Data-Sheet-DS40002174A.pdf	534	535	C04-300	48-Lead Plastic Thin Quad Flatpack (PT) - 7x7x1.0 mm Body [TQFP]
+A2	quad	64	datasheets/mcu/microchip/7679S.pdf	14		A2	5.1 TQFP64 (image)
+M	quad	20	datasheets/mcu/microchip/ATtiny1614-16-17-DataSheet-DS40002204A.pdf	577	578	C04-21380	20-Lead Very Thin Plastic Quad Flat, No Lead Package (REB) - 3x3 mm Body [VQFN]
+M	quad	24	datasheets/mcu/microchip/ATtiny1614-16-17-DataSheet-DS40002204A.pdf	581	582	C04-21386	24-Lead Very Thin Plastic Quad Flat, No Lead Package (RLB) - 4x4 mm Body [VQFN]
+M	quad	32	datasheets/mcu/microchip/ATmega3208-3209-Data-Sheet-DS40002174A.pdf	530	531	C04-21395	32-Lead Very Thin Plastic Quad Flat, No Lead Package (RXB) - 5x5x0.9 mm Body [VQFN]
+M	quad	48	datasheets/mcu/microchip/ATmega4808-09-DataSheet-DS40002173C.pdf	544	544	C04-2494	48-Lead Very Thin Plastic Quad Flat, No Lead (6LX) - 6x6 mm Body [VQFN]
+MD	quad	64	datasheets/mcu/microchip/doc7593.pdf	430		MD	36.1 TQFP64 (image)
+MR	quad	64	datasheets/mcu/microchip/AVR64DA28-32-48-64-DataSheet-DS40002233.pdf	680	682	C04-154	current MR drawing (image; the older editions print C04-149)
+PS	quad	64	datasheets/mcu/microchip/doc7593.pdf	432		PS	36.2 QFN64 (image)
+PT	quad	32	datasheets/mcu/microchip/AVR16-32DD28-32-DataSheet-DS40002441.pdf	670	671	C04-074	32-Lead Plastic Thin Quad Flatpack (PT) - 7x7x1.0 mm Body [TQFP]
+PT	quad	48	datasheets/mcu/microchip/AVR128DA28-32-48-64-Data-Sheet-DS40002183.pdf	680	681	C04-300	48-Lead Plastic Thin Quad Flatpack (PT) - 7x7x1.0 mm Body [TQFP]
+PT	quad	64	datasheets/mcu/microchip/AVR128DA28-32-48-64-DataSheet-DS40002183B.pdf	600	601	C04-085C	64-Lead Plastic Thin Quad Flatpack (PT)-10x10x1 mm Body, 2.00 mm Footprint [TQFP]
+PV	quad	32	datasheets/mcu/microchip/Atmel-8209-8-bit-AVR-ATmega16M1-32M1-64M1_Summary.pdf	17		PV	7.2 PV 32 QFN (image)
+PW	quad	44	datasheets/mcu/microchip/ATxmega128-64-32-16A4U-DataSheet-DS40002166A.pdf	77	78	C04-21421	44-Lead Very Thin Plastic Quad Flat, No Lead Package (SXB) - 7x7 mm Body [VQFN]
+QFN-56	quad	56	datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	607	607	RP2040	5.1.2 Recommended PCB Footprint (Figure 167)
+QFN32	quad	32	datasheets/mcu/microchip/7707S.pdf	15		PG	7.1 QFN32 (image; AT90USB82/162; the AT90PWM QFN32s are per device, footprint-device.tsv)
+QZB	quad	32	datasheets/mcu/microchip/AVR32LA14-20-28-32-DataSheet-DS40002684.pdf	563	564	C04-21511	32-Lead Ultra Thin Plastic Quad Flat, No Lead Package (QZB) - 5x5x0.9 mm Body [VQFN]
+REB	quad	20	datasheets/mcu/microchip/AVR16EB14_20_28_32-Prelim-DataSheet-DS40002522.pdf	596	597	C04-21380	20-Lead Very Thin Plastic Quad Flat, No Lead Package (REB) - 3x3 mm Body [VQFN]
+RXB	quad	32	datasheets/mcu/microchip/AVR128DA28-32-48-64-DataSheet-DS40002183B.pdf	585	586	C04-21395	32-Lead Very Thin Plastic Quad Flat, No Lead Package (RXB) - 5x5x0.9 mm Body [VQFN]
+STX	quad	28	datasheets/mcu/microchip/AVR16-32DD28-32-DataSheet-DS40002441.pdf	664	665	C04-456	28-Lead Very Thin Plastic Quad Flat, No Lead (STX) - 4x4x1.0 mm Body [VQFN]
+TQFP32	quad	32	datasheets/mcu/microchip/7707S.pdf	16		TQFP32	7.2 TQFP32 (image)
+Z64-1	quad	64	datasheets/mcu/microchip/7679S.pdf	15		Z64-1	5.2 QFN64 (image)
+Z64-2	quad	64	datasheets/mcu/microchip/7679S.pdf	15		Z64-2	5.2 QFN64 (image)

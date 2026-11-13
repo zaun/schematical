@@ -69,6 +69,11 @@ def main(argv):
         n = int(c["pins"])
         want_type = K.ptype(c["name"])
         best = None
+        if (c["code"], c["pins"]) in hand:
+            # a hand reading wins (image drawings, and matches the title test got wrong)
+            t = hand[(c["code"], c["pins"])]
+            print("\t".join(t[k] for k in ("code", "geometry", "pins", "pdf", "page", "land_page", "drawing", "title")))
+            continue
         for pdf in sorted(pdfs.get((c["code"], c["pins"]), ())):
             ds = by_pdf.get(pdf, [])
             for i, d in enumerate(ds):

@@ -55,7 +55,9 @@ def parse_page(text):
         if "RECOMMENDED LAND PATTERN" in line.upper():
             land_on = True
         # `Name ... SYM  values` (Microchip) or `   SYM  values` (Atmel)
-        m = re.match(r"^\s*(?:([A-Za-z][A-Za-z0-9 ,/()\-]*?)\s{2,})?([A-Za-z]\d?)\s+(-?\d.*|-\s.*)$", line)
+        # anything left of the symbol (a row name, or a note / drawing label that
+        # shares the line: `rotrusion. Allowable    B   0.30  –  0.45`)
+        m = re.match(r"^(?:(.*?)\s{2,}|\s*)([A-Za-z]\d?)\s+(-?\d.*|[-–]\s.*)$", line)
         if not m or cols is None:
             continue
         name, sym, rest = (m.group(1) or ""), m.group(2), m.group(3)
