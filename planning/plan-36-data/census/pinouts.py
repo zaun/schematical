@@ -12,9 +12,9 @@ pinouts must have one pad list (B § 2), else the row is reported.
 
 --transcribed: transcribed.tsv (`pdf page figure devices pinout designator
 name role`; devices comma-separated, B § 3.3) supplies the pinouts of the
-rows the ATDF cannot fill, the ESP32 modules and the RP2040; its pinout
-column is the pinout name, and a `code` is matched through
-transcribe-map.tsv (`device code pinout src`).
+rows the ATDF cannot fill, the ESP32 modules and the RP2040: a row takes the
+pinout its own PDF transcribes for its device and its package code's
+(geometry, pins).
 
 Writes, beside candidates.tsv: pinouts.tsv (`device pinout designator name
 role src`), pinout-map.tsv (`device code pins pinout src`), and the
@@ -50,6 +50,16 @@ def pins_of(row):
     if m:
         return m.group(1)
     return "6" if "SOT-23-6" in row["dk_package"] else ""
+
+
+def proper(device):
+    """The datasheet spelling of a device with no ATDF: ATTINY26 -> ATtiny26,
+    ATMEGA8535 -> ATmega8535, ATXMEGA192C3 -> ATxmega192C3; AT90..., AVR...,
+    ESP32... and RP2040 as they are."""
+    for up, pr in (("ATXMEGA", "ATxmega"), ("ATMEGA", "ATmega"), ("ATTINY", "ATtiny")):
+        if device.startswith(up):
+            return pr + device[len(up):]
+    return device
 
 
 def atdf_geom(name):
@@ -124,30 +134,51 @@ def main(argv):
         r["pinout_src"] = "atdf"
         counts["atdf"] += 1
     if "--transcribed" in argv:
+        # transcribed.tsv rows are keyed by (PDF, device, pinout name); an add row
+        # takes the pinout its own PDF transcribes for its device and its
+        # package's (geometry, pins) -- module<N> for an ESP32 module, quad57 for
+        # the RP2040 (56 pads and the exposed GND pad)
         tr = argv[argv.index("--transcribed") + 1]
-        tmap_path = os.path.join(here, "transcribe-map.tsv")
-        tpins = OrderedDict()
+        units = OrderedDict()
         for t in csv.DictReader(open(tr), delimiter="\t"):
-            for dev in t["devices"].split(","):
-                tpins.setdefault((dev.strip(), t["pinout"]), ([], f"transcribed:{t['pdf']}:p{t['page']}:{t['figure']}"))[0] \
-                    .append((t["designator"], t["name"], t["role"]))
-        tmap = {}
-        for t in csv.DictReader(open(tmap_path), delimiter="\t"):
-            tmap[(t["mpn_device"], t["code"])] = (t["device"], t["pinout"], t["src"])
+            src = f"{'module-table' if t['figure'].startswith('module-table') else 'transcribed'}:" \
+                  f"{os.path.basename(t['pdf'])}:{('p' + t['page'] + ':') if t['page'] else ''}{t['figure']}"
+            units.setdefault((t["pdf"], t["devices"], t["pinout"]), ([], src))[0] \
+                .append((t["designator"], t["name"], t["role"]))
+        tpins = OrderedDict()
+        for (pdf, devs, po), (pins, src) in units.items():
+            for dev in devs.split(","):
+                key = (pdf, dev.strip().upper(), po)
+                if key in tpins and tpins[key][0] != pins:
+                    missing.append(f"{dev} {po}: two transcriptions in {os.path.basename(pdf)} disagree")
+                tpins.setdefault(key, (pins, src))
         for r in rows:
             if r["verdict"] != "add" or r["pinout_src"]:
                 continue
-            got = tmap.get((r["device"], r["package_code"]))
-            if got is None:
+            if r["family"] == "ESP32":
+                keys = [k for k in tpins if k[0] == r["pdf"] and k[1] == r["device"].upper() and k[2].startswith("module")]
+                kind = "module-table"
+            elif r["family"] == "RP2040":
+                keys = [k for k in tpins if k[0] == r["pdf"] and k[1] == "RP2040" and k[2] == "quad57"]
+                kind = "transcribed"
+            else:
+                c = codes.get((r["package_code"], pins_of(r)))
+                if c is None:
+                    continue
+                want = f"{PREFIX[c['geometry']]}{c['pins']}"
+                keys = [k for k in tpins if k[0] == r["pdf"] and k[1] == r["device"].upper() and k[2] == want]
+                kind = "transcribed"
+            if not keys:
                 continue
-            dev, name, kind = got
-            if (dev, name) not in tpins:
-                missing.append(f"{r['mpn']}: transcribe-map names {dev} {name}, not in transcribed.tsv")
+            pdf, _, name = keys[0]
+            pins, src = tpins[keys[0]]
+            dev = proper(r["device"])
+            if (dev, name) in pinouts and [p[:2] for p in pinouts[(dev, name)][0]] != [p[:2] for p in pins]:
+                missing.append(f"{r['mpn']}: {dev} {name} transcribed differently from an earlier {name}")
                 continue
-            pins, src = tpins[(dev, name)]
             pinouts.setdefault((dev, name), (pins, src))
-            n = pins_of(r) if r["family"] not in ("ESP32", "RP2040") else str(len(pins))
-            pmap[(dev, r["package_code"], n)] = (name, src)
+            n = pins_of(r) if r["family"] not in ("ESP32", "RP2040") else ("56" if r["family"] == "RP2040" else "")
+            pmap[(dev, r["package_code"], n)] = (name, pinouts[(dev, name)][1])
             r["pinout_src"] = kind
             counts[kind] += 1
     for r in rows:

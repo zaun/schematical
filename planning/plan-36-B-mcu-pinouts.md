@@ -241,17 +241,21 @@ Commit: —
 
 ### Phase 2 — Transcriptions
 
-- [ ] `census/units.py` → the (PDF, figure) list for rows without an ATDF
+- [x] `census/units.py` → the (PDF, figure) list for rows without an ATDF
       pinout, written to `transcribe-units.tsv`.
-- [ ] Transcribe each unit (§ 3.3) into `transcribed.tsv`. `pinouts.py
+      → `transcribe-units.tsv`: 95 units (PDF, geometry, pins, package type) over 248 rows. The package type was added to the key because one PDF can draw a TQFP, an MLF and a PLCC 44 with different numbering.
+- [x] Transcribe each unit (§ 3.3) into `transcribed.tsv`. `pinouts.py
       --transcribed transcribed.tsv` merges them; `pinout_src` =
       `transcribed`.
-- [ ] The 13 ESP32 module tables and the RP2040 table (§ 3.3) go in
+      `census/transcribe.py` reads each figure from the PDF's word boxes (`pdftotext -bbox`): number clusters, the nearest aligned pad name, a layout check (two columns / four sides) and the caption's package type. That covered 75 of 80 AVR units. Four independent hand readings (ATtiny26 p20 and quad32, ATmega406 quad48, ATmega8515 p40) matched it exactly (`transcribed-hand-checks.tsv`). Five units were typed from the rendered pages in `census/transcribe-hand.py` (AT90PWM3B and AT90PWM316 QFN32 from the pin tables, ATtiny1634 QFN20, ATmega8535 PDIP40, AT90PWM81/161 QFN32), plus the two ATtiny24A/44A/84A UFBGA-15 tables. `census/transcribed-merge.py` → `transcribed.tsv` (88 units, 3495 pins); `pinouts.py --transcribed` → `transcribed 199` rows. ATmega406's battery pins and ATtiny43U's LSW were added to `roles.py` with their datasheet descriptions.
+- [x] The 13 ESP32 module tables and the RP2040 table (§ 3.3) go in
       `transcribed.tsv` too, with `pinout_src` = `module-table` for the
       modules and `transcribed` for the RP2040.
+      12 module devices (the add rows' 13 planning devices less ESP32-S2-SOLO, now `out`). `census/esp-pins.py` reads each Pin Definitions table (grouped numbers such as `1, 2, 11, 14, 36-53`; footnote marks `IO163`, `IO26 2`, `IO47 c`; `EPAD` → GND). WROOM-32E and WROVER-E number their exposed pad 39 in the pin layout figure (`esp-pads.tsv`). The MINI modules' GND grids are numbered pads in their own tables (C3/C6-MINI-1 36-53, S2/S3-MINI 46-65, ESP32-MINI-1 38-55). The RP2040 is `quad57`, read from § 1.4.1 Figure 3 (an image) plus pin 57 = the exposed GND pad. → `module-table 49`, RP2040 2 rows.
 
 Acceptance: every `add` row has a pinout.
   Check: `awk -F'\t' 'NR>1 && $24=="add" && $25==""' planning/plan-36-data/candidates.tsv | wc -l` → 0, and the lint → `0 problems` (est. 2 min after the transcriptions).
+  Result 2026-11-13: `0`; `422 pinouts, 0 problems` (atdf 1178 + transcribed 199 + module-table 49 = 1426).
 Commit: —
 
 ### Phase 3 — Checks and device facts
@@ -298,6 +302,8 @@ Commit: —
 ## Corrections
 
 - **2026-11-13, Phase 1: 1178 ATDF rows, not 1242.** A's verdicts left 1373 AVR add rows (planning: 1468 AVR rows before verdicts), and the pinout is now picked by the ordering-table package code, not DigiKey's package. 245 AVR rows fall to transcription: devices whose ATDF has no pinouts (B § 2's list), packages the ATDF lacks (AVR DB28 has only `DIP28`, so its VQFN28 `STX` is transcribed), and the 3 ATtiny13/13A `MLF20` rows of `atdf-exclude.tsv`.
+- **2026-11-13, Phase 2: transcription by word boxes.** § 3.3 has each unit typed from a `pdftoppm` image. 75 of the 80 AVR figures are text in the PDF, so `census/transcribe.py` reads them from `pdftotext -bbox`. Every figure it accepts numbers 1..N exactly once with a valid pad name per number. It must match the unit's layout and caption, and when a page draws one package twice, both readings must agree. Four figures read by hand matched its output exactly. The 5 it could not read, the RP2040 and the UFBGA tables were typed from the images. Phase 3's name check and full checks run over these too.
+- **2026-11-13, roles added.** ATmega406 (battery management) and ATtiny43U (boost converter) have pad names outside § 3.2's table. They were added with their datasheet descriptions in `roles.py`: VFET power; VREG, VREF, OC, OD, OPC, LSW output; PV1-4, NV, PI, NI, PPI, NNI, PVT, BATT input; SGND, VREFGND ground; SCL, SDA inout. ATmega406's cell and FET pins work above VCC (up to 25 V, VFET). The edit-time voltage check will judge them as ordinary inputs at the part's `vcc` (F § 3.4), which is a known limit for this one part.
 - **2026-11-13, `package-codes.tsv` key.** One row per (code, pins), not per code (Phase 1 note). `pinout-map.tsv` has `device code pins pinout src`.
 
 ## Summary

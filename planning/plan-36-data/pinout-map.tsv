@@ -492,3 +492,132 @@ ATtiny826	M	20	quad20	atdf:ATtiny826.atdf:QFP20
 ATtiny826	S	20	p20	atdf:ATtiny826.atdf:DIP20
 ATtiny826	X	20	p20	atdf:ATtiny826.atdf:DIP20
 ATtiny827	M	24	quad24	atdf:ATtiny827.atdf:QFP24
+AT90PWM161	QFN32	32	quad32	transcribed:doc7734.pdf:p4:hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5
+AT90PWM2	SO24	24	p24	transcribed:Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf:p3:auto:p3
+AT90PWM216	SO24	24	p24	transcribed:Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf:p3:auto:p3
+AT90PWM2B	SO24	24	p24	transcribed:Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf:p3:auto:p3
+AT90PWM316	QFN32	32	quad32	transcribed:Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf:p5:hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)
+AT90PWM3B	QFN32	32	quad32	transcribed:Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf:p5:hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)
+AT90PWM81	QFN32	32	quad32	transcribed:doc7734.pdf:p4:hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5
+AT90USB1286	MD	64	quad64	transcribed:7593S.pdf:p4:auto:p4
+AT90USB1286	PS	64	quad64	transcribed:7593S.pdf:p4:auto:p4
+AT90USB1287	MD	64	quad64	transcribed:doc7593.pdf:p3:auto:p3
+AT90USB1287	PS	64	quad64	transcribed:doc7593.pdf:p3:auto:p3
+AT90USB162	TQFP32	32	quad32	transcribed:7707S.pdf:p3:auto:p3
+AT90USB162	QFN32	32	quad32	transcribed:7707S.pdf:p3:auto:p3
+AT90USB646	MD	64	quad64	transcribed:7593S.pdf:p4:auto:p4
+AT90USB646	PS	64	quad64	transcribed:7593S.pdf:p4:auto:p4
+AT90USB647	MD	64	quad64	transcribed:7593S.pdf:p3:auto:p3
+AT90USB82	QFN32	32	quad32	transcribed:7707S.pdf:p3:auto:p3
+ATmega162	44A	44	quad44	transcribed:Atmel-2513-8-bit-AVR-Microntroller-ATmega162_Datasheet-Summary.pdf:p2:auto:p2
+ATmega162	44M1	44	quad44	transcribed:Atmel-2513-8-bit-AVR-Microntroller-ATmega162_Datasheet-Summary.pdf:p2:auto:p2
+ATmega162	40P6	40	p40	transcribed:Atmel-2513-8-bit-AVR-Microntroller-ATmega162_Datasheet.pdf:p2:auto:p2
+ATmega165A	64A	64	quad64	transcribed:Atmel-8285-8-bit-AVR-Microcontroller-ATmega165A_PA_325A_PA_3250A_PA_645A_P_6450A_P_datasheet_Summary.pdf:p3:auto:p3
+ATmega165A	64M1	64	quad64	transcribed:Atmel-8285-8-bit-AVR-Microcontroller-ATmega165A_PA_325A_PA_3250A_PA_645A_P_6450A_P_datasheet_Summary.pdf:p3:auto:p3
+ATmega165P	64A	64	quad64	transcribed:8019S.pdf:p2:auto:p2
+ATmega165PA	64A	64	quad64	transcribed:Atmel-8285-8-bit-AVR-Microcontroller-ATmega165A_PA_325A_PA_3250A_PA_645A_P_6450A_P_datasheet_Summary.pdf:p3:auto:p3
+ATmega165PA	64M1	64	quad64	transcribed:Atmel-8285-8-bit-AVR-Microcontroller-ATmega165A_PA_325A_PA_3250A_PA_645A_P_6450A_P_datasheet_Summary.pdf:p3:auto:p3
+ATmega325	64A	64	quad64	transcribed:2570S.pdf:p3:auto:p3
+ATmega325	64M1	64	quad64	transcribed:2570S.pdf:p3:auto:p3
+ATmega3250	100A	100	quad100	transcribed:2570S.pdf:p2:auto:p2
+ATmega3250P	100A	100	quad100	transcribed:doc8023.pdf:p2:auto:p2
+ATmega325A	64A	64	quad64	transcribed:Atmel-8285-8-bit-AVR-Microcontroller-ATmega165A_PA_325A_PA_3250A_PA_645A_P_6450A_P_datasheet_Summary.pdf:p3:auto:p3
+ATmega325A	64M1	64	quad64	transcribed:Atmel-8285-8-bit-AVR-Microcontroller-ATmega165A_PA_325A_PA_3250A_PA_645A_P_6450A_P_datasheet_Summary.pdf:p3:auto:p3
+ATmega325PA	64A	64	quad64	transcribed:Atmel-8285-8-bit-AVR-Microcontroller-ATmega165A_PA_325A_PA_3250A_PA_645A_P_6450A_P_datasheet_Summary.pdf:p3:auto:p3
+ATmega3290	100A	100	quad100	transcribed:2552S.pdf:p2:auto:p2
+ATmega3290A	100A	100	quad100	transcribed:Atmel-8284-8-bit-AVR-microcontroller-ATmega169A_PA_329A_PA_3290A_PA_649A_P_6490A_P_summary.pdf:p4:auto:p4
+ATmega3290P	100A	100	quad100	transcribed:Atmel-8021-AVR-ATmega329P-3290P_Summary.pdf:p3:auto:p3
+ATmega3290PA	100A	100	quad100	transcribed:Atmel-8284-8-bit-AVR-microcontroller-ATmega169A_PA_329A_PA_3290A_PA_649A_P_6490A_P_summary.pdf:p4:auto:p4
+ATmega406	48AA	48	quad48	transcribed:Atmel-2548-8-bit-AVR-Microcontroller-Battery-Management-ATmega406_Datasheet-Summary.pdf:p2:auto:p2
+ATmega645	64A	64	quad64	transcribed:doc2570.pdf:p3:auto:p3
+ATmega6450	100A	100	quad100	transcribed:doc2570.pdf:p2:auto:p2
+ATmega6450A	100A	100	quad100	transcribed:Atmel-8285-8-bit-AVR-Microcontroller-ATmega165A_PA_325A_PA_3250A_PA_645A_P_6450A_P_datasheet_Summary.pdf:p4:auto:p4
+ATmega645P	64M1	64	quad64	transcribed:Atmel-8285-8-bit-AVR-Microcontroller-ATmega165A_PA_325A_PA_3250A_PA_645A_P_6450A_P_datasheet_Summary.pdf:p3:auto:p3
+ATmega6490	100A	100	quad100	transcribed:2552S.pdf:p2:auto:p2
+ATmega6490A	100A	100	quad100	transcribed:Atmel-8284-8-bit-AVR-microcontroller-ATmega169A_PA_329A_PA_3290A_PA_649A_P_6490A_P_summary.pdf:p4:auto:p4
+ATmega6490P	100A	100	quad100	transcribed:Atmel-8284-8-bit-AVR-microcontroller-ATmega169A_PA_329A_PA_3290A_PA_649A_P_6490A_P_summary.pdf:p4:auto:p4
+ATmega8515	44A	44	quad44	transcribed:doc2512.pdf:p2:auto:p2
+ATmega8515	44J	44	plcc44	transcribed:doc2512.pdf:p2:auto:p2
+ATmega8515	44M1	44	quad44	transcribed:doc2512.pdf:p2:auto:p2
+ATmega8515	40P6	40	p40	transcribed:doc2512.pdf:p2:auto:p2
+ATmega8535	40P6	40	p40	transcribed:doc2502.pdf:p2:hand: Figure 1 Pinout ATmega8535, PDIP
+ATmega8535	44A	44	quad44	transcribed:2502S.pdf:p2:auto:p2
+ATmega8535	44M1-A	44	quad44	transcribed:2502S.pdf:p2:auto:p2
+ATtiny102F	8-PIN-UDFN	8	p8	transcribed:Atmel-42505-8-bit-AVR-Microcontrollers-ATtiny102-ATtiny104_Summary.pdf:p8:auto:p8
+ATtiny102F	8-PIN-SOIC150	8	p8	transcribed:Atmel-42505-8-bit-AVR-Microcontrollers-ATtiny102-ATtiny104_Summary.pdf:p8:auto:p8
+ATtiny13	20M1	20	quad20	transcribed:2535S.pdf:p2:auto:p2
+ATtiny13A	20M1	20	quad20	transcribed:attiny13a.pdf:p8:auto:p8
+ATtiny1634	20M1	20	quad20	transcribed:Atmel-8303-8-bit-AVR-Microcontroller-tinyAVR-ATtiny1634_Datasheet_summary.pdf:p2:hand: Figure 1-1 Pinout of ATtiny1634, QFN/MLF
+ATtiny1634	20S2	20	p20	transcribed:Atmel-8303-8-bit-AVR-Microcontroller-tinyAVR-ATtiny1634_Datasheet_summary.pdf:p2:auto:p2
+ATtiny1634R	20M1	20	quad20	transcribed:Atmel-8303-8-bit-AVR-Microcontroller-tinyAVR-ATtiny1634_Datasheet_summary.pdf:p2:hand: Figure 1-1 Pinout of ATtiny1634, QFN/MLF
+ATtiny1634R	20S2	20	p20	transcribed:Atmel-8303-8-bit-AVR-Microcontroller-tinyAVR-ATtiny1634_Datasheet_summary.pdf:p2:auto:p2
+ATtiny167	32PN	32	quad32	transcribed:Atmel-8265-8-bit-AVR-Microcontroller-tinyAVR-ATtiny87-ATtiny167_summary.pdf:p4:auto:p4
+ATtiny167	20S2	20	p20	transcribed:ATtiny87-167-DataSheet-DS40002167A.pdf:p11:auto:p11
+ATtiny167	20X	20	p20	transcribed:ATtiny87-167-DataSheet-DS40002167A.pdf:p11:auto:p11
+ATtiny20	20M2	20	quad20	transcribed:Atmel-8235-8-bit-AVR-Microcontroller-ATtiny20_Datasheet_Summary.pdf:p2:auto:p2
+ATtiny2313	20M1	20	quad20	transcribed:Atmel-2543-AVR-ATtiny2313_Summary.pdf:p2:auto:p2
+ATtiny2313	20P3	20	p20	transcribed:Atmel-2543-AVR-ATtiny2313_Datasheet.pdf:p2:auto:p2
+ATtiny2313	20S	20	p20	transcribed:Atmel-2543-AVR-ATtiny2313_Datasheet.pdf:p2:auto:p2
+ATtiny2313A	20M2	20	quad20	transcribed:8246S.pdf:p2:auto:p2
+ATtiny2313A	20M1	20	quad20	transcribed:8246S.pdf:p2:auto:p2
+ATtiny2313A	20P3	20	p20	transcribed:doc8246.pdf:p2:auto:p2
+ATtiny2313A	20S	20	p20	transcribed:doc8246.pdf:p2:auto:p2
+ATtiny24	20M1	20	quad20	transcribed:8006S.pdf:p2:auto:p2
+ATtiny24	14S1	14	p14	transcribed:8006S.pdf:p2:auto:p2
+ATtiny24A	15CC1	15	bga15	transcribed:8183s.pdf:p2:hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball
+ATtiny26	32M1-A	32	quad32	transcribed:1477S.pdf:p2:auto:p2
+ATtiny26	20P3	20	p20	transcribed:doc1477.pdf:p2:auto:p2
+ATtiny26	20S	20	p20	transcribed:doc1477.pdf:p2:auto:p2
+ATtiny261A	32M1-A	32	quad32	transcribed:8197S.pdf:p2:auto:p2
+ATtiny261A	20P3	20	p20	transcribed:doc8197.pdf:p2:auto:p2
+ATtiny261A	20S2	20	p20	transcribed:doc8197.pdf:p2:auto:p2
+ATtiny261A	20X	20	p20	transcribed:doc8197.pdf:p2:auto:p2
+ATtiny28V	32M1-A	32	quad32	transcribed:1062s.pdf:p1:auto:p1
+ATtiny4313	20M2	20	quad20	transcribed:8246S.pdf:p2:auto:p2
+ATtiny4313	20M1	20	quad20	transcribed:8246S.pdf:p2:auto:p2
+ATtiny4313	20P3	20	p20	transcribed:doc8246.pdf:p2:auto:p2
+ATtiny4313	20S	20	p20	transcribed:doc8246.pdf:p2:auto:p2
+ATtiny43U	20S2	20	p20	transcribed:8048S.pdf:p2:auto:p2
+ATtiny44	14S1	14	p14	transcribed:8006S.pdf:p2:auto:p2
+ATtiny44	20M1	20	quad20	transcribed:8006S.pdf:p2:auto:p2
+ATtiny44A	15CC1	15	bga15	transcribed:ATtiny24A-44A-84A-DataSheet-DS40002269A.pdf:p3:hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball
+ATtiny461A	20S2	20	p20	transcribed:doc8197.pdf:p2:auto:p2
+ATtiny461A	20X	20	p20	transcribed:doc8197.pdf:p2:auto:p2
+ATtiny828	32A	32	quad32	transcribed:doc8371.pdf:p2:auto:p2
+ATtiny828R	32A	32	quad32	transcribed:doc8371.pdf:p2:auto:p2
+ATtiny84	20M1	20	quad20	transcribed:8006S.pdf:p2:auto:p2
+ATtiny84	14S1	14	p14	transcribed:8006S.pdf:p2:auto:p2
+ATtiny84A	15CC1	15	bga15	transcribed:8183s.pdf:p2:hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball
+ATtiny861A	32M1-A	32	quad32	transcribed:8197S.pdf:p2:auto:p2
+ATtiny861A	20P3	20	p20	transcribed:doc8197.pdf:p2:auto:p2
+ATtiny861A	20S2	20	p20	transcribed:doc8197.pdf:p2:auto:p2
+ATtiny861A	20X	20	p20	transcribed:doc8197.pdf:p2:auto:p2
+ATtiny87	32PN	32	quad32	transcribed:ATtiny87-167-DataSheet-DS40002167A.pdf:p11:auto:p11
+ATtiny87	20S2	20	p20	transcribed:ATtiny87-167-DataSheet-DS40002167A.pdf:p11:auto:p11
+ATtiny87	20X	20	p20	transcribed:ATtiny87-167-DataSheet-DS40002167A.pdf:p11:auto:p11
+AVR16EA28	STX	28	quad28	transcribed:AVR16EA28-32-48-DataSheet-DS40002498.pdf:p14:auto:p14
+AVR32EA28	STX	28	quad28	transcribed:AVR32EA28-32-48-DataSheet-DS40002497.pdf:p14:auto:p14
+AVR32EB14	SL	14	p14	transcribed:AVR32EB-14-20-28-32-Prelim-DataSheet-DS40002615.pdf:p13:auto:p13
+AVR32EB14	ST	14	p14	transcribed:AVR32EB-14-20-28-32-Prelim-DataSheet-DS40002615.pdf:p13:auto:p13
+AVR32EB20	SS	20	p20	transcribed:AVR32EB-14-20-28-32-Prelim-DataSheet-DS40002615.pdf:p13:auto:p13
+AVR32EB28	SP	28	p28	transcribed:AVR32EB-14-20-28-32-Prelim-DataSheet-DS40002615.pdf:p14:auto:p14
+AVR32EB28	SS	28	p28	transcribed:AVR32EB-14-20-28-32-Prelim-DataSheet-DS40002615.pdf:p14:auto:p14
+AVR32EB28	STX	28	quad28	transcribed:AVR32EB-14-20-28-32-Prelim-DataSheet-DS40002615.pdf:p15:auto:p15
+AVR32EB32	PT	32	quad32	transcribed:AVR32EB-14-20-28-32-Prelim-DataSheet-DS40002615.pdf:p16:auto:p16
+AVR32EB32	RXB	32	quad32	transcribed:AVR32EB-14-20-28-32-Prelim-DataSheet-DS40002615.pdf:p16:auto:p16
+AVR64EA28	STX	28	quad28	transcribed:AVR64EA-28-32-48-DataSheet-DS40002443.pdf:p14:auto:p14
+ATxmega192C3	64A	64	quad64	transcribed:Atmel-8492-8-and-16-bit-AVR-microcontroller-ATxmega32C3_64C3_128C3_192C3_256C3_datasheet.pdf:p4:auto:p4
+ATmega4809	P	40	p40	transcribed:ATmega4808-09-DataSheet-DS40002173C.pdf:p16:auto:p16
+ESP32-C3-MINI-1	ESP32-C3-MINI-1		module53	module-table:esp32-c3-mini-1_datasheet_en.pdf:module-table: Pin Definitions table
+ESP32-C3-WROOM-02	ESP32-C3-WROOM-02		module19	module-table:esp32-c3-wroom-02_datasheet_en.pdf:module-table: Pin Definitions table
+ESP32-C6-MINI-1	ESP32-C6-MINI-1		module53	module-table:esp32-c6-mini-1_mini-1u_datasheet_en.pdf:module-table: Pin Definitions table
+ESP32-C6-WROOM-1	ESP32-C6-WROOM-1		module29	module-table:esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf:module-table: Pin Definitions table
+ESP32-MINI-1	ESP32-MINI-1		module55	module-table:esp32-mini-1_datasheet_en.pdf:module-table: Pin Definitions table
+ESP32-S2-MINI-2	ESP32-S2-MINI-2		module65	module-table:esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf:module-table: Pin Definitions table
+ESP32-S2-SOLO-2	ESP32-S2-SOLO-2		module41	module-table:esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf:module-table: Pin Definitions table
+ESP32-S3-MINI-1	ESP32-S3-MINI-1		module65	module-table:esp32-s3-mini-1_mini-1u_datasheet_en.pdf:module-table: Pin Definitions table
+ESP32-S3-WROOM-1	ESP32-S3-WROOM-1		module41	module-table:esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf:module-table: Pin Definitions table
+ESP32-WROOM-32	ESP32-WROOM-32		module39	module-table:esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf:module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)
+ESP32-WROOM-DA	ESP32-WROOM-DA		module43	module-table:esp32-wroom-da_datasheet_en.pdf:module-table: Pin Definitions table
+ESP32-WROVER	ESP32-WROVER		module39	module-table:esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf:module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)
+RP2040	QFN-56	56	quad57	transcribed:rp2040-datasheet.pdf:p12:hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad

@@ -8,13 +8,26 @@ import re
 
 PORT = re.compile(r"^P[A-R][0-9]$")
 
+# ATmega406 (battery management; Atmel-2548 summary § 2.2 "Pin Descriptions"):
+#   VFET "High voltage supply pin ... supply for the internal voltage regulator" -> power
+#   VREG "Output from the internal Voltage Regulator" -> output
+#   VREF "Internal Voltage Reference for external decoupling" -> output
+#   VREFGND "Ground for decoupling of Internal Voltage Reference", SGND "Signal ground" -> ground
+#   SCL, SDA "SMBUS clock / data, Open Drain bidirectional" -> inout
+#   OC, OD, OPC "High voltage output to drive external Charge/Discharge/Pre-charge FETs" -> output
+#   PPI, NNI, PI, NI (current sense inputs), NV, PV1-PV4 (cell inputs), PVT (pull-up level for OD),
+#   BATT ("Input for detecting when a charger is connected") -> input
 AVR = {
-    "inout": {"D+", "D-", "DM", "DP", "PDI", "PDI_DATA", "UPDI"},
-    "input": {"RESET", "PEN", "AREF", "REF", "XTAL1", "TOSC1", "ADC6", "ADC7", "VBUS"},
-    "output": {"XTAL2", "TOSC2", "UCAP", "CAPH", "CAPL", "LCDCAP", "BIAS1", "BIAS2",
+    "inout": {"D+", "D-", "DM", "DP", "PDI", "PDI_DATA", "UPDI", "SCL", "SDA"},
+    "input": {"RESET", "PEN", "AREF", "REF", "XTAL1", "TOSC1", "ADC6", "ADC7", "VBUS",
+              "PPI", "NNI", "PI", "NI", "NV", "PV1", "PV2", "PV3", "PV4", "PVT", "BATT"},
+    # LSW: ATtiny43U boost converter switch, "Boost converter external inductor
+    # connection" (8048S.pdf, Pin Descriptions), driven by the chip
+    "output": {"XTAL2", "TOSC2", "UCAP", "CAPH", "CAPL", "LCDCAP", "BIAS1", "BIAS2", "LSW",
+               "VREG", "VREF", "OC", "OD", "OPC",
                "COM0", "COM1", "COM2", "COM3"} | {f"SEG{i}" for i in range(24)},
-    "power": {"VCC", "AVCC", "AVDD", "VDD", "VDD0", "VDD1", "VDD2", "VDDIO2", "UVCC", "VUSB", "VBAT", "VLCD"},
-    "ground": {"GND", "GND0", "GND1", "GND2", "AGND", "UGND"},
+    "power": {"VCC", "AVCC", "AVDD", "VDD", "VDD0", "VDD1", "VDD2", "VDDIO2", "UVCC", "VUSB", "VBAT", "VLCD", "VFET"},
+    "ground": {"GND", "GND0", "GND1", "GND2", "AGND", "UGND", "SGND", "VREFGND"},
     "nc": {"NC", "DNC"},
 }
 
@@ -26,7 +39,7 @@ RP2040 = {
     "inout": {"SWDIO", "USB_DP", "USB_DM"},
 }
 
-ESP_TYPE = {"I/O": "inout", "I": "input", "O": "output", "P": "power", "-": "nc"}
+ESP_TYPE = {"I/O": "inout", "I/O/T": "inout", "I": "input", "O": "output", "P": "power", "-": "nc"}
 
 
 def role(name, kind="avr", esp_type=None):

@@ -1,0 +1,244 @@
+pdf	page	figure	devices	pinout	designator	name	role
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	1	PD2	inout
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	2	PD3	inout
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	3	PC1	inout
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	4	VCC	power
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	5	GND	ground
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	6	PC2	inout
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	7	PC3	inout
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	8	PB0	inout
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	9	PB1	inout
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	10	PE1	inout
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	11	PE2	inout
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	12	PD4	inout
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	13	PD5	inout
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	14	PD6	inout
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	15	PD7	inout
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	16	PB2	inout
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	17	PC4	inout
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	18	PC5	inout
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	19	AVCC	power
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	20	AGND	ground
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	21	AREF	input
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	22	PC6	inout
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	23	PB3	inout
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	24	PB4	inout
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	25	PC7	inout
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	26	PB5	inout
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	27	PB6	inout
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	28	PB7	inout
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	29	PD0	inout
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	30	PC0	inout
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	31	PE0	inout
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	5	hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)	AT90PWM3B	quad32	32	PD1	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	1	PD2	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	2	PD3	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	3	PC1	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	4	VCC	power
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	5	GND	ground
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	6	PC2	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	7	PC3	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	8	PB0	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	9	PB1	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	10	PE1	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	11	PE2	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	12	PD4	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	13	PD5	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	14	PD6	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	15	PD7	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	16	PB2	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	17	PC4	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	18	PC5	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	19	AVCC	power
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	20	AGND	ground
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	21	AREF	input
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	22	PC6	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	23	PB3	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	24	PB4	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	25	PC7	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	26	PB5	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	27	PB6	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	28	PB7	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	29	PD0	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	30	PC0	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	31	PE0	inout
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	5	hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)	AT90PWM316	quad32	32	PD1	inout
+datasheets/mcu/microchip/Atmel-8303-8-bit-AVR-Microcontroller-tinyAVR-ATtiny1634_Datasheet_summary.pdf	2	hand: Figure 1-1 Pinout of ATtiny1634, QFN/MLF	ATTINY1634,ATTINY1634R	quad20	1	PA6	inout
+datasheets/mcu/microchip/Atmel-8303-8-bit-AVR-Microcontroller-tinyAVR-ATtiny1634_Datasheet_summary.pdf	2	hand: Figure 1-1 Pinout of ATtiny1634, QFN/MLF	ATTINY1634,ATTINY1634R	quad20	2	PA5	inout
+datasheets/mcu/microchip/Atmel-8303-8-bit-AVR-Microcontroller-tinyAVR-ATtiny1634_Datasheet_summary.pdf	2	hand: Figure 1-1 Pinout of ATtiny1634, QFN/MLF	ATTINY1634,ATTINY1634R	quad20	3	PA4	inout
+datasheets/mcu/microchip/Atmel-8303-8-bit-AVR-Microcontroller-tinyAVR-ATtiny1634_Datasheet_summary.pdf	2	hand: Figure 1-1 Pinout of ATtiny1634, QFN/MLF	ATTINY1634,ATTINY1634R	quad20	4	PA3	inout
+datasheets/mcu/microchip/Atmel-8303-8-bit-AVR-Microcontroller-tinyAVR-ATtiny1634_Datasheet_summary.pdf	2	hand: Figure 1-1 Pinout of ATtiny1634, QFN/MLF	ATTINY1634,ATTINY1634R	quad20	5	PA2	inout
+datasheets/mcu/microchip/Atmel-8303-8-bit-AVR-Microcontroller-tinyAVR-ATtiny1634_Datasheet_summary.pdf	2	hand: Figure 1-1 Pinout of ATtiny1634, QFN/MLF	ATTINY1634,ATTINY1634R	quad20	6	PA1	inout
+datasheets/mcu/microchip/Atmel-8303-8-bit-AVR-Microcontroller-tinyAVR-ATtiny1634_Datasheet_summary.pdf	2	hand: Figure 1-1 Pinout of ATtiny1634, QFN/MLF	ATTINY1634,ATTINY1634R	quad20	7	PA0	inout
+datasheets/mcu/microchip/Atmel-8303-8-bit-AVR-Microcontroller-tinyAVR-ATtiny1634_Datasheet_summary.pdf	2	hand: Figure 1-1 Pinout of ATtiny1634, QFN/MLF	ATTINY1634,ATTINY1634R	quad20	8	GND	ground
+datasheets/mcu/microchip/Atmel-8303-8-bit-AVR-Microcontroller-tinyAVR-ATtiny1634_Datasheet_summary.pdf	2	hand: Figure 1-1 Pinout of ATtiny1634, QFN/MLF	ATTINY1634,ATTINY1634R	quad20	9	VCC	power
+datasheets/mcu/microchip/Atmel-8303-8-bit-AVR-Microcontroller-tinyAVR-ATtiny1634_Datasheet_summary.pdf	2	hand: Figure 1-1 Pinout of ATtiny1634, QFN/MLF	ATTINY1634,ATTINY1634R	quad20	10	PC5	inout
+datasheets/mcu/microchip/Atmel-8303-8-bit-AVR-Microcontroller-tinyAVR-ATtiny1634_Datasheet_summary.pdf	2	hand: Figure 1-1 Pinout of ATtiny1634, QFN/MLF	ATTINY1634,ATTINY1634R	quad20	11	PC4	inout
+datasheets/mcu/microchip/Atmel-8303-8-bit-AVR-Microcontroller-tinyAVR-ATtiny1634_Datasheet_summary.pdf	2	hand: Figure 1-1 Pinout of ATtiny1634, QFN/MLF	ATTINY1634,ATTINY1634R	quad20	12	PC3	inout
+datasheets/mcu/microchip/Atmel-8303-8-bit-AVR-Microcontroller-tinyAVR-ATtiny1634_Datasheet_summary.pdf	2	hand: Figure 1-1 Pinout of ATtiny1634, QFN/MLF	ATTINY1634,ATTINY1634R	quad20	13	PC2	inout
+datasheets/mcu/microchip/Atmel-8303-8-bit-AVR-Microcontroller-tinyAVR-ATtiny1634_Datasheet_summary.pdf	2	hand: Figure 1-1 Pinout of ATtiny1634, QFN/MLF	ATTINY1634,ATTINY1634R	quad20	14	PC1	inout
+datasheets/mcu/microchip/Atmel-8303-8-bit-AVR-Microcontroller-tinyAVR-ATtiny1634_Datasheet_summary.pdf	2	hand: Figure 1-1 Pinout of ATtiny1634, QFN/MLF	ATTINY1634,ATTINY1634R	quad20	15	PC0	inout
+datasheets/mcu/microchip/Atmel-8303-8-bit-AVR-Microcontroller-tinyAVR-ATtiny1634_Datasheet_summary.pdf	2	hand: Figure 1-1 Pinout of ATtiny1634, QFN/MLF	ATTINY1634,ATTINY1634R	quad20	16	PB3	inout
+datasheets/mcu/microchip/Atmel-8303-8-bit-AVR-Microcontroller-tinyAVR-ATtiny1634_Datasheet_summary.pdf	2	hand: Figure 1-1 Pinout of ATtiny1634, QFN/MLF	ATTINY1634,ATTINY1634R	quad20	17	PB2	inout
+datasheets/mcu/microchip/Atmel-8303-8-bit-AVR-Microcontroller-tinyAVR-ATtiny1634_Datasheet_summary.pdf	2	hand: Figure 1-1 Pinout of ATtiny1634, QFN/MLF	ATTINY1634,ATTINY1634R	quad20	18	PB1	inout
+datasheets/mcu/microchip/Atmel-8303-8-bit-AVR-Microcontroller-tinyAVR-ATtiny1634_Datasheet_summary.pdf	2	hand: Figure 1-1 Pinout of ATtiny1634, QFN/MLF	ATTINY1634,ATTINY1634R	quad20	19	PB0	inout
+datasheets/mcu/microchip/Atmel-8303-8-bit-AVR-Microcontroller-tinyAVR-ATtiny1634_Datasheet_summary.pdf	2	hand: Figure 1-1 Pinout of ATtiny1634, QFN/MLF	ATTINY1634,ATTINY1634R	quad20	20	PA7	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	1	PB0	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	2	PB1	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	3	PB2	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	4	PB3	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	5	PB4	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	6	PB5	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	7	PB6	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	8	PB7	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	9	RESET	input
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	10	VCC	power
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	11	GND	ground
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	12	XTAL2	output
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	13	XTAL1	input
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	14	PD0	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	15	PD1	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	16	PD2	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	17	PD3	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	18	PD4	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	19	PD5	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	20	PD6	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	21	PD7	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	22	PC0	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	23	PC1	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	24	PC2	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	25	PC3	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	26	PC4	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	27	PC5	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	28	PC6	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	29	PC7	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	30	AVCC	power
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	31	GND	ground
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	32	AREF	input
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	33	PA7	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	34	PA6	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	35	PA5	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	36	PA4	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	37	PA3	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	38	PA2	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	39	PA1	inout
+datasheets/mcu/microchip/doc2502.pdf	2	hand: Figure 1 Pinout ATmega8535, PDIP	ATMEGA8535	p40	40	PA0	inout
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	1	NC	nc
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	2	PD0	inout
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	3	PB1	inout
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	4	PB2	inout
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	5	VCC	power
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	6	GND	ground
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	7	PE1	inout
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	8	NC	nc
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	9	NC	nc
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	10	PE2	inout
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	11	PD1	inout
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	12	PD2	inout
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	13	PD3	inout
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	14	PB3	inout
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	15	PB4	inout
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	16	NC	nc
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	17	NC	nc
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	18	PD4	inout
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	19	PB5	inout
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	20	AVCC	power
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	21	AGND	ground
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	22	PE3	inout
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	23	PD5	inout
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	24	NC	nc
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	25	NC	nc
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	26	PD6	inout
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	27	PB6	inout
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	28	PD7	inout
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	29	PB7	inout
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	30	PB0	inout
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	31	PE0	inout
+datasheets/mcu/microchip/doc7734.pdf	4	hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5	AT90PWM161,AT90PWM81	quad32	32	NC	nc
+datasheets/mcu/microchip/8183s.pdf	2	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	A2	PA5	inout
+datasheets/mcu/microchip/8183s.pdf	2	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	A3	PA6	inout
+datasheets/mcu/microchip/8183s.pdf	2	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	A4	PB2	inout
+datasheets/mcu/microchip/8183s.pdf	2	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	B1	PA4	inout
+datasheets/mcu/microchip/8183s.pdf	2	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	B2	PA7	inout
+datasheets/mcu/microchip/8183s.pdf	2	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	B3	PB1	inout
+datasheets/mcu/microchip/8183s.pdf	2	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	B4	PB3	inout
+datasheets/mcu/microchip/8183s.pdf	2	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	C1	PA3	inout
+datasheets/mcu/microchip/8183s.pdf	2	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	C2	PA2	inout
+datasheets/mcu/microchip/8183s.pdf	2	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	C3	PA1	inout
+datasheets/mcu/microchip/8183s.pdf	2	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	C4	PB0	inout
+datasheets/mcu/microchip/8183s.pdf	2	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	D1	PA0	inout
+datasheets/mcu/microchip/8183s.pdf	2	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	D2	GND	ground
+datasheets/mcu/microchip/8183s.pdf	2	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	D3	GND	ground
+datasheets/mcu/microchip/8183s.pdf	2	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	D4	VCC	power
+datasheets/mcu/microchip/ATtiny24A-44A-84A-DataSheet-DS40002269A.pdf	3	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	A2	PA5	inout
+datasheets/mcu/microchip/ATtiny24A-44A-84A-DataSheet-DS40002269A.pdf	3	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	A3	PA6	inout
+datasheets/mcu/microchip/ATtiny24A-44A-84A-DataSheet-DS40002269A.pdf	3	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	A4	PB2	inout
+datasheets/mcu/microchip/ATtiny24A-44A-84A-DataSheet-DS40002269A.pdf	3	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	B1	PA4	inout
+datasheets/mcu/microchip/ATtiny24A-44A-84A-DataSheet-DS40002269A.pdf	3	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	B2	PA7	inout
+datasheets/mcu/microchip/ATtiny24A-44A-84A-DataSheet-DS40002269A.pdf	3	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	B3	PB1	inout
+datasheets/mcu/microchip/ATtiny24A-44A-84A-DataSheet-DS40002269A.pdf	3	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	B4	PB3	inout
+datasheets/mcu/microchip/ATtiny24A-44A-84A-DataSheet-DS40002269A.pdf	3	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	C1	PA3	inout
+datasheets/mcu/microchip/ATtiny24A-44A-84A-DataSheet-DS40002269A.pdf	3	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	C2	PA2	inout
+datasheets/mcu/microchip/ATtiny24A-44A-84A-DataSheet-DS40002269A.pdf	3	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	C3	PA1	inout
+datasheets/mcu/microchip/ATtiny24A-44A-84A-DataSheet-DS40002269A.pdf	3	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	C4	PB0	inout
+datasheets/mcu/microchip/ATtiny24A-44A-84A-DataSheet-DS40002269A.pdf	3	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	D1	PA0	inout
+datasheets/mcu/microchip/ATtiny24A-44A-84A-DataSheet-DS40002269A.pdf	3	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	D2	GND	ground
+datasheets/mcu/microchip/ATtiny24A-44A-84A-DataSheet-DS40002269A.pdf	3	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	D3	GND	ground
+datasheets/mcu/microchip/ATtiny24A-44A-84A-DataSheet-DS40002269A.pdf	3	hand: Table 1-1 UFBGA - Pinout ATtiny24A/44A/84A (top view); A1 has no ball	ATTINY24A,ATTINY44A,ATTINY84A	bga15	D4	VCC	power
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	1	IOVDD	power
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	2	GPIO0	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	3	GPIO1	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	4	GPIO2	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	5	GPIO3	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	6	GPIO4	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	7	GPIO5	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	8	GPIO6	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	9	GPIO7	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	10	IOVDD	power
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	11	GPIO8	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	12	GPIO9	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	13	GPIO10	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	14	GPIO11	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	15	GPIO12	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	16	GPIO13	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	17	GPIO14	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	18	GPIO15	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	19	TESTEN	input
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	20	XIN	input
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	21	XOUT	output
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	22	IOVDD	power
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	23	DVDD	power
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	24	SWCLK	input
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	25	SWDIO	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	26	RUN	input
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	27	GPIO16	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	28	GPIO17	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	29	GPIO18	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	30	GPIO19	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	31	GPIO20	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	32	GPIO21	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	33	IOVDD	power
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	34	GPIO22	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	35	GPIO23	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	36	GPIO24	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	37	GPIO25	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	38	GPIO26	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	39	GPIO27	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	40	GPIO28	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	41	GPIO29	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	42	IOVDD	power
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	43	ADC_AVDD	power
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	44	VREG_VIN	power
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	45	VREG_VOUT	output
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	46	USB_DM	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	47	USB_DP	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	48	USB_VDD	power
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	49	IOVDD	power
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	50	DVDD	power
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	51	QSPI_SD3	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	52	QSPI_SCLK	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	53	QSPI_SD0	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	54	QSPI_SD2	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	55	QSPI_SD1	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	56	QSPI_SS_N	inout
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	12	hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad	RP2040	quad57	57	GND	ground
