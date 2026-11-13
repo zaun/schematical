@@ -4,8 +4,11 @@ import Foundation
 /// (`footprints.c`, `PAD_KEYS`; docs/parts-format.md § `explicit`).
 struct PadDraft: Hashable, Identifiable, Sendable {
     var id = UUID()
-    /// The pinout pin number; 0 = an unnumbered centre pad.
+    /// The pinout pin number; 0 = an unnumbered centre pad (or a ball pad).
     var pin: Int
+    /// A ball pinout's designator ("A1") instead of a number (plan-36: the
+    /// dual-row QFNs and the WLCSP); nil for a numbered pad.
+    var ball: String? = nil
     var x: Double
     var y: Double
     var width: Double
@@ -28,13 +31,14 @@ struct PadDraft: Hashable, Identifiable, Sendable {
     static let cornerNames = ["tl", "tr", "br", "bl"]
 
     static func == (a: PadDraft, b: PadDraft) -> Bool {
-        a.pin == b.pin && a.x == b.x && a.y == b.y && a.width == b.width && a.height == b.height
+        a.pin == b.pin && a.ball == b.ball && a.x == b.x && a.y == b.y && a.width == b.width && a.height == b.height
             && a.shape == b.shape && a.drill == b.drill && a.slotLength == b.slotLength && a.plated == b.plated
             && a.radius == b.radius && a.chamfer == b.chamfer && a.corners == b.corners
     }
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(pin)
+        hasher.combine(ball)
         hasher.combine(x)
         hasher.combine(y)
     }
@@ -43,9 +47,10 @@ struct PadDraft: Hashable, Identifiable, Sendable {
     /// is not its default.
     func encoded() -> JSONValue {
         var keys: [String: JSONValue] = [
-            "pin": .number(Double(pin)), "x": .number(x), "y": .number(y),
+            "x": .number(x), "y": .number(y),
             "width": .number(width), "height": .number(height), "shape": .string(shape),
         ]
+        if let ball { keys["ball"] = .string(ball) } else { keys["pin"] = .number(Double(pin)) }
         if drill != 0 { keys["drill"] = .number(drill) }
         if slotLength != 0 { keys["slotLength"] = .number(slotLength) }
         if !plated { keys["plated"] = .bool(false) }
@@ -69,6 +74,7 @@ struct PadDraft: Hashable, Identifiable, Sendable {
     /// A pad of an expanded footprint.
     init(_ pad: Footprint.Pad) {
         pin = pad.designator.flatMap { Int($0) } ?? 0
+        ball = pad.designator.flatMap { Int($0) == nil ? $0 : nil }
         x = pad.centre.x
         y = pad.centre.y
         width = pad.size.width
@@ -87,9 +93,16 @@ struct PadDraft: Hashable, Identifiable, Sendable {
     /// A pad entry of a file; nil when it is not in the expected shape.
     init?(json: JSONValue) {
         guard case let .object(keys) = json,
-              case let .number(pin)? = keys["pin"], case let .number(x)? = keys["x"], case let .number(y)? = keys["y"],
+              case let .number(x)? = keys["x"], case let .number(y)? = keys["y"],
               case let .number(width)? = keys["width"], case let .number(height)? = keys["height"] else { return nil }
-        self.init(pin: Int(pin), x: x, y: y, width: width, height: height)
+        if case let .number(pin)? = keys["pin"], keys["ball"] == nil {
+            self.init(pin: Int(pin), x: x, y: y, width: width, height: height)
+        } else if case let .string(ball)? = keys["ball"], keys["pin"] == nil {
+            self.init(pin: 0, x: x, y: y, width: width, height: height)
+            self.ball = ball
+        } else {
+            return nil
+        }
         if case let .string(shape)? = keys["shape"] { self.shape = shape }
         if case let .number(drill)? = keys["drill"] { self.drill = drill }
         if case let .number(slot)? = keys["slotLength"] { slotLength = slot }
@@ -99,7 +112,7 @@ struct PadDraft: Hashable, Identifiable, Sendable {
         if case let .array(items)? = keys["corners"] {
             corners = items.compactMap { if case let .string(name) = $0 { return name } else { return nil } }
         }
-        let known: Set<String> = ["pin", "x", "y", "width", "height", "shape", "drill", "slotLength", "plated",
+        let known: Set<String> = ["pin", "ball", "x", "y", "width", "height", "shape", "drill", "slotLength", "plated",
                                   "radius", "chamfer", "corners"]
         guard Set(keys.keys).isSubset(of: known) else { return nil }
     }
@@ -125,7 +138,7 @@ struct CustomFootprintDraft: Hashable, Sendable {
 
     /// The number of pinout pins the pads cover (`pins` in the entry).
     var pinCount: Int {
-        Set(pads.map(\.pin).filter { $0 > 0 }).count
+        Set(pads.compactMap { $0.ball ?? ($0.pin > 0 ? String($0.pin) : nil) }).count
     }
 
     /// The `footprints.json` entry (§ 4.2).

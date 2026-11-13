@@ -201,14 +201,14 @@ Commit: 9a6398a
 Acceptance: the availability rule holds without the GUI.
   Check: `xcodebuild test … -only-testing:schematicalTests/SimulationAvailabilityTests` → `** TEST SUCCEEDED **` (est. 5 min).
   Result 2026-11-13 (with KeyboardHelpTests, for the changed line): `Executed 11 tests, with 0 failures` (7 + 4); `** TEST SUCCEEDED **`.
-Commit: —
+Commit: 386166f
 
 ### Phase 3 — Full suite and the real app
 
-- [ ] The full Swift suite. A test that picks "the first part with
+- [x] The full Swift suite. A test that picks "the first part with
       footprint prefix X" and now gets an `mcu` part is narrowed to its
       original kind (`&& $0.kind == PART_…`), and each such change is noted
-      here.
+      here. None needed: a probe of the picks (`BoardPreviewTests`' PDIP- / SOIC- / PINHDR- / CAPE-RAD / LED-RADIAL, `PCBUndoTests`' connector) got ADS7812PB, MB1S, GENERIC-HEADER-1X02, ESK105M050AC3AA, GENERIC-LED, 162H BC BW; `FootprintPreviewTests` picks exact ids, which plan-36's `-MC-` ids never match. The first run (641 + 11 = 652 tests) failed only `CustomFootprintDraftTests.testEveryExplicitFootprintRoundTrips`: 482 explicit footprints, not 458, and the three that name pads by `ball` (DRQFN-44-MC-44MC, DRQFN-64-MC-64MC, WLCSP-12-MC-12U-3) were written back with `"pins": 0`, since `PadDraft` knew only numbered pads. `PadDraft` gained `ball` (read, written, compared; `pinCount` counts balls), and the count is 482. Rerun: `Executed 652 tests, with 0 failures`; `** TEST SUCCEEDED **`; McuTests and SimulationAvailabilityTests in the log (26 lines).
 - [ ] Real app (the `run` skill; the memory notes on opening files and on
       other sessions driving the screen apply). On an empty schematic,
       place ATMEGA328P-PU: Simulation › Run is disabled and shows `U1
@@ -250,6 +250,8 @@ Commit: —
   the capacitor kind already ships without one.
 
 ## Corrections
+
+- **2026-11-13: the Part Editor's custom-footprint draft had no ball pads.** Plan-36-D's dual-row QFNs and the WLCSP are the first `explicit` footprints with `"ball"` pads, and `CustomFootprintDraftTests` round-trips every explicit footprint through `PadDraft`. H added `PadDraft.ball` (a task no letter listed; found by the full suite).
 
 - **2026-11-13: main moved before H started.** `main` 1167c96 (plan-37's `register` kind, the owner's reference-prefix work) was merged into the worktree first (bdb6970), because H edits `ReferencePrefixes.swift`, which existed only on main. `PART_MCU` now follows `PART_REGISTER`. The merge also fixed F's `kinds.c`, which listed `MCU_KIND` twice (both the `extern` and the `KINDS[]` entry); the duplicate was harmless (the loader stops at the first match) but wrong. The goldens were regenerated: against main they only add (63 / 1424 / 1424 lines). ctest 34/34.
 - **2026-11-13: ESP32-S3-WROOM-1-N8R8 is not in the catalog** (not in stock at A's census; the S3-WROOM-1 parts are -N4R8 and the -1U ones). `McuTests` uses ESP32-S3-WROOM-1U-N8R8: 8 MB flash, 8 MB PSRAM.

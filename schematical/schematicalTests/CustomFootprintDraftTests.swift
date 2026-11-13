@@ -63,7 +63,8 @@ final class CustomFootprintDraftTests: XCTestCase {
             }
         }
         print("checked \(ids.count) explicit footprints, \(mismatched.count + rejected.count) mismatched")
-        XCTAssertEqual(ids.count, 458)
+        // 458 before plan-36, which added 24 (3 of them by ball: DRQFN-44/64, WLCSP-12).
+        XCTAssertEqual(ids.count, 482)
         XCTAssertEqual(mismatched, [])
         XCTAssertEqual(rejected, [:])
     }
