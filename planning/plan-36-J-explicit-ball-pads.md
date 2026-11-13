@@ -58,7 +58,7 @@ plan-36-A § Prerequisites, plus:
 Acceptance: the loader takes ball pads, and nothing else moved.
   Check: `ctest --test-dir /tmp/logic-p36` → `100% tests passed, 0 tests failed out of 32`; `git diff --stat backend/tests/golden` → empty.
   Result 2026-11-13: `100% tests passed, 0 tests failed out of 32`; golden diff empty.
-Commit: —
+Commit: b34205a
 
 ## Corrections
 
