@@ -65,7 +65,8 @@ final class BusJoinTests: XCTestCase {
         let a = BusWire(name: "A"), b = BusWire(name: "B")
         let first = Bus(lines: [BusLine(a: p(0, 0), b: p(100, 0))], wires: [a, b],
                         ports: [BusPort(line: UUID(), start: 0, side: .bottom, wireIDs: [b.id])])
-        let x = BusWire(name: "b"), y = BusWire(name: "C"), z = BusWire(name: "D")
+        // Matched by exact name: "B" here; a "b" would be another wire.
+        let x = BusWire(name: "B"), y = BusWire(name: "C"), z = BusWire(name: "D")
         let second = Bus(lines: [BusLine(a: p(200, 0), b: p(300, 0))], wires: [x, y, z],
                          ports: [BusPort(line: UUID(), start: 0, side: .bottom, wireIDs: [x.id, y.id])])
         let merged = try XCTUnwrap(BusJoin.merge(first, absorbing: second))

@@ -81,17 +81,20 @@ final class EditMenuTests: XCTestCase {
         let pull = try TestSupport.place(doc, "PULLUP-5V", at: p(700, 400))
         let cap = try TestSupport.place(doc, "GENERIC-CAPACITOR", at: p(700, 100))
         XCTAssertNil(doc.renameChip(lower.id, prefix: "D", number: 7, page: .schematic))
+        XCTAssertNil(doc.renameChip(upperLeft.id, prefix: "U", number: 4, page: .schematic))
         XCTAssertNil(doc.renameChip(pull.id, prefix: "R", number: 9, page: .schematic))
         doc.endCoalescing()
 
         XCTAssertTrue(doc.resetReferences(page: .schematic))
         func reference(_ chip: PlacedChip) -> String? { doc.chips.first { $0.id == chip.id }?.reference }
-        XCTAssertEqual(reference(upperLeft), "U1")
-        XCTAssertEqual(reference(upperRight), "U2")
-        XCTAssertEqual(reference(lower), "U3")
+        // LEDs take the standard D prefix (Settings ▸ Reference Defaults).
+        XCTAssertEqual(reference(upperLeft), "D1")
+        XCTAssertEqual(reference(upperRight), "D2")
+        XCTAssertEqual(reference(lower), "D3")
         XCTAssertEqual(reference(pull), "R1")
         XCTAssertEqual(reference(cap), "C1")
-        XCTAssertEqual(doc.nextReference, 4)
+        // No part has the Integrated Circuit prefix, so U numbers start over.
+        XCTAssertEqual(doc.nextReference, 1)
         XCTAssertEqual(doc.undoName(on: .schematic), "Reset References")
 
         // Again changes nothing, and records nothing.

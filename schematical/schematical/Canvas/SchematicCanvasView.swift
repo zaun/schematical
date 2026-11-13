@@ -380,6 +380,17 @@ struct SchematicCanvasView: View {
                 .offset(x: chip.viewOrigin.x, y: chip.viewOrigin.y)
             }
 
+            // Every part's reference above it (Display Reference).
+            ForEach(document.chips) { chip in
+                if let top = ReferenceLabelView.offsetY(for: chip) {
+                    ReferenceLabelView(
+                        chip: chip,
+                        isHighlighted: document.isSelected(.chip(chip.id)) || chip.id == hoveredChipID
+                    )
+                    .offset(x: chip.viewOrigin.x, y: chip.viewOrigin.y + top)
+                }
+            }
+
             PinMarkerLayer(
                 tips: tool == .line ? document.pinTips : [],
                 highlight: highlightPoint,

@@ -62,7 +62,7 @@ to the grid on open.
 |-----------------|---------|----------------------------------------------------------------------|
 | `format`        | string  | Always `"schematical"`. Other values are rejected.                    |
 | `version`       | integer | Format version. Files newer than the app supports are rejected.      |
-| `nextReference` | integer | Lowest number tried for the next placed part's reference (`U` + number); the first `U<n>` no part uses is taken. |
+| `nextReference` | integer | Lowest number tried for the next placed part with the Integrated Circuit prefix (`U` unless Settings ▸ Reference Defaults changes it); the first such reference no part uses is taken. |
 | `parts`         | array   | Placed parts, in drawing order (later parts draw on top).            |
 | `junctions`     | array   | Points where wires branch.                                           |
 | `wires`         | array   | Wires between pins and junctions.                                    |
@@ -73,8 +73,8 @@ to the grid on open.
 | `customParts`   | array   | Version 5. The custom parts the schematic places ([Custom parts](#custom-parts)). Written only when there are some, and then `version` is 5; missing means none. |
 
 On open, `nextReference` is raised if needed so that it is higher than every
-existing `U<n>` reference (references with other prefixes, such as `R3`, do
-not count).
+existing reference with the Integrated Circuit prefix (`U<n>` by default;
+references with other prefixes, such as `R3`, do not count).
 
 The app writes keys in sorted order, so saving the same schematic twice gives
 the same bytes. Readers must not depend on key order.
@@ -122,7 +122,7 @@ An EEPROM can name the file loaded into it when the simulation starts:
 | Field        | Type    | Meaning                                                                 |
 |--------------|---------|-------------------------------------------------------------------------|
 | `id`         | UUID    | Unique within the file.                                                 |
-| `reference`  | string  | Label shown on the PCB and in memory window titles, such as `U1`: 1 to 8 letters then a number of 1 or more. New parts get `U<n>`; new pull resistors (pull-ups and pull-downs) get the lowest `R<n>` no part uses, and new capacitors (every `capacitor` part) the lowest `C<n>` no part uses, both without advancing `nextReference`. Pull resistors in older files keep their saved reference (often `U<n>`). The PCB sidebar renames them (letters uppercased; a reference another part has is refused). |
+| `reference`  | string  | Label shown on the PCB and in memory window titles, such as `U1`: 1 to 8 letters then a number of 1 or more. A new part's prefix comes from its category in Settings ▸ Reference Defaults (standard defaults: `U` for ICs, memory and processors, `R` for pull resistors, `C` capacitors, `D` diodes, Zener diodes and LEDs, `DS` displays, `G` oscillators, `S` switches, `J` USB/barrel connectors and female headers, `P` male headers, `PWR` power symbols). Integrated Circuit parts take the first free number from `nextReference`; every other prefix takes the lowest number no part uses, without advancing `nextReference`. Parts in older files keep their saved reference. The PCB sidebar renames them (letters uppercased; a reference another part has is refused). |
 | `partNumber` | string  | A part name from the part library (`schematical/schematical/Parts/*.json`): a logic part, memory (SRAM, EEPROM), switch, LED, 7-segment display, character LCD module, oscillator, processor, capacitor (a ceramic, electrolytic or tantalum part, or `GENERIC-CAPACITOR`), generic pin header (one part per size, `GENERIC-HEADER-1X01` … `GENERIC-HEADER-2X40`: rows, then pins per row; the sidebar changes the size by changing this part number), or a supply: `5V`, `3V3`, `2V5`, `1V8`, `1V2`, `12V` or `GND`. `VCC` (a supply removed from the library) opens as `5V`, and is saved as `5V`. The 55 LED parts `LED-<COLOR>-<PACKAGE>` (such as `LED-GREEN-RADIAL`, `LED-AMBER-0603`) that `GENERIC-LED` replaced open as `GENERIC-LED` with that part's color and footprint, in a file of any version, and are saved as `GENERIC-LED` (see [Old LED part numbers](#old-led-part-numbers)). |
 | `x`, `y`     | number  | Top-left corner of the part body.                                       |
 | `flipped`    | boolean | Pins on the opposite sides. Ignored for the supplies.                   |
@@ -132,6 +132,7 @@ An EEPROM can name the file loaded into it when the simulation starts:
 | `footprint`  | string  | Version 4. Parts with footprint choices only (`GENERIC-LED`, the pull resistors `PULLUP-…`/`PULLDOWN` and the headers `GENERIC-HEADER-…`): the id of the chosen footprint, one of the part's `footprintChoices` (`docs/parts-format.md`), such as `"LED-0805"`, `"RES-0805"` or `"PINHDR-1X08-RA"`. The PCB uses it. Always written for those parts; missing means the part's default footprint (`LED-RADIAL-5MM` for the LED, `RES-RADIAL-2.54` for a pull resistor, the `-V` (Straight) footprint for a header). Ignored on other parts. |
 | `ohms`       | number  | Version 4. Pull resistors only (`PULLUP-…`, `PULLDOWN`): the resistance in ohms, more than 0 and at most 1e9 (1 GΩ), such as `4700`. Shown on the symbol and in the Bill of Materials; the simulation ignores it. Always written for pull resistors; missing means `1000`. Ignored on other parts. An older version-4 build ignores it. |
 | `farads`     | number  | `GENERIC-CAPACITOR` only: its capacitance in farads, at least 1e-13 (0.1 pF) and at most 1, such as `4.7e-9`. Shown on the symbol, in the Details sidebar and in the Bill of Materials; the simulation ignores it. Always written for it; missing means `1e-7` (0.1 µF). Ignored on other parts (a real capacitor's value is its part's). An optional field, so the version stays 4. |
+| `showReference` | boolean | Written only as `false`: the Schematic doesn't draw this part's reference (the sidebar's Display Reference is off). Missing means the reference is shown. An optional field, so the version stays 4. |
 | `gender`     | string  | Headers only (`GENERIC-HEADER-…`): one of the part's genders, `"Male"` or `"Female"`. The symbol draws pins or sockets; the footprint doesn't change. Always written for a header; missing means the part's default (`Male`). Ignored on other parts. An optional field, so the version stays 4 (a file with headers names parts an older build doesn't have, which it refuses anyway). |
 | `partUUID`   | string  | Version 5. Custom parts only: the part's `uuid`, one of the file's `customParts`. The placed part resolves by it, not by `partNumber`; `partNumber` is the name the part had when saved (with its suffix, such as `SN74HC00N.2`), so a reader that ignores custom parts still sees a name. Written exactly for custom parts. |
 | `memoryFile` | object  | EEPROMs only, optional: the file (raw binary, or Intel HEX for `.hex`/`.ihx`/`.ihex`) loaded into the chip at every start; without it the chip starts erased (every byte FF). `path` (string) is the file's path relative to the schematic's folder (`../roms/boot.bin`), or absolute for a schematic that had never been saved. `bookmark` (base64 string, optional) is an app-scoped security bookmark; on the Mac that wrote it, it is tried first, so the sandboxed app can read the file after a restart, and `path` is the fallback. Ignored on other parts. |
@@ -308,11 +309,11 @@ the schematic and connects to nothing by itself.
 | Field   | Type  | Meaning                                                              |
 |---------|-------|----------------------------------------------------------------------|
 | `id`    | UUID  | Unique within the file.                                              |
-| `name`  | string | The bus's name, shown in its editor: "BUS 1", "BUS 2", … when drawn. Unique ignoring case. Always written; a bus without one (older files) is named "BUS <n>" in file order. |
+| `name`  | string | The bus's name, shown in its editor: "BUS 1", "BUS 2", … when drawn. Buses of one name (ignoring case) are **linked**: they must have the same `type`, `card`, `cardOptions` and wire names in the same order (an error otherwise: `the buses named "DATA" are linked but don't have the same type and wires`), and wire i of each is one net. Their wire ids still differ. Always written; a bus without one (older files) is named "BUS <n>" in file order. |
 | `type`  | string | Optional. What the bus carries: missing for Custom (free wires), or one of the board `type` values for a card (`"isa8"`, `"pcie"`, `"nes"`, …; see [Board](#board)), whose pin names are the bus's `wires`, in the board's `pinOrder` (see [boards-format.md](boards-format.md); natural order when it has none: A1, A2, … A10, B1, numbers before letters). The app locks them until the type is Custom again. A type whose pins don't match `wires` is dropped. The board's `edgeBus` is what ties a bus to the card. |
 | `card`, `cardOptions` | object | Optional. The type's settings, as the board's `card` (a custom card: only `pads` and `bothSides` change its pins) and `cardOptions` (only the options that change the pins, `onBus` in `boards.json`: PCI Express `lanes`, M.2 `key`, `memory`, a Pmod's `pins`). Written only for the types that have them. |
 | `lines` | array | The bus's straight lines, at least one. Each has an `id` (UUID) and two ends `a` and `b` (canvas units, on the 10-unit grid). A line is horizontal or vertical, with length > 0. |
-| `wires` | array | The bus's wires in list order, 2 to 999. Each has an `id` (UUID; ports refer to it) and a `name`: 1 to 4 characters with no spaces, unique in the bus ignoring case. |
+| `wires` | array | The bus's wires in list order, 2 to 999. Each has an `id` (UUID; ports refer to it) and a `name`: 1 to 4 characters with no spaces. Two wires of a bus may have the same name (case sensitive: `D0` and `d0` are two names); each is still its own wire and net, though a net label of that name joins them all. |
 | `ports` | array | The bus's ports ([Ports](#ports)). Always written, empty when there are none; missing means none. |
 
 **Joints.** Lines of one bus meet only at right angles, in one of two ways:
@@ -331,7 +332,8 @@ line of another bus.
 
 A port is a box on one bus line with one pin per ticked bus wire. Wires
 connect to its pins. Every pin for the same bus wire, on any port of the
-bus (whichever line it is on), is one net.
+bus (whichever line it is on), is one net, and so is every pin for the wire
+at the same place on a bus linked with it ([Buses](#buses), `name`).
 
 ```json
 "ports": [ { "id": "…", "line": "<bus line id>", "start": 140,
@@ -373,9 +375,12 @@ are drawn under everything else and never simulated.
 ## Net labels
 
 Flags the schematic's Net Label tool places. Every label with the same
-name, ignoring case, is one net: the wires on them are connected without
+name, case sensitive (`CLK` and `clk` are two nets), is one net: the wires on them are connected without
 being drawn to each other (in the simulation, the voltage check and the
-PCB's unrouted lines). A label is never simulated itself.
+PCB's unrouted lines). A bus wire of that exact name is on the
+same net: the wires on its port pins, on any bus, join the labels' net. So
+bus wires of one name on different (unlinked) buses meet only through a
+label of that name. A label is never simulated itself.
 
 ```json
 "labels": [ { "id": "...", "name": "CLK", "x": 250, "y": 100, "type": "input" },
@@ -529,7 +534,6 @@ Opening fails, and the canvas is left unchanged, if:
   - `buses <id> and <id> touch at (<x>, <y>)`;
   - `bus <id> has <n> wires; it must have 2 to 999`;
   - `bus <id> wire name "<name>" must be 1 to 4 characters with no spaces`;
-  - `bus <id> uses the wire name "<name>" twice`;
   - `bus <id> type "eisa" must be custom, customCard, isa8, …` (the board types; likewise `card lanes`, `card length`, `card key` and `card memory` for its settings);
   - `the bus name "<name>" is used twice`;
   - `port <id> line <id> is not on bus <id>`;

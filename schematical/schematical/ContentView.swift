@@ -58,6 +58,7 @@ struct ContentView: View {
     @State private var terminalWindows: Set<TerminalWindowTarget> = []
     @State private var isBillOfMaterialsOpen = false
     @State private var isDesignRuleCheckOpen = false
+    @State private var isBoardPreviewOpen = false
     /// Watches for the editing keys: ⌘R / ⇧⌘R rotate, A changes the trace
     /// angle and ⌘X / ⌘C / ⌘V cut, copy and paste traces on the PCB, ⌘F
     /// flips on the Schematic, ⌘X / ⌘C / ⌘V cut, copy and paste its
@@ -513,6 +514,19 @@ struct ContentView: View {
                     }
                 }
 
+                // A picture of the board as made, in its own window. Not a tool.
+                if page == .pcb {
+                    ToolbarItem(placement: .primaryAction) {
+                        Button {
+                            isBoardPreviewOpen = true
+                            openWindow(id: "board-preview", value: BoardPreviewTarget(sessionID: sessionID))
+                        } label: {
+                            Label("Preview", systemImage: "photo")
+                        }
+                        .help("Show a picture of the finished board, front or back")
+                    }
+                }
+
                 // Which layers the PCB page draws, just left of the zoom.
                 if page == .pcb {
                     ToolbarItem(placement: .primaryAction) {
@@ -634,6 +648,10 @@ struct ContentView: View {
                 if isDesignRuleCheckOpen {
                     dismissWindow(id: "drc", value: DesignRuleCheckTarget(sessionID: sessionID))
                     isDesignRuleCheckOpen = false
+                }
+                if isBoardPreviewOpen {
+                    dismissWindow(id: "board-preview", value: BoardPreviewTarget(sessionID: sessionID))
+                    isBoardPreviewOpen = false
                 }
             }
             .focusedSceneValue(\.schematicFile, file)

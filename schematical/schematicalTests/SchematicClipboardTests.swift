@@ -55,7 +55,7 @@ final class SchematicClipboardTests: XCTestCase {
         XCTAssertEqual(doc.notes.count, 2)
         let pasted = Array(doc.chips.suffix(2))
         XCTAssertEqual(Set(doc.chips.map(\.id)).count, 4)
-        XCTAssertEqual(pasted.map(\.reference), ["U3", "U4"])
+        XCTAssertEqual(pasted.map(\.reference), ["D3", "D4"])
         // Moved by the offset snapped to the grid.
         XCTAssertEqual(pasted[0].origin, CGPoint(x: one.origin.x + 500, y: one.origin.y))
         // Each pasted part has its own spot on the PCB.
@@ -109,7 +109,7 @@ final class SchematicClipboardTests: XCTestCase {
         let copy = try XCTUnwrap(doc.schematicCopy())
         XCTAssertTrue(doc.pasteSchematic(copy, offset: CGSize(width: 0, height: 200)))
         XCTAssertTrue(doc.pasteSchematic(copy, offset: CGSize(width: 0, height: 400)))
-        XCTAssertEqual(doc.chips.map(\.reference), ["U1", "U2", "U3", "U4"])
+        XCTAssertEqual(doc.chips.map(\.reference), ["D1", "D2", "D3", "D4"])
         XCTAssertEqual(Set(doc.chips.map(\.id)).count, 4)
     }
 

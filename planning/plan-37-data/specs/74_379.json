@@ -1,0 +1,245 @@
+{
+ "id": "74_379",
+ "function": "Register",
+ "description": "Quadruple D-type flip-flops with clock enable and complementary outputs",
+ "drawer": [
+  "Logic",
+  "Registers"
+ ],
+ "note": "Pinout and function table: sn54ls378 (SN54/74LS379) p.1-2, the FK carrier p.2. G low: CLK up loads; G high: hold; Q and QBAR are complementary.",
+ "model": "parallel",
+ "pinouts": {
+  "p16": [
+   {
+    "number": 1,
+    "name": "G",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1Q",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "1QBAR",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "1D",
+    "role": "input"
+   },
+   {
+    "number": 5,
+    "name": "2D",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "2QBAR",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "2Q",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "CLK",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "3Q",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "3QBAR",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "3D",
+    "role": "input"
+   },
+   {
+    "number": 13,
+    "name": "4D",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "4QBAR",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "4Q",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "lccc20": [
+   {
+    "number": 1,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 2,
+    "name": "G",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "1Q",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "1QBAR",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "1D",
+    "role": "input"
+   },
+   {
+    "number": 6,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 7,
+    "name": "2D",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "2QBAR",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "2Q",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 12,
+    "name": "CLK",
+    "role": "input"
+   },
+   {
+    "number": 13,
+    "name": "3Q",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "3QBAR",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "3D",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 17,
+    "name": "4D",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "4QBAR",
+    "role": "output"
+   },
+   {
+    "number": 19,
+    "name": "4Q",
+    "role": "output"
+   },
+   {
+    "number": 20,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "groups": [
+  {
+   "d": [
+    "1D",
+    "2D",
+    "3D",
+    "4D"
+   ],
+   "clk": {
+    "pin": "CLK",
+    "edge": "rising"
+   },
+   "ce": {
+    "pin": "G",
+    "active": "low"
+   },
+   "outputs": [
+    {
+     "q": [
+      "1Q",
+      "2Q",
+      "3Q",
+      "4Q"
+     ]
+    },
+    {
+     "q": [
+      "1QBAR",
+      "2QBAR",
+      "3QBAR",
+      "4QBAR"
+     ],
+     "invert": true
+    }
+   ]
+  }
+ ],
+ "timing": {
+  "LS": {
+   "rise": 17,
+   "fall": 18,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "CLK to Q typ, 5 V 15 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn54ls378 p.4)"
+  }
+ }
+}

@@ -56,8 +56,10 @@ final class NetLabelTests: XCTestCase {
         XCTAssertEqual(SchematicSidebarView.content(for: doc), .label(first))
         let second = doc.addNetLabel(at: CGPoint(x: 300, y: 60))
         XCTAssertEqual(try label(doc, second).name, "N2")
-        // A free name is reused, ignoring case.
-        XCTAssertTrue(doc.setNetLabelName(first, "n2"))
+        // A free name is reused; case counts.
+        XCTAssertTrue(doc.setNetLabelName(first, "n1"))
+        XCTAssertEqual(doc.nextNetLabelName(), "N1")
+        XCTAssertTrue(doc.setNetLabelName(first, "N3"))
         XCTAssertEqual(doc.nextNetLabelName(), "N1")
     }
 
@@ -78,8 +80,11 @@ final class NetLabelTests: XCTestCase {
         let (left, right, k, a) = try labelledPair(doc)
         // N1 and N2: two nets.
         XCTAssertNotEqual(net(doc, k), net(doc, a))
+        // Case counts: clk and CLK are two nets.
         XCTAssertTrue(doc.setNetLabelName(left, "clk"))
         XCTAssertTrue(doc.setNetLabelName(right, "CLK"))
+        XCTAssertNotEqual(net(doc, k), net(doc, a))
+        XCTAssertTrue(doc.setNetLabelName(left, "CLK"))
         XCTAssertNotNil(net(doc, k))
         XCTAssertEqual(net(doc, k), net(doc, a))
         // The PCB shows the connection as an unrouted line.
@@ -283,5 +288,16 @@ final class NetLabelTests: XCTestCase {
         XCTAssertFalse(scene.isEmpty)
         let svg = String(decoding: try XCTUnwrap(SchematicExport.svg(scene)), as: UTF8.self)
         XCTAssertTrue(svg.contains(">\(SVGPainter.escaped("A&B"))</text>"))
+    }
+
+    /// Settings ▸ General Defaults: uppercase only, on until turned off.
+    func testUppercaseOnlySetting() throws {
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: "NetLabelTests.uppercase"))
+        defaults.removePersistentDomain(forName: "NetLabelTests.uppercase")
+        XCTAssertTrue(NamePreferences.uppercaseOnly(defaults: defaults), "on by default")
+        XCTAssertEqual(NamePreferences.typed("clk1", defaults: defaults), "CLK1")
+        defaults.set(false, forKey: PreferenceKey.uppercaseNames)
+        XCTAssertEqual(NamePreferences.typed("clk1", defaults: defaults), "clk1")
+        defaults.removePersistentDomain(forName: "NetLabelTests.uppercase")
     }
 }

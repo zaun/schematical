@@ -1,0 +1,398 @@
+{
+ "id": "74_162823",
+ "function": "Register",
+ "description": "18-bit bus-interface flip-flops with clock enable, clear and series-damping-resistor 3-state outputs",
+ "drawer": [
+  "Logic",
+  "Registers"
+ ],
+ "note": "Pinout: sn74abt162823a p.1 (as 74_16823). The outputs' series resistors are not modeled. Each half: nCLKEN high: hold at the clock edge; nCLR low clears at once; nOE high: nQ = Z. Nexperia (nOE, nMR, nCP, nCE, nDn, nQn) numbers the same pins.",
+ "model": "parallel",
+ "pinouts": {
+  "p56": [
+   {
+    "number": 1,
+    "name": "1CLR",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "1OE",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "1Q1",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 5,
+    "name": "1Q2",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "1Q3",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 8,
+    "name": "1Q4",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "1Q5",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "1Q6",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 12,
+    "name": "1Q7",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "1Q8",
+    "role": "output"
+   },
+   {
+    "number": 14,
+    "name": "1Q9",
+    "role": "output"
+   },
+   {
+    "number": 15,
+    "name": "2Q1",
+    "role": "output"
+   },
+   {
+    "number": 16,
+    "name": "2Q2",
+    "role": "output"
+   },
+   {
+    "number": 17,
+    "name": "2Q3",
+    "role": "output"
+   },
+   {
+    "number": 18,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 19,
+    "name": "2Q4",
+    "role": "output"
+   },
+   {
+    "number": 20,
+    "name": "2Q5",
+    "role": "output"
+   },
+   {
+    "number": 21,
+    "name": "2Q6",
+    "role": "output"
+   },
+   {
+    "number": 22,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 23,
+    "name": "2Q7",
+    "role": "output"
+   },
+   {
+    "number": 24,
+    "name": "2Q8",
+    "role": "output"
+   },
+   {
+    "number": 25,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 26,
+    "name": "2Q9",
+    "role": "output"
+   },
+   {
+    "number": 27,
+    "name": "2OE",
+    "role": "input"
+   },
+   {
+    "number": 28,
+    "name": "2CLR",
+    "role": "input"
+   },
+   {
+    "number": 29,
+    "name": "2CLK",
+    "role": "input"
+   },
+   {
+    "number": 30,
+    "name": "2CLKEN",
+    "role": "input"
+   },
+   {
+    "number": 31,
+    "name": "2D9",
+    "role": "input"
+   },
+   {
+    "number": 32,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 33,
+    "name": "2D8",
+    "role": "input"
+   },
+   {
+    "number": 34,
+    "name": "2D7",
+    "role": "input"
+   },
+   {
+    "number": 35,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 36,
+    "name": "2D6",
+    "role": "input"
+   },
+   {
+    "number": 37,
+    "name": "2D5",
+    "role": "input"
+   },
+   {
+    "number": 38,
+    "name": "2D4",
+    "role": "input"
+   },
+   {
+    "number": 39,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 40,
+    "name": "2D3",
+    "role": "input"
+   },
+   {
+    "number": 41,
+    "name": "2D2",
+    "role": "input"
+   },
+   {
+    "number": 42,
+    "name": "2D1",
+    "role": "input"
+   },
+   {
+    "number": 43,
+    "name": "1D9",
+    "role": "input"
+   },
+   {
+    "number": 44,
+    "name": "1D8",
+    "role": "input"
+   },
+   {
+    "number": 45,
+    "name": "1D7",
+    "role": "input"
+   },
+   {
+    "number": 46,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 47,
+    "name": "1D6",
+    "role": "input"
+   },
+   {
+    "number": 48,
+    "name": "1D5",
+    "role": "input"
+   },
+   {
+    "number": 49,
+    "name": "1D4",
+    "role": "input"
+   },
+   {
+    "number": 50,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 51,
+    "name": "1D3",
+    "role": "input"
+   },
+   {
+    "number": 52,
+    "name": "1D2",
+    "role": "input"
+   },
+   {
+    "number": 53,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 54,
+    "name": "1D1",
+    "role": "input"
+   },
+   {
+    "number": 55,
+    "name": "1CLKEN",
+    "role": "input"
+   },
+   {
+    "number": 56,
+    "name": "1CLK",
+    "role": "input"
+   }
+  ]
+ },
+ "groups": [
+  {
+   "d": [
+    "1D1",
+    "1D2",
+    "1D3",
+    "1D4",
+    "1D5",
+    "1D6",
+    "1D7",
+    "1D8",
+    "1D9"
+   ],
+   "clk": {
+    "pin": "1CLK",
+    "edge": "rising"
+   },
+   "ce": {
+    "pin": "1CLKEN",
+    "active": "low"
+   },
+   "clear": {
+    "pin": "1CLR",
+    "active": "low",
+    "when": "async"
+   },
+   "outputs": [
+    {
+     "q": [
+      "1Q1",
+      "1Q2",
+      "1Q3",
+      "1Q4",
+      "1Q5",
+      "1Q6",
+      "1Q7",
+      "1Q8",
+      "1Q9"
+     ],
+     "oe": {
+      "pin": "1OE",
+      "active": "low"
+     }
+    }
+   ]
+  },
+  {
+   "d": [
+    "2D1",
+    "2D2",
+    "2D3",
+    "2D4",
+    "2D5",
+    "2D6",
+    "2D7",
+    "2D8",
+    "2D9"
+   ],
+   "clk": {
+    "pin": "2CLK",
+    "edge": "rising"
+   },
+   "ce": {
+    "pin": "2CLKEN",
+    "active": "low"
+   },
+   "clear": {
+    "pin": "2CLR",
+    "active": "low",
+    "when": "async"
+   },
+   "outputs": [
+    {
+     "q": [
+      "2Q1",
+      "2Q2",
+      "2Q3",
+      "2Q4",
+      "2Q5",
+      "2Q6",
+      "2Q7",
+      "2Q8",
+      "2Q9"
+     ],
+     "oe": {
+      "pin": "2OE",
+      "active": "low"
+     }
+    }
+   ]
+  }
+ ],
+ "timing": {
+  "ABT": {
+   "rise": 4.6,
+   "fall": 4.6,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "CLK to Q typ, 5 V 50 pF; VCC 4.5-5.5 V (sn74abt162823a switching characteristics)"
+  }
+ }
+}

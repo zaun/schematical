@@ -28,7 +28,8 @@ struct PartHeader: View {
 
 /// The part's reference as prefix and number fields. Return or leaving the
 /// pair commits through `SchematicDocument.renameChip`; a refused name shows
-/// the reason in red and puts the fields back.
+/// the reason in red and puts the fields back. On the Schematic, also the
+/// Display Reference toggle (`PlacedChip.showsReference`).
 struct ReferenceSection: View {
     let document: SchematicDocument
     let chip: PlacedChip
@@ -60,6 +61,13 @@ struct ReferenceSection: View {
                 Text(referenceError)
                     .font(.caption)
                     .foregroundStyle(.red)
+            }
+            // Power symbols (VCC, GND) never show a reference.
+            if page == .schematic, chip.symbol != .vcc, chip.symbol != .ground {
+                Toggle("Display Reference", isOn: Binding(
+                    get: { document.chips.first { $0.id == chip.id }?.showsReference ?? chip.showsReference },
+                    set: { document.setPartShowsReference(chip.id, $0) }
+                ))
             }
         }
         .onAppear(perform: resetReference)
