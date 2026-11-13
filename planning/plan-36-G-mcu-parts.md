@@ -31,8 +31,8 @@ plan-36-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-36-F complete | `ls planning/completed/plan-36-F-*.md` → exists | NOT MET (2026-11-12: plan written) |
-| `mcu.json` is empty | `python3 -c "import json;print(len(json.load(open('schematical/schematical/Parts/mcu.json'))['devices']))"` → 0 | NOT MET until F |
+| plan-36-F complete | `ls planning/completed/plan-36-F-*.md` → exists | MET 2026-11-13 (e58e36b) |
+| `mcu.json` is empty | `python3 -c "import json;print(len(json.load(open('schematical/schematical/Parts/mcu.json'))['devices']))"` → 0 | MET 2026-11-13 (0) |
 
 ## 1. Goal
 
@@ -136,29 +136,36 @@ file's existing order.
 
 ### Phase 1 — Generator and footprints
 
-- [ ] `planning/plan-36-data/census/gen-parts.py` (§ 3.1–3.3) →
+- [x] `planning/plan-36-data/census/gen-parts.py` (§ 3.1–3.3) →
       `schematical/schematical/Parts/mcu.json` (one line per pin and per
       part, the `cpu.json` layout).
-- [ ] Merge `footprints-C.json`, `footprints-D.json` and `footprints-E.json`
+      → `303 devices, 1424 parts of 1424 add rows, 151 datasheets`, 0 problems. 159 parts carry a `vcc` and 165 a `clock` of their own (V / L grades, the 125 °C tinyAVR parts); 3 are `automotive`. `--check-esp`: 47 of 48 ESP32 parts are confirmed against their ordering-table row (flash / PSRAM column, merged cells included). ESP32-C3-MINI-1-N4-A, which no row names, was read by hand: note 5, the AWS ExpressLink twin of -N4, 4 MB. Samples read: ATmega328P (port B left, C and D right), ATxmega128A1U (A–D left: 32 of 78 port pins), RP2040 (GPIOs 15 / 15 at the median), ESP32-S3-WROOM-1.
+- [x] Merge `footprints-C.json`, `footprints-D.json` and `footprints-E.json`
       into `Parts/footprints.json` (`census/fp-merge.py --write`).
-- [ ] `datasheets.json` entries (§ 3.4).
+      `fp-merge.py <footprints.json> footprints-C.json footprints-D.json footprints-E.json` (the script has no `--write`; it takes the target file first) → `63 footprints appended`.
+- [x] `datasheets.json` entries (§ 3.4).
+      151 added and 0 reused (no id was taken), in id order (`ids == sorted(ids)`, 6664 unique). URLs: 126 + 13 ww1.microchip.com, 11 espressif.com, 1 datasheets.raspberrypi.com. The 13 `http://` URLs of `datasheets.tsv` are written as `https://` (each answered `200 application/pdf` over https).
 
 Acceptance: the library loads with every new part.
   Check: `cmake --build /tmp/logic-p36 -j8 && ctest --test-dir /tmp/logic-p36 -R 'library_check|part_file_test'` → passed, and `/tmp/logic-p36/listing_check --print | grep -c '|mcu|'` equals `awk -F'\t' '$24=="add"' planning/plan-36-data/candidates.tsv | wc -l` (est. 4 min).
+  Result 2026-11-13: 2 passed; `1424` = `1424`; every `|mcu|` line ends `|unsimulated`.
 Commit: —
 
 ### Phase 2 — Goldens
 
-- [ ] Regenerate the goldens as `docs/backend.md` § Tests says
+- [x] Regenerate the goldens as `docs/backend.md` § Tests says
       (`/tmp/logic-p36/listing_check --print > backend/tests/golden/parts.txt`,
       the same with `trace_check` → `traces.txt` and `footprint_check` →
       `footprints.txt`).
-- [ ] Check that the diff only adds: `git diff backend/tests/golden | grep
+      All three regenerated from /tmp/logic-p36.
+- [x] Check that the diff only adds: `git diff backend/tests/golden | grep
       -c '^-[^-]'` → 0. Every `+` line in `parts.txt` is `|mcu|` and ends
       `|unsimulated`.
+      → `0`. `git diff --numstat`: footprints.txt `63 0`, parts.txt `1424 0`, traces.txt `1424 0`. No `+` line of parts.txt lacks `|mcu|…|unsimulated`.
 
 Acceptance: every backend test passes, and only lines were added.
   Check: `ctest --test-dir /tmp/logic-p36` → `100% tests passed`; `git diff --numstat backend/tests/golden` → each file `<added> 0` (est. 4 min).
+  Result 2026-11-13: `100% tests passed, 0 tests failed out of 33`; `63 0`, `1424 0`, `1424 0`.
 Commit: —
 
 ## Validation Plan
@@ -185,6 +192,11 @@ Commit: —
   schematic symbol.
 
 ## Corrections
+
+- **2026-11-13: the counts.** 1424 add rows on 303 devices (§ 1's 1521 / 316 were before A's verdicts; E dropped ESP32-WROOM-DA). 3 automotive rows, not 6 (`grade` column). P0 was 27828 at 7ca1070. `parts.txt` grew by exactly 1424.
+- **2026-11-13: devices.tsv spells ATDF devices as the ATDF does** (`ATmega1280`) and the rest in capitals, so the generator matches devices case-blind and takes `function` from `pinouts.proper()`.
+- **2026-11-13: the footprint lookup has three levels**: `footprint-mpn.tsv` (E's U variants), then `footprint-device.tsv` (D's QFN32 split), then `package-codes.tsv` (§ 3.3, edited by E).
+- **2026-11-13: two datasheet marks checked, no change.** The ATtiny4/5/9/10 summary (8127H) marks -TSHR / -TS8R "Not recommended for new designs" (note 6). The current Microchip datasheet DS40002060A (Rev A, 08/2018) reverses that: those are the new codes, and -TSUR / -TSFR are NRND. The revision histories of the ATmega16, ATmega128 and ATmega32 summaries mention a cover NRND note, but their current covers carry none. A's verdicts stand.
 
 ## Summary
 

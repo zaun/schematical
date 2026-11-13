@@ -31,6 +31,7 @@ files and updates this map.
 | `footprints-D.json`, `footprint-device.tsv`, `census/fp-specs-D.py` | the quad, dual-row QFN, PLCC, grid and RP2040 footprints; per-device footprints of a code with two bodies (QFN32) | D |
 | `footprints-E.json`, `footprint-mpn.tsv`, `census/fp-specs-E.py` | the Espressif module footprints, read from the land-pattern drawings' vectors (needs PyMuPDF in a venv); the U variants' footprints by MPN | E |
 | `census/fp-load.sh`, `fp-merge.py`, `fp-pads-vs-pins.py` | load footprint files through `footprint_check` on a copy; merge into `footprints.json`; every pinout designator has a pad | C, D, E |
+| `census/gen-parts.py` | `Parts/mcu.json` (303 devices, 1424 parts) and the 151 `datasheets.json` entries from candidates / devices / pinouts / pinout-map / package-codes / footprint-device / footprint-mpn; `--check-esp` checks the ESP32 flash / PSRAM decoding against the ordering tables | G |
 
 ## Verdicts (plan-36-A, listing of 2026-11-13 UTC)
 
@@ -53,6 +54,8 @@ files and updates this map.
 `place.py --verify` → `0 missing, 0 unused`). Since A: ATTINY1616-MZ-VAO became `skip` (B),
 ATXMEGA8E5-MUR's code is 32Z (D), and ESP32-WROOM-DA is `out` for its datasheet's "End of
 Life (EOL)" banner (E). The 8 RP2350 / RP2354 rows are `out (scope)` too and are not in the table.
+
+Re-running G (after any change above): `fp-merge.py ../../schematical/schematical/Parts/footprints.json footprints-C.json footprints-D.json footprints-E.json` on a footprints.json without them, `gen-parts.py --write` on a datasheets.json without the mcu entries, then the goldens (`docs/backend.md` § Tests).
 
 Re-running B: `package-codes.py`, `pinouts.py candidates.tsv /tmp/p36/packs/atdf`, `units.py`, `transcribe.py`, `transcribe-hand.py`, `esp-pins.py`, `transcribed-merge.py`, `pinouts.py ... --transcribed transcribed.tsv`, `pinout-lint.py`, `pinout-check.py --full full-checks.tsv`, `devices.py`, `facts-check.py`.
 
