@@ -26,6 +26,28 @@ enum PreferenceKey {
     /// Custom rules (JSON `DesignRules`), for Settings ▸ DRC Defaults.
     static let drcManufacturer = "drcManufacturer"
     static let drcCustomRules = "drcCustomRules"
+    /// The reference prefix per part category, for Settings ▸ Reference Defaults
+    /// (JSON; see `ReferencePrefixes`).
+    static let referencePrefixes = "referencePrefixes"
+    /// Net label and bus wire names in uppercase only: what is typed is
+    /// uppercased. On unless turned off (names are case sensitive, so
+    /// "clk" and "CLK" would be two nets).
+    static let uppercaseNames = "uppercaseNames"
+}
+
+/// Settings ▸ General Defaults ▸ Names: how net label and bus wire names
+/// are typed.
+enum NamePreferences {
+    /// Uppercase only? On while the key is unset.
+    static func uppercaseOnly(defaults: UserDefaults = .standard) -> Bool {
+        defaults.object(forKey: PreferenceKey.uppercaseNames) as? Bool ?? true
+    }
+
+    /// `name` as typed into a net label or bus wire name: uppercased while
+    /// `uppercaseOnly`.
+    static func typed(_ name: String, defaults: UserDefaults = .standard) -> String {
+        uppercaseOnly(defaults: defaults) ? name.uppercased() : name
+    }
 }
 
 /// The options a newly placed part starts with, from Settings. Nil means the
@@ -91,17 +113,59 @@ enum NewPartOptions {
     }
 }
 
-/// The Settings window (Schematical ▸ Settings…, ⌘,).
-struct PreferencesView: View {
-    var body: some View {
-        TabView {
-            PartListPreferencesView()
-                .tabItem { Label("Part List", systemImage: "list.bullet") }
-            DefaultsPreferencesView()
-                .tabItem { Label("Defaults", systemImage: "slider.horizontal.3") }
-            DesignRulePreferencesView()
-                .tabItem { Label("DRC Defaults", systemImage: "checkmark.seal") }
+/// A page of the Settings window, in sidebar order.
+enum PreferencesPage: String, CaseIterable, Identifiable {
+    case partList, defaults, references, designRules
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .partList: "Part List"
+        case .defaults: "General Defaults"
+        case .references: "Reference Defaults"
+        case .designRules: "DRC Defaults"
         }
+    }
+
+    var systemImage: String {
+        switch self {
+        case .partList: "list.bullet"
+        case .defaults: "slider.horizontal.3"
+        case .references: "number"
+        case .designRules: "checkmark.seal"
+        }
+    }
+}
+
+/// The Settings window (Schematical ▸ Settings…, ⌘,): a sidebar of pages,
+/// like Xcode's, with the picked page beside it under its title.
+struct PreferencesView: View {
+    @AppStorage("preferencesPage") private var page = PreferencesPage.partList
+
+    var body: some View {
+        NavigationSplitView {
+            List(PreferencesPage.allCases, selection: Binding(
+                get: { page },
+                // Clicking empty sidebar space would clear it; keep the page.
+                set: { if let picked = $0 { page = picked } }
+            )) { page in
+                Label(page.title, systemImage: page.systemImage).tag(page)
+            }
+            .navigationSplitViewColumnWidth(200)
+            .toolbar(removing: .sidebarToggle)
+        } detail: {
+            Group {
+                switch page {
+                case .partList: PartListPreferencesView()
+                case .defaults: DefaultsPreferencesView()
+                case .references: ReferencePreferencesView()
+                case .designRules: DesignRulePreferencesView()
+                }
+            }
+            .navigationTitle(page.title)
+        }
+        .frame(width: 720, height: 560)
     }
 }
 
@@ -126,12 +190,10 @@ private struct PartListPreferencesView: View {
             }
         }
         .formStyle(.grouped)
-        .frame(width: 420)
-        .fixedSize(horizontal: false, vertical: true)
     }
 }
 
-/// Settings ▸ Defaults: the options a newly placed part starts with.
+/// Settings ▸ General Defaults: the options a newly placed part starts with.
 private struct DefaultsPreferencesView: View {
     @AppStorage(PreferenceKey.genericLEDColor) private var ledColor = ""
     @AppStorage(PreferenceKey.genericLEDFootprint) private var ledFootprint = ""
@@ -141,11 +203,21 @@ private struct DefaultsPreferencesView: View {
     @AppStorage(PreferenceKey.headerFootprintType) private var headerFootprintType = ""
     @AppStorage(PreferenceKey.pullResistorOhms) private var pullOhms = 0.0
     @AppStorage(PreferenceKey.pullResistorFootprint) private var pullFootprint = ""
+    @AppStorage(PreferenceKey.uppercaseNames) private var uppercaseNames = true
     /// The app-wide catalog, loaded once at launch.
     private let catalog = PartCatalogStore.shared
 
     var body: some View {
         Form {
+            Section {
+                Toggle("Uppercase only", isOn: $uppercaseNames)
+            } header: {
+                Text("Net Label and Bus Wire Names")
+            } footer: {
+                Text("Names are case sensitive: CLK and clk are different nets. While this is on, letters typed into a net label or bus wire name become uppercase. Names already in a schematic are left as they are.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
             if let led = catalog.part(named: NewPartOptions.genericLED) {
                 Section {
                     if !led.colors.isEmpty {
@@ -242,7 +314,5 @@ private struct DefaultsPreferencesView: View {
             }
         }
         .formStyle(.grouped)
-        .frame(width: 420)
-        .fixedSize(horizontal: false, vertical: true)
     }
 }

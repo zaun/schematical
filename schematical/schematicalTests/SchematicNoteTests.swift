@@ -152,4 +152,20 @@ final class SchematicNoteTests: XCTestCase {
         XCTAssertTrue(svg.contains(">First line</text>"))
         XCTAssertTrue(svg.contains(">\(SVGPainter.escaped("Second & last"))</text>"))
     }
+
+    /// The canvas measures blocks on SwiftUI's render thread while hover hit
+    /// tests measure them on the main thread; AppKit's measuring crashed
+    /// inside CoreText when both ran at once.
+    nonisolated func testRectIsSafeOnManyThreadsAtOnce() {
+        let notes = SchematicNote.sizeRange.map {
+            SchematicNote(id: UUID(), text: "Chip | Range\nRAM | $0000\u{2013}$3FFF\n\nROM", origin: .zero, size: $0)
+        }
+        let expected = notes.map(\.rect)
+        DispatchQueue.concurrentPerform(iterations: 64) { round in
+            for (index, note) in notes.enumerated() where (index + round) % 2 == 0 {
+                XCTAssertEqual(note.rect, expected[index])
+            }
+        }
+        XCTAssertGreaterThan(expected[0].width, 0)
+    }
 }

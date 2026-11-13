@@ -62,8 +62,9 @@ struct NetLabelPanel: View {
             .focused($isEditing)
             .accessibilityHint("Up to \(NetLabel.maxNameLength) characters. Labels with the same name are connected.")
             .onChange(of: name) { _, value in
-                // At most four characters, no spaces, as typed.
-                let cleaned = NetLabel.cleanName(value) ?? ""
+                // At most four characters, no spaces, as typed (uppercased
+                // while Settings says uppercase only).
+                let cleaned = NetLabel.cleanName(NamePreferences.typed(value)) ?? ""
                 if cleaned != value { name = cleaned; return }
                 guard !cleaned.isEmpty else { return }
                 if !document.setNetLabelName(label.id, cleaned) { name = label.name }

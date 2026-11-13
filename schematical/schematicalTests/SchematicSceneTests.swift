@@ -103,8 +103,21 @@ final class SchematicSceneTests: XCTestCase {
                            width: chip.layout.size.width + 2 * ChipLayout.labelMargin,
                            height: chip.layout.size.height)
             .insetBy(dx: -0.75, dy: -0.75)
-        XCTAssertTrue(frame.contains(bounds), "\(bounds) is not inside the view frame \(frame)")
-        XCTAssertEqual(bounds.minY, frame.minY, accuracy: 1e-9, "the outline's top edge is the ink's top")
+        // The reference (Display Reference, on by default) sits above it.
+        let anchor = try XCTUnwrap(ReferenceLabel.anchor(for: chip))
+        let referenceTop = chip.viewOrigin.y + anchor.y
+            - BoundsPainter.textSize(PaintedText(chip.reference, size: ReferenceLabel.fontSize)).height
+        let withReference = frame.union(CGRect(x: frame.minX, y: referenceTop, width: frame.width, height: 1))
+        XCTAssertTrue(withReference.contains(bounds), "\(bounds) is not inside the view frame \(withReference)")
+        XCTAssertEqual(bounds.minY, referenceTop, accuracy: 1e-9, "the reference's top is the ink's top")
+
+        // With the reference hidden, the outline's top edge is the ink's top.
+        doc.setPartShowsReference(chip.id, false)
+        var hidden = BoundsPainter()
+        SchematicScene(doc).paint(into: &hidden)
+        let hiddenBounds = try XCTUnwrap(hidden.bounds)
+        XCTAssertTrue(frame.contains(hiddenBounds), "\(hiddenBounds) is not inside the view frame \(frame)")
+        XCTAssertEqual(hiddenBounds.minY, frame.minY, accuracy: 1e-9, "the outline's top edge is the ink's top")
     }
 
     func testEmptyScene() {

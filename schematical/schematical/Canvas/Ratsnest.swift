@@ -41,18 +41,21 @@ extension SchematicDocument {
         // The card edge is a hidden port on its bus: pin i is the bus's wire
         // i, on whatever net that wire's port pins are wired into.
         var fingerNets: [String: Int] = [:]
+        // Its wires' nets include ports on the buses linked with it.
         if let busID = edgeBusID, let bus = bus(busID) {
-            let portIDs = Set(bus.ports.map(\.id))
+            let group = buses.filter { $0.id == busID || bus.isLinked(with: $0) }
+            let portIDs = Set(group.flatMap { $0.ports.map(\.id) })
+            let linked = Bus.linkedWireIDs(buses)
             var netOfBusWire: [UUID: Int] = [:]
             for wire in wires {
                 for end in [wire.start, wire.end] {
                     guard case let .busPin(ref) = end, portIDs.contains(ref.portID),
                           let net = netlist.netOfWire[wire.id] else { continue }
-                    netOfBusWire[ref.wireID] = net
+                    netOfBusWire[linked[ref.wireID] ?? ref.wireID] = net
                 }
             }
             for (name, wire) in zip(board.pinNames, bus.wires) {
-                if let net = netOfBusWire[wire.id] { fingerNets[name] = net }
+                if let net = netOfBusWire[linked[wire.id] ?? wire.id] { fingerNets[name] = net }
             }
         }
 

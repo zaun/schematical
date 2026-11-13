@@ -293,10 +293,18 @@ private struct BoardPanel: View {
             if document.board.type.isCard {
                 // The schematic bus whose wires are the card's pins, in
                 // order. Only buses with as many wires as the card has pins.
-                Picker("Bus", selection: Binding(get: { document.edgeBusID }, set: { document.setEdgeBus($0) })) {
+                Picker(selection: Binding(get: { document.edgeBusID }, set: { document.setEdgeBus($0) })) {
                     Text("None").tag(UUID?.none)
                     ForEach(document.edgeBusChoices) { bus in
                         Text(bus.name).tag(Optional(bus.id))
+                    }
+                } label: {
+                    // The wire count the bus needs sits between the label and the menu.
+                    HStack {
+                        Text("Bus")
+                        Spacer()
+                        Text("(\(document.board.pinCount) Wires)")
+                            .foregroundStyle(.secondary)
                     }
                 }
                 .pickerStyle(.menu)

@@ -105,6 +105,9 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         /// Always written for it; missing means 1e-7 (0.1 µF); ignored on
         /// other parts. Optional like `gender`: the version stays 4.
         var farads: Double? = nil
+        /// Written only as `false`, when the Schematic hides the part's
+        /// reference (Display Reference off); missing means shown.
+        var showReference: Bool? = nil
     }
 
     /// An EEPROM's load file: the path relative to the schematic's folder (or
@@ -611,7 +614,8 @@ extension SchematicFile {
                 gender: chip.gender,
                 ohms: chip.ohms,
                 partUUID: chip.part.uuid,
-                farads: chip.farads
+                farads: chip.farads,
+                showReference: chip.showsReference ? nil : false
             )
         }
         junctions = document.junctions.map {
@@ -817,6 +821,7 @@ extension SchematicFile {
                 ohms: catalogPart.isPullResistor ? part.ohms : nil,
                 farads: catalogPart.isGenericCapacitor ? part.farads : nil
             )
+            chip.showsReference = part.showReference ?? true
             // A stored placement counts only for a part with a footprint.
             var board: BoardPlacement?
             if let pcb = part.pcb, catalogPart.footprint != nil {
@@ -876,10 +881,16 @@ extension SchematicFile {
             for port in bus.ports ?? [] { try claim(port.id) }
             placedBuses.append(try Self.modelBus(bus))
         }
-        var busNames = Set<String>()
+        // Buses of one name are linked, and carry the same wires and type.
+        var busNames: [String: SchematicModelBus] = [:]
         for bus in placedBuses where !bus.name.isEmpty {
-            guard busNames.insert(bus.name.lowercased()).inserted else {
-                throw SchematicFileError.badBus("the bus name \"\(bus.name)\" is used twice")
+            guard let first = busNames[bus.name.lowercased()] else {
+                busNames[bus.name.lowercased()] = bus
+                continue
+            }
+            guard first.wires.map(\.name) == bus.wires.map(\.name), first.card == bus.card else {
+                throw SchematicFileError.badBus(
+                    "the buses named \"\(bus.name)\" are linked but don't have the same type and wires")
             }
         }
         if let (first, second, point) = SchematicModelBus.firstTouch(placedBuses) {
@@ -1013,10 +1024,11 @@ extension SchematicFile {
         }
 
 
-        // Never hand out a U<n> reference that's already used, even if the
-        // stored counter is behind.
+        // Never hand out an Integrated Circuit reference (U<n>) that's
+        // already used, even if the stored counter is behind.
+        let counted = ReferencePrefixes.prefix(for: .integratedCircuit)
         let highest = chips.map { ReferenceParts($0.reference) }
-            .filter { $0.prefix == "U" }
+            .filter { $0.prefix == counted }
             .compactMap(\.number)
             .max() ?? 0
         document.replaceContents(
@@ -1354,14 +1366,10 @@ extension SchematicFile {
         guard SchematicModelBus.wireCountRange.contains(bus.wires.count) else {
             throw SchematicFileError.badBus("bus \(id) has \(bus.wires.count) wires; it must have 2 to 999")
         }
-        var seen = Set<String>()
         for wire in bus.wires {
             guard SchematicModelBus.nameLengthRange.contains(wire.name.count),
                   !wire.name.contains(where: \.isWhitespace) else {
                 throw SchematicFileError.badBus("bus \(id) wire name \"\(wire.name)\" must be 1 to 4 characters with no spaces")
-            }
-            guard seen.insert(wire.name.lowercased()).inserted else {
-                throw SchematicFileError.badBus("bus \(id) uses the wire name \"\(wire.name)\" twice")
             }
         }
 

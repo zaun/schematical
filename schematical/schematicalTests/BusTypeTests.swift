@@ -288,4 +288,206 @@ final class BusTypeTests: XCTestCase {
                                               CGPoint(x: pad.rect.midX, y: pad.rect.midY)], layer: .bottom))
         XCTAssertTrue(doc.ratsnest().isEmpty)
     }
+
+    // MARK: Linked buses
+
+    /// A bus with one port where `y` is, its wire `index` wired to an LED's
+    /// K pin. Returns the bus and that wire.
+    private func wiredBus(_ doc: SchematicDocument, y: CGFloat, index: Int) throws -> (bus: UUID, wire: UUID) {
+        let led = try TestSupport.place(doc, "GENERIC-LED", at: p(600, y + 200))
+        let id = try XCTUnwrap(doc.addBus(from: p(100, y), to: p(300, y)))
+        XCTAssertNil(doc.addPort(at: p(200, y)))
+        let port = try XCTUnwrap(doc.bus(id)?.ports.first)
+        let busWire = try bus(doc, id).wires[index]
+        XCTAssertNil(doc.setPortWires(port.id, [busWire.id]))
+        XCTAssertNil(doc.connect(.busPin(BusPinRef(portID: port.id, wireID: busWire.id)), .pin(try TestSupport.pin(led, "K"))))
+        return (id, try XCTUnwrap(doc.wires.last).id)
+    }
+
+    func testRenamingToAnotherBusLinksThem() throws {
+        let doc = TestSupport.newDocument()
+        let first = try wiredBus(doc, y: 100, index: 2)
+        let second = try wiredBus(doc, y: 1000, index: 2)
+        XCTAssertNil(doc.setBusName(first.bus, "Data"))
+        var card = BusCard()
+        card.type = .isa8
+        XCTAssertNil(doc.setBusCard(first.bus, card))
+        func nets() -> (Int?, Int?) {
+            let netlist = NetlistBuilder.build(chips: doc.chips, wires: doc.wires, buses: doc.buses)
+            return (netlist.netOfWire[first.wire], netlist.netOfWire[second.wire])
+        }
+        XCTAssertNotEqual(nets().0, nets().1)
+
+        // Asked first: the panel shows the target, and without `link` the
+        // name is refused.
+        XCTAssertEqual(doc.busLinkTarget(second.bus, named: " DATA ")?.id, first.bus)
+        XCTAssertEqual(doc.setBusName(second.bus, "DATA"), "DATA is already used by another bus.")
+        XCTAssertEqual(try bus(doc, second.bus).name, "BUS 2")
+
+        // Linked: the other's exact name, type and wires; its own wire ids.
+        let before = try bus(doc, second.bus).wires.map(\.id)
+        XCTAssertNil(doc.setBusName(second.bus, "DATA", link: true))
+        XCTAssertEqual(doc.undoName(on: .schematic), "Rename Bus")
+        let linked = try bus(doc, second.bus)
+        XCTAssertEqual(linked.name, "Data")
+        XCTAssertEqual(linked.card, card)
+        XCTAssertEqual(linked.wires.map(\.name), try bus(doc, first.bus).wires.map(\.name))
+        XCTAssertEqual(Array(linked.wires.prefix(8).map(\.id)), before)
+        XCTAssertNil(doc.busLinkTarget(second.bus, named: "data"), "already linked")
+        let (a, b) = nets()
+        XCTAssertNotNil(a)
+        XCTAssertEqual(a, b, "wire 2 of each is one net")
+
+        // Edits to either change both.
+        card.type = .custom
+        XCTAssertNil(doc.setBusCard(second.bus, card))
+        XCTAssertEqual(try bus(doc, first.bus).card, card)
+        XCTAssertNil(doc.setBusWireCount(first.bus, 4))
+        XCTAssertEqual(try bus(doc, second.bus).wires.count, 4)
+        let w = try bus(doc, second.bus).wires[3]
+        XCTAssertNil(doc.renameBusWire(bus: second.bus, wire: w.id, to: "IRQ"))
+        XCTAssertEqual(try bus(doc, first.bus).wires[3].name, "IRQ")
+        // A port on either holds the count.
+        XCTAssertEqual(doc.setBusWireCount(second.bus, 2), "A3 is used by a port; this bus needs at least 3 wires.")
+
+        // A new case renames them all; a new name unlinks one.
+        XCTAssertNil(doc.setBusName(first.bus, "DATA"))
+        XCTAssertEqual(try bus(doc, second.bus).name, "DATA")
+        XCTAssertNil(doc.setBusName(second.bus, "Other"))
+        XCTAssertEqual(try bus(doc, first.bus).name, "DATA")
+        XCTAssertNotEqual(nets().0, nets().1)
+
+        // Undo links them again.
+        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertEqual(nets().0, nets().1)
+    }
+
+    func testLinkRefusedWhenAPortNeedsAWire() throws {
+        let doc = TestSupport.newDocument()
+        let first = try XCTUnwrap(doc.addBus(from: p(100, 100), to: p(300, 100)))
+        XCTAssertNil(doc.setBusWireCount(first, 4))
+        let second = try wiredBus(doc, y: 1000, index: 6)
+        XCTAssertEqual(doc.setBusName(second.bus, "BUS 1", link: true), "B6 is used by a port; BUS 1 has only 4 wires.")
+        XCTAssertEqual(try bus(doc, second.bus).name, "BUS 2")
+        XCTAssertEqual(try bus(doc, second.bus).wires.count, 8)
+    }
+
+    func testLinkedBusesFile() throws {
+        let doc = TestSupport.newDocument()
+        let first = try wiredBus(doc, y: 100, index: 2)
+        let second = try wiredBus(doc, y: 1000, index: 2)
+        XCTAssertNil(doc.setBusName(second.bus, "BUS 1", link: true))
+        let opened = try BoardLayersTests.roundTrip(doc)
+        XCTAssertEqual(opened.buses.map(\.name), ["BUS 1", "BUS 1"])
+        let netlist = NetlistBuilder.build(chips: opened.chips, wires: opened.wires, buses: opened.buses)
+        XCTAssertEqual(netlist.netOfWire[first.wire], netlist.netOfWire[second.wire])
+
+        // Linked buses that differ are an error.
+        var file = try SchematicFile.decode(SchematicFile(document: doc, fileURL: nil).encoded())
+        file.buses?[1].wires.removeLast()
+        XCTAssertThrowsError(try file.apply(to: TestSupport.newDocument(), catalog: TestSupport.catalog, fileURL: nil)) { error in
+            XCTAssertTrue("\(error)".contains("linked"), "\(error)")
+        }
+    }
+
+    /// A bus wire joins the net labels of its exact name; two
+    /// buses' wires of one name meet only through such a label.
+    func testBusWiresJoinNetLabelsOfTheirName() throws {
+        let doc = TestSupport.newDocument()
+        let first = try wiredBus(doc, y: 100, index: 2)
+        let second = try wiredBus(doc, y: 1000, index: 2)
+        let led = try TestSupport.place(doc, "GENERIC-LED", at: p(1400, 600))
+        let label = doc.addNetLabel(at: p(1200, 600))
+        let wired = try XCTUnwrap({ () -> UUID? in
+            XCTAssertNil(doc.connect(.pin(try TestSupport.pin(led, "A")), .label(label)))
+            return doc.wires.last?.id
+        }())
+        func net(_ wire: UUID) -> Int? {
+            NetlistBuilder.build(chips: doc.chips, wires: doc.wires, buses: doc.buses, labels: doc.netLabels)
+                .netOfWire[wire]
+        }
+        XCTAssertNotEqual(net(first.wire), net(wired))
+        XCTAssertNotEqual(net(first.wire), net(second.wire), "same wire name, no label: apart")
+
+        XCTAssertTrue(doc.setNetLabelName(label, "b2"))
+        XCTAssertNotEqual(net(first.wire), net(wired), "case counts")
+        XCTAssertTrue(doc.setNetLabelName(label, "B2"))
+        XCTAssertEqual(net(first.wire), net(wired))
+        XCTAssertEqual(net(second.wire), net(wired), "both buses' B2 meet at the label")
+
+        // Renaming the bus wire takes it off the label's net.
+        let b2 = try bus(doc, first.bus).wires[2]
+        XCTAssertNil(doc.renameBusWire(bus: first.bus, wire: b2.id, to: "X2"))
+        XCTAssertNotEqual(net(first.wire), net(wired))
+        XCTAssertEqual(net(second.wire), net(wired))
+    }
+
+    /// Wire names are case sensitive: "b2" is another name than "B2".
+    func testWireNamesAreCaseSensitive() throws {
+        let doc = TestSupport.newDocument()
+        let id = try XCTUnwrap(doc.addBus(from: p(100, 100), to: p(300, 100)))
+        let wire = try bus(doc, id).wires[3]
+        XCTAssertNil(doc.renameBusWire(bus: id, wire: wire.id, to: "b2"))
+        XCTAssertEqual(try bus(doc, id).wires[3].name, "b2")
+        let opened = try BoardLayersTests.roundTrip(doc)
+        XCTAssertEqual(opened.buses.first?.wires.map(\.name).prefix(4), ["B0", "B1", "B2", "b2"])
+    }
+
+    /// Two wires of a bus may share a name: they stay two wires, two nets,
+    /// and the file keeps both.
+    func testWireNamesMayRepeat() throws {
+        let doc = TestSupport.newDocument()
+        let first = try wiredBus(doc, y: 100, index: 2)
+        let wires = try bus(doc, first.bus).wires
+        XCTAssertNil(doc.renameBusWire(bus: first.bus, wire: wires[4].id, to: "B2"))
+        XCTAssertEqual(try bus(doc, first.bus).wires.map(\.name), ["B0", "B1", "B2", "B3", "B2", "B5", "B6", "B7"])
+        XCTAssertEqual(try bus(doc, first.bus).wires[4].id, wires[4].id)
+        let opened = try BoardLayersTests.roundTrip(doc)
+        XCTAssertEqual(opened.buses.first?.wires.map(\.name).filter { $0 == "B2" }.count, 2)
+    }
+
+    // MARK: Reordering wires
+
+    func testReorderingWires() throws {
+        let doc = TestSupport.newDocument()
+        let first = try wiredBus(doc, y: 100, index: 2)
+        let second = try wiredBus(doc, y: 1000, index: 2)
+        XCTAssertNil(doc.setBusName(first.bus, "Data"))
+        XCTAssertNil(doc.setBusName(second.bus, "DATA", link: true))
+        let before = try bus(doc, first.bus).wires
+        let wired = before[2]
+        func nets() -> (Int?, Int?) {
+            let netlist = NetlistBuilder.build(chips: doc.chips, wires: doc.wires, buses: doc.buses)
+            return (netlist.netOfWire[first.wire], netlist.netOfWire[second.wire])
+        }
+        XCTAssertEqual(nets().0, nets().1)
+
+        // The wire keeps its id and name and takes the new place; its port
+        // wire stays on it.
+        XCTAssertNil(doc.moveBusWire(bus: first.bus, wire: wired.id, to: 5))
+        XCTAssertEqual(doc.undoName(on: .schematic), "Reorder Bus Wires")
+        let moved = try bus(doc, first.bus).wires
+        XCTAssertEqual(moved[5], wired)
+        XCTAssertEqual(moved.map(\.name), ["B0", "B1", "B3", "B4", "B5", "B2", "B6", "B7"])
+        // The linked bus moves the same place the same way: still one net.
+        XCTAssertEqual(try bus(doc, second.bus).wires.map(\.name), moved.map(\.name))
+        XCTAssertNotNil(nets().0)
+        XCTAssertEqual(nets().0, nets().1)
+
+        // Out-of-range places clamp to the ends.
+        XCTAssertNil(doc.moveBusWire(bus: first.bus, wire: wired.id, to: -3))
+        XCTAssertEqual(try bus(doc, first.bus).wires.first, wired)
+
+        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertEqual(try bus(doc, first.bus).wires, before)
+
+        // A card type sets the order.
+        var card = BusCard()
+        card.type = .isa8
+        XCTAssertNil(doc.setBusCard(first.bus, card))
+        let isa = try bus(doc, first.bus).wires
+        XCTAssertNotNil(doc.moveBusWire(bus: first.bus, wire: isa[0].id, to: 3))
+        XCTAssertEqual(try bus(doc, first.bus).wires, isa)
+    }
 }
