@@ -314,7 +314,7 @@ Commit: 418107b
 Acceptance: T + 1 programs pass.
   Check: `cmake -S backend -B /tmp/logic-p36 && cmake --build /tmp/logic-p36 -j8 && ctest --test-dir /tmp/logic-p36` → `100% tests passed, 0 tests failed out of <T+1>` (est. 3 min).
   Result 2026-11-13: `100% tests passed, 0 tests failed out of 33` (T = 32); `git diff --stat backend/tests/golden` empty; `ctest -N | grep -c mcu_test` → 1.
-Commit: —
+Commit: b8f5583
 
 ## Validation Plan
 
