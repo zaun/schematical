@@ -70,12 +70,12 @@ Every other letter points here and adds only its own rows.
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend tests green | `cmake -S backend -B /tmp/logic-p37 && cmake --build /tmp/logic-p37 -j8 && ctest --test-dir /tmp/logic-p37 -j8` → `100% tests passed` | MET at planning: **T0 = 32** (`grep -c '^logic_test' backend/CMakeLists.txt` → 32 at cf40403) |
-| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `traces.txt`; `footprints.txt` | MET: **P0 = 27828**, **R0 = 27828**, **F0 = 1386** (2026-11-12 at cf40403) |
-| No register kind yet | `grep -c 'PART_REGISTER' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/register.json` → no such file; `ls datasheets/register` → no such directory | MET (2026-11-12: 0, no file, no directory) |
-| No other open plan adds registers | `grep -l 'PART_REGISTER\|Parts/register.json\|74_173\|74_377' planning/plan-*.md \| grep -v plan-37 \| wc -l` → 0 | MET (2026-11-12: 0) |
-| DigiKey credentials and quota | `DIGIKEY_CLIENT_ID`/`_SECRET` exported in `~/.zshrc`. Phase 1 costs 90 calls: the 64 of the planning listing (`README.md`) plus 26 for TI's 16- and 20-pin pieces (§ 2) | Start Phase 1 on a day whose first call reports ≥ 120 left. Planning ended at `3 left today` (`raw/ti-k670.err`) |
-| A browser-TLS HTTP client for Nexperia | `python3 -m venv /tmp/p37venv && /tmp/p37venv/bin/pip install curl_cffi` → installs; `/tmp/p37venv/bin/python -I -c "from curl_cffi import requests; r = requests.get('https://assets.nexperia.com/documents/data-sheet/74HC_HCT173.pdf', impersonate='chrome'); print(r.status_code, r.headers['content-type'])"` → `200 application/pdf` | MET at planning (the probe in § 2, Verified properties) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p37 && cmake --build /tmp/logic-p37 -j8 && ctest --test-dir /tmp/logic-p37 -j8` → `100% tests passed` | MET (2026-11-13 00:10 UTC at 31f79ce, A start: `100% tests passed, 0 tests failed out of 32`): **T0 = 32** |
+| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `traces.txt`; `footprints.txt` | MET (A start, 31f79ce: 27828 / 27828 / 1386): **P0 = 27828**, **R0 = 27828**, **F0 = 1386** |
+| No register kind yet | `grep -c 'PART_REGISTER' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/register.json` → no such file; `ls datasheets/register` → no such directory | MET (A start: 0, no file, no directory) |
+| No other open plan adds registers | `grep -l 'PART_REGISTER\|Parts/register.json\|74_173\|74_377' planning/plan-*.md \| grep -v plan-37 \| wc -l` → 0 | MET (A start: 0) |
+| DigiKey credentials and quota | `DIGIKEY_CLIENT_ID`/`_SECRET` exported in `~/.zshrc`. Phase 1 costs 90 calls: the 64 of the planning listing (`README.md`) plus 26 for TI's 16- and 20-pin pieces (§ 2) | Start Phase 1 on a day whose first call reports ≥ 120 left. MET (A start, `facets.js: 1272 parts, 1 call, 998 left today`) |
+| A browser-TLS HTTP client for Nexperia | `python3 -m venv /tmp/p37venv && /tmp/p37venv/bin/pip install curl_cffi` → installs; `/tmp/p37venv/bin/python -I -c "from curl_cffi import requests; r = requests.get('https://assets.nexperia.com/documents/data-sheet/74HC_HCT173.pdf', impersonate='chrome'); print(r.status_code, r.headers['content-type'])"` → `200 application/pdf` | MET (A start: `200 application/pdf`) |
 
 Everything below is written against the world where these hold.
 
@@ -241,18 +241,26 @@ A row becomes `add` only when all of these hold. Any other outcome is
 
 ### Phase 1 — Census refresh
 
-- [ ] Copy `planning/plan-37-data/census/` to `/tmp/p37/census` and run
+- [x] Copy `planning/plan-37-data/census/` to `/tmp/p37/census` and run
       every listing line of `README.md` into a fresh `/tmp/p37/raw`, plus
-      the 20 TI pieces of § 2:
+      the 20 TI pieces of § 2 (2026-11-13 00:10–00:40 UTC: 47 pieces, all
+      `.done`; `facets.js: 1272 parts, 1 call, 998 left today` →
+      `list.js: 28 parts, 1 calls, 798 left today` at the last piece):
       `for p in 107808 107879 108614 108624 108656 108681 108695 108891 142706 142714 142845 143005 143702 143707 143724 143726 730773 143742 143757 143890; do census/run.sh /tmp/p37/raw 706 296 $p ti-p$p; done`.
-- [ ] Rebuild `candidates.tsv` (`census/candidates.py`, then
+- [x] Rebuild `candidates.tsv` (`census/candidates.py`, then
       `census/footprints.py`). Set `verdict` = `out`, `ordering` = `stock check`
       for every planning in-scope row the new listing lacks (keep the row).
-- [ ] Copy the new `raw/` files (gzipped) over `planning/plan-37-data/raw/`.
+      Result: 1335 rows; every one of the 472 planning in-scope rows is
+      listed again and still `in`, so no `stock check` row; one new
+      in-scope row, `JM38510/36101BEA` (a 54173, § Corrections); 473 in
+      scope (register 273: TI 229, Nexperia 31, onsemi 13; dff 198; mux 2).
+- [x] Copy the new `raw/` files (gzipped) over `planning/plan-37-data/raw/`
+      (95 files: 47 `.jsonl.gz`, 47 `.err`, `ti-facets.tsv`).
 
 Check: `grep -h 'cut at 300' /tmp/p37/raw/*.err | wc -l` → 0, or rule 1's
 lookups done for each cut piece; `awk -F'\t' '$6=="in"' candidates.tsv | wc -l`
 recorded here (planning: 472) (est. 25 min, the API pace).
+Observed: `cut at 300` → **0**; in-scope rows → **473**.
 
 Commit: —
 
@@ -353,7 +361,18 @@ Author's decisions:
 
 ## Corrections
 
-(none yet)
+- **2026-11-13, Phase 1 — one more in-scope row (473, not 472).** TI's
+  16-pin pieces, listed in full for the first time, return six military
+  numbers `candidates.py` `MIL` did not map (they fell into
+  `out:keyword-noise`). By DigiKey's description and Rochester file name:
+  `JM38510/36101BEA` = 54173 (4-bit, 16-CDIP: **in**, device 74_173, family
+  TTL), `JM38510/30109BEA` = 54LS109A (JK, out), `JM38510/37201BEA` =
+  54ALS174, `5962-9222203MRA` = CY54FCT574T, `5962-9221804MRA` /
+  `5962-9221806M2A` = CY54FCT374T (TI parts of `dff` devices, out). All six
+  are added to `MIL` in `candidates.py` and `fetch.py`. The four
+  `CY74FCT2574…` rows (device '2574, not in the list) stay
+  `out:keyword-noise` (= `not in device list`). Counts: D gains one row
+  (74_173 17), A § 2's 472 / 272 / TI 228 become 473 / 273 / TI 229.
 
 ## Summary
 

@@ -1,6 +1,6 @@
 # plan-37: in-scope parts per (footprint id, maker, DigiKey package). NEW = not in Parts/footprints.json (plan-37-B adds it).
 CDIP-16	Texas Instruments	(no DigiKey parameters)	4
-CDIP-16	Texas Instruments	16-CDIP (0.300", 7.62mm)	2
+CDIP-16	Texas Instruments	16-CDIP (0.300", 7.62mm)	3
 CDIP-20	Texas Instruments	(no DigiKey parameters)	9
 CDIP-24	Texas Instruments	24-CDIP (0.300", 7.62mm)	1
 CFP-16	Texas Instruments	(no DigiKey parameters)	2

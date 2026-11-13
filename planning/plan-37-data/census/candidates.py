@@ -41,7 +41,11 @@ MIL = {'5962-8682501EA': ('173', 'HC'), '5962-87807012A': ('377', 'HC'),
        '5962-8976901RA': ('377', 'HCT'), '5962-8992501EA': ('378', 'LS'),
        '5962-9314801Q2A': ('377', 'ABT'), '5962-9314801QRA': ('377', 'ABT'),
        '8400102RA': ('576', 'ALS'), 'JM38510/32504BRA': ('377', 'LS'),
-       'JM38510/32504BSA': ('377', 'LS')}
+       'JM38510/32504BSA': ('377', 'LS'),
+       # found by plan-37-A's full TI listing (16- and 20-pin pieces)
+       'JM38510/36101BEA': ('173', 'TTL'), 'JM38510/30109BEA': ('109', 'LS'),
+       'JM38510/37201BEA': ('174', 'ALS'), '5962-9222203MRA': ('574', 'FCT'),
+       '5962-9221804MRA': ('374', 'FCT'), '5962-9221806M2A': ('374', 'FCT')}
 # Rows settled while planning (the datasheet was read then).
 PLANNING_OUT = {
     # sn74als575a.pdf covers SN74AS575 (NT package) in its text, but its
