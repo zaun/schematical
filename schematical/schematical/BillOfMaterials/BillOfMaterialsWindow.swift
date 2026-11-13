@@ -38,8 +38,9 @@ nonisolated struct BillOfMaterialsLine: Identifiable, Hashable, Sendable {
 
 nonisolated enum BillOfMaterials {
     /// The lines for `chips`. Parts with no footprint (VCC, GND) are not on
-    /// the board, so they are left out. Pull-ups and pull-downs are one
-    /// `RESISTOR` line per value and package, whatever their rail. Lines are
+    /// the board, so they are left out. Pull-ups, pull-downs and
+    /// `GENERIC-RESISTOR`s are one `RESISTOR` line per value and package,
+    /// whatever their rail (plan-34-G: the same thing to buy). Lines are
     /// in the order of their first reference (C before R before U, U2 before U10).
     static func lines(for chips: [PlacedChip]) -> [BillOfMaterialsLine] {
         var groups: [String: (sample: PlacedChip, references: [String])] = [:]
@@ -52,7 +53,8 @@ nonisolated enum BillOfMaterials {
             .sorted { naturalOrder($0.references[0], $1.references[0]) }
     }
 
-    /// The part number and description of a pull resistor's line.
+    /// The part number and description of a pull resistor's or
+    /// `GENERIC-RESISTOR`'s line.
     static let resistorPartNumber = "RESISTOR"
     static let resistorDescription = "Resistor"
     /// `GENERIC-CAPACITOR`'s line (plan-33-H): any value, so its own part number.
@@ -61,7 +63,7 @@ nonisolated enum BillOfMaterials {
 
     private static func line(for chip: PlacedChip, references: [String]) -> BillOfMaterialsLine {
         let package = chip.footprintChoice?.package ?? chip.part.package
-        if chip.part.isPullResistor {
+        if chip.part.hasOhmsField {
             return BillOfMaterialsLine(
                 partNumber: resistorPartNumber,
                 package: package,
@@ -84,7 +86,8 @@ nonisolated enum BillOfMaterials {
         return BillOfMaterialsLine(
             partNumber: chip.partNumber,
             package: package,
-            value: chip.part.capacitorFarads.map(CapacitorValue.text) ?? "",
+            value: chip.part.capacitorFarads.map(CapacitorValue.text)
+                ?? chip.part.resistorOhms.map(ResistorValue.text) ?? "",
             color: chip.color ?? "",
             description: chip.part.description,
             references: references

@@ -94,8 +94,9 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         /// Headers only (plan-23): one of the part's genders. Always written
         /// for a header; missing means the part's default.
         var gender: String? = nil
-        /// Pull resistors only (version 4): the resistance in ohms. Always
-        /// written for them; missing means 1000; ignored on other parts.
+        /// Pull resistors (version 4) and `GENERIC-RESISTOR` (plan-34-G) only:
+        /// the resistance in ohms. Always written for them; missing means
+        /// 1000; ignored on other parts.
         var ohms: Double? = nil
         /// Custom parts only (version 5): the part's uuid, one of the file's
         /// `customParts`. The part resolves by it; `partNumber` is the name it
@@ -788,8 +789,9 @@ extension SchematicFile {
                 throw SchematicFileError.badPartOption(
                     reference: part.reference, detail: "\"\(gender)\" is not a gender of \(catalogPart.name)")
             }
-            // A pull resistor's resistance; missing is 1 kΩ, ignored elsewhere.
-            if catalogPart.isPullResistor, let ohms = part.ohms, !ResistorValue.isValid(ohms) {
+            // A pull resistor's or GENERIC-RESISTOR's resistance; missing is
+            // 1 kΩ, ignored elsewhere.
+            if catalogPart.hasOhmsField, let ohms = part.ohms, !ResistorValue.isValid(ohms) {
                 throw SchematicFileError.badOhms(reference: part.reference, ohms: ohms)
             }
             // The generic capacitor's capacitance; missing is 0.1 µF, ignored elsewhere.
@@ -814,7 +816,7 @@ extension SchematicFile {
                 color: color,
                 footprintID: footprintID,
                 gender: part.gender,
-                ohms: catalogPart.isPullResistor ? part.ohms : nil,
+                ohms: catalogPart.hasOhmsField ? part.ohms : nil,
                 farads: catalogPart.isGenericCapacitor ? part.farads : nil
             )
             // A stored placement counts only for a part with a footprint.

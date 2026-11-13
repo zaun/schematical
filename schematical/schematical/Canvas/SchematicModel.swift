@@ -632,8 +632,9 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     var footprintID: String?
     /// A header's gender, one of `part.genders`. Nil for every other part.
     var gender: String?
-    /// A pull resistor's resistance in ohms (`ResistorValue.isValid`). Nil
-    /// for every other part.
+    /// The resistance in ohms (`ResistorValue.isValid`) of a pull resistor or
+    /// `GENERIC-RESISTOR` (`CatalogPart.hasOhmsField`, plan-34-G). Nil for
+    /// every other part, maker resistors included (their value is their part's).
     var ohms: Double?
     /// The generic capacitor's capacitance in farads (`CapacitorValue.isValid`,
     /// plan-33-H). Nil for every other part, real capacitors included (their
@@ -686,7 +687,7 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         } else {
             self.footprintID = nil
         }
-        if part.isPullResistor {
+        if part.hasOhmsField {
             self.ohms = ohms.flatMap { ResistorValue.isValid($0) ? $0 : nil } ?? ResistorValue.defaultOhms
         } else {
             self.ohms = nil
@@ -1829,12 +1830,13 @@ final class SchematicDocument {
         }
     }
 
-    /// Sets a pull resistor's resistance. Does nothing for a part that isn't
-    /// a pull resistor, or a value that isn't `ResistorValue.isValid`.
+    /// Sets the resistance of a pull resistor or `GENERIC-RESISTOR`
+    /// (`hasOhmsField`). Does nothing for any other part, or a value that
+    /// isn't `ResistorValue.isValid`.
     func setPartOhms(_ id: UUID, _ ohms: Double) {
         recordEdit(.schematic, "Change Resistance") {
             guard let index = chips.firstIndex(where: { $0.id == id }),
-                  chips[index].part.isPullResistor,
+                  chips[index].part.hasOhmsField,
                   ResistorValue.isValid(ohms) else { return }
             chips[index].ohms = ohms
         }
