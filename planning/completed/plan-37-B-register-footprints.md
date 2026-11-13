@@ -122,7 +122,7 @@ Check: `echo '{"footprints":[]}' > /tmp/p37-fp0.json && planning/plan-37-data/ce
 → `0 new footprints: load ok` (est. 3 min, one footprint_check build).
 Observed: `0 footprints appended` / `0 new footprints: load ok`.
 
-Commit: (this commit)
+Commit: 23bf707
 
 ### Phase 2 — The footprints
 
@@ -148,7 +148,7 @@ Observed: `4 footprints appended` / `4 new footprints: load ok`;
 `git diff a789481 -- planning/plan-37-data/candidates.tsv` → empty (no
 `footprint` change).
 
-Commit: (this commit)
+Commit: 23bf707
 
 ## Decisions
 

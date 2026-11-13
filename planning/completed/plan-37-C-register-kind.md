@@ -233,7 +233,7 @@ Check: `grep -o '"LCX"\|"LVX"\|"VHC"\|"VHCT"\|"ALVT"' backend/src/library/kind_u
 → 5; `ctest --test-dir /tmp/logic-p37 -R 'listing_check|library_check'` passes (est. 3 min).
 Observed: `5`; `100% tests passed, 0 tests failed out of 2`.
 
-Commit: (this commit)
+Commit: 7642473
 
 ### Phase 2 — The kind
 
@@ -249,7 +249,7 @@ Check: `cmake --build /tmp/logic-p37 -j8 && ctest --test-dir /tmp/logic-p37 -j8`
 Observed: `100% tests passed, 0 tests failed out of 32` (before Phase 3);
 golden diff empty.
 
-Commit: (this commit)
+Commit: 7642473
 
 ### Phase 3 — `register_test`
 
@@ -262,7 +262,7 @@ line `register_test: all passed` (est. 3 min).
 Observed: `0` FAIL lines; `register_test: all passed`; full `ctest` →
 `100% tests passed, 0 tests failed out of 33` (T0 + 1); golden diff empty.
 
-Commit: (this commit)
+Commit: 7642473
 
 ### Phase 4 — Docs and app kind lists
 
@@ -282,7 +282,7 @@ narrower check runs Swift tests).
 Observed: `** TEST SUCCEEDED **` (PartEditorWindowTests 5 cases,
 PartKindKeysTests `testFormKeysCoverTheBackendKeys` passed).
 
-Commit: (this commit)
+Commit: 7642473
 
 ## Decisions
 

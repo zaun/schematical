@@ -294,7 +294,7 @@ Observed: the first command → **0**; the `%PDF-` count → **0** (the
 `file` column holds `<group>/<name>`, so the loop reads `datasheets/$f`);
 `pdfinfo` opens every one of the 126.
 
-Commit: (this commit)
+Commit: a789481
 
 ### Phase 3 — Ordering-table verdicts
 
@@ -325,7 +325,7 @@ Check: `cut -f19 planning/plan-37-data/candidates.tsv | sort | uniq -c` →
 no empty value on an in-scope row (est. 15 min).
 Observed: in scope `add` 382, `out` 66, `skip` 25 (473); no empty value.
 
-Commit: (this commit)
+Commit: a789481
 
 ### Phase 4 — Records
 
@@ -345,7 +345,7 @@ Check: `python3 -I census/verdicts.py --verify-records` → `0 skip rows
 missing from skipped-parts.md, 0 obsolete PDFs left` (est. 2 min).
 Observed: `0 skip rows missing from skipped-parts.md, 0 obsolete PDFs left`.
 
-Commit: (this commit)
+Commit: a789481
 
 ## Decisions
 
