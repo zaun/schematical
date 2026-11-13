@@ -112,6 +112,15 @@ struct schematicalApp: App {
         .defaultSize(width: 720, height: 420)
         .restorationBehavior(.disabled)
 
+        // One Board Preview per schematic window (the PCB page's Preview button).
+        WindowGroup("Board Preview", id: "board-preview", for: BoardPreviewTarget.self) { $target in
+            if let target {
+                BoardPreviewWindowView(target: target)
+            }
+        }
+        .defaultSize(width: 1000, height: 720)
+        .restorationBehavior(.disabled)
+
         // One window per datasheet, opened from a part's Open Datasheet button.
         WindowGroup("Datasheet", id: "datasheet", for: DatasheetWindowTarget.self) { $target in
             if let target {
