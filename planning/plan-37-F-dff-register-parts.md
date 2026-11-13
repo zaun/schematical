@@ -31,9 +31,9 @@ plan-37-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-37-E complete | `ls planning/completed/plan-37-E-*.md` → exists | NOT MET (2026-11-12: plan written) |
-| LVX, VHC, VHCT, LCX are known families | `grep -o '"LCX"\|"LVX"\|"VHC"\|"VHCT"' backend/src/library/kind_util.c \| wc -l` → 4 | NOT MET until C Phase 1 |
-| The six devices are unchanged since planning | `python3 -c` over `dff.json`: timing keys 74_174 {HC, HCT}, 74_175 {HC, HCT}, 74_273 {AC, ACT, AHC, AHCT, HC, HCT}, 74_374 {AHCT, HC, HCT, LS, S}, 74_574 {AC, HC, HCT}, 40175B {C} | MET (2026-11-12 at cf40403). A family another plan added first makes its § 2 entry moot: keep the existing entry |
+| plan-37-E complete | `ls planning/completed/plan-37-E-*.md` → exists | MET (2026-11-13: `plan-37-E-register-parts-wide.md`) |
+| LVX, VHC, VHCT, LCX are known families | `grep -o '"LCX"\|"LVX"\|"VHC"\|"VHCT"' backend/src/library/kind_util.c \| wc -l` → 4 | MET (2026-11-13: 4) |
+| The six devices are unchanged since planning | `python3 -c` over `dff.json`: timing keys 74_174 {HC, HCT}, 74_175 {HC, HCT}, 74_273 {AC, ACT, AHC, AHCT, HC, HCT}, 74_374 {AHCT, HC, HCT, LS, S}, 74_574 {AC, HC, HCT}, 40175B {C} | MET (2026-11-13, F start: the same keys). A family another plan added first makes its § 2 entry moot: keep the existing entry |
 
 ## 1. Goal
 
@@ -103,31 +103,48 @@ DQFN-20-ONSEMI 1.
 
 ### Phase 1 — Pin check and timing
 
-- [ ] For each (maker, device) of F, check its datasheet's pin table
+- [x] For each (maker, device) of F, check its datasheet's pin table
       against the device's pinout (numbers and functions); record the
       aliases in `specs/dff-additions.json` (per device: new timing entries,
-      note text).
-- [ ] The 22 timing entries.
+      note text). `census/pincheck.py` compares by pin function: 23 Nexperia
+      tables match pin for pin (`ok`); the '175 / 40175B tables print
+      ranges and lose the overbars, and onsemi draws its pinouts, so those
+      31 sheets were read from their pinout drawings (contact sheets of the
+      first pinout page): all are the standard 74x174 / 175 / 273 / 374 /
+      574 / 4175 numbering. No mismatch.
+- [x] The 22 timing entries — 21 (§ Corrections: the 74_174 AC entry is
+      moot), written by `census/specs-f.py`.
 
 Check: `python3 -I planning/plan-37-data/census/gen-parts.py --dff schematical/schematical/Parts/dff.json planning/plan-37-data/specs planning/plan-37-data/candidates.tsv --check`
 → `<n> rows ok`, n = F's `add` rows (est. 1 min).
+Observed: `161 rows ok`.
 
-Commit: —
+Commit: (this commit)
 
 ### Phase 2 — Part file, footprints, datasheets
 
-- [ ] Append parts and timing entries to the six devices in `dff.json`.
-- [ ] Merge every `footprints-B.json` id an F `add` row names (planning:
-      `DHVQFN-20`, `DQFN-20-ONSEMI`).
-- [ ] `datasheets.json` entries for the new PDFs.
-- [ ] Regenerate the three goldens; review (added lines only; the two
-      footprint lines hand-checked against their drawings).
+- [x] Append parts and timing entries to the six devices in `dff.json`
+      (`gen-parts.py --dff --write` inserts lines only: 198 added, the 10
+      changed lines each gain only a trailing comma; one `note` per device).
+- [x] Merge every `footprints-B.json` id an F `add` row names: `DHVQFN-20`,
+      `DQFN-20-ONSEMI` (`2 footprints appended`).
+- [x] `datasheets.json` entries for the new PDFs: `51 datasheets added`;
+      `check-datasheets.js` on the 51 → `51 of 51 URLs serve a PDF`.
+- [x] Regenerate the three goldens; review (added lines only; the two
+      footprint lines hand-checked against their drawings): +161, +161, +2,
+      0 removed. DHVQFN-20 and DQFN-20-ONSEMI put pin 1 at the top end's
+      left slot and pins 2–9 down the left side, as B drew them from
+      SOT764-1 Fig. 1 and MLP20B Figure 5.
 
 Check: `cmake --build /tmp/logic-p37 -j8 && ctest --test-dir /tmp/logic-p37 -j8`
 → `100% tests passed`; `git diff -- backend/tests/golden | grep -c '^-[^-]'` → 0;
 `/tmp/logic-p37/footprint_check` → passes (no `unused footprint`) (est. 6 min).
+Observed: `100% tests passed, 0 tests failed out of 33`; `0`;
+`footprint_check` → `1390 footprints compared, 28209 parts loaded`;
+`|dff|` → 867 (706 + 161); MC74VHC574DTR2G and 74HC273D,653 have
+`parts.txt` and `traces.txt` lines.
 
-Commit: —
+Commit: (this commit)
 
 ## Decisions
 
@@ -140,7 +157,23 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- **2026-11-13 — F's counts after A.** 162 `add` rows (onsemi 84,
+  Nexperia 78) from A, 161 after the next item: 74_273 47, 74_574 45,
+  74_374 38, 74_175 16, 74_174 9, 40175B 6.
+- **2026-11-13 — MC74AC174D is out, and 74_174 gets no AC entry.** Its
+  only sheet, `mc74ac174-d.pdf` (MC74AC174/D Rev. 7, June 2006), is
+  stamped "THIS DEVICE IS OBSOLETE, PLEASE CONTACT YOUR ONSEMI
+  REPRESENTATIVE FOR INFORMATION" across p.1 (an image, so A's text check
+  could not see it), though DigiKey lists it Active with 13311 in stock.
+  The owner's rule (obsolete parts are left out, plan-37-A § 3 rule 5)
+  makes it `out`; the PDF is deleted and listed in
+  `datasheets/obsolete-not-included.md`, its `datasheets.tsv` line
+  dropped. The plan's 22 timing entries become 21. No other onsemi first
+  page carries the stamp (all 31 were viewed for the pin check).
+- **2026-11-13 — timing where the sheet gives no typical** (onsemi 74ACT574,
+  LCX): the max at the nominal supply, as D. LCX for 74_574 takes
+  MC74LCX574's 1.65–5.5 V range (that part runs at 5 V); for 74_374,
+  74LCX374's 2.0–3.6 V.
 
 ## Summary
 

@@ -357,6 +357,7 @@
       "function": "D flip-flop",
       "description": "Hex positive-edge-triggered D flip-flop with common clear",
       "drawer": ["Logic", "Flip-flops & latches"],
+      "note": "plan-37-F: Nexperia 74HC174 / 74HCT174 (74hc_hct174 Table 2: MR, CP, D0-D5, Q0-Q5) and onsemi MC74HC174A (mc74hc174a-d: Reset, Clock, D0-D5, Q0-Q5) use these pin numbers.",
       "pinouts": {
         "p16": [
           {"number":1,"name":"CLR","role":"input"},
@@ -448,7 +449,16 @@
         {"name":"JM38510/65307BEA","manufacturer":"Texas Instruments","datasheet":"scls119","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
         {"name":"M38510/65307BEA","manufacturer":"Texas Instruments","datasheet":"scls119","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
         {"name":"84073012A","manufacturer":"Texas Instruments","datasheet":"scls119","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]},
-        {"name":"SNJ54HC174FK","manufacturer":"Texas Instruments","datasheet":"scls119","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]}
+        {"name":"SNJ54HC174FK","manufacturer":"Texas Instruments","datasheet":"scls119","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]},
+        {"name":"74HC174D,652","manufacturer":"Nexperia","datasheet":"74hc_hct174","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"74HC174D,653","manufacturer":"Nexperia","datasheet":"74hc_hct174","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"74HC174PW,112","manufacturer":"Nexperia","datasheet":"74hc_hct174","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
+        {"name":"74HC174PW,118","manufacturer":"Nexperia","datasheet":"74hc_hct174","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
+        {"name":"74HC174PW-Q100J","manufacturer":"Nexperia","datasheet":"74hc_hct174_q100","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC","flags":["automotive"]},
+        {"name":"74HCT174D,653","manufacturer":"Nexperia","datasheet":"74hc_hct174","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
+        {"name":"74HCT174PW,118","manufacturer":"Nexperia","datasheet":"74hc_hct174","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCT"},
+        {"name":"MC74HC174ADR2G","manufacturer":"onsemi","datasheet":"mc74hc174a-d","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"MC74HC174ADTR2G","manufacturer":"onsemi","datasheet":"mc74hc174a-d","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"}
       ]
     },
     {
@@ -456,6 +466,7 @@
       "function": "D flip-flop",
       "description": "Quad positive-edge-triggered D flip-flop with common clear",
       "drawer": ["Logic", "Flip-flops & latches"],
+      "note": "plan-37-F: Nexperia 74HC175 / 74HCT175 (74hc_hct175 Table 2: MR, CP, D0-D3, Q0-Q3, Q0-Q3 barred) and onsemi MC74HC175A, MM74HC175, 74VHC175 use these pin numbers.",
       "pinouts": {
         "p16": [
           {"number":1,"name":"CLR","role":"input"},
@@ -509,7 +520,8 @@
       "clockEdge": "rising",
       "timing": {
         "HC": {"rise":16,"fall":16,"clearWins":false,"vcc":[2,6],"note": "VCC 2-6 V (scls299f p.4)"},
-        "HCT": {"rise":33,"fall":33,"clearWins":false,"vcc":[4.5,5.5],"note": "CD74HCT175: max at 4.5 V, 25 C; no typical there. VCC 4.5-5.5 V (cd74hc175 p.3)"}
+        "HCT": {"rise":33,"fall":33,"clearWins":false,"vcc":[4.5,5.5],"note": "CD74HCT175: max at 4.5 V, 25 C; no typical there. VCC 4.5-5.5 V (cd74hc175 p.3)"},
+        "VHC": {"rise":4.8,"fall":4.8,"clearWins":false,"vcc":[2,5.5],"note":"CP to Qn typ, 5 V 15 pF; VCC 2.0-5.5 V (onsemi 74vhc175-d AC characteristics)"}
       },
       "parts": [
         {"name":"SN74HC175D","manufacturer":"Texas Instruments","datasheet":"scls299","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC","flags":["obsolete"]},
@@ -544,7 +556,23 @@
         {"name":"JM38510/65308BEA","manufacturer":"Texas Instruments","datasheet":"scls299","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
         {"name":"M38510/65308BEA","manufacturer":"Texas Instruments","datasheet":"scls299","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"HC","flags":["military","ceramic"]},
         {"name":"84089012A","manufacturer":"Texas Instruments","datasheet":"scls299","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]},
-        {"name":"SNJ54HC175FK","manufacturer":"Texas Instruments","datasheet":"scls299","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]}
+        {"name":"SNJ54HC175FK","manufacturer":"Texas Instruments","datasheet":"scls299","package":"LCCC","pinout":"lccc20","footprint":"LCCC-20","family":"HC","flags":["military","ceramic"]},
+        {"name":"74HC175D,652","manufacturer":"Nexperia","datasheet":"74hc_hct175","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"74HC175D,653","manufacturer":"Nexperia","datasheet":"74hc_hct175","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"74HC175PW,118","manufacturer":"Nexperia","datasheet":"74hc_hct175","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
+        {"name":"74HC175PW-Q100J","manufacturer":"Nexperia","datasheet":"74hc_hct175_q100","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC","flags":["automotive"]},
+        {"name":"74HCT175D,652","manufacturer":"Nexperia","datasheet":"74hc_hct175","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
+        {"name":"74HCT175D,653","manufacturer":"Nexperia","datasheet":"74hc_hct175","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT"},
+        {"name":"74HCT175D-Q100J","manufacturer":"Nexperia","datasheet":"74hc_hct175_q100","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HCT","flags":["automotive"]},
+        {"name":"74HCT175PW,118","manufacturer":"Nexperia","datasheet":"74hc_hct175","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCT"},
+        {"name":"74HCT175PW-Q100J","manufacturer":"Nexperia","datasheet":"74hc_hct175_q100","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HCT","flags":["automotive"]},
+        {"name":"74VHC175MTCX","manufacturer":"onsemi","datasheet":"74vhc175-d","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"VHC"},
+        {"name":"74VHC175MX","manufacturer":"onsemi","datasheet":"74vhc175-d","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"VHC"},
+        {"name":"MC74HC175ADG","manufacturer":"onsemi","datasheet":"mc74hc175a-d","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"MC74HC175ADR2G","manufacturer":"onsemi","datasheet":"mc74hc175a-d","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"},
+        {"name":"MC74HC175ADTR2G","manufacturer":"onsemi","datasheet":"mc74hc175a-d","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
+        {"name":"MM74HC175MTCX","manufacturer":"onsemi","datasheet":"mm74hc175-d","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"HC"},
+        {"name":"MM74HC175MX","manufacturer":"onsemi","datasheet":"mm74hc175-d","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"HC"}
       ]
     },
     {
@@ -552,6 +580,7 @@
       "function": "D flip-flop",
       "description": "Octal positive-edge-triggered D flip-flop with common clear",
       "drawer": ["Logic", "Flip-flops & latches"],
+      "note": "plan-37-F: Nexperia 74HC273, 74HCT273, 74AHC273, 74AHCT273, 74LVC273 (MR, CP, D0-D7, Q0-Q7) and onsemi MC74HC273A, MM74HC273, MM74HCT273, MC74AC273, MC74ACT273, 74VHC273, 74LVX273 use these pin numbers; Nexperia DHVQFN20 parts through the DHVQFN-20 footprint's slots.",
       "pinouts": {
         "p20": [
           {"number":1,"name":"CLR","role":"input"},
@@ -595,7 +624,10 @@
         "AHCT": {"rise":6.5,"fall":6.8,"clearWins":false,"vcc":[4.5,5.5],"note": "VCC 4.5-5.5 V (sn74ahct273 p.4)"},
         "AC": {"rise":12.3,"fall":12.3,"clearWins":false,"vcc":[1.5,5.5],"note": "VCC 1.5-5.5 V (cd74act273 p.4)"},
         "ACT": {"rise":12.3,"fall":12.3,"clearWins":false,"vcc":[4.5,5.5],"note": "VCC 4.5-5.5 V (cd74act273 p.4)"},
-        "HCT": {"rise":12,"fall":12,"clearWins":false,"vcc":[4.5,5.5],"note": "VCC 4.5-5.5 V (cd74hc273 p.4)"}
+        "HCT": {"rise":12,"fall":12,"clearWins":false,"vcc":[4.5,5.5],"note": "VCC 4.5-5.5 V (cd74hc273 p.4)"},
+        "LVC": {"rise":4.1,"fall":4.1,"clearWins":false,"vcc":[1.65,3.6],"inputMax":5.5,"note":"CP to Qn typ, 3.0-3.6 V; VCC 1.65-3.6 V, inputs 5.5 V (Nexperia 74lvc273 dynamic characteristics)"},
+        "LVX": {"rise":7.1,"fall":7.1,"clearWins":false,"vcc":[2,3.6],"inputMax":5.5,"note":"CP to Qn typ, 3.3 V 15 pF; VCC 2.0-3.6 V, inputs 5.5 V (onsemi 74lvx273-d AC characteristics)"},
+        "VHC": {"rise":5.8,"fall":5.8,"clearWins":false,"vcc":[2,5.5],"note":"CK to Q typ, 5 V 15 pF; VCC 2.0-5.5 V (onsemi 74vhc273-d AC characteristics)"}
       },
       "parts": [
         {"name":"SN74HC273DW","manufacturer":"Texas Instruments","datasheet":"scls136","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC","flags":["obsolete"]},
@@ -687,7 +719,54 @@
         {"name":"JM38510/65601BRA","manufacturer":"Texas Instruments","datasheet":"scls136","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"HC","flags":["military","ceramic"]},
         {"name":"JM38510/65601BSA","manufacturer":"Texas Instruments","datasheet":"scls136","package":"CFP","pinout":"p20","footprint":"CFP-20","family":"HC","flags":["military","ceramic"]},
         {"name":"M38510/65601BRA","manufacturer":"Texas Instruments","datasheet":"scls136","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"HC","flags":["military","ceramic"]},
-        {"name":"M38510/65601BSA","manufacturer":"Texas Instruments","datasheet":"scls136","package":"CFP","pinout":"p20","footprint":"CFP-20","family":"HC","flags":["military","ceramic"]}
+        {"name":"M38510/65601BSA","manufacturer":"Texas Instruments","datasheet":"scls136","package":"CFP","pinout":"p20","footprint":"CFP-20","family":"HC","flags":["military","ceramic"]},
+        {"name":"74AHC273BQ,115","manufacturer":"Nexperia","datasheet":"74ahc_ahct273","package":"DHVQFN","pinout":"p20","footprint":"DHVQFN-20","family":"AHC"},
+        {"name":"74AHC273D,112","manufacturer":"Nexperia","datasheet":"74ahc_ahct273","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"AHC"},
+        {"name":"74AHC273D,118","manufacturer":"Nexperia","datasheet":"74ahc_ahct273","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"AHC"},
+        {"name":"74AHC273D-Q100J","manufacturer":"Nexperia","datasheet":"74ahc_ahct273_q100","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"AHC","flags":["automotive"]},
+        {"name":"74AHC273PW,118","manufacturer":"Nexperia","datasheet":"74ahc_ahct273","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"AHC"},
+        {"name":"74AHCT273BQ,115","manufacturer":"Nexperia","datasheet":"74ahc_ahct273","package":"DHVQFN","pinout":"p20","footprint":"DHVQFN-20","family":"AHCT"},
+        {"name":"74AHCT273D,118","manufacturer":"Nexperia","datasheet":"74ahc_ahct273","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"AHCT"},
+        {"name":"74AHCT273PW,118","manufacturer":"Nexperia","datasheet":"74ahc_ahct273","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"AHCT"},
+        {"name":"74AHCT273PW-Q100J","manufacturer":"Nexperia","datasheet":"74ahc_ahct273_q100","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"AHCT","flags":["automotive"]},
+        {"name":"74HC273BQ,115","manufacturer":"Nexperia","datasheet":"74hc_hct273","package":"DHVQFN","pinout":"p20","footprint":"DHVQFN-20","family":"HC"},
+        {"name":"74HC273D,653","manufacturer":"Nexperia","datasheet":"74hc_hct273","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
+        {"name":"74HC273D-Q100J","manufacturer":"Nexperia","datasheet":"74hc_hct273_q100","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC","flags":["automotive"]},
+        {"name":"74HC273PW,112","manufacturer":"Nexperia","datasheet":"74hc_hct273","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HC"},
+        {"name":"74HC273PW,118","manufacturer":"Nexperia","datasheet":"74hc_hct273","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HC"},
+        {"name":"74HC273PW-Q100J","manufacturer":"Nexperia","datasheet":"74hc_hct273_q100","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HC","flags":["automotive"]},
+        {"name":"74HCT273D,652","manufacturer":"Nexperia","datasheet":"74hc_hct273","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HCT"},
+        {"name":"74HCT273D,653","manufacturer":"Nexperia","datasheet":"74hc_hct273","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HCT"},
+        {"name":"74HCT273D-Q100J","manufacturer":"Nexperia","datasheet":"74hc_hct273_q100","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HCT","flags":["automotive"]},
+        {"name":"74HCT273PW,118","manufacturer":"Nexperia","datasheet":"74hc_hct273","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HCT"},
+        {"name":"74LVC273BQ,115","manufacturer":"Nexperia","datasheet":"74lvc273","package":"DHVQFN","pinout":"p20","footprint":"DHVQFN-20","family":"LVC"},
+        {"name":"74LVC273BQ-Q100X","manufacturer":"Nexperia","datasheet":"74lvc273_q100","package":"DHVQFN","pinout":"p20","footprint":"DHVQFN-20","family":"LVC","flags":["automotive"]},
+        {"name":"74LVC273D,112","manufacturer":"Nexperia","datasheet":"74lvc273","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"LVC"},
+        {"name":"74LVC273D,118","manufacturer":"Nexperia","datasheet":"74lvc273","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"LVC"},
+        {"name":"74LVC273PW,112","manufacturer":"Nexperia","datasheet":"74lvc273","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"LVC"},
+        {"name":"74LVC273PW,118","manufacturer":"Nexperia","datasheet":"74lvc273","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"LVC"},
+        {"name":"74LVC273PW-Q100J","manufacturer":"Nexperia","datasheet":"74lvc273_q100","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"LVC","flags":["automotive"]},
+        {"name":"74LVX273MTCX","manufacturer":"onsemi","datasheet":"74lvx273-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"LVX"},
+        {"name":"74VHC273MTCX","manufacturer":"onsemi","datasheet":"74vhc273-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"VHC"},
+        {"name":"74VHC273SJX","manufacturer":"onsemi","datasheet":"74vhc273-d","package":"SOP","pinout":"p20","footprint":"SOP-20","family":"VHC"},
+        {"name":"MC74AC273DTR2G","manufacturer":"onsemi","datasheet":"mc74ac273-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"AC"},
+        {"name":"MC74AC273DWG","manufacturer":"onsemi","datasheet":"mc74ac273-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"AC"},
+        {"name":"MC74AC273DWR2G","manufacturer":"onsemi","datasheet":"mc74ac273-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"AC"},
+        {"name":"MC74ACT273DTR2G","manufacturer":"onsemi","datasheet":"mc74ac273-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"ACT"},
+        {"name":"MC74ACT273DWG","manufacturer":"onsemi","datasheet":"mc74ac273-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ACT"},
+        {"name":"MC74ACT273DWR2G","manufacturer":"onsemi","datasheet":"mc74ac273-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ACT"},
+        {"name":"MC74HC273ADTG","manufacturer":"onsemi","datasheet":"mc74hc273a-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HC"},
+        {"name":"MC74HC273ADTR2G","manufacturer":"onsemi","datasheet":"mc74hc273a-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HC"},
+        {"name":"MC74HC273ADWG","manufacturer":"onsemi","datasheet":"mc74hc273a-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
+        {"name":"MC74HC273ADWR2G","manufacturer":"onsemi","datasheet":"mc74hc273a-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
+        {"name":"MC74HC273ADWR2G-Q","manufacturer":"onsemi","datasheet":"mc74hc273a-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
+        {"name":"MM74HC273MTC","manufacturer":"onsemi","datasheet":"mm74hc273-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HC"},
+        {"name":"MM74HC273WM","manufacturer":"onsemi","datasheet":"mm74hc273-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
+        {"name":"MM74HC273WMX","manufacturer":"onsemi","datasheet":"mm74hc273-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
+        {"name":"MM74HCT273MTC","manufacturer":"onsemi","datasheet":"mm74hct273-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HCT"},
+        {"name":"MM74HCT273MTCX","manufacturer":"onsemi","datasheet":"mm74hct273-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HCT"},
+        {"name":"MM74HCT273WM","manufacturer":"onsemi","datasheet":"mm74hct273-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HCT"},
+        {"name":"MM74HCT273WMX","manufacturer":"onsemi","datasheet":"mm74hct273-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HCT"}
       ]
     },
     {
@@ -695,6 +774,7 @@
       "function": "D flip-flop",
       "description": "Octal positive-edge-triggered D flip-flop with 3-state outputs",
       "drawer": ["Logic", "Flip-flops & latches"],
+      "note": "plan-37-F: Nexperia 74HC374, 74HCT374, 74AHC374, 74AHCT374, 74LVC374A (OE, CP, D0-D7, Q0-Q7) and onsemi MC74HC374A, MM74HC374, MM74HCT374, MC74AC374, MC74ACT374, MC74LCX374, 74LCX374, MC74LVX374, MC74VHC374, 74VHC374, 74VHCT374A (OE, CP, D0-D7, O0-O7 / Q0-Q7) use these pin numbers; 74LCX374BQX through the DQFN-20-ONSEMI footprint's slots.",
       "pinouts": {
         "p20": [
           {"number":1,"name":"OE","role":"input"},
@@ -738,7 +818,15 @@
         "HCT": {"rise":30,"fall":30,"clearWins":false,"vcc":[4.5,5.5],"note": "VCC 4.5-5.5 V (scls005e p.4)"},
         "AHCT": {"rise":6.4,"fall":6.4,"clearWins":false,"vcc":[4.5,5.5],"note": "VCC 4.5-5.5 V (sn74ahct374 p.5)"},
         "LS": {"rise":15,"fall":19,"clearWins":false,"vcc":[4.75,5.25],"note": "CLK to Q typ, 5 V 45 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn74ls373 p.6-7)"},
-        "S": {"rise":8,"fall":11,"clearWins":false,"vcc":[4.75,5.25],"note": "CLK to Q typ, 5 V 15 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn74ls373 p.9-10)"}
+        "S": {"rise":8,"fall":11,"clearWins":false,"vcc":[4.75,5.25],"note": "CLK to Q typ, 5 V 15 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn74ls373 p.9-10)"},
+        "AC": {"rise":8.0,"fall":7.0,"clearWins":false,"vcc":[2,6],"note":"CP to On typ, 5 V 50 pF; VCC 2-6 V (onsemi mc74ac374-d AC characteristics)"},
+        "ACT": {"rise":8.5,"fall":8.0,"clearWins":false,"vcc":[4.5,5.5],"note":"CP to On typ, 5 V 50 pF; VCC 4.5-5.5 V (onsemi mc74ac374-d 74ACT AC characteristics)"},
+        "AHC": {"rise":4.4,"fall":4.4,"clearWins":false,"vcc":[2,5.5],"note":"CP to Qn typ, 5 V 15 pF; VCC 2.0-5.5 V (Nexperia 74ahc_ahct374 dynamic characteristics)"},
+        "LCX": {"rise":8.5,"fall":8.5,"clearWins":false,"vcc":[2,3.6],"inputMax":5.5,"note":"CP to On max (no typ given), 3.0-3.6 V 50 pF; VCC 2.0-3.6 V, inputs 5.5 V (onsemi 74lcx374-d AC characteristics)"},
+        "LVC": {"rise":3.3,"fall":3.3,"clearWins":false,"vcc":[1.65,3.6],"inputMax":5.5,"note":"CP to Qn typ, 3.0-3.6 V; VCC 1.65-3.6 V, inputs 5.5 V (Nexperia 74lvc374a dynamic characteristics)"},
+        "LVX": {"rise":6.7,"fall":6.7,"clearWins":false,"vcc":[2,3.6],"inputMax":5.5,"note":"CP to O typ, 3.3 V 15 pF; VCC 2.0-3.6 V, inputs 5.5 V (onsemi mc74lvx374-d AC characteristics)"},
+        "VHC": {"rise":5.4,"fall":5.4,"clearWins":false,"vcc":[2,5.5],"note":"CP to On typ, 5 V 15 pF; VCC 2.0-5.5 V (onsemi 74vhc374-d AC characteristics)"},
+        "VHCT": {"rise":4.1,"fall":4.1,"clearWins":false,"vcc":[4.5,5.5],"note":"CP to On typ, 5 V 15 pF; VCC 4.5-5.5 V (onsemi 74vhct374a-d AC characteristics)"}
       },
       "parts": [
         {"name":"SN74HC374DW","manufacturer":"Texas Instruments","datasheet":"scls141","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC","flags":["obsolete"]},
@@ -830,7 +918,45 @@
         {"name":"SNJ54LS374W","manufacturer":"Texas Instruments","datasheet":"sn74ls373","package":"CFP","pinout":"p20","footprint":"CFP-20","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]},
         {"name":"SNJ54S374FK","manufacturer":"Texas Instruments","datasheet":"sn74ls373","package":"LCCC","pinout":"p20","footprint":"LCCC-20","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]},
         {"name":"SNJ54S374J","manufacturer":"Texas Instruments","datasheet":"sn74ls373","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]},
-        {"name":"SNJ54S374W","manufacturer":"Texas Instruments","datasheet":"sn74ls373","package":"CFP","pinout":"p20","footprint":"CFP-20","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]}
+        {"name":"SNJ54S374W","manufacturer":"Texas Instruments","datasheet":"sn74ls373","package":"CFP","pinout":"p20","footprint":"CFP-20","family":"S","flags":["military","ceramic"],"vcc":[4.5,5.5]},
+        {"name":"74AHC374D,112","manufacturer":"Nexperia","datasheet":"74ahc_ahct374","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"AHC"},
+        {"name":"74AHC374PW-Q100J","manufacturer":"Nexperia","datasheet":"74ahc_ahct374_q100","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"AHC","flags":["automotive"]},
+        {"name":"74AHCT374D,112","manufacturer":"Nexperia","datasheet":"74ahc_ahct374","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"AHCT"},
+        {"name":"74AHCT374D,118","manufacturer":"Nexperia","datasheet":"74ahc_ahct374","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"AHCT"},
+        {"name":"74AHCT374PW,112","manufacturer":"Nexperia","datasheet":"74ahc_ahct374","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"AHCT"},
+        {"name":"74AHCT374PW,118","manufacturer":"Nexperia","datasheet":"74ahc_ahct374","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"AHCT"},
+        {"name":"74HC374D,653","manufacturer":"Nexperia","datasheet":"74hc_hct374","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
+        {"name":"74HC374PW,112","manufacturer":"Nexperia","datasheet":"74hc_hct374","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HC"},
+        {"name":"74HC374PW,118","manufacturer":"Nexperia","datasheet":"74hc_hct374","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HC"},
+        {"name":"74HCT374D,652","manufacturer":"Nexperia","datasheet":"74hc_hct374","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HCT"},
+        {"name":"74HCT374D,653","manufacturer":"Nexperia","datasheet":"74hc_hct374","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HCT"},
+        {"name":"74HCT374PW,112","manufacturer":"Nexperia","datasheet":"74hc_hct374","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HCT"},
+        {"name":"74LCX374BQX","manufacturer":"onsemi","datasheet":"74lcx374-d","package":"DQFN","pinout":"p20","footprint":"DQFN-20-ONSEMI","family":"LCX"},
+        {"name":"74LCX374MTC","manufacturer":"onsemi","datasheet":"74lcx374-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"LCX"},
+        {"name":"74LVC374AD,118","manufacturer":"Nexperia","datasheet":"74lvc374a","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"LVC"},
+        {"name":"74VHC374MTCX","manufacturer":"onsemi","datasheet":"74vhc374-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"VHC"},
+        {"name":"74VHCT374AMTCX","manufacturer":"onsemi","datasheet":"74vhct374a-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"VHCT"},
+        {"name":"MC74AC374DTR2G","manufacturer":"onsemi","datasheet":"mc74ac374-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"AC"},
+        {"name":"MC74AC374DWG","manufacturer":"onsemi","datasheet":"mc74ac374-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"AC"},
+        {"name":"MC74AC374DWR2G","manufacturer":"onsemi","datasheet":"mc74ac374-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"AC"},
+        {"name":"MC74ACT374DTR2G","manufacturer":"onsemi","datasheet":"mc74ac374-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"ACT"},
+        {"name":"MC74ACT374DWG","manufacturer":"onsemi","datasheet":"mc74ac374-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ACT"},
+        {"name":"MC74ACT374DWR2G","manufacturer":"onsemi","datasheet":"mc74ac374-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ACT"},
+        {"name":"MC74HC374ADTR2G","manufacturer":"onsemi","datasheet":"mc74hc374a-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HC"},
+        {"name":"MC74HC374ADWG","manufacturer":"onsemi","datasheet":"mc74hc374a-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
+        {"name":"MC74HC374ADWR2G","manufacturer":"onsemi","datasheet":"mc74hc374a-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
+        {"name":"MC74HC374ADWR2G-Q","manufacturer":"onsemi","datasheet":"mc74hc374a-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
+        {"name":"MC74LCX374DTR2G","manufacturer":"onsemi","datasheet":"mc74lcx374-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"LCX"},
+        {"name":"MC74LCX374DWR2G","manufacturer":"onsemi","datasheet":"mc74lcx374-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"LCX"},
+        {"name":"MC74LVX374DTR2G","manufacturer":"onsemi","datasheet":"mc74lvx374-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"LVX"},
+        {"name":"MC74LVX374DWR2G","manufacturer":"onsemi","datasheet":"mc74lvx374-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"LVX"},
+        {"name":"MC74VHC374DTR2G","manufacturer":"onsemi","datasheet":"mc74vhc374-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"VHC"},
+        {"name":"MC74VHC374DWR2G","manufacturer":"onsemi","datasheet":"mc74vhc374-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"VHC"},
+        {"name":"MM74HC374WM","manufacturer":"onsemi","datasheet":"mm74hc374-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
+        {"name":"MM74HC374WMX","manufacturer":"onsemi","datasheet":"mm74hc374-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
+        {"name":"MM74HCT374MTCX","manufacturer":"onsemi","datasheet":"mm74hct373-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HCT"},
+        {"name":"MM74HCT374WM","manufacturer":"onsemi","datasheet":"mm74hct373-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HCT"},
+        {"name":"MM74HCT374WMX","manufacturer":"onsemi","datasheet":"mm74hct373-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HCT"}
       ]
     },
     {
@@ -838,6 +964,7 @@
       "function": "D flip-flop",
       "description": "Octal positive-edge-triggered D flip-flop with 3-state outputs, 574 pinout",
       "drawer": ["Logic", "Flip-flops & latches"],
+      "note": "plan-37-F: Nexperia 74HC574, 74HCT574, 74AHC574, 74AHCT574, 74ALVC574, 74LVC574A (OE, CP, D0-D7, Q0-Q7) and onsemi MC74HC574A, MM74HC574, MM74HCT574, MC74AC574, MC74ACT574, MC74LCX574, MC74LVX574, MC74VHC574, 74VHC574, 74VHCT574A (OE, CP, D0-D7, O0-O7 / Q0-Q7) use these pin numbers; Nexperia DHVQFN20 parts through the DHVQFN-20 footprint's slots.",
       "pinouts": {
         "p20": [
           {"number":1,"name":"OE","role":"input"},
@@ -879,7 +1006,16 @@
       "timing": {
         "HC": {"rise":28,"fall":28,"clearWins":false,"vcc":[2,6],"note": "VCC 2-6 V (scls148h p.4)"},
         "HCT": {"rise":30,"fall":30,"clearWins":false,"vcc":[4.5,5.5],"note": "VCC 4.5-5.5 V (scls177h p.4)"},
-        "AC": {"rise":6,"fall":5.5,"clearWins":false,"vcc":[2,6],"note": "VCC 2-6 V (sn74ac574 p.4)"}
+        "AC": {"rise":6,"fall":5.5,"clearWins":false,"vcc":[2,6],"note": "VCC 2-6 V (sn74ac574 p.4)"},
+        "ACT": {"rise":11,"fall":10,"clearWins":false,"vcc":[4.5,5.5],"note":"CP to On max (no typ given), 5 V 50 pF; VCC 4.5-5.5 V (onsemi mc74ac574-d 74ACT AC characteristics)"},
+        "AHC": {"rise":4.4,"fall":4.4,"clearWins":false,"vcc":[2,5.5],"note":"CP to Qn typ, 5 V 15 pF; VCC 2.0-5.5 V (Nexperia 74ahc_ahct574 dynamic characteristics)"},
+        "AHCT": {"rise":4.4,"fall":4.4,"clearWins":false,"vcc":[4.5,5.5],"note":"CP to Qn typ, 5 V 15 pF; VCC 4.5-5.5 V (Nexperia 74ahc_ahct574 dynamic characteristics)"},
+        "ALVC": {"rise":2.5,"fall":2.5,"clearWins":false,"vcc":[1.65,3.6],"note":"CP to Qn typ, 3.0-3.6 V; VCC 1.65-3.6 V (Nexperia 74alvc574 dynamic characteristics)"},
+        "LCX": {"rise":8.5,"fall":8.5,"clearWins":false,"vcc":[1.65,5.5],"inputMax":5.5,"note":"CP to On max (no typ given), 3.0-3.6 V; VCC 1.65-5.5 V, inputs 5.5 V (onsemi mc74lcx574-d AC characteristics)"},
+        "LVC": {"rise":3.5,"fall":3.5,"clearWins":false,"vcc":[1.65,3.6],"inputMax":5.5,"note":"CP to Qn typ, 3.0-3.6 V; VCC 1.65-3.6 V, inputs 5.5 V (Nexperia 74lvc574a dynamic characteristics)"},
+        "LVX": {"rise":8.5,"fall":8.5,"clearWins":false,"vcc":[2,3.6],"inputMax":5.5,"note":"CP to O typ, 3.3 V 15 pF; VCC 2.0-3.6 V, inputs 5.5 V (onsemi mc74lvx574-d AC characteristics)"},
+        "VHC": {"rise":5.6,"fall":5.6,"clearWins":false,"vcc":[2,5.5],"note":"CP to On typ, 5 V 15 pF; VCC 2.0-5.5 V (onsemi 74vhc574-d AC characteristics)"},
+        "VHCT": {"rise":4.1,"fall":4.1,"clearWins":false,"vcc":[4.5,5.5],"note":"CP to On typ, 5 V 15 pF; VCC 4.5-5.5 V (onsemi 74vhct574a-d AC characteristics)"}
       },
       "parts": [
         {"name":"SN74HC574DW","manufacturer":"Texas Instruments","datasheet":"sn74hc574","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC","flags":["obsolete"]},
@@ -940,7 +1076,52 @@
         {"name":"SN74HC574PWT","manufacturer":"Texas Instruments","datasheet":"sn74hc574","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HC","flags":["obsolete"]},
         {"name":"SN74HCT574PWT","manufacturer":"Texas Instruments","datasheet":"scls177","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HCT","flags":["obsolete"]},
         {"name":"JM38510/65604BRA","manufacturer":"Texas Instruments","datasheet":"scls148","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"HC","flags":["military","ceramic"]},
-        {"name":"M38510/65604BRA","manufacturer":"Texas Instruments","datasheet":"scls148","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"HC","flags":["military","ceramic"]}
+        {"name":"M38510/65604BRA","manufacturer":"Texas Instruments","datasheet":"scls148","package":"DIP","pinout":"p20","footprint":"CDIP-20","family":"HC","flags":["military","ceramic"]},
+        {"name":"74AHC574BQ,115","manufacturer":"Nexperia","datasheet":"74ahc_ahct574","package":"DHVQFN","pinout":"p20","footprint":"DHVQFN-20","family":"AHC"},
+        {"name":"74AHC574D,118","manufacturer":"Nexperia","datasheet":"74ahc_ahct574","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"AHC"},
+        {"name":"74AHC574PW,112","manufacturer":"Nexperia","datasheet":"74ahc_ahct574","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"AHC"},
+        {"name":"74AHC574PW,118","manufacturer":"Nexperia","datasheet":"74ahc_ahct574","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"AHC"},
+        {"name":"74AHCT574BQ,115","manufacturer":"Nexperia","datasheet":"74ahc_ahct574","package":"DHVQFN","pinout":"p20","footprint":"DHVQFN-20","family":"AHCT"},
+        {"name":"74AHCT574D,118","manufacturer":"Nexperia","datasheet":"74ahc_ahct574","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"AHCT"},
+        {"name":"74ALVC574BQ,115","manufacturer":"Nexperia","datasheet":"74alvc574","package":"DHVQFN","pinout":"p20","footprint":"DHVQFN-20","family":"ALVC"},
+        {"name":"74ALVC574D,112","manufacturer":"Nexperia","datasheet":"74alvc574","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ALVC"},
+        {"name":"74ALVC574D,118","manufacturer":"Nexperia","datasheet":"74alvc574","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ALVC"},
+        {"name":"74ALVC574PW,112","manufacturer":"Nexperia","datasheet":"74alvc574","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"ALVC"},
+        {"name":"74HC574D,653","manufacturer":"Nexperia","datasheet":"74hc_hct574","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
+        {"name":"74HC574D-Q100,118","manufacturer":"Nexperia","datasheet":"74hc_hct574_q100","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC","flags":["automotive"]},
+        {"name":"74HC574PW,118","manufacturer":"Nexperia","datasheet":"74hc_hct574","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HC"},
+        {"name":"74HCT574D,653","manufacturer":"Nexperia","datasheet":"74hc_hct574","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HCT"},
+        {"name":"74HCT574PW,118","manufacturer":"Nexperia","datasheet":"74hc_hct574","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HCT"},
+        {"name":"74HCT574PW-Q100,11","manufacturer":"Nexperia","datasheet":"74hc_hct574_q100","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HCT","flags":["automotive"]},
+        {"name":"74LVC574ABQ,115","manufacturer":"Nexperia","datasheet":"74lvc574a","package":"DHVQFN","pinout":"p20","footprint":"DHVQFN-20","family":"LVC"},
+        {"name":"74LVC574AD,112","manufacturer":"Nexperia","datasheet":"74lvc574a","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"LVC"},
+        {"name":"74LVC574AD,118","manufacturer":"Nexperia","datasheet":"74lvc574a","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"LVC"},
+        {"name":"74LVC574APW,118","manufacturer":"Nexperia","datasheet":"74lvc574a","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"LVC"},
+        {"name":"74VHC574MTC","manufacturer":"onsemi","datasheet":"74vhc574-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"VHC"},
+        {"name":"74VHC574MTCX","manufacturer":"onsemi","datasheet":"74vhc574-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"VHC"},
+        {"name":"74VHCT574AMTCX","manufacturer":"onsemi","datasheet":"74vhct574a-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"VHCT"},
+        {"name":"MC74AC574DWG","manufacturer":"onsemi","datasheet":"mc74ac574-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"AC"},
+        {"name":"MC74AC574DWR2G","manufacturer":"onsemi","datasheet":"mc74ac574-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"AC"},
+        {"name":"MC74ACT574DTR2G","manufacturer":"onsemi","datasheet":"mc74ac574-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"ACT"},
+        {"name":"MC74ACT574DWG","manufacturer":"onsemi","datasheet":"mc74ac574-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ACT"},
+        {"name":"MC74ACT574DWR2G","manufacturer":"onsemi","datasheet":"mc74ac574-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"ACT"},
+        {"name":"MC74HC574ADTR2G","manufacturer":"onsemi","datasheet":"mc74hc574a-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HC"},
+        {"name":"MC74HC574ADWG","manufacturer":"onsemi","datasheet":"mc74hc574a-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
+        {"name":"MC74HC574ADWR2G","manufacturer":"onsemi","datasheet":"mc74hc574a-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
+        {"name":"MC74HC574ADWR2G-Q","manufacturer":"onsemi","datasheet":"mc74hc574a-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HC"},
+        {"name":"MC74LCX574DWR2G","manufacturer":"onsemi","datasheet":"mc74lcx574-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"LCX"},
+        {"name":"MC74LVX574DTR2G","manufacturer":"onsemi","datasheet":"mc74lvx574-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"LVX"},
+        {"name":"MC74LVX574DWR2G","manufacturer":"onsemi","datasheet":"mc74lvx574-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"LVX"},
+        {"name":"MC74VHC574DTG","manufacturer":"onsemi","datasheet":"mc74vhc574-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"VHC"},
+        {"name":"MC74VHC574DTR2G","manufacturer":"onsemi","datasheet":"mc74vhc574-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"VHC"},
+        {"name":"MC74VHC574DWG","manufacturer":"onsemi","datasheet":"mc74vhc574-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"VHC"},
+        {"name":"MC74VHC574DWR2G","manufacturer":"onsemi","datasheet":"mc74vhc574-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"VHC"},
+        {"name":"MM74HC574MTC","manufacturer":"onsemi","datasheet":"mm74hc574-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HC"},
+        {"name":"MM74HC574MTCX","manufacturer":"onsemi","datasheet":"mm74hc574-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HC"},
+        {"name":"MM74HCT574MTC","manufacturer":"onsemi","datasheet":"mm74hct573-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HCT"},
+        {"name":"MM74HCT574MTCX","manufacturer":"onsemi","datasheet":"mm74hct573-d","package":"TSSOP","pinout":"p20","footprint":"TSSOP-20","family":"HCT"},
+        {"name":"MM74HCT574WM","manufacturer":"onsemi","datasheet":"mm74hct573-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HCT"},
+        {"name":"MM74HCT574WMX","manufacturer":"onsemi","datasheet":"mm74hct573-d","package":"SOIC","pinout":"p20","footprint":"SOIC-20W","family":"HCT"}
       ]
     },
     {
@@ -1000,6 +1181,7 @@
       "function": "D flip-flop",
       "description": "CMOS quad D-type flip-flop with common clear",
       "drawer": ["Logic", "Flip-flops & latches"],
+      "note": "plan-37-F: Nexperia HEF40175B (hef40175b: MR, CP, D0-D3, Q0-Q3, Q0-Q3 barred) and onsemi MC14175B (mc14175b-d: R, C, D0-D3, Q0-Q3, Q0-Q3 barred) use these pin numbers.",
       "pinouts": {
         "p16": [
           {"number":1,"name":"CLEAR","role":"input"},
@@ -1038,7 +1220,13 @@
         {"name":"CD40175BEE4","manufacturer":"Texas Instruments","datasheet":"cd40175b","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"C"},
         {"name":"CD40175BF3A","manufacturer":"Texas Instruments","datasheet":"cd40175b","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"C","flags":["military","ceramic"]},
         {"name":"CD40175BM","manufacturer":"Texas Instruments","datasheet":"cd40175b","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C","flags":["obsolete"]},
-        {"name":"CD40175BMT","manufacturer":"Texas Instruments","datasheet":"cd40175b","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C","flags":["obsolete"]}
+        {"name":"CD40175BMT","manufacturer":"Texas Instruments","datasheet":"cd40175b","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C","flags":["obsolete"]},
+        {"name":"HEF40175BT,653","manufacturer":"Nexperia","datasheet":"hef40175b","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
+        {"name":"HEF40175BTT,118","manufacturer":"Nexperia","datasheet":"hef40175b","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C"},
+        {"name":"HEF40175BTT-Q100J","manufacturer":"Nexperia","datasheet":"hef40175b_q100","package":"TSSOP","pinout":"p16","footprint":"TSSOP-16","family":"C","flags":["automotive"]},
+        {"name":"MC14175BDG","manufacturer":"onsemi","datasheet":"mc14175b-d","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
+        {"name":"MC14175BDR2G","manufacturer":"onsemi","datasheet":"mc14175b-d","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C"},
+        {"name":"NLV14175BDR2G","manufacturer":"onsemi","datasheet":"mc14175b-d","package":"SOIC","pinout":"p16","footprint":"SOIC-16","family":"C","flags":["automotive"]}
       ]
     },
     {
