@@ -63,12 +63,12 @@ Every other letter points here and adds only its own rows.
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend tests green | `cmake -S backend -B /tmp/logic-p36 && cmake --build /tmp/logic-p36 -j8 && ctest --test-dir /tmp/logic-p36 -j8` → `100% tests passed` | MET 2026-11-12 at 7ca1070: `100% tests passed, 0 tests failed out of 32`; **T0 = 32** (`grep -c '^logic_test' backend/CMakeLists.txt` → 32) |
-| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `traces.txt`; `footprints.txt` | MET: **P0 = 27828**, **R0 = 27828**, **F0 = 1386** (2026-11-12 at 7ca1070) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p36-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-12, working tree at 7ca1070 with the owner's uncommitted edits: `** BUILD SUCCEEDED **`) |
-| No mcu kind yet | `grep -c 'PART_MCU' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/mcu.json` → no such file; `ls datasheets/mcu` → only the six spike PDFs (`atmega2560.pdf atmega328p.pdf atmega32u4.pdf atmega4809.pdf attiny13a.pdf attiny85.pdf`, fae501f) | MET (2026-11-12: 0, no file, six files) |
-| No other open plan adds microcontrollers or `simulated` | `grep -l -i 'PART_MCU\|"simulated"\|Parts/mcu.json' planning/plan-*.md \| grep -v plan-36 \| wc -l` → 0 | MET (2026-11-12: 0) |
-| DigiKey credentials and quota | `DIGIKEY_CLIENT_ID`/`_SECRET` exported in `~/.zshrc`. Phase 1 costs about 62 calls for the re-listing (the planning listing cost 59 for the AVR series, 2 for Espressif, 1 for Raspberry Pi: the `list.js:` lines of `raw/*.err`) plus 20 for the part-by-part check. The quota is shared with other sessions; plan-34's worktree session was planning on the same day | Start Phase 1 on a day whose first call reports ≥ 100 left. On 2026-11-12 planning ended at `78 left today` (the `rp2040.err` line), with credentials present |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p36 && cmake --build /tmp/logic-p36 -j8 && ctest --test-dir /tmp/logic-p36 -j8` → `100% tests passed` | MET 2026-11-13 (UTC) at 31f79ce, worktree-P-36: `100% tests passed, 0 tests failed out of 32`; **T0 = 32** (`grep -c '^logic_test' backend/CMakeLists.txt` → 32) |
+| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `traces.txt`; `footprints.txt` | MET: **P0 = 27828**, **R0 = 27828**, **F0 = 1386** (re-measured 2026-11-13 UTC at 31f79ce: 27828, 27828, 1386) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p36-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-13 UTC, worktree-P-36 at 31f79ce: `** BUILD SUCCEEDED **`) |
+| No mcu kind yet | `grep -c 'PART_MCU' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/mcu.json` → no such file; `ls datasheets/mcu` → only the six spike PDFs (`atmega2560.pdf atmega328p.pdf atmega32u4.pdf atmega4809.pdf attiny13a.pdf attiny85.pdf`, fae501f) | MET (2026-11-13 UTC at 31f79ce: 0, no file, the six files) |
+| No other open plan adds microcontrollers or `simulated` | `grep -l -i 'PART_MCU\|"simulated"\|Parts/mcu.json' planning/plan-*.md \| grep -v plan-36 \| wc -l` → 0 | MET (2026-11-13 UTC: the command prints 1, `plan-37-C-register-kind.md`, whose only hit (:63) is a note that plan-34 and plan-36 each append their own `PartKind`; no other plan adds microcontrollers or the key, so the row holds. The command is corrected to exclude that note: `… \| grep -v 'plan-36\|plan-37-C' \| wc -l` → 0) |
+| DigiKey credentials and quota | `DIGIKEY_CLIENT_ID`/`_SECRET` exported in `~/.zshrc`. Phase 1 costs about 62 calls for the re-listing (the planning listing cost 59 for the AVR series, 2 for Espressif, 1 for Raspberry Pi: the `list.js:` lines of `raw/*.err`) plus 20 for the part-by-part check. The quota is shared with other sessions; plan-34's worktree session was planning on the same day | MET 2026-11-13 00:10 UTC: credentials present (2 lines); the first listing call reported `965 left today` |
 
 Everything below is written against the world where these hold.
 
@@ -254,29 +254,34 @@ case without `.pdf` (G writes the entries).
 
 ### Phase 1 — Refresh the listing and check the 20 (one quota day)
 
-- [ ] On a day with ≥ 100 calls left: `rm -rf /tmp/p36/raw && mkdir -p
+- [x] On a day with ≥ 100 calls left: `rm -rf /tmp/p36/raw && mkdir -p
       /tmp/p36/raw && planning/plan-36-data/census/list-avr.sh /tmp/p36/raw
       && planning/plan-36-data/census/run.sh /tmp/p36/raw 872 1904 -
       espressif && planning/plan-36-data/census/run.sh /tmp/p36/raw 685
       1690 - rp2040` (fresh stock; 62 calls at planning time).
-- [ ] Download the device packs listed in `planning/plan-36-data/packs.tsv`
+      Done 2026-11-13 00:10 UTC: 37 `.done` pieces, no piece cut (`listed of count` equal on every `piece` line), 68 calls (965 → 785 left; other sessions shared the quota). `espressif` 67, `rp2040` 10.
+- [x] Download the device packs listed in `planning/plan-36-data/packs.tsv`
       to `/tmp/p36/packs/` and check each SHA-256. Unzip `atdf/*` into
       `/tmp/p36/packs/atdf/` (353 files at planning time). `candidates.py`
       needs them for the `atdf_*` columns. A pack whose SHA differs (a
       newer pack replaced it) is fetched at the version `packs.tsv` names.
       The URLs are versioned, and Microchip keeps old versions
       (`index.html` lists 2.0.2 onwards).
-- [ ] `python3 -I planning/plan-36-data/census/candidates.py /tmp/p36/raw
+      The 12 packs were already in `/tmp/p36/packs/` from planning: `shasum -a 256 -c` → 12 `OK`; `ls /tmp/p36/packs/atdf/*.atdf | wc -l` → 353.
+- [x] `python3 -I planning/plan-36-data/census/candidates.py /tmp/p36/raw
       /tmp/p36/packs/atdf /tmp/p36/cand.tsv`. Compare its counts with § 2,
       and record a different count in § Corrections with the date.
-- [ ] Write `census/stock-check.sh` (§ 3 rule 1). Run it on the in-scope
+      → `rows 1547 in 1523 devices in 316` before `--stock`; +3 rows, −1 row against planning (§ Corrections).
+- [x] Write `census/stock-check.sh` (§ 3 rule 1). Run it on the in-scope
       rows with an empty `stock` (20 at planning time) and write
       `planning/plan-36-data/stock-check.tsv` (`mpn found stock date`).
       `candidates.py --stock <tsv>` marks a `found` = 0 row `out`, reason
       `stock check`.
+      `stock-check.sh` + `stock-parse.py` (20 calls, 739 left): 9 found, 11 not (`stock-check.tsv`). `candidates.py` gained `--stock`; after it: `rows 1547 in 1512 devices in 315`.
 
 Acceptance: a same-day listing, and every in-scope row has a stock figure above 0.
   Check: `awk -F'\t' 'NR>1 && $5=="in" && ($11=="" || $11==0)' /tmp/p36/cand.tsv | wc -l` → 0 after `--stock` (est. 1 quota day: about 82 calls).
+  Result 2026-11-13 UTC: `0`.
 Commit: —
 
 ### Phase 2 — Downloads
@@ -366,6 +371,10 @@ Commit: —
   planning listing stays in `raw/` as the record the counts came from.
 
 ## Corrections
+
+- **2026-11-13 (UTC), Phase 1 counts.** The re-listing (`candidates.py` → `rows 1547 in 1523 devices in 316`) differs from planning's 1545 / 1521 / 316. Added: `ATTINY2313-20SU`, `ATXMEGA16D4-CU`, `ATTINY1616-SNR`. Gone (no stock): `AVR128DA48-I/PT`. Family counts: ATtiny 270, Dx 267, XMEGA 138, tinyAVR 0/1/2 198 (others unchanged). The part-by-part check (`stock-check.tsv`) found 11 of the 20 with no stock (`AT90PWM161-16SNR`, `AT90PWM81-16SF`, `AT90PWM81-16SN`, `ATMEGA164PA-CU`, `ATMEGA165PA-AN`, `ATMEGA168PA-CCUR`, `ATMEGA169P-16MCH`, `ATMEGA169P-16MCHR`, `ATMEGA48A-CCUR`, `ATMEGA88A-CCUR`, `ATTINY261-15MAZ`), so they are `out`, reason `stock check`. **In scope after Phase 1: 1512 rows, 315 devices** (AT90 38, ATmega 405, ATtiny 269, Dx 267, Ex 72, Lx/Sx 14, XMEGA 138, megaAVR 0 58, tinyAVR 0/1/2 198, ESP32 51, RP2040 2). B's "316 devices" and G's "1521 rows" are planning figures, and those letters use the verdict counts instead.
+- **2026-11-13, `candidates.py` had no `--stock` option** that Phase 1's last task names. It was added (the found = 0 → `out`, found = 1 → its stock figure).
+- **2026-11-13, `run.sh` calls `/tmp/p36/census/list.js`**, a copy left from planning, not the tree's file; `diff` shows them identical, so the listing ran the tree's code.
 
 ## Summary
 

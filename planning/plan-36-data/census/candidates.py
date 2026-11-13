@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
 # plan-36 census -> candidates.tsv: one row per listed DigiKey part (AVR, Espressif, RP2040).
-# usage: python3 -I candidates.py <raw dir> <atdf dir> <out.tsv>
+# usage: python3 -I candidates.py <raw dir> <atdf dir> <out.tsv> [--stock <stock-check.tsv>]
+# --stock (plan-36-A Phase 1): a found = 0 row goes out, reason "stock check"; a found = 1 row takes its stock figure.
 # Columns A..G fill later: pdf, hit, dead (A), package_code, verdict, reason (A), pinout_src (B), footprint (C-E).
 import json, glob, re, sys, os, collections
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 os.environ['ATDF'] = sys.argv[2]; os.environ['RAW'] = sys.argv[1]
 import atdfmatch as A
 raw, out = sys.argv[1], sys.argv[3]
+stock = {}
+if '--stock' in sys.argv:
+    for l in list(open(sys.argv[sys.argv.index('--stock') + 1]))[1:]:
+        f = l.rstrip('\n').split('\t'); stock[f[0]] = (f[1], f[2])
 atdf = A.load_atdf()
 COLS = ['mpn','maker','family','device','scope','reason','atdf_device','atdf_pinout','dk_package','dk_supplier_package',
         'stock','status','grade','dk_vcc','dk_speed','dk_flash','dk_ram','dk_eeprom','datasheet_url',
@@ -61,6 +66,11 @@ for f in sorted(glob.glob(raw + '/*.jsonl')):
                 r['atdf_device'] = atdf[hit][0]; r['atdf_pinout'] = m[0] if m else ''
             elif hit: r['atdf_device'] = atdf[hit][0]
         rows.append(r)
+for r in rows:
+    if r['scope'] == 'in' and r['stock'] == '' and r['mpn'] in stock:
+        found, q = stock[r['mpn']]
+        if found == '1': r['stock'] = q
+        else: r['scope'], r['reason'] = 'out', 'stock check'
 rows.sort(key=lambda r: (r['family'], r['device'], r['mpn']))
 with open(out, 'w') as o:
     o.write('\t'.join(COLS) + '\n')
