@@ -373,16 +373,18 @@ Commit: bbb514a
       `place.py` after clearing `datasheets/resistor/`, `footprint-lines.py`,
       `specs-skeleton.py`, which merges) and their checks (§ Corrections 6).
       Scripted with B–F's re-runs as `census/finish.sh`.
-- [ ] Run it on the picked rows from cut pieces (1778 at planning time);
-      Day 1 (2026-11-13 UTC): 172 checked, 172 `found` 1 (all Active), then
-      stopped at the reserve (`stopped with 19 calls left today`). On the
-      provisional final pick (`/tmp/p34/pick.tsv`, B's verdicts applied)
-      `cut-picked.py` lists the rest. A daily session cron at 14:13 HST
-      (after the ~00:00 UTC quota reset) continues the check. Saved in
-      `planning/plan-34-data/stock-check.tsv`.
+- [~] Run it on the picked rows from cut pieces (1778 at planning time);
       re-run `select.py --stock`; check the newly picked rows from cut
       pieces; repeat until none is unchecked. Copy the result to
-      `planning/plan-34-data/stock-check.tsv`.
+      `planning/plan-34-data/stock-check.tsv`. Day 1 (2026-11-13 UTC): 172
+      checked, 172 `found` 1 (all Active), then stopped at the reserve
+      (`stopped with 19 calls left today`), saved in
+      `planning/plan-34-data/stock-check.tsv`. Remaining: 1677 rows of the
+      provisional final pick (`/tmp/p34/pick.tsv`, B's verdicts applied),
+      checked from day 2 in bulk first (§ Corrections 7: `stock-relist.sh
+      /tmp/p34/relist 89345 11717 26`, `stock-merge.py`, then
+      `stock-check.sh` for what is left). A daily session cron at 14:13 HST
+      (after the ~00:00 UTC quota reset) continues it.
 
 Acceptance: every picked row from a cut piece is confirmed in stock.
   Check: `python3 -I planning/plan-34-data/census/select.py /tmp/p34/raw /tmp/p34/cand.tsv --stock planning/plan-34-data/stock-check.tsv --report` and an `awk` join of the picked rows from cut pieces with `stock-check.tsv` → 0 unchecked, 0 picked with `found` = 0 (est. 1–2 quota days at one call per part).
@@ -557,6 +559,23 @@ Commit: abb3652
    `specs.tsv` rather than refusing, and names any dropped group. The
    eligible rows' URL set changes only if a newly eligible series cites a
    new PDF, and `fetch.py` adds it.
+7. **The stock check in bulk (2026-11-13).** One call per part means 1677
+   more calls, about two quota days. Every picked row has stock at or above
+   its category's floor (chip 89345, through-hole 11717, arrays 26 on the
+   provisional pick). So a fresh `top.js` listing of each (category,
+   maker) with `TOP_MIN_QTY` = that floor returns every picked row DigiKey
+   still has, 50 per call. Each comes with its exact
+   `ManufacturerProductNumber`, `QuantityAvailable` and `ProductStatus`:
+   the same fields, from the same KeywordSearch, that `stock-check.sh`
+   reads for one part. `stock-relist.sh` lists; `stock-merge.py` writes a
+   `found` 1 row for each unchecked picked row found there with stock above
+   0 and status Active or Last Time Buy. Rows not found (no longer stocked,
+   or in a piece cut at 300) are still looked up one call each by
+   `stock-check.sh`, so every picked row is confirmed by its own part
+   number. Trial 2026-11-13 on Viking chip: `top.js: 52/2577: 13 parts, 3
+   calls` listed all 11 picked Viking chip rows (all already checked on day
+   1). Expected cost for the rest: about 100–150 calls instead of 1677.
+   The trial listing is kept in `planning/plan-34-data/relist/`.
 
 ## Summary
 
