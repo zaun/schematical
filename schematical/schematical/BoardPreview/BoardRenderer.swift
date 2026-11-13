@@ -104,6 +104,24 @@ struct RenderProjection {
     /// mm under it) into `size`, `margin` points in from each edge.
     static func fitting(_ outline: [CGPoint], face: BoardRenderFace, angle: BoardRenderAngle, size: CGSize,
                         height: CGFloat, below: CGFloat, margin: CGFloat = 36) -> RenderProjection {
+        let (base, liftUnit, minX, maxX, minY, maxY) = extent(outline, face: face, angle: angle,
+                                                              height: height, below: below)
+        let s = max(0.01, min((size.width - 2 * margin) / (maxX - minX), (size.height - 2 * margin) / (maxY - minY)))
+        let flat = base
+            .concatenating(CGAffineTransform(scaleX: s, y: s))
+            .concatenating(CGAffineTransform(translationX: size.width / 2 - s * (minX + maxX) / 2,
+                                             y: size.height / 2 - s * (minY + maxY) / 2))
+        return RenderProjection(flat: flat, lift: liftUnit * s, base: base, scale: s)
+    }
+}
+
+extension RenderProjection {
+    /// The view's turn and squash of the board plane, how far up the screen
+    /// 1 mm of height moves, and the board's (plus parts') extent in that
+    /// turned plane, in mm.
+    static func extent(_ outline: [CGPoint], face: BoardRenderFace, angle: BoardRenderAngle,
+                       height: CGFloat, below: CGFloat)
+        -> (base: CGAffineTransform, lift: CGFloat, minX: CGFloat, maxX: CGFloat, minY: CGFloat, maxY: CGFloat) {
         var base = face == .back ? CGAffineTransform(scaleX: -1, y: 1) : .identity
         var liftUnit: CGFloat = 0
         if angle == .angled {
@@ -118,12 +136,7 @@ struct RenderProjection {
         maxY += below * liftUnit
         if maxX - minX < 1 { minX -= 1; maxX += 1 }
         if maxY - minY < 1 { minY -= 1; maxY += 1 }
-        let s = max(0.01, min((size.width - 2 * margin) / (maxX - minX), (size.height - 2 * margin) / (maxY - minY)))
-        let flat = base
-            .concatenating(CGAffineTransform(scaleX: s, y: s))
-            .concatenating(CGAffineTransform(translationX: size.width / 2 - s * (minX + maxX) / 2,
-                                             y: size.height / 2 - s * (minY + maxY) / 2))
-        return RenderProjection(flat: flat, lift: liftUnit * s, base: base, scale: s)
+        return (base, liftUnit, minX, maxX, minY, maxY)
     }
 }
 
@@ -250,16 +263,34 @@ struct BoardRenderer {
     let finish: BoardRenderFinish
 
     static let thickness: CGFloat = 1.6
+    /// Space between the board (and its parts) and the picture's edge, in points.
+    var margin: CGFloat = 36
+
+    /// How far up the fit reaches: the tallest part, or 2 mm.
+    static func height(of looks: [PartLook]) -> CGFloat {
+        max(looks.map(\.height).max() ?? 0, 2)
+    }
+
+    /// The picture's size, in points, that fits the board at `pointsPerMM`
+    /// with `margin` points round it: the size `draw` fills edge to edge.
+    func fittedSize(pointsPerMM: CGFloat) -> CGSize {
+        let looks = document.chips.filter { $0.board != nil && $0.footprint != nil && $0.board?.side == face.side }
+            .map { PartLook.of($0) }
+        let e = RenderProjection.extent(document.board.outline, face: face, angle: angle,
+                                        height: Self.height(of: looks), below: Self.thickness + 2)
+        return CGSize(width: ceil((e.maxX - e.minX) * pointsPerMM + 2 * margin),
+                      height: ceil((e.maxY - e.minY) * pointsPerMM + 2 * margin))
+    }
 
     func draw(in context: inout GraphicsContext, size: CGSize) {
         let board = document.board
         let side = face.side
         let chips = document.chips.filter { $0.board != nil && $0.footprint != nil }
         let looks = chips.filter { $0.board?.side == side }.map { PartLook.of($0) }
-        let tallest = looks.map(\.height).max() ?? 0
         // Fit the board: parts placed off it are not part of the product.
         let projection = RenderProjection.fitting(board.outline, face: face, angle: angle, size: size,
-                                                  height: max(tallest, 2), below: Self.thickness + 2)
+                                                  height: Self.height(of: looks), below: Self.thickness + 2,
+                                                  margin: margin)
         let painter = SolidPainter(projection: projection)
         let outline = board.outline
         let boardShape = Path { path in path.addLines(outline); path.closeSubpath() }

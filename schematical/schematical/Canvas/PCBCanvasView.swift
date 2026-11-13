@@ -60,6 +60,12 @@ struct PCBCanvasView: View {
     var pointer: BoardPointer?
     /// Called when the Text tool has placed a text; the owner returns to Select.
     var onPlaced: () -> Void = {}
+    /// Drawing for File > Export > Image (`ImageExport`): no grid, hover,
+    /// tool preview or selection.
+    var exporting = false
+    /// With `exporting`, drill holes are cut out to transparency instead of
+    /// filled with the canvas colour.
+    var clearsHoles = false
 
     @State private var interaction: Interaction?
     /// Where the pointer is (board mm), for the Trace tool's landing ring.
@@ -209,7 +215,7 @@ struct PCBCanvasView: View {
         let boardShape = Path { path in path.addLines(board.outline); path.closeSubpath() }
         if visible.shows(.board) { context.fill(boardShape, with: .color(colour.fill)) }
         context.stroke(boardShape, with: .color(colour.silkscreen), lineWidth: 0.2)
-        drawGrid(in: context, size: size)
+        if !exporting { drawGrid(in: context, size: size) }
 
         // The copper's nets, read only when a Plane is drawn.
         let planeCopper = board.copperLayers.contains { visible.showsPlane($0, style: board.style(of: $0)) }
@@ -253,7 +259,7 @@ struct PCBCanvasView: View {
                 context.fill(Path(ellipseIn: via.rect), with: .color(Self.copper))
                 let d = via.drill
                 let hole = CGRect(x: via.centre.x - d / 2, y: via.centre.y - d / 2, width: d, height: d)
-                context.fill(Path(ellipseIn: hole), with: .color(Self.background))
+                fillHole(Path(ellipseIn: hole), in: &context)
             }
             // The board's own header pads and mounting holes, and the
             // drilled holes.
@@ -263,7 +269,7 @@ struct PCBCanvasView: View {
                 // A non-plated hole has no copper: just the hole.
                 if pad.plated { context.fill(Self.outline(of: pad), with: .color(Self.copper)) }
                 if let hole = pad.holeRect {
-                    context.fill(Path(roundedRect: hole, cornerRadius: pad.drill / 2), with: .color(Self.background))
+                    fillHole(Path(roundedRect: hole, cornerRadius: pad.drill / 2), in: &context)
                 }
             }
         }
@@ -272,6 +278,8 @@ struct PCBCanvasView: View {
 
         if visible.shows(.ratsnest) { drawRatsnest(in: &context) }
         drawTraceTool(in: &context)
+        // An export has no pointer and no selection.
+        guard !exporting else { return }
 
         // Selection boxes, one per selected item that is drawn, on top of
         // everything. A selected item on a hidden layer stays selected.
@@ -380,7 +388,7 @@ struct PCBCanvasView: View {
     private func drawTraces(on layer: CopperLayer, colour: Color, in context: inout GraphicsContext) {
         let onLayer = document.traces.filter { $0.layer == layer }
         guard !onLayer.isEmpty else { return }
-        let selected = Set(document.boardSelection.items.compactMap { item -> UUID? in
+        let selected = exporting ? [] : Set(document.boardSelection.items.compactMap { item -> UUID? in
             if case let .trace(id) = item { return id }
             return nil
         })
@@ -442,6 +450,23 @@ struct PCBCanvasView: View {
             context.stroke(Path(ellipseIn: CGRect(x: ring.x - r, y: ring.y - r, width: 2 * r, height: 2 * r)),
                            with: .color(.green), lineWidth: 2 / scale)
         }
+    }
+
+    /// A drill hole: the canvas colour, or (`clearsHoles`) cut through.
+    private func fillHole(_ path: Path, in context: inout GraphicsContext) {
+        if clearsHoles {
+            var cut = context
+            cut.blendMode = .destinationOut
+            cut.fill(path, with: .color(.black))
+        } else {
+            context.fill(path, with: .color(Self.background))
+        }
+    }
+
+    /// The board as File > Export > Image draws it (`exporting`), in a
+    /// picture `size` points big.
+    func drawExport(in context: inout GraphicsContext, size: CGSize) {
+        draw(in: &context, size: size)
     }
 
     static func path(_ points: [CGPoint]) -> Path {
