@@ -58,19 +58,20 @@ fix is recorded in that letter's § Corrections and the gate is re-run.
 Acceptance: every line above passes on one commit.
   Check: the five results recorded here with the commit hash (est. 35 min in total).
   Result 2026-11-13: all five pass on 2d4cf1d (its code is ae134a5's; `main` 1167c96 is merged, and main has not moved since).
-Commit: —
+Commit: 78252f8
 
 ### Phase 2 — Close
 
-- [ ] `planning/todo.md`: tick "Add hobby microcontrollers: ATmega328P,
+- [x] `planning/todo.md`: tick "Add hobby microcontrollers: ATmega328P,
       ATtiny, RP2040, ESP32 modules…" (§ Parts) and add `(plan-36)`. Touch
       only that line: the owner's working copy may hold other edits to the
-      file, so commit only this hunk (`git add -p`).
-- [ ] Move `planning/plan-36-*.md` to `planning/completed/` (one commit).
+      file, so commit only this hunk (`git add -p`). Done in the worktree, whose `todo.md` is main's committed one, so the commit holds only this hunk (2 lines changed).
+- [x] Move `planning/plan-36-*.md` to `planning/completed/` (one commit): only I was left (A–H and J were archived as they finished).
 
 Acceptance: the plan is archived.
   Check: `ls planning/plan-36-*.md` → no such file; `ls planning/completed/plan-36-*.md | wc -l` → 9 (est. 1 min).
-Commit: —
+  Result 2026-11-13: no `planning/plan-36-*.md`; 10 in `planning/completed/` (A–J: A's dependency graph gained J, so 10, not 9).
+Commit: the commit that archives this file
 
 ## Validation Plan
 

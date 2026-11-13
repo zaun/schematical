@@ -63,10 +63,10 @@
       N-channel), top 3 manufacturers.
 - [ ] Add voltage regulators: 78xx, AMS1117, LM317, LDOs, and common buck
       modules.
-- [ ] Add hobby microcontrollers: ATmega328P, ATtiny, RP2040, ESP32
+- [x] Add hobby microcontrollers: ATmega328P, ATtiny, RP2040, ESP32
       modules. The bus-CPU kind only covers 6502/65816/Z80. These 
       microcontrollers need a `simulated` property set to false. When any
-      are added to a schematic the "play" button should be disabled.
+      are added to a schematic the "play" button should be disabled. (plan-36)
 - [ ] Add the 555 timer and common op-amps (LM358, TL07x…).
 - [ ] Add crystals and resonators (oscillators exist, crystals don't).
 - [ ] Add inductors, fuses / polyfuses, relays and buzzers.
