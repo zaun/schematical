@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """plan-34-B Phase 1: one spec row's regex against its eligible rows.
 
-usage: python3 -I scheme-check.py <specs.tsv> <candidates.tsv> <spec row number (1 = first data row)> [<regex>]
+usage: python3 -I scheme-check.py <specs.tsv> <candidates.tsv> <spec row number (1 = first data row)> [<regex> [<fields_checked>]]
 
 Prints the row's (maker, series, PDF), then for its eligible rows that are
 not printed verbatim: each non-match, each match whose fields disagree with
 DigiKey (scheme.py), and the counts. A regex given on the command line is
-tried in place of the row's own.
+tried in place of the row's own, and likewise a fields_checked.
 """
 import csv
 import os
@@ -20,6 +20,7 @@ import scheme  # noqa: E402
 specs = list(csv.DictReader(open(sys.argv[1]), delimiter="\t"))
 row = specs[int(sys.argv[3]) - 1]
 regex = sys.argv[4] if len(sys.argv) > 4 else row["mpn_regex"]
+fields = sys.argv[5] if len(sys.argv) > 5 else row["fields_checked"]
 print(row["maker"], "|", row["series"], "|", row["datasheet"], "|", regex)
 ok = bad = miss = hits = 0
 for r in csv.DictReader(open(sys.argv[2]), delimiter="\t"):
@@ -33,7 +34,7 @@ for r in csv.DictReader(open(sys.argv[2]), delimiter="\t"):
         miss += 1
         print("  no match", r["mpn"], r["package"], r["tolerance"], r["ohms"])
         continue
-    why = scheme.check(m, r, row["fields_checked"])
+    why = scheme.check(m, r, fields)
     if why:
         bad += 1
         print("  disagrees", why, r["mpn"], r["package"], r["tolerance"], r["ohms"])
