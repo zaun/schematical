@@ -32,6 +32,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_RTC: return "rtc";
         case PART_DIODE: return "diode";
         case PART_CAPACITOR: return "capacitor";
+        case PART_RESISTOR: return "resistor";
     }
     return "?";
 }
@@ -103,6 +104,12 @@ static void print_details(FILE *out, const Part *part) {
             if (part->capacitor->tolerance != NULL) {
                 fprintf(out, " tol=%s", part->capacitor->tolerance);
             }
+            break;
+        case PART_RESISTOR:
+            fprintf(out, "resistors=%zu milliohms=%llu tol=%u power=%u",
+                    part->resistor->resistor_count,
+                    (unsigned long long)part->resistor->milliohms,
+                    (unsigned)part->resistor->tolerance_ppm, (unsigned)part->resistor->power_mw);
             break;
         case PART_SRAM:
             fprintf(out, "words=%u bits=%u access_ps=%llu", (unsigned)part->sram->words,

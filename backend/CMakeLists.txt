@@ -22,6 +22,7 @@ add_library(logic STATIC
     src/models/switch.c
     src/models/diode.c
     src/models/capacitor.c
+    src/models/resistor.c
     src/models/sram.c
     src/models/display7.c
     src/models/supply.c
