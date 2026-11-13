@@ -230,7 +230,7 @@ Commit: 1c6929f
 Acceptance: the tests pass and the harness prints `all checks ok`.
   Check: `xcodebuild … test -only-testing:schematicalTests/ResistorTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **`; `scripts/harness/build.sh scripts/harness/resistor-app.swift /tmp/p34-harness && /tmp/p34-harness/H.app/Contents/MacOS/harness` → `all checks ok`, exit 0 (est. 15 min: the harness build is the slow part; nothing smaller runs the app's catalog code and the backend together).
   Result (2026-11-13): ResistorTests + PullResistorTests + BillOfMaterialsTests + PartEditorWindowTests → `Executed 27 tests, with 0 failures`, `** TEST SUCCEEDED **`; harness `all checks ok`, exit 0.
-Commit: —
+Commit: 18c5ef9
 
 ## Validation Plan
 

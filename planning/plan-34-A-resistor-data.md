@@ -355,7 +355,7 @@ below the floor → the piece is complete for the pick; at or above →
 Acceptance: every piece is complete for the pick.
   Check: `python3 -I planning/plan-34-data/census/select.py /tmp/p34/raw /tmp/p34/cand.tsv --report | grep -c 'NEEDS DEEPER'` → 0, or each remaining line is in § Corrections (est. 1 quota day; nothing smaller completes the listing).
   Result (2026-11-13): 0. The listing is stored in `planning/plan-34-data/raw/` (30 files; the cut `-re-` runs of planning time replaced).
-Commit: —
+Commit: bbb514a
 
 ### Phase 2 — Part-by-part stock check (one to two quota days)
 
@@ -403,7 +403,7 @@ Commit: —
 Acceptance: every eligible row with a maker datasheet has its PDF in the tree.
   Check: `python3 -I planning/plan-34-data/census/place.py --verify planning/plan-34-data/candidates.tsv` → `0 missing, 0 unused` (est. 2 min after a 10-minute download).
   Result (2026-11-13, on the pick before the stock check; re-checked by Phase 2's added task): `0 missing, 0 unused`.
-Commit: —
+Commit: abb3652
 
 ### Phase 4 — `specs.tsv` skeleton and the data README
 
@@ -417,7 +417,7 @@ Commit: —
 Acceptance: one spec row per group.
   Check: `awk -F'\t' 'NR>1 && $21!="" && $23!="automotive" && $23!="current-sense" {print $2"|"$18"|"$21}' planning/plan-34-data/candidates.tsv | sort -u | wc -l` equals `awk 'END{print NR-1}' planning/plan-34-data/specs.tsv` (est. 1 min; `$21` is the `pdf` column Phase 3 fills, `$23` the reason).
   Result (2026-11-13): 109 = 109.
-Commit: —
+Commit: abb3652
 
 ## Validation Plan
 

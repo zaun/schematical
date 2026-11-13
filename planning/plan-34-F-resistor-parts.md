@@ -168,7 +168,7 @@ Commit: d242ed9
 Acceptance: the whole set loads and the goldens grow by exactly the new parts and footprints.
   Check: `ctest --test-dir /tmp/logic-p34` → `100% tests passed`; `git diff backend/tests/golden | grep -c '^-[^-]'` → 0; `grep -c '|resistor|' backend/tests/golden/parts.txt` → N + 1 (est. 5 min).
   Result (2026-11-13, on the pick of plan-34-C § Corrections 1, N = 1974): `100% tests passed, 0 tests failed out of 33`; 0; 1975.
-Commit: —
+Commit: 3860182
 
 ## Validation Plan
 
