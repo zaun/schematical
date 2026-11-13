@@ -119,7 +119,7 @@ Check: `python3 -I planning/plan-37-data/census/gen-parts.py --dff schematical/s
 → `<n> rows ok`, n = F's `add` rows (est. 1 min).
 Observed: `161 rows ok`.
 
-Commit: (this commit)
+Commit: f12a117
 
 ### Phase 2 — Part file, footprints, datasheets
 
@@ -144,7 +144,7 @@ Observed: `100% tests passed, 0 tests failed out of 33`; `0`;
 `|dff|` → 867 (706 + 161); MC74VHC574DTR2G and 74HC273D,653 have
 `parts.txt` and `traces.txt` lines.
 
-Commit: (this commit)
+Commit: f12a117
 
 ## Decisions
 
