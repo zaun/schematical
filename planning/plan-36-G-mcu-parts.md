@@ -149,7 +149,7 @@ file's existing order.
 Acceptance: the library loads with every new part.
   Check: `cmake --build /tmp/logic-p36 -j8 && ctest --test-dir /tmp/logic-p36 -R 'library_check|part_file_test'` → passed, and `/tmp/logic-p36/listing_check --print | grep -c '|mcu|'` equals `awk -F'\t' '$24=="add"' planning/plan-36-data/candidates.tsv | wc -l` (est. 4 min).
   Result 2026-11-13: 2 passed; `1424` = `1424`; every `|mcu|` line ends `|unsimulated`.
-Commit: —
+Commit: 79d11b7
 
 ### Phase 2 — Goldens
 
@@ -166,7 +166,7 @@ Commit: —
 Acceptance: every backend test passes, and only lines were added.
   Check: `ctest --test-dir /tmp/logic-p36` → `100% tests passed`; `git diff --numstat backend/tests/golden` → each file `<added> 0` (est. 4 min).
   Result 2026-11-13: `100% tests passed, 0 tests failed out of 33`; `63 0`, `1424 0`, `1424 0`.
-Commit: —
+Commit: 79d11b7
 
 ## Validation Plan
 
