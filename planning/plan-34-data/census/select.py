@@ -127,8 +127,9 @@ def main():
     for r in rows:
         v = verdicts.get(r['mpn'])
         r['pdf'] = v['datasheet'] if v else ''
-        if r['decision'] == 'candidate' and v and v['verdict'] == 'skip':
-            r['decision'], r['reason'] = 'skip', v['reason']
+        if r['decision'] == 'candidate' and v and v['verdict'] in ('skip', 'out'):
+            # plan-34-B § 3.2: a datasheet-status row is out, never picked.
+            r['decision'], r['reason'] = v['verdict'], v['reason']
     live = sorted((r for r in rows if r['decision'] == 'candidate'),
                   key=lambda r: (-r['stock'], r['mpn']))
     # Two per key: the most-stocked part, then the most-stocked part of
