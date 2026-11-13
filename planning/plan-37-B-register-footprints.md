@@ -37,9 +37,9 @@ plan-37-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-37-A complete | `ls planning/completed/plan-37-A-*.md` → exists | NOT MET (2026-11-12: plan written) |
-| The four ids are still new | `grep -c '"id": *"\(DHVQFN-20\|DHVQFN-24\|DQFN-20-ONSEMI\|TSSOP-64\)"' schematical/schematical/Parts/footprints.json` → 0 | MET (2026-11-12 at cf40403: 0). Another plan adding one of them first makes that footprint's Phase 2 line moot: reuse it, and record it in § Corrections |
-| Each new id still has an `add` row after A | `awk -F'\t' '$19=="add"{print $20}' planning/plan-37-data/candidates.tsv \| sort \| uniq -c \| grep -E 'DHVQFN\|DQFN\|TSSOP-64'` → four lines | NOT MET until A (planning: DHVQFN-20 9, DHVQFN-24 1, DQFN-20-ONSEMI 1, TSSOP-64 1 in-scope rows, `footprints-needed.txt`). An id whose rows are all `skip`/`out` after A is not drawn (it would be unused): record it in § Corrections |
+| plan-37-A complete | `ls planning/completed/plan-37-A-*.md` → exists | MET (2026-11-13: `planning/completed/plan-37-A-register-data.md`) |
+| The four ids are still new | `grep -c '"id": *"\(DHVQFN-20\|DHVQFN-24\|DQFN-20-ONSEMI\|TSSOP-64\)"' schematical/schematical/Parts/footprints.json` → 0 | MET (2026-11-13, B start: 0). Another plan adding one of them first makes that footprint's Phase 2 line moot: reuse it, and record it in § Corrections |
+| Each new id still has an `add` row after A | `awk -F'\t' '$19=="add"{print $20}' planning/plan-37-data/candidates.tsv \| sort \| uniq -c \| grep -E 'DHVQFN\|DQFN\|TSSOP-64'` → four lines | MET (2026-11-13 after A: DHVQFN-20 9, DHVQFN-24 1, DQFN-20-ONSEMI 1, TSSOP-64 1 `add` rows). Planning: the same counts as in-scope rows (`footprints-needed.txt`). An id whose rows are all `skip`/`out` after A is not drawn (it would be unused): record it in § Corrections |
 
 ## 1. Goal
 
@@ -108,35 +108,47 @@ The Nexperia package PDFs sit at
 
 ### Phase 1 — Tools
 
-- [ ] Copy `planning/plan-35-data/census/fp-load.sh` and `fp-merge.py` to
+- [x] Copy `planning/plan-35-data/census/fp-load.sh` and `fp-merge.py` to
       `planning/plan-37-data/census/`, changing `p35` to `p37` in temp-dir
       names and the header comments.
-- [ ] Download the two Nexperia package PDFs with `census/nxget.py` into
+- [x] Download the two Nexperia package PDFs with `census/nxget.py` into
       `datasheets/register/` (`sot764-1.pdf`, `sot815-1.pdf`) and add their
       lines to `planning/plan-37-data/datasheets.tsv`. They are footprint
       sources, not part datasheets: no `datasheets.json` entry.
+      (`200 application/pdf 143400` and `200 application/pdf 148147`;
+      5 pages each.)
 
 Check: `echo '{"footprints":[]}' > /tmp/p37-fp0.json && planning/plan-37-data/census/fp-load.sh /tmp/p37-fp0.json`
 → `0 new footprints: load ok` (est. 3 min, one footprint_check build).
+Observed: `0 footprints appended` / `0 new footprints: load ok`.
 
-Commit: —
+Commit: (this commit)
 
 ### Phase 2 — The footprints
 
-- [ ] DHVQFN-20 (SOT764-1 Fig. 2).
-- [ ] DHVQFN-24 (SOT815-1 Fig. 2).
-- [ ] DQFN-20-ONSEMI (`74lcx374-d.pdf` Figure 5; the PDF is A's, under
-      `datasheets/ff-d/`).
-- [ ] TSSOP-64 (`sn74avc16722.pdf` DGG outline, R2).
-- [ ] Write them to `planning/plan-37-data/footprints-B.json`; set the
+- [x] DHVQFN-20 (SOT764-1 Fig. 2): `quad` [8, 2, 8, 2], pad 1.0 × 0.29,
+      spanX 2.7, spanY 4.5, centre 0.9 × 2.9, VQFN-20's `slots`.
+- [x] DHVQFN-24 (SOT815-1 Fig. 2): `quad` [10, 4, 10, 4] (§ Corrections:
+      the ends are 1.5 pitch), pad 0.9 × 0.29, spanX 3.6, spanY 5.6,
+      centre 2.0 × 4.0.
+- [x] DQFN-20-ONSEMI (`74lcx374-d.pdf` Figure 5, PDF p.13; the PDF is A's,
+      under `datasheets/ff-d/`): `quad` [8, 2, 8, 2], pad 0.9 × 0.24,
+      spanX 2.6, spanY 4.6, centre 1.0 × 2.9.
+- [x] TSSOP-64 (`sn74avc16722.pdf` DGG outline p.13, R2 mid-values as the
+      SSOP-56 / TVSOP-48 notes apply it): pad 1.43 × 0.27, span 7.67,
+      body 6.1 × 17.0.
+- [x] Write them to `planning/plan-37-data/footprints-B.json`; set the
       `footprint` column of every row of these packages in `candidates.tsv`
       (already set by `census/footprints.py`: `git diff planning/plan-37-data/candidates.tsv` → no `footprint` change).
 
 Check: `planning/plan-37-data/census/fp-load.sh planning/plan-37-data/footprints-B.json`
 → only `extra footprint` / `unused footprint` lines naming exactly the
 ids written, no overlapping pads (`fp-merge.py --expect`) (est. 3 min).
+Observed: `4 footprints appended` / `4 new footprints: load ok`;
+`git diff a789481 -- planning/plan-37-data/candidates.tsv` → empty (no
+`footprint` change).
 
-Commit: —
+Commit: (this commit)
 
 ## Decisions
 
@@ -154,7 +166,15 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+- **2026-11-13 — DHVQFN-24's end terminals are 1.5 mm apart.** SOT815-1
+  Fig. 1 (p.2) gives e2 = 1.5 for terminals 1/24 and 12/13, while the long
+  rows are at e = 0.5; `quad` has one pitch. The footprint gives each end
+  4 slots at 0.5 pitch and puts pins on the outer two (±0.75 = 1.5 apart);
+  the middle slots name no pin and get no pad (`docs/parts-format.md`
+  § Common keys: "A slot no pin names gets no pad").
+- **2026-11-13 — the Phase 2 check's diff base.** `git diff
+  planning/plan-37-data/candidates.tsv` is empty against A's last
+  commit (a789481), which is the base B's rows are checked against.
 
 ## Summary
 
