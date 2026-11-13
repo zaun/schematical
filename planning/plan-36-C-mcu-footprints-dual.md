@@ -118,7 +118,7 @@ drawing.
 Acceptance: every dual code has a drawing page.
   Check: `awk -F'\t' '$2=="dual" && $5==""' planning/plan-36-data/fp-pages.tsv | wc -l` → 0 (`$5` is the page) (est. 2 min).
   Result 2026-11-13: `0` (35 dual (code, pins) rows).
-Commit: —
+Commit: 3889b9c
 
 ### Phase 2 — Footprints
 
@@ -132,7 +132,7 @@ Commit: —
 Acceptance: the new footprints load, and every dual code has one.
   Check: `fp-load.sh footprints-C.json` → only `extra footprint` / `unused footprint` lines naming exactly the ids in `footprints-C.json`; `awk -F'\t' '$2=="dual" && $6==""' planning/plan-36-data/package-codes.tsv | wc -l` → 0 (`$6` is `footprint`) (est. 3 min).
   Result 2026-11-13: `13 new footprints: load ok`; `0`.
-Commit: —
+Commit: 3889b9c
 
 ## Validation Plan
 
