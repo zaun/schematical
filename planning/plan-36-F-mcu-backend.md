@@ -49,7 +49,7 @@ plan-36-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-36-E complete | `ls planning/completed/plan-36-E-*.md` → exists | NOT MET (2026-11-12: plan written) |
+| plan-36-E complete | `ls planning/completed/plan-36-E-*.md` → exists | MET 2026-11-13 (5088c69); F Phase 1 ran earlier, see Corrections |
 | No `PART_MCU` and no `simulated` key yet | `grep -c 'PART_MCU' backend/include/parts.h` → 0; `grep -c '"simulated"' backend/src/library/library.c` → 0 | MET (2026-11-12 at 7ca1070: 0, 0) |
 
 **Shared with plan-34 (resistors), which is open:** it appends
@@ -256,25 +256,31 @@ optional key (absent = today's behavior). The refusal is reached only for
 Acceptance: the refusal works, and no golden moved.
   Check: `cmake --build /tmp/logic-p36 -j8 && ctest --test-dir /tmp/logic-p36 -R 'library_check|circuit_check|listing_check|trace_check|footprint_check'` → 5 passed; `git diff --stat backend/tests/golden` → empty (est. 3 min).
   Result 2026-11-13: `100% tests passed, 0 tests failed out of 5`; golden diff empty.
-Commit: —
+Commit: 817e98b
 
 ### Phase 2 — The `mcu` kind
 
-- [ ] `parts.h`: `PART_MCU` last, `PartMcu`, the `mcu` pointer (§ 3.3).
-- [ ] `backend/src/models/mcu.c`: keys, `load_device` (core, clock, sizes,
+- [x] `parts.h`: `PART_MCU` last, `PartMcu`, the `mcu` pointer (§ 3.3).
+      `PART_MCU` after `PART_CAPACITOR` (plan-34's `PART_RESISTOR` is not on this branch: `grep -n '} PartKind;' -B2` showed `PART_CAPACITOR` last); `const PartMcu *mcu;` after `capacitor`.
+- [x] `backend/src/models/mcu.c`: keys, `load_device` (core, clock, sizes,
       `simulated` must be false, device `vcc`), `bind_pinout`, `load_part`
       (vcc, inputMax, clock, flash, psram), the passive model. Add it to the
       sources in `backend/CMakeLists.txt` beside `capacitor.c`.
-- [ ] `kinds.c`: `extern const PartKindOps MCU_KIND;` and `&MCU_KIND,` last.
-- [ ] `schematical/schematical/Parts/mcu.json`: `{"format":
+      Device: `core` (the 8 strings), `clock` (> 0), `flash`, `ram` (to 4294967295), optional `eeprom`, `vcc` / `inputMax`; `simulated` must be false. `bind_pinout`: a power and a ground pin. Part: `clock`, `flash`, `psram` override, `kind_part_voltage`. Passive model; in `backend/CMakeLists.txt` after `capacitor.c`.
+- [x] `kinds.c`: `extern const PartKindOps MCU_KIND;` and `&MCU_KIND,` last.
+      Last in `KINDS[]`.
+- [x] `schematical/schematical/Parts/mcu.json`: `{"format":
       "schematical-parts", "version": 1, "kind": "mcu", "devices": []}`.
-- [ ] Tests' kind arrays: the listing name and facts (§ 3.5); the three
+      Written, `"devices": []`.
+- [x] Tests' kind arrays: the listing name and facts (§ 3.5); the three
       last-kind references move to `PART_MCU`. After the change, `grep -rn
       'TRACE_LAST_KIND PART_\|\[PART_[A-Z_]* + 1\]' backend/tests` → 3 lines,
       all `PART_MCU`.
+      `listing.c`: `mcu`, `core= clock= flash= ram=` plus `eeprom=` / `psram=` when non-zero. The grep → 3 lines, all `PART_MCU` (`trace_check.c:22`, `listing_check.c:50`, `:51`).
 
 Acceptance: the existing tests pass with the goldens untouched.
   Check: `cmake --build /tmp/logic-p36 -j8 && ctest --test-dir /tmp/logic-p36 -R 'listing_check|trace_check|library_check|footprint_check'` → 4 passed; `git diff --stat backend/tests/golden` → empty (est. 3 min).
+  Result 2026-11-13: `100% tests passed, 0 tests failed out of 4`; golden diff empty.
 Commit: —
 
 ### Phase 3 — `mcu_test`, loader cases, docs

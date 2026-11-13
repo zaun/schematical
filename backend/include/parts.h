@@ -26,7 +26,7 @@ typedef enum {
     PART_LED, PART_7SEG, PART_OSCILLATOR, PART_SUPPLY, PART_EEPROM, PART_LATCH, PART_COUNTER,
     PART_SHIFT, PART_CPU, PART_CHARLCD, PART_SERIAL, PART_CONNECTOR, PART_PIO, PART_DECODER,
     PART_BUFFER, PART_MUX, PART_HEADER, PART_ARITH, PART_CONVERTER, PART_RTC, PART_DIODE,
-    PART_CAPACITOR
+    PART_CAPACITOR, PART_MCU
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -146,6 +146,13 @@ typedef struct { const char *type; int polarized; uint64_t capacitance_ff;
                  uint32_t rated_mv; const char *dielectric;
                  const char *tolerance; } PartCapacitor;
 
+/* A microcontroller (plan-36-F): facts only, no simulation model (its
+   device says "simulated": false). core: "avr", "avrrc", "avrxt", "avrxm",
+   "cortex-m0plus", "xtensa-lx6", "xtensa-lx7" or "riscv". max_hz: the
+   highest clock. Sizes in bytes; 0 = none (eeprom, psram) or external
+   (RP2040 flash). A part may override clock, flash and psram. */
+typedef struct { const char *core; uint64_t max_hz; uint32_t flash, ram, eeprom, psram; } PartMcu;
+
 /* ---- Footprints (Parts/footprints.json, docs/parts-format.md) ----------- */
 
 typedef enum { PAD_RECT, PAD_ROUND } PadShape;
@@ -225,6 +232,7 @@ typedef struct Part {
     const PartHeader *header;
     const PartConverter *converter;
     const PartCapacitor *capacitor;
+    const PartMcu *mcu;
     /* Dual-supply parts (plan-20-F): domain 0 is the A side (its vcc is
        Part.vcc), domain 1 the B side; NULL/0 for single-supply parts. */
     const PartSupplyDomain *domains; size_t domain_count;

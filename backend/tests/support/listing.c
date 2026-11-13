@@ -32,6 +32,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_RTC: return "rtc";
         case PART_DIODE: return "diode";
         case PART_CAPACITOR: return "capacitor";
+        case PART_MCU: return "mcu";
     }
     return "?";
 }
@@ -102,6 +103,17 @@ static void print_details(FILE *out, const Part *part) {
             }
             if (part->capacitor->tolerance != NULL) {
                 fprintf(out, " tol=%s", part->capacitor->tolerance);
+            }
+            break;
+        case PART_MCU:
+            fprintf(out, "core=%s clock=%llu flash=%u ram=%u", part->mcu->core,
+                    (unsigned long long)part->mcu->max_hz, (unsigned)part->mcu->flash,
+                    (unsigned)part->mcu->ram);
+            if (part->mcu->eeprom != 0) {
+                fprintf(out, " eeprom=%u", (unsigned)part->mcu->eeprom);
+            }
+            if (part->mcu->psram != 0) {
+                fprintf(out, " psram=%u", (unsigned)part->mcu->psram);
             }
             break;
         case PART_SRAM:
