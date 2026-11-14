@@ -56,6 +56,76 @@ final class PartEditorWindowTests: XCTestCase {
         XCTAssertTrue(model.isDirty)
     }
 
+    // MARK: Active-low pins (plan-39-B)
+
+    private func activeLowDraft() throws -> PartDraft {
+        let text = ChipPinActiveLowTests.fileText(uuid: "C39B0000-0000-4000-8000-000000000002", name: "LOW-E")
+        let file = try JSONDecoder().decode(JSONValue.self, from: Data(text.utf8))
+        return try PartDraft(file: file)
+    }
+
+    private func pins(_ file: JSONValue) -> [JSONValue] {
+        guard case let .object(root) = file, case let .array(devices)? = root["devices"],
+              case let .object(device)? = devices.first, case let .object(pinouts)? = device["pinouts"],
+              case let .array(pins)? = pinouts["p6"] else { return [] }
+        return pins
+    }
+
+    private func activeLow(_ pin: JSONValue) -> JSONValue? {
+        guard case let .object(keys) = pin else { return nil }
+        return keys["activeLow"]
+    }
+
+    /// Opening a flagged part and saving it unedited writes the same pins:
+    /// `true` stays `true`, a list stays the list.
+    func testActiveLowRoundTrips() throws {
+        let text = ChipPinActiveLowTests.fileText(uuid: "C39B0000-0000-4000-8000-000000000002", name: "LOW-E")
+        let file = try JSONDecoder().decode(JSONValue.self, from: Data(text.utf8))
+        let draft = try activeLowDraft()
+        XCTAssertEqual(draft.extraKeys, [])
+        XCTAssertEqual(pins(draft.encoded()), pins(file))
+        XCTAssertEqual(activeLow(pins(draft.encoded())[0]), .bool(true))
+        XCTAssertEqual(activeLow(pins(draft.encoded())[1]), .array([.string("CS")]))
+        XCTAssertNil(activeLow(pins(draft.encoded())[3]))
+        if case let .failure(failure) = PartValidator.shared.validate(draft, source: "low.schpart") {
+            XCTFail(failure.message)
+        }
+    }
+
+    /// Renaming a pin drops flags that are no longer an alternative; a
+    /// flagged pin made power loses its flag; ticking every alternative
+    /// writes `true`.
+    func testActiveLowIsWrittenCanonically() throws {
+        var draft = try activeLowDraft()
+        let row = try XCTUnwrap(draft.pinouts.firstIndex { $0.name == "p6" })
+        draft.pinouts[row].pins[1].name = "A0/CSB"
+        XCTAssertNil(activeLow(pins(draft.encoded())[1]))
+
+        draft.pinouts[row].pins[0].role = "power"
+        XCTAssertNil(activeLow(pins(draft.encoded())[0]))
+
+        var pin = draft.pinouts[row].pins[5]
+        XCTAssertEqual(pin.menuAlternatives, ["AIN7", "GPIO3", "DRDY", "CLK"])
+        for alternative in pin.menuAlternatives { pin.activeLow.insert(alternative) }
+        draft.pinouts[row].pins[5] = pin
+        XCTAssertEqual(activeLow(pins(draft.encoded())[5]), .bool(true))
+
+        // Name order, whatever order the menu ticked them in.
+        draft.pinouts[row].pins[5].activeLow = ["CLK", "AIN7"]
+        XCTAssertEqual(activeLow(pins(draft.encoded())[5]), .array([.string("AIN7"), .string("CLK")]))
+    }
+
+    /// A pin whose "activeLow" is not true or a list of strings makes the
+    /// pinouts uneditable (they stay an extra), as a bad "side" does.
+    func testMalformedActiveLowIsNotLoadedIntoTheGrid() throws {
+        let text = ChipPinActiveLowTests.fileText(uuid: "C39B0000-0000-4000-8000-000000000003", name: "LOW-F")
+            .replacingOccurrences(of: "\"activeLow\":true", with: "\"activeLow\":false")
+        let file = try JSONDecoder().decode(JSONValue.self, from: Data(text.utf8))
+        let draft = try PartDraft(file: file)
+        XCTAssertTrue(draft.pinouts.isEmpty)
+        XCTAssertTrue(draft.extraKeys.contains("device.pinouts"), "\(draft.extraKeys)")
+    }
+
     /// (d) The preview pane starts on Block, and switches to Footprint.
     func testPreviewPaneDefaultsToBlock() {
         let model = PartEditorModel(target: PartEditorTarget(source: .copy(name: "SN74HC00N")))

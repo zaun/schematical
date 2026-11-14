@@ -142,26 +142,27 @@ more syntax to parse; the menu cannot produce an invalid list.
 Acceptance: a catalog part's pins report the file's flags.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p39-dd test -only-testing:schematicalTests/ChipPinActiveLowTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 8 min: first app build; nothing smaller compiles the app).
   Observed 2026-11-14: `Executed 2 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: —
+Commit: bd2e825e
 
 ### Phase 2 — Part Editor
 
-- [ ] `PartDraft.swift`: add `"activeLow"` to `pinKeys`; add
+- [x] `PartDraft.swift`: add `"activeLow"` to `pinKeys`; add
       `activeLow: Set<String>` to `PinDraft` (in `==` and `hash`); read it in
       the pin parser (a `.bool(true)` or an array of strings, anything else
       → the part is not loadable in the editor, as for a bad `side`); write
-      it as § 3 says.
-- [ ] `PartEditorWindow.swift`: the "Active low" menu column in the pin grid
-      (§ 3); the Pin/Name/Role header row gains the column.
-- [ ] Tests: `PartEditorWindowTests`: open a part whose pins are `true`, a
+      it as § 3 says. — done: `activeLowValue` writes the canonical form; a bad value leaves the pinouts an extra
+- [x] `PartEditorWindow.swift`: the "Active low" menu column in the pin grid
+      (§ 3); the Pin/Name/Role header row gains the column. — done: `ActiveLowMenu` (Toggle per unique alternative; label Low / Low ✓ / Low: CS; — and disabled for non-signal roles)
+- [x] Tests: `PartEditorWindowTests`: open a part whose pins are `true`, a
       list and unflagged, save it with no edit, and assert the written pin
       objects equal the input (`true` stays `true`, the list stays the
       list); rename `A0/CS` to `A0/CSB` and assert the saved pin has no
       `activeLow`; change a flagged pin's role to `power` and assert it is
-      dropped; tick every alternative in the menu model and assert `true`.
+      dropped; tick every alternative in the menu model and assert `true`. — done: `testActiveLowRoundTrips`, `testActiveLowIsWrittenCanonically`, `testMalformedActiveLowIsNotLoadedIntoTheGrid`
 
 Acceptance: the editor round-trips the flag and writes only canonical forms.
   Check: `xcodebuild … test -only-testing:schematicalTests/PartEditorWindowTests -only-testing:schematicalTests/PartKindRoundTripTests` → `** TEST SUCCEEDED **` (est. 6 min).
+  Observed 2026-11-14: PartEditorWindowTests `Executed 8 tests, with 0 failures`, PartKindRoundTripTests `Executed 26 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 Commit: —
 
 ### Phase 3 — agent control

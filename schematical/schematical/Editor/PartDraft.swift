@@ -10,12 +10,17 @@ struct PinDraft: Hashable, Identifiable, Sendable {
     var group: String = ""
     /// "" = auto, "in" or "out".
     var side: String = ""
+    /// The alternatives of the name (split at "/", as written) that are
+    /// active low (plan-39-A). Saved as `true`, a list or nothing; see
+    /// `activeLowValue`.
+    var activeLow: Set<String> = []
 
     static let roles = ["input", "output", "inout", "power", "ground", "nc", "absent"]
 
     // The id is the row's identity in the form, not part of the pin.
     static func == (a: PinDraft, b: PinDraft) -> Bool {
-        a.designator == b.designator && a.name == b.name && a.role == b.role && a.group == b.group && a.side == b.side
+        a.designator == b.designator && a.name == b.name && a.role == b.role && a.group == b.group &&
+            a.side == b.side && a.activeLow == b.activeLow
     }
 
     func hash(into hasher: inout Hasher) {
@@ -24,6 +29,32 @@ struct PinDraft: Hashable, Identifiable, Sendable {
         hasher.combine(role)
         hasher.combine(group)
         hasher.combine(side)
+        hasher.combine(activeLow)
+    }
+
+    static let signalRoles: Set<String> = ["input", "output", "inout"]
+
+    /// The name's alternatives, left to right (a name with no "/" has one).
+    var alternatives: [String] {
+        name.split(separator: "/", omittingEmptySubsequences: false).map(String.init)
+    }
+
+    /// Unique alternatives in name order, for the editor's menu.
+    var menuAlternatives: [String] {
+        var seen: Set<String> = []
+        return alternatives.filter { seen.insert($0).inserted }
+    }
+
+    /// The canonical "activeLow" for the file (plan-39-A § 3): `true` when
+    /// every alternative is flagged, the flagged ones in name order when some
+    /// are, nil when none are or the role takes no flag. Entries that are no
+    /// longer an alternative of the name are dropped.
+    var activeLowValue: JSONValue? {
+        guard Self.signalRoles.contains(role) else { return nil }
+        let flagged = menuAlternatives.filter { activeLow.contains($0) }
+        if flagged.isEmpty { return nil }
+        if flagged.count == menuAlternatives.count { return .bool(true) }
+        return .array(flagged.map { .string($0) })
     }
 }
 
@@ -149,7 +180,7 @@ struct PartDraft: Equatable, Sendable {
     static let genericDeviceKeys: Set<String> = ["id", "function", "description", "drawer", "note", "pinouts", "parts"]
     static let genericPartKeys: Set<String> = ["name", "package", "pinout", "flags", "footprint", "manufacturer",
                                                "datasheet", "connectorFootprint", "footprintChoices"]
-    static let pinKeys: Set<String> = ["number", "ball", "name", "role", "group", "side"]
+    static let pinKeys: Set<String> = ["number", "ball", "name", "role", "group", "side", "activeLow"]
 
     /// Every key the form has a control for, for a kind: the generic ones and
     /// the kind schema's (nested ones included). Empty for a kind with no form.
@@ -314,6 +345,19 @@ struct PartDraft: Equatable, Sendable {
                     guard case let .string(text) = side, !text.isEmpty else { return nil }
                     draft.side = text
                 }
+                switch keys["activeLow"] {
+                case nil:
+                    break
+                case .bool(true)?:
+                    draft.activeLow = Set(draft.alternatives)
+                case let .array(items)? where !items.isEmpty:
+                    for item in items {
+                        guard case let .string(text) = item else { return nil }
+                        draft.activeLow.insert(text)
+                    }
+                default:
+                    return nil
+                }
                 drafts.append(draft)
             }
             result.append(PinoutDraft(name: name, style: style, pins: drafts))
@@ -340,6 +384,7 @@ struct PartDraft: Equatable, Sendable {
                 }
                 if !pin.group.isEmpty { keys["group"] = .string(pin.group) }
                 if !pin.side.isEmpty { keys["side"] = .string(pin.side) }
+                if let activeLow = pin.activeLowValue { keys["activeLow"] = activeLow }
                 return .object(keys)
             }))
         }, uniquingKeysWith: { first, _ in first }))
