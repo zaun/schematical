@@ -160,13 +160,13 @@ Commit: eac104da
 
 Acceptance: the cases pass.
   Check: `-only-testing:schematicalTests/RoutingSearchTests` → `** TEST SUCCEEDED **` (est. 2 min).
-Commit: —
+Commit: c3480ae1
 
 ### Phase 3 — nets, trees, stamping, plane fan-out
 
-- [ ] `Router.route`: ordering, tree growth, exact-segment stamping into every profile map, per-connection failure, statuses, progress callbacks (after each connection), conversion of a cell path to `RoutedTrace`s (merge collinear steps; one trace per layer run) and `RoutedVia`s.
-- [ ] Plane fan-out of § 3.
-- [ ] Tests (`RouterTests`): a 3-pad net becomes a tree (2 connections); a failed connection keeps the net's other connection (`partial(unrouted: 1)`); two crossing nets on a 2-layer board both complete (one uses a via); a Power-class net (0.5 mm) keeps its own wider clearance from a neighbour and the Default net next to it keeps the Default's; a GND net with a plane on Layer 2 of a 4-layer board gets one via per SMD-only component and no traces between them; an `impossible` net is reported and not searched; two runs on the same problem give equal results; reversing the order of `problem.nets` gives equal results.
+- [x] `Router.route`: ordering, tree growth, exact-segment stamping into every profile map, per-connection failure, statuses, progress callbacks (after each connection), conversion of a cell path to `RoutedTrace`s (merge collinear steps; one trace per layer run) and `RoutedVia`s. (Each path end ties to its terminal's exact point: a pad's centre, the nearest point on a kept trace's segment, a kept via's centre, since the DRC joins traces only on a segment, within 1e-4 mm.)
+- [x] Plane fan-out of § 3. (Corrected target, see Corrections: a legal via site whose metal meets one of the component's pads, joined to the pad's centre by a trace.)
+- [x] Tests (`RouterTests`): a 3-pad net becomes a tree (2 connections); a failed connection keeps the net's other connection (`partial(unrouted: 1)`); two crossing nets on a 2-layer board both complete (one uses a via); a Power-class net (0.5 mm) keeps its own wider clearance from a neighbour and the Default net next to it keeps the Default's; a GND net with a plane on Layer 2 of a 4-layer board gets one via per SMD-only component and no traces between them; an `impossible` net is reported and not searched; two runs on the same problem give equal results; reversing the order of `problem.nets` gives equal results. (Every result is also checked pair by pair for clearance with `RoutingCheck.violations`, which F reuses.) — `-only-testing:RouterTests -only-testing:RoutingSearchTests -only-testing:RoutingGridTests` → 23 tests, 0 failures, `** TEST SUCCEEDED **`.
 
 Acceptance: the cases pass.
   Check: `-only-testing:schematicalTests/RouterTests -only-testing:schematicalTests/RoutingSearchTests -only-testing:schematicalTests/RoutingGridTests` → `** TEST SUCCEEDED **` (est. 2–3 min).
@@ -206,6 +206,13 @@ See plan-38-A § Decisions. Author decisions: grid router with exact stamping; o
   The Phase 1 test checks both sides of that. The spike's RegFile 12/24 was
   not a finger problem: a probe of the RegFile problem (2026-11-14) found no
   exempt pad on any routed net (its 8 nets join LATCH, D, OUTA and OUTB pads).
+- **Plane fan-out target (§ 3).** "Any cell where a via is legal" would leave a
+  via the DRC calls "Goes nowhere": `checkConnections` counts the traces and
+  pads that touch a via's metal (`touchingCount`), and a Plane is neither, so
+  a via at the end of a trace touches 1 thing. Corrected: the target is a cell
+  where a via fits *and* its metal meets one of the component's pads (not at
+  the pad's exact centre), and a trace runs from the pad's centre to it, so
+  the pad and the trace both touch the via (2). Tested in `RouterTests`.
 
 ## Summary
 
