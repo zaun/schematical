@@ -433,8 +433,7 @@ private struct DesignRuleChecker {
 
     private mutating func checkClearance() {
         let shapes = copperShapes()
-        let netOfRoot = Dictionary(copper.netOfPad.map { (copper.root[$0.key], $0.value) },
-                                   uniquingKeysWith: { a, _ in a })
+        let netOfRoot = copper.netOfRoot()
         // The closest gap per pair of items (two chips' pads count once).
         struct Key: Hashable { let a: String; let b: String }
         var worst: [Key: (gap: Double, a: Int, b: Int)] = [:]

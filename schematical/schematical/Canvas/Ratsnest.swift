@@ -240,7 +240,7 @@ extension SchematicDocument {
         }
         if !planeNets.isEmpty {
             var netOfRoot: [Int: Int] = [:]
-            for (pad, net) in netOfPad { netOfRoot[find(pad)] = net }
+            for (pad, net) in netOfPad.sorted(by: { $0.key > $1.key }) { netOfRoot[find(pad)] = net }
             let throughNodes = pads.indices.filter { pads[$0].pad.plated && pads[$0].pad.drill > 0 }
                 + vias.indices.map { viaBase + $0 }
             // Each node's net before any plane joins, so one plane's joins
@@ -439,7 +439,9 @@ nonisolated struct BoardConnectivity {
     /// pad on a net has none.
     func netOfRoot() -> [Int: Int] {
         var found: [Int: Int] = [:]
-        for (pad, net) in netOfPad { found[root[pad]] = net }
+        // The lowest pad's net wins where copper shorts two nets, so it is
+        // the same every run.
+        for (pad, net) in netOfPad.sorted(by: { $0.key > $1.key }) { found[root[pad]] = net }
         return found
     }
     /// What a Plane on `layer` is cut away around: every hole through it

@@ -250,6 +250,15 @@ See plan-38-A § Decisions. Author decisions: clear applies to in-scope nets onl
   `connectivity()`. Proof the golden and the move both stand: the pre-move DRC
   (aec77008) plus only this fix, in a detached checkout → golden passed 3/3;
   the moved DRC plus the fix → passed 6/6.
+- **A second run-to-run order, found later by the same golden** (2026-11-14,
+  during plan-38-I): `drc-AFU-copper` failed 1 run in 5 again with the same
+  diff (125 vs 127 lines, line 104). Cause: where copper shorts two nets, the
+  group's net came from iterating the `netOfPad` dictionary, last write
+  winning in `BoardConnectivity.netOfRoot()` and in the Plane joins, first
+  write winning in the DRC's `checkClearance`; the copper golden has shorts.
+  Fixed: the lowest pad's net wins, in all three (the DRC now calls
+  `netOfRoot()`). Pre-existing, and only on shorted boards. The fixed output
+  equals the committed golden: 11 runs out of 11 passed, golden unchanged.
 
 ## Summary
 
