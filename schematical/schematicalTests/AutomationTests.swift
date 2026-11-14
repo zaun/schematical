@@ -317,6 +317,24 @@ final class AutomationTests: XCTestCase {
         XCTAssertTrue(result.isError, "only one port")
         let design = await call("get_design", id, [:])
         XCTAssertTrue(design.text.contains("port 1: pins"), design.text)
+        // Move a port along its line and to the other side.
+        let before = doc.buses[0].ports[0]
+        result = await call("set_bus_port", id, ["bus": "DB", "port": 1, "at": before.start + 20])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(doc.buses[0].ports[0].start, before.start + 20)
+        result = await call("set_bus_port", id, ["bus": "DB", "port": 1, "side": before.side == .left ? "right" : "left"])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertNotEqual(doc.buses[0].ports[0].side, before.side)
+        result = await call("set_bus_port", id, ["bus": "DB", "port": 1, "side": "top"])
+        XCTAssertTrue(result.isError, "top isn't a side of a vertical line")
+        // Delete it, with a wire on its pin left loose.
+        result = await call("delete", id, ["items": ["port:DB:1"]])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertTrue(result.text.contains("loose ends"), result.text)
+        XCTAssertTrue(doc.buses[0].ports.isEmpty)
+        XCTAssertNil(doc.pendingRemoval, "no dialog is left open")
+        result = await call("delete", id, ["items": ["port:DB:1"]])
+        XCTAssertTrue(result.isError, "no port left")
     }
 
     // MARK: Board tools

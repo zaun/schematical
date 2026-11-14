@@ -146,20 +146,24 @@ extension AutomationTools {
             run: { context, args in Out.text(try setBus(context!, args)) }),
         AutomationTool(
             name: "set_bus_port",
-            summary: "Choose which wires of a bus a port has pins for, or move the port along its line. Ports are "
-                + "numbered from 1 in get_design (BUSES). Removing a wire's pin removes the wires connected to it.",
+            summary: "Change a bus port: which wires have pins, which side the pins come out of, or where it sits "
+                + "along its line. Ports are numbered from 1 in get_design (BUSES). Removing a wire's pin leaves "
+                + "the wires on it with loose ends. Delete a port with delete [\"port:BUS:N\"].",
             properties: [
                 "bus": Schema.string("Bus name"), "port": Schema.integer("Port number, from 1"),
                 "wires": Schema.strings("The wire names to have pins, e.g. [\"D0\",\"WR\"]; default: unchanged"),
                 "add_wires": Schema.strings("Wire names to add pins for, keeping the rest"),
                 "remove_wires": Schema.strings("Wire names to remove pins for, keeping the rest"),
+                "side": Schema.string("top or bottom (horizontal bus line), left or right (vertical one)"),
+                "at": Schema.number("Where its first pin goes along the line: x on a horizontal bus line, y on a vertical one"),
             ],
             required: ["bus", "port"], edits: true,
             run: { context, args in Out.text(try setBusPort(context!, args)) }),
         AutomationTool(
             name: "delete",
             summary: "Delete items: parts by reference (\"U1\"; wires on its pins stay, with loose ends), "
-                + "\"wire:ID\", \"label:NAME\" or \"label:ID\", \"note:ID\", \"bus:NAME\", and on the PCB "
+                + "\"wire:ID\", \"label:NAME\" or \"label:ID\", \"note:ID\", \"bus:NAME\", \"port:BUS:N\" (a bus port, numbered from 1 in get_design; "
+                + "wires on its pins stay, with loose ends), and on the PCB "
                 + "\"trace:ID\", \"via:ID\", \"hole:ID\", \"text:ID\". Ids are printed by get_design and get_board.",
             properties: ["items": Schema.strings("Items to delete")], required: ["items"], edits: true,
             run: { context, args in Out.text(try delete(context!, args)) }),
@@ -514,21 +518,56 @@ extension AutomationTools {
     private static func setBusPort(_ context: AutomationContext, _ args: AutomationArgs) throws -> String {
         let document = context.document
         let bus = try bus(document, try args.string("bus"))
-        guard let number = args.optInt("port"), (1...max(bus.ports.count, 1)).contains(number), !bus.ports.isEmpty else {
-            throw AutomationFailure("bus \(bus.name) has \(bus.ports.count) ports (numbered from 1); add one with add_bus_port")
-        }
-        let port = bus.ports[number - 1]
+        let port = try busPort(bus, args.optInt("port"))
         var wanted = port.wireIDs
         if args.raw["wires"] != nil { wanted = Set(try args.strings("wires").map { try wire(bus, $0).id }) }
         if args.raw["add_wires"] != nil { wanted.formUnion(try args.strings("add_wires").map { try wire(bus, $0).id }) }
         if args.raw["remove_wires"] != nil { wanted.subtract(try args.strings("remove_wires").map { try wire(bus, $0).id }) }
-        guard wanted != port.wireIDs else { return "port \(number) already has those pins" }
+        let side = try args.optString("side").map { name -> ChipLayout.Side in
+            guard let side = [ChipLayout.Side.top, .bottom, .left, .right].first(where: { "\($0)" == name.lowercased() }) else {
+                throw AutomationFailure("side is top or bottom (on a horizontal bus line), left or right (on a vertical one)")
+            }
+            guard let line = bus.line(port.line), BusPort.sides(for: line).contains(side) else {
+                throw AutomationFailure("this port is on a \(bus.line(port.line)?.isHorizontal == false ? "vertical" : "horizontal") "
+                                        + "bus line: its side is "
+                                        + (bus.line(port.line)?.isHorizontal == false ? "left or right" : "top or bottom"))
+            }
+            return side
+        }
+        let along = args.optDouble("at").map { SchematicGrid.snap(CGFloat($0)) }
+        guard wanted != port.wireIDs || side != nil || along != nil else {
+            throw AutomationFailure("nothing to change: give wires, add_wires, remove_wires, side or at")
+        }
         var problem: String?
-        document.recordEdit(.schematic, "Change Port Pins") { problem = document.setPortWires(port.id, wanted) }
+        document.recordEdit(.schematic, "Change Port") {
+            if wanted != port.wireIDs { problem = document.setPortWires(port.id, wanted) }
+            if problem == nil, let side, document.port(port.id)?.port.side != side {
+                problem = document.setPortSide(port.id, side)
+            }
+            if problem == nil, let along, !document.slidePort(port.id, to: along) {
+                problem = "the port can't go to \(num(Double(along))): it must stay on its line, clear of its ends, "
+                    + "the joints and the other ports"
+            }
+        }
         document.clearAllSelections()
-        if let problem { throw AutomationFailure(problem) }
-        let names = document.bus(bus.id).map { $0.wires.filter { wanted.contains($0.id) }.map(\.name).joined(separator: ",") } ?? ""
-        return "port \(number) of \(bus.name) has pins: \(names)"
+        let now = document.port(port.id)
+        let text = now.map { "port \(describe($0.port, in: $0.bus))" } ?? "the port"
+        if let problem { throw AutomationFailure(problem + " (changes before this one stay applied; \(text))") }
+        return text
+    }
+
+    /// "pins D0,D1 on the top, starting at 120" for get_design and the port tools.
+    static func describe(_ port: BusPort, in bus: Bus) -> String {
+        let pins = bus.wires.filter { port.wireIDs.contains($0.id) }.map(\.name).joined(separator: ",")
+        let axis = bus.line(port.line)?.isHorizontal == false ? "y" : "x"
+        return "pins \(pins); side \(port.side); first pin at \(axis)=\(num(Double(port.start)))"
+    }
+
+    private static func busPort(_ bus: Bus, _ number: Int?) throws -> BusPort {
+        guard let number, bus.ports.indices.contains(number - 1) else {
+            throw AutomationFailure("bus \(bus.name) has \(bus.ports.count) ports (numbered from 1); add one with add_bus_port")
+        }
+        return bus.ports[number - 1]
     }
 
     private static func addBusPort(_ context: AutomationContext, _ args: AutomationArgs) throws -> String {
@@ -603,11 +642,25 @@ extension AutomationTools {
 
     private static func delete(_ context: AutomationContext, _ args: AutomationArgs) throws -> String {
         let document = context.document
-        let items = try args.strings("items").map { try item($0, context, forDelete: true) }
-        guard !items.isEmpty else { throw AutomationFailure("items is empty") }
+        let specs = try args.strings("items")
+        // Ports are numbered per bus, so find them all before deleting any.
+        let ports = try specs.filter { $0.lowercased().hasPrefix("port:") }.map { try portID($0, document) }
+        let items = try specs.filter { !$0.lowercased().hasPrefix("port:") }.map { try item($0, context, forDelete: true) }
+        guard !items.isEmpty || !ports.isEmpty else { throw AutomationFailure("items is empty") }
         var removed = 0
+        var loose = 0
         document.recordEdit(.schematic, "Delete") {
             document.clearAllSelections()
+            for id in ports {
+                loose += document.wiresOnPins(port: id)
+                document.selectedPortID = id
+                if document.deleteSchematicSelection() {
+                    // The app asks first when wires are on its pins; the agent has said to delete.
+                    if document.pendingRemoval != nil { document.confirmPendingRemoval() }
+                    removed += 1
+                }
+                document.clearAllSelections()
+            }
             for item in items {
                 switch item {
                 case let .schematic(item):
@@ -625,6 +678,14 @@ extension AutomationTools {
         }
         guard removed > 0 else { throw AutomationFailure(document.editorMessage ?? "nothing was deleted") }
         return "deleted \(removed) item\(removed == 1 ? "" : "s")"
+            + (loose > 0 ? "; \(loose) wire\(loose == 1 ? "" : "s") on the port pins now have loose ends" : "")
+    }
+
+    /// The port "port:BUS:N" names (N counts from 1, as get_design lists them).
+    private static func portID(_ spec: String, _ document: SchematicDocument) throws -> UUID {
+        let parts = spec.split(separator: ":", omittingEmptySubsequences: false).map(String.init)
+        guard parts.count == 3, let number = Int(parts[2]) else { throw AutomationFailure("a port looks like port:BUS:N, e.g. port:DB:1") }
+        return try busPort(try bus(document, parts[1]), number).id
     }
 
     private static func select(_ context: AutomationContext, _ args: AutomationArgs) throws -> String {
