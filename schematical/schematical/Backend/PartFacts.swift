@@ -133,6 +133,11 @@ nonisolated enum PartFacts {
             add("RAM", bytes(ram))
             add("EEPROM", bytes(eeprom))
             add("PSRAM", bytes(psram))
+        case let .resistor(ohms, tolerancePercent, powerW, resistors):
+            add("Resistance", ResistorValue.text(part.hasOhmsField ? chip.ohms ?? ohms : ohms))
+            add("Tolerance", tolerancePercent.map { "±" + percentText($0) } ?? "")
+            add("Power", powerW.map(wattsText) ?? "")
+            if resistors > 1 { add("Resistors", String(resistors)) }
         }
         if !part.isSimulated { add("Simulation", "Not simulated") }
 
@@ -181,6 +186,7 @@ nonisolated enum PartFacts {
         case PART_CAPACITOR: return "Capacitor"
         case PART_REGISTER: return "Register"
         case PART_MCU: return "Microcontroller"
+        case PART_RESISTOR: return "Resistor"
         default: return ""
         }
     }
@@ -190,6 +196,7 @@ nonisolated enum PartFacts {
     /// kinds as `kindName(_: PartKind)`.
     static func kindName(_ part: CatalogPart) -> String {
         if part.isTactileSwitch { return "Tactile switch" }
+        if case let .resistor(_, _, _, resistors) = part.details, resistors > 1 { return "Resistor array" }
         if case .connector(_, _, _, _, _?) = part.details { return "USB connector" }
         if case let .converter(type, _, _) = part.details {
             switch type {
@@ -234,6 +241,16 @@ nonisolated enum PartFacts {
         while text.hasSuffix("0") { text.removeLast() }
         if text.hasSuffix(".") { text.removeLast() }
         return text
+    }
+
+    /// A resistor's tolerance as shown (plan-34-G): 1 → "1%", 0.1 → "0.1%".
+    static func percentText(_ percent: Double) -> String {
+        String(format: "%g%%", percent)
+    }
+
+    /// A resistor's power as shown (plan-34-G): 0.1 → "0.1 W", 0.0625 → "0.0625 W".
+    static func wattsText(_ watts: Double) -> String {
+        String(format: "%g W", watts)
     }
 
     /// A parallel I/O model as shown: "6521 PIA", "6522 VIA"; others raw.

@@ -321,6 +321,11 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// A microcontroller (plan-36): its core ("avr", "avrxt", "riscv", …),
         /// highest clock, and flash, RAM, EEPROM and PSRAM in bytes (0 = none).
         case mcu(core: String, maxHz: UInt64, flash: UInt32, ram: UInt32, eeprom: UInt32, psram: UInt32)
+        /// A resistor (plan-34): its resistance in ohms (0 = a jumper), its
+        /// tolerance in percent and rated power per element in watts (nil when
+        /// not given: the generic part, a jumper's tolerance), and the
+        /// resistor elements in the package (more than 1: an array).
+        case resistor(ohms: Double, tolerancePercent: Double?, powerW: Double?, resistors: Int)
     }
 
     let name: String
@@ -453,6 +458,20 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     /// capacitance per placed part (`PlacedChip.farads`) and footprint choices.
     var isGenericCapacitor: Bool { kind == PART_CAPACITOR && manufacturer == "Generic" }
 
+    /// `GENERIC-RESISTOR` (plan-34): a resistor of no one maker, with a
+    /// resistance per placed part (`PlacedChip.ohms`) and footprint choices.
+    var isGenericResistor: Bool { kind == PART_RESISTOR && manufacturer == "Generic" }
+
+    /// A part whose placed copies carry their own resistance
+    /// (`PlacedChip.ohms`, the Ohms field): the pulls and `GENERIC-RESISTOR`.
+    var hasOhmsField: Bool { isPullResistor || isGenericResistor }
+
+    /// The resistance of a resistor part, in ohms; nil for every other kind.
+    var resistorOhms: Double? {
+        if case let .resistor(ohms, _, _, _) = details { return ohms }
+        return nil
+    }
+
     /// The capacitance of a capacitor part; nil for every other kind.
     var capacitorFarads: Double? {
         if case let .capacitor(_, _, farads, _, _, _) = details { return farads }
@@ -577,6 +596,10 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
             return [CapacitorValue.text(farads)] + (ratedMV > 0 ? ["\(PartFacts.milli(ratedMV)) V"] : [])
                 + (dielectric.map { [$0] } ?? [])
         case let .mcu(_, maxHz, _, _, _, _): return [PartFacts.hertz(maxHz)]
+        case let .resistor(ohms, tolerancePercent, powerW, _):
+            return [ResistorValue.text(ohms)]
+                + (tolerancePercent.map { [PartFacts.percentText($0)] } ?? [])
+                + (powerW.map { [PartFacts.wattsText($0)] } ?? [])
         }
     }
 }
@@ -764,6 +787,12 @@ extension CatalogPart {
         } else if let mcu = part.mcu?.pointee {
             details = .mcu(core: string(mcu.core), maxHz: mcu.max_hz, flash: mcu.flash, ram: mcu.ram,
                            eeprom: mcu.eeprom, psram: mcu.psram)
+        } else if let resistor = part.resistor?.pointee {
+            details = .resistor(ohms: Double(resistor.milliohms) / 1000,
+                                tolerancePercent: resistor.tolerance_ppm == 0 ? nil
+                                    : Double(resistor.tolerance_ppm) / 10000,
+                                powerW: resistor.power_mw == 0 ? nil : Double(resistor.power_mw) / 1000,
+                                resistors: Int(resistor.resistor_count))
         } else {
             details = .supply(level: 0, mv: 0, pull: false)
         }
@@ -1024,6 +1053,13 @@ func symbol(for part: CatalogPart) -> PartSymbol {
               part.pins.contains(where: { $0.name == "K" }) else { return .block }
         return .plainDiode
     case PART_CAPACITOR: return .capacitor
+    case PART_RESISTOR:
+        // A single resistor with pins 1 and 2 draws as a resistor; arrays
+        // as a block (plan-34-G).
+        guard case let .resistor(_, _, _, resistors) = part.details, resistors == 1,
+              part.pins.contains(where: { $0.name == "1" }),
+              part.pins.contains(where: { $0.name == "2" }) else { return .block }
+        return .resistor
     default: return .block
     }
 }
@@ -1355,12 +1391,17 @@ final class PartCatalogStore {
     /// Parts grouped by `drawerLeaf` (the function, or a tactile switch's
     /// size), groups and parts in natural order ("8 KB" before "32 KB").
     /// Capacitor leaves ("10 pF" … "4700 µF") go by capacitance instead
-    /// (plan-33-H): the smallest `farads` of each group, ties by name.
+    /// (plan-33-H): the smallest `farads` of each group, ties by name; and
+    /// resistor leaves ("< 1 kΩ" … "≥ 1 MΩ") by resistance (plan-34-G).
     private static func functionGroups(_ parts: [CatalogPart]) -> [FunctionGroup] {
         let groups = Dictionary(grouping: parts, by: \.drawerLeaf)
-        let byValue = !parts.isEmpty && parts.allSatisfy { $0.capacitorFarads != nil }
+        let value: (CatalogPart) -> Double? =
+            !parts.isEmpty && parts.allSatisfy({ $0.capacitorFarads != nil }) ? { $0.capacitorFarads }
+            : !parts.isEmpty && parts.allSatisfy({ $0.resistorOhms != nil }) ? { $0.resistorOhms }
+            : { _ in nil }
+        let byValue = !parts.isEmpty && parts.allSatisfy { value($0) != nil }
         func smallest(_ parts: [CatalogPart]) -> Double {
-            parts.compactMap(\.capacitorFarads).min() ?? 0
+            parts.compactMap(value).min() ?? 0
         }
         return groups
             .sorted {

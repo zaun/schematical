@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """plan-34 census: pick the resistors to add from the top.js listings.
 
-usage: python3 -I select.py <raw dir> <candidates.tsv> [--verdicts <tsv>] [--report]
+usage: python3 -I select.py <raw dir> <candidates.tsv> [--verdicts <tsv>] [--stock <tsv>] [--report]
+
+--stock: plan-34-A § 5 rule 2's part-by-part check (stock-check.tsv: mpn,
+found, stock, status, date). A row with found 0 is out, reason 'stock check',
+before rule 2.
 
 --verdicts: plan-34-B's datasheet verdicts, a TSV with columns mpn, verdict
 (add | skip), reason, datasheet (the PDF path). A skip row is never picked
@@ -111,11 +115,21 @@ def main():
         path = sys.argv[sys.argv.index('--verdicts') + 1]
         for v in csv.DictReader(open(path), delimiter='\t'):
             verdicts[v['mpn']] = v
+    stock = {}
+    if '--stock' in sys.argv:
+        path = sys.argv[sys.argv.index('--stock') + 1]
+        for v in csv.DictReader(open(path), delimiter='\t'):
+            stock[v['mpn']] = v
+    for r in rows:
+        s = stock.get(r['mpn'])
+        if r['decision'] == 'candidate' and s and s['found'] != '1':
+            r['decision'], r['reason'] = 'out', 'stock check'
     for r in rows:
         v = verdicts.get(r['mpn'])
         r['pdf'] = v['datasheet'] if v else ''
-        if r['decision'] == 'candidate' and v and v['verdict'] == 'skip':
-            r['decision'], r['reason'] = 'skip', v['reason']
+        if r['decision'] == 'candidate' and v and v['verdict'] in ('skip', 'out'):
+            # plan-34-B § 3.2: a datasheet-status row is out, never picked.
+            r['decision'], r['reason'] = v['verdict'], v['reason']
     live = sorted((r for r in rows if r['decision'] == 'candidate'),
                   key=lambda r: (-r['stock'], r['mpn']))
     # Two per key: the most-stocked part, then the most-stocked part of
@@ -175,10 +189,26 @@ def main():
             cat = os.path.basename(err)[:2]
             stem = os.path.basename(err)[:-4]
             for line in open(err):
+                f = re.match(r'piece (.*): failed: (.*)', line)
+                if f:
+                    print(f"FAILED PIECE {os.path.basename(err)} {f.group(1)}: {f.group(2)[:120]}")
                 m = re.match(r'piece (.*): 300 of (\d+) \(cut at 300: (\d+)\)', line)
                 if m and '-re-' not in stem and any(
                         l == m.group(1) or l.startswith(m.group(1) + '/') for l in relisted.get(stem, [])):
                     continue
+                if m and '(stock ≥' not in line:
+                    # A listing down to a stock at or below the floor
+                    # (top.js TOP_MIN_QTY, plan-34-A § Corrections 3) of the
+                    # same piece, not itself cut, completes it.
+                    maker_stem = stem.split('-re-')[0]
+                    deep = [(int(q), cut) for e in glob.glob(os.path.join(raw, f'{maker_stem}-re-*.err'))
+                            for l in open(e)
+                            for (lab, cut, q) in re.findall(
+                                r'^piece (.*): \d+ of \d+( \(cut at 300: \d+\))?(?: \(both ends\))? \(stock ≥ (\d+)\)$', l)
+                            if lab == m.group(1) or lab.startswith(m.group(1) + '/')]
+                    if deep and all(q <= floor.get(cat, 0) and not cut for q, cut in deep):
+                        print(f"cap {os.path.basename(err)} {m.group(1)}: 300th stock {m.group(3)}, floor {floor.get(cat)} -> complete (listed down to stock {max(q for q, _ in deep)})")
+                        continue
                 if m:
                     ok = int(m.group(3)) < floor.get(cat, 0)
                     print(f"cap {os.path.basename(err)} {m.group(1)}: 300th stock {m.group(3)}, floor {floor.get(cat)} -> {'complete' if ok else 'NEEDS DEEPER LISTING'}")

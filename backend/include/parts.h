@@ -26,7 +26,7 @@ typedef enum {
     PART_LED, PART_7SEG, PART_OSCILLATOR, PART_SUPPLY, PART_EEPROM, PART_LATCH, PART_COUNTER,
     PART_SHIFT, PART_CPU, PART_CHARLCD, PART_SERIAL, PART_CONNECTOR, PART_PIO, PART_DECODER,
     PART_BUFFER, PART_MUX, PART_HEADER, PART_ARITH, PART_CONVERTER, PART_RTC, PART_DIODE,
-    PART_CAPACITOR, PART_REGISTER, PART_MCU
+    PART_CAPACITOR, PART_REGISTER, PART_MCU, PART_RESISTOR
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -145,6 +145,13 @@ typedef struct { const char *type; size_t diode_count;
 typedef struct { const char *type; int polarized; uint64_t capacitance_ff;
                  uint32_t rated_mv; const char *dielectric;
                  const char *tolerance; } PartCapacitor;
+/* A resistor part (plan-34-E): resistor_count: the device's (a, b) pairs,
+   one per element. milliohms: the resistance (0 = a jumper); tolerance_ppm:
+   the tolerance in parts per million (10000 = 1 %); power_mw: rated power
+   per element. 0 = not given for tolerance and power (the generic part, a
+   jumper's tolerance). */
+typedef struct { size_t resistor_count; uint64_t milliohms;
+                 uint32_t tolerance_ppm, power_mw; } PartResistor;
 
 /* A microcontroller (plan-36-F): facts only, no simulation model (its
    device says "simulated": false). core: "avr", "avrrc", "avrxt", "avrxm",
@@ -233,6 +240,7 @@ typedef struct Part {
     const PartConverter *converter;
     const PartCapacitor *capacitor;
     const PartMcu *mcu;
+    const PartResistor *resistor;
     /* Dual-supply parts (plan-20-F): domain 0 is the A side (its vcc is
        Part.vcc), domain 1 the B side; NULL/0 for single-supply parts. */
     const PartSupplyDomain *domains; size_t domain_count;

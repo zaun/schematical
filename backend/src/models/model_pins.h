@@ -22,6 +22,11 @@ int charlcd_backlight_pins(const Part *part, size_t index, size_t *anode, size_t
    indices into Part.pins (diode.c). Links are the device's pairs, then the
    ties between same-named pins (both ways). 0 past the last link. */
 int diode_pair(const Part *part, size_t k, size_t *anode, size_t *cathode);
+/* A resistor part's k-th link (0-based, plan-34-E): its two ends, as
+   indices into Part.pins (resistor.c). Links are the device's pairs, then
+   the ties between same-named pins (both ways). 0 past the last link, and
+   for a part that is no resistor. */
+int resistor_pair(const Part *part, size_t k, size_t *a, size_t *b);
 
 /* A switch position's (1-based) two contact pins, as indices into Part.pins. */
 int switch_contact_pins(const Part *part, unsigned position, size_t *a, size_t *b);

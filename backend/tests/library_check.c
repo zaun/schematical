@@ -1453,7 +1453,7 @@ static void check_supply_cases(void) {
     expect_fail("version 2",
                 "{'format':'schematical-parts','version':2,'kind':'supply','devices':[]}",
                 "unsupported version 2");
-    expect_fail("unknown kind", HEAD("resistor") TAIL, "unknown kind \"resistor\"");
+    expect_fail("unknown kind", HEAD("no-such-kind") TAIL, "unknown kind \"no-such-kind\"");
     expect_fail("unknown file key",
                 "{'format':'schematical-parts','version':1,'kind':'supply','devices':[],'x':1}",
                 "unknown key \"x\"");

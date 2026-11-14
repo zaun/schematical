@@ -34,6 +34,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_CAPACITOR: return "capacitor";
         case PART_REGISTER: return "register";
         case PART_MCU: return "mcu";
+        case PART_RESISTOR: return "resistor";
     }
     return "?";
 }
@@ -117,6 +118,12 @@ static void print_details(FILE *out, const Part *part) {
             if (part->mcu->psram != 0) {
                 fprintf(out, " psram=%u", (unsigned)part->mcu->psram);
             }
+            break;
+        case PART_RESISTOR:
+            fprintf(out, "resistors=%zu milliohms=%llu tol=%u power=%u",
+                    part->resistor->resistor_count,
+                    (unsigned long long)part->resistor->milliohms,
+                    (unsigned)part->resistor->tolerance_ppm, (unsigned)part->resistor->power_mw);
             break;
         case PART_SRAM:
             fprintf(out, "words=%u bits=%u access_ps=%llu", (unsigned)part->sram->words,
