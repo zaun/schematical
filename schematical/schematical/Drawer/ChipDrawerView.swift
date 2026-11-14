@@ -12,7 +12,8 @@ nonisolated struct ChipPartDragItem: Codable, Hashable, Sendable, Transferable {
 }
 
 /// Right-hand drawer. Parts are grouped by their drawer path (from the part
-/// files), then by readable function: Memory → SRAM → 32 KB. Tactile switches
+/// files, up to three levels), then by readable function: Memory → SRAM →
+/// 32 KB, Discrete → Resistors → Chip → 1 kΩ – 5 kΩ. Tactile switches
 /// are grouped by body size instead (Switch → Tactile → 6 × 6 mm); DIP
 /// switches, LEDs and 7-segment displays skip the function level. The top bar filters by
 /// package and supply voltage. Each category header carries the menus for the kinds
@@ -77,20 +78,7 @@ struct ChipDrawerView: View, Equatable {
                 ForEach(groups) { category in
                     DisclosureGroup(isExpanded: $openCategory[drawerOpenCategory: category.category]) {
                         ForEach(category.subcategories) { subcategory in
-                            let key = subcategoryKey(category.category, subcategory.subcategory)
-                            DisclosureGroup(isExpanded: expansion(for: key, defaultOpen: false)) {
-                                ForEach(subcategory.functions) { function in
-                                    functionGroup(function, path: "\(category.category)/\(subcategory.subcategory)")
-                                }
-                                ForEach(subcategory.parts) { entry in
-                                    partRow(entry)
-                                }
-                            } label: {
-                                subcategoryHeader(subcategory.subcategory)
-                            }
-                            // Set on each level: a nested group does not pick
-                            // up the style from its parent's content.
-                            .disclosureGroupStyle(DrawerDisclosureStyle())
+                            subcategoryGroup(subcategory)
                         }
                         ForEach(category.functions) { function in
                             functionGroup(function, path: category.category)
@@ -206,16 +194,16 @@ struct ChipDrawerView: View, Equatable {
     }
 
     @ViewBuilder
-    private func subcategoryHeader(_ subcategory: String) -> some View {
+    private func subcategoryHeader(_ subcategory: PartCatalogStore.SubcategoryGroup) -> some View {
         HStack {
-            Text(subcategory)
+            Text(subcategory.subcategory)
                 .font(.body.weight(.semibold))
             Spacer()
-            let kinds = catalog.kinds(inSubcategory: subcategory)
+            let kinds = catalog.kinds(inGroup: subcategory.path)
             if kinds.contains(PART_7SEG.rawValue) {
                 countMenu(counts: catalog.displayDigitCounts, selection: $filter.displayDigits, unit: "digit")
                 textMenu(catalog.displaySizes, selection: $filter.displaySize, all: "All sizes")
-            } else if catalog.isTactile(subcategory: subcategory) {
+            } else if catalog.isTactile(group: subcategory.path) {
                 textMenu(catalog.tactileActuators, selection: $filter.tactileActuator, all: "All actuators")
             }
         }
@@ -287,8 +275,33 @@ struct ChipDrawerView: View, Equatable {
 
     // MARK: Rows
 
-    /// A function's parts, closed by default. `path` is the category, plus the
-    /// subcategory when there is one, so equal function names in different
+    /// A group below a category, closed by default: its own subgroups (a
+    /// third drawer level), then its functions or parts. Type-erased because
+    /// it holds itself.
+    private func subcategoryGroup(_ subcategory: PartCatalogStore.SubcategoryGroup) -> AnyView {
+        let path = subcategory.path.joined(separator: "/")
+        return AnyView(
+            DisclosureGroup(isExpanded: expansion(for: subcategoryKey(path), defaultOpen: false)) {
+                ForEach(subcategory.subgroups) { subgroup in
+                    subcategoryGroup(subgroup)
+                }
+                ForEach(subcategory.functions) { function in
+                    functionGroup(function, path: path)
+                }
+                ForEach(subcategory.parts) { entry in
+                    partRow(entry)
+                }
+            } label: {
+                subcategoryHeader(subcategory)
+            }
+            // Set on each level: a nested group does not pick
+            // up the style from its parent's content.
+            .disclosureGroupStyle(DrawerDisclosureStyle())
+        )
+    }
+
+    /// A function's parts, closed by default. `path` is the drawer path
+    /// ("Discrete/Resistors/Chip"), so equal function names in different
     /// groups open and close separately.
     private func functionGroup(_ function: PartCatalogStore.FunctionGroup, path: String) -> some View {
         let key = functionKey(path, function.function)
@@ -375,11 +388,12 @@ struct ChipDrawerView: View, Equatable {
 
     // MARK: Collapsing
 
-    private func subcategoryKey(_ category: String, _ subcategory: String) -> String {
-        "subcategory:\(category)/\(subcategory)"
+    /// `path` is the group's drawer path, e.g. "Memory/SRAM".
+    private func subcategoryKey(_ path: String) -> String {
+        "subcategory:\(path)"
     }
 
-    /// `path` is the category, or "category/subcategory".
+    /// `path` is the drawer path above the function, e.g. "Memory/SRAM".
     private func functionKey(_ path: String, _ function: String) -> String {
         "function:\(path)/\(function)"
     }

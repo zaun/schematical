@@ -337,8 +337,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     /// The parts-drawer leaf: "NAND", "32 KB", "LED", a frequency band.
     let function: String
     let description: String
-    /// The parts-drawer path above the function, such as ["Memory", "SRAM"].
-    /// Empty for parts that are never listed (VCC, GND).
+    /// The parts-drawer path above the function, 1–3 levels such as
+    /// ["Memory", "SRAM"] or ["Discrete", "Resistors", "Chip"]. Empty for
+    /// parts that are never listed (VCC, GND).
     let drawer: [String]
     let flags: Flags
     /// The company that makes the part; "Generic" for parts no one company
@@ -1098,15 +1099,28 @@ final class PartCatalogStore {
         var title: String { "\(bits)-bit" }
     }
 
+    /// A drawer group below a category: its second level (Memory → SRAM)
+    /// or third (Discrete → Resistors → Chip).
     struct SubcategoryGroup: Identifiable, Hashable {
         let subcategory: String
+        /// The drawer path down to and including this group, e.g.
+        /// ["Discrete", "Resistors"].
+        let path: [String]
+        /// Parts with a drawer level below this one, grouped under it
+        /// (Discrete → Resistors → Chip). Empty at the third level.
+        var subgroups: [SubcategoryGroup] = []
         let functions: [FunctionGroup]
         /// Parts listed straight under the subcategory, with no function level:
         /// switches (the function is only the vendor's series), LEDs,
         /// 7-segment displays and character LCDs.
         var parts: [CatalogPart] = []
 
-        var id: String { subcategory }
+        var id: String { path.joined(separator: "/") }
+
+        /// Every part in the group and the groups below it.
+        var allParts: [CatalogPart] {
+            parts + functions.flatMap(\.parts) + subgroups.flatMap(\.allParts)
+        }
     }
 
     struct CategoryGroup: Identifiable, Hashable {
@@ -1117,6 +1131,11 @@ final class PartCatalogStore {
         let functions: [FunctionGroup]
 
         var id: String { category }
+
+        /// Every part in the category.
+        var allParts: [CatalogPart] {
+            functions.flatMap(\.parts) + subcategories.flatMap(\.allParts)
+        }
     }
 
     /// The app's one catalog, shared by every window. The part files are
@@ -1157,9 +1176,10 @@ final class PartCatalogStore {
         Set(entries.filter { $0.drawer.first == category }.map(\.kind.rawValue))
     }
 
-    /// The kinds of part listed under a second-level drawer group.
-    func kinds(inSubcategory subcategory: String) -> Set<UInt32> {
-        Set(entries.filter { $0.drawer.count > 1 && $0.drawer[1] == subcategory }.map(\.kind.rawValue))
+    /// The kinds of part listed under a drawer group: `path` is its drawer
+    /// path, e.g. ["Indicators", "LED 7-Seg"].
+    func kinds(inGroup path: [String]) -> Set<UInt32> {
+        Set(entries.filter { $0.drawer.starts(with: path) }.map(\.kind.rawValue))
     }
 
     /// Logic families of the gates and flip-flops in a category.
@@ -1207,9 +1227,10 @@ final class PartCatalogStore {
         sortedNames(entries.compactMap(\.display).map(\.size))
     }
 
-    /// Whether a second-level drawer group lists tactile switches.
-    func isTactile(subcategory: String) -> Bool {
-        entries.contains { $0.isTactileSwitch && $0.drawer.count > 1 && $0.drawer[1] == subcategory }
+    /// Whether a drawer group (`path`, as for `kinds(inGroup:)`) lists
+    /// tactile switches.
+    func isTactile(group path: [String]) -> Bool {
+        entries.contains { $0.isTactileSwitch && $0.drawer.starts(with: path) }
     }
 
     /// The tactile switches' actuators ("Round Button", "Standard", ...).
@@ -1350,22 +1371,32 @@ final class PartCatalogStore {
         return byCategory
             .sorted { $0.key.localizedStandardCompare($1.key) == .orderedAscending }
             .map { category, parts in
-                let bySubcategory = Dictionary(
-                    grouping: parts.filter { $0.drawer.count > 1 },
-                    by: { $0.drawer[1] }
-                )
-                let subcategories = bySubcategory
-                    .sorted { $0.key.localizedStandardCompare($1.key) == .orderedAscending }
-                    .map { subcategory, parts in
-                        Self.listsPartsDirectly(parts)
-                            ? SubcategoryGroup(subcategory: subcategory, functions: [], parts: Self.byCountThenName(parts))
-                            : SubcategoryGroup(subcategory: subcategory, functions: Self.functionGroups(parts))
-                    }
-                return CategoryGroup(
+                CategoryGroup(
                     category: category,
-                    subcategories: subcategories,
+                    subcategories: Self.subgroups(parts, below: [category]),
                     functions: Self.functionGroups(parts.filter { $0.drawer.count == 1 })
                 )
+            }
+    }
+
+    /// The groups one drawer level below `path`, from the parts listed
+    /// under it: each group holds its parts' deeper levels as subgroups, and
+    /// the parts whose path ends there by function (or directly, as
+    /// `listsPartsDirectly`).
+    private static func subgroups(_ parts: [CatalogPart], below path: [String]) -> [SubcategoryGroup] {
+        let level = path.count
+        let byName = Dictionary(grouping: parts.filter { $0.drawer.count > level }, by: { $0.drawer[level] })
+        return byName
+            .sorted { $0.key.localizedStandardCompare($1.key) == .orderedAscending }
+            .map { name, parts in
+                let groupPath = path + [name]
+                let own = parts.filter { $0.drawer.count == groupPath.count }
+                let subgroups = Self.subgroups(parts, below: groupPath)
+                return listsPartsDirectly(own)
+                    ? SubcategoryGroup(subcategory: name, path: groupPath, subgroups: subgroups,
+                                       functions: [], parts: byCountThenName(own))
+                    : SubcategoryGroup(subcategory: name, path: groupPath, subgroups: subgroups,
+                                       functions: functionGroups(own))
             }
     }
 
