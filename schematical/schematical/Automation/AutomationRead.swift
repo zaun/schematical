@@ -126,7 +126,16 @@ extension AutomationTools {
         }
         out.append("WIRES")
         for wire in document.wires {
-            out.append("\(context.short(wire.id))  \(context.endName(wire.start)) -> \(context.endName(wire.end))")
+            let route = document.path(forWire: wire.id).map { "(\(num($0.x)),\(num($0.y)))" }.joined(separator: " ")
+            out.append("\(context.short(wire.id))  \(context.endName(wire.start)) -> \(context.endName(wire.end))"
+                       + (route.isEmpty ? "" : "  via \(route)"))
+        }
+        if !document.junctions.isEmpty {
+            out.append("JUNCTIONS")
+            for junction in document.junctions {
+                out.append("junction:\(context.short(junction.id))  at (\(num(junction.point.x)),\(num(junction.point.y)))"
+                           + (junction.isLoose ? "  loose end" : ""))
+            }
         }
         if !document.netLabels.isEmpty {
             out.append("NET LABELS")

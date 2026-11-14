@@ -292,6 +292,60 @@ final class AutomationTests: XCTestCase {
         XCTAssertTrue(result.isError, "B3 has no port pin")
     }
 
+    func testMovingAndEditingLabelsNotesAndWireRoutes() async {
+        let (id, doc) = newWindow()
+        _ = await call("place_part", id, ["part": "GENERIC-LED", "x": 200, "y": 200])
+        _ = await call("add_net_label", id, ["name": "clk", "x": 100, "y": 100])
+        var result = await call("connect", id, ["from": "D1.A", "to": "label:clk"])
+        XCTAssertFalse(result.isError, result.text)
+        _ = await call("add_note", id, ["text": "hello", "x": 40, "y": 300])
+        let noteID = String(doc.notes[0].id.uuidString.prefix(8))
+        let labelID = String(doc.netLabels[0].id.uuidString.prefix(8))
+        let wireID = String(doc.wires[0].id.uuidString.prefix(8))
+
+        // Move the label: its wire follows, nothing is left loose.
+        result = await call("move", id, ["items": ["label:\(labelID)"], "x": 60, "y": 140])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(doc.netLabels[0].origin, CGPoint(x: 60, y: 140))
+        XCTAssertEqual(doc.wires.count, 1)
+        XCTAssertTrue(doc.wirePaths.allSatisfy(OrthogonalRoute.isOrthogonal))
+        XCTAssertEqual(doc.wirePaths[0].last == doc.netLabelTip(doc.netLabels[0].id) || doc.wirePaths[0].first == doc.netLabelTip(doc.netLabels[0].id), true)
+
+        // A note and a part together by an offset.
+        let before = doc.notes[0].origin
+        result = await call("move", id, ["items": ["note:\(noteID)", "D1"], "dx": 20, "dy": 10])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(doc.notes[0].origin, CGPoint(x: before.x + 20, y: before.y + 10))
+        result = await call("move", id, ["items": ["note:\(noteID)", "D1"], "x": 5, "y": 5])
+        XCTAssertTrue(result.isError, "x,y is for one item")
+
+        // Rename and retype the label; edit the note.
+        result = await call("set_net_label", id, ["label": "label:\(labelID)", "name": "dat", "style": "output", "flip": true])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(doc.netLabels[0].name, "dat")
+        XCTAssertEqual(doc.netLabels[0].style, .output)
+        result = await call("set_net_label", id, ["label": "label:\(labelID)", "style": "bogus"])
+        XCTAssertTrue(result.isError)
+        result = await call("set_note", id, ["note": noteID, "text": "changed\ntext", "size": 18, "framed": false])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(doc.notes[0].text, "changed\ntext")
+        XCTAssertEqual(doc.notes[0].size, 18)
+        XCTAssertFalse(doc.notes[0].framed)
+        result = await call("set_note", id, ["note": noteID, "text": ""])
+        XCTAssertTrue(result.isError, "empty text refused")
+
+        // Re-route the wire through a waypoint.
+        result = await call("set_wire_route", id, ["wire": wireID, "via": [[120, 400], [80, 400]]])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertTrue(doc.wirePaths.allSatisfy(OrthogonalRoute.isOrthogonal))
+        XCTAssertTrue(doc.wirePaths[0].contains(CGPoint(x: 120, y: 400)), "\(doc.wirePaths[0])")
+        result = await call("set_wire_route", id, ["wire": wireID, "via": []])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(doc.wires.count, 1)
+        let design = await call("get_design", id, [:])
+        XCTAssertTrue(design.text.contains("via ("), design.text)
+    }
+
     func testEditingAnExistingBus() async {
         let (id, doc) = newWindow()
         _ = await call("add_bus", id, ["x1": 400, "y1": 100, "x2": 400, "y2": 300, "name": "DB", "wires": 3])

@@ -49,7 +49,7 @@ tools say so; nothing else depends on it.
 - No tool quits the app or touches anything outside the open designs and the
   shared folder.
 
-## The tools (49)
+## The tools (53)
 
 Every tool except the few marked *(no window)* takes an optional `window`
 (an id from `list_windows`; the frontmost window by default).
@@ -60,9 +60,9 @@ Every tool except the few marked *(no window)* takes an optional `window`
 crops to zoom in).
 
 **Schematic** — `place_part`, `connect` (pin, net label, bus pin or point on
-a wire; `via` waypoints), `disconnect`, `move_part`, `flip_part`, `set_part`
+a wire; `via` waypoints), `disconnect`, `move_part`, `move`, `flip_part`, `set_part`
 (rename, color, ohms, farads, footprint, gender), `add_net_label`,
-`add_note`, `add_bus`, `set_bus`, `add_bus_port`, `set_bus_port`, `delete`, `select`.
+`add_note`, `set_net_label`, `set_note`, `set_wire_route`, `add_bus`, `set_bus`, `add_bus_port`, `set_bus_port`, `delete`, `select`.
 
 **PCB** — `set_board` (size, type, layers, grid, units, color), `set_layer`
 (plane or wire layers, plane net, clearance), `move_footprint` (position,

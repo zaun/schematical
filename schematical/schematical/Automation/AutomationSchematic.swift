@@ -59,6 +59,48 @@ extension AutomationTools {
             required: ["reference"], edits: true,
             run: { context, args in Out.text(try movePart(context!, args)) }),
         AutomationTool(
+            name: "move",
+            summary: "Move schematic items together: parts (\"U1\"), \"label:NAME\" or \"label:ID\", \"note:ID\", "
+                + "\"junction:ID\", \"bus:NAME\" and \"wire:ID\" (its bends only). Wires attached to a moved part, label, "
+                + "junction or bus port follow, as when dragging in the app. Give dx and dy, or x and y for one "
+                + "item (a part's centre, a label's or junction's point, a note's top-left corner).",
+            properties: [
+                "items": Schema.strings("What to move"), "dx": Schema.number("Move right by"),
+                "dy": Schema.number("Move down by"), "x": Schema.number("New x (one item)"),
+                "y": Schema.number("New y (one item)"),
+            ],
+            required: ["items"], edits: true,
+            run: { context, args in Out.text(try moveItems(context!, args)) }),
+        AutomationTool(
+            name: "set_net_label",
+            summary: "Change an existing net label: rename it (up to 4 characters, no spaces; same name = same net), "
+                + "set its type, or flip which way it runs. Move it with move.",
+            properties: [
+                "label": Schema.string("label:NAME or label:ID (an id is exact; a name picks the first match)"),
+                "name": Schema.string("New name"),
+                "style": Schema.string("Type", options: NetLabel.Style.allCases.map(\.rawValue)),
+                "flip": Schema.boolean("Turn it to run the other way"),
+            ],
+            required: ["label"], edits: true,
+            run: { context, args in Out.text(try setNetLabel(context!, args)) }),
+        AutomationTool(
+            name: "set_note",
+            summary: "Change an existing note: its text, font size or frame. Move it with move.",
+            properties: [
+                "note": Schema.string("note:ID, from get_design"), "text": Schema.string("The words (not empty)"),
+                "size": Schema.integer("Font size in points, 6–72"), "framed": Schema.boolean("Draw a frame"),
+            ],
+            required: ["note"], edits: true,
+            run: { context, args in Out.text(try setNote(context!, args)) }),
+        AutomationTool(
+            name: "set_wire_route",
+            summary: "Re-route an existing wire through waypoints, keeping its ends: via is a list of [x,y] "
+                + "points it passes through, joined with right angles as connect's via is. An empty via gives "
+                + "the plain shortest route.",
+            properties: ["wire": Schema.string("wire:ID, from get_design"), "via": Schema.points("Waypoints")],
+            required: ["wire", "via"], edits: true,
+            run: { context, args in Out.text(try setWireRoute(context!, args)) }),
+        AutomationTool(
             name: "flip_part",
             summary: "Mirror a part left to right on the schematic (swaps which side its pins are on).",
             properties: ["reference": Schema.string("e.g. U1")], required: ["reference"], edits: true,
@@ -162,7 +204,7 @@ extension AutomationTools {
         AutomationTool(
             name: "delete",
             summary: "Delete items: parts by reference (\"U1\"; wires on its pins stay, with loose ends), "
-                + "\"wire:ID\", \"label:NAME\" or \"label:ID\", \"note:ID\", \"bus:NAME\", \"port:BUS:N\" (a bus port, numbered from 1 in get_design; "
+                + "\"wire:ID\", \"label:NAME\" or \"label:ID\", \"note:ID\", \"junction:ID\", \"bus:NAME\", \"port:BUS:N\" (a bus port, numbered from 1 in get_design; "
                 + "wires on its pins stay, with loose ends), and on the PCB "
                 + "\"trace:ID\", \"via:ID\", \"hole:ID\", \"text:ID\". Ids are printed by get_design and get_board.",
             properties: ["items": Schema.strings("Items to delete")], required: ["items"], edits: true,
@@ -320,6 +362,135 @@ extension AutomationTools {
 
     // MARK: Moving and changing
 
+    /// Selects `items`, moves them by `delta` as the app's group drag does, and settles the wires.
+    private static func moveGroup(_ document: SchematicDocument, _ items: [SchematicItem], by delta: CGSize) {
+        document.recordEdit(.schematic, "Move") {
+            document.clearAllSelections()
+            for item in items { document.toggleSelection(item) }
+            let base = document.schematicGroupBase()
+            document.moveSchematicGroup(base, by: delta)
+            document.settleSchematicGroup(base)
+            document.clearAllSelections()
+        }
+    }
+
+    /// Where an item is, for "move to x,y".
+    private static func position(_ item: SchematicItem, _ context: AutomationContext) -> CGPoint? {
+        let document = context.document
+        switch item {
+        case let .chip(id): return document.chips.first { $0.id == id }.map { context.centre(of: $0) }
+        case let .label(id): return document.netLabels.first { $0.id == id }?.origin
+        case let .note(id): return document.notes.first { $0.id == id }?.origin
+        case let .junction(id): return document.junctions.first { $0.id == id }?.point
+        case .wire, .bus: return nil
+        }
+    }
+
+    private static func moveItems(_ context: AutomationContext, _ args: AutomationArgs) throws -> String {
+        let document = context.document
+        let specs = try args.strings("items")
+        guard !specs.isEmpty else { throw AutomationFailure("items is empty") }
+        let items: [SchematicItem] = try specs.map {
+            guard case let .schematic(found) = try item($0, context, forDelete: false) else {
+                throw AutomationFailure("\($0) isn't on the schematic page (PCB items move with move_footprint, set_trace…)")
+            }
+            return found
+        }
+        let delta: CGSize
+        if let x = args.optDouble("x"), let y = args.optDouble("y") {
+            guard items.count == 1, let at = position(items[0], context) else {
+                throw AutomationFailure("x and y move one part, label, note or junction; use dx and dy for the rest")
+            }
+            delta = CGSize(width: x - at.x, height: y - at.y)
+        } else if let dx = args.optDouble("dx"), let dy = args.optDouble("dy") {
+            delta = CGSize(width: dx, height: dy)
+        } else {
+            throw AutomationFailure("give dx and dy, or x and y for one item")
+        }
+        moveGroup(document, items, by: delta)
+        let places = zip(specs, items).compactMap { spec, item in
+            position(item, context).map { "\(spec) at (\(num($0.x)),\(num($0.y)))" }
+        }
+        return "moved \(specs.count) item\(specs.count == 1 ? "" : "s")" + (places.isEmpty ? "" : ": " + places.joined(separator: "; "))
+    }
+
+    private static func setNetLabel(_ context: AutomationContext, _ args: AutomationArgs) throws -> String {
+        let document = context.document
+        var spec = try args.string("label")
+        if !spec.contains(":") { spec = "label:" + spec }
+        guard case let .schematic(.label(id)) = try item(spec, context, forDelete: false) else {
+            throw AutomationFailure("\(spec) isn't a net label")
+        }
+        guard args.optString("name") != nil || args.optString("style") != nil || args.optBool("flip") == true else {
+            throw AutomationFailure("nothing to change: give name, style or flip")
+        }
+        var problem: String?
+        document.recordEdit(.schematic, "Change Net Label") {
+            document.editorMessage = nil
+            if let name = args.optString("name"), !document.setNetLabelName(id, name) {
+                problem = document.editorMessage ?? "\(name) isn't a usable label name"
+            }
+            if problem == nil, let style = args.optString("style") {
+                guard let kind = NetLabel.Style(rawValue: style) else { problem = "unknown style \(style)"; return }
+                document.setNetLabelStyle(id, kind)
+                if document.netLabels.first(where: { $0.id == id })?.style != kind {
+                    problem = document.editorMessage ?? "the type change was refused"
+                }
+            }
+            if problem == nil, args.optBool("flip") == true { document.flipNetLabel(id) }
+        }
+        document.endCoalescing()
+        if let problem { throw AutomationFailure(problem) }
+        guard let label = document.netLabels.first(where: { $0.id == id }) else { return "changed" }
+        return "label \(context.short(id)) is \(label.name), \(label.style.rawValue)"
+    }
+
+    private static func setNote(_ context: AutomationContext, _ args: AutomationArgs) throws -> String {
+        let document = context.document
+        var spec = try args.string("note")
+        if !spec.contains(":") { spec = "note:" + spec }
+        guard case let .schematic(.note(id)) = try item(spec, context, forDelete: false) else {
+            throw AutomationFailure("\(spec) isn't a note")
+        }
+        let text = args.optString("text"), size = args.optInt("size"), framed = args.optBool("framed")
+        guard text != nil || size != nil || framed != nil else { throw AutomationFailure("nothing to change: give text, size or framed") }
+        if text?.isEmpty == true { throw AutomationFailure("a note's text can't be empty (delete it instead)") }
+        document.recordEdit(.schematic, "Change Text") {
+            if let text { document.setNoteText(id, text) }
+            if let size { document.setNoteSize(id, size) }
+            if let framed { document.setNoteFramed(id, framed) }
+        }
+        document.endCoalescing()
+        guard let note = document.notes.first(where: { $0.id == id }) else { return "changed" }
+        return "note \(context.short(id)): size \(note.size), \(note.framed ? "framed" : "no frame")"
+    }
+
+    private static func setWireRoute(_ context: AutomationContext, _ args: AutomationArgs) throws -> String {
+        let document = context.document
+        var spec = try args.string("wire")
+        if !spec.contains(":") { spec = "wire:" + spec }
+        guard case let .schematic(.wire(id)) = try item(spec, context, forDelete: false),
+              let wire = document.wires.first(where: { $0.id == id }),
+              let a = document.endTip(wire.start), let b = document.endTip(wire.end) else {
+            throw AutomationFailure("\(spec) isn't a wire with both ends placed")
+        }
+        func anchor(_ end: WireEnd) -> LineAnchor? {
+            switch end {
+            case let .pin(ref): .pin(ref)
+            case let .busPin(ref): .busPin(ref)
+            case let .label(id): .label(id)
+            case .junction: nil
+            }
+        }
+        let waypoints = try args.points("via").map { SchematicGrid.snap($0) }
+        let path = OrthogonalRoute.normalize(orthogonal(
+            [a] + waypoints + [b], start: anchor(wire.start).flatMap(document.anchorAxis) ?? .horizontal,
+            end: anchor(wire.end).flatMap(document.anchorAxis)))
+        document.setWirePath(id, path)
+        let now = document.path(forWire: id)
+        return "wire \(context.short(id)) now runs " + now.map { "(\(num($0.x)),\(num($0.y)))" }.joined(separator: " ")
+    }
+
     private static func movePart(_ context: AutomationContext, _ args: AutomationArgs) throws -> String {
         let document = context.document
         let chip = try context.chip(try args.string("reference"))
@@ -333,14 +504,7 @@ extension AutomationTools {
             throw AutomationFailure("give x and y (the new centre), or dx and dy")
         }
         let delta = CGSize(width: target.x - chip.origin.x, height: target.y - chip.origin.y)
-        document.recordEdit(.schematic, "Move") {
-            document.clearAllSelections()
-            document.select(.chip(chip.id))
-            let base = document.schematicGroupBase()
-            document.moveSchematicGroup(base, by: delta)
-            document.settleSchematicGroup(base)
-            document.clearAllSelections()
-        }
+        moveGroup(document, [.chip(chip.id)], by: delta)
         let moved = try context.chip(chip.reference)
         let centre = context.centre(of: moved)
         return "\(moved.reference) now centred at (\(num(centre.x)),\(num(centre.y)))"
@@ -619,6 +783,7 @@ extension AutomationTools {
         switch kind {
         case "wire": return .schematic(.wire(try context.find(document.wires, rest, kind: "wire").id))
         case "note": return .schematic(.note(try context.find(document.notes, rest, kind: "note").id))
+        case "junction": return .schematic(.junction(try context.find(document.junctions, rest, kind: "junction").id))
         case "label":
             if let label = document.netLabels.first(where: { $0.name == rest }) { return .schematic(.label(label.id)) }
             return .schematic(.label(try context.find(document.netLabels, rest, kind: "net label").id))
@@ -636,7 +801,7 @@ extension AutomationTools {
             return .board(.footprint(try context.chip(rest).id))
         default:
             throw AutomationFailure("unknown item “\(spec)”: use a reference (U1), wire:ID, label:NAME, note:ID, "
-                                    + "bus:NAME, trace:ID, via:ID, hole:ID, text:ID or fp:U1")
+                                    + "bus:NAME, junction:ID, trace:ID, via:ID, hole:ID, text:ID or fp:U1")
         }
     }
 
