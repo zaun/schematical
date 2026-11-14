@@ -40,7 +40,7 @@ plan-39-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-39-A complete | `grep -c 'active_low' backend/include/parts.h` → 1, and A's phases are ticked | NOT MET until A lands |
+| plan-39-A complete | `grep -c 'active_low' backend/include/parts.h` → 1, and A's phases are ticked | MET (2026-11-14: 1; A Phases 1–2 ticked) |
 
 Everything below is written against the world where these hold.
 
@@ -209,7 +209,7 @@ Every review in E–K applies these; there is nothing to decide beyond them.
 
 ### Phase 1 — the tool
 
-- [ ] `scripts/pin-polarity.js`: `--help` text; global `--root <dir>`
+- [x] `scripts/pin-polarity.js`: `--help` text; global `--root <dir>`
       (default the repo); subcommands `list`, `sources`, `fetch`, `pins`,
       `set`, `record`, `check [--kind K] [--devices A-B] [--complete]`,
       `status`, `seed-hash`, `golden-check [--since REV]` as § 3 defines.
@@ -225,8 +225,8 @@ Every review in E–K applies these; there is nothing to decide beyond them.
       (`true` when the list covers every alternative), refuses a non-signal
       pin. `record <device> <pinout> --source S --pages P [--note N]`:
       computes `flagged` from the file and upserts the row, keeping the file
-      sorted.
-- [ ] `scripts/pin-polarity.test.js` (`node:test`): builds a fixture root in
+      sorted. — done: all ten subcommands; also `set … @designator` selects a pin by number/ball (rule 8), and `set`/`record`/`seed-hash` hold a lock so parallel reviewers cannot race; `fetch slas107` → `/tmp/pin-polarity/slas107/slas107.pdf` (starts `%PDF`)
+- [x] `scripts/pin-polarity.test.js` (`node:test`): builds a fixture root in
       a temp dir (two kinds: one with a `#` pin, one with a multiplexed
       name; one device with two pinouts; one pinout with no part; one
       `docs/parts-format.md` with a "no longer hosts" row) and asserts: `list`
@@ -236,10 +236,11 @@ Every review in E–K applies these; there is nothing to decide beyond them.
       list; `set` refuses a power pin; `record` writes the JSON `flagged`;
       each of R1–R8 fails on a crafted tree and passes on the fixed one;
       `golden-check` passes when only `:low` was added and fails when
-      anything else moved, with and without `--since`.
+      anything else moved, with and without `--since`. — done: 13 tests, `ℹ pass 13`, `ℹ fail 0`
 
 Acceptance: the tool's own tests pass.
   Check: `node --test scripts/pin-polarity.test.js` → all pass (est. 1 min).
+  Observed 2026-11-14: `ℹ tests 13`, `ℹ pass 13`, `ℹ fail 0`.
 Commit: —
 
 ### Phase 2 — seed the `#` pins and regenerate the goldens

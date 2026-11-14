@@ -204,7 +204,7 @@ Acceptance: both docs state the key, its two forms, and the print format.
   Check: `grep -c 'activeLow' docs/parts-format.md docs/backend.md` → at
   least 4 and 1 (est. 1 min; a doc edit needs only a grep).
   Observed 2026-11-14: `docs/parts-format.md:4`, `docs/backend.md:1`.
-Commit: —
+Commit: 3fd9513
 
 ## Validation Plan
 
