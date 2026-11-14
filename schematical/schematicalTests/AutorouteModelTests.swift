@@ -114,6 +114,19 @@ final class AutorouteModelTests: XCTestCase {
         XCTAssertFalse(rows.isEmpty, "LFU in 20 s leaves some unrouted")
     }
 
+    /// A net a stopped run never reached says so, not "no legal way found"
+    /// (seen in the real-app Stop run, plan-38-K Phase 4).
+    func testAStoppedRunSaysSo() {
+        let failed = NetOutcome(net: 0, name: "GND", status: .failed, unroutedConnections: 3)
+        XCTAssertEqual(AutorouteModel.reason(for: failed, stopped: true), AutorouteModel.stoppedReason)
+        XCTAssertEqual(AutorouteModel.reason(for: failed, stopped: false), AutorouteModel.notFoundReason)
+        var illegal = failed
+        illegal.reason = "can't rejoin"
+        XCTAssertEqual(AutorouteModel.reason(for: illegal, stopped: true), "can't rejoin")
+        let impossible = NetOutcome(net: 1, name: "CLK", status: .impossible("no layer"), unroutedConnections: 1)
+        XCTAssertEqual(AutorouteModel.reason(for: impossible, stopped: true), "no layer")
+    }
+
     func testTheRouteMenuIsOnlyOnThePCBPage() {
         XCTAssertTrue(RouteActions.available(page: .pcb, isPlaying: false))
         XCTAssertFalse(RouteActions.available(page: .schematic, isPlaying: false))

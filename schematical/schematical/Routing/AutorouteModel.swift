@@ -49,6 +49,17 @@ final class AutorouteModel {
     }
 
     static let notFoundReason = "no legal way found"
+    /// For a net the run left unrouted because it stopped early (Stop, or
+    /// out of time), not because the router looked and found no way.
+    static let stoppedReason = "run stopped first"
+
+    /// Why `outcome` is unrouted: the router's own reason, else an
+    /// impossible net's, else the run stopping, else "no legal way found".
+    nonisolated static func reason(for outcome: NetOutcome, stopped: Bool) -> String {
+        if case let .impossible(why) = outcome.status { return why }
+        if let reason = outcome.reason { return reason }
+        return stopped ? stoppedReason : notFoundReason
+    }
 
     let document: SchematicDocument
     let session = RoutingSession()
@@ -170,9 +181,8 @@ final class AutorouteModel {
         guard let result = session.result else { return [] }
         let keys = Dictionary(uniqueKeysWithValues: (session.problem?.nets ?? []).map { ($0.id, $0.key) })
         return result.nets.filter { $0.unroutedConnections > 0 }.map { outcome in
-            var reason = outcome.reason ?? Self.notFoundReason
-            if case let .impossible(why) = outcome.status { reason = why }
-            return ResultRow(key: keys[outcome.net], name: outcome.name, count: outcome.unroutedConnections, reason: reason)
+            ResultRow(key: keys[outcome.net], name: outcome.name, count: outcome.unroutedConnections,
+                      reason: Self.reason(for: outcome, stopped: result.stats.stopped))
         }.sorted { $0.name.compare($1.name, options: .numeric) == .orderedAscending }
     }
 

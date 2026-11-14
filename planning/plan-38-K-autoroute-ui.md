@@ -166,13 +166,22 @@ Commit: e995d48e
 
 Acceptance: cases pass; the 7 `TraceToolTests` stay green.
   Check: `-only-testing:schematicalTests/RouteToolTests -only-testing:schematicalTests/TraceToolTests` → `** TEST SUCCEEDED **` (est. 2 min).
-Commit: —
+Commit: 0e1762eb
 
 ### Phase 4 — help and the real app
 
-- [ ] `Help/KeyboardHelp.swift` `pcb`: a "Route" section (⌥⌘R, ⌥⇧⌘R, ⌥⌘U, the Route tool) and a line under Tools; `KeyboardHelpTests` updated.
-- [ ] Real app (per `AGENTS.md`, pointer left at 0,0 afterwards): build `schematical` Debug, open `schematical/schematicalTests/Fixtures/AFU.schematical`, PCB page; Route ▸ Autoroute… → Route; observe that the preview draws, the list ends with no failed nets, the canvas shows traces, and the DRC window shows no `Unrouted` lines; Edit ▸ Undo removes all of it; repeat with Stop pressed mid-run (some copper stays) and with Cancel (none). Record observations here.
-- [ ] Observations (filled in by the run): __.
+- [x] `Help/KeyboardHelp.swift` `pcb`: a "Route" section (⌥⌘R, ⌥⇧⌘R, ⌥⌘U, the Route tool) and a line under Tools; `KeyboardHelpTests` updated. (Landed in 6b31180d.) — `-only-testing:KeyboardHelpTests` → 4 tests, 0 failures, `** TEST SUCCEEDED **`; re-run with `AutorouteModelTests` after the Stop fix: 13 tests, 0 failures, `** TEST SUCCEEDED **`.
+- [x] Real app (per `AGENTS.md`, pointer left at 0,0 afterwards): build `schematical` Debug, open `schematical/schematicalTests/Fixtures/AFU.schematical`, PCB page; Route ▸ Autoroute… → Route; observe that the preview draws, the list ends with no failed nets, the canvas shows traces, and the DRC window shows no `Unrouted` lines; Edit ▸ Undo removes all of it; repeat with Stop pressed mid-run (some copper stays) and with Cancel (none). Record observations here. (Driven with CGEvent clicks and keys against the Debug build's pid, screenshots with `screencapture`; app killed without saving and pointer moved to 0,0 after each session; the fixture is unchanged.)
+- [x] Observations (filled in by the run, 2026-11-14 09:47–10:08):
+  - ⌥⌘R opened the sheet: "53 nets, 115 connections to route", options as saved.
+  - Route: "Routing… 83 of 115 connections routed · GND" with a progress bar; the canvas behind the sheet drew the run's Top and Bottom copper as it grew.
+  - Finished: "Routed 115 of 115 connections, 115 vias, 1582 mm, 35.1 s", no failed-net rows, "0 nets, 0 connections to route".
+  - The result's Design Rule Check button opened the DRC: 16 issues, all silkscreen (Pin-1 mark / Reference over pad, AFU's own placement; the same 16 as plan-38-H), no `Unrouted`, no copper issue.
+  - Closing the sheet left the routed board with its 346 new items selected; ⌘Z removed all of it, and the ratsnest came back.
+  - Stop after ~5 s: "Routed 85 of 115 connections (stopped), 92 vias, 1289 mm, 5.7 s"; the copper stayed; rows 5V 4, B0 1, GND 22, SUB 3 unrouted. Each row said "no legal way found", which was wrong for nets the run never reached (fixed, Corrections).
+  - Undo, then Cancel after ~5 s: "Autoroute was cancelled", no copper, "53 nets, 115 connections to route" again.
+  - plan-38-C's walk (same session, nothing selected): the sidebar lists Nets (5V 21/20, GND 27/26, …), Net Classes, Net Groups; clicking GND brightened its pads and lines and dimmed the rest; Esc cleared it; Add Power Class made "Power · 20 mil · 2 nets"; a Trace-tool drag from the GND edge finger Edge.4 made a trace the panel shows as Width 20 mil, Net GND, Class Power.
+  - plan-38-J's pair in the real app: a two-header board, pins 1 and 2 of each wired across as a 0.2 mm pair → "Routed 2 of 2 connections, 0 vias, 64 mm, 0.7 s", "Pair: coupled, 4.09 mm apart"; the DRC showed only the two headers' Reference-over-pad silkscreen lines (Corrections: why not on AFU).
 
 Acceptance: help tests pass; the real-app run behaves as stated.
   Check: `-only-testing:schematicalTests/KeyboardHelpTests` → `** TEST SUCCEEDED **` (est. 2 min); plus the real-app run above (est. 15 min).
@@ -201,6 +210,28 @@ See plan-38-A § Decisions. Author decisions: a sheet, not a window; options per
   nested (model → session), then for the model alone. Neither deinit needs
   the main actor, so both are `nonisolated deinit {}`; the 12 tests then
   passed.
+- **A stopped run blamed the router.** In the real-app Stop run every
+  unrouted net read "no legal way found", though the run had stopped before
+  reaching them. `AutorouteModel.reason(for:stopped:)` now gives, in order:
+  an impossible net's reason, the router's own (`NetOutcome.reason`), then
+  "run stopped first" when `stats.stopped`, else "no legal way found".
+  `AutorouteModelTests.testAStoppedRunSaysSo` pins it (13 tests with
+  `KeyboardHelpTests`, 0 failures).
+- **The real-app pair is on a purpose-made board, not AFU.** plan-38-J's
+  Validation Plan has this letter show a pair routed in the real app. On the
+  three fixtures no pair of two-pin nets has adjacent pads at both ends: a
+  throwaway test paired every two-pin net couple whose pads were within
+  2.6 mm at both ends (AFU 8 candidates, LFU 0, RegFile 0), and each AFU
+  pair came back `uncoupled("no legal breakout to a pad")`. Debug output
+  showed why: another net's pad sits between the pair's pads (AND1.1/AND1.2
+  land on a TSSOP 1.95 mm apart with two pads between; D0/D2 have D1
+  between). The board used instead: two `GENERIC-HEADER-1X08`, rotated so
+  each pair's pins stand side by side across the direction of travel, pins 1
+  and 2 wired across, a 0.2 mm Pair group. Un-rotated (pins in line with the
+  travel, P then N at both ends) it is also uncoupled: the N pad lies on the
+  P breakout's way, and a coupled route there needs a leg that wraps a pad,
+  which the short octilinear breakout (§ 3) doesn't try. The pair then routes
+  as two plain nets. plan-38-J's Corrections record the limit.
 
 ## Summary
 

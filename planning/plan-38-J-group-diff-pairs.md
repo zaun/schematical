@@ -219,6 +219,21 @@ See plan-38-A § Decisions (owner: coupled differential-pair routing, 2026-11-13
 - An end's cells are only on the layers both of its pads are on (a Top
   surface pad: Top). Without that, the walled test board's pair ran wholly
   on Bottom, its ends joining nothing.
+- **Where a pair couples (measured in plan-38-K Phase 4).** The breakout is a
+  short octilinear leg from each lane end to its pad (§ 3). So a pair couples
+  when each end's two pads stand side by side across the direction the pair
+  leaves, with nothing between them. A two-header board wired that way gave
+  "coupled, 4.09 mm" in the real app. These cases come back
+  `uncoupled("no legal breakout to a pad")` and route as two plain nets:
+  - Another net's pad lies between the pair's pads. This is every candidate
+    on AFU; LFU and RegFile have none whose pads are within 2.6 mm at both
+    ends.
+  - The pads stand in line with the travel (P then N at both ends of an
+    un-rotated header pair): the N pad lies on P's leg, and coupling there
+    needs a leg that wraps a pad.
+  Both are reported, never half-routed. A searched breakout leg would cover
+  them; it is outside this letter's § 3 design. The Phase 4 fixture test's
+  `uncoupled` result on AFU is this first case.
 
 ## Summary
 

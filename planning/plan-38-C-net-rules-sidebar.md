@@ -178,7 +178,9 @@ See plan-38-A § Decisions. Author decisions: Nets live in the board inspector, 
   with plan-38-K's, which goes through the same PCB sidebar on AFU and also
   needs the built app; it covers every step listed here (Nets / Net Classes /
   Net Groups shown, GND highlight and Esc, Add Power Class, a 20 mil trace).
-  The result is recorded under plan-38-K's Validation Plan.
+  The result is recorded in plan-38-K Phase 4's Observations (2026-11-14):
+  every step behaved as listed; the drawn trace showed Width 20 mil, Net
+  GND, Class Power.
 
 ## Summary
 
