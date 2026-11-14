@@ -159,6 +159,24 @@ nonisolated struct TraceDraft: Equatable {
         TraceRoute.simplified([start] + legs.flatMap { $0 } + liveLeg(to: end, angle: angle))
     }
 
+    /// The whole trace with `leg` (from `legStart`, which it includes) as
+    /// the live leg: the Trace assist's leg (plan-38-L).
+    func path(through leg: [CGPoint]) -> [CGPoint] {
+        let locked: [CGPoint] = [start] + legs.flatMap { $0 }
+        return TraceRoute.simplified(locked + Array(leg.dropFirst()))
+    }
+
+    /// Locks `leg` (from `legStart`, which it includes) as the next leg.
+    /// Returns false, and changes nothing, when it goes nowhere.
+    @discardableResult
+    mutating func lock(leg: [CGPoint]) -> Bool {
+        let rest = Array(leg.dropFirst())
+        guard let end = rest.last, !TraceRoute.same(end, legStart) else { return false }
+        legs.append(rest)
+        flipped = false
+        return true
+    }
+
     mutating func flip() {
         flipped.toggle()
     }

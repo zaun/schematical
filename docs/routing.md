@@ -187,7 +187,7 @@ unless said, `DesignRules.customDefault`, the fixtures in
 | Search only, pitch 0.1 (38-E) | 99, 7.91 s | 70, 9.36 s | 15, 7.83 s |
 | + negotiation, Balanced, pitch 0.127 (38-F) | 115, 26.1 s, 115 vias, 1614 mm | 140, 348 s | 24, 29.1 s |
 | Fast (38-F) | 114, 34.8 s | 150, 292 s | 24, 51.8 s |
-| Thorough (38-F) | 115, 27.6 s | see plan-38-F | see plan-38-F |
+| Thorough (38-F) | 115, 27.6 s | 143, 1227 s, 217 vias, 2330 mm | 24, 29.5 s, 31 vias, 315 mm |
 | + cleanup and repair, Balanced (38-H) | 115, 27.6 s, 1582 mm, 115 vias | 147, 484 s, 2528 mm, 246 vias | 24, 32.5 s, 314 mm, 31 vias |
 
 After apply, the DRC on each (38-H): AFU 16 silkscreen issues (the

@@ -85,6 +85,8 @@ struct ContentView: View {
     @State private var schematicPointer = BoardPointer()
     /// Simulation speed (circuit time per wall time), an app preference.
     @AppStorage("simulationSpeed") private var simulationSpeed = 1.0
+    /// The Trace tool's router assist (plan-38-L), off until turned on.
+    @AppStorage("traceAssist") private var traceAssist = false
     /// The supply the VCC tool places (a `SupplyChoice` name), an app preference.
     @AppStorage("supplyVoltage") private var supplyVoltage = SupplyChoice.defaultName
 
@@ -397,7 +399,12 @@ struct ContentView: View {
         case .pcb:
             PCBCanvasView(document: document, viewport: boardViewport, tool: pcbTool,
                           visible: BoardVisibility(hidden: hiddenLayers), traceLayer: traceLayer,
-                          traceAngle: traceAngle, onShowLayer: { hiddenLayers.remove(.copper($0)) },
+                          traceAngle: traceAngle, traceAssist: traceAssist,
+                          onShowLayer: { hiddenLayers.remove(.copper($0)) },
+                          onLayerChange: { layer in
+                              traceLayer = layer
+                              hiddenLayers.remove(.copper(layer))
+                          },
                           pointer: boardPointer, highlightedNet: $highlightedNet,
                           routePreview: autoroute?.session.isRunning == true ? autoroute?.session.preview : nil,
                           onRoute: route) {
@@ -568,6 +575,14 @@ struct ContentView: View {
                             }
                         }
                         .help("Layer for the Trace tool")
+
+                        // The Trace tool's router assist (plan-38-L), remembered.
+                        Toggle(isOn: $traceAssist) {
+                            Label("Assist", systemImage: "wand.and.rays")
+                        }
+                        .toggleStyle(.button)
+                        .labelStyle(.iconOnly)
+                        .help("Trace assist — walks around obstacles and stops at illegal routes")
                     }
                 }
 
@@ -653,8 +668,9 @@ struct ContentView: View {
                         .background(.red.opacity(0.85), in: Capsule())
                         .foregroundStyle(.white)
                         .padding(.bottom, 16)
-                } else if page == .schematic, let message = document.editorMessage {
-                    // A refused wire or switch: says why, then clears.
+                } else if let message = document.editorMessage {
+                    // A refused wire, switch, route, assisted trace or via:
+                    // says why, then clears. On either page.
                     Label(message, systemImage: "bolt.trianglebadge.exclamationmark")
                         .font(.callout)
                         .padding(.horizontal, 14)

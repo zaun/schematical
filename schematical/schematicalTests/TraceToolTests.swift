@@ -205,4 +205,176 @@ final class TraceToolTests: XCTestCase {
         XCTAssertEqual(doc.vias.first { $0.id == plain }?.drill, BoardVia.defaultDrill)
         XCTAssertEqual(doc.vias.first { $0.id == plain }?.diameter, BoardVia.defaultDiameter)
     }
+
+    // MARK: Trace assist (plan-38-L)
+
+    /// Two 8-pin headers in a row 30 mm apart, pin 1 to pin 1: the straight
+    /// way from one pin 1 to the other crosses the first header's other pads.
+    private func headers() throws -> (doc: SchematicDocument, from: CGPoint, to: CGPoint) {
+        let doc = TestSupport.newDocument()
+        let one = try TestSupport.place(doc, "GENERIC-HEADER-1X08", at: p(100, 100))
+        let two = try TestSupport.place(doc, "GENERIC-HEADER-1X08", at: p(400, 100))
+        doc.moveFootprint(one.id, to: p(15, 30))
+        doc.moveFootprint(two.id, to: p(45, 30))
+        let a = try TestSupport.pin(one, "1"), b = try TestSupport.pin(two, "1")
+        XCTAssertNil(doc.connect(.pin(a), .pin(b)))
+        func centre(_ chip: PlacedChip, _ ref: PinRef) throws -> CGPoint {
+            let placed = try XCTUnwrap(doc.chips.first { $0.id == chip.id })
+            let designator = placed.part.pins[ref.index].designator
+            let pad = try XCTUnwrap(placed.boardPads.first { $0.designator == designator })
+            return p(pad.rect.midX, pad.rect.midY)
+        }
+        return (doc, try centre(one, a), try centre(two, b))
+    }
+
+    /// An assisted drag, as the canvas runs it: the assist built at the
+    /// press, the preview, the release, all in one gesture.
+    private func assistedDrag(_ doc: SchematicDocument, from: CGPoint, to: CGPoint)
+        -> (preview: [CGPoint], legal: Bool, id: UUID?) {
+        doc.beginGesture(.pcb)
+        defer { doc.endGesture() }
+        let start = TraceDrawing.anchor(doc, at: from, layer: .top, scale: scale)
+        let assist = AssistRouter(document: doc, layer: .top, start: start, rules: .customDefault)
+        let draft = TraceDraft(start: start)
+        let preview = TraceDrawing.assisted(doc, draft: draft, to: to, layer: .top, scale: scale, angle: 45, assist: assist)
+        let id = TraceDrawing.finish(doc, draft: draft, to: to, layer: .top, scale: scale, angle: 45,
+                                     visible: BoardVisibility(), assist: assist, onShowLayer: { _ in })
+        return (preview.points, preview.isLegal, id)
+    }
+
+    func testAnAssistedTraceIsItsPreviewAndClearOfForeignPads() throws {
+        let (doc, from, to) = try headers()
+        let drag = assistedDrag(doc, from: from, to: to)
+        XCTAssertTrue(drag.legal)
+        let id = try XCTUnwrap(drag.id)
+        let trace = try XCTUnwrap(doc.traces.first { $0.id == id })
+        XCTAssertEqual(trace.points, drag.preview)
+        XCTAssertGreaterThan(trace.points.count, 2, "it walks around pins 2–8")
+        XCTAssertEqual(doc.designRuleCheck(rules: .customDefault).filter { $0.kind == .clearance }.map(\.issue), [])
+        XCTAssertTrue(doc.ratsnest().isEmpty, "pin 1 to pin 1 is joined")
+    }
+
+    func testAnUnreachableAssistedReleaseAddsNothing() throws {
+        let (doc, from, to) = try headers()
+        // A trace on no net from the board's top edge to its bottom edge,
+        // between the headers, as its own step.
+        let ys = doc.board.outline.map(\.y)
+        let x = (from.x + to.x) / 2 + 3
+        doc.beginGesture(.pcb)
+        let wall = try XCTUnwrap(doc.addTrace(points: [p(x, ys.min()!), p(x, ys.max()!)], layer: .top, width: 10))
+        doc.endGesture()
+        doc.editorMessage = nil
+        let drag = assistedDrag(doc, from: from, to: to)
+        XCTAssertFalse(drag.legal)
+        XCTAssertNil(drag.id)
+        XCTAssertEqual(doc.traces.map(\.id), [wall])
+        XCTAssertEqual(doc.editorMessage, TraceDrawing.noRouteMessage)
+        // The drag recorded no step: one undo takes the wall away.
+        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.traces.isEmpty)
+    }
+
+    // MARK: The V key (plan-38-L)
+
+    /// A drag from `from` with V pressed at `via`, released at `to`, in one
+    /// gesture, as the canvas runs it. Returns the layer V moved to (nil when
+    /// V did nothing) and the trace the release added.
+    @discardableResult
+    private func vDrag(_ doc: SchematicDocument, from: CGPoint, via: CGPoint, to: CGPoint, layer: CopperLayer = .top)
+        -> (layer: CopperLayer?, last: UUID?) {
+        doc.beginGesture(.pcb)
+        defer { doc.endGesture() }
+        var draft = TraceDraft(start: TraceDrawing.anchor(doc, at: from, layer: layer, scale: scale))
+        var current = layer
+        let dropped = TraceDrawing.dropVia(doc, draft: draft, to: via, layer: layer, scale: scale, angle: 45,
+                                           assist: nil, rules: .customDefault)
+        if let dropped {
+            draft = dropped.draft
+            current = dropped.layer
+        }
+        let last = TraceDrawing.finish(doc, draft: draft, to: to, layer: current, scale: scale, angle: 45,
+                                       visible: BoardVisibility(), onShowLayer: { _ in })
+        return (dropped?.layer, last)
+    }
+
+    func testVDropsAViaAndGoesOnOnTheOtherLayer() throws {
+        let (doc, start) = try powerPair()
+        let corner = p(start.x + 7.62, start.y + 5.08), end = p(start.x + 15.24, start.y + 5.08)
+        let (layer, last) = vDrag(doc, from: start, via: corner, to: end)
+        XCTAssertEqual(layer, .bottom)
+        XCTAssertEqual(doc.traces.count, 2)
+        let top = try XCTUnwrap(doc.traces.first { $0.layer == .top })
+        XCTAssertTrue(TraceRoute.same(top.points.first!, start))
+        XCTAssertTrue(TraceRoute.same(top.points.last!, corner))
+        let via = try XCTUnwrap(doc.vias.first)
+        XCTAssertEqual(doc.vias.count, 1)
+        XCTAssertTrue(TraceRoute.same(via.centre, corner))
+        XCTAssertEqual(via.drill, 0.5, "the start net's class via")
+        XCTAssertEqual(via.diameter, 1)
+        let bottom = try XCTUnwrap(doc.traces.first { $0.id == last })
+        XCTAssertEqual(bottom.layer, .bottom)
+        XCTAssertTrue(TraceRoute.same(bottom.points.first!, corner))
+        XCTAssertEqual(bottom.width, 20, "still the class width")
+        // The whole drag is one step.
+        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.traces.isEmpty)
+        XCTAssertTrue(doc.vias.isEmpty)
+    }
+
+    func testVOnAOneLayerBoardDoesNothing() throws {
+        let (doc, start) = try powerPair()
+        doc.setLayerCount(1)
+        let corner = p(start.x + 7.62, start.y + 5.08)
+        let (layer, _) = vDrag(doc, from: start, via: corner, to: p(start.x + 15.24, start.y + 5.08))
+        XCTAssertNil(layer)
+        XCTAssertTrue(doc.vias.isEmpty)
+        XCTAssertEqual(doc.traces.count, 1, "only the release's trace")
+        XCTAssertEqual(doc.traces.first?.layer, .top)
+    }
+
+    func testVWhereAViaWouldBreakClearanceAddsNothing() throws {
+        let (doc, start) = try powerPair()
+        // The same LED's A pad: another net (none), 2.54 mm from its K.
+        let one = try XCTUnwrap(doc.chips.first)
+        let a = try TestSupport.pin(one, "A")
+        let designator = one.part.pins[a.index].designator
+        let pad = try XCTUnwrap(one.boardPads.first { $0.designator == designator })
+        let near = p(pad.rect.midX, pad.rect.midY)
+        doc.editorMessage = nil
+        doc.beginGesture(.pcb)
+        let draft = TraceDraft(start: TraceDrawing.anchor(doc, at: start, layer: .top, scale: scale))
+        XCTAssertNil(TraceDrawing.dropVia(doc, draft: draft, to: near, layer: .top, scale: scale, angle: 45,
+                                          assist: nil, rules: .customDefault))
+        doc.endGesture()
+        XCTAssertTrue(doc.traces.isEmpty)
+        XCTAssertTrue(doc.vias.isEmpty)
+        XCTAssertEqual(doc.editorMessage, AssistRouter.viaMessage)
+    }
+
+    func testVSkipsAPlane() throws {
+        let (doc, start) = try powerPair()
+        doc.setLayerCount(4)
+        doc.setLayerType(.inner(2), .plane)
+        XCTAssertFalse(doc.board.traceLayers.contains(.inner(2)))
+        let corner = p(start.x + 7.62, start.y + 5.08)
+        let (layer, _) = vDrag(doc, from: start, via: corner, to: p(start.x + 15.24, start.y + 5.08))
+        let layers = doc.board.traceLayers
+        XCTAssertEqual(layer, layers[1], "the next trace layer after Top: \(layers)")
+        XCTAssertNotEqual(layer, .inner(2))
+        // From the last trace layer, V wraps to Top.
+        let from = try XCTUnwrap(layers.last)
+        let draft = TraceDraft(start: corner)
+        let back = TraceDrawing.dropVia(doc, draft: draft, to: p(corner.x, corner.y + 10.16), layer: from, scale: scale,
+                                        angle: 45, assist: nil, rules: .customDefault)
+        XCTAssertEqual(back?.layer, .top)
+    }
+
+    func testWithoutAssistTheDragIsThePlainRoute() throws {
+        let (doc, from, to) = try headers()
+        let draft = TraceDraft(start: TraceDrawing.anchor(doc, at: from, layer: .top, scale: scale))
+        let plain = TraceDrawing.assisted(doc, draft: draft, to: to, layer: .top, scale: scale, angle: 45, assist: nil)
+        XCTAssertTrue(plain.isLegal)
+        XCTAssertEqual(plain.points, TraceDrawing.preview(doc, draft: draft, to: to, layer: .top, scale: scale, angle: 45))
+        XCTAssertEqual(plain.points.count, 2, "straight across the pads, as before")
+    }
 }

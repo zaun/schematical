@@ -3406,33 +3406,40 @@ final class SchematicDocument {
     /// it — or the Default class's when it is on no net or a net in no class.
     func netRules(at point: CGPoint, layer: CopperLayer?) -> NetRules {
         let copper = connectivity()
+        guard let net = net(at: point, layer: layer, in: copper),
+              let netClass = netClass(ofNet: net, in: copper) else { return NetRules() }
+        return NetRules(width: netClass.width, clearance: netClass.clearance, viaDrill: netClass.viaDrill,
+                        viaDiameter: netClass.viaDiameter)
+    }
+
+    /// The net (of `copper`) whose copper holds `point`, by the order
+    /// `netRules(at:layer:)` describes: a plated pad's on `layer`, else a
+    /// via's, else a trace's on `layer`; nil when none does.
+    func net(at point: CGPoint, layer: CopperLayer?, in copper: BoardConnectivity) -> Int? {
         func onLayer(_ pad: BoardConnectivity.Pad) -> Bool {
             layer == nil || pad.pad.drill > 0 || pad.side.copperLayer == layer
         }
-        var net: Int?
         if let p = copper.pads.indices.first(where: {
             copper.pads[$0].pad.plated && onLayer(copper.pads[$0]) && copper.pads[$0].pad.rect.contains(point)
                 && copper.netOfPad[$0] != nil
         }) {
-            net = copper.netOfPad[p]
-        } else {
-            let netOfRoot = copper.netOfRoot()
-            if let v = copper.vias.indices.first(where: {
-                Self.distance(from: point, to: copper.vias[$0].centre) <= copper.vias[$0].diameter / 2
-                    && netOfRoot[copper.root[copper.viaNode($0)]] != nil
-            }) {
-                net = netOfRoot[copper.root[copper.viaNode(v)]]
-            } else if let t = copper.traces.indices.first(where: { t in
-                let trace = copper.traces[t]
-                return (layer == nil || trace.layer == layer) && netOfRoot[copper.root[copper.traceNode(t)]] != nil
-                    && trace.segments.contains { Self.distance(from: point, toSegment: $0.0, $0.1) <= trace.widthMM / 2 }
-            }) {
-                net = netOfRoot[copper.root[copper.traceNode(t)]]
-            }
+            return copper.netOfPad[p]
         }
-        guard let net, let netClass = netClass(ofNet: net, in: copper) else { return NetRules() }
-        return NetRules(width: netClass.width, clearance: netClass.clearance, viaDrill: netClass.viaDrill,
-                        viaDiameter: netClass.viaDiameter)
+        let netOfRoot = copper.netOfRoot()
+        if let v = copper.vias.indices.first(where: {
+            Self.distance(from: point, to: copper.vias[$0].centre) <= copper.vias[$0].diameter / 2
+                && netOfRoot[copper.root[copper.viaNode($0)]] != nil
+        }) {
+            return netOfRoot[copper.root[copper.viaNode(v)]]
+        }
+        if let t = copper.traces.indices.first(where: { t in
+            let trace = copper.traces[t]
+            return (layer == nil || trace.layer == layer) && netOfRoot[copper.root[copper.traceNode(t)]] != nil
+                && trace.segments.contains { Self.distance(from: point, toSegment: $0.0, $0.1) <= trace.widthMM / 2 }
+        }) {
+            return netOfRoot[copper.root[copper.traceNode(t)]]
+        }
+        return nil
     }
 
     /// The class net `net` of `connectivity` is in: the first, in list

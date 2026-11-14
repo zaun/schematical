@@ -163,11 +163,11 @@ Commit: d18dc80b
 ### Phase 4 — the fixtures
 
 - [x] `RouterFixtureTests`: with `.balanced`, AFU = 115/115 in < 60 s; LFU ≥ 127/188; RegFile ≥ 12/24; print connections routed, vias, wire mm and seconds for each; assert every unrouted LFU connection appears in `NetOutcome` with its net's name. — `testNegotiationOnTheFixtures` passed (with `testSinglePassOnTheFixtures`, `RoutingOptionsTests`, `RoutingNegotiationTests`: 17 tests, 0 failures, `** TEST SUCCEEDED **`), after the two fixes in Corrections.
-- [~] Results (the output of this run, filled in then): Balanced (pitch 0.127, Debug build): AFU 115/115, 115 vias, 1614 mm, 26.14 s (2 rounds, 113 rips); LFU 140/188, 244 vias, 2265 mm, 348.49 s (6 rounds, 1285 rips); RegFile 24/24, 31 vias, 315 mm, 29.13 s (1 round, 49 rips). Fast: AFU 114/115 in 34.80 s; LFU 150/188 in 291.88 s; RegFile 24/24 in 51.77 s. Thorough: AFU 115/115 in 27.64 s. Remaining: Thorough on LFU and RegFile. Two runs of it were killed by SIGTERM from outside (`"Test crashed with signal term"`, 2.2 and 14.5 min in; other sessions' `xcodebuild test` on this machine end the shared test host), so it is re-run alone.
+- [x] Results (the output of this run, filled in then): Balanced (pitch 0.127, Debug build): AFU 115/115, 115 vias, 1614 mm, 26.14 s (2 rounds, 113 rips); LFU 140/188, 244 vias, 2265 mm, 348.49 s (6 rounds, 1285 rips); RegFile 24/24, 31 vias, 315 mm, 29.13 s (1 round, 49 rips). Fast: AFU 114/115 in 34.80 s; LFU 150/188 in 291.88 s; RegFile 24/24 in 51.77 s. Thorough: AFU 115/115 in 27.64 s. Thorough, LFU and RegFile: two runs of it were killed by SIGTERM from outside (`"Test crashed with signal term"`, 2.2 and 14.5 min in; other sessions' `xcodebuild test` on this machine end the shared test host), so it was re-run alone, on this phase's commit 840b9d99 (a detached checkout with a throwaway test, so the numbers sit with the rest of this line), 2026-11-14: LFU 143/188, 217 vias, 2330 mm, 1226.52 s; RegFile 24/24, 31 vias, 315 mm, 29.53 s; `RoutingCheck.violations` 0 on both, `Executed 2 tests, with 0 failures`, `** TEST SUCCEEDED **`. (LFU's three Thorough runs keep the best: 143, against Balanced's 140 and Fast's 150 here; Fast's shorter rip budget suits LFU's dense middle.)
 
 Acceptance: the AFU, LFU and RegFile floors hold and the results are written above. If a floor fails, diagnose (dump the failed connections' blockers for ONE net) and fix the engine; the floors are not lowered.
   Check: `-only-testing:schematicalTests/RouterFixtureTests` → `** TEST SUCCEEDED **` (est. 5 min: Balanced LFU took 9–11 s in the prototype and Thorough runs up to 3 times).
-Commit: —
+Commit: 840b9d99 (Thorough LFU and RegFile results recorded with plan-38-L)
 
 ## Validation Plan
 

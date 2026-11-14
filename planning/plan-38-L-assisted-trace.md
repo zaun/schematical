@@ -121,8 +121,8 @@ is strictly better and uses the same engine).
 
 ### Phase 1 — `AssistRouter`
 
-- [ ] `Routing/AssistRouter.swift`: as § 3.
-- [ ] Tests: `schematicalTests/AssistRouterTests.swift` — two pads of one net with a foreign pad between: the route goes around it with the foreign copper ≥ the clearance away (checked with `CopperGeometry.gap`); two pads of one net with a solid foreign wall (a row of pads closing the board) → nil; a route may end on and cross the net's own pad; a Power-class start gives 20 mil clearance-aware routing (the path keeps the class clearance); `AssistRouter.init` on AFU takes < 1 s and `route` across the board < 0.25 s (wall clock, `XCTAssertLessThan`); the path equals itself on a second call (deterministic).
+- [x] `Routing/AssistRouter.swift`: as § 3. (See Corrections: the init takes the start, the window is the cap.)
+- [x] Tests: `schematicalTests/AssistRouterTests.swift` — two pads of one net with a foreign pad between: the route goes around it with the foreign copper ≥ the clearance away (checked with `CopperGeometry.gap`); two pads of one net with a solid foreign wall (a row of pads closing the board) → nil; a route may end on and cross the net's own pad; a Power-class start gives 20 mil clearance-aware routing (the path keeps the class clearance); `AssistRouter.init` on AFU takes < 1 s and `route` across the board < 0.25 s (wall clock, `XCTAssertLessThan`); the path equals itself on a second call (deterministic). (Also: a start on no net treats every pad as foreign; the wall leaves Bottom open.) — `-only-testing:AssistRouterTests` → 6 tests, 0 failures, `** TEST SUCCEEDED **`; printed `ASSIST AFU grid 534x445, init 0.225 s, route 0.088 s (57.8 mm away), 10 points`.
 
 Acceptance: cases pass. A timing assertion that fails is a performance bug to fix (coarser grid for the assist, e.g. 0.127 mm), not to loosen.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd test -only-testing:schematicalTests/AssistRouterTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 2 min).
@@ -130,9 +130,9 @@ Commit: —
 
 ### Phase 2 — Assist in the Trace tool
 
-- [ ] `PCBCanvasView.swift`: `var traceAssist = false`; build the `AssistRouter` when the trace press is anchored; `TraceDrawing.preview` / `finish` per § 3; the red tint (`drawTrace` preview colour) and release rule; `editorMessage`.
-- [ ] `ContentView.swift`: a toolbar `Toggle` "Assist" (symbol `wand.and.rays`, help "Trace assist — walks around obstacles and stops at illegal routes") stored in `@AppStorage("traceAssist")`, passed to the canvas.
-- [ ] Tests (`TraceToolTests`): with `assist: nil` all 7 existing tests pass unchanged; with an `AssistRouter` the Phase 1 foreign-pad case commits a trace equal to the preview and `designRuleCheck` has no `.clearance`; an unreachable target adds no trace, one `undo` step count unchanged, and `editorMessage` set.
+- [x] `PCBCanvasView.swift`: `var traceAssist = false`; build the `AssistRouter` when the trace press is anchored; `TraceDrawing.preview` / `finish` per § 3; the red tint (`drawTrace` preview colour) and release rule; `editorMessage`. (Red is dashed, with a red cross for the green ring: Top is red, see Corrections.)
+- [x] `ContentView.swift`: a toolbar `Toggle` "Assist" (symbol `wand.and.rays`, help "Trace assist — walks around obstacles and stops at illegal routes") stored in `@AppStorage("traceAssist")`, passed to the canvas.
+- [x] Tests (`TraceToolTests`): with `assist: nil` all 7 existing tests pass unchanged; with an `AssistRouter` the Phase 1 foreign-pad case commits a trace equal to the preview and `designRuleCheck` has no `.clearance`; an unreachable target adds no trace, one `undo` step count unchanged, and `editorMessage` set. (The 11 TraceToolTests that existed — 7 + plan-38-C's 4 — pass unchanged; added `testAnAssistedTraceIsItsPreviewAndClearOfForeignPads`, `testAnUnreachableAssistedReleaseAddsNothing` (one undo then removes the wall drawn before, so the drag added no step), `testWithoutAssistTheDragIsThePlainRoute`.) — with Phase 3's run below: TraceToolTests 18, TraceAngleTests 15, AssistRouterTests 6, 0 failures, `** TEST SUCCEEDED **`.
 
 Acceptance: cases pass.
   Check: `-only-testing:schematicalTests/TraceToolTests -only-testing:schematicalTests/TraceAngleTests -only-testing:schematicalTests/AssistRouterTests` → `** TEST SUCCEEDED **` (est. 2 min).
@@ -140,9 +140,9 @@ Commit: —
 
 ### Phase 3 — the V key
 
-- [ ] `PCBCanvasView.swift`: `TraceDrawing.dropVia`, the key (`charactersIgnoringModifiers == "v"`, no modifiers) in `installDrawingKeyMonitor`, the `onLayerChange` callback; `ContentView.swift` sets `traceLayer` from it.
-- [ ] `Help/KeyboardHelp.swift` "Trace tool (while dragging)": `V` "Drop a via and continue on the other layer"; the Tools list: Trace assist toggle; `KeyboardHelpTests` updated.
-- [ ] Tests (`TraceToolTests`): on a 2-layer board V mid-trace gives one trace on Top, one via, then the finished trace on Bottom starting at the via centre; the whole gesture is one `undo(on: .pcb)`; the via has the start net's class size; V on a 1-layer board changes nothing; V where a via would violate clearance (anchor next to a foreign pad) adds nothing and sets `editorMessage`; with a 4-layer board with a Plane at Layer 2, V cycles Top → Bottom (never the Plane).
+- [x] `PCBCanvasView.swift`: `TraceDrawing.dropVia`, the key (`charactersIgnoringModifiers == "v"`, no modifiers) in `installDrawingKeyMonitor`, the `onLayerChange` callback; `ContentView.swift` sets `traceLayer` from it.
+- [x] `Help/KeyboardHelp.swift` "Trace tool (while dragging)": `V` "Drop a via and continue on the other layer"; the Tools list: Trace assist toggle; `KeyboardHelpTests` updated. (`V` and `Trace assist` asserted in `testPCBKeys`.)
+- [x] Tests (`TraceToolTests`): on a 2-layer board V mid-trace gives one trace on Top, one via, then the finished trace on Bottom starting at the via centre; the whole gesture is one `undo(on: .pcb)`; the via has the start net's class size; V on a 1-layer board changes nothing; V where a via would violate clearance (anchor next to a foreign pad) adds nothing and sets `editorMessage`; with a 4-layer board with a Plane at Layer 2, V cycles Top → Bottom (never the Plane). (The test asserts the next trace layer after Top, never `.inner(2)`, and the wrap from the last back to Top; with Layer 3 left as the 4-layer default it is in `traceLayers` too.) — `-only-testing:TraceToolTests -only-testing:KeyboardHelpTests -only-testing:TraceAngleTests -only-testing:AssistRouterTests` → 43 tests, 0 failures, `** TEST SUCCEEDED **` (the run before crashed: Corrections).
 
 Acceptance: cases pass.
   Check: `-only-testing:schematicalTests/TraceToolTests -only-testing:schematicalTests/KeyboardHelpTests` → `** TEST SUCCEEDED **` (est. 2 min).
@@ -150,8 +150,13 @@ Commit: —
 
 ### Phase 4 — the real app
 
-- [ ] Real app (per `AGENTS.md`, pointer left at 0,0 afterwards): open the AFU fixture, Trace tool with Assist on, drag between two pads of one net across another part's pad → path walks around; drag to a sealed spot → red, nothing added; press V mid-drag on a 2-layer board → via appears, layer menu changes; ⌘Z undoes the whole drag. Record observations here.
-- [ ] Observations (filled in by the run): __.
+- [x] Real app (per `AGENTS.md`, pointer left at 0,0 afterwards): open the AFU fixture, Trace tool with Assist on, drag between two pads of one net across another part's pad → path walks around; drag to a sealed spot → red, nothing added; press V mid-drag on a 2-layer board → via appears, layer menu changes; ⌘Z undoes the whole drag. Record observations here.
+- [x] Observations (filled in by the run, 2026-11-14 10:26–10:34, the Debug build run from its binary so it couldn't be confused with the test host; pointer to 0,0 after; the fixture unchanged):
+  - The wand shows in the PCB toolbar after the layer menu; turned on, it stayed on after the app was quit and relaunched.
+  - Trace tool, Top, Assist on: a drag from ADDR1.8 to ADDR2.8 (both GND), whose straight way runs along ADDR1's top row of pads, added a trace that runs above the row and drops onto ADDR2.8; the sidebar: Net GND, Connects ADDR1.8, ADDR2.8.
+  - A drag from ADDR1.8 onto one of ADDR1's bottom-row pads (another net): the first build drew the preview in Top's own red, indistinguishable (fixed: Corrections). After the fix it drew dashed red with a red cross at the end; the release added nothing and the orange capsule said "No legal route there." (it hadn't shown at all on the PCB page before: Corrections).
+  - V mid-drag in open board: a Top trace from ADDR1.8 to a via (GND, hole 0.4, metal 0.8, the Default class's), the layer menu turned to Bottom, and the drag went on in blue; the release added the Bottom trace from the via.
+  - ⌘Z once: both traces and the via gone.
 
 Acceptance: behaves as stated.
   Check: the real-app run above (est. 15 min).
@@ -171,7 +176,59 @@ See plan-38-A § Decisions (owner: interactive aids, no push-and-shove, 2026-11-
 
 ## Corrections
 
-(Filled in during execution.)
+- **The search window is the expansion cap, not a box.** § 3's A* is
+  "windowed to the start–cursor box grown by 5 mm, capped at 200 000
+  expansions". `RoutingSearch.search` has no window parameter, and a box
+  would refuse legal walk-arounds longer than 5 mm. The cap bounds the time
+  either way (the timing test holds it), and A*'s goal heuristic keeps an
+  open-board search near the straight line. So the assist uses only the
+  cap (`AssistRouter.maxExpansions`).
+- **`init(document:, layer:, net:)` became `init(document:, layer:, start:,
+  rules:)`.** The drawn net is the net of the copper at the trace's start
+  (`SchematicDocument.net(at:layer:in:)`, the lookup `netRules(at:layer:)`
+  already did, now shared), so the caller passes the start. `rules`
+  defaults to the user's DRC rules; tests pass `.customDefault`. A start on
+  no net routes as id `AssistRouter.noNet` (1 000 000), which no copper
+  has, so every pad and trace is foreign to it. The problem is the
+  document's with scope `.nets([])` (so nothing is cleared or routed),
+  `routable = [layer]`, and one `RoutingNet`, the drawn one with its
+  class's width, clearance and via.
+- **A leg's verification ignores `unconnected`.** `RoutingVerifier` also
+  reports a trace end that joins nothing, but a live leg may end in open
+  board. Only the copper rules (clearance, edge, width) decide legality.
+- **The key monitor read stale layer and angle.** `installDrawingKeyMonitor`
+  makes its closure once, in `onAppear`, so the `traceLayer` and
+  `traceAngle` it read were those of when the canvas appeared. Space's
+  lock used the angle of then while the preview used the current one. V
+  needs the current layer. The canvas now keeps both in a reference
+  (`TraceKeyContext`, set by `onChange(…, initial: true)`), and the trace
+  being drawn has its own layer (`drawingLayer`, `traceLayer` at the press,
+  the next layer after a V), which the preview, ratsnest and release use.
+- **Space locks the assisted leg** (`TraceDraft.lock(leg:)`), so a locked
+  corner is the leg the preview showed. `TraceDraft.path(through:)` builds
+  the preview from it. Neither was listed in § 3.
+- **V's via check is `AssistRouter.viaProblem`.** It builds the same
+  problem without a grid and verifies one `RoutedVia` of the class size
+  (clearance to other nets' copper, the edge, hole to hole), message "No
+  room for a via there.". The trace is added before the via, so the via
+  takes its net's class size from it (`addVia(at:)` reads `netRules` at its
+  centre).
+- **Two `@MainActor` classes crashed the test host on release.**
+  `AssistRouter` and `TraceKeyContext` got the isolated deinit plan-38-K
+  met. The first run aborted with "pointer being freed was not allocated"
+  in `AssistRouterTests` and restarted until it gave up. Both are now
+  `nonisolated deinit {}`, and the 43 tests pass.
+- **Red on red.** Top copper is red, so a red illegal preview on Top looked
+  like a legal one (real-app run). The illegal preview is now dashed red,
+  and the end ring becomes a red cross.
+- **`editorMessage` showed only on the schematic page.** The capsule in
+  `ContentView` was gated `page == .schematic`, so "No legal route there.",
+  the via refusal, and plan-38-K's refusals on the PCB page (route while
+  playing) never appeared. It shows on either page now.
+- **The four phases are one commit.** The assist, the V key and its help
+  share `PCBCanvasView.swift`, `AssistRouter.swift` (the via check) and
+  `TraceToolTests.swift`, and were verified by one test run and one
+  real-app run.
 
 ## Summary
 

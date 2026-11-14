@@ -56,9 +56,16 @@ struct PCBCanvasView: View {
     /// The Trace tool's angle (`TraceRoute.angles`), between the straight
     /// run and the angled leg.
     var traceAngle = TraceRoute.defaultAngle
+    /// Whether the Trace tool's live leg walks around other nets' copper
+    /// (`AssistRouter`, plan-38-L); an illegal one draws red and a release
+    /// there adds nothing.
+    var traceAssist = false
     /// Called with a hidden layer the Trace tool just drew on; the owner
     /// shows it.
     var onShowLayer: (CopperLayer) -> Void = { _ in }
+    /// Called with the layer a V while drawing moved the trace to; the
+    /// owner makes it the Trace tool's layer.
+    var onLayerChange: (CopperLayer) -> Void = { _ in }
     /// Where the pointer is over the board, for ⌘V; set as it moves.
     var pointer: BoardPointer?
     /// The net the sidebar's Nets section highlights: its pads, traces,
@@ -90,6 +97,14 @@ struct PCBCanvasView: View {
     @State private var selectionPress: SelectionPress<BoardItem>?
     /// Space, `/` and Esc while a trace is being drawn.
     @State private var drawingKeyMonitor: Any?
+    /// The Trace assist for the trace being drawn, built at its press.
+    @State private var assist: AssistRouter?
+    /// The layer the trace being drawn is on: `traceLayer` at the press,
+    /// then the next layer after each V; nil when no trace is drawn.
+    @State private var drawingLayer: CopperLayer?
+    /// The Trace tool's layer and angle as they are now, for the key
+    /// monitor (`TraceKeyContext`).
+    @State private var live = TraceKeyContext()
 
     enum Interaction: Equatable {
         /// Moves every selected footprint, text and trace from where they
@@ -177,7 +192,13 @@ struct PCBCanvasView: View {
         }
         .onAppear { installDrawingKeyMonitor() }
         .onDisappear { removeDrawingKeyMonitor() }
+        .onChange(of: traceLayer, initial: true) { live.layer = traceLayer }
+        .onChange(of: traceAngle, initial: true) { live.angle = traceAngle }
     }
+
+    /// The layer the Trace tool draws on now: the drawn trace's, else the
+    /// menu's.
+    private var activeLayer: CopperLayer { drawingLayer ?? traceLayer }
 
     private func installDrawingKeyMonitor() {
         guard drawingKeyMonitor == nil else { return }
@@ -204,18 +225,37 @@ struct PCBCanvasView: View {
             return false
         }
         var next = draft
+        // This closure was made once, at install: the view's own `traceLayer`
+        // and `traceAngle` here are those of then; `live` has them now.
+        let layer = drawingLayer ?? live.layer
+        let plain = event.modifierFlags.intersection([.command, .control, .option]).isEmpty
         if event.keyCode == 53 {
             // Esc with nothing locked drops the whole trace; the rest of the
             // drag does nothing.
             if !next.unlock() { interaction = .idle; return true }
         } else if event.keyCode == 49 {
             if !event.isARepeat {
-                next.lock(to: TraceDrawing.anchor(document, at: cursor, layer: traceLayer, scale: scale),
-                          angle: traceAngle)
+                let end = TraceDrawing.anchor(document, at: cursor, layer: layer, scale: scale)
+                if let assist {
+                    // The assist's leg, when it found a legal one.
+                    if let leg = assist.route(from: next.legStart, to: end) { next.lock(leg: leg) }
+                } else {
+                    next.lock(to: end, angle: live.angle)
+                }
             }
-        } else if event.charactersIgnoringModifiers == "/",
-                  event.modifierFlags.intersection([.command, .control, .option]).isEmpty {
+        } else if event.charactersIgnoringModifiers == "/", plain {
             next.flip()
+        } else if event.charactersIgnoringModifiers?.lowercased() == "v", plain,
+                  !event.modifierFlags.contains(.shift) {
+            // V: a via where the trace has got to, and on from it on the
+            // next layer (plan-38-L).
+            if !event.isARepeat, let (draft, nextLayer) = TraceDrawing.dropVia(
+                document, draft: next, to: cursor, layer: layer, scale: scale, angle: live.angle, assist: assist) {
+                next = draft
+                drawingLayer = nextLayer
+                assist = assist == nil ? nil : AssistRouter(document: document, layer: nextLayer, start: draft.start)
+                onLayerChange(nextLayer)
+            }
         } else {
             return false
         }
@@ -463,11 +503,11 @@ struct PCBCanvasView: View {
     private func drawRatsnest(in context: inout GraphicsContext) {
         var drawing: BoardTrace?
         if tool == .trace, case let .drawTrace(draft, cursor) = interaction {
-            let route = TraceDrawing.preview(document, draft: draft, to: cursor, layer: traceLayer, scale: scale,
-                                             angle: traceAngle)
-            if TraceRoute.isLegal(route) {
-                drawing = BoardTrace(id: UUID(), layer: traceLayer,
-                                     width: TraceDrawing.width(document, draft: draft, layer: traceLayer), points: route)
+            let (route, allowed) = TraceDrawing.assisted(document, draft: draft, to: cursor, layer: activeLayer,
+                                                         scale: scale, angle: traceAngle, assist: assist)
+            if allowed, TraceRoute.isLegal(route) {
+                drawing = BoardTrace(id: UUID(), layer: activeLayer,
+                                     width: TraceDrawing.width(document, draft: draft, layer: activeLayer), points: route)
             }
         }
         let lines = document.ratsnest(drawing: drawing)
@@ -536,20 +576,41 @@ struct PCBCanvasView: View {
     private func drawTraceTool(in context: inout GraphicsContext) {
         guard tool == .trace else { return }
         let ring: CGPoint?
+        var legal = true
         if case let .drawTrace(draft, cursor) = interaction {
-            let route = TraceDrawing.preview(document, draft: draft, to: cursor, layer: traceLayer, scale: scale,
-                                             angle: traceAngle)
-            let colour = document.board.style(of: traceLayer).color.color.opacity(0.6)
-            let mil = TraceDrawing.width(document, draft: draft, layer: traceLayer)
-            context.stroke(Self.path(route), with: .color(colour), style: Self.traceStyle(width: Double(mil) * 0.0254))
+            let (route, allowed) = TraceDrawing.assisted(document, draft: draft, to: cursor, layer: activeLayer,
+                                                         scale: scale, angle: traceAngle, assist: assist)
+            legal = allowed
+            let mil = TraceDrawing.width(document, draft: draft, layer: activeLayer)
+            let width = Double(mil) * 0.0254
+            if allowed {
+                let colour = document.board.style(of: activeLayer).color.color.opacity(0.6)
+                context.stroke(Self.path(route), with: .color(colour), style: Self.traceStyle(width: width))
+            } else {
+                // Where the assist found no legal way (a release adds
+                // nothing): red and dashed, so it reads on a red Top layer too.
+                let dash = max(width * 3, 4 / scale)
+                context.stroke(Self.path(route), with: .color(.red),
+                               style: StrokeStyle(lineWidth: max(width, 2 / scale), lineCap: .butt,
+                                                  dash: [dash, dash]))
+            }
             ring = route.last
         } else {
             ring = hoverPoint.map { TraceDrawing.anchor(document, at: $0, layer: traceLayer, scale: scale) }
         }
         if let ring {
+            // Green where a release would land; a red cross where it can't.
             let r = 6 / scale
-            context.stroke(Path(ellipseIn: CGRect(x: ring.x - r, y: ring.y - r, width: 2 * r, height: 2 * r)),
-                           with: .color(.green), lineWidth: 2 / scale)
+            if legal {
+                context.stroke(Path(ellipseIn: CGRect(x: ring.x - r, y: ring.y - r, width: 2 * r, height: 2 * r)),
+                               with: .color(.green), lineWidth: 2 / scale)
+            } else {
+                let cross = Path { path in
+                    path.move(to: CGPoint(x: ring.x - r, y: ring.y - r)); path.addLine(to: CGPoint(x: ring.x + r, y: ring.y + r))
+                    path.move(to: CGPoint(x: ring.x - r, y: ring.y + r)); path.addLine(to: CGPoint(x: ring.x + r, y: ring.y - r))
+                }
+                context.stroke(cross, with: .color(.red), lineWidth: 2.5 / scale)
+            }
         }
     }
 
@@ -731,6 +792,9 @@ struct PCBCanvasView: View {
         switch tool {
         case .trace:
             let anchored = TraceDrawing.anchor(document, at: point, layer: traceLayer, scale: scale)
+            // The assist's grid is built once, here (plan-38-L).
+            assist = traceAssist ? AssistRouter(document: document, layer: traceLayer, start: anchored) : nil
+            drawingLayer = traceLayer
             return .drawTrace(draft: TraceDraft(start: anchored), cursor: point)
         case .via:
             // A press places a via (snapped onto a trace, or the trace grid)
@@ -776,9 +840,11 @@ struct PCBCanvasView: View {
     /// what the press left pending in the selection.
     private func end(translation: CGSize) {
         if case let .drawTrace(draft, cursor) = interaction {
-            TraceDrawing.finish(document, draft: draft, to: cursor, layer: traceLayer, scale: scale,
-                                angle: traceAngle, visible: shown, onShowLayer: onShowLayer)
+            TraceDrawing.finish(document, draft: draft, to: cursor, layer: activeLayer, scale: scale,
+                                angle: traceAngle, visible: shown, assist: assist, onShowLayer: onShowLayer)
         }
+        assist = nil
+        drawingLayer = nil
         if case let .moveGroup(base) = interaction {
             document.settleBoardGroup(base)
         }
@@ -813,6 +879,19 @@ final class BoardPointer {
     var point: CGPoint?
 }
 
+/// The Trace tool's layer and angle as they are now. The canvas's key
+/// monitor is a closure made once, when the canvas appears, so the view it
+/// holds has the layer and angle of then; the canvas keeps these current
+/// (`onChange`) and the monitor reads them here.
+@MainActor
+final class TraceKeyContext {
+    var layer: CopperLayer = .top
+    var angle = TraceRoute.defaultAngle
+
+    /// As `AssistRouter`'s: an isolated deinit aborts the runtime.
+    nonisolated deinit {}
+}
+
 /// The steps of a Trace tool drag, kept apart from the view so tests can
 /// run them in the order the canvas does: anchor the press, preview while
 /// dragging, finish on release.
@@ -830,10 +909,55 @@ enum TraceDrawing {
     }
 
     /// The route a release at `cursor` would add: the draft's locked legs,
-    /// then the live leg at `angle` to where the cursor lands.
+    /// then the live leg at `angle` to where the cursor lands, or (with
+    /// `assist`) the assist's leg there.
     static func preview(_ document: SchematicDocument, draft: TraceDraft, to cursor: CGPoint,
-                        layer: CopperLayer, scale: CGFloat, angle: Int) -> [CGPoint] {
-        draft.path(to: anchor(document, at: cursor, layer: layer, scale: scale), angle: angle)
+                        layer: CopperLayer, scale: CGFloat, angle: Int, assist: AssistRouter? = nil) -> [CGPoint] {
+        assisted(document, draft: draft, to: cursor, layer: layer, scale: scale, angle: angle, assist: assist).points
+    }
+
+    /// `preview`, and whether a release would add it: with `assist`, only
+    /// when the assist found a legal leg to where the cursor lands (else
+    /// the points are the plain leg, drawn red). Without, always.
+    static func assisted(_ document: SchematicDocument, draft: TraceDraft, to cursor: CGPoint, layer: CopperLayer,
+                         scale: CGFloat, angle: Int, assist: AssistRouter?) -> (points: [CGPoint], isLegal: Bool) {
+        let end = anchor(document, at: cursor, layer: layer, scale: scale)
+        guard let assist, !TraceRoute.same(draft.legStart, end) else { return (draft.path(to: end, angle: angle), true) }
+        guard let leg = assist.route(from: draft.legStart, to: end) else { return (draft.path(to: end, angle: angle), false) }
+        return (draft.path(through: leg), true)
+    }
+
+    /// The message an illegal assisted release leaves.
+    static let noRouteMessage = "No legal route there."
+
+    /// V while drawing (plan-38-L): the trace so far is added (as a
+    /// release would add it), a via of its net's class size stands where it
+    /// ends, and drawing goes on from the via on the next trace layer
+    /// (`board.traceLayers` after `layer`, wrapping; never a Plane). Runs
+    /// inside the drag's gesture, so the whole drag stays one undo step.
+    /// Returns the new draft and layer; nil, changing nothing, on a board
+    /// with one trace layer, where the assisted leg is illegal, or where
+    /// the via wouldn't keep clear of other nets' copper or holes (both
+    /// say why in `editorMessage`).
+    static func dropVia(_ document: SchematicDocument, draft: TraceDraft, to cursor: CGPoint, layer: CopperLayer,
+                        scale: CGFloat, angle: Int, assist: AssistRouter?,
+                        rules: DesignRules = DesignRules.current()) -> (draft: TraceDraft, layer: CopperLayer)? {
+        let layers = document.board.traceLayers
+        guard layers.count >= 2, let index = layers.firstIndex(of: layer) else { return nil }
+        let route = assisted(document, draft: draft, to: cursor, layer: layer, scale: scale, angle: angle, assist: assist)
+        guard route.isLegal else {
+            document.editorMessage = noRouteMessage
+            return nil
+        }
+        guard let centre = route.points.last else { return nil }
+        if let why = AssistRouter.viaProblem(document, at: centre, start: draft.start, layer: layer, rules: rules) {
+            document.editorMessage = why
+            return nil
+        }
+        // The trace first, so the via finds its net (and class size) there.
+        document.addTrace(points: route.points, layer: layer, width: width(document, draft: draft, layer: layer))
+        guard document.addVia(at: centre) != nil else { return nil }
+        return (TraceDraft(start: centre), layers[(index + 1) % layers.count])
     }
 
     /// The width, in mil, of the trace a draft draws: that of the class of
@@ -845,11 +969,18 @@ enum TraceDrawing {
 
     /// The release: adds the trace (nothing for a zero-length one), makes it
     /// the whole selection, and asks for its layer to be shown if hidden.
+    /// With `assist` and no legal leg to the cursor, adds nothing and says
+    /// so (`editorMessage`).
     @discardableResult
     static func finish(_ document: SchematicDocument, draft: TraceDraft, to cursor: CGPoint, layer: CopperLayer,
-                       scale: CGFloat, angle: Int, visible: BoardVisibility,
+                       scale: CGFloat, angle: Int, visible: BoardVisibility, assist: AssistRouter? = nil,
                        onShowLayer: (CopperLayer) -> Void) -> UUID? {
-        let points = preview(document, draft: draft, to: cursor, layer: layer, scale: scale, angle: angle)
+        let route = assisted(document, draft: draft, to: cursor, layer: layer, scale: scale, angle: angle, assist: assist)
+        guard route.isLegal else {
+            document.editorMessage = noRouteMessage
+            return nil
+        }
+        let points = route.points
         guard let id = document.addTrace(points: points, layer: layer,
                                          width: width(document, draft: draft, layer: layer)) else {
             return nil
