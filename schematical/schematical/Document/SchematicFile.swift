@@ -138,6 +138,10 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         var side: String? = nil
         /// True when its position is locked; left out otherwise.
         var locked: Bool? = nil
+        /// The reference text's centre, mm from the body centre in the
+        /// footprint's own frame; written only when not zero, missing is 0.
+        var refX: Double? = nil
+        var refY: Double? = nil
     }
 
     /// The PCB: size in mm, copper layers, colour and sidebar units (raw
@@ -604,7 +608,9 @@ extension SchematicFile {
                               origin: $0.origin.rawValue, outline: $0.outline.rawValue,
                               pin1: $0.pin1.rawValue, reference: $0.reference.rawValue,
                               style: chip.part.connectorFootprint == nil ? nil : $0.style.rawValue,
-                              side: $0.side.rawValue, locked: $0.locked ? true : nil)
+                              side: $0.side.rawValue, locked: $0.locked ? true : nil,
+                              refX: $0.referenceOffset.x == 0 ? nil : Double($0.referenceOffset.x),
+                              refY: $0.referenceOffset.y == 0 ? nil : Double($0.referenceOffset.y))
                 },
                 memoryFile: chip.memoryFile.map {
                     MemoryFileEntry(path: MemoryFileAccess.path(of: $0.url, schematic: fileURL),
@@ -1227,6 +1233,13 @@ extension SchematicFile {
                                              default: placement.reference)
         placement.side = try Self.value(pcb.side, of: BoardSide.self, "\(reference) side", default: placement.side)
         placement.locked = pcb.locked ?? false
+        let limit = BoardSettings.sizeRange.upperBound
+        for (key, value) in [("refX", pcb.refX), ("refY", pcb.refY)] {
+            if let value, !(abs(value) <= limit) {
+                throw SchematicFileError.badPCB("\(reference) \(key) \(value) must be within \(Int(limit)) mm")
+            }
+        }
+        placement.referenceOffset = CGPoint(x: pcb.refX ?? 0, y: pcb.refY ?? 0)
         return placement
     }
 

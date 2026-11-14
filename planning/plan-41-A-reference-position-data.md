@@ -245,21 +245,21 @@ Moves the four reference sites onto `boardReferenceCentre` / `boardReferenceRect
 
 Acceptance: moved references are drawn and checked where they are.
   Result: `** TEST SUCCEEDED **`; ReferencePositionTests 9, DesignRuleCheckTests 12, GerberExportTests 17 → 38 tests, 0 failures. Check: same xcodebuild command as Phase 1 (est. 8 min; incremental build).
-Commit: —
+Commit: 2e8ab127
 
 ### Phase 3 — Save, open, docs
 
-- [ ] `Document/SchematicFile.swift`: `Placement` gets `refX: Double?`,
+- [x] `Document/SchematicFile.swift`: `Placement` gets `refX: Double?`,
       `refY: Double?`; the write (line 603) sets them when the offset is not
       zero; `placement(_:reference:)` reads them with the range check (§ 4).
-- [ ] `docs/file-format.md` line 130: add `refX`, `refY` to the `pcb` row
+- [x] `docs/file-format.md` line 130: add `refX`, `refY` to the `pcb` row
       ("the reference text's centre, in mm from the body centre in the
       footprint's own frame (before the side's mirror and the rotation); written
       only when not zero; missing means 0; older builds ignore them and draw it
       on the body centre").
-- [ ] `docs/export.md` line 62: "references (1 mm, centred on the body, or
+- [x] `docs/export.md` line 62: "references (1 mm, centred on the body, or
       where the part's reference was moved)".
-- [ ] Tests: in `ReferencePositionTests`: save then open keeps the offset; a
+- [x] Tests: in `ReferencePositionTests`: save then open keeps the offset; a
       zero offset writes neither key (the encoded JSON contains no `refX`); a
       file with `refX: 5000` is refused with the `badPCB` message; a file with
       only `refX` reads `refY` as 0.

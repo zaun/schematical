@@ -162,4 +162,52 @@ final class ReferencePositionTests: XCTestCase {
         doc.setHeaderSize(header.id, to: try TestSupport.part("GENERIC-HEADER-1X04"))
         XCTAssertEqual(try chip(doc, header.id).board?.referenceOffset, .zero, "header size")
     }
+
+    // MARK: The file
+
+    private func partJSON(pcb: String) -> String {
+        """
+        [{ "id": "11111111-1111-1111-1111-111111111111", "reference": "U1", "partNumber": "SN74HC00N",
+           "x": 100, "y": 100, "flipped": false, "pcb": \(pcb) }]
+        """
+    }
+
+    func testOffsetRoundTrips() throws {
+        let c = try withPart()
+        c.doc.moveReference(c.id, toCentre: p(210, 195))
+        let offset = try XCTUnwrap(try chip(c.doc, c.id).board?.referenceOffset)
+        XCTAssertNotEqual(offset, .zero)
+        let opened = try BoardLayersTests.roundTrip(c.doc)
+        XCTAssertEqual(try XCTUnwrap(opened.chips.first?.board?.referenceOffset), offset)
+    }
+
+    func testZeroOffsetWritesNeitherKey() throws {
+        let c = try withPart()
+        let json = try XCTUnwrap(String(data: SchematicFile(document: c.doc, fileURL: nil).encoded(), encoding: .utf8))
+        XCTAssertTrue(json.contains("\"rotation\""), "the part's pcb object is written")
+        XCTAssertFalse(json.contains("refX"))
+        XCTAssertFalse(json.contains("refY"))
+        // One axis zero: only the other is written.
+        let opened = try BoardLayersTests.open(board: "{}", parts: partJSON(pcb: #"{ "x": 30, "y": 40, "rotation": 0, "refX": 2.5 }"#))
+        let one = try XCTUnwrap(String(data: SchematicFile(document: opened, fileURL: nil).encoded(), encoding: .utf8))
+        XCTAssertTrue(one.contains("refX"))
+        XCTAssertFalse(one.contains("refY"))
+    }
+
+    func testMissingKeysAreZeroAndAMissingOneReadsAsZero() throws {
+        let none = try BoardLayersTests.open(board: "{}", parts: partJSON(pcb: #"{ "x": 30, "y": 40, "rotation": 0 }"#))
+        XCTAssertEqual(none.chips.first?.board?.referenceOffset, .zero)
+        let onlyX = try BoardLayersTests.open(board: "{}", parts: partJSON(pcb: #"{ "x": 30, "y": 40, "rotation": 0, "refX": 3.5 }"#))
+        XCTAssertEqual(onlyX.chips.first?.board?.referenceOffset, p(3.5, 0))
+    }
+
+    func testOutOfRangeOffsetIsRefused() throws {
+        for key in ["refX", "refY"] {
+            let detail = BoardLayersTests.pcbError {
+                _ = try BoardLayersTests.open(board: "{}", parts: partJSON(pcb: "{ \"x\": 30, \"y\": 40, \"rotation\": 0, \"\(key)\": 5000 }"))
+            }
+            XCTAssertEqual(detail, "U1 \(key) 5000.0 must be within 1000 mm")
+        }
+    }
 }
+
