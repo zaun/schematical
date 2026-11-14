@@ -1474,6 +1474,111 @@ mcu	attiny28v	quad32	1062s	p.1	{"RESET":true}
 mcu	attiny3216	p20	attiny3216-17-datasheet-ds40002205a	p.14	{}	rule 12: port names only; RESET/UPDI alternative of PA0 not in catalog name
 mcu	attiny3217	quad24	attiny3216-17-auto-datasheet-ds40002212a	p.15	{}	rule 12: port names only; RESET/UPDI alternative of PA0 not in catalog name
 mcu	attiny3224	p14	attiny3224-3226-3227-data-sheet-ds40002345b	p.14	{}	rule 12: port names only; UPDI/RESET alternative of PA0 not in catalog name
+mcu	attiny3226	p20	attiny3224-3226-3227-data-sheet-ds40002345b	p.15	{}	rule 12: pin 16 PA0 (UPDI/RESET-bar); catalog name PA0
+mcu	attiny3226	quad20	attiny3224-3226-3227-data-sheet-ds40002345b	p.16	{}	rule 12: pin 19 PA0 (UPDI/RESET-bar); catalog name PA0
+mcu	attiny4	p6	atmel-8127-avr-8-bit-microcontroller-attiny4-attiny5-attiny9-attiny10_datasheet-summary	p.4	{}	rule 12: pin 6 PB3 (RESET/...); catalog name PB3
+mcu	attiny4	p8	atmel-8127-avr-8-bit-microcontroller-attiny4-attiny5-attiny9-attiny10_datasheet-summary	p.4	{}	rule 12: pin 6 PB3 (RESET/...); catalog name PB3
+mcu	attiny40	p20	atmel-8263-8-bit-avr-microcontroller-tinyavr-attiny40_datasheet_summary	p.2	{}	rule 12: pin 14 PC3 (RESET/PCINT15); catalog name PC3
+mcu	attiny40	quad20	atmel-8263-8-bit-avr-microcontroller-tinyavr-attiny40_datasheet_summary	p.2	{}	rule 12: pin 12 PC3 (RESET/PCINT15); catalog name PC3
+mcu	attiny402	p8	attiny202-204-402-404-406-datasheet-ds40002318a	p.13	{}	rule 12: pin 6 PA0 (RESET-bar/UPDI); catalog name PA0
+mcu	attiny404	p14	attiny202-204-402-404-406-datasheet-ds40002318a	p.14	{}	rule 12: pin 10 PA0 (RESET-bar/UPDI); catalog name PA0
+mcu	attiny406	p20	attiny202-204-402-404-406-datasheet-ds40002318a	p.15	{}	rule 12: pin 16 PA0 (RESET-bar/UPDI); catalog name PA0
+mcu	attiny406	quad20	attiny202-204-402-404-406-datasheet-ds40002318a	p.16	{}	rule 12: pin 19 PA0 (RESET-bar/UPDI); catalog name PA0
+mcu	attiny412	p8	attiny212-214-412-414-416-datasheet-ds40002287a	p.14	{}	rule 12: pin 6 PA0 (RESET-bar/UPDI); catalog name PA0
+mcu	attiny414	p14	attiny212-214-412-414-416-datasheet-ds40002287a	p.15	{}	rule 12: pin 10 PA0 (RESET-bar/UPDI); catalog name PA0
+mcu	attiny416	p20	attiny212-214-412-414-416-datasheet-ds40002287a	p.16	{}	rule 12: pin 16 PA0 (RESET-bar/UPDI); catalog name PA0
+mcu	attiny416	quad20	attiny212-214-412-414-416-datasheet-ds40002287a	p.17	{}	rule 12: pin 19 PA0 (RESET-bar/UPDI); catalog name PA0
+mcu	attiny417	quad24	attiny417-814-816-817-datasheet-ds40002288a	p.18	{}	rule 12: pin 23 PA0 (RESET-bar/UPDI); catalog name PA0
+mcu	attiny424	p14	attiny424-426-427-824-826-827-datasheet-ds40002311a	p.13	{}	rule 12: pin 10 PA0 (UPDI/RESET-bar); catalog name PA0
+mcu	attiny426	p20	attiny424-426-427-824-826-827-datasheet-ds40002311a	p.14	{}	rule 12: pin 16 PA0 (UPDI/RESET-bar); catalog name PA0
+mcu	attiny426	quad20	attiny424-426-427-824-826-827-datasheet-ds40002311a	p.15	{}	rule 12: pin 19 PA0 (UPDI/RESET-bar); catalog name PA0
+mcu	attiny427	quad24	attiny424-426-427-824-826-827-datasheet-ds40002311a	p.16	{}	rule 12: pin 23 PA0 (UPDI/RESET-bar); catalog name PA0
+mcu	attiny4313	p20	8246s	p.2	{}	rule 12: pin 1 PA2 (PCINT10/RESET/dW); catalog name PA2
+mcu	attiny4313	quad20	8246s	p.2	{}	rule 12: pin 19 PA2 (RESET/dW/PCINT10); catalog name PA2
+mcu	attiny43u	p20	8048s	pp.2-3	{}	rule 12: pin 20 PA7 (RESET/dW/PCINT7); catalog name PA7. LSW is the boost inductor node, not active low
+mcu	attiny44	p14	8006s	p.2	{}	rule 12: pin 4 PB3 (PCINT11/RESET/dW); catalog name PB3
+mcu	attiny44	quad20	8006s	p.2	{}	rule 12: pin 13 PB3 (PCINT11/RESET/dW); catalog name PB3
+mcu	attiny441	p14	atmel-8495-8-bit-avr-microcontrollers-attiny441-attiny841_datasheet-summary	p.2	{}	rule 12: pin 4 PB3 (PCINT11/ADC9/RESET/dW); catalog name PB3
+mcu	attiny441	quad20	atmel-8495-8-bit-avr-microcontrollers-attiny441-attiny841_datasheet-summary	p.2	{}	rule 12: pin 13 PB3 (PCINT11/ADC9/RESET/dW); catalog name PB3
+mcu	attiny44a	bga15	attiny24a-44a-84a-datasheet-ds40002269a	p.8	{}	rule 12: ball B4 PB3 (RESET); catalog name PB3
+mcu	attiny44a	p14	attiny24a-44a-84a-datasheet-ds40002269a	p.8	{}	rule 12: pin 4 PB3 (PCINT11/RESET/dW); catalog name PB3
+mcu	attiny44a	quad20	attiny24a-44a-84a-datasheet-ds40002269a	p.8	{}	rule 12: pin 13 PB3 (PCINT11/RESET/dW); catalog name PB3
+mcu	attiny45	p8	atmel-2586-avr-8-bit-microcontroller-attiny25-attiny45-attiny85_datasheet-summary	p.2	{}	rule 12: pin 1 PB5 (PCINT5/RESET/ADC0/dW); catalog name PB5
+mcu	attiny45	quad20	atmel-2586-avr-8-bit-microcontroller-attiny25-attiny45-attiny85_datasheet-summary	p.2	{}	rule 12: pin 1 PB5 (PCINT5/RESET/ADC0/dW); catalog name PB5
+mcu	attiny461	p20	atmel-2588-8-bit-avr-microcontrollers-tinyavr-attiny261-attiny461-attiny861_datasheet	p.2	{}	rule 12: pin 10 PB7 (ADC10/RESET/PCINT15); catalog name PB7
+mcu	attiny461	quad32	atmel-2588-8-bit-avr-microcontrollers-tinyavr-attiny261-attiny461-attiny861_datasheet-summary	p.2	{}	rule 12: pin 11 PB7 (ADC10/RESET/PCINT15); catalog name PB7
+mcu	attiny461a	p20	8197s	p.2	{}	rule 12: pin 10 PB7 (ADC10/RESET/PCINT15); catalog name PB7
+mcu	attiny48	quad28	8008s	p.2	{}	rule 12: pin 25 PC6 (RESET/PCINT14); catalog name PC6
+mcu	attiny48	quad32	8008s	p.2	{}	rule 12: pin 29 PC6 (RESET/PCINT14); catalog name PC6
+mcu	attiny5	p6	atmel-8127-avr-8-bit-microcontroller-attiny4-attiny5-attiny9-attiny10_datasheet-summary	p.4	{}	rule 12: pin 6 PB3 (RESET/...); catalog name PB3
+mcu	attiny804	p14	attiny804-06-07-1604-06-07-datasheet-ds40002312a	p.13	{}	rule 12: pin 10 PA0 (RESET-bar/UPDI); catalog name PA0
+mcu	attiny806	p20	attiny804-06-07-1604-06-07-datasheet-ds40002312a	p.14	{}	rule 12: pin 16 PA0 (RESET-bar/UPDI); catalog name PA0
+mcu	attiny806	quad20	attiny804-06-07-1604-06-07-datasheet-ds40002312a	p.15	{}	rule 12: pin 19 PA0 (RESET-bar/UPDI); catalog name PA0
+mcu	attiny807	quad24	attiny804-06-07-1604-06-07-datasheet-ds40002312a	p.16	{}	rule 12: pin 23 PA0 (RESET-bar/UPDI); catalog name PA0
+mcu	attiny814	p14	attiny417-814-816-817-datasheet-ds40002288a	p.15	{}	rule 12: pin 10 PA0 (RESET-bar/UPDI); catalog name PA0
+mcu	attiny816	p20	attiny417-814-816-817-datasheet-ds40002288a	p.16	{}	rule 12: pin 16 PA0 (RESET-bar/UPDI); catalog name PA0
+mcu	attiny816	quad20	attiny417-814-816-817-datasheet-ds40002288a	p.17	{}	rule 12: pin 19 PA0 (RESET-bar/UPDI); catalog name PA0
+mcu	attiny817	quad24	attiny417-814-816-817-datasheet-ds40002288a	p.18	{}	rule 12: pin 23 PA0 (RESET-bar/UPDI); catalog name PA0
+mcu	attiny824	p14	attiny424-426-427-824-826-827-datasheet-ds40002311a	p.13	{}	rule 12: pin 10 PA0 (UPDI/RESET-bar); catalog name PA0
+mcu	attiny826	p20	attiny424-426-427-824-826-827-datasheet-ds40002311a	p.14	{}	rule 12: pin 16 PA0 (UPDI/RESET-bar); catalog name PA0
+mcu	attiny826	quad20	attiny424-426-427-824-826-827-datasheet-ds40002311a	p.15	{}	rule 12: pin 19 PA0 (UPDI/RESET-bar); catalog name PA0
+mcu	attiny827	quad24	attiny424-426-427-824-826-827-datasheet-ds40002311a	p.16	{}	rule 12: pin 23 PA0 (UPDI/RESET-bar); catalog name PA0
+mcu	attiny828	quad32	8371s	p.2	{}	rule 12: pin 29 PD2 (PCINT26/ADC26/RESET/DW); catalog name PD2
+mcu	attiny828r	quad32	doc8371	p.2	{}	rule 12: pin 29 PD2 (PCINT26/ADC26/RESET/DW); catalog name PD2
+mcu	attiny84	p14	8006s	p.2	{}	rule 12: pin 4 PB3 (PCINT11/RESET/dW); catalog name PB3
+mcu	attiny84	quad20	8006s	p.2	{}	rule 12: pin 13 PB3 (PCINT11/RESET/dW); catalog name PB3
+mcu	attiny841	p14	atmel-8495-8-bit-avr-microcontrollers-attiny441-attiny841_datasheet-summary	p.2	{}	port names only; PB3/RESET alt omitted (rule 12)
+mcu	attiny841	quad20	atmel-8495-8-bit-avr-microcontrollers-attiny441-attiny841_datasheet-summary	p.2	{}	port names only; PB3/RESET alt omitted (rule 12)
+mcu	attiny84a	bga15	8183s	p.2	{}	port names only; PB3/RESET alt omitted (rule 12)
+mcu	attiny84a	p14	8183s	p.2	{}	port names only; PB3/RESET alt omitted (rule 12)
+mcu	attiny84a	quad20	8183s	p.2	{}	port names only; PB3/RESET alt omitted (rule 12)
+mcu	attiny85	p8	atmel-2586-avr-8-bit-microcontroller-attiny25-attiny45-attiny85_datasheet-summary	p.2	{}	port names only; PB5/RESET alt omitted (rule 12)
+mcu	attiny85	quad20	atmel-2586-avr-8-bit-microcontroller-attiny25-attiny45-attiny85_datasheet-summary	p.2	{}	port names only; PB5/RESET alt omitted (rule 12)
+mcu	attiny861	p20	atmel-2588-8-bit-avr-microcontrollers-tinyavr-attiny261-attiny461-attiny861_datasheet	p.2	{}	port names only; PB7/RESET alt omitted (rule 12)
+mcu	attiny861	quad32	atmel-2588-8-bit-avr-microcontrollers-tinyavr-attiny261-attiny461-attiny861_datasheet	p.2	{}	port names only; PB7/RESET alt omitted (rule 12)
+mcu	attiny861a	p20	8197s	p.2	{}	port names only; PB7/RESET alt omitted (rule 12)
+mcu	attiny861a	quad32	8197s	p.2	{}	port names only; PB7/RESET alt omitted (rule 12)
+mcu	attiny87	p20	atmel-8265-8-bit-avr-microcontroller-tinyavr-attiny87-attiny167_summary	p.4	{}	port names only; PB7/RESET alt omitted (rule 12)
+mcu	attiny87	quad32	attiny87-167-datasheet-ds40002167a	p.3	{}	port names only; PB7/RESET alt omitted (rule 12)
+mcu	attiny88	quad28	8008s	p.2	{}	port names only; PC6/RESET alt omitted (rule 12)
+mcu	attiny88	quad32	8008s	p.2	{}	port names only; PC6/RESET alt omitted (rule 12)
+mcu	attiny9	p6	atmel-8127-avr-8-bit-microcontroller-attiny4-attiny5-attiny9-attiny10_datasheet-summary	p.3	{}	port names only; PB3/RESET alt omitted (rule 12)
+mcu	attiny9	p8	atmel-8127-avr-8-bit-microcontroller-attiny4-attiny5-attiny9-attiny10_datasheet-summary	p.3	{}	port names only; PB3/RESET alt omitted (rule 12)
+mcu	atxmega128a1u	bga100	atxmega128a1u-64a1u-data-sheet-ds40002058a	pp.9-10	{"RESET":true}	BGA table lacks bar; QFP fig p.9 RESET overbar, ext reset held while pin low (R5)
+mcu	atxmega128a1u	quad100	atxmega128a1u-64a1u-data-sheet-ds40002058a	p.9	{"RESET":true}	
+mcu	atxmega128a3u	quad64	atmel-8386-8-and-16-bit-avr-microcontroller-atxmega64a3u-128a3u-192a3u-256a3u_datasheet	p.5	{"RESET":true}	
+mcu	atxmega128a4u	bga49	atxmega128-64-32-16a4u-datasheet-ds40002166a	pp.10-11	{"RESET":true}	BGA table p.11 lacks bar; TQFP fig p.10 RESET overbar (R5)
+mcu	atxmega128a4u	quad44	atxmega128-64-32-16a4u-datasheet-ds40002166a	p.10	{"RESET":true}	
+mcu	atxmega128b1	quad100	atmel-8330-8-and-16-bit-avr-microcontroller-xmega-b-atxmega64b1-atxmega128b1_datasheet	p.4	{"RESET":true}	SEG/COM/BIAS/CAP LCD pins not active low
+mcu	atxmega128b3	quad64	atmel-8074-8-and-16-bit-avr-microcontroller-xmega-b-atxmega64b3-atxmega128b3_datasheet	p.4	{"RESET":true}	SEG/COM/BIAS/CAP LCD pins not active low
+mcu	atxmega128c3	quad64	atmel-8492-8-and-16-bit-avr-microcontroller-atxmega32c3_64c3_128c3_192c3_256c3_datasheet	p.4	{"RESET":true}	
+mcu	atxmega128d3	quad64	atmel-8134-8-16-bit-atmel-xmega-d3-microcontroller_datasheet	p.5	{"RESET":true}	
+mcu	atxmega128d4	bga49	atmel-8135-8-and-16-bit-avr-microcontroller-atxmega16d4-32d4-64d4-128d4_datasheet	p.5	{"RESET":true}	
+mcu	atxmega128d4	quad44	atmel-8135-8-and-16-bit-avr-microcontroller-atxmega16d4-32d4-64d4-128d4_datasheet	p.4	{"RESET":true}	
+mcu	atxmega16a4u	quad44	atxmega128-64-32-16a4u-datasheet-ds40002166a	p.10	{"RESET":true}	
+mcu	atxmega16c4	quad44	atmel-8493-8-and-32-bit-avr-xmega-microcontrollers-atxmega16c4-atxmega32c4_datasheet	p.4	{"RESET":true}	
+mcu	atxmega16d4	bga49	atmel-8135-8-and-16-bit-avr-microcontroller-atxmega16d4-32d4-64d4-128d4_datasheet	p.5	{"RESET":true}	
+mcu	atxmega16d4	quad44	atmel-8135-8-and-16-bit-avr-microcontroller-atxmega16d4-32d4-64d4-128d4_datasheet	p.4	{"RESET":true}	
+mcu	atxmega16e5	quad32	atxmega32e5-16e5-8e5-data-sheet-ds40002059a	p.10	{"RESET":true}	
+mcu	atxmega192a3u	quad64	atmel-8386-8-and-16-bit-avr-microcontroller-atxmega64a3u-128a3u-192a3u-256a3u_datasheet	p.5	{"RESET":true}	
+mcu	atxmega192c3	quad64	atmel-8492-8-and-16-bit-avr-microcontroller-atxmega32c3_64c3_128c3_192c3_256c3_datasheet	p.4	{"RESET":true}	
+mcu	atxmega192d3	quad64	atmel-8134-8-16-bit-atmel-xmega-d3-microcontroller_datasheet	p.5	{"RESET":true}	
+mcu	atxmega256a3bu	quad64	atmel-8362-8-and-16bit-avr-microcontroller-atxmega256a3bu_datasheet	p.3	{"RESET":true}	TOSC1/TOSC2 crystal pins not active low
+mcu	atxmega256a3u	quad64	atmel-8386-8-and-16-bit-avr-microcontroller-atxmega64a3u-128a3u-192a3u-256a3u_datasheet	p.5	{"RESET":true}	
+mcu	atxmega256c3	quad64	atmel-8492-8-and-16-bit-avr-microcontroller-atxmega32c3_64c3_128c3_192c3_256c3_datasheet	p.4	{"RESET":true}	
+mcu	atxmega256d3	quad64	atmel-8134-8-16-bit-atmel-xmega-d3-microcontroller_datasheet	p.5	{"RESET":true}	
+mcu	atxmega32a4u	bga49	atxmega128-64-32-16a4u-datasheet-ds40002166a	pp.10-11	{"RESET":true}	BGA table p.11 lacks bar; TQFP fig p.10 RESET overbar (R5)
+mcu	atxmega32a4u	quad44	atxmega128-64-32-16a4u-datasheet-ds40002166a	p.10	{"RESET":true}	
+mcu	atxmega32c4	bga49	atmel-8493-8-and-32-bit-avr-xmega-microcontrollers-atxmega16c4-atxmega32c4_datasheet	p.5	{"RESET":true}	
+mcu	atxmega32c4	quad44	atmel-8493-8-and-32-bit-avr-xmega-microcontrollers-atxmega16c4-atxmega32c4_datasheet	p.4	{"RESET":true}	
+mcu	atxmega32d3	quad64	atmel-8134-8-16-bit-atmel-xmega-d3-microcontroller_datasheet	p.5	{"RESET":true}	
+mcu	atxmega32d4	quad44	atmel-8135-8-and-16-bit-avr-microcontroller-atxmega16d4-32d4-64d4-128d4_datasheet	p.4	{"RESET":true}	
+mcu	atxmega32e5	quad32	atxmega32e5-16e5-8e5-data-sheet-ds40002059a	p.10	{"RESET":true}	
+mcu	atxmega384c3	quad64	atmel-8361-8-and-16-bit-avr-xmega-microcontrollers-atxmega384c3_datasheet	p.3	{"RESET":true}	
+mcu	atxmega384d3	quad64	atmel-8134-8-16-bit-atmel-xmega-d3-microcontroller_datasheet	p.5	{"RESET":true}	
+mcu	atxmega64a1u	bga100	atxmega128a1u-64a1u-data-sheet-ds40002058a	pp.9-10	{"RESET":true}	BGA table lacks bar; QFP fig p.9 RESET overbar, ext reset held while pin low (R5)
+mcu	atxmega64a1u	quad100	atxmega128a1u-64a1u-data-sheet-ds40002058a	p.9	{"RESET":true}	
+mcu	atxmega64a3u	quad64	atmel-8386-8-and-16-bit-avr-microcontroller-atxmega64a3u-128a3u-192a3u-256a3u_datasheet	p.5	{"RESET":true}	
 mux	40257B	p16	cd40257b	p.1	{}	
 mux	4512B	p16	cd4512b	p.1	{}	
 mux	74_11257	p20	74ac11257	p.1	{"A/B":["A"],"OE":true}	
