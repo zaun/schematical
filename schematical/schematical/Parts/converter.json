@@ -11920,12 +11920,14 @@
      {
       "number": 13,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
@@ -12143,7 +12145,8 @@
      {
       "number": 12,
       "name": "DXMIT",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -12168,7 +12171,8 @@
      {
       "number": 17,
       "name": "DVALID",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 18,
@@ -12275,7 +12279,8 @@
      {
       "number": 10,
       "name": "DXMIT",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 11,
@@ -12300,7 +12305,8 @@
      {
       "number": 15,
       "name": "DVALID",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -12499,7 +12505,8 @@
      {
       "number": 1,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -12655,7 +12662,8 @@
      {
       "number": 5,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
@@ -12768,7 +12776,8 @@
      {
       "number": 1,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -12900,7 +12909,8 @@
      {
       "number": 1,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -13017,7 +13027,8 @@
      {
       "number": 1,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -13118,7 +13129,8 @@
      {
       "number": 1,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -13234,7 +13246,8 @@
      {
       "number": 1,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -13351,7 +13364,8 @@
      {
       "number": 1,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -13467,7 +13481,8 @@
      {
       "number": 1,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -13573,7 +13588,8 @@
      {
       "number": 1,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -13726,7 +13742,8 @@
      {
       "number": 5,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
@@ -13842,7 +13859,8 @@
      {
       "number": 1,
       "name": "CS/Powerdown",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["CS"]
      },
      {
       "number": 2,
@@ -13973,7 +13991,8 @@
      {
       "number": 1,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -14097,7 +14116,8 @@
      {
       "number": 1,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -14222,7 +14242,8 @@
      {
       "number": 1,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -125018,12 +125039,14 @@
      {
       "number": 19,
       "name": "CS/FS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
       "name": "RD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 21,
@@ -125043,7 +125066,8 @@
      {
       "number": 24,
       "name": "STBY",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 25,
@@ -125238,7 +125262,8 @@
      {
       "number": 63,
       "name": "REFEN/WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["WR"]
      },
      {
       "number": 64,
@@ -125663,12 +125688,14 @@
      {
       "number": 19,
       "name": "CS/FS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
       "name": "RD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 21,
@@ -125688,7 +125715,8 @@
      {
       "number": 24,
       "name": "STBY",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 25,
@@ -125883,7 +125911,8 @@
      {
       "number": 63,
       "name": "REFEN/WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["WR"]
      },
      {
       "number": 64,
@@ -126294,12 +126323,14 @@
      {
       "number": 19,
       "name": "CS/FS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
       "name": "RD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 21,
@@ -126319,7 +126350,8 @@
      {
       "number": 24,
       "name": "STBY",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 25,
@@ -126514,7 +126546,8 @@
      {
       "number": 63,
       "name": "REFEN/WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["WR"]
      },
      {
       "number": 64,
@@ -126917,12 +126950,14 @@
      {
       "number": 19,
       "name": "CS/FS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
       "name": "RD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 21,
@@ -126942,7 +126977,8 @@
      {
       "number": 24,
       "name": "STBY",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 25,
@@ -127137,7 +127173,8 @@
      {
       "number": 63,
       "name": "REFEN/WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["WR"]
      },
      {
       "number": 64,
@@ -127485,12 +127522,14 @@
      {
       "number": 8,
       "name": "PAR/SER",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["PAR"]
      },
      {
       "number": 9,
       "name": "STBY",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -127500,17 +127539,20 @@
      {
       "number": 11,
       "name": "REFEN/WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["WR"]
      },
      {
       "number": 12,
       "name": "RD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
       "name": "CS/FS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
@@ -127545,7 +127587,8 @@
      {
       "number": 20,
       "name": "DB11/REFBUFEN",
-      "role": "inout"
+      "role": "inout",
+      "activeLow": ["REFBUFEN"]
      },
      {
       "number": 21,
@@ -127650,7 +127693,8 @@
      {
       "number": 41,
       "name": "HW/SW",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["HW"]
      },
      {
       "number": 42,
@@ -128113,12 +128157,14 @@
      {
       "number": 6,
       "name": "PAR/SER/BYTE SEL",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["PAR"]
      },
      {
       "number": 7,
       "name": "STBY",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
@@ -128143,12 +128189,14 @@
      {
       "number": 12,
       "name": "RD/SCLK",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["RD"]
      },
      {
       "number": 13,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
@@ -128589,12 +128637,14 @@
      {
       "number": 6,
       "name": "PAR/SER/BYTE SEL",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["PAR"]
      },
      {
       "number": 7,
       "name": "STBY",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
@@ -128619,12 +128669,14 @@
      {
       "number": 12,
       "name": "RD/SCLK",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["RD"]
      },
      {
       "number": 13,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
@@ -129065,12 +129117,14 @@
      {
       "number": 6,
       "name": "PAR/SER/BYTE SEL",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["PAR"]
      },
      {
       "number": 7,
       "name": "STBY",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
@@ -129095,12 +129149,14 @@
      {
       "number": 12,
       "name": "RD/SCLK",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["RD"]
      },
      {
       "number": 13,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
@@ -129545,12 +129601,14 @@
      {
       "number": 6,
       "name": "PAR/SER/BYTE SEL",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["PAR"]
      },
      {
       "number": 7,
       "name": "STBY",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
@@ -129575,12 +129633,14 @@
      {
       "number": 12,
       "name": "RD/SCLK",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["RD"]
      },
      {
       "number": 13,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
@@ -130021,12 +130081,14 @@
      {
       "number": 6,
       "name": "PAR/SER/BYTE SEL",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["PAR"]
      },
      {
       "number": 7,
       "name": "STBY",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
@@ -130051,12 +130113,14 @@
      {
       "number": 12,
       "name": "RD/SCLK",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["RD"]
      },
      {
       "number": 13,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
@@ -130505,12 +130569,14 @@
      {
       "number": 6,
       "name": "PAR/SER/BYTE SEL",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["PAR"]
      },
      {
       "number": 7,
       "name": "STBY",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
@@ -130535,12 +130601,14 @@
      {
       "number": 12,
       "name": "RD/SCLK",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["RD"]
      },
      {
       "number": 13,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
@@ -130981,12 +131049,14 @@
      {
       "number": 6,
       "name": "PAR/SER/BYTE SEL",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["PAR"]
      },
      {
       "number": 7,
       "name": "STBY",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
@@ -131011,12 +131081,14 @@
      {
       "number": 12,
       "name": "RD/SCLK",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["RD"]
      },
      {
       "number": 13,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
@@ -131507,7 +131579,8 @@
      {
       "number": 16,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 17,
@@ -131537,7 +131610,8 @@
      {
       "number": 22,
       "name": "AL_PD",
-      "role": "inout"
+      "role": "inout",
+      "activeLow": true
      },
      {
       "number": 23,
@@ -132579,7 +132653,8 @@
      {
       "number": 9,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -132589,7 +132664,8 @@
      {
       "number": 11,
       "name": "CONVST/CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["CS"]
      },
      {
       "number": 12,
@@ -133752,7 +133828,8 @@
      {
       "number": 2,
       "name": "RST/PD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -133762,7 +133839,8 @@
      {
       "number": 4,
       "name": "REFSEL",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 5,
@@ -133932,7 +134010,8 @@
      {
       "number": 38,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -135182,7 +135261,8 @@
      {
       "number": 9,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -135192,7 +135272,8 @@
      {
       "number": 11,
       "name": "CONVST/CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["CS"]
      },
      {
       "number": 12,
@@ -136355,7 +136436,8 @@
      {
       "number": 2,
       "name": "RST/PD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -136365,7 +136447,8 @@
      {
       "number": 4,
       "name": "REFSEL",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 5,
@@ -136535,7 +136618,8 @@
      {
       "number": 38,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -138187,7 +138271,8 @@
      {
       "number": 2,
       "name": "RST/PD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -138197,7 +138282,8 @@
      {
       "number": 4,
       "name": "REFSEL",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 5,
@@ -138367,7 +138453,8 @@
      {
       "number": 38,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -139617,7 +139704,8 @@
      {
       "number": 9,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -139627,7 +139715,8 @@
      {
       "number": 11,
       "name": "CONVST/CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["CS"]
      },
      {
       "number": 12,
@@ -140782,7 +140871,8 @@
      {
       "number": 2,
       "name": "RST/PD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -140792,7 +140882,8 @@
      {
       "number": 4,
       "name": "REFSEL",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 5,
@@ -140962,7 +141053,8 @@
      {
       "number": 38,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -142641,7 +142733,8 @@
      {
       "number": 9,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -142651,7 +142744,8 @@
      {
       "number": 11,
       "name": "CONVST/CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["CS"]
      },
      {
       "number": 12,
@@ -142713,7 +142807,8 @@
      {
       "number": 7,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
@@ -142723,7 +142818,8 @@
      {
       "number": 9,
       "name": "CONVST/CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["CS"]
      },
      {
       "number": 10,
@@ -143929,7 +144025,8 @@
      {
       "number": 7,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
@@ -143939,7 +144036,8 @@
      {
       "number": 9,
       "name": "CONVST/CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["CS"]
      },
      {
       "number": 10,
@@ -144924,7 +145022,8 @@
      {
       "number": 2,
       "name": "RST/PD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -144934,7 +145033,8 @@
      {
       "number": 4,
       "name": "REFSEL",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 5,
@@ -145104,7 +145204,8 @@
      {
       "number": 38,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -145579,7 +145680,8 @@
      {
       "number": 2,
       "name": "RST/PD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -145589,7 +145691,8 @@
      {
       "number": 4,
       "name": "REFSEL",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 5,
@@ -145759,7 +145862,8 @@
      {
       "number": 38,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -146747,7 +146851,8 @@
      {
       "number": 9,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -146757,7 +146862,8 @@
      {
       "number": 11,
       "name": "CONVST/CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["CS"]
      },
      {
       "number": 12,
@@ -148090,7 +148196,8 @@
      {
       "number": 36,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 37,
@@ -148110,7 +148217,8 @@
      {
       "number": 40,
       "name": "SER/BYTE/PAR",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["PAR"]
      },
      {
       "number": 41,
@@ -148135,7 +148243,8 @@
      {
       "number": 45,
       "name": "DB4/SER1W",
-      "role": "inout"
+      "role": "inout",
+      "activeLow": ["SER1W"]
      },
      {
       "number": 46,
@@ -148215,17 +148324,20 @@
      {
       "number": 61,
       "name": "WR/BURST",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["WR"]
      },
      {
       "number": 62,
       "name": "SCLK/RD",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["RD"]
      },
      {
       "number": 63,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 64,
@@ -150432,7 +150544,8 @@
      {
       "number": 2,
       "name": "RST/PD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -150442,7 +150555,8 @@
      {
       "number": 4,
       "name": "REFSEL",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 5,
@@ -150612,7 +150726,8 @@
      {
       "number": 38,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -151179,7 +151294,8 @@
      {
       "number": 2,
       "name": "RST/PD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -151189,7 +151305,8 @@
      {
       "number": 4,
       "name": "REFSEL",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 5,
@@ -151359,7 +151476,8 @@
      {
       "number": 38,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -152544,7 +152662,8 @@
      {
       "number": 9,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -152554,7 +152673,8 @@
      {
       "number": 11,
       "name": "CONVST/CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["CS"]
      },
      {
       "number": 12,
@@ -153752,7 +153872,8 @@
      {
       "number": 9,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -153762,7 +153883,8 @@
      {
       "number": 11,
       "name": "CONVST/CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["CS"]
      },
      {
       "number": 12,
@@ -154745,7 +154867,8 @@
      {
       "number": 2,
       "name": "RST/PD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -154755,7 +154878,8 @@
      {
       "number": 4,
       "name": "REFSEL",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 5,
@@ -154925,7 +155049,8 @@
      {
       "number": 38,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -155913,7 +156038,8 @@
      {
       "number": 9,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -155923,7 +156049,8 @@
      {
       "number": 11,
       "name": "CONVST/CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["CS"]
      },
      {
       "number": 12,
@@ -156898,7 +157025,8 @@
      {
       "number": 2,
       "name": "RST/PD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -156908,7 +157036,8 @@
      {
       "number": 4,
       "name": "REFSEL",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 5,
@@ -157078,7 +157207,8 @@
      {
       "number": 38,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -158247,7 +158377,8 @@
      {
       "number": 9,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -158257,7 +158388,8 @@
      {
       "number": 11,
       "name": "CONVST/CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["CS"]
      },
      {
       "number": 12,
@@ -159240,7 +159372,8 @@
      {
       "number": 2,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -159350,7 +159483,8 @@
      {
       "number": 24,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -159716,7 +159850,8 @@
      {
       "number": 2,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -159826,7 +159961,8 @@
      {
       "number": 24,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -160200,7 +160336,8 @@
      {
       "number": 2,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -160310,7 +160447,8 @@
      {
       "number": 24,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -160684,7 +160822,8 @@
      {
       "number": 2,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -160794,7 +160933,8 @@
      {
       "number": 24,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -161160,7 +161300,8 @@
      {
       "number": 2,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -161270,7 +161411,8 @@
      {
       "number": 24,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -161636,7 +161778,8 @@
      {
       "number": 2,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -161746,7 +161889,8 @@
      {
       "number": 24,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -162120,7 +162264,8 @@
      {
       "number": 2,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -162230,7 +162375,8 @@
      {
       "number": 24,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -162591,7 +162737,8 @@
      {
       "number": 14,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
@@ -162651,7 +162798,8 @@
      {
       "number": 26,
       "name": "PD/RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 27,
@@ -163096,7 +163244,8 @@
      {
       "number": 14,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
@@ -163156,7 +163305,8 @@
      {
       "number": 26,
       "name": "PD/RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 27,
@@ -163545,7 +163695,8 @@
      {
       "number": 2,
       "name": "DOUT-bar",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -163560,7 +163711,8 @@
      {
       "number": 5,
       "name": "HISPD/LOPWR",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["LOPWR"]
      },
      {
       "number": 6,
@@ -163695,7 +163847,8 @@
      {
       "number": 32,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 33,
@@ -163710,7 +163863,8 @@
      {
       "number": 35,
       "name": "DIN-bar",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 36,
@@ -163730,7 +163884,8 @@
      {
       "number": 39,
       "name": "DCLK-bar",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 40,
@@ -163755,7 +163910,8 @@
      {
       "number": 44,
       "name": "DVALID",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 45,
@@ -163892,7 +164048,8 @@
      {
       "number": 2,
       "name": "DOUT-bar",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -163907,7 +164064,8 @@
      {
       "number": 5,
       "name": "HISPD/LOPWR",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["LOPWR"]
      },
      {
       "number": 6,
@@ -164042,7 +164200,8 @@
      {
       "number": 32,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 33,
@@ -164057,7 +164216,8 @@
      {
       "number": 35,
       "name": "DIN-bar",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 36,
@@ -164077,7 +164237,8 @@
      {
       "number": 39,
       "name": "DCLK-bar",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 40,
@@ -164102,7 +164263,8 @@
      {
       "number": 44,
       "name": "DVALID",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 45,
@@ -164348,7 +164510,8 @@
      {
       "ball": "C7",
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "ball": "C8",
@@ -164548,7 +164711,8 @@
      {
       "ball": "H7",
       "name": "DVALID",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "ball": "H8",
@@ -164754,7 +164918,8 @@
      {
       "number": 1,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -164922,7 +165087,8 @@
      {
       "number": 2,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -165208,7 +165374,8 @@
      {
       "number": 13,
       "name": "SE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
@@ -165233,7 +165400,8 @@
      {
       "number": 18,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
@@ -165417,7 +165585,8 @@
      {
       "number": 4,
       "name": "EOC/(INT)",
-      "role": "output"
+      "role": "output",
+      "activeLow": ["(INT)"]
      },
      {
       "number": 5,
@@ -165447,7 +165616,8 @@
      {
       "number": 10,
       "name": "CSTART",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 11,
@@ -165457,7 +165627,8 @@
      {
       "number": 12,
       "name": "PWDN",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -165477,7 +165648,8 @@
      {
       "number": 16,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -165744,7 +165916,8 @@
      {
       "number": 4,
       "name": "EOC/(INT)",
-      "role": "output"
+      "role": "output",
+      "activeLow": ["(INT)"]
      },
      {
       "number": 5,
@@ -165794,7 +165967,8 @@
      {
       "number": 14,
       "name": "CSTART",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
@@ -165804,7 +165978,8 @@
      {
       "number": 16,
       "name": "PWDN",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 17,
@@ -165824,7 +165999,8 @@
      {
       "number": 20,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -166150,7 +166326,8 @@
      {
       "number": 15,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -166389,7 +166566,8 @@
      {
       "number": 15,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -166636,7 +166814,8 @@
      {
       "number": 15,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -166976,7 +167155,8 @@
      {
       "number": 4,
       "name": "EOC/(INT)",
-      "role": "output"
+      "role": "output",
+      "activeLow": ["(INT)"]
      },
      {
       "number": 5,
@@ -167006,7 +167186,8 @@
      {
       "number": 10,
       "name": "CSTART",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 11,
@@ -167016,7 +167197,8 @@
      {
       "number": 12,
       "name": "PWDN",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -167036,7 +167218,8 @@
      {
       "number": 16,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -167291,7 +167474,8 @@
      {
       "number": 4,
       "name": "EOC/(INT)",
-      "role": "output"
+      "role": "output",
+      "activeLow": ["(INT)"]
      },
      {
       "number": 5,
@@ -167341,7 +167525,8 @@
      {
       "number": 14,
       "name": "CSTART",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
@@ -167351,7 +167536,8 @@
      {
       "number": 16,
       "name": "PWDN",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 17,
@@ -167371,7 +167557,8 @@
      {
       "number": 20,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -167642,7 +167829,8 @@
      {
       "number": 8,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 9,
@@ -167702,7 +167890,8 @@
      {
       "number": 20,
       "name": "CSTART",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -167984,7 +168173,8 @@
      {
       "number": 8,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 9,
@@ -168064,7 +168254,8 @@
      {
       "number": 24,
       "name": "CSTART",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -168344,7 +168535,8 @@
      {
       "number": 8,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 9,
@@ -168404,7 +168596,8 @@
      {
       "number": 20,
       "name": "CSTART",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -168707,7 +168900,8 @@
      {
       "number": 8,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 9,
@@ -168787,7 +168981,8 @@
      {
       "number": 24,
       "name": "CSTART",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -169072,7 +169267,8 @@
      {
       "number": 8,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 9,
@@ -169132,7 +169328,8 @@
      {
       "number": 20,
       "name": "CSTART",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -169422,7 +169619,8 @@
      {
       "number": 8,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 9,
@@ -169502,7 +169700,8 @@
      {
       "number": 24,
       "name": "CSTART",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -169736,7 +169935,8 @@
      {
       "number": 1,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -169912,7 +170112,8 @@
      {
       "number": 2,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -169984,7 +170185,8 @@
      {
       "number": 2,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -170304,7 +170506,8 @@
      {
       "number": 13,
       "name": "SE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
@@ -170329,7 +170532,8 @@
      {
       "number": 18,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
@@ -170518,7 +170722,8 @@
      {
       "number": 4,
       "name": "EOC/(INT)",
-      "role": "output"
+      "role": "output",
+      "activeLow": ["(INT)"]
      },
      {
       "number": 5,
@@ -170548,7 +170753,8 @@
      {
       "number": 10,
       "name": "CSTART",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 11,
@@ -170558,7 +170764,8 @@
      {
       "number": 12,
       "name": "PWDN",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -170578,7 +170785,8 @@
      {
       "number": 16,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -170942,7 +171150,8 @@
      {
       "number": 4,
       "name": "EOC/(INT)",
-      "role": "output"
+      "role": "output",
+      "activeLow": ["(INT)"]
      },
      {
       "number": 5,
@@ -170992,7 +171201,8 @@
      {
       "number": 14,
       "name": "CSTART",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
@@ -171002,7 +171212,8 @@
      {
       "number": 16,
       "name": "PWDN",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 17,
@@ -171022,7 +171233,8 @@
      {
       "number": 20,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -171434,7 +171646,8 @@
      {
       "number": 15,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -171621,7 +171834,8 @@
      {
       "number": 10,
       "name": "CSTART",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 11,
@@ -171631,7 +171845,8 @@
      {
       "number": 12,
       "name": "INV CLK",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -171651,7 +171866,8 @@
      {
       "number": 16,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -171924,7 +172140,8 @@
      {
       "number": 9,
       "name": "CSTART",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -171934,7 +172151,8 @@
      {
       "number": 11,
       "name": "INV CLK",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 12,
@@ -171954,7 +172172,8 @@
      {
       "number": 15,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -172296,7 +172515,8 @@
      {
       "number": 12,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -172602,7 +172822,8 @@
      {
       "number": 15,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -173035,7 +173256,8 @@
      {
       "number": 4,
       "name": "EOC/(INT)",
-      "role": "output"
+      "role": "output",
+      "activeLow": ["(INT)"]
      },
      {
       "number": 5,
@@ -173065,7 +173287,8 @@
      {
       "number": 10,
       "name": "CSTART",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 11,
@@ -173075,7 +173298,8 @@
      {
       "number": 12,
       "name": "PWDN",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -173095,7 +173319,8 @@
      {
       "number": 16,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -173368,7 +173593,8 @@
      {
       "number": 4,
       "name": "EOC/(INT)",
-      "role": "output"
+      "role": "output",
+      "activeLow": ["(INT)"]
      },
      {
       "number": 5,
@@ -173418,7 +173644,8 @@
      {
       "number": 14,
       "name": "CSTART",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
@@ -173428,7 +173655,8 @@
      {
       "number": 16,
       "name": "PWDN",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 17,
@@ -173448,7 +173676,8 @@
      {
       "number": 20,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -173675,7 +173904,8 @@
      {
       "number": 15,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -174039,7 +174269,8 @@
      {
       "number": 15,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -174059,7 +174290,8 @@
      {
       "number": 19,
       "name": "INT/EOC",
-      "role": "output"
+      "role": "output",
+      "activeLow": ["INT"]
      },
      {
       "number": 20,
@@ -203801,12 +204033,14 @@
      {
       "number": 19,
       "name": "RD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 21,
@@ -203816,7 +204050,8 @@
      {
       "number": 22,
       "name": "CS0",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 23,
@@ -204277,12 +204512,14 @@
      {
       "number": 19,
       "name": "RD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 21,
@@ -204292,7 +204529,8 @@
      {
       "number": 22,
       "name": "CS0",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 23,
@@ -204687,12 +204925,14 @@
      {
       "number": 19,
       "name": "RD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 21,
@@ -204702,7 +204942,8 @@
      {
       "number": 22,
       "name": "CS0",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 23,
@@ -204747,7 +204988,8 @@
      {
       "number": 31,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 32,
@@ -205157,12 +205399,14 @@
      {
       "number": 19,
       "name": "RD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 21,
@@ -205172,7 +205416,8 @@
      {
       "number": 22,
       "name": "CS0",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 23,
@@ -205217,7 +205462,8 @@
      {
       "number": 31,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 32,
@@ -205561,12 +205807,14 @@
      {
       "number": 19,
       "name": "RD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 21,
@@ -205576,7 +205824,8 @@
      {
       "number": 22,
       "name": "CS0",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 23,
@@ -206087,12 +206336,14 @@
      {
       "number": 19,
       "name": "RD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
       "name": "WR (R/W)",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 21,
@@ -206102,7 +206353,8 @@
      {
       "number": 22,
       "name": "CS0",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 23,
@@ -206490,12 +206742,14 @@
      {
       "number": 19,
       "name": "RD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
       "name": "WR (R/W)",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 21,
@@ -206505,7 +206759,8 @@
      {
       "number": 22,
       "name": "CS0",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 23,
@@ -206550,7 +206805,8 @@
      {
       "number": 31,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 32,
@@ -206986,12 +207242,14 @@
      {
       "number": 19,
       "name": "RD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 21,
@@ -207001,7 +207259,8 @@
      {
       "number": 22,
       "name": "CS0",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 23,
@@ -207046,7 +207305,8 @@
      {
       "number": 31,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 32,
@@ -207484,17 +207744,20 @@
      {
       "number": 35,
       "name": "OE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 36,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 37,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 38,
@@ -207941,17 +208204,20 @@
      {
       "number": 35,
       "name": "OE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 36,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 37,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 38,
@@ -208387,17 +208653,20 @@
      {
       "number": 35,
       "name": "OE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 36,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 37,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 38,
@@ -208699,7 +208968,8 @@
      {
       "number": 6,
       "name": "WR/RDY",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["WR"]
      },
      {
       "number": 7,
@@ -208709,12 +208979,14 @@
      {
       "number": 8,
       "name": "RD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 9,
       "name": "INT",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -208734,7 +209006,8 @@
      {
       "number": 13,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
@@ -208759,7 +209032,8 @@
      {
       "number": 18,
       "name": "OFLW",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 19,
@@ -208952,7 +209226,8 @@
      {
       "number": 10,
       "name": "EOC",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 11,
@@ -209007,7 +209282,8 @@
      {
       "number": 21,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 22,
@@ -209017,12 +209293,14 @@
      {
       "number": 23,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 24,
       "name": "RD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ],
     "fn28": [
@@ -209084,7 +209362,8 @@
      {
       "number": 12,
       "name": "EOC",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -209149,7 +209428,8 @@
      {
       "number": 25,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 26,
@@ -209159,12 +209439,14 @@
      {
       "number": 27,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 28,
       "name": "RD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -209327,7 +209609,8 @@
      {
       "number": 10,
       "name": "EOC",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 11,
@@ -209382,7 +209665,8 @@
      {
       "number": 21,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 22,
@@ -209392,12 +209676,14 @@
      {
       "number": 23,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 24,
       "name": "RD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ],
     "fn28": [
@@ -209459,7 +209745,8 @@
      {
       "number": 12,
       "name": "EOC",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -209524,7 +209811,8 @@
      {
       "number": 25,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 26,
@@ -209534,12 +209822,14 @@
      {
       "number": 27,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 28,
       "name": "RD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -209649,7 +209939,8 @@
      {
       "number": 1,
       "name": "CSTART",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -209714,12 +210005,14 @@
      {
       "number": 14,
       "name": "INT",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 15,
       "name": "CS/OE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -209739,7 +210032,8 @@
      {
       "number": 19,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
@@ -209784,7 +210078,8 @@
      {
       "number": 28,
       "name": "RD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -210267,17 +210562,20 @@
      {
       "number": 1,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
       "name": "RD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 4,
@@ -210297,7 +210595,8 @@
      {
       "number": 7,
       "name": "INT/EOC",
-      "role": "output"
+      "role": "output",
+      "activeLow": ["INT"]
      },
      {
       "number": 8,
@@ -210352,7 +210651,8 @@
      {
       "number": 18,
       "name": "CSTART",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
@@ -210654,17 +210954,20 @@
      {
       "number": 5,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 7,
       "name": "RD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
@@ -210684,7 +210987,8 @@
      {
       "number": 11,
       "name": "INT/EOC",
-      "role": "output"
+      "role": "output",
+      "activeLow": ["INT"]
      },
      {
       "number": 12,
@@ -210739,7 +211043,8 @@
      {
       "number": 22,
       "name": "CSTART",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 23,
@@ -210849,17 +211154,20 @@
      {
       "number": 1,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
       "name": "RD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 4,
@@ -210879,7 +211187,8 @@
      {
       "number": 7,
       "name": "INT/EOC",
-      "role": "output"
+      "role": "output",
+      "activeLow": ["INT"]
      },
      {
       "number": 8,
@@ -210934,7 +211243,8 @@
      {
       "number": 18,
       "name": "CSTART",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
@@ -263109,7 +263419,8 @@
      {
       "number": 16,
       "name": "OE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 17,
@@ -263327,7 +263638,8 @@
      {
       "number": 16,
       "name": "OE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 17,
@@ -263546,7 +263858,8 @@
      {
       "number": 16,
       "name": "OE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 17,
@@ -263815,7 +264128,8 @@
      {
       "number": 25,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 26,
@@ -263845,12 +264159,14 @@
      {
       "number": 31,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 32,
       "name": "PWDN",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 33,
@@ -265617,7 +265933,8 @@
      {
       "number": 25,
       "name": "COUTBAR",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 26,
@@ -265732,7 +266049,8 @@
      {
       "number": 48,
       "name": "OE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -265835,7 +266153,8 @@
      {
       "number": 1,
       "name": "OE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -266037,7 +266356,8 @@
      {
       "number": 1,
       "name": "OE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -266315,7 +266635,8 @@
      {
       "number": 13,
       "name": "OE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
@@ -266540,7 +266861,8 @@
      {
       "number": 13,
       "name": "OE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
@@ -266722,7 +267044,8 @@
      {
       "number": 6,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ],
     "dgk8": [
@@ -266749,7 +267072,8 @@
      {
       "number": 5,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
@@ -266916,7 +267240,8 @@
      {
       "number": 9,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -267148,7 +267473,8 @@
      {
       "number": 9,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -267462,7 +267788,8 @@
      {
       "number": 13,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
@@ -267554,7 +267881,8 @@
      {
       "number": 15,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -269461,7 +269789,8 @@
      {
       "number": 6,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ],
     "vssop8": [
@@ -269488,7 +269817,8 @@
      {
       "number": 5,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
@@ -269654,7 +269984,8 @@
      {
       "number": 9,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -269871,7 +270202,8 @@
      {
       "number": 9,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -270168,7 +270500,8 @@
      {
       "number": 13,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
@@ -270260,7 +270593,8 @@
      {
       "number": 15,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -272227,12 +272561,14 @@
      {
       "number": 18,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
       "name": "ALARM",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 20,
@@ -272287,7 +272623,8 @@
      {
       "number": 30,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 31,
@@ -272302,7 +272639,8 @@
      {
       "number": 33,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 34,
@@ -272725,7 +273063,8 @@
      {
       "number": 6,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ],
     "vssop8": [
@@ -272752,7 +273091,8 @@
      {
       "number": 5,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
@@ -272951,7 +273291,8 @@
      {
       "number": 14,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
@@ -273644,7 +273985,8 @@
      {
       "number": 14,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
@@ -274299,7 +274641,8 @@
      {
       "number": 9,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -274539,7 +274882,8 @@
      {
       "number": 9,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -274863,7 +275207,8 @@
      {
       "number": 15,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -274935,7 +275280,8 @@
      {
       "number": 13,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
@@ -276891,17 +277237,20 @@
      {
       "number": 12,
       "name": "CSB",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
       "name": "LDACB",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
       "name": "CLRB",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
@@ -277302,12 +277651,14 @@
      {
       "number": 17,
       "name": "STBY",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 18,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
@@ -277452,7 +277803,8 @@
      {
       "number": 47,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 48,
@@ -277687,7 +278039,8 @@
      {
       "number": 6,
       "name": "SCL/SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["SYNC"]
      },
      {
       "number": 7,
@@ -280298,12 +280651,14 @@
      {
       "number": 7,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 9,
@@ -280343,7 +280698,8 @@
      {
       "number": 16,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -280812,7 +281168,8 @@
      {
       "number": 6,
       "name": "SCL/SYNC/NC",
-      "role": "inout"
+      "role": "inout",
+      "activeLow": ["SYNC"]
      },
      {
       "number": 7,
@@ -281846,7 +282203,8 @@
      {
       "number": 6,
       "name": "SCL/SYNC/PWM2",
-      "role": "inout"
+      "role": "inout",
+      "activeLow": ["SYNC"]
      },
      {
       "number": 7,
@@ -282827,7 +283185,8 @@
      {
       "number": 6,
       "name": "SCL/SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["SYNC"]
      },
      {
       "number": 7,
@@ -283979,7 +284338,8 @@
      {
       "number": 6,
       "name": "SCL/SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["SYNC"]
      },
      {
       "number": 7,
@@ -285273,7 +285633,8 @@
      {
       "number": 6,
       "name": "SCL/SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["SYNC"]
      },
      {
       "number": 7,
@@ -287861,7 +288222,8 @@
      {
       "number": 1,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -288024,7 +288386,8 @@
      {
       "number": 6,
       "name": "SCL/SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["SYNC"]
      },
      {
       "number": 7,
@@ -289318,7 +289681,8 @@
      {
       "number": 6,
       "name": "SCL/SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["SYNC"]
      },
      {
       "number": 7,
@@ -289410,7 +289774,8 @@
      {
       "ball": "B4",
       "name": "SCL/SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["SYNC"]
      },
      {
       "ball": "C1",
@@ -292011,12 +292376,14 @@
      {
       "number": 7,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 9,
@@ -292056,7 +292423,8 @@
      {
       "number": 16,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -295166,7 +295534,8 @@
      {
       "number": 28,
       "name": "SDENB",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 29,
@@ -295501,7 +295870,8 @@
      {
       "number": 95,
       "name": "RESETB",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 96,
@@ -296717,7 +297087,8 @@
      {
       "number": 28,
       "name": "SDENB",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 29,
@@ -297052,7 +297423,8 @@
      {
       "number": 95,
       "name": "RESETB",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 96,
@@ -299402,12 +299774,14 @@
      {
       "number": 48,
       "name": "SDENB",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 49,
       "name": "RESETB",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 50,
@@ -301779,12 +302153,14 @@
      {
       "number": 48,
       "name": "SDENB",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 49,
       "name": "RESETB",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 50,
@@ -304209,7 +304585,8 @@
      {
       "ball": "F4",
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "ball": "F5",
@@ -304279,7 +304656,8 @@
      {
       "ball": "G4",
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "ball": "G5",
@@ -304354,7 +304732,8 @@
      {
       "ball": "H5",
       "name": "CLEAR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "ball": "H6",
@@ -304419,7 +304798,8 @@
      {
       "ball": "J4",
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "ball": "J5",
@@ -314160,12 +314540,14 @@
      {
       "number": 11,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 12,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -314180,7 +314562,8 @@
      {
       "number": 15,
       "name": "SDO/ALARM",
-      "role": "output"
+      "role": "output",
+      "activeLow": ["ALARM"]
      },
      {
       "number": 16,
@@ -315693,7 +316076,8 @@
      {
       "number": 12,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -315708,7 +316092,8 @@
      {
       "number": 15,
       "name": "SDO/ALARM",
-      "role": "output"
+      "role": "output",
+      "activeLow": ["ALARM"]
      },
      {
       "number": 16,
@@ -315775,7 +316160,8 @@
      {
       "ball": "C4",
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "ball": "D1",
@@ -315785,7 +316171,8 @@
      {
       "ball": "D2",
       "name": "SDO/ALARM",
-      "role": "output"
+      "role": "output",
+      "activeLow": ["ALARM"]
      },
      {
       "ball": "D3",
@@ -317271,7 +317658,8 @@
      {
       "number": 12,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -317286,7 +317674,8 @@
      {
       "number": 15,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -317353,7 +317742,8 @@
      {
       "ball": "C4",
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "ball": "D1",
@@ -317363,7 +317753,8 @@
      {
       "ball": "D2",
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "ball": "D3",
@@ -318811,7 +319202,8 @@
      {
       "number": 12,
       "name": "FAULT",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -318831,7 +319223,8 @@
      {
       "number": 16,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 17,
@@ -319288,12 +319681,14 @@
      {
       "number": 12,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
@@ -319308,7 +319703,8 @@
      {
       "number": 16,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 17,
@@ -319383,12 +319779,14 @@
      {
       "number": 31,
       "name": "FAULT",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 32,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -320271,12 +320669,14 @@
      {
       "number": 12,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
@@ -320291,7 +320691,8 @@
      {
       "number": 16,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 17,
@@ -320366,12 +320767,14 @@
      {
       "number": 31,
       "name": "FAULT",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 32,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -325158,7 +325561,8 @@
      {
       "number": 14,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
@@ -325178,22 +325582,26 @@
      {
       "number": 18,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 21,
       "name": "ALMOUT",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 22,
@@ -327013,7 +327421,8 @@
      {
       "number": 14,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
@@ -327033,22 +327442,26 @@
      {
       "number": 18,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 21,
       "name": "ALMOUT",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 22,
@@ -329967,7 +330380,8 @@
      {
       "number": 6,
       "name": "SCL/SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["SYNC"]
      },
      {
       "number": 7,
@@ -331119,7 +331533,8 @@
      {
       "number": 6,
       "name": "SCL/SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["SYNC"]
      },
      {
       "number": 7,
@@ -333699,7 +334114,8 @@
      {
       "number": 1,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -333851,7 +334267,8 @@
      {
       "number": 6,
       "name": "SCL/SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["SYNC"]
      },
      {
       "number": 7,
@@ -333943,7 +334360,8 @@
      {
       "ball": "B4",
       "name": "SCL/SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["SYNC"]
      },
      {
       "ball": "C1",
@@ -335235,7 +335653,8 @@
      {
       "number": 6,
       "name": "SCL/SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["SYNC"]
      },
      {
       "number": 7,
@@ -337838,12 +338257,14 @@
      {
       "number": 7,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 9,
@@ -337883,7 +338304,8 @@
      {
       "number": 16,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -338347,7 +338769,8 @@
      {
       "number": 5,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
@@ -338461,12 +338884,14 @@
      {
       "number": 1,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -338501,7 +338926,8 @@
      {
       "number": 9,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -339289,12 +339715,14 @@
      {
       "number": 11,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 12,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -339309,7 +339737,8 @@
      {
       "number": 15,
       "name": "SDO/ALARM",
-      "role": "output"
+      "role": "output",
+      "activeLow": ["ALARM"]
      },
      {
       "number": 16,
@@ -340822,7 +341251,8 @@
      {
       "number": 12,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -340837,7 +341267,8 @@
      {
       "number": 15,
       "name": "SDO/ALARM",
-      "role": "output"
+      "role": "output",
+      "activeLow": ["ALARM"]
      },
      {
       "number": 16,
@@ -340904,7 +341335,8 @@
      {
       "ball": "C4",
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "ball": "D1",
@@ -340914,7 +341346,8 @@
      {
       "ball": "D2",
       "name": "SDO/ALARM",
-      "role": "output"
+      "role": "output",
+      "activeLow": ["ALARM"]
      },
      {
       "ball": "D3",
@@ -342321,19 +342754,22 @@
      {
       "number": 1,
       "name": "CLK",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
       "name": "A0",
       "role": "input",
-      "group": "address"
+      "group": "address",
+      "activeLow": true
      },
      {
       "number": 3,
       "name": "A1",
       "role": "input",
-      "group": "address"
+      "group": "address",
+      "activeLow": true
      },
      {
       "number": 4,
@@ -342398,7 +342834,8 @@
      {
       "number": 16,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -342578,7 +343015,8 @@
      {
       "number": 14,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
@@ -342598,22 +343036,26 @@
      {
       "number": 18,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 21,
       "name": "ALMOUT",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 22,
@@ -344368,19 +344810,22 @@
      {
       "number": 1,
       "name": "CLK",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
       "name": "A0",
       "role": "input",
-      "group": "address"
+      "group": "address",
+      "activeLow": true
      },
      {
       "number": 3,
       "name": "A1",
       "role": "input",
-      "group": "address"
+      "group": "address",
+      "activeLow": true
      },
      {
       "number": 4,
@@ -344445,7 +344890,8 @@
      {
       "number": 16,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -344558,7 +345004,8 @@
      {
       "number": 1,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -344710,7 +345157,8 @@
      {
       "number": 6,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ],
     "dgk8": [
@@ -344737,7 +345185,8 @@
      {
       "number": 5,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
@@ -344905,7 +345354,8 @@
      {
       "number": 8,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ],
     "dgk8": [
@@ -344932,7 +345382,8 @@
      {
       "number": 5,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
@@ -345097,12 +345548,14 @@
      {
       "number": 7,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 9,
@@ -345304,7 +345757,8 @@
      {
       "number": 7,
       "name": "PD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
@@ -345324,7 +345778,8 @@
      {
       "number": 11,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 12,
@@ -345339,7 +345794,8 @@
      {
       "number": 14,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
@@ -345660,7 +346116,8 @@
      {
       "number": 7,
       "name": "PD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
@@ -345680,7 +346137,8 @@
      {
       "number": 11,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 12,
@@ -345695,7 +346153,8 @@
      {
       "number": 14,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
@@ -346030,7 +346489,8 @@
      {
       "number": 9,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -346431,7 +346891,8 @@
      {
       "number": 15,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -346491,7 +346952,8 @@
      {
       "number": 27,
       "name": "PD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 28,
@@ -346511,7 +346973,8 @@
      {
       "number": 31,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 32,
@@ -347238,17 +347701,20 @@
      {
       "number": 4,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 5,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 7,
@@ -347759,17 +348225,20 @@
      {
       "number": 4,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 5,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 7,
@@ -348316,7 +348785,8 @@
      {
       "number": 9,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -348348,7 +348818,8 @@
      {
       "number": 15,
       "name": "ENABLE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -349399,7 +349870,8 @@
      {
       "number": 9,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -349419,7 +349891,8 @@
      {
       "number": 13,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
@@ -349429,7 +349902,8 @@
      {
       "number": 15,
       "name": "ENABLE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -349934,12 +350408,14 @@
      {
       "number": 1,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -349974,7 +350450,8 @@
      {
       "number": 9,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -350516,7 +350993,8 @@
      {
       "number": 2,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -350531,12 +351009,14 @@
      {
       "number": 5,
       "name": "LD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 7,
@@ -350671,12 +351151,14 @@
      {
       "number": 3,
       "name": "LOADDACS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 4,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 5,
@@ -350890,7 +351372,8 @@
      {
       "number": 12,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -350900,12 +351383,14 @@
      {
       "number": 14,
       "name": "LOADDACS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -350982,7 +351467,8 @@
      {
       "number": 14,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
@@ -351002,12 +351488,14 @@
      {
       "number": 18,
       "name": "LOADDACS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
@@ -351282,22 +351770,26 @@
      {
       "number": 12,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
       "name": "LOADDACS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
       "name": "LOADREG",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -351374,7 +351866,8 @@
      {
       "number": 14,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
@@ -351389,17 +351882,20 @@
      {
       "number": 17,
       "name": "LOADDACS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 18,
       "name": "LOADREG",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
@@ -351650,7 +352146,8 @@
      {
       "number": 12,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -351660,12 +352157,14 @@
      {
       "number": 14,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -351742,7 +352241,8 @@
      {
       "number": 14,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
@@ -351762,12 +352262,14 @@
      {
       "number": 18,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
@@ -352020,22 +352522,26 @@
      {
       "number": 12,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
       "name": "LOADREG",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -352112,7 +352618,8 @@
      {
       "number": 14,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
@@ -352127,17 +352634,20 @@
      {
       "number": 17,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 18,
       "name": "LOADREG",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
@@ -352372,7 +352882,8 @@
      {
       "number": 10,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 11,
@@ -352382,7 +352893,8 @@
      {
       "number": 12,
       "name": "LOAD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -352608,7 +353120,8 @@
      {
       "number": 9,
       "name": "LOAD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -352618,7 +353131,8 @@
      {
       "number": 11,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 12,
@@ -353165,7 +353679,8 @@
      {
       "number": 21,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 22,
@@ -353180,7 +353695,8 @@
      {
       "number": 24,
       "name": "LOAD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 25,
@@ -353693,7 +354209,8 @@
      {
       "number": 12,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -353703,12 +354220,14 @@
      {
       "number": 14,
       "name": "LOADDACS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -353949,22 +354468,26 @@
      {
       "number": 12,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
       "name": "LOADDACS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
       "name": "LOADREG",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -354215,12 +354738,14 @@
      {
       "number": 14,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -354330,7 +354855,8 @@
      {
       "number": 37,
       "name": "USB/BTC",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["USB"]
      },
      {
       "number": 38,
@@ -354365,7 +354891,8 @@
      {
       "number": 44,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 45,
@@ -354380,12 +354907,14 @@
      {
       "number": 47,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 48,
       "name": "WAKEUP",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ],
     "pag64": [
@@ -354487,12 +355016,14 @@
      {
       "number": 20,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 21,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 22,
@@ -354637,7 +355168,8 @@
      {
       "number": 50,
       "name": "USB/BTC",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["USB"]
      },
      {
       "number": 51,
@@ -354677,7 +355209,8 @@
      {
       "number": 58,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 59,
@@ -354697,12 +355230,14 @@
      {
       "number": 62,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 63,
       "name": "WAKEUP",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 64,
@@ -355413,7 +355948,8 @@
      {
       "number": 16,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 17,
@@ -355433,7 +355969,8 @@
      {
       "number": 20,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 21,
@@ -355448,7 +355985,8 @@
      {
       "number": 23,
       "name": "REFEN",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 24,
@@ -355633,7 +356171,8 @@
      {
       "number": 9,
       "name": "LOAD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -355643,7 +356182,8 @@
      {
       "number": 11,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 12,
@@ -356130,7 +356670,8 @@
      {
       "number": 2,
       "name": "ALARM",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -356337,7 +356878,8 @@
      {
       "number": 3,
       "name": "ALARM",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 4,
@@ -356907,7 +357449,8 @@
      {
       "number": 3,
       "name": "ALARM",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 4,
@@ -357511,7 +358054,8 @@
      {
       "number": 6,
       "name": "UPD A",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 7,
@@ -357521,7 +358065,8 @@
      {
       "number": 8,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 9,
@@ -357531,12 +358076,14 @@
      {
       "number": 10,
       "name": "UPD B",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 11,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 12,
@@ -357719,7 +358266,8 @@
      {
       "number": 6,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 7,
@@ -357899,12 +358447,14 @@
      {
       "number": 1,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -357939,7 +358489,8 @@
      {
       "number": 9,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -358697,7 +359248,8 @@
      {
       "number": 5,
       "name": "LD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
@@ -358857,12 +359409,14 @@
      {
       "number": 11,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 12,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -358877,7 +359431,8 @@
      {
       "number": 15,
       "name": "SDO/ALARM",
-      "role": "output"
+      "role": "output",
+      "activeLow": ["ALARM"]
      },
      {
       "number": 16,
@@ -360390,7 +360945,8 @@
      {
       "number": 12,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -360405,7 +360961,8 @@
      {
       "number": 15,
       "name": "SDO/ALARM",
-      "role": "output"
+      "role": "output",
+      "activeLow": ["ALARM"]
      },
      {
       "number": 16,
@@ -360472,7 +361029,8 @@
      {
       "ball": "C4",
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "ball": "D1",
@@ -360482,7 +361040,8 @@
      {
       "ball": "D2",
       "name": "SDO/ALARM",
-      "role": "output"
+      "role": "output",
+      "activeLow": ["ALARM"]
      },
      {
       "ball": "D3",
@@ -361960,7 +362519,8 @@
      {
       "number": 12,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -361975,7 +362535,8 @@
      {
       "number": 15,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -362042,7 +362603,8 @@
      {
       "ball": "C4",
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "ball": "D1",
@@ -362052,7 +362614,8 @@
      {
       "ball": "D2",
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "ball": "D3",
@@ -363500,7 +364063,8 @@
      {
       "number": 12,
       "name": "FAULT",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -363520,7 +364084,8 @@
      {
       "number": 16,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 17,
@@ -363977,12 +364542,14 @@
      {
       "number": 12,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
@@ -363997,7 +364564,8 @@
      {
       "number": 16,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 17,
@@ -364072,12 +364640,14 @@
      {
       "number": 31,
       "name": "FAULT",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 32,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -368864,7 +369434,8 @@
      {
       "number": 14,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
@@ -368884,22 +369455,26 @@
      {
       "number": 18,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 21,
       "name": "ALMOUT",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 22,
@@ -370719,7 +371294,8 @@
      {
       "number": 14,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
@@ -370739,22 +371315,26 @@
      {
       "number": 18,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 21,
       "name": "ALMOUT",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 22,
@@ -373663,17 +374243,20 @@
      {
       "number": 4,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 5,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 7,
@@ -374184,17 +374767,20 @@
      {
       "number": 4,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 5,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 7,
@@ -374733,7 +375319,8 @@
      {
       "number": 9,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -374765,7 +375352,8 @@
      {
       "number": 15,
       "name": "ENABLE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -375808,7 +376396,8 @@
      {
       "number": 9,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -375828,7 +376417,8 @@
      {
       "number": 13,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
@@ -375838,7 +376428,8 @@
      {
       "number": 15,
       "name": "ENABLE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -376343,12 +376934,14 @@
      {
       "number": 1,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -376383,7 +376976,8 @@
      {
       "number": 9,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -376948,7 +377542,8 @@
      {
       "number": 5,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
@@ -376958,7 +377553,8 @@
      {
       "number": 7,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
@@ -377269,12 +377865,14 @@
      {
       "number": 20,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 21,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 22,
@@ -377419,7 +378017,8 @@
      {
       "number": 50,
       "name": "USB/BTC",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["USB"]
      },
      {
       "number": 51,
@@ -377459,7 +378058,8 @@
      {
       "number": 58,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 59,
@@ -377479,12 +378079,14 @@
      {
       "number": 62,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 63,
       "name": "WAKEUP",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 64,
@@ -378118,7 +378720,8 @@
      {
       "number": 2,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -378138,12 +378741,14 @@
      {
       "number": 6,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 7,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
@@ -379117,7 +379722,8 @@
      {
       "number": 1,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -379244,7 +379850,8 @@
      {
       "number": 1,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -379391,7 +379998,8 @@
      {
       "number": 5,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
@@ -379530,7 +380138,8 @@
      {
       "number": 5,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
@@ -379677,7 +380286,8 @@
      {
       "number": 5,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
@@ -380062,7 +380672,8 @@
      {
       "number": 9,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -380094,7 +380705,8 @@
      {
       "number": 15,
       "name": "ENABLE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -381991,7 +382603,8 @@
      {
       "number": 5,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
@@ -382146,7 +382759,8 @@
      {
       "number": 5,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
@@ -382301,7 +382915,8 @@
      {
       "number": 5,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
@@ -382659,7 +383274,8 @@
      {
       "number": 9,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -382691,7 +383307,8 @@
      {
       "number": 15,
       "name": "ENABLE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -384511,7 +385128,8 @@
      {
       "number": 9,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -384531,7 +385149,8 @@
      {
       "number": 13,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
@@ -384541,7 +385160,8 @@
      {
       "number": 15,
       "name": "ENABLE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -385171,7 +385791,8 @@
      {
       "number": 5,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
@@ -385395,17 +386016,20 @@
      {
       "number": 4,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 5,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 7,
@@ -385927,17 +386551,20 @@
      {
       "number": 4,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 5,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 7,
@@ -386500,7 +387127,8 @@
      {
       "number": 9,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -386532,7 +387160,8 @@
      {
       "number": 15,
       "name": "ENABLE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -388462,7 +389091,8 @@
      {
       "number": 9,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -388482,7 +389112,8 @@
      {
       "number": 13,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
@@ -388492,7 +389123,8 @@
      {
       "number": 15,
       "name": "ENABLE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -389180,12 +389812,14 @@
      {
       "number": 1,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -389220,7 +389854,8 @@
      {
       "number": 9,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -389934,12 +390569,14 @@
      {
       "number": 14,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -390049,7 +390686,8 @@
      {
       "number": 37,
       "name": "USB/BTC",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["USB"]
      },
      {
       "number": 38,
@@ -390084,7 +390722,8 @@
      {
       "number": 44,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 45,
@@ -390099,12 +390738,14 @@
      {
       "number": 47,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 48,
       "name": "WAKEUP",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ],
     "pag64": [
@@ -390206,12 +390847,14 @@
      {
       "number": 20,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 21,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 22,
@@ -390356,7 +390999,8 @@
      {
       "number": 50,
       "name": "USB/BTC",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["USB"]
      },
      {
       "number": 51,
@@ -390396,7 +391040,8 @@
      {
       "number": 58,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 59,
@@ -390416,12 +391061,14 @@
      {
       "number": 62,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 63,
       "name": "WAKEUP",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 64,
@@ -391051,7 +391698,8 @@
      {
       "number": 1,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -391071,12 +391719,14 @@
      {
       "number": 5,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 7,
@@ -391258,7 +391908,8 @@
      {
       "number": 2,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
@@ -391278,12 +391929,14 @@
      {
       "number": 6,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 7,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
@@ -392055,7 +392708,8 @@
      {
       "number": 3,
       "name": "ALARM",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 4,
@@ -392609,7 +393263,8 @@
      {
       "number": 3,
       "name": "ALARM",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 4,
@@ -393388,12 +394043,14 @@
      {
       "number": 41,
       "name": "SYNC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 42,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 43,
@@ -393403,12 +394060,14 @@
      {
       "number": 44,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 45,
       "name": "ALARM",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 46,
@@ -394575,7 +395234,8 @@
      {
       "number": 8,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -394710,12 +395370,14 @@
      {
       "number": 10,
       "name": "RS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 11,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 12,
@@ -394735,7 +395397,8 @@
      {
       "number": 15,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -394919,7 +395582,8 @@
      {
       "number": 6,
       "name": "RS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 7,
@@ -394929,7 +395593,8 @@
      {
       "number": 8,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 9,
@@ -394994,7 +395659,8 @@
      {
       "number": 21,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 22,
@@ -395247,7 +395913,8 @@
      {
       "number": 8,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -395406,12 +396073,14 @@
      {
       "number": 10,
       "name": "RS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 11,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 12,
@@ -395431,7 +396100,8 @@
      {
       "number": 15,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -395623,7 +396293,8 @@
      {
       "number": 6,
       "name": "RS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 7,
@@ -395633,7 +396304,8 @@
      {
       "number": 8,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 9,
@@ -395698,7 +396370,8 @@
      {
       "number": 21,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 22,
@@ -395947,7 +396620,8 @@
      {
       "number": 4,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 5,
@@ -396136,7 +396810,8 @@
      {
       "number": 7,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
@@ -396156,7 +396831,8 @@
      {
       "number": 11,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 12,
@@ -396342,7 +397018,8 @@
      {
       "number": 7,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
@@ -396362,7 +397039,8 @@
      {
       "number": 11,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 12,
@@ -396541,12 +397219,14 @@
      {
       "number": 11,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 12,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -396561,7 +397241,8 @@
      {
       "number": 15,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -396697,7 +397378,8 @@
      {
       "number": 3,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 4,
@@ -396762,12 +397444,14 @@
      {
       "number": 16,
       "name": "USB/BTC",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["BTC"]
      },
      {
       "number": 17,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 18,
@@ -396777,7 +397461,8 @@
      {
       "number": 19,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
@@ -396961,7 +397646,8 @@
      {
       "number": 3,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 4,
@@ -397026,12 +397712,14 @@
      {
       "number": 16,
       "name": "USB/BTC",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["BTC"]
      },
      {
       "number": 17,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 18,
@@ -397041,7 +397729,8 @@
      {
       "number": 19,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
@@ -397230,7 +397919,8 @@
      {
       "number": 3,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 4,
@@ -397403,7 +398093,8 @@
      {
       "number": 3,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 4,
@@ -397465,7 +398156,8 @@
      {
       "number": 7,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
@@ -398527,12 +399219,14 @@
      {
       "number": 2,
       "name": "PD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 4,
@@ -398547,7 +399241,8 @@
      {
       "number": 6,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 7,
@@ -398935,7 +399630,8 @@
      {
       "number": 3,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 4,
@@ -399144,7 +399840,8 @@
      {
       "number": 5,
       "name": "PRE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
@@ -399209,7 +399906,8 @@
      {
       "number": 18,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
@@ -399642,7 +400340,8 @@
      {
       "number": 5,
       "name": "PRE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
@@ -399707,7 +400406,8 @@
      {
       "number": 18,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
@@ -400133,12 +400833,14 @@
      {
       "number": 2,
       "name": "PD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 4,
@@ -400153,7 +400855,8 @@
      {
       "number": 6,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 7,
@@ -400547,7 +401250,8 @@
      {
       "number": 3,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 4,
@@ -400753,7 +401457,8 @@
      {
       "number": 3,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 4,
@@ -400978,7 +401683,8 @@
      {
       "number": 3,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 4,
@@ -401950,7 +402656,8 @@
      {
       "number": 3,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 4,
@@ -402133,7 +402840,8 @@
      {
       "number": 3,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 4,
@@ -402343,7 +403051,8 @@
      {
       "number": 3,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 4,
@@ -402568,7 +403277,8 @@
      {
       "number": 3,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 4,
@@ -402796,12 +403506,14 @@
      {
       "number": 2,
       "name": "PD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 4,
@@ -402816,7 +403528,8 @@
      {
       "number": 6,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 7,
@@ -403701,7 +404414,8 @@
      {
       "number": 5,
       "name": "PRE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
@@ -403766,7 +404480,8 @@
      {
       "number": 18,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
@@ -404206,7 +404921,8 @@
      {
       "number": 5,
       "name": "PRE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
@@ -404271,7 +404987,8 @@
      {
       "number": 18,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
@@ -404711,7 +405428,8 @@
      {
       "number": 5,
       "name": "PRE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
@@ -404776,7 +405494,8 @@
      {
       "number": 18,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
@@ -405216,7 +405935,8 @@
      {
       "number": 5,
       "name": "PRE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
@@ -405281,7 +406001,8 @@
      {
       "number": 18,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
@@ -405711,7 +406432,8 @@
      {
       "number": 3,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 4,
@@ -405929,7 +406651,8 @@
      {
       "number": 3,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 4,
@@ -406162,7 +406885,8 @@
      {
       "number": 3,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 4,
@@ -407744,7 +408468,8 @@
      {
       "number": 8,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 9,
@@ -407784,7 +408509,8 @@
      {
       "number": 16,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -409249,7 +409975,8 @@
      {
       "number": 8,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 9,
@@ -409289,7 +410016,8 @@
      {
       "number": 16,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -411479,7 +412207,8 @@
      {
       "number": 1,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -411519,7 +412248,8 @@
      {
       "number": 9,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -411616,7 +412346,8 @@
      {
       "number": 12,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -411666,7 +412397,8 @@
      {
       "number": 22,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 23,
@@ -412705,7 +413437,8 @@
      {
       "number": 7,
       "name": "SYNC/A0",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["SYNC"]
      },
      {
       "number": 8,
@@ -412752,7 +413485,8 @@
      {
       "number": 6,
       "name": "SYNC/A0",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["SYNC"]
      },
      {
       "number": 7,
@@ -413149,7 +413883,8 @@
      {
       "number": 7,
       "name": "SYNC/A0",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["SYNC"]
      },
      {
       "number": 8,
@@ -414805,7 +415540,8 @@
      {
       "number": 1,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -414845,7 +415581,8 @@
      {
       "number": 9,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -414942,7 +415679,8 @@
      {
       "number": 12,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -414992,7 +415730,8 @@
      {
       "number": 22,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 23,
@@ -415991,7 +416730,8 @@
      {
       "number": 7,
       "name": "SYNC/A0",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["SYNC"]
      },
      {
       "number": 8,
@@ -416038,7 +416778,8 @@
      {
       "number": 6,
       "name": "SYNC/A0",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["SYNC"]
      },
      {
       "number": 7,
@@ -416435,7 +417176,8 @@
      {
       "number": 7,
       "name": "SYNC/A0",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["SYNC"]
      },
      {
       "number": 8,
@@ -418070,7 +418812,8 @@
      {
       "number": 1,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -418110,7 +418853,8 @@
      {
       "number": 9,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -418207,7 +418951,8 @@
      {
       "number": 12,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -418257,7 +419002,8 @@
      {
       "number": 22,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 23,
@@ -419266,7 +420012,8 @@
      {
       "number": 1,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 2,
@@ -419306,7 +420053,8 @@
      {
       "number": 9,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -419403,7 +420151,8 @@
      {
       "number": 12,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
@@ -419453,7 +420202,8 @@
      {
       "number": 22,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 23,
@@ -420518,7 +421268,8 @@
      {
       "number": 7,
       "name": "SYNC/A0",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["SYNC"]
      },
      {
       "number": 8,
@@ -420565,7 +421316,8 @@
      {
       "number": 6,
       "name": "SYNC/A0",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["SYNC"]
      },
      {
       "number": 7,
@@ -420957,7 +421709,8 @@
      {
       "number": 7,
       "name": "SYNC/A0",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["SYNC"]
      },
      {
       "number": 8,
@@ -425950,7 +426703,8 @@
      {
       "number": 8,
       "name": "RESETB",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 9,
@@ -426065,7 +426819,8 @@
      {
       "number": 31,
       "name": "SDENB",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 32,
@@ -426080,7 +426835,8 @@
      {
       "number": 34,
       "name": "ALARM_SDO",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 35,
@@ -427087,7 +427843,8 @@
      {
       "number": 8,
       "name": "RESETB",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 9,
@@ -427202,7 +427959,8 @@
      {
       "number": 31,
       "name": "SDENB",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 32,
@@ -427217,7 +427975,8 @@
      {
       "number": 34,
       "name": "ALARM_SDO",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 35,
@@ -431795,12 +432554,14 @@
      {
       "number": 6,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 7,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
@@ -431865,7 +432626,8 @@
      {
       "number": 20,
       "name": "R/W",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["W"]
      },
      {
       "number": 21,
@@ -431882,7 +432644,8 @@
      {
       "number": 23,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 24,
@@ -432141,12 +432904,14 @@
      {
       "number": 6,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 7,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
@@ -432211,7 +432976,8 @@
      {
       "number": 20,
       "name": "R/W",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["W"]
      },
      {
       "number": 21,
@@ -432228,7 +432994,8 @@
      {
       "number": 23,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 24,
@@ -432534,12 +433301,14 @@
      {
       "number": 17,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 18,
       "name": "R/W",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["W"]
      },
      {
       "number": 19,
@@ -432841,12 +433610,14 @@
      {
       "number": 19,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
       "name": "R/W",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["W"]
      },
      {
       "number": 21,
@@ -433169,7 +433940,8 @@
      {
       "number": 20,
       "name": "R/W",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["W"]
      },
      {
       "number": 21,
@@ -433186,7 +433958,8 @@
      {
       "number": 23,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 24,
@@ -433679,12 +434452,14 @@
      {
       "number": 30,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 31,
       "name": "R/W",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["W"]
      },
      {
       "number": 32,
@@ -434110,12 +434885,14 @@
      {
       "number": 6,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 7,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
@@ -434180,7 +434957,8 @@
      {
       "number": 20,
       "name": "R/W",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["W"]
      },
      {
       "number": 21,
@@ -434197,7 +434975,8 @@
      {
       "number": 23,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 24,
@@ -434439,12 +435218,14 @@
      {
       "number": 6,
       "name": "RESET",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 7,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
@@ -434509,7 +435290,8 @@
      {
       "number": 20,
       "name": "R/W",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["W"]
      },
      {
       "number": 21,
@@ -434526,7 +435308,8 @@
      {
       "number": 23,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 24,
@@ -434808,27 +435591,32 @@
      {
       "number": 14,
       "name": "USB/BTC",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["USB"]
      },
      {
       "number": 15,
       "name": "BUSY",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 16,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 17,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 18,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
@@ -434988,12 +435776,14 @@
      {
       "number": 49,
       "name": "R/W",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["W"]
      },
      {
       "number": 50,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 51,
@@ -435797,7 +436587,8 @@
      {
       "number": 39,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 40,
@@ -435807,12 +436598,14 @@
      {
       "number": 41,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 42,
       "name": "R/W",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["W"]
      },
      {
       "number": 43,
@@ -435822,7 +436615,8 @@
      {
       "number": 44,
       "name": "REFEN",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 45,
@@ -436182,22 +436976,26 @@
      {
       "number": 39,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 40,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 41,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 42,
       "name": "R/W",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["W"]
      },
      {
       "number": 43,
@@ -436207,7 +437005,8 @@
      {
       "number": 44,
       "name": "REFEN",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 45,
@@ -436464,7 +437263,8 @@
      {
       "number": 20,
       "name": "R/W",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["W"]
      },
      {
       "number": 21,
@@ -436481,7 +437281,8 @@
      {
       "number": 23,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 24,
@@ -436863,7 +437664,8 @@
      {
       "number": 5,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
@@ -436925,17 +437727,20 @@
      {
       "number": 17,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 18,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
       "name": "UPD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
@@ -437137,7 +437942,8 @@
      {
       "number": 5,
       "name": "CS A",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
@@ -437207,12 +438013,14 @@
      {
       "number": 19,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
       "name": "CS B",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 21,
@@ -437450,12 +438258,14 @@
      {
       "number": 16,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 17,
       "name": "R/W",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["W"]
      },
      {
       "number": 18,
@@ -437606,12 +438416,14 @@
      {
       "number": 7,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 8,
       "name": "DAC A/B",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["DAC A"]
      },
      {
       "number": 9,
@@ -437681,17 +438493,20 @@
      {
       "number": 22,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 23,
       "name": "R/W",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["W"]
      },
      {
       "number": 24,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 25,
@@ -437945,27 +438760,32 @@
      {
       "number": 2,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 3,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 4,
       "name": "NA",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 5,
       "name": "NB",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 6,
       "name": "NC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 7,
@@ -438419,27 +439239,32 @@
      {
       "number": 11,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 12,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
       "name": "Reset",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
       "name": "LMSB",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 15,
       "name": "LLSB",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -438783,27 +439608,32 @@
      {
       "number": 14,
       "name": "USB/BTC",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["USB"]
      },
      {
       "number": 15,
       "name": "BUSY",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 16,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 17,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 18,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
@@ -438963,12 +439793,14 @@
      {
       "number": 49,
       "name": "R/W",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["W"]
      },
      {
       "number": 50,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 51,
@@ -439075,27 +439907,32 @@
      {
       "number": 15,
       "name": "USB/BTC",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["USB"]
      },
      {
       "number": 16,
       "name": "BUSY",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 17,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 18,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
@@ -439290,12 +440127,14 @@
      {
       "number": 57,
       "name": "R/W",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["W"]
      },
      {
       "number": 58,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 59,
@@ -440050,7 +440889,8 @@
      {
       "number": 27,
       "name": "BTC/USB",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["USB"]
      },
      {
       "number": 28,
@@ -440070,12 +440910,14 @@
      {
       "number": 31,
       "name": "R/W",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["W"]
      },
      {
       "number": 32,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -440430,12 +441272,14 @@
      {
       "number": 25,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 26,
       "name": "R/W",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["W"]
      },
      {
       "number": 27,
@@ -440455,7 +441299,8 @@
      {
       "number": 30,
       "name": "PD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 31,
@@ -440903,27 +441748,32 @@
      {
       "number": 14,
       "name": "USB/BTC",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["USB"]
      },
      {
       "number": 15,
       "name": "BUSY",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 16,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 17,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 18,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
@@ -441083,12 +441933,14 @@
      {
       "number": 49,
       "name": "R/W",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["W"]
      },
      {
       "number": 50,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 51,
@@ -441195,27 +442047,32 @@
      {
       "number": 15,
       "name": "USB/BTC",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["USB"]
      },
      {
       "number": 16,
       "name": "BUSY",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 17,
       "name": "CLR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 18,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 20,
@@ -441410,12 +442267,14 @@
      {
       "number": 57,
       "name": "R/W",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["W"]
      },
      {
       "number": 58,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 59,
@@ -442127,7 +442986,8 @@
      {
       "number": 18,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
@@ -442154,7 +443014,8 @@
      {
       "number": 23,
       "name": "RS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 24,
@@ -442449,7 +443310,8 @@
      {
       "number": 9,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -442544,7 +443406,8 @@
      {
       "number": 28,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -442711,7 +443574,8 @@
      {
       "number": 9,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 10,
@@ -442806,7 +443670,8 @@
      {
       "number": 28,
       "name": "RST",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      }
     ]
    },
@@ -443028,7 +443893,8 @@
      {
       "number": 18,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
@@ -443055,7 +443921,8 @@
      {
       "number": 23,
       "name": "RS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 24,
@@ -443403,7 +444270,8 @@
      {
       "number": 16,
       "name": "INT/EXT",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["INT"]
      },
      {
       "number": 17,
@@ -443675,7 +444543,8 @@
      {
       "number": 16,
       "name": "INT/EXT",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["INT"]
      },
      {
       "number": 17,
@@ -443930,7 +444799,8 @@
      {
       "number": 16,
       "name": "INT/EXT",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["INT"]
      },
      {
       "number": 17,
@@ -444187,7 +445057,8 @@
      {
       "number": 16,
       "name": "INT/EXT",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["INT"]
      },
      {
       "number": 17,
@@ -445430,7 +446301,8 @@
      {
       "number": 8,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 9,
@@ -445475,7 +446347,8 @@
      {
       "number": 17,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 18,
@@ -445769,7 +446642,8 @@
      {
       "number": 15,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
@@ -446031,12 +446905,14 @@
      {
       "number": 12,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 14,
@@ -446284,7 +447160,8 @@
      {
       "number": 6,
       "name": "DACA/DACB",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["DACA"]
      },
      {
       "number": 7,
@@ -446329,12 +447206,14 @@
      {
       "number": 15,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 17,
@@ -446586,7 +447465,8 @@
      {
       "number": 6,
       "name": "DACA/DACB",
-      "role": "input"
+      "role": "input",
+      "activeLow": ["DACA"]
      },
      {
       "number": 7,
@@ -446631,12 +447511,14 @@
      {
       "number": 15,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
       "name": "WR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 17,
@@ -446847,22 +447729,26 @@
      {
       "number": 15,
       "name": "PWD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 17,
       "name": "WE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 18,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
@@ -447163,22 +448049,26 @@
      {
       "number": 15,
       "name": "PD",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 17,
       "name": "WE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 18,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
@@ -447413,22 +448303,26 @@
      {
       "number": 15,
       "name": "PWR",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 16,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 17,
       "name": "WE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 18,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,
@@ -447740,17 +448634,20 @@
      {
       "number": 16,
       "name": "LDAC",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 17,
       "name": "WE",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 18,
       "name": "CS",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 19,

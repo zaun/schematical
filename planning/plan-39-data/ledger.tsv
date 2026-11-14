@@ -624,6 +624,149 @@ converter	ADS8517	dw28	ads8517	pp.5-6	{"SB/BTC":["BTC"],"EXT/INT":["INT"],"R/C":
 converter	ADS8519	db28	ads8519	pp.5-6	{"SB/BTC":["BTC"],"EXT/INT":["INT"],"R/C":["C"],"CS":true,"BUSY":true}	
 converter	ADS8528	p64	ads8528	pp.5-8	{"PAR/SER":["PAR"],"STBY":true,"REFEN/WR":["WR"],"RD":true,"CS/FS":true,"DB11/REFBUFEN":["REFBUFEN"],"HW/SW":["HW"]}	BUSY/INT polarity programmable (C26), default active high: unflagged; RESET active high
 converter	ADS8548	p64	ads8528	pp.5-8	{"PAR/SER":["PAR"],"STBY":true,"REFEN/WR":["WR"],"RD":true,"CS/FS":true,"DB11/REFBUFEN":["REFBUFEN"],"HW/SW":["HW"]}	BUSY/INT polarity programmable (C26), default active high: unflagged; RESET active high
+converter	ADS8555	pm64	ads8555	pp.3-6	{"CS/FS":true,"RD":true,"STBY":true,"REFEN/WR":["WR"]}	WR alt has no overbar but pin text: write enabled when CS and WR are low (p.6); RESET active high
+converter	ADS8556	pm64	ads8556	pp.3-7	{"CS/FS":true,"RD":true,"STBY":true,"REFEN/WR":["WR"]}	WR alt has no overbar but pin text: write enabled when CS and WR are low (p.7); RESET active high
+converter	ADS8557	pm64	ads8556	pp.3-7	{"CS/FS":true,"RD":true,"STBY":true,"REFEN/WR":["WR"]}	WR alt has no overbar but pin text: write enabled when CS and WR are low (p.7); RESET active high
+converter	ADS8558	pm64	ads8556	pp.3-7	{"CS/FS":true,"RD":true,"STBY":true,"REFEN/WR":["WR"]}	WR alt has no overbar but pin text: write enabled when CS and WR are low (p.7); RESET active high
+converter	ADS8568	p64	ads8528	pp.4-8	{"PAR/SER":["PAR"],"STBY":true,"REFEN/WR":["WR"],"RD":true,"CS/FS":true,"DB11/REFBUFEN":["REFBUFEN"],"HW/SW":["HW"]}	RESET active high
+converter	ADS8578	pm64	ads8578s	pp.3-5	{"PAR/SER/BYTE SEL":["PAR"],"STBY":true,"RD/SCLK":["RD"],"CS":true}	
+converter	ADS8584	pm64	ads8584s	pp.3-5	{"PAR/SER/BYTE SEL":["PAR"],"STBY":true,"RD/SCLK":["RD"],"CS":true}	
+converter	ADS8586	pm64	ads8586s	pp.3-5	{"PAR/SER/BYTE SEL":["PAR"],"STBY":true,"RD/SCLK":["RD"],"CS":true}	
+converter	ADS8588H	pm64	ads8588h	pp.3-5	{"PAR/SER/BYTE SEL":["PAR"],"STBY":true,"RD/SCLK":["RD"],"CS":true}	
+converter	ADS8588S	pm64	ads8588s	pp.4-6	{"PAR/SER/BYTE SEL":["PAR"],"STBY":true,"RD/SCLK":["RD"],"CS":true}	
+converter	ADS8598H	pm64	ads8598h	pp.3-5	{"PAR/SER/BYTE SEL":["PAR"],"STBY":true,"RD/SCLK":["RD"],"CS":true}	
+converter	ADS8598S	pm64	ads8598s	pp.3-5	{"PAR/SER/BYTE SEL":["PAR"],"STBY":true,"RD/SCLK":["RD"],"CS":true}	
+converter	ADS8634	rge24	ads8634	p.8	{"CS":true,"AL_PD":true}	AL_PD default is PD input, active low (p.8); as alarm output it is active high (rule 5: reset default)
+converter	ADS8661	pw16	ads8665	pp.3-4	{"RST":true,"CONVST/CS":["CS"]}	
+converter	ADS8664	dbt38	ads8664	p.3	{"RST/PD":true,"REFSEL":true,"CS":true}	
+converter	ADS8665	pw16	ads8665	pp.3-4	{"RST":true,"CONVST/CS":["CS"]}	
+converter	ADS8668	dbt38	ads8664	p.3	{"RST/PD":true,"REFSEL":true,"CS":true}	
+converter	ADS8674	dbt38	ads8674	p.3	{"RST/PD":true,"REFSEL":true,"CS":true}	
+converter	ADS8675	pw16	ads8671	pp.3-4	{"RST":true,"CONVST/CS":["CS"]}	
+converter	ADS8678	dbt38	ads8674	p.3	{"RST/PD":true,"REFSEL":true,"CS":true}	
+converter	ADS8681	pw16	ads8681	p.3	{"RST":true,"CONVST/CS":["CS"]}	
+converter	ADS8681	rum16	ads8681	p.3	{"RST":true,"CONVST/CS":["CS"]}	
+converter	ADS8681W	rum16	ads8681w	p.3	{"RST":true,"CONVST/CS":["CS"]}	
+converter	ADS8684	dbt38	ads8688	p.4	{"RST/PD":true,"REFSEL":true,"CS":true}	
+converter	ADS8684A	dbt38	ads8684a	p.3	{"RST/PD":true,"REFSEL":true,"CS":true}	
+converter	ADS8685	pw16	ads8681	p.3	{"RST":true,"CONVST/CS":["CS"]}	
+converter	ADS8686S	pza80	ads8686s	pp.3-6	{"RESET":true,"SER/BYTE/PAR":["PAR"],"DB4/SER1W":["SER1W"],"WR/BURST":["WR"],"SCLK/RD":["RD"],"CS":true}	
+converter	ADS8688	dbt38	ads8688	p.4	{"RST/PD":true,"REFSEL":true,"CS":true}	
+converter	ADS8688A	dbt38	ads8684a	p.3	{"RST/PD":true,"REFSEL":true,"CS":true}	
+converter	ADS8689	pw16	ads8681	p.3	{"RST":true,"CONVST/CS":["CS"]}	
+converter	ADS8691	pw16	ads8691	p.4	{"RST":true,"CONVST/CS":["CS"]}	
+converter	ADS8694	dbt38	ads8694	pp.3-4	{"RST/PD":true,"REFSEL":true,"CS":true}	
+converter	ADS8695	pw16	ads8691	p.4	{"RST":true,"CONVST/CS":["CS"]}	
+converter	ADS8698	dbt38	ads8694	pp.3-4	{"RST/PD":true,"REFSEL":true,"CS":true}	
+converter	ADS8699	pw16	ads8691	p.4	{"RST":true,"CONVST/CS":["CS"]}	
+converter	ADS8860	p10	ads8860	p.4	{}	
+converter	ADS8861	p10	ads8861	p.9	{}	
+converter	ADS8862	p10	ads8862	p.4	{}	
+converter	ADS8863	p10	ads8863	p.9	{}	
+converter	ADS8864	p10	ads8864	p.4	{}	
+converter	ADS8865	p10	ads8865	p.9	{}	
+converter	ADS8866	p10	ads8866	p.4	{}	
+converter	ADS8867	p10	ads8867	p.9	{}	
+converter	ADS8881	p10	ads8881	p.6	{}	
+converter	ADS8883	p10	ads8883	p.9	{}	
+converter	ADS8885	p10	ads8885	p.9	{}	
+converter	ADS8887	p10	ads8887	p.9	{}	
+converter	ADS8902	rge24	ads8904b	p.4	{"RST":true,"CS":true}	
+converter	ADS8904	rge24	ads8904b	p.4	{"RST":true,"CS":true}	
+converter	ADS8910	rge24	ads8910b	p.4	{"RST":true,"CS":true}	
+converter	ADS8914	rge24	ads8910b	p.4	{"RST":true,"CS":true}	
+converter	ADS8922	rge24	ads8922b	p.3	{"RST":true,"CS":true}	
+converter	ADS8924	rge24	ads8922b	p.3	{"RST":true,"CS":true}	
+converter	ADS900	db28	ads900	p.4	{"OE":true}	pin 24 IN-bar is the complementary analog input (rule 2); Pwrdn unmarked
+converter	ADS901	db28	ads901	p.4	{"OE":true}	Pwrdn unmarked
+converter	ADS9120	rge24	ads9120	p.3	{"RST":true,"CS":true}	
+converter	ADS9224	rhb32	ads9234r	pp.3-4	{"CS":true,"PD/RST":true}	
+converter	ADS9226	rhb32	ads9226	pp.3-4	{"CS":true}	
+converter	ADS9234	rhb32	ads9234r	p.3	{"CS":true,"PD/RST":true}	
+converter	ADS930	ssop28	ads930	pp.3-4	{"OE":true}	Pwrdn active high (pin 17 tied high for power-down); IN is complementary analog input
+converter	ADS9817	rsh56	ads9817	pp.3-4	{"CS":true,"RESET":true,"PWDN":true}	
+converter	AFE7070	rgz48	afe7070	p.3	{"RESETB":true,"SDENB":true,"ALARM_SDO":true}	ALARM_SDO: default ALARM output described active-low; optional 4-pin SDO function is not (tool treats the _ name as one, flagged true)
+converter	AFE7071	rgz48	afe7071	p.3	{"RESETB":true,"SDENB":true,"ALARM_SDO":true}	ALARM_SDO: default ALARM output described active-low; optional 4-pin SDO function is not (tool treats the _ name as one, flagged true)
+converter	AMC1203	sop8	amc1203	p.3	{}	
+converter	AMC1203	soic16	amc1203	p.4	{}	
+converter	DAC0800	d16	dac0800	p.4	{}	IOUT pin 6 (overbar) is the complementary analog current output: rule 2, not flagged
+converter	DAC0800	nfg16	dac0800	p.4	{}	IOUT pin 2 (overbar) is the complementary analog current output: rule 2, not flagged
+converter	DAC0802	d16	dac0800	p.4	{}	IOUT pin 6 (overbar) is the complementary analog current output: rule 2, not flagged
+converter	DAC0808	d16	dac0808	p.2	{}	
+converter	DAC0808	nfg16	dac0808	p.2	{}	
+converter	DAC081C081	ngf6	dac081c081	p.4	{}	
+converter	DAC081C081	ddc6	dac081c081	p.4	{}	
+converter	DAC081C085	dgk8	dac081c081	p.4	{}	
+converter	DAC081S101	ddc6	dac081s101	p.2	{"SYNC":true}	
+converter	DAC081S101	dgk8	dac081s101	p.2	{"SYNC":true}	
+converter	DAC082S085	dgs10	dac082s085	p.4	{"SYNC":true}	
+converter	DAC084S085	dgs10	dac084s085	p.3	{"SYNC":true}	
+converter	DAC088S085	wqfn16	dac088s085	pp.3-4	{"SYNC":true}	
+converter	DAC088S085	tssop16	dac088s085	pp.3-4	{"SYNC":true}	
+converter	DAC101C081	wson6	dac101c081	p.4	{}	
+converter	DAC101C081	sot6	dac101c081	p.4	{}	
+converter	DAC101S101	sot6	dac101s101	p.3	{"SYNC":true}	
+converter	DAC101S101	vssop8	dac101s101	p.3	{"SYNC":true}	
+converter	DAC102S085	p10	dac102s085	p.3	{"SYNC":true}	
+converter	DAC104S085	p10	dac104s085	p.3	{"SYNC":true}	
+converter	DAC108S085	wqfn16	dac108s085	p.3	{"SYNC":true}	
+converter	DAC108S085	tssop16	dac108s085	p.3	{"SYNC":true}	
+converter	DAC11001	pfb48	dac11001a	p.4	{"LDAC":true,"ALARM":true,"CLR":true,"SYNC":true}	
+converter	DAC121C081	wson6	dac121c085	p.4	{}	
+converter	DAC121C085	vssop8	dac121c085	p.4	{}	
+converter	DAC121S101	sot6	dac121s101	p.3	{"SYNC":true}	
+converter	DAC121S101	vssop8	dac121s101	p.3	{"SYNC":true}	
+converter	DAC1220	dbq16	dac1220	p.4	{"CS":true}	
+converter	DAC1221	dbq16	dac1221	p.3	{"CS":true}	
+converter	DAC122S085	p10	dac122s085	p.2	{"SYNC":true}	
+converter	DAC124S085	p10	dac124s085	p.3	{"SYNC":true}	
+converter	DAC128S085	pw16	dac128s085	p.4	{"SYNC":true}	
+converter	DAC128S085	rgh16	dac128s085	p.4	{"SYNC":true}	
+converter	DAC161S055	rgh16	dac161s055	pp.2-3	{"CSB":true,"LDACB":true,"CLRB":true}	MZB not flagged: select pin (GND=zero, VA=mid), B suffix not defined active low
+converter	DAC2900	pfb48	dac2900	p.4	{}	complementary IOUT1/IOUT2 (pins 40,45) overbarred analog outputs: not flagged (rule 2)
+converter	DAC2902	pfb48	dac2902	p.4	{}	complementary IOUT1/IOUT2 (pins 40,45) overbarred analog outputs: not flagged (rule 2)
+converter	DAC2904	pfb48	dac2904	p.6	{}	complementary IOUT1/IOUT2 (pins 40,45) overbarred analog outputs: not flagged (rule 2)
+converter	DAC2932	pfb48	dac2932	pp.8-9	{"STBY":true,"CS":true,"SYNC":true}	complementary IOUT1/IOUT2 (pins 26,34) overbarred analog outputs: not flagged (rule 2)
+converter	DAC43204	rte16	dac53204	p.3	{"SCL/SYNC":["SYNC"]}	GPIO/SDO programmable (LDAC/PD/RESET... alternatives not in catalog name): not flagged
+converter	DAC43401	dsg8	dac53401	p.3	{}	
+converter	DAC43508	rte16	dac43508	p.3	{"SYNC":true,"LDAC":true,"CLR":true}	
+converter	DAC43608	rte16	dac53608	p.3	{"LDAC":true,"CLR":true}	
+converter	DAC43701	dsg8	dac43701	p.3	{}	
+converter	DAC43901	rte16	dac43902-q1	p.4	{"SCL/SYNC/NC":["SYNC"]}	
+converter	DAC43902	rte16	dac43902-q1	p.4	{"SCL/SYNC/PWM2":["SYNC"]}	
+converter	DAC53001	rte16	dac63001	p.3	{"SCL/SYNC":["SYNC"]}	GPIO/SDO programmable (LDAC/PD/RESET... alternatives not in catalog name): not flagged
+converter	DAC53002	rte16	dac63001	p.3	{"SCL/SYNC":["SYNC"]}	GPIO/SDO programmable (LDAC/PD/RESET... alternatives not in catalog name): not flagged
+converter	DAC53004	rte16	dac53004	p.3	{"SCL/SYNC":["SYNC"]}	GPIO/SDO programmable (LDAC/PD/RESET... alternatives not in catalog name): not flagged
+converter	DAC5311	dck6	dac5311	p.3	{"SYNC":true}	
+converter	DAC53202	rte16	dac63202	p.3	{"SCL/SYNC":["SYNC"]}	GPIO/SDO programmable (LDAC/PD/RESET... alternatives not in catalog name): not flagged
+converter	DAC53204	rte16	dac53204	p.3	{"SCL/SYNC":["SYNC"]}	
+converter	DAC53204	ybh16	dac53204w	p.3	{"SCL/SYNC":["SYNC"]}	
+converter	DAC53401	dsg8	dac53401	p.3	{}	
+converter	DAC53508	rte16	dac43508	p.3	{"SYNC":true,"LDAC":true,"CLR":true}	
+converter	DAC53608	rte16	dac53608	p.3	{"LDAC":true,"CLR":true}	
+converter	DAC53701	dsg8	dac43701	p.3	{}	
+converter	DAC539E4	ybh16	dac539e4w	pp.3-4	{}	B4 GPO2 is SCL/SYNC-bar in programming mode; catalog name omits SYNC (rule 12)
+converter	DAC5571	dbv6	dac5571	p.2	{}	
+converter	DAC5573	pw16	dac5573	p.2	{}	
+converter	DAC5574	dgs10	dac5574	p.2	{}	
+converter	DAC5578	pw16	dac5578	p.5	{"LDAC":true,"CLR":true}	
+converter	DAC5578	rge24	dac5578	p.5	{"CLR":true,"LDAC":true}	
+converter	DAC5652	pfb48	dac5652	p.3	{}	
+converter	DAC5652	rsl48	dac5652a	p.5	{}	
+converter	DAC5662	pfb48	dac5662	p.4	{}	
+converter	DAC5672	pfb48	dac5672	pp.3-4	{}	
+converter	DAC5674	php48	dac5674	p.7	{}	
+converter	DAC5686	pzp100	dac5686	pp.5-6	{"SDENB":true,"RESETB":true}	
+converter	DAC5687	pzp100	dac5687	pp.4-5	{"SDENB":true,"RESETB":true}	
+converter	DAC5688	rgc64	dac5688	p.3	{"SDENB":true,"RESETB":true}	
+converter	DAC5689	rgc64	dac5689	pp.3-4	{"SDENB":true,"RESETB":true}	
+converter	DAC60096	zeb196	dac60096	pp.4-5	{"RESET":true,"CS":true,"CLEAR":true,"LDAC":true}	
+converter	DAC60501	dgs10	dac60501	p.3	{"SYNC/A0":["SYNC"]}	
+converter	DAC60501	dqf8	dac60501	p.3	{"SYNC/A0":["SYNC"]}	
+converter	DAC60502	drx10	dac60502	p.3	{"SYNC/A0":["SYNC"]}	
+converter	DAC60504	rte16	dac80504	p.5	{"LDAC":true,"CS":true,"SDO/ALARM":["ALARM"]}	
+converter	DAC60508	rte16	dac60508	p.5	{"CS":true,"SDO/ALARM":["ALARM"]}	
+converter	DAC60508	yzf16	dac60508	p.5	{"CS":true,"SDO/ALARM":["ALARM"]}	
 counter	40102B	p16	cd40102b	pp.1-4	{"CLR":true,"CI/CE":true,"APE":true,"CO/ZD":true,"SPE":true}	
 counter	40103B	p16	cd40102b	pp.1-4	{"CLR":true,"CI/CE":true,"APE":true,"CO/ZD":true,"SPE":true}	
 counter	40110B	p16	cd40110b	p.1	{"TE":true}	
