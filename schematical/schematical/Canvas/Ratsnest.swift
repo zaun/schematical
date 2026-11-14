@@ -113,7 +113,8 @@ extension SchematicDocument {
         func union(_ a: Int, _ b: Int) { parent[find(a)] = find(b) }
 
         // Pads of one pin are one node.
-        for group in padsOfPin.values {
+        // In key order, so the roots (and the ratsnest's ties) are the same every run.
+        for group in padsOfPin.keys.sorted().compactMap({ padsOfPin[$0] }) {
             for other in group.dropFirst() { union(group[0], other) }
         }
         // A trace joins the pads it touches on its layer, and the traces it
