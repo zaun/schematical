@@ -158,12 +158,12 @@ Commit: 2732788f
 
 Acceptance: the cases pass.
   Check: `-only-testing:schematicalTests/RoutingNegotiationTests -only-testing:schematicalTests/RouterTests` → `** TEST SUCCEEDED **` (est. 3 min).
-Commit: —
+Commit: d18dc80b
 
 ### Phase 4 — the fixtures
 
-- [ ] `RouterFixtureTests`: with `.balanced`, AFU = 115/115 in < 60 s; LFU ≥ 127/188; RegFile ≥ 12/24; print connections routed, vias, wire mm and seconds for each; assert every unrouted LFU connection appears in `NetOutcome` with its net's name.
-- [ ] Results (the output of this run, filled in then): AFU __/115, __ vias, __ mm, __ s; LFU __/188, __ vias, __ mm, __ s; RegFile __/24 … Also the same three with `.fast` and `.thorough` (counts and seconds only).
+- [x] `RouterFixtureTests`: with `.balanced`, AFU = 115/115 in < 60 s; LFU ≥ 127/188; RegFile ≥ 12/24; print connections routed, vias, wire mm and seconds for each; assert every unrouted LFU connection appears in `NetOutcome` with its net's name. — `testNegotiationOnTheFixtures` passed (with `testSinglePassOnTheFixtures`, `RoutingOptionsTests`, `RoutingNegotiationTests`: 17 tests, 0 failures, `** TEST SUCCEEDED **`), after the two fixes in Corrections.
+- [~] Results (the output of this run, filled in then): Balanced (pitch 0.127, Debug build): AFU 115/115, 115 vias, 1614 mm, 26.14 s (2 rounds, 113 rips); LFU 140/188, 244 vias, 2265 mm, 348.49 s (6 rounds, 1285 rips); RegFile 24/24, 31 vias, 315 mm, 29.13 s (1 round, 49 rips). Fast: AFU 114/115 in 34.80 s; LFU 150/188 in 291.88 s; RegFile 24/24 in 51.77 s. Thorough: AFU 115/115 in 27.64 s. Remaining: Thorough on LFU and RegFile. Two runs of it were killed by SIGTERM from outside (`"Test crashed with signal term"`, 2.2 and 14.5 min in; other sessions' `xcodebuild test` on this machine end the shared test host), so it is re-run alone.
 
 Acceptance: the AFU, LFU and RegFile floors hold and the results are written above. If a floor fails, diagnose (dump the failed connections' blockers for ONE net) and fix the engine; the floors are not lowered.
   Check: `-only-testing:schematicalTests/RouterFixtureTests` → `** TEST SUCCEEDED **` (est. 5 min: Balanced LFU took 9–11 s in the prototype and Thorough runs up to 3 times).
@@ -183,7 +183,28 @@ See plan-38-A § Decisions. Author decisions: connection-level (not net-level) r
 
 ## Corrections
 
-(Filled in during execution.)
+- **The Phase 4 floor failed at first, and was fixed in the engine (not
+  lowered).** First Balanced run: AFU 107/115 in 61.72 s (both gates missed).
+  Diagnosis, one net at a time (`ZZProbeTests`, deleted):
+  1. *Grid pitch.* Same engine, AFU: 0.1 mm → 107/115 in 61.1 s; 0.127 mm →
+     114/115 in 23.1 s. The spike saw the same (98 % vs 78 % single pass).
+     Parts sit on the 0.635 mm component grid, which 0.127 (5 mil) divides, so
+     pad centres and the channels between 2.54 mm DIP pads fall on cells; at
+     0.1 they fall between cells and a channel loses a track. The default grid
+     (plan-38-D § 4, `RoutingOptions.grid`) is now **0.127 mm**, still one of
+     the four allowed values.
+  2. *The rip limit was per net, not per connection.* The one connection left
+     (B3, `XOR1.13 – Edge.24`) routes on the empty board in 50 nodes, so it
+     was congestion. Same board, `maxRips` raised to 100 → 115/115 in 25.8 s,
+     the busiest net ripped 23 times; the stall rule raised to 30 rounds →
+     still 114. § 3 says "a *connection* ripped more than `maxRips` times";
+     the code had counted one budget per *net*, so a rail of 26 connections
+     ran out at 12. Now `ripBudget(net) = maxRips × connections` (the
+     per-connection limit, totalled over the net).
+  After both: the Results above.
+- LFU Balanced takes 348 s in the Debug build, about 35× the spike's -O
+  prototype (9–11 s). No gate bounds it here; noted for plan-38-K's progress
+  UI and plan-38-M's run times.
 
 ## Summary
 

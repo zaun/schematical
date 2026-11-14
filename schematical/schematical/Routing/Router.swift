@@ -19,7 +19,7 @@ nonisolated enum Router {
         var rounds: Int
         var viaCost: Double
         var historyStep: Float
-        /// How often one net's copper may be ripped up in a run.
+        /// How often one connection may be ripped up in a run (`Run.ripBudget`).
         var maxRips: Int
         /// Independent runs (Thorough), each with its own tie order.
         var runs: Int
@@ -84,6 +84,13 @@ nonisolated enum Router {
         var rips = 0
         /// Rip-ups per net this run.
         var ripped: [Int: Int] = [:]
+
+        /// How often net `net` may be ripped up in a run: `maxRips` for each
+        /// of its connections, since the limit is per connection (a rail of
+        /// 26 connections is ripped more often than a two-pin net).
+        func ripBudget(_ net: Int) -> Int {
+            strategy.maxRips * max(1, state.netsByID[net]?.connections ?? 1)
+        }
         /// Nets on a Plane, fanned out once; their copper is never ripped
         /// (the Plane join it makes is not in the ledger's groups).
         var fannedOut: [Int: NetOutcome] = [:]
@@ -227,7 +234,7 @@ nonisolated enum Router {
                     let all = state.victims(of: detour, net: net.id)
                     let nets = Set(all.compactMap { state.entries[$0]?.net })
                     if !all.isEmpty, nets.isDisjoint(with: pinned),
-                       nets.allSatisfy({ (ripped[$0] ?? 0) < strategy.maxRips }) {
+                       nets.allSatisfy({ (ripped[$0] ?? 0) < ripBudget($0) }) {
                         for victimNet in nets.sorted() { ripped[victimNet, default: 0] += 1 }
                         rips += all.count
                         lost += state.rip(all)

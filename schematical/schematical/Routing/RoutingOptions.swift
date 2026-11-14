@@ -67,8 +67,10 @@ nonisolated struct RoutingOptions: Codable, Hashable, Sendable {
     var vias: Vias = .allowed
     var angle: Angle = .octilinear
     var strategy: Strategy = .balanced
-    /// mm, one of `grids`.
-    var grid: Double = 0.1
+    /// mm, one of `grids`. 0.127 (5 mil) by default: it divides the 0.635 mm
+    /// component grid parts sit on, so pad centres and the channels between
+    /// DIP pads fall on cells (plan-38-F Corrections).
+    var grid: Double = 0.127
     /// mil; overrides every net's class width.
     var widthOverride: Int? = nil
     /// mm; overrides every net's class clearance.
@@ -111,7 +113,7 @@ nonisolated struct RoutingOptions: Codable, Hashable, Sendable {
         vias = try c.decodeIfPresent(Vias.self, forKey: .vias) ?? .allowed
         angle = try c.decodeIfPresent(Angle.self, forKey: .angle) ?? .octilinear
         strategy = try c.decodeIfPresent(Strategy.self, forKey: .strategy) ?? .balanced
-        grid = try c.decodeIfPresent(Double.self, forKey: .grid) ?? 0.1
+        grid = try c.decodeIfPresent(Double.self, forKey: .grid) ?? 0.127
         guard Self.grids.contains(grid) else {
             throw DecodingError.dataCorruptedError(forKey: .grid, in: c, debugDescription: "grid \(grid)")
         }
