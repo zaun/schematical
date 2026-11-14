@@ -9,11 +9,7 @@ import XCTest
 final class TactileSwitchTests: XCTestCase {
     /// Every part the drawer lists.
     private var drawerParts: [CatalogPart] {
-        TestSupport.catalog.groups(matching: DrawerFilter()).flatMap { category in
-            category.functions.flatMap(\.parts) + category.subcategories.flatMap { sub in
-                sub.parts + sub.functions.flatMap(\.parts)
-            }
-        }
+        TestSupport.catalog.groups(matching: DrawerFilter()).flatMap(\.allParts)
     }
 
     private var tactileParts: [CatalogPart] {
@@ -96,8 +92,8 @@ final class TactileSwitchTests: XCTestCase {
     /// tactile switches with that actuator (DIP switches stay).
     func testActuatorFilter() throws {
         let catalog = TestSupport.catalog
-        XCTAssertTrue(catalog.isTactile(subcategory: "Tactile"))
-        XCTAssertFalse(catalog.isTactile(subcategory: "DIP"))
+        XCTAssertTrue(catalog.isTactile(group: ["Switch", "Tactile"]))
+        XCTAssertFalse(catalog.isTactile(group: ["Switch", "DIP"]))
         XCTAssertTrue(catalog.tactileActuators.contains("Standard"))
         XCTAssertTrue(catalog.tactileActuators.contains("Round Button"))
         var filter = DrawerFilter()

@@ -10,19 +10,19 @@
       "drawer": ["Logic", "Flip-flops & latches"],
       "pinouts": {
         "p14": [
-          {"number":1,"name":"1CLR","role":"input"},
+          {"number":1,"name":"1CLR","role":"input","activeLow":true},
           {"number":2,"name":"1D","role":"input"},
-          {"number":3,"name":"1CLK","role":"input"},
-          {"number":4,"name":"1PRE","role":"input"},
+          {"number":3,"name":"1CLK","role":"input","activeLow":true},
+          {"number":4,"name":"1PRE","role":"input","activeLow":true},
           {"number":5,"name":"1Q","role":"output"},
-          {"number":6,"name":"1QBAR","role":"output"},
+          {"number":6,"name":"1QBAR","role":"output","activeLow":true},
           {"number":7,"name":"GND","role":"ground"},
-          {"number":8,"name":"2QBAR","role":"output"},
+          {"number":8,"name":"2QBAR","role":"output","activeLow":true},
           {"number":9,"name":"2Q","role":"output"},
-          {"number":10,"name":"2PRE","role":"input"},
-          {"number":11,"name":"2CLK","role":"input"},
+          {"number":10,"name":"2PRE","role":"input","activeLow":true},
+          {"number":11,"name":"2CLK","role":"input","activeLow":true},
           {"number":12,"name":"2D","role":"input"},
-          {"number":13,"name":"2CLR","role":"input"},
+          {"number":13,"name":"2CLR","role":"input","activeLow":true},
           {"number":14,"name":"VCC","role":"power"}
         ]
       },
@@ -51,41 +51,41 @@
       "note": "SN54LS74AJ, SNJ54LS74AJ, SNJ54LS74AW, SNJ54LS74AFK: VCC 4.5-5.5 V (sn74ls74a p.5) | SNJ54LVC74AJ, SNJ54LVC74AW, 5962-9761601QCA, 5962-9761601QDA, 5962-9761601VDA, 5962-9761601Q2A, SNJ54LVC74AFK: VCC 2-3.6 V, inputs to 5.5 V (sn74lvc74a p.4) | SN74S74D, SN74S74N: VCC 4.75-5.25 V (sn74ls74a p.6)",
       "pinouts": {
         "p14": [
-          {"number":1,"name":"1CLR","role":"input"},
+          {"number":1,"name":"1CLR","role":"input","activeLow":true},
           {"number":2,"name":"1D","role":"input"},
           {"number":3,"name":"1CLK","role":"input"},
-          {"number":4,"name":"1PRE","role":"input"},
+          {"number":4,"name":"1PRE","role":"input","activeLow":true},
           {"number":5,"name":"1Q","role":"output"},
-          {"number":6,"name":"1QBAR","role":"output"},
+          {"number":6,"name":"1QBAR","role":"output","activeLow":true},
           {"number":7,"name":"GND","role":"ground"},
-          {"number":8,"name":"2QBAR","role":"output"},
+          {"number":8,"name":"2QBAR","role":"output","activeLow":true},
           {"number":9,"name":"2Q","role":"output"},
-          {"number":10,"name":"2PRE","role":"input"},
+          {"number":10,"name":"2PRE","role":"input","activeLow":true},
           {"number":11,"name":"2CLK","role":"input"},
           {"number":12,"name":"2D","role":"input"},
-          {"number":13,"name":"2CLR","role":"input"},
+          {"number":13,"name":"2CLR","role":"input","activeLow":true},
           {"number":14,"name":"VCC","role":"power"}
         ],
         "lccc20": [
           {"number":1,"name":"NC","role":"nc"},
-          {"number":2,"name":"1CLR","role":"input"},
+          {"number":2,"name":"1CLR","role":"input","activeLow":true},
           {"number":3,"name":"1D","role":"input"},
           {"number":4,"name":"1CLK","role":"input"},
           {"number":5,"name":"NC","role":"nc"},
-          {"number":6,"name":"1PRE","role":"input"},
+          {"number":6,"name":"1PRE","role":"input","activeLow":true},
           {"number":7,"name":"NC","role":"nc"},
           {"number":8,"name":"1Q","role":"output"},
-          {"number":9,"name":"1QBAR","role":"output"},
+          {"number":9,"name":"1QBAR","role":"output","activeLow":true},
           {"number":10,"name":"GND","role":"ground"},
           {"number":11,"name":"NC","role":"nc"},
-          {"number":12,"name":"2QBAR","role":"output"},
+          {"number":12,"name":"2QBAR","role":"output","activeLow":true},
           {"number":13,"name":"2Q","role":"output"},
-          {"number":14,"name":"2PRE","role":"input"},
+          {"number":14,"name":"2PRE","role":"input","activeLow":true},
           {"number":15,"name":"NC","role":"nc"},
           {"number":16,"name":"2CLK","role":"input"},
           {"number":17,"name":"NC","role":"nc"},
           {"number":18,"name":"2D","role":"input"},
-          {"number":19,"name":"2CLR","role":"input"},
+          {"number":19,"name":"2CLR","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -360,7 +360,7 @@
       "note": "plan-37-F: Nexperia 74HC174 / 74HCT174 (74hc_hct174 Table 2: MR, CP, D0-D5, Q0-Q5) and onsemi MC74HC174A (mc74hc174a-d: Reset, Clock, D0-D5, Q0-Q5) use these pin numbers.",
       "pinouts": {
         "p16": [
-          {"number":1,"name":"CLR","role":"input"},
+          {"number":1,"name":"CLR","role":"input","activeLow":true},
           {"number":2,"name":"1Q","role":"output"},
           {"number":3,"name":"1D","role":"input"},
           {"number":4,"name":"2D","role":"input"},
@@ -379,7 +379,7 @@
         ],
         "lccc20": [
           {"number":1,"name":"NC","role":"nc"},
-          {"number":2,"name":"CLR","role":"input"},
+          {"number":2,"name":"CLR","role":"input","activeLow":true},
           {"number":3,"name":"1Q","role":"output"},
           {"number":4,"name":"1D","role":"input"},
           {"number":5,"name":"2D","role":"input"},
@@ -469,42 +469,42 @@
       "note": "plan-37-F: Nexperia 74HC175 / 74HCT175 (74hc_hct175 Table 2: MR, CP, D0-D3, Q0-Q3, Q0-Q3 barred) and onsemi MC74HC175A, MM74HC175, 74VHC175 use these pin numbers.",
       "pinouts": {
         "p16": [
-          {"number":1,"name":"CLR","role":"input"},
+          {"number":1,"name":"CLR","role":"input","activeLow":true},
           {"number":2,"name":"1Q","role":"output"},
-          {"number":3,"name":"1QBAR","role":"output"},
+          {"number":3,"name":"1QBAR","role":"output","activeLow":true},
           {"number":4,"name":"1D","role":"input"},
           {"number":5,"name":"2D","role":"input"},
-          {"number":6,"name":"2QBAR","role":"output"},
+          {"number":6,"name":"2QBAR","role":"output","activeLow":true},
           {"number":7,"name":"2Q","role":"output"},
           {"number":8,"name":"GND","role":"ground"},
           {"number":9,"name":"CLK","role":"input"},
           {"number":10,"name":"3Q","role":"output"},
-          {"number":11,"name":"3QBAR","role":"output"},
+          {"number":11,"name":"3QBAR","role":"output","activeLow":true},
           {"number":12,"name":"3D","role":"input"},
           {"number":13,"name":"4D","role":"input"},
-          {"number":14,"name":"4QBAR","role":"output"},
+          {"number":14,"name":"4QBAR","role":"output","activeLow":true},
           {"number":15,"name":"4Q","role":"output"},
           {"number":16,"name":"VCC","role":"power"}
         ],
         "lccc20": [
           {"number":1,"name":"NC","role":"nc"},
-          {"number":2,"name":"CLR","role":"input"},
+          {"number":2,"name":"CLR","role":"input","activeLow":true},
           {"number":3,"name":"1Q","role":"output"},
-          {"number":4,"name":"1QBAR","role":"output"},
+          {"number":4,"name":"1QBAR","role":"output","activeLow":true},
           {"number":5,"name":"1D","role":"input"},
           {"number":6,"name":"NC","role":"nc"},
           {"number":7,"name":"2D","role":"input"},
-          {"number":8,"name":"2QBAR","role":"output"},
+          {"number":8,"name":"2QBAR","role":"output","activeLow":true},
           {"number":9,"name":"2Q","role":"output"},
           {"number":10,"name":"GND","role":"ground"},
           {"number":11,"name":"NC","role":"nc"},
           {"number":12,"name":"CLK","role":"input"},
           {"number":13,"name":"3Q","role":"output"},
-          {"number":14,"name":"3QBAR","role":"output"},
+          {"number":14,"name":"3QBAR","role":"output","activeLow":true},
           {"number":15,"name":"3D","role":"input"},
           {"number":16,"name":"NC","role":"nc"},
           {"number":17,"name":"4D","role":"input"},
-          {"number":18,"name":"4QBAR","role":"output"},
+          {"number":18,"name":"4QBAR","role":"output","activeLow":true},
           {"number":19,"name":"4Q","role":"output"},
           {"number":20,"name":"VCC","role":"power"}
         ]
@@ -583,7 +583,7 @@
       "note": "plan-37-F: Nexperia 74HC273, 74HCT273, 74AHC273, 74AHCT273, 74LVC273 (MR, CP, D0-D7, Q0-Q7) and onsemi MC74HC273A, MM74HC273, MM74HCT273, MC74AC273, MC74ACT273, 74VHC273, 74LVX273 use these pin numbers; Nexperia DHVQFN20 parts through the DHVQFN-20 footprint's slots.",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"CLR","role":"input"},
+          {"number":1,"name":"CLR","role":"input","activeLow":true},
           {"number":2,"name":"1Q","role":"output"},
           {"number":3,"name":"1D","role":"input"},
           {"number":4,"name":"2D","role":"input"},
@@ -777,7 +777,7 @@
       "note": "plan-37-F: Nexperia 74HC374, 74HCT374, 74AHC374, 74AHCT374, 74LVC374A (OE, CP, D0-D7, Q0-Q7) and onsemi MC74HC374A, MM74HC374, MM74HCT374, MC74AC374, MC74ACT374, MC74LCX374, 74LCX374, MC74LVX374, MC74VHC374, 74VHC374, 74VHCT374A (OE, CP, D0-D7, O0-O7 / Q0-Q7) use these pin numbers; 74LCX374BQX through the DQFN-20-ONSEMI footprint's slots.",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"OE","role":"input"},
+          {"number":1,"name":"OE","role":"input","activeLow":true},
           {"number":2,"name":"1Q","role":"output"},
           {"number":3,"name":"1D","role":"input"},
           {"number":4,"name":"2D","role":"input"},
@@ -967,7 +967,7 @@
       "note": "plan-37-F: Nexperia 74HC574, 74HCT574, 74AHC574, 74AHCT574, 74ALVC574, 74LVC574A (OE, CP, D0-D7, Q0-Q7) and onsemi MC74HC574A, MM74HC574, MM74HCT574, MC74AC574, MC74ACT574, MC74LCX574, MC74LVX574, MC74VHC574, 74VHC574, 74VHCT574A (OE, CP, D0-D7, O0-O7 / Q0-Q7) use these pin numbers; Nexperia DHVQFN20 parts through the DHVQFN-20 footprint's slots.",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"OE","role":"input"},
+          {"number":1,"name":"OE","role":"input","activeLow":true},
           {"number":2,"name":"1D","role":"input"},
           {"number":3,"name":"2D","role":"input"},
           {"number":4,"name":"3D","role":"input"},
@@ -1132,7 +1132,7 @@
       "pinouts": {
         "p14": [
           {"number":1,"name":"1Q","role":"output"},
-          {"number":2,"name":"1QBAR","role":"output"},
+          {"number":2,"name":"1QBAR","role":"output","activeLow":true},
           {"number":3,"name":"1CLK","role":"input"},
           {"number":4,"name":"1RESET","role":"input"},
           {"number":5,"name":"1D","role":"input"},
@@ -1142,7 +1142,7 @@
           {"number":9,"name":"2D","role":"input"},
           {"number":10,"name":"2RESET","role":"input"},
           {"number":11,"name":"2CLK","role":"input"},
-          {"number":12,"name":"2QBAR","role":"output"},
+          {"number":12,"name":"2QBAR","role":"output","activeLow":true},
           {"number":13,"name":"2Q","role":"output"},
           {"number":14,"name":"VDD","role":"power"}
         ]
@@ -1184,20 +1184,20 @@
       "note": "plan-37-F: Nexperia HEF40175B (hef40175b: MR, CP, D0-D3, Q0-Q3, Q0-Q3 barred) and onsemi MC14175B (mc14175b-d: R, C, D0-D3, Q0-Q3, Q0-Q3 barred) use these pin numbers.",
       "pinouts": {
         "p16": [
-          {"number":1,"name":"CLEAR","role":"input"},
+          {"number":1,"name":"CLEAR","role":"input","activeLow":true},
           {"number":2,"name":"1Q","role":"output"},
-          {"number":3,"name":"1QBAR","role":"output"},
+          {"number":3,"name":"1QBAR","role":"output","activeLow":true},
           {"number":4,"name":"1D","role":"input"},
           {"number":5,"name":"2D","role":"input"},
-          {"number":6,"name":"2QBAR","role":"output"},
+          {"number":6,"name":"2QBAR","role":"output","activeLow":true},
           {"number":7,"name":"2Q","role":"output"},
           {"number":8,"name":"VSS","role":"ground"},
           {"number":9,"name":"CLOCK","role":"input"},
           {"number":10,"name":"3Q","role":"output"},
-          {"number":11,"name":"3QBAR","role":"output"},
+          {"number":11,"name":"3QBAR","role":"output","activeLow":true},
           {"number":12,"name":"3D","role":"input"},
           {"number":13,"name":"4D","role":"input"},
-          {"number":14,"name":"4QBAR","role":"output"},
+          {"number":14,"name":"4QBAR","role":"output","activeLow":true},
           {"number":15,"name":"4Q","role":"output"},
           {"number":16,"name":"VDD","role":"power"}
         ]
@@ -1239,21 +1239,21 @@
         "p8": [
           {"number":1,"name":"CLK","role":"input"},
           {"number":2,"name":"D","role":"input"},
-          {"number":3,"name":"QBAR","role":"output"},
+          {"number":3,"name":"QBAR","role":"output","activeLow":true},
           {"number":4,"name":"GND","role":"ground"},
           {"number":5,"name":"Q","role":"output"},
-          {"number":6,"name":"CLR","role":"input"},
-          {"number":7,"name":"PRE","role":"input"},
+          {"number":6,"name":"CLR","role":"input","activeLow":true},
+          {"number":7,"name":"PRE","role":"input","activeLow":true},
           {"number":8,"name":"VCC","role":"power"}
         ],
         "dsbga": [
           {"ball":"A1","name":"CLK","role":"input"},
           {"ball":"B1","name":"D","role":"input"},
-          {"ball":"C1","name":"QBAR","role":"output"},
+          {"ball":"C1","name":"QBAR","role":"output","activeLow":true},
           {"ball":"D1","name":"GND","role":"ground"},
           {"ball":"D2","name":"Q","role":"output"},
-          {"ball":"C2","name":"CLR","role":"input"},
-          {"ball":"B2","name":"PRE","role":"input"},
+          {"ball":"C2","name":"CLR","role":"input","activeLow":true},
+          {"ball":"B2","name":"PRE","role":"input","activeLow":true},
           {"ball":"A2","name":"VCC","role":"power"}
         ]
       },
@@ -1362,7 +1362,7 @@
           {"number":3,"name":"D","role":"input"},
           {"number":4,"name":"Q","role":"output"},
           {"number":5,"name":"VCC","role":"power"},
-          {"number":6,"name":"CLR","role":"input"}
+          {"number":6,"name":"CLR","role":"input","activeLow":true}
         ],
         "dsbga": [
           {"ball":"A1","name":"CLK","role":"input"},
@@ -1370,7 +1370,7 @@
           {"ball":"C1","name":"D","role":"input"},
           {"ball":"C2","name":"Q","role":"output"},
           {"ball":"B2","name":"VCC","role":"power"},
-          {"ball":"A2","name":"CLR","role":"input"}
+          {"ball":"A2","name":"CLR","role":"input","activeLow":true}
         ]
       },
       "units": [{"d":"D","clk":"CLK","clr":"CLR","q":"Q"}],
@@ -1410,7 +1410,7 @@
           {"number":3,"name":"D","role":"input"},
           {"number":4,"name":"Q","role":"output"},
           {"number":5,"name":"VCC","role":"power"},
-          {"number":6,"name":"OE","role":"input"}
+          {"number":6,"name":"OE","role":"input","activeLow":true}
         ],
         "dsbga": [
           {"ball":"A1","name":"CLK","role":"input"},
@@ -1418,7 +1418,7 @@
           {"ball":"C1","name":"D","role":"input"},
           {"ball":"C2","name":"Q","role":"output"},
           {"ball":"B2","name":"VCC","role":"power"},
-          {"ball":"A2","name":"OE","role":"input"}
+          {"ball":"A2","name":"OE","role":"input","activeLow":true}
         ]
       },
       "units": [{"d":"D","clk":"CLK","q":"Q"}],
@@ -1506,14 +1506,14 @@
           {"number":1,"name":"D","role":"input"},
           {"number":2,"name":"CLK","role":"input"},
           {"number":3,"name":"GND","role":"ground"},
-          {"number":4,"name":"QBAR","role":"output"},
+          {"number":4,"name":"QBAR","role":"output","activeLow":true},
           {"number":5,"name":"VCC","role":"power"}
         ],
         "dsbga": [
           {"ball":"A1","name":"D","role":"input"},
           {"ball":"B1","name":"CLK","role":"input"},
           {"ball":"C1","name":"GND","role":"ground"},
-          {"ball":"C2","name":"QBAR","role":"output"},
+          {"ball":"C2","name":"QBAR","role":"output","activeLow":true},
           {"ball":"A2","name":"VCC","role":"power"}
         ]
       },
@@ -1560,7 +1560,7 @@
           {"number":1,"name":"D","role":"input"},
           {"number":2,"name":"CLK","role":"input"},
           {"number":3,"name":"GND","role":"ground"},
-          {"number":4,"name":"QBAR","role":"output"},
+          {"number":4,"name":"QBAR","role":"output","activeLow":true},
           {"number":5,"name":"NC","role":"nc"},
           {"number":6,"name":"VCC","role":"power"}
         ]
@@ -1584,11 +1584,11 @@
         "p8": [
           {"number":1,"name":"1CLK","role":"input"},
           {"number":2,"name":"1D","role":"input"},
-          {"number":3,"name":"2QBAR","role":"output"},
+          {"number":3,"name":"2QBAR","role":"output","activeLow":true},
           {"number":4,"name":"GND","role":"ground"},
           {"number":5,"name":"2CLK","role":"input"},
           {"number":6,"name":"2D","role":"input"},
-          {"number":7,"name":"1QBAR","role":"output"},
+          {"number":7,"name":"1QBAR","role":"output","activeLow":true},
           {"number":8,"name":"VCC","role":"power"}
         ]
       },
@@ -1613,11 +1613,11 @@
       "drawer": ["Logic", "Flip-flops & latches"],
       "pinouts": {
         "p8": [
-          {"number":1,"name":"1QBAR","role":"output"},
+          {"number":1,"name":"1QBAR","role":"output","activeLow":true},
           {"number":2,"name":"2D","role":"input"},
           {"number":3,"name":"2CLK","role":"input"},
           {"number":4,"name":"GND","role":"ground"},
-          {"number":5,"name":"2QBAR","role":"output"},
+          {"number":5,"name":"2QBAR","role":"output","activeLow":true},
           {"number":6,"name":"1D","role":"input"},
           {"number":7,"name":"1CLK","role":"input"},
           {"number":8,"name":"VCC","role":"power"}
@@ -1645,21 +1645,21 @@
         "p8": [
           {"number":1,"name":"CLK","role":"input"},
           {"number":2,"name":"D","role":"input"},
-          {"number":3,"name":"QBAR","role":"output"},
+          {"number":3,"name":"QBAR","role":"output","activeLow":true},
           {"number":4,"name":"GND","role":"ground"},
           {"number":5,"name":"Q","role":"output"},
-          {"number":6,"name":"CLR","role":"input"},
-          {"number":7,"name":"PRE","role":"input"},
+          {"number":6,"name":"CLR","role":"input","activeLow":true},
+          {"number":7,"name":"PRE","role":"input","activeLow":true},
           {"number":8,"name":"VCC","role":"power"}
         ],
         "dsbga": [
           {"ball":"A1","name":"CLK","role":"input"},
           {"ball":"B1","name":"D","role":"input"},
-          {"ball":"C1","name":"QBAR","role":"output"},
+          {"ball":"C1","name":"QBAR","role":"output","activeLow":true},
           {"ball":"D1","name":"GND","role":"ground"},
           {"ball":"D2","name":"Q","role":"output"},
-          {"ball":"C2","name":"CLR","role":"input"},
-          {"ball":"B2","name":"PRE","role":"input"},
+          {"ball":"C2","name":"CLR","role":"input","activeLow":true},
+          {"ball":"B2","name":"PRE","role":"input","activeLow":true},
           {"ball":"A2","name":"VCC","role":"power"}
         ]
       },
@@ -1695,7 +1695,7 @@
       "note": "Edge-triggered despite the title: eight positive-edge D flip-flops, direct clear, open-drain DMOS outputs; DRAINn is on (low) when the stored bit is 1, so it is the open-drain QN. tpic6273 p.1, p.4; plan-10-data/latch-b.md § TPIC6273",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"CLR","role":"input"},
+          {"number":1,"name":"CLR","role":"input","activeLow":true},
           {"number":2,"name":"D1","role":"input"},
           {"number":3,"name":"D2","role":"input"},
           {"number":4,"name":"DRAIN1","role":"output"},
@@ -1750,7 +1750,7 @@
       "note": "Edge-triggered despite the title: eight positive-edge D flip-flops, direct clear, open-drain DMOS outputs; DRAINn is on (low) when the stored bit is 1, so it is the open-drain QN. tpic6b273 p.1, p.4; plan-10-data/latch-b.md § TPIC6B273",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"CLR","role":"input"},
+          {"number":1,"name":"CLR","role":"input","activeLow":true},
           {"number":2,"name":"D1","role":"input"},
           {"number":3,"name":"D2","role":"input"},
           {"number":4,"name":"DRAIN1","role":"output"},

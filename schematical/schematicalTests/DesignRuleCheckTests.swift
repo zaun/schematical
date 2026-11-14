@@ -209,4 +209,23 @@ final class DesignRuleCheckTests: XCTestCase {
             $0.kind == .placement && $0.items == [.footprint(one.id), .footprint(two.id)]
         })
     }
+
+    /// plan-41-A: a reference over a 0603 capacitor's pads is a silkscreen
+    /// warning; moved clear of the part, it is not.
+    func testMovedReferenceIsCheckedWhereItIs() throws {
+        let doc = TestSupport.newDocument()
+        let cap = try TestSupport.place(doc, "GENERIC-CAPACITOR", at: CGPoint(x: 100, y: 100))
+        doc.setPartFootprint(cap.id, "CAP-0603")
+        doc.moveFootprint(cap.id, to: CGPoint(x: 30, y: 40))
+        func referenceWarnings() -> [DesignRuleIssue] {
+            doc.designRuleCheck(rules: rules).filter {
+                $0.kind == .silkscreen && $0.reference == cap.reference && $0.issue.hasPrefix("Reference")
+            }
+        }
+        XCTAssertEqual(referenceWarnings().count, 1, "at the body centre it is over the pads")
+        let chip = try XCTUnwrap(doc.chips.first { $0.id == cap.id })
+        let at = try XCTUnwrap(chip.boardReferenceCentre)
+        doc.moveReference(cap.id, toCentre: CGPoint(x: at.x, y: at.y - 6))
+        XCTAssertTrue(referenceWarnings().isEmpty, "\(referenceWarnings())")
+    }
 }

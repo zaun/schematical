@@ -106,8 +106,8 @@ struct ChipBlockView: View {
             }
 
             painter.draw(
-                PaintedText(slot.pin.name, size: 10, weight: .medium, monospaced: true,
-                            ink: nameInk(for: slot.pin.role)),
+                slot.pin.paintedName(size: 10, weight: .medium, monospaced: true,
+                                     ink: nameInk(for: slot.pin.role)),
                 at: CGPoint(x: isLeft ? edgeX + 5 : edgeX - 5, y: y),
                 anchor: isLeft ? .leading : .trailing
             )

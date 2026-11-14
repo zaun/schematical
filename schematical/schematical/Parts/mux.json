@@ -18,7 +18,7 @@
           {"number":4,"name":"D0","role":"input"},
           {"number":5,"name":"Y","role":"output"},
           {"number":6,"name":"W","role":"output"},
-          {"number":7,"name":"G","role":"input"},
+          {"number":7,"name":"G","role":"input","activeLow":true},
           {"number":8,"name":"GND","role":"ground"},
           {"number":9,"name":"C","role":"input"},
           {"number":10,"name":"B","role":"input"},
@@ -38,7 +38,7 @@
           {"number":6,"name":"NC","role":"nc"},
           {"number":7,"name":"Y","role":"output"},
           {"number":8,"name":"W","role":"output"},
-          {"number":9,"name":"G","role":"input"},
+          {"number":9,"name":"G","role":"input","activeLow":true},
           {"number":10,"name":"GND","role":"ground"},
           {"number":11,"name":"NC","role":"nc"},
           {"number":12,"name":"C","role":"input"},
@@ -114,7 +114,7 @@
       "model": "select",
       "pinouts": {
         "p16": [
-          {"number":1,"name":"1G","role":"input"},
+          {"number":1,"name":"1G","role":"input","activeLow":true},
           {"number":2,"name":"B","role":"input"},
           {"number":3,"name":"1C3","role":"input"},
           {"number":4,"name":"1C2","role":"input"},
@@ -128,12 +128,12 @@
           {"number":12,"name":"2C2","role":"input"},
           {"number":13,"name":"2C3","role":"input"},
           {"number":14,"name":"A","role":"input"},
-          {"number":15,"name":"2G","role":"input"},
+          {"number":15,"name":"2G","role":"input","activeLow":true},
           {"number":16,"name":"VCC","role":"power"}
         ],
         "fk20": [
           {"number":1,"name":"NC","role":"nc"},
-          {"number":2,"name":"1G","role":"input"},
+          {"number":2,"name":"1G","role":"input","activeLow":true},
           {"number":3,"name":"B","role":"input"},
           {"number":4,"name":"1C3","role":"input"},
           {"number":5,"name":"1C2","role":"input"},
@@ -150,7 +150,7 @@
           {"number":16,"name":"NC","role":"nc"},
           {"number":17,"name":"2C3","role":"input"},
           {"number":18,"name":"A","role":"input"},
-          {"number":19,"name":"2G","role":"input"},
+          {"number":19,"name":"2G","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -222,7 +222,7 @@
       "model": "select",
       "pinouts": {
         "p16": [
-          {"number":1,"name":"A/B","role":"input"},
+          {"number":1,"name":"A/B","role":"input","activeLow":["A"]},
           {"number":2,"name":"1A","role":"input"},
           {"number":3,"name":"1B","role":"input"},
           {"number":4,"name":"1Y","role":"output"},
@@ -236,12 +236,12 @@
           {"number":12,"name":"4Y","role":"output"},
           {"number":13,"name":"4B","role":"input"},
           {"number":14,"name":"4A","role":"input"},
-          {"number":15,"name":"G","role":"input"},
+          {"number":15,"name":"G","role":"input","activeLow":true},
           {"number":16,"name":"VCC","role":"power"}
         ],
         "fk20": [
           {"number":1,"name":"NC","role":"nc"},
-          {"number":2,"name":"A/B","role":"input"},
+          {"number":2,"name":"A/B","role":"input","activeLow":["A"]},
           {"number":3,"name":"1A","role":"input"},
           {"number":4,"name":"1B","role":"input"},
           {"number":5,"name":"1Y","role":"output"},
@@ -258,7 +258,7 @@
           {"number":16,"name":"NC","role":"nc"},
           {"number":17,"name":"4B","role":"input"},
           {"number":18,"name":"4A","role":"input"},
-          {"number":19,"name":"G","role":"input"},
+          {"number":19,"name":"G","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -379,7 +379,7 @@
       "model": "select",
       "pinouts": {
         "p16": [
-          {"number":1,"name":"A/B","role":"input"},
+          {"number":1,"name":"A/B","role":"input","activeLow":["A"]},
           {"number":2,"name":"1A","role":"input"},
           {"number":3,"name":"1B","role":"input"},
           {"number":4,"name":"1Y","role":"output"},
@@ -393,7 +393,7 @@
           {"number":12,"name":"4Y","role":"output"},
           {"number":13,"name":"4B","role":"input"},
           {"number":14,"name":"4A","role":"input"},
-          {"number":15,"name":"G","role":"input"},
+          {"number":15,"name":"G","role":"input","activeLow":true},
           {"number":16,"name":"VCC","role":"power"}
         ]
       },
@@ -453,8 +453,8 @@
           {"number":3,"name":"D1","role":"input"},
           {"number":4,"name":"D0","role":"input"},
           {"number":5,"name":"Y","role":"output"},
-          {"number":6,"name":"W","role":"output"},
-          {"number":7,"name":"G","role":"input"},
+          {"number":6,"name":"W","role":"output","activeLow":true},
+          {"number":7,"name":"G","role":"input","activeLow":true},
           {"number":8,"name":"GND","role":"ground"},
           {"number":9,"name":"C","role":"input"},
           {"number":10,"name":"B","role":"input"},
@@ -509,7 +509,7 @@
       "model": "select",
       "pinouts": {
         "p16": [
-          {"number":1,"name":"1G","role":"input"},
+          {"number":1,"name":"1G","role":"input","activeLow":true},
           {"number":2,"name":"B","role":"input"},
           {"number":3,"name":"1C3","role":"input"},
           {"number":4,"name":"1C2","role":"input"},
@@ -523,12 +523,12 @@
           {"number":12,"name":"2C2","role":"input"},
           {"number":13,"name":"2C3","role":"input"},
           {"number":14,"name":"A","role":"input"},
-          {"number":15,"name":"2G","role":"input"},
+          {"number":15,"name":"2G","role":"input","activeLow":true},
           {"number":16,"name":"VCC","role":"power"}
         ],
         "fk20": [
           {"number":1,"name":"NC","role":"nc"},
-          {"number":2,"name":"1G","role":"input"},
+          {"number":2,"name":"1G","role":"input","activeLow":true},
           {"number":3,"name":"B","role":"input"},
           {"number":4,"name":"1C3","role":"input"},
           {"number":5,"name":"1C2","role":"input"},
@@ -545,7 +545,7 @@
           {"number":16,"name":"NC","role":"nc"},
           {"number":17,"name":"2C3","role":"input"},
           {"number":18,"name":"A","role":"input"},
-          {"number":19,"name":"2G","role":"input"},
+          {"number":19,"name":"2G","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -609,7 +609,7 @@
           {"number":12,"name":"4Y","role":"output"},
           {"number":13,"name":"4B","role":"input"},
           {"number":14,"name":"4A","role":"input"},
-          {"number":15,"name":"G","role":"input"},
+          {"number":15,"name":"G","role":"input","activeLow":true},
           {"number":16,"name":"VCC","role":"power"}
         ]
       },
@@ -704,18 +704,18 @@
           {"number":1,"name":"A/B","role":"input"},
           {"number":2,"name":"1A","role":"input"},
           {"number":3,"name":"1B","role":"input"},
-          {"number":4,"name":"1Y","role":"output"},
+          {"number":4,"name":"1Y","role":"output","activeLow":true},
           {"number":5,"name":"2A","role":"input"},
           {"number":6,"name":"2B","role":"input"},
-          {"number":7,"name":"2Y","role":"output"},
+          {"number":7,"name":"2Y","role":"output","activeLow":true},
           {"number":8,"name":"GND","role":"ground"},
-          {"number":9,"name":"3Y","role":"output"},
+          {"number":9,"name":"3Y","role":"output","activeLow":true},
           {"number":10,"name":"3B","role":"input"},
           {"number":11,"name":"3A","role":"input"},
-          {"number":12,"name":"4Y","role":"output"},
+          {"number":12,"name":"4Y","role":"output","activeLow":true},
           {"number":13,"name":"4B","role":"input"},
           {"number":14,"name":"4A","role":"input"},
-          {"number":15,"name":"G","role":"input"},
+          {"number":15,"name":"G","role":"input","activeLow":true},
           {"number":16,"name":"VCC","role":"power"}
         ]
       },
@@ -762,21 +762,21 @@
         "p8": [
           {"number":1,"name":"A","role":"input"},
           {"number":2,"name":"B","role":"input"},
-          {"number":3,"name":"YBAR","role":"output"},
+          {"number":3,"name":"YBAR","role":"output","activeLow":true},
           {"number":4,"name":"GND","role":"ground"},
           {"number":5,"name":"Y","role":"output"},
-          {"number":6,"name":"A/B","role":"input"},
-          {"number":7,"name":"G","role":"input"},
+          {"number":6,"name":"A/B","role":"input","activeLow":["A"]},
+          {"number":7,"name":"G","role":"input","activeLow":true},
           {"number":8,"name":"VCC","role":"power"}
         ],
         "dsbga": [
           {"ball":"A1","name":"A","role":"input"},
           {"ball":"B1","name":"B","role":"input"},
-          {"ball":"C1","name":"YBAR","role":"output"},
+          {"ball":"C1","name":"YBAR","role":"output","activeLow":true},
           {"ball":"D1","name":"GND","role":"ground"},
           {"ball":"D2","name":"Y","role":"output"},
-          {"ball":"C2","name":"A/B","role":"input"},
-          {"ball":"B2","name":"G","role":"input"},
+          {"ball":"C2","name":"A/B","role":"input","activeLow":["A"]},
+          {"ball":"B2","name":"G","role":"input","activeLow":true},
           {"ball":"A2","name":"VCC","role":"power"}
         ]
       },
@@ -852,7 +852,7 @@
       "model": "select",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"A/B","role":"input"},
+          {"number":1,"name":"A/B","role":"input","activeLow":["A"]},
           {"number":2,"name":"1Y","role":"output"},
           {"number":3,"name":"2Y","role":"output"},
           {"number":4,"name":"GND","role":"ground"},
@@ -861,7 +861,7 @@
           {"number":7,"name":"GND","role":"ground"},
           {"number":8,"name":"3Y","role":"output"},
           {"number":9,"name":"4Y","role":"output"},
-          {"number":10,"name":"OE","role":"input"},
+          {"number":10,"name":"OE","role":"input","activeLow":true},
           {"number":11,"name":"4B","role":"input"},
           {"number":12,"name":"4A","role":"input"},
           {"number":13,"name":"3B","role":"input"},
@@ -987,7 +987,7 @@
           {"number":12,"name":"Yc","role":"output"},
           {"number":13,"name":"I1c","role":"input"},
           {"number":14,"name":"I0c","role":"input"},
-          {"number":15,"name":"OE","role":"input"},
+          {"number":15,"name":"OE","role":"input","activeLow":true},
           {"number":16,"name":"VCC","role":"power"}
         ]
       },
@@ -1097,16 +1097,16 @@
           {"number":6,"name":"D2","role":"input"},
           {"number":7,"name":"D1","role":"input"},
           {"number":8,"name":"D0","role":"input"},
-          {"number":9,"name":"E","role":"input"},
+          {"number":9,"name":"E","role":"input","activeLow":true},
           {"number":10,"name":"GND","role":"ground"},
-          {"number":11,"name":"LE","role":"input"},
+          {"number":11,"name":"LE","role":"input","activeLow":true},
           {"number":12,"name":"S2","role":"input"},
           {"number":13,"name":"S1","role":"input"},
           {"number":14,"name":"S0","role":"input"},
-          {"number":15,"name":"OE1","role":"input"},
-          {"number":16,"name":"OE2","role":"input"},
+          {"number":15,"name":"OE1","role":"input","activeLow":true},
+          {"number":16,"name":"OE2","role":"input","activeLow":true},
           {"number":17,"name":"OE3","role":"input"},
-          {"number":18,"name":"YBAR","role":"output"},
+          {"number":18,"name":"YBAR","role":"output","activeLow":true},
           {"number":19,"name":"Y","role":"output"},
           {"number":20,"name":"VCC","role":"power"}
         ]
@@ -1144,14 +1144,14 @@
           {"number":8,"name":"D0","role":"input"},
           {"number":9,"name":"CP","role":"input"},
           {"number":10,"name":"GND","role":"ground"},
-          {"number":11,"name":"LE","role":"input"},
+          {"number":11,"name":"LE","role":"input","activeLow":true},
           {"number":12,"name":"S2","role":"input"},
           {"number":13,"name":"S1","role":"input"},
           {"number":14,"name":"S0","role":"input"},
-          {"number":15,"name":"OE1","role":"input"},
-          {"number":16,"name":"OE2","role":"input"},
+          {"number":15,"name":"OE1","role":"input","activeLow":true},
+          {"number":16,"name":"OE2","role":"input","activeLow":true},
           {"number":17,"name":"OE3","role":"input"},
-          {"number":18,"name":"YBAR","role":"output"},
+          {"number":18,"name":"YBAR","role":"output","activeLow":true},
           {"number":19,"name":"Y","role":"output"},
           {"number":20,"name":"VCC","role":"power"}
         ]
@@ -1186,8 +1186,8 @@
           {"number":8,"name":"GND","role":"ground"},
           {"number":9,"name":"Q2","role":"output"},
           {"number":10,"name":"Q1","role":"output"},
-          {"number":11,"name":"GR","role":"input"},
-          {"number":12,"name":"GW","role":"input"},
+          {"number":11,"name":"GR","role":"input","activeLow":true},
+          {"number":12,"name":"GW","role":"input","activeLow":true},
           {"number":13,"name":"WB","role":"input"},
           {"number":14,"name":"WA","role":"input"},
           {"number":15,"name":"D1","role":"input"},

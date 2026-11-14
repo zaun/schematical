@@ -59,7 +59,7 @@ schematic, with anything but letters, digits, `-` and `_` turned into `_`
 | `.GBL` | Bottom copper | as Top, for Bottom |
 | `.GTS` / `.GBS` | solder mask (`FilePolarity,Negative`: drawn = opening) | the side's surface-mount pads and fingers, every plated through-hole pad, every bare hole, each grown by the Mask expansion design rule. Vias are tented |
 | `.GTP` / `.GBP` | paste | the side's surface-mount part pads (not fingers) |
-| `.GTO` / `.GBO` | silkscreen | silkscreen texts, references (1 mm, centred on the body), pin-1 dots (0.4 mm), body outlines and cathode bands (0.15 mm pen), each only when its layer is Silkscreen |
+| `.GTO` / `.GBO` | silkscreen | silkscreen texts, references (1 mm, centred on the body, or where the part's reference was moved to), pin-1 dots (0.4 mm), body outlines and cathode bands (0.15 mm pen), each only when its layer is Silkscreen |
 | `.GKO` | outline (`Profile,NP`) | the board outline, 0.1 mm pen |
 | `-PTH.drl` | plated drill (Excellon) | through-hole pads, vias, plated holes, header pads |
 | `-NPTH.drl` | non-plated drill (Excellon), only when the board has any | bare holes, a standard's mounting holes, non-plated footprint holes |

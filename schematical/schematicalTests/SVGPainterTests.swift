@@ -96,6 +96,26 @@ final class SVGPainterTests: XCTestCase {
         XCTAssertEqual(SVGPainter.escaped("\"'>"), "&quot;&apos;&gt;")
     }
 
+    /// Overlined ranges (plan-39-C) become `<tspan text-decoration="overline">`;
+    /// every piece is still escaped.
+    func testTextOverline() throws {
+        func body(_ text: PaintedText) throws -> String {
+            let element = try XCTUnwrap(element { $0.draw(text, at: CGPoint(x: 3, y: 4), anchor: .leading) })
+            let start = try XCTUnwrap(element.range(of: ">"))
+            return String(element[start.upperBound...].dropLast("</text>".count))
+        }
+        XCTAssertEqual(try body(PaintedText("A0/CS", size: 10, overlines: [3..<5])),
+                       "A0/<tspan dominant-baseline=\"central\" text-decoration=\"overline\">CS</tspan>")
+        XCTAssertEqual(try body(PaintedText("OE", size: 10, overlines: [0..<2])),
+                       "<tspan dominant-baseline=\"central\" text-decoration=\"overline\">OE</tspan>")
+        XCTAssertEqual(try body(PaintedText("A&B/<C>", size: 10, overlines: [0..<3, 4..<7])),
+                       "<tspan dominant-baseline=\"central\" text-decoration=\"overline\">A&amp;B</tspan>/"
+                       + "<tspan dominant-baseline=\"central\" text-decoration=\"overline\">&lt;C&gt;</tspan>")
+        XCTAssertEqual(try body(PaintedText("NRST/PA0&", size: 10, overlines: [0..<4])),
+                       "<tspan dominant-baseline=\"central\" text-decoration=\"overline\">NRST</tspan>/PA0&amp;")
+        XCTAssertEqual(try body(PaintedText("CE#", size: 10)), "CE#")
+    }
+
     func testTransforms() throws {
         let shifted = try XCTUnwrap(element {
             $0.translateBy(x: 5, y: 5)

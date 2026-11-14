@@ -977,6 +977,9 @@ private struct FootprintPanel: View {
             markPicker("Bounding Box", placement.outline) { document.setFootprintMarks(chip.id, outline: $0) }
             markPicker("Pin 1", placement.pin1) { document.setFootprintMarks(chip.id, pin1: $0) }
             markPicker("Reference", placement.reference) { document.setFootprintMarks(chip.id, reference: $0) }
+            if placement.referenceOffset != .zero {
+                Button("Reset Reference Position") { document.resetReference(chip.id) }
+            }
         }
     }
 

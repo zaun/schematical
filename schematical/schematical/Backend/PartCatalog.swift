@@ -53,8 +53,32 @@ nonisolated struct ChipPin: Hashable, Sendable, Identifiable {
     let group: String
     /// The block side the part file puts the pin on; `.auto` follows its role.
     var side: ChipPinSide = .auto
+    /// The part file's "activeLow" (plan-39-A): bit i set means alternative i
+    /// of `name` (split at "/") is active low. 0 = none.
+    var activeLowMask: UInt32 = 0
 
     var id: Int { index }
+
+    /// One slash-separated part of a pin's name, as written ("A0", "CS",
+    /// "CE#"), and whether the part file marks it active low.
+    struct Alternative: Hashable, Sendable {
+        let text: String
+        let isActiveLow: Bool
+    }
+
+    /// The name split at "/", left to right, each with its polarity. A name
+    /// of more than 32 alternatives can only be flagged as a whole, so bits
+    /// past 31 follow an all-ones mask.
+    var alternatives: [Alternative] {
+        name.split(separator: "/", omittingEmptySubsequences: false).enumerated().map { index, part in
+            let low = index < 32 ? activeLowMask & (UInt32(1) << UInt32(index)) != 0
+                                 : activeLowMask == UInt32.max
+            return Alternative(text: String(part), isActiveLow: low)
+        }
+    }
+
+    /// Some alternative of the name is active low.
+    var isActiveLow: Bool { activeLowMask != 0 }
 
     var isInDefaultGroup: Bool { group == Self.defaultGroup }
 
@@ -321,6 +345,11 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// A microcontroller (plan-36): its core ("avr", "avrxt", "riscv", …),
         /// highest clock, and flash, RAM, EEPROM and PSRAM in bytes (0 = none).
         case mcu(core: String, maxHz: UInt64, flash: UInt32, ram: UInt32, eeprom: UInt32, psram: UInt32)
+        /// A resistor (plan-34): its resistance in ohms (0 = a jumper), its
+        /// tolerance in percent and rated power per element in watts (nil when
+        /// not given: the generic part, a jumper's tolerance), and the
+        /// resistor elements in the package (more than 1: an array).
+        case resistor(ohms: Double, tolerancePercent: Double?, powerW: Double?, resistors: Int)
     }
 
     let name: String
@@ -332,8 +361,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     /// The parts-drawer leaf: "NAND", "32 KB", "LED", a frequency band.
     let function: String
     let description: String
-    /// The parts-drawer path above the function, such as ["Memory", "SRAM"].
-    /// Empty for parts that are never listed (VCC, GND).
+    /// The parts-drawer path above the function, 1–3 levels such as
+    /// ["Memory", "SRAM"] or ["Discrete", "Resistors", "Chip"]. Empty for
+    /// parts that are never listed (VCC, GND).
     let drawer: [String]
     let flags: Flags
     /// The company that makes the part; "Generic" for parts no one company
@@ -452,6 +482,20 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     /// `GENERIC-CAPACITOR` (plan-33): a capacitor of no one maker, with a
     /// capacitance per placed part (`PlacedChip.farads`) and footprint choices.
     var isGenericCapacitor: Bool { kind == PART_CAPACITOR && manufacturer == "Generic" }
+
+    /// `GENERIC-RESISTOR` (plan-34): a resistor of no one maker, with a
+    /// resistance per placed part (`PlacedChip.ohms`) and footprint choices.
+    var isGenericResistor: Bool { kind == PART_RESISTOR && manufacturer == "Generic" }
+
+    /// A part whose placed copies carry their own resistance
+    /// (`PlacedChip.ohms`, the Ohms field): the pulls and `GENERIC-RESISTOR`.
+    var hasOhmsField: Bool { isPullResistor || isGenericResistor }
+
+    /// The resistance of a resistor part, in ohms; nil for every other kind.
+    var resistorOhms: Double? {
+        if case let .resistor(ohms, _, _, _) = details { return ohms }
+        return nil
+    }
 
     /// The capacitance of a capacitor part; nil for every other kind.
     var capacitorFarads: Double? {
@@ -577,6 +621,10 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
             return [CapacitorValue.text(farads)] + (ratedMV > 0 ? ["\(PartFacts.milli(ratedMV)) V"] : [])
                 + (dielectric.map { [$0] } ?? [])
         case let .mcu(_, maxHz, _, _, _, _): return [PartFacts.hertz(maxHz)]
+        case let .resistor(ohms, tolerancePercent, powerW, _):
+            return [ResistorValue.text(ohms)]
+                + (tolerancePercent.map { [PartFacts.percentText($0)] } ?? [])
+                + (powerW.map { [PartFacts.wattsText($0)] } ?? [])
         }
     }
 }
@@ -673,7 +721,7 @@ extension CatalogPart {
             guard let pin = part.pins?[index] else { return nil }
             return ChipPin(index: index, designator: string(pin.designator), name: string(pin.name),
                            role: pinRole(pin.role), group: string(pin.group),
-                           side: pinSide(pin.side))
+                           side: pinSide(pin.side), activeLowMask: pin.active_low)
         }
 
         if let logic = part.logic?.pointee {
@@ -764,6 +812,12 @@ extension CatalogPart {
         } else if let mcu = part.mcu?.pointee {
             details = .mcu(core: string(mcu.core), maxHz: mcu.max_hz, flash: mcu.flash, ram: mcu.ram,
                            eeprom: mcu.eeprom, psram: mcu.psram)
+        } else if let resistor = part.resistor?.pointee {
+            details = .resistor(ohms: Double(resistor.milliohms) / 1000,
+                                tolerancePercent: resistor.tolerance_ppm == 0 ? nil
+                                    : Double(resistor.tolerance_ppm) / 10000,
+                                powerW: resistor.power_mw == 0 ? nil : Double(resistor.power_mw) / 1000,
+                                resistors: Int(resistor.resistor_count))
         } else {
             details = .supply(level: 0, mv: 0, pull: false)
         }
@@ -1024,6 +1078,13 @@ func symbol(for part: CatalogPart) -> PartSymbol {
               part.pins.contains(where: { $0.name == "K" }) else { return .block }
         return .plainDiode
     case PART_CAPACITOR: return .capacitor
+    case PART_RESISTOR:
+        // A single resistor with pins 1 and 2 draws as a resistor; arrays
+        // as a block (plan-34-G).
+        guard case let .resistor(_, _, _, resistors) = part.details, resistors == 1,
+              part.pins.contains(where: { $0.name == "1" }),
+              part.pins.contains(where: { $0.name == "2" }) else { return .block }
+        return .resistor
     default: return .block
     }
 }
@@ -1062,15 +1123,28 @@ final class PartCatalogStore {
         var title: String { "\(bits)-bit" }
     }
 
+    /// A drawer group below a category: its second level (Memory → SRAM)
+    /// or third (Discrete → Resistors → Chip).
     struct SubcategoryGroup: Identifiable, Hashable {
         let subcategory: String
+        /// The drawer path down to and including this group, e.g.
+        /// ["Discrete", "Resistors"].
+        let path: [String]
+        /// Parts with a drawer level below this one, grouped under it
+        /// (Discrete → Resistors → Chip). Empty at the third level.
+        var subgroups: [SubcategoryGroup] = []
         let functions: [FunctionGroup]
         /// Parts listed straight under the subcategory, with no function level:
         /// switches (the function is only the vendor's series), LEDs,
         /// 7-segment displays and character LCDs.
         var parts: [CatalogPart] = []
 
-        var id: String { subcategory }
+        var id: String { path.joined(separator: "/") }
+
+        /// Every part in the group and the groups below it.
+        var allParts: [CatalogPart] {
+            parts + functions.flatMap(\.parts) + subgroups.flatMap(\.allParts)
+        }
     }
 
     struct CategoryGroup: Identifiable, Hashable {
@@ -1081,6 +1155,11 @@ final class PartCatalogStore {
         let functions: [FunctionGroup]
 
         var id: String { category }
+
+        /// Every part in the category.
+        var allParts: [CatalogPart] {
+            functions.flatMap(\.parts) + subcategories.flatMap(\.allParts)
+        }
     }
 
     /// The app's one catalog, shared by every window. The part files are
@@ -1121,9 +1200,10 @@ final class PartCatalogStore {
         Set(entries.filter { $0.drawer.first == category }.map(\.kind.rawValue))
     }
 
-    /// The kinds of part listed under a second-level drawer group.
-    func kinds(inSubcategory subcategory: String) -> Set<UInt32> {
-        Set(entries.filter { $0.drawer.count > 1 && $0.drawer[1] == subcategory }.map(\.kind.rawValue))
+    /// The kinds of part listed under a drawer group: `path` is its drawer
+    /// path, e.g. ["Indicators", "LED 7-Seg"].
+    func kinds(inGroup path: [String]) -> Set<UInt32> {
+        Set(entries.filter { $0.drawer.starts(with: path) }.map(\.kind.rawValue))
     }
 
     /// Logic families of the gates and flip-flops in a category.
@@ -1171,9 +1251,10 @@ final class PartCatalogStore {
         sortedNames(entries.compactMap(\.display).map(\.size))
     }
 
-    /// Whether a second-level drawer group lists tactile switches.
-    func isTactile(subcategory: String) -> Bool {
-        entries.contains { $0.isTactileSwitch && $0.drawer.count > 1 && $0.drawer[1] == subcategory }
+    /// Whether a drawer group (`path`, as for `kinds(inGroup:)`) lists
+    /// tactile switches.
+    func isTactile(group path: [String]) -> Bool {
+        entries.contains { $0.isTactileSwitch && $0.drawer.starts(with: path) }
     }
 
     /// The tactile switches' actuators ("Round Button", "Standard", ...).
@@ -1314,22 +1395,32 @@ final class PartCatalogStore {
         return byCategory
             .sorted { $0.key.localizedStandardCompare($1.key) == .orderedAscending }
             .map { category, parts in
-                let bySubcategory = Dictionary(
-                    grouping: parts.filter { $0.drawer.count > 1 },
-                    by: { $0.drawer[1] }
-                )
-                let subcategories = bySubcategory
-                    .sorted { $0.key.localizedStandardCompare($1.key) == .orderedAscending }
-                    .map { subcategory, parts in
-                        Self.listsPartsDirectly(parts)
-                            ? SubcategoryGroup(subcategory: subcategory, functions: [], parts: Self.byCountThenName(parts))
-                            : SubcategoryGroup(subcategory: subcategory, functions: Self.functionGroups(parts))
-                    }
-                return CategoryGroup(
+                CategoryGroup(
                     category: category,
-                    subcategories: subcategories,
+                    subcategories: Self.subgroups(parts, below: [category]),
                     functions: Self.functionGroups(parts.filter { $0.drawer.count == 1 })
                 )
+            }
+    }
+
+    /// The groups one drawer level below `path`, from the parts listed
+    /// under it: each group holds its parts' deeper levels as subgroups, and
+    /// the parts whose path ends there by function (or directly, as
+    /// `listsPartsDirectly`).
+    private static func subgroups(_ parts: [CatalogPart], below path: [String]) -> [SubcategoryGroup] {
+        let level = path.count
+        let byName = Dictionary(grouping: parts.filter { $0.drawer.count > level }, by: { $0.drawer[level] })
+        return byName
+            .sorted { $0.key.localizedStandardCompare($1.key) == .orderedAscending }
+            .map { name, parts in
+                let groupPath = path + [name]
+                let own = parts.filter { $0.drawer.count == groupPath.count }
+                let subgroups = Self.subgroups(parts, below: groupPath)
+                return listsPartsDirectly(own)
+                    ? SubcategoryGroup(subcategory: name, path: groupPath, subgroups: subgroups,
+                                       functions: [], parts: byCountThenName(own))
+                    : SubcategoryGroup(subcategory: name, path: groupPath, subgroups: subgroups,
+                                       functions: functionGroups(own))
             }
     }
 
@@ -1355,12 +1446,17 @@ final class PartCatalogStore {
     /// Parts grouped by `drawerLeaf` (the function, or a tactile switch's
     /// size), groups and parts in natural order ("8 KB" before "32 KB").
     /// Capacitor leaves ("10 pF" … "4700 µF") go by capacitance instead
-    /// (plan-33-H): the smallest `farads` of each group, ties by name.
+    /// (plan-33-H): the smallest `farads` of each group, ties by name; and
+    /// resistor leaves ("< 1 kΩ" … "≥ 1 MΩ") by resistance (plan-34-G).
     private static func functionGroups(_ parts: [CatalogPart]) -> [FunctionGroup] {
         let groups = Dictionary(grouping: parts, by: \.drawerLeaf)
-        let byValue = !parts.isEmpty && parts.allSatisfy { $0.capacitorFarads != nil }
+        let value: (CatalogPart) -> Double? =
+            !parts.isEmpty && parts.allSatisfy({ $0.capacitorFarads != nil }) ? { $0.capacitorFarads }
+            : !parts.isEmpty && parts.allSatisfy({ $0.resistorOhms != nil }) ? { $0.resistorOhms }
+            : { _ in nil }
+        let byValue = !parts.isEmpty && parts.allSatisfy { value($0) != nil }
         func smallest(_ parts: [CatalogPart]) -> Double {
-            parts.compactMap(\.capacitorFarads).min() ?? 0
+            parts.compactMap(value).min() ?? 0
         }
         return groups
             .sorted {

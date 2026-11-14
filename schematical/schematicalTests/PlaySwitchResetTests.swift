@@ -13,11 +13,7 @@ final class PlaySwitchResetTests: XCTestCase {
 
     /// The first DIP switch (by name) with at least two positions.
     private func firstDip() throws -> CatalogPart {
-        let parts = TestSupport.catalog.groups(matching: DrawerFilter()).flatMap { category in
-            category.functions.flatMap(\.parts) + category.subcategories.flatMap { sub in
-                sub.parts + sub.functions.flatMap(\.parts)
-            }
-        }
+        let parts = TestSupport.catalog.groups(matching: DrawerFilter()).flatMap(\.allParts)
         return try XCTUnwrap(parts.filter { $0.kind == PART_SWITCH && !$0.isTactileSwitch && ($0.count ?? 0) >= 2 }
             .sorted { $0.name < $1.name }.first, "no DIP switch with two positions")
     }

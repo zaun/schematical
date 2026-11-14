@@ -1,3 +1,4 @@
+import AppKit
 import CoreGraphics
 
 // MARK: - Units
@@ -48,6 +49,11 @@ nonisolated struct BoardPlacement: Hashable, Sendable {
     var outline: MarkLayer = .document
     var pin1: MarkLayer = .silkscreen
     var reference: MarkLayer = .silkscreen
+    /// Where the reference text is centred, in mm from the body centre in the
+    /// footprint's own frame (before the side's mirror and the turn), so it
+    /// follows the part when the part moves, turns or changes side. Zero is
+    /// the body centre.
+    var referenceOffset: CGPoint = .zero
     /// Full Module or Connector Only; only parts with a connector footprint
     /// use it.
     var style: FootprintStyle = .module
@@ -64,6 +70,14 @@ nonisolated struct BoardPlacement: Hashable, Sendable {
         let flipped = side == .bottom ? CGPoint(x: -local.x, y: local.y) : local
         let turned = BoardPlacement.rotate(flipped, by: rotation)
         return CGPoint(x: centre.x + turned.x, y: centre.y + turned.y)
+    }
+
+    /// The footprint point (mm, origin = body centre, y down) at a board
+    /// point: the inverse of `board(_:)`.
+    func local(_ boardPoint: CGPoint) -> CGPoint {
+        let turned = CGPoint(x: boardPoint.x - centre.x, y: boardPoint.y - centre.y)
+        let flipped = BoardPlacement.rotate(turned, by: -rotation)
+        return side == .bottom ? CGPoint(x: -flipped.x, y: flipped.y) : flipped
     }
 
     /// A footprint-aligned rectangle centred on `local`, on the board. A
@@ -128,6 +142,18 @@ nonisolated struct PlacedPad: Hashable {
     }
 }
 
+/// A footprint's reference text ("U1") as printed: 1 mm tall, in the PCB
+/// page's font.
+nonisolated enum BoardReference {
+    static let height = 1.0
+
+    /// The text's box at `height`.
+    static func size(of reference: String, height: Double = height) -> CGSize {
+        let size = (reference as NSString).size(withAttributes: [.font: NSFont.systemFont(ofSize: 100, weight: .medium)])
+        return CGSize(width: size.width / 100 * height, height: size.height / 100 * height)
+    }
+}
+
 // MARK: - A placed part's footprint
 
 extension PlacedChip {
@@ -159,6 +185,22 @@ extension PlacedChip {
     nonisolated var boardBody: (rect: CGRect, round: Bool)? {
         guard let footprint, let board else { return nil }
         return (board.board(centre: .zero, size: footprint.body), footprint.bodyRound)
+    }
+
+    /// Where the reference text is centred on the board: the body centre
+    /// moved by the placement's `referenceOffset`.
+    nonisolated var boardReferenceCentre: CGPoint? {
+        guard footprint != nil, let board else { return nil }
+        return board.board(board.referenceOffset)
+    }
+
+    /// The reference text's box on the board, `height` mm tall (1 mm, as
+    /// printed, unless a view draws it larger).
+    nonisolated func boardReferenceRect(height: Double = BoardReference.height) -> CGRect? {
+        guard let centre = boardReferenceCentre else { return nil }
+        let size = BoardReference.size(of: reference, height: height)
+        return CGRect(x: centre.x - size.width / 2, y: centre.y - size.height / 2,
+                      width: size.width, height: size.height)
     }
 
     /// Body and pads together, for drawing the selection and hit testing.

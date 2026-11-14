@@ -78,7 +78,7 @@ struct SevenSegmentSymbolView: View {
                 )
             }
             painter.draw(
-                PaintedText(slot.pin.name, size: 9, weight: .medium, monospaced: true),
+                slot.pin.paintedName(size: 9, weight: .medium, monospaced: true),
                 at: CGPoint(x: isLeft ? edgeX + 4 : edgeX - 4, y: slot.centerY),
                 anchor: isLeft ? .leading : .trailing
             )

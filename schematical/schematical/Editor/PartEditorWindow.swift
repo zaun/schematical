@@ -124,6 +124,7 @@ struct PartEditorForm: View {
             TextField("Description", text: $model.draft.description)
             TextField("Drawer category", text: drawerLevel(0))
             TextField("Drawer group", text: drawerLevel(1))
+            TextField("Drawer sub-group", text: drawerLevel(2))
             TextField("Device id", text: $model.draft.deviceID)
             TextField("Note", text: Binding(
                 get: { model.draft.note ?? "" },
@@ -364,6 +365,7 @@ struct PinoutEditor: View {
                         Text("Role").font(.caption)
                         Text("Group").font(.caption)
                         Text("Side").font(.caption)
+                        Text("Active low").font(.caption)
                         Text("")
                     }
                     ForEach($pinout.pins) { $pin in
@@ -381,6 +383,7 @@ struct PinoutEditor: View {
                                 Text("out").tag("out")
                             }
                             .labelsHidden().frame(width: 70)
+                            ActiveLowMenu(pin: $pin)
                             HStack(spacing: 2) {
                                 Button { move(pin.id, by: -1) } label: { Image(systemName: "arrow.up") }
                                 Button { move(pin.id, by: 1) } label: { Image(systemName: "arrow.down") }
@@ -414,5 +417,38 @@ struct PinoutEditor: View {
         let target = index + offset
         guard pinout.pins.indices.contains(target) else { return }
         pinout.pins.swapAt(index, target)
+    }
+}
+
+/// A pin's "Active low" control (plan-39-B): one checkable item per
+/// alternative of the name; disabled for power, ground, nc and absent pins.
+struct ActiveLowMenu: View {
+    @Binding var pin: PinDraft
+
+    var body: some View {
+        Menu {
+            ForEach(pin.menuAlternatives, id: \.self) { alternative in
+                Toggle(alternative, isOn: Binding(
+                    get: { pin.activeLow.contains(alternative) },
+                    set: { on in
+                        if on { pin.activeLow.insert(alternative) } else { pin.activeLow.remove(alternative) }
+                    }))
+            }
+        } label: {
+            Text(label)
+        }
+        .menuStyle(.borderlessButton)
+        .fixedSize()
+        .frame(width: 80, alignment: .leading)
+        .disabled(!PinDraft.signalRoles.contains(pin.role))
+        .help("Mark the alternatives of the pin's name that are active low")
+    }
+
+    private var label: String {
+        guard PinDraft.signalRoles.contains(pin.role) else { return "—" }
+        let flagged = pin.menuAlternatives.filter { pin.activeLow.contains($0) }
+        if flagged.isEmpty { return "Low" }
+        if flagged.count == pin.menuAlternatives.count { return "Low ✓" }
+        return "Low: " + flagged.joined(separator: ",")
     }
 }

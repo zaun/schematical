@@ -1,11 +1,16 @@
-top.js: rate limited: 
-            {
-                "type": "https://www.rfc-editor.org/rfc/rfc6585.html#section-4",
-                "title": "Too Many Requests",
-                "status": 429,
-                "detail": "Daily Ratelimit exceeded. Please try again after the number of seconds in the Retry-After header",
-                "instance": "",
-                "correlationId": "39852cdb-573f-409c-f572-465460dcfe74",
-                "errors": {}
-            }
-        ; 1 calls, 0 left
+piece ±1%/Axial/FM0: 8 of 8
+piece ±1%/Axial/FMF: 7 of 7
+piece ±1%/Axial/FMP: 48 of 48
+piece ±1%/Axial/HHV: 29 of 29
+piece ±1%/Axial/KNP: 3 of 3
+piece ±1%/Axial/MF0/0.4W: 8 of 8
+piece ±1%/Axial/MF0/0.6W: 300 of 402 (cut at 300: 3383)
+piece ±1%/Axial/MFR/0.167W, 1/6W: 131 of 131
+piece ±1%/Axial/MFR/0.25W, 1/4W/±50ppm/°C: 300 of 396 (cut at 300: 3071)
+piece ±1%/Axial/MFR/0.25W, 1/4W/±100ppm/°C: 300 of 1315 (cut at 300: 9890)
+piece ±1%/Axial/MFR/0.5W, 1/2W/±50ppm/°C: 300 of 365 (cut at 300: 2997)
+piece ±1%/Axial/MFR/0.5W, 1/2W/±100ppm/°C: 13 of 13
+piece ±1%/Axial/MFR/1W: 18 of 18
+piece ±1%/Axial/MFR/2W: 15 of 15
+piece ±1%/Axial/PNPV: 10 of 10
+top.js: 53/13: 1490 parts, 42 calls, 422 left today

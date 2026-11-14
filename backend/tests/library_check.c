@@ -1453,7 +1453,7 @@ static void check_supply_cases(void) {
     expect_fail("version 2",
                 "{'format':'schematical-parts','version':2,'kind':'supply','devices':[]}",
                 "unsupported version 2");
-    expect_fail("unknown kind", HEAD("resistor") TAIL, "unknown kind \"resistor\"");
+    expect_fail("unknown kind", HEAD("no-such-kind") TAIL, "unknown kind \"no-such-kind\"");
     expect_fail("unknown file key",
                 "{'format':'schematical-parts','version':1,'kind':'supply','devices':[],'x':1}",
                 "unknown key \"x\"");
@@ -1505,10 +1505,10 @@ static void check_supply_cases(void) {
                 "unknown flag \"vintage\"");
     expect_fail("drawer too deep",
                 HEAD("supply")
-                "{'id':'VCC','function':'VCC','description':'d','drawer':['a','b','c'],"
+                "{'id':'VCC','function':'VCC','description':'d','drawer':['a','b','c','d'],"
                 "'pinouts':{'pin':[{'number':1,'name':'VCC','role':'power'}]},'volts':5,"
                 "'parts':[]}" TAIL,
-                "\"drawer\" has at most 2 levels");
+                "\"drawer\" has at most 3 levels");
     expect_fail("supply volts -1",
                 HEAD("supply")
                 "{'id':'VCC','function':'VCC','description':'d','drawer':[],"
@@ -1834,6 +1834,90 @@ static void check_pin_side_cases(void) {
                 "pin 2: unknown side \"left\" (in or out)");
     expect_fail("side on a power pin", SRAM_PINS_DEVICE("55", "", ",'side':'out'"),
                 "pin 6: \"side\" is for input, output and inout pins");
+}
+
+/* Pin 1 named NAME (the address pin) with more keys A_EXTRA; CE# (pin 3)
+   with C_EXTRA; VCC (pin 6) with V_EXTRA. */
+#define SRAM_LOW_DEVICE(NAME, A_EXTRA, C_EXTRA, V_EXTRA) \
+    HEAD("sram") "{'id':'m','function':'1 KB','description':'d','drawer':['Memory','SRAM']," \
+    "'pinouts':{'p6':[{'number':1,'name':'" NAME "','role':'input','group':'address'" A_EXTRA "}," \
+    "{'number':2,'name':'DQ0','role':'inout'},{'number':3,'name':'CE#','role':'input'" C_EXTRA "}," \
+    "{'number':4,'name':'OE#','role':'input'},{'number':5,'name':'WE#','role':'input'}," \
+    "{'number':6,'name':'VCC','role':'power'" V_EXTRA "}]}," \
+    "'address':['" NAME "'],'data':['DQ0'],'chipEnable':['CE#'],'chipEnableHigh':[]," \
+    "'outputEnable':'OE#','writeEnable':'WE#','byteEnable':[]," \
+    "'grades':{'55':{'trc':55,'taa':55,'twpOeLow':45,'note':'n','vcc':[2.7,5.5]}}," \
+    "'parts':[{'name':'M1','package':'DIP','pinout':'p6','footprint':'T6','grade':'55'}]}" TAIL
+
+/* Loads `text`, expects success and pins[0].active_low == mask0, pins[2] == mask2. */
+static void expect_active_low(const char *name, const char *text, uint32_t mask0, uint32_t mask2) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    if (load(library, text, &error) != 0) {
+        printf("FAIL %s: %s\n", name, error != NULL ? error : "(none)");
+        failures++;
+    } else {
+        part = part_library_find(library, "M1");
+        if (part == NULL || part->pins[0].active_low != mask0 || part->pins[2].active_low != mask2) {
+            printf("FAIL %s: masks %u, %u (wanted %u, %u)\n", name,
+                   part != NULL ? (unsigned)part->pins[0].active_low : 0u,
+                   part != NULL ? (unsigned)part->pins[2].active_low : 0u,
+                   (unsigned)mask0, (unsigned)mask2);
+            failures++;
+        } else {
+            printf("ok   %s\n", name);
+        }
+    }
+    free(error);
+    part_library_destroy(library);
+}
+
+/* A pin's optional "activeLow" (plan-39-A § 3). */
+static void check_pin_active_low_cases(void) {
+    /* 33 alternatives: one more than the mask holds. */
+#define ALT33 "B0/B1/B2/B3/B4/B5/B6/B7/B8/B9/B10/B11/B12/B13/B14/B15/B16/B17/B18/B19/" \
+              "B20/B21/B22/B23/B24/B25/B26/B27/B28/B29/B30/B31/B32"
+
+    expect_active_low("activeLow absent", SRAM_LOW_DEVICE("A0", "", "", ""), 0, 0);
+    expect_active_low("activeLow true, one alternative", SRAM_LOW_DEVICE("A0", "", ",'activeLow':true", ""),
+                      0, 1);
+    expect_active_low("activeLow true, two alternatives",
+                      SRAM_LOW_DEVICE("A0/CS", ",'activeLow':true", "", ""), 3, 0);
+    expect_active_low("activeLow list", SRAM_LOW_DEVICE("A0/CS", ",'activeLow':['CS']", "", ""), 2, 0);
+    expect_active_low("activeLow list, four alternatives",
+                      SRAM_LOW_DEVICE("AIN7/GPIO3/DRDY/CLK", ",'activeLow':['DRDY','AIN7']", "", ""), 5, 0);
+    expect_active_low("activeLow list matches every equal alternative",
+                      SRAM_LOW_DEVICE("X/A/X", ",'activeLow':['X']", "", ""), 5, 0);
+    expect_active_low("activeLow true, 33 alternatives",
+                      SRAM_LOW_DEVICE(ALT33, ",'activeLow':true", "", ""), 0xFFFFFFFFu, 0);
+
+    expect_fail("activeLow on a power pin", SRAM_LOW_DEVICE("A0", "", "", ",'activeLow':true"),
+                "pin 6: \"activeLow\" is for input, output and inout pins");
+    expect_fail("activeLow false", SRAM_LOW_DEVICE("A0", "", ",'activeLow':false", ""),
+                "pin 3: \"activeLow\" must be true or a list of the name's alternatives");
+    expect_fail("activeLow string", SRAM_LOW_DEVICE("A0", "", ",'activeLow':'CE#'", ""),
+                "pin 3: \"activeLow\" must be true or a list of the name's alternatives");
+    expect_fail("activeLow number", SRAM_LOW_DEVICE("A0", "", ",'activeLow':1", ""),
+                "pin 3: \"activeLow\" must be true or a list of the name's alternatives");
+    expect_fail("activeLow object", SRAM_LOW_DEVICE("A0", "", ",'activeLow':{}", ""),
+                "pin 3: \"activeLow\" must be true or a list of the name's alternatives");
+    expect_fail("activeLow list holding a number", SRAM_LOW_DEVICE("A0/CS", ",'activeLow':[1]", "", ""),
+                "pin 1: \"activeLow\" must be true or a list of the name's alternatives");
+    expect_fail("activeLow empty", SRAM_LOW_DEVICE("A0/CS", ",'activeLow':[]", "", ""),
+                "pin 1: \"activeLow\" is empty");
+    expect_fail("activeLow unknown alternative", SRAM_LOW_DEVICE("A0/CS", ",'activeLow':['CE']", "", ""),
+                "pin 1: \"activeLow\" has no alternative \"CE\" in \"A0/CS\"");
+    expect_fail("activeLow repeat", SRAM_LOW_DEVICE("A0/CS", ",'activeLow':['CS','CS']", "", ""),
+                "pin 1: \"activeLow\" lists \"CS\" twice");
+    expect_fail("activeLow every alternative", SRAM_LOW_DEVICE("A0/CS", ",'activeLow':['CS','A0']", "", ""),
+                "pin 1: \"activeLow\" lists every alternative of \"A0/CS\"; write true");
+    expect_fail("activeLow list on a one-alternative name", SRAM_LOW_DEVICE("A0", "", ",'activeLow':['CE#']", ""),
+                "pin 3: \"activeLow\" lists every alternative of \"CE#\"; write true");
+    expect_fail("activeLow list on 33 alternatives", SRAM_LOW_DEVICE(ALT33, ",'activeLow':['B3']", "", ""),
+                "pin 1: \"activeLow\" is for names of at most 32 alternatives");
+#undef ALT33
 }
 
 /* A 32K x 8 EEPROM (15 address bits, 26 pins) with the given keys. */
@@ -2968,6 +3052,21 @@ static PartLibrary *expect_load(const char *name, const char *text) {
     return library;
 }
 
+/* A drawer path takes up to three levels (Discrete → Resistors → Chip). */
+static void check_three_level_drawer(void) {
+    PartLibrary *library = expect_load(
+        "three-level drawer",
+        HEAD("supply")
+        "{'id':'VCC','function':'VCC','description':'d','drawer':['Discrete','Resistors','Chip'],"
+        "'pinouts':{'pin':[{'number':1,'name':'VCC','role':'power'}]},'volts':5,"
+        "'parts':[{'name':'VCC','package':'','pinout':'pin'}]}" TAIL);
+    const Part *vcc = part_library_find(library, "VCC");
+
+    CHECK(vcc != NULL && vcc->drawer_count == 3 && strcmp(vcc->drawer[0], "Discrete") == 0 &&
+          strcmp(vcc->drawer[2], "Chip") == 0);
+    part_library_destroy(library);
+}
+
 static void check_voltage_cases(void) {
     PartLibrary *library;
     char *error = NULL;
@@ -3185,6 +3284,7 @@ int main(void) {
     check_display_cases();
     check_sram_cases();
     check_pin_side_cases();
+    check_pin_active_low_cases();
     check_eeprom_cases();
     check_cpu_cases();
     check_z80_cases();
@@ -3210,6 +3310,7 @@ int main(void) {
     check_arith_cases();
     check_arith_alu_cases();
     check_supply_cases();
+    check_three_level_drawer();
     check_voltage_cases();
     if (failures > 0) {
         printf("FAIL: %d\n", failures);

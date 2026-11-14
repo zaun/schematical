@@ -16,8 +16,10 @@ rows = [r for r in csv.DictReader(open(sys.argv[1]), delimiter='\t')
         if r['decision'] in ('candidate', 'add', 'pending')]
 lines = collections.Counter()
 for r in rows:
+    # The placed PDF's file name (plan-34-A Phase 3); the link's last
+    # segment for a row with none.
     url = r['datasheet_url']
-    name = re.sub(r'[?].*$', '', url.rstrip('/').split('/')[-1])
+    name = r['pdf'].split('/')[-1] if r.get('pdf') else re.sub(r'[?].*$', '', url.rstrip('/').split('/')[-1])
     if r['category'] == 'through-hole':
         m = re.search(r'\(([^)]*)\)', r['size_dim'])
         body = m.group(1) if m else r['size_dim']

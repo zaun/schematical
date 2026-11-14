@@ -94,8 +94,9 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         /// Headers only (plan-23): one of the part's genders. Always written
         /// for a header; missing means the part's default.
         var gender: String? = nil
-        /// Pull resistors only (version 4): the resistance in ohms. Always
-        /// written for them; missing means 1000; ignored on other parts.
+        /// Pull resistors (version 4) and `GENERIC-RESISTOR` (plan-34-G) only:
+        /// the resistance in ohms. Always written for them; missing means
+        /// 1000; ignored on other parts.
         var ohms: Double? = nil
         /// Custom parts only (version 5): the part's uuid, one of the file's
         /// `customParts`. The part resolves by it; `partNumber` is the name it
@@ -137,6 +138,10 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         var side: String? = nil
         /// True when its position is locked; left out otherwise.
         var locked: Bool? = nil
+        /// The reference text's centre, mm from the body centre in the
+        /// footprint's own frame; written only when not zero, missing is 0.
+        var refX: Double? = nil
+        var refY: Double? = nil
     }
 
     /// The PCB: size in mm, copper layers, colour and sidebar units (raw
@@ -654,7 +659,9 @@ extension SchematicFile {
                               origin: $0.origin.rawValue, outline: $0.outline.rawValue,
                               pin1: $0.pin1.rawValue, reference: $0.reference.rawValue,
                               style: chip.part.connectorFootprint == nil ? nil : $0.style.rawValue,
-                              side: $0.side.rawValue, locked: $0.locked ? true : nil)
+                              side: $0.side.rawValue, locked: $0.locked ? true : nil,
+                              refX: $0.referenceOffset.x == 0 ? nil : Double($0.referenceOffset.x),
+                              refY: $0.referenceOffset.y == 0 ? nil : Double($0.referenceOffset.y))
                 },
                 memoryFile: chip.memoryFile.map {
                     MemoryFileEntry(path: MemoryFileAccess.path(of: $0.url, schematic: fileURL),
@@ -861,8 +868,9 @@ extension SchematicFile {
                 throw SchematicFileError.badPartOption(
                     reference: part.reference, detail: "\"\(gender)\" is not a gender of \(catalogPart.name)")
             }
-            // A pull resistor's resistance; missing is 1 kΩ, ignored elsewhere.
-            if catalogPart.isPullResistor, let ohms = part.ohms, !ResistorValue.isValid(ohms) {
+            // A pull resistor's or GENERIC-RESISTOR's resistance; missing is
+            // 1 kΩ, ignored elsewhere.
+            if catalogPart.hasOhmsField, let ohms = part.ohms, !ResistorValue.isValid(ohms) {
                 throw SchematicFileError.badOhms(reference: part.reference, ohms: ohms)
             }
             // The generic capacitor's capacitance; missing is 0.1 µF, ignored elsewhere.
@@ -887,7 +895,7 @@ extension SchematicFile {
                 color: color,
                 footprintID: footprintID,
                 gender: part.gender,
-                ohms: catalogPart.isPullResistor ? part.ohms : nil,
+                ohms: catalogPart.hasOhmsField ? part.ohms : nil,
                 farads: catalogPart.isGenericCapacitor ? part.farads : nil
             )
             chip.showsReference = part.showReference ?? true
@@ -1393,6 +1401,13 @@ extension SchematicFile {
                                              default: placement.reference)
         placement.side = try Self.value(pcb.side, of: BoardSide.self, "\(reference) side", default: placement.side)
         placement.locked = pcb.locked ?? false
+        let limit = BoardSettings.sizeRange.upperBound
+        for (key, value) in [("refX", pcb.refX), ("refY", pcb.refY)] {
+            if let value, !(abs(value) <= limit) {
+                throw SchematicFileError.badPCB("\(reference) \(key) \(value) must be within \(Int(limit)) mm")
+            }
+        }
+        placement.referenceOffset = CGPoint(x: pcb.refX ?? 0, y: pcb.refY ?? 0)
         return placement
     }
 

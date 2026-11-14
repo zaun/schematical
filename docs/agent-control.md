@@ -59,6 +59,13 @@ Every tool except the few marked *(no window)* takes an optional `window`
 `get_board`, `run_drc`, `render` (schematic, pcb, front, back; `region`
 crops to zoom in).
 
+A pin's active-low flag (the part file's `"activeLow"`, `docs/parts-format.md`
+§ Pinouts and pins) is in `get_design`'s JSON: a pin dictionary has
+`"activeLow": true` when its whole name is active low, or the list of its
+active-low name alternatives (`["CS"]` for `A0/CS`), and no key otherwise;
+the text form is unchanged. `get_part` prints it after a pin's role and
+group: ` low`, or ` low=CS` (alternatives `;` separated).
+
 **Schematic** — `place_part`, `connect` (pin, net label, bus pin or point on
 a wire; `via` waypoints), `disconnect`, `move_part`, `move`, `flip_part`, `set_part`
 (rename, color, ohms, farads, footprint, gender), `add_net_label`,

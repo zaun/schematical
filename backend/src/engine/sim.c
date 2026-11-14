@@ -47,10 +47,13 @@ typedef struct {
     uint32_t gen;      /* EVENT_DRIVE: the pin's gen when scheduled */
 } Event;
 
-/* A one-way link (diode) between two nets, collected by sim_start. */
+/* A link between two nets, collected by sim_start: a one-way diode link
+ * (weak 0), or a resistor's two-way weak link (weak 1; anode and cathode are
+ * then its two ends a and b, plan-34-E). */
 typedef struct {
     SimNet *anode;
     SimNet *cathode;
+    int weak;
 } Diode;
 
 /* A contact between two pins of one instance. Pins are stored lowest first. */
@@ -909,7 +912,7 @@ static void resolve_cluster(Sim *sim, size_t root) {
             size_t a = sim->group_root[sim->diodes[d].anode->index];
             size_t c = sim->group_root[sim->diodes[d].cathode->index];
 
-            if (a != c && pass_link(&strong[a], &strong[c])) {
+            if (!sim->diodes[d].weak && a != c && pass_link(&strong[a], &strong[c])) {
                 grew = 1;
             }
         }
@@ -921,8 +924,25 @@ static void resolve_cluster(Sim *sim, size_t root) {
             size_t a = sim->group_root[sim->diodes[d].anode->index];
             size_t c = sim->group_root[sim->diodes[d].cathode->index];
 
-            if (a != c && strong[a] == 0 && strong[c] == 0 &&
-                pass_link(&weak[a], &weak[c])) {
+            if (a == c) {
+                continue;
+            }
+            if (sim->diodes[d].weak) {
+                /* A resistor (plan-34-E section 3.1): each end's level, strong
+                   if it has one, reaches the other end as a weak value. */
+                unsigned char from_a = strong[a] != 0 ? strong[a] : weak[a];
+                unsigned char from_c = strong[c] != 0 ? strong[c] : weak[c];
+
+                if ((weak[c] | from_a) != weak[c]) {
+                    weak[c] |= from_a;
+                    grew = 1;
+                }
+                if ((weak[a] | from_c) != weak[a]) {
+                    weak[a] |= from_c;
+                    grew = 1;
+                }
+            } else if (strong[a] == 0 && strong[c] == 0 &&
+                       pass_link(&weak[a], &weak[c])) {
                 grew = 1;
             }
         }
@@ -1007,14 +1027,19 @@ static int alloc_round_arrays(Sim *sim) {
 }
 
 /*
- * Collects every instance's diode links (the `diodes` hook) whose two pins
- * are on two different nets. 0 (error set) on failure.
+ * Collects every instance's links whose two pins are on two different nets:
+ * the diode links (the `diodes` hook), then the resistor links (the
+ * `resistors` hook, weak). 0 (error set) on failure.
  */
-static int collect_diodes(Sim *sim) {
+static int collect_links(Sim *sim) {
     size_t i;
+    int weak;
 
+    for (weak = 0; weak <= 1; weak++)
     for (i = 0; i < sim->instance_count; i++) {
         SimInstance *instance = sim->instances[i];
+        size_t (*hook)(const void *, size_t *, size_t *, size_t) =
+            weak ? instance->type->resistors : instance->type->diodes;
         size_t local_anode[16];
         size_t local_cathode[16];
         size_t *anode = local_anode;
@@ -1022,10 +1047,10 @@ static int collect_diodes(Sim *sim) {
         size_t count;
         size_t k;
 
-        if (instance->type->diodes == NULL) {
+        if (hook == NULL) {
             continue;
         }
-        count = instance->type->diodes(instance->state, anode, cathode, 16);
+        count = hook(instance->state, anode, cathode, 16);
         if (count > 16) {
             anode = malloc(count * sizeof(*anode));
             cathode = malloc(count * sizeof(*cathode));
@@ -1035,7 +1060,7 @@ static int collect_diodes(Sim *sim) {
                 set_error(sim, "out of memory");
                 return 0;
             }
-            count = instance->type->diodes(instance->state, anode, cathode, count);
+            count = hook(instance->state, anode, cathode, count);
         }
         for (k = 0; k < count; k++) {
             SimNet *a;
@@ -1065,6 +1090,7 @@ static int collect_diodes(Sim *sim) {
             }
             sim->diodes[sim->diode_count].anode = a;
             sim->diodes[sim->diode_count].cathode = c;
+            sim->diodes[sim->diode_count].weak = weak;
             sim->diode_count++;
         }
         if (anode != local_anode) {
@@ -1089,7 +1115,7 @@ int sim_start(Sim *sim) {
 
     sim->started = 1;
 
-    if (!collect_diodes(sim) || !alloc_round_arrays(sim)) {
+    if (!collect_links(sim) || !alloc_round_arrays(sim)) {
         return 0;
     }
 

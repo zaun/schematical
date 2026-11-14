@@ -74,6 +74,7 @@ nonisolated enum ReferenceCategory: String, CaseIterable, Identifiable, Sendable
         switch part.kind {
         case PART_SUPPLY: return .powerSymbol
         case PART_CAPACITOR: return .capacitor
+        case PART_RESISTOR: return .resistor
         case PART_DIODE:
             if case let .diode(type, _, _, _, _, _) = part.details, type == "zener" { return .zenerDiode }
             return .diode

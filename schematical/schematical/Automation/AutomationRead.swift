@@ -197,6 +197,28 @@ extension AutomationTools {
         ["x1": rect.minX, "y1": rect.minY, "x2": rect.maxX, "y2": rect.maxY]
     }
 
+    /// A pin's "activeLow" as the part file writes it (plan-39-B): true when
+    /// every alternative of the name is active low, the flagged alternatives
+    /// when some are, nil when none.
+    private static func activeLowJSON(_ pin: ChipPin) -> Any? {
+        let alternatives = pin.alternatives
+        let flagged = alternatives.filter(\.isActiveLow).map(\.text)
+        if flagged.isEmpty { return nil }
+        if flagged.count == alternatives.count { return true }
+        var unique: [String] = []
+        for text in flagged where !unique.contains(text) { unique.append(text) }
+        return unique
+    }
+
+    /// " low", " low=A;B" or "" for `get_part`'s pin lines.
+    private static func activeLowText(_ pin: ChipPin) -> String {
+        switch activeLowJSON(pin) {
+        case is Bool: return " low"
+        case let list as [String]: return " low=" + list.joined(separator: ";")
+        default: return ""
+        }
+    }
+
     private static func designJSON(_ context: AutomationContext) -> [String: Any] {
         let document = context.document
         let parts: [[String: Any]] = document.chips.map { chip in
@@ -214,6 +236,7 @@ extension AutomationTools {
                     if let slot = chip.layout.slots.first(where: { $0.pin.index == pin.index }) {
                         entry["side"] = "\(slot.side)"
                     }
+                    if let activeLow = activeLowJSON(pin) { entry["activeLow"] = activeLow }
                     if let tip = document.pinTip(PinRef(chipID: chip.id, index: pin.index)) {
                         entry["x"] = tip.x
                         entry["y"] = tip.y
@@ -353,10 +376,11 @@ extension AutomationTools {
         } else {
             out.append("footprint: none")
         }
-        out.append("pins (designator=name [role] group):")
+        out.append("pins (designator=name [role] group low):")
         for pin in part.pins where !pin.isHidden {
             out.append("  \(pin.designator)=\(pin.name) [\(pin.role)]"
-                       + (pin.group == ChipPin.defaultGroup ? "" : " \(pin.group)"))
+                       + (pin.group == ChipPin.defaultGroup ? "" : " \(pin.group)")
+                       + activeLowText(pin))
         }
         return out.joined(separator: "\n")
     }

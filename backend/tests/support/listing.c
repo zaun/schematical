@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 const char *listing_kind_name(PartKind kind) {
     switch (kind) {
@@ -34,6 +35,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_CAPACITOR: return "capacitor";
         case PART_REGISTER: return "register";
         case PART_MCU: return "mcu";
+        case PART_RESISTOR: return "resistor";
     }
     return "?";
 }
@@ -47,6 +49,46 @@ static const char *role_name(PinRole role) {
 }
 
 /* Prints the designators of the pins at these indices. */
+/* ":low" when every alternative of the name is active low, ":low=A;B" (the
+   flagged alternatives, name order) when some are, nothing when none. */
+static void print_active_low(FILE *out, const PartPin *pin) {
+    const char *start = pin->name;
+    uint32_t all = 0;
+    size_t i = 0;
+    int first = 1;
+
+    if (pin->active_low == 0) {
+        return;
+    }
+    for (const char *c = pin->name; ; c++) {
+        if (*c == '/' || *c == '\0') {
+            all |= i < 32 ? 1u << i : 0;
+            i++;
+        }
+        if (*c == '\0') {
+            break;
+        }
+    }
+    if ((pin->active_low & all) == all) {
+        fputs(":low", out);
+        return;
+    }
+    fputs(":low=", out);
+    for (i = 0;; i++) {
+        const char *slash = strchr(start, '/');
+        size_t length = slash != NULL ? (size_t)(slash - start) : strlen(start);
+
+        if (i < 32 && (pin->active_low & (1u << i))) {
+            fprintf(out, "%s%.*s", first ? "" : ";", (int)length, start);
+            first = 0;
+        }
+        if (slash == NULL) {
+            break;
+        }
+        start = slash + 1;
+    }
+}
+
 static void print_numbers(FILE *out, const PartPin *pins, const size_t *indices, size_t count) {
     size_t i;
 
@@ -117,6 +159,12 @@ static void print_details(FILE *out, const Part *part) {
             if (part->mcu->psram != 0) {
                 fprintf(out, " psram=%u", (unsigned)part->mcu->psram);
             }
+            break;
+        case PART_RESISTOR:
+            fprintf(out, "resistors=%zu milliohms=%llu tol=%u power=%u",
+                    part->resistor->resistor_count,
+                    (unsigned long long)part->resistor->milliohms,
+                    (unsigned)part->resistor->tolerance_ppm, (unsigned)part->resistor->power_mw);
             break;
         case PART_SRAM:
             fprintf(out, "words=%u bits=%u access_ps=%llu", (unsigned)part->sram->words,
@@ -273,6 +321,7 @@ char *listing_line(const Part *part) {
         fprintf(out, "%s%s:%s:%s:%s%s", i > 0 ? "," : "", pin->designator, pin->name,
                 role_name(pin->role), pin->group,
                 pin->side == PIN_SIDE_IN ? ":in" : pin->side == PIN_SIDE_OUT ? ":out" : "");
+        print_active_low(out, pin);
     }
     if (part->manufacturer != NULL) {
         fprintf(out, "|mfr=%s", part->manufacturer);

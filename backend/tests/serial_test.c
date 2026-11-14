@@ -1105,9 +1105,24 @@ static void case_terminal(void) {
 
 #include "serial_test_d.h"
 
+/* Removes every pin's "activeLow" (plan-39): display data the review adds to
+   serial.json, which the fixtures (datasheet copies of the model's data) do
+   not carry. */
+static void strip_active_low(cJSON *device) {
+    const cJSON *pinout;
+
+    cJSON_ArrayForEach(pinout, cJSON_GetObjectItemCaseSensitive(device, "pinouts")) {
+        cJSON *pin;
+
+        cJSON_ArrayForEach(pin, pinout) {
+            cJSON_DeleteItemFromObjectCaseSensitive(pin, "activeLow");
+        }
+    }
+}
+
 /* Compares every device of one fixture document with the device of the same
-   id in serial.json (fixture ids are "SFX-<id>"; parts aside). Returns how
-   many were found there. */
+   id in serial.json (fixture ids are "SFX-<id>"; parts and pins' "activeLow"
+   aside). Returns how many were found there. */
 static int compare_shipped(const char *fixture_text, const cJSON *shipped, const char *what) {
     char message[200];
     int compared = 0;
@@ -1126,6 +1141,8 @@ static int compare_shipped(const char *fixture_text, const cJSON *shipped, const
 
                 cJSON_DeleteItemFromObjectCaseSensitive(a, "parts");
                 cJSON_DeleteItemFromObjectCaseSensitive(b, "parts");
+                strip_active_low(a);
+                strip_active_low(b);
                 cJSON_ReplaceItemInObjectCaseSensitive(a, "id", cJSON_CreateString(id));
                 snprintf(message, sizeof message, "%s device %s: fixture equals serial.json", what,
                          id);

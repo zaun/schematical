@@ -1,0 +1,17 @@
+piece ±1%/0201 (0603 Metric): 35 of 35 (stock ≥ 89345)
+piece ±1%/0402 (1005 Metric)/*/-: 72 of 72 (stock ≥ 89345)
+piece ±1%/0402 (1005 Metric)/CRCW-HP e3: 19 of 19 (stock ≥ 89345)
+piece ±1%/0402 (1005 Metric)/D/CRCW: 3 of 3 (stock ≥ 89345)
+piece ±1%/0402 (1005 Metric)/D/CRCW e3: 233 of 233 (stock ≥ 89345)
+piece ±1%/0402 (1005 Metric)/RCA: 8 of 8 (stock ≥ 89345)
+top.js: rate limited: 
+            {
+                "type": "https://www.rfc-editor.org/rfc/rfc6585.html#section-4",
+                "title": "Too Many Requests",
+                "status": 429,
+                "detail": "Daily Ratelimit exceeded. Please try again after the number of seconds in the Retry-After header",
+                "instance": "",
+                "correlationId": "33b7f076-b999-4acd-ddd4-520a2ff54b6d",
+                "errors": {}
+            }
+        ; 15 calls, 0 left

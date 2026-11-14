@@ -121,6 +121,10 @@ nonisolated enum PartSymbol: Hashable {
     /// A capacitor (plan-33): two plates; a polarized one has a curved
     /// negative plate and a `+` by its positive pin (`CapacitorSymbolView`).
     case capacitor
+    /// A two-terminal resistor (plan-34): a horizontal zig-zag between pin 1
+    /// (left) and pin 2 (right), its value above (`ResistorSymbolView`).
+    /// Resistor arrays are blocks.
+    case resistor
     case vcc
     case ground
     case pullUp
@@ -228,7 +232,7 @@ nonisolated struct ChipLayout: Hashable {
             self = Self.header(pins, rows: part.headerSize?.rows ?? 1)
         case .diode, .plainDiode:
             self = Self.diode(pins)
-        case .capacitor:
+        case .capacitor, .resistor:
             self = Self.capacitor(pins)
         case .vcc:
             self = Self.supply(pins, side: .bottom)
@@ -628,8 +632,9 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     var footprintID: String?
     /// A header's gender, one of `part.genders`. Nil for every other part.
     var gender: String?
-    /// A pull resistor's resistance in ohms (`ResistorValue.isValid`). Nil
-    /// for every other part.
+    /// The resistance in ohms (`ResistorValue.isValid`) of a pull resistor or
+    /// `GENERIC-RESISTOR` (`CatalogPart.hasOhmsField`, plan-34-G). Nil for
+    /// every other part, maker resistors included (their value is their part's).
     var ohms: Double?
     /// The generic capacitor's capacitance in farads (`CapacitorValue.isValid`,
     /// plan-33-H). Nil for every other part, real capacitors included (their
@@ -685,7 +690,7 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
         } else {
             self.footprintID = nil
         }
-        if part.isPullResistor {
+        if part.hasOhmsField {
             self.ohms = ohms.flatMap { ResistorValue.isValid($0) ? $0 : nil } ?? ResistorValue.defaultOhms
         } else {
             self.ohms = nil
@@ -1834,6 +1839,8 @@ final class SchematicDocument {
                 return false
             }
             chips[index] = old.resized(to: newPart)
+            // The reference was placed for the old body.
+            chips[index].board?.referenceOffset = .zero
             if let anchor, var board = chips[index].board,
                let pad = chips[index].footprint?.pads.first(where: { $0.designator == pad1 }) {
                 let landed = board.board(pad.centre)
@@ -1845,12 +1852,13 @@ final class SchematicDocument {
         }
     }
 
-    /// Sets a pull resistor's resistance. Does nothing for a part that isn't
-    /// a pull resistor, or a value that isn't `ResistorValue.isValid`.
+    /// Sets the resistance of a pull resistor or `GENERIC-RESISTOR`
+    /// (`hasOhmsField`). Does nothing for any other part, or a value that
+    /// isn't `ResistorValue.isValid`.
     func setPartOhms(_ id: UUID, _ ohms: Double) {
         recordEdit(.schematic, "Change Resistance") {
             guard let index = chips.firstIndex(where: { $0.id == id }),
-                  chips[index].part.isPullResistor,
+                  chips[index].part.hasOhmsField,
                   ResistorValue.isValid(ohms) else { return }
             chips[index].ohms = ohms
         }
@@ -1880,6 +1888,8 @@ final class SchematicDocument {
             let before = chips[index].footprint
             chips[index].footprintID = footprintID
             guard var changed = chips[index].board, let before, let after = chips[index].footprint else { return }
+            // The reference was placed for the old body.
+            changed.referenceOffset = .zero
             let pad1 = chips[index].part.firstPinDesignator
             if let old = before.pads.first(where: { $0.designator == pad1 }),
                let new = after.pads.first(where: { $0.designator == pad1 }) {
@@ -2477,6 +2487,8 @@ final class SchematicDocument {
             let pad1 = chips[index].part.firstPinDesignator
             var changed = board
             changed.style = style
+            // The reference was placed for the old body.
+            changed.referenceOffset = .zero
             chips[index].board = changed
             guard let after = chips[index].footprint else { return }
             if let old = before.pads.first(where: { $0.designator == pad1 }),
@@ -2498,6 +2510,31 @@ final class SchematicDocument {
             if let outline { chips[index].board?.outline = outline }
             if let pin1 { chips[index].board?.pin1 = pin1 }
             if let reference { chips[index].board?.reference = reference }
+        }
+    }
+
+    /// Moves a footprint's reference so its text is centred at `point` (board
+    /// mm), snapped to the trace grid. The reference is stored relative to the
+    /// part (`BoardPlacement.referenceOffset`), so it follows the part. A
+    /// locked footprint's reference can still be moved.
+    func moveReference(_ id: UUID, toCentre point: CGPoint) {
+        recordEdit(.pcb, "Move Reference") {
+            guard let index = chips.firstIndex(where: { $0.id == id }), let board = chips[index].board else { return }
+            let grid = CGFloat(self.board.traceGrid)
+            let snapped = BoardGrid.snap(point, spacing: grid)
+            let local = board.local(snapped)
+            // Whole 0.0001 mm, so the file carries no float noise.
+            let offset = CGPoint(x: (local.x * 10000).rounded() / 10000 + 0, y: (local.y * 10000).rounded() / 10000 + 0)
+            if board.referenceOffset != offset { chips[index].board?.referenceOffset = offset }
+        }
+    }
+
+    /// Puts a footprint's reference back on the body centre.
+    func resetReference(_ id: UUID) {
+        recordEdit(.pcb, "Reset Reference") {
+            guard let index = chips.firstIndex(where: { $0.id == id }),
+                  chips[index].board?.referenceOffset != .zero else { return }
+            chips[index].board?.referenceOffset = .zero
         }
     }
 
@@ -2831,6 +2868,23 @@ final class SchematicDocument {
             if let hit = chips.last(where: {
                 $0.board?.side == side && ($0.boardBounds?.contains(point) ?? false) && visible.showsFootprint($0)
             }) { return hit }
+        }
+        return nil
+    }
+
+    /// The footprint whose drawn reference text is under a board point (mm),
+    /// within `tolerance` of its box: Top before Bottom, the last one drawn
+    /// first. `height` is the text's drawn height (mm); a reference that is
+    /// hidden, or whose layer is off, can't be hit.
+    func referenceHit(at point: CGPoint, tolerance: CGFloat, height: Double = BoardReference.height,
+                      visible: BoardVisibility = BoardVisibility()) -> UUID? {
+        for side in [BoardSide.top, .bottom] {
+            if let hit = chips.last(where: { chip in
+                guard let placement = chip.board, placement.side == side,
+                      visible.showsMark(placement.reference, side: side),
+                      let rect = chip.boardReferenceRect(height: height) else { return false }
+                return rect.insetBy(dx: -tolerance, dy: -tolerance).contains(point)
+            }) { return hit.id }
         }
         return nil
     }
