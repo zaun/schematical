@@ -187,13 +187,13 @@ Commit: aec77008
 
 Acceptance: DRC output identical on the three fixtures; the 11 DRC tests pass.
   Check: `-only-testing:schematicalTests/DesignRuleGoldenTests -only-testing:schematicalTests/DesignRuleCheckTests` → `** TEST SUCCEEDED **` (est. 2 min). A diff in a golden is a bug in the move: diff the failing fixture's text, fix the move, re-run — not a reason to regenerate the golden.
-Commit: —
+Commit: 96fda6f9
 
 ### Phase 3 — options and problem types
 
-- [ ] `Routing/RoutingOptions.swift`: `RoutingOptions` and its enums per § 4, `Codable` (stable raw values), `Hashable`, with `static let standard`.
-- [ ] `Routing/RoutingProblem.swift`: `RoutingProblem`, `RoutingNet`, `RoutingComponent`, `RoutedTrace { layer, width (mm), points }`, `RoutedVia { centre, drill, diameter }`, `RoutingObstacle`, `RoutingGroup`.
-- [ ] Tests: `schematicalTests/RoutingOptionsTests.swift` — `standard` round-trips through JSON; an unknown `strategy` string fails to decode; grid is one of the four values.
+- [x] `Routing/RoutingOptions.swift`: `RoutingOptions` and its enums per § 4, `Codable` (stable raw values), `Hashable`, with `static let standard`. (`PlaneNet` gains `Codable` as its file text, for `.nets` scopes; layers are keyed by `CopperLayer.rawValue`; a grid off the four values fails to decode.)
+- [x] `Routing/RoutingProblem.swift`: `RoutingProblem`, `RoutingNet`, `RoutingComponent`, `RoutedTrace { layer, width (mm), points }`, `RoutedVia { centre, drill, diameter }`, `RoutingObstacle`, `RoutingGroup`.
+- [x] Tests: `schematicalTests/RoutingOptionsTests.swift` — `standard` round-trips through JSON; an unknown `strategy` string fails to decode; grid is one of the four values. — `-only-testing:RoutingOptionsTests` → 4 tests, 0 failures, `** TEST SUCCEEDED **`.
 
 Acceptance: round trip and rejection.
   Check: `-only-testing:schematicalTests/RoutingOptionsTests` → `** TEST SUCCEEDED **` (est. 1–2 min).
