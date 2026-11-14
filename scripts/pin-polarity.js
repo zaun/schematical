@@ -385,7 +385,7 @@ class Library {
         const text = [LEDGER_HEADER.join('\t'), ...sorted.map((r) => LEDGER_HEADER.map((h) => r[h] || '').join('\t'))]
             .join('\n') + '\n';
         fs.mkdirSync(path.dirname(this.ledgerPath), { recursive: true });
-        fs.writeFileSync(this.ledgerPath, text);
+        writeAtomic(this.ledgerPath, text);
         this._ledger = sorted;
     }
 }
@@ -398,6 +398,14 @@ function flaggedOf(pinout) {
 }
 
 class UserError extends Error {}
+
+// Writes by rename, so a reader running at the same time sees the old file or
+// the new one, never half of one.
+function writeAtomic(file, text) {
+    const tmp = `${file}.${process.pid}.tmp`;
+    fs.writeFileSync(tmp, text);
+    fs.renameSync(tmp, file);
+}
 
 // ---- Locking: reviews may run in parallel against one tree ---------------------
 
@@ -468,7 +476,7 @@ function applyEdits(kindData, edits) {
         const edited = editPin(objText, local, flag);
         text = before + edited + text.slice(node.end);
     }
-    fs.writeFileSync(kindData.file, text);
+    writeAtomic(kindData.file, text);
 }
 
 // ---- Commands -------------------------------------------------------------------
