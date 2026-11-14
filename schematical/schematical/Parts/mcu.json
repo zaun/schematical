@@ -22975,7 +22975,7 @@
       "id": "rp2040",
       "function": "RP2040",
       "description": "Dual Cortex-M0+ microcontroller",
-      "drawer": ["Microcontroller", "RP2040"],
+      "drawer": ["Microcontroller"],
       "note": "facts: rp2040-datasheet.pdf § 1 (264 KB SRAM, external QSPI flash); DigiKey clock / IOVDD; pinouts: quad57 transcribed:rp2040-datasheet.pdf:p12:hand: § 1.4.1 Figure 3 RP2040 Pinout for QFN-56 7x7mm, pin 57 = the exposed GND pad",
       "simulated": false,
       "core": "cortex-m0plus",
