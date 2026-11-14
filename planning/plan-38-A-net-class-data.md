@@ -69,9 +69,9 @@ These are a precondition on the whole feature, not a dependency to negotiate.
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-37 is archived (no other plan is mid-flight in the PCB code this plan edits) | `ls planning/completed/plan-37-H-register-landing.md` → the file | MET |
-| The app builds at the starting commit | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (built at cb6259f in the spike worktree) |
-| No other plan-38 file exists apart from this plan's | `ls planning \| grep '^plan-38'` → only plan-38-A … M and `plan-38-data` | MET |
+| plan-37 is archived (no other plan is mid-flight in the PCB code this plan edits) | `ls planning/completed/plan-37-H-register-landing.md` → the file | MET (2026-11-14: file present) |
+| The app builds at the starting commit | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-14: `** BUILD SUCCEEDED **` at 945720a) |
+| No other plan-38 file exists apart from this plan's | `ls planning \| grep '^plan-38'` → only plan-38-A … M and `plan-38-data` | MET (2026-11-14: exactly those 14 entries) |
 
 Everything below is written against the world where these hold.
 
@@ -229,10 +229,10 @@ class per net (classes exist to share).
 
 ### Phase 1 — `NetClass` and its edit functions
 
-- [ ] `Canvas/NetClass.swift`: the struct, constants and `problem(...)` of § 4.
-- [ ] `Canvas/BoardSettings.swift:BoardSettings`: add `var netClasses: [NetClass] = []` after `styles`.
-- [ ] `Canvas/SchematicModel.swift`: the eight edit functions of § 4, next to `setViaDiameter`.
-- [ ] Tests: `schematicalTests/NetClassTests.swift` — add/rename/remove; width and via clamps; `assignNet` moves a member between classes and back to Default; one `undo(on: .pcb)` reverts each edit; `NetClass.problem` rejects width 4 and 101 mil, a 0.04 mm clearance, a via diameter less than drill + 0.1 mm, a blank name.
+- [x] `Canvas/NetClass.swift`: the struct, constants and `problem(...)` of § 4.
+- [x] `Canvas/BoardSettings.swift:BoardSettings`: add `var netClasses: [NetClass] = []` after `styles`.
+- [x] `Canvas/SchematicModel.swift`: the eight edit functions of § 4, next to `setViaDiameter`.
+- [x] Tests: `schematicalTests/NetClassTests.swift` — add/rename/remove; width and via clamps; `assignNet` moves a member between classes and back to Default; one `undo(on: .pcb)` reverts each edit; `NetClass.problem` rejects width 4 and 101 mil, a 0.04 mm clearance, a via diameter less than drill + 0.1 mm, a blank name. — `-only-testing:schematicalTests/NetClassTests` → 5 tests passed, `** TEST SUCCEEDED **`.
 
 Acceptance: every edit is one undo step and every clamp holds.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd test -only-testing:schematicalTests/NetClassTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 1–2 min).

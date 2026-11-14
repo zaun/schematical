@@ -300,6 +300,9 @@ nonisolated struct BoardSettings: Hashable, Sendable {
     /// style is kept when its layer leaves the board, so it comes back with
     /// the layer.
     var styles: [CopperLayer: LayerStyle] = [:]
+    /// The net classes, in priority order: a net is in the first that
+    /// names it (`NetClass`). None is every net in the Default class.
+    var netClasses: [NetClass] = []
 
     static let layerCounts = [1, 2, 4, 6]
     static let sizeRange: ClosedRange<Double> = 1...1000

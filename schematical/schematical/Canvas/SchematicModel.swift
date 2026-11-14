@@ -3273,6 +3273,105 @@ final class SchematicDocument {
         }
     }
 
+    // MARK: Net classes (PCB)
+
+    /// Adds a net class named `name` (trimmed, at most 40 characters; blank
+    /// is "Class") with the Default class's values and no nets, last in
+    /// priority.
+    @discardableResult
+    func addNetClass(named name: String) -> UUID {
+        recordEdit(.pcb, "Add Net Class") {
+            let netClass = NetClass(id: UUID(), name: Self.netClassName(name) ?? "Class")
+            board.netClasses.append(netClass)
+            return netClass.id
+        }
+    }
+
+    func removeNetClass(_ id: UUID) {
+        recordEdit(.pcb, "Delete Net Class") {
+            board.netClasses.removeAll { $0.id == id }
+        }
+    }
+
+    /// Renames a class; a blank name is ignored, a long one cut to 40
+    /// characters.
+    func renameNetClass(_ id: UUID, to name: String) {
+        recordEdit(.pcb, "Rename Net Class") {
+            guard let index = netClassIndex(id), let value = Self.netClassName(name),
+                  board.netClasses[index].name != value else { return }
+            board.netClasses[index].name = value
+        }
+    }
+
+    /// Sets a class's trace width, clamped to `BoardTrace.widthRange`.
+    func setNetClassWidth(_ id: UUID, _ mil: Int) {
+        recordEdit(.pcb, "Change Net Class Width") {
+            guard let index = netClassIndex(id) else { return }
+            let value = min(max(mil, BoardTrace.widthRange.lowerBound), BoardTrace.widthRange.upperBound)
+            if board.netClasses[index].width != value { board.netClasses[index].width = value }
+        }
+    }
+
+    /// Sets a class's clearance, clamped to `LayerStyle.clearanceRange`;
+    /// nil is the DRC's minimum.
+    func setNetClassClearance(_ id: UUID, _ mm: Double?) {
+        recordEdit(.pcb, "Change Net Class Clearance") {
+            guard let index = netClassIndex(id) else { return }
+            let range = LayerStyle.clearanceRange
+            let value = mm.map { min(max($0, range.lowerBound), range.upperBound) }
+            if board.netClasses[index].clearance != value { board.netClasses[index].clearance = value }
+        }
+    }
+
+    /// Sets a class's via, clamped as `setViaDrill` and `setViaDiameter`
+    /// clamp a via: the hole to `BoardVia.drillRange`, then the metal to
+    /// `BoardVia.diameterRange` and at least the thinnest ring round it.
+    func setNetClassVia(_ id: UUID, drill: Double, diameter: Double) {
+        recordEdit(.pcb, "Change Net Class Via") {
+            guard let index = netClassIndex(id) else { return }
+            let hole = min(max(drill, BoardVia.drillRange.lowerBound), BoardVia.drillRange.upperBound,
+                           BoardVia.diameterRange.upperBound - 2 * BoardVia.minimumRing)
+            let least = max(BoardVia.diameterRange.lowerBound, hole + 2 * BoardVia.minimumRing)
+            let metal = max(min(diameter, BoardVia.diameterRange.upperBound), least)
+            if board.netClasses[index].viaDrill != hole { board.netClasses[index].viaDrill = hole }
+            if board.netClasses[index].viaDiameter != metal { board.netClasses[index].viaDiameter = metal }
+        }
+    }
+
+    /// Puts `net` in class `classID`, out of every other class; nil puts it
+    /// back in the Default class.
+    func assignNet(_ net: PlaneNet, to classID: UUID?) {
+        recordEdit(.pcb, "Change Net Class") {
+            for index in board.netClasses.indices where board.netClasses[index].members.contains(net) {
+                board.netClasses[index].members.removeAll { $0 == net }
+            }
+            if let classID, let index = netClassIndex(classID) { board.netClasses[index].members.append(net) }
+        }
+    }
+
+    /// Moves a class to `position` in the list (clamped); order is
+    /// priority.
+    func moveNetClass(_ id: UUID, to position: Int) {
+        recordEdit(.pcb, "Move Net Class") {
+            guard let index = netClassIndex(id) else { return }
+            let target = min(max(position, 0), board.netClasses.count - 1)
+            guard target != index else { return }
+            let netClass = board.netClasses.remove(at: index)
+            board.netClasses.insert(netClass, at: target)
+        }
+    }
+
+    private func netClassIndex(_ id: UUID) -> Int? {
+        board.netClasses.firstIndex { $0.id == id }
+    }
+
+    /// A class name as entered: trimmed and cut to the longest allowed, or
+    /// nil when blank.
+    private static func netClassName(_ name: String) -> String? {
+        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmed.isEmpty ? nil : String(trimmed.prefix(NetClass.nameLength.upperBound))
+    }
+
     func deleteVia(_ id: UUID) {
         recordEdit(.pcb, "Delete Via") {
             vias.removeAll { $0.id == id }
