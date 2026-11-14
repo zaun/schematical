@@ -16,7 +16,12 @@ extension SchematicDocument {
     /// that isn't added yet: it counts as copper, and a group it is in is
     /// reached only from its last point, so the line follows the cursor.
     func ratsnest(drawing: BoardTrace? = nil) -> [(CGPoint, CGPoint)] {
-        let copper = connectivity(drawing: drawing)
+        ratsnest(in: connectivity(drawing: drawing), drawing: drawing)
+    }
+
+    /// The unrouted lines of `copper` (built with `drawing`), of every net
+    /// or of net `net` alone.
+    func ratsnest(in copper: BoardConnectivity, drawing: BoardTrace? = nil, net only: Int? = nil) -> [(CGPoint, CGPoint)] {
         guard !copper.netOfPad.isEmpty else { return [] }
         let drawingRoot = drawing.map { _ in copper.root[copper.traceNode(copper.traces.count - 1)] }
         var tracePoints: [Int: [CGPoint]] = [:]
@@ -24,7 +29,7 @@ extension SchematicDocument {
             tracePoints[copper.root[copper.traceNode(t)], default: []] += trace.points
         }
         var lines: [(CGPoint, CGPoint)] = []
-        for (_, groups) in copper.netGroups() {
+        for (net, groups) in copper.netGroups() where only.map({ $0 == net }) ?? true {
             let points: [[CGPoint]] = groups.map { root, pads in
                 if root == drawingRoot, let end = drawing?.points.last { return [end] }
                 return pads.map { copper.pads[$0].centre } + (tracePoints[root] ?? [])

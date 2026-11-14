@@ -141,6 +141,10 @@ nonisolated enum KeyboardHelp {
             entry("Hole", "Click to place a drilled or mounting hole, drag to move it"),
             entry("Delete", "Click a trace, via, hole or text to delete it"),
         ]),
+        HelpSection(title: "Nets (sidebar, nothing selected)", entries: [
+            entry("Click a net", "Highlight its pads, traces, vias and unrouted lines; click again to clear"),
+            entry("Esc", "Clear the highlighted net"),
+        ]),
         HelpSection(title: "Checks", entries: [
             entry("⇧⌘D", "Design Rule Check"),
         ]),

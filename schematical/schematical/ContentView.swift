@@ -40,6 +40,9 @@ struct ContentView: View {
     /// so layers added later start shown. Per window; not saved.
     @State private var hiddenLayers: Set<BoardViewLayer> = []
     @State private var isLayerViewShown = false
+    /// The net the PCB sidebar's Nets section highlights on the canvas.
+    /// Per window; not saved, not undone.
+    @State private var highlightedNet: PlaneNet?
     /// The layer the PCB Trace tool draws on (the trace layer menu).
     @State private var traceLayer: CopperLayer = .top
     /// Whether the sidebar is shown: the parts drawer on the Schematic page,
@@ -392,7 +395,7 @@ struct ContentView: View {
             PCBCanvasView(document: document, viewport: boardViewport, tool: pcbTool,
                           visible: BoardVisibility(hidden: hiddenLayers), traceLayer: traceLayer,
                           traceAngle: traceAngle, onShowLayer: { hiddenLayers.remove(.copper($0)) },
-                          pointer: boardPointer) {
+                          pointer: boardPointer, highlightedNet: $highlightedNet) {
                 // Placing a text returns to the Select tool.
                 pcbTool = .select
             }
@@ -436,7 +439,7 @@ struct ContentView: View {
                     SchematicSidebarView(catalog: catalog, document: document, simulation: simulation,
                                          isActive: page == .schematic)
                     if page == .pcb {
-                        PCBSidebarView(document: document)
+                        PCBSidebarView(document: document, highlightedNet: $highlightedNet)
                     }
                 }
                 // macOS opens an inspector at its minimum width and ignores

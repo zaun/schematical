@@ -61,6 +61,10 @@ struct PCBCanvasView: View {
     var onShowLayer: (CopperLayer) -> Void = { _ in }
     /// Where the pointer is over the board, for ⌘V; set as it moves.
     var pointer: BoardPointer?
+    /// The net the sidebar's Nets section highlights: its pads, traces,
+    /// vias and unrouted lines drawn bright over everything else dimmed.
+    /// Window state, never saved; Esc clears it.
+    var highlightedNet: Binding<PlaneNet?> = .constant(nil)
     /// Called when the Text tool has placed a text; the owner returns to Select.
     var onPlaced: () -> Void = {}
     /// Drawing for File > Export > Image (`ImageExport`): no grid, hover,
@@ -186,7 +190,14 @@ struct PCBCanvasView: View {
     /// key was used; any other key, or any key when no trace is being
     /// drawn, is left alone.
     private func handleDrawingKey(_ event: NSEvent) -> Bool {
-        guard case let .drawTrace(draft, cursor)? = interaction else { return false }
+        guard case let .drawTrace(draft, cursor)? = interaction else {
+            // Esc, with no trace being drawn, clears a highlighted net.
+            if event.keyCode == 53, highlightedNet.wrappedValue != nil {
+                highlightedNet.wrappedValue = nil
+                return true
+            }
+            return false
+        }
         var next = draft
         if event.keyCode == 53 {
             // Esc with nothing locked drops the whole trace; the rest of the
@@ -302,8 +313,11 @@ struct PCBCanvasView: View {
         drawMarksAndTexts(on: .top, in: &context, colour: colour, visible: visible)
 
         if visible.shows(.ratsnest) { drawRatsnest(in: &context) }
+        // An export has no pointer, highlight or selection.
+        if !exporting, let key = highlightedNet.wrappedValue {
+            drawHighlight(of: key, visible: visible, in: &context)
+        }
         drawTraceTool(in: &context)
-        // An export has no pointer and no selection.
         guard !exporting else { return }
 
         // The hovered pad's outline (its name shows beside the pointer).
@@ -458,6 +472,39 @@ struct PCBCanvasView: View {
             }
         }
         context.stroke(path, with: .color(.red), lineWidth: 1 / scale)
+    }
+
+    /// A highlighted net: everything drawn so far dimmed to about a third,
+    /// then the net's pads, traces and vias in white and its unrouted lines
+    /// in red, over it. A net the schematic no longer has dims nothing.
+    private func drawHighlight(of key: PlaneNet, visible: BoardVisibility, in context: inout GraphicsContext) {
+        let copper = document.connectivity()
+        guard let net = copper.net(of: key) else { return }
+        let items = document.copperItems(ofNet: net, in: copper)
+        let world = CGRect(x: -100_000, y: -100_000, width: 200_000, height: 200_000)
+        context.fill(Path(world), with: .color(Self.background.opacity(0.65)))
+        let bright = Color.white.opacity(0.95)
+        for trace in copper.traces where items.traces.contains(trace.id) && visible.showsTrace(on: trace.layer) {
+            context.stroke(Self.path(trace.points), with: .color(bright), style: Self.traceStyle(width: trace.widthMM))
+        }
+        if visible.showsAnyCopper {
+            for pad in items.pads.sorted() {
+                context.fill(Self.outline(of: copper.pads[pad].pad), with: .color(bright))
+            }
+            for via in copper.vias where items.vias.contains(via.id) {
+                context.fill(Path(ellipseIn: via.rect), with: .color(bright))
+            }
+        }
+        if visible.shows(.ratsnest) {
+            let lines = document.ratsnest(in: copper, net: net)
+            let path = Path { path in
+                for (a, b) in lines {
+                    path.move(to: a)
+                    path.addLine(to: b)
+                }
+            }
+            context.stroke(path, with: .color(.red), lineWidth: 2 / scale)
+        }
     }
 
     /// The Trace tool's preview while dragging, and the green ring where a

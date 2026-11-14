@@ -122,13 +122,13 @@ rules sit next to Layers); recomputing connectivity on every SwiftUI body pass
 
 Acceptance: rows as listed.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd test -only-testing:schematicalTests/NetListTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 1–2 min).
-Commit: —
+Commit: fa0127a4
 
 ### Phase 2 — Nets section and highlight
 
-- [ ] `Canvas/PCBSidebarView.swift`: `NetsSection` after `PlanesSection` in the `.board` case: a filter field, the rows (name, pads, a red count when unrouted > 0), a class menu (Default + classes) calling `assignNet`, a layer menu (Any / Only… / Prefer… with one toggle per trace layer) calling `setNetLayerRule`; the net list rebuilds in a debounced `.task(id: NetListInput)`.
-- [ ] `Canvas/PCBCanvasView.swift`: `highlightedNet` property and the dimmed/strokes drawing; `ContentView.swift`: the `@State`, a row click sets it, Esc (the PCB key handler) clears it.
-- [ ] Tests (`NetListTests`): the pure part — `SchematicDocument.copperItems(ofNet:)` (pads, trace ids, via ids of a net) returns exactly the net's items for a routed pair; the filter function matches by name and pad label.
+- [x] `Canvas/PCBSidebarView.swift`: `NetsSection` after `PlanesSection` in the `.board` case: a filter field, the rows (name, pads, a red count when unrouted > 0), a class menu (Default + classes) calling `assignNet`, a layer menu (Any / Only… / Prefer… with one toggle per trace layer) calling `setNetLayerRule`; the net list rebuilds in a debounced `.task(id: NetListInput)`. (The section's views are in a new `Canvas/NetsSidebar.swift`; `PCBSidebarView` places it and passes the highlight binding.)
+- [x] `Canvas/PCBCanvasView.swift`: `highlightedNet` property and the dimmed/strokes drawing; `ContentView.swift`: the `@State`, a row click sets it, Esc (the PCB key handler) clears it. (Esc is handled in the canvas's key monitor when no trace is being drawn; the net's unrouted lines are drawn via a new `ratsnest(in:drawing:net:)`. Help: PCB help's "Nets" section, `Help/KeyboardHelp.swift`.)
+- [x] Tests (`NetListTests`): the pure part — `SchematicDocument.copperItems(ofNet:)` (pads, trace ids, via ids of a net) returns exactly the net's items for a routed pair; the filter function matches by name and pad label. (Plus the layer menu's toggle rule.) — `-only-testing:NetListTests -only-testing:KeyboardHelpTests` → 10 tests, 0 failures, `** TEST SUCCEEDED **` (the app target compiled with the UI).
 
 Acceptance: item lookup as listed; `xcodebuild … build` succeeds (UI compiled).
   Check: `-only-testing:schematicalTests/NetListTests` → `** TEST SUCCEEDED **` (est. 2 min).
@@ -169,7 +169,11 @@ See plan-38-A § Decisions. Author decisions: Nets live in the board inspector, 
 
 ## Corrections
 
-(Filled in during execution.)
+- The letter-completion prerequisite `grep -c "Commit: —" planning/plan-38-X-*.md`
+  can never print 0 for B…M: each of those files' own Prerequisites line holds
+  the text `Commit: —` (in backticks). The check that measures what it means is
+  `grep -c "^Commit: —"`: A → 0, B → 0 at the start of this letter (run
+  2026-11-14). The same applies to every later letter's check.
 
 ## Summary
 

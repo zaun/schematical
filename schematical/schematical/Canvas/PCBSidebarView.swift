@@ -9,6 +9,8 @@ import SwiftUI
 /// top sets the units of every length field.
 struct PCBSidebarView: View {
     @Bindable var document: SchematicDocument
+    /// The net the Nets section highlights on the canvas (window state).
+    var highlightedNet: Binding<PlaneNet?> = .constant(nil)
 
     /// What the inspector shows.
     enum Content: Equatable {
@@ -96,6 +98,7 @@ struct PCBSidebarView: View {
                 }
                 LayersSection(document: document)
                 PlanesSection(document: document)
+                NetsSection(document: document, highlightedNet: highlightedNet)
             }
         }
         .formStyle(.grouped)

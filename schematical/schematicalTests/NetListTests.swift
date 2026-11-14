@@ -56,6 +56,50 @@ final class NetListTests: XCTestCase {
         XCTAssertEqual(rows.first?.isRail, true)
     }
 
+    // MARK: Phase 2 — highlight lookup and filter
+
+    func testCopperItemsAreExactlyTheNetsCopper() throws {
+        let (doc, _, k, a) = try wiredPair()
+        let from = try centre(doc, k), to = try centre(doc, a)
+        let routed = try XCTUnwrap(doc.addTrace(points: [from, CGPoint(x: from.x, y: from.y + 6),
+                                                         CGPoint(x: to.x, y: from.y + 6), to], layer: .top))
+        let via = try XCTUnwrap(doc.addVia(at: CGPoint(x: from.x + 2, y: from.y + 6)))
+        // Copper on no net: a lone trace and via far away.
+        let stray = try XCTUnwrap(doc.addTrace(points: [CGPoint(x: 5, y: 75), CGPoint(x: 15, y: 75)], layer: .top))
+        let lone = try XCTUnwrap(doc.addVia(at: CGPoint(x: 30, y: 75)))
+        let key = try XCTUnwrap(doc.netRows().first?.key)
+        let items = try XCTUnwrap(doc.copperItems(ofNet: key))
+        XCTAssertEqual(items.pads.count, 2)
+        XCTAssertTrue(items.traces.contains(routed))
+        XCTAssertFalse(items.traces.contains(stray))
+        XCTAssertEqual(items.vias, [via])
+        XCTAssertFalse(items.vias.contains(lone))
+        let copper = doc.connectivity()
+        XCTAssertEqual(Set(items.pads.map { copper.netOfPad[$0] }), [copper.net(of: key)])
+    }
+
+    func testFilterMatchesNameAndPadLabel() throws {
+        let row = NetRow(net: 0, key: .ground, name: "GND", pads: 2, unrouted: 1, classID: nil, layerRule: nil,
+                         groupID: nil, padLabels: ["U1.7", "U2.14"])
+        XCTAssertTrue(row.matches(""))
+        XCTAssertTrue(row.matches("  "))
+        XCTAssertTrue(row.matches("gn"))
+        XCTAssertTrue(row.matches("u2.1"))
+        XCTAssertFalse(row.matches("VCC"))
+    }
+
+    func testLayerRuleMenuToggles() {
+        let only = NetLayerRuleMenu.toggled(nil, .top, mode: .only)
+        XCTAssertEqual(only, LayerRule(mode: .only, layers: [.top]))
+        let both = NetLayerRuleMenu.toggled(only, .bottom, mode: .only)
+        XCTAssertEqual(both, LayerRule(mode: .only, layers: [.top, .bottom]))
+        XCTAssertEqual(NetLayerRuleMenu.toggled(both, .top, mode: .only), LayerRule(mode: .only, layers: [.bottom]))
+        XCTAssertNil(NetLayerRuleMenu.toggled(only, .top, mode: .only), "the last layer off is no rule")
+        XCTAssertEqual(NetLayerRuleMenu.toggled(both, .bottom, mode: .prefer), LayerRule(mode: .prefer, layers: [.bottom]))
+        XCTAssertEqual(NetLayerRuleMenu.title(both), "Only Top, Bottom")
+        XCTAssertEqual(NetLayerRuleMenu.title(nil), "Any")
+    }
+
     func testClassAssignmentShowsInTheRow() throws {
         let (doc, _, _, _) = try wiredPair()
         let key = try XCTUnwrap(doc.netRows().first?.key)
