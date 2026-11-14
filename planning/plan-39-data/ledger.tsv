@@ -1,0 +1,105 @@
+kind	device	pinout	source	pages	flagged	note
+counter	40102B	p16	cd40102b	pp.1-4	{"CLR":true,"CI/CE":true,"APE":true,"CO/ZD":true,"SPE":true}	
+counter	40103B	p16	cd40102b	pp.1-4	{"CLR":true,"CI/CE":true,"APE":true,"CO/ZD":true,"SPE":true}	
+counter	40110B	p16	cd40110b	p.1	{"TE":true}	
+counter	40160B	p16	cd40160b	p.1	{"CLEAR":true,"LOAD":true}	
+counter	40161B	p16	cd40160b	p.1	{"CLEAR":true,"LOAD":true}	
+counter	4017B	p16	cd4017b	p.1	{}	
+counter	4018B	p16	cd4018b	p.1	{"Q2":true,"Q1":true,"Q3":true,"Q4":true,"Q5":true}	
+counter	40192B	p16	cd40192b	p.1	{"PE":true,"CARRY":true,"BORROW":true}	
+counter	40193B	p16	cd40192b	p.1	{"PE":true,"CARRY":true,"BORROW":true}	
+counter	4020B	p16	cd4020b	p.1	{}	
+counter	4022B	p16	cd4017b	p.1	{}	
+counter	4024B	p14	cd4020b	p.1	{}	
+counter	4026B	p16	cd4026b	pp.1-2	{}	
+counter	4029B	p16	cd4029b	p.1	{"CARRYIN":true,"CARRYOUT":true}	
+counter	4033B	p16	cd4026b	pp.1-2	{}	
+counter	4040B	p16	cd4020b	p.1	{}	
+counter	4059A	p24	cd4059a	p.1	{}	
+counter	4089B	p16	cd4089b	pp.1-2	{"OUTBAR":true}	
+counter	4510B	p16	cd4510b	p.1	{"CARRYIN":true,"CARRYOUT":true}	
+counter	4516B	p16	cd4510b	p.1	{"CARRYIN":true,"CARRYOUT":true}	
+counter	4518B	p16	cd4518b	p.1	{}	
+counter	4520B	p16	cd4518b	p.1	{}	
+counter	4522B	p16	cd4522b	p.1	{}	
+counter	4527B	p16	cd4527b	p.1	{"OUTBAR":true}	
+counter	74_161	p16	cd74ac161	p.3	{"CLR":true,"LOAD":true}	
+counter	74_161	fk20	sn74als161b	p.1	{"CLR":true,"LOAD":true}	
+counter	74_163	p16	cd74ac163	p.1	{"CLR":true,"LOAD":true}	
+counter	74_163	fk20	sn74als161b	p.1	{"CLR":true,"LOAD":true}	
+counter	74_169	p16	sn74als169b	p.1	{"U/D":["D"],"ENP":true,"LOAD":true,"ENT":true,"RCO":true}	
+counter	74_169	fk20	sn74ls169b	p.1	{"U/D":["D"],"ENP":true,"LOAD":true,"ENT":true,"RCO":true}	
+counter	74_190	p16	cd74hc190	p.1	{"CTEN":true,"D/U":["U"],"LOAD":true,"RCO":true}	
+counter	74_191	p16	cd74hc190	p.1	{"CTEN":true,"D/U":["U"],"LOAD":true,"RCO":true}	
+counter	74_191	fk20	sn74als191a	p.1	{"CTEN":true,"D/U":["U"],"LOAD":true,"RCO":true}	
+counter	74_192	p16	cd74hc192	p.1	{"LOAD":true,"CO":true,"BO":true}	CD74HC192 marks only PL (LOAD); CO/BO overbarred in sn74ls193 p.1 (covers LS192), flagged to match 74_193
+counter	74_193	p16	cd74hc192	p.1	{"LOAD":true,"CO":true,"BO":true}	CD74HC193 marks only PL (LOAD); CO/BO (TCU/TCD) unbarred there but overbarred in sn74ls193 p.1 (N package), flagged for R5 consistency with fk20
+counter	74_193	fk20	sn74ls193	p.1	{"LOAD":true,"CO":true,"BO":true}	
+counter	74_293	p14	sn74ls293	p.1	{}	
+counter	74_390	p16	cd74hc390	p.3	{"1CKA":true,"1CKB":true,"2CKB":true,"2CKA":true}	
+counter	74_390	fk20	sn74ls390	p.1	{"1CKA":true,"1CKB":true,"2CKB":true,"2CKA":true}	sn74ls390 draws clocks unbarred; flagged for R5 consistency with p16 (cd74hc390 p.3 overbars 1CLKA/1CLKB/2CLKA/2CLKB)
+counter	74_393	p14	cd74hc393	p.3	{"1CLK":true,"2CLK":true}	
+counter	74_393	fk20	sn74hc393	p.3	{"1CLK":true,"2CLK":true}	sn74hc393 draws CLK unbarred; flagged for R5 consistency with p14 (cd74hc393 p.3 overbars 1CP/2CP)
+counter	74_40103	p16	cd74hc40103	pp.1-2	{"MR":true,"TE":true,"PL":true,"TC":true,"PE":true}	
+counter	74_4017	p16	cd74hc4017	p.1	{"CE":true}	
+counter	74_4020	p16	cd74hc4020	p.3	{"CP":true}	
+counter	74_4020	fk20	sn74hc4020	p.3	{"CP":true}	sn74hc4020 draws CLK unbarred; flagged for R5 consistency with p16 (cd74hc4020 p.3 overbars CP)
+counter	74_4024	p14	cd74hc4024	p.3	{}	
+counter	74_4040	p16	cd74hc4040	p.3	{}	
+counter	74_4040	fk20	scls160	p.3	{}	
+counter	74_4059	p24	cd74hc4059	p.2	{}	
+counter	74_4518	p16	cd74hc4518	p.1	{}	
+counter	74_4520	p16	cd74hc4518	p.1	{}	
+counter	74_561	p20	sn74als561a	p.1	{"ALOAD":true,"ACLR":true,"SCLR":true,"SLOAD":true,"OE":true}	
+counter	74_569	p20	sn74als569a	p.1	{"U/D":["D"],"ENP":true,"ACLR":true,"SCLR":true,"LOAD":true,"ENT":true,"OE":true,"CCO":true,"RCO":true}	
+counter	74_590	p16	sn74hc590a	p.1	{"RCO":true,"CCLR":true,"CCKEN":true,"G":true}	
+counter	74_590	fk20	sn74hc590a	p.1	{"RCO":true,"CCLR":true,"CCKEN":true,"G":true}	
+counter	74_592	p16	sn74ls592	p.1	{"RCO":true,"CCLR":true,"CCKEN":true,"CLOAD":true}	
+counter	74_593	p20	sn74ls592	p.1	{"CLOAD":true,"RCO":true,"CCLR":true,"CCKENBAR":true,"RCKEN":true,"GBAR":true}	
+counter	74_697	p20	sn74ls697	p.1	{"U/D":["D"],"ENP":true,"CCLR":true,"R/C":["C"],"G":true,"LOAD":true,"ENT":true,"RCO":true}	
+counter	74_8154	p20	sn74lv8154	p.3	{"GAL":true,"GAU":true,"GBL":true,"GBU":true,"RCOA":true,"CLKBEN":true,"CCLR":true}	
+counter	74_867	p24	sn74als867a	p.1	{"ENT":true,"RCO":true,"ENP":true}	
+counter	74_867_AS	p24	sn74als867a	p.1	{"ENT":true,"RCO":true,"ENP":true}	
+counter	74_869	p24	sn74als867a	p.1	{"ENT":true,"RCO":true,"ENP":true}	
+counter	74_869_AS	p24	sn74als867a	p.1	{"ENT":true,"RCO":true,"ENP":true}	
+counter	74_90	p14	sn74ls90	p.1	{}	
+counter	74_92	p14	sn74ls90	p.1	{}	
+counter	74_93	p14	sn74ls90	p.1	{}	
+counter	74_97	p16	sn5497	pp.1-3	{}	no overbars or active-low wording on any pin; p.1 says counter is enabled when CLR, STRB and EN in are low (CLR is active-high clear), logic symbol shows IEC polarity indicators on STRB/EN in/UNITY-CAS and Z/Y/EN out - not rule-1 evidence, left unflagged
+decoder	40147B	p16	cd40147b	p.1	{"I4":true,"I5":true,"I6":true,"I7":true,"I8":true,"C":true,"B":true,"A":true,"I9":true,"I1":true,"I2":true,"I3":true,"D":true,"I0":true}	Features: active low inputs and outputs; truth table negative logic
+decoder	4028B	p16	cd4028b	p.1	{}	
+decoder	4514B	p24	cd4514b	pp.1-4	{}	
+decoder	4515B	p24	cd4514b	pp.1-4	{"S7":true,"S6":true,"S5":true,"S4":true,"S3":true,"S1":true,"S2":true,"S0":true,"S13":true,"S12":true,"S15":true,"S14":true,"S9":true,"S8":true,"S11":true,"S10":true}	CD4515B selected output Logic 0 (Low); no overbars on names
+decoder	4532B	p16	cd4532b	p.1	{}	
+decoder	4555B	p16	cd4555b	p.1	{"1E":true,"2E":true}	
+decoder	4556B	p16	cd4555b	p.1	{"1E":true,"1Q0":true,"1Q1":true,"1Q2":true,"1Q3":true,"2Q3":true,"2Q2":true,"2Q1":true,"2Q0":true,"2E":true}	
+decoder	74_11138	p16	74ac11138	p.3	{"G2B":true,"G2A":true}	Y0-Y7 unmarked in this datasheet
+decoder	74_11139	p16	74act11139	p.1	{"2G":true,"1G":true}	Y outputs unmarked in this datasheet
+decoder	74_137	p16	cd74hc137	p.2	{"G2":true,"Y7":true,"Y6":true,"Y5":true,"Y4":true,"Y3":true,"Y2":true,"Y1":true,"Y0":true}	LE unmarked in this datasheet
+decoder	74_138	p16	cd74ac138	p.3	{"G2A":true,"G2B":true}	Y0-Y7 unmarked in this datasheet
+decoder	74_139	p16	cd74ac139	p.1	{"1G":true,"2G":true}	Y outputs unmarked in this datasheet
+decoder	74_145	p16	sn74145	p.1	{}	OC outputs 0-9 unmarked (no overbar); table legend L = low level (on) only; rule 4 not flagged
+decoder	74_147	p16	cd74hc147	p.3	{"I4":true,"I5":true,"I6":true,"I7":true,"I8":true,"Y2":true,"Y1":true,"Y0":true,"I9":true,"I1":true,"I2":true,"I3":true,"Y3":true}	table row 9 says I0 input; figure shows pin 9 = Y0 overbar
+decoder	74_148	p16	sn74hc148	pp.3-8	{"I4":true,"I5":true,"I6":true,"I7":true,"A2":true,"A1":true,"A0":true,"I0":true,"I1":true,"I2":true,"I3":true}	p.8: data inputs and outputs active low; EI/GS/EO unmarked
+decoder	74_148	fk20	sn74ls148	p.1	{"I4":true,"I5":true,"I6":true,"I7":true,"A2":true,"A1":true,"A0":true,"I0":true,"I1":true,"I2":true,"I3":true}	text: data inputs and outputs active at low logic level; EI/GS/EO unmarked
+decoder	74_154	p24	cd74hc154	p.1	{"Y0":true,"Y1":true,"Y2":true,"Y3":true,"Y4":true,"Y5":true,"Y6":true,"Y7":true,"Y8":true,"Y9":true,"Y10":true,"Y11":true,"Y12":true,"Y13":true,"Y14":true,"Y15":true,"E1":true,"E2":true}	
+decoder	74_155	p16	sn74ls155a	p.1	{"1G":true,"2G":true,"2C":true}	Y outputs unmarked in names
+decoder	74_156	p16	sn74als156	p.1	{"1G":true,"2G":true,"2C":true}	OC Y outputs unmarked
+decoder	74_1G139	p8	sn74lvc1g139	pp.3-11	{"Y3":true,"Y2":true,"Y1":true,"Y0":true}	overview: Y outputs are active low
+decoder	74_1G139	dsbga	sn74lvc1g139	pp.3-11	{"Y3":true,"Y2":true,"Y1":true,"Y0":true}	overview: Y outputs are active low
+decoder	74_1G18	p6	sn74lvc1g18	p.3	{}	
+decoder	74_1G18	dsbga	sn74lvc1g18	p.3	{}	
+decoder	74_1G19	p6	sn74auc1g19	p.3	{"E":true}	
+decoder	74_1G19	dsbga	sn74auc1g19	p.3	{"E":true}	
+decoder	74_1G29	p8	sn74lvc1g29	pp.1-2	{"G":true}	Y outputs unmarked
+decoder	74_1G29	dsbga	sn74lvc1g29	pp.1-2	{"G":true}	Y outputs unmarked
+decoder	74_237	p16	cd74hc137	p.2	{"G2":true}	LE unmarked in this datasheet
+decoder	74_238	p16	cd74ac238	p.3	{"G2A":true,"G2B":true}	
+decoder	74_2414	p20	sn74bct2414	pp.1-2	{"SD":true,"1G":true,"G":true}	2G active high (no overbar); Y outputs unmarked
+decoder	74_348	p16	sn74ls348	pp.1-2	{}	no overbars or active-low text; only IEC polarity indicators in logic symbol
+decoder	74_42	p16	cd74hc42	p.1	{"Y0":true,"Y1":true,"Y2":true,"Y3":true,"Y4":true,"Y5":true,"Y6":true,"Y7":true,"Y8":true,"Y9":true}	
+decoder	74_45	p16	sn7445	p.1	{}	OC outputs 0-9 unmarked (no overbar); table legend L = low level (on) only; rule 4 not flagged
+decoder	74_4514	p24	cd74hc4514	pp.1-2	{"E":true}	LE drawn with overbar but the text says outputs follow when LE high: datasheet self-contradiction, text decides (plan-39-E Corrections 1); LE not flagged
+decoder	74_4515	p24	cd74hc4514	pp.1-2	{"Y7":true,"Y6":true,"Y5":true,"Y4":true,"Y3":true,"Y1":true,"Y2":true,"Y0":true,"Y13":true,"Y12":true,"Y15":true,"Y14":true,"Y9":true,"Y8":true,"Y11":true,"Y10":true,"E":true}	LE drawn with overbar but the text says outputs follow when LE high: datasheet self-contradiction, text decides (plan-39-E Corrections 1); LE not flagged
+decoder	74_47	p16	sn7447a	pp.1-3	{"LT":true,"BI/RBO":true,"RBI":true,"e":true,"d":true,"c":true,"b":true,"a":true,"g":true,"f":true}	p.3: '47A/'LS47 feature active-low outputs; p.2 table active level low
+decoder	74_49	p14	sn7447a	pp.1-3	{"BI":true}	'LS49 outputs active high

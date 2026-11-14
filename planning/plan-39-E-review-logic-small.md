@@ -18,8 +18,8 @@ plan-39-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-39-D complete | `ls planning/completed/plan-39-D-*.md \| wc -l` → 1, and `grep -o '"activeLow":true' schematical/schematical/Parts/{sram,eeprom,cpu,converter}.json \| wc -l` → 279 | NOT MET until D lands |
-| The tool's tests pass | `node --test scripts/pin-polarity.test.js` → all pass | NOT MET until D lands |
+| plan-39-D complete | `ls planning/completed/plan-39-D-*.md \| wc -l` → 1, and `grep -oE '"activeLow": ?true' schematical/schematical/Parts/{sram,eeprom,cpu,converter}.json \| wc -l` → 279 | MET (2026-11-14: 1 and 279; the grep's spacing corrected per plan-39-D Corrections 1) |
+| The tool's tests pass | `node --test scripts/pin-polarity.test.js` → all pass | MET (2026-11-14: pass 13, fail 0) |
 
 Everything below is written against the world where these hold.
 
@@ -92,12 +92,13 @@ The reviews of different devices are independent; an implementer may fan devices
 
 One commit per phase: the edited part file(s), `planning/plan-39-data/ledger.tsv` and `backend/tests/golden/parts.txt`.
 
-- [ ] Review counter devices 1–57 (40102B … 74_97): 67 pinouts, § 3 procedure; edits `schematical/schematical/Parts/counter.json`.
-- [ ] Review decoder devices 1–32 (40147B … 74_49): 37 pinouts, § 3 procedure; edits `schematical/schematical/Parts/decoder.json`.
-- [ ] Rebuild and regenerate the golden: `cmake -S backend -B /tmp/logic-p39 && cmake --build /tmp/logic-p39 -j8 && /tmp/logic-p39/listing_check --print > backend/tests/golden/parts.txt`.
+- [x] Review counter devices 1–57 (40102B … 74_97): 67 pinouts, § 3 procedure; edits `schematical/schematical/Parts/counter.json`. — done: 67 rows (2 reviewers + 74_161 p16 by hand)
+- [x] Review decoder devices 1–32 (40147B … 74_49): 37 pinouts, § 3 procedure; edits `schematical/schematical/Parts/decoder.json`. — done: 37 rows
+- [x] Rebuild and regenerate the golden: `cmake -S backend -B /tmp/logic-p39 && cmake --build /tmp/logic-p39 -j8 && /tmp/logic-p39/listing_check --print > backend/tests/golden/parts.txt`. — done: regenerated over all of E, then this phase's lines staged (Corrections 2)
 
 Acceptance: every pinout of the phase has a ledger row, the ledger matches the files, and the golden moved only by flags.
   Check: `node scripts/pin-polarity.js check --kind counter --devices 1-57 --complete && node scripts/pin-polarity.js check --kind decoder --devices 1-32 --complete && node scripts/pin-polarity.js golden-check && ctest --test-dir /tmp/logic-p39 -R '^(library_check|listing_check|trace_check)$'` → every `check` exits 0, `golden-check` exits 0, 3 of 3 tests passed (est. 90 min of reading for 104 pinouts, then 6 min for the checks: the loader and `listing_check` load every part file the phase edited, which no smaller check does).
+  Observed 2026-11-14: counter `ok: 67 pinouts, 67 ledger rows checked`; decoder `ok: 37 pinouts, 37 ledger rows checked`; golden-check (phase staged) `ok: 853 parts.txt line(s) changed, only by :low`; ctest on the full E tree `100% tests passed, 0 tests failed out of 3`.
 Commit: —
 
 ### Phase 2 — E2: latch 1–28 + register 1–26 + shift 1–36 (106 pinouts)
@@ -146,7 +147,40 @@ Commit: —
 
 ## Corrections
 
-(empty until execution)
+1. **A datasheet that contradicts itself.** Some sheets draw a pin with an
+   overbar while their own function text says it acts high (CD74HC4514's
+   LE; CD74AC373/573 and CD74HC533/563 LE; CD74HC75's enables; the
+   SN74ALVCH32373 pin table's 1LE–4LE). Rule 1 assumes a consistent sheet.
+   Applied uniformly: the function text (truth table, "outputs follow when
+   high") decides and the overbar is treated as a drawing error. Those pins
+   are unflagged, and each row's note says so. A pin whose datasheet *name*
+   carries the bar (Q̄, Ē on the 74_354, `QBAR`/`KBAR`/`YBAR` catalog names)
+   is flagged: the bar names the signal, so there is no contradiction.
+   74_4514 and 74_4515 LE were first flagged by one reviewer and then
+   unflagged to match this.
+2. **The three phases were reviewed together and committed one by one.**
+   They edit different part files. The ledger and `parts.txt` are shared, so
+   each phase's commit holds the ledger rows and golden lines of its own
+   kinds only (staged by filtering the full state). The phase's
+   `check … --complete` and `golden-check` ran on that staged state.
+   `library_check`/`listing_check`/`trace_check` ran once on the full tree,
+   because a partial golden cannot match part files that already carry the
+   other phases' flags.
+3. **R5 across datasheets.** A device's pinouts are read from different
+   datasheets (74_193 p16 from cd74hc192, fk20 from sn74ls193; 74_390,
+   74_393, 74_4020 and 74_173 likewise), and the sheets do not always mark
+   the same pin. R5 requires one flag per pin name in a device. Where one of
+   the device's listed datasheets marks the pin, it is flagged in every
+   pinout, with a note naming that sheet. 74_192 p16 CO/BO were flagged
+   from sn74ls193, which covers the '192.
+4. **Inverted outputs.** Q̄ outputs drawn with an overbar are flagged (rule
+   1). This covers names like `QBAR`, `1QBAR` and `QHBAR`, and also `nQ` on
+   inverting registers whose sheet overbars them (74_534/564/576/577,
+   74_533/563/580). All reviewers applied it the same way.
+5. **WDC's `B` suffix** (RESB, IRQB, CS2B) is not defined as a negation
+   marker in the W65C02S/W65C816S/W65C21/W65C22 sheets. Pins are flagged
+   where the sheet's text says low-active or held low. W65C22 RESB (its sheet
+   says neither) and RWB (one name, low = write) are not flagged.
 
 ## Summary
 
