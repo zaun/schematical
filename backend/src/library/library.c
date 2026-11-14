@@ -242,7 +242,8 @@ static const char *const PART_KEYS[] = {
     "name", "package", "pinout", "flags", "footprint", "connectorFootprint",
     "footprintChoices", "manufacturer", "datasheet", NULL
 };
-static const char *const PIN_KEYS[] = {"number", "ball", "name", "role", "group", "side", NULL};
+static const char *const PIN_KEYS[] = {"number", "ball", "name", "role", "group", "side",
+                                         "activeLow", NULL};
 
 static const char *const ROLE_NAMES[] = {
     "input", "output", "inout", "power", "ground", "nc", "absent"
@@ -284,6 +285,88 @@ static int file_add_part(FileParts *file, const Part *part) {
         file->capacity = capacity;
     }
     file->parts[file->count++] = part;
+    return 0;
+}
+
+/* A pin's "activeLow" (plan-39-A § 3): true, or a proper non-empty subset
+ * of the name's slash-separated alternatives. Sets pin->active_low. */
+#define ACTIVE_LOW_MAX 32
+static int load_active_low(KindContext *ctx, const cJSON *pin_json, PartPin *pin) {
+    const cJSON *json = cJSON_GetObjectItemCaseSensitive(pin_json, "activeLow");
+    const char *alts[ACTIVE_LOW_MAX];
+    size_t lengths[ACTIVE_LOW_MAX];
+    size_t count = 0, i;
+    const char *start = pin->name;
+    uint32_t all, mask = 0;
+    const cJSON *item;
+
+    pin->active_low = 0;
+    if (json == NULL) {
+        return 0;
+    }
+    if (pin->role != PIN_INPUT && pin->role != PIN_OUTPUT && pin->role != PIN_INOUT) {
+        return kind_error(ctx, "\"activeLow\" is for input, output and inout pins");
+    }
+    if (!cJSON_IsTrue(json) && !cJSON_IsArray(json)) {
+        return kind_error(ctx, "\"activeLow\" must be true or a list of the name's alternatives");
+    }
+    for (;;) {
+        const char *slash = strchr(start, '/');
+        size_t length = slash != NULL ? (size_t)(slash - start) : strlen(start);
+
+        if (count < ACTIVE_LOW_MAX) {
+            alts[count] = start;
+            lengths[count] = length;
+        }
+        count++;
+        if (slash == NULL) {
+            break;
+        }
+        start = slash + 1;
+    }
+    if (cJSON_IsTrue(json)) {
+        pin->active_low = count >= ACTIVE_LOW_MAX ? 0xFFFFFFFFu
+                                                  : (uint32_t)((1u << count) - 1u);
+        return 0;
+    }
+    cJSON_ArrayForEach(item, json) {
+        if (!cJSON_IsString(item)) {
+            return kind_error(ctx, "\"activeLow\" must be true or a list of the name's alternatives");
+        }
+    }
+    if (cJSON_GetArraySize(json) == 0) {
+        return kind_error(ctx, "\"activeLow\" is empty");
+    }
+    if (count > ACTIVE_LOW_MAX) {
+        return kind_error(ctx, "\"activeLow\" is for names of at most 32 alternatives");
+    }
+    all = count == ACTIVE_LOW_MAX ? 0xFFFFFFFFu : (uint32_t)((1u << count) - 1u);
+    cJSON_ArrayForEach(item, json) {
+        const char *text = item->valuestring;
+        uint32_t bits = 0;
+        const cJSON *other;
+
+        for (other = json->child; other != item; other = other->next) {
+            if (strcmp(other->valuestring, text) == 0) {
+                return kind_error(ctx, "\"activeLow\" lists \"%s\" twice", text);
+            }
+        }
+        for (i = 0; i < count; i++) {
+            if (strlen(text) == lengths[i] && strncmp(alts[i], text, lengths[i]) == 0) {
+                bits |= 1u << i;
+            }
+        }
+        if (bits == 0) {
+            return kind_error(ctx, "\"activeLow\" has no alternative \"%s\" in \"%s\"", text,
+                              pin->name);
+        }
+        mask |= bits;
+    }
+    if (mask == all) {
+        return kind_error(ctx, "\"activeLow\" lists every alternative of \"%s\"; write true",
+                          pin->name);
+    }
+    pin->active_low = mask;
     return 0;
 }
 
@@ -396,6 +479,9 @@ static int load_pinout(KindContext *ctx, const cJSON *json, Pinout *out) {
             if (pin->role != PIN_INPUT && pin->role != PIN_OUTPUT && pin->role != PIN_INOUT) {
                 return kind_error(ctx, "\"side\" is for input, output and inout pins");
             }
+        }
+        if (load_active_low(ctx, pin_json, pin) != 0) {
+            return -1;
         }
         kind_pop(ctx);
         n++;

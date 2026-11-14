@@ -46,6 +46,8 @@ typedef enum { PIN_SIDE_AUTO, PIN_SIDE_IN, PIN_SIDE_OUT } PinSide;
 typedef struct {
     const char *designator;  /* the package's label: "14" (numbered) or "A1" (ball) */
     const char *name; PinRole role; const char *group; PinSide side;
+    uint32_t active_low;     /* bit i: alternative i of `name` (split at `/`) is
+                                active low; 0 = none */
 } PartPin;
 
 /* Exactly one of these is set on a Part, matching its kind. */

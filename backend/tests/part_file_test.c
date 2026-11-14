@@ -226,6 +226,33 @@ int main(void) {
         puts("ok (i) unload takes back the latest part file");
     }
 
+    /* (j) A pin's "activeLow" (plan-39-A) survives a single part file. */
+    {
+        static const char TEXT[] =
+            HEAD("7A2B3C4D-5E6F-4071-8293-A4B5C6D7E8F9") "\"devices\":["
+            "{\"id\":\"1G00\",\"function\":\"NAND\",\"description\":\"Single 2-input NAND gate\","
+            "\"drawer\":[\"Custom\",\"Gates\"],"
+            "\"pinouts\":{\"p5\":[{\"number\":1,\"name\":\"A/CS\",\"role\":\"input\",\"activeLow\":[\"CS\"]},"
+            "{\"number\":2,\"name\":\"B\",\"role\":\"input\",\"activeLow\":true},"
+            "{\"number\":3,\"name\":\"GND\",\"role\":\"ground\"},"
+            "{\"number\":4,\"name\":\"Y\",\"role\":\"output\"},{\"number\":5,\"name\":\"VCC\",\"role\":\"power\"}]},"
+            "\"gates\":[{\"op\":\"nand\",\"inputs\":[\"A/CS\",\"B\"],\"output\":\"Y\"}],"
+            "\"timing\":{\"HC\":{\"rise\":9,\"fall\":9,\"vcc\":[2,6]}},"
+            "\"parts\":[{\"name\":\"J-PART\",\"manufacturer\":\"Generic\",\"package\":\"SOT-23\","
+            "\"pinout\":\"p5\",\"footprint\":\"SOT23-5\",\"family\":\"HC\"}]}]}";
+
+        CHECK(load_part_file(library, TEXT, "j.schpart", &error) == 0, "(j) %s", error);
+        free(error);
+        error = NULL;
+        part = part_library_find(library, "J-PART");
+        CHECK(part != NULL && part->pins[0].active_low == 2 && part->pins[1].active_low == 1 &&
+                  part->pins[3].active_low == 0,
+              "(j) active_low masks %u %u %u", part != NULL ? (unsigned)part->pins[0].active_low : 0u,
+              part != NULL ? (unsigned)part->pins[1].active_low : 0u,
+              part != NULL ? (unsigned)part->pins[3].active_low : 0u);
+        puts("ok (j) activeLow loads from a single part file");
+    }
+
     /* load_parts still rejects the single part format, and keeps its rules. */
     {
         if (load_parts(library, HEAD("66666666-2222-4333-8444-555555555555") "\"devices\":[]}",
@@ -241,6 +268,6 @@ int main(void) {
         fprintf(stderr, "%d failure(s)\n", failures);
         return 1;
     }
-    puts("PASS: load_part_file (plan-32-A cases a-h, plan-32-C unload case i)");
+    puts("PASS: load_part_file (plan-32-A cases a-h, plan-32-C unload case i, plan-39-A case j)");
     return 0;
 }

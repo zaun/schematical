@@ -41,9 +41,9 @@ Every other letter points here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| No plan-39 file but A–L is in `planning/` | `ls -d planning/plan-39-* \| grep -v -E 'plan-39-([A-L]-\|data)' \| wc -l` → 0 | MET (2026-11-13: 0) |
-| `node`, `pdftotext`, `pdftoppm`, `cmake`, `xcodebuild` exist | `which node pdftotext pdftoppm cmake xcodebuild \| wc -l` → 5 | MET (2026-11-13: 5) |
-| The part files hold no `activeLow` key yet | `grep -c '"activeLow"' schematical/schematical/Parts/*.json \| grep -v ':0$' \| wc -l` → 0 | MET (2026-11-13: 0) |
+| No plan-39 file but A–L is in `planning/` | `ls -d planning/plan-39-* \| grep -v -E 'plan-39-([A-L]-\|data)' \| wc -l` → 0 | MET (2026-11-14: 0) |
+| `node`, `pdftotext`, `pdftoppm`, `cmake`, `xcodebuild` exist | `which node pdftotext pdftoppm cmake xcodebuild \| wc -l` → 5 | MET (2026-11-14: 5) |
+| The part files hold no `activeLow` key yet | `grep -c '"activeLow"' schematical/schematical/Parts/*.json \| grep -v ':0$' \| wc -l` → 0 | MET (2026-11-14: 0) |
 
 Everything below is written against the world where these hold.
 
@@ -158,10 +158,10 @@ plus `library_check`'s new cases.
 
 ### Phase 1 — loader, struct, listing
 
-- [ ] `backend/include/parts.h`: add `uint32_t active_low;` to `PartPin`
+- [x] `backend/include/parts.h`: add `uint32_t active_low;` to `PartPin`
       with the comment "bit i: alternative i of `name` (split at `/`) is
-      active low; 0 = none".
-- [ ] `backend/src/library/library.c`: add `"activeLow"` to `PIN_KEYS`; after
+      active low; 0 = none". — done: parts.h:49
+- [x] `backend/src/library/library.c`: add `"activeLow"` to `PIN_KEYS`; after
       the `side` block of the pin loader, read it when present: `true` →
       mask of all alternatives; an array → the bits of the listed
       alternatives; set `pin->active_low = 0` when absent. Errors (each via
@@ -172,20 +172,21 @@ plus `library_check`'s new cases.
       `"activeLow" is empty`; `"activeLow" has no alternative "X" in "NAME"`;
       `"activeLow" lists "X" twice`;
       `"activeLow" lists every alternative of "NAME"; write true`;
-      `"activeLow" is for names of at most 32 alternatives`.
-- [ ] `backend/tests/support/listing.c`: print `:low` / `:low=A;B` after the
-      `side` field (§ 3).
-- [ ] `backend/tests/library_check.c`: one accepted and one rejected case per
+      `"activeLow" is for names of at most 32 alternatives`. — done: `load_active_low` in library.c; all 7 messages seen in library_check output
+- [x] `backend/tests/support/listing.c`: print `:low` / `:low=A;B` after the
+      `side` field (§ 3). — done: `print_active_low` in listing.c
+- [x] `backend/tests/library_check.c`: one accepted and one rejected case per
       error above, plus: `true` on a one-alternative name → mask 1; `true`
       on `A0/CS` → mask 3; `["CS"]` on `A0/CS` → mask 2; `["CE#"]` on `CE#`
       → rejected (lists every alternative); a pin without the key → mask 0;
-      a power pin with it → rejected.
-- [ ] `backend/tests/part_file_test.c`: one single-part-file case with a
-      flagged pin loads and `part->pins[i].active_low` matches.
+      a power pin with it → rejected. — done: `check_pin_active_low_cases`: 7 accepted + 12 rejected, all `ok`
+- [x] `backend/tests/part_file_test.c`: one single-part-file case with a
+      flagged pin loads and `part->pins[i].active_low` matches. — done: case (j), `ok (j) activeLow loads from a single part file`
 
 Acceptance: the loader accepts and rejects exactly as § 3 says, and the
 goldens do not move.
   Check: `cmake -S backend -B /tmp/logic-p39 && cmake --build /tmp/logic-p39 -j8 && ctest --test-dir /tmp/logic-p39 -R '^(library_check|part_file_test|listing_check|trace_check)$' && git diff --stat backend/tests/golden` → 4 of 4 passed, diff stat empty (est. 6 min: first build of the backend; no smaller check builds the loader).
+  Observed 2026-11-14: `100% tests passed, 0 tests failed out of 4`; `git diff --stat backend/tests/golden` empty.
 Commit: —
 
 ### Phase 2 — format documentation
