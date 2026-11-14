@@ -91,6 +91,39 @@
       net, missing power pins. Extends the voltage check.
 - [ ] Renumber references (U1, U2… in order) before building the BOM.
 
+## Examples (8-bit CPU, `examples/8bit-cpu`)
+
+- [ ] Route the AFU PCB (115 unrouted connections in the design rule check).
+- [ ] Route the LFU PCB (188 unrouted connections in the design rule check).
+- [ ] Fix the AFU's 16 silkscreen design rule check warnings: references over
+      0603 cap pads (C1–C9, R1, U44), cap pin-1 marks too close to chip
+      pads, D1's pin-1 mark over R2's pad. The LFU had the same set; it
+      was fixed by hiding those references and pin-1 marks.
+- [ ] Rerun the LFU design rule check: R1's pin-1 mark was hidden after
+      the last run, which had that as the only silkscreen warning left.
+- [ ] D1 and R2 (the "selected" LED and its resistor) are 0.27 mm apart on
+      both the AFU and the LFU. They pass the design rule check, but more room
+      would make assembly easier.
+- [ ] AFU drives CF and ZF all the time (not gated by /AFU), so no other
+      card can use those lines. The LFU uses its own GT and EQ lines
+      for that reason. Decide whether flags should be 3-state on a shared
+      flag bus instead.
+- [ ] FUNC-BUS pin 12 was changed from GND to EQ, and pins 37–40 (were
+      unused) are now /LFU, OP0, OP1, GT. Any other card on the bus
+      (RegFile, later units) must use the same names and must not ground
+      pin 12.
+
+## App issues found while building the LFU
+
+- [ ] New 0603 passives fail the design rule check by default: the reference
+      is placed over a pad and the pin-1 mark is too close to a pad. Place
+      the reference off the pads (or hide it) for small footprints.
+- [ ] Unpolarized parts (ceramic caps, resistors) get a pin-1 mark on the
+      silkscreen by default. They shouldn't have one.
+- [ ] Check whether a net label named `GND` or `5V` joins the supply rail
+      (not only bus wires of that name); docs/file-format.md doesn't say.
+      If it doesn't, either make it or say so in the docs.
+
 ## Datasheets
 
 - [ ] Create a datasheet format (Markdown or JSON), based on Markdown,
