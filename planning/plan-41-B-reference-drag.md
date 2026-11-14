@@ -139,12 +139,12 @@ Rejected alternatives:
 
 ### Phase 1 — Hit test and the gesture, tested
 
-- [ ] `Canvas/SchematicModel.swift`: add `referenceHit(at:tolerance:height:visible:)`
+- [x] `Canvas/SchematicModel.swift`: add `referenceHit(at:tolerance:height:visible:)`
       (§ 3), next to `footprint(at:visible:)`.
-- [ ] `Canvas/PCBCanvasView.swift`: add `enum ReferenceDragging` (`press`,
+- [x] `Canvas/PCBCanvasView.swift`: add `enum ReferenceDragging` (`press`,
       `drag`), the `.moveReference(id:from:)` case, the Cmd branch in
       `begin(at:)`, and the `handle` case; `end(translation:)` needs nothing.
-- [ ] Tests: new `schematicalTests/ReferenceDragTests.swift`, driving
+- [x] Tests: new `schematicalTests/ReferenceDragTests.swift`, driving
       `ReferenceDragging` in the canvas's order inside `beginGesture(.pcb)` …
       `endGesture()`: a press on a reference's text hits it and a press on the
       pads or off the part does not; a Top part's reference hides a Bottom
@@ -158,7 +158,12 @@ Rejected alternatives:
       reference's board centre by the same, and `rotateFootprint` carries it
       (A's `boardReferenceCentre == board.board(offset)`).
 
+- [x] (added) `ReferenceDragging.drag` does nothing for a zero offset, so a
+      Cmd-click with no movement doesn't re-snap the reference; tested by
+      `testAPressWithNoMovementLeavesTheReference`.
+
 Acceptance: the tests pass.
+  Result: `** TEST SUCCEEDED **`; LockPositionTests 6, PCBUndoTests 34, ReferenceDragTests 9 → 49 tests, 0 failures.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p41-dd test -only-testing:schematicalTests/ReferenceDragTests -only-testing:schematicalTests/PCBUndoTests -only-testing:schematicalTests/LockPositionTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 8 min; the two existing classes prove the plain-drag and lock paths didn't change).
 Commit: —
 

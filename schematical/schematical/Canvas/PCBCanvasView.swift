@@ -87,6 +87,9 @@ struct PCBCanvasView: View {
         /// were at the press.
         case moveGroup(base: BoardGroupBase)
         case pan(startOffset: CGSize)
+        /// Cmd-drag on a reference's text: moves only that reference (of
+        /// footprint `id`), from where its centre was at the press (board mm).
+        case moveReference(id: UUID, from: CGPoint)
         /// Shift-drag on empty board: a selection box from the press to
         /// `to` (screen points), adding to `base`, the selection at the press.
         case boxSelect(base: Set<BoardItem>, to: CGPoint)
@@ -630,6 +633,8 @@ struct PCBCanvasView: View {
         switch current {
         case let .moveGroup(base):
             document.moveBoardGroup(base, by: offset)
+        case let .moveReference(id, from):
+            ReferenceDragging.drag(document, id: id, from: from, by: offset)
         case let .pan(startOffset):
             viewport.pan(to: CGSize(
                 width: startOffset.width + translation.width,
@@ -683,6 +688,11 @@ struct PCBCanvasView: View {
             onPlaced()
             return .moveGroup(base: document.boardGroupBase())
         case .select:
+            // Cmd-press on a reference's text: the drag moves only the reference.
+            if NSEvent.modifierFlags.contains(.command),
+               let press = ReferenceDragging.press(document, at: point, scale: scale, visible: shown) {
+                return .moveReference(id: press.id, from: press.from)
+            }
             if let item = document.boardItem(at: point, tolerance: TraceDrawing.tolerance / scale, visible: shown) {
                 selectionPress = document.pressSelection(item, shift: shift)
                 return .moveGroup(base: document.boardGroupBase(grab: point))
@@ -726,6 +736,35 @@ private struct PadLabel: View {
             .padding(.vertical, 2)
             .background(Color.black.opacity(0.75), in: RoundedRectangle(cornerRadius: 4))
             .fixedSize()
+    }
+}
+
+/// The steps of a Cmd-drag on a reference, kept apart from the view so tests
+/// can run them in the order the canvas does: hit the press, move while
+/// dragging.
+@MainActor
+enum ReferenceDragging {
+    /// The reference under a press at `point` (board mm), if any; its footprint
+    /// becomes the whole selection unless it is already selected. `scale` is
+    /// screen points per mm. Returns the footprint and where its reference's
+    /// centre is now.
+    static func press(_ document: SchematicDocument, at point: CGPoint, scale: CGFloat,
+                      visible: BoardVisibility) -> (id: UUID, from: CGPoint)? {
+        // The text is drawn at least 8 points tall (`PCBCanvasView.drawMarks`).
+        let height = max(BoardReference.height, 8 / Double(scale))
+        guard let id = document.referenceHit(at: point, tolerance: TraceDrawing.tolerance / scale,
+                                             height: height, visible: visible),
+              let from = document.chips.first(where: { $0.id == id })?.boardReferenceCentre else { return nil }
+        if !document.boardSelection.items.contains(.footprint(id)) { document.select(.footprint(id)) }
+        return (id, from)
+    }
+
+    /// One frame of the drag: the reference's centre goes to where it was at
+    /// the press plus the pointer's movement `offset` (mm), snapped. A press
+    /// with no movement yet leaves the reference where it is.
+    static func drag(_ document: SchematicDocument, id: UUID, from: CGPoint, by offset: CGSize) {
+        guard offset != .zero else { return }
+        document.moveReference(id, toCentre: CGPoint(x: from.x + offset.width, y: from.y + offset.height))
     }
 }
 

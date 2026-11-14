@@ -2872,6 +2872,23 @@ final class SchematicDocument {
         return nil
     }
 
+    /// The footprint whose drawn reference text is under a board point (mm),
+    /// within `tolerance` of its box: Top before Bottom, the last one drawn
+    /// first. `height` is the text's drawn height (mm); a reference that is
+    /// hidden, or whose layer is off, can't be hit.
+    func referenceHit(at point: CGPoint, tolerance: CGFloat, height: Double = BoardReference.height,
+                      visible: BoardVisibility = BoardVisibility()) -> UUID? {
+        for side in [BoardSide.top, .bottom] {
+            if let hit = chips.last(where: { chip in
+                guard let placement = chip.board, placement.side == side,
+                      visible.showsMark(placement.reference, side: side),
+                      let rect = chip.boardReferenceRect(height: height) else { return false }
+                return rect.insetBy(dx: -tolerance, dy: -tolerance).contains(point)
+            }) { return hit.id }
+        }
+        return nil
+    }
+
     /// The pad under a board point (mm) and what to call it, for the PCB
     /// page's hover label: a part's pad ("U3.5 A0"; "U3.5" when the pin's
     /// name is just its number; "U3 centre pad" for an unnumbered one), or a

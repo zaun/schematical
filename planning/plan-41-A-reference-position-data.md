@@ -265,8 +265,9 @@ Commit: 2e8ab127
       only `refX` reads `refY` as 0.
 
 Acceptance: the offset round-trips and the zero case is unchanged.
+  Result: `** TEST SUCCEEDED **`; PCBUndoTests 34, ReferencePositionTests 13, SchematicFileV5Tests 10 → 57 tests, 0 failures.
   Check: `xcodebuild … test -only-testing:schematicalTests/ReferencePositionTests -only-testing:schematicalTests/SchematicFileV5Tests -only-testing:schematicalTests/PCBUndoTests CODE_SIGNING_ALLOWED=NO` (same project, scheme and derived-data path as Phase 1) → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+Commit: 0d5b55d8
 
 ## Validation Plan
 
