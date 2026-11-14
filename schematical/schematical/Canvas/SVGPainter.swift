@@ -65,7 +65,7 @@ nonisolated struct SVGPainter: SchematicPainter {
         element += " dominant-baseline=\"\(anchor.y <= 0 ? "text-before-edge" : anchor.y >= 1 ? "text-after-edge" : "central")\""
         element += " fill=\"#000\""
         if alpha != 1 { element += " fill-opacity=\"\(Self.number(alpha))\"" }
-        output.elements.append(element + ">\(Self.escaped(text.string))</text>")
+        output.elements.append(element + ">\(Self.body(text))</text>")
     }
 
     mutating func translateBy(x: CGFloat, y: CGFloat) {
@@ -74,6 +74,21 @@ nonisolated struct SVGPainter: SchematicPainter {
 
     mutating func rotate(by angle: Angle) {
         transform = CGAffineTransform(rotationAngle: angle.radians).concatenating(transform)
+    }
+
+    /// The `<text>` body: the escaped string, each overlined range in a
+    /// `<tspan text-decoration="overline">` (plan-39-C).
+    static func body(_ text: PaintedText) -> String {
+        guard !text.overlines.isEmpty else { return escaped(text.string) }
+        var out = ""
+        var at = 0
+        for range in text.overlines {
+            if range.lowerBound > at { out += escaped(text.substring(at..<range.lowerBound)) }
+            out += "<tspan text-decoration=\"overline\">\(escaped(text.substring(range)))</tspan>"
+            at = range.upperBound
+        }
+        if at < text.string.count { out += escaped(text.substring(at..<text.string.count)) }
+        return out
     }
 
     static let family = "'Helvetica Neue', Helvetica, Arial, sans-serif"

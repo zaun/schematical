@@ -27,7 +27,7 @@ plan-39-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-39-B complete | `grep -c 'activeLowMask' schematical/schematical/Backend/PartCatalog.swift` → ≥ 1, and B's phases are ticked | NOT MET until B lands |
+| plan-39-B complete | `grep -c 'activeLowMask' schematical/schematical/Backend/PartCatalog.swift` → ≥ 1, and B's phases are ticked | MET (2026-11-14: 4; B archived, all ticked) |
 
 Everything below is written against the world where these hold.
 
@@ -135,19 +135,20 @@ kerning drift. *Making `activeLow` a `Text` attribute* — SwiftUI has none.
 
 ### Phase 1 — text model and the SVG painter
 
-- [ ] `SchematicPainter.swift`: `PaintedText.overlines` (§ 3); the two
-      existing initialisers' call sites compile unchanged.
-- [ ] `Canvas/PinNameText.swift` (new): `ChipPin.paintedName(…)` (§ 3).
-- [ ] `SVGPainter.swift`: the `<tspan text-decoration="overline">` body
-      (§ 3).
-- [ ] Tests: `schematicalTests/PinNameTextTests.swift` (new): the seven
+- [x] `SchematicPainter.swift`: `PaintedText.overlines` (§ 3); the two
+      existing initialisers' call sites compile unchanged. — done: plus `PaintedText.substring(_:)` for the painters
+- [x] `Canvas/PinNameText.swift` (new): `ChipPin.paintedName(…)` (§ 3).
+- [x] `SVGPainter.swift`: the `<tspan text-decoration="overline">` body
+      (§ 3). — done: `SVGPainter.body(_:)`
+- [x] Tests: `schematicalTests/PinNameTextTests.swift` (new): the seven
       examples of § 3. `SVGPainterTests.testText` stays as is; add
       `testTextOverline`: `PaintedText("A0/CS", …, overlines: [3..<5])`
       emits `A0/<tspan text-decoration="overline">CS</tspan>`, and `&`, `<`
-      in the pieces are still escaped.
+      in the pieces are still escaped. — done: PinNameTextTests 7 tests (the six § 3 examples, of which `A0/CS` counts once, plus `A0/CS#` flagged `["CS#"]`); `testTextOverline` 5 cases
 
 Acceptance: the text model and SVG are right; unflagged SVG is unchanged.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p39-dd test -only-testing:schematicalTests/PinNameTextTests -only-testing:schematicalTests/SVGPainterTests -only-testing:schematicalTests/SchematicSVGTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min; the SVG suites prove the unflagged path did not move).
+  Observed 2026-11-14: PinNameTextTests 7, SVGPainterTests 8, SchematicSVGTests 6 — `Executed 21 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 Commit: —
 
 ### Phase 2 — the screen painter and the three views

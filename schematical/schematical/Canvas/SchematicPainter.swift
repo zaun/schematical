@@ -50,21 +50,33 @@ nonisolated struct Ink: Hashable {
     static func color(_ color: Color) -> Ink { Ink(role: .color(color)) }
 }
 
-/// A label: string, font and ink.
+/// A label: string, font and ink, and the parts drawn with a bar over them.
 nonisolated struct PaintedText {
     var string: String
     var size: CGFloat
     var weight: Font.Weight = .regular
     var monospaced = false
     var ink: Ink = .primary
+    /// Character ranges (offsets as `string.count` counts) drawn with an
+    /// overline, such as an active-low pin name (plan-39-C). Sorted,
+    /// non-overlapping, inside the string.
+    var overlines: [Range<Int>] = []
 
     init(_ string: String, size: CGFloat, weight: Font.Weight = .regular, monospaced: Bool = false,
-         ink: Ink = .primary) {
+         ink: Ink = .primary, overlines: [Range<Int>] = []) {
         self.string = string
         self.size = size
         self.weight = weight
         self.monospaced = monospaced
         self.ink = ink
+        self.overlines = overlines
+    }
+
+    /// The characters of `range`.
+    func substring(_ range: Range<Int>) -> String {
+        let start = string.index(string.startIndex, offsetBy: range.lowerBound)
+        let end = string.index(start, offsetBy: range.count)
+        return String(string[start..<end])
     }
 }
 
