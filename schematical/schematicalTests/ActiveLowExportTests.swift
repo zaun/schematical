@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 import XCTest
 @testable import schematical
 
@@ -48,5 +49,27 @@ final class ActiveLowExportTests: XCTestCase {
         try svgData.write(to: dir.appendingPathComponent("four-parts.svg"))
         try pngData.write(to: dir.appendingPathComponent("four-parts.png"))
         print("P39-LANDING-EXPORT \(dir.path)")
+    }
+
+    /// The canvas view itself (`ChipBlockView`, screen palette, dark mode as
+    /// the window draws it) for each of the four placed parts, rendered to a
+    /// PNG for a look. Each must render.
+    func testFourReviewedPartsOnTheCanvasView() throws {
+        let dir = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("p39-landing")
+        try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        for name in ["AS6C1008-55PCN", "TL16C550DIPT", "ADS8548SPM", "AT90CAN128-16AU"] {
+            let doc = TestSupport.newDocument()
+            let chip = try TestSupport.place(doc, name, at: CGPoint(x: 300, y: 300))
+            let view = ChipBlockView(chip: chip, isSelected: false, isHovered: false)
+                .background(Color(nsColor: .windowBackgroundColor))
+                .environment(\.colorScheme, .dark)
+            let renderer = ImageRenderer(content: view)
+            renderer.scale = 2
+            let image = try XCTUnwrap(renderer.nsImage, name)
+            let tiff = try XCTUnwrap(image.tiffRepresentation)
+            let png = try XCTUnwrap(NSBitmapImageRep(data: tiff)?.representation(using: .png, properties: [:]))
+            try png.write(to: dir.appendingPathComponent("canvas-\(name).png"))
+        }
+        print("P39-LANDING-CANVAS \(dir.path)")
     }
 }

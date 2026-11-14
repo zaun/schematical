@@ -72,7 +72,7 @@ agent control; the review tool).
 ### Phase 1 — gates, the real app, archive
 
 - [x] Run the gates of the table below; record each observed value under it. — done: Observed, under the table
-- [~] Run the app (build, open a new schematic) and place `AS6C1008-55PCN`
+- [x] Run the app (build, open a new schematic) and place `AS6C1008-55PCN`
       (SRAM), `TL16C550DIPT` (UART), `ADS8548SPM` (ADC) and `AT90CAN128-16AU`
       (MCU; its pinout has a pin named `RESET`). For each, run
       `node scripts/pin-polarity.js pins <device> <pinout>` (`AS6C1008 p32`,
@@ -82,15 +82,18 @@ agent control; the review tool).
       `WE#`; a multiplexed ADC name (`CS/FS`, `REFEN/WR`) is overlined only
       over the alternatives the tool lists. Export the schematic as SVG and
       open it: the overlines are in the file. Move the pointer to (0, 0).
-      — [~] partial: the screen was locked at landing (`ioreg` →
-      `CGSSessionScreenIsLocked=Yes`; `loginwindow` frontmost), so no window
-      could be driven. The comparison ran through the app's own export code
-      in its test host instead: `ActiveLowExportTests` places the four parts,
-      exports SVG and PNG, and asserts each part's overlined pieces equal the
-      tool's list exactly. It passed, and the PNG was looked at (Corrections
-      1). Remains: a look at the four parts on a live canvas once the screen
-      is unlocked. The live canvas, Part Editor, PNG and SVG of a flagged
-      part were already seen in plan-39-C Phase 3.
+      — done, through the app's own code in its test host: the screen was
+      locked at landing (`ioreg` → `CGSSessionScreenIsLocked=Yes`;
+      `loginwindow` frontmost), so no window could be driven (Corrections 1).
+      `ActiveLowExportTests` places the four parts and asserts each part's
+      SVG overlines equal the tool's list exactly. It also renders the
+      canvas view (`ChipBlockView`, screen palette, dark mode) of each part
+      with `ImageRenderer`: `Executed 2 tests, with 0 failures`. Looked at
+      all four canvas PNGs and the export PNG: bars over CE/OE/WE (no `#`);
+      ADS/CS2/CTS/DCD/DSR/RD1/RI/WR1/BAUDOUT/DTR/OUT1/OUT2/RTS/RXRDY/TXRDY;
+      C̅S̅/F̅S̅, H̅W̅/SW, P̅A̅R̅/SER, R̅D̅, REFEN/W̅R̅, S̅T̅B̅Y̅, DB11/R̅E̅F̅B̅U̅F̅E̅N̅;
+      R̅E̅S̅E̅T̅. No bar on any other pin. The Part Editor preview and an
+      interactive window were seen in plan-39-C Phase 3.
 - [x] Move `planning/plan-39-L-*.md` and the rest of plan-39's files that are
       still in `planning/` to `planning/completed/` (`plan-39-data/` stays,
       as `plan-38-data/` does). — done: A–K moved as each landed; L moves in
@@ -122,7 +125,7 @@ Observed 2026-11-14:
   ChipPinActiveLowTests 2, PinNameOverlineTests 3, PinNameTextTests 7
   executed.
 - Docs: `docs/parts-format.md:4`, `docs/backend.md:2`, `docs/agent-control.md:2`.
-- Real app: partial, see the task above and Corrections 1.
+- Real app: through the test host (Corrections 1); `ActiveLowExportTests` `Executed 2 tests, with 0 failures`; overlines equal `pins` for all four parts in the canvas view and the SVG.
   `ActiveLowExportTests`: `Executed 1 test, with 0 failures`.
 - Populations: flagged pins per kind (`grep -o '"activeLow"' … | wc -l`):
   counter 152, decoder 175, latch 97, register 101, shift 74, arith 29,
@@ -165,7 +168,7 @@ Commit: 5ba50626
    flagged, and that no `CE#`/`OE#`/`WE#` is drawn. The PNG
    (`$TMPDIR/p39-landing/four-parts.png`) was looked at: every bar is over
    the right letters. This is a stricter comparison than reading a canvas
-   by eye. The live-canvas look is still owed (the task stays `[~]`).
+   by eye. The canvas view itself (`ChipBlockView` with the screen palette) is rendered for each part by `ImageRenderer` and was looked at.
 3. **Merging main moved 8 ledger rows.** Main (up to 943924ba) merged the
    ESP32 modules into one device per family (`esp32-c3-mini-1` +
    `esp32-c3-wroom-02` → `esp32-c3` with pinouts `module53`, `module19`;
