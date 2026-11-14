@@ -42,6 +42,11 @@ final class RoutingSession {
     @ObservationIgnored private var task: Task<Void, Never>?
     @ObservationIgnored private var lastReport = Date.distantPast
 
+    /// Nothing here needs the main actor. An isolated deinit, nested in
+    /// its owner's (`AutorouteModel`), aborts in the concurrency runtime
+    /// (a task-local scope freed twice, `StopLookupScope`).
+    nonisolated deinit {}
+
     var isRunning: Bool {
         if case .running = state { return true }
         return false

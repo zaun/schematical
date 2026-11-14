@@ -137,9 +137,9 @@ per-run choices, remembered, not preferences).
 
 ### Phase 1 — the model
 
-- [ ] `Preferences/PreferencesView.swift`: `PreferenceKey.autorouteOptions`.
-- [ ] `Routing/AutorouteModel.swift`: the model of § 3 (load/save, scope choices, summary, layer rows, alternating directions, `route()` → `session.start`, `stop()`, `cancel()`).
-- [ ] Tests: `schematicalTests/AutorouteModelTests.swift` — options save and reload equal with the scope excluded; with a selected footprint `scopeChoice.selection` resolves to `.footprints`; on AFU the summary says 53 nets / 115 connections for `.all` and 0 for `.untouchedNets` after one route; `.clearAuto` summary counts match `removedTraces`/`removedVias`; a 1-layer board offers no Vias section values (vias `.none`); `useAlternatingDirections` on 2 and 4 layers; `route()` while `isPlaying` does nothing and sets `editorMessage`.
+- [x] `Preferences/PreferencesView.swift`: `PreferenceKey.autorouteOptions`.
+- [x] `Routing/AutorouteModel.swift`: the model of § 3 (load/save, scope choices, summary, layer rows, alternating directions, `route()` → `session.start`, `stop()`, `cancel()`). (Plus `results` and `groupLines`, which Phase 2's results list reads. The summary is `refreshSummary(rules:)`, which the sheet calls from its debounced `.task(id:)`. See Corrections for `nonisolated deinit`.)
+- [x] Tests: `schematicalTests/AutorouteModelTests.swift` — options save and reload equal with the scope excluded; with a selected footprint `scopeChoice.selection` resolves to `.footprints`; on AFU the summary says 53 nets / 115 connections for `.all` and 0 for `.untouchedNets` after one route; `.clearAuto` summary counts match `removedTraces`/`removedVias`; a 1-layer board offers no Vias section values (vias `.none`); `useAlternatingDirections` on 2 and 4 layers; `route()` while `isPlaying` does nothing and sets `editorMessage`. — `-only-testing:AutorouteModelTests -only-testing:RoutingSessionTests` → 12 tests, 0 failures, `** TEST SUCCEEDED **`.
 
 Acceptance: cases pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd test -only-testing:schematicalTests/AutorouteModelTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 2 min).
@@ -192,7 +192,15 @@ See plan-38-A § Decisions. Author decisions: a sheet, not a window; options per
 
 ## Corrections
 
-(Filled in during execution.)
+- **An isolated deinit aborted the test host.** `AutorouteModel` and
+  `RoutingSession` are `@MainActor @Observable` classes, which the compiler
+  gives an isolated deinit. Releasing a model (and with it its session) crashed
+  in the concurrency runtime: `swift_task_deinitOnExecutorImpl` →
+  `TaskLocal::StopLookupScope::~StopLookupScope` → "pointer being freed was
+  not allocated" (crash reports 09:29:52 and 09:33:41, 2026-11-14), first
+  nested (model → session), then for the model alone. Neither deinit needs
+  the main actor, so both are `nonisolated deinit {}`; the 12 tests then
+  passed.
 
 ## Summary
 
