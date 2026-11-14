@@ -11,14 +11,14 @@
       "note": "p5 from sn74lvc1g125 p.3 Pin Functions (DBV/DCK/DRL/DPW: OE 1, A 2, GND 3, Y 4, VCC 5), sn74aup1g125 p.3, sn74ahc1g125, sn74ahct1g125, sn74auc1g125, sn74lvc1g125b p.3; DTX: sn74ahct1g125-q1 p.3 Figure 4-2 + Table 4-1 (same numbers). p6 (DRY/DSF SON): sn74lvc1g125 p.3, sn74aup1g125 p.3 (N.C. on 5, VCC 6). DSBGA (row-major): YZP 5-ball A1 OE, A2 VCC, B1 A, C1 GND, C2 Y (sn74lvc1g125 p.3, sn74aup1g125 p.3, sn74auc1g125 p.3 Table 5-2); YFP 6-ball adds B2 DNU (sn74aup1g125 p.3). Function: OE L -> Y = A, OE H -> Z. | Only the automotive 1P1G125Q* orderables of sn74lvc1g125-q1 (they belong to the 1G125 device). Pinout: sn74lvc1g125-q1 p.3 Figures 4-1..4-3 + Pin Functions (DBV/DCK 5-pin; DRY 6-pin, NC on 5; OE active low). Timing sn74lvc1g125-q1 p.6.",
       "pinouts": {
         "p5": [
-          {"number":1,"name":"OE","role":"input"},
+          {"number":1,"name":"OE","role":"input","activeLow":true},
           {"number":2,"name":"A","role":"input"},
           {"number":3,"name":"GND","role":"ground"},
           {"number":4,"name":"Y","role":"output"},
           {"number":5,"name":"VCC","role":"power"}
         ],
         "p6": [
-          {"number":1,"name":"OE","role":"input"},
+          {"number":1,"name":"OE","role":"input","activeLow":true},
           {"number":2,"name":"A","role":"input"},
           {"number":3,"name":"GND","role":"ground"},
           {"number":4,"name":"Y","role":"output"},
@@ -26,14 +26,14 @@
           {"number":6,"name":"VCC","role":"power"}
         ],
         "dsbga": [
-          {"ball":"A1","name":"OE","role":"input"},
+          {"ball":"A1","name":"OE","role":"input","activeLow":true},
           {"ball":"A2","name":"VCC","role":"power"},
           {"ball":"B1","name":"A","role":"input"},
           {"ball":"C1","name":"GND","role":"ground"},
           {"ball":"C2","name":"Y","role":"output"}
         ],
         "dsbga6": [
-          {"ball":"A1","name":"OE","role":"input"},
+          {"ball":"A1","name":"OE","role":"input","activeLow":true},
           {"ball":"A2","name":"VCC","role":"power"},
           {"ball":"B1","name":"A","role":"input"},
           {"ball":"B2","name":"DNU","role":"nc"},
@@ -192,14 +192,14 @@
       "note": "Pinouts sn74aup1g240 p.3 Pin Functions (DBV/DCK/DPW 1 OE, 2 A, 3 GND, 4 Y, 5 VCC; DRY/DSF NC at 5, VCC 6; YZP A1 OE, B1 A, C1 GND, C2 Y, A2 VCC); sn74lvc1g240 p.3 (DBV/DCK, DRY/DSF; its YZP figure numbers pins 1-5 but draws pin 4 Y top-right / 5 VCC bottom-right, balls taken from sn74aup1g240 and sn74auc1g240 p.1); sn74auc1g240 p.1 (DBV/DCK/YZP). OE active low, inverting.",
       "pinouts": {
         "p5": [
-          {"number":1,"name":"OE","role":"input"},
+          {"number":1,"name":"OE","role":"input","activeLow":true},
           {"number":2,"name":"A","role":"input"},
           {"number":3,"name":"GND","role":"ground"},
           {"number":4,"name":"Y","role":"output"},
           {"number":5,"name":"VCC","role":"power"}
         ],
         "p6": [
-          {"number":1,"name":"OE","role":"input"},
+          {"number":1,"name":"OE","role":"input","activeLow":true},
           {"number":2,"name":"A","role":"input"},
           {"number":3,"name":"GND","role":"ground"},
           {"number":4,"name":"Y","role":"output"},
@@ -207,7 +207,7 @@
           {"number":6,"name":"VCC","role":"power"}
         ],
         "dsbga": [
-          {"ball":"A1","name":"OE","role":"input"},
+          {"ball":"A1","name":"OE","role":"input","activeLow":true},
           {"ball":"B1","name":"A","role":"input"},
           {"ball":"C1","name":"GND","role":"ground"},
           {"ball":"C2","name":"Y","role":"output"},
@@ -252,7 +252,7 @@
       "note": "Pinout sn74lv1t125 p.4 (DBV, DCK): OE 1 (active low), A 2, GND 3, Y 4, VCC 5; sn74lv1t125-q1 p.3 same. Single-supply translator: reduced input thresholds, inputs 5.5-V tolerant.",
       "pinouts": {
         "p5": [
-          {"number":1,"name":"OE","role":"input"},
+          {"number":1,"name":"OE","role":"input","activeLow":true},
           {"number":2,"name":"A","role":"input"},
           {"number":3,"name":"GND","role":"ground"},
           {"number":4,"name":"Y","role":"output"},
@@ -308,33 +308,33 @@
       "note": "Pinout sn74lvc2g125 p.4 Pin Functions (DCT/DCU, YZP balls A1=1OE B1=1A C1=2Y D1=GND D2=2A C2=1Y B2=2OE A2=VCC); sn74auc2g125 p.1 (DCT/DCU/YZP same); sn74aup2g125 p.1 (DCU/DQE same; YFP/YZP same balls; RSE UQFN top view 1=2OE 2=1Y 3=2A 4=GND 5=2Y 6=1A 7=1OE 8=VCC). Function table OE low = Y=A, OE high = Z (sn74lvc2g125 p.11).",
       "pinouts": {
         "p8": [
-          {"number":1,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1A","role":"input","group":"gate-1"},
           {"number":3,"name":"2Y","role":"output"},
           {"number":4,"name":"GND","role":"ground"},
           {"number":5,"name":"2A","role":"input","group":"gate-2"},
           {"number":6,"name":"1Y","role":"output"},
-          {"number":7,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":7,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":8,"name":"VCC","role":"power"}
         ],
         "rse8": [
-          {"number":1,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":1,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":2,"name":"1Y","role":"output"},
           {"number":3,"name":"2A","role":"input","group":"gate-2"},
           {"number":4,"name":"GND","role":"ground"},
           {"number":5,"name":"2Y","role":"output"},
           {"number":6,"name":"1A","role":"input","group":"gate-1"},
-          {"number":7,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":7,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":8,"name":"VCC","role":"power"}
         ],
         "dsbga": [
-          {"ball":"A1","name":"1OE","role":"input","group":"gate-1"},
+          {"ball":"A1","name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"ball":"B1","name":"1A","role":"input","group":"gate-1"},
           {"ball":"C1","name":"2Y","role":"output"},
           {"ball":"D1","name":"GND","role":"ground"},
           {"ball":"D2","name":"2A","role":"input","group":"gate-2"},
           {"ball":"C2","name":"1Y","role":"output"},
-          {"ball":"B2","name":"2OE","role":"input","group":"gate-2"},
+          {"ball":"B2","name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"ball":"A2","name":"VCC","role":"power"}
         ]
       },
@@ -432,33 +432,33 @@
       "note": "Pinouts: sn74lvc2g240 p.1 (DCT/DCU; YZP bottom view + p.18 outline: A1=1OE, B1=1A, C1=2Y, D1=GND, D2=2A, C2=1Y, B2=2OE, A2=VCC; balls listed in DCT pin order), sn74auc2g240 p.1 (DCT/DCU/YZP), sn74aup2g240 p.1 (DCU/DQE same numbering; RSE: 1 2OE, 2 1Y, 3 2A, 4 GND, 5 2Y, 6 1A, 7 1OE, 8 VCC). Function table sn74auc2g240 p.2: OE low, Y = not A.",
       "pinouts": {
         "p8": [
-          {"number":1,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1A","role":"input","group":"gate-1"},
           {"number":3,"name":"2Y","role":"output"},
           {"number":4,"name":"GND","role":"ground"},
           {"number":5,"name":"2A","role":"input","group":"gate-2"},
           {"number":6,"name":"1Y","role":"output"},
-          {"number":7,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":7,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":8,"name":"VCC","role":"power"}
         ],
         "rse8": [
-          {"number":1,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":1,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":2,"name":"1Y","role":"output"},
           {"number":3,"name":"2A","role":"input","group":"gate-2"},
           {"number":4,"name":"GND","role":"ground"},
           {"number":5,"name":"2Y","role":"output"},
           {"number":6,"name":"1A","role":"input","group":"gate-1"},
-          {"number":7,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":7,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":8,"name":"VCC","role":"power"}
         ],
         "dsbga": [
-          {"ball":"A1","name":"1OE","role":"input","group":"gate-1"},
+          {"ball":"A1","name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"ball":"B1","name":"1A","role":"input","group":"gate-1"},
           {"ball":"C1","name":"2Y","role":"output"},
           {"ball":"D1","name":"GND","role":"ground"},
           {"ball":"D2","name":"2A","role":"input","group":"gate-2"},
           {"ball":"C2","name":"1Y","role":"output"},
-          {"ball":"B2","name":"2OE","role":"input","group":"gate-2"},
+          {"ball":"B2","name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"ball":"A2","name":"VCC","role":"power"}
         ]
       },
@@ -491,7 +491,7 @@
       "note": "sn74aup2g241 p.1 (DCU/DQE same order; RSE UQFN: 1 2OE, 2 1Y, 3 2A, 4 GND, 5 2Y, 6 1A, 7 1OE, 8 VCC; YFP balls A1-D2 = pins 1-8); sn74auc2g241 p.1 (DCT/DCU, YZP); sn74lvc2g241 p.3 Pin Functions (DCT/DCU, YZP; 1OE active low, 2OE active high). YZP balls are given only as pins 1-8, same positions as YFP.",
       "pinouts": {
         "p8": [
-          {"number":1,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1A","role":"input","group":"gate-1"},
           {"number":3,"name":"2Y","role":"output"},
           {"number":4,"name":"GND","role":"ground"},
@@ -507,11 +507,11 @@
           {"number":4,"name":"GND","role":"ground"},
           {"number":5,"name":"2Y","role":"output"},
           {"number":6,"name":"1A","role":"input","group":"gate-1"},
-          {"number":7,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":7,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":8,"name":"VCC","role":"power"}
         ],
         "dsbga8": [
-          {"ball":"A1","name":"1OE","role":"input","group":"gate-1"},
+          {"ball":"A1","name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"ball":"B1","name":"1A","role":"input","group":"gate-1"},
           {"ball":"C1","name":"2Y","role":"output"},
           {"ball":"D1","name":"GND","role":"ground"},
@@ -607,7 +607,7 @@
           {"number":10,"name":"2Y2","role":"output","group":"gate-2"},
           {"number":11,"name":"2Y3","role":"output","group":"gate-2"},
           {"number":12,"name":"2Y4","role":"output","group":"gate-2"},
-          {"number":13,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":13,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":14,"name":"2A4","role":"input","group":"gate-2"},
           {"number":15,"name":"2A3","role":"input","group":"gate-2"},
           {"number":16,"name":"2A2","role":"input","group":"gate-2"},
@@ -618,7 +618,7 @@
           {"number":21,"name":"1A3","role":"input","group":"gate-1"},
           {"number":22,"name":"1A2","role":"input","group":"gate-1"},
           {"number":23,"name":"1A1","role":"input","group":"gate-1"},
-          {"number":24,"name":"1OE","role":"input","group":"gate-1"}
+          {"number":24,"name":"1OE","role":"input","group":"gate-1","activeLow":true}
         ]
       },
       "model": "tristate",
@@ -658,7 +658,7 @@
           {"number":10,"name":"2Y2","role":"output","group":"gate-2"},
           {"number":11,"name":"2Y3","role":"output","group":"gate-2"},
           {"number":12,"name":"2Y4","role":"output","group":"gate-2"},
-          {"number":13,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":13,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":14,"name":"2A4","role":"input","group":"gate-2"},
           {"number":15,"name":"2A3","role":"input","group":"gate-2"},
           {"number":16,"name":"2A2","role":"input","group":"gate-2"},
@@ -669,7 +669,7 @@
           {"number":21,"name":"1A3","role":"input","group":"gate-1"},
           {"number":22,"name":"1A2","role":"input","group":"gate-1"},
           {"number":23,"name":"1A1","role":"input","group":"gate-1"},
-          {"number":24,"name":"1OE","role":"input","group":"gate-1"}
+          {"number":24,"name":"1OE","role":"input","group":"gate-1","activeLow":true}
         ]
       },
       "model": "tristate",
@@ -698,19 +698,19 @@
       "note": "Standard '125 pinout (1OE 1A 1Y 2OE 2A 2Y GND 3Y 3A 3OE 4Y 4A 4OE VCC), same in every PDF: sn74lvc125a p.3 Table 4-1, sn74hc125 p.4, cd74hc125 p.3, cd74hct125 p.3, sn74ahc125 p.3 (D/DB/DGV/N/NS/J/W/PW and RGY/BQA same numbers), sn74ahct125 p.3, sn74act125 p.3 (PW, BQA), sn74hcs125 p.3 (D/PW/DYY, BQA), sn74abt125/sn74lvth125/sn74lv125a p.1 (incl. RGY), sn74ls125a/sn74f125/sn74bct125a/sn64bct125a/sn74alvc125/sn74auc125/sn74lvt125 p.1. QFN thermal pad is not a pin. Function table: OE low -> Y = A, OE high -> Z (every PDF). sn74ahc125-q1 p.3 Table 4-1 and its BQA figure put 3OE on 8 and 3Y on 10 while its D/PW figure on the same page shows the standard 8 = 3Y, 10 = 3OE; treated as a datasheet error (same die as SN74AHC125, whose BQA is standard).",
       "pinouts": {
         "p14": [
-          {"number":1,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1A","role":"input","group":"gate-1"},
           {"number":3,"name":"1Y","role":"output"},
-          {"number":4,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":4,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":5,"name":"2A","role":"input","group":"gate-2"},
           {"number":6,"name":"2Y","role":"output"},
           {"number":7,"name":"GND","role":"ground"},
           {"number":8,"name":"3Y","role":"output"},
           {"number":9,"name":"3A","role":"input","group":"gate-3"},
-          {"number":10,"name":"3OE","role":"input","group":"gate-3"},
+          {"number":10,"name":"3OE","role":"input","group":"gate-3","activeLow":true},
           {"number":11,"name":"4Y","role":"output"},
           {"number":12,"name":"4A","role":"input","group":"gate-4"},
-          {"number":13,"name":"4OE","role":"input","group":"gate-4"},
+          {"number":13,"name":"4OE","role":"input","group":"gate-4","activeLow":true},
           {"number":14,"name":"VCC","role":"power"}
         ]
       },
@@ -1010,7 +1010,7 @@
       "note": "Pinout from sn74lvt162240 p.1 (DGG, DGV, DL) and sn74lvth162240 p.1 (same). Function table p.2 (each 4-bit buffer): OE low = Y is not A, OE high = Z. Four 4-bit units, each with its own active-low nOE.",
       "pinouts": {
         "p48": [
-          {"number":1,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1Y1","role":"output","group":"gate-1"},
           {"number":3,"name":"1Y2","role":"output","group":"gate-1"},
           {"number":4,"name":"GND","role":"ground"},
@@ -1033,8 +1033,8 @@
           {"number":21,"name":"GND","role":"ground"},
           {"number":22,"name":"4Y3","role":"output","group":"gate-4"},
           {"number":23,"name":"4Y4","role":"output","group":"gate-4"},
-          {"number":24,"name":"4OE","role":"input","group":"gate-4"},
-          {"number":25,"name":"3OE","role":"input","group":"gate-3"},
+          {"number":24,"name":"4OE","role":"input","group":"gate-4","activeLow":true},
+          {"number":25,"name":"3OE","role":"input","group":"gate-3","activeLow":true},
           {"number":26,"name":"4A4","role":"input","group":"gate-4"},
           {"number":27,"name":"4A3","role":"input","group":"gate-4"},
           {"number":28,"name":"GND","role":"ground"},
@@ -1057,7 +1057,7 @@
           {"number":45,"name":"GND","role":"ground"},
           {"number":46,"name":"1A2","role":"input","group":"gate-1"},
           {"number":47,"name":"1A1","role":"input","group":"gate-1"},
-          {"number":48,"name":"2OE","role":"input","group":"gate-2"}
+          {"number":48,"name":"2OE","role":"input","group":"gate-2","activeLow":true}
         ]
       },
       "model": "tristate",
@@ -1087,7 +1087,7 @@
       "note": "Pinout sn74lvth162241 p.1 (DGG/DL top view). Function tables p.2: 1OE, 4OE active low; 2OE, 3OE active high; four 4-bit groups. Series output resistors and bus hold not modeled.",
       "pinouts": {
         "p48": [
-          {"number":1,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1Y1","role":"output","group":"gate-1"},
           {"number":3,"name":"1Y2","role":"output","group":"gate-1"},
           {"number":4,"name":"GND","role":"ground"},
@@ -1110,7 +1110,7 @@
           {"number":21,"name":"GND","role":"ground"},
           {"number":22,"name":"4Y3","role":"output","group":"gate-4"},
           {"number":23,"name":"4Y4","role":"output","group":"gate-4"},
-          {"number":24,"name":"4OE","role":"input","group":"gate-4"},
+          {"number":24,"name":"4OE","role":"input","group":"gate-4","activeLow":true},
           {"number":25,"name":"3OE","role":"input","group":"gate-3"},
           {"number":26,"name":"4A4","role":"input","group":"gate-4"},
           {"number":27,"name":"4A3","role":"input","group":"gate-4"},
@@ -1159,7 +1159,7 @@
       "note": "Pinout sn74abt162244 p.1 (DGG, DGV, DL); same in sn74alvch162244 p.1, sn74lvc162244a p.1, sn74lvch162244a p.1, sn74lvt162244a p.1, sn74lvth162244 p.1, sn74lvth162244-ep p.1, sn54lvth162244 p.1 (WD), cy74fct162244t p.1 (SSOP/TSSOP). Four 4-bit groups, each with its own active-low nOE. Output series resistors and bus hold not modeled.",
       "pinouts": {
         "p48": [
-          {"number":1,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1Y1","role":"output","group":"gate-1"},
           {"number":3,"name":"1Y2","role":"output","group":"gate-1"},
           {"number":4,"name":"GND","role":"ground"},
@@ -1182,8 +1182,8 @@
           {"number":21,"name":"GND","role":"ground"},
           {"number":22,"name":"4Y3","role":"output","group":"gate-4"},
           {"number":23,"name":"4Y4","role":"output","group":"gate-4"},
-          {"number":24,"name":"4OE","role":"input","group":"gate-4"},
-          {"number":25,"name":"3OE","role":"input","group":"gate-3"},
+          {"number":24,"name":"4OE","role":"input","group":"gate-4","activeLow":true},
+          {"number":25,"name":"3OE","role":"input","group":"gate-3","activeLow":true},
           {"number":26,"name":"4A4","role":"input","group":"gate-4"},
           {"number":27,"name":"4A3","role":"input","group":"gate-4"},
           {"number":28,"name":"GND","role":"ground"},
@@ -1206,7 +1206,7 @@
           {"number":45,"name":"GND","role":"ground"},
           {"number":46,"name":"1A2","role":"input","group":"gate-1"},
           {"number":47,"name":"1A1","role":"input","group":"gate-1"},
-          {"number":48,"name":"2OE","role":"input","group":"gate-2"}
+          {"number":48,"name":"2OE","role":"input","group":"gate-2","activeLow":true}
         ]
       },
       "model": "tristate",
@@ -1258,7 +1258,7 @@
       "note": "sn74alvch162344 (SCES085I) p.1 DGG/DGV/DL pinout; p.2 function table (OE low: Bn = A; OE high: Z); p.3 logic diagram: OE1 enables 1A->1B1-1B4 and 2A->2B1-2B4, OE2 3A/4A, OE3 5A/6A, OE4 7A/8A. Each A drives four B outputs, so a unit lists each A pin four times in \"a\". 26-ohm output resistors and bus hold are not modeled.",
       "pinouts": {
         "p56": [
-          {"number":1,"name":"OE1","role":"input","group":"gate-1"},
+          {"number":1,"name":"OE1","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1B1","role":"output","group":"gate-1"},
           {"number":3,"name":"1B2","role":"output","group":"gate-1"},
           {"number":4,"name":"GND","role":"ground"},
@@ -1285,8 +1285,8 @@
           {"number":25,"name":"GND","role":"ground"},
           {"number":26,"name":"4B3","role":"output","group":"gate-2"},
           {"number":27,"name":"4B4","role":"output","group":"gate-2"},
-          {"number":28,"name":"OE2","role":"input","group":"gate-2"},
-          {"number":29,"name":"OE3","role":"input","group":"gate-3"},
+          {"number":28,"name":"OE2","role":"input","group":"gate-2","activeLow":true},
+          {"number":29,"name":"OE3","role":"input","group":"gate-3","activeLow":true},
           {"number":30,"name":"5B4","role":"output","group":"gate-3"},
           {"number":31,"name":"5B3","role":"output","group":"gate-3"},
           {"number":32,"name":"GND","role":"ground"},
@@ -1313,7 +1313,7 @@
           {"number":53,"name":"GND","role":"ground"},
           {"number":54,"name":"8B2","role":"output","group":"gate-4"},
           {"number":55,"name":"8B1","role":"output","group":"gate-4"},
-          {"number":56,"name":"OE4","role":"input","group":"gate-4"}
+          {"number":56,"name":"OE4","role":"input","group":"gate-4","activeLow":true}
         ]
       },
       "model": "tristate",
@@ -1339,7 +1339,7 @@
       "note": "Pinout: standard Widebus 48-pin, identical in 74act16240 p.1, sn74abt16240a p.1 (DGG/DGV/DL), sn74ahc16240 p.1, sn74ahct16240 p.1, sn74alvch16240 p.1, sn74auc16240 p.1 (DGG), sn74lvch16240a p.1, sn74lvcz16240a p.1, sn74lvt16240 p.1, sn74lvth16240 p.1. Four 4-bit groups, 1OE..4OE active low, inverting (function tables p.1-2 of each).",
       "pinouts": {
         "p48": [
-          {"number":1,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1Y1","role":"output","group":"gate-1"},
           {"number":3,"name":"1Y2","role":"output","group":"gate-1"},
           {"number":4,"name":"GND","role":"ground"},
@@ -1362,8 +1362,8 @@
           {"number":21,"name":"GND","role":"ground"},
           {"number":22,"name":"4Y3","role":"output","group":"gate-4"},
           {"number":23,"name":"4Y4","role":"output","group":"gate-4"},
-          {"number":24,"name":"4OE","role":"input","group":"gate-4"},
-          {"number":25,"name":"3OE","role":"input","group":"gate-3"},
+          {"number":24,"name":"4OE","role":"input","group":"gate-4","activeLow":true},
+          {"number":25,"name":"3OE","role":"input","group":"gate-3","activeLow":true},
           {"number":26,"name":"4A4","role":"input","group":"gate-4"},
           {"number":27,"name":"4A3","role":"input","group":"gate-4"},
           {"number":28,"name":"GND","role":"ground"},
@@ -1386,7 +1386,7 @@
           {"number":45,"name":"GND","role":"ground"},
           {"number":46,"name":"1A2","role":"input","group":"gate-1"},
           {"number":47,"name":"1A1","role":"input","group":"gate-1"},
-          {"number":48,"name":"2OE","role":"input","group":"gate-2"}
+          {"number":48,"name":"2OE","role":"input","group":"gate-2","activeLow":true}
         ]
       },
       "model": "tristate",
@@ -1441,7 +1441,7 @@
       "note": "Pinout sn74abt16241a p.1 (DGG/DGV/DL, WD), sn74lvth16241 p.1 (DGG/DL, WD). Function tables sn74abt16241a p.2 / sn74lvth16241 p.2: 1OE and 4OE active low, 2OE and 3OE active high.",
       "pinouts": {
         "p48": [
-          {"number":1,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1Y1","role":"output","group":"gate-1"},
           {"number":3,"name":"1Y2","role":"output","group":"gate-1"},
           {"number":4,"name":"GND","role":"ground"},
@@ -1464,7 +1464,7 @@
           {"number":21,"name":"GND","role":"ground"},
           {"number":22,"name":"4Y3","role":"output","group":"gate-4"},
           {"number":23,"name":"4Y4","role":"output","group":"gate-4"},
-          {"number":24,"name":"4OE","role":"input","group":"gate-4"},
+          {"number":24,"name":"4OE","role":"input","group":"gate-4","activeLow":true},
           {"number":25,"name":"3OE","role":"input","group":"gate-3"},
           {"number":26,"name":"4A4","role":"input","group":"gate-4"},
           {"number":27,"name":"4A3","role":"input","group":"gate-4"},
@@ -1519,7 +1519,7 @@
       "note": "Widebus 48-pin pinout, identical in every PDF: 74ac16244 p.1, 74act16244 p.1, sn74abt16244a p.1, sn74abth16244 p.1, sn74ahc16244 p.3, sn74ahct16244 p.3, sn74alb16244 p.1, sn74alvc16244a p.1, sn74alvch16244 p.1, sn74auc16244 p.1, sn74auch16244 p.1, sn74avc16244 p.2, sn74lvc16244a p.3, -ep p.1, -q1 p.1, sn74lvch16244a p.3, sn74lvcz16244a p.1, sn74lvt16244b p.1, sn74lvth16244a p.2, -ep p.1, sn54lvth16244a-sp p.2 (WD), cy74fct16244t p.1 (SSOP/TSSOP). Four 4-bit units, each OE active low, non-inverting.",
       "pinouts": {
         "p48": [
-          {"number":1,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1Y1","role":"output","group":"gate-1"},
           {"number":3,"name":"1Y2","role":"output","group":"gate-1"},
           {"number":4,"name":"GND","role":"ground"},
@@ -1542,8 +1542,8 @@
           {"number":21,"name":"GND","role":"ground"},
           {"number":22,"name":"4Y3","role":"output","group":"gate-4"},
           {"number":23,"name":"4Y4","role":"output","group":"gate-4"},
-          {"number":24,"name":"4OE","role":"input","group":"gate-4"},
-          {"number":25,"name":"3OE","role":"input","group":"gate-3"},
+          {"number":24,"name":"4OE","role":"input","group":"gate-4","activeLow":true},
+          {"number":25,"name":"3OE","role":"input","group":"gate-3","activeLow":true},
           {"number":26,"name":"4A4","role":"input","group":"gate-4"},
           {"number":27,"name":"4A3","role":"input","group":"gate-4"},
           {"number":28,"name":"GND","role":"ground"},
@@ -1566,7 +1566,7 @@
           {"number":45,"name":"GND","role":"ground"},
           {"number":46,"name":"1A2","role":"input","group":"gate-1"},
           {"number":47,"name":"1A1","role":"input","group":"gate-1"},
-          {"number":48,"name":"2OE","role":"input","group":"gate-2"}
+          {"number":48,"name":"2OE","role":"input","group":"gate-2","activeLow":true}
         ]
       },
       "model": "tristate",
@@ -1651,7 +1651,7 @@
       "note": "p48 from sn74lvth162541 p.1 (DGG/DL, SN54 WD) and logic symbol p.3. Two 8-bit sections; both OE inputs of a section must be low (function table p.2: OE1 L, OE2 L -> Y = A; either H -> Z). Series output resistors and bus hold not modeled. N74LVTH162541DL left out (typo of SN74LVTH162541DL, not in the packaging table).",
       "pinouts": {
         "p48": [
-          {"number":1,"name":"1OE1","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE1","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1Y1","role":"output","group":"gate-1"},
           {"number":3,"name":"1Y2","role":"output","group":"gate-1"},
           {"number":4,"name":"GND","role":"ground"},
@@ -1674,8 +1674,8 @@
           {"number":21,"name":"GND","role":"ground"},
           {"number":22,"name":"2Y7","role":"output","group":"gate-2"},
           {"number":23,"name":"2Y8","role":"output","group":"gate-2"},
-          {"number":24,"name":"2OE1","role":"input","group":"gate-2"},
-          {"number":25,"name":"2OE2","role":"input","group":"gate-2"},
+          {"number":24,"name":"2OE1","role":"input","group":"gate-2","activeLow":true},
+          {"number":25,"name":"2OE2","role":"input","group":"gate-2","activeLow":true},
           {"number":26,"name":"2A8","role":"input","group":"gate-2"},
           {"number":27,"name":"2A7","role":"input","group":"gate-2"},
           {"number":28,"name":"GND","role":"ground"},
@@ -1698,7 +1698,7 @@
           {"number":45,"name":"GND","role":"ground"},
           {"number":46,"name":"1A2","role":"input","group":"gate-1"},
           {"number":47,"name":"1A1","role":"input","group":"gate-1"},
-          {"number":48,"name":"1OE2","role":"input","group":"gate-1"}
+          {"number":48,"name":"1OE2","role":"input","group":"gate-1","activeLow":true}
         ]
       },
       "model": "tristate",
@@ -1723,7 +1723,7 @@
       "note": "Pinout sn74abt162827a p.1 (DGG or DL), sn74alvch162827 p.1 (DGG, DGV, DL), cy74fct162827t p.1 (SSOP/TSSOP) - all the same: 1 1OE1, 2-3 1Y1-1Y2, 5-6 1Y3-1Y4, 8-10 1Y5-1Y7, 12-14 1Y8-1Y10, 15-17 2Y1-2Y3, 19-21 2Y4-2Y6, 23-24 2Y7-2Y8, 26-27 2Y9-2Y10, 28 2OE1, 29 2OE2, 30-31 2A10-2A9, 33-34 2A8-2A7, 36-38 2A6-2A4, 40-42 2A3-2A1, 43-45 1A10-1A8, 47-49 1A7-1A5, 51-52 1A4-1A3, 54-55 1A2-1A1, 56 1OE2; GND 4,11,18,25,32,39,46,53; VCC 7,22,35,50. Function table (each 10-bit buffer): OE1 and OE2 both low -> Y = A, either high -> Z (cy74fct162827t p.2; sn74alvch162827 p.1). Outputs have series damping resistors.",
       "pinouts": {
         "p56": [
-          {"number":1,"name":"1OE1","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE1","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1Y1","role":"output","group":"gate-1"},
           {"number":3,"name":"1Y2","role":"output","group":"gate-1"},
           {"number":4,"name":"GND","role":"ground"},
@@ -1750,8 +1750,8 @@
           {"number":25,"name":"GND","role":"ground"},
           {"number":26,"name":"2Y9","role":"output","group":"gate-2"},
           {"number":27,"name":"2Y10","role":"output","group":"gate-2"},
-          {"number":28,"name":"2OE1","role":"input","group":"gate-2"},
-          {"number":29,"name":"2OE2","role":"input","group":"gate-2"},
+          {"number":28,"name":"2OE1","role":"input","group":"gate-2","activeLow":true},
+          {"number":29,"name":"2OE2","role":"input","group":"gate-2","activeLow":true},
           {"number":30,"name":"2A10","role":"input","group":"gate-2"},
           {"number":31,"name":"2A9","role":"input","group":"gate-2"},
           {"number":32,"name":"GND","role":"ground"},
@@ -1778,7 +1778,7 @@
           {"number":53,"name":"GND","role":"ground"},
           {"number":54,"name":"1A2","role":"input","group":"gate-1"},
           {"number":55,"name":"1A1","role":"input","group":"gate-1"},
-          {"number":56,"name":"1OE2","role":"input","group":"gate-1"}
+          {"number":56,"name":"1OE2","role":"input","group":"gate-1","activeLow":true}
         ]
       },
       "model": "tristate",
@@ -1827,8 +1827,8 @@
           {"number":17,"name":"A8","role":"input"},
           {"number":18,"name":"GND","role":"ground"},
           {"number":19,"name":"A9","role":"input"},
-          {"number":20,"name":"OE1","role":"input"},
-          {"number":21,"name":"OE2","role":"input"},
+          {"number":20,"name":"OE1","role":"input","activeLow":true},
+          {"number":21,"name":"OE2","role":"input","activeLow":true},
           {"number":22,"name":"A10","role":"input"},
           {"number":23,"name":"GND","role":"ground"},
           {"number":24,"name":"A11","role":"input"},
@@ -1912,7 +1912,7 @@
       "note": "Pinout sn74alvch16344 p.1 (DGG, DL). Each input nA drives four outputs nB1-nB4 (the outputs are named B in the datasheet). Logic diagram p.2: OE1 enables 1B1-2B4, OE2 3B1-4B4, OE3 5B1-6B4, OE4 7B1-8B4 (all active low); function table p.1. Each unit lists its A pin once per output it drives. Bus hold not modeled.",
       "pinouts": {
         "p56": [
-          {"number":1,"name":"OE1","role":"input","group":"gate-1"},
+          {"number":1,"name":"OE1","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1B1","role":"output","group":"gate-1"},
           {"number":3,"name":"1B2","role":"output","group":"gate-1"},
           {"number":4,"name":"GND","role":"ground"},
@@ -1939,8 +1939,8 @@
           {"number":25,"name":"GND","role":"ground"},
           {"number":26,"name":"4B3","role":"output","group":"gate-2"},
           {"number":27,"name":"4B4","role":"output","group":"gate-2"},
-          {"number":28,"name":"OE2","role":"input","group":"gate-2"},
-          {"number":29,"name":"OE3","role":"input","group":"gate-3"},
+          {"number":28,"name":"OE2","role":"input","group":"gate-2","activeLow":true},
+          {"number":29,"name":"OE3","role":"input","group":"gate-3","activeLow":true},
           {"number":30,"name":"5B4","role":"output","group":"gate-3"},
           {"number":31,"name":"5B3","role":"output","group":"gate-3"},
           {"number":32,"name":"GND","role":"ground"},
@@ -1967,7 +1967,7 @@
           {"number":53,"name":"GND","role":"ground"},
           {"number":54,"name":"8B2","role":"output","group":"gate-4"},
           {"number":55,"name":"8B1","role":"output","group":"gate-4"},
-          {"number":56,"name":"OE4","role":"input","group":"gate-4"}
+          {"number":56,"name":"OE4","role":"input","group":"gate-4","activeLow":true}
         ]
       },
       "model": "tristate",
@@ -1993,7 +1993,7 @@
       "note": "Pinout sn74abt16540a p.1 (DGG/DGV/DL); same in sn74ahc16540 p.1, sn74ahct16540 p.1, sn74lvch16540a p.1. Function table sn74abt16540a p.2 (each 8-bit section): OE1 L and OE2 L -> Y = not A; either H -> Z.",
       "pinouts": {
         "p48": [
-          {"number":1,"name":"1OE1","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE1","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1Y1","role":"output","group":"gate-1"},
           {"number":3,"name":"1Y2","role":"output","group":"gate-1"},
           {"number":4,"name":"GND","role":"ground"},
@@ -2016,8 +2016,8 @@
           {"number":21,"name":"GND","role":"ground"},
           {"number":22,"name":"2Y7","role":"output","group":"gate-2"},
           {"number":23,"name":"2Y8","role":"output","group":"gate-2"},
-          {"number":24,"name":"2OE1","role":"input","group":"gate-2"},
-          {"number":25,"name":"2OE2","role":"input","group":"gate-2"},
+          {"number":24,"name":"2OE1","role":"input","group":"gate-2","activeLow":true},
+          {"number":25,"name":"2OE2","role":"input","group":"gate-2","activeLow":true},
           {"number":26,"name":"2A8","role":"input","group":"gate-2"},
           {"number":27,"name":"2A7","role":"input","group":"gate-2"},
           {"number":28,"name":"GND","role":"ground"},
@@ -2040,7 +2040,7 @@
           {"number":45,"name":"GND","role":"ground"},
           {"number":46,"name":"1A2","role":"input","group":"gate-1"},
           {"number":47,"name":"1A1","role":"input","group":"gate-1"},
-          {"number":48,"name":"1OE2","role":"input","group":"gate-1"}
+          {"number":48,"name":"1OE2","role":"input","group":"gate-1","activeLow":true}
         ]
       },
       "model": "tristate",
@@ -2075,7 +2075,7 @@
       "note": "Standard Widebus 48-pin '16541 pinout, identical in 74act16541 p.1, sn74abt16541a p.1, sn74ahc16541 p.1, sn74ahct16541 p.1, sn74lvch16541a p.1, sn74lvth16541 p.1. Function table (each 8-bit section; e.g. 74act16541 p.1): OE1 and OE2 both low = Y follows A, either high = Z.",
       "pinouts": {
         "p48": [
-          {"number":1,"name":"1OE1","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE1","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1Y1","role":"output","group":"gate-1"},
           {"number":3,"name":"1Y2","role":"output","group":"gate-1"},
           {"number":4,"name":"GND","role":"ground"},
@@ -2098,8 +2098,8 @@
           {"number":21,"name":"GND","role":"ground"},
           {"number":22,"name":"2Y7","role":"output","group":"gate-2"},
           {"number":23,"name":"2Y8","role":"output","group":"gate-2"},
-          {"number":24,"name":"2OE1","role":"input","group":"gate-2"},
-          {"number":25,"name":"2OE2","role":"input","group":"gate-2"},
+          {"number":24,"name":"2OE1","role":"input","group":"gate-2","activeLow":true},
+          {"number":25,"name":"2OE2","role":"input","group":"gate-2","activeLow":true},
           {"number":26,"name":"2A8","role":"input","group":"gate-2"},
           {"number":27,"name":"2A7","role":"input","group":"gate-2"},
           {"number":28,"name":"GND","role":"ground"},
@@ -2122,7 +2122,7 @@
           {"number":45,"name":"GND","role":"ground"},
           {"number":46,"name":"1A2","role":"input","group":"gate-1"},
           {"number":47,"name":"1A1","role":"input","group":"gate-1"},
-          {"number":48,"name":"1OE2","role":"input","group":"gate-1"}
+          {"number":48,"name":"1OE2","role":"input","group":"gate-1","activeLow":true}
         ]
       },
       "model": "tristate",
@@ -2165,7 +2165,7 @@
       "note": "Pinout from sn74abt16825 p.1 (DL/WD) and sn74alvch16825 p.1 (DGG/DL), identical: GND on 4, 11, 14, 15, 18, 25, 32, 39, 42, 43, 46, 53; VCC on 7, 22, 35, 50. Function table (each 9-bit section): nOE1 = nOE2 = L -> Y = A; either high -> Z (sn74abt16825 p.2, sn74alvch16825 p.1). ALVCH bus hold not modeled.",
       "pinouts": {
         "p56": [
-          {"number":1,"name":"1OE1","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE1","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1Y1","role":"output","group":"gate-1"},
           {"number":3,"name":"1Y2","role":"output","group":"gate-1"},
           {"number":4,"name":"GND","role":"ground"},
@@ -2192,8 +2192,8 @@
           {"number":25,"name":"GND","role":"ground"},
           {"number":26,"name":"2Y8","role":"output","group":"gate-2"},
           {"number":27,"name":"2Y9","role":"output","group":"gate-2"},
-          {"number":28,"name":"2OE1","role":"input","group":"gate-2"},
-          {"number":29,"name":"2OE2","role":"input","group":"gate-2"},
+          {"number":28,"name":"2OE1","role":"input","group":"gate-2","activeLow":true},
+          {"number":29,"name":"2OE2","role":"input","group":"gate-2","activeLow":true},
           {"number":30,"name":"2A9","role":"input","group":"gate-2"},
           {"number":31,"name":"2A8","role":"input","group":"gate-2"},
           {"number":32,"name":"GND","role":"ground"},
@@ -2220,7 +2220,7 @@
           {"number":53,"name":"GND","role":"ground"},
           {"number":54,"name":"1A2","role":"input","group":"gate-1"},
           {"number":55,"name":"1A1","role":"input","group":"gate-1"},
-          {"number":56,"name":"1OE2","role":"input","group":"gate-1"}
+          {"number":56,"name":"1OE2","role":"input","group":"gate-1","activeLow":true}
         ]
       },
       "model": "tristate",
@@ -2246,7 +2246,7 @@
       "note": "Pinout same in sn74abt16827 p.1 (DL), 74act16827 p.1 (DL; pin 51 misprinted 'A14', it is 1A4), sn74alvch16827 p.1 (DGG/DL), sn74avc16827 p.2 (DGG/DGV), cy74fct16827t p.1 (SSOP/TSSOP; names printed '1A 1'). Two 10-bit sections, each with OE1 and OE2 (NANDed, both active low: outputs drive only when both are low) (sn74abt16827 p.1 function table).",
       "pinouts": {
         "p56": [
-          {"number":1,"name":"1OE1","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE1","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1Y1","role":"output","group":"gate-1"},
           {"number":3,"name":"1Y2","role":"output","group":"gate-1"},
           {"number":4,"name":"GND","role":"ground"},
@@ -2273,8 +2273,8 @@
           {"number":25,"name":"GND","role":"ground"},
           {"number":26,"name":"2Y9","role":"output","group":"gate-2"},
           {"number":27,"name":"2Y10","role":"output","group":"gate-2"},
-          {"number":28,"name":"2OE1","role":"input","group":"gate-2"},
-          {"number":29,"name":"2OE2","role":"input","group":"gate-2"},
+          {"number":28,"name":"2OE1","role":"input","group":"gate-2","activeLow":true},
+          {"number":29,"name":"2OE2","role":"input","group":"gate-2","activeLow":true},
           {"number":30,"name":"2A10","role":"input","group":"gate-2"},
           {"number":31,"name":"2A9","role":"input","group":"gate-2"},
           {"number":32,"name":"GND","role":"ground"},
@@ -2301,7 +2301,7 @@
           {"number":53,"name":"GND","role":"ground"},
           {"number":54,"name":"1A2","role":"input","group":"gate-1"},
           {"number":55,"name":"1A1","role":"input","group":"gate-1"},
-          {"number":56,"name":"1OE2","role":"input","group":"gate-1"}
+          {"number":56,"name":"1OE2","role":"input","group":"gate-1","activeLow":true}
         ]
       },
       "model": "tristate",
@@ -2333,7 +2333,7 @@
       "note": "'240 pinout with 25-ohm (ABT) / 33-ohm (BCT) series output resistors. Pinout sn74abt2240a p.1 (SN74 DB/DW/N/PW, SN54 J/W; same text as sn54abt2240a), sn54bct2240 p.1 (SN54 J/W). Function table sn74abt2240a p.2, sn54bct2240 p.2 (OE low: Y = not A; OE high: Z). Timing sn74abt2240a p.5, sn54bct2240 p.4.",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1A1","role":"input","group":"gate-1"},
           {"number":3,"name":"2Y4","role":"output","group":"gate-2"},
           {"number":4,"name":"1A2","role":"input","group":"gate-1"},
@@ -2351,7 +2351,7 @@
           {"number":16,"name":"1Y2","role":"output","group":"gate-1"},
           {"number":17,"name":"2A4","role":"input","group":"gate-2"},
           {"number":18,"name":"1Y1","role":"output","group":"gate-1"},
-          {"number":19,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":19,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -2385,25 +2385,25 @@
       "note": "CY74FCT2240T: same pin positions and function as the '2240 but its own pin names (OEA/OEB, DAn/DBn inputs, OAn/OBn outputs, numbered 0-3), so its own device. Pinout cy74fct2240t p.1 (Q = DBQ QSOP, SO = SOIC); function table and logic diagram p.2 (OEA low: OAn = not DAn; OEB low: OBn = not DBn; high: Z). Timing p.5, VCC p.3.",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"OEA","role":"input","group":"gate-1"},
+          {"number":1,"name":"OEA","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"DA0","role":"input","group":"gate-1"},
-          {"number":3,"name":"OB0","role":"output","group":"gate-2"},
+          {"number":3,"name":"OB0","role":"output","group":"gate-2","activeLow":true},
           {"number":4,"name":"DA1","role":"input","group":"gate-1"},
-          {"number":5,"name":"OB1","role":"output","group":"gate-2"},
+          {"number":5,"name":"OB1","role":"output","group":"gate-2","activeLow":true},
           {"number":6,"name":"DA2","role":"input","group":"gate-1"},
-          {"number":7,"name":"OB2","role":"output","group":"gate-2"},
+          {"number":7,"name":"OB2","role":"output","group":"gate-2","activeLow":true},
           {"number":8,"name":"DA3","role":"input","group":"gate-1"},
-          {"number":9,"name":"OB3","role":"output","group":"gate-2"},
+          {"number":9,"name":"OB3","role":"output","group":"gate-2","activeLow":true},
           {"number":10,"name":"GND","role":"ground"},
           {"number":11,"name":"DB3","role":"input","group":"gate-2"},
-          {"number":12,"name":"OA3","role":"output","group":"gate-1"},
+          {"number":12,"name":"OA3","role":"output","group":"gate-1","activeLow":true},
           {"number":13,"name":"DB2","role":"input","group":"gate-2"},
-          {"number":14,"name":"OA2","role":"output","group":"gate-1"},
+          {"number":14,"name":"OA2","role":"output","group":"gate-1","activeLow":true},
           {"number":15,"name":"DB1","role":"input","group":"gate-2"},
-          {"number":16,"name":"OA1","role":"output","group":"gate-1"},
+          {"number":16,"name":"OA1","role":"output","group":"gate-1","activeLow":true},
           {"number":17,"name":"DB0","role":"input","group":"gate-2"},
-          {"number":18,"name":"OA0","role":"output","group":"gate-1"},
-          {"number":19,"name":"OEB","role":"input","group":"gate-2"},
+          {"number":18,"name":"OA0","role":"output","group":"gate-1","activeLow":true},
+          {"number":19,"name":"OEB","role":"input","group":"gate-2","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -2428,7 +2428,7 @@
       "note": "sn74abt2241 p.1: DB/DW/N/PW (and J) pinout = '241 (1 1OE, 2/4/6/8 1A1-1A4, 18/16/14/12 1Y1-1Y4, 11/13/15/17 2A1-2A4, 9/7/5/3 2Y1-2Y4, 19 2OE). Function tables p.2: 1OE active low, 2OE active high; noninverting. Outputs have equivalent 25-ohm series resistors (not modeled).",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1A1","role":"input","group":"gate-1"},
           {"number":3,"name":"2Y4","role":"output","group":"gate-2"},
           {"number":4,"name":"1A2","role":"input","group":"gate-1"},
@@ -2473,7 +2473,7 @@
       "note": "Standard '244 pinout: sn74abt2244a p.1 (DB/DW/N/PW, SN54 J/W), sn74bct2244 p.1 (DW/N/NS, SN54 J/W), sn74lvc2244a p.3 (DB/DBQ/DGV/DW/NS/PW). Outputs have built-in 25/26/33-ohm series resistors (not modeled). Function table OE L: Y = A, OE H: Z (sn74abt2244a p.2, sn74bct2244 p.2). SN74BCT2244NS is an NS orderable not in the packaging table.",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1A1","role":"input","group":"gate-1"},
           {"number":3,"name":"2Y4","role":"output","group":"gate-2"},
           {"number":4,"name":"1A2","role":"input","group":"gate-1"},
@@ -2491,7 +2491,7 @@
           {"number":16,"name":"1Y2","role":"output","group":"gate-1"},
           {"number":17,"name":"2A4","role":"input","group":"gate-2"},
           {"number":18,"name":"1Y1","role":"output","group":"gate-1"},
-          {"number":19,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":19,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -2534,7 +2534,7 @@
       "note": "CY74FCT2244T prints OEA/OEB, DA0-3/OA0-3, DB0-3/OB0-3 (cy74fct2244t p.1 pinout, Q = DBQ and SO = DW). Logic diagram p.2: OEA enables DAn -> OAn, OEB enables DBn -> OBn; function table p.2 (OE L: O = D, H: Z). Same positions as the '244 (OEA = 1OE, DAn = 1A(n+1), OEB = 2OE, DB0 at pin 17 = 2A4). CY-QC rows (CY74FCT2244ATQC-TI, CTQC, TQC) are tube QSOP orderables not in the packaging table, given the Q (DBQ) pinout. CY74FCT2244TS0C (digit zero) left out as a typo of CY74FCT2244TSOC. 25-ohm series output resistors not modeled.",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"OEA","role":"input","group":"gate-1"},
+          {"number":1,"name":"OEA","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"DA0","role":"input","group":"gate-1"},
           {"number":3,"name":"OB0","role":"output","group":"gate-2"},
           {"number":4,"name":"DA1","role":"input","group":"gate-1"},
@@ -2552,7 +2552,7 @@
           {"number":16,"name":"OA1","role":"output","group":"gate-1"},
           {"number":17,"name":"DB0","role":"input","group":"gate-2"},
           {"number":18,"name":"OA0","role":"output","group":"gate-1"},
-          {"number":19,"name":"OEB","role":"input","group":"gate-2"},
+          {"number":19,"name":"OEB","role":"input","group":"gate-2","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -2581,25 +2581,25 @@
       "note": "Standard '240 20-pin pinout, same numbering in every package (N, DW, DB, NS, PW, DGS, DGV, J, W, FK LCCC, RKS/RGY VQFN with exposed pad not a pin, CY QSOP/SOIC): sn74hc240 p.3 (incl. FK), sn74act240 p.3 (incl. RKS), sn74ls240 p.3 (incl. FK), sn74auc240 p.1 (RGY), sn74lvc240a p.3, sn74ahc240 p.3, sn74lv240a p.4, sn74abt240a p.1, cy74fct240t p.1 (incl. L/LCC). Name variants folded to the TI names: LS/S sheets print 1G/2G for 1OE/2OE (sn74ls240 p.3); CD74AC/ACT and CD74HC/HCT number bits from 0 (1A0-1A3, 2Y0-2Y3: cd74ac240 p.4 Pin Functions, cd74hc240 p.3 pinout drawing); CY FCT prints OEA/OEB, DA0-3/DB0-3, OA0-3/OB0-3 (cy74fct240t p.1, OEA=1OE, DAn=1A(n+1), OAn=1Y(n+1)). Function: OE low -> Y = not A, OE high -> Z (sn74hc240 p.9, cy74fct240t p.2).",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1A1","role":"input","group":"gate-1"},
-          {"number":3,"name":"2Y4","role":"output","group":"gate-2"},
+          {"number":3,"name":"2Y4","role":"output","group":"gate-2","activeLow":true},
           {"number":4,"name":"1A2","role":"input","group":"gate-1"},
-          {"number":5,"name":"2Y3","role":"output","group":"gate-2"},
+          {"number":5,"name":"2Y3","role":"output","group":"gate-2","activeLow":true},
           {"number":6,"name":"1A3","role":"input","group":"gate-1"},
-          {"number":7,"name":"2Y2","role":"output","group":"gate-2"},
+          {"number":7,"name":"2Y2","role":"output","group":"gate-2","activeLow":true},
           {"number":8,"name":"1A4","role":"input","group":"gate-1"},
-          {"number":9,"name":"2Y1","role":"output","group":"gate-2"},
+          {"number":9,"name":"2Y1","role":"output","group":"gate-2","activeLow":true},
           {"number":10,"name":"GND","role":"ground"},
           {"number":11,"name":"2A1","role":"input","group":"gate-2"},
-          {"number":12,"name":"1Y4","role":"output","group":"gate-1"},
+          {"number":12,"name":"1Y4","role":"output","group":"gate-1","activeLow":true},
           {"number":13,"name":"2A2","role":"input","group":"gate-2"},
-          {"number":14,"name":"1Y3","role":"output","group":"gate-1"},
+          {"number":14,"name":"1Y3","role":"output","group":"gate-1","activeLow":true},
           {"number":15,"name":"2A3","role":"input","group":"gate-2"},
-          {"number":16,"name":"1Y2","role":"output","group":"gate-1"},
+          {"number":16,"name":"1Y2","role":"output","group":"gate-1","activeLow":true},
           {"number":17,"name":"2A4","role":"input","group":"gate-2"},
-          {"number":18,"name":"1Y1","role":"output","group":"gate-1"},
-          {"number":19,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":18,"name":"1Y1","role":"output","group":"gate-1","activeLow":true},
+          {"number":19,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -2786,7 +2786,7 @@
       "note": "Standard 20-pin pinout, identical in every sheet: sn74abt241a p.1 (J/W/DB/DW/N/PW and FK), sn74ac241 p.3 Table 3-1, sn74act241 p.3 (J/W/DB/DW/N/NS/PW and FK), sn74als241c p.1 (ALS and AS, J/DW/N and FK), sn74f241 p.1, sn74hc241 p.3 (J/DW/N/NS/PW and FK), sn74lvc241a p.3 (PW/DGS and RKS, same numbers), sn74lvth241 p.1 (DB/DW/NS/PW and FK). FK (20-pin LCCC) numbers are the same as the DIP, so it shares p20. Function tables: 1OE low enables 1Y=1A, 2OE high enables 2Y=2A (sn74abt241a p.2, sn74lvc241a p.14 Table 7-1/7-2; the lvc241a pin table calls 2OE active low, its function table says high). DBL/PWLE codes are the old DB/PW LE-reel suffixes.",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1A1","role":"input","group":"gate-1"},
           {"number":3,"name":"2Y4","role":"output","group":"gate-2"},
           {"number":4,"name":"1A2","role":"input","group":"gate-1"},
@@ -2870,7 +2870,7 @@
       "note": "cd74hc241 (= cd74hct241, SCHS167G) p.3 pinout figure (J/N/DW/PW); cd74act241 (SCHS287C) p.3 Figure 3-2 and p.4 Table 3-1 (DW/N): bits numbered from 0 (1A0-1A3, 1Y0-1Y3, 2A0-2A3, 2Y0-2Y3), same positions as 74_241 (pin 3 = 2Y3 ... pin 18 = 1Y0). 2OE (pin 19) active high on the 241 (cd74hc241 p.1 description; cd74act241 p.9 note).",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1A0","role":"input","group":"gate-1"},
           {"number":3,"name":"2Y3","role":"output","group":"gate-2"},
           {"number":4,"name":"1A1","role":"input","group":"gate-1"},
@@ -2917,7 +2917,7 @@
       "note": "sn74ls241 (= sn54ls241 = sn74s241 = sn54s241, one sheet SDLS144D) p.3 Pin Functions: DB/DW/J/N/NS/W and FK use the same numbers; enables printed 1G (active low) and 2G (active high, footnote: 2G for SNx4LS241/SNx4S241). Same positions as 74_241 with OE named G.",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"1G","role":"input","group":"gate-1"},
+          {"number":1,"name":"1G","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1A1","role":"input","group":"gate-1"},
           {"number":3,"name":"2Y4","role":"output","group":"gate-2"},
           {"number":4,"name":"1A2","role":"input","group":"gate-1"},
@@ -2965,7 +2965,7 @@
       "note": "p20 from sn74hc244 p.3, sn74lvc244a p.3-4 (DB/DGV/DW/N/NS/PW/RGY/DGS/RKS: same numbers 1-20, VQFN thermal pad is not a pin), sn74ls244 p.3 (J/W/DB/DW/N/NS and FK: same numbers), sn74f244 p.1 and sn54abt244 p.1 (FK same numbers), cy74fct244t p.1 (P/Q/SO/D and L LCC same numbers). Pin names normalized to the SN74 names: SN74LS/S244 print 1G/2G for 1OE/2OE (sn74ls244 p.3); CD74HC/HCT/AC/ACT244 number bits from 0 (1A0..1A3 = 1A1..1A4, 1Y0..1Y3 = 1Y1..1Y4, 2A0..2A3 = 2A1..2A4, 2Y0..2Y3 = 2Y1..2Y4, same pins; cd74hc244 p.3, cd74ac244 p.4); CY54/74FCT244T print OEA/OEB, DA0-3/OA0-3, DB0-3/OB0-3 (OEA=1OE, DAn=1A(n+1), OAn=1Y(n+1), OEB=2OE, DB0..DB3 at pins 17,15,13,11 = 2A4..2A1, OB0..OB3 at pins 3,5,7,9 = 2Y4..2Y1; cy74fct244t p.1, p.3). Function table: OE L -> Y = A, OE H -> Z (cd74fct244 p.1, cy74fct244t p.2).",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1A1","role":"input","group":"gate-1"},
           {"number":3,"name":"2Y4","role":"output","group":"gate-2"},
           {"number":4,"name":"1A2","role":"input","group":"gate-1"},
@@ -2983,7 +2983,7 @@
           {"number":16,"name":"1Y2","role":"output","group":"gate-1"},
           {"number":17,"name":"2A4","role":"input","group":"gate-2"},
           {"number":18,"name":"1Y1","role":"output","group":"gate-1"},
-          {"number":19,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":19,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -3252,7 +3252,7 @@
           {"number":10,"name":"2Y3","role":"output","group":"gate-2"},
           {"number":11,"name":"GND","role":"ground"},
           {"number":12,"name":"2Y4","role":"output","group":"gate-2"},
-          {"number":13,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":13,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":14,"name":"2A4","role":"input","group":"gate-2"},
           {"number":15,"name":"2A3","role":"input","group":"gate-2"},
           {"number":16,"name":"VCC","role":"power"},
@@ -3263,7 +3263,7 @@
           {"number":21,"name":"VCC","role":"power"},
           {"number":22,"name":"1A2","role":"input","group":"gate-1"},
           {"number":23,"name":"1A1","role":"input","group":"gate-1"},
-          {"number":24,"name":"1OE","role":"input","group":"gate-1"}
+          {"number":24,"name":"1OE","role":"input","group":"gate-1","activeLow":true}
         ]
       },
       "model": "tristate",
@@ -3287,7 +3287,7 @@
       "note": "Pinout cy74fct2541t p.1 (Q/QSOP = DBQ and SO = DW, same): 1 OEA, 2-9 D0-D7, 10 GND, 11-18 O7-O0, 19 OEB, 20 VCC. Function table p.2: OEA and OEB both low -> O = D, both high -> Z (the table omits mixed rows; the logic diagram ANDs the two active-low enables like the '541). Speed grades: FCT2541T 8 ns, AT 4.8 ns, CT 4.1 ns max (p.1, p.5); one FCT timing entry uses the slowest (T) grade.",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"OEA","role":"input"},
+          {"number":1,"name":"OEA","role":"input","activeLow":true},
           {"number":2,"name":"D0","role":"input"},
           {"number":3,"name":"D1","role":"input"},
           {"number":4,"name":"D2","role":"input"},
@@ -3305,7 +3305,7 @@
           {"number":16,"name":"O2","role":"output"},
           {"number":17,"name":"O1","role":"output"},
           {"number":18,"name":"O0","role":"output"},
-          {"number":19,"name":"OEB","role":"input"},
+          {"number":19,"name":"OEB","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -3334,7 +3334,7 @@
       "note": "Pinout sn74abt2827 p.1 (DW, NT, JT) and sn74bct2827c p.1 (DW, NT) - identical. Function table sn74abt2827 p.2 (OE1 and OE2 both low = enabled). Output series resistors not modeled.",
       "pinouts": {
         "p24": [
-          {"number":1,"name":"OE1","role":"input"},
+          {"number":1,"name":"OE1","role":"input","activeLow":true},
           {"number":2,"name":"A1","role":"input"},
           {"number":3,"name":"A2","role":"input"},
           {"number":4,"name":"A3","role":"input"},
@@ -3346,7 +3346,7 @@
           {"number":10,"name":"A9","role":"input"},
           {"number":11,"name":"A10","role":"input"},
           {"number":12,"name":"GND","role":"ground"},
-          {"number":13,"name":"OE2","role":"input"},
+          {"number":13,"name":"OE2","role":"input","activeLow":true},
           {"number":14,"name":"Y10","role":"output"},
           {"number":15,"name":"Y9","role":"output"},
           {"number":16,"name":"Y8","role":"output"},
@@ -3381,7 +3381,7 @@
       "note": "Separate device only because cy74fct2827t names the pins D0-D9/Y0-Y9 (74_2827 uses A1-A10/Y1-Y10); same positions. Pinout cy74fct2827t p.1 (Q package = QSOP/DBQ); function table p.2 (OE1 and OE2 both low = enabled). Output series resistors not modeled.",
       "pinouts": {
         "p24": [
-          {"number":1,"name":"OE1","role":"input"},
+          {"number":1,"name":"OE1","role":"input","activeLow":true},
           {"number":2,"name":"D0","role":"input"},
           {"number":3,"name":"D1","role":"input"},
           {"number":4,"name":"D2","role":"input"},
@@ -3393,7 +3393,7 @@
           {"number":10,"name":"D8","role":"input"},
           {"number":11,"name":"D9","role":"input"},
           {"number":12,"name":"GND","role":"ground"},
-          {"number":13,"name":"OE2","role":"input"},
+          {"number":13,"name":"OE2","role":"input","activeLow":true},
           {"number":14,"name":"Y9","role":"output"},
           {"number":15,"name":"Y8","role":"output"},
           {"number":16,"name":"Y7","role":"output"},
@@ -3427,7 +3427,7 @@
       "note": "Pinout sn74als29827 p.1 (DW/NT), sn74bct29827b p.1 (DW/NT/JT/W). The 3-state control is a 2-input NOR: outputs drive only while OE1 and OE2 are both low (sn74als29827 p.1). Non-inverting.",
       "pinouts": {
         "p24": [
-          {"number":1,"name":"OE1","role":"input"},
+          {"number":1,"name":"OE1","role":"input","activeLow":true},
           {"number":2,"name":"A1","role":"input"},
           {"number":3,"name":"A2","role":"input"},
           {"number":4,"name":"A3","role":"input"},
@@ -3439,7 +3439,7 @@
           {"number":10,"name":"A9","role":"input"},
           {"number":11,"name":"A10","role":"input"},
           {"number":12,"name":"GND","role":"ground"},
-          {"number":13,"name":"OE2","role":"input"},
+          {"number":13,"name":"OE2","role":"input","activeLow":true},
           {"number":14,"name":"Y10","role":"output"},
           {"number":15,"name":"Y9","role":"output"},
           {"number":16,"name":"Y8","role":"output"},
@@ -3474,7 +3474,7 @@
       "note": "Pinout sn74hc365 p.3 (J/D/N/NS/PW; sn54hc365 is the same PDF), sn74hcs365 p.3 (D/DYY/PW), sn74hcs365-q1 p.3 (D/PW, WBQB same numbering + thermal pad). OE1 and OE2 active low, both low = Y=A (sn74hc365 p.1, sn74hcs365 p.3).",
       "pinouts": {
         "p16": [
-          {"number":1,"name":"OE1","role":"input"},
+          {"number":1,"name":"OE1","role":"input","activeLow":true},
           {"number":2,"name":"A1","role":"input"},
           {"number":3,"name":"Y1","role":"output"},
           {"number":4,"name":"A2","role":"input"},
@@ -3488,7 +3488,7 @@
           {"number":12,"name":"A5","role":"input"},
           {"number":13,"name":"Y6","role":"output"},
           {"number":14,"name":"A6","role":"input"},
-          {"number":15,"name":"OE2","role":"input"},
+          {"number":15,"name":"OE2","role":"input","activeLow":true},
           {"number":16,"name":"VCC","role":"power"}
         ]
       },
@@ -3522,7 +3522,7 @@
       "note": "Pinout cd74hc365 / cd74hct365 (same PDF) p.3 Figure 4-1 + Table 4-1 (J/N/D: OE1 and OE2 active low, 1A..6A, 1Y..6Y). Timing p.6.",
       "pinouts": {
         "p16": [
-          {"number":1,"name":"OE1","role":"input"},
+          {"number":1,"name":"OE1","role":"input","activeLow":true},
           {"number":2,"name":"1A","role":"input"},
           {"number":3,"name":"1Y","role":"output"},
           {"number":4,"name":"2A","role":"input"},
@@ -3536,7 +3536,7 @@
           {"number":12,"name":"5A","role":"input"},
           {"number":13,"name":"6Y","role":"output"},
           {"number":14,"name":"6A","role":"input"},
-          {"number":15,"name":"OE2","role":"input"},
+          {"number":15,"name":"OE2","role":"input","activeLow":true},
           {"number":16,"name":"VCC","role":"power"}
         ]
       },
@@ -3562,7 +3562,7 @@
       "note": "sn74ls365a = sn54ls365a (same scanned PDF, covers '365A-'368A). Pinout p.1 ('LS365A J/W/D/N top view; 'LS365A FK: 1 NC, 2 G1, 3 A1, 4 Y1, 5 A2, 6 NC, 7 Y2, 8 A3, 9 Y3, 10 GND, 11 NC, 12 Y4, 13 A4, 14 Y5, 15 A5, 16 NC, 17 Y6, 18 A6, 19 G2, 20 VCC). G1, G2 active low into an AND (logic diagram p.2). VCC and timing p.6-7 (rendered pages).",
       "pinouts": {
         "p16": [
-          {"number":1,"name":"G1","role":"input"},
+          {"number":1,"name":"G1","role":"input","activeLow":true},
           {"number":2,"name":"A1","role":"input"},
           {"number":3,"name":"Y1","role":"output"},
           {"number":4,"name":"A2","role":"input"},
@@ -3576,12 +3576,12 @@
           {"number":12,"name":"A5","role":"input"},
           {"number":13,"name":"Y6","role":"output"},
           {"number":14,"name":"A6","role":"input"},
-          {"number":15,"name":"G2","role":"input"},
+          {"number":15,"name":"G2","role":"input","activeLow":true},
           {"number":16,"name":"VCC","role":"power"}
         ],
         "lccc20": [
           {"number":1,"name":"NC","role":"nc"},
-          {"number":2,"name":"G1","role":"input"},
+          {"number":2,"name":"G1","role":"input","activeLow":true},
           {"number":3,"name":"A1","role":"input"},
           {"number":4,"name":"Y1","role":"output"},
           {"number":5,"name":"A2","role":"input"},
@@ -3598,7 +3598,7 @@
           {"number":16,"name":"NC","role":"nc"},
           {"number":17,"name":"Y6","role":"output"},
           {"number":18,"name":"A6","role":"input"},
-          {"number":19,"name":"G2","role":"input"},
+          {"number":19,"name":"G2","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -3626,21 +3626,21 @@
       "note": "Pinout: cd74hc366 p.3 Table 4-1 (N, D/M SOIC); cd74hc366-q1 p.3 figure (D) same. Function table cd74hc366 p.8 Table 7-1: OE1 and OE2 NORed; both L -> Y = not A; either H -> Z (column header misprinted 'HCT 366').",
       "pinouts": {
         "p16": [
-          {"number":1,"name":"OE1","role":"input"},
+          {"number":1,"name":"OE1","role":"input","activeLow":true},
           {"number":2,"name":"1A","role":"input"},
-          {"number":3,"name":"1Y","role":"output"},
+          {"number":3,"name":"1Y","role":"output","activeLow":true},
           {"number":4,"name":"2A","role":"input"},
-          {"number":5,"name":"2Y","role":"output"},
+          {"number":5,"name":"2Y","role":"output","activeLow":true},
           {"number":6,"name":"3A","role":"input"},
-          {"number":7,"name":"3Y","role":"output"},
+          {"number":7,"name":"3Y","role":"output","activeLow":true},
           {"number":8,"name":"GND","role":"ground"},
-          {"number":9,"name":"4Y","role":"output"},
+          {"number":9,"name":"4Y","role":"output","activeLow":true},
           {"number":10,"name":"4A","role":"input"},
-          {"number":11,"name":"5Y","role":"output"},
+          {"number":11,"name":"5Y","role":"output","activeLow":true},
           {"number":12,"name":"5A","role":"input"},
-          {"number":13,"name":"6Y","role":"output"},
+          {"number":13,"name":"6Y","role":"output","activeLow":true},
           {"number":14,"name":"6A","role":"input"},
-          {"number":15,"name":"OE2","role":"input"},
+          {"number":15,"name":"OE2","role":"input","activeLow":true},
           {"number":16,"name":"VCC","role":"power"}
         ]
       },
@@ -3665,7 +3665,7 @@
       "note": "Pinout: sn74hc367 p.3 (J, D, N, NS, PW; same file as sn54hc367), sn74ahc367 p.3 (D, DB, DGV, N, PW), sn74ahct367 p.3, sn74hcs367 p.3 and sn74hcs367-q1 p.3 (D, PW, WBQB with thermal pad, same numbering), sn74lv367a p.3 (D, DGV, NS, PW). 1OE drives 1A1-1A4, 2OE drives 2A1-2A2, both active low (sn74ahc367 p.8 function table). JM38510/65708BEA is SN54HC367J per the sn54hc367 packaging table.",
       "pinouts": {
         "p16": [
-          {"number":1,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1A1","role":"input","group":"gate-1"},
           {"number":3,"name":"1Y1","role":"output","group":"gate-1"},
           {"number":4,"name":"1A2","role":"input","group":"gate-1"},
@@ -3679,7 +3679,7 @@
           {"number":12,"name":"2A1","role":"input","group":"gate-2"},
           {"number":13,"name":"2Y2","role":"output","group":"gate-2"},
           {"number":14,"name":"2A2","role":"input","group":"gate-2"},
-          {"number":15,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":15,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":16,"name":"VCC","role":"power"}
         ]
       },
@@ -3727,7 +3727,7 @@
       "note": "Pinout from cd74hc367 p.3 (one data sheet for CD54/74HC367, HCT367, HC368, HCT368; also filed as cd74hc367, cd74hct367): OE1 1, 1A 2, 1Y 3, 2A 4, 2Y 5, 3A 6, 3Y 7, GND 8, 4Y 9, 4A 10, 5Y 11, 5A 12, 6Y 13, 6A 14, OE2 15, VCC 16 (same positions as 74_367, different names; '368 Y pins printed with overbars). OE1 controls 4 gates, OE2 the other 2 (p.8 description).",
       "pinouts": {
         "p16": [
-          {"number":1,"name":"OE1","role":"input","group":"gate-1"},
+          {"number":1,"name":"OE1","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1A","role":"input","group":"gate-1"},
           {"number":3,"name":"1Y","role":"output","group":"gate-1"},
           {"number":4,"name":"2A","role":"input","group":"gate-1"},
@@ -3741,7 +3741,7 @@
           {"number":12,"name":"5A","role":"input","group":"gate-2"},
           {"number":13,"name":"6Y","role":"output","group":"gate-2"},
           {"number":14,"name":"6A","role":"input","group":"gate-2"},
-          {"number":15,"name":"OE2","role":"input","group":"gate-2"},
+          {"number":15,"name":"OE2","role":"input","group":"gate-2","activeLow":true},
           {"number":16,"name":"VCC","role":"power"}
         ]
       },
@@ -3769,7 +3769,7 @@
       "note": "Pinout from sn74ls367a (scanned SN54365A-SN74LS368A data sheet, Dec 1983 rev Mar 1988; identical file as sn54ls367a, sn74ls368a, sn54ls368a) p.1 (J, D, N packages; NS uses the same numbering); enables printed 1G/2G (active low), else same pins as 74_367. Logic diagram p.2: 1G drives 1A1-1A4, 2G drives 2A1-2A2.",
       "pinouts": {
         "p16": [
-          {"number":1,"name":"1G","role":"input","group":"gate-1"},
+          {"number":1,"name":"1G","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1A1","role":"input","group":"gate-1"},
           {"number":3,"name":"1Y1","role":"output","group":"gate-1"},
           {"number":4,"name":"1A2","role":"input","group":"gate-1"},
@@ -3783,7 +3783,7 @@
           {"number":12,"name":"2A1","role":"input","group":"gate-2"},
           {"number":13,"name":"2Y2","role":"output","group":"gate-2"},
           {"number":14,"name":"2A2","role":"input","group":"gate-2"},
-          {"number":15,"name":"2G","role":"input","group":"gate-2"},
+          {"number":15,"name":"2G","role":"input","group":"gate-2","activeLow":true},
           {"number":16,"name":"VCC","role":"power"}
         ]
       },
@@ -3811,7 +3811,7 @@
       "note": "Pinout: sn74hc368 p.3 (J, D, N, NS, PW; FK not in this group; same file as sn54hc368); outputs printed with overbars (1Y1...). Y = not A when OE low, Z when OE high (sn74hc368 p.9). 1OE drives 1A1-1A4, 2OE drives 2A1-2A2. 5962-8681201EA is SNJ54HC368J per the sn54hc368 packaging table.",
       "pinouts": {
         "p16": [
-          {"number":1,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1A1","role":"input","group":"gate-1"},
           {"number":3,"name":"1Y1","role":"output","group":"gate-1"},
           {"number":4,"name":"1A2","role":"input","group":"gate-1"},
@@ -3825,7 +3825,7 @@
           {"number":12,"name":"2A1","role":"input","group":"gate-2"},
           {"number":13,"name":"2Y2","role":"output","group":"gate-2"},
           {"number":14,"name":"2A2","role":"input","group":"gate-2"},
-          {"number":15,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":15,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":16,"name":"VCC","role":"power"}
         ]
       },
@@ -3855,21 +3855,21 @@
       "note": "Pinout from cd74hc367 p.3 (one data sheet for CD54/74HC367, HCT367, HC368, HCT368; also filed as cd74hc368, cd74hct368): OE1 1, 1A 2, 1Y 3, 2A 4, 2Y 5, 3A 6, 3Y 7, GND 8, 4Y 9, 4A 10, 5Y 11, 5A 12, 6Y 13, 6A 14, OE2 15, VCC 16 (same positions as 74_368, different names; '368 Y pins printed with overbars). OE1 controls 4 gates, OE2 the other 2 (p.8 description).",
       "pinouts": {
         "p16": [
-          {"number":1,"name":"OE1","role":"input","group":"gate-1"},
+          {"number":1,"name":"OE1","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1A","role":"input","group":"gate-1"},
-          {"number":3,"name":"1Y","role":"output","group":"gate-1"},
+          {"number":3,"name":"1Y","role":"output","group":"gate-1","activeLow":true},
           {"number":4,"name":"2A","role":"input","group":"gate-1"},
-          {"number":5,"name":"2Y","role":"output","group":"gate-1"},
+          {"number":5,"name":"2Y","role":"output","group":"gate-1","activeLow":true},
           {"number":6,"name":"3A","role":"input","group":"gate-1"},
-          {"number":7,"name":"3Y","role":"output","group":"gate-1"},
+          {"number":7,"name":"3Y","role":"output","group":"gate-1","activeLow":true},
           {"number":8,"name":"GND","role":"ground"},
-          {"number":9,"name":"4Y","role":"output","group":"gate-1"},
+          {"number":9,"name":"4Y","role":"output","group":"gate-1","activeLow":true},
           {"number":10,"name":"4A","role":"input","group":"gate-1"},
-          {"number":11,"name":"5Y","role":"output","group":"gate-2"},
+          {"number":11,"name":"5Y","role":"output","group":"gate-2","activeLow":true},
           {"number":12,"name":"5A","role":"input","group":"gate-2"},
-          {"number":13,"name":"6Y","role":"output","group":"gate-2"},
+          {"number":13,"name":"6Y","role":"output","group":"gate-2","activeLow":true},
           {"number":14,"name":"6A","role":"input","group":"gate-2"},
-          {"number":15,"name":"OE2","role":"input","group":"gate-2"},
+          {"number":15,"name":"OE2","role":"input","group":"gate-2","activeLow":true},
           {"number":16,"name":"VCC","role":"power"}
         ]
       },
@@ -3897,7 +3897,7 @@
       "note": "Pinout from sn74ls367a (scanned SN54365A-SN74LS368A data sheet, Dec 1983 rev Mar 1988; identical file as sn54ls367a, sn74ls368a, sn54ls368a) p.1 (J, D, N packages; NS uses the same numbering); enables printed 1G/2G (active low), else same pins as 74_368. Logic diagram p.2: 1G drives 1A1-1A4, 2G drives 2A1-2A2, inverting outputs.",
       "pinouts": {
         "p16": [
-          {"number":1,"name":"1G","role":"input","group":"gate-1"},
+          {"number":1,"name":"1G","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1A1","role":"input","group":"gate-1"},
           {"number":3,"name":"1Y1","role":"output","group":"gate-1"},
           {"number":4,"name":"1A2","role":"input","group":"gate-1"},
@@ -3911,7 +3911,7 @@
           {"number":12,"name":"2A1","role":"input","group":"gate-2"},
           {"number":13,"name":"2Y2","role":"output","group":"gate-2"},
           {"number":14,"name":"2A2","role":"input","group":"gate-2"},
-          {"number":15,"name":"2G","role":"input","group":"gate-2"},
+          {"number":15,"name":"2G","role":"input","group":"gate-2","activeLow":true},
           {"number":16,"name":"VCC","role":"power"}
         ]
       },
@@ -3939,19 +3939,19 @@
       "note": "Pinout sn74lv4t125 p.3 (PW, RGY): '125 layout, 1OE 1, 1A 2, 1Y 3, 2OE 4, 2A 5, 2Y 6, GND 7, 3Y 8, 3A 9, 3OE 10, 4Y 11, 4A 12, 4OE 13, VCC 14; sn74lv4t125-ep p.3 (PW) same. Function table p.13 (OE L: Y = A, OE H: Z). RGY thermal pad is not a pin.",
       "pinouts": {
         "p14": [
-          {"number":1,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1A","role":"input","group":"gate-1"},
           {"number":3,"name":"1Y","role":"output"},
-          {"number":4,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":4,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":5,"name":"2A","role":"input","group":"gate-2"},
           {"number":6,"name":"2Y","role":"output"},
           {"number":7,"name":"GND","role":"ground"},
           {"number":8,"name":"3Y","role":"output"},
           {"number":9,"name":"3A","role":"input","group":"gate-3"},
-          {"number":10,"name":"3OE","role":"input","group":"gate-3"},
+          {"number":10,"name":"3OE","role":"input","group":"gate-3","activeLow":true},
           {"number":11,"name":"4Y","role":"output"},
           {"number":12,"name":"4A","role":"input","group":"gate-4"},
-          {"number":13,"name":"4OE","role":"input","group":"gate-4"},
+          {"number":13,"name":"4OE","role":"input","group":"gate-4","activeLow":true},
           {"number":14,"name":"VCC","role":"power"}
         ]
       },
@@ -3979,7 +3979,7 @@
       "note": "Flow-through pinout, same in sn74abt540 p.1, sn74ahc540 p.3, sn74ahc540-q1 p.3 (RKS = same numbering + pad, DGS, PW), sn74ahct540 p.3 (= sn54ahct540), sn74ahct540-q1 p.3 (RKS/DGS/PW), sn74als540 p.1, sn74bct540a p.1, sn74hc540 p.3 (FK uses the same numbers), sn74hct540 p.1, sn74lv540a p.3 (RGY same numbering), sn74lvc540a p.3 (RKS same numbering), sn74lvc540a-q1 p.1, sn74lvth540 p.1. OE1, OE2 active low (2-input NOR), Y = not A (sn74abt540 p.1 function table).",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"OE1","role":"input"},
+          {"number":1,"name":"OE1","role":"input","activeLow":true},
           {"number":2,"name":"A1","role":"input"},
           {"number":3,"name":"A2","role":"input"},
           {"number":4,"name":"A3","role":"input"},
@@ -3997,7 +3997,7 @@
           {"number":16,"name":"Y3","role":"output"},
           {"number":17,"name":"Y2","role":"output"},
           {"number":18,"name":"Y1","role":"output"},
-          {"number":19,"name":"OE2","role":"input"},
+          {"number":19,"name":"OE2","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -4099,8 +4099,8 @@
           {"number":11,"name":"Y10","role":"output"},
           {"number":12,"name":"Y11","role":"output"},
           {"number":13,"name":"Y12","role":"output"},
-          {"number":14,"name":"OE1","role":"input"},
-          {"number":15,"name":"OE2","role":"input"},
+          {"number":14,"name":"OE1","role":"input","activeLow":true},
+          {"number":15,"name":"OE2","role":"input","activeLow":true},
           {"number":16,"name":"D12","role":"input"},
           {"number":17,"name":"D11","role":"input"},
           {"number":18,"name":"D10","role":"input"},
@@ -4149,8 +4149,8 @@
           {"number":11,"name":"Y10","role":"output"},
           {"number":12,"name":"Y11","role":"output"},
           {"number":13,"name":"Y12","role":"output"},
-          {"number":14,"name":"OE1","role":"input"},
-          {"number":15,"name":"OE2","role":"input"},
+          {"number":14,"name":"OE1","role":"input","activeLow":true},
+          {"number":15,"name":"OE2","role":"input","activeLow":true},
           {"number":16,"name":"D12","role":"input"},
           {"number":17,"name":"D11","role":"input"},
           {"number":18,"name":"D10","role":"input"},
@@ -4186,7 +4186,7 @@
       "note": "Pinout cd74ac540 p.3 Figure 3-1 (= cd54act540, cd74act540; OE1, A0..A7, Y0..Y7, OE2; the Table 3-1 on that page belongs to another device and was ignored) and cd74hc540 p.3 (= cd74hct540; pin 1 printed 'OE', text p.1/p.9 calls it OE1). OE1 and OE2 active low, inverting (cd74hc540 p.9).",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"OE1","role":"input"},
+          {"number":1,"name":"OE1","role":"input","activeLow":true},
           {"number":2,"name":"A0","role":"input"},
           {"number":3,"name":"A1","role":"input"},
           {"number":4,"name":"A2","role":"input"},
@@ -4196,15 +4196,15 @@
           {"number":8,"name":"A6","role":"input"},
           {"number":9,"name":"A7","role":"input"},
           {"number":10,"name":"GND","role":"ground"},
-          {"number":11,"name":"Y7","role":"output"},
-          {"number":12,"name":"Y6","role":"output"},
-          {"number":13,"name":"Y5","role":"output"},
-          {"number":14,"name":"Y4","role":"output"},
-          {"number":15,"name":"Y3","role":"output"},
-          {"number":16,"name":"Y2","role":"output"},
-          {"number":17,"name":"Y1","role":"output"},
-          {"number":18,"name":"Y0","role":"output"},
-          {"number":19,"name":"OE2","role":"input"},
+          {"number":11,"name":"Y7","role":"output","activeLow":true},
+          {"number":12,"name":"Y6","role":"output","activeLow":true},
+          {"number":13,"name":"Y5","role":"output","activeLow":true},
+          {"number":14,"name":"Y4","role":"output","activeLow":true},
+          {"number":15,"name":"Y3","role":"output","activeLow":true},
+          {"number":16,"name":"Y2","role":"output","activeLow":true},
+          {"number":17,"name":"Y1","role":"output","activeLow":true},
+          {"number":18,"name":"Y0","role":"output","activeLow":true},
+          {"number":19,"name":"OE2","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -4238,7 +4238,7 @@
       "note": "Pinout cy74fct540t p.1 (Q = QSOP/DBQ top view: OEA, D0..D7, GND, O7..O0, OEB, VCC). Function table p.2: OEA L OEB L = O = not D; otherwise Z (both active low).",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"OEA","role":"input"},
+          {"number":1,"name":"OEA","role":"input","activeLow":true},
           {"number":2,"name":"D0","role":"input"},
           {"number":3,"name":"D1","role":"input"},
           {"number":4,"name":"D2","role":"input"},
@@ -4248,15 +4248,15 @@
           {"number":8,"name":"D6","role":"input"},
           {"number":9,"name":"D7","role":"input"},
           {"number":10,"name":"GND","role":"ground"},
-          {"number":11,"name":"O7","role":"output"},
-          {"number":12,"name":"O6","role":"output"},
-          {"number":13,"name":"O5","role":"output"},
-          {"number":14,"name":"O4","role":"output"},
-          {"number":15,"name":"O3","role":"output"},
-          {"number":16,"name":"O2","role":"output"},
-          {"number":17,"name":"O1","role":"output"},
-          {"number":18,"name":"O0","role":"output"},
-          {"number":19,"name":"OEB","role":"input"},
+          {"number":11,"name":"O7","role":"output","activeLow":true},
+          {"number":12,"name":"O6","role":"output","activeLow":true},
+          {"number":13,"name":"O5","role":"output","activeLow":true},
+          {"number":14,"name":"O4","role":"output","activeLow":true},
+          {"number":15,"name":"O3","role":"output","activeLow":true},
+          {"number":16,"name":"O2","role":"output","activeLow":true},
+          {"number":17,"name":"O1","role":"output","activeLow":true},
+          {"number":18,"name":"O0","role":"output","activeLow":true},
+          {"number":19,"name":"OEB","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -4280,7 +4280,7 @@
       "note": "sn74ls540 = sn54ls540 (same scanned PDF). Pinout p.1 (J/W/DW/N top view; FK uses the same numbers: 1 G1, 2 A1, 3 A2 ... 19 G2, 20 VCC). G1, G2 active low (2-input NOR), Y = not A (p.1-2). VCC p.3, timing p.4 (rendered pages).",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"G1","role":"input"},
+          {"number":1,"name":"G1","role":"input","activeLow":true},
           {"number":2,"name":"A1","role":"input"},
           {"number":3,"name":"A2","role":"input"},
           {"number":4,"name":"A3","role":"input"},
@@ -4298,7 +4298,7 @@
           {"number":16,"name":"Y3","role":"output"},
           {"number":17,"name":"Y2","role":"output"},
           {"number":18,"name":"Y1","role":"output"},
-          {"number":19,"name":"G2","role":"input"},
+          {"number":19,"name":"G2","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -4328,7 +4328,7 @@
       "note": "Pinout: sn74hc541 p.3 Pin Functions (OE1=1, A1-A8=2-9, GND=10, Y8-Y1=11-18, OE2=19, VCC=20); same positions in sn74ahc541 p.3, sn74ahct541 p.3 (J/W/FK too), sn74lvc541a p.3-4 (RKS/RGY same numbering), sn74ac541 p.3 (DGS, RKS), sn74hcs541 p.3, sn74lv541a p.3 (DB/DGV/DW/NS/PW/DGS, RGY/RKS), sn74abt541b p.1 (J/W/DB/DW/N/PW, FK), sn74lvth541, sn74als541, sn74bct541a, sn74f541, sn74ls541 p.1 (FK same numbering), cd74fct541 p.1. 20-pin FK LCCC uses the same 1-20 numbering (no NC). Names differ only by datasheet style at the same positions: CD74HC/HCT541 and CD54/74AC/ACT541 print OE1, A0-A7, Y0-Y7, OE2 (cd74hc541 p.3 figure, cd74ac541 p.3 figure; the cd74ac541 Pin Functions table p.3 is a copy of a '273 table and is wrong); CY54/74FCT541T prints OEA, D0-D7, OEB, O0-O7 (cy74fct541t p.1); SN54/74LS541 prints G1, G2 (sn74ls541 p.1). Merged under the SN names (A1-A8/Y1-Y8). Function table (sn74hc541, cd74fct541 p.1): OE1 L and OE2 L -> Y = A; either OE high -> Z.",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"OE1","role":"input"},
+          {"number":1,"name":"OE1","role":"input","activeLow":true},
           {"number":2,"name":"A1","role":"input"},
           {"number":3,"name":"A2","role":"input"},
           {"number":4,"name":"A3","role":"input"},
@@ -4346,7 +4346,7 @@
           {"number":16,"name":"Y3","role":"output"},
           {"number":17,"name":"Y2","role":"output"},
           {"number":18,"name":"Y1","role":"output"},
-          {"number":19,"name":"OE2","role":"input"},
+          {"number":19,"name":"OE2","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -4501,7 +4501,7 @@
       "note": "Pinout: sn74ac7541 p.3 (DGS/PW, RKS: same numbering, thermal pad not a pin), sn74act7541 p.3, sn74ac7541-q1 p.3, sn74act7541-q1 p.3, sn74ahc7541-q1 p.3, sn74ahct7541-q1 p.3. OE1 and OE2 both low = outputs active (open-drain); either high = high impedance (sn74ac7541 p.1).",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"OE1","role":"input"},
+          {"number":1,"name":"OE1","role":"input","activeLow":true},
           {"number":2,"name":"A1","role":"input"},
           {"number":3,"name":"A2","role":"input"},
           {"number":4,"name":"A3","role":"input"},
@@ -4519,7 +4519,7 @@
           {"number":16,"name":"Y3","role":"output"},
           {"number":17,"name":"Y2","role":"output"},
           {"number":18,"name":"Y1","role":"output"},
-          {"number":19,"name":"OE2","role":"input"},
+          {"number":19,"name":"OE2","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -4562,7 +4562,7 @@
       "note": "Pinout sn74as756 p.1 (DW/N/J; pin 19 is 2OE-bar for 'AS756), sn74bct756 p.1 (DW/N). Inverting: sn74bct756 p.1 function table (OE L, A L -> Y H; OE H -> Y H = off), sn74as756 p.1 logic symbol (output negation). Open-collector outputs, 1OE and 2OE both active low (open-collector version of 'AS240).",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1A1","role":"input","group":"gate-1"},
           {"number":3,"name":"2Y4","role":"output","group":"gate-2"},
           {"number":4,"name":"1A2","role":"input","group":"gate-1"},
@@ -4580,7 +4580,7 @@
           {"number":16,"name":"1Y2","role":"output","group":"gate-1"},
           {"number":17,"name":"2A4","role":"input","group":"gate-2"},
           {"number":18,"name":"1Y1","role":"output","group":"gate-1"},
-          {"number":19,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":19,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -4610,7 +4610,7 @@
       "note": "Open-collector version of the '241. Pinout sn74bct757 p.1 (DW/N), sn64bct757 p.1 (DW), sn74as757 p.1 (DW/N; pin 19 is 2OE active high for SN74AS757, footnote). Function tables sn74bct757 p.1 / sn64bct757 p.1: 1OE low enables 1Y = 1A, 2OE high enables 2Y = 2A; disabled outputs are off (H through pull-up). Timing sn74bct757 p.3, sn64bct757 p.3, sn74as757 p.4.",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1A1","role":"input","group":"gate-1"},
           {"number":3,"name":"2Y4","role":"output","group":"gate-2"},
           {"number":4,"name":"1A2","role":"input","group":"gate-1"},
@@ -4658,7 +4658,7 @@
       "note": "'244 pinout (1OE 1, 1A1 2, 2Y4 3, 1A2 4, 2Y3 5, 1A3 6, 2Y2 7, 1A4 8, 2Y1 9, GND 10, 2A1 11, 1Y4 12, 2A2 13, 1Y3 14, 2A3 15, 1Y2 16, 2A4 17, 1Y1 18, 2OE 19, VCC 20): sn74as760 (= sn74als760 = sn54as760, SDAS141A) p.1 (J, DW, N; FK same numbering), sn74bct760 p.1 (J, W, DW, N), sn74bct760-ep p.1 (DW). Function table OE L: Y = A; OE H: Y off (high via pull-up) (sn74bct760 p.1). Open-collector version of the '244: modeled as tristate with open-drain output.",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1A1","role":"input","group":"gate-1"},
           {"number":3,"name":"2Y4","role":"output","group":"gate-2"},
           {"number":4,"name":"1A2","role":"input","group":"gate-1"},
@@ -4676,7 +4676,7 @@
           {"number":16,"name":"1Y2","role":"output","group":"gate-1"},
           {"number":17,"name":"2A4","role":"input","group":"gate-2"},
           {"number":18,"name":"1Y1","role":"output","group":"gate-1"},
-          {"number":19,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":19,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -4710,7 +4710,7 @@
       "note": "Pinout: sn74abt827 p.1 (DB/DW/NT/PW, JT; W in the packaging table, assumed = JT), sn74lvc827a p.3 (DB/DGV/DW/PW), cy74fct827t p.1 (Q/SO; FCT sheet names D0-D9/Y0-Y9, same pins). Function table sn74abt827 p.1: OE1 and OE2 both low = drive.",
       "pinouts": {
         "p24": [
-          {"number":1,"name":"OE1","role":"input"},
+          {"number":1,"name":"OE1","role":"input","activeLow":true},
           {"number":2,"name":"A1","role":"input"},
           {"number":3,"name":"A2","role":"input"},
           {"number":4,"name":"A3","role":"input"},
@@ -4722,7 +4722,7 @@
           {"number":10,"name":"A9","role":"input"},
           {"number":11,"name":"A10","role":"input"},
           {"number":12,"name":"GND","role":"ground"},
-          {"number":13,"name":"OE2","role":"input"},
+          {"number":13,"name":"OE2","role":"input","activeLow":true},
           {"number":14,"name":"Y10","role":"output"},
           {"number":15,"name":"Y9","role":"output"},
           {"number":16,"name":"Y8","role":"output"},
@@ -4773,7 +4773,7 @@
       "note": "sn74lv8t240 p.3 Figure 4-1/4-2 and Table 4-1 (PW/DGS and RKS, same numbers); sn74lv8t240-q1 p.3 same. Function table p.15 Table 7-1: OE low, Y = not A; OE high = Z (both OEs active low).",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1A1","role":"input","group":"gate-1"},
           {"number":3,"name":"2Y4","role":"output","group":"gate-2"},
           {"number":4,"name":"1A2","role":"input","group":"gate-1"},
@@ -4791,7 +4791,7 @@
           {"number":16,"name":"1Y2","role":"output","group":"gate-1"},
           {"number":17,"name":"2A4","role":"input","group":"gate-2"},
           {"number":18,"name":"1Y1","role":"output","group":"gate-1"},
-          {"number":19,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":19,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -4820,7 +4820,7 @@
       "note": "Standard '244 pinout: sn74lv8t244 p.3 Figure 4-1/4-2 + Table 4-1 (PW/DGS and RKS VQFN with the same numbers 1-20, thermal pad not a pin); sn74lv8t244-q1 p.3 identical. 1OE/2OE active low (Table 4-1). Single supply; inputs tolerate 5.5 V at any VCC.",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1A1","role":"input","group":"gate-1"},
           {"number":3,"name":"2Y4","role":"output","group":"gate-2"},
           {"number":4,"name":"1A2","role":"input","group":"gate-1"},
@@ -4838,7 +4838,7 @@
           {"number":16,"name":"1Y2","role":"output","group":"gate-1"},
           {"number":17,"name":"2A4","role":"input","group":"gate-2"},
           {"number":18,"name":"1Y1","role":"output","group":"gate-1"},
-          {"number":19,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":19,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -4866,7 +4866,7 @@
       "note": "Single-supply part (one VCC; translation from low-threshold, 5.5 V-tolerant inputs), so tristate rather than translator. Pinout sn74lv8t540 p.3 Pin Functions (PW, DGS, RKS; RKS thermal pad not a pin); sn74lv8t540-q1 p.3 same. Function table sn74lv8t540 p.16: OE1 and OE2 low -> Y = not A.",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"OE1","role":"input"},
+          {"number":1,"name":"OE1","role":"input","activeLow":true},
           {"number":2,"name":"A1","role":"input"},
           {"number":3,"name":"A2","role":"input"},
           {"number":4,"name":"A3","role":"input"},
@@ -4884,7 +4884,7 @@
           {"number":16,"name":"Y3","role":"output"},
           {"number":17,"name":"Y2","role":"output"},
           {"number":18,"name":"Y1","role":"output"},
-          {"number":19,"name":"OE2","role":"input"},
+          {"number":19,"name":"OE2","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -4913,7 +4913,7 @@
       "note": "Pinout from sn74lv8t541 p.3 (PW/DGS and RKS; RKS exposed pad not a pin) and sn74lv8t541-q1 p.3, identical. OE1 and OE2 active low, both low -> Y = A (sn74lv8t541 p.1, p.10). Single supply: up/down translation through input thresholds and 5.5 V tolerant inputs, so no second domain.",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"OE1","role":"input"},
+          {"number":1,"name":"OE1","role":"input","activeLow":true},
           {"number":2,"name":"A1","role":"input"},
           {"number":3,"name":"A2","role":"input"},
           {"number":4,"name":"A3","role":"input"},
@@ -4931,7 +4931,7 @@
           {"number":16,"name":"Y3","role":"output"},
           {"number":17,"name":"Y2","role":"output"},
           {"number":18,"name":"Y1","role":"output"},
-          {"number":19,"name":"OE2","role":"input"},
+          {"number":19,"name":"OE2","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -4959,7 +4959,7 @@
       "note": "Pinout sn74lv8t7541 p.3 Pin Functions (PW, DGS, RKS same numbers; RKS thermal pad not a pin): 1 OE1, 2-9 A1-A8, 10 GND, 11-18 Y8-Y1, 19 OE2, 20 VCC; sn74lv8t7541-q1 p.3 same. Function table sn74lv8t7541 p.14: OE1 L and OE2 L -> Y = A (H = Z, open-drain off), either OE high -> Z. Single supply (outputs referenced to VCC); the level shifting is the reduced-threshold 5.5 V tolerant inputs plus open-drain outputs.",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"OE1","role":"input"},
+          {"number":1,"name":"OE1","role":"input","activeLow":true},
           {"number":2,"name":"A1","role":"input"},
           {"number":3,"name":"A2","role":"input"},
           {"number":4,"name":"A3","role":"input"},
@@ -4977,7 +4977,7 @@
           {"number":16,"name":"Y3","role":"output"},
           {"number":17,"name":"Y2","role":"output"},
           {"number":18,"name":"Y1","role":"output"},
-          {"number":19,"name":"OE2","role":"input"},
+          {"number":19,"name":"OE2","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -5005,7 +5005,7 @@
       "note": "Pinout sn74lv8t9541 p.3 (PW, DGS, RKS same numbering: OE1=1, A1-A8=2-9, GND=10, Y8-Y1=11-18, OE2=19, VCC=20); sn74lv8t9541-q1 p.3 same. Function table p.15 Table 7-1: OE1 L and OE2 L -> Y = A; either H -> Z. Single supply (inputs 5.5 V tolerant at any VCC), so tristate, not translator.",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"OE1","role":"input"},
+          {"number":1,"name":"OE1","role":"input","activeLow":true},
           {"number":2,"name":"A1","role":"input"},
           {"number":3,"name":"A2","role":"input"},
           {"number":4,"name":"A3","role":"input"},
@@ -5023,7 +5023,7 @@
           {"number":16,"name":"Y3","role":"output"},
           {"number":17,"name":"Y2","role":"output"},
           {"number":18,"name":"Y1","role":"output"},
-          {"number":19,"name":"OE2","role":"input"},
+          {"number":19,"name":"OE2","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -5051,7 +5051,7 @@
       "note": "Pinout sn74ahc9541-q1 p.3 Pin Functions (PW, DGS, RKS - RKS thermal pad not a pin); same in sn74ahct9541-q1 p.3 and sn74lvc9541a-q1 p.3. OE1, OE2 active low (p.3). Schmitt-trigger inputs not modeled.",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"OE1","role":"input"},
+          {"number":1,"name":"OE1","role":"input","activeLow":true},
           {"number":2,"name":"A1","role":"input"},
           {"number":3,"name":"A2","role":"input"},
           {"number":4,"name":"A3","role":"input"},
@@ -5069,7 +5069,7 @@
           {"number":16,"name":"Y3","role":"output"},
           {"number":17,"name":"Y2","role":"output"},
           {"number":18,"name":"Y1","role":"output"},
-          {"number":19,"name":"OE2","role":"input"},
+          {"number":19,"name":"OE2","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -5112,7 +5112,7 @@
           {"number":10,"name":"A6","role":"inout","side":"in"},
           {"number":11,"name":"A7","role":"inout","side":"in"},
           {"number":12,"name":"A8","role":"inout","side":"in"},
-          {"number":13,"name":"OE","role":"input"},
+          {"number":13,"name":"OE","role":"input","activeLow":true},
           {"number":14,"name":"B8","role":"inout","side":"out"},
           {"number":15,"name":"B7","role":"inout","side":"out"},
           {"number":16,"name":"B6","role":"inout","side":"out"},
@@ -5166,7 +5166,7 @@
           {"number":16,"name":"B3","role":"inout","side":"out"},
           {"number":17,"name":"B2","role":"inout","side":"out"},
           {"number":18,"name":"B1","role":"inout","side":"out"},
-          {"number":19,"name":"OE","role":"input"},
+          {"number":19,"name":"OE","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -5213,7 +5213,7 @@
           {"number":22,"name":"2B7","role":"inout","group":"gate-2","side":"out"},
           {"number":23,"name":"2B8","role":"inout","group":"gate-2","side":"out"},
           {"number":24,"name":"2DIR","role":"input","group":"gate-2"},
-          {"number":25,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":25,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":26,"name":"2A8","role":"inout","group":"gate-2","side":"in"},
           {"number":27,"name":"2A7","role":"inout","group":"gate-2","side":"in"},
           {"number":28,"name":"GND","role":"ground"},
@@ -5236,7 +5236,7 @@
           {"number":45,"name":"GND","role":"ground"},
           {"number":46,"name":"1A2","role":"inout","group":"gate-1","side":"in"},
           {"number":47,"name":"1A1","role":"inout","group":"gate-1","side":"in"},
-          {"number":48,"name":"1OE","role":"input","group":"gate-1"}
+          {"number":48,"name":"1OE","role":"input","group":"gate-1","activeLow":true}
         ]
       },
       "model": "transceiver",
@@ -5300,7 +5300,7 @@
           {"number":22,"name":"2B7","role":"inout","group":"gate-2","side":"out"},
           {"number":23,"name":"2B8","role":"inout","group":"gate-2","side":"out"},
           {"number":24,"name":"2DIR","role":"input","group":"gate-2"},
-          {"number":25,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":25,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":26,"name":"2A8","role":"inout","group":"gate-2","side":"in"},
           {"number":27,"name":"2A7","role":"inout","group":"gate-2","side":"in"},
           {"number":28,"name":"GND","role":"ground"},
@@ -5323,7 +5323,7 @@
           {"number":45,"name":"GND","role":"ground"},
           {"number":46,"name":"1A2","role":"inout","group":"gate-1","side":"in"},
           {"number":47,"name":"1A1","role":"inout","group":"gate-1","side":"in"},
-          {"number":48,"name":"1OE","role":"input","group":"gate-1"}
+          {"number":48,"name":"1OE","role":"input","group":"gate-1","activeLow":true}
         ]
       },
       "model": "transceiver",
@@ -5422,7 +5422,7 @@
           {"number":16,"name":"B3","role":"inout","side":"out"},
           {"number":17,"name":"B2","role":"inout","side":"out"},
           {"number":18,"name":"B1","role":"inout","side":"out"},
-          {"number":19,"name":"OE","role":"input"},
+          {"number":19,"name":"OE","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -5469,7 +5469,7 @@
           {"number":22,"name":"2B7","role":"inout","group":"gate-2","side":"out"},
           {"number":23,"name":"2B8","role":"inout","group":"gate-2","side":"out"},
           {"number":24,"name":"2OEAB","role":"input","group":"gate-2"},
-          {"number":25,"name":"2OEBA","role":"input","group":"gate-2"},
+          {"number":25,"name":"2OEBA","role":"input","group":"gate-2","activeLow":true},
           {"number":26,"name":"2A8","role":"inout","group":"gate-2","side":"in"},
           {"number":27,"name":"2A7","role":"inout","group":"gate-2","side":"in"},
           {"number":28,"name":"GND","role":"ground"},
@@ -5492,7 +5492,7 @@
           {"number":45,"name":"GND","role":"ground"},
           {"number":46,"name":"1A2","role":"inout","group":"gate-1","side":"in"},
           {"number":47,"name":"1A1","role":"inout","group":"gate-1","side":"in"},
-          {"number":48,"name":"1OEBA","role":"input","group":"gate-1"}
+          {"number":48,"name":"1OEBA","role":"input","group":"gate-1","activeLow":true}
         ]
       },
       "model": "transceiver",
@@ -5540,7 +5540,7 @@
           {"number":22,"name":"2B7","role":"inout","group":"gate-2","side":"out"},
           {"number":23,"name":"2B8","role":"inout","group":"gate-2","side":"out"},
           {"number":24,"name":"2DIR","role":"input","group":"gate-2"},
-          {"number":25,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":25,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":26,"name":"2A8","role":"inout","group":"gate-2","side":"in"},
           {"number":27,"name":"2A7","role":"inout","group":"gate-2","side":"in"},
           {"number":28,"name":"GND","role":"ground"},
@@ -5563,7 +5563,7 @@
           {"number":45,"name":"GND","role":"ground"},
           {"number":46,"name":"1A2","role":"inout","group":"gate-1","side":"in"},
           {"number":47,"name":"1A1","role":"inout","group":"gate-1","side":"in"},
-          {"number":48,"name":"1OE","role":"input","group":"gate-1"}
+          {"number":48,"name":"1OE","role":"input","group":"gate-1","activeLow":true}
         ]
       },
       "model": "transceiver",
@@ -5589,7 +5589,7 @@
       "note": "74act16861 (SCAS197B) p.1 DL/WD pinout; p.2 function table (each 10-bit section): OEAB low = A to B, OEBA low = B to A, both low = latch A and B (A = B), both high = isolation.",
       "pinouts": {
         "p56": [
-          {"number":1,"name":"1OEAB","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OEAB","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1B1","role":"inout","group":"gate-1","side":"out"},
           {"number":3,"name":"1B2","role":"inout","group":"gate-1","side":"out"},
           {"number":4,"name":"GND","role":"ground"},
@@ -5616,8 +5616,8 @@
           {"number":25,"name":"GND","role":"ground"},
           {"number":26,"name":"2B9","role":"inout","group":"gate-2","side":"out"},
           {"number":27,"name":"2B10","role":"inout","group":"gate-2","side":"out"},
-          {"number":28,"name":"2OEAB","role":"input","group":"gate-2"},
-          {"number":29,"name":"2OEBA","role":"input","group":"gate-2"},
+          {"number":28,"name":"2OEAB","role":"input","group":"gate-2","activeLow":true},
+          {"number":29,"name":"2OEBA","role":"input","group":"gate-2","activeLow":true},
           {"number":30,"name":"2A10","role":"inout","group":"gate-2","side":"in"},
           {"number":31,"name":"2A9","role":"inout","group":"gate-2","side":"in"},
           {"number":32,"name":"GND","role":"ground"},
@@ -5644,7 +5644,7 @@
           {"number":53,"name":"GND","role":"ground"},
           {"number":54,"name":"1A2","role":"inout","group":"gate-1","side":"in"},
           {"number":55,"name":"1A1","role":"inout","group":"gate-1","side":"in"},
-          {"number":56,"name":"1OEBA","role":"input","group":"gate-1"}
+          {"number":56,"name":"1OEBA","role":"input","group":"gate-1","activeLow":true}
         ]
       },
       "model": "transceiver",
@@ -5667,7 +5667,7 @@
       "note": "Pinout same in sn74abt16863 p.1 (DL), 74act16863 p.1 (DL), sn74alvch16863 p.1 (DGG/DL). Two 9-bit sections. Function table (each 9-bit section; sn74abt16863 p.2, 74act16863 p.1, sn74alvch16863 p.1): OEAB H + OEBA L = B to A, OEAB L + OEBA H = A to B, both H = isolation; both enables are active low; the both-low row is not listed.",
       "pinouts": {
         "p56": [
-          {"number":1,"name":"1OEAB","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OEAB","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1B1","role":"inout","group":"gate-1","side":"out"},
           {"number":3,"name":"1B2","role":"inout","group":"gate-1","side":"out"},
           {"number":4,"name":"GND","role":"ground"},
@@ -5694,8 +5694,8 @@
           {"number":25,"name":"GND","role":"ground"},
           {"number":26,"name":"2B8","role":"inout","group":"gate-2","side":"out"},
           {"number":27,"name":"2B9","role":"inout","group":"gate-2","side":"out"},
-          {"number":28,"name":"2OEAB","role":"input","group":"gate-2"},
-          {"number":29,"name":"2OEBA","role":"input","group":"gate-2"},
+          {"number":28,"name":"2OEAB","role":"input","group":"gate-2","activeLow":true},
+          {"number":29,"name":"2OEBA","role":"input","group":"gate-2","activeLow":true},
           {"number":30,"name":"2A9","role":"inout","group":"gate-2","side":"in"},
           {"number":31,"name":"2A8","role":"inout","group":"gate-2","side":"in"},
           {"number":32,"name":"GND","role":"ground"},
@@ -5722,7 +5722,7 @@
           {"number":53,"name":"GND","role":"ground"},
           {"number":54,"name":"1A2","role":"inout","group":"gate-1","side":"in"},
           {"number":55,"name":"1A1","role":"inout","group":"gate-1","side":"in"},
-          {"number":56,"name":"1OEBA","role":"input","group":"gate-1"}
+          {"number":56,"name":"1OEBA","role":"input","group":"gate-1","activeLow":true}
         ]
       },
       "model": "transceiver",
@@ -5768,7 +5768,7 @@
           {"number":16,"name":"B3","role":"inout","side":"out"},
           {"number":17,"name":"B2","role":"inout","side":"out"},
           {"number":18,"name":"B1","role":"inout","side":"out"},
-          {"number":19,"name":"OE","role":"input"},
+          {"number":19,"name":"OE","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -5821,7 +5821,7 @@
       "note": "CY74FCT2245T prints T/R for the direction pin and bits A0-A7/B0-B7 (cy74fct2245t p.1: 1 T/R, 2-9 A0-A7, 10 GND, 11 B7 ... 18 B0, 19 OE, 20 VCC; P = N, Q = DBQ, SO = DW; PW from the packaging table). Function table p.2: OE L + T/R L = bus B to bus A, T/R H = bus A to bus B, OE H = Z. CY74FCT2245SOCT (CY-SOC) is a DW orderable not in the packaging table. Series resistors not modeled.",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"T/R","role":"input"},
+          {"number":1,"name":"T/R","role":"input","activeLow":["R"]},
           {"number":2,"name":"A0","role":"inout","side":"in"},
           {"number":3,"name":"A1","role":"inout","side":"in"},
           {"number":4,"name":"A2","role":"inout","side":"in"},
@@ -5839,7 +5839,7 @@
           {"number":16,"name":"B2","role":"inout","side":"out"},
           {"number":17,"name":"B1","role":"inout","side":"out"},
           {"number":18,"name":"B0","role":"inout","side":"out"},
-          {"number":19,"name":"OE","role":"input"},
+          {"number":19,"name":"OE","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -5870,7 +5870,7 @@
       "note": "Pinout sn74ls243 p.1 (D/N/NS top view; GAB active low, GBA active high). Function table p.1: GAB L GBA L = A to B; H H = B to A; H L = isolation; L H = latch A and B (A = B), the model's both-enabled bus latch. Timing p.4.",
       "pinouts": {
         "p14": [
-          {"number":1,"name":"GAB","role":"input"},
+          {"number":1,"name":"GAB","role":"input","activeLow":true},
           {"number":2,"name":"NC","role":"nc"},
           {"number":3,"name":"A1","role":"inout","side":"in"},
           {"number":4,"name":"A2","role":"inout","side":"in"},
@@ -5905,7 +5905,7 @@
       "note": "Pinout cd74hc243 / cd74hct243 (same PDF) p.3 (J/N/D: 1=OEB active low, 13=OEA active high, NC 2 and 12). Logic diagram p.8: OEB low enables A->B, OEA high enables B->A. Truth table p.8 rows: OEB H OEA H = B to A; OEB L OEA L = A to B; OEB H OEA L = Z Z; OEB L OEA H printed as Z Z (the logic diagram and the classic '243 give both drivers on / bus latch there; see _report.md). Timing p.6.",
       "pinouts": {
         "p14": [
-          {"number":1,"name":"OEB","role":"input"},
+          {"number":1,"name":"OEB","role":"input","activeLow":true},
           {"number":2,"name":"NC","role":"nc"},
           {"number":3,"name":"A0","role":"inout","side":"in"},
           {"number":4,"name":"A1","role":"inout","side":"in"},
@@ -5962,7 +5962,7 @@
           {"number":16,"name":"B3","role":"inout","side":"out"},
           {"number":17,"name":"B2","role":"inout","side":"out"},
           {"number":18,"name":"B1","role":"inout","side":"out"},
-          {"number":19,"name":"OE","role":"input"},
+          {"number":19,"name":"OE","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -6196,7 +6196,7 @@
           {"number":10,"name":"A7","role":"inout","side":"in"},
           {"number":11,"name":"GND","role":"ground"},
           {"number":12,"name":"A8","role":"inout","side":"in"},
-          {"number":13,"name":"OE","role":"input"},
+          {"number":13,"name":"OE","role":"input","activeLow":true},
           {"number":14,"name":"B8","role":"inout","side":"out"},
           {"number":15,"name":"B7","role":"inout","side":"out"},
           {"number":16,"name":"VCC","role":"power"},
@@ -6233,7 +6233,7 @@
       "note": "Am29863 equivalent. Pinout sn74als29863 p.1 (DW/NT), sn74bct29863b p.1 (DW/NT, SN54 JT/W), same 24-pin layout. Function table sn74als29863 p.1 / sn74bct29863b p.1: OEAB1 and OEAB2 both low with an OEBA high = A to B; OEBA1 and OEBA2 both low with an OEAB high = B to A; all four low = latch A and B; otherwise isolation. Logic diagram p.2 (AND of the two enables). Timing sn74als29863 p.3, sn74bct29863b p.4.",
       "pinouts": {
         "p24": [
-          {"number":1,"name":"OEBA1","role":"input"},
+          {"number":1,"name":"OEBA1","role":"input","activeLow":true},
           {"number":2,"name":"A1","role":"inout","side":"in"},
           {"number":3,"name":"A2","role":"inout","side":"in"},
           {"number":4,"name":"A3","role":"inout","side":"in"},
@@ -6243,10 +6243,10 @@
           {"number":8,"name":"A7","role":"inout","side":"in"},
           {"number":9,"name":"A8","role":"inout","side":"in"},
           {"number":10,"name":"A9","role":"inout","side":"in"},
-          {"number":11,"name":"OEBA2","role":"input"},
+          {"number":11,"name":"OEBA2","role":"input","activeLow":true},
           {"number":12,"name":"GND","role":"ground"},
-          {"number":13,"name":"OEAB1","role":"input"},
-          {"number":14,"name":"OEAB2","role":"input"},
+          {"number":13,"name":"OEAB1","role":"input","activeLow":true},
+          {"number":14,"name":"OEAB2","role":"input","activeLow":true},
           {"number":15,"name":"B9","role":"inout","side":"out"},
           {"number":16,"name":"B8","role":"inout","side":"out"},
           {"number":17,"name":"B7","role":"inout","side":"out"},
@@ -6316,9 +6316,9 @@
           {"number":34,"name":"4A9","role":"inout","group":"gate-4","side":"in"},
           {"number":35,"name":"GND","role":"ground"},
           {"number":36,"name":"4DIR","role":"input","group":"gate-4"},
-          {"number":37,"name":"4OE","role":"input","group":"gate-4"},
+          {"number":37,"name":"4OE","role":"input","group":"gate-4","activeLow":true},
           {"number":38,"name":"VCC","role":"power"},
-          {"number":39,"name":"3OE","role":"input","group":"gate-3"},
+          {"number":39,"name":"3OE","role":"input","group":"gate-3","activeLow":true},
           {"number":40,"name":"3DIR","role":"input","group":"gate-3"},
           {"number":41,"name":"GND","role":"ground"},
           {"number":42,"name":"4B9","role":"inout","group":"gate-4","side":"out"},
@@ -6366,9 +6366,9 @@
           {"number":84,"name":"1B1","role":"inout","group":"gate-1","side":"out"},
           {"number":85,"name":"GND","role":"ground"},
           {"number":86,"name":"2DIR","role":"input","group":"gate-2"},
-          {"number":87,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":87,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":88,"name":"VCC","role":"power"},
-          {"number":89,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":89,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":90,"name":"1DIR","role":"input","group":"gate-1"},
           {"number":91,"name":"GND","role":"ground"},
           {"number":92,"name":"1A1","role":"inout","group":"gate-1","side":"in"},
@@ -6422,7 +6422,7 @@
           {"number":16,"name":"B3","role":"inout","side":"out"},
           {"number":17,"name":"B2","role":"inout","side":"out"},
           {"number":18,"name":"B1","role":"inout","side":"out"},
-          {"number":19,"name":"OEBA","role":"input"},
+          {"number":19,"name":"OEBA","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -6471,7 +6471,7 @@
           {"number":16,"name":"B3","role":"inout","side":"out"},
           {"number":17,"name":"B2","role":"inout","side":"out"},
           {"number":18,"name":"B1","role":"inout","side":"out"},
-          {"number":19,"name":"OEBA","role":"input"},
+          {"number":19,"name":"OEBA","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -6514,7 +6514,7 @@
           {"number":16,"name":"B3","role":"inout","side":"out"},
           {"number":17,"name":"B2","role":"inout","side":"out"},
           {"number":18,"name":"B1","role":"inout","side":"out"},
-          {"number":19,"name":"OEBA","role":"input"},
+          {"number":19,"name":"OEBA","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -6577,7 +6577,7 @@
           {"number":16,"name":"B3","role":"inout","side":"out"},
           {"number":17,"name":"B2","role":"inout","side":"out"},
           {"number":18,"name":"B1","role":"inout","side":"out"},
-          {"number":19,"name":"OE","role":"input"},
+          {"number":19,"name":"OE","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -6619,7 +6619,7 @@
           {"number":16,"name":"B3","role":"inout","side":"out"},
           {"number":17,"name":"B2","role":"inout","side":"out"},
           {"number":18,"name":"B1","role":"inout","side":"out"},
-          {"number":19,"name":"OE","role":"input"},
+          {"number":19,"name":"OE","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -6661,7 +6661,7 @@
           {"number":16,"name":"B3","role":"inout","side":"out"},
           {"number":17,"name":"B2","role":"inout","side":"out"},
           {"number":18,"name":"B1","role":"inout","side":"out"},
-          {"number":19,"name":"OE","role":"input"},
+          {"number":19,"name":"OE","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -6738,7 +6738,7 @@
           {"number":16,"name":"B3","role":"inout","side":"out"},
           {"number":17,"name":"B2","role":"inout","side":"out"},
           {"number":18,"name":"B1","role":"inout","side":"out"},
-          {"number":19,"name":"OE","role":"input"},
+          {"number":19,"name":"OE","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -6793,7 +6793,7 @@
           {"number":16,"name":"B3","role":"inout","side":"out"},
           {"number":17,"name":"B2","role":"inout","side":"out"},
           {"number":18,"name":"B1","role":"inout","side":"out"},
-          {"number":19,"name":"OE","role":"input"},
+          {"number":19,"name":"OE","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -6841,7 +6841,7 @@
           {"number":16,"name":"B3","role":"inout","side":"out"},
           {"number":17,"name":"B2","role":"inout","side":"out"},
           {"number":18,"name":"B1","role":"inout","side":"out"},
-          {"number":19,"name":"OE","role":"input"},
+          {"number":19,"name":"OE","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -6883,7 +6883,7 @@
       "note": "Pinout sn74abt861 p.1 (DW/NT), sn74lvc861a p.1 (DB/DGV/DW/NS/PW), same 24-pin layout. Function table sn74abt861 p.2, sn74lvc861a p.2: OEAB low = A to B, OEBA low = B to A, both high = isolation, both low = latch A and B (A = B). Timing sn74abt861 p.5, sn74lvc861a p.4.",
       "pinouts": {
         "p24": [
-          {"number":1,"name":"OEBA","role":"input"},
+          {"number":1,"name":"OEBA","role":"input","activeLow":true},
           {"number":2,"name":"A1","role":"inout","side":"in"},
           {"number":3,"name":"A2","role":"inout","side":"in"},
           {"number":4,"name":"A3","role":"inout","side":"in"},
@@ -6895,7 +6895,7 @@
           {"number":10,"name":"A9","role":"inout","side":"in"},
           {"number":11,"name":"A10","role":"inout","side":"in"},
           {"number":12,"name":"GND","role":"ground"},
-          {"number":13,"name":"OEAB","role":"input"},
+          {"number":13,"name":"OEAB","role":"input","activeLow":true},
           {"number":14,"name":"B10","role":"inout","side":"out"},
           {"number":15,"name":"B9","role":"inout","side":"out"},
           {"number":16,"name":"B8","role":"inout","side":"out"},
@@ -6934,7 +6934,7 @@
       "note": "Pinout sn74lvc863a p.1 and sn74abt863 p.1 (same: 1 OEBA1, 2-10 A1-A9, 11 OEBA2, 12 GND, 13 OEAB1, 14 OEAB2, 15-23 B9-B1, 24 VCC). Function table p.2 (both PDFs): OEAB1 and OEAB2 both low = A to B, OEBA1 and OEBA2 both low = B to A, all four low = latch A and B; uses the array-of-controls form of oeab/oeba.",
       "pinouts": {
         "p24": [
-          {"number":1,"name":"OEBA1","role":"input"},
+          {"number":1,"name":"OEBA1","role":"input","activeLow":true},
           {"number":2,"name":"A1","role":"inout","side":"in"},
           {"number":3,"name":"A2","role":"inout","side":"in"},
           {"number":4,"name":"A3","role":"inout","side":"in"},
@@ -6944,10 +6944,10 @@
           {"number":8,"name":"A7","role":"inout","side":"in"},
           {"number":9,"name":"A8","role":"inout","side":"in"},
           {"number":10,"name":"A9","role":"inout","side":"in"},
-          {"number":11,"name":"OEBA2","role":"input"},
+          {"number":11,"name":"OEBA2","role":"input","activeLow":true},
           {"number":12,"name":"GND","role":"ground"},
-          {"number":13,"name":"OEAB1","role":"input"},
-          {"number":14,"name":"OEAB2","role":"input"},
+          {"number":13,"name":"OEAB1","role":"input","activeLow":true},
+          {"number":14,"name":"OEAB2","role":"input","activeLow":true},
           {"number":15,"name":"B9","role":"inout","side":"out"},
           {"number":16,"name":"B8","role":"inout","side":"out"},
           {"number":17,"name":"B7","role":"inout","side":"out"},
@@ -7001,7 +7001,7 @@
           {"number":16,"name":"B3","role":"inout","side":"out"},
           {"number":17,"name":"B2","role":"inout","side":"out"},
           {"number":18,"name":"B1","role":"inout","side":"out"},
-          {"number":19,"name":"OE","role":"input"},
+          {"number":19,"name":"OE","role":"input","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -7156,13 +7156,13 @@
           {"number":6,"name":"B2","role":"inout","side":"out"},
           {"number":7,"name":"B1","role":"inout","side":"out"},
           {"number":8,"name":"B0","role":"inout","side":"out"},
-          {"number":9,"name":"OEB","role":"input"},
+          {"number":9,"name":"OEB","role":"input","activeLow":true},
           {"number":10,"name":"CPA","role":"input"},
-          {"number":11,"name":"CEA","role":"input"},
+          {"number":11,"name":"CEA","role":"input","activeLow":true},
           {"number":12,"name":"GND","role":"ground"},
-          {"number":13,"name":"CEB","role":"input"},
+          {"number":13,"name":"CEB","role":"input","activeLow":true},
           {"number":14,"name":"CPB","role":"input"},
-          {"number":15,"name":"OEA","role":"input"},
+          {"number":15,"name":"OEA","role":"input","activeLow":true},
           {"number":16,"name":"A0","role":"inout","side":"in"},
           {"number":17,"name":"A1","role":"inout","side":"in"},
           {"number":18,"name":"A2","role":"inout","side":"in"},
@@ -7195,7 +7195,7 @@
       "pinouts": {
         "rsw10": [
           {"number":1,"name":"DIR2","role":"input","group":"gate-2"},
-          {"number":2,"name":"OE","role":"input"},
+          {"number":2,"name":"OE","role":"input","activeLow":true},
           {"number":3,"name":"GND","role":"ground"},
           {"number":4,"name":"B2","role":"inout","group":"gate-2","side":"out"},
           {"number":5,"name":"B1","role":"inout","group":"gate-1","side":"out"},
@@ -7470,7 +7470,7 @@
           {"number":22,"name":"2B7","role":"inout","group":"gate-2","side":"out"},
           {"number":23,"name":"2B8","role":"inout","group":"gate-2","side":"out"},
           {"number":24,"name":"2DIR","role":"input","group":"gate-2"},
-          {"number":25,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":25,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":26,"name":"2A8","role":"inout","group":"gate-2","side":"in"},
           {"number":27,"name":"2A7","role":"inout","group":"gate-2","side":"in"},
           {"number":28,"name":"GND","role":"ground"},
@@ -7493,7 +7493,7 @@
           {"number":45,"name":"GND","role":"ground"},
           {"number":46,"name":"1A2","role":"inout","group":"gate-1","side":"in"},
           {"number":47,"name":"1A1","role":"inout","group":"gate-1","side":"in"},
-          {"number":48,"name":"1OE","role":"input","group":"gate-1"}
+          {"number":48,"name":"1OE","role":"input","group":"gate-1","activeLow":true}
         ]
       },
       "model": "translator",
@@ -7554,7 +7554,7 @@
           {"number":22,"name":"2B7","role":"inout","group":"gate-2","side":"out"},
           {"number":23,"name":"2B8","role":"inout","group":"gate-2","side":"out"},
           {"number":24,"name":"2DIR","role":"input","group":"gate-2"},
-          {"number":25,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":25,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":26,"name":"2A8","role":"inout","group":"gate-2","side":"in"},
           {"number":27,"name":"2A7","role":"inout","group":"gate-2","side":"in"},
           {"number":28,"name":"GND","role":"ground"},
@@ -7577,7 +7577,7 @@
           {"number":45,"name":"GND","role":"ground"},
           {"number":46,"name":"1A2","role":"inout","group":"gate-1","side":"in"},
           {"number":47,"name":"1A1","role":"inout","group":"gate-1","side":"in"},
-          {"number":48,"name":"1OE","role":"input","group":"gate-1"}
+          {"number":48,"name":"1OE","role":"input","group":"gate-1","activeLow":true}
         ]
       },
       "model": "translator",
@@ -7606,9 +7606,9 @@
       "note": "Standard Widebus 56-pin '16543 pinout, identical in 74act16543 p.1, sn74abt16543 p.1, sn74alvch16543 p.1, sn74lvch16543a p.1, sn74lvt16543 p.1, sn74lvth16543 p.1, sn74lvth16543-ep p.1. Function table (each 8-bit section, A to B shown; B to A uses CEBA/LEBA/OEBA) sn74abt16543 p.2: CEAB high = Z; OEAB high = Z; CEAB low + LEAB high + OEAB low = B holds B0 (latched); CEAB low + LEAB low + OEAB low = B follows A. Description p.1: CEAB must be low both to enter data from A and to output data at B; LEAB low (with CEAB low) = transparent, LEAB rising = store. Model: ce gates both the latch and the output (the destination drives only while CE and OE are both low). Timing A or B -> B or A.",
       "pinouts": {
         "p56": [
-          {"number":1,"name":"1OEAB","role":"input","group":"gate-1"},
-          {"number":2,"name":"1LEAB","role":"input","group":"gate-1"},
-          {"number":3,"name":"1CEAB","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OEAB","role":"input","group":"gate-1","activeLow":true},
+          {"number":2,"name":"1LEAB","role":"input","group":"gate-1","activeLow":true},
+          {"number":3,"name":"1CEAB","role":"input","group":"gate-1","activeLow":true},
           {"number":4,"name":"GND","role":"ground"},
           {"number":5,"name":"1A1","role":"inout","group":"gate-1","side":"in"},
           {"number":6,"name":"1A2","role":"inout","group":"gate-1","side":"in"},
@@ -7631,12 +7631,12 @@
           {"number":23,"name":"2A7","role":"inout","group":"gate-2","side":"in"},
           {"number":24,"name":"2A8","role":"inout","group":"gate-2","side":"in"},
           {"number":25,"name":"GND","role":"ground"},
-          {"number":26,"name":"2CEAB","role":"input","group":"gate-2"},
-          {"number":27,"name":"2LEAB","role":"input","group":"gate-2"},
-          {"number":28,"name":"2OEAB","role":"input","group":"gate-2"},
-          {"number":29,"name":"2OEBA","role":"input","group":"gate-2"},
-          {"number":30,"name":"2LEBA","role":"input","group":"gate-2"},
-          {"number":31,"name":"2CEBA","role":"input","group":"gate-2"},
+          {"number":26,"name":"2CEAB","role":"input","group":"gate-2","activeLow":true},
+          {"number":27,"name":"2LEAB","role":"input","group":"gate-2","activeLow":true},
+          {"number":28,"name":"2OEAB","role":"input","group":"gate-2","activeLow":true},
+          {"number":29,"name":"2OEBA","role":"input","group":"gate-2","activeLow":true},
+          {"number":30,"name":"2LEBA","role":"input","group":"gate-2","activeLow":true},
+          {"number":31,"name":"2CEBA","role":"input","group":"gate-2","activeLow":true},
           {"number":32,"name":"GND","role":"ground"},
           {"number":33,"name":"2B8","role":"inout","group":"gate-2","side":"out"},
           {"number":34,"name":"2B7","role":"inout","group":"gate-2","side":"out"},
@@ -7659,9 +7659,9 @@
           {"number":51,"name":"1B2","role":"inout","group":"gate-1","side":"out"},
           {"number":52,"name":"1B1","role":"inout","group":"gate-1","side":"out"},
           {"number":53,"name":"GND","role":"ground"},
-          {"number":54,"name":"1CEBA","role":"input","group":"gate-1"},
-          {"number":55,"name":"1LEBA","role":"input","group":"gate-1"},
-          {"number":56,"name":"1OEBA","role":"input","group":"gate-1"}
+          {"number":54,"name":"1CEBA","role":"input","group":"gate-1","activeLow":true},
+          {"number":55,"name":"1LEBA","role":"input","group":"gate-1","activeLow":true},
+          {"number":56,"name":"1OEBA","role":"input","group":"gate-1","activeLow":true}
         ]
       },
       "model": "registered",
@@ -7731,7 +7731,7 @@
           {"number":26,"name":"2SAB","role":"input","group":"gate-2"},
           {"number":27,"name":"2CLKAB","role":"input","group":"gate-2"},
           {"number":28,"name":"2DIR","role":"input","group":"gate-2"},
-          {"number":29,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":29,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":30,"name":"2CLKBA","role":"input","group":"gate-2"},
           {"number":31,"name":"2SBA","role":"input","group":"gate-2"},
           {"number":32,"name":"GND","role":"ground"},
@@ -7758,7 +7758,7 @@
           {"number":53,"name":"GND","role":"ground"},
           {"number":54,"name":"1SBA","role":"input","group":"gate-1"},
           {"number":55,"name":"1CLKBA","role":"input","group":"gate-1"},
-          {"number":56,"name":"1OE","role":"input","group":"gate-1"}
+          {"number":56,"name":"1OE","role":"input","group":"gate-1","activeLow":true}
         ]
       },
       "model": "registered",
@@ -7829,7 +7829,7 @@
           {"number":26,"name":"2SAB","role":"input","group":"gate-2"},
           {"number":27,"name":"2CLKAB","role":"input","group":"gate-2"},
           {"number":28,"name":"2OEAB","role":"input","group":"gate-2"},
-          {"number":29,"name":"2OEBA","role":"input","group":"gate-2"},
+          {"number":29,"name":"2OEBA","role":"input","group":"gate-2","activeLow":true},
           {"number":30,"name":"2CLKBA","role":"input","group":"gate-2"},
           {"number":31,"name":"2SBA","role":"input","group":"gate-2"},
           {"number":32,"name":"GND","role":"ground"},
@@ -7856,7 +7856,7 @@
           {"number":53,"name":"GND","role":"ground"},
           {"number":54,"name":"1SBA","role":"input","group":"gate-1"},
           {"number":55,"name":"1CLKBA","role":"input","group":"gate-1"},
-          {"number":56,"name":"1OEBA","role":"input","group":"gate-1"}
+          {"number":56,"name":"1OEBA","role":"input","group":"gate-1","activeLow":true}
         ]
       },
       "model": "registered",
@@ -7907,7 +7907,7 @@
           {"number":26,"name":"2SAB","role":"input","group":"gate-2"},
           {"number":27,"name":"2CLKAB","role":"input","group":"gate-2"},
           {"number":28,"name":"2OEAB","role":"input","group":"gate-2"},
-          {"number":29,"name":"2OEBA","role":"input","group":"gate-2"},
+          {"number":29,"name":"2OEBA","role":"input","group":"gate-2","activeLow":true},
           {"number":30,"name":"2CLKBA","role":"input","group":"gate-2"},
           {"number":31,"name":"2SBA","role":"input","group":"gate-2"},
           {"number":32,"name":"GND","role":"ground"},
@@ -7934,7 +7934,7 @@
           {"number":53,"name":"GND","role":"ground"},
           {"number":54,"name":"1SBA","role":"input","group":"gate-1"},
           {"number":55,"name":"1CLKBA","role":"input","group":"gate-1"},
-          {"number":56,"name":"1OEBA","role":"input","group":"gate-1"}
+          {"number":56,"name":"1OEBA","role":"input","group":"gate-1","activeLow":true}
         ]
       },
       "model": "registered",
@@ -7967,9 +7967,9 @@
       "note": "Pinout sn74abt16952 p.1, sn74alvch16952 p.1, sn74lvt16952 p.1, sn74lvth16952 p.1 (DGG/DL/DGV, all the same: nOEAB, nCLKAB, nCLKENAB ... nCLKENBA, nCLKBA, nOEBA). Function table sn74abt16952 p.2: CLKENAB L and CLKAB rising stores A; OEAB L drives B from the register; OEAB H = Z; B-to-A uses CLKENBA, CLKBA, OEBA. Two independent 8-bit units.",
       "pinouts": {
         "p56": [
-          {"number":1,"name":"1OEAB","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OEAB","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1CLKAB","role":"input","group":"gate-1"},
-          {"number":3,"name":"1CLKENAB","role":"input","group":"gate-1"},
+          {"number":3,"name":"1CLKENAB","role":"input","group":"gate-1","activeLow":true},
           {"number":4,"name":"GND","role":"ground"},
           {"number":5,"name":"1A1","role":"inout","group":"gate-1","side":"in"},
           {"number":6,"name":"1A2","role":"inout","group":"gate-1","side":"in"},
@@ -7992,12 +7992,12 @@
           {"number":23,"name":"2A7","role":"inout","group":"gate-2","side":"in"},
           {"number":24,"name":"2A8","role":"inout","group":"gate-2","side":"in"},
           {"number":25,"name":"GND","role":"ground"},
-          {"number":26,"name":"2CLKENAB","role":"input","group":"gate-2"},
+          {"number":26,"name":"2CLKENAB","role":"input","group":"gate-2","activeLow":true},
           {"number":27,"name":"2CLKAB","role":"input","group":"gate-2"},
-          {"number":28,"name":"2OEAB","role":"input","group":"gate-2"},
-          {"number":29,"name":"2OEBA","role":"input","group":"gate-2"},
+          {"number":28,"name":"2OEAB","role":"input","group":"gate-2","activeLow":true},
+          {"number":29,"name":"2OEBA","role":"input","group":"gate-2","activeLow":true},
           {"number":30,"name":"2CLKBA","role":"input","group":"gate-2"},
-          {"number":31,"name":"2CLKENBA","role":"input","group":"gate-2"},
+          {"number":31,"name":"2CLKENBA","role":"input","group":"gate-2","activeLow":true},
           {"number":32,"name":"GND","role":"ground"},
           {"number":33,"name":"2B8","role":"inout","group":"gate-2","side":"out"},
           {"number":34,"name":"2B7","role":"inout","group":"gate-2","side":"out"},
@@ -8020,9 +8020,9 @@
           {"number":51,"name":"1B2","role":"inout","group":"gate-1","side":"out"},
           {"number":52,"name":"1B1","role":"inout","group":"gate-1","side":"out"},
           {"number":53,"name":"GND","role":"ground"},
-          {"number":54,"name":"1CLKENBA","role":"input","group":"gate-1"},
+          {"number":54,"name":"1CLKENBA","role":"input","group":"gate-1","activeLow":true},
           {"number":55,"name":"1CLKBA","role":"input","group":"gate-1"},
-          {"number":56,"name":"1OEBA","role":"input","group":"gate-1"}
+          {"number":56,"name":"1OEBA","role":"input","group":"gate-1","activeLow":true}
         ]
       },
       "model": "registered",
@@ -8055,9 +8055,9 @@
       "note": "Same function and pin positions as 74_16952 but the clock enables are named CEAB/CEBA: sn74lvch16952a p.1 (DGG/DGV/DL) and cy74fct16952t p.1 (SSOP/TSSOP). Function table sn74lvch16952a p.2 / cy74fct16952t p.2: CEAB L and CLKAB rising stores A; OEAB L drives B from the register; OEAB H = Z.",
       "pinouts": {
         "p56": [
-          {"number":1,"name":"1OEAB","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OEAB","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"1CLKAB","role":"input","group":"gate-1"},
-          {"number":3,"name":"1CEAB","role":"input","group":"gate-1"},
+          {"number":3,"name":"1CEAB","role":"input","group":"gate-1","activeLow":true},
           {"number":4,"name":"GND","role":"ground"},
           {"number":5,"name":"1A1","role":"inout","group":"gate-1","side":"in"},
           {"number":6,"name":"1A2","role":"inout","group":"gate-1","side":"in"},
@@ -8080,12 +8080,12 @@
           {"number":23,"name":"2A7","role":"inout","group":"gate-2","side":"in"},
           {"number":24,"name":"2A8","role":"inout","group":"gate-2","side":"in"},
           {"number":25,"name":"GND","role":"ground"},
-          {"number":26,"name":"2CEAB","role":"input","group":"gate-2"},
+          {"number":26,"name":"2CEAB","role":"input","group":"gate-2","activeLow":true},
           {"number":27,"name":"2CLKAB","role":"input","group":"gate-2"},
-          {"number":28,"name":"2OEAB","role":"input","group":"gate-2"},
-          {"number":29,"name":"2OEBA","role":"input","group":"gate-2"},
+          {"number":28,"name":"2OEAB","role":"input","group":"gate-2","activeLow":true},
+          {"number":29,"name":"2OEBA","role":"input","group":"gate-2","activeLow":true},
           {"number":30,"name":"2CLKBA","role":"input","group":"gate-2"},
-          {"number":31,"name":"2CEBA","role":"input","group":"gate-2"},
+          {"number":31,"name":"2CEBA","role":"input","group":"gate-2","activeLow":true},
           {"number":32,"name":"GND","role":"ground"},
           {"number":33,"name":"2B8","role":"inout","group":"gate-2","side":"out"},
           {"number":34,"name":"2B7","role":"inout","group":"gate-2","side":"out"},
@@ -8108,9 +8108,9 @@
           {"number":51,"name":"1B2","role":"inout","group":"gate-1","side":"out"},
           {"number":52,"name":"1B1","role":"inout","group":"gate-1","side":"out"},
           {"number":53,"name":"GND","role":"ground"},
-          {"number":54,"name":"1CEBA","role":"input","group":"gate-1"},
+          {"number":54,"name":"1CEBA","role":"input","group":"gate-1","activeLow":true},
           {"number":55,"name":"1CLKBA","role":"input","group":"gate-1"},
-          {"number":56,"name":"1OEBA","role":"input","group":"gate-1"}
+          {"number":56,"name":"1OEBA","role":"input","group":"gate-1","activeLow":true}
         ]
       },
       "model": "registered",
@@ -8160,7 +8160,7 @@
           {"number":22,"name":"2B7","role":"inout","group":"gate-2","side":"out"},
           {"number":23,"name":"2B8","role":"inout","group":"gate-2","side":"out"},
           {"number":24,"name":"2DIR","role":"input","group":"gate-2"},
-          {"number":25,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":25,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":26,"name":"2A8","role":"inout","group":"gate-2","side":"in"},
           {"number":27,"name":"2A7","role":"inout","group":"gate-2","side":"in"},
           {"number":28,"name":"GND","role":"ground"},
@@ -8183,7 +8183,7 @@
           {"number":45,"name":"GND","role":"ground"},
           {"number":46,"name":"1A2","role":"inout","group":"gate-1","side":"in"},
           {"number":47,"name":"1A1","role":"inout","group":"gate-1","side":"in"},
-          {"number":48,"name":"1OE","role":"input","group":"gate-1"}
+          {"number":48,"name":"1OE","role":"input","group":"gate-1","activeLow":true}
         ]
       },
       "model": "translator",
@@ -8253,7 +8253,7 @@
           {"number":26,"name":"2B9","role":"inout","group":"gate-2","side":"out"},
           {"number":27,"name":"2B10","role":"inout","group":"gate-2","side":"out"},
           {"number":28,"name":"2DIR","role":"input","group":"gate-2"},
-          {"number":29,"name":"2OE","role":"input","group":"gate-2"},
+          {"number":29,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"number":30,"name":"2A10","role":"inout","group":"gate-2","side":"in"},
           {"number":31,"name":"2A9","role":"inout","group":"gate-2","side":"in"},
           {"number":32,"name":"GND","role":"ground"},
@@ -8280,7 +8280,7 @@
           {"number":53,"name":"GND","role":"ground"},
           {"number":54,"name":"1A2","role":"inout","group":"gate-1","side":"in"},
           {"number":55,"name":"1A1","role":"inout","group":"gate-1","side":"in"},
-          {"number":56,"name":"1OE","role":"input","group":"gate-1"}
+          {"number":56,"name":"1OE","role":"input","group":"gate-1","activeLow":true}
         ]
       },
       "model": "translator",
@@ -8310,12 +8310,12 @@
       "note": "Ball map sn74avc24t245 p.3 Table 5-1 (NMU 83-ball, G3 unpopulated), same in sn74avch24t245 p.3; function table sn74avc24t245 p.17 (each 4-bit section: OE low + DIR high = A->B, DIR low = B->A, OE high = isolation). DIR and OE referenced to VCCA (p.1, p.3).",
       "pinouts": {
         "nmu83": [
-          {"ball":"A1","name":"6OE","role":"input","group":"gate-6"},
-          {"ball":"A2","name":"5OE","role":"input","group":"gate-5"},
-          {"ball":"A3","name":"4OE","role":"input","group":"gate-4"},
-          {"ball":"A4","name":"3OE","role":"input","group":"gate-3"},
-          {"ball":"A5","name":"2OE","role":"input","group":"gate-2"},
-          {"ball":"A6","name":"1OE","role":"input","group":"gate-1"},
+          {"ball":"A1","name":"6OE","role":"input","group":"gate-6","activeLow":true},
+          {"ball":"A2","name":"5OE","role":"input","group":"gate-5","activeLow":true},
+          {"ball":"A3","name":"4OE","role":"input","group":"gate-4","activeLow":true},
+          {"ball":"A4","name":"3OE","role":"input","group":"gate-3","activeLow":true},
+          {"ball":"A5","name":"2OE","role":"input","group":"gate-2","activeLow":true},
+          {"ball":"A6","name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"ball":"B1","name":"1B1","role":"inout","group":"gate-1","side":"out"},
           {"ball":"B2","name":"1B2","role":"inout","group":"gate-1","side":"out"},
           {"ball":"B3","name":"VCCB","role":"power"},
@@ -8424,8 +8424,8 @@
       "note": "Pinout cy74fct2543t p.1 (Q = DBQ QSOP, SO = DW SOIC). Pin description p.2: all of OEAB/OEBA/CEAB/CEBA/LEAB/LEBA active low. Function table p.2 (A->B; B->A uses CEBA/LEBA/OEBA): CEAB H -> storing, B Z; LEAB H -> storing; OEAB H -> B Z; CEAB L, LEAB L, OEAB L -> transparent, B = current A; CEAB L, LEAB H, OEAB L -> B = previous A (latched on LEAB rising).",
       "pinouts": {
         "p24": [
-          {"number":1,"name":"LEBA","role":"input"},
-          {"number":2,"name":"OEBA","role":"input"},
+          {"number":1,"name":"LEBA","role":"input","activeLow":true},
+          {"number":2,"name":"OEBA","role":"input","activeLow":true},
           {"number":3,"name":"A0","role":"inout","side":"in"},
           {"number":4,"name":"A1","role":"inout","side":"in"},
           {"number":5,"name":"A2","role":"inout","side":"in"},
@@ -8434,10 +8434,10 @@
           {"number":8,"name":"A5","role":"inout","side":"in"},
           {"number":9,"name":"A6","role":"inout","side":"in"},
           {"number":10,"name":"A7","role":"inout","side":"in"},
-          {"number":11,"name":"CEAB","role":"input"},
+          {"number":11,"name":"CEAB","role":"input","activeLow":true},
           {"number":12,"name":"GND","role":"ground"},
-          {"number":13,"name":"OEAB","role":"input"},
-          {"number":14,"name":"LEAB","role":"input"},
+          {"number":13,"name":"OEAB","role":"input","activeLow":true},
+          {"number":14,"name":"LEAB","role":"input","activeLow":true},
           {"number":15,"name":"B7","role":"inout","side":"out"},
           {"number":16,"name":"B6","role":"inout","side":"out"},
           {"number":17,"name":"B5","role":"inout","side":"out"},
@@ -8446,7 +8446,7 @@
           {"number":20,"name":"B2","role":"inout","side":"out"},
           {"number":21,"name":"B1","role":"inout","side":"out"},
           {"number":22,"name":"B0","role":"inout","side":"out"},
-          {"number":23,"name":"CEBA","role":"input"},
+          {"number":23,"name":"CEBA","role":"input","activeLow":true},
           {"number":24,"name":"VCC","role":"power"}
         ]
       },
@@ -8492,7 +8492,7 @@
           {"number":18,"name":"B3","role":"inout","side":"out"},
           {"number":19,"name":"B2","role":"inout","side":"out"},
           {"number":20,"name":"B1","role":"inout","side":"out"},
-          {"number":21,"name":"GBA","role":"input"},
+          {"number":21,"name":"GBA","role":"input","activeLow":true},
           {"number":22,"name":"SBA","role":"input"},
           {"number":23,"name":"CPBA","role":"input"},
           {"number":24,"name":"VCC","role":"power"}
@@ -8525,13 +8525,13 @@
           {"number":6,"name":"B3","role":"inout","side":"out"},
           {"number":7,"name":"B2","role":"inout","side":"out"},
           {"number":8,"name":"B1","role":"inout","side":"out"},
-          {"number":9,"name":"OEAB","role":"input"},
+          {"number":9,"name":"OEAB","role":"input","activeLow":true},
           {"number":10,"name":"CLKAB","role":"input"},
-          {"number":11,"name":"CLKENAB","role":"input"},
+          {"number":11,"name":"CLKENAB","role":"input","activeLow":true},
           {"number":12,"name":"GND","role":"ground"},
-          {"number":13,"name":"CLKENBA","role":"input"},
+          {"number":13,"name":"CLKENBA","role":"input","activeLow":true},
           {"number":14,"name":"CLKBA","role":"input"},
-          {"number":15,"name":"OEBA","role":"input"},
+          {"number":15,"name":"OEBA","role":"input","activeLow":true},
           {"number":16,"name":"A1","role":"inout","side":"in"},
           {"number":17,"name":"A2","role":"inout","side":"in"},
           {"number":18,"name":"A3","role":"inout","side":"in"},
@@ -8590,7 +8590,7 @@
           {"number":19,"name":"B3","role":"inout","side":"out"},
           {"number":20,"name":"B2","role":"inout","side":"out"},
           {"number":21,"name":"B1","role":"inout","side":"out"},
-          {"number":22,"name":"OE","role":"input"},
+          {"number":22,"name":"OE","role":"input","activeLow":true},
           {"number":23,"name":"NC","role":"nc"},
           {"number":24,"name":"VCCB","role":"power"}
         ]
@@ -8659,13 +8659,13 @@
           {"number":32,"name":"2A16","role":"inout","group":"gate-2","side":"in"},
           {"number":33,"name":"2A17","role":"inout","group":"gate-2","side":"in"},
           {"number":34,"name":"2A18","role":"inout","group":"gate-2","side":"in"},
-          {"number":35,"name":"2CEBA","role":"input","group":"gate-2"},
-          {"number":36,"name":"2OEBA","role":"input","group":"gate-2"},
-          {"number":37,"name":"2LEBA","role":"input","group":"gate-2"},
+          {"number":35,"name":"2CEBA","role":"input","group":"gate-2","activeLow":true},
+          {"number":36,"name":"2OEBA","role":"input","group":"gate-2","activeLow":true},
+          {"number":37,"name":"2LEBA","role":"input","group":"gate-2","activeLow":true},
           {"number":38,"name":"VCC","role":"power"},
-          {"number":39,"name":"2LEAB","role":"input","group":"gate-2"},
-          {"number":40,"name":"2OEAB","role":"input","group":"gate-2"},
-          {"number":41,"name":"2CEAB","role":"input","group":"gate-2"},
+          {"number":39,"name":"2LEAB","role":"input","group":"gate-2","activeLow":true},
+          {"number":40,"name":"2OEAB","role":"input","group":"gate-2","activeLow":true},
+          {"number":41,"name":"2CEAB","role":"input","group":"gate-2","activeLow":true},
           {"number":42,"name":"2B18","role":"inout","group":"gate-2","side":"out"},
           {"number":43,"name":"2B17","role":"inout","group":"gate-2","side":"out"},
           {"number":44,"name":"2B16","role":"inout","group":"gate-2","side":"out"},
@@ -8709,13 +8709,13 @@
           {"number":82,"name":"1B3","role":"inout","group":"gate-1","side":"out"},
           {"number":83,"name":"1B2","role":"inout","group":"gate-1","side":"out"},
           {"number":84,"name":"1B1","role":"inout","group":"gate-1","side":"out"},
-          {"number":85,"name":"1CEAB","role":"input","group":"gate-1"},
-          {"number":86,"name":"1OEAB","role":"input","group":"gate-1"},
-          {"number":87,"name":"1LEAB","role":"input","group":"gate-1"},
+          {"number":85,"name":"1CEAB","role":"input","group":"gate-1","activeLow":true},
+          {"number":86,"name":"1OEAB","role":"input","group":"gate-1","activeLow":true},
+          {"number":87,"name":"1LEAB","role":"input","group":"gate-1","activeLow":true},
           {"number":88,"name":"VCC","role":"power"},
-          {"number":89,"name":"1LEBA","role":"input","group":"gate-1"},
-          {"number":90,"name":"1OEBA","role":"input","group":"gate-1"},
-          {"number":91,"name":"1CEBA","role":"input","group":"gate-1"},
+          {"number":89,"name":"1LEBA","role":"input","group":"gate-1","activeLow":true},
+          {"number":90,"name":"1OEBA","role":"input","group":"gate-1","activeLow":true},
+          {"number":91,"name":"1CEBA","role":"input","group":"gate-1","activeLow":true},
           {"number":92,"name":"1A1","role":"inout","group":"gate-1","side":"in"},
           {"number":93,"name":"1A2","role":"inout","group":"gate-1","side":"in"},
           {"number":94,"name":"1A3","role":"inout","group":"gate-1","side":"in"},
@@ -8750,7 +8750,7 @@
           {"ball":"A1","name":"1B2","role":"inout","group":"gate-1","side":"out"},
           {"ball":"A2","name":"1B1","role":"inout","group":"gate-1","side":"out"},
           {"ball":"A3","name":"1DIR","role":"input","group":"gate-1"},
-          {"ball":"A4","name":"1OE","role":"input","group":"gate-1"},
+          {"ball":"A4","name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"ball":"A5","name":"1A1","role":"inout","group":"gate-1","side":"in"},
           {"ball":"A6","name":"1A2","role":"inout","group":"gate-1","side":"in"},
           {"ball":"B1","name":"1B4","role":"inout","group":"gate-1","side":"out"},
@@ -8792,13 +8792,13 @@
           {"ball":"H1","name":"2B7","role":"inout","group":"gate-2","side":"out"},
           {"ball":"H2","name":"2B8","role":"inout","group":"gate-2","side":"out"},
           {"ball":"H3","name":"2DIR","role":"input","group":"gate-2"},
-          {"ball":"H4","name":"2OE","role":"input","group":"gate-2"},
+          {"ball":"H4","name":"2OE","role":"input","group":"gate-2","activeLow":true},
           {"ball":"H5","name":"2A8","role":"inout","group":"gate-2","side":"in"},
           {"ball":"H6","name":"2A7","role":"inout","group":"gate-2","side":"in"},
           {"ball":"J1","name":"3B2","role":"inout","group":"gate-3","side":"out"},
           {"ball":"J2","name":"3B1","role":"inout","group":"gate-3","side":"out"},
           {"ball":"J3","name":"3DIR","role":"input","group":"gate-3"},
-          {"ball":"J4","name":"3OE","role":"input","group":"gate-3"},
+          {"ball":"J4","name":"3OE","role":"input","group":"gate-3","activeLow":true},
           {"ball":"J5","name":"3A1","role":"inout","group":"gate-3","side":"in"},
           {"ball":"J6","name":"3A2","role":"inout","group":"gate-3","side":"in"},
           {"ball":"K1","name":"3B4","role":"inout","group":"gate-3","side":"out"},
@@ -8840,7 +8840,7 @@
           {"ball":"T1","name":"4B7","role":"inout","group":"gate-4","side":"out"},
           {"ball":"T2","name":"4B8","role":"inout","group":"gate-4","side":"out"},
           {"ball":"T3","name":"4DIR","role":"input","group":"gate-4"},
-          {"ball":"T4","name":"4OE","role":"input","group":"gate-4"},
+          {"ball":"T4","name":"4OE","role":"input","group":"gate-4","activeLow":true},
           {"ball":"T5","name":"4A8","role":"inout","group":"gate-4","side":"in"},
           {"ball":"T6","name":"4A7","role":"inout","group":"gate-4","side":"in"}
         ]
@@ -8892,7 +8892,7 @@
           {"number":19,"name":"B3","role":"inout","side":"out"},
           {"number":20,"name":"B2","role":"inout","side":"out"},
           {"number":21,"name":"B1","role":"inout","side":"out"},
-          {"number":22,"name":"OE","role":"input"},
+          {"number":22,"name":"OE","role":"input","activeLow":true},
           {"number":23,"name":"VCCB","role":"power"},
           {"number":24,"name":"VCCB","role":"power"}
         ]
@@ -8946,7 +8946,7 @@
           {"number":19,"name":"B3","role":"inout","side":"out"},
           {"number":20,"name":"B2","role":"inout","side":"out"},
           {"number":21,"name":"B1","role":"inout","side":"out"},
-          {"number":22,"name":"OE","role":"input"},
+          {"number":22,"name":"OE","role":"input","activeLow":true},
           {"number":23,"name":"NC","role":"nc"},
           {"number":24,"name":"VCCB","role":"power"}
         ]
@@ -8992,12 +8992,12 @@
           {"number":11,"name":"2B1","role":"inout","group":"gate-2","side":"out"},
           {"number":12,"name":"1B2","role":"inout","group":"gate-1","side":"out"},
           {"number":13,"name":"1B1","role":"inout","group":"gate-1","side":"out"},
-          {"number":14,"name":"2OE","role":"input","group":"gate-2"},
-          {"number":15,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":14,"name":"2OE","role":"input","group":"gate-2","activeLow":true},
+          {"number":15,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":16,"name":"VCCB","role":"power"}
         ],
         "rsv16": [
-          {"number":1,"name":"1OE","role":"input","group":"gate-1"},
+          {"number":1,"name":"1OE","role":"input","group":"gate-1","activeLow":true},
           {"number":2,"name":"VCCB","role":"power"},
           {"number":3,"name":"VCCA","role":"power"},
           {"number":4,"name":"1DIR","role":"input","group":"gate-1"},
@@ -9012,7 +9012,7 @@
           {"number":13,"name":"2B1","role":"inout","group":"gate-2","side":"out"},
           {"number":14,"name":"1B2","role":"inout","group":"gate-1","side":"out"},
           {"number":15,"name":"1B1","role":"inout","group":"gate-1","side":"out"},
-          {"number":16,"name":"2OE","role":"input","group":"gate-2"}
+          {"number":16,"name":"2OE","role":"input","group":"gate-2","activeLow":true}
         ]
       },
       "model": "translator",
@@ -9072,7 +9072,7 @@
           {"number":6,"name":"A4","role":"inout","group":"gate-4","side":"in"},
           {"number":7,"name":"DIR3","role":"input","group":"gate-3"},
           {"number":8,"name":"DIR4","role":"input","group":"gate-4"},
-          {"number":9,"name":"OE","role":"input"},
+          {"number":9,"name":"OE","role":"input","activeLow":true},
           {"number":10,"name":"GND","role":"ground"},
           {"number":11,"name":"B4","role":"inout","group":"gate-4","side":"out"},
           {"number":12,"name":"B3","role":"inout","group":"gate-3","side":"out"},
@@ -9088,7 +9088,7 @@
           {"number":4,"name":"A4","role":"inout","group":"gate-4","side":"in"},
           {"number":5,"name":"DIR3","role":"input","group":"gate-3"},
           {"number":6,"name":"DIR4","role":"input","group":"gate-4"},
-          {"number":7,"name":"OE","role":"input"},
+          {"number":7,"name":"OE","role":"input","activeLow":true},
           {"number":8,"name":"GND","role":"ground"},
           {"number":9,"name":"B4","role":"inout","group":"gate-4","side":"out"},
           {"number":10,"name":"B3","role":"inout","group":"gate-3","side":"out"},
@@ -9135,8 +9135,8 @@
       "note": "Pinout from sn74abt543a p.1 (DB, DW, NT, PW, JT, W) and sn74bct543 p.1, sn74f543 p.1, sn74lvc543a p.1, sn74lvt543 p.1, sn74lvth543 p.1 (DB, DGV, DW, NS, PW) - all the same 24-pin assignment; FK 28-pin from sn54bct543 p.1 (NC 1, 8, 15, 22). Function table sn74abt543a p.2 (same in sn74bct543 p.1, sn74f543 p.1, sn74lvc543a p.2, sn74lvt543 p.2, sn74lvth543 p.2): CEAB low enables both the A-to-B latch and the B outputs; LEAB low = transparent; OEAB low (with CEAB low) drives B. B-to-A identical with CEBA/LEBA/OEBA. Timing is A->B transparent propagation.",
       "pinouts": {
         "p24": [
-          {"number":1,"name":"LEBA","role":"input"},
-          {"number":2,"name":"OEBA","role":"input"},
+          {"number":1,"name":"LEBA","role":"input","activeLow":true},
+          {"number":2,"name":"OEBA","role":"input","activeLow":true},
           {"number":3,"name":"A1","role":"inout","side":"in"},
           {"number":4,"name":"A2","role":"inout","side":"in"},
           {"number":5,"name":"A3","role":"inout","side":"in"},
@@ -9145,10 +9145,10 @@
           {"number":8,"name":"A6","role":"inout","side":"in"},
           {"number":9,"name":"A7","role":"inout","side":"in"},
           {"number":10,"name":"A8","role":"inout","side":"in"},
-          {"number":11,"name":"CEAB","role":"input"},
+          {"number":11,"name":"CEAB","role":"input","activeLow":true},
           {"number":12,"name":"GND","role":"ground"},
-          {"number":13,"name":"OEAB","role":"input"},
-          {"number":14,"name":"LEAB","role":"input"},
+          {"number":13,"name":"OEAB","role":"input","activeLow":true},
+          {"number":14,"name":"LEAB","role":"input","activeLow":true},
           {"number":15,"name":"B8","role":"inout","side":"out"},
           {"number":16,"name":"B7","role":"inout","side":"out"},
           {"number":17,"name":"B6","role":"inout","side":"out"},
@@ -9157,13 +9157,13 @@
           {"number":20,"name":"B3","role":"inout","side":"out"},
           {"number":21,"name":"B2","role":"inout","side":"out"},
           {"number":22,"name":"B1","role":"inout","side":"out"},
-          {"number":23,"name":"CEBA","role":"input"},
+          {"number":23,"name":"CEBA","role":"input","activeLow":true},
           {"number":24,"name":"VCC","role":"power"}
         ],
         "lccc28": [
           {"number":1,"name":"NC","role":"nc"},
-          {"number":2,"name":"LEBA","role":"input"},
-          {"number":3,"name":"OEBA","role":"input"},
+          {"number":2,"name":"LEBA","role":"input","activeLow":true},
+          {"number":3,"name":"OEBA","role":"input","activeLow":true},
           {"number":4,"name":"A1","role":"inout","side":"in"},
           {"number":5,"name":"A2","role":"inout","side":"in"},
           {"number":6,"name":"A3","role":"inout","side":"in"},
@@ -9173,11 +9173,11 @@
           {"number":10,"name":"A6","role":"inout","side":"in"},
           {"number":11,"name":"A7","role":"inout","side":"in"},
           {"number":12,"name":"A8","role":"inout","side":"in"},
-          {"number":13,"name":"CEAB","role":"input"},
+          {"number":13,"name":"CEAB","role":"input","activeLow":true},
           {"number":14,"name":"GND","role":"ground"},
           {"number":15,"name":"NC","role":"nc"},
-          {"number":16,"name":"OEAB","role":"input"},
-          {"number":17,"name":"LEAB","role":"input"},
+          {"number":16,"name":"OEAB","role":"input","activeLow":true},
+          {"number":17,"name":"LEAB","role":"input","activeLow":true},
           {"number":18,"name":"B8","role":"inout","side":"out"},
           {"number":19,"name":"B7","role":"inout","side":"out"},
           {"number":20,"name":"B6","role":"inout","side":"out"},
@@ -9187,7 +9187,7 @@
           {"number":24,"name":"B3","role":"inout","side":"out"},
           {"number":25,"name":"B2","role":"inout","side":"out"},
           {"number":26,"name":"B1","role":"inout","side":"out"},
-          {"number":27,"name":"CEBA","role":"input"},
+          {"number":27,"name":"CEBA","role":"input","activeLow":true},
           {"number":28,"name":"VCC","role":"power"}
         ]
       },
@@ -9233,8 +9233,8 @@
       "note": "Separate device only because cy74fct543t names the data pins A0-A7/B0-B7 (74_543 uses A1-A8/B1-B8); same pin positions. Pinout cy74fct543t p.1 (Q = QSOP/DBQ, SO = SOIC/DW); pin description and function table p.2. Timing is A->B transparent propagation.",
       "pinouts": {
         "p24": [
-          {"number":1,"name":"LEBA","role":"input"},
-          {"number":2,"name":"OEBA","role":"input"},
+          {"number":1,"name":"LEBA","role":"input","activeLow":true},
+          {"number":2,"name":"OEBA","role":"input","activeLow":true},
           {"number":3,"name":"A0","role":"inout","side":"in"},
           {"number":4,"name":"A1","role":"inout","side":"in"},
           {"number":5,"name":"A2","role":"inout","side":"in"},
@@ -9243,10 +9243,10 @@
           {"number":8,"name":"A5","role":"inout","side":"in"},
           {"number":9,"name":"A6","role":"inout","side":"in"},
           {"number":10,"name":"A7","role":"inout","side":"in"},
-          {"number":11,"name":"CEAB","role":"input"},
+          {"number":11,"name":"CEAB","role":"input","activeLow":true},
           {"number":12,"name":"GND","role":"ground"},
-          {"number":13,"name":"OEAB","role":"input"},
-          {"number":14,"name":"LEAB","role":"input"},
+          {"number":13,"name":"OEAB","role":"input","activeLow":true},
+          {"number":14,"name":"LEAB","role":"input","activeLow":true},
           {"number":15,"name":"B7","role":"inout","side":"out"},
           {"number":16,"name":"B6","role":"inout","side":"out"},
           {"number":17,"name":"B5","role":"inout","side":"out"},
@@ -9255,7 +9255,7 @@
           {"number":20,"name":"B2","role":"inout","side":"out"},
           {"number":21,"name":"B1","role":"inout","side":"out"},
           {"number":22,"name":"B0","role":"inout","side":"out"},
-          {"number":23,"name":"CEBA","role":"input"},
+          {"number":23,"name":"CEBA","role":"input","activeLow":true},
           {"number":24,"name":"VCC","role":"power"}
         ]
       },
@@ -9302,7 +9302,7 @@
           {"number":18,"name":"B3","role":"inout","side":"out"},
           {"number":19,"name":"B2","role":"inout","side":"out"},
           {"number":20,"name":"B1","role":"inout","side":"out"},
-          {"number":21,"name":"OE","role":"input"},
+          {"number":21,"name":"OE","role":"input","activeLow":true},
           {"number":22,"name":"SBA","role":"input"},
           {"number":23,"name":"CLKBA","role":"input"},
           {"number":24,"name":"VCC","role":"power"}
@@ -9332,7 +9332,7 @@
           {"number":22,"name":"NC","role":"nc"},
           {"number":23,"name":"B2","role":"inout","side":"out"},
           {"number":24,"name":"B1","role":"inout","side":"out"},
-          {"number":25,"name":"OE","role":"input"},
+          {"number":25,"name":"OE","role":"input","activeLow":true},
           {"number":26,"name":"SBA","role":"input"},
           {"number":27,"name":"CLKBA","role":"input"},
           {"number":28,"name":"VCC","role":"power"}
@@ -9404,7 +9404,7 @@
           {"number":18,"name":"B2","role":"inout","side":"out"},
           {"number":19,"name":"B1","role":"inout","side":"out"},
           {"number":20,"name":"B0","role":"inout","side":"out"},
-          {"number":21,"name":"OE","role":"input"},
+          {"number":21,"name":"OE","role":"input","activeLow":true},
           {"number":22,"name":"SBA","role":"input"},
           {"number":23,"name":"CBA","role":"input"},
           {"number":24,"name":"VCC","role":"power"}
@@ -9449,7 +9449,7 @@
           {"number":18,"name":"B3","role":"inout","side":"out"},
           {"number":19,"name":"B2","role":"inout","side":"out"},
           {"number":20,"name":"B1","role":"inout","side":"out"},
-          {"number":21,"name":"G","role":"input"},
+          {"number":21,"name":"G","role":"input","activeLow":true},
           {"number":22,"name":"SBA","role":"input"},
           {"number":23,"name":"CPBA","role":"input"},
           {"number":24,"name":"VCC","role":"power"}
@@ -9479,7 +9479,7 @@
           {"number":22,"name":"NC","role":"nc"},
           {"number":23,"name":"B2","role":"inout","side":"out"},
           {"number":24,"name":"B1","role":"inout","side":"out"},
-          {"number":25,"name":"G","role":"input"},
+          {"number":25,"name":"G","role":"input","activeLow":true},
           {"number":26,"name":"SBA","role":"input"},
           {"number":27,"name":"CPBA","role":"input"},
           {"number":28,"name":"VCC","role":"power"}
@@ -9530,7 +9530,7 @@
           {"number":18,"name":"B3","role":"inout","side":"out"},
           {"number":19,"name":"B2","role":"inout","side":"out"},
           {"number":20,"name":"B1","role":"inout","side":"out"},
-          {"number":21,"name":"G","role":"input"},
+          {"number":21,"name":"G","role":"input","activeLow":true},
           {"number":22,"name":"SBA","role":"input"},
           {"number":23,"name":"CBA","role":"input"},
           {"number":24,"name":"VCC","role":"power"}
@@ -9575,7 +9575,7 @@
           {"number":18,"name":"B3","role":"inout","side":"out"},
           {"number":19,"name":"B2","role":"inout","side":"out"},
           {"number":20,"name":"B1","role":"inout","side":"out"},
-          {"number":21,"name":"OEBA","role":"input"},
+          {"number":21,"name":"OEBA","role":"input","activeLow":true},
           {"number":22,"name":"SBA","role":"input"},
           {"number":23,"name":"CLKBA","role":"input"},
           {"number":24,"name":"VCC","role":"power"}
@@ -9621,7 +9621,7 @@
           {"number":18,"name":"B3","role":"inout","side":"out"},
           {"number":19,"name":"B2","role":"inout","side":"out"},
           {"number":20,"name":"B1","role":"inout","side":"out"},
-          {"number":21,"name":"OEBA","role":"input"},
+          {"number":21,"name":"OEBA","role":"input","activeLow":true},
           {"number":22,"name":"SBA","role":"input"},
           {"number":23,"name":"CLKBA","role":"input"},
           {"number":24,"name":"VCC","role":"power"}
@@ -9690,7 +9690,7 @@
           {"number":18,"name":"B2","role":"inout","side":"out"},
           {"number":19,"name":"B1","role":"inout","side":"out"},
           {"number":20,"name":"B0","role":"inout","side":"out"},
-          {"number":21,"name":"OEBA","role":"input"},
+          {"number":21,"name":"OEBA","role":"input","activeLow":true},
           {"number":22,"name":"SBA","role":"input"},
           {"number":23,"name":"CBA","role":"input"},
           {"number":24,"name":"VCC","role":"power"}
@@ -9735,7 +9735,7 @@
           {"number":18,"name":"B3","role":"inout","side":"out"},
           {"number":19,"name":"B2","role":"inout","side":"out"},
           {"number":20,"name":"B1","role":"inout","side":"out"},
-          {"number":21,"name":"GBA","role":"input"},
+          {"number":21,"name":"GBA","role":"input","activeLow":true},
           {"number":22,"name":"SBA","role":"input"},
           {"number":23,"name":"CPBA","role":"input"},
           {"number":24,"name":"VCC","role":"power"}
@@ -9785,7 +9785,7 @@
           {"number":18,"name":"B3","role":"inout","side":"out"},
           {"number":19,"name":"B2","role":"inout","side":"out"},
           {"number":20,"name":"B1","role":"inout","side":"out"},
-          {"number":21,"name":"GBA","role":"input"},
+          {"number":21,"name":"GBA","role":"input","activeLow":true},
           {"number":22,"name":"SBA","role":"input"},
           {"number":23,"name":"CBA","role":"input"},
           {"number":24,"name":"VCC","role":"power"}
@@ -9830,7 +9830,7 @@
           {"number":18,"name":"B3","role":"inout","side":"out"},
           {"number":19,"name":"B2","role":"inout","side":"out"},
           {"number":20,"name":"B1","role":"inout","side":"out"},
-          {"number":21,"name":"OEBA","role":"input"},
+          {"number":21,"name":"OEBA","role":"input","activeLow":true},
           {"number":22,"name":"SBA","role":"input"},
           {"number":23,"name":"CLKBA","role":"input"},
           {"number":24,"name":"VCC","role":"power"}
@@ -9876,7 +9876,7 @@
           {"number":19,"name":"B3","role":"inout","side":"out"},
           {"number":20,"name":"B2","role":"inout","side":"out"},
           {"number":21,"name":"B1","role":"inout","side":"out"},
-          {"number":22,"name":"OE","role":"input"},
+          {"number":22,"name":"OE","role":"input","activeLow":true},
           {"number":23,"name":"VCCB","role":"power"},
           {"number":24,"name":"VCCB","role":"power"}
         ]
@@ -10203,7 +10203,7 @@
           {"number":6,"name":"A5","role":"input"},
           {"number":7,"name":"A6","role":"input"},
           {"number":8,"name":"GND","role":"ground"},
-          {"number":9,"name":"OE","role":"input"},
+          {"number":9,"name":"OE","role":"input","activeLow":true},
           {"number":10,"name":"B6","role":"output"},
           {"number":11,"name":"B5","role":"output"},
           {"number":12,"name":"B4","role":"output"},

@@ -18,8 +18,8 @@ plan-39-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-39-E complete | `ls planning/completed/plan-39-E-*.md \| wc -l` → 1 | NOT MET until E lands |
-| The tool's tests pass | `node --test scripts/pin-polarity.test.js` → all pass | NOT MET until D lands |
+| plan-39-E complete | `ls planning/completed/plan-39-E-*.md \| wc -l` → 1 | MET (2026-11-14: 1, at landing; the reviews ran alongside E, see Corrections 1) |
+| The tool's tests pass | `node --test scripts/pin-polarity.test.js` → all pass | MET (2026-11-14: pass 13, fail 0) |
 
 Everything below is written against the world where these hold.
 
@@ -74,11 +74,12 @@ The reviews of different devices are independent; an implementer may fan devices
 
 One commit per phase: the edited part file(s), `planning/plan-39-data/ledger.tsv` and `backend/tests/golden/parts.txt`.
 
-- [ ] Review buffer devices 1–70 (1G125 … 74_244): 90 pinouts, § 3 procedure; edits `schematical/schematical/Parts/buffer.json`.
-- [ ] Rebuild and regenerate the golden: `cmake -S backend -B /tmp/logic-p39 && cmake --build /tmp/logic-p39 -j8 && /tmp/logic-p39/listing_check --print > backend/tests/golden/parts.txt`.
+- [x] Review buffer devices 1–70 (1G125 … 74_244): 90 pinouts, § 3 procedure; edits `schematical/schematical/Parts/buffer.json`. — done: rows recorded, check ok (Observed)
+- [x] Rebuild and regenerate the golden: `cmake -S backend -B /tmp/logic-p39 && cmake --build /tmp/logic-p39 -j8 && /tmp/logic-p39/listing_check --print > backend/tests/golden/parts.txt`. — done: regenerated over the full tree, this phase staged (plan-39-E Corrections 2)
 
 Acceptance: every pinout of the phase has a ledger row, the ledger matches the files, and the golden moved only by flags.
   Check: `node scripts/pin-polarity.js check --kind buffer --devices 1-70 --complete && node scripts/pin-polarity.js golden-check && ctest --test-dir /tmp/logic-p39 -R '^(library_check|listing_check|trace_check)$'` → every `check` exits 0, `golden-check` exits 0, 3 of 3 tests passed (est. 90 min of reading for 90 pinouts, then 6 min for the checks: the loader and `listing_check` load every part file the phase edited, which no smaller check does).
+  Observed 2026-11-14: buffer 1-70 `ok: 90 pinouts, 90 ledger rows checked`; golden-check (phase staged) `ok: 1041 parts.txt line(s) changed, only by :low`; ctest on the full tree `100% tests passed, 0 tests failed out of 3`.
 Commit: —
 
 ### Phase 2 — F2: buffer 71–152 (90 pinouts)
