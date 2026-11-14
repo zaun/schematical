@@ -910,6 +910,149 @@ converter	DAC8718	rgz48	dac8718	pp.11-12	{"CLR":true,"RST":true,"USB/BTC":["USB"
 converter	DAC8718	pag64	dac8718	pp.11-12	{"CLR":true,"RST":true,"USB/BTC":["USB"],"CS":true,"LDAC":true,"WAKEUP":true}	
 converter	DAC8728	rtq56	dac8728	pp.10-11	{"USB/BTC":["USB"],"BUSY":true,"CLR":true,"LDAC":true,"RST":true,"R/W":["W"],"CS":true}	
 converter	DAC8728	pag64	dac8728	pp.10-11	{"USB/BTC":["USB"],"BUSY":true,"CLR":true,"LDAC":true,"RST":true,"R/W":["W"],"CS":true}	
+converter	DAC8734	rha40	dac8734	p.7	{"CS":true,"LDAC":true,"RST":true}	
+converter	DAC8734	pfb48	dac8734	p.7	{"CS":true,"LDAC":true,"RST":true}	
+converter	DAC8750	pwp24	dac7750	pp.3-4	{"ALARM":true}	
+converter	DAC8760	pwp24	dac8760	pp.3-4	{"ALARM":true}	
+converter	DAC8771	rgz48	dac8771	pp.3-4	{"SYNC":true,"LDAC":true,"RESET":true,"ALARM":true}	
+converter	DAC8801	dgk8	dac8801	p.4	{"CS":true}	
+converter	DAC8802	pw16	dac8802	p.5	{"RS":true,"CS":true,"LDAC":true}	
+converter	DAC8803	db28	dac8803	p.5	{"RS":true,"CS":true,"LDAC":true}	
+converter	DAC8805	dbt38	dac8805	pp.4-5	{"WR":true,"RS":true}	
+converter	DAC8806	db28	dac8806	p.4	{"WR":true,"RST":true}	
+converter	DAC8811	dgk8	dac8811	p.4	{"CS":true}	
+converter	DAC8812	pw16	dac8812	p.3	{"RS":true,"CS":true,"LDAC":true}	
+converter	DAC8814	db28	dac8814	p.5	{"RS":true,"CS":true,"LDAC":true}	
+converter	DAC8820	db28	dac8820	p.4	{"WR":true,"RST":true}	
+converter	DAC8822	dbt38	dac8822	p.5	{"WR":true,"RS":true}	
+converter	DAC8830	d8	dac8830	p.5	{"CS":true}	
+converter	DAC8831	d14	dac8830	p.5	{"CS":true,"LDAC":true}	
+converter	DAC8832	rgy14	dac8832	p.5	{"CS":true,"LDAC":true}	
+converter	DAC8871	pw16	dac8871	p.5	{"RST":true,"CS":true,"LDAC":true}	
+converter	DAC8881	rge24	dac8881	p.3	{"LDAC":true,"USB/BTC":["BTC"],"RST":true,"CS":true}	
+converter	DAC900	so28	dac900	p.4	{"INT/EXT":["INT"]}	pin 21 I_OUT-bar is the complementary analog current output (rule 2, not flagged)
+converter	DAC902	so28	dac902	p.4	{"INT/EXT":["INT"]}	pin 21 I_OUT-bar is the complementary analog current output (rule 2, not flagged)
+converter	DAC904	so28	dac904	p.4	{"INT/EXT":["INT"]}	pin 21 I_OUT-bar is the complementary analog current output (rule 2, not flagged)
+converter	DAC908	so28	dac908	p.4	{"INT/EXT":["INT"]}	pin 21 I_OUT-bar is the complementary analog current output (rule 2, not flagged)
+converter	DAC9881	rge24	dac9881	pp.3-4	{"LDAC":true,"USB/BTC":["BTC"],"RST":true,"CS":true}	
+converter	DDC112	so28	ddc112	p.4	{"DXMIT":true,"DVALID":true}	
+converter	DDC112	tqfp32	ddc112	p.5	{"DXMIT":true,"DVALID":true}	
+converter	DDC114	rtc48	ddc114	p.5	{"DOUT-bar":true,"HISPD/LOPWR":["LOPWR"],"RESET":true,"DIN-bar":true,"DCLK-bar":true,"DVALID":true}	DOUT/DIN/DCLK complementary digital signals drawn with overbar (inverted-output ruling, as ADS1601); LOPWR overbarred in the pinout drawing
+converter	DDC118	rtc48	ddc118	p.5	{"DOUT-bar":true,"HISPD/LOPWR":["LOPWR"],"RESET":true,"DIN-bar":true,"DCLK-bar":true,"DVALID":true}	DOUT/DIN/DCLK complementary digital signals drawn with overbar (inverted-output ruling, as ADS1601); LOPWR overbarred
+converter	DDC232	zxg64	ddc232	p.5	{"RESET":true,"DVALID":true}	
+converter	LMP92066	pwp16	lmp92066	pp.3-4	{}	
+converter	THS0842	pfb48	ths0842	p.4	{"COUTBAR":true,"OE":true}	
+converter	THS10064	da32	ths10064	p.6	{"RD":true,"WR":true,"CS0":true}	CONV_CLK unflagged: only its CONVST alternative (not in catalog name) is barred (rule 12); DATA_AV polarity programmable, unmarked
+converter	THS1007	da32	ths1007	p.5	{"RD":true,"WR":true,"CS0":true}	
+converter	THS10082	da32	ths10082	p.5	{"RD":true,"WR":true,"CS0":true,"RESET":true}	CONV_CLK unflagged: only its CONVST alternative (not in catalog name) is barred (rule 12); DATA_AV polarity programmable, unmarked
+converter	THS1009	da32	ths1009	p.5	{"RD":true,"WR":true,"CS0":true,"RESET":true}	
+converter	THS1206	da32	ths1206	p.7	{"RD":true,"WR":true,"CS0":true}	CONV_CLK unflagged: only its CONVST alternative (not in catalog name) is barred (rule 12); DATA_AV polarity programmable, unmarked
+converter	THS1207	da32	ths1207	p.5	{"RD":true,"WR (R/W)":true,"CS0":true}	pin 20 'WR (R/W)': datasheet bars WR and the W of R/W; tool splits the name on / into 'WR (R' and 'W)', both barred, so true
+converter	THS12082	da32	ths12082	p.3	{"RD":true,"WR (R/W)":true,"CS0":true,"RESET":true}	pin 20 'WR (R/W)': WR and W of R/W barred, tool alts 'WR (R','W)' both barred -> true; pin 15 'CONV_CLK (CONVST)' left unflagged: CONVST barred but CONV_CLK (clock) is not and the tool sees one alternative (no /); DATA_AV programmable, unmarked
+converter	THS1209	da32	slas288	p.5	{"RD":true,"WR":true,"CS0":true,"RESET":true}	
+converter	THS1401	pfb48	ths1408	p.2	{"OE":true,"WR":true,"CS":true}	
+converter	THS1403	pfb48	ths1408	p.2	{"OE":true,"WR":true,"CS":true}	
+converter	THS1408	pfb48	ths1408	p.2	{"OE":true,"WR":true,"CS":true}	
+converter	THS5641	dw28	ths5641a	p.3	{}	
+converter	THS5651	dw28	ths5651a	p.3	{}	
+converter	THS5661	dw28	ths5661a	p.3	{}	
+converter	THS5671	dw28	ths5671a	p.3	{}	
+converter	TLC0820	dw20	tlc0820a	p.3	{"WR/RDY":["WR"],"RD":true,"INT":true,"CS":true,"OFLW":true}	
+converter	TLC0831	so8	slas107	p.1	{"CS":true}	no terminal table; CS barred in pinout drawing
+converter	TLC0832	so8	slas107	p.1	{"CS":true}	no terminal table; CS barred in pinout drawing
+converter	TLC0834	d14	tlc0834	p.1	{"CS":true}	no terminal table; CS barred in pinout drawing
+converter	TLC0838	dw20	tlc0834	p.1	{"SE":true,"CS":true}	no terminal table; CS and SE barred in pinout drawing
+converter	TLC1514	d16	tlc1514	p.3	{"EOC/(INT)":["(INT)"],"CSTART":true,"PWDN":true,"CS":true}	EOC/(INT): only INT barred
+converter	TLC1518	dw20	tlc1514	p.3	{"EOC/(INT)":["(INT)"],"CSTART":true,"PWDN":true,"CS":true}	EOC/(INT): only INT barred
+converter	TLC1542	dw20	tlc1543	p.3	{"CS":true}	
+converter	TLC1543	dw20	tlc1543	p.3	{"CS":true}	
+converter	TLC1549	d8	tlc1549	p.3	{"CS":true}	
+converter	TLC1550	dw24	tlc1550	p.3	{"EOC":true,"CS":true,"WR":true,"RD":true}	
+converter	TLC1550	fn28	tlc1550	p.3	{"EOC":true,"CS":true,"WR":true,"RD":true}	
+converter	TLC1551	dw24	tlc1550	p.1	{"EOC":true,"CS":true,"WR":true,"RD":true}	
+converter	TLC1551	fn28	tlc1550	p.1	{"EOC":true,"CS":true,"WR":true,"RD":true}	
+converter	TLC2543	dw20	tlc2543	p.1	{"CS":true}	
+converter	TLC2551	dgk8	slas276	p.1	{"CS":true}	
+converter	TLC2552	dgk8	slas276	p.1	{"CS":true}	
+converter	TLC2554	d16	tlc2554	p.1	{"EOC/(INT)":["(INT)"],"CSTART":true,"PWDN":true,"CS":true}	EOC/(INT): only INT overbarred
+converter	TLC2555	dgk8	slas276	p.1	{"CS":true}	
+converter	TLC2558	dw20	tlc2554	p.1	{"EOC/(INT)":["(INT)"],"CSTART":true,"PWDN":true,"CS":true}	EOC/(INT): only INT overbarred
+converter	TLC2574	pw20	tlc3574	p.1	{"CS":true,"CSTART":true}	Pin 4 EOC/INT: only INT overbarred; catalog name EOC(INT) has no separator so no alternative list possible, left unflagged
+converter	TLC2578	pw24	tlc3574	p.1	{"CS":true,"CSTART":true}	Pin 4 EOC/INT: only INT overbarred; catalog name EOC(INT) has no separator so no alternative list possible, left unflagged
+converter	TLC3541	d8_3541	tlc3541	p.1	{"CS":true}	
+converter	TLC3544	pw20	tlc3544	p.1	{"CS":true,"CSTART":true}	Pin 4 EOC/INT: only INT overbarred; catalog name EOC(INT) has no separator so no alternative list possible, left unflagged
+converter	TLC3545	d8_3545	tlc3541	p.1	{"CS":true}	
+converter	TLC3548	pw24	tlc3544	p.1	{"CS":true,"CSTART":true}	Pin 4 EOC/INT: only INT overbarred; catalog name EOC(INT) has no separator so no alternative list possible, left unflagged
+converter	TLC3574	pw20	tlc3574	p.1	{"CS":true,"CSTART":true}	Pin 4 EOC/INT: only INT overbarred; catalog name EOC(INT) has no separator so no alternative list possible, left unflagged
+converter	TLC3578	pw24	tlc3574	p.1	{"CS":true,"CSTART":true}	Pin 4 EOC/INT: only INT overbarred; catalog name EOC(INT) has no separator so no alternative list possible, left unflagged
+converter	TLC4541	d8_4541	tlc4541	p.1	{"CS":true}	
+converter	TLC4545	d8_4545	tlc4541	p.1	{"CS":true}	
+converter	TLC5510	pw24	tlc5510	p.1	{"OE":true}	
+converter	TLC5540	so24	slas105	p.1	{"OE":true}	
+converter	TLC5615	d8	tlc5615	p.1	{"CS":true}	
+converter	TLC5618	so8	slas156	p.1	{"CS":true}	
+converter	TLC5618	fk20	slas156	p.1	{"CS":true}	
+converter	TLC5620	n14	tlc5620	pp.1-2	{}	LOAD/LDAC unmarked; falling-edge/low-level behavior only (rule 3)
+converter	TLC5628	n16	tlc5628	pp.1-2	{}	LOAD/LDAC unmarked; falling-edge/low-level behavior only (rule 3)
+converter	TLC7225	dw24	tlc7225	p.1	{"LDAC":true,"WR":true}	
+converter	TLC7226	dw20	tlc7226	p.1	{"WR":true}	
+converter	TLC7524	d16	tlc7524	p.1	{"CS":true,"WR":true}	
+converter	TLC7528	dw20	tlc7528	p.1	{"DACA/DACB":["DACA"],"CS":true,"WR":true}	
+converter	TLC7628	so20	slas063	p.1	{"DACA/DACB":["DACA"],"CS":true,"WR":true}	
+converter	TLV0831	so8	tlv0832	p.1	{"CS":true}	
+converter	TLV0832	so8	tlv0832	p.1	{"CS":true}	
+converter	TLV0834	d14	tlv0834	p.1	{"CS":true}	
+converter	TLV0834	pw16	tlv0834	p.1	{"CS":true}	
+converter	TLV0838	dw20	tlv0834	p.1	{"SE":true,"CS":true}	
+converter	TLV1504	d16	slas251	p.1	{"EOC/(INT)":["(INT)"],"CSTART":true,"PWDN":true,"CS":true}	
+converter	TLV1508	dw20	slas251	p.1	{"EOC/(INT)":["(INT)"],"CSTART":true,"PWDN":true,"CS":true}	
+converter	TLV1543	dw20	tlv1543	p.1	{"CS":true}	
+converter	TLV1544	d16	slas139	p.1	{"CSTART":true,"INV CLK":true,"CS":true}	
+converter	TLV1548	db20	slas139	p.1	{"CSTART":true,"INV CLK":true,"CS":true}	
+converter	TLV1549	so8	slas071	p.1	{"CS":true}	
+converter	TLV1562	dw28	tlv1562	p.1	{"CSTART":true,"INT":true,"CS/OE":true,"WR":true,"RD":true}	
+converter	TLV1570	dw20	tlv1570	p.1	{"CS":true}	
+converter	TLV1571	dw24	tlv1571	p.1	{"CS":true,"WR":true,"RD":true,"INT/EOC":["INT"],"CSTART":true}	
+converter	TLV1572	d8	tlv1572	pp.1-2	{"CS/Powerdown":["CS"]}	
+converter	TLV1578	da32	tlv1571	p.1	{"CS":true,"WR":true,"RD":true,"INT/EOC":["INT"],"CSTART":true}	
+converter	TLV2541	dgk8	tlv2541	p.1	{"CS":true}	
+converter	TLV2542	dgk8	tlv2541	p.1	{"CS":true}	
+converter	TLV2543	dw20	tlv2543	p.1	{"CS":true}	
+converter	TLV2544	d16	tlv2544	p.1	{"EOC/(INT)":["(INT)"],"CSTART":true,"PWDN":true,"CS":true}	
+converter	TLV2545	dgk8	tlv2541	p.1	{"CS":true}	
+converter	TLV2548	dw20	tlv2544	p.1	{"EOC/(INT)":["(INT)"],"CSTART":true,"PWDN":true,"CS":true}	
+converter	TLV2553	dw20	tlv2553	p.1	{"CS":true}	
+converter	TLV2556	pw20	tlv2556	p.1	{"CS":true,"INT/EOC":["INT"]}	
+converter	TLV5535	pw28	tlv5535	p.1	{"OE":true}	
+converter	TLV5580	pw28	tlv5580	p.1	{"OE":true}	
+converter	TLV5604	d16	tlv5604	pp.1-3	{"PD":true,"LDAC":true,"CS":true}	
+converter	TLV5606	d8	tlv5606	pp.1-2	{"CS":true}	
+converter	TLV5608	dw20	tlv5608	pp.1-2	{"PRE":true,"LDAC":true}	
+converter	TLV5610	dw20	tlv5608	pp.1-2	{"PRE":true,"LDAC":true}	
+converter	TLV5613	dw20	slas174	p.2	{"PWD":true,"LDAC":true,"WE":true,"CS":true}	
+converter	TLV5614	d16	tlv5614-ep	pp.1-2	{"PD":true,"LDAC":true,"CS":true}	
+converter	TLV5616	d8	tlv5616	pp.1-2	{"CS":true}	
+converter	TLV5617	d8	tlv5617a	p.2	{"CS":true}	
+converter	TLV5618	d8	tlv5618a	p.2	{"CS":true}	
+converter	TLV5619	so20	slas172	pp.1-2	{"PD":true,"LDAC":true,"WE":true,"CS":true}	
+converter	TLV5620	n14	tlv5620	pp.1-2	{}	
+converter	TLV5621	d14	slas138	pp.1-2	{}	
+converter	TLV5623	d8	tlv5623	pp.1-2	{"CS":true}	
+converter	TLV5624	d8	tlv5624	pp.1-2	{"CS":true}	
+converter	TLV5625	d8	tlv5625	p.2	{"CS":true}	
+converter	TLV5626	d8	tlv5626	p.2	{"CS":true}	
+converter	TLV5627	d16	tlv5627	pp.1-3	{"PD":true,"LDAC":true,"CS":true}	
+converter	TLV5628	n16	tlv5628	pp.1-2	{}	
+converter	TLV5629	dw20	tlv5608	pp.1-2	{"PRE":true,"LDAC":true}	
+converter	TLV5630	dw20	tlv5630	pp.1-2	{"PRE":true,"LDAC":true}	
+converter	TLV5631	dw20	tlv5630	pp.1-2	{"PRE":true,"LDAC":true}	
+converter	TLV5632	dw20	tlv5630	pp.1-2	{"PRE":true,"LDAC":true}	
+converter	TLV5633	dw20	slas190	p.2	{"PWR":true,"LDAC":true,"WE":true,"CS":true}	
+converter	TLV5636	d8	tlv5636	pp.1-2	{"CS":true}	
+converter	TLV5637	d8	tlv5637	p.2	{"CS":true}	
+converter	TLV5638	d8	tlv5638	p.3	{"CS":true}	
+converter	TLV5639	dw20	tlv5639	pp.1-2	{"LDAC":true,"WE":true,"CS":true}	
+converter	TLV571	dw24	tlv571	pp.1-2	{"CS":true,"WR":true,"RD":true,"INT/EOC":["INT"],"CSTART":true}	INT/EOC: overbar on INT only
 counter	40102B	p16	cd40102b	pp.1-4	{"CLR":true,"CI/CE":true,"APE":true,"CO/ZD":true,"SPE":true}	
 counter	40103B	p16	cd40102b	pp.1-4	{"CLR":true,"CI/CE":true,"APE":true,"CO/ZD":true,"SPE":true}	
 counter	40110B	p16	cd40110b	p.1	{"TE":true}	
