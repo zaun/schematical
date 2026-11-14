@@ -41,10 +41,58 @@ final class DesignRuleCheckTests: XCTestCase {
     /// Down from K, across under both parts, up to A: a straight line
     /// would cross the parts' other pads.
     @discardableResult
-    private func route(_ doc: SchematicDocument, _ k: PinRef, _ a: PinRef) throws -> UUID {
+    private func route(_ doc: SchematicDocument, _ k: PinRef, _ a: PinRef, layer: CopperLayer = .top) throws -> UUID {
         let from = try centre(doc, k), to = try centre(doc, a)
         return try XCTUnwrap(doc.addTrace(points: [from, CGPoint(x: from.x, y: from.y + 6),
-                                                   CGPoint(x: to.x, y: from.y + 6), to], layer: .top))
+                                                   CGPoint(x: to.x, y: from.y + 6), to], layer: layer))
+    }
+
+    // MARK: Layer rules (plan-38-B)
+
+    /// The pair, its net held to Top.
+    private func topOnlyPair() throws -> (doc: SchematicDocument, k: PinRef, a: PinRef, name: String) {
+        let (doc, one, _, k, a) = try wiredPair()
+        let member = PlaneNet.pin(chip: one.id, designator: one.part.pins[k.index].designator)
+        doc.setNetLayerRule(member, LayerRule(mode: .only, layers: [.top]))
+        let copper = doc.connectivity()
+        let name = try XCTUnwrap(copper.net(of: member).flatMap { copper.netNames[$0] })
+        return (doc, k, a, name)
+    }
+
+    func testTraceOffItsOnlyLayerIsALayerRuleLine() throws {
+        let (doc, k, a, name) = try topOnlyPair()
+        let id = try route(doc, k, a, layer: .bottom)
+        let lines = doc.designRuleCheck(rules: rules).filter { $0.kind == .layerRule }
+        XCTAssertEqual(lines.count, 1, "\(lines)")
+        XCTAssertEqual(lines.first?.reference, name)
+        XCTAssertEqual(lines.first?.issue, "Copper on Bottom; this net is limited to Top")
+        XCTAssertEqual(lines.first?.items, [.trace(id)])
+    }
+
+    func testTraceOnItsOnlyLayerIsNoLine() throws {
+        let (doc, k, a, _) = try topOnlyPair()
+        try route(doc, k, a)
+        XCTAssertFalse(doc.designRuleCheck(rules: rules).contains { $0.kind == .layerRule })
+    }
+
+    func testViaOnAOneLayerNetIsALine() throws {
+        let (doc, k, a, name) = try topOnlyPair()
+        try route(doc, k, a)
+        let from = try centre(doc, k)
+        let via = try XCTUnwrap(doc.addVia(at: CGPoint(x: from.x + 3, y: from.y + 6)))
+        let lines = doc.designRuleCheck(rules: rules).filter { $0.kind == .layerRule }
+        XCTAssertEqual(lines.count, 1, "\(lines)")
+        XCTAssertEqual(lines.first?.reference, name)
+        XCTAssertEqual(lines.first?.issue, "A via; this net is limited to Top")
+        XCTAssertEqual(lines.first?.items, [.via(via)])
+    }
+
+    func testRuleWithNoRoutableLayerIsALine() throws {
+        let (doc, one, _, k, _) = try wiredPair()
+        doc.setNetLayerRule(.pin(chip: one.id, designator: one.part.pins[k.index].designator),
+                            LayerRule(mode: .only, layers: [.inner(2)]))
+        let lines = doc.designRuleCheck(rules: rules).filter { $0.kind == .layerRule }
+        XCTAssertEqual(lines.map(\.issue), ["Layer rule names no routable layer"])
     }
 
     func testRoutedBoardHasNoConnectionIssues() throws {

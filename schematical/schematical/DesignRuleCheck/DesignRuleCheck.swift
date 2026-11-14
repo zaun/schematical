@@ -17,7 +17,7 @@ import Foundation
 nonisolated struct DesignRuleIssue: Identifiable, Hashable, Sendable {
     /// What kind of problem: the order the list groups them in.
     enum Kind: Int, Comparable, Sendable {
-        case short, unrouted, unconnected, placement, layer, clearance, edge,
+        case short, unrouted, unconnected, placement, layer, layerRule, clearance, edge,
              drill, annularRing, holeToHole, via, traceWidth, silkscreen, solderMask
 
         static func < (a: Kind, b: Kind) -> Bool { a.rawValue < b.rawValue }
@@ -57,6 +57,8 @@ private struct DesignRuleChecker {
     let layers: [CopperLayer]
     let outline: [(CGPoint, CGPoint)]
     let outlinePoints: [CGPoint]
+    /// The layers each net with an Only layer rule may use, by net.
+    let onlyLayers: [Int: EffectiveLayers]
     var issues: [DesignRuleIssue] = []
 
     /// mm: differences smaller than this are rounding, not a problem.
@@ -76,16 +78,26 @@ private struct DesignRuleChecker {
         chips = document.chips
         board = document.board
         texts = document.texts
-        copper = document.connectivity()
+        let copper = document.connectivity()
+        self.copper = copper
         layers = board.copperLayers
         outlinePoints = board.outline
         outline = Array(zip(outlinePoints, outlinePoints.dropFirst() + outlinePoints.prefix(1)))
+        var onlyLayers: [Int: EffectiveLayers] = [:]
+        if !board.netOverrides.isEmpty || board.netClasses.contains(where: { $0.layerRule != nil }) {
+            for net in Set(copper.netOfPad.values) {
+                let effective = document.effectiveLayers(ofNet: net, in: copper)
+                if effective.rule?.mode == .only { onlyLayers[net] = effective }
+            }
+        }
+        self.onlyLayers = onlyLayers
     }
 
     mutating func run() -> [DesignRuleIssue] {
         checkConnections()
         checkPlacement()
         checkLayers()
+        checkLayerRules()
         checkClearance()
         checkEdge()
         checkHoles()
@@ -356,6 +368,39 @@ private struct DesignRuleChecker {
             for text in texts where text.side == .bottom {
                 add(.layer, textName(text), "On Bottom, but a 1-layer board has only Top", [.text(text.id)])
             }
+        }
+    }
+
+    /// A net held to some layers by an Only rule: one line per net for its
+    /// traces on any other layer and, when it is held to one layer, its
+    /// vias (a via joins layers). A rule that leaves the net no trace layer
+    /// is a line of its own.
+    private mutating func checkLayerRules() {
+        guard !onlyLayers.isEmpty else { return }
+        let netOfRoot = copper.netOfRoot()
+        func netOf(_ node: Int) -> Int? { netOfRoot[copper.root[node]] }
+        for net in onlyLayers.keys.sorted() {
+            guard let effective = onlyLayers[net] else { continue }
+            let name = copper.netNames[net] ?? "Net \(net + 1)"
+            let traces = copper.traces.indices.filter { netOf(copper.traceNode($0)) == net }
+            if effective.allowed.isEmpty {
+                add(.layerRule, name, "Layer rule names no routable layer",
+                    Set(traces.map { .trace(copper.traces[$0].id) }))
+                continue
+            }
+            let stray = traces.filter { !effective.allowed.contains(copper.traces[$0].layer) }
+            let vias = effective.allowed.count == 1
+                ? copper.vias.indices.filter { netOf(copper.viaNode($0)) == net } : []
+            guard !stray.isEmpty || !vias.isEmpty else { continue }
+            let strayLayers = layers.filter { layer in stray.contains { copper.traces[$0].layer == layer } }
+            var what: [String] = []
+            if !strayLayers.isEmpty { what.append("Copper on " + strayLayers.map(\.title).joined(separator: " and ")) }
+            if !vias.isEmpty { what.append(vias.count == 1 ? "a via" : "\(vias.count) vias") }
+            var issue = what.joined(separator: " and ")
+            issue = issue.prefix(1).uppercased() + issue.dropFirst()
+            let limit = effective.allowed.map(\.title).joined(separator: " and ")
+            add(.layerRule, name, "\(issue); this net is limited to \(limit)",
+                Set(stray.map { .trace(copper.traces[$0].id) } + vias.map { .via(copper.vias[$0].id) }))
         }
     }
 

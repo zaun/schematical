@@ -139,13 +139,13 @@ Commit: c56aa28b
 
 Acceptance: round trip equal; no-rules document byte-identical.
   Check: `-only-testing:schematicalTests/NetRulesTests -only-testing:schematicalTests/NetClassTests -only-testing:schematicalTests/SchematicFileV5Tests` → `** TEST SUCCEEDED **` (est. 2 min).
-Commit: —
+Commit: 2612af53
 
 ### Phase 3 — DRC: layer rule
 
-- [ ] `DesignRuleCheck/DesignRuleCheck.swift`: `DesignRuleIssue.Kind.layerRule` after `layer`; `DesignRuleChecker.checkLayerRules()` (called after `checkLayers()` in `run()`): for each net whose effective rule is **Only**, every trace of the net on a layer outside the allowed set, and every via on a net whose allowed set is one layer, yields one line per net — reference the net's name (`netNames`), issue "Copper on Layer 2; this net is limited to Top", items the offending traces/vias. A net with an Only rule that resolves to no routable layer yields "Layer rule names no routable layer".
-- [ ] `DesignRuleCheckWindow.swift:DesignRuleCheckInput`: no change needed (`board` already holds the rules); the file records that reading.
-- [ ] Tests (`DesignRuleCheckTests`): a trace on Bottom of a net limited to Top → one `.layerRule` line; the same net routed on Top → none; a via on a Top-only net → a line; the existing 11 tests unchanged.
+- [x] `DesignRuleCheck/DesignRuleCheck.swift`: `DesignRuleIssue.Kind.layerRule` after `layer`; `DesignRuleChecker.checkLayerRules()` (called after `checkLayers()` in `run()`): for each net whose effective rule is **Only**, every trace of the net on a layer outside the allowed set, and every via on a net whose allowed set is one layer, yields one line per net — reference the net's name (`netNames`), issue "Copper on Layer 2; this net is limited to Top", items the offending traces/vias. A net with an Only rule that resolves to no routable layer yields "Layer rule names no routable layer". (Vias alone read "A via; this net is limited to Top"; both, "Copper on Bottom and 2 vias; …". The checker resolves each Only net's `EffectiveLayers` once in `init`, where it still has the document.)
+- [x] `DesignRuleCheckWindow.swift:DesignRuleCheckInput`: no change needed (`board` already holds the rules); the file records that reading. — confirmed: `designRuleCheck(rules:)` builds the checker from the document itself, and `effectiveLayers` reads only `document.board` and `connectivity()`, so no input change is needed.
+- [x] Tests (`DesignRuleCheckTests`): a trace on Bottom of a net limited to Top → one `.layerRule` line; the same net routed on Top → none; a via on a Top-only net → a line; the existing 11 tests unchanged. (Plus: an Only rule naming only a Plane → "Layer rule names no routable layer".) — `-only-testing:DesignRuleCheckTests -only-testing:NetRulesTests` → 24 tests (DRC 15 = the 11 old + 4 new), 0 failures, `** TEST SUCCEEDED **`.
 
 Acceptance: the new cases pass; no existing DRC test changes.
   Check: `-only-testing:schematicalTests/DesignRuleCheckTests -only-testing:schematicalTests/NetRulesTests` → `** TEST SUCCEEDED **` (est. 2 min).
