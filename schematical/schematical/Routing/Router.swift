@@ -55,16 +55,26 @@ nonisolated enum Router {
     /// One run's working state.
     struct Run {
         let problem: RoutingProblem
-        var grid: RoutingGrid
+        var state: RoutingState
         var search: RoutingSearch
-        var result = RoutingResult()
         var stopped = false
         var routedSoFar = 0
+        var grid: RoutingGrid { state.grid }
 
         init(problem: RoutingProblem) {
             self.problem = problem
-            grid = RoutingGrid(problem: problem)
-            search = RoutingSearch(nodes: grid.cellCount * max(grid.layers.count, 1))
+            state = RoutingState(problem: problem)
+            search = RoutingSearch(nodes: state.grid.cellCount * max(state.grid.layers.count, 1))
+        }
+
+        /// The ledger's copper, in the order it was routed.
+        var result: RoutingResult {
+            var result = RoutingResult()
+            for entry in state.ledger {
+                result.traces += entry.traces
+                result.vias += entry.vias
+            }
+            return result
         }
 
         /// Routes one net: its components joined as a tree, or, for a net on
@@ -122,7 +132,7 @@ nonisolated enum Router {
                 for terminal in targets { if let point = terminal.tie { targetTie[terminal.node] = point } }
                 let copper = Router.copper(path, startTie: tie[path[0]], endTie: targetTie[path[path.count - 1]],
                                          net: net, grid: grid)
-                add(copper, net: net)
+                add(copper, net: net, path: path, allowed: rules.allowed)
                 treeNodes += path
                 for via in copper.vias {
                     let c = grid.nearestCell(via.centre)
@@ -190,7 +200,7 @@ nonisolated enum Router {
                                                  points: [start, via.centre], net: net.id)]
                 }
                 copper.vias.append(via)
-                add(copper, net: net)
+                add(copper, net: net, path: path, allowed: rules.allowed)
                 onPlane[index] = true
                 routedSoFar += 1
                 progress(RoutingProgress(routed: routedSoFar, total: problem.connections, round: 0, net: net.name))
@@ -205,15 +215,10 @@ nonisolated enum Router {
             return outcome
         }
 
-        /// Adds new copper to the result and stamps it into the grid.
-        mutating func add(_ copper: (traces: [RoutedTrace], vias: [RoutedVia]), net: RoutingNet) {
-            for trace in copper.traces {
-                guard let layer = grid.layerIndex(trace.layer) else { continue }
-                grid.stampTrace(trace.points, width: trace.width, layer: layer, net: net.id)
-            }
-            for via in copper.vias { grid.stampVia(via.centre, diameter: via.diameter, net: net.id) }
-            result.traces += copper.traces
-            result.vias += copper.vias
+        /// Records new copper in the ledger, which stamps it into the grid.
+        mutating func add(_ copper: (traces: [RoutedTrace], vias: [RoutedVia]), net: RoutingNet, path: [Int],
+                          allowed: [Bool]) {
+            state.add(net: net.id, path: path, traces: copper.traces, vias: copper.vias, allowed: allowed)
         }
 
         static func outcome(_ net: RoutingNet, unrouted: [String]) -> NetOutcome {

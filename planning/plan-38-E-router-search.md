@@ -180,7 +180,7 @@ Commit: e501166e
 
 Acceptance: the AFU floor and the time bound hold; the three results are written above.
   Check: `-only-testing:schematicalTests/RouterFixtureTests` → `** TEST SUCCEEDED **` (est. 3 min; the spike's single pass took 0.3–2.1 s per board, so the bound is generous).
-Commit: —
+Commit: c2459022
 
 ## Validation Plan
 

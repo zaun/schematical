@@ -133,9 +133,9 @@ cost for no measured need).
 
 ### Phase 1 — ledger, joins and exact un-stamping
 
-- [ ] `Routing/RoutingState.swift`: ledger entries, per-net joined groups from ledger + kept copper, `stamp(entry)`, `unstamp(entry)` of § 3, a spatial tile index.
-- [ ] `Router.route` (plan-38-E) uses `RoutingState` for its single pass; its results must not change.
-- [ ] Tests (`RoutingStateTests`): stamp three connections, unstamp the middle one, compare every map cell with a state built from scratch from the other two (equal); after unstamping a tree's middle edge the net reports two unjoined groups; the tile index returns exactly the entries whose box meets a query box.
+- [x] `Routing/RoutingState.swift`: ledger entries, per-net joined groups from ledger + kept copper, `stamp(entry)`, `unstamp(entry)` of § 3, a spatial tile index. (Un-stamping is `remove(_:)`; groups come from what each entry's two ends land on, a component's terminal or another entry's node, since kept copper is already inside its component (plan-38-D). Added `dangling(of:)`: entries left hanging by one end after a rip-up, which Phase 3 rips with it so no stub ends on nothing.)
+- [x] `Router.route` (plan-38-E) uses `RoutingState` for its single pass; its results must not change. — `RouterFixtureTests` after: AFU 99/115 (5 677 419 expansions), LFU 70/188 (6 933 784), RegFile 15/24 (5 180 621), identical to plan-38-E Phase 4.
+- [x] Tests (`RoutingStateTests`): stamp three connections, unstamp the middle one, compare every map cell with a state built from scratch from the other two (equal); after unstamping a tree's middle edge the net reports two unjoined groups; the tile index returns exactly the entries whose box meets a query box. (Plus: a branch left hanging is found by `dangling`.) — `-only-testing:RoutingStateTests -only-testing:RouterTests -only-testing:RouterFixtureTests` → 12 tests, 0 failures, `** TEST SUCCEEDED **`.
 
 Acceptance: cell-for-cell equality; plan-38-E's tests and `RouterFixtureTests` results unchanged.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd test -only-testing:schematicalTests/RoutingStateTests -only-testing:schematicalTests/RouterTests -only-testing:schematicalTests/RouterFixtureTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 3 min).
