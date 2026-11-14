@@ -129,8 +129,8 @@ extension AutomationTools {
         AutomationTool(
             name: "set_bus",
             summary: "Change an existing bus: rename it, set its number of wires, name its wires, rename single "
-                + "wires, or move a wire to another place. Wire names are up to 4 characters, no spaces, unique "
-                + "on the bus. Refused when the bus type sets the wires, or when a port still uses a wire the "
+                + "wires, or move a wire to another place. Wire names are up to 4 characters, no spaces; two wires may share a "
+                + "name (each is still its own net, but \"bus:NAME:WIRE\" and rename then pick the first). Refused when the bus type sets the wires, or when a port still uses a wire the "
                 + "change would drop. A new wire has no pin yet: give it one with set_bus_port.",
             properties: [
                 "bus": Schema.string("Bus name"), "name": Schema.string("New bus name (up to 4 characters)"),
@@ -473,9 +473,6 @@ extension AutomationTools {
                 || args.optString("name") != nil else {
             throw AutomationFailure("nothing to change: give name, wires, wire_names, rename or move_wire")
         }
-        if let names, Set(names).count != names.count {
-            throw AutomationFailure("wire names must differ: \(names.joined(separator: ","))")
-        }
         var problem: String?
         func check(_ refusal: String?) { if problem == nil { problem = refusal } }
         document.recordEdit(.schematic, "Change Bus") {
@@ -493,10 +490,6 @@ extension AutomationTools {
                 for (old, new) in renames.sorted(by: { $0.key < $1.key }) {
                     guard let current = document.bus(id), let target = current.wires.first(where: { $0.name == old }) else {
                         problem = "no wire \(old) on this bus"
-                        break
-                    }
-                    if new != old, current.wires.contains(where: { $0.name == new }) {
-                        problem = "the bus already has a wire \(new)"
                         break
                     }
                     check(document.renameBusWire(bus: id, wire: target.id, to: new))
