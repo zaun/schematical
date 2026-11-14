@@ -1,0 +1,10 @@
+piece all/-: 3 of 3
+piece all/NPN: 300 of 696 (cut at 300: 9845)
+piece all/NPN - Darlington: 81 of 81
+piece all/NPN + Diode (Isolated): 1 of 1
+piece all/NPN + Zener Diode (Isolated): 1 of 1
+piece all/PNP: 300 of 488 (cut at 300: 3470)
+piece all/PNP - Darlington: 30 of 30
+piece all/PNP + Diode (Isolated): 1 of 1
+piece all: 300 of 1543 (cut at 300: 39000)
+top.js: 276/488: 799 parts, 25 calls, 222 left today

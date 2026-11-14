@@ -1,0 +1,23 @@
+piece all/2 N-Channel: 2 of 2
+piece all/2 N-Channel (Dual): 135 of 135
+piece all/2 N-Channel (Dual) Asymmetrical: 15 of 15
+piece all/2 N-Channel (Dual) Common Drain: 8 of 8
+piece all/2 N-Channel (Dual) Common Source: 4 of 4
+piece all/2 N-Channel (Half Bridge): 18 of 18
+piece all/2 P-Channel (Dual): 20 of 20
+piece all/2 P-Channel (Dual) Common Drain: 1 of 1
+piece all/2 P-Channel (Half Bridge): 2 of 2
+piece all/4 N-Channel: 3 of 3
+piece all/4 N-Channel (Full Bridge): 11 of 11
+piece all/4 N-Channel (Half Bridge): 2 of 2
+piece all/4 N-Channel (Solar Inverter): 1 of 1
+piece all/4 P-Channel (Full Bridge): 2 of 2
+piece all/6 N-Channel: 1 of 1
+piece all/6 N-Channel (3-Phase Bridge): 7 of 7
+piece all/6 N-Channel (Full Bridge): 2 of 2
+piece all/6 N-Channel (Three Phase Inverter): 1 of 1
+piece all/-: 6 of 6
+piece all/N and P-Channel: 27 of 27
+piece all/N and P-Channel Complementary: 1 of 1
+piece all: 371 of 371 (both ends)
+top.js: 289/488: 371 parts, 31 calls, 56 left today

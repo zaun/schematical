@@ -1,0 +1,8 @@
+piece all/-: 1 of 1
+piece all/NPN: 245 of 245
+piece all/NPN - Avalanche Mode: 3 of 3
+piece all/NPN - Darlington: 21 of 21
+piece all/PNP: 240 of 240
+piece all/PNP - Darlington: 4 of 4
+piece all: 522 of 522 (both ends)
+top.js: 276/31: 522 parts, 25 calls, 129 left today
