@@ -262,7 +262,7 @@ nothing else moved, every test green.
   golden-check `ok: 370 parts.txt line(s) changed, only by :low`; `check --kind
   sram` → `ok: 37 pinouts` (also eeprom 27, cpu 8, converter 858: ok);
   ctest `100% tests passed, 0 tests failed out of 34`.
-Commit: —
+Commit: ebe9fcd
 
 ## Validation Plan
 
