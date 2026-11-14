@@ -137,8 +137,8 @@ side (overlap, § 2); coupling only by cost (a cost cannot hold a gap to
 
 ### Phase 1 — pair geometry
 
-- [ ] `Routing/PairGeometry.swift`: end pairing, `offset(polyline, by:)` with mitre joins (and the chamfered-corner case), `stagger(D:c:s:)`, via pair placement, `uncoupledLength(P:N:gap:)`.
-- [ ] Tests (`PairGeometryTests`): the offset of a straight, an L and a chamfered L stays `s` from the centreline everywhere (sampled every 0.01 mm to 1e-6); pairing picks the smaller sum; the stagger at the Custom defaults is 0.392 mm (±0.001); two vias of the pair clear each other by ≥ `c`; `uncoupledLength` of two parallel traces at `g` is 0 and of a trace that diverges 3 mm is the hand-computed value.
+- [x] `Routing/PairGeometry.swift`: end pairing, `offset(polyline, by:)` with mitre joins (and the chamfered-corner case), `stagger(D:c:s:)`, via pair placement, `uncoupledLength(P:N:gap:)`. (The code landed with plan-38-I Phase 3, a6d46d84, which shares files with it.)
+- [x] Tests (`PairGeometryTests`): the offset of a straight, an L and a chamfered L stays `s` from the centreline everywhere (sampled every 0.01 mm to 1e-6); pairing picks the smaller sum; the stagger at the Custom defaults is 0.392 mm (±0.001); two vias of the pair clear each other by ≥ `c`; `uncoupledLength` of two parallel traces at `g` is 0 and of a trace that diverges 3 mm is the hand-computed value. (Offset criterion strengthened to what holds, see Corrections; the divergence's hand value is 3 − √((s + 0.02)² − s²) + 3 − 0.02 = 5.844 mm, measured 5.84.) — `-only-testing:PairGeometryTests` → 4 tests, 0 failures, `** TEST SUCCEEDED **`.
 
 Acceptance: cases pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd test -only-testing:schematicalTests/PairGeometryTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 1–2 min).
@@ -187,7 +187,16 @@ See plan-38-A § Decisions (owner: coupled differential-pair routing, 2026-11-13
 
 ## Corrections
 
-(Filled in during execution.)
+- **"The offset stays `s` from the centreline everywhere" can't hold at an
+  outer corner.** A mitre's corner point stands `s / cos(θ/2)` from the
+  centreline's corner (√2 · s at 90°, 1.082 · s at 45°), so samples there are
+  farther than `s`; a round join would stay at `s` but isn't octilinear. What
+  the pair needs, and what is tested: never closer than `s` anywhere (so the
+  gap never shrinks below `gap`), exactly `s` at every straight part's
+  middle, and the 90° mitre exactly √2 · s out.
+- The 4th check's "hand-computed value" for a 3 mm divergence counts the
+  tolerance band: P stays coupled to N's corner for √((s + 0.02)² − s²) =
+  0.136 mm, N's rise for 0.02 mm, so 5.844 mm, not 6.
 
 ## Summary
 

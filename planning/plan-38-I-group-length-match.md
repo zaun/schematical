@@ -168,7 +168,7 @@ Commit: a6d46d84
 
 Acceptance: AFU group consistent as stated; build succeeds.
   Check: `-only-testing:schematicalTests/RouterFixtureTests -only-testing:schematicalTests/NetLengthTests` → `** TEST SUCCEEDED **` (est. 4 min).
-Commit: —
+Commit: 04d191fd
 
 ## Validation Plan
 
