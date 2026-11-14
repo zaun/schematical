@@ -99,19 +99,20 @@ One commit per phase: the edited part file(s), `planning/plan-39-data/ledger.tsv
 Acceptance: every pinout of the phase has a ledger row, the ledger matches the files, and the golden moved only by flags.
   Check: `node scripts/pin-polarity.js check --kind counter --devices 1-57 --complete && node scripts/pin-polarity.js check --kind decoder --devices 1-32 --complete && node scripts/pin-polarity.js golden-check && ctest --test-dir /tmp/logic-p39 -R '^(library_check|listing_check|trace_check)$'` → every `check` exits 0, `golden-check` exits 0, 3 of 3 tests passed (est. 90 min of reading for 104 pinouts, then 6 min for the checks: the loader and `listing_check` load every part file the phase edited, which no smaller check does).
   Observed 2026-11-14: counter `ok: 67 pinouts, 67 ledger rows checked`; decoder `ok: 37 pinouts, 37 ledger rows checked`; golden-check (phase staged) `ok: 853 parts.txt line(s) changed, only by :low`; ctest on the full E tree `100% tests passed, 0 tests failed out of 3`.
-Commit: —
+Commit: 500cb44a
 
 ### Phase 2 — E2: latch 1–28 + register 1–26 + shift 1–36 (106 pinouts)
 
 One commit per phase: the edited part file(s), `planning/plan-39-data/ledger.tsv` and `backend/tests/golden/parts.txt`.
 
-- [ ] Review latch devices 1–28 (4042B … TPIC6B259): 32 pinouts, § 3 procedure; edits `schematical/schematical/Parts/latch.json`.
-- [ ] Review register devices 1–26 (40174B … 74_874): 28 pinouts, § 3 procedure; edits `schematical/schematical/Parts/register.json`.
-- [ ] Review shift devices 1–36 (40105B … TPIC6C596): 46 pinouts, § 3 procedure; edits `schematical/schematical/Parts/shift.json`.
-- [ ] Rebuild and regenerate the golden: `cmake -S backend -B /tmp/logic-p39 && cmake --build /tmp/logic-p39 -j8 && /tmp/logic-p39/listing_check --print > backend/tests/golden/parts.txt`.
+- [x] Review latch devices 1–28 (4042B … TPIC6B259): 32 pinouts, § 3 procedure; edits `schematical/schematical/Parts/latch.json`. — done: 32 rows
+- [x] Review register devices 1–26 (40174B … 74_874): 28 pinouts, § 3 procedure; edits `schematical/schematical/Parts/register.json`. — done: 28 rows
+- [x] Review shift devices 1–36 (40105B … TPIC6C596): 46 pinouts, § 3 procedure; edits `schematical/schematical/Parts/shift.json`. — done: 46 rows (2 reviewers)
+- [x] Rebuild and regenerate the golden: `cmake -S backend -B /tmp/logic-p39 && cmake --build /tmp/logic-p39 -j8 && /tmp/logic-p39/listing_check --print > backend/tests/golden/parts.txt`. — done: staged from the full E regeneration (Corrections 2)
 
 Acceptance: every pinout of the phase has a ledger row, the ledger matches the files, and the golden moved only by flags.
   Check: `node scripts/pin-polarity.js check --kind latch --devices 1-28 --complete && node scripts/pin-polarity.js check --kind register --devices 1-26 --complete && node scripts/pin-polarity.js check --kind shift --devices 1-36 --complete && node scripts/pin-polarity.js golden-check && ctest --test-dir /tmp/logic-p39 -R '^(library_check|listing_check|trace_check)$'` → every `check` exits 0, `golden-check` exits 0, 3 of 3 tests passed (est. 90 min of reading for 106 pinouts, then 6 min for the checks: the loader and `listing_check` load every part file the phase edited, which no smaller check does).
+  Observed 2026-11-14: latch `ok: 32 pinouts`, register `ok: 28 pinouts`, shift `ok: 46 pinouts` (each with as many ledger rows); golden-check (phase staged) `ok: 1446 parts.txt line(s) changed, only by :low`; ctest on the full E tree `100% tests passed, 0 tests failed out of 3`.
 Commit: —
 
 ### Phase 3 — E3: arith 1–16 + dff 1–22 + jkff 1–6 + mux 1–20 + cpu 1–4 + pio 1–4 + rtc 1–7 (102 pinouts)
