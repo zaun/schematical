@@ -1153,7 +1153,7 @@
     },
     {
       "id": "atmega1280",
-      "function": "ATmega1280",
+      "function": "ATmega128",
       "description": "8-bit AVR microcontroller, 128 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega1280.atdf; pinouts: quad100 atdf:ATmega1280.atdf:TQFP",
@@ -1277,7 +1277,7 @@
     },
     {
       "id": "atmega1281",
-      "function": "ATmega1281",
+      "function": "ATmega128",
       "description": "8-bit AVR microcontroller, 128 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega1281.atdf; pinouts: quad64 atdf:ATmega1281.atdf:TQFP64",
@@ -1366,7 +1366,7 @@
     },
     {
       "id": "atmega1284",
-      "function": "ATmega1284",
+      "function": "ATmega128",
       "description": "8-bit AVR microcontroller, 128 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega1284.atdf; pinouts: quad44 atdf:ATmega1284.atdf:TQFP_QFN_44; p40 atdf:ATmega1284.atdf:PDIP40",
@@ -1477,7 +1477,7 @@
     },
     {
       "id": "atmega1284p",
-      "function": "ATmega1284P",
+      "function": "ATmega128",
       "description": "8-bit AVR microcontroller, 128 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega1284P.atdf; pinouts: quad44 atdf:ATmega1284P.atdf:TQFP_QFN_44; p40 atdf:ATmega1284P.atdf:PDIP40",
@@ -1587,7 +1587,7 @@
     },
     {
       "id": "atmega128a",
-      "function": "ATmega128A",
+      "function": "ATmega128",
       "description": "8-bit AVR microcontroller, 128 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega128A.atdf; pinouts: quad64 atdf:ATmega128A.atdf:TQFPQFN64",
@@ -1950,7 +1950,7 @@
     },
     {
       "id": "atmega162",
-      "function": "ATmega162",
+      "function": "ATmega16",
       "description": "8-bit AVR microcontroller, 16 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega162.atdf; pinouts: quad44 transcribed:Atmel-2513-8-bit-AVR-Microntroller-ATmega162_Datasheet-Summary.pdf:p2:auto:p2; p40 transcribed:Atmel-2513-8-bit-AVR-Microntroller-ATmega162_Datasheet.pdf:p2:auto:p2",
@@ -2061,7 +2061,7 @@
     },
     {
       "id": "atmega164a",
-      "function": "ATmega164A",
+      "function": "ATmega16",
       "description": "8-bit AVR microcontroller, 16 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega164A.atdf; pinouts: quad44 atdf:ATmega164A.atdf:TQFP_QFN_44; bga49 atdf:ATmega164A.atdf:VFBGA49; drqfn44 atdf:ATmega164A.atdf:DRQFN_44",
@@ -2227,7 +2227,7 @@
     },
     {
       "id": "atmega164p",
-      "function": "ATmega164P",
+      "function": "ATmega16",
       "description": "8-bit AVR microcontroller, 16 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega164P.atdf; pinouts: quad44 atdf:ATmega164P.atdf:TQFP_VQFN_44",
@@ -2295,7 +2295,7 @@
     },
     {
       "id": "atmega164pa",
-      "function": "ATmega164PA",
+      "function": "ATmega16",
       "description": "8-bit AVR microcontroller, 16 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega164PA.atdf; pinouts: quad44 atdf:ATmega164PA.atdf:TQFP_QFN_44; bga49 atdf:ATmega164PA.atdf:VFBGA49; drqfn44 atdf:ATmega164PA.atdf:DRQFN_44",
@@ -2462,7 +2462,7 @@
     },
     {
       "id": "atmega165a",
-      "function": "ATmega165A",
+      "function": "ATmega16",
       "description": "8-bit AVR microcontroller, 16 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega165A.atdf; pinouts: quad64 transcribed:Atmel-8285-8-bit-AVR-Microcontroller-ATmega165A_PA_325A_PA_3250A_PA_645A_P_6450A_P_datasheet_Summary.pdf:p3:auto:p3",
@@ -2548,7 +2548,7 @@
     },
     {
       "id": "atmega165p",
-      "function": "ATmega165P",
+      "function": "ATmega16",
       "description": "8-bit AVR microcontroller, 16 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega165P.atdf; pinouts: quad64 transcribed:8019S.pdf:p2:auto:p2",
@@ -2634,7 +2634,7 @@
     },
     {
       "id": "atmega165pa",
-      "function": "ATmega165PA",
+      "function": "ATmega16",
       "description": "8-bit AVR microcontroller, 16 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega165PA.atdf; pinouts: quad64 transcribed:Atmel-8285-8-bit-AVR-Microcontroller-ATmega165A_PA_325A_PA_3250A_PA_645A_P_6450A_P_datasheet_Summary.pdf:p3:auto:p3",
@@ -2721,7 +2721,7 @@
     },
     {
       "id": "atmega168",
-      "function": "ATmega168",
+      "function": "ATmega16",
       "description": "8-bit AVR microcontroller, 16 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega168.atdf; pinouts: quad32 atdf:ATmega168.atdf:TQFP32; p28 atdf:ATmega168.atdf:PDIP28",
@@ -2812,7 +2812,7 @@
     },
     {
       "id": "atmega168a",
-      "function": "ATmega168A",
+      "function": "ATmega16",
       "description": "8-bit AVR microcontroller, 16 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega168A.atdf; pinouts: quad32 atdf:ATmega168A.atdf:TQFP32; quad28 atdf:ATmega168A.atdf:QFN28; p28 atdf:ATmega168A.atdf:PDIP28",
@@ -2930,7 +2930,7 @@
     },
     {
       "id": "atmega168p",
-      "function": "ATmega168P",
+      "function": "ATmega16",
       "description": "8-bit AVR microcontroller, 16 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega168P.atdf; pinouts: quad32 atdf:ATmega168P.atdf:TQFP32",
@@ -2988,7 +2988,7 @@
     },
     {
       "id": "atmega168pa",
-      "function": "ATmega168PA",
+      "function": "ATmega16",
       "description": "8-bit AVR microcontroller, 16 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega168PA.atdf; pinouts: quad32 atdf:ATmega168PA.atdf:TQFP32; quad28 atdf:ATmega168PA.atdf:QFN28; p28 atdf:ATmega168PA.atdf:PDIP28",
@@ -3109,7 +3109,7 @@
     },
     {
       "id": "atmega168pb",
-      "function": "ATmega168PB",
+      "function": "ATmega16",
       "description": "8-bit AVR microcontroller, 16 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega168PB.atdf; pinouts: quad32 atdf:ATmega168PB.atdf:TQFP32",
@@ -3166,7 +3166,7 @@
     },
     {
       "id": "atmega169a",
-      "function": "ATmega169A",
+      "function": "ATmega16",
       "description": "8-bit AVR microcontroller, 16 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega169A.atdf; pinouts: quad64 atdf:ATmega169A.atdf:TQFP64",
@@ -3252,7 +3252,7 @@
     },
     {
       "id": "atmega169p",
-      "function": "ATmega169P",
+      "function": "ATmega16",
       "description": "8-bit AVR microcontroller, 16 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega169P.atdf; pinouts: quad64 atdf:ATmega169P.atdf:TQFP64; drqfn64 atdf:ATmega169P.atdf:DRQFN64",
@@ -3407,7 +3407,7 @@
     },
     {
       "id": "atmega169pa",
-      "function": "ATmega169PA",
+      "function": "ATmega16",
       "description": "8-bit AVR microcontroller, 16 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega169PA.atdf; pinouts: quad64 atdf:ATmega169PA.atdf:TQFP64",
@@ -3494,7 +3494,7 @@
     },
     {
       "id": "atmega16a",
-      "function": "ATmega16A",
+      "function": "ATmega16",
       "description": "8-bit AVR microcontroller, 16 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega16A.atdf; pinouts: quad44 atdf:ATmega16A.atdf:TQFPQFN44; p40 atdf:ATmega16A.atdf:PDIP40",
@@ -3605,7 +3605,7 @@
     },
     {
       "id": "atmega16m1",
-      "function": "ATmega16M1",
+      "function": "ATmega16",
       "description": "8-bit AVR microcontroller, 16 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega16M1.atdf; pinouts: quad32 atdf:ATmega16M1.atdf:TQFPQFN32",
@@ -3659,7 +3659,7 @@
     },
     {
       "id": "atmega16u2",
-      "function": "ATmega16U2",
+      "function": "ATmega16",
       "description": "8-bit AVR microcontroller, 16 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega16U2.atdf; pinouts: quad32 atdf:ATmega16U2.atdf:QUAD",
@@ -3713,7 +3713,7 @@
     },
     {
       "id": "atmega16u4",
-      "function": "ATmega16U4",
+      "function": "ATmega16",
       "description": "8-bit AVR microcontroller, 16 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega16U4.atdf; pinouts: quad44 atdf:ATmega16U4.atdf:TQFP44",
@@ -3779,7 +3779,7 @@
     },
     {
       "id": "atmega2560",
-      "function": "ATmega2560",
+      "function": "ATmega256",
       "description": "8-bit AVR microcontroller, 256 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega2560.atdf; pinouts: quad100 atdf:ATmega2560.atdf:TQFP100",
@@ -3900,7 +3900,7 @@
     },
     {
       "id": "atmega2561",
-      "function": "ATmega2561",
+      "function": "ATmega256",
       "description": "8-bit AVR microcontroller, 256 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega2561.atdf; pinouts: quad64 atdf:ATmega2561.atdf:TQFP64",
@@ -4258,7 +4258,7 @@
     },
     {
       "id": "atmega324a",
-      "function": "ATmega324A",
+      "function": "ATmega32",
       "description": "8-bit AVR microcontroller, 32 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega324A.atdf; pinouts: quad44 atdf:ATmega324A.atdf:TQFP_QFN_44",
@@ -4324,7 +4324,7 @@
     },
     {
       "id": "atmega324p",
-      "function": "ATmega324P",
+      "function": "ATmega32",
       "description": "8-bit AVR microcontroller, 32 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega324P.atdf; pinouts: quad44 atdf:ATmega324P.atdf:TQFP_VQFN_44",
@@ -4393,7 +4393,7 @@
     },
     {
       "id": "atmega324pa",
-      "function": "ATmega324PA",
+      "function": "ATmega32",
       "description": "8-bit AVR microcontroller, 32 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega324PA.atdf; pinouts: quad44 atdf:ATmega324PA.atdf:QFN_QFP_44",
@@ -4462,7 +4462,7 @@
     },
     {
       "id": "atmega324pb",
-      "function": "ATmega324PB",
+      "function": "ATmega32",
       "description": "8-bit AVR microcontroller, 32 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega324PB.atdf; pinouts: quad44 atdf:ATmega324PB.atdf:TQFP44",
@@ -4533,7 +4533,7 @@
     },
     {
       "id": "atmega325",
-      "function": "ATmega325",
+      "function": "ATmega32",
       "description": "8-bit AVR microcontroller, 32 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega325.atdf; pinouts: quad64 transcribed:2570S.pdf:p3:auto:p3",
@@ -4623,7 +4623,7 @@
     },
     {
       "id": "atmega3250",
-      "function": "ATmega3250",
+      "function": "ATmega32",
       "description": "8-bit AVR microcontroller, 32 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega3250.atdf; pinouts: quad100 transcribed:2570S.pdf:p2:auto:p2",
@@ -4746,7 +4746,7 @@
     },
     {
       "id": "atmega3250p",
-      "function": "ATmega3250P",
+      "function": "ATmega32",
       "description": "8-bit AVR microcontroller, 32 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega3250P.atdf; pinouts: quad100 transcribed:doc8023.pdf:p2:auto:p2",
@@ -4867,7 +4867,7 @@
     },
     {
       "id": "atmega325a",
-      "function": "ATmega325A",
+      "function": "ATmega32",
       "description": "8-bit AVR microcontroller, 32 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega325A.atdf; pinouts: quad64 transcribed:Atmel-8285-8-bit-AVR-Microcontroller-ATmega165A_PA_325A_PA_3250A_PA_645A_P_6450A_P_datasheet_Summary.pdf:p3:auto:p3",
@@ -4953,7 +4953,7 @@
     },
     {
       "id": "atmega325pa",
-      "function": "ATmega325PA",
+      "function": "ATmega32",
       "description": "8-bit AVR microcontroller, 32 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega325PA.atdf; vcc_min from the datasheet (facts-overrides-hand.tsv); pinouts: quad64 transcribed:Atmel-8285-8-bit-AVR-Microcontroller-ATmega165A_PA_325A_PA_3250A_PA_645A_P_6450A_P_datasheet_Summary.pdf:p3:auto:p3",
@@ -5039,7 +5039,7 @@
     },
     {
       "id": "atmega328",
-      "function": "ATmega328",
+      "function": "ATmega32",
       "description": "8-bit AVR microcontroller, 32 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega328.atdf; pinouts: quad32 atdf:ATmega328.atdf:TQFP32; quad28 atdf:ATmega328.atdf:QFN28; p28 atdf:ATmega328.atdf:PDIP28",
@@ -5158,7 +5158,7 @@
     },
     {
       "id": "atmega328p",
-      "function": "ATmega328P",
+      "function": "ATmega32",
       "description": "8-bit AVR microcontroller, 32 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega328P.atdf; pinouts: quad32 atdf:ATmega328P.atdf:TQFP32; quad28 atdf:ATmega328P.atdf:QFN28; p28 atdf:ATmega328P.atdf:PDIP28",
@@ -5282,7 +5282,7 @@
     },
     {
       "id": "atmega328pb",
-      "function": "ATmega328PB",
+      "function": "ATmega32",
       "description": "8-bit AVR microcontroller, 32 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega328PB.atdf; pinouts: quad32 atdf:ATmega328PB.atdf:TQFP32",
@@ -5338,7 +5338,7 @@
     },
     {
       "id": "atmega329",
-      "function": "ATmega329",
+      "function": "ATmega32",
       "description": "8-bit AVR microcontroller, 32 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega329.atdf; pinouts: quad64 atdf:ATmega329.atdf:TQFP64",
@@ -5425,7 +5425,7 @@
     },
     {
       "id": "atmega3290",
-      "function": "ATmega3290",
+      "function": "ATmega32",
       "description": "8-bit AVR microcontroller, 32 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega3290.atdf; pinouts: quad100 transcribed:2552S.pdf:p2:auto:p2",
@@ -5548,7 +5548,7 @@
     },
     {
       "id": "atmega3290a",
-      "function": "ATmega3290A",
+      "function": "ATmega32",
       "description": "8-bit AVR microcontroller, 32 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega3290A.atdf; pinouts: quad100 transcribed:Atmel-8284-8-bit-AVR-microcontroller-ATmega169A_PA_329A_PA_3290A_PA_649A_P_6490A_P_summary.pdf:p4:auto:p4",
@@ -5669,7 +5669,7 @@
     },
     {
       "id": "atmega3290p",
-      "function": "ATmega3290P",
+      "function": "ATmega32",
       "description": "8-bit AVR microcontroller, 32 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega3290P.atdf; pinouts: quad100 transcribed:Atmel-8021-AVR-ATmega329P-3290P_Summary.pdf:p3:auto:p3",
@@ -5790,7 +5790,7 @@
     },
     {
       "id": "atmega3290pa",
-      "function": "ATmega3290PA",
+      "function": "ATmega32",
       "description": "8-bit AVR microcontroller, 32 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega3290PA.atdf; vcc_min from the datasheet (facts-overrides-hand.tsv); pinouts: quad100 transcribed:Atmel-8284-8-bit-AVR-microcontroller-ATmega169A_PA_329A_PA_3290A_PA_649A_P_6490A_P_summary.pdf:p4:auto:p4",
@@ -5911,7 +5911,7 @@
     },
     {
       "id": "atmega329a",
-      "function": "ATmega329A",
+      "function": "ATmega32",
       "description": "8-bit AVR microcontroller, 32 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega329A.atdf; pinouts: quad64 atdf:ATmega329A.atdf:TQFP64",
@@ -5996,7 +5996,7 @@
     },
     {
       "id": "atmega329p",
-      "function": "ATmega329P",
+      "function": "ATmega32",
       "description": "8-bit AVR microcontroller, 32 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega329P.atdf; pinouts: quad64 atdf:ATmega329P.atdf:TQFP64",
@@ -6083,7 +6083,7 @@
     },
     {
       "id": "atmega329pa",
-      "function": "ATmega329PA",
+      "function": "ATmega32",
       "description": "8-bit AVR microcontroller, 32 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega329PA.atdf; pinouts: quad64 atdf:ATmega329PA.atdf:TQFP64",
@@ -6170,7 +6170,7 @@
     },
     {
       "id": "atmega32a",
-      "function": "ATmega32A",
+      "function": "ATmega32",
       "description": "8-bit AVR microcontroller, 32 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega32A.atdf; pinouts: quad44 atdf:ATmega32A.atdf:TQFPQFN44; p40 atdf:ATmega32A.atdf:PDIP40",
@@ -6281,7 +6281,7 @@
     },
     {
       "id": "atmega32m1",
-      "function": "ATmega32M1",
+      "function": "ATmega32",
       "description": "8-bit AVR microcontroller, 32 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega32M1.atdf; pinouts: quad32 atdf:ATmega32M1.atdf:TQFPQFN32",
@@ -6334,7 +6334,7 @@
     },
     {
       "id": "atmega32u2",
-      "function": "ATmega32U2",
+      "function": "ATmega32",
       "description": "8-bit AVR microcontroller, 32 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega32U2.atdf; pinouts: quad32 atdf:ATmega32U2.atdf:QUAD",
@@ -6388,7 +6388,7 @@
     },
     {
       "id": "atmega32u4",
-      "function": "ATmega32U4",
+      "function": "ATmega32",
       "description": "8-bit AVR microcontroller, 32 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega32U4.atdf; pinouts: quad44 atdf:ATmega32U4.atdf:TQFP44",
@@ -6826,7 +6826,7 @@
     },
     {
       "id": "atmega48a",
-      "function": "ATmega48A",
+      "function": "ATmega48",
       "description": "8-bit AVR microcontroller, 4 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega48A.atdf; pinouts: quad32 atdf:ATmega48A.atdf:TQFP32; quad28 atdf:ATmega48A.atdf:QFN28",
@@ -6913,7 +6913,7 @@
     },
     {
       "id": "atmega48p",
-      "function": "ATmega48P",
+      "function": "ATmega48",
       "description": "8-bit AVR microcontroller, 4 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega48P.atdf; pinouts: quad32 atdf:ATmega48P.atdf:TQFP32",
@@ -6972,7 +6972,7 @@
     },
     {
       "id": "atmega48pa",
-      "function": "ATmega48PA",
+      "function": "ATmega48",
       "description": "8-bit AVR microcontroller, 4 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega48PA.atdf; pinouts: quad32 atdf:ATmega48PA.atdf:TQFP32; quad28 atdf:ATmega48PA.atdf:QFN28; p28 atdf:ATmega48PA.atdf:PDIP28",
@@ -7092,7 +7092,7 @@
     },
     {
       "id": "atmega48pb",
-      "function": "ATmega48PB",
+      "function": "ATmega48",
       "description": "8-bit AVR microcontroller, 4 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega48PB.atdf; pinouts: quad32 atdf:ATmega48PB.atdf:TQFP32",
@@ -7239,7 +7239,7 @@
     },
     {
       "id": "atmega640",
-      "function": "ATmega640",
+      "function": "ATmega64",
       "description": "8-bit AVR microcontroller, 64 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega640.atdf; pinouts: quad100 atdf:ATmega640.atdf:TQFP",
@@ -7362,7 +7362,7 @@
     },
     {
       "id": "atmega644",
-      "function": "ATmega644",
+      "function": "ATmega64",
       "description": "8-bit AVR microcontroller, 64 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega644.atdf; pinouts: quad44 atdf:ATmega644.atdf:TQFP_QFN_44; p40 atdf:ATmega644.atdf:PDIP40",
@@ -7471,7 +7471,7 @@
     },
     {
       "id": "atmega644a",
-      "function": "ATmega644A",
+      "function": "ATmega64",
       "description": "8-bit AVR microcontroller, 64 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega644A.atdf; pinouts: quad44 atdf:ATmega644A.atdf:TQFP_QFN_44; p40 atdf:ATmega644A.atdf:PDIP40",
@@ -7582,7 +7582,7 @@
     },
     {
       "id": "atmega644p",
-      "function": "ATmega644P",
+      "function": "ATmega64",
       "description": "8-bit AVR microcontroller, 64 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega644P.atdf; pinouts: quad44 atdf:ATmega644P.atdf:TQFP_VQFN_44; p40 atdf:ATmega644P.atdf:PDIP40",
@@ -7694,7 +7694,7 @@
     },
     {
       "id": "atmega644pa",
-      "function": "ATmega644PA",
+      "function": "ATmega64",
       "description": "8-bit AVR microcontroller, 64 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega644PA.atdf; pinouts: quad44 atdf:ATmega644PA.atdf:TQFP_QFN_44; p40 atdf:ATmega644PA.atdf:PDIP40",
@@ -7806,7 +7806,7 @@
     },
     {
       "id": "atmega645",
-      "function": "ATmega645",
+      "function": "ATmega64",
       "description": "8-bit AVR microcontroller, 64 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega645.atdf; pinouts: quad64 transcribed:doc2570.pdf:p3:auto:p3",
@@ -7893,7 +7893,7 @@
     },
     {
       "id": "atmega6450",
-      "function": "ATmega6450",
+      "function": "ATmega64",
       "description": "8-bit AVR microcontroller, 64 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega6450.atdf; pinouts: quad100 transcribed:doc2570.pdf:p2:auto:p2",
@@ -8015,7 +8015,7 @@
     },
     {
       "id": "atmega6450a",
-      "function": "ATmega6450A",
+      "function": "ATmega64",
       "description": "8-bit AVR microcontroller, 64 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega6450A.atdf; pinouts: quad100 transcribed:Atmel-8285-8-bit-AVR-Microcontroller-ATmega165A_PA_325A_PA_3250A_PA_645A_P_6450A_P_datasheet_Summary.pdf:p4:auto:p4",
@@ -8137,7 +8137,7 @@
     },
     {
       "id": "atmega645p",
-      "function": "ATmega645P",
+      "function": "ATmega64",
       "description": "8-bit AVR microcontroller, 64 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega645P.atdf; pinouts: quad64 transcribed:Atmel-8285-8-bit-AVR-Microcontroller-ATmega165A_PA_325A_PA_3250A_PA_645A_P_6450A_P_datasheet_Summary.pdf:p3:auto:p3",
@@ -8222,7 +8222,7 @@
     },
     {
       "id": "atmega649",
-      "function": "ATmega649",
+      "function": "ATmega64",
       "description": "8-bit AVR microcontroller, 64 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega649.atdf; pinouts: quad64 atdf:ATmega649.atdf:TQFP64",
@@ -8310,7 +8310,7 @@
     },
     {
       "id": "atmega6490",
-      "function": "ATmega6490",
+      "function": "ATmega64",
       "description": "8-bit AVR microcontroller, 64 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega6490.atdf; pinouts: quad100 transcribed:2552S.pdf:p2:auto:p2",
@@ -8433,7 +8433,7 @@
     },
     {
       "id": "atmega6490a",
-      "function": "ATmega6490A",
+      "function": "ATmega64",
       "description": "8-bit AVR microcontroller, 64 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega6490A.atdf; pinouts: quad100 transcribed:Atmel-8284-8-bit-AVR-microcontroller-ATmega169A_PA_329A_PA_3290A_PA_649A_P_6490A_P_summary.pdf:p4:auto:p4",
@@ -8554,7 +8554,7 @@
     },
     {
       "id": "atmega6490p",
-      "function": "ATmega6490P",
+      "function": "ATmega64",
       "description": "8-bit AVR microcontroller, 64 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega6490P.atdf; pinouts: quad100 transcribed:Atmel-8284-8-bit-AVR-microcontroller-ATmega169A_PA_329A_PA_3290A_PA_649A_P_6490A_P_summary.pdf:p4:auto:p4",
@@ -8675,7 +8675,7 @@
     },
     {
       "id": "atmega649a",
-      "function": "ATmega649A",
+      "function": "ATmega64",
       "description": "8-bit AVR microcontroller, 64 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega649A.atdf; pinouts: quad64 atdf:ATmega649A.atdf:TQFP64",
@@ -8763,7 +8763,7 @@
     },
     {
       "id": "atmega649p",
-      "function": "ATmega649P",
+      "function": "ATmega64",
       "description": "8-bit AVR microcontroller, 64 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega649P.atdf; pinouts: quad64 atdf:ATmega649P.atdf:TQFP64",
@@ -8849,7 +8849,7 @@
     },
     {
       "id": "atmega64a",
-      "function": "ATmega64A",
+      "function": "ATmega64",
       "description": "8-bit AVR microcontroller, 64 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega64A.atdf; pinouts: quad64 atdf:ATmega64A.atdf:TQFPQFN64",
@@ -8938,7 +8938,7 @@
     },
     {
       "id": "atmega64m1",
-      "function": "ATmega64M1",
+      "function": "ATmega64",
       "description": "8-bit AVR microcontroller, 64 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega64M1.atdf; pinouts: quad32 atdf:ATmega64M1.atdf:TQFPQFN32",
@@ -9249,7 +9249,7 @@
     },
     {
       "id": "atmega8515",
-      "function": "ATmega8515",
+      "function": "ATmega8",
       "description": "8-bit AVR microcontroller, 8 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega8515.atdf; pinouts: quad44 transcribed:doc2512.pdf:p2:auto:p2; plcc44 transcribed:doc2512.pdf:p2:auto:p2; p40 transcribed:doc2512.pdf:p2:auto:p2",
@@ -9407,7 +9407,7 @@
     },
     {
       "id": "atmega8535",
-      "function": "ATmega8535",
+      "function": "ATmega8",
       "description": "8-bit AVR microcontroller, 8 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega8535.atdf; pinouts: p40 transcribed:doc2502.pdf:p2:hand: Figure 1 Pinout ATmega8535, PDIP; quad44 transcribed:2502S.pdf:p2:auto:p2",
@@ -9516,7 +9516,7 @@
     },
     {
       "id": "atmega88",
-      "function": "ATmega88",
+      "function": "ATmega8",
       "description": "8-bit AVR microcontroller, 8 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega88.atdf; pinouts: quad32 atdf:ATmega88.atdf:TQFP32; p28 atdf:ATmega88.atdf:PDIP28",
@@ -9604,7 +9604,7 @@
     },
     {
       "id": "atmega88a",
-      "function": "ATmega88A",
+      "function": "ATmega8",
       "description": "8-bit AVR microcontroller, 8 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega88A.atdf; pinouts: quad32 atdf:ATmega88A.atdf:TQFP32; quad28 atdf:ATmega88A.atdf:QFN28; p28 atdf:ATmega88A.atdf:PDIP28",
@@ -9723,7 +9723,7 @@
     },
     {
       "id": "atmega88p",
-      "function": "ATmega88P",
+      "function": "ATmega8",
       "description": "8-bit AVR microcontroller, 8 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega88P.atdf; pinouts: quad32 atdf:ATmega88P.atdf:TQFP32",
@@ -9778,7 +9778,7 @@
     },
     {
       "id": "atmega88pa",
-      "function": "ATmega88PA",
+      "function": "ATmega8",
       "description": "8-bit AVR microcontroller, 8 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega88PA.atdf; pinouts: quad32 atdf:ATmega88PA.atdf:TQFP32; quad28 atdf:ATmega88PA.atdf:QFN28; p28 atdf:ATmega88PA.atdf:PDIP28",
@@ -9901,7 +9901,7 @@
     },
     {
       "id": "atmega88pb",
-      "function": "ATmega88PB",
+      "function": "ATmega8",
       "description": "8-bit AVR microcontroller, 8 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega88PB.atdf; pinouts: quad32 atdf:ATmega88PB.atdf:TQFP32",
@@ -9959,7 +9959,7 @@
     },
     {
       "id": "atmega8a",
-      "function": "ATmega8A",
+      "function": "ATmega8",
       "description": "8-bit AVR microcontroller, 8 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega8A.atdf; pinouts: quad32 atdf:ATmega8A.atdf:TQFPQFN32; p28 atdf:ATmega8A.atdf:PDIP28",
@@ -10049,7 +10049,7 @@
     },
     {
       "id": "atmega8u2",
-      "function": "ATmega8U2",
+      "function": "ATmega8",
       "description": "8-bit AVR microcontroller, 8 KB flash",
       "drawer": ["Microcontroller", "AVR ATmega"],
       "note": "facts: atdf:ATmega8U2.atdf; pinouts: quad32 atdf:ATmega8U2.atdf:QUAD",
