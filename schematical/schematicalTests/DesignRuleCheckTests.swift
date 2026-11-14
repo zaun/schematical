@@ -47,6 +47,31 @@ final class DesignRuleCheckTests: XCTestCase {
                                                    CGPoint(x: to.x, y: from.y + 6), to], layer: layer))
     }
 
+    // MARK: Differential pairs (plan-38-J)
+
+    func testAPairRunningApartIsOneLine() throws {
+        let (doc, one, _, k, a) = try wiredPair()
+        try route(doc, k, a)
+        let three = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 700))
+        let four = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 400, y: 800))
+        doc.moveFootprint(three.id, to: CGPoint(x: 30, y: 65))
+        doc.moveFootprint(four.id, to: CGPoint(x: 60, y: 65))
+        let k2 = try TestSupport.pin(three, "K"), a2 = try TestSupport.pin(four, "A")
+        XCTAssertNil(doc.connect(.pin(k2), .pin(a2)))
+        try route(doc, k2, a2)
+        let pair = doc.addNetGroup(named: "CLK", mode: .diffPair)
+        XCTAssertTrue(doc.assignNet(.pin(chip: one.id, designator: one.part.pins[k.index].designator), toGroup: pair))
+        XCTAssertTrue(doc.assignNet(.pin(chip: three.id, designator: three.part.pins[k2.index].designator), toGroup: pair))
+        doc.setNetGroupMaxUncoupled(pair, 5)
+        let lines = doc.designRuleCheck(rules: rules).filter { $0.kind == .diffPair }
+        XCTAssertEqual(lines.count, 1, "\(lines)")
+        XCTAssertTrue(lines.first?.issue.hasPrefix("Pair CLK: ") == true, lines.first?.issue ?? "")
+        XCTAssertTrue(lines.first?.issue.hasSuffix("runs apart (max 5 mm)") == true, lines.first?.issue ?? "")
+        // With one of its nets out, it is no pair to check.
+        doc.unassignNet(.pin(chip: three.id, designator: three.part.pins[k2.index].designator))
+        XCTAssertEqual(doc.designRuleCheck(rules: rules).filter { $0.kind == .diffPair }, [])
+    }
+
     // MARK: Layer rules (plan-38-B)
 
     /// The pair, its net held to Top.

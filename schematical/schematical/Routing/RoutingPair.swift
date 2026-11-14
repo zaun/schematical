@@ -17,8 +17,12 @@ nonisolated struct PairRoute: Sendable {
 /// ±(width + gap)/2, given a staggered via pair at each layer change and a
 /// breakout leg to each pad, and checked whole against the design rules.
 nonisolated enum RoutingPair {
-    static func route(_ group: RoutingGroup, problem: RoutingProblem,
+    static func route(_ group: RoutingGroup, problem original: RoutingProblem, extra: [RoutingObstacle] = [],
                       isCancelled: () -> Bool = { false }) -> Result<PairRoute, PairFailure> {
+        // `extra`: copper already routed this run, which the pair must keep
+        // clear of like any other.
+        var problem = original
+        problem.obstacles += extra
         guard group.nets.count == 2,
               let pNet = problem.nets.first(where: { $0.id == group.nets[0] }),
               let nNet = problem.nets.first(where: { $0.id == group.nets[1] }) else { return .failure(.notTwoNets) }

@@ -152,13 +152,13 @@ Commit: b0a33fcd
 
 Acceptance: cases pass.
   Check: `-only-testing:schematicalTests/RoutingPairTests -only-testing:schematicalTests/RoutingSearchTests` → `** TEST SUCCEEDED **` (est. 3 min).
-Commit: —
+Commit: 18e96d72
 
 ### Phase 3 — integration, fallback, skew, DRC
 
-- [ ] `Router.swift`: pairs first in the queue, as one entry; fallback to ordinary routing; skew tuning via plan-38-I with the outer-side rule; `GroupOutcome.status` gains `.uncoupled(reason)` and `.coupled(uncoupled: mm)`.
-- [ ] `DesignRuleCheck.swift`: `Kind.diffPair` and `checkDiffPairs()` (§ 3).
-- [ ] Tests: `RoutingPairTests` — a pair's skew after tuning ≤ tolerance; the shorter trace's bumps are on the outer side; a pair ripped as a victim re-routes first; pair + 10 ordinary nets on an open board all complete and DRC-clean. `DesignRuleCheckTests` — a hand-drawn pair whose traces diverge 8 mm with `maxUncoupled` 5 gives one `.diffPair` line; a coupled pair gives none.
+- [x] `Router.swift`: pairs first in the queue, as one entry; fallback to ordinary routing; skew tuning via plan-38-I with the outer-side rule; `GroupOutcome.status` gains `.uncoupled(reason)` and `.coupled(uncoupled: mm)`. (`Run.routePairs` before everything, clear of the ledger's copper; a victim that is a pair net rips its partner too, and the pair is routed again, coupled, at the start of the next round, its nets kept out of the ordinary queue meanwhile; a pair that can't be coupled is `uncouple`d and its nets route as ordinary nets. Skew: `RoutingTuning.tune(..., pairs:)` bumps the shorter net only on the side whose normal points away from the partner.)
+- [x] `DesignRuleCheck.swift`: `Kind.diffPair` and `checkDiffPairs()` (§ 3).
+- [x] Tests: `RoutingPairTests` — a pair's skew after tuning ≤ tolerance; the shorter trace's bumps are on the outer side; a pair ripped as a victim re-routes first; pair + 10 ordinary nets on an open board all complete and DRC-clean. `DesignRuleCheckTests` — a hand-drawn pair whose traces diverge 8 mm with `maxUncoupled` 5 gives one `.diffPair` line; a coupled pair gives none. (The pair-ripping board walls net 3 to Top across the pair's way, so it must rip the pair, which comes back coupled across it on Bottom with 4 vias. The DRC's "none" case is a pair with one net taken out; that coupled copper reads 0 runs-apart is `PairGeometryTests`'.) — `-only-testing:RoutingPairTests -only-testing:DesignRuleCheckTests` → 24 tests, 0 failures; with every engine suite and the goldens (14 classes) → `** TEST SUCCEEDED **`.
 
 Acceptance: cases pass; the 11 DRC tests and goldens unchanged.
   Check: `-only-testing:schematicalTests/RoutingPairTests -only-testing:schematicalTests/DesignRuleCheckTests -only-testing:schematicalTests/DesignRuleGoldenTests` → `** TEST SUCCEEDED **` (est. 3 min).

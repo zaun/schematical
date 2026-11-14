@@ -49,7 +49,8 @@ nonisolated enum RoutingTuning {
     /// Tunes every length-match group of `problem` in `traces`; returns each
     /// group's outcome.
     static func tune(_ problem: RoutingProblem, traces: inout [RoutedTrace], vias: [RoutedVia],
-                     outcomes: [NetOutcome]) -> [GroupOutcome] {
+                     outcomes: [NetOutcome], pairs: [UUID: GroupOutcome.Status] = [:], tuneLengths: Bool = true,
+                     tuneSkew: Bool = true) -> [GroupOutcome] {
         var cleanup = RoutingCleanup(problem: problem, traces: traces, vias: vias,
                                      traceEntry: Array(traces.indices), viaEntry: Array(vias.indices))
         let nets = Dictionary(uniqueKeysWithValues: problem.nets.map { ($0.id, $0) })
@@ -75,7 +76,7 @@ nonisolated enum RoutingTuning {
             var lengths = measured()
             let target = lengths.values.max() ?? 0
             var reason: String?
-            for net in members.sorted() where target - (lengths[net] ?? 0) > group.tolerance {
+            for net in members.sorted() where tuneLengths && target - (lengths[net] ?? 0) > group.tolerance {
                 let deficit = target - (lengths[net] ?? 0) - group.tolerance / 2
                 let added = tune(net, by: deficit, group: group, cleanup: &cleanup, problem: problem)
                 if added <= 0, !cleanup.traces.contains(where: { $0.net == net }) { reason = noRoutedCopper }
@@ -94,6 +95,48 @@ nonisolated enum RoutingTuning {
             results.append(GroupOutcome(group: group.id, name: group.name, target: target, lengths: lengths,
                                         spread: spread, status: status))
         }
+        // Differential pairs: a coupled pair's shorter net is tuned to the
+        // longer, its bumps only on the side away from its partner, so the
+        // pair is never squeezed (plan-38-J § 3 "Skew").
+        for group in problem.groups.sorted(by: { $0.id.uuidString < $1.id.uuidString }) where group.mode == .diffPair {
+            let status = pairs[group.id] ?? .uncoupled(reason: "routing pairs is off")
+            var lengths = Dictionary(uniqueKeysWithValues: group.nets.map {
+                ($0, length(of: $0, traces: cleanup.traces, problem: problem))
+            })
+            if case .coupled = status, group.nets.count == 2, tuneSkew {
+                let (a, b) = (group.nets[0], group.nets[1])
+                let short = (lengths[a] ?? 0) < (lengths[b] ?? 0) ? a : b
+                let partner = short == a ? b : a
+                let skew = abs((lengths[a] ?? 0) - (lengths[b] ?? 0))
+                if skew > group.tolerance {
+                    let partnerTraces = cleanup.traces.filter { $0.net == partner }
+                    let outer: (CGPoint, CGPoint) -> Double = { u, v in
+                        let l = hypot(v.x - u.x, v.y - u.y)
+                        let n = CGPoint(x: -(v.y - u.y) / l, y: (v.x - u.x) / l)
+                        let mid = CGPoint(x: (u.x + v.x) / 2, y: (u.y + v.y) / 2)
+                        func distance(_ sign: Double) -> Double {
+                            let p = CGPoint(x: mid.x + n.x * sign, y: mid.y + n.y * sign)
+                            var nearest = Double.infinity
+                            for t in partnerTraces {
+                                for (c, d) in zip(t.points, t.points.dropFirst()) {
+                                    nearest = min(nearest, SchematicDocument.distance(from: p, toSegment: c, d))
+                                }
+                            }
+                            return nearest
+                        }
+                        return distance(1) >= distance(-1) ? 1 : -1
+                    }
+                    _ = tune(short, by: skew - group.tolerance / 2, group: group, cleanup: &cleanup, problem: problem,
+                             side: outer)
+                    lengths = Dictionary(uniqueKeysWithValues: group.nets.map {
+                        ($0, length(of: $0, traces: cleanup.traces, problem: problem))
+                    })
+                }
+            }
+            let values = lengths.values
+            results.append(GroupOutcome(group: group.id, name: group.name, target: values.max() ?? 0, lengths: lengths,
+                                        spread: (values.max() ?? 0) - (values.min() ?? 0), status: status))
+        }
         traces = cleanup.traces
         return results
     }
@@ -101,7 +144,7 @@ nonisolated enum RoutingTuning {
     /// Adds up to `deficit` mm to net `net` with bumps on its new traces'
     /// straight segments, longest first; returns what it added.
     static func tune(_ net: Int, by deficit: Double, group: RoutingGroup, cleanup: inout RoutingCleanup,
-                     problem: RoutingProblem) -> Double {
+                     problem: RoutingProblem, side forced: ((CGPoint, CGPoint) -> Double)? = nil) -> Double {
         guard let routing = problem.nets.first(where: { $0.id == net }) else { return 0 }
         let width = routing.width
         let gap = max(routing.clearance, problem.rules.minClearance, 2 * width)
@@ -124,21 +167,22 @@ nonisolated enum RoutingTuning {
             let layer = cleanup.traces[host.trace].layer
             var bumps: [CGPoint] = []
             var offset = room + cut
-            var side: Double = 1
+            var side: Double = forced?(host.a, host.b) ?? 1
             while left > 1e-6, offset + spacing + cut <= host.length - room {
                 let full = Meander.added(amplitude: group.maxMeander,
                                          cut: Meander.fitted(cut: cut, amplitude: group.maxMeander, spacing: spacing))
                 let want = full <= left ? group.maxMeander
                     : Meander.amplitude(forAdded: left, cut: cut, spacing: spacing, in: 0...group.maxMeander)
                 var placed = false
-                for (amplitude, s) in [(want, side), (want / 2, side), (want, -side), (want / 2, -side)] where amplitude > 1e-4 {
+                let tries = forced == nil ? [(want, side), (want / 2, side), (want, -side), (want / 2, -side)] : [(want, side), (want / 2, side)]
+                for (amplitude, s) in tries where amplitude > 1e-4 {
                     let points = Meander.bumpPoints(from: host.a, to: host.b, at: offset, side: s, amplitude: amplitude,
                                                     spacing: spacing, cut: cut)
                     guard cleanup.isLegal(points, layer: layer, width: width, net: net) else { continue }
                     bumps += points
                     left -= Meander.added(amplitude: amplitude,
                                           cut: Meander.fitted(cut: cut, amplitude: amplitude, spacing: spacing))
-                    side = -s
+                    side = forced == nil ? -s : s
                     placed = true
                     break
                 }

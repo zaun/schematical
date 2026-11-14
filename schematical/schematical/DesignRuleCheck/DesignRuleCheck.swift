@@ -18,7 +18,7 @@ nonisolated struct DesignRuleIssue: Identifiable, Hashable, Sendable {
     /// What kind of problem: the order the list groups them in.
     enum Kind: Int, Comparable, Sendable {
         case short, unrouted, unconnected, placement, layer, layerRule, clearance, edge,
-             drill, annularRing, holeToHole, via, traceWidth, silkscreen, solderMask, lengthMatch
+             drill, annularRing, holeToHole, via, traceWidth, silkscreen, solderMask, lengthMatch, diffPair
 
         static func < (a: Kind, b: Kind) -> Bool { a.rawValue < b.rawValue }
     }
@@ -106,6 +106,7 @@ private struct DesignRuleChecker {
         checkSilkscreen()
         checkSolderMask()
         checkLengthMatch()
+        checkDiffPairs()
         // Stable: within a kind, the order each check found them in.
         var sorted = issues.enumerated().sorted { a, b in
             a.element.kind != b.element.kind ? a.element.kind < b.element.kind : a.offset < b.offset
@@ -636,6 +637,28 @@ private struct DesignRuleChecker {
                     + "(\(longest.name) \(mm(longest.length)), \(shortest.name) \(mm(shortest.length))); "
                     + "tolerance \(mm(group.tolerance))",
                 traces(ofNet: longest.net).union(traces(ofNet: shortest.net)))
+        }
+    }
+
+    /// Each differential pair with both nets routed whose traces run apart
+    /// (not at its gap, or on different layers) for more than its
+    /// `maxUncoupled` (`PairGeometry.uncoupledLength`).
+    private mutating func checkDiffPairs() {
+        let netOfRoot = copper.netOfRoot()
+        func traces(of net: Int) -> [RoutedTrace] {
+            copper.traces.indices.filter { netOfRoot[copper.root[copper.traceNode($0)]] == net }.map {
+                let trace = copper.traces[$0]
+                return RoutedTrace(layer: trace.layer, width: trace.widthMM, points: trace.points, net: net)
+            }
+        }
+        for group in board.netGroups where group.mode == .diffPair && group.members.count == 2 {
+            let nets = group.members.compactMap { copper.net(of: $0) }
+            guard nets.count == 2, nets.allSatisfy({ RoutingLength.of(net: $0, in: copper) != nil }) else { continue }
+            let gap = max(group.gap, rules.minClearance)
+            let apart = PairGeometry.uncoupledLength(p: traces(of: nets[0]), n: traces(of: nets[1]), gap: gap)
+            guard apart > group.maxUncoupled + Self.tolerance else { continue }
+            add(.diffPair, group.name, "Pair \(group.name): \(mm(apart)) runs apart (max \(mm(group.maxUncoupled)))",
+                self.traces(ofNet: nets[0]).union(self.traces(ofNet: nets[1])))
         }
     }
 

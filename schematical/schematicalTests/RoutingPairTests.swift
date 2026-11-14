@@ -118,4 +118,78 @@ final class RoutingPairTests: XCTestCase {
         guard case let .failure(failure) = pair(board).0 else { return XCTFail("the pair can't fit") }
         XCTAssertFalse(failure.reason.isEmpty)
     }
+
+    // MARK: Phase 3
+
+    private func group(_ result: RoutingResult) throws -> GroupOutcome {
+        try XCTUnwrap(result.groups.first { $0.group == pairID })
+    }
+
+    func testSkewIsTunedOnTheOuterSide() throws {
+        var board = board()
+        // N's far pad 2 mm further out sideways: N's breakout, and N, are longer.
+        board.pads[3].rect.origin.y += 2
+        let problem = board.problem()
+        let result = Router.route(problem)
+        let outcome = try group(result)
+        guard case .coupled = outcome.status else { return XCTFail("\(outcome.status)") }
+        XCTAssertLessThanOrEqual(outcome.spread, 0.25 + 1e-6, "\(outcome.lengths)")
+        // Over the coupled middle (x 6–23), P (below) never goes above its
+        // lane and N (above) never below its: a bump only ever stands away
+        // from the partner. And one of them was bumped.
+        func lane(_ net: Int) -> CGFloat {
+            var y: CGFloat = 0, longest: CGFloat = 0
+            for trace in result.traces where trace.net == net {
+                for (u, v) in zip(trace.points, trace.points.dropFirst()) where hypot(v.x - u.x, v.y - u.y) > longest {
+                    longest = hypot(v.x - u.x, v.y - u.y)
+                    y = u.y
+                }
+            }
+            return y
+        }
+        let pLane = lane(1), nLane = lane(2)
+        XCTAssertLessThan(pLane, nLane)
+        let middle = { (net: Int) in
+            result.traces.filter { $0.net == net }.flatMap(\.points).filter { (6...23).contains($0.x) }
+        }
+        XCTAssertTrue(middle(1).allSatisfy { $0.y <= pLane + 1e-6 }, "no P bump toward N")
+        XCTAssertTrue(middle(2).allSatisfy { $0.y >= nLane - 1e-6 }, "no N bump toward P")
+        XCTAssertTrue(middle(1).contains { $0.y < pLane - 0.1 } || middle(2).contains { $0.y > nLane + 0.1 }, "tuned")
+        XCTAssertEqual(RoutingVerifier.verify(problem, traces: result.traces, vias: result.vias), [])
+    }
+
+    func testARippedPairIsRoutedAgainCoupled() throws {
+        var board = board()
+        // Net 3 crosses the pair's straight way, on Top only: it must rip the
+        // pair, which then crosses it on Bottom.
+        board.pad(15, 3, 0.4, 0.4, net: 3)
+        board.pad(15, 17, 0.4, 0.4, net: 3)
+        board.allowed[3] = [.top]
+        // Walls of net 9 on Top from each edge to the pair's pads, so net 3
+        // can't go round the pair's ends.
+        board.trace([p(0.6, 10), p(4.6, 10)], net: 9)
+        board.trace([p(25.4, 10), p(29.4, 10)], net: 9)
+        board.options.strategy = .balanced
+        let problem = board.problem()
+        let result = Router.route(problem)
+        XCTAssertEqual(result.stats.routed, result.stats.connections, "\(result.nets)")
+        XCTAssertGreaterThan(result.stats.rips, 0)
+        guard case .coupled = try group(result).status else { return XCTFail("\(try group(result).status)") }
+        XCTAssertEqual(result.vias.filter { $0.net == 1 || $0.net == 2 }.count, 4)
+        XCTAssertEqual(RoutingVerifier.verify(problem, traces: result.traces, vias: result.vias), [])
+    }
+
+    func testAPairAndTenNetsAllComplete() throws {
+        var board = board()
+        board.boardHeight = 40
+        for i in 0..<10 {
+            let y = 14 + Double(i) * 2.5
+            board.pad(3, y, 0.6, 0.6, net: 10 + i)
+            board.pad(27, 14 + 36.5 - y, 0.6, 0.6, net: 10 + i)
+        }
+        let problem = board.problem()
+        let result = Router.route(problem)
+        XCTAssertEqual(result.stats.routed, result.stats.connections, "\(result.nets.filter { $0.status != .complete })")
+        XCTAssertEqual(RoutingVerifier.verify(problem, traces: result.traces, vias: result.vias), [])
+    }
 }

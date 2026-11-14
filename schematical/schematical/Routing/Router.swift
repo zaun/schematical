@@ -52,8 +52,8 @@ nonisolated enum Router {
             run.routeAll(progress: progress, isCancelled: stop)
             let copper = run.finishedCopper()
             var result = run.result(traces: copper.traces, vias: copper.vias)
-            if problem.options.tuneGroups, problem.groups.contains(where: { $0.mode == .lengthMatch }) {
-                result = Self.tuned(result, problem: problem)
+            if !problem.groups.isEmpty {
+                result = Self.tuned(result, problem: problem, pairs: run.pairStatus)
             }
             result.stats.seconds = Date().timeIntervalSince(start)
             if best.map({ Self.better(result, than: $0) }) ?? true { best = result }
@@ -65,10 +65,13 @@ nonisolated enum Router {
     /// `result` with its length-match groups tuned (plan-38-I): any tuned
     /// trace the verifier then faults goes back as it was, so tuning never
     /// makes a result illegal.
-    static func tuned(_ result: RoutingResult, problem: RoutingProblem) -> RoutingResult {
+    static func tuned(_ result: RoutingResult, problem: RoutingProblem,
+                      pairs: [UUID: GroupOutcome.Status] = [:]) -> RoutingResult {
         var tuned = result
         var traces = result.traces
-        tuned.groups = RoutingTuning.tune(problem, traces: &traces, vias: result.vias, outcomes: result.nets)
+        let tune = problem.options.tuneGroups
+        tuned.groups = RoutingTuning.tune(problem, traces: &traces, vias: result.vias, outcomes: result.nets, pairs: pairs,
+                                          tuneLengths: tune, tuneSkew: tune)
         let faulted = Set(RoutingVerifier.verify(problem, traces: traces, vias: result.vias).flatMap(\.traces))
         for t in faulted where t < result.traces.count { traces[t] = result.traces[t] }
         tuned.traces = traces
@@ -133,6 +136,8 @@ nonisolated enum Router {
         /// The nets routed as coupled pairs (plan-38-J), and each pair's outcome.
         var pairNets = Set<Int>()
         var pairStatus: [UUID: GroupOutcome.Status] = [:]
+        /// Coupled pairs ripped up this round, routed again at the next.
+        var rippedPairs = Set<UUID>()
         var grid: RoutingGrid { state.grid }
 
         init(problem: RoutingProblem, strategy: Strategy = .of(.balanced), seed: UInt64 = 1) {
@@ -200,15 +205,23 @@ nonisolated enum Router {
             for round in 0...strategy.rounds {
                 if stopped || isCancelled() { stopped = true; break }
                 rounds = round
-                let queue = ordered(routable.filter { !fansOut($0) && unrouted($0) > 0 }, failures: failures)
-                if queue.isEmpty { break }
+                // Pairs ripped up last round go first.
+                if !rippedPairs.isEmpty {
+                    let again = rippedPairs
+                    rippedPairs = []
+                    routePairs(only: again, isCancelled: isCancelled)
+                }
+                // A coupled pair's nets are routed only as their pair.
+                let queue = ordered(routable.filter { !fansOut($0) && !pairNets.contains($0.id) && unrouted($0) > 0 },
+                                    failures: failures)
+                if queue.isEmpty && rippedPairs.isEmpty { break }
                 var pending = queue.map(\.id)
                 var done = Set<Int>()
                 // Round 0 is the single pass: hard searches only.
                 let relaxed = round > 0
                 while let id = pending.first {
                     pending.removeFirst()
-                    guard !done.contains(id), let net = state.netsByID[id] else { continue }
+                    guard !done.contains(id), !pairNets.contains(id), let net = state.netsByID[id] else { continue }
                     done.insert(id)
                     let requeue = join(net, present: relaxed ? present : 0, round: round, progress: progress,
                                        isCancelled: isCancelled)
@@ -230,18 +243,35 @@ nonisolated enum Router {
                 if round > 0, unchanged >= strategy.stall { break }
                 if round > 0 { present *= strategy.presentGrowth }
             }
+            // A pair still ripped when the rounds end: once more, coupled, and
+            // failing that as two ordinary nets.
+            if !rippedPairs.isEmpty, !stopped {
+                let again = rippedPairs
+                rippedPairs = []
+                routePairs(only: again, isCancelled: isCancelled)
+                for group in problem.groups where again.contains(group.id) {
+                    for net in group.nets where !pairNets.contains(net) {
+                        if let routing = state.netsByID[net] {
+                            _ = join(routing, present: 0, round: rounds, progress: progress, isCancelled: isCancelled)
+                        }
+                    }
+                }
+            }
         }
 
-        /// Routes every differential pair first, as one coupled unit
-        /// (plan-38-J): its copper goes in the ledger as one entry per net,
-        /// each joining that net's two pads; the pair's nets are pinned
-        /// (never ripped up, so the coupling holds) and their copper is never
-        /// cleaned. A pair that can't be coupled is left to route as two
-        /// ordinary nets.
-        mutating func routePairs(isCancelled: () -> Bool) {
-            for group in problem.groups.sorted(by: { $0.id.uuidString < $1.id.uuidString }) where group.mode == .diffPair {
+        /// Routes the differential pairs `only` names (all, when nil), each as
+        /// one coupled unit (plan-38-J), clear of the copper the ledger holds:
+        /// its copper goes in the ledger as one entry per net, each joining
+        /// that net's two pads, and is never cleaned. A pair ripped up as a
+        /// victim comes back here, first, at the next round. A pair that can't
+        /// be coupled is routed as two ordinary nets from then on.
+        mutating func routePairs(only: Set<UUID>? = nil, isCancelled: () -> Bool) {
+            for group in problem.groups.sorted(by: { $0.id.uuidString < $1.id.uuidString })
+            where group.mode == .diffPair && only.map({ $0.contains(group.id) }) ?? true {
                 if isCancelled() { stopped = true; return }
-                switch RoutingPair.route(group, problem: problem, isCancelled: isCancelled) {
+                let mine = Set(group.nets)
+                let extra = ledgerObstacles(excluding: mine)
+                switch RoutingPair.route(group, problem: problem, extra: extra, isCancelled: isCancelled) {
                 case let .success(pair):
                     var added = true
                     for (net, traces) in [(group.nets[0], pair.p), (group.nets[1], pair.n)] {
@@ -250,15 +280,52 @@ nonisolated enum Router {
                         let allowed = grid.layers.map { _ in true }
                         state.add(net: net, path: [a.node, b.node], traces: traces,
                                   vias: pair.vias.filter { $0.net == net }, allowed: allowed)
-                        pinned.insert(net)
-                        pairNets.insert(net)
                     }
-                    pairStatus[group.id] = added ? .coupled(uncoupled: pair.uncoupled)
-                        : .uncoupled(reason: PairFailure.notTwoPin.reason)
+                    if added {
+                        pairNets.formUnion(mine)
+                        pairStatus[group.id] = .coupled(uncoupled: pair.uncoupled)
+                    } else {
+                        uncouple(group, PairFailure.notTwoPin.reason)
+                    }
                 case let .failure(failure):
-                    pairStatus[group.id] = .uncoupled(reason: failure.reason)
+                    uncouple(group, failure.reason)
                 }
             }
+        }
+
+        /// From now on the pair's nets route as ordinary nets.
+        mutating func uncouple(_ group: RoutingGroup, _ reason: String) {
+            state.rip(state.ledger.filter { group.nets.contains($0.net) }.map(\.id))
+            pairNets.subtract(group.nets)
+            pairStatus[group.id] = .uncoupled(reason: reason)
+        }
+
+        /// The coupled pair `net` belongs to, if any.
+        func coupledPair(of net: Int) -> RoutingGroup? {
+            guard pairNets.contains(net) else { return nil }
+            return problem.groups.first { $0.mode == .diffPair && $0.nets.contains(net) }
+        }
+
+        /// The ledger's copper, but for `nets`, as obstacles.
+        func ledgerObstacles(excluding nets: Set<Int>) -> [RoutingObstacle] {
+            var obstacles: [RoutingObstacle] = []
+            for entry in state.ledger where !nets.contains(entry.net) {
+                for trace in entry.traces {
+                    for (a, b) in zip(trace.points, trace.points.dropFirst()) {
+                        obstacles.append(RoutingObstacle(shape: CopperShape(core: .segment(a, b), radius: trace.width / 2,
+                                                                            layers: [trace.layer], node: 20_000_000 + obstacles.count),
+                                                         net: entry.net, kind: .trace))
+                    }
+                }
+                for via in entry.vias {
+                    let core = CopperShape.Core.segment(via.centre, via.centre)
+                    obstacles.append(RoutingObstacle(shape: CopperShape(core: core, radius: via.diameter / 2, layers: nil,
+                                                                        node: 20_000_000 + obstacles.count),
+                                                     net: entry.net, kind: .via,
+                                                     drill: CopperShape(core: core, radius: via.drill / 2, layers: nil, node: 0)))
+                }
+            }
+            return obstacles
         }
 
         /// Joins `net`'s groups to the group of its first component, nearest
@@ -299,13 +366,20 @@ nonisolated enum Router {
                 var path = find(hard, sources: sources, targets: targets, isCancelled: isCancelled)
                 if path == nil, present > 0, !stopped,
                    let detour = find(relaxed, sources: sources, targets: targets, isCancelled: isCancelled) {
-                    let all = state.victims(of: detour, net: net.id)
+                    var all = state.victims(of: detour, net: net.id)
+                    // A coupled pair goes as a unit: both nets' copper, to be
+                    // routed again, coupled, first thing next round.
+                    let pairs = Set(all.compactMap { state.entries[$0].flatMap { coupledPair(of: $0.net) }?.id })
+                    for group in problem.groups where pairs.contains(group.id) {
+                        all += state.ledger.filter { group.nets.contains($0.net) && !all.contains($0.id) }.map(\.id)
+                    }
                     let nets = Set(all.compactMap { state.entries[$0]?.net })
                     if !all.isEmpty, nets.isDisjoint(with: pinned),
                        nets.allSatisfy({ (ripped[$0] ?? 0) < ripBudget($0) }) {
                         for victimNet in nets.sorted() { ripped[victimNet, default: 0] += 1 }
                         rips += all.count
                         lost += state.rip(all)
+                        rippedPairs.formUnion(pairs)
                         state.addHistory(detour, step: strategy.historyStep)
                         path = find(hard, sources: sources, targets: targets, isCancelled: isCancelled)
                     }
