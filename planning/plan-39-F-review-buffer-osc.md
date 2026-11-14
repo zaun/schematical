@@ -80,17 +80,18 @@ One commit per phase: the edited part file(s), `planning/plan-39-data/ledger.tsv
 Acceptance: every pinout of the phase has a ledger row, the ledger matches the files, and the golden moved only by flags.
   Check: `node scripts/pin-polarity.js check --kind buffer --devices 1-70 --complete && node scripts/pin-polarity.js golden-check && ctest --test-dir /tmp/logic-p39 -R '^(library_check|listing_check|trace_check)$'` → every `check` exits 0, `golden-check` exits 0, 3 of 3 tests passed (est. 90 min of reading for 90 pinouts, then 6 min for the checks: the loader and `listing_check` load every part file the phase edited, which no smaller check does).
   Observed 2026-11-14: buffer 1-70 `ok: 90 pinouts, 90 ledger rows checked`; golden-check (phase staged) `ok: 1041 parts.txt line(s) changed, only by :low`; ctest on the full tree `100% tests passed, 0 tests failed out of 3`.
-Commit: —
+Commit: f8013565
 
 ### Phase 2 — F2: buffer 71–152 (90 pinouts)
 
 One commit per phase: the edited part file(s), `planning/plan-39-data/ledger.tsv` and `backend/tests/golden/parts.txt`.
 
-- [ ] Review buffer devices 71–152 (74_245 … TXV0106): 90 pinouts, § 3 procedure; edits `schematical/schematical/Parts/buffer.json`.
-- [ ] Rebuild and regenerate the golden: `cmake -S backend -B /tmp/logic-p39 && cmake --build /tmp/logic-p39 -j8 && /tmp/logic-p39/listing_check --print > backend/tests/golden/parts.txt`.
+- [x] Review buffer devices 71–152 (74_245 … TXV0106): 90 pinouts, § 3 procedure; edits `schematical/schematical/Parts/buffer.json`. — done: rows recorded, check ok (Observed)
+- [x] Rebuild and regenerate the golden: `cmake -S backend -B /tmp/logic-p39 && cmake --build /tmp/logic-p39 -j8 && /tmp/logic-p39/listing_check --print > backend/tests/golden/parts.txt`. — done: regenerated over the full tree, this phase staged (plan-39-E Corrections 2)
 
 Acceptance: every pinout of the phase has a ledger row, the ledger matches the files, and the golden moved only by flags.
   Check: `node scripts/pin-polarity.js check --kind buffer --devices 71-152 --complete && node scripts/pin-polarity.js golden-check && ctest --test-dir /tmp/logic-p39 -R '^(library_check|listing_check|trace_check)$'` → every `check` exits 0, `golden-check` exits 0, 3 of 3 tests passed (est. 90 min of reading for 90 pinouts, then 6 min for the checks: the loader and `listing_check` load every part file the phase edited, which no smaller check does).
+  Observed 2026-11-14: buffer 71-152 `ok: 90 pinouts, 90 ledger rows checked`; golden-check (phase staged) `ok: 845 parts.txt line(s) changed, only by :low`; ctest on the full tree `100% tests passed, 0 tests failed out of 3`.
 Commit: —
 
 ### Phase 3 — F3: oscillator 1–77 (81 pinouts)
@@ -131,7 +132,28 @@ Commit: —
 
 ## Corrections
 
-(empty until execution)
+1. **F was reviewed alongside G and H and landed after E.** The reviews
+   touch only their own kinds' part files and ledger rows. The gate exists
+   to land letters in order, so each phase is committed in order once E is
+   archived, staged as in plan-39-E Corrections 2. The Prerequisites row
+   was measured at landing.
+2. **Reviewers' calls, applying plan-39-E's rulings:**
+   - 74_241_CD 2OE: the shared table bars it, but the '241 text says active
+     high. The text decides, so it is unflagged.
+   - Inverted outputs drawn with a bar are flagged (74_240, 74_366,
+     74_368_CD, 74_540_CD, 74_540_FCT, 74_2240_FCT). They are not flagged
+     where the sheet draws plain Y (74_368, 74_368_LS, 1G240).
+   - TXU0101–TXU0304 OE: the sheets say pulling OE to GND turns the
+     outputs off, so it is active high and unflagged.
+   - Oscillators: only ECS-1000/2200 INH̄ ("TRI-STATE"), LMK6x `ST`
+     ("Standby (Active Low)", the ST alternative only) and NJU6366 CONT̄ are
+     flagged. Every other enable/standby pin is active high or open-enabled.
+   - NJU6366 pin 3 XT̄ is barred, but the catalog names pins 3 and 5 both
+     `XT`, so R5 cannot hold with one of them flagged. It stays unflagged
+     and the row's note says so; flagging it needs a rename first.
+3. **The tool's writes are now atomic** (temp file, then rename). A
+   reviewer's read once caught a part file mid-write and failed to parse.
+   The retry worked and no file was damaged.
 
 ## Summary
 

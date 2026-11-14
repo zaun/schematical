@@ -105,6 +105,96 @@ buffer	74_241_G	p20	sn54ls241	p.3	{"1G":true}	2G is active high on LS241 (table 
 buffer	74_243	p14	sn74ls243	p.1	{"GAB":true}	GAB barred in function table; GBA active high
 buffer	74_243_CD	p14	cd74hc243	p.3	{"OEB":true}	OEA active high
 buffer	74_244	p20	cd74ac244	pp.3-4	{"1OE":true,"2OE":true}	
+buffer	74_245	p20	cd54hct245	p.1	{"OE":true}	
+buffer	74_24T245	nmu83	sn74avc24t245	p.3	{"6OE":true,"5OE":true,"4OE":true,"3OE":true,"2OE":true,"1OE":true}	
+buffer	74_25244	p24	sn64bct25244	p.1	{"2OE":true,"1OE":true}	
+buffer	74_25245	p24	sn64bct25245	p.1	{"OE":true}	
+buffer	74_2541	p20	cy74fct2541t	p.1	{"OEA":true,"OEB":true}	
+buffer	74_2543	p24	cy74fct2543t	p.1	{"LEBA":true,"OEBA":true,"CEAB":true,"OEAB":true,"LEAB":true,"CEBA":true}	
+buffer	74_2652	q24	cy74fct2652t	p.1	{"GBA":true}	
+buffer	74_2827	p24	sn74abt2827	p.1	{"OE1":true,"OE2":true}	
+buffer	74_2827_FCT	p24	cy74fct2827t	p.1	{"OE1":true,"OE2":true}	
+buffer	74_2952	p24	sn74abt2952a	p.1	{"OEAB":true,"CLKENAB":true,"CLKENBA":true,"OEBA":true}	
+buffer	74_29827	p24	sn74als29827	p.1	{"OE1":true,"OE2":true}	
+buffer	74_29863	p24	sn74als29863	p.1	{"OEBA1":true,"OEBA2":true,"OEAB1":true,"OEAB2":true}	
+buffer	74_32245	lqfp100	sn74abth32245	p.1	{"4OE":true,"3OE":true,"2OE":true,"1OE":true}	
+buffer	74_3245	p24	sn74lvcc3245a	p.1	{"OE":true}	
+buffer	74_32543	p100	sn74abth32543	p.1	{"2CEBA":true,"2OEBA":true,"2LEBA":true,"2LEAB":true,"2OEAB":true,"2CEAB":true,"1CEAB":true,"1OEAB":true,"1LEAB":true,"1LEBA":true,"1OEBA":true,"1CEBA":true}	
+buffer	74_32T245	nfbga96	sn74avc32t245	pp.4-5	{"1OE":true,"2OE":true,"3OE":true,"4OE":true}	
+buffer	74_365	p16	sn54hc365	p.3	{"OE1":true,"OE2":true}	
+buffer	74_365_CD	p16	cd74hc365	p.3	{"OE1":true,"OE2":true}	
+buffer	74_365_LS	p16	sn54ls365a	p.1	{"G1":true,"G2":true}	
+buffer	74_365_LS	lccc20	sn54ls365a	p.1	{"G1":true,"G2":true}	
+buffer	74_366	p16	cd74hc366	p.3	{"OE1":true,"1Y":true,"2Y":true,"3Y":true,"4Y":true,"5Y":true,"6Y":true,"OE2":true}	Fig 4-1 draws the HC366 inverted outputs as (1Y..6Y with overbar); pin table names them plain 1Y
+buffer	74_367	p16	sn54hc367	p.3	{"1OE":true,"2OE":true}	
+buffer	74_367_CD	p16	cd74hc367	p.3	{"OE1":true,"OE2":true}	
+buffer	74_367_LS	p16	sn54ls367a	p.1	{"1G":true,"2G":true}	
+buffer	74_368	p16	sn54hc368	p.3	{"1OE":true,"2OE":true}	
+buffer	74_368_CD	p16	cd74hc368	p.3	{"OE1":true,"1Y":true,"2Y":true,"3Y":true,"4Y":true,"5Y":true,"6Y":true,"OE2":true}	
+buffer	74_368_LS	p16	sn54ls368a	p.1	{"1G":true,"2G":true}	
+buffer	74_4245	p24	sn74lvc4245a	p.3	{"OE":true}	
+buffer	74_4245_LVCC	p24	sn74lvcc4245a	p.3	{"OE":true}	
+buffer	74_4T125	p14	sn74lv4t125	p.3	{"1OE":true,"2OE":true,"3OE":true,"4OE":true}	
+buffer	74_4T245	p16	sn74avc4t245	p.5	{"2OE":true,"1OE":true}	
+buffer	74_4T245	rsv16	sn74avc4t245	p.5	{"1OE":true,"2OE":true}	
+buffer	74_4T774	p16	sn74avc4t774	p.5	{"OE":true}	
+buffer	74_4T774	rsv16	sn74avc4t774	p.5	{"OE":true}	
+buffer	74_540	p20	sn54ahct540	p.3	{"OE1":true,"OE2":true}	
+buffer	74_5402	p28	sn74abt5402a	p.1	{"OE1":true,"OE2":true}	
+buffer	74_5403	p28	sn74abt5403	p.1	{"OE1":true,"OE2":true}	
+buffer	74_540_CD	p20	cd54act540	p.3	{"OE1":true,"Y7":true,"Y6":true,"Y5":true,"Y4":true,"Y3":true,"Y2":true,"Y1":true,"Y0":true,"OE2":true}	Fig 3-1 draws OE1, OE2 and Y0-Y7 with overbars (inverted outputs); Table 3-1 on that page is a wrong copy of a '273 table and was ignored
+buffer	74_540_FCT	p20	cy74fct540t	p.1	{"OEA":true,"O7":true,"O6":true,"O5":true,"O4":true,"O3":true,"O2":true,"O1":true,"O0":true,"OEB":true}	O0-O7 drawn with overbars (inverted outputs)
+buffer	74_540_LS	p20	sn54ls540	p.1	{"G1":true,"G2":true}	
+buffer	74_541	p20	cd74ac541	p.3	{"OE1":true,"OE2":true}	Fig 3-2 (OE1, OE2 overbarred); Table 3-1 on that page is a wrong copy of a '273 table and was ignored
+buffer	74_543	p24	sn74abt543a	p.1	{"LEBA":true,"OEBA":true,"CEAB":true,"OEAB":true,"LEAB":true,"CEBA":true}	
+buffer	74_543	lccc28	sn54bct543	p.1	{"LEBA":true,"OEBA":true,"CEAB":true,"OEAB":true,"LEAB":true,"CEBA":true}	
+buffer	74_543_FCT	p24	cy74fct543t	p.1	{"LEBA":true,"OEBA":true,"CEAB":true,"OEAB":true,"LEAB":true,"CEBA":true}	
+buffer	74_620	p20	sn54bct620a	p.1	{"OEBA":true}	OEAB active high; inverted data shown only in function table, B/A pin names not barred
+buffer	74_621	p20	sn74als621a	p.1	{"OEBA":true}	OEAB active high
+buffer	74_623	p20	cd74ac623	p.1	{"OEBA":true}	OEAB active high
+buffer	74_638	p20	sn74als638a	p.1	{"OE":true}	
+buffer	74_639	p20	sn74als639a	p.1	{"OE":true}	
+buffer	74_640	p20	cd74hc640	p.3	{"OE":true}	
+buffer	74_641	p20	sn74als641a	p.1	{"OE":true}	
+buffer	74_642	p20	sn74als641a	p.1	{"OE":true}	
+buffer	74_645	p20	sn54as645	p.1	{"OE":true}	
+buffer	74_646	p24	sn74abt646	p.1	{"OE":true}	
+buffer	74_646	lccc28	sn74lvth646	p.1	{"OE":true}	
+buffer	74_646_AC	p24	cd74ac646	p.1	{"OE":true}	
+buffer	74_646_FCT	p24	cy74fct646t	p.1	{"G":true}	
+buffer	74_646_FCT	lccc28	cy54fct646t	p.1	{"G":true}	
+buffer	74_646_LS	p24	sn74ls646	p.1	{"G":true}	
+buffer	74_651	p24	sn74abt651	p.1	{"OEBA":true}	OEAB active high; inverting data paths but A/B names not barred
+buffer	74_652	p24	sn54als652	p.1	{"OEBA":true}	
+buffer	74_652_CD	p24	cd74act652	p.1	{"OEBA":true}	
+buffer	74_652_FCT	p24	cy74fct652t	p.1	{"GBA":true}	
+buffer	74_652_LS	p24	sn74ls652	p.1	{"GBA":true}	
+buffer	74_653	p24	sn74als653	p.1	{"OEBA":true}	
+buffer	74_7541	p20	sn74ac7541	p.1	{"OE1":true,"OE2":true}	
+buffer	74_756	p20	sn74as756	p.1	{"1OE":true,"2OE":true}	
+buffer	74_757	p20	sn64bct757	p.1	{"1OE":true}	
+buffer	74_760	p20	sn54as760	p.1	{"1OE":true,"2OE":true}	
+buffer	74_827	p24	cy74fct827t	p.1	{"OE1":true,"OE2":true}	
+buffer	74_861	p24	sn74abt861	p.1	{"OEBA":true,"OEAB":true}	
+buffer	74_863	p24	sn74abt863	p.1	{"OEBA1":true,"OEBA2":true,"OEAB1":true,"OEAB2":true}	
+buffer	74_8T240	p20	sn74lv8t240	p.3	{"1OE":true,"2OE":true}	
+buffer	74_8T244	p20	sn74lv8t244	p.3	{"1OE":true,"2OE":true}	
+buffer	74_8T245	p24	sn74avc8t245	p.3	{"OE":true}	
+buffer	74_8T245_LV	p20	sn74lv8t245	p.3	{"OE":true}	
+buffer	74_8T540	p20	sn74lv8t540	p.3	{"OE1":true,"OE2":true}	
+buffer	74_8T541	p20	sn74lv8t541	p.3	{"OE1":true,"OE2":true}	
+buffer	74_8T7541	p20	sn74lv8t7541	p.3	{"OE1":true,"OE2":true}	
+buffer	74_8T9541	p20	sn74lv8t9541	p.3	{"OE1":true,"OE2":true}	
+buffer	74_9541	p20	sn74ahc9541-q1	p.3	{"OE1":true,"OE2":true}	
+buffer	TXU0101	p6	txu0101	p.3	{}	OE active high (pull to GND = Hi-Z)
+buffer	TXU0102	p8	txu0102	p.4	{}	OE active high (pull to GND = Hi-Z)
+buffer	TXU0104	p14	txu0104-q1	p.4	{}	OE active high (pull to GND = Hi-Z)
+buffer	TXU0202	p8	txu0202	p.4	{}	OE active high (pull to GND = Hi-Z)
+buffer	TXU0204	p14	txu0204	p.4	{}	OE active high (pull to GND = Hi-Z)
+buffer	TXU0204	p12	txu0204	p.4	{}	OE active high (pull to GND = Hi-Z)
+buffer	TXU0304	p14	txu0304	p.4	{}	OE active high (pull to GND = Hi-Z)
+buffer	TXU0304	rut12	txu0304	p.4	{}	OE active high (pull to GND = Hi-Z)
+buffer	TXV0106	bqb16	txv0106	p.3	{"OE":true}	OE: pull to GND enables outputs
 counter	40102B	p16	cd40102b	pp.1-4	{"CLR":true,"CI/CE":true,"APE":true,"CO/ZD":true,"SPE":true}	
 counter	40103B	p16	cd40102b	pp.1-4	{"CLR":true,"CI/CE":true,"APE":true,"CO/ZD":true,"SPE":true}	
 counter	40110B	p16	cd40110b	p.1	{"TE":true}	
