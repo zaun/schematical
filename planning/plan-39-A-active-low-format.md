@@ -187,22 +187,23 @@ Acceptance: the loader accepts and rejects exactly as § 3 says, and the
 goldens do not move.
   Check: `cmake -S backend -B /tmp/logic-p39 && cmake --build /tmp/logic-p39 -j8 && ctest --test-dir /tmp/logic-p39 -R '^(library_check|part_file_test|listing_check|trace_check)$' && git diff --stat backend/tests/golden` → 4 of 4 passed, diff stat empty (est. 6 min: first build of the backend; no smaller check builds the loader).
   Observed 2026-11-14: `100% tests passed, 0 tests failed out of 4`; `git diff --stat backend/tests/golden` empty.
-Commit: —
+Commit: e4471c7
 
 ### Phase 2 — format documentation
 
-- [ ] `docs/parts-format.md` § Pinouts and pins: add the `"activeLow"` row to
+- [x] `docs/parts-format.md` § Pinouts and pins: add the `"activeLow"` row to
       the pin key table (after the `side` row, line 131) and a paragraph under it giving § 3's
       rules (true, list, alternatives, roles, `#` strip is drawing-only),
       with a worked example: `{"number": 20, "name": "CE#", "role": "input",
       "activeLow": true}` and `{"number": 5, "name": "A0/CS", "role":
-      "input", "activeLow": ["CS"]}`.
-- [ ] `docs/backend.md` § Tests: the `listing_check` pin column now has
-      `:low` / `:low=A;B`; one sentence.
+      "input", "activeLow": ["CS"]}`. — done: row + "Active-low pins" paragraph with both examples
+- [x] `docs/backend.md` § Tests: the `listing_check` pin column now has
+      `:low` / `:low=A;B`; one sentence. — done: sentence after the `|unsimulated` note
 
 Acceptance: both docs state the key, its two forms, and the print format.
   Check: `grep -c 'activeLow' docs/parts-format.md docs/backend.md` → at
   least 4 and 1 (est. 1 min; a doc edit needs only a grep).
+  Observed 2026-11-14: `docs/parts-format.md:4`, `docs/backend.md:1`.
 Commit: —
 
 ## Validation Plan

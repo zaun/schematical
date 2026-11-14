@@ -359,7 +359,11 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   against the drawing. Listing lines in `parts.txt` end in
   `|footprint=<id>` for parts that name one, then `|connector=<id>` for
   parts with a `connectorFootprint`; the last field is `|unsimulated` for a
-  part whose device says `"simulated": false` (plan-36-F).
+  part whose device says `"simulated": false` (plan-36-F). Each pin of a
+  listing line is `designator:name:role:group`, then `:in`/`:out` for a
+  `side`, then `:low` when its `activeLow` covers every alternative of the
+  name or `:low=A;B` (the flagged alternatives, `;` separated, name order)
+  when it names some (plan-39-A).
 - `part_file_test` — `load_part_file` (plan-32-A) on top of the bundled
   library: an inline-footprint part and a bundled-footprint part load
   (found by name and by uuid), and each rejected file (no or bad uuid, two

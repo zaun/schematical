@@ -129,6 +129,33 @@ pin of a pinout uses the same style.
 | `"role"` | `input`, `output`, `inout`, `power`, `ground`, `nc` (no connect) or `absent` (a numbered position with no lead; never drawn, nothing can be wired to it) |
 | `"group"` | optional, default `"default"`; pins in one group are drawn together (e.g. `"address"`) |
 | `"side"` | optional, input, output and inout pins only: `"in"` draws the pin on the block's left, `"out"` on its right, whatever its role (e.g. a transceiver's A port `"in"`, B port `"out"`). Without it inputs go left, outputs and inouts right |
+| `"activeLow"` | optional, input, output and inout pins only: `true` when the whole name is active low, or a list of the name's alternatives that are (`["CS"]`); display only, see below |
+
+**Active-low pins.** `"activeLow"` marks a signal the datasheet draws with
+an overbar, or otherwise marks or describes as active low. A name's
+*alternatives* are its parts split at `/`: `"A0/CS"` has `A0` and `CS`; a
+name with no `/` has one.
+
+- `true`: every alternative of the name is active low.
+- a list of strings: exactly those alternatives are active low. Each string
+  is an alternative as written (a trailing `#` included) and matches every
+  equal alternative; the list may not repeat a string, and may not name
+  every alternative (write `true`).
+- absent: no alternative is active low. `false` and `[]` are errors, so
+  there is one way to say "not active low".
+- Only `input`, `output` and `inout` pins take it. A name of more than 32
+  alternatives takes `true` only.
+
+The name is kept as the datasheet writes it (`CE#` stays `CE#`, and kind
+keys still name it so). The flag is display data: the simulator ignores it
+(polarity a model needs is in the kind keys, `chipEnable`, `"active": 0`, …),
+and the block symbol draws each active-low alternative with an overline,
+dropping one trailing `#` from it (`CE#` draws as C̅E̅; a lone `#` keeps it).
+
+```json
+{"number": 20, "name": "CE#", "role": "input", "activeLow": true}
+{"number": 5, "name": "A0/CS", "role": "input", "activeLow": ["CS"]}
+```
 
 A pin has `"number"` or `"ball"`, never both. Ball pinouts:
 
