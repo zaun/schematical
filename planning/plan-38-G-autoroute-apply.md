@@ -138,17 +138,17 @@ is exact and already exists).
 
 ### Phase 1 — `applyRouting`
 
-- [ ] `Routing/RoutingApply.swift`: `RoutingSummary`; `extension SchematicDocument { func applyRouting(_:problem:) -> RoutingSummary }` per § 3.
-- [ ] Tests: `schematicalTests/RoutingApplyTests.swift` — a hand-made result of one trace and one via lands `auto`, at the mil width of its class (a 0.508 mm Power net → 20 mil), and is selected; one `undo(on: .pcb)` returns `DocumentState` equal to the saved before-state and `redo` restores it; a `removedTraces` entry is deleted and a locked kept trace is untouched; a trace on a plane layer is skipped and reported; applying an empty result records no undo step; AFU: `Router.route` (`.balanced`) then apply → `ratsnest().count == 0`, DRC `.unrouted` 0 and `.short` 0.
+- [x] `Routing/RoutingApply.swift`: `RoutingSummary`; `extension SchematicDocument { func applyRouting(_:problem:) -> RoutingSummary }` per § 3. (`traces` / `vias` have `private(set)` setters in `SchematicModel.swift`, so three primitives there, `removeCopper`, `appendTrace`, `appendVia`, run inside `applyRouting`'s one edit. Locked copper is never removed, even when a stale problem names it.)
+- [x] Tests: `schematicalTests/RoutingApplyTests.swift` — a hand-made result of one trace and one via lands `auto`, at the mil width of its class (a 0.508 mm Power net → 20 mil), and is selected; one `undo(on: .pcb)` returns `DocumentState` equal to the saved before-state and `redo` restores it; a `removedTraces` entry is deleted and a locked kept trace is untouched; a trace on a plane layer is skipped and reported; applying an empty result records no undo step; AFU: `Router.route` (`.balanced`) then apply → `ratsnest().count == 0`, DRC `.unrouted` 0 and `.short` 0. — `-only-testing:RoutingApplyTests` → 9 tests (Phases 1 and 2), 0 failures, `** TEST SUCCEEDED **`; AFU routed 115/115, applied: ratsnest 0, 0 unrouted, 0 shorts.
 
 Acceptance: as listed.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd test -only-testing:schematicalTests/RoutingApplyTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 2 min; the AFU case adds about 2 s of routing, plan-38-F).
-Commit: —
+Commit: (with Phase 2, below: both landed in one commit)
 
 ### Phase 2 — unroute and scope from selection
 
-- [ ] `Routing/RoutingApply.swift`: `unroute(nets:onlyAuto:)`, `unrouteAll(onlyAuto:)`, `RoutingScope.fromSelection(_:)`.
-- [ ] Tests (`RoutingApplyTests`): after applying the AFU result, `unroute(nets: [one net], onlyAuto: true)` deletes only that net's traces and vias and `ratsnest().count` equals that net's connection count; a hand-drawn trace on the same net survives `onlyAuto` and is deleted by `onlyAuto: false`; a locked `auto` trace survives both; `unrouteAll(onlyAuto: true)` after apply restores `traces.count == 0` on a board that had none; one Undo restores; `isPlaying` makes each return 0; selection: a footprint → `.footprints`, a trace → its net, nothing → `.all`.
+- [x] `Routing/RoutingApply.swift`: `unroute(nets:onlyAuto:)`, `unrouteAll(onlyAuto:)`, `RoutingScope.fromSelection(_:)`.
+- [x] Tests (`RoutingApplyTests`): after applying the AFU result, `unroute(nets: [one net], onlyAuto: true)` deletes only that net's traces and vias and `ratsnest().count` equals that net's connection count; a hand-drawn trace on the same net survives `onlyAuto` and is deleted by `onlyAuto: false`; a locked `auto` trace survives both; `unrouteAll(onlyAuto: true)` after apply restores `traces.count == 0` on a board that had none; one Undo restores; `isPlaying` makes each return 0; selection: a footprint → `.footprints`, a trace → its net, nothing → `.all`. — in the same 9-test run above.
 
 Acceptance: as listed.
   Check: `-only-testing:schematicalTests/RoutingApplyTests` → `** TEST SUCCEEDED **` (est. 2 min).

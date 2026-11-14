@@ -3067,6 +3067,31 @@ final class SchematicDocument {
         }
     }
 
+    // MARK: Routing primitives (plan-38-G)
+
+    /// Removes traces and vias by id, locked or not, inside the caller's
+    /// edit (`applyRouting`, `unroute`); the callers decide what may go.
+    func removeCopper(traces ids: Set<UUID>, vias viaIDs: Set<UUID>) {
+        if !ids.isEmpty { traces.removeAll { ids.contains($0.id) } }
+        if !viaIDs.isEmpty { vias.removeAll { viaIDs.contains($0.id) } }
+        pruneSelection()
+    }
+
+    /// Appends a trace as it is (no join), inside the caller's edit. False
+    /// when the board refuses it: a plane or absent layer, or no length.
+    func appendTrace(_ trace: BoardTrace) -> Bool {
+        guard traceLayerRefusal(trace.layer) == nil, TraceRoute.isLegal(trace.points) else { return false }
+        traces.append(trace)
+        return true
+    }
+
+    /// Appends a via, inside the caller's edit. False on a 1-layer board.
+    func appendVia(_ via: BoardVia) -> Bool {
+        guard board.layers > 1 else { return false }
+        vias.append(via)
+        return true
+    }
+
     func deleteTrace(_ id: UUID) {
         recordEdit(.pcb, "Delete Trace") {
             traces.removeAll { $0.id == id }
