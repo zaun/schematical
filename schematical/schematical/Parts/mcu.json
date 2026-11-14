@@ -5,7 +5,7 @@
   "devices": [
     {
       "id": "at90can128",
-      "function": "AT90CAN128",
+      "function": "AT90CAN",
       "description": "8-bit AVR microcontroller, 128 KB flash",
       "drawer": ["Microcontroller", "AVR AT90"],
       "note": "facts: atdf:AT90CAN128.atdf; pinouts: quad64 atdf:AT90CAN128.atdf:TQFP64",
@@ -91,7 +91,7 @@
     },
     {
       "id": "at90can32",
-      "function": "AT90CAN32",
+      "function": "AT90CAN",
       "description": "8-bit AVR microcontroller, 32 KB flash",
       "drawer": ["Microcontroller", "AVR AT90"],
       "note": "facts: atdf:AT90CAN32.atdf; pinouts: quad64 atdf:AT90CAN32.atdf:TQFP64",
@@ -177,7 +177,7 @@
     },
     {
       "id": "at90can64",
-      "function": "AT90CAN64",
+      "function": "AT90CAN",
       "description": "8-bit AVR microcontroller, 64 KB flash",
       "drawer": ["Microcontroller", "AVR AT90"],
       "note": "facts: atdf:AT90CAN64.atdf; pinouts: quad64 atdf:AT90CAN64.atdf:TQFP64",
@@ -263,7 +263,7 @@
     },
     {
       "id": "at90pwm161",
-      "function": "AT90PWM161",
+      "function": "AT90PWM",
       "description": "8-bit AVR microcontroller, 16 KB flash",
       "drawer": ["Microcontroller", "AVR AT90"],
       "note": "facts: atdf:AT90PWM161.atdf; pinouts: quad32 transcribed:doc7734.pdf:p4:hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5",
@@ -316,7 +316,7 @@
     },
     {
       "id": "at90pwm2",
-      "function": "AT90PWM2",
+      "function": "AT90PWM",
       "description": "8-bit AVR microcontroller, 8 KB flash",
       "drawer": ["Microcontroller", "AVR AT90"],
       "note": "facts: atdf of sibling AT90PWM2B (core); sizes DigiKey; pinouts: p24 transcribed:Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf:p3:auto:p3",
@@ -361,7 +361,7 @@
     },
     {
       "id": "at90pwm216",
-      "function": "AT90PWM216",
+      "function": "AT90PWM",
       "description": "8-bit AVR microcontroller, 16 KB flash",
       "drawer": ["Microcontroller", "AVR AT90"],
       "note": "facts: atdf:AT90PWM216.atdf; pinouts: p24 transcribed:Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf:p3:auto:p3",
@@ -406,7 +406,7 @@
     },
     {
       "id": "at90pwm2b",
-      "function": "AT90PWM2B",
+      "function": "AT90PWM",
       "description": "8-bit AVR microcontroller, 8 KB flash",
       "drawer": ["Microcontroller", "AVR AT90"],
       "note": "facts: atdf:AT90PWM2B.atdf; pinouts: p24 transcribed:Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf:p3:auto:p3",
@@ -451,7 +451,7 @@
     },
     {
       "id": "at90pwm316",
-      "function": "AT90PWM316",
+      "function": "AT90PWM",
       "description": "8-bit AVR microcontroller, 16 KB flash",
       "drawer": ["Microcontroller", "AVR AT90"],
       "note": "facts: atdf:AT90PWM316.atdf; pinouts: quad32 transcribed:Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf:p5:hand: Table Pin out description, QFN32 Pin column (Figure 2-3 QFN32 7x7)",
@@ -504,7 +504,7 @@
     },
     {
       "id": "at90pwm3b",
-      "function": "AT90PWM3B",
+      "function": "AT90PWM",
       "description": "8-bit AVR microcontroller, 8 KB flash",
       "drawer": ["Microcontroller", "AVR AT90"],
       "note": "facts: atdf:AT90PWM3B.atdf; pinouts: quad32 transcribed:Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf:p5:hand: Table 3-1 Pin out description, QFN32 Pin Number column (pp.5-6)",
@@ -557,7 +557,7 @@
     },
     {
       "id": "at90pwm81",
-      "function": "AT90PWM81",
+      "function": "AT90PWM",
       "description": "8-bit AVR microcontroller, 8 KB flash",
       "drawer": ["Microcontroller", "AVR AT90"],
       "note": "facts: atdf:AT90PWM81.atdf; pinouts: quad32 transcribed:doc7734.pdf:p4:hand: Figure 2-2 32-pin packages, AT90PWM81/161 QFN 32 5*5",
@@ -610,7 +610,7 @@
     },
     {
       "id": "at90usb1286",
-      "function": "AT90USB1286",
+      "function": "AT90USB",
       "description": "8-bit AVR microcontroller, 128 KB flash",
       "drawer": ["Microcontroller", "AVR AT90"],
       "note": "facts: atdf:AT90USB1286.atdf; pinouts: quad64 transcribed:7593S.pdf:p4:auto:p4",
@@ -696,7 +696,7 @@
     },
     {
       "id": "at90usb1287",
-      "function": "AT90USB1287",
+      "function": "AT90USB",
       "description": "8-bit AVR microcontroller, 128 KB flash",
       "drawer": ["Microcontroller", "AVR AT90"],
       "note": "facts: atdf:AT90USB1287.atdf; pinouts: quad64 transcribed:doc7593.pdf:p3:auto:p3",
@@ -782,7 +782,7 @@
     },
     {
       "id": "at90usb162",
-      "function": "AT90USB162",
+      "function": "AT90USB",
       "description": "8-bit AVR microcontroller, 16 KB flash",
       "drawer": ["Microcontroller", "AVR AT90"],
       "note": "facts: atdf:AT90USB162.atdf; pinouts: quad32 transcribed:7707S.pdf:p3:auto:p3",
@@ -836,7 +836,7 @@
     },
     {
       "id": "at90usb646",
-      "function": "AT90USB646",
+      "function": "AT90USB",
       "description": "8-bit AVR microcontroller, 64 KB flash",
       "drawer": ["Microcontroller", "AVR AT90"],
       "note": "facts: atdf:AT90USB646.atdf; pinouts: quad64 transcribed:7593S.pdf:p4:auto:p4",
@@ -922,7 +922,7 @@
     },
     {
       "id": "at90usb647",
-      "function": "AT90USB647",
+      "function": "AT90USB",
       "description": "8-bit AVR microcontroller, 64 KB flash",
       "drawer": ["Microcontroller", "AVR AT90"],
       "note": "facts: atdf:AT90USB647.atdf; pinouts: quad64 transcribed:7593S.pdf:p3:auto:p3",
@@ -1007,7 +1007,7 @@
     },
     {
       "id": "at90usb82",
-      "function": "AT90USB82",
+      "function": "AT90USB",
       "description": "8-bit AVR microcontroller, 8 KB flash",
       "drawer": ["Microcontroller", "AVR AT90"],
       "note": "facts: atdf:AT90USB82.atdf; pinouts: quad32 transcribed:7707S.pdf:p3:auto:p3",
