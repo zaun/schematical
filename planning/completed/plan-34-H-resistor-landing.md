@@ -83,7 +83,7 @@ Observed (2026-11-14, `/tmp/logic-p34-land`, fresh):
 Acceptance: every gate's observed value matches.
   Check: the table's commands (est. 30 min: the fresh backend build, the
   app tests and the harness; this is the plan's one landing run).
-Commit: —
+Commit: e355356
 
 ## Validation Plan
 
