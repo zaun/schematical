@@ -94,4 +94,29 @@ final class AutorouteModelTests: XCTestCase {
         XCTAssertFalse(model.route(rules: .customDefault))
         XCTAssertNotNil(doc.editorMessage)
     }
+
+    // MARK: Phase 2
+
+    func testTheResultsNameEachUnroutedNetOnce() async throws {
+        let doc = try Fixture.open("LFU")
+        let model = AutorouteModel(document: doc, defaults: defaults())
+        model.options.strategy = .fast
+        model.options.timeLimit = 20
+        XCTAssertTrue(model.route(rules: .customDefault))
+        await model.session.wait()
+        guard case .finished = model.session.state else { return XCTFail("\(model.session.state)") }
+        let result = try XCTUnwrap(model.session.result)
+        let rows = model.results
+        XCTAssertEqual(rows.count, result.nets.filter { $0.unroutedConnections > 0 }.count)
+        XCTAssertEqual(Set(rows.map(\.name)).count, rows.count, "each net once")
+        XCTAssertEqual(rows.reduce(0) { $0 + $1.count }, result.stats.connections - result.stats.routed)
+        XCTAssertTrue(rows.allSatisfy { !$0.reason.isEmpty && $0.count > 0 && $0.key != nil })
+        XCTAssertFalse(rows.isEmpty, "LFU in 20 s leaves some unrouted")
+    }
+
+    func testTheRouteMenuIsOnlyOnThePCBPage() {
+        XCTAssertTrue(RouteActions.available(page: .pcb, isPlaying: false))
+        XCTAssertFalse(RouteActions.available(page: .schematic, isPlaying: false))
+        XCTAssertFalse(RouteActions.available(page: .pcb, isPlaying: true))
+    }
 }

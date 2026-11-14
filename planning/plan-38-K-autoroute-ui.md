@@ -143,16 +143,16 @@ per-run choices, remembered, not preferences).
 
 Acceptance: cases pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd test -only-testing:schematicalTests/AutorouteModelTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 2 min).
-Commit: —
+Commit: 07d9d575
 
 ### Phase 2 — sheet, menu, toolbar, preview, results
 
-- [ ] `Routing/AutorouteSheet.swift`: the sheet (idle / running / finished states), keyboard: Return = Route, Esc = Cancel (when running: Esc = Cancel run).
-- [ ] `Routing/RouteCommands.swift`: `RouteCommands`, `\.routeActions`; registered in `schematicalApp.swift` after `DesignRuleCheckCommands()`.
-- [ ] `ContentView.swift`: `@State isAutorouteOpen`, the sheet, `.focusedSceneValue(\.routeActions, page == .pcb ? … : nil)`, toolbar button "Autoroute" next to Preview.
-- [ ] `PCBCanvasView.swift`: `routePreview` drawing.
-- [ ] Results list: failed nets with reasons, click → `highlightedNet`; Design Rule Check button → `openWindow(id: "drc", …)`.
-- [ ] Tests (`AutorouteModelTests`): the results list for an LFU run names every unrouted net once with a non-empty reason and its count; the menu actions struct is nil for `.schematic`.
+- [x] `Routing/AutorouteSheet.swift`: the sheet (idle / running / finished states), keyboard: Return = Route, Esc = Cancel (when running: Esc = Cancel run). (While running, Return is Stop; the sheet can't be swiped shut mid-run.)
+- [x] `Routing/RouteCommands.swift`: `RouteCommands`, `\.routeActions`; registered in `schematicalApp.swift` after `DesignRuleCheckCommands()`. (Also `SchematicDocument.selectedNets()` for Unroute Selected and `selectAutorouted()`.)
+- [x] `ContentView.swift`: `@State isAutorouteOpen`, the sheet, `.focusedSceneValue(\.routeActions, page == .pcb ? … : nil)`, toolbar button "Autoroute" next to Preview. (The condition is `RouteActions.available(page:isPlaying:)`: also nil while the simulation plays.)
+- [x] `PCBCanvasView.swift`: `routePreview` drawing.
+- [x] Results list: failed nets with reasons, click → `highlightedNet`; Design Rule Check button → `openWindow(id: "drc", …)`. (Group outcomes as lines under it.)
+- [x] Tests (`AutorouteModelTests`): the results list for an LFU run names every unrouted net once with a non-empty reason and its count; the menu actions struct is nil for `.schematic`. (LFU with Fast and a 20 s time limit, so the run stops with nets to list; a full Balanced LFU is 8 minutes in Debug, plan-38-H.) — `-only-testing:AutorouteModelTests` → 8 tests, 0 failures, `** TEST SUCCEEDED **` (51 s; the app with the sheet built).
 
 Acceptance: build succeeds; model tests pass.
   Check: `-only-testing:schematicalTests/AutorouteModelTests` → `** TEST SUCCEEDED **` (est. 3 min; includes a full LFU route at ≈ 10 s).

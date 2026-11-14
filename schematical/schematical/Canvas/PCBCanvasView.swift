@@ -65,6 +65,9 @@ struct PCBCanvasView: View {
     /// vias and unrouted lines drawn bright over everything else dimmed.
     /// Window state, never saved; Esc clears it.
     var highlightedNet: Binding<PlaneNet?> = .constant(nil)
+    /// The copper an Autoroute run has routed so far, drawn at 60 % in each
+    /// layer's colour while it runs; never saved.
+    var routePreview: (traces: [RoutedTrace], vias: [RoutedVia])? = nil
     /// Called when the Text tool has placed a text; the owner returns to Select.
     var onPlaced: () -> Void = {}
     /// Drawing for File > Export > Image (`ImageExport`): no grid, hover,
@@ -317,6 +320,7 @@ struct PCBCanvasView: View {
         if !exporting, let key = highlightedNet.wrappedValue {
             drawHighlight(of: key, visible: visible, in: &context)
         }
+        if !exporting, let routePreview { drawRoutePreview(routePreview, in: &context) }
         drawTraceTool(in: &context)
         guard !exporting else { return }
 
@@ -505,6 +509,23 @@ struct PCBCanvasView: View {
                 }
             }
             context.stroke(path, with: .color(.red), lineWidth: 2 / scale)
+        }
+    }
+
+    /// An Autoroute run's copper so far, at 60 % in each layer's colour.
+    private func drawRoutePreview(_ preview: (traces: [RoutedTrace], vias: [RoutedVia]),
+                                  in context: inout GraphicsContext) {
+        let board = document.board
+        let visible = shown
+        for trace in preview.traces where visible.showsTrace(on: trace.layer) {
+            let colour = board.style(of: trace.layer).color.color.opacity(0.6)
+            context.stroke(Self.path(trace.points), with: .color(colour), style: Self.traceStyle(width: trace.width))
+        }
+        guard visible.showsAnyCopper else { return }
+        for via in preview.vias {
+            let rect = CGRect(x: via.centre.x - via.diameter / 2, y: via.centre.y - via.diameter / 2,
+                              width: via.diameter, height: via.diameter)
+            context.fill(Path(ellipseIn: rect), with: .color(Self.copper.opacity(0.6)))
         }
     }
 
