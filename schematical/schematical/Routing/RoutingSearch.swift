@@ -141,7 +141,7 @@ nonisolated struct RoutingSearch {
     /// box in cell coordinates, for the heuristic; nil searches without one
     /// (Dijkstra). `isCancelled` is polled every 4096 expansions.
     mutating func search(_ grid: RoutingGrid, rules: SearchRules, sources: [Int], targets: [Int],
-                         goal: (x: ClosedRange<Int>, y: ClosedRange<Int>)?, history: [Float]? = nil, startCosts: [Int: Float]? = nil,
+                         goal: (x: ClosedRange<Int>, y: ClosedRange<Int>)?, history: [Float]? = nil, startCosts: [Int: Float]? = nil, targetCosts: [Int: Float]? = nil,
                          isCancelled: () -> Bool) -> Result<[Int], SearchFailure> {
         for node in touched {
             cost[node] = .infinity
@@ -176,7 +176,7 @@ nonisolated struct RoutingSearch {
                             grid.fixedTraceMaps.withUnsafeBufferPointer { fixedTrace in
                                 grid.fixedViaMaps.withUnsafeBufferPointer { fixedVia in
                                     history.withUnsafeBufferPointer { history in
-                                        Self.explore(grid, rules: rules, sources: sources, startCosts: startCosts, goal: goal, cost: cost,
+                                        Self.explore(grid, rules: rules, sources: sources, startCosts: startCosts, targetCosts: targetCosts, goal: goal, cost: cost,
                                                      came: came, marks: marks, generation: generation,
                                                      maps: Maps(trace: traceMaps, via: viaMaps, fixedTrace: fixedTrace,
                                                                 fixedVia: fixedVia, history: history),
@@ -205,7 +205,7 @@ nonisolated struct RoutingSearch {
         let history: UnsafeBufferPointer<Float>
     }
 
-    private static func explore(_ grid: RoutingGrid, rules: SearchRules, sources: [Int], startCosts: [Int: Float]?,
+    private static func explore(_ grid: RoutingGrid, rules: SearchRules, sources: [Int], startCosts: [Int: Float]?, targetCosts: [Int: Float]?,
                                 goal: (x: ClosedRange<Int>, y: ClosedRange<Int>)?,
                                 cost: UnsafeMutableBufferPointer<Float>, came: UnsafeMutableBufferPointer<Int32>,
                                 marks: UnsafeBufferPointer<UInt32>, generation: UInt32, maps: Maps,
@@ -285,22 +285,36 @@ nonisolated struct RoutingSearch {
             let c = node % cells
             open.push(Heap.pack(start + h(c % nx, c / nx), node))
         }
+        // With target costs, the cheapest of g + a target's cost wins: the
+        // search goes on until nothing open can beat the best found.
+        var best: (node: Int, total: Float)?
+        func path(to node: Int) -> [Int] {
+            var path = [node]
+            var current = node
+            while came[current] >= 0 {
+                current = Int(came[current])
+                path.append(current)
+            }
+            return path.reversed()
+        }
         while let item = open.pop() {
             let node = Int(UInt32(truncatingIfNeeded: item))
             let f = Float(bitPattern: UInt32(item >> 32))
+            if let best, f >= best.total {
+                found = best.total
+                return .success(path(to: best.node))
+            }
             let g = cost[node]
             let cell = node % cells, layer = node / cells
             let x = cell % nx, y = cell / nx
             if f > g + h(x, y) + 1e-4 { continue }
             if marks[node] == generation {
-                var path = [node]
-                var current = node
-                while came[current] >= 0 {
-                    current = Int(came[current])
-                    path.append(current)
+                guard let targetCosts else {
+                    found = g
+                    return .success(path(to: node))
                 }
-                found = g
-                return .success(path.reversed())
+                let total = g + (targetCosts[node] ?? 0)
+                if total < best?.total ?? .infinity { best = (node, total) }
             }
             expanded += 1
             if expanded >= limit { return .failure(.tooLong) }
@@ -350,6 +364,10 @@ nonisolated struct RoutingSearch {
                     }
                 }
             }
+        }
+        if let best {
+            found = best.total
+            return .success(path(to: best.node))
         }
         return .failure(.noPath)
     }

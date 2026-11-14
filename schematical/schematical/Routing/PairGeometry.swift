@@ -48,6 +48,14 @@ nonisolated enum PairGeometry {
         return spacing >= need ? 0 : (need * need - spacing * spacing).squareRoot()
     }
 
+    /// How far apart, centre to centre, a pair's two vias stand side by side:
+    /// far enough that their metal keeps `clearance` (D + c) and that each
+    /// trace, flared out to its via, keeps it from the other's via
+    /// (D/2 + w/2 + c); never closer than the pair's own spacing.
+    static func viaSpacing(diameter: Double, clearance: Double, width: Double, spacing: Double) -> Double {
+        max(diameter + clearance, diameter / 2 + width / 2 + clearance, spacing)
+    }
+
     /// The pair's two vias at a layer change at `centre`, the run going
     /// `along` (a unit vector): P's on the left, set back half the stagger,
     /// N's on the right, set forward half.

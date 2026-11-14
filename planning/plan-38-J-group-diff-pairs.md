@@ -142,13 +142,13 @@ side (overlap, § 2); coupling only by cost (a cost cannot hold a gap to
 
 Acceptance: cases pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd test -only-testing:schematicalTests/PairGeometryTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 1–2 min).
-Commit: —
+Commit: b0a33fcd
 
 ### Phase 2 — the fat search and expansion
 
-- [ ] `Routing/RoutingGrid.swift`: pair profile and pair-via map; `Routing/RoutingSearch.swift`: multi-source/target with initial costs; `Routing/RoutingPair.swift`: route centreline → clean → offset → vias → breakouts → verify (§ 3).
-- [ ] `Routing/RoutingState.swift`: a ledger entry may hold several nets' copper; stamp/unstamp every member.
-- [ ] Tests (`RoutingPairTests`): open board, pads 20 mm apart, gap 0.2: both traces parallel at 0.2 ± 0.001 over all but the breakouts; a blocking trace forces a layer change → two vias, staggered, DRC-clean after apply; a width-0.5 mm pair keeps its own clearance from a Default neighbour; a pair with an Only{Top} rule never uses a via; a channel 0.5 mm wide (too narrow for `2w + g`) → `uncoupled`.
+- [x] `Routing/RoutingGrid.swift`: pair profile and pair-via map; `Routing/RoutingSearch.swift`: multi-source/target with initial costs; `Routing/RoutingPair.swift`: route centreline → clean → offset → vias → breakouts → verify (§ 3). (No grid change needed: the pair gets a grid of its own from a copy of the problem where N's copper is P's and one fat net, `2w + g` wide with a via disc of `viaSpacing + D`, replaces both; its profile and via map are that grid's. Search: `startCosts` and `targetCosts`, see Corrections. Vias: flared side by side, see Corrections.)
+- [x] `Routing/RoutingState.swift`: a ledger entry may hold several nets' copper; stamp/unstamp every member. (Kept as one entry per net, which the ledger already stamps and un-stamps exactly; the pair is handled as a unit in Phase 3 by ripping and re-routing both nets' entries together.)
+- [x] Tests (`RoutingPairTests`): open board, pads 20 mm apart, gap 0.2: both traces parallel at 0.2 ± 0.001 over all but the breakouts; a blocking trace forces a layer change → two vias, staggered, DRC-clean after apply; a width-0.5 mm pair keeps its own clearance from a Default neighbour; a pair with an Only{Top} rule never uses a via; a channel 0.5 mm wide (too narrow for `2w + g`) → `uncoupled`. (The layer-change case asserts two vias per change that clear each other and a clean verifier, not a stagger; "DRC-clean after apply" is the verifier on these engine-only boards, as in plan-38-I.) — `-only-testing:RoutingPairTests -only-testing:RoutingSearchTests` → 15 tests, 0 failures, `** TEST SUCCEEDED **`.
 
 Acceptance: cases pass.
   Check: `-only-testing:schematicalTests/RoutingPairTests -only-testing:schematicalTests/RoutingSearchTests` → `** TEST SUCCEEDED **` (est. 3 min).
@@ -197,6 +197,28 @@ See plan-38-A § Decisions (owner: coupled differential-pair routing, 2026-11-13
 - The 4th check's "hand-computed value" for a 3 mm divergence counts the
   tolerance band: P stays coupled to N's corner for √((s + 0.02)² − s²) =
   0.136 mm, N's rise for 0.02 mm, so 5.844 mm, not 6.
+- **A staggered via pair is illegal at these sizes (§ 3 "Layer change").**
+  The trace whose via comes later on the run passes beside the other net's
+  via at the pair's centre spacing `s`; that needs `D/2 + w/2 + c`. Measured
+  with the 0.8 mm via: P's trace to N's via gap −0.073 mm (`RoutingPair`
+  probe, the verifier's clearance line); at PCBWay's 0.5 mm via it needs
+  0.477 > 0.454 too. No stagger fixes it, as the trace passes the via either
+  way. Replaced with a **flared** via pair: the two vias side by side at
+  `L = max(D + c, D/2 + w/2 + c, s)` (`PairGeometry.viaSpacing`), each trace
+  leaving its lane at 45° `(L − s)/2` before the via and returning as far
+  after; the flares count as uncoupled length. The fat via disc is `L + D`.
+  `stagger` stays, tested, but unused.
+- **End costs must outweigh the walk.** § 3 gives sources "an initial cost
+  equal to its distance from M". That ties with walking the same distance, and
+  targets had no cost at all, so the centreline started and ended at the far
+  edge of each end's region: 10.11 mm of breakouts on the open test board.
+  Now both ends cost 3 × the distance (in cells), the search supports
+  `targetCosts` (it continues until nothing open can beat the best target
+  plus its cost), and the regions are at most a third of the end-to-end span,
+  so they can't overlap: 1.06 mm uncoupled on the same board.
+- An end's cells are only on the layers both of its pads are on (a Top
+  surface pad: Top). Without that, the walled test board's pair ran wholly
+  on Bottom, its ends joining nothing.
 
 ## Summary
 

@@ -41,14 +41,16 @@ nonisolated enum RoutingPair {
         let spacing = width + gap
         let clearance = max(pNet.clearance, nNet.clearance)
         let diameter = max(pNet.viaDiameter, nNet.viaDiameter)
-        let stagger = PairGeometry.stagger(diameter: diameter, clearance: clearance, spacing: spacing)
+        // The pair's vias stand side by side this far apart, each trace
+        // flared out to its via (plan-38-J Corrections).
+        let viaSpacing = PairGeometry.viaSpacing(diameter: diameter, clearance: clearance, width: width, spacing: spacing)
 
         // The pair's grid: both nets' copper is P's; the fat net routes.
         var pairProblem = problem
         var fat = pNet
         fat.width = 2 * width + gap
         fat.clearance = clearance
-        fat.viaDiameter = spacing + diameter + stagger
+        fat.viaDiameter = viaSpacing + diameter
         fat.viaDrill = max(pNet.viaDrill, nNet.viaDrill)
         fat.allowed = allowed
         fat.preferred = pNet.preferred.intersection(allowed)
@@ -60,8 +62,21 @@ nonisolated enum RoutingPair {
         }
         let grid = RoutingGrid(problem: pairProblem)
         let rules = SearchRules(net: fat, grid: grid, problem: pairProblem)
-        let reach = max(group.maxUncoupled / 2, grid.pitch)
-        func cells(near m: CGPoint) -> [Int: Float] {
+        // Within maxUncoupled / 2 of each end, but never so far the two ends'
+        // regions meet.
+        let span = hypot(m2.x - m1.x, m2.y - m1.y)
+        let reach = max(min(group.maxUncoupled / 2, span / 3), grid.pitch)
+        // The layers both pads at an end are on (a through-hole pad: all).
+        func layers(_ a: CGPoint, _ b: CGPoint) -> Set<Int> {
+            let pads = (pNet.components + nNet.components).flatMap(\.pads)
+            var set = Set(grid.layers.indices)
+            for point in [a, b] {
+                guard let pad = pads.first(where: { $0.bounds.insetBy(dx: -1e-6, dy: -1e-6).contains(point) }) else { continue }
+                set.formIntersection(grid.layerIndices(pad.layers))
+            }
+            return set
+        }
+        func cells(near m: CGPoint, on endLayers: Set<Int>) -> [Int: Float] {
             var found: [Int: Float] = [:]
             guard let range = grid.cellRange(CGRect(x: m.x, y: m.y, width: 0, height: 0), margin: reach) else { return found }
             for y in range.y {
@@ -70,21 +85,23 @@ nonisolated enum RoutingPair {
                     let point = grid.point(c)
                     let d = hypot(point.x - m.x, point.y - m.y)
                     guard d <= reach else { continue }
-                    for layer in grid.layers.indices where rules.allowed[layer]
+                    for layer in grid.layers.indices where rules.allowed[layer] && endLayers.contains(layer)
                         && grid.isPassable(c, layer: layer, net: fat.id, profile: rules.profile) {
-                        found[layer * grid.cellCount + c] = Float(d / grid.pitch)
+                        // 3 × the distance: dearer than walking it, so the pair
+                        // starts and ends close to its pads.
+                        found[layer * grid.cellCount + c] = Float(3 * d / grid.pitch)
                     }
                 }
             }
             return found
         }
-        let sources = cells(near: m1), targets = cells(near: m2)
+        let sources = cells(near: m1, on: layers(pStart, nStart)), targets = cells(near: m2, on: layers(pEnd, nEnd))
         guard !sources.isEmpty, !targets.isEmpty else { return .failure(.noRoom) }
         var search = RoutingSearch(nodes: grid.cellCount * grid.layers.count)
         let targetNodes = targets.keys.sorted()
         guard case let .success(path) = search.search(grid, rules: rules, sources: sources.keys.sorted(),
                                                        targets: targetNodes, goal: grid.cellBox(targetNodes),
-                                                       startCosts: sources, isCancelled: isCancelled) else {
+                                                       startCosts: sources, targetCosts: targets, isCancelled: isCancelled) else {
             return .failure(.noRoute)
         }
 
@@ -97,39 +114,77 @@ nonisolated enum RoutingPair {
         }
         var centrelines: [(layer: CopperLayer, points: [CGPoint])] = []
         for run in runs {
-            let points = Router.merged(run.cells, grid: grid)
-            guard points.count >= 2 else { return .failure(.noRoute) }
-            var cleanup = RoutingCleanup(problem: pairProblem,
-                                         traces: [RoutedTrace(layer: grid.layers[run.layer], width: fat.width,
-                                                              points: points, net: fat.id)],
-                                         vias: [], traceEntry: [0], viaEntry: [])
-            cleanup.straighten(0)
-            if problem.options.angle == .octilinear { cleanup.chamfer(0) }
-            centrelines.append((grid.layers[run.layer], cleanup.traces[0].points))
+            var points = Router.merged(run.cells, grid: grid)
+            if points.count >= 2 {
+                var cleanup = RoutingCleanup(problem: pairProblem,
+                                             traces: [RoutedTrace(layer: grid.layers[run.layer], width: fat.width,
+                                                                  points: points, net: fat.id)],
+                                             vias: [], traceEntry: [0], viaEntry: [])
+                cleanup.straighten(0)
+                if problem.options.angle == .octilinear { cleanup.chamfer(0) }
+                points = cleanup.traces[0].points
+            }
+            // A run of one cell: the path changed layer where it started or
+            // ended; its copper is the via pair and the breakouts.
+            centrelines.append((grid.layers[run.layer], points))
         }
+        func unit(_ a: CGPoint, _ b: CGPoint) -> CGPoint {
+            let l = hypot(b.x - a.x, b.y - a.y)
+            return CGPoint(x: (b.x - a.x) / l, y: (b.y - a.y) / l)
+        }
+        // The run's direction at each layer change: the run before's last
+        // segment, else the run after's first.
+        var alongs: [CGPoint] = []
+        for k in 0..<(centrelines.count - 1) {
+            let before = centrelines[k].points, after = centrelines[k + 1].points
+            if before.count >= 2 {
+                alongs.append(unit(before[before.count - 2], before[before.count - 1]))
+            } else if after.count >= 2 {
+                alongs.append(unit(after[0], after[1]))
+            } else {
+                return .failure(.noRoute)
+            }
+        }
+        guard let firstDirection = centrelines[0].points.count >= 2
+            ? unit(centrelines[0].points[0], centrelines[0].points[1]) : alongs.first else { return .failure(.noRoute) }
 
         // Which side P runs on: the side of the first end's P pad.
-        let first = centrelines[0].points
-        let dx = first[1].x - first[0].x, dy = first[1].y - first[0].y
-        let side: Double = (pStart.x - first[0].x) * -dy + (pStart.y - first[0].y) * dx >= 0 ? 1 : -1
-        var pRuns = centrelines.map { (layer: $0.layer, points: PairGeometry.offset($0.points, by: side * spacing / 2)) }
-        var nRuns = centrelines.map { (layer: $0.layer, points: PairGeometry.offset($0.points, by: -side * spacing / 2)) }
+        let origin = centrelines[0].points[0]
+        let side: Double = (pStart.x - origin.x) * -firstDirection.y + (pStart.y - origin.y) * firstDirection.x >= 0 ? 1 : -1
+        func offsetRuns(_ sign: Double) -> [(layer: CopperLayer, points: [CGPoint])] {
+            centrelines.map { run in
+                (run.layer, run.points.count >= 2 ? PairGeometry.offset(run.points, by: sign * spacing / 2) : run.points)
+            }
+        }
+        var pRuns = offsetRuns(side), nRuns = offsetRuns(-side)
         var vias: [RoutedVia] = []
         for k in 0..<(centrelines.count - 1) {
-            let line = centrelines[k].points
-            let a = line[line.count - 2], b = line[line.count - 1]
-            let l = hypot(b.x - a.x, b.y - a.y)
-            let along = CGPoint(x: (b.x - a.x) / l, y: (b.y - a.y) / l)
-            let pair = PairGeometry.vias(at: b, along: along, spacing: spacing, stagger: stagger)
-            // `vias(at:)` puts its first via on the left.
-            let (vp, vn) = side > 0 ? (pair.p, pair.n) : (pair.n, pair.p)
-            pRuns[k].points[pRuns[k].points.count - 1] = vp
-            pRuns[k + 1].points[0] = vp
-            nRuns[k].points[nRuns[k].points.count - 1] = vn
-            nRuns[k + 1].points[0] = vn
+            let at = centrelines[k].points[centrelines[k].points.count - 1]
+            let a = alongs[k], lateral = CGPoint(x: -a.y, y: a.x)
+            // Each trace leaves its lane at 45° a flare before the via, out to
+            // its via, and comes back to its lane a flare after it.
+            let flare = (viaSpacing - spacing) / 2
+            func lane(_ sign: Double, _ out: Double, _ forward: Double) -> CGPoint {
+                CGPoint(x: at.x + lateral.x * sign * (spacing / 2 + out) + a.x * forward,
+                        y: at.y + lateral.y * sign * (spacing / 2 + out) + a.y * forward)
+            }
+            let vp = lane(side, flare, 0), vn = lane(-side, flare, 0)
+            func flareInto(_ runs: inout [(layer: CopperLayer, points: [CGPoint])], _ sign: Double, _ via: CGPoint) {
+                runs[k].points.removeLast()
+                if flare > 1e-9, centrelines[k].points.count >= 2 { runs[k].points.append(lane(sign, 0, -flare)) }
+                runs[k].points.append(via)
+                runs[k + 1].points.removeFirst()
+                var next = [via]
+                if flare > 1e-9, centrelines[k + 1].points.count >= 2 { next.append(lane(sign, 0, flare)) }
+                runs[k + 1].points.insert(contentsOf: next, at: 0)
+            }
+            flareInto(&pRuns, side, vp)
+            flareInto(&nRuns, -side, vn)
             vias.append(RoutedVia(centre: vp, drill: pNet.viaDrill, diameter: pNet.viaDiameter, net: pNet.id))
             vias.append(RoutedVia(centre: vn, drill: nNet.viaDrill, diameter: nNet.viaDiameter, net: nNet.id))
         }
+        // A one-point run at an end: its trace is the via's point alone
+        // until the breakout leg reaches it.
         func traces(_ runs: [(layer: CopperLayer, points: [CGPoint])], net: Int) -> [RoutedTrace] {
             runs.map { RoutedTrace(layer: $0.layer, width: width, points: TraceRoute.clean($0.points), net: net) }
         }
@@ -152,6 +207,8 @@ nonisolated enum RoutingPair {
         pTraces[pTraces.count - 1].points = TraceRoute.clean(Array(pTraces[pTraces.count - 1].points.dropLast()) + Array(pOut.reversed()))
         nTraces[nTraces.count - 1].points = TraceRoute.clean(Array(nTraces[nTraces.count - 1].points.dropLast()) + Array(nOut.reversed()))
 
+        pTraces = pTraces.filter { $0.points.count >= 2 }
+        nTraces = nTraces.filter { $0.points.count >= 2 }
         guard RoutingVerifier.verify(problem, traces: pTraces + nTraces, vias: vias).isEmpty else {
             return .failure(.illegal)
         }
