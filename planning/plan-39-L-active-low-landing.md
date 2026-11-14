@@ -22,8 +22,8 @@ plan-39-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-39-A … K complete | `ls planning/completed/plan-39-[A-K]-*.md \| wc -l` → 11 | NOT MET until K lands |
-| The ledger has a row for every in-scope pinout | `awk 'END{print NR-1}' planning/plan-39-data/ledger.tsv` → 2129 | NOT MET until K lands |
+| plan-39-A … K complete | `ls planning/completed/plan-39-[A-K]-*.md \| wc -l` → 11 | MET (2026-11-14) |
+| The ledger has a row for every in-scope pinout | `awk 'END{print NR-1}' planning/plan-39-data/ledger.tsv` → 2129 | MET (2026-11-14) |
 
 Everything below is written against the world where these hold.
 
@@ -71,8 +71,8 @@ agent control; the review tool).
 
 ### Phase 1 — gates, the real app, archive
 
-- [ ] Run the gates of the table below; record each observed value under it.
-- [ ] Run the app (build, open a new schematic) and place `AS6C1008-55PCN`
+- [x] Run the gates of the table below; record each observed value under it. — done: Observed, under the table
+- [~] Run the app (build, open a new schematic) and place `AS6C1008-55PCN`
       (SRAM), `TL16C550DIPT` (UART), `ADS8548SPM` (ADC) and `AT90CAN128-16AU`
       (MCU; its pinout has a pin named `RESET`). For each, run
       `node scripts/pin-polarity.js pins <device> <pinout>` (`AS6C1008 p32`,
@@ -82,10 +82,21 @@ agent control; the review tool).
       `WE#`; a multiplexed ADC name (`CS/FS`, `REFEN/WR`) is overlined only
       over the alternatives the tool lists. Export the schematic as SVG and
       open it: the overlines are in the file. Move the pointer to (0, 0).
-- [ ] Move `planning/plan-39-L-*.md` and the rest of plan-39's files that are
+      — [~] partial: the screen was locked at landing (`ioreg` →
+      `CGSSessionScreenIsLocked=Yes`; `loginwindow` frontmost), so no window
+      could be driven. The comparison ran through the app's own export code
+      in its test host instead: `ActiveLowExportTests` places the four parts,
+      exports SVG and PNG, and asserts each part's overlined pieces equal the
+      tool's list exactly. It passed, and the PNG was looked at (Corrections
+      1). Remains: a look at the four parts on a live canvas once the screen
+      is unlocked. The live canvas, Part Editor, PNG and SVG of a flagged
+      part were already seen in plan-39-C Phase 3.
+- [x] Move `planning/plan-39-L-*.md` and the rest of plan-39's files that are
       still in `planning/` to `planning/completed/` (`plan-39-data/` stays,
-      as `plan-38-data/` does).
-- [ ] Fill every `Commit:` line of A–L from `git log --oneline`.
+      as `plan-38-data/` does). — done: A–K moved as each landed; L moves in
+      its archive commit.
+- [x] Fill every `Commit:` line of A–L from `git log --oneline`. — done:
+      A–K filled as each phase landed (`grep -c 'Commit: —' planning/completed/plan-39-*.md` → 0 for A–K); L's below.
 
 | Gate | Command | Expected | Est. |
 |---|---|---|---|
@@ -96,6 +107,28 @@ agent control; the review tool).
 | App tests (touched areas) | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p39-dd test -only-testing:schematicalTests/ChipPinActiveLowTests -only-testing:schematicalTests/PartEditorWindowTests -only-testing:schematicalTests/PartKindRoundTripTests -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/AutomationTests -only-testing:schematicalTests/PinNameTextTests -only-testing:schematicalTests/PinNameOverlineTests -only-testing:schematicalTests/SVGPainterTests -only-testing:schematicalTests/SchematicSVGTests -only-testing:schematicalTests/SchematicSceneTests -only-testing:schematicalTests/PartPreviewTests -only-testing:schematicalTests/DatasheetCatalogTests CODE_SIGNING_ALLOWED=NO` | `** TEST SUCCEEDED **` | 12 min |
 | Docs name the key | `grep -c 'activeLow' docs/parts-format.md docs/backend.md docs/agent-control.md` | ≥ 4, ≥ 1, ≥ 1 | 1 min |
 | Real app | Phase 1's second task | the overlined names equal `pins`' flagged names for all four parts, in the canvas and the SVG | 15 min |
+
+Observed 2026-11-14:
+
+- Review tool: `check` → `ok: 2129 pinouts, 2129 ledger rows checked`;
+  `node --test` → `tests 13`, `pass 13`, `fail 0`.
+- Golden since plan-39 began: `golden-check --since e4471c7^` → `ok: 8250
+  parts.txt line(s) changed, only by :low`.
+- Backend: the first run gave `97% tests passed, 1 tests failed out of 34`
+  (`serial_test`; fixed in plan-39-G Corrections 4). After the fix: `100%
+  tests passed, 0 tests failed out of 34`.
+- App build: `** BUILD SUCCEEDED **`.
+- App tests: `** TEST SUCCEEDED **`, all 12 suites passed;
+  ChipPinActiveLowTests 2, PinNameOverlineTests 3, PinNameTextTests 7
+  executed.
+- Docs: `docs/parts-format.md:4`, `docs/backend.md:2`, `docs/agent-control.md:2`.
+- Real app: partial, see the task above and Corrections 1.
+  `ActiveLowExportTests`: `Executed 1 test, with 0 failures`.
+- Populations: flagged pins per kind (`grep -o '"activeLow"' … | wc -l`):
+  counter 152, decoder 175, latch 97, register 101, shift 74, arith 29,
+  dff 67, jkff 48, mux 44, cpu 61, pio 22, rtc 32, buffer 389, oscillator
+  35, eeprom 81, sram 147, serial 2099, converter 1795, mcu 108. Ledger
+  rows 2129. Golden lines with `:low` 8250.
 
 Acceptance: every gate's expected value was observed and written under the
 table; the files are archived.
@@ -121,7 +154,21 @@ Commit: —
 
 ## Corrections
 
-(empty until execution)
+1. **The real-app look became an export check in the app's test host.**
+   The screen was locked when L ran, so no window could be driven. The one
+   attempt sent a click and the typed part name to `loginwindow`; Return
+   was never sent. Building a test affordance replaced the GUI step:
+   `schematicalTests/ActiveLowExportTests.swift` places the four parts with
+   the app's own document code. It exports through `SchematicExport.svg`
+   and `.png`, the code File ▸ Export runs. For each part it asserts that
+   the SVG's overlined pieces equal the alternatives `pins` lists as
+   flagged, and that no `CE#`/`OE#`/`WE#` is drawn. The PNG
+   (`$TMPDIR/p39-landing/four-parts.png`) was looked at: every bar is over
+   the right letters. This is a stricter comparison than reading a canvas
+   by eye. The live-canvas look is still owed (the task stays `[~]`).
+2. **A backend test the phase gates did not run failed here**
+   (`serial_test`), and was fixed in the letter that owns it (plan-39-G
+   Corrections 4).
 
 ## Summary
 
