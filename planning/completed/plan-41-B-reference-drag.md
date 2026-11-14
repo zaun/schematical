@@ -179,18 +179,18 @@ Commit: b751f543
 Acceptance: the key is listed.
   Result: `** TEST SUCCEEDED **`; KeyboardHelpTests 4 tests, 0 failures.
   Check: `xcodebuild … test -only-testing:schematicalTests/KeyboardHelpTests CODE_SIGNING_ALLOWED=NO` (same project, scheme and derived-data path) → `** TEST SUCCEEDED **` (est. 5 min).
-Commit: —
+Commit: be81b8d7
 
 ### Phase 3 — Landing tier (once)
 
-- [ ] Run the Validation Plan's gate table and record the observed values
-      under it.
-- [ ] Real-app check (below); record what was seen.
-- [ ] Move `plan-41-A` and `plan-41-B` to `planning/completed/`.
+- [x] Run the Validation Plan's gate table and record the observed values
+      under it (§ Observed values).
+- [x] Real-app check (below); record what was seen (§ Observed values).
+- [x] Move `plan-41-A` and `plan-41-B` to `planning/completed/`.
 
 Acceptance: every gate row shows its expected value; the real-app steps all
 behave as written.
-Commit: —
+Commit: — (recorded in the merge)
 
 ## Validation Plan
 
@@ -226,6 +226,39 @@ Commit: —
 
   The backend is untouched (`git diff --stat <plan-41-A first commit>^ -- backend` → empty), so no backend tier.
 
+### Observed values (2026-11-14, tree at be81b8d7)
+
+| Gate | Observed |
+|---|---|
+| App build | `** BUILD SUCCEEDED **` |
+| App tests, touched areas | `** TEST SUCCEEDED **`: 118 tests, 0 failures (ReferencePositionTests 13, ReferenceDragTests 9, KeyboardHelpTests 4, PCBUndoTests 34, LockPositionTests 6, DesignRuleCheckTests 12, GerberExportTests 17, SchematicFileV5Tests 10, BoardPreviewTests 3, BoardSideTests 10) |
+| Backend untouched | `git diff --stat 6757080a HEAD -- backend \| wc -l` → 0 |
+| Main drift | `main` still at 6757080a (the plan's own commit) when merging, so no merge of main and no re-run |
+
+Real app (the Debug build in `/tmp/p41-dd`, driven with a copy of the plan-32
+drive tool that holds Cmd on mouse events), on `examples/8bit-cpu/AFU.schematical`,
+PCB page at 100 %, part C9 (its reference was drawn over its pads):
+
+1. Cmd-drag "C9" right by about 70 pt: only the text moved; the part stayed,
+   selected (blue box), and the sidebar showed C9.
+2. Plain drag of the part 30 pt left: the part moved and the reference moved by
+   the same amount.
+3. ⌘R: the part turned about pad 1; the reference went round with it (it
+   was right of the part, now below), text still horizontal.
+4. ⌘Z three times (rotate, part move, reference move): the reference was back on
+   the body centre, over the pads, as at the start.
+5. Cmd-drag again: "Reset Reference Position" showed under Marks (sidebar
+   scrolled); clicking it put the reference back on the body centre and the
+   button went.
+6. Cmd-drag again, then Design Rule Check (131 issues): C2–C8, R1 and U44 have
+   "Reference over pad"; C9's only silkscreen issue is its pin-1 mark.
+7. Preview button: Board Preview drew "C9" at the moved place, beside the part.
+8. Save As `/tmp/p41-afu.schematical` (the example was not saved: `git status`
+   clean): the file has `"refX" : -3.365` and no `refY` for C9 (the part is
+   at 180°, so the screen-right move is -x in its frame). Quit, relaunched,
+   opened it: C9 was where it was left.
+   The pointer went to (0, 0) at the end.
+
 ## Decisions
 
 - Cmd-drag on the reference moves it, not the part — the owner's brief,
@@ -239,7 +272,14 @@ Commit: —
 
 ## Corrections
 
-(None yet.)
+- The Validation Plan names C1 for the real-app run; the part used was C9,
+  because it was the one in view on the 100 % page and has the same 0603
+  reference-over-pad warning (the todo lists C1–C9). Nothing else differs.
+- Step 8's Save As panel treats a typed `/` as its Go-to field, so the path
+  was entered as folder (`/`, `tmp`) then name. Closing the only window quits
+  the app, so the reopen was a relaunch. Neither affects the design.
+- Phase 1 gained an unlisted task (the zero-offset guard in
+  `ReferenceDragging.drag`); it is ticked there.
 
 ## Summary
 
