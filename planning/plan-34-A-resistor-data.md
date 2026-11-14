@@ -402,7 +402,7 @@ Commit: bbb514a
 Acceptance: every picked row from a cut piece is confirmed in stock.
   Check: `python3 -I planning/plan-34-data/census/select.py /tmp/p34/raw /tmp/p34/cand.tsv --stock planning/plan-34-data/stock-check.tsv --report` and an `awk` join of the picked rows from cut pieces with `stock-check.tsv` → 0 unchecked, 0 picked with `found` = 0 (est. 1–2 quota days at one call per part).
   Result (2026-11-14): `select.py … --report` exits 0; `cut-picked … 0 unchecked`; 0 picked rows with `found` = 0.
-Commit: —
+Commit: 4d4658f
 
 ### Phase 3 — Downloads, scans, placement
 

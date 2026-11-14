@@ -189,7 +189,7 @@ Commit: 6556935
 Acceptance: every picked row is `add` and confirmed.
   Check: `python3 -I planning/plan-34-data/census/select.py /tmp/p34/raw planning/plan-34-data/candidates.tsv --stock planning/plan-34-data/stock-check.tsv --verdicts planning/plan-34-data/verdicts.tsv --report` exits 0 and prints `kept per category/maker` summing to chip 1500, through-hole 400, arrays ≤ 100, and `awk -F'\t' '$22=="candidate"' planning/plan-34-data/candidates.tsv | wc -l` → 0 (est. 5 min plus any stock calls).
   Result (2026-11-14): exit 0; kept chip 1500 (YAGEO 1265, Dale 224, Viking 11), through-hole 400 (YAGEO 395, Dale 4, Viking 1), arrays 74 (YAGEO 63, Dale 8, Viking 3); `candidate` 0.
-Commit: —
+Commit: 6d2be35
 
 ### Phase 3 — Skipped parts, obsolete PDFs, footprint lines
 
@@ -224,7 +224,7 @@ Commit: —
 Acceptance: the tree holds exactly the PDFs the `add` rows need, and every listed skip is recorded.
   Check: `python3 -I planning/plan-34-data/census/place.py --verify planning/plan-34-data/candidates.tsv` → `0 missing, 0 unused`, and `python3 -I planning/plan-34-data/census/verdicts.py --verify-skipped` → `0 skip rows missing` (est. 2 min).
   Result (2026-11-14): `place.py --verify` after the prune lists the 39 PDFs only `skip` rows used, which the prune removed (§ Corrections 6), so the check run is `--verify-add` → `0 missing, 0 unused`; `0 skip rows missing`.
-Commit: —
+Commit: 6d2be35
 
 ## Validation Plan
 
