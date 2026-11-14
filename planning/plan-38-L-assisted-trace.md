@@ -126,7 +126,7 @@ is strictly better and uses the same engine).
 
 Acceptance: cases pass. A timing assertion that fails is a performance bug to fix (coarser grid for the assist, e.g. 0.127 mm), not to loosen.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd test -only-testing:schematicalTests/AssistRouterTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 2 min).
-Commit: —
+Commit: 0c9fa010
 
 ### Phase 2 — Assist in the Trace tool
 
@@ -136,7 +136,7 @@ Commit: —
 
 Acceptance: cases pass.
   Check: `-only-testing:schematicalTests/TraceToolTests -only-testing:schematicalTests/TraceAngleTests -only-testing:schematicalTests/AssistRouterTests` → `** TEST SUCCEEDED **` (est. 2 min).
-Commit: —
+Commit: 0c9fa010
 
 ### Phase 3 — the V key
 
@@ -146,7 +146,7 @@ Commit: —
 
 Acceptance: cases pass.
   Check: `-only-testing:schematicalTests/TraceToolTests -only-testing:schematicalTests/KeyboardHelpTests` → `** TEST SUCCEEDED **` (est. 2 min).
-Commit: —
+Commit: 0c9fa010
 
 ### Phase 4 — the real app
 
@@ -160,7 +160,7 @@ Commit: —
 
 Acceptance: behaves as stated.
   Check: the real-app run above (est. 15 min).
-Commit: —
+Commit: 0c9fa010
 
 ## Validation Plan
 
