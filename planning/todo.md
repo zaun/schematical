@@ -80,9 +80,9 @@
 - [ ] Add copper pours on the top/bottom layers (e.g. a GND pour with
       thermal reliefs), not only whole-layer planes.
 - [ ] Custom board outlines: rounded corners, cutouts, DXF import.
-- [ ] Per-net trace widths (net classes): power nets wider by default.
+- [x] Per-net trace widths (net classes): power nets wider by default. (plan-38)
 - [ ] Import footprints from KiCad's footprint libraries.
-- [ ] Later: teardrops, a simple autorouter, push-and-shove routing.
+- [ ] Later: teardrops, push-and-shove routing. (autorouter: plan-38)
 
 ## Schematic
 

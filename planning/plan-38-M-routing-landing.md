@@ -71,7 +71,7 @@ References:
 
 Acceptance: `docs/routing.md` exists and names every `RoutingOptions` field; links resolve.
   Check: `grep -c "" docs/routing.md` → more than 0, and for each field name in `RoutingOptions` (`grep -o "^    var [a-zA-Z]*" schematical/schematical/Routing/RoutingOptions.swift | awk '{print $2}'`) `grep -c <field> docs/routing.md` → ≥ 1 (est. 2 min). — 233 lines; scope 5, include 1, existing 1, layers 5, vias 10, angle 1, strategy 2, grid 5, widthOverride 1, clearanceOverride 1, fanoutPlanes 1, tuneGroups 1, routePairs 1, seed 3, timeLimit 1.
-Commit: —
+Commit: c66268e0
 
 ### Phase 2 — the landing tier (run once)
 
@@ -94,11 +94,11 @@ Commit: —
 
 Acceptance: every line above passes on one commit.
   Check: the lines above, with their results recorded here and the commit hash (est. 40 min in total).
-Commit: —
+Commit: 85afb751 (merge 095ce688)
 
 ### Phase 3 — close
 
-- [ ] `planning/todo.md`: in § PCB, tick "Per-net trace widths (net classes): power nets wider by default." and add `(plan-38)`; in "Later: teardrops, a simple autorouter, push-and-shove routing." remove "a simple autorouter," and append "(autorouter: plan-38)"; leave teardrops and push-and-shove. The owner's working copy may hold other edits to this file, so commit only these hunks, without an interactive add: `git show HEAD:planning/todo.md > /tmp/todo.head`, copy it to `/tmp/todo.new`, make the two edits in the copy, `git diff --no-index /tmp/todo.head /tmp/todo.new` rewritten with the paths `a/planning/todo.md` and `b/planning/todo.md` into `/tmp/todo.patch`, then `git apply --cached /tmp/todo.patch` and `git commit -m "plan-38: todo ticked"` with no path argument, so only the index is committed and the working-tree edits of others stay unstaged. The "Route the AFU PCB" and "Route the LFU PCB" lines stay unticked: they are about saving routed example files, which this plan does not do.
+- [x] `planning/todo.md`: in § PCB, tick "Per-net trace widths (net classes): power nets wider by default." and add `(plan-38)`; in "Later: teardrops, a simple autorouter, push-and-shove routing." remove "a simple autorouter," and append "(autorouter: plan-38)"; leave teardrops and push-and-shove. The owner's working copy may hold other edits to this file, so commit only these hunks, without an interactive add: `git show HEAD:planning/todo.md > /tmp/todo.head`, copy it to `/tmp/todo.new`, make the two edits in the copy, `git diff --no-index /tmp/todo.head /tmp/todo.new` rewritten with the paths `a/planning/todo.md` and `b/planning/todo.md` into `/tmp/todo.patch`, then `git apply --cached /tmp/todo.patch` and `git commit -m "plan-38: todo ticked"` with no path argument, so only the index is committed and the working-tree edits of others stay unstaged. The "Route the AFU PCB" and "Route the LFU PCB" lines stay unticked: they are about saving routed example files, which this plan does not do. — done in the worktree, whose todo.md had no other edits, so the file was edited directly (the patch steps guard the owner's main tree; the merge brings only these two lines); `git diff planning/todo.md` → the two lines.
 - [ ] Move `planning/plan-38-*.md` to `planning/completed/` (one commit); `planning/plan-38-data/` stays where it is, as `plan-36-data` does (the spike and fixtures are cited from `docs/routing.md`).
 
 Acceptance: `grep -c "plan-38" planning/todo.md` → 2 or more; `ls planning/plan-38-*.md 2>/dev/null | wc -l` → 0 and `ls planning/completed/plan-38-*.md | wc -l` → 13 (est. 2 min).
