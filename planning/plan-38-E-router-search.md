@@ -151,12 +151,12 @@ profiles with the largest bloat (wastes room around Power-class neighbours).
 
 Acceptance: the cases pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd test -only-testing:schematicalTests/RoutingGridTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 1–2 min).
-Commit: —
+Commit: eac104da
 
 ### Phase 2 — the search for one connection
 
-- [ ] `Routing/RoutingSearch.swift`: A* of § 3 (binary heap, deterministic tie order by cell index), costs, layer/via rules, the 3 000 000 expansion cap, cancellation poll every 4096 expansions.
-- [ ] Tests (`RoutingSearchTests`): straight run is straight; an obstacle forces a detour whose length equals the hand-computed 45° detour; two stacked blocking traces on Top force a via and a return on Bottom; with `vias: .none` the same board fails; a net `Only {Top}` never touches Bottom and fails rather than via; a `Prefer {Bottom}` net takes Bottom on an open board; `.horizontal` on Top makes a vertical run cost more than the same run on Bottom `.vertical`; `angle: .orthogonal` never produces a diagonal step; a via needing three free layers is refused when an inner layer cell under it is blocked (4-layer test board); the search is cancelled within 4096 expansions of `isCancelled` turning true.
+- [x] `Routing/RoutingSearch.swift`: A* of § 3 (binary heap, deterministic tie order by cell index), costs, layer/via rules, the 3 000 000 expansion cap, cancellation poll every 4096 expansions. (Heuristic: octile distance to the targets' cell bounding box, which is admissible, where a single goal point would not be for a many-cell target. Terminals of § 3 in `Routing/RoutingTerminals.swift`, each with its tie point; `SearchRules(net:grid:problem:)` derives a net's rules.)
+- [x] Tests (`RoutingSearchTests`): straight run is straight; an obstacle forces a detour whose length equals the hand-computed 45° detour; two stacked blocking traces on Top force a via and a return on Bottom; with `vias: .none` the same board fails; a net `Only {Top}` never touches Bottom and fails rather than via; a `Prefer {Bottom}` net takes Bottom on an open board; `.horizontal` on Top makes a vertical run cost more than the same run on Bottom `.vertical`; `angle: .orthogonal` never produces a diagonal step; a via needing three free layers is refused when an inner layer cell under it is blocked (4-layer test board); the search is cancelled within 4096 expansions of `isCancelled` turning true. (The detour's "hand-computed" length is checked against a plain reference Dijkstra in the test over the same passability, with bend cost 0, so it measures optimality exactly.) — `-only-testing:RoutingSearchTests` → 10 tests, 0 failures, `** TEST SUCCEEDED **`.
 
 Acceptance: the cases pass.
   Check: `-only-testing:schematicalTests/RoutingSearchTests` → `** TEST SUCCEEDED **` (est. 2 min).
