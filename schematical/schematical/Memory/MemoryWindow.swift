@@ -46,6 +46,14 @@ final class SchematicSessions {
         }
     }
 
+    /// Every open window with its session id (automation: addresses a window).
+    var identifiedSessions: [(id: UUID, document: SchematicDocument, simulation: SimulationController)] {
+        entries.compactMap { id, entry in
+            guard let document = entry.document, let simulation = entry.simulation else { return nil }
+            return (id, document, simulation)
+        }
+    }
+
     func session(_ id: UUID) -> (document: SchematicDocument, simulation: SimulationController)? {
         guard let entry = entries[id], let document = entry.document,
               let simulation = entry.simulation else { return nil }

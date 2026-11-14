@@ -37,6 +37,8 @@ struct schematicalApp: App {
     init() {
         // Read the parts once, at launch, rather than per window.
         _ = PartCatalogStore.shared
+        // Spike: the agent-control server, off unless Settings > AI Agents turns it on.
+        AutomationServer.shared.startIfEnabled()
     }
 
     var body: some Scene {

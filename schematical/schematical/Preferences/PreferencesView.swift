@@ -33,6 +33,9 @@ enum PreferenceKey {
     /// uppercased. On unless turned off (names are case sensitive, so
     /// "clk" and "CLK" would be two nets).
     static let uppercaseNames = "uppercaseNames"
+    /// Whether the AI agent control server runs (`AutomationServer`). Off
+    /// unless turned on.
+    static let automationEnabled = "automationEnabled"
 }
 
 /// Settings ▸ General Defaults ▸ Names: how net label and bus wire names
@@ -115,7 +118,7 @@ enum NewPartOptions {
 
 /// A page of the Settings window, in sidebar order.
 enum PreferencesPage: String, CaseIterable, Identifiable {
-    case partList, defaults, references, designRules
+    case partList, defaults, references, designRules, automation
 
     var id: String { rawValue }
 
@@ -125,6 +128,7 @@ enum PreferencesPage: String, CaseIterable, Identifiable {
         case .defaults: "General Defaults"
         case .references: "Reference Defaults"
         case .designRules: "DRC Defaults"
+        case .automation: "AI Agents"
         }
     }
 
@@ -134,6 +138,7 @@ enum PreferencesPage: String, CaseIterable, Identifiable {
         case .defaults: "slider.horizontal.3"
         case .references: "number"
         case .designRules: "checkmark.seal"
+        case .automation: "sparkles"
         }
     }
 }
@@ -161,6 +166,7 @@ struct PreferencesView: View {
                 case .defaults: DefaultsPreferencesView()
                 case .references: ReferencePreferencesView()
                 case .designRules: DesignRulePreferencesView()
+                case .automation: AutomationPreferencesView()
                 }
             }
             .navigationTitle(page.title)
@@ -314,5 +320,43 @@ private struct DefaultsPreferencesView: View {
             }
         }
         .formStyle(.grouped)
+    }
+}
+
+/// Settings ▸ AI Agents: turns on the server that lets an AI agent drive
+/// the running app (`AutomationServer`).
+private struct AutomationPreferencesView: View {
+    @AppStorage(PreferenceKey.automationEnabled) private var enabled = false
+
+    var body: some View {
+        Form {
+            Section {
+                Toggle("Allow AI agents to control Schematical", isOn: $enabled)
+            } footer: {
+                Text("Lets an AI agent that speaks MCP, such as Claude Code, work in the open windows: search parts, place them, draw wires, move footprints and route traces, run the design rule check, and see pictures of the schematic and board. Its edits happen live and can be undone. The server only accepts connections from this Mac, and only while this is on.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            if enabled {
+                Section {
+                    LabeledContent("Address") {
+                        Text(AutomationServer.url).textSelection(.enabled)
+                    }
+                    LabeledContent("Claude Code") {
+                        Text(AutomationServer.addCommand).textSelection(.enabled)
+                    }
+                } header: {
+                    Text("Connecting")
+                } footer: {
+                    Text("Run the Claude Code command once in a terminal. Other agents can use the address as a Streamable HTTP MCP server.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+        }
+        .formStyle(.grouped)
+        .onChange(of: enabled) { _, value in
+            AutomationServer.shared.setEnabled(value)
+        }
     }
 }

@@ -1105,6 +1105,9 @@ final class PartCatalogStore {
 
     var partCount: Int { entries.count }
 
+    /// Every listed part (automation: search).
+    var allParts: [CatalogPart] { entries }
+
     var categories: [String] {
         sortedNames(entries.compactMap(\.drawer.first))
     }
