@@ -176,11 +176,41 @@ class Library {
         this.root = root;
         this.partsDir = path.join(root, 'schematical', 'schematical', 'Parts');
         this.ledgerPath = path.join(root, 'planning', 'plan-39-data', 'ledger.tsv');
-        this.kinds = {};
+        // Kinds load on first use: a command about one device parses only its
+        // kind's file, so the writers' lock is held for a short time.
+        this.loaded = {};
+        this.kinds = new Proxy(this.loaded, {
+            get: (cache, kind) => {
+                if (typeof kind !== 'string' || !IN_SCOPE.includes(kind)) return undefined;
+                if (!(kind in cache)) {
+                    const file = path.join(this.partsDir, `${kind}.json`);
+                    cache[kind] = fs.existsSync(file) ? this.loadKind(kind, file) : undefined;
+                }
+                return cache[kind];
+            },
+        });
+    }
+
+    // The in-scope kind whose file has a device with this id, or undefined.
+    kindOf(id) {
         for (const kind of IN_SCOPE) {
+            if (kind in this.loaded) {
+                if (this.loaded[kind] && this.loaded[kind].devices.some((d) => d.id === id)) return kind;
+                continue;
+            }
             const file = path.join(this.partsDir, `${kind}.json`);
-            if (fs.existsSync(file)) this.kinds[kind] = this.loadKind(kind, file);
+            if (!fs.existsSync(file)) continue;
+            const text = fs.readFileSync(file, 'utf8');
+            if (text.includes(`"id": ${JSON.stringify(id)}`) || text.includes(`"id":${JSON.stringify(id)}`)) {
+                if (this.kinds[kind].devices.some((d) => d.id === id)) return kind;
+            }
         }
+        return undefined;
+    }
+
+    deviceOrNull(id) {
+        const kind = this.kindOf(id);
+        return kind ? this.kinds[kind].devices.find((d) => d.id === id) : undefined;
     }
 
     loadKind(kind, file) {
@@ -214,7 +244,7 @@ class Library {
     }
 
     device(id) {
-        const d = this.allDevices().find((x) => x.id === id);
+        const d = this.deviceOrNull(id);
         if (!d) throw new UserError(`no in-scope device "${id}"`);
         return d;
     }
@@ -375,7 +405,13 @@ class Library {
     writeLedger(rows) {
         const kinds = IN_SCOPE.slice().sort();
         const order = new Map();
-        for (const d of this.allDevices()) d.pinouts.forEach((p, k) => order.set(`${d.id}\t${p.name}`, k));
+        // Pinout order is needed only for the kinds this command loaded; rows of
+        // other kinds are already in order, and the sort is stable.
+        for (const kind of Object.keys(this.loaded)) {
+            for (const d of this.loaded[kind] ? this.loaded[kind].devices : []) {
+                d.pinouts.forEach((p, k) => order.set(`${d.id}\t${p.name}`, k));
+            }
+        }
         const sorted = rows.slice().sort((a, b) => {
             const ka = kinds.indexOf(a.kind), kb = kinds.indexOf(b.kind);
             if (ka !== kb) return ka - kb;
@@ -651,13 +687,15 @@ function cmdCheck(lib, args, out) {
     const problems = [];
     const say = (rule, text) => problems.push(`${rule} ${text}`);
     const rows = lib.ledger();
-    const byId = new Map(lib.allDevices().map((d) => [d.id, d]));
+    // Unscoped, every kind is loaded; scoped, only the rows of in-scope
+    // devices are looked at, so only the scope's kind loads.
+    const byId = new Map((scoped ? devices : lib.allDevices()).map((d) => [d.id, d]));
     const seen = new Set();
 
     // R1, R2
     for (const r of rows) {
-        const d = byId.get(r.device);
         if (scoped && !inScope.has(r.device)) continue;
+        const d = byId.get(r.device);
         const key = `${r.device}\t${r.pinout}`;
         const p = d && d.kind === r.kind ? d.pinouts.find((x) => x.name === r.pinout) : undefined;
         if (!p) { say('R1', `ledger row ${r.kind} ${r.device} ${r.pinout} names no in-scope pinout`); continue; }
