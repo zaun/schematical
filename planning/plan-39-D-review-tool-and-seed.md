@@ -241,21 +241,27 @@ Every review in E–K applies these; there is nothing to decide beyond them.
 Acceptance: the tool's own tests pass.
   Check: `node --test scripts/pin-polarity.test.js` → all pass (est. 1 min).
   Observed 2026-11-14: `ℹ tests 13`, `ℹ pass 13`, `ℹ fail 0`.
-Commit: —
+Commit: b089e5f
 
 ### Phase 2 — seed the `#` pins and regenerate the goldens
 
-- [ ] `node scripts/pin-polarity.js seed-hash` (writes 279 flags into
-      `sram.json`, `eeprom.json`, `cpu.json`, `converter.json`).
-- [ ] Build the backend (`cmake -S backend -B /tmp/logic-p39 && cmake --build /tmp/logic-p39 -j8`)
+- [x] `node scripts/pin-polarity.js seed-hash` (writes 279 flags into
+      `sram.json`, `eeprom.json`, `cpu.json`, `converter.json`). — done:
+      `cpu: 43`, `eeprom: 81`, `sram: 147`, `converter: 8`, `seeded 279 pin(s)`.
+- [x] Build the backend (`cmake -S backend -B /tmp/logic-p39 && cmake --build /tmp/logic-p39 -j8`)
       and regenerate `backend/tests/golden/parts.txt`:
-      `/tmp/logic-p39/listing_check --print > backend/tests/golden/parts.txt`.
-- [ ] `docs/backend.md` § Tests: one sentence — `scripts/pin-polarity.js`
-      is the review tool and `golden-check` the golden gate.
+      `/tmp/logic-p39/listing_check --print > backend/tests/golden/parts.txt`. — done.
+- [x] `docs/backend.md` § Tests: one sentence — `scripts/pin-polarity.js`
+      is the review tool and `golden-check` the golden gate. — done (after the
+      golden regeneration block).
 
 Acceptance: 279 pins flagged, 370 golden lines changed by `:low` only,
 nothing else moved, every test green.
-  Check: `grep -o '"activeLow":true' schematical/schematical/Parts/{sram,eeprom,cpu,converter}.json | wc -l` → 279; `git diff --numstat backend/tests/golden/parts.txt` → `370 370`; `node scripts/pin-polarity.js golden-check` → exit 0; `node scripts/pin-polarity.js check --kind sram` → R4 and R6 clean for sram (R7 is skipped when scoped); `cmake -S backend -B /tmp/logic-p39 && cmake --build /tmp/logic-p39 -j8 && ctest --test-dir /tmp/logic-p39` → 100 % passed (est. 8 min: the whole backend suite is the only check that loads every edited part file through the loader and the simulator).
+  Check: `grep -oE '"activeLow": ?true' schematical/schematical/Parts/{sram,eeprom,cpu,converter}.json | wc -l` → 279 (corrected: Corrections 1); `git diff --numstat backend/tests/golden/parts.txt` → `370 370`; `node scripts/pin-polarity.js golden-check` → exit 0; `node scripts/pin-polarity.js check --kind sram` → R4 and R6 clean for sram (R7 is skipped when scoped); `cmake -S backend -B /tmp/logic-p39 && cmake --build /tmp/logic-p39 -j8 && ctest --test-dir /tmp/logic-p39` → 100 % passed (est. 8 min: the whole backend suite is the only check that loads every edited part file through the loader and the simulator).
+  Observed 2026-11-14: grep → 279; numstat `370	370	backend/tests/golden/parts.txt`;
+  golden-check `ok: 370 parts.txt line(s) changed, only by :low`; `check --kind
+  sram` → `ok: 37 pinouts` (also eeprom 27, cpu 8, converter 858: ok);
+  ctest `100% tests passed, 0 tests failed out of 34`.
 Commit: —
 
 ## Validation Plan
@@ -279,7 +285,21 @@ Commit: —
 
 ## Corrections
 
-(empty until execution)
+1. **Not every in-scope pin is on its own line** (§ 2 and A's Verified
+   properties said so). `converter.json` has 20,570 pins and `rtc.json` 152
+   whose object spans several lines (`"role": "output"` on its own line):
+   `grep -c '^ *"role": *"[a-z]*",\{0,1\}$' schematical/schematical/Parts/<kind>.json`.
+   The census's `MULTI-PIN LINES` test (lines holding `"role"` vs `"role"`
+   count) cannot see this. Nothing rested on it: `set` and `seed-hash` edit
+   by parsed offsets inside the pin's own object and copy that object's
+   separator style, so a multi-line pin gets `,\n      "activeLow": true`
+   and nothing else in the file moves (converter.json diff: 8 pins, 16
+   lines added, 8 changed). The Phase 2 grep was miscalibrated by the
+   spacing: `"activeLow":true` found 271; `"activeLow": ?true` finds all 279.
+2. **Additions to the tool** beyond § 3, both needed for E–K: `set` takes
+   `@<designator>` in place of a name (rule 8 matches by position), and the
+   writing commands take a lock so reviews of different devices can run in
+   parallel against one tree (E § 3 allows fanning out).
 
 ## Summary
 

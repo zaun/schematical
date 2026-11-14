@@ -216693,7 +216693,8 @@
      {
       "number": 29,
       "name": "DCLK#",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 30,
@@ -216932,7 +216933,8 @@
      {
       "number": 29,
       "name": "DCLK#",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 30,
@@ -217171,7 +217173,8 @@
      {
       "number": 29,
       "name": "DCLK#",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 30,
@@ -217410,7 +217413,8 @@
      {
       "number": 29,
       "name": "DCLK#",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 30,
@@ -217647,7 +217651,8 @@
      {
       "number": 29,
       "name": "DCLK#",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 30,
@@ -217884,7 +217889,8 @@
      {
       "number": 29,
       "name": "DCLK#",
-      "role": "output"
+      "role": "output",
+      "activeLow": true
      },
      {
       "number": 30,
@@ -255717,7 +255723,8 @@
      {
       "number": 6,
       "name": "CLK#",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 7,
@@ -255747,7 +255754,8 @@
      {
       "number": 12,
       "name": "AIN#",
-      "role": "input"
+      "role": "input",
+      "activeLow": true
      },
      {
       "number": 13,

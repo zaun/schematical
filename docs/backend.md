@@ -347,6 +347,12 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   /tmp/logic-build/trace_check --print > backend/tests/golden/traces.txt
   git diff --stat backend/tests/golden
   ```
+
+  Active-low flags (`"activeLow"`, plan-39) are reviewed with
+  `scripts/pin-polarity.js` (`--help`), whose `golden-check` is the gate for
+  a regeneration that should only add flags: it fails unless every changed
+  `parts.txt` line differs only by `:low` / `:low=…` and `traces.txt` and
+  `footprints.txt` did not move.
 - `footprint_check` — every footprint in `footprints.json`, expanded to
   pads, against `tests/golden/footprints.txt` (one line per footprint:
   `id|pins=N|body=WxH|pads=<designator>:x,y,wxh,shape[,d<drill>][,s<slotLength>][,npth][,r<radius>][,c<chamfer>:<corners>];…`,
