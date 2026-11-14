@@ -149,7 +149,7 @@ Commit: 2612af53
 
 Acceptance: the new cases pass; no existing DRC test changes.
   Check: `-only-testing:schematicalTests/DesignRuleCheckTests -only-testing:schematicalTests/NetRulesTests` → `** TEST SUCCEEDED **` (est. 2 min).
-Commit: —
+Commit: 4ef422b8
 
 ## Validation Plan
 

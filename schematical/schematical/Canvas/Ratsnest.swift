@@ -206,6 +206,18 @@ extension SchematicDocument {
         }
         names.netNames = netNames(netlist: netlist, merged: merged, pads: pads, netOfPad: netOfPad,
                                   nets: Set(netOfPad.values).union(names.railNets.values).union(names.pinNets.values))
+        for (mv, net) in names.railNets.sorted(by: { $0.key < $1.key }) where names.netKeys[net] == nil {
+            names.netKeys[net] = .rail(mv: mv)
+        }
+        var keyPad: [Int: (chip: Int, designator: String)] = [:]
+        for (p, net) in netOfPad where names.netKeys[net] == nil {
+            let pad = pads[p]
+            guard pad.chip >= 0, let designator = pad.pad.designator else { continue }
+            if let best = keyPad[net], best.chip < pad.chip || best.chip == pad.chip
+                && best.designator.compare(designator, options: .numeric) != .orderedDescending { continue }
+            keyPad[net] = (pad.chip, designator)
+        }
+        for (net, pad) in keyPad { names.netKeys[net] = .pin(chip: chips[pad.chip].id, designator: pad.designator) }
 
         // A Plane joins every plated through-hole pad and via on its net
         // (one whose copper already reaches a pad of the net).
@@ -230,7 +242,8 @@ extension SchematicDocument {
         }
         return BoardConnectivity(pads: pads, traces: copper, vias: vias,
                                  root: parent.indices.map(find), netOfPad: netOfPad, planeNets: planeNets,
-                                 railNets: names.railNets, pinNets: names.pinNets, netNames: names.netNames)
+                                 railNets: names.railNets, pinNets: names.pinNets, netNames: names.netNames,
+                                 netKeys: names.netKeys)
     }
 
     /// A name for each of `nets`, by this priority: a supply symbol's part
@@ -390,6 +403,15 @@ nonisolated struct BoardConnectivity {
     var pinNets: [String: Int] = [:]
     /// Each net's display name (`SchematicDocument.netNames`), unique.
     var netNames: [Int: String] = [:]
+    /// Each net's stable name (`planeNet(ofNet:)`).
+    var netKeys: [Int: PlaneNet] = [:]
+
+    /// The stable name of net `net`, the one a class or group member uses
+    /// for it: `.rail(mv)` for a supply rail (the lowest voltage, if one
+    /// net is several), else the `.pin` of its first numbered part pad (by
+    /// chip index, then designator in natural order). Nil for a net with no
+    /// such pad and no rail.
+    func planeNet(ofNet net: Int) -> PlaneNet? { netKeys[net] }
 
     /// The net a Plane, plated hole or net class member names, if the
     /// schematic still has it.

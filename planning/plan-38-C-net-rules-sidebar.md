@@ -116,9 +116,9 @@ rules sit next to Layers); recomputing connectivity on every SwiftUI body pass
 
 ### Phase 1 — net rows
 
-- [ ] `Canvas/Ratsnest.swift`: `BoardConnectivity.planeNet(ofNet:)`.
-- [ ] `Canvas/NetList.swift`: `NetRow`, `netRows()` sorted by name (natural order), rails first.
-- [ ] Tests: `schematicalTests/NetListTests.swift` — a two-LED board with one wired pair gives one row with 2 pads, 1 unrouted, key `.pin`; after `addTrace` between the pads, unrouted is 0; a `GND` net's key is `.ground`; a class member assignment shows in `classID`.
+- [x] `Canvas/Ratsnest.swift`: `BoardConnectivity.planeNet(ofNet:)`. (Backed by a stored `netKeys`, filled in `connectivity()`, where the chip UUIDs are.)
+- [x] `Canvas/NetList.swift`: `NetRow`, `netRows()` sorted by name (natural order), rails first.
+- [x] Tests: `schematicalTests/NetListTests.swift` — a two-LED board with one wired pair gives one row with 2 pads, 1 unrouted, key `.pin`; after `addTrace` between the pads, unrouted is 0; a `GND` net's key is `.ground`; a class member assignment shows in `classID`. — `-only-testing:NetListTests` → 3 tests, 0 failures, `** TEST SUCCEEDED **`.
 
 Acceptance: rows as listed.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd test -only-testing:schematicalTests/NetListTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 1–2 min).
