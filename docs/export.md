@@ -1,23 +1,45 @@
 # Export
 
-**File > Export** (after Save As…) writes the focused window's schematic to a
-file (added in plan-28), or its board as Gerber files (see Gerber below).
+**File > Export** (after Save As…) has two items: **Image…** (⇧⌘E), a
+picture of the focused window's schematic, PCB page or made board, and
+**Gerber PCB…**, its board as Gerber files (see Gerber below).
 
-| Item | File | Background | Size |
-|---|---|---|---|
-| SVG Schematic | `.svg`, vectors, labels as live `<text>` | transparent | the padded ink rectangle, in points |
-| PNG Schematic | `.png`, RGBA | transparent | 4 px per canvas point |
-| JPG Schematic | `.jpg`, quality 0.92 | white | 4 px per canvas point |
+## Image
 
-- The picture is the ink plus 12 pt of padding on every side
+**Image…** opens an options sheet over the window, with a live preview,
+then the save panel (`<window name> <Schematic|PCB|Front|Back>.<ext>`). The
+choices are remembered between exports (`ImageExportOptions.saved`), except
+the PCB layers.
+
+| Image | Formats | Backgrounds (first is the default) | 1× is | Extra options |
+|---|---|---|---|---|
+| Schematic | PNG, JPG, SVG | Transparent, White | 1 px per canvas point | — |
+| PCB | PNG, JPG | Dark (the PCB page's canvas), White, Transparent | 1 px per PCB page point (20 per mm) | Layers: PCB, each copper layer, Silkscreen, Document, Ratsnest (off by default) |
+| Front Render / Back Render | PNG, JPG | Backdrop (Board Preview's), White, Transparent | 1 px per render point (10 per mm) | View (Top, Angled), Finish (HASL, ENIG) |
+
+- **Size** is 1×, 2×, 4× or 8× (pixels per point); the sheet shows the
+  pixel size. Any picture's longest side is capped at 8192 px
+  (`pixelScale(for:wanted:)`).
+- A JPG is never transparent: choosing JPG moves a Transparent background
+  to the first opaque one. SVG is the schematic's only (vectors, labels as
+  live `<text>`, transparent, sized in points); the other images offer PNG
+  and JPG only (`ImageExportOptions.normalized`).
+- **Schematic**: the ink plus 12 pt of padding on every side
   (`SchematicExport.padding`). The ink rectangle is measured by
-  `BoundsPainter`, so empty label margins do not add a border.
-- PNG and JPG are 4 px per point unless the longest side would pass 8192 px;
-  then the scale drops so the longest side is 8192 px (`pixelScale(for:)`).
+  `BoundsPainter`, so empty label margins do not add a border. An empty
+  schematic shows "Nothing to export" in the preview and disables Export….
+- **PCB**: the PCB page as drawn (`PCBCanvasView` with `exporting`), framed
+  on the board plus anything placed off it, plus 2 mm. No grid, hover, tool
+  preview or selection. On a White or Transparent background the drill
+  holes are cut through (`clearsHoles`); on Dark they are the canvas colour,
+  as on screen.
+- **Front / Back Render**: Board Preview's picture (`BoardRenderer`),
+  framed tightly on the board and its tallest part with 24 pt round it
+  (`fittedSize(pointsPerMM:)`).
 - An export is not a save: the window's file and its unsaved-changes state do
-  not change. An empty schematic shows "Nothing to export" and no save panel.
-- Exports never include the selection, hover, tool previews, the grid, pin
-  markers, play-mode state (wire values, lit LEDs, LCD dots) or the PCB.
+  not change.
+- Schematic exports never include the selection, hover, tool previews, the
+  grid, pin markers or play-mode state (wire values, lit LEDs, LCD dots).
 - Wires with a loose end are gray on screen and black in an export, like every
   wire. A loose end gets a dot only where 3 or more wires meet, on screen and
   in an export.
@@ -122,8 +144,10 @@ PNG puts them; the padding keeps a wider font from clipping. A turned label
 | `SchematicScene`, `BoundsPainter` | `schematical/schematical/Canvas/SchematicExportScene.swift` |
 | `SVGPainter` | `schematical/schematical/Canvas/SVGPainter.swift` |
 | `SchematicExport` (`svg`, `png`, `jpg`, padding, pixel scale) | `schematical/schematical/Document/SchematicExport.swift` |
-| `SchematicExportFormat`, `SchematicExportMenu` (the submenu; `SchematicFileCommands` adds it to File) | `schematical/schematical/Document/SchematicExportCommands.swift` |
-| `export(_:)`, `writeExport(_:to:)`, `exportGerber()`, `writeGerber(to:)` | `schematical/schematical/Document/SchematicFileController.swift` |
+| `ImageExportView`, `ImageExportFormat`, `ImageExportBackground`, `ImageExportOptions`, `ImageExport` (every image, its size, PNG/JPG encoding) | `schematical/schematical/Document/ImageExport.swift` |
+| `ImageExportDialog` (the options sheet) | `schematical/schematical/Document/ImageExportDialog.swift` |
+| `SchematicExportMenu` (the submenu; `SchematicFileCommands` adds it to File) | `schematical/schematical/Document/SchematicExportCommands.swift` |
+| `exportImage()`, `writeImage(_:to:)`, `exportGerber()`, `writeGerber(to:)` | `schematical/schematical/Document/SchematicFileController.swift` |
 | `GerberExport` (the layer files) | `schematical/schematical/Document/GerberExport.swift` |
 | `GerberWriter` (apertures, flashes, strokes, regions, polarity), `GerberOutline` (path flattening, glyph outlines) | `schematical/schematical/Document/GerberWriter.swift` |
 | `DrillExport` (the Excellon files) | `schematical/schematical/Document/DrillExport.swift` |
@@ -135,5 +159,6 @@ Tests: `SchematicPainterTests`, `SchematicSceneTests`, `SVGPainterTests`,
 Harness: `scripts/harness/painter-gate.swift` (the canvas must stay
 pixel-identical when drawing code moves onto the painter),
 `scripts/harness/export-svg.swift` (SVG next to the app's own export render),
-`scripts/harness/export-menu.swift` (the menu in a running app; needs an
-unlocked screen, since the window must become key).
+`scripts/harness/export-menu.swift` (the plan-28 menu of three schematic
+items in a running app; it predates the Image… sheet and no longer matches
+the menu).

@@ -32,6 +32,8 @@ const char *listing_kind_name(PartKind kind) {
         case PART_RTC: return "rtc";
         case PART_DIODE: return "diode";
         case PART_CAPACITOR: return "capacitor";
+        case PART_REGISTER: return "register";
+        case PART_MCU: return "mcu";
         case PART_RESISTOR: return "resistor";
     }
     return "?";
@@ -66,6 +68,7 @@ static void print_details(FILE *out, const Part *part) {
         case PART_BUFFER:
         case PART_MUX:
         case PART_ARITH:
+        case PART_REGISTER:
             fprintf(out, "units=%u", part->logic->units);
             break;
         case PART_HEADER: {
@@ -103,6 +106,17 @@ static void print_details(FILE *out, const Part *part) {
             }
             if (part->capacitor->tolerance != NULL) {
                 fprintf(out, " tol=%s", part->capacitor->tolerance);
+            }
+            break;
+        case PART_MCU:
+            fprintf(out, "core=%s clock=%llu flash=%u ram=%u", part->mcu->core,
+                    (unsigned long long)part->mcu->max_hz, (unsigned)part->mcu->flash,
+                    (unsigned)part->mcu->ram);
+            if (part->mcu->eeprom != 0) {
+                fprintf(out, " eeprom=%u", (unsigned)part->mcu->eeprom);
+            }
+            if (part->mcu->psram != 0) {
+                fprintf(out, " psram=%u", (unsigned)part->mcu->psram);
             }
             break;
         case PART_RESISTOR:
@@ -241,7 +255,7 @@ char *listing_line(const Part *part) {
     int logic = part->kind == PART_GATE || part->kind == PART_DFF || part->kind == PART_JKFF ||
                 part->kind == PART_LATCH || part->kind == PART_COUNTER ||
                 part->kind == PART_SHIFT || part->kind == PART_BUFFER || part->kind == PART_MUX ||
-                part->kind == PART_ARITH;
+                part->kind == PART_ARITH || part->kind == PART_REGISTER;
 
     if (out == NULL) {
         return NULL;
@@ -298,6 +312,10 @@ char *listing_line(const Part *part) {
 
         fprintf(out, "|vccb=%u-%u,in=%u", (unsigned)b->min_mv, (unsigned)b->max_mv,
                 (unsigned)b->input_max_mv);
+    }
+    /* Last field: a device with "simulated": false (plan-36-F). */
+    if (!part->simulated) {
+        fprintf(out, "|unsimulated");
     }
     fclose(out);
     return text;

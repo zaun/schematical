@@ -56,7 +56,18 @@ struct ChipBlockView: View {
         let bodyCentre = CGPoint(x: box.midX, y: (ChipLayout.headerHeight + box.maxY) / 2)
         if chip.symbol == .oscillator {
             let radius = min(14, (box.maxY - ChipLayout.headerHeight) / 2 - 4)
-            drawSquareWaveGlyph(&painter, centre: bodyCentre, radius: radius, ink: outline)
+            // The frequency to the right of the glyph; the pair is centred
+            // on the body together.
+            if let hertz = oscillatorFrequency(chip.part) {
+                let text = PaintedText(hertz, size: 9, weight: .medium, ink: .secondary)
+                let gap: CGFloat = 4
+                let width = 2 * radius + gap + BoundsPainter.textSize(text).width
+                let centre = CGPoint(x: bodyCentre.x - width / 2 + radius, y: bodyCentre.y)
+                drawSquareWaveGlyph(&painter, centre: centre, radius: radius, ink: outline)
+                painter.draw(text, at: CGPoint(x: centre.x + radius + gap, y: centre.y), anchor: .leading)
+            } else {
+                drawSquareWaveGlyph(&painter, centre: bodyCentre, radius: radius, ink: outline)
+            }
         } else if chip.symbol == .barrelJack {
             let radius = min(14, (box.maxY - ChipLayout.headerHeight) / 2 - 4)
             drawBarrelGlyph(&painter, centre: bodyCentre, radius: radius, ink: outline)
@@ -101,6 +112,12 @@ struct ChipBlockView: View {
                 anchor: isLeft ? .leading : .trailing
             )
         }
+    }
+
+    /// An oscillator part's frequency ("32.768 kHz"); nil for other parts.
+    static func oscillatorFrequency(_ part: CatalogPart) -> String? {
+        guard case let .oscillator(_, _, _, defaultHz, _) = part.details, defaultHz > 0 else { return nil }
+        return PartFacts.hertz(defaultHz)
     }
 
     /// One cycle of a square wave inside a circle: the oscillator's symbol.

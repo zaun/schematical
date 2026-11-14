@@ -58,6 +58,7 @@ struct ContentView: View {
     @State private var terminalWindows: Set<TerminalWindowTarget> = []
     @State private var isBillOfMaterialsOpen = false
     @State private var isDesignRuleCheckOpen = false
+    @State private var isBoardPreviewOpen = false
     /// Watches for the editing keys: ⌘R / ⇧⌘R rotate, A changes the trace
     /// angle and ⌘X / ⌘C / ⌘V cut, copy and paste traces on the PCB, ⌘F
     /// flips on the Schematic, ⌘X / ⌘C / ⌘V cut, copy and paste its
@@ -272,15 +273,25 @@ struct ContentView: View {
 
     /// Simulation › Run / Stop. Play mode starts with the Pointer (and PCB
     /// Select) tool and nothing selected. The simulation is the Schematic
-    /// page's: nothing happens on the PCB.
+    /// page's: nothing happens on the PCB. Run does nothing while a part
+    /// that isn't simulated is placed (plan-36: ⇧⌘R reaches here without
+    /// the menu's check).
     private func toggleSimulation() {
         guard page == .schematic else { return }
         if !simulation.isRunning {
+            guard SimulationAvailability.canStart(document) else { return }
             tool = .pointer
             pcbTool = .select
             document.clearAllSelections()
         }
-        simulation.toggle(document: document)
+        SimulationAvailability.toggle(simulation, document: document)
+    }
+
+    /// The Simulation menu's view of this window (plan-36: Run is off while a
+    /// part that isn't simulated is placed, with the reason under it).
+    private var simulationTarget: SimulationTarget {
+        SimulationAvailability.target(page: page, chips: document.chips, isRunning: simulation.isRunning,
+                                      toggle: toggleSimulation)
     }
 
     /// The Edit menu's actions for this window.
@@ -405,8 +416,7 @@ struct ContentView: View {
         editor
             // Edit › Cut, Copy, Paste, Delete, Select All, Reset References.
             .focusedSceneValue(\.schematicEdit, editActions)
-            .focusedSceneValue(\.schematicSimulation, SimulationTarget(
-                isAvailable: page == .schematic, isRunning: simulation.isRunning, toggle: toggleSimulation))
+            .focusedSceneValue(\.schematicSimulation, simulationTarget)
             // The speed is an app preference: every window runs at it.
             .onChange(of: simulationSpeed) { _, speed in simulation.setSpeed(speed) }
             .alert("Reset References?", isPresented: $isConfirmingResetReferences) {
@@ -513,6 +523,19 @@ struct ContentView: View {
                     }
                 }
 
+                // A picture of the board as made, in its own window. Not a tool.
+                if page == .pcb {
+                    ToolbarItem(placement: .primaryAction) {
+                        Button {
+                            isBoardPreviewOpen = true
+                            openWindow(id: "board-preview", value: BoardPreviewTarget(sessionID: sessionID))
+                        } label: {
+                            Label("Preview", systemImage: "photo")
+                        }
+                        .help("Show a picture of the finished board, front or back")
+                    }
+                }
+
                 // Which layers the PCB page draws, just left of the zoom.
                 if page == .pcb {
                     ToolbarItem(placement: .primaryAction) {
@@ -605,7 +628,7 @@ struct ContentView: View {
             }
             .onAppear {
                 file.openNewWindow = { openWindow(id: "schematic") }
-                SchematicSessions.shared.register(sessionID, document: document, simulation: simulation)
+                SchematicSessions.shared.register(sessionID, document: document, simulation: simulation, file: file)
                 simulation.setSpeed(simulationSpeed)
                 installEditKeyMonitor()
             }
@@ -634,6 +657,10 @@ struct ContentView: View {
                 if isDesignRuleCheckOpen {
                     dismissWindow(id: "drc", value: DesignRuleCheckTarget(sessionID: sessionID))
                     isDesignRuleCheckOpen = false
+                }
+                if isBoardPreviewOpen {
+                    dismissWindow(id: "board-preview", value: BoardPreviewTarget(sessionID: sessionID))
+                    isBoardPreviewOpen = false
                 }
             }
             .focusedSceneValue(\.schematicFile, file)

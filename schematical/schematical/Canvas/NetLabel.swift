@@ -71,8 +71,9 @@ nonisolated struct NetLabel: Identifiable, Hashable, Sendable {
         return kept.isEmpty ? nil : kept
     }
 
-    /// The key labels are joined by: the name, ignoring case.
-    var netKey: String { name.uppercased() }
+    /// The key labels are joined by: the name, case and all ("CLK" and
+    /// "clk" are two nets).
+    var netKey: String { name }
 
     /// +1 when the flag runs right of its point, -1 when it runs left.
     private var direction: CGFloat { isFlipped ? -1 : 1 }

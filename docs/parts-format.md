@@ -1,7 +1,7 @@
 # Part file format
 
 Every orderable part (gate, flip-flop, latch, decoder, counter, shift register, SRAM, EEPROM, switch, LED,
-diode, capacitor, resistor, 7-segment display, character LCD module, oscillator, supply, microprocessor, serial controller) is described in a JSON part file in
+diode, capacitor, resistor, 7-segment display, character LCD module, oscillator, supply, microprocessor, microcontroller, serial controller) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
 | File | Kind |
@@ -33,6 +33,8 @@ diode, capacitor, resistor, 7-segment display, character LCD module, oscillator,
 | `header.json` | `header` |
 | `pio.json` | `pio` |
 | `capacitor.json` | `capacitor` |
+| `register.json` | `register` |
+| `mcu.json` | `mcu` |
 | `resistor.json` | `resistor` |
 
 Beside them, `datasheets.json` holds the datasheet URLs parts name with
@@ -93,6 +95,7 @@ parts that share them.
 | `"description"` | one line for people, e.g. `"Quad 2-input NAND gate"` |
 | `"drawer"` | the parts-drawer path above the function: 0–2 strings, e.g. `["Memory", "SRAM"]`. `[]` means the parts are never listed in the drawer (VCC, GND). Presentation only. |
 | `"note"` | optional; provenance (datasheet, table). The loader ignores it. |
+| `"simulated"` | optional, default `true`. `false` marks a device with no simulation model: its parts can be placed, wired, laid out and listed in the BOM, but a circuit refuses them (`circuit_add_part`: `part "<name>" is not simulated`), so a design holding one does not run. Any kind may set it; an `mcu` device must. |
 | `"pinouts"` | object: pinout name → array of pins (below); at least one |
 | `"parts"` | array of parts |
 
@@ -204,7 +207,8 @@ Flags:
 - **Logic families** (`family` on gate, dff, jkff and the sequential and
   buffer kinds' parts) must be one of:
   HC, LS, ACT, HCT, F, AC, AHCT, ALS, AS, AHC, S, C, H, HCS, LV, LVC, AUP,
-  AUC, ALVC, TTL, ABT, BCT, LVT, AVC, TPIC, FCT, L, ALV, AXC, LXC, TXU, TXV. Of these:
+  AUC, ALVC, TTL, ABT, BCT, LVT, AVC, TPIC, FCT, L, ALV, AXC, LXC, TXU, TXV,
+  LCX, LVX, VHC, VHCT, ALVT. Of these:
   - `ABT`, `BCT`: BiCMOS bus-interface logic (5 V).
   - `LVT`: 3.3 V ABT; LVTH (bus-hold) parts use it too.
   - `AVC`: advanced very-low-voltage CMOS.
@@ -216,6 +220,12 @@ Flags:
   - `AXC`, `LXC`: dual-supply translating CMOS (AXC 0.65–3.6 V,
     LXC 1.1–5.5 V per side); AXCH/LXCH bus-hold parts use them too.
   - `TXU`, `TXV`: TI fixed-direction level translators (TXU0104, TXV0106 …).
+  - `LCX`, `LVX`: onsemi low-voltage CMOS with 5 V-tolerant inputs
+    (74LCX…, MC74LCX…, 74LVX…, MC74LVX…).
+  - `VHC`, `VHCT`: onsemi very-high-speed CMOS (74VHC…, MC74VHC…); VHCT has
+    TTL-level inputs.
+  - `ALVT`: Nexperia low-voltage BiCMOS (74ALVT16823).
+  The supply range of these is each part's `vcc`, from its datasheet.
 - **`note`** is allowed on a device and on any timing entry; it is ignored.
 - **Voltages** are volts (JSON numbers, fractions allowed). The loader
   converts them to millivolts (`uint32_t`) with `llround(v * 1000)`.
@@ -434,7 +444,7 @@ left side. Pads are axis-aligned.
 | `"description"` | one line for people |
 | `"note"` | optional provenance (drawing code, file, page); ignored |
 | `"style"` | `"dual"`, `"quad"`, `"grid"` or `"explicit"` |
-| `"pins"` | number of designated pads (1–1000). `dual`, `quad` and `explicit` pads are `"1"`…`"<pins>"`; `grid` pads are ball names |
+| `"pins"` | number of designated pads (1–1000). `dual`, `quad` and `explicit` pads are `"1"`…`"<pins>"`; `grid` pads, and `explicit` pads given by `"ball"`, are ball names |
 | `"body"` | `{"width", "height"}` > 0, optional `"round": true` (drawn as an ellipse) |
 | `"pad"` | `{"width", "height", "shape"}`, sizes > 0, shape `"rect"` or `"round"` (an ellipse; a circle when width = height), plus optional corner keys (below). Not on `explicit` |
 | `"drill"` | optional, default 0 (surface mount); a through-hole diameter, smaller than both pad sides. Not on `explicit` |
@@ -590,7 +600,15 @@ For land patterns the parametric styles cannot express (mixed pad sizes).
 `"pads"` is a non-empty array of `{"pin", "x", "y", "width", "height",
 "shape"}` plus optional `"drill"`, `"slotLength"`, `"plated"` and corner
 keys, in the coordinates above. Every pin
-1…`pins` has at least one pad. A pin may have several (the same
+1…`pins` has at least one pad.
+
+A pad may name its pin with `"ball"` instead of `"pin"`: a ball name
+(`"A1"`, `"B12"`), which is then the pad's designator, for a part whose
+pinout names its pins like balls but whose pads are not one regular grid
+(a staggered WLCSP, a dual-row QFN's A/B terminals). A footprint uses one
+scheme: its pads are all `"ball"` or all `"pin"` (`"pin": 0`, an
+unnumbered pad, goes with either), it names exactly `pins` balls, and the
+pads come out grouped by ball in order of first use. A pin may have several (the same
 connection in more places, e.g. a module's two header rows); they are
 listed together, in file order. The app draws each and uses the pin's
 first pad for the pin-1 mark and the `Pad 1 Center` origin. `"pin": 0` is
@@ -1521,6 +1539,50 @@ the commit at each PHI2 fall), plus:
 
 Not modeled: the read data hold `tDHR`; timing at supply columns other than
 5 V; the §7.4.1 ABORT exceptions (the snapshot restores every register).
+
+### `mcu`
+
+Microcontrollers (plan-36; `backend/src/models/mcu.c`): 8-bit AVR, ESP32
+modules, RP2040. **Facts only**: no model of the core or its peripherals,
+so every `mcu` device says `"simulated": false` and a circuit refuses its
+parts; the app disables Simulation › Run while one is placed. The engine
+model is passive (no callbacks, like `header`), so the kind needs no
+special case anywhere the engine is used directly.
+
+```json
+"simulated": false,
+"core": "avrxt", "clock": 24000000, "flash": 131072, "ram": 16384, "eeprom": 512,
+"vcc": [1.8, 5.5]
+```
+
+| Key | Value |
+|---|---|
+| `"simulated"` | required, `false` (`an mcu has no simulation model: "simulated" must be false`) |
+| `"core"` | `"avr"`, `"avrrc"`, `"avrxt"`, `"avrxm"` (the AVR instruction-set variants), `"cortex-m0plus"`, `"xtensa-lx6"`, `"xtensa-lx7"` or `"riscv"`; else `unknown mcu core "X"` |
+| `"clock"` | the highest clock, Hz, above 0 (`"clock" must be above 0`) |
+| `"flash"`, `"ram"` | bytes, 0 to 4294967295. Flash 0 = external (RP2040) |
+| `"eeprom"` | optional, bytes (0 = none) |
+| `"vcc"`, `"inputMax"` | optional at device level ([Voltages](#voltages)) |
+
+Part keys:
+
+| Key | Value |
+|---|---|
+| `"vcc"`, `"inputMax"` | override the device's. Every part must end up with a `vcc` (`missing "vcc"`) |
+| `"clock"` | overrides the device's (a 10 MHz `V` grade, a 16 MHz ESP32 part of a 240 MHz device) |
+| `"flash"` | bytes, overrides the device's (an ESP32 module's `N4` / `N8` / `N16` flash) |
+| `"psram"` | bytes (an ESP32 module's `R2` / `R8` PSRAM); default 0 |
+
+Pins: any count, any roles and names; no key names a pin. Each pinout
+needs at least one `power` and one `ground` pin (`an mcu pinout needs a
+power pin` / `… a ground pin`).
+
+**Voltage.** The parts carry `vcc`, so the voltage check judges their
+supply pins and input levels as for any chip (a 3.3 V ESP32 module's `3V3`
+on a 5 V net is refused). The RP2040's 1.1 V core-supply pins (`DVDD`) are
+`power` pins fed by its own `VREG_VOUT` output; the check drives an output
+at the part's level, so `DVDD` sees the I/O level and passes. The check
+cannot judge the 1.1 V rail itself.
 
 ### `serial`
 
@@ -2951,7 +3013,7 @@ release has taken effect (the rise delay), then the net's value. So a
 transceiver turning around shows X on the new destination for that time
 rather than its own old output.
 
-Signal rules otherwise as in [Sequential kinds](#sequential-kinds-latch-counter-shift):
+Signal rules otherwise as in [Sequential kinds](#sequential-kinds-latch-counter-shift-register):
 a data input at Z reads X; outputs are inertial (fall delay for 0, rise
 for 1 and Z, the longer for X); bus hold is not modeled.
 
@@ -3024,9 +3086,9 @@ per family, from the datasheet's VCCA 3.3 V ↔ VCCB 5 V row or the nearest
 one. A translator's outputs do not float when one side is unpowered (the
 engine has no supply level per part).
 
-### Sequential kinds (`latch`, `counter`, `shift`)
+### Sequential kinds (`latch`, `counter`, `shift`, `register`)
 
-The three sequential kinds share their device and part format and their
+The four sequential kinds share their device and part format and their
 signal rules. Each device names a **model**; the model decides the rest of
 the device's keys.
 
@@ -3691,3 +3753,76 @@ nibble) are sampled at t0 + (k + ½)·P. A frame whose address differs from
 the A0–A2 pins is ignored. Frames alternate first / second from reset: a
 second frame with the first's address completes the byte at its last sample
 point; with another address the pair is dropped.
+
+### `register`
+
+Multi-bit edge-triggered D registers (plan-37): the 74x173 class (4076B),
+the clock-enable registers (74x377, 378, 379), the bus-interface and
+inverting registers (74x534, 564, 575, 576, 577, 821, 823, 825, 874, 11374,
+29821, 40174B) and the 16- to 22-bit registers (74x16374 … 16823). The
+octal registers without clock enable or 3-state group (74x174, 175, 273,
+374, 574, 40175B) stay in `dff`. A sequential kind (above): `"model"` is
+`parallel`, and `timing` entries are `{rise, fall}` for CLK → Q.
+`PartLogic.units` is the number of stored bits.
+
+#### Model `parallel`
+
+Device key `"groups"`: 1–4 group objects, at most 64 stored bits in all.
+A group holds the bits that share a clock, enable and clear.
+
+| Group key | Value |
+|---|---|
+| `"d"` | 1–40 input pin names; one stored bit each |
+| `"clk"` | required: `{"pin", "edge": "rising" \| "falling"}` |
+| `"ce"` | optional clock enable: one control or an array of 0–4 controls; an edge loads only while every one is asserted ('173 G1·G2, '377 G, '823 CLKEN) |
+| `"clear"` | optional control with `"when"`: `async` (acts at once: '173 CLR high, '823 CLR low, 4076B Reset high, 40174B CLR low) or `clock` (acts at the clock edge, whatever `ce` is: '575/'577 CLR low) |
+| `"outputs"` | 1–2 banks (below) |
+
+| Bank key | Value |
+|---|---|
+| `"q"` | output pin names, as many as `"d"` |
+| `"invert"` | optional bool (default false): the bank shows NOT the bit |
+| `"oe"` | optional output enable, as `"ce"`; a bank without `oe` always drives ('377) |
+
+The '379 is one group with a `q` bank and an inverted bank; the 16820 is
+one group with two banks enabled by 1OE and 2OE. Every pin a group names
+must be exactly one pin of every pinout. Errors name the place, e.g.
+`register.json: devices[0] (74_173): groups[0]: "outputs"[0]: "q" has 3
+names, "d" has 4`.
+
+Behaviour, per group on any pin change:
+
+1. An asserted `async` clear sets every bit to 0; X on it makes every bit
+   that is not already 0 X (Z reads inactive).
+2. On the clock's edge: an asserted `clock` clear sets 0; else every bit
+   loads D while all of `ce` is asserted (Z or X on D stores X). A `ce`
+   control at X or Z (none deasserted) makes X the bits whose D differs
+   from the stored bit; so does a clocked clear at X or Z for bits that
+   are not 0 or would not load 0. An edge from X or Z, or a move into X or
+   Z from the pre-edge level, may have been an edge: the bits it would
+   change become X.
+3. Each bank drives `invert ? NOT bit : bit` while all of its `oe` is
+   asserted, Z while one is deasserted, X while one is X or Z and none is
+   deasserted. The enables gate only the outputs: loading goes on while a
+   bank is Z.
+
+Outputs are inertial: the fall delay for 0, rise for 1 and Z, the longer
+for X. Power-on: every bit 0, then the asynchronous clear. Bus hold (ALVCH,
+LVCH, LVTH) is not modeled.
+
+Example (SN74LS173A, `sn74ls173a.pdf` p.1):
+
+```json
+{"id": "74_173", "function": "Register",
+ "description": "4-bit D-type registers with 3-state outputs",
+ "drawer": ["Logic", "Registers"], "model": "parallel",
+ "pinouts": {"p16": [{"number": 1, "name": "M", "role": "input"}, "…"]},
+ "groups": [{"d": ["1D", "2D", "3D", "4D"],
+             "clk": {"pin": "CLK", "edge": "rising"},
+             "ce": [{"pin": "G1", "active": "low"}, {"pin": "G2", "active": "low"}],
+             "clear": {"pin": "CLR", "active": "high", "when": "async"},
+             "outputs": [{"q": ["1Q", "2Q", "3Q", "4Q"],
+                          "oe": [{"pin": "M", "active": "low"}, {"pin": "N", "active": "low"}]}]}],
+ "timing": {"LS": {"rise": 17, "fall": 22, "vcc": [4.75, 5.25]}},
+ "parts": ["…"]}
+```

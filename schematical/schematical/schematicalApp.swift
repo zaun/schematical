@@ -37,6 +37,8 @@ struct schematicalApp: App {
     init() {
         // Read the parts once, at launch, rather than per window.
         _ = PartCatalogStore.shared
+        // Spike: the agent-control server, off unless Settings > AI Agents turns it on.
+        AutomationServer.shared.startIfEnabled()
     }
 
     var body: some Scene {
@@ -110,6 +112,15 @@ struct schematicalApp: App {
             }
         }
         .defaultSize(width: 720, height: 420)
+        .restorationBehavior(.disabled)
+
+        // One Board Preview per schematic window (the PCB page's Preview button).
+        WindowGroup("Board Preview", id: "board-preview", for: BoardPreviewTarget.self) { $target in
+            if let target {
+                BoardPreviewWindowView(target: target)
+            }
+        }
+        .defaultSize(width: 1000, height: 720)
         .restorationBehavior(.disabled)
 
         // One window per datasheet, opened from a part's Open Datasheet button.

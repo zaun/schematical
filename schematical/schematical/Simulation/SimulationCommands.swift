@@ -2,11 +2,17 @@ import SwiftUI
 
 // The Simulation menu: Run / Stop (⇧⌘R) and the Speed submenu. The
 // simulation is the Schematic page's, so the menu is disabled on the PCB.
+// Run is also off while a part that isn't simulated is placed (plan-36),
+// with a disabled line under it naming the part.
 
 /// What the focused schematic window's simulation can do.
 struct SimulationTarget {
-    /// The window shows the Schematic page.
+    /// Run can start (or Stop stop): the window shows the Schematic page and
+    /// every placed part is simulated.
     var isAvailable: Bool
+    /// Why Run is off on the Schematic page ("U1 (ATMEGA328P-PU) is not
+    /// simulated"); nil when it isn't, and on the PCB page.
+    var blockedReason: String?
     var isRunning: Bool
     /// Runs it when stopped, stops it when running.
     var toggle: () -> Void
@@ -43,7 +49,11 @@ struct SimulationCommands: Commands {
                 // Also Edit › Rotate Counterclockwise's (PCB only); the
                 // window's key monitor picks by page.
                 .keyboardShortcut("r", modifiers: [.command, .shift])
-                .disabled(target?.isAvailable != true)
+                .disabled(target?.isAvailable != true && target?.isRunning != true)
+
+            if let reason = target?.blockedReason {
+                Text(reason)
+            }
 
             Picker("Speed", selection: Binding(
                 get: { SimulationSpeed.choice(nearest: speed) },
@@ -54,7 +64,9 @@ struct SimulationCommands: Commands {
                 }
             }
             .pickerStyle(.menu)
-            .disabled(target?.isAvailable != true)
+            // The Schematic page's, as before plan-36: a part that isn't
+            // simulated does not turn it off.
+            .disabled(target.map { !$0.isAvailable && $0.blockedReason == nil } ?? true)
         }
     }
 }

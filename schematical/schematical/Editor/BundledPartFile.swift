@@ -93,6 +93,8 @@ extension PartKinds {
         case PART_DIODE: "diode"
         case PART_HEADER: "header"
         case PART_CAPACITOR: "capacitor"
+        case PART_REGISTER: "register"
+        case PART_MCU: "mcu"
         case PART_RESISTOR: "resistor"
         default: nil
         }

@@ -1,0 +1,155 @@
+{
+ "id": "4076B",
+ "function": "Register",
+ "description": "CMOS 4-bit D-type register with 3-state outputs",
+ "drawer": [
+  "Logic",
+  "Registers"
+ ],
+ "note": "Pinout, truth table: cd4076b p.1-2 (DATA 1-4 = D1-D4; OUTPUT DISABLE M, N; DATA INPUT DISABLE G1, G2); mc14076b (onsemi MC14076B: A, B output disable; A, B data disable; C clock; R reset; D0-D3, Q0-Q3), same pin numbers. M or N high: Q = Z; G1 or G2 high: hold at the clock edge; RESET high clears at once.",
+ "model": "parallel",
+ "pinouts": {
+  "p16": [
+   {
+    "number": 1,
+    "name": "M",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "N",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "Q1",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "Q2",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "Q3",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "Q4",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "CLOCK",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "VSS",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "G1",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "G2",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "D4",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "D3",
+    "role": "input"
+   },
+   {
+    "number": 13,
+    "name": "D2",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "D1",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "RESET",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "VDD",
+    "role": "power"
+   }
+  ]
+ },
+ "groups": [
+  {
+   "d": [
+    "D1",
+    "D2",
+    "D3",
+    "D4"
+   ],
+   "clk": {
+    "pin": "CLOCK",
+    "edge": "rising"
+   },
+   "ce": [
+    {
+     "pin": "G1",
+     "active": "low"
+    },
+    {
+     "pin": "G2",
+     "active": "low"
+    }
+   ],
+   "clear": {
+    "pin": "RESET",
+    "active": "high",
+    "when": "async"
+   },
+   "outputs": [
+    {
+     "q": [
+      "Q1",
+      "Q2",
+      "Q3",
+      "Q4"
+     ],
+     "oe": [
+      {
+       "pin": "M",
+       "active": "low"
+      },
+      {
+       "pin": "N",
+       "active": "low"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "timing": {
+  "C": {
+   "rise": 300,
+   "fall": 300,
+   "vcc": [
+    3,
+    18
+   ],
+   "note": "Clock to Q typ, VDD 5 V 50 pF; VDD 3-18 V (cd4076b p.1, 3)"
+  }
+ }
+}

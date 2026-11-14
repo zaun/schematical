@@ -201,8 +201,8 @@ enum PartKinds {
     /// The kinds the backend loads (`kinds.c`), as their part files name them.
     static let all = [
         "7seg", "arith", "buffer", "capacitor", "charlcd", "connector", "converter", "counter", "cpu", "decoder",
-        "dff", "diode", "eeprom", "gate", "header", "jkff", "latch", "led", "mux", "oscillator",
-        "pio", "resistor", "rtc", "serial", "shift", "sram", "supply", "switch",
+        "dff", "diode", "eeprom", "gate", "header", "jkff", "latch", "led", "mcu", "mux", "oscillator",
+        "pio", "register", "resistor", "rtc", "serial", "shift", "sram", "supply", "switch",
     ]
 
     /// The names shown in the New Part picker and window titles.
@@ -211,8 +211,8 @@ enum PartKinds {
         "charlcd": "Character LCD",
         "connector": "Connector", "converter": "Converter", "counter": "Counter", "cpu": "Processor",
         "decoder": "Decoder", "dff": "D Flip-Flop", "diode": "Diode", "eeprom": "EEPROM", "gate": "Gate",
-        "header": "Pin Header", "jkff": "JK Flip-Flop", "latch": "Latch", "led": "LED", "mux": "Multiplexer",
-        "oscillator": "Oscillator", "pio": "Parallel I/O", "resistor": "Resistor", "rtc": "Real-Time Clock", "serial": "Serial",
+        "header": "Pin Header", "jkff": "JK Flip-Flop", "latch": "Latch", "led": "LED", "mcu": "Microcontroller", "mux": "Multiplexer",
+        "oscillator": "Oscillator", "pio": "Parallel I/O", "register": "Register", "resistor": "Resistor", "rtc": "Real-Time Clock", "serial": "Serial",
         "shift": "Shift Register", "sram": "SRAM", "supply": "Supply", "switch": "Switch",
     ]
 
@@ -228,6 +228,7 @@ enum PartKinds {
             OscillatorDraft.schema, SupplyDraft.schema,
             CpuDraft.schema, PioDraft.schema, SerialDraft.schema, CharLcdDraft.schema, ConnectorDraft.schema,
             ConverterDraft.schema, RtcDraft.schema, DiodeDraft.schema, HeaderDraft.schema,
+            RegisterDraft.schema,
         ] {
             schemas[schema.kind] = schema
         }

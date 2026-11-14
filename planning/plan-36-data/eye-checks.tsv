@@ -1,0 +1,10 @@
+device	pinout	pdf	pages	result
+AVR32SD20	p20	datasheets/mcu/microchip/AVR32SD20-28-32-Data-Sheet-DS40002629.pdf	18	ok (by eye: every pin matches; the figure prints the functions RESET / UPDI for the ATDF pads PF6 / PF7)
+AVR32SD28	quad28	datasheets/mcu/microchip/AVR32SD20-28-32-Data-Sheet-DS40002629.pdf	19	ok (by eye: every pin matches; RESET / UPDI printed for PF6 / PF7)
+AVR32SD28	p28	datasheets/mcu/microchip/AVR32SD20-28-32-Data-Sheet-DS40002629.pdf	20	ok (by eye: every pin matches; RESET / UPDI printed for PF6 / PF7)
+AVR32SD32	quad32	datasheets/mcu/microchip/AVR32SD20-28-32-Data-Sheet-DS40002629.pdf	21	ok (by eye: every pin matches; RESET / UPDI printed for PF6 / PF7)
+ATmega8	p28	datasheets/mcu/microchip/Atmel-2486-8-bit-AVR-microcontroller-ATmega8_L_summary.pdf	2	ok (by eye: PDIP figure, every pin; the page is an image)
+ATmega8	quad32	datasheets/mcu/microchip/Atmel-2486-8-bit-AVR-microcontroller-ATmega8_L_summary.pdf	2	ok (by eye: TQFP and MLF figures, every pin; the page is an image)
+ATxmega64C3	quad64	datasheets/mcu/microchip/Atmel-8492-8-and-16-bit-AVR-microcontroller-ATxmega32C3_64C3_128C3_192C3_256C3_datasheet.pdf	4	ok (by eye: Figure 2-1 Block Diagram and Pinout, every pin; an image)
+ATxmega128C3	quad64	datasheets/mcu/microchip/Atmel-8492-8-and-16-bit-AVR-microcontroller-ATxmega32C3_64C3_128C3_192C3_256C3_datasheet.pdf	4	ok (by eye: Figure 2-1, every pin; an image)
+ATxmega256C3	quad64	datasheets/mcu/microchip/Atmel-8492-8-and-16-bit-AVR-microcontroller-ATxmega32C3_64C3_128C3_192C3_256C3_datasheet.pdf	4	ok (by eye: Figure 2-1, every pin; an image)

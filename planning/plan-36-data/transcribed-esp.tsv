@@ -1,0 +1,500 @@
+pdf	page	figure	devices	pinout	designator	name	role
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	1	GND	ground
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	2	GND	ground
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	3	3V3	power
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	4	NC	nc
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	5	IO2	inout
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	6	IO3	inout
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	7	NC	nc
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	8	EN	input
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	9	NC	nc
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	10	NC	nc
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	11	GND	ground
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	12	IO0	inout
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	13	IO1	inout
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	14	GND	ground
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	15	NC	nc
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	16	IO10	inout
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	17	NC	nc
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	18	IO4	inout
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	19	IO5	inout
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	20	IO6	inout
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	21	IO7	inout
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	22	IO8	inout
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	23	IO9	inout
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	24	NC	nc
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	25	NC	nc
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	26	IO18	inout
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	27	IO19	inout
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	28	NC	nc
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	29	NC	nc
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	30	RXD0	inout
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	31	TXD0	inout
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	32	NC	nc
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	33	NC	nc
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	34	NC	nc
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	35	NC	nc
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	36	GND	ground
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	37	GND	ground
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	38	GND	ground
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	39	GND	ground
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	40	GND	ground
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	41	GND	ground
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	42	GND	ground
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	43	GND	ground
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	44	GND	ground
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	45	GND	ground
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	46	GND	ground
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	47	GND	ground
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	48	GND	ground
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	49	GND	ground
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	50	GND	ground
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	51	GND	ground
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	52	GND	ground
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-MINI-1	module53	53	GND	ground
+datasheets/mcu/espressif/esp32-c3-wroom-02_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-WROOM-02	module19	1	3V3	power
+datasheets/mcu/espressif/esp32-c3-wroom-02_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-WROOM-02	module19	2	EN	input
+datasheets/mcu/espressif/esp32-c3-wroom-02_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-WROOM-02	module19	3	IO4	inout
+datasheets/mcu/espressif/esp32-c3-wroom-02_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-WROOM-02	module19	4	IO5	inout
+datasheets/mcu/espressif/esp32-c3-wroom-02_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-WROOM-02	module19	5	IO6	inout
+datasheets/mcu/espressif/esp32-c3-wroom-02_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-WROOM-02	module19	6	IO7	inout
+datasheets/mcu/espressif/esp32-c3-wroom-02_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-WROOM-02	module19	7	IO8	inout
+datasheets/mcu/espressif/esp32-c3-wroom-02_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-WROOM-02	module19	8	IO9	inout
+datasheets/mcu/espressif/esp32-c3-wroom-02_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-WROOM-02	module19	9	GND	ground
+datasheets/mcu/espressif/esp32-c3-wroom-02_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-WROOM-02	module19	10	IO10	inout
+datasheets/mcu/espressif/esp32-c3-wroom-02_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-WROOM-02	module19	11	RXD	inout
+datasheets/mcu/espressif/esp32-c3-wroom-02_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-WROOM-02	module19	12	TXD	inout
+datasheets/mcu/espressif/esp32-c3-wroom-02_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-WROOM-02	module19	13	IO18	inout
+datasheets/mcu/espressif/esp32-c3-wroom-02_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-WROOM-02	module19	14	IO19	inout
+datasheets/mcu/espressif/esp32-c3-wroom-02_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-WROOM-02	module19	15	IO3	inout
+datasheets/mcu/espressif/esp32-c3-wroom-02_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-WROOM-02	module19	16	IO2	inout
+datasheets/mcu/espressif/esp32-c3-wroom-02_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-WROOM-02	module19	17	IO1	inout
+datasheets/mcu/espressif/esp32-c3-wroom-02_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-WROOM-02	module19	18	IO0	inout
+datasheets/mcu/espressif/esp32-c3-wroom-02_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C3-WROOM-02	module19	19	GND	ground
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	1	GND	ground
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	2	GND	ground
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	3	3V3	power
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	4	NC	nc
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	5	IO2	inout
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	6	IO3	inout
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	7	NC	nc
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	8	EN	input
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	9	IO4	inout
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	10	IO5	inout
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	11	GND	ground
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	12	IO0	inout
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	13	IO1	inout
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	14	GND	ground
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	15	IO6	inout
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	16	IO7	inout
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	17	IO12	inout
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	18	IO13	inout
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	19	IO14	inout
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	20	IO15	inout
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	21	NC	nc
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	22	IO8	inout
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	23	IO9	inout
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	24	IO18	inout
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	25	IO19	inout
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	26	IO20	inout
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	27	IO21	inout
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	28	IO22	inout
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	29	IO23	inout
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	30	RXD0	inout
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	31	TXD0	inout
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	32	NC	nc
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	33	NC	nc
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	34	NC	nc
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	35	NC	nc
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	36	GND	ground
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	37	GND	ground
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	38	GND	ground
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	39	GND	ground
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	40	GND	ground
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	41	GND	ground
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	42	GND	ground
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	43	GND	ground
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	44	GND	ground
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	45	GND	ground
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	46	GND	ground
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	47	GND	ground
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	48	GND	ground
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	49	GND	ground
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	50	GND	ground
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	51	GND	ground
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	52	GND	ground
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-MINI-1	module53	53	GND	ground
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	1	GND	ground
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	2	3V3	power
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	3	EN	input
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	4	IO4	inout
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	5	IO5	inout
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	6	IO6	inout
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	7	IO7	inout
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	8	IO0	inout
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	9	IO1	inout
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	10	IO8	inout
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	11	IO10	inout
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	12	IO11	inout
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	13	IO12	inout
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	14	IO13	inout
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	15	IO9	inout
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	16	IO18	inout
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	17	IO19	inout
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	18	IO20	inout
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	19	IO21	inout
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	20	IO22	inout
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	21	IO23	inout
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	22	NC	nc
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	23	IO15	inout
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	24	RXD0	inout
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	25	TXD0	inout
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	26	IO3	inout
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	27	IO2	inout
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	28	GND	ground
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-C6-WROOM-1	module29	29	GND	ground
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	1	GND	ground
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	2	GND	ground
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	3	3V3	power
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	4	I36	input
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	5	I37	input
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	6	I38	input
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	7	I39	input
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	8	EN	input
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	9	I34	input
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	10	I35	input
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	11	IO32	inout
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	12	IO33	inout
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	13	IO25	inout
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	14	IO26	inout
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	15	IO27	inout
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	16	IO14	inout
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	17	IO12	inout
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	18	IO13	inout
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	19	IO15	inout
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	20	IO2	inout
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	21	IO0	inout
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	22	IO4	inout
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	23	NC	nc
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	24	NC	nc
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	25	IO9	inout
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	26	IO10	inout
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	27	GND	ground
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	28	NC	nc
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	29	IO5	inout
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	30	IO18	inout
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	31	IO23	inout
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	32	IO19	inout
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	33	IO22	inout
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	34	IO21	inout
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	35	RXD0	inout
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	36	TXD0	inout
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	37	NC	nc
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	38	GND	ground
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	39	GND	ground
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	40	GND	ground
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	41	GND	ground
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	42	GND	ground
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	43	GND	ground
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	44	GND	ground
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	45	GND	ground
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	46	GND	ground
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	47	GND	ground
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	48	GND	ground
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	49	GND	ground
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	50	GND	ground
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	51	GND	ground
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	52	GND	ground
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	53	GND	ground
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	54	GND	ground
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-MINI-1	module55	55	GND	ground
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	1	GND	ground
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	2	GND	ground
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	3	3V3	power
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	4	IO0	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	5	IO1	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	6	IO2	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	7	IO3	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	8	IO4	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	9	IO5	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	10	IO6	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	11	IO7	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	12	IO8	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	13	IO9	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	14	IO10	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	15	IO11	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	16	IO12	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	17	IO13	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	18	IO14	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	19	IO15	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	20	IO16	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	21	IO17	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	22	IO18	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	23	IO19	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	24	IO20	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	25	IO21	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	26	IO26	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	27	NC	nc
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	28	IO33	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	29	IO34	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	30	GND	ground
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	31	IO35	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	32	IO36	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	33	IO37	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	34	IO38	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	35	IO39	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	36	IO40	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	37	IO41	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	38	IO42	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	39	TXD0	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	40	RXD0	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	41	IO45	inout
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	42	GND	ground
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	43	GND	ground
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	44	IO46	input
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	45	EN	input
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	46	GND	ground
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	47	GND	ground
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	48	GND	ground
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	49	GND	ground
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	50	GND	ground
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	51	GND	ground
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	52	GND	ground
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	53	GND	ground
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	54	GND	ground
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	55	GND	ground
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	56	GND	ground
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	57	GND	ground
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	58	GND	ground
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	59	GND	ground
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	60	GND	ground
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	61	GND	ground
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	62	GND	ground
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	63	GND	ground
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	64	GND	ground
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-MINI-2	module65	65	GND	ground
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	1	GND	ground
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	2	3V3	power
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	3	EN	input
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	4	IO4	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	5	IO5	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	6	IO6	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	7	IO7	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	8	IO15	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	9	IO16	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	10	IO17	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	11	IO18	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	12	IO8	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	13	IO19	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	14	IO20	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	15	IO3	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	16	IO46	input
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	17	IO9	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	18	IO10	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	19	IO11	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	20	IO12	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	21	IO13	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	22	IO14	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	23	IO21	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	24	IO33	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	25	IO34	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	26	IO45	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	27	IO0	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	28	IO35	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	29	IO36	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	30	IO37	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	31	IO38	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	32	IO39	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	33	IO40	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	34	IO41	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	35	IO42	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	36	RXD0	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	37	TXD0	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	38	IO2	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	39	IO1	inout
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	40	GND	ground
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S2-SOLO-2	module41	41	GND	ground
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	1	GND	ground
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	2	GND	ground
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	3	3V3	power
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	4	IO0	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	5	IO1	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	6	IO2	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	7	IO3	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	8	IO4	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	9	IO5	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	10	IO6	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	11	IO7	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	12	IO8	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	13	IO9	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	14	IO10	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	15	IO11	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	16	IO12	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	17	IO13	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	18	IO14	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	19	IO15	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	20	IO16	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	21	IO17	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	22	IO18	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	23	IO19	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	24	IO20	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	25	IO21	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	26	IO26	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	27	IO47	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	28	IO33	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	29	IO34	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	30	IO48	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	31	IO35	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	32	IO36	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	33	IO37	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	34	IO38	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	35	IO39	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	36	IO40	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	37	IO41	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	38	IO42	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	39	TXD0	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	40	RXD0	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	41	IO45	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	42	GND	ground
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	43	GND	ground
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	44	IO46	inout
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	45	EN	input
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	46	GND	ground
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	47	GND	ground
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	48	GND	ground
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	49	GND	ground
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	50	GND	ground
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	51	GND	ground
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	52	GND	ground
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	53	GND	ground
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	54	GND	ground
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	55	GND	ground
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	56	GND	ground
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	57	GND	ground
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	58	GND	ground
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	59	GND	ground
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	60	GND	ground
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	61	GND	ground
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	62	GND	ground
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	63	GND	ground
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	64	GND	ground
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-MINI-1	module65	65	GND	ground
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	1	GND	ground
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	2	3V3	power
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	3	EN	input
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	4	IO4	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	5	IO5	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	6	IO6	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	7	IO7	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	8	IO15	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	9	IO16	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	10	IO17	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	11	IO18	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	12	IO8	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	13	IO19	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	14	IO20	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	15	IO3	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	16	IO46	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	17	IO9	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	18	IO10	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	19	IO11	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	20	IO12	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	21	IO13	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	22	IO14	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	23	IO21	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	24	IO47	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	25	IO48	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	26	IO45	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	27	IO0	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	28	IO35	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	29	IO36	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	30	IO37	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	31	IO38	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	32	IO39	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	33	IO40	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	34	IO41	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	35	IO42	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	36	RXD0	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	37	TXD0	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	38	IO2	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	39	IO1	inout
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	40	GND	ground
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf		module-table: Pin Definitions table	ESP32-S3-WROOM-1	module41	41	GND	ground
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	1	GND	ground
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	2	3V3	power
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	3	EN	input
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	4	SENSOR_VP	input
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	5	SENSOR_VN	input
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	6	IO34	input
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	7	IO35	input
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	8	IO32	inout
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	9	IO33	inout
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	10	IO25	inout
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	11	IO26	inout
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	12	IO27	inout
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	13	IO14	inout
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	14	IO12	inout
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	15	GND	ground
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	16	IO13	inout
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	17	NC	nc
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	18	NC	nc
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	19	NC	nc
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	20	NC	nc
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	21	NC	nc
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	22	NC	nc
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	23	IO15	inout
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	24	IO2	inout
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	25	IO0	inout
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	26	IO4	inout
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	27	IO16	inout
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	28	IO17	inout
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	29	IO5	inout
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	30	IO18	inout
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	31	IO19	inout
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	32	NC	nc
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	33	IO21	inout
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	34	RXD0	inout
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	35	TXD0	inout
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	36	IO22	inout
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	37	IO23	inout
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	38	GND	ground
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: the exposed pad is "39 GND" (esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf § 3.1; B § 3.3)	ESP32-WROOM-32	module39	39	GND	ground
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	1	GND	ground
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	2	3V3	power
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	3	EN	input
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	4	SENSOR_VP	input
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	5	SENSOR_VN	input
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	6	IO34	input
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	7	IO35	input
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	8	IO32	inout
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	9	IO33	inout
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	10	IO25	inout
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	11	IO26	inout
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	12	IO27	inout
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	13	IO14	inout
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	14	IO12	inout
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	15	GND	ground
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	16	IO13	inout
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	17	NC	nc
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	18	NC	nc
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	19	NC	nc
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	20	NC	nc
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	21	NC	nc
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	22	NC	nc
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	23	IO15	inout
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	24	IO2	inout
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	25	IO0	inout
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	26	IO4	inout
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	27	NC	nc
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	28	NC	nc
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	29	IO5	inout
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	30	IO18	inout
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	31	IO19	inout
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	32	NC	nc
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	33	IO21	inout
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	34	RXD0	inout
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	35	TXD0	inout
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	36	IO22	inout
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	37	IO23	inout
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	38	GND	ground
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf		module-table: Pin Definitions table + pin layout figure: "Pin 39" GND, the exposed pad (esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf § 3.1)	ESP32-WROVER	module39	39	GND	ground

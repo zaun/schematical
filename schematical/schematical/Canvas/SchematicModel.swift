@@ -640,6 +640,9 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     /// plan-33-H). Nil for every other part, real capacitors included (their
     /// value is their part's).
     var farads: Double?
+    /// Whether the Schematic draws the reference above the part; the
+    /// sidebar's Display Reference. On unless turned off.
+    var showsReference = true
 
     private let baseLayout: ChipLayout
 
@@ -715,16 +718,18 @@ nonisolated struct PlacedChip: Identifiable, Hashable {
     var partNumber: String { part.name }
 
     /// The same chip on another part (a header's new size): id, reference,
-    /// symbol, origin, flip, board placement, gender and memory file are
-    /// kept. The footprint is the new part's choice with the same package as
+    /// symbol, origin, flip, board placement, gender, memory file and
+    /// Display Reference are kept. The footprint is the new part's choice with the same package as
     /// the current one (`Straight` stays `Straight`), else its default.
     func resized(to newPart: CatalogPart) -> PlacedChip {
         let package = footprintChoice?.package
         let footprint = newPart.footprintChoices.first { $0.package == package }?.footprint.id
-        return PlacedChip(id: id, reference: reference, part: newPart, symbol: symbol, origin: origin,
-                          isFlipped: isFlipped, switchesOn: switchesOn, board: board,
-                          memoryFile: memoryFile, color: color, footprintID: footprint, gender: gender,
-                          ohms: ohms, farads: farads)
+        var chip = PlacedChip(id: id, reference: reference, part: newPart, symbol: symbol, origin: origin,
+                              isFlipped: isFlipped, switchesOn: switchesOn, board: board,
+                              memoryFile: memoryFile, color: color, footprintID: footprint, gender: gender,
+                              ohms: ohms, farads: farads)
+        chip.showsReference = showsReference
+        return chip
     }
 
     /// The chosen footprint choice, for a part with footprint choices.
@@ -1202,10 +1207,20 @@ final class SchematicDocument {
         schematicSelection.set(Set(parts.map(SchematicItem.chip)))
     }
 
-    /// The selected bus. Selecting one clears the other Schematic selections.
+    /// The bus, when it is the only thing selected on the Schematic page
+    /// (buses are items of `schematicSelection`). Setting one makes it the
+    /// whole selection; setting nil clears a lone selected bus.
     var selectedBusID: UUID? {
-        didSet {
-            if selectedBusID != nil { clearSelection(except: .bus) }
+        get {
+            if case let .bus(id)? = schematicSelection.sole { return id }
+            return nil
+        }
+        set {
+            if let newValue {
+                if schematicSelection.items != [.bus(newValue)] { schematicSelection.set([.bus(newValue)]) }
+            } else if selectedBusID != nil {
+                schematicSelection.clear()
+            }
         }
     }
     /// The selected bus port. Selecting one clears the other Schematic selections.
@@ -1215,13 +1230,12 @@ final class SchematicDocument {
         }
     }
 
-    private enum SelectionKind { case items, bus, port }
+    private enum SelectionKind { case items, port }
 
-    /// On the Schematic page, the item set, a bus and a port exclude each
-    /// other: clears every one but `kept`.
+    /// On the Schematic page, the item set (buses included) and a port
+    /// exclude each other: clears the one that isn't `kept`.
     private func clearSelection(except kept: SelectionKind) {
         if kept != .items, !schematicSelection.isEmpty { schematicSelection.clear() }
-        if kept != .bus, selectedBusID != nil { selectedBusID = nil }
         if kept != .port, selectedPortID != nil { selectedPortID = nil }
     }
 
@@ -1333,7 +1347,9 @@ final class SchematicDocument {
 
     // MARK: Box select
 
-    /// The parts, junctions and wires a box (schematic coordinates) touches.
+    /// The parts, junctions, wires, text blocks, net labels and buses a box
+    /// (schematic coordinates) touches. A bus is in when any of its lines
+    /// is.
     func schematicItems(in rect: CGRect) -> Set<SchematicItem> {
         var items = Set<SchematicItem>()
         for chip in chips where chip.hitRect.intersects(rect) {
@@ -1353,6 +1369,9 @@ final class SchematicDocument {
             if zip(path, path.dropFirst()).contains(where: { Self.segment($0, $1, touches: rect) }) {
                 items.insert(.wire(wire.id))
             }
+        }
+        for bus in buses where bus.lines.contains(where: { Self.segment($0.a, $0.b, touches: rect) }) {
+            items.insert(.bus(bus.id))
         }
         return items
     }
@@ -1398,7 +1417,7 @@ final class SchematicDocument {
     }
 
     /// Edit › Select All on the Schematic: every part, wire, junction, text
-    /// block and net label.
+    /// block, net label and bus.
     func selectAllSchematic() {
         var items = Set<SchematicItem>()
         items.formUnion(chips.map { .chip($0.id) })
@@ -1406,6 +1425,7 @@ final class SchematicDocument {
         items.formUnion(junctions.map { .junction($0.id) })
         items.formUnion(notes.map { .note($0.id) })
         items.formUnion(netLabels.map { .label($0.id) })
+        items.formUnion(buses.map { .bus($0.id) })
         if items != schematicSelection.items { schematicSelection.set(items) }
     }
 
@@ -1427,10 +1447,10 @@ final class SchematicDocument {
         if items != boardSelection.items { boardSelection.set(items) }
     }
 
-    /// Clears the Schematic page's selection: items, bus and port.
+    /// Clears the Schematic page's selection: items (buses included) and
+    /// port.
     func clearSchematicSelection() {
         schematicSelection.clear()
-        selectedBusID = nil
         selectedPortID = nil
     }
 
@@ -1449,6 +1469,7 @@ final class SchematicDocument {
         let chipIDs = Set(chips.map(\.id)), wireIDs = Set(wires.map(\.id))
         let junctionIDs = Set(junctions.map(\.id)), textIDs = Set(texts.map(\.id))
         let noteIDs = Set(notes.map(\.id)), labelIDs = Set(netLabels.map(\.id))
+        let busIDs = Set(buses.map(\.id))
         schematicSelection.filter { item in
             switch item {
             case let .chip(id): chipIDs.contains(id)
@@ -1456,6 +1477,7 @@ final class SchematicDocument {
             case let .junction(id): junctionIDs.contains(id)
             case let .note(id): noteIDs.contains(id)
             case let .label(id): labelIDs.contains(id)
+            case let .bus(id): busIDs.contains(id)
             }
         }
         let footprints = Set(chips.filter { $0.board != nil }.map(\.id))
@@ -1723,7 +1745,7 @@ final class SchematicDocument {
             let origin = SchematicGrid.snap(
                 CGPoint(x: point.x - layout.size.width / 2, y: point.y - layout.size.height / 2)
             )
-            let reference = takeReference(for: part)
+            let reference = takeReference(for: part, gender: gender)
             var placed = PlacedChip(
                 reference: reference,
                 part: part,
@@ -1743,35 +1765,24 @@ final class SchematicDocument {
         }
     }
 
-    /// The reference for a new part, taken: a pull resistor gets the lowest
-    /// R<n> no part uses; any other part the first U<n> from
-    /// `nextReference` on that no part uses (a part may have been renamed
-    /// to one), which moves `nextReference` past it.
-    private func takeReference(for part: CatalogPart) -> String {
-        let used = Set(chips.map(\.reference))
-        // Pulls and every resistor-kind part (plan-34-G): the lowest R<n>.
-        if part.isPullResistor || part.kind == PART_RESISTOR {
-            var number = 1
-            while used.contains("R\(number)") {
-                number += 1
-            }
-            return "R\(number)"
-        }
-        if part.kind == PART_CAPACITOR {
-            // Capacitors (plan-33-H): the lowest C<n> no part uses, as the
-            // pull resistors' R<n>; nextReference does not move.
-            var number = 1
-            while used.contains("C\(number)") {
-                number += 1
-            }
-            return "C\(number)"
-        }
-        var number = nextReference
-        while used.contains("U\(number)") {
+    /// The reference for a new part, taken, with its prefix from Settings ▸
+    /// Reference Defaults (`ReferencePrefixes`). A part with the Integrated Circuit
+    /// prefix gets the first number from `nextReference` on that no part
+    /// uses (a part may have been renamed to one), which moves
+    /// `nextReference` past it; any other part the lowest number no part
+    /// uses. `alsoUsed` are references taken but not yet in `chips` (a
+    /// paste in progress); `gender` is a header's.
+    private func takeReference(for part: CatalogPart, gender: String?,
+                               alsoUsed: [String] = []) -> String {
+        let used = Set(chips.map(\.reference) + alsoUsed)
+        let prefix = ReferencePrefixes.prefix(for: part, gender: gender)
+        let counted = prefix == ReferencePrefixes.prefix(for: .integratedCircuit)
+        var number = counted ? nextReference : 1
+        while used.contains(ReferenceParts.reference(prefix: prefix, number: number)) {
             number += 1
         }
-        nextReference = number + 1
-        return "U\(number)"
+        if counted { nextReference = number + 1 }
+        return ReferenceParts.reference(prefix: prefix, number: number)
     }
 
     /// Sets an LED's color. Does nothing for a part that isn't an LED, or a
@@ -1782,6 +1793,15 @@ final class SchematicDocument {
                   chips[index].part.kind == PART_LED,
                   chips[index].part.colors.contains(color) else { return }
             chips[index].color = color
+        }
+    }
+
+    /// Turns the reference above a part on the Schematic on or off.
+    func setPartShowsReference(_ id: UUID, _ shows: Bool) {
+        recordEdit(.schematic, shows ? "Show Reference" : "Hide Reference") {
+            guard let index = chips.firstIndex(where: { $0.id == id }),
+                  chips[index].showsReference != shows else { return }
+            chips[index].showsReference = shows
         }
     }
 
@@ -1898,18 +1918,11 @@ final class SchematicDocument {
         }
     }
 
-    /// The prefix a new part's reference gets: "R" for a pull resistor or a
-    /// resistor, "C" for a capacitor, "U" for every other part.
-    nonisolated static func defaultReferencePrefix(for part: CatalogPart) -> String {
-        if part.isPullResistor || part.kind == PART_RESISTOR { return "R" }
-        if part.kind == PART_CAPACITOR { return "C" }
-        return "U"
-    }
-
-    /// Edit › Reset References: every part gets its default prefix back
-    /// (`defaultReferencePrefix`) and is numbered again from 1 within its
-    /// prefix, in reading order on the Schematic (top to bottom, then left
-    /// to right), as one step. The next new part continues the U numbers.
+    /// Edit › Reset References: every part gets its prefix from Settings ▸
+    /// Reference Defaults back (`ReferencePrefixes`) and is numbered again from 1
+    /// within its prefix, in reading order on the Schematic (top to bottom,
+    /// then left to right), as one step. The next new part continues the
+    /// Integrated Circuit prefix's numbers.
     /// Returns whether any reference changed.
     @discardableResult
     func resetReferences(page: EditorPage) -> Bool {
@@ -1922,12 +1935,12 @@ final class SchematicDocument {
         var counts: [String: Int] = [:]
         var renamed = chips
         for index in order {
-            let prefix = Self.defaultReferencePrefix(for: chips[index].part)
+            let prefix = ReferencePrefixes.prefix(for: chips[index].part, gender: chips[index].gender)
             let number = (counts[prefix] ?? 0) + 1
             counts[prefix] = number
             renamed[index].reference = ReferenceParts.reference(prefix: prefix, number: number)
         }
-        let next = (counts["U"] ?? 0) + 1
+        let next = (counts[ReferencePrefixes.prefix(for: .integratedCircuit)] ?? 0) + 1
         guard renamed != chips || next != nextReference else { return false }
         recordEdit(page, "Reset References") {
             chips = renamed
@@ -1974,6 +1987,11 @@ final class SchematicDocument {
                 if let note = notes.first(where: { $0.id == id }) { base.notes[id] = note.origin }
             case let .label(id):
                 if let label = netLabels.first(where: { $0.id == id }) { base.labels[id] = label.origin }
+            case let .bus(id):
+                if let bus = bus(id) {
+                    base.buses[id] = bus
+                    base.ports.formUnion(bus.ports.map(\.id))
+                }
             }
         }
         for wire in wires where base.wires[wire.id] != nil || moves(wire.start, in: base) || moves(wire.end, in: base) {
@@ -1993,18 +2011,43 @@ final class SchematicDocument {
         switch end {
         case let .pin(ref): base.chips[ref.chipID] != nil
         case let .junction(id): base.junctions[id] != nil
-        case .busPin: false
+        case let .busPin(ref): base.ports.contains(ref.portID)
         case let .label(id): base.labels[id] != nil
         }
     }
 
-    /// One frame of a group drag: every part, junction and selected wire bend
-    /// in `base` moves by `delta` snapped to the grid, from where it was at
-    /// the press. Selected wires keep their ends: only their bends move.
+    /// `bus` moved by (`dx`, `dy`): its lines, and its ports along with
+    /// them (a port's start is along its line).
+    static func shifted(_ bus: Bus, dx: CGFloat, dy: CGFloat) -> Bus {
+        var moved = bus
+        var horizontal: [UUID: Bool] = [:]
+        for index in moved.lines.indices {
+            horizontal[moved.lines[index].id] = moved.lines[index].isHorizontal
+            moved.lines[index].a.x += dx
+            moved.lines[index].a.y += dy
+            moved.lines[index].b.x += dx
+            moved.lines[index].b.y += dy
+        }
+        for index in moved.ports.indices {
+            moved.ports[index].start += horizontal[moved.ports[index].line] == true ? dx : dy
+        }
+        return moved
+    }
+
+    /// One frame of a group drag: every part, junction, selected wire bend
+    /// and bus in `base` moves by `delta` snapped to the grid, from where it
+    /// was at the press. Selected wires keep their ends: only their bends
+    /// move. A frame that would make a moved bus touch another bus changes
+    /// nothing, so the group stays at the last place it could go.
     func moveSchematicGroup(_ base: SchematicGroupBase, by delta: CGSize) {
         recordEdit(.schematic, "Move") {
             let dx = SchematicGrid.snap(delta.width), dy = SchematicGrid.snap(delta.height)
             func shifted(_ point: CGPoint) -> CGPoint { CGPoint(x: point.x + dx, y: point.y + dy) }
+            if !base.buses.isEmpty {
+                let moved = buses.map { bus in base.buses[bus.id].map { Self.shifted($0, dx: dx, dy: dy) } ?? bus }
+                guard Self.busesAreApart(moved) else { return }
+                if moved != buses { buses = moved }
+            }
             for index in chips.indices {
                 guard let origin = base.chips[chips[index].id] else { continue }
                 let moved = shifted(origin)
@@ -2052,7 +2095,7 @@ final class SchematicDocument {
                 }
                 wires[index].interior = interior
             }
-            adoptLooseEnds(chips: Set(base.chips.keys), junctions: Set(base.junctions.keys),
+            adoptLooseEnds(chips: Set(base.chips.keys), ports: base.ports, junctions: Set(base.junctions.keys),
                            labels: Set(base.labels.keys))
         }
     }
@@ -2063,10 +2106,13 @@ final class SchematicDocument {
     /// grid), as one step, and makes it the selection. Every item gets a new
     /// id; parts get new references (as a placed part does) and a footprint
     /// spot to the right of the board's parts. Net labels keep their names,
-    /// so they join the nets of those names. Loose ends that land on a pin
-    /// connect. Refused, with nothing changed, when it would put a voltage
-    /// out of range on a part (`editorMessage` says why). Returns whether
-    /// anything was pasted.
+    /// so they join the nets of those names. A bus keeps its name when no
+    /// bus has it, or when the bus that has it carries the same wires and
+    /// type (so the two link, as labels join); else it takes the next free
+    /// "BUS n". Loose ends that land on a pin connect. Refused, with nothing
+    /// changed, when a pasted bus would touch another bus, or when it would
+    /// put a voltage out of range on a part (`editorMessage` says why).
+    /// Returns whether anything was pasted.
     @discardableResult
     func pasteSchematic(_ copy: SchematicCopy, offset: CGSize) -> Bool {
         guard !copy.isEmpty else { return false }
@@ -2085,11 +2131,14 @@ final class SchematicDocument {
             var pastedChips: [PlacedChip] = []
             for chip in copy.chips {
                 var placed = PlacedChip(
-                    id: renamed(chip.id), reference: takeReference(for: chip.part), part: chip.part,
+                    id: renamed(chip.id), reference: takeReference(for: chip.part, gender: chip.gender,
+                                                                   alsoUsed: pastedChips.map(\.reference)),
+                    part: chip.part,
                     symbol: chip.symbol, origin: shifted(chip.origin), isFlipped: chip.isFlipped,
                     switchesOn: chip.switchesOn, memoryFile: chip.memoryFile, color: chip.color,
                     footprintID: chip.footprintID, gender: chip.gender, ohms: chip.ohms, farads: chip.farads
                 )
+                placed.showsReference = chip.showsReference
                 placed.board = placed.footprint.map {
                     BoardLayout.nextSpot(for: $0, among: chips + pastedChips, pad1: placed.part.firstPinDesignator,
                                          grid: self.board.grid)
@@ -2107,13 +2156,40 @@ final class SchematicDocument {
                 SchematicNote(id: renamed($0.id), text: $0.text, origin: shifted($0.origin), size: $0.size,
                               framed: $0.framed)
             }
+            var pastedBuses: [Bus] = []
+            for bus in copy.buses {
+                let lines = bus.lines.map {
+                    BusLine(id: renamed($0.id), a: shifted($0.a), b: shifted($0.b))
+                }
+                let busWires = bus.wires.map { BusWire(id: renamed($0.id), name: $0.name) }
+                var horizontal: [UUID: Bool] = [:]
+                for line in bus.lines { horizontal[line.id] = line.isHorizontal }
+                let ports = bus.ports.map { port in
+                    BusPort(id: renamed(port.id), line: renamed(port.line),
+                            start: port.start + (horizontal[port.line] == true ? dx : dy), side: port.side,
+                            wireIDs: Set(port.wireIDs.map(renamed)))
+                }
+                let lowered = bus.name.lowercased()
+                let others = buses + pastedBuses
+                let named = others.filter { $0.name.lowercased() == lowered }
+                let links = named.allSatisfy { $0.wires.map(\.name) == bus.wires.map(\.name) && $0.card == bus.card }
+                let name = !bus.name.isEmpty && links ? (named.first?.name ?? bus.name)
+                    : Bus.defaultBusName(taken: others.map(\.name))
+                pastedBuses.append(Bus(id: renamed(bus.id), name: name, card: bus.card, lines: lines,
+                                       wires: busWires, ports: ports))
+            }
+            guard Self.busesAreApart(buses + pastedBuses) else {
+                nextReference = savedNextReference
+                editorMessage = "Can't paste there: a pasted bus would touch another bus."
+                return false
+            }
             func end(_ end: WireEnd) -> WireEnd {
                 switch end {
                 case let .pin(ref): .pin(PinRef(chipID: renamed(ref.chipID), index: ref.index))
                 case let .junction(id): .junction(renamed(id))
                 case let .label(id): .label(renamed(id))
-                // A copy never holds one (`schematicCopy` loosens them).
-                case let .busPin(ref): .busPin(ref)
+                // Only pins of copied buses (`schematicCopy` loosens the rest).
+                case let .busPin(ref): .busPin(BusPinRef(portID: renamed(ref.portID), wireID: renamed(ref.wireID)))
                 }
             }
             let pastedWires = copy.wires.map {
@@ -2124,7 +2200,7 @@ final class SchematicDocument {
             // out of range.
             if let library,
                let issue = VoltageCheck.firstNew(before: chips, wires, after: chips + pastedChips,
-                                                 wires + pastedWires, buses: buses, labels: netLabels,
+                                                 wires + pastedWires, buses: buses + pastedBuses, labels: netLabels,
                                                  afterLabels: netLabels + pastedLabels, library: library) {
                 nextReference = savedNextReference
                 editorMessage = VoltageCheck.message(issue, chips: chips + pastedChips, edit: .connect)
@@ -2135,6 +2211,7 @@ final class SchematicDocument {
             junctions += pastedJunctions
             netLabels += pastedLabels
             notes += pastedNotes
+            buses += pastedBuses
             wires += pastedWires
 
             var selection = Set<SchematicItem>()
@@ -2142,10 +2219,12 @@ final class SchematicDocument {
             selection.formUnion(pastedLabels.map { .label($0.id) })
             selection.formUnion(pastedNotes.map { .note($0.id) })
             selection.formUnion(pastedWires.map { .wire($0.id) })
+            selection.formUnion(pastedBuses.map { .bus($0.id) })
             clearSchematicSelection()
             for item in selection { toggleSelection(item) }
             pruneJunctions()
             adoptLooseEnds(chips: Set(pastedChips.map(\.id)),
+                           ports: Set(pastedBuses.flatMap { $0.ports.map(\.id) }),
                            junctions: Set(pastedJunctions.filter(\.isLoose).map(\.id)),
                            labels: Set(pastedLabels.map(\.id)))
             return true
@@ -2154,7 +2233,7 @@ final class SchematicDocument {
 
     // MARK: Net labels (Schematic)
 
-    /// The lowest "N<n>" no label is named (ignoring case), for a new label.
+    /// The lowest "N<n>" no label is named, for a new label.
     func nextNetLabelName() -> String {
         let taken = Set(netLabels.map(\.netKey))
         var n = 1
@@ -2760,6 +2839,48 @@ final class SchematicDocument {
             }) { return hit }
         }
         return nil
+    }
+
+    /// The pad under a board point (mm) and what to call it, for the PCB
+    /// page's hover label: a part's pad ("U3.5 A0"; "U3.5" when the pin's
+    /// name is just its number; "U3 centre pad" for an unnumbered one), or a
+    /// card's connector pin ("Edge.13 A0", with the edge bus's wire name) or
+    /// named header pad off the bus. Top before Bottom; a pad that
+    /// isn't drawn can't be hit.
+    func padLabel(at point: CGPoint, visible: BoardVisibility = BoardVisibility()) -> (pad: PlacedPad, label: String)? {
+        func hits(_ pad: PlacedPad) -> Bool {
+            guard pad.rect.contains(point) else { return false }
+            guard pad.shape == .round else { return true }
+            let dx = (point.x - pad.rect.midX) / (pad.rect.width / 2)
+            let dy = (point.y - pad.rect.midY) / (pad.rect.height / 2)
+            return dx * dx + dy * dy <= 1
+        }
+        for side in [BoardSide.top, .bottom] {
+            for chip in chips.reversed() where chip.board?.side == side {
+                guard let pad = chip.boardPads.last(where: {
+                    $0.plated && visible.showsPad(drill: $0.drill, side: side) && hits($0)
+                }) else { continue }
+                guard let designator = pad.designator else { return (pad, "\(chip.reference) centre pad") }
+                let name = chip.part.pins.first { $0.designator == designator }?.name ?? ""
+                let label = "\(chip.reference).\(designator)"
+                return (pad, name.isEmpty || name == designator ? label : "\(label) \(name)")
+            }
+        }
+        let named = (board.fingers + board.extraPads).filter { !$0.name.isEmpty }
+        guard let finger = named.last(where: {
+            visible.showsPad(drill: $0.drill, side: $0.side) && hits($0.pad)
+        }) else { return nil }
+        // A connector pin is named like a part's pad ("Edge.13"); one on the
+        // bus also shows the edge bus's wire of the same position
+        // (`BoardSettings.pinNames`), as "Edge.13 A0".
+        guard board.fingers.contains(finger) else { return (finger.pad, finger.name) }
+        let label = "\(board.connectorName).\(finger.name)"
+        if let busID = edgeBusID, let bus = bus(busID),
+           let index = board.pinNames.firstIndex(of: finger.name), index < bus.wires.count {
+            let wire = bus.wires[index].name
+            if !wire.isEmpty, wire != finger.name { return (finger.pad, "\(label) \(wire)") }
+        }
+        return (finger.pad, label)
     }
 
 
@@ -4199,6 +4320,12 @@ final class SchematicDocument {
             return nil
         case let .success(draft):
             if let index = draft.busIndex {
+                let old = buses[index]
+                if buses.contains(where: { old.isLinked(with: $0) }),
+                   draft.bus.wires.map(\.name) != old.wires.map(\.name) || draft.bus.card != old.card {
+                    editorMessage = "\(old.name) is linked with another bus of its name, so joining can't change its wires."
+                    return nil
+                }
                 buses[index] = draft.bus
             } else {
                 var added = draft.bus
@@ -4241,10 +4368,10 @@ final class SchematicDocument {
         return recordEdit(.schematic, "Change Bus Width") { () -> String? in
             guard let index = buses.firstIndex(where: { $0.id == id }) else { return nil }
             let bus = buses[index]
-            if bus.id == edgeBusID { return edgeBusLock(bus) }
+            let group = linkGroup(index)
+            if groupHasEdge(group) { return edgeBusLock(bus) }
             if !bus.card.isCustom { return Self.typeSetsWires }
-            let used = bus.ports.reduce(into: Set<UUID>()) { $0.formUnion($1.wireIDs) }
-            if let highest = bus.wires.lastIndex(where: { used.contains($0.id) }), count < highest + 1 {
+            if let highest = highestUsedWire(group), count < highest + 1 {
                 return "\(bus.wires[highest].name) is used by a port; this bus needs at least \(highest + 1) wires."
             }
             let wanted = min(max(count, Bus.wireCountRange.lowerBound), Bus.wireCountRange.upperBound)
@@ -4256,12 +4383,14 @@ final class SchematicDocument {
                 wires.append(BusWire(name: Bus.defaultName(for: wires.count, taken: Set(wires.map(\.name)))))
             }
             buses[index].wires = wires
+            syncLinked(index)
             return nil
         }
     }
 
-    /// Renames one wire of a bus. Returns why when the name is refused, and
-    /// changes nothing then.
+    /// Renames one wire of a bus. Another wire of the bus may have the same
+    /// name (the wire list warns); each wire is still its own net. Returns
+    /// why when the name is refused, and changes nothing then.
     func renameBusWire(bus id: UUID, wire wireID: UUID, to name: String) -> String? {
         return recordEdit(.schematic, "Rename Bus Wire") { () -> String? in
             guard let index = buses.firstIndex(where: { $0.id == id }),
@@ -4271,11 +4400,68 @@ final class SchematicDocument {
             if trimmed.isEmpty { return "A wire name can't be empty." }
             if trimmed.count > Bus.nameLengthRange.upperBound { return "A wire name is at most 4 characters." }
             if trimmed.contains(where: \.isWhitespace) { return "A wire name can't contain spaces." }
-            let lowered = trimmed.lowercased()
-            if buses[index].wires.contains(where: { $0.id != wireID && $0.name.lowercased() == lowered }) {
-                return "\(trimmed) is already used on this bus."
-            }
             buses[index].wires[w].name = trimmed
+            syncLinked(index)
+            return nil
+        }
+    }
+
+    /// Sets a bus's wires to `names`, in order (the Bus panel's Import).
+    /// Wires keep their places and ids (so ports and the wires on their pins
+    /// stay) and are renamed; wires are added or dropped at the end. One
+    /// undo step. Refused, with why, and nothing changes, when the bus type
+    /// sets the wires, a name is invalid, the count is out of range, a port
+    /// uses a wire that would go, or the card edge uses the bus and the
+    /// count would change.
+    func setBusWireNames(_ id: UUID, _ names: [String]) -> String? {
+        return recordEdit(.schematic, "Import Bus Wires") { () -> String? in
+            guard let index = buses.firstIndex(where: { $0.id == id }) else { return nil }
+            let bus = buses[index]
+            if !bus.card.isCustom { return Self.typeSetsWires }
+            let names = names.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            guard Bus.wireCountRange.contains(names.count) else {
+                return "A bus carries \(Bus.wireCountRange.lowerBound)–\(Bus.wireCountRange.upperBound) wires."
+            }
+            if names.contains(where: { $0.isEmpty }) { return "A wire name can't be empty." }
+            if names.contains(where: { $0.count > Bus.nameLengthRange.upperBound }) { return "A wire name is at most 4 characters." }
+            if names.contains(where: { $0.contains(where: \.isWhitespace) }) { return "A wire name can't contain spaces." }
+            let group = linkGroup(index)
+            if names.count != bus.wires.count {
+                if groupHasEdge(group) { return edgeBusLock(bus) }
+                if let highest = highestUsedWire(group), names.count < highest + 1 {
+                    return "\(bus.wires[highest].name) is used by a port; this bus needs at least \(highest + 1) wires."
+                }
+            }
+            var wires = Array(bus.wires.prefix(names.count))
+            for (i, name) in names.enumerated() {
+                if i < wires.count { wires[i].name = name } else { wires.append(BusWire(name: name)) }
+            }
+            buses[index].wires = wires
+            syncLinked(index)
+            return nil
+        }
+    }
+
+    /// Moves one wire of a bus to place `to` (0-based, in the order after
+    /// the move), keeping its id and name, so its net and the wires on its
+    /// port pins go with it. Linked buses move the wire at the same place
+    /// the same way, so wire i of each stays one net. Ports show their pins
+    /// in bus order, so their wires are re-fitted. Refused, with why, while
+    /// the bus type sets the wires.
+    func moveBusWire(bus id: UUID, wire wireID: UUID, to place: Int) -> String? {
+        return recordEdit(.schematic, "Reorder Bus Wires") { () -> String? in
+            guard let index = buses.firstIndex(where: { $0.id == id }),
+                  let from = buses[index].wires.firstIndex(where: { $0.id == wireID }) else { return nil }
+            if !buses[index].card.isCustom { return Self.typeSetsWires }
+            let to = min(max(place, 0), buses[index].wires.count - 1)
+            guard to != from else { return nil }
+            for member in linkGroup(index) where from < buses[member].wires.count && to < buses[member].wires.count {
+                let wire = buses[member].wires.remove(at: from)
+                buses[member].wires.insert(wire, at: to)
+                for port in buses[member].ports {
+                    settleWires(attachedToPort: port.id)
+                }
+            }
             return nil
         }
     }
@@ -4314,18 +4500,92 @@ final class SchematicDocument {
         "\(bus.name) is in use as the card edge; its wire count is locked."
     }
 
-    /// Renames a bus. Refused, with why, when the name is empty or another
-    /// bus has it (ignoring case).
-    func setBusName(_ id: UUID, _ name: String) -> String? {
+    /// The bus that renaming bus `id` to `name` would link it with: another
+    /// bus of that name (ignoring case) not linked with it already. Nil when
+    /// the rename links nothing new.
+    func busLinkTarget(_ id: UUID, named name: String) -> Bus? {
+        guard let bus = bus(id) else { return nil }
+        let lowered = name.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        return buses.first { $0.id != id && !bus.isLinked(with: $0) && $0.name.lowercased() == lowered }
+    }
+
+    /// Renames a bus. Refused, with why, when the name is empty. A bus
+    /// linked with others (same name) leaves them; a new case for the same
+    /// name renames them all.
+    ///
+    /// Another bus's name links the two (`busLinkTarget`), and only with
+    /// `link`: this bus takes that one's type and wires (its wires keep
+    /// their places and ids; they are renamed, added or dropped at the end)
+    /// and its exact name. Without `link` that is refused. Refused too when
+    /// a port uses a wire the other bus doesn't have, or this bus is the
+    /// card edge and the wire count would change.
+    func setBusName(_ id: UUID, _ name: String, link: Bool = false) -> String? {
         return recordEdit(.schematic, "Rename Bus") { () -> String? in
             guard let index = buses.firstIndex(where: { $0.id == id }) else { return nil }
             let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
             if trimmed.isEmpty { return "A bus name can't be empty." }
-            if buses.contains(where: { $0.id != id && $0.name.lowercased() == trimmed.lowercased() }) {
-                return "\(trimmed) is already used by another bus."
+            let bus = buses[index]
+            if let target = busLinkTarget(id, named: trimmed) {
+                guard link else { return "\(trimmed) is already used by another bus." }
+                let count = target.wires.count
+                if bus.id == edgeBusID, count != bus.wires.count {
+                    return "\(bus.name) is in use as the card edge; it can only link with a bus of \(bus.wires.count) wires."
+                }
+                let used = bus.ports.reduce(into: Set<UUID>()) { $0.formUnion($1.wireIDs) }
+                if let highest = bus.wires.lastIndex(where: { used.contains($0.id) }), highest >= count {
+                    return "\(bus.wires[highest].name) is used by a port; \(target.name) has only \(count) wires."
+                }
+                buses[index] = Self.matching(bus, target)
+                buses[index].name = target.name
+                return nil
             }
-            if buses[index].name != trimmed { buses[index].name = trimmed }
+            if trimmed.lowercased() == bus.name.lowercased() {
+                for other in linkGroup(index) where buses[other].name != trimmed { buses[other].name = trimmed }
+            } else if bus.name != trimmed {
+                buses[index].name = trimmed
+            }
             return nil
+        }
+    }
+
+    /// `index` and the buses linked with it (same name, ignoring case), in
+    /// order.
+    private func linkGroup(_ index: Int) -> [Int] {
+        buses.indices.filter { $0 == index || buses[index].isLinked(with: buses[$0]) }
+    }
+
+    /// Is one of these buses the card edge's?
+    private func groupHasEdge(_ group: [Int]) -> Bool {
+        guard let edge = edgeBusID else { return false }
+        return group.contains { buses[$0].id == edge }
+    }
+
+    /// The highest wire place a port on any of these buses uses.
+    private func highestUsedWire(_ group: [Int]) -> Int? {
+        group.compactMap { i -> Int? in
+            let used = buses[i].ports.reduce(into: Set<UUID>()) { $0.formUnion($1.wireIDs) }
+            return buses[i].wires.lastIndex { used.contains($0.id) }
+        }.max()
+    }
+
+    /// `bus` with `lead`'s type and wire names: its wires keep their places
+    /// and ids, and are renamed, added or dropped at the end.
+    private static func matching(_ bus: Bus, _ lead: Bus) -> Bus {
+        var result = bus
+        var wires = Array(bus.wires.prefix(lead.wires.count))
+        for (i, wire) in lead.wires.enumerated() {
+            if i < wires.count { wires[i].name = wire.name } else { wires.append(BusWire(name: wire.name)) }
+        }
+        result.wires = wires
+        result.card = lead.card
+        return result
+    }
+
+    /// Gives every bus linked with `index` its type and wires.
+    private func syncLinked(_ index: Int) {
+        for other in linkGroup(index) where other != index {
+            let matched = Self.matching(buses[other], buses[index])
+            if matched != buses[other] { buses[other] = matched }
         }
     }
 
@@ -4340,15 +4600,16 @@ final class SchematicDocument {
             guard let index = buses.firstIndex(where: { $0.id == id }), buses[index].card != card else { return nil }
             guard let names = card.pinNames else {
                 buses[index].card = card
+                syncLinked(index)
                 return nil
             }
             let bus = buses[index]
             guard Bus.wireCountRange.contains(names.count) else {
                 return "A bus needs \(Bus.wireCountRange.lowerBound) to \(Bus.wireCountRange.upperBound) wires; this card has \(names.count) pins."
             }
-            if bus.id == edgeBusID, names.count != bus.wires.count { return edgeBusLock(bus) }
-            let used = bus.ports.reduce(into: Set<UUID>()) { $0.formUnion($1.wireIDs) }
-            if let highest = bus.wires.lastIndex(where: { used.contains($0.id) }), highest >= names.count {
+            let group = linkGroup(index)
+            if groupHasEdge(group), names.count != bus.wires.count { return edgeBusLock(bus) }
+            if let highest = highestUsedWire(group), highest >= names.count {
                 return "\(bus.wires[highest].name) is used by a port; this card has only \(names.count) pins."
             }
             var wires = Array(bus.wires.prefix(names.count))
@@ -4357,6 +4618,7 @@ final class SchematicDocument {
             }
             buses[index].wires = wires
             buses[index].card = card
+            syncLinked(index)
             return nil
         }
     }
@@ -4771,8 +5033,10 @@ final class SchematicDocument {
     /// with loose ends, as the Eraser leaves them), wires and text blocks, as
     /// one step; junctions go once no wire ends on them. A selected bus port
     /// is deleted as the Eraser deletes one, asking first when wires are on
-    /// its pins. A selected bus is left alone. Returns whether anything was
-    /// deleted or asked.
+    /// its pins. Selected buses go whole, with their ports; the wires on
+    /// their pins stay, with loose ends. The card edge's bus stays
+    /// (`editorMessage` says why). Returns whether anything was deleted or
+    /// asked.
     /// ⌘X passes `name` "Cut" (with no port selected: a port isn't copied).
     @discardableResult
     func deleteSchematicSelection(named name: String = "Delete") -> Bool {
@@ -4791,23 +5055,38 @@ final class SchematicDocument {
             return true
         }
         var chipIDs: Set<UUID> = [], wireIDs: Set<UUID> = [], noteIDs: Set<UUID> = []
-        var labelIDs: Set<UUID> = []
+        var labelIDs: Set<UUID> = [], busIDs: Set<UUID> = []
         for item in schematicSelection.items {
             switch item {
             case let .chip(id): chipIDs.insert(id)
             case let .wire(id): wireIDs.insert(id)
             case let .note(id): noteIDs.insert(id)
             case let .label(id): labelIDs.insert(id)
+            case let .bus(id): busIDs.insert(id)
             case .junction: break
             }
         }
-        guard !chipIDs.isEmpty || !wireIDs.isEmpty || !noteIDs.isEmpty || !labelIDs.isEmpty else { return false }
+        var message: String?
+        if let edge = edgeBusID, busIDs.contains(edge), let bus = bus(edge) {
+            busIDs.remove(edge)
+            message = edgeBusUndeletable(bus)
+        }
+        guard !chipIDs.isEmpty || !wireIDs.isEmpty || !noteIDs.isEmpty || !labelIDs.isEmpty || !busIDs.isEmpty else {
+            if let message { editorMessage = message }
+            return false
+        }
+        let portIDs = Set(buses.filter { busIDs.contains($0.id) }.flatMap { $0.ports.map(\.id) })
         recordEdit(.schematic, name) {
             wires.removeAll { wireIDs.contains($0.id) }
             loosen { end in
-                if case let .label(id) = end { return labelIDs.contains(id) }
-                return chipIDs.contains { attaches(end, to: $0) }
+                switch end {
+                case let .label(id): labelIDs.contains(id)
+                case let .busPin(ref): portIDs.contains(ref.portID)
+                default: chipIDs.contains { attaches(end, to: $0) }
+                }
             }
+            buses.removeAll { busIDs.contains($0.id) }
+            if message != nil { editorMessage = message }
             chips.removeAll { chipIDs.contains($0.id) }
             netLabels.removeAll { labelIDs.contains($0.id) }
             notes.removeAll { noteIDs.contains($0.id) }

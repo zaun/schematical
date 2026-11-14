@@ -318,6 +318,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// ceramic's dielectric and the tolerance when given.
         case capacitor(type: String, polarized: Bool, farads: Double, ratedMV: UInt32,
                        dielectric: String?, tolerance: String?)
+        /// A microcontroller (plan-36): its core ("avr", "avrxt", "riscv", …),
+        /// highest clock, and flash, RAM, EEPROM and PSRAM in bytes (0 = none).
+        case mcu(core: String, maxHz: UInt64, flash: UInt32, ram: UInt32, eeprom: UInt32, psram: UInt32)
         /// A resistor (plan-34): its resistance in ohms (0 = a jumper), its
         /// tolerance in percent and rated power per element in watts (nil when
         /// not given: the generic part, a jumper's tolerance), and the
@@ -349,6 +352,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     let datasheetMarkdown: String?
     let pins: [ChipPin]
     let details: Details
+    /// False for a part the backend has no model for (plan-36: the
+    /// microcontrollers). Run is off while one is on the schematic.
+    let isSimulated: Bool
     /// Nil only for parts with no package (the supplies).
     let footprint: Footprint?
     /// The second footprint the PCB Style option switches to (Connector
@@ -423,12 +429,13 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     }
 
     /// Gate, flip-flop, latch, counter, shift register, decoder, buffer,
-    /// multiplexer or arithmetic chip: a logic chip with a family and a unit
+    /// multiplexer, arithmetic chip or register: a logic chip with a family and a unit
     /// count.
     var isLogic: Bool {
         kind == PART_GATE || kind == PART_DFF || kind == PART_JKFF ||
             kind == PART_LATCH || kind == PART_COUNTER || kind == PART_SHIFT ||
-            kind == PART_DECODER || kind == PART_BUFFER || kind == PART_MUX || kind == PART_ARITH
+            kind == PART_DECODER || kind == PART_BUFFER || kind == PART_MUX || kind == PART_ARITH ||
+            kind == PART_REGISTER
     }
 
     /// SRAM or EEPROM: a part with a memory window.
@@ -588,6 +595,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .capacitor(_, _, farads, ratedMV, dielectric, _):
             return [CapacitorValue.text(farads)] + (ratedMV > 0 ? ["\(PartFacts.milli(ratedMV)) V"] : [])
                 + (dielectric.map { [$0] } ?? [])
+        case let .mcu(_, maxHz, _, _, _, _): return [PartFacts.hertz(maxHz)]
         case let .resistor(ohms, tolerancePercent, powerW, _):
             return [ResistorValue.text(ohms)]
                 + (tolerancePercent.map { [PartFacts.percentText($0)] } ?? [])
@@ -669,6 +677,7 @@ extension CatalogPart {
         name = string(part.name)
         uuid = part.uuid.map { String(cString: $0) }
         kind = part.kind
+        isSimulated = part.simulated != 0
         package = string(part.package)
         function = string(part.function)
         description = string(part.description)
@@ -775,6 +784,9 @@ extension CatalogPart {
                                  ratedMV: capacitor.rated_mv,
                                  dielectric: capacitor.dielectric.map { String(cString: $0) },
                                  tolerance: capacitor.tolerance.map { String(cString: $0) })
+        } else if let mcu = part.mcu?.pointee {
+            details = .mcu(core: string(mcu.core), maxHz: mcu.max_hz, flash: mcu.flash, ram: mcu.ram,
+                           eeprom: mcu.eeprom, psram: mcu.psram)
         } else if let resistor = part.resistor?.pointee {
             details = .resistor(ohms: Double(resistor.milliohms) / 1000,
                                 tolerancePercent: resistor.tolerance_ppm == 0 ? nil
@@ -1128,6 +1140,9 @@ final class PartCatalogStore {
     private var registeredTexts: [String: String] = [:]
 
     var partCount: Int { entries.count }
+
+    /// Every listed part (automation: search).
+    var allParts: [CatalogPart] { entries }
 
     var categories: [String] {
         sortedNames(entries.compactMap(\.drawer.first))

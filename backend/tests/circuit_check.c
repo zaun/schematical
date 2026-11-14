@@ -465,6 +465,49 @@ static void check_unknown_part(void) {
     circuit_destroy(c);
 }
 
+/* plan-36-F: a device with "simulated": false is refused by circuit_add_part
+   (any kind; a header here), and the same device without the key is not. */
+#define UNSIM_DEVICE(ID, KEY, NAME) \
+    "{\"id\":\"" ID "\",\"function\":\"Header\",\"description\":\"d\",\"drawer\":[]," KEY \
+    "\"rows\":1,\"genders\":[\"Male\"],\"pinouts\":{\"p\":[" \
+    "{\"number\":1,\"name\":\"1\",\"role\":\"inout\"},{\"number\":2,\"name\":\"2\",\"role\":\"inout\"}]}," \
+    "\"parts\":[{\"name\":\"" NAME "\",\"package\":\"Straight\",\"pinout\":\"p\",\"footprint\":\"UNSIM-2\"}]}"
+static void check_unsimulated_part(void) {
+    static const char *const footprints =
+        "{\"format\":\"schematical-footprints\",\"version\":1,\"footprints\":["
+        "{\"id\":\"UNSIM-2\",\"description\":\"d\",\"style\":\"dual\",\"pins\":2,"
+        "\"body\":{\"width\":1,\"height\":1},\"pitch\":1,\"span\":2,"
+        "\"pad\":{\"width\":0.5,\"height\":0.5,\"shape\":\"rect\"}}]}";
+    static const char *const text =
+        "{\"format\":\"schematical-parts\",\"version\":1,\"kind\":\"header\",\"devices\":["
+        UNSIM_DEVICE("unsim-off", "\"simulated\":false,", "UNSIM-HDR") ","
+        UNSIM_DEVICE("unsim-on", "", "SIM-HDR") "]}";
+    char *error = NULL;
+    Circuit *c;
+    size_t index = 99;
+
+    expect(load_footprints(library, footprints, "unsim-footprints.json", &error) == 0,
+           "the unsimulated header's footprint loads");
+    free(error);
+    error = NULL;
+    expect(load_parts(library, text, "unsim.json", &error) == 0,
+           "a header device with \"simulated\": false loads");
+    if (error != NULL) {
+        printf("  %s\n", error);
+    }
+    free(error);
+    c = circuit_create(library);
+    expect(circuit_add_part(c, "UNSIM-HDR", &index) == -1 && circuit_error(c) != NULL &&
+               strcmp(circuit_error(c), "part \"UNSIM-HDR\" is not simulated") == 0 && index == 99,
+           "an unsimulated part is refused: part \"UNSIM-HDR\" is not simulated");
+    circuit_destroy(c);
+    c = circuit_create(library);
+    expect(circuit_add_part(c, "SIM-HDR", &index) == 0 && index == 0,
+           "the same device without \"simulated\" is added");
+    circuit_destroy(c);
+}
+#undef UNSIM_DEVICE
+
 /* SiT1534 (32.768 kHz) output on an LED anode, cathode to GND. */
 static void check_oscillator_blinks(void) {
     Circuit *c = circuit_create(library);
@@ -1346,6 +1389,7 @@ int main(void) {
     check_serial_terminal();
     check_serial_sync_8251();
     check_unknown_part();
+    check_unsimulated_part();
     check_oscillator_blinks();
     check_switch();
     check_memory();

@@ -134,7 +134,11 @@ final class SchematicFileController {
         panel.allowsMultipleSelection = false
         panel.canChooseDirectories = false
         guard await run(panel) == .OK, let url = panel.url else { return }
+        await open(url)
+    }
 
+    /// Opens the schematic at `url` as `open()` does after its panel.
+    func open(_ url: URL) async {
         if let existing = Self.all.allObjects.first(where: { $0.fileURL?.standardizedFileURL == url.standardizedFileURL }),
            let window = existing.window, window.isVisible {
             window.makeKeyAndOrderFront(nil)
@@ -226,38 +230,64 @@ final class SchematicFileController {
         }
     }
 
-    /// Asks where to export the schematic as `format`, then writes it there.
-    /// An export is not a save: the window's file and saved state are unchanged.
-    func export(_ format: SchematicExportFormat) async {
-        guard !SchematicScene(document).isEmpty else {
-            let alert = NSAlert()
-            alert.messageText = "Nothing to export"
-            alert.informativeText = "Add a part, wire or bus first."
-            _ = await run(alert)
-            return
-        }
+    /// File > Export > Image…: the options sheet (`ImageExportDialog`),
+    /// then where to save, then the file. An export is not a save: the
+    /// window's file and saved state are unchanged.
+    func exportImage() async {
+        guard let options = await runImageOptions(ImageExportOptions.saved()) else { return }
+        options.save()
         let panel = NSSavePanel()
-        panel.allowedContentTypes = [format.contentType]
+        panel.allowedContentTypes = [options.format.contentType]
         panel.canCreateDirectories = true
-        panel.nameFieldStringValue = "\(displayName).\(format.fileExtension)"
+        panel.nameFieldStringValue = "\(displayName) \(options.view.fileSuffix).\(options.format.fileExtension)"
         if let fileURL {
             panel.directoryURL = fileURL.deletingLastPathComponent()
         }
         guard await run(panel) == .OK, let url = panel.url else { return }
         do {
-            try writeExport(format, to: url)
+            try writeImage(options, to: url)
         } catch {
             present(error, title: "Couldn't export “\(displayName)”")
         }
     }
 
-    /// Writes the schematic as `format` to `url`. Throws for an empty
+    /// Writes the picture `options` describe to `url`. Throws for an empty
     /// schematic or a failed write.
-    func writeExport(_ format: SchematicExportFormat, to url: URL) throws {
-        guard let data = format.data(for: SchematicScene(document)) else {
+    func writeImage(_ options: ImageExportOptions, to url: URL) throws {
+        guard let data = ImageExport.data(for: document, options) else {
             throw ExportError.nothingToExport
         }
         try data.write(to: url, options: .atomic)
+    }
+
+    /// The options sheet on this window; nil when cancelled.
+    private func runImageOptions(_ options: ImageExportOptions) async -> ImageExportOptions? {
+        await withCheckedContinuation { continuation in
+            let sheet = NSWindow(contentRect: .zero, styleMask: [.titled], backing: .buffered, defer: true)
+            let parent = window ?? NSApp.keyWindow
+            var finished = false
+            let finish: (ImageExportOptions?) -> Void = { result in
+                guard !finished else { return }
+                finished = true
+                if let parent = sheet.sheetParent {
+                    parent.endSheet(sheet)
+                } else {
+                    NSApp.stopModal()
+                    sheet.orderOut(nil)
+                }
+                continuation.resume(returning: result)
+            }
+            let host = NSHostingController(rootView: ImageExportDialog(
+                document: document, options: options, onCancel: { finish(nil) }, onExport: { finish($0) }
+            ))
+            host.sizingOptions = .preferredContentSize
+            sheet.contentViewController = host
+            if let parent {
+                parent.beginSheet(sheet)
+            } else {
+                NSApp.runModal(for: sheet)
+            }
+        }
     }
 
     /// Asks where to save the board's Gerber files, then writes them there
@@ -297,6 +327,21 @@ final class SchematicFileController {
 
         var errorDescription: String? {
             "The schematic has no parts, wires or buses."
+        }
+    }
+
+    /// Saves to `url` (or the window's file) with no panel and no alert, for
+    /// the agent-control tools. Returns why it failed, or nil.
+    func saveWithoutPanel(to url: URL?) -> String? {
+        guard let target = url ?? fileURL else { return "This window has no file yet; pass a path." }
+        let snapshot = SchematicFile(document: document, fileURL: target)
+        do {
+            try snapshot.encoded().write(to: target, options: .atomic)
+            fileURL = target
+            savedSnapshot = snapshot
+            return nil
+        } catch {
+            return "Couldn't save “\(target.lastPathComponent)”: \(error.localizedDescription)"
         }
     }
 

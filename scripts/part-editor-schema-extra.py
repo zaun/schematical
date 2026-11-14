@@ -47,6 +47,9 @@ EXTRA = {
     # charlcd.c DEVICE_KEYS and PART_KEYS "vcc", "inputMax".
     "charlcd": [("device", "inputMax", ("number", "V"), []), ("part", "vcc", ("voltRange",), []),
                 ("part", "inputMax", ("number", "V"), [])],
+    # register.c PART_KEYS "vcc", "inputMax" (kind_part_voltage): no shipped
+    # register part sets its own (plan-37-G; every device key is inferred).
+    "register": [("part", "vcc", ("voltRange",), []), ("part", "inputMax", ("number", "V"), [])],
     # oscillator.c DEVICE_KEYS and PART_KEYS "inputMax".
     "oscillator": [("device", "inputMax", ("number", "V"), []), ("part", "inputMax", ("number", "V"), [])],
 }

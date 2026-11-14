@@ -97,7 +97,7 @@ final class SelectionModelTests: XCTestCase {
         XCTAssertEqual(selection.items, [5])
     }
 
-    func testSchematicItemsAndBusExcludeEachOther() throws {
+    func testSelectingABusMakesItTheWholeSelection() throws {
         let doc = newDocument()
         let led = try place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
         let busID = try XCTUnwrap(doc.addBus(from: CGPoint(x: 200, y: 300), to: CGPoint(x: 400, y: 300)))
@@ -106,8 +106,10 @@ final class SelectionModelTests: XCTestCase {
         XCTAssertNil(doc.selectedBusID)
         XCTAssertEqual(doc.selectedChipID, led.id)
         doc.selectedBusID = busID
-        XCTAssertTrue(doc.schematicSelection.isEmpty)
+        XCTAssertEqual(doc.schematicSelection.items, [.bus(busID)])
         XCTAssertNil(doc.selectedChipID)
+        doc.selectedBusID = nil
+        XCTAssertTrue(doc.schematicSelection.isEmpty)
     }
 
     func testPartsAreOneSelectionAcrossPages() throws {
@@ -284,6 +286,7 @@ final class SelectionModelTests: XCTestCase {
             case let .junction(id): XCTAssertTrue(doc.junctions.contains { $0.id == id })
             case let .note(id): XCTAssertTrue(doc.notes.contains { $0.id == id })
             case let .label(id): XCTAssertTrue(doc.netLabels.contains { $0.id == id })
+            case let .bus(id): XCTAssertNotNil(doc.bus(id))
             }
         }
         XCTAssertFalse(doc.isSelected(.chip(c.below.id)))

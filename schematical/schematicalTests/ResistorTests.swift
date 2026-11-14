@@ -38,7 +38,7 @@ final class ResistorTests: XCTestCase {
         XCTAssertNil(maker.ohms)
         XCTAssertEqual(maker.part.resistorOhms, 4700)
         XCTAssertEqual(ResistorSymbolView.label(for: maker), "4.7kΩ")
-        XCTAssertEqual(SchematicDocument.defaultReferencePrefix(for: maker.part), "R")
+        XCTAssertEqual(ReferenceCategory.of(maker.part), .resistor)
     }
 
     /// setPartOhms 4700 then undo restores 1 kΩ; a maker part ignores it.

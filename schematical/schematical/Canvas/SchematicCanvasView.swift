@@ -255,7 +255,7 @@ struct SchematicCanvasView: View {
             // Under the wires, so wires crossing a bus stay visible.
             BusLayer(
                 buses: document.buses,
-                selectedBusID: document.selectedBusID,
+                selectedBusIDs: selectedBusIDs,
                 hoveredBusID: hoveredBusID,
                 preview: busPreview,
                 area: gridRect
@@ -386,6 +386,17 @@ struct SchematicCanvasView: View {
                 .offset(x: chip.viewOrigin.x, y: chip.viewOrigin.y)
             }
 
+            // Every part's reference above it (Display Reference).
+            ForEach(document.chips) { chip in
+                if let top = ReferenceLabelView.offsetY(for: chip) {
+                    ReferenceLabelView(
+                        chip: chip,
+                        isHighlighted: document.isSelected(.chip(chip.id)) || chip.id == hoveredChipID
+                    )
+                    .offset(x: chip.viewOrigin.x, y: chip.viewOrigin.y + top)
+                }
+            }
+
             PinMarkerLayer(
                 tips: tool == .line ? document.pinTips : [],
                 highlight: highlightPoint,
@@ -416,6 +427,14 @@ struct SchematicCanvasView: View {
     private var selectedNoteIDs: Set<UUID> {
         Set(document.schematicSelection.items.compactMap { item in
             if case let .note(id) = item { return id }
+            return nil
+        })
+    }
+
+    /// The buses in the Schematic selection.
+    private var selectedBusIDs: Set<UUID> {
+        Set(document.schematicSelection.items.compactMap { item in
+            if case let .bus(id) = item { return id }
             return nil
         })
     }
@@ -573,6 +592,13 @@ struct SchematicCanvasView: View {
     }
 
     private func handleChanged(_ value: DragGesture.Value) {
+        // A press on the canvas ends any text field's editing (the parts
+        // search, a sidebar field), as a click outside a field does in any
+        // Mac app, so ⌘C / ⌘V / ⌘X / ⌘A then reach the Schematic. A new
+        // window or tab starts with its search field focused.
+        if interaction == nil, let window = NSApp.keyWindow, window.firstResponder is NSText {
+            window.makeFirstResponder(nil)
+        }
         let start = viewport.world(value.startLocation)
         let current = viewport.world(value.location)
         let delta = CGSize(
@@ -813,12 +839,20 @@ struct SchematicCanvasView: View {
                 : .dragSegment(wire: segment.wire, base: document.path(forWire: segment.wire), index: segment.index)
         } else if let end = document.busEndHit(at: point, tolerance: busTolerance),
                   let base = document.bus(end.bus) {
-            document.selectedBusID = end.bus
-            interaction = .dragBusEnd(bus: end.bus, base: base, line: end.line, end: end.end, done: .zero)
+            // As for a wire: alone, a drag reshapes the bus; in a larger
+            // selection (or with Shift) it moves the group.
+            let press = document.pressSelection(.bus(end.bus), shift: shift)
+            selectionPress = press
+            interaction = press.dragsGroup
+                ? .moveGroup(base: document.schematicGroupBase(), lever: nil)
+                : .dragBusEnd(bus: end.bus, base: base, line: end.line, end: end.end, done: .zero)
         } else if let line = document.busHit(at: point, tolerance: busTolerance),
                   let base = document.bus(line.bus) {
-            document.selectedBusID = line.bus
-            interaction = .dragBusLine(bus: line.bus, base: base, line: line.line, done: .zero)
+            let press = document.pressSelection(.bus(line.bus), shift: shift)
+            selectionPress = press
+            interaction = press.dragsGroup
+                ? .moveGroup(base: document.schematicGroupBase(), lever: nil)
+                : .dragBusLine(bus: line.bus, base: base, line: line.line, done: .zero)
         } else if let note = document.note(at: point) {
             selectionPress = document.pressSelection(.note(note.id), shift: shift)
             interaction = .moveGroup(base: document.schematicGroupBase(), lever: nil)
@@ -1165,7 +1199,7 @@ struct BusPreview {
 /// render it on its own.
 struct BusLayer: View {
     let buses: [Bus]
-    let selectedBusID: UUID?
+    let selectedBusIDs: Set<UUID>
     let hoveredBusID: UUID?
     let preview: BusPreview?
     /// The visible world area; drawing outside it is not shown.
@@ -1176,14 +1210,14 @@ struct BusLayer: View {
             var shifted = context
             shifted.shiftToWorld(area)
             var painter = ScreenPainter(shifted)
-            Self.paint(&painter, buses: buses, selectedBusID: selectedBusID, hoveredBusID: hoveredBusID,
+            Self.paint(&painter, buses: buses, selectedBusIDs: selectedBusIDs, hoveredBusID: hoveredBusID,
                        preview: preview)
         }
         .worldCanvas(area)
     }
 
     /// Draws the buses in world coordinates.
-    static func paint<P: SchematicPainter>(_ painter: inout P, buses: [Bus], selectedBusID: UUID?,
+    static func paint<P: SchematicPainter>(_ painter: inout P, buses: [Bus], selectedBusIDs: Set<UUID>,
                                            hoveredBusID: UUID?, preview: BusPreview?) {
         let width = Bus.lineWidth
         for bus in buses {
@@ -1193,7 +1227,7 @@ struct BusLayer: View {
                     painter.stroke(segment(line.a, line.b), with: Ink.accent.opacity(0.35), style: underlay)
                 }
             }
-            let ink: Ink = bus.id == selectedBusID ? .accent : .primary
+            let ink: Ink = selectedBusIDs.contains(bus.id) ? .accent : .primary
             for line in bus.lines {
                 painter.stroke(segment(line.a, line.b), with: ink, style: StrokeStyle(lineWidth: width, lineCap: .butt))
             }

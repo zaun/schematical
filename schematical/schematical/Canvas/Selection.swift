@@ -12,6 +12,8 @@ nonisolated enum SchematicItem: Hashable, Sendable {
     case note(UUID)
     /// A net label (`NetLabel`).
     case label(UUID)
+    /// A whole bus (`Bus`): its lines and ports.
+    case bus(UUID)
 }
 
 /// One thing that can be selected on the PCB page: a part's footprint (by
@@ -150,9 +152,13 @@ nonisolated struct SchematicGroupBase: Equatable {
     var notes: [UUID: CGPoint] = [:]
     /// Selected net labels' points.
     var labels: [UUID: CGPoint] = [:]
+    /// Selected buses, whole, as they were at the press.
+    var buses: [UUID: Bus] = [:]
+    /// The ports of those buses: wire ends on their pins move with them.
+    var ports: Set<UUID> = []
 
     var isEmpty: Bool {
-        chips.isEmpty && junctions.isEmpty && wires.isEmpty && notes.isEmpty && labels.isEmpty
+        chips.isEmpty && junctions.isEmpty && wires.isEmpty && notes.isEmpty && labels.isEmpty && buses.isEmpty
     }
 }
 

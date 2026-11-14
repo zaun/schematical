@@ -55,7 +55,7 @@ final class SchematicClipboardTests: XCTestCase {
         XCTAssertEqual(doc.notes.count, 2)
         let pasted = Array(doc.chips.suffix(2))
         XCTAssertEqual(Set(doc.chips.map(\.id)).count, 4)
-        XCTAssertEqual(pasted.map(\.reference), ["U3", "U4"])
+        XCTAssertEqual(pasted.map(\.reference), ["D3", "D4"])
         // Moved by the offset snapped to the grid.
         XCTAssertEqual(pasted[0].origin, CGPoint(x: one.origin.x + 500, y: one.origin.y))
         // Each pasted part has its own spot on the PCB.
@@ -109,7 +109,7 @@ final class SchematicClipboardTests: XCTestCase {
         let copy = try XCTUnwrap(doc.schematicCopy())
         XCTAssertTrue(doc.pasteSchematic(copy, offset: CGSize(width: 0, height: 200)))
         XCTAssertTrue(doc.pasteSchematic(copy, offset: CGSize(width: 0, height: 400)))
-        XCTAssertEqual(doc.chips.map(\.reference), ["U1", "U2", "U3", "U4"])
+        XCTAssertEqual(doc.chips.map(\.reference), ["D1", "D2", "D3", "D4"])
         XCTAssertEqual(Set(doc.chips.map(\.id)).count, 4)
     }
 
@@ -121,5 +121,150 @@ final class SchematicClipboardTests: XCTestCase {
         SchematicClipboard.copy(copy)
         XCTAssertEqual(SchematicClipboard.nextOffset(), CGSize(width: 20, height: 20))
         XCTAssertEqual(SchematicClipboard.nextOffset(), CGSize(width: 40, height: 40))
+    }
+
+    // MARK: Buses
+
+    private func p(_ x: CGFloat, _ y: CGFloat) -> CGPoint { CGPoint(x: x, y: y) }
+
+    /// A bus from (100, 100) to (300, 100) with a port carrying B3, whose
+    /// pin is wired to an LED's K.
+    private func busWiredToLED(_ doc: SchematicDocument) throws -> (bus: UUID, led: PlacedChip) {
+        let led = try TestSupport.place(doc, "GENERIC-LED", at: p(200, 300))
+        let id = try XCTUnwrap(doc.addBus(from: p(100, 100), to: p(300, 100)))
+        XCTAssertNil(doc.addPort(at: p(200, 100)))
+        let port = try XCTUnwrap(doc.bus(id)?.ports.first)
+        let b3 = try XCTUnwrap(doc.bus(id)?.wires.first { $0.name == "B3" })
+        XCTAssertNil(doc.setPortWires(port.id, [b3.id]))
+        XCTAssertNil(doc.connect(.busPin(BusPinRef(portID: port.id, wireID: b3.id)), .pin(try TestSupport.pin(led, "K"))))
+        return (id, led)
+    }
+
+    func testABusIsASelectionItem() throws {
+        let doc = newDocument()
+        let (id, led) = try busWiredToLED(doc)
+        doc.selectedBusID = id
+        XCTAssertEqual(doc.schematicSelection.items, [.bus(id)])
+        doc.toggleSelection(.chip(led.id))
+        XCTAssertNil(doc.selectedBusID, "not the only thing selected any more")
+        XCTAssertTrue(doc.isSelected(.bus(id)))
+        doc.selectAllSchematic()
+        XCTAssertTrue(doc.isSelected(.bus(id)))
+        doc.clearSchematicSelection()
+        doc.boxSelectSchematic(CGRect(x: 150, y: 90, width: 10, height: 20), base: [])
+        XCTAssertEqual(doc.schematicSelection.items, [.bus(id)])
+    }
+
+    func testCopyTakesABusWithItsPortsAndTheWireToACopiedPart() throws {
+        let doc = newDocument()
+        let (id, led) = try busWiredToLED(doc)
+        doc.select(.bus(id))
+        doc.toggleSelection(.chip(led.id))
+        let copy = try XCTUnwrap(doc.schematicCopy())
+        XCTAssertEqual(copy.buses.map(\.id), [id])
+        XCTAssertEqual(copy.buses.first?.ports.count, 1)
+        XCTAssertEqual(copy.wires.count, 1)
+        XCTAssertTrue(copy.junctions.isEmpty, "the wire runs between copied items")
+    }
+
+    func testPastedBusIsNewWiredAndSelected() throws {
+        let doc = newDocument()
+        let (id, led) = try busWiredToLED(doc)
+        doc.select(.bus(id))
+        doc.toggleSelection(.chip(led.id))
+        let copy = try XCTUnwrap(doc.schematicCopy())
+        doc.endCoalescing()
+
+        XCTAssertTrue(doc.pasteSchematic(copy, offset: CGSize(width: 0, height: 500)))
+        XCTAssertEqual(doc.buses.count, 2)
+        let original = try XCTUnwrap(doc.bus(id))
+        let pasted = try XCTUnwrap(doc.buses.last)
+        XCTAssertNotEqual(pasted.id, id)
+        XCTAssertEqual(pasted.lines.first?.a, p(100, 600))
+        XCTAssertTrue(Set(pasted.wires.map(\.id)).isDisjoint(with: original.wires.map(\.id)))
+        XCTAssertEqual(pasted.wires.map(\.name), original.wires.map(\.name))
+        // Same name, same wires: the two link, as labels of one name join.
+        XCTAssertEqual(pasted.name, original.name)
+        let port = try XCTUnwrap(pasted.ports.first)
+        XCTAssertEqual(port.start, try XCTUnwrap(original.ports.first).start, "a horizontal line moved down only")
+        XCTAssertEqual(pasted.pinWires(of: port).map(\.name), ["B3"])
+        // The copied wire ends on the pasted port's pin.
+        let wire = try XCTUnwrap(doc.wires.last)
+        XCTAssertTrue([wire.start, wire.end].contains { end in
+            if case let .busPin(ref) = end { return ref.portID == port.id }
+            return false
+        })
+        XCTAssertTrue(doc.isSelected(.bus(pasted.id)))
+        XCTAssertEqual(doc.schematicSelection.count, 3)
+
+        XCTAssertTrue(doc.undo(on: .schematic))
+        XCTAssertEqual(doc.buses.count, 1)
+    }
+
+    func testPastedBusInAnotherDocumentKeepsItsName() throws {
+        let doc = newDocument()
+        let (id, _) = try busWiredToLED(doc)
+        XCTAssertNil(doc.setBusName(id, "DATA"))
+        doc.select(.bus(id))
+        let copy = try XCTUnwrap(doc.schematicCopy())
+
+        let other = newDocument()
+        _ = try XCTUnwrap(other.addBus(from: p(0, 0), to: p(0, 200)))
+        XCTAssertTrue(other.pasteSchematic(copy, offset: CGSize(width: 100, height: 300)))
+        XCTAssertEqual(other.buses.map(\.name), ["BUS 1", "DATA"])
+    }
+
+    func testPastedBusWithANameTakenByADifferentBusIsRenamed() throws {
+        let doc = newDocument()
+        let (id, _) = try busWiredToLED(doc)
+        doc.select(.bus(id))
+        let copy = try XCTUnwrap(doc.schematicCopy())
+
+        let other = newDocument()
+        let theirs = try XCTUnwrap(other.addBus(from: p(0, 0), to: p(0, 200)))
+        XCTAssertNil(other.setBusWireCount(theirs, 4))
+        XCTAssertTrue(other.pasteSchematic(copy, offset: CGSize(width: 100, height: 300)))
+        XCTAssertEqual(other.buses.map(\.name), ["BUS 1", "BUS 2"])
+    }
+
+    func testPasteRefusedWhenABusWouldTouchAnother() throws {
+        let doc = newDocument()
+        let id = try XCTUnwrap(doc.addBus(from: p(100, 100), to: p(300, 100)))
+        doc.select(.bus(id))
+        let copy = try XCTUnwrap(doc.schematicCopy())
+        // Its left end would land on the original's middle.
+        XCTAssertFalse(doc.pasteSchematic(copy, offset: CGSize(width: 100, height: 0)))
+        XCTAssertEqual(doc.buses.count, 1)
+        XCTAssertNotNil(doc.editorMessage)
+    }
+
+    func testGroupDragMovesABusWithItsPortAndWire() throws {
+        let doc = newDocument()
+        let (id, led) = try busWiredToLED(doc)
+        doc.select(.bus(id))
+        doc.toggleSelection(.chip(led.id))
+        let before = try XCTUnwrap(doc.bus(id))
+        let base = doc.schematicGroupBase()
+        doc.moveSchematicGroup(base, by: CGSize(width: 40, height: 20))
+        doc.settleSchematicGroup(base)
+        let after = try XCTUnwrap(doc.bus(id))
+        XCTAssertEqual(after.lines.first?.a, p(140, 120))
+        XCTAssertEqual(after.ports.first?.start, (before.ports.first?.start ?? 0) + 40)
+        let port = try XCTUnwrap(after.ports.first)
+        let b3 = try XCTUnwrap(after.wires.first { $0.name == "B3" })
+        let tip = try XCTUnwrap(after.pinTip(port, wire: b3.id))
+        let wire = try XCTUnwrap(doc.wires.first)
+        let path = doc.path(forWire: wire.id)
+        XCTAssertTrue(path.first == tip || path.last == tip, "the wire still ends on the moved pin")
+    }
+
+    func testDeleteRemovesASelectedBusAndLoosensItsWires() throws {
+        let doc = newDocument()
+        let (id, _) = try busWiredToLED(doc)
+        doc.select(.bus(id))
+        XCTAssertTrue(doc.deleteSchematicSelection())
+        XCTAssertTrue(doc.buses.isEmpty)
+        XCTAssertEqual(doc.wires.count, 1, "the wire stays")
+        XCTAssertTrue(doc.hasLooseEnd(try XCTUnwrap(doc.wires.first)))
     }
 }

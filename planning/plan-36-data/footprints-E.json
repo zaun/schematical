@@ -1,0 +1,9293 @@
+{
+ "footprints": [
+  {
+   "id": "ESP32-C3-MINI-1",
+   "description": "Espressif ESP32-C3-MINI-1 module, 13.2 x 16.6 mm, 53 pins on 61 pads (pin 49 a 9-pad GND grid)",
+   "note": "datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf p.38 Figure 11-1. ESP32-C3-MINI-1 Recommended PCB Land Pattern: pads from the drawing's vector outlines (scale 12.225 pt/mm from the 0.8 mm edge pads), runs fitted to their pitch; pin numbers from the Pin Layout (Top View), p.10; origin the body centre, antenna end up; antenna area (keep copper and parts clear): the top 5.4 mm of the body, full width",
+   "style": "explicit",
+   "pins": 53,
+   "body": {
+    "width": 13.2,
+    "height": 16.6
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -5.9,
+     "y": -1.31,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -5.9,
+     "y": -0.51,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -5.9,
+     "y": 0.29,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -5.9,
+     "y": 1.09,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -5.9,
+     "y": 1.89,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -5.9,
+     "y": 2.69,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -5.9,
+     "y": 3.49,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -5.9,
+     "y": 4.29,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -5.9,
+     "y": 5.09,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -5.9,
+     "y": 5.89,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -5.9,
+     "y": 6.69,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -4.8,
+     "y": 7.59,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": -4.0,
+     "y": 7.59,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": -3.2,
+     "y": 7.59,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": -2.4,
+     "y": 7.59,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": -1.6,
+     "y": 7.59,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": -0.8,
+     "y": 7.59,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": 0.0,
+     "y": 7.59,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": 0.8,
+     "y": 7.59,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": 1.6,
+     "y": 7.59,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": 2.4,
+     "y": 7.59,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 22,
+     "x": 3.2,
+     "y": 7.59,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 23,
+     "x": 4.0,
+     "y": 7.59,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 24,
+     "x": 4.8,
+     "y": 7.59,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 25,
+     "x": 5.9,
+     "y": 6.69,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 26,
+     "x": 5.9,
+     "y": 5.89,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 27,
+     "x": 5.9,
+     "y": 5.09,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 28,
+     "x": 5.9,
+     "y": 4.29,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": 5.9,
+     "y": 3.49,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 30,
+     "x": 5.9,
+     "y": 2.69,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 31,
+     "x": 5.9,
+     "y": 1.89,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 32,
+     "x": 5.9,
+     "y": 1.09,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 33,
+     "x": 5.9,
+     "y": 0.29,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 34,
+     "x": 5.9,
+     "y": -0.51,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 35,
+     "x": 5.9,
+     "y": -1.31,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 36,
+     "x": 4.8,
+     "y": -2.2,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 37,
+     "x": 4.0,
+     "y": -2.2,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 38,
+     "x": 3.2,
+     "y": -2.2,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": 2.4,
+     "y": -2.2,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 40,
+     "x": 1.6,
+     "y": -2.2,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": 0.8,
+     "y": -2.2,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 42,
+     "x": 0.0,
+     "y": -2.2,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 43,
+     "x": -0.8,
+     "y": -2.2,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 44,
+     "x": -1.6,
+     "y": -2.2,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 45,
+     "x": -2.4,
+     "y": -2.2,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 46,
+     "x": -3.2,
+     "y": -2.2,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 47,
+     "x": -4.0,
+     "y": -2.2,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 48,
+     "x": -4.8,
+     "y": -2.2,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": -1.97,
+     "y": 0.71,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 0.0,
+     "y": 0.71,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 1.97,
+     "y": 0.71,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": -1.97,
+     "y": 2.69,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 0.0,
+     "y": 2.69,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 1.97,
+     "y": 2.69,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": -1.97,
+     "y": 4.67,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 0.0,
+     "y": 4.67,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 1.97,
+     "y": 4.67,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 50,
+     "x": 5.95,
+     "y": -2.25,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 51,
+     "x": 5.95,
+     "y": 7.64,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 52,
+     "x": -5.95,
+     "y": 7.64,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 53,
+     "x": -5.95,
+     "y": -2.25,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "ESP32-C3-MINI-1U",
+   "description": "Espressif ESP32-C3-MINI-1U module, 13.2 x 12.5 mm, 53 pins on 61 pads (pin 49 a 9-pad GND grid)",
+   "note": "datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf p.39 Figure 11-2. ESP32-C3-MINI-1U Recommended PCB Land Pattern: pads from the drawing's vector outlines (scale 12.472 pt/mm from the 0.8 mm edge pads), runs fitted to their pitch; pin numbers from the Pin Layout (Top View), p.10; origin the body centre, antenna end up",
+   "style": "explicit",
+   "pins": 53,
+   "body": {
+    "width": 13.2,
+    "height": 12.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -5.9,
+     "y": -3.34,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -5.9,
+     "y": -2.54,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -5.9,
+     "y": -1.74,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -5.9,
+     "y": -0.94,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -5.9,
+     "y": -0.14,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -5.9,
+     "y": 0.66,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -5.9,
+     "y": 1.46,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -5.9,
+     "y": 2.26,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -5.9,
+     "y": 3.06,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -5.9,
+     "y": 3.86,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -5.9,
+     "y": 4.66,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -4.8,
+     "y": 5.56,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": -4.0,
+     "y": 5.56,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": -3.2,
+     "y": 5.56,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": -2.4,
+     "y": 5.56,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": -1.6,
+     "y": 5.56,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": -0.8,
+     "y": 5.56,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": 0.0,
+     "y": 5.56,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": 0.8,
+     "y": 5.56,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": 1.6,
+     "y": 5.56,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": 2.4,
+     "y": 5.56,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 22,
+     "x": 3.2,
+     "y": 5.56,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 23,
+     "x": 4.0,
+     "y": 5.56,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 24,
+     "x": 4.8,
+     "y": 5.56,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 25,
+     "x": 5.9,
+     "y": 4.66,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 26,
+     "x": 5.9,
+     "y": 3.86,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 27,
+     "x": 5.9,
+     "y": 3.06,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 28,
+     "x": 5.9,
+     "y": 2.26,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": 5.9,
+     "y": 1.46,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 30,
+     "x": 5.9,
+     "y": 0.66,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 31,
+     "x": 5.9,
+     "y": -0.14,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 32,
+     "x": 5.9,
+     "y": -0.94,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 33,
+     "x": 5.9,
+     "y": -1.74,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 34,
+     "x": 5.9,
+     "y": -2.54,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 35,
+     "x": 5.9,
+     "y": -3.34,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 36,
+     "x": 4.8,
+     "y": -4.25,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 37,
+     "x": 4.0,
+     "y": -4.25,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 38,
+     "x": 3.2,
+     "y": -4.25,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": 2.4,
+     "y": -4.25,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 40,
+     "x": 1.6,
+     "y": -4.25,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": 0.8,
+     "y": -4.25,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 42,
+     "x": 0.0,
+     "y": -4.25,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 43,
+     "x": -0.8,
+     "y": -4.25,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 44,
+     "x": -1.6,
+     "y": -4.25,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 45,
+     "x": -2.4,
+     "y": -4.25,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 46,
+     "x": -3.2,
+     "y": -4.25,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 47,
+     "x": -4.0,
+     "y": -4.25,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 48,
+     "x": -4.8,
+     "y": -4.25,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": -1.98,
+     "y": -1.32,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 0.0,
+     "y": -1.32,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 1.98,
+     "y": -1.32,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": -1.98,
+     "y": 0.66,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 0.0,
+     "y": 0.66,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 1.98,
+     "y": 0.66,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": -1.98,
+     "y": 2.64,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 0.0,
+     "y": 2.64,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 1.98,
+     "y": 2.64,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 50,
+     "x": 5.95,
+     "y": -4.3,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 51,
+     "x": 5.95,
+     "y": 5.61,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 52,
+     "x": -5.95,
+     "y": 5.61,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 53,
+     "x": -5.95,
+     "y": -4.3,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "ESP32-C3-WROOM-02",
+   "description": "Espressif ESP32-C3-WROOM-02 module, 18.0 x 20.0 mm, 19 pins on 27 pads (pin 19 a 9-pad GND grid)",
+   "note": "datasheets/mcu/espressif/esp32-c3-wroom-02_datasheet_en.pdf p.37 Figure 11-1. ESP32-C3-WROOM-02 Recommended PCB Land Pattern: pads from the drawing's vector outlines (scale 9.612 pt/mm from the 1.5 mm edge pads), runs fitted to their pitch; pin numbers from the Pin Layout (Top View), p.10; origin the body centre, antenna end up; antenna area (keep copper and parts clear): the top 6.0 mm of the body, full width",
+   "style": "explicit",
+   "pins": 19,
+   "body": {
+    "width": 18.0,
+    "height": 20.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -8.75,
+     "y": -2.9,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -8.75,
+     "y": -1.4,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -8.75,
+     "y": 0.1,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -8.75,
+     "y": 1.6,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -8.75,
+     "y": 3.1,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -8.75,
+     "y": 4.6,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -8.75,
+     "y": 6.1,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -8.75,
+     "y": 7.6,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -8.75,
+     "y": 9.1,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 8.75,
+     "y": 9.1,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": 8.75,
+     "y": 7.6,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": 8.75,
+     "y": 6.1,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": 8.75,
+     "y": 4.6,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": 8.75,
+     "y": 3.1,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": 8.75,
+     "y": 1.6,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": 8.75,
+     "y": 0.1,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": 8.75,
+     "y": -1.4,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": 8.75,
+     "y": -2.9,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": -0.14,
+     "y": 2.2,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": 0.96,
+     "y": 2.2,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": 2.06,
+     "y": 2.2,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": -0.14,
+     "y": 3.3,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": 0.96,
+     "y": 3.3,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": 2.06,
+     "y": 3.3,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": -0.14,
+     "y": 4.4,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": 0.96,
+     "y": 4.4,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": 2.06,
+     "y": 4.4,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "ESP32-C3-WROOM-02U",
+   "description": "Espressif ESP32-C3-WROOM-02U module, 18.0 x 14.3 mm, 19 pins on 27 pads (pin 19 a 9-pad GND grid)",
+   "note": "datasheets/mcu/espressif/esp32-c3-wroom-02_datasheet_en.pdf p.38 Figure 11-2. ESP32-C3-WROOM-02U Recommended PCB Land Pattern: pads from the drawing's vector outlines (scale 10.352 pt/mm from the 1.5 mm edge pads), runs fitted to their pitch; pin numbers from the Pin Layout (Top View), p.10; origin the body centre, antenna end up",
+   "style": "explicit",
+   "pins": 19,
+   "body": {
+    "width": 18.0,
+    "height": 14.3
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -8.76,
+     "y": -5.74,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -8.76,
+     "y": -4.24,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -8.76,
+     "y": -2.74,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -8.76,
+     "y": -1.24,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -8.76,
+     "y": 0.26,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -8.76,
+     "y": 1.76,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -8.76,
+     "y": 3.26,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -8.76,
+     "y": 4.76,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -8.76,
+     "y": 6.26,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": 8.76,
+     "y": 6.26,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": 8.76,
+     "y": 4.76,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": 8.76,
+     "y": 3.26,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": 8.76,
+     "y": 1.76,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": 8.76,
+     "y": 0.26,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": 8.76,
+     "y": -1.24,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": 8.76,
+     "y": -2.74,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": 8.76,
+     "y": -4.24,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": 8.76,
+     "y": -5.74,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": -0.14,
+     "y": -0.64,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": 0.96,
+     "y": -0.64,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": 2.06,
+     "y": -0.64,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": -0.14,
+     "y": 0.46,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": 0.96,
+     "y": 0.46,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": 2.06,
+     "y": 0.46,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": -0.14,
+     "y": 1.56,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": 0.96,
+     "y": 1.56,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": 2.06,
+     "y": 1.56,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "ESP32-C6-MINI-1",
+   "description": "Espressif ESP32-C6-MINI-1 module, 13.2 x 16.6 mm, 53 pins on 61 pads (pin 49 a 9-pad GND grid)",
+   "note": "datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf p.44 Figure 11-1. ESP32-C6-MINI-1 Recommended PCB Land Pattern: pads from the drawing's vector outlines (scale 11.522 pt/mm from the 0.8 mm edge pads), runs fitted to their pitch; pin numbers from the Pin Layout (Top View), p.10; origin the body centre, antenna end up; antenna area (keep copper and parts clear): the top 5.4 mm of the body, full width",
+   "style": "explicit",
+   "pins": 53,
+   "body": {
+    "width": 13.2,
+    "height": 16.6
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -5.9,
+     "y": -1.3,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -5.9,
+     "y": -0.5,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -5.9,
+     "y": 0.3,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -5.9,
+     "y": 1.1,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -5.9,
+     "y": 1.9,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -5.9,
+     "y": 2.7,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -5.9,
+     "y": 3.5,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -5.9,
+     "y": 4.3,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -5.9,
+     "y": 5.1,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -5.9,
+     "y": 5.9,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -5.9,
+     "y": 6.7,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -4.8,
+     "y": 7.6,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": -4.0,
+     "y": 7.6,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": -3.2,
+     "y": 7.6,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": -2.4,
+     "y": 7.6,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": -1.6,
+     "y": 7.6,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": -0.8,
+     "y": 7.6,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": 0.0,
+     "y": 7.6,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": 0.8,
+     "y": 7.6,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": 1.6,
+     "y": 7.6,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": 2.4,
+     "y": 7.6,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 22,
+     "x": 3.2,
+     "y": 7.6,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 23,
+     "x": 4.0,
+     "y": 7.6,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 24,
+     "x": 4.8,
+     "y": 7.6,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 25,
+     "x": 5.9,
+     "y": 6.7,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 26,
+     "x": 5.9,
+     "y": 5.9,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 27,
+     "x": 5.9,
+     "y": 5.1,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 28,
+     "x": 5.9,
+     "y": 4.3,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": 5.9,
+     "y": 3.5,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 30,
+     "x": 5.9,
+     "y": 2.7,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 31,
+     "x": 5.9,
+     "y": 1.9,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 32,
+     "x": 5.9,
+     "y": 1.1,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 33,
+     "x": 5.9,
+     "y": 0.3,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 34,
+     "x": 5.9,
+     "y": -0.5,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 35,
+     "x": 5.9,
+     "y": -1.3,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 36,
+     "x": 4.8,
+     "y": -2.2,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 37,
+     "x": 4.0,
+     "y": -2.2,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 38,
+     "x": 3.2,
+     "y": -2.2,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": 2.4,
+     "y": -2.2,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 40,
+     "x": 1.6,
+     "y": -2.2,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": 0.8,
+     "y": -2.2,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 42,
+     "x": 0.0,
+     "y": -2.2,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 43,
+     "x": -0.8,
+     "y": -2.2,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 44,
+     "x": -1.6,
+     "y": -2.2,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 45,
+     "x": -2.4,
+     "y": -2.2,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 46,
+     "x": -3.2,
+     "y": -2.2,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 47,
+     "x": -4.0,
+     "y": -2.2,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 48,
+     "x": -4.8,
+     "y": -2.2,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": -1.98,
+     "y": 0.72,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 0.0,
+     "y": 0.72,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 1.98,
+     "y": 0.72,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": -1.98,
+     "y": 2.7,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 0.0,
+     "y": 2.7,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 1.98,
+     "y": 2.7,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": -1.98,
+     "y": 4.68,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 0.0,
+     "y": 4.68,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 1.98,
+     "y": 4.68,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 50,
+     "x": 5.95,
+     "y": -2.25,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 51,
+     "x": 5.95,
+     "y": 7.65,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 52,
+     "x": -5.95,
+     "y": 7.65,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 53,
+     "x": -5.95,
+     "y": -2.25,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "ESP32-C6-MINI-1U",
+   "description": "Espressif ESP32-C6-MINI-1U module, 13.2 x 12.5 mm, 53 pins on 61 pads (pin 49 a 9-pad GND grid)",
+   "note": "datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf p.45 Figure 11-2. ESP32-C6-MINI-1U Recommended PCB Land Pattern: pads from the drawing's vector outlines (scale 11.798 pt/mm from the 0.8 mm edge pads), runs fitted to their pitch; pin numbers from the Pin Layout (Top View), p.10; origin the body centre, antenna end up",
+   "style": "explicit",
+   "pins": 53,
+   "body": {
+    "width": 13.2,
+    "height": 12.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -5.9,
+     "y": -3.35,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -5.9,
+     "y": -2.55,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -5.9,
+     "y": -1.75,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -5.9,
+     "y": -0.95,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -5.9,
+     "y": -0.15,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -5.9,
+     "y": 0.65,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -5.9,
+     "y": 1.45,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -5.9,
+     "y": 2.25,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -5.9,
+     "y": 3.05,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -5.9,
+     "y": 3.85,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -5.9,
+     "y": 4.65,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -4.8,
+     "y": 5.55,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": -4.0,
+     "y": 5.55,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": -3.2,
+     "y": 5.55,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": -2.4,
+     "y": 5.55,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": -1.6,
+     "y": 5.55,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": -0.8,
+     "y": 5.55,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": 0.0,
+     "y": 5.55,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": 0.8,
+     "y": 5.55,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": 1.6,
+     "y": 5.55,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": 2.4,
+     "y": 5.55,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 22,
+     "x": 3.2,
+     "y": 5.55,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 23,
+     "x": 4.0,
+     "y": 5.55,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 24,
+     "x": 4.8,
+     "y": 5.55,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 25,
+     "x": 5.9,
+     "y": 4.65,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 26,
+     "x": 5.9,
+     "y": 3.85,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 27,
+     "x": 5.9,
+     "y": 3.05,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 28,
+     "x": 5.9,
+     "y": 2.25,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": 5.9,
+     "y": 1.45,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 30,
+     "x": 5.9,
+     "y": 0.65,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 31,
+     "x": 5.9,
+     "y": -0.15,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 32,
+     "x": 5.9,
+     "y": -0.95,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 33,
+     "x": 5.9,
+     "y": -1.75,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 34,
+     "x": 5.9,
+     "y": -2.55,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 35,
+     "x": 5.9,
+     "y": -3.35,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 36,
+     "x": 4.8,
+     "y": -4.25,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 37,
+     "x": 4.0,
+     "y": -4.25,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 38,
+     "x": 3.2,
+     "y": -4.25,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": 2.4,
+     "y": -4.25,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 40,
+     "x": 1.6,
+     "y": -4.25,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": 0.8,
+     "y": -4.25,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 42,
+     "x": 0.0,
+     "y": -4.25,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 43,
+     "x": -0.8,
+     "y": -4.25,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 44,
+     "x": -1.6,
+     "y": -4.25,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 45,
+     "x": -2.4,
+     "y": -4.25,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 46,
+     "x": -3.2,
+     "y": -4.25,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 47,
+     "x": -4.0,
+     "y": -4.25,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 48,
+     "x": -4.8,
+     "y": -4.25,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": -1.97,
+     "y": -1.33,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 0.0,
+     "y": -1.33,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 1.97,
+     "y": -1.33,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": -1.97,
+     "y": 0.65,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 0.0,
+     "y": 0.65,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 1.97,
+     "y": 0.65,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": -1.97,
+     "y": 2.63,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 0.0,
+     "y": 2.63,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 1.97,
+     "y": 2.63,
+     "width": 1.45,
+     "height": 1.45,
+     "shape": "rect"
+    },
+    {
+     "pin": 50,
+     "x": 5.95,
+     "y": -4.3,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 51,
+     "x": 5.95,
+     "y": 5.6,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 52,
+     "x": -5.95,
+     "y": 5.6,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    },
+    {
+     "pin": 53,
+     "x": -5.95,
+     "y": -4.3,
+     "width": 0.7,
+     "height": 0.7,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "ESP32-C6-WROOM-1",
+   "description": "Espressif ESP32-C6-WROOM-1 module, 18.0 x 25.5 mm, 29 pins on 37 pads (pin 29 a 9-pad GND grid)",
+   "note": "datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf p.44 Figure 11-1. ESP32-C6-WROOM-1 Recommended PCB Land Pattern: pads from the drawing's vector outlines (scale 8.763 pt/mm from the 1.5 mm edge pads), runs fitted to their pitch; pin numbers from the Pin Layout (Top View), p.10; origin the body centre, antenna end up; antenna area (keep copper and parts clear): the top 6.0 mm of the body, full width",
+   "style": "explicit",
+   "pins": 29,
+   "body": {
+    "width": 18.0,
+    "height": 25.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -8.75,
+     "y": -5.265,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -8.75,
+     "y": -3.995,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -8.75,
+     "y": -2.725,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -8.75,
+     "y": -1.455,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -8.75,
+     "y": -0.185,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -8.75,
+     "y": 1.085,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -8.75,
+     "y": 2.355,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -8.75,
+     "y": 3.625,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -8.75,
+     "y": 4.895,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -8.75,
+     "y": 6.165,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -8.75,
+     "y": 7.435,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -8.75,
+     "y": 8.705,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": -8.75,
+     "y": 9.975,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": -8.75,
+     "y": 11.245,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": 8.75,
+     "y": 11.245,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": 8.75,
+     "y": 9.975,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": 8.75,
+     "y": 8.705,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": 8.75,
+     "y": 7.435,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": 8.75,
+     "y": 6.165,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": 8.75,
+     "y": 4.895,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": 8.75,
+     "y": 3.625,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 22,
+     "x": 8.75,
+     "y": 2.355,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 23,
+     "x": 8.75,
+     "y": 1.085,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 24,
+     "x": 8.75,
+     "y": -0.185,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 25,
+     "x": 8.75,
+     "y": -1.455,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 26,
+     "x": 8.75,
+     "y": -2.725,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 27,
+     "x": 8.75,
+     "y": -3.995,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 28,
+     "x": 8.75,
+     "y": -5.265,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": -2.75,
+     "y": -0.8,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": -1.5,
+     "y": -0.8,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": -0.25,
+     "y": -0.8,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": -2.75,
+     "y": 0.45,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": -1.5,
+     "y": 0.45,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": -0.25,
+     "y": 0.45,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": -2.75,
+     "y": 1.7,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": -1.5,
+     "y": 1.7,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": -0.25,
+     "y": 1.7,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "ESP32-C6-WROOM-1U",
+   "description": "Espressif ESP32-C6-WROOM-1U module, 18.0 x 19.2 mm, 29 pins on 37 pads (pin 29 a 9-pad GND grid)",
+   "note": "datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf p.45 Figure 11-2. ESP32-C6-WROOM-1U Recommended PCB Land Pattern: pads from the drawing's vector outlines (scale 8.966 pt/mm from the 1.5 mm edge pads), runs fitted to their pitch; pin numbers from the Pin Layout (Top View), p.10; origin the body centre, antenna end up",
+   "style": "explicit",
+   "pins": 29,
+   "body": {
+    "width": 18.0,
+    "height": 19.2
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -8.75,
+     "y": -8.415,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -8.75,
+     "y": -7.145,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -8.75,
+     "y": -5.875,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -8.75,
+     "y": -4.605,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -8.75,
+     "y": -3.335,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -8.75,
+     "y": -2.065,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -8.75,
+     "y": -0.795,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -8.75,
+     "y": 0.475,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -8.75,
+     "y": 1.745,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -8.75,
+     "y": 3.015,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -8.75,
+     "y": 4.285,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -8.75,
+     "y": 5.555,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": -8.75,
+     "y": 6.825,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": -8.75,
+     "y": 8.095,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": 8.75,
+     "y": 8.095,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": 8.75,
+     "y": 6.825,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": 8.75,
+     "y": 5.555,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": 8.75,
+     "y": 4.285,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": 8.75,
+     "y": 3.015,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": 8.75,
+     "y": 1.745,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": 8.75,
+     "y": 0.475,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 22,
+     "x": 8.75,
+     "y": -0.795,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 23,
+     "x": 8.75,
+     "y": -2.065,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 24,
+     "x": 8.75,
+     "y": -3.335,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 25,
+     "x": 8.75,
+     "y": -4.605,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 26,
+     "x": 8.75,
+     "y": -5.875,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 27,
+     "x": 8.75,
+     "y": -7.145,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 28,
+     "x": 8.75,
+     "y": -8.415,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": -2.75,
+     "y": -3.94,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": -1.5,
+     "y": -3.94,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": -0.25,
+     "y": -3.94,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": -2.75,
+     "y": -2.69,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": -1.5,
+     "y": -2.69,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": -0.25,
+     "y": -2.69,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": -2.75,
+     "y": -1.44,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": -1.5,
+     "y": -1.44,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": -0.25,
+     "y": -1.44,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "ESP32-MINI-1",
+   "description": "Espressif ESP32-MINI-1 module, 13.2 x 19.0 mm, 55 pins on 63 pads (pin 55 a 9-pad GND grid)",
+   "note": "datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf p.44 Figure 14: ESP32-MINI-1 Recommended PCB Land Pattern: pads from the drawing's vector outlines (scale 11.677 pt/mm from the 0.8 mm edge pads), runs fitted to their pitch; pin numbers from the Pin Layout (Top View), p.10; origin the body centre, antenna end up; antenna area (keep copper and parts clear): the top 5.4 mm of the body, full width",
+   "style": "explicit",
+   "pins": 55,
+   "body": {
+    "width": 13.2,
+    "height": 19.0
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -5.9,
+     "y": -2.04,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -5.9,
+     "y": -1.24,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -5.9,
+     "y": -0.44,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -5.9,
+     "y": 0.36,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -5.9,
+     "y": 1.16,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -5.9,
+     "y": 1.96,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -5.9,
+     "y": 2.76,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -5.9,
+     "y": 3.56,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -5.9,
+     "y": 4.36,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -5.9,
+     "y": 5.16,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -5.9,
+     "y": 5.96,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -5.9,
+     "y": 6.76,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": -5.9,
+     "y": 7.56,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": -5.2,
+     "y": 8.81,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": -4.4,
+     "y": 8.81,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": -3.6,
+     "y": 8.81,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": -2.8,
+     "y": 8.81,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": -2.0,
+     "y": 8.81,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": -1.2,
+     "y": 8.81,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": -0.4,
+     "y": 8.81,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": 0.4,
+     "y": 8.81,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 22,
+     "x": 1.2,
+     "y": 8.81,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 23,
+     "x": 2.0,
+     "y": 8.81,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 24,
+     "x": 2.8,
+     "y": 8.81,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 25,
+     "x": 3.6,
+     "y": 8.81,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 26,
+     "x": 4.4,
+     "y": 8.81,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 27,
+     "x": 5.2,
+     "y": 8.81,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 28,
+     "x": 5.9,
+     "y": 7.56,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": 5.9,
+     "y": 6.76,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 30,
+     "x": 5.9,
+     "y": 5.96,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 31,
+     "x": 5.9,
+     "y": 5.16,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 32,
+     "x": 5.9,
+     "y": 4.36,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 33,
+     "x": 5.9,
+     "y": 3.56,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 34,
+     "x": 5.9,
+     "y": 2.76,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 35,
+     "x": 5.9,
+     "y": 1.96,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 36,
+     "x": 5.9,
+     "y": 1.16,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 37,
+     "x": 5.9,
+     "y": 0.36,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 38,
+     "x": 5.9,
+     "y": -0.44,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": 5.9,
+     "y": -1.24,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 40,
+     "x": 5.9,
+     "y": -2.04,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": 5.2,
+     "y": -3.3,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 42,
+     "x": 4.4,
+     "y": -3.3,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 43,
+     "x": 3.6,
+     "y": -3.3,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 44,
+     "x": 2.8,
+     "y": -3.3,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 45,
+     "x": 2.0,
+     "y": -3.3,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 46,
+     "x": 1.2,
+     "y": -3.3,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 47,
+     "x": 0.4,
+     "y": -3.3,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 48,
+     "x": -0.4,
+     "y": -3.3,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": -1.2,
+     "y": -3.3,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 50,
+     "x": -2.0,
+     "y": -3.3,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 51,
+     "x": -2.8,
+     "y": -3.3,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 52,
+     "x": -3.6,
+     "y": -3.3,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 53,
+     "x": -4.4,
+     "y": -3.3,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 54,
+     "x": -5.2,
+     "y": -3.3,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 55,
+     "x": -1.5,
+     "y": 1.25,
+     "width": 1.0,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 55,
+     "x": 0.0,
+     "y": 1.25,
+     "width": 1.0,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 55,
+     "x": 1.5,
+     "y": 1.25,
+     "width": 1.0,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 55,
+     "x": -1.5,
+     "y": 2.76,
+     "width": 1.0,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 55,
+     "x": 0.0,
+     "y": 2.76,
+     "width": 1.0,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 55,
+     "x": 1.5,
+     "y": 2.76,
+     "width": 1.0,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 55,
+     "x": -1.5,
+     "y": 4.27,
+     "width": 1.0,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 55,
+     "x": 0.0,
+     "y": 4.27,
+     "width": 1.0,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 55,
+     "x": 1.5,
+     "y": 4.27,
+     "width": 1.0,
+     "height": 1.0,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "ESP32-MINI-1U",
+   "description": "Espressif ESP32-MINI-1U module, 13.2 x 13.5 mm, 55 pins on 63 pads (pin 55 a 9-pad GND grid)",
+   "note": "datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf p.45 Figure 15: ESP32-MINI-1U PCB Recommended PCB Land Pattern: pads from the drawing's vector outlines (scale 11.742 pt/mm from the 0.8 mm edge pads), runs fitted to their pitch; pin numbers from the Pin Layout (Top View), p.10; origin the body centre, antenna end up; the figure leaves the thermal grid cell at (-1.5, -0.01) undrawn (where its dimension lines cross); drawn like the other eight, as in the pin layout and the non-U figure",
+   "style": "explicit",
+   "pins": 55,
+   "body": {
+    "width": 13.2,
+    "height": 13.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -5.89,
+     "y": -4.81,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -5.89,
+     "y": -4.01,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -5.89,
+     "y": -3.21,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -5.89,
+     "y": -2.41,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -5.89,
+     "y": -1.61,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -5.89,
+     "y": -0.81,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -5.89,
+     "y": -0.01,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -5.89,
+     "y": 0.79,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -5.89,
+     "y": 1.59,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -5.89,
+     "y": 2.39,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -5.89,
+     "y": 3.19,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -5.89,
+     "y": 3.99,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": -5.89,
+     "y": 4.79,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": -5.2,
+     "y": 6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": -4.4,
+     "y": 6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": -3.6,
+     "y": 6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": -2.8,
+     "y": 6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": -2.0,
+     "y": 6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": -1.2,
+     "y": 6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": -0.4,
+     "y": 6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": 0.4,
+     "y": 6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 22,
+     "x": 1.2,
+     "y": 6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 23,
+     "x": 2.0,
+     "y": 6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 24,
+     "x": 2.8,
+     "y": 6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 25,
+     "x": 3.6,
+     "y": 6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 26,
+     "x": 4.4,
+     "y": 6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 27,
+     "x": 5.2,
+     "y": 6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 28,
+     "x": 5.89,
+     "y": 4.79,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": 5.89,
+     "y": 3.99,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 30,
+     "x": 5.89,
+     "y": 3.19,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 31,
+     "x": 5.89,
+     "y": 2.39,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 32,
+     "x": 5.89,
+     "y": 1.59,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 33,
+     "x": 5.89,
+     "y": 0.79,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 34,
+     "x": 5.89,
+     "y": -0.01,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 35,
+     "x": 5.89,
+     "y": -0.81,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 36,
+     "x": 5.89,
+     "y": -1.61,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 37,
+     "x": 5.89,
+     "y": -2.41,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 38,
+     "x": 5.89,
+     "y": -3.21,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": 5.89,
+     "y": -4.01,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 40,
+     "x": 5.89,
+     "y": -4.81,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": 5.2,
+     "y": -6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 42,
+     "x": 4.4,
+     "y": -6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 43,
+     "x": 3.6,
+     "y": -6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 44,
+     "x": 2.8,
+     "y": -6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 45,
+     "x": 2.0,
+     "y": -6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 46,
+     "x": 1.2,
+     "y": -6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 47,
+     "x": 0.4,
+     "y": -6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 48,
+     "x": -0.4,
+     "y": -6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": -1.2,
+     "y": -6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 50,
+     "x": -2.0,
+     "y": -6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 51,
+     "x": -2.8,
+     "y": -6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 52,
+     "x": -3.6,
+     "y": -6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 53,
+     "x": -4.4,
+     "y": -6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 54,
+     "x": -5.2,
+     "y": -6.04,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 55,
+     "x": -1.5,
+     "y": -1.51,
+     "width": 1.0,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 55,
+     "x": 0.0,
+     "y": -1.51,
+     "width": 1.0,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 55,
+     "x": 1.5,
+     "y": -1.51,
+     "width": 1.0,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 55,
+     "x": -1.5,
+     "y": -0.01,
+     "width": 1.0,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 55,
+     "x": 0.0,
+     "y": -0.01,
+     "width": 1.0,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 55,
+     "x": 1.5,
+     "y": -0.01,
+     "width": 1.0,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 55,
+     "x": -1.5,
+     "y": 1.49,
+     "width": 1.0,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 55,
+     "x": 0.0,
+     "y": 1.49,
+     "width": 1.0,
+     "height": 1.0,
+     "shape": "rect"
+    },
+    {
+     "pin": 55,
+     "x": 1.5,
+     "y": 1.49,
+     "width": 1.0,
+     "height": 1.0,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "ESP32-S2-MINI-2",
+   "description": "Espressif ESP32-S2-MINI-2 module, 15.4 x 20.5 mm, 65 pins on 73 pads (pin 61 a 9-pad GND grid)",
+   "note": "datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf p.31 Figure 10-1. ESP32-S2-MINI-2 Recommended PCB Land Pattern: pads from the drawing's vector outlines (scale 10.954 pt/mm from the 0.8 mm edge pads), runs fitted to their pitch; pin numbers from the Pin Layout (Top View), p.10; origin the body centre, antenna end up; antenna area (keep copper and parts clear): the top 5.04 mm of the body, full width",
+   "style": "explicit",
+   "pins": 65,
+   "body": {
+    "width": 15.4,
+    "height": 20.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -6.99,
+     "y": -3.41,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -6.99,
+     "y": -2.56,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -6.99,
+     "y": -1.71,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -6.99,
+     "y": -0.86,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -6.99,
+     "y": -0.01,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -6.99,
+     "y": 0.84,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -6.99,
+     "y": 1.69,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -6.99,
+     "y": 2.54,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -6.99,
+     "y": 3.39,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -6.99,
+     "y": 4.24,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -6.99,
+     "y": 5.09,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -6.99,
+     "y": 5.94,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": -6.99,
+     "y": 6.79,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": -6.99,
+     "y": 7.64,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": -6.99,
+     "y": 8.49,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": -5.95,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": -5.1,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": -4.25,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": -3.4,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": -2.55,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": -1.7,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 22,
+     "x": -0.85,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 23,
+     "x": 0.0,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 24,
+     "x": 0.85,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 25,
+     "x": 1.7,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 26,
+     "x": 2.55,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 27,
+     "x": 3.4,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 28,
+     "x": 4.25,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": 5.1,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 30,
+     "x": 5.95,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 31,
+     "x": 6.99,
+     "y": 8.49,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 32,
+     "x": 6.99,
+     "y": 7.64,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 33,
+     "x": 6.99,
+     "y": 6.79,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 34,
+     "x": 6.99,
+     "y": 5.94,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 35,
+     "x": 6.99,
+     "y": 5.09,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 36,
+     "x": 6.99,
+     "y": 4.24,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 37,
+     "x": 6.99,
+     "y": 3.39,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 38,
+     "x": 6.99,
+     "y": 2.54,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": 6.99,
+     "y": 1.69,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 40,
+     "x": 6.99,
+     "y": 0.84,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": 6.99,
+     "y": -0.01,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 42,
+     "x": 6.99,
+     "y": -0.86,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 43,
+     "x": 6.99,
+     "y": -1.71,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 44,
+     "x": 6.99,
+     "y": -2.56,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 45,
+     "x": 6.99,
+     "y": -3.41,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 46,
+     "x": 5.95,
+     "y": -4.45,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 47,
+     "x": 5.1,
+     "y": -4.45,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 48,
+     "x": 4.25,
+     "y": -4.45,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 3.4,
+     "y": -4.45,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 50,
+     "x": 2.55,
+     "y": -4.45,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 51,
+     "x": 1.7,
+     "y": -4.45,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 52,
+     "x": 0.85,
+     "y": -4.45,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 53,
+     "x": 0.0,
+     "y": -4.45,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 54,
+     "x": -0.85,
+     "y": -4.45,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 55,
+     "x": -1.7,
+     "y": -4.45,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 56,
+     "x": -2.55,
+     "y": -4.45,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 57,
+     "x": -3.4,
+     "y": -4.45,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 58,
+     "x": -4.25,
+     "y": -4.45,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 59,
+     "x": -5.1,
+     "y": -4.45,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 60,
+     "x": -5.95,
+     "y": -4.45,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": -1.66,
+     "y": 0.89,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": -0.01,
+     "y": 0.89,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": 1.64,
+     "y": 0.89,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": -1.66,
+     "y": 2.54,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": -0.01,
+     "y": 2.54,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": 1.64,
+     "y": 2.54,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": -1.66,
+     "y": 4.19,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": -0.01,
+     "y": 4.19,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": 1.64,
+     "y": 4.19,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 62,
+     "x": -6.99,
+     "y": -4.45,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 63,
+     "x": -6.99,
+     "y": 9.54,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 64,
+     "x": 6.99,
+     "y": 9.54,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 65,
+     "x": 6.99,
+     "y": -4.45,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "ESP32-S2-MINI-2U",
+   "description": "Espressif ESP32-S2-MINI-2U module, 15.4 x 15.4 mm, 65 pins on 73 pads (pin 61 a 9-pad GND grid)",
+   "note": "datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf p.32 Figure 10-2. ESP32-S2-MINI-2U Recommended PCB Land Pattern: pads from the drawing's vector outlines (scale 11.683 pt/mm from the 0.8 mm edge pads), runs fitted to their pitch; pin numbers from the Pin Layout (Top View), p.10; origin the body centre, antenna end up",
+   "style": "explicit",
+   "pins": 65,
+   "body": {
+    "width": 15.4,
+    "height": 15.4
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -7.0,
+     "y": -5.95,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -7.0,
+     "y": -5.1,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -7.0,
+     "y": -4.25,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -7.0,
+     "y": -3.4,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -7.0,
+     "y": -2.55,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -7.0,
+     "y": -1.7,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -7.0,
+     "y": -0.85,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -7.0,
+     "y": 0.0,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -7.0,
+     "y": 0.85,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -7.0,
+     "y": 1.7,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -7.0,
+     "y": 2.55,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -7.0,
+     "y": 3.4,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": -7.0,
+     "y": 4.25,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": -7.0,
+     "y": 5.1,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": -7.0,
+     "y": 5.95,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": -5.95,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": -5.1,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": -4.25,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": -3.4,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": -2.55,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": -1.7,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 22,
+     "x": -0.85,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 23,
+     "x": 0.0,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 24,
+     "x": 0.85,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 25,
+     "x": 1.7,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 26,
+     "x": 2.55,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 27,
+     "x": 3.4,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 28,
+     "x": 4.25,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": 5.1,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 30,
+     "x": 5.95,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 31,
+     "x": 7.0,
+     "y": 5.95,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 32,
+     "x": 7.0,
+     "y": 5.1,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 33,
+     "x": 7.0,
+     "y": 4.25,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 34,
+     "x": 7.0,
+     "y": 3.4,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 35,
+     "x": 7.0,
+     "y": 2.55,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 36,
+     "x": 7.0,
+     "y": 1.7,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 37,
+     "x": 7.0,
+     "y": 0.85,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 38,
+     "x": 7.0,
+     "y": 0.0,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": 7.0,
+     "y": -0.85,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 40,
+     "x": 7.0,
+     "y": -1.7,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": 7.0,
+     "y": -2.55,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 42,
+     "x": 7.0,
+     "y": -3.4,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 43,
+     "x": 7.0,
+     "y": -4.25,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 44,
+     "x": 7.0,
+     "y": -5.1,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 45,
+     "x": 7.0,
+     "y": -5.95,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 46,
+     "x": 5.95,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 47,
+     "x": 5.1,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 48,
+     "x": 4.25,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 3.4,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 50,
+     "x": 2.55,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 51,
+     "x": 1.7,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 52,
+     "x": 0.85,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 53,
+     "x": 0.0,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 54,
+     "x": -0.85,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 55,
+     "x": -1.7,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 56,
+     "x": -2.55,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 57,
+     "x": -3.4,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 58,
+     "x": -4.25,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 59,
+     "x": -5.1,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 60,
+     "x": -5.95,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": -1.66,
+     "y": -1.65,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": -0.01,
+     "y": -1.65,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": 1.64,
+     "y": -1.65,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": -1.66,
+     "y": 0.0,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": -0.01,
+     "y": 0.0,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": 1.64,
+     "y": 0.0,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": -1.66,
+     "y": 1.65,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": -0.01,
+     "y": 1.65,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": 1.64,
+     "y": 1.65,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 62,
+     "x": -7.0,
+     "y": -7.0,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 63,
+     "x": -7.0,
+     "y": 7.0,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 64,
+     "x": 7.0,
+     "y": 7.0,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 65,
+     "x": 7.0,
+     "y": -7.0,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "ESP32-S2-SOLO-2",
+   "description": "Espressif ESP32-S2-SOLO-2 module, 18.0 x 25.5 mm, 41 pins on 49 pads (pin 41 a 9-pad GND grid)",
+   "note": "datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf p.31 Figure 10-1. ESP32-S2-SOLO-2 Recommended PCB Land Pattern: pads from the drawing's vector outlines (scale 9.444 pt/mm from the 1.5 mm edge pads), runs fitted to their pitch; pin numbers from the Pin Layout (Top View), p.11; origin the body centre, antenna end up; antenna area (keep copper and parts clear): the top 6.0 mm of the body, full width",
+   "style": "explicit",
+   "pins": 41,
+   "body": {
+    "width": 18.0,
+    "height": 25.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -8.75,
+     "y": -5.255,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -8.75,
+     "y": -3.985,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -8.75,
+     "y": -2.715,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -8.75,
+     "y": -1.445,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -8.75,
+     "y": -0.175,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -8.75,
+     "y": 1.095,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -8.75,
+     "y": 2.365,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -8.75,
+     "y": 3.635,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -8.75,
+     "y": 4.905,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -8.75,
+     "y": 6.175,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -8.75,
+     "y": 7.445,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -8.75,
+     "y": 8.715,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": -8.75,
+     "y": 9.985,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": -8.75,
+     "y": 11.255,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": -6.985,
+     "y": 12.5,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": -5.715,
+     "y": 12.5,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": -4.445,
+     "y": 12.5,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": -3.175,
+     "y": 12.5,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": -1.905,
+     "y": 12.5,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": -0.635,
+     "y": 12.5,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": 0.635,
+     "y": 12.5,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 22,
+     "x": 1.905,
+     "y": 12.5,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 23,
+     "x": 3.175,
+     "y": 12.5,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 24,
+     "x": 4.445,
+     "y": 12.5,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 25,
+     "x": 5.715,
+     "y": 12.5,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 26,
+     "x": 6.985,
+     "y": 12.5,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 27,
+     "x": 8.75,
+     "y": 11.255,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 28,
+     "x": 8.75,
+     "y": 9.985,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": 8.75,
+     "y": 8.715,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 30,
+     "x": 8.75,
+     "y": 7.445,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 31,
+     "x": 8.75,
+     "y": 6.175,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 32,
+     "x": 8.75,
+     "y": 4.905,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 33,
+     "x": 8.75,
+     "y": 3.635,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 34,
+     "x": 8.75,
+     "y": 2.365,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 35,
+     "x": 8.75,
+     "y": 1.095,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 36,
+     "x": 8.75,
+     "y": -0.175,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 37,
+     "x": 8.75,
+     "y": -1.445,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 38,
+     "x": 8.75,
+     "y": -2.715,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": 8.75,
+     "y": -3.985,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 40,
+     "x": 8.75,
+     "y": -5.255,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -2.91,
+     "y": 1.05,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -1.5,
+     "y": 1.05,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -0.09,
+     "y": 1.05,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -2.91,
+     "y": 2.45,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -1.5,
+     "y": 2.45,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -0.09,
+     "y": 2.45,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -2.91,
+     "y": 3.85,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -1.5,
+     "y": 3.85,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -0.09,
+     "y": 3.85,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "ESP32-S2-SOLO-2U",
+   "description": "Espressif ESP32-S2-SOLO-2U module, 18.0 x 19.2 mm, 41 pins on 49 pads (pin 41 a 9-pad GND grid)",
+   "note": "datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf p.32 Figure 10-2. ESP32-S2-SOLO-2U Recommended PCB Land Pattern: pads from the drawing's vector outlines (scale 10.100 pt/mm from the 1.5 mm edge pads), runs fitted to their pitch; pin numbers from the Pin Layout (Top View), p.11; origin the body centre, antenna end up",
+   "style": "explicit",
+   "pins": 41,
+   "body": {
+    "width": 18.0,
+    "height": 19.2
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -8.74,
+     "y": -8.415,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -8.74,
+     "y": -7.145,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -8.74,
+     "y": -5.875,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -8.74,
+     "y": -4.605,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -8.74,
+     "y": -3.335,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -8.74,
+     "y": -2.065,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -8.74,
+     "y": -0.795,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -8.74,
+     "y": 0.475,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -8.74,
+     "y": 1.745,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -8.74,
+     "y": 3.015,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -8.74,
+     "y": 4.285,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -8.74,
+     "y": 5.555,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": -8.74,
+     "y": 6.825,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": -8.74,
+     "y": 8.095,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": -6.985,
+     "y": 9.34,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": -5.715,
+     "y": 9.34,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": -4.445,
+     "y": 9.34,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": -3.175,
+     "y": 9.34,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": -1.905,
+     "y": 9.34,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": -0.635,
+     "y": 9.34,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": 0.635,
+     "y": 9.34,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 22,
+     "x": 1.905,
+     "y": 9.34,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 23,
+     "x": 3.175,
+     "y": 9.34,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 24,
+     "x": 4.445,
+     "y": 9.34,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 25,
+     "x": 5.715,
+     "y": 9.34,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 26,
+     "x": 6.985,
+     "y": 9.34,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 27,
+     "x": 8.74,
+     "y": 8.095,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 28,
+     "x": 8.74,
+     "y": 6.825,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": 8.74,
+     "y": 5.555,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 30,
+     "x": 8.74,
+     "y": 4.285,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 31,
+     "x": 8.74,
+     "y": 3.015,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 32,
+     "x": 8.74,
+     "y": 1.745,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 33,
+     "x": 8.74,
+     "y": 0.475,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 34,
+     "x": 8.74,
+     "y": -0.795,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 35,
+     "x": 8.74,
+     "y": -2.065,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 36,
+     "x": 8.74,
+     "y": -3.335,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 37,
+     "x": 8.74,
+     "y": -4.605,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 38,
+     "x": 8.74,
+     "y": -5.875,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": 8.74,
+     "y": -7.145,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 40,
+     "x": 8.74,
+     "y": -8.415,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -2.9,
+     "y": -2.1,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -1.5,
+     "y": -2.1,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -0.1,
+     "y": -2.1,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -2.9,
+     "y": -0.7,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -1.5,
+     "y": -0.7,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -0.1,
+     "y": -0.7,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -2.9,
+     "y": 0.7,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -1.5,
+     "y": 0.7,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -0.1,
+     "y": 0.7,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "ESP32-S3-MINI-1",
+   "description": "Espressif ESP32-S3-MINI-1 module, 15.4 x 20.5 mm, 65 pins on 73 pads (pin 61 a 9-pad GND grid)",
+   "note": "datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf p.45 Figure 11-1. ESP32-S3-MINI-1 Recommended PCB Land Pattern: pads from the drawing's vector outlines (scale 8.235 pt/mm from the 0.8 mm edge pads), runs fitted to their pitch; pin numbers from the Pin Layout (Top View), p.10; origin the body centre, antenna end up; antenna area (keep copper and parts clear): the top 5.04 mm of the body, full width",
+   "style": "explicit",
+   "pins": 65,
+   "body": {
+    "width": 15.4,
+    "height": 20.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -7.0,
+     "y": -3.41,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -7.0,
+     "y": -2.56,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -7.0,
+     "y": -1.71,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -7.0,
+     "y": -0.86,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -7.0,
+     "y": -0.01,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -7.0,
+     "y": 0.84,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -7.0,
+     "y": 1.69,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -7.0,
+     "y": 2.54,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -7.0,
+     "y": 3.39,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -7.0,
+     "y": 4.24,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -7.0,
+     "y": 5.09,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -7.0,
+     "y": 5.94,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": -7.0,
+     "y": 6.79,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": -7.0,
+     "y": 7.64,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": -7.0,
+     "y": 8.49,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": -5.95,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": -5.1,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": -4.25,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": -3.4,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": -2.55,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": -1.7,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 22,
+     "x": -0.85,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 23,
+     "x": 0.0,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 24,
+     "x": 0.85,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 25,
+     "x": 1.7,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 26,
+     "x": 2.55,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 27,
+     "x": 3.4,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 28,
+     "x": 4.25,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": 5.1,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 30,
+     "x": 5.95,
+     "y": 9.54,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 31,
+     "x": 7.0,
+     "y": 8.49,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 32,
+     "x": 7.0,
+     "y": 7.64,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 33,
+     "x": 7.0,
+     "y": 6.79,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 34,
+     "x": 7.0,
+     "y": 5.94,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 35,
+     "x": 7.0,
+     "y": 5.09,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 36,
+     "x": 7.0,
+     "y": 4.24,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 37,
+     "x": 7.0,
+     "y": 3.39,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 38,
+     "x": 7.0,
+     "y": 2.54,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": 7.0,
+     "y": 1.69,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 40,
+     "x": 7.0,
+     "y": 0.84,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": 7.0,
+     "y": -0.01,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 42,
+     "x": 7.0,
+     "y": -0.86,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 43,
+     "x": 7.0,
+     "y": -1.71,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 44,
+     "x": 7.0,
+     "y": -2.56,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 45,
+     "x": 7.0,
+     "y": -3.41,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 46,
+     "x": 5.95,
+     "y": -4.46,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 47,
+     "x": 5.1,
+     "y": -4.46,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 48,
+     "x": 4.25,
+     "y": -4.46,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 3.4,
+     "y": -4.46,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 50,
+     "x": 2.55,
+     "y": -4.46,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 51,
+     "x": 1.7,
+     "y": -4.46,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 52,
+     "x": 0.85,
+     "y": -4.46,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 53,
+     "x": 0.0,
+     "y": -4.46,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 54,
+     "x": -0.85,
+     "y": -4.46,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 55,
+     "x": -1.7,
+     "y": -4.46,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 56,
+     "x": -2.55,
+     "y": -4.46,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 57,
+     "x": -3.4,
+     "y": -4.46,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 58,
+     "x": -4.25,
+     "y": -4.46,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 59,
+     "x": -5.1,
+     "y": -4.46,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 60,
+     "x": -5.95,
+     "y": -4.46,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": -1.65,
+     "y": 0.89,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": 0.0,
+     "y": 0.89,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": 1.65,
+     "y": 0.89,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": -1.65,
+     "y": 2.54,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": 0.0,
+     "y": 2.54,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": 1.65,
+     "y": 2.54,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": -1.65,
+     "y": 4.19,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": 0.0,
+     "y": 4.19,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": 1.65,
+     "y": 4.19,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 62,
+     "x": -7.0,
+     "y": -4.46,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 63,
+     "x": -7.0,
+     "y": 9.54,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 64,
+     "x": 7.0,
+     "y": 9.54,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 65,
+     "x": 7.0,
+     "y": -4.46,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "ESP32-S3-MINI-1U",
+   "description": "Espressif ESP32-S3-MINI-1U module, 15.4 x 15.4 mm, 65 pins on 73 pads (pin 61 a 9-pad GND grid)",
+   "note": "datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf p.46 Figure 11-2. ESP32-S3-MINI-1U Recommended PCB Land Pattern: pads from the drawing's vector outlines (scale 9.224 pt/mm from the 0.8 mm edge pads), runs fitted to their pitch; pin numbers from the Pin Layout (Top View), p.10; origin the body centre, antenna end up",
+   "style": "explicit",
+   "pins": 65,
+   "body": {
+    "width": 15.4,
+    "height": 15.4
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -7.0,
+     "y": -5.96,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -7.0,
+     "y": -5.11,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -7.0,
+     "y": -4.26,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -7.0,
+     "y": -3.41,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -7.0,
+     "y": -2.56,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -7.0,
+     "y": -1.71,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -7.0,
+     "y": -0.86,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -7.0,
+     "y": -0.01,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -7.0,
+     "y": 0.84,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -7.0,
+     "y": 1.69,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -7.0,
+     "y": 2.54,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -7.0,
+     "y": 3.39,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": -7.0,
+     "y": 4.24,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": -7.0,
+     "y": 5.09,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": -7.0,
+     "y": 5.94,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": -5.95,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": -5.1,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": -4.25,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": -3.4,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": -2.55,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": -1.7,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 22,
+     "x": -0.85,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 23,
+     "x": 0.0,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 24,
+     "x": 0.85,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 25,
+     "x": 1.7,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 26,
+     "x": 2.55,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 27,
+     "x": 3.4,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 28,
+     "x": 4.25,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": 5.1,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 30,
+     "x": 5.95,
+     "y": 7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 31,
+     "x": 7.0,
+     "y": 5.94,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 32,
+     "x": 7.0,
+     "y": 5.09,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 33,
+     "x": 7.0,
+     "y": 4.24,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 34,
+     "x": 7.0,
+     "y": 3.39,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 35,
+     "x": 7.0,
+     "y": 2.54,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 36,
+     "x": 7.0,
+     "y": 1.69,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 37,
+     "x": 7.0,
+     "y": 0.84,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 38,
+     "x": 7.0,
+     "y": -0.01,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": 7.0,
+     "y": -0.86,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 40,
+     "x": 7.0,
+     "y": -1.71,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": 7.0,
+     "y": -2.56,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 42,
+     "x": 7.0,
+     "y": -3.41,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 43,
+     "x": 7.0,
+     "y": -4.26,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 44,
+     "x": 7.0,
+     "y": -5.11,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 45,
+     "x": 7.0,
+     "y": -5.96,
+     "width": 0.8,
+     "height": 0.4,
+     "shape": "rect"
+    },
+    {
+     "pin": 46,
+     "x": 5.95,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 47,
+     "x": 5.1,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 48,
+     "x": 4.25,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 49,
+     "x": 3.4,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 50,
+     "x": 2.55,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 51,
+     "x": 1.7,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 52,
+     "x": 0.85,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 53,
+     "x": 0.0,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 54,
+     "x": -0.85,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 55,
+     "x": -1.7,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 56,
+     "x": -2.55,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 57,
+     "x": -3.4,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 58,
+     "x": -4.25,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 59,
+     "x": -5.1,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 60,
+     "x": -5.95,
+     "y": -7.0,
+     "width": 0.4,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": -1.65,
+     "y": -1.65,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": 0.0,
+     "y": -1.65,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": 1.65,
+     "y": -1.65,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": -1.65,
+     "y": 0.0,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": 0.0,
+     "y": 0.0,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": 1.65,
+     "y": 0.0,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": -1.65,
+     "y": 1.65,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": 0.0,
+     "y": 1.65,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 61,
+     "x": 1.65,
+     "y": 1.65,
+     "width": 1.2,
+     "height": 1.2,
+     "shape": "rect"
+    },
+    {
+     "pin": 62,
+     "x": -7.0,
+     "y": -7.0,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 63,
+     "x": -7.0,
+     "y": 7.0,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 64,
+     "x": 7.0,
+     "y": 7.0,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    },
+    {
+     "pin": 65,
+     "x": 7.0,
+     "y": -7.0,
+     "width": 0.8,
+     "height": 0.8,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "ESP32-S3-WROOM-1",
+   "description": "Espressif ESP32-S3-WROOM-1 module, 18.0 x 25.5 mm, 41 pins on 49 pads (pin 41 a 9-pad GND grid)",
+   "note": "datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf p.45 Figure 11-1. ESP32-S3-WROOM-1 Recommended PCB Land Pattern: pads from the drawing's vector outlines (scale 9.459 pt/mm from the 1.5 mm edge pads), runs fitted to their pitch; pin numbers from the Pin Layout (Top View), p.10; origin the body centre, antenna end up; antenna area (keep copper and parts clear): the top 6.0 mm of the body, full width",
+   "style": "explicit",
+   "pins": 41,
+   "body": {
+    "width": 18.0,
+    "height": 25.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -8.74,
+     "y": -5.285,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -8.74,
+     "y": -4.015,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -8.74,
+     "y": -2.745,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -8.74,
+     "y": -1.475,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -8.74,
+     "y": -0.205,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -8.74,
+     "y": 1.065,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -8.74,
+     "y": 2.335,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -8.74,
+     "y": 3.605,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -8.74,
+     "y": 4.875,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -8.74,
+     "y": 6.145,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -8.74,
+     "y": 7.415,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -8.74,
+     "y": 8.685,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": -8.74,
+     "y": 9.955,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": -8.74,
+     "y": 11.225,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": -6.985,
+     "y": 12.46,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": -5.715,
+     "y": 12.46,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": -4.445,
+     "y": 12.46,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": -3.175,
+     "y": 12.46,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": -1.905,
+     "y": 12.46,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": -0.635,
+     "y": 12.46,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": 0.635,
+     "y": 12.46,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 22,
+     "x": 1.905,
+     "y": 12.46,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 23,
+     "x": 3.175,
+     "y": 12.46,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 24,
+     "x": 4.445,
+     "y": 12.46,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 25,
+     "x": 5.715,
+     "y": 12.46,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 26,
+     "x": 6.985,
+     "y": 12.46,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 27,
+     "x": 8.74,
+     "y": 11.225,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 28,
+     "x": 8.74,
+     "y": 9.955,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": 8.74,
+     "y": 8.685,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 30,
+     "x": 8.74,
+     "y": 7.415,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 31,
+     "x": 8.74,
+     "y": 6.145,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 32,
+     "x": 8.74,
+     "y": 4.875,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 33,
+     "x": 8.74,
+     "y": 3.605,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 34,
+     "x": 8.74,
+     "y": 2.335,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 35,
+     "x": 8.74,
+     "y": 1.065,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 36,
+     "x": 8.74,
+     "y": -0.205,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 37,
+     "x": 8.74,
+     "y": -1.475,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 38,
+     "x": 8.74,
+     "y": -2.745,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": 8.74,
+     "y": -4.015,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 40,
+     "x": 8.74,
+     "y": -5.285,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -2.9,
+     "y": 1.03,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -1.5,
+     "y": 1.03,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -0.1,
+     "y": 1.03,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -2.9,
+     "y": 2.43,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -1.5,
+     "y": 2.43,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -0.1,
+     "y": 2.43,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -2.9,
+     "y": 3.83,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -1.5,
+     "y": 3.83,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -0.1,
+     "y": 3.83,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "ESP32-S3-WROOM-1U",
+   "description": "Espressif ESP32-S3-WROOM-1U module, 18.0 x 19.2 mm, 41 pins on 49 pads (pin 41 a 9-pad GND grid)",
+   "note": "datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf p.46 Figure 11-2. ESP32-S3-WROOM-1U Recommended PCB Land Pattern: pads from the drawing's vector outlines (scale 10.126 pt/mm from the 1.5 mm edge pads), runs fitted to their pitch; pin numbers from the Pin Layout (Top View), p.10; origin the body centre, antenna end up",
+   "style": "explicit",
+   "pins": 41,
+   "body": {
+    "width": 18.0,
+    "height": 19.2
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -8.76,
+     "y": -8.395,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -8.76,
+     "y": -7.125,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -8.76,
+     "y": -5.855,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -8.76,
+     "y": -4.585,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -8.76,
+     "y": -3.315,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -8.76,
+     "y": -2.045,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -8.76,
+     "y": -0.775,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -8.76,
+     "y": 0.495,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -8.76,
+     "y": 1.765,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -8.76,
+     "y": 3.035,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -8.76,
+     "y": 4.305,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -8.76,
+     "y": 5.575,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": -8.76,
+     "y": 6.845,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": -8.76,
+     "y": 8.115,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": -6.985,
+     "y": 9.38,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": -5.715,
+     "y": 9.38,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": -4.445,
+     "y": 9.38,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": -3.175,
+     "y": 9.38,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": -1.905,
+     "y": 9.38,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": -0.635,
+     "y": 9.38,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": 0.635,
+     "y": 9.38,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 22,
+     "x": 1.905,
+     "y": 9.38,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 23,
+     "x": 3.175,
+     "y": 9.38,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 24,
+     "x": 4.445,
+     "y": 9.38,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 25,
+     "x": 5.715,
+     "y": 9.38,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 26,
+     "x": 6.985,
+     "y": 9.38,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 27,
+     "x": 8.76,
+     "y": 8.115,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 28,
+     "x": 8.76,
+     "y": 6.845,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": 8.76,
+     "y": 5.575,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 30,
+     "x": 8.76,
+     "y": 4.305,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 31,
+     "x": 8.76,
+     "y": 3.035,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 32,
+     "x": 8.76,
+     "y": 1.765,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 33,
+     "x": 8.76,
+     "y": 0.495,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 34,
+     "x": 8.76,
+     "y": -0.775,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 35,
+     "x": 8.76,
+     "y": -2.045,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 36,
+     "x": 8.76,
+     "y": -3.315,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 37,
+     "x": 8.76,
+     "y": -4.585,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 38,
+     "x": 8.76,
+     "y": -5.855,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": 8.76,
+     "y": -7.125,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 40,
+     "x": 8.76,
+     "y": -8.395,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -2.92,
+     "y": -2.09,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -1.51,
+     "y": -2.09,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -0.1,
+     "y": -2.09,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -2.92,
+     "y": -0.68,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -1.51,
+     "y": -0.68,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -0.1,
+     "y": -0.68,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -2.92,
+     "y": 0.73,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -1.51,
+     "y": 0.73,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 41,
+     "x": -0.1,
+     "y": 0.73,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "ESP32-WROOM-32E",
+   "description": "Espressif ESP32-WROOM-32E module, 18.0 x 25.5 mm, 39 pins on 47 pads (pin 39 a 9-pad GND grid)",
+   "note": "datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf p.43 Figure 13: ESP32-WROOM-32E Recommended PCB Land Pattern: pads from the drawing's vector outlines (scale 8.362 pt/mm from the 1.5 mm edge pads), runs fitted to their pitch; pin numbers from the Pin Layout (Top View), p.10; origin the body centre, antenna end up; antenna area (keep copper and parts clear): the top 6.19 mm of the body, full width",
+   "style": "explicit",
+   "pins": 39,
+   "body": {
+    "width": 18.0,
+    "height": 25.5
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -8.75,
+     "y": -5.265,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -8.75,
+     "y": -3.995,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -8.75,
+     "y": -2.725,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -8.75,
+     "y": -1.455,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -8.75,
+     "y": -0.185,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -8.75,
+     "y": 1.085,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -8.75,
+     "y": 2.355,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -8.75,
+     "y": 3.625,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -8.75,
+     "y": 4.895,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -8.75,
+     "y": 6.165,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -8.75,
+     "y": 7.435,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -8.75,
+     "y": 8.705,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": -8.75,
+     "y": 9.975,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": -8.75,
+     "y": 11.245,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": -5.705,
+     "y": 12.49,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": -4.435,
+     "y": 12.49,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": -3.165,
+     "y": 12.49,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": -1.895,
+     "y": 12.49,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": -0.625,
+     "y": 12.49,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": 0.645,
+     "y": 12.49,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": 1.915,
+     "y": 12.49,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 22,
+     "x": 3.185,
+     "y": 12.49,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 23,
+     "x": 4.455,
+     "y": 12.49,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 24,
+     "x": 5.725,
+     "y": 12.49,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 25,
+     "x": 8.75,
+     "y": 11.245,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 26,
+     "x": 8.75,
+     "y": 9.975,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 27,
+     "x": 8.75,
+     "y": 8.705,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 28,
+     "x": 8.75,
+     "y": 7.435,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": 8.75,
+     "y": 6.165,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 30,
+     "x": 8.75,
+     "y": 4.895,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 31,
+     "x": 8.75,
+     "y": 3.625,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 32,
+     "x": 8.75,
+     "y": 2.355,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 33,
+     "x": 8.75,
+     "y": 1.085,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 34,
+     "x": 8.75,
+     "y": -0.185,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 35,
+     "x": 8.75,
+     "y": -1.455,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 36,
+     "x": 8.75,
+     "y": -2.725,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 37,
+     "x": 8.75,
+     "y": -3.995,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 38,
+     "x": 8.75,
+     "y": -5.265,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -2.9,
+     "y": 1.05,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -1.5,
+     "y": 1.05,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -0.1,
+     "y": 1.05,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -2.9,
+     "y": 2.45,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -1.5,
+     "y": 2.45,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -0.1,
+     "y": 2.45,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -2.9,
+     "y": 3.85,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -1.5,
+     "y": 3.85,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -0.1,
+     "y": 3.85,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "ESP32-WROOM-32UE",
+   "description": "Espressif ESP32-WROOM-32UE module, 18.0 x 19.2 mm, 39 pins on 47 pads (pin 39 a 9-pad GND grid)",
+   "note": "datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf p.44 Figure 14: ESP32-WROOM-32UE Recommended PCB Land Pattern: pads from the drawing's vector outlines (scale 8.941 pt/mm from the 1.5 mm edge pads), runs fitted to their pitch; pin numbers from the Pin Layout (Top View), p.10; origin the body centre, antenna end up",
+   "style": "explicit",
+   "pins": 39,
+   "body": {
+    "width": 18.0,
+    "height": 19.2
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -8.75,
+     "y": -8.415,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -8.75,
+     "y": -7.145,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -8.75,
+     "y": -5.875,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -8.75,
+     "y": -4.605,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -8.75,
+     "y": -3.335,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -8.75,
+     "y": -2.065,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -8.75,
+     "y": -0.795,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -8.75,
+     "y": 0.475,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -8.75,
+     "y": 1.745,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -8.75,
+     "y": 3.015,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -8.75,
+     "y": 4.285,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -8.75,
+     "y": 5.555,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": -8.75,
+     "y": 6.825,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": -8.75,
+     "y": 8.095,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": -5.705,
+     "y": 9.35,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": -4.435,
+     "y": 9.35,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": -3.165,
+     "y": 9.35,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": -1.895,
+     "y": 9.35,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": -0.625,
+     "y": 9.35,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": 0.645,
+     "y": 9.35,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": 1.915,
+     "y": 9.35,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 22,
+     "x": 3.185,
+     "y": 9.35,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 23,
+     "x": 4.455,
+     "y": 9.35,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 24,
+     "x": 5.725,
+     "y": 9.35,
+     "width": 0.9,
+     "height": 1.5,
+     "shape": "rect"
+    },
+    {
+     "pin": 25,
+     "x": 8.75,
+     "y": 8.095,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 26,
+     "x": 8.75,
+     "y": 6.825,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 27,
+     "x": 8.75,
+     "y": 5.555,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 28,
+     "x": 8.75,
+     "y": 4.285,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": 8.75,
+     "y": 3.015,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 30,
+     "x": 8.75,
+     "y": 1.745,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 31,
+     "x": 8.75,
+     "y": 0.475,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 32,
+     "x": 8.75,
+     "y": -0.795,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 33,
+     "x": 8.75,
+     "y": -2.065,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 34,
+     "x": 8.75,
+     "y": -3.335,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 35,
+     "x": 8.75,
+     "y": -4.605,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 36,
+     "x": 8.75,
+     "y": -5.875,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 37,
+     "x": 8.75,
+     "y": -7.145,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 38,
+     "x": 8.75,
+     "y": -8.415,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -2.9,
+     "y": -2.48,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -1.5,
+     "y": -2.48,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -0.1,
+     "y": -2.48,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -2.9,
+     "y": -1.08,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -1.5,
+     "y": -1.08,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -0.1,
+     "y": -1.08,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -2.9,
+     "y": 0.32,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -1.5,
+     "y": 0.32,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -0.1,
+     "y": 0.32,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    }
+   ]
+  },
+  {
+   "id": "ESP32-WROVER-E",
+   "description": "Espressif ESP32-WROVER-E module, 18.0 x 31.4 mm, 39 pins on 47 pads (pin 39 a 9-pad GND grid)",
+   "note": "datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf p.45 Figure 15: Recommended PCB Land Pattern: pads from the drawing's vector outlines (scale 9.111 pt/mm from the 1.5 mm edge pads), runs fitted to their pitch; pin numbers from the Pin Layout (Top View), p.11; origin the body centre, antenna end up; antenna area (keep copper and parts clear): the top 6.23 mm of the body, full width",
+   "style": "explicit",
+   "pins": 39,
+   "body": {
+    "width": 18.0,
+    "height": 31.4
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -8.76,
+     "y": -8.25,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 2,
+     "x": -8.76,
+     "y": -6.98,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 3,
+     "x": -8.76,
+     "y": -5.71,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 4,
+     "x": -8.76,
+     "y": -4.44,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 5,
+     "x": -8.76,
+     "y": -3.17,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 6,
+     "x": -8.76,
+     "y": -1.9,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 7,
+     "x": -8.76,
+     "y": -0.63,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 8,
+     "x": -8.76,
+     "y": 0.64,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 9,
+     "x": -8.76,
+     "y": 1.91,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 10,
+     "x": -8.76,
+     "y": 3.18,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 11,
+     "x": -8.76,
+     "y": 4.45,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 12,
+     "x": -8.76,
+     "y": 5.72,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 13,
+     "x": -8.76,
+     "y": 6.99,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 14,
+     "x": -8.76,
+     "y": 8.26,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 15,
+     "x": -8.76,
+     "y": 9.53,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 16,
+     "x": -8.76,
+     "y": 10.8,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 17,
+     "x": -8.76,
+     "y": 12.07,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 18,
+     "x": -8.76,
+     "y": 13.34,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 19,
+     "x": -8.76,
+     "y": 14.61,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 20,
+     "x": 8.76,
+     "y": 14.61,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 21,
+     "x": 8.76,
+     "y": 13.34,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 22,
+     "x": 8.76,
+     "y": 12.07,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 23,
+     "x": 8.76,
+     "y": 10.8,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 24,
+     "x": 8.76,
+     "y": 9.53,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 25,
+     "x": 8.76,
+     "y": 8.26,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 26,
+     "x": 8.76,
+     "y": 6.99,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 27,
+     "x": 8.76,
+     "y": 5.72,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 28,
+     "x": 8.76,
+     "y": 4.45,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 29,
+     "x": 8.76,
+     "y": 3.18,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 30,
+     "x": 8.76,
+     "y": 1.91,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 31,
+     "x": 8.76,
+     "y": 0.64,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 32,
+     "x": 8.76,
+     "y": -0.63,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 33,
+     "x": 8.76,
+     "y": -1.9,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 34,
+     "x": 8.76,
+     "y": -3.17,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 35,
+     "x": 8.76,
+     "y": -4.44,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 36,
+     "x": 8.76,
+     "y": -5.71,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 37,
+     "x": 8.76,
+     "y": -6.98,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 38,
+     "x": 8.76,
+     "y": -8.25,
+     "width": 1.5,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -2.9,
+     "y": -1.85,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -1.5,
+     "y": -1.85,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -0.1,
+     "y": -1.85,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -2.9,
+     "y": -0.45,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -1.5,
+     "y": -0.45,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -0.1,
+     "y": -0.45,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -2.9,
+     "y": 0.95,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -1.5,
+     "y": 0.95,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    },
+    {
+     "pin": 39,
+     "x": -0.1,
+     "y": 0.95,
+     "width": 0.9,
+     "height": 0.9,
+     "shape": "rect"
+    }
+   ]
+  }
+ ]
+}

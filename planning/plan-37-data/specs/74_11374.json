@@ -1,0 +1,182 @@
+{
+ "id": "74_11374",
+ "function": "Register",
+ "description": "Octal edge-triggered D-type flip-flop with 3-state outputs (flow-through, center-pin power)",
+ "drawer": [
+  "Logic",
+  "Registers"
+ ],
+ "note": "Pinout and function table: 74act11374 p.1 (GND 5-8, VCC 18-19). OE high: Q = Z.",
+ "model": "parallel",
+ "pinouts": {
+  "p24": [
+   {
+    "number": 1,
+    "name": "1Q",
+    "role": "output"
+   },
+   {
+    "number": 2,
+    "name": "2Q",
+    "role": "output"
+   },
+   {
+    "number": 3,
+    "name": "3Q",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "4Q",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 6,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 7,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 8,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "5Q",
+    "role": "output"
+   },
+   {
+    "number": 10,
+    "name": "6Q",
+    "role": "output"
+   },
+   {
+    "number": 11,
+    "name": "7Q",
+    "role": "output"
+   },
+   {
+    "number": 12,
+    "name": "8Q",
+    "role": "output"
+   },
+   {
+    "number": 13,
+    "name": "CLK",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "8D",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "7D",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "6D",
+    "role": "input"
+   },
+   {
+    "number": 17,
+    "name": "5D",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 19,
+    "name": "VCC",
+    "role": "power"
+   },
+   {
+    "number": 20,
+    "name": "4D",
+    "role": "input"
+   },
+   {
+    "number": 21,
+    "name": "3D",
+    "role": "input"
+   },
+   {
+    "number": 22,
+    "name": "2D",
+    "role": "input"
+   },
+   {
+    "number": 23,
+    "name": "1D",
+    "role": "input"
+   },
+   {
+    "number": 24,
+    "name": "OE",
+    "role": "input"
+   }
+  ]
+ },
+ "groups": [
+  {
+   "d": [
+    "1D",
+    "2D",
+    "3D",
+    "4D",
+    "5D",
+    "6D",
+    "7D",
+    "8D"
+   ],
+   "clk": {
+    "pin": "CLK",
+    "edge": "rising"
+   },
+   "outputs": [
+    {
+     "q": [
+      "1Q",
+      "2Q",
+      "3Q",
+      "4Q",
+      "5Q",
+      "6Q",
+      "7Q",
+      "8Q"
+     ],
+     "oe": {
+      "pin": "OE",
+      "active": "low"
+     }
+    }
+   ]
+  }
+ ],
+ "timing": {
+  "ACT": {
+   "rise": 8.5,
+   "fall": 8.5,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "CLK to Q typ, 5 V 50 pF; VCC 4.5-5.5 V (74act11374 switching characteristics)"
+  }
+ }
+}

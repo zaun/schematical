@@ -26,7 +26,7 @@ typedef enum {
     PART_LED, PART_7SEG, PART_OSCILLATOR, PART_SUPPLY, PART_EEPROM, PART_LATCH, PART_COUNTER,
     PART_SHIFT, PART_CPU, PART_CHARLCD, PART_SERIAL, PART_CONNECTOR, PART_PIO, PART_DECODER,
     PART_BUFFER, PART_MUX, PART_HEADER, PART_ARITH, PART_CONVERTER, PART_RTC, PART_DIODE,
-    PART_CAPACITOR, PART_RESISTOR
+    PART_CAPACITOR, PART_REGISTER, PART_MCU, PART_RESISTOR
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -153,6 +153,13 @@ typedef struct { const char *type; int polarized; uint64_t capacitance_ff;
 typedef struct { size_t resistor_count; uint64_t milliohms;
                  uint32_t tolerance_ppm, power_mw; } PartResistor;
 
+/* A microcontroller (plan-36-F): facts only, no simulation model (its
+   device says "simulated": false). core: "avr", "avrrc", "avrxt", "avrxm",
+   "cortex-m0plus", "xtensa-lx6", "xtensa-lx7" or "riscv". max_hz: the
+   highest clock. Sizes in bytes; 0 = none (eeprom, psram) or external
+   (RP2040 flash). A part may override clock, flash and psram. */
+typedef struct { const char *core; uint64_t max_hz; uint32_t flash, ram, eeprom, psram; } PartMcu;
+
 /* ---- Footprints (Parts/footprints.json, docs/parts-format.md) ----------- */
 
 typedef enum { PAD_RECT, PAD_ROUND } PadShape;
@@ -201,6 +208,9 @@ typedef struct Part {
     const char *package, *function, *description;
     const char *const *drawer; size_t drawer_count;
     unsigned flags;
+    int simulated;                     /* 1 = the engine has a model for the part; 0 = the
+                                          device says "simulated": false, and
+                                          circuit_add_part refuses the part */
     const PartPin *pins; size_t pin_count;
     const PartLogic *logic;
     const PartSram *sram;
@@ -229,6 +239,7 @@ typedef struct Part {
     const PartHeader *header;
     const PartConverter *converter;
     const PartCapacitor *capacitor;
+    const PartMcu *mcu;
     const PartResistor *resistor;
     /* Dual-supply parts (plan-20-F): domain 0 is the A side (its vcc is
        Part.vcc), domain 1 the B side; NULL/0 for single-supply parts. */

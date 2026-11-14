@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// A snapshot of a schematic as an export draws it: every text block, bus,
-/// port, wire, junction, net label and part, with nothing selected or hovered, no tool
+/// port, wire, junction, net label and part (with its reference), with nothing selected or hovered, no tool
 /// preview and no play-mode state. It paints itself through any
 /// `SchematicPainter`, in the live canvas's order (text blocks, buses,
 /// ports, wires, net labels, parts), minus the grid and pin markers (plan-28-B § 3.2).
@@ -34,7 +34,7 @@ struct SchematicScene {
 
     func paint<P: SchematicPainter>(into painter: inout P) {
         NoteLayer.paint(&painter, notes: notes, selectedNoteIDs: [], hoveredNoteID: nil)
-        BusLayer.paint(&painter, buses: buses, selectedBusID: nil, hoveredBusID: nil, preview: nil)
+        BusLayer.paint(&painter, buses: buses, selectedBusIDs: [], hoveredBusID: nil, preview: nil)
         PortLayer.paint(&painter, buses: buses, selectedPortID: nil, hoveredPortID: nil)
         WireLayer.paint(&painter, routes: routes, junctions: junctions, selectedWireIDs: [],
                         hoveredWireID: nil, preview: nil)
@@ -72,6 +72,7 @@ struct SchematicScene {
                 CharacterLCDSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired,
                                              frame: nil, backlights: [])
             }
+            ReferenceLabel.paint(&placed, chip: chip, isHighlighted: false)
         }
     }
 }

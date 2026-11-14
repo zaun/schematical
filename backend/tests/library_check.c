@@ -430,6 +430,57 @@ static void check_capacitor_cases(void) {
     expect_fail("capacitor volts 0", CAP_DEVICE("ceramic", ",'farads':1e-7", CAP_12, ",'volts':0"),
                 "\"volts\" must be above 0 and at most 10000");
 }
+/* plan-36-F: the mcu kind. A device must say "simulated": false; core,
+   clock, flash and ram are required; a pinout needs power and ground; a
+   part must resolve a vcc. */
+#define MCU_PINS(GND_ROLE) \
+    "{'number':1,'name':'VCC','role':'power'},{'number':2,'name':'GND','role':'" GND_ROLE "'}," \
+    "{'number':3,'name':'PB0','role':'inout'},{'number':4,'name':'PB1','role':'inout'}"
+#define MCU_DEVICE(KEYS, GND_ROLE, PART_KEYS) \
+    HEAD("mcu") "{'id':'M','function':'MCU','description':'d','drawer':['Microcontroller']," \
+    "'pinouts':{'p':[" MCU_PINS(GND_ROLE) "]}" KEYS "," \
+    "'parts':[{'name':'M-1','package':'DIP','pinout':'p','footprint':'T4'" PART_KEYS "}]}" TAIL
+#define MCU_OK ",'simulated':false,'core':'avr','clock':20000000,'flash':8192,'ram':512"
+
+static void check_mcu_cases(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const Part *part;
+
+    CHECK(load(library, MCU_DEVICE(MCU_OK ",'eeprom':256,'vcc':[1.8,5.5]", "ground",
+                                   ",'clock':10000000,'psram':2097152"), &error) == 0);
+    part = part_library_find(library, "M-1");
+    CHECK(part != NULL && part->kind == PART_MCU && part->simulated == 0 && part->mcu != NULL &&
+          strcmp(part->mcu->core, "avr") == 0 && part->mcu->max_hz == 10000000ULL &&
+          part->mcu->flash == 8192 && part->mcu->ram == 512 && part->mcu->eeprom == 256 &&
+          part->mcu->psram == 2097152 && part->vcc != NULL && part->vcc->min_mv == 1800 &&
+          part->vcc->max_mv == 5500);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   valid mcu part (part clock and psram override the device)\n");
+    expect_fail("mcu unknown core",
+                MCU_DEVICE(",'simulated':false,'core':'z80','clock':1,'flash':0,'ram':0,'vcc':[3,3.6]",
+                           "ground", ""),
+                "unknown mcu core \"z80\"");
+    expect_fail("mcu clock 0",
+                MCU_DEVICE(",'simulated':false,'core':'avr','clock':0,'flash':0,'ram':0,'vcc':[3,3.6]",
+                           "ground", ""),
+                "\"clock\" must be above 0");
+    expect_fail("mcu without simulated",
+                MCU_DEVICE(",'core':'avr','clock':1,'flash':0,'ram':0,'vcc':[3,3.6]", "ground", ""),
+                "an mcu has no simulation model: \"simulated\" must be false");
+    expect_fail("mcu simulated true",
+                MCU_DEVICE(",'simulated':true,'core':'avr','clock':1,'flash':0,'ram':0,'vcc':[3,3.6]",
+                           "ground", ""),
+                "an mcu has no simulation model: \"simulated\" must be false");
+    expect_fail("mcu pinout with no ground", MCU_DEVICE(MCU_OK ",'vcc':[3,3.6]", "inout", ""),
+                "an mcu pinout needs a ground pin");
+    expect_fail("mcu without vcc", MCU_DEVICE(MCU_OK, "ground", ""), "missing \"vcc\"");
+}
+#undef MCU_OK
+#undef MCU_DEVICE
+#undef MCU_PINS
+
 #undef CAP_PIN
 #undef CAP_DEVICE
 #undef CAP_12
@@ -718,6 +769,37 @@ static void check_header_kind(void) {
                 HDR_DEVICE("'rows':2,'genders':['Male']", "'p':" HDR_PINS3,
                            "{'name':'H','package':'Straight','pinout':'p','footprint':'T4'}"),
                 "a header's pin count must be a multiple of its rows");
+
+    /* plan-36-F: "simulated", a common device key any kind may carry. */
+    library = part_library_create();
+    error = NULL;
+    CHECK(load(library,
+               HDR_DEVICE("'rows':1,'genders':['Male'],'simulated':false", "'p':" HDR_PINS2,
+                          "{'name':'H-UNSIM','package':'Straight','pinout':'p','footprint':'T2'}"),
+               &error) == 0);
+    if (error != NULL) {
+        printf("FAIL header with simulated false: %s\n", error);
+        failures++;
+    }
+    two = part_library_find(library, "H-UNSIM");
+    CHECK(two != NULL && two->simulated == 0);
+    free(error);
+    part_library_destroy(library);
+    library = part_library_create();
+    error = NULL;
+    CHECK(load(library,
+               HDR_DEVICE("'rows':1,'genders':['Male'],'simulated':true", "'p':" HDR_PINS2,
+                          "{'name':'H-SIM','package':'Straight','pinout':'p','footprint':'T2'}"),
+               &error) == 0);
+    two = part_library_find(library, "H-SIM");
+    CHECK(two != NULL && two->simulated == 1);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   header with \"simulated\": false loads unsimulated parts; true and absent simulate\n");
+    expect_fail("header simulated 1",
+                HDR_DEVICE("'rows':1,'genders':['Male'],'simulated':1", "'p':" HDR_PINS2,
+                           "{'name':'H','package':'Straight','pinout':'p','footprint':'T2'}"),
+                "\"simulated\" must be true or false");
 }
 
 /* ---- plan-18-A: LED "colors" and the "footprintChoices" part key -------- */
@@ -2561,6 +2643,56 @@ static void check_explicit_repeated_pins(void) {
                    FP_EXPLICIT_WITH("'pads':[" EPAD("1", "-1") "," EPAD("1", "1") "]"), "pin 2 has no pad");
 }
 
+/* plan-36-J: explicit pads named by ball (a staggered WLCSP, a dual-row
+   QFN's A1/B1 terminals). Grouped by ball in order of first use, then the
+   unnumbered pads; a ball-pinout part matches them by designator. */
+#define BPAD(BALL, X) "{'ball':'" BALL "','x':" X ",'y':0,'width':0.4,'height':0.4,'shape':'rect'}"
+#define FP_EBALL(PINS, PADS) \
+    FP_FILE("{'id':'EB','description':'d','style':'explicit','pins':" PINS ",'body':{'width':1,'height':1}," \
+            "'pads':[" PADS "]}")
+static void check_explicit_balls(void) {
+    PartLibrary *library = part_library_create();
+    char *error = NULL;
+    const PartFootprint *fp;
+    const Part *part;
+    char *parts;
+
+    CHECK(load_fp(library, FP_EBALL("2", BPAD("B2", "0") "," EPAD("0", "3") "," BPAD("A1", "-1") "," BPAD("B2", "1")),
+                  &error) == 0);
+    fp = part_library_find_footprint(library, "EB");
+    CHECK(fp != NULL && fp->pins == 2 && fp->pad_count == 4);
+    check_pad(fp, 0, "B2", 0, 0, 0.4, 0.4, 0, PAD_RECT);
+    check_pad(fp, 1, "B2", 1, 0, 0.4, 0.4, 0, PAD_RECT);
+    check_pad(fp, 2, "A1", -1, 0, 0.4, 0.4, 0, PAD_RECT);
+    check_pad(fp, 3, NULL, 3, 0, 0.4, 0.4, 0, PAD_RECT);
+    printf("ok   explicit ball pads: B2, B2, A1, then the unnumbered pad\n");
+    parts = json(HEAD("led") "{'id':'led-eb','function':'LED','description':'d','drawer':[],"
+                 "'pinouts':{'bga':[" BALL_LED_PINS "]},'colors':['Red'],'anode':'A','cathode':'K',"
+                 "'parts':[{'name':'LED-EB','package':'WLCSP','pinout':'bga','footprint':'EB'}]}" TAIL);
+    CHECK(load_parts(library, parts, "eb.json", &error) == 0);
+    if (error != NULL) {
+        printf("FAIL ball part on explicit ball pads: %s\n", error);
+        failures++;
+    }
+    part = part_library_find(library, "LED-EB");
+    CHECK(part != NULL && part->footprint == fp);
+    free(parts);
+    free(error);
+    part_library_destroy(library);
+    printf("ok   a ball-pinout part loads on an explicit footprint with ball pads A1 B2\n");
+
+    expect_fp_fail("explicit balls: a ball missing", FP_EBALL("2", BPAD("A1", "0") "," BPAD("A1", "1")),
+                   "1 balls for 2 pins");
+    expect_fp_fail("explicit balls: one ball too many",
+                   FP_EBALL("2", BPAD("A1", "0") "," BPAD("B2", "1") "," BPAD("C3", "2")), "more than 2 balls");
+    expect_fp_fail("explicit balls: mixed with numbered pads", FP_EBALL("2", BPAD("A1", "0") "," EPAD("2", "1")),
+                   "\"ball\" pads and numbered pads in one footprint");
+    expect_fp_fail("explicit balls: pin and ball",
+                   FP_EBALL("1", "{'pin':1,'ball':'A1','x':0,'y':0,'width':0.4,'height':0.4,'shape':'rect'}"),
+                   "a pad has \"pin\" or \"ball\", not both");
+    expect_fp_fail("explicit balls: not a ball name", FP_EBALL("1", BPAD("I1", "0")), "\"I1\" is not a ball name");
+}
+
 /* Slotted and non-plated holes on explicit pads (USB connector shells). */
 #define SLOT_PAD(KEYS) "{'pin':2,'x':3,'y':0,'width':1.0,'height':2.0,'shape':'round','drill':0.6" KEYS "}"
 #define NPTH_PAD(KEYS) "{'pin':0,'x':-3,'y':0,'shape':'round'," KEYS "}"
@@ -3041,6 +3173,7 @@ int main(void) {
     check_datasheets();
     check_footprint_styles();
     check_explicit_repeated_pins();
+    check_explicit_balls();
     check_explicit_holes();
     check_usb_connector();
     check_footprint_corners();
@@ -3067,6 +3200,7 @@ int main(void) {
     check_rtc_cases();
     check_diode_cases();
     check_capacitor_cases();
+    check_mcu_cases();
     check_valid_led();
     check_footprint_choices();
     check_duplicate_across_calls();

@@ -42,8 +42,11 @@ struct SchematicNetlist {
 enum NetlistBuilder {
     /// Two wire ends are the same electrical node when a wire joins them, or
     /// when they meet at a junction. Every bus port pin for the same bus wire,
-    /// on any port of that bus, is one node too, and so is every net label
-    /// point of one name (ignoring case). A No Connect joins nothing: a wire
+    /// on any port of that bus or of a bus linked with it (same name), is
+    /// one node too, and so is every net label point of one name (case
+    /// sensitive). A bus wire's pins join the net labels of the wire's name
+    /// (case sensitive), so bus wires of one name on different buses meet
+    /// only through such a label. A No Connect joins nothing: a wire
     /// ending on one joins nothing through it, so its pin stays on a net of
     /// its own. Union-find over the wire ends gives the nets.
     static func build(chips: [PlacedChip], wires: [Wire], buses: [Bus],
@@ -76,17 +79,18 @@ enum NetlistBuilder {
         }
 
         // Port pins that some wire ends on, grouped by bus wire: each group is
-        // one net, whichever line of the bus its ports are on. Unwired pins
-        // add nothing.
+        // one net, whichever line of the bus its ports are on, and on every
+        // bus linked with it (same name). Unwired pins add nothing.
         let portBus = Dictionary(buses.flatMap { bus in bus.ports.map { ($0.id, bus.id) } },
                                  uniquingKeysWith: { first, _ in first })
+        let linked = Bus.linkedWireIDs(buses)
         var groups: [UUID: [WireEnd]] = [:]
         var seen = Set<WireEnd>()
         for wire in wires {
             for end in [wire.start, wire.end] {
                 guard case let .busPin(ref) = end, portBus[ref.portID] != nil,
                       seen.insert(end).inserted else { continue }
-                groups[ref.wireID, default: []].append(end)
+                groups[linked[ref.wireID] ?? ref.wireID, default: []].append(end)
             }
         }
         for group in groups.values {
@@ -104,6 +108,18 @@ enum NetlistBuilder {
         for group in labelGroups.values {
             for end in group.dropFirst() {
                 union(group[0], end)
+            }
+        }
+
+        // A bus wire is on the net of the labels of its name (case and all):
+        // its wired port pins join them.
+        var busWireName: [UUID: String] = [:]
+        for bus in buses {
+            for wire in bus.wires { busWireName[wire.id] = wire.name }
+        }
+        for (wireID, group) in groups {
+            if let name = busWireName[wireID], let label = labelGroups[name]?.first {
+                union(group[0], label)
             }
         }
 
@@ -584,6 +600,21 @@ final class SimulationController {
         case CIRCUIT_1: return .value(.green)
         case CIRCUIT_X: return .value(.orange)
         default: return .normal
+        }
+    }
+
+    /// The logic level ("0", "1", "X" for unknown, "Z" for floating) of the
+    /// net on a pin of a part, in the running simulation; nil when it isn't
+    /// running or the pin is on no net. Used by the agent-control tools.
+    func level(ofPin designator: String, on chipID: UUID) -> String? {
+        guard isRunning, let netlist, let part = netlist.chipIDs.firstIndex(of: chipID),
+              let connection = netlist.connections.first(where: { $0.part == part && $0.pin == designator })
+        else { return nil }
+        switch netValue(connection.net) {
+        case CIRCUIT_0: return "0"
+        case CIRCUIT_1: return "1"
+        case CIRCUIT_X: return "X"
+        default: return "Z"
         }
     }
 

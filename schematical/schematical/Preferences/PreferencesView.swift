@@ -26,6 +26,36 @@ enum PreferenceKey {
     /// Custom rules (JSON `DesignRules`), for Settings ▸ DRC Defaults.
     static let drcManufacturer = "drcManufacturer"
     static let drcCustomRules = "drcCustomRules"
+    /// The reference prefix per part category, for Settings ▸ Reference Defaults
+    /// (JSON; see `ReferencePrefixes`).
+    static let referencePrefixes = "referencePrefixes"
+    /// Net label and bus wire names in uppercase only: what is typed is
+    /// uppercased. On unless turned off (names are case sensitive, so
+    /// "clk" and "CLK" would be two nets).
+    static let uppercaseNames = "uppercaseNames"
+    /// Whether the AI agent control server runs (`AutomationServer`). Off
+    /// unless turned on.
+    static let automationEnabled = "automationEnabled"
+    /// The secret an agent must send (`AutomationServer.token`).
+    static let automationToken = "automationToken"
+    /// A security-scoped bookmark of the folder agents may open and save in
+    /// (`AutomationFolder`).
+    static let automationFolder = "automationFolder"
+}
+
+/// Settings ▸ General Defaults ▸ Names: how net label and bus wire names
+/// are typed.
+enum NamePreferences {
+    /// Uppercase only? On while the key is unset.
+    static func uppercaseOnly(defaults: UserDefaults = .standard) -> Bool {
+        defaults.object(forKey: PreferenceKey.uppercaseNames) as? Bool ?? true
+    }
+
+    /// `name` as typed into a net label or bus wire name: uppercased while
+    /// `uppercaseOnly`.
+    static func typed(_ name: String, defaults: UserDefaults = .standard) -> String {
+        uppercaseOnly(defaults: defaults) ? name.uppercased() : name
+    }
 }
 
 /// The options a newly placed part starts with, from Settings. Nil means the
@@ -91,17 +121,62 @@ enum NewPartOptions {
     }
 }
 
-/// The Settings window (Schematical ▸ Settings…, ⌘,).
-struct PreferencesView: View {
-    var body: some View {
-        TabView {
-            PartListPreferencesView()
-                .tabItem { Label("Part List", systemImage: "list.bullet") }
-            DefaultsPreferencesView()
-                .tabItem { Label("Defaults", systemImage: "slider.horizontal.3") }
-            DesignRulePreferencesView()
-                .tabItem { Label("DRC Defaults", systemImage: "checkmark.seal") }
+/// A page of the Settings window, in sidebar order.
+enum PreferencesPage: String, CaseIterable, Identifiable {
+    case partList, defaults, references, designRules, automation
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .partList: "Part List"
+        case .defaults: "General Defaults"
+        case .references: "Reference Defaults"
+        case .designRules: "DRC Defaults"
+        case .automation: "AI Agents"
         }
+    }
+
+    var systemImage: String {
+        switch self {
+        case .partList: "list.bullet"
+        case .defaults: "slider.horizontal.3"
+        case .references: "number"
+        case .designRules: "checkmark.seal"
+        case .automation: "sparkles"
+        }
+    }
+}
+
+/// The Settings window (Schematical ▸ Settings…, ⌘,): a sidebar of pages,
+/// like Xcode's, with the picked page beside it under its title.
+struct PreferencesView: View {
+    @AppStorage("preferencesPage") private var page = PreferencesPage.partList
+
+    var body: some View {
+        NavigationSplitView {
+            List(PreferencesPage.allCases, selection: Binding(
+                get: { page },
+                // Clicking empty sidebar space would clear it; keep the page.
+                set: { if let picked = $0 { page = picked } }
+            )) { page in
+                Label(page.title, systemImage: page.systemImage).tag(page)
+            }
+            .navigationSplitViewColumnWidth(200)
+            .toolbar(removing: .sidebarToggle)
+        } detail: {
+            Group {
+                switch page {
+                case .partList: PartListPreferencesView()
+                case .defaults: DefaultsPreferencesView()
+                case .references: ReferencePreferencesView()
+                case .designRules: DesignRulePreferencesView()
+                case .automation: AutomationPreferencesView()
+                }
+            }
+            .navigationTitle(page.title)
+        }
+        .frame(width: 720, height: 560)
     }
 }
 
@@ -126,12 +201,10 @@ private struct PartListPreferencesView: View {
             }
         }
         .formStyle(.grouped)
-        .frame(width: 420)
-        .fixedSize(horizontal: false, vertical: true)
     }
 }
 
-/// Settings ▸ Defaults: the options a newly placed part starts with.
+/// Settings ▸ General Defaults: the options a newly placed part starts with.
 private struct DefaultsPreferencesView: View {
     @AppStorage(PreferenceKey.genericLEDColor) private var ledColor = ""
     @AppStorage(PreferenceKey.genericLEDFootprint) private var ledFootprint = ""
@@ -141,11 +214,21 @@ private struct DefaultsPreferencesView: View {
     @AppStorage(PreferenceKey.headerFootprintType) private var headerFootprintType = ""
     @AppStorage(PreferenceKey.pullResistorOhms) private var pullOhms = 0.0
     @AppStorage(PreferenceKey.pullResistorFootprint) private var pullFootprint = ""
+    @AppStorage(PreferenceKey.uppercaseNames) private var uppercaseNames = true
     /// The app-wide catalog, loaded once at launch.
     private let catalog = PartCatalogStore.shared
 
     var body: some View {
         Form {
+            Section {
+                Toggle("Uppercase only", isOn: $uppercaseNames)
+            } header: {
+                Text("Net Label and Bus Wire Names")
+            } footer: {
+                Text("Names are case sensitive: CLK and clk are different nets. While this is on, letters typed into a net label or bus wire name become uppercase. Names already in a schematic are left as they are.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
             if let led = catalog.part(named: NewPartOptions.genericLED) {
                 Section {
                     if !led.colors.isEmpty {
@@ -242,7 +325,91 @@ private struct DefaultsPreferencesView: View {
             }
         }
         .formStyle(.grouped)
-        .frame(width: 420)
-        .fixedSize(horizontal: false, vertical: true)
+    }
+}
+
+/// Settings ▸ AI Agents: turns on the server that lets an AI agent drive
+/// the running app (`AutomationServer`).
+private struct AutomationPreferencesView: View {
+    @AppStorage(PreferenceKey.automationEnabled) private var enabled = false
+    @AppStorage(PreferenceKey.automationToken) private var token = ""
+    private let server = AutomationServer.shared
+    private let folder = AutomationFolder.shared
+
+    var body: some View {
+        Form {
+            Section {
+                Toggle("Allow AI agents to control Schematical", isOn: $enabled)
+            } footer: {
+                Text("Lets an AI agent that speaks MCP, such as Claude Code, work in the open windows: search parts, place them, draw wires, lay out and route the board, run the design rule check, run the simulation, and see pictures of the schematic and board. Its edits happen live and can be undone. The server only accepts connections from this Mac that carry the key below, and only while this is on.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            if enabled {
+                Section {
+                    LabeledContent("Status") {
+                        Text(statusText).foregroundStyle(.secondary)
+                    }
+                    LabeledContent("Address") {
+                        Text(AutomationServer.url).textSelection(.enabled)
+                    }
+                    LabeledContent("Key") {
+                        HStack {
+                            Text(token.isEmpty ? AutomationServer.token : token)
+                                .textSelection(.enabled).lineLimit(1).truncationMode(.middle)
+                            Button("New Key") { token = AutomationServer.regenerateToken() }
+                        }
+                    }
+                    LabeledContent("Claude Code") {
+                        VStack(alignment: .trailing, spacing: 6) {
+                            Text(AutomationServer.addCommand).textSelection(.enabled).font(.caption.monospaced())
+                            Button("Copy Command") {
+                                NSPasteboard.general.clearContents()
+                                NSPasteboard.general.setString(AutomationServer.addCommand, forType: .string)
+                            }
+                        }
+                    }
+                } header: {
+                    Text("Connecting")
+                } footer: {
+                    Text("Run the Claude Code command once in a terminal. Other agents can use the address as a Streamable HTTP MCP server and send the key as “Authorization: Bearer …”. A new key disconnects agents using the old one.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                Section {
+                    LabeledContent("Folder") {
+                        HStack {
+                            Text(folder.url?.path ?? "None chosen")
+                                .foregroundStyle(folder.url == nil ? .secondary : .primary)
+                                .lineLimit(1).truncationMode(.middle)
+                            Button("Choose…") { folder.choose() }
+                            if folder.url != nil { Button("Clear") { folder.clear() } }
+                        }
+                    }
+                } header: {
+                    Text("Files")
+                } footer: {
+                    Text("Agents can open, save and export (Gerber) files only inside this folder. With none chosen, those tools are off; everything else works.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+        }
+        .formStyle(.grouped)
+        .onChange(of: enabled) { _, value in
+            AutomationServer.shared.setEnabled(value)
+        }
+        .onAppear {
+            if token.isEmpty { token = AutomationServer.token }
+            folder.load()
+        }
+    }
+
+    private var statusText: String {
+        guard server.isListening else { return "Starting…" }
+        guard let last = server.lastRequest else { return "Listening; no agent has connected yet" }
+        let name = server.clientName ?? "An agent"
+        let ago = Int(Date().timeIntervalSince(last))
+        return "\(name) connected; last request \(ago < 5 ? "just now" : "\(ago) s ago"); \(server.callCount) tool calls"
     }
 }

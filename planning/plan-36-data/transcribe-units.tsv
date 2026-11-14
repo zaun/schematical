@@ -1,0 +1,95 @@
+pdf	geometry	pins	type	code	devices	rows	name
+datasheets/mcu/attiny13a.pdf	quad	20	QFN	20M1	ATTINY13A	1	20-pad, 4 x 4 x 0.8 mm Body, Quad Flat No-Lead/Micro Lead Frame Package (QFN/MLF)
+datasheets/mcu/espressif/esp32-c3-mini-1_datasheet_en.pdf	module			ESP32-C3-MINI-1	ESP32-C3-MINI-1	4	
+datasheets/mcu/espressif/esp32-c3-wroom-02_datasheet_en.pdf	module			ESP32-C3-WROOM-02	ESP32-C3-WROOM-02	2	
+datasheets/mcu/espressif/esp32-c6-mini-1_mini-1u_datasheet_en.pdf	module			ESP32-C6-MINI-1	ESP32-C6-MINI-1	4	
+datasheets/mcu/espressif/esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf	module			ESP32-C6-WROOM-1	ESP32-C6-WROOM-1	4	
+datasheets/mcu/espressif/esp32-mini-1_datasheet_en.pdf	module			ESP32-MINI-1	ESP32-MINI-1	3	
+datasheets/mcu/espressif/esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf	module			ESP32-S2-MINI-2	ESP32-S2-MINI-2	4	
+datasheets/mcu/espressif/esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf	module			ESP32-S2-SOLO-2	ESP32-S2-SOLO-2	4	
+datasheets/mcu/espressif/esp32-s3-mini-1_mini-1u_datasheet_en.pdf	module			ESP32-S3-MINI-1	ESP32-S3-MINI-1	3	
+datasheets/mcu/espressif/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf	module			ESP32-S3-WROOM-1	ESP32-S3-WROOM-1	11	
+datasheets/mcu/espressif/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf	module			ESP32-WROOM-32	ESP32-WROOM-32	4	
+datasheets/mcu/espressif/esp32-wrover-e_esp32-wrover-ie_datasheet_en.pdf	module			ESP32-WROVER	ESP32-WROVER	5	
+datasheets/mcu/microchip/1062s.pdf	quad	32	QFN	32M1-A	ATTINY28V	1	32-pad, 5 x 5 x 1.0 body, Lead Pitch 0.50 mm Thin Plastic Quad Flat No-Lead (VQFN)
+datasheets/mcu/microchip/1477S.pdf	dual	20	SO	20S	ATTINY26	4	20-lead, 0.300" Wide, Plastic Gull Wing Small Outline Package (SOIC)
+datasheets/mcu/microchip/1477S.pdf	quad	32	QFN	32M1-A	ATTINY26	3	32-pad, 5 x 5 x 1.0 body, Lead Pitch 0.50 mm Thin Plastic Quad Flat No-Lead (VQFN)
+datasheets/mcu/microchip/2502S.pdf	quad	44	QFP	44A	ATMEGA8535	1	44-lead, Thin (1.0mm) Plastic Gull Wing Quad Flat Package (TQFP)
+datasheets/mcu/microchip/2512S.pdf	quad	44	QFN	44M1	ATMEGA8515	1	44-pad, 7 × 7 × 1.0mm body, lead pitch 0.50mm, Thermally Enhanced Plastic Very Thin Quad Flat No-Lead (VQFN)
+datasheets/mcu/microchip/2535S.pdf	quad	20	QFN	20M1	ATTINY13	2	20-pad, 4 x 4 x 0.8 mm Body, Quad Flat No-Lead/Micro Lead Frame Package (QFN/MLF)
+datasheets/mcu/microchip/2552S.pdf	quad	100	QFP	100A	ATMEGA3290,ATMEGA6490	6	100-lead, Thin (1.0mm) Plastic Gull Wing Quad Flat Package (TQFP)
+datasheets/mcu/microchip/2570S.pdf	quad	100	QFP	100A	ATMEGA3250	1	100-lead, Thin (1.0mm) Plastic Gull Wing Quad Flat Package (TQFP)
+datasheets/mcu/microchip/2570S.pdf	quad	64	QFN	64M1	ATMEGA325	3	64-pad, 9 x 9 x 1.0mm, Quad Flat No-Lead/Micro Lead Frame Package (QFN/MLF)
+datasheets/mcu/microchip/2570S.pdf	quad	64	QFP	64A	ATMEGA325	3	64-lead, 14 * 14mm body size, 1.0mm body thickness, 0.8mm lead pitch, thin profile plastic quad flat package (TQFP)
+datasheets/mcu/microchip/7593S.pdf	quad	64	QFN	PS	AT90USB1286,AT90USB1287,AT90USB646	3	64-VFQFN Exposed Pad
+datasheets/mcu/microchip/7593S.pdf	quad	64	QFP	MD	AT90USB1286,AT90USB646,AT90USB647	3	64-TQFP
+datasheets/mcu/microchip/7707S.pdf	quad	32	QFN	QFN32	AT90USB162,AT90USB82	2	32-Lead, Quad Flat No lead
+datasheets/mcu/microchip/7707S.pdf	quad	32	QFP	TQFP32	AT90USB162	1	32-TQFP
+datasheets/mcu/microchip/8006S.pdf	dual	14	SO	14S1	ATTINY24,ATTINY44,ATTINY84	11	14-lead, 0.150" Wide Body, Plastic Gull Wing Small Outline Package (SOIC)
+datasheets/mcu/microchip/8006S.pdf	quad	20	QFN	20M1	ATTINY24,ATTINY44,ATTINY84	6	20-pad, 4 x 4 x 0.8 mm Body, Quad Flat No-Lead/Micro Lead Frame Package (QFN/MLF)
+datasheets/mcu/microchip/8019S.pdf	quad	64	QFP	64A	ATMEGA165P	2	64-lead, 14 * 14mm body size, 1.0mm body thickness, 0.8mm lead pitch, thin profile plastic quad flat package (TQFP)
+datasheets/mcu/microchip/8048S.pdf	dual	20	SO	20S2	ATTINY43U	1	20-lead, 0.300" Wide, Plastic Gull Wing Small Outline Package (SOIC)
+datasheets/mcu/microchip/8183s.pdf	grid	15	BGA	15CC1	ATTINY24A,ATTINY84A	3	15-ball (4 x 4 Array), 0.65 mm Pitch, 3.0 x 3.0 x 0.6 mm, Ultra Thin, Fine-Pitch Ball Grid Array Package (UFBGA)
+datasheets/mcu/microchip/8197S.pdf	dual	20	SO	20S2	ATTINY261A,ATTINY461A,ATTINY861A	4	20-lead, 0.300" Wide, Plastic Gull Wing Small Outline Package (SOIC)
+datasheets/mcu/microchip/8197S.pdf	dual	20	TSSOP	20X	ATTINY261A,ATTINY461A,ATTINY861A	6	20-lead, 4.4 mm Wide, Plastic Thin Shrink Small Outline Package (TSSOP)
+datasheets/mcu/microchip/8197S.pdf	quad	32	QFN	32M1-A	ATTINY261A,ATTINY861A	4	32-pad, 5 x 5 x 1.0 body, Lead Pitch 0.50 mm Thin Plastic Quad Flat No-Lead (VQFN)
+datasheets/mcu/microchip/8246S.pdf	dual	20	SO	20S	ATTINY2313A,ATTINY4313	4	20-lead, 0.300" Wide, Plastic Gull Wing Small Outline Package (SOIC)
+datasheets/mcu/microchip/8246S.pdf	quad	20	QFN	20M1,20M2	ATTINY2313A,ATTINY4313	8	20-pad, 3 x 3 x 0.85 mm Body, Very Thin Quad Flat No Lead Package (VQFN) | 20-pad, 4 x 4 x 0.8 mm Body, Quad Flat No-Lead/Micro Lead Frame Package (QFN/MLF)
+datasheets/mcu/microchip/8371S.pdf	quad	32	QFP	32A	ATTINY828	1	32-lead, Thin (1.0mm) Plastic Quad Flat Package (TQFP)
+datasheets/mcu/microchip/ATmega4808-09-DataSheet-DS40002173C.pdf	dual	40	DIP	P	ATMEGA4809	1	PDIP
+datasheets/mcu/microchip/ATtiny24A-44A-84A-DataSheet-DS40002269A.pdf	grid	15	BGA	15CC1	ATTINY44A	1	15-ball (4 x 4 Array), 0.65 mm Pitch, 3.0 x 3.0 x 0.6 mm, Ultra Thin, Fine-Pitch Ball Grid Array Package (UFBGA)
+datasheets/mcu/microchip/ATtiny87-167-DataSheet-DS40002167A.pdf	dual	20	SO	20S2	ATTINY167,ATTINY87	4	20-lead, 0.300" Wide, Plastic Gull Wing Small Outline Package (SOIC)
+datasheets/mcu/microchip/ATtiny87-167-DataSheet-DS40002167A.pdf	dual	20	TSSOP	20X	ATTINY167,ATTINY87	3	20-lead, 4.4 mm Wide, Plastic Thin Shrink Small Outline Package (TSSOP)
+datasheets/mcu/microchip/ATtiny87-167-DataSheet-DS40002167A.pdf	quad	32	QFN	32PN	ATTINY87	1	32-lead, 0.5mm pitch, 5 x 5 mm Very Thin Quad Flat No Lead Package (VQFN) Sawn
+datasheets/mcu/microchip/AVR16EA28-32-48-DataSheet-DS40002498.pdf	quad	28	QFN	STX	AVR16EA28	2	VQFN28
+datasheets/mcu/microchip/AVR32EA28-32-48-DataSheet-DS40002497.pdf	quad	28	QFN	STX	AVR32EA28,AVR64EA28	6	VQFN28
+datasheets/mcu/microchip/AVR32EB-14-20-28-32-Prelim-DataSheet-DS40002615.pdf	dual	14	SO	SL	AVR32EB14	1	SOIC14
+datasheets/mcu/microchip/AVR32EB-14-20-28-32-Prelim-DataSheet-DS40002615.pdf	dual	14	TSSOP	ST	AVR32EB14	1	TSSOP14
+datasheets/mcu/microchip/AVR32EB-14-20-28-32-Prelim-DataSheet-DS40002615.pdf	dual	20	SSOP	SS	AVR32EB20	1	SSOP20, SSOP28
+datasheets/mcu/microchip/AVR32EB-14-20-28-32-Prelim-DataSheet-DS40002615.pdf	dual	28	DIP	SP	AVR32EB28	1	SPDIP
+datasheets/mcu/microchip/AVR32EB-14-20-28-32-Prelim-DataSheet-DS40002615.pdf	dual	28	SSOP	SS	AVR32EB28	1	SSOP
+datasheets/mcu/microchip/AVR32EB-14-20-28-32-Prelim-DataSheet-DS40002615.pdf	quad	28	QFN	STX	AVR32EB28	1	VQFN28
+datasheets/mcu/microchip/AVR32EB-14-20-28-32-Prelim-DataSheet-DS40002615.pdf	quad	32	QFN	RXB	AVR32EB32	1	VQFN32
+datasheets/mcu/microchip/AVR32EB-14-20-28-32-Prelim-DataSheet-DS40002615.pdf	quad	32	QFP	PT	AVR32EB32	1	TQFP
+datasheets/mcu/microchip/AVR64EA-28-32-48-DataSheet-DS40002443.pdf	quad	28	QFN	STX	AVR64EA28	1	VQFN28
+datasheets/mcu/microchip/Atmel-2513-8-bit-AVR-Microntroller-ATmega162_Datasheet-Summary.pdf	quad	44	QFP	44A	ATMEGA162	2	44-lead, Thin (1.0mm) Plastic Gull Wing Quad Flat Package (TQFP)
+datasheets/mcu/microchip/Atmel-2513-8-bit-AVR-Microntroller-ATmega162_Datasheet.pdf	dual	40	DIP	40P6	ATMEGA162	1	40-pin, 0.600” Wide, Plastic Dual Inline Package (PDIP)
+datasheets/mcu/microchip/Atmel-2513-8-bit-AVR-Microntroller-ATmega162_Datasheet.pdf	quad	44	QFN	44M1	ATMEGA162	2	44-pad, 7 × 7 × 1.0mm body, lead pitch 0.50mm, Thermally Enhanced Plastic Very Thin Quad Flat No-Lead (VQFN)
+datasheets/mcu/microchip/Atmel-2543-AVR-ATtiny2313_Datasheet.pdf	dual	20	DIP	20P3	ATTINY2313	2	20-lead, 0.300" Wide, Plastic Dual Inline Package (PDIP)
+datasheets/mcu/microchip/Atmel-2543-AVR-ATtiny2313_Summary.pdf	dual	20	SO	20S	ATTINY2313	4	20-lead, 0.300" Wide, Plastic Gull Wing Small Outline Package (SOIC)
+datasheets/mcu/microchip/Atmel-2543-AVR-ATtiny2313_Summary.pdf	quad	20	QFN	20M1	ATTINY2313	4	20-pad, 4 x 4 x 0.8 mm Body, Quad Flat No-Lead/Micro Lead Frame Package (QFN/MLF)
+datasheets/mcu/microchip/Atmel-2548-8-bit-AVR-Microcontroller-Battery-Management-ATmega406_Datasheet-Summary.pdf	quad	48	QFP	48AA	ATMEGA406	1	48-lead, 7 x 7 x 1.44 mm body, 0.5 mm lead pitch, Low Profile Plastic Quad Flat Package (LQFP)
+datasheets/mcu/microchip/Atmel-42505-8-bit-AVR-Microcontrollers-ATtiny102-ATtiny104_Summary.pdf	dual	8	QFN	8-PIN-UDFN	ATTINY102F	1	8-UFDFN Exposed Pad
+datasheets/mcu/microchip/Atmel-42505-8-bit-AVR-Microcontrollers-ATtiny102-ATtiny104_Summary.pdf	dual	8	SO	8-PIN-SOIC150	ATTINY102F	1	8-SOIC (0.154", 3.90mm Width)
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	dual	24	SO	SO24	AT90PWM2,AT90PWM2B	2	24-Lead, Small Outline Package
+datasheets/mcu/microchip/Atmel-4317-8-bit-AVR-Flash_Microcontroller-AT90PWM2-3-2B-3B_summary.pdf	quad	32	QFN	QFN32	AT90PWM3B	1	32-Lead, Quad Flat No lead
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	dual	24	SO	SO24	AT90PWM216	1	24-Lead, Small Outline Package
+datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf	quad	32	QFN	QFN32	AT90PWM316	1	32-Lead, Quad Flat No lead
+datasheets/mcu/microchip/Atmel-8021-AVR-ATmega329P-3290P_Summary.pdf	quad	100	QFP	100A	ATMEGA3290P	1	100-lead, Thin (1.0mm) Plastic Gull Wing Quad Flat Package (TQFP)
+datasheets/mcu/microchip/Atmel-8235-8-bit-AVR-Microcontroller-ATtiny20_Datasheet_Summary.pdf	quad	20	QFN	20M2	ATTINY20	2	20-pad, 3 x 3 x 0.85 mm Body, Very Thin Quad Flat No Lead Package (VQFN)
+datasheets/mcu/microchip/Atmel-8265-8-bit-AVR-Microcontroller-tinyAVR-ATtiny87-ATtiny167_summary.pdf	dual	20	TSSOP	20X	ATTINY87	1	20-lead, 4.4 mm Wide, Plastic Thin Shrink Small Outline Package (TSSOP)
+datasheets/mcu/microchip/Atmel-8265-8-bit-AVR-Microcontroller-tinyAVR-ATtiny87-ATtiny167_summary.pdf	quad	32	QFN	32PN	ATTINY167	1	32-lead, 0.5mm pitch, 5 x 5 mm Very Thin Quad Flat No Lead Package (VQFN) Sawn
+datasheets/mcu/microchip/Atmel-8284-8-bit-AVR-microcontroller-ATmega169A_PA_329A_PA_3290A_PA_649A_P_6490A_P_summary.pdf	quad	100	QFP	100A	ATMEGA3290A,ATMEGA3290PA,ATMEGA6490A,ATMEGA6490P	4	100-lead, Thin (1.0mm) Plastic Gull Wing Quad Flat Package (TQFP)
+datasheets/mcu/microchip/Atmel-8285-8-bit-AVR-Microcontroller-ATmega165A_PA_325A_PA_3250A_PA_645A_P_6450A_P_datasheet_Summary.pdf	quad	100	QFP	100A	ATMEGA6450A	2	100-lead, Thin (1.0mm) Plastic Gull Wing Quad Flat Package (TQFP)
+datasheets/mcu/microchip/Atmel-8285-8-bit-AVR-Microcontroller-ATmega165A_PA_325A_PA_3250A_PA_645A_P_6450A_P_datasheet_Summary.pdf	quad	64	QFN	64M1	ATMEGA165A,ATMEGA165PA,ATMEGA325A,ATMEGA645P	4	64-pad, 9 x 9 x 1.0mm, Quad Flat No-Lead/Micro Lead Frame Package (QFN/MLF)
+datasheets/mcu/microchip/Atmel-8285-8-bit-AVR-Microcontroller-ATmega165A_PA_325A_PA_3250A_PA_645A_P_6450A_P_datasheet_Summary.pdf	quad	64	QFP	64A	ATMEGA165A,ATMEGA165PA,ATMEGA325A,ATMEGA325PA	6	64-lead, 14 * 14mm body size, 1.0mm body thickness, 0.8mm lead pitch, thin profile plastic quad flat package (TQFP)
+datasheets/mcu/microchip/Atmel-8303-8-bit-AVR-Microcontroller-tinyAVR-ATtiny1634_Datasheet_summary.pdf	dual	20	SO	20S2	ATTINY1634,ATTINY1634R	4	20-lead, 0.300" Wide, Plastic Gull Wing Small Outline Package (SOIC)
+datasheets/mcu/microchip/Atmel-8303-8-bit-AVR-Microcontroller-tinyAVR-ATtiny1634_Datasheet_summary.pdf	quad	20	QFN	20M1	ATTINY1634,ATTINY1634R	6	20-pad, 4 x 4 x 0.8 mm Body, Quad Flat No-Lead/Micro Lead Frame Package (QFN/MLF)
+datasheets/mcu/microchip/Atmel-8492-8-and-16-bit-AVR-microcontroller-ATxmega32C3_64C3_128C3_192C3_256C3_datasheet.pdf	quad	64	QFP	64A	ATXMEGA192C3	1	64-lead, 14 * 14mm body size, 1.0mm body thickness, 0.8mm lead pitch, thin profile plastic quad flat package (TQFP)
+datasheets/mcu/microchip/doc1477.pdf	dual	20	DIP	20P3	ATTINY26	2	20-lead, 0.300" Wide, Plastic Dual Inline Package (PDIP)
+datasheets/mcu/microchip/doc2502.pdf	dual	40	DIP	40P6	ATMEGA8535	1	40-pin, 0.600” Wide, Plastic Dual Inline Package (PDIP)
+datasheets/mcu/microchip/doc2502.pdf	quad	44	QFN	44M1-A	ATMEGA8535	1	44-pad, 7 x 7 x 1.0 mm body, lead pitch 0.50 mm, Quad Flat No-Lead/Micro Lead Frame Package (QFN/MLF)
+datasheets/mcu/microchip/doc2512.pdf	dual	40	DIP	40P6	ATMEGA8515	1	40-pin, 0.600” Wide, Plastic Dual Inline Package (PDIP)
+datasheets/mcu/microchip/doc2512.pdf	plcc	44	LCC	44J	ATMEGA8515	2	44-lead, Plastic J-Leaded Chip Carrier (PLCC)
+datasheets/mcu/microchip/doc2512.pdf	quad	44	QFP	44A	ATMEGA8515	2	44-lead, Thin (1.0mm) Plastic Gull Wing Quad Flat Package (TQFP)
+datasheets/mcu/microchip/doc2570.pdf	quad	100	QFP	100A	ATMEGA3250,ATMEGA6450	4	100-lead, Thin (1.0mm) Plastic Gull Wing Quad Flat Package (TQFP)
+datasheets/mcu/microchip/doc2570.pdf	quad	64	QFP	64A	ATMEGA645	3	64-lead, 14 * 14mm body size, 1.0mm body thickness, 0.8mm lead pitch, thin profile plastic quad flat package (TQFP)
+datasheets/mcu/microchip/doc7593.pdf	quad	64	QFP	MD	AT90USB1287	1	64-TQFP
+datasheets/mcu/microchip/doc7734.pdf	quad	32	QFN	QFN32	AT90PWM161,AT90PWM81	2	32-Lead, Quad Flat No lead
+datasheets/mcu/microchip/doc8006.pdf	dual	14	SO	14S1	ATTINY24	1	14-lead, 0.150" Wide Body, Plastic Gull Wing Small Outline Package (SOIC)
+datasheets/mcu/microchip/doc8023.pdf	quad	100	QFP	100A	ATMEGA3250P	1	100-lead, Thin (1.0mm) Plastic Gull Wing Quad Flat Package (TQFP)
+datasheets/mcu/microchip/doc8197.pdf	dual	20	DIP	20P3	ATTINY261A,ATTINY861A	2	20-lead, 0.300" Wide, Plastic Dual Inline Package (PDIP)
+datasheets/mcu/microchip/doc8197.pdf	dual	20	SO	20S2	ATTINY461A,ATTINY861A	2	20-lead, 0.300" Wide, Plastic Gull Wing Small Outline Package (SOIC)
+datasheets/mcu/microchip/doc8246.pdf	dual	20	DIP	20P3	ATTINY2313A,ATTINY4313	2	20-lead, 0.300" Wide, Plastic Dual Inline Package (PDIP)
+datasheets/mcu/microchip/doc8371.pdf	quad	32	QFP	32A	ATTINY828,ATTINY828R	3	32-lead, Thin (1.0mm) Plastic Quad Flat Package (TQFP)
+datasheets/mcu/raspberry-pi/rp2040-datasheet.pdf	quad	56	QFN	QFN-56	RP2040	2	

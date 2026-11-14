@@ -7,7 +7,9 @@ import Foundation
 /// schematic shows `name`.
 struct BusWire: Identifiable, Hashable {
     let id: UUID
-    /// Display name, 1–4 characters, unique in its bus (case-insensitive).
+    /// Display name, 1–4 characters. Two wires of a bus may share one (the
+    /// wire list warns); each is still its own net. Case sensitive: "D0"
+    /// and "d0" are two names.
     var name: String
 
     init(id: UUID = UUID(), name: String) {
@@ -223,13 +225,36 @@ struct Bus: Identifiable, Hashable {
         return "BUS \(n)"
     }
 
-    /// `B<index>`, or else the first free `B<n>` (case-insensitive).
+    /// Buses of one name (ignoring case) are linked: they carry the same
+    /// wires, and wire i of each is one net. Maps every bus wire id to the
+    /// id of the wire at its place on the first bus of its name, so linked
+    /// wires share a key.
+    static func linkedWireIDs(_ buses: [Bus]) -> [UUID: UUID] {
+        var first: [String: Bus] = [:]
+        var map: [UUID: UUID] = [:]
+        for bus in buses {
+            let key = bus.name.lowercased()
+            let lead = key.isEmpty ? bus : (first[key] ?? bus)
+            if !key.isEmpty, first[key] == nil { first[key] = bus }
+            for (i, wire) in bus.wires.enumerated() {
+                map[wire.id] = i < lead.wires.count ? lead.wires[i].id : wire.id
+            }
+        }
+        return map
+    }
+
+    /// Does `other` link with this bus (another bus of its name, ignoring
+    /// case)?
+    func isLinked(with other: Bus) -> Bool {
+        other.id != id && !name.isEmpty && other.name.lowercased() == name.lowercased()
+    }
+
+    /// `B<index>`, or else the first free `B<n>`.
     static func defaultName(for index: Int, taken: Set<String>) -> String {
-        let used = Set(taken.map { $0.lowercased() })
         let name = "B\(index)"
-        if !used.contains(name.lowercased()) { return name }
+        if !taken.contains(name) { return name }
         var n = 0
-        while used.contains("b\(n)") { n += 1 }
+        while taken.contains("B\(n)") { n += 1 }
         return "B\(n)"
     }
 
@@ -657,7 +682,7 @@ struct BusDraft {
     /// Index of a second bus the drag joined into `bus`, which goes away.
     var absorbedIndex: Int? = nil
     /// The absorbed bus's wire ids that became another id in `bus` (wires
-    /// with the same name, ignoring case). Wires not listed keep their id.
+    /// with the same name, case sensitive). Wires not listed keep their id.
     var wireMap: [UUID: UUID] = [:]
 }
 
@@ -758,7 +783,7 @@ enum BusJoin {
     ///
     /// When only one of them has ports, the joined bus carries that one's
     /// wires as they are (`first`'s when neither has). When both do, a wire
-    /// of `second` becomes `first`'s wire of the same name (ignoring case)
+    /// of `second` becomes `first`'s wire of the same name (case sensitive)
     /// and the rest are added; wires a port uses come first and unused ones
     /// last, so the bus can be shrunk again. Nil when that is too many wires.
     static func merge(_ first: Bus, absorbing second: Bus) -> (bus: Bus, wireMap: [UUID: UUID])? {
@@ -774,7 +799,7 @@ enum BusJoin {
         var wires = first.wires
         var wireMap: [UUID: UUID] = [:]
         for wire in second.wires {
-            if let same = first.wires.first(where: { $0.name.lowercased() == wire.name.lowercased() }) {
+            if let same = first.wires.first(where: { $0.name == wire.name }) {
                 wireMap[wire.id] = same.id
             } else {
                 wires.append(wire)

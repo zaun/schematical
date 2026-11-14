@@ -348,6 +348,11 @@ A new kind of part is added the same way every time:
    `docs/parts-format.md`.
 5. The app picks a symbol for the new `PartKind`.
 
+A kind with no simulation model (plan-36's `mcu`) sets `"simulated":
+false` on its devices, so `circuit_add_part` refuses its parts, and still
+ships a passive model (no callbacks, the `header.c` shape) so the engine
+never sees a NULL model.
+
 Nothing else: the loader, the listing, the circuit API and the app's
 drawer work from the kind table and the `Part` structs. The tests need
 three lines: the kind's name and facts in `tests/support/listing.c`,
@@ -382,7 +387,8 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   backend/tests/golden/footprints.txt`, then hand-check the changed lines
   against the drawing. Listing lines in `parts.txt` end in
   `|footprint=<id>` for parts that name one, then `|connector=<id>` for
-  parts with a `connectorFootprint`.
+  parts with a `connectorFootprint`; the last field is `|unsimulated` for a
+  part whose device says `"simulated": false` (plan-36-F).
 - `part_file_test` — `load_part_file` (plan-32-A) on top of the bundled
   library: an inline-footprint part and a bundled-footprint part load
   (found by name and by uuid), and each rejected file (no or bad uuid, two
@@ -395,6 +401,11 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   real ones), plus loader errors and the open-drain answer. Its bench,
   `tests/support/bench.{h,c}`, drives any part's input pins by name and is
   shared by the sequential kinds' tests.
+- `register_test` — the `register` kind's `parallel` model (plan-37-C):
+  one case per function-table row of each device shape (inline fixture
+  devices with TI's pin names: 74_173, 377, 379, 534, 575, 823, 16820,
+  16823), the X rules, loader errors and the five plan-37 families; then
+  real parts from `register.json` (plan-37-D, E).
 - `mux_test` — the `mux` kind's models (plan-21-B, C): the function-table
   rows of each device shape (inline fixture devices copied from the real
   ones in `planning/plan-21-data/specs.md`), the X rules, storage and the
@@ -437,9 +448,16 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   capacitor between 5V and GND drives nothing (both nets keep their values
   after 1 us). The kind's loader errors are in `library_check`, its rating
   check (`VOLTAGE_CAPACITOR_OVER`) in `voltage_test`.
+- `mcu_test` — the mcu kind (plan-36-F): the fixture microcontroller
+  (`tests/support/mcu_fixture.h`, `TESTMCU`) loads, its `PartMcu` facts
+  read back (the part's clock over the device's), its listing line ends
+  `|unsimulated`, and `circuit_add_part` refuses it with `part "TESTMCU"
+  is not simulated`. The kind's loader errors are in `library_check`.
 - `circuit_check` — the circuit API, including the voltage refusal at
-  start and the running switch stop (fixture parts from
-  `tests/support/voltage_fixture.h`).
+  start, the running switch stop (fixture parts from
+  `tests/support/voltage_fixture.h`) and the refusal of a part whose device
+  says `"simulated": false` (`part "<name>" is not simulated`; a header
+  device with the key, and the same device without it, which is added).
 - `voltage_test` — `voltage_check` and `voltage_describe`, one case per
   rule (supplies, power range, input max, driven and carried voltages,
   open-drain, closed contacts, switch rating, capacitor rating, ordering, and the two supply

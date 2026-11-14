@@ -1,0 +1,255 @@
+{
+ "footprints": [
+  {
+   "id": "SOIC-8-MC-8S1",
+   "description": "Microchip 8S1 rev G 8-lead SOIC",
+   "note": "Microchip/Atmel 8S1 rev G (R2), datasheets/mcu/microchip/Atmel-42505-8-bit-AVR-Microcontrollers-ATtiny102-ATtiny104_Summary.pdf p.13 (image; R2: L 0.40-1.27, b 0.31-0.51, E 5.79-6.20; body E1 3.81-3.99 x D 4.80-5.05)",
+   "style": "dual",
+   "pins": 8,
+   "body": {
+    "width": 3.9,
+    "height": 4.92
+   },
+   "pitch": 1.27,
+   "span": 5.13,
+   "pad": {
+    "width": 2.07,
+    "height": 0.56,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SOIC-14-MC-14S1",
+   "description": "Microchip 14S1 14-lead SOIC",
+   "note": "Microchip/Atmel 14S1 (R2), datasheets/mcu/microchip/8006S.pdf p.16 (inches: L .016-.050, b .013-.020, H .2284-.244; body E .1497-.1574 x D .3367-.3444)",
+   "style": "dual",
+   "pins": 14,
+   "body": {
+    "width": 3.9,
+    "height": 8.65
+   },
+   "pitch": 1.27,
+   "span": 5.13,
+   "pad": {
+    "width": 2.07,
+    "height": 0.56,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SOIC-8W-MC-8S2",
+   "description": "Microchip 8S2 8-lead SOIC",
+   "note": "Microchip/Atmel 8S2 (R2), datasheets/mcu/microchip/2535S.pdf p.13 (L 0.51-0.85, b 0.35-0.48, E 7.70-8.26; body E1 5.18-5.40 x D 5.13-5.35)",
+   "style": "dual",
+   "pins": 8,
+   "body": {
+    "width": 5.29,
+    "height": 5.24
+   },
+   "pitch": 1.27,
+   "span": 7.61,
+   "pad": {
+    "width": 1.65,
+    "height": 0.53,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SOIC-20W-MC-20S2",
+   "description": "Microchip 20S2 20-lead SOIC",
+   "note": "Microchip/Atmel 20S2 (R2), datasheets/mcu/microchip/8197S.pdf p.16 (image; L 0.40-1.27, b 0.33-0.51, H 10.00-10.65; body E 7.40-7.60 x D 12.60-13.00)",
+   "style": "dual",
+   "pins": 20,
+   "body": {
+    "width": 7.5,
+    "height": 12.8
+   },
+   "pitch": 1.27,
+   "span": 9.58,
+   "pad": {
+    "width": 2.07,
+    "height": 0.56,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SOIC-24W-MC-TD",
+   "description": "Microchip TD 24-lead SOIC",
+   "note": "Microchip/Atmel TD (R2), datasheets/mcu/microchip/Atmel-7710-8-bit-Microcontroller-AT90PWM216-316_Datasheet-Summary.pdf p.19 (image; L 0.40-1.27, B 0.35-0.49, H 10.00-10.65; body E 7.40-7.60 x D 15.20-15.60)",
+   "style": "dual",
+   "pins": 24,
+   "body": {
+    "width": 7.5,
+    "height": 15.4
+   },
+   "pitch": 1.27,
+   "span": 9.58,
+   "pad": {
+    "width": 2.07,
+    "height": 0.54,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "TSSOP-8-MC-8X",
+   "description": "Microchip 8X 8-lead TSSOP",
+   "note": "Microchip/Atmel 8X (R2), datasheets/mcu/microchip/Atmel-2586-AVR-8-bit-Microcontroller-ATtiny25-ATtiny45-ATtiny85_Datasheet-Summary.pdf p.17 (L 0.50-0.70, b 0.25-0.30, E 6.20-6.60; body E1 4.30-4.50 x D 2.90-3.10)",
+   "style": "dual",
+   "pins": 8,
+   "body": {
+    "width": 4.4,
+    "height": 3.0
+   },
+   "pitch": 0.65,
+   "span": 6.1,
+   "pad": {
+    "width": 1.5,
+    "height": 0.35,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "TSSOP-14-MC-14X",
+   "description": "Microchip 14X 14-lead TSSOP",
+   "note": "Microchip/Atmel 14X (R2), datasheets/mcu/microchip/Atmel-8235-8-bit-AVR-Microcontroller-ATtiny20_Datasheet.pdf p.210 (L 0.45-0.75, b 0.19-0.30, E 6.25-6.50; body 4.30-4.50 x 4.90-5.10)",
+   "style": "dual",
+   "pins": 14,
+   "body": {
+    "width": 4.4,
+    "height": 5.0
+   },
+   "pitch": 0.65,
+   "span": 5.95,
+   "pad": {
+    "width": 1.55,
+    "height": 0.35,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "TSSOP-20-MC-20X",
+   "description": "Microchip 20X 20-lead TSSOP",
+   "note": "Microchip/Atmel 20X (R2), datasheets/mcu/microchip/8197S.pdf p.17 (image; L 0.45-0.75, b 0.19-0.30, E 6.25-6.50; body 4.30-4.50 x 6.40-6.60)",
+   "style": "dual",
+   "pins": 20,
+   "body": {
+    "width": 4.4,
+    "height": 6.5
+   },
+   "pitch": 0.65,
+   "span": 5.95,
+   "pad": {
+    "width": 1.55,
+    "height": 0.35,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "PDIP-28-MC-28P3",
+   "description": "Microchip 28P3 28-lead PDIP",
+   "note": "Microchip/Atmel 28P3 (R5), datasheets/mcu/microchip/Atmel-2486-8-bit-AVR-microcontroller-ATmega8_L_summary.pdf p.8 (B 0.381-0.533, row 7.62; body E1 7.112-7.493 x D 34.544-34.798)",
+   "style": "dual",
+   "pins": 28,
+   "body": {
+    "width": 7.3,
+    "height": 34.67
+   },
+   "pitch": 2.54,
+   "span": 7.62,
+   "pad": {
+    "width": 1.5,
+    "height": 1.5,
+    "shape": "round"
+   },
+   "drill": 0.8,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "SOT23-6-MC-6ST1",
+   "description": "Microchip 6ST1 6-lead SOT23",
+   "note": "Microchip/Atmel 6ST1 (R2), datasheets/mcu/microchip/ATtiny4-5-9-10-Data-Sheet-DS40002060A.pdf p.161 (L 0.30-0.55, b 0.30-0.50, E 2.60-3.00; body E1 1.50-1.75 x D 2.80-3.00)",
+   "style": "dual",
+   "pins": 6,
+   "body": {
+    "width": 1.62,
+    "height": 2.9
+   },
+   "pitch": 0.95,
+   "span": 2.65,
+   "pad": {
+    "width": 1.35,
+    "height": 0.55,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "UDFN-8-MC-8MA4",
+   "description": "Microchip 8MA4 8-lead UDFN",
+   "note": "Microchip/Atmel 8MA4 (R4), datasheets/mcu/microchip/Atmel-8127-AVR-8-bit-Microcontroller-ATtiny4-ATtiny5-ATtiny9-ATtiny10_Datasheet-Summary.pdf p.13 (image; L 0.20-0.40 nom 0.30, b 0.20-0.30, E 2.00; exposed E2 0.90 x D2 1.50)",
+   "style": "dual",
+   "pins": 8,
+   "body": {
+    "width": 2.0,
+    "height": 2.0
+   },
+   "pitch": 0.5,
+   "span": 2.0,
+   "pad": {
+    "width": 0.6,
+    "height": 0.3,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 0.9,
+    "height": 1.5,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "UDFN-8-MC-8MA2",
+   "description": "Microchip 8MA2 8-lead UDFN",
+   "note": "Microchip/Atmel 8MA2 (R4), datasheets/mcu/microchip/Atmel-42505-8-bit-AVR-Microcontrollers-ATtiny102-ATtiny104_Summary.pdf p.12 (image; L 0.35-0.45 nom 0.40, b nom 0.25, E 3.00, D 2.00; exposed E2 1.30 x D2 1.50)",
+   "style": "dual",
+   "pins": 8,
+   "body": {
+    "width": 3.0,
+    "height": 2.0
+   },
+   "pitch": 0.5,
+   "span": 2.9,
+   "pad": {
+    "width": 0.7,
+    "height": 0.3,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 1.3,
+    "height": 1.5,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "VDFN-10-MC-10M1",
+   "description": "Microchip 10M1 10-lead VDFN",
+   "note": "Microchip/Atmel 10M1 (R4), datasheets/mcu/microchip/2535S.pdf p.16 (L 0.30-0.50, b nom 0.25, D = E 3.00; exposed pad 1.64 x 2.60 per the title)",
+   "style": "dual",
+   "pins": 10,
+   "body": {
+    "width": 3.0,
+    "height": 3.0
+   },
+   "pitch": 0.5,
+   "span": 2.9,
+   "pad": {
+    "width": 0.7,
+    "height": 0.3,
+    "shape": "rect"
+   },
+   "centre": {
+    "width": 1.64,
+    "height": 2.6,
+    "shape": "rect"
+   }
+  }
+ ]
+}

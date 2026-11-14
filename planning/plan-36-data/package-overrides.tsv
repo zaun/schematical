@@ -1,0 +1,17 @@
+mpn	package_code	note
+ATMEGA8515-16MU	44M1	ordering table prints "44MI"; the Package Type legend defines 44M1 (44-pad 7x7 QFN/MLF), the only 44-pad code
+ATMEGA8535L-8MU	44M1-A	ordering table prints "44M1"; the Package Type legend defines only 44M1-A (44-pad 7x7 QFN/MLF)
+ATMEGA16M1-MU	PV	ATmega16M1/32M1/64M1 summary, Ordering Information: "ATmega16M1-MU  PV" (text line 342); legend "PV, 32-lead, 7.0mm × 7.0mm body ... (QFN)"; textscan took the 32A of the -AU line
+ATMEGA64M1-MU	PV	same datasheet: "ATmega64M1-MU  PV" (text line 374)
+ATMEGA16U2-MU	32M1-A	ATmega8U2/16U2/32U2 datasheet (doc7799), Ordering Information: "ATmega16U2-MU  32M1-A" (text line 15976); 32M1-A is not parsed as a legend code there
+ATMEGA32U2-MU	32M1-A	ATmega8U2/16U2/32U2 summary (7799S): "ATmega32U2-MU  32M1-A" (text line 890)
+ATMEGA8U2-MU	32M1-A	same summary: "ATmega8U2-MU  32M1-A" (text line 852)
+ATMEGA32U4-MU	44PW	ATmega16U4/32U4 summary (7766), Ordering Information: the -AU rows sit in the 44ML cell, the -MU rows in the 44PW cell (text lines 969-974); legend "PW, 44 - Lead 7.0 x 7.0mm Body ... (QFN)"
+ATTINY25-20SU	8S2	ATtiny25/45/85 datasheet (2586), Ordering Information: the -SU / -SUR rows sit in the 8S2 cell (8-lead 0.208" SOIC); the 8P3 cell is -PU only
+ATTINY25V-10SU	8S2	same table
+ATTINY45-20SU	8S2	same table
+ATTINY45V-10SU	8S2	same table (text lines 587-588)
+ATTINY85-20SU	8S2	same table (text lines 664-666)
+ATTINY85V-10SU	8S2	same table
+ATXMEGA16A4U-AUR	44A	XMEGA A4U datasheet, Ordering Information: the -AU / -AUR rows are the 44A (TQFP) cell; PW is the -MH (QFN) cell (text lines 308-317)
+ATXMEGA8E5-MUR	32Z	ATxmega32E5/16E5/8E5 datasheet (DS40002059A) Ordering Information: the -MU / -MUR / -MN rows are 32Z (5x5mm VQFN), the -M4U rows 32MA (4x4mm UQFN) (text lines 366-412); textscan took the neighbouring 32MA

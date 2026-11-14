@@ -126,12 +126,20 @@ nonisolated enum PartFacts {
             if ratedMV > 0 { add("Rated voltage", "\(milli(ratedMV)) V") }
             add("Dielectric", dielectric ?? "")
             add("Tolerance", tolerance ?? "")
+        case let .mcu(core, maxHz, flash, ram, eeprom, psram):
+            add("Core", mcuCoreName(core))
+            add("Clock", hertz(maxHz))
+            add("Flash", bytes(flash))
+            add("RAM", bytes(ram))
+            add("EEPROM", bytes(eeprom))
+            add("PSRAM", bytes(psram))
         case let .resistor(ohms, tolerancePercent, powerW, resistors):
             add("Resistance", ResistorValue.text(part.hasOhmsField ? chip.ohms ?? ohms : ohms))
             add("Tolerance", tolerancePercent.map { "±" + percentText($0) } ?? "")
             add("Power", powerW.map(wattsText) ?? "")
             if resistors > 1 { add("Resistors", String(resistors)) }
         }
+        if !part.isSimulated { add("Simulation", "Not simulated") }
 
         if part.supplyDomains.count == 2 {
             // A dual-supply part (plan-20-I): one range per side.
@@ -176,6 +184,8 @@ nonisolated enum PartFacts {
         case PART_RTC: return "RTC"
         case PART_DIODE: return "Diode"
         case PART_CAPACITOR: return "Capacitor"
+        case PART_REGISTER: return "Register"
+        case PART_MCU: return "Microcontroller"
         case PART_RESISTOR: return "Resistor"
         default: return ""
         }
@@ -274,6 +284,32 @@ nonisolated enum PartFacts {
         case "65816": return "65C816 (WDC)"
         default: return core
         }
+    }
+
+    /// A microcontroller core as shown (plan-36): "AVR", "AVR XMEGA",
+    /// "Dual Cortex-M0+", "RISC-V", …; others raw.
+    static func mcuCoreName(_ core: String) -> String {
+        switch core {
+        case "avr": return "AVR"
+        case "avrrc": return "AVR (reduced core)"
+        case "avrxt": return "AVRxt"
+        case "avrxm": return "AVR XMEGA"
+        case "cortex-m0plus": return "Dual Cortex-M0+"
+        case "xtensa-lx6": return "Xtensa LX6"
+        case "xtensa-lx7": return "Xtensa LX7"
+        case "riscv": return "RISC-V"
+        default: return core
+        }
+    }
+
+    /// A memory size in binary units: 512 → "512 bytes", 32768 → "32 KB",
+    /// 8388608 → "8 MB"; 0 → "" (the row is left out).
+    static func bytes(_ count: UInt32) -> String {
+        let value = Double(count)
+        if count == 0 { return "" }
+        if value >= 1_048_576 { return "\(trimmed(value / 1_048_576, decimals: 2)) MB" }
+        if value >= 1024 { return "\(trimmed(value / 1024, decimals: 2)) KB" }
+        return "\(count) bytes"
     }
 
     static func flagNames(_ flags: CatalogPart.Flags) -> [String] {

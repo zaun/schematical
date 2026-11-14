@@ -1,0 +1,284 @@
+{
+ "id": "74_173",
+ "function": "Register",
+ "description": "4-bit D-type registers with 3-state outputs",
+ "drawer": [
+  "Logic",
+  "Registers"
+ ],
+ "note": "Pinout and function table: sn54173 (SN54173, SN54LS173A, SN74173, SN74LS173A) p.1-2, the FK carrier p.1; cd54hc173 (CD74HC173, CD74HCT173: OE1, OE2 = M, N; E1, E2 = G1, G2; MR = CLR; CP = CLK; Dx, Qx); 74hc_hct173 (Nexperia 74HC173, 74HCT173: OE1, OE2, E1, E2, MR, CP, Dn, Qn) Table 2. M or N high: Q = Z; G1 or G2 high: hold at the clock edge; CLR high clears at once.",
+ "model": "parallel",
+ "pinouts": {
+  "p16": [
+   {
+    "number": 1,
+    "name": "M",
+    "role": "input"
+   },
+   {
+    "number": 2,
+    "name": "N",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "1Q",
+    "role": "output"
+   },
+   {
+    "number": 4,
+    "name": "2Q",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "3Q",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "4Q",
+    "role": "output"
+   },
+   {
+    "number": 7,
+    "name": "CLK",
+    "role": "input"
+   },
+   {
+    "number": 8,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 9,
+    "name": "G1",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "G2",
+    "role": "input"
+   },
+   {
+    "number": 11,
+    "name": "4D",
+    "role": "input"
+   },
+   {
+    "number": 12,
+    "name": "3D",
+    "role": "input"
+   },
+   {
+    "number": 13,
+    "name": "2D",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "1D",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "CLR",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "VCC",
+    "role": "power"
+   }
+  ],
+  "lccc20": [
+   {
+    "number": 1,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 2,
+    "name": "M",
+    "role": "input"
+   },
+   {
+    "number": 3,
+    "name": "N",
+    "role": "input"
+   },
+   {
+    "number": 4,
+    "name": "1Q",
+    "role": "output"
+   },
+   {
+    "number": 5,
+    "name": "2Q",
+    "role": "output"
+   },
+   {
+    "number": 6,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 7,
+    "name": "3Q",
+    "role": "output"
+   },
+   {
+    "number": 8,
+    "name": "4Q",
+    "role": "output"
+   },
+   {
+    "number": 9,
+    "name": "CLK",
+    "role": "input"
+   },
+   {
+    "number": 10,
+    "name": "GND",
+    "role": "ground"
+   },
+   {
+    "number": 11,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 12,
+    "name": "G1",
+    "role": "input"
+   },
+   {
+    "number": 13,
+    "name": "G2",
+    "role": "input"
+   },
+   {
+    "number": 14,
+    "name": "4D",
+    "role": "input"
+   },
+   {
+    "number": 15,
+    "name": "3D",
+    "role": "input"
+   },
+   {
+    "number": 16,
+    "name": "NC",
+    "role": "nc"
+   },
+   {
+    "number": 17,
+    "name": "2D",
+    "role": "input"
+   },
+   {
+    "number": 18,
+    "name": "1D",
+    "role": "input"
+   },
+   {
+    "number": 19,
+    "name": "CLR",
+    "role": "input"
+   },
+   {
+    "number": 20,
+    "name": "VCC",
+    "role": "power"
+   }
+  ]
+ },
+ "groups": [
+  {
+   "d": [
+    "1D",
+    "2D",
+    "3D",
+    "4D"
+   ],
+   "clk": {
+    "pin": "CLK",
+    "edge": "rising"
+   },
+   "ce": [
+    {
+     "pin": "G1",
+     "active": "low"
+    },
+    {
+     "pin": "G2",
+     "active": "low"
+    }
+   ],
+   "clear": {
+    "pin": "CLR",
+    "active": "high",
+    "when": "async"
+   },
+   "outputs": [
+    {
+     "q": [
+      "1Q",
+      "2Q",
+      "3Q",
+      "4Q"
+     ],
+     "oe": [
+      {
+       "pin": "M",
+       "active": "low"
+      },
+      {
+       "pin": "N",
+       "active": "low"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "timing": {
+  "TTL": {
+   "rise": 28,
+   "fall": 19,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "CLK to Q typ, 5 V 50 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn54173 p.3-4)"
+  },
+  "LS": {
+   "rise": 17,
+   "fall": 22,
+   "vcc": [
+    4.75,
+    5.25
+   ],
+   "note": "CLK to Q typ, 5 V 45 pF; VCC SN74 4.75-5.25 V, SN54 4.5-5.5 V (sn54173 p.5-6)"
+  },
+  "HC": {
+   "rise": 17,
+   "fall": 17,
+   "vcc": [
+    2,
+    6
+   ],
+   "note": "CLK to Q typ, 5 V 15 pF; VCC 2-6 V (cd54hc173 § 5.5)"
+  },
+  "HCT": {
+   "rise": 17,
+   "fall": 17,
+   "vcc": [
+    4.5,
+    5.5
+   ],
+   "note": "CLK to Q typ, 5 V 15 pF; VCC 4.5-5.5 V (cd54hc173 § 5.5)"
+  }
+ }
+}

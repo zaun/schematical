@@ -22,6 +22,7 @@ add_library(logic STATIC
     src/models/switch.c
     src/models/diode.c
     src/models/capacitor.c
+    src/models/mcu.c
     src/models/resistor.c
     src/models/sram.c
     src/models/display7.c
@@ -31,6 +32,7 @@ add_library(logic STATIC
     src/models/eeprom.c
     src/models/seq.c
     src/models/latch.c
+    src/models/register.c
     src/models/decoder.c
     src/models/mux.c
     src/models/mux_stored.c
@@ -145,6 +147,7 @@ logic_test(part_file_test)
 logic_test(engine_test)
 logic_test(eeprom_test)
 logic_test(latch_test)
+logic_test(register_test)
 logic_test(decoder_test)
 logic_test(mux_test)
 logic_test(arith_test)
@@ -177,6 +180,7 @@ logic_test(tactile_test)
 logic_test(diode_test)
 logic_test(resistor_test)
 logic_test(capacitor_test)
+logic_test(mcu_test)
 
 # Engine speed bench (plan-05-A). Not a ctest: a wall-clock check would be
 # flaky. Build Release to get meaningful numbers.

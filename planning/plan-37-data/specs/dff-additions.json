@@ -1,0 +1,248 @@
+{
+ "74_174": {
+  "note": "plan-37-F: Nexperia 74HC174 / 74HCT174 (74hc_hct174 Table 2: MR, CP, D0-D5, Q0-Q5) and onsemi MC74HC174A (mc74hc174a-d: Reset, Clock, D0-D5, Q0-Q5) use these pin numbers.",
+  "timing": {}
+ },
+ "74_175": {
+  "note": "plan-37-F: Nexperia 74HC175 / 74HCT175 (74hc_hct175 Table 2: MR, CP, D0-D3, Q0-Q3, Q0-Q3 barred) and onsemi MC74HC175A, MM74HC175, 74VHC175 use these pin numbers.",
+  "timing": {
+   "VHC": {
+    "rise": 4.8,
+    "fall": 4.8,
+    "clearWins": false,
+    "vcc": [
+     2,
+     5.5
+    ],
+    "note": "CP to Qn typ, 5 V 15 pF; VCC 2.0-5.5 V (onsemi 74vhc175-d AC characteristics)"
+   }
+  }
+ },
+ "74_273": {
+  "note": "plan-37-F: Nexperia 74HC273, 74HCT273, 74AHC273, 74AHCT273, 74LVC273 (MR, CP, D0-D7, Q0-Q7) and onsemi MC74HC273A, MM74HC273, MM74HCT273, MC74AC273, MC74ACT273, 74VHC273, 74LVX273 use these pin numbers; Nexperia DHVQFN20 parts through the DHVQFN-20 footprint's slots.",
+  "timing": {
+   "LVC": {
+    "rise": 4.1,
+    "fall": 4.1,
+    "clearWins": false,
+    "vcc": [
+     1.65,
+     3.6
+    ],
+    "inputMax": 5.5,
+    "note": "CP to Qn typ, 3.0-3.6 V; VCC 1.65-3.6 V, inputs 5.5 V (Nexperia 74lvc273 dynamic characteristics)"
+   },
+   "LVX": {
+    "rise": 7.1,
+    "fall": 7.1,
+    "clearWins": false,
+    "vcc": [
+     2,
+     3.6
+    ],
+    "inputMax": 5.5,
+    "note": "CP to Qn typ, 3.3 V 15 pF; VCC 2.0-3.6 V, inputs 5.5 V (onsemi 74lvx273-d AC characteristics)"
+   },
+   "VHC": {
+    "rise": 5.8,
+    "fall": 5.8,
+    "clearWins": false,
+    "vcc": [
+     2,
+     5.5
+    ],
+    "note": "CK to Q typ, 5 V 15 pF; VCC 2.0-5.5 V (onsemi 74vhc273-d AC characteristics)"
+   }
+  }
+ },
+ "74_374": {
+  "note": "plan-37-F: Nexperia 74HC374, 74HCT374, 74AHC374, 74AHCT374, 74LVC374A (OE, CP, D0-D7, Q0-Q7) and onsemi MC74HC374A, MM74HC374, MM74HCT374, MC74AC374, MC74ACT374, MC74LCX374, 74LCX374, MC74LVX374, MC74VHC374, 74VHC374, 74VHCT374A (OE, CP, D0-D7, O0-O7 / Q0-Q7) use these pin numbers; 74LCX374BQX through the DQFN-20-ONSEMI footprint's slots.",
+  "timing": {
+   "AC": {
+    "rise": 8.0,
+    "fall": 7.0,
+    "clearWins": false,
+    "vcc": [
+     2,
+     6
+    ],
+    "note": "CP to On typ, 5 V 50 pF; VCC 2-6 V (onsemi mc74ac374-d AC characteristics)"
+   },
+   "ACT": {
+    "rise": 8.5,
+    "fall": 8.0,
+    "clearWins": false,
+    "vcc": [
+     4.5,
+     5.5
+    ],
+    "note": "CP to On typ, 5 V 50 pF; VCC 4.5-5.5 V (onsemi mc74ac374-d 74ACT AC characteristics)"
+   },
+   "AHC": {
+    "rise": 4.4,
+    "fall": 4.4,
+    "clearWins": false,
+    "vcc": [
+     2,
+     5.5
+    ],
+    "note": "CP to Qn typ, 5 V 15 pF; VCC 2.0-5.5 V (Nexperia 74ahc_ahct374 dynamic characteristics)"
+   },
+   "LCX": {
+    "rise": 8.5,
+    "fall": 8.5,
+    "clearWins": false,
+    "vcc": [
+     2,
+     3.6
+    ],
+    "inputMax": 5.5,
+    "note": "CP to On max (no typ given), 3.0-3.6 V 50 pF; VCC 2.0-3.6 V, inputs 5.5 V (onsemi 74lcx374-d AC characteristics)"
+   },
+   "LVC": {
+    "rise": 3.3,
+    "fall": 3.3,
+    "clearWins": false,
+    "vcc": [
+     1.65,
+     3.6
+    ],
+    "inputMax": 5.5,
+    "note": "CP to Qn typ, 3.0-3.6 V; VCC 1.65-3.6 V, inputs 5.5 V (Nexperia 74lvc374a dynamic characteristics)"
+   },
+   "LVX": {
+    "rise": 6.7,
+    "fall": 6.7,
+    "clearWins": false,
+    "vcc": [
+     2,
+     3.6
+    ],
+    "inputMax": 5.5,
+    "note": "CP to O typ, 3.3 V 15 pF; VCC 2.0-3.6 V, inputs 5.5 V (onsemi mc74lvx374-d AC characteristics)"
+   },
+   "VHC": {
+    "rise": 5.4,
+    "fall": 5.4,
+    "clearWins": false,
+    "vcc": [
+     2,
+     5.5
+    ],
+    "note": "CP to On typ, 5 V 15 pF; VCC 2.0-5.5 V (onsemi 74vhc374-d AC characteristics)"
+   },
+   "VHCT": {
+    "rise": 4.1,
+    "fall": 4.1,
+    "clearWins": false,
+    "vcc": [
+     4.5,
+     5.5
+    ],
+    "note": "CP to On typ, 5 V 15 pF; VCC 4.5-5.5 V (onsemi 74vhct374a-d AC characteristics)"
+   }
+  }
+ },
+ "74_574": {
+  "note": "plan-37-F: Nexperia 74HC574, 74HCT574, 74AHC574, 74AHCT574, 74ALVC574, 74LVC574A (OE, CP, D0-D7, Q0-Q7) and onsemi MC74HC574A, MM74HC574, MM74HCT574, MC74AC574, MC74ACT574, MC74LCX574, MC74LVX574, MC74VHC574, 74VHC574, 74VHCT574A (OE, CP, D0-D7, O0-O7 / Q0-Q7) use these pin numbers; Nexperia DHVQFN20 parts through the DHVQFN-20 footprint's slots.",
+  "timing": {
+   "ACT": {
+    "rise": 11,
+    "fall": 10,
+    "clearWins": false,
+    "vcc": [
+     4.5,
+     5.5
+    ],
+    "note": "CP to On max (no typ given), 5 V 50 pF; VCC 4.5-5.5 V (onsemi mc74ac574-d 74ACT AC characteristics)"
+   },
+   "AHC": {
+    "rise": 4.4,
+    "fall": 4.4,
+    "clearWins": false,
+    "vcc": [
+     2,
+     5.5
+    ],
+    "note": "CP to Qn typ, 5 V 15 pF; VCC 2.0-5.5 V (Nexperia 74ahc_ahct574 dynamic characteristics)"
+   },
+   "AHCT": {
+    "rise": 4.4,
+    "fall": 4.4,
+    "clearWins": false,
+    "vcc": [
+     4.5,
+     5.5
+    ],
+    "note": "CP to Qn typ, 5 V 15 pF; VCC 4.5-5.5 V (Nexperia 74ahc_ahct574 dynamic characteristics)"
+   },
+   "ALVC": {
+    "rise": 2.5,
+    "fall": 2.5,
+    "clearWins": false,
+    "vcc": [
+     1.65,
+     3.6
+    ],
+    "note": "CP to Qn typ, 3.0-3.6 V; VCC 1.65-3.6 V (Nexperia 74alvc574 dynamic characteristics)"
+   },
+   "LCX": {
+    "rise": 8.5,
+    "fall": 8.5,
+    "clearWins": false,
+    "vcc": [
+     1.65,
+     5.5
+    ],
+    "inputMax": 5.5,
+    "note": "CP to On max (no typ given), 3.0-3.6 V; VCC 1.65-5.5 V, inputs 5.5 V (onsemi mc74lcx574-d AC characteristics)"
+   },
+   "LVC": {
+    "rise": 3.5,
+    "fall": 3.5,
+    "clearWins": false,
+    "vcc": [
+     1.65,
+     3.6
+    ],
+    "inputMax": 5.5,
+    "note": "CP to Qn typ, 3.0-3.6 V; VCC 1.65-3.6 V, inputs 5.5 V (Nexperia 74lvc574a dynamic characteristics)"
+   },
+   "LVX": {
+    "rise": 8.5,
+    "fall": 8.5,
+    "clearWins": false,
+    "vcc": [
+     2,
+     3.6
+    ],
+    "inputMax": 5.5,
+    "note": "CP to O typ, 3.3 V 15 pF; VCC 2.0-3.6 V, inputs 5.5 V (onsemi mc74lvx574-d AC characteristics)"
+   },
+   "VHC": {
+    "rise": 5.6,
+    "fall": 5.6,
+    "clearWins": false,
+    "vcc": [
+     2,
+     5.5
+    ],
+    "note": "CP to On typ, 5 V 15 pF; VCC 2.0-5.5 V (onsemi 74vhc574-d AC characteristics)"
+   },
+   "VHCT": {
+    "rise": 4.1,
+    "fall": 4.1,
+    "clearWins": false,
+    "vcc": [
+     4.5,
+     5.5
+    ],
+    "note": "CP to On typ, 5 V 15 pF; VCC 4.5-5.5 V (onsemi 74vhct574a-d AC characteristics)"
+   }
+  }
+ },
+ "40175B": {
+  "note": "plan-37-F: Nexperia HEF40175B (hef40175b: MR, CP, D0-D3, Q0-Q3, Q0-Q3 barred) and onsemi MC14175B (mc14175b-d: R, C, D0-D3, Q0-Q3, Q0-Q3 barred) use these pin numbers.",
+  "timing": {}
+ }
+}

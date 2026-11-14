@@ -1,0 +1,4 @@
+device	field	value	evidence
+ATmega325PA	vcc_min	1.8	Atmel-8285 summary p.1 Speed grade: "ATmega325A/325PA/3250A/3250PA/6450A/6450P: 0 - 20MHz @ 1.8 - 5.5V" (DigiKey 2.7V)
+ATmega3290PA	vcc_min	1.8	Atmel-8284 summary p.1 Speed Grade: "ATmega3290A/3290PA/6490A/6490P: 0 - 20MHz @ 1.8 - 5.5V" (DigiKey 2.7V)
+ATtiny5	clock_hz	12000000	Atmel-8127 summary p.1 Speed Grade: "0 - 12 MHz @ 4.5 - 5.5V" (DigiKey 10 MHz on -TS8R, 12 MHz on -TSHR)
