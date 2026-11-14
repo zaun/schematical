@@ -1369,6 +1369,111 @@ mcu	atmega4809	quad48	atmega4808-09-datasheet-ds40002173c	p.17	{}	rule 12: PF6/R
 mcu	atmega48a	quad28	atmega328p	p.12	{}	rule 12: pin 25 is PC6/RESET (RESET barred) in datasheet; catalog names it by port only
 mcu	atmega48a	quad32	atmega328p	p.12	{}	rule 12: pin 29 is PC6/RESET (RESET barred) in datasheet; catalog names it by port only
 mcu	atmega48p	quad32	atmega48p_88p_168p-ds40002065a	p.10	{}	rule 12: pin 29 is PC6/RESET (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega48pa	p28	atmega328p	pp.12-13	{}	PC6 = PC6/RESET; rule 12
+mcu	atmega48pa	quad28	atmega328p	pp.12-13	{}	PC6 = PC6/RESET; rule 12
+mcu	atmega48pa	quad32	atmega328p	pp.12-13	{}	PC6 = PC6/RESET; rule 12
+mcu	atmega48pb	quad32	40001910a	pp.10-12	{}	PC6 = PC6/RESET; rule 12
+mcu	atmega64	quad64	atmel-2490-8-bit-avr-microcontroller-atmega64-l_summary	pp.2-7	{"PEN":true,"RESET":true}	
+mcu	atmega640	quad100	atmega640-1280-1281-2560-2561-datasheet-ds40002211a	pp.2-9	{"RESET":true}	
+mcu	atmega644	p40	doc2593	pp.2-5	{"RESET":true}	
+mcu	atmega644	quad44	2593s	pp.2-5	{"RESET":true}	
+mcu	atmega644a	p40	atmega164a_pa-324a_pa-644a_pa-1284_p_data-sheet-40002070b	pp.11-16	{"RESET":true}	
+mcu	atmega644a	quad44	atmega164a_pa-324a_pa-644a_pa-1284_p_data-sheet-40002070b	pp.11-16	{"RESET":true}	
+mcu	atmega644p	p40	atmel-42744-atmega644p_summary	pp.10-12	{"RESET":true}	
+mcu	atmega644p	quad44	atmega164p-324p-644p-data-sheet-40002071a	pp.11-14	{"RESET":true}	
+mcu	atmega644pa	p40	atmega164a_pa-324a_pa-644a_pa-1284_p_data-sheet-40002070b	pp.11-16	{"RESET":true}	
+mcu	atmega644pa	quad44	atmega164a_pa-324a_pa-644a_pa-1284_p_data-sheet-40002070b	pp.11-16	{"RESET":true}	
+mcu	atmega645	quad64	doc2570	pp.2-4	{}	PG5 = RESET/PG5; rule 12
+mcu	atmega6450	quad100	doc2570	pp.2-4	{}	PG5 = RESET/PG5; rule 12
+mcu	atmega6450a	quad100	atmel-8285-8-bit-avr-microcontroller-atmega165a_pa_325a_pa_3250a_pa_645a_p_6450a_p_datasheet_summary	pp.3-9	{}	PG5 = RESET/PG5; rule 12
+mcu	atmega645p	quad64	atmel-8285-8-bit-avr-microcontroller-atmega165a_pa_325a_pa_3250a_pa_645a_p_6450a_p_datasheet_summary	pp.3-9	{}	PG5 = RESET/PG5; rule 12
+mcu	atmega649	quad64	2552s	pp.2-8	{}	PG5 = RESET/PG5; rule 12
+mcu	atmega6490	quad100	2552s	pp.2-8	{}	PG5 = RESET/PG5; rule 12
+mcu	atmega6490a	quad100	atmel-8284-8-bit-avr-microcontroller-atmega169a_pa_329a_pa_3290a_pa_649a_p_6490a_p_summary	pp.3-10	{}	PG5 = RESET/PG5; rule 12
+mcu	atmega6490p	quad100	atmel-8284-8-bit-avr-microcontroller-atmega169a_pa_329a_pa_3290a_pa_649a_p_6490a_p_summary	pp.3-10	{}	PG5 = RESET/PG5; rule 12
+mcu	atmega649a	quad64	atmel-8284-8-bit-avr-microcontroller-atmega169a_pa_329a_pa_3290a_pa_649a_p_6490a_p_summary	pp.3-10	{}	PG5 = RESET/PG5; rule 12
+mcu	atmega649p	quad64	atmel-8284-8-bit-avr-microcontroller-atmega169a_pa_329a_pa_3290a_pa_649a_p_6490a_p_summary	pp.3-10	{}	PG5 = RESET/PG5; rule 12
+mcu	atmega64a	quad64	atmel-8160-8-bit-avr-microcontroller-atmega64a-summary	pp.9-11	{"PEN":true,"RESET":true}	
+mcu	atmega64m1	quad32	atmel-8209-8-bit-avr-atmega16m1-32m1-64m1_summary	pp.4-7	{}	PE0 = PE0/RESET; rule 12
+mcu	atmega8	p28	atmel-2486-8-bit-avr-microcontroller-atmega8_l_summary	pp.2-5	{}	PC6 = PC6/RESET; rule 12
+mcu	atmega8	quad32	atmel-2486-8-bit-avr-microcontroller-atmega8_l_datasheet	pp.2-5	{}	PC6 = PC6/RESET; rule 12
+mcu	atmega808	p28	atmega808-09-1608-09-datasheet-ds40002172c	pp.14-19	{}	PF6 = PF6/RESET; UPDI unmarked; rule 12
+mcu	atmega808	quad32	atmega808-09-1608-09-datasheet-ds40002172c	pp.14-19	{}	PF6 = PF6/RESET; UPDI unmarked; rule 12
+mcu	atmega809	quad48	atmega808-09-1608-09-datasheet-ds40002172c	pp.14-19	{}	PF6 = PF6/RESET; UPDI unmarked; rule 12
+mcu	atmega8515	p40	doc2512	pp.2-5	{"RESET":true}	
+mcu	atmega8515	plcc44	doc2512	pp.2-5	{"RESET":true}	
+mcu	atmega8515	quad44	2512s	pp.2-5	{"RESET":true}	
+mcu	atmega8535	p40	doc2502	pp.2-5	{"RESET":true}	
+mcu	atmega8535	quad44	2502s	pp.2-5	{"RESET":true}	
+mcu	atmega88	p28	atmel-2545-8-bit-avr-microcontroller-atmega48-88-168_summary	pp.10-12	{}	PC6 = PC6/RESET; rule 12
+mcu	atmega88	quad32	atmel-2545-8-bit-avr-microcontroller-atmega48-88-168_summary	pp.10-12	{}	PC6 = PC6/RESET; rule 12
+mcu	atmega88a	p28	atmega328p	pp.12-13	{}	PC6 = PC6/RESET; rule 12
+mcu	atmega88a	quad28	atmega328p	pp.12-13	{}	PC6 = PC6/RESET; rule 12
+mcu	atmega88a	quad32	atmega328p	pp.12-13	{}	PC6 = PC6/RESET; rule 12
+mcu	atmega88p	quad32	atmega48p_88p_168p-ds40002065a	pp.10-11	{}	PC6 = PC6/RESET; rule 12
+mcu	atmega88pa	p28	atmega328p	pp.12-13	{}	PC6 = PC6/RESET; rule 12
+mcu	atmega88pa	quad28	atmega328p	pp.12-13	{}	PC6 = PC6/RESET; rule 12
+mcu	atmega88pa	quad32	atmega328p	pp.12-13	{}	PC6 = PC6/RESET; rule 12
+mcu	atmega88pb	quad32	40001910a	pp.10-12	{}	PC6 = PC6/RESET; rule 12
+mcu	atmega8a	p28	atmega8a-data-sheet-ds40001974b	pp.9-12	{}	PC6 = PC6/RESET; rule 12
+mcu	atmega8a	quad32	atmega8a-data-sheet-ds40001974b	pp.9-12	{}	PC6 = PC6/RESET; rule 12
+mcu	atmega8u2	quad32	7799s	pp.2-3	{}	PC1 = PC1/RESET/dW; rule 12
+mcu	attiny10	p6	atmel-8127-avr-8-bit-microcontroller-attiny4-attiny5-attiny9-attiny10_datasheet-summary	p.4	{}	PB3 = PB3/RESET; rule 12
+mcu	attiny10	p8	atmel-8127-avr-8-bit-microcontroller-attiny4-attiny5-attiny9-attiny10_datasheet-summary	p.4	{}	PB3 = PB3/RESET; rule 12
+mcu	attiny102	p8	atmel-42505-8-bit-avr-microcontrollers-attiny102-attiny104_summary	pp.8-9	{}	PA2 = PA2/RESET; rule 12
+mcu	attiny102f	p8	atmel-42505-8-bit-avr-microcontrollers-attiny102-attiny104_summary	pp.8-9	{}	PA2 = PA2/RESET; rule 12
+mcu	attiny104	p14	atmel-42505-8-bit-avr-microcontrollers-attiny102-attiny104_summary	p.8	{}	rule 12: port names only; RESET alternative of PA2 not in catalog name
+mcu	attiny13	p8	2535s	p.2	{}	rule 12: port names only; RESET alternative of PB5 not in catalog name
+mcu	attiny13	p10	2535s	p.2	{}	rule 12: port names only; RESET alternative of PB5 not in catalog name
+mcu	attiny13	quad20	2535s	p.2	{}	rule 12: port names only; RESET alternative of PB5 not in catalog name
+mcu	attiny13a	p8	attiny13a	p.8	{}	rule 12: port names only; RESET alternative of PB5 not in catalog name
+mcu	attiny13a	p10	attiny13a	p.8	{}	rule 12: port names only; RESET alternative of PB5 not in catalog name
+mcu	attiny13a	quad20	attiny13a	p.8	{}	rule 12: port names only; RESET alternative of PB5 not in catalog name
+mcu	attiny1604	p14	attiny804-06-07-1604-06-07-datasheet-ds40002312a	p.13	{}	rule 12: port names only; RESET/UPDI alternative of PA0 not in catalog name
+mcu	attiny1606	p20	attiny804-06-07-1604-06-07-datasheet-ds40002312a	p.14	{}	rule 12: port names only; RESET/UPDI alternative of PA0 not in catalog name
+mcu	attiny1606	quad20	attiny804-06-07-1604-06-07-datasheet-ds40002312a	p.15	{}	rule 12: port names only; RESET/UPDI alternative of PA0 not in catalog name
+mcu	attiny1607	quad24	attiny804-06-07-1604-06-07-datasheet-ds40002312a	p.16	{}	rule 12: port names only; RESET/UPDI alternative of PA0 not in catalog name
+mcu	attiny1614	p14	attiny1614-16-17-datasheet-ds40002204a	p.14	{}	rule 12: port names only; RESET/UPDI alternative of PA0 not in catalog name
+mcu	attiny1616	p20	attiny1614-16-17-datasheet-ds40002204a	p.15	{}	rule 12: port names only; RESET/UPDI alternative of PA0 not in catalog name
+mcu	attiny1616	quad20	attiny1614-16-17-datasheet-ds40002204a	p.16	{}	rule 12: port names only; RESET/UPDI alternative of PA0 not in catalog name
+mcu	attiny1617	quad24	attiny1614-16-17-datasheet-ds40002204a	p.17	{}	rule 12: port names only; RESET/UPDI alternative of PA0 not in catalog name
+mcu	attiny1624	p14	attiny1624-26-27-datasheet-ds40002234a	p.13	{}	rule 12: port names only; UPDI/RESET alternative of PA0 not in catalog name
+mcu	attiny1626	p20	attiny1624-26-27-datasheet-ds40002234a	p.14	{}	rule 12: port names only; UPDI/RESET alternative of PA0 not in catalog name
+mcu	attiny1626	quad20	attiny1624-26-27-datasheet-ds40002234a	p.15	{}	rule 12: port names only; UPDI/RESET alternative of PA0 not in catalog name
+mcu	attiny1627	quad24	attiny1624-26-27-datasheet-ds40002234a	p.16	{}	rule 12: port names only; UPDI/RESET alternative of PA0 not in catalog name
+mcu	attiny1634	p20	atmel-8303-8-bit-avr-microcontroller-tinyavr-attiny1634_datasheet_summary	p.2	{}	rule 12: port names only; RESET alternative of PC3 not in catalog name
+mcu	attiny1634	quad20	atmel-8303-8-bit-avr-microcontroller-tinyavr-attiny1634_datasheet_summary	p.2	{}	rule 12: port names only; RESET alternative of PC3 not in catalog name
+mcu	attiny1634r	p20	atmel-8303-8-bit-avr-microcontroller-tinyavr-attiny1634_datasheet_summary	p.2	{}	rule 12: port names only; RESET alternative of PC3 not in catalog name
+mcu	attiny1634r	quad20	atmel-8303-8-bit-avr-microcontroller-tinyavr-attiny1634_datasheet_summary	p.2	{}	rule 12: port names only; RESET alternative of PC3 not in catalog name
+mcu	attiny167	p20	attiny87-167-datasheet-ds40002167a	p.11	{}	rule 12: port names only; RESET alternative of PB7 not in catalog name
+mcu	attiny167	quad32	atmel-8265-8-bit-avr-microcontroller-tinyavr-attiny87-attiny167_summary	p.4	{}	rule 12: port names only; RESET alternative of PB7 not in catalog name
+mcu	attiny20	bga15	atmel-8235-8-bit-avr-microcontroller-attiny20_datasheet_summary	p.3	{}	rule 12: port names only; RESET alternative of PB3 not in catalog name
+mcu	attiny20	p14	atmel-8235-8-bit-avr-microcontroller-attiny20_datasheet	p.2	{}	rule 12: port names only; RESET alternative of PB3 not in catalog name
+mcu	attiny20	quad20	atmel-8235-8-bit-avr-microcontroller-attiny20_datasheet_summary	p.2	{}	rule 12: port names only; RESET alternative of PB3 not in catalog name
+mcu	attiny20	wlcsp12	atmel-8235-8-bit-avr-microcontroller-attiny20_datasheet_summary	p.3	{}	rule 12: port names only; RESET alternative of PB3 not in catalog name
+mcu	attiny202	p8	attiny202-204-402-404-406-datasheet-ds40002318a	p.13	{}	rule 12: port names only; RESET/UPDI alternative of PA0 not in catalog name
+mcu	attiny204	p14	attiny202-204-402-404-406-datasheet-ds40002318a	p.14	{}	rule 12: port names only; RESET/UPDI alternative of PA0 not in catalog name
+mcu	attiny212	p8	attiny212-214-412-414-416-datasheet-ds40002287a	p.14	{}	rule 12: port names only; RESET/UPDI alternative of PA0 not in catalog name
+mcu	attiny214	p14	attiny212-214-412-414-416-datasheet-ds40002287a	p.15	{}	rule 12: port names only; RESET/UPDI alternative of PA0 not in catalog name
+mcu	attiny2313	p20	atmel-2543-avr-attiny2313_datasheet	p.2	{}	rule 12: port names only; RESET alternative of PA2 not in catalog name
+mcu	attiny2313	quad20	atmel-2543-avr-attiny2313_summary	p.2	{}	rule 12: port names only; RESET alternative of PA2 not in catalog name
+mcu	attiny2313a	p20	8246s	p.2	{}	rule 12: port names only; RESET alternative of PA2 not in catalog name
+mcu	attiny2313a	quad20	8246s	p.2	{}	rule 12: port names only; RESET alternative of PA2 not in catalog name
+mcu	attiny24	p14	8006s	p.2	{}	rule 12: port names only; RESET alternative of PB3 not in catalog name
+mcu	attiny24	quad20	8006s	p.2	{}	rule 12: port names only; RESET alternative of PB3 not in catalog name
+mcu	attiny24a	bga15	8183s	p.2	{}	rule 12: port names only; RESET alternative of PB3 not in catalog name
+mcu	attiny24a	p14	8183s	p.2	{}	rule 12: port names only; RESET alternative of PB3 not in catalog name
+mcu	attiny24a	quad20	8183s	p.2	{}	rule 12: port names only; RESET alternative of PB3 not in catalog name
+mcu	attiny25	p8	atmel-2586-avr-8-bit-microcontroller-attiny25-attiny45-attiny85_datasheet-summary	p.2	{}	rule 12: port names only; RESET alternative of PB5 not in catalog name
+mcu	attiny25	quad20	atmel-2586-avr-8-bit-microcontroller-attiny25-attiny45-attiny85_datasheet-summary	p.2	{}	rule 12: port names only; RESET alternative of PB5 not in catalog name
+mcu	attiny26	p20	1477s	p.2	{}	rule 12: port names only; RESET alternative of PB7 not in catalog name
+mcu	attiny26	quad32	1477s	p.2	{}	rule 12: port names only; RESET alternative of PB7 not in catalog name
+mcu	attiny261a	p20	8197s	p.2	{}	rule 12: port names only; RESET alternative of PB7 not in catalog name
+mcu	attiny261a	quad32	8197s	p.2	{}	rule 12: port names only; RESET alternative of PB7 not in catalog name
+mcu	attiny28v	quad32	1062s	p.1	{"RESET":true}	
+mcu	attiny3216	p20	attiny3216-17-datasheet-ds40002205a	p.14	{}	rule 12: port names only; RESET/UPDI alternative of PA0 not in catalog name
+mcu	attiny3217	quad24	attiny3216-17-auto-datasheet-ds40002212a	p.15	{}	rule 12: port names only; RESET/UPDI alternative of PA0 not in catalog name
+mcu	attiny3224	p14	attiny3224-3226-3227-data-sheet-ds40002345b	p.14	{}	rule 12: port names only; UPDI/RESET alternative of PA0 not in catalog name
 mux	40257B	p16	cd40257b	p.1	{}	
 mux	4512B	p16	cd4512b	p.1	{}	
 mux	74_11257	p20	74ac11257	p.1	{"A/B":["A"],"OE":true}	
