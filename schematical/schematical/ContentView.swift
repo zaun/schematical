@@ -628,7 +628,7 @@ struct ContentView: View {
             }
             .onAppear {
                 file.openNewWindow = { openWindow(id: "schematic") }
-                SchematicSessions.shared.register(sessionID, document: document, simulation: simulation)
+                SchematicSessions.shared.register(sessionID, document: document, simulation: simulation, file: file)
                 simulation.setSpeed(simulationSpeed)
                 installEditKeyMonitor()
             }

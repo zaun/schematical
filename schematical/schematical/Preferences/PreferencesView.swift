@@ -36,6 +36,11 @@ enum PreferenceKey {
     /// Whether the AI agent control server runs (`AutomationServer`). Off
     /// unless turned on.
     static let automationEnabled = "automationEnabled"
+    /// The secret an agent must send (`AutomationServer.token`).
+    static let automationToken = "automationToken"
+    /// A security-scoped bookmark of the folder agents may open and save in
+    /// (`AutomationFolder`).
+    static let automationFolder = "automationFolder"
 }
 
 /// Settings ▸ General Defaults ▸ Names: how net label and bus wire names
@@ -327,28 +332,64 @@ private struct DefaultsPreferencesView: View {
 /// the running app (`AutomationServer`).
 private struct AutomationPreferencesView: View {
     @AppStorage(PreferenceKey.automationEnabled) private var enabled = false
+    @AppStorage(PreferenceKey.automationToken) private var token = ""
+    private let server = AutomationServer.shared
+    private let folder = AutomationFolder.shared
 
     var body: some View {
         Form {
             Section {
                 Toggle("Allow AI agents to control Schematical", isOn: $enabled)
             } footer: {
-                Text("Lets an AI agent that speaks MCP, such as Claude Code, work in the open windows: search parts, place them, draw wires, move footprints and route traces, run the design rule check, and see pictures of the schematic and board. Its edits happen live and can be undone. The server only accepts connections from this Mac, and only while this is on.")
+                Text("Lets an AI agent that speaks MCP, such as Claude Code, work in the open windows: search parts, place them, draw wires, lay out and route the board, run the design rule check, run the simulation, and see pictures of the schematic and board. Its edits happen live and can be undone. The server only accepts connections from this Mac that carry the key below, and only while this is on.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
             if enabled {
                 Section {
+                    LabeledContent("Status") {
+                        Text(statusText).foregroundStyle(.secondary)
+                    }
                     LabeledContent("Address") {
                         Text(AutomationServer.url).textSelection(.enabled)
                     }
+                    LabeledContent("Key") {
+                        HStack {
+                            Text(token.isEmpty ? AutomationServer.token : token)
+                                .textSelection(.enabled).lineLimit(1).truncationMode(.middle)
+                            Button("New Key") { token = AutomationServer.regenerateToken() }
+                        }
+                    }
                     LabeledContent("Claude Code") {
-                        Text(AutomationServer.addCommand).textSelection(.enabled)
+                        VStack(alignment: .trailing, spacing: 6) {
+                            Text(AutomationServer.addCommand).textSelection(.enabled).font(.caption.monospaced())
+                            Button("Copy Command") {
+                                NSPasteboard.general.clearContents()
+                                NSPasteboard.general.setString(AutomationServer.addCommand, forType: .string)
+                            }
+                        }
                     }
                 } header: {
                     Text("Connecting")
                 } footer: {
-                    Text("Run the Claude Code command once in a terminal. Other agents can use the address as a Streamable HTTP MCP server.")
+                    Text("Run the Claude Code command once in a terminal. Other agents can use the address as a Streamable HTTP MCP server and send the key as “Authorization: Bearer …”. A new key disconnects agents using the old one.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                Section {
+                    LabeledContent("Folder") {
+                        HStack {
+                            Text(folder.url?.path ?? "None chosen")
+                                .foregroundStyle(folder.url == nil ? .secondary : .primary)
+                                .lineLimit(1).truncationMode(.middle)
+                            Button("Choose…") { folder.choose() }
+                            if folder.url != nil { Button("Clear") { folder.clear() } }
+                        }
+                    }
+                } header: {
+                    Text("Files")
+                } footer: {
+                    Text("Agents can open, save and export (Gerber) files only inside this folder. With none chosen, those tools are off; everything else works.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -358,5 +399,17 @@ private struct AutomationPreferencesView: View {
         .onChange(of: enabled) { _, value in
             AutomationServer.shared.setEnabled(value)
         }
+        .onAppear {
+            if token.isEmpty { token = AutomationServer.token }
+            folder.load()
+        }
+    }
+
+    private var statusText: String {
+        guard server.isListening else { return "Starting…" }
+        guard let last = server.lastRequest else { return "Listening; no agent has connected yet" }
+        let name = server.clientName ?? "An agent"
+        let ago = Int(Date().timeIntervalSince(last))
+        return "\(name) connected; last request \(ago < 5 ? "just now" : "\(ago) s ago"); \(server.callCount) tool calls"
     }
 }

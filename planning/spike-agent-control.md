@@ -1,5 +1,9 @@
 # Spike: AI agents controlling the running app (MCP)
 
+> **Status: built.** The v1 described under "Proposed tool surface" is
+> implemented; see `docs/agent-control.md` for what ships. This file keeps the
+> research, the options considered and the spike's findings.
+
 Goal: let an agent (Claude Code, etc.) build schematics and PCBs in the
 **running app**, with the window updating live, not by editing the
 `.schematical` file.
@@ -162,6 +166,5 @@ open /tmp/spike-dd/Build/Products/Debug/schematical.app   # then Settings ▸ AI
 claude mcp add --transport http schematical http://127.0.0.1:47800/mcp
 ```
 
-The spike code is not production-ready: no token, no tests, a hand-written
-HTTP parser (use it as a proof, or swap for a vetted HTTP/MCP library),
-and `Debug` only was built.
+(Historical: the spike code had no key, no tests and a hand-written HTTP parser. v1 added the key,
+Host/Origin checks, a body cap, tests and the Settings page; the HTTP parser is still hand-written.)

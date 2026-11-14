@@ -2,256 +2,365 @@
 //  AutomationTools.swift
 //  schematical
 //
-//  SPIKE (planning/spike-agent-control.md): the tools the automation server
-//  offers an agent. Each one is a thin, name-addressed layer over the same
-//  SchematicDocument methods the canvas calls, so an agent's edit is one
-//  undo step like a person's, and the open window redraws by itself.
+//  The tools the automation server offers an agent (docs/agent-control.md).
+//  Each is a thin, name-addressed layer over the same SchematicDocument
+//  methods the canvas calls, so an agent's edit is one undo step like a
+//  person's, and the open window redraws by itself.
 //
 //  Agents address parts by reference ("U1") and pins by designator or name
-//  ("U1.14", "D1.K"), never by UUID or coordinate.
+//  ("U1.14", "D1.K"), never by UUID. Wires, labels, notes, traces, vias,
+//  holes and board texts have short ids (the first 8 hex digits) that
+//  `get_design` and `get_board` list.
+//
+//  The tools are in topical files: AutomationRead, AutomationSchematic,
+//  AutomationBoard, AutomationSimulation, AutomationSession.
 //
 
 import AppKit
 import Foundation
 
-@MainActor
-enum AutomationTools {
-    // MARK: Definitions
+// MARK: - Plumbing
 
-    private static func tool(_ name: String, _ description: String,
-                             _ properties: [String: Any] = [:], required: [String] = []) -> [String: Any] {
-        var props = properties
-        props["window"] = ["type": "string",
-                           "description": "Window id from list_windows. Omit when exactly one window is open."]
-        return ["name": name, "description": description,
-                "inputSchema": ["type": "object", "properties": props, "required": required]]
+/// What a tool works on: one schematic window.
+struct AutomationContext {
+    let id: UUID
+    let document: SchematicDocument
+    let simulation: SimulationController
+    let file: SchematicFileController?
+
+    /// The window's id as agents see it.
+    var shortID: String { String(id.uuidString.prefix(8)) }
+}
+
+/// A refusal an agent can read and act on.
+nonisolated struct AutomationFailure: Error {
+    let message: String
+    init(_ message: String) { self.message = message }
+}
+
+/// A tool call's arguments, with typed, validating readers.
+struct AutomationArgs {
+    let raw: [String: Any]
+
+    func string(_ key: String) throws -> String {
+        guard let value = raw[key] as? String, !value.isEmpty else {
+            throw AutomationFailure("\(key) is required (a string)")
+        }
+        return value
     }
 
-    private static let string: [String: Any] = ["type": "string"]
-    private static let number: [String: Any] = ["type": "number"]
+    func optString(_ key: String) -> String? {
+        guard let value = raw[key] as? String, !value.isEmpty else { return nil }
+        return value
+    }
 
-    static let definitions: [[String: Any]] = [
-        ["name": "list_windows",
-         "description": "The open schematic windows: id, part count, wire count.",
-         "inputSchema": ["type": "object", "properties": [String: Any]()]],
-        tool("search_parts", "Find catalog parts by name or description. Returns name, package, description, pins.",
-             ["query": string, "limit": number], required: ["query"]),
-        tool("get_design", "The whole design as text: every part with reference, position and pins (with what each is wired to), every wire, net labels."),
-        tool("place_part", "Place a catalog part on the schematic, centred at x,y (canvas units, y down, 10-unit grid). Returns its reference.",
-             ["part": string, "x": number, "y": number], required: ["part", "x", "y"]),
-        tool("connect", "Draw a wire between two pins, e.g. from \"R1.2\" to \"D1.A\". Pin = reference.designatorOrName.",
-             ["from": string, "to": string], required: ["from", "to"]),
-        tool("move_footprint", "PCB: move a part's footprint so its centre is at x,y (board mm, y down).",
-             ["reference": string, "x": number, "y": number], required: ["reference", "x", "y"]),
-        tool("add_trace", "PCB: add a copper trace through the points [[x,y],...] (board mm) on a layer (top, bottom, inner2..).",
-             ["points": ["type": "array", "items": ["type": "array", "items": number]], "layer": string],
-             required: ["points"]),
-        tool("run_drc", "Run the design rule check on the PCB. Returns the issues, one per line."),
-        tool("render", "A picture of the design: view = schematic | pcb | front | back. Use it to look at your work.",
-             ["view": string]),
-        tool("undo", "Undo the last edit on a page (schematic or pcb).", ["page": string]),
-        tool("redo", "Redo on a page (schematic or pcb).", ["page": string]),
-    ]
+    func double(_ key: String) throws -> Double {
+        guard let number = raw[key] as? NSNumber, !(raw[key] is Bool) else {
+            throw AutomationFailure("\(key) is required (a number)")
+        }
+        return number.doubleValue
+    }
 
-    // MARK: Dispatch
+    func optDouble(_ key: String) -> Double? {
+        guard let number = raw[key] as? NSNumber, !(raw[key] is Bool) else { return nil }
+        return number.doubleValue
+    }
 
-    static func call(_ name: String, _ args: [String: Any]) -> [String: Any] {
-        do {
-            if name == "list_windows" { return text(listWindows()) }
-            let (document, _) = try window(args["window"] as? String)
-            switch name {
-            case "search_parts": return text(searchParts(args))
-            case "get_design": return text(describe(document))
-            case "place_part": return text(try placePart(document, args))
-            case "connect": return text(try connect(document, args))
-            case "move_footprint": return text(try moveFootprint(document, args))
-            case "add_trace": return text(try addTrace(document, args))
-            case "run_drc": return text(runDRC(document))
-            case "render": return try render(document, args)
-            case "undo", "redo": return text(try undoRedo(document, args, redo: name == "redo"))
-            default: throw Failure("unknown tool \(name)")
-            }
-        } catch let failure as Failure {
-            return ["isError": true, "content": [["type": "text", "text": failure.message]]]
-        } catch {
-            return ["isError": true, "content": [["type": "text", "text": "\(error)"]]]
+    func optInt(_ key: String) -> Int? {
+        optDouble(key).map { Int($0.rounded()) }
+    }
+
+    func optBool(_ key: String) -> Bool? {
+        raw[key] as? Bool
+    }
+
+    func strings(_ key: String) throws -> [String] {
+        guard let list = raw[key] as? [Any] else { throw AutomationFailure("\(key) is required (a list of strings)") }
+        return try list.map {
+            guard let text = $0 as? String else { throw AutomationFailure("\(key) must hold only strings") }
+            return text
         }
     }
 
-    private struct Failure: Error {
-        let message: String
-        init(_ message: String) { self.message = message }
+    func point(_ key: String) throws -> CGPoint {
+        guard let pair = raw[key] as? [Any], pair.count == 2,
+              let x = (pair[0] as? NSNumber)?.doubleValue, let y = (pair[1] as? NSNumber)?.doubleValue else {
+            throw AutomationFailure("\(key) must be [x, y]")
+        }
+        return CGPoint(x: x, y: y)
     }
 
-    private static func text(_ string: String) -> [String: Any] {
-        ["content": [["type": "text", "text": string]]]
+    func points(_ key: String) throws -> [CGPoint] {
+        guard let list = raw[key] as? [Any] else { throw AutomationFailure("\(key) must be [[x, y], …]") }
+        return try list.map {
+            guard let pair = $0 as? [Any], pair.count == 2,
+                  let x = (pair[0] as? NSNumber)?.doubleValue, let y = (pair[1] as? NSNumber)?.doubleValue else {
+                throw AutomationFailure("\(key) must be [[x, y], …]")
+            }
+            return CGPoint(x: x, y: y)
+        }
+    }
+
+    /// A choice from a fixed list.
+    func choice(_ key: String, among options: [String], default fallback: String? = nil) throws -> String {
+        guard let value = optString(key) ?? fallback else {
+            throw AutomationFailure("\(key) is required: one of \(options.joined(separator: ", "))")
+        }
+        guard options.contains(value) else {
+            throw AutomationFailure("\(key) must be one of \(options.joined(separator: ", ")), got \(value)")
+        }
+        return value
+    }
+}
+
+/// One tool: its MCP definition and what it does.
+struct AutomationTool {
+    let name: String
+    let summary: String
+    var properties: [String: Any] = [:]
+    var required: [String] = []
+    /// Works on one window (adds the `window` argument).
+    var needsWindow = true
+    /// Changes nothing (an MCP hint).
+    var readOnly = false
+    /// Changes the design: refused while the simulation runs.
+    var edits = false
+    let run: (AutomationContext?, AutomationArgs) async throws -> [[String: Any]]
+
+    var definition: [String: Any] {
+        var props = properties
+        if needsWindow {
+            props["window"] = ["type": "string",
+                               "description": "Window id from list_windows. Omit to use the frontmost window."]
+        }
+        return ["name": name, "description": summary,
+                "inputSchema": ["type": "object", "properties": props, "required": required],
+                "annotations": ["readOnlyHint": readOnly]]
+    }
+}
+
+/// JSON-schema pieces for tool arguments.
+enum Schema {
+    static func string(_ detail: String, options: [String]? = nil) -> [String: Any] {
+        var schema: [String: Any] = ["type": "string", "description": detail]
+        if let options { schema["enum"] = options }
+        return schema
+    }
+
+    static func number(_ detail: String) -> [String: Any] { ["type": "number", "description": detail] }
+    static func integer(_ detail: String) -> [String: Any] { ["type": "integer", "description": detail] }
+    static func boolean(_ detail: String) -> [String: Any] { ["type": "boolean", "description": detail] }
+
+    static func strings(_ detail: String) -> [String: Any] {
+        ["type": "array", "items": ["type": "string"], "description": detail]
+    }
+
+    static func points(_ detail: String) -> [String: Any] {
+        ["type": "array", "items": ["type": "array", "items": ["type": "number"]], "description": detail]
+    }
+}
+
+// MARK: - Output
+
+enum Out {
+    static func text(_ string: String) -> [[String: Any]] {
+        [["type": "text", "text": string]]
+    }
+
+    static func image(_ data: Data, caption: String? = nil) -> [[String: Any]] {
+        var content: [[String: Any]] = [["type": "image", "data": data.base64EncodedString(), "mimeType": "image/png"]]
+        if let caption { content.append(["type": "text", "text": caption]) }
+        return content
+    }
+
+    /// Pretty-free JSON for structured results.
+    static func json(_ object: Any) -> [[String: Any]] {
+        guard JSONSerialization.isValidJSONObject(object),
+              let data = try? JSONSerialization.data(withJSONObject: object, options: [.sortedKeys]),
+              let string = String(data: data, encoding: .utf8) else { return text("\(object)") }
+        return text(string)
+    }
+}
+
+/// A number for text output: up to 3 decimals, no trailing zeros.
+func num(_ value: Double) -> String {
+    var text = String(format: "%.3f", value)
+    while text.hasSuffix("0") { text.removeLast() }
+    if text.hasSuffix(".") { text.removeLast() }
+    return text == "-0" ? "0" : text
+}
+
+func num(_ value: CGFloat) -> String { num(Double(value)) }
+
+// MARK: - Registry and dispatch
+
+enum AutomationTools {
+    static let all: [AutomationTool] =
+        sessionTools + readTools + schematicTools + boardTools + simulationTools
+
+    static let byName: [String: AutomationTool] = Dictionary(uniqueKeysWithValues: all.map { ($0.name, $0) })
+
+    static var definitions: [[String: Any]] { all.map(\.definition) }
+
+    static func call(_ name: String, _ raw: [String: Any]) async -> [String: Any] {
+        guard let tool = byName[name] else {
+            return failure("unknown tool \(name)")
+        }
+        do {
+            let context = tool.needsWindow ? try resolveWindow(raw["window"] as? String) : nil
+            if tool.edits, let context, context.document.isPlaying {
+                throw AutomationFailure("The simulation is running, so the design can't be edited. Call simulation_stop first.")
+            }
+            return ["content": try await tool.run(context, AutomationArgs(raw: raw))]
+        } catch let error as AutomationFailure {
+            return failure(error.message)
+        } catch {
+            return failure("\(error)")
+        }
+    }
+
+    static func failure(_ message: String) -> [String: Any] {
+        ["isError": true, "content": [["type": "text", "text": message]]]
     }
 
     // MARK: Windows
 
-    private static func window(_ id: String?) throws -> (SchematicDocument, SimulationController) {
-        let all = SchematicSessions.shared.identifiedSessions
+    static func sessions() -> [AutomationContext] {
+        SchematicSessions.shared.identifiedSessions.map {
+            AutomationContext(id: $0.id, document: $0.document, simulation: $0.simulation, file: $0.file)
+        }
+    }
+
+    /// The window an id names, or the frontmost one when none is given.
+    static func resolveWindow(_ id: String?) throws -> AutomationContext {
+        let all = sessions()
+        if all.isEmpty { throw AutomationFailure("no schematic window is open (use new_window)") }
         if let id {
-            guard let hit = all.first(where: { $0.id.uuidString.hasPrefix(id.uppercased()) }) else {
-                throw Failure("no window \(id); call list_windows")
+            let matches = all.filter { $0.id.uuidString.lowercased().hasPrefix(id.lowercased()) }
+            guard matches.count == 1 else {
+                throw AutomationFailure(matches.isEmpty ? "no window \(id); call list_windows"
+                                                        : "window id \(id) is ambiguous; call list_windows")
             }
-            return (hit.document, hit.simulation)
+            return matches[0]
         }
-        guard all.count == 1 else {
-            throw Failure(all.isEmpty ? "no schematic window is open" : "\(all.count) windows are open; pass window (see list_windows)")
+        if all.count == 1 { return all[0] }
+        // The frontmost visible schematic window.
+        for window in NSApp.orderedWindows where window.isVisible {
+            if let hit = all.first(where: { $0.file?.window === window }) { return hit }
         }
-        return (all[0].document, all[0].simulation)
+        if let key = all.first(where: { $0.file?.window?.isKeyWindow == true }) { return key }
+        throw AutomationFailure("\(all.count) windows are open; pass window (see list_windows)")
+    }
+}
+
+// MARK: - Looking things up by name
+
+extension AutomationContext {
+    func chip(_ reference: String) throws -> PlacedChip {
+        guard let chip = document.chips.first(where: { $0.reference.caseInsensitiveCompare(reference) == .orderedSame }) else {
+            let known = document.chips.prefix(12).map(\.reference).joined(separator: ", ")
+            throw AutomationFailure("no part \(reference)" + (known.isEmpty ? " (the design is empty)" : "; parts: \(known)"))
+        }
+        return chip
     }
 
-    private static func listWindows() -> String {
-        let all = SchematicSessions.shared.identifiedSessions
-        if all.isEmpty { return "no windows" }
-        return all.map {
-            "\($0.id.uuidString.prefix(8))  parts=\($0.document.chips.count) wires=\($0.document.wires.count)"
-        }.joined(separator: "\n")
+    /// "U1.14" or "D1.K": a part's pin by designator, else by name.
+    func pin(_ spec: String) throws -> (chip: PlacedChip, pin: ChipPin) {
+        guard let dot = spec.firstIndex(of: "."), dot != spec.startIndex else {
+            throw AutomationFailure("a pin looks like U1.14 or D1.K, got “\(spec)”")
+        }
+        let chip = try chip(String(spec[..<dot]))
+        let name = String(spec[spec.index(after: dot)...])
+        let pins = chip.part.pins
+        let hit = pins.first { $0.designator == name }
+            ?? pins.first { $0.name.caseInsensitiveCompare(name) == .orderedSame }
+        guard let hit else {
+            throw AutomationFailure("\(chip.reference) has no pin \(name); pins: "
+                                    + pins.map { "\($0.designator)=\($0.name)" }.joined(separator: " "))
+        }
+        return (chip, hit)
     }
 
-    // MARK: Reading
-
-    private static func searchParts(_ args: [String: Any]) -> String {
-        let query = (args["query"] as? String ?? "").lowercased()
-        let limit = (args["limit"] as? Int) ?? 15
-        let store = PartCatalogStore.shared
-        let hits = store.allParts.filter {
-            $0.name.lowercased().contains(query) || $0.description.lowercased().contains(query)
-                || $0.function.lowercased().contains(query)
-        }
-        var lines = hits.prefix(limit).map {
-            "\($0.name) [\($0.package)] \($0.description) | pins: "
-                + $0.pins.map { "\($0.designator)=\($0.name)" }.joined(separator: " ")
-        }
-        if hits.count > limit { lines.append("… \(hits.count - limit) more; narrow the query") }
-        return lines.isEmpty ? "no match" : lines.joined(separator: "\n")
+    func pinRef(_ spec: String) throws -> PinRef {
+        let found = try pin(spec)
+        return PinRef(chipID: found.chip.id, index: found.pin.index)
     }
 
-    private static func pinName(_ end: WireEnd, in document: SchematicDocument) -> String {
+    /// "R1.2" for a pin end of a wire.
+    func pinName(_ ref: PinRef) -> String {
+        guard let chip = document.chips.first(where: { $0.id == ref.chipID }),
+              let pin = chip.part.pins.first(where: { $0.index == ref.index }) else { return "?" }
+        return "\(chip.reference).\(pin.designator)"
+    }
+
+    func endName(_ end: WireEnd) -> String {
         switch end {
-        case let .pin(ref):
-            guard let chip = document.chips.first(where: { $0.id == ref.chipID }),
-                  let slot = chip.layout.slots.first(where: { $0.pin.index == ref.index }) else { return "?" }
-            return "\(chip.reference).\(slot.pin.designator)"
-        case let .junction(id): return "J\(id.uuidString.prefix(4))"
-        case .busPin: return "bus"
-        case .label: return "label"
+        case let .pin(ref): return pinName(ref)
+        case let .junction(id): return "junction:\(short(id))"
+        case let .busPin(ref):
+            if let found = document.port(ref.portID), let wire = found.bus.wires.first(where: { $0.id == ref.wireID }) {
+                return "bus:\(found.bus.name):\(wire.name)"
+            }
+            return "bus"
+        case let .label(id):
+            return "label:" + (document.netLabels.first { $0.id == id }?.name ?? short(id))
         }
     }
 
-    private static func describe(_ document: SchematicDocument) -> String {
-        var out = ["PARTS"]
-        for chip in document.chips {
-            let wired = document.connectedPins[chip.id] ?? []
-            let pins = chip.layout.slots.map { slot in
-                "\(slot.pin.designator):\(slot.pin.name)\(wired.contains(slot.pin.index) ? "*" : "")"
-            }.joined(separator: " ")
-            let pcb = chip.board.map { String(format: " pcb=(%.2f,%.2f)mm rot=%d", $0.centre.x, $0.centre.y, $0.rotation) } ?? ""
-            out.append("\(chip.reference) \(chip.part.name) at (\(Int(chip.origin.x)),\(Int(chip.origin.y)))\(pcb)  pins: \(pins)")
-        }
-        out.append("(* = wired)")
-        out.append("WIRES")
-        for wire in document.wires {
-            out.append("\(pinName(wire.start, in: document)) -> \(pinName(wire.end, in: document))")
-        }
-        out.append("TRACES \(document.traces.count)  VIAS \(document.vias.count)")
-        return out.joined(separator: "\n")
+    /// The centre of a part's block on the schematic: the point `place_part`
+    /// and `move_part` take.
+    func centre(of chip: PlacedChip) -> CGPoint {
+        let size = chip.layout.size
+        return CGPoint(x: chip.origin.x + size.width / 2, y: chip.origin.y + size.height / 2)
     }
 
-    // MARK: Editing
+    func short(_ id: UUID) -> String { String(id.uuidString.prefix(8)).lowercased() }
 
-    private static func resolvePin(_ spec: String, in document: SchematicDocument) throws -> PinRef {
-        let parts = spec.split(separator: ".", maxSplits: 1).map(String.init)
-        guard parts.count == 2 else { throw Failure("pin must look like U1.14 or D1.K, got \(spec)") }
-        guard let chip = document.chips.first(where: { $0.reference == parts[0] }) else {
-            throw Failure("no part \(parts[0])")
+    /// The one item whose id starts with `prefix`.
+    func find<T: Identifiable>(_ items: [T], _ prefix: String, kind: String) throws -> T where T.ID == UUID {
+        let lower = prefix.lowercased()
+        let hits = items.filter { $0.id.uuidString.lowercased().hasPrefix(lower) }
+        guard hits.count == 1 else {
+            throw AutomationFailure(hits.isEmpty ? "no \(kind) \(prefix)" : "\(kind) id \(prefix) is ambiguous")
         }
-        let slots = chip.layout.slots
-        let slot = slots.first { $0.pin.designator == parts[1] }
-            ?? slots.first { $0.pin.name.caseInsensitiveCompare(parts[1]) == .orderedSame }
-        guard let slot else {
-            throw Failure("\(parts[0]) has no pin \(parts[1]); pins: "
-                          + slots.map { "\($0.pin.designator)=\($0.pin.name)" }.joined(separator: " "))
-        }
-        return PinRef(chipID: chip.id, index: slot.pin.index)
+        return hits[0]
     }
+}
 
-    private static func double(_ args: [String: Any], _ key: String) throws -> Double {
-        guard let value = (args[key] as? NSNumber)?.doubleValue else { throw Failure("\(key) must be a number") }
-        return value
-    }
+// MARK: - Guide
 
-    private static func placePart(_ document: SchematicDocument, _ args: [String: Any]) throws -> String {
-        let name = args["part"] as? String ?? ""
-        guard let part = PartCatalogStore.shared.part(named: name) else {
-            throw Failure("no part \(name); use search_parts")
-        }
-        let before = document.chips.count
-        document.placeChip(part: part, symbol: symbol(for: part),
-                           centeredAt: CGPoint(x: try double(args, "x"), y: try double(args, "y")))
-        guard document.chips.count > before, let placed = document.chips.last else {
-            throw Failure("the part was not placed")
-        }
-        return "placed \(placed.reference) (\(part.name)) at (\(Int(placed.origin.x)),\(Int(placed.origin.y)))"
-    }
+/// What an agent is told when it connects (MCP `instructions`).
+enum AutomationGuide {
+    static let text = """
+    Schematical is a schematic and PCB design app. These tools drive the open windows live; \
+    everything you do shows on screen and is undoable (undo/redo), one step per call (or per batch).
 
-    private static func connect(_ document: SchematicDocument, _ args: [String: Any]) throws -> String {
-        let from = try resolvePin(args["from"] as? String ?? "", in: document)
-        let to = try resolvePin(args["to"] as? String ?? "", in: document)
-        if let refusal = document.connect(.pin(from), .pin(to)) { throw Failure(refusal) }
-        return "connected \(args["from"] ?? "") to \(args["to"] ?? "")"
-    }
+    Workflow: search_parts → place_part → connect (draw the schematic) → get_design / get_nets / render to \
+    check → run_drc → move_footprint / route (lay out the PCB) → run_drc → render (pcb, front). \
+    Look at your work with render often; it returns a picture.
 
-    private static func moveFootprint(_ document: SchematicDocument, _ args: [String: Any]) throws -> String {
-        let reference = args["reference"] as? String ?? ""
-        guard let chip = document.chips.first(where: { $0.reference == reference }) else {
-            throw Failure("no part \(reference)")
-        }
-        document.moveFootprint(chip.id, to: CGPoint(x: try double(args, "x"), y: try double(args, "y")))
-        let now = document.chips.first { $0.id == chip.id }?.board?.centre
-        return "\(reference) footprint now at \(now.map { "(\($0.x), \($0.y))" } ?? "none (no footprint)")"
-    }
+    Addressing: parts by reference ("U1", "R2"); pins by designator or name ("U1.14", "D1.K", "U1.VCC"). \
+    Everything else (wires, labels, notes, traces, vias, holes, board texts) by the short id get_design / \
+    get_board prints. Net labels connect by name: "label:CLK". A point on an existing wire is "@x,y".
 
-    private static func addTrace(_ document: SchematicDocument, _ args: [String: Any]) throws -> String {
-        guard let raw = args["points"] as? [[Double]], raw.count >= 2, raw.allSatisfy({ $0.count == 2 }) else {
-            throw Failure("points must be [[x,y],[x,y],...]")
-        }
-        let layer = CopperLayer(rawValue: args["layer"] as? String ?? "top") ?? .top
-        guard document.addTrace(points: raw.map { CGPoint(x: $0[0], y: $0[1]) }, layer: layer) != nil else {
-            throw Failure("trace refused: illegal angle, or layer \(layer.rawValue) is not a trace layer")
-        }
-        return "trace added on \(layer.rawValue); the document now has \(document.traces.count) traces"
-    }
+    Power symbols are parts too, placed by name: GND, 5V, 3V3, 2V5, 1V8, 1V2, 12V (pin "VCC"/"GND"), and \
+    PULLDOWN / PULLUP-5V (a resistor to a rail). They aren't listed by search_parts. Their references look \
+    like PWR1; use the reference place_part returns. Connect IC power pins to them like any other pin.
 
-    private static func runDRC(_ document: SchematicDocument) -> String {
-        let issues = document.designRuleCheck(rules: DesignRules.current())
-        if issues.isEmpty { return "no issues" }
-        return issues.map { "\($0.index). [\($0.kind)] \($0.reference): \($0.issue)" }.joined(separator: "\n")
-    }
+    Schematic coordinates: canvas units, y grows DOWN, a 10-unit grid (positions snap). Parts are placed and \
+    moved by their centre. A typical part is 40–120 units wide (a 14-pin DIP is ~120x290); leave ~100 units \
+    between parts. A part's size is in get_design. Wires take the shortest right-angle route and do NOT avoid \
+    parts: a wire that crosses a part's pins looks (and reads) like a short even though the netlist is right. \
+    Place parts so the L-shapes are clear, or pass connect `via` waypoints to go around. Check with render.
 
-    private static func undoRedo(_ document: SchematicDocument, _ args: [String: Any], redo: Bool) throws -> String {
-        let page = EditorPage(rawValue: args["page"] as? String ?? "schematic") ?? .schematic
-        let name = redo ? document.redoName(on: page) : document.undoName(on: page)
-        let done = redo ? document.redo(on: page) : document.undo(on: page)
-        return done ? "\(redo ? "redid" : "undid") \(name ?? "an edit")" : "nothing to \(redo ? "redo" : "undo")"
-    }
+    PCB coordinates: millimetres, y grows down, origin at the board's top-left. Footprints snap to the board \
+    grid (0.635 mm by default). Every part starts with a footprint auto-placed in a row; use move_footprint \
+    to lay them out inside the board (get_board shows its size). Route copper with route(from, to) between \
+    pads ("U1.3" → "R1.1"); it uses 45°/90° legs. Through-hole pads reach every layer; surface-mount pads \
+    only their side. The ratsnest (unrouted nets) shows in run_drc as "unrouted".
 
-    // MARK: Seeing
-
-    private static func render(_ document: SchematicDocument, _ args: [String: Any]) throws -> [String: Any] {
-        guard let view = ImageExportView(rawValue: args["view"] as? String ?? "schematic") else {
-            throw Failure("view must be schematic, pcb, front or back")
-        }
-        var options = ImageExportOptions()
-        options.view = view
-        options.format = .png
-        options.scale = 1
-        options.background = .white
-        guard let data = ImageExport.data(for: document, options.normalized()) else {
-            throw Failure("nothing to draw yet")
-        }
-        return ["content": [["type": "image", "data": data.base64EncodedString(), "mimeType": "image/png"]]]
-    }
+    Rules: the design can't be edited while the simulation runs (simulation_stop first). Edits that would \
+    put a part's pin outside its voltage range are refused with the reason. Use batch to make many edits \
+    as one undo step. Errors say what's wrong and what the valid choices are.
+    """
 }

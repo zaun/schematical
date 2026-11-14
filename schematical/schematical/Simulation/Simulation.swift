@@ -603,6 +603,21 @@ final class SimulationController {
         }
     }
 
+    /// The logic level ("0", "1", "X" for unknown, "Z" for floating) of the
+    /// net on a pin of a part, in the running simulation; nil when it isn't
+    /// running or the pin is on no net. Used by the agent-control tools.
+    func level(ofPin designator: String, on chipID: UUID) -> String? {
+        guard isRunning, let netlist, let part = netlist.chipIDs.firstIndex(of: chipID),
+              let connection = netlist.connections.first(where: { $0.part == part && $0.pin == designator })
+        else { return nil }
+        switch netValue(connection.net) {
+        case CIRCUIT_0: return "0"
+        case CIRCUIT_1: return "1"
+        case CIRCUIT_X: return "X"
+        default: return "Z"
+        }
+    }
+
     private func netValue(_ net: Int) -> CircuitValue {
         net < netValues.count ? netValues[net] : CIRCUIT_Z
     }

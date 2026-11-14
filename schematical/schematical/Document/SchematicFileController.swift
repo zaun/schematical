@@ -134,7 +134,11 @@ final class SchematicFileController {
         panel.allowsMultipleSelection = false
         panel.canChooseDirectories = false
         guard await run(panel) == .OK, let url = panel.url else { return }
+        await open(url)
+    }
 
+    /// Opens the schematic at `url` as `open()` does after its panel.
+    func open(_ url: URL) async {
         if let existing = Self.all.allObjects.first(where: { $0.fileURL?.standardizedFileURL == url.standardizedFileURL }),
            let window = existing.window, window.isVisible {
             window.makeKeyAndOrderFront(nil)
@@ -323,6 +327,21 @@ final class SchematicFileController {
 
         var errorDescription: String? {
             "The schematic has no parts, wires or buses."
+        }
+    }
+
+    /// Saves to `url` (or the window's file) with no panel and no alert, for
+    /// the agent-control tools. Returns why it failed, or nil.
+    func saveWithoutPanel(to url: URL?) -> String? {
+        guard let target = url ?? fileURL else { return "This window has no file yet; pass a path." }
+        let snapshot = SchematicFile(document: document, fileURL: target)
+        do {
+            try snapshot.encoded().write(to: target, options: .atomic)
+            fileURL = target
+            savedSnapshot = snapshot
+            return nil
+        } catch {
+            return "Couldn't save “\(target.lastPathComponent)”: \(error.localizedDescription)"
         }
     }
 
