@@ -139,13 +139,13 @@ cost for no measured need).
 
 Acceptance: cell-for-cell equality; plan-38-E's tests and `RouterFixtureTests` results unchanged.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd test -only-testing:schematicalTests/RoutingStateTests -only-testing:schematicalTests/RouterTests -only-testing:schematicalTests/RouterFixtureTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 3 min).
-Commit: —
+Commit: 43b2317f
 
 ### Phase 2 — relaxed search, victims, history
 
-- [ ] `Routing/RoutingSearch.swift`: relaxed mode with `present`/`history`, returning the path's victim entries.
-- [ ] `Routing/RoutingState.swift`: history map, `rip(entries)`.
-- [ ] Tests (`RoutingNegotiationTests`): a board where connection A takes the middle channel and leaves B no route — the relaxed search for B returns A as its only victim; relaxed search never crosses a `fixed` obstacle or a locked kept trace; history raises the cost of a contested cell (the cost of the same path rises after `history += 1`).
+- [x] `Routing/RoutingSearch.swift`: relaxed mode with `present`/`history`, returning the path's victim entries. (`SearchRules.present` > 0 makes a search relaxed: a cell only other nets' routed copper covers, where the fixed map is free or own, costs `present × (1 + history)`, and a via the same summed over its layers; the victims are found from the path by `RoutingState.victims(of:net:)`, by exact distance to each entry's copper. `RoutingSearch.lastCost` gives the path's cost.)
+- [x] `Routing/RoutingState.swift`: history map, `rip(entries)`. (`rip` also rips the entries left hanging by one end, and returns the nets that lost copper.)
+- [x] Tests (`RoutingNegotiationTests`): a board where connection A takes the middle channel and leaves B no route — the relaxed search for B returns A as its only victim; relaxed search never crosses a `fixed` obstacle or a locked kept trace; history raises the cost of a contested cell (the cost of the same path rises after `history += 1`). (Plus: ripping A restores the grid to the empty board's.) — `-only-testing:RoutingNegotiationTests -only-testing:RoutingSearchTests` → 14 tests, 0 failures, `** TEST SUCCEEDED **`.
 
 Acceptance: the cases pass.
   Check: `-only-testing:schematicalTests/RoutingNegotiationTests` → `** TEST SUCCEEDED **` (est. 2 min).

@@ -33,6 +33,9 @@ nonisolated struct RoutingState: Sendable {
     /// Each routed net's terminals, by component, for its joins.
     let terminals: [Int: [[RoutingTerminal]]]
     let netsByID: [Int: RoutingNet]
+    /// By node: how contested each cell has been (plan-38-F § 3); a relaxed
+    /// search pays `present × (1 + history)` to cross other nets' copper.
+    var history: [Float]
 
     static let tileCells = 64
 
@@ -52,6 +55,61 @@ nonisolated struct RoutingState: Sendable {
         }
         self.terminals = terminals
         netsByID = nets
+        history = Array(repeating: 0, count: grid.cellCount * grid.layers.count)
+    }
+
+    // MARK: Negotiation
+
+    /// Makes every cell of `path` dearer for the next relaxed search.
+    mutating func addHistory(_ path: [Int], step: Float) {
+        for node in path where node < history.count { history[node] += step }
+    }
+
+    /// The entries of other nets whose copper a path of net `net` crosses:
+    /// for each node, the copper within the stamp distance of a trace
+    /// centre there (a via's, at a layer change).
+    func victims(of path: [Int], net: Int) -> [Int] {
+        guard let routing = netsByID[net] else { return [] }
+        let cells = grid.cellCount
+        let half = routing.width / 2, viaRadius = routing.viaDiameter / 2
+        let mine = max(routing.clearance, problem.rules.minClearance)
+        var found = Set<Int>()
+        let reach = self.reach
+        for (i, node) in path.enumerated() {
+            let layer = grid.layers[node / cells]
+            let p = grid.point(node % cells)
+            let isVia = (i > 0 && path[i - 1] / cells != node / cells) || (i + 1 < path.count && path[i + 1] / cells != node / cells)
+            let own = isVia ? viaRadius : half
+            for entry in entries(near: CGRect(x: p.x - reach, y: p.y - reach, width: 2 * reach, height: 2 * reach))
+            where entry.net != net && !found.contains(entry.id) {
+                let theirs = netsByID[entry.net].map { max($0.clearance, problem.rules.minClearance) } ?? mine
+                let gap = max(mine, theirs)
+                let hit = entry.traces.contains { trace in
+                    (isVia || trace.layer == layer) && zip(trace.points, trace.points.dropFirst()).contains {
+                        SchematicDocument.distance(from: p, toSegment: $0.0, $0.1) < gap + trace.width / 2 + own
+                    }
+                } || entry.vias.contains { hypot($0.centre.x - p.x, $0.centre.y - p.y) < gap + $0.diameter / 2 + own }
+                if hit { found.insert(entry.id) }
+            }
+        }
+        return found.sorted()
+    }
+
+    /// Rips up entries, and then any entry of their nets left hanging by
+    /// one end; returns the nets that lost copper, sorted.
+    @discardableResult
+    mutating func rip(_ ids: [Int]) -> [Int] {
+        let nets = Set(ids.compactMap { entries[$0]?.net })
+        remove(ids)
+        var changed = true
+        while changed {
+            changed = false
+            for net in nets.sorted() {
+                let loose = dangling(of: net)
+                if !loose.isEmpty { remove(loose); changed = true }
+            }
+        }
+        return nets.sorted()
     }
 
     /// The ledger in the order the entries were made.

@@ -21,6 +21,9 @@ nonisolated struct SearchRules: Sendable {
     var directionPenalty: Double = 1.5
     var preferPenalty: Double = 1.6
     var maxExpansions = 3_000_000
+    /// A relaxed search's price per cell of other nets' routed copper
+    /// (times 1 + the cell's history); 0 is a hard search (plan-38-F).
+    var present: Double = 0
 
     init(net: Int, profile: Int, allowed: [Bool], preferred: [Bool], directions: [RoutingOptions.Direction]) {
         self.net = net
@@ -66,6 +69,8 @@ nonisolated struct RoutingSearch {
     private var generation: UInt32 = 0
     /// Expansions over every search so far.
     private(set) var expansions = 0
+    /// The cost of the last path found.
+    private(set) var lastCost: Float = 0
 
     init(nodes: Int) {
         cost = Array(repeating: .infinity, count: nodes)
@@ -136,7 +141,7 @@ nonisolated struct RoutingSearch {
     /// box in cell coordinates, for the heuristic; nil searches without one
     /// (Dijkstra). `isCancelled` is polled every 4096 expansions.
     mutating func search(_ grid: RoutingGrid, rules: SearchRules, sources: [Int], targets: [Int],
-                         goal: (x: ClosedRange<Int>, y: ClosedRange<Int>)?,
+                         goal: (x: ClosedRange<Int>, y: ClosedRange<Int>)?, history: [Float]? = nil,
                          isCancelled: () -> Bool) -> Result<[Int], SearchFailure> {
         for node in touched {
             cost[node] = .infinity
@@ -161,30 +166,52 @@ nonisolated struct RoutingSearch {
         }
         let marks = targetMark, generation = self.generation
         var local = 0
+        var found: Float = 0
+        let history = history ?? []
         let outcome: Result<[Int], SearchFailure> = cost.withUnsafeMutableBufferPointer { cost in
             came.withUnsafeMutableBufferPointer { came in
                 marks.withUnsafeBufferPointer { marks in
                     grid.traceMaps.withUnsafeBufferPointer { traceMaps in
                         grid.viaMaps.withUnsafeBufferPointer { viaMaps in
-                            Self.explore(grid, rules: rules, sources: sources, goal: goal, cost: cost, came: came,
-                                         marks: marks, generation: generation, traceMaps: traceMaps, viaMaps: viaMaps,
-                                         touched: &touched, expanded: &local, isCancelled: isCancelled)
+                            grid.fixedTraceMaps.withUnsafeBufferPointer { fixedTrace in
+                                grid.fixedViaMaps.withUnsafeBufferPointer { fixedVia in
+                                    history.withUnsafeBufferPointer { history in
+                                        Self.explore(grid, rules: rules, sources: sources, goal: goal, cost: cost,
+                                                     came: came, marks: marks, generation: generation,
+                                                     maps: Maps(trace: traceMaps, via: viaMaps, fixedTrace: fixedTrace,
+                                                                fixedVia: fixedVia, history: history),
+                                                     touched: &touched, expanded: &local, found: &found,
+                                                     isCancelled: isCancelled)
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
         }
         expansions += local
+        lastCost = found
         return outcome
+    }
+
+    /// The grid's maps as the search reads them.
+    private struct Maps {
+        let trace: UnsafeBufferPointer<Int32>
+        let via: UnsafeBufferPointer<Int32>
+        let fixedTrace: UnsafeBufferPointer<Int32>
+        let fixedVia: UnsafeBufferPointer<Int32>
+        /// By node; empty outside a relaxed search.
+        let history: UnsafeBufferPointer<Float>
     }
 
     private static func explore(_ grid: RoutingGrid, rules: SearchRules, sources: [Int],
                                 goal: (x: ClosedRange<Int>, y: ClosedRange<Int>)?,
                                 cost: UnsafeMutableBufferPointer<Float>, came: UnsafeMutableBufferPointer<Int32>,
-                                marks: UnsafeBufferPointer<UInt32>, generation: UInt32,
-                                traceMaps: UnsafeBufferPointer<Int32>, viaMaps: UnsafeBufferPointer<Int32>,
-                                touched: inout [Int], expanded: inout Int,
+                                marks: UnsafeBufferPointer<UInt32>, generation: UInt32, maps: Maps,
+                                touched: inout [Int], expanded: inout Int, found: inout Float,
                                 isCancelled: () -> Bool) -> Result<[Int], SearchFailure> {
+        let traceMaps = maps.trace, viaMaps = maps.via
         let cells = grid.cellCount, nx = grid.nx, ny = grid.ny, layerCount = grid.layers.count
         let net = Int32(rules.net)
         let base = rules.profile * layerCount * cells
@@ -196,18 +223,38 @@ nonisolated struct RoutingSearch {
             let dx = Float(max(0, gx0 - x, x - gx1)), dy = Float(max(0, gy0 - y, y - gy1))
             return dx > dy ? dx + 0.41421356 * dy : dy + 0.41421356 * dx
         }
-        @inline(__always) func passable(_ layer: Int, _ cell: Int) -> Bool {
-            let value = traceMaps[base + layer * cells + cell]
-            return value == -1 || value == net
+        let relaxed = rules.present > 0 && maps.history.count == layerCount * cells
+        let present = Float(rules.present)
+        /// What entering a cell on a layer costs beyond the step: 0 when
+        /// it is free or the net's own; in a relaxed search, the price of a
+        /// cell only other nets' routed copper covers; -1 when it can't be
+        /// entered at all (fixed copper, two nets, the edge).
+        @inline(__always) func price(_ layer: Int, _ cell: Int) -> Float {
+            let index = base + layer * cells + cell
+            let value = traceMaps[index]
+            if value == -1 || value == net { return 0 }
+            if relaxed {
+                let fixed = maps.fixedTrace[index]
+                if fixed == -1 || fixed == net { return present * (1 + maps.history[layer * cells + cell]) }
+            }
+            return -1
         }
-        @inline(__always) func viaFits(_ cell: Int) -> Bool {
-            var layer = 0
+        @inline(__always) func passable(_ layer: Int, _ cell: Int) -> Bool { price(layer, cell) >= 0 }
+        /// A via's price at a cell over every layer, as `price`.
+        @inline(__always) func viaPrice(_ cell: Int) -> Float {
+            var layer = 0, total: Float = 0
             while layer < layerCount {
-                let value = viaMaps[base + layer * cells + cell]
-                if value != -1 && value != net { return false }
+                let index = base + layer * cells + cell
+                let value = viaMaps[index]
+                if value != -1 && value != net {
+                    guard relaxed else { return -1 }
+                    let fixed = maps.fixedVia[index]
+                    guard fixed == -1 || fixed == net else { return -1 }
+                    total += present * (1 + maps.history[layer * cells + cell])
+                }
                 layer += 1
             }
-            return true
+            return total
         }
         let sdx = [1, -1, 0, 0, 1, 1, -1, -1], sdy = [0, 0, 1, -1, 1, -1, 1, -1]
         let stepCount = rules.orthogonal ? 4 : 8
@@ -249,6 +296,7 @@ nonisolated struct RoutingSearch {
                     current = Int(came[current])
                     path.append(current)
                 }
+                found = g
                 return .success(path.reversed())
             }
             expanded += 1
@@ -270,10 +318,11 @@ nonisolated struct RoutingSearch {
                 k += 1
                 if jx < 0 || jy < 0 || jx >= nx || jy >= ny { continue }
                 let next = jy * nx + jx
-                if !passable(layer, next) { continue }
+                let enter = price(layer, next)
+                if enter < 0 { continue }
                 // No squeezing past a corner: both orthogonal cells too.
                 if dx != 0 && dy != 0 && (!passable(layer, y * nx + jx) || !passable(layer, jy * nx + x)) { continue }
-                var step = stepCost[layer * 8 + k - 1]
+                var step = stepCost[layer * 8 + k - 1] + enter
                 if (lastDX != 0 || lastDY != 0) && (lastDX != dx || lastDY != dy) { step += bend }
                 let target = layerBase + next
                 let candidate = g + step
@@ -285,8 +334,9 @@ nonisolated struct RoutingSearch {
                 }
             }
             // A via: to every other allowed layer, where one fits.
-            if vias && viaFits(cell) {
-                let candidate = g + viaCost
+            let via = vias ? viaPrice(cell) : -1
+            if via >= 0 {
+                let candidate = g + viaCost + via
                 for other in 0..<layerCount where other != layer && allowed[other] {
                     let target = other * cells + cell
                     if candidate < cost[target] {
