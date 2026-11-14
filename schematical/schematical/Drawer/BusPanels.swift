@@ -137,7 +137,15 @@ struct BusPanel: View {
                         }
                     }
                 } header: {
-                    Text("Wire Names")
+                    HStack {
+                        Text("Wire Names")
+                        Spacer()
+                        Button("Import…") { importWires() }
+                            .disabled(!bus.card.isCustom)
+                            .help(bus.card.isCustom ? "Load the wire names from a CSV or text file" : "Set by the bus type; set Type to Custom to change it")
+                        Button("Export…") { exportWires(bus) }
+                            .help("Save the wire names as a CSV file")
+                    }
                 } footer: {
                     if let wireOrderError {
                         Text(wireOrderError)
@@ -190,6 +198,37 @@ struct BusPanel: View {
     private func cancelLink() {
         linkTarget = nil
         nameText = document.bus(busID)?.name ?? nameText
+    }
+
+    /// Saves the bus's wire names (see `BusWireList`).
+    private func exportWires(_ bus: Bus) {
+        let panel = NSSavePanel()
+        panel.allowedContentTypes = [.commaSeparatedText]
+        panel.nameFieldStringValue = "\(bus.name.isEmpty ? "Bus" : bus.name) wires.csv"
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        do {
+            try BusWireList.text(bus.wires.map(\.name)).write(to: url, atomically: true, encoding: .utf8)
+            wireOrderError = nil
+        } catch {
+            NSAlert(error: error).runModal()
+        }
+    }
+
+    /// Loads wire names from a file onto this bus (see `BusWireList`).
+    private func importWires() {
+        let panel = NSOpenPanel()
+        panel.allowedContentTypes = [.commaSeparatedText, .plainText]
+        panel.allowsMultipleSelection = false
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        do {
+            let text = try String(contentsOf: url, encoding: .utf8)
+            switch BusWireList.names(in: text) {
+            case let .success(names): wireOrderError = document.setBusWireNames(busID, names)
+            case let .failure(error): wireOrderError = error.message
+            }
+        } catch {
+            NSAlert(error: error).runModal()
+        }
     }
 
     private func setCard(_ card: BusCard) {

@@ -4358,6 +4358,42 @@ final class SchematicDocument {
         }
     }
 
+    /// Sets a bus's wires to `names`, in order (the Bus panel's Import).
+    /// Wires keep their places and ids (so ports and the wires on their pins
+    /// stay) and are renamed; wires are added or dropped at the end. One
+    /// undo step. Refused, with why, and nothing changes, when the bus type
+    /// sets the wires, a name is invalid, the count is out of range, a port
+    /// uses a wire that would go, or the card edge uses the bus and the
+    /// count would change.
+    func setBusWireNames(_ id: UUID, _ names: [String]) -> String? {
+        return recordEdit(.schematic, "Import Bus Wires") { () -> String? in
+            guard let index = buses.firstIndex(where: { $0.id == id }) else { return nil }
+            let bus = buses[index]
+            if !bus.card.isCustom { return Self.typeSetsWires }
+            let names = names.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            guard Bus.wireCountRange.contains(names.count) else {
+                return "A bus carries \(Bus.wireCountRange.lowerBound)–\(Bus.wireCountRange.upperBound) wires."
+            }
+            if names.contains(where: { $0.isEmpty }) { return "A wire name can't be empty." }
+            if names.contains(where: { $0.count > Bus.nameLengthRange.upperBound }) { return "A wire name is at most 4 characters." }
+            if names.contains(where: { $0.contains(where: \.isWhitespace) }) { return "A wire name can't contain spaces." }
+            let group = linkGroup(index)
+            if names.count != bus.wires.count {
+                if groupHasEdge(group) { return edgeBusLock(bus) }
+                if let highest = highestUsedWire(group), names.count < highest + 1 {
+                    return "\(bus.wires[highest].name) is used by a port; this bus needs at least \(highest + 1) wires."
+                }
+            }
+            var wires = Array(bus.wires.prefix(names.count))
+            for (i, name) in names.enumerated() {
+                if i < wires.count { wires[i].name = name } else { wires.append(BusWire(name: name)) }
+            }
+            buses[index].wires = wires
+            syncLinked(index)
+            return nil
+        }
+    }
+
     /// Moves one wire of a bus to place `to` (0-based, in the order after
     /// the move), keeping its id and name, so its net and the wires on its
     /// port pins go with it. Linked buses move the wire at the same place
