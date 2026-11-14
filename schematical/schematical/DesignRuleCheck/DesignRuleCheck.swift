@@ -664,11 +664,8 @@ private struct DesignRuleChecker {
                 inks.append(Ink(shape: Shape(core: .segment(mark, mark), radius: Self.pin1Diameter / 2, layers: nil, node: -1),
                                 side: placement.side, owner: chip.reference, what: "Pin-1 mark", items: items))
             }
-            if placement.reference == .silkscreen {
+            if placement.reference == .silkscreen, let rect = chip.boardReferenceRect() {
                 if BoardReference.height < rules.minSilkscreenHeight - Self.tolerance { shortReferences.append(chip) }
-                let size = BoardReference.size(of: chip.reference)
-                let rect = CGRect(x: body.rect.midX - size.width / 2, y: body.rect.midY - size.height / 2,
-                                  width: size.width, height: size.height)
                 inks.append(Ink(shape: Shape(core: .rect(rect), radius: 0, layers: nil, node: -1),
                                 side: placement.side, owner: chip.reference, what: "Reference", items: items))
             }

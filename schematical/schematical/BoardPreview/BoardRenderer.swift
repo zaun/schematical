@@ -442,9 +442,9 @@ struct BoardRenderer {
                 context.fill(Path(ellipseIn: CGRect(x: mark.x - 0.2, y: mark.y - 0.2, width: 0.4, height: 0.4)),
                              with: .color(ink))
             }
-            if placement.reference == .silkscreen {
+            if placement.reference == .silkscreen, let at = chip.boardReferenceCentre {
                 context.drawLayer { l in
-                    l.translateBy(x: body.rect.midX, y: body.rect.midY)
+                    l.translateBy(x: at.x, y: at.y)
                     if side == .bottom { l.scaleBy(x: -1, y: 1) }
                     l.draw(Text(chip.reference).font(.system(size: 1, weight: .medium)).foregroundStyle(ink),
                            at: .zero, anchor: .center)

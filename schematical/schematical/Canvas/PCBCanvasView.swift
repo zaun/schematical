@@ -555,13 +555,14 @@ struct PCBCanvasView: View {
 
         // Reference: 1 mm tall, but never under 8 points on screen. Mirrored
         // on Bottom, as a real bottom silkscreen reads from above.
-        if visible.showsMark(placement.reference, side: side), let ink = placement.reference.color(on: colour) {
+        if visible.showsMark(placement.reference, side: side), let ink = placement.reference.color(on: colour),
+           let at = chip.boardReferenceCentre {
             let height = max(1, 8 / scale)
             let text = Text(chip.reference)
                 .font(.system(size: height, weight: .medium))
                 .foregroundStyle(ink)
             context.drawLayer { layer in
-                layer.translateBy(x: body.rect.midX, y: body.rect.midY)
+                layer.translateBy(x: at.x, y: at.y)
                 if side == .bottom { layer.scaleBy(x: -1, y: 1) }
                 layer.draw(text, at: .zero, anchor: .center)
             }

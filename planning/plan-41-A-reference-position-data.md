@@ -222,21 +222,21 @@ caller draws it yet, so it lands alone.
       footprint; one undo step named "Move Reference", redo too.
 
 Acceptance: those tests pass.
-  Result: `** TEST SUCCEEDED **`; ReferencePositionTests 11, DesignRuleCheckTests 16, GerberExportTests 9 → 36 tests, 0 failures.
+  Result: `** TEST SUCCEEDED **`; ReferencePositionTests 9, DesignRuleCheckTests 11, GerberExportTests 16 → 36 tests, 0 failures.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p41-dd test -only-testing:schematicalTests/ReferencePositionTests -only-testing:schematicalTests/DesignRuleCheckTests -only-testing:schematicalTests/GerberExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 8 min: build plus three test classes; the two existing classes prove the zero-offset output is unchanged).
-Commit: —
+Commit: 9640a841
 
 ### Phase 2 — Draw and check at the offset
 
 Moves the four reference sites onto `boardReferenceCentre` / `boardReferenceRect`.
 
-- [ ] `Canvas/PCBCanvasView.swift:564`: translate to
+- [x] `Canvas/PCBCanvasView.swift:564`: translate to
       `chip.boardReferenceCentre` (the guard already has `chip.board`).
-- [ ] `BoardPreview/BoardRenderer.swift:447`: the same.
-- [ ] `Document/GerberExport.swift:183`: pass `chip.boardReferenceCentre`.
-- [ ] `DesignRuleCheck/DesignRuleCheck.swift:672`: the `Ink` rect is
+- [x] `BoardPreview/BoardRenderer.swift:447`: the same.
+- [x] `Document/GerberExport.swift:183`: pass `chip.boardReferenceCentre`.
+- [x] `DesignRuleCheck/DesignRuleCheck.swift:672`: the `Ink` rect is
       `chip.boardReferenceRect()`.
-- [ ] Tests: in `GerberExportTests` a part with an offset has its reference
+- [x] Tests: in `GerberExportTests` a part with an offset has its reference
       glyphs centred on `board.board(offset)` (reference glyph bounds' centre
       within 0.05 mm), and the same part with zero offset still centres on the
       body (already covered by the existing test); in `DesignRuleCheckTests`
@@ -244,7 +244,7 @@ Moves the four reference sites onto `boardReferenceCentre` / `boardReferenceRect
       warning, and after `moveReference` to clear air does not.
 
 Acceptance: moved references are drawn and checked where they are.
-  Check: same xcodebuild command as Phase 1 → `** TEST SUCCEEDED **` (est. 8 min; incremental build).
+  Result: `** TEST SUCCEEDED **`; ReferencePositionTests 9, DesignRuleCheckTests 12, GerberExportTests 17 → 38 tests, 0 failures. Check: same xcodebuild command as Phase 1 (est. 8 min; incremental build).
 Commit: —
 
 ### Phase 3 — Save, open, docs

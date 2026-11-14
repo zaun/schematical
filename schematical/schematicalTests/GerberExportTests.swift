@@ -232,4 +232,41 @@ final class GerberExportTests: XCTestCase {
         XCTAssertEqual(Array(data.prefix(4)), [0x50, 0x4B, 0x03, 0x04])
         XCTAssertNil(controller.fileURL, "an export is not a save")
     }
+
+    /// The centre of the bounding box of every filled region (glyph) in a
+    /// silkscreen file, in Gerber mm (y up).
+    private func regionCentre(_ silk: String) -> CGPoint? {
+        var points: [CGPoint] = []
+        var inRegion = false
+        for line in lines(silk) {
+            if line == "G36*" { inRegion = true; continue }
+            if line == "G37*" { inRegion = false; continue }
+            guard inRegion, line.hasPrefix("X"), let y = line.firstIndex(of: "Y") else { continue }
+            let x = Double(line[line.index(after: line.startIndex)..<y]) ?? 0
+            let end = line.firstIndex(where: { $0 == "D" }) ?? line.endIndex
+            let yv = Double(line[line.index(after: y)..<end]) ?? 0
+            points.append(CGPoint(x: x / 1e6, y: yv / 1e6))
+        }
+        guard let first = points.first else { return nil }
+        let box = points.reduce(CGRect(origin: first, size: .zero)) { $0.union(CGRect(origin: $1, size: .zero)) }
+        return CGPoint(x: box.midX, y: box.midY)
+    }
+
+    /// plan-41-A: the reference's glyphs are drawn at the reference's
+    /// position, not the body centre.
+    func testMovedReferenceGlyphsAreCentredWhereItIs() throws {
+        let doc = TestSupport.newDocument()
+        let chip = try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 200, y: 200))
+        doc.setBoardSize(width: 100, height: 80)
+        doc.moveFootprint(chip.id, to: CGPoint(x: 40, y: 30))
+        let before = try XCTUnwrap(regionCentre(try file(GerberExport.files(for: doc, base: "b", rules: rules), ".GTO")))
+        let from = try XCTUnwrap(doc.chips.first?.boardReferenceCentre)
+        doc.moveReference(chip.id, toCentre: CGPoint(x: from.x + 7.5, y: from.y - 11))
+        let to = try XCTUnwrap(doc.chips.first?.boardReferenceCentre)
+        let after = try XCTUnwrap(regionCentre(try file(GerberExport.files(for: doc, base: "b", rules: rules), ".GTO")))
+        // Gerber's y is up, so a move up the board is a larger y.
+        XCTAssertEqual(after.x - before.x, to.x - from.x, accuracy: 1e-4)
+        XCTAssertEqual(after.y - before.y, -(to.y - from.y), accuracy: 1e-4)
+        XCTAssertNotEqual(to.x, from.x)
+    }
 }
