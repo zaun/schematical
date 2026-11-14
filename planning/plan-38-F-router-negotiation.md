@@ -149,12 +149,12 @@ Commit: 43b2317f
 
 Acceptance: the cases pass.
   Check: `-only-testing:schematicalTests/RoutingNegotiationTests` → `** TEST SUCCEEDED **` (est. 2 min).
-Commit: —
+Commit: 2732788f
 
 ### Phase 3 — the negotiation loop and strategies
 
-- [ ] `Routing/Router.swift`: queue order, rounds, `maxRips`, the stall rule, the three strategies, Thorough's runs and keep-best, cancel / time limit returning the current legal ledger, `RoutingStats` (rounds, rips, seconds, vias, wire mm).
-- [ ] Tests (`RoutingNegotiationTests`): the two-connection board of Phase 2 completes under Fast, Balanced and Thorough where the single pass fails; a 6-net "channel" board (hand-built: 6 pads on the left, 6 on the right in reversed order, 2 layers) completes under Balanced; a cancel after the first round returns a result with no overlapping pair of copper (check every pair with `CopperGeometry.gap` against the rule); `timeLimit: 0.001` returns promptly with that property; same input twice → equal results; reversing `problem.nets` → equal results; Thorough with seeds 1 and 2 may differ but each is legal.
+- [x] `Routing/Router.swift`: queue order, rounds, `maxRips`, the stall rule, the three strategies, Thorough's runs and keep-best, cancel / time limit returning the current legal ledger, `RoutingStats` (rounds, rips, seconds, vias, wire mm). (Round 0 is E's single pass, hard searches only; each later round relaxes. After a relaxed path's victims are ripped, the connection is searched *hard* again before anything is stamped, so the ledger only ever holds hard-legal copper. A net's work is "join the nearest other group to the group of component 0". Plane fan-out runs once first, and its nets' copper is pinned: never a victim, since the Plane join it makes isn't in the ledger's groups.)
+- [x] Tests (`RoutingNegotiationTests`): the two-connection board of Phase 2 completes under Fast, Balanced and Thorough where the single pass fails; a 6-net "channel" board (hand-built: 6 pads on the left, 6 on the right in reversed order, 2 layers) completes under Balanced; a cancel after the first round returns a result with no overlapping pair of copper (check every pair with `CopperGeometry.gap` against the rule); `timeLimit: 0.001` returns promptly with that property; same input twice → equal results; reversing `problem.nets` → equal results; Thorough with seeds 1 and 2 may differ but each is legal. (The "two-connection board" is `twoGaps`: a wall with one gap both nets fit and one only net 1 fits, net 2 keeping 0.2 mm; the single pass, run as a 0-round strategy, routes 1 of 2. Plus: a net walled off by fixed copper ends the run by the stall rule, ≤ 4 rounds, not 30.) — `-only-testing:RoutingNegotiationTests -only-testing:RouterTests` → 18 tests, 0 failures, `** TEST SUCCEEDED **`.
 
 Acceptance: the cases pass.
   Check: `-only-testing:schematicalTests/RoutingNegotiationTests -only-testing:schematicalTests/RouterTests` → `** TEST SUCCEEDED **` (est. 3 min).
