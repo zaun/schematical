@@ -140,6 +140,13 @@ nonisolated enum KeyboardHelp {
             entry("Via", "Click to place a via, drag to move it"),
             entry("Hole", "Click to place a drilled or mounting hole, drag to move it"),
             entry("Delete", "Click a trace, via, hole or text to delete it"),
+            entry("Route", "Click a pad to route its net, an unrouted line to route that connection"),
+        ]),
+        HelpSection(title: "Route", entries: [
+            entry("⌥⌘R", "Autoroute…: route the board with the options you choose"),
+            entry("⌥⇧⌘R", "Route the selection's nets with the last options"),
+            entry("⌥⌘U", "Unroute the selection's nets (locked copper stays)"),
+            entry("Route tool", "Click a pad or an unrouted line to route just that"),
         ]),
         HelpSection(title: "Nets (sidebar, nothing selected)", entries: [
             entry("Click a net", "Highlight its pads, traces, vias and unrouted lines; click again to clear"),
