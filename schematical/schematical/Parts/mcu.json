@@ -22216,11 +22216,11 @@
       ]
     },
     {
-      "id": "esp32-c3-mini-1",
-      "function": "ESP32-C3-MINI-1",
+      "id": "esp32-c3",
+      "function": "ESP32-C3",
       "description": "Wi-Fi + Bluetooth LE module (ESP32-C3)",
       "drawer": ["Microcontroller", "ESP32"],
-      "note": "facts: module datasheet (ESP32-C3 SoC: core, clock, SRAM); flash: smallest part; pinouts: module53 module-table:esp32-c3-mini-1_datasheet_en.pdf:module-table: Pin Definitions table",
+      "note": "facts: module datasheet (ESP32-C3 SoC: core, clock, SRAM); flash: smallest part; pinouts: module53 module-table:esp32-c3-mini-1_datasheet_en.pdf:module-table: Pin Definitions table; module19 module-table:esp32-c3-wroom-02_datasheet_en.pdf:module-table: Pin Definitions table",
       "simulated": false,
       "core": "riscv",
       "clock": 160000000,
@@ -22282,28 +22282,7 @@
           {"number":51,"name":"GND","role":"ground"},
           {"number":52,"name":"GND","role":"ground"},
           {"number":53,"name":"GND","role":"ground"}
-        ]
-      },
-      "parts": [
-        {"name":"ESP32-C3-MINI-1-N4-A","manufacturer":"Espressif Systems","datasheet":"esp32-c3-mini-1_datasheet_en","package":"Module","pinout":"module53","footprint":"ESP32-C3-MINI-1","flash":4194304},
-        {"name":"ESP32-C3-MINI-1-N4X","manufacturer":"Espressif Systems","datasheet":"esp32-c3-mini-1_datasheet_en","package":"Module","pinout":"module53","footprint":"ESP32-C3-MINI-1","flash":4194304},
-        {"name":"ESP32-C3-MINI-1U-H4X","manufacturer":"Espressif Systems","datasheet":"esp32-c3-mini-1_datasheet_en","package":"Module","pinout":"module53","footprint":"ESP32-C3-MINI-1U","flash":4194304},
-        {"name":"ESP32-C3-MINI-1U-N4X","manufacturer":"Espressif Systems","datasheet":"esp32-c3-mini-1_datasheet_en","package":"Module","pinout":"module53","footprint":"ESP32-C3-MINI-1U","flash":4194304}
-      ]
-    },
-    {
-      "id": "esp32-c3-wroom-02",
-      "function": "ESP32-C3-WROOM-02",
-      "description": "Wi-Fi + Bluetooth LE module (ESP32-C3)",
-      "drawer": ["Microcontroller", "ESP32"],
-      "note": "facts: module datasheet (ESP32-C3 SoC: core, clock, SRAM); flash: smallest part; pinouts: module19 module-table:esp32-c3-wroom-02_datasheet_en.pdf:module-table: Pin Definitions table",
-      "simulated": false,
-      "core": "riscv",
-      "clock": 160000000,
-      "flash": 4194304,
-      "ram": 409600,
-      "vcc": [3, 3.6],
-      "pinouts": {
+        ],
         "module19": [
           {"number":1,"name":"3V3","role":"power"},
           {"number":2,"name":"EN","role":"input","group":"program"},
@@ -22327,16 +22306,20 @@
         ]
       },
       "parts": [
+        {"name":"ESP32-C3-MINI-1-N4-A","manufacturer":"Espressif Systems","datasheet":"esp32-c3-mini-1_datasheet_en","package":"Module","pinout":"module53","footprint":"ESP32-C3-MINI-1","flash":4194304},
+        {"name":"ESP32-C3-MINI-1-N4X","manufacturer":"Espressif Systems","datasheet":"esp32-c3-mini-1_datasheet_en","package":"Module","pinout":"module53","footprint":"ESP32-C3-MINI-1","flash":4194304},
+        {"name":"ESP32-C3-MINI-1U-H4X","manufacturer":"Espressif Systems","datasheet":"esp32-c3-mini-1_datasheet_en","package":"Module","pinout":"module53","footprint":"ESP32-C3-MINI-1U","flash":4194304},
+        {"name":"ESP32-C3-MINI-1U-N4X","manufacturer":"Espressif Systems","datasheet":"esp32-c3-mini-1_datasheet_en","package":"Module","pinout":"module53","footprint":"ESP32-C3-MINI-1U","flash":4194304},
         {"name":"ESP32-C3-WROOM-02-H4","manufacturer":"Espressif Systems","datasheet":"esp32-c3-wroom-02_datasheet_en","package":"Module","pinout":"module19","footprint":"ESP32-C3-WROOM-02","flash":4194304},
         {"name":"ESP32-C3-WROOM-02U-N4","manufacturer":"Espressif Systems","datasheet":"esp32-c3-wroom-02_datasheet_en","package":"Module","pinout":"module19","footprint":"ESP32-C3-WROOM-02U","flash":4194304}
       ]
     },
     {
-      "id": "esp32-c6-mini-1",
-      "function": "ESP32-C6-MINI-1",
+      "id": "esp32-c6",
+      "function": "ESP32-C6",
       "description": "Wi-Fi 6 + Bluetooth LE + 802.15.4 module (ESP32-C6)",
       "drawer": ["Microcontroller", "ESP32"],
-      "note": "facts: module datasheet (ESP32-C6 SoC: core, clock, SRAM); flash: smallest part; pinouts: module53 module-table:esp32-c6-mini-1_mini-1u_datasheet_en.pdf:module-table: Pin Definitions table",
+      "note": "facts: module datasheet (ESP32-C6 SoC: core, clock, SRAM); flash: smallest part; pinouts: module53 module-table:esp32-c6-mini-1_mini-1u_datasheet_en.pdf:module-table: Pin Definitions table; module29 module-table:esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf:module-table: Pin Definitions table",
       "simulated": false,
       "core": "riscv",
       "clock": 160000000,
@@ -22398,28 +22381,7 @@
           {"number":51,"name":"GND","role":"ground"},
           {"number":52,"name":"GND","role":"ground"},
           {"number":53,"name":"GND","role":"ground"}
-        ]
-      },
-      "parts": [
-        {"name":"ESP32-C6-MINI-1-H4","manufacturer":"Espressif Systems","datasheet":"esp32-c6-mini-1_mini-1u_datasheet_en","package":"Module","pinout":"module53","footprint":"ESP32-C6-MINI-1","flash":4194304},
-        {"name":"ESP32-C6-MINI-1-N4","manufacturer":"Espressif Systems","datasheet":"esp32-c6-mini-1_mini-1u_datasheet_en","package":"Module","pinout":"module53","footprint":"ESP32-C6-MINI-1","flash":4194304},
-        {"name":"ESP32-C6-MINI-1U-H4","manufacturer":"Espressif Systems","datasheet":"esp32-c6-mini-1_mini-1u_datasheet_en","package":"Module","pinout":"module53","footprint":"ESP32-C6-MINI-1U","flash":4194304},
-        {"name":"ESP32-C6-MINI-1U-N4","manufacturer":"Espressif Systems","datasheet":"esp32-c6-mini-1_mini-1u_datasheet_en","package":"Module","pinout":"module53","footprint":"ESP32-C6-MINI-1U","flash":4194304}
-      ]
-    },
-    {
-      "id": "esp32-c6-wroom-1",
-      "function": "ESP32-C6-WROOM-1",
-      "description": "Wi-Fi 6 + Bluetooth LE + 802.15.4 module (ESP32-C6)",
-      "drawer": ["Microcontroller", "ESP32"],
-      "note": "facts: module datasheet (ESP32-C6 SoC: core, clock, SRAM); flash: smallest part; pinouts: module29 module-table:esp32-c6-wroom-1-wroom-1u_datasheet_en.pdf:module-table: Pin Definitions table",
-      "simulated": false,
-      "core": "riscv",
-      "clock": 160000000,
-      "flash": 4194304,
-      "ram": 524288,
-      "vcc": [3, 3.6],
-      "pinouts": {
+        ],
         "module29": [
           {"number":1,"name":"GND","role":"ground"},
           {"number":2,"name":"3V3","role":"power"},
@@ -22453,6 +22415,10 @@
         ]
       },
       "parts": [
+        {"name":"ESP32-C6-MINI-1-H4","manufacturer":"Espressif Systems","datasheet":"esp32-c6-mini-1_mini-1u_datasheet_en","package":"Module","pinout":"module53","footprint":"ESP32-C6-MINI-1","flash":4194304},
+        {"name":"ESP32-C6-MINI-1-N4","manufacturer":"Espressif Systems","datasheet":"esp32-c6-mini-1_mini-1u_datasheet_en","package":"Module","pinout":"module53","footprint":"ESP32-C6-MINI-1","flash":4194304},
+        {"name":"ESP32-C6-MINI-1U-H4","manufacturer":"Espressif Systems","datasheet":"esp32-c6-mini-1_mini-1u_datasheet_en","package":"Module","pinout":"module53","footprint":"ESP32-C6-MINI-1U","flash":4194304},
+        {"name":"ESP32-C6-MINI-1U-N4","manufacturer":"Espressif Systems","datasheet":"esp32-c6-mini-1_mini-1u_datasheet_en","package":"Module","pinout":"module53","footprint":"ESP32-C6-MINI-1U","flash":4194304},
         {"name":"ESP32-C6-WROOM-1-N4","manufacturer":"Espressif Systems","datasheet":"esp32-c6-wroom-1-wroom-1u_datasheet_en","package":"Module","pinout":"module29","footprint":"ESP32-C6-WROOM-1","flash":4194304},
         {"name":"ESP32-C6-WROOM-1-N8","manufacturer":"Espressif Systems","datasheet":"esp32-c6-wroom-1-wroom-1u_datasheet_en","package":"Module","pinout":"module29","footprint":"ESP32-C6-WROOM-1","flash":8388608},
         {"name":"ESP32-C6-WROOM-1U-N4","manufacturer":"Espressif Systems","datasheet":"esp32-c6-wroom-1-wroom-1u_datasheet_en","package":"Module","pinout":"module29","footprint":"ESP32-C6-WROOM-1U","flash":4194304},
@@ -22537,11 +22503,11 @@
       ]
     },
     {
-      "id": "esp32-s2-mini-2",
-      "function": "ESP32-S2-MINI-2",
+      "id": "esp32-s2",
+      "function": "ESP32-S2",
       "description": "Wi-Fi module (ESP32-S2)",
       "drawer": ["Microcontroller", "ESP32"],
-      "note": "facts: module datasheet (ESP32-S2 SoC: core, clock, SRAM); flash: smallest part; pinouts: module65 module-table:esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf:module-table: Pin Definitions table",
+      "note": "facts: module datasheet (ESP32-S2 SoC: core, clock, SRAM); flash: smallest part; pinouts: module65 module-table:esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en.pdf:module-table: Pin Definitions table; module41 module-table:esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf:module-table: Pin Definitions table",
       "simulated": false,
       "core": "xtensa-lx7",
       "clock": 240000000,
@@ -22615,28 +22581,7 @@
           {"number":63,"name":"GND","role":"ground"},
           {"number":64,"name":"GND","role":"ground"},
           {"number":65,"name":"GND","role":"ground"}
-        ]
-      },
-      "parts": [
-        {"name":"ESP32-S2-MINI-2-N4","manufacturer":"Espressif Systems","datasheet":"esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en","package":"Module","pinout":"module65","footprint":"ESP32-S2-MINI-2","flash":4194304},
-        {"name":"ESP32-S2-MINI-2-N4R2","manufacturer":"Espressif Systems","datasheet":"esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en","package":"Module","pinout":"module65","footprint":"ESP32-S2-MINI-2","flash":4194304,"psram":2097152},
-        {"name":"ESP32-S2-MINI-2U-N4","manufacturer":"Espressif Systems","datasheet":"esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en","package":"Module","pinout":"module65","footprint":"ESP32-S2-MINI-2U","flash":4194304},
-        {"name":"ESP32-S2-MINI-2U-N4R2","manufacturer":"Espressif Systems","datasheet":"esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en","package":"Module","pinout":"module65","footprint":"ESP32-S2-MINI-2U","flash":4194304,"psram":2097152}
-      ]
-    },
-    {
-      "id": "esp32-s2-solo-2",
-      "function": "ESP32-S2-SOLO-2",
-      "description": "Wi-Fi module (ESP32-S2)",
-      "drawer": ["Microcontroller", "ESP32"],
-      "note": "facts: module datasheet (ESP32-S2 SoC: core, clock, SRAM); flash: smallest part; pinouts: module41 module-table:esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en.pdf:module-table: Pin Definitions table",
-      "simulated": false,
-      "core": "xtensa-lx7",
-      "clock": 240000000,
-      "flash": 4194304,
-      "ram": 327680,
-      "vcc": [3, 3.6],
-      "pinouts": {
+        ],
         "module41": [
           {"number":1,"name":"GND","role":"ground"},
           {"number":2,"name":"3V3","role":"power"},
@@ -22682,6 +22627,10 @@
         ]
       },
       "parts": [
+        {"name":"ESP32-S2-MINI-2-N4","manufacturer":"Espressif Systems","datasheet":"esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en","package":"Module","pinout":"module65","footprint":"ESP32-S2-MINI-2","flash":4194304},
+        {"name":"ESP32-S2-MINI-2-N4R2","manufacturer":"Espressif Systems","datasheet":"esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en","package":"Module","pinout":"module65","footprint":"ESP32-S2-MINI-2","flash":4194304,"psram":2097152},
+        {"name":"ESP32-S2-MINI-2U-N4","manufacturer":"Espressif Systems","datasheet":"esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en","package":"Module","pinout":"module65","footprint":"ESP32-S2-MINI-2U","flash":4194304},
+        {"name":"ESP32-S2-MINI-2U-N4R2","manufacturer":"Espressif Systems","datasheet":"esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en","package":"Module","pinout":"module65","footprint":"ESP32-S2-MINI-2U","flash":4194304,"psram":2097152},
         {"name":"ESP32-S2-SOLO-2-N4","manufacturer":"Espressif Systems","datasheet":"esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en","package":"Module","pinout":"module41","footprint":"ESP32-S2-SOLO-2","flash":4194304},
         {"name":"ESP32-S2-SOLO-2-N4R2","manufacturer":"Espressif Systems","datasheet":"esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en","package":"Module","pinout":"module41","footprint":"ESP32-S2-SOLO-2","flash":4194304,"psram":2097152},
         {"name":"ESP32-S2-SOLO-2U-N4","manufacturer":"Espressif Systems","datasheet":"esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en","package":"Module","pinout":"module41","footprint":"ESP32-S2-SOLO-2U","flash":4194304},
@@ -22689,11 +22638,11 @@
       ]
     },
     {
-      "id": "esp32-s3-mini-1",
-      "function": "ESP32-S3-MINI-1",
+      "id": "esp32-s3",
+      "function": "ESP32-S3",
       "description": "Wi-Fi + Bluetooth LE module (ESP32-S3)",
       "drawer": ["Microcontroller", "ESP32"],
-      "note": "facts: module datasheet (ESP32-S3 SoC: core, clock, SRAM); flash: smallest part; pinouts: module65 module-table:esp32-s3-mini-1_mini-1u_datasheet_en.pdf:module-table: Pin Definitions table",
+      "note": "facts: module datasheet (ESP32-S3 SoC: core, clock, SRAM); flash: smallest part; pinouts: module65 module-table:esp32-s3-mini-1_mini-1u_datasheet_en.pdf:module-table: Pin Definitions table; module41 module-table:esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf:module-table: Pin Definitions table",
       "simulated": false,
       "core": "xtensa-lx7",
       "clock": 240000000,
@@ -22767,27 +22716,7 @@
           {"number":63,"name":"GND","role":"ground"},
           {"number":64,"name":"GND","role":"ground"},
           {"number":65,"name":"GND","role":"ground"}
-        ]
-      },
-      "parts": [
-        {"name":"ESP32-S3-MINI-1-N4R2","manufacturer":"Espressif Systems","datasheet":"esp32-s3-mini-1_mini-1u_datasheet_en","package":"Module","pinout":"module65","footprint":"ESP32-S3-MINI-1","flash":4194304,"psram":2097152},
-        {"name":"ESP32-S3-MINI-1-N8","manufacturer":"Espressif Systems","datasheet":"esp32-s3-mini-1_mini-1u_datasheet_en","package":"Module","pinout":"module65","footprint":"ESP32-S3-MINI-1","flash":8388608},
-        {"name":"ESP32-S3-MINI-1U-N8","manufacturer":"Espressif Systems","datasheet":"esp32-s3-mini-1_mini-1u_datasheet_en","package":"Module","pinout":"module65","footprint":"ESP32-S3-MINI-1U","flash":8388608}
-      ]
-    },
-    {
-      "id": "esp32-s3-wroom-1",
-      "function": "ESP32-S3-WROOM-1",
-      "description": "Wi-Fi + Bluetooth LE module (ESP32-S3)",
-      "drawer": ["Microcontroller", "ESP32"],
-      "note": "facts: module datasheet (ESP32-S3 SoC: core, clock, SRAM); flash: smallest part; pinouts: module41 module-table:esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf:module-table: Pin Definitions table",
-      "simulated": false,
-      "core": "xtensa-lx7",
-      "clock": 240000000,
-      "flash": 4194304,
-      "ram": 524288,
-      "vcc": [3, 3.6],
-      "pinouts": {
+        ],
         "module41": [
           {"number":1,"name":"GND","role":"ground"},
           {"number":2,"name":"3V3","role":"power"},
@@ -22833,6 +22762,9 @@
         ]
       },
       "parts": [
+        {"name":"ESP32-S3-MINI-1-N4R2","manufacturer":"Espressif Systems","datasheet":"esp32-s3-mini-1_mini-1u_datasheet_en","package":"Module","pinout":"module65","footprint":"ESP32-S3-MINI-1","flash":4194304,"psram":2097152},
+        {"name":"ESP32-S3-MINI-1-N8","manufacturer":"Espressif Systems","datasheet":"esp32-s3-mini-1_mini-1u_datasheet_en","package":"Module","pinout":"module65","footprint":"ESP32-S3-MINI-1","flash":8388608},
+        {"name":"ESP32-S3-MINI-1U-N8","manufacturer":"Espressif Systems","datasheet":"esp32-s3-mini-1_mini-1u_datasheet_en","package":"Module","pinout":"module65","footprint":"ESP32-S3-MINI-1U","flash":8388608},
         {"name":"ESP32-S3-WROOM-1-N16","manufacturer":"Espressif Systems","datasheet":"esp32-s3-wroom-1_wroom-1u_datasheet_en","package":"Module","pinout":"module41","footprint":"ESP32-S3-WROOM-1","flash":16777216},
         {"name":"ESP32-S3-WROOM-1-N16R2","manufacturer":"Espressif Systems","datasheet":"esp32-s3-wroom-1_wroom-1u_datasheet_en","package":"Module","pinout":"module41","footprint":"ESP32-S3-WROOM-1","flash":16777216,"psram":2097152},
         {"name":"ESP32-S3-WROOM-1-N4","manufacturer":"Espressif Systems","datasheet":"esp32-s3-wroom-1_wroom-1u_datasheet_en","package":"Module","pinout":"module41","footprint":"ESP32-S3-WROOM-1","flash":4194304},
