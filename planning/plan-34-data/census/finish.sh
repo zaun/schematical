@@ -70,10 +70,12 @@ py $here/specs-fill.py $data/candidates.tsv
 
 [[ -n $FINISH_DRY ]] && { echo "dry run: stop before (6)"; exit 0; }
 echo "== (6) plan-34-F"
-# datasheets.json and footprints.json as they were before plan-34-F Phase 2
-# (3860182), so an entry the final pick no longer uses does not stay.
+# datasheets.json and footprints.json without plan-34's entries, so an entry
+# the final pick no longer uses does not stay: main's side of the merge of
+# main into worktree-P-34 (c2ea326^2; before it, 3860182^, plan-34-F Phase 2's
+# parent, which lacks the entries main has added since).
 for f in datasheets footprints; do
-  git -C $repo show 3860182^:schematical/schematical/Parts/$f.json > schematical/schematical/Parts/$f.json
+  git -C $repo show c2ea326^2:schematical/schematical/Parts/$f.json > schematical/schematical/Parts/$f.json
 done
 py $here/fp-merge.py schematical/schematical/Parts/footprints.json $data/footprints-C.json $data/footprints-D.json
 py $here/gen-parts.py $data/candidates.tsv

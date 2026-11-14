@@ -266,6 +266,15 @@ Commit: 18c5ef9
    plan-34-A's DigiKey runs went on. Phase 3 (the tests over real chip parts
    and the harness's drawer checks) still needs F complete; the
    Prerequisites table splits the gate that way.
+2. **Merge of main (2026-11-14): references by category.** main replaced
+   `takeReference`'s per-kind prefixes and `defaultReferencePrefix` with
+   Settings › Reference Defaults (`ReferencePrefixes`, `ReferenceCategory.of`).
+   The merge maps `PART_RESISTOR` to the `.resistor` category (standard
+   prefix R, lowest free number, as pulls). `ResistorTests` checks
+   `ReferenceCategory.of` instead of `defaultReferencePrefix`. main's new
+   `ReferenceLabel` gets a `.resistor` case, which draws the reference just
+   above the value (y = -1). Merge commit c2ea326. ResistorTests 8/8 and
+   the harness pass on it.
 
 ## Summary
 
