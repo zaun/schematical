@@ -192,6 +192,7 @@ A missing key takes its default. A text:
 | `width`  | integer | mil, 5 to 100. Default 10.                                           |
 | `points` | array   | `x`, `y` in mm. At least 2; no two consecutive points the same. Segments may run at any angle (the Trace tool draws 20°, 40°, 45°, 60°, 80° or 90° legs). Kept as saved, not snapped: a bend, a crossing of two diagonals, or a pad centre, can be off the grid. |
 | `locked` | boolean | Lock Position: a locked trace can't be dragged. Default `false`. Written only when `true`; older builds ignore it. |
+| `auto`   | boolean | Put down by the autorouter, so clearing autorouted copper removes it and leaves the user's own traces. Default `false`; a trace the user draws or pastes is never auto. Written only when `true`; older builds ignore it. |
 
 Traces that touch or cross on the same layer share a vertex at each contact
 point; that shared vertex is what connects them. Traces on different layers
@@ -214,6 +215,7 @@ overlaps. A 1-layer board has none.
 | `drill`    | number | The hole's diameter in mm, 0.1 to 5. Default 0.4.                  |
 | `diameter` | number | The metal's outer diameter in mm, 0.2 to 10, and at least 0.1 more than `drill` (a 0.05 mm ring). Default 0.8. |
 | `locked`   | boolean | Lock Position: a locked via can't be dragged or moved by X and Y. Default `false`. Written only when `true`; older builds ignore it. |
+| `auto`     | boolean | Put down by the autorouter, as a trace's `auto`. Default `false`. Written only when `true`; older builds ignore it. |
 
 ### Holes
 

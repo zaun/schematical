@@ -334,6 +334,45 @@ final class NetClassTests: XCTestCase {
         XCTAssertEqual(doc.netClass(ofNet: n, in: copper)?.id, b)
     }
 
+    // MARK: Phase 4 — auto
+
+    func testAutoTraceAndViaRoundTrip() throws {
+        let traceID = UUID(), viaID = UUID()
+        let board = #"""
+        { "traces": [ { "id": "\#(traceID)", "layer": "top", "points": [ { "x": 1, "y": 1 }, { "x": 4, "y": 1 } ],
+                        "auto": true } ],
+          "vias": [ { "id": "\#(viaID)", "x": 4, "y": 1, "auto": true } ] }
+        """#
+        let doc = try BoardLayersTests.open(board: board)
+        XCTAssertEqual(doc.traces.map(\.auto), [true])
+        XCTAssertEqual(doc.vias.map(\.auto), [true])
+        let text = String(decoding: try SchematicFile(document: doc, fileURL: nil).encoded(), as: UTF8.self)
+        XCTAssertEqual(text.components(separatedBy: "\"auto\" : true").count - 1, 2)
+        let opened = try BoardLayersTests.roundTrip(doc)
+        XCTAssertEqual(opened.traces, doc.traces)
+        XCTAssertEqual(opened.vias, doc.vias)
+    }
+
+    func testMissingAutoReadsFalse() throws {
+        let board = #"""
+        { "traces": [ { "id": "\#(UUID())", "layer": "top", "points": [ { "x": 1, "y": 1 }, { "x": 4, "y": 1 } ] } ],
+          "vias": [ { "id": "\#(UUID())", "x": 4, "y": 1 } ] }
+        """#
+        let doc = try BoardLayersTests.open(board: board)
+        XCTAssertEqual(doc.traces.map(\.auto), [false])
+        XCTAssertEqual(doc.vias.map(\.auto), [false])
+    }
+
+    func testPastedAutoTraceIsNotAuto() throws {
+        let doc = TestSupport.newDocument()
+        let trace = BoardTrace(id: UUID(), layer: .top, width: 10, points: [CGPoint(x: 1, y: 1), CGPoint(x: 4, y: 1)],
+                               auto: true)
+        let ids = doc.pasteTraces([trace], offset: CGSize(width: 0, height: 5))
+        XCTAssertEqual(ids.count, 1)
+        let pasted = try XCTUnwrap(doc.traces.first { $0.id == ids.first })
+        XCTAssertFalse(pasted.auto)
+    }
+
     func testProblem() {
         func problem(width: Int = 10, clearance: Double? = nil, drill: Double = 0.4, diameter: Double = 0.8,
                      name: String = "A") -> String? {

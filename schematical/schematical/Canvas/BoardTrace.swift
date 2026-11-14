@@ -17,6 +17,9 @@ nonisolated struct BoardTrace: Identifiable, Hashable, Sendable {
     var points: [CGPoint]
     /// Locked: dragging leaves it where it is.
     var locked = false
+    /// Put down by the autorouter, so Clear can take only its copper away.
+    /// A trace the user draws or pastes is never auto.
+    var auto = false
 
     static let widthRange = 5...100
     static let defaultWidth = 10
@@ -233,6 +236,8 @@ nonisolated struct BoardVia: Identifiable, Hashable, Sendable {
     var diameter: Double = BoardVia.defaultDiameter
     /// Locked: dragging and the sidebar's X and Y leave it where it is.
     var locked = false
+    /// Put down by the autorouter (see `BoardTrace.auto`).
+    var auto = false
 
     static let defaultDrill = 0.4
     static let defaultDiameter = 0.8

@@ -233,6 +233,8 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
             var diameter: Double? = nil
             /// True when its position is locked; left out otherwise.
             var locked: Bool? = nil
+            /// True when the autorouter put it down; left out otherwise.
+            var auto: Bool? = nil
         }
 
         /// A trace: its copper layer (`CopperLayer` raw value), width in
@@ -244,6 +246,8 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
             var points: [Point]
             /// True when its position is locked; left out otherwise.
             var locked: Bool? = nil
+            /// True when the autorouter put it down; left out otherwise.
+            var auto: Bool? = nil
         }
 
         /// A copper layer's colour ("#RRGGBB") and type (`LayerType` raw
@@ -696,11 +700,11 @@ extension SchematicFile {
             traces: document.traces.map { trace in
                 Board.TraceEntry(id: trace.id, layer: trace.layer.rawValue, width: trace.width,
                                  points: trace.points.map { Point(x: $0.x, y: $0.y) },
-                                 locked: trace.locked ? true : nil)
+                                 locked: trace.locked ? true : nil, auto: trace.auto ? true : nil)
             },
             vias: document.vias.isEmpty ? nil : document.vias.map { via in
                 Board.ViaEntry(id: via.id, x: via.centre.x, y: via.centre.y, drill: via.drill, diameter: via.diameter,
-                               locked: via.locked ? true : nil)
+                               locked: via.locked ? true : nil, auto: via.auto ? true : nil)
             },
             holes: document.holes.isEmpty ? nil : document.holes.map { hole in
                 Board.HoleEntry(id: hole.id, x: hole.centre.x, y: hole.centre.y, size: hole.size.rawValue,
@@ -1009,7 +1013,7 @@ extension SchematicFile {
             let via = BoardVia(id: entry.id, centre: CGPoint(x: entry.x, y: entry.y),
                                drill: entry.drill ?? BoardVia.defaultDrill,
                                diameter: entry.diameter ?? BoardVia.defaultDiameter,
-                               locked: entry.locked ?? false)
+                               locked: entry.locked ?? false, auto: entry.auto ?? false)
             if let problem = BoardVia.problem(drill: via.drill, diameter: via.diameter) {
                 throw SchematicFileError.badPCB("\(name) \(problem)")
             }
@@ -1253,7 +1257,8 @@ extension SchematicFile {
         if let problem = TraceRoute.problem(points) {
             throw SchematicFileError.badPCB("\(name) \(problem)")
         }
-        return BoardTrace(id: entry.id, layer: layer, width: width, points: points, locked: entry.locked ?? false)
+        return BoardTrace(id: entry.id, layer: layer, width: width, points: points, locked: entry.locked ?? false,
+                          auto: entry.auto ?? false)
     }
 
     /// A stored footprint placement, with defaults for missing keys.

@@ -257,13 +257,13 @@ Commit: e499491
 
 Acceptance: names and classes as listed; every existing Ratsnest and PlaneNet test stays green (the `resolve` rewrite changed no behavior).
   Check: `-only-testing:schematicalTests/NetClassTests -only-testing:schematicalTests/RatsnestTests -only-testing:schematicalTests/PlaneNetTests` → `** TEST SUCCEEDED **` (est. 2 min).
-Commit: —
+Commit: 6c3bcb7
 
 ### Phase 4 — the `auto` flag
 
-- [ ] `Canvas/BoardTrace.swift`: `BoardTrace.auto = false`, `BoardVia.auto = false` (defaulted; the 16 constructor sites compile unchanged).
-- [ ] `Document/SchematicFile.swift`: read and write `auto` (only when true); `docs/file-format.md` § Traces and § Vias rows.
-- [ ] Tests (`NetClassTests`): an `auto` trace and via round trip; a file without the key reads false; `pasteTraces` of an `auto` trace is not `auto`.
+- [x] `Canvas/BoardTrace.swift`: `BoardTrace.auto = false`, `BoardVia.auto = false` (defaulted; the 16 constructor sites compile unchanged).
+- [x] `Document/SchematicFile.swift`: read and write `auto` (only when true); `docs/file-format.md` § Traces and § Vias rows.
+- [x] Tests (`NetClassTests`): an `auto` trace and via round trip; a file without the key reads false; `pasteTraces` of an `auto` trace is not `auto`. — the six suites → 61 tests (NetClassTests 16 + the existing 45), 0 failures, `** TEST SUCCEEDED **`.
 
 Acceptance: round trip and paste behave as listed; the existing 45 trace/via/DRC/ratsnest tests stay green.
   Check: `-only-testing:schematicalTests/NetClassTests -only-testing:schematicalTests/TraceToolTests -only-testing:schematicalTests/TraceRouteTests -only-testing:schematicalTests/ViaTests -only-testing:schematicalTests/DesignRuleCheckTests -only-testing:schematicalTests/RatsnestTests` → `** TEST SUCCEEDED **` (est. 3 min).
