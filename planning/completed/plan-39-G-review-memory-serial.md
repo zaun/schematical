@@ -106,7 +106,7 @@ One commit per phase: the edited part file(s), `planning/plan-39-data/ledger.tsv
 Acceptance: every pinout of the phase has a ledger row, the ledger matches the files, and the golden moved only by flags.
   Check: `node scripts/pin-polarity.js check --kind serial --devices 50-90 --complete && node scripts/pin-polarity.js golden-check && ctest --test-dir /tmp/logic-p39 -R '^(library_check|listing_check|trace_check)$'` → every `check` exits 0, `golden-check` exits 0, 3 of 3 tests passed (est. 90 min of reading for 66 pinouts, then 6 min for the checks: the loader and `listing_check` load every part file the phase edited, which no smaller check does).
   Observed 2026-11-14: serial 50-90 `ok: 66 pinouts, 66 ledger rows checked`; golden-check (phase staged) `ok: 102 parts.txt line(s) changed, only by :low`; ctest on the full tree `100% tests passed, 0 tests failed out of 3`.
-Commit: —
+Commit: 4d1ad8f6
 
 ## Validation Plan
 
