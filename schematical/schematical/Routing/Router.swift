@@ -250,9 +250,32 @@ nonisolated enum Router {
                 let endTie = state.tie(found[found.count - 1], net: net.id, components: target.0)
                 let copper = Router.copper(found, startTie: startTie, endTie: endTie, net: net, grid: grid)
                 state.add(net: net.id, path: found, traces: copper.traces, vias: copper.vias, allowed: hard.allowed)
-                progress(RoutingProgress(routed: routedCount, total: problem.connections, round: round, net: net.name))
+                report(progress, round: round, net: net.name)
             }
             return Array(Set(lost)).sorted()
+        }
+
+        /// When the last copper snapshot went out with a progress report.
+        var lastSnapshot = Date.distantPast
+        /// The most connections routed at once so far (`RoutingProgress.routed`).
+        var bestRouted = 0
+        static let snapshotInterval: TimeInterval = 0.5
+
+        /// Reports progress, with the routed copper at most every
+        /// `snapshotInterval`.
+        mutating func report(_ progress: (RoutingProgress) -> Void, round: Int, net: String) {
+            let current = routedCount
+            bestRouted = max(bestRouted, current)
+            var report = RoutingProgress(routed: bestRouted, total: problem.connections, round: round, net: net,
+                                         current: current)
+            let now = Date()
+            if now.timeIntervalSince(lastSnapshot) >= Self.snapshotInterval {
+                lastSnapshot = now
+                let ledger = state.ledger
+                report.traces = ledger.flatMap(\.traces)
+                report.vias = ledger.flatMap(\.vias)
+            }
+            progress(report)
         }
 
         mutating func find(_ rules: SearchRules, sources: [Int], targets: [Int], isCancelled: () -> Bool) -> [Int]? {
@@ -320,7 +343,7 @@ nonisolated enum Router {
                 copper.vias.append(via)
                 state.add(net: net.id, path: path, traces: copper.traces, vias: copper.vias, allowed: rules.allowed)
                 onPlane[index] = true
-                progress(RoutingProgress(routed: routedCount, total: problem.connections, round: 0, net: net.name))
+                report(progress, round: 0, net: net.name)
             }
             // Every component on the Plane is one group; the rest are one each.
             let groups = onPlane.filter { !$0 }.count + (onPlane.contains(true) ? 1 : 0)

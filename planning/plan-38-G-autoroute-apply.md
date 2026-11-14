@@ -143,7 +143,7 @@ is exact and already exists).
 
 Acceptance: as listed.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd test -only-testing:schematicalTests/RoutingApplyTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 2 min; the AFU case adds about 2 s of routing, plan-38-F).
-Commit: (with Phase 2, below: both landed in one commit)
+Commit: e134c66e (with Phase 2)
 
 ### Phase 2 — unroute and scope from selection
 
@@ -152,12 +152,12 @@ Commit: (with Phase 2, below: both landed in one commit)
 
 Acceptance: as listed.
   Check: `-only-testing:schematicalTests/RoutingApplyTests` → `** TEST SUCCEEDED **` (est. 2 min).
-Commit: —
+Commit: e134c66e
 
 ### Phase 3 — `RoutingSession`
 
-- [ ] `Routing/RoutingSession.swift`: states, `start`, `stop`, `cancel`, throttled progress and preview snapshot, the stale check, the `isPlaying` / already-running refusals.
-- [ ] Tests (`RoutingSessionTests`, async): start on a small synthetic document, await `finished`, copper present; `stop()` right after start finishes with a legal partial result applied (no overlaps by `CopperGeometry.gap`); `cancel()` leaves the document `DocumentState`-equal to before; editing the document (move a footprint) while running yields `discarded("The board changed while routing")` and no copper; starting while `isPlaying` yields `idle` and an `editorMessage`; progress reports are non-decreasing in routed count between rounds.
+- [x] `Routing/RoutingSession.swift`: states, `start`, `stop`, `cancel`, throttled progress and preview snapshot, the stale check, the `isPlaying` / already-running refusals. (The copper snapshot comes from the engine: `Router.Run.report` adds the ledger's copper to a progress report at most every 0.5 s; the session hops reports to the main actor at most every 0.1 s, always passing a report that carries a snapshot. The stop flag is a lock-guarded `RoutingStopFlag`.)
+- [x] Tests (`RoutingSessionTests`, async): start on a small synthetic document, await `finished`, copper present; `stop()` right after start finishes with a legal partial result applied (no overlaps by `CopperGeometry.gap`); `cancel()` leaves the document `DocumentState`-equal to before; editing the document (move a footprint) while running yields `discarded("The board changed while routing")` and no copper; starting while `isPlaying` yields `idle` and an `editorMessage`; progress reports are non-decreasing in routed count between rounds. (See Corrections: `routed` is now the best count so far, `current` the count now.) — `-only-testing:RoutingSessionTests` → 6 tests, 0 failures, `** TEST SUCCEEDED **` (the run before ended with "The test runner exited with code 0 before finishing", outside interference as in plan-38-F; the same tests passed when re-run). `RoutingApplyTests` still 9/9 in the run before.
 
 Acceptance: as listed; no data race (the engine only reads the `Sendable` problem).
   Check: `-only-testing:schematicalTests/RoutingSessionTests -only-testing:schematicalTests/RoutingApplyTests` → `** TEST SUCCEEDED **` (est. 3 min).
@@ -177,7 +177,16 @@ See plan-38-A § Decisions. Author decisions: Stop keeps the routed set, Cancel 
 
 ## Corrections
 
-(Filled in during execution.)
+- **Progress can go back during negotiation.** The first session run failed
+  "progress non-decreasing between rounds": AFU's last report of round 1 said
+  114 routed, round 2's said 113, because rip-ups lower the count mid-round
+  before re-routing raises it. A count that drops is wrong for a progress
+  bar. `RoutingProgress.routed` is now the most routed at once so far this run
+  (`Router.Run.bestRouted`, never decreasing), and `RoutingProgress.current`
+  is the count right now, for the UI to show both.
+- `applyRouting` also refuses to delete locked copper named in a stale
+  problem's `removedTraces` (the Non-goals say locked copper is never
+  deleted by any command here); tested.
 
 ## Summary
 

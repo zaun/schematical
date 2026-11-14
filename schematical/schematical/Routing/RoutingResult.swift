@@ -50,10 +50,18 @@ nonisolated struct RoutingResult: Hashable, Sendable {
 
 /// How far a run has got, reported after each connection.
 nonisolated struct RoutingProgress: Hashable, Sendable {
+    /// The most connections routed at once so far this run: it never goes
+    /// back, though rip-ups make `current` dip while negotiating.
     var routed: Int
     var total: Int
     /// The negotiation round, from 1; 0 during the first pass.
     var round: Int
     /// The net being worked on.
     var net: String
+    /// The connections routed right now.
+    var current: Int = 0
+    /// The copper routed so far, for a live preview; set at most every
+    /// half second (`Router.Run.snapshotInterval`), nil otherwise.
+    var traces: [RoutedTrace]? = nil
+    var vias: [RoutedVia]? = nil
 }
