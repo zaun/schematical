@@ -53,8 +53,32 @@ nonisolated struct ChipPin: Hashable, Sendable, Identifiable {
     let group: String
     /// The block side the part file puts the pin on; `.auto` follows its role.
     var side: ChipPinSide = .auto
+    /// The part file's "activeLow" (plan-39-A): bit i set means alternative i
+    /// of `name` (split at "/") is active low. 0 = none.
+    var activeLowMask: UInt32 = 0
 
     var id: Int { index }
+
+    /// One slash-separated part of a pin's name, as written ("A0", "CS",
+    /// "CE#"), and whether the part file marks it active low.
+    struct Alternative: Hashable, Sendable {
+        let text: String
+        let isActiveLow: Bool
+    }
+
+    /// The name split at "/", left to right, each with its polarity. A name
+    /// of more than 32 alternatives can only be flagged as a whole, so bits
+    /// past 31 follow an all-ones mask.
+    var alternatives: [Alternative] {
+        name.split(separator: "/", omittingEmptySubsequences: false).enumerated().map { index, part in
+            let low = index < 32 ? activeLowMask & (UInt32(1) << UInt32(index)) != 0
+                                 : activeLowMask == UInt32.max
+            return Alternative(text: String(part), isActiveLow: low)
+        }
+    }
+
+    /// Some alternative of the name is active low.
+    var isActiveLow: Bool { activeLowMask != 0 }
 
     var isInDefaultGroup: Bool { group == Self.defaultGroup }
 
@@ -673,7 +697,7 @@ extension CatalogPart {
             guard let pin = part.pins?[index] else { return nil }
             return ChipPin(index: index, designator: string(pin.designator), name: string(pin.name),
                            role: pinRole(pin.role), group: string(pin.group),
-                           side: pinSide(pin.side))
+                           side: pinSide(pin.side), activeLowMask: pin.active_low)
         }
 
         if let logic = part.logic?.pointee {

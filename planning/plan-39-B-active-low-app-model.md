@@ -28,7 +28,7 @@ plan-39-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-39-A complete | `grep -c 'active_low' backend/include/parts.h` → 1, and A's phases are ticked | NOT MET until A lands |
+| plan-39-A complete | `grep -c 'active_low' backend/include/parts.h` → 1, and A's phases are ticked | MET (2026-11-14: 1; A ticked) |
 
 Everything below is written against the world where these hold.
 
@@ -129,18 +129,19 @@ more syntax to parse; the menu cannot produce an invalid list.
 
 ### Phase 1 — `ChipPin`
 
-- [ ] `PartCatalog.swift`: add `activeLowMask` (default 0) and the
+- [x] `PartCatalog.swift`: add `activeLowMask` (default 0) and the
       `Alternative` struct and `alternatives` / `isActiveLow` to `ChipPin`;
       pass `pin.active_low` at the conversion (line 674).
-      `ChipLayoutSideTests.swift:8` keeps compiling (the field has a default).
-- [ ] Tests: `schematicalTests/ChipPinActiveLowTests.swift` (new): register a
+      `ChipLayoutSideTests.swift:8` keeps compiling (the field has a default). — done: `activeLowMask` from `pin.active_low`; `ChipLayoutSideTests` compiles unchanged
+- [x] Tests: `schematicalTests/ChipPinActiveLowTests.swift` (new): register a
       part (the way `PartEditorWindowTests` registers a custom part) with
       pins `CE#` `true`, `A0/CS` `["CS"]`, `D0` unflagged, `AIN7/GPIO3/DRDY/CLK`
       `["DRDY"]`; assert each pin's `alternatives` texts and flags, and
-      `isActiveLow`.
+      `isActiveLow`. — done: registered as a single part file (6-pin NAND, SOT23-6) via `PartCatalogStore.register`, as `PartRegistrationTests` does; 2 tests
 
 Acceptance: a catalog part's pins report the file's flags.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p39-dd test -only-testing:schematicalTests/ChipPinActiveLowTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 8 min: first app build; nothing smaller compiles the app).
+  Observed 2026-11-14: `Executed 2 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 Commit: —
 
 ### Phase 2 — Part Editor
