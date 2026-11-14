@@ -99,10 +99,10 @@ Commit: 85afb751 (merge 095ce688)
 ### Phase 3 — close
 
 - [x] `planning/todo.md`: in § PCB, tick "Per-net trace widths (net classes): power nets wider by default." and add `(plan-38)`; in "Later: teardrops, a simple autorouter, push-and-shove routing." remove "a simple autorouter," and append "(autorouter: plan-38)"; leave teardrops and push-and-shove. The owner's working copy may hold other edits to this file, so commit only these hunks, without an interactive add: `git show HEAD:planning/todo.md > /tmp/todo.head`, copy it to `/tmp/todo.new`, make the two edits in the copy, `git diff --no-index /tmp/todo.head /tmp/todo.new` rewritten with the paths `a/planning/todo.md` and `b/planning/todo.md` into `/tmp/todo.patch`, then `git apply --cached /tmp/todo.patch` and `git commit -m "plan-38: todo ticked"` with no path argument, so only the index is committed and the working-tree edits of others stay unstaged. The "Route the AFU PCB" and "Route the LFU PCB" lines stay unticked: they are about saving routed example files, which this plan does not do. — done in the worktree, whose todo.md had no other edits, so the file was edited directly (the patch steps guard the owner's main tree; the merge brings only these two lines); `git diff planning/todo.md` → the two lines.
-- [ ] Move `planning/plan-38-*.md` to `planning/completed/` (one commit); `planning/plan-38-data/` stays where it is, as `plan-36-data` does (the spike and fixtures are cited from `docs/routing.md`).
+- [x] Move `planning/plan-38-*.md` to `planning/completed/` (one commit); `planning/plan-38-data/` stays where it is, as `plan-36-data` does (the spike and fixtures are cited from `docs/routing.md`). — `git mv` of the 13 files in one commit, the commit after 41ef2a7f.
 
-Acceptance: `grep -c "plan-38" planning/todo.md` → 2 or more; `ls planning/plan-38-*.md 2>/dev/null | wc -l` → 0 and `ls planning/completed/plan-38-*.md | wc -l` → 13 (est. 2 min).
-Commit: —
+Acceptance: `grep -c "plan-38" planning/todo.md` → 2 or more; `ls planning/plan-38-*.md 2>/dev/null | wc -l` → 0 and `ls planning/completed/plan-38-*.md | wc -l` → 13 (est. 2 min). — `grep -c "plan-38" planning/todo.md` → 2; after the move `ls planning/plan-38-*.md` → none, `ls planning/completed/plan-38-*.md | wc -l` → 13.
+Commit: 41ef2a7f (todo), and the archive commit after it
 
 ## Validation Plan
 
@@ -131,6 +131,13 @@ See plan-38-A § Decisions. Author decisions: no backend/ctest in this tier (not
   connection (115 for 115). The owner (2026-11-14) prefers slower, cleaner
   routing to fast and messy, and asked for it after the plan lands; not
   this plan's scope.
+- **No Rust formatter pass.** The follow-plan finish runs `cargo fmt --all`
+  and `cargo fmt --all --manifest-path repository/Cargo.toml`. This repo has
+  no `Cargo.toml` at the root or in `repository/` ("could not find
+  `Cargo.toml`"), and the plan touched no Rust, so there is nothing to
+  format.
+- **Main hadn't moved again** since 095ce688 (`git log HEAD..main` empty),
+  so the tier above stands for the merge.
 
 ## Summary
 
