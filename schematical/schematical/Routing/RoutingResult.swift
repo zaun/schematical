@@ -49,6 +49,8 @@ nonisolated struct RoutingResult: Hashable, Sendable {
     var vias: [RoutedVia] = []
     var nets: [NetOutcome] = []
     var stats = RoutingStats()
+    /// Each length-match group's outcome (plan-38-I).
+    var groups: [GroupOutcome] = []
 }
 
 /// How far a run has got, reported after each connection.

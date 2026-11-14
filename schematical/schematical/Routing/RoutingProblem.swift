@@ -54,6 +54,9 @@ nonisolated struct RoutingNet: Identifiable, Hashable, Sendable {
     var group: UUID?
     /// Why it can't be routed at all (a pad off its only layers), or nil.
     var impossible: String?
+    /// Its pins on the board (the pads of one pin are one pin); a group
+    /// tunes only two-pin nets (plan-38-I).
+    var pins: Int = 2
 
     /// Connections to make: components less one.
     var connections: Int { max(0, components.count - 1) }

@@ -141,7 +141,7 @@ nonisolated struct RoutingSearch {
     /// box in cell coordinates, for the heuristic; nil searches without one
     /// (Dijkstra). `isCancelled` is polled every 4096 expansions.
     mutating func search(_ grid: RoutingGrid, rules: SearchRules, sources: [Int], targets: [Int],
-                         goal: (x: ClosedRange<Int>, y: ClosedRange<Int>)?, history: [Float]? = nil,
+                         goal: (x: ClosedRange<Int>, y: ClosedRange<Int>)?, history: [Float]? = nil, startCosts: [Int: Float]? = nil,
                          isCancelled: () -> Bool) -> Result<[Int], SearchFailure> {
         for node in touched {
             cost[node] = .infinity
@@ -176,7 +176,7 @@ nonisolated struct RoutingSearch {
                             grid.fixedTraceMaps.withUnsafeBufferPointer { fixedTrace in
                                 grid.fixedViaMaps.withUnsafeBufferPointer { fixedVia in
                                     history.withUnsafeBufferPointer { history in
-                                        Self.explore(grid, rules: rules, sources: sources, goal: goal, cost: cost,
+                                        Self.explore(grid, rules: rules, sources: sources, startCosts: startCosts, goal: goal, cost: cost,
                                                      came: came, marks: marks, generation: generation,
                                                      maps: Maps(trace: traceMaps, via: viaMaps, fixedTrace: fixedTrace,
                                                                 fixedVia: fixedVia, history: history),
@@ -205,7 +205,7 @@ nonisolated struct RoutingSearch {
         let history: UnsafeBufferPointer<Float>
     }
 
-    private static func explore(_ grid: RoutingGrid, rules: SearchRules, sources: [Int],
+    private static func explore(_ grid: RoutingGrid, rules: SearchRules, sources: [Int], startCosts: [Int: Float]?,
                                 goal: (x: ClosedRange<Int>, y: ClosedRange<Int>)?,
                                 cost: UnsafeMutableBufferPointer<Float>, came: UnsafeMutableBufferPointer<Int32>,
                                 marks: UnsafeBufferPointer<UInt32>, generation: UInt32, maps: Maps,
@@ -276,11 +276,14 @@ nonisolated struct RoutingSearch {
 
         var open = Heap()
         defer { open.release() }
-        for node in sources.sorted() where cost[node] != 0 {
+        for node in sources.sorted() {
+            // A source may start with a cost (a pair's ends, plan-38-J).
+            let start = startCosts?[node] ?? 0
+            guard start < cost[node] else { continue }
             if cost[node] == .infinity { touched.append(node) }
-            cost[node] = 0
+            cost[node] = start
             let c = node % cells
-            open.push(Heap.pack(h(c % nx, c / nx), node))
+            open.push(Heap.pack(start + h(c % nx, c / nx), node))
         }
         while let item = open.pop() {
             let node = Int(UInt32(truncatingIfNeeded: item))

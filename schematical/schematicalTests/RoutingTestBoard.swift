@@ -36,6 +36,8 @@ struct RoutingTestBoard {
     var planeLayer: [Int: CopperLayer] = [:]
     var planes: [CopperLayer: Int] = [:]
     var groups: [RoutingGroup] = []
+    /// Each net's group, if in one.
+    var groupOf: [Int: UUID] = [:]
     /// Nets left out of `nets` (their pads are obstacles only).
     var unrouted: Set<Int> = []
     var impossible: [Int: String] = [:]
@@ -110,7 +112,8 @@ struct RoutingTestBoard {
                               viaDrill: viaDrill[id] ?? 0.4, viaDiameter: viaDiameter[id] ?? 0.8,
                               allowed: allow, preferred: (preferred[id] ?? []).intersection(allow),
                               components: order.map { components[$0]! }, planeLayer: planeLayer[id],
-                              group: nil, impossible: impossible[id])
+                              group: groupOf[id], impossible: impossible[id],
+                              pins: pads.filter { $0.net == id }.count)
         }
         return RoutingProblem(outline: outline, layers: layers, routable: routable, planes: planes, rules: rules,
                               options: options, nets: nets, obstacles: obstacles, groups: groups,

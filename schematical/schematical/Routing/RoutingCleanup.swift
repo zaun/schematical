@@ -67,6 +67,9 @@ nonisolated struct RoutingCleanup {
     /// Pieces taken out (via hops, stubs): skipped in every pass.
     private(set) var deadTraces = Set<Int>()
     private(set) var deadVias = Set<Int>()
+    /// Pieces no pass may change (a coupled pair's, plan-38-J).
+    var frozen = Set<Int>()
+    var frozenVias = Set<Int>()
     private var index = CopperIndex()
     private let clearanceOf: [Int: Double]
     private let maxClearance: Double
@@ -114,6 +117,13 @@ nonisolated struct RoutingCleanup {
             index.insert(CopperShape(core: .segment(a, b), radius: trace.width / 2, layers: [trace.layer], node: 0),
                          net: trace.net, owner: t)
         }
+    }
+
+    /// Puts `points` in place of trace `t`'s (plan-38-I's bumps), keeping
+    /// the index current.
+    mutating func replace(_ t: Int, points: [CGPoint]) {
+        traces[t].points = points
+        indexTrace(t)
     }
 
     // MARK: Legality
@@ -189,9 +199,9 @@ nonisolated struct RoutingCleanup {
 
     /// Every step of § 3 1–6, in order.
     mutating func run() {
-        for t in traces.indices where !deadTraces.contains(t) { straighten(t) }
+        for t in traces.indices where !deadTraces.contains(t) && !frozen.contains(t) { straighten(t) }
         if problem.options.angle == .octilinear {
-            for t in traces.indices where !deadTraces.contains(t) { chamfer(t) }
+            for t in traces.indices where !deadTraces.contains(t) && !frozen.contains(t) { chamfer(t) }
         }
         removeViaHops()
         tidy()
@@ -310,7 +320,7 @@ nonisolated struct RoutingCleanup {
     /// only the hop: the middle run goes back on the outer layer when a
     /// legal short route there is no longer, and both vias go.
     mutating func removeViaHops() {
-        for v in vias.indices where !deadVias.contains(v) {
+        for v in vias.indices where !deadVias.contains(v) && !frozenVias.contains(v) {
             let first = vias[v]
             let atFirst = ends(at: first.centre, net: first.net)
             guard atFirst.count == 2 else { continue }
@@ -381,7 +391,7 @@ nonisolated struct RoutingCleanup {
         var changed = true
         while changed {
             changed = false
-            for t in traces.indices where !deadTraces.contains(t) {
+            for t in traces.indices where !deadTraces.contains(t) && !frozen.contains(t) {
                 let trace = traces[t]
                 guard !endJoins(trace.points.first!, of: t) || !endJoins(trace.points.last!, of: t) else { continue }
                 deadTraces.insert(t)

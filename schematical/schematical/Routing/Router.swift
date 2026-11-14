@@ -52,11 +52,40 @@ nonisolated enum Router {
             run.routeAll(progress: progress, isCancelled: stop)
             let copper = run.finishedCopper()
             var result = run.result(traces: copper.traces, vias: copper.vias)
+            if problem.options.tuneGroups, problem.groups.contains(where: { $0.mode == .lengthMatch }) {
+                result = Self.tuned(result, problem: problem)
+            }
             result.stats.seconds = Date().timeIntervalSince(start)
             if best.map({ Self.better(result, than: $0) }) ?? true { best = result }
             if result.stats.routed == result.stats.connections || run.stopped { break }
         }
         return best ?? RoutingResult()
+    }
+
+    /// `result` with its length-match groups tuned (plan-38-I): any tuned
+    /// trace the verifier then faults goes back as it was, so tuning never
+    /// makes a result illegal.
+    static func tuned(_ result: RoutingResult, problem: RoutingProblem) -> RoutingResult {
+        var tuned = result
+        var traces = result.traces
+        tuned.groups = RoutingTuning.tune(problem, traces: &traces, vias: result.vias, outcomes: result.nets)
+        let faulted = Set(RoutingVerifier.verify(problem, traces: traces, vias: result.vias).flatMap(\.traces))
+        for t in faulted where t < result.traces.count { traces[t] = result.traces[t] }
+        tuned.traces = traces
+        tuned.stats.wireLength = RoutingLength.of(traces)
+        if !faulted.isEmpty {
+            // Measure the groups again on what was kept.
+            tuned.groups = tuned.groups.map { outcome in
+                var outcome = outcome
+                for net in outcome.lengths.keys {
+                    outcome.lengths[net] = RoutingTuning.length(of: net, traces: traces, problem: problem)
+                }
+                let values = outcome.lengths.values
+                outcome.spread = (values.max() ?? 0) - (values.min() ?? 0)
+                return outcome
+            }
+        }
+        return tuned
     }
 
     /// More routed wins, then less wire.
@@ -101,6 +130,9 @@ nonisolated enum Router {
         var cleaning = true
         /// Nets whose copper could not be made legal and was ripped up.
         var illegalNets = Set<Int>()
+        /// The nets routed as coupled pairs (plan-38-J), and each pair's outcome.
+        var pairNets = Set<Int>()
+        var pairStatus: [UUID: GroupOutcome.Status] = [:]
         var grid: RoutingGrid { state.grid }
 
         init(problem: RoutingProblem, strategy: Strategy = .of(.balanced), seed: UInt64 = 1) {
@@ -156,6 +188,7 @@ nonisolated enum Router {
         }
 
         mutating func routeAll(progress: (RoutingProgress) -> Void, isCancelled: () -> Bool) {
+            if problem.options.routePairs { routePairs(isCancelled: isCancelled) }
             for net in routable.sorted(by: { $0.id < $1.id }) where fansOut(net) {
                 if isCancelled() { stopped = true; break }
                 fannedOut[net.id] = fanOut(net, progress: progress, isCancelled: isCancelled)
@@ -196,6 +229,35 @@ nonisolated enum Router {
                 lastFailed = failed
                 if round > 0, unchanged >= strategy.stall { break }
                 if round > 0 { present *= strategy.presentGrowth }
+            }
+        }
+
+        /// Routes every differential pair first, as one coupled unit
+        /// (plan-38-J): its copper goes in the ledger as one entry per net,
+        /// each joining that net's two pads; the pair's nets are pinned
+        /// (never ripped up, so the coupling holds) and their copper is never
+        /// cleaned. A pair that can't be coupled is left to route as two
+        /// ordinary nets.
+        mutating func routePairs(isCancelled: () -> Bool) {
+            for group in problem.groups.sorted(by: { $0.id.uuidString < $1.id.uuidString }) where group.mode == .diffPair {
+                if isCancelled() { stopped = true; return }
+                switch RoutingPair.route(group, problem: problem, isCancelled: isCancelled) {
+                case let .success(pair):
+                    var added = true
+                    for (net, traces) in [(group.nets[0], pair.p), (group.nets[1], pair.n)] {
+                        guard let terminals = state.terminals[net], terminals.count == 2,
+                              let a = terminals[0].first, let b = terminals[1].first else { added = false; continue }
+                        let allowed = grid.layers.map { _ in true }
+                        state.add(net: net, path: [a.node, b.node], traces: traces,
+                                  vias: pair.vias.filter { $0.net == net }, allowed: allowed)
+                        pinned.insert(net)
+                        pairNets.insert(net)
+                    }
+                    pairStatus[group.id] = added ? .coupled(uncoupled: pair.uncoupled)
+                        : .uncoupled(reason: PairFailure.notTwoPin.reason)
+                case let .failure(failure):
+                    pairStatus[group.id] = .uncoupled(reason: failure.reason)
+                }
             }
         }
 

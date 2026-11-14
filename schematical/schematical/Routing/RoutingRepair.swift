@@ -12,7 +12,12 @@ extension Router.Run {
             vias += entry.vias
             viaEntry += Array(repeating: entry.id, count: entry.vias.count)
         }
-        return RoutingCleanup(problem: problem, traces: traces, vias: vias, traceEntry: traceEntry, viaEntry: viaEntry)
+        var cleanup = RoutingCleanup(problem: problem, traces: traces, vias: vias, traceEntry: traceEntry, viaEntry: viaEntry)
+        // A coupled pair's copper stays as it was routed: cleaning one trace
+        // of it would break the coupling.
+        cleanup.frozen = Set(traces.indices.filter { traces[$0].net.map(pairNets.contains) ?? false })
+        cleanup.frozenVias = Set(vias.indices.filter { vias[$0].net.map(pairNets.contains) ?? false })
+        return cleanup
     }
 
     /// The routed copper, cleaned and checked (plan-38-H § 3 steps 7–8): the

@@ -149,12 +149,12 @@ Commit: 14fb77ba
 
 Acceptance: cases pass.
   Check: `-only-testing:schematicalTests/MeanderTests` → `** TEST SUCCEEDED **` (est. 1–2 min).
-Commit: —
+Commit: ecb476ef
 
 ### Phase 3 — group tuning in the engine
 
-- [ ] `Routing/RoutingTuning.swift`: eligibility, host selection, greedy placement with the verifier, bisection, `GroupOutcome`; `Router.route` calls it after verification when `options.tuneGroups`; `RoutingResult.groups`.
-- [ ] Tests (`RoutingTuningTests`): three parallel two-pin nets of 20, 24 and 30 mm on an open board, tolerance 0.25 → all within 0.25 of 30 (`matched`) and the DRC-clean kinds are 0 after applying; tolerance 5 → the 24 mm net gets no bump (`matched` without tuning); a net boxed in by foreign copper → `residual` with the measured spread and no violation; a three-pin member → `ineligible`; a member with only kept (hand-drawn) copper → `residual` "no routed copper to tune"; the longest net's geometry is identical before and after; engine length equals `netLength` of the applied document to 1e-6; two runs equal.
+- [x] `Routing/RoutingTuning.swift`: eligibility, host selection, greedy placement with the verifier, bisection, `GroupOutcome`; `Router.route` calls it after verification when `options.tuneGroups`; `RoutingResult.groups`. (Each bump is checked exactly before it lands, with plan-38-H's `RoutingCleanup.isLegal`; `Router.tuned` then runs the verifier over the whole result and puts back any tuned trace it faults. Pins come from `RoutingNet.pins`, new, set by `routingProblem` from `pinCount(ofNet:)`. Lengths count kept copper too.)
+- [x] Tests (`RoutingTuningTests`): three parallel two-pin nets of 20, 24 and 30 mm on an open board, tolerance 0.25 → all within 0.25 of 30 (`matched`) and the DRC-clean kinds are 0 after applying; tolerance 5 → the 24 mm net gets no bump (`matched` without tuning); a net boxed in by foreign copper → `residual` with the measured spread and no violation; a three-pin member → `ineligible`; a member with only kept (hand-drawn) copper → `residual` "no routed copper to tune"; the longest net's geometry is identical before and after; engine length equals `netLength` of the applied document to 1e-6; two runs equal. (See Corrections: "tolerance 5" is 7, and the DRC and document-length checks of these engine-only boards are in Phase 4's AFU test.) — `-only-testing:RoutingTuningTests -only-testing:RouterTests` → 14 tests, 0 failures, `** TEST SUCCEEDED **` (RoutingTuningTests 7/7 after the tolerance fix). This commit also carries plan-38-J's engine code that shares these files (`routePairs`, frozen cleanup pieces, search start costs, `RoutingPair`, `PairGeometry`); J's tasks are ticked with J's own tests.
 
 Acceptance: cases pass.
   Check: `-only-testing:schematicalTests/RoutingTuningTests -only-testing:schematicalTests/RouterTests` → `** TEST SUCCEEDED **` (est. 3 min).
@@ -188,6 +188,15 @@ See plan-38-A § Decisions (owner: length matching by meander tuning, 2026-11-13
   corner cut by `cut` along each of its two sides replaces `2 × cut` of path
   with the diagonal `cut × √2`, a loss of `cut × (2 − √2)`; the test checks
   that hand-computed value against the measured polyline length.
+- Phase 3's "tolerance 5 → the 24 mm net gets no bump" can't hold: 30 − 24 =
+  6 mm is outside a 5 mm tolerance, and the engine tuned it, rightly. The test
+  uses 7 mm: 24 (6 short) is left as routed, 20 (10 short) is tuned.
+- Phase 3's synthetic boards are engine problems with no document, so "the
+  DRC-clean kinds are 0 after applying" and "engine length equals
+  `netLength` of the applied document" are checked there with the verifier
+  (held to the DRC by plan-38-H's parity tests) and on the engine's own
+  lengths; both document-level checks run on a real board in Phase 4's AFU
+  test (`testLengthGroupOnAFU`).
 
 ## Summary
 

@@ -112,7 +112,7 @@ extension SchematicDocument {
                 viaDiameter: netClass?.viaDiameter ?? NetClass.defaultViaDiameter,
                 allowed: allowed, preferred: preferred, components: roots.map(component),
                 planeLayer: board.copperLayers.first { planes[$0] == net },
-                group: group(ofNet: net, in: copper)?.id, impossible: impossible))
+                group: group(ofNet: net, in: copper)?.id, impossible: impossible, pins: copper.pinCount(ofNet: net)))
         }
 
         // Every piece of copper and every keep-out, tagged with its net.
