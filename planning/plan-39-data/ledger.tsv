@@ -338,6 +338,33 @@ dff	74_74	p14	cd74act74	p.3	{"1CLR":true,"1PRE":true,"1QBAR":true,"2QBAR":true,"
 dff	74_74	lccc20	sn74ac74	p.3	{"1CLR":true,"1PRE":true,"1QBAR":true,"2QBAR":true,"2PRE":true,"2CLR":true}	
 dff	TPIC6273	p20	tpic6273	p.1	{"CLR":true}	
 dff	TPIC6B273	p20	tpic6b273	p.1	{"CLR":true}	
+eeprom	AT28BV256	p28	at28bv256	p.5	{"CE#":true,"OE#":true,"WE#":true}	
+eeprom	AT28BV256	plcc32	at28bv256	p.5	{"CE#":true,"OE#":true,"WE#":true}	
+eeprom	AT28BV64B	p28	at28bv64b	p.2	{"CE#":true,"OE#":true,"WE#":true}	
+eeprom	AT28BV64B	plcc32	at28bv64b	p.2	{"CE#":true,"OE#":true,"WE#":true}	
+eeprom	AT28BV64B	tsop28	at28bv64b	p.2	{"OE#":true,"WE#":true,"CE#":true}	
+eeprom	AT28C010	plcc32	at28c010	p.5	{"CE#":true,"OE#":true,"WE#":true}	
+eeprom	AT28C010	tsop32	at28c010	p.5	{"WE#":true,"CE#":true,"OE#":true}	
+eeprom	AT28C010-12DK	fp32dk	at28c010-12dk	p.2	{"CE#":true,"OE#":true,"WE#":true}	
+eeprom	AT28C010-MIL	p32	at28c010-military	p.5	{"CE#":true,"OE#":true,"WE#":true}	first source at28c010 has no 32-DIP; read the military sheet's CERDIP column
+eeprom	AT28C010-MIL	plcc32	at28c010-military	p.5	{"CE#":true,"OE#":true,"WE#":true}	
+eeprom	AT28C010-MIL	pga30	at28c010-military	p.5	{"CE#":true,"OE#":true,"WE#":true}	
+eeprom	AT28C256	p28	at28c256	p.5	{"CE#":true,"OE#":true,"WE#":true}	
+eeprom	AT28C256	plcc32	at28c256	p.5	{"CE#":true,"OE#":true,"WE#":true}	
+eeprom	AT28C256-MIL	p28	at28c256-military	p.5	{"CE#":true,"OE#":true,"WE#":true}	
+eeprom	AT28C256-MIL	plcc32	at28c256	p.5	{"CE#":true,"OE#":true,"WE#":true}	
+eeprom	AT28C256-MIL	pga28	at28c256-military	p.5	{"CE#":true,"OE#":true,"WE#":true}	
+eeprom	AT28C64B	p28	at28c64b	p.5	{"CE#":true,"OE#":true,"WE#":true}	
+eeprom	AT28C64B	plcc32	at28c64b	p.5	{"CE#":true,"OE#":true,"WE#":true}	
+eeprom	AT28HC256	p28	at28hc256	p.5	{"CE#":true,"OE#":true,"WE#":true}	
+eeprom	AT28HC256	plcc32	at28hc256	p.5	{"CE#":true,"OE#":true,"WE#":true}	
+eeprom	AT28HC256-MIL	p28	at28hc256	p.5	{"CE#":true,"OE#":true,"WE#":true}	
+eeprom	AT28HC256-MIL	plcc32	at28hc256-military	p.5	{"CE#":true,"OE#":true,"WE#":true}	
+eeprom	AT28HC256-MIL	pga28	at28hc256-military	p.5	{"CE#":true,"OE#":true,"WE#":true}	first source at28hc256 has no PGA; read the military sheet's PGA column
+eeprom	AT28HC64B	p28	at28hc64b	p.5	{"CE#":true,"OE#":true,"WE#":true}	sheet lists 28-lead SOIC; same numbering as p28
+eeprom	AT28HC64B	plcc32	at28hc64b	p.5	{"CE#":true,"OE#":true,"WE#":true}	
+eeprom	AT28LV010	plcc32	at28lv010	p.5	{"CE#":true,"OE#":true,"WE#":true}	
+eeprom	AT28LV010	tsop32	at28lv010	p.5	{"WE#":true,"CE#":true,"OE#":true}	
 jkff	4027B	p16	cd4027b	p.1	{"2QBAR":true,"1QBAR":true}	
 jkff	74_107	p14	cd74hc107	p.1	{"1QBAR":true,"2QBAR":true,"2CLK":true,"2CLR":true,"1CLK":true,"1CLR":true}	datasheet names R (overbar) and CP (overbar); catalog CLR/CLK matched by position
 jkff	74_109	p16	cd74ac109	p.3	{"1CLR":true,"1KBAR":true,"1PRE":true,"1QBAR":true,"2QBAR":true,"2PRE":true,"2KBAR":true,"2CLR":true}	pin table descriptions for pins 9/10 swapped vs drawn names; names (pin 9 = 2Q overbar) used
@@ -652,3 +679,40 @@ shift	TPIC6B595	p20	tpic6b595	p.3	{"SRCLR":true,"G":true}
 shift	TPIC6B596	p20	tpic6b596	p.3	{"SRCLR":true,"G":true}	pin table misnumbers SRCLR as 3 and SRCK as 15; Figure 4-1 (SRCLR=8, SRCK=13) used
 shift	TPIC6C595	p16	tpic6c595	p.3	{"CLR":true,"G":true}	
 shift	TPIC6C596	p16	tpic6c596	p.3	{"CLR":true,"G":true}	
+sram	AS6C1008	p32	as6c1008	pp.2-3	{"CE#":true,"OE#":true,"WE#":true}	
+sram	AS6C1008	tsop	as6c1008	pp.2-3	{"WE#":true,"CE#":true,"OE#":true}	
+sram	AS6C1008	bga	as6c1008	pp.2-3	{"WE#":true,"OE#":true,"CE#":true}	
+sram	AS6C1608B	tsop2	as6c1608b	pp.2-3	{"CE#":true,"WE#":true,"OE#":true}	
+sram	AS6C1608B	bga	as6c1608b	pp.2-3	{"OE#":true,"CE#":true,"WE#":true}	
+sram	AS6C1616	tsop	as6c1616	pp.1-2	{"WE#":true,"UB#":true,"LB#":true,"CE#":true,"OE#":true}	
+sram	AS6C2016	tsop2	as6c2016	pp.3-4	{"CE#":true,"WE#":true,"LB#":true,"UB#":true,"OE#":true}	
+sram	AS6C2016	bga	as6c2016	pp.3-4	{"LB#":true,"OE#":true,"UB#":true,"CE#":true,"WE#":true}	
+sram	AS6C4008	p32	as6c4008	pp.1-2	{"CE#":true,"OE#":true,"WE#":true}	
+sram	AS6C4008	tsop	as6c4008	pp.1-2	{"WE#":true,"CE#":true,"OE#":true}	
+sram	AS6C4008	bga	as6c4008	pp.1-2	{"WE#":true,"OE#":true,"CE#":true}	
+sram	AS6C4016	tsop2	as6c4016	pp.1-2	{"CE#":true,"WE#":true,"LB#":true,"UB#":true,"OE#":true}	
+sram	AS6C4016	bga	as6c4016	pp.1-2	{"LB#":true,"OE#":true,"UB#":true,"CE#":true,"WE#":true}	
+sram	AS6C62256	p28	as6c62256	pp.2-3	{"CE#":true,"OE#":true,"WE#":true}	
+sram	AS6C62256	stsop	as6c62256	pp.2-3	{"OE#":true,"WE#":true,"CE#":true}	
+sram	AS6C6264	p28	as6c6264	pp.1-2	{"CE#":true,"OE#":true,"WE#":true}	
+sram	AS6C6264	stsop	as6c6264	pp.1-2	{"OE#":true,"WE#":true,"CE#":true}	
+sram	AS6C6416	bga	as6c6416-55bin	pp.2-3	{"LB#":true,"OE#":true,"UB#":true,"CE#":true,"WE#":true}	
+sram	AS6C8008	tsop2	as6c8008	pp.2-3	{"CE#":true,"WE#":true,"OE#":true}	
+sram	AS6C8008	bga	as6c8008	pp.2-3	{"OE#":true,"CE#":true,"WE#":true}	
+sram	AS6C8016	tsop2	as6c8016	pp.1-2	{"CE#":true,"WE#":true,"LB#":true,"UB#":true,"OE#":true}	
+sram	AS6C8016	bga	as6c8016	pp.1-2	{"LB#":true,"OE#":true,"UB#":true,"CE#":true,"WE#":true}	
+sram	AS7C256A	p28	as7c256av	p.1	{"CE#":true,"OE#":true,"WE#":true}	
+sram	AS7C256A	stsop	as7c256av	p.1	{"OE#":true,"WE#":true,"CE#":true}	
+sram	AS7C31024B	p32	as7c31024b	pp.1-2	{"CE1#":true,"OE#":true,"WE#":true}	
+sram	AS7C31024B	tsop	as7c31024b	pp.1-2	{"WE#":true,"CE1#":true,"OE#":true}	
+sram	AS7C31026B	p44	as7c31026b	p.2	{"CE#":true,"WE#":true,"LB#":true,"UB#":true,"OE#":true}	
+sram	AS7C316098A	tsop	as7c316098a	pp.2-3	{"CE#":true,"WE#":true,"LB#":true,"UB#":true,"OE#":true}	
+sram	AS7C316098A	bga	as7c316098a	pp.2-3	{"LB#":true,"OE#":true,"UB#":true,"CE#":true,"WE#":true}	
+sram	AS7C34098A	p44	as7c34098a	p.2	{"CE#":true,"WE#":true,"LB#":true,"UB#":true,"OE#":true}	
+sram	AS7C34098A_BGA	bga	as7c34098a	p.2	{"LB#":true,"OE#":true,"UB#":true,"CE#":true,"WE#":true}	
+sram	AS7C351232	bga	as7c351232-10bin	pp.2-3	{"B0#":true,"B3#":true,"CE#":true,"B1#":true,"OE#":true,"WE#":true,"B2#":true}	
+sram	AS7C38098A	p44	as7c38098a	pp.2-3	{"CE#":true,"WE#":true,"LB#":true,"UB#":true,"OE#":true}	
+sram	AS7C38098A	bga	as7c38098a	pp.2-3	{"LB#":true,"OE#":true,"UB#":true,"CE#":true,"WE#":true}	
+sram	AS7C4096A	p36	as7c4096a	p.2	{"CE#":true,"WE#":true,"OE#":true}	
+sram	AS7C4096A	tsop2	as7c4096a	p.2	{"CE#":true,"WE#":true,"OE#":true}	
+sram	AS7C4098A	p44	as7c4098a	p.2	{"CE#":true,"WE#":true,"LB#":true,"UB#":true,"OE#":true}	

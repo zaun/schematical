@@ -18,8 +18,8 @@ plan-39-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-39-F complete | `ls planning/completed/plan-39-F-*.md \| wc -l` → 1 | NOT MET until F lands |
-| The tool's tests pass | `node --test scripts/pin-polarity.test.js` → all pass | NOT MET until D lands |
+| plan-39-F complete | `ls planning/completed/plan-39-F-*.md \| wc -l` → 1 | MET (2026-11-14: 1, at landing; the reviews ran alongside F, see Corrections 1) |
+| The tool's tests pass | `node --test scripts/pin-polarity.test.js` → all pass | MET (2026-11-14: pass 13, fail 0) |
 
 Everything below is written against the world where these hold.
 
@@ -75,12 +75,13 @@ The reviews of different devices are independent; an implementer may fan devices
 
 One commit per phase: the edited part file(s), `planning/plan-39-data/ledger.tsv` and `backend/tests/golden/parts.txt`.
 
-- [ ] Review eeprom devices 1–12 (AT28BV256 … AT28LV010): 27 pinouts, § 3 procedure; edits `schematical/schematical/Parts/eeprom.json`.
-- [ ] Review sram devices 1–21 (AS6C1008 … AS7C4098A): 37 pinouts, § 3 procedure; edits `schematical/schematical/Parts/sram.json`.
-- [ ] Rebuild and regenerate the golden: `cmake -S backend -B /tmp/logic-p39 && cmake --build /tmp/logic-p39 -j8 && /tmp/logic-p39/listing_check --print > backend/tests/golden/parts.txt`.
+- [x] Review eeprom devices 1–12 (AT28BV256 … AT28LV010): 27 pinouts, § 3 procedure; edits `schematical/schematical/Parts/eeprom.json`. — done: rows recorded, check ok (Observed)
+- [x] Review sram devices 1–21 (AS6C1008 … AS7C4098A): 37 pinouts, § 3 procedure; edits `schematical/schematical/Parts/sram.json`. — done: rows recorded, check ok (Observed)
+- [x] Rebuild and regenerate the golden: `cmake -S backend -B /tmp/logic-p39 && cmake --build /tmp/logic-p39 -j8 && /tmp/logic-p39/listing_check --print > backend/tests/golden/parts.txt`. — done: regenerated over the full tree, this phase staged (plan-39-E Corrections 2)
 
 Acceptance: every pinout of the phase has a ledger row, the ledger matches the files, and the golden moved only by flags.
   Check: `node scripts/pin-polarity.js check --kind eeprom --devices 1-12 --complete && node scripts/pin-polarity.js check --kind sram --devices 1-21 --complete && node scripts/pin-polarity.js golden-check && ctest --test-dir /tmp/logic-p39 -R '^(library_check|listing_check|trace_check)$'` → every `check` exits 0, `golden-check` exits 0, 3 of 3 tests passed (est. 90 min of reading for 64 pinouts, then 6 min for the checks: the loader and `listing_check` load every part file the phase edited, which no smaller check does).
+  Observed 2026-11-14: eeprom 1-12 `ok: 27 pinouts, 27 ledger rows checked`; sram 1-21 `ok: 37 pinouts, 37 ledger rows checked`; golden-check (phase staged) `ok: 0 parts.txt line(s) changed, only by :low`; ctest on the full tree `100% tests passed, 0 tests failed out of 3`.
 Commit: —
 
 ### Phase 2 — G2: serial 1–49 (67 pinouts)
@@ -121,7 +122,30 @@ Commit: —
 
 ## Corrections
 
-(empty until execution)
+1. **G was reviewed alongside F and H and landed after F**, staged phase by
+   phase as in plan-39-E Corrections 2. The Prerequisites row was measured
+   at landing.
+2. **Memory:** every pre-flagged `#` pin (CE#, OE#, WE#, LB#, UB#, B0#–B3#,
+   CE1#) was confirmed by an overbar or a `#` in its sheet. There were no
+   rule-10 findings and no new flags. CE2 is active high on every Alliance
+   sheet.
+3. **Serial, reviewers' calls:**
+   - The Exar/TI Motorola-mode alternatives (IRQ#, RESET#) are not in the
+     catalog names, so they are not flagged (rule 12).
+   - `16/68` is flagged `["68"]`.
+   - Combined names whose catalog form has no separate alternative for the
+     barred half (8251A `CD` for C/D̄, CDP65C51 `RW`, CDP1854A `RD_WR`) are
+     not flagged.
+   - CDP1854A DA/THRE are barred in mode 1 only, so they are not flagged.
+   - W65C51N RTSB (no low-active text) and RWB are not flagged, as in
+     plan-39-E Corrections 5.
+   - XR16C864 DACKA–D are flagged: the description says the DMA cycle
+     starts when the input goes low.
+   - Programmable pins with a stated active-low default (USB_STAT2,
+     LOWPOWER on XR21B14xx) are flagged (rule 5). LOWPOWER on XR21V141x is
+     strapped with no default, so it is not flagged.
+   - TL16C2550 qfn32: the package drawing's bars on XTAL2/GND are a
+     drawing error (its pin table has none), so they are not flagged.
 
 ## Summary
 
