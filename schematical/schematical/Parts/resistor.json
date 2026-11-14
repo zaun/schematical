@@ -3896,6 +3896,17 @@
      "power": 0.05
     },
     {
+     "name": "RC0402FR-13182RL",
+     "manufacturer": "YAGEO",
+     "package": "0402",
+     "pinout": "two-pin",
+     "footprint": "RES-0402-YAGEO",
+     "datasheet": "yageo-pyu-rc-group-51-rohs-l",
+     "ohms": 182,
+     "tolerance": 1,
+     "power": 0.063
+    },
+    {
      "name": "RC0402FR-07187RL",
      "manufacturer": "YAGEO",
      "package": "0402",
@@ -8963,17 +8974,6 @@
      "ohms": 4700,
      "tolerance": 1,
      "power": 0.05
-    },
-    {
-     "name": "RC0402FR-074K7L",
-     "manufacturer": "YAGEO",
-     "package": "0402",
-     "pinout": "two-pin",
-     "footprint": "RES-0402-YAGEO",
-     "datasheet": "yageo-pyu-rc-group-51-rohs-l",
-     "ohms": 4700,
-     "tolerance": 1,
-     "power": 0.063
     },
     {
      "name": "RC0402JR-074K7L",
