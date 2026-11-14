@@ -133,10 +133,10 @@ tuning kept copper (it is the user's).
 
 ### Phase 1 — measuring and the DRC check
 
-- [ ] `Canvas/Ratsnest.swift`: `BoardConnectivity.pinOfPad: [Int: String]` (the `padsOfPin` keys inverted) and `pinCount(ofNet:)`.
-- [ ] `Routing/RoutingLength.swift`: `RoutingLength.of(segments:)`; `SchematicDocument.netLength(ofNet:in:)`.
-- [ ] `DesignRuleCheck.swift`: `Kind.lengthMatch` and `checkLengthMatch()` (§ 3), after `checkSolderMask()` in `run()`.
-- [ ] Tests: `schematicalTests/NetLengthTests.swift` — a two-pin net routed with a 10 mm trace has length 10 (±1e-9); an unrouted net, a three-pin net and a net with two connectivity groups give nil; a group of two nets 1.0 mm apart with tolerance 0.25 gives one `.lengthMatch` line naming both; with tolerance 2.0 none; an ineligible member gives its line; the existing 11 DRC tests and `DesignRuleGoldenTests` stay green (no group, no new line).
+- [x] `Canvas/Ratsnest.swift`: `BoardConnectivity.pinOfPad: [Int: String]` (the `padsOfPin` keys inverted) and `pinCount(ofNet:)`. (A pad of no pin, an unnumbered centre pad or a hole, counts as a pin of its own.)
+- [x] `Routing/RoutingLength.swift`: `RoutingLength.of(segments:)`; `SchematicDocument.netLength(ofNet:in:)`. (Plus `RoutingLength.of(net:in:)` over a `BoardConnectivity`, which the DRC and the sidebar use, and `of(_ traces:)` for the engine.)
+- [x] `DesignRuleCheck.swift`: `Kind.lengthMatch` and `checkLengthMatch()` (§ 3), after `checkSolderMask()` in `run()`.
+- [x] Tests: `schematicalTests/NetLengthTests.swift` — a two-pin net routed with a 10 mm trace has length 10 (±1e-9); an unrouted net, a three-pin net and a net with two connectivity groups give nil; a group of two nets 1.0 mm apart with tolerance 0.25 gives one `.lengthMatch` line naming both; with tolerance 2.0 none; an ineligible member gives its line; the existing 11 DRC tests and `DesignRuleGoldenTests` stay green (no group, no new line). (The routed length is checked against its own trace's sum and the hand-computed 5 + Δx + 5 mm rather than a 10 mm trace: an LED pair can't sit exactly 10 mm apart on the 0.635 mm grid.) — `-only-testing:NetLengthTests -only-testing:DesignRuleCheckTests -only-testing:DesignRuleGoldenTests` (with `MeanderTests`) → NetLength 4/4, DRC 15/15, Meander 5/5; the golden's one failure in that run was the run-to-run order fixed in d45c7574 (plan-38-D Corrections), after which the golden passed 11 of 11 unchanged.
 
 Acceptance: cases pass; goldens unchanged.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd test -only-testing:schematicalTests/NetLengthTests -only-testing:schematicalTests/DesignRuleCheckTests -only-testing:schematicalTests/DesignRuleGoldenTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 2 min).

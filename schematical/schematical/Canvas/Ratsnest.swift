@@ -251,10 +251,12 @@ extension SchematicDocument {
                 for other in joined.dropFirst() { union(joined[0], other) }
             }
         }
+        var pinOfPad: [Int: String] = [:]
+        for (key, list) in padsOfPin { for p in list { pinOfPad[p] = key } }
         return BoardConnectivity(pads: pads, traces: copper, vias: vias,
                                  root: parent.indices.map(find), netOfPad: netOfPad, planeNets: planeNets,
                                  railNets: names.railNets, pinNets: names.pinNets, netNames: names.netNames,
-                                 netKeys: names.netKeys)
+                                 netKeys: names.netKeys, pinOfPad: pinOfPad)
     }
 
     /// A name for each of `nets`, by this priority: a supply symbol's part
@@ -416,6 +418,15 @@ nonisolated struct BoardConnectivity {
     var netNames: [Int: String] = [:]
     /// Each net's stable name (`planeNet(ofNet:)`).
     var netKeys: [Int: PlaneNet] = [:]
+    /// The pin each pad is of ("<chip index>/<designator>", "edge/<name>"):
+    /// the pads of one pin are one pin however many there are. A pad of no
+    /// pin (an unnumbered centre pad, a hole) is a pin of its own.
+    var pinOfPad: [Int: String] = [:]
+
+    /// How many pins net `net` has on the board.
+    func pinCount(ofNet net: Int) -> Int {
+        Set(netOfPad.filter { $0.value == net }.keys.map { pinOfPad[$0] ?? "pad/\($0)" }).count
+    }
 
     /// The stable name of net `net`, the one a class or group member uses
     /// for it: `.rail(mv)` for a supply rail (the lowest voltage, if one

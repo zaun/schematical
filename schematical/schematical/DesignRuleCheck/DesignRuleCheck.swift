@@ -18,7 +18,7 @@ nonisolated struct DesignRuleIssue: Identifiable, Hashable, Sendable {
     /// What kind of problem: the order the list groups them in.
     enum Kind: Int, Comparable, Sendable {
         case short, unrouted, unconnected, placement, layer, layerRule, clearance, edge,
-             drill, annularRing, holeToHole, via, traceWidth, silkscreen, solderMask
+             drill, annularRing, holeToHole, via, traceWidth, silkscreen, solderMask, lengthMatch
 
         static func < (a: Kind, b: Kind) -> Bool { a.rawValue < b.rawValue }
     }
@@ -105,6 +105,7 @@ private struct DesignRuleChecker {
         checkTraceWidths()
         checkSilkscreen()
         checkSolderMask()
+        checkLengthMatch()
         // Stable: within a kind, the order each check found them in.
         var sorted = issues.enumerated().sorted { a, b in
             a.element.kind != b.element.kind ? a.element.kind < b.element.kind : a.offset < b.offset
@@ -606,6 +607,43 @@ private struct DesignRuleChecker {
             add(.traceWidth, traceName(t),
                 "Width \(trace.width) mil (\(mm(trace.widthMM))); min \(mm(rules.minTraceWidth))", [.trace(trace.id)])
         }
+    }
+
+    // MARK: Length match
+
+    /// Each length-match group whose routed members' lengths spread more
+    /// than its tolerance: one line naming the shortest and longest; and a
+    /// line for each member with more than two pins, which can't be
+    /// matched. Unrouted members are left out (they have unrouted lines).
+    private mutating func checkLengthMatch() {
+        for group in board.netGroups where group.mode == .lengthMatch {
+            var lengths: [(name: String, length: Double, net: Int)] = []
+            for member in group.members {
+                guard let net = copper.net(of: member) else { continue }
+                let name = copper.netNames[net] ?? "Net \(net + 1)"
+                if copper.pinCount(ofNet: net) > 2 {
+                    add(.lengthMatch, name, "Net \(name) has more than two pins; its length is not matched",
+                        traces(ofNet: net))
+                    continue
+                }
+                if let length = RoutingLength.of(net: net, in: copper) { lengths.append((name, length, net)) }
+            }
+            guard lengths.count >= 2, let shortest = lengths.min(by: { $0.length < $1.length }),
+                  let longest = lengths.max(by: { $0.length < $1.length }),
+                  longest.length - shortest.length > group.tolerance + Self.tolerance else { continue }
+            add(.lengthMatch, group.name,
+                "Group \(group.name): nets differ by \(mm(longest.length - shortest.length)) "
+                    + "(\(longest.name) \(mm(longest.length)), \(shortest.name) \(mm(shortest.length))); "
+                    + "tolerance \(mm(group.tolerance))",
+                traces(ofNet: longest.net).union(traces(ofNet: shortest.net)))
+        }
+    }
+
+    /// The traces of net `net`'s copper, as selection items.
+    private func traces(ofNet net: Int) -> Set<BoardItem> {
+        let netOfRoot = copper.netOfRoot()
+        return Set(copper.traces.indices.filter { netOfRoot[copper.root[copper.traceNode($0)]] == net }
+            .map { .trace(copper.traces[$0].id) })
     }
 
     // MARK: Silkscreen
