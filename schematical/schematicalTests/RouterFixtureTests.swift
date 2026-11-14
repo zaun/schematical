@@ -117,6 +117,42 @@ final class RouterFixtureTests: XCTestCase {
         XCTAssertEqual(caused.map { "\($0.kind) \($0.reference): \($0.issue)" }, [])
     }
 
+    /// plan-38-J Phase 4: AFU's first two two-pin nets as a pair (gap 0.2),
+    /// with everything else routed: nothing the router caused in the DRC,
+    /// and a coupled pair's uncoupled length as measured on the applied copper.
+    func testDiffPairOnAFU() throws {
+        let doc = try Fixture.open("AFU")
+        let copper = doc.connectivity()
+        let members = Array(Set(copper.netOfPad.values).filter { copper.pinCount(ofNet: $0) == 2 }.sorted().prefix(2))
+        let pair = doc.addNetGroup(named: "Pair", mode: .diffPair)
+        doc.setNetGroupGap(pair, 0.2)
+        let keys = try members.map { try XCTUnwrap(copper.planeNet(ofNet: $0)) }
+        for key in keys { XCTAssertTrue(doc.assignNet(key, toGroup: pair)) }
+        let problem = doc.routingProblem(options: .standard, rules: .customDefault)
+        let result = Router.route(problem)
+        let outcome = try XCTUnwrap(result.groups.first { $0.group == pair })
+        doc.applyRouting(result, problem: problem)
+        let applied = doc.connectivity()
+        let nets = keys.compactMap { applied.net(of: $0) }
+        let netOfRoot = applied.netOfRoot()
+        func traces(_ net: Int) -> [RoutedTrace] {
+            applied.traces.indices.filter { netOfRoot[applied.root[applied.traceNode($0)]] == net }.map {
+                RoutedTrace(layer: applied.traces[$0].layer, width: applied.traces[$0].widthMM, points: applied.traces[$0].points)
+            }
+        }
+        let measured = PairGeometry.uncoupledLength(p: traces(nets[0]), n: traces(nets[1]), gap: 0.2)
+        print(String(format: "ROUTER pair %@, uncoupled %.2f mm (measured %.2f), skew %.2f mm, routed %d/%d",
+                     "\(outcome.status)", { () -> Double in if case let .coupled(mm) = outcome.status { return mm } else { return -1 } }(),
+                     measured, outcome.spread, result.stats.routed, result.stats.connections))
+        switch outcome.status {
+        case let .coupled(uncoupled): XCTAssertEqual(uncoupled, measured, accuracy: 0.05)
+        case .uncoupled: break
+        default: XCTFail("\(outcome.status)")
+        }
+        let caused = doc.designRuleCheck(rules: .customDefault).filter { Self.routerKinds.contains($0.kind) }
+        XCTAssertEqual(caused.map { "\($0.kind) \($0.reference): \($0.issue)" }, [])
+    }
+
     /// Fast and Thorough on the fixtures, for the record (plan-38-F Phase 4);
     /// each result is legal.
     func testFastAndThoroughOnTheFixtures() throws {

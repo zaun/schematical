@@ -162,12 +162,12 @@ Commit: 18e96d72
 
 Acceptance: cases pass; the 11 DRC tests and goldens unchanged.
   Check: `-only-testing:schematicalTests/RoutingPairTests -only-testing:schematicalTests/DesignRuleCheckTests -only-testing:schematicalTests/DesignRuleGoldenTests` → `** TEST SUCCEEDED **` (est. 3 min).
-Commit: —
+Commit: d784ff8b
 
 ### Phase 4 — fixtures
 
-- [ ] `RouterFixtureTests`: on AFU, a pair of the first two two-pin nets by net index, gap 0.2, plus everything else routed: assert the twelve DRC kinds are 0 and that `GroupOutcome.status` is `.coupled` or `.uncoupled(reason)` with the measured uncoupled length equal to `PairGeometry.uncoupledLength` of the applied copper; print status, uncoupled mm, skew mm.
-- [ ] Results (the output of this run, filled in then): status __, uncoupled __ mm, skew __ mm.
+- [x] `RouterFixtureTests`: on AFU, a pair of the first two two-pin nets by net index, gap 0.2, plus everything else routed: assert the twelve DRC kinds are 0 and that `GroupOutcome.status` is `.coupled` or `.uncoupled(reason)` with the measured uncoupled length equal to `PairGeometry.uncoupledLength` of the applied copper; print status, uncoupled mm, skew mm. — `testDiffPairOnAFU` passed, `** TEST SUCCEEDED **` (30 s).
+- [x] Results (the output of this run, filled in then): status `uncoupled("no legal breakout to a pad")` (AFU's first two two-pin nets don't start side by side, so the pair falls back to two ordinary nets), uncoupled — (the applied copper's two nets measure 31.13 mm apart), skew 0.38 mm; all 115 connections routed, nothing router-caused in the DRC.
 
 Acceptance: as stated.
   Check: `-only-testing:schematicalTests/RouterFixtureTests` → `** TEST SUCCEEDED **` (est. 4 min).
