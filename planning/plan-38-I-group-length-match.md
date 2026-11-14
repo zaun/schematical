@@ -140,12 +140,12 @@ tuning kept copper (it is the user's).
 
 Acceptance: cases pass; goldens unchanged.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd test -only-testing:schematicalTests/NetLengthTests -only-testing:schematicalTests/DesignRuleCheckTests -only-testing:schematicalTests/DesignRuleGoldenTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 2 min).
-Commit: —
+Commit: 14fb77ba
 
 ### Phase 2 — the meander generator (pure geometry)
 
-- [ ] `Routing/Meander.swift`: `Meander.bump(on segment:, side:, amplitude:, spacing:, width:, chamfer:)` → replacement points; `Meander.added(length:)` closed form; accordion repetition; bisection helper `amplitude(forAdded:)`.
-- [ ] Tests (`MeanderTests`): a rectangular bump of amplitude 2 mm adds exactly 4 mm; the chamfered one adds the same minus the hand-computed chamfer loss (`2 × cut × (2 − √2)` per corner, 4 corners); an accordion of 5 bumps alternates sides and its end points equal the host segment's; `amplitude(forAdded:)` hits a target to 1e-4 mm; legs are `width + gap` apart centre to centre.
+- [x] `Routing/Meander.swift`: `Meander.bump(on segment:, side:, amplitude:, spacing:, width:, chamfer:)` → replacement points; `Meander.added(length:)` closed form; accordion repetition; bisection helper `amplitude(forAdded:)`. (As `bump(from:to:at:side:amplitude:spacing:cut:)`, `added(amplitude:cut:)`, `accordion(...)`, `amplitude(forAdded:cut:spacing:in:)`; the cut is clamped to half a leg and half the top.)
+- [x] Tests (`MeanderTests`): a rectangular bump of amplitude 2 mm adds exactly 4 mm; the chamfered one adds the same minus the hand-computed chamfer loss (`cut × (2 − √2)` per corner, 4 corners — corrected, see Corrections); an accordion of 5 bumps alternates sides and its end points equal the host segment's; `amplitude(forAdded:)` hits a target to 1e-4 mm; legs are `width + gap` apart centre to centre. — `-only-testing:MeanderTests` → 5 tests, 0 failures (in the Phase 1 run).
 
 Acceptance: cases pass.
   Check: `-only-testing:schematicalTests/MeanderTests` → `** TEST SUCCEEDED **` (est. 1–2 min).
@@ -184,7 +184,10 @@ See plan-38-A § Decisions (owner: length matching by meander tuning, 2026-11-13
 
 ## Corrections
 
-(Filled in during execution.)
+- Phase 2's chamfer loss was stated as `2 × cut × (2 − √2)` per corner. A 90°
+  corner cut by `cut` along each of its two sides replaces `2 × cut` of path
+  with the diagonal `cut × √2`, a loss of `cut × (2 − √2)`; the test checks
+  that hand-computed value against the measured polyline length.
 
 ## Summary
 
