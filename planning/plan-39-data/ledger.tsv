@@ -403,6 +403,87 @@ mux	74_354	p20	cd74hc354	p.1	{"E":true,"LE":true,"OE1":true,"OE2":true,"YBAR":tr
 mux	74_356	p20	cd74hct356	p.1	{"LE":true,"OE1":true,"OE2":true,"YBAR":true}	OE3 active high; CP rising edge, unmarked
 mux	74_399	p16	cy74fct399t	p.1	{}	
 mux	74_670	p16	cd74hc670	p.1	{"GR":true,"GW":true}	
+oscillator	ash5kw-0	1610	ash5kw	pp.1-4	{}	pin 3 Enable/Disable: high/open enables (VIH output enabled), no overbar
+oscillator	aszkdv-0	2012	aszkdv	pp.1-4	{}	pin 3 Enable/Disable: '1' or open oscillates, OE HIGH enables
+oscillator	ecoc-7050-2	7050-10	ecoc-7050	p.1	{}	only Output signal pin; no control input
+oscillator	ecoc-9775-2	9775-6	ecoc-9775	p.1	{}	only Output signal pin; no control input
+oscillator	ecs-100-1	dip14	ecs-100x	p.2	{}	only Output signal pin; pin 1 NC
+oscillator	ecs-100-2	dip14	ecs-100x	p.2	{}	only Output signal pin; pin 1 NC
+oscillator	ecs-1000-2	dip14	ecs-1000x	p.2	{"TRI-STATE":true}	pin 1 drawn INH with overbar (low = High Z)
+oscillator	ecs-1612mv-1	1612-smd	ecs-1612mv	p.1	{}	pin 1 Stand-by: no overbar or active-low text (low = High-Z, open/high active)
+oscillator	ecs-1612mv-2	1612-smd	ecs-1612mv	p.1	{}	pin 1 Stand-by: no overbar or active-low text (low = High-Z, open/high active)
+oscillator	ecs-1618-1	2016-smd	ecs-1618	p.2	{}	pin 1 Tri-State: unmarked; high/open oscillates
+oscillator	ecs-1618-2	2016-smd	ecs-1618	p.2	{}	pin 1 Tri-State: unmarked; high/open oscillates
+oscillator	ecs-1633-1	2016-smd	ecs-1633	p.2	{}	pin 1 Tri-State: unmarked; high/open oscillates
+oscillator	ecs-1633-2	2016-smd	ecs-1633	p.2	{}	pin 1 Tri-State: unmarked; high/open oscillates
+oscillator	ecs-200-2	dip14	ecs-200x	p.2	{}	only Output signal pin; pin 1 NC
+oscillator	ecs-2012mv-327ke-0	2012-4	ecs-2012mv-327ke-tr	p.1	{}	pin 1 Tri-state: unmarked; high = active, low = High Z
+oscillator	ecs-2016mv-1	2016-smd	ecs-2016mv	p.1	{}	pin 1 Tri-state: unmarked; high/NC = active, low = High Z
+oscillator	ecs-2016mv-2	2016-smd	ecs-2016mv	p.1	{}	pin 1 Tri-state: unmarked; high/NC = active, low = High Z
+oscillator	ecs-2016mvq-2	2016-smd	ecs-2016mvq	p.1	{}	pin 1 Tri-state: unmarked; high/NC = active, low = High Z
+oscillator	ecs-2018-1	2520-smd	ecs-2018	p.2	{}	pin 1 Tri-State: unmarked; high/open oscillates
+oscillator	ecs-2018-2	2520-smd	ecs-2018	p.2	{}	pin 1 Tri-State: unmarked; high/open oscillates
+oscillator	ecs-2033-1	2520-smd	ecs-2025-2033	p.2	{}	pin 1 Tri-State: unmarked; high/open oscillates
+oscillator	ecs-2033-2	2520-smd	ecs-2025-2033	p.2	{}	pin 1 Tri-State: unmarked; high/open oscillates
+oscillator	ecs-2100-1	dip8	ecs-2100	p.1	{}	only Output signal pin; pin 1 NC
+oscillator	ecs-2100-2	dip8	ecs-2100	p.1	{}	only Output signal pin; pin 1 NC
+oscillator	ecs-2200-1	dip8	ecs-2200x	p.2	{"TRI-STATE":true}	pin 1 drawn INH with overbar (low = High Z)
+oscillator	ecs-2200-2	dip8	ecs-2200x	p.2	{"TRI-STATE":true}	pin 1 drawn INH with overbar (low = High Z)
+oscillator	ecs-2333-1	3225-smd	ecs-2325-2333	p.2	{}	pin 1 Tri-State: unmarked; high/open oscillates
+oscillator	ecs-2333-2	3225-smd	ecs-2325-2333	p.2	{}	pin 1 Tri-State: unmarked; high/open oscillates
+oscillator	ecs-2520mv-1	smd2520	ecs-2520mv	p.1	{}	pin 1 Tri-state: unmarked; high/NC = active, low = High Z
+oscillator	ecs-2520mv-2	smd2520	ecs-2520mv	p.1	{}	pin 1 Tri-state: unmarked; high/NC = active, low = High Z
+oscillator	ecs-2520mv-3	smd2520	ecs-2520mv	p.1	{}	pin 1 Tri-state: unmarked; high/NC = active, low = High Z
+oscillator	ecs-2520mvlc-1	smd2520	ecs-2520mvlc	p.1	{}	pin 1 Tri-state: unmarked; high/NC = active (Standby Function table)
+oscillator	ecs-2520mvlc-2	smd2520	ecs-2520mvlc	p.1	{}	pin 1 Tri-state: unmarked; high/NC = active (Standby Function table)
+oscillator	ecs-2520mvq-1	smd2520	ecs-2520mvq	p.1	{}	pin 1 Tri-state: unmarked; high/NC = active, low = High Z
+oscillator	ecs-2520mvq-2	smd2520	ecs-2520mvq	p.1	{}	pin 1 Tri-state: unmarked; high/NC = active, low = High Z
+oscillator	ecs-2520mvq-3	smd2520	ecs-2520mvq	p.1	{}	pin 1 Tri-state: unmarked; high/NC = active, low = High Z
+oscillator	ecs-2520q-2	smd2520	ecs-2520q	p.1	{}	pin 1 Tri-state: unmarked; high/NC = active
+oscillator	ecs-2520s-2	smd2520	ecs-2520s	p.1	{}	pin 1 Tri-state: unmarked; high/NC = active
+oscillator	ecs-2520smv-1	smd2520	ecs-2520smv	p.1	{}	pin 1 Tri-state: unmarked; high/NC = active, low = High Z
+oscillator	ecs-2520smv-2	smd2520	ecs-2520smv	p.1	{}	pin 1 Tri-state: unmarked; high/NC = active, low = High Z
+oscillator	ecs-2520smvq-1	smd2520	ecs-2520smvq	p.1	{}	pin 1 Tri-state: unmarked; high/NC = active, low = High Z
+oscillator	ecs-2520smvq-2	smd2520	ecs-2520smvq	p.1	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-2532hs-2	3225-smd	ecs-2532hs	p.2	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-3215mv-327ke-0	3215-4	ecs-3215mv-327ke	p.1	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-3225mv-1	3225	ecs-3225mv	p.1	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-3225mv-2	3225	ecs-3225mv	p.1	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-3225mv-3	3225	ecs-3225mv	p.1	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-3225mvlc-1	3225	ecs-3225mvlc	p.1	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-3225mvlc-2	3225	ecs-3225mvlc	p.1	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-3225mvq-2	3225	ecs-3225mvq	p.1	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-3225mvq-3	3225	ecs-3225mvq	p.1	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-3225q-2	3225	ecs-3225q	p.1	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-3225smv-1	3225	ecs-3225smv	p.1	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-3225smv-2	3225	ecs-3225smv	p.1	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-3225smvq-1	3225	ecs-3225smvq	p.1	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-3225smvq-2	3225	ecs-3225smvq	p.1	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-3250ss-2	5032-smd	ecs-3250ss	p.2	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-327atq2016mv-0	2016-4	ecs-327atq2016mv	p.1	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-327atq2520mv-0	2520-4	ecs-327atq2520mv	p.1	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-327atqmv-0	3225-4	ecs-327atqmv	p.1	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-327ke-0	3225-4	ecs-327ke	p.2	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-327mv-0	1612-4	ecs-327mv	p.1	{}	pin 1 drawn "Stand-by" with no overbar and no active-low text; table: open/high = active, low = High-Z (standby happens on low, by table only)
+oscillator	ecs-327mvatx-0	2016-4	ecs-327mvatx	pp.1-3	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-327mvatx-0	2520-4	ecs-327mvatx	pp.1-3	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-327mvatx-0	3225-4	ecs-327mvatx	pp.1-3	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-327mvatx-0	5032-4	ecs-327mvatx	pp.1-3	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-327mvatx-0	7050-4	ecs-327mvatx	pp.1-3	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-327smo-0	6540-4	ecs-327smo	p.2	{}	pad 1 table: "L" = Z, open or "H" = output; no overbar or active-low text
+oscillator	ecs-327txo-0	3225	ecs-327txo	p.1	{}	pin 1 Output Enable: high = enabled, low = disabled; no overbar
+oscillator	ecs-327txo-2012-0	2012	ecs-327txo-2012	p.1	{}	pin 1 Output Enable: open/high = enabled, low = disabled; no overbar
+oscillator	ecs-3518-2	5032	ecs-3518-3525r	p.2	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-3518-3	5032	ecs-3518-3525r	p.2	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-3525-1	5032	ecs-3518-3525r	p.2	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-3525-2	5032	ecs-3518-3525r	p.2	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-3525-3	5032	ecs-3518-3525r	p.2	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-3951m-1	7050	ecs-3951m-3953m	p.2	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-3951m-2	7050	ecs-3951m-3953m	p.2	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-3951m-au-1	7050	ecs-3951-53m-au	p.1	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-3951m-au-2	7050	ecs-3951-53m-au	p.1	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-3951m-bn-1	7050	ecs-3951m-bn-3953m-bn	p.2	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
+oscillator	ecs-3951m-bn-2	7050	ecs-3951m-bn-3953m-bn	p.2	{}	pin 1 Tri-state: high/open = output active, low = high-Z; no overbar or active-low text
 pio	W65C21N	p40	w65c21	pp.3,12-13,15	{"CS2B":true,"RESB":true,"IRQBB":true,"IRQAB":true}	CS2B selects when low, RESB low resets (pp.12-13), IRQAB/IRQBB active low (p.15); RWB low=write, single name not flagged; CA1/CB1 edge inputs unmarked
 pio	W65C21N	plcc44	w65c21	pp.3,12-13,15	{"CS2B":true,"RESB":true,"IRQBB":true,"IRQAB":true}	PLCC fig labels pin 25 CS2 (no B) but it is CS2B, selects when low (p.12); RESB low resets; IRQAB/IRQBB active low (p.15); RWB low=write, single name not flagged
 pio	W65C21S	p40	w65c21	pp.3,12-13,15	{"CS2B":true,"RESB":true,"IRQBB":true,"IRQAB":true}	CS2B selects when low, RESB low resets (pp.12-13), IRQAB/IRQBB active low (p.15); RWB low=write, single name not flagged; CA1/CB1 edge inputs unmarked

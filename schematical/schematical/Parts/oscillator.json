@@ -41,13 +41,13 @@
       "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4). | LMK6CE001000DDLER, LMK6CE001000DDLFR: VCC 1.7-1.9 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(1)); rating letter 'D' = 1.8V per p.4)",
       "pinouts": {
         "3225-vson": [
-          {"number":1,"name":"OE/ST/NC","role":"input"},
+          {"number":1,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
           {"number":2,"name":"GND","role":"ground"},
           {"number":3,"name":"OUT","role":"output"},
           {"number":4,"name":"VDD","role":"power"}
         ],
         "2520-vson": [
-          {"number":1,"name":"OE/ST/NC","role":"input"},
+          {"number":1,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
           {"number":2,"name":"GND","role":"ground"},
           {"number":3,"name":"OUT","role":"output"},
           {"number":4,"name":"VDD","role":"power"}
@@ -73,13 +73,13 @@
       "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4). | LMK6CA026214DDLFR, LMK6CA032768DDLFR, LMK6CE02500DDLER, LMK6CE02500DDLFR, LMK6CE033333DDLFR, LMK6CE04800DDLFR, LMK6CE050000DDLFR, LMK6CE05000DDLER, LMK6CE05000DDLFR, LMK6CE07425DDLFR: VCC 1.7-1.9 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(1)); rating letter 'D' = 1.8V per p.4)",
       "pinouts": {
         "2520-vson": [
-          {"number":1,"name":"OE/ST/NC","role":"input"},
+          {"number":1,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
           {"number":2,"name":"GND","role":"ground"},
           {"number":3,"name":"OUT","role":"output"},
           {"number":4,"name":"VDD","role":"power"}
         ],
         "3225-vson": [
-          {"number":1,"name":"OE/ST/NC","role":"input"},
+          {"number":1,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
           {"number":2,"name":"GND","role":"ground"},
           {"number":3,"name":"OUT","role":"output"},
           {"number":4,"name":"VDD","role":"power"}
@@ -136,13 +136,13 @@
       "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4). | LMK6CE10000DDLER, LMK6CE10000DDLFR, LMK6CE10800DDLFR, LMK6CE125000DDLER, LMK6CE15625DDLFR: VCC 1.7-1.9 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(1)); rating letter 'D' = 1.8V per p.4)",
       "pinouts": {
         "3225-vson": [
-          {"number":1,"name":"OE/ST/NC","role":"input"},
+          {"number":1,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
           {"number":2,"name":"GND","role":"ground"},
           {"number":3,"name":"OUT","role":"output"},
           {"number":4,"name":"VDD","role":"power"}
         ],
         "2520-vson": [
-          {"number":1,"name":"OE/ST/NC","role":"input"},
+          {"number":1,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
           {"number":2,"name":"GND","role":"ground"},
           {"number":3,"name":"OUT","role":"output"},
           {"number":4,"name":"VDD","role":"power"}
@@ -172,16 +172,16 @@
       "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4).",
       "pinouts": {
         "2520-vson": [
-          {"number":1,"name":"OE/ST/NC","role":"input"},
-          {"number":2,"name":"OE/ST/NC","role":"input"},
+          {"number":1,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
+          {"number":2,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
           {"number":3,"name":"GND","role":"ground"},
           {"number":4,"name":"OUTP","role":"output"},
           {"number":5,"name":"OUTN","role":"output"},
           {"number":6,"name":"VDD","role":"power"}
         ],
         "3225-vson": [
-          {"number":1,"name":"OE/ST/NC","role":"input"},
-          {"number":2,"name":"OE/ST/NC","role":"input"},
+          {"number":1,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
+          {"number":2,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
           {"number":3,"name":"GND","role":"ground"},
           {"number":4,"name":"OUTP","role":"output"},
           {"number":5,"name":"OUTN","role":"output"},
@@ -208,16 +208,16 @@
       "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4). | LMK6DE156250BDLER, LMK6DE400000BDLER: VCC 1.7-1.9 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(1)); rating letter 'B' = 1.8V per p.3)",
       "pinouts": {
         "3225-vson": [
-          {"number":1,"name":"OE/ST/NC","role":"input"},
-          {"number":2,"name":"OE/ST/NC","role":"input"},
+          {"number":1,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
+          {"number":2,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
           {"number":3,"name":"GND","role":"ground"},
           {"number":4,"name":"OUTP","role":"output"},
           {"number":5,"name":"OUTN","role":"output"},
           {"number":6,"name":"VDD","role":"power"}
         ],
         "2520-vson": [
-          {"number":1,"name":"OE/ST/NC","role":"input"},
-          {"number":2,"name":"OE/ST/NC","role":"input"},
+          {"number":1,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
+          {"number":2,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
           {"number":3,"name":"GND","role":"ground"},
           {"number":4,"name":"OUTP","role":"output"},
           {"number":5,"name":"OUTN","role":"output"},
@@ -260,8 +260,8 @@
       "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4).",
       "pinouts": {
         "3225-vson": [
-          {"number":1,"name":"OE/ST/NC","role":"input"},
-          {"number":2,"name":"OE/ST/NC","role":"input"},
+          {"number":1,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
+          {"number":2,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
           {"number":3,"name":"GND","role":"ground"},
           {"number":4,"name":"OUTP","role":"output"},
           {"number":5,"name":"OUTN","role":"output"},
@@ -285,16 +285,16 @@
       "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4). | LMK6HA10000BDLFR, LMK6HE156250BDLFR, LMK6HE400000BDLER: VCC 1.7-1.9 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(1)); rating letter 'B' = 1.8V per p.3)",
       "pinouts": {
         "3225-vson": [
-          {"number":1,"name":"OE/ST/NC","role":"input"},
-          {"number":2,"name":"OE/ST/NC","role":"input"},
+          {"number":1,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
+          {"number":2,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
           {"number":3,"name":"GND","role":"ground"},
           {"number":4,"name":"OUTP","role":"output"},
           {"number":5,"name":"OUTN","role":"output"},
           {"number":6,"name":"VDD","role":"power"}
         ],
         "2520-vson": [
-          {"number":1,"name":"OE/ST/NC","role":"input"},
-          {"number":2,"name":"OE/ST/NC","role":"input"},
+          {"number":1,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
+          {"number":2,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
           {"number":3,"name":"GND","role":"ground"},
           {"number":4,"name":"OUTP","role":"output"},
           {"number":5,"name":"OUTN","role":"output"},
@@ -327,16 +327,16 @@
       "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4). | LMK6PE025000BDLFR: VCC 1.7-1.9 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(1)); rating letter 'B' = 1.8V per p.3)",
       "pinouts": {
         "3225-vson": [
-          {"number":1,"name":"OE/ST/NC","role":"input"},
-          {"number":2,"name":"OE/ST/NC","role":"input"},
+          {"number":1,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
+          {"number":2,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
           {"number":3,"name":"GND","role":"ground"},
           {"number":4,"name":"OUTP","role":"output"},
           {"number":5,"name":"OUTN","role":"output"},
           {"number":6,"name":"VDD","role":"power"}
         ],
         "2520-vson": [
-          {"number":1,"name":"OE/ST/NC","role":"input"},
-          {"number":2,"name":"OE/ST/NC","role":"input"},
+          {"number":1,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
+          {"number":2,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
           {"number":3,"name":"GND","role":"ground"},
           {"number":4,"name":"OUTP","role":"output"},
           {"number":5,"name":"OUTN","role":"output"},
@@ -362,16 +362,16 @@
       "note": "VCC 2.37-3.5 V (lmk6c p.6 (6.4 ROC, Device Supply Voltage(2) 2.37/3.5 V)) Supply option: Voltage/Temperature Rating letter = the character immediately before the package code 'DLE'/'DLF' (5th character from the end, name[-5]). LMK6C (Fig. 4-2): C = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), D = 1.8V +/-5% (ROC 1.7-1.9 V). LMK6D/LMK6H/LMK6P (Fig. 4-1): A = 2.5V-3.3V +/-5% (ROC 2.37-3.5 V), B = 1.8V +/-5% (ROC 1.7-1.9 V). lmk6c p.3-4 (part number guides), p.6 (ROC 6.4).",
       "pinouts": {
         "3225-vson": [
-          {"number":1,"name":"OE/ST/NC","role":"input"},
-          {"number":2,"name":"OE/ST/NC","role":"input"},
+          {"number":1,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
+          {"number":2,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
           {"number":3,"name":"GND","role":"ground"},
           {"number":4,"name":"OUTP","role":"output"},
           {"number":5,"name":"OUTN","role":"output"},
           {"number":6,"name":"VDD","role":"power"}
         ],
         "2520-vson": [
-          {"number":1,"name":"OE/ST/NC","role":"input"},
-          {"number":2,"name":"OE/ST/NC","role":"input"},
+          {"number":1,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
+          {"number":2,"name":"OE/ST/NC","role":"input","activeLow":["ST"]},
           {"number":3,"name":"GND","role":"ground"},
           {"number":4,"name":"OUTP","role":"output"},
           {"number":5,"name":"OUTN","role":"output"},
@@ -552,7 +552,7 @@
           {"number":1,"name":"FOUT","role":"output"},
           {"number":2,"name":"VDD","role":"power"},
           {"number":3,"name":"XT","role":"inout"},
-          {"number":4,"name":"CONT","role":"input"},
+          {"number":4,"name":"CONT","role":"input","activeLow":true},
           {"number":5,"name":"XT","role":"inout"},
           {"number":6,"name":"VSS","role":"ground"}
         ]
@@ -577,7 +577,7 @@
           {"number":1,"name":"FOUT","role":"output"},
           {"number":2,"name":"VDD","role":"power"},
           {"number":3,"name":"XT","role":"inout"},
-          {"number":4,"name":"CONT","role":"input"},
+          {"number":4,"name":"CONT","role":"input","activeLow":true},
           {"number":5,"name":"XT","role":"inout"},
           {"number":6,"name":"VSS","role":"ground"}
         ]
@@ -602,7 +602,7 @@
           {"number":1,"name":"FOUT","role":"output"},
           {"number":2,"name":"VDD","role":"power"},
           {"number":3,"name":"XT","role":"inout"},
-          {"number":4,"name":"CONT","role":"input"},
+          {"number":4,"name":"CONT","role":"input","activeLow":true},
           {"number":5,"name":"XT","role":"inout"},
           {"number":6,"name":"VSS","role":"ground"}
         ]
@@ -627,7 +627,7 @@
           {"number":1,"name":"FOUT","role":"output"},
           {"number":2,"name":"VDD","role":"power"},
           {"number":3,"name":"XT","role":"inout"},
-          {"number":4,"name":"CONT","role":"input"},
+          {"number":4,"name":"CONT","role":"input","activeLow":true},
           {"number":5,"name":"XT","role":"inout"},
           {"number":6,"name":"VSS","role":"ground"}
         ]
@@ -933,7 +933,7 @@
       "note": "ECS osc/ecs-1000x.pdf (ECS-1000X Series, marked Not Recommended for New Designs; HCMOS/TTL; 1.000-100.000 MHz; pin 1 tri-state (open or VIH >= 2.2 V = active, VIL <= 0.8 V = high Z, internal pull-up to pin 14, p.2); body 20.7 x 12.9 max (p.2); ecsxtal.com lists no ECS-1000X part numbers; ECS-1000AX-100 is the datasheet p.1 Part Numbering Guide example). VCC 4.75-5.25 V (ecs-1000x p.1 (Supply Voltage +4.75/+5.0/+5.25 V))",
       "pinouts": {
         "dip14": [
-          {"number":1,"name":"TRI-STATE","role":"input"},
+          {"number":1,"name":"TRI-STATE","role":"input","activeLow":true},
           {"number":2,"name":"NP","role":"absent"},
           {"number":3,"name":"NP","role":"absent"},
           {"number":4,"name":"NP","role":"absent"},
@@ -966,7 +966,7 @@
       "note": "ECS osc/ecs-2200x.pdf (ECS-2200X Series, marked Not Recommended for New Designs; HCMOS/TTL; 1.000-150.000 MHz; pin 1 tri-state (open or VIH >= 2.2 V = active, VIL <= 0.8 V = high Z, internal pull-up to pin 8, p.2); body 13.2 x 13.2 max (p.2); part numbers from the ecsxtal.com ECS-2200X ordering table (all BX = +/-50 PPM)). VCC 4.75-5.25 V (ecs-2200x p.1 (Supply Voltage +4.75/+5.0/+5.25 VDC)) Also osc/ecs_2200.pdf (ECS-2200B Series): same pinout, supply, frequency range, tri-state pin 1 and 13.2 mm can.",
       "pinouts": {
         "dip8": [
-          {"number":1,"name":"TRI-STATE","role":"input"},
+          {"number":1,"name":"TRI-STATE","role":"input","activeLow":true},
           {"number":2,"name":"NP","role":"absent"},
           {"number":3,"name":"NP","role":"absent"},
           {"number":4,"name":"CASE GROUND","role":"ground"},
@@ -1001,7 +1001,7 @@
       "note": "ECS osc/ecs-2200x.pdf (ECS-2200X Series, marked Not Recommended for New Designs; HCMOS/TTL; 1.000-150.000 MHz; pin 1 tri-state (open or VIH >= 2.2 V = active, VIL <= 0.8 V = high Z, internal pull-up to pin 8, p.2); body 13.2 x 13.2 max (p.2); part numbers from the ecsxtal.com ECS-2200X ordering table (all BX = +/-50 PPM)). VCC 4.75-5.25 V (ecs-2200x p.1 (Supply Voltage +4.75/+5.0/+5.25 VDC)) Also osc/ecs_2200.pdf (ECS-2200B Series): same pinout, supply, frequency range, tri-state pin 1 and 13.2 mm can.",
       "pinouts": {
         "dip8": [
-          {"number":1,"name":"TRI-STATE","role":"input"},
+          {"number":1,"name":"TRI-STATE","role":"input","activeLow":true},
           {"number":2,"name":"NP","role":"absent"},
           {"number":3,"name":"NP","role":"absent"},
           {"number":4,"name":"CASE GROUND","role":"ground"},
