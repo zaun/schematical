@@ -18,8 +18,8 @@ plan-39-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-39-G complete | `ls planning/completed/plan-39-G-*.md \| wc -l` → 1 | NOT MET until G lands |
-| The tool's tests pass | `node --test scripts/pin-polarity.test.js` → all pass | NOT MET until D lands |
+| plan-39-G complete | `ls planning/completed/plan-39-G-*.md \| wc -l` → 1 | MET (2026-11-14: 1, at landing; the reviews ran alongside G, see Corrections 1) |
+| The tool's tests pass | `node --test scripts/pin-polarity.test.js` → all pass | MET (2026-11-14: pass 13, fail 0) |
 
 Everything below is written against the world where these hold.
 
@@ -72,11 +72,12 @@ The reviews of different devices are independent; an implementer may fan devices
 
 One commit per phase: the edited part file(s), `planning/plan-39-data/ledger.tsv` and `backend/tests/golden/parts.txt`.
 
-- [ ] Review converter devices 1–133 (ADC0802 … ADS1211): 143 pinouts, § 3 procedure; edits `schematical/schematical/Parts/converter.json`.
-- [ ] Rebuild and regenerate the golden: `cmake -S backend -B /tmp/logic-p39 && cmake --build /tmp/logic-p39 -j8 && /tmp/logic-p39/listing_check --print > backend/tests/golden/parts.txt`.
+- [x] Review converter devices 1–133 (ADC0802 … ADS1211): 143 pinouts, § 3 procedure; edits `schematical/schematical/Parts/converter.json`. — done: rows recorded, check ok (Observed)
+- [x] Rebuild and regenerate the golden: `cmake -S backend -B /tmp/logic-p39 && cmake --build /tmp/logic-p39 -j8 && /tmp/logic-p39/listing_check --print > backend/tests/golden/parts.txt`. — done: regenerated over the full tree, this phase staged (plan-39-E Corrections 2)
 
 Acceptance: every pinout of the phase has a ledger row, the ledger matches the files, and the golden moved only by flags.
   Check: `node scripts/pin-polarity.js check --kind converter --devices 1-133 --complete && node scripts/pin-polarity.js golden-check && ctest --test-dir /tmp/logic-p39 -R '^(library_check|listing_check|trace_check)$'` → every `check` exits 0, `golden-check` exits 0, 3 of 3 tests passed (est. 90 min of reading for 143 pinouts, then 6 min for the checks: the loader and `listing_check` load every part file the phase edited, which no smaller check does).
+  Observed 2026-11-14: converter 1-133 `ok: 143 pinouts, 143 ledger rows checked`; golden-check (phase staged) `ok: 162 parts.txt line(s) changed, only by :low`; ctest on the full tree `100% tests passed, 0 tests failed out of 3`.
 Commit: —
 
 ### Phase 2 — H2: converter 134–260 (143 pinouts)
@@ -117,7 +118,31 @@ Commit: —
 
 ## Corrections
 
-(empty until execution)
+1. **H was reviewed alongside F and G and landed after G.** Its three
+   phases share `converter.json`, so each commit stages the ledger rows and
+   golden lines of its own device range (plan-39-E Corrections 2), and the
+   part file goes in whole with H1. Every H flag lands in H1's commit; H2
+   and H3 commit their ledger rows and golden lines. The Prerequisites row
+   was measured at landing.
+2. **Reviewers' calls:**
+   - Programmable ALERT/ALERT-RDY pins (ADC081C021, ADC101/121C021,
+     ADS1014/1015/1114/1115(L), ADS7128/7138) are unmarked in the pin
+     table, so they are not flagged, though the register reset default is
+     active low. Rule 5 says the pin-table marking decides. ADS8201
+     BUSY/INT is flagged: its pin table states the active-low default.
+   - Barred complementary analog inputs (IN̄ on ADS802–831, ADS2806/2807,
+     ADS5231–5237) are negative differential inputs and are not flagged
+     (rule 2). The catalog also names both halves alike.
+   - ADS5423's pre-flagged `AIN#` and `CLK#` stay flagged (rule 11: only an
+     active-high reading, rule 10, removes a seeded flag).
+   - ADS5204 C̄OUT (pin 25) shares the catalog name `COUT` with pin 26, so
+     it cannot be flagged without a rename (R5). Its note says so.
+   - ADS5500–ADS5542 SEN is flagged from the serial-interface text
+     ("enabled when SEN is low"): rule 1's "active when low".
+   - ADS7882 PWD/RST is `true`: the pin text says "Active low input" for
+     the whole pin.
+   - ADS8508/8509 BUSY is barred in the drawing, and its text says it is
+     low during conversion, so it is flagged.
 
 ## Summary
 

@@ -195,6 +195,149 @@ buffer	TXU0204	p12	txu0204	p.4	{}	OE active high (pull to GND = Hi-Z)
 buffer	TXU0304	p14	txu0304	p.4	{}	OE active high (pull to GND = Hi-Z)
 buffer	TXU0304	rut12	txu0304	p.4	{}	OE active high (pull to GND = Hi-Z)
 buffer	TXV0106	bqb16	txv0106	p.3	{"OE":true}	OE: pull to GND enables outputs
+converter	ADC0802	dw20	adc0804-n	p.3	{"CS":true,"RD":true,"WR":true,"INTR":true}	
+converter	ADC0804	dw20	adc0804-n	p.3	{"CS":true,"RD":true,"WR":true,"INTR":true}	
+converter	ADC08060	pw24	adc08060	pp.2-3	{}	PD active high
+converter	ADC08100	pw24	adc08100	p.2	{}	PD active high
+converter	ADC081C021	ddc6	adc081c021	pp.2-4	{}	rule 5: ALERT polarity programmable, pin table unmarked (config reg default active low p.20)
+converter	ADC081C021	dgk8	adc081c021	pp.2-4	{}	rule 5: ALERT polarity programmable, pin table unmarked (config reg default active low p.20)
+converter	ADC081C027	ddc6	adc081c021	pp.2-4	{}	
+converter	ADC081S021	p6	adc081s021	p.3	{"CS":true}	
+converter	ADC081S051	p6	adc081s051	p.2	{"CS":true}	
+converter	ADC081S101	p6	adc081s101	p.2	{"CS":true}	
+converter	ADC0820	dw20	adc0820-n	p.1	{"WR/RDY":["WR"],"RD":true,"INT":true,"CS":true,"OFL":true}	RDY alternative unbarred
+converter	ADC08200	pw24	adc08200	p.3	{}	PD active high
+converter	ADC082S021	dgk8	adc082s021	p.2	{"CS":true}	
+converter	ADC082S101	dgk8	adc082s101	p.2	{"CS":true}	
+converter	ADC0831	npa14	adc0832-n	p.2	{"CS":true}	
+converter	ADC0834	npa14	adc0832-n	p.2	{"CS":true}	
+converter	ADC0838	dw20	adc0832-n	p.2	{"SE":true,"CS":true}	
+converter	ADC0848	fn28	adc0848	p.2	{"RD":true,"INTR":true,"WR":true,"CS":true}	
+converter	ADC084S021	dgs10	adc084s021	p.3	{"CS":true}	
+converter	ADC084S051	dgs10	adc084s051	p.2	{"CS":true}	
+converter	ADC084S101	dgs10	adc084s101	p.2	{"CS":true}	
+converter	ADC08831	d8	adc08832	p.2	{"CS":true}	
+converter	ADC08832	d8	adc08832	p.2	{"CS":true}	
+converter	ADC088S022	pw16	adc088s022	p.2	{"CS":true}	
+converter	ADC088S052	pw16	adc088s052	p.2	{"CS":true}	
+converter	ADC088S102	pw16	adc088s102	p.2	{"CS":true}	
+converter	ADC08B200	pfb48	adc08b200	pp.2-4	{}	PD, PDADC, WEN, REN, RESET, OE described active high
+converter	ADC08L060	pw24	adc08l060	p.3	{}	PD active high
+converter	ADC10040	pw28	adc10040	p.3	{}	STBY active high
+converter	ADC10065	pw28	adc10065	pp.3-4	{}	
+converter	ADC10080	pw28	adc10080	pp.3-4	{}	
+converter	ADC101C021	ddc6	adc101c021	pp.2-4	{}	ALERT polarity programmable (Polarity bit, reset 0 = active low), unmarked in pin table - not flagged (rule 5)
+converter	ADC101C027	ddc6	adc101c021	pp.2-4	{}	
+converter	ADC101S021	p6	adc101s021	pp.2-3	{"CS":true}	
+converter	ADC101S051	p6	adc101s051	p.2	{"CS":true}	
+converter	ADC101S101	p6	adc101s101	p.2	{"CS":true}	
+converter	ADC102S021	dgk8	adc102s021	p.2	{"CS":true}	
+converter	ADC102S051	dgk8	adc102s051	p.2	{"CS":true}	
+converter	ADC10321	ney32	adc10321	pp.3-4	{"OE":true}	PD active high; CLK falling-edge, unmarked
+converter	ADC104S021	dgs10	adc104s021q-q1	p.2	{"CS":true}	
+converter	ADC104S051	dgs10	adc104s051	p.2	{"CS":true}	
+converter	ADC108S022	pw16	adc108s022	p.2	{"CS":true}	
+converter	ADC108S052	pw16	adc108s052	p.2	{"CS":true}	
+converter	ADC108S102	pw16	adc108s102	p.2	{"CS":true}	
+converter	ADC10D040	pfb48	adc10d040	pp.2-4	{"I/Q":["Q"]}	I/Q drawn with bar over Q only; STBY/PD active high; CLK falling-edge unmarked
+converter	ADC10DL065	pag64	adc10dl065	pp.2-5	{"OEA":true,"OEB":true}	ABb (high = A data, low = B data) unbarred, b suffix not defined as active low - not flagged; PD active high
+converter	ADC1173	pw24	adc1173	pp.3-4	{"OE":true}	
+converter	ADC1175	pw24	adc1175	pp.3-4	{"OE":true}	
+converter	ADC12010	ney32	adc12010	p.3	{"OE":true}	
+converter	ADC12020	ney32	adc12020	p.3	{"OE":true}	
+converter	ADC12040	ney32	adc12040	p.3	{"OE":true}	
+converter	ADC12130	dw16	adc12130	pp.2-4	{"DOR":true,"CONV":true,"CS":true}	DOR barred in connection diagram p.2 (unbarred in pin table, low while data shifts out); EOC unbarred, not flagged; PD active high
+converter	ADC121C021	ddc6	adc121c021	pp.2-3	{}	ALERT polarity programmable (Polarity bit, reset 0 = active low), unmarked in pin table - not flagged (rule 5)
+converter	ADC121C021	dgk8	adc121c021	pp.2-3	{}	ALERT polarity programmable (Polarity bit, reset 0 = active low), unmarked in pin table - not flagged (rule 5)
+converter	ADC121C027	ddc6	adc121c021	pp.2-3	{}	
+converter	ADC121S021	dbv6	adc121s021	p.3	{"CS":true}	
+converter	ADC121S051	dbv6	adc121s051	p.2	{"CS":true}	
+converter	ADC121S101	dbv6	adc121s101	p.3	{"CS":true}	CS barred in pin table; pinout drawing omits the bar
+converter	ADC121S625	dgk8	adc121s625	p.2	{"CS":true}	
+converter	ADC121S655	dgk8	adc121s655	p.2	{"CS":true}	
+converter	ADC122S021	dgk8	adc122s021	p.2	{"CS":true}	
+converter	ADC122S051	dgk8	adc122s051	p.2	{"CS":true}	
+converter	ADC122S101	dgk8	adc122s101	p.2	{"CS":true}	
+converter	ADC122S625	dgs10	adc122s625	p.2	{"CS":true}	
+converter	ADC122S655	dgs10	adc122s655	p.2	{"CS":true}	
+converter	ADC122S706	pw14	adc122s706	p.3	{"CS":true}	
+converter	ADC124S021	dgs10	adc124s021	p.2	{"CS":true}	
+converter	ADC124S051	dgs10	adc124s051	p.2	{"CS":true}	
+converter	ADC128D818	pw16	adc128d818	p.4	{"INT":true}	
+converter	ADC128S022	pw16	adc128s022	p.3	{"CS":true}	
+converter	ADC128S052	pw16	adc128s052	p.3	{"CS":true}	
+converter	ADC128S102	pw16	adc128s102	p.3	{"CS":true}	pin table name lacks bar; pinout drawing and description show CS overbar
+converter	ADC12C105	rtv32	adc12c105	pp.3-4	{}	
+converter	ADC12D040	pag64	adc12d040	p.4	{"INT/EXT REF":["INT"],"OEA":true,"OEB":true}	
+converter	ADC12DL065	pag64	adc12dl065	pp.4-5	{"OEA":true,"OEB":true}	
+converter	ADC12L063	ney32	adc12l063	pp.3-4	{"OE":true}	
+converter	ADC12L066	ney32	adc12l066	p.3	{"OE":true}	
+converter	ADC12L080	ney32	adc12l080	pp.3-4	{}	
+converter	ADC141S626	dgs10	adc141s626	p.2	{"CS":true}	
+converter	ADC141S628	dgs10	adc141s628-q1	p.4	{"CS":true}	
+converter	ADC14L020	ney32	adc14l020	pp.3-4	{}	
+converter	ADC14L040	ney32	adc14l040	pp.3-4	{}	
+converter	ADC161S626	dgs10	adc161s626	p.3	{"CS":true}	
+converter	ADC3908D025	rsm32	adc3908d025	pp.3-4	{"DCLK#":true}	
+converter	ADC3908D065	rsm32	adc3908d025	pp.3-4	{"DCLK#":true}	
+converter	ADC3908D125	rsm32	adc3908d025	pp.3-4	{"DCLK#":true}	
+converter	ADC3908S025	rsm32	adc3908d025	pp.3-4	{"DCLK#":true}	
+converter	ADC3908S065	rsm32	adc3908d025	pp.3-4	{"DCLK#":true}	
+converter	ADC3908S125	rsm32	adc3908d025	pp.3-4	{"DCLK#":true}	
+converter	ADC3910D025	rsm32	adc3910d125	pp.3-4	{"OEN/PD":["OEN"],"SEN":true,"DCLK/FCLK":["DCLK"]}	
+converter	ADC3910D065	rsm32	adc3910d125	pp.3-4	{"OEN/PD":["OEN"],"SEN":true,"DCLK/FCLK":["DCLK"]}	
+converter	ADC3910D125	rsm32	adc3910d125	pp.3-4	{"OEN/PD":["OEN"],"SEN":true,"DCLK/FCLK":["DCLK"]}	
+converter	ADC3910S025	rsm32	adc3910d125	pp.3-4	{"OEN/PD":["OEN"],"SEN":true,"DCLK/FCLK":["DCLK"]}	
+converter	ADC3910S065	rsm32	adc3910d125	pp.3-4	{"OEN/PD":["OEN"],"SEN":true,"DCLK/FCLK":["DCLK"]}	
+converter	ADC3910S125	rsm32	adc3910d125	pp.3-4	{"OEN/PD":["OEN"],"SEN":true,"DCLK/FCLK":["DCLK"]}	
+converter	ADC78H89	pw16	adc78h89	p.2	{"CS":true}	
+converter	ADC78H90	pw16	adc78h90	p.2	{"CS":true}	
+converter	ADCS7476	dbv6	adcs7476	p.3	{"CS":true}	
+converter	ADCS7477	dbv6	adcs7476	p.3	{"CS":true}	
+converter	ADCS7478	dbv6	adcs7476	p.3	{"CS":true}	
+converter	ADS1000	dbv6	ads1000	p.2	{}	
+converter	ADS1013	p10	ads1013	p.3	{}	
+converter	ADS1014	p10	ads1013	p.3	{}	ALERT/RDY polarity programmable (COMP_POL), unmarked in pin table - not flagged (rule 5)
+converter	ADS1014L	dgs10	ads1014l	p.3	{}	ALERT/RDY polarity programmable (COMP_POL), unmarked in pin table - not flagged (rule 5)
+converter	ADS1014L	ycj12	ads1014l	p.4	{}	ALERT/RDY polarity programmable (COMP_POL), unmarked in pin table - not flagged (rule 5)
+converter	ADS1015	p10	ads1013	p.3	{}	ALERT/RDY polarity programmable (COMP_POL), unmarked in pin table - not flagged (rule 5)
+converter	ADS1015L	dgs10	ads1014l	p.3	{}	ALERT/RDY polarity programmable (COMP_POL), unmarked in pin table - not flagged (rule 5)
+converter	ADS1015L	ycj12	ads1014l	p.4	{}	ALERT/RDY polarity programmable (COMP_POL), unmarked in pin table - not flagged (rule 5)
+converter	ADS1018	p10	ads1018	p.4	{"CS":true,"DOUT/DRDY":["DRDY"]}	
+converter	ADS1100	sot6	ads1100	p.2	{}	
+converter	ADS1110	sot6	ads1110	p.2	{}	
+converter	ADS1112	p10	ads1112	p.2	{}	
+converter	ADS1113	p10	ads1113	p.3	{}	
+converter	ADS1114	p10	ads1113	p.3	{}	ALERT/RDY polarity programmable (COMP_POL), unmarked in pin table - not flagged (rule 5)
+converter	ADS1114L	p10	ads1115l	p.3	{}	ALERT/RDY polarity programmable (COMP_POL), unmarked in pin table - not flagged (rule 5)
+converter	ADS1114L	ycj12	ads1115l	p.4	{}	ALERT/RDY polarity programmable (COMP_POL), unmarked in pin table - not flagged (rule 5)
+converter	ADS1115	p10	ads1113	p.3	{}	ALERT/RDY polarity programmable (COMP_POL), unmarked in pin table - not flagged (rule 5)
+converter	ADS1115L	p10	ads1115l	p.3	{}	ALERT/RDY polarity programmable (COMP_POL), unmarked in pin table - not flagged (rule 5)
+converter	ADS1115L	ycj12	ads1115l	p.4	{}	ALERT/RDY polarity programmable (COMP_POL), unmarked in pin table - not flagged (rule 5)
+converter	ADS1118	p10	ads1118	p.5	{"CS":true,"DOUT/DRDY":["DRDY"]}	
+converter	ADS1119	pw16	ads1119	p.3	{"RESET":true,"DRDY":true}	
+converter	ADS1119	rte16	ads1119	p.3	{"RESET":true,"DRDY":true}	
+converter	ADS1120	rva16	ads1120	p.4	{"DRDY":true,"DOUT/DRDY":["DRDY"],"CS":true}	
+converter	ADS1120	pw16	ads1120	p.4	{"CS":true,"DRDY":true,"DOUT/DRDY":["DRDY"]}	
+converter	ADS112C04	pw16	ads112c04	p.3	{"RESET":true,"DRDY":true}	
+converter	ADS112C04	rte16	ads112c04	p.3	{"RESET":true,"DRDY":true}	
+converter	ADS112S14	rte16	ads112s14	p.3	{"AIN6/GPIO2/FAULT":["FAULT"],"AIN7/GPIO3/DRDY/CLK":["DRDY"],"CS":true,"SDO/DRDY":["DRDY"]}	
+converter	ADS1130	pw16	ads1130	p.4	{"PDWN":true,"DRDY/DOUT":["DRDY"]}	
+converter	ADS1131	d16	ads1131	p.5	{"PDWN":true,"DRDY/DOUT":["DRDY"]}	
+converter	ADS1146	pw16	ads1148	p.6	{"RESET":true,"CS":true,"DRDY":true,"DOUT/DRDY":["DRDY"]}	
+converter	ADS1147	pw20	ads1148	p.6	{"RESET":true,"CS":true,"DRDY":true,"DOUT/DRDY":["DRDY"]}	
+converter	ADS1148	pw28	ads1148	p.6	{"RESET":true,"CS":true,"DRDY":true,"DOUT/DRDY":["DRDY"]}	
+converter	ADS1148	rhb32	ads1148	p.6	{"RESET":true,"CS":true,"DRDY":true,"DOUT/DRDY":["DRDY"]}	
+converter	ADS114S06	p32	ads114s06	p.4	{"CS":true,"DOUT/DRDY":["DRDY"],"DRDY":true,"RESET":true}	
+converter	ADS114S06B	p32	ads114s06b	p.4	{"CS":true,"DOUT/DRDY":["DRDY"],"DRDY":true,"RESET":true}	
+converter	ADS114S08	p32	ads114s06	p.4	{"CS":true,"DOUT/DRDY":["DRDY"],"DRDY":true,"RESET":true}	
+converter	ADS114S08B	p32	ads114s06b	p.4	{"CS":true,"DOUT/DRDY":["DRDY"],"DRDY":true,"RESET":true}	
+converter	ADS1158	rtc48	ads1158	pp.5-6	{"PWDN":true,"RESET":true,"DRDY":true,"CS":true}	
+converter	ADS1174	pap64	ads1174	pp.5-6	{"SYNC":true,"DRDY/FSYNC":["DRDY"],"PWDN8":true,"PWDN7":true,"PWDN6":true,"PWDN5":true,"PWDN4":true,"PWDN3":true,"PWDN2":true,"PWDN1":true}	
+converter	ADS1178	pap64	ads1174	pp.5-6	{"SYNC":true,"DRDY/FSYNC":["DRDY"],"PWDN8":true,"PWDN7":true,"PWDN6":true,"PWDN5":true,"PWDN4":true,"PWDN3":true,"PWDN2":true,"PWDN1":true}	
+converter	ADS117L11	ruk20	ads117l11	p.3	{"RESET":true,"CS":true,"SDO/DRDY":["DRDY"],"DRDY":true}	
+converter	ADS1209	pw24	ads1209	p.6	{}	
+converter	ADS1211	dw24	ads1211	p.5	{"CS":true,"DSYNC":true,"DRDY":true}	
 counter	40102B	p16	cd40102b	pp.1-4	{"CLR":true,"CI/CE":true,"APE":true,"CO/ZD":true,"SPE":true}	
 counter	40103B	p16	cd40102b	pp.1-4	{"CLR":true,"CI/CE":true,"APE":true,"CO/ZD":true,"SPE":true}	
 counter	40110B	p16	cd40110b	p.1	{"TE":true}	
