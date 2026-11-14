@@ -1579,6 +1579,111 @@ mcu	atxmega384d3	quad64	atmel-8134-8-16-bit-atmel-xmega-d3-microcontroller_datas
 mcu	atxmega64a1u	bga100	atxmega128a1u-64a1u-data-sheet-ds40002058a	pp.9-10	{"RESET":true}	BGA table lacks bar; QFP fig p.9 RESET overbar, ext reset held while pin low (R5)
 mcu	atxmega64a1u	quad100	atxmega128a1u-64a1u-data-sheet-ds40002058a	p.9	{"RESET":true}	
 mcu	atxmega64a3u	quad64	atmel-8386-8-and-16-bit-avr-microcontroller-atxmega64a3u-128a3u-192a3u-256a3u_datasheet	p.5	{"RESET":true}	
+mcu	atxmega64a4u	bga49	atxmega128-64-32-16a4u-datasheet-ds40002166a	pp.10-11	{"RESET":true}	BGA table 2-1 (p.11) shows no bar; RESET overbar in Fig 2-1 p.10 and p.33 'reset held as long as pin kept low' (R5)
+mcu	atxmega64a4u	quad44	atxmega128-64-32-16a4u-datasheet-ds40002166a	p.10	{"RESET":true}	RESET overbar in Fig 2-1; p.33 reset held while pin kept low
+mcu	atxmega64b1	quad100	atmel-8330-8-and-16-bit-avr-microcontroller-xmega-b-atxmega64b1-atxmega128b1_datasheet	p.4	{"RESET":true}	pin 15 PDI/RESET overbar on RESET in Fig 2-1
+mcu	atxmega64b3	quad64	atmel-8074-8-and-16-bit-avr-microcontroller-xmega-b-atxmega64b3-atxmega128b3_datasheet	p.4	{"RESET":true}	pin 13 PDI/RESET overbar on RESET in Fig 2-1
+mcu	atxmega64c3	quad64	atmel-8492-8-and-16-bit-avr-microcontroller-atxmega32c3_64c3_128c3_192c3_256c3_datasheet	p.4	{"RESET":true}	pin 57 RESET/PDI overbar on RESET in Fig 2-1
+mcu	atxmega64d3	quad64	atmel-8134-8-16-bit-atmel-xmega-d3-microcontroller_datasheet	p.5	{"RESET":true}	pin 57 RESET/PDI overbar on RESET in Fig 2-1
+mcu	atxmega64d4	quad44	atmel-8135-8-and-16-bit-avr-microcontroller-atxmega16d4-32d4-64d4-128d4_datasheet	p.4	{"RESET":true}	pin 35 RESET/PDI overbar on RESET in Fig 2-1
+mcu	atxmega8e5	quad32	atxmega32e5-16e5-8e5-data-sheet-ds40002059a	p.10	{"RESET":true}	pin 8 PDI/RESET overbar on RESET in pinout figure
+mcu	avr128da28	p28	avr128da28-32-48-64-datasheet-ds40002183b	p.14	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr128da32	quad32	avr128da28-32-48-64-datasheet-ds40002183b	p.15	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr128da48	quad48	avr128da28-32-48-64-data-sheet-ds40002183	p.16	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr128da64	quad64	avr128da28-32-48-64-data-sheet-ds40002183	p.17	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr128db28	p28	avr128db28-32-48-64-datasheet-ds40002247	p.14	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr128db32	quad32	avr128db28-32-48-64-datasheet-ds40002247a	p.15	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr128db48	quad48	avr128db28-32-48-64-datasheet-ds40002247	p.16	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr128db64	quad64	avr128db28-32-48-64-datasheet-ds40002247a	p.17	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr16dd14	p14	avr32-16dd20-14-complete-datasheet-ds40002413	p.14	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr16dd20	p20	avr32-16dd20-14-complete-datasheet-ds40002413	p.15	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr16dd20	quad20	avr32-16dd20-14-complete-datasheet-ds40002413	p.16	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr16dd28	p28	avr16-32dd28-32-datasheet-ds40002441	p.13	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr16dd28	quad28	avr16-32dd28-32-datasheet-ds40002441	p.14	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr16dd32	quad32	avr16-32dd28-32-datasheet-ds40002441	p.15	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr16du14	p14	avr32-16du-14-20-28-32-datasheet-ds40002576	p.15	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr16du20	p20	avr32-16du-14-20-28-32-datasheet-ds40002576	p.16	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr16du20	quad20	avr32-16du-14-20-28-32-datasheet-ds40002576	p.17	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr16du28	p28	avr32-16du-14-20-28-32-datasheet-ds40002576	p.18	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr16du28	quad28	avr32-16du-14-20-28-32-datasheet-ds40002576	p.19	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr16du32	quad32	avr32-16du-14-20-28-32-datasheet-ds40002576	p.20	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr16ea28	p28	avr16ea28-32-48-datasheet-ds40002498	p.13	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr16ea28	quad28	avr16ea28-32-48-datasheet-ds40002498	p.14	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr16ea32	quad32	avr16ea28-32-48-datasheet-ds40002498	p.15	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr16ea48	quad48	avr16ea28-32-48-datasheet-ds40002498	p.16	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr16eb14	p14	avr16eb14_20_28_32-prelim-datasheet-ds40002522	p.13	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr16eb20	p20	avr16eb14_20_28_32-prelim-datasheet-ds40002522	p.13	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr16eb20	quad20	avr16eb14_20_28_32-prelim-datasheet-ds40002522	p.14	{}	PF6 (RESET-bar): catalog names PF6 only (rule 12)
+mcu	avr16eb28	p28	avr16eb14_20_28_32-prelim-datasheet-ds40002522	p.15	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr16eb28	quad28	avr16eb14_20_28_32-prelim-datasheet-ds40002522	p.16	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr16eb32	quad32	avr16eb14_20_28_32-prelim-datasheet-ds40002522	p.17	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32da28	p28	avr32da28-32-48-data-sheet-ds40002228	p.14	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32da32	quad32	avr32da28-32-48-data-sheet-ds40002228	p.15	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32da48	quad48	avr32da28-32-48-data-sheet-ds40002228	p.16	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32db28	p28	avr128db28-32-48-64-datasheet-ds40002247	p.14	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32db32	quad32	avr32db28-32-48-datasheet-ds40002301	p.15	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32db48	quad48	avr32db28-32-48-datasheet-ds40002301	p.16	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32dd14	p14	avr32-16dd20-14-complete-datasheet-ds40002413	p.14	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32dd20	p20	avr32-16dd20-14-complete-datasheet-ds40002413	p.15	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32dd20	quad20	avr32-16dd20-14-complete-datasheet-ds40002413	p.16	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32dd28	p28	avr16-32dd28-32-datasheet-ds40002441	p.13	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32dd28	quad28	avr16-32dd28-32-datasheet-ds40002441	p.14	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32dd32	quad32	avr16-32dd28-32-datasheet-ds40002441	p.15	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32du14	p14	avr32-16du-14-20-28-32-datasheet-ds40002576	p.15	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32du20	p20	avr32-16du-14-20-28-32-datasheet-ds40002576	p.16	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32du20	quad20	avr32-16du-14-20-28-32-datasheet-ds40002576	p.17	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32du28	p28	avr32-16du-14-20-28-32-datasheet-ds40002576	p.18	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32du28	quad28	avr32-16du-14-20-28-32-datasheet-ds40002576	p.19	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32du32	quad32	avr32-16du-14-20-28-32-datasheet-ds40002576	p.20	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32ea28	p28	avr32ea28-32-48-datasheet-ds40002497	p.13	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32ea28	quad28	avr32ea28-32-48-datasheet-ds40002497	p.14	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32ea32	quad32	avr32ea28-32-48-datasheet-ds40002497	p.15	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32ea48	quad48	avr32ea28-32-48-datasheet-ds40002497	p.16	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32eb14	p14	avr32eb-14-20-28-32-prelim-datasheet-ds40002615	p.13	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32eb20	p20	avr32eb-14-20-28-32-prelim-datasheet-ds40002615	p.13	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32eb28	p28	avr32eb-14-20-28-32-prelim-datasheet-ds40002615	p.14	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32eb28	quad28	avr32eb-14-20-28-32-prelim-datasheet-ds40002615	p.15	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32eb32	quad32	avr32eb-14-20-28-32-prelim-datasheet-ds40002615	p.16	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32la14	p14	avr32la14-20-28-32-datasheet-ds40002684	p.14	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32la20	quad20	avr32la14-20-28-32-datasheet-ds40002684	p.15	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32la28	p28	avr32la14-20-28-32-datasheet-ds40002684	p.18	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32la32	quad32	avr32la14-20-28-32-datasheet-ds40002684	p.19	{}	rule 12: PF6 is PF6/RESET (active low); catalog name omits RESET
+mcu	avr32sd20	p20	avr32sd20-28-32-data-sheet-ds40002629	pp.18,22	{}	CATALOG ERROR: pin 2 (catalog PF6) is a dedicated RESET with overbar p.18, pin 3 (catalog PF7) a dedicated UPDI; no PF6/PF7 port function (I/O mux p.22). Not flagged: the flag describes what the catalog name denotes (rule 12); renaming is out of plan-39's scope (plan-39-K Corrections)
+mcu	avr32sd28	p28	avr32sd20-28-32-data-sheet-ds40002629	p.20	{}	port-named pins only; PF6 RESET alternative not in catalog name (rule 12); UPDI not active low
+mcu	avr32sd28	quad28	avr32sd20-28-32-data-sheet-ds40002629	p.19	{}	port-named pins only; PF6 RESET alternative not in catalog name (rule 12); UPDI not active low
+mcu	avr32sd32	quad32	avr32sd20-28-32-data-sheet-ds40002629	p.21	{}	port-named pins only; PF6 RESET alternative not in catalog name (rule 12); UPDI not active low
+mcu	avr64da28	p28	avr64da28-32-48-64-datasheet-ds40002233	p.14	{}	port-named pins only; PF6 RESET alternative not in catalog name (rule 12); UPDI not active low
+mcu	avr64da32	quad32	avr64da28-32-48-64-datasheet-ds40002233	p.15	{}	port-named pins only; PF6 RESET alternative not in catalog name (rule 12); UPDI not active low
+mcu	avr64da48	quad48	avr64da28-32-48-64-datasheet-ds40002233	p.16	{}	port-named pins only; PF6 RESET alternative not in catalog name (rule 12); UPDI not active low
+mcu	avr64da64	quad64	avr64da28-32-48-64-datasheet-ds40002233	p.17	{}	port-named pins only; PF6 RESET alternative not in catalog name (rule 12); UPDI not active low
+mcu	avr64db28	p28	avr128db28-32-48-64-datasheet-ds40002247	p.14	{}	port-named pins only; PF6 RESET alternative not in catalog name (rule 12); UPDI not active low
+mcu	avr64db32	quad32	avr64db28-32-48-64-datasheet-ds40002300	p.15	{}	port-named pins only; PF6 RESET alternative not in catalog name (rule 12); UPDI not active low
+mcu	avr64db48	quad48	avr64db28-32-48-64-datasheet-ds40002300	p.16	{}	port-named pins only; PF6 RESET alternative not in catalog name (rule 12); UPDI not active low
+mcu	avr64db64	quad64	avr64db28-32-48-64-datasheet-ds40002300	p.17	{}	port-named pins only; PF6 RESET alternative not in catalog name (rule 12); UPDI not active low
+mcu	avr64dd14	p14	avr32-16dd20-14-complete-datasheet-ds40002413	p.14	{}	port-named pins only; PF6 RESET alternative not in catalog name (rule 12); UPDI not active low
+mcu	avr64dd20	p20	avr32-16dd20-14-complete-datasheet-ds40002413	p.15	{}	port-named pins only; PF6 RESET alternative not in catalog name (rule 12); UPDI not active low
+mcu	avr64dd28	p28	avr64dd32-28-complete-datasheet-ds40002315	p.14	{}	port-named pins only; PF6 RESET alternative not in catalog name (rule 12); UPDI not active low
+mcu	avr64dd28	quad28	avr64dd32-28-complete-datasheet-ds40002315	p.15	{}	port-named pins only; PF6 RESET alternative not in catalog name (rule 12); UPDI not active low
+mcu	avr64dd32	quad32	avr64dd32-28-complete-datasheet-ds40002315	p.16	{}	port-named pins only; PF6 RESET alternative not in catalog name (rule 12); UPDI not active low
+mcu	avr64du28	p28	avr64du-28-32-datasheet-ds40002548	p.14	{}	port-named pins only; PF6 RESET alternative not in catalog name (rule 12); UPDI not active low; DM/DP USB not active low
+mcu	avr64du28	quad28	avr64du-28-32-datasheet-ds40002548	p.15	{}	port-named pins only; PF6 RESET alternative not in catalog name (rule 12); UPDI not active low; DM/DP USB not active low
+mcu	avr64du32	quad32	avr64du-28-32-datasheet-ds40002548	p.16	{}	port-named pins only; PF6 RESET alternative not in catalog name (rule 12); UPDI not active low; DM/DP USB not active low
+mcu	avr64ea28	p28	avr64ea-28-32-48-datasheet-ds40002443	p.13	{}	port-named pins only; PF6 RESET alternative not in catalog name (rule 12); UPDI not active low
+mcu	avr64ea28	quad28	avr32ea28-32-48-datasheet-ds40002497	p.14	{}	port-named pins only; PF6 RESET alternative not in catalog name (rule 12); UPDI not active low
+mcu	avr64ea32	quad32	avr64ea-28-32-48-datasheet-ds40002443	p.15	{}	port-named pins only; PF6 RESET alternative not in catalog name (rule 12); UPDI not active low
+mcu	avr64ea48	quad48	avr64ea-28-32-48-datasheet-ds40002443	p.16	{}	port-named pins only; PF6 RESET alternative not in catalog name (rule 12); UPDI not active low
+mcu	esp32-c3-mini-1	module53	esp32-c3-mini-1_datasheet_en	pp.10-11	{}	EN: High on / Low off, chip enable active high, not flagged
+mcu	esp32-c3-wroom-02	module19	esp32-c3-wroom-02_datasheet_en	p.10	{}	EN: High on / Low off, chip enable active high, not flagged
+mcu	esp32-c6-mini-1	module53	esp32-c6-mini-1_mini-1u_datasheet_en	pp.10-11	{}	EN: High on / Low off, chip enable active high, not flagged
+mcu	esp32-c6-wroom-1	module29	esp32-c6-wroom-1-wroom-1u_datasheet_en	pp.10-11	{}	EN: High on / Low off, chip enable active high, not flagged
+mcu	esp32-mini-1	module55	esp32-mini-1_datasheet_en	p.11	{}	EN: High on / Low off, chip enable active high, not flagged
+mcu	esp32-s2-mini-2	module65	esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en	pp.11-12	{}	EN: High on / Low off, chip enable active high, not flagged
+mcu	esp32-s2-solo-2	module41	esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en	pp.11-12	{}	EN: High on / Low off, chip enable active high, not flagged
+mcu	esp32-s3-mini-1	module65	esp32-s3-mini-1_mini-1u_datasheet_en	pp.11-12	{}	EN: High on / Low off, chip enable active high, not flagged
+mcu	esp32-s3-wroom-1	module41	esp32-s3-wroom-1_wroom-1u_datasheet_en	p.11	{}	EN: High on / Low off, chip enable active high, not flagged
+mcu	esp32-wroom-32	module39	esp32-wroom-32e_esp32-wroom-32ue_datasheet_en	p.11	{}	EN: High on / Low off, chip enable active high, not flagged
+mcu	esp32-wrover	module39	esp32-wrover-e_esp32-wrover-ie_datasheet_en	p.12	{}	EN: Module-enable signal. Active high; not flagged
+mcu	rp2040	quad57	rp2040-datasheet	p.12	{"QSPI_SS_N":true}	QSPI_SS_N (QSPI_CSn p.614) = SSI ss_o_n chip select (p.570), _n defined active low (ss_n p.502, rst_n p.169); RUN: reset when low / run when high, chip enable, not flagged
 mux	40257B	p16	cd40257b	p.1	{}	
 mux	4512B	p16	cd4512b	p.1	{}	
 mux	74_11257	p20	74ac11257	p.1	{"A/B":["A"],"OE":true}	
