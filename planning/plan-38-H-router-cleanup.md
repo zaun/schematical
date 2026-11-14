@@ -181,7 +181,7 @@ Commit: 24b641af
 
 Acceptance: the DRC-clean guarantee holds on all three fixtures; the never-longer and never-more-vias asserts hold. If a DRC issue of a router-caused kind appears, find which verifier rule disagreed with the DRC (parity case first) and fix the verifier or the repair; the gate is not relaxed.
   Check: `-only-testing:schematicalTests/RouterFixtureTests -only-testing:schematicalTests/RoutingVerifierTests -only-testing:schematicalTests/RoutingCleanupTests` → `** TEST SUCCEEDED **` (est. 6 min: three fixture routes, Balanced LFU ≈ 10 s each).
-Commit: —
+Commit: 8ea81c80
 
 ## Validation Plan
 

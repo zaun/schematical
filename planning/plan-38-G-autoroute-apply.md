@@ -161,7 +161,7 @@ Commit: e134c66e
 
 Acceptance: as listed; no data race (the engine only reads the `Sendable` problem).
   Check: `-only-testing:schematicalTests/RoutingSessionTests -only-testing:schematicalTests/RoutingApplyTests` → `** TEST SUCCEEDED **` (est. 3 min).
-Commit: —
+Commit: 569bd5a9
 
 ## Validation Plan
 

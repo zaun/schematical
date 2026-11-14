@@ -258,7 +258,8 @@ new traces on them get, the clearance they keep, and the via they use. A
 net is in the **first** class in the list any of whose members names it;
 a net in no class is in the implicit **Default** class (10 mil, the DRC's
 min clearance, a 0.4 / 0.8 mm via). Written only when there are some;
-older builds ignore it.
+older builds ignore it. What the router does with classes, layer rules and
+groups: [routing.md § Rules per net](routing.md#rules-per-net).
 
 | Field         | Type    | Meaning |
 |---------------|---------|---------|

@@ -185,7 +185,7 @@ Commit: 0e1762eb
 
 Acceptance: help tests pass; the real-app run behaves as stated.
   Check: `-only-testing:schematicalTests/KeyboardHelpTests` → `** TEST SUCCEEDED **` (est. 2 min); plus the real-app run above (est. 15 min).
-Commit: —
+Commit: d651e95f
 
 ## Validation Plan
 
