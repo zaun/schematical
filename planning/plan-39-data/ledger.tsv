@@ -338,6 +338,149 @@ converter	ADS1178	pap64	ads1174	pp.5-6	{"SYNC":true,"DRDY/FSYNC":["DRDY"],"PWDN8
 converter	ADS117L11	ruk20	ads117l11	p.3	{"RESET":true,"CS":true,"SDO/DRDY":["DRDY"],"DRDY":true}	
 converter	ADS1209	pw24	ads1209	p.6	{}	
 converter	ADS1211	dw24	ads1211	p.5	{"CS":true,"DSYNC":true,"DRDY":true}	
+converter	ADS1213	dw24	ads1213	p.5	{"CS":true,"DSYNC":true,"DRDY":true}	
+converter	ADS1216	pfb48	ads1216	p.10	{"RESET":true,"PDWN":true,"DSYNC":true,"DRDY":true,"CS":true}	
+converter	ADS1217	pfb48	ads1217	p.6	{"RESET":true,"PDWN":true,"DSYNC":true,"DRDY":true,"CS":true}	
+converter	ADS1218	pfb48	ads1218	p.8	{"RESET":true,"PDWN":true,"DSYNC":true,"DRDY":true,"CS":true}	
+converter	ADS1219	pw16	ads1219	p.3	{"RESET":true,"DRDY":true}	
+converter	ADS1220	rva16	ads1220	p.4	{"DRDY":true,"DOUT/DRDY":["DRDY"],"CS":true}	
+converter	ADS1220	pw16	ads1220	p.4	{"CS":true,"DRDY":true,"DOUT/DRDY":["DRDY"]}	
+converter	ADS1222	pw	ads1222	p.5	{"DRDY/DOUT":["DRDY"]}	
+converter	ADS1224	pw	ads1224	p.5	{"DRDY/DOUT":["DRDY"]}	
+converter	ADS1225	rgv16	ads1225	p.5	{"DRDY/DOUT":["DRDY"]}	
+converter	ADS1226	rgv16	ads1225	p.6	{"DRDY/DOUT":["DRDY"]}	
+converter	ADS122C04	pw16	ads122c04	p.3	{"RESET":true,"DRDY":true}	
+converter	ADS122C04	rte16	ads122c04	p.3	{"RESET":true,"DRDY":true}	
+converter	ADS1230	pw16	ads1230	p.5	{"PDWN":true,"DRDY/DOUT":["DRDY"]}	
+converter	ADS1231	d16	ads1231	p.5	{"PDWN":true,"DRDY/DOUT":["DRDY"]}	
+converter	ADS1232	pw24	ads1232	p.3	{"PDWN":true,"DRDY/DOUT":["DRDY"]}	
+converter	ADS1234	pw28	ads1232	p.3	{"PDWN":true,"DRDY/DOUT":["DRDY"]}	
+converter	ADS1235	vqfn32	ads1235	p.3	{"PWDN":true,"RESET":true,"CS":true,"DRDY":true,"DOUT/DRDY":["DRDY"]}	
+converter	ADS1240	db24	ads1240	p.5	{"RESET":true,"DSYNC":true,"PDWN":true,"CS":true,"DRDY":true}	
+converter	ADS1241	db28	ads1240	p.5	{"RESET":true,"DSYNC":true,"PDWN":true,"CS":true,"DRDY":true}	
+converter	ADS1242	pw16	ads1242	p.5	{"PDWN":true,"CS":true,"DRDY":true}	
+converter	ADS1243	pw20	ads1242	p.5	{"PDWN":true,"CS":true,"DRDY":true}	
+converter	ADS1244	dgs10	ads1244	p.2	{"DRDY/DOUT":["DRDY"]}	
+converter	ADS1245	dgs10	ads1245	p.2	{"DRDY/DOUT":["DRDY"]}	
+converter	ADS1246	pw16	ads1246	p.6	{"RESET":true,"CS":true,"DRDY":true,"DOUT/DRDY":["DRDY"]}	
+converter	ADS1247	pw20	ads1246	p.6	{"RESET":true,"CS":true,"DRDY":true,"DOUT/DRDY":["DRDY"]}	
+converter	ADS1248	pw28	ads1246	p.6	{"RESET":true,"CS":true,"DRDY":true,"DOUT/DRDY":["DRDY"]}	
+converter	ADS124S06	p32	ads124s06	p.6	{"CS":true,"DOUT/DRDY":["DRDY"],"DRDY":true,"RESET":true}	
+converter	ADS124S08	p32	ads124s06	p.6	{"CS":true,"DOUT/DRDY":["DRDY"],"DRDY":true,"RESET":true}	
+converter	ADS1251	d8	ads1251	p.3	{"DOUT/DRDY":["DRDY"]}	
+converter	ADS1252	d8	ads1252	p.2	{"DOUT/DRDY":["DRDY"]}	
+converter	ADS1253	dbq16	ads1253	p.3	{"DOUT/DRDY":["DRDY"]}	
+converter	ADS1254	dbq20	ads1254	p.2	{"DOUT/DRDY":["DRDY"]}	
+converter	ADS1255	db20	ads1255	p.5	{"SYNC/PDWN":true,"RESET":true,"CS":true,"DRDY":true}	
+converter	ADS1256	db28	ads1255	p.5	{"SYNC/PDWN":true,"RESET":true,"CS":true,"DRDY":true}	
+converter	ADS1257	rgw20	ads1257	p.4	{"SYNC/PWDN":true,"RESET":true,"CS":true,"DRDY":true}	
+converter	ADS1258	p48	ads1258	pp.5-6	{"PWDN":true,"RESET":true,"DRDY":true,"CS":true}	
+converter	ADS1259	pw20	ads1259	p.5	{"RESET/PWDN":true,"CS":true,"DRDY":true}	
+converter	ADS125H02	vqfn32	ads125h02	pp.4-5	{"RESET":true,"CS2":true,"CS1":true,"DRDY":true,"DOUT/DRDY":["DRDY"]}	
+converter	ADS1260	vqfn32	ads1261	p.5	{"PWDN":true,"RESET":true,"CS":true,"DRDY":true,"DOUT/DRDY":["DRDY"]}	
+converter	ADS1261	vqfn32	ads1261	p.5	{"PWDN":true,"RESET":true,"CS":true,"DRDY":true,"DOUT/DRDY":["DRDY"]}	
+converter	ADS1262	pw28	ads1263	pp.4-5	{"CS":true,"DOUT/DRDY":["DRDY"],"DRDY":true,"RESET/PWDN":true}	
+converter	ADS1263	pw28	ads1263	pp.4-5	{"CS":true,"DOUT/DRDY":["DRDY"],"DRDY":true,"RESET/PWDN":true}	
+converter	ADS1271	pw16	ads1271	p.5	{"SYNC/PDWN":true,"DRDY/FSYNC":["DRDY"]}	
+converter	ADS1274	pap64	ads1278	pp.6-7	{"SYNC":true,"DRDY/FSYNC":["DRDY"],"PWDN8":true,"PWDN7":true,"PWDN6":true,"PWDN5":true,"PWDN4":true,"PWDN3":true,"PWDN2":true,"PWDN1":true}	
+converter	ADS1278	pap64	ads1278	pp.6-7	{"SYNC":true,"DRDY/FSYNC":["DRDY"],"PWDN8":true,"PWDN7":true,"PWDN6":true,"PWDN5":true,"PWDN4":true,"PWDN3":true,"PWDN2":true,"PWDN1":true}	
+converter	ADS1278	hfq84	ads1278-ht	pp.5-6	{"SYNC":true,"DRDY/FSYNC":["DRDY"],"PWDN8":true,"PWDN7":true,"PWDN6":true,"PWDN5":true,"PWDN4":true,"PWDN3":true,"PWDN2":true,"PWDN1":true}	
+converter	ADS127L01	pbs32	ads127l01	pp.4-5	{"DRDY/FSYNC":["DRDY"],"CS":true,"RESET/PWDN":true}	
+converter	ADS127L11	pw20	ads127l11	p.3	{"RESET":true,"CS":true,"SDO/DRDY":["DRDY"],"DRDY":true}	
+converter	ADS127L21	ruk20	ads127l21	p.3	{"RESET":true,"CS":true,"SDO/DRDY":["DRDY"],"DRDY":true}	
+converter	ADS1281	pw24	ads1281	p.5	{"DRDY":true,"PWDN":true,"RESET":true}	
+converter	ADS1282	pw28	ads1282	p.6	{"DRDY":true,"PWDN":true,"RESET":true}	
+converter	ADS1283	rhf24	ads1283	p.4	{"DRDY":true,"CS":true,"PWDN":true,"RESET":true}	
+converter	ADS1284	rhf24	ads1284	p.3	{"DRDY":true,"CS":true,"PWDN":true,"RESET":true}	
+converter	ADS1285	rhb32	ads1285	p.3	{"CS":true,"DRDY":true,"RESET":true,"PWDN":true}	
+converter	ADS1286	so8	ads1286	p.3	{"CS/SHDN":["CS"]}	
+converter	ADS1287	rhf24	ads1287	p.3	{"DRDY":true,"CS":true,"PWDN":true,"RESET":true}	
+converter	ADS1288	rhb32	ads1288	pp.3-4	{"CS":true,"DRDY":true,"RESET":true,"PWDN":true}	
+converter	ADS130B02	pw20	ads130b02-q1	p.3	{"SYNC/RESET":true,"CS":true,"DRDY":true}	
+converter	ADS130B04	pw20	ads130b04-q1	p.3	{"SYNC/RESET":true,"CS":true,"DRDY":true}	
+converter	ADS131B02	pw20	ads131b02-q1	p.3	{"SYNC/RESET":true,"CS":true,"DRDY":true}	
+converter	ADS131B23P	php48	ads131b23	pp.4-5	{"RESETn":true,"DRDYn":true,"CSn":true}	FAULT/MHD/OCCx alt outputs: polarity programmable (FAULT_POL/MHD_POL default 0b = active low) but pin table unmarked and pins reset as GPIO; left unflagged (rule 5/12)
+converter	ADS131B26	php48	ads131b26-q1	pp.4-5	{"RESETn":true,"DRDYn":true,"CSn":true}	FAULT/MHD/OCCx alt outputs: polarity programmable (FAULT_POL/MHD_POL default 0b = active low) but pin table unmarked and pins reset as GPIO; left unflagged (rule 5/12)
+converter	ADS131M02	ruk20	ads131m02	p.3	{"SYNC/RESET":true,"CS":true,"DRDY":true}	
+converter	ADS131M02	pw20	ads131m02	p.3	{"SYNC/RESET":true,"CS":true,"DRDY":true}	
+converter	ADS131M03	ruk20	ads131m03	p.3	{"SYNC/RESET":true,"CS":true,"DRDY":true}	
+converter	ADS131M03	pw20	ads131m03-q1	p.3	{"SYNC/RESET":true,"CS":true,"DRDY":true}	
+converter	ADS131M04	ruk20	ads131m04	p.4	{"SYNC/RESET":true,"CS":true,"DRDY":true}	
+converter	ADS131M04	pw20	ads131m04	p.4	{"SYNC/RESET":true,"CS":true,"DRDY":true}	
+converter	ADS131M06	p32	ads131m06	p.5	{"SYNC/RESET":true,"CS":true,"DRDY":true}	
+converter	ADS131M08	p32	ads131m08	p.5	{"SYNC/RESET":true,"CS":true,"DRDY":true}	
+converter	ADS1601	pfb48	ads1601	p.7	{"REFEN":true,"PD":true,"SCLKBAR":true,"DOUTBAR":true,"FSOBAR":true}	SCLK/DOUT/FSO complementary outputs drawn with overbar (inverted-output ruling)
+converter	ADS1602	pfb48	ads1602	p.7	{"REFEN":true,"PD":true,"SCLKBAR":true,"DOUTBAR":true,"FSOBAR":true}	SCLK/DOUT/FSO complementary outputs drawn with overbar (inverted-output ruling)
+converter	ADS1605	pap64	ads1605	p.7	{"REFEN":true,"PD":true,"RESET":true,"CS":true,"RD":true,"DRDY":true}	
+converter	ADS1625	pap64	ads1625	p.7	{"REFEN":true,"PD":true,"RESET":true,"CS":true,"RD":true,"DRDY":true}	
+converter	ADS1626	pap64	ads1625	p.7	{"REFEN":true,"PD":true,"RESET":true,"CS":true,"RD":true,"DRDY":true}	
+converter	ADS2806	pap64	ads2806	p.5	{"OEB":true,"OEA":true,"INT/EXT":["INT"]}	Analog complementary inputs pins 51 (INA-bar) and 62 (INB-bar) drawn with overbar but are analog differential inputs (rule 2); left unflagged. Catalog names both INA pins INA and both INB pins INB
+converter	ADS2807	pap64	ads2807	p.5	{"OEB":true,"OEA":true,"INT/EXT":["INT"]}	Analog complementary inputs pins 51 (INA-bar) and 62 (INB-bar) drawn with overbar but are analog differential inputs (rule 2); left unflagged. Catalog names both INA pins INA and both INB pins INB
+converter	ADS5204	pfb48	ads5204-q1	p.6	{"CS":true,"OE":true}	Pin 25 is COUT-bar (inverted latch clock, overbar) but catalog names pins 25 and 26 both COUT, so R5 forbids flagging only pin 25; left unflagged. Catalog should rename pin 25 (e.g. COUT#) to carry the flag
+converter	ADS5231	pag64	ads5231	p.12	{"OEB":true,"OEA/SCLK":["OEA"],"INT/EXT":["EXT"]}	Overbar on EXT (not INT) in INT/EXT. Complementary analog inputs pins 51/62 (IN-bar) left unflagged (rule 2); catalog names both INA/INB pins alike. SEL unmarked (doubles as RESET via low pulse) left unflagged
+converter	ADS5232	pag64	ads5232	p.13	{"OEB":true,"OEA/SCLK":["OEA"],"INT/EXT":["EXT"]}	Overbar on EXT (not INT) in INT/EXT. Complementary analog inputs pins 51/62 (IN-bar) left unflagged (rule 2); catalog names both INA/INB pins alike. SEL unmarked (doubles as RESET via low pulse) left unflagged
+converter	ADS5237	pag64	ads5237	p.13	{"OEB":true,"OEA/SCLK":["OEA"],"INT/EXT":["EXT"]}	Overbar on EXT (not INT) in INT/EXT. Complementary analog inputs pins 51/62 (IN-bar) left unflagged (rule 2); catalog names both INA/INB pins alike. SEL unmarked (doubles as RESET via low pulse) left unflagged
+converter	ADS5401	zay196	ads5401	p.4	{"SRESET":true}	SDENB: B suffix not defined as active low and pin text does not say so (SPI text: drive SDENB low); left unflagged
+converter	ADS5402	zay196	ads5402	pp.3-4	{"SRESET":true}	SDENB: B suffix not defined as active low and pin text does not say so; left unflagged
+converter	ADS5413	php48	ads5413	p.5	{}	
+converter	ADS5423	pgp52	ads5423	p.6	{"CLK#":true,"AIN#":true}	CLK# and AIN# pre-flagged; datasheet draws CLK-bar and AIN-bar (complement differential inputs) with overbars, so left as is
+converter	ADS5500	pap64	ads5500	pp.7,9-10	{"SEN":true}	SEN unbarred but text p.7: serial shift enabled when SEN is low (active when low); RESET and OE active high per pin table
+converter	ADS5510	pap64	ads5510	pp.8,11	{"SEN":true}	SEN unbarred but text p.8: serial shift enabled when SEN is low (active when low); RESET and OE active high per pin table
+converter	ADS5520	pap64	ads5520	pp.9,12	{"SEN":true}	SEN unbarred but text p.9: serial shift enabled when SEN is low (active when low); RESET and OE active high per pin table
+converter	ADS5522	pap64	ads5522	pp.8,11	{"SEN":true}	SEN unbarred but text p.8: serial shift enabled when SEN is low (active when low); RESET and OE active high per pin table
+converter	ADS5541	pap64	ads5541	pp.7,10	{"SEN":true}	SEN unbarred but text p.7: serial shift enabled when SEN is low (active when low); RESET and OE active high per pin table
+converter	ADS5542	pap64	ads5542	pp.7,10	{"SEN":true}	SEN unbarred but text p.7: serial shift enabled when SEN is low (active when low); RESET and OE active high per pin table
+converter	ADS5553	pfp80	ads5553	pp.7-8	{}	OEA/OEB and PDN active high per pin table; no serial interface; B suffix = channel B
+converter	ADS7028	rte16	ads7028	p.4	{"CS":true}	
+converter	ADS7038	rte16	ads7038	p.3	{"CS":true}	
+converter	ADS7039	dcu8	ads7039-q1	p.3	{"CS":true}	
+converter	ADS7040	dcu8	ads7040	p.4	{"CS":true}	
+converter	ADS7040	rug8	ads7040	p.4	{"CS":true}	
+converter	ADS7041	dcu8	ads7041	p.4	{"CS":true}	
+converter	ADS7041	rug8	ads7041	p.4	{"CS":true}	
+converter	ADS7042	dcu8	ads7042	p.6	{"CS":true}	
+converter	ADS7042	rug8	ads7042	p.6	{"CS":true}	
+converter	ADS7043	dcu8	ads7043	p.4	{"CS":true}	
+converter	ADS7043	rug8	ads7043	p.4	{"CS":true}	
+converter	ADS7044	dcu8	ads7044	p.4	{"CS":true}	
+converter	ADS7044	rug8	ads7044	p.4	{"CS":true}	
+converter	ADS7046	rug8	ads7046	p.3	{"CS":true}	
+converter	ADS7047	rug8	ads7047	p.3	{"CS":true}	
+converter	ADS7049	dcu8	ads7049-q1	p.3	{"CS":true}	
+converter	ADS7052	rug8	ads7052	p.3	{"CS":true}	
+converter	ADS7054	rug8	ads7054	p.3	{"CS":true}	
+converter	ADS7056	rug8	ads7056	p.3	{"CS":true}	
+converter	ADS7057	rug8	ads7057	p.3	{"CS":true}	
+converter	ADS7067	ybh16	ads7067	p.4	{"CS":true}	
+converter	ADS7128	rte16	ads7128	pp.4,40	{}	ALERT polarity programmable (ALERT_LOGIC, reset active low), unmarked in pin table - not flagged (rule 5, as ADS7138)
+converter	ADS7138	rte16	ads7138	p.4	{}	ALERT polarity programmable (ALERT_LOGIC, reset active low), unmarked in pin table - not flagged (rule 5)
+converter	ADS7142	rug10	ads7142	p.3	{"BUSY/RDY":["RDY"],"ALERT":true}	
+converter	ADS7223	rhb32	ads7223	pp.4-5	{"CS":true}	
+converter	ADS7229	pw16	ads7229	pp.10-11	{"CONVST":true,"EOC/INT/CDI":["INT"],"FS/CS":["CS"]}	
+converter	ADS7229	rsa16	ads7229	pp.10-11	{"CONVST":true,"EOC/INT/CDI":["INT"],"FS/CS":["CS"]}	
+converter	ADS7230	pw16	ads7229	pp.10-11	{"CONVST":true,"EOC/INT/CDI":["INT"],"FS/CS":["CS"]}	
+converter	ADS7250	rte16	ads8350	p.3	{"CS":true}	
+converter	ADS7253	pw16	ads7253	p.4	{"CS":true}	
+converter	ADS7253	rte16	ads7253	p.4	{"CS":true}	
+converter	ADS7254	pw16	ads7254	p.4	{"CS":true}	
+converter	ADS7254	rte16	ads7254	p.4	{"CS":true}	
+converter	ADS7263	rhb32	ads7223	pp.4-5	{"CS":true}	
+converter	ADS7279	pw16	ads7279	pp.10-11	{"CONVST":true,"EOC/INT/CDI":["INT"],"FS/CS":["CS"]}	
+converter	ADS7279	rsa16	ads7279	pp.10-11	{"CONVST":true,"EOC/INT/CDI":["INT"],"FS/CS":["CS"]}	
+converter	ADS7280	pw16	ads7279	pp.10-11	{"CONVST":true,"EOC/INT/CDI":["INT"],"FS/CS":["CS"]}	
+converter	ADS7280	rsa16	ads7279	pp.10-11	{"CONVST":true,"EOC/INT/CDI":["INT"],"FS/CS":["CS"]}	
+converter	ADS7800	p24	ads7800	p.4	{"R/C":["C"],"CS":true,"BUSY":true}	
+converter	ADS7804	dw28	ads7804	p.4	{"R/C":["C"],"CS":true,"BUSY":true}	
+converter	ADS7806	dw28	ads7806	p.4	{"SB/BTC":["BTC"],"EXT/INT":["INT"],"R/C":["C"],"CS":true,"BUSY":true}	
+converter	ADS7809	dw20	ads7809	p.5	{"SB/BTC":["BTC"],"EXT/INT":["INT"],"R/C":["C"],"CS":true,"BUSY":true}	
+converter	ADS7812	dip16	ads7812	p.4	{"EXT/INT":["INT"],"CONV":true,"CS":true,"BUSY":true}	
+converter	ADS7816	dgk8	ads7816	p.3	{"CS/SHDN":["CS"]}	
+converter	ADS7817	dgk8	ads7817	p.2	{"CS/SHDN":["CS"]}	
+converter	ADS7818	dgk8	ads7818	p.3	{}	
+converter	ADS7822	dgk8	ads7822	p.5	{"CS/SHDN":["CS"]}	
+converter	ADS7823	dgk8	ads7823	p.4	{}	
+converter	ADS7824	dw28	ads7824	p.4	{"PAR/SER":["SER"],"R/C":["C"],"CS":true,"BUSY":true}	
+converter	ADS7825	dw28	ads7825	p.4	{"PAR/SER":["SER"],"R/C":["C"],"CS":true,"BUSY":true}	
 counter	40102B	p16	cd40102b	pp.1-4	{"CLR":true,"CI/CE":true,"APE":true,"CO/ZD":true,"SPE":true}	
 counter	40103B	p16	cd40102b	pp.1-4	{"CLR":true,"CI/CE":true,"APE":true,"CO/ZD":true,"SPE":true}	
 counter	40110B	p16	cd40110b	p.1	{"TE":true}	
