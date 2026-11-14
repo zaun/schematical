@@ -133,7 +133,7 @@ Observed 2026-11-14:
 Acceptance: every gate's expected value was observed and written under the
 table; the files are archived.
   Check: `ls planning/completed/plan-39-*.md \| wc -l` → 12 (est. 1 min).
-Commit: —
+Commit: 5ba50626
 
 ## Validation Plan
 
