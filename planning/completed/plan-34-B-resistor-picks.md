@@ -31,7 +31,7 @@ plan-34-A § Prerequisites, plus:
 | Must be true | Command | Status |
 |---|---|---|
 | Phase 1: `specs.tsv` skeleton exists | `test -s planning/plan-34-data/specs.tsv && echo ok` → `ok` | MET (2026-11-13 at abb3652: `ok`, 109 rows) |
-| Phase 2 onward: plan-34-A complete | `ls planning/completed/plan-34-A-*.md` → exists | MET (2026-11-14: A Phase 2's stock check done; A is archived in H, with every letter) |
+| Phase 2 onward: plan-34-A complete | `ls planning/completed/plan-34-A-*.md` → exists | MET in substance (2026-11-14: every A box ticked, A Phase 2 Commit 4d4658f; A is archived in H with every letter) |
 
 Everything below is written against the world where these hold.
 

@@ -1,6 +1,6 @@
 # plan-34-H: Landing tier
 
-Last updated: 2026-11-11
+Last updated: 2026-11-14
 Effort: small (< 1h)
 Depends on: plan-34-G
 
@@ -19,7 +19,7 @@ plan-34-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-34-G complete | `ls planning/completed/plan-34-G-*.md` → exists | NOT MET at writing (2026-11-11) |
+| plan-34-G complete | `ls planning/completed/plan-34-G-*.md` → exists | MET in substance (2026-11-14: every G box ticked, Commit lines 6adaadf, 1c6929f, 18c5ef9; G is archived with A–H in this phase's last task, as A–D and F are) |
 
 Everything below is written against the world where these hold.
 
@@ -43,11 +43,13 @@ Every gate of Phase 1's table shows its expected value in one run.
 
 ### Phase 1 — Landing tier
 
-- [ ] Run every gate of the table on a fresh build dir
-      (`/tmp/logic-p34-land`) and record the observed values here.
-- [ ] Mark `- [ ] Add top 3 Resitor manufactuerers and their active
+- [x] Run every gate of the table on a fresh build dir
+      (`/tmp/logic-p34-land`) and record the observed values here. Run
+      2026-11-14 on the merge of main (c2ea326, plus ec0c42e: finish.sh and
+      plan text only), observed values under the table.
+- [x] Mark `- [ ] Add top 3 Resitor manufactuerers and their active
       resistors` done (`[x]`) in `planning/todo.md`, touching only that line.
-- [ ] Move `plan-34-A` … `plan-34-H` to `planning/completed/` (A–G are
+- [x] Move `plan-34-A` … `plan-34-H` to `planning/completed/` (A–G are
       archived as each completes; H with this commit).
 
 | Gate | Command | Expected |
@@ -62,6 +64,21 @@ Every gate of Phase 1's table shows its expected value in one run.
 | App | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p34-dd CODE_SIGNING_ALLOWED=NO build` | `** BUILD SUCCEEDED **` |
 | App tests | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p34-dd test -only-testing:schematicalTests/ResistorTests -only-testing:schematicalTests/PullResistorTests -only-testing:schematicalTests/BillOfMaterialsTests CODE_SIGNING_ALLOWED=NO` | `** TEST SUCCEEDED **` |
 | Runtime proof | `scripts/harness/build.sh scripts/harness/resistor-app.swift /tmp/p34-harness && /tmp/p34-harness/H.app/Contents/MacOS/harness` | `all checks ok`: R1 1kΩ on `RES-AXIAL-10.16`, the 4.7 kΩ round trip and undo, the LED lit through the resistor for inverter input 0 and dark for 1, the drawer groups in ohms order |
+
+Observed (2026-11-14, `/tmp/logic-p34-land`, fresh):
+
+| Gate | Observed |
+|---|---|
+| Backend tests | `100% tests passed, 0 tests failed out of 35`: T0 (30) + `resistor_test` + 4 programs other plans added meanwhile (plan-36 `mcu_test`, plan-37's and the rest from main's 79 commits merged in c2ea326) |
+| Goldens vs plan-34 start | `git diff c2ea326^2 -- backend/tests/golden \| grep -c '^-[^-]'` → 0 (main's side of the merge is main without plan-34; plan-34 only adds lines) |
+| Part counts | 1975 `\|resistor\|` lines = 1974 `add` rows + `GENERIC-RESISTOR` |
+| Parts total | 31608 = main's 29633 (P0 26729 plus the parts plan-36, plan-37 and others landed meanwhile) + 1975 |
+| Datasheets | 33 PDFs for 32 distinct PDFs the `add` rows cite: the 33rd is `yageo/yageo_PYu-R_Mount_10_19050818_343.pdf`, the mounting guide `footprints-C.json` cites, kept by the prune on purpose (plan-34-B § Corrections 5) |
+| Skipped parts listed | `0 skip rows missing from skipped-parts.md` |
+| Stock check | exit 0; 0 `NEEDS DEEPER LISTING` lines |
+| App | `** BUILD SUCCEEDED **` (after the merge: `ReferenceLabel` `.resistor` case, plan-34-G § Corrections 2) |
+| App tests | `** TEST SUCCEEDED **`: ResistorTests, PullResistorTests, BillOfMaterialsTests, plus PartEditorWindowTests, DisplayReferenceTests, ReferencePrefixTests, McuTests, DatasheetCatalogTests (merge-touched), 44 tests, 0 failures |
+| Runtime proof | `all checks ok`: drawer Array 74 / Chip 1500 / Through-hole 399 (+ the generic), leaves in ohms order; AS02JTE2000 Resistor, AF124-JR-070RL Resistor array; R1 1kΩ on `RES-AXIAL-10.16`; 4.7 kΩ saved and reopened; undo 1 kΩ; LED lit for inverter input 0, dark for 1; `p34-symbols.png` (references above the values) |
 
 Acceptance: every gate's observed value matches.
   Check: the table's commands (est. 30 min: the fresh backend build, the

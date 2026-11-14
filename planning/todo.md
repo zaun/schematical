@@ -38,7 +38,7 @@
 - [x] Panes should have proper clearence around unlined pins.
 - [x] Schematic and PCB should use the same sidebar open/close flag
 - [ ] Add a Generic Resitor. Axial default, 1k default
-- [ ] Add top 3 Resitor manufactuerers and their active resistors
+- [x] Add top 3 Resitor manufactuerers and their active resistors
 - [ ] Add top 3 Potentiometer Resitor manufactuerers and their active resistors
 - [x] Add a Generic Capacitor. Axial (ceramic) default, 0.1pf default (plan-33)
 - [x] Add top 3 Capacitor manufactuerers and their active capacitors (plan-33)
