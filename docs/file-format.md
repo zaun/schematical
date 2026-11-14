@@ -164,6 +164,8 @@ An EEPROM can name the file loaded into it when the simulation starts:
 | `vias`   | array   | Vias, in drawing order ([Vias](#vias)). Written only when there are some; missing means none. Older builds ignore it. |
 | `holes`  | array   | Drilled holes (mounting holes and others), in drawing order ([Holes](#holes)). Written only when there are some; missing means none. Older builds ignore it. |
 | `netClasses` | array | Net classes, in priority order ([Net classes](#net-classes)). Written only when there are some; missing means none, every net in the Default class. Older builds ignore it. |
+| `netLayerRules` | array | Layer rules set on single nets ([Net layer rules](#net-layer-rules)). Written only when there are some. Older builds ignore it. |
+| `netGroups` | array | Equal-length groups and differential pairs ([Net groups](#net-groups)). Written only when there are some. Older builds ignore it. |
 
 A missing key takes its default. A text:
 
@@ -266,6 +268,44 @@ older builds ignore it.
 | `clearance`   | number  | mm, 0.05 to 10. Missing means the DRC's min clearance. |
 | `viaDrill`, `viaDiameter` | number | The via's hole and metal in mm, as a via's `drill` and `diameter` ([Vias](#vias)). |
 | `members`     | array   | The class's nets, each named as a Plane layer's `net` is: `"ground"`, `"power:<mV>"` or `"pin:<part UUID>/<designator>"` (the net that pin is wired into). A member that names no net any more is kept, and matches nothing. |
+| `layerMode`, `layers` | string, array | The class's layer rule, as a [net layer rule](#net-layer-rules)'s `mode` and `layers`. Both or neither; missing means any trace layer. |
+
+### Net layer rules
+
+```json
+"netLayerRules": [ { "net": "pin:...", "mode": "only", "layers": [ "top" ] } ]
+```
+
+A layer rule holds a net's copper to some layers. A net's own rule here
+comes before its class's; a net with neither may use every trace layer.
+
+| Field    | Type   | Meaning |
+|----------|--------|---------|
+| `net`    | string | The net, as a class member is named. Not listed twice. |
+| `mode`   | string | `"only"`: the net's copper may be only on `layers` (on one layer it gets no vias). `"prefer"`: any trace layer is allowed, but the router favours `layers`. |
+| `layers` | array  | Copper layers (`"top"`, `"inner2"` to `"inner5"`, `"bottom"`), at least one. A layer the board doesn't have, or that is a Plane, is kept and ignored while it is. |
+
+### Net groups
+
+```json
+"netGroups": [ { "id": "...", "name": "USB", "mode": "diffPair", "members": [ "pin:...", "pin:..." ],
+                 "tolerance": 0.25, "gap": 0.2, "maxUncoupled": 5, "maxMeander": 4 } ]
+```
+
+A net group is routed together: a length-match group's nets end within its
+tolerance of each other; a differential pair's two nets run side by side at
+its gap. A net is in at most one group.
+
+| Field          | Type   | Meaning |
+|----------------|--------|---------|
+| `id`           | UUID   | Unique among the groups. |
+| `name`         | string | 1 to 40 characters, not blank. |
+| `mode`         | string | `"lengthMatch"` or `"diffPair"`. |
+| `members`      | array  | The group's nets, as a class member is named. A pair has at most 2 (it is routed once it has 2). |
+| `tolerance`    | number | mm, 0.01 to 50: how far apart the members' lengths may end. Default 0.25. |
+| `gap`          | number | mm, 0.05 to 10, a pair's edge-to-edge gap. Default 0.2. |
+| `maxUncoupled` | number | mm, 0 to 50: how much of a pair may run apart near its pads. Default 5. |
+| `maxMeander`   | number | mm, 0.5 to 50: the largest sideways size one tuning bump may reach. Default 4. |
 
 ## Junctions
 

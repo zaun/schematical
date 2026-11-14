@@ -129,13 +129,13 @@ Bottom, not Layer 2"); group members as net integers (renumbering).
 
 Acceptance: the cases above pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd test -only-testing:schematicalTests/NetRulesTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 1–2 min).
-Commit: —
+Commit: c56aa28b
 
 ### Phase 2 — file format
 
-- [ ] `Document/SchematicFile.swift`: class entries gain `layerMode`, `layers` (written only when the rule is set); `Board.netLayerRules: [{net, mode, layers}]` and `Board.netGroups: [{id, name, mode, members, tolerance, gap, maxUncoupled, maxMeander}]`, each written only when non-empty; decode errors name the class/group ("net group <id> pair needs exactly 2 members", unknown layer string, a layer not on the board is **kept** — it is the user's data, as a layer style is kept after the layer leaves, and ignored by `effectiveLayers`).
-- [ ] `docs/file-format.md`: § Net classes rows `layerMode`/`layers`; new § Net layer rules and § Net groups.
-- [ ] Tests (`NetRulesTests`): round trip of a class rule, an override and both group modes; a document with none writes none of the new keys and its encoded bytes equal the literal from plan-38-A Phase 2 (same fixed document); a pair with 3 members, a tolerance of 0 and an unknown layer name each throw a message naming the group.
+- [x] `Document/SchematicFile.swift`: class entries gain `layerMode`, `layers` (written only when the rule is set); `Board.netLayerRules: [{net, mode, layers}]` and `Board.netGroups: [{id, name, mode, members, tolerance, gap, maxUncoupled, maxMeander}]`, each written only when non-empty; decode errors name the class/group ("net group <id> pair has 3 members; it can have at most 2" — see Corrections; unknown layer string, a layer not on the board is **kept** — it is the user's data, as a layer style is kept after the layer leaves, and ignored by `effectiveLayers`). Also refused: a net listed twice in `netLayerRules`, a group id twice, a net in two groups.
+- [x] `docs/file-format.md`: § Net classes rows `layerMode`/`layers`; new § Net layer rules and § Net groups.
+- [x] Tests (`NetRulesTests`): round trip of a class rule, an override and both group modes; a document with none writes none of the new keys and its encoded bytes equal the literal from plan-38-A Phase 2 (same fixed document); a pair with 3 members, a tolerance of 0 and an unknown layer name each throw a message naming the group. (A group has no layers, so the unknown layer name is tested on a class rule and a net rule, each naming its owner.) — `-only-testing:NetRulesTests -only-testing:NetClassTests -only-testing:SchematicFileV5Tests` → 35 tests, 0 failures, `** TEST SUCCEEDED **`.
 
 Acceptance: round trip equal; no-rules document byte-identical.
   Check: `-only-testing:schematicalTests/NetRulesTests -only-testing:schematicalTests/NetClassTests -only-testing:schematicalTests/SchematicFileV5Tests` → `** TEST SUCCEEDED **` (est. 2 min).

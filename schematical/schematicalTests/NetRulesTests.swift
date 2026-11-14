@@ -157,6 +157,66 @@ final class NetRulesTests: XCTestCase {
         XCTAssertEqual(doc.board.netGroups.map(\.id), [id])
     }
 
+    // MARK: Phase 2 — file
+
+    func testRulesAndGroupsRoundTrip() throws {
+        let (doc, member, chips) = try wiredPair()
+        let power = doc.addNetClass(named: "Power")
+        doc.setNetClassLayerRule(power, LayerRule(mode: .prefer, layers: [.bottom, .top]))
+        doc.setNetLayerRule(member, LayerRule(mode: .only, layers: [.top]))
+        doc.setNetLayerRule(.ground, LayerRule(mode: .prefer, layers: [.inner(3)]))
+        let bus = doc.addNetGroup(named: "Bus", mode: .lengthMatch)
+        doc.setNetGroupTolerance(bus, 0.5)
+        XCTAssertTrue(doc.assignNet(member, toGroup: bus))
+        XCTAssertTrue(doc.assignNet(.ground, toGroup: bus))
+        let pair = doc.addNetGroup(named: "USB", mode: .diffPair)
+        doc.setNetGroupGap(pair, 0.15)
+        doc.setNetGroupMaxUncoupled(pair, 2)
+        doc.setNetGroupMaxMeander(pair, 1.5)
+        XCTAssertTrue(doc.assignNet(.pin(chip: chips[1].id, designator: "1"), toGroup: pair))
+
+        let opened = try BoardLayersTests.roundTrip(doc)
+        XCTAssertEqual(opened.board.netClasses, doc.board.netClasses)
+        XCTAssertEqual(opened.board.netOverrides, doc.board.netOverrides)
+        XCTAssertEqual(opened.board.netGroups, doc.board.netGroups)
+        XCTAssertEqual(opened.board.netOverrides.last?.layerRule?.layers, [.inner(3)],
+                       "a layer the board lacks is kept")
+    }
+
+    func testNoRulesWritesNoNewKeysAndTheSameBytes() throws {
+        let doc = TestSupport.newDocument()
+        try SchematicFile.decode(Data(NetClassTests.plainGolden.utf8))
+            .apply(to: doc, catalog: TestSupport.catalog, fileURL: nil)
+        let text = String(decoding: try SchematicFile(document: doc, fileURL: nil).encoded(), as: UTF8.self)
+        for key in ["netLayerRules", "netGroups", "layerMode", "\"layers\" : ["] {
+            XCTAssertFalse(text.contains(key), key)
+        }
+        XCTAssertEqual(text, NetClassTests.plainGolden)
+    }
+
+    func testFileErrorsNameTheGroupOrClass() {
+        let id = UUID()
+        let group = "net group \(id.uuidString)"
+        func groups(_ entry: String) -> String {
+            #"{ "netGroups": [ { "id": "\#(id)", "name": "G"\#(entry) } ] }"#
+        }
+        let cases: [(String, String)] = [
+            (groups(#", "mode": "diffPair", "members": ["ground", "power:5000", "power:3300"]"#),
+             "\(group) pair has 3 members; it can have at most 2"),
+            (groups(#", "mode": "lengthMatch", "members": [], "tolerance": 0"#),
+             "\(group) tolerance 0 must be 0.01 to 50 mm"),
+            (groups(#", "mode": "zigzag", "members": []"#),
+             "\(group) mode \"zigzag\" must be lengthMatch or diffPair"),
+            (#"{ "netClasses": [ { "id": "\#(id)", "name": "A", "width": 10, "viaDrill": 0.4, "viaDiameter": 0.8, "members": [], "layerMode": "only", "layers": ["middle"] } ] }"#,
+             "net class \(id.uuidString) layer \"middle\" must be top, inner2 to inner5, or bottom"),
+            (#"{ "netLayerRules": [ { "net": "ground", "mode": "only", "layers": ["middle"] } ] }"#,
+             "net layer rule \"ground\" layer \"middle\" must be top, inner2 to inner5, or bottom"),
+        ]
+        for (json, message) in cases {
+            XCTAssertEqual(BoardLayersTests.pcbError { _ = try BoardLayersTests.open(board: json) }, message, json)
+        }
+    }
+
     func testGroupProblem() {
         func problem(_ mode: NetGroupMode = .lengthMatch, members: Int = 2, tolerance: Double = 0.25,
                      name: String = "G") -> String? {

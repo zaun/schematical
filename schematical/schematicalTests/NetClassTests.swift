@@ -136,7 +136,7 @@ final class NetClassTests: XCTestCase {
     /// A document with no classes and no `auto` copper, as the build before
     /// plan-38 saved it (a trace, a via; captured with that build's
     /// encoder, commit 945720a).
-    private static let plainGolden = #"""
+    static let plainGolden = #"""
 {
   "board" : {
     "color" : "green",
