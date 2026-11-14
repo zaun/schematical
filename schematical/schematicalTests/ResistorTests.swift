@@ -110,20 +110,26 @@ final class ResistorTests: XCTestCase {
         XCTAssertEqual(maker.references, ["R3"])
     }
 
-    /// Resistors → Generic beside Array / Chip / Through-hole; each
-    /// subcategory's leaves in increasing ohms.
+    /// Discrete → Resistors → Generic beside Array / Chip / Through-hole (a
+    /// third drawer level); each of those groups' leaves in increasing ohms.
     func testDrawerOrder() throws {
         let groups = TestSupport.catalog.groups(matching: DrawerFilter())
-        let resistors = try XCTUnwrap(groups.first { $0.category == "Resistors" })
+        let discrete = try XCTUnwrap(groups.first { $0.category == "Discrete" })
+        XCTAssertNil(groups.first { $0.category == "Resistors" })
+        let resistors = try XCTUnwrap(discrete.subcategories.first { $0.subcategory == "Resistors" })
+        XCTAssertEqual(resistors.path, ["Discrete", "Resistors"])
         XCTAssertEqual(resistors.functions.map(\.function), ["Generic"])
-        XCTAssertEqual(Set(resistors.subcategories.map(\.subcategory)), ["Array", "Chip", "Through-hole"])
+        XCTAssertEqual(Set(resistors.subgroups.map(\.subcategory)), ["Array", "Chip", "Through-hole"])
+        XCTAssertEqual(resistors.subgroups.first { $0.subcategory == "Chip" }?.path, ["Discrete", "Resistors", "Chip"])
+        XCTAssertTrue(resistors.subgroups.allSatisfy(\.subgroups.isEmpty))
+        XCTAssertTrue(TestSupport.catalog.kinds(inGroup: ["Discrete", "Resistors", "Chip"]) == [PART_RESISTOR.rawValue])
         let order = ["< 1 kΩ", "1 kΩ – 5 kΩ", "5 kΩ – 10 kΩ", "10 kΩ – 50 kΩ", "50 kΩ – 100 kΩ",
                      "100 kΩ – 500 kΩ", "500 kΩ – 1 MΩ", "≥ 1 MΩ"]
-        for sub in resistors.subcategories {
+        for sub in resistors.subgroups {
             let leaves = sub.functions.map(\.function)
             XCTAssertEqual(leaves, order.filter(leaves.contains), sub.subcategory)
         }
-        let chip = try XCTUnwrap(resistors.subcategories.first { $0.subcategory == "Chip" })
+        let chip = try XCTUnwrap(resistors.subgroups.first { $0.subcategory == "Chip" })
         XCTAssertEqual(chip.functions.map(\.function), order)
     }
 

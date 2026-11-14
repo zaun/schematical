@@ -915,14 +915,15 @@ given); the simulation does not use them.
 
 The library's `resistor.json` (plan-34) holds YAGEO, Vishay Dale and Viking
 Tech chip, axial and array resistors, one device per (category,
-composition, pinout, ohms group), under **Resistors → Chip / Through-hole /
-Array → `< 1 kΩ` … `≥ 1 MΩ`**, and `GENERIC-RESISTOR` (Resistors → Generic:
+composition, pinout, ohms group), under **Discrete → Resistors → Chip /
+Through-hole / Array → `< 1 kΩ` … `≥ 1 MΩ`**, and `GENERIC-RESISTOR`
+(Discrete → Resistors → Generic:
 Axial, 1 kΩ, with the pulls' six footprint choices; its placed value is
 the file's `ohms`).
 
 ```json
 {"id": "chip-1k-5k", "function": "1 kΩ – 5 kΩ", "description": "Thick film chip resistor",
- "drawer": ["Resistors", "Chip"],
+ "drawer": ["Discrete", "Resistors", "Chip"],
  "pinouts": {"two-pin": [{"number":1,"name":"1","role":"inout"},{"number":2,"name":"2","role":"inout"}]},
  "resistors": [{"a": "1", "b": "2"}],
  "parts": [{"name": "RC0603FR-074K7L", "manufacturer": "YAGEO", "package": "0603",

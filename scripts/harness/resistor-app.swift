@@ -1,5 +1,5 @@
 // plan-34-G: resistors end to end on the app's real catalog, document,
-// simulation and views. Checks the drawer (Resistors → Generic, Array /
+// simulation and views. Checks the drawer (Discrete → Resistors → Generic, Array /
 // Chip / Through-hole, every leaf in increasing resistance), the kind name,
 // facts and symbol of a chip resistor and of an array, the generic resistor
 // (R1, 1kΩ on RES-AXIAL-10.16; set to 4.7 kΩ, saved and reopened; undo),
@@ -37,16 +37,16 @@ MainActor.assumeIsolated { runResistorChecks() }
 
     // (1) The drawer.
     let groups = Harness.catalog.groups(matching: DrawerFilter())
-    let resistors = groups.first { $0.category == "Resistors" }
-    let subs = (resistors?.subcategories ?? []).map(\.subcategory)
+    let resistors = groups.first { $0.category == "Discrete" }?.subcategories.first { $0.subcategory == "Resistors" }
+    let subs = (resistors?.subgroups ?? []).map(\.subcategory)
     let functions = (resistors?.functions ?? []).map(\.function)
-    check("1 drawer: Resistors → \(functions) and \(subs)") {
+    check("1 drawer: Discrete → Resistors → \(functions) and \(subs)") {
         if functions != ["Generic"] { return "functions \(functions)" }
         return Set(subs) == ["Array", "Chip", "Through-hole"] ? nil : "subcategories \(subs)"
     }
     let order = ["< 1 kΩ", "1 kΩ – 5 kΩ", "5 kΩ – 10 kΩ", "10 kΩ – 50 kΩ", "50 kΩ – 100 kΩ",
                  "100 kΩ – 500 kΩ", "500 kΩ – 1 MΩ", "≥ 1 MΩ"]
-    for sub in resistors?.subcategories ?? [] {
+    for sub in resistors?.subgroups ?? [] {
         let leaves = sub.functions.map(\.function)
         let ranks = leaves.map { order.firstIndex(of: $0) ?? -1 }
         let parts = sub.functions.reduce(0) { $0 + $1.parts.count }
@@ -63,7 +63,7 @@ MainActor.assumeIsolated { runResistorChecks() }
         return d.chips.last!
     }
     func parts(_ sub: String) -> [CatalogPart] {
-        resistors?.subcategories.first { $0.subcategory == sub }?.functions.flatMap(\.parts) ?? []
+        resistors?.subgroups.first { $0.subcategory == sub }?.functions.flatMap(\.parts) ?? []
     }
     let chipPart = parts("Chip").first { part in
         if case let .resistor(_, tol, power, _) = part.details { return tol != nil && power != nil }
