@@ -113,23 +113,24 @@ One commit per phase: the edited part file(s), `planning/plan-39-data/ledger.tsv
 Acceptance: every pinout of the phase has a ledger row, the ledger matches the files, and the golden moved only by flags.
   Check: `node scripts/pin-polarity.js check --kind latch --devices 1-28 --complete && node scripts/pin-polarity.js check --kind register --devices 1-26 --complete && node scripts/pin-polarity.js check --kind shift --devices 1-36 --complete && node scripts/pin-polarity.js golden-check && ctest --test-dir /tmp/logic-p39 -R '^(library_check|listing_check|trace_check)$'` → every `check` exits 0, `golden-check` exits 0, 3 of 3 tests passed (est. 90 min of reading for 106 pinouts, then 6 min for the checks: the loader and `listing_check` load every part file the phase edited, which no smaller check does).
   Observed 2026-11-14: latch `ok: 32 pinouts`, register `ok: 28 pinouts`, shift `ok: 46 pinouts` (each with as many ledger rows); golden-check (phase staged) `ok: 1446 parts.txt line(s) changed, only by :low`; ctest on the full E tree `100% tests passed, 0 tests failed out of 3`.
-Commit: —
+Commit: b6091a52
 
 ### Phase 3 — E3: arith 1–16 + dff 1–22 + jkff 1–6 + mux 1–20 + cpu 1–4 + pio 1–4 + rtc 1–7 (102 pinouts)
 
 One commit per phase: the edited part file(s), `planning/plan-39-data/ledger.tsv` and `backend/tests/golden/parts.txt`.
 
-- [ ] Review arith devices 1–16 (4063B … 74_885): 16 pinouts, § 3 procedure; edits `schematical/schematical/Parts/arith.json`.
-- [ ] Review dff devices 1–22 (1G175 … TPIC6B273): 31 pinouts, § 3 procedure; edits `schematical/schematical/Parts/dff.json`.
-- [ ] Review jkff devices 1–6 (4027B … 74_76): 8 pinouts, § 3 procedure; edits `schematical/schematical/Parts/jkff.json`.
-- [ ] Review mux devices 1–20 (40257B … 74_670): 25 pinouts, § 3 procedure; edits `schematical/schematical/Parts/mux.json`.
-- [ ] Review cpu devices 1–4 (MCS6502 … Z84C00): 8 pinouts, § 3 procedure; edits `schematical/schematical/Parts/cpu.json`.
-- [ ] Review pio devices 1–4 (W65C21N … W65C22S): 7 pinouts, § 3 procedure; edits `schematical/schematical/Parts/pio.json`.
-- [ ] Review rtc devices 1–7 (BQ32000 … DP8573): 7 pinouts, § 3 procedure; edits `schematical/schematical/Parts/rtc.json`.
-- [ ] Rebuild and regenerate the golden: `cmake -S backend -B /tmp/logic-p39 && cmake --build /tmp/logic-p39 -j8 && /tmp/logic-p39/listing_check --print > backend/tests/golden/parts.txt`.
+- [x] Review arith devices 1–16 (4063B … 74_885): 16 pinouts, § 3 procedure; edits `schematical/schematical/Parts/arith.json`. — done: recorded; check ok (see Observed)
+- [x] Review dff devices 1–22 (1G175 … TPIC6B273): 31 pinouts, § 3 procedure; edits `schematical/schematical/Parts/dff.json`. — done: recorded; check ok (see Observed)
+- [x] Review jkff devices 1–6 (4027B … 74_76): 8 pinouts, § 3 procedure; edits `schematical/schematical/Parts/jkff.json`. — done: recorded; check ok (see Observed)
+- [x] Review mux devices 1–20 (40257B … 74_670): 25 pinouts, § 3 procedure; edits `schematical/schematical/Parts/mux.json`. — done: recorded; check ok (see Observed)
+- [x] Review cpu devices 1–4 (MCS6502 … Z84C00): 8 pinouts, § 3 procedure; edits `schematical/schematical/Parts/cpu.json`. — done: recorded; check ok (see Observed)
+- [x] Review pio devices 1–4 (W65C21N … W65C22S): 7 pinouts, § 3 procedure; edits `schematical/schematical/Parts/pio.json`. — done: recorded; check ok (see Observed)
+- [x] Review rtc devices 1–7 (BQ32000 … DP8573): 7 pinouts, § 3 procedure; edits `schematical/schematical/Parts/rtc.json`. — done: recorded; check ok (see Observed)
+- [x] Rebuild and regenerate the golden: `cmake -S backend -B /tmp/logic-p39 && cmake --build /tmp/logic-p39 -j8 && /tmp/logic-p39/listing_check --print > backend/tests/golden/parts.txt`. — done: the full E regeneration (Corrections 2)
 
 Acceptance: every pinout of the phase has a ledger row, the ledger matches the files, and the golden moved only by flags.
   Check: `node scripts/pin-polarity.js check --kind arith --devices 1-16 --complete && node scripts/pin-polarity.js check --kind dff --devices 1-22 --complete && node scripts/pin-polarity.js check --kind jkff --devices 1-6 --complete && node scripts/pin-polarity.js check --kind mux --devices 1-20 --complete && node scripts/pin-polarity.js check --kind cpu --devices 1-4 --complete && node scripts/pin-polarity.js check --kind pio --devices 1-4 --complete && node scripts/pin-polarity.js check --kind rtc --devices 1-7 --complete && node scripts/pin-polarity.js golden-check && ctest --test-dir /tmp/logic-p39 -R '^(library_check|listing_check|trace_check)$'` → every `check` exits 0, `golden-check` exits 0, 3 of 3 tests passed (est. 90 min of reading for 102 pinouts, then 6 min for the checks: the loader and `listing_check` load every part file the phase edited, which no smaller check does).
+  Observed 2026-11-14: arith 16, dff 31, jkff 8, mux 25, cpu 8, pio 7, rtc 7 pinouts — each `ok: N pinouts, N ledger rows checked`; golden-check `ok: 1424 parts.txt line(s) changed, only by :low`; ctest on the full E tree `100% tests passed, 0 tests failed out of 3`.
 Commit: —
 
 ## Validation Plan

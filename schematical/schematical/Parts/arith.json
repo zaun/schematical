@@ -152,7 +152,7 @@
       "model": "compare",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"P>Q","role":"output"},
+          {"number":1,"name":"P>Q","role":"output","activeLow":true},
           {"number":2,"name":"P0","role":"input","group":"a"},
           {"number":3,"name":"Q0","role":"input","group":"b"},
           {"number":4,"name":"P1","role":"input","group":"a"},
@@ -170,7 +170,7 @@
           {"number":16,"name":"Q6","role":"input","group":"b"},
           {"number":17,"name":"P7","role":"input","group":"a"},
           {"number":18,"name":"Q7","role":"input","group":"b"},
-          {"number":19,"name":"P=Q","role":"output"},
+          {"number":19,"name":"P=Q","role":"output","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -198,7 +198,7 @@
       "model": "compare",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"P>Q","role":"output"},
+          {"number":1,"name":"P>Q","role":"output","activeLow":true},
           {"number":2,"name":"P0","role":"input","group":"a"},
           {"number":3,"name":"Q0","role":"input","group":"b"},
           {"number":4,"name":"P1","role":"input","group":"a"},
@@ -216,7 +216,7 @@
           {"number":16,"name":"Q6","role":"input","group":"b"},
           {"number":17,"name":"P7","role":"input","group":"a"},
           {"number":18,"name":"Q7","role":"input","group":"b"},
-          {"number":19,"name":"P=Q","role":"output"},
+          {"number":19,"name":"P=Q","role":"output","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -244,7 +244,7 @@
       "model": "compare",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"G","role":"input"},
+          {"number":1,"name":"G","role":"input","activeLow":true},
           {"number":2,"name":"P0","role":"input","group":"a"},
           {"number":3,"name":"Q0","role":"input","group":"b"},
           {"number":4,"name":"P1","role":"input","group":"a"},
@@ -262,7 +262,7 @@
           {"number":16,"name":"Q6","role":"input","group":"b"},
           {"number":17,"name":"P7","role":"input","group":"a"},
           {"number":18,"name":"Q7","role":"input","group":"b"},
-          {"number":19,"name":"P=Q","role":"output"},
+          {"number":19,"name":"P=Q","role":"output","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -304,7 +304,7 @@
       "model": "compare",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"G","role":"input"},
+          {"number":1,"name":"G","role":"input","activeLow":true},
           {"number":2,"name":"P0","role":"input","group":"a"},
           {"number":3,"name":"Q0","role":"input","group":"b"},
           {"number":4,"name":"P1","role":"input","group":"a"},
@@ -348,7 +348,7 @@
       "model": "compare",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"G","role":"input"},
+          {"number":1,"name":"G","role":"input","activeLow":true},
           {"number":2,"name":"P0","role":"input","group":"a"},
           {"number":3,"name":"Q0","role":"input","group":"b"},
           {"number":4,"name":"P1","role":"input","group":"a"},
@@ -366,7 +366,7 @@
           {"number":16,"name":"Q6","role":"input","group":"b"},
           {"number":17,"name":"P7","role":"input","group":"a"},
           {"number":18,"name":"Q7","role":"input","group":"b"},
-          {"number":19,"name":"P=Q","role":"output"},
+          {"number":19,"name":"P=Q","role":"output","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -392,7 +392,7 @@
       "model": "compare",
       "pinouts": {
         "p20": [
-          {"number":1,"name":"G","role":"input"},
+          {"number":1,"name":"G","role":"input","activeLow":true},
           {"number":2,"name":"P0","role":"input","group":"a"},
           {"number":3,"name":"Q0","role":"input","group":"b"},
           {"number":4,"name":"P1","role":"input","group":"a"},
@@ -410,7 +410,7 @@
           {"number":16,"name":"Q6","role":"input","group":"b"},
           {"number":17,"name":"P7","role":"input","group":"a"},
           {"number":18,"name":"Q7","role":"input","group":"b"},
-          {"number":19,"name":"P=Q","role":"output"},
+          {"number":19,"name":"P=Q","role":"output","activeLow":true},
           {"number":20,"name":"VCC","role":"power"}
         ]
       },
@@ -443,7 +443,7 @@
       "model": "compare",
       "pinouts": {
         "p24": [
-          {"number":1,"name":"L/A","role":"input"},
+          {"number":1,"name":"L/A","role":"input","activeLow":["A"]},
           {"number":2,"name":"P<QIN","role":"input","group":"cascade"},
           {"number":3,"name":"P>QIN","role":"input","group":"cascade"},
           {"number":4,"name":"Q7","role":"input","group":"b"},
@@ -555,7 +555,7 @@
         "p14": [
           {"number":1,"name":"G","role":"input","group":"inputs"},
           {"number":2,"name":"H","role":"input","group":"inputs"},
-          {"number":3,"name":"XMIT","role":"input"},
+          {"number":3,"name":"XMIT","role":"input","activeLow":true},
           {"number":4,"name":"I","role":"input","group":"inputs"},
           {"number":5,"name":"PARITY ERROR","role":"output"},
           {"number":6,"name":"PARITY I/O","role":"inout"},
@@ -594,7 +594,7 @@
           {"number":3,"name":"PARITY I/O","role":"inout"},
           {"number":4,"name":"GND","role":"ground"},
           {"number":5,"name":"PARITY ERROR","role":"output"},
-          {"number":6,"name":"XMIT","role":"input"},
+          {"number":6,"name":"XMIT","role":"input","activeLow":true},
           {"number":7,"name":"I","role":"input","group":"inputs"},
           {"number":8,"name":"H","role":"input","group":"inputs"},
           {"number":9,"name":"G","role":"input","group":"inputs"},
@@ -686,29 +686,29 @@
       "model": "alu181",
       "pinouts": {
         "p24": [
-          {"number":1,"name":"B0","role":"input","group":"b"},
-          {"number":2,"name":"A0","role":"input","group":"a"},
+          {"number":1,"name":"B0","role":"input","group":"b","activeLow":true},
+          {"number":2,"name":"A0","role":"input","group":"a","activeLow":true},
           {"number":3,"name":"S3","role":"input","group":"s"},
           {"number":4,"name":"S2","role":"input","group":"s"},
           {"number":5,"name":"S1","role":"input","group":"s"},
           {"number":6,"name":"S0","role":"input","group":"s"},
           {"number":7,"name":"Cn","role":"input"},
           {"number":8,"name":"M","role":"input"},
-          {"number":9,"name":"F0","role":"output","group":"f"},
-          {"number":10,"name":"F1","role":"output","group":"f"},
-          {"number":11,"name":"F2","role":"output","group":"f"},
+          {"number":9,"name":"F0","role":"output","group":"f","activeLow":true},
+          {"number":10,"name":"F1","role":"output","group":"f","activeLow":true},
+          {"number":11,"name":"F2","role":"output","group":"f","activeLow":true},
           {"number":12,"name":"GND","role":"ground"},
-          {"number":13,"name":"F3","role":"output","group":"f"},
+          {"number":13,"name":"F3","role":"output","group":"f","activeLow":true},
           {"number":14,"name":"A=B","role":"output"},
-          {"number":15,"name":"P","role":"output"},
+          {"number":15,"name":"P","role":"output","activeLow":true},
           {"number":16,"name":"Cn+4","role":"output"},
-          {"number":17,"name":"G","role":"output"},
-          {"number":18,"name":"B3","role":"input","group":"b"},
-          {"number":19,"name":"A3","role":"input","group":"a"},
-          {"number":20,"name":"B2","role":"input","group":"b"},
-          {"number":21,"name":"A2","role":"input","group":"a"},
-          {"number":22,"name":"B1","role":"input","group":"b"},
-          {"number":23,"name":"A1","role":"input","group":"a"},
+          {"number":17,"name":"G","role":"output","activeLow":true},
+          {"number":18,"name":"B3","role":"input","group":"b","activeLow":true},
+          {"number":19,"name":"A3","role":"input","group":"a","activeLow":true},
+          {"number":20,"name":"B2","role":"input","group":"b","activeLow":true},
+          {"number":21,"name":"A2","role":"input","group":"a","activeLow":true},
+          {"number":22,"name":"B1","role":"input","group":"b","activeLow":true},
+          {"number":23,"name":"A1","role":"input","group":"a","activeLow":true},
           {"number":24,"name":"VCC","role":"power"}
         ]
       },
@@ -751,7 +751,7 @@
           {"number":10,"name":"CY","role":"output"},
           {"number":11,"name":"Y1","role":"output"},
           {"number":12,"name":"Y2","role":"output"},
-          {"number":13,"name":"G","role":"input"},
+          {"number":13,"name":"G","role":"input","activeLow":true},
           {"number":14,"name":"S6","role":"input","group":"s"},
           {"number":15,"name":"S7","role":"input","group":"s"},
           {"number":16,"name":"VCC","role":"power"}

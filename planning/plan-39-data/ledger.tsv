@@ -1,4 +1,20 @@
 kind	device	pinout	source	pages	flagged	note
+arith	4063B	p16	cd4063b	p.1	{}	
+arith	4585B	p16	cd4585b	p.1	{}	
+arith	74_11286	p14	74act11286	p.1	{"XMIT":true}	
+arith	74_181	p24	sn54ls181	p.1	{"B0":true,"A0":true,"F0":true,"F1":true,"F2":true,"F3":true,"P":true,"G":true,"B3":true,"A3":true,"B2":true,"A2":true,"B1":true,"A1":true}	J/N pinout draws the active-low-data names: A0-A3, B0-B3, F0-F3, G, P overbarred
+arith	74_275	p16	local:datasheets/arith/snx4ls27x.pdf	p.1	{"G":true}	
+arith	74_280	p14	cd74ac280	p.1	{}	
+arith	74_283	p16	cd74ac283	pp.1-3	{}	
+arith	74_286	p14	sn74as286	p.1	{"XMIT":true}	
+arith	74_518	p20	sn74als518	p.1	{"G":true}	
+arith	74_520	p20	sn74als518	p.1	{"G":true,"P=Q":true}	
+arith	74_521	p20	sn74f521	p.1	{"G":true,"P=Q":true}	datasheet names pin 1 OE (overbar); catalog G matched by position
+arith	74_682	p20	sn74hc682	p.1	{"P>Q":true,"P=Q":true}	
+arith	74_684	p20	sn74hc684	p.1	{"P>Q":true,"P=Q":true}	
+arith	74_688	p20	cd74hc688	pp.1,3	{"G":true,"P=Q":true}	pin1 E overbar (catalog G by position); pin19 Y unbarred but described 'when the compared words are equal the output (Y) is low' (asserted low; SN74HC688 draws it P=Q overbar)
+arith	74_85	p16	cd74hc85	p.1	{}	
+arith	74_885	p24	sn74as885	p.1	{"L/A":["A"]}	L/A: overbar on A only
 counter	40102B	p16	cd40102b	pp.1-4	{"CLR":true,"CI/CE":true,"APE":true,"CO/ZD":true,"SPE":true}	
 counter	40103B	p16	cd40102b	pp.1-4	{"CLR":true,"CI/CE":true,"APE":true,"CO/ZD":true,"SPE":true}	
 counter	40110B	p16	cd40110b	p.1	{"TE":true}	
@@ -66,6 +82,14 @@ counter	74_90	p14	sn74ls90	p.1	{}
 counter	74_92	p14	sn74ls90	p.1	{}	
 counter	74_93	p14	sn74ls90	p.1	{}	
 counter	74_97	p16	sn5497	pp.1-3	{}	no overbars or active-low wording on any pin; p.1 says counter is enabled when CLR, STRB and EN in are low (CLR is active-high clear), logic symbol shows IEC polarity indicators on STRB/EN in/UNITY-CAS and Z/Y/EN out - not rule-1 evidence, left unflagged
+cpu	MCS6502	p40	local:datasheets/cpu/mos_6500_mpu_nov_1985.pdf	pp.7,10	{"IRQ#":true,"NMI#":true,"SO#":true,"RES#":true}	IRQ/NMI overbarred p.7,10; RES overbarred on 6503-6505 drawings and held low to reset p.7 (6502 drawing omits bar); pre-flagged SO#: S.O. not overbarred, negative-edge input p.7 - not shown active high, left per rule 11; R/W unmarked
+cpu	W65C02S	p40	w65c02s	pp.9-11,13	{"VPB":true,"IRQB":true,"MLB":true,"RESB":true}	IRQB low level, MLB/VPB asserted low, RESB held low (pp.9-11); NMIB/SOB negative-edge only and B suffix not defined as active low (rule 3); RWB low=write, single name not flagged
+cpu	W65C02S	plcc44	w65c02s	pp.9-11,13	{"VPB":true,"IRQB":true,"MLB":true,"RESB":true}	IRQB low level, MLB/VPB asserted low, RESB held low (pp.9-11); NMIB/SOB negative-edge only and B suffix not defined as active low (rule 3); RWB low=write, single name not flagged
+cpu	W65C816S	p40	w65c816s	pp.10,12-15	{"VPB":true,"ABORTB":true,"IRQB":true,"MLB":true,"RESB":true}	ABORTB negative pulse/level active, IRQB negative level active, MLB/RESB/VPB active low (pp.12-15); NMIB edge-only and B suffix undefined (rule 3); RWB low=write, single name not flagged
+cpu	W65C816S	plcc44	w65c816s	pp.10,12-15	{"VPB":true,"ABORTB":true,"IRQB":true,"MLB":true,"RESB":true}	ABORTB negative pulse/level active, IRQB negative level active, MLB/RESB/VPB active low (pp.12-15); NMIB edge-only and B suffix undefined (rule 3); RWB low=write, single name not flagged
+cpu	Z84C00	p40	local:datasheets/cpu/ps0178.pdf	pp.1-2	{"INT#":true,"NMI#":true,"HALT#":true,"MREQ#":true,"IORQ#":true,"RD#":true,"WR#":true,"BUSACK#":true,"WAIT#":true,"BUSREQ#":true,"RESET#":true,"M1#":true,"RFSH#":true}	scanned PDF; Figure 1/2 overbars on all 13 control pins confirm the # flags
+cpu	Z84C00	plcc44	local:datasheets/cpu/ps0178.pdf	pp.1-2	{"INT#":true,"NMI#":true,"HALT#":true,"MREQ#":true,"IORQ#":true,"RD#":true,"WR#":true,"BUSACK#":true,"WAIT#":true,"BUSREQ#":true,"RESET#":true,"M1#":true,"RFSH#":true}	scanned PDF; Figure 1/2b overbars on all 13 control pins confirm the # flags
+cpu	Z84C00	lqfp44	local:datasheets/cpu/ps0178.pdf	pp.1-2	{"INT#":true,"NMI#":true,"HALT#":true,"MREQ#":true,"IORQ#":true,"RD#":true,"WR#":true,"BUSACK#":true,"WAIT#":true,"BUSREQ#":true,"RESET#":true,"M1#":true,"RFSH#":true}	scanned PDF; Figure 1/2a overbars on all 13 control pins confirm the # flags
 decoder	40147B	p16	cd40147b	p.1	{"I4":true,"I5":true,"I6":true,"I7":true,"I8":true,"C":true,"B":true,"A":true,"I9":true,"I1":true,"I2":true,"I3":true,"D":true,"I0":true}	Features: active low inputs and outputs; truth table negative logic
 decoder	4028B	p16	cd4028b	p.1	{}	
 decoder	4514B	p24	cd4514b	pp.1-4	{}	
@@ -103,6 +127,45 @@ decoder	74_4514	p24	cd74hc4514	pp.1-2	{"E":true}	LE drawn with overbar but the t
 decoder	74_4515	p24	cd74hc4514	pp.1-2	{"Y7":true,"Y6":true,"Y5":true,"Y4":true,"Y3":true,"Y1":true,"Y2":true,"Y0":true,"Y13":true,"Y12":true,"Y15":true,"Y14":true,"Y9":true,"Y8":true,"Y11":true,"Y10":true,"E":true}	LE drawn with overbar but the text says outputs follow when LE high: datasheet self-contradiction, text decides (plan-39-E Corrections 1); LE not flagged
 decoder	74_47	p16	sn7447a	pp.1-3	{"LT":true,"BI/RBO":true,"RBI":true,"e":true,"d":true,"c":true,"b":true,"a":true,"g":true,"f":true}	p.3: '47A/'LS47 feature active-low outputs; p.2 table active level low
 decoder	74_49	p14	sn7447a	pp.1-3	{"BI":true}	'LS49 outputs active high
+dff	1G175	p6	sn74lvc1g175	p.3	{"CLR":true}	
+dff	1G175	dsbga	sn74lvc1g175	p.3	{"CLR":true}	
+dff	1G374	p6	sn74lvc1g374	p.1	{"OE":true}	
+dff	1G374	dsbga	sn74lvc1g374	p.1	{"OE":true}	
+dff	1G74	p8	sn74auc1g74	p.1	{"QBAR":true,"CLR":true,"PRE":true}	
+dff	1G74	dsbga	sn74auc1g74	p.1	{"QBAR":true,"CLR":true,"PRE":true}	
+dff	1G79	p5	sn74aup1g79	p.3	{}	
+dff	1G79	dsbga	sn74lvc1g79	p.3	{}	
+dff	1G79_SON	p6	sn74aup1g79	p.3	{}	
+dff	1G80	p5	sn74aup1g80	p.3	{"QBAR":true}	
+dff	1G80	dsbga	sces221	p.3	{"QBAR":true}	
+dff	1G80_SON	p6	sn74aup1g80	p.3	{"QBAR":true}	
+dff	2G74	p8	sn74lvc2g74	p.3	{"QBAR":true,"CLR":true,"PRE":true}	
+dff	2G74	dsbga	sn74lvc2g74	p.3	{"QBAR":true,"CLR":true,"PRE":true}	
+dff	2G79	p8	sn74aup2g79	p.1	{}	
+dff	2G80	p8	sn74aup2g80	p.1	{"2QBAR":true,"1QBAR":true}	
+dff	2G80_RSE	p8	sn74aup2g80	p.1	{"1QBAR":true,"2QBAR":true}	
+dff	4013B	p14	cd4013b	p.3	{"1QBAR":true,"2QBAR":true}	
+dff	40175B	p16	cd40175b	p.1	{"CLEAR":true,"1QBAR":true,"2QBAR":true,"3QBAR":true,"4QBAR":true}	
+dff	74_174	p16	74hc_hct174	p.3	{"CLR":true}	
+dff	74_174	lccc20	scls119	p.3	{"CLR":true}	
+dff	74_175	p16	74hc_hct175	p.3	{"CLR":true,"1QBAR":true,"2QBAR":true,"3QBAR":true,"4QBAR":true}	
+dff	74_175	lccc20	scls299	p.3	{"CLR":true,"1QBAR":true,"2QBAR":true,"3QBAR":true,"4QBAR":true}	
+dff	74_273	p20	74ahc_ahct273	p.4	{"CLR":true}	
+dff	74_374	p20	74ahc_ahct374	p.3	{"OE":true}	
+dff	74_574	p20	74ahc_ahct574	p.3	{"OE":true}	
+dff	74_72	p14	sn74hcs72	p.3	{"1CLR":true,"1CLK":true,"1PRE":true,"1QBAR":true,"2QBAR":true,"2PRE":true,"2CLK":true,"2CLR":true}	CLK overbarred (falling-edge clock), flagged per rule 3
+dff	74_74	p14	cd74act74	p.3	{"1CLR":true,"1PRE":true,"1QBAR":true,"2QBAR":true,"2PRE":true,"2CLR":true}	
+dff	74_74	lccc20	sn74ac74	p.3	{"1CLR":true,"1PRE":true,"1QBAR":true,"2QBAR":true,"2PRE":true,"2CLR":true}	
+dff	TPIC6273	p20	tpic6273	p.1	{"CLR":true}	
+dff	TPIC6B273	p20	tpic6b273	p.1	{"CLR":true}	
+jkff	4027B	p16	cd4027b	p.1	{"2QBAR":true,"1QBAR":true}	
+jkff	74_107	p14	cd74hc107	p.1	{"1QBAR":true,"2QBAR":true,"2CLK":true,"2CLR":true,"1CLK":true,"1CLR":true}	datasheet names R (overbar) and CP (overbar); catalog CLR/CLK matched by position
+jkff	74_109	p16	cd74ac109	p.3	{"1CLR":true,"1KBAR":true,"1PRE":true,"1QBAR":true,"2QBAR":true,"2PRE":true,"2KBAR":true,"2CLR":true}	pin table descriptions for pins 9/10 swapped vs drawn names; names (pin 9 = 2Q overbar) used
+jkff	74_109	lccc20	sn74als109a	p.1	{"1CLR":true,"1KBAR":true,"1PRE":true,"1QBAR":true,"2QBAR":true,"2PRE":true,"2KBAR":true,"2CLR":true}	
+jkff	74_112	p16	cd74ac112	p.1	{"1PRE":true,"1QBAR":true,"2QBAR":true,"2PRE":true,"2CLR":true,"1CLR":true}	
+jkff	74_112	lccc20	sn74als112a	p.1	{"1PRE":true,"1QBAR":true,"2QBAR":true,"2PRE":true,"2CLR":true,"1CLR":true}	
+jkff	74_73	p14	cd74hc73	p.1	{"1CLK":true,"1CLR":true,"2CLK":true,"2CLR":true,"2QBAR":true,"1QBAR":true}	datasheet names CP (overbar), R (overbar); catalog CLK/CLR matched by position
+jkff	74_76	p16	sn54ls76a	p.1	{"1PRE":true,"1CLR":true,"2PRE":true,"2CLR":true,"2QBAR":true,"1QBAR":true}	
 latch	4042B	p16	cd4042b	p.1	{"Q1BAR":true,"Q2BAR":true,"Q3BAR":true,"Q4BAR":true}	
 latch	4043B	p16	cd4043b	p.1	{}	
 latch	4044B	p16	cd4043b	p.1	{}	NAND R/S latch: S,R act when low but the datasheet draws them unmarked (no overbar), so unflagged
@@ -135,6 +198,38 @@ latch	TPIC6259	p20	tpic6259	p.1	{"G":true,"CLR":true}	DRAIN0-7 unmarked open-dra
 latch	TPIC6A259	p20	tpic6a259	p.1	{"G":true,"CLR":true}	DRAIN0-7 unmarked open-drain (prose calls them active-low DMOS outputs, names unbarred); not flagged per rule 4
 latch	TPIC6A259	p24	tpic6a259	p.1	{"G":true,"CLR":true}	DRAIN0-7 unmarked open-drain (prose calls them active-low DMOS outputs, names unbarred); not flagged per rule 4
 latch	TPIC6B259	p20	tpic6b259	p.1	{"G":true,"CLR":true}	DRAIN0-7 unmarked open-drain (prose calls them active-low DMOS outputs, names unbarred); not flagged per rule 4
+mux	40257B	p16	cd40257b	p.1	{}	
+mux	4512B	p16	cd4512b	p.1	{}	
+mux	74_11257	p20	74ac11257	p.1	{"A/B":["A"],"OE":true}	
+mux	74_151	p16	cd74ac151	p.3	{"G":true}	
+mux	74_151	fk20	sn74ls151	p.1	{"G":true}	
+mux	74_153	p16	cd74ac153	p.3	{"1G":true,"2G":true}	
+mux	74_153	fk20	sn74f153	p.1	{"1G":true,"2G":true}	
+mux	74_157	p16	cd74ac157	p.3	{"A/B":["A"],"G":true}	
+mux	74_157	fk20	sn74hc157	p.3	{"A/B":["A"],"G":true}	
+mux	74_158	p16	cd74ac158	p.1	{"A/B":["A"],"G":true}	
+mux	74_1T157	p6	sn74aup1t157	p.1	{}	
+mux	74_1T158	p6	sn74aup1t158	p.1	{}	
+mux	74_2257	p16	cy74fct2257t	p.1	{"OE":true}	
+mux	74_251	p16	cd74ac251	p.3	{"W":true,"G":true}	pin 6 drawn Y-overbar (inverted output), pin 7 OE-overbar
+mux	74_253	p16	cd74ac253	p.1	{"1G":true,"2G":true}	
+mux	74_253	fk20	sn74hc253	p.3	{"1G":true,"2G":true}	
+mux	74_257	p16	cd74ac257	p.3	{"G":true}	SOIC/PDIP pin 1 is plain S (no overbar); only BQB package shows A-overbar/B
+mux	74_258	p16	cd74ac257	p.3	{"1Y":true,"2Y":true,"3Y":true,"4Y":true,"G":true}	ACT258 column: pins 4,7,9,12 drawn Y-overbar (inverting outputs), 15 OE-overbar, pin 1 plain S
+mux	74_298	p16	sn74as298a	p.1	{}	CLK falling-edge but unmarked (rule 3)
+mux	74_2G157	p8	sn74lvc2g157	p.3	{"YBAR":true,"A/B":["A"],"G":true}	
+mux	74_2G157	dsbga	sn74lvc2g157	p.3	{"YBAR":true,"A/B":["A"],"G":true}	
+mux	74_354	p20	cd74hc354	p.1	{"E":true,"LE":true,"OE1":true,"OE2":true,"YBAR":true}	E drawn E-overbar (description: latches transparent when E-bar high); OE3 active high
+mux	74_356	p20	cd74hct356	p.1	{"LE":true,"OE1":true,"OE2":true,"YBAR":true}	OE3 active high; CP rising edge, unmarked
+mux	74_399	p16	cy74fct399t	p.1	{}	
+mux	74_670	p16	cd74hc670	p.1	{"GR":true,"GW":true}	
+pio	W65C21N	p40	w65c21	pp.3,12-13,15	{"CS2B":true,"RESB":true,"IRQBB":true,"IRQAB":true}	CS2B selects when low, RESB low resets (pp.12-13), IRQAB/IRQBB active low (p.15); RWB low=write, single name not flagged; CA1/CB1 edge inputs unmarked
+pio	W65C21N	plcc44	w65c21	pp.3,12-13,15	{"CS2B":true,"RESB":true,"IRQBB":true,"IRQAB":true}	PLCC fig labels pin 25 CS2 (no B) but it is CS2B, selects when low (p.12); RESB low resets; IRQAB/IRQBB active low (p.15); RWB low=write, single name not flagged
+pio	W65C21S	p40	w65c21	pp.3,12-13,15	{"CS2B":true,"RESB":true,"IRQBB":true,"IRQAB":true}	CS2B selects when low, RESB low resets (pp.12-13), IRQAB/IRQBB active low (p.15); RWB low=write, single name not flagged; CA1/CB1 edge inputs unmarked
+pio	W65C21S	plcc44	w65c21	pp.3,12-13,15	{"CS2B":true,"RESB":true,"IRQBB":true,"IRQAB":true}	PLCC fig labels pin 25 CS2 (no B) but it is CS2B, selects when low (p.12); RESB low resets; IRQAB/IRQBB active low (p.15); RWB low=write, single name not flagged
+pio	W65C22N	p40	w65c22	pp.27-30,35	{"IRQB":true,"CS2B":true}	CS2B must be logic 0 to access (p.29), IRQB logic 0 when interrupting (p.30); RESB: datasheet never says low/active low and does not define the B suffix (p.35), left unflagged; RWB low=write, single name not flagged
+pio	W65C22S	p40	w65c22	pp.27-30,35	{"IRQB":true,"CS2B":true}	CS2B must be logic 0 to access (p.29), IRQB logic 0 when interrupting (p.30); RESB: datasheet never says low/active low and does not define the B suffix (p.35), left unflagged; RWB low=write, single name not flagged
+pio	W65C22S	plcc44	w65c22	pp.27-30,35	{"IRQB":true,"CS2B":true}	CS2B must be logic 0 to access (p.29), IRQB logic 0 when interrupting (p.30); RESB: datasheet never says low/active low and does not define the B suffix (p.35), left unflagged; RWB low=write, single name not flagged
 register	40174B	p16	cd40174b	p.1	{"CLEAR":true}	
 register	4076B	p16	cd4076b	p.1	{}	
 register	74_11374	p24	74act11374	p.1	{"OE":true}	
@@ -163,6 +258,13 @@ register	74_821	p24	cy74fct821t	p.1	{"OE":true}
 register	74_823	p24	74lvc823a	p.4	{"OE":true,"CLR":true,"CLKEN":true}	
 register	74_825	p24	cy74fct825t	pp.1-2	{"OE1":true,"OE2":true,"CLR":true,"EN":true,"OE3":true}	
 register	74_874	p24	sn54als874b	p.1	{"1CLR":true,"1OE":true,"2OE":true,"2CLR":true}	
+rtc	BQ32000	d8	bq32000	p.3	{"IRQ":true}	
+rtc	BQ32002	d8	bq32002	p.3	{"IRQ":true}	
+rtc	BQ3285	dw24	bq3285	pp.1-3	{"CS":true,"R/W":["W"],"RST":true,"INT":true,"RCL":true}	R/W overbar on W only
+rtc	BQ4802	so28	bq4802ly	pp.5-6	{"WDO":true,"INT":true,"RST":true,"CS":true,"OE":true,"CEOUT":true,"CEIN":true,"WE":true}	RST overbarred in terminal table/DSH drawing (DW drawing omits bar)
+rtc	BQ4845	so28	bq4845	pp.1,3	{"WDO":true,"INT":true,"RST":true,"CS":true,"OE":true,"CEOUT":true,"CEIN":true,"WE":true}	
+rtc	DP8570	plcc28	dp8570a	p.6	{"CS":true,"RD":true,"WR":true,"PFAIL":true}	G0/G1 active-low enables only in timer modes 0-2 (edge triggers in mode 3), unmarked in diagrams - not flagged (rule 5); INTR/MFO/T1 programmable polarity, unmarked
+rtc	DP8573	plcc28	dp8573a	pp.5-6	{"CS":true,"RD":true,"WR":true,"INTR":true,"PFAIL":true}	INTR permanently active-low open drain; MFO active high
 shift	40105B	p16	cd40105b	pp.1-2	{}	3-STATE CONTROL (OUTPUT ENABLE) pin 1 unmarked; text says outputs turn on when it goes low but never calls it active low; left unflagged
 shift	4014B	p16	cd4014b	p.1	{}	
 shift	4015B	p16	cd4015b	p.1	{}	

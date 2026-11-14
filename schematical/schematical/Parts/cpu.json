@@ -12,11 +12,11 @@
       "core": "65c02",
       "pinouts": {
         "p40": [
-          {"number":1,"name":"VPB","role":"output"},
+          {"number":1,"name":"VPB","role":"output","activeLow":true},
           {"number":2,"name":"RDY","role":"inout"},
           {"number":3,"name":"PHI1O","role":"output"},
-          {"number":4,"name":"IRQB","role":"input"},
-          {"number":5,"name":"MLB","role":"output"},
+          {"number":4,"name":"IRQB","role":"input","activeLow":true},
+          {"number":5,"name":"MLB","role":"output","activeLow":true},
           {"number":6,"name":"NMIB","role":"input"},
           {"number":7,"name":"SYNC","role":"output"},
           {"number":8,"name":"VDD","role":"power"},
@@ -51,15 +51,15 @@
           {"number":37,"name":"PHI2","role":"input"},
           {"number":38,"name":"SOB","role":"input"},
           {"number":39,"name":"PHI2O","role":"output"},
-          {"number":40,"name":"RESB","role":"input"}
+          {"number":40,"name":"RESB","role":"input","activeLow":true}
         ],
         "plcc44": [
           {"number":1,"name":"VSS","role":"ground"},
-          {"number":2,"name":"VPB","role":"output"},
+          {"number":2,"name":"VPB","role":"output","activeLow":true},
           {"number":3,"name":"RDY","role":"inout"},
           {"number":4,"name":"PHI1O","role":"output"},
-          {"number":5,"name":"IRQB","role":"input"},
-          {"number":6,"name":"MLB","role":"output"},
+          {"number":5,"name":"IRQB","role":"input","activeLow":true},
+          {"number":6,"name":"MLB","role":"output","activeLow":true},
           {"number":7,"name":"NMIB","role":"input"},
           {"number":8,"name":"SYNC","role":"output"},
           {"number":9,"name":"VDD","role":"power"},
@@ -97,7 +97,7 @@
           {"number":41,"name":"PHI2","role":"input"},
           {"number":42,"name":"SOB","role":"input"},
           {"number":43,"name":"PHI2O","role":"output"},
-          {"number":44,"name":"RESB","role":"input"}
+          {"number":44,"name":"RESB","role":"input","activeLow":true}
         ]
       },
       "address": ["A0","A1","A2","A3","A4","A5","A6","A7","A8","A9","A10","A11","A12","A13","A14","A15"],
@@ -132,11 +132,11 @@
       "core": "65816",
       "pinouts": {
         "p40": [
-          {"number":1,"name":"VPB","role":"output"},
+          {"number":1,"name":"VPB","role":"output","activeLow":true},
           {"number":2,"name":"RDY","role":"inout"},
-          {"number":3,"name":"ABORTB","role":"input"},
-          {"number":4,"name":"IRQB","role":"input"},
-          {"number":5,"name":"MLB","role":"output"},
+          {"number":3,"name":"ABORTB","role":"input","activeLow":true},
+          {"number":4,"name":"IRQB","role":"input","activeLow":true},
+          {"number":5,"name":"MLB","role":"output","activeLow":true},
           {"number":6,"name":"NMIB","role":"input"},
           {"number":7,"name":"VPA","role":"output"},
           {"number":8,"name":"VDD","role":"power"},
@@ -171,15 +171,15 @@
           {"number":37,"name":"PHI2","role":"input"},
           {"number":38,"name":"MX","role":"output"},
           {"number":39,"name":"VDA","role":"output"},
-          {"number":40,"name":"RESB","role":"input"}
+          {"number":40,"name":"RESB","role":"input","activeLow":true}
         ],
         "plcc44": [
           {"number":1,"name":"VSS","role":"ground"},
-          {"number":2,"name":"VPB","role":"output"},
+          {"number":2,"name":"VPB","role":"output","activeLow":true},
           {"number":3,"name":"RDY","role":"inout"},
-          {"number":4,"name":"ABORTB","role":"input"},
-          {"number":5,"name":"IRQB","role":"input"},
-          {"number":6,"name":"MLB","role":"output"},
+          {"number":4,"name":"ABORTB","role":"input","activeLow":true},
+          {"number":5,"name":"IRQB","role":"input","activeLow":true},
+          {"number":6,"name":"MLB","role":"output","activeLow":true},
           {"number":7,"name":"NMIB","role":"input"},
           {"number":8,"name":"VPA","role":"output"},
           {"number":9,"name":"VDD","role":"power"},
@@ -217,7 +217,7 @@
           {"number":41,"name":"PHI2","role":"input"},
           {"number":42,"name":"MX","role":"output"},
           {"number":43,"name":"VDA","role":"output"},
-          {"number":44,"name":"RESB","role":"input"}
+          {"number":44,"name":"RESB","role":"input","activeLow":true}
         ]
       },
       "address": ["A0","A1","A2","A3","A4","A5","A6","A7","A8","A9","A10","A11","A12","A13","A14","A15"],
