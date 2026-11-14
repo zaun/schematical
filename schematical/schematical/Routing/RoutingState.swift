@@ -121,7 +121,9 @@ nonisolated struct RoutingState: Sendable {
             .max() ?? 0
         let profiles = grid.profiles.map { max($0.clearance, problem.rules.minClearance) + max($0.halfWidth, $0.viaRadius) }
             .max() ?? 0
-        return largest + profiles + grid.pitch
+        // A via's hole keeps the hole-to-hole distance from other holes.
+        let drill = (problem.nets.map(\.viaDrill).max() ?? 0) / 2 + (grid.profiles.map(\.viaDrillRadius).max() ?? 0)
+        return max(largest + profiles, drill + problem.rules.minHoleToHole) + grid.pitch
     }
 
     // MARK: Entries
@@ -152,7 +154,7 @@ nonisolated struct RoutingState: Sendable {
             guard let layer = grid.layerIndex(trace.layer) else { continue }
             grid.stampTrace(trace.points, width: trace.width, layer: layer, net: entry.net)
         }
-        for via in entry.vias { grid.stampVia(via.centre, diameter: via.diameter, net: entry.net) }
+        for via in entry.vias { grid.stampVia(via.centre, diameter: via.diameter, drill: via.drill, net: entry.net) }
     }
 
     /// Removes entries and their copper from the grid exactly.

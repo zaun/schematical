@@ -147,27 +147,27 @@ value types).
 
 ### Phase 1 — net graph, ties, merge, stubs, and the verifier
 
-- [ ] `Routing/RoutingGraph.swift`: build the graph per net (vertex insertion at ends-on-segments, anchors, chains), tie legs, collinear merge, stub and zero-length removal; `Router.route` runs it on the F ledger.
-- [ ] `Routing/RoutingVerifier.swift`: the checks of § 3 step 7 over a `RoutingProblem` + result geometry, returning `[Violation { kind, connection, detail }]`.
-- [ ] Tests: `schematicalTests/RoutingGraphTests.swift` — a T junction inserts one vertex and anchors it; chains stop at anchors; a stub is removed; ties land on the exact pad centre; kept traces are unchanged. `schematicalTests/RoutingVerifierTests.swift` — a clean synthetic result has no violations; each rule (clearance 0.01 mm short of the minimum, edge, trace width 0.09 mm, via drill 0.15 mm, ring 0.04 mm, hole-to-hole, a trace end in free space, a one-sided via) yields exactly one violation of its kind. **Parity**: for each of those injected cases, apply the copper to a document and assert the DRC reports the matching kind on the same items.
+- [x] `Routing/RoutingGraph.swift`: build the graph per net (vertex insertion at ends-on-segments, anchors, chains), tie legs, collinear merge, stub and zero-length removal; `Router.route` runs it on the F ledger. (In `Routing/RoutingCleanup.swift`, with Phases 2–3: `anchors(of:)`, chains between anchors, `tidy()`; tie legs are already exact from plan-38-E's `Router.copper`. `Router.route` → `Run.finishedCopper()` in `Routing/RoutingRepair.swift`.)
+- [x] `Routing/RoutingVerifier.swift`: the checks of § 3 step 7 over a `RoutingProblem` + result geometry, returning `[Violation { kind, connection, detail }]`. (A violation names the result's trace and via indices; `finishedCopper` maps them to ledger entries. To tell pads, kept traces, vias, holes and the outline apart exactly, `RoutingObstacle` gained `kind` and the `drill` of pads and vias, set by `routingProblem`.)
+- [x] Tests: `schematicalTests/RoutingGraphTests.swift` — a T junction inserts one vertex and anchors it; chains stop at anchors; a stub is removed; ties land on the exact pad centre; kept traces are unchanged. `schematicalTests/RoutingVerifierTests.swift` — a clean synthetic result has no violations; each rule (clearance 0.01 mm short of the minimum, edge, trace width 0.09 mm, via drill 0.15 mm, ring 0.04 mm, hole-to-hole, a trace end in free space, a one-sided via) yields exactly one violation of its kind. **Parity**: for each of those injected cases, apply the copper to a document and assert the DRC reports the matching kind on the same items. (Trace width: the app stores mil, 5 at least, so a 0.09 mm trace can't exist on a board; the case uses 5 mil under a 0.15 mm rule instead, the same check. Parity asserts the DRC's line is on the applied copper.) — `-only-testing:RoutingGraphTests -only-testing:RoutingVerifierTests` → 14 tests, 0 failures, `** TEST SUCCEEDED **`.
 
 Acceptance: graph cases and every verifier rule pass; parity holds for all injected cases.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd test -only-testing:schematicalTests/RoutingGraphTests -only-testing:schematicalTests/RoutingVerifierTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 2 min).
-Commit: —
+Commit: (Phases 1–3 landed in one commit; its hash is on Phase 3's line)
 
 ### Phase 2 — straighten and chamfer
 
-- [ ] `Routing/RoutingCleanup.swift`: `straighten`, `chamfer` per § 3 (steps 3–4), with the never-longer rule.
-- [ ] Tests (`RoutingCleanupTests`): a staircase of 10 diagonal cell steps becomes one 45° segment; an L around an obstacle keeps the corner clear of the obstacle's clearance and gets a chamfer only where legal; with `.orthogonal` no 45° segment appears; a shortcut that would pass 0.01 mm inside clearance is refused; cleaned length ≤ raw length on every case.
+- [x] `Routing/RoutingCleanup.swift`: `straighten`, `chamfer` per § 3 (steps 3–4), with the never-longer rule. (Legality is exact through a 1 mm tile index of every other net's copper, `CopperIndex`: gap ≥ the larger clearance, copper-to-edge, inside the outline.)
+- [x] Tests (`RoutingCleanupTests`): a staircase of 10 diagonal cell steps becomes one 45° segment; an L around an obstacle keeps the corner clear of the obstacle's clearance and gets a chamfer only where legal; with `.orthogonal` no 45° segment appears; a shortcut that would pass 0.01 mm inside clearance is refused; cleaned length ≤ raw length on every case. (The refused shortcut is checked on both sides: `isLegal` false at 0.09 mm, true at 0.11 mm, and the cleanup takes it then.) — `-only-testing:RoutingCleanupTests` → 6 tests (Phases 2–3), 0 failures, `** TEST SUCCEEDED **`.
 
 Acceptance: cases pass.
   Check: `-only-testing:schematicalTests/RoutingCleanupTests` → `** TEST SUCCEEDED **` (est. 2 min).
-Commit: —
+Commit: (on Phase 3's line)
 
 ### Phase 3 — via hops
 
-- [ ] `RoutingCleanup.swift`: `removeViaHops` per § 3 step 5.
-- [ ] Tests (`RoutingCleanupTests`): a Top→Bottom→Top hop over empty board is replaced by a single Top run and both vias vanish; the same hop under a blocking foreign trace on Top stays; cleaned vias ≤ raw vias.
+- [x] `RoutingCleanup.swift`: `removeViaHops` per § 3 step 5.
+- [x] Tests (`RoutingCleanupTests`): a Top→Bottom→Top hop over empty board is replaced by a single Top run and both vias vanish; the same hop under a blocking foreign trace on Top stays; cleaned vias ≤ raw vias. — in the 6-test run above. Every `RoutingCleanupTests` case also asserts never longer, never more vias, and no violation from the verifier.
 
 Acceptance: cases pass.
   Check: `-only-testing:schematicalTests/RoutingCleanupTests` → `** TEST SUCCEEDED **` (est. 2 min).
@@ -197,7 +197,25 @@ See plan-38-A § Decisions. Author decisions: octilinear only; anchors never mov
 
 ## Corrections
 
-(Filled in during execution.)
+- **Hole to hole was not kept by the grid.** PCBWay's minimum is 0.4064 mm:
+  two vias of one net closer than about 0.81 mm between centres, or a via
+  beside its own net's through-hole pad, break it, and copper clearance only
+  keeps *other* nets apart. Fixed at the source (plan-38-E's grid): every
+  hole of any net, a pad's drill or a via's, blocks the via maps of every net
+  within `drill/2 + minHoleToHole + the profile's via drill/2`
+  (`RoutingGrid.stampHole`, called from the obstacles and `stampVia`), and
+  `RoutingState.reach` covers that distance so un-stamping stays exact.
+  `RoutingProfile` gained `viaDrillRadius`.
+- Measured with the whole pipeline (2026-11-14, probe deleted): AFU and
+  RegFile raw copper already pass the verifier (0 violations), and after
+  apply the DRC lists only the silkscreen issues they had before routing
+  (AFU 16, RegFile 8). Cleanup: AFU wire 1613 → 1581 mm, vias 115 → 115;
+  RegFile 315 → 313 mm, 31 → 31.
+- `RouterTests.testEachClassKeepsItsOwnClearance` had an extra assertion of
+  mine, that two Default nets *happen* to run closer than the Power
+  clearance; once cleaned they didn't (0.446 mm apart, legal). Replaced with
+  what it meant: the grid keeps a Default net 0.1 + half widths from a
+  Default net's copper and 0.3 + half widths from the Power net's.
 
 ## Summary
 

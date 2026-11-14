@@ -50,7 +50,8 @@ nonisolated enum Router {
         for attempt in 0..<strategy.runs {
             var run = Run(problem: problem, strategy: strategy, seed: problem.options.seed &+ UInt64(attempt))
             run.routeAll(progress: progress, isCancelled: stop)
-            var result = run.result
+            let copper = run.finishedCopper()
+            var result = run.result(traces: copper.traces, vias: copper.vias)
             result.stats.seconds = Date().timeIntervalSince(start)
             if best.map({ Self.better(result, than: $0) }) ?? true { best = result }
             if result.stats.routed == result.stats.connections || run.stopped { break }
@@ -95,6 +96,11 @@ nonisolated enum Router {
         /// (the Plane join it makes is not in the ledger's groups).
         var fannedOut: [Int: NetOutcome] = [:]
         var pinned = Set<Int>()
+        /// Whether `finishedCopper` cleans the copper (plan-38-H); off, only
+        /// verifies and repairs it.
+        var cleaning = true
+        /// Nets whose copper could not be made legal and was ripped up.
+        var illegalNets = Set<Int>()
         var grid: RoutingGrid { state.grid }
 
         init(problem: RoutingProblem, strategy: Strategy = .of(.balanced), seed: UInt64 = 1) {
@@ -352,14 +358,22 @@ nonisolated enum Router {
                               unroutedConnections: left, unrouted: Array(unrouted.prefix(left)))
         }
 
-        /// The ledger's copper, in the order it was routed, and each net's
-        /// outcome.
+        /// The ledger's raw copper, in the order it was routed, and each
+        /// net's outcome.
         var result: RoutingResult {
-            var result = RoutingResult()
+            var traces: [RoutedTrace] = [], vias: [RoutedVia] = []
             for entry in state.ledger {
-                result.traces += entry.traces
-                result.vias += entry.vias
+                traces += entry.traces
+                vias += entry.vias
             }
+            return result(traces: traces, vias: vias)
+        }
+
+        /// A result of the given copper, with each net's outcome.
+        func result(traces: [RoutedTrace], vias: [RoutedVia]) -> RoutingResult {
+            var result = RoutingResult()
+            result.traces = traces
+            result.vias = vias
             result.nets = problem.nets.sorted { $0.id < $1.id }.map(outcome)
             result.stats.connections = problem.connections
             result.stats.routed = problem.connections - result.nets.reduce(0) { $0 + $1.unroutedConnections }
@@ -392,9 +406,12 @@ nonisolated enum Router {
             }
             return NetOutcome(net: net.id, name: net.name,
                               status: Router.status(connections: net.connections, unrouted: unrouted.count),
-                              unroutedConnections: unrouted.count, unrouted: unrouted)
+                              unroutedConnections: unrouted.count, unrouted: unrouted,
+                              reason: illegalNets.contains(net.id) && !unrouted.isEmpty ? Router.illegalReason : nil)
         }
     }
+
+    static let illegalReason = "could not be made legal under the design rules"
 
     static func status(connections: Int, unrouted: Int) -> NetStatus {
         if unrouted == 0 { return .complete }

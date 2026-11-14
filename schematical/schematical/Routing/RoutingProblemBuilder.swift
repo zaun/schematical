@@ -119,12 +119,15 @@ extension SchematicDocument {
         var obstacles: [RoutingObstacle] = []
         for (p, pad) in copper.pads.enumerated() {
             let isBoardPad = pad.chip < 0 && pad.hole == nil && !pad.label.hasPrefix("Board hole ")
+            let drill = pad.pad.holeSegment.map {
+                CopperShape(core: .segment($0.a, $0.b), radius: $0.radius, layers: nil, node: p)
+            }
             if pad.pad.plated {
                 obstacles.append(RoutingObstacle(shape: CopperGeometry.shape(of: pad.pad, layers: padLayers(pad), node: p),
-                                                 net: copper.netOfPad[p], exemptFromEdge: isBoardPad))
-            } else if let hole = pad.pad.holeSegment {
-                obstacles.append(RoutingObstacle(shape: CopperShape(core: .segment(hole.a, hole.b), radius: hole.radius,
-                                                                    layers: nil, node: p), net: nil))
+                                                 net: copper.netOfPad[p], kind: .pad, drill: drill,
+                                                 exemptFromEdge: isBoardPad))
+            } else if let drill {
+                obstacles.append(RoutingObstacle(shape: drill, net: nil, kind: .hole, drill: drill))
             }
         }
         for (t, trace) in copper.traces.enumerated() {
@@ -132,19 +135,21 @@ extension SchematicDocument {
             for (a, b) in trace.segments {
                 obstacles.append(RoutingObstacle(shape: CopperShape(core: .segment(a, b), radius: trace.widthMM / 2,
                                                                     layers: [trace.layer], node: node),
-                                                 net: netOfRoot[copper.root[node]]))
+                                                 net: netOfRoot[copper.root[node]], kind: .trace))
             }
         }
         for (v, via) in copper.vias.enumerated() {
             let node = copper.viaNode(v)
             obstacles.append(RoutingObstacle(shape: CopperShape(core: .segment(via.centre, via.centre),
                                                                 radius: via.diameter / 2, layers: nil, node: node),
-                                             net: netOfRoot[copper.root[node]]))
+                                             net: netOfRoot[copper.root[node]], kind: .via,
+                                             drill: CopperShape(core: .segment(via.centre, via.centre),
+                                                                radius: via.drill / 2, layers: nil, node: node)))
         }
         let outline = board.outline
         for (a, b) in zip(outline, outline.dropFirst() + outline.prefix(1)) {
             obstacles.append(RoutingObstacle(shape: CopperShape(core: .segment(a, b), radius: 0, layers: nil, node: -1),
-                                             net: nil))
+                                             net: nil, kind: .outline))
         }
 
         let groups = board.netGroups.map { group in

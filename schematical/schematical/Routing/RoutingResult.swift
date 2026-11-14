@@ -22,6 +22,9 @@ nonisolated struct NetOutcome: Hashable, Sendable {
     var unroutedConnections: Int
     /// Each unrouted connection, by a pad of each side ("U1.3 – U2.4").
     var unrouted: [String] = []
+    /// Why some of it is unrouted, when the reason isn't simply that no way
+    /// was found (`Router.illegalReason`).
+    var reason: String? = nil
 }
 
 /// Counts for a run.

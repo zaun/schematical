@@ -63,8 +63,15 @@ nonisolated struct RoutingNet: Identifiable, Hashable, Sendable {
 /// net: a non-plated hole, a board hole, the outline. A shape with a net
 /// may be crossed by that net's own copper.
 nonisolated struct RoutingObstacle: Hashable, Sendable {
+    enum Kind: Hashable, Sendable {
+        case pad, trace, via, hole, outline
+    }
+
     var shape: CopperShape
     var net: Int?
+    var kind: Kind = .pad
+    /// A plated through-hole pad's or a via's hole (hole-to-hole checks).
+    var drill: CopperShape? = nil
     /// An edge finger or header pad: at the board's edge by design, so the
     /// router doesn't keep it the copper-to-edge distance from the outline
     /// (as `checkEdge` doesn't).

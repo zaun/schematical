@@ -7,6 +7,9 @@ nonisolated struct RoutingProfile: Hashable, Sendable {
     var halfWidth: Double
     var clearance: Double
     var viaRadius: Double
+    /// Half its via's drill: a via keeps the DRC's hole-to-hole distance
+    /// from every other hole, whatever its net.
+    var viaDrillRadius: Double = NetClass.defaultViaDrill / 2
 }
 
 /// The routing grid (plan-38-E § 3): cells `pitch` apart from the outline's
@@ -63,7 +66,7 @@ nonisolated struct RoutingGrid: Sendable {
         var clearanceOfNet: [Int: Double] = [:]
         for net in problem.nets.sorted(by: { $0.id < $1.id }) {
             let profile = RoutingProfile(halfWidth: net.width / 2, clearance: net.clearance,
-                                         viaRadius: net.viaDiameter / 2)
+                                         viaRadius: net.viaDiameter / 2, viaDrillRadius: net.viaDrill / 2)
             if index[profile] == nil {
                 index[profile] = profiles.count
                 profiles.append(profile)
@@ -90,6 +93,7 @@ nonisolated struct RoutingGrid: Sendable {
             let clearance = obstacle.net.flatMap { clearanceOfNet[$0] } ?? rules.minClearance
             stamp(obstacle.shape.core, radius: obstacle.shape.radius, clearance: clearance, owner: owner,
                   layers: layerIndices(obstacle.shape.layers))
+            if let drill = obstacle.drill { stampHole(drill.core, radius: drill.radius) }
         }
         stampEdge(problem.outline)
         fixedTraceMaps = traceMaps
@@ -269,10 +273,31 @@ nonisolated struct RoutingGrid: Sendable {
         }
     }
 
-    /// Stamps a routed via of net `net` on every layer.
-    mutating func stampVia(_ centre: CGPoint, diameter: Double, net: Int) {
+    /// Stamps a routed via of net `net` on every layer, and its hole.
+    mutating func stampVia(_ centre: CGPoint, diameter: Double, drill: Double, net: Int) {
         let clearance = clearanceOfNet[net] ?? rules.minClearance
         stamp(.segment(centre, centre), radius: diameter / 2, clearance: clearance, owner: Int32(net),
               layers: Array(layers.indices))
+        stampHole(.segment(centre, centre), radius: drill / 2)
+    }
+
+    /// Blocks, on every via map, the via centres whose hole would come
+    /// within the DRC's hole-to-hole distance of a hole (a pad's drill, a
+    /// via's) of any net: closer than `radius + minHoleToHole + the
+    /// profile's via drill radius`.
+    mutating func stampHole(_ core: CopperShape.Core, radius: Double) {
+        let box = CopperShape(core: core, radius: 0, layers: nil, node: 0).bounds
+        let reach = radius + rules.minHoleToHole + (profiles.map(\.viaDrillRadius).max() ?? 0)
+        guard let range = cellRange(box, margin: reach) else { return }
+        let count = layers.count, cells = cellCount
+        for y in range.y {
+            for x in range.x {
+                let c = cell(x, y)
+                let d = Self.distance(point(c), core)
+                for (p, profile) in profiles.enumerated() where d < radius + rules.minHoleToHole + profile.viaDrillRadius {
+                    for layer in 0..<count { viaMaps[(p * count + layer) * cells + c] = Self.blocked }
+                }
+            }
+        }
     }
 }

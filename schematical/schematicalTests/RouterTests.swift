@@ -132,7 +132,18 @@ final class RouterTests: XCTestCase {
         }
         XCTAssertGreaterThanOrEqual(gap(1, 2), 0.3 - 1e-4, "the Power net's clearance")
         XCTAssertGreaterThanOrEqual(gap(2, 3), 0.1 - 1e-4)
-        XCTAssertLessThan(gap(2, 3), 0.3, "two Default nets may run closer than the Power clearance")
+        // The grid holds a Default net to the Default spacing from another
+        // Default net's copper, and to the Power spacing from the Power net's:
+        // 0.4 mm from net 3's pad edge is free for net 2 (it needs 0.1 +
+        // 0.127), 0.4 mm from net 1's is not (0.3 + 0.127).
+        let grid = RoutingGrid(problem: problem)
+        let p2 = grid.profile(of: 2)
+        let net3Pad = try XCTUnwrap(board.pads.first { $0.net == 3 }).rect
+        let net1Pad = try XCTUnwrap(board.pads.first { $0.net == 1 }).rect
+        XCTAssertTrue(grid.isPassable(grid.nearestCell(CGPoint(x: net3Pad.midX, y: net3Pad.minY - 0.4)), layer: 0,
+                                      net: 2, profile: p2))
+        XCTAssertFalse(grid.isPassable(grid.nearestCell(CGPoint(x: net1Pad.maxX + 0.4, y: net1Pad.midY)), layer: 0,
+                                       net: 2, profile: p2))
     }
 
     func testPlaneNetFansOutByVias() throws {

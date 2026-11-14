@@ -65,7 +65,7 @@ struct RoutingTestBoard {
         for (a, b) in zip(points, points.dropFirst()) {
             obstacles.append(RoutingObstacle(shape: CopperShape(core: .segment(a, b), radius: width / 2,
                                                                 layers: [layer], node: 10_000 + obstacles.count),
-                                             net: net))
+                                             net: net, kind: .trace))
         }
     }
 
@@ -85,12 +85,14 @@ struct RoutingTestBoard {
         for (h, hole) in holes.enumerated() {
             obstacles.append(RoutingObstacle(shape: CopperShape(core: .segment(hole.centre, hole.centre),
                                                                 radius: hole.drill / 2, layers: nil, node: 5_000 + h),
-                                             net: nil))
+                                             net: nil, kind: .hole,
+                                             drill: CopperShape(core: .segment(hole.centre, hole.centre),
+                                                                radius: hole.drill / 2, layers: nil, node: 5_000 + h)))
         }
         obstacles += self.obstacles
         for (a, b) in zip(outline, outline.dropFirst() + outline.prefix(1)) {
             obstacles.append(RoutingObstacle(shape: CopperShape(core: .segment(a, b), radius: 0, layers: nil, node: -1),
-                                             net: nil))
+                                             net: nil, kind: .outline))
         }
         let netIDs = Set(pads.compactMap(\.net)).subtracting(unrouted).sorted()
         let nets: [RoutingNet] = netIDs.map { id in
