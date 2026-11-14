@@ -98,7 +98,7 @@ struct PCBSidebarView: View {
                 }
                 LayersSection(document: document)
                 PlanesSection(document: document)
-                NetsSection(document: document, highlightedNet: highlightedNet)
+                NetSections(document: document, highlightedNet: highlightedNet)
             }
         }
         .formStyle(.grouped)
@@ -696,6 +696,7 @@ private struct ViaPanel: View {
             }
             .help("The copper left round the hole, each side")
             LabeledContent("Layers", value: "Through, all \(document.board.layers)")
+            NetAndClassRows(document: document) { document.net(ofVia: via.id, in: $0) }
         }
         Section("Connections") {
             let joined = document.traces(touching: via)
@@ -846,6 +847,7 @@ struct TracePanel: View {
             }
             .pickerStyle(.menu)
             LockToggle(document: document, item: .trace(trace.id))
+            NetAndClassRows(document: document) { document.net(ofTrace: trace.id, in: $0) }
         }
 
         Section("Connects") {
@@ -877,6 +879,20 @@ struct TracePanel: View {
 
     private func showWidth() {
         width = String(document.traces.first { $0.id == trace.id }?.width ?? trace.width)
+    }
+}
+
+/// A selected trace's or via's net and that net's class, read-only.
+private struct NetAndClassRows: View {
+    let document: SchematicDocument
+    let net: (BoardConnectivity) -> Int?
+
+    var body: some View {
+        let copper = document.connectivity()
+        let names = document.netAndClassNames(ofNet: net(copper), in: copper)
+        LabeledContent("Net", value: names.net)
+        LabeledContent("Class", value: names.netClass)
+            .help("New copper on the net takes its class's width and via")
     }
 }
 

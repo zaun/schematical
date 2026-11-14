@@ -28,6 +28,9 @@ nonisolated struct NetClass: Identifiable, Hashable, Sendable {
     static let defaultViaDrill = BoardVia.defaultDrill
     static let defaultViaDiameter = BoardVia.defaultDiameter
     static let nameLength = 1...40
+    /// The class "Add Power Class" makes (`SchematicDocument.addPowerClass`).
+    static let powerName = "Power"
+    static let powerWidth = 20
 
     /// The clearance the class keeps: its own, or the DRC's minimum.
     func clearance(rules: DesignRules) -> Double { clearance ?? rules.minClearance }

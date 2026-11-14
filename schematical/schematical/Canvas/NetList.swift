@@ -116,6 +116,48 @@ extension SchematicDocument {
         return result
     }
 
+    /// The net trace `id` is on (that of a pad its copper reaches), if one.
+    func net(ofTrace id: UUID, in copper: BoardConnectivity) -> Int? {
+        guard let t = copper.traces.firstIndex(where: { $0.id == id }) else { return nil }
+        return copper.netOfRoot()[copper.root[copper.traceNode(t)]]
+    }
+
+    /// The net via `id` is on, if one.
+    func net(ofVia id: UUID, in copper: BoardConnectivity) -> Int? {
+        guard let v = copper.vias.firstIndex(where: { $0.id == id }) else { return nil }
+        return copper.netOfRoot()[copper.root[copper.viaNode(v)]]
+    }
+
+    /// The name of the net `net` and of its class ("Default" for none), as
+    /// the Trace and Via panels show them; "None" for no net.
+    func netAndClassNames(ofNet net: Int?, in copper: BoardConnectivity) -> (net: String, netClass: String) {
+        guard let net else { return ("None", "—") }
+        return (copper.netNames[net] ?? "Net \(net + 1)", netClass(ofNet: net, in: copper)?.name ?? "Default")
+    }
+
+    /// The Power class: 20 mil, a 0.4 / 0.8 mm via, holding every supply
+    /// rail on the board (ground too). Made if the board has no class named
+    /// Power; otherwise the rails it lacks are added to it, so a second use
+    /// changes nothing. One undo step. Returns the class.
+    @discardableResult
+    func addPowerClass() -> UUID {
+        let rails = netRows().filter(\.isRail).map(\.key)
+        return recordEdit(.pcb, "Add Power Class") { () -> UUID in
+            let id: UUID
+            if let existing = board.netClasses.first(where: { $0.name == NetClass.powerName }) {
+                id = existing.id
+            } else {
+                id = addNetClass(named: NetClass.powerName)
+                setNetClassWidth(id, NetClass.powerWidth)
+                setNetClassVia(id, drill: BoardVia.defaultDrill, diameter: BoardVia.defaultDiameter)
+            }
+            for rail in rails where board.netClasses.first(where: { $0.id == id })?.members.contains(rail) == false {
+                assignNet(rail, to: id)
+            }
+            return id
+        }
+    }
+
     /// The copper of the net `key` names, or nil when it names none.
     func copperItems(ofNet key: PlaneNet) -> NetCopper? {
         let copper = connectivity()

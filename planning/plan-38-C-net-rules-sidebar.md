@@ -132,14 +132,14 @@ Commit: fa0127a4
 
 Acceptance: item lookup as listed; `xcodebuild … build` succeeds (UI compiled).
   Check: `-only-testing:schematicalTests/NetListTests` → `** TEST SUCCEEDED **` (est. 2 min).
-Commit: —
+Commit: dcc38bdc
 
 ### Phase 3 — Net Classes and Net Groups editors
 
-- [ ] `PCBSidebarView.swift`: `NetClassesSection` — list, **+** adds "Class N", **−** removes, name field, Width (mil, stepper), Clearance (a toggle "DRC minimum" and a `LengthField`), Via drill and diameter (`LengthField`), Layer rule (mode picker, layer toggles), and a "Nets: N" line with a menu listing members; wired to the plan-38-A/B edit functions. A new document shows no classes and a button "Add Power Class" that creates *Power* (20 mil, via 0.4 / 0.8) and assigns every supply rail, ground included (every `NetRow` whose key is `.rail`), to it.
-- [ ] `NetGroupsSection` — list, **+** (menu: Length Match / Differential Pair), name, mode, Tolerance, and for a pair Gap and Max uncoupled, and Max meander; add members from a menu of nets not in another group; a pair's menu is disabled at 2 members; an ineligible net (more than one connection) is listed with a "multi-drop" note and is accepted.
-- [ ] `PCBSidebarView.swift:TracePanel` and `ViaPanel`: read-only rows "Net" and "Class" from `netRows()`.
-- [ ] Tests (`NetRulesTests`): "Add Power Class" creates one class with the board's rails as members; a second press changes nothing.
+- [x] `PCBSidebarView.swift`: `NetClassesSection` — list, **+** adds "Class N", **−** removes, name field, Width (mil, stepper), Clearance (a toggle "DRC minimum" and a `LengthField`), Via drill and diameter (`LengthField`), Layer rule (mode picker, layer toggles), and a "Nets: N" line with a menu listing members; wired to the plan-38-A/B edit functions. A new document shows no classes and a button "Add Power Class" that creates *Power* (20 mil, via 0.4 / 0.8) and assigns every supply rail, ground included (every `NetRow` whose key is `.rail`), to it. (In `Canvas/NetsSidebar.swift`, with Move Up / Move Down for priority; the helper is `SchematicDocument.addPowerClass()` in `NetList.swift`. The three net sections share one debounced net list, `NetSections`.)
+- [x] `NetGroupsSection` — list, **+** (menu: Length Match / Differential Pair), name, mode, Tolerance, and for a pair Gap and Max uncoupled, and Max meander; add members from a menu of nets not in another group; a pair's menu is disabled at 2 members; an ineligible net (more than one connection) is listed with a "multi-drop" note and is accepted.
+- [x] `PCBSidebarView.swift:TracePanel` and `ViaPanel`: read-only rows "Net" and "Class" from `netRows()`. (Read from one `connectivity()` through `net(ofTrace:in:)` / `net(ofVia:in:)` and `netAndClassNames(ofNet:in:)`, the same resolution `netRows()` uses; a trace on no net reads "None".)
+- [x] Tests (`NetRulesTests`): "Add Power Class" creates one class with the board's rails as members; a second press changes nothing. — `-only-testing:NetRulesTests -only-testing:NetListTests` → 16 tests, 0 failures, `** TEST SUCCEEDED **` (app target built).
 
 Acceptance: the Power-class test passes; build succeeds.
   Check: `-only-testing:schematicalTests/NetRulesTests -only-testing:schematicalTests/NetListTests` → `** TEST SUCCEEDED **` (est. 2 min).

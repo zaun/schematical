@@ -217,6 +217,39 @@ final class NetRulesTests: XCTestCase {
         }
     }
 
+    // MARK: plan-38-C — Add Power Class
+
+    func testAddPowerClassTakesTheRailsOnce() throws {
+        let (doc, member, _) = try wiredPair()
+        var rails: [PlaneNet] = []
+        for (n, supply) in ["GND", "5V"].enumerated() {
+            for m in 0..<2 {
+                let led = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 700 + 300 * m, y: 100 + 400 * n))
+                let rail = try TestSupport.place(doc, supply, at: CGPoint(x: 700 + 300 * m, y: 300 + 400 * n))
+                XCTAssertNil(doc.connect(.pin(try TestSupport.pin(led, "K")), .pin(PinRef(chipID: rail.id, index: 0))))
+            }
+            rails.append(n == 0 ? .ground : .rail(mv: 5000))
+        }
+        let id = doc.addPowerClass()
+        XCTAssertEqual(doc.undoName(on: .pcb), "Add Power Class")
+        XCTAssertEqual(doc.board.netClasses.count, 1)
+        let power = try XCTUnwrap(doc.board.netClasses.first)
+        XCTAssertEqual(power.id, id)
+        XCTAssertEqual(power.name, "Power")
+        XCTAssertEqual(power.width, 20)
+        XCTAssertEqual(power.viaDrill, 0.4)
+        XCTAssertEqual(power.viaDiameter, 0.8)
+        XCTAssertEqual(Set(power.members), Set(rails))
+        XCTAssertFalse(power.members.contains(member), "a signal net stays in Default")
+
+        let before = doc.board
+        XCTAssertEqual(doc.addPowerClass(), id)
+        XCTAssertEqual(doc.board, before, "a second press changes nothing")
+
+        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(doc.board.netClasses.isEmpty, "one undo step")
+    }
+
     func testGroupProblem() {
         func problem(_ mode: NetGroupMode = .lengthMatch, members: Int = 2, tolerance: Double = 0.25,
                      name: String = "G") -> String? {
