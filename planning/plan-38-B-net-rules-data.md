@@ -120,12 +120,12 @@ Bottom, not Layer 2"); group members as net integers (renumbering).
 
 ### Phase 1 — types, edit functions, resolution
 
-- [ ] `Canvas/NetRules.swift` (new): `LayerRuleMode`, `LayerRule`, `NetOverride { net: PlaneNet, layerRule: LayerRule? }`, `NetGroupMode`, `NetGroup` with the ranges and defaults of § 3, and `NetGroup.problem(...)` (member count by mode, tolerance/gap/maxUncoupled/maxMeander in range, name 1…40).
-- [ ] `Canvas/NetClass.swift`: add `var layerRule: LayerRule?` (default nil).
-- [ ] `Canvas/BoardSettings.swift`: `netOverrides: [NetOverride] = []`, `netGroups: [NetGroup] = []`.
-- [ ] `Canvas/SchematicModel.swift` (each `recordEdit(.pcb, …)`): `setNetClassLayerRule(_:_:)`, `setNetLayerRule(_ net: PlaneNet, _ rule: LayerRule?)` (nil removes the override), `addNetGroup(named:mode:) -> UUID`, `removeNetGroup(_:)`, `renameNetGroup`, `setNetGroupMode` (a pair with ≠ 2 members is refused with `editorMessage`), `setNetGroupTolerance/Gap/MaxUncoupled/MaxMeander` (clamped), `assignNet(_:toGroup:)` (moves the member out of any other group; refuses a 3rd member of a pair), `unassignNet(_:)`.
-- [ ] `SchematicModel.swift`: `effectiveLayers(ofNet:in:) -> (allowed: [CopperLayer], preferred: [CopperLayer])` and `group(ofNet:in:) -> NetGroup?`, both by `BoardConnectivity.net(of:)`.
-- [ ] Tests: `schematicalTests/NetRulesTests.swift` — override beats class rule beats none; Only {Top} on a 2-layer board gives allowed [Top]; Only naming a Plane layer drops it; Prefer leaves allowed = all trace layers; a pair refuses a third member and a mode switch with 3 members; assigning a net to group 2 removes it from group 1; each edit is one undo step.
+- [x] `Canvas/NetRules.swift` (new): `LayerRuleMode`, `LayerRule`, `NetOverride { net: PlaneNet, layerRule: LayerRule? }`, `NetGroupMode`, `NetGroup` with the ranges and defaults of § 3, and `NetGroup.problem(...)` (member count by mode, tolerance/gap/maxUncoupled/maxMeander in range, name 1…40). (Member count: a pair has at most 2; see Corrections.)
+- [x] `Canvas/NetClass.swift`: add `var layerRule: LayerRule?` (default nil).
+- [x] `Canvas/BoardSettings.swift`: `netOverrides: [NetOverride] = []`, `netGroups: [NetGroup] = []`.
+- [x] `Canvas/SchematicModel.swift` (each `recordEdit(.pcb, …)`): `setNetClassLayerRule(_:_:)`, `setNetLayerRule(_ net: PlaneNet, _ rule: LayerRule?)` (nil removes the override), `addNetGroup(named:mode:) -> UUID`, `removeNetGroup(_:)`, `renameNetGroup`, `setNetGroupMode` (a pair with > 2 members is refused with `editorMessage`), `setNetGroupTolerance/Gap/MaxUncoupled/MaxMeander` (clamped), `assignNet(_:toGroup:)` (moves the member out of any other group; refuses a 3rd member of a pair), `unassignNet(_:)`.
+- [x] `SchematicModel.swift`: `effectiveLayers(ofNet:in:) -> EffectiveLayers` (`allowed`, `preferred`, and the `rule` they came from) and `group(ofNet:in:) -> NetGroup?`, both by `BoardConnectivity.net(of:)`; plus `layerRule(ofNet:in:)`, the resolution both read.
+- [x] Tests: `schematicalTests/NetRulesTests.swift` — override beats class rule beats none; Only {Top} on a 2-layer board gives allowed [Top]; Only naming a Plane layer drops it; Prefer leaves allowed = all trace layers; a pair refuses a third member and a mode switch with 3 members; assigning a net to group 2 removes it from group 1; each edit is one undo step. — `-only-testing:NetRulesTests` → 6 tests, 0 failures, `** TEST SUCCEEDED **`.
 
 Acceptance: the cases above pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd test -only-testing:schematicalTests/NetRulesTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 1–2 min).
@@ -165,7 +165,20 @@ See plan-38-A § Decisions (layer rules = Only and Prefer; groups = length match
 
 ## Corrections
 
-(Filled in during execution.)
+- § 3 said a `.diffPair` group "has exactly 2 members" and a `.lengthMatch`
+  group "2 or more", and Phase 1/2 had the mode switch and the file refuse a
+  pair with ≠ 2. That can't hold while editing: `addNetGroup` makes an empty
+  group, so a pair being filled in (0 or 1 member) would be refused by
+  `setNetGroupMode` and fail to reopen from its own file. Corrected to: a pair
+  has **at most** 2 members (more is refused by `assignNet(_:toGroup:)`,
+  `setNetGroupMode` and the file: "net group <id> pair has 3 members; it can
+  have at most 2"); having exactly 2 (and a length group 2 or more) is checked
+  when routing, with each member's eligibility, as § 3 already says. Not a
+  weakening: every check that can be made on stored data still is.
+- `effectiveLayers` returns a struct `EffectiveLayers { allowed, preferred,
+  rule }` instead of a tuple: same `allowed`/`preferred` reads, plus the rule
+  the DRC line (Phase 3) and the router name in their messages. For **Only**,
+  `preferred` is empty (every allowed layer is equal).
 
 ## Summary
 

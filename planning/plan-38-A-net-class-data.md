@@ -267,7 +267,7 @@ Commit: 6c3bcb7
 
 Acceptance: round trip and paste behave as listed; the existing 45 trace/via/DRC/ratsnest tests stay green.
   Check: `-only-testing:schematicalTests/NetClassTests -only-testing:schematicalTests/TraceToolTests -only-testing:schematicalTests/TraceRouteTests -only-testing:schematicalTests/ViaTests -only-testing:schematicalTests/DesignRuleCheckTests -only-testing:schematicalTests/RatsnestTests` → `** TEST SUCCEEDED **` (est. 3 min).
-Commit: —
+Commit: 4d3ca29b
 
 ## Validation Plan
 

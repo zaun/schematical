@@ -3367,6 +3367,173 @@ final class SchematicDocument {
         board.netClasses.first { $0.members.contains { connectivity.net(of: $0) == net } }
     }
 
+
+    // MARK: Net layer rules and groups (PCB)
+
+    /// Sets a class's layer rule; nil is any trace layer. A rule with no
+    /// layers is ignored.
+    func setNetClassLayerRule(_ id: UUID, _ rule: LayerRule?) {
+        recordEdit(.pcb, "Change Layer Rule") {
+            guard let index = netClassIndex(id), rule.map({ !$0.layers.isEmpty }) ?? true,
+                  board.netClasses[index].layerRule != rule else { return }
+            board.netClasses[index].layerRule = rule
+        }
+    }
+
+    /// Sets one net's own layer rule, before its class's; nil removes it.
+    /// A rule with no layers is ignored.
+    func setNetLayerRule(_ net: PlaneNet, _ rule: LayerRule?) {
+        recordEdit(.pcb, "Change Layer Rule") {
+            guard rule.map({ !$0.layers.isEmpty }) ?? true else { return }
+            if let rule {
+                if let index = board.netOverrides.firstIndex(where: { $0.net == net }) {
+                    if board.netOverrides[index].layerRule != rule { board.netOverrides[index].layerRule = rule }
+                } else {
+                    board.netOverrides.append(NetOverride(net: net, layerRule: rule))
+                }
+            } else {
+                board.netOverrides.removeAll { $0.net == net }
+            }
+        }
+    }
+
+    /// Adds an empty group (trimmed name, at most 40 characters; blank is
+    /// "Group"), last.
+    @discardableResult
+    func addNetGroup(named name: String, mode: NetGroupMode) -> UUID {
+        recordEdit(.pcb, "Add Net Group") {
+            let group = NetGroup(id: UUID(), name: Self.netClassName(name) ?? "Group", mode: mode)
+            board.netGroups.append(group)
+            return group.id
+        }
+    }
+
+    func removeNetGroup(_ id: UUID) {
+        recordEdit(.pcb, "Delete Net Group") {
+            board.netGroups.removeAll { $0.id == id }
+        }
+    }
+
+    func renameNetGroup(_ id: UUID, to name: String) {
+        recordEdit(.pcb, "Rename Net Group") {
+            guard let index = netGroupIndex(id), let value = Self.netClassName(name),
+                  board.netGroups[index].name != value else { return }
+            board.netGroups[index].name = value
+        }
+    }
+
+    /// Changes a group's mode. A group with more than 2 nets can't be a
+    /// pair: refused, with `editorMessage` saying why. Returns whether the
+    /// group has `mode` now.
+    @discardableResult
+    func setNetGroupMode(_ id: UUID, _ mode: NetGroupMode) -> Bool {
+        guard let index = netGroupIndex(id) else { return false }
+        let group = board.netGroups[index]
+        if mode == .diffPair, group.members.count > NetGroup.pairSize {
+            editorMessage = "A differential pair has 2 nets; \(group.name) has \(group.members.count)."
+            return false
+        }
+        recordEdit(.pcb, "Change Net Group") {
+            if board.netGroups[index].mode != mode { board.netGroups[index].mode = mode }
+        }
+        return true
+    }
+
+    /// Sets a group's tolerance, clamped to `NetGroup.toleranceRange`.
+    func setNetGroupTolerance(_ id: UUID, _ mm: Double) {
+        setNetGroupValue(id, \.tolerance, mm, NetGroup.toleranceRange)
+    }
+
+    /// Sets a pair's gap, clamped to `NetGroup.gapRange`.
+    func setNetGroupGap(_ id: UUID, _ mm: Double) {
+        setNetGroupValue(id, \.gap, mm, NetGroup.gapRange)
+    }
+
+    /// Sets how much of a pair may run apart, clamped to
+    /// `NetGroup.maxUncoupledRange`.
+    func setNetGroupMaxUncoupled(_ id: UUID, _ mm: Double) {
+        setNetGroupValue(id, \.maxUncoupled, mm, NetGroup.maxUncoupledRange)
+    }
+
+    /// Sets a group's largest tuning bump, clamped to
+    /// `NetGroup.maxMeanderRange`.
+    func setNetGroupMaxMeander(_ id: UUID, _ mm: Double) {
+        setNetGroupValue(id, \.maxMeander, mm, NetGroup.maxMeanderRange)
+    }
+
+    private func setNetGroupValue(_ id: UUID, _ key: WritableKeyPath<NetGroup, Double>, _ mm: Double,
+                                  _ range: ClosedRange<Double>) {
+        recordEdit(.pcb, "Change Net Group") {
+            guard let index = netGroupIndex(id) else { return }
+            let value = min(max(mm, range.lowerBound), range.upperBound)
+            if board.netGroups[index][keyPath: key] != value { board.netGroups[index][keyPath: key] = value }
+        }
+    }
+
+    /// Puts `net` in group `groupID`, out of any other group. A pair that
+    /// already has 2 other nets refuses it, with `editorMessage` saying
+    /// why. Returns whether the net is in the group now.
+    @discardableResult
+    func assignNet(_ net: PlaneNet, toGroup groupID: UUID) -> Bool {
+        guard let index = netGroupIndex(groupID) else { return false }
+        let group = board.netGroups[index]
+        if group.members.contains(net) { return true }
+        if group.mode == .diffPair, group.members.count >= NetGroup.pairSize {
+            editorMessage = "\(group.name) already has its 2 nets."
+            return false
+        }
+        recordEdit(.pcb, "Change Net Group") {
+            for other in board.netGroups.indices where board.netGroups[other].members.contains(net) {
+                board.netGroups[other].members.removeAll { $0 == net }
+            }
+            board.netGroups[index].members.append(net)
+        }
+        return true
+    }
+
+    /// Takes `net` out of whichever group it is in.
+    func unassignNet(_ net: PlaneNet) {
+        recordEdit(.pcb, "Change Net Group") {
+            for index in board.netGroups.indices where board.netGroups[index].members.contains(net) {
+                board.netGroups[index].members.removeAll { $0 == net }
+            }
+        }
+    }
+
+    /// The layer rule net `net` of `connectivity` follows: its own
+    /// override, else its class's, else none.
+    func layerRule(ofNet net: Int, in connectivity: BoardConnectivity) -> LayerRule? {
+        if let own = board.netOverrides.first(where: { $0.layerRule != nil && connectivity.net(of: $0.net) == net }) {
+            return own.layerRule
+        }
+        return netClass(ofNet: net, in: connectivity)?.layerRule
+    }
+
+    /// The trace layers net `net` may use and those it prefers. Only: the
+    /// rule's layers that are trace layers on the board (none means it
+    /// can't be routed), with no preference. Prefer: every trace layer,
+    /// preferring the rule's. No rule: every trace layer, no preference.
+    func effectiveLayers(ofNet net: Int, in connectivity: BoardConnectivity) -> EffectiveLayers {
+        let trace = board.traceLayers
+        guard let rule = layerRule(ofNet: net, in: connectivity) else {
+            return EffectiveLayers(allowed: trace, preferred: [], rule: nil)
+        }
+        let named = trace.filter(rule.layers.contains)
+        switch rule.mode {
+        case .only: return EffectiveLayers(allowed: named, preferred: [], rule: rule)
+        case .prefer: return EffectiveLayers(allowed: trace, preferred: named, rule: rule)
+        }
+    }
+
+    /// The group net `net` of `connectivity` is in: the first any of whose
+    /// members names it.
+    func group(ofNet net: Int, in connectivity: BoardConnectivity) -> NetGroup? {
+        board.netGroups.first { $0.members.contains { connectivity.net(of: $0) == net } }
+    }
+
+    private func netGroupIndex(_ id: UUID) -> Int? {
+        board.netGroups.firstIndex { $0.id == id }
+    }
     private func netClassIndex(_ id: UUID) -> Int? {
         board.netClasses.firstIndex { $0.id == id }
     }

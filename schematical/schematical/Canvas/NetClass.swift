@@ -19,6 +19,10 @@ nonisolated struct NetClass: Identifiable, Hashable, Sendable {
     var viaDiameter: Double = NetClass.defaultViaDiameter
     /// The nets in the class, in the order they were added.
     var members: [PlaneNet] = []
+    /// The layers the class's nets are held to or prefer; nil is any
+    /// trace layer. A net's own override (`BoardSettings.netOverrides`)
+    /// comes first.
+    var layerRule: LayerRule? = nil
 
     static let defaultWidth = BoardTrace.defaultWidth
     static let defaultViaDrill = BoardVia.defaultDrill
