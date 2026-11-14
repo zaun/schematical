@@ -25,11 +25,45 @@ final class RouterFixtureTests: XCTestCase {
         }
     }
 
+    /// The DRC kinds the router can cause (plan-38-H § 1).
+    static let routerKinds: Set<DesignRuleIssue.Kind> = [.short, .unconnected, .layer, .layerRule, .clearance, .edge,
+                                                          .drill, .annularRing, .holeToHole, .via, .traceWidth]
+
+    /// Balanced on each fixture, as `Router.route` runs it (route, then
+    /// clean, verify and repair), checked against plan-38-F's floors and
+    /// plan-38-H's guarantee: applied, the DRC finds nothing the router
+    /// caused; unrouted lines equal the connections not routed; cleaning
+    /// made no net longer and added no via.
     func testNegotiationOnTheFixtures() throws {
         let floors = ["AFU": 115, "LFU": 127, "RegFile": 12]
+        let silkscreen = ["AFU": 16, "LFU": 0, "RegFile": 8]
         for name in Fixture.names {
-            let problem = try problem(name) { $0.strategy = .balanced }
-            let result = Router.route(problem)
+            let doc = try Fixture.open(name)
+            let problem = doc.routingProblem(options: .standard, rules: .customDefault)
+            let started = Date()
+            var run = Router.Run(problem: problem, strategy: .of(.balanced), seed: problem.options.seed)
+            run.routeAll(progress: { _ in }, isCancelled: { false })
+            let raw = run.result
+            let copper = run.finishedCopper()
+            var result = run.result(traces: copper.traces, vias: copper.vias)
+            result.stats.seconds = Date().timeIntervalSince(started)
+            let vertices = { (traces: [RoutedTrace]) in traces.reduce(0) { $0 + $1.points.count } }
+            print(String(format: "ROUTER cleanup %@ wire %.0f -> %.0f mm, vias %d -> %d, vertices %d -> %d",
+                         name, raw.stats.wireLength, result.stats.wireLength, raw.stats.vias, result.stats.vias,
+                         vertices(raw.traces), vertices(result.traces)))
+            for net in problem.nets {
+                let before = raw.traces.filter { $0.net == net.id }, after = result.traces.filter { $0.net == net.id }
+                XCTAssertLessThanOrEqual(after.reduce(0) { $0 + RoutingCleanup.length($1.points) },
+                                         before.reduce(0) { $0 + RoutingCleanup.length($1.points) } + 1e-6, "\(name) \(net.name)")
+                XCTAssertLessThanOrEqual(result.vias.filter { $0.net == net.id }.count,
+                                         raw.vias.filter { $0.net == net.id }.count, "\(name) \(net.name)")
+            }
+            doc.applyRouting(result, problem: problem)
+            let issues = doc.designRuleCheck(rules: .customDefault)
+            let caused = issues.filter { Self.routerKinds.contains($0.kind) }
+            XCTAssertEqual(caused.map { "\($0.kind) \($0.reference): \($0.issue)" }, [], name)
+            XCTAssertEqual(issues.filter { $0.kind == .unrouted }.count, result.stats.connections - result.stats.routed, name)
+            XCTAssertEqual(issues.filter { $0.kind == .silkscreen }.count, silkscreen[name], name)
             report("balanced \(name)", result)
             print("ROUTER rounds \(result.stats.rounds) rips \(result.stats.rips)")
             checkShapes(result, name)

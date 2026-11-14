@@ -153,7 +153,7 @@ value types).
 
 Acceptance: graph cases and every verifier rule pass; parity holds for all injected cases.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd test -only-testing:schematicalTests/RoutingGraphTests -only-testing:schematicalTests/RoutingVerifierTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 2 min).
-Commit: (Phases 1–3 landed in one commit; its hash is on Phase 3's line)
+Commit: 24b641af (with Phases 2–3)
 
 ### Phase 2 — straighten and chamfer
 
@@ -162,7 +162,7 @@ Commit: (Phases 1–3 landed in one commit; its hash is on Phase 3's line)
 
 Acceptance: cases pass.
   Check: `-only-testing:schematicalTests/RoutingCleanupTests` → `** TEST SUCCEEDED **` (est. 2 min).
-Commit: (on Phase 3's line)
+Commit: 24b641af
 
 ### Phase 3 — via hops
 
@@ -171,13 +171,13 @@ Commit: (on Phase 3's line)
 
 Acceptance: cases pass.
   Check: `-only-testing:schematicalTests/RoutingCleanupTests` → `** TEST SUCCEEDED **` (est. 2 min).
-Commit: —
+Commit: 24b641af
 
 ### Phase 4 — repair loop and the DRC guarantee
 
-- [ ] `Router.swift`: verify → revert chain → margin re-route (≤ 3 attempts, per-connection margin in the ledger) → report; `NetOutcome` gains `reason`.
-- [ ] Tests (`RouterFixtureTests`, extended): for AFU, LFU and RegFile with `.balanced`: `applyRouting` then `designRuleCheck(rules: .customDefault)`: count of issues by kind — AFU: 0 of the twelve kinds of § 1 and 16 silkscreen; LFU and RegFile: 0 of the eleven kinds other than `unrouted`, `unrouted == total − routed`; per-net cleaned length ≤ raw length and cleaned vias ≤ raw vias; print wire mm, vias, vertex count before and after, and seconds. A synthetic board whose only legal route needs margin (a 0.12 mm channel at 0.127 mm pitch, 0.1 mm clearance) is completed by repair or reported with the reason, never DRC-dirty.
-- [ ] Results (the output of this run, filled in then): AFU wire __ mm → __ mm, vias __ → __, vertices __ → __; LFU …; RegFile ….
+- [x] `Router.swift`: verify → revert chain → margin re-route (≤ 3 attempts, per-connection margin in the ledger) → report; `NetOutcome` gains `reason`. (In `Routing/RoutingRepair.swift`, `Run.finishedCopper()`: a faulted connection goes back to its raw copper as a whole; if the raw copper faults too it is ripped and routed again on a grid where its net is `0.5 × pitch × attempt` wider each side, stored at its true width. A net the margin route can't rejoin is marked, and its outcome carries `Router.illegalReason`. Margins are per attempt, not stored per connection: a re-routed connection is a new ledger entry.)
+- [x] Tests (`RouterFixtureTests`, extended): for AFU, LFU and RegFile with `.balanced`: `applyRouting` then `designRuleCheck(rules: .customDefault)`: count of issues by kind — AFU: 0 of the twelve kinds of § 1 and 16 silkscreen; LFU and RegFile: 0 of the eleven kinds other than `unrouted`, `unrouted == total − routed`; per-net cleaned length ≤ raw length and cleaned vias ≤ raw vias; print wire mm, vias, vertex count before and after, and seconds. A synthetic board whose only legal route needs margin (a 0.12 mm channel at 0.127 mm pitch, 0.1 mm clearance) is completed by repair or reported with the reason, never DRC-dirty. (The fixtures' raw copper is already legal, so the repair branches are covered by `RoutingRepairTests`: a connection injected straight through another net's pad is re-routed with a margin, legal; one that can't be is left unrouted with the reason; `reverting` swaps an entry's pieces; the 0.12 mm channel is never dirty.) — `-only-testing:RouterFixtureTests/testNegotiationOnTheFixtures -only-testing:RoutingVerifierTests -only-testing:RoutingCleanupTests` → 16 tests, 0 failures, `** TEST SUCCEEDED **` (549 s); `-only-testing:RoutingRepairTests` → 4 tests, 0 failures.
+- [x] Results (the output of this run, filled in then): AFU wire 1614 mm → 1582 mm, vias 115 → 115, vertices 928 → 834 (115/115 routed, 27.6 s; DRC after apply: 16 silkscreen, nothing else); LFU wire 2578 → 2528 mm, vias 252 → 246, vertices 1868 → 1592 (147/188 routed, 484 s; DRC: 41 unrouted = 188 − 147, nothing router-caused); RegFile wire 315 → 314 mm, vias 31 → 31, vertices 216 → 204 (24/24, 32.5 s; DRC: 8 silkscreen, nothing else).
 
 Acceptance: the DRC-clean guarantee holds on all three fixtures; the never-longer and never-more-vias asserts hold. If a DRC issue of a router-caused kind appears, find which verifier rule disagreed with the DRC (parity case first) and fix the verifier or the repair; the gate is not relaxed.
   Check: `-only-testing:schematicalTests/RouterFixtureTests -only-testing:schematicalTests/RoutingVerifierTests -only-testing:schematicalTests/RoutingCleanupTests` → `** TEST SUCCEEDED **` (est. 6 min: three fixture routes, Balanced LFU ≈ 10 s each).

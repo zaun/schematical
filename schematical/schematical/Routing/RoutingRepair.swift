@@ -81,6 +81,14 @@ extension Router.Run {
     /// the rules need.
     mutating func reroute(_ entries: [Int], margin: Double) {
         let nets = Set(entries.compactMap { state.entries[$0]?.net })
+        let groupsBefore = Dictionary(uniqueKeysWithValues: nets.map { ($0, state.groups(of: $0).components.count) })
+        defer {
+            // A net the margin route couldn't join again as it was: its
+            // copper could not be made legal.
+            for net in nets where state.groups(of: net).components.count > groupsBefore[net] ?? 0 {
+                illegalNets.insert(net)
+            }
+        }
         rips += entries.count
         state.rip(entries)
         var wide = problem
