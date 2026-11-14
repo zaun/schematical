@@ -31,7 +31,7 @@ As plan-41-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-41-A complete | `ls planning/completed/plan-41-A-*.md` → exists, or every A box ticked | NOT MET (A not started) |
+| plan-41-A complete | `ls planning/completed/plan-41-A-*.md` → exists, or every A box ticked | MET (re-run 2026-11-14 after the merge: `ls planning/completed/plan-41-A-*.md` lists the file; A's boxes are all ticked) |
 
 Everything below is written against the world where these hold.
 

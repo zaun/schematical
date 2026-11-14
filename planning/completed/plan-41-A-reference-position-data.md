@@ -295,7 +295,28 @@ Commit: 0d5b55d8
 
 ## Corrections
 
-(None yet.)
+Found before any code was written (fixed in the plan file before its first
+commit): § 2 cited `setPartFootprint` as "SchematicModel.swift:2160-2187
+region"; it is at line 1880. Phase 1's Coverage line said `BoardPreviewTests`
+exercises `BoardRenderer`; it doesn't (`grep -n 'BoardRenderer\|silkscreen'
+schematicalTests/BoardPreviewTests.swift` → no match), so the renderer site is
+covered by B's real-app check, which is what the plan now says.
+
+Found during execution:
+
+- Phase 1's first recorded result mislabelled the per-class counts (11/16/9).
+  The real ones, alphabetical by class, are DesignRuleCheckTests 11,
+  GerberExportTests 16, ReferencePositionTests 9 (36 in all, as recorded);
+  fixed in the Phase 1 Result line.
+- `BoardReference.size(of:height:)` needs `NSFont`, so `BoardModel.swift` gained
+  `import AppKit` (it imported only `CoreGraphics`); the plan didn't say.
+- Phase 3's zero-axis test could not set an offset directly: `chips` is
+  `private(set)` on the document. The test opens a file with only `refX` and
+  saves it instead, which also exercises the read path.
+- Phase 3's first commit (`0d5b55d8`) went in without its Result line and
+  `Commit:` hash; both were added in B's first commit (`b751f543`).
+
+None of these changed a count that another letter's scope was derived from.
 
 ## Summary
 
