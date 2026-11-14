@@ -20,6 +20,9 @@ nonisolated struct NetRow: Identifiable, Hashable, Sendable {
     let groupID: UUID?
     /// Its pads' labels ("U1.3"), for the filter.
     let padLabels: [String]
+    /// Its routed length in mm (`RoutingLength.of(net:in:)`), nil unless
+    /// it is a routed two-pin net.
+    var length: Double? = nil
 
     var id: PlaneNet { key }
     /// A supply rail (ground included).
@@ -89,7 +92,8 @@ extension SchematicDocument {
                           unrouted: unrouted[net] ?? 0, classID: netClass(ofNet: net, in: copper)?.id,
                           layerRule: board.netOverrides.first { $0.net == key }?.layerRule,
                           groupID: group(ofNet: net, in: copper)?.id,
-                          padLabels: pads.sorted().map { copper.pads[$0].label })
+                          padLabels: pads.sorted().map { copper.pads[$0].label },
+                          length: RoutingLength.of(net: net, in: copper))
         }
         return rows.sorted { a, b in
             if a.isRail != b.isRail { return a.isRail }

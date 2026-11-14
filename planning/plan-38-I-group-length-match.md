@@ -158,13 +158,13 @@ Commit: ecb476ef
 
 Acceptance: cases pass.
   Check: `-only-testing:schematicalTests/RoutingTuningTests -only-testing:schematicalTests/RouterTests` → `** TEST SUCCEEDED **` (est. 3 min).
-Commit: —
+Commit: a6d46d84
 
 ### Phase 4 — fixtures and the sidebar
 
-- [ ] `RouterFixtureTests`: on AFU, a group of the first 4 two-pin nets by net index (tolerance 0.5 mm): after route + apply, the status is `matched` or `residual`, and `outcome.spread` equals the spread measured from the document; the twelve DRC kinds are 0; print group lengths before and after.
-- [ ] `PCBSidebarView.swift` `NetGroupsSection`: each member row shows its length (`netLength`, "—" when nil) and the difference from the group's longest; a red mark beyond the tolerance.
-- [ ] Results (the output of the AFU run, filled in then): lengths __ → __ mm, status __.
+- [x] `RouterFixtureTests`: on AFU, a group of the first 4 two-pin nets by net index (tolerance 0.5 mm): after route + apply, the status is `matched` or `residual`, and `outcome.spread` equals the spread measured from the document; the twelve DRC kinds are 0; print group lengths before and after. — `testLengthGroupOnAFU` passed (with `NetLengthTests`, `NetListTests`: 11 tests, 0 failures, `** TEST SUCCEEDED **`).
+- [x] `PCBSidebarView.swift` `NetGroupsSection`: each member row shows its length (`netLength`, "—" when nil) and the difference from the group's longest; a red mark beyond the tolerance. (In `Canvas/NetsSidebar.swift`: `NetLengthLabel`; `NetRow.length` from `RoutingLength.of(net:in:)`. Built in the same run.)
+- [x] Results (the output of the AFU run, filled in then): lengths 15.37, 15.75, 30.61, 12.68 → 26.03, 15.75, 30.61, 12.68 mm, status `residual` (spread 17.93 mm; AFU is dense: only the first net found room for bumps, and the longest, 30.61, is never touched).
 
 Acceptance: AFU group consistent as stated; build succeeds.
   Check: `-only-testing:schematicalTests/RouterFixtureTests -only-testing:schematicalTests/NetLengthTests` → `** TEST SUCCEEDED **` (est. 4 min).

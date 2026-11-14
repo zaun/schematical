@@ -81,6 +81,42 @@ final class RouterFixtureTests: XCTestCase {
         }
     }
 
+    /// plan-38-I Phase 4: AFU's first 4 two-pin nets (by net index) as one
+    /// length-match group, 0.5 mm: matched or residual, the engine's spread
+    /// equal to the applied document's, and nothing the router caused in the
+    /// DRC.
+    func testLengthGroupOnAFU() throws {
+        let doc = try Fixture.open("AFU")
+        let copper = doc.connectivity()
+        let members = Set(copper.netOfPad.values).filter { copper.pinCount(ofNet: $0) == 2 }.sorted().prefix(4)
+        XCTAssertEqual(members.count, 4)
+        let group = doc.addNetGroup(named: "Tuned", mode: .lengthMatch)
+        doc.setNetGroupTolerance(group, 0.5)
+        for net in members { XCTAssertTrue(doc.assignNet(try XCTUnwrap(copper.planeNet(ofNet: net)), toGroup: group)) }
+
+        var plain = RoutingOptions.standard
+        plain.tuneGroups = false
+        let before = Router.route(doc.routingProblem(options: plain, rules: .customDefault))
+        let problem = doc.routingProblem(options: .standard, rules: .customDefault)
+        let result = Router.route(problem)
+        let outcome = try XCTUnwrap(result.groups.first)
+        let lengthsBefore = members.map { RoutingTuning.length(of: $0, traces: before.traces, problem: problem) }
+        print("ROUTER group before \(lengthsBefore.map { String(format: "%.2f", $0) }) after "
+              + "\(members.map { String(format: "%.2f", outcome.lengths[$0] ?? -1) }) status \(outcome.status)")
+        switch outcome.status {
+        case .matched, .residual: break
+        case .ineligible, .coupled, .uncoupled: XCTFail("\(outcome.status)")
+        }
+        doc.applyRouting(result, problem: problem)
+        let applied = doc.connectivity()
+        let lengths = members.compactMap { applied.net(of: try! XCTUnwrap(copper.planeNet(ofNet: $0))) }
+            .compactMap { doc.netLength(ofNet: $0, in: applied) }
+        XCTAssertEqual(lengths.count, 4)
+        XCTAssertEqual(outcome.spread, (lengths.max() ?? 0) - (lengths.min() ?? 0), accuracy: 1e-6)
+        let caused = doc.designRuleCheck(rules: .customDefault).filter { Self.routerKinds.contains($0.kind) }
+        XCTAssertEqual(caused.map { "\($0.kind) \($0.reference): \($0.issue)" }, [])
+    }
+
     /// Fast and Thorough on the fixtures, for the record (plan-38-F Phase 4);
     /// each result is legal.
     func testFastAndThoroughOnTheFixtures() throws {

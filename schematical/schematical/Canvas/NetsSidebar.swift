@@ -393,6 +393,7 @@ private struct NetGroupEditor: View {
                 return current.maxMeander
             }
             .help("The largest sideways size one length-tuning bump may reach")
+            let longest = group.members.compactMap { member in rows.first { $0.key == member }?.length }.max()
             ForEach(group.members, id: \.self) { member in
                 let row = rows.first { $0.key == member }
                 HStack {
@@ -402,6 +403,7 @@ private struct NetGroupEditor: View {
                             .help("More than one connection: only a net with two pads can be length-tuned or paired")
                     }
                     Spacer()
+                    NetLengthLabel(length: row?.length, longest: longest, tolerance: group.tolerance, units: units)
                     Button {
                         document.unassignNet(member)
                     } label: {
@@ -441,5 +443,34 @@ private struct NetGroupEditor: View {
 
     private var current: NetGroup {
         document.board.netGroups.first { $0.id == group.id } ?? group
+    }
+}
+
+/// A group member's routed length and how far it is from the group's
+/// longest; red when beyond the group's tolerance; "—" when it has none (not
+/// routed, or more than two pins).
+struct NetLengthLabel: View {
+    let length: Double?
+    let longest: Double?
+    let tolerance: Double
+    let units: BoardUnits
+
+    static func text(length: Double?, longest: Double?, units: BoardUnits) -> String {
+        guard let length else { return "—" }
+        let shown = LengthField.format(length, units: units, precise: false) + " " + units.title
+        guard let longest, longest - length > 1e-9 else { return shown }
+        return shown + " (−" + LengthField.format(longest - length, units: units, precise: false) + ")"
+    }
+
+    static func isOver(length: Double?, longest: Double?, tolerance: Double) -> Bool {
+        guard let length, let longest else { return false }
+        return longest - length > tolerance + 1e-6
+    }
+
+    var body: some View {
+        Text(Self.text(length: length, longest: longest, units: units))
+            .monospacedDigit()
+            .foregroundStyle(Self.isOver(length: length, longest: longest, tolerance: tolerance) ? Color.red : .secondary)
+            .help("Its routed length, and how much shorter it is than the group's longest")
     }
 }
