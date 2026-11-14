@@ -1672,15 +1672,15 @@ mcu	avr64ea28	p28	avr64ea-28-32-48-datasheet-ds40002443	p.13	{}	port-named pins 
 mcu	avr64ea28	quad28	avr32ea28-32-48-datasheet-ds40002497	p.14	{}	port-named pins only; PF6 RESET alternative not in catalog name (rule 12); UPDI not active low
 mcu	avr64ea32	quad32	avr64ea-28-32-48-datasheet-ds40002443	p.15	{}	port-named pins only; PF6 RESET alternative not in catalog name (rule 12); UPDI not active low
 mcu	avr64ea48	quad48	avr64ea-28-32-48-datasheet-ds40002443	p.16	{}	port-named pins only; PF6 RESET alternative not in catalog name (rule 12); UPDI not active low
-mcu	esp32-c3-mini-1	module53	esp32-c3-mini-1_datasheet_en	pp.10-11	{}	EN: High on / Low off, chip enable active high, not flagged
-mcu	esp32-c3-wroom-02	module19	esp32-c3-wroom-02_datasheet_en	p.10	{}	EN: High on / Low off, chip enable active high, not flagged
-mcu	esp32-c6-mini-1	module53	esp32-c6-mini-1_mini-1u_datasheet_en	pp.10-11	{}	EN: High on / Low off, chip enable active high, not flagged
-mcu	esp32-c6-wroom-1	module29	esp32-c6-wroom-1-wroom-1u_datasheet_en	pp.10-11	{}	EN: High on / Low off, chip enable active high, not flagged
+mcu	esp32-c3	module53	esp32-c3-mini-1_datasheet_en	pp.10-11	{}	EN: High on / Low off, chip enable active high, not flagged; device was esp32-c3-mini-1 until main merged the ESP32 modules into one device per family (plan-39-L Corrections 3)
+mcu	esp32-c3	module19	esp32-c3-wroom-02_datasheet_en	p.10	{}	EN: High on / Low off, chip enable active high, not flagged; device was esp32-c3-wroom-02 until main merged the ESP32 modules into one device per family (plan-39-L Corrections 3)
+mcu	esp32-c6	module53	esp32-c6-mini-1_mini-1u_datasheet_en	pp.10-11	{}	EN: High on / Low off, chip enable active high, not flagged; device was esp32-c6-mini-1 until main merged the ESP32 modules into one device per family (plan-39-L Corrections 3)
+mcu	esp32-c6	module29	esp32-c6-wroom-1-wroom-1u_datasheet_en	pp.10-11	{}	EN: High on / Low off, chip enable active high, not flagged; device was esp32-c6-wroom-1 until main merged the ESP32 modules into one device per family (plan-39-L Corrections 3)
 mcu	esp32-mini-1	module55	esp32-mini-1_datasheet_en	p.11	{}	EN: High on / Low off, chip enable active high, not flagged
-mcu	esp32-s2-mini-2	module65	esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en	pp.11-12	{}	EN: High on / Low off, chip enable active high, not flagged
-mcu	esp32-s2-solo-2	module41	esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en	pp.11-12	{}	EN: High on / Low off, chip enable active high, not flagged
-mcu	esp32-s3-mini-1	module65	esp32-s3-mini-1_mini-1u_datasheet_en	pp.11-12	{}	EN: High on / Low off, chip enable active high, not flagged
-mcu	esp32-s3-wroom-1	module41	esp32-s3-wroom-1_wroom-1u_datasheet_en	p.11	{}	EN: High on / Low off, chip enable active high, not flagged
+mcu	esp32-s2	module65	esp32-s2-mini-2_esp32-s2-mini-2u_datasheet_en	pp.11-12	{}	EN: High on / Low off, chip enable active high, not flagged; device was esp32-s2-mini-2 until main merged the ESP32 modules into one device per family (plan-39-L Corrections 3)
+mcu	esp32-s2	module41	esp32-s2-solo-2_esp32-s2-solo-2u_datasheet_en	pp.11-12	{}	EN: High on / Low off, chip enable active high, not flagged; device was esp32-s2-solo-2 until main merged the ESP32 modules into one device per family (plan-39-L Corrections 3)
+mcu	esp32-s3	module65	esp32-s3-mini-1_mini-1u_datasheet_en	pp.11-12	{}	EN: High on / Low off, chip enable active high, not flagged; device was esp32-s3-mini-1 until main merged the ESP32 modules into one device per family (plan-39-L Corrections 3)
+mcu	esp32-s3	module41	esp32-s3-wroom-1_wroom-1u_datasheet_en	p.11	{}	EN: High on / Low off, chip enable active high, not flagged; device was esp32-s3-wroom-1 until main merged the ESP32 modules into one device per family (plan-39-L Corrections 3)
 mcu	esp32-wroom-32	module39	esp32-wroom-32e_esp32-wroom-32ue_datasheet_en	p.11	{}	EN: High on / Low off, chip enable active high, not flagged
 mcu	esp32-wrover	module39	esp32-wrover-e_esp32-wrover-ie_datasheet_en	p.12	{}	EN: Module-enable signal. Active high; not flagged
 mcu	rp2040	quad57	rp2040-datasheet	p.12	{"QSPI_SS_N":true}	QSPI_SS_N (QSPI_CSn p.614) = SSI ss_o_n chip select (p.570), _n defined active low (ss_n p.502, rst_n p.169); RUN: reset when low / run when high, chip enable, not flagged

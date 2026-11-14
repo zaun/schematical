@@ -166,6 +166,17 @@ Commit: 5ba50626
    (`$TMPDIR/p39-landing/four-parts.png`) was looked at: every bar is over
    the right letters. This is a stricter comparison than reading a canvas
    by eye. The live-canvas look is still owed (the task stays `[~]`).
+3. **Merging main moved 8 ledger rows.** Main (up to 943924ba) merged the
+   ESP32 modules into one device per family (`esp32-c3-mini-1` +
+   `esp32-c3-wroom-02` → `esp32-c3` with pinouts `module53`, `module19`;
+   likewise c6, s2, s3). `check` then failed R1 ×8 and R7 ×8. Each row
+   moved to the new device: its pinout's pins are identical to the reviewed
+   ones, its source is still one of the new pinout's datasheets, and its
+   flags are `{}` both before and after. Each row's note records the old
+   device id. `check` after: `ok: 2129 pinouts, 2129 ledger rows checked`.
+   The golden conflicted in the merge and was regenerated from the merged
+   tree: `golden-check --since main` → `ok: 8250 parts.txt line(s) changed,
+   only by :low`, the same 8250 as before the merge.
 2. **A backend test the phase gates did not run failed here**
    (`serial_test`), and was fixed in the letter that owns it (plan-39-G
    Corrections 4).
