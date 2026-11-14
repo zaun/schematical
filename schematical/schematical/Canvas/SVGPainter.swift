@@ -62,10 +62,11 @@ nonisolated struct SVGPainter: SchematicPainter {
         element += " font-family=\"\(text.monospaced ? Self.monospacedFamily : Self.family)\""
         element += " font-size=\"\(Self.number(text.size))\" font-weight=\"\(Self.weight(text.weight))\""
         element += " text-anchor=\"\(anchor.x <= 0 ? "start" : anchor.x >= 1 ? "end" : "middle")\""
-        element += " dominant-baseline=\"\(anchor.y <= 0 ? "text-before-edge" : anchor.y >= 1 ? "text-after-edge" : "central")\""
+        let baseline = anchor.y <= 0 ? "text-before-edge" : anchor.y >= 1 ? "text-after-edge" : "central"
+        element += " dominant-baseline=\"\(baseline)\""
         element += " fill=\"#000\""
         if alpha != 1 { element += " fill-opacity=\"\(Self.number(alpha))\"" }
-        output.elements.append(element + ">\(Self.body(text))</text>")
+        output.elements.append(element + ">\(Self.body(text, baseline: baseline))</text>")
     }
 
     mutating func translateBy(x: CGFloat, y: CGFloat) {
@@ -77,14 +78,18 @@ nonisolated struct SVGPainter: SchematicPainter {
     }
 
     /// The `<text>` body: the escaped string, each overlined range in a
-    /// `<tspan text-decoration="overline">` (plan-39-C).
-    static func body(_ text: PaintedText) -> String {
+    /// `<tspan text-decoration="overline">` (plan-39-C). The tspan repeats
+    /// the text's `dominant-baseline`: SVG 1.1 does not inherit it, and
+    /// WebKit draws a tspan without it on the alphabetic baseline, raised
+    /// above the rest of the label.
+    static func body(_ text: PaintedText, baseline: String = "central") -> String {
         guard !text.overlines.isEmpty else { return escaped(text.string) }
         var out = ""
         var at = 0
         for range in text.overlines {
             if range.lowerBound > at { out += escaped(text.substring(at..<range.lowerBound)) }
-            out += "<tspan text-decoration=\"overline\">\(escaped(text.substring(range)))</tspan>"
+            out += "<tspan dominant-baseline=\"\(baseline)\" text-decoration=\"overline\">"
+                + "\(escaped(text.substring(range)))</tspan>"
             at = range.upperBound
         }
         if at < text.string.count { out += escaped(text.substring(at..<text.string.count)) }

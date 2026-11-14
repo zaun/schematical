@@ -178,14 +178,14 @@ Commit: —
 
 ### Phase 3 — seen in the real app
 
-- [ ] Build and open the app (`xcodebuild … build`, then `open` the built
+- [x] Build and open the app (`xcodebuild … build`, then `open` the built
       app); File ▸ New Part…, add a pin named `CE#` with Low ticked and a
       pin `A0/CS` with only CS ticked, and look at the block preview and,
       after placing the saved part, the schematic canvas. Move the pointer
-      to (0, 0) when done (`AGENTS.md` § Testing in the app).
-- [ ] Export the schematic as SVG and PNG (File ▸ Export) and open both; the
-      overlines are present in both.
-- [ ] Record what was seen in this phase's Commit note (one line).
+      to (0, 0) when done (`AGENTS.md` § Testing in the app). — done: opened a .schpart with CE#, A0/CS, OE unflagged (Corrections 1), ticked Low on CE#, CS only on A0/CS, and OE in the menu; preview showed C̅E̅ (no #), A0/C̅S̅, O̅E̅; Add to Library, dragged onto the canvas: same; pointer moved to (0, 0)
+- [x] Export the schematic as SVG and PNG (File ▸ Export) and open both; the
+      overlines are present in both. — done: PNG: bars over CE, CS (not A0), OE. SVG: tspans present but WebKit drew them raised (Corrections 2); fixed, re-exported: bars in place
+- [x] Record what was seen in this phase's Commit note (one line). — done: below the Commit line
 
 Acceptance: overlines are visible in the Part Editor preview, the canvas and
 both exports, over the right letters.
@@ -193,6 +193,10 @@ both exports, over the right letters.
   window region; look at each) show the bar over `CE`, over `CS` only in
   `A0/CS`, and not over `A0` (est. 15 min; this is the only check that sees
   real rendering).
+  Seen 2026-11-14: Part Editor preview, canvas, PNG export and (after the
+  fix of Corrections 2) the SVG export each show bars over `CE` (no `#`),
+  over `CS` only in `A0/CS`, and over `OE`; none over `A0`, `D0`, `VCC`,
+  `GND`.
 Commit: —
 
 ## Validation Plan
@@ -216,7 +220,20 @@ Commit: —
 
 ## Corrections
 
-(empty until execution)
+1. **Phase 3 opened a part file instead of building a gate from scratch.**
+   File ▸ New Part… opens an empty gate form (gates, timing, footprint all
+   blank); filling it through the GUI checks nothing plan-39 changed. The
+   check opened a `.schpart` with `CE#`, `A0/CS` and `OE` unflagged, then
+   set every flag through the new Active low menu, which is the part under
+   test. The preview, Add to Library, placing and exports followed as written.
+2. **The SVG overline was drawn raised.** QuickLook (WebKit) put each
+   `<tspan text-decoration="overline">` on the alphabetic baseline, above
+   the rest of the label, because SVG 1.1 does not inherit the `<text>`'s
+   `dominant-baseline="central"` into a tspan. `SVGPainter.body` now writes
+   the text's `dominant-baseline` on each tspan (`testTextOverline` asserts
+   it). Re-exported from the real app: `A0/<tspan dominant-baseline="central"
+   text-decoration="overline">CS</tspan>`, drawn on one baseline.
+   Re-ran Phase 1's check: `Executed 21 tests, with 0 failures`.
 
 ## Summary
 

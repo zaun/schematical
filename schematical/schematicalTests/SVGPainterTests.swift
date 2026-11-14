@@ -105,14 +105,14 @@ final class SVGPainterTests: XCTestCase {
             return String(element[start.upperBound...].dropLast("</text>".count))
         }
         XCTAssertEqual(try body(PaintedText("A0/CS", size: 10, overlines: [3..<5])),
-                       "A0/<tspan text-decoration=\"overline\">CS</tspan>")
+                       "A0/<tspan dominant-baseline=\"central\" text-decoration=\"overline\">CS</tspan>")
         XCTAssertEqual(try body(PaintedText("OE", size: 10, overlines: [0..<2])),
-                       "<tspan text-decoration=\"overline\">OE</tspan>")
+                       "<tspan dominant-baseline=\"central\" text-decoration=\"overline\">OE</tspan>")
         XCTAssertEqual(try body(PaintedText("A&B/<C>", size: 10, overlines: [0..<3, 4..<7])),
-                       "<tspan text-decoration=\"overline\">A&amp;B</tspan>/"
-                       + "<tspan text-decoration=\"overline\">&lt;C&gt;</tspan>")
+                       "<tspan dominant-baseline=\"central\" text-decoration=\"overline\">A&amp;B</tspan>/"
+                       + "<tspan dominant-baseline=\"central\" text-decoration=\"overline\">&lt;C&gt;</tspan>")
         XCTAssertEqual(try body(PaintedText("NRST/PA0&", size: 10, overlines: [0..<4])),
-                       "<tspan text-decoration=\"overline\">NRST</tspan>/PA0&amp;")
+                       "<tspan dominant-baseline=\"central\" text-decoration=\"overline\">NRST</tspan>/PA0&amp;")
         XCTAssertEqual(try body(PaintedText("CE#", size: 10)), "CE#")
     }
 
