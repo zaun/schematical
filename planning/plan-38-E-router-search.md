@@ -170,12 +170,13 @@ Commit: c3480ae1
 
 Acceptance: the cases pass.
   Check: `-only-testing:schematicalTests/RouterTests -only-testing:schematicalTests/RoutingSearchTests -only-testing:schematicalTests/RoutingGridTests` → `** TEST SUCCEEDED **` (est. 2–3 min).
-Commit: —
+Commit: e501166e
 
 ### Phase 4 — the fixtures, one pass
 
-- [ ] `RouterFixtureTests`: `Fixture.open` + `routingProblem(options: .standard, rules: .customDefault)` + `Router.route` on AFU, LFU, RegFile; assert AFU completes ≥ 85 of 115 in < 30 s; assert no result trace has fewer than 2 points or zero-length segments; print `connections routed / total` and seconds for all three. Write the printed numbers into the Results line below, in the same commit.
-- [ ] Results (the output of this run, filled in then): AFU __/115 in __ s; LFU __/188 in __ s; RegFile __/24 in __ s.
+- [x] `RouterFixtureTests`: `Fixture.open` + `routingProblem(options: .standard, rules: .customDefault)` + `Router.route` on AFU, LFU, RegFile; assert AFU completes ≥ 85 of 115 in < 30 s; assert no result trace has fewer than 2 points or zero-length segments; print `connections routed / total` and seconds for all three. Write the printed numbers into the Results line below, in the same commit. (Also asserts no clearance violation, `RoutingCheck.violations` = 0, on all three.)
+- [x] Results (the output of this run, filled in then): AFU 99/115 in 7.91 s (99 vias, 1540 mm); LFU 70/188 in 9.36 s (126 vias, 1683 mm); RegFile 15/24 in 7.83 s (17 vias, 233 mm). Debug build (the test target's configuration), pitch 0.1 mm. 0 clearance violations on each.
+- [x] (added) Speed: the first run took AFU 41.38 s, over the 30 s bound, with the same 99/115 and 5 677 419 expansions. The search's hot loop now reads flat maps through unsafe buffers with a packed `UInt64` heap (`RoutingGrid.traceMaps` / `viaMaps` flattened to one array per kind). Same counts and expansions after, so no behavior changed; 7.91 s.
 
 Acceptance: the AFU floor and the time bound hold; the three results are written above.
   Check: `-only-testing:schematicalTests/RouterFixtureTests` → `** TEST SUCCEEDED **` (est. 3 min; the spike's single pass took 0.3–2.1 s per board, so the bound is generous).

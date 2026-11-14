@@ -37,13 +37,14 @@ nonisolated struct RoutingGrid: Sendable {
     let clearanceOfNet: [Int: Double]
     let rules: DesignRules
 
-    /// Indexed `profile * layers.count + layer`.
-    var traceMaps: [[Int32]]
-    var viaMaps: [[Int32]]
+    /// One flat array per kind, indexed
+    /// `(profile * layers.count + layer) * cellCount + cell`.
+    var traceMaps: [Int32]
+    var viaMaps: [Int32]
     /// The maps with only the fixed copper (obstacles, kept copper, edge),
     /// before anything is routed: what un-stamping restores (plan-38-F).
-    private(set) var fixedTraceMaps: [[Int32]] = []
-    private(set) var fixedViaMaps: [[Int32]] = []
+    private(set) var fixedTraceMaps: [Int32] = []
+    private(set) var fixedViaMaps: [Int32] = []
 
     init(problem: RoutingProblem) {
         let rules = problem.rules
@@ -80,7 +81,7 @@ nonisolated struct RoutingGrid: Sendable {
 
         let count = nx * ny
         let maps = profiles.count * max(layers.count, 1)
-        traceMaps = Array(repeating: Array(repeating: Self.free, count: count), count: maps)
+        traceMaps = Array(repeating: Self.free, count: count * maps)
         viaMaps = traceMaps
 
         // Fixed copper and holes. The outline is the edge keep-out, below.
@@ -138,7 +139,7 @@ nonisolated struct RoutingGrid: Sendable {
 
     /// Whether a trace centre of net `net` may be at `cell` on layer `layer`.
     func isPassable(_ cell: Int, layer: Int, net: Int, profile: Int) -> Bool {
-        let value = traceMaps[profile * layers.count + layer][cell]
+        let value = traceMaps[(profile * layers.count + layer) * cellCount + cell]
         return value == Self.free || value == Int32(net)
     }
 
@@ -147,7 +148,7 @@ nonisolated struct RoutingGrid: Sendable {
     func viaFits(_ cell: Int, net: Int, profile: Int) -> Bool {
         let base = profile * layers.count
         for layer in layers.indices {
-            let value = viaMaps[base + layer][cell]
+            let value = viaMaps[(base + layer) * cellCount + cell]
             if value != Self.free && value != Int32(net) { return false }
         }
         return true
@@ -155,21 +156,21 @@ nonisolated struct RoutingGrid: Sendable {
 
     /// The trace-map value at a cell (tests and diagnostics).
     func traceValue(_ cell: Int, layer: Int, profile: Int) -> Int32 {
-        traceMaps[profile * layers.count + layer][cell]
+        traceMaps[(profile * layers.count + layer) * cellCount + cell]
     }
 
     func viaValue(_ cell: Int, layer: Int, profile: Int) -> Int32 {
-        viaMaps[profile * layers.count + layer][cell]
+        viaMaps[(profile * layers.count + layer) * cellCount + cell]
     }
 
     // MARK: Stamping
 
-    private static func mark(_ map: inout [Int32], _ cell: Int, _ owner: Int32) {
-        let value = map[cell]
+    private static func mark(_ map: inout [Int32], _ index: Int, _ owner: Int32) {
+        let value = map[index]
         if value == free {
-            map[cell] = owner
+            map[index] = owner
         } else if value != owner {
-            map[cell] = blocked
+            map[index] = blocked
         }
     }
 
@@ -192,7 +193,7 @@ nonisolated struct RoutingGrid: Sendable {
         let box = CopperShape(core: core, radius: 0, layers: nil, node: 0).bounds
         let reach = profiles.map { max(clearance, $0.clearance) + radius + max($0.halfWidth, $0.viaRadius) }.max() ?? 0
         guard let range = cellRange(box, margin: reach) else { return }
-        let count = layers.count
+        let count = layers.count, cells = cellCount
         for y in range.y {
             for x in range.x {
                 let c = cell(x, y)
@@ -203,8 +204,8 @@ nonisolated struct RoutingGrid: Sendable {
                     let onTrace = d < gap + profile.halfWidth, onVia = d < gap + profile.viaRadius
                     guard onTrace || onVia else { continue }
                     for layer in indices {
-                        if onTrace { Self.mark(&traceMaps[p * count + layer], c, owner) }
-                        if onVia { Self.mark(&viaMaps[p * count + layer], c, owner) }
+                        if onTrace { Self.mark(&traceMaps, (p * count + layer) * cells + c, owner) }
+                        if onVia { Self.mark(&viaMaps, (p * count + layer) * cells + c, owner) }
                     }
                 }
             }
@@ -233,9 +234,9 @@ nonisolated struct RoutingGrid: Sendable {
                 let inside = crossings.filter { $0 < px }.count % 2 == 1
                 guard !inside else { continue }
                 let c = cell(x, y)
-                for map in 0..<traceMaps.count {
-                    traceMaps[map][c] = Self.blocked
-                    viaMaps[map][c] = Self.blocked
+                for map in 0..<(traceMaps.count / cellCount) {
+                    traceMaps[map * cellCount + c] = Self.blocked
+                    viaMaps[map * cellCount + c] = Self.blocked
                 }
             }
         }
@@ -251,8 +252,8 @@ nonisolated struct RoutingGrid: Sendable {
                     let d = Self.distance(point(c), core)
                     for (p, profile) in profiles.enumerated() {
                         for layer in 0..<count {
-                            if d < edge + profile.halfWidth { traceMaps[p * count + layer][c] = Self.blocked }
-                            if d < edge + profile.viaRadius { viaMaps[p * count + layer][c] = Self.blocked }
+                            if d < edge + profile.halfWidth { traceMaps[(p * count + layer) * cellCount + c] = Self.blocked }
+                            if d < edge + profile.viaRadius { viaMaps[(p * count + layer) * cellCount + c] = Self.blocked }
                         }
                     }
                 }
