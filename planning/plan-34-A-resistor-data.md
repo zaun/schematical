@@ -78,7 +78,7 @@ Every other letter points here.
 | The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p34-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (re-run 2026-11-13 at b66696f: `** BUILD SUCCEEDED **`) |
 | No resistor kind yet | `grep -c 'PART_RESISTOR' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/resistor.json` → no such file; `ls datasheets/resistor` → no such directory | MET at the start (942e3e4: 0, no file, no directory). Re-run at b66696f: 1, the file, the directory, all made by this plan (E, F, A Phase 3) |
 | No other open plan adds resistors | `grep -l -i 'datasheets/resistor\|GENERIC-RESISTOR\|Parts/resistor\.json\|"kind": *"resistor"' planning/plan-*.md \| grep -v plan-34 \| wc -l` → 0 | MET (re-run 2026-11-13 at b66696f: 0) |
-| DigiKey credentials and quota | `DIGIKEY_CLIENT_ID`/`_SECRET` exported in `~/.zshrc`; Phase 1 re-lists five pieces (the one re-listed at planning time cost 189 calls before the quota cut it, `52-dale-re-1.err`; `recheck.sh` skips finished pieces, so a cut run goes on the next day) and Phase 2 costs one call per checked part, 1778 at planning time (§ 2); a day allows about 1000, shared with other sessions | **NOT MET for Phase 2** (re-measured 2026-11-13 01:14 UTC: `digikey: 10 of 10 parts, 1 pages, 1 API calls, 18 left today`, < 600; credentials present: 2 export lines; then spent on the bulk relisting: `top.js … 15 calls, 0 left`; 01:24 UTC: `rate limited by DigiKey; resets at 2026-11-14T00:00:00.000Z (in 1356 min)`, `0 left today`). Phase 2 still needs 1673 rows checked, about 100–150 calls in bulk (§ Corrections 7) (`cut-picked.py … → 1849 picked rows from cut pieces, 1677 unchecked`). Earlier: MET at 00:08 UTC (999 left), which paid for Phase 1 (632 calls) and Phase 2 day 1 (172). A session cron (14:13 HST, after the ~00:00 UTC reset) re-checks and continues |
+| DigiKey credentials and quota | `DIGIKEY_CLIENT_ID`/`_SECRET` exported in `~/.zshrc`; Phase 1 re-lists five pieces (the one re-listed at planning time cost 189 calls before the quota cut it, `52-dale-re-1.err`; `recheck.sh` skips finished pieces, so a cut run goes on the next day) and Phase 2 costs one call per checked part, 1778 at planning time (§ 2); a day allows about 1000, shared with other sessions | MET (re-measured 2026-11-14 16:28 UTC: `digikey: 1 of 1 parts, 1 pages, 1 API calls, 999 left today`, ≥ 600; credentials present: 2 export lines). Phase 2 finished that day: bulk relisting 145 calls, then 2 single checks (§ Corrections 7, 9). Earlier: MET 2026-11-13 00:08 UTC (999 left), which paid for Phase 1 (632 calls) and Phase 2 day 1 (172); NOT MET 2026-11-13 01:14 UTC (18 left, then rate limited until 2026-11-14T00:00Z) |
 
 Everything below is written against the world where these hold.
 
@@ -368,12 +368,14 @@ Commit: bbb514a
       split from was cut. That is 1847 picked rows on 2026-11-13 (`cut-picked:
       1847 picked rows from cut pieces`). Probe: `RC0402FR-0710KL` → 1 call,
       `found` 1, stock 5552821, Active.
-- [ ] (added) Re-run Phase 3's and 4's scripts on the stock-checked pick
+- [x] (added) Re-run Phase 3's and 4's scripts on the stock-checked pick
       (`select.py --stock`, `fetch.py`, `textscan.py`, `sibling.py`,
       `place.py` after clearing `datasheets/resistor/`, `footprint-lines.py`,
       `specs-skeleton.py`, which merges) and their checks (§ Corrections 6).
-      Scripted with B–F's re-runs as `census/finish.sh`.
-- [~] Run it on the picked rows from cut pieces (1778 at planning time);
+      Scripted with B–F's re-runs as `census/finish.sh`. Run 2026-11-14:
+      `spec groups 109, specs.tsv rows 109`, `place.py --verify` before the
+      prune `0 missing, 0 unused`, the final pick 1974 `add`, `ctest` 33/33.
+- [x] Run it on the picked rows from cut pieces (1778 at planning time);
       re-run `select.py --stock`; check the newly picked rows from cut
       pieces; repeat until none is unchecked. Copy the result to
       `planning/plan-34-data/stock-check.tsv`. Day 1 (2026-11-13 UTC): 172
@@ -387,10 +389,19 @@ Commit: bbb514a
       (after the ~00:00 UTC quota reset) continues it. Day 1 end: the bulk
       relisting of Dale chip (383 parts, cut by the quota after 15 calls,
       `0 left`; it resumes) confirmed 4 more: 176 of 1849 checked, all
-      found.
+      found. Day 2 (2026-11-14): `stock-relist.sh` (145 calls; 53 Viking
+      refused by HTTP 400, it lists 0 parts) and `stock-merge.py` → `1647
+      confirmed from the relisting (3768 parts listed); 26 still unchecked`;
+      `stock-check.sh` checked the 26: 25 found, `RC0402FR-074K7L` not
+      (Active, 0 in stock; re-checked by hand: 0 of 0 with `--in-stock`) →
+      `out`, `stock check`. The re-run pick took `RC0402FR-13182RL` in its
+      place (1 call: found, 89302, Active); then `cut-picked: 1849 picked rows
+      from cut pieces, 0 unchecked`. `stock-check.tsv`: 1850 rows, 1849
+      `found` 1 (all Active), 1 `found` 0 (§ Corrections 9).
 
 Acceptance: every picked row from a cut piece is confirmed in stock.
   Check: `python3 -I planning/plan-34-data/census/select.py /tmp/p34/raw /tmp/p34/cand.tsv --stock planning/plan-34-data/stock-check.tsv --report` and an `awk` join of the picked rows from cut pieces with `stock-check.tsv` → 0 unchecked, 0 picked with `found` = 0 (est. 1–2 quota days at one call per part).
+  Result (2026-11-14): `select.py … --report` exits 0; `cut-picked … 0 unchecked`; 0 picked rows with `found` = 0.
 Commit: —
 
 ### Phase 3 — Downloads, scans, placement
@@ -590,6 +601,14 @@ Commit: abb3652
    on a cache hit. Re-run of the rehearsal: `109 rows; 109 kept`, the same
    1974 `add` rows, `0 skip rows missing`, `fp-check` 33 / 29 / 13 lines
    with 0 missing, `specs-fill` 0 unmapped.
+9. **Phase 2 found one part out of stock, and the 53 Viking relisting failed.**
+   `RC0402FR-074K7L` (YAGEO, chip 1 kΩ – 5 kΩ) had 0 in stock on
+   2026-11-14, so it is `out`, `stock check`. The final pick put
+   `RC0402FR-13182RL` (< 1 kΩ) in its slot. It came from a cut piece and was
+   checked with one call. Its line replaces the old one in
+   `backend/tests/golden/parts.txt` and `traces.txt`. The bulk relisting of
+   53 Viking failed with HTTP 400 on every piece (as § Corrections 2).
+   That cost nothing: no picked row comes from a cut 53 Viking piece.
 
 ## Summary
 
