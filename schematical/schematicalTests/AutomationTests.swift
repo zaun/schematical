@@ -501,6 +501,53 @@ final class AutomationTests: XCTestCase {
         XCTAssertTrue(result.isError)
     }
 
+    /// Active-low pins (plan-39-B): `get_design` JSON and `get_part` report
+    /// the flag; the text form, whose pin tokens agents copy back, does not
+    /// change.
+    func testActiveLowIsReported() async throws {
+        let flaggedText = ChipPinActiveLowTests.fileText(uuid: "C39B0000-0000-4000-8000-0000000000A1", name: "LOW-AUTO")
+        let plainText = ChipPinActiveLowTests.fileText(uuid: "C39B0000-0000-4000-8000-0000000000A2", name: "LOW-PLAIN",
+                                                       flagged: false)
+        XCTAssertFalse(plainText.contains("activeLow"), plainText)
+        _ = try PartCatalogStore.shared.register(fileText: flaggedText, source: "low-auto.schpart")
+        _ = try PartCatalogStore.shared.register(fileText: plainText, source: "low-plain.schpart")
+
+        let flagged = newWindow()
+        var result = await call("place_part", flagged.id, ["part": "LOW-AUTO", "x": 200, "y": 200])
+        XCTAssertFalse(result.isError, result.text)
+        let plain = newWindow()
+        result = await call("place_part", plain.id, ["part": "LOW-PLAIN", "x": 200, "y": 200])
+        XCTAssertFalse(result.isError, result.text)
+
+        let json = await call("get_design", flagged.id, ["format": "json"])
+        let data = try XCTUnwrap(json.text.data(using: .utf8))
+        let root = try XCTUnwrap(try JSONSerialization.jsonObject(with: data) as? [String: Any])
+        let parts = try XCTUnwrap(root["parts"] as? [[String: Any]])
+        let pins = try XCTUnwrap(parts.first?["pins"] as? [[String: Any]])
+        let byName = Dictionary(uniqueKeysWithValues: pins.map { ($0["name"] as! String, $0) })
+        XCTAssertEqual(byName["CE#"]?["activeLow"] as? Bool, true)
+        XCTAssertEqual(byName["A0/CS"]?["activeLow"] as? [String], ["CS"])
+        XCTAssertEqual(byName["AIN7/GPIO3/DRDY/CLK"]?["activeLow"] as? [String], ["DRDY"])
+        XCTAssertNil(byName["D0"]?["activeLow"])
+        XCTAssertNil(byName["VCC"]?["activeLow"])
+
+        let flaggedDesign = await call("get_design", flagged.id)
+        let plainDesign = await call("get_design", plain.id)
+        // The first line names the window; the rest must match token for token.
+        let body = { (text: String) in text.split(separator: "\n", omittingEmptySubsequences: false).dropFirst() }
+        XCTAssertEqual(Array(body(flaggedDesign.text.replacingOccurrences(of: "LOW-AUTO", with: "LOW-PLAIN"))),
+                       Array(body(plainDesign.text)))
+        XCTAssertTrue(flaggedDesign.text.contains("CE#"), flaggedDesign.text)
+
+        result = await call("get_part", flagged.id, ["part": "LOW-AUTO"])
+        XCTAssertTrue(result.text.contains("  1=CE# [input] low\n"), result.text)
+        XCTAssertTrue(result.text.contains("  2=A0/CS [input] low=CS\n"), result.text)
+        XCTAssertTrue(result.text.contains("  4=D0 [output]\n"), result.text)
+        result = await call("get_part", plain.id, ["part": "LOW-PLAIN"])
+        XCTAssertFalse(result.text.contains("] low"), result.text)
+        XCTAssertTrue(result.text.contains("  1=CE# [input]\n"), result.text)
+    }
+
     func testRenderReturnsAPictureOnlyWhenThereIsSomethingToDraw() async {
         let (id, _) = newWindow()
         var result = await call("render", id, ["view": "schematic"])

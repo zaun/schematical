@@ -163,21 +163,22 @@ Commit: bd2e825e
 Acceptance: the editor round-trips the flag and writes only canonical forms.
   Check: `xcodebuild … test -only-testing:schematicalTests/PartEditorWindowTests -only-testing:schematicalTests/PartKindRoundTripTests` → `** TEST SUCCEEDED **` (est. 6 min).
   Observed 2026-11-14: PartEditorWindowTests `Executed 8 tests, with 0 failures`, PartKindRoundTripTests `Executed 26 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: —
+Commit: aa0d824b
 
 ### Phase 3 — agent control
 
-- [ ] `AutomationRead.swift`: pin dictionaries in `get_design` JSON gain
-      `activeLow` (§ 3); `get_part` text appends ` low` / ` low=A;B`.
-- [ ] `docs/agent-control.md`: where `get_design` JSON and `get_part` are
-      described, one sentence each.
-- [ ] Tests: `AutomationTests`: place a flagged test part (registered as in
+- [x] `AutomationRead.swift`: pin dictionaries in `get_design` JSON gain
+      `activeLow` (§ 3); `get_part` text appends ` low` / ` low=A;B`. — done: `activeLowJSON` / `activeLowText`; the `get_part` header now reads `pins (designator=name [role] group low):`
+- [x] `docs/agent-control.md`: where `get_design` JSON and `get_part` are
+      described, one sentence each. — done: one paragraph after the Read tools covering both
+- [x] Tests: `AutomationTests`: place a flagged test part (registered as in
       Phase 1), assert `get_design` JSON has `activeLow` and the text form
       is unchanged (`designator:name` tokens identical to the unflagged
-      case), and `get_part` shows ` low`.
+      case), and `get_part` shows ` low`. — done: `testActiveLowIsReported` (registers into `PartCatalogStore.shared`, which `place_part` reads, as `PartFileSaveOpenTests` does; compares `get_design` text with an unflagged copy line for line)
 
 Acceptance: agents can see the flag; their pin references are unchanged.
   Check: `xcodebuild … test -only-testing:schematicalTests/AutomationTests` → `** TEST SUCCEEDED **` (est. 5 min).
+  Observed 2026-11-14: `Executed 29 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 Commit: —
 
 ## Validation Plan
@@ -198,7 +199,10 @@ Commit: —
 
 ## Corrections
 
-(empty until execution)
+1. Phase 1's `ChipPinActiveLowTests.fileText` gained `flagged:` (default
+   true) so Phase 3 can register an unflagged twin of the same part; the
+   plan had Phase 3 "registered as in Phase 1" without saying how the
+   unflagged case is built.
 
 ## Summary
 

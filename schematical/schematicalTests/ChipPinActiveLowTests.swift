@@ -13,9 +13,10 @@ final class ChipPinActiveLowTests: XCTestCase {
         return store
     }()
 
-    /// A single part file: a 6-pin NAND whose pins carry the four flag forms.
-    static func fileText(uuid: String, name: String) -> String {
-        let pins: [[String: Any]] = [
+    /// A single part file: a 6-pin NAND whose pins carry the four flag forms
+    /// (or, with `flagged` false, the same pins with no flags).
+    static func fileText(uuid: String, name: String, flagged: Bool = true) -> String {
+        var pins: [[String: Any]] = [
             ["number": 1, "name": "CE#", "role": "input", "activeLow": true],
             ["number": 2, "name": "A0/CS", "role": "input", "activeLow": ["CS"]],
             ["number": 3, "name": "GND", "role": "ground"],
@@ -23,6 +24,9 @@ final class ChipPinActiveLowTests: XCTestCase {
             ["number": 5, "name": "VCC", "role": "power"],
             ["number": 6, "name": "AIN7/GPIO3/DRDY/CLK", "role": "input", "activeLow": ["DRDY"]],
         ]
+        if !flagged {
+            pins = pins.map { $0.filter { $0.key != "activeLow" } }
+        }
         let gate: [String: Any] = ["op": "nand", "inputs": ["CE#", "A0/CS"], "output": "D0"]
         let timing: [String: Any] = ["HC": ["rise": 9, "fall": 9, "vcc": [2, 6]] as [String: Any]]
         let part: [String: Any] = ["name": name, "manufacturer": "Generic", "package": "SOT-23", "pinout": "p6",
