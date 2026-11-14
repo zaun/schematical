@@ -481,6 +481,149 @@ converter	ADS7822	dgk8	ads7822	p.5	{"CS/SHDN":["CS"]}
 converter	ADS7823	dgk8	ads7823	p.4	{}	
 converter	ADS7824	dw28	ads7824	p.4	{"PAR/SER":["SER"],"R/C":["C"],"CS":true,"BUSY":true}	
 converter	ADS7825	dw28	ads7825	p.4	{"PAR/SER":["SER"],"R/C":["C"],"CS":true,"BUSY":true}	
+converter	ADS7826	drb8	ads7829	p.5	{"CS/SHDN":["CS"]}	
+converter	ADS7827	drb8	ads7829	p.5	{"CS/SHDN":["CS"]}	
+converter	ADS7828	pw16	ads7828	p.2	{}	
+converter	ADS7829	drb8	ads7829	p.5	{"CS/SHDN":["CS"]}	
+converter	ADS7830	pw16	ads7830	p.2	{}	
+converter	ADS7834	dgk8	ads7834	p.2	{}	
+converter	ADS7835	dgk8	ads7835	p.3	{}	
+converter	ADS7841	dbq16	ads7841	p.2	{"SHDN":true,"CS":true}	
+converter	ADS7842	db28	ads7842	p.2	{"RD":true,"CS":true,"WR":true,"BUSY":true}	
+converter	ADS7844	p20	ads7844	p.4	{"SHDN":true,"CS":true}	sheet shows QSOP/SSOP-20 pin table; p20 pin numbers match
+converter	ADS7851	rte16	ads7851	p.3	{"CS":true}	
+converter	ADS7852	pbs32	ads7852	p.4	{"WR":true,"BUSY":true,"RD":true,"CS":true}	
+converter	ADS7853	pw16	ads7253	p.4	{"CS":true}	
+converter	ADS7853	rte16	ads7253	p.4	{"CS":true}	
+converter	ADS7854	pw16	ads7254	p.4	{"CS":true}	
+converter	ADS7861	dbq24	ads7861	p.4	{"CS":true}	
+converter	ADS7861	rhb32	ads7861	p.4	{"CS":true}	
+converter	ADS7862	pbs32	ads7862	p.2	{"CONVST":true,"CS":true,"RD":true}	
+converter	ADS7863	dbq24	ads7863a	p.7	{"CS":true}	
+converter	ADS7863	rge24	ads7863a	p.7	{"CS":true}	
+converter	ADS7864	pfb48	ads7864	p.6	{"BUSY":true,"RD":true,"CS":true,"HOLDC":true,"HOLDB":true,"HOLDA":true,"RESET":true}	
+converter	ADS7865	pbs32	ads7865	p.6	{"CONVST":true,"CS":true,"RD":true,"WR":true}	
+converter	ADS7866	dbv6	ads7866	p.10	{"CS":true}	
+converter	ADS7867	dbv6	ads7866	p.10	{"CS":true}	
+converter	ADS7868	dbv6	ads7866	p.10	{"CS":true}	
+converter	ADS7881	pfb48	ads7881	p.7	{"A_PWD":true,"PWD/RST":true,"CONVST":true,"RD":true,"CS":true}	
+converter	ADS7881	rgz48	ads7881	p.7	{"A_PWD":true,"PWD/RST":true,"CONVST":true,"RD":true,"CS":true}	
+converter	ADS7882	pfb48	ads7882	pp.6-7	{"A_PWD":true,"PWD/RST":true,"CONVST":true,"RD":true,"CS":true}	PWD/RST: bar drawn over PWD only on p.7 but text says 'Active low input' for the pin (ADS7881 sheet bars both); flagged true
+converter	ADS7883	sot6	ads7883	p.5	{"CS":true}	
+converter	ADS7884	sot6	ads7885	p.7	{"CS":true}	
+converter	ADS7885	sot6	ads7885	p.7	{"CS":true}	
+converter	ADS7886	sot6	ads7886	p.3	{"CS":true}	
+converter	ADS7887	sot6	ads7887	p.5	{"CS":true}	
+converter	ADS7888	sot6	ads7887	p.5	{"CS":true}	
+converter	ADS7891	pfb48	ads7891	pp.6-7	{"A_PWD":true,"PWD/RST":true,"CONVST":true,"RD":true,"CS":true}	
+converter	ADS7924	rte16	ads7924	p.3	{"RESET":true,"INT":true}	
+converter	ADS7945	rte16	ads7946	p.8	{"CS":true}	
+converter	ADS7946	rte16	ads7946	p.8	{"CS":true}	
+converter	ADS7947	rte16	ads7947	p.4	{"CS":true}	
+converter	ADS7948	rte16	ads7947	p.4	{"CS":true}	
+converter	ADS7949	rte16	ads7947	p.4	{"CS":true}	
+converter	ADS7950	dbt30	ads7950	pp.6-7	{"CS":true}	GPIO3 alt PD is active low; catalog name omits it (rule 12)
+converter	ADS7950	rge24	ads7950	pp.8-9	{"CS":true}	
+converter	ADS7951	dbt30	ads7950	pp.6-7	{"CS":true}	GPIO3 alt PD is active low; catalog name omits it (rule 12)
+converter	ADS7951	rge24	ads7950	pp.8-9	{"CS":true}	
+converter	ADS7952	dbt38	ads7950	pp.6-7	{"CS":true}	GPIO3 alt PD is active low; catalog name omits it (rule 12)
+converter	ADS7952	rhb32	ads7950	pp.8-9	{"CS":true}	
+converter	ADS7953	dbt38	ads7950	pp.6-7	{"CS":true}	GPIO3 alt PD is active low; catalog name omits it (rule 12)
+converter	ADS7953	rhb32	ads7950	pp.8-9	{"CS":true}	
+converter	ADS7954	dbt30	ads7950	pp.6-7	{"CS":true}	GPIO3 alt PD is active low; catalog name omits it (rule 12)
+converter	ADS7954	rge24	ads7950	pp.8-9	{"CS":true}	
+converter	ADS7955	dbt30	ads7950	pp.6-7	{"CS":true}	GPIO3 alt PD is active low; catalog name omits it (rule 12)
+converter	ADS7955	rge24	ads7950	pp.8-9	{"CS":true}	
+converter	ADS7956	dbt38	ads7950	pp.6-7	{"CS":true}	GPIO3 alt PD is active low; catalog name omits it (rule 12)
+converter	ADS7956	rhb32	ads7950	pp.8-9	{"CS":true}	
+converter	ADS7957	dbt38	ads7950	pp.6-7	{"CS":true}	GPIO3 alt PD is active low; catalog name omits it (rule 12)
+converter	ADS7957	rhb32	ads7950	pp.8-9	{"CS":true}	
+converter	ADS7958	dbt30	ads7950	pp.6-7	{"CS":true}	GPIO3 alt PD is active low; catalog name omits it (rule 12)
+converter	ADS7958	rge24	ads7950	pp.8-9	{"CS":true}	
+converter	ADS7959	dbt30	ads7950	pp.6-7	{"CS":true}	GPIO3 alt PD is active low; catalog name omits it (rule 12)
+converter	ADS7959	rge24	ads7950	pp.8-9	{"CS":true}	
+converter	ADS7960	dbt38	ads7950	pp.6-7	{"CS":true}	GPIO3 alt PD is active low; catalog name omits it (rule 12)
+converter	ADS7961	dbt38	ads7950	pp.6-7	{"CS":true}	GPIO3 alt PD is active low; catalog name omits it (rule 12)
+converter	ADS7961	rhb32	ads7950	pp.8-9	{"CS":true}	
+converter	ADS802	so28	ads802	p.4	{"OE":true}	pin 27 IN-bar is the complementary analog input (rule 2), not flagged
+converter	ADS8028	rtj20	ads8028	p.7	{"CS":true,"PD/RST":true}	
+converter	ADS804	ssop28	ads804	p.4	{"OE":true}	pin 23 IN-bar is the analog (-) input (rule 2), not flagged
+converter	ADS805	ssop28	ads805	p.4	{"OE":true}	pin 23 IN-bar is the complementary analog input (rule 2), not flagged
+converter	ADS807	ssop28	ads807	p.2	{"INT/EXT":["INT"],"OE":true}	INT/EXT bar over INT only; pin 24 IN-bar is the complementary analog input (rule 2); CM bar in pin table is a ruling artifact (pinout drawing has none)
+converter	ADS8166	rhb32	ads8166	pp.3-4	{"CS":true,"RST":true}	
+converter	ADS8167	rhb32	ads8166	pp.3-4	{"CS":true,"RST":true}	
+converter	ADS8168	rhb32	ads8166	pp.3-4	{"CS":true,"RST":true}	
+converter	ADS820	so28	ads820	p.4	{"OE":true}	pin 27 drawn IN-bar is the complementary analog input (rule 2), not flagged
+converter	ADS8201	rge24	ads8201	pp.4,23	{"RST":true,"BUSY/INT":true,"CS":true,"CONVST":true}	BUSY/INT polarity programmable; pin table and SCR D3 give active low as reset default (rule 5)
+converter	ADS821	so28	ads821	p.4	{"OE":true}	pin 27 drawn IN-bar is the complementary analog input (rule 2), not flagged
+converter	ADS822	ssop28	ads822	p.4	{"OE":true,"INT/EXT":["INT"]}	pin 24 IN-bar is the complementary analog input (rule 2), not flagged
+converter	ADS825	ssop28	ads822	p.4	{"OE":true,"INT/EXT":["INT"]}	ADS822/ADS825 shared sheet; pin 24 IN-bar is the complementary analog input (rule 2), not flagged
+converter	ADS828	ssop28	ads828	p.4	{"OE":true,"INT/EXT":["INT"]}	pin 24 IN-bar is the complementary analog input (rule 2), not flagged
+converter	ADS830	ssop20	ads830	p.4	{"INT/EXT":["INT"]}	pin 16 IN-bar is the complementary analog input (rule 2), not flagged
+converter	ADS831	ssop20	ads831	p.4	{"INT/EXT":["INT"]}	pin 16 IN-bar is the complementary analog input (rule 2), not flagged
+converter	ADS8317	p8	ads8317	p.7	{"CS/SHDN":["CS"]}	CS-bar/SHDN: chip select when low, shutdown when high
+converter	ADS8318	p10	ads8318	p.7	{}	none marked; CONVST/SDI double as CS-bar only in 3/4-wire modes, names unmarked
+converter	ADS8319	p10	ads8319	p.3	{}	none marked; CONVST/SDI double as CS-bar only in 3/4-wire modes, names unmarked
+converter	ADS8320	p8	ads8320	p.3	{"CS/SHDN":["CS"]}	CS-bar/SHDN: chip select when low, shutdown when high
+converter	ADS8321	dgk8	ads8321	p.2	{"CS/SHDN":["CS"]}	CS-bar/SHDN: chip select when low, shutdown when high
+converter	ADS8322	pbs32	ads8322	p.5	{"CONVST":true,"RD":true,"CS":true}	BUSY high during conversion, not flagged
+converter	ADS8323	pbs32	ads8323	p.6	{"CONVST":true,"RD":true,"CS":true}	BUSY high during conversion, not flagged
+converter	ADS8324	dgk8	ads8324	p.2	{"CS/SHDN":["CS"]}	CS-bar/SHDN: chip select when low, shutdown when high
+converter	ADS8325	dgk8	ads8325	p.7	{"CS/SHDN":["CS"]}	CS-bar/SHDN: chip select when low, shutdown when high
+converter	ADS8326	dgk8	ads8326	p.7	{"CS/SHDN":["CS"]}	CS-bar/SHDN: chip select when low, shutdown when high
+converter	ADS8327	pw16	ads8327	pp.10-11	{"CONVST":true,"EOC/INT/CDI":["INT"],"FS/CS":["CS"]}	EOC low during conversion (high = end of conversion), INT-bar marked; FS/CS-bar
+converter	ADS8327	rsa16	ads8327	pp.10-11	{"CONVST":true,"EOC/INT/CDI":["INT"],"FS/CS":["CS"]}	EOC low during conversion (high = end of conversion), INT-bar marked; FS/CS-bar
+converter	ADS8328	pw16	ads8327	pp.10-11	{"CONVST":true,"EOC/INT/CDI":["INT"],"FS/CS":["CS"]}	ADS8327/28 shared sheet; EOC low during conversion, INT-bar marked; FS/CS-bar
+converter	ADS8328	rsa16	sibling:pw16	pp.10-11	{"CONVST":true,"EOC/INT/CDI":["INT"],"FS/CS":["CS"]}	read from ads8327 sheet (ADS8328 RSA drawing p.10)
+converter	ADS8329	pw16	ads8330	pp.10-11	{"CONVST":true,"EOC/INT/CDI":["INT"],"FS/CS":["CS"]}	ADS8329/30 shared sheet; EOC low during conversion, INT-bar marked; FS/CS-bar
+converter	ADS8329	rsa16	ads8330	pp.10-11	{"CONVST":true,"EOC/INT/CDI":["INT"],"FS/CS":["CS"]}	ADS8329/30 shared sheet; EOC low during conversion, INT-bar marked; FS/CS-bar
+converter	ADS8330	pw16	ads8330	pp.10-11	{"CONVST":true,"EOC/INT/CDI":["INT"],"FS/CS":["CS"]}	EOC low during conversion, INT-bar marked; FS/CS-bar
+converter	ADS8330	rsa16	ads8330	pp.10-11	{"CONVST":true,"EOC/INT/CDI":["INT"],"FS/CS":["CS"]}	EOC low during conversion, INT-bar marked; FS/CS-bar
+converter	ADS8331	pw24	ads8332	pp.4-5	{"RESET":true,"EOC/INT/CDI":["INT"],"FS/CS":["CS"],"CONVST":true}	ADS8331/32 shared sheet; EOC low during conversion, INT-bar marked; FS/CS-bar
+converter	ADS8331	rge24	ads8332	pp.4-5	{"RESET":true,"EOC/INT/CDI":["INT"],"FS/CS":["CS"],"CONVST":true}	ADS8331/32 shared sheet; EOC low during conversion, INT-bar marked; FS/CS-bar
+converter	ADS8332	pw24	ads8332	pp.4-5	{"RESET":true,"EOC/INT/CDI":["INT"],"FS/CS":["CS"],"CONVST":true}	EOC low during conversion, INT-bar marked; FS/CS-bar
+converter	ADS8332	rge24	ads8332	pp.4-5	{"RESET":true,"EOC/INT/CDI":["INT"],"FS/CS":["CS"],"CONVST":true}	EOC low during conversion, INT-bar marked; FS/CS-bar
+converter	ADS8339	dgs10	ads8339	p.3	{}	none marked; CONVST/SDI double as CS-bar only in 3/4-wire modes, names unmarked
+converter	ADS8341	dbq16	ads8341	p.2	{"SHDN":true,"CS":true}	BUSY unmarked, not flagged
+converter	ADS8343	dbq16	ads8343	p.2	{"SHDN":true,"CS":true}	BUSY unmarked, not flagged
+converter	ADS8344	p20	ads8344	p.2	{"SHDN":true,"BUSY":true,"CS":true}	BUSY unbarred but text: goes LOW while busy/converting (asserted low)
+converter	ADS8345	p20	ads8345	p.2	{"SHDN":true,"BUSY":true,"CS":true}	BUSY unbarred but text: goes LOW while busy/converting (asserted low)
+converter	ADS8350	rte16	ads8350	p.3	{"CS":true}	AINM-A/B are negative analog inputs (rule 2)
+converter	ADS8353	pw16	ads7253	p.4	{"CS":true}	
+converter	ADS8353	rte16	ads7253	p.4	{"CS":true}	
+converter	ADS8354	pw16	ads7254	p.4	{"CS":true}	
+converter	ADS8355	rte16	ads8355	p.3	{"CS":true}	
+converter	ADS8361	dbq24	ads8361	p.6	{"CS":true}	
+converter	ADS8361	rhb32	ads8361	p.6	{"CS":true}	
+converter	ADS8363	rhb32	ads7223	pp.4-5	{"CS":true}	
+converter	ADS8364	pag64	ads8364	p.5	{"EOC":true,"RD":true,"WR":true,"CS":true,"RESET":true,"HOLDA":true,"HOLDB":true,"HOLDC":true}	
+converter	ADS8365	pag64	ads8365	p.10	{"EOC":true,"RD":true,"WR":true,"CS":true,"RESET":true,"HOLDA":true,"HOLDB":true,"HOLDC":true}	
+converter	ADS8370	rhp28	ads8370	p.7	{"SB/2C":["SB"],"CONVST":true,"CS":true}	
+converter	ADS8371	pfb48	ads8371	p.9	{"CONVST":true,"RD":true,"CS":true}	
+converter	ADS8380	rhp28	ads8380	p.7	{"SB/2C":["SB"],"CONVST":true,"CS":true}	
+converter	ADS8381	pfb48	ads8381	p.9	{"BUS18/16":["16"],"CONVST":true,"RD":true,"CS":true}	
+converter	ADS8383	pfb48	ads8383	p.9	{"BUS18/16":["16"],"CONVST":true,"RD":true,"CS":true}	
+converter	ADS8405	pfb48	ads8405	p.8	{"RESET":true,"CONVST":true,"RD":true,"CS":true}	
+converter	ADS8406	pfb48	ads8406	p.8	{"RESET":true,"CONVST":true,"RD":true,"CS":true}	
+converter	ADS8411	pfb48	ads8411	p.8	{"RESET":true,"CONVST":true,"RD":true,"CS":true}	
+converter	ADS8412	pfb48	ads8412	p.8	{"RESET":true,"CONVST":true,"RD":true,"CS":true}	
+converter	ADS8422	pfb48	ads8422	pp.7-8	{"PD2":true,"RESET/PD1":true,"CONVST":true,"RD":true,"CS":true}	
+converter	ADS8471	rgz48	ads8471	pp.8-9	{"CONVST":true,"RD":true,"CS":true}	
+converter	ADS8481	rgz48	ads8481	p.9	{"BUS18/16":["16"],"CONVST":true,"RD":true,"CS":true}	
+converter	ADS8504	dw28	ads8504	p.5	{"R/C":["C"],"CS":true,"BUSY":true}	
+converter	ADS8505	dw28	ads8505	p.5	{"R/C":["C"],"CS":true,"BUSY":true}	
+converter	ADS8506	dw28	ads8506	p.5	{"SB/BTC":["BTC"],"EXT/INT":["INT"],"R/C":["C"],"CS":true,"BUSY":true}	
+converter	ADS8507	dw28	ads8507	p.5	{"SB/BTC":["BTC"],"EXT/INT":["INT"],"R/C":["C"],"CS":true,"BUSY":true}	
+converter	ADS8508	dw20	ads8508	pp.5-6	{"SB/BTC":["BTC"],"EXT/INT":["INT"],"R/C":["C"],"CS":true,"BUSY":true}	BUSY barred in pinout p.5, unbarred in table p.6; table text says low during conversion
+converter	ADS8509	dw20	ads8509	pp.5-6	{"SB/BTC":["BTC"],"EXT/INT":["INT"],"R/C":["C"],"CS":true,"BUSY":true}	BUSY barred in pinout p.5, unbarred in table p.6; table text says low during conversion
+converter	ADS8509	db28	ads8509	pp.5-6	{"SB/BTC":["BTC"],"EXT/INT":["INT"],"R/C":["C"],"CS":true,"BUSY":true}	BUSY barred in pinout p.5, unbarred in table p.6; table text says low during conversion
+converter	ADS8512	so16	ads8512	p.5	{"EXT/INT":["INT"],"CONV":true,"CS":true,"BUSY":true}	
+converter	ADS8513	so16	ads8513	p.5	{"EXT/INT":["INT"],"CONV":true,"CS":true,"BUSY":true}	
+converter	ADS8515	db28	ads8515	p.5	{"R/C":["C"],"CS":true,"BUSY":true}	
+converter	ADS8517	dw28	ads8517	pp.5-6	{"SB/BTC":["BTC"],"EXT/INT":["INT"],"R/C":["C"],"CS":true,"BUSY":true}	
+converter	ADS8519	db28	ads8519	pp.5-6	{"SB/BTC":["BTC"],"EXT/INT":["INT"],"R/C":["C"],"CS":true,"BUSY":true}	
+converter	ADS8528	p64	ads8528	pp.5-8	{"PAR/SER":["PAR"],"STBY":true,"REFEN/WR":["WR"],"RD":true,"CS/FS":true,"DB11/REFBUFEN":["REFBUFEN"],"HW/SW":["HW"]}	BUSY/INT polarity programmable (C26), default active high: unflagged; RESET active high
+converter	ADS8548	p64	ads8528	pp.5-8	{"PAR/SER":["PAR"],"STBY":true,"REFEN/WR":["WR"],"RD":true,"CS/FS":true,"DB11/REFBUFEN":["REFBUFEN"],"HW/SW":["HW"]}	BUSY/INT polarity programmable (C26), default active high: unflagged; RESET active high
 counter	40102B	p16	cd40102b	pp.1-4	{"CLR":true,"CI/CE":true,"APE":true,"CO/ZD":true,"SPE":true}	
 counter	40103B	p16	cd40102b	pp.1-4	{"CLR":true,"CI/CE":true,"APE":true,"CO/ZD":true,"SPE":true}	
 counter	40110B	p16	cd40110b	p.1	{"TE":true}	
