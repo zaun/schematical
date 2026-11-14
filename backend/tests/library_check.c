@@ -1453,7 +1453,7 @@ static void check_supply_cases(void) {
     expect_fail("version 2",
                 "{'format':'schematical-parts','version':2,'kind':'supply','devices':[]}",
                 "unsupported version 2");
-    expect_fail("unknown kind", HEAD("resistor") TAIL, "unknown kind \"resistor\"");
+    expect_fail("unknown kind", HEAD("no-such-kind") TAIL, "unknown kind \"no-such-kind\"");
     expect_fail("unknown file key",
                 "{'format':'schematical-parts','version':1,'kind':'supply','devices':[],'x':1}",
                 "unknown key \"x\"");
@@ -1505,10 +1505,10 @@ static void check_supply_cases(void) {
                 "unknown flag \"vintage\"");
     expect_fail("drawer too deep",
                 HEAD("supply")
-                "{'id':'VCC','function':'VCC','description':'d','drawer':['a','b','c'],"
+                "{'id':'VCC','function':'VCC','description':'d','drawer':['a','b','c','d'],"
                 "'pinouts':{'pin':[{'number':1,'name':'VCC','role':'power'}]},'volts':5,"
                 "'parts':[]}" TAIL,
-                "\"drawer\" has at most 2 levels");
+                "\"drawer\" has at most 3 levels");
     expect_fail("supply volts -1",
                 HEAD("supply")
                 "{'id':'VCC','function':'VCC','description':'d','drawer':[],"
@@ -3052,6 +3052,21 @@ static PartLibrary *expect_load(const char *name, const char *text) {
     return library;
 }
 
+/* A drawer path takes up to three levels (Discrete → Resistors → Chip). */
+static void check_three_level_drawer(void) {
+    PartLibrary *library = expect_load(
+        "three-level drawer",
+        HEAD("supply")
+        "{'id':'VCC','function':'VCC','description':'d','drawer':['Discrete','Resistors','Chip'],"
+        "'pinouts':{'pin':[{'number':1,'name':'VCC','role':'power'}]},'volts':5,"
+        "'parts':[{'name':'VCC','package':'','pinout':'pin'}]}" TAIL);
+    const Part *vcc = part_library_find(library, "VCC");
+
+    CHECK(vcc != NULL && vcc->drawer_count == 3 && strcmp(vcc->drawer[0], "Discrete") == 0 &&
+          strcmp(vcc->drawer[2], "Chip") == 0);
+    part_library_destroy(library);
+}
+
 static void check_voltage_cases(void) {
     PartLibrary *library;
     char *error = NULL;
@@ -3295,6 +3310,7 @@ int main(void) {
     check_arith_cases();
     check_arith_alu_cases();
     check_supply_cases();
+    check_three_level_drawer();
     check_voltage_cases();
     if (failures > 0) {
         printf("FAIL: %d\n", failures);

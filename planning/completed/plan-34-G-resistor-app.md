@@ -52,8 +52,9 @@ plan-34-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-34-F complete | `ls planning/completed/plan-34-F-*.md` → exists | NOT MET at writing (2026-11-11) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p34-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET at writing (2026-11-11 at 8b1770b) |
+| Phases 1–2: plan-34-E complete and `GENERIC-RESISTOR` loads | `ls planning/completed/plan-34-E-*.md`; `grep -c '^GENERIC-RESISTOR|resistor|' backend/tests/golden/parts.txt` → 1 | MET (2026-11-13 at d242ed9; § Corrections 1) |
+| Phase 3: plan-34-F's parts loaded | `grep -c '|resistor|' backend/tests/golden/parts.txt` → N + 1 | MET (2026-11-13 at 3860182: 1975, the provisional pick; plan-34-F § Corrections 2) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p34-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-13 at d242ed9) |
 
 Everything below is written against the world where these hold.
 
@@ -157,54 +158,79 @@ Everything below is written against the world where these hold.
 
 ### Phase 1 — Catalog, drawer order, symbol, facts, references
 
-- [ ] `PartCatalog.swift`: `Details.resistor`, its builder, `detailLabels`,
+- [x] `PartCatalog.swift`: `Details.resistor`, its builder, `detailLabels`,
       `isGenericResistor`, `hasOhmsField`, `symbol(for:)`, the resistor
-      order in `functionGroups`.
-- [ ] `SchematicModel.swift`: `PartSymbol.resistor` and its layout case;
-      `takeReference` `R<n>` for `PART_RESISTOR`.
-- [ ] `Canvas/ResistorSymbolView.swift` (new); the `.resistor` case in
+      order in `functionGroups` (plus `resistorOhms`, the ohms the order
+      and the symbol's label read). The order is plan-33-H's by-value sort
+      with resistance as a second value: a group list of all-capacitor or
+      all-resistor parts sorts by its smallest value.
+- [x] `SchematicModel.swift`: `PartSymbol.resistor` and its layout case;
+      `takeReference` `R<n>` for `PART_RESISTOR` (and
+      `defaultReferencePrefix` "R" for it, the prefix Edit › Reset
+      References gives back). The layout is the capacitor's (pins `1` left,
+      `2` right, `diodeSize`).
+- [x] `Canvas/ResistorSymbolView.swift` (new); the `.resistor` case in
       `SchematicCanvasView.swift` and `SchematicExportScene.swift`.
-- [ ] `PartFacts.swift`: "Resistor", "Resistor array", the rows.
+- [x] `PartFacts.swift`: "Resistor", "Resistor array", the rows
+      (Resistance, Tolerance `±1%`, Power `0.1 W`, Resistors for arrays;
+      `percentText`, `wattsText`).
 
 Acceptance: the app builds.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p34-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 3 min).
-Commit: —
+  Result (2026-11-13): `** BUILD SUCCEEDED **`.
+Commit: 6adaadf
 
 ### Phase 2 — Ohms field, file, BOM
 
-- [ ] `SchematicModel.swift`: `PlacedChip.init` and `setPartOhms` on
+- [x] `SchematicModel.swift`: `PlacedChip.init` and `setPartOhms` on
       `hasOhmsField`; `PartOptionsSection.swift`: the Ohms row on
       `hasOhmsField`.
-- [ ] `SchematicFile.swift`: read, validate (`badOhms`) and write `ohms` for
-      `hasOhmsField` parts.
-- [ ] `BillOfMaterialsWindow.swift`: the generic's `RESISTOR` line, the
+- [x] `SchematicFile.swift`: read, validate (`badOhms`) and write `ohms` for
+      `hasOhmsField` parts. The write already writes `chip.ohms`, which
+      `PlacedChip.init` now sets for the generic, so only the read and the
+      validation changed.
+- [x] `BillOfMaterialsWindow.swift`: the generic's `RESISTOR` line, the
       maker parts' `value`.
-- [ ] `docs/file-format.md`: the `ohms` row and the validation line (`R3
+- [x] `docs/file-format.md`: the `ohms` row and the validation line (`R3
       has …`) name `GENERIC-RESISTOR`.
 
 Acceptance: the pulls are unchanged and the app builds.
   Check: the Phase 1 build → `** BUILD SUCCEEDED **`, then `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p34-dd test -only-testing:schematicalTests/PullResistorTests -only-testing:schematicalTests/BillOfMaterialsTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 5 min).
-Commit: —
+  Result (2026-11-13): `** BUILD SUCCEEDED **`; `Executed 14 tests, with 0 failures` (10 + 4), `** TEST SUCCEEDED **`.
+Commit: 1c6929f
 
 ### Phase 3 — Tests and the harness
 
-- [ ] `schematical/schematicalTests/ResistorTests.swift` (as
+- [x] `schematical/schematicalTests/ResistorTests.swift` (as
       `PullResistorTests`): placing `GENERIC-RESISTOR` gives `R1`, 1000 Ω,
       footprint `RES-AXIAL-10.16`; a second resistor-kind part and a pull
       take `R2`, `R3`; `setPartOhms` 4700 then undo → 1000; save → `"ohms":
       4700` and reopen restores it; `"ohms": 0` on open → `badOhms`; BOM: a
       generic 4.7 kΩ Axial and a pull 4.7 kΩ Axial share one `RESISTOR`
       line; a maker part's line has `value` `4.7kΩ`; the drawer groups of
-      `Resistors → Chip` are in increasing ohms.
-- [ ] `scripts/harness/resistor-app.swift`: § 1's harness checks, the
+      `Resistors → Chip` are in increasing ohms. 8 tests (the maker part is
+      `RC0603FR-074K7L`; plus an array case: block, "Resistor array",
+      Resistors row, `R1`).
+- [x] `scripts/harness/resistor-app.swift`: § 1's harness checks, the
       LED-through-a-resistor run (inverter input 0 → LED lit, 1 → dark,
       each its own 0.6 s document run, as `diode-app.swift`), and offscreen
       renders of a placed generic resistor, a chip resistor and an array
-      (`Harness.renderCanvas`), looked at.
+      (`Harness.renderCanvas`), looked at. Run on the provisional pick:
+      Resistors → `["Generic"]` and Array / Chip / Through-hole; Chip 8
+      leaves, 1500 parts; Through-hole 8 leaves, 399 shown (400 in the
+      file: one is flagged military, which the drawer's default filter
+      hides); Array 5 leaves, 74 parts; every leaf list in increasing ohms;
+      `AS02JTE2000` kind Resistor, symbol resistor, facts Resistance 200Ω,
+      Tolerance ±5%, Power 0.063 W; `AF124-JR-070RL` Resistor array, block,
+      Resistors 4; GENERIC-RESISTOR R1 1kΩ RES-AXIAL-10.16, 4.7 kΩ saved
+      and reopened, undo 1 kΩ; LED lit with the inverter input 0, dark
+      with 1. The render `/tmp/p34/w/p34-symbols.png` was looked at: zig-zags
+      with `1kΩ` / `200Ω` above, the array a block with pins 1–8.
 
 Acceptance: the tests pass and the harness prints `all checks ok`.
   Check: `xcodebuild … test -only-testing:schematicalTests/ResistorTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **`; `scripts/harness/build.sh scripts/harness/resistor-app.swift /tmp/p34-harness && /tmp/p34-harness/H.app/Contents/MacOS/harness` → `all checks ok`, exit 0 (est. 15 min: the harness build is the slow part; nothing smaller runs the app's catalog code and the backend together).
-Commit: —
+  Result (2026-11-13): ResistorTests + PullResistorTests + BillOfMaterialsTests + PartEditorWindowTests → `Executed 27 tests, with 0 failures`, `** TEST SUCCEEDED **`; harness `all checks ok`, exit 0.
+Commit: 18c5ef9
 
 ## Validation Plan
 
@@ -234,7 +260,21 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. **Phases 1–2 run before F Phase 2 (2026-11-13).** Phases 1 and 2 need
+   only the kind (E) and `GENERIC-RESISTOR` (F Phase 1, d242ed9): the code
+   paths do not depend on which maker parts exist. They ran while
+   plan-34-A's DigiKey runs went on. Phase 3 (the tests over real chip parts
+   and the harness's drawer checks) still needs F complete; the
+   Prerequisites table splits the gate that way.
+2. **Merge of main (2026-11-14): references by category.** main replaced
+   `takeReference`'s per-kind prefixes and `defaultReferencePrefix` with
+   Settings › Reference Defaults (`ReferencePrefixes`, `ReferenceCategory.of`).
+   The merge maps `PART_RESISTOR` to the `.resistor` category (standard
+   prefix R, lowest free number, as pulls). `ResistorTests` checks
+   `ReferenceCategory.of` instead of `defaultReferencePrefix`. main's new
+   `ReferenceLabel` gets a `.resistor` case, which draws the reference just
+   above the value (y = -1). Merge commit c2ea326. ResistorTests 8/8 and
+   the harness pass on it.
 
 ## Summary
 

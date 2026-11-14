@@ -32,8 +32,9 @@ plan-34-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-34-E complete | `ls planning/completed/plan-34-E-*.md` → exists | NOT MET at writing (2026-11-11) |
-| The `resistor` kind loads | `grep -c 'RESISTOR_KIND' backend/src/library/kinds.c` → 1 | NOT MET at writing |
+| plan-34-E complete | `ls planning/completed/plan-34-E-*.md` → exists | MET (2026-11-13: `planning/completed/plan-34-E-resistor-kind.md`) |
+| The `resistor` kind loads | `grep -c 'RESISTOR_KIND' backend/src/library/kinds.c` → 1 | MET (2026-11-13: 2, the `extern` line and the `KINDS[]` line; the row meant "is in the table") |
+| Phase 2 only: C's and D's footprints and the map | `fp-check.py chip`, `through-hole`, `array` → `0 without a footprint` | MET (2026-11-13 at dbc0c8b: 33, 29, 13 lines, 0 without; § Corrections 2) |
 
 Everything below is written against the world where these hold.
 
@@ -116,31 +117,58 @@ owner's decision). No tolerance, no power, no datasheet.
 
 ### Phase 1 — The generator and GENERIC-RESISTOR
 
-- [ ] `planning/plan-34-data/census/gen-parts.py` (§ 3; plan-29's copy):
+- [x] `planning/plan-34-data/census/gen-parts.py` (§ 3; plan-29's copy):
       `--generic-only` writes `resistor.json` with only § 3.3's device.
-- [ ] Load it: `listing_check` lists `GENERIC-RESISTOR`; regenerate
-      `parts.txt` and `traces.txt` (`docs/backend.md` § Tests).
+      Run: `gen-parts: …/Parts/resistor.json: 1 device, 1 part (GENERIC-RESISTOR)`.
+- [x] Load it: `listing_check` lists `GENERIC-RESISTOR`; regenerate
+      `parts.txt` and `traces.txt` (`docs/backend.md` § Tests). `git diff
+      --stat backend/tests/golden` → `parts.txt | 1 +`, `traces.txt | 1 +`;
+      the line: `GENERIC-RESISTOR|resistor|Axial|Resistors|Generic|||resistors=1
+      milliohms=1000000 tol=0 power=0|1:1:inout:default,2:2:inout:default|mfr=Generic|footprint=RES-AXIAL-10.16|choices=0402:RES-0402,…`.
+- [x] (added) The app's kind lists: `"resistor"` in `PartKinds.all` and
+      `displayNames` ("Resistor", `Editor/KindSchema.swift`), `PART_RESISTOR`
+      in `PartKinds.name(of:)` (`Editor/BundledPartFile.swift`), and
+      `PartEditorWindowTests`: 28 part files, `resistor` excluded from the
+      enabled kinds like `capacitor` (no form, plan-34-G § Decisions).
+      `testKindNamesAreThePartFiles` compares the kinds with the
+      `Parts/*.json` files, so it fails once `resistor.json` exists.
+      Check: `xcodebuild … test -only-testing:schematicalTests/PartEditorWindowTests`
+      → `Executed 5 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 
 Acceptance: the generic part loads and lists.
   Check: `cmake --build /tmp/logic-p34 -j8 && ctest --test-dir /tmp/logic-p34 -R 'listing_check|trace_check|library_check'` → 3 passed; `grep -c '^GENERIC-RESISTOR|resistor|' backend/tests/golden/parts.txt` → 1 (est. 3 min).
-Commit: —
+  Result (2026-11-13, `/tmp/logic-p34-wt`): `100% tests passed, 0 tests failed out of 3`; 1; `parts.txt` 27829 lines (P0 27828 + 1).
+Commit: d242ed9
 
 ### Phase 2 — Every part, footprints, datasheets
 
-- [ ] `census/fp-merge.py footprints-C.json footprints-D.json` appends the
+- [x] `census/fp-merge.py footprints-C.json footprints-D.json` appends the
       objects to `Parts/footprints.json` (sorted as the file is); add each
       id only if absent (`grep -c '"id":"<id>"'
       schematical/schematical/Parts/footprints.json` → 0; a hit is moot,
-      plan-34-C § 4.3).
-- [ ] `gen-parts.py` (all `add` rows) → `resistor.json`; the datasheet
-      entries into `datasheets.json`, each id only if absent.
-- [ ] Regenerate `parts.txt`, `traces.txt`, `footprints.txt`; review
+      plan-34-C § 4.3). `44 footprints appended`.
+- [x] `gen-parts.py` (all `add` rows) → `resistor.json`; the datasheet
+      entries into `datasheets.json`, each id only if absent. `gen-parts:
+      …/resistor.json: 56 devices, 1975 parts; 32 datasheets used, 32 added
+      to datasheets.json`. Arrays have no composition at DigiKey, so their
+      device ids leave it out (`array-iso-8-10k-50k`). Distinct pin maps of
+      one prefix get `-b`, `-c` (the YAGEO 8-pin `iso-8:1-5,…` is
+      `iso-8-b`). An array's two common pins share the name `C`.
+- [x] Regenerate `parts.txt`, `traces.txt`, `footprints.txt`; review
       `git diff --stat backend/tests/golden` (added lines only) and
       hand-check five new footprint lines against their `note`s.
+      `footprints.txt | 44 +`, `parts.txt | 1974 +`, `traces.txt | 1974 +`,
+      0 removed lines. Hand-checked `RES-0402-YAGEO` (span 1.0 → pads
+      ±0.5, 0.5 × 0.6), `RES-0603-VISHAY` (±0.75, 0.5 × 0.9),
+      `RES-AX-10.0-6.3X2.4-YAGEO` (±5.0, drill 0.85 = 0.60 + 0.25, pad
+      1.55), `RES-ARRAY-1206-8-YAGEO` (±0.85, 0.9 × 0.45, pin 5 opposite
+      pin 1 as the datasheet draws), `SOIC-16-5.59-VISHAY` (±3.625, 1.91 ×
+      0.64, pitch 1.27): each as its note says.
 
 Acceptance: the whole set loads and the goldens grow by exactly the new parts and footprints.
   Check: `ctest --test-dir /tmp/logic-p34` → `100% tests passed`; `git diff backend/tests/golden | grep -c '^-[^-]'` → 0; `grep -c '|resistor|' backend/tests/golden/parts.txt` → N + 1 (est. 5 min).
-Commit: —
+  Result (2026-11-13, on the pick of plan-34-C § Corrections 1, N = 1974): `100% tests passed, 0 tests failed out of 33`; 0; 1975.
+Commit: 3860182
 
 ## Validation Plan
 
@@ -168,7 +196,20 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. **Phase 1 runs before B–D (2026-11-13).** Phase 1 reads no census
+   output: § 3.3's device is fixed. It needs only E's kind, so it ran once
+   E was archived, while plan-34-A's DigiKey runs went on. Phase 2 still
+   needs C's and D's footprints and B's `add` rows. Its gate is the added
+   "Phase 2 only" Prerequisites row. Golden counts: P0 is 27828 at
+   942e3e4 (not 26729), so after Phase 1 `parts.txt` = 27829, and Phase 2's
+   target is 27829 + N.
+2. **Phase 2 on the provisional pick (2026-11-13).** Phase 2 ran on
+   `/tmp/p34/pick.tsv` (`select.py --stock … --verdicts …` with the stock
+   check as it stood), the pick plan-34-C and D drew their footprints for
+   (plan-34-C § Corrections 1). When A's stock check ends, the pick is
+   re-run and written to `candidates.tsv` (B Phase 2). Then `gen-parts.py`
+   is re-run with the goldens and these checks (plan-34-A's added task).
+   `gen-parts.py` takes the candidates file as an argument.
 
 ## Summary
 

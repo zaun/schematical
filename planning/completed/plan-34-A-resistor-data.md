@@ -73,12 +73,12 @@ Every other letter points here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend tests green | `cmake -S backend -B /tmp/logic-p34 && cmake --build /tmp/logic-p34 -j8 && ctest --test-dir /tmp/logic-p34 -j8` → `100% tests passed` | MET 2026-11-11 at 8b1770b: `100% tests passed, 0 tests failed out of 30`; **T0 = 30** (`grep -c '^logic_test' backend/CMakeLists.txt` → 30) |
-| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `traces.txt`; `footprints.txt` | MET: **P0 = 26729**, **R0 = 26729**, **F0 = 1212** (2026-11-11 at 8b1770b) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p34-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-11 at 8b1770b: `** BUILD SUCCEEDED **`) |
-| No resistor kind yet | `grep -c 'PART_RESISTOR' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/resistor.json` → no such file; `ls datasheets/resistor` → no such directory | MET (2026-11-11 at 8b1770b: 0, no file, no directory) |
-| No other open plan adds resistors | `grep -l -i '"resistor"\|PART_RESISTOR\|datasheets/resistor\|GENERIC-RESISTOR' planning/plan-*.md \| grep -v plan-34 \| wc -l` → 0 | MET (2026-11-11: 0) |
-| DigiKey credentials and quota | `DIGIKEY_CLIENT_ID`/`_SECRET` exported in `~/.zshrc`; Phase 1 re-lists five pieces (the one re-listed at planning time cost 189 calls before the quota cut it, `52-dale-re-1.err`; `recheck.sh` skips finished pieces, so a cut run goes on the next day) and Phase 2 costs one call per checked part, 1778 at planning time (§ 2); a day allows about 1000, shared with other sessions | **NOT MET today** (2026-11-11: the planning census ended at `0 left today`; credentials present). Start Phase 1 on a day whose first call reports ≥ 600 left (`/tmp/p34/dk.sh --category 50 --manufacturer 2577 --in-stock --pages 1 --json` prints `… N left today`; `dk.sh` is § 6's wrapper) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p34 && cmake --build /tmp/logic-p34 -j8 && ctest --test-dir /tmp/logic-p34 -j8` → `100% tests passed` | MET (re-run 2026-11-13 01:14 UTC at b66696f: `100% tests passed, 0 tests failed out of 33`; T0 = 32 at the start, 33 with E's `resistor_test`) |
+| Golden sizes recorded | `wc -l < backend/tests/golden/parts.txt`; `traces.txt`; `footprints.txt` | MET at the start: **P0 = 27828**, **R0 = 27828**, **F0 = 1386** (942e3e4). Re-run 2026-11-13 at b66696f: 29803 / 29803 / 1430 = P0 + 1975 resistor parts, F0 + 44 footprints (plan-34-F) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p34-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (re-run 2026-11-13 at b66696f: `** BUILD SUCCEEDED **`) |
+| No resistor kind yet | `grep -c 'PART_RESISTOR' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/resistor.json` → no such file; `ls datasheets/resistor` → no such directory | MET at the start (942e3e4: 0, no file, no directory). Re-run at b66696f: 1, the file, the directory, all made by this plan (E, F, A Phase 3) |
+| No other open plan adds resistors | `grep -l -i 'datasheets/resistor\|GENERIC-RESISTOR\|Parts/resistor\.json\|"kind": *"resistor"' planning/plan-*.md \| grep -v plan-34 \| wc -l` → 0 | MET (re-run 2026-11-13 at b66696f: 0) |
+| DigiKey credentials and quota | `DIGIKEY_CLIENT_ID`/`_SECRET` exported in `~/.zshrc`; Phase 1 re-lists five pieces (the one re-listed at planning time cost 189 calls before the quota cut it, `52-dale-re-1.err`; `recheck.sh` skips finished pieces, so a cut run goes on the next day) and Phase 2 costs one call per checked part, 1778 at planning time (§ 2); a day allows about 1000, shared with other sessions | MET (re-measured 2026-11-14 16:28 UTC: `digikey: 1 of 1 parts, 1 pages, 1 API calls, 999 left today`, ≥ 600; credentials present: 2 export lines). Phase 2 finished that day: bulk relisting 145 calls, then 2 single checks (§ Corrections 7, 9). Earlier: MET 2026-11-13 00:08 UTC (999 left), which paid for Phase 1 (632 calls) and Phase 2 day 1 (172); NOT MET 2026-11-13 01:14 UTC (18 left, then rate limited until 2026-11-14T00:00Z) |
 
 Everything below is written against the world where these hold.
 
@@ -326,66 +326,120 @@ below the floor → the piece is complete for the pick; at or above →
 
 ### Phase 1 — Complete the listing (one quota day)
 
-- [ ] Restore the planning listing: `mkdir -p /tmp/p34/raw && for f in
+- [x] Restore the planning listing: `mkdir -p /tmp/p34/raw && for f in
       planning/plan-34-data/raw/*.jsonl.gz; do gunzip -c $f >
       /tmp/p34/raw/$(basename $f .gz); done; cp planning/plan-34-data/raw/*.err
       /tmp/p34/raw/`; `touch` a `.done` for the nine base pieces (their
       listings are complete: each `.err` ends with a `top.js:` summary line);
       delete the four `-re-` files, whose runs the quota cut.
-- [ ] On a day with ≥ 600 calls left: `planning/plan-34-data/census/recheck.sh
-      /tmp/p34/raw` (the five lines of § 2's cut row).
-- [ ] `python3 -I planning/plan-34-data/census/select.py /tmp/p34/raw
+      Done 2026-11-13: `ls /tmp/p34/raw | wc -l` → 27 (9 `.jsonl`, 9 `.err`,
+      9 `.done`); each base `.err` ends with `top.js:`; no `-re-` file left.
+- [x] On a day with ≥ 600 calls left: `planning/plan-34-data/census/recheck.sh
+      /tmp/p34/raw` (the five lines of § 2's cut row). Run 2026-11-13 (999
+      left at start): YAGEO `52/13: 1685 parts, 55 calls`, `52/13: 1867
+      parts, 59 calls`, `53/13: 1490 parts, 42 calls`, `53/13: 2500 parts,
+      72 calls`; Dale ±1% stopped after 80 pieces (244 calls) on an HTTP 400
+      and was resumed (§ Corrections 2): `52/541: 9426 parts, 115 calls, 236
+      left today`.
+- [x] `python3 -I planning/plan-34-data/census/select.py /tmp/p34/raw
       /tmp/p34/cand.tsv --report`; for each `NEEDS DEEPER LISTING` line add a
       `recheck.sh` line (§ 5 rule 1) and run it; repeat until there is none,
-      or record the unsplittable piece in § Corrections.
-- [ ] Compare the counts with § 2; a different count goes into § Corrections
-      with the date and is carried into B's goal table.
+      or record the unsplittable piece in § Corrections. One piece remained
+      (YAGEO ±1% 0402 RC_L / Moisture Resistant / 1/16W / ±100ppm, 942
+      parts, unsplittable by `SPLITS`); `52-yageo-re-3` listed it down to
+      stock 75000 from both ends (§ Corrections 3, 39 calls). Then:
+      `select.py … --report | grep -c 'NEEDS DEEPER'` → 0.
+- [x] Compare the counts with § 2; a different count goes into § Corrections
+      with the date and is carried into B's goal table (§ Corrections 4).
 
 Acceptance: every piece is complete for the pick.
   Check: `python3 -I planning/plan-34-data/census/select.py /tmp/p34/raw /tmp/p34/cand.tsv --report | grep -c 'NEEDS DEEPER'` → 0, or each remaining line is in § Corrections (est. 1 quota day; nothing smaller completes the listing).
-Commit: —
+  Result (2026-11-13): 0. The listing is stored in `planning/plan-34-data/raw/` (30 files; the cut `-re-` runs of planning time replaced).
+Commit: bbb514a
 
 ### Phase 2 — Part-by-part stock check (one to two quota days)
 
-- [ ] Write `census/stock-check.sh <candidates.tsv> <stock-check.tsv>`
+- [x] Write `census/stock-check.sh <candidates.tsv> <stock-check.tsv>`
       (§ 5 rule 2) and give `select.py` a `--stock <tsv>` option: a row with
-      `found` = 0 is `out`, reason `stock check`, before rule 3.
-- [ ] Run it on the picked rows from cut pieces (1778 at planning time);
+      `found` = 0 is `out`, reason `stock check`, before rule 3. Written as
+      `stock-check.sh <raw> <candidates.tsv> <stock-check.tsv>`: it needs
+      the raw `.err` files to know the cut pieces (`cut-picked.py`). A row
+      counts as from a cut piece when its piece or the base piece it was
+      split from was cut. That is 1847 picked rows on 2026-11-13 (`cut-picked:
+      1847 picked rows from cut pieces`). Probe: `RC0402FR-0710KL` → 1 call,
+      `found` 1, stock 5552821, Active.
+- [x] (added) Re-run Phase 3's and 4's scripts on the stock-checked pick
+      (`select.py --stock`, `fetch.py`, `textscan.py`, `sibling.py`,
+      `place.py` after clearing `datasheets/resistor/`, `footprint-lines.py`,
+      `specs-skeleton.py`, which merges) and their checks (§ Corrections 6).
+      Scripted with B–F's re-runs as `census/finish.sh`. Run 2026-11-14:
+      `spec groups 109, specs.tsv rows 109`, `place.py --verify` before the
+      prune `0 missing, 0 unused`, the final pick 1974 `add`, `ctest` 33/33.
+- [x] Run it on the picked rows from cut pieces (1778 at planning time);
       re-run `select.py --stock`; check the newly picked rows from cut
       pieces; repeat until none is unchecked. Copy the result to
-      `planning/plan-34-data/stock-check.tsv`.
+      `planning/plan-34-data/stock-check.tsv`. Day 1 (2026-11-13 UTC): 172
+      checked, 172 `found` 1 (all Active), then stopped at the reserve
+      (`stopped with 19 calls left today`), saved in
+      `planning/plan-34-data/stock-check.tsv`. Remaining: 1677 rows of the
+      provisional final pick (`/tmp/p34/pick.tsv`, B's verdicts applied),
+      checked from day 2 in bulk first (§ Corrections 7: `stock-relist.sh
+      /tmp/p34/relist 89345 11717 26`, `stock-merge.py`, then
+      `stock-check.sh` for what is left). A daily session cron at 14:13 HST
+      (after the ~00:00 UTC quota reset) continues it. Day 1 end: the bulk
+      relisting of Dale chip (383 parts, cut by the quota after 15 calls,
+      `0 left`; it resumes) confirmed 4 more: 176 of 1849 checked, all
+      found. Day 2 (2026-11-14): `stock-relist.sh` (145 calls; 53 Viking
+      refused by HTTP 400, it lists 0 parts) and `stock-merge.py` → `1647
+      confirmed from the relisting (3768 parts listed); 26 still unchecked`;
+      `stock-check.sh` checked the 26: 25 found, `RC0402FR-074K7L` not
+      (Active, 0 in stock; re-checked by hand: 0 of 0 with `--in-stock`) →
+      `out`, `stock check`. The re-run pick took `RC0402FR-13182RL` in its
+      place (1 call: found, 89302, Active); then `cut-picked: 1849 picked rows
+      from cut pieces, 0 unchecked`. `stock-check.tsv`: 1850 rows, 1849
+      `found` 1 (all Active), 1 `found` 0 (§ Corrections 9).
 
 Acceptance: every picked row from a cut piece is confirmed in stock.
   Check: `python3 -I planning/plan-34-data/census/select.py /tmp/p34/raw /tmp/p34/cand.tsv --stock planning/plan-34-data/stock-check.tsv --report` and an `awk` join of the picked rows from cut pieces with `stock-check.tsv` → 0 unchecked, 0 picked with `found` = 0 (est. 1–2 quota days at one call per part).
-Commit: —
+  Result (2026-11-14): `select.py … --report` exits 0; `cut-picked … 0 unchecked`; 0 picked rows with `found` = 0.
+Commit: 4d4658f
 
 ### Phase 3 — Downloads, scans, placement
 
-- [ ] `census/fetch.py /tmp/p34/cand.tsv /tmp/p34/pdf` for every eligible
+- [x] `census/fetch.py /tmp/p34/cand.tsv /tmp/p34/pdf` for every eligible
       row's URL (85 at planning time; § 4's YAGEO rewrite; bare `curl -sL`
       first, as plan-29's `fetch.py`); `census/textscan.py` fills `pdf`,
       `hit`, `dead`; `census/sibling.py` gives a no-PDF row a same-maker PDF
-      that prints its number verbatim.
-- [ ] `census/place.py` per § 4; `git add` only `datasheets/resistor/`.
-- [ ] Copy `/tmp/p34/cand.tsv` to `planning/plan-34-data/candidates.tsv`;
-      `census/footprint-lines.py` → `footprints-needed.txt`.
+      that prints its number verbatim. 2026-11-13: `92 urls; 91 are PDFs; 1
+      fetched by the yageogroup.com rewrite` (the miss:
+      `www.yageo.com/…/rchip/PYu-RE_105_RoHS_L_7.pdf`, 404, not an `/lr/`
+      URL); `11786 rows with an own maker-site PDF; 7 printed verbatim; 0
+      dead`; `200 eligible rows without an own maker-site PDF; 0 printed in
+      a same-maker PDF`.
+- [x] `census/place.py` per § 4; `git add` only `datasheets/resistor/`.
+      `72 PDFs placed for 78 URLs` (yageo 33, vishay-dale 32, viking 7).
+- [x] Copy `/tmp/p34/cand.tsv` to `planning/plan-34-data/candidates.tsv`;
+      `census/footprint-lines.py` → `footprints-needed.txt`. 83 lines:
+      chip 34, through-hole 30, array 19 (§ 2: 86 = 34 / 34 / 18).
 
 Acceptance: every eligible row with a maker datasheet has its PDF in the tree.
   Check: `python3 -I planning/plan-34-data/census/place.py --verify planning/plan-34-data/candidates.tsv` → `0 missing, 0 unused` (est. 2 min after a 10-minute download).
-Commit: —
+  Result (2026-11-13, on the pick before the stock check; re-checked by Phase 2's added task): `0 missing, 0 unused`.
+Commit: abb3652
 
 ### Phase 4 — `specs.tsv` skeleton and the data README
 
-- [ ] `census/specs-skeleton.py` → `planning/plan-34-data/specs.tsv`: header
+- [x] `census/specs-skeleton.py` → `planning/plan-34-data/specs.tsv`: header
       `maker series datasheet mpn_regex fields_checked package pinout
       footprint note`, one row per distinct (maker, series, PDF) of the
       eligible rows with a PDF; `mpn_regex` empty (B), `package`,
       `pinout`, `footprint` empty (C, D).
-- [ ] `planning/plan-34-data/README.md`: update the file map.
+- [x] `planning/plan-34-data/README.md`: update the file map.
 
 Acceptance: one spec row per group.
   Check: `awk -F'\t' 'NR>1 && $21!="" && $23!="automotive" && $23!="current-sense" {print $2"|"$18"|"$21}' planning/plan-34-data/candidates.tsv | sort -u | wc -l` equals `awk 'END{print NR-1}' planning/plan-34-data/specs.tsv` (est. 1 min; `$21` is the `pdf` column Phase 3 fills, `$23` the reason).
-Commit: —
+  Result (2026-11-13): 109 = 109.
+Commit: abb3652
 
 ## Validation Plan
 
@@ -458,7 +512,103 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. **Prerequisites, "No other open plan adds resistors" (2026-11-13).** The
+   command as written matched `PART_RESISTOR` and gave 2: plans 36 (MCU) and
+   37 (registers), written after this plan, name `PART_RESISTOR` only to
+   agree that each appends its own `PartKind` last
+   (`plan-36-F-mcu-backend.md:56`, `plan-37-C-register-kind.md:63`). Neither
+   adds a resistor. The row now greps for what adding resistors would need
+   (`datasheets/resistor`, `GENERIC-RESISTOR`, `Parts/resistor.json`, a
+   `"kind": "resistor"`) → 0. For E: plans 36 and 37 are open and also append
+   a `PartKind`. E appends `PART_RESISTOR` after whatever value is last
+   when E runs.
+2. **HTTP 400 pieces; `top.js` resume (2026-11-13).** Dale chip ±1%'s
+   re-listing stopped after 80 pieces (244 calls): DigiKey answered three
+   series pieces with `HTTP 400 … Parametric Filtering Not Support at
+   Parent Category Level`, and `top.js` treated that as fatal. It now writes
+   `piece <label>: failed: HTTP 400 …` and goes on (`select.py --report`
+   prints them as `FAILED PIECE`), and resumes from `<stem>.resume` (a copy
+   of the cut run's `.err`), so only the unfinished pieces cost calls (115,
+   not another 244+). The three refused series, listed without the
+   tolerance filter (`dk.sh --category 52 --manufacturer 541 --series …`,
+   2 calls each): `RCC` 1 part (`RCC040268K0FKED`, Automotive AEC-Q200:
+   out), `WFM` 1 part (`WFMB2512R3300FEA`, Automotive and Current Sense:
+   out), `Military, MIL-PRF-55342, RM0505` 1 part (`M55342K02B10E0RWB`,
+   stock 114, far below the chip floor 89346). None of them can be picked,
+   so the listing is complete for the pick without them.
+3. **An unsplittable piece listed by stock bound (2026-11-13).** YAGEO ±1%
+   0402 / RC_L / Moisture Resistant / 1/16W / ±100ppm (942 parts) is
+   split by no facet of `SPLITS`, and its 300th part (stock 109184) was
+   above the chip floor. A part below the floor is never picked, and
+   adding rows only raises the floor. So `top.js` got `TOP_MIN_QTY`, which
+   lists only parts with at least that stock (DigiKey's
+   `MinimumQuantityAvailable`). A bounded piece of 301–600 parts is listed
+   from both ends: the 300 most-stocked, then the rest by ascending stock.
+   `recheck.sh`'s line `MINQ=75000 run 52-yageo-re-3 …`: `474 of 474 (both
+   ends) (stock ≥ 75000)`. `select.py` counts a cut piece as complete when
+   a listing of it (same category and maker) reaches down to a stock at or
+   below the floor.
+4. **Counts after Phase 1 (2026-11-13; B's goal table uses these).**
+   Listed 24770 parts (§ 2: 14882); picked 1994 (chip 1500, through-hole
+   400, arrays 94), the same total. Per maker: YAGEO chip 1264,
+   through-hole 395, arrays 76; Vishay Dale 223 / 4 / 8; Viking Tech 13 /
+   1 / 10 (§ 2: YAGEO 1188 / 384 / 76, Dale 299 / 15 / 8, Viking 13 / 1 /
+   10). Floors: chip 89346, through-hole 11752, arrays 26 (§ 2: 72373,
+   8982, 26). Out: automotive 12348, current-sense 436, duplicate 2670,
+   below quota 7322. Listing cost: 632 calls (listing 586, the three
+   series probes 6, plus 40 for the min-stock piece). Command:
+   `python3 -I planning/plan-34-data/census/select.py /tmp/p34/raw /tmp/p34/cand.tsv --report`.
+5. **Datasheet file names (2026-11-13).** § 4's rule (the URL's last path
+   segment, query dropped) named Vishay's `www.vishay.com/doc?31018` links
+   `doc.pdf`, `doc-38321a.pdf`, …. A file is now named after the first of
+   its URLs with no query string, else after the URL its link redirects to
+   (plan-29's `place.py` did the same): `cmfind.pdf`, `cw-he.pdf`,
+   `alsralvr.pdf`.
+6. **Phases 3–4 ran during Phase 2 (2026-11-13).** Phase 2's stock check
+   needs about two more quota days (1847 calls; 191 were left when it
+   started). Its outcome can only remove picked rows (`out`, `stock
+   check`), which brings in the next rows. So Phases 3 and 4 ran on the
+   pick as it stood, and B's reading could start. A Phase 2 task re-runs
+   them on the final pick; `specs-skeleton.py` merges into the filled
+   `specs.tsv` rather than refusing, and names any dropped group. The
+   eligible rows' URL set changes only if a newly eligible series cites a
+   new PDF, and `fetch.py` adds it.
+7. **The stock check in bulk (2026-11-13).** One call per part means 1677
+   more calls, about two quota days. Every picked row has stock at or above
+   its category's floor (chip 89345, through-hole 11717, arrays 26 on the
+   provisional pick). So a fresh `top.js` listing of each (category,
+   maker) with `TOP_MIN_QTY` = that floor returns every picked row DigiKey
+   still has, 50 per call. Each comes with its exact
+   `ManufacturerProductNumber`, `QuantityAvailable` and `ProductStatus`:
+   the same fields, from the same KeywordSearch, that `stock-check.sh`
+   reads for one part. `stock-relist.sh` lists; `stock-merge.py` writes a
+   `found` 1 row for each unchecked picked row found there with stock above
+   0 and status Active or Last Time Buy. Rows not found (no longer stocked,
+   or in a piece cut at 300) are still looked up one call each by
+   `stock-check.sh`, so every picked row is confirmed by its own part
+   number. Trial 2026-11-13 on Viking chip: `top.js: 52/2577: 13 parts, 3
+   calls` listed all 11 picked Viking chip rows (all already checked on day
+   1). Expected cost for the rest: about 100–150 calls instead of 1677.
+   The trial listing is kept in `planning/plan-34-data/relist/`.
+8. **`finish.sh` rehearsed; `fetch.py` keeps the rewrite (2026-11-13).**
+   A dry run of `census/finish.sh` (`FINISH_DRY=1`, on a `git archive`
+   copy of the worktree, stopping before F) found a bug. On a re-run,
+   `fetch.py` served the YAGEO FAE sheet from cache and forgot that it had
+   come through § 4's yageogroup.com rewrite, so `place.py` named it
+   `yageo-fae_datasheet.pdf` and `specs-skeleton.py` dropped the filled
+   `YAGEO|FAE|…/YAGEO-FAE_DATASHEET.pdf` spec row. `fetch.py` now writes
+   the rewrite URL to `<md5>.via` beside the cached PDF and reads it back
+   on a cache hit. Re-run of the rehearsal: `109 rows; 109 kept`, the same
+   1974 `add` rows, `0 skip rows missing`, `fp-check` 33 / 29 / 13 lines
+   with 0 missing, `specs-fill` 0 unmapped.
+9. **Phase 2 found one part out of stock, and the 53 Viking relisting failed.**
+   `RC0402FR-074K7L` (YAGEO, chip 1 kΩ – 5 kΩ) had 0 in stock on
+   2026-11-14, so it is `out`, `stock check`. The final pick put
+   `RC0402FR-13182RL` (< 1 kΩ) in its slot. It came from a cut piece and was
+   checked with one call. Its line replaces the old one in
+   `backend/tests/golden/parts.txt` and `traces.txt`. The bulk relisting of
+   53 Viking failed with HTTP 400 on every piece (as § Corrections 2).
+   That cost nothing: no picked row comes from a cut 53 Viking piece.
 
 ## Summary
 

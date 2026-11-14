@@ -47,11 +47,7 @@ enum TestSupport {
 
     /// Every part in the drawer.
     static var allParts: [CatalogPart] {
-        catalog.groups(matching: DrawerFilter()).flatMap { category in
-            category.functions.flatMap(\.parts) + category.subcategories.flatMap { sub in
-                sub.parts + sub.functions.flatMap(\.parts)
-            }
-        }
+        catalog.groups(matching: DrawerFilter()).flatMap(\.allParts)
     }
 
     /// The first DIP switch (by name) with at least two positions.

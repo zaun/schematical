@@ -35,8 +35,8 @@ plan-34-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-34-D complete | `ls planning/completed/plan-34-D-*.md` → exists | NOT MET at writing (2026-11-11) |
-| No `resistor` kind yet | `grep -c 'PART_RESISTOR' backend/include/parts.h` → 0 | MET (2026-11-11 at 8b1770b: 0) |
+| plan-34-A § Prerequisites MET | plan-34-A's table | MET (2026-11-13 at 942e3e4; was "plan-34-D complete", see § Corrections 1) |
+| No `resistor` kind yet | `grep -c 'PART_RESISTOR' backend/include/parts.h` → 0 | MET (2026-11-13 at 942e3e4: 0) |
 
 Everything below is written against the world where these hold.
 
@@ -196,46 +196,68 @@ through a resistor to the input of a fixture part with `vcc` 3.3 V and
 
 ### Phase 1 — Engine links
 
-- [ ] `sim.h`: the `resistors` hook; `sim.c`: `weak` on the link struct,
+- [x] `sim.h`: the `resistors` hook; `sim.c`: `weak` on the link struct,
       `collect_links`, step 2 skipping weak links, step 3 (§ 3.1).
-- [ ] `backend/tests/resistor_test.c` with the engine cases of § 6;
-      `logic_test(resistor_test)` in `backend/CMakeLists.txt`.
+- [x] `backend/tests/resistor_test.c` with the engine cases of § 6;
+      `logic_test(resistor_test)` in `backend/CMakeLists.txt`. Check
+      (2026-11-13, build dir `/tmp/logic-p34-wt`): `ctest -R
+      'resistor_test|diode_test|trace_check|switch_test'` → `100% tests
+      passed, 0 tests failed out of 4`; `resistor_test` prints 8 `PASS`
+      (the 8 engine rows of § 6), `0 failure(s)`.
 
 Acceptance: the engine cases pass and nothing else moves.
   Check: `cmake --build /tmp/logic-p34 -j8 && ctest --test-dir /tmp/logic-p34 -R 'resistor_test|diode_test|trace_check|switch_test'` → 4 passed (est. 2 min; `trace_check` is the byte-identity gate for every existing part).
-Commit: —
+Commit: 2751171
 
 ### Phase 2 — The kind and the voltage carry
 
-- [ ] `parts.h`: `PART_RESISTOR` appended as the last `PartKind` value
+- [x] `parts.h`: `PART_RESISTOR` appended as the last `PartKind` value
       (after the last value present when E lands: `grep -o 'PART_[A-Z0-9]*
-      }' backend/include/parts.h`), `PartResistor`, `Part.resistor`.
-- [ ] `backend/src/models/resistor.c` (§ 3.2); `model_pins.h`
+      }' backend/include/parts.h`), `PartResistor`, `Part.resistor`. The
+      last value was `PART_CAPACITOR` (plan-33 landed); now
+      `PART_CAPACITOR, PART_RESISTOR`.
+- [x] `backend/src/models/resistor.c` (§ 3.2); `model_pins.h`
       `resistor_pair`; the `KINDS[]` line in `library/kinds.c`;
-      `src/models/resistor.c` in `backend/CMakeLists.txt`.
-- [ ] `voltage.c`: the resistor carry (§ 3.3).
-- [ ] `tests/support/listing.c`: `case PART_RESISTOR: return "resistor";`
+      `src/models/resistor.c` in `backend/CMakeLists.txt`. Same-named pins
+      (an array's two common pins) are tied by diode links both ways
+      through the `diodes` hook, as `diode.c` ties a tab to its lead
+      (§ Corrections 2). `resistor_pair` lists the links, then the ties.
+- [x] `voltage.c`: the resistor carry (§ 3.3). Mutation check: with the
+      block disabled, the refusal case of § 6 FAILs (restored).
+- [x] `tests/support/listing.c`: `case PART_RESISTOR: return "resistor";`
       and the facts line `resistors=%zu milliohms=%llu tol=%u power=%u`;
       `TRACE_LAST_KIND` (`tests/trace_check.c`) and the two arrays of
       `tests/listing_check.c` → `PART_RESISTOR`.
-- [ ] `resistor_test.c`: the kind and circuit cases of § 6 (fixture JSON in
-      `tests/support/resistor_fixture.h`, as `diode_fixture.h`).
+- [x] `resistor_test.c`: the kind and circuit cases of § 6 (fixture JSON in
+      `tests/support/resistor_fixture.h`, as `diode_fixture.h`). 26 `PASS`
+      lines, `0 failure(s)`: 8 engine, 3 facts (two-pin, 4-pair array, 0 Ω
+      bussed), 10 rejections, 4 circuit (pull-up into SN74HC04N 1A, LED lit
+      and dark through a resistor, 5 V refused by a 3.3 V input), and 1
+      added: a bussed array's two same-named C pins are one node (fails
+      with the ties removed).
+- [x] (added) `tests/library_check.c` used `"resistor"` as its example of
+      an unknown kind (`expect_fail("unknown kind", HEAD("resistor") …`),
+      which now loads. It now uses `"no-such-kind"`.
 
 Acceptance: every case passes and the goldens are unchanged.
   Check: `cmake --build /tmp/logic-p34 -j8 && ctest --test-dir /tmp/logic-p34` → `100% tests passed` out of T0 + 1, and `git diff --stat backend/tests/golden` → empty (est. 2 min).
-Commit: —
+  Result (2026-11-13, `/tmp/logic-p34-wt`): `100% tests passed, 0 tests failed out of 33` (T0 32 + 1); `git diff --stat backend/tests/golden` → empty.
+Commit: 1655b68
 
 ### Phase 3 — Docs
 
-- [ ] `docs/parts-format.md`: the `resistor.json` | `resistor` row in the
+- [x] `docs/parts-format.md`: the `resistor.json` | `resistor` row in the
       kind table; a § `resistor` section (§ 3.2, § 4's example, the
       behavior of § 3.1 in words).
-- [ ] `docs/backend.md`: a **Resistors** paragraph beside **Diodes** (§ 3.1
-      and the § 6 table), and `resistor.c` in the source map.
+- [x] `docs/backend.md`: a **Resistors** paragraph beside **Diodes** (§ 3.1
+      and the § 6 table), and `resistor.c` in the source map; plus the
+      `resistor_test` entry in § Tests and the resistor carry in
+      **Voltages**.
 
 Acceptance: the docs name the kind and its keys.
   Check: `grep -c '### `resistor`' docs/parts-format.md` → 1, `grep -c 'resistor.json' docs/parts-format.md` → ≥ 1, `grep -c '\*\*Resistors\*\*' docs/backend.md` → 1 (est. 1 min).
-Commit: —
+  Result (2026-11-13): 1, 1, 1. Final gate: `ctest --test-dir /tmp/logic-p34-wt` → `100% tests passed, 0 tests failed out of 33`.
+Commit: cfd5987
 
 ## Validation Plan
 
@@ -265,7 +287,20 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. **E runs before A–D finish (2026-11-13).** The header says E "reads no
+   census output; it follows D because letter order is implementation
+   order", so the D edge is ordering, not data. The real edge is plan-34-A
+   § Prerequisites only (MET 2026-11-13). E was worked while A's DigiKey
+   runs, which depend on the quota, ran in the background. The
+   "plan-34-D complete" row is replaced by "plan-34-A § Prerequisites MET".
+   F still needs D (footprints) and E.
+2. **Same-named pins (2026-11-13).** § 3.2 did not say what a device with
+   two pins of one name means, and a bussed array has them (16-pin
+   networks often bring the common node out on two pins). They are one node:
+   `resistor.c` ties them with diode links both ways (the `diodes` hook,
+   strong, as `diode.c` does for a tab). A weak resistor link between them
+   would be wrong, because a driver on one common pin must reach the other
+   strongly. `resistor_test` pins this (the bussed-array case).
 
 ## Summary
 

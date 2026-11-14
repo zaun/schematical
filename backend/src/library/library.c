@@ -801,8 +801,8 @@ static int load_device(KindContext *ctx, PartLibrary *library, FileParts *file,
         kind_names(ctx, device_json, "drawer", &drawer, &drawer_count) != 0) {
         return -1;
     }
-    if (drawer_count > 2) {
-        return kind_error(ctx, "\"drawer\" has at most 2 levels");
+    if (drawer_count > 3) {
+        return kind_error(ctx, "\"drawer\" has at most 3 levels");
     }
     item = cJSON_GetObjectItemCaseSensitive(device_json, "note");
     if (item != NULL && !cJSON_IsString(item)) {

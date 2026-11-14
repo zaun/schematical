@@ -8,6 +8,7 @@
    "function": "1000 µF",
    "description": "Aluminum electrolytic capacitor, 1000 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -167,6 +168,7 @@
    "function": "100 µF",
    "description": "Aluminum electrolytic capacitor, 100 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -356,6 +358,7 @@
    "function": "10 µF",
    "description": "Aluminum electrolytic capacitor, 10 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -515,6 +518,7 @@
    "function": "1500 µF",
    "description": "Aluminum electrolytic capacitor, 1500 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -614,6 +618,7 @@
    "function": "150 µF",
    "description": "Aluminum electrolytic capacitor, 150 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -683,6 +688,7 @@
    "function": "15 µF",
    "description": "Aluminum electrolytic capacitor, 15 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -722,6 +728,7 @@
    "function": "1 µF",
    "description": "Aluminum electrolytic capacitor, 1 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -781,6 +788,7 @@
    "function": "2.2 µF",
    "description": "Aluminum electrolytic capacitor, 2.2 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -840,6 +848,7 @@
    "function": "2200 µF",
    "description": "Aluminum electrolytic capacitor, 2200 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -939,6 +948,7 @@
    "function": "220 µF",
    "description": "Aluminum electrolytic capacitor, 220 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -1118,6 +1128,7 @@
    "function": "22 µF",
    "description": "Aluminum electrolytic capacitor, 22 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -1287,6 +1298,7 @@
    "function": "3.3 µF",
    "description": "Aluminum electrolytic capacitor, 3.3 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -1356,6 +1368,7 @@
    "function": "3300 µF",
    "description": "Aluminum electrolytic capacitor, 3300 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -1455,6 +1468,7 @@
    "function": "330 µF",
    "description": "Aluminum electrolytic capacitor, 330 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -1604,6 +1618,7 @@
    "function": "33 µF",
    "description": "Aluminum electrolytic capacitor, 33 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -1733,6 +1748,7 @@
    "function": "4.7 µF",
    "description": "Aluminum electrolytic capacitor, 4.7 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -1862,6 +1878,7 @@
    "function": "4700 µF",
    "description": "Aluminum electrolytic capacitor, 4700 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -1951,6 +1968,7 @@
    "function": "470 µF",
    "description": "Aluminum electrolytic capacitor, 470 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -2120,6 +2138,7 @@
    "function": "47 µF",
    "description": "Aluminum electrolytic capacitor, 47 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -2309,6 +2328,7 @@
    "function": "6.8 µF",
    "description": "Aluminum electrolytic capacitor, 6.8 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -2348,6 +2368,7 @@
    "function": "680 µF",
    "description": "Aluminum electrolytic capacitor, 680 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -2457,6 +2478,7 @@
    "function": "68 µF",
    "description": "Aluminum electrolytic capacitor, 68 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -2526,6 +2548,7 @@
    "function": "1000 µF",
    "description": "Aluminum polymer capacitor, 1000 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -2625,6 +2648,7 @@
    "function": "100 µF",
    "description": "Aluminum polymer capacitor, 100 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -2797,6 +2821,7 @@
    "function": "10 µF",
    "description": "Aluminum polymer capacitor, 10 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -2916,6 +2941,7 @@
    "function": "1500 µF",
    "description": "Aluminum polymer capacitor, 1500 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -2995,6 +3021,7 @@
    "function": "150 µF",
    "description": "Aluminum polymer capacitor, 150 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -3147,6 +3174,7 @@
    "function": "15 µF",
    "description": "Aluminum polymer capacitor, 15 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -3216,6 +3244,7 @@
    "function": "2200 µF",
    "description": "Aluminum polymer capacitor, 2200 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -3265,6 +3294,7 @@
    "function": "220 µF",
    "description": "Aluminum polymer capacitor, 220 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -3427,6 +3457,7 @@
    "function": "22 µF",
    "description": "Aluminum polymer capacitor, 22 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -3556,6 +3587,7 @@
    "function": "330 µF",
    "description": "Aluminum polymer capacitor, 330 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -3695,6 +3727,7 @@
    "function": "33 µF",
    "description": "Aluminum polymer capacitor, 33 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -3814,6 +3847,7 @@
    "function": "4.7 µF",
    "description": "Aluminum polymer capacitor, 4.7 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -3853,6 +3887,7 @@
    "function": "470 µF",
    "description": "Aluminum polymer capacitor, 470 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -3975,6 +4010,7 @@
    "function": "47 µF",
    "description": "Aluminum polymer capacitor, 47 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -4097,6 +4133,7 @@
    "function": "680 µF",
    "description": "Aluminum polymer capacitor, 680 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -4216,6 +4253,7 @@
    "function": "68 µF",
    "description": "Aluminum polymer capacitor, 68 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Electrolytic"
    ],
@@ -4355,6 +4393,7 @@
    "function": "1.5 nF",
    "description": "Ceramic capacitor, 1.5 nF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -4525,6 +4564,7 @@
    "function": "1.5 µF",
    "description": "Ceramic capacitor, 1.5 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -4596,6 +4636,7 @@
    "function": "100 nF",
    "description": "Ceramic capacitor, 100 nF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -4722,6 +4763,7 @@
    "function": "100 pF",
    "description": "Ceramic capacitor, 100 pF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -4881,6 +4923,7 @@
    "function": "100 µF",
    "description": "Ceramic capacitor, 100 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -4941,6 +4984,7 @@
    "function": "10 nF",
    "description": "Ceramic capacitor, 10 nF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -5111,6 +5155,7 @@
    "function": "10 pF",
    "description": "Ceramic capacitor, 10 pF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -5270,6 +5315,7 @@
    "function": "10 µF",
    "description": "Ceramic capacitor, 10 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -5363,6 +5409,7 @@
    "function": "150 nF",
    "description": "Ceramic capacitor, 150 nF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -5467,6 +5514,7 @@
    "function": "150 pF",
    "description": "Ceramic capacitor, 150 pF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -5626,6 +5674,7 @@
    "function": "15 nF",
    "description": "Ceramic capacitor, 15 nF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -5774,6 +5823,7 @@
    "function": "15 pF",
    "description": "Ceramic capacitor, 15 pF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -5922,6 +5972,7 @@
    "function": "15 µF",
    "description": "Ceramic capacitor, 15 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -5971,6 +6022,7 @@
    "function": "1 nF",
    "description": "Ceramic capacitor, 1 nF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -6141,6 +6193,7 @@
    "function": "1 µF",
    "description": "Ceramic capacitor, 1 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -6234,6 +6287,7 @@
    "function": "2.2 nF",
    "description": "Ceramic capacitor, 2.2 nF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -6404,6 +6458,7 @@
    "function": "2.2 µF",
    "description": "Ceramic capacitor, 2.2 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -6497,6 +6552,7 @@
    "function": "220 nF",
    "description": "Ceramic capacitor, 220 nF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -6601,6 +6657,7 @@
    "function": "220 pF",
    "description": "Ceramic capacitor, 220 pF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -6760,6 +6817,7 @@
    "function": "22 nF",
    "description": "Ceramic capacitor, 22 nF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -6897,6 +6955,7 @@
    "function": "22 pF",
    "description": "Ceramic capacitor, 22 pF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -7045,6 +7104,7 @@
    "function": "22 µF",
    "description": "Ceramic capacitor, 22 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -7116,6 +7176,7 @@
    "function": "3.3 nF",
    "description": "Ceramic capacitor, 3.3 nF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -7286,6 +7347,7 @@
    "function": "3.3 µF",
    "description": "Ceramic capacitor, 3.3 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -7368,6 +7430,7 @@
    "function": "330 nF",
    "description": "Ceramic capacitor, 330 nF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -7472,6 +7535,7 @@
    "function": "330 pF",
    "description": "Ceramic capacitor, 330 pF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -7645,6 +7709,7 @@
    "function": "33 nF",
    "description": "Ceramic capacitor, 33 nF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -7771,6 +7836,7 @@
    "function": "33 pF",
    "description": "Ceramic capacitor, 33 pF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -7919,6 +7985,7 @@
    "function": "33 µF",
    "description": "Ceramic capacitor, 33 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -7968,6 +8035,7 @@
    "function": "4.7 nF",
    "description": "Ceramic capacitor, 4.7 nF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -8138,6 +8206,7 @@
    "function": "4.7 µF",
    "description": "Ceramic capacitor, 4.7 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -8231,6 +8300,7 @@
    "function": "470 nF",
    "description": "Ceramic capacitor, 470 nF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -8335,6 +8405,7 @@
    "function": "470 pF",
    "description": "Ceramic capacitor, 470 pF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -8505,6 +8576,7 @@
    "function": "47 nF",
    "description": "Ceramic capacitor, 47 nF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -8642,6 +8714,7 @@
    "function": "47 pF",
    "description": "Ceramic capacitor, 47 pF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -8801,6 +8874,7 @@
    "function": "47 µF",
    "description": "Ceramic capacitor, 47 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -8861,6 +8935,7 @@
    "function": "6.8 nF",
    "description": "Ceramic capacitor, 6.8 nF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -9031,6 +9106,7 @@
    "function": "6.8 µF",
    "description": "Ceramic capacitor, 6.8 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -9091,6 +9167,7 @@
    "function": "680 nF",
    "description": "Ceramic capacitor, 680 nF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -9184,6 +9261,7 @@
    "function": "680 pF",
    "description": "Ceramic capacitor, 680 pF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -9354,6 +9432,7 @@
    "function": "68 nF",
    "description": "Ceramic capacitor, 68 nF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -9480,6 +9559,7 @@
    "function": "68 pF",
    "description": "Ceramic capacitor, 68 pF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Ceramic"
    ],
@@ -9628,6 +9708,7 @@
    "function": "Generic",
    "description": "Generic capacitor",
    "drawer": [
+    "Discrete",
     "Capacitors"
    ],
    "pinouts": {
@@ -9687,6 +9768,7 @@
    "function": "100 µF",
    "description": "Niobium oxide capacitor, 100 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -9736,6 +9818,7 @@
    "function": "10 µF",
    "description": "Niobium oxide capacitor, 10 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -9785,6 +9868,7 @@
    "function": "150 µF",
    "description": "Niobium oxide capacitor, 150 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -9824,6 +9908,7 @@
    "function": "15 µF",
    "description": "Niobium oxide capacitor, 15 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -9873,6 +9958,7 @@
    "function": "220 µF",
    "description": "Niobium oxide capacitor, 220 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -9912,6 +9998,7 @@
    "function": "22 µF",
    "description": "Niobium oxide capacitor, 22 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -9961,6 +10048,7 @@
    "function": "330 µF",
    "description": "Niobium oxide capacitor, 330 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -10000,6 +10088,7 @@
    "function": "33 µF",
    "description": "Niobium oxide capacitor, 33 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -10049,6 +10138,7 @@
    "function": "4.7 µF",
    "description": "Niobium oxide capacitor, 4.7 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -10098,6 +10188,7 @@
    "function": "470 µF",
    "description": "Niobium oxide capacitor, 470 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -10137,6 +10228,7 @@
    "function": "47 µF",
    "description": "Niobium oxide capacitor, 47 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -10196,6 +10288,7 @@
    "function": "68 µF",
    "description": "Niobium oxide capacitor, 68 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -10235,6 +10328,7 @@
    "function": "1.5 µF",
    "description": "Tantalum capacitor, 1.5 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -10364,6 +10458,7 @@
    "function": "1000 µF",
    "description": "Tantalum capacitor, 1000 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -10413,6 +10508,7 @@
    "function": "100 nF",
    "description": "Tantalum capacitor, 100 nF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -10492,6 +10588,7 @@
    "function": "100 µF",
    "description": "Tantalum capacitor, 100 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -10621,6 +10718,7 @@
    "function": "10 µF",
    "description": "Tantalum capacitor, 10 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -10800,6 +10898,7 @@
    "function": "150 nF",
    "description": "Tantalum capacitor, 150 nF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -10869,6 +10968,7 @@
    "function": "150 µF",
    "description": "Tantalum capacitor, 150 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -10978,6 +11078,7 @@
    "function": "15 µF",
    "description": "Tantalum capacitor, 15 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -11137,6 +11238,7 @@
    "function": "1 µF",
    "description": "Tantalum capacitor, 1 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -11276,6 +11378,7 @@
    "function": "2.2 µF",
    "description": "Tantalum capacitor, 2.2 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -11435,6 +11538,7 @@
    "function": "220 nF",
    "description": "Tantalum capacitor, 220 nF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -11524,6 +11628,7 @@
    "function": "220 µF",
    "description": "Tantalum capacitor, 220 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -11623,6 +11728,7 @@
    "function": "22 µF",
    "description": "Tantalum capacitor, 22 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -11802,6 +11908,7 @@
    "function": "3.3 µF",
    "description": "Tantalum capacitor, 3.3 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -11961,6 +12068,7 @@
    "function": "330 nF",
    "description": "Tantalum capacitor, 330 nF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -12060,6 +12168,7 @@
    "function": "330 µF",
    "description": "Tantalum capacitor, 330 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -12149,6 +12258,7 @@
    "function": "33 µF",
    "description": "Tantalum capacitor, 33 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -12308,6 +12418,7 @@
    "function": "4.7 µF",
    "description": "Tantalum capacitor, 4.7 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -12487,6 +12598,7 @@
    "function": "470 nF",
    "description": "Tantalum capacitor, 470 nF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -12586,6 +12698,7 @@
    "function": "470 µF",
    "description": "Tantalum capacitor, 470 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -12645,6 +12758,7 @@
    "function": "47 µF",
    "description": "Tantalum capacitor, 47 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -12804,6 +12918,7 @@
    "function": "6.8 µF",
    "description": "Tantalum capacitor, 6.8 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -12963,6 +13078,7 @@
    "function": "680 nF",
    "description": "Tantalum capacitor, 680 nF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -13062,6 +13178,7 @@
    "function": "680 µF",
    "description": "Tantalum capacitor, 680 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -13111,6 +13228,7 @@
    "function": "68 µF",
    "description": "Tantalum capacitor, 68 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -13240,6 +13358,7 @@
    "function": "1.5 µF",
    "description": "Tantalum polymer capacitor, 1.5 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -13289,6 +13408,7 @@
    "function": "1000 µF",
    "description": "Tantalum polymer capacitor, 1000 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -13328,6 +13448,7 @@
    "function": "100 µF",
    "description": "Tantalum polymer capacitor, 100 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -13417,6 +13538,7 @@
    "function": "10 µF",
    "description": "Tantalum polymer capacitor, 10 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -13516,6 +13638,7 @@
    "function": "150 µF",
    "description": "Tantalum polymer capacitor, 150 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -13605,6 +13728,7 @@
    "function": "15 µF",
    "description": "Tantalum polymer capacitor, 15 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -13704,6 +13828,7 @@
    "function": "1 µF",
    "description": "Tantalum polymer capacitor, 1 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -13766,6 +13891,7 @@
    "function": "2.2 µF",
    "description": "Tantalum polymer capacitor, 2.2 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -13815,6 +13941,7 @@
    "function": "220 µF",
    "description": "Tantalum polymer capacitor, 220 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -13884,6 +14011,7 @@
    "function": "22 µF",
    "description": "Tantalum polymer capacitor, 22 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -13983,6 +14111,7 @@
    "function": "3.3 µF",
    "description": "Tantalum polymer capacitor, 3.3 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -14032,6 +14161,7 @@
    "function": "330 µF",
    "description": "Tantalum polymer capacitor, 330 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -14101,6 +14231,7 @@
    "function": "33 µF",
    "description": "Tantalum polymer capacitor, 33 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -14200,6 +14331,7 @@
    "function": "4.7 µF",
    "description": "Tantalum polymer capacitor, 4.7 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -14259,6 +14391,7 @@
    "function": "470 µF",
    "description": "Tantalum polymer capacitor, 470 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -14328,6 +14461,7 @@
    "function": "47 µF",
    "description": "Tantalum polymer capacitor, 47 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -14427,6 +14561,7 @@
    "function": "6.8 µF",
    "description": "Tantalum polymer capacitor, 6.8 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -14496,6 +14631,7 @@
    "function": "680 nF",
    "description": "Tantalum polymer capacitor, 680 nF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -14535,6 +14671,7 @@
    "function": "680 µF",
    "description": "Tantalum polymer capacitor, 680 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],
@@ -14584,6 +14721,7 @@
    "function": "68 µF",
    "description": "Tantalum polymer capacitor, 68 µF",
    "drawer": [
+    "Discrete",
     "Capacitors",
     "Tantalum"
    ],

@@ -26,7 +26,7 @@ plan-34-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-34-C complete | `ls planning/completed/plan-34-C-*.md` → exists | NOT MET at writing (2026-11-11) |
+| plan-34-C's footprint rules and tools | `ls planning/plan-34-data/census/fp-load.sh planning/plan-34-data/census/fp-check.py` | MET (2026-11-13; D ran beside C on the same pick, plan-34-C § Corrections 1) |
 
 Everything below is written against the world where these hold.
 
@@ -94,24 +94,43 @@ the datasheet's circuit drawing twice (the `note` cites the page).
 
 ### Phase 1 — Axial resistors
 
-- [ ] Every through-hole line: one `RES-AX-…` object per distinct (span,
+- [x] Every through-hole line: one `RES-AX-…` object per distinct (span,
       pad, drill) (plan-34-C § 4.3), or a reuse of `RES-AXIAL-10.16` when
       it matches; the spec rows filled (`package` `Axial`, pinout
-      `two-pin`).
+      `two-pin`). 29 lines → 13 new `RES-AX-…` footprints, ids with `X`
+      (plan-34-C § Corrections 3), drill and pads per plan-03-B's R5
+      (§ Corrections 4 there). Spans come from the YAGEO / Viking forming
+      tables ("M TYPE" / "MA": 6.0, 10.0, 12.5, 15.0, 20.0 mm), else the R7
+      arithmetic (FMP200 12.7, Vishay CMF55 10.16, CMF60 15.24, RN60 15.24,
+      SQP 27.94 / 53.34). `RES-AXIAL-10.16` is not reused: its pads differ.
 
 Acceptance: every through-hole line has a footprint.
   Check: `python3 -I planning/plan-34-data/census/fp-check.py through-hole` → `<n> lines, 0 without a footprint` (34 at planning time), and `fp-load.sh footprints-C.json footprints-D.json` → only the expected failures (est. 3 min).
-Commit: —
+  Result (2026-11-13): `29 lines, 0 without a footprint`; `44 new footprints: load ok`.
+Commit: dbc0c8b
 
 ### Phase 2 — Arrays
 
-- [ ] Every array line: footprint object (or reuse), package name (DigiKey's
+- [x] Every array line: footprint object (or reuse), package name (DigiKey's
       common name: `0804`, `1206`, `2512`, `SIP`, `SOIC`), pinout name and
-      pin pairs from the circuit diagram, in `specs.tsv`.
+      pin pairs from the circuit diagram, in `specs.tsv`. 13 lines → 10
+      new footprints (`RES-ARRAY-0404-4/0804-8/1206-8/1206-10/2512-10-YAGEO`,
+      `RES-ARRAY-0804-8-VIKING`, `SIP-6/8/10-2.54-VISHAY` as `header`,
+      `SOIC-16-5.59-VISHAY`). YAGEO's 8-pin arrays keep the datasheet's
+      numbering (1–4 along one side, 5–8 along the other, left to right:
+      `iso-8:1-5,2-6,3-7,4-8`, the footprint's `slots` placing the pads).
+      Bussed arrays with two common pins carry `;common=a,b`: YC158 and
+      YC358T `common=5,10`, YC358L `common=1,6`. These are separate
+      `footprint-map.tsv` rows by series, because both YC358s are one
+      land-pattern line. Second check of the pairs against the circuit
+      diagrams (YC/TC sheet p. 5 Fig. 11, rendered at 300 dpi): YC122 1-4,
+      2-3; YC104/124/164 1-5…4-8; YC358 L bus at 1 and 6, T and YC158 at 5
+      and 10: all agree.
 
 Acceptance: every array line has a footprint and pin pairs.
   Check: `python3 -I planning/plan-34-data/census/fp-check.py array` → `<n> lines, 0 without a footprint` (18 at planning time), `awk -F'\t' 'NR>1 && $7 ~ /^(iso|bus)/ && $7 !~ /:/' planning/plan-34-data/specs.tsv | wc -l` → 0 (every array pinout name carries its `:<pairs>`, Phase 2's format `iso-8:1-8,2-7,3-6,4-5`), and `fp-load.sh` as Phase 1 (est. 3 min).
-Commit: —
+  Result (2026-11-13): `13 lines, 0 without a footprint`; 0; `44 new footprints: load ok`.
+Commit: dbc0c8b
 
 ## Validation Plan
 
@@ -134,7 +153,11 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. **D ran beside C, on the same provisional pick (2026-11-13).** See
+   plan-34-C § Corrections 1–4: the pick before the stock check ends, the
+   footprint map, ids with `X`, and plan-03-B's R5. Lines at that pick:
+   through-hole 29, arrays 13 (planning time: 34, 18). The 20 arrays whose
+   only datasheet is a DigiKey copy are skipped by B's verdicts.
 
 ## Summary
 

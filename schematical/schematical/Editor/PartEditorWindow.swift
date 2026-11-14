@@ -124,6 +124,7 @@ struct PartEditorForm: View {
             TextField("Description", text: $model.draft.description)
             TextField("Drawer category", text: drawerLevel(0))
             TextField("Drawer group", text: drawerLevel(1))
+            TextField("Drawer sub-group", text: drawerLevel(2))
             TextField("Device id", text: $model.draft.deviceID)
             TextField("Note", text: Binding(
                 get: { model.draft.note ?? "" },

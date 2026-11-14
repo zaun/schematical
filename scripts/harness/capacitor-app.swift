@@ -1,5 +1,5 @@
 // plan-33-H: capacitors end to end on the app's real catalog, document and
-// views. Checks the drawer (Capacitors → Generic, Ceramic / Electrolytic /
+// views. Checks the drawer (Discrete → Capacitors → Generic, Ceramic / Electrolytic /
 // Tantalum, every leaf in increasing capacitance), the kind name, facts and
 // symbol of a real ceramic part, the generic capacitor (C1, 0.1 µF on the
 // disc footprint; set to 4.7 nF, saved and reopened; undo), and the voltage
@@ -37,14 +37,14 @@ MainActor.assumeIsolated { runCapacitorChecks() }
 
     // (1) The drawer.
     let groups = Harness.catalog.groups(matching: DrawerFilter())
-    let caps = groups.first { $0.category == "Capacitors" }
-    let subs = (caps?.subcategories ?? []).map(\.subcategory)
+    let caps = groups.first { $0.category == "Discrete" }?.subcategories.first { $0.subcategory == "Capacitors" }
+    let subs = (caps?.subgroups ?? []).map(\.subcategory)
     let functions = (caps?.functions ?? []).map(\.function)
-    check("1 drawer: Capacitors → \(functions) and \(subs)") {
+    check("1 drawer: Discrete → Capacitors → \(functions) and \(subs)") {
         if functions != ["Generic"] { return "functions \(functions)" }
         return Set(subs) == ["Ceramic", "Electrolytic", "Tantalum"] ? nil : "subcategories \(subs)"
     }
-    for sub in caps?.subcategories ?? [] {
+    for sub in caps?.subgroups ?? [] {
         let leaves = sub.functions.map { group in
             (group.function, group.parts.compactMap(\.capacitorFarads).min() ?? -1)
         }
@@ -63,7 +63,7 @@ MainActor.assumeIsolated { runCapacitorChecks() }
         doc.placeChip(part: part, symbol: symbol(for: part), centeredAt: point)
         return doc.chips.last!
     }
-    let ceramics = caps?.subcategories.first { $0.subcategory == "Ceramic" }?.functions.flatMap(\.parts) ?? []
+    let ceramics = caps?.subgroups.first { $0.subcategory == "Ceramic" }?.functions.flatMap(\.parts) ?? []
     let ceramic = ceramics.first { part in
         if case let .capacitor(_, _, _, _, d, t) = part.details { return d != nil && t != nil }
         return false
@@ -104,7 +104,7 @@ MainActor.assumeIsolated { runCapacitorChecks() }
     }
 
     // (4) A 6.3 V tantalum wired to a 12 V supply is refused.
-    let tantalums = caps?.subcategories.first { $0.subcategory == "Tantalum" }?.functions.flatMap(\.parts) ?? []
+    let tantalums = caps?.subgroups.first { $0.subcategory == "Tantalum" }?.functions.flatMap(\.parts) ?? []
     let low = tantalums.first { part in
         if case let .capacitor(type, _, _, mv, _, _) = part.details { return type == "tantalum" && mv == 6300 }
         return false
@@ -129,7 +129,7 @@ MainActor.assumeIsolated { runCapacitorChecks() }
 
     // (5) Pictures: a ceramic, an electrolytic and a tantalum; the generic's sidebar.
     let picture = Harness.newDocument()
-    let electrolytic = caps?.subcategories.first { $0.subcategory == "Electrolytic" }?.functions.first?.parts.first
+    let electrolytic = caps?.subgroups.first { $0.subcategory == "Electrolytic" }?.functions.first?.parts.first
     for (index, part) in [ceramic, electrolytic, low].compactMap({ $0 }).enumerated() {
         picture.placeChip(part: part, symbol: symbol(for: part), centeredAt: CGPoint(x: 100 + 160 * index, y: 100))
     }

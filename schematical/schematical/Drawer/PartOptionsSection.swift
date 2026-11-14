@@ -85,7 +85,7 @@ struct PartOptionsSection: View {
                     set: { document.setPartColor(chip.id, $0) }
                 ))
             }
-            if current.part.isPullResistor {
+            if current.part.hasOhmsField {
                 OhmsField(ohms: current.ohms ?? ResistorValue.defaultOhms) { ohms in
                     document.setPartOhms(chip.id, ohms)
                 }
