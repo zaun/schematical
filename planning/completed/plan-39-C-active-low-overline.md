@@ -174,7 +174,7 @@ Acceptance: a flagged pin draws an overline of the right width above the
 glyphs; an unflagged one is unchanged.
   Check: `xcodebuild … test -only-testing:schematicalTests/PinNameOverlineTests -only-testing:schematicalTests/SchematicSceneTests -only-testing:schematicalTests/PartPreviewTests` → `** TEST SUCCEEDED **` (est. 6 min).
   Observed 2026-11-14: PinNameOverlineTests 3, SchematicSceneTests 9, PartPreviewTests 1 — `Executed 13 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: —
+Commit: 73cd4350
 
 ### Phase 3 — seen in the real app
 
@@ -197,7 +197,7 @@ both exports, over the right letters.
   fix of Corrections 2) the SVG export each show bars over `CE` (no `#`),
   over `CS` only in `A0/CS`, and over `OE`; none over `A0`, `D0`, `VCC`,
   `GND`.
-Commit: —
+Commit: 8bdfb923
 
 ## Validation Plan
 

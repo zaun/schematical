@@ -179,7 +179,7 @@ Commit: aa0d824b
 Acceptance: agents can see the flag; their pin references are unchanged.
   Check: `xcodebuild … test -only-testing:schematicalTests/AutomationTests` → `** TEST SUCCEEDED **` (est. 5 min).
   Observed 2026-11-14: `Executed 29 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: —
+Commit: cfef745e
 
 ## Validation Plan
 
