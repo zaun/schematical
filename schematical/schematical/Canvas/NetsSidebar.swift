@@ -8,12 +8,13 @@ import SwiftUI
 struct NetSections: View {
     let document: SchematicDocument
     let highlightedNet: Binding<PlaneNet?>
+    var onRoute: (RoutingOptions.Scope) -> Void = { _ in }
 
     @State private var rows: [NetRow] = []
     @State private var hasBuilt = false
 
     var body: some View {
-        NetsSection(document: document, rows: rows, hasBuilt: hasBuilt, highlightedNet: highlightedNet)
+        NetsSection(document: document, rows: rows, hasBuilt: hasBuilt, highlightedNet: highlightedNet, onRoute: onRoute)
             .task(id: NetListInput(document)) {
                 // The first build is at once; later ones wait out a burst of edits.
                 if hasBuilt { try? await Task.sleep(for: .milliseconds(150)) }
@@ -35,8 +36,12 @@ struct NetsSection: View {
     let rows: [NetRow]
     let hasBuilt: Bool
     let highlightedNet: Binding<PlaneNet?>
+    var onRoute: (RoutingOptions.Scope) -> Void = { _ in }
 
     @State private var filter = ""
+
+    /// What a row's Route Net routes.
+    static func routeScope(for row: NetRow) -> RoutingOptions.Scope { .nets([row.key]) }
 
     var body: some View {
         Section("Nets") {
@@ -50,6 +55,14 @@ struct NetsSection: View {
             }
             ForEach(shown) { row in
                 NetRowView(document: document, row: row, highlightedNet: highlightedNet)
+                    .contextMenu {
+                        Button("Route Net") { onRoute(Self.routeScope(for: row)) }
+                            .disabled(row.unrouted == 0 || document.isPlaying)
+                        Button("Unroute Net") { document.unroute(nets: [row.net], onlyAuto: false) }
+                        Button(highlightedNet.wrappedValue == row.key ? "Stop Highlighting" : "Highlight") {
+                            highlightedNet.wrappedValue = highlightedNet.wrappedValue == row.key ? nil : row.key
+                        }
+                    }
             }
         }
     }

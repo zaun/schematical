@@ -68,6 +68,8 @@ struct PCBCanvasView: View {
     /// The copper an Autoroute run has routed so far, drawn at 60 % in each
     /// layer's colour while it runs; never saved.
     var routePreview: (traces: [RoutedTrace], vias: [RoutedVia])? = nil
+    /// Called with what the Route tool clicked: a net, or one connection.
+    var onRoute: (RoutingOptions.Scope) -> Void = { _ in }
     /// Called when the Text tool has placed a text; the owner returns to Select.
     var onPlaced: () -> Void = {}
     /// Drawing for File > Export > Image (`ImageExport`): no grid, hover,
@@ -740,6 +742,13 @@ struct PCBCanvasView: View {
             // A press places a hole on the trace grid, and the drag moves it.
             document.addHole(at: point)
             return .moveGroup(base: document.boardGroupBase())
+        case .route:
+            // A click routes the net of the pad, or the one connection of
+            // the unrouted line, under it.
+            if let scope = RouteTool.scope(document, at: point, tolerance: TraceDrawing.tolerance / scale, visible: shown) {
+                onRoute(scope)
+            }
+            return .idle
         case .delete:
             // One deletion per press: the text, via, hole or trace where it
             // started.
@@ -862,6 +871,9 @@ enum PCBTool: String, CaseIterable, Identifiable {
     case via
     case hole
     case delete
+    /// Click a pad to route its net, a ratsnest line to route that one
+    /// connection, with the last Autoroute options (plan-38-K).
+    case route
 
     var id: String { rawValue }
 
@@ -873,6 +885,7 @@ enum PCBTool: String, CaseIterable, Identifiable {
         case .via: "Via"
         case .hole: "Hole"
         case .delete: "Delete"
+        case .route: "Route"
         }
     }
 
@@ -883,6 +896,7 @@ enum PCBTool: String, CaseIterable, Identifiable {
         case .via: "Via — click to place a via, drag to move it (2 or more layers)"
         case .hole: "Hole — click to place a mounting or drilled hole, drag to move it"
         case .delete: "Delete — click a trace, via, hole or text to delete it (footprints stay)"
+        case .route: "Route — click a pad to route its net, a ratsnest line to route that one connection"
         default: title
         }
     }
@@ -895,6 +909,32 @@ enum PCBTool: String, CaseIterable, Identifiable {
         case .via: "circle.circle"
         case .hole: "smallcircle.circle"
         case .delete: "eraser"
+        case .route: "point.topleft.down.curvedto.point.bottomright.up"
         }
+    }
+}
+
+/// What a Route tool click names (plan-38-K § 3).
+@MainActor
+enum RouteTool {
+    /// The net of a pad under `point` (one on a shown layer), else the one
+    /// connection of an unrouted line within `tolerance` mm, else nil.
+    static func scope(_ document: SchematicDocument, at point: CGPoint, tolerance: CGFloat,
+                      visible: BoardVisibility = BoardVisibility()) -> RoutingOptions.Scope? {
+        let copper = document.connectivity()
+        for (p, pad) in copper.pads.enumerated() where pad.pad.plated && pad.pad.rect.contains(point) {
+            let shown = pad.pad.drill > 0 ? visible.showsAnyCopper : visible.shows(.copper(pad.side.copperLayer))
+            guard shown, let net = copper.netOfPad[p], let key = copper.planeNet(ofNet: net) else { continue }
+            return .nets([key])
+        }
+        guard visible.shows(.ratsnest) else { return nil }
+        let line = document.ratsnest().min {
+            SchematicDocument.distance(from: point, toSegment: $0.0, $0.1)
+                < SchematicDocument.distance(from: point, toSegment: $1.0, $1.1)
+        }
+        if let line, SchematicDocument.distance(from: point, toSegment: line.0, line.1) <= tolerance {
+            return .connection(from: line.0, to: line.1)
+        }
+        return nil
     }
 }

@@ -15,6 +15,8 @@ final class AutorouteModel {
         case selection
         case nets([PlaneNet])
         case footprints([UUID])
+        /// Exactly this scope (the Route tool, a Nets row).
+        case scope(RoutingOptions.Scope)
     }
 
     /// What a run with the current options would do.
@@ -92,6 +94,7 @@ final class AutorouteModel {
         case .selection: RoutingScope.fromSelection(document)
         case let .nets(keys): .nets(keys)
         case let .footprints(ids): .footprints(ids)
+        case let .scope(scope): scope
         }
     }
 

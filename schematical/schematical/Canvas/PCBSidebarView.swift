@@ -11,6 +11,8 @@ struct PCBSidebarView: View {
     @Bindable var document: SchematicDocument
     /// The net the Nets section highlights on the canvas (window state).
     var highlightedNet: Binding<PlaneNet?> = .constant(nil)
+    /// Routes a net from its row (Route Net).
+    var onRoute: (RoutingOptions.Scope) -> Void = { _ in }
 
     /// What the inspector shows.
     enum Content: Equatable {
@@ -98,7 +100,7 @@ struct PCBSidebarView: View {
                 }
                 LayersSection(document: document)
                 PlanesSection(document: document)
-                NetSections(document: document, highlightedNet: highlightedNet)
+                NetSections(document: document, highlightedNet: highlightedNet, onRoute: onRoute)
             }
         }
         .formStyle(.grouped)

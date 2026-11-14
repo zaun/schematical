@@ -156,13 +156,13 @@ Commit: 07d9d575
 
 Acceptance: build succeeds; model tests pass.
   Check: `-only-testing:schematicalTests/AutorouteModelTests` → `** TEST SUCCEEDED **` (est. 3 min; includes a full LFU route at ≈ 10 s).
-Commit: —
+Commit: e995d48e
 
 ### Phase 3 — Route tool and Nets-row actions
 
-- [ ] `PCBCanvasView.swift`: `PCBTool.route` (title, tooltip, symbol), click handling per § 3; `Interaction.idle` after the click; the toolbar picker picks it up (`allCases`).
-- [ ] `PCBSidebarView.swift` `NetsSection`: row context menu Route Net, Unroute Net, Highlight.
-- [ ] Tests: `schematicalTests/RouteToolTests.swift` — the tool's hit-test (pad → its net's scope; ratsnest line → `.connection`; empty space → nothing); the context-menu actions call the session with the row's `PlaneNet` scope.
+- [x] `PCBCanvasView.swift`: `PCBTool.route` (title, tooltip, symbol), click handling per § 3; `Interaction.idle` after the click; the toolbar picker picks it up (`allCases`). (Hit-test in `RouteTool.scope(_:at:tolerance:visible:)`; the click calls `onRoute`, which ContentView's `route(_:)` runs through the model with the saved options and the sheet showing progress.)
+- [x] `PCBSidebarView.swift` `NetsSection`: row context menu Route Net, Unroute Net, Highlight. (In `Canvas/NetsSidebar.swift`; `onRoute` passed down from ContentView.)
+- [x] Tests: `schematicalTests/RouteToolTests.swift` — the tool's hit-test (pad → its net's scope; ratsnest line → `.connection`; empty space → nothing); the context-menu actions call the session with the row's `PlaneNet` scope. (Plus a hidden ratsnest can't be hit, and Route Net's scope run through the model routes the net.) — `-only-testing:RouteToolTests -only-testing:TraceToolTests` → 16 tests (TraceToolTests 11, all the Trace tool's), 0 failures, `** TEST SUCCEEDED **`.
 
 Acceptance: cases pass; the 7 `TraceToolTests` stay green.
   Check: `-only-testing:schematicalTests/RouteToolTests -only-testing:schematicalTests/TraceToolTests` → `** TEST SUCCEEDED **` (est. 2 min).

@@ -399,7 +399,8 @@ struct ContentView: View {
                           visible: BoardVisibility(hidden: hiddenLayers), traceLayer: traceLayer,
                           traceAngle: traceAngle, onShowLayer: { hiddenLayers.remove(.copper($0)) },
                           pointer: boardPointer, highlightedNet: $highlightedNet,
-                          routePreview: autoroute?.session.isRunning == true ? autoroute?.session.preview : nil) {
+                          routePreview: autoroute?.session.isRunning == true ? autoroute?.session.preview : nil,
+                          onRoute: route) {
                 // Placing a text returns to the Select tool.
                 pcbTool = .select
             }
@@ -451,6 +452,17 @@ struct ContentView: View {
         return model
     }
 
+    /// Routes `scope` with the last Autoroute options, the sheet showing
+    /// the run (the Route tool, a Nets row's Route Net).
+    private func route(_ scope: RoutingOptions.Scope) {
+        guard !document.isPlaying, autoroute?.session.isRunning != true else { return }
+        let model = autorouteModel
+        autoroute = model
+        model.scopeChoice = .scope(scope)
+        isAutorouteOpen = true
+        model.route()
+    }
+
     /// The Route menu's actions for this window (plan-38-K).
     private var routeActions: RouteActions {
         RouteActions(
@@ -484,7 +496,7 @@ struct ContentView: View {
                     SchematicSidebarView(catalog: catalog, document: document, simulation: simulation,
                                          isActive: page == .schematic)
                     if page == .pcb {
-                        PCBSidebarView(document: document, highlightedNet: $highlightedNet)
+                        PCBSidebarView(document: document, highlightedNet: $highlightedNet, onRoute: route)
                     }
                 }
                 // macOS opens an inspector at its minimum width and ignores
