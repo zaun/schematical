@@ -18,8 +18,8 @@ plan-39-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-39-I complete | `ls planning/completed/plan-39-I-*.md \| wc -l` → 1 | NOT MET until I lands |
-| The tool's tests pass | `node --test scripts/pin-polarity.test.js` → all pass | NOT MET until D lands |
+| plan-39-I complete | `ls planning/completed/plan-39-I-*.md \| wc -l` → 1 | MET (2026-11-14: 1, at landing; the reviews ran alongside I, see Corrections 1) |
+| The tool's tests pass | `node --test scripts/pin-polarity.test.js` → all pass | MET (2026-11-14: pass 13, fail 0) |
 
 Everything below is written against the world where these hold.
 
@@ -71,11 +71,12 @@ The reviews of different devices are independent; an implementer may fan devices
 
 One commit per phase: the edited part file(s), `planning/plan-39-data/ledger.tsv` and `backend/tests/golden/parts.txt`.
 
-- [ ] Review mcu devices 1–79 (at90can128 … atmega48p): 106 pinouts, § 3 procedure; edits `schematical/schematical/Parts/mcu.json`.
-- [ ] Rebuild and regenerate the golden: `cmake -S backend -B /tmp/logic-p39 && cmake --build /tmp/logic-p39 -j8 && /tmp/logic-p39/listing_check --print > backend/tests/golden/parts.txt`.
+- [x] Review mcu devices 1–79 (at90can128 … atmega48p): 106 pinouts, § 3 procedure; edits `schematical/schematical/Parts/mcu.json`. — done: rows recorded, check ok (Observed)
+- [x] Rebuild and regenerate the golden: `cmake -S backend -B /tmp/logic-p39 && cmake --build /tmp/logic-p39 -j8 && /tmp/logic-p39/listing_check --print > backend/tests/golden/parts.txt`. — done: regenerated over the full tree, this phase staged (plan-39-E Corrections 2)
 
 Acceptance: every pinout of the phase has a ledger row, the ledger matches the files, and the golden moved only by flags.
   Check: `node scripts/pin-polarity.js check --kind mcu --devices 1-79 --complete && node scripts/pin-polarity.js golden-check && ctest --test-dir /tmp/logic-p39 -R '^(library_check|listing_check|trace_check)$'` → every `check` exits 0, `golden-check` exits 0, 3 of 3 tests passed (est. 90 min of reading for 106 pinouts, then 6 min for the checks: the loader and `listing_check` load every part file the phase edited, which no smaller check does).
+  Observed 2026-11-14: mcu 1-79 `ok: 106 pinouts, 106 ledger rows checked`; golden-check (phase staged) `ok: 116 parts.txt line(s) changed, only by :low`; ctest on the full tree `100% tests passed, 0 tests failed out of 3`.
 Commit: —
 
 ### Phase 2 — J2: mcu 80–145 (105 pinouts)
@@ -105,7 +106,18 @@ Commit: —
 
 ## Corrections
 
-(empty until execution)
+1. **J was reviewed alongside I and K and landed after I.** The two letters
+   share `mcu.json`, which goes in whole with J1. Each phase commits the
+   ledger rows and golden lines of its own range (plan-39-H Corrections
+   1). The Prerequisites row was measured at landing.
+2. **Rule 12 decides most MCU pins.** Where RESET is an alternate function
+   of a port pin and the catalog names the port (`PC6`, `PG5`, `PE0`,
+   `PC1`, `PF6`, `PA2`, `PB3` …), the pin is not flagged and the row's note
+   names the pin. RESET is flagged where the catalog names it (AT90CAN/USB,
+   ATmega16/32/64/128/162/164/324/406/640/644/1280/1284/2560/8515/8535,
+   ATtiny28V). PEN on ATmega64/128(A) is flagged (overbar; "programming
+   mode when held low"). HWB on the 32U4 shares a pin with PE2, so it is
+   not flagged.
 
 ## Summary
 

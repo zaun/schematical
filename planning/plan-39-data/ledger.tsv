@@ -1263,6 +1263,112 @@ latch	TPIC6259	p20	tpic6259	p.1	{"G":true,"CLR":true}	DRAIN0-7 unmarked open-dra
 latch	TPIC6A259	p20	tpic6a259	p.1	{"G":true,"CLR":true}	DRAIN0-7 unmarked open-drain (prose calls them active-low DMOS outputs, names unbarred); not flagged per rule 4
 latch	TPIC6A259	p24	tpic6a259	p.1	{"G":true,"CLR":true}	DRAIN0-7 unmarked open-drain (prose calls them active-low DMOS outputs, names unbarred); not flagged per rule 4
 latch	TPIC6B259	p20	tpic6b259	p.1	{"G":true,"CLR":true}	DRAIN0-7 unmarked open-drain (prose calls them active-low DMOS outputs, names unbarred); not flagged per rule 4
+mcu	at90can128	quad64	7679s	pp.5-7	{"RESET":true}	
+mcu	at90can32	quad64	7679s	pp.5-7	{"RESET":true}	
+mcu	at90can64	quad64	7679s	pp.5-7	{"RESET":true}	
+mcu	at90pwm161	quad32	doc7734	pp.3-6	{}	PE0 is PE0/RESET; catalog names the port only (rule 12)
+mcu	at90pwm2	p24	atmel-4317-8-bit-avr-flash_microcontroller-at90pwm2-3-2b-3b_summary	pp.3-6	{}	PE0 is PE0/RESET; catalog names the port only (rule 12)
+mcu	at90pwm216	p24	atmel-7710-8-bit-microcontroller-at90pwm216-316_datasheet-summary	pp.3-5	{}	PE0 is PE0/RESET; catalog names the port only (rule 12)
+mcu	at90pwm2b	p24	atmel-4317-8-bit-avr-flash_microcontroller-at90pwm2-3-2b-3b_summary	pp.3-6	{}	PE0 is PE0/RESET; catalog names the port only (rule 12)
+mcu	at90pwm316	quad32	atmel-7710-8-bit-microcontroller-at90pwm216-316_datasheet-summary	pp.3-5	{}	PE0 is PE0/RESET; catalog names the port only (rule 12)
+mcu	at90pwm3b	quad32	atmel-4317-8-bit-avr-flash_microcontroller-at90pwm2-3-2b-3b_summary	pp.3-6	{}	PE0 is PE0/RESET; catalog names the port only (rule 12)
+mcu	at90pwm81	quad32	doc7734	pp.3-6	{}	PE0 is PE0/RESET; catalog names the port only (rule 12)
+mcu	at90usb1286	quad64	7593s	p.3	{"RESET":true}	
+mcu	at90usb1287	quad64	7593s	p.3	{"RESET":true}	
+mcu	at90usb162	quad32	7707s	p.3	{"RESET":true}	
+mcu	at90usb646	quad64	7593s	p.3	{"RESET":true}	
+mcu	at90usb647	quad64	7593s	p.3	{"RESET":true}	
+mcu	at90usb82	quad32	7707s	p.3	{"RESET":true}	
+mcu	atmega128	quad64	2467s	pp.2,7	{"PEN":true,"RESET":true}	
+mcu	atmega1280	quad100	atmega640-1280-1281-2560-2561-datasheet-ds40002211a	p.2	{"RESET":true}	
+mcu	atmega1281	quad64	atmega640-1280-1281-2560-2561-datasheet-ds40002211a	p.4	{"RESET":true}	
+mcu	atmega1284	p40	atmega164a_pa-324a_pa-644a_pa-1284_p_data-sheet-40002070b	pp.11,16	{"RESET":true}	
+mcu	atmega1284	quad44	atmega164a_pa-324a_pa-644a_pa-1284_p_data-sheet-40002070b	pp.11,16	{"RESET":true}	
+mcu	atmega1284p	p40	atmega164a_pa-324a_pa-644a_pa-1284_p_data-sheet-40002070b	pp.11,16	{"RESET":true}	
+mcu	atmega1284p	quad44	atmega164a_pa-324a_pa-644a_pa-1284_p_data-sheet-40002070b	pp.11,16	{"RESET":true}	
+mcu	atmega128a	quad64	atmel-8151s-8-bit-avr-atmega128a_datasheet-summary	pp.9-11	{"PEN":true,"RESET":true}	
+mcu	atmega16	p40	2466s	pp.2,5	{"RESET":true}	
+mcu	atmega16	quad44	2466s	pp.2,5	{"RESET":true}	
+mcu	atmega1608	p28	atmega808-09-1608-09-datasheet-ds40002172c	pp.14,19	{}	PF6 is PF6/RESET (overbar); catalog names the port only (rule 12); UPDI unmarked
+mcu	atmega1608	quad32	atmega808-09-1608-09-datasheet-ds40002172c	pp.15,19	{}	PF6 is PF6/RESET (overbar); catalog names the port only (rule 12); UPDI unmarked
+mcu	atmega1609	quad48	atmega808-09-1608-09-datasheet-ds40002172c	pp.16-17,19	{}	PF6 is PF6/RESET (overbar); catalog names the port only (rule 12); UPDI unmarked
+mcu	atmega162	p40	atmel-2513-8-bit-avr-microntroller-atmega162_datasheet	pp.2,6	{"RESET":true}	
+mcu	atmega162	quad44	atmel-2513-8-bit-avr-microntroller-atmega162_datasheet	pp.2,6	{"RESET":true}	
+mcu	atmega164a	bga49	atmel-42712-atmega164a_datasheet_summary	pp.12-13	{"RESET":true}	
+mcu	atmega164a	drqfn44	atmega164a_pa-324a_pa-644a_pa-1284_p_data-sheet-40002070b	pp.12,16	{"RESET":true}	
+mcu	atmega164a	quad44	atmega164a_pa-324a_pa-644a_pa-1284_p_data-sheet-40002070b	pp.11,16	{"RESET":true}	
+mcu	atmega164p	quad44	atmega164p-324p-644p-data-sheet-40002071a	pp.11,14	{"RESET":true}	
+mcu	atmega164pa	bga49	atmega164a_pa-324a_pa-644a_pa-1284_p_data-sheet-40002070b	pp.13,16	{"RESET":true}	BGA table omits the bar; RESET overbarred in Fig 1-1/1-2 and described as low-level reset p.16
+mcu	atmega164pa	drqfn44	atmega164a_pa-324a_pa-644a_pa-1284_p_data-sheet-40002070b	pp.12,16	{"RESET":true}	
+mcu	atmega164pa	quad44	atmega164a_pa-324a_pa-644a_pa-1284_p_data-sheet-40002070b	pp.11,16	{"RESET":true}	
+mcu	atmega165a	quad64	atmel-8285-8-bit-avr-microcontroller-atmega165a_pa_325a_pa_3250a_pa_645a_p_6450a_p_datasheet_summary	pp.3,9	{}	pin 20 RESET-overbar/PG5 named PG5 in catalog (rule 12)
+mcu	atmega165p	quad64	8019s	pp.2,6	{}	pin 20 RESET-overbar/PG5 named PG5 in catalog (rule 12)
+mcu	atmega165pa	quad64	atmel-8285-8-bit-avr-microcontroller-atmega165a_pa_325a_pa_3250a_pa_645a_p_6450a_p_datasheet_summary	pp.3,9	{}	pin 20 RESET-overbar/PG5 named PG5 in catalog (rule 12)
+mcu	atmega168	p28	atmel-2545-8-bit-avr-microcontroller-atmega48-88-168_summary	pp.10,14	{}	PC6/RESET named PC6 in catalog (rule 12)
+mcu	atmega168	quad32	atmel-2545-8-bit-avr-microcontroller-atmega48-88-168_summary	pp.11-14	{}	PC6/RESET named PC6 in catalog (rule 12)
+mcu	atmega168a	p28	atmega328p	pp.12-13	{}	PC6/RESET named PC6 in catalog (rule 12)
+mcu	atmega168a	quad28	atmega328p	pp.12-13	{}	PC6/RESET named PC6 in catalog (rule 12)
+mcu	atmega168a	quad32	atmega328p	pp.12-13	{}	PC6/RESET named PC6 in catalog (rule 12)
+mcu	atmega168p	quad32	atmega48p_88p_168p-ds40002065a	pp.10-11	{}	PC6/RESET named PC6 in catalog (rule 12)
+mcu	atmega168pa	p28	atmega328p	pp.12-13	{}	PC6/RESET named PC6 in catalog (rule 12)
+mcu	atmega168pa	quad28	atmega328p	pp.12-13	{}	PC6/RESET named PC6 in catalog (rule 12)
+mcu	atmega168pa	quad32	atmega328p	pp.12-13	{}	PC6/RESET named PC6 in catalog (rule 12)
+mcu	atmega168pb	quad32	atmega48pb-88pb-168pb-datasheet-ds40001909b	pp.10-12	{}	PC6/RESET named PC6 in catalog (rule 12)
+mcu	atmega169a	quad64	atmel-8284-8-bit-avr-microcontroller-atmega169a_pa_329a_pa_3290a_pa_649a_p_6490a_p_summary	pp.3,10	{}	RESET/PG5 named PG5 in catalog (rule 12)
+mcu	atmega169p	drqfn64	8018s	p.3	{}	RESET/PG5 named PG5 in catalog (rule 12)
+mcu	atmega169p	quad64	8018s	p.2	{}	RESET/PG5 named PG5 in catalog (rule 12)
+mcu	atmega169pa	quad64	atmel-8284-8-bit-avr-microcontroller-atmega169a_pa_329a_pa_3290a_pa_649a_p_6490a_p_summary	pp.3,10	{}	RESET/PG5 named PG5 in catalog (rule 12)
+mcu	atmega16a	p40	atmel-8154-8-bit-avr-atmega16a_datasheet-summary	pp.3,6	{"RESET":true}	
+mcu	atmega16a	quad44	atmel-8154-8-bit-avr-atmega16a_datasheet	pp.3,6	{"RESET":true}	
+mcu	atmega16m1	quad32	atmel-8209-8-bit-avr-atmega16m1-32m1-64m1_summary	pp.4-7,12	{}	PE0/RESET named PE0 in catalog (rule 12)
+mcu	atmega16u2	quad32	7799s	pp.2,5	{}	PC1/RESET named PC1 in catalog (rule 12)
+mcu	atmega16u4	quad44	atmel-7766-8-bit-avr-atmega16u4-32u4_summary	pp.3,7	{"RESET":true}	
+mcu	atmega2560	quad100	atmega640-1280-1281-2560-2561-datasheet-ds40002211a	pp.2,9	{"RESET":true}	
+mcu	atmega2561	quad64	atmega640-1280-1281-2560-2561-datasheet-ds40002211a	pp.4,9	{"RESET":true}	
+mcu	atmega32	p40	doc2503	pp.2,5	{"RESET":true}	
+mcu	atmega32	quad44	2503s	pp.2,5	{"RESET":true}	
+mcu	atmega3208	p28	atmega3208-3209-data-sheet-ds40002174a	pp.14,18	{}	PF6/RESET named PF6 in catalog (rule 12); UPDI not active low
+mcu	atmega3208	quad32	atmega3208-3209-data-sheet-ds40002174a	pp.15,18	{}	PF6/RESET named PF6 in catalog (rule 12); UPDI not active low
+mcu	atmega3209	quad48	atmega3208-3209-data-sheet-ds40002174a	pp.16,18	{}	PF6/RESET named PF6 in catalog (rule 12); UPDI not active low
+mcu	atmega324a	quad44	atmega164a_pa-324a_pa-644a_pa-1284_p_data-sheet-40002070b	pp.11,16	{"RESET":true}	
+mcu	atmega324p	quad44	atmega164p-324p-644p-data-sheet-40002071a	pp.11,14	{"RESET":true}	
+mcu	atmega324pa	quad44	atmega164a_pa-324a_pa-644a_pa-1284_p_data-sheet-40002070b	pp.11,16	{"RESET":true}	
+mcu	atmega324pb	quad44	40001908a	pp.14-15	{"RESET":true}	
+mcu	atmega325	quad64	2570s	p.3	{}	rule 12: pin 20 is RESET/PG5 (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega3250	quad100	2570s	p.2	{}	rule 12: pin 30 is RESET/PG5 (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega3250p	quad100	doc8023	pp.2-3	{}	rule 12: pin 30 is RESET/PG5 (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega325a	quad64	atmel-8285-8-bit-avr-microcontroller-atmega165a_pa_325a_pa_3250a_pa_645a_p_6450a_p_datasheet_summary	p.3	{}	rule 12: pin 20 is RESET/PG5 (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega325pa	quad64	atmel-8285-8-bit-avr-microcontroller-atmega165a_pa_325a_pa_3250a_pa_645a_p_6450a_p_datasheet_summary	p.3	{}	rule 12: pin 20 is RESET/PG5 (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega328	p28	atmega328p	p.12	{}	rule 12: pin 1 is PC6/RESET (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega328	quad28	atmega328p	p.12	{}	rule 12: pin 25 is PC6/RESET (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega328	quad32	atmega328p	p.12	{}	rule 12: pin 29 is PC6/RESET (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega328p	p28	atmega328p	p.12	{}	rule 12: pin 1 is PC6/RESET (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega328p	quad28	atmega328p	p.12	{}	rule 12: pin 25 is PC6/RESET (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega328p	quad32	atmega328p	p.12	{}	rule 12: pin 29 is PC6/RESET (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega328pb	quad32	40001907a	pp.8-9	{}	rule 12: pin 29 is PC6/RESET (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega329	quad64	2552s	p.3	{}	rule 12: pin 20 is RESET/PG5 (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega3290	quad100	2552s	p.2	{}	rule 12: pin 30 is RESET/PG5 (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega3290a	quad100	atmel-8284-8-bit-avr-microcontroller-atmega169a_pa_329a_pa_3290a_pa_649a_p_6490a_p_summary	p.4	{}	rule 12: pin 30 is RESET/PG5 (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega3290p	quad100	atmel-8021-avr-atmega329p-3290p_summary	p.3	{}	rule 12: pin 30 is RESET/PG5 (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega3290pa	quad100	atmel-8284-8-bit-avr-microcontroller-atmega169a_pa_329a_pa_3290a_pa_649a_p_6490a_p_summary	p.4	{}	rule 12: pin 30 is RESET/PG5 (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega329a	quad64	atmel-8284-8-bit-avr-microcontroller-atmega169a_pa_329a_pa_3290a_pa_649a_p_6490a_p_datasheet	p.3	{}	rule 12: pin 20 is RESET/PG5 (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega329p	quad64	atmel-8021-avr-atmega329p-3290p_summary	p.2	{}	rule 12: pin 20 is RESET/PG5 (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega329pa	quad64	atmel-8284-8-bit-avr-microcontroller-atmega169a_pa_329a_pa_3290a_pa_649a_p_6490a_p_datasheet	p.3	{}	rule 12: pin 20 is RESET/PG5 (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega32a	p40	atmega32a-datasheet-complete-ds40002072a	p.10	{"RESET":true}	
+mcu	atmega32a	quad44	atmega32a-datasheet-complete-ds40002072a	p.10	{"RESET":true}	
+mcu	atmega32m1	quad32	atmel-8209-8-bit-avr-atmega16m1-32m1-64m1_summary	pp.4-7	{}	rule 12: pin 31 is PE0/RESET (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega32u2	quad32	7799s	pp.2-5	{}	rule 12: pin 24 is PC1/RESET/dW (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega32u4	quad44	atmel-7766-8-bit-avr-atmega16u4-32u4_summary	p.3	{"RESET":true}	PE2 (HWB barred) left unflagged per rule 12
+mcu	atmega406	quad48	atmel-2548-8-bit-avr-microcontroller-battery-management-atmega406_datasheet-summary	p.2	{"RESET":true}	
+mcu	atmega48	p28	atmel-2545-8-bit-avr-microcontroller-atmega48-88-168_summary	p.10	{}	rule 12: pin 1 is PC6/RESET (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega48	quad32	atmel-2545-8-bit-avr-microcontroller-atmega48-88-168_summary	p.12	{}	rule 12: pin 29 is PC6/RESET (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega4808	p28	atmega4808-09-datasheet-ds40002173c	p.14	{}	rule 12: PF6/RESET named by port; UPDI unmarked
+mcu	atmega4808	quad32	atmega4808-09-datasheet-ds40002173c	p.15	{}	rule 12: PF6/RESET named by port; UPDI unmarked
+mcu	atmega4809	p40	atmega4808-09-datasheet-ds40002173c	p.16	{}	rule 12: PF6/RESET named by port; UPDI unmarked
+mcu	atmega4809	quad48	atmega4808-09-datasheet-ds40002173c	p.17	{}	rule 12: PF6/RESET named by port; UPDI unmarked
+mcu	atmega48a	quad28	atmega328p	p.12	{}	rule 12: pin 25 is PC6/RESET (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega48a	quad32	atmega328p	p.12	{}	rule 12: pin 29 is PC6/RESET (RESET barred) in datasheet; catalog names it by port only
+mcu	atmega48p	quad32	atmega48p_88p_168p-ds40002065a	p.10	{}	rule 12: pin 29 is PC6/RESET (RESET barred) in datasheet; catalog names it by port only
 mux	40257B	p16	cd40257b	p.1	{}	
 mux	4512B	p16	cd4512b	p.1	{}	
 mux	74_11257	p20	74ac11257	p.1	{"A/B":["A"],"OE":true}	
