@@ -148,6 +148,10 @@ extension AutomationTools {
                 let lines = bus.lines.map { "(\(num($0.a.x)),\(num($0.a.y)))-(\(num($0.b.x)),\(num($0.b.y)))" }
                     .joined(separator: " ")
                 out.append("\(bus.name): wires \(wires); lines \(lines); ports \(bus.ports.count)")
+                for (index, port) in bus.ports.enumerated() {
+                    let pins = bus.wires.filter { port.wireIDs.contains($0.id) }.map(\.name).joined(separator: ",")
+                    out.append("  port \(index + 1): pins \(pins)")
+                }
             }
         }
         return out.joined(separator: "\n")

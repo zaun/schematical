@@ -106,7 +106,7 @@ extension AutomationTools {
         AutomationTool(
             name: "add_bus",
             summary: "Draw a straight bus from (x1,y1) to (x2,y2) (horizontal or vertical). Give it a name "
-                + "(up to 4 characters) and a number of wires (2–999, default 8). Wires are named B0, B1, B2…; "
+                + "(up to 4 characters) and a number of wires (2–999, default 8). Wires are named B0, B1, B2… (rename or add some with set_bus); "
                 + "add ports with add_bus_port, then connect pins to \"bus:NAME:WIRE\".",
             properties: [
                 "x1": Schema.number("Start x"), "y1": Schema.number("Start y"),
@@ -126,6 +126,36 @@ extension AutomationTools {
             ],
             required: ["bus", "x", "y"], edits: true,
             run: { context, args in Out.text(try addBusPort(context!, args)) }),
+        AutomationTool(
+            name: "set_bus",
+            summary: "Change an existing bus: rename it, set its number of wires, name its wires, rename single "
+                + "wires, or move a wire to another place. Wire names are up to 4 characters, no spaces, unique "
+                + "on the bus. Refused when the bus type sets the wires, or when a port still uses a wire the "
+                + "change would drop. A new wire has no pin yet: give it one with set_bus_port.",
+            properties: [
+                "bus": Schema.string("Bus name"), "name": Schema.string("New bus name (up to 4 characters)"),
+                "wires": Schema.integer("Number of wires (2–999). New wires are added, or dropped, at the end"),
+                "wire_names": Schema.strings("Names for all wires in order, e.g. [\"D0\",\"D1\",\"WR\"]; "
+                    + "this also sets the number of wires"),
+                "rename": ["type": "object", "additionalProperties": ["type": "string"],
+                           "description": "Old wire name → new name, e.g. {\"B2\": \"WR\"}"],
+                "move_wire": Schema.string("A wire name to move, with move_to"),
+                "move_to": Schema.integer("Its new place, 0 = first"),
+            ],
+            required: ["bus"], edits: true,
+            run: { context, args in Out.text(try setBus(context!, args)) }),
+        AutomationTool(
+            name: "set_bus_port",
+            summary: "Choose which wires of a bus a port has pins for, or move the port along its line. Ports are "
+                + "numbered from 1 in get_design (BUSES). Removing a wire's pin removes the wires connected to it.",
+            properties: [
+                "bus": Schema.string("Bus name"), "port": Schema.integer("Port number, from 1"),
+                "wires": Schema.strings("The wire names to have pins, e.g. [\"D0\",\"WR\"]; default: unchanged"),
+                "add_wires": Schema.strings("Wire names to add pins for, keeping the rest"),
+                "remove_wires": Schema.strings("Wire names to remove pins for, keeping the rest"),
+            ],
+            required: ["bus", "port"], edits: true,
+            run: { context, args in Out.text(try setBusPort(context!, args)) }),
         AutomationTool(
             name: "delete",
             summary: "Delete items: parts by reference (\"U1\"; wires on its pins stay, with loose ends), "
@@ -417,6 +447,95 @@ extension AutomationTools {
         document.clearAllSelections()
         return "added bus \(bus.name) with \(bus.wires.count) wires (\(bus.wires.prefix(4).map(\.name).joined(separator: ","))…)"
             + (notes.isEmpty ? "" : "; note: " + notes.joined(separator: "; "))
+    }
+
+    private static func bus(_ document: SchematicDocument, _ name: String) throws -> Bus {
+        guard let bus = document.buses.first(where: { $0.name.caseInsensitiveCompare(name) == .orderedSame }) else {
+            throw AutomationFailure("no bus \(name); buses: " + document.buses.map(\.name).joined(separator: ", "))
+        }
+        return bus
+    }
+
+    private static func wire(_ bus: Bus, _ name: String) throws -> BusWire {
+        guard let wire = bus.wires.first(where: { $0.name == name }) else {
+            throw AutomationFailure("bus \(bus.name) has no wire \(name); wires: " + bus.wires.map(\.name).joined(separator: ","))
+        }
+        return wire
+    }
+
+    private static func setBus(_ context: AutomationContext, _ args: AutomationArgs) throws -> String {
+        let document = context.document
+        let id = try bus(document, try args.string("bus")).id
+        let names = args.raw["wire_names"] != nil ? try args.strings("wire_names") : nil
+        let renames = (args.raw["rename"] as? [String: String]) ?? [:]
+        let moving = args.optString("move_wire")
+        guard names != nil || args.optInt("wires") != nil || !renames.isEmpty || moving != nil
+                || args.optString("name") != nil else {
+            throw AutomationFailure("nothing to change: give name, wires, wire_names, rename or move_wire")
+        }
+        if let names, Set(names).count != names.count {
+            throw AutomationFailure("wire names must differ: \(names.joined(separator: ","))")
+        }
+        var problem: String?
+        func check(_ refusal: String?) { if problem == nil { problem = refusal } }
+        document.recordEdit(.schematic, "Change Bus") {
+            if let name = args.optString("name") { check(document.setBusName(id, name)) }
+            if problem == nil, let count = names?.count ?? args.optInt("wires") {
+                check(document.setBusWireCount(id, count))
+            }
+            if problem == nil, let names, let current = document.bus(id) {
+                for (place, name) in names.enumerated() where current.wires[place].name != name {
+                    check(document.renameBusWire(bus: id, wire: current.wires[place].id, to: name))
+                    if problem != nil { break }
+                }
+            }
+            if problem == nil {
+                for (old, new) in renames.sorted(by: { $0.key < $1.key }) {
+                    guard let current = document.bus(id), let target = current.wires.first(where: { $0.name == old }) else {
+                        problem = "no wire \(old) on this bus"
+                        break
+                    }
+                    if new != old, current.wires.contains(where: { $0.name == new }) {
+                        problem = "the bus already has a wire \(new)"
+                        break
+                    }
+                    check(document.renameBusWire(bus: id, wire: target.id, to: new))
+                    if problem != nil { break }
+                }
+            }
+            if problem == nil, let moving, let current = document.bus(id) {
+                let target = try? wire(current, moving)
+                if let target { check(document.moveBusWire(bus: id, wire: target.id, to: args.optInt("move_to") ?? 0)) }
+                else { problem = "no wire \(moving) on this bus" }
+            }
+        }
+        document.clearAllSelections()
+        if let problem {
+            let now = document.bus(id).map { "; the bus now has wires " + $0.wires.map(\.name).joined(separator: ",") } ?? ""
+            throw AutomationFailure(problem + " (changes before this one stay applied" + now + ")")
+        }
+        guard let now = document.bus(id) else { return "changed" }
+        return "bus \(now.name) has \(now.wires.count) wires: " + now.wires.map(\.name).joined(separator: ",")
+    }
+
+    private static func setBusPort(_ context: AutomationContext, _ args: AutomationArgs) throws -> String {
+        let document = context.document
+        let bus = try bus(document, try args.string("bus"))
+        guard let number = args.optInt("port"), (1...max(bus.ports.count, 1)).contains(number), !bus.ports.isEmpty else {
+            throw AutomationFailure("bus \(bus.name) has \(bus.ports.count) ports (numbered from 1); add one with add_bus_port")
+        }
+        let port = bus.ports[number - 1]
+        var wanted = port.wireIDs
+        if args.raw["wires"] != nil { wanted = Set(try args.strings("wires").map { try wire(bus, $0).id }) }
+        if args.raw["add_wires"] != nil { wanted.formUnion(try args.strings("add_wires").map { try wire(bus, $0).id }) }
+        if args.raw["remove_wires"] != nil { wanted.subtract(try args.strings("remove_wires").map { try wire(bus, $0).id }) }
+        guard wanted != port.wireIDs else { return "port \(number) already has those pins" }
+        var problem: String?
+        document.recordEdit(.schematic, "Change Port Pins") { problem = document.setPortWires(port.id, wanted) }
+        document.clearAllSelections()
+        if let problem { throw AutomationFailure(problem) }
+        let names = document.bus(bus.id).map { $0.wires.filter { wanted.contains($0.id) }.map(\.name).joined(separator: ",") } ?? ""
+        return "port \(number) of \(bus.name) has pins: \(names)"
     }
 
     private static func addBusPort(_ context: AutomationContext, _ args: AutomationArgs) throws -> String {

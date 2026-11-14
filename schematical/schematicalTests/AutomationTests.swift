@@ -292,6 +292,32 @@ final class AutomationTests: XCTestCase {
         XCTAssertTrue(result.isError, "B3 has no port pin")
     }
 
+    func testEditingAnExistingBus() async {
+        let (id, doc) = newWindow()
+        _ = await call("add_bus", id, ["x1": 400, "y1": 100, "x2": 400, "y2": 300, "name": "DB", "wires": 3])
+        _ = await call("add_bus_port", id, ["bus": "DB", "x": 400, "y": 200, "wires": ["B0", "B1"]])
+        var result = await call("set_bus", id, ["bus": "DB", "wire_names": ["D0", "D1", "D2", "WR"]])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(doc.buses.first?.wires.map(\.name), ["D0", "D1", "D2", "WR"])
+        result = await call("set_bus", id, ["bus": "DB", "rename": ["D2": "RD"], "move_wire": "WR", "move_to": 0])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(doc.buses.first?.wires.map(\.name), ["WR", "D0", "D1", "RD"])
+        result = await call("set_bus_port", id, ["bus": "DB", "port": 1, "add_wires": ["WR"]])
+        XCTAssertFalse(result.isError, result.text)
+        XCTAssertEqual(doc.buses.first?.ports.first?.wireIDs.count, 3)
+        _ = await call("place_part", id, ["part": "GENERIC-LED", "x": 200, "y": 200])
+        result = await call("connect", id, ["from": "D1.A", "to": "bus:DB:WR"])
+        XCTAssertFalse(result.isError, result.text)
+        result = await call("set_bus", id, ["bus": "DB", "rename": ["D0": "WR"]])
+        XCTAssertTrue(result.isError, "two wires can't share a name")
+        result = await call("set_bus", id, ["bus": "DB"])
+        XCTAssertTrue(result.isError, "needs something to change")
+        result = await call("set_bus_port", id, ["bus": "DB", "port": 2])
+        XCTAssertTrue(result.isError, "only one port")
+        let design = await call("get_design", id, [:])
+        XCTAssertTrue(design.text.contains("port 1: pins"), design.text)
+    }
+
     // MARK: Board tools
 
     func testPlaceAndRouteFootprints() async throws {
