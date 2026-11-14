@@ -71,12 +71,12 @@ Every other letter points here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend tests green | `cmake -S backend -B /tmp/logic-p40 && cmake --build /tmp/logic-p40 -j8 && ctest --test-dir /tmp/logic-p40 -j8` → `100% tests passed` | MET (2026-11-14 at 943924ba: `100% tests passed, 0 tests failed out of 35`; T0 = 35) |
-| Golden sizes recorded | `git show HEAD:backend/tests/golden/parts.txt \| wc -l`; `traces.txt`; `footprints.txt` | MET at the start: **P0 = 31608**, **R0 = 31608**, **F0 = 1497** (943924ba; the same numbers at e0815bd4, 2026-11-14, after plan-39 landed) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p40-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-14 at 943924ba: `** BUILD SUCCEEDED **`) |
-| No transistor kind yet | `grep -c 'PART_TRANSISTOR' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/transistor.json` → no such file; `ls datasheets/transistor` → no such directory | MET (2026-11-14 at 943924ba: 0, no file, no directory) |
-| No other open plan adds transistors or a part kind | `grep -l -i 'PART_TRANSISTOR\|Parts/transistor\.json\|datasheets/transistor' planning/plan-*.md \| grep -v plan-40 \| wc -l` → 0; `grep -lE 'PART_[A-Z]+\b\|footprints\.json\|ReferenceCategory\|PartKinds' planning/plan-*.md \| grep -v plan-40 \| wc -l` → 0 | MET (2026-11-14: 0 and 0) |
-| DigiKey credentials and quota | `DIGIKEY_CLIENT_ID`/`_SECRET` exported in `~/.zshrc` (`grep -cE '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc` → 2); `eval "$(grep -E '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc)" && node scripts/digikey.js --in-stock --pages 1 --limit 1 "2N3904"` prints `calls left today` ≥ 400 before Phase 1 and before Phase 2 (a day allows about 1000, shared with other sessions) | MET at the start of planning (824 left); 23 left at its end, so Phase 1 and Phase 2 each need their own day |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p40 && cmake --build /tmp/logic-p40 -j8 && ctest --test-dir /tmp/logic-p40 -j8` → `100% tests passed` | MET (2026-11-14 19:45 UTC at 8913617d, in the P-40 worktree, build dir `/tmp/logic-p40w`: `100% tests passed, 0 tests failed out of 35`; T0 = 35) |
+| Golden sizes recorded | `git show HEAD:backend/tests/golden/parts.txt \| wc -l`; `traces.txt`; `footprints.txt` | MET at the start: **P0 = 31608**, **R0 = 31608**, **F0 = 1497** (re-measured 2026-11-14 at 8913617d: 31608, 31608, 1497) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p40-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-14 at 8913617d: `** BUILD SUCCEEDED **`) |
+| No transistor kind yet | `grep -c 'PART_TRANSISTOR' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/transistor.json` → no such file; `ls datasheets/transistor` → no such directory | MET (2026-11-14 at 8913617d: 0, no file, no directory) |
+| No other open plan adds transistors or a part kind | `grep -l -i 'PART_TRANSISTOR\|Parts/transistor\.json\|datasheets/transistor' planning/plan-*.md \| grep -v plan-40 \| wc -l` → 0; `grep -lE 'PART_[A-Z]+\b\|footprints\.json\|ReferenceCategory\|PartKinds' planning/plan-*.md \| grep -v plan-40 \| wc -l` → 0 | MET (2026-11-14 at 8913617d: 0 and 0) |
+| DigiKey credentials and quota | `DIGIKEY_CLIENT_ID`/`_SECRET` exported in `~/.zshrc` (`grep -cE '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc` → 2); `eval "$(grep -E '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc)" && node scripts/digikey.js --in-stock --pages 1 --limit 1 "2N3904"` prints `calls left today` ≥ 400 before Phase 1 and before Phase 2 (a day allows about 1000, shared with other sessions) | **NOT MET** (2026-11-14 19:49 UTC: credentials 2 of 2, but `1 API calls, 22 left today`; the quota resets about 00:00 UTC, so re-check after 2026-11-15 00:00 UTC) |
 
 Everything below is written against the world where these hold.
 
@@ -432,7 +432,13 @@ Author decisions (no user-visible fork; recorded so nobody re-litigates):
 
 ## Corrections
 
-(none yet)
+- 2026-11-14, Prerequisites, backend row: `/tmp/logic-p40` holds a CMake
+  cache made from the main checkout (`CMake Error: The source
+  ".../.claude/worktrees/P-40/backend/CMakeLists.txt" does not match the
+  source ".../logic/backend/CMakeLists.txt" used to generate cache`), so a
+  worktree run uses its own build dir, `/tmp/logic-p40w`.
+- 2026-11-14 19:49 UTC, the gate stopped the plan: the DigiKey row is NOT MET
+  (22 calls left, not 400). Every other row is MET. No phase was started.
 
 ## Summary
 
