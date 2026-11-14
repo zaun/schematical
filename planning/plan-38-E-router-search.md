@@ -144,10 +144,10 @@ profiles with the largest bloat (wastes room around Power-class neighbours).
 
 ### Phase 1 — result types and the grid
 
-- [ ] `Routing/RoutingResult.swift`: `RoutingResult { traces: [RoutedTrace], vias: [RoutedVia], nets: [NetOutcome], stats }`, `RoutedTrace.net`, `NetOutcome { net, status, unroutedConnections }`, `RoutingProgress`.
-- [ ] `Routing/RoutingGrid.swift`: pitch/origin, `Profile`, per-profile per-layer maps, obstacle and keep-out stamping, the exempt-pad rule, `isPassable(cell, net, profile)`.
-- [ ] `Routing/Router.swift`: `enum Router { static func route(...) }` returning an empty result for now.
-- [ ] Tests: `schematicalTests/RoutingGridTests.swift` with a helper `RoutingTestBoard` (rectangle outline, `pad(x,y,w,h,net,layers)`, `hole`, `net(...)`): a cell exactly `clearance + halfWidth` from a foreign pad is free, 0.01 mm closer is blocked; a cell next to a pad of net 1 is passable for net 1 and blocked for net 2; outside the outline and within `minCopperToEdge + halfWidth` of it are blocked; a cell inside an exempt finger on the edge is passable for its net; two nets' bloats overlapping makes the cell `-2`.
+- [x] `Routing/RoutingResult.swift`: `RoutingResult { traces: [RoutedTrace], vias: [RoutedVia], nets: [NetOutcome], stats }`, `RoutedTrace.net`, `NetOutcome { net, status, unroutedConnections }`, `RoutingProgress`. (`RoutedTrace.net` / `RoutedVia.net` are defaulted fields in `RoutingProblem.swift`; `NetOutcome` also lists each unrouted connection by its pads, which F's fixture test reads.)
+- [x] `Routing/RoutingGrid.swift`: pitch/origin, `Profile`, per-profile per-layer maps, obstacle and keep-out stamping, the exempt-pad rule, `isPassable(cell, net, profile)`. (Exempt-pad rule corrected, see Corrections. The maps after fixed copper are kept as `fixedTraceMaps` / `fixedViaMaps` for F's un-stamping.)
+- [x] `Routing/Router.swift`: `enum Router { static func route(...) }` returning an empty result for now.
+- [x] Tests: `schematicalTests/RoutingGridTests.swift` with a helper `RoutingTestBoard` (rectangle outline, `pad(x,y,w,h,net,layers)`, `hole`, `net(...)`): a cell exactly `clearance + halfWidth` from a foreign pad is free, 0.01 mm closer is blocked; a cell next to a pad of net 1 is passable for net 1 and blocked for net 2; outside the outline and within `minCopperToEdge + halfWidth` of it are blocked; a cell inside an exempt finger on the edge is passable for its net (strengthened: its inner part is, its part inside the edge band is not — see Corrections); two nets' bloats overlapping makes the cell `-2`. (Plus: an L-shaped outline's outside; holes on every layer; via edge distance.) — `-only-testing:RoutingGridTests` → 6 tests, 0 failures, `** TEST SUCCEEDED **`.
 
 Acceptance: the cases pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd test -only-testing:schematicalTests/RoutingGridTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 1–2 min).
@@ -195,7 +195,17 @@ See plan-38-A § Decisions. Author decisions: grid router with exact stamping; o
 
 ## Corrections
 
-(Filled in during execution.)
+- **Exempt pads (§ 3 Grid).** The plan had cells within an exempt pad's
+  bloat keep only the pad's net, overriding the copper-to-edge keep-out. But
+  `checkEdge` exempts only the finger/header pad itself (`if shape.node <
+  copper.pads.count … chip < 0 … continue`); a trace entering the finger is
+  still checked, so a trace centre inside the band is an `edge` issue, which
+  plan-38-H's goal (0 edge issues) forbids. Corrected: the edge keep-out holds
+  for every trace and via centre; the finger's own copper is stamped with its
+  net as any pad is, so its net reaches it through the finger's inner part.
+  The Phase 1 test checks both sides of that. The spike's RegFile 12/24 was
+  not a finger problem: a probe of the RegFile problem (2026-11-14) found no
+  exempt pad on any routed net (its 8 nets join LATCH, D, OUTA and OUTB pads).
 
 ## Summary
 

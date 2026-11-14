@@ -8,6 +8,8 @@ nonisolated struct RoutedTrace: Hashable, Sendable {
     /// mm.
     var width: Double
     var points: [CGPoint]
+    /// The net it is on, in a routing result; nil in a problem's kept copper.
+    var net: Int? = nil
 }
 
 /// A via as the router sees it, in mm.
@@ -15,6 +17,8 @@ nonisolated struct RoutedVia: Hashable, Sendable {
     var centre: CGPoint
     var drill: Double
     var diameter: Double
+    /// The net it is on, in a routing result.
+    var net: Int? = nil
 }
 
 /// One piece of a net already joined by copper: its pads' copper and the

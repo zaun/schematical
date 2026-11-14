@@ -207,7 +207,7 @@ Commit: 6fc15e1b
 
 Acceptance: all cases pass on the fixtures.
   Check: `-only-testing:schematicalTests/RoutingProblemTests -only-testing:schematicalTests/FixtureTests` → `** TEST SUCCEEDED **` (est. 2 min).
-Commit: —
+Commit: 51b25498
 
 ## Validation Plan
 
