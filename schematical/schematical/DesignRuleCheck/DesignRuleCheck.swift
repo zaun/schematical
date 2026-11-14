@@ -406,98 +406,27 @@ private struct DesignRuleChecker {
 
     // MARK: Copper shapes
 
-    /// A piece of copper: a core (a segment, or a rectangle) grown by
-    /// `radius` all round, on some layers.
-    struct Shape {
-        enum Core {
-            case segment(CGPoint, CGPoint)
-            case rect(CGRect)
-        }
-
-        let core: Core
-        let radius: Double
-        /// Nil: every layer (a through-hole pad, a via).
-        let layers: Set<CopperLayer>?
-        /// Its connectivity node.
-        let node: Int
-
-        var bounds: CGRect {
-            let box: CGRect
-            switch core {
-            case let .segment(a, b):
-                box = CGRect(x: min(a.x, b.x), y: min(a.y, b.y), width: abs(a.x - b.x), height: abs(a.y - b.y))
-            case let .rect(rect): box = rect
-            }
-            return box.insetBy(dx: -radius, dy: -radius)
-        }
-
-        func shares(_ other: Shape) -> Bool {
-            guard let mine = layers, let theirs = other.layers else { return true }
-            return !mine.isDisjoint(with: theirs)
-        }
-
-        /// The gap between the two shapes' copper; 0 or less when they
-        /// touch.
-        func gap(to other: Shape) -> Double {
-            DesignRuleChecker.distance(core, other.core) - radius - other.radius
-        }
-    }
-
-    /// A pad's copper: a rounded rectangle is its rectangle shrunk by the
-    /// radius, grown back round; a circle is a point grown; an oval the
-    /// stadium round it. Chamfers are left square.
-    static func shape(of pad: PlacedPad, layers: Set<CopperLayer>?, node: Int) -> Shape {
-        let rect = pad.rect
-        switch pad.shape {
-        case .round:
-            let r = min(rect.width, rect.height) / 2
-            let core: Shape.Core = rect.width >= rect.height
-                ? .segment(CGPoint(x: rect.minX + r, y: rect.midY), CGPoint(x: rect.maxX - r, y: rect.midY))
-                : .segment(CGPoint(x: rect.midX, y: rect.minY + r), CGPoint(x: rect.midX, y: rect.maxY - r))
-            return Shape(core: core, radius: r, layers: layers, node: node)
-        case .rect:
-            let r = min(pad.radius, min(rect.width, rect.height) / 2)
-            return Shape(core: .rect(rect.insetBy(dx: r, dy: r)), radius: r, layers: layers, node: node)
-        }
-    }
-
     private func padLayers(_ pad: BoardConnectivity.Pad) -> Set<CopperLayer>? {
         pad.pad.drill > 0 ? nil : [pad.side.copperLayer]
     }
 
     /// Every piece of copper: pads, trace segments, vias.
-    private func copperShapes() -> [Shape] {
+    private func copperShapes() -> [CopperShape] {
         // A non-plated hole is no copper.
         var shapes = copper.pads.enumerated().compactMap { p, pad in
-            pad.pad.plated ? Self.shape(of: pad.pad, layers: padLayers(pad), node: p) : nil
+            pad.pad.plated ? CopperGeometry.shape(of: pad.pad, layers: padLayers(pad), node: p) : nil
         }
         for (t, trace) in copper.traces.enumerated() {
             for (a, b) in trace.segments {
-                shapes.append(Shape(core: .segment(a, b), radius: trace.widthMM / 2, layers: [trace.layer],
+                shapes.append(CopperShape(core: .segment(a, b), radius: trace.widthMM / 2, layers: [trace.layer],
                                     node: copper.traceNode(t)))
             }
         }
         for (v, via) in copper.vias.enumerated() {
-            shapes.append(Shape(core: .segment(via.centre, via.centre), radius: via.diameter / 2, layers: nil,
+            shapes.append(CopperShape(core: .segment(via.centre, via.centre), radius: via.diameter / 2, layers: nil,
                                 node: copper.viaNode(v)))
         }
         return shapes
-    }
-
-    /// Each pair of shapes whose bounds come within `margin`, once, by a
-    /// sweep along x.
-    static func nearPairs(_ shapes: [Shape], margin: Double, _ body: (Shape, Shape) -> Void) {
-        let order = shapes.indices.sorted { shapes[$0].bounds.minX < shapes[$1].bounds.minX }
-        let bounds = shapes.map(\.bounds)
-        for (k, i) in order.enumerated() {
-            let a = bounds[i]
-            for j in order[(k + 1)...] {
-                let b = bounds[j]
-                if b.minX > a.maxX + margin { break }
-                if b.minY > a.maxY + margin || a.minY > b.maxY + margin { continue }
-                body(shapes[i], shapes[j])
-            }
-        }
     }
 
     // MARK: Clearance
@@ -509,7 +438,7 @@ private struct DesignRuleChecker {
         // The closest gap per pair of items (two chips' pads count once).
         struct Key: Hashable { let a: String; let b: String }
         var worst: [Key: (gap: Double, a: Int, b: Int)] = [:]
-        Self.nearPairs(shapes, margin: rules.minClearance) { a, b in
+        CopperGeometry.nearPairs(shapes, margin: rules.minClearance) { a, b in
             guard a.shares(b) else { return }
             let ra = copper.root[a.node], rb = copper.root[b.node]
             // Joined copper is one conductor; two groups of one net are
@@ -559,7 +488,7 @@ private struct DesignRuleChecker {
     // MARK: Board edge
 
     private mutating func checkEdge() {
-        let edges = outline.map { Shape(core: .segment($0.0, $0.1), radius: 0, layers: nil, node: -1) }
+        let edges = outline.map { CopperShape(core: .segment($0.0, $0.1), radius: 0, layers: nil, node: -1) }
         var worst: [String: (gap: Double, node: Int, off: Bool)] = [:]
         let offBoardChips = Set(chips.filter { chip in chip.boardBounds.map { !rectIsOnBoard($0) } ?? false }.map(\.reference))
         for shape in copperShapes() {
@@ -621,19 +550,19 @@ private struct DesignRuleChecker {
         }
 
         // Hole to hole: every pad hole and via, edge to edge.
-        var holes: [Shape] = []
+        var holes: [CopperShape] = []
         for (p, pad) in copper.pads.enumerated() {
             // A slot is a capsule: a segment along the pad's long side.
             guard let hole = pad.pad.holeSegment else { continue }
-            holes.append(Shape(core: .segment(hole.a, hole.b), radius: hole.radius, layers: nil, node: p))
+            holes.append(CopperShape(core: .segment(hole.a, hole.b), radius: hole.radius, layers: nil, node: p))
         }
         for (v, via) in copper.vias.enumerated() {
-            holes.append(Shape(core: .segment(via.centre, via.centre), radius: via.drill / 2, layers: nil,
+            holes.append(CopperShape(core: .segment(via.centre, via.centre), radius: via.drill / 2, layers: nil,
                                node: copper.viaNode(v)))
         }
         struct Key: Hashable { let a: String; let b: String }
         var worst: [Key: (gap: Double, a: Int, b: Int)] = [:]
-        Self.nearPairs(holes, margin: rules.minHoleToHole) { a, b in
+        CopperGeometry.nearPairs(holes, margin: rules.minHoleToHole) { a, b in
             let gap = a.gap(to: b)
             guard gap < rules.minHoleToHole - Self.tolerance else { return }
             let (first, second) = a.node < b.node ? (a.node, b.node) : (b.node, a.node)
@@ -684,7 +613,7 @@ private struct DesignRuleChecker {
 
     /// A piece of silkscreen ink, on one side.
     private struct Ink {
-        let shape: Shape
+        let shape: CopperShape
         let side: BoardSide
         let owner: String
         /// "Outline", "Pin-1 mark", "Reference" or "Text".
@@ -703,12 +632,12 @@ private struct DesignRuleChecker {
                 if Self.outlineWidth < rules.minSilkscreenWidth - Self.tolerance { thinOutlines.append(chip) }
                 let band = chip.cathodeBand.map { [($0.a, $0.b)] } ?? []
                 for (a, b) in Self.outlineSegments(body.rect, round: body.round) + band {
-                    inks.append(Ink(shape: Shape(core: .segment(a, b), radius: Self.outlineWidth / 2, layers: nil, node: -1),
+                    inks.append(Ink(shape: CopperShape(core: .segment(a, b), radius: Self.outlineWidth / 2, layers: nil, node: -1),
                                     side: placement.side, owner: chip.reference, what: "Outline", items: items))
                 }
             }
             if placement.pin1 == .silkscreen, let mark = chip.pin1Mark {
-                inks.append(Ink(shape: Shape(core: .segment(mark, mark), radius: Self.pin1Diameter / 2, layers: nil, node: -1),
+                inks.append(Ink(shape: CopperShape(core: .segment(mark, mark), radius: Self.pin1Diameter / 2, layers: nil, node: -1),
                                 side: placement.side, owner: chip.reference, what: "Pin-1 mark", items: items))
             }
             if placement.reference == .silkscreen {
@@ -716,7 +645,7 @@ private struct DesignRuleChecker {
                 let size = Self.referenceSize(chip.reference)
                 let rect = CGRect(x: body.rect.midX - size.width / 2, y: body.rect.midY - size.height / 2,
                                   width: size.width, height: size.height)
-                inks.append(Ink(shape: Shape(core: .rect(rect), radius: 0, layers: nil, node: -1),
+                inks.append(Ink(shape: CopperShape(core: .rect(rect), radius: 0, layers: nil, node: -1),
                                 side: placement.side, owner: chip.reference, what: "Reference", items: items))
             }
         }
@@ -742,7 +671,7 @@ private struct DesignRuleChecker {
                     "Text strokes about \(mm(stroke)) wide; min silkscreen line width \(mm(rules.minSilkscreenWidth))",
                     items)
             }
-            inks.append(Ink(shape: Shape(core: .rect(text.boardRect), radius: 0, layers: nil, node: -1),
+            inks.append(Ink(shape: CopperShape(core: .rect(text.boardRect), radius: 0, layers: nil, node: -1),
                             side: text.side, owner: textName(text), what: "Text", items: items))
         }
 
@@ -754,12 +683,12 @@ private struct DesignRuleChecker {
             let sideInks = inks.filter { $0.side == side }
             guard !sideInks.isEmpty else { continue }
             var shapes = sideInks.enumerated().map { i, ink in
-                Shape(core: ink.shape.core, radius: ink.shape.radius, layers: nil, node: -1 - i)
+                CopperShape(core: ink.shape.core, radius: ink.shape.radius, layers: nil, node: -1 - i)
             }
             for (p, pad) in copper.pads.enumerated() where pad.pad.drill > 0 || pad.side == side {
-                shapes.append(Self.shape(of: pad.pad, layers: nil, node: p))
+                shapes.append(CopperGeometry.shape(of: pad.pad, layers: nil, node: p))
             }
-            Self.nearPairs(shapes, margin: rules.minSilkscreenToPad) { a, b in
+            CopperGeometry.nearPairs(shapes, margin: rules.minSilkscreenToPad) { a, b in
                 guard (a.node < 0) != (b.node < 0) else { return }
                 let (inkShape, padShape) = a.node < 0 ? (a, b) : (b, a)
                 let gap = inkShape.gap(to: padShape)
@@ -808,11 +737,11 @@ private struct DesignRuleChecker {
         struct Key: Hashable { let a: String; let b: String }
         var worst: [Key: (dam: Double, a: Int, b: Int)] = [:]
         for side in BoardSide.allCases {
-            let shapes = copper.pads.enumerated().compactMap { p, pad -> Shape? in
+            let shapes = copper.pads.enumerated().compactMap { p, pad -> CopperShape? in
                 guard pad.pad.drill > 0 || pad.side == side else { return nil }
-                return Self.shape(of: pad.pad, layers: nil, node: p)
+                return CopperGeometry.shape(of: pad.pad, layers: nil, node: p)
             }
-            Self.nearPairs(shapes, margin: rules.minSolderMaskDam + 2 * expansion) { a, b in
+            CopperGeometry.nearPairs(shapes, margin: rules.minSolderMaskDam + 2 * expansion) { a, b in
                 // Pads of one pin share an opening.
                 if copper.root[a.node] == copper.root[b.node], copper.pads[a.node].chip == copper.pads[b.node].chip,
                    copper.pads[a.node].pad.designator == copper.pads[b.node].pad.designator { return }
@@ -831,52 +760,5 @@ private struct DesignRuleChecker {
             add(.solderMask, key.a == key.b ? key.a : "\(one.name), \(two.name)",
                 "\(dam)\(between); min \(mm(rules.minSolderMaskDam))", one.items.union(two.items))
         }
-    }
-
-    // MARK: Geometry
-
-    static func distance(_ a: Shape.Core, _ b: Shape.Core) -> Double {
-        switch (a, b) {
-        case let (.segment(p, q), .segment(r, s)): segmentDistance(p, q, r, s)
-        case let (.segment(p, q), .rect(rect)), let (.rect(rect), .segment(p, q)): segmentDistance(p, q, rect)
-        case let (.rect(r1), .rect(r2)): rectDistance(r1, r2)
-        }
-    }
-
-    static func segmentDistance(_ a: CGPoint, _ b: CGPoint, _ c: CGPoint, _ d: CGPoint) -> Double {
-        if segmentsCross(a, b, c, d) { return 0 }
-        return min(SchematicDocument.distance(from: a, toSegment: c, d),
-                   SchematicDocument.distance(from: b, toSegment: c, d),
-                   SchematicDocument.distance(from: c, toSegment: a, b),
-                   SchematicDocument.distance(from: d, toSegment: a, b))
-    }
-
-    static func segmentDistance(_ a: CGPoint, _ b: CGPoint, _ rect: CGRect) -> Double {
-        if SchematicDocument.segment(a, b, touches: rect) { return 0 }
-        let corners = [CGPoint(x: rect.minX, y: rect.minY), CGPoint(x: rect.maxX, y: rect.minY),
-                       CGPoint(x: rect.maxX, y: rect.maxY), CGPoint(x: rect.minX, y: rect.maxY)]
-        return min(pointDistance(a, rect), pointDistance(b, rect),
-                   corners.map { SchematicDocument.distance(from: $0, toSegment: a, b) }.min()!)
-    }
-
-    static func pointDistance(_ point: CGPoint, _ rect: CGRect) -> Double {
-        let dx = max(rect.minX - point.x, 0, point.x - rect.maxX)
-        let dy = max(rect.minY - point.y, 0, point.y - rect.maxY)
-        return hypot(dx, dy)
-    }
-
-    static func rectDistance(_ a: CGRect, _ b: CGRect) -> Double {
-        let dx = max(a.minX - b.maxX, 0, b.minX - a.maxX)
-        let dy = max(a.minY - b.maxY, 0, b.minY - a.maxY)
-        return hypot(dx, dy)
-    }
-
-    /// Whether two segments cross or touch.
-    static func segmentsCross(_ a: CGPoint, _ b: CGPoint, _ c: CGPoint, _ d: CGPoint) -> Bool {
-        func cross(_ o: CGPoint, _ p: CGPoint, _ q: CGPoint) -> Double {
-            (p.x - o.x) * (q.y - o.y) - (p.y - o.y) * (q.x - o.x)
-        }
-        let d1 = cross(c, d, a), d2 = cross(c, d, b), d3 = cross(a, b, c), d4 = cross(a, b, d)
-        return ((d1 > 0 && d2 < 0) || (d1 < 0 && d2 > 0)) && ((d3 > 0 && d4 < 0) || (d3 < 0 && d4 > 0))
     }
 }

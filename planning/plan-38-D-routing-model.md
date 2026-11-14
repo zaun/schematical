@@ -177,13 +177,13 @@ gap, maxUncoupled, maxMeander }`.
 
 Acceptance: fixtures match their hashes and counts; the DRC golden passes against itself.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd test -only-testing:schematicalTests/FixtureTests -only-testing:schematicalTests/DesignRuleGoldenTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 2 min; the spike's `DumpScene`, which ran connectivity, ratsnest and one DRC on all three fixtures, took 0.697 s).
-Commit: —
+Commit: aec77008
 
 ### Phase 2 — extract the copper geometry (byte-identical)
 
-- [ ] `Routing/CopperGeometry.swift` (new): move `Shape` (renamed `CopperShape`), `Shape.Core`, `shape(of:layers:node:)`, `nearPairs`, `distance(_:_:)`, `segmentDistance` (both), `pointDistance`, `rectDistance`, `segmentsCross`. `outlineSegments` and `referenceSize` stay in the DRC (silkscreen only).
-- [ ] `DesignRuleCheck.swift`: replace the removed members with calls to `CopperGeometry` / `CopperShape`; nothing else changes.
-- [ ] Tests: none new; `DesignRuleGoldenTests` and `DesignRuleCheckTests` are the gate.
+- [x] `Routing/CopperGeometry.swift` (new): move `Shape` (renamed `CopperShape`), `Shape.Core`, `shape(of:layers:node:)`, `nearPairs`, `distance(_:_:)`, `segmentDistance` (both), `pointDistance`, `rectDistance`, `segmentsCross`. `outlineSegments` and `referenceSize` stay in the DRC (silkscreen only). (`SchematicDocument.distance(from:to:)`, `distance(from:toSegment:_:)` and `segment(_:_:touches:)`, which the moved code calls, became `nonisolated static`: pure functions the off-main-actor engine needs too; no body changed.)
+- [x] `DesignRuleCheck.swift`: replace the removed members with calls to `CopperGeometry` / `CopperShape`; nothing else changes.
+- [x] Tests: none new; `DesignRuleGoldenTests` and `DesignRuleCheckTests` are the gate. — `-only-testing:DesignRuleGoldenTests -only-testing:DesignRuleCheckTests` → 16 tests, 0 failures, `** TEST SUCCEEDED **`, 6 runs of the golden after the determinism fix (8f2b2d2b) all pass; see Corrections for the one failed run before it.
 
 Acceptance: DRC output identical on the three fixtures; the 11 DRC tests pass.
   Check: `-only-testing:schematicalTests/DesignRuleGoldenTests -only-testing:schematicalTests/DesignRuleCheckTests` → `** TEST SUCCEEDED **` (est. 2 min). A diff in a golden is a bug in the move: diff the failing fixture's text, fix the move, re-run — not a reason to regenerate the golden.
@@ -237,6 +237,19 @@ See plan-38-A § Decisions. Author decisions: clear applies to in-scope nets onl
   touches copper of another net", "Copper … from the board edge", four short
   circuits, "Goes nowhere" and "Drill 0.15 mm under the 0.2 mm minimum".
   Generated at this commit, before the move; it passed a second run unchanged.
+- **`connectivity()` was not deterministic across runs** (found by the Phase 2
+  gate). After the move, `DesignRuleGoldenTests` failed 1 run in 4
+  (`AFU-copper: 125 lines vs golden 127; first difference at line 104`) and
+  passed the other 3, unchanged code. Root cause, not the move: "pads of one
+  pin are one node" unioned `padsOfPin.values`, a dictionary whose order is
+  seeded per process, so which pad became a group's root varied, so
+  `netGroups()`' group order and `spanningLines`' ties varied, so the
+  fixture's copper (drawn along the first 60 ratsnest lines) varied. Fixed in
+  `Ratsnest.swift`: union in sorted key order. This is a prerequisite of plan-38-F's
+  determinism (same seed → same result), which `routingProblem` inherits from
+  `connectivity()`. Proof the golden and the move both stand: the pre-move DRC
+  (aec77008) plus only this fix, in a detached checkout → golden passed 3/3;
+  the moved DRC plus the fix → passed 6/6.
 
 ## Summary
 

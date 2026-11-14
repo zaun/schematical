@@ -3778,7 +3778,7 @@ final class SchematicDocument {
 
     /// Whether segment a–b meets `rect` (inside it, or crossing or touching
     /// its edge).
-    static func segment(_ a: CGPoint, _ b: CGPoint, touches rect: CGRect) -> Bool {
+    nonisolated static func segment(_ a: CGPoint, _ b: CGPoint, touches rect: CGRect) -> Bool {
         // Liang–Barsky: clip the segment's parameter range to the rect.
         var low: CGFloat = 0, high: CGFloat = 1
         let dx = b.x - a.x, dy = b.y - a.y
@@ -5413,11 +5413,11 @@ final class SchematicDocument {
 
     // MARK: Geometry
 
-    static func distance(from a: CGPoint, to b: CGPoint) -> CGFloat {
+    nonisolated static func distance(from a: CGPoint, to b: CGPoint) -> CGFloat {
         hypot(a.x - b.x, a.y - b.y)
     }
 
-    static func distance(from point: CGPoint, toSegment a: CGPoint, _ b: CGPoint) -> CGFloat {
+    nonisolated static func distance(from point: CGPoint, toSegment a: CGPoint, _ b: CGPoint) -> CGFloat {
         let dx = b.x - a.x
         let dy = b.y - a.y
         let lengthSquared = dx * dx + dy * dy
