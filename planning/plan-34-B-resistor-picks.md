@@ -31,7 +31,7 @@ plan-34-A § Prerequisites, plus:
 | Must be true | Command | Status |
 |---|---|---|
 | Phase 1: `specs.tsv` skeleton exists | `test -s planning/plan-34-data/specs.tsv && echo ok` → `ok` | MET (2026-11-13 at abb3652: `ok`, 109 rows) |
-| Phase 2 onward: plan-34-A complete | `ls planning/completed/plan-34-A-*.md` → exists | NOT MET (2026-11-13: A Phase 2's stock check runs over about two more quota days; § Corrections 1) |
+| Phase 2 onward: plan-34-A complete | `ls planning/completed/plan-34-A-*.md` → exists | MET (2026-11-14: A Phase 2's stock check done; A is archived in H, with every letter) |
 
 Everything below is written against the world where these hold.
 
@@ -176,21 +176,24 @@ Commit: 6556935
       not in the datasheet's ordering table, 2 ordering code disagrees
       (size), 1 (value); 0 out. Verdicts do not depend on the stock check:
       it can only remove rows.
-- [ ] `select.py --stock … --verdicts … --report` (§ 3.3); stock-check the
+- [x] `select.py --stock … --verdicts … --report` (§ 3.3); stock-check the
       newly picked rows from cut pieces (`census/stock-check.sh`, one call
       each); repeat until clean. Record the counts per decision and reason
       in § Summary. Provisional run (2026-11-13, stock check 172 of 1847
       done): `('add', ''): 1974`: chip 1500, through-hole 400, arrays 74.
       C, D, F and G ran on this pick. Remaining: the final run once A's stock
-      check ends, written to `candidates.tsv`.
+      check ends, written to `candidates.tsv`. Final run (2026-11-14,
+      `finish.sh`, stock check complete): 1 newly picked row from a cut piece
+      (`RC0402FR-13182RL`) checked, then clean; counts in § Summary.
 
 Acceptance: every picked row is `add` and confirmed.
   Check: `python3 -I planning/plan-34-data/census/select.py /tmp/p34/raw planning/plan-34-data/candidates.tsv --stock planning/plan-34-data/stock-check.tsv --verdicts planning/plan-34-data/verdicts.tsv --report` exits 0 and prints `kept per category/maker` summing to chip 1500, through-hole 400, arrays ≤ 100, and `awk -F'\t' '$22=="candidate"' planning/plan-34-data/candidates.tsv | wc -l` → 0 (est. 5 min plus any stock calls).
+  Result (2026-11-14): exit 0; kept chip 1500 (YAGEO 1265, Dale 224, Viking 11), through-hole 400 (YAGEO 395, Dale 4, Viking 1), arrays 74 (YAGEO 63, Dale 8, Viking 3); `candidate` 0.
 Commit: —
 
 ### Phase 3 — Skipped parts, obsolete PDFs, footprint lines
 
-- [~] `datasheets/skipped-parts.md`: a "Resistors (plan-34)" section, one
+- [x] `datasheets/skipped-parts.md`: a "Resistors (plan-34)" section, one
       table row per (maker, reason) for the `skip` rows with stock at or
       above their category's floor: the part numbers, "would have gone into
       `resistor` / Resistors → <Chip|Through-hole|Array>", the reason (the
@@ -198,8 +201,9 @@ Commit: —
       `0 skip rows missing from skipped-parts.md`. Written on the
       provisional pick (`verdicts.py --write-skipped`, which replaces the
       section): `26 skip rows in 6 table rows`, verify `0 skip rows
-      missing`. Remaining: re-write on the final pick.
-- [~] Delete from `datasheets/resistor/` any PDF no `add` row uses
+      missing`. Final pick (2026-11-14): the same `26 skip rows in 6 table
+      rows`, `0 skip rows missing`; the section is unchanged.
+- [x] Delete from `datasheets/resistor/` any PDF no `add` row uses
       (`place.py --prune`); add to `obsolete-not-included.md` each PDF whose
       every row is `out` for datasheet status (PDF name, `resistor`,
       Resistors → <leaf>, the word and page, the URL). Pruned on the
@@ -207,16 +211,19 @@ Commit: —
       `place.py --verify-add` → `0 missing, 0 unused`. No PDF is `out` for
       datasheet status (0 `dead` rows), so `obsolete-not-included.md` gets
       no row. Remaining: re-check on the final pick (a swap that needs a
-      pruned PDF re-places it from the cache).
-- [~] `python3 -I census/footprint-lines.py planning/plan-34-data/candidates.tsv
+      pruned PDF re-places it from the cache). Final pick (2026-11-14): the
+      same 32 PDFs; `--verify-add` → `0 missing, 0 unused`; still 0 `dead`.
+- [x] `python3 -I census/footprint-lines.py planning/plan-34-data/candidates.tsv
       > planning/plan-34-data/footprints-needed.txt` (now from `add` rows);
       write the per-letter line counts (C: chip; D: through-hole and
       arrays) into § Corrections when they differ from 34 and 52. On the
       provisional pick: 75 lines, chip 33, through-hole 29, arrays 13
-      (§ Corrections 2). Remaining: re-run on the final pick.
+      (§ Corrections 2). Final pick (2026-11-14): the same 75 lines, 33 /
+      29 / 13; `footprints-needed.txt` unchanged.
 
 Acceptance: the tree holds exactly the PDFs the `add` rows need, and every listed skip is recorded.
   Check: `python3 -I planning/plan-34-data/census/place.py --verify planning/plan-34-data/candidates.tsv` → `0 missing, 0 unused`, and `python3 -I planning/plan-34-data/census/verdicts.py --verify-skipped` → `0 skip rows missing` (est. 2 min).
+  Result (2026-11-14): `place.py --verify` after the prune lists the 39 PDFs only `skip` rows used, which the prune removed (§ Corrections 6), so the check run is `--verify-add` → `0 missing, 0 unused`; `0 skip rows missing`.
 Commit: —
 
 ## Validation Plan
@@ -297,8 +304,22 @@ Commit: —
    `--prune` and `--verify-add`, every PDF a footprint note of
    `footprints-C/D.json` cites. The guide is restored with its
    `datasheets.tsv` line; `--verify-add` → `0 missing, 0 unused`.
+6. **Phase 3's check after the prune is `--verify-add` (2026-11-14).**
+   Plain `place.py --verify` holds every eligible row to a PDF in the tree.
+   After the prune it lists the 39 PDFs that only `skip` rows used.
+   `--verify-add` holds only `add` rows to that, and passes. The final
+   `candidates.tsv` is `select.py`'s output, so it has no `hit` / `dead`
+   columns. A's `textscan.py` columns stay in `/tmp/p34/cand2.tsv`. Every
+   check that reads them runs in `finish.sh` before the final pick.
 
 ## Summary
+
+Final pick (2026-11-14, 24770 rows): add 1974; out: automotive 12348,
+below quota 7192, duplicate 2520, current-sense 436, stock check 1; skip:
+no datasheet on the maker's site 200 (mm.digikey.com 188, none 7,
+www.waldom.com 4, www.yageo.com 1), not in the datasheet's ordering table
+96, ordering code disagrees with DigiKey 3 (size 2, value 1). Verdicts
+(eligible rows): 11686 add, 299 skip.
 
 B's risk is a regex that admits a code the PDF does not print (a part
 added that is not in the ordering table) or rejects a printed one (a
