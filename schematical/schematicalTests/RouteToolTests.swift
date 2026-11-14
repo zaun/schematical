@@ -52,6 +52,23 @@ final class RouteToolTests: XCTestCase {
         XCTAssertTrue(PCBTool.route.tooltip.hasPrefix("Route — click a pad"))
     }
 
+    /// Unroute Selected with a part selected: every net on its pads loses
+    /// its unlocked copper (plan-38-M's real-app item 10 selected a trace).
+    func testUnrouteSelectedOnAPart() async throws {
+        let (doc, _, _, key) = try pair()
+        let model = AutorouteModel(document: doc, defaults: UserDefaults(suiteName: "RouteToolTests-\(UUID())")!)
+        XCTAssertTrue(model.route(rules: .customDefault))
+        await model.session.wait()
+        XCTAssertFalse(doc.traces.isEmpty)
+        let chip = try XCTUnwrap(doc.chips.first)
+        doc.select(.footprint(chip.id))
+        let copper = doc.connectivity()
+        XCTAssertEqual(doc.selectedNets(), [try XCTUnwrap(copper.net(of: key))])
+        XCTAssertGreaterThan(doc.unroute(nets: doc.selectedNets(), onlyAuto: false), 0)
+        XCTAssertTrue(doc.traces.isEmpty)
+        XCTAssertEqual(doc.ratsnest().count, 1)
+    }
+
     func testRouteNetRoutesTheRowsNet() async throws {
         let (doc, _, _, key) = try pair()
         let row = try XCTUnwrap(doc.netRows().first)

@@ -189,6 +189,7 @@ unless said, `DesignRules.customDefault`, the fixtures in
 | Fast (38-F) | 114, 34.8 s | 150, 292 s | 24, 51.8 s |
 | Thorough (38-F) | 115, 27.6 s | 143, 1227 s, 217 vias, 2330 mm | 24, 29.5 s, 31 vias, 315 mm |
 | + cleanup and repair, Balanced (38-H) | 115, 27.6 s, 1582 mm, 115 vias | 147, 484 s, 2528 mm, 246 vias | 24, 32.5 s, 314 mm, 31 vias |
+| Landing tier, Balanced (38-M, after merging main) | 115, 28.0 s, 1582 mm, 115 vias | 147, 456 s, 2528 mm, 246 vias | 24, 29.8 s, 314 mm, 31 vias |
 
 After apply, the DRC on each (38-H): AFU 16 silkscreen issues (the
 fixture's own placement), nothing else; LFU 41 `unrouted` (= 188 − 147),

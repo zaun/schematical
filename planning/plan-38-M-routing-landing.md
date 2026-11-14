@@ -75,12 +75,22 @@ Commit: —
 
 ### Phase 2 — the landing tier (run once)
 
-- [ ] Neutrality: `git diff --stat <first plan-38 commit>^..HEAD -- backend datasheets schematical/schematical/Parts` → empty (est. 1 min).
-- [ ] Goldens: `DesignRuleGoldenTests` (the three `Fixtures/drc-*.txt` unchanged since plan-38-D: `git diff <plan-38-D Phase 1 commit>..HEAD -- schematical/schematicalTests/Fixtures/drc-AFU.txt schematical/schematicalTests/Fixtures/drc-LFU.txt schematical/schematicalTests/Fixtures/drc-RegFile.txt` → empty; est. 1 min).
-- [ ] App, full: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` and `Executed N tests, with 0 failures` with N ≥ 668 + the plan's new tests (est. 15–20 min; nothing smaller checks that no existing PCB, file or undo test broke across 12 letters).
-- [ ] Router benchmark, once, from the real test run: AFU `.balanced` 115/115 and the twelve DRC kinds 0; LFU ≥ 127/188; RegFile ≥ 12/24 (the floors of plan-38-F, H) — copy the actual numbers into `docs/routing.md` and § Results below.
-- [ ] Real app, once, on this commit (per `AGENTS.md`, pointer left at 0,0 afterwards): (1) AFU fixture → Route ▸ Autoroute… (Balanced) → completes; DRC window: no `Unrouted`, no router-caused issue. (2) Undo → the board is as opened; Redo → copper back. (3) Net Classes: Add Power Class → run again with Clear autorouted → power nets are 20 mil. (4) A layer rule: set a net to Only Top → run → no Bottom copper on it; set another to Prefer Bottom → it takes Bottom. (5) A length group of 3 two-pin nets (tolerance 0.5) → run → the sidebar shows the spread within tolerance (or the reported residual). (6) A pair → run → the two traces run side by side; DRC has no `diffPair` line. (7) LFU → run → the result list names each unrouted net; Stop mid-run keeps copper. (8) Route tool: click a pad → its net routes; click a ratsnest line → one connection. (9) Trace tool with Assist: walks around a pad; V drops a via. (10) Unroute Selected on a part, Unroute All Autorouted. Record the observation per item.
-- [ ] Results (the output of this tier, filled in then): suite __ tests, 0 failures; AFU __/115; LFU __/188; RegFile __/24; real-app items 1–10: __.
+- [x] Neutrality: `git diff --stat <first plan-38 commit>^..HEAD -- backend datasheets schematical/schematical/Parts` → empty (est. 1 min). — `git diff --stat 2ebd69d0^..HEAD -- backend datasheets schematical/schematical/Parts` → empty (also after merging main, 095ce688: main's own changes there are main's, not this plan's — the check ran before the merge, on 553364c2).
+- [x] Goldens: `DesignRuleGoldenTests` (the three `Fixtures/drc-*.txt` unchanged since plan-38-D: `git diff <plan-38-D Phase 1 commit>..HEAD -- schematical/schematicalTests/Fixtures/drc-AFU.txt schematical/schematicalTests/Fixtures/drc-LFU.txt schematical/schematicalTests/Fixtures/drc-RegFile.txt` → empty; est. 1 min). — `git diff --stat aec77008..HEAD -- …drc-AFU.txt …drc-LFU.txt …drc-RegFile.txt` → empty; `DesignRuleGoldenTests` passed after the merge with main (with `DesignRuleCheckTests` and `KeyboardHelpTests`: 22 tests, 0 failures).
+- [x] App, full: `xcodebuild test -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` and `Executed N tests, with 0 failures` with N ≥ 668 + the plan's new tests (est. 15–20 min; nothing smaller checks that no existing PCB, file or undo test broke across 12 letters). — on the merge commit 095ce688: `Executed 946 tests, with 0 failures (0 unexpected) in 2623.071 seconds`, `** TEST SUCCEEDED **` (946 ≥ 668 + this plan's; no crash, no restart).
+- [x] Router benchmark, once, from the real test run: AFU `.balanced` 115/115 and the twelve DRC kinds 0; LFU ≥ 127/188; RegFile ≥ 12/24 (the floors of plan-38-F, H) — copy the actual numbers into `docs/routing.md` and § Results below. — from that run (`RouterFixtureTests`, which also asserts the router-caused DRC kinds are 0): Balanced AFU 115/115, 115 vias, 1582 mm, 27.99 s (2 rounds, 113 rips); LFU 147/188, 246 vias, 2528 mm, 456.44 s (12 rounds) ≥ 127; RegFile 24/24, 31 vias, 314 mm, 29.77 s ≥ 12. Fast: AFU 114, LFU 149, RegFile 24. Thorough: AFU 115, LFU 147, RegFile 24. In `docs/routing.md` § Results.
+- [x] Real app, once, on this commit (per `AGENTS.md`, pointer left at 0,0 afterwards): (1) AFU fixture → Route ▸ Autoroute… (Balanced) → completes; DRC window: no `Unrouted`, no router-caused issue. (2) Undo → the board is as opened; Redo → copper back. (3) Net Classes: Add Power Class → run again with Clear autorouted → power nets are 20 mil. (4) A layer rule: set a net to Only Top → run → no Bottom copper on it; set another to Prefer Bottom → it takes Bottom. (5) A length group of 3 two-pin nets (tolerance 0.5) → run → the sidebar shows the spread within tolerance (or the reported residual). (6) A pair → run → the two traces run side by side; DRC has no `diffPair` line. (7) LFU → run → the result list names each unrouted net; Stop mid-run keeps copper. (8) Route tool: click a pad → its net routes; click a ratsnest line → one connection. (9) Trace tool with Assist: walks around a pad; V drops a via. (10) Unroute Selected on a part, Unroute All Autorouted. Record the observation per item. — 2026-11-14 10:46–11:06, the Debug build of the merge commit 095ce688 (built by the full-suite run), run from its binary; pointer to 0,0 after; fixtures unchanged:
+  1. AFU, Balanced: "Routed 115 of 115 connections, 115 vias, 1582 mm, 32.4 s"; DRC: 16 issues, all silkscreen (the fixture's own), no `Unrouted`, nothing router-caused.
+  2. ⌘Z: the board as opened (ratsnest only); ⇧⌘Z: the copper back.
+  3. Add Power Class → "Power · 20 mil · 2 nets" (5V, GND); Clear autorouted ("Removes 231 traces and 115 vias") → 113 of 115, 143 vias, 76.1 s (B3, XOR2.11 "no legal way found": the 20 mil power nets take more room); a GND trace: Width 20 mil, Net GND, Class Power.
+  4. A0 Only Top, A1 Prefer Bottom → 112 of 115, 144 vias, 78.5 s; highlighted, A0's copper is all Top (red, no via); A1 runs mostly on Bottom.
+  5. AFU with a "Lengths" group of ADDR2.7, XOR1.3, XOR1.6 (tolerance 0.5; a board made by a throwaway test) → 115 of 115, "Lengths: 14.86 mm apart", the residual reported (AFU's density, as plan-38-I found).
+  6. The adjacent-header pair board (plan-38-K's) → "Pair: coupled, 4.09 mm apart", 0 vias; DRC: only the two headers' Reference-over-pad lines, no `diffPair`.
+  7. LFU, Stop after 60 s → "Routed 111 of 188 connections (stopped), 134 vias, 1500 mm, 61.0 s"; the copper stayed; the list names each unrouted net once (/GT 1, /LFU 3, 5V 3, A0 4, …), each "run stopped first".
+  8. Route tool: click C8.1 → its net only: "Routed 20 of 20 connections, 1 via, 110 mm, 0.4 s" (5V, 20 mil); click the AND1–NOR1 unrouted line → "Routed 1 of 1 connections, 0 vias, 33 mm, 0.2 s", the trace's Connects AND1.1, NOR1.1. (The sheet's Nets picker shows blank for these scopes: it has rows only for All and Selection. Cosmetic.)
+  9. Trace with Assist: V in open board → a Top trace to a via (0.4 / 0.8) and the layer menu at Bottom; a release by the board edge → "No legal route there.", nothing added. The walk-around around pads: plan-38-L Phase 4.
+  10. ⌥⌘U with an A0 trace selected → A0's copper gone, its unrouted line back (a click on a part's body over copper selects the copper, which is drawn over the footprint, so the selection was a trace of the net rather than the part; the part case is now `RouteToolTests.testUnrouteSelectedOnAPart`, added here); Route ▸ Unroute All Autorouted → the board bare, ratsnest only.
+- [x] Results (the output of this tier, filled in then): suite 946 tests, 0 failures; AFU 115/115; LFU 147/188; RegFile 24/24; real-app items 1–10: all behaved as stated (observations above; item 10 by a trace's net, the part case added as `RouteToolTests.testUnrouteSelectedOnAPart`, `-only-testing:RouteToolTests` → 6 tests, 0 failures).
 
 Acceptance: every line above passes on one commit.
   Check: the lines above, with their results recorded here and the commit hash (est. 40 min in total).
@@ -108,7 +118,19 @@ See plan-38-A § Decisions. Author decisions: no backend/ctest in this tier (not
 
 ## Corrections
 
-(Filled in during execution.)
+- **Main moved 111 commits during the plan**, so the tier ran after merging
+  it (095ce688). Two conflicts:
+  - `DesignRuleCheck.swift`: main's reference rectangle (plan-41) with
+    plan-38-D's renamed `CopperShape`.
+  - `KeyboardHelpTests.swift`: both key lists kept.
+- **Unroute Selected on a part couldn't be clicked in the real app.**
+  Clicking a part's body on a routed board selects the copper over it (it
+  is drawn over the footprint), so item 10 used a trace's net. No test
+  covered the part selection, so `testUnrouteSelectedOnAPart` was added.
+- **The owner's review of item 1: too many vias.** AFU gets one via per
+  connection (115 for 115). The owner (2026-11-14) prefers slower, cleaner
+  routing to fast and messy, and asked for it after the plan lands; not
+  this plan's scope.
 
 ## Summary
 
