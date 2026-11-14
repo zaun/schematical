@@ -148,6 +148,15 @@ Commit: 4d1ad8f6
      strapped with no default, so it is not flagged.
    - TL16C2550 qfn32: the package drawing's bars on XTAL2/GND are a
      drawing error (its pin table has none), so they are not flagged.
+4. **`serial_test` failed after G (found by plan-39-L's landing tier).** Its
+   `shipped` cases compare each fixture device (plan-12's datasheet copy,
+   "no overbar marks") with the device in `serial.json`. G's flags made
+   every ns16550, bridge, classic and Maxim device differ. The phase gates
+   ran only `library_check`/`listing_check`/`trace_check`, so it was not
+   caught there. Fixed in `serial_test.c`: `compare_shipped` removes each
+   pin's `activeLow` on both sides before comparing, because it is display
+   data the fixtures do not carry. `ctest` (landing build): `100% tests
+   passed, 0 tests failed out of 34`.
 
 ## Summary
 
