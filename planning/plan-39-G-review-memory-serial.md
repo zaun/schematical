@@ -82,17 +82,18 @@ One commit per phase: the edited part file(s), `planning/plan-39-data/ledger.tsv
 Acceptance: every pinout of the phase has a ledger row, the ledger matches the files, and the golden moved only by flags.
   Check: `node scripts/pin-polarity.js check --kind eeprom --devices 1-12 --complete && node scripts/pin-polarity.js check --kind sram --devices 1-21 --complete && node scripts/pin-polarity.js golden-check && ctest --test-dir /tmp/logic-p39 -R '^(library_check|listing_check|trace_check)$'` → every `check` exits 0, `golden-check` exits 0, 3 of 3 tests passed (est. 90 min of reading for 64 pinouts, then 6 min for the checks: the loader and `listing_check` load every part file the phase edited, which no smaller check does).
   Observed 2026-11-14: eeprom 1-12 `ok: 27 pinouts, 27 ledger rows checked`; sram 1-21 `ok: 37 pinouts, 37 ledger rows checked`; golden-check (phase staged) `ok: 0 parts.txt line(s) changed, only by :low`; ctest on the full tree `100% tests passed, 0 tests failed out of 3`.
-Commit: —
+Commit: 9305002e
 
 ### Phase 2 — G2: serial 1–49 (67 pinouts)
 
 One commit per phase: the edited part file(s), `planning/plan-39-data/ledger.tsv` and `backend/tests/golden/parts.txt`.
 
-- [ ] Review serial devices 1–49 (82510 … TL16C550D): 67 pinouts, § 3 procedure; edits `schematical/schematical/Parts/serial.json`.
-- [ ] Rebuild and regenerate the golden: `cmake -S backend -B /tmp/logic-p39 && cmake --build /tmp/logic-p39 -j8 && /tmp/logic-p39/listing_check --print > backend/tests/golden/parts.txt`.
+- [x] Review serial devices 1–49 (82510 … TL16C550D): 67 pinouts, § 3 procedure; edits `schematical/schematical/Parts/serial.json`. — done: rows recorded, check ok (Observed)
+- [x] Rebuild and regenerate the golden: `cmake -S backend -B /tmp/logic-p39 && cmake --build /tmp/logic-p39 -j8 && /tmp/logic-p39/listing_check --print > backend/tests/golden/parts.txt`. — done: regenerated over the full tree, this phase staged (plan-39-E Corrections 2)
 
 Acceptance: every pinout of the phase has a ledger row, the ledger matches the files, and the golden moved only by flags.
   Check: `node scripts/pin-polarity.js check --kind serial --devices 1-49 --complete && node scripts/pin-polarity.js golden-check && ctest --test-dir /tmp/logic-p39 -R '^(library_check|listing_check|trace_check)$'` → every `check` exits 0, `golden-check` exits 0, 3 of 3 tests passed (est. 90 min of reading for 67 pinouts, then 6 min for the checks: the loader and `listing_check` load every part file the phase edited, which no smaller check does).
+  Observed 2026-11-14: serial 1-49 `ok: 67 pinouts, 67 ledger rows checked`; golden-check (phase staged) `ok: 145 parts.txt line(s) changed, only by :low`; ctest on the full tree `100% tests passed, 0 tests failed out of 3`.
 Commit: —
 
 ### Phase 3 — G3: serial 50–90 (66 pinouts)
