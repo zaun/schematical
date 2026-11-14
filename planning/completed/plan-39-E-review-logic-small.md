@@ -131,7 +131,7 @@ One commit per phase: the edited part file(s), `planning/plan-39-data/ledger.tsv
 Acceptance: every pinout of the phase has a ledger row, the ledger matches the files, and the golden moved only by flags.
   Check: `node scripts/pin-polarity.js check --kind arith --devices 1-16 --complete && node scripts/pin-polarity.js check --kind dff --devices 1-22 --complete && node scripts/pin-polarity.js check --kind jkff --devices 1-6 --complete && node scripts/pin-polarity.js check --kind mux --devices 1-20 --complete && node scripts/pin-polarity.js check --kind cpu --devices 1-4 --complete && node scripts/pin-polarity.js check --kind pio --devices 1-4 --complete && node scripts/pin-polarity.js check --kind rtc --devices 1-7 --complete && node scripts/pin-polarity.js golden-check && ctest --test-dir /tmp/logic-p39 -R '^(library_check|listing_check|trace_check)$'` → every `check` exits 0, `golden-check` exits 0, 3 of 3 tests passed (est. 90 min of reading for 102 pinouts, then 6 min for the checks: the loader and `listing_check` load every part file the phase edited, which no smaller check does).
   Observed 2026-11-14: arith 16, dff 31, jkff 8, mux 25, cpu 8, pio 7, rtc 7 pinouts — each `ok: N pinouts, N ledger rows checked`; golden-check `ok: 1424 parts.txt line(s) changed, only by :low`; ctest on the full E tree `100% tests passed, 0 tests failed out of 3`.
-Commit: —
+Commit: 0f983267
 
 ## Validation Plan
 
