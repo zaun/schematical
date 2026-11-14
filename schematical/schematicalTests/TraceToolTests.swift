@@ -151,4 +151,58 @@ final class TraceToolTests: XCTestCase {
         XCTAssertTrue(doc.traces.isEmpty)
         XCTAssertTrue(doc.boardSelection.isEmpty)
     }
+
+    // MARK: Net classes (plan-38-C)
+
+    /// Two LEDs wired K to A, the net in a 20 mil Power class with a
+    /// 0.5 / 1.0 mm via; the centre of the first LED's K pad.
+    private func powerPair() throws -> (doc: SchematicDocument, start: CGPoint) {
+        let doc = TestSupport.newDocument()
+        let one = try TestSupport.place(doc, "GENERIC-LED", at: p(100, 100))
+        let two = try TestSupport.place(doc, "GENERIC-LED", at: p(400, 200))
+        let k = try TestSupport.pin(one, "K")
+        XCTAssertNil(doc.connect(.pin(k), .pin(try TestSupport.pin(two, "A"))))
+        let power = doc.addNetClass(named: "Power")
+        doc.setNetClassWidth(power, 20)
+        doc.setNetClassVia(power, drill: 0.5, diameter: 1)
+        let designator = one.part.pins[k.index].designator
+        doc.assignNet(.pin(chip: one.id, designator: designator), to: power)
+        let chip = try XCTUnwrap(doc.chips.first { $0.id == one.id })
+        let pad = try XCTUnwrap(chip.boardPads.first { $0.designator == designator })
+        return (doc, p(pad.rect.midX, pad.rect.midY))
+    }
+
+    func testTraceFromAPowerClassPadIsTheClassWidth() throws {
+        let (doc, start) = try powerPair()
+        let id = try XCTUnwrap(drag(doc, from: start, to: p(start.x + 7.62, start.y)))
+        XCTAssertEqual(doc.traces.first { $0.id == id }?.width, 20)
+    }
+
+    func testTraceFromEmptyBoardIsTheDefaultWidth() throws {
+        let (doc, start) = try powerPair()
+        let id = try XCTUnwrap(drag(doc, from: p(start.x, start.y + 20), to: p(start.x + 7.62, start.y + 20)))
+        XCTAssertEqual(doc.traces.first { $0.id == id }?.width, BoardTrace.defaultWidth)
+    }
+
+    func testLiveTraceAndCommittedTraceAreOneWidth() throws {
+        let (doc, start) = try powerPair()
+        let end = p(start.x + 7.62, start.y + 2.54)
+        let draft = TraceDraft(start: TraceDrawing.anchor(doc, at: start, layer: .top, scale: scale))
+        let live = TraceDrawing.width(doc, draft: draft, layer: .top)
+        let id = try XCTUnwrap(TraceDrawing.finish(doc, draft: draft, to: end, layer: .top, scale: scale, angle: 45,
+                                                   visible: BoardVisibility(), onShowLayer: { _ in }))
+        XCTAssertEqual(live, 20)
+        XCTAssertEqual(doc.traces.first { $0.id == id }?.width, live)
+    }
+
+    func testViaOnAPowerClassPadHasTheClassSize() throws {
+        let (doc, start) = try powerPair()
+        let id = try XCTUnwrap(doc.addVia(at: start))
+        let via = try XCTUnwrap(doc.vias.first { $0.id == id })
+        XCTAssertEqual(via.drill, 0.5)
+        XCTAssertEqual(via.diameter, 1)
+        let plain = try XCTUnwrap(doc.addVia(at: p(start.x, start.y + 20)))
+        XCTAssertEqual(doc.vias.first { $0.id == plain }?.drill, BoardVia.defaultDrill)
+        XCTAssertEqual(doc.vias.first { $0.id == plain }?.diameter, BoardVia.defaultDiameter)
+    }
 }

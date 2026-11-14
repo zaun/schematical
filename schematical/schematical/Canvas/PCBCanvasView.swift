@@ -460,7 +460,8 @@ struct PCBCanvasView: View {
             let route = TraceDrawing.preview(document, draft: draft, to: cursor, layer: traceLayer, scale: scale,
                                              angle: traceAngle)
             if TraceRoute.isLegal(route) {
-                drawing = BoardTrace(id: UUID(), layer: traceLayer, width: BoardTrace.defaultWidth, points: route)
+                drawing = BoardTrace(id: UUID(), layer: traceLayer,
+                                     width: TraceDrawing.width(document, draft: draft, layer: traceLayer), points: route)
             }
         }
         let lines = document.ratsnest(drawing: drawing)
@@ -516,8 +517,8 @@ struct PCBCanvasView: View {
             let route = TraceDrawing.preview(document, draft: draft, to: cursor, layer: traceLayer, scale: scale,
                                              angle: traceAngle)
             let colour = document.board.style(of: traceLayer).color.color.opacity(0.6)
-            context.stroke(Self.path(route), with: .color(colour),
-                           style: Self.traceStyle(width: Double(BoardTrace.defaultWidth) * 0.0254))
+            let mil = TraceDrawing.width(document, draft: draft, layer: traceLayer)
+            context.stroke(Self.path(route), with: .color(colour), style: Self.traceStyle(width: Double(mil) * 0.0254))
             ring = route.last
         } else {
             ring = hoverPoint.map { TraceDrawing.anchor(document, at: $0, layer: traceLayer, scale: scale) }
@@ -805,6 +806,13 @@ enum TraceDrawing {
         draft.path(to: anchor(document, at: cursor, layer: layer, scale: scale), angle: angle)
     }
 
+    /// The width, in mil, of the trace a draft draws: that of the class of
+    /// the net it starts on (`SchematicDocument.netRules`). The live preview
+    /// and the trace the release adds both read it.
+    static func width(_ document: SchematicDocument, draft: TraceDraft, layer: CopperLayer) -> Int {
+        document.netRules(at: draft.start, layer: layer).width
+    }
+
     /// The release: adds the trace (nothing for a zero-length one), makes it
     /// the whole selection, and asks for its layer to be shown if hidden.
     @discardableResult
@@ -812,7 +820,8 @@ enum TraceDrawing {
                        scale: CGFloat, angle: Int, visible: BoardVisibility,
                        onShowLayer: (CopperLayer) -> Void) -> UUID? {
         let points = preview(document, draft: draft, to: cursor, layer: layer, scale: scale, angle: angle)
-        guard let id = document.addTrace(points: points, layer: layer) else {
+        guard let id = document.addTrace(points: points, layer: layer,
+                                         width: width(document, draft: draft, layer: layer)) else {
             return nil
         }
         document.select(.trace(id))

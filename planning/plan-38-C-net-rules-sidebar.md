@@ -143,13 +143,13 @@ Commit: dcc38bdc
 
 Acceptance: the Power-class test passes; build succeeds.
   Check: `-only-testing:schematicalTests/NetRulesTests -only-testing:schematicalTests/NetListTests` → `** TEST SUCCEEDED **` (est. 2 min).
-Commit: —
+Commit: 3a9129d1
 
 ### Phase 4 — tools use the class
 
-- [ ] `Canvas/SchematicModel.swift`: `netRules(at:layer:)`; `addTrace(points:layer:width:)` (the existing `addTrace(points:layer:)` calls it with `netRules(at: points[0]…).width`); `addVia(at:)` uses the class via sizes.
-- [ ] `Canvas/PCBCanvasView.swift:449` and `TraceDrawing.finish`: the live preview and the committed trace use the same width.
-- [ ] Tests: `TraceToolTests` — a trace started on a Power-class pad is 20 mil; a trace starting on an empty spot is 10 mil; the live `drawing` trace and the committed trace have equal width; a via on a Power-class pad has the class's size; the existing 7 trace-tool tests stay green.
+- [x] `Canvas/SchematicModel.swift`: `netRules(at:layer:)`; `addTrace(points:layer:width:)` (the existing `addTrace(points:layer:)` calls it with `netRules(at: points[0]…).width`); `addVia(at:)` uses the class via sizes. (`netRules` returns `NetRules { width, clearance, viaDrill, viaDiameter }`, in `NetClass.swift`; `layer: nil` is any layer, which the via uses.)
+- [x] `Canvas/PCBCanvasView.swift:449` and `TraceDrawing.finish`: the live preview and the committed trace use the same width. (Both, and the ratsnest's `drawing` trace, read `TraceDrawing.width(_:draft:layer:)`.)
+- [x] Tests: `TraceToolTests` — a trace started on a Power-class pad is 20 mil; a trace starting on an empty spot is 10 mil; the live `drawing` trace and the committed trace have equal width; a via on a Power-class pad has the class's size; the existing 7 trace-tool tests stay green. — `-only-testing:TraceToolTests -only-testing:ViaTests -only-testing:NetRulesTests` → 32 tests (TraceToolTests 11 = 7 + 4), 0 failures, `** TEST SUCCEEDED **`.
 
 Acceptance: as listed.
   Check: `-only-testing:schematicalTests/TraceToolTests -only-testing:schematicalTests/ViaTests -only-testing:schematicalTests/NetRulesTests` → `** TEST SUCCEEDED **` (est. 2 min).
@@ -174,6 +174,11 @@ See plan-38-A § Decisions. Author decisions: Nets live in the board inspector, 
   the text `Commit: —` (in backticks). The check that measures what it means is
   `grep -c "^Commit: —"`: A → 0, B → 0 at the start of this letter (run
   2026-11-14). The same applies to every later letter's check.
+- Runtime proof timing: this letter's real-app walk (Validation Plan) runs
+  with plan-38-K's, which goes through the same PCB sidebar on AFU and also
+  needs the built app; it covers every step listed here (Nets / Net Classes /
+  Net Groups shown, GND highlight and Esc, Add Power Class, a 20 mil trace).
+  The result is recorded under plan-38-K's Validation Plan.
 
 ## Summary
 

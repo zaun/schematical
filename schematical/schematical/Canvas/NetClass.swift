@@ -1,5 +1,16 @@
 import Foundation
 
+/// The rules new copper on a net gets from its class: the Default class's
+/// unless set.
+nonisolated struct NetRules: Hashable, Sendable {
+    /// mil.
+    var width = NetClass.defaultWidth
+    /// mm; nil is the DRC's minimum.
+    var clearance: Double? = nil
+    var viaDrill = NetClass.defaultViaDrill
+    var viaDiameter = NetClass.defaultViaDiameter
+}
+
 /// A named set of routing rules shared by some nets: trace width,
 /// clearance and via size. A net is in the first class, in list order,
 /// any of whose members names it; a net in no class is in the implicit

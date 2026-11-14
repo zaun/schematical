@@ -2944,16 +2944,26 @@ final class SchematicDocument {
         addTrace(points: TraceRoute.route(from: a, to: b, angle: angle, legFirst: diagonalFirst), layer: layer)
     }
 
-    /// Adds a trace along `points` (simplified) on `layer`,
-    /// `BoardTrace.defaultWidth` wide, and joins it to every trace it
-    /// touches there. Returns its id, or nil when nothing was added: no
-    /// length, or a layer that is a plane or not on the board.
+    /// Adds a trace along `points` (simplified) on `layer`, as wide as the
+    /// class of the net its first point is on (`netRules(at:layer:)`), and
+    /// joins it to every trace it touches there. Returns its id, or nil when
+    /// nothing was added: no length, or a layer that is a plane or not on
+    /// the board.
     @discardableResult
     func addTrace(points: [CGPoint], layer: CopperLayer) -> UUID? {
+        guard let start = points.first else { return nil }
+        return addTrace(points: points, layer: layer, width: netRules(at: start, layer: layer).width)
+    }
+
+    /// Adds a trace `width` mil wide (clamped to `BoardTrace.widthRange`);
+    /// otherwise as `addTrace(points:layer:)`.
+    @discardableResult
+    func addTrace(points: [CGPoint], layer: CopperLayer, width: Int) -> UUID? {
         return recordEdit(.pcb, "Add Trace") { () -> UUID? in
             let points = TraceRoute.simplified(points)
             guard TraceRoute.isLegal(points), traceLayerRefusal(layer) == nil else { return nil }
-            let trace = BoardTrace(id: UUID(), layer: layer, width: BoardTrace.defaultWidth, points: points)
+            let width = min(max(width, BoardTrace.widthRange.lowerBound), BoardTrace.widthRange.upperBound)
+            let trace = BoardTrace(id: UUID(), layer: layer, width: width, points: points)
             traces.append(trace)
             join(trace.id)
             return trace.id
@@ -3220,13 +3230,16 @@ final class SchematicDocument {
         return best?.point ?? BoardGrid.snap(point, spacing: self.board.traceGrid)
     }
 
-    /// Adds a via at `point` (already anchored) with the default sizes and
-    /// selects it. Nil on a 1-layer board, which has nothing to join.
+    /// Adds a via at `point` (already anchored) with the sizes of the class
+    /// of the net there (`netRules(at:layer:)`; the defaults on no net or
+    /// the Default class) and selects it. Nil on a 1-layer board, which has
+    /// nothing to join.
     @discardableResult
     func addVia(at point: CGPoint) -> UUID? {
         guard board.layers > 1 else { return nil }
+        let rules = netRules(at: point, layer: nil)
         return recordEdit(.pcb, "Add Via") { () -> UUID? in
-            let via = BoardVia(id: UUID(), centre: point)
+            let via = BoardVia(id: UUID(), centre: point, drill: rules.viaDrill, diameter: rules.viaDiameter)
             vias.append(via)
             boardSelection.replace(with: .via(via.id))
             return via.id
@@ -3359,6 +3372,42 @@ final class SchematicDocument {
             let netClass = board.netClasses.remove(at: index)
             board.netClasses.insert(netClass, at: target)
         }
+    }
+
+    /// The width and via new copper at `point` gets: those of the class of
+    /// the net there — a pad's whose copper holds the point on `layer`
+    /// (a through-hole pad on any layer; nil `layer` is any), else a via's
+    /// whose metal holds it, else a trace's on `layer` whose copper holds
+    /// it — or the Default class's when it is on no net or a net in no class.
+    func netRules(at point: CGPoint, layer: CopperLayer?) -> NetRules {
+        let copper = connectivity()
+        func onLayer(_ pad: BoardConnectivity.Pad) -> Bool {
+            layer == nil || pad.pad.drill > 0 || pad.side.copperLayer == layer
+        }
+        var net: Int?
+        if let p = copper.pads.indices.first(where: {
+            copper.pads[$0].pad.plated && onLayer(copper.pads[$0]) && copper.pads[$0].pad.rect.contains(point)
+                && copper.netOfPad[$0] != nil
+        }) {
+            net = copper.netOfPad[p]
+        } else {
+            let netOfRoot = copper.netOfRoot()
+            if let v = copper.vias.indices.first(where: {
+                Self.distance(from: point, to: copper.vias[$0].centre) <= copper.vias[$0].diameter / 2
+                    && netOfRoot[copper.root[copper.viaNode($0)]] != nil
+            }) {
+                net = netOfRoot[copper.root[copper.viaNode(v)]]
+            } else if let t = copper.traces.indices.first(where: { t in
+                let trace = copper.traces[t]
+                return (layer == nil || trace.layer == layer) && netOfRoot[copper.root[copper.traceNode(t)]] != nil
+                    && trace.segments.contains { Self.distance(from: point, toSegment: $0.0, $0.1) <= trace.widthMM / 2 }
+            }) {
+                net = netOfRoot[copper.root[copper.traceNode(t)]]
+            }
+        }
+        guard let net, let netClass = netClass(ofNet: net, in: copper) else { return NetRules() }
+        return NetRules(width: netClass.width, clearance: netClass.clearance, viaDrill: netClass.viaDrill,
+                        viaDiameter: netClass.viaDiameter)
     }
 
     /// The class net `net` of `connectivity` is in: the first, in list
