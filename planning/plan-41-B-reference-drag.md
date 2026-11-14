@@ -165,18 +165,19 @@ Rejected alternatives:
 Acceptance: the tests pass.
   Result: `** TEST SUCCEEDED **`; LockPositionTests 6, PCBUndoTests 34, ReferenceDragTests 9 → 49 tests, 0 failures.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p41-dd test -only-testing:schematicalTests/ReferenceDragTests -only-testing:schematicalTests/PCBUndoTests -only-testing:schematicalTests/LockPositionTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 8 min; the two existing classes prove the plain-drag and lock paths didn't change).
-Commit: —
+Commit: b751f543
 
 ### Phase 2 — Reset button and help
 
-- [ ] `Canvas/PCBSidebarView.swift` (Marks section, line 955-959): add
+- [x] `Canvas/PCBSidebarView.swift` (Marks section, line 955-959): add
       `Button("Reset Reference Position") { document.resetReference(chip.id) }`
       shown only when `placement.referenceOffset != .zero`.
-- [ ] `Help/KeyboardHelp.swift`: in `pcb`'s "Selecting and moving" section add
+- [x] `Help/KeyboardHelp.swift`: in `pcb`'s "Selecting and moving" section add
       `entry("⌘-drag a reference", "Move only the reference text, snapped to the trace grid; it keeps its place on the part when the part moves or turns")`.
-- [ ] Tests: `KeyboardHelpTests.testPCBKeys` list gains `"⌘-drag a reference"`.
+- [x] Tests: `KeyboardHelpTests.testPCBKeys` list gains `"⌘-drag a reference"`.
 
 Acceptance: the key is listed.
+  Result: `** TEST SUCCEEDED **`; KeyboardHelpTests 4 tests, 0 failures.
   Check: `xcodebuild … test -only-testing:schematicalTests/KeyboardHelpTests CODE_SIGNING_ALLOWED=NO` (same project, scheme and derived-data path) → `** TEST SUCCEEDED **` (est. 5 min).
 Commit: —
 

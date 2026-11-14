@@ -115,6 +115,7 @@ nonisolated enum KeyboardHelp {
             entry("⇧-click", "Add to the selection, or take out of it"),
             entry("Drag", "Move the item, snapped to the grid"),
             entry("⇧-drag, or drag a selected item", "Move the whole selection"),
+            entry("⌘-drag a reference", "Move only the reference text, snapped to the trace grid; it keeps its place on the part when the part moves or turns"),
             entry("Drag empty space", "Pan (and clear the selection)"),
             entry("⇧-drag empty space", "Box-select: add every shown item the box touches"),
         ]),
