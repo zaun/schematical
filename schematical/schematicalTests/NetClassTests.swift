@@ -239,6 +239,101 @@ final class NetClassTests: XCTestCase {
         }
     }
 
+    // MARK: Phase 3 — net resolution and names
+
+    /// The net of a pin's pad; `pin` is the pin's name or designator.
+    private func net(_ doc: SchematicDocument, _ copper: BoardConnectivity, _ chip: PlacedChip,
+                     _ pin: String) throws -> Int {
+        let index = try XCTUnwrap(doc.chips.firstIndex { $0.id == chip.id })
+        let designator = chip.part.pins.first { $0.name == pin }?.designator ?? pin
+        let pad = try XCTUnwrap(copper.pads.firstIndex { $0.chip == index && $0.pad.designator == designator })
+        return try XCTUnwrap(copper.netOfPad[pad])
+    }
+
+    func testGroundNetIsNamedAndResolves() throws {
+        let doc = TestSupport.newDocument()
+        let led = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
+        let gnd = try TestSupport.place(doc, "GND", at: CGPoint(x: 100, y: 400))
+        XCTAssertNil(doc.connect(.pin(try TestSupport.pin(led, "K")), .pin(PinRef(chipID: gnd.id, index: 0))))
+        let other = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 400, y: 100))
+        XCTAssertNil(doc.connect(.pin(try TestSupport.pin(led, "A")), .pin(try TestSupport.pin(other, "K"))))
+        let copper = doc.connectivity()
+        let ground = try net(doc, copper, led, "K")
+        XCTAssertEqual(copper.netNames[ground], "GND")
+        XCTAssertEqual(copper.net(of: .ground), ground)
+        let cathode = try XCTUnwrap(led.part.pins.first { $0.name == "K" }).designator
+        XCTAssertEqual(copper.net(of: .pin(chip: led.id, designator: cathode)), ground)
+        XCTAssertNil(copper.net(of: .rail(mv: 5000)))
+
+        let power = doc.addNetClass(named: "Power")
+        doc.assignNet(.ground, to: power)
+        XCTAssertEqual(doc.netClass(ofNet: ground, in: copper)?.id, power)
+        let anode = try net(doc, copper, led, "A")
+        XCTAssertNil(doc.netClass(ofNet: anode, in: copper), "an unassigned net is in Default")
+    }
+
+    func testTwoFiveVoltSymbolsAreOneNetNamed5V() throws {
+        let doc = TestSupport.newDocument()
+        var leds: [PlacedChip] = []
+        for n in 0..<2 {
+            let led = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 100 + 300 * n, y: 100))
+            let rail = try TestSupport.place(doc, "5V", at: CGPoint(x: 100 + 300 * n, y: 400))
+            XCTAssertNil(doc.connect(.pin(try TestSupport.pin(led, "A")), .pin(PinRef(chipID: rail.id, index: 0))))
+            leds.append(led)
+        }
+        let copper = doc.connectivity()
+        let first = try net(doc, copper, leds[0], "A"), second = try net(doc, copper, leds[1], "A")
+        XCTAssertEqual(first, second)
+        XCTAssertEqual(copper.netNames[first], "5V")
+        XCTAssertEqual(copper.net(of: .rail(mv: 5000)), first)
+        XCTAssertEqual(Set(copper.netNames.values).count, copper.netNames.count, "names are unique")
+    }
+
+    func testLabelledNetTakesTheLabel() throws {
+        let doc = TestSupport.newDocument()
+        let led = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 400, y: 100))
+        let other = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 700, y: 100))
+        let label = doc.addNetLabel(at: CGPoint(x: 200, y: 100))
+        XCTAssertTrue(doc.setNetLabelName(label, "CLK"))
+        XCTAssertNil(doc.connect(.pin(try TestSupport.pin(led, "A")), .label(label)))
+        XCTAssertNil(doc.connect(.pin(try TestSupport.pin(led, "A")), .pin(try TestSupport.pin(other, "K"))))
+        let copper = doc.connectivity()
+        XCTAssertEqual(copper.netNames[try net(doc, copper, led, "A")], "CLK")
+    }
+
+    func testPlainNetIsNamedByItsFirstPad() throws {
+        let doc = TestSupport.newDocument()
+        let one = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
+        let two = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 400, y: 200))
+        XCTAssertNil(doc.connect(.pin(try TestSupport.pin(two, "A")), .pin(try TestSupport.pin(one, "K"))))
+        let copper = doc.connectivity()
+        let pad = try XCTUnwrap(one.boardPads.first { pad in
+            one.part.pins.first { $0.name == "K" }.map { $0.designator == pad.designator } ?? false
+        })
+        let name = "\(one.reference).\(try XCTUnwrap(pad.designator))"
+        XCTAssertEqual(copper.netNames[try net(doc, copper, one, try XCTUnwrap(pad.designator))], name)
+        XCTAssertTrue(name.hasPrefix("D1.") || name.hasPrefix("LED1."), name)
+    }
+
+    func testNetInTwoClassesIsInTheFirst() throws {
+        let doc = TestSupport.newDocument()
+        let led = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 100, y: 100))
+        let other = try TestSupport.place(doc, "GENERIC-LED", at: CGPoint(x: 400, y: 100))
+        let k = try TestSupport.pin(led, "K")
+        XCTAssertNil(doc.connect(.pin(k), .pin(try TestSupport.pin(other, "A"))))
+        let designator = led.part.pins[k.index].designator
+        let a = doc.addNetClass(named: "A")
+        let b = doc.addNetClass(named: "B")
+        doc.assignNet(.pin(chip: led.id, designator: designator), to: b)
+        let otherDesignator = other.part.pins[try TestSupport.pin(other, "A").index].designator
+        doc.assignNet(.pin(chip: other.id, designator: otherDesignator), to: a)
+        let copper = doc.connectivity()
+        let n = try net(doc, copper, led, designator)
+        XCTAssertEqual(doc.netClass(ofNet: n, in: copper)?.id, a)
+        doc.moveNetClass(b, to: 0)
+        XCTAssertEqual(doc.netClass(ofNet: n, in: copper)?.id, b)
+    }
+
     func testProblem() {
         func problem(width: Int = 10, clearance: Double? = nil, drill: Double = 0.4, diameter: Double = 0.8,
                      name: String = "A") -> String? {

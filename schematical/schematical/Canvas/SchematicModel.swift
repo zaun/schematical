@@ -3361,6 +3361,12 @@ final class SchematicDocument {
         }
     }
 
+    /// The class net `net` of `connectivity` is in: the first, in list
+    /// order, any of whose members names it; nil is the Default class.
+    func netClass(ofNet net: Int, in connectivity: BoardConnectivity) -> NetClass? {
+        board.netClasses.first { $0.members.contains { connectivity.net(of: $0) == net } }
+    }
+
     private func netClassIndex(_ id: UUID) -> Int? {
         board.netClasses.firstIndex { $0.id == id }
     }

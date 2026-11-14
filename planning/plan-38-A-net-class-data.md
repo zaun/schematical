@@ -246,14 +246,14 @@ Commit: 2ebd69d
 
 Acceptance: round trip equal; the no-class file is byte-identical to the literal.
   Check: same command with `-only-testing:schematicalTests/NetClassTests -only-testing:schematicalTests/SchematicFileV5Tests` → `** TEST SUCCEEDED **` (est. 2 min).
-Commit: —
+Commit: e499491
 
 ### Phase 3 — net resolution and names
 
-- [ ] `Canvas/Ratsnest.swift`: `BoardConnectivity` gains `railNets`, `pinNets`, `netNames`, `net(of:)`; `connectivity()` fills them; its local `resolve` calls `net(of:)`.
-- [ ] `Canvas/Ratsnest.swift` (or `Canvas/NetNames.swift`): the name rule of § 3, unique-ified.
-- [ ] `SchematicModel.swift`: `netClass(ofNet:in:)`.
-- [ ] Tests (`NetClassTests`): in a small document built as `RatsnestTests` builds its boards — a net with a `GND` symbol is named "GND" and a class member `.ground` resolves to it; two `5V` symbols are one net named "5V"; a labelled net takes the label; a plain net is named by its first pad ("U1.3"); a net in two classes is in the first.
+- [x] `Canvas/Ratsnest.swift`: `BoardConnectivity` gains `railNets`, `pinNets`, `netNames`, `net(of:)`; `connectivity()` fills them; its local `resolve` calls `net(of:)`.
+- [x] `Canvas/Ratsnest.swift` (or `Canvas/NetNames.swift`): the name rule of § 3, unique-ified. (In `Ratsnest.swift`, `netNames(netlist:merged:pads:netOfPad:nets:)`.)
+- [x] `SchematicModel.swift`: `netClass(ofNet:in:)`.
+- [x] Tests (`NetClassTests`): in a small document built as `RatsnestTests` builds its boards — a net with a `GND` symbol is named "GND" and a class member `.ground` resolves to it; two `5V` symbols are one net named "5V"; a labelled net takes the label; a plain net is named by its first pad ("U1.3"); a net in two classes is in the first. — `-only-testing:NetClassTests -only-testing:RatsnestTests -only-testing:PlaneNetTests` → 30 tests, 0 failures, `** TEST SUCCEEDED **`.
 
 Acceptance: names and classes as listed; every existing Ratsnest and PlaneNet test stays green (the `resolve` rewrite changed no behavior).
   Check: `-only-testing:schematicalTests/NetClassTests -only-testing:schematicalTests/RatsnestTests -only-testing:schematicalTests/PlaneNetTests` → `** TEST SUCCEEDED **` (est. 2 min).
@@ -291,7 +291,17 @@ Author decisions, with their one-line reason, are under each letter's design.
 
 ## Corrections
 
-(Filled in during execution.)
+- § 3 name rule was incomplete in two cases, now covered in the code and its doc
+  comment: a net with only board pads (an edge finger, a header pad, a plated
+  hole; chip −1) takes its first such pad's label (`"Edge.A1"`, `"H1"`), and a
+  net with no pad at all (a pin whose part has no footprint) is `"Net <n>"`
+  (n = net index + 1). Pads with a part sort before board pads.
+- Phase 2's "pre-change snapshot" is the `plainGolden` literal in
+  `NetClassTests`; it was verified against the pre-change build by running the
+  same test in a detached checkout of 945720a (`** TEST SUCCEEDED **`), so the
+  byte-identity claim isn't just checked against this build's own output.
+- Worktree shell: the session guard refuses heredocs; edits went through the
+  Edit tool and `/tmp/p38/*.py` helpers.
 
 ## Summary
 

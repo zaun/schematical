@@ -184,24 +184,28 @@ extension SchematicDocument {
         }
         netOfPad = netOfPad.mapValues(merged)
 
-        // The schematic net a Plane or plated hole names, if the schematic
-        // still has it.
-        func resolve(_ net: PlaneNet) -> Int? {
-            switch net {
-            case let .rail(mv):
-                return railNet[mv].map(merged)
-            case let .pin(chipID, designator):
-                guard let part = chips.firstIndex(where: { $0.id == chipID }) else { return nil }
-                if let pad = padsOfPin["\(part)/\(designator)"]?.first, let found = netOfPad[pad] {
-                    return found
-                }
-                return netlist.connections.first { $0.part == part && $0.pin == designator }
-                    .map { merged($0.net) }
+        // The schematic net a Plane, plated hole or net class names: a
+        // rail's, or a pin's (its pads' net, else the net its schematic pin
+        // is wired into).
+        var names = BoardConnectivity(pads: [], traces: [], vias: [], root: [], netOfPad: [:])
+        names.railNets = railNet.mapValues(merged)
+        for (index, chip) in chips.enumerated() {
+            for pad in chip.boardPads {
+                guard let designator = pad.designator, let first = padsOfPin["\(index)/\(designator)"]?.first,
+                      let net = netOfPad[first] else { continue }
+                names.pinNets["\(chip.id.uuidString)/\(designator)"] = net
             }
         }
+        for connection in netlist.connections {
+            let key = "\(chips[connection.part].id.uuidString)/\(connection.pin)"
+            if names.pinNets[key] == nil { names.pinNets[key] = merged(connection.net) }
+        }
+        let resolve = names.net(of:)
         for (n, hole) in holes.enumerated() where hole.plated {
             if let net = hole.net.flatMap(resolve) { netOfPad[holeBase + n] = net }
         }
+        names.netNames = netNames(netlist: netlist, merged: merged, pads: pads, netOfPad: netOfPad,
+                                  nets: Set(netOfPad.values).union(names.railNets.values).union(names.pinNets.values))
 
         // A Plane joins every plated through-hole pad and via on its net
         // (one whose copper already reaches a pad of the net).
@@ -225,7 +229,76 @@ extension SchematicDocument {
             }
         }
         return BoardConnectivity(pads: pads, traces: copper, vias: vias,
-                                 root: parent.indices.map(find), netOfPad: netOfPad, planeNets: planeNets)
+                                 root: parent.indices.map(find), netOfPad: netOfPad, planeNets: planeNets,
+                                 railNets: names.railNets, pinNets: names.pinNets, netNames: names.netNames)
+    }
+
+    /// A name for each of `nets`, by this priority: a supply symbol's part
+    /// name ("GND", "5V"; a rail of several symbols takes the first in chip
+    /// order), else the name of a net label wired onto the net, else the
+    /// name of a bus wire whose port pin is wired onto it, else its first
+    /// pad as "U1.3" (lowest chip index, then designator in natural order;
+    /// a net of board pads only takes its first, "Edge.A1"), else
+    /// "Net <n>". A name used twice gets " (2)", " (3)", … in net order.
+    private func netNames(netlist: SchematicNetlist, merged: (Int) -> Int, pads: [BoardConnectivity.Pad],
+                          netOfPad: [Int: Int], nets: Set<Int>) -> [Int: String] {
+        var name: [Int: String] = [:]
+        func offer(_ net: Int, _ text: String) {
+            if name[net] == nil, !text.isEmpty { name[net] = text }
+        }
+        // Supply symbols, in chip order.
+        var netOfPin: [String: Int] = [:]
+        for connection in netlist.connections { netOfPin["\(connection.part)/\(connection.pin)"] = connection.net }
+        for (index, chip) in chips.enumerated() {
+            guard case .supply(_, _, false) = chip.part.details else { continue }
+            for pin in chip.part.pins {
+                if let net = netOfPin["\(index)/\(pin.designator)"] { offer(merged(net), chip.partNumber) }
+            }
+        }
+        // Net labels wired onto the net, in label order.
+        var netOfLabel: [UUID: Int] = [:]
+        var netOfBusWire: [UUID: Int] = [:]
+        for wire in wires {
+            guard let net = netlist.netOfWire[wire.id] else { continue }
+            for end in [wire.start, wire.end] {
+                switch end {
+                case let .label(id): if netOfLabel[id] == nil { netOfLabel[id] = merged(net) }
+                case let .busPin(ref): if netOfBusWire[ref.wireID] == nil { netOfBusWire[ref.wireID] = merged(net) }
+                default: break
+                }
+            }
+        }
+        for label in netLabels where label.isNet {
+            if let net = netOfLabel[label.id] { offer(net, label.name) }
+        }
+        // Bus wires whose port pins are wired onto the net.
+        for bus in buses {
+            for wire in bus.wires {
+                if let net = netOfBusWire[wire.id] { offer(net, wire.name) }
+            }
+        }
+        // The first pad.
+        var firstPad: [Int: Int] = [:]
+        func earlier(_ a: Int, _ b: Int) -> Bool {
+            let p = pads[a], q = pads[b]
+            if (p.chip < 0) != (q.chip < 0) { return p.chip >= 0 }
+            if p.chip != q.chip { return p.chip < q.chip }
+            let x = p.pad.designator ?? "", y = q.pad.designator ?? ""
+            if x != y { return x.compare(y, options: .numeric) == .orderedAscending }
+            return a < b
+        }
+        for (pad, net) in netOfPad where firstPad[net].map({ earlier(pad, $0) }) ?? true { firstPad[net] = pad }
+        for (net, pad) in firstPad { offer(net, pads[pad].label) }
+
+        var used: [String: Int] = [:]
+        var result: [Int: String] = [:]
+        for net in nets.sorted() {
+            let base = name[net] ?? "Net \(net + 1)"
+            let count = (used[base] ?? 0) + 1
+            used[base] = count
+            result[net] = count == 1 ? base : "\(base) (\(count))"
+        }
+        return result
     }
 
     /// Whether a circle meets a rectangle.
@@ -310,6 +383,22 @@ nonisolated struct BoardConnectivity {
     /// The net each Plane layer carries, for the Planes that have one the
     /// schematic still has.
     var planeNets: [CopperLayer: Int] = [:]
+    /// Each supply rail's net, by voltage in mV (0 is ground).
+    var railNets: [UInt32: Int] = [:]
+    /// The net of each part pin on one, by "<chip UUID>/<designator>": the
+    /// net of its pads, or the net its schematic pin is wired into.
+    var pinNets: [String: Int] = [:]
+    /// Each net's display name (`SchematicDocument.netNames`), unique.
+    var netNames: [Int: String] = [:]
+
+    /// The net a Plane, plated hole or net class member names, if the
+    /// schematic still has it.
+    func net(of name: PlaneNet) -> Int? {
+        switch name {
+        case let .rail(mv): railNets[mv]
+        case let .pin(chip, designator): pinNets["\(chip.uuidString)/\(designator)"]
+        }
+    }
 
     func traceNode(_ index: Int) -> Int { pads.count + index }
 
