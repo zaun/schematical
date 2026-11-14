@@ -116,6 +116,129 @@ final class NetClassTests: XCTestCase {
         XCTAssertEqual(doc.board.netClasses.map(\.id), [c, a, b])
     }
 
+    // MARK: Phase 2 — file
+
+    func testTwoClassesRoundTrip() throws {
+        let doc = TestSupport.newDocument()
+        let power = doc.addNetClass(named: "Power")
+        doc.setNetClassWidth(power, 24)
+        doc.setNetClassClearance(power, 0.3)
+        doc.setNetClassVia(power, drill: 0.5, diameter: 1)
+        doc.assignNet(.ground, to: power)
+        doc.assignNet(.rail(mv: 5000), to: power)
+        let signal = doc.addNetClass(named: "Signal")
+        doc.assignNet(.pin(chip: UUID(), designator: "A1"), to: signal)
+        let opened = try BoardLayersTests.roundTrip(doc)
+        XCTAssertEqual(opened.board.netClasses, doc.board.netClasses)
+        XCTAssertEqual(opened.board.netClasses.map(\.name), ["Power", "Signal"])
+    }
+
+    /// A document with no classes and no `auto` copper, as the build before
+    /// plan-38 saved it (a trace, a via; captured with that build's
+    /// encoder, commit 945720a).
+    private static let plainGolden = #"""
+{
+  "board" : {
+    "color" : "green",
+    "grid" : 0.635,
+    "height" : 80,
+    "layerStyles" : [
+      {
+        "color" : "#C83737",
+        "layer" : "top",
+        "type" : "component"
+      },
+      {
+        "color" : "#3A6FD8",
+        "layer" : "bottom",
+        "type" : "component"
+      }
+    ],
+    "layers" : 2,
+    "texts" : [
+
+    ],
+    "traces" : [
+      {
+        "id" : "38A00000-0000-4000-8000-000000000001",
+        "layer" : "top",
+        "locked" : true,
+        "points" : [
+          {
+            "x" : 1,
+            "y" : 2
+          },
+          {
+            "x" : 5,
+            "y" : 2
+          }
+        ],
+        "width" : 12
+      }
+    ],
+    "units" : "mm",
+    "vias" : [
+      {
+        "diameter" : 0.8,
+        "drill" : 0.4,
+        "id" : "38A00000-0000-4000-8000-000000000002",
+        "x" : 5,
+        "y" : 2
+      }
+    ],
+    "width" : 100
+  },
+  "buses" : [
+
+  ],
+  "format" : "schematical",
+  "junctions" : [
+
+  ],
+  "nextReference" : 1,
+  "notes" : [
+
+  ],
+  "parts" : [
+
+  ],
+  "version" : 4,
+  "wires" : [
+
+  ]
+}
+"""#
+
+    func testNoClassesWritesNoKeyAndTheSameBytes() throws {
+        let doc = TestSupport.newDocument()
+        try SchematicFile.decode(Data(Self.plainGolden.utf8)).apply(to: doc, catalog: TestSupport.catalog, fileURL: nil)
+        XCTAssertEqual(doc.traces.count, 1)
+        XCTAssertEqual(doc.vias.count, 1)
+        let data = try SchematicFile(document: doc, fileURL: nil).encoded()
+        let text = String(decoding: data, as: UTF8.self)
+        XCTAssertFalse(text.contains("netClasses"))
+        XCTAssertFalse(text.contains("auto"))
+        XCTAssertEqual(text, Self.plainGolden)
+    }
+
+    func testClassFileErrorsNameTheClass() {
+        let id = UUID()
+        let name = "net class \(id.uuidString)"
+        func board(_ entry: String, twice: Bool = false) -> String {
+            let one = #"{ "id": "\#(id)", "name": "A", "viaDrill": 0.4, "viaDiameter": 0.8\#(entry) }"#
+            return #"{ "netClasses": [ \#(twice ? one + ", " + one : one) ] }"#
+        }
+        let cases: [(String, String)] = [
+            (board(#", "width": 4, "members": []"#), "\(name) width 4 must be 5 to 100 mil"),
+            (board(#", "width": 10, "members": []"#, twice: true), "\(name) is listed twice"),
+            (board(#", "width": 10, "members": ["pin:nope"]"#),
+             "\(name) member \"pin:nope\" must be ground, power:<mV> or pin:<part id>/<pin>"),
+        ]
+        for (json, message) in cases {
+            XCTAssertEqual(BoardLayersTests.pcbError { _ = try BoardLayersTests.open(board: json) }, message, json)
+        }
+    }
+
     func testProblem() {
         func problem(width: Int = 10, clearance: Double? = nil, drill: Double = 0.4, diameter: Double = 0.8,
                      name: String = "A") -> String? {

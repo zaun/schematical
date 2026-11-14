@@ -236,13 +236,13 @@ class per net (classes exist to share).
 
 Acceptance: every edit is one undo step and every clamp holds.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd test -only-testing:schematicalTests/NetClassTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 1–2 min).
-Commit: —
+Commit: 2ebd69d
 
 ### Phase 2 — file format
 
-- [ ] `Document/SchematicFile.swift`: `Board.netClasses` entries, encode (only when non-empty), decode with the checks of § 4.
-- [ ] `docs/file-format.md`: § Board table row `netClasses`; new § Net classes (fields, "written only when there are some", older builds ignore it, the member text formats shared with a Plane's `net`).
-- [ ] Tests (`NetClassTests`): a document with two classes saves and reopens equal; a document with none writes no `netClasses` key and its bytes equal a pre-change snapshot (encode a fixed small document, compare with a literal in the test); a bad width, a duplicate id and an unparsable member each throw with a message naming the class.
+- [x] `Document/SchematicFile.swift`: `Board.netClasses` entries, encode (only when non-empty), decode with the checks of § 4.
+- [x] `docs/file-format.md`: § Board table row `netClasses`; new § Net classes (fields, "written only when there are some", older builds ignore it, the member text formats shared with a Plane's `net`).
+- [x] Tests (`NetClassTests`): a document with two classes saves and reopens equal; a document with none writes no `netClasses` key and its bytes equal a pre-change snapshot (encode a fixed small document, compare with a literal in the test); a bad width, a duplicate id and an unparsable member each throw with a message naming the class. — `-only-testing:NetClassTests -only-testing:SchematicFileV5Tests` → 18 tests, 0 failures, `** TEST SUCCEEDED **`. The literal (`plainGolden`, a trace and a via) was checked against the pre-change encoder: the same test run in a detached checkout of 945720a → `BaseGoldenTests testNoClassesWritesNoKeyAndTheSameBytes passed`, `** TEST SUCCEEDED **`.
 
 Acceptance: round trip equal; the no-class file is byte-identical to the literal.
   Check: same command with `-only-testing:schematicalTests/NetClassTests -only-testing:schematicalTests/SchematicFileV5Tests` → `** TEST SUCCEEDED **` (est. 2 min).

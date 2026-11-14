@@ -188,6 +188,22 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         /// Drilled holes, in drawing order. Written only when there are
         /// some; missing means none.
         var holes: [HoleEntry]? = nil
+        /// Net classes, in priority order. Written only when there are
+        /// some; missing means none (every net in the Default class).
+        var netClasses: [NetClassEntry]? = nil
+
+        /// A net class: its name, trace width in mil, clearance in mm
+        /// (missing means the DRC's minimum), via hole and metal in mm, and
+        /// its nets (`PlaneNet.fileValue` each).
+        struct NetClassEntry: Codable, Equatable, Sendable {
+            var id: UUID
+            var name: String
+            var width: Int
+            var clearance: Double? = nil
+            var viaDrill: Double
+            var viaDiameter: Double
+            var members: [String]
+        }
 
         /// A drilled hole: its centre, size (`HoleSize` raw value, default
         /// "m3"), hole (`drill`) and land (`diameter`) in mm, whether it is
@@ -690,6 +706,11 @@ extension SchematicFile {
                 Board.HoleEntry(id: hole.id, x: hole.centre.x, y: hole.centre.y, size: hole.size.rawValue,
                                 drill: hole.drill, diameter: hole.diameter, plated: hole.plated ? true : nil,
                                 net: hole.net?.fileValue, locked: hole.locked ? true : nil)
+            },
+            netClasses: settings.netClasses.isEmpty ? nil : settings.netClasses.map { netClass in
+                Board.NetClassEntry(id: netClass.id, name: netClass.name, width: netClass.width,
+                                    clearance: netClass.clearance, viaDrill: netClass.viaDrill,
+                                    viaDiameter: netClass.viaDiameter, members: netClass.members.map(\.fileValue))
             }
         )
     }
@@ -1116,6 +1137,7 @@ extension SchematicFile {
             settings.grid = grid
         }
         settings.styles = try Self.layerStyles(board.layerStyles ?? [], layers: settings.layers)
+        settings.netClasses = try Self.netClasses(board.netClasses ?? [])
         settings.type = try Self.value(board.type, of: BoardType.self, "board type", default: .custom)
         settings.edgeBus = board.edgeBus
         if let entry = board.card { settings.customCard = Self.customCard(entry) }
@@ -1186,6 +1208,29 @@ extension SchematicFile {
             styles[layer] = style
         }
         return styles
+    }
+
+    /// The stored net classes, each checked (`NetClass.problem`), with no
+    /// id twice and every member a net name a Plane could have.
+    private static func netClasses(_ entries: [Board.NetClassEntry]) throws -> [NetClass] {
+        var seen = Set<UUID>()
+        return try entries.map { entry in
+            let name = "net class \(entry.id.uuidString)"
+            guard seen.insert(entry.id).inserted else { throw SchematicFileError.badPCB("\(name) is listed twice") }
+            if let problem = NetClass.problem(width: entry.width, clearance: entry.clearance, viaDrill: entry.viaDrill,
+                                              viaDiameter: entry.viaDiameter, name: entry.name) {
+                throw SchematicFileError.badPCB("\(name) \(problem)")
+            }
+            let members = try entry.members.map { raw in
+                guard let net = PlaneNet(fileValue: raw) else {
+                    throw SchematicFileError.badPCB(
+                        "\(name) member \"\(raw)\" must be ground, power:<mV> or pin:<part id>/<pin>")
+                }
+                return net
+            }
+            return NetClass(id: entry.id, name: entry.name, width: entry.width, clearance: entry.clearance,
+                            viaDrill: entry.viaDrill, viaDiameter: entry.viaDiameter, members: members)
+        }
     }
 
     /// A stored trace, checked against the board's layers.

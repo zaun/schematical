@@ -163,6 +163,7 @@ An EEPROM can name the file loaded into it when the simulation starts:
 | `traces` | array   | Copper traces, in drawing order ([Traces](#traces)). Always written, `[]` when there are none; missing means none. Older builds ignore it. |
 | `vias`   | array   | Vias, in drawing order ([Vias](#vias)). Written only when there are some; missing means none. Older builds ignore it. |
 | `holes`  | array   | Drilled holes (mounting holes and others), in drawing order ([Holes](#holes)). Written only when there are some; missing means none. Older builds ignore it. |
+| `netClasses` | array | Net classes, in priority order ([Net classes](#net-classes)). Written only when there are some; missing means none, every net in the Default class. Older builds ignore it. |
 
 A missing key takes its default. A text:
 
@@ -240,6 +241,29 @@ of and above the hole. In lists it is `H1`, `H2`, … in drawing order.
 | `plated`   | boolean | A plated hole, with its land. Default `false`. Written only when `true`. |
 | `net`      | string  | The plated hole's net, as a Plane layer's (`"ground"`, `"power:<mV>"` or `"pin:<part UUID>/<designator>"`). Missing is none. Kept while not plated. |
 | `locked`   | boolean | Lock Position: a locked hole can't be dragged or moved by X and Y. Default `false`. Written only when `true`. |
+
+### Net classes
+
+```json
+"netClasses": [ { "id": "...", "name": "Power", "width": 24, "clearance": 0.3,
+                  "viaDrill": 0.5, "viaDiameter": 1, "members": [ "ground", "power:5000" ] } ]
+```
+
+A net class is a named set of routing rules shared by some nets: the width
+new traces on them get, the clearance they keep, and the via they use. A
+net is in the **first** class in the list any of whose members names it;
+a net in no class is in the implicit **Default** class (10 mil, the DRC's
+min clearance, a 0.4 / 0.8 mm via). Written only when there are some;
+older builds ignore it.
+
+| Field         | Type    | Meaning |
+|---------------|---------|---------|
+| `id`          | UUID    | Unique among the net classes. |
+| `name`        | string  | 1 to 40 characters, not blank. |
+| `width`       | integer | Trace width in mil, 5 to 100. |
+| `clearance`   | number  | mm, 0.05 to 10. Missing means the DRC's min clearance. |
+| `viaDrill`, `viaDiameter` | number | The via's hole and metal in mm, as a via's `drill` and `diameter` ([Vias](#vias)). |
+| `members`     | array   | The class's nets, each named as a Plane layer's `net` is: `"ground"`, `"power:<mV>"` or `"pin:<part UUID>/<designator>"` (the net that pin is wired into). A member that names no net any more is kept, and matches nothing. |
 
 ## Junctions
 
