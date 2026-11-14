@@ -197,13 +197,13 @@ Commit: 96fda6f9
 
 Acceptance: round trip and rejection.
   Check: `-only-testing:schematicalTests/RoutingOptionsTests` → `** TEST SUCCEEDED **` (est. 1–2 min).
-Commit: —
+Commit: 6fc15e1b
 
 ### Phase 4 — `routingProblem(options:)`
 
-- [ ] `Routing/RoutingProblemBuilder.swift`: `extension SchematicDocument { func routingProblem(options: RoutingOptions) -> RoutingProblem }` (`@MainActor`, reads `connectivity()`, `netRows`-style keys, `netClass`, `effectiveLayers`, `group`): scope and include, existing copper, components from `BoardConnectivity.root`, obstacles from every pad (plated pads carry their net; non-plated holes and board holes net nil), the outline, planes, rules from `DesignRules.current()` (a parameter `rules:` with that default so tests pass `.customDefault`).
-- [ ] Edge fingers and header pads are obstacles with their net and flagged `exemptFromEdge` (the router must not apply the copper-to-edge keep-out to them, as `checkEdge`).
-- [ ] Tests: `schematicalTests/RoutingProblemTests.swift` — per fixture with `.all`: net and connection counts of § 1; `.nets([one GND key])` gives 1 net; `.footprints([U1])` gives exactly the nets on U1's pads; `.clearAuto` on a document with one auto and one hand trace lists only the auto one in `removedTraces`; a locked auto trace is kept; `.untouchedNets` skips a net that has a trace; a net class's width and a Top-only rule appear in `RoutingNet`; an Only {Top} net with a Bottom SMD pad is `impossible`; `.connection` names two components of one net.
+- [x] `Routing/RoutingProblemBuilder.swift`: `extension SchematicDocument { func routingProblem(options: RoutingOptions) -> RoutingProblem }` (`@MainActor`, reads `connectivity()`, `netRows`-style keys, `netClass`, `effectiveLayers`, `group`): scope and include, existing copper, components from `BoardConnectivity.root`, obstacles from every pad (plated pads carry their net; non-plated holes and board holes net nil), the outline, planes, rules from `DesignRules.current()` (a parameter `rules:` with that default so tests pass `.customDefault`). (Clearing needs the components of the copper that stays, so `connectivity()` gained `excludingTraces:excludingVias:`; the problem is built from that second connectivity, whose net numbers equal the first's, both coming from the schematic's netlist.)
+- [x] Edge fingers and header pads are obstacles with their net and flagged `exemptFromEdge` (the router must not apply the copper-to-edge keep-out to them, as `checkEdge`).
+- [x] Tests: `schematicalTests/RoutingProblemTests.swift` — per fixture with `.all`: net and connection counts of § 1; `.nets([one GND key])` gives 1 net; `.footprints([U1])` gives exactly the nets on U1's pads; `.clearAuto` on a document with one auto and one hand trace lists only the auto one in `removedTraces`; a locked auto trace is kept; `.untouchedNets` skips a net that has a trace; a net class's width and a Top-only rule appear in `RoutingNet`; an Only {Top} net with a Bottom SMD pad is `impossible`; `.connection` names two components of one net. (Plus: the same problem twice is equal; overrides never go below the DRC's minimum; obstacles carry nets and the outline.) — `-only-testing:RoutingProblemTests -only-testing:FixtureTests` → 12 tests, 0 failures, `** TEST SUCCEEDED **`; census AFU 53 / 115, LFU 59 / 188, RegFile 8 / 24.
 
 Acceptance: all cases pass on the fixtures.
   Check: `-only-testing:schematicalTests/RoutingProblemTests -only-testing:schematicalTests/FixtureTests` → `** TEST SUCCEEDED **` (est. 2 min).

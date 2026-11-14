@@ -40,8 +40,13 @@ extension SchematicDocument {
     }
 
     /// The board's copper and which of it is joined (see `BoardConnectivity`).
-    /// `drawing`, a trace not added yet, counts as the last trace.
-    func connectivity(drawing: BoardTrace? = nil) -> BoardConnectivity {
+    /// `drawing`, a trace not added yet, counts as the last trace. Traces
+    /// and vias in `excludingTraces` / `excludingVias` are left out, as if
+    /// deleted (the router's view after clearing copper).
+    func connectivity(drawing: BoardTrace? = nil, excludingTraces: Set<UUID> = [],
+                      excludingVias: Set<UUID> = []) -> BoardConnectivity {
+        let traces = excludingTraces.isEmpty ? self.traces : self.traces.filter { !excludingTraces.contains($0.id) }
+        let vias = excludingVias.isEmpty ? self.vias : self.vias.filter { !excludingVias.contains($0.id) }
         let netlist = NetlistBuilder.build(chips: chips, wires: wires, buses: buses, labels: netLabels)
         // The card edge is a hidden port on its bus: pin i is the bus's wire
         // i, on whatever net that wire's port pins are wired into.
