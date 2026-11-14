@@ -170,9 +170,10 @@ gap, maxUncoupled, maxMeander }`.
 
 ### Phase 1 — fixtures and the DRC golden (before any move)
 
-- [ ] Copy `planning/plan-38-data/fixtures/*.schematical` to `schematical/schematicalTests/Fixtures/`; `schematicalTests/FixtureSupport.swift`: `enum Fixture { static func open(_ name: String) throws -> SchematicDocument }` reading `URL(fileURLWithPath: #filePath).deletingLastPathComponent().appendingPathComponent("Fixtures/\(name).schematical")` and `SchematicFile.decode(...).apply(to:catalog: TestSupport.catalog, fileURL: nil)`.
-- [ ] `schematicalTests/FixtureTests.swift`: sha256 of each file equals `planning/plan-38-data/fixtures/SHA256SUMS`; `ratsnest().count` is 115 / 188 / 24.
-- [ ] `schematicalTests/DesignRuleGoldenTests.swift`: for each fixture, `designRuleCheck(rules: .customDefault)` rendered one line per issue as `"\(index)\t\(reference)\t\(issue)"`, compared to `Fixtures/drc-<name>.txt`; generate the three `.txt` files **at this commit, before Phase 2** (first run writes them; commit them).
+- [x] Copy `planning/plan-38-data/fixtures/*.schematical` to `schematical/schematicalTests/Fixtures/`; `schematicalTests/FixtureSupport.swift`: `enum Fixture { static func open(_ name: String) throws -> SchematicDocument }` reading `URL(fileURLWithPath: #filePath).deletingLastPathComponent().appendingPathComponent("Fixtures/\(name).schematical")` and `SchematicFile.decode(...).apply(to:catalog: TestSupport.catalog, fileURL: nil)`.
+- [x] `schematicalTests/FixtureTests.swift`: sha256 of each file equals `planning/plan-38-data/fixtures/SHA256SUMS`; `ratsnest().count` is 115 / 188 / 24.
+- [x] `schematicalTests/DesignRuleGoldenTests.swift`: for each fixture, `designRuleCheck(rules: .customDefault)` rendered one line per issue as `"\(index)\t\(reference)\t\(issue)"`, compared to `Fixtures/drc-<name>.txt`; generate the three `.txt` files **at this commit, before Phase 2** (first run writes them; commit them). — 131 / 188 / 32 lines (the spike's DRC counts). Plus a fourth golden, `drc-AFU-copper.txt` (125 lines), see Corrections.
+- [x] (added) `drc-AFU-copper.txt`: AFU with deterministic copper (`DesignRuleGoldenTests.afuWithCopper`), so the gate reaches the geometry Phase 2 moves. — `-only-testing:FixtureTests -only-testing:DesignRuleGoldenTests` → first run writes the golden and fails by design, second run `** TEST SUCCEEDED **` (3 tests, 0 failures).
 
 Acceptance: fixtures match their hashes and counts; the DRC golden passes against itself.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p38-dd test -only-testing:schematicalTests/FixtureTests -only-testing:schematicalTests/DesignRuleGoldenTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 2 min; the spike's `DumpScene`, which ran connectivity, ratsnest and one DRC on all three fixtures, took 0.697 s).
@@ -222,7 +223,20 @@ See plan-38-A § Decisions. Author decisions: clear applies to in-scope nets onl
 
 ## Corrections
 
-(Filled in during execution.)
+- **The Phase 2 gate was too weak as written.** The three fixtures have no
+  traces and no vias (spike README: "0 traces, 0 vias"), so their DRC output
+  is only "Unrouted" and silkscreen lines (`cut -f3 drc-RegFile.txt | sort |
+  uniq -c`: 24 Unrouted, 8 Reference over pad). The clearance, short, edge and
+  via checks, which are exactly the `nearPairs` / distance code Phase 2 moves,
+  never run on them, so "the goldens would fail if `CopperGeometry` changed a
+  gap by 0.0001 mm" (Validation Plan) was false. Strengthened: a fourth golden,
+  `drc-AFU-copper.txt`, from AFU plus deterministic copper (a straight trace
+  along each of its first 60 unrouted lines, alternating Top/Bottom, 5–30 mil;
+  a via at every fourth line's midpoint; a trace along the top edge; one
+  0.15 / 0.3 mm via). Its 125 lines include "Clearance … min …", "Copper
+  touches copper of another net", "Copper … from the board edge", four short
+  circuits, "Goes nowhere" and "Drill 0.15 mm under the 0.2 mm minimum".
+  Generated at this commit, before the move; it passed a second run unchanged.
 
 ## Summary
 

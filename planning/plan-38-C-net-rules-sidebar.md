@@ -153,7 +153,7 @@ Commit: 3a9129d1
 
 Acceptance: as listed.
   Check: `-only-testing:schematicalTests/TraceToolTests -only-testing:schematicalTests/ViaTests -only-testing:schematicalTests/NetRulesTests` → `** TEST SUCCEEDED **` (est. 2 min).
-Commit: —
+Commit: dc056468
 
 ## Validation Plan
 
