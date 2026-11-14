@@ -65,8 +65,6 @@ private struct DesignRuleChecker {
     static let outlineWidth = 0.15
     /// The pin-1 mark's diameter.
     static let pin1Diameter = 0.4
-    /// A footprint's reference is drawn 1 mm tall.
-    static let referenceHeight = 1.0
     /// A board text's strokes, as a share of its size (the system font at
     /// medium weight).
     static let textStrokeShare = 0.1
@@ -667,8 +665,8 @@ private struct DesignRuleChecker {
                                 side: placement.side, owner: chip.reference, what: "Pin-1 mark", items: items))
             }
             if placement.reference == .silkscreen {
-                if Self.referenceHeight < rules.minSilkscreenHeight - Self.tolerance { shortReferences.append(chip) }
-                let size = Self.referenceSize(chip.reference)
+                if BoardReference.height < rules.minSilkscreenHeight - Self.tolerance { shortReferences.append(chip) }
+                let size = BoardReference.size(of: chip.reference)
                 let rect = CGRect(x: body.rect.midX - size.width / 2, y: body.rect.midY - size.height / 2,
                                   width: size.width, height: size.height)
                 inks.append(Ink(shape: Shape(core: .rect(rect), radius: 0, layers: nil, node: -1),
@@ -682,7 +680,7 @@ private struct DesignRuleChecker {
         }
         if !shortReferences.isEmpty {
             add(.silkscreen, list(shortReferences.map(\.reference), limit: 6),
-                "Reference text \(mm(Self.referenceHeight)) tall; min silkscreen text height \(mm(rules.minSilkscreenHeight))",
+                "Reference text \(mm(BoardReference.height)) tall; min silkscreen text height \(mm(rules.minSilkscreenHeight))",
                 Set(shortReferences.map { .footprint($0.id) }))
         }
         for text in texts where text.layer == .silkscreen {
@@ -746,12 +744,6 @@ private struct DesignRuleChecker {
                       CGPoint(x: rect.maxX, y: rect.maxY), CGPoint(x: rect.minX, y: rect.maxY)]
         }
         return Array(zip(points, points.dropFirst() + points.prefix(1)))
-    }
-
-    /// A reference's box at 1 mm, in the PCB page's font.
-    static func referenceSize(_ reference: String) -> CGSize {
-        let size = (reference as NSString).size(withAttributes: [.font: NSFont.systemFont(ofSize: 100, weight: .medium)])
-        return CGSize(width: size.width / 100 * referenceHeight, height: size.height / 100 * referenceHeight)
     }
 
     // MARK: Solder mask

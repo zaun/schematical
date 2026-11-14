@@ -24,8 +24,6 @@ enum GerberExport {
     static let outlineWidth = 0.15
     /// The pin-1 dot's diameter (mm).
     static let pin1Diameter = 0.4
-    /// A footprint reference's font size (mm), as on screen at full zoom.
-    static let referenceSize = 1.0
     /// The board outline's line width in the profile file (mm).
     static let profileWidth = 0.1
 
@@ -244,7 +242,7 @@ enum GerberExport {
         return GerberOutline.glyphs(reference, font: font) { size in
             var t = CGAffineTransform(translationX: centre.x, y: centre.y)
             if mirrored { t = t.scaledBy(x: -1, y: 1) }
-            return t.scaledBy(x: referenceSize / points, y: referenceSize / points)
+            return t.scaledBy(x: BoardReference.height / points, y: BoardReference.height / points)
                 .translatedBy(x: -size.width / 2, y: -size.height / 2)
         }
     }

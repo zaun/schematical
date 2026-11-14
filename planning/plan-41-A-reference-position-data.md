@@ -36,8 +36,8 @@ B points here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p41-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | NOT MET (not run; run it first) |
-| No other plan is rewriting the reference drawing | `git log --oneline -5 -- schematical/schematical/Canvas/PCBCanvasView.swift schematical/schematical/Document/GerberExport.swift` shows no commit named for a plan other than plan-41 since this plan's date | NOT MET (not run) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p41-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-14: `** BUILD SUCCEEDED **`) |
+| No other plan is rewriting the reference drawing | `git log --oneline -5 -- schematical/schematical/Canvas/PCBCanvasView.swift schematical/schematical/Document/GerberExport.swift` shows no commit named for a plan other than plan-41 since this plan's date | MET (2026-11-14: newest commit on those files is 4059af27 "PCB: hovering a pad…", not a plan) |
 
 Everything below is written against the world where these hold.
 
@@ -195,24 +195,24 @@ round-trips byte for byte.
 Adds the field, the inverse, the shared size and the document functions. No
 caller draws it yet, so it lands alone.
 
-- [ ] `Canvas/BoardModel.swift`: add `referenceOffset` to `BoardPlacement`;
+- [x] `Canvas/BoardModel.swift`: add `referenceOffset` to `BoardPlacement`;
       add `local(_:)` (§ 4); add `enum BoardReference { static let height =
       1.0; static func size(of:height:) }` (the measure from
       DesignRuleCheck.swift:752, scaled to `height`); add `PlacedChip`
       `boardReferenceCentre: CGPoint?` (`board.board(board.referenceOffset)`)
       and `boardReferenceRect(height:) -> CGRect?`.
-- [ ] `Canvas/SchematicModel.swift`: add `moveReference(_ id: UUID, toCentre
+- [x] `Canvas/SchematicModel.swift`: add `moveReference(_ id: UUID, toCentre
       point: CGPoint)` (`recordEdit(.pcb, "Move Reference")`; snap `point` to
       `board.traceGrid` with `BoardGrid.snap`; `local`; round to 0.0001; no
       change when equal) and `resetReference(_ id: UUID)`
       (`recordEdit(.pcb, "Reset Reference")`). Neither checks `locked`.
-- [ ] `Canvas/SchematicModel.swift`: clear `referenceOffset` in
+- [x] `Canvas/SchematicModel.swift`: clear `referenceOffset` in
       `setPartFootprint`, `setFootprintStyle` and `setHeaderSize` (after the
       chip is resized), inside their existing `recordEdit`.
-- [ ] `DesignRuleCheck/DesignRuleCheck.swift`: delete `referenceHeight` and
+- [x] `DesignRuleCheck/DesignRuleCheck.swift`: delete `referenceHeight` and
       `referenceSize(_:)`; use `BoardReference`. `Document/GerberExport.swift`:
       delete `referenceSize`; use `BoardReference.height`.
-- [ ] Tests: new `schematicalTests/ReferencePositionTests.swift`:
+- [x] Tests: new `schematicalTests/ReferencePositionTests.swift`:
       `local` inverts `board` for every rotation (0/90/180/270) × side
       (top/bottom) on a non-square footprint; `moveReference` snaps to the
       trace grid and survives rotation (the reference's board centre moves with
@@ -222,6 +222,7 @@ caller draws it yet, so it lands alone.
       footprint; one undo step named "Move Reference", redo too.
 
 Acceptance: those tests pass.
+  Result: `** TEST SUCCEEDED **`; ReferencePositionTests 11, DesignRuleCheckTests 16, GerberExportTests 9 → 36 tests, 0 failures.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p41-dd test -only-testing:schematicalTests/ReferencePositionTests -only-testing:schematicalTests/DesignRuleCheckTests -only-testing:schematicalTests/GerberExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 8 min: build plus three test classes; the two existing classes prove the zero-offset output is unchanged).
 Commit: —
 
