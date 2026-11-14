@@ -2835,6 +2835,48 @@ final class SchematicDocument {
         return nil
     }
 
+    /// The pad under a board point (mm) and what to call it, for the PCB
+    /// page's hover label: a part's pad ("U3.5 A0"; "U3.5" when the pin's
+    /// name is just its number; "U3 centre pad" for an unnumbered one), or a
+    /// card's connector pin ("Edge.13 A0", with the edge bus's wire name) or
+    /// named header pad off the bus. Top before Bottom; a pad that
+    /// isn't drawn can't be hit.
+    func padLabel(at point: CGPoint, visible: BoardVisibility = BoardVisibility()) -> (pad: PlacedPad, label: String)? {
+        func hits(_ pad: PlacedPad) -> Bool {
+            guard pad.rect.contains(point) else { return false }
+            guard pad.shape == .round else { return true }
+            let dx = (point.x - pad.rect.midX) / (pad.rect.width / 2)
+            let dy = (point.y - pad.rect.midY) / (pad.rect.height / 2)
+            return dx * dx + dy * dy <= 1
+        }
+        for side in [BoardSide.top, .bottom] {
+            for chip in chips.reversed() where chip.board?.side == side {
+                guard let pad = chip.boardPads.last(where: {
+                    $0.plated && visible.showsPad(drill: $0.drill, side: side) && hits($0)
+                }) else { continue }
+                guard let designator = pad.designator else { return (pad, "\(chip.reference) centre pad") }
+                let name = chip.part.pins.first { $0.designator == designator }?.name ?? ""
+                let label = "\(chip.reference).\(designator)"
+                return (pad, name.isEmpty || name == designator ? label : "\(label) \(name)")
+            }
+        }
+        let named = (board.fingers + board.extraPads).filter { !$0.name.isEmpty }
+        guard let finger = named.last(where: {
+            visible.showsPad(drill: $0.drill, side: $0.side) && hits($0.pad)
+        }) else { return nil }
+        // A connector pin is named like a part's pad ("Edge.13"); one on the
+        // bus also shows the edge bus's wire of the same position
+        // (`BoardSettings.pinNames`), as "Edge.13 A0".
+        guard board.fingers.contains(finger) else { return (finger.pad, finger.name) }
+        let label = "\(board.connectorName).\(finger.name)"
+        if let busID = edgeBusID, let bus = bus(busID),
+           let index = board.pinNames.firstIndex(of: finger.name), index < bus.wires.count {
+            let wire = bus.wires[index].name
+            if !wire.isEmpty, wire != finger.name { return (finger.pad, "\(label) \(wire)") }
+        }
+        return (finger.pad, label)
+    }
+
 
     // MARK: Traces (PCB)
 

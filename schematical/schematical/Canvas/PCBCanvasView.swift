@@ -40,6 +40,9 @@ import SwiftUI
 /// lines between their pads (`SchematicDocument.ratsnest`), over the marks.
 /// While a trace is drawn, its net's line runs from the trace's end.
 ///
+/// Hovering a drawn pad outlines it and shows its name beside the pointer
+/// (`SchematicDocument.padLabel`), except during a move, pan or box.
+///
 /// Board positions are millimetres; the view draws `BoardScale.pointsPerMM`
 /// world units per mm and the viewport maps world units to the screen.
 struct PCBCanvasView: View {
@@ -70,6 +73,8 @@ struct PCBCanvasView: View {
     @State private var interaction: Interaction?
     /// Where the pointer is (board mm), for the Trace tool's landing ring.
     @State private var hoverPoint: CGPoint?
+    /// Where the pointer is on screen, for the pad label beside it.
+    @State private var hoverLocation: CGPoint?
     /// Where the current press started, in screen points.
     @State private var pressLocation: CGPoint = .zero
     /// What the current press did to the selection; a click finishes it.
@@ -130,6 +135,13 @@ struct PCBCanvasView: View {
                 SelectionBox(from: pressLocation, to: to)
             }
         }
+        .overlay(alignment: .topLeading) {
+            if let hovered = hoveredPad, let location = hoverLocation {
+                PadLabel(text: hovered.label)
+                    .offset(x: location.x + 14, y: location.y + 14)
+                    .allowsHitTesting(false)
+            }
+        }
         .contentShape(Rectangle())
         .clipped()
         .onGeometryChange(for: CGSize.self) { proxy in
@@ -146,9 +158,11 @@ struct PCBCanvasView: View {
             switch phase {
             case let .active(location):
                 hoverPoint = board(location)
+                hoverLocation = location
                 pointer?.point = hoverPoint
             case .ended:
                 hoverPoint = nil
+                hoverLocation = nil
                 pointer?.point = nil
             }
         }
@@ -191,6 +205,17 @@ struct PCBCanvasView: View {
         }
         interaction = .drawTrace(draft: next, cursor: cursor)
         return true
+    }
+
+    /// The pad under the pointer and its name, while nothing is being
+    /// dragged (a trace being drawn still shows it, at its end).
+    private var hoveredPad: (pad: PlacedPad, label: String)? {
+        switch interaction {
+        case nil, .drawTrace?: break
+        default: return nil
+        }
+        guard let hoverPoint else { return nil }
+        return document.padLabel(at: hoverPoint, visible: shown)
     }
 
     /// A screen point in board millimetres.
@@ -280,6 +305,11 @@ struct PCBCanvasView: View {
         drawTraceTool(in: &context)
         // An export has no pointer and no selection.
         guard !exporting else { return }
+
+        // The hovered pad's outline (its name shows beside the pointer).
+        if let hovered = hoveredPad {
+            context.stroke(Self.outline(of: hovered.pad), with: .color(.white.opacity(0.9)), lineWidth: 1.5 / scale)
+        }
 
         // Selection boxes, one per selected item that is drawn, on top of
         // everything. A selected item on a hidden layer stays selected.
@@ -680,6 +710,21 @@ struct PCBCanvasView: View {
         selectionPress = nil
         interaction = nil
         if document.isGestureOpen { document.endGesture() }
+    }
+}
+
+/// The hovered pad's name, in a small tag beside the pointer.
+private struct PadLabel: View {
+    let text: String
+
+    var body: some View {
+        Text(text)
+            .font(.system(size: 11, weight: .medium))
+            .foregroundStyle(.white)
+            .padding(.horizontal, 5)
+            .padding(.vertical, 2)
+            .background(Color.black.opacity(0.75), in: RoundedRectangle(cornerRadius: 4))
+            .fixedSize()
     }
 }
 
