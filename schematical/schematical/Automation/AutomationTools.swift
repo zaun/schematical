@@ -349,7 +349,7 @@ enum AutomationGuide {
 
     Schematic coordinates: canvas units, y grows DOWN, a 10-unit grid (positions snap). Parts are placed and \
     moved by their centre. A typical part is 40–120 units wide (a 14-pin DIP is ~120x290); leave ~100 units \
-    between parts. A part's size is in get_design. Wires take the shortest right-angle route and do NOT avoid \
+    between parts. A part's size and bounds, every wire's route and every label's and note's bounds are in get_design; get_design with geometry=true adds each pin's tip. Wires take the shortest right-angle route and do NOT avoid \
     parts: a wire that crosses a part's pins looks (and reads) like a short even though the netlist is right. \
     Place parts so the L-shapes are clear, or pass connect `via` waypoints to go around. Check with render.
 

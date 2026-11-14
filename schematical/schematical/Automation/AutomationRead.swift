@@ -12,14 +12,19 @@ extension AutomationTools {
     static let readTools: [AutomationTool] = [
         AutomationTool(
             name: "get_design",
-            summary: "The whole schematic: every part (reference, part number, centre, size, PCB placement, "
-                + "pins with * on wired ones), wires, net labels, notes, buses. Use format=json for structured data.",
-            properties: ["format": Schema.string("text (default) or json", options: ["text", "json"])],
+            summary: "The whole schematic: every part (reference, part number, centre, size, bounds, PCB placement, "
+                + "pins with * on wired ones), wires with their routes, junctions, net labels and notes with their "
+                + "bounds, buses with their ports. geometry=true adds every pin's tip (where a wire meets it) and "
+                + "side, and the pin tips of bus ports. format=json always has pin tips.",
+            properties: [
+                "format": Schema.string("text (default) or json", options: ["text", "json"]),
+                "geometry": Schema.boolean("Text: add pin tips and sides, bus port pin tips (default false)"),
+            ],
             readOnly: true,
             run: { context, args in
                 let context = context!
                 return try args.choice("format", among: ["text", "json"], default: "text") == "json"
-                    ? Out.json(designJSON(context)) : Out.text(designText(context))
+                    ? Out.json(designJSON(context)) : Out.text(designText(context, geometry: args.optBool("geometry") == true))
             }),
         AutomationTool(
             name: "get_nets",
@@ -101,7 +106,17 @@ extension AutomationTools {
         return parts.joined(separator: " ")
     }
 
-    private static func designText(_ context: AutomationContext) -> String {
+    /// "(x1,y1)-(x2,y2)": a rectangle's corners.
+    private static func box(_ rect: CGRect) -> String {
+        "(\(num(rect.minX)),\(num(rect.minY)))-(\(num(rect.maxX)),\(num(rect.maxY)))"
+    }
+
+    /// A part's body with its pin stubs, in canvas units.
+    private static func bounds(of chip: PlacedChip) -> CGRect {
+        CGRect(origin: chip.origin, size: chip.layout.size)
+    }
+
+    private static func designText(_ context: AutomationContext, geometry: Bool) -> String {
         let document = context.document
         var out = ["WINDOW \(context.shortID)  parts=\(document.chips.count) wires=\(document.wires.count)"
                    + (document.isPlaying ? "  SIMULATION RUNNING (read-only)" : "")]
@@ -110,11 +125,16 @@ extension AutomationTools {
             let wired = document.connectedPins[chip.id] ?? []
             let size = chip.layout.size
             let centre = context.centre(of: chip)
-            let pins = chip.part.pins.filter { !$0.isHidden }.map {
-                "\($0.designator):\($0.name)\(wired.contains($0.index) ? "*" : "")"
+            let pins = chip.part.pins.filter { !$0.isHidden }.map { pin -> String in
+                var text = "\(pin.designator):\(pin.name)\(wired.contains(pin.index) ? "*" : "")"
+                if geometry, let slot = chip.layout.slots.first(where: { $0.pin.index == pin.index }) {
+                    let tip = chip.tip(of: slot)
+                    text += "@(\(num(tip.x)),\(num(tip.y)))\(slot.side)"
+                }
+                return text
             }.joined(separator: " ")
             var line = "\(chip.reference) \(chip.part.name) centre=(\(num(centre.x)),\(num(centre.y))) "
-                + "size=\(num(size.width))x\(num(size.height))"
+                + "size=\(num(size.width))x\(num(size.height)) body=\(box(bounds(of: chip)))"
             if let board = chip.board {
                 line += " pcb=(\(num(board.centre.x)),\(num(board.centre.y)))mm rot=\(board.rotation) \(board.side.rawValue)"
                     + (board.locked ? " locked" : "")
@@ -140,13 +160,14 @@ extension AutomationTools {
         if !document.netLabels.isEmpty {
             out.append("NET LABELS")
             for label in document.netLabels {
-                out.append("\(context.short(label.id))  \(label.name) \(label.style.rawValue) at (\(num(label.origin.x)),\(num(label.origin.y)))")
+                out.append("\(context.short(label.id))  \(label.name) \(label.style.rawValue) point=(\(num(label.origin.x)),\(num(label.origin.y)))"
+                           + " runs \(label.isFlipped ? "left" : "right") bounds=\(box(label.rect))")
             }
         }
         if !document.notes.isEmpty {
             out.append("NOTES")
             for note in document.notes {
-                out.append("\(context.short(note.id))  at (\(num(note.origin.x)),\(num(note.origin.y))): "
+                out.append("\(context.short(note.id))  bounds=\(box(note.rect)) size \(note.size): "
                            + note.text.replacingOccurrences(of: "\n", with: " ⏎ "))
             }
         }
@@ -158,11 +179,22 @@ extension AutomationTools {
                     .joined(separator: " ")
                 out.append("\(bus.name): wires \(wires); lines \(lines); ports \(bus.ports.count)")
                 for (index, port) in bus.ports.enumerated() {
-                    out.append("  port \(index + 1): \(describe(port, in: bus))")
+                    var line = "  port \(index + 1): \(describe(port, in: bus))"
+                    if geometry {
+                        let tips = bus.wires.compactMap { wire in
+                            bus.pinTip(port, wire: wire.id).map { "\(wire.name)@(\(num($0.x)),\(num($0.y)))" }
+                        }
+                        line += "; pin tips " + tips.joined(separator: " ")
+                    }
+                    out.append(line)
                 }
             }
         }
         return out.joined(separator: "\n")
+    }
+
+    private static func rectJSON(_ rect: CGRect) -> [String: Double] {
+        ["x1": rect.minX, "y1": rect.minY, "x2": rect.maxX, "y2": rect.maxY]
     }
 
     private static func designJSON(_ context: AutomationContext) -> [String: Any] {
@@ -175,9 +207,13 @@ extension AutomationTools {
                 "x": centre.x, "y": centre.y,
                 "width": chip.layout.size.width, "height": chip.layout.size.height,
                 "flipped": chip.isFlipped,
+                "bounds": rectJSON(bounds(of: chip)),
                 "pins": chip.part.pins.filter { !$0.isHidden }.map { pin -> [String: Any] in
                     var entry: [String: Any] = ["designator": pin.designator, "name": pin.name,
                                                 "wired": wired.contains(pin.index)]
+                    if let slot = chip.layout.slots.first(where: { $0.pin.index == pin.index }) {
+                        entry["side"] = "\(slot.side)"
+                    }
                     if let tip = document.pinTip(PinRef(chipID: chip.id, index: pin.index)) {
                         entry["x"] = tip.x
                         entry["y"] = tip.y
@@ -198,18 +234,32 @@ extension AutomationTools {
         return [
             "window": context.shortID,
             "parts": parts,
-            "wires": document.wires.map {
-                ["id": context.short($0.id), "from": context.endName($0.start), "to": context.endName($0.end)]
+            "wires": document.wires.map { wire in
+                ["id": context.short(wire.id), "from": context.endName(wire.start), "to": context.endName(wire.end),
+                 "route": document.path(forWire: wire.id).map { [$0.x, $0.y] }] as [String: Any]
+            },
+            "junctions": document.junctions.map {
+                ["id": context.short($0.id), "x": $0.point.x, "y": $0.point.y, "loose": $0.isLoose] as [String: Any]
             },
             "labels": document.netLabels.map {
                 ["id": context.short($0.id), "name": $0.name, "style": $0.style.rawValue,
-                 "x": $0.origin.x, "y": $0.origin.y] as [String: Any]
+                 "x": $0.origin.x, "y": $0.origin.y, "flipped": $0.isFlipped,
+                 "bounds": rectJSON($0.rect)] as [String: Any]
             },
             "notes": document.notes.map {
-                ["id": context.short($0.id), "text": $0.text, "x": $0.origin.x, "y": $0.origin.y] as [String: Any]
+                ["id": context.short($0.id), "text": $0.text, "x": $0.origin.x, "y": $0.origin.y,
+                 "size": $0.size, "framed": $0.framed, "bounds": rectJSON($0.rect)] as [String: Any]
             },
-            "buses": document.buses.map {
-                ["name": $0.name, "wires": $0.wires.map(\.name), "ports": $0.ports.count] as [String: Any]
+            "buses": document.buses.map { bus in
+                ["name": bus.name, "wires": bus.wires.map(\.name),
+                 "lines": bus.lines.map { [[$0.a.x, $0.a.y], [$0.b.x, $0.b.y]] },
+                 "ports": bus.ports.enumerated().map { index, port -> [String: Any] in
+                     ["number": index + 1, "side": "\(port.side)",
+                      "bounds": bus.body(of: port).map(rectJSON) as Any,
+                      "pins": bus.wires.compactMap { wire -> [String: Any]? in
+                          bus.pinTip(port, wire: wire.id).map { ["wire": wire.name, "x": $0.x, "y": $0.y] }
+                      }]
+                 }] as [String: Any]
             },
         ]
     }

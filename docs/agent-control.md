@@ -54,7 +54,7 @@ tools say so; nothing else depends on it.
 Every tool except the few marked *(no window)* takes an optional `window`
 (an id from `list_windows`; the frontmost window by default).
 
-**Read** — `get_design` (text, or `format=json`), `get_nets`,
+**Read** — `get_design` (text, or `format=json`; `geometry=true` adds pin tips), `get_nets`,
 `search_parts`*(no window)*, `get_part`*(no window)*, `get_selection`,
 `get_board`, `run_drc`, `render` (schematic, pcb, front, back; `region`
 crops to zoom in).

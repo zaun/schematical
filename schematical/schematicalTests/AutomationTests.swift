@@ -344,6 +344,13 @@ final class AutomationTests: XCTestCase {
         XCTAssertEqual(doc.wires.count, 1)
         let design = await call("get_design", id, [:])
         XCTAssertTrue(design.text.contains("via ("), design.text)
+        XCTAssertTrue(design.text.contains("bounds=("), "labels, notes and parts show their extent: " + design.text)
+        XCTAssertFalse(design.text.contains("@("), "pin tips only on request")
+        let geometry = await call("get_design", id, ["geometry": true])
+        let tip = doc.pinTip(PinRef(chipID: doc.chips[0].id, index: doc.chips[0].part.pins.first { $0.name == "A" }!.index))!
+        XCTAssertTrue(geometry.text.contains("@(\(Int(tip.x)),\(Int(tip.y)))"), geometry.text)
+        let json = await call("get_design", id, ["format": "json"])
+        XCTAssertTrue(json.text.contains("\"route\"") && json.text.contains("\"bounds\""), json.text)
     }
 
     func testEditingAnExistingBus() async {
