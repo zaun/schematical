@@ -27,7 +27,7 @@ plan-39-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-39-B complete | `grep -c 'activeLowMask' schematical/schematical/Backend/PartCatalog.swift` → ≥ 1, and B's phases are ticked | MET (2026-11-14: 4; B archived, all ticked) |
+| plan-39-B complete | `grep -c 'activeLowMask' schematical/schematical/Backend/PartCatalog.swift` → ≥ 1, and B's phases are ticked | MET (2026-11-14: 5; B archived, all ticked) |
 
 Everything below is written against the world where these hold.
 
@@ -149,17 +149,17 @@ kerning drift. *Making `activeLow` a `Text` attribute* — SwiftUI has none.
 Acceptance: the text model and SVG are right; unflagged SVG is unchanged.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p39-dd test -only-testing:schematicalTests/PinNameTextTests -only-testing:schematicalTests/SVGPainterTests -only-testing:schematicalTests/SchematicSVGTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min; the SVG suites prove the unflagged path did not move).
   Observed 2026-11-14: PinNameTextTests 7, SVGPainterTests 8, SchematicSVGTests 6 — `Executed 21 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: —
+Commit: 02cd6b14
 
 ### Phase 2 — the screen painter and the three views
 
-- [ ] `SchematicPainter.swift` `ScreenPainter.draw`: draw the overlines
-      (§ 3).
-- [ ] `ChipBlockView.swift:109`, `SevenSegmentSymbolView.swift:81`,
+- [x] `SchematicPainter.swift` `ScreenPainter.draw`: draw the overlines
+      (§ 3). — done: `drawOverlines`, through `self.stroke`
+- [x] `ChipBlockView.swift:109`, `SevenSegmentSymbolView.swift:81`,
       `CharacterLCDSymbolView.swift:83`: build the name with
       `slot.pin.paintedName(…)` (same size, weight, monospaced and ink as
       today).
-- [ ] Tests: `schematicalTests/PinNameOverlineTests.swift` (new):
+- [x] Tests: `schematicalTests/PinNameOverlineTests.swift` (new):
       (a) with a painter the test file defines (it records every
       `PaintedText` passed to `draw`; `RecordingPainter` records only the
       kind and ink), paint a flagged block chip with `ChipBlockView.paint`
@@ -168,11 +168,12 @@ Commit: —
       draws `ScreenPainter` text `"OE"` (monospaced, 10 pt) once plain and
       once with `overlines: [0..<2]`; the differing pixels' bounding box is
       ≥ 90 % of the text's measured width, ≤ 4 px tall, and lies entirely
-      above the topmost glyph-ink row of the plain render.
+      above the topmost glyph-ink row of the plain render. — done: (a) `testBlockChipPaintsOverlinedNames` + `testShippedSRAMIsOverlined` (AS6C1008-55PCN: CE/OE/WE overlined, no `#`), (b) `testOverlinePixels`; 3 tests
 
 Acceptance: a flagged pin draws an overline of the right width above the
 glyphs; an unflagged one is unchanged.
   Check: `xcodebuild … test -only-testing:schematicalTests/PinNameOverlineTests -only-testing:schematicalTests/SchematicSceneTests -only-testing:schematicalTests/PartPreviewTests` → `** TEST SUCCEEDED **` (est. 6 min).
+  Observed 2026-11-14: PinNameOverlineTests 3, SchematicSceneTests 9, PartPreviewTests 1 — `Executed 13 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 Commit: —
 
 ### Phase 3 — seen in the real app

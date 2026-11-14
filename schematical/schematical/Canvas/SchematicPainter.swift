@@ -177,6 +177,33 @@ nonisolated struct ScreenPainter: SchematicPainter {
     mutating func draw(_ text: PaintedText, at point: CGPoint, anchor: UnitPoint) {
         guard let resolved = self.text(text) else { return }
         context.draw(resolved, at: point, anchor: anchor)
+        if !text.overlines.isEmpty { drawOverlines(text, at: point, anchor: anchor) }
+    }
+
+    /// A bar over each overlined range (plan-39-C § 3): measured from the
+    /// resolved text, 0.72 em (the cap height) plus 1.5 pt above the
+    /// baseline, in the text's ink.
+    private mutating func drawOverlines(_ text: PaintedText, at point: CGPoint, anchor: UnitPoint) {
+        let unbounded = CGSize(width: CGFloat.greatestFiniteMagnitude, height: .greatestFiniteMagnitude)
+        func resolve(_ string: String) -> GraphicsContext.ResolvedText {
+            var piece = text
+            piece.string = string
+            return context.resolve(self.text(piece) ?? Text(string))
+        }
+        let full = resolve(text.string)
+        let size = full.measure(in: unbounded)
+        let left = point.x - size.width * anchor.x
+        let top = point.y - size.height * anchor.y
+        let y = top + full.firstBaseline(in: unbounded) - 0.72 * text.size - 1.5
+        let lineWidth = max(0.75, text.size / 10)
+        for range in text.overlines {
+            let start = left + resolve(text.substring(0..<range.lowerBound)).measure(in: unbounded).width
+            let width = resolve(text.substring(range)).measure(in: unbounded).width
+            var bar = Path()
+            bar.move(to: CGPoint(x: start, y: y))
+            bar.addLine(to: CGPoint(x: start + width, y: y))
+            stroke(bar, with: text.ink, lineWidth: lineWidth)
+        }
     }
 
     mutating func translateBy(x: CGFloat, y: CGFloat) {
