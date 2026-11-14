@@ -190,7 +190,7 @@ Commit: be81b8d7
 
 Acceptance: every gate row shows its expected value; the real-app steps all
 behave as written.
-Commit: — (recorded in the merge)
+Commit: 13baca63
 
 ## Validation Plan
 
