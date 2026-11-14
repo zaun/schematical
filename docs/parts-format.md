@@ -93,7 +93,7 @@ parts that share them.
 | `"id"` | identifier, unique among the devices of the kind |
 | `"function"` | the parts-drawer leaf, e.g. `"NAND"`, `"32 KB"`, `"LED"` |
 | `"description"` | one line for people, e.g. `"Quad 2-input NAND gate"` |
-| `"drawer"` | the parts-drawer path above the function: 0–2 strings, e.g. `["Memory", "SRAM"]`. `[]` means the parts are never listed in the drawer (VCC, GND). Presentation only. |
+| `"drawer"` | the parts-drawer path above the function: 0–3 strings (category, group, sub-group), e.g. `["Memory", "SRAM"]` or `["Discrete", "Resistors", "Chip"]`; the function is the level below the last one (`"1 kΩ – 5 kΩ"`). Paths of different depths can share a group: `GENERIC-RESISTOR`'s `["Discrete", "Resistors"]` lists its function `"Generic"` beside the Array / Chip / Through-hole sub-groups. More than 3 is `"drawer" has at most 3 levels`. `[]` means the parts are never listed in the drawer (VCC, GND). Presentation only. |
 | `"note"` | optional; provenance (datasheet, table). The loader ignores it. |
 | `"simulated"` | optional, default `true`. `false` marks a device with no simulation model: its parts can be placed, wired, laid out and listed in the BOM, but a circuit refuses them (`circuit_add_part`: `part "<name>" is not simulated`), so a design holding one does not run. Any kind may set it; an `mcu` device must. |
 | `"pinouts"` | object: pinout name → array of pins (below); at least one |
