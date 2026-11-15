@@ -289,7 +289,7 @@ Acceptance: the skip list is complete and the footprint lines are final.
   Result (2026-11-15, after the land-pattern skips of Corrections 11): `726 skip rows in 65 table
   rows`; `0 skip rows missing from skipped-parts.md`; `grep -vc '^#' footprints-needed.txt` → `135`
   (C 20, D 56, E 59).
-Commit: (this commit)
+Commit: 39fbc0e6
 
 ## Validation Plan
 
