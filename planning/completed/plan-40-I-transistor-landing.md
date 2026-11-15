@@ -46,7 +46,7 @@ Every gate of Phase 1's table shows its expected value in one run.
 
 - [x] Run every gate of the table on a fresh build dir (`/tmp/logic-p40-land`)
       and record the observed values here (after merging main, cdba8815).
-- [x] Mark `- [ ] Add BJTs (2N3904, 2N3906, BC547…) and MOSFETs (2N7000, logic-level
+- [x] Mark the `Add BJTs (2N3904, 2N3906, BC547…) and MOSFETs (2N7000, logic-level
       N-channel), top 3 manufacturers.` done (`[x]`) in `planning/todo.md`,
       touching only that line.
 - [x] Move `plan-40-A` … `plan-40-I` to `planning/completed/` (A–H are archived as
@@ -88,7 +88,7 @@ commits — plans 38 and 41 — none touching the goldens, part files or `backen
 Acceptance: every gate's observed value matches.
   Check: the table's commands (est. 45 min: the fresh backend build, the app
   tests and the harness; this is the plan's one landing run).
-Commit: (this commit)
+Commit: 5494fd09
 
 ## Validation Plan
 
