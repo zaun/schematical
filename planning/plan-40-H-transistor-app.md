@@ -49,10 +49,10 @@ plan-40-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-40-G complete | `ls planning/completed/plan-40-G-*.md` → exists | NOT MET (G not started) |
-| The generics and the parts are loaded | `grep -c '^GENERIC-NPN|transistor|' backend/tests/golden/parts.txt` → 1; `grep -c '|transistor|' backend/tests/golden/parts.txt` → N + 4 | NOT MET (G not started) |
-| The editor's kind lists name the kind (G Phase 1) | `grep -c '"transistor"' schematical/schematical/Editor/KindSchema.swift` → at least 2 | NOT MET (G not started) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p40-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET at 943924ba (plan-40-A) |
+| plan-40-G complete | `ls planning/completed/plan-40-G-*.md` → exists | MET (2026-11-15: archived, b6ece0b9) |
+| The generics and the parts are loaded | `grep -c '^GENERIC-NPN|transistor|' backend/tests/golden/parts.txt` → 1; `grep -c '|transistor|' backend/tests/golden/parts.txt` → N + 4 | MET (2026-11-15: 1; 1246 = 1242 + 4) |
+| The editor's kind lists name the kind (G Phase 1) | `grep -c '"transistor"' schematical/schematical/Editor/KindSchema.swift` → at least 2 | MET (2026-11-15: 2) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p40-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-15: `** BUILD SUCCEEDED **` with G's parts) |
 
 Everything below is written against the world where these hold.
 
@@ -184,23 +184,30 @@ Commit: c20f84c2
 
 ### Phase 2 — Drawer order, BOM, generics
 
-- [ ] No sort code: the drawer sorts leaves by `localizedStandardCompare`
+- [x] No sort code: the drawer sorts leaves by `localizedStandardCompare`
       (`functionGroups`), which orders G's `function` strings as the Goal
       lists them (`Array`, `NPN`, `NPN Darlington`, `NPN pre-biased`, `PNP`, …;
       `Array`, `N-channel`, `N-channel logic-level`, `P-channel`, …); Phase 3's
       `TransistorTests` pins that order.
-- [ ] `BillOfMaterialsWindow.swift`: no transistor branch is needed (the
+- [x] `BillOfMaterialsWindow.swift`: no transistor branch is needed (the
       generic line applies); a test pins it (Phase 3).
-- [ ] The generics' footprint picker: the five choices appear in G's order
+- [x] The generics' footprint picker: the five choices appear in G's order
       (`TO-92` first) and `setPartFootprint` saves the choice.
 
 Acceptance: the drawer and the picker are right.
   Check: the Phase 3 tests for the drawer and the picker (est. 5 min).
-Commit: —
+  Result (2026-11-15): `TransistorTests` `testDrawer` (BJT leaves `Array, NPN, NPN Darlington, NPN
+  pre-biased, PNP, PNP Darlington, PNP pre-biased`; MOSFET `Array, N-channel, N-channel
+  logic-level, P-channel, P-channel logic-level`; `Generic` beside them), `testBillOfMaterials`
+  (two TO-92 GENERIC-NPN share a line, value empty; the SOT-23 one its own),
+  `testPlacingTheGenericNPN` (choices `TO-92, SOT-23, SOT-223, TO-220, DPAK`) and
+  `testFootprintChoiceRoundTrip` (SOT-23 kept after save and reopen) pass. No code: the drawer,
+  BOM and picker needed none.
+Commit: (this commit)
 
 ### Phase 3 — Tests and the harness
 
-- [ ] `schematical/schematicalTests/TransistorTests.swift` (as `ResistorTests`):
+- [x] `schematical/schematicalTests/TransistorTests.swift` (as `ResistorTests`):
       `GENERIC-NPN` placed → `Q1`, footprint `TO-92`, choices 5; a second
       transistor and a third → `Q2`, `Q3`; `kindName` and facts of `2N3904`, a
       logic-level MOSFET, a pre-biased part (R1/R2 rows) and a dual array;
@@ -210,8 +217,8 @@ Commit: —
       `GENERIC-NPN` on `TO-92` share a line, one on `SOT-23` is its own;
       choosing `SOT-23` and saving then reopening restores it; every pin of
       every placed kind has a layout slot.
-- [ ] `PartEditorWindowTests` unchanged and passing (G Phase 1 edited it).
-- [ ] `scripts/harness/transistor-app.swift` (as `resistor-app.swift`):
+- [x] `PartEditorWindowTests` unchanged and passing (G Phase 1 edited it).
+- [x] `scripts/harness/transistor-app.swift` (as `resistor-app.swift`):
       § 1's harness checks; the LED runs in the real `SimulationController`
       (each its own 0.6 s document run, as `diode-app.swift`): `GENERIC-NPN`
       low-side (collector to the LED's cathode, the LED's anode to VCC through
@@ -222,7 +229,14 @@ Commit: —
 
 Acceptance: the tests pass and the harness prints `all checks ok`.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p40-dd test -only-testing:schematicalTests/TransistorTests -only-testing:schematicalTests/PartEditorWindowTests -only-testing:schematicalTests/BillOfMaterialsTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **`; `APP=/tmp/p40-dd/Build/Products/Debug/schematical.app scripts/harness/build.sh scripts/harness/transistor-app.swift /tmp/p40-harness && /tmp/p40-harness/H.app/Contents/MacOS/harness` → `all checks ok`, exit 0 (est. 15 min: the harness build is the slow part; nothing smaller runs the app's catalog code and the backend together).
-Commit: —
+  Result (2026-11-15): `Executed 10 tests, with 0 failures` (TransistorTests), 22 (BillOfMaterialsTests),
+  8 (PartEditorWindowTests) → `** TEST SUCCEEDED **`; the harness prints `all checks ok` (the drawer;
+  2N3904BU, IRLML6244TRPBF, BC846SZ kind / symbol / facts; GENERIC-NPN `Q1` on `TO-92`; the NPN low
+  side lit on PULLUP-5V and dark on PULLDOWN; the PMOS high side lit; `/tmp/p40/p40-symbols.png` and
+  `p40-sidebar.png` looked at: the NPN with its emitter arrow out, the N-channel MOSFET with the body
+  arrow in, the part names beside them, the array a block with B1 B2 / C1 C2 E1 E2; the sidebar shows
+  Kind Transistor, Function, Package, Footprint and the ratings).
+Commit: (this commit)
 
 ## Validation Plan
 
@@ -264,6 +278,12 @@ Commit: —
    is 80 × 60 so a part name fits between the right-hand leads. The new
    `TransistorSymbolView.swift` needs no project-file edit (folder-synced
    groups).
+3. **Tests find most parts by their facts.** `TransistorTests` uses the
+   named parts the final pick holds (2N3904BU, IRLML6244TRPBF, BC846SZ,
+   2N7000) and finds a pre-biased part, a Darlington, a complementary pair
+   and a `G,D,S,D` tab part by their `TransistorInfo`, so a later pick
+   change does not break them; the BOM test's partner uses
+   `GENERIC-NPN` only (no value column, as § 3).
 
 ## Summary
 
