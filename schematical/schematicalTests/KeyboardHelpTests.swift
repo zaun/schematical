@@ -32,7 +32,8 @@ final class KeyboardHelpTests: XCTestCase {
 
     func testPCBKeys() {
         let keys = keys(.pcb)
-        for key in ["⌘R", "⇧⌘R", "A", "⌘A", "⌘X", "⌘C", "⌘V", "⌘⌫", "Space", "/", "Esc", "⇧⌘D", "⌘?"] {
+        for key in ["⌘R", "⇧⌘R", "A", "⌘A", "⌘X", "⌘C", "⌘V", "⌘⌫", "Space", "/", "Esc", "⇧⌘D", "⌘?",
+                    "⌘-drag a reference", "⌥⌘R", "⌥⇧⌘R", "⌥⌘U", "Route", "V", "Trace assist"] {
             XCTAssertTrue(keys.contains(key), key)
         }
         XCTAssertFalse(keys.contains("⌘F"))

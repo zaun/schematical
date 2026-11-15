@@ -17,6 +17,9 @@ nonisolated struct BoardTrace: Identifiable, Hashable, Sendable {
     var points: [CGPoint]
     /// Locked: dragging leaves it where it is.
     var locked = false
+    /// Put down by the autorouter, so Clear can take only its copper away.
+    /// A trace the user draws or pastes is never auto.
+    var auto = false
 
     static let widthRange = 5...100
     static let defaultWidth = 10
@@ -156,6 +159,24 @@ nonisolated struct TraceDraft: Equatable {
         TraceRoute.simplified([start] + legs.flatMap { $0 } + liveLeg(to: end, angle: angle))
     }
 
+    /// The whole trace with `leg` (from `legStart`, which it includes) as
+    /// the live leg: the Trace assist's leg (plan-38-L).
+    func path(through leg: [CGPoint]) -> [CGPoint] {
+        let locked: [CGPoint] = [start] + legs.flatMap { $0 }
+        return TraceRoute.simplified(locked + Array(leg.dropFirst()))
+    }
+
+    /// Locks `leg` (from `legStart`, which it includes) as the next leg.
+    /// Returns false, and changes nothing, when it goes nowhere.
+    @discardableResult
+    mutating func lock(leg: [CGPoint]) -> Bool {
+        let rest = Array(leg.dropFirst())
+        guard let end = rest.last, !TraceRoute.same(end, legStart) else { return false }
+        legs.append(rest)
+        flipped = false
+        return true
+    }
+
     mutating func flip() {
         flipped.toggle()
     }
@@ -233,6 +254,8 @@ nonisolated struct BoardVia: Identifiable, Hashable, Sendable {
     var diameter: Double = BoardVia.defaultDiameter
     /// Locked: dragging and the sidebar's X and Y leave it where it is.
     var locked = false
+    /// Put down by the autorouter (see `BoardTrace.auto`).
+    var auto = false
 
     static let defaultDrill = 0.4
     static let defaultDiameter = 0.8

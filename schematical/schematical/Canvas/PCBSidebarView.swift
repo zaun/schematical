@@ -9,6 +9,10 @@ import SwiftUI
 /// top sets the units of every length field.
 struct PCBSidebarView: View {
     @Bindable var document: SchematicDocument
+    /// The net the Nets section highlights on the canvas (window state).
+    var highlightedNet: Binding<PlaneNet?> = .constant(nil)
+    /// Routes a net from its row (Route Net).
+    var onRoute: (RoutingOptions.Scope) -> Void = { _ in }
 
     /// What the inspector shows.
     enum Content: Equatable {
@@ -96,6 +100,7 @@ struct PCBSidebarView: View {
                 }
                 LayersSection(document: document)
                 PlanesSection(document: document)
+                NetSections(document: document, highlightedNet: highlightedNet, onRoute: onRoute)
             }
         }
         .formStyle(.grouped)
@@ -693,6 +698,7 @@ private struct ViaPanel: View {
             }
             .help("The copper left round the hole, each side")
             LabeledContent("Layers", value: "Through, all \(document.board.layers)")
+            NetAndClassRows(document: document) { document.net(ofVia: via.id, in: $0) }
         }
         Section("Connections") {
             let joined = document.traces(touching: via)
@@ -843,6 +849,7 @@ struct TracePanel: View {
             }
             .pickerStyle(.menu)
             LockToggle(document: document, item: .trace(trace.id))
+            NetAndClassRows(document: document) { document.net(ofTrace: trace.id, in: $0) }
         }
 
         Section("Connects") {
@@ -874,6 +881,20 @@ struct TracePanel: View {
 
     private func showWidth() {
         width = String(document.traces.first { $0.id == trace.id }?.width ?? trace.width)
+    }
+}
+
+/// A selected trace's or via's net and that net's class, read-only.
+private struct NetAndClassRows: View {
+    let document: SchematicDocument
+    let net: (BoardConnectivity) -> Int?
+
+    var body: some View {
+        let copper = document.connectivity()
+        let names = document.netAndClassNames(ofNet: net(copper), in: copper)
+        LabeledContent("Net", value: names.net)
+        LabeledContent("Class", value: names.netClass)
+            .help("New copper on the net takes its class's width and via")
     }
 }
 
@@ -956,6 +977,9 @@ private struct FootprintPanel: View {
             markPicker("Bounding Box", placement.outline) { document.setFootprintMarks(chip.id, outline: $0) }
             markPicker("Pin 1", placement.pin1) { document.setFootprintMarks(chip.id, pin1: $0) }
             markPicker("Reference", placement.reference) { document.setFootprintMarks(chip.id, reference: $0) }
+            if placement.referenceOffset != .zero {
+                Button("Reset Reference Position") { document.resetReference(chip.id) }
+            }
         }
     }
 

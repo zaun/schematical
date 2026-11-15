@@ -138,6 +138,10 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         var side: String? = nil
         /// True when its position is locked; left out otherwise.
         var locked: Bool? = nil
+        /// The reference text's centre, mm from the body centre in the
+        /// footprint's own frame; written only when not zero, missing is 0.
+        var refX: Double? = nil
+        var refY: Double? = nil
     }
 
     /// The PCB: size in mm, copper layers, colour and sidebar units (raw
@@ -189,6 +193,53 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         /// Drilled holes, in drawing order. Written only when there are
         /// some; missing means none.
         var holes: [HoleEntry]? = nil
+        /// Net classes, in priority order. Written only when there are
+        /// some; missing means none (every net in the Default class).
+        var netClasses: [NetClassEntry]? = nil
+
+        /// A net class: its name, trace width in mil, clearance in mm
+        /// (missing means the DRC's minimum), via hole and metal in mm, and
+        /// its nets (`PlaneNet.fileValue` each).
+        struct NetClassEntry: Codable, Equatable, Sendable {
+            var id: UUID
+            var name: String
+            var width: Int
+            var clearance: Double? = nil
+            var viaDrill: Double
+            var viaDiameter: Double
+            var members: [String]
+            /// The class's layer rule (`LayerRuleMode` raw value) and its
+            /// layers (`CopperLayer` raw values); both missing means none.
+            var layerMode: String? = nil
+            var layers: [String]? = nil
+        }
+        /// Per-net layer rules, before the net's class's. Written only
+        /// when there are some.
+        var netLayerRules: [NetLayerRuleEntry]? = nil
+        /// Net groups. Written only when there are some.
+        var netGroups: [NetGroupEntry]? = nil
+
+        /// One net's layer rule: the net (`PlaneNet.fileValue`), the mode
+        /// and the layers.
+        struct NetLayerRuleEntry: Codable, Equatable, Sendable {
+            var net: String
+            var mode: String
+            var layers: [String]
+        }
+
+        /// A net group: its mode (`NetGroupMode` raw value), members
+        /// (`PlaneNet.fileValue` each) and sizes in mm; missing sizes are
+        /// the defaults.
+        struct NetGroupEntry: Codable, Equatable, Sendable {
+            var id: UUID
+            var name: String
+            var mode: String
+            var members: [String]
+            var tolerance: Double? = nil
+            var gap: Double? = nil
+            var maxUncoupled: Double? = nil
+            var maxMeander: Double? = nil
+        }
 
         /// A drilled hole: its centre, size (`HoleSize` raw value, default
         /// "m3"), hole (`drill`) and land (`diameter`) in mm, whether it is
@@ -218,6 +269,8 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
             var diameter: Double? = nil
             /// True when its position is locked; left out otherwise.
             var locked: Bool? = nil
+            /// True when the autorouter put it down; left out otherwise.
+            var auto: Bool? = nil
         }
 
         /// A trace: its copper layer (`CopperLayer` raw value), width in
@@ -229,6 +282,8 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
             var points: [Point]
             /// True when its position is locked; left out otherwise.
             var locked: Bool? = nil
+            /// True when the autorouter put it down; left out otherwise.
+            var auto: Bool? = nil
         }
 
         /// A copper layer's colour ("#RRGGBB") and type (`LayerType` raw
@@ -604,7 +659,9 @@ extension SchematicFile {
                               origin: $0.origin.rawValue, outline: $0.outline.rawValue,
                               pin1: $0.pin1.rawValue, reference: $0.reference.rawValue,
                               style: chip.part.connectorFootprint == nil ? nil : $0.style.rawValue,
-                              side: $0.side.rawValue, locked: $0.locked ? true : nil)
+                              side: $0.side.rawValue, locked: $0.locked ? true : nil,
+                              refX: $0.referenceOffset.x == 0 ? nil : Double($0.referenceOffset.x),
+                              refY: $0.referenceOffset.y == 0 ? nil : Double($0.referenceOffset.y))
                 },
                 memoryFile: chip.memoryFile.map {
                     MemoryFileEntry(path: MemoryFileAccess.path(of: $0.url, schematic: fileURL),
@@ -681,16 +738,34 @@ extension SchematicFile {
             traces: document.traces.map { trace in
                 Board.TraceEntry(id: trace.id, layer: trace.layer.rawValue, width: trace.width,
                                  points: trace.points.map { Point(x: $0.x, y: $0.y) },
-                                 locked: trace.locked ? true : nil)
+                                 locked: trace.locked ? true : nil, auto: trace.auto ? true : nil)
             },
             vias: document.vias.isEmpty ? nil : document.vias.map { via in
                 Board.ViaEntry(id: via.id, x: via.centre.x, y: via.centre.y, drill: via.drill, diameter: via.diameter,
-                               locked: via.locked ? true : nil)
+                               locked: via.locked ? true : nil, auto: via.auto ? true : nil)
             },
             holes: document.holes.isEmpty ? nil : document.holes.map { hole in
                 Board.HoleEntry(id: hole.id, x: hole.centre.x, y: hole.centre.y, size: hole.size.rawValue,
                                 drill: hole.drill, diameter: hole.diameter, plated: hole.plated ? true : nil,
                                 net: hole.net?.fileValue, locked: hole.locked ? true : nil)
+            },
+            netClasses: settings.netClasses.isEmpty ? nil : settings.netClasses.map { netClass in
+                Board.NetClassEntry(id: netClass.id, name: netClass.name, width: netClass.width,
+                                    clearance: netClass.clearance, viaDrill: netClass.viaDrill,
+                                    viaDiameter: netClass.viaDiameter, members: netClass.members.map(\.fileValue),
+                                    layerMode: netClass.layerRule?.mode.rawValue,
+                                    layers: netClass.layerRule?.layers.map(\.rawValue))
+            },
+            netLayerRules: settings.netOverrides.isEmpty ? nil : settings.netOverrides.compactMap { entry in
+                entry.layerRule.map {
+                    Board.NetLayerRuleEntry(net: entry.net.fileValue, mode: $0.mode.rawValue,
+                                            layers: $0.layers.map(\.rawValue))
+                }
+            },
+            netGroups: settings.netGroups.isEmpty ? nil : settings.netGroups.map { group in
+                Board.NetGroupEntry(id: group.id, name: group.name, mode: group.mode.rawValue,
+                                    members: group.members.map(\.fileValue), tolerance: group.tolerance, gap: group.gap,
+                                    maxUncoupled: group.maxUncoupled, maxMeander: group.maxMeander)
             }
         )
     }
@@ -990,7 +1065,7 @@ extension SchematicFile {
             let via = BoardVia(id: entry.id, centre: CGPoint(x: entry.x, y: entry.y),
                                drill: entry.drill ?? BoardVia.defaultDrill,
                                diameter: entry.diameter ?? BoardVia.defaultDiameter,
-                               locked: entry.locked ?? false)
+                               locked: entry.locked ?? false, auto: entry.auto ?? false)
             if let problem = BoardVia.problem(drill: via.drill, diameter: via.diameter) {
                 throw SchematicFileError.badPCB("\(name) \(problem)")
             }
@@ -1118,6 +1193,9 @@ extension SchematicFile {
             settings.grid = grid
         }
         settings.styles = try Self.layerStyles(board.layerStyles ?? [], layers: settings.layers)
+        settings.netClasses = try Self.netClasses(board.netClasses ?? [])
+        settings.netOverrides = try Self.netOverrides(board.netLayerRules ?? [])
+        settings.netGroups = try Self.netGroups(board.netGroups ?? [])
         settings.type = try Self.value(board.type, of: BoardType.self, "board type", default: .custom)
         settings.edgeBus = board.edgeBus
         if let entry = board.card { settings.customCard = Self.customCard(entry) }
@@ -1190,6 +1268,101 @@ extension SchematicFile {
         return styles
     }
 
+    /// The stored net classes, each checked (`NetClass.problem`), with no
+    /// id twice and every member a net name a Plane could have.
+    private static func netClasses(_ entries: [Board.NetClassEntry]) throws -> [NetClass] {
+        var seen = Set<UUID>()
+        return try entries.map { entry in
+            let name = "net class \(entry.id.uuidString)"
+            guard seen.insert(entry.id).inserted else { throw SchematicFileError.badPCB("\(name) is listed twice") }
+            if let problem = NetClass.problem(width: entry.width, clearance: entry.clearance, viaDrill: entry.viaDrill,
+                                              viaDiameter: entry.viaDiameter, name: entry.name) {
+                throw SchematicFileError.badPCB("\(name) \(problem)")
+            }
+            let members = try entry.members.map { try Self.member($0, name) }
+            var rule: LayerRule?
+            if entry.layerMode != nil || entry.layers != nil {
+                guard let mode = entry.layerMode, let layers = entry.layers else {
+                    throw SchematicFileError.badPCB("\(name) needs both layerMode and layers, or neither")
+                }
+                rule = try Self.layerRule(mode: mode, layers: layers, name)
+            }
+            return NetClass(id: entry.id, name: entry.name, width: entry.width, clearance: entry.clearance,
+                            viaDrill: entry.viaDrill, viaDiameter: entry.viaDiameter, members: members,
+                            layerRule: rule)
+        }
+    }
+
+    /// A stored net name (`PlaneNet.fileValue`) of `owner`.
+    private static func member(_ raw: String, _ owner: String) throws -> PlaneNet {
+        guard let net = PlaneNet(fileValue: raw) else {
+            throw SchematicFileError.badPCB(
+                "\(owner) member \"\(raw)\" must be ground, power:<mV> or pin:<part id>/<pin>")
+        }
+        return net
+    }
+
+    /// A stored layer rule of `owner`. A layer not on the board is kept
+    /// (it is the user's, as a layer style is); a name that is no layer
+    /// is an error.
+    private static func layerRule(mode raw: String, layers: [String], _ owner: String) throws -> LayerRule {
+        guard let mode = LayerRuleMode(rawValue: raw) else {
+            throw SchematicFileError.badPCB("\(owner) layer mode \"\(raw)\" must be only or prefer")
+        }
+        guard !layers.isEmpty else { throw SchematicFileError.badPCB("\(owner) layer rule has no layers") }
+        var seen: [CopperLayer] = []
+        for value in layers {
+            guard let layer = CopperLayer(rawValue: value) else {
+                throw SchematicFileError.badPCB("\(owner) layer \"\(value)\" must be top, inner2 to inner5, or bottom")
+            }
+            if !seen.contains(layer) { seen.append(layer) }
+        }
+        return LayerRule(mode: mode, layers: seen)
+    }
+
+    /// The stored per-net layer rules, one per net.
+    private static func netOverrides(_ entries: [Board.NetLayerRuleEntry]) throws -> [NetOverride] {
+        var result: [NetOverride] = []
+        for entry in entries {
+            let name = "net layer rule \"\(entry.net)\""
+            guard let net = PlaneNet(fileValue: entry.net) else {
+                throw SchematicFileError.badPCB("\(name) net must be ground, power:<mV> or pin:<part id>/<pin>")
+            }
+            guard !result.contains(where: { $0.net == net }) else {
+                throw SchematicFileError.badPCB("\(name) is listed twice")
+            }
+            result.append(NetOverride(net: net, layerRule: try Self.layerRule(mode: entry.mode, layers: entry.layers, name)))
+        }
+        return result
+    }
+
+    /// The stored net groups, each checked (`NetGroup.problem`), with no id
+    /// twice and no net in two groups.
+    private static func netGroups(_ entries: [Board.NetGroupEntry]) throws -> [NetGroup] {
+        var seen = Set<UUID>()
+        var grouped = Set<PlaneNet>()
+        return try entries.map { entry in
+            let name = "net group \(entry.id.uuidString)"
+            guard seen.insert(entry.id).inserted else { throw SchematicFileError.badPCB("\(name) is listed twice") }
+            guard let mode = NetGroupMode(rawValue: entry.mode) else {
+                throw SchematicFileError.badPCB("\(name) mode \"\(entry.mode)\" must be lengthMatch or diffPair")
+            }
+            var group = NetGroup(id: entry.id, name: entry.name, mode: mode)
+            group.tolerance = entry.tolerance ?? group.tolerance
+            group.gap = entry.gap ?? group.gap
+            group.maxUncoupled = entry.maxUncoupled ?? group.maxUncoupled
+            group.maxMeander = entry.maxMeander ?? group.maxMeander
+            group.members = try entry.members.map { try Self.member($0, name) }
+            if let problem = group.problem { throw SchematicFileError.badPCB("\(name) \(problem)") }
+            for (raw, net) in zip(entry.members, group.members) {
+                guard grouped.insert(net).inserted else {
+                    throw SchematicFileError.badPCB("\(name) member \"\(raw)\" is in another group")
+                }
+            }
+            return group
+        }
+    }
+
     /// A stored trace, checked against the board's layers.
     private static func boardTrace(_ entry: Board.TraceEntry, settings: BoardSettings) throws -> BoardTrace {
         let name = "trace \(entry.id.uuidString)"
@@ -1210,7 +1383,8 @@ extension SchematicFile {
         if let problem = TraceRoute.problem(points) {
             throw SchematicFileError.badPCB("\(name) \(problem)")
         }
-        return BoardTrace(id: entry.id, layer: layer, width: width, points: points, locked: entry.locked ?? false)
+        return BoardTrace(id: entry.id, layer: layer, width: width, points: points, locked: entry.locked ?? false,
+                          auto: entry.auto ?? false)
     }
 
     /// A stored footprint placement, with defaults for missing keys.
@@ -1227,6 +1401,13 @@ extension SchematicFile {
                                              default: placement.reference)
         placement.side = try Self.value(pcb.side, of: BoardSide.self, "\(reference) side", default: placement.side)
         placement.locked = pcb.locked ?? false
+        let limit = BoardSettings.sizeRange.upperBound
+        for (key, value) in [("refX", pcb.refX), ("refY", pcb.refY)] {
+            if let value, !(abs(value) <= limit) {
+                throw SchematicFileError.badPCB("\(reference) \(key) \(value) must be within \(Int(limit)) mm")
+            }
+        }
+        placement.referenceOffset = CGPoint(x: pcb.refX ?? 0, y: pcb.refY ?? 0)
         return placement
     }
 

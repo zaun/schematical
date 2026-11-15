@@ -41,6 +41,9 @@ enum PreferenceKey {
     /// A security-scoped bookmark of the folder agents may open and save in
     /// (`AutomationFolder`).
     static let automationFolder = "automationFolder"
+    /// The last Autoroute options, as JSON (`RoutingOptions`, scope left
+    /// out: it comes from the selection each time).
+    static let autorouteOptions = "autorouteOptions"
 }
 
 /// Settings ▸ General Defaults ▸ Names: how net label and bus wire names

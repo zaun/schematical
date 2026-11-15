@@ -127,7 +127,7 @@ An EEPROM can name the file loaded into it when the simulation starts:
 | `x`, `y`     | number  | Top-left corner of the part body.                                       |
 | `flipped`    | boolean | Pins on the opposite sides. Ignored for the supplies.                   |
 | `switches`   | array of booleans | DIP switches only, optional: whether each position is ON, position 1 first. Missing positions are OFF; extra entries are ignored. Left out for other parts. A tactile switch never saves it (it starts released) and ignores it when read. |
-| `pcb`        | object  | Optional. The footprint on the PCB: `x`, `y` (numbers, mm) are the footprint's centre, `rotation` (integer) is 0, 90, 180 or 270 degrees clockwise. `origin` (string; a missing one is `"topLeft"`, as files from before origins were; parts placed in the app start as `"pad1Center"`) is the footprint's origin point (see [Coordinates](#coordinates)): `"center"`, `"topLeft"`, `"centerLeft"`, `"bottomLeft"` (of the bounding box as rotated) or `"pad1Center"` (the centre of the pad of the part's first pin). `outline` (the body outline, default `"document"`), `pin1` (the pin-1 dot, default `"silkscreen"`) and `reference` (the reference text, default `"silkscreen"`) say where each mark is drawn: `"hidden"`, `"document"` or `"silkscreen"`. The four strings are always written; a missing one takes its default. `style` (string, default `"module"`): `"module"` (Full Module) or `"connector"` (Connector Only), which of the part's two footprints is on the board. Written only for parts with a connector footprint (the character LCD modules); ignored on other parts. `side` (string, default `"top"`): `"top"` or `"bottom"`, the side of the board the footprint is on. A bottom footprint is drawn mirrored left to right about its body centre before it is turned, so `rotation` stays clockwise as seen from above; `x`, `y` stay the body centre. Always written; not allowed on a 1-layer board. Older builds ignore it and show the part unmirrored on top. `locked` (boolean, default `false`): the sidebar's Lock Position; a locked footprint can't be dragged, moved by X and Y, or rotated. Written only when `true`; older builds ignore it. Written for every part with a footprint, including the pull resistors; left out for VCC and GND, and ignored on a part without a footprint. A part with a footprint and no `pcb` (older files) is placed automatically when the file is opened: after the stored ones, in file order, each to the right of everything already placed. |
+| `pcb`        | object  | Optional. The footprint on the PCB: `x`, `y` (numbers, mm) are the footprint's centre, `rotation` (integer) is 0, 90, 180 or 270 degrees clockwise. `origin` (string; a missing one is `"topLeft"`, as files from before origins were; parts placed in the app start as `"pad1Center"`) is the footprint's origin point (see [Coordinates](#coordinates)): `"center"`, `"topLeft"`, `"centerLeft"`, `"bottomLeft"` (of the bounding box as rotated) or `"pad1Center"` (the centre of the pad of the part's first pin). `outline` (the body outline, default `"document"`), `pin1` (the pin-1 dot, default `"silkscreen"`) and `reference` (the reference text, default `"silkscreen"`) say where each mark is drawn: `"hidden"`, `"document"` or `"silkscreen"`. The four strings are always written; a missing one takes its default. `style` (string, default `"module"`): `"module"` (Full Module) or `"connector"` (Connector Only), which of the part's two footprints is on the board. Written only for parts with a connector footprint (the character LCD modules); ignored on other parts. `side` (string, default `"top"`): `"top"` or `"bottom"`, the side of the board the footprint is on. A bottom footprint is drawn mirrored left to right about its body centre before it is turned, so `rotation` stays clockwise as seen from above; `x`, `y` stay the body centre. Always written; not allowed on a 1-layer board. Older builds ignore it and show the part unmirrored on top. `locked` (boolean, default `false`): the sidebar's Lock Position; a locked footprint can't be dragged, moved by X and Y, or rotated. Written only when `true`; older builds ignore it. `refX`, `refY` (numbers, mm, each within 1000 mm; default 0) are where the reference text is centred, measured from the body centre in the footprint's own frame (before the side's mirror and the rotation), so the reference keeps its place on the part when it moves, turns or changes side. Each is written only when not 0; a missing one is 0, which is the body centre; older builds ignore them and draw the reference on the body centre. Written for every part with a footprint, including the pull resistors; left out for VCC and GND, and ignored on a part without a footprint. A part with a footprint and no `pcb` (older files) is placed automatically when the file is opened: after the stored ones, in file order, each to the right of everything already placed. |
 | `color`      | string  | Version 4. LEDs only (`GENERIC-LED`): one of the part's colors, `"Red"`, `"Green"`, `"Blue"`, `"Amber"` or `"White"`. Used by the symbol's glow in play mode. Always written for an LED; missing means the part's default (`Red`). Ignored on other parts. |
 | `footprint`  | string  | Version 4. Parts with footprint choices only (`GENERIC-LED`, the pull resistors `PULLUP-…`/`PULLDOWN` and the headers `GENERIC-HEADER-…`): the id of the chosen footprint, one of the part's `footprintChoices` (`docs/parts-format.md`), such as `"LED-0805"`, `"RES-0805"` or `"PINHDR-1X08-RA"`. The PCB uses it. Always written for those parts; missing means the part's default footprint (`LED-RADIAL-5MM` for the LED, `RES-RADIAL-2.54` for a pull resistor, the `-V` (Straight) footprint for a header). Ignored on other parts. |
 | `ohms`       | number  | Version 4. Pull resistors (`PULLUP-…`, `PULLDOWN`) and `GENERIC-RESISTOR` only: the resistance in ohms, more than 0 and at most 1e9 (1 GΩ), such as `4700`. Shown on the symbol and in the Bill of Materials; the simulation ignores it. Always written for those parts; missing means `1000`. Ignored on other parts (a maker resistor's value is its part's). An older version-4 build ignores it. |
@@ -163,6 +163,9 @@ An EEPROM can name the file loaded into it when the simulation starts:
 | `traces` | array   | Copper traces, in drawing order ([Traces](#traces)). Always written, `[]` when there are none; missing means none. Older builds ignore it. |
 | `vias`   | array   | Vias, in drawing order ([Vias](#vias)). Written only when there are some; missing means none. Older builds ignore it. |
 | `holes`  | array   | Drilled holes (mounting holes and others), in drawing order ([Holes](#holes)). Written only when there are some; missing means none. Older builds ignore it. |
+| `netClasses` | array | Net classes, in priority order ([Net classes](#net-classes)). Written only when there are some; missing means none, every net in the Default class. Older builds ignore it. |
+| `netLayerRules` | array | Layer rules set on single nets ([Net layer rules](#net-layer-rules)). Written only when there are some. Older builds ignore it. |
+| `netGroups` | array | Equal-length groups and differential pairs ([Net groups](#net-groups)). Written only when there are some. Older builds ignore it. |
 
 A missing key takes its default. A text:
 
@@ -191,6 +194,7 @@ A missing key takes its default. A text:
 | `width`  | integer | mil, 5 to 100. Default 10.                                           |
 | `points` | array   | `x`, `y` in mm. At least 2; no two consecutive points the same. Segments may run at any angle (the Trace tool draws 20°, 40°, 45°, 60°, 80° or 90° legs). Kept as saved, not snapped: a bend, a crossing of two diagonals, or a pad centre, can be off the grid. |
 | `locked` | boolean | Lock Position: a locked trace can't be dragged. Default `false`. Written only when `true`; older builds ignore it. |
+| `auto`   | boolean | Put down by the autorouter, so clearing autorouted copper removes it and leaves the user's own traces. Default `false`; a trace the user draws or pastes is never auto. Written only when `true`; older builds ignore it. |
 
 Traces that touch or cross on the same layer share a vertex at each contact
 point; that shared vertex is what connects them. Traces on different layers
@@ -213,6 +217,7 @@ overlaps. A 1-layer board has none.
 | `drill`    | number | The hole's diameter in mm, 0.1 to 5. Default 0.4.                  |
 | `diameter` | number | The metal's outer diameter in mm, 0.2 to 10, and at least 0.1 more than `drill` (a 0.05 mm ring). Default 0.8. |
 | `locked`   | boolean | Lock Position: a locked via can't be dragged or moved by X and Y. Default `false`. Written only when `true`; older builds ignore it. |
+| `auto`     | boolean | Put down by the autorouter, as a trace's `auto`. Default `false`. Written only when `true`; older builds ignore it. |
 
 ### Holes
 
@@ -240,6 +245,68 @@ of and above the hole. In lists it is `H1`, `H2`, … in drawing order.
 | `plated`   | boolean | A plated hole, with its land. Default `false`. Written only when `true`. |
 | `net`      | string  | The plated hole's net, as a Plane layer's (`"ground"`, `"power:<mV>"` or `"pin:<part UUID>/<designator>"`). Missing is none. Kept while not plated. |
 | `locked`   | boolean | Lock Position: a locked hole can't be dragged or moved by X and Y. Default `false`. Written only when `true`. |
+
+### Net classes
+
+```json
+"netClasses": [ { "id": "...", "name": "Power", "width": 24, "clearance": 0.3,
+                  "viaDrill": 0.5, "viaDiameter": 1, "members": [ "ground", "power:5000" ] } ]
+```
+
+A net class is a named set of routing rules shared by some nets: the width
+new traces on them get, the clearance they keep, and the via they use. A
+net is in the **first** class in the list any of whose members names it;
+a net in no class is in the implicit **Default** class (10 mil, the DRC's
+min clearance, a 0.4 / 0.8 mm via). Written only when there are some;
+older builds ignore it. What the router does with classes, layer rules and
+groups: [routing.md § Rules per net](routing.md#rules-per-net).
+
+| Field         | Type    | Meaning |
+|---------------|---------|---------|
+| `id`          | UUID    | Unique among the net classes. |
+| `name`        | string  | 1 to 40 characters, not blank. |
+| `width`       | integer | Trace width in mil, 5 to 100. |
+| `clearance`   | number  | mm, 0.05 to 10. Missing means the DRC's min clearance. |
+| `viaDrill`, `viaDiameter` | number | The via's hole and metal in mm, as a via's `drill` and `diameter` ([Vias](#vias)). |
+| `members`     | array   | The class's nets, each named as a Plane layer's `net` is: `"ground"`, `"power:<mV>"` or `"pin:<part UUID>/<designator>"` (the net that pin is wired into). A member that names no net any more is kept, and matches nothing. |
+| `layerMode`, `layers` | string, array | The class's layer rule, as a [net layer rule](#net-layer-rules)'s `mode` and `layers`. Both or neither; missing means any trace layer. |
+
+### Net layer rules
+
+```json
+"netLayerRules": [ { "net": "pin:...", "mode": "only", "layers": [ "top" ] } ]
+```
+
+A layer rule holds a net's copper to some layers. A net's own rule here
+comes before its class's; a net with neither may use every trace layer.
+
+| Field    | Type   | Meaning |
+|----------|--------|---------|
+| `net`    | string | The net, as a class member is named. Not listed twice. |
+| `mode`   | string | `"only"`: the net's copper may be only on `layers` (on one layer it gets no vias). `"prefer"`: any trace layer is allowed, but the router favours `layers`. |
+| `layers` | array  | Copper layers (`"top"`, `"inner2"` to `"inner5"`, `"bottom"`), at least one. A layer the board doesn't have, or that is a Plane, is kept and ignored while it is. |
+
+### Net groups
+
+```json
+"netGroups": [ { "id": "...", "name": "USB", "mode": "diffPair", "members": [ "pin:...", "pin:..." ],
+                 "tolerance": 0.25, "gap": 0.2, "maxUncoupled": 5, "maxMeander": 4 } ]
+```
+
+A net group is routed together: a length-match group's nets end within its
+tolerance of each other; a differential pair's two nets run side by side at
+its gap. A net is in at most one group.
+
+| Field          | Type   | Meaning |
+|----------------|--------|---------|
+| `id`           | UUID   | Unique among the groups. |
+| `name`         | string | 1 to 40 characters, not blank. |
+| `mode`         | string | `"lengthMatch"` or `"diffPair"`. |
+| `members`      | array  | The group's nets, as a class member is named. A pair has at most 2 (it is routed once it has 2). |
+| `tolerance`    | number | mm, 0.01 to 50: how far apart the members' lengths may end. Default 0.25. |
+| `gap`          | number | mm, 0.05 to 10, a pair's edge-to-edge gap. Default 0.2. |
+| `maxUncoupled` | number | mm, 0 to 50: how much of a pair may run apart near its pads. Default 5. |
+| `maxMeander`   | number | mm, 0.5 to 50: the largest sideways size one tuning bump may reach. Default 4. |
 
 ## Junctions
 

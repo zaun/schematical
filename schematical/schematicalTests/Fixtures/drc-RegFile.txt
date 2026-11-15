@@ -1,0 +1,32 @@
+1	LATCH1.19 – D1.2	Unrouted: no copper joins these pads
+2	D1.2 – OUTA1.2	Unrouted: no copper joins these pads
+3	OUTA1.2 – OUTB2.2	Unrouted: no copper joins these pads
+4	LATCH1.18 – D2.2	Unrouted: no copper joins these pads
+5	D2.2 – OUTA1.3	Unrouted: no copper joins these pads
+6	OUTA1.3 – OUTB2.3	Unrouted: no copper joins these pads
+7	LATCH1.17 – OUTA1.4	Unrouted: no copper joins these pads
+8	OUTA1.4 – D3.2	Unrouted: no copper joins these pads
+9	D3.2 – OUTB2.4	Unrouted: no copper joins these pads
+10	LATCH1.16 – OUTA1.5	Unrouted: no copper joins these pads
+11	OUTA1.5 – D4.2	Unrouted: no copper joins these pads
+12	D4.2 – OUTB2.5	Unrouted: no copper joins these pads
+13	LATCH1.15 – OUTA1.6	Unrouted: no copper joins these pads
+14	OUTA1.6 – OUTB2.6	Unrouted: no copper joins these pads
+15	OUTB2.6 – D5.2	Unrouted: no copper joins these pads
+16	LATCH1.14 – OUTA1.7	Unrouted: no copper joins these pads
+17	OUTA1.7 – OUTB2.7	Unrouted: no copper joins these pads
+18	OUTB2.7 – D6.2	Unrouted: no copper joins these pads
+19	LATCH1.13 – OUTA1.8	Unrouted: no copper joins these pads
+20	OUTA1.8 – OUTB2.8	Unrouted: no copper joins these pads
+21	OUTB2.8 – D7.2	Unrouted: no copper joins these pads
+22	LATCH1.12 – OUTA1.9	Unrouted: no copper joins these pads
+23	OUTA1.9 – OUTB2.9	Unrouted: no copper joins these pads
+24	OUTB2.9 – D8.2	Unrouted: no copper joins these pads
+25	D1	Reference over pad D1.1; min silkscreen to pad 0.1524 mm
+26	D2	Reference over pad D2.1; min silkscreen to pad 0.1524 mm
+27	D3	Reference over pad D3.1; min silkscreen to pad 0.1524 mm
+28	D4	Reference over pad D4.1; min silkscreen to pad 0.1524 mm
+29	D5	Reference over pad D5.1; min silkscreen to pad 0.1524 mm
+30	D6	Reference over pad D6.1; min silkscreen to pad 0.1524 mm
+31	D7	Reference over pad D7.1; min silkscreen to pad 0.1524 mm
+32	D8	Reference over pad D8.1; min silkscreen to pad 0.1524 mm

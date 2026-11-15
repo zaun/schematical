@@ -40,6 +40,12 @@ struct ContentView: View {
     /// so layers added later start shown. Per window; not saved.
     @State private var hiddenLayers: Set<BoardViewLayer> = []
     @State private var isLayerViewShown = false
+    /// The net the PCB sidebar's Nets section highlights on the canvas.
+    /// Per window; not saved, not undone.
+    @State private var highlightedNet: PlaneNet?
+    /// Route ▸ Autoroute…'s sheet, and its model (made on first use).
+    @State private var isAutorouteOpen = false
+    @State private var autoroute: AutorouteModel?
     /// The layer the PCB Trace tool draws on (the trace layer menu).
     @State private var traceLayer: CopperLayer = .top
     /// Whether the sidebar is shown: the parts drawer on the Schematic page,
@@ -79,6 +85,8 @@ struct ContentView: View {
     @State private var schematicPointer = BoardPointer()
     /// Simulation speed (circuit time per wall time), an app preference.
     @AppStorage("simulationSpeed") private var simulationSpeed = 1.0
+    /// The Trace tool's router assist (plan-38-L), off until turned on.
+    @AppStorage("traceAssist") private var traceAssist = false
     /// The supply the VCC tool places (a `SupplyChoice` name), an app preference.
     @AppStorage("supplyVoltage") private var supplyVoltage = SupplyChoice.defaultName
 
@@ -391,8 +399,15 @@ struct ContentView: View {
         case .pcb:
             PCBCanvasView(document: document, viewport: boardViewport, tool: pcbTool,
                           visible: BoardVisibility(hidden: hiddenLayers), traceLayer: traceLayer,
-                          traceAngle: traceAngle, onShowLayer: { hiddenLayers.remove(.copper($0)) },
-                          pointer: boardPointer) {
+                          traceAngle: traceAngle, traceAssist: traceAssist,
+                          onShowLayer: { hiddenLayers.remove(.copper($0)) },
+                          onLayerChange: { layer in
+                              traceLayer = layer
+                              hiddenLayers.remove(.copper(layer))
+                          },
+                          pointer: boardPointer, highlightedNet: $highlightedNet,
+                          routePreview: autoroute?.session.isRunning == true ? autoroute?.session.preview : nil,
+                          onRoute: route) {
                 // Placing a text returns to the Select tool.
                 pcbTool = .select
             }
@@ -425,6 +440,58 @@ struct ContentView: View {
             } message: {
                 Text("Every part gets its default prefix back (U, or R and C for resistors and capacitors) and is numbered again from 1, top to bottom and left to right. You can undo this.")
             }
+            .sheet(isPresented: $isAutorouteOpen) {
+                AutorouteSheet(model: autorouteModel, onClose: { isAutorouteOpen = false },
+                               onHighlight: { highlightedNet = $0 },
+                               onOpenDesignRuleCheck: {
+                                   isDesignRuleCheckOpen = true
+                                   openWindow(id: "drc", value: DesignRuleCheckTarget(sessionID: sessionID))
+                               })
+                .interactiveDismissDisabled(autoroute?.session.isRunning == true)
+            }
+            .focusedSceneValue(\.routeActions, RouteActions.available(page: page, isPlaying: document.isPlaying) ? routeActions : nil)
+    }
+
+    /// The window's Autoroute model, made the first time it is needed.
+    private var autorouteModel: AutorouteModel {
+        if let autoroute { return autoroute }
+        let model = AutorouteModel(document: document)
+        return model
+    }
+
+    /// Routes `scope` with the last Autoroute options, the sheet showing
+    /// the run (the Route tool, a Nets row's Route Net).
+    private func route(_ scope: RoutingOptions.Scope) {
+        guard !document.isPlaying, autoroute?.session.isRunning != true else { return }
+        let model = autorouteModel
+        autoroute = model
+        model.scopeChoice = .scope(scope)
+        isAutorouteOpen = true
+        model.route()
+    }
+
+    /// The Route menu's actions for this window (plan-38-K).
+    private var routeActions: RouteActions {
+        RouteActions(
+            autoroute: {
+                let model = autorouteModel
+                autoroute = model
+                model.scopeChoice = .all
+                isAutorouteOpen = true
+            },
+            routeSelected: {
+                let model = autorouteModel
+                autoroute = model
+                model.scopeChoice = .selection
+                isAutorouteOpen = true
+                model.route()
+            },
+            unrouteSelected: { document.unroute(nets: document.selectedNets(), onlyAuto: false) },
+            unrouteAllAutorouted: { document.unrouteAll(onlyAuto: true) },
+            selectAutorouted: { document.selectAutorouted() },
+            isRouting: autoroute?.session.isRunning == true,
+            hasSelection: !document.boardSelection.isEmpty
+        )
     }
 
     private var editor: some View {
@@ -436,7 +503,7 @@ struct ContentView: View {
                     SchematicSidebarView(catalog: catalog, document: document, simulation: simulation,
                                          isActive: page == .schematic)
                     if page == .pcb {
-                        PCBSidebarView(document: document)
+                        PCBSidebarView(document: document, highlightedNet: $highlightedNet, onRoute: route)
                     }
                 }
                 // macOS opens an inspector at its minimum width and ignores
@@ -508,6 +575,14 @@ struct ContentView: View {
                             }
                         }
                         .help("Layer for the Trace tool")
+
+                        // The Trace tool's router assist (plan-38-L), remembered.
+                        Toggle(isOn: $traceAssist) {
+                            Label("Assist", systemImage: "wand.and.rays")
+                        }
+                        .toggleStyle(.button)
+                        .labelStyle(.iconOnly)
+                        .help("Trace assist — walks around obstacles and stops at illegal routes")
                     }
                 }
 
@@ -520,6 +595,19 @@ struct ContentView: View {
                         }
                         .help("Rotate the selection 90° clockwise (⌘R; ⇧⌘R turns it the other way)")
                         .disabled(!canRotate)
+                    }
+                }
+
+                // Route ▸ Autoroute…'s sheet, from the toolbar too.
+                if page == .pcb {
+                    ToolbarItem(placement: .primaryAction) {
+                        Button {
+                            routeActions.autoroute()
+                        } label: {
+                            Label("Autoroute", systemImage: "point.topleft.down.curvedto.point.bottomright.up")
+                        }
+                        .help("Route the board's unrouted connections (⌥⌘R)")
+                        .disabled(document.isPlaying || autoroute?.session.isRunning == true)
                     }
                 }
 
@@ -580,8 +668,9 @@ struct ContentView: View {
                         .background(.red.opacity(0.85), in: Capsule())
                         .foregroundStyle(.white)
                         .padding(.bottom, 16)
-                } else if page == .schematic, let message = document.editorMessage {
-                    // A refused wire or switch: says why, then clears.
+                } else if let message = document.editorMessage {
+                    // A refused wire, switch, route, assisted trace or via:
+                    // says why, then clears. On either page.
                     Label(message, systemImage: "bolt.trianglebadge.exclamationmark")
                         .font(.callout)
                         .padding(.horizontal, 14)

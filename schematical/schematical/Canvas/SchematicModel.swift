@@ -1876,6 +1876,8 @@ final class SchematicDocument {
                 return false
             }
             chips[index] = old.resized(to: newPart)
+            // The reference was placed for the old body.
+            chips[index].board?.referenceOffset = .zero
             if let anchor, var board = chips[index].board,
                let pad = chips[index].footprint?.pads.first(where: { $0.designator == pad1 }) {
                 let landed = board.board(pad.centre)
@@ -1923,6 +1925,8 @@ final class SchematicDocument {
             let before = chips[index].footprint
             chips[index].footprintID = footprintID
             guard var changed = chips[index].board, let before, let after = chips[index].footprint else { return }
+            // The reference was placed for the old body.
+            changed.referenceOffset = .zero
             let pad1 = chips[index].part.firstPinDesignator
             if let old = before.pads.first(where: { $0.designator == pad1 }),
                let new = after.pads.first(where: { $0.designator == pad1 }) {
@@ -2520,6 +2524,8 @@ final class SchematicDocument {
             let pad1 = chips[index].part.firstPinDesignator
             var changed = board
             changed.style = style
+            // The reference was placed for the old body.
+            changed.referenceOffset = .zero
             chips[index].board = changed
             guard let after = chips[index].footprint else { return }
             if let old = before.pads.first(where: { $0.designator == pad1 }),
@@ -2541,6 +2547,31 @@ final class SchematicDocument {
             if let outline { chips[index].board?.outline = outline }
             if let pin1 { chips[index].board?.pin1 = pin1 }
             if let reference { chips[index].board?.reference = reference }
+        }
+    }
+
+    /// Moves a footprint's reference so its text is centred at `point` (board
+    /// mm), snapped to the trace grid. The reference is stored relative to the
+    /// part (`BoardPlacement.referenceOffset`), so it follows the part. A
+    /// locked footprint's reference can still be moved.
+    func moveReference(_ id: UUID, toCentre point: CGPoint) {
+        recordEdit(.pcb, "Move Reference") {
+            guard let index = chips.firstIndex(where: { $0.id == id }), let board = chips[index].board else { return }
+            let grid = CGFloat(self.board.traceGrid)
+            let snapped = BoardGrid.snap(point, spacing: grid)
+            let local = board.local(snapped)
+            // Whole 0.0001 mm, so the file carries no float noise.
+            let offset = CGPoint(x: (local.x * 10000).rounded() / 10000 + 0, y: (local.y * 10000).rounded() / 10000 + 0)
+            if board.referenceOffset != offset { chips[index].board?.referenceOffset = offset }
+        }
+    }
+
+    /// Puts a footprint's reference back on the body centre.
+    func resetReference(_ id: UUID) {
+        recordEdit(.pcb, "Reset Reference") {
+            guard let index = chips.firstIndex(where: { $0.id == id }),
+                  chips[index].board?.referenceOffset != .zero else { return }
+            chips[index].board?.referenceOffset = .zero
         }
     }
 
@@ -2878,6 +2909,23 @@ final class SchematicDocument {
         return nil
     }
 
+    /// The footprint whose drawn reference text is under a board point (mm),
+    /// within `tolerance` of its box: Top before Bottom, the last one drawn
+    /// first. `height` is the text's drawn height (mm); a reference that is
+    /// hidden, or whose layer is off, can't be hit.
+    func referenceHit(at point: CGPoint, tolerance: CGFloat, height: Double = BoardReference.height,
+                      visible: BoardVisibility = BoardVisibility()) -> UUID? {
+        for side in [BoardSide.top, .bottom] {
+            if let hit = chips.last(where: { chip in
+                guard let placement = chip.board, placement.side == side,
+                      visible.showsMark(placement.reference, side: side),
+                      let rect = chip.boardReferenceRect(height: height) else { return false }
+                return rect.insetBy(dx: -tolerance, dy: -tolerance).contains(point)
+            }) { return hit.id }
+        }
+        return nil
+    }
+
     /// The pad under a board point (mm) and what to call it, for the PCB
     /// page's hover label: a part's pad ("U3.5 A0"; "U3.5" when the pin's
     /// name is just its number; "U3 centre pad" for an unnumbered one), or a
@@ -2987,16 +3035,26 @@ final class SchematicDocument {
         addTrace(points: TraceRoute.route(from: a, to: b, angle: angle, legFirst: diagonalFirst), layer: layer)
     }
 
-    /// Adds a trace along `points` (simplified) on `layer`,
-    /// `BoardTrace.defaultWidth` wide, and joins it to every trace it
-    /// touches there. Returns its id, or nil when nothing was added: no
-    /// length, or a layer that is a plane or not on the board.
+    /// Adds a trace along `points` (simplified) on `layer`, as wide as the
+    /// class of the net its first point is on (`netRules(at:layer:)`), and
+    /// joins it to every trace it touches there. Returns its id, or nil when
+    /// nothing was added: no length, or a layer that is a plane or not on
+    /// the board.
     @discardableResult
     func addTrace(points: [CGPoint], layer: CopperLayer) -> UUID? {
+        guard let start = points.first else { return nil }
+        return addTrace(points: points, layer: layer, width: netRules(at: start, layer: layer).width)
+    }
+
+    /// Adds a trace `width` mil wide (clamped to `BoardTrace.widthRange`);
+    /// otherwise as `addTrace(points:layer:)`.
+    @discardableResult
+    func addTrace(points: [CGPoint], layer: CopperLayer, width: Int) -> UUID? {
         return recordEdit(.pcb, "Add Trace") { () -> UUID? in
             let points = TraceRoute.simplified(points)
             guard TraceRoute.isLegal(points), traceLayerRefusal(layer) == nil else { return nil }
-            let trace = BoardTrace(id: UUID(), layer: layer, width: BoardTrace.defaultWidth, points: points)
+            let width = min(max(width, BoardTrace.widthRange.lowerBound), BoardTrace.widthRange.upperBound)
+            let trace = BoardTrace(id: UUID(), layer: layer, width: width, points: points)
             traces.append(trace)
             join(trace.id)
             return trace.id
@@ -3098,6 +3156,31 @@ final class SchematicDocument {
             traces[index].layer = layer
             join(id)
         }
+    }
+
+    // MARK: Routing primitives (plan-38-G)
+
+    /// Removes traces and vias by id, locked or not, inside the caller's
+    /// edit (`applyRouting`, `unroute`); the callers decide what may go.
+    func removeCopper(traces ids: Set<UUID>, vias viaIDs: Set<UUID>) {
+        if !ids.isEmpty { traces.removeAll { ids.contains($0.id) } }
+        if !viaIDs.isEmpty { vias.removeAll { viaIDs.contains($0.id) } }
+        pruneSelection()
+    }
+
+    /// Appends a trace as it is (no join), inside the caller's edit. False
+    /// when the board refuses it: a plane or absent layer, or no length.
+    func appendTrace(_ trace: BoardTrace) -> Bool {
+        guard traceLayerRefusal(trace.layer) == nil, TraceRoute.isLegal(trace.points) else { return false }
+        traces.append(trace)
+        return true
+    }
+
+    /// Appends a via, inside the caller's edit. False on a 1-layer board.
+    func appendVia(_ via: BoardVia) -> Bool {
+        guard board.layers > 1 else { return false }
+        vias.append(via)
+        return true
     }
 
     func deleteTrace(_ id: UUID) {
@@ -3263,13 +3346,16 @@ final class SchematicDocument {
         return best?.point ?? BoardGrid.snap(point, spacing: self.board.traceGrid)
     }
 
-    /// Adds a via at `point` (already anchored) with the default sizes and
-    /// selects it. Nil on a 1-layer board, which has nothing to join.
+    /// Adds a via at `point` (already anchored) with the sizes of the class
+    /// of the net there (`netRules(at:layer:)`; the defaults on no net or
+    /// the Default class) and selects it. Nil on a 1-layer board, which has
+    /// nothing to join.
     @discardableResult
     func addVia(at point: CGPoint) -> UUID? {
         guard board.layers > 1 else { return nil }
+        let rules = netRules(at: point, layer: nil)
         return recordEdit(.pcb, "Add Via") { () -> UUID? in
-            let via = BoardVia(id: UUID(), centre: point)
+            let via = BoardVia(id: UUID(), centre: point, drill: rules.viaDrill, diameter: rules.viaDiameter)
             vias.append(via)
             boardSelection.replace(with: .via(via.id))
             return via.id
@@ -3314,6 +3400,321 @@ final class SchematicDocument {
             let value = max(min(mm, BoardVia.diameterRange.upperBound), least)
             if vias[index].diameter != value { vias[index].diameter = value }
         }
+    }
+
+    // MARK: Net classes (PCB)
+
+    /// Adds a net class named `name` (trimmed, at most 40 characters; blank
+    /// is "Class") with the Default class's values and no nets, last in
+    /// priority.
+    @discardableResult
+    func addNetClass(named name: String) -> UUID {
+        recordEdit(.pcb, "Add Net Class") {
+            let netClass = NetClass(id: UUID(), name: Self.netClassName(name) ?? "Class")
+            board.netClasses.append(netClass)
+            return netClass.id
+        }
+    }
+
+    func removeNetClass(_ id: UUID) {
+        recordEdit(.pcb, "Delete Net Class") {
+            board.netClasses.removeAll { $0.id == id }
+        }
+    }
+
+    /// Renames a class; a blank name is ignored, a long one cut to 40
+    /// characters.
+    func renameNetClass(_ id: UUID, to name: String) {
+        recordEdit(.pcb, "Rename Net Class") {
+            guard let index = netClassIndex(id), let value = Self.netClassName(name),
+                  board.netClasses[index].name != value else { return }
+            board.netClasses[index].name = value
+        }
+    }
+
+    /// Sets a class's trace width, clamped to `BoardTrace.widthRange`.
+    func setNetClassWidth(_ id: UUID, _ mil: Int) {
+        recordEdit(.pcb, "Change Net Class Width") {
+            guard let index = netClassIndex(id) else { return }
+            let value = min(max(mil, BoardTrace.widthRange.lowerBound), BoardTrace.widthRange.upperBound)
+            if board.netClasses[index].width != value { board.netClasses[index].width = value }
+        }
+    }
+
+    /// Sets a class's clearance, clamped to `LayerStyle.clearanceRange`;
+    /// nil is the DRC's minimum.
+    func setNetClassClearance(_ id: UUID, _ mm: Double?) {
+        recordEdit(.pcb, "Change Net Class Clearance") {
+            guard let index = netClassIndex(id) else { return }
+            let range = LayerStyle.clearanceRange
+            let value = mm.map { min(max($0, range.lowerBound), range.upperBound) }
+            if board.netClasses[index].clearance != value { board.netClasses[index].clearance = value }
+        }
+    }
+
+    /// Sets a class's via, clamped as `setViaDrill` and `setViaDiameter`
+    /// clamp a via: the hole to `BoardVia.drillRange`, then the metal to
+    /// `BoardVia.diameterRange` and at least the thinnest ring round it.
+    func setNetClassVia(_ id: UUID, drill: Double, diameter: Double) {
+        recordEdit(.pcb, "Change Net Class Via") {
+            guard let index = netClassIndex(id) else { return }
+            let hole = min(max(drill, BoardVia.drillRange.lowerBound), BoardVia.drillRange.upperBound,
+                           BoardVia.diameterRange.upperBound - 2 * BoardVia.minimumRing)
+            let least = max(BoardVia.diameterRange.lowerBound, hole + 2 * BoardVia.minimumRing)
+            let metal = max(min(diameter, BoardVia.diameterRange.upperBound), least)
+            if board.netClasses[index].viaDrill != hole { board.netClasses[index].viaDrill = hole }
+            if board.netClasses[index].viaDiameter != metal { board.netClasses[index].viaDiameter = metal }
+        }
+    }
+
+    /// Puts `net` in class `classID`, out of every other class; nil puts it
+    /// back in the Default class.
+    func assignNet(_ net: PlaneNet, to classID: UUID?) {
+        recordEdit(.pcb, "Change Net Class") {
+            for index in board.netClasses.indices where board.netClasses[index].members.contains(net) {
+                board.netClasses[index].members.removeAll { $0 == net }
+            }
+            if let classID, let index = netClassIndex(classID) { board.netClasses[index].members.append(net) }
+        }
+    }
+
+    /// Moves a class to `position` in the list (clamped); order is
+    /// priority.
+    func moveNetClass(_ id: UUID, to position: Int) {
+        recordEdit(.pcb, "Move Net Class") {
+            guard let index = netClassIndex(id) else { return }
+            let target = min(max(position, 0), board.netClasses.count - 1)
+            guard target != index else { return }
+            let netClass = board.netClasses.remove(at: index)
+            board.netClasses.insert(netClass, at: target)
+        }
+    }
+
+    /// The width and via new copper at `point` gets: those of the class of
+    /// the net there — a pad's whose copper holds the point on `layer`
+    /// (a through-hole pad on any layer; nil `layer` is any), else a via's
+    /// whose metal holds it, else a trace's on `layer` whose copper holds
+    /// it — or the Default class's when it is on no net or a net in no class.
+    func netRules(at point: CGPoint, layer: CopperLayer?) -> NetRules {
+        let copper = connectivity()
+        guard let net = net(at: point, layer: layer, in: copper),
+              let netClass = netClass(ofNet: net, in: copper) else { return NetRules() }
+        return NetRules(width: netClass.width, clearance: netClass.clearance, viaDrill: netClass.viaDrill,
+                        viaDiameter: netClass.viaDiameter)
+    }
+
+    /// The net (of `copper`) whose copper holds `point`, by the order
+    /// `netRules(at:layer:)` describes: a plated pad's on `layer`, else a
+    /// via's, else a trace's on `layer`; nil when none does.
+    func net(at point: CGPoint, layer: CopperLayer?, in copper: BoardConnectivity) -> Int? {
+        func onLayer(_ pad: BoardConnectivity.Pad) -> Bool {
+            layer == nil || pad.pad.drill > 0 || pad.side.copperLayer == layer
+        }
+        if let p = copper.pads.indices.first(where: {
+            copper.pads[$0].pad.plated && onLayer(copper.pads[$0]) && copper.pads[$0].pad.rect.contains(point)
+                && copper.netOfPad[$0] != nil
+        }) {
+            return copper.netOfPad[p]
+        }
+        let netOfRoot = copper.netOfRoot()
+        if let v = copper.vias.indices.first(where: {
+            Self.distance(from: point, to: copper.vias[$0].centre) <= copper.vias[$0].diameter / 2
+                && netOfRoot[copper.root[copper.viaNode($0)]] != nil
+        }) {
+            return netOfRoot[copper.root[copper.viaNode(v)]]
+        }
+        if let t = copper.traces.indices.first(where: { t in
+            let trace = copper.traces[t]
+            return (layer == nil || trace.layer == layer) && netOfRoot[copper.root[copper.traceNode(t)]] != nil
+                && trace.segments.contains { Self.distance(from: point, toSegment: $0.0, $0.1) <= trace.widthMM / 2 }
+        }) {
+            return netOfRoot[copper.root[copper.traceNode(t)]]
+        }
+        return nil
+    }
+
+    /// The class net `net` of `connectivity` is in: the first, in list
+    /// order, any of whose members names it; nil is the Default class.
+    func netClass(ofNet net: Int, in connectivity: BoardConnectivity) -> NetClass? {
+        board.netClasses.first { $0.members.contains { connectivity.net(of: $0) == net } }
+    }
+
+
+    // MARK: Net layer rules and groups (PCB)
+
+    /// Sets a class's layer rule; nil is any trace layer. A rule with no
+    /// layers is ignored.
+    func setNetClassLayerRule(_ id: UUID, _ rule: LayerRule?) {
+        recordEdit(.pcb, "Change Layer Rule") {
+            guard let index = netClassIndex(id), rule.map({ !$0.layers.isEmpty }) ?? true,
+                  board.netClasses[index].layerRule != rule else { return }
+            board.netClasses[index].layerRule = rule
+        }
+    }
+
+    /// Sets one net's own layer rule, before its class's; nil removes it.
+    /// A rule with no layers is ignored.
+    func setNetLayerRule(_ net: PlaneNet, _ rule: LayerRule?) {
+        recordEdit(.pcb, "Change Layer Rule") {
+            guard rule.map({ !$0.layers.isEmpty }) ?? true else { return }
+            if let rule {
+                if let index = board.netOverrides.firstIndex(where: { $0.net == net }) {
+                    if board.netOverrides[index].layerRule != rule { board.netOverrides[index].layerRule = rule }
+                } else {
+                    board.netOverrides.append(NetOverride(net: net, layerRule: rule))
+                }
+            } else {
+                board.netOverrides.removeAll { $0.net == net }
+            }
+        }
+    }
+
+    /// Adds an empty group (trimmed name, at most 40 characters; blank is
+    /// "Group"), last.
+    @discardableResult
+    func addNetGroup(named name: String, mode: NetGroupMode) -> UUID {
+        recordEdit(.pcb, "Add Net Group") {
+            let group = NetGroup(id: UUID(), name: Self.netClassName(name) ?? "Group", mode: mode)
+            board.netGroups.append(group)
+            return group.id
+        }
+    }
+
+    func removeNetGroup(_ id: UUID) {
+        recordEdit(.pcb, "Delete Net Group") {
+            board.netGroups.removeAll { $0.id == id }
+        }
+    }
+
+    func renameNetGroup(_ id: UUID, to name: String) {
+        recordEdit(.pcb, "Rename Net Group") {
+            guard let index = netGroupIndex(id), let value = Self.netClassName(name),
+                  board.netGroups[index].name != value else { return }
+            board.netGroups[index].name = value
+        }
+    }
+
+    /// Changes a group's mode. A group with more than 2 nets can't be a
+    /// pair: refused, with `editorMessage` saying why. Returns whether the
+    /// group has `mode` now.
+    @discardableResult
+    func setNetGroupMode(_ id: UUID, _ mode: NetGroupMode) -> Bool {
+        guard let index = netGroupIndex(id) else { return false }
+        let group = board.netGroups[index]
+        if mode == .diffPair, group.members.count > NetGroup.pairSize {
+            editorMessage = "A differential pair has 2 nets; \(group.name) has \(group.members.count)."
+            return false
+        }
+        recordEdit(.pcb, "Change Net Group") {
+            if board.netGroups[index].mode != mode { board.netGroups[index].mode = mode }
+        }
+        return true
+    }
+
+    /// Sets a group's tolerance, clamped to `NetGroup.toleranceRange`.
+    func setNetGroupTolerance(_ id: UUID, _ mm: Double) {
+        setNetGroupValue(id, \.tolerance, mm, NetGroup.toleranceRange)
+    }
+
+    /// Sets a pair's gap, clamped to `NetGroup.gapRange`.
+    func setNetGroupGap(_ id: UUID, _ mm: Double) {
+        setNetGroupValue(id, \.gap, mm, NetGroup.gapRange)
+    }
+
+    /// Sets how much of a pair may run apart, clamped to
+    /// `NetGroup.maxUncoupledRange`.
+    func setNetGroupMaxUncoupled(_ id: UUID, _ mm: Double) {
+        setNetGroupValue(id, \.maxUncoupled, mm, NetGroup.maxUncoupledRange)
+    }
+
+    /// Sets a group's largest tuning bump, clamped to
+    /// `NetGroup.maxMeanderRange`.
+    func setNetGroupMaxMeander(_ id: UUID, _ mm: Double) {
+        setNetGroupValue(id, \.maxMeander, mm, NetGroup.maxMeanderRange)
+    }
+
+    private func setNetGroupValue(_ id: UUID, _ key: WritableKeyPath<NetGroup, Double>, _ mm: Double,
+                                  _ range: ClosedRange<Double>) {
+        recordEdit(.pcb, "Change Net Group") {
+            guard let index = netGroupIndex(id) else { return }
+            let value = min(max(mm, range.lowerBound), range.upperBound)
+            if board.netGroups[index][keyPath: key] != value { board.netGroups[index][keyPath: key] = value }
+        }
+    }
+
+    /// Puts `net` in group `groupID`, out of any other group. A pair that
+    /// already has 2 other nets refuses it, with `editorMessage` saying
+    /// why. Returns whether the net is in the group now.
+    @discardableResult
+    func assignNet(_ net: PlaneNet, toGroup groupID: UUID) -> Bool {
+        guard let index = netGroupIndex(groupID) else { return false }
+        let group = board.netGroups[index]
+        if group.members.contains(net) { return true }
+        if group.mode == .diffPair, group.members.count >= NetGroup.pairSize {
+            editorMessage = "\(group.name) already has its 2 nets."
+            return false
+        }
+        recordEdit(.pcb, "Change Net Group") {
+            for other in board.netGroups.indices where board.netGroups[other].members.contains(net) {
+                board.netGroups[other].members.removeAll { $0 == net }
+            }
+            board.netGroups[index].members.append(net)
+        }
+        return true
+    }
+
+    /// Takes `net` out of whichever group it is in.
+    func unassignNet(_ net: PlaneNet) {
+        recordEdit(.pcb, "Change Net Group") {
+            for index in board.netGroups.indices where board.netGroups[index].members.contains(net) {
+                board.netGroups[index].members.removeAll { $0 == net }
+            }
+        }
+    }
+
+    /// The layer rule net `net` of `connectivity` follows: its own
+    /// override, else its class's, else none.
+    func layerRule(ofNet net: Int, in connectivity: BoardConnectivity) -> LayerRule? {
+        if let own = board.netOverrides.first(where: { $0.layerRule != nil && connectivity.net(of: $0.net) == net }) {
+            return own.layerRule
+        }
+        return netClass(ofNet: net, in: connectivity)?.layerRule
+    }
+
+    /// The trace layers net `net` may use and those it prefers. Only: the
+    /// rule's layers that are trace layers on the board (none means it
+    /// can't be routed), with no preference. Prefer: every trace layer,
+    /// preferring the rule's. No rule: every trace layer, no preference.
+    func effectiveLayers(ofNet net: Int, in connectivity: BoardConnectivity) -> EffectiveLayers {
+        let trace = board.traceLayers
+        guard let rule = layerRule(ofNet: net, in: connectivity) else {
+            return EffectiveLayers(allowed: trace, preferred: [], rule: nil)
+        }
+        let named = trace.filter(rule.layers.contains)
+        switch rule.mode {
+        case .only: return EffectiveLayers(allowed: named, preferred: [], rule: rule)
+        case .prefer: return EffectiveLayers(allowed: trace, preferred: named, rule: rule)
+        }
+    }
+
+    /// The group net `net` of `connectivity` is in: the first any of whose
+    /// members names it.
+    func group(ofNet net: Int, in connectivity: BoardConnectivity) -> NetGroup? {
+        board.netGroups.first { $0.members.contains { connectivity.net(of: $0) == net } }
+    }
+
+    private func netGroupIndex(_ id: UUID) -> Int? {
+        board.netGroups.firstIndex { $0.id == id }
+    }
+    private func netClassIndex(_ id: UUID) -> Int? {
+        board.netClasses.firstIndex { $0.id == id }
+    }
+
+    /// A class name as entered: trimmed and cut to the longest allowed, or
+    /// nil when blank.
+    private static func netClassName(_ name: String) -> String? {
+        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmed.isEmpty ? nil : String(trimmed.prefix(NetClass.nameLength.upperBound))
     }
 
     func deleteVia(_ id: UUID) {
@@ -3500,7 +3901,7 @@ final class SchematicDocument {
 
     /// Whether segment a–b meets `rect` (inside it, or crossing or touching
     /// its edge).
-    static func segment(_ a: CGPoint, _ b: CGPoint, touches rect: CGRect) -> Bool {
+    nonisolated static func segment(_ a: CGPoint, _ b: CGPoint, touches rect: CGRect) -> Bool {
         // Liang–Barsky: clip the segment's parameter range to the rect.
         var low: CGFloat = 0, high: CGFloat = 1
         let dx = b.x - a.x, dy = b.y - a.y
@@ -5135,11 +5536,11 @@ final class SchematicDocument {
 
     // MARK: Geometry
 
-    static func distance(from a: CGPoint, to b: CGPoint) -> CGFloat {
+    nonisolated static func distance(from a: CGPoint, to b: CGPoint) -> CGFloat {
         hypot(a.x - b.x, a.y - b.y)
     }
 
-    static func distance(from point: CGPoint, toSegment a: CGPoint, _ b: CGPoint) -> CGFloat {
+    nonisolated static func distance(from point: CGPoint, toSegment a: CGPoint, _ b: CGPoint) -> CGFloat {
         let dx = b.x - a.x
         let dy = b.y - a.y
         let lengthSquared = dx * dx + dy * dy

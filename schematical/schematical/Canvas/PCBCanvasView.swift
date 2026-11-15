@@ -56,11 +56,27 @@ struct PCBCanvasView: View {
     /// The Trace tool's angle (`TraceRoute.angles`), between the straight
     /// run and the angled leg.
     var traceAngle = TraceRoute.defaultAngle
+    /// Whether the Trace tool's live leg walks around other nets' copper
+    /// (`AssistRouter`, plan-38-L); an illegal one draws red and a release
+    /// there adds nothing.
+    var traceAssist = false
     /// Called with a hidden layer the Trace tool just drew on; the owner
     /// shows it.
     var onShowLayer: (CopperLayer) -> Void = { _ in }
+    /// Called with the layer a V while drawing moved the trace to; the
+    /// owner makes it the Trace tool's layer.
+    var onLayerChange: (CopperLayer) -> Void = { _ in }
     /// Where the pointer is over the board, for ⌘V; set as it moves.
     var pointer: BoardPointer?
+    /// The net the sidebar's Nets section highlights: its pads, traces,
+    /// vias and unrouted lines drawn bright over everything else dimmed.
+    /// Window state, never saved; Esc clears it.
+    var highlightedNet: Binding<PlaneNet?> = .constant(nil)
+    /// The copper an Autoroute run has routed so far, drawn at 60 % in each
+    /// layer's colour while it runs; never saved.
+    var routePreview: (traces: [RoutedTrace], vias: [RoutedVia])? = nil
+    /// Called with what the Route tool clicked: a net, or one connection.
+    var onRoute: (RoutingOptions.Scope) -> Void = { _ in }
     /// Called when the Text tool has placed a text; the owner returns to Select.
     var onPlaced: () -> Void = {}
     /// Drawing for File > Export > Image (`ImageExport`): no grid, hover,
@@ -81,12 +97,23 @@ struct PCBCanvasView: View {
     @State private var selectionPress: SelectionPress<BoardItem>?
     /// Space, `/` and Esc while a trace is being drawn.
     @State private var drawingKeyMonitor: Any?
+    /// The Trace assist for the trace being drawn, built at its press.
+    @State private var assist: AssistRouter?
+    /// The layer the trace being drawn is on: `traceLayer` at the press,
+    /// then the next layer after each V; nil when no trace is drawn.
+    @State private var drawingLayer: CopperLayer?
+    /// The Trace tool's layer and angle as they are now, for the key
+    /// monitor (`TraceKeyContext`).
+    @State private var live = TraceKeyContext()
 
     enum Interaction: Equatable {
         /// Moves every selected footprint, text and trace from where they
         /// were at the press.
         case moveGroup(base: BoardGroupBase)
         case pan(startOffset: CGSize)
+        /// Cmd-drag on a reference's text: moves only that reference (of
+        /// footprint `id`), from where its centre was at the press (board mm).
+        case moveReference(id: UUID, from: CGPoint)
         /// Shift-drag on empty board: a selection box from the press to
         /// `to` (screen points), adding to `base`, the selection at the press.
         case boxSelect(base: Set<BoardItem>, to: CGPoint)
@@ -168,7 +195,13 @@ struct PCBCanvasView: View {
         }
         .onAppear { installDrawingKeyMonitor() }
         .onDisappear { removeDrawingKeyMonitor() }
+        .onChange(of: traceLayer, initial: true) { live.layer = traceLayer }
+        .onChange(of: traceAngle, initial: true) { live.angle = traceAngle }
     }
+
+    /// The layer the Trace tool draws on now: the drawn trace's, else the
+    /// menu's.
+    private var activeLayer: CopperLayer { drawingLayer ?? traceLayer }
 
     private func installDrawingKeyMonitor() {
         guard drawingKeyMonitor == nil else { return }
@@ -186,20 +219,46 @@ struct PCBCanvasView: View {
     /// key was used; any other key, or any key when no trace is being
     /// drawn, is left alone.
     private func handleDrawingKey(_ event: NSEvent) -> Bool {
-        guard case let .drawTrace(draft, cursor)? = interaction else { return false }
+        guard case let .drawTrace(draft, cursor)? = interaction else {
+            // Esc, with no trace being drawn, clears a highlighted net.
+            if event.keyCode == 53, highlightedNet.wrappedValue != nil {
+                highlightedNet.wrappedValue = nil
+                return true
+            }
+            return false
+        }
         var next = draft
+        // This closure was made once, at install: the view's own `traceLayer`
+        // and `traceAngle` here are those of then; `live` has them now.
+        let layer = drawingLayer ?? live.layer
+        let plain = event.modifierFlags.intersection([.command, .control, .option]).isEmpty
         if event.keyCode == 53 {
             // Esc with nothing locked drops the whole trace; the rest of the
             // drag does nothing.
             if !next.unlock() { interaction = .idle; return true }
         } else if event.keyCode == 49 {
             if !event.isARepeat {
-                next.lock(to: TraceDrawing.anchor(document, at: cursor, layer: traceLayer, scale: scale),
-                          angle: traceAngle)
+                let end = TraceDrawing.anchor(document, at: cursor, layer: layer, scale: scale)
+                if let assist {
+                    // The assist's leg, when it found a legal one.
+                    if let leg = assist.route(from: next.legStart, to: end) { next.lock(leg: leg) }
+                } else {
+                    next.lock(to: end, angle: live.angle)
+                }
             }
-        } else if event.charactersIgnoringModifiers == "/",
-                  event.modifierFlags.intersection([.command, .control, .option]).isEmpty {
+        } else if event.charactersIgnoringModifiers == "/", plain {
             next.flip()
+        } else if event.charactersIgnoringModifiers?.lowercased() == "v", plain,
+                  !event.modifierFlags.contains(.shift) {
+            // V: a via where the trace has got to, and on from it on the
+            // next layer (plan-38-L).
+            if !event.isARepeat, let (draft, nextLayer) = TraceDrawing.dropVia(
+                document, draft: next, to: cursor, layer: layer, scale: scale, angle: live.angle, assist: assist) {
+                next = draft
+                drawingLayer = nextLayer
+                assist = assist == nil ? nil : AssistRouter(document: document, layer: nextLayer, start: draft.start)
+                onLayerChange(nextLayer)
+            }
         } else {
             return false
         }
@@ -302,8 +361,12 @@ struct PCBCanvasView: View {
         drawMarksAndTexts(on: .top, in: &context, colour: colour, visible: visible)
 
         if visible.shows(.ratsnest) { drawRatsnest(in: &context) }
+        // An export has no pointer, highlight or selection.
+        if !exporting, let key = highlightedNet.wrappedValue {
+            drawHighlight(of: key, visible: visible, in: &context)
+        }
+        if !exporting, let routePreview { drawRoutePreview(routePreview, in: &context) }
         drawTraceTool(in: &context)
-        // An export has no pointer and no selection.
         guard !exporting else { return }
 
         // The hovered pad's outline (its name shows beside the pointer).
@@ -443,10 +506,11 @@ struct PCBCanvasView: View {
     private func drawRatsnest(in context: inout GraphicsContext) {
         var drawing: BoardTrace?
         if tool == .trace, case let .drawTrace(draft, cursor) = interaction {
-            let route = TraceDrawing.preview(document, draft: draft, to: cursor, layer: traceLayer, scale: scale,
-                                             angle: traceAngle)
-            if TraceRoute.isLegal(route) {
-                drawing = BoardTrace(id: UUID(), layer: traceLayer, width: BoardTrace.defaultWidth, points: route)
+            let (route, allowed) = TraceDrawing.assisted(document, draft: draft, to: cursor, layer: activeLayer,
+                                                         scale: scale, angle: traceAngle, assist: assist)
+            if allowed, TraceRoute.isLegal(route) {
+                drawing = BoardTrace(id: UUID(), layer: activeLayer,
+                                     width: TraceDrawing.width(document, draft: draft, layer: activeLayer), points: route)
             }
         }
         let lines = document.ratsnest(drawing: drawing)
@@ -460,25 +524,96 @@ struct PCBCanvasView: View {
         context.stroke(path, with: .color(.red), lineWidth: 1 / scale)
     }
 
+    /// A highlighted net: everything drawn so far dimmed to about a third,
+    /// then the net's pads, traces and vias in white and its unrouted lines
+    /// in red, over it. A net the schematic no longer has dims nothing.
+    private func drawHighlight(of key: PlaneNet, visible: BoardVisibility, in context: inout GraphicsContext) {
+        let copper = document.connectivity()
+        guard let net = copper.net(of: key) else { return }
+        let items = document.copperItems(ofNet: net, in: copper)
+        let world = CGRect(x: -100_000, y: -100_000, width: 200_000, height: 200_000)
+        context.fill(Path(world), with: .color(Self.background.opacity(0.65)))
+        let bright = Color.white.opacity(0.95)
+        for trace in copper.traces where items.traces.contains(trace.id) && visible.showsTrace(on: trace.layer) {
+            context.stroke(Self.path(trace.points), with: .color(bright), style: Self.traceStyle(width: trace.widthMM))
+        }
+        if visible.showsAnyCopper {
+            for pad in items.pads.sorted() {
+                context.fill(Self.outline(of: copper.pads[pad].pad), with: .color(bright))
+            }
+            for via in copper.vias where items.vias.contains(via.id) {
+                context.fill(Path(ellipseIn: via.rect), with: .color(bright))
+            }
+        }
+        if visible.shows(.ratsnest) {
+            let lines = document.ratsnest(in: copper, net: net)
+            let path = Path { path in
+                for (a, b) in lines {
+                    path.move(to: a)
+                    path.addLine(to: b)
+                }
+            }
+            context.stroke(path, with: .color(.red), lineWidth: 2 / scale)
+        }
+    }
+
+    /// An Autoroute run's copper so far, at 60 % in each layer's colour.
+    private func drawRoutePreview(_ preview: (traces: [RoutedTrace], vias: [RoutedVia]),
+                                  in context: inout GraphicsContext) {
+        let board = document.board
+        let visible = shown
+        for trace in preview.traces where visible.showsTrace(on: trace.layer) {
+            let colour = board.style(of: trace.layer).color.color.opacity(0.6)
+            context.stroke(Self.path(trace.points), with: .color(colour), style: Self.traceStyle(width: trace.width))
+        }
+        guard visible.showsAnyCopper else { return }
+        for via in preview.vias {
+            let rect = CGRect(x: via.centre.x - via.diameter / 2, y: via.centre.y - via.diameter / 2,
+                              width: via.diameter, height: via.diameter)
+            context.fill(Path(ellipseIn: rect), with: .color(Self.copper.opacity(0.6)))
+        }
+    }
+
     /// The Trace tool's preview while dragging, and the green ring where a
     /// press or release would land.
     private func drawTraceTool(in context: inout GraphicsContext) {
         guard tool == .trace else { return }
         let ring: CGPoint?
+        var legal = true
         if case let .drawTrace(draft, cursor) = interaction {
-            let route = TraceDrawing.preview(document, draft: draft, to: cursor, layer: traceLayer, scale: scale,
-                                             angle: traceAngle)
-            let colour = document.board.style(of: traceLayer).color.color.opacity(0.6)
-            context.stroke(Self.path(route), with: .color(colour),
-                           style: Self.traceStyle(width: Double(BoardTrace.defaultWidth) * 0.0254))
+            let (route, allowed) = TraceDrawing.assisted(document, draft: draft, to: cursor, layer: activeLayer,
+                                                         scale: scale, angle: traceAngle, assist: assist)
+            legal = allowed
+            let mil = TraceDrawing.width(document, draft: draft, layer: activeLayer)
+            let width = Double(mil) * 0.0254
+            if allowed {
+                let colour = document.board.style(of: activeLayer).color.color.opacity(0.6)
+                context.stroke(Self.path(route), with: .color(colour), style: Self.traceStyle(width: width))
+            } else {
+                // Where the assist found no legal way (a release adds
+                // nothing): red and dashed, so it reads on a red Top layer too.
+                let dash = max(width * 3, 4 / scale)
+                context.stroke(Self.path(route), with: .color(.red),
+                               style: StrokeStyle(lineWidth: max(width, 2 / scale), lineCap: .butt,
+                                                  dash: [dash, dash]))
+            }
             ring = route.last
         } else {
             ring = hoverPoint.map { TraceDrawing.anchor(document, at: $0, layer: traceLayer, scale: scale) }
         }
         if let ring {
+            // Green where a release would land; a red cross where it can't.
             let r = 6 / scale
-            context.stroke(Path(ellipseIn: CGRect(x: ring.x - r, y: ring.y - r, width: 2 * r, height: 2 * r)),
-                           with: .color(.green), lineWidth: 2 / scale)
+            if legal {
+                context.stroke(Path(ellipseIn: CGRect(x: ring.x - r, y: ring.y - r, width: 2 * r, height: 2 * r)),
+                               with: .color(.green), lineWidth: 2 / scale)
+            } else {
+                let cross = Path { path in
+                    path.move(to: CGPoint(x: ring.x - r, y: ring.y - r)); path.addLine(to: CGPoint(x: ring.x + r, y: ring.y + r))
+                    path.move(to: CGPoint(x: ring.x - r, y: ring.y + r)); path.addLine(to: CGPoint(x: ring.x + r, y: ring.y - r))
+                }
+                context.stroke(cross, with: .color(.red), lineWidth: 2.5 / scale)
+            }
         }
     }
 
@@ -555,13 +690,14 @@ struct PCBCanvasView: View {
 
         // Reference: 1 mm tall, but never under 8 points on screen. Mirrored
         // on Bottom, as a real bottom silkscreen reads from above.
-        if visible.showsMark(placement.reference, side: side), let ink = placement.reference.color(on: colour) {
+        if visible.showsMark(placement.reference, side: side), let ink = placement.reference.color(on: colour),
+           let at = chip.boardReferenceCentre {
             let height = max(1, 8 / scale)
             let text = Text(chip.reference)
                 .font(.system(size: height, weight: .medium))
                 .foregroundStyle(ink)
             context.drawLayer { layer in
-                layer.translateBy(x: body.rect.midX, y: body.rect.midY)
+                layer.translateBy(x: at.x, y: at.y)
                 if side == .bottom { layer.scaleBy(x: -1, y: 1) }
                 layer.draw(text, at: .zero, anchor: .center)
             }
@@ -629,6 +765,8 @@ struct PCBCanvasView: View {
         switch current {
         case let .moveGroup(base):
             document.moveBoardGroup(base, by: offset)
+        case let .moveReference(id, from):
+            ReferenceDragging.drag(document, id: id, from: from, by: offset)
         case let .pan(startOffset):
             viewport.pan(to: CGSize(
                 width: startOffset.width + translation.width,
@@ -660,6 +798,9 @@ struct PCBCanvasView: View {
         switch tool {
         case .trace:
             let anchored = TraceDrawing.anchor(document, at: point, layer: traceLayer, scale: scale)
+            // The assist's grid is built once, here (plan-38-L).
+            assist = traceAssist ? AssistRouter(document: document, layer: traceLayer, start: anchored) : nil
+            drawingLayer = traceLayer
             return .drawTrace(draft: TraceDraft(start: anchored), cursor: point)
         case .via:
             // A press places a via (snapped onto a trace, or the trace grid)
@@ -671,6 +812,13 @@ struct PCBCanvasView: View {
             // A press places a hole on the trace grid, and the drag moves it.
             document.addHole(at: point)
             return .moveGroup(base: document.boardGroupBase())
+        case .route:
+            // A click routes the net of the pad, or the one connection of
+            // the unrouted line, under it.
+            if let scope = RouteTool.scope(document, at: point, tolerance: TraceDrawing.tolerance / scale, visible: shown) {
+                onRoute(scope)
+            }
+            return .idle
         case .delete:
             // One deletion per press: the text, via, hole or trace where it
             // started.
@@ -682,6 +830,11 @@ struct PCBCanvasView: View {
             onPlaced()
             return .moveGroup(base: document.boardGroupBase())
         case .select:
+            // Cmd-press on a reference's text: the drag moves only the reference.
+            if NSEvent.modifierFlags.contains(.command),
+               let press = ReferenceDragging.press(document, at: point, scale: scale, visible: shown) {
+                return .moveReference(id: press.id, from: press.from)
+            }
             if let item = document.boardItem(at: point, tolerance: TraceDrawing.tolerance / scale, visible: shown) {
                 selectionPress = document.pressSelection(item, shift: shift)
                 return .moveGroup(base: document.boardGroupBase(grab: point))
@@ -698,9 +851,11 @@ struct PCBCanvasView: View {
     /// what the press left pending in the selection.
     private func end(translation: CGSize) {
         if case let .drawTrace(draft, cursor) = interaction {
-            TraceDrawing.finish(document, draft: draft, to: cursor, layer: traceLayer, scale: scale,
-                                angle: traceAngle, visible: shown, onShowLayer: onShowLayer)
+            TraceDrawing.finish(document, draft: draft, to: cursor, layer: activeLayer, scale: scale,
+                                angle: traceAngle, visible: shown, assist: assist, onShowLayer: onShowLayer)
         }
+        assist = nil
+        drawingLayer = nil
         if case let .moveGroup(base) = interaction {
             document.settleBoardGroup(base)
         }
@@ -728,11 +883,53 @@ private struct PadLabel: View {
     }
 }
 
+/// The steps of a Cmd-drag on a reference, kept apart from the view so tests
+/// can run them in the order the canvas does: hit the press, move while
+/// dragging.
+@MainActor
+enum ReferenceDragging {
+    /// The reference under a press at `point` (board mm), if any; its footprint
+    /// becomes the whole selection unless it is already selected. `scale` is
+    /// screen points per mm. Returns the footprint and where its reference's
+    /// centre is now.
+    static func press(_ document: SchematicDocument, at point: CGPoint, scale: CGFloat,
+                      visible: BoardVisibility) -> (id: UUID, from: CGPoint)? {
+        // The text is drawn at least 8 points tall (`PCBCanvasView.drawMarks`).
+        let height = max(BoardReference.height, 8 / Double(scale))
+        guard let id = document.referenceHit(at: point, tolerance: TraceDrawing.tolerance / scale,
+                                             height: height, visible: visible),
+              let from = document.chips.first(where: { $0.id == id })?.boardReferenceCentre else { return nil }
+        if !document.boardSelection.items.contains(.footprint(id)) { document.select(.footprint(id)) }
+        return (id, from)
+    }
+
+    /// One frame of the drag: the reference's centre goes to where it was at
+    /// the press plus the pointer's movement `offset` (mm), snapped. A press
+    /// with no movement yet leaves the reference where it is.
+    static func drag(_ document: SchematicDocument, id: UUID, from: CGPoint, by offset: CGSize) {
+        guard offset != .zero else { return }
+        document.moveReference(id, toCentre: CGPoint(x: from.x + offset.width, y: from.y + offset.height))
+    }
+}
+
 /// Where the pointer is over a PCB canvas (board mm), or nil when it is off
 /// it. A plain class, so the pointer moving doesn't redraw its owner.
 @MainActor
 final class BoardPointer {
     var point: CGPoint?
+}
+
+/// The Trace tool's layer and angle as they are now. The canvas's key
+/// monitor is a closure made once, when the canvas appears, so the view it
+/// holds has the layer and angle of then; the canvas keeps these current
+/// (`onChange`) and the monitor reads them here.
+@MainActor
+final class TraceKeyContext {
+    var layer: CopperLayer = .top
+    var angle = TraceRoute.defaultAngle
+
+    /// As `AssistRouter`'s: an isolated deinit aborts the runtime.
+    nonisolated deinit {}
 }
 
 /// The steps of a Trace tool drag, kept apart from the view so tests can
@@ -752,20 +949,80 @@ enum TraceDrawing {
     }
 
     /// The route a release at `cursor` would add: the draft's locked legs,
-    /// then the live leg at `angle` to where the cursor lands.
+    /// then the live leg at `angle` to where the cursor lands, or (with
+    /// `assist`) the assist's leg there.
     static func preview(_ document: SchematicDocument, draft: TraceDraft, to cursor: CGPoint,
-                        layer: CopperLayer, scale: CGFloat, angle: Int) -> [CGPoint] {
-        draft.path(to: anchor(document, at: cursor, layer: layer, scale: scale), angle: angle)
+                        layer: CopperLayer, scale: CGFloat, angle: Int, assist: AssistRouter? = nil) -> [CGPoint] {
+        assisted(document, draft: draft, to: cursor, layer: layer, scale: scale, angle: angle, assist: assist).points
+    }
+
+    /// `preview`, and whether a release would add it: with `assist`, only
+    /// when the assist found a legal leg to where the cursor lands (else
+    /// the points are the plain leg, drawn red). Without, always.
+    static func assisted(_ document: SchematicDocument, draft: TraceDraft, to cursor: CGPoint, layer: CopperLayer,
+                         scale: CGFloat, angle: Int, assist: AssistRouter?) -> (points: [CGPoint], isLegal: Bool) {
+        let end = anchor(document, at: cursor, layer: layer, scale: scale)
+        guard let assist, !TraceRoute.same(draft.legStart, end) else { return (draft.path(to: end, angle: angle), true) }
+        guard let leg = assist.route(from: draft.legStart, to: end) else { return (draft.path(to: end, angle: angle), false) }
+        return (draft.path(through: leg), true)
+    }
+
+    /// The message an illegal assisted release leaves.
+    static let noRouteMessage = "No legal route there."
+
+    /// V while drawing (plan-38-L): the trace so far is added (as a
+    /// release would add it), a via of its net's class size stands where it
+    /// ends, and drawing goes on from the via on the next trace layer
+    /// (`board.traceLayers` after `layer`, wrapping; never a Plane). Runs
+    /// inside the drag's gesture, so the whole drag stays one undo step.
+    /// Returns the new draft and layer; nil, changing nothing, on a board
+    /// with one trace layer, where the assisted leg is illegal, or where
+    /// the via wouldn't keep clear of other nets' copper or holes (both
+    /// say why in `editorMessage`).
+    static func dropVia(_ document: SchematicDocument, draft: TraceDraft, to cursor: CGPoint, layer: CopperLayer,
+                        scale: CGFloat, angle: Int, assist: AssistRouter?,
+                        rules: DesignRules = DesignRules.current()) -> (draft: TraceDraft, layer: CopperLayer)? {
+        let layers = document.board.traceLayers
+        guard layers.count >= 2, let index = layers.firstIndex(of: layer) else { return nil }
+        let route = assisted(document, draft: draft, to: cursor, layer: layer, scale: scale, angle: angle, assist: assist)
+        guard route.isLegal else {
+            document.editorMessage = noRouteMessage
+            return nil
+        }
+        guard let centre = route.points.last else { return nil }
+        if let why = AssistRouter.viaProblem(document, at: centre, start: draft.start, layer: layer, rules: rules) {
+            document.editorMessage = why
+            return nil
+        }
+        // The trace first, so the via finds its net (and class size) there.
+        document.addTrace(points: route.points, layer: layer, width: width(document, draft: draft, layer: layer))
+        guard document.addVia(at: centre) != nil else { return nil }
+        return (TraceDraft(start: centre), layers[(index + 1) % layers.count])
+    }
+
+    /// The width, in mil, of the trace a draft draws: that of the class of
+    /// the net it starts on (`SchematicDocument.netRules`). The live preview
+    /// and the trace the release adds both read it.
+    static func width(_ document: SchematicDocument, draft: TraceDraft, layer: CopperLayer) -> Int {
+        document.netRules(at: draft.start, layer: layer).width
     }
 
     /// The release: adds the trace (nothing for a zero-length one), makes it
     /// the whole selection, and asks for its layer to be shown if hidden.
+    /// With `assist` and no legal leg to the cursor, adds nothing and says
+    /// so (`editorMessage`).
     @discardableResult
     static func finish(_ document: SchematicDocument, draft: TraceDraft, to cursor: CGPoint, layer: CopperLayer,
-                       scale: CGFloat, angle: Int, visible: BoardVisibility,
+                       scale: CGFloat, angle: Int, visible: BoardVisibility, assist: AssistRouter? = nil,
                        onShowLayer: (CopperLayer) -> Void) -> UUID? {
-        let points = preview(document, draft: draft, to: cursor, layer: layer, scale: scale, angle: angle)
-        guard let id = document.addTrace(points: points, layer: layer) else {
+        let route = assisted(document, draft: draft, to: cursor, layer: layer, scale: scale, angle: angle, assist: assist)
+        guard route.isLegal else {
+            document.editorMessage = noRouteMessage
+            return nil
+        }
+        let points = route.points
+        guard let id = document.addTrace(points: points, layer: layer,
+                                         width: width(document, draft: draft, layer: layer)) else {
             return nil
         }
         document.select(.trace(id))
@@ -785,6 +1042,9 @@ enum PCBTool: String, CaseIterable, Identifiable {
     case via
     case hole
     case delete
+    /// Click a pad to route its net, a ratsnest line to route that one
+    /// connection, with the last Autoroute options (plan-38-K).
+    case route
 
     var id: String { rawValue }
 
@@ -796,6 +1056,7 @@ enum PCBTool: String, CaseIterable, Identifiable {
         case .via: "Via"
         case .hole: "Hole"
         case .delete: "Delete"
+        case .route: "Route"
         }
     }
 
@@ -806,6 +1067,7 @@ enum PCBTool: String, CaseIterable, Identifiable {
         case .via: "Via — click to place a via, drag to move it (2 or more layers)"
         case .hole: "Hole — click to place a mounting or drilled hole, drag to move it"
         case .delete: "Delete — click a trace, via, hole or text to delete it (footprints stay)"
+        case .route: "Route — click a pad to route its net, a ratsnest line to route that one connection"
         default: title
         }
     }
@@ -818,6 +1080,32 @@ enum PCBTool: String, CaseIterable, Identifiable {
         case .via: "circle.circle"
         case .hole: "smallcircle.circle"
         case .delete: "eraser"
+        case .route: "point.topleft.down.curvedto.point.bottomright.up"
         }
+    }
+}
+
+/// What a Route tool click names (plan-38-K § 3).
+@MainActor
+enum RouteTool {
+    /// The net of a pad under `point` (one on a shown layer), else the one
+    /// connection of an unrouted line within `tolerance` mm, else nil.
+    static func scope(_ document: SchematicDocument, at point: CGPoint, tolerance: CGFloat,
+                      visible: BoardVisibility = BoardVisibility()) -> RoutingOptions.Scope? {
+        let copper = document.connectivity()
+        for (p, pad) in copper.pads.enumerated() where pad.pad.plated && pad.pad.rect.contains(point) {
+            let shown = pad.pad.drill > 0 ? visible.showsAnyCopper : visible.shows(.copper(pad.side.copperLayer))
+            guard shown, let net = copper.netOfPad[p], let key = copper.planeNet(ofNet: net) else { continue }
+            return .nets([key])
+        }
+        guard visible.shows(.ratsnest) else { return nil }
+        let line = document.ratsnest().min {
+            SchematicDocument.distance(from: point, toSegment: $0.0, $0.1)
+                < SchematicDocument.distance(from: point, toSegment: $1.0, $1.1)
+        }
+        if let line, SchematicDocument.distance(from: point, toSegment: line.0, line.1) <= tolerance {
+            return .connection(from: line.0, to: line.1)
+        }
+        return nil
     }
 }
