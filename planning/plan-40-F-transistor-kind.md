@@ -40,9 +40,9 @@ plan-40-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-40-A § Prerequisites MET | plan-40-A's table | MET (2026-11-14 at 943924ba) |
-| plan-40-E complete | `ls planning/completed/plan-40-E-*.md` → exists | NOT MET (E not started) |
-| No `transistor` kind yet | `grep -c 'PART_TRANSISTOR' backend/include/parts.h` → 0 | MET (2026-11-14 at 943924ba: 0) |
+| plan-40-A § Prerequisites MET | plan-40-A's table | MET (2026-11-15: every row MET, quota 999 before A Phase 1) |
+| ~~plan-40-E complete~~ | `ls planning/completed/plan-40-E-*.md` → exists | moot (2026-11-15): an ordering edge, not a dependency — F reads no census output and touches no file C/D/E touch (§ Corrections 1) |
+| No `transistor` kind yet | `grep -c 'PART_TRANSISTOR' backend/include/parts.h` → 0 | MET (2026-11-15 at 54a82b99, before F: 0) |
 
 Everything below is written against the world where these hold.
 
@@ -227,10 +227,10 @@ rejected above (non-goal).
 
 ### Phase 1 — The kind: keys, loader, facts, listing
 
-- [ ] `backend/include/parts.h`: `PART_TRANSISTOR` appended as the last
+- [x] `backend/include/parts.h`: `PART_TRANSISTOR` appended as the last
       `PartKind` value; `PartTransistor` (§ 3.1) and `const PartTransistor
       *transistor;` after `resistor` on `Part`.
-- [ ] `backend/src/models/transistor.c`: `DEVICE_KEYS` (`elements`),
+- [x] `backend/src/models/transistor.c`: `DEVICE_KEYS` (`elements`),
       `PART_KEYS` (§ 3.1), `transistor_load_device` (validates elements),
       `transistor_bind_pinout` (resolves names to pins, checks roles and
       that every pin is in an element or `nc`/`absent`),
@@ -238,15 +238,15 @@ rejected above (non-goal).
       `PartTransistor`), `transistor_element`, `transistor_pin_limit_mv`
       (declared in `model_pins.h`); `TRANSISTOR_KIND` with a passive model
       for now (`pin_count`, `create`, no callbacks).
-- [ ] `backend/src/library/kinds.c`: `extern const PartKindOps
+- [x] `backend/src/library/kinds.c`: `extern const PartKindOps
       TRANSISTOR_KIND;` and one `&TRANSISTOR_KIND,` line in `KINDS[]`;
       `backend/CMakeLists.txt`: `src/models/transistor.c` in the sources.
-- [ ] Tests: `tests/support/listing.c` (`case PART_TRANSISTOR`: the kind name
+- [x] Tests: `tests/support/listing.c` (`case PART_TRANSISTOR`: the kind name
       `transistor` at :37 and the facts at :122, `elements=%zu type=%s mixed=%u
       vmax=%u imax=%u power=%u hfe=%u rdson=%llu vgsth=%u vgs=%u
       logic=%u r1=%llu r2=%llu`), `tests/trace_check.c` `TRACE_LAST_KIND` →
       `PART_TRANSISTOR`, `tests/listing_check.c` :50–51 → `PART_TRANSISTOR + 1`.
-- [ ] `tests/support/transistor_fixture.h` (as `resistor_fixture.h`): fixture
+- [x] `tests/support/transistor_fixture.h` (as `resistor_fixture.h`): fixture
       parts `TFX-Q1` (npn, 3 pins E B C, vceo 40, ic 0.2), `TFX-Q2` (pnp),
       `TFX-M1` (nmos, G D S, vds 60, id 0.3, rdson 5, vgsth 2.1, vgs 20,
       logicLevel false), `TFX-M2` (pmos), `TFX-DT` (nmos with a tab: pins
@@ -254,32 +254,34 @@ rejected above (non-goal).
       47000), `TFX-ARR` (npn + pnp complementary pair, 6 pins), a gate
       fixture for the inverter cases, and `TRANSISTOR_DEVICE` for the
       rejection cases.
-- [ ] `tests/transistor_test.c` kind cases (§ 6 a–f) and
+- [x] `tests/transistor_test.c` kind cases (§ 6 a–f) and
       `logic_test(transistor_test)` in `backend/CMakeLists.txt` after
       `resistor_test`.
 
 Acceptance: the kind loads, lists and rejects what § 6 lists.
   Check: `cmake -S backend -B /tmp/logic-p40 && cmake --build /tmp/logic-p40 -j8 && ctest --test-dir /tmp/logic-p40 -R 'transistor_test|listing_check|trace_check|library_check|footprint_check'` → `100% tests passed, 0 tests failed out of 5` (est. 8 min: first build of the tree).
-Commit: —
+  Result (2026-11-15, build dir `/tmp/logic-p40w`): `100% tests passed, 0 tests failed out of 5`; `transistor_test` 42 PASS lines, `0 failure(s)`. Mutation check: every element made to conduct on 1 (`on_level = 1`) fails (i) twice and (q).
+Commit: (this commit; hash in the next)
 
 ### Phase 2 — The model: channel from the control pin
 
-- [ ] `transistor.c`: the model of § 3.2 (`start`, `pin_changed`, `timer`;
+- [x] `transistor.c`: the model of § 3.2 (`start`, `pin_changed`, `timer`;
       `TRANSISTOR_DELAY_PS` 1000); the model's state is the per-element `on`
       flags; the tab ties are closed contacts made in `start`.
-- [ ] `tests/transistor_test.c` engine cases (§ 6 g–q).
+- [x] `tests/transistor_test.c` engine cases (§ 6 g–q).
 
 Acceptance: every engine case of § 6 passes and no existing golden moves.
   Check: `cmake --build /tmp/logic-p40 -j8 && ctest --test-dir /tmp/logic-p40` → `100% tests passed` with T0 + 1 programs, then `git diff --stat backend/tests/golden` → empty (est. 4 min: the whole suite is what shows "no golden moved"; nothing smaller covers every kind).
-Commit: —
+  Result (2026-11-15): `100% tests passed, 0 tests failed out of 36` (T0 35 + 1); `git diff --stat -- backend/tests/golden` → empty.
+Commit: (this commit; hash in the next)
 
 ### Phase 3 — The voltage rating test
 
-- [ ] `backend/include/voltage.h`: `VOLTAGE_TRANSISTOR_OVER` appended;
+- [x] `backend/include/voltage.h`: `VOLTAGE_TRANSISTOR_OVER` appended;
       `voltage.c`: the branch of § 3.3 and the `voltage_describe` case (shared
       with `VOLTAGE_SWITCH_OVER` and `VOLTAGE_CAPACITOR_OVER`).
-- [ ] `tests/transistor_test.c` rating cases (§ 6 r–u).
-- [ ] Docs: `docs/parts-format.md` — `transistor.json` in the kinds table
+- [x] `tests/transistor_test.c` rating cases (§ 6 r–u).
+- [x] Docs: `docs/parts-format.md` — `transistor.json` in the kinds table
       (:9–29 area) and a `### transistor` section after `resistor` (keys,
       rules, the digital-switch semantics, the rating test);
       `docs/backend.md` — a **Transistors** paragraph after Resistors (the
@@ -289,7 +291,8 @@ Commit: —
 
 Acceptance: the rating cases pass and the docs name the kind.
   Check: `cmake --build /tmp/logic-p40 -j8 && ctest --test-dir /tmp/logic-p40 -R 'transistor_test|voltage'` → `100% tests passed`; `grep -c 'transistor' docs/parts-format.md docs/backend.md` → both above 0 (est. 3 min).
-Commit: —
+  Result (2026-11-15): `100% tests passed, 0 tests failed out of 2`; `docs/backend.md:7`, `docs/parts-format.md:10`. The app still builds (`** BUILD SUCCEEDED **`).
+Commit: (this commit; hash in the next)
 
 ## 6. Test cases (`transistor_test.c`)
 
@@ -346,7 +349,34 @@ accepted.
 
 ## Corrections
 
-(none yet)
+1. **F ran before C, D and E (2026-11-15).** The A → … → I chain is
+   implementation order; F's own Depends-on line says it reads no census
+   output, and F touches only `backend/` and `docs/` (C–E touch
+   `footprints.json` and `planning/plan-40-data/`). F was done while A's
+   DigiKey listing and downloads ran in the background. The dependency
+   graph's real edges for F: none inside plan-40; G needs F.
+2. **Phases 1–3 landed in one commit.** The model (Phase 2) and the rating
+   branch (Phase 3) were written with the kind, so there was no
+   passive-model state to commit; each phase's own check was run and is
+   recorded on its Result line.
+3. **The rating fixture.** § 6 (r) names `TFX-M1` with `vds` 5 and the drain
+   on pin 3, but Phase 1 gives `TFX-M1` `vds` 60 on pins G D S (drain pin
+   2). The rating cases use a ninth fixture part, `TFX-M5` (pins 1 G, 2 S,
+   3 D; `vds` 5, `vgs` 8), and the text is `voltage: 12 V on pin 3 (D) of
+   TFX-M5; it is rated 5 V`; `TFX-M1` (60 V) is the accepted case (u). `TFX-Q2`
+   gets `vceo` 5 so case (s) (a base on 12 V is not refused) is not
+   trivially true, and `TFX-GEN` is the generic fixture with no rating.
+4. **No gate fixture.** The inverter case (o) uses the library's
+   `SN74HC04N` as the gate (as `resistor_test` does) instead of a fixture
+   gate; the engine cases use a scripted driver.
+5. **Channels and ties are every pin pair.** A channel name on several pins
+   (a tab and its lead) gives a contact from each of its pins to each of the
+   other name's pins, and same-named pins are tied pairwise, because the
+   engine leaves out a contact whose pin has no net (§ 2): a part wired by
+   its tab alone still switches (case (p), second half).
+6. **Extra checks.** `transistor_test` also refuses a base that is not
+   `input`, a collector that is not `inout`, `"vceo"` on a MOSFET, `"ic"`
+   2000 and a device with no `"elements"`.
 
 ## Summary
 

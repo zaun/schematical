@@ -511,6 +511,13 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
             p.kind = VOLTAGE_CAPACITOR_OVER;
             p.min_mv = 0;
             p.max_mv = part->capacitor->rated_mv;
+        } else if (part->kind == PART_TRANSISTOR && transistor_pin_limit_mv(part, c->pin) > 0 &&
+                   e.mv > transistor_pin_limit_mv(part, c->pin)) {
+            /* A channel pin against Vceo / Vds, a MOSFET gate against Vgs;
+               a BJT base is never checked (plan-40-F section 3.3). */
+            p.kind = VOLTAGE_TRANSISTOR_OVER;
+            p.min_mv = 0;
+            p.max_mv = transistor_pin_limit_mv(part, c->pin);
         } else {
             continue;
         }
@@ -559,6 +566,7 @@ int voltage_describe(const Part *const *parts, const VoltageProblem *problem,
                             part->name, problem->max_mv / 1000.0);
         case VOLTAGE_SWITCH_OVER:
         case VOLTAGE_CAPACITOR_OVER:
+        case VOLTAGE_TRANSISTOR_OVER:
             return snprintf(buffer, size, "voltage: %g V on pin %s (%s) of %s; it is rated %g V", v,
                             pin_designator(part, problem->pin), pin_name(part, problem->pin),
                             part->name, problem->max_mv / 1000.0);

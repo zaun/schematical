@@ -28,6 +28,18 @@ int diode_pair(const Part *part, size_t k, size_t *anode, size_t *cathode);
    for a part that is no resistor. */
 int resistor_pair(const Part *part, size_t k, size_t *a, size_t *b);
 
+/* A transistor part's k-th element (0-based, plan-40-F): its type ("npn",
+   "pnp", "nmos", "pmos"), its control pin (base, gate) and its first
+   channel pins (collector and emitter, drain and source), as indices into
+   Part.pins (transistor.c). Any output may be NULL. 0 past the last
+   element, and for a part that is no transistor. */
+int transistor_element(const Part *part, size_t k, const char **type, size_t *control,
+                       size_t *a, size_t *b);
+/* The voltage a transistor pin is rated for, in millivolts: Vceo / Vds for
+   a channel pin, Vgs for a MOSFET gate; 0 (never refused) for a BJT base,
+   a rating the part does not give, and a part that is no transistor. */
+uint32_t transistor_pin_limit_mv(const Part *part, size_t pin);
+
 /* A switch position's (1-based) two contact pins, as indices into Part.pins. */
 int switch_contact_pins(const Part *part, unsigned position, size_t *a, size_t *b);
 
