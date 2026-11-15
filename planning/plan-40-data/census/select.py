@@ -280,6 +280,20 @@ def main():
               'of', sum(1 for r in rows if r['reason'] == picked))
         print('picked from a cut piece, not stock-checked:',
               sum(1 for r in rows if r['reason'] == picked and r['cut'] and r['stock_checked'] != 1))
+        if verdicts:
+            # plan-40-B Corrections 1: a row whose spec row was not read could
+            # change the pick only if its stock reaches its (family, maker)'s
+            # floor, or if that share is short.
+            nr = [r for r in rows if r['reason'] == 'out:below the pick (not read)']
+            above = [r for r in nr if (r['family'], r['maker']) not in floor
+                     or r['stock'] >= floor[(r['family'], r['maker'])]]
+            short = sorted({(r['family'], r['maker']) for r in nr
+                            if sum(1 for x in rows if x['reason'] == 'add' and x['family'] == r['family']
+                                   and x['maker'] == r['maker']) < -(-QUOTA[r['family']] // 3)})
+            print(f'not read: {len(nr)} rows; at or above their floor: {len(above)}; '
+                  f'in a short share: {len(short)}', short)
+            for r in above[:20]:
+                print('  not read above the floor:', r['mpn'], r['family'], r['maker'], r['stock'])
 
 
 main()

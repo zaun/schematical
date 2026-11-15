@@ -32,9 +32,9 @@ plan-40-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-40-A complete | `ls planning/completed/plan-40-A-*.md` → exists | NOT MET (A not started) |
-| Every picked row from a cut piece is stock-checked | `awk -F'\t' '$24=="candidate" && $25==1 && $26!=1' planning/plan-40-data/candidates.tsv \| wc -l` → 0 | NOT MET (A not started) |
-| The PDFs are placed | `ls datasheets/transistor/datasheets.tsv` → exists; `ls planning/plan-40-data/specs.tsv` → exists | NOT MET (A not started) |
+| plan-40-A complete | `ls planning/completed/plan-40-A-*.md` → exists | MET (2026-11-15: `planning/completed/plan-40-A-transistor-data.md`) |
+| Every picked row from a cut piece is stock-checked | `awk -F'\t' '$24=="candidate" && $25==1 && $26!=1' planning/plan-40-data/candidates.tsv \| wc -l` → 0 | MET (2026-11-15: 0) |
+| The PDFs are placed | `ls datasheets/transistor/datasheets.tsv` → exists; `ls planning/plan-40-data/specs.tsv` → exists | MET (2026-11-15: both exist; 3983 PDFs, 4279 spec rows) |
 
 Everything below is written against the world where these hold.
 
@@ -165,9 +165,15 @@ pinout); (b) taking pinouts from DigiKey's description text (it has none).
 
 ### Phase 1 — onsemi (with Fairchild)
 
-- [ ] `census/scheme-check.py`, `census/pinout-check.py` (§ 3.1) and
+- [x] `census/scheme-check.py`, `census/pinout-check.py` (§ 3.1) and
       `census/specs-fill.py` (merges a hand-written maker file into
-      `specs.tsv`).
+      `specs.tsv`). With `census/specs.py` (what they share),
+      `census/need-groups.py` and `census/mark-unread.py` (Corrections 1),
+      `census/dead-merge.py` (Phase 4), `census/verdicts.py` and `select.py
+      --verdicts --carry` (Phase 4). Smoke run on the skeleton:
+      `scheme-check.py --maker Nexperia` → `232 eligible rows without a
+      scheme`; `pinout-check.py --maker Nexperia` → `326 pinout errors` (every
+      row still empty).
 - [ ] Read each onsemi PDF's ordering table and pin diagram (`pdftotext
       -layout`; one `specs.tsv` row per (series, PDF, package)); fill
       `scheme`, `label`, `pinout`, `elements`. Fairchild-branded PDFs are
@@ -266,7 +272,33 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. **Reading waves: only the spec rows the pick can reach are read.** After
+   the re-listing (plan-40-A Corrections 3) there are 6247 eligible rows and
+   4279 spec rows over 3983 PDFs, against the plan's 3840 rows. The pick
+   takes at most 1287 parts, so most spec rows serve rows far below their
+   (family, maker)'s floor. `census/need-groups.py` runs the pick
+   optimistically (a row whose spec row is not read counts as passing) and
+   prints the spec rows a picked row, or one of the next 10 rows of its
+   (family, maker), uses: wave 1 is `1236 picked; 1296 spec rows to read`
+   (onsemi 471, Vishay Siliconix 247, Infineon 243, Diodes 211, Nexperia
+   124). Each wave is read and merged; the waves end when need-groups.py
+   prints nothing. Then `mark-unread.py` sets the remaining spec rows'
+   `scheme` to `n/r`, `verdicts.py` makes their rows `out`, `below the pick
+   (not read)`, and `select.py … --verdicts … --report` proves the shortcut
+   changed nothing: its `not read: …; at or above their floor: 0; in a short
+   share: 0` line (a not-read row below its share's lowest `add` stock cannot
+   be picked whatever its verdict). `scheme-check.py` counts them as `not
+   read (n/r)`, not as rows without a scheme. The reading is split into six
+   work lists (onsemi in two halves by PDF), each read by a separate agent
+   from the brief `/tmp/p40/b/BRIEF.md` into `specs-<list>.tsv` and
+   `dead-<list>.tsv`.
+2. **Conventions of `specs.tsv`.** `scheme` `=`: every row of the group is
+   printed verbatim, so no regex is needed (a hit is in the ordering table
+   by rule 6); `-`: the PDF has no ordering table (only a hit counts);
+   `n/r`: not read (Corrections 1). Pinout name `NC` for a not-connected pin
+   (an `nc` pin in G). A pinout may have one pin more than DigiKey's count
+   when the datasheet numbers the tab on its own and the last pin repeats a
+   channel name (`G,D,S,D` on a DPAK DigiKey counts as `-3`).
 
 ## Summary
 
