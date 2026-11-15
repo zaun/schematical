@@ -152,13 +152,46 @@ Notes:
 
   The voltage check carries each end's level to the other end's net, both
   ways (`resistor_pair` in `model_pins.h`).
+- **Transistors** (plan-40-F). A transistor part is one or more elements
+  (BJT or MOSFET), each a digital switch: its channel (collector–emitter,
+  drain–source) is an engine **contact** (`sim_set_contact`), closed while
+  the control pin reads 1 for an NPN / N-channel element and 0 for a PNP /
+  P-channel one; X and Z leave it open. The model needs no new engine
+  hook: `pin_changed` on a control pin schedules a timer 1 ns later
+  (`TRANSISTOR_DELAY_PS`), and the timer re-reads the pin and sets the
+  contact. So a channel change is always a later event than the read that
+  caused it (a gate tied to its drain toggles every 1 ns and the run
+  returns), and a pulse shorter than 1 ns never moves the channel. A
+  conducting channel passes strong values both ways, as a closed switch
+  does, and a strong 1 and 0 across it is `smoke:`. Same-named pins (a tab
+  and its lead) are tied by contacts closed in `start`. What it gives:
+
+  | Circuit | Result |
+  |---|---|
+  | NPN, base 1, collector pulled up, emitter GND | collector 0 after 1 ns; base 0: 1 again |
+  | N-channel, the same with gate, drain, source | the same |
+  | PNP / P-channel high side, emitter / source on VCC | base / gate 0: collector / drain 1; 1: Z |
+  | base X, or not connected | channel open |
+  | a 0.5 ns pulse on the base | the channel never moves |
+  | base 1 across a strong 1 and a strong 0 | `smoke:`; base 0: no short |
+  | emitter follower (collector VCC, base 1, emitter pulled down) | emitter 1 |
+  | gate tied to drain, drain pulled up, source GND | toggles each ns; the run returns |
+  | an inverter's output on an NPN's base, 5V – R – LED – collector | the LED lights while the inverter's output is 1 |
+  | a tab named like its lead | the tab and the lead are one node |
+  | a complementary pair | each element switches on its own base |
+
+  The voltage check does not carry a level through a channel; it refuses a
+  channel pin above `vceo` / `vds` and a MOSFET gate above `vgs`
+  (`transistor_pin_limit_mv` in `model_pins.h`).
 - **Voltages** (`voltage.h`, plan-07). The simulation is logic-only; a
   separate static check, `voltage_check`, works out each net's voltage from
   its supplies (`PartSupply.mv`), the outputs of powered parts and what an
   LED or a diode (each link, `diode_pair` in `model_pins.h`) carries from
   anode to cathode and a resistor carries both ways, and reports every power pin outside
   its part's `vcc` range, input above its part's input max, switch contact
-  above its rating, and two different non-zero supplies on one net.
+  above its rating, capacitor pin above its rated voltage, transistor
+  rating (a channel pin above `vceo` / `vds`, a MOSFET gate above `vgs`),
+  and two different non-zero supplies on one net.
   `voltage_describe` gives the text, e.g. `voltage: 5 V on pin 14 (VCC) of
   SN74AUC00PWR; it needs 0.8-2.7 V`. It takes plain arrays (parts,
   pin→net connections, closed contacts), so the app runs it on a candidate
@@ -274,12 +307,16 @@ backend/
                            share: timing entries, controls, X rules,
                            outputs), and lights.c (on-time tracking for
                            lights);
-                           model_pins.h (LED, diode, resistor, switch and
-                           open-drain pin facts for the voltage check);
+                           model_pins.h (LED, diode, resistor, transistor,
+                           switch and open-drain pin facts for the voltage
+                           check);
                            diode.c (the diode kind: loader, the
                            links-only model, plan-29-H);
                            resistor.c (the resistor kind: loader, the
                            weak-links-only model, plan-34-E);
+                           transistor.c (the transistor kind: loader, the
+                           contact switch model, the rating limits,
+                           plan-40-F);
                            cpu.c + cpu.h (the cpu kind: loader, the model
                            that forwards to a core adapter, input sampling,
                            the instruction tracker), cpu6502.c (the
@@ -452,6 +489,13 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   lighting a GENERIC-LED through a resistor, 5 V through a resistor
   refused by a 3.3 V input, and a bussed array's two common pins as one
   node.
+- `transistor_test` — the transistor kind (plan-40-F): the fixture parts
+  of `tests/support/transistor_fixture.h` load and their `PartTransistor`
+  facts read back; the loader's rejections; the engine cases of the
+  Transistors table above (each fixture part's model in a rig with a
+  scripted driver); an SN74HC04N lighting a GENERIC-LED through an NPN;
+  and the rating test (`VOLTAGE_TRANSISTOR_OVER`: a drain above `vds`, a
+  gate above `vgs`; a BJT base and a part with no rating never refused).
 - `capacitor_test` — the capacitor kind (plan-33-E): the fixture
   capacitors (`tests/support/capacitor_fixture.h`, one tantalum and one
   ceramic device) load and their `PartCapacitor` facts read back; a

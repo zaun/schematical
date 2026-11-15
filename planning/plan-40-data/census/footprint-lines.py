@@ -3,7 +3,7 @@
 
 usage: python3 -I footprint-lines.py <candidates.tsv> > footprints-needed.txt
 
-One line per (maker, DigiKey Package / Case) of the `candidate` rows, with the
+One line per (maker, DigiKey Package / Case) of the `add` rows (B; `candidate` before B), with the
 family groups and supplier package names it covers, the number of parts, the
 part with the most stock as the example and its datasheet link. The package drawing in that
 datasheet is what plan-40-C..E draw the footprint from; DigiKey's package
@@ -82,7 +82,7 @@ def existing(package):
 groups = collections.OrderedDict()
 with open(sys.argv[1], newline='') as fh:
     for r in csv.DictReader(fh, delimiter='\t'):
-        if r['reason'] != 'candidate':
+        if r['reason'] not in ('add', 'candidate'):   # plan-40-B: the final pick's add rows
             continue
         key = (r['maker'], r['mounting'], r['package'])
         g = groups.setdefault(key, {'n': 0, 'best': r, 'groups': set(), 'supplier': set()})

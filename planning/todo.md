@@ -59,7 +59,7 @@
 
 ## Parts
 
-- [ ] Add BJTs (2N3904, 2N3906, BC547…) and MOSFETs (2N7000, logic-level
+- [x] Add BJTs (2N3904, 2N3906, BC547…) and MOSFETs (2N7000, logic-level
       N-channel), top 3 manufacturers.
 - [ ] Add voltage regulators: 78xx, AMS1117, LM317, LDOs, and common buck
       modules.

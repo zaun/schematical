@@ -125,6 +125,11 @@ nonisolated enum PartSymbol: Hashable {
     /// (left) and pin 2 (right), its value above (`ResistorSymbolView`).
     /// Resistor arrays are blocks.
     case resistor
+    /// A single transistor (plan-40-H): the BJT or MOSFET symbol, the base
+    /// or gate on the left, the collector or drain at the top right and the
+    /// emitter or source at the bottom right (`TransistorSymbolView`).
+    /// Transistor arrays are blocks.
+    case transistor
     case vcc
     case ground
     case pullUp
@@ -200,6 +205,15 @@ nonisolated struct ChipLayout: Hashable {
     static let diodeCentreY: CGFloat = 20
     static let diodeSize = CGSize(width: 40, height: 50)
 
+    /// Transistor symbol (plan-40-H): the base or gate on `transistorMidY`,
+    /// the collector or drain on `transistorTopY`, the emitter or source on
+    /// `transistorBottomY`. The body is wide enough for the part name to the
+    /// right of the symbol, between the two right-hand leads.
+    static let transistorTopY: CGFloat = 10
+    static let transistorMidY: CGFloat = 30
+    static let transistorBottomY: CGFloat = 50
+    static let transistorSize = CGSize(width: 80, height: 60)
+
     let size: CGSize
     let slots: [PinSlot]
 
@@ -234,6 +248,8 @@ nonisolated struct ChipLayout: Hashable {
             self = Self.diode(pins)
         case .capacitor, .resistor:
             self = Self.capacitor(pins)
+        case .transistor:
+            self = Self.transistor(pins)
         case .vcc:
             self = Self.supply(pins, side: .bottom)
         case .ground:
@@ -483,6 +499,27 @@ nonisolated struct ChipLayout: Hashable {
             slots: [
                 PinSlot(pin: first, side: .left, centerY: diodeCentreY),
                 PinSlot(pin: second, side: .right, centerY: diodeCentreY),
+            ]
+        )
+    }
+
+    /// A transistor (plan-40-H): the base (`B`) or gate (`G`) on the left
+    /// at the middle, the collector (`C`) or drain (`D`) at the top right,
+    /// the emitter (`E`) or source (`S`) at the bottom right. As the diode,
+    /// the first pin of each name is placed; a tab of the same name (G, D,
+    /// S, D) is joined to it inside the part and is not drawn. Falls back
+    /// to the block layout if a terminal is missing.
+    private static func transistor(_ pins: [ChipPin]) -> ChipLayout {
+        func first(_ names: String...) -> ChipPin? { pins.first { names.contains($0.name) } }
+        guard let control = first("B", "G"), let top = first("C", "D"), let bottom = first("E", "S") else {
+            return ChipLayout(pins: pins)
+        }
+        return ChipLayout(
+            size: transistorSize,
+            slots: [
+                PinSlot(pin: control, side: .left, centerY: transistorMidY),
+                PinSlot(pin: top, side: .right, centerY: transistorTopY),
+                PinSlot(pin: bottom, side: .right, centerY: transistorBottomY),
             ]
         )
     }

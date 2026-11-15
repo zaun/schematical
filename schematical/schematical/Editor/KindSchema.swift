@@ -203,6 +203,7 @@ enum PartKinds {
         "7seg", "arith", "buffer", "capacitor", "charlcd", "connector", "converter", "counter", "cpu", "decoder",
         "dff", "diode", "eeprom", "gate", "header", "jkff", "latch", "led", "mcu", "mux", "oscillator",
         "pio", "register", "resistor", "rtc", "serial", "shift", "sram", "supply", "switch",
+        "transistor",
     ]
 
     /// The names shown in the New Part picker and window titles.
@@ -214,6 +215,7 @@ enum PartKinds {
         "header": "Pin Header", "jkff": "JK Flip-Flop", "latch": "Latch", "led": "LED", "mcu": "Microcontroller", "mux": "Multiplexer",
         "oscillator": "Oscillator", "pio": "Parallel I/O", "register": "Register", "resistor": "Resistor", "rtc": "Real-Time Clock", "serial": "Serial",
         "shift": "Shift Register", "sram": "SRAM", "supply": "Supply", "switch": "Switch",
+        "transistor": "Transistor",
     ]
 
     /// Each kind's editor schema; a kind is enabled in the editor once it has one.

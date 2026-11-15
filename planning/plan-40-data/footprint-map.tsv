@@ -1,0 +1,228 @@
+letter	maker	package	supplier	footprint	label	note
+C	Diodes Incorporated	E-Line-3	*	E-LINE-3-DIODES	E-Line	new
+C	Diodes Incorporated	E-Line-3, Formed Leads	*	E-LINE-3-DIODES-FORMED	E-Line	new
+C	Infineon Technologies	TO-220-3	PG-TO220-3	TO-220-3	TO-220	reuse: PG-TO220-3-U05 (infineon-ipp024n08nf2s-datasheet-cn.pdf p.10) e 2.54, b 0.84 mid -> drill 1.10, pad 1.80, body 10.285 x 4.50 = TO-220-3 (10.31 x 4.45)
+C	Infineon Technologies	TO-220-3	PG-TO220-3-1	TO-220-3-INFINEON	TO-220	new
+C	Infineon Technologies	TO-220-3	TO-220AB	TO-220-3-ONSEMI	TO-220	reuse: IR TO-220 PG-TO220-3-U05 wide table (infineon-irl540npbf-datasheet-en.pdf p.8) b 0.695 mid (0.38-1.01) -> drill 0.95, pad 1.65, body 10.16 x 4.195 = TO-220-3-ONSEMI exactly
+C	Infineon Technologies	TO-220-3 Full Pack	*	TO-220-FULL-PACK-3	TO-220 FullPAK	reuse: PG-TO220 FullPAK Z8B00003319 (Infineon-IPA60R1K5CE-DS-v02_00-EN.pdf p.11) e 2.54, b 0.775 mid -> drill 1.05, pad 1.75, body 10.325 x 4.70 vs 10.295 x 4.70
+C	Infineon Technologies	TO-247-3	PG-TO247-3	TO-247-3	TO-247	reuse: PG-TO247-3 (infineon-irf150p220-datasheet-en.pdf p.10, JEDEC TO-247AC) e 5.46 BSC, b 1.195 mid -> drill 1.45, pad 2.15, body 15.58 x 4.98 = TO-247-3 exactly
+C	Infineon Technologies	TO-247-3	TO-247AC	TO-247-3	TO-247	reuse: same IR TO-247AC outline as PG-TO247-3 (irf150p220 p.10 conforms to JEDEC TO-247AC; IRFP048N has no PDF here) = TO-247-3
+C	Infineon Technologies	TO-251-3 Short Leads, IPAK, TO-251AA	*	TO-251-3-INFINEON	IPAK	new
+C	Infineon Technologies	TO-251-3 Stub Leads, IPAK	*	TO-251-3-INFINEON	IPAK	reuse (assumed): no PG-TO251-3-11 drawing in any PDF here (SPS01N60C3 has none); stub leads only shorten the TO-251AA leads, pitch 2.29 and lead width are those of the Infineon I-Pak drawing
+C	Infineon Technologies	TO-262-3 Long Leads, I2PAK, TO-262AA	*	TO-220-3-INFINEON	I2PAK	reuse: PG-TO262-3 outline (infineon-ipp075n15n3-datasheet-en.pdf p.10; SPI07N65C3 PG-TO262-3-1 has no PDF) e 2.54, b 0.757 mid -> drill 1.05, pad 1.75, body 10.03 x 4.436 = TO-220-3-INFINEON
+C	Vishay Siliconix	TO-220-3	*	TO-220-3	TO-220	reuse: Vishay Siliconix TO-220AB DWG 5471 (sup70101el.pdf p.7; irf9640.pdf has no outline) e 2.54 mid, b 0.85 mid -> drill 1.10, pad 1.80, body 10.275 x 4.45 vs TO-220-3 10.31 x 4.45
+C	Vishay Siliconix	TO-247-3	*	TO-247-3	TO-247	reuse: Vishay TO-247AC doc 91360 (91237.pdf) versions 2 and 3 (DWG 5971): e 5.46 BSC, b 1.195 mid -> drill 1.45, pad 2.15, body 15.58 x 4.98 = TO-247-3
+C	Vishay Siliconix	TO-274AA	*	TO-274AA-3-VISHAY	TO-274AA	new
+C	onsemi	14-DIP (0.300", 7.62mm)	*	PDIP-14	DIP	reuse (assumed): no TO-116 drawing here (MPQ6100A has no PDF); TO-116 is the JEDEC 14-lead 0.300 in DIP, 2.54 pitch, 7.62 row spacing = PDIP-14
+C	onsemi	SC-71	*	SC-71-3-ONSEMI	SC-71	new
+C	onsemi	TO-220-3	TO-220	TO-220-3-INFINEON	TO-220	reuse: onsemi TO-220-3 CASE 221A issue AL (ntp7d3n15mc-d.pdf p.7) e 2.54, b1 0.80 mid -> drill 1.05, pad 1.75, body 10.095 x 4.45 vs 10.03 x 4.435
+C	onsemi	TO-220-3	TO-220-3	TO-220-3-ONSEMI-340AT	TO-220	new
+C	onsemi	TO-220-3	TO-220AB	TO-220-3-ONSEMI-340AT	TO-220	reuse (assumed): RFP8P10 has no PDF; onsemi RFP (ex-Harris TO-220AB) parts use CASE 340AT (rfp50n06-d.pdf)
+C	onsemi	TO-220-3 Full Pack	TO-220F	TO-220F-3-ONSEMI	TO-220F	reuse: CASE 221AT TO-220F-3SG is the TO-220F drawing (FCPF099N65S3-D.PDF)
+C	onsemi	TO-220-3 Full Pack	TO-220F-3	ITO-220-3-TSC	TO-220F	reuse: onsemi TO-220 FULLPAK 3LD CASE 340BF (fcpf600n65s3r0l-d.pdf p.9) pitch 2.54 mid, lead 0.70 mid (0.50-0.90) -> drill 0.95, pad 1.65, body 10.05 x 4.45 vs 9.95 x 4.50
+C	onsemi	TO-220-3 Full Pack	TO-220ML	TO-220F-3-ONSEMI	TO-220F	reuse: TO-220F-3FS CASE 221AM (2SA2222SG-D.PDF p.5) 2.54, lead 0.8, body 10.16 x 4.7 = TO-220F-3-ONSEMI
+C	onsemi	TO-220-3 Full Pack, Formed Leads	*	TO-220F-3-ONSEMI-YFORM	TO-220F	new
+C	onsemi	TO-225AA, TO-126-3	TO-126	TO-126-3-ONSEMI	TO-126	reuse: MJE200G drawing (mje200-d.pdf p.4, Fairchild TO-126: 2.28, lead 0.75, 8.00 x 3.25, lead 1.00 from the front) = TO-126-3-ONSEMI
+C	onsemi	TO-225AA, TO-126-3	TO-126-3	TO-126-3-ONSEMI	TO-126	new
+C	onsemi	TO-225AA, TO-126-3	TO-126LP	TO-126-3-ONSEMI	TO-126	reuse (assumed): no TO-126LP (Sanyo) drawing here; DigiKey classes it TO-225AA/TO-126-3 (2.29 pitch)
+C	onsemi	TO-225AA, TO-126-3	TO-126ML	TO-126-3-ONSEMI	TO-126	reuse (assumed): no TO-126ML (Sanyo) drawing here; DigiKey classes it TO-225AA/TO-126-3 (2.29 pitch)
+C	onsemi	TO-226-3, TO-92-3 (TO-226AA)	3-NP	TO-92-3-ONSEMI-29	TO-92	reuse (assumed): no 3-NP (Sanyo NP) drawing here; DigiKey classes it TO-226AA, drawn as onsemi CASE 29-11 TO-92 (TO-226)
+C	onsemi	TO-226-3, TO-92-3 (TO-226AA)	TO-226-3	TO-92-3-ONSEMI-226AE	TO-92	new
+C	onsemi	TO-226-3, TO-92-3 (TO-226AA)	TO-92	TO-92-3-ONSEMI	TO-92	reuse (assumed): 2N4126/2N5210 PDFs have no outline; ex-Fairchild bulk TO-92 parts are CASE 135AN in onsemi PDFs (2n3904-d.pdf)
+C	onsemi	TO-226-3, TO-92-3 (TO-226AA)	TO-92 (TO-226)	TO-92-3-ONSEMI-29	TO-92	new (CASE 29-11 straight, bc487-d.pdf)
+C	onsemi	TO-226-3, TO-92-3 (TO-226AA)	TO-92-3	TO-92-3-ONSEMI	TO-92	new
+C	onsemi	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	TO-92	TO-92-3-ONSEMI-FORMED	TO-92	reuse: 2N3904RM drawing (2n3904-d.pdf) is CASE 135AR = TO-92-3-ONSEMI-FORMED
+C	onsemi	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	TO-92 (TO-226)	TO-92-3-ONSEMI-29-FORMED	TO-92	new
+C	onsemi	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	TO-92-3	TO-92-3-ONSEMI-FORMED	TO-92	new
+C	onsemi	TO-226-3, TO-92-3 Long Body	3-MP	TO-92-3-ONSEMI-LONG	TO-92	reuse (assumed): no 3-MP (Sanyo MP) drawing here; long-body TO-92 straight leads drawn as onsemi CASE 135AP
+C	onsemi	TO-226-3, TO-92-3 Long Body	TO-92-3	TO-92-3-ONSEMI-LONG	TO-92	new
+C	onsemi	TO-226-3, TO-92-3 Long Body, Formed Leads	TO-92 (TO-226)	TO-92-3-ONSEMI-29-FORMED	TO-92	reuse: MPSA92-D.PDF gives only CASE 29-11 (bent lead for RLRM) = TO-92-3-ONSEMI-29-FORMED
+C	onsemi	TO-226-3, TO-92-3 Long Body, Formed Leads	TO-92-3	TO-92-3-ONSEMI-LONG-FORMED	TO-92	new
+C	onsemi	TO-247-3	*	TO-247-3-ONSEMI	TO-247	reuse: onsemi TO247-3 CASE 340AK issue B (UF3C170400K3S-D.PDF p.9) e 5.44 BSC, b 1.195 mid -> drill 1.45, pad 2.15, body 15.875 x 5.005 vs TO-247-3-ONSEMI 5.45, 15.88 x 5.00
+C	onsemi	TO-251-3 Short Leads, IPAK, TO-251AA	IPAK	TO-251-3-ONSEMI	IPAK	new
+C	onsemi	TO-251-3 Short Leads, IPAK, TO-251AA	TP	TO-251-3-ONSEMI-TP	IPAK	new
+C	onsemi	TO-251-3 Stub Leads, IPAK	*	TO-251-3-ONSEMI	IPAK	reuse (assumed): FDU6692/FDU6644 have no PDF and no onsemi stub-lead IPAK drawing is here; stub leads only shorten the IPAK leads (pitch 2.29, CASE 369D)
+C	onsemi	TO-262-3 Long Leads, I2PAK, TO-262AA	*	TO-220-3-INFINEON	I2PAK	reuse: Fairchild TO262A03 (FCI7N60-D.pdf p.8; FQI5N60C has no PDF) 2.54, lead 0.77 mid (0.64-0.90) -> drill 1.05, pad 1.75, body 9.97 x 4.445 vs 10.03 x 4.435
+C	onsemi	TO-3P-3, SC-65-3, Formed Leads	*	TO-3PN-3-ONSEMI-LFORM	TO-3P	new
+C	onsemi	TO-247-4	*	TO-247-4-ONSEMI	TO-247	new
+C	onsemi	TO-3P-3, SC-65-3	*	TO-3P-3	TO-3P	reuse: onsemi TO-3P-3LD / SC-65 CASE 340BZ issue O (fqa36p15-d.pdf p.8) pitch 5.45, lead 1.00 mid (0.80-1.20) -> drill 1.25, pad 1.95 = TO-3P-3 pads exactly; body 15.80 x 4.80 vs 15.60 x 4.80 (0.2 wider; TO-3P-3 note already names CASE 340BZ as the same land pattern)
+D	Diodes Incorporated	3-UDFN	*	UDFN2020-3-DIODES	DFN	reuse: ZXTP722MA.pdf p.6 prints the same DFN2020B-3 outline and suggested pad layout (C 1.30, G 0.24, X 0.35, X1 1.52, Y 1.09, Y1 0.47, Y2 0.50) and p.1 the same bottom-view pin-out (B, E, C) as ZXTP717MA, the drawing of UDFN2020-3-DIODES; pinout B,E,C = pads 1-3
+D	Diodes Incorporated	3-UDFN Exposed Pad	*	UDFN2020-3-DIODES	DFN	new
+D	Diodes Incorporated	3-UFDFN	*	X1DFN1006-3-DIODES	DFN	new
+D	Diodes Incorporated	3-XFDFN	X2-DFN0606-3	X2DFN0606-3-DIODES	DFN	new
+D	Diodes Incorporated	3-XFDFN	X2-DFN0806-3	X2DFN0806-3-DIODES	DFN	new
+D	Diodes Incorporated	3-XFDFN	X2-DFN1006-3	X2DFN1006-3-DIODES	DFN	new
+D	Diodes Incorporated	6-TSSOP, SC-88, SOT-363	*	SOT363-6	SOT-363	reuse: Diodes SOT363 pad layout (MMDT3906.pdf p.6, DDC_XXXX_U.pdf p.7: C 0.65, G 1.3, X 0.42, Y 0.6) = 0.6 x 0.42 pads, 0.65 pitch, 1.9 span, body 1.25 x 2.0, as SOT363-6
+D	Diodes Incorporated	SC-70, SOT-323	*	SOT323-3-DIODES	SC-70	new (ZUMT717TA's older Zetex table, ZUMT717.pdf p.6, is library SOT323-3 instead)
+D	Diodes Incorporated	SOT-23-3 Flat Leads	*	SOT23F-3-DIODES	SOT-23	new
+D	Diodes Incorporated	SOT-23-6	*	SOT26-6-DIODES	SOT-23-6	new (DMMT3906 ds30293.pdf prints no pad layout; Diodes SOT26 land from ZXT13N15DE6.pdf)
+D	Diodes Incorporated	SOT-523	*	SC75-3	SOT-523	reuse: Diodes SOT523 layout (ds30314.pdf p.5: X 0.40, Y 0.51, X1 0.70 -> +-0.50, C 1.29 rows) vs SC75-3 0.508 x 0.356 pads, +-0.50, 1.295 rows: every size and centre within 0.05, body 0.8 x 1.6
+D	Diodes Incorporated	SOT-563, SOT-666	*	SOT563-6-DIODES	SOT-563	new
+D	Diodes Incorporated	SOT-963	*	SOT963-6-DIODES	SOT-963	new
+D	Diodes Incorporated	TO-236-3, SC-59, SOT-23-3	*	SOT23-3-TSC	SOT-23	reuse: Diodes SOT23 layout (ds30041.pdf p.6, FMMT593.pdf p.5: X 0.8, Y 0.9, X1 1.35 -> +-0.95, C 2.0 rows) vs SOT23-3-TSC 0.85 x 0.85 pads, +-0.95, rows 2.0: sizes within 0.05 (at the limit), body 1.30 x 2.90 vs 2.92
+D	Diodes Incorporated	TO-243AA	*	SOT89-3-DIODES	SOT-89	new
+D	Infineon Technologies	6-VSSOP, SC-88, SOT-363	*	SOT363-6-INFINEON	SOT-363	new
+D	Infineon Technologies	TO-236-3, SC-59, SOT-23-3	Micro3™/SOT-23	SOT23-3-INFINEON-MICRO3	SOT-23	new
+D	Infineon Technologies	TO-236-3, SC-59, SOT-23-3	PG-SOT-23-3	SOT23-3-INFINEON-U01	SOT-23	new (BSS127I prints the outline only: R2)
+D	Infineon Technologies	TO-236-3, SC-59, SOT-23-3	PG-SOT23	SOT23-3-TSC	SOT-23	reuse: Infineon PG-SOT23 footprint (Infineon-2N7002-DS-v02_04-en.pdf p.8: pads 0.9 x 0.8, pins 1/2 2.0 apart, rows 2.0) vs SOT23-3-TSC 0.85 x 0.85, +-0.95, rows 2.0: within 0.05 (at the limit), body 1.3 x 2.9
+D	Infineon Technologies	TO-236-3, SC-59, SOT-23-3	SOT-23	SOT23-3-INFINEON-MICRO3	SOT-23	new (IRFML8244 prints the same IR Micro3 footprint)
+D	Nexperia	3-UDFN Exposed Pad	*	DFN2020D-3-NEXPERIA	DFN	new
+D	Nexperia	3-XDFN Exposed Pad	*	DFN1010D-3-NEXPERIA	DFN	new (4 pads: pin 4 = numbered heat bar)
+D	Nexperia	6-TSSOP, SC-88, SOT-363	*	SOT363-6-NEXPERIA	SOT-363	new
+D	Nexperia	6-XFDFN Exposed Pad	*	DFN1010B-6-NEXPERIA	DFN	new (8 pads: 7, 8 numbered exposed pads)
+D	Nexperia	SC-101, SOT-883	*	X1DFN1006-3-DIODES	SOT-883	reuse: Nexperia sot883_fr (BC856BM.pdf p.8; sot883b_fr PDTC115EMB.pdf p.8 the same) lands 0.4 x 0.25 at (-0.35, +-0.225), 0.4 x 0.7 at +0.35, pin 1 top left (transparent top view) = X1DFN1006-3-DIODES pads exactly (Nexperia rounds the corners R0.05), body 0.99 x 0.59 vs 1.01 x 0.61
+D	Nexperia	SC-70, SOT-323	*	SOT323-3-NEXPERIA	SC-70	new
+D	Nexperia	SC-74, SOT-457	*	SC74-6-NEXPERIA	SC-74	new
+D	Nexperia	SOT-563, SOT-666	*	SOT666-6-NEXPERIA	SOT-666	new (PUMB3.pdf has no SOT666; sot666_fr from PEMX1.pdf p.4)
+D	Nexperia	TO-236-3, SC-59, SOT-23-3	*	SOT23-3-NEXPERIA	SOT-23	new
+D	Nexperia	TO-243AA	*	SOT89-3-NEXPERIA	SOT-89	new
+D	Vishay Siliconix	4-UFBGA	4-MICRO FOOT® (1.6x1.6)	MICROFOOT-4-1616-VISHAY	MICRO FOOT	new
+D	Vishay Siliconix	4-UFBGA	4-Microfoot	MICROFOOT-4-0808-VISHAY	MICRO FOOT	new (si8808db, si8812db are 0.8 x 0.8; SI8487DB under the same supplier package is 1.6 x 1.6: MICROFOOT-4-1616-VISHAY)
+D	Vishay Siliconix	4-UFBGA, WLCSP	*	MICROFOOT-4-1010-VISHAY	MICRO FOOT	new
+D	Vishay Siliconix	4-XFBGA	*	MICROFOOT-4-0808-VISHAY	MICRO FOOT	new
+D	Vishay Siliconix	4-XFBGA, CSPBGA	*	MICROFOOT-4-0808-VISHAY	MICRO FOOT	new
+D	Vishay Siliconix	6-TSSOP, SC-88, SOT-363	*	SC70-6-VISHAY	SC-70	new
+D	Vishay Siliconix	SC-70, SOT-323	*	SC70-3-VISHAY	SC-70	new
+D	Vishay Siliconix	SC-89, SOT-490	*	SC89-3-VISHAY	SC-89	new
+D	Vishay Siliconix	SOT-23-6 Thin, TSOT-23-6	*	TSOP6-6-VISHAY	TSOP-6	new
+D	Vishay Siliconix	SOT-563, SOT-666	*	SC89-6-VISHAY	SC-89	new
+D	Vishay Siliconix	TO-236-3, SC-59, SOT-23-3	*	SOT23-3-VISHAY-AN826	SOT-23	new
+D	onsemi	0402 (1006 Metric)	*	X2DFN1006-3-DIODES	DFN	reuse: onsemi X2DFN3 1.0x0.6 CASE 714AC issue A (nst857amx2-d.pdf p.9: 2x 0.43 x 0.20 at 0.35 pitch, 0.41 x 0.55, 1.10 overall, pin 1 top left) -> pads (-0.335, +-0.175), (+0.345, 0) vs X2DFN1006-3-DIODES 0.45 x 0.20 at (-0.375, +-0.175), 0.45 x 0.55 at +0.375: within 0.05, body 1.0 x 0.6
+D	onsemi	3-XFDFN	*	X2DFN1006-3-DIODES	DFN	reuse: nst3906mx2-d.pdf prints X2DFN3 1.0x0.6 CASE 714AC issue A, the drawing already reused for the 0402 line (2x 0.43 x 0.20 at 0.35 pitch, 0.41 x 0.55, 1.10 overall: within 0.05 of X2DFN1006-3-DIODES); p.1 pin 1 base, 2 emitter, 3 collector = pinout B,E,C, pin 1 top left, 2 bottom left, 3 right
+D	onsemi	3-XFLGA	*	X2DFN0606-3-DIODES	LGA	reuse: onsemi XLLGA3 0.62x0.62 CASE 713AB issue O (ntns3193nz-d.pdf p.7: 2x 0.280 x 0.200 at 0.350 pitch, 0.350 x 0.600, 0.760 overall, pin 1 top left, 3 right) = X2DFN0606-3-DIODES numbers exactly, body 0.62 square; pads stay numbered (the datasheet numbers the lands 1-3)
+D	onsemi	6-TSSOP, SC-88, SOT-363	SC-88 (SC-70-6)	SC70-6-ONSEMI-MAA06A	SC-88	new (FFB3904 MAA06A drawing; FDG332PZ, FDG312P PDFs print no package drawing)
+D	onsemi	6-TSSOP, SC-88, SOT-363	SC-88/SC70-6/SOT-363	SC88-6	SC-88	reuse: CASE 419B-02 issue Z (ntjd4152p-d.pdf, dtc114ed-d.pdf, NST45011MW6-D.PDF) is the drawing of library SC88-6
+D	onsemi	6-UDFN Exposed Pad	*	UDFN6-2X2-ONSEMI	DFN	new
+D	onsemi	6-UFBGA, WLCSP	*	WLCSP6-1015-ONSEMI	WLCSP	new
+D	onsemi	6-VDFN Exposed Pad	*	DFN6-3X3-ONSEMI-506AG	DFN	new (NTLGD3502N, CASE 506AG dual flag)
+D	onsemi	6-WDFN Exposed Pad	6-MicroFET (2x2)	WDFN6-2X2-ONSEMI-511CZ	DFN	new
+D	onsemi	6-WDFN Exposed Pad	6-WDFN (2x2)	UDFN6-2X2-ONSEMI	DFN	new (NTLJS4114N CASE 506AP prints the 517BG land; NTLJD3119C under the same supplier package is CASE 506AN dual flag: WDFN6-2X2-ONSEMI-506AN)
+D	onsemi	SC-70, SOT-323	SC-70-3 (SOT323)	SOT323-3	SC-70	reuse: onsemi SC-70 CASE 419 issue R soldering footprint (mmbt4403wt1-d.pdf p.7, dta113e-d.pdf p.12: 0.70 x 0.90 pads, +-0.65, rows 1.90) = SOT323-3 exactly, body 1.25 x 2.0 (2N7002W under this supplier is 419AB = SOT323-3-NEXPERIA)
+D	onsemi	SC-70, SOT-323	SOT-323	SOT323-3-NEXPERIA	SC-70	reuse: onsemi SC-70 CASE 419AB issue A soldering footprint (2N7002KW-D.PDF p.5: 0.50 x 0.60 pads, +-0.65, rows 1.80) vs SOT323-3-NEXPERIA 0.55 x 0.60, +-0.65, rows 1.85: within 0.05, body 1.25 x 2.0
+D	onsemi	SC-74, SOT-457	*	SC74R-6-ONSEMI	SC-74	new
+D	onsemi	SC-75, SOT-416	SC-75, SOT-416	SC75-3	SC-75	reuse: CASE 463 issue H (dtc114y-d.pdf, dta124x-d.pdf, mmbt3906tt1-d.pdf) is the drawing of library SC75-3
+D	onsemi	SC-75, SOT-416	SMCP	SMCP-3-ONSEMI	SMCP	new
+D	onsemi	SC-89, SOT-490	SC-89-3	SC89-3	SC-89	reuse: CASE 463C issue D (nta4151p-d.pdf) is the drawing of library SC89-3
+D	onsemi	SOT-1123	*	SOT1123-3-ONSEMI	SOT-1123	new
+D	onsemi	SOT-23-6	*	CPH6-6-ONSEMI	CPH6	new
+D	onsemi	SOT-23-6 Thin, TSOT-23-6	6-TSOP	TSOP6-6-ONSEMI	TSOP-6	new
+D	onsemi	SOT-23-6 Thin, TSOT-23-6	SuperSOT™-6	SOT23-6-ONSEMI-419BL	SuperSOT-6	new
+D	onsemi	SOT-563, SOT-666	SOT-563	SOT563-6	SOT-563	reuse: CASE 463A issue J (dtc114yp-d.pdf, nst3906dxv6t1-d.pdf, dta143td-d.pdf) is the drawing of library SOT563-6
+D	onsemi	SOT-563, SOT-666	SOT-563/SCH6	SOT563-6	SOT-563	reuse: SOT-563/SCH6 CASE 463AB issue O (SCH1430-D.PDF p.5: 0.3 x 0.4 pads, 0.5 pitch, rows 1.4) vs SOT563-6 0.30 x 0.45, rows 1.35: within 0.05, body 1.2 x 1.6
+D	onsemi	SOT-723	*	SOT723-3	SOT-723	reuse: CASE 631AA issue E (dta143e-d.pdf p.15) is the drawing of library SOT723-3
+D	onsemi	SOT-923F	*	SOT923F-3-ONSEMI	SOT-923F	new
+D	onsemi	SOT-963	*	SOT963-6-ONSEMI	SOT-963	new
+D	onsemi	TO-236-3, SC-59, SOT-23-3	3-CPH	CPH3-3-ONSEMI	CPH3	new
+D	onsemi	TO-236-3, SC-59, SOT-23-3	SC-59	SC59-3	SC-59	reuse: CASE 318D issue J (dtc144t-d.pdf, dta114t-d.pdf, dta113e-d.pdf p.11) is the drawing of library SC59-3
+D	onsemi	TO-236-3, SC-59, SOT-23-3	SOT-23-3	SOT23-3-ONSEMI	SOT-23	reuse: CASE 318 issue AU (fdv301n-d.pdf, BSS138-D.PDF) is the drawing of library SOT23-3-ONSEMI
+D	onsemi	TO-236-3, SC-59, SOT-23-3	SOT-23-3 (TO-236)	SOT23-3-ONSEMI	SOT-23	reuse: CASE 318 issue AU (mmbt3904lt1-d.pdf, ntr3a085pz-d.pdf) is the drawing of library SOT23-3-ONSEMI
+D	onsemi	TO-243AA	*	SOT89-3-ONSEMI-419AU-B	SOT-89	new (no PCP PDF on this line; current PCP drawing CASE 419AU issue B from 2SA1416-D.PDF p.7)
+E	Diodes Incorporated	PowerDI™ 5	*	POWERDI5-3-DIODES	PowerDI 5	new
+E	Diodes Incorporated	SOT-223-8	*	SM8-DIODES	SM-8	new
+E	Diodes Incorporated	TO-252-3, DPAK (2 Leads + Tab), SC-63	*	DPAK-3-DIODES	DPAK	new
+E	Diodes Incorporated	TO-261-4, TO-261AA	*	SOT223-4-DIODES	SOT-223	new
+E	Infineon Technologies	TO-252-3, DPAK (2 Leads + Tab), SC-63	*	DPAK-3-INFINEON	DPAK	new
+E	Infineon Technologies	TO-261-4, TO-261AA	PG-SOT223	SOT223-4-INFINEON-2L	SOT-223	new
+E	Infineon Technologies	TO-261-4, TO-261AA	PG-SOT223-3	SOT223-4-INFINEON-2L	SOT-223	new
+E	onsemi	TO-261-4, TO-261AA	*	SOT223-4-ONSEMI	SOT-223	new
+E	Infineon Technologies	TO-261-4, TO-261AA	SOT-223	SOT223-4-ONSEMI	SOT-223	reuse: IR SOT-223 (TO-261AA) minimum recommended footprint, infineon-irll024n-datasheet-en.pdf p.7: tab 3.80 x 2.00, leads 1.50 x 2.00, 2.30 pitch, 6.30 centres = onsemi 318E; body 6.50 x 3.50 mid (D 6.30-6.70, E 3.30-3.70); pins 1 G 2 D 3 S 4 D
+E	Nexperia	TO-261-4, TO-261AA	*	SOT223-4-NEXPERIA	SOT-223	new
+E	Vishay Siliconix	TO-261-4, TO-261AA	*	SOT223-4-VISHAY	SOT-223	new
+E	Infineon Technologies	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	PG-TO263-2	D2PAK-3-INFINEON	D2PAK	new
+E	Infineon Technologies	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	PG-TO263-3	D2PAK-3-INFINEON	D2PAK	new
+E	Infineon Technologies	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	D2PAK	D2PAK-3-IR	D2PAK	new
+E	Infineon Technologies	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	TO-263 (D2PAK)	D2PAK-3-IR	D2PAK	new
+E	Vishay Siliconix	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	*	D2PAK-3-VISHAY	D2PAK	new
+E	onsemi	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	D2PAK	D2PAK-3-ONSEMI	D2PAK	new
+E	onsemi	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	TO-263 (D2PAK)	D2PAK-3-ONSEMI-FCS	D2PAK	new
+E	onsemi	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	TO-263AB	D2PAK-3-ONSEMI-FCS	D2PAK	new
+E	Infineon Technologies	TO-263-7, D2PAK (6 Leads + Tab)	*	D2PAK-7-INFINEON	D2PAK-7	new
+E	Infineon Technologies	TO-263-7, D2PAK (6 Leads + Tab), TO-263CB	*	D2PAK-7-INFINEON	D2PAK-7	reuse: no D2PAK-7P drawing in the tree for IRFS4115TRL7PP (no PDF); TO-263CB is the JEDEC 7-lead D2PAK that PG-TO263-7 also follows (1.27 pitch, middle lead cut, tab = pin 4 drain); not checked against an IR drawing
+E	Vishay Siliconix	TO-263-7, D2PAK (6 Leads + Tab)	*	D2PAK-7-VISHAY	D2PAK-7	new
+E	onsemi	TO-263-7, D2PAK (6 Leads + Tab)	*	D2PAK-7-ONSEMI	D2PAK-7	new
+E	Nexperia	TO-252-3, DPAK (2 Leads + Tab), SC-63	*	DPAK-3-NEXPERIA	DPAK	new
+E	Nexperia	SC-100, SOT-669	*	LFPAK56-5-NEXPERIA	LFPAK56	new
+E	Nexperia	TO-277, 3-PowerDFN	*	CFP15B-3-NEXPERIA	CFP15B	new
+E	Vishay Siliconix	TO-252-3, DPAK (2 Leads + Tab), SC-63	*	DPAK-3-VISHAY	DPAK	new
+E	onsemi	TO-252-3, DPAK (2 Leads + Tab), SC-63	DPAK	DPAK-4-ONSEMI	DPAK	new
+E	onsemi	TO-252-3, DPAK (2 Leads + Tab), SC-63	TO-252 (DPAK)	DPAK-3-ONSEMI-369AS	DPAK	new
+E	onsemi	TO-252-3, DPAK (2 Leads + Tab), SC-63	TO-252AA	DPAK-3-ONSEMI-369AS	DPAK	new
+E	onsemi	TO-252-3, DPAK (2 Leads + Tab), SC-63	2-TP-FA	DPAK-4-ONSEMI	DPAK	reuse: CASE 369AH / 369AJ (DPAK / TP-FA, 2SA1552-D.PDF p.8-9) print the outline only (6.5 x 5.5 body, tab 5.0 wide, leads 2.3 pitch, no land pattern); onsemi's DPAK land (CASE 369C) used, not checked against a TP-FA land; pins 1 B, 3 E, the tab 4 (C) and the idle lead 2 as in DPAK-4-ONSEMI
+E	onsemi	TO-252-3, DPAK (2 Leads + Tab), SC-63	DPAK/TP-FA	DPAK-4-ONSEMI	DPAK	reuse: CASE 369AH / 369AJ (DPAK / TP-FA, 2SA1552-D.PDF p.8-9) print the outline only (6.5 x 5.5 body, tab 5.0 wide, leads 2.3 pitch, no land pattern); onsemi's DPAK land (CASE 369C) used, not checked against a TP-FA land; pins 1 B, 3 E, the tab 4 (C) and the idle lead 2 as in DPAK-4-ONSEMI
+E	onsemi	TO-252-3, DPAK (2 Leads + Tab), SC-63	TP-FA	DPAK-4-ONSEMI	DPAK	reuse: CASE 369AH / 369AJ (DPAK / TP-FA, 2SA1552-D.PDF p.8-9) print the outline only (6.5 x 5.5 body, tab 5.0 wide, leads 2.3 pitch, no land pattern); onsemi's DPAK land (CASE 369C) used, not checked against a TP-FA land; pins 1 B, 3 E, the tab 4 (C) and the idle lead 2 as in DPAK-4-ONSEMI
+E	Vishay Siliconix	8-SOIC (0.154", 3.90mm Width)	*	SO8-VISHAY	SOIC	new
+E	Infineon Technologies	8-SOIC (0.154", 3.90mm Width)	8-SO	SO8-IR	SOIC	new
+E	Infineon Technologies	8-SOIC (0.154", 3.90mm Width)	8-SOIC	SO8-IR	SOIC	new
+E	Infineon Technologies	8-SOIC (0.154", 3.90mm Width)	PG-DSO-8-902	SO8-IR	SOIC	reuse: PG-DSO-8-902 is IRF7313TRPBFXTMA1, whose PDF (irf7313pbf.pdf p.6) prints the same IR SO-8 footprint (0.72 x 1.78, 1.27, 6.46)
+E	Infineon Technologies	8-SOIC (0.154", 3.90mm Width)	PG-DSO-8-920	SO8-INFINEON	SOIC	new
+E	onsemi	8-SOIC (0.154", 3.90mm Width)	*	SOIC8-ONSEMI	SOIC	new
+E	onsemi	16-SOIC (0.154", 3.90mm Width)	*	SOIC16-ONSEMI	SOIC	new
+E	Diodes Incorporated	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	*	MSOP8-DIODES	MSOP	new
+E	Vishay Siliconix	8-SMD, Flat Leads	*	CHIPFET-1206-8-VISHAY	ChipFET	new
+E	onsemi	8-TSSOP (0.173", 4.40mm Width)	*	TSSOP-8	TSSOP	reuse: no onsemi drawing in the tree (FDW2509NZ has no PDF); onsemi 8-TSSOP 4.40 mm is the JEDEC MO-153 outline (4.4 x 3.0, 0.65 pitch) that TI PW0008A (library TSSOP-8) follows; not checked against an onsemi land pattern
+E	onsemi	8-VFSOP (0.091", 2.30mm Width)	*	VSSOP-8	US8	reuse: no onsemi drawing in the tree (HUF76113DK8T has no PDF); US8 / 8-VFSOP 2.30 mm is the 2.3 x 2.0 mm, 0.5 mm pitch outline (JEDEC MO-187 var. CA) that TI DCU0008A (library VSSOP-8) follows; not checked against an onsemi land pattern
+E	Vishay Siliconix	PowerPAK® SO-8	PowerPAK® SO-8	POWERPAK-SO8-VISHAY	PowerPAK SO-8	new
+E	Vishay Siliconix	PowerPAK® SO-8	PowerPAK® SO-8DC	POWERPAK-SO8DC-VISHAY	PowerPAK SO-8	new
+E	Vishay Siliconix	PowerPAK® SO-8 Dual	*	POWERPAK-SO8-DUAL-VISHAY	PowerPAK SO-8	new
+E	Vishay Siliconix	PowerPAK® 1212-8	*	POWERPAK-1212-8-VISHAY	PowerPAK 1212-8	new
+E	Vishay Siliconix	PowerPAK® 1212-8S	*	POWERPAK-1212-8-VISHAY	PowerPAK 1212-8	reuse: siss98dn.pdf p.8 prints the same AN826 1212-8 Single pads; 1212-8S body D 3.30 x E 3.30 mid (3.20-3.40), p.7
+E	Vishay Siliconix	PowerPAK® 1212-8SH	*	POWERPAK-1212-8-VISHAY	PowerPAK 1212-8	reuse: sish615adn.pdf p.8 prints the same AN826 1212-8 Single pads; 1212-8SH body D 3.30 x E 3.30 mid (3.20-3.40), p.7
+E	Vishay Siliconix	PowerPAK® 1212-8 Dual	*	POWERPAK-1212-8-DUAL-VISHAY	PowerPAK 1212-8	new
+E	Vishay Siliconix	PowerPAK® ChipFET™ Single	*	POWERPAK-CHIPFET-VISHAY	ChipFET	new
+E	Vishay Siliconix	PowerPAK® ChipFET™ Dual	*	POWERPAK-CHIPFET-DUAL-VISHAY	ChipFET	new
+E	Vishay Siliconix	PowerPAK® ChipFet Dual	*	POWERPAK-CHIPFET-DUAL-VISHAY	ChipFET	reuse: SI5922DU is a PowerPAK ChipFET dual (case outline p.7, dual pad: S1 G1 S2 G2 / D2 D2 D1 D1, same DWG 5940 body); its p.8 prints the single-land page, which would join D1 and D2, so the dual land (si5936du.pdf p.8) is used
+E	Vishay Siliconix	PowerPAK® ChipFET™ Single	PowerPAK® ChipFet Single	POWERPAK-CHIPFET-VISHAY	ChipFET	new
+E	Vishay Siliconix	PowerPAK® SC-70-6	*	POWERPAK-SC70-6-VISHAY	PowerPAK SC-70	new
+E	Vishay Siliconix	PowerPAK® SC-70-6 Dual	*	POWERPAK-SC70-6-DUAL-VISHAY	PowerPAK SC-70	new
+E	Vishay Siliconix	PowerPAK® SC-75-6	*	POWERPAK-SC75-6-VISHAY	PowerPAK SC-75	new
+E	Vishay Siliconix	PowerPAK® 0806	*	POWERPAK-0806-VISHAY	PowerPAK 0806	new
+E	Vishay Siliconix	8-PowerWDFN	8-PowerPair® (6x5)	POWERPAIR-6X5-VISHAY	PowerPAIR	new
+E	Vishay Siliconix	8-PowerWDFN	8-PowerPair® (3.3x3.3)	POWERPAIR-3X3S-VISHAY	PowerPAIR	new
+E	Diodes Incorporated	8-PowerTDFN	*	POWERDI5060-8-DIODES	PowerDI5060-8	new
+E	Diodes Incorporated	8-VDFN Exposed Pad	*	DFN3020-8-DIODES	DFN3020	new
+E	Diodes Incorporated	8-WDFN Exposed Pad	*	DFN3020-8-DIODES	DFN3020	new
+E	Infineon Technologies	4-PowerTSFN	*	VSON-4-INFINEON	ThinPAK 8x8	new
+E	Infineon Technologies	8-PowerSFN	*	HSOF-8-INFINEON	TOLL	new
+E	Infineon Technologies	8-PowerTDFN	PG-TDSON-8	TDSON-8-INFINEON	SuperSO8	new
+E	Infineon Technologies	8-PowerTDFN	PG-TDSON-8 FL	TDSON-8-INFINEON	SuperSO8	new
+E	Infineon Technologies	8-PowerTDFN	PG-TDSON-8-1	TDSON-8-INFINEON	SuperSO8	new
+E	Infineon Technologies	8-PowerTDFN	PG-TDSON-8-17	TDSON-8-INFINEON	SuperSO8	new
+E	Infineon Technologies	8-PowerTDFN	PG-TDSON-8-5	TDSON-8-INFINEON	SuperSO8	new
+E	Infineon Technologies	8-PowerTDFN	PG-TDSON-8-6	TDSON-8-INFINEON	SuperSO8	new
+E	Infineon Technologies	8-PowerTDFN	PG-TDSON-8-7	TDSON-8-INFINEON	SuperSO8	new
+E	Infineon Technologies	8-PowerTDFN	PG-TSON-8-3	TDSON-8-INFINEON	SuperSO8	new
+E	Infineon Technologies	8-PowerTDFN	SuperSO8	TDSON-8-INFINEON	SuperSO8	new
+E	Infineon Technologies	8-PowerTDFN	PG-TSDSON-8	TSDSON-8-INFINEON	S3O8	new
+E	Infineon Technologies	8-PowerTDFN	PG-TSDSON-8-FL	TSDSON-8-INFINEON	S3O8	new
+E	Infineon Technologies	8-PowerVDFN	PG-TSDSON-8-34	TSDSON-8-INFINEON	S3O8	new
+E	Infineon Technologies	DirectFET™ Isometric MN	*	DIRECTFET-MN-INFINEON	DirectFET	new
+E	onsemi	6-SMD, Flat Leads	*	MCPH6-ONSEMI	MCPH6	new
+E	onsemi	8-PowerTDFN	*	PQFN8-5X6-ONSEMI	Power56	new
+E	onsemi	8-PowerTDFN, 5 Leads	*	SO8FL-8-ONSEMI	SO-8FL	new
+E	onsemi	8-PowerWDFN	8-MLP (3.3x3.3)	WDFN8-3X3-ONSEMI	WDFN8 3.3x3.3	new
+E	onsemi	8-PowerWDFN	8-WDFN (3.3x3.3)	WDFN8-3X3-ONSEMI	WDFN8 3.3x3.3	new
+E	onsemi	8-SMD, Flat Leads	*	ECH8-ONSEMI	ECH8	new
+E	Infineon Technologies	DirectFET™ Isometric ME	*	DIRECTFET-ME-INFINEON	DirectFET	new
+E	Infineon Technologies	8-PowerWDFN	PG-WSON-8-2	WSON-8-INFINEON	WSON-8	new
+E	Nexperia	3-PowerUDFN	*	DFN2020-3-NEXPERIA	DFN2020	new
+E	Infineon Technologies	DirectFET™ Isometric L8	*	DIRECTFET-L8-INFINEON	DirectFET	new
+E	Infineon Technologies	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	PG-TO263-3-2	D2PAK-3-INFINEON	D2PAK	reuse: IPB072N15N3 (infineon-ipp075n15n3-datasheet-en.pdf p.9) prints the same PG-TO263-3 outline Z8B00003324 FOOTPRINT (F1 16.05-16.25, F2 9.30-9.50, F3 4.50-4.70, F4 10.70-10.90, F5 3.65-3.85, F6 1.25-1.45, e 2.54); pinout G,D,S
+E	Infineon Technologies	8-PowerVDFN	PG-TSDSON-8	TSDSON-8-INFINEON	S3O8	reuse: BSZ110N06NS3 PG-TSDSON-8 (BSZ110N06NS3_Rev2.3.pdf, outline image only), same S3O8 3.3 x 3.3 0.65-pitch outline as the PG-TSDSON-8 FL footprint of TSDSON-8-INFINEON; pinout S,S,S,G,D,D,D,D
+E	Infineon Technologies	8-PowerTDFN	PG-TDSON-8-46	TDSON-8-INFINEON	SuperSO8	reuse: ISC0805NLS PG-TDSON-8-U08 outline (infineon-isc0805nls-datasheet-en.pdf p.10): D 4.80-5.35, E 5.70-6.10, D1 3.90-4.40, E1 4.05-4.25, b 0.34-0.54, e 1.27 - the PG-TDSON-8 outline of BSC027N06LS5 whose boardpads TDSON-8-INFINEON draws; pinout S,S,S,G,D,D,D,D
+E	onsemi	8-PowerWDFN	Power33	WDFN8-3X3-ONSEMI	WDFN8 3.3x3.3	reuse: FDMC86160 CASE 483AW issue C (98AON13672G, fdmc86160-d.pdf p.6) recommended mounting footprint: 0.42 min x 0.70 min leads at 0.65 (1.95), (0.40) gap, 2.37 min x 2.15 min land with four (0.45) tongues - the CASE 511DH land of WDFN8-3X3-ONSEMI; body 3.30 BSC; pinout S,S,S,G,D,D,D,D
+E	Infineon Technologies	TO-261-3	*	SOT223-3-INFINEON	SOT-223	new
+E	Infineon Technologies	8-PowerTDFN	PG-TISON-8	TISON-8-INFINEON	TISON-8	new
+E	Infineon Technologies	6-PowerTDFN	*	TSON-6-INFINEON	TSON-6	new
+E	Infineon Technologies	8-PowerVDFN	PG-TDSON-8-4	TDSON-8-DUAL-INFINEON	SuperSO8 dual	new
+E	Infineon Technologies	8-PowerWDFN	PG-WHSON-8	WHSON-8-INFINEON	WHSON-8	new
+E	Infineon Technologies	8-PowerWDFN	PG-WHSON-8-1	WHSON-8-INFINEON	WHSON-8	reuse: IQE046N08LM5SC PG-WHSON-8-U01 outline (p.10) has the same numbers (D1 2.31-2.51, E3 1.35-1.55, L 0.40-0.60, L1 0.35-0.55, L2 0.77-0.97, b 0.20-0.40, e 0.65)
+E	Infineon Technologies	8-PowerTDFN	8-PQFN (5x6)	PQFN-5X6-IR	PQFN 5x6	new
+E	Infineon Technologies	8-PowerTDFN	PQFN (5x6)	PQFN-5X6-IR	PQFN 5x6	new
+E	Infineon Technologies	8-PowerVDFN	8-PQFN (5x6)	PQFN-5X6-IR	PQFN 5x6	new
+E	onsemi	3-SMD, Flat Leads	*	MCPH3-ONSEMI	MCPH3	new
+E	onsemi	6-PowerUFDFN	6-UDFN (1.6x1.6)	UDFN6-1.6-ONSEMI	UDFN6 1.6x1.6	new
+E	onsemi	6-PowerUFDFN	MicroFet 1.6x1.6 Thin	UDFN6-1.6-517DV-ONSEMI	UDFN6 1.6x1.6	new
+E	onsemi	6-PowerWDFN	*	WDFN6-2X2-ONSEMI	WDFN6 2x2	new
+E	onsemi	8-PowerVDFN	*	PQFN8-8X8-ONSEMI	Dual Cool 88	new
+E	Infineon Technologies	8-PowerTDFN	mpn:BSG0810NDIATMA1	TISON-8-4-INFINEON	TISON-8	new: part-level row, PG-TISON-8-4 (10 pads) among the PG-TISON-8 parts
+E	Infineon Technologies	8-PowerTDFN	mpn:BSG0813NDIATMA1	TISON-8-4-INFINEON	TISON-8	new: part-level row, PG-TISON-8-4 (10 pads) among the PG-TISON-8 parts

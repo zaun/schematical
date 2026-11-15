@@ -1,7 +1,7 @@
 # Part file format
 
 Every orderable part (gate, flip-flop, latch, decoder, counter, shift register, SRAM, EEPROM, switch, LED,
-diode, capacitor, resistor, 7-segment display, character LCD module, oscillator, supply, microprocessor, microcontroller, serial controller) is described in a JSON part file in
+diode, capacitor, resistor, transistor, 7-segment display, character LCD module, oscillator, supply, microprocessor, microcontroller, serial controller) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
 | File | Kind |
@@ -36,6 +36,7 @@ diode, capacitor, resistor, 7-segment display, character LCD module, oscillator,
 | `register.json` | `register` |
 | `mcu.json` | `mcu` |
 | `resistor.json` | `resistor` |
+| `transistor.json` | `transistor` |
 
 Beside them, `datasheets.json` holds the datasheet URLs parts name with
 `"datasheet"` (see [Datasheets](#datasheets)), and `footprints.json` the land
@@ -956,6 +957,88 @@ the file's `ohms`).
  "parts": [{"name": "RC0603FR-074K7L", "manufacturer": "YAGEO", "package": "0603",
             "pinout": "two-pin", "footprint": "RES-0603-YAGEO", "datasheet": "yageo-rc",
             "ohms": 4700, "tolerance": 1, "power": 0.1}]}
+```
+
+### `transistor`
+
+Bipolar transistors and MOSFETs (plan-40): NPN and PNP, Darlington and
+pre-biased ("digital") BJTs, N- and P-channel MOSFETs, and their dual and
+complementary arrays, `"kind": "transistor"`, run by
+`backend/src/models/transistor.c`. A part is one or more **elements**; each
+is a **digital switch**: its control pin (base, gate) joins or opens its
+channel (collector–emitter, drain–source). An NPN or N-channel element
+conducts while its control reads 1, a PNP or P-channel one while it reads
+0; any other reading (the other level, X, Z — a floating base) leaves the
+channel open. The channel is the engine's **contact** (as a closed switch:
+strong, both ways), so a low-side NPN with a pull-up on its collector is an
+inverter, a high-side P-channel passes VCC, an emitter follower passes its
+collector's 1, and a strong 1 and a strong 0 across a conducting channel is
+a short (`smoke:`). The channel follows its control **1 ns** later, read
+again when that time comes, so a pulse shorter than 1 ns never moves it and
+a gate tied to its own drain toggles every 1 ns instead of looping. There
+is no analog behaviour: no gain, threshold, Rds(on), body diode or
+switching speed beyond the 1 ns. A transistor has no `vcc`.
+
+Device keys:
+
+| Key | Value |
+|---|---|
+| `"elements"` | non-empty array, one object per transistor in the package: `"type"` `"npn"`, `"pnp"`, `"nmos"` or `"pmos"` (`unknown transistor type`); for `npn`/`pnp` the pin names `"base"`, `"collector"`, `"emitter"`, for `nmos`/`pmos` `"gate"`, `"drain"`, `"source"` (a key of the other group: `"gate" is not a bjt key`); optional `"darlington": true` (npn/pnp only: `"darlington" is not a mosfet key`) |
+
+Each name names at least one pin of every pinout; a name that several pins
+carry (a tab and its lead, `D` twice) makes those pins one node, joined
+strongly. The control pin is on exactly one pin (`must be on one pin`) and
+is `input` (`transistor pin "B" must be input`); the channel pins are
+`inout` (`… must be inout`); every other pin is `nc` or `absent` (`pin "X"
+is in no element`). Pin names are the function letters `B`, `C`, `E`, `G`,
+`D`, `S`, with a digit per element of an array (`B1`, `C2`).
+
+Part keys (numbers; the group is the first element's type, and an array's
+values hold for every element; all optional — the generic parts give none):
+
+| Key | Types | Value |
+|---|---|---|
+| `"vceo"` | npn, pnp | max collector–emitter voltage, V, above 0 and at most 10000 |
+| `"ic"` | npn, pnp | max collector current, A, above 0 and at most 1000 |
+| `"hfe"` | npn, pnp | minimum DC current gain, above 0 and at most 100000 |
+| `"r1"`, `"r2"` | npn, pnp | a pre-biased part's base series and base–emitter resistors, ohms, at least 0 and at most 1e9 |
+| `"vds"` | nmos, pmos | max drain–source voltage, V, as `vceo` |
+| `"id"` | nmos, pmos | max continuous drain current, A, as `ic` |
+| `"rdson"` | nmos, pmos | max Rds(on), ohms, above 0 and at most 1e6 |
+| `"vgsth"` | nmos, pmos | max gate threshold voltage, V, above 0 and at most 100 |
+| `"vgs"` | nmos, pmos | max gate–source voltage, V, above 0 and at most 1000 |
+| `"logicLevel"` | nmos, pmos | `true` when the datasheet specifies Rds(on) at a gate drive of 4.5 V or less |
+| `"pd"` | all | max power dissipation, W, above 0 and at most 10000 |
+
+A key of the other group is an error (`"vds" is only for a mosfet`). The
+values are facts for the app (`PartTransistor`: millivolts, milliamps,
+milliwatts, milliohms; 0 = not given). **The rating test:** the voltage
+check refuses a net above a channel pin's `vceo` / `vds` and above a MOSFET
+gate's `vgs` (`voltage: 12 V on pin 3 (D) of … ; it is rated 5 V`); a BJT
+base is never checked, and a part with no rating is never refused. The
+voltage check does not carry a level through a channel (its state changes
+while the circuit runs).
+
+The library's `transistor.json` (plan-40) holds onsemi, Nexperia and Diodes
+Incorporated BJTs and onsemi, Infineon and Vishay Siliconix MOSFETs, one
+device per (drawer leaf, pinout), under **Discrete → Transistors → BJT →
+`Array` / `NPN` / `NPN Darlington` / `NPN pre-biased` / `PNP` / `PNP
+Darlington` / `PNP pre-biased`** and **Discrete → Transistors → MOSFET →
+`Array` / `N-channel` / `N-channel logic-level` / `P-channel` / `P-channel
+logic-level`**, and the four generics `GENERIC-NPN`, `GENERIC-PNP`,
+`GENERIC-NMOS`, `GENERIC-PMOS` (Discrete → Transistors → Generic: pins 1
+base / gate, 2 collector / drain, 3 emitter / source, no ratings, `TO-92`
+by default with the footprint choices `TO-92`, `SOT-23`, `SOT-223`,
+`TO-220`, `DPAK`).
+
+```json
+{"id": "npn-to92-ebc", "function": "NPN", "description": "NPN bipolar transistor",
+ "drawer": ["Discrete", "Transistors", "BJT", "NPN"],
+ "pinouts": {"p3-e-b-c": [{"number":1,"name":"E","role":"inout"},{"number":2,"name":"B","role":"input"},
+                          {"number":3,"name":"C","role":"inout"}]},
+ "elements": [{"type": "npn", "base": "B", "collector": "C", "emitter": "E"}],
+ "parts": [{"name": "2N3904BU", "manufacturer": "onsemi", "package": "TO-92",
+            "pinout": "p3-e-b-c", "footprint": "TO-92", "vceo": 40, "ic": 0.2, "pd": 0.625, "hfe": 100}]}
 ```
 
 ### `oscillator`

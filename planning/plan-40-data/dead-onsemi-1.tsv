@@ -1,0 +1,83 @@
+mpn	dead	evidence
+2SC4027S-TL-E	0	2SA1552-D p.6 ordering: listed in the active block above "DISCONTINUED (Note 2)"
+2SC4027S-TL-H	0	2SA1552-D p.6 ordering: listed in the active block above "DISCONTINUED (Note 2)"
+2SC4027T-TL-E	0	2SA1552-D p.6 ordering: listed in the active block above "DISCONTINUED (Note 2)"
+2SA1552T-TL-E	1	2SA1552-D p.6: listed under "DISCONTINUED (Note 2)" ("These devices are not available")
+BC547CBU	0	BC550-D p.4: in the active ordering block above "DISCONTINUED (Note 1)"
+BC550CBU	0	BC550-D p.4: in the active ordering block above "DISCONTINUED (Note 1)"
+BC547CTA	0	BC550-D p.4: in the active ordering block above "DISCONTINUED (Note 1)"
+BC549BTA	0	BC550-D p.4: in the active ordering block above "DISCONTINUED (Note 1)"
+BC549CTA	0	BC550-D p.4: in the active ordering block above "DISCONTINUED (Note 1)"
+BC547BTF	0	BC550-D p.4: in the active ordering block above "DISCONTINUED (Note 1)"
+BC546BTF	1	BC550-D p.4: listed under "DISCONTINUED (Note 1)"
+BC547BTA	1	BC550-D p.4: listed under "DISCONTINUED (Note 1)"
+BC546BTA	1	BC550-D p.4: listed under "DISCONTINUED (Note 1)"
+BC547ATA	1	BC550-D p.4: listed under "DISCONTINUED (Note 1)"
+BC547CTFR	1	BC550-D p.4: listed under "DISCONTINUED (Note 1)"
+BC550CTA	1	BC550-D p.4: listed under "DISCONTINUED (Note 1)"
+BC548BU	1	BC550-D p.4: listed under "DISCONTINUED (Note 1)"
+BC548BTA	1	BC550-D p.4: listed under "DISCONTINUED (Note 1)"
+BC548CTA	1	BC550-D p.4: listed under "DISCONTINUED (Note 1)"
+BC547B	1	BC550-D p.4: listed under "DISCONTINUED (Note 1)"; p.5 revision "BC547B OPN Marked as Discontinued. 2/13/2026"
+BC559CTA	0	BC556BTA-D p.2: the only part in the active ordering block above "DISCONTINUED (Note 2)"
+BC556BTFR	1	BC556BTA-D p.2: listed under "DISCONTINUED (Note 2)"
+BC556BTF	1	BC556BTA-D p.2: listed under "DISCONTINUED (Note 2)"
+BC556BTA	1	BC556BTA-D p.2: listed under "DISCONTINUED (Note 2)"
+BC557BTF	1	BC556BTA-D p.2: listed under "DISCONTINUED (Note 2)"
+BC557BTA	1	BC556BTA-D p.2: listed under "DISCONTINUED (Note 2)"
+BC557ATA	1	BC556BTA-D p.2: listed under "DISCONTINUED (Note 2)"
+BC559BTA	1	BC556BTA-D p.2: listed under "DISCONTINUED (Note 2)"
+BC850BLT1G	0	BC846ALT1-D p.13: in the active ordering block; only BC847ALT3G, NSVBC849BLT1G, BC849BLT3G, BC849CLT3G are under "DISCONTINUED (Note 3)"
+BC850CLT1G	0	BC846ALT1-D p.13: in the active ordering block; not under "DISCONTINUED (Note 3)"
+BCP56-16T3G	0	BCP56T1-D p.5: active ordering block; only BCP56-10T3G is under "DISCONTINUED (Note 4)"
+BCP56-10T1G	0	BCP56T1-D p.5: active ordering block; only BCP56-10T3G is under "DISCONTINUED (Note 4)"
+BCP56-16T1G	0	BCP56T1-D p.5: active ordering block; only BCP56-10T3G is under "DISCONTINUED (Note 4)"
+NSV60200SMTWTBG	1	NSS60200SMT-D p.1: under "DISCONTINUED (Note 1)" ("not recommended for new design"); DISCONTINUED watermark p.1; rev 4 "Data Sheet Discontinued. 01/16/2026"
+NSV60201SMTWTBG	1	NSS60201SMT-D p.1: listed under "DISCONTINUED (Note 1)" ("This device is not recommended for new design")
+BCV71	1	bcv71-d p.1 image watermark "DISCONTINUED - THIS DEVICE IS NOT AVAILABLE"; p.2 revision 2 "Data Sheet Discontinued. 1/14/2026"
+FDMA7628	1	FDMA7628-D p.1-2 image watermark "DISCONTINUED - THIS DEVICE IS NOT AVAILABLE, PLEASE CONTACT YOUR onsemi REPRESENTATIVE"
+FCPF600N60Z	1	fcpf600n60z-d p.1 image watermark "OBSOLETE - THIS DEVICE IS OBSOLETE, PLEASE CONTACT YOUR onsemi REPRESENTATIVE FOR INFORMATION"
+EFC6605R-V-TR	1	ena2302-d (EFC6605R) p.1 image watermark "DISCONTINUED - THIS DEVICE IS NOT AVAILABLE"
+2N5551BU	0	2N5551T-D p.5 ordering: listed above "DISCONTINUED (Note 6)" (active block); no watermark p.1
+2N5551TF	0	2N5551T-D p.5 ordering: listed above "DISCONTINUED (Note 6)" (active block); no watermark p.1
+2SA1552T-H	1	2SA1552-D p.6: listed under "DISCONTINUED (Note 2)" ("These devices are not available")
+BS170-D26Z	0	MMBF170-D p.6 ordering: listed above "DISCONTINUED (Note 11)" (only BS170-D74Z/-D75Z below it)
+BC847CDW1T1G	0	bc846bdw1t1-d p.10 ordering: listed above "DISCONTINUED (Note 2)"; no watermark p.1
+BC848CDW1T1G	0	bc846bdw1t1-d p.10 ordering: listed above "DISCONTINUED (Note 2)" (NSVBC848CDW1T1G is the one below it)
+BC847BDW1T3G	0	bc846bdw1t1-d p.10 ordering: listed above "DISCONTINUED (Note 2)"
+MUN2130T1G	0	dta113e-d p.2 ordering: listed above "DISCONTINUED (Note 1)"; no watermark p.1
+MUN5130T1G	0	dta113e-d p.2 ordering: listed above "DISCONTINUED (Note 1)"
+MUN2115T1G	0	dta114t-d p.6 ordering: listed above "DISCONTINUED (Note 6)"; no watermark p.1
+DTA115TM3T5G	0	dta115t-d p.2 ordering: listed above "DISCONTINUED (Note 1)"; no watermark p.1
+MUN5141T1G	0	dta115t-d p.2 ordering: listed above "DISCONTINUED (Note 1)"
+MMUN2141LT1G	0	dta115t-d p.2 ordering: listed above "DISCONTINUED (Note 1)"
+NSBA115TF3T5G	0	dta115t-d p.2 ordering: listed above "DISCONTINUED (Note 1)"
+DTC143EET1G	0	dtc143e-d p.6 ordering: listed above "DISCONTINUED (Note 6)"
+FDZ3N513ZT	0	fdz3n513zt-d p.2: the flagged word is "discontinu-ous" (conduction mode text), not a status; part in p.2 ordering table; no watermark
+KSA992FBTA	1	ksa992-d p.1 ordering: listed under "DISCONTINUED (Note 1)"; p.5 revision "KSA992FBTA, KSA992FBU OPNs Marked as Discontinued. 1/16/2026"
+KSA992FTA	0	ksa992-d p.1 ordering: listed above "DISCONTINUED (Note 1)" (active, with KSA992FATA)
+KSC945YBU	1	ksc945-d p.1 ordering: listed under "DISCONTINUED (Note 1)" ("This device is not available")
+MJB42CT4G	0	mjb41c-d p.1 ordering: listed above "DISCONTINUED (Note 1)" (only MJB42CG below it)
+MJD3055T4G	0	mjd2955-d p.5 ordering: listed above "DISCONTINUED (Note 4)"; no watermark p.1
+NTD18N06LT4G	0	ntd18n06l-d p.2 ordering: listed above "DISCONTINUED (Note 5)"; no watermark p.1
+NTD2955T4G	0	ntd2955-d p.5 ordering: listed above "DISCONTINUED (Note 5)"; no watermark p.1
+NTD3055-094T4G	0	ntd3055-094-d p.8 ordering: listed above "DISCONTINUED (Note 5)"
+NTD3055L104T4G	0	ntd3055l104-d p.7 ordering: listed above "DISCONTINUED (Note 5)"; no watermark p.1
+NTGS3443T1G	0	ntgs3443t1-d p.1 ordering: listed above "DISCONTINUED (Note 1)" (only NVGS3443T1G below it); no watermark p.1
+NTHD3100CT1G	0	nthd3100c-d p.7 ordering: listed above "DISCONTINUED (Note 5)"
+NTJD4158CT1G	0	ntjd4158c-d p.5 ordering: listed above "DISCONTINUED (Note 4)"
+NTMFS4C09NT1G	0	ntmfs4c09n-d p.1 ordering: listed above "DISCONTINUED (Note 1)" (only NTMFS4C09NT3G below it); no watermark p.1
+NTR0202PLT1G	0	ntr0202pl-d p.4 ordering: listed above "DISCONTINUED (Note 4)"
+NTR1P02T1G	0	ntr1p02t1-d p.1 ordering: listed above "DISCONTINUED (Note 1)" (only NTR1P02T3G below it); no watermark p.1
+NTR4171PT1G	0	ntr4171p-d p.1 ordering: listed above "DISCONTINUED (Note 1)" (only NTR4171PT3G below it); no watermark p.1
+NTS4101PT1G	0	nts4101p-d p.1 ordering: listed above "DISCONTINUED (Note 1)" (only NTS4101PT1 below it)
+NTZD3154NT1G	0	ntzd3154n-d p.4 ordering: listed above "DISCONTINUED (Note 5)"
+2N5551TA	0	2N5551T-D p.5 ordering: listed above "DISCONTINUED (Note 6)" (active block)
+2N5551TFR	0	2N5551T-D p.5 ordering: listed above "DISCONTINUED (Note 6)" (active block)
+BS170-D27Z	0	MMBF170-D p.6 ordering: listed above "DISCONTINUED (Note 11)" (only BS170-D74Z/-D75Z below it)
+MMUN2115LT1G	0	dta114t-d p.6 ordering: listed above "DISCONTINUED (Note 6)"
+KSA992FATA	0	ksa992-d p.1 ordering: listed above "DISCONTINUED (Note 1)" (active, with KSA992FTA)
+MJD2955G	0	mjd2955-d p.5 ordering: listed above "DISCONTINUED (Note 4)" (only MJD2955-1G and MJD3055G below it)
+MJD2955T4G	0	mjd2955-d p.5 ordering: listed above "DISCONTINUED (Note 4)"
+NJVMJD2955T4G	0	mjd2955-d p.5 ordering: listed above "DISCONTINUED (Note 4)"
+NJVMJD3055T4G	0	mjd2955-d p.5 ordering: listed above "DISCONTINUED (Note 4)"

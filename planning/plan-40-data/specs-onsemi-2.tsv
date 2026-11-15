@@ -1,0 +1,259 @@
+pdf	package	series	scheme	label	pinout	elements	note
+datasheets/transistor/onsemi/fdn337n-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	-	-	p.1 only an unnumbered G/D/S symbol and an unlabeled package image; p.5 case 527AG numbers pins but gives no G/D/S assignment; visual p.1 + p.5 checked
+datasheets/transistor/onsemi/fdn338p-d.pdf	TO-236-3, SC-59, SOT-23-3	PowerTrench®	=	SOT-23	G,S,D	pmos:G,D,S	p.1 pin assignment drawing G left/S right/D top on top view; case 527AG outline numbers 1 left, 2 right; visual p.1 ok
+datasheets/transistor/onsemi/fdn357n-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	G,S,D	nmos:G,D,S	p.1 PIN ASSIGNMENT G/S/D + package image G,S,D; case 527AG; visual p.1 ok
+datasheets/transistor/onsemi/fdn360p-d.pdf	TO-236-3, SC-59, SOT-23-3	PowerTrench®	=	SOT-23	G,S,D	pmos:G,D,S	p.1 pin assignment drawing G left/S right/D top on top view; case 527AG outline numbers 1 left, 2 right
+datasheets/transistor/onsemi/fdn537n-d.pdf	TO-236-3, SC-59, SOT-23-3	PowerTrench®	=	SOT-23	G,S,D	nmos:G,D,S	p.1 PIN ASSIGNMENT pin assignment drawing G left/S right/D top on top view; case 527AG outline numbers 1 left, 2 right
+datasheets/transistor/onsemi/fdn5618p-d.pdf	TO-236-3, SC-59, SOT-23-3	PowerTrench®	=	SOT-23	G,S,D	pmos:G,D,S	p.1 pin assignment drawing G left/S right/D top on top view; case 527AG outline numbers 1 left, 2 right
+datasheets/transistor/onsemi/fdp7030bl-d.pdf	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	PowerTrench®	=	D2PAK	G,D,S	nmos:G,D,S	p.2 TO-263AB image leads G, S, tab D (D2PAK pin 2 = tab drain); visual p.2 ok
+datasheets/transistor/onsemi/fdp8441-d.pdf	TO-220-3	PowerTrench®	=	TO-220	G,D,S	nmos:G,D,S	p.2 TO-220AB image leads GATE, DRAIN, SOURCE, flange drain; visual p.2 ok
+datasheets/transistor/onsemi/fdp8860-d.pdf	TO-220-3	PowerTrench®	=	TO-220	G,D,S	nmos:G,D,S	p.2 TO-220 image leads G D S; visual p.2 ok
+datasheets/transistor/onsemi/fdp8880-d.pdf	TO-220-3	PowerTrench®	=	TO-220	G,D,S	nmos:G,D,S	p.2 TO-220AB image leads GATE DRAIN SOURCE; visual p.2 ok
+datasheets/transistor/onsemi/fdpf12n50ft-d.pdf	TO-220-3 Full Pack	UniFET™	=	TO-220F	G,D,S	nmos:G,D,S	p.2 TO-220F image leads G D S; visual p.2 ok
+datasheets/transistor/onsemi/fdpf13n50ft-d.pdf	TO-220-3 Full Pack	UniFET™	=	TO-220F	G,D,S	nmos:G,D,S	p.2 TO-220F image leads G D S (label positions same as fdpf12n50ft)
+datasheets/transistor/onsemi/fdpf5n50ft-d.pdf	TO-220-3 Full Pack	UniFET™	=	TO-220F	G,D,S	nmos:G,D,S	p.2 TO-220F image leads G D S (label positions same as fdpf12n50ft)
+datasheets/transistor/onsemi/fdpf5n50nzf-d.pdf	TO-220-3 Full Pack	UniFET-II™	=	TO-220F	G,D,S	nmos:G,D,S	p.2 TO-220F image leads G D S (label positions same as fdpf12n50ft)
+datasheets/transistor/onsemi/fdpf5n50t-d.pdf	TO-220-3 Full Pack	UniFET™	=	TO-220F	G,D,S	nmos:G,D,S	p.2 TO-220F image leads G D S (label positions same as fdpf12n50ft)
+datasheets/transistor/onsemi/fdpf5n50ut-d.pdf	TO-220-3 Full Pack	FRFET®	=	TO-220F	G,D,S	nmos:G,D,S	p.2 TO-220F image leads G D S (label positions same as fdpf12n50ft)
+datasheets/transistor/onsemi/fdpf680n10t-d.pdf	TO-220-3 Full Pack	PowerTrench®	=	TO-220F	G,D,S	nmos:G,D,S	p.2 TO-220F image leads G D S (label positions same as fdpf12n50ft)
+datasheets/transistor/onsemi/fds6298-d.pdf	"8-SOIC (0.154"", 3.90mm Width)"	PowerTrench®	=	SOIC	S,S,S,G,D,D,D,D	nmos:G,D,S	p.2 SO-8 image: Pin 1 S, S, S, G; back row D D D D; visual p.2 ok
+datasheets/transistor/onsemi/fds6375-d.pdf	"8-SOIC (0.154"", 3.90mm Width)"	PowerTrench®	=	SOIC	S,S,S,G,D,D,D,D	pmos:G,D,S	p.2 SO-8 image: Pin 1 S, S, S, G; back D x4; visual p.2 ok
+datasheets/transistor/onsemi/fds6630a-d.pdf	"8-SOIC (0.154"", 3.90mm Width)"	PowerTrench®	=	SOIC	S,S,S,G,D,D,D,D	nmos:G,D,S	p.2 SO-8 image pin 1 S,S,S,G; back D x4; visual p.2 ok
+datasheets/transistor/onsemi/fds6680a-d.pdf	"8-SOIC (0.154"", 3.90mm Width)"	PowerTrench®	=	SOIC	S,S,S,G,D,D,D,D	nmos:G,D,S	p.2 SO-8 image pin 1 S,S,S,G; back D x4; visual p.2 ok
+datasheets/transistor/onsemi/fds86242-d.pdf	"8-SOIC (0.154"", 3.90mm Width)"	PowerTrench®	=	SOIC	S,S,S,G,D,D,D,D	nmos:G,D,S	"p.1 PIN CONNECTIONS ""D 5 4 G / D 6 3 S / D 7 2 S / D 8 1 S"""
+datasheets/transistor/onsemi/fds8672s-d.pdf	"8-SOIC (0.154"", 3.90mm Width)"	PowerTrench®, SyncFET™	=	SOIC	S,S,S,G,D,D,D,D	nmos:G,D,S	"p.1 PIN CONFIGURATION ""D 5 4 G / D 6 3 S / D 7 2 S / D 8 1 S"""
+datasheets/transistor/onsemi/fds8876-d.pdf	"8-SOIC (0.154"", 3.90mm Width)"	PowerTrench®	=	SOIC	S,S,S,G,D,D,D,D	nmos:G,D,S	p.1 PIN CONNECTIONS diagram: 1-3 source, 4 gate, 5-8 drain; visual p.1 ok
+datasheets/transistor/onsemi/fds8878-d.pdf	"8-SOIC (0.154"", 3.90mm Width)"	PowerTrench®	=	SOIC	S,S,S,G,D,D,D,D	nmos:G,D,S	p.1 PIN CONNECTIONS diagram 1-3 S, 4 G, 5-8 D; visual p.1 ok; FDS8878-F123 discontinued (not an input part)
+datasheets/transistor/onsemi/fds8882-d.pdf	"8-SOIC (0.154"", 3.90mm Width)"	PowerTrench®	=	SOIC	S,S,S,G,D,D,D,D	nmos:G,D,S	p.2 SO-8 image pin 1 S,S,S,G; back D x4; visual p.2 ok
+datasheets/transistor/onsemi/fds8896-d.pdf	"8-SOIC (0.154"", 3.90mm Width)"	PowerTrench®	=	SOIC	S,S,S,G,D,D,D,D	nmos:G,D,S	p.1 PIN CONNECTIONS diagram 1-3 S, 4 G, 5-8 D; visual p.1 ok; only PCF8896W (wafer) discontinued
+datasheets/transistor/onsemi/fds8949-d.pdf	"8-SOIC (0.154"", 3.90mm Width)"	PowerTrench®	=	SOIC	S1,G1,S2,G2,D2,D2,D1,D1	nmos:G1,D1,S1;nmos:G2,D2,S2	p.2 SO-8 image: pin 1 S1, G1, S2, G2; back row D1 D1 D2 D2 (pins 8..5); visual p.2 ok
+datasheets/transistor/onsemi/fds9431a-d.pdf	"8-SOIC (0.154"", 3.90mm Width)"	-	=	SOIC	S,S,S,G,D,D,D,D	pmos:G,D,S	p.1 SOIC8 image Pin 1 S, S, S, G; D x4; visual p.1 ok
+datasheets/transistor/onsemi/fdt3612-d.pdf	TO-261-4, TO-261AA	PowerTrench®	=	SOT-223	G,D,S,D	nmos:G,D,S	p.1 PINOUT DIAGRAM G D S, tab D; marking pin 1 left; visual p.1 ok
+datasheets/transistor/onsemi/fdt86113lz-d.pdf	TO-261-4, TO-261AA	PowerTrench®	=	SOT-223	G,D,S,D	nmos:G,D,S	p.1 PIN ASSIGNMENT G D S, tab D; marking pin 1 left; visual p.1 ok
+datasheets/transistor/onsemi/fdv301n-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	G,S,D	nmos:G,D,S	p.1 pinout drawing G left/S right/D top; case 318-08 (p.7 style 21 G,S,D); visual p.1 ok
+datasheets/transistor/onsemi/fdv303n-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	G,S,D	nmos:G,D,S	"p.1 STYLE 21; p.7 ""STYLE 21: PIN 1. GATE 2. SOURCE 3. DRAIN"""
+datasheets/transistor/onsemi/fdv304p-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	G,S,D	pmos:G,D,S	p.1 drawing G left, S right, D top; case 318-08 (style 21 on p.6 G,S,D)
+datasheets/transistor/onsemi/fdz193p-d.pdf	6-UFBGA, WLCSP	PowerTrench®	=	WLCSP	A1=G,A2=S,B1=S,B2=S,C1=D,C2=D	pmos:G,D,S	"p.6 ""Pin Definations: Gate A1, Drain C1,C2, Source A2,B1,B2""; visual p.2 ok (PIN 1 ball = G)"
+datasheets/transistor/onsemi/fdz197pz-d.pdf	6-UFBGA, WLCSP	PowerTrench®	=	WLCSP	A1=G,A2=S,B1=S,B2=S,C1=D,C2=D	pmos:G,D,S	"p.6 ""Pin Definations: Gate A1, Drain C1,C2, Source A2,B1,B2"""
+datasheets/transistor/onsemi/ffb3904-d.pdf	6-TSSOP, SC-88, SOT-363	-	=	SC-88	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;npn:B2,C2,E2	p.2 Fig.1 SC70-6: pin#1 E1, B1, C2; back C1 B2 E2 (pins 6..4); Fig.2 internal connection agrees; visual p.2 ok
+datasheets/transistor/onsemi/fjv3113r-d.pdf	TO-236-3, SC-59, SOT-23-3	-	FJV3113RMTF	SOT-23	B,E,C	npn:B,C,E	"p.2 ""1. Base 2. Emitter 3. Collector""; p.2 ordering table FJV3113RMTF only (FJV3113RMTF-ON not in table); visual p.2 ok"
+datasheets/transistor/onsemi/fjy3004r-d.pdf	SC-89, SOT-490	-	FJY3004R	SC-89	B,E,C	npn:B,C,E	p.2 SOT-523F image: C single lead, B and E opposite; p.5 outline: pin 3 single, 1 left 2 right -> 1 B, 2 E, 3 C; ordering table FJY3004R only (FJY3004R-ON not in table); visual p.2 ok
+datasheets/transistor/onsemi/fmb3946-d.pdf	SOT-23-6 Thin, TSOT-23-6	-	=	TSOT-23-6	B1,E2,B2,C2,E1,C1	npn:B1,C1,E1;pnp:B2,C2,E2	"p.1 image Pin 1 B1, E2, B2; back C1 E1 C2; INTERNAL CONNECTION C1 E1 C2 / B1 E2 B2; ""C1 B1 E1 NPN, C2 B2 E2 PNP""; visual p.1 ok"
+datasheets/transistor/onsemi/fmba56-d.pdf	SOT-23-6 Thin, TSOT-23-6	-	=	TSOT-23-6	B1,E2,B2,C2,E1,C1	pnp:B1,C1,E1;pnp:B2,C2,E2	p.2 Fig.1 SuperSOT-6: pin #1 B1, E2, B2; back C1 E1 C2; Fig.2 internal connections; multi-chip = two PNP (DigiKey says single PNP)
+datasheets/transistor/onsemi/fqa36p15-d.pdf	TO-3P-3, SC-65-3	QFET®	=	TO-3P	G,D,S	pmos:G,D,S	p.1 TO-3P image leads G D S; visual p.1 ok
+datasheets/transistor/onsemi/fqb12p20-d.pdf	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	QFET®	=	D2PAK	G,D,S	pmos:G,D,S	"p.1 marking ""1: Gate 2: Drain 3: Source 4: Drain""; main session (G pin counts): p.1 ""1: Gate 2: Drain 3: Source 4: Drain"": pin 2 (cut lead) and the tab are one drain; D2PAK-3-ONSEMI(-FCS) numbers the tab pad 2"
+datasheets/transistor/onsemi/fqb27p06-d.pdf	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	QFET®	=	D2PAK	G,D,S	pmos:G,D,S	p.2 D2PAK image leads G, S, tab D (pin 2 = tab drain)
+datasheets/transistor/onsemi/fqd12n20l-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	QFET®	=	DPAK	G,D,S	nmos:G,D,S	p.1 DPAK3 image G left, S right, tab D; visual p.1 ok
+datasheets/transistor/onsemi/fqd16n25c-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	QFET®	=	DPAK	G,D,S	nmos:G,D,S	p.1 DPAK image G, S, tab D
+datasheets/transistor/onsemi/fqd3p50tm-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	QFET®	FQD3P50TM	DPAK	G,D,S	pmos:G,D,S	"p.1 DPAK3 image G, S, tab D; visual p.1 ok; p.1 ordering table lists ""FQD3P50, DPAK3, 2,500 / Tape & Reel"" (TM = that tape & reel OPN)"
+datasheets/transistor/onsemi/fqd7p20-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	QFET®	=	DPAK	G,D,S	pmos:G,D,S	p.1 DPAK image G, S, tab D
+datasheets/transistor/onsemi/fqp13n06l-d.pdf	TO-220-3	QFET®	=	TO-220	G,D,S	nmos:G,D,S	p.2 TO-220 image G D S; visual p.2 ok
+datasheets/transistor/onsemi/fqp27p06-d.pdf	TO-220-3	QFET®	=	TO-220	G,D,S	pmos:G,D,S	p.1 TO-220-3LD image G D S; visual p.1 ok
+datasheets/transistor/onsemi/fqp6n40c-d.pdf	TO-220-3	QFET®	=	TO-220	G,D,S	nmos:G,D,S	p.2 TO-220 image G D S
+datasheets/transistor/onsemi/fqpf10n50cf-d.pdf	TO-220-3 Full Pack	FRFET®	=	TO-220F	G,D,S	nmos:G,D,S	p.2 TO-220F image G D S
+datasheets/transistor/onsemi/fqpf19n20-d.pdf	TO-220-3 Full Pack	QFET®	FQPF19N20	TO-220F	G,D,S	nmos:G,D,S	p.2 TO-220F image G D S; p.3 ordering table FQPF19N20 only (FQPF19N20T not in table)
+datasheets/transistor/onsemi/fqpf2n70-d.pdf	TO-220-3 Full Pack	-	=	TO-220F	G,D,S	nmos:G,D,S	p.2 TO-220F image G D S
+datasheets/transistor/onsemi/fqpf3n25-d.pdf	TO-220-3 Full Pack	QFET®	=	TO-220F	G,D,S	nmos:G,D,S	p.2 TO-220F image G D S
+datasheets/transistor/onsemi/fqpf3n80c-d.pdf	TO-220-3	QFET®	=	TO-220	-	-	p.1 TO-220 and TO-220F images unlabeled, symbol G/D/S unnumbered, no pin table in the PDF; visual p.1 checked
+datasheets/transistor/onsemi/fqpf9n50c-d.pdf	TO-220-3	QFET®	=	TO-220F	G,D,S	nmos:G,D,S	p.2 TO-220F image G D S (FQPF9N50C is TO-220F)
+datasheets/transistor/onsemi/fqpf9n50cf-d.pdf	TO-220-3 Full Pack	FRFET®	=	TO-220F	G,D,S	nmos:G,D,S	p.2 TO-220F image G D S
+datasheets/transistor/onsemi/fqs4900-d.pdf	"8-SOIC (0.154"", 3.90mm Width)"	QFET®	-	SOIC	S1,G1,S2,G2,D2,D2,D1,D1	nmos:G1,D1,S1;pmos:G2,D2,S2	p.2 SO-8 image pin 1 S1,G1,S2,G2; back D1 D1 D2 D2; internal diagram: 1/2/7/8 FET is N (arrow in, diode up), 3/4/5/6 FET is P; visual p.2 ok; no ordering table in PDF
+datasheets/transistor/onsemi/fqu11p06-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	QFET®	=	DPAK	G,D,S	pmos:G,D,S	p.2 D-PAK image G, S, tab D; visual p.2 ok
+datasheets/transistor/onsemi/fqu1n80-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	QFET®	=	DPAK	G,D,S	nmos:G,D,S	p.2 D-PAK image G, S, tab D
+datasheets/transistor/onsemi/fqu8p10-d.pdf	TO-251-3 Short Leads, IPAK, TO-251AA	QFET®	=	IPAK	G,D,S	pmos:G,D,S	p.2 I-PAK image G D S
+datasheets/transistor/onsemi/fqu8p10-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	QFET®	=	DPAK	G,D,S	pmos:G,D,S	p.2 D-PAK image G, S, tab D
+datasheets/transistor/onsemi/imh20tr1g.pdf	SC-74, SOT-457	-	=	SC-74	C1,E2,B2,C2,E1,B1	npn:B1,C1,E1;npn:B2,C2,E2	"p.1 Style 21; p.3 ""STYLE 21: 1 COLLECTOR 1 2 EMITTER 2 3 BASE 2 4 COLLECTOR 2 5 EMITTER 1 6 BASE 1""; base = input via R1; visual p.1 ok"
+datasheets/transistor/onsemi/ksa733-d.pdf	TO-226-3, TO-92-3 (TO-226AA)	-	-	TO-92	E,B,C	pnp:B,C,E	"p.2 ""1. Emitter 2. Base 3. Collector"" (-C suffix center collector not listed); no ordering table in PDF"
+datasheets/transistor/onsemi/ksc1008-d.pdf	TO-226-3, TO-92-3 (TO-226AA)	-	=	TO-92	E,B,C	npn:B,C,E	"p.1 ""KSC1008: 1. Emitter 2. Base 3. Collector"""
+datasheets/transistor/onsemi/ksc1845-d.pdf	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	-	=	TO-92	E,C,B	npn:B,C,E	"p.1 ""1. Emitter 2. Collector 3. Base""; visual p.1 ok"
+datasheets/transistor/onsemi/ksp13-d.pdf	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	-	=	TO-92	E,B,C	npn:B,C,E	"p.1 ""1:Emitter 2:Base 3:Collector"" (Darlington)"
+datasheets/transistor/onsemi/ksp92-d.pdf	TO-226-3, TO-92-3 (TO-226AA)	-	=	TO-92	E,B,C	pnp:B,C,E	"p.1 ""1. Emitter 2. Base 3. Collector"""
+datasheets/transistor/onsemi/mbt2222adw1t1-d.pdf	6-TSSOP, SC-88, SOT-363	-	=	SC-88	E2,B2,C1,E1,B1,C2	npn:B1,C1,E1;npn:B2,C2,E2	"p.1 STYLE 1; p.6 ""STYLE 1: 1 EMITTER 2 2 BASE 2 3 COLLECTOR 1 4 EMITTER 1 5 BASE 1 6 COLLECTOR 2"""
+datasheets/transistor/onsemi/mbt35200mt1-d.pdf	SOT-23-6 Thin, TSOT-23-6	-	=	TSOP-6	C,C,B,E,C,C	pnp:B,C,E	"p.1 symbol ""COLLECTOR 1,2,5,6 / 3 BASE / 4 EMITTER"", STYLE 6; visual p.1 ok; p.1 DISCONTINUED watermark"
+datasheets/transistor/onsemi/mbt3904dw1t1-d.pdf	6-TSSOP, SC-88, SOT-363	-	MBT3904DW1T1G|SMBT3904DW1T1G|NSVMBT3904DW1T3G	SC-88	E2,B2,C1,E1,B1,C2	npn:B1,C1,E1;npn:B2,C2,E2	p.1 MBT3904DW1T1 STYLE 1; p.10 style 1 E2,B2,C1,E1,B1,C2; p.1 ordering table (MBT3904DW1T3G not in table; MBT3904DW2T1G is style 27 and discontinued)
+datasheets/transistor/onsemi/mbt3906dw1t1-d.pdf	6-TSSOP, SC-88, SOT-363	-	=	SC-88	E2,B2,C1,E1,B1,C2	pnp:B1,C1,E1;pnp:B2,C2,E2	p.1 STYLE 1; p.9 style 1
+datasheets/transistor/onsemi/mbt3946dw1t1-d.pdf	6-TSSOP, SC-88, SOT-363	-	=	SC-88	E2,B2,C1,E1,B1,C2	pnp:B1,C1,E1;npn:B2,C2,E2	"p.1 STYLE 1, ""Q1 PNP, Q2 NPN""; p.13 style 1"
+datasheets/transistor/onsemi/mbt6429dw1t1-d.pdf	6-TSSOP, SC-88, SOT-363	-	=	SC-88	E2,B2,C1,E1,B1,C2	npn:B1,C1,E1;npn:B2,C2,E2	p.1 symbol (3) C, (4) E, (5) B of Q1; (1) E, (2) B, (6) C of Q2 (no style callout); visual p.1 ok
+datasheets/transistor/onsemi/mjd112-d.pdf	TO-251-3 Short Leads, IPAK, TO-251AA	-	=	IPAK	B,C,E	npn:B,C,E	"p.8 case 369D STYLE 1 ""1 BASE 2 COLLECTOR 3 EMITTER 4 COLLECTOR"" (the only BJT style; no callout on p.1); main session (G pin counts): through-hole IPAK: the tab (pin 4) is no PCB pad, the leads are pins 1-3"
+datasheets/transistor/onsemi/mjd112-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	=	DPAK	B,C,E,C	npn:B,C,E	"p.8 case 369C STYLE 1 ""1 BASE 2 COLLECTOR 3 EMITTER 4 COLLECTOR"" (only BJT style; no callout); MJD117 parts are PNP, same pins"
+datasheets/transistor/onsemi/mjd122-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	=	DPAK	B,C,E,C	npn:B,C,E	p.1 STYLE 1; p.10 style 1 B,C,E,C; MJD127 parts are PNP, same pins
+datasheets/transistor/onsemi/mjd200-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	=	DPAK	B,C,E,C	npn:B,C,E	p.1 STYLE 1; p.9 style 1; MJD210 parts are PNP, same pins; MJD200G (not an input) discontinued
+datasheets/transistor/onsemi/mjd31-d.pdf	TO-251-3 Short Leads, IPAK, TO-251AA	-	MJD31C1G	IPAK	B,C,E,C	npn:B,C,E	p.1 symbols base 1, collector 2,4, emitter 3; p.8 ordering table IPAK = MJD31C1G only (MJD31CITU not in table); visual p.1 ok
+datasheets/transistor/onsemi/mjd31-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	MJD31CG|NJVMJD31CG|MJD31CRLG|NJVMJD31CRLG|MJD31CT4G|NJVMJD31CT4G|MJD31T4G|MJD31CT4GN|NJVMJD31T4G|MJD32CG|NJVMJD32CG|MJD32CRLG|MJD32CT4G|MJD32CT4GN|NJVMJD32CT4G|MJD32RLG|MJD32T4G|NJVMJD32T4G	DPAK	B,C,E,C	npn:B,C,E	p.1 symbols base 1, collector 2,4, emitter 3, STYLE 1; visual p.1 ok; p.8 ordering table (MJD31CEITU not in table); MJD32 parts are PNP, same pins
+datasheets/transistor/onsemi/mjd340-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	=	DPAK	B,C,E,C	npn:B,C,E	p.1 STYLE 1; p.7 style 1; MJD350 parts are PNP, same pins
+datasheets/transistor/onsemi/mjd41c-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	=	DPAK	B,C,E,C	npn:B,C,E	p.1 STYLE 1; p.7 style 1; MJD42C parts are PNP, same pins; only MJD42C1G (IPAK) discontinued
+datasheets/transistor/onsemi/mjd44h11-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	=	DPAK	B,C,E,C	npn:B,C,E	p.1 STYLE 1; p.10 style 1; MJD45H11 parts are PNP, same pins; NJVMJD44H11D3T4G is case 369G and discontinued
+datasheets/transistor/onsemi/mjd47-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	MJD47G|MJD47T4G|NJVMJD47T4G|MJD50G|MJD50T4G|NJVMJD50T4G	DPAK	B,C,E,C	npn:B,C,E	p.1 STYLE 1; p.7 style 1; p.5 ordering table (MJD47TF-FS not in table)
+datasheets/transistor/onsemi/mje182-d.pdf	TO-225AA, TO-126-3	-	-	TO-126	E,C,B	npn:B,C,E	"p.2 ""1. Emitter 2.Collector 3.Base""; no ordering table; p.2 DISCONTINUED / not recommended for new design watermark"
+datasheets/transistor/onsemi/mje200-d.pdf	TO-225AA, TO-126-3	-	-	TO-126	E,C,B	npn:B,C,E	"p.2 ""1. Emitter 2.Collector 3.Base""; no ordering table"
+datasheets/transistor/onsemi/mje2955t-d.pdf	TO-220-3	-	=	TO-220	B,C,E	npn:B,C,E	"p.1 STYLE 1; p.5 style 1 ""1 BASE 2 COLLECTOR 3 EMITTER 4 COLLECTOR""; MJE2955T is PNP, same pins; main session (G pin counts): through-hole TO-220: the tab (pin 4) is no PCB pad, the leads are pins 1-3"
+datasheets/transistor/onsemi/mmbf170lt1-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	G,S,D	nmos:G,D,S	p.1 STYLE 21; p.7 style 21 G,S,D
+datasheets/transistor/onsemi/mmbt2222am3-d.pdf	SOT-723	-	=	SOT-723	B,E,C	npn:B,C,E	p.1 STYLE 1; p.6 style 1 B,E,C
+datasheets/transistor/onsemi/mmbt2222att1-d.pdf	SC-75, SOT-416	-	(NSV)?MMBT2222ATT1G	SC-75	B,E,C	npn:B,C,E	p.1 STYLE 1; p.6 style 1 B,E,C; p.1 ordering table MMBT2222ATT1G, NSVMMBT2222ATT1G (MMBT2222ATT3G not in table)
+datasheets/transistor/onsemi/mmbt2222awt1-d.pdf	SC-70, SOT-323	-	=	SC-70	B,E,C	npn:B,C,E	p.1 STYLE 3; p.8 style 3 B,E,C
+datasheets/transistor/onsemi/mmbt2222lt1-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	"p.1 STYLE 6; case 318 ""STYLE 6: PIN 1. BASE 2. EMITTER 3. COLLECTOR"""
+datasheets/transistor/onsemi/mmbt2369lt1-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	"p.1 STYLE 6; case 318 ""STYLE 6: PIN 1. BASE 2. EMITTER 3. COLLECTOR"""
+datasheets/transistor/onsemi/mmbt2484lt1-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	"p.1 STYLE 6; case 318 ""STYLE 6: PIN 1. BASE 2. EMITTER 3. COLLECTOR"""
+datasheets/transistor/onsemi/mmbt2907alt1-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	"p.1 STYLE 6; case 318 ""STYLE 6: PIN 1. BASE 2. EMITTER 3. COLLECTOR"""
+datasheets/transistor/onsemi/mmbt2907awt1-d.pdf	SC-70, SOT-323	-	=	SC-70	B,E,C	pnp:B,C,E	p.1 STYLE 3; p.5 style 3 B,E,C
+datasheets/transistor/onsemi/mmbt3416lt3-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	"p.1 STYLE 6; case 318 ""STYLE 6: PIN 1. BASE 2. EMITTER 3. COLLECTOR"""
+datasheets/transistor/onsemi/mmbt3904lt1-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	"p.1 STYLE 6; case 318 ""STYLE 6: PIN 1. BASE 2. EMITTER 3. COLLECTOR"""
+datasheets/transistor/onsemi/mmbt3904tt1-d.pdf	SC-75, SOT-416	-	=	SC-75	B,E,C	npn:B,C,E	p.1 STYLE 1; p.7 style 1 B,E,C
+datasheets/transistor/onsemi/mmbt3904wt1-d.pdf	SC-70, SOT-323	-	=	SC-70	B,E,C	npn:B,C,E	p.1 STYLE 3; p.13 style 3 B,E,C
+datasheets/transistor/onsemi/mmbt3906lt1-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	"p.1 STYLE 6; case 318 ""STYLE 6: PIN 1. BASE 2. EMITTER 3. COLLECTOR"""
+datasheets/transistor/onsemi/mmbt3906sl-d.pdf	SOT-923F	-	=	SOT-923	B,E,C	pnp:B,C,E	"p.2 symbol ""COLLECTOR 3, BASE 1, EMITTER 2""; NOTE MMBT3904SL is only named as the complementary NPN type (hit by text), not covered by this PNP datasheet"
+datasheets/transistor/onsemi/mmbt3906tt1-d.pdf	SC-75, SOT-416	-	=	SC-75	B,E,C	pnp:B,C,E	p.1 STYLE 1; p.7 style 1 B,E,C
+datasheets/transistor/onsemi/mmbt4401lt1-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	"p.1 STYLE 6; case 318 ""STYLE 6: PIN 1. BASE 2. EMITTER 3. COLLECTOR"""
+datasheets/transistor/onsemi/mmbt4403lt1-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	"p.1 STYLE 6; case 318 ""STYLE 6: PIN 1. BASE 2. EMITTER 3. COLLECTOR"""
+datasheets/transistor/onsemi/mmbt4403wt1-d.pdf	SC-70, SOT-323	-	=	SC-70	B,E,C	pnp:B,C,E	p.1 STYLE 3; p.7 style 3 B,E,C
+datasheets/transistor/onsemi/mmbt5087lt1-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	"p.1 STYLE 6; case 318 ""STYLE 6: PIN 1. BASE 2. EMITTER 3. COLLECTOR"""
+datasheets/transistor/onsemi/mmbt5088lt1-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	"p.1 STYLE 6; case 318 ""STYLE 6: PIN 1. BASE 2. EMITTER 3. COLLECTOR"""
+datasheets/transistor/onsemi/mmbt5401lt1-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	"p.1 STYLE 6; case 318 ""STYLE 6: PIN 1. BASE 2. EMITTER 3. COLLECTOR"""
+datasheets/transistor/onsemi/mmbt5550lt1-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	"p.1 STYLE 6; case 318 ""STYLE 6: PIN 1. BASE 2. EMITTER 3. COLLECTOR"""
+datasheets/transistor/onsemi/mmbt6427lt1-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	"p.1 STYLE 6; case 318 ""STYLE 6: PIN 1. BASE 2. EMITTER 3. COLLECTOR"""
+datasheets/transistor/onsemi/mmbt6428lt1-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	"p.1 STYLE 6; case 318 ""STYLE 6: PIN 1. BASE 2. EMITTER 3. COLLECTOR"""
+datasheets/transistor/onsemi/mmbt8099lt1-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	"p.1 STYLE 6; case 318 ""STYLE 6: PIN 1. BASE 2. EMITTER 3. COLLECTOR"""
+datasheets/transistor/onsemi/mmbta05lt1-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	"p.1 STYLE 6; case 318 ""STYLE 6: PIN 1. BASE 2. EMITTER 3. COLLECTOR"""
+datasheets/transistor/onsemi/mmbta13lt1-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	"p.1 STYLE 6; case 318 ""STYLE 6: PIN 1. BASE 2. EMITTER 3. COLLECTOR"""
+datasheets/transistor/onsemi/mmbta42lt1-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	"p.1 STYLE 6; case 318 ""STYLE 6: PIN 1. BASE 2. EMITTER 3. COLLECTOR"""
+datasheets/transistor/onsemi/mmbta55lt1-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	"p.1 STYLE 6; case 318 ""STYLE 6: PIN 1. BASE 2. EMITTER 3. COLLECTOR"""
+datasheets/transistor/onsemi/mmbta63lt1-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 STYLE 6; p.5 style 6 B,E,C (Darlington)
+datasheets/transistor/onsemi/mmbta92lt1-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	"p.1 STYLE 6; case 318 ""STYLE 6: PIN 1. BASE 2. EMITTER 3. COLLECTOR"""
+datasheets/transistor/onsemi/mmpq2222a-d.pdf	"16-SOIC (0.154"", 3.90mm Width)"	-	=	SOIC	C1,C1,C2,C2,C3,C3,C4,C4,B4,E4,B3,E3,B2,E2,B1,E1	npn:B1,C1,E1;npn:B2,C2,E2;npn:B3,C3,E3;npn:B4,C4,E4	p.2 Fig.5 SOIC-16 pin#1 C1,C1,C2,C2,C3,C3,C4,C4; back E1 B1 E2 B2 E3 B3 E4 B4 (pins 16..9); Fig.6 internal; visual p.2 ok
+datasheets/transistor/onsemi/mmpq2222a-d.pdf	SOT-23-6 Thin, TSOT-23-6	-	=	TSOT-23-6	B1,E2,B2,C2,E1,C1	npn:B1,C1,E1;npn:B2,C2,E2	p.2 Fig.3 SuperSOT-6 pin#1 B1, E2, B2; back C1 E1 C2; Fig.4 internal; visual p.2 ok
+datasheets/transistor/onsemi/mmpq2907a-d.pdf	SOT-23-6 Thin, TSOT-23-6	-	=	TSOT-23-6	B1,E2,B2,C2,E1,C1	pnp:B1,C1,E1;pnp:B2,C2,E2	p.1 TSOT23 6-Lead image Pin #1 B1, E2, B2; back C1 E1 C2; Fig.2 internal; visual p.1 ok
+datasheets/transistor/onsemi/mpsa05-d.pdf	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	-	MPSA05RLR[AM]G?	TO-92	E,B,C	npn:B,C,E	"p.1 STYLE 1; p.7 style 1 ""1 EMITTER 2 BASE 3 COLLECTOR""; p.6 ordering table (MPSA05RA not in table)"
+datasheets/transistor/onsemi/mpsa28-d.pdf	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	-	MPSA28RLRPG|MPSA29RLRPG?	TO-92	E,B,C	npn:B,C,E	p.1 STYLE 1; p.5 style 1 E,B,C; p.1 ordering table (MPSA29-D26Z not in table)
+datasheets/transistor/onsemi/mpsa42-d.pdf	TO-226-3, TO-92-3 (TO-226AA)	-	=	TO-92	E,B,C	npn:B,C,E	"p.1 symbol ""COLLECTOR 3, BASE 2, EMITTER 1"""
+datasheets/transistor/onsemi/msd602-rt1-d.pdf	TO-236-3, SC-59, SOT-23-3	-	S?MSD602-RT1G	SC-59	B,E,C	npn:B,C,E	p.1 STYLE 1; p.6 style 1 B,E,C; p.1 ordering table prints MSD-602RT1G / SMSD-602RT1G (hyphen misplaced; = MSD602-RT1G, SMSD602-RT1G)
+datasheets/transistor/onsemi/ndc7002n-d.pdf	SOT-23-6 Thin, TSOT-23-6	-	=	TSOT-23-6	G1,S2,G2,D2,S1,D1	nmos:G1,D1,S1;nmos:G2,D2,S2	p.1 image pin 1 G1, S2, G2; back D1 S1 D2 (pins 6..4); PINOUT diagram agrees (bottom FET source pin 5, drain pin 6); visual p.1 ok
+datasheets/transistor/onsemi/nds0605-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	G,S,D	pmos:G,D,S	p.1 pinout drawing G left, S right, D top; marking pin 1 left; visual p.1 ok
+datasheets/transistor/onsemi/nds0610-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	G,S,D	pmos:G,D,S	p.1 pinout drawing G left, S right, D top; case 318-08; visual p.1 ok
+datasheets/transistor/onsemi/nds331n-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	G,S,D	nmos:G,D,S	"p.1 marking ""Drain 3 / 1 Gate 2 Source"""
+datasheets/transistor/onsemi/nds352ap-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	G,S,D	pmos:G,D,S	"p.1 marking ""Drain 3 / 1 Gate 2 Source"""
+datasheets/transistor/onsemi/nds7002a-d.pdf	TO-226-3, TO-92-3 (TO-226AA)	-	2N7000	TO-92	S,G,D	nmos:G,D,S	"p.1 ""1 - Source 2 - Gate 3 - Drain""; visual p.1 ok; p.7 ordering table: 2N7000 bulk is the straight-lead entry (2N7000BU not in table)"
+datasheets/transistor/onsemi/nds7002a-d.pdf	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	-	2N7000-D(74|75|26)Z	TO-92	S,G,D	nmos:G,D,S	"p.1 ""1 - Source 2 - Gate 3 - Drain"" (case 135AR formed); p.7 ordering table 2N7000-D74Z/-D75Z/-D26Z (2N7000TA not in table)"
+datasheets/transistor/onsemi/nds7002a-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	G,S,D	nmos:G,D,S	"p.1 ""1 - Gate 2 - Source 3 - Drain"" (SOT-23)"
+datasheets/transistor/onsemi/ndt2955-d.pdf	TO-261-4, TO-261AA	-	=	SOT-223	G,D,S,D	pmos:G,D,S	p.1 PINOUT DIAGRAM G D S, tab D; visual p.1 ok
+datasheets/transistor/onsemi/ndt3055l-d.pdf	TO-261-4, TO-261AA	-	=	SOT-223	G,D,S,D	nmos:G,D,S	p.1 PINOUT DIAGRAM G D S, tab D
+datasheets/transistor/onsemi/ndt452ap-d.pdf	TO-261-4, TO-261AA	-	=	SOT-223	G,D,S,D	pmos:G,D,S	p.2 SOT-223 pin diagram G D S, tab D; visual p.2 ok
+datasheets/transistor/onsemi/ndt456p-d.pdf	TO-261-4, TO-261AA	-	=	SOT-223	G,D,S,D	pmos:G,D,S	p.2 SOT-223 pin diagram G D S, tab D; visual p.2 ok
+datasheets/transistor/onsemi/ns2029m3-d.pdf	SOT-723	-	=	SOT-723	B,E,C	pnp:B,C,E	"p.1 symbol ""COLLECTOR 3, 1 BASE, 2 EMITTER"""
+datasheets/transistor/onsemi/nss12100m3-d.pdf	SOT-723	-	=	SOT-723	B,E,C	pnp:B,C,E	p.1 STYLE 1; p.6 style 1 B,E,C
+datasheets/transistor/onsemi/nss1c201l-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 STYLE 6; p.7 style 6 B,E,C
+datasheets/transistor/onsemi/nss1c201mz4-d.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	npn:B,C,E	"p.1 PIN ASSIGNMENT ""B C E / 1 2 3"", tab 4 C; symbol COLLECTOR 2,4"
+datasheets/transistor/onsemi/nss20601cf8-d.pdf	8-SMD, Flat Leads	-	=	ChipFET	C,C,C,B,E,C,C,C	npn:B,C,E	"p.1 symbol ""COLLECTOR 1,2,3,6,7,8 / 4 BASE / 5 EMITTER"", STYLE 4; visual p.1 ok"
+datasheets/transistor/onsemi/nss40201l-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 STYLE 6; p.8 style 6 B,E,C
+datasheets/transistor/onsemi/nss40302p-d.pdf	"8-SOIC (0.154"", 3.90mm Width)"	-	=	SOIC	E1,B1,E2,B2,C2,C2,C1,C1	npn:B1,C1,E1;pnp:B2,C2,E2	p.1 symbols NPN: 2 base, 7,8 collector, 1 emitter; PNP: 4 base, 5,6 collector, 3 emitter; STYLE 16; visual p.1 ok
+datasheets/transistor/onsemi/nss60200l-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 STYLE 6; p.7 style 6 B,E,C
+datasheets/transistor/onsemi/nst30010mxv6-d.pdf	SOT-563, SOT-666	-	=	SOT-563	E2,B2,C1,E1,B1,C2	pnp:B1,C1,E1;pnp:B2,C2,E2	p.1 symbol Q1 (3) C (4) E (5) B, Q2 (1) E (2) B (6) C; visual p.1 ok
+datasheets/transistor/onsemi/nst3904dp6-d.pdf	SOT-963	-	=	SOT-963	E2,B2,C1,E1,B1,C2	npn:B1,C1,E1;npn:B2,C2,E2	p.1 symbol Q1 (3) C (4) E (5) B, Q2 (1) E (2) B (6) C; visual p.1 ok; only NSVT3904DP6T5G discontinued
+datasheets/transistor/onsemi/nst3906dxv6t1-d.pdf	SOT-563, SOT-666	-	NST3906DXV6T[15]	SOT-563	E2,B2,C1,E1,B1,C2	pnp:B1,C1,E1;pnp:B2,C2,E2	p.1 symbol Q1 (3) C (4) E (5) B, Q2 (1) E (2) B (6) C; visual p.1 ok; old ordering table lists only NST3906DXV6T1 / NST3906DXV6T5 (no G, no NSV parts)
+datasheets/transistor/onsemi/nst3906mx2-d.pdf	3-XFDFN	-	=	X2DFN	B,E,C	pnp:B,C,E	"p.1 symbol ""COLLECTOR 3, BASE 1, EMITTER 2"""
+datasheets/transistor/onsemi/nst3946dp6-d.pdf	SOT-963	-	=	SOT-963	E2,B2,C1,E1,B1,C2	pnp:B1,C1,E1;npn:B2,C2,E2	"p.1 symbol Q1 (3) C (4) E (5) B, Q2 (1) E (2) B (6) C, ""Q1 PNP Q2 NPN""; visual p.1 ok; only NSVT3946DP6T5G discontinued"
+datasheets/transistor/onsemi/nst45010mw6-d.pdf	6-TSSOP, SC-88, SOT-363	-	=	SC-88	E2,B2,C1,E1,B1,C2	pnp:B1,C1,E1;pnp:B2,C2,E2	p.1 STYLE 1; p.7 style 1
+datasheets/transistor/onsemi/nst65010mw6-d.pdf	6-TSSOP, SC-88, SOT-363	-	=	SC-88	E2,B2,C1,E1,B1,C2	pnp:B1,C1,E1;pnp:B2,C2,E2	p.1 STYLE 1; p.7 style 1
+datasheets/transistor/onsemi/nst65011mw6-d.pdf	6-TSSOP, SC-88, SOT-363	-	=	SC-88	E2,B2,C1,E1,B1,C2	npn:B1,C1,E1;npn:B2,C2,E2	p.1 STYLE 1; p.6 style 1
+datasheets/transistor/onsemi/nst847bpdp6-d.pdf	SOT-963	-	=	SOT-963	E2,B2,C1,E1,B1,C2	pnp:B1,C1,E1;npn:B2,C2,E2	"p.1 symbol Q1 (3)(4)(5), Q2 (1)(2)(6), ""Q1 PNP Q2 NPN""; visual p.1 ok"
+datasheets/transistor/onsemi/nst857amx2-d.pdf	0402 (1006 Metric)	-	=	X2DFN	B,E,C	pnp:B,C,E	"p.1 symbol ""COLLECTOR 3, BASE 1, EMITTER 2"""
+datasheets/transistor/onsemi/nst857bdp6-d.pdf	SOT-963	-	=	SOT-963	E2,B2,C1,E1,B1,C2	pnp:B1,C1,E1;pnp:B2,C2,E2	p.1 symbol Q1 (3) C (4) E (5) B, Q2 (1) E (2) B (6) C; visual p.1 ok
+datasheets/transistor/onsemi/nstb1002dxv5-d.pdf	SOT-553	-	=	SOT-553	-	-	p.1 schematic: Q1 PNP E 3, C 4, base tied internally to pin 5 (Q2 collector); Q2 NPN E 1, C 5, base via R1 pin 2; Q1 base has no pin of its own, not expressible; visual p.1 checked; T5G discontinued, T1G not
+datasheets/transistor/onsemi/nta4001n-d.pdf	SC-75, SOT-416	-	=	SC-75	G,S,D	nmos:G,D,S	p.1 STYLE 5; p.6 style 5 G,S,D
+datasheets/transistor/onsemi/nta4151p-d.pdf	SC-75, SOT-416	-	NTA4151PT1G	SC-75	G,S,D	pmos:G,D,S	"p.1 STYLE 5, pin assignment ""3 Drain / 1 Gate 2 Source""; p.2 ordering table (NTA4151PT1H not in table)"
+datasheets/transistor/onsemi/nta4151p-d.pdf	SC-89, SOT-490	-	=	SC-89	G,S,D	pmos:G,D,S	"p.1 marking & pin assignment ""3 Drain, 1 Gate, 2 Source"" (SC-89 case 463C)"
+datasheets/transistor/onsemi/nta7002n-d.pdf	SC-75, SOT-416	-	=	SC-75	G,S,D	nmos:G,D,S	p.1 STYLE 5; p.6 style 5 G,S,D
+datasheets/transistor/onsemi/ntd4909n-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	=	DPAK	G,D,S,D	nmos:G,D,S	"p.1 STYLE 2; p.8 ""STYLE 2: 1 GATE 2 DRAIN 3 SOURCE 4 DRAIN"""
+datasheets/transistor/onsemi/ntd4969n-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	=	DPAK	G,D,S,D	nmos:G,D,S	p.1 STYLE 2; p.7 style 2 G,D,S,D
+datasheets/transistor/onsemi/ntf2955-d.pdf	TO-261-4, TO-261AA	-	=	SOT-223	G,D,S,D	pmos:G,D,S	"p.1 marking & pin assignment ""1 Gate 2 Drain 3 Source 4 Drain"", STYLE 3"
+datasheets/transistor/onsemi/ntf3055l108-d.pdf	TO-261-4, TO-261AA	-	=	SOT-223	G,D,S,D	nmos:G,D,S	p.1 STYLE 3; p.8 style 3 G,D,S,D
+datasheets/transistor/onsemi/ntgd3148n-d.pdf	SOT-23-6 Thin, TSOT-23-6	-	=	TSOP-6	G1,S2,G2,D2,S1,D1	nmos:G1,D1,S1;nmos:G2,D2,S2	"p.1 STYLE 13; p.6 ""STYLE 13: 1 GATE 1 2 SOURCE 2 3 GATE 2 4 DRAIN 2 5 SOURCE 1 6 DRAIN 1"""
+datasheets/transistor/onsemi/ntgd4167c-d.pdf	SOT-23-6 Thin, TSOT-23-6	-	=	TSOP-6	G1,S2,G2,D2,S1,D1	nmos:G1,D1,S1;pmos:G2,D2,S2	p.1 STYLE 13 + symbols N-channel D1/S1, P-channel G2/D2/S2; p.11 style 13; visual p.1 ok
+datasheets/transistor/onsemi/nthd4102p-d.pdf	8-SMD, Flat Leads	-	=	ChipFET	S1,G1,S2,G2,D2,D2,D1,D1	pmos:G1,D1,S1;pmos:G2,D2,S2	"p.1 STYLE 2; p.5 ""STYLE 2: 1 SOURCE 1 2 GATE 1 3 SOURCE 2 4 GATE 2 5,6 DRAIN 2 7,8 DRAIN 1""; visual p.1 ok (symbols)"
+datasheets/transistor/onsemi/ntjd1155l-d.pdf	6-TSSOP, SC-88, SOT-363	-	=	SC-88	-	-	"p.1 PIN ASSIGNMENT ""1 S1, 2,3 D2, 4 S2, 5 G1, 6 D1/G2"": pin 6 is Q1 drain and Q2 gate at once, not expressible"
+datasheets/transistor/onsemi/ntjd4152p-d.pdf	6-TSSOP, SC-88, SOT-363	-	=	SC-88	S1,G1,D2,S2,G2,D1	pmos:G1,D1,S1;pmos:G2,D2,S2	"p.1 STYLE 26; p.7 ""STYLE 26: 1 SOURCE 1 2 GATE 1 3 DRAIN 2 4 SOURCE 2 5 GATE 2 6 DRAIN 1"""
+datasheets/transistor/onsemi/ntjd4401n-d.pdf	6-TSSOP, SC-88, SOT-363	-	=	SC-88	S1,G1,D2,S2,G2,D1	nmos:G1,D1,S1;nmos:G2,D2,S2	"p.1 pinout ""S1 1 6 D1 / G1 2 5 G2 / D2 3 4 S2"" (top view); visual p.1 ok; NOTE p.1 calls it STYLE 28 but style 28 is a single-FET style; the drawing is used"
+datasheets/transistor/onsemi/ntjd5121n-d.pdf	6-TSSOP, SC-88, SOT-363	-	=	SC-88	S1,G1,D2,S2,G2,D1	nmos:G1,D1,S1;nmos:G2,D2,S2	p.1 STYLE 26; p.7 style 26
+datasheets/transistor/onsemi/ntjs3157n-d.pdf	6-TSSOP, SC-88, SOT-363	-	=	SC-88	D,D,G,S,D,D	nmos:G,D,S	"p.1 STYLE 28; p.7 ""STYLE 28: 1 DRAIN 2 DRAIN 3 GATE 4 SOURCE 5 DRAIN 6 DRAIN"""
+datasheets/transistor/onsemi/ntjs4151p-d.pdf	6-TSSOP, SC-88, SOT-363	-	=	SC-88	D,D,G,S,D,D	pmos:G,D,S	"p.1 pinout ""D 1 6 D / D 2 5 D / G 3 4 S"" top view"
+datasheets/transistor/onsemi/ntk3134n-d.pdf	SOT-723	-	=	SOT-723	G,S,D	nmos:G,D,S	p.1 STYLE 5; p.5 style 5 G,S,D
+datasheets/transistor/onsemi/ntk3139p-d.pdf	SOT-723	-	=	SOT-723	G,S,D	pmos:G,D,S	p.1 STYLE 5; p.5 style 5 G,S,D
+datasheets/transistor/onsemi/ntlgd3502n-d.pdf	6-VDFN Exposed Pad	-	=	DFN	G1,SD,G2,D2,SD,S1	nmos:G1,SD,S1;nmos:G2,D2,SD	"p.1 ""1 = Gate 1, 2,5 = Drain 1/Source 2, 3 = Gate 2, 4 = Drain 2, 6 = Source 1"" (SD = drain 1/source 2); Heatsink 1 (SD) and Heatsink 2 (D2) pads not numbered, left out; visual p.1 ok"
+datasheets/transistor/onsemi/ntlgf3402p-d.pdf	6-VDFN Exposed Pad	FETKY™	=	DFN	-	-	"p.1 FETKY: ""1,6 = Anode, 2,5 = Source, 3 = Gate, 4 = Drain/Cathode"": Schottky anode pins not expressible"
+datasheets/transistor/onsemi/ntljd3119c-d.pdf	6-WDFN Exposed Pad	µCool™	=	WDFN	S1,G1,D2,S2,G2,D1	nmos:G1,D1,S1;pmos:G2,D2,S2	"p.1 PIN CONNECTIONS ""S1 1 6 D1 / G1 2 5 G2 / D2 3 4 S2""; FET 1 is N (body diode S1->D1), FET 2 P; exposed pads D1, D2 not numbered, left out; visual p.1 ok"
+datasheets/transistor/onsemi/ntljd4116n-d.pdf	6-WDFN Exposed Pad	-	=	WDFN	S1,G1,D2,S2,G2,D1	nmos:G1,D1,S1;nmos:G2,D2,S2	"p.1 PIN CONNECTIONS ""S1 1 6 D1 / G1 2 5 G2 / D2 3 4 S2""; exposed pads D1, D2 not numbered, left out"
+datasheets/transistor/onsemi/ntljf3117p-d.pdf	6-WDFN Exposed Pad	µCool™	=	WDFN	-	-	"p.1 FETKY PIN CONNECTIONS ""1 A, 2 N/C, 3 D, 4 S, 5 G, 6 K"": Schottky anode/cathode pins not expressible"
+datasheets/transistor/onsemi/ntljs4114n-d.pdf	6-WDFN Exposed Pad	-	=	WDFN	D,D,G,S,D,D	nmos:G,D,S	"p.1 STYLE 1, PIN CONNECTIONS ""D 1 6 D / D 2 5 D / G 3 4 S""; exposed pads D and S not numbered, left out; visual p.1 ok"
+datasheets/transistor/onsemi/ntljs7d2p02p8z-d.pdf	6-PowerWDFN	-	=	WDFN	D,D,G,S,D,D	pmos:G,D,S	"p.1 electrical connection ""D 1, D 2, G 3, S 4, D 5, D 6"" (top view); pads D, S not numbered, left out; visual p.1 ok"
+datasheets/transistor/onsemi/ntlus3a39pz-d.pdf	6-PowerUFDFN	µCool™	=	UDFN	D,D,G,S,D,D	pmos:G,D,S	p.1 PIN CONNECTIONS D 1, D 2, G 3, S 4, D 5, D 6; pads D, S not numbered, left out; visual p.1 ok
+datasheets/transistor/onsemi/ntlus4930n-d.pdf	6-UDFN Exposed Pad	-	=	UDFN	D,D,G,S,D,D	nmos:G,D,S	"p.1 PIN CONNECTIONS ""D 1 6 D / D 2 5 D / G 3 4 S""; pads not numbered, left out"
+datasheets/transistor/onsemi/ntmd4820n-d.pdf	"8-SOIC (0.154"", 3.90mm Width)"	-	=	SOIC	S1,G1,S2,G2,D2,D2,D1,D1	nmos:G1,D1,S1;nmos:G2,D2,S2	"p.1 STYLE 11; p.7 ""STYLE 11: 1 SOURCE 1 2 GATE 1 3 SOURCE 2 4 GATE 2 5,6 DRAIN 2 7,8 DRAIN 1"""
+datasheets/transistor/onsemi/ntmfs002p03p8z-d.pdf	8-PowerTDFN, 5 Leads	-	=	SO-8FL	S,S,S,G,D,D,D,D	pmos:G,D,S	"p.1 symbol ""S (1,2,3) G (4) D (5,6,7,8)"""
+datasheets/transistor/onsemi/ntmfs005p03p8z-d.pdf	8-PowerTDFN, 5 Leads	-	NTMFS005P03P8ZT1G	SO-8FL	S,S,S,G,D,D,D,D	pmos:G,D,S	"p.1 symbol ""S (1,2,3) G (4) D (5,6,7,8)"", STYLE 1; p.1 ordering table NTMFS005P03P8ZT1G only (NTMFS005P03P8ZST1G not in table)"
+datasheets/transistor/onsemi/ntmfs4c029n-d.pdf	8-PowerTDFN, 5 Leads	-	=	SO-8FL	S,S,S,G,D,D,D,D	nmos:G,D,S	"p.1 symbol ""D (5-8) G (4) S (1,2,3)"", STYLE 1"
+datasheets/transistor/onsemi/ntmfs5c670nl-d.pdf	8-PowerTDFN, 5 Leads	-	=	SO-8FL	S,S,S,G,D,D,D,D	nmos:G,D,S	"p.1 symbol ""D (5) G (4) S (1,2,3)"", STYLE 1 (S,S,S,G,D); marking diagram shows D on all four pins 5-8"
+datasheets/transistor/onsemi/ntmfs6h848nl-d.pdf	8-PowerTDFN, 5 Leads	-	=	SO-8FL	S,S,S,G,D,D,D,D	nmos:G,D,S	"p.1 symbol ""D (5,6) G (4) S (1,2,3)"", STYLE 1; marking diagram D on pins 5-8"
+datasheets/transistor/onsemi/ntnd31015nz-d.pdf	6-XFLGA	-	=	XLLGA	S1,G1,D2,S2,G2,D1	nmos:G1,D1,S1;nmos:G2,D2,S2	"p.1 PINOUT DIAGRAM (bottom view) ""S1 1 6 D1 / G1 2 5 G2 / D2 3 4 S2"" (numbered lands)"
+datasheets/transistor/onsemi/ntns3193nz-d.pdf	3-XFLGA	-	=	XLLGA	G,S,D	nmos:G,D,S	"p.1 symbol ""D (3) G (1) S (2)"""
+datasheets/transistor/onsemi/ntp7d3n15mc-d.pdf	TO-220-3	PowerTrench®	=	TO-220	G,D,S	nmos:G,D,S	"p.1 marking ""1 Gate 2 Drain 3 Source 4 Drain""; main session (G pin counts): through-hole TO-220: the tab (pin 4) is no PCB pad, the leads are pins 1-3"
+datasheets/transistor/onsemi/ntr3a085pz-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	G,S,D	pmos:G,D,S	p.1 STYLE 21; p.7 style 21 G,S,D
+datasheets/transistor/onsemi/ntr4003n-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	G,S,D	nmos:G,D,S	p.1 STYLE 21; p.7 style 21 G,S,D
+datasheets/transistor/onsemi/ntr4101p-d.pdf	TO-236-3, SC-59, SOT-23-3	-	NTRV?4101PT1G	SOT-23	G,S,D	pmos:G,D,S	p.1 STYLE 21; p.7 style 21 G,S,D; p.1 ordering table NTR4101PT1G, NTRV4101PT1G (NTR4101PT1H not in table)
+datasheets/transistor/onsemi/ntr5105p-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	G,S,D	pmos:G,D,S	p.1 STYLE 21; p.7 style 21 G,S,D
+datasheets/transistor/onsemi/nts4409n-d.pdf	SC-70, SOT-323	-	=	SC-70	G,S,D	nmos:G,D,S	p.1 STYLE 8; p.6 style 8 G,S,D
+datasheets/transistor/onsemi/nttfd4d1n03p1e-d.pdf	12-PowerWQFN	PowerTrench®	=	WQFN	S2,G2,D1,D1,D1,D1,G1,SD,SD,SD,S2,S2	nmos:G1,D1,SD;nmos:G2,SD,S2	p.1 ELECTRICAL CONNECTION: 1 GND, 2 LSG, 3,4 V+, 5,6 V+ pad, 7 HSG, 8-10 SW, 11,12 GND pad; Q1 high side (HSG, drain V+, source SW), Q2 low side (LSG, drain SW, source GND); visual p.1 ok
+datasheets/transistor/onsemi/nttfs030n10g-d.pdf	8-PowerWDFN	-	NTTFS030N10GTAG	WDFN	S,S,S,G,D,D,D,D	nmos:G,D,S	"p.1 symbol ""D (5-8) G (4) S (1,2,3)""; p.5 ordering table lists ""NTTFS030N10G, m8FL, 1500 / Tape & Reel"" (TAG = that 1500 tape & reel OPN, cf. NTTFS5116PLTAG 1500/T&R)"
+datasheets/transistor/onsemi/nttfs115p10m5-d.pdf	8-PowerWDFN	-	=	WDFN	S,S,S,G,D,D,D,D	pmos:G,D,S	"p.1 ""S 1 8 D / S 2 7 D / S 3 6 D / G 4 5 D"""
+datasheets/transistor/onsemi/nttfs2d1n04hl-d.pdf	8-PowerWDFN	-	=	WDFN	S,S,S,G,D,D,D,D	nmos:G,D,S	p.1 pin drawing S 1, S 2, S 3, G 4, D 5-8; visual p.1 ok
+datasheets/transistor/onsemi/nttfs5116pl-d.pdf	8-PowerWDFN	-	=	WDFN	S,S,S,G,D,D,D,D	pmos:G,D,S	"p.1 symbol ""D (5-8) G (4) S (1,2,3)"""
+datasheets/transistor/onsemi/ntud3169cz-d.pdf	SOT-963	-	=	SOT-963	S1,G1,D2,S2,G2,D1	nmos:G1,D1,S1;pmos:G2,D2,S2	"p.1 PINOUT ""S1 1 6 D1 / G1 2 5 G2 / D2 3 4 S2""; FET 1 N (body diode S1->D1); visual p.1 ok"
+datasheets/transistor/onsemi/ntzd3155c-d.pdf	SOT-563, SOT-666	-	=	SOT-563	S1,G1,D2,S2,G2,D1	nmos:G1,D1,S1;pmos:G2,D2,S2	"p.1 PINOUT ""S1 1 6 D1 / G1 2 5 G2 / D2 3 4 S2""; FET 1 N; visual p.1 ok"
+datasheets/transistor/onsemi/nzt45h8-d.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	pnp:B,C,E	p.2 Fig.2 SOT-223 image leads B C E, tab C; visual p.2 ok
+datasheets/transistor/onsemi/pn100a-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.2 SOT-23 image: C single lead, B and E opposite (B pin 1 side, E pin 2); visual p.2 ok
+datasheets/transistor/onsemi/pn200a-d.pdf	TO-236-3, SC-59, SOT-23-3	-	MMBT200	SOT-23	B,E,C	pnp:B,C,E	p.2 Fig.2 SOT-23 image C single, B, E; visual p.2 ok; p.2 ordering table MMBT200 only (MMBT200-FS not in table)
+datasheets/transistor/onsemi/pn2222a-d.pdf	TO-226-3, TO-92-3 (TO-226AA)	-	=	TO-92	E,B,C	npn:B,C,E	"p.2 TO-92 image ""E B C""; visual p.2 ok"
+datasheets/transistor/onsemi/pn2222a-d.pdf	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	-	=	TO-92	E,B,C	npn:B,C,E	"p.2 TO-92 image ""E B C"""
+datasheets/transistor/onsemi/pzt2907a-d.pdf	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	-	=	TO-92	E,B,C	pnp:B,C,E	"p.2 PN2907A TO-92 image ""E B C""; visual p.2 ok"
+datasheets/transistor/onsemi/pzt2907at1-d.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	pnp:B,C,E	"p.1 STYLE 1, symbol ""COLLECTOR 2,4 / 1 BASE / 3 EMITTER"""
+datasheets/transistor/onsemi/pzta06-d.pdf	TO-226-3, TO-92-3 (TO-226AA)	-	=	TO-92	E,B,C	npn:B,C,E	"p.2 MPSA06 TO-92 image ""E B C""; visual p.2 ok"
+datasheets/transistor/onsemi/pzta06-d.pdf	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	-	MPSA06	TO-92	E,B,C	npn:B,C,E	"p.2 MPSA06 TO-92 image ""E B C""; p.2 ordering table has only MPSA06 bulk TO-92, no formed-lead part (MPSA06RA not in table)"
+datasheets/transistor/onsemi/pzta28-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 SOT-23 image C single, B, E (case 527AG); visual p.1 ok
+datasheets/transistor/onsemi/pzta56-d.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	pnp:B,C,E	p.1 SOT-223 image leads B C E, tab C; marking pin 1 left; visual p.1 ok
+datasheets/transistor/onsemi/pzta64-d.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	pnp:B,C,E	p.2 PZTA64 SOT-223 image leads B C E, tab C (Darlington); visual p.2 ok
+datasheets/transistor/onsemi/rfd14n05lsm-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	=	DPAK	G,D,S	nmos:G,D,S	p.2 TO-252AA image GATE, SOURCE, DRAIN (FLANGE); visual p.2 ok
+datasheets/transistor/onsemi/rfd3055lesm-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	=	DPAK	G,D,S	nmos:G,D,S	p.2 TO-252AA image GATE, SOURCE, DRAIN (FLANGE)
+datasheets/transistor/onsemi/ss8050-d.pdf	TO-226-3, TO-92-3 (TO-226AA)	-	=	TO-92	E,B,C	npn:B,C,E	"p.1 ""1. Emitter 2. Base 3. Collector"""
+datasheets/transistor/onsemi/ss8050-d.pdf	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	-	=	TO-92	E,B,C	npn:B,C,E	"p.1 ""1. Emitter 2. Base 3. Collector"" (135AR formed)"
+datasheets/transistor/onsemi/tip31a-d.pdf	TO-220-3	-	=	TO-220	B,C,E	npn:B,C,E	p.1 STYLE 1; p.7 style 1 B,C,E,C; TIP32 parts are PNP, same pins; TIP31G (not input) discontinued; main session (G pin counts): through-hole TO-220: the tab (pin 4) is no PCB pad, the leads are pins 1-3
+datasheets/transistor/onsemi/fdmc7208s-d.pdf	8-PowerWDFN	PowerTrench®	=	WDFN	-	-	"p.1 pin drawing: 1 G1, 2-4 S1, 5-7 S2, 8 G2; both drains only on the bottom pads (""Bottom Drain1/Drain2 Contact""), which have no pin numbers (p.11 outline neither), so the drains have no pin: not expressible; visual p.1 checked. Would be G1,S1,S1,S1,S2,S2,S2,G2 + pads D1,D2 if unnumbered pads were allowed"
+datasheets/transistor/onsemi/fdmc86116lz-d.pdf	8-PowerWDFN	PowerTrench®	=	WDFN	S,S,S,G,D,D,D,D	nmos:G,D,S	"p.1 PIN ASSIGNMENT ""S 1 8 D / S 2 7 D / S 3 6 D / G 4 5 D"""
+datasheets/transistor/onsemi/fdms8320l-d.pdf	8-PowerTDFN	PowerTrench®	=	PQFN	S,S,S,G,D,D,D,D	nmos:G,D,S	p.2 pin drawing S 1, S 2, S 3, G 4, D 5-8; drain pad not numbered
+datasheets/transistor/onsemi/fdpc8016s-d.pdf	8-PowerWDFN	PowerTrench®	=	PQFN	G1,SD,D1,D1,SD,SD,SD,G2,S2,D1	nmos:G1,D1,SD;nmos:G2,SD,S2	"p.2 PINOUT DESCRIPTION ""1 HSG, 2 GR Gate Return, 3,4,10 V+(HSD), 5,6,7 SW Switching Node/Low Side Drain, 8 LSG, 9 GND(LSS)""; p.1 electrical connection: GR tied to the switch node; Q1 high side, Q2 low side; PAD9, PAD10 numbered; visual p.1 ok"
+datasheets/transistor/onsemi/fds5670-d.pdf	"8-SOIC (0.154"", 3.90mm Width)"	PowerTrench®	=	SOIC	S,S,S,G,D,D,D,D	nmos:G,D,S	p.2 SO-8 image pin 1 S, S, S, G; D x4; pin diagram 1-8
+datasheets/transistor/onsemi/fdt1600n10alz-d.pdf	TO-261-4, TO-261AA	PowerTrench®	=	SOT-223	G,D,S,D	nmos:G,D,S	p.1 PIN ASSIGNMENT G D S, tab D
+datasheets/transistor/onsemi/fdt439n-d.pdf	TO-261-4, TO-261AA	-	=	SOT-223	G,D,S,D	nmos:G,D,S	p.1 PINOUT G D S, tab D
+datasheets/transistor/onsemi/fjv1845-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	"p.1 ""1. Base 2. Emitter 3. Collector"""
+datasheets/transistor/onsemi/fjx4006r-d.pdf	SC-70, SOT-323	-	FJX4006RTF	SC-70	B,E,C	pnp:B,C,E	"p.2 ""1. Base 2. Emitter 3. Collector"" (base = input via R1); p.2 ordering table FJX4006RTF only (FJX4006RTF-ON not in table)"
+datasheets/transistor/onsemi/fmb5551-d.pdf	SOT-23-6 Thin, TSOT-23-6	-	=	TSOT-23-6	B1,E2,B2,C2,E1,C1	npn:B1,C1,E1;npn:B2,C2,E2	"p.1 marking diagram pins 6..4 ""C1 E1 C2"", pins 1..3 ""B1 E2 B2"""
+datasheets/transistor/onsemi/fqpf630-d.pdf	TO-220-3 Full Pack	QFET®	=	TO-220F	G,D,S	nmos:G,D,S	p.2 TO-220F image G D S
+datasheets/transistor/onsemi/ksa1298-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	"p.1 ""1. Base 2. Emitter 3. Collector"""
+datasheets/transistor/onsemi/ksp2907a-d.pdf	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	-	KSP2907A(BU|TA|TF)	TO-92	E,B,C	pnp:B,C,E	"p.2 ""KSP2907A: 1. Emitter 2. Base 3. Collector; KSP2907AC: 1. Emitter 2. Collector 3. Base""; p.2 ordering table KSP2907ABU/TA/TF, KSP2907ACTA (center collector, other pinout: override skip)"
+datasheets/transistor/onsemi/mjd112-d.pdf	TO-220-3	-	=	TO-220	-	-	"MJD112/MJD117 DPAK/IPAK datasheet; TIP32 is only named on p.1 ""Electrically Similar to Popular TIP31 and TIP32 Series"", no TO-220 in this PDF (override skip)"
+datasheets/transistor/onsemi/ndc7001c-d.pdf	SOT-23-6 Thin, TSOT-23-6	-	=	TSOT-23-6	G1,S2,G2,D2,S1,D1	nmos:G1,D1,S1;pmos:G2,D2,S2	p.1 image pin 1 G1, S2, G2; back D1 S1 D2 (same layout as NDC7002N); PINOUT Q1(N) bottom, Q2(P) top
+datasheets/transistor/onsemi/nss40301mz4-d.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	npn:B,C,E	"p.1 STYLE 1; p.7 style 1 ""1 BASE 2 COLLECTOR 3 EMITTER 4 COLLECTOR"""
+datasheets/transistor/onsemi/ntmc083np10m5l-d.pdf	"8-SOIC (0.154"", 3.90mm Width)"	-	=	SOIC	S1,G1,S2,G2,D2,D2,D1,D1	nmos:G1,D1,S1;pmos:G2,D2,S2	"p.1 SOIC8 image Pin 1 S1, G1, ...; back D1 D1 D2 D2; dual-channel diagram Q1 on 1,2,7,8, Q2 on 3,4,5,6; ""Q1, N-CHANNEL""; visual p.1 ok"
+datasheets/transistor/onsemi/nttfs034n15mc-d.pdf	8-PowerWDFN	PowerTrench®	=	WDFN	S,S,S,G,D,D,D,D	nmos:G,D,S	"p.2 ""D 5 4 G / D 6 3 S / D 7 2 S / D 8 1 S"""
+datasheets/transistor/onsemi/pzta42t1-d.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	npn:B,C,E	"p.1 STYLE 1, ""COLLECTOR 2,4 / BASE 1 / EMITTER 3"""
+datasheets/transistor/onsemi/pzta92t1-d.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	pnp:B,C,E	"p.1 STYLE 1, ""COLLECTOR 2,4 / BASE 1 / EMITTER 3"""
+datasheets/transistor/onsemi/D44VH-D.PDF	TO-220-3	-	=	TO-220	B,C,E,C	npn:B,C,E	"p.1 STYLE 1 + symbols ""COLLECTOR 2,4 / 1 BASE / EMITTER 3""; p.5 style 1 B,C,E,C; D45VH10G is PNP, same pins (rule 3); no watermark p.1"
+datasheets/transistor/onsemi/msd42wt1-d.pdf	SC-70, SOT-323	-	=	SC-70	B,E,C	npn:B,C,E	"p.1 STYLE 3 + symbol ""COLLECTOR 3, 1 BASE, 2 EMITTER""; p.4 style 3 B,E,C; no watermark p.1"
+datasheets/transistor/onsemi/ntd18n06l-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	=	DPAK	G,D,S,D	nmos:G,D,S	"p.1 STYLE 2; p.8 ""STYLE 2: 1 GATE 2 DRAIN 3 SOURCE 4 DRAIN""; p.1 image checked, no watermark"
+datasheets/transistor/onsemi/ntd2955-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	=	DPAK	G,D,S,D	pmos:G,D,S	p.1 STYLE 2; p.8 style 2 G,D,S,D; p.1 image checked, no watermark
+datasheets/transistor/onsemi/ntd3055-094-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	=	DPAK	G,D,S,D	nmos:G,D,S	p.1 STYLE 2; p.10 style 2 G,D,S,D; p.1 image checked, no watermark
+datasheets/transistor/onsemi/ntgs3443t1-d.pdf	SOT-23-6 Thin, TSOT-23-6	-	=	TSOP-6	D,D,G,S,D,D	pmos:G,D,S	"p.1 STYLE 1; p.7 ""STYLE 1: 1,2 DRAIN 3 GATE 4 SOURCE 5,6 DRAIN""; p.1 image checked, no watermark"
+datasheets/transistor/onsemi/nthd3100c-d.pdf	8-SMD, Flat Leads	-	=	ChipFET	S1,G1,S2,G2,D2,D2,D1,D1	nmos:G1,D1,S1;pmos:G2,D2,S2	p.1 STYLE 2, PIN CONNECTIONS S1 1, G1 2, S2 3, G2 4, D2 5,6, D1 7,8; symbols N-Channel D1/G1/S1, P-Channel D2/G2/S2; p.1 image checked, no watermark
+datasheets/transistor/onsemi/ntjd4158c-d.pdf	6-TSSOP, SC-88, SOT-363	-	=	SC-88	S1,G1,D2,S2,G2,D1	nmos:G1,D1,S1;pmos:G2,D2,S2	"p.1 pinout ""S1 1 6 D1 / G1 2 5 G2 / D2 3 4 S2"", STYLE 26; FET 1 N (body diode S1->D1), FET 2 P; visual p.1 ok; p.1 image checked, no watermark"
+datasheets/transistor/onsemi/ntr0202pl-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	G,S,D	pmos:G,D,S	p.1 STYLE 21; p.7 style 21 G,S,D; p.1 image checked, no watermark
+datasheets/transistor/onsemi/ntr1p02t1-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	G,S,D	pmos:G,D,S	p.1 STYLE 21; p.7 style 21 G,S,D; p.1 image checked, no watermark
+datasheets/transistor/onsemi/ntr4171p-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	G,S,D	pmos:G,D,S	p.1 STYLE 21; p.8 style 21 G,S,D; p.1 image checked, no watermark
+datasheets/transistor/onsemi/nts4101p-d.pdf	SC-70, SOT-323	-	=	SC-70	G,S,D	pmos:G,D,S	p.1 STYLE 8; p.6 style 8 G,S,D; p.1 image checked, no watermark
+datasheets/transistor/onsemi/ntzd3154n-d.pdf	SOT-563, SOT-666	-	=	SOT-563	S1,G1,D2,S2,G2,D1	nmos:G1,D1,S1;nmos:G2,D2,S2	"p.1 PINOUT ""S1 1 6 D1 / G1 2 5 G2 / D2 3 4 S2"" top view, both N; visual p.1 ok; p.1 image checked, no watermark"

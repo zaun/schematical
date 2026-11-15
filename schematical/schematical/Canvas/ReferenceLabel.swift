@@ -2,7 +2,7 @@ import SwiftUI
 
 /// The reference ("U3", "D1") the Schematic draws above a part: centred
 /// just outside the top of its frame, over a diode's, LED's or capacitor's
-/// symbol, over a resistor's value, or over a pull resistor's resistance,
+/// symbol, over a resistor's value, over a transistor's symbol, or over a pull resistor's resistance,
 /// at three quarters of the block's part number size. Not drawn for power
 /// symbols (VCC, GND), or when the part's Display Reference is off.
 enum ReferenceLabel {
@@ -27,6 +27,10 @@ enum ReferenceLabel {
         case .resistor:
             // Above the value (`ResistorSymbolView`: 10 pt, centred on y = 6).
             return CGPoint(x: x, y: -1)
+        case .transistor:
+            // Above the symbol: over the collector or drain lead (y = 10)
+            // and the BJT's circle (its top at y = 14), centred on the body.
+            return CGPoint(x: x, y: 6)
         case .pullUp, .pullDown:
             // Over the resistance, left-aligned with it (`textAnchor`): the
             // value starts at body x = 30 and is centred on y = 50 (pull-up)

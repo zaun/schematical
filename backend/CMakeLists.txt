@@ -24,6 +24,7 @@ add_library(logic STATIC
     src/models/capacitor.c
     src/models/mcu.c
     src/models/resistor.c
+    src/models/transistor.c
     src/models/sram.c
     src/models/display7.c
     src/models/supply.c
@@ -179,6 +180,7 @@ logic_test(rtc_test)
 logic_test(tactile_test)
 logic_test(diode_test)
 logic_test(resistor_test)
+logic_test(transistor_test)
 logic_test(capacitor_test)
 logic_test(mcu_test)
 

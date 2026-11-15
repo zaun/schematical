@@ -102,6 +102,45 @@ nonisolated struct BodySize: Hashable, Sendable {
     }
 }
 
+/// A transistor part's facts (plan-40-H), from the backend's
+/// `PartTransistor`. Every rating is 0 when not given; an array's facts hold
+/// for every element.
+nonisolated struct TransistorInfo: Hashable, Sendable {
+    /// The first element's type: "npn", "pnp", "nmos" or "pmos".
+    let type: String
+    /// The elements in the package (more than 1: an array).
+    let elements: Int
+    /// The elements' types differ (a complementary pair).
+    let mixed: Bool
+    let darlington: Bool
+    /// An "nmos" or "pmos" part.
+    let mosfet: Bool
+    /// Rds(on) is specified at a gate drive of 4.5 V or less.
+    let logicLevel: Bool
+    /// Vceo or Vds, in millivolts.
+    let vmaxMV: UInt32
+    /// Ic or Id, in milliamps.
+    let imaxMA: UInt32
+    /// Pd, in milliwatts.
+    let powerMW: UInt32
+    /// The minimum DC current gain.
+    let hfe: UInt32
+    /// The maximum gate threshold voltage, in millivolts.
+    let vgsthMV: UInt32
+    /// The maximum gate-source voltage, in millivolts.
+    let vgsMV: UInt32
+    /// A pre-biased BJT's base and base-emitter resistors, in milliohms.
+    let r1Milliohm: UInt64
+    let r2Milliohm: UInt64
+    /// The maximum Rds(on), in milliohms.
+    let rdsonMilliohm: UInt64
+
+    /// A pre-biased BJT: one with a base resistor.
+    var preBiased: Bool { !mosfet && (r1Milliohm > 0 || r2Milliohm > 0) }
+    /// A P-type element: "pnp" or "pmos".
+    var pType: Bool { type == "pnp" || type == "pmos" }
+}
+
 nonisolated struct DisplayInfo: Hashable, Sendable {
     /// One LED: a segment of a digit (1 = leftmost), or a colon or dot LED
     /// (digit 0; segment "L1", "L2" or "L3").
@@ -350,6 +389,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// not given: the generic part, a jumper's tolerance), and the
         /// resistor elements in the package (more than 1: an array).
         case resistor(ohms: Double, tolerancePercent: Double?, powerW: Double?, resistors: Int)
+        /// A transistor (plan-40): one or more BJT or MOSFET elements
+        /// (more than 1: an array), its ratings (`TransistorInfo`).
+        case transistor(TransistorInfo)
     }
 
     let name: String
@@ -497,6 +539,12 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         return nil
     }
 
+    /// A transistor part's facts (plan-40-H); nil for every other kind.
+    var transistor: TransistorInfo? {
+        if case let .transistor(info) = details { return info }
+        return nil
+    }
+
     /// The capacitance of a capacitor part; nil for every other kind.
     var capacitorFarads: Double? {
         if case let .capacitor(_, _, farads, _, _, _) = details { return farads }
@@ -625,6 +673,10 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
             return [ResistorValue.text(ohms)]
                 + (tolerancePercent.map { [PartFacts.percentText($0)] } ?? [])
                 + (powerW.map { [PartFacts.wattsText($0)] } ?? [])
+        case let .transistor(info):
+            // The maximum rating pair, as the diode's: Vceo / Vds, Ic / Id.
+            return (info.vmaxMV > 0 ? ["\(PartFacts.milli(info.vmaxMV)) V"] : [])
+                + (info.imaxMA > 0 ? ["\(PartFacts.milli(info.imaxMA)) A"] : [])
         }
     }
 }
@@ -818,6 +870,15 @@ extension CatalogPart {
                                     : Double(resistor.tolerance_ppm) / 10000,
                                 powerW: resistor.power_mw == 0 ? nil : Double(resistor.power_mw) / 1000,
                                 resistors: Int(resistor.resistor_count))
+        } else if let transistor = part.transistor?.pointee {
+            details = .transistor(TransistorInfo(
+                type: string(transistor.type), elements: Int(transistor.element_count),
+                mixed: transistor.mixed != 0, darlington: transistor.darlington != 0,
+                mosfet: transistor.mosfet != 0, logicLevel: transistor.logic_level != 0,
+                vmaxMV: transistor.vmax_mv, imaxMA: transistor.imax_ma, powerMW: transistor.power_mw,
+                hfe: transistor.hfe, vgsthMV: transistor.vgsth_mv, vgsMV: transistor.vgs_mv,
+                r1Milliohm: transistor.r1_mohm, r2Milliohm: transistor.r2_mohm,
+                rdsonMilliohm: transistor.rdson_mohm))
         } else {
             details = .supply(level: 0, mv: 0, pull: false)
         }
@@ -1085,6 +1146,13 @@ func symbol(for part: CatalogPart) -> PartSymbol {
               part.pins.contains(where: { $0.name == "1" }),
               part.pins.contains(where: { $0.name == "2" }) else { return .block }
         return .resistor
+    case PART_TRANSISTOR:
+        // A single transistor with one pin of each B, C, E (or G, D, S)
+        // draws as a transistor; arrays, and parts whose pins are named
+        // otherwise, as a block (plan-40-H).
+        guard case let .transistor(info) = part.details, info.elements == 1 else { return .block }
+        let names = Set(part.pins.filter { !$0.isHidden }.map(\.name))
+        return names == ["B", "C", "E"] || names == ["G", "D", "S"] ? .transistor : .block
     default: return .block
     }
 }

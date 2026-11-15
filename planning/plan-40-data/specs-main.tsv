@@ -1,0 +1,2 @@
+pdf	package	series	scheme	label	pinout	elements	note
+datasheets/transistor/infineon/infineon-bsz009ne2ls5-datasheet-en.pdf	8-PowerVDFN	OptiMOS™ 5	BSZ009NE2LS5(?:[A-Z]{4}\d)?	TSDSON-8	S,S,S,G,D,D,D,D	nmos:G,D,S	read by the main session: p.1 pin drawing "S 1, S 2, S 3, G 4, 8 D, 7 D, 6 D, 5 D"; Table "Type / Ordering Code" lists BSZ009NE2LS5 (Infineon packing suffix ATMA1 as the other Infineon rows); visual p.1 ok, no watermark

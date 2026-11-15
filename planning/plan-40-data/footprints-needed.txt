@@ -1,165 +1,136 @@
 # letter	maker	mounting	package	groups	supplier packages	parts	example part	example datasheet	existing footprints with the same outline
+D	Diodes Incorporated	Surface Mount	3-UDFN	bjt	DFN2020B-3	1	ZXTP722MATA	https://www.diodes.com/assets/Datasheets/ZXTP722MA.pdf	
 D	Diodes Incorporated	Surface Mount	3-UDFN Exposed Pad	bjt	U-DFN2020-3	1	ZXTP717MATA	https://www.diodes.com/assets/Datasheets/ZXTP717MA.pdf	
-D	Diodes Incorporated	Surface Mount	3-UFDFN	bjt	X1-DFN1006-3	8	BC847BLP-7	https://www.diodes.com/assets/Datasheets/BC847BLP.pdf	
-D	Diodes Incorporated	Surface Mount	3-XFDFN	bjt	X2-DFN0606-3 | X2-DFN0806-3 | X2-DFN1006-3	6	BC857BLP4-7B	https://www.diodes.com/assets/Datasheets/ds31361.pdf	
-D	Diodes Incorporated	Surface Mount	5-TSSOP, SC-70-5, SOT-353	bjt-array	SOT-353	1	UMC5N-7	https://www.diodes.com/assets/Datasheets/ds31205.pdf	
+D	Diodes Incorporated	Surface Mount	3-UFDFN	bjt	X1-DFN1006-3	7	BC847BLP-7	https://www.diodes.com/assets/Datasheets/BC847BLP.pdf	
+D	Diodes Incorporated	Surface Mount	3-XFDFN	bjt	X2-DFN0606-3 | X2-DFN0806-3 | X2-DFN1006-3	7	BC857BLP4-7B	https://www.diodes.com/assets/Datasheets/ds31361.pdf	
 D	Diodes Incorporated	Surface Mount	6-TSSOP, SC-88, SOT-363	bjt-array	SOT-363	14	MMDT3906-7-F	https://www.diodes.com/assets/Datasheets/MMDT3906.pdf	SC88-6,SOT363-6
 E	Diodes Incorporated	Surface Mount	8-PowerTDFN	bjt-array	PowerDI5060-8 (Type UXD)	2	DXTN3C100PD-13	https://www.diodes.com/datasheet/download/DXTN3C100PD.pdf	
 E	Diodes Incorporated	Surface Mount	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	bjt-array	8-MSOP	1	ZXT12P40DXTA	https://www.diodes.com/assets/Datasheets/ZXT12P40DX.pdf	
 E	Diodes Incorporated	Surface Mount	8-VDFN Exposed Pad	bjt-array	W-DFN3020-8	1	ZXTC4591AMCQTA	https://www.diodes.com/assets/Datasheets/ZXTC4591AMC.pdf	
-E	Diodes Incorporated	Surface Mount	8-WDFN Exposed Pad	bjt-array	DFN3020B-8 | W-DFN3020-8	4	ZXTD617MCTA	https://www.diodes.com/assets/Datasheets/ZXTD617MC.pdf	
+E	Diodes Incorporated	Surface Mount	8-WDFN Exposed Pad	bjt-array	DFN3020B-8 | W-DFN3020-8	5	ZXTD617MCTA	https://www.diodes.com/assets/Datasheets/ZXTD617MC.pdf	
 E	Diodes Incorporated	Surface Mount	PowerDI™ 5	bjt	PowerDI™ 5	6	DXT5551P5-13	https://www.diodes.com/assets/Datasheets/DXT5551P5.pdf	
-D	Diodes Incorporated	Surface Mount	SC-70, SOT-323	bjt	SOT-323	19	MMST4403-7-F	https://www.diodes.com/assets/Datasheets/ds30083.pdf	SOT323-3,SOT323-3-TSC-B
-D	Diodes Incorporated	Surface Mount	SC-74, SOT-457	bjt-array	SC-74R	1	DCX124EK-7-F	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/8900/DCXyyxxK-Datasheet.pdf	SC74-6
+D	Diodes Incorporated	Surface Mount	SC-70, SOT-323	bjt	SOT-323	20	MMST4403-7-F	https://www.diodes.com/assets/Datasheets/ds30083.pdf	SOT323-3,SOT323-3-TSC-B
 E	Diodes Incorporated	Surface Mount	SOT-223-8	bjt-array	SM8	1	ZHB6718TA	https://www.diodes.com/assets/Datasheets/ZHB6718.pdf	
 D	Diodes Incorporated	Surface Mount	SOT-23-3 Flat Leads	bjt	SOT-23F	7	ZXTP25020CFFTA	https://www.diodes.com/assets/Datasheets/ZXTP25020CFF.pdf	SOT23-3,SOT23-3-318BM,SOT23-3-ONSEMI,SOT23-3-TSC,SOT23-3-TSC-B
-D	Diodes Incorporated	Surface Mount	SOT-23-6	bjt,bjt-array	SOT-23-6 | SOT-26	3	DMMT3906-7-F	https://www.diodes.com/assets/Datasheets/ds30293.pdf	SOT23-6,SOT23-6-MC-6ST1
+D	Diodes Incorporated	Surface Mount	SOT-23-6	bjt,bjt-array	SOT-23-6 | SOT-26	4	DMMT3906-7-F	https://www.diodes.com/assets/Datasheets/ds30293.pdf	SOT23-6,SOT23-6-MC-6ST1
 D	Diodes Incorporated	Surface Mount	SOT-523	bjt	SOT-523	10	BC847CT-7-F	https://www.diodes.com/assets/Datasheets/ds30274.pdf	
-D	Diodes Incorporated	Surface Mount	SOT-563, SOT-666	bjt,bjt-array	SOT-563	7	DSS4240V-7	https://www.diodes.com/assets/Datasheets/ds31672.pdf	SOT563-6
+D	Diodes Incorporated	Surface Mount	SOT-563, SOT-666	bjt,bjt-array	SOT-563	9	DSS4240V-7	https://www.diodes.com/assets/Datasheets/ds31672.pdf	SOT563-6
 D	Diodes Incorporated	Surface Mount	SOT-963	bjt-array	SOT-963	3	DST3946DPJ-7	https://www.diodes.com/assets/Datasheets/ds32044.pdf	
-D	Diodes Incorporated	Surface Mount	TO-236-3, SC-59, SOT-23-3	bjt	SOT-23 (Type DN) | SOT-23-3	80	MMBT2222A-7-F	https://www.diodes.com/assets/Datasheets/ds30041.pdf	SOT23-3,SOT23-3-318BM,SOT23-3-ONSEMI,SOT23-3-TSC,SOT23-3-TSC-B
+D	Diodes Incorporated	Surface Mount	TO-236-3, SC-59, SOT-23-3	bjt	SOT-23-3	75	MMBT2222A-7-F	https://www.diodes.com/assets/Datasheets/ds30041.pdf	SOT23-3,SOT23-3-318BM,SOT23-3-ONSEMI,SOT23-3-TSC,SOT23-3-TSC-B
 D	Diodes Incorporated	Surface Mount	TO-243AA	bjt	SOT-89-3	13	FCX491ATA	https://www.diodes.com/assets/Datasheets/FCX491A.pdf	SOT89-3
-E	Diodes Incorporated	Surface Mount	TO-252-3, DPAK (2 Leads + Tab), SC-63	bjt	TO-252 (DPAK) | TO-252-3	3	ZXT849KTC	https://www.diodes.com/assets/Datasheets/ZXT849K.pdf	DPAK-3,SLIMDPAK-2L-3,SLIMDPAK-3,TO-252-2-TAB,TO-252-2-TAB-369AS,THINDPAK-3
+E	Diodes Incorporated	Surface Mount	TO-252-3, DPAK (2 Leads + Tab), SC-63	bjt	TO-252 (DPAK) | TO-252-3	6	ZXT849KTC	https://www.diodes.com/assets/Datasheets/ZXT849K.pdf	DPAK-3,SLIMDPAK-2L-3,SLIMDPAK-3,TO-252-2-TAB,TO-252-2-TAB-369AS,THINDPAK-3
 E	Diodes Incorporated	Surface Mount	TO-261-4, TO-261AA	bjt	SOT-223-3	28	DNLS350E-13	https://www.diodes.com/assets/Datasheets/ds31231.pdf	
-C	Diodes Incorporated	Through Hole	E-Line-3	bjt	E-Line (TO-92 compatible)	4	ZTX951	https://www.diodes.com/assets/Datasheets/ZTX951.pdf	
-C	Diodes Incorporated	Through Hole	E-Line-3, Formed Leads	bjt	E-Line (TO-92 compatible)	1	ZTX551STZ	https://www.diodes.com/assets/Datasheets/ZTX550.pdf	
-E	Infineon Technologies	Surface Mount	32-PowerVFQFN	mosfet-array	32-PQFN (6x6)	1	IRFHE4250DTRPBF	https://rocelec.widen.net/view/pdf/eyejh6jvqm/IRSDS18892-1.pdf?t.download=true&u=5oefqw	
-E	Infineon Technologies	Surface Mount	4-PowerTSFN	mosfet	PG-VSON-4	1	IPL65R070C7AUMA1	https://www.infineon.com/assets/row/public/documents/24/49/infineon-ipl65r070c7-datasheet-en.pdf	
-E	Infineon Technologies	Surface Mount	6-PowerVDFN	mosfet	6-PQFN (2x2) | 6-PQFN (2x2) (DFN2020)	5	IRFHS8242TRPBF	http://www.infineon.com/dgdl/irfhs8242pbf.pdf?fileId=5546d462533600a401535623903b1f5d	
+C	Diodes Incorporated	Through Hole	E-Line-3	bjt	E-Line (TO-92 compatible)	3	ZTX951	https://www.diodes.com/assets/Datasheets/ZTX951.pdf	
+E	Infineon Technologies	Surface Mount	4-PowerTSFN	mosfet	PG-VSON-4 | PG-VSON-4-1	4	IPL65R070C7AUMA1	https://www.infineon.com/assets/row/public/documents/24/49/infineon-ipl65r070c7-datasheet-en.pdf	
+E	Infineon Technologies	Surface Mount	6-PowerTDFN	mosfet	PG-TSON-6-2	1	IGC033S10S1XTMA1	https://www.infineon.com/assets/row/public/documents/24/49/infineon-igc033s10s1-datasheet-en.pdf	
 D	Infineon Technologies	Surface Mount	6-VSSOP, SC-88, SOT-363	mosfet-array	PG-SOT363-6-1	2	BSD235CH6327XTSA1	https://www.infineon.com/dgdl/BSD235C_rev2.3.pdf?folderId=db3a3043156fd573011622e10b5c1f67&fileId=db3a30433580b371013585a2d0d53326	SC88-6,SOT363-6
 E	Infineon Technologies	Surface Mount	8-PowerSFN	mosfet	PG-HSOF-8-1	3	IPT007N06NATMA1	https://www.infineon.com/assets/row/public/documents/24/49/infineon-ipt007n06n-datasheet-cn.pdf	
-E	Infineon Technologies	Surface Mount	8-PowerTDFN	mosfet,mosfet-array	8-PQFN (5x6) | PG-TDSON-8 | PG-TDSON-8 FL | PG-TDSON-8-1 | PG-TDSON-8-17 | PG-TDSON-8-5 | PG-TDSON-8-6 | PG-TDSON-8-7 | PG-TISON-8 | PG-TSDSON-8 | PG-TSDSON-8-FL | PG-TSON-8-3 | SuperSO8	62	BSZ060NE2LSATMA1	https://www.infineon.com/dgdl/BSZ060NE2LS_Rev+2.1.pdf?folderId=db3a304313b8b5a60113cee8763b02d7&fileId=db3a30432ea425a4012ec927cb360e1f	
-E	Infineon Technologies	Surface Mount	8-PowerVDFN	mosfet,mosfet-array	8-PQFN (5x6) | PG-TDSON-8-4 | PG-TSDSON-8-34	5	BSC150N03LDGATMA1	https://www.infineon.com/dgdl/BSC150N03LD_rev1.4.pdf?folderId=db3a304313b8b5a60113cee8ed2a02db&fileId=db3a304316f66ee80116fb504a5d729f	
-E	Infineon Technologies	Surface Mount	8-PowerWDFN	mosfet,mosfet-array	PG-WHSON-8 | PG-WSON-8-2	3	BSC014N06NSSCATMA1	https://www.infineon.com/dgdl/Infineon-BSC014N06NSSC-DataSheet-v02_00-EN.pdf?fileId=5546d462712ef9b701712f7dcc560080	
-E	Infineon Technologies	Surface Mount	8-SOIC (0.154", 3.90mm Width)	mosfet,mosfet-array	8-SO | 8-SOIC | PG-DSO-8-902 | PG-DSO-8-920	18	IRF8734TRPBF	https://www.infineon.com/assets/row/public/documents/24/49/infineon-irf8734-datasheet-en.pdf	SOIC-8
-E	Infineon Technologies	Surface Mount	9-PowerWDFN	mosfet-array	PG-WHTFN-9	1	IQE008N03LM5CGSCATMA1	https://www.infineon.com/dgdl/Infineon-IQE008N03LM5CGSC-DataSheet-v02_00-EN.pdf?fileId=8ac78c8c8afe5bd0018b22d442a62f57	
-E	Infineon Technologies	Surface Mount	DirectFET™ Isometric L8	mosfet	DirectFET™ Isometric L8	1	IRF7749L1TRPBF	https://www.infineon.com/assets/row/public/documents/24/49/infineon-irf7749l1-datasheet-en.pdf	
-E	Infineon Technologies	Surface Mount	DirectFET™ Isometric MC	mosfet-array	DirectFET™ Isometric MC	1	IRF9395MTRPBF	https://rocelec.widen.net/view/pdf/qsfso1tays/IRSDS19132-1.pdf?t.download=true&u=5oefqw	
-E	Infineon Technologies	Surface Mount	DirectFET™ Isometric ME	mosfet	DirectFET™ Isometric ME	2	IRF60DM206	https://rocelec.widen.net/view/pdf/nizyej3t0j/IRSD-S-A0001021879-1.pdf?t.download=true&u=5oefqw	
-E	Infineon Technologies	Surface Mount	DirectFET™ Isometric MN	mosfet	DIRECTFET™ MN	2	IRF6644TRPBF	https://rocelec.widen.net/view/pdf/m5uc4mm2bo/INFN-S-A0002955525-1.pdf?t.download=true&u=5oefqw	
-E	Infineon Technologies	Surface Mount	DirectFET™ Isometric MP	mosfet	DIRECTFET™ MP	1	IRF6637TRPBF	https://rocelec.widen.net/view/pdf/mrgjrjmquv/IRSDS10494-1.pdf?t.download=true&u=5oefqw	
-E	Infineon Technologies	Surface Mount	DirectFET™ Isometric MT	mosfet	DIRECTFET™ MT	1	IRF6613TRPBF	https://rocelec.widen.net/view/pdf/0inzyibpmp/IRSDS09308-1.pdf?t.download=true&u=5oefqw	
-E	Infineon Technologies	Surface Mount	DirectFET™ Isometric MX	mosfet	DIRECTFET™ MX | MG-WDSON-2	5	IRF6716MTRPBF	https://rocelec.widen.net/view/pdf/80eqqxif1p/IRSDS10736-1.pdf?t.download=true&u=5oefqw	
-E	Infineon Technologies	Surface Mount	DirectFET™ Isometric SQ	mosfet	DirectFET™ Isometric SQ	1	IRF6811STRPBF	https://rocelec.widen.net/view/pdf/ycexgpkkho/IRSDS11406-1.pdf?t.download=true&u=5oefqw	
-D	Infineon Technologies	Surface Mount	TO-236-3, SC-59, SOT-23-3	mosfet	Micro3™/SOT-23 | PG-SOT-23-3 | PG-SOT23 | SOT-23	11	IRLML6244TRPBF	https://www.infineon.com/assets/row/public/documents/24/49/infineon-irlml6244-datasheet-en.pdf	SOT23-3,SOT23-3-318BM,SOT23-3-ONSEMI,SOT23-3-TSC,SOT23-3-TSC-B
-E	Infineon Technologies	Surface Mount	TO-252-3, DPAK (2 Leads + Tab), SC-63	mosfet	PG-TO252-2 | PG-TO252-3 | PG-TO252-3-1 | PG-TO252-3-11 | PG-TO252-3-23 | TO-252AA (DPAK)	47	IPD95R2K0P7ATMA1	https://www.infineon.com/assets/row/public/documents/24/49/infineon-ipd95r2k0p7-datasheet-en.pdf	DPAK-3,SLIMDPAK-2L-3,SLIMDPAK-3,TO-252-2-TAB,TO-252-2-TAB-369AS,THINDPAK-3
-E	Infineon Technologies	Surface Mount	TO-261-4, TO-261AA	mosfet	PG-SOT223 | PG-SOT223-3 | SOT-223	7	IPN60R2K1CEATMA1	https://www.infineon.com/assets/row/public/documents/24/49/infineon-ipn60r2k1ce-datasheet-en.pdf	
-E	Infineon Technologies	Surface Mount	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	mosfet	D2PAK | PG-TO263-2 | PG-TO263-3 | TO-263 (D2PAK)	16	SPB80N03S2L05	https://rocelec.widen.net/view/pdf/8ikna8xprw/spp_b_80n03s2l-05_1.pdf?t.download=true&u=5oefqw	D2PAK-2L-3,D2PAK-3,D2PAK-GS-3,TO-263-2-TAB,TO-263-2-TAB-418B,TO-263-2-TAB-FCS,TO-263-2-TAB-ONSEMI,D2PAK-3-TSC,D2PAK-D-3
+E	Infineon Technologies	Surface Mount	8-PowerTDFN	mosfet,mosfet-array	8-PQFN (5x6) | PG-TDSON-8 | PG-TDSON-8 FL | PG-TDSON-8-1 | PG-TDSON-8-17 | PG-TDSON-8-46 | PG-TDSON-8-5 | PG-TDSON-8-6 | PG-TDSON-8-7 | PG-TISON-8 | PG-TSDSON-8 | PG-TSDSON-8-FL | PG-TSON-8-3 | PQFN (5x6) | SuperSO8	75	BSZ060NE2LSATMA1	https://www.infineon.com/dgdl/BSZ060NE2LS_Rev+2.1.pdf?folderId=db3a304313b8b5a60113cee8763b02d7&fileId=db3a30432ea425a4012ec927cb360e1f	
+E	Infineon Technologies	Surface Mount	8-PowerVDFN	mosfet,mosfet-array	8-PQFN (5x6) | PG-TDSON-8-4 | PG-TSDSON-8 | PG-TSDSON-8-34	8	BSC150N03LDGATMA1	https://www.infineon.com/dgdl/BSC150N03LD_rev1.4.pdf?folderId=db3a304313b8b5a60113cee8ed2a02db&fileId=db3a304316f66ee80116fb504a5d729f	
+E	Infineon Technologies	Surface Mount	8-PowerWDFN	mosfet,mosfet-array	PG-WHSON-8 | PG-WHSON-8-1 | PG-WSON-8-2	4	BSC014N06NSSCATMA1	https://www.infineon.com/dgdl/Infineon-BSC014N06NSSC-DataSheet-v02_00-EN.pdf?fileId=5546d462712ef9b701712f7dcc560080	
+E	Infineon Technologies	Surface Mount	8-SOIC (0.154", 3.90mm Width)	mosfet,mosfet-array	8-SO | 8-SOIC | PG-DSO-8-920	7	IRF8734TRPBF	https://www.infineon.com/assets/row/public/documents/24/49/infineon-irf8734-datasheet-en.pdf	SOIC-8
+D	Infineon Technologies	Surface Mount	TO-236-3, SC-59, SOT-23-3	mosfet	Micro3™/SOT-23 | PG-SOT-23-3 | PG-SOT23 | SOT-23	10	IRLML6244TRPBF	https://www.infineon.com/assets/row/public/documents/24/49/infineon-irlml6244-datasheet-en.pdf	SOT23-3,SOT23-3-318BM,SOT23-3-ONSEMI,SOT23-3-TSC,SOT23-3-TSC-B
+E	Infineon Technologies	Surface Mount	TO-252-3, DPAK (2 Leads + Tab), SC-63	mosfet	PG-TO252-2 | PG-TO252-3 | PG-TO252-3-11 | PG-TO252-3-344 | TO-252AA (DPAK)	50	IPD95R2K0P7ATMA1	https://www.infineon.com/assets/row/public/documents/24/49/infineon-ipd95r2k0p7-datasheet-en.pdf	DPAK-3,SLIMDPAK-2L-3,SLIMDPAK-3,TO-252-2-TAB,TO-252-2-TAB-369AS,THINDPAK-3
+E	Infineon Technologies	Surface Mount	TO-261-3	mosfet	PG-SOT223-3-1	1	IPN60R2K0PFD7SATMA1	https://www.infineon.com/assets/row/public/documents/24/49/infineon-ipn60r2k0pfd7s-datasheet-cn.pdf	
+E	Infineon Technologies	Surface Mount	TO-261-4, TO-261AA	mosfet	PG-SOT223 | PG-SOT223-3 | SOT-223	8	IPN60R2K1CEATMA1	https://www.infineon.com/assets/row/public/documents/24/49/infineon-ipn60r2k1ce-datasheet-en.pdf	
+E	Infineon Technologies	Surface Mount	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	mosfet	D2PAK | PG-TO263-3 | PG-TO263-3-2 | TO-263 (D2PAK)	22	IRL530NSTRLPBF	https://www.infineon.com/assets/row/public/documents/24/49/infineon-irl530ns-datasheet-en.pdf	D2PAK-2L-3,D2PAK-3,D2PAK-GS-3,TO-263-2-TAB,TO-263-2-TAB-418B,TO-263-2-TAB-FCS,TO-263-2-TAB-ONSEMI,D2PAK-3-TSC,D2PAK-D-3
 E	Infineon Technologies	Surface Mount	TO-263-7, D2PAK (6 Leads + Tab)	mosfet	PG-TO263-7	2	IPB017N10N5LFATMA1	https://www.infineon.com/assets/row/public/documents/24/49/infineon-ipb017n10n5lf-datasheet-en.pdf	D2PAK-2L-3,D2PAK-3,D2PAK-GS-3,TO-263-2-TAB,TO-263-2-TAB-418B,TO-263-2-TAB-FCS,TO-263-2-TAB-ONSEMI,D2PAK-3-TSC,D2PAK-D-3
-E	Infineon Technologies	Surface Mount	TO-263-7, D2PAK (6 Leads + Tab), TO-263CB	mosfet	D2PAK (7-Lead)	1	IRFS4115TRL7PP	https://rocelec.widen.net/view/pdf/dvcfg5zfbg/INFN-S-A0002541348-1.pdf?t.download=true&u=5oefqw	D2PAK-2L-3,D2PAK-3,D2PAK-GS-3,TO-263-2-TAB,TO-263-2-TAB-418B,TO-263-2-TAB-FCS,TO-263-2-TAB-ONSEMI,D2PAK-3-TSC,D2PAK-D-3
-C	Infineon Technologies	Through Hole	TO-220-3	mosfet	PG-TO220-3 | PG-TO220-3-1 | TO-220AB	20	IPP024N08NF2SAKMA1	https://www.infineon.com/assets/row/public/documents/24/49/infineon-ipp024n08nf2s-datasheet-cn.pdf	TO-220-3,TO-220AB-3,TO-220-3-ONSEMI,TO-220-3-TSC
+C	Infineon Technologies	Through Hole	TO-220-3	mosfet	PG-TO220-3 | PG-TO220-3-1 | TO-220AB	18	IPP024N08NF2SAKMA1	https://www.infineon.com/assets/row/public/documents/24/49/infineon-ipp024n08nf2s-datasheet-cn.pdf	TO-220-3,TO-220AB-3,TO-220-3-ONSEMI,TO-220-3-TSC
 C	Infineon Technologies	Through Hole	TO-220-3 Full Pack	mosfet	PG-TO220-FP	1	IPA60R1K5CEXKSA1	https://www.infineon.com/dgdl/Infineon-IPA60R1K5CE-DS-v02_00-EN.pdf?fileId=5546d462533600a401537a8c69e87218	ITO-220-3,TO-220FP-2,TO-220-FULL-PACK-3,ITO-220-3-TSC
-C	Infineon Technologies	Through Hole	TO-247-3	mosfet	PG-TO247-3 | TO-247AC	2	IRFP048NPBF	https://rocelec.widen.net/view/pdf/hrrz8llgte/IRSDS10312-1.pdf?t.download=true&u=5oefqw	TO-247-3,TO-247-3-340CK,TO-247-3-ONSEMI,TO-247-3-TSC
+C	Infineon Technologies	Through Hole	TO-247-3	mosfet	PG-TO247-3 | TO-247AC	2	IRF150P220AKMA1	https://www.infineon.com/assets/row/public/documents/24/49/infineon-irf150p220-datasheet-en.pdf	TO-247-3,TO-247-3-340CK,TO-247-3-ONSEMI,TO-247-3-TSC
 C	Infineon Technologies	Through Hole	TO-251-3 Short Leads, IPAK, TO-251AA	mosfet	IPAK (TO-251AA)	3	IRFU5410PBF	https://rocelec.widen.net/view/pdf/zel0amnb04/IRSDS10174-1.pdf?t.download=true&u=5oefqw	I2PAK-3,TO-252-2-TAB,TO-252-2-TAB-369AS
-C	Infineon Technologies	Through Hole	TO-251-3 Stub Leads, IPAK	mosfet	PG-TO251-3-11	1	SPS01N60C3BKMA1	https://rocelec.widen.net/view/pdf/aafvvecakt/SPS01N60C3.pdf?t.download=true&u=5oefqw	I2PAK-3,TO-252-2-TAB,TO-252-2-TAB-369AS
-C	Infineon Technologies	Through Hole	TO-262-3 Long Leads, I2PAK, TO-262AA	mosfet	PG-TO262-3-1	1	SPI07N65C3XKSA1	https://rocelec.widen.net/view/pdf/rgxzm2njqj/INFNS17080-1.pdf?t.download=true&u=5oefqw	I2PAK-3,TO-252-2-TAB,TO-252-2-TAB-369AS
-E	Nexperia	Surface Mount	3-PowerUDFN	bjt	3-HUSON (2x2)	7	PBSS5330PA,135	https://assets.nexperia.com/documents/data-sheet/PBSS5330PA.pdf	
+E	Nexperia	Surface Mount	3-PowerUDFN	bjt	3-HUSON (2x2)	3	PBSS5330PA,135	https://assets.nexperia.com/documents/data-sheet/PBSS5330PA.pdf	
 D	Nexperia	Surface Mount	3-UDFN Exposed Pad	bjt	DFN2020D-3	9	BC68PASX	https://assets.nexperia.com/documents/data-sheet/BC68PAS_SER.pdf	
 D	Nexperia	Surface Mount	3-XDFN Exposed Pad	bjt	DFN1010D-3	2	PMBT3904QAZ	https://assets.nexperia.com/documents/data-sheet/PMBT3904QA.pdf	
-D	Nexperia	Surface Mount	6-TSSOP, SC-88, SOT-363	bjt-array	6-TSSOP | SOT-363	16	PBLS1501Y,115	https://assets.nexperia.com/documents/data-sheet/PBLS1501Y_PBLS1501V.pdf	SC88-6,SOT363-6
+D	Nexperia	Surface Mount	6-TSSOP, SC-88, SOT-363	bjt-array	6-TSSOP	14	PBLS1501Y,115	https://assets.nexperia.com/documents/data-sheet/PBLS1501Y_PBLS1501V.pdf	SC88-6,SOT363-6
 D	Nexperia	Surface Mount	6-XFDFN Exposed Pad	bjt-array	DFN1010B-6	1	PQMD12Z	https://assets.nexperia.com/documents/data-sheet/PQMD12.pdf	
 E	Nexperia	Surface Mount	SC-100, SOT-669	bjt	LFPAK56, Power-SO8	1	PHPT61002NYCX	https://assets.nexperia.com/documents/data-sheet/PHPT61002NYC.pdf	
-D	Nexperia	Surface Mount	SC-101, SOT-883	bjt	DFN1006-3 | DFN1006B-3 | SOT-883	19	PDTC114TM,315	https://assets.nexperia.com/documents/data-sheet/PDTC114T_SER.pdf	
-D	Nexperia	Surface Mount	SC-70, SOT-323	bjt	SOT-323	18	BC846AW,115	https://rocelec.widen.net/view/pdf/bsnp2e3fe9/PHGLS25601-1.pdf?t.download=true&u=5oefqw	SOT323-3,SOT323-3-TSC-B
-D	Nexperia	Surface Mount	SC-74, SOT-457	bjt,bjt-array	6-TSOP	10	PBSS301ND,115	https://assets.nexperia.com/documents/data-sheet/PBSS301ND.pdf	SC74-6
-D	Nexperia	Surface Mount	SOT-23-6 Thin, TSOT-23-6	bjt-array	6-TSOP	1	BC817DPN,115	https://rocelec.widen.net/view/pdf/8zm0515m3h/PHGLS18035-1.pdf?t.download=true&u=5oefqw	SOT23-6,SOT23-6-MC-6ST1
-D	Nexperia	Surface Mount	SOT-563, SOT-666	bjt-array	SOT-666	4	PEMX1,315	https://rocelec.widen.net/view/pdf/iresidnej5/PHGLS19641-1.pdf?t.download=true&u=5oefqw	SOT563-6
-D	Nexperia	Surface Mount	TO-236-3, SC-59, SOT-23-3	bjt	TO-236AB	38	BC857C,235	https://assets.nexperia.com/documents/data-sheet/BC856_BC857_BC858.pdf	SOT23-3,SOT23-3-318BM,SOT23-3-ONSEMI,SOT23-3-TSC,SOT23-3-TSC-B
-D	Nexperia	Surface Mount	TO-243AA	bjt	SOT-89	8	PBSS4240XX	https://assets.nexperia.com/documents/data-sheet/PBSS4240X.pdf	SOT89-3
+D	Nexperia	Surface Mount	SC-101, SOT-883	bjt	DFN1006B-3 | SOT-883	7	PDTC114TM,315	https://assets.nexperia.com/documents/data-sheet/PDTC114T_SER.pdf	
+D	Nexperia	Surface Mount	SC-70, SOT-323	bjt	SOT-323	16	BC846BW,115	https://assets.nexperia.com/documents/data-sheet/BC846XW_SER.pdf	SOT323-3,SOT323-3-TSC-B
+D	Nexperia	Surface Mount	SC-74, SOT-457	bjt,bjt-array	6-TSOP	12	PBSS301ND,115	https://assets.nexperia.com/documents/data-sheet/PBSS301ND.pdf	SC74-6
+D	Nexperia	Surface Mount	SOT-563, SOT-666	bjt-array	SOT-666	1	PEMX1,115	https://assets.nexperia.com/documents/data-sheet/PEMX1.pdf	SOT563-6
+D	Nexperia	Surface Mount	TO-236-3, SC-59, SOT-23-3	bjt	TO-236AB	37	BC857C,235	https://assets.nexperia.com/documents/data-sheet/BC856_BC857_BC858.pdf	SOT23-3,SOT23-3-318BM,SOT23-3-ONSEMI,SOT23-3-TSC,SOT23-3-TSC-B
+D	Nexperia	Surface Mount	TO-243AA	bjt	SOT-89	1	PBSS4240XX	https://assets.nexperia.com/documents/data-sheet/PBSS4240X.pdf	SOT89-3
 E	Nexperia	Surface Mount	TO-252-3, DPAK (2 Leads + Tab), SC-63	bjt	DPAK	2	MJD44H11J	https://assets.nexperia.com/documents/data-sheet/MJD44H11.pdf	DPAK-3,SLIMDPAK-2L-3,SLIMDPAK-3,TO-252-2-TAB,TO-252-2-TAB-369AS,THINDPAK-3
-E	Nexperia	Surface Mount	TO-261-4, TO-261AA	bjt	SOT-223	6	PBSS9110Z,135	https://assets.nexperia.com/documents/data-sheet/PBSS9110Z.pdf	
+E	Nexperia	Surface Mount	TO-261-4, TO-261AA	bjt	SOT-223	4	PBSS9110Z,135	https://assets.nexperia.com/documents/data-sheet/PBSS9110Z.pdf	
 E	Nexperia	Surface Mount	TO-277, 3-PowerDFN	bjt	CFP15B	6	MJPE2873Z	https://assets.nexperia.com/documents/data-sheet/MJPE2873.pdf	
 D	Vishay Siliconix	Surface Mount	4-UFBGA	mosfet	4-MICRO FOOT® (1.6x1.6) | 4-Microfoot	4	SI8808DB-T2-E1	https://www.vishay.com/docs/62547/si8808db.pdf	
 D	Vishay Siliconix	Surface Mount	4-UFBGA, WLCSP	mosfet	4-Microfoot	1	SI8466EDB-T2-E1	https://www.vishay.com/docs/63683/si8466edb.pdf	
 D	Vishay Siliconix	Surface Mount	4-XFBGA	mosfet	4-MICRO FOOT® (0.80x0.80) | 4-Microfoot	3	SI8810EDB-T2-E1	https://www.vishay.com/docs/62829/si8810edb.pdf	
 D	Vishay Siliconix	Surface Mount	4-XFBGA, CSPBGA	mosfet	4-Microfoot	3	SI8800EDB-T2-E1	https://www.vishay.com/docs/66700/si8800edb.pdf	
 D	Vishay Siliconix	Surface Mount	6-TSSOP, SC-88, SOT-363	mosfet,mosfet-array	SC-70-6	7	SI1416EDH-T1-GE3	https://www.vishay.com/docs/67580/si1416ed.pdf	SC88-6,SOT363-6
-E	Vishay Siliconix	Surface Mount	8-PowerWDFN	mosfet-array	8-PowerPair® (3.3x3.3) | 8-PowerPair® (6x5)	2	SIZ918DT-T1-GE3	https://www.vishay.com/docs/63783/siz918dt.pdf	
+E	Vishay Siliconix	Surface Mount	8-PowerWDFN	mosfet-array	8-PowerPair® (3.3x3.3) | 8-PowerPair® (6x5)	3	SIZ918DT-T1-GE3	https://www.vishay.com/docs/63783/siz918dt.pdf	
 E	Vishay Siliconix	Surface Mount	8-SMD, Flat Leads	mosfet	1206-8 ChipFET™	1	SI5457DC-T1-GE3	https://www.vishay.com/docs/67013/si5457dc.pdf	
 E	Vishay Siliconix	Surface Mount	8-SOIC (0.154", 3.90mm Width)	mosfet,mosfet-array	8-SO | 8-SOIC	23	SI4114DY-T1-GE3	https://www.vishay.com/docs/68394/si4114dy.pdf	SOIC-8
 E	Vishay Siliconix	Surface Mount	PowerPAK® 0806	mosfet	PowerPAK® 0806	4	SIUD402ED-T1-GE3	https://www.vishay.com/docs/62968/siud402ed.pdf	
-E	Vishay Siliconix	Surface Mount	PowerPAK® 1212-8	mosfet	PowerPAK® 1212-8	27	SISA40DN-T1-GE3	https://www.vishay.com/docs/76681/sisa40dn.pdf	
+E	Vishay Siliconix	Surface Mount	PowerPAK® 1212-8	mosfet	PowerPAK® 1212-8	26	SISA40DN-T1-GE3	https://www.vishay.com/docs/76681/sisa40dn.pdf	
 E	Vishay Siliconix	Surface Mount	PowerPAK® 1212-8 Dual	mosfet-array	PowerPAK® 1212-8 Dual	3	SI7223DN-T1-GE3	https://www.vishay.com/docs/75609/si7223dn.pdf	
-E	Vishay Siliconix	Surface Mount	PowerPAK® 1212-8S	mosfet	PowerPAK® 1212-8S	5	SISS50DN-T1-GE3	https://www.vishay.com/docs/77149/siss50dn.pdf	
+E	Vishay Siliconix	Surface Mount	PowerPAK® 1212-8S	mosfet	PowerPAK® 1212-8S	6	SISS50DN-T1-GE3	https://www.vishay.com/docs/77149/siss50dn.pdf	
 E	Vishay Siliconix	Surface Mount	PowerPAK® 1212-8SH	mosfet	PowerPAK® 1212-8SH	5	SISH615ADN-T1-GE3	https://www.vishay.com/docs/79563/sish615adn.pdf	
 E	Vishay Siliconix	Surface Mount	PowerPAK® ChipFET™ Dual	mosfet-array	PowerPAK® ChipFet Dual	1	SI5936DU-T1-GE3	https://www.vishay.com/docs/62804/si5936du.pdf	
 E	Vishay Siliconix	Surface Mount	PowerPAK® ChipFET™ Single	mosfet	PowerPAK® ChipFET™ Single | PowerPAK® ChipFet Single	2	SI5442DU-T1-GE3	https://www.vishay.com/docs/63233/si5442du.pdf	
 E	Vishay Siliconix	Surface Mount	PowerPAK® ChipFet Dual	mosfet-array	PowerPAK® ChipFet Dual	1	SI5922DU-T1-GE3	https://www.vishay.com/docs/76056/si5922du.pdf	
-E	Vishay Siliconix	Surface Mount	PowerPAK® SC-70-6	mosfet	PowerPAK® SC-70-6 | PowerPAK® SC-70-6 Single	12	SIA483DJ-T1-GE3	https://www.vishay.com/docs/62779/sia483dj.pdf	
+E	Vishay Siliconix	Surface Mount	PowerPAK® SC-70-6	mosfet	PowerPAK® SC-70-6 | PowerPAK® SC-70-6 Single	11	SIA483DJ-T1-GE3	https://www.vishay.com/docs/62779/sia483dj.pdf	
 E	Vishay Siliconix	Surface Mount	PowerPAK® SC-70-6 Dual	mosfet-array	PowerPAK® SC-70-6 Dual	7	SIA906EDJ-T1-GE3	https://www.vishay.com/docs/69067/sia906ed.pdf	
-E	Vishay Siliconix	Surface Mount	PowerPAK® SC-75-6	mosfet	PowerPAK® SC-75-6	4	SIB456DK-T1-GE3	https://www.vishay.com/docs/62715/sib456dk.pdf	SC75-3
-E	Vishay Siliconix	Surface Mount	PowerPAK® SO-8	mosfet	PowerPAK® SO-8 | PowerPAK® SO-8DC	52	SI7155DP-T1-GE3	https://www.vishay.com/docs/75769/si7155dp.pdf	
+E	Vishay Siliconix	Surface Mount	PowerPAK® SC-75-6	mosfet	PowerPAK® SC-75-6	5	SIB456DK-T1-GE3	https://www.vishay.com/docs/62715/sib456dk.pdf	SC75-3
+E	Vishay Siliconix	Surface Mount	PowerPAK® SO-8	mosfet	PowerPAK® SO-8 | PowerPAK® SO-8DC	53	SI7155DP-T1-GE3	https://www.vishay.com/docs/75769/si7155dp.pdf	
 E	Vishay Siliconix	Surface Mount	PowerPAK® SO-8 Dual	mosfet-array	PowerPAK® SO-8 Dual	2	SI7272DP-T1-GE3	https://www.vishay.com/docs/69026/si7272dp.pdf	
 D	Vishay Siliconix	Surface Mount	SC-70, SOT-323	mosfet	SC-70-3	1	SI1308EDL-T1-GE3	https://www.vishay.com/docs/63399/si1308edl.pdf	SOT323-3,SOT323-3-TSC-B
 D	Vishay Siliconix	Surface Mount	SC-89, SOT-490	mosfet	SC-89-3	1	SI1062X-T1-GE3	https://www.vishay.com/docs/62661/si1062x.pdf	SC89-3
-D	Vishay Siliconix	Surface Mount	SOT-23-6 Thin, TSOT-23-6	mosfet,mosfet-array	6-TSOP	11	SI3456DDV-T1-GE3	https://www.vishay.com/docs/69075/si3456ddv.pdf	SOT23-6,SOT23-6-MC-6ST1
+D	Vishay Siliconix	Surface Mount	SOT-23-6 Thin, TSOT-23-6	mosfet,mosfet-array	6-TSOP	10	SI3456DDV-T1-GE3	https://www.vishay.com/docs/69075/si3456ddv.pdf	SOT23-6,SOT23-6-MC-6ST1
 D	Vishay Siliconix	Surface Mount	SOT-563, SOT-666	mosfet,mosfet-array	SC-89 (SOT-563F)	2	SI1077X-T1-GE3	https://www.vishay.com/docs/63254/si1077x.pdf	SOT563-6
-D	Vishay Siliconix	Surface Mount	TO-236-3, SC-59, SOT-23-3	mosfet	SOT-23-3 (TO-236)	17	SI2347DS-T1-GE3	https://www.vishay.com/docs/62827/si2347ds.pdf	SOT23-3,SOT23-3-318BM,SOT23-3-ONSEMI,SOT23-3-TSC,SOT23-3-TSC-B
+D	Vishay Siliconix	Surface Mount	TO-236-3, SC-59, SOT-23-3	mosfet	SOT-23-3 (TO-236)	15	SI2347DS-T1-GE3	https://www.vishay.com/docs/62827/si2347ds.pdf	SOT23-3,SOT23-3-318BM,SOT23-3-ONSEMI,SOT23-3-TSC,SOT23-3-TSC-B
 E	Vishay Siliconix	Surface Mount	TO-252-3, DPAK (2 Leads + Tab), SC-63	mosfet	DPAK | TO-252AA	9	SUD09P10-195-GE3	https://www.vishay.com/docs/65903/sud09p10.pdf	DPAK-3,SLIMDPAK-2L-3,SLIMDPAK-3,TO-252-2-TAB,TO-252-2-TAB-369AS,THINDPAK-3
 E	Vishay Siliconix	Surface Mount	TO-261-4, TO-261AA	mosfet	SOT-223	4	IRFL9014TRPBF	http://www.vishay.com/docs/91195/sihfl901.pdf	
 E	Vishay Siliconix	Surface Mount	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	mosfet	TO-263 (D2PAK)	6	SUM90P10-19L-E3	https://www.vishay.com/docs/73474/sum90p10.pdf	D2PAK-2L-3,D2PAK-3,D2PAK-GS-3,TO-263-2-TAB,TO-263-2-TAB-418B,TO-263-2-TAB-FCS,TO-263-2-TAB-ONSEMI,D2PAK-3-TSC,D2PAK-D-3
 E	Vishay Siliconix	Surface Mount	TO-263-7, D2PAK (6 Leads + Tab)	mosfet	TO-263-7	1	SUM70040M-GE3	https://www.vishay.com/docs/65814/sum70040m.pdf	D2PAK-2L-3,D2PAK-3,D2PAK-GS-3,TO-263-2-TAB,TO-263-2-TAB-418B,TO-263-2-TAB-FCS,TO-263-2-TAB-ONSEMI,D2PAK-3-TSC,D2PAK-D-3
-C	Vishay Siliconix	Through Hole	TO-220-3	mosfet	TO-220AB	4	IRF9640PBF	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/842/IRF9640_SiHF9640.pdf	TO-220-3,TO-220AB-3,TO-220-3-ONSEMI,TO-220-3-TSC
+C	Vishay Siliconix	Through Hole	TO-220-3	mosfet	TO-220AB	5	IRF9640PBF	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/842/IRF9640_SiHF9640.pdf	TO-220-3,TO-220AB-3,TO-220-3-ONSEMI,TO-220-3-TSC
 C	Vishay Siliconix	Through Hole	TO-247-3	mosfet	TO-247AC	1	IRFP460PBF	https://www.vishay.com/docs/91237/91237.pdf	TO-247-3,TO-247-3-340CK,TO-247-3-ONSEMI,TO-247-3-TSC
 C	Vishay Siliconix	Through Hole	TO-274AA	mosfet	SUPER-247™ (TO-274AA)	1	SIHFPS37N50A-GE3	https://www.vishay.com/docs/91258/sihfps37n50a.pdf	TO-247-3,TO-247-3-340CK,TO-247-3-ONSEMI,TO-247-3-TSC
 D	onsemi	Surface Mount	0402 (1006 Metric)	bjt	3-X2DFN (1x0.6)	1	NST857BMX2T5G	https://www.onsemi.com/pdf/datasheet/nst857amx2-d.pdf	
-E	onsemi	Surface Mount	12-PowerWDFN	mosfet-array	12-Power3.3x5	1	FDMD8260L	https://rocelec.widen.net/view/pdf/iucgojnuis/FAIR-S-A0001013603-1.pdf?t.download=true&u=5oefqw	
 E	onsemi	Surface Mount	16-SOIC (0.154", 3.90mm Width)	bjt-array	16-SOIC	1	MMPQ2222A	https://www.onsemi.com/pdf/datasheet/mmpq2222a-d.pdf	SOIC-16
+E	onsemi	Surface Mount	3-SMD, Flat Leads	bjt	3-MCPH	2	30A02MH-TL-E	https://www.onsemi.com/pub/Collateral/30A02MH-D.PDF	
+D	onsemi	Surface Mount	3-XFDFN	bjt	3-X2DFN (1x0.6)	1	NST3906MX2T5G	https://www.onsemi.com/download/data-sheet/pdf/nst3906mx2-d.pdf	
 D	onsemi	Surface Mount	3-XFLGA	mosfet	3-XLLGA (0.62x0.62)	1	NTNS3193NZT5G	https://www.onsemi.com/pdf/datasheet/ntns3193nz-d.pdf	
-D	onsemi	Surface Mount	4-XFBGA	mosfet-array	EFCP1313-4CC-037	1	EFC4612R-S-TR	https://www.onsemi.com/pub/Collateral/EFC4612R-S-D.PDF	
 E	onsemi	Surface Mount	6-PowerUFDFN	mosfet	6-UDFN (1.6x1.6) | MicroFet 1.6x1.6 Thin	2	NTLUS3A39PZTAG	https://www.onsemi.com/pdf/datasheet/ntlus3a39pz-d.pdf	
-E	onsemi	Surface Mount	6-PowerWDFN	mosfet	6-PQFN (2x2)	1	FDMA008P20LZ	https://www.onsemi.com/pdf/datasheet/fdma008p20lz-d.pdf	
-E	onsemi	Surface Mount	6-SMD, Flat Leads	bjt-array,mosfet	6-MCPH | SC-88FL/ MCPH6	2	MCH6331-TL-H	https://rocelec.widen.net/view/pdf/smojxpxgta/ONSM-S-A0001341855-1.pdf?t.download=true&u=5oefqw	
-D	onsemi	Surface Mount	6-SMD, No Lead	mosfet-array	6-EFCP (1.9x1.46)	1	EFC6605R-V-TR	https://www.onsemi.com/download/data-sheet/pdf/ena2302-d.pdf	
-E	onsemi	Surface Mount	6-SSOT Flat-lead, SuperSOT™-6 FLMP	mosfet	SuperSOT™-6 FLMP	1	FDC697P	https://rocelec.widen.net/view/pdf/g48cajt6lq/FAIRS25262-1.pdf?t.download=true&u=5oefqw	
-D	onsemi	Surface Mount	6-TSSOP, SC-88, SOT-363	bjt-array,mosfet,mosfet-array	SC-88 (SC-70-6) | SC-88/SC70-6/SOT-363	26	FFB3904	https://rocelec.widen.net/view/pdf/r20kwa8rwd/FAIRS46486-1.pdf?t.download=true&u=5oefqw	SC88-6,SOT363-6
+E	onsemi	Surface Mount	6-PowerWDFN	mosfet	6-PQFN (2x2)	2	FDMA008P20LZ	https://www.onsemi.com/pdf/datasheet/fdma008p20lz-d.pdf	
+D	onsemi	Surface Mount	6-TSSOP, SC-88, SOT-363	bjt-array,mosfet,mosfet-array	SC-88 (SC-70-6) | SC-88/SC70-6/SOT-363	27	FFB3904	https://rocelec.widen.net/view/pdf/r20kwa8rwd/FAIRS46486-1.pdf?t.download=true&u=5oefqw	SC88-6,SOT363-6
 D	onsemi	Surface Mount	6-UDFN Exposed Pad	mosfet	6-UDFN (2x2)	1	NTLUS4930NTAG	https://www.onsemi.com/pdf/datasheet/ntlus4930n-d.pdf	
 D	onsemi	Surface Mount	6-UFBGA, WLCSP	mosfet	6-WLCSP (1.0x1.5) | 6-WLCSP (1x1.5)	2	FDZ193P	https://rocelec.widen.net/view/pdf/9a7upfyz8q/FAIR-S-A0000210595-1.pdf?t.download=true&u=5oefqw	
-D	onsemi	Surface Mount	6-UFDFN Exposed Pad	mosfet	6-MicroFET (1.6x1.6)	1	FDFME2P823ZT	https://rocelec.widen.net/view/pdf/mq9kohzknc/FAIRS29480-1.pdf?t.download=true&u=5oefqw	
-D	onsemi	Surface Mount	6-VDFN Exposed Pad	mosfet,mosfet-array	6-DFN (3x3)	3	NTLGF3501NT2G	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/9/NTLGF3501N-D.pdf	
-D	onsemi	Surface Mount	6-WDFN Exposed Pad	mosfet	6-MicroFET (2x2) | 6-WDFN (2x2)	5	NTLJS4114NTAG	https://www.onsemi.com/pdf/datasheet/ntljs4114n-d.pdf	
-D	onsemi	Surface Mount	6-WFDFN Exposed Pad	mosfet-array	6-MLP (2x5)	1	FDMW2512NZ	https://rocelec.widen.net/view/pdf/cqwtym2iro/FAIRS24148-1.pdf?t.download=true&u=5oefqw	
-D	onsemi	Surface Mount	6-XFLGA	mosfet-array	6-XLLGA (.90x.65)	1	NTND3184NZTAG		
-E	onsemi	Surface Mount	8-PowerTDFN	mosfet,mosfet-array	8-PQFN (5x6) | 8-PQFN (5x6), Power56	10	FDMS0352S	https://rocelec.widen.net/view/pdf/z9mrz7sxeq/FAIR-S-A0000809469-1.pdf?t.download=true&u=5oefqw	
-E	onsemi	Surface Mount	8-PowerTDFN, 5 Leads	mosfet	5-DFN (5x6) (8-SOFL)	2	NTMFS4C029NT1G	https://www.onsemi.com/pdf/datasheet/ntmfs4c029n-d.pdf	
-E	onsemi	Surface Mount	8-PowerWDFN	mosfet,mosfet-array	8-MLP (3.3x3.3) | 8-PQFN (5x6) | 8-WDFN (3.3x3.3)	6	FDMC8884	https://rocelec.widen.net/view/pdf/vfdr6jai4i/FAIR-S-A0002365668-1.pdf?t.download=true&u=5oefqw	
-E	onsemi	Surface Mount	8-SMD, Flat Leads	bjt,mosfet	8-ECH	2	ECH8309-TL-H	https://www.onsemi.com/pub/Collateral/ECH8309-D.PDF	
-E	onsemi	Surface Mount	8-SOIC (0.154", 3.90mm Width)	mosfet,mosfet-array	8-SOIC	22	FDS8433A-G	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/7138/2156_FDS8433A-D.PDF	SOIC-8
-E	onsemi	Surface Mount	8-TSOP (0.130", 3.30mm Width)	mosfet-array	SuperSOT™-8	1	NDH8302P	https://rocelec.widen.net/view/pdf/cbvmpeld3r/FAIRD00025-2-392.pdf?t.download=true&u=5oefqw	
-E	onsemi	Surface Mount	8-TSSOP (0.173", 4.40mm Width)	mosfet-array	8-TSSOP	1	FDW2509NZ	https://rocelec.widen.net/view/pdf/60wucs4qfu/FAIRS43459-1.pdf?t.download=true&u=5oefqw	
-E	onsemi	Surface Mount	8-VFSOP (0.091", 2.30mm Width)	mosfet-array	US8	1	HUF76113DK8T	https://rocelec.widen.net/view/pdf/pxy0pxqiii/FAIRS20733-1.pdf?t.download=true&u=5oefqw	
-D	onsemi	Surface Mount	SC-70, SOT-323	bjt,mosfet	3-MCP | 3-MCPH | SC-70-3 (SOT323) | SOT-323	26	MMBT4403WT1G	https://www.onsemi.com/pdf/datasheet/mmbt4403wt1-d.pdf	SOT323-3,SOT323-3-TSC-B
+D	onsemi	Surface Mount	6-VDFN Exposed Pad	mosfet-array	6-DFN (3x3)	1	NTLGD3502NT2G	https://www.onsemi.com/pdf/datasheet/ntlgd3502n-d.pdf	
+D	onsemi	Surface Mount	6-WDFN Exposed Pad	mosfet,mosfet-array	6-MicroFET (2x2) | 6-WDFN (2x2)	7	NTLJS4114NTAG	https://www.onsemi.com/pdf/datasheet/ntljs4114n-d.pdf	
+E	onsemi	Surface Mount	8-PowerTDFN	mosfet	8-PQFN (5x6) | Power33	10	FDMS8025S	https://rocelec.widen.net/view/pdf/6h9r06y8mr/FAIR-S-A0002363775-1.pdf?t.download=true&u=5oefqw	
+E	onsemi	Surface Mount	8-PowerTDFN, 5 Leads	mosfet	5-DFN (5x6) (8-SOFL)	4	NTMFS4C029NT1G	https://www.onsemi.com/pdf/datasheet/ntmfs4c029n-d.pdf	
+E	onsemi	Surface Mount	8-PowerVDFN	mosfet	8-Dual Cool™88	1	FDMT80080DC	https://www.onsemi.com/pdf/datasheet/fdmt80080dc-d.pdf	
+E	onsemi	Surface Mount	8-PowerWDFN	mosfet	8-MLP (3.3x3.3) | 8-WDFN (3.3x3.3) | Power33	9	NTTFS115P10M5	https://www.onsemi.com/pdf/datasheet/nttfs115p10m5-d.pdf	
+E	onsemi	Surface Mount	8-SMD, Flat Leads	bjt,mosfet,mosfet-array	8-ECH | ChipFET™ | SOT-28FL/ECH8	8	ECH8309-TL-H	https://www.onsemi.com/pub/Collateral/ECH8309-D.PDF	
+E	onsemi	Surface Mount	8-SOIC (0.154", 3.90mm Width)	bjt-array,mosfet,mosfet-array	8-SOIC	18	FDS8878	https://www.onsemi.com/download/data-sheet/pdf/fds8878-d.pdf	SOIC-8
+D	onsemi	Surface Mount	SC-70, SOT-323	bjt,mosfet	SC-70-3 (SOT323) | SOT-323	20	MMBT4403WT1G	https://www.onsemi.com/pdf/datasheet/mmbt4403wt1-d.pdf	SOT323-3,SOT323-3-TSC-B
 D	onsemi	Surface Mount	SC-74, SOT-457	bjt-array	SC-74R	1	IMH20TR1G	https://www.onsemi.com/pdf/datasheet/imh20tr1g.pdf	SC74-6
-D	onsemi	Surface Mount	SC-75, SOT-416	bjt,mosfet	SC-75, SOT-416 | SMCP	9	MMBT3904TT1H	https://rocelec.widen.net/view/pdf/hbv52xxvsb/ONSMS13998-1.pdf?t.download=true&u=ovmfp3	SC75-3
-D	onsemi	Surface Mount	SC-89, SOT-490	bjt,mosfet	SC-89-3 | SOT-523F	2	FJY3002R	https://rocelec.widen.net/view/pdf/gishywqygf/FAIRS45946-1.pdf?t.download=true&u=5oefqw	SC89-3
-D	onsemi	Surface Mount	SOT-1123	bjt	SOT-1123	6	NSBA143EF3T5G	https://www.onsemi.com/pdf/datasheet/dta143e-d.pdf	
-D	onsemi	Surface Mount	SOT-23-6	mosfet	6-CPH	2	CPH6355-TL-H	https://rocelec.widen.net/view/pdf/oscgywktri/ONSM-S-A0000741917-1.pdf?t.download=true&u=5oefqw	SOT23-6,SOT23-6-MC-6ST1
-D	onsemi	Surface Mount	SOT-23-6 Thin, TSOT-23-6	bjt-array,mosfet,mosfet-array	6-CPH | 6-TSOP | SuperSOT™-6	15	NTGD4167CT1G	https://www.onsemi.com/pdf/datasheet/ntgd4167c-d.pdf	SOT23-6,SOT23-6-MC-6ST1
-D	onsemi	Surface Mount	SOT-553	bjt-array	SOT-553	2	EMC2DXV5T1G	https://www.onsemi.com/pub/Collateral/EMC2DXV5T1-D.PDF	
-D	onsemi	Surface Mount	SOT-563, SOT-666	bjt-array,mosfet,mosfet-array	SOT-563 | SOT-563/SCH6 | SOT-563F	8	NSBC114TPDXV6T1G	https://www.onsemi.com/pdf/datasheet/dtc114yp-d.pdf	SOT563-6
-D	onsemi	Surface Mount	SOT-723	bjt,mosfet	SOT-723	7	DTA143EM3T5G	https://www.onsemi.com/pub/Collateral/DTA143E-D.PDF	SOT723-3
-D	onsemi	Surface Mount	SOT-923F	bjt	SOT-923F	2	MMBT3904SL	https://rocelec.widen.net/view/pdf/be46880kbd/FAIRS26454-1.pdf?t.download=true&u=5oefqw	
-D	onsemi	Surface Mount	SOT-963	bjt-array	SOT-963	7	NSBC115TPDP6T5G	https://www.onsemi.com/pdf/datasheet/dtc115tp-d.pdf	
-D	onsemi	Surface Mount	TO-236-3, SC-59, SOT-23-3	bjt,mosfet	3-CP | 3-CPH | SC-59 | SOT-23 | SOT-23-3 | SOT-23-3 (TO-236)	94	BC807-25LT1G	https://www.onsemi.com/pub/Collateral/BC807-16LT1-D.PDF	SOT23-3,SOT23-3-318BM,SOT23-3-ONSEMI,SOT23-3-TSC,SOT23-3-TSC-B
-D	onsemi	Surface Mount	TO-243AA	bjt,mosfet	PCP	4	2SC4548D-TD-E	https://rocelec.widen.net/view/pdf/8cgjzhzpzs/ONSMS29287-1.pdf?t.download=true&u=5oefqw	SOT89-3
-E	onsemi	Surface Mount	TO-252-3, DPAK (2 Leads + Tab), SC-63	bjt,mosfet	2-TP-FA | DPAK | DPAK/TP-FA | TO-252 (DPAK) | TO-252AA | TP-FA	34	FDD6N25TM	https://www.onsemi.com/download/data-sheet/pdf/fdd6n25-d.pdf	DPAK-3,SLIMDPAK-2L-3,SLIMDPAK-3,TO-252-2-TAB,TO-252-2-TAB-369AS,THINDPAK-3
-E	onsemi	Surface Mount	TO-261-4, TO-261AA	bjt,mosfet	SOT-223 (TO-261) | SOT-223-4	13	NZT45H8	https://rocelec.widen.net/view/pdf/kragwuo1xv/FAIRS46898-1.pdf?t.download=true&u=5oefqw	
-E	onsemi	Surface Mount	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	bjt,mosfet	D2PAK | TO-263 (D2PAK) | TO-263AB	13	FDB6035AL	https://rocelec.widen.net/view/pdf/m7pi2w6jk8/FAIRS44393-1.pdf?t.download=true&u=5oefqw	D2PAK-2L-3,D2PAK-3,D2PAK-GS-3,TO-263-2-TAB,TO-263-2-TAB-418B,TO-263-2-TAB-FCS,TO-263-2-TAB-ONSEMI,D2PAK-3-TSC,D2PAK-D-3
+D	onsemi	Surface Mount	SC-75, SOT-416	bjt,mosfet	SC-75, SOT-416 | SMCP	11	DTC114YET1G	https://www.onsemi.com/pub/Collateral/DTC114Y-D.PDF	SC75-3
+D	onsemi	Surface Mount	SC-89, SOT-490	mosfet	SC-89-3	1	NTE4151PT1G	https://www.onsemi.com/pdf/datasheet/nta4151p-d.pdf	SC89-3
+D	onsemi	Surface Mount	SOT-1123	bjt	SOT-1123	7	NSBA143EF3T5G	https://www.onsemi.com/pdf/datasheet/dta143e-d.pdf	
+D	onsemi	Surface Mount	SOT-23-6	mosfet	6-CPH	1	CPH6350-TL-W	https://www.onsemi.com/pub/Collateral/CPH6350-D.PDF	SOT23-6,SOT23-6-MC-6ST1
+D	onsemi	Surface Mount	SOT-23-6 Thin, TSOT-23-6	bjt,bjt-array,mosfet,mosfet-array	6-TSOP | SuperSOT™-6	19	NTGD4167CT1G	https://www.onsemi.com/pdf/datasheet/ntgd4167c-d.pdf	SOT23-6,SOT23-6-MC-6ST1
+D	onsemi	Surface Mount	SOT-563, SOT-666	bjt-array,mosfet,mosfet-array	SOT-563 | SOT-563/SCH6	7	NSBA143TDXV6T1G	https://www.onsemi.com/pdf/datasheet/dta143td-d.pdf	SOT563-6
+D	onsemi	Surface Mount	SOT-723	bjt,mosfet	SOT-723	13	DTA143EM3T5G	https://www.onsemi.com/pub/Collateral/DTA143E-D.PDF	SOT723-3
+D	onsemi	Surface Mount	SOT-923F	bjt	SOT-923F	1	MMBT3906SL	https://rocelec.widen.net/view/pdf/ppivam5esy/FAIR-S-A0001348940-1.pdf?t.download=true&u=5oefqw	
+D	onsemi	Surface Mount	SOT-963	bjt-array,mosfet-array	SOT-963	10	NSBC115TPDP6T5G	https://www.onsemi.com/pdf/datasheet/dtc115tp-d.pdf	
+D	onsemi	Surface Mount	TO-236-3, SC-59, SOT-23-3	bjt,mosfet	3-CPH | SC-59 | SOT-23-3 | SOT-23-3 (TO-236)	117	BC807-25LT1G	https://www.onsemi.com/pub/Collateral/BC807-16LT1-D.PDF	SOT23-3,SOT23-3-318BM,SOT23-3-ONSEMI,SOT23-3-TSC,SOT23-3-TSC-B
+D	onsemi	Surface Mount	TO-243AA	bjt	PCP	1	2SA1416T-TD-E	https://www.onsemi.com/pub/Collateral/2SA1416-D.PDF	SOT89-3
+E	onsemi	Surface Mount	TO-252-3, DPAK (2 Leads + Tab), SC-63	bjt,mosfet	DPAK | TO-252 (DPAK) | TO-252AA | TP-FA	45	FDD6N25TM	https://www.onsemi.com/download/data-sheet/pdf/fdd6n25-d.pdf	DPAK-3,SLIMDPAK-2L-3,SLIMDPAK-3,TO-252-2-TAB,TO-252-2-TAB-369AS,THINDPAK-3
+E	onsemi	Surface Mount	TO-261-4, TO-261AA	bjt,mosfet	SOT-223 (TO-261) | SOT-223-4	18	NZT45H8	https://rocelec.widen.net/view/pdf/kragwuo1xv/FAIRS46898-1.pdf?t.download=true&u=5oefqw	
+E	onsemi	Surface Mount	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	mosfet	TO-263 (D2PAK) | TO-263AB	7	FDB8444	https://rocelec.widen.net/view/pdf/e0tn1apec6/FAIRS24060-1.pdf?t.download=true&u=5oefqw	D2PAK-2L-3,D2PAK-3,D2PAK-GS-3,TO-263-2-TAB,TO-263-2-TAB-418B,TO-263-2-TAB-FCS,TO-263-2-TAB-ONSEMI,D2PAK-3-TSC,D2PAK-D-3
 E	onsemi	Surface Mount	TO-263-7, D2PAK (6 Leads + Tab)	mosfet	TO-263-7	1	FDB024N04AL7	https://rocelec.widen.net/view/pdf/9kehdvehd6/FAIRS47112-1.pdf?t.download=true&u=5oefqw	D2PAK-2L-3,D2PAK-3,D2PAK-GS-3,TO-263-2-TAB,TO-263-2-TAB-418B,TO-263-2-TAB-FCS,TO-263-2-TAB-ONSEMI,D2PAK-3-TSC,D2PAK-D-3
-C	onsemi	Through Hole	14-DIP (0.300", 7.62mm)	bjt-array	TO-116	1	MPQ6100A	https://rocelec.widen.net/view/pdf/zlly6rl36q/ONSMS03965-1.pdf?t.download=true&u=5oefqw	
-C	onsemi	Through Hole	3-SSIP	bjt	3-SPA	4	2SA1317T-AC	https://rocelec.widen.net/view/pdf/arvuazsffc/SNYOS12343-1.pdf?t.download=true&u=5oefqw	
 C	onsemi	Through Hole	SC-71	bjt	3-NMP	1	2SC4487S-AN	https://rocelec.widen.net/view/pdf/1oflbyhm65/ONSMS36370-1.pdf?t.download=true&u=ovmfp3	
-C	onsemi	Through Hole	TO-220-3	bjt,mosfet	TO-220 | TO-220-3 | TO-220AB	15	IRF730B	https://rocelec.widen.net/view/pdf/yc0qlxvx8m/FAIRS16000-1.pdf?t.download=true&u=5oefqw	TO-220-3,TO-220AB-3,TO-220-3-ONSEMI,TO-220-3-TSC
-C	onsemi	Through Hole	TO-220-3 Full Pack	bjt,mosfet	TO-220F | TO-220F-3 | TO-220ML	17	FCPF600N65S3R0L	https://www.onsemi.com/pdf/datasheet/fcpf600n65s3r0l-d.pdf	ITO-220-3,TO-220FP-2,TO-220-FULL-PACK-3,ITO-220-3-TSC
-C	onsemi	Through Hole	TO-220-3 Full Pack, Formed Leads	mosfet	TO-220F-3 (Y-Forming)	1	FQPF5N50CYDTU	https://rocelec.widen.net/view/pdf/tazsn0psmz/FAIRS27140-1.pdf?t.download=true&u=5oefqw	ITO-220-3,TO-220FP-2,TO-220-FULL-PACK-3,ITO-220-3-TSC
-C	onsemi	Through Hole	TO-225AA, TO-126-3	bjt	TO-126 | TO-126-3 | TO-126LP | TO-126ML	13	KSB772YSTU	https://rocelec.widen.net/view/pdf/xvvvuv3quu/FAIRS20558-1.pdf?t.download=true&u=5oefqw	
-C	onsemi	Through Hole	TO-226-3, TO-92-3 (TO-226AA)	bjt,mosfet	3-NP | TO-226-3 | TO-92 | TO-92 (TO-226) | TO-92-3	26	2SC3331T-AA	https://rocelec.widen.net/view/pdf/9er605oxqu/SNYOS12296-1.pdf?t.download=true&u=5oefqw	
-C	onsemi	Through Hole	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	bjt,mosfet	TO-92 | TO-92 (TO-226) | TO-92-3	18	KSP2907ATA	https://rocelec.widen.net/view/pdf/gazzuwhsdc/FAIR-S-A0001571793-1.pdf?t.download=true&u=5oefqw	
-C	onsemi	Through Hole	TO-226-3, TO-92-3 Long Body	bjt	3-MP | TO-92-3	4	2SD1145G	https://rocelec.widen.net/view/pdf/uwvv8ddazp/SNYOS12807-1.pdf?t.download=true&u=5oefqw	
-C	onsemi	Through Hole	TO-226-3, TO-92-3 Long Body, Formed Leads	bjt	TO-92 (TO-226) | TO-92-3	4	KSA1281YTA	https://rocelec.widen.net/view/pdf/kvsu0ajleh/FAIR-S-A0002366287-1.pdf?t.download=true&u=5oefqw	
-C	onsemi	Through Hole	TO-247-3	mosfet	TO-247-3	2	UF3C170400K3S	https://www.onsemi.com/pub/Collateral/UF3C170400K3S-D.PDF	TO-247-3,TO-247-3-340CK,TO-247-3-ONSEMI,TO-247-3-TSC
-C	onsemi	Through Hole	TO-251-3 Short Leads, IPAK, TO-251AA	bjt,mosfet	IPAK | TP	7	2SA1552T-H	https://rocelec.widen.net/view/pdf/xdrbg2hopz/ONSM-S-A0000136312-1.pdf?t.download=true&u=5oefqw	I2PAK-3,TO-252-2-TAB,TO-252-2-TAB-369AS
-C	onsemi	Through Hole	TO-251-3 Stub Leads, IPAK	mosfet	TO-251 (IPAK)	2	FDU6692	https://rocelec.widen.net/view/pdf/sgq8hfo7c8/FAIRS11959-1.pdf?t.download=true&u=5oefqw	I2PAK-3,TO-252-2-TAB,TO-252-2-TAB-369AS
-C	onsemi	Through Hole	TO-262-3 Long Leads, I2PAK, TO-262AA	mosfet	TO-262 (I2PAK)	1	FQI5N60CTU	https://rocelec.widen.net/view/pdf/iebw1w8oo4/FAIRS45966-1.pdf?t.download=true&u=5oefqw	I2PAK-3,TO-252-2-TAB,TO-252-2-TAB-369AS
-C	onsemi	Through Hole	TO-3P-3 Full Pack	bjt	TO-3PMLH	1	2SC6091	https://rocelec.widen.net/view/pdf/0ggbz1dh5r/SNYOS11425-1.pdf?t.download=true&u=5oefqw	TO-3PF-3,TO-3P-3
+C	onsemi	Through Hole	TO-220-3	bjt,mosfet	TO-220 | TO-220-3	13	FQPF9N50C	https://rocelec.widen.net/view/pdf/ijbitn5t2t/FAIRS46143-1.pdf?t.download=true&u=5oefqw	TO-220-3,TO-220AB-3,TO-220-3-ONSEMI,TO-220-3-TSC
+C	onsemi	Through Hole	TO-220-3 Full Pack	bjt,mosfet	TO-220F-3 | TO-220ML	16	FCPF600N65S3R0L	https://www.onsemi.com/pdf/datasheet/fcpf600n65s3r0l-d.pdf	ITO-220-3,TO-220FP-2,TO-220-FULL-PACK-3,ITO-220-3-TSC
+C	onsemi	Through Hole	TO-225AA, TO-126-3	bjt	TO-126-3	1	BD437S	https://rocelec.widen.net/view/pdf/otah7axsfv/FAIRS30158-1.pdf?t.download=true&u=5oefqw	
+C	onsemi	Through Hole	TO-226-3, TO-92-3 (TO-226AA)	bjt,mosfet	TO-92-3	14	SS8050DBU	https://www.onsemi.com/pdf/datasheet/ss8050-d.pdf	
+C	onsemi	Through Hole	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	bjt,mosfet	TO-92-3	21	SS8050DTA	https://rocelec.widen.net/view/pdf/vy8feyjpxf/FAIR-S-A0002364153-1.pdf?t.download=true&u=5oefqw	
+C	onsemi	Through Hole	TO-226-3, TO-92-3 Long Body, Formed Leads	bjt	TO-92 (TO-226)	1	MPSA92RLRMG	https://www.onsemi.com/pub/Collateral/MPSA92-D.PDF	
+C	onsemi	Through Hole	TO-247-3	mosfet	TO-247-3	3	UF3C170400K3S	https://www.onsemi.com/pub/Collateral/UF3C170400K3S-D.PDF	TO-247-3,TO-247-3-340CK,TO-247-3-ONSEMI,TO-247-3-TSC
+C	onsemi	Through Hole	TO-247-4	mosfet	TO-247-4	1	UF3C065080K4S	https://www.onsemi.com/pub/Collateral/UF3C065080K4S-D.PDF	TO-247-3,TO-247-3-340CK,TO-247-3-ONSEMI,TO-247-3-TSC
+C	onsemi	Through Hole	TO-251-3 Short Leads, IPAK, TO-251AA	bjt,mosfet	IPAK	3	MJD112-1G	https://www.onsemi.com/pdf/datasheet/mjd112-d.pdf	I2PAK-3,TO-252-2-TAB,TO-252-2-TAB-369AS
+C	onsemi	Through Hole	TO-3P-3, SC-65-3	mosfet	TO-3PN	1	FQA36P15	https://www.onsemi.com/pdf/datasheet/fqa36p15-d.pdf	TO-3PF-3,TO-3P-3
 C	onsemi	Through Hole	TO-3P-3, SC-65-3, Formed Leads	mosfet	TO-3PN (L-Forming)	1	FDA16N50LDTU	https://rocelec.widen.net/view/pdf/vu2oxwp5po/FAIR-S-A0002365536-1.pdf?t.download=true&u=5oefqw	TO-3PF-3,TO-3P-3

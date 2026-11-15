@@ -26,7 +26,7 @@ typedef enum {
     PART_LED, PART_7SEG, PART_OSCILLATOR, PART_SUPPLY, PART_EEPROM, PART_LATCH, PART_COUNTER,
     PART_SHIFT, PART_CPU, PART_CHARLCD, PART_SERIAL, PART_CONNECTOR, PART_PIO, PART_DECODER,
     PART_BUFFER, PART_MUX, PART_HEADER, PART_ARITH, PART_CONVERTER, PART_RTC, PART_DIODE,
-    PART_CAPACITOR, PART_REGISTER, PART_MCU, PART_RESISTOR
+    PART_CAPACITOR, PART_REGISTER, PART_MCU, PART_RESISTOR, PART_TRANSISTOR
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -154,6 +154,18 @@ typedef struct { const char *type; int polarized; uint64_t capacitance_ff;
    jumper's tolerance). */
 typedef struct { size_t resistor_count; uint64_t milliohms;
                  uint32_t tolerance_ppm, power_mw; } PartResistor;
+/* A transistor part (plan-40-F): one or more elements (BJT or MOSFET),
+   each a digital switch. type: the first element's ("npn", "pnp", "nmos",
+   "pmos"); mixed: 1 when the elements' types differ (a complementary pair);
+   darlington: 1 when any element is one; mosfet: 1 for nmos / pmos.
+   vmax_mv: Vceo or Vds; imax_ma: Ic or Id; power_mw: Pd; hfe: minimum DC
+   gain; vgsth_mv, vgs_mv: max gate threshold and gate-source voltage;
+   r1_mohm, r2_mohm: a pre-biased BJT's base and base-emitter resistors;
+   rdson_mohm: max Rds(on); logic_level: Rds(on) specified at a gate drive
+   of 4.5 V or less. An array's facts hold for every element. 0 = not given. */
+typedef struct { const char *type; size_t element_count; uint8_t mixed; uint8_t darlington;
+                 uint8_t mosfet; uint8_t logic_level; uint32_t vmax_mv, imax_ma, power_mw, hfe,
+                 vgsth_mv, vgs_mv; uint64_t r1_mohm, r2_mohm, rdson_mohm; } PartTransistor;
 
 /* A microcontroller (plan-36-F): facts only, no simulation model (its
    device says "simulated": false). core: "avr", "avrrc", "avrxt", "avrxm",
@@ -243,6 +255,7 @@ typedef struct Part {
     const PartCapacitor *capacitor;
     const PartMcu *mcu;
     const PartResistor *resistor;
+    const PartTransistor *transistor;
     /* Dual-supply parts (plan-20-F): domain 0 is the A side (its vcc is
        Part.vcc), domain 1 the B side; NULL/0 for single-supply parts. */
     const PartSupplyDomain *domains; size_t domain_count;

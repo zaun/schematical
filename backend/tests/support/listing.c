@@ -36,6 +36,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_REGISTER: return "register";
         case PART_MCU: return "mcu";
         case PART_RESISTOR: return "resistor";
+        case PART_TRANSISTOR: return "transistor";
     }
     return "?";
 }
@@ -165,6 +166,20 @@ static void print_details(FILE *out, const Part *part) {
                     part->resistor->resistor_count,
                     (unsigned long long)part->resistor->milliohms,
                     (unsigned)part->resistor->tolerance_ppm, (unsigned)part->resistor->power_mw);
+            break;
+        case PART_TRANSISTOR:
+            fprintf(out,
+                    "elements=%zu type=%s mixed=%u vmax=%u imax=%u power=%u hfe=%u rdson=%llu "
+                    "vgsth=%u vgs=%u logic=%u r1=%llu r2=%llu",
+                    part->transistor->element_count, part->transistor->type,
+                    (unsigned)part->transistor->mixed, (unsigned)part->transistor->vmax_mv,
+                    (unsigned)part->transistor->imax_ma, (unsigned)part->transistor->power_mw,
+                    (unsigned)part->transistor->hfe,
+                    (unsigned long long)part->transistor->rdson_mohm,
+                    (unsigned)part->transistor->vgsth_mv, (unsigned)part->transistor->vgs_mv,
+                    (unsigned)part->transistor->logic_level,
+                    (unsigned long long)part->transistor->r1_mohm,
+                    (unsigned long long)part->transistor->r2_mohm);
             break;
         case PART_SRAM:
             fprintf(out, "words=%u bits=%u access_ps=%llu", (unsigned)part->sram->words,
