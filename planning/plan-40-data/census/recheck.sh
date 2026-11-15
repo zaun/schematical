@@ -24,4 +24,5 @@ run() {  # <category> <maker id> <split facet ids>
 run 276 488 74,16     # onsemi single BJTs, 1543 parts
 run 278 488 606,16    # onsemi single FETs, 2233 parts
 run 278 742 606,16    # Vishay Siliconix single FETs, 1952 parts
+run 278 448 606,16    # Infineon single FETs, 2173 parts (plan-40-B: skips lowered its floor below the cut)
 echo "recheck.sh: done"

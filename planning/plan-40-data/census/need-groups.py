@@ -31,8 +31,13 @@ def is_read(s):
     return s is not None and s['scheme'] not in ('', 'n/r')
 
 
+OVERRIDES = os.path.join(common.DATA, 'verdict-overrides.tsv')
+MANUAL = ({r['mpn']: r['verdict'] for r in csv.DictReader(open(OVERRIDES), delimiter='\t')}
+          if os.path.exists(OVERRIDES) else {})
+
+
 def passes(r, s):
-    if not r['pdf'] or r['dead'] == '1':
+    if not r['pdf'] or r['dead'] == '1' or MANUAL.get(r['mpn'], 'add') != 'add':
         return False
     if not is_read(s):
         return True

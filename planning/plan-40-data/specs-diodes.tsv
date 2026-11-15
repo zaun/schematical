@@ -210,3 +210,12 @@ datasheets/transistor/diodes/ds32039.pdf	SOT-963	-	=	SOT-963	E1,B1,C2,E2,B2,C1	p
 datasheets/transistor/diodes/ds32044.pdf	SOT-963	-	=	SOT-963	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;pnp:B2,C2,E2	p.1 schematic numbered: Q1 NPN E 1, B 2, C 6; Q2 PNP C 3, E 4, B 5; visual p.1 ok
 datasheets/transistor/diodes/ds32068.pdf	PowerDI™ 5	-	=	PowerDI5	B,E,C	pnp:B,C,E	p.1 pin-out diagram: B, E leads, C tab (unnumbered; SOT-23-style order)
 datasheets/transistor/diodes/ds32070.pdf	PowerDI™ 5	-	=	PowerDI5	B,E,C	pnp:B,C,E	p.1 pin-out diagram: B, E leads, C tab (unnumbered; SOT-23-style order)
+datasheets/transistor/diodes/BCX5616Q.pdf	TO-243AA	-	=	SOT-89	B,C,E	npn:B,C,E	p.1 Pin-Out top view: E, C, B leads (pins 3, 2, 1) with C tab; tab not counted (TO-243AA); ordering p.1; page 1 viewed, no watermark
+datasheets/transistor/diodes/DSS5540X.pdf	TO-243AA	-	=	SOT-89	B,C,E	pnp:B,C,E	p.1 Pin-Out Top: E, C, B leads (pins 3, 2, 1) with C tab; tab not counted; ordering p.1 DSS5540X-13/TC; visual p.1 ok
+datasheets/transistor/diodes/FZT1048A.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	npn:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4; ordering p.1; visual p.1 ok
+datasheets/transistor/diodes/FZT491A.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	npn:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4; ordering p.1
+datasheets/transistor/diodes/ZTX790A.pdf	E-Line-3, Formed Leads	-	-	E-Line	E,B,C	pnp:B,C,E	p.1 E-Line drawing labels leads C, B, E in line; NO pin numbers in the PDF - E as pin 1 is the E-Line convention, ASSUMED; 1994 datasheet has no ordering table (STZ formed-lead option not listed); visual p.1 ok
+datasheets/transistor/diodes/ZX5T951G.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	pnp:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4; ordering p.1; visual p.1 ok
+datasheets/transistor/diodes/ZXTN25040DZ.pdf	TO-243AA	-	=	SOT-89	B,C,E	npn:B,C,E	p.1 Pin Out top view: E, C, B leads (pins 3, 2, 1) with C tab; tab not counted; ordering p.1; visual p.1 ok
+datasheets/transistor/diodes/ds31141.pdf	TO-243AA	-	=	SOT-89	B,C,E	npn:B,C,E	p.1 Pin-Out top view: E, C, B leads (pins 3, 2, 1) with C tab; tab not counted; ordering p.1 DXT3904-13
+datasheets/transistor/diodes/ds31624.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	=	DPAK	B,C,E	pnp:B,C,E	p.1 Pin Out Configuration top view: B, C, E leads, C tab (pin 2 shared); ordering p.1 MJD32C-13; page 1 viewed, no watermark; visual p.1 ok

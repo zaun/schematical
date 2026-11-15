@@ -268,7 +268,11 @@ def main():
             print(f'{fam}: {len(sel)} picked; per maker',
                   dict(collections.Counter(r['maker'] for r in sel)))
             for mk in sorted({r['maker'] for r in sel}):
-                floor[(fam, mk)] = min(r['stock'] for r in sel if r['maker'] == mk)
+                # the lowest stock the quota takes (a named part is picked
+                # whatever its stock, so it does not set the floor)
+                quota_picks = [r['stock'] for r in sel if r['maker'] == mk
+                               and not any(r['base'].upper() == n or r['mpn'].upper().startswith(n) for n in NAMED)]
+                floor[(fam, mk)] = min(quota_picks or [r['stock'] for r in sel if r['maker'] == mk])
         for (stem, label), (count_, stock) in sorted(cuts.items()):
             cat, mid = stem.split('-')[:2]
             limit = floor.get((FAMILY[cat], MAKERS[mid]))
@@ -284,12 +288,24 @@ def main():
             # plan-40-B Corrections 1: a row whose spec row was not read could
             # change the pick only if its stock reaches its (family, maker)'s
             # floor, or if that share is short.
-            nr = [r for r in rows if r['reason'] == 'out:below the pick (not read)']
+            # A not-read row whose duplicate key already has a passing row
+            # with more stock (an add, or a passing duplicate) loses the
+            # duplicate rule whatever its verdict.
+            kept = {}
+            for x in rows:
+                if x['reason'] in ('add', 'out:duplicate', 'out:below quota'):
+                    k = (x['family'], x['base'].upper(), x['package'], x['supplier_package'])
+                    kept[k] = max(kept.get(k, -1), x['stock'])
+            nr = [r for r in rows if r['reason'] == 'out:below the pick (not read)'
+                  and kept.get((r['family'], r['base'].upper(), r['package'], r['supplier_package']), -1)
+                  < r['stock']]
             above = [r for r in nr if (r['family'], r['maker']) not in floor
                      or r['stock'] >= floor[(r['family'], r['maker'])]]
             short = sorted({(r['family'], r['maker']) for r in nr
                             if sum(1 for x in rows if x['reason'] == 'add' and x['family'] == r['family']
                                    and x['maker'] == r['maker']) < -(-QUOTA[r['family']] // 3)})
+            print(f'not read and not a losing duplicate: {len(nr)} of '
+                  f'{sum(1 for r in rows if r["reason"] == "out:below the pick (not read)")}')
             print(f'not read: {len(nr)} rows; at or above their floor: {len(above)}; '
                   f'in a short share: {len(short)}', short)
             for r in above[:20]:

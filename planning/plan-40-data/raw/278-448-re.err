@@ -1,0 +1,71 @@
+piece all/-: 18 of 18
+piece all/N-Channel/3-WDSON: 3 of 3
+piece all/N-Channel/4-PowerLSFN: 3 of 3
+piece all/N-Channel/4-PowerSFN: 5 of 5
+piece all/N-Channel/4-PowerTDFN: 2 of 2
+piece all/N-Channel/4-PowerTSFN: 22 of 22
+piece all/N-Channel/4-PowerVDFN: 1 of 1
+piece all/N-Channel/5-PowerSFN: 18 of 18
+piece all/N-Channel/6-PowerTDFN: 4 of 4
+piece all/N-Channel/6-PowerVDFN: 7 of 7
+piece all/N-Channel/6-VSSOP, SC-88, SOT-363: 2 of 2
+piece all/N-Channel/8-LDFN Exposed Pad: 4 of 4
+piece all/N-Channel/8-PowerDFN: 3 of 3
+piece all/N-Channel/8-PowerSFN: 98 of 98
+piece all/N-Channel/8-PowerSMD, Gull Wing: 21 of 21
+piece all/N-Channel/8-PowerTDFN: 323 of 323 (both ends)
+piece all/N-Channel/8-PowerVDFN: 12 of 12
+piece all/N-Channel/8-PowerWDFN: 31 of 31
+piece all/N-Channel/8-SOIC (0.154", 3.90mm Width): 15 of 15
+piece all/N-Channel/8-TDFN Exposed Pad: 4 of 4
+piece all/N-Channel/9-PowerTDFN: 16 of 16
+piece all/N-Channel/9-PowerWDFN: 19 of 19
+piece all/N-Channel/10-LSOP (0.209", 5.30mm Width) Exposed Pad: 4 of 4
+piece all/N-Channel/10-LSOP (0.216", 5.48mm Width) Exposed Pad: 8 of 8
+piece all/N-Channel/10-PowerSOP Module: 7 of 7
+piece all/N-Channel/12-PowerTDFN: 5 of 5
+piece all/N-Channel/16-PowerSOP Module: 38 of 38
+piece all/N-Channel/16-UFBGA, WLBGA: 3 of 3
+piece all/N-Channel/20-BFSOP (0.295", 7.50mm Width): 3 of 3
+piece all/N-Channel/22-PowerBSOP Module: 88 of 88
+piece all/N-Channel/-: 6 of 6
+piece all/N-Channel/DirectFET™ Isometric L8: 6 of 6
+piece all/N-Channel/DirectFET™ Isometric M2: 1 of 1
+piece all/N-Channel/DirectFET™ Isometric ME: 3 of 3
+piece all/N-Channel/DirectFET™ Isometric MF: 2 of 2
+piece all/N-Channel/DirectFET™ Isometric MN: 2 of 2
+piece all/N-Channel/DirectFET™ Isometric MP: 1 of 1
+piece all/N-Channel/DirectFET™ Isometric MT: 2 of 2
+piece all/N-Channel/DirectFET™ Isometric MX: 6 of 6
+piece all/N-Channel/DirectFET™ Isometric SB: 1 of 1
+piece all/N-Channel/DirectFET™ Isometric SJ: 1 of 1
+piece all/N-Channel/DirectFET™ Isometric SQ: 2 of 2
+piece all/N-Channel/DirectFET™ Isometric ST: 2 of 2
+piece all/N-Channel/Module: 1 of 1
+piece all/N-Channel/SC-100, SOT-669: 6 of 6
+piece all/N-Channel/SC-70, SOT-323: 2 of 2
+piece all/N-Channel/SOT-23-6: 1 of 1
+piece all/N-Channel/SOT-23-6 Thin, TSOT-23-6: 3 of 3
+piece all/N-Channel/TO-220-3: 222 of 222
+piece all/N-Channel/TO-220-3 Full Pack: 78 of 78
+piece all/N-Channel/TO-236-3, SC-59, SOT-23-3: 28 of 28
+piece all/N-Channel/TO-243AA: 3 of 3
+piece all/N-Channel/TO-247-3: 139 of 139
+piece all/N-Channel/TO-247-4: 109 of 109
+piece all/N-Channel/TO-251-3 Short Leads, IPAK, TO-251AA: 8 of 8
+piece all/N-Channel/TO-251-3 Stub Leads, IPAK: 2 of 2
+piece all/N-Channel/TO-252-3, DPAK (2 Leads + Tab), SC-63: 198 of 198
+piece all/N-Channel/TO-261-3: 3 of 3
+piece all/N-Channel/TO-261-4, TO-261AA: 34 of 34
+piece all/N-Channel/TO-262-3 Long Leads, I2PAK, TO-262AA: 27 of 27
+piece all/N-Channel/TO-263-3, D2PAK (2 Leads + Tab), TO-263AB: 180 of 180
+piece all/N-Channel/TO-263-4, D2PAK (3 Leads + Tab), TO-263AA: 2 of 2
+piece all/N-Channel/TO-263-5, D2PAK (4 Leads + Tab), TO-263BB: 1 of 1
+piece all/N-Channel/TO-263-7, D2PAK (6 Leads + Tab): 46 of 46
+piece all/N-Channel/TO-263-7, D2PAK (6 Leads + Tab), TO-263CB: 8 of 8
+piece all/N-Channel/TO-263-8, D2PAK (7 Leads + Tab), TO-263CA: 81 of 81
+piece all/N-Channel: 300 of 1986 (cut at 300: 10721)
+piece all/N-Channel, Depletion Mode: 8 of 8
+piece all/P-Channel: 120 of 120
+piece all: 300 of 2173 (cut at 300: 13354)
+top.js: 278/448: 2144 parts, 106 calls, 382 left today
