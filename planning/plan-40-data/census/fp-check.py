@@ -35,10 +35,14 @@ def known_ids():
 
 
 def load_map():
+    """footprint-map.tsv, and the per-letter footprint-map-<L>.tsv files the
+    C, D and E work writes before they are merged into it."""
     fmap = {}
-    if os.path.exists(MAP):
-        for r in csv.DictReader(open(MAP), delimiter="\t"):
-            fmap[(r["letter"], r["maker"], r["package"], r["supplier"])] = r
+    paths = [MAP] + [os.path.join(DATA, f"footprint-map-{L}.tsv") for L in "CDE"]
+    for path in paths:
+        if os.path.exists(path):
+            for r in csv.DictReader(open(path), delimiter="\t"):
+                fmap[(r["letter"], r["maker"], r["package"], r["supplier"])] = r
     return fmap
 
 

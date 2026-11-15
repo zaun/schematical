@@ -680,167 +680,167 @@ Infineon Technologies	SIPMOS®	datasheets/transistor/infineon/Infineon-BSS126I-D
 Infineon Technologies	StrongIRFET™	datasheets/transistor/infineon/infineon-irf150p220-datasheet-en.pdf	TO-247-3	1	IRF150P220AKMA1				
 Infineon Technologies	StrongIRFET™ 2	datasheets/transistor/infineon/infineon-ipp024n08nf2s-datasheet-cn.pdf	TO-220-3	1	IPP024N08NF2SAKMA1				
 Infineon Technologies	StrongIRFET™2	datasheets/transistor/infineon/Infineon-IPD038N06NF2S-DataSheet-v02_01-EN.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	IPD038N06NF2SATMA1				
-Nexperia	-	datasheets/transistor/nexperia/2PA1576S.pdf	SC-70, SOT-323	2	2PA1576S,135				
-Nexperia	-	datasheets/transistor/nexperia/BC51XPAS_SER.pdf	3-UDFN Exposed Pad	1	BC51PASX				
-Nexperia	-	datasheets/transistor/nexperia/BC52XPAS_SER.pdf	3-UDFN Exposed Pad	1	BC52-16PASX				
-Nexperia	-	datasheets/transistor/nexperia/BC53XPAS_SER.pdf	3-UDFN Exposed Pad	1	BC53PASX				
-Nexperia	-	datasheets/transistor/nexperia/BC68PAS_SER.pdf	3-UDFN Exposed Pad	1	BC68PASX				
-Nexperia	-	datasheets/transistor/nexperia/BC68PA_SER.pdf	3-PowerUDFN	2	BC68-25PA,115				
-Nexperia	-	datasheets/transistor/nexperia/BC69PAS_SER.pdf	3-UDFN Exposed Pad	2	BC69-16PASX				
-Nexperia	-	datasheets/transistor/nexperia/BC807W_SER.pdf	SC-70, SOT-323	1	BC807W,135				
-Nexperia	-	datasheets/transistor/nexperia/BC807_SER.pdf	TO-236-3, SC-59, SOT-23-3	2	BC807-25,235				
-Nexperia	-	datasheets/transistor/nexperia/BC817DPN.pdf	SC-74, SOT-457	1	BC817DPN,125				
+Nexperia	-	datasheets/transistor/nexperia/2PA1576S.pdf	SC-70, SOT-323	2	2PA1576S,135	2PA1576S,\d{3}	SOT-323	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/BC51XPAS_SER.pdf	3-UDFN Exposed Pad	1	BC51PASX	(BC51PAS|BC51\-10PAS|BC51\-16PAS)X	DFN2020D-3	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/BC52XPAS_SER.pdf	3-UDFN Exposed Pad	1	BC52-16PASX	(BC52PAS|BC52\-10PAS|BC52\-16PAS)X	DFN2020D-3	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/BC53XPAS_SER.pdf	3-UDFN Exposed Pad	1	BC53PASX	(BC53PAS|BC53\-10PAS|BC53\-16PAS)X	DFN2020D-3	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/BC68PAS_SER.pdf	3-UDFN Exposed Pad	1	BC68PASX	(BC68PAS|BC68\-25PAS)X	DFN2020D-3	B,E,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/BC68PA_SER.pdf	3-PowerUDFN	2	BC68-25PA,115	(BC68PA|BC68\-25PA),\d{3}	DFN2020-3	B,E,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/BC69PAS_SER.pdf	3-UDFN Exposed Pad	2	BC69-16PASX	(BC69PAS|BC69\-16PAS|BC69\-25PAS)X	DFN2020D-3	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/BC807W_SER.pdf	SC-70, SOT-323	1	BC807W,135	(BC807W|BC807\-16W|BC807\-25W|BC807\-40W),\d{3}	SOT-323	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/BC807_SER.pdf	TO-236-3, SC-59, SOT-23-3	2	BC807-25,235	(BC807|BC807\-16|BC807\-25|BC807\-40),\d{3}	SOT-23	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/BC817DPN.pdf	SC-74, SOT-457	1	BC817DPN,125	BC817DPN,\d{3}	SC-74	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;pnp:B2,C2,E2
 Nexperia	-	datasheets/transistor/nexperia/BC817DS.pdf	SC-74, SOT-457	1	BC817DSF				
-Nexperia	-	datasheets/transistor/nexperia/BC817W_SER.pdf	SC-70, SOT-323	7	BC817-40W,115				
-Nexperia	-	datasheets/transistor/nexperia/BC817_SER.pdf	TO-236-3, SC-59, SOT-23-3	7	BC817-40,235				
+Nexperia	-	datasheets/transistor/nexperia/BC817W_SER.pdf	SC-70, SOT-323	7	BC817-40W,115	(BC817W|BC817\-16W|BC817\-25W|BC817\-40W),\d{3}	SOT-323	B,E,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/BC817_SER.pdf	TO-236-3, SC-59, SOT-23-3	7	BC817-40,235	(BC817|BC817\-16|BC817\-25|BC817\-40),\d{3}	SOT-23	B,E,C	npn:B,C,E
 Nexperia	-	datasheets/transistor/nexperia/BC846BS.pdf	6-TSSOP, SC-88, SOT-363	1	BC846BS,135				
-Nexperia	-	datasheets/transistor/nexperia/BC846S.pdf	6-TSSOP, SC-88, SOT-363	4	BC846SZ				
-Nexperia	-	datasheets/transistor/nexperia/BC847BPN.pdf	6-TSSOP, SC-88, SOT-363	2	BC847BPN,125				
-Nexperia	-	datasheets/transistor/nexperia/BC847DS.pdf	SC-74, SOT-457	1	BC847DS,115				
-Nexperia	-	datasheets/transistor/nexperia/BC847X_SER.pdf	TO-236-3, SC-59, SOT-23-3	4	BC847C,235				
-Nexperia	-	datasheets/transistor/nexperia/BC856BM.pdf	SC-101, SOT-883	1	BC856BMYL				
-Nexperia	-	datasheets/transistor/nexperia/BC856S.pdf	6-TSSOP, SC-88, SOT-363	1	BC856SF				
-Nexperia	-	datasheets/transistor/nexperia/BC856W_BC857W_BC858W.pdf	SC-70, SOT-323	8	BC858W,135				
-Nexperia	-	datasheets/transistor/nexperia/BC856_BC857_BC858.pdf	TO-236-3, SC-59, SOT-23-3	5	BC857C,235				
-Nexperia	-	datasheets/transistor/nexperia/BC857BS.pdf	6-TSSOP, SC-88, SOT-363	1	BC857BS,135				
-Nexperia	-	datasheets/transistor/nexperia/BC857M_SERIES.pdf	SC-101, SOT-883	2	BC857AM,315				
-Nexperia	-	datasheets/transistor/nexperia/BCV72.pdf	TO-236-3, SC-59, SOT-23-3	1	BCV72,215				
-Nexperia	-	datasheets/transistor/nexperia/BCW89.pdf	TO-236-3, SC-59, SOT-23-3	1	BCW89-QR				
-Nexperia	-	datasheets/transistor/nexperia/BCX70.pdf	TO-236-3, SC-59, SOT-23-3	3	BCX70K,215				
-Nexperia	-	datasheets/transistor/nexperia/BCX71.pdf	TO-236-3, SC-59, SOT-23-3	3	BCX71H,235				
-Nexperia	-	datasheets/transistor/nexperia/BF820.pdf	TO-236-3, SC-59, SOT-23-3	1	BF820,235				
-Nexperia	-	datasheets/transistor/nexperia/BF822.pdf	TO-236-3, SC-59, SOT-23-3	1	BF822,215				
-Nexperia	-	datasheets/transistor/nexperia/MJD148.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	MJD148J				
+Nexperia	-	datasheets/transistor/nexperia/BC846S.pdf	6-TSSOP, SC-88, SOT-363	4	BC846SZ	BC846S(,\d{3}|F|Z)	SOT-363	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;npn:B2,C2,E2
+Nexperia	-	datasheets/transistor/nexperia/BC847BPN.pdf	6-TSSOP, SC-88, SOT-363	2	BC847BPN,125	BC847BPN,\d{3}	SOT-363	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;pnp:B2,C2,E2
+Nexperia	-	datasheets/transistor/nexperia/BC847DS.pdf	SC-74, SOT-457	1	BC847DS,115	BC847DS,\d{3}	SC-74	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;npn:B2,C2,E2
+Nexperia	-	datasheets/transistor/nexperia/BC847X_SER.pdf	TO-236-3, SC-59, SOT-23-3	4	BC847C,235	(BC847|BC847A|BC847B|BC847C),\d{3}	SOT-23	B,E,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/BC856BM.pdf	SC-101, SOT-883	1	BC856BMYL	BC856BMYL	SOT-883	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/BC856S.pdf	6-TSSOP, SC-88, SOT-363	1	BC856SF	BC856SF	SOT-363	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;pnp:B2,C2,E2
+Nexperia	-	datasheets/transistor/nexperia/BC856W_BC857W_BC858W.pdf	SC-70, SOT-323	8	BC858W,135	(BC856W|BC856AW|BC856BW|BC857W|BC857AW|BC857BW|BC857CW|BC858W),\d{3}	SOT-323	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/BC856_BC857_BC858.pdf	TO-236-3, SC-59, SOT-23-3	5	BC857C,235	(BC856|BC856A|BC856B|BC857|BC857A|BC857B|BC857C|BC858B),\d{3}	SOT-23	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/BC857BS.pdf	6-TSSOP, SC-88, SOT-363	1	BC857BS,135	BC857BS,\d{3}	SOT-363	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;pnp:B2,C2,E2
+Nexperia	-	datasheets/transistor/nexperia/BC857M_SERIES.pdf	SC-101, SOT-883	2	BC857AM,315	(BC857AM|BC857BM|BC857CM),\d{3}	SOT-883	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/BCV72.pdf	TO-236-3, SC-59, SOT-23-3	1	BCV72,215	BCV72,\d{3}	SOT-23	B,E,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/BCW89.pdf	TO-236-3, SC-59, SOT-23-3	1	BCW89-QR	BCW89,(215|235)	SOT-23	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/BCX70.pdf	TO-236-3, SC-59, SOT-23-3	3	BCX70K,215	(BCX70G|BCX70H|BCX70J|BCX70K),\d{3}	SOT-23	B,E,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/BCX71.pdf	TO-236-3, SC-59, SOT-23-3	3	BCX71H,235	(BCX71H|BCX71J|BCX71K),\d{3}	SOT-23	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/BF820.pdf	TO-236-3, SC-59, SOT-23-3	1	BF820,235	BF820,\d{3}	SOT-23	B,E,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/BF822.pdf	TO-236-3, SC-59, SOT-23-3	1	BF822,215	BF822,\d{3}	SOT-23	B,E,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/MJD148.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	MJD148J	MJD148J	DPAK	B,C,E	npn:B,C,E
 Nexperia	-	datasheets/transistor/nexperia/MJD31C.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	MJD31CJ				
 Nexperia	-	datasheets/transistor/nexperia/MJD32C.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	MJD32CJ				
 Nexperia	-	datasheets/transistor/nexperia/MJD41C.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	MJD41CJ				
-Nexperia	-	datasheets/transistor/nexperia/MJD42C.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	MJD42CJ				
-Nexperia	-	datasheets/transistor/nexperia/MJD44H11.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	MJD44H11J				
-Nexperia	-	datasheets/transistor/nexperia/MJPE2873.pdf	TO-277, 3-PowerDFN	1	MJPE2873Z				
-Nexperia	-	datasheets/transistor/nexperia/MJPE31C.pdf	TO-277, 3-PowerDFN	1	MJPE31CZ				
-Nexperia	-	datasheets/transistor/nexperia/MJPE31CH.pdf	TO-277, 3-PowerDFN	1	MJPE31CHZ				
-Nexperia	-	datasheets/transistor/nexperia/MJPE32C.pdf	TO-277, 3-PowerDFN	1	MJPE32CZ				
-Nexperia	-	datasheets/transistor/nexperia/MJPE44H11.pdf	TO-277, 3-PowerDFN	1	MJPE44H11Z				
-Nexperia	-	datasheets/transistor/nexperia/MJPE45H11.pdf	TO-277, 3-PowerDFN	1	MJPE45H11Z				
-Nexperia	-	datasheets/transistor/nexperia/MMBT3904.pdf	TO-236-3, SC-59, SOT-23-3	1	MMBT3904VL				
-Nexperia	-	datasheets/transistor/nexperia/MMBTA42.pdf	TO-236-3, SC-59, SOT-23-3	1	MMBTA42,215				
-Nexperia	-	datasheets/transistor/nexperia/PBHV8115T.pdf	TO-236-3, SC-59, SOT-23-3	1	PBHV8115T,215				
-Nexperia	-	datasheets/transistor/nexperia/PBHV9414Z.pdf	TO-261-4, TO-261AA	1	PBHV9414ZX				
-Nexperia	-	datasheets/transistor/nexperia/PBLS1501Y_PBLS1501V.pdf	6-TSSOP, SC-88, SOT-363	1	PBLS1501Y,115				
-Nexperia	-	datasheets/transistor/nexperia/PBLS1503Y_PBLS1503V.pdf	6-TSSOP, SC-88, SOT-363	1	PBLS1503Y,115				
-Nexperia	-	datasheets/transistor/nexperia/PBLS1504Y_PBLS1504V.pdf	6-TSSOP, SC-88, SOT-363	1	PBLS1504Y,115				
-Nexperia	-	datasheets/transistor/nexperia/PBLS2002D.pdf	SC-74, SOT-457	1	PBLS2002D,115				
+Nexperia	-	datasheets/transistor/nexperia/MJD42C.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	MJD42CJ	MJD42CJ	DPAK	B,C,E	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/MJD44H11.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	MJD44H11J	MJD44H11J	DPAK	B,C,E	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/MJPE2873.pdf	TO-277, 3-PowerDFN	1	MJPE2873Z	MJPE2873Z	CFP15B	E,B,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/MJPE31C.pdf	TO-277, 3-PowerDFN	1	MJPE31CZ	MJPE31CZ	CFP15B	E,B,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/MJPE31CH.pdf	TO-277, 3-PowerDFN	1	MJPE31CHZ	MJPE31CHZ	CFP15B	E,B,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/MJPE32C.pdf	TO-277, 3-PowerDFN	1	MJPE32CZ	MJPE32CZ	CFP15B	E,B,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/MJPE44H11.pdf	TO-277, 3-PowerDFN	1	MJPE44H11Z	MJPE44H11Z	CFP15B	E,B,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/MJPE45H11.pdf	TO-277, 3-PowerDFN	1	MJPE45H11Z	MJPE45H11Z	CFP15B	E,B,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/MMBT3904.pdf	TO-236-3, SC-59, SOT-23-3	1	MMBT3904VL	MMBT3904VL	SOT-23	B,E,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/MMBTA42.pdf	TO-236-3, SC-59, SOT-23-3	1	MMBTA42,215	MMBTA42,\d{3}	SOT-23	B,E,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PBHV8115T.pdf	TO-236-3, SC-59, SOT-23-3	1	PBHV8115T,215	PBHV8115T,\d{3}	SOT-23	B,E,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PBHV9414Z.pdf	TO-261-4, TO-261AA	1	PBHV9414ZX	PBHV9414ZX	SOT-223	B,C,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PBLS1501Y_PBLS1501V.pdf	6-TSSOP, SC-88, SOT-363	1	PBLS1501Y,115	PBLS1501Y,(115|125|135|165)	SOT-363	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;npn:B2,C2,E2
+Nexperia	-	datasheets/transistor/nexperia/PBLS1503Y_PBLS1503V.pdf	6-TSSOP, SC-88, SOT-363	1	PBLS1503Y,115	PBLS1503Y,(115|125|135|165)	SOT-363	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;npn:B2,C2,E2
+Nexperia	-	datasheets/transistor/nexperia/PBLS1504Y_PBLS1504V.pdf	6-TSSOP, SC-88, SOT-363	1	PBLS1504Y,115	PBLS1504Y,(115|125|135|165)	SOT-363	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;npn:B2,C2,E2
+Nexperia	-	datasheets/transistor/nexperia/PBLS2002D.pdf	SC-74, SOT-457	1	PBLS2002D,115	PBLS2002D,(115|125|135|165)	SC-74	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;npn:B2,C2,E2
 Nexperia	-	datasheets/transistor/nexperia/PBLS2003D.pdf	SC-74, SOT-457	1	PBLS2003D,115				
 Nexperia	-	datasheets/transistor/nexperia/PBLS4001Y_PBLS4001V.pdf	6-TSSOP, SC-88, SOT-363	1	PBLS4001Y,115				
-Nexperia	-	datasheets/transistor/nexperia/PBLS4002Y.pdf	6-TSSOP, SC-88, SOT-363	1	PBLS4002Y,115				
-Nexperia	-	datasheets/transistor/nexperia/PBLS4003D.pdf	SC-74, SOT-457	1	PBLS4003D,115				
+Nexperia	-	datasheets/transistor/nexperia/PBLS4002Y.pdf	6-TSSOP, SC-88, SOT-363	1	PBLS4002Y,115	PBLS4002Y,\d{3}	SOT-363	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;npn:B2,C2,E2
+Nexperia	-	datasheets/transistor/nexperia/PBLS4003D.pdf	SC-74, SOT-457	1	PBLS4003D,115	PBLS4003D,\d{3}	SC-74	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;npn:B2,C2,E2
 Nexperia	-	datasheets/transistor/nexperia/PBLS4003Y_PBLS4003V.pdf	6-TSSOP, SC-88, SOT-363	1	PBLS4003Y,115				
 Nexperia	-	datasheets/transistor/nexperia/PBLS4005Y_PBLS4005V.pdf	6-TSSOP, SC-88, SOT-363	1	PBLS4005Y,115				
-Nexperia	-	datasheets/transistor/nexperia/PBLS6001D.pdf	SC-74, SOT-457	1	PBLS6001D,115				
-Nexperia	-	datasheets/transistor/nexperia/PBLS6002D.pdf	SC-74, SOT-457	1	PBLS6002D,115				
-Nexperia	-	datasheets/transistor/nexperia/PBLS6003D.pdf	SC-74, SOT-457	1	PBLS6003D,115				
-Nexperia	-	datasheets/transistor/nexperia/PBLS6023D.pdf	SC-74, SOT-457	1	PBLS6023D,115				
+Nexperia	-	datasheets/transistor/nexperia/PBLS6001D.pdf	SC-74, SOT-457	1	PBLS6001D,115	PBLS6001D,\d{3}	SC-74	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;npn:B2,C2,E2
+Nexperia	-	datasheets/transistor/nexperia/PBLS6002D.pdf	SC-74, SOT-457	1	PBLS6002D,115	PBLS6002D,\d{3}	SC-74	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;npn:B2,C2,E2
+Nexperia	-	datasheets/transistor/nexperia/PBLS6003D.pdf	SC-74, SOT-457	1	PBLS6003D,115	PBLS6003D,\d{3}	SC-74	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;npn:B2,C2,E2
+Nexperia	-	datasheets/transistor/nexperia/PBLS6023D.pdf	SC-74, SOT-457	1	PBLS6023D,115	PBLS6023D,\d{3}	SC-74	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;npn:B2,C2,E2
 Nexperia	-	datasheets/transistor/nexperia/PBRN113ET.pdf	TO-236-3, SC-59, SOT-23-3	1	PBRN113ET,215				
-Nexperia	-	datasheets/transistor/nexperia/PBRN113ZT.pdf	TO-236-3, SC-59, SOT-23-3	1	PBRN113ZT,215				
+Nexperia	-	datasheets/transistor/nexperia/PBRN113ZT.pdf	TO-236-3, SC-59, SOT-23-3	1	PBRN113ZT,215	PBRN113ZT,\d{3}	SOT-23	B,E,C	npn:B,C,E
 Nexperia	-	datasheets/transistor/nexperia/PBRN123ET.pdf	TO-236-3, SC-59, SOT-23-3	1	PBRN123ET,215				
-Nexperia	-	datasheets/transistor/nexperia/PBRN123YT.pdf	TO-236-3, SC-59, SOT-23-3	1	PBRN123YT,215				
+Nexperia	-	datasheets/transistor/nexperia/PBRN123YT.pdf	TO-236-3, SC-59, SOT-23-3	1	PBRN123YT,215	PBRN123YT,\d{3}	SOT-23	B,E,C	npn:B,C,E
 Nexperia	-	datasheets/transistor/nexperia/PBRP113ET.pdf	TO-236-3, SC-59, SOT-23-3	1	PBRP113ET,215				
-Nexperia	-	datasheets/transistor/nexperia/PBRP113ZT.pdf	TO-236-3, SC-59, SOT-23-3	1	PBRP113ZT,215				
-Nexperia	-	datasheets/transistor/nexperia/PBRP123ET.pdf	TO-236-3, SC-59, SOT-23-3	1	PBRP123ET,215				
+Nexperia	-	datasheets/transistor/nexperia/PBRP113ZT.pdf	TO-236-3, SC-59, SOT-23-3	1	PBRP113ZT,215	PBRP113ZT,\d{3}	SOT-23	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PBRP123ET.pdf	TO-236-3, SC-59, SOT-23-3	1	PBRP123ET,215	PBRP123ET,\d{3}	SOT-23	B,E,C	pnp:B,C,E
 Nexperia	-	datasheets/transistor/nexperia/PBRP123YT.pdf	TO-236-3, SC-59, SOT-23-3	1	PBRP123YT,215				
-Nexperia	-	datasheets/transistor/nexperia/PBSS301ND.pdf	SC-74, SOT-457	1	PBSS301ND,115				
-Nexperia	-	datasheets/transistor/nexperia/PBSS304PD.pdf	SC-74, SOT-457	1	PBSS304PD,115				
-Nexperia	-	datasheets/transistor/nexperia/PBSS3515M.pdf	SC-101, SOT-883	1	PBSS3515M,315				
-Nexperia	-	datasheets/transistor/nexperia/PBSS4041PZ.pdf	TO-261-4, TO-261AA	1	PBSS4041PZ,115				
-Nexperia	-	datasheets/transistor/nexperia/PBSS4140T.pdf	TO-236-3, SC-59, SOT-23-3	2	PBSS4140T,215				
-Nexperia	-	datasheets/transistor/nexperia/PBSS4240X.pdf	TO-243AA	1	PBSS4240XX				
-Nexperia	-	datasheets/transistor/nexperia/PBSS4330PAS.pdf	3-UDFN Exposed Pad	1	PBSS4330PASX				
-Nexperia	-	datasheets/transistor/nexperia/PBSS5160T-Q.pdf	TO-236-3, SC-59, SOT-23-3	1	PBSS5160T-QR				
-Nexperia	-	datasheets/transistor/nexperia/PBSS5220T.pdf	TO-236-3, SC-59, SOT-23-3	1	PBSS5220T,215				
-Nexperia	-	datasheets/transistor/nexperia/PBSS5330PA.pdf	3-PowerUDFN	2	PBSS5330PA,135				
-Nexperia	-	datasheets/transistor/nexperia/PBSS5350D.pdf	SC-74, SOT-457	1	PBSS5350D,115				
-Nexperia	-	datasheets/transistor/nexperia/PBSS9110Z.pdf	TO-261-4, TO-261AA	1	PBSS9110Z,135				
-Nexperia	-	datasheets/transistor/nexperia/PDTA114ET.pdf	TO-236-3, SC-59, SOT-23-3	2	PDTA114ET,235				
-Nexperia	-	datasheets/transistor/nexperia/PDTA114EU.pdf	SC-70, SOT-323	2	PDTA114EU,135				
-Nexperia	-	datasheets/transistor/nexperia/PDTA123Y_SER.pdf	SC-70, SOT-323	1	PDTA123YU,115				
-Nexperia	-	datasheets/transistor/nexperia/PDTA124T_SERIES.pdf	SC-70, SOT-323	1	PDTA124TU,115				
-Nexperia	-	datasheets/transistor/nexperia/PDTA124T_SERIES.pdf	TO-236-3, SC-59, SOT-23-3	1	PDTA124TT,215				
+Nexperia	-	datasheets/transistor/nexperia/PBSS301ND.pdf	SC-74, SOT-457	1	PBSS301ND,115	PBSS301ND,(115|125|135|165)	SC-74	C,C,B,E,C,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PBSS304PD.pdf	SC-74, SOT-457	1	PBSS304PD,115	PBSS304PD,(115|125|135|165)	SC-74	C,C,B,E,C,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PBSS3515M.pdf	SC-101, SOT-883	1	PBSS3515M,315	PBSS3515M,\d{3}	SOT-883	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PBSS4041PZ.pdf	TO-261-4, TO-261AA	1	PBSS4041PZ,115	PBSS4041PZ,\d{3}	SOT-223	B,C,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PBSS4140T.pdf	TO-236-3, SC-59, SOT-23-3	2	PBSS4140T,215	PBSS4140T,\d{3}	SOT-23	B,E,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PBSS4240X.pdf	TO-243AA	1	PBSS4240XX	PBSS4240XX	SOT-89	E,C,B	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PBSS4330PAS.pdf	3-UDFN Exposed Pad	1	PBSS4330PASX	PBSS4330PASX	DFN2020D-3	B,E,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PBSS5160T-Q.pdf	TO-236-3, SC-59, SOT-23-3	1	PBSS5160T-QR	PBSS5160T\-QR	SOT-23	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PBSS5220T.pdf	TO-236-3, SC-59, SOT-23-3	1	PBSS5220T,215	PBSS5220T,\d{3}	SOT-23	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PBSS5330PA.pdf	3-PowerUDFN	2	PBSS5330PA,135	PBSS5330PA,\d{3}	DFN2020-3	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PBSS5350D.pdf	SC-74, SOT-457	1	PBSS5350D,115	PBSS5350D,\d{3}	SC-74	C,C,B,E,C,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PBSS9110Z.pdf	TO-261-4, TO-261AA	1	PBSS9110Z,135	PBSS9110Z,\d{3}	SOT-223	B,C,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PDTA114ET.pdf	TO-236-3, SC-59, SOT-23-3	2	PDTA114ET,235	PDTA114ET,\d{3}	SOT-23	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PDTA114EU.pdf	SC-70, SOT-323	2	PDTA114EU,135	PDTA114EU,\d{3}	SOT-323	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PDTA123Y_SER.pdf	SC-70, SOT-323	1	PDTA123YU,115	PDTA123YU,(115|135)	SOT-323	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PDTA124T_SERIES.pdf	SC-70, SOT-323	1	PDTA124TU,115	PDTA124TU,\d{3}	SOT-323	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PDTA124T_SERIES.pdf	TO-236-3, SC-59, SOT-23-3	1	PDTA124TT,215	PDTA124TT,\d{3}	SOT-23	B,E,C	pnp:B,C,E
 Nexperia	-	datasheets/transistor/nexperia/PDTA124X_SER.pdf	SC-70, SOT-323	1	PDTA124XU,115				
 Nexperia	-	datasheets/transistor/nexperia/PDTA143E_SER.pdf	SC-70, SOT-323	1	PDTA143EU,115				
 Nexperia	-	datasheets/transistor/nexperia/PDTA143E_SER.pdf	TO-236-3, SC-59, SOT-23-3	1	PDTA143ET,215				
 Nexperia	-	datasheets/transistor/nexperia/PDTA143T_SERIES.pdf	SC-70, SOT-323	1	PDTA143TU,115				
 Nexperia	-	datasheets/transistor/nexperia/PDTA143T_SERIES.pdf	TO-236-3, SC-59, SOT-23-3	1	PDTA143TT,215				
-Nexperia	-	datasheets/transistor/nexperia/PDTA143X_SER.pdf	SC-70, SOT-323	1	PDTA143XU,115				
-Nexperia	-	datasheets/transistor/nexperia/PDTA143X_SER.pdf	TO-236-3, SC-59, SOT-23-3	1	PDTA143XT,215				
-Nexperia	-	datasheets/transistor/nexperia/PDTA143ZM.pdf	SC-101, SOT-883	1	PDTA143ZM,315				
+Nexperia	-	datasheets/transistor/nexperia/PDTA143X_SER.pdf	SC-70, SOT-323	1	PDTA143XU,115	PDTA143XU,(115|135)	SOT-323	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PDTA143X_SER.pdf	TO-236-3, SC-59, SOT-23-3	1	PDTA143XT,215	PDTA143XT,(215|235)	SOT-23	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PDTA143ZM.pdf	SC-101, SOT-883	1	PDTA143ZM,315	PDTA143ZM,\d{3}	SOT-883	B,E,C	pnp:B,C,E
 Nexperia	-	datasheets/transistor/nexperia/PDTA143ZT.pdf	TO-236-3, SC-59, SOT-23-3	2	PDTA143ZT,215				
 Nexperia	-	datasheets/transistor/nexperia/PDTA143ZU.pdf	SC-70, SOT-323	1	PDTA143ZU,115				
 Nexperia	-	datasheets/transistor/nexperia/PDTA144E_SER.pdf	SC-101, SOT-883	1	PDTA144EM,315				
 Nexperia	-	datasheets/transistor/nexperia/PDTA144E_SER.pdf	SC-70, SOT-323	2	PDTA144EU,135				
-Nexperia	-	datasheets/transistor/nexperia/PDTA144V_SER.pdf	SC-101, SOT-883	1	PDTA144VM,315				
-Nexperia	-	datasheets/transistor/nexperia/PDTA144V_SER.pdf	TO-236-3, SC-59, SOT-23-3	1	PDTA144VT,215				
-Nexperia	-	datasheets/transistor/nexperia/PDTA144W_SERIES.pdf	SC-70, SOT-323	1	PDTA144WU,115				
+Nexperia	-	datasheets/transistor/nexperia/PDTA144V_SER.pdf	SC-101, SOT-883	1	PDTA144VM,315	PDTA144VM,(315)	SOT-883	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PDTA144V_SER.pdf	TO-236-3, SC-59, SOT-23-3	1	PDTA144VT,215	PDTA144VT,(215|235)	SOT-23	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PDTA144W_SERIES.pdf	SC-70, SOT-323	1	PDTA144WU,115	PDTA144WU,\d{3}	SOT-323	B,E,C	pnp:B,C,E
 Nexperia	-	datasheets/transistor/nexperia/PDTB113ET.pdf	TO-236-3, SC-59, SOT-23-3	1	PDTB113ET,215				
-Nexperia	-	datasheets/transistor/nexperia/PDTB113ZT.pdf	TO-236-3, SC-59, SOT-23-3	1	PDTB113ZT,215				
-Nexperia	-	datasheets/transistor/nexperia/PDTB123TT.pdf	TO-236-3, SC-59, SOT-23-3	1	PDTB123TT,215				
+Nexperia	-	datasheets/transistor/nexperia/PDTB113ZT.pdf	TO-236-3, SC-59, SOT-23-3	1	PDTB113ZT,215	PDTB113ZT,\d{3}	SOT-23	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PDTB123TT.pdf	TO-236-3, SC-59, SOT-23-3	1	PDTB123TT,215	PDTB123TT,(215|235)	SOT-23	B,E,C	pnp:B,C,E
 Nexperia	-	datasheets/transistor/nexperia/PDTB123YT.pdf	TO-236-3, SC-59, SOT-23-3	1	PDTB123YT,215				
-Nexperia	-	datasheets/transistor/nexperia/PDTB1XXXU_SER.pdf	SC-70, SOT-323	2	PDTB113ZUF				
-Nexperia	-	datasheets/transistor/nexperia/PDTC114EU.pdf	SC-70, SOT-323	1	PDTC114EU,135				
-Nexperia	-	datasheets/transistor/nexperia/PDTC114T_SER.pdf	SC-101, SOT-883	1	PDTC114TM,315				
-Nexperia	-	datasheets/transistor/nexperia/PDTC114T_SER.pdf	TO-236-3, SC-59, SOT-23-3	2	PDTC114TT,215				
-Nexperia	-	datasheets/transistor/nexperia/PDTC115EMB.pdf	SC-101, SOT-883	1	PDTC115EMB,315				
-Nexperia	-	datasheets/transistor/nexperia/PDTC115T_SER.pdf	TO-236-3, SC-59, SOT-23-3	1	PDTC115TT,215				
-Nexperia	-	datasheets/transistor/nexperia/PDTC123JT.pdf	TO-236-3, SC-59, SOT-23-3	2	PDTC123JT,235				
+Nexperia	-	datasheets/transistor/nexperia/PDTB1XXXU_SER.pdf	SC-70, SOT-323	2	PDTB113ZUF	(PDTB113EU|PDTB113ZU|PDTB123EU|PDTB123YU|PDTB143EU|PDTB143XU|PDTB114EU)(F|X)	SOT-323	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PDTC114EU.pdf	SC-70, SOT-323	1	PDTC114EU,135	PDTC114EU,\d{3}	SOT-323	B,E,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PDTC114T_SER.pdf	SC-101, SOT-883	1	PDTC114TM,315	PDTC114TM,(315)	SOT-883	B,E,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PDTC114T_SER.pdf	TO-236-3, SC-59, SOT-23-3	2	PDTC114TT,215	PDTC114TT,(215|235)	SOT-23	B,E,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PDTC115EMB.pdf	SC-101, SOT-883	1	PDTC115EMB,315	PDTC115EMB,\d{3}	DFN1006B-3	B,E,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PDTC115T_SER.pdf	TO-236-3, SC-59, SOT-23-3	1	PDTC115TT,215	PDTC115TT,(215|235)	SOT-23	B,E,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PDTC123JT.pdf	TO-236-3, SC-59, SOT-23-3	2	PDTC123JT,235	PDTC123JT,\d{3}	SOT-23	B,E,C	npn:B,C,E
 Nexperia	-	datasheets/transistor/nexperia/PDTC123T_SER.pdf	TO-236-3, SC-59, SOT-23-3	1	PDTC123TT,215				
-Nexperia	-	datasheets/transistor/nexperia/PDTC124ET.pdf	TO-236-3, SC-59, SOT-23-3	1	PDTC124ET,215				
-Nexperia	-	datasheets/transistor/nexperia/PDTC143ZU.pdf	SC-70, SOT-323	1	PDTC143ZU,115				
-Nexperia	-	datasheets/transistor/nexperia/PDTC144ET.pdf	TO-236-3, SC-59, SOT-23-3	1	PDTC144ET,215				
-Nexperia	-	datasheets/transistor/nexperia/PDTC144EU.pdf	SC-70, SOT-323	2	PDTC144EU,115				
-Nexperia	-	datasheets/transistor/nexperia/PDTD113E_SER.pdf	TO-236-3, SC-59, SOT-23-3	1	PDTD113ET,215				
+Nexperia	-	datasheets/transistor/nexperia/PDTC124ET.pdf	TO-236-3, SC-59, SOT-23-3	1	PDTC124ET,215	PDTC124ET,\d{3}	SOT-23	B,E,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PDTC143ZU.pdf	SC-70, SOT-323	1	PDTC143ZU,115	PDTC143ZU,\d{3}	SOT-323	B,E,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PDTC144ET.pdf	TO-236-3, SC-59, SOT-23-3	1	PDTC144ET,215	PDTC144ET,\d{3}	SOT-23	B,E,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PDTC144EU.pdf	SC-70, SOT-323	2	PDTC144EU,115	PDTC144EU,\d{3}	SOT-323	B,E,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PDTD113E_SER.pdf	TO-236-3, SC-59, SOT-23-3	1	PDTD113ET,215	PDTD113ET,(215|235)	SOT-23	B,E,C	npn:B,C,E
 Nexperia	-	datasheets/transistor/nexperia/PDTD113ZT.pdf	TO-236-3, SC-59, SOT-23-3	1	PDTD113ZTVL				
-Nexperia	-	datasheets/transistor/nexperia/PEMX1.pdf	SOT-563, SOT-666	1	PEMX1,115				
-Nexperia	-	datasheets/transistor/nexperia/PHPT61002NYC.pdf	SC-100, SOT-669	1	PHPT61002NYCX				
+Nexperia	-	datasheets/transistor/nexperia/PEMX1.pdf	SOT-563, SOT-666	1	PEMX1,115	PEMX1,\d{3}	SOT-666	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;npn:B2,C2,E2
+Nexperia	-	datasheets/transistor/nexperia/PHPT61002NYC.pdf	SC-100, SOT-669	1	PHPT61002NYCX	PHPT61002NYCX	LFPAK	E,E,E,B,C	npn:B,C,E
 Nexperia	-	datasheets/transistor/nexperia/PHPT61002NYCLH.pdf	SC-100, SOT-669	1	PHPT61002NYCLHX				
 Nexperia	-	datasheets/transistor/nexperia/PHPT61002PYCLH.pdf	SC-100, SOT-669	1	PHPT61002PYCLHX				
-Nexperia	-	datasheets/transistor/nexperia/PIMC31PA.pdf	6-UFDFN Exposed Pad	1	PIMC31PAX				
-Nexperia	-	datasheets/transistor/nexperia/PIMC32.pdf	SC-74, SOT-457	1	PIMC32X				
+Nexperia	-	datasheets/transistor/nexperia/PIMC31PA.pdf	6-UFDFN Exposed Pad	1	PIMC31PAX	PIMC31PAX	DFN2020-6	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;pnp:B2,C2,E2
+Nexperia	-	datasheets/transistor/nexperia/PIMC32.pdf	SC-74, SOT-457	1	PIMC32X	PIMC32X	SC-74	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;pnp:B2,C2,E2
 Nexperia	-	datasheets/transistor/nexperia/PIMC32PA.pdf	6-UFDFN Exposed Pad	1	PIMC32PAX				
-Nexperia	-	datasheets/transistor/nexperia/PIMN31PA.pdf	6-UFDFN Exposed Pad	1	PIMN31PAX				
+Nexperia	-	datasheets/transistor/nexperia/PIMN31PA.pdf	6-UFDFN Exposed Pad	1	PIMN31PAX	PIMN31PAX	DFN2020-6	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;npn:B2,C2,E2
 Nexperia	-	datasheets/transistor/nexperia/PIMN32.pdf	SC-74, SOT-457	1	PIMN32X				
-Nexperia	-	datasheets/transistor/nexperia/PIMN32PA.pdf	6-UFDFN Exposed Pad	1	PIMN32PAX				
-Nexperia	-	datasheets/transistor/nexperia/PIMP31.pdf	SC-74, SOT-457	1	PIMP31X				
-Nexperia	-	datasheets/transistor/nexperia/PIMP31PA.pdf	6-UFDFN Exposed Pad	1	PIMP31PAX				
-Nexperia	-	datasheets/transistor/nexperia/PIMP32.pdf	SC-74, SOT-457	1	PIMP32X				
-Nexperia	-	datasheets/transistor/nexperia/PIMP32PA.pdf	6-UFDFN Exposed Pad	1	PIMP32PAX				
-Nexperia	-	datasheets/transistor/nexperia/PIMZ2_PUMZ2.pdf	6-TSSOP, SC-88, SOT-363	1	PUMZ2,115				
-Nexperia	-	datasheets/transistor/nexperia/PMBS3906.pdf	TO-236-3, SC-59, SOT-23-3	2	PMBS3906,235				
-Nexperia	-	datasheets/transistor/nexperia/PMBT2222AQA.pdf	3-XDFN Exposed Pad	1	PMBT2222AQAZ				
-Nexperia	-	datasheets/transistor/nexperia/PMBT3904QA.pdf	3-XDFN Exposed Pad	1	PMBT3904QAZ				
-Nexperia	-	datasheets/transistor/nexperia/PMBT5551.pdf	TO-236-3, SC-59, SOT-23-3	1	PMBT5551,235				
-Nexperia	-	datasheets/transistor/nexperia/PMBTA06.pdf	TO-236-3, SC-59, SOT-23-3	2	PMBTA06,215				
-Nexperia	-	datasheets/transistor/nexperia/PMMT591A.pdf	TO-236-3, SC-59, SOT-23-3	1	PMMT591A,215				
-Nexperia	-	datasheets/transistor/nexperia/PMP3906AYS.pdf	6-TSSOP, SC-88, SOT-363	1	PMP3906AYSH				
-Nexperia	-	datasheets/transistor/nexperia/PMP5201Y.pdf	6-TSSOP, SC-88, SOT-363	2	PMP5201Y,135				
-Nexperia	-	datasheets/transistor/nexperia/PMSS3904.pdf	SC-70, SOT-323	1	PMSS3904,115				
-Nexperia	-	datasheets/transistor/nexperia/PQMD12.pdf	6-XFDFN Exposed Pad	1	PQMD12Z				
+Nexperia	-	datasheets/transistor/nexperia/PIMN32PA.pdf	6-UFDFN Exposed Pad	1	PIMN32PAX	PIMN32PAX	DFN2020-6	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;npn:B2,C2,E2
+Nexperia	-	datasheets/transistor/nexperia/PIMP31.pdf	SC-74, SOT-457	1	PIMP31X	PIMP31X	SC-74	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;pnp:B2,C2,E2
+Nexperia	-	datasheets/transistor/nexperia/PIMP31PA.pdf	6-UFDFN Exposed Pad	1	PIMP31PAX	PIMP31PAX	DFN2020-6	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;pnp:B2,C2,E2
+Nexperia	-	datasheets/transistor/nexperia/PIMP32.pdf	SC-74, SOT-457	1	PIMP32X	PIMP32X	SC-74	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;pnp:B2,C2,E2
+Nexperia	-	datasheets/transistor/nexperia/PIMP32PA.pdf	6-UFDFN Exposed Pad	1	PIMP32PAX	PIMP32PAX	DFN2020-6	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;pnp:B2,C2,E2
+Nexperia	-	datasheets/transistor/nexperia/PIMZ2_PUMZ2.pdf	6-TSSOP, SC-88, SOT-363	1	PUMZ2,115	PUMZ2,\d{3}	SOT-363	E1,B1,B2,C2,E2,C1	pnp:B1,C1,E1;npn:B2,C2,E2
+Nexperia	-	datasheets/transistor/nexperia/PMBS3906.pdf	TO-236-3, SC-59, SOT-23-3	2	PMBS3906,235	PMBS3906,\d{3}	SOT-23	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PMBT2222AQA.pdf	3-XDFN Exposed Pad	1	PMBT2222AQAZ	PMBT2222AQAZ	DFN1010D-3	B,E,C,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PMBT3904QA.pdf	3-XDFN Exposed Pad	1	PMBT3904QAZ	PMBT3904QAZ	DFN1010D-3	B,E,C,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PMBT5551.pdf	TO-236-3, SC-59, SOT-23-3	1	PMBT5551,235	PMBT5551,\d{3}	SOT-23	B,E,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PMBTA06.pdf	TO-236-3, SC-59, SOT-23-3	2	PMBTA06,215	PMBTA06,\d{3}	SOT-23	B,E,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PMMT591A.pdf	TO-236-3, SC-59, SOT-23-3	1	PMMT591A,215	PMMT591A,\d{3}	SOT-23	B,E,C	pnp:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PMP3906AYS.pdf	6-TSSOP, SC-88, SOT-363	1	PMP3906AYSH	PMP3906AYSH	SOT-363	B1,B2,C2,E2,E1,C1	pnp:B1,C1,E1;pnp:B2,C2,E2
+Nexperia	-	datasheets/transistor/nexperia/PMP5201Y.pdf	6-TSSOP, SC-88, SOT-363	2	PMP5201Y,135	PMP5201Y,\d{3}	SOT-363	B1,B2,C2,E2,E1,C1	pnp:B1,C1,E1;pnp:B2,C2,E2
+Nexperia	-	datasheets/transistor/nexperia/PMSS3904.pdf	SC-70, SOT-323	1	PMSS3904,115	PMSS3904,\d{3}	SOT-323	B,E,C	npn:B,C,E
+Nexperia	-	datasheets/transistor/nexperia/PQMD12.pdf	6-XFDFN Exposed Pad	1	PQMD12Z	PQMD12Z	DFN1010B-6	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;pnp:B2,C2,E2
 Nexperia	-	datasheets/transistor/nexperia/PUMB11.pdf	6-TSSOP, SC-88, SOT-363	1	PUMB11,115				
 Nexperia	-	datasheets/transistor/nexperia/PUMB13.pdf	6-TSSOP, SC-88, SOT-363	1	PUMB13,115				
-Nexperia	-	datasheets/transistor/nexperia/PUMB3.pdf	SOT-563, SOT-666	1	PEMB3,115				
+Nexperia	-	datasheets/transistor/nexperia/PUMB3.pdf	SOT-563, SOT-666	1	PEMB3,115	-	SOT-666	-	-
 Nexperia	-	datasheets/transistor/nexperia/PUMD10.pdf	6-TSSOP, SC-88, SOT-363	2	PUMD10,135				
-Nexperia	-	datasheets/transistor/nexperia/PUMD3.pdf	6-TSSOP, SC-88, SOT-363	3	PUMD3,165				
+Nexperia	-	datasheets/transistor/nexperia/PUMD3.pdf	6-TSSOP, SC-88, SOT-363	3	PUMD3,165	PUMD3,\d{3}	SOT-363	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;pnp:B2,C2,E2
 Nexperia	-	datasheets/transistor/nexperia/PUMD4.pdf	6-TSSOP, SC-88, SOT-363	1	PUMD4,115				
-Nexperia	-	datasheets/transistor/nexperia/PUMD48.pdf	6-TSSOP, SC-88, SOT-363	1	PUMD48,125				
-Nexperia	-	datasheets/transistor/nexperia/PUMD9.pdf	6-TSSOP, SC-88, SOT-363	3	PUMD9,165				
+Nexperia	-	datasheets/transistor/nexperia/PUMD48.pdf	6-TSSOP, SC-88, SOT-363	1	PUMD48,125	PUMD48,\d{3}	SOT-363	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;pnp:B2,C2,E2
+Nexperia	-	datasheets/transistor/nexperia/PUMD9.pdf	6-TSSOP, SC-88, SOT-363	3	PUMD9,165	PUMD9,\d{3}	SOT-363	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;pnp:B2,C2,E2
 Nexperia	-	datasheets/transistor/nexperia/PUMH11.pdf	6-TSSOP, SC-88, SOT-363	1	PUMH11,115				
 Nexperia	-	datasheets/transistor/nexperia/PUMH13.pdf	6-TSSOP, SC-88, SOT-363	1	PUMH13,115				
-Nexperia	-	datasheets/transistor/nexperia/PUMH9.pdf	6-TSSOP, SC-88, SOT-363	3	PUMH9,165				
-Nexperia	-	datasheets/transistor/nexperia/PUMT1.pdf	6-TSSOP, SC-88, SOT-363	1	PUMT1,115				
-Nexperia	BC53PAST	datasheets/transistor/nexperia/BC53PAST_SER.pdf	3-UDFN Exposed Pad	3	BC53PASTX				
-Nexperia	BC817	datasheets/transistor/nexperia/BC817_SER.pdf	TO-236-3, SC-59, SOT-23-3	1	BC817-40,215				
-Nexperia	BC846x	datasheets/transistor/nexperia/BC846X_SER.pdf	TO-236-3, SC-59, SOT-23-3	2	BC846B,235				
-Nexperia	BC846xW	datasheets/transistor/nexperia/BC846XW_SER.pdf	SC-70, SOT-323	3	BC846BW,115				
-Nexperia	BC847xW	datasheets/transistor/nexperia/BC847XW_SER.pdf	SC-70, SOT-323	6	BC847BW,115				
-Nexperia	BCP56T	datasheets/transistor/nexperia/BCP56T_SER.pdf	TO-261-4, TO-261AA	1	BCP56-10TX				
+Nexperia	-	datasheets/transistor/nexperia/PUMH9.pdf	6-TSSOP, SC-88, SOT-363	3	PUMH9,165	PUMH9,\d{3}	SOT-363	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;npn:B2,C2,E2
+Nexperia	-	datasheets/transistor/nexperia/PUMT1.pdf	6-TSSOP, SC-88, SOT-363	1	PUMT1,115	PUMT1,\d{3}	SOT-363	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;pnp:B2,C2,E2
+Nexperia	BC53PAST	datasheets/transistor/nexperia/BC53PAST_SER.pdf	3-UDFN Exposed Pad	3	BC53PASTX	(BC53PAST|BC53\-10PAST|BC53\-16PAST)X	DFN2020D-3	B,E,C	pnp:B,C,E
+Nexperia	BC817	datasheets/transistor/nexperia/BC817_SER.pdf	TO-236-3, SC-59, SOT-23-3	1	BC817-40,215	(BC817|BC817\-16|BC817\-25|BC817\-40),\d{3}	SOT-23	B,E,C	npn:B,C,E
+Nexperia	BC846x	datasheets/transistor/nexperia/BC846X_SER.pdf	TO-236-3, SC-59, SOT-23-3	2	BC846B,235	(BC846|BC846A|BC846B),\d{3}	SOT-23	B,E,C	npn:B,C,E
+Nexperia	BC846xW	datasheets/transistor/nexperia/BC846XW_SER.pdf	SC-70, SOT-323	3	BC846BW,115	(BC846W|BC846AW|BC846BW),\d{3}	SOT-323	B,E,C	npn:B,C,E
+Nexperia	BC847xW	datasheets/transistor/nexperia/BC847XW_SER.pdf	SC-70, SOT-323	6	BC847BW,115	(BC847W|BC847AW|BC847BW|BC847CW),\d{3}	SOT-323	B,E,C	npn:B,C,E
+Nexperia	BCP56T	datasheets/transistor/nexperia/BCP56T_SER.pdf	TO-261-4, TO-261AA	1	BCP56-10TX	(BCP56T|BCP56\-10T|BCP56\-16T)X	SOT-223	B,C,E,C	npn:B,C,E
 Nexperia	PDTC123Y	datasheets/transistor/nexperia/PDTC123YT-Q.pdf	TO-236-3, SC-59, SOT-23-3	1	PDTC123YT-QR				
 Nexperia	PDTC123Y	datasheets/transistor/nexperia/PDTC123YT.pdf	TO-236-3, SC-59, SOT-23-3	1	PDTC123YTR				
 Vishay Siliconix	-	datasheets/transistor/vishay-siliconix/61860.pdf	PowerPAK® SO-8	1	SIDR626KDP-T1-RE3				
