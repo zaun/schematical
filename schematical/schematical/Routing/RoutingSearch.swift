@@ -1,6 +1,18 @@
 import CoreGraphics
 import Foundation
 
+/// What a plan adds to a search's price of entering a node: for
+/// each node, `lambda` per other net whose planned copper would sit too near
+/// a trace centre there, plus the node's remembered congestion. Never
+/// negative, so the heuristic stays admissible; never forbids a node.
+nonisolated struct RoutingPlanCosts: Sendable {
+    /// Indexed like the grid's trace maps: `(profile * layers + layer) * cells + cell`.
+    var demand: [Int16]
+    /// Indexed `layer * cells + cell`.
+    var history: [Float]
+    var lambda: Float
+}
+
 /// The costs and rules one connection's search runs under (plan-38-E § 3).
 nonisolated struct SearchRules: Sendable {
     /// The net searched for, and its grid profile.
@@ -142,6 +154,7 @@ nonisolated struct RoutingSearch {
     /// (Dijkstra). `isCancelled` is polled every 4096 expansions.
     mutating func search(_ grid: RoutingGrid, rules: SearchRules, sources: [Int], targets: [Int],
                          goal: (x: ClosedRange<Int>, y: ClosedRange<Int>)?, history: [Float]? = nil, startCosts: [Int: Float]? = nil, targetCosts: [Int: Float]? = nil,
+                         plan: RoutingPlanCosts? = nil,
                          isCancelled: () -> Bool) -> Result<[Int], SearchFailure> {
         for node in touched {
             cost[node] = .infinity
@@ -168,6 +181,8 @@ nonisolated struct RoutingSearch {
         var local = 0
         var found: Float = 0
         let history = history ?? []
+        let planDemand = plan?.demand ?? [], planHistory = plan?.history ?? []
+        let planLambda = Float(plan?.lambda ?? 0)
         let outcome: Result<[Int], SearchFailure> = cost.withUnsafeMutableBufferPointer { cost in
             came.withUnsafeMutableBufferPointer { came in
                 marks.withUnsafeBufferPointer { marks in
@@ -176,12 +191,17 @@ nonisolated struct RoutingSearch {
                             grid.fixedTraceMaps.withUnsafeBufferPointer { fixedTrace in
                                 grid.fixedViaMaps.withUnsafeBufferPointer { fixedVia in
                                     history.withUnsafeBufferPointer { history in
-                                        Self.explore(grid, rules: rules, sources: sources, startCosts: startCosts, targetCosts: targetCosts, goal: goal, cost: cost,
-                                                     came: came, marks: marks, generation: generation,
-                                                     maps: Maps(trace: traceMaps, via: viaMaps, fixedTrace: fixedTrace,
-                                                                fixedVia: fixedVia, history: history),
-                                                     touched: &touched, expanded: &local, found: &found,
-                                                     isCancelled: isCancelled)
+                                        planDemand.withUnsafeBufferPointer { planDemand in
+                                            planHistory.withUnsafeBufferPointer { planHistory in
+                                                Self.explore(grid, rules: rules, sources: sources, startCosts: startCosts, targetCosts: targetCosts, goal: goal, cost: cost,
+                                                             came: came, marks: marks, generation: generation,
+                                                             maps: Maps(trace: traceMaps, via: viaMaps, fixedTrace: fixedTrace,
+                                                                        fixedVia: fixedVia, history: history, planDemand: planDemand,
+                                                                        planHistory: planHistory, planLambda: planLambda),
+                                                             touched: &touched, expanded: &local, found: &found,
+                                                             isCancelled: isCancelled)
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -203,6 +223,10 @@ nonisolated struct RoutingSearch {
         let fixedVia: UnsafeBufferPointer<Int32>
         /// By node; empty outside a relaxed search.
         let history: UnsafeBufferPointer<Float>
+        /// A plan's soft demand and remembered congestion (`RoutingPlanCosts`); both empty without one.
+        let planDemand: UnsafeBufferPointer<Int16>
+        let planHistory: UnsafeBufferPointer<Float>
+        let planLambda: Float
     }
 
     private static func explore(_ grid: RoutingGrid, rules: SearchRules, sources: [Int], startCosts: [Int: Float]?, targetCosts: [Int: Float]?,
@@ -240,6 +264,20 @@ nonisolated struct RoutingSearch {
             return -1
         }
         @inline(__always) func passable(_ layer: Int, _ cell: Int) -> Bool { price(layer, cell) >= 0 }
+        let planned = maps.planDemand.count > 0 && maps.planHistory.count > 0
+        let planLambda = maps.planLambda
+        /// A plan's price of a trace centre at a node: others' planned copper near it, and its remembered congestion.
+        @inline(__always) func planCost(_ layer: Int, _ cell: Int) -> Float {
+            guard planned else { return 0 }
+            return planLambda * Float(maps.planDemand[base + layer * cells + cell]) + maps.planHistory[layer * cells + cell]
+        }
+        /// The same for a via, which stands on every layer.
+        @inline(__always) func viaPlanCost(_ cell: Int) -> Float {
+            guard planned else { return 0 }
+            var total: Float = 0
+            for layer in 0..<layerCount { total += planCost(layer, cell) }
+            return total
+        }
         /// A via's price at a cell over every layer, as `price`.
         @inline(__always) func viaPrice(_ cell: Int) -> Float {
             var layer = 0, total: Float = 0
@@ -339,7 +377,7 @@ nonisolated struct RoutingSearch {
                 if enter < 0 { continue }
                 // No squeezing past a corner: both orthogonal cells too.
                 if dx != 0 && dy != 0 && (!passable(layer, y * nx + jx) || !passable(layer, jy * nx + x)) { continue }
-                var step = stepCost[layer * 8 + k - 1] + enter
+                var step = stepCost[layer * 8 + k - 1] + enter + planCost(layer, next)
                 if (lastDX != 0 || lastDY != 0) && (lastDX != dx || lastDY != dy) { step += bend }
                 let target = layerBase + next
                 let candidate = g + step
@@ -353,7 +391,7 @@ nonisolated struct RoutingSearch {
             // A via: to every other allowed layer, where one fits.
             let via = vias ? viaPrice(cell) : -1
             if via >= 0 {
-                let candidate = g + viaCost + via
+                let candidate = g + viaCost + via + viaPlanCost(cell)
                 for other in 0..<layerCount where other != layer && allowed[other] {
                     let target = other * cells + cell
                     if candidate < cost[target] {

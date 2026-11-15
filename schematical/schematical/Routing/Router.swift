@@ -21,45 +21,111 @@ nonisolated enum Router {
         var historyStep: Float
         /// How often one connection may be ripped up in a run (`Run.ripBudget`).
         var maxRips: Int
-        /// Independent runs (Thorough), each with its own tie order.
-        var runs: Int
+        /// The via costs of the independent runs `route` makes, the best kept; empty is one run at `viaCost`.
+        var viaCosts: [Double] = []
         /// The first round's price per cell of crossing routed copper.
         var present: Double = 2
         var presentGrowth: Double = 1.5
         /// Rounds in a row with no change in the failed set before a run stops.
         var stall = 3
+        /// Planning passes before any copper is put down (`RoutingPlan`); 0 plans nothing.
+        var planPasses = 0
+        /// The first pass's price, in cells, of a trace centre where another net's plan wants to be.
+        var planPrice = 6.0
+        var planGrowth = 1.3
+        /// The price, in cells, never grows past this.
+        var planPriceMax = 30.0
+        /// What a contested node's history grows by, per other net, each pass.
+        var planHistory: Float = 1
+        /// Passes in a row without fewer contested nodes before planning stops.
+        var planStall = 99
+        /// The price, in cells, the detailed routing pays to use a place another net's plan still wants.
+        var commitPrice = 20.0
+        /// Improvement passes over the routed connections (`RoutingPolish`); 0 makes none.
+        var polishPasses = 0
+        /// What a via and a bend cost, in cells, while improving: both in the searches and in the score.
+        var polishVia = 80.0
+        var polishBend = 1.0
+        /// The price per cell, while improving, of a way through other nets' copper (they are then routed again); 0 never tries one.
+        var polishPresent = 3.0
 
         static func of(_ strategy: RoutingOptions.Strategy) -> Strategy {
             switch strategy {
-            case .fast: Strategy(rounds: 6, viaCost: 12, historyStep: 0.5, maxRips: 8, runs: 1)
-            case .balanced: Strategy(rounds: 30, viaCost: 12, historyStep: 1, maxRips: 12, runs: 1)
-            case .thorough: Strategy(rounds: 120, viaCost: 12, historyStep: 1, maxRips: 12, runs: 3)
+            case .fast:
+                return Strategy(rounds: 6, viaCost: 12, historyStep: 0.5, maxRips: 8)
+            case .balanced:
+                var balanced = Strategy(rounds: 30, viaCost: 12, historyStep: 1, maxRips: 12)
+                balanced.viaCosts = [12, 25, 40, 60]
+                balanced.planPasses = 14
+                balanced.polishPasses = 20
+                return balanced
+            case .thorough:
+                // Balanced's runs exactly, and as many again at other via
+                // costs: the best of a superset, so never worse than Balanced.
+                var thorough = of(.balanced)
+                thorough.viaCosts += [18, 32, 50, 80]
+                return thorough
             }
         }
     }
 
     /// Routes `problem`. `progress` is called after each connection;
     /// `isCancelled` is polled during the search and between connections.
+    ///
+    /// A strategy with several first-routing via costs (`Strategy.viaCosts`)
+    /// routes the board once with each, at the same time on separate
+    /// threads, and keeps the best result (`better`): how the first routing
+    /// prices a via decides which connections change layers, and no one
+    /// price is best on every board. Each run is deterministic and the
+    /// choice depends only on the results, so the outcome is too. Progress
+    /// is reported from the first run still going. `isCancelled` must be
+    /// safe to call from any thread.
     static func route(_ problem: RoutingProblem, progress: (RoutingProgress) -> Void = { _ in },
                       isCancelled: () -> Bool = { false }) -> RoutingResult {
         let start = Date()
         let strategy = Strategy.of(problem.options.strategy)
         let deadline = problem.options.timeLimit.map { start.addingTimeInterval($0) }
-        let stop: () -> Bool = { isCancelled() || deadline.map { Date() > $0 } ?? false }
-        var best: RoutingResult?
-        for attempt in 0..<strategy.runs {
-            var run = Run(problem: problem, strategy: strategy, seed: problem.options.seed &+ UInt64(attempt))
-            run.routeAll(progress: progress, isCancelled: stop)
-            let copper = run.finishedCopper()
-            var result = run.result(traces: copper.traces, vias: copper.vias)
-            if !problem.groups.isEmpty {
-                result = Self.tuned(result, problem: problem, pairs: run.pairStatus)
+        let costs = strategy.viaCosts.isEmpty ? [strategy.viaCost] : strategy.viaCosts
+        let lock = NSLock()
+        var results = [RoutingResult?](repeating: nil, count: costs.count)
+        var finished = [Bool](repeating: false, count: costs.count)
+        return withoutActuallyEscaping(progress) { progress in
+            withoutActuallyEscaping(isCancelled) { isCancelled in
+                let stop: () -> Bool = { isCancelled() || deadline.map { Date() > $0 } ?? false }
+                let one: (Int) -> Void = { index in
+                    var own = strategy
+                    own.viaCost = costs[index]
+                    var run = Run(problem: problem, strategy: own, seed: problem.options.seed)
+                    run.routeAll(progress: { report in
+                        lock.lock()
+                        defer { lock.unlock() }
+                        if finished.firstIndex(of: false) == index { progress(report) }
+                    }, isCancelled: stop)
+                    let copper = run.finishedCopper()
+                    var result = run.result(traces: copper.traces, vias: copper.vias)
+                    if !problem.groups.isEmpty {
+                        result = Self.tuned(result, problem: problem, pairs: run.pairStatus)
+                    }
+                    result.stats.bends = Self.bends(result.traces)
+                    result.stats.seconds = Date().timeIntervalSince(start)
+                    lock.lock()
+                    results[index] = result
+                    finished[index] = true
+                    lock.unlock()
+                }
+                if costs.count == 1 {
+                    one(0)
+                } else {
+                    DispatchQueue.concurrentPerform(iterations: costs.count, execute: one)
+                }
+                var best: RoutingResult?
+                for case let result? in results where best.map({ Self.better(result, than: $0, strategy: strategy, pitch: problem.options.grid) }) ?? true {
+                    best = result
+                }
+                best?.stats.seconds = Date().timeIntervalSince(start)
+                return best ?? RoutingResult()
             }
-            result.stats.seconds = Date().timeIntervalSince(start)
-            if best.map({ Self.better(result, than: $0) }) ?? true { best = result }
-            if result.stats.routed == result.stats.connections || run.stopped { break }
         }
-        return best ?? RoutingResult()
     }
 
     /// `result` with its length-match groups tuned (plan-38-I): any tuned
@@ -91,9 +157,27 @@ nonisolated enum Router {
         return tuned
     }
 
-    /// More routed wins, then less wire.
-    static func better(_ a: RoutingResult, than b: RoutingResult) -> Bool {
-        a.stats.routed != b.stats.routed ? a.stats.routed > b.stats.routed : a.stats.wireLength < b.stats.wireLength - 1e-9
+    /// More routed wins, then the lower score: wire, with every via and
+    /// bend counted as the wire the improvement passes price them at.
+    static func better(_ a: RoutingResult, than b: RoutingResult, strategy: Strategy, pitch: Double) -> Bool {
+        func score(_ r: RoutingResult) -> Double {
+            r.stats.wireLength + pitch * (strategy.polishVia * Double(r.stats.vias) + strategy.polishBend * Double(r.stats.bends))
+        }
+        return a.stats.routed != b.stats.routed ? a.stats.routed > b.stats.routed : score(a) < score(b) - 1e-9
+    }
+
+    /// The corners in `traces`: vertices where a trace changes direction.
+    static func bends(_ traces: [RoutedTrace]) -> Int {
+        var count = 0
+        for trace in traces {
+            let p = trace.points
+            guard p.count >= 3 else { continue }
+            for i in 1..<(p.count - 1) {
+                let cross = (p[i].x - p[i - 1].x) * (p[i + 1].y - p[i].y) - (p[i].y - p[i - 1].y) * (p[i + 1].x - p[i].x)
+                if abs(cross) > 1e-9 { count += 1 }
+            }
+        }
+        return count
     }
 
     /// A net's bounding-box half-perimeter over its pads, mm: short nets
@@ -136,8 +220,15 @@ nonisolated enum Router {
         /// The nets routed as coupled pairs (plan-38-J), and each pair's outcome.
         var pairNets = Set<Int>()
         var pairStatus: [UUID: GroupOutcome.Status] = [:]
+        /// The plan the detailed routing is priced by, once made.
+        var plan: RoutingPlan?
         /// Coupled pairs ripped up this round, routed again at the next.
         var rippedPairs = Set<UUID>()
+        /// Whether the run is improving what it routed (`polish`): searches then use the improvement costs.
+        var polishing = false
+        /// Improvement moves tried and kept.
+        var polishTried = 0
+        var polishKept = 0
         var grid: RoutingGrid { state.grid }
 
         init(problem: RoutingProblem, strategy: Strategy = .of(.balanced), seed: UInt64 = 1) {
@@ -152,7 +243,8 @@ nonisolated enum Router {
 
         func rules(_ net: RoutingNet) -> SearchRules {
             var rules = SearchRules(net: net, grid: grid, problem: problem)
-            rules.viaCost = strategy.viaCost
+            rules.viaCost = polishing ? strategy.polishVia : strategy.viaCost
+            if polishing { rules.bendCost = strategy.polishBend }
             return rules
         }
 
@@ -198,6 +290,7 @@ nonisolated enum Router {
                 if isCancelled() { stopped = true; break }
                 fannedOut[net.id] = fanOut(net, progress: progress, isCancelled: isCancelled)
             }
+            planAll(progress: progress, isCancelled: isCancelled)
             var failures: [Int: Int] = [:]
             var lastFailed: [Int] = []
             var unchanged = 0
@@ -257,6 +350,7 @@ nonisolated enum Router {
                     }
                 }
             }
+            polish(progress: progress, isCancelled: isCancelled)
         }
 
         /// Routes the differential pairs `only` names (all, when nil), each as
@@ -332,14 +426,17 @@ nonisolated enum Router {
         /// first. A hard search first; failing that (when `present` > 0), a
         /// relaxed one, whose victims are ripped up before the connection is
         /// searched hard again. Returns the nets that lost copper.
-        mutating func join(_ net: RoutingNet, present: Double, round: Int, progress: (RoutingProgress) -> Void,
-                           isCancelled: () -> Bool) -> [Int] {
+        mutating func join(_ net: RoutingNet, present: Double, round: Int, shove: Bool = false,
+                           progress: (RoutingProgress) -> Void, isCancelled: () -> Bool) -> [Int] {
             var lost: [Int] = []
             var skipped = Set<Int>()
             var hard = rules(net)
             hard.present = 0
             var relaxed = hard
             relaxed.present = present
+            // Its plan becomes real copper; what is left of the plan is other nets'.
+            releasePlan(of: net.id)
+            let prices = planPrices()
             while !stopped {
                 let groups = state.groups(of: net.id)
                 guard groups.components.count > 1 else { break }
@@ -363,9 +460,14 @@ nonisolated enum Router {
                 let sources = state.nodes(components: main.0, entries: main.1, net: net.id)
                 let targets = state.nodes(components: target.0, entries: target.1, net: net.id)
                 if isCancelled() { stopped = true; break }
-                var path = find(hard, sources: sources, targets: targets, isCancelled: isCancelled)
-                if path == nil, present > 0, !stopped,
-                   let detour = find(relaxed, sources: sources, targets: targets, isCancelled: isCancelled) {
+                var path = find(hard, sources: sources, targets: targets, plan: prices, isCancelled: isCancelled)
+                // An improvement move (`shove`) also looks through other nets'
+                // copper when the legal way needs a via, and takes that way
+                // when it needs fewer.
+                let hardVias = path.map { Router.viaCount($0, cells: grid.cellCount) }
+                if path == nil || (shove && hardVias ?? 0 > 0), present > 0, !stopped,
+                   let detour = find(relaxed, sources: sources, targets: targets, plan: prices, isCancelled: isCancelled),
+                   hardVias.map({ Router.viaCount(detour, cells: grid.cellCount) < $0 }) ?? true {
                     var all = state.victims(of: detour, net: net.id)
                     // A coupled pair goes as a unit: both nets' copper, to be
                     // routed again, coupled, first thing next round.
@@ -374,14 +476,21 @@ nonisolated enum Router {
                         all += state.ledger.filter { group.nets.contains($0.net) && !all.contains($0.id) }.map(\.id)
                     }
                     let nets = Set(all.compactMap { state.entries[$0]?.net })
-                    if !all.isEmpty, nets.isDisjoint(with: pinned),
+                    if polishing {
+                        // A move is kept or undone whole (`attempt`): no budget, no
+                        // history, and never a coupled pair's copper.
+                        if !all.isEmpty, pairs.isEmpty, nets.isDisjoint(with: pinned), nets.isDisjoint(with: pairNets) {
+                            lost += state.rip(all)
+                            path = find(hard, sources: sources, targets: targets, plan: prices, isCancelled: isCancelled) ?? path
+                        }
+                    } else if !all.isEmpty, nets.isDisjoint(with: pinned),
                        nets.allSatisfy({ (ripped[$0] ?? 0) < ripBudget($0) }) {
                         for victimNet in nets.sorted() { ripped[victimNet, default: 0] += 1 }
                         rips += all.count
                         lost += state.rip(all)
                         rippedPairs.formUnion(pairs)
                         state.addHistory(detour, step: strategy.historyStep)
-                        path = find(hard, sources: sources, targets: targets, isCancelled: isCancelled)
+                        path = find(hard, sources: sources, targets: targets, plan: prices, isCancelled: isCancelled)
                     }
                 }
                 guard let found = path else {
@@ -420,10 +529,11 @@ nonisolated enum Router {
             progress(report)
         }
 
-        mutating func find(_ rules: SearchRules, sources: [Int], targets: [Int], isCancelled: () -> Bool) -> [Int]? {
+        mutating func find(_ rules: SearchRules, sources: [Int], targets: [Int], plan: RoutingPlanCosts? = nil,
+                           isCancelled: () -> Bool) -> [Int]? {
             guard !sources.isEmpty, !targets.isEmpty else { return nil }
             switch search.search(grid, rules: rules, sources: sources, targets: targets, goal: grid.cellBox(targets),
-                                 history: rules.present > 0 ? state.history : nil, isCancelled: isCancelled) {
+                                 history: rules.present > 0 ? state.history : nil, plan: plan, isCancelled: isCancelled) {
             case let .success(path): return path
             case .failure(.cancelled): stopped = true; return nil
             case .failure: return nil
@@ -521,6 +631,10 @@ nonisolated enum Router {
             result.stats.stopped = stopped
             result.stats.rounds = rounds
             result.stats.rips = rips
+            result.stats.planPasses = plan?.iterations ?? 0
+            result.stats.planOveruse = plan?.overuse ?? 0
+            result.stats.polishTried = polishTried
+            result.stats.polishKept = polishKept
             return result
         }
 
@@ -561,6 +675,11 @@ nonisolated enum Router {
     static func nearestLabel(to point: CGPoint, in points: [(point: CGPoint, label: String)]) -> String {
         points.min { hypot($0.point.x - point.x, $0.point.y - point.y) < hypot($1.point.x - point.x, $1.point.y - point.y) }?
             .label ?? "?"
+    }
+
+    /// The layer changes along a searched path.
+    static func viaCount(_ path: [Int], cells: Int) -> Int {
+        zip(path, path.dropFirst()).reduce(0) { $0 + ($1.0 / cells != $1.1 / cells ? 1 : 0) }
     }
 
     /// A searched path as copper: a trace per run on one layer (collinear

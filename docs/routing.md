@@ -14,7 +14,10 @@ Net Groups sections (nothing selected) and saved in the file
 [§ Net groups](file-format.md#net-groups)).
 
 Plan: `planning/completed/plan-38-*.md`; the prototype it was measured
-against and the three fixture boards: `planning/plan-38-data/`.
+against and the three fixture boards: `planning/plan-38-data/`. The
+planning, improvement and straight-pad-exit stages, the runs Balanced and
+Thorough choose between, and the Default class from the design rules came
+later (2026-11); what they measure is in [Results](#results).
 
 ## Commands
 
@@ -38,7 +41,10 @@ and not while the simulation runs.
 The sheet shows how many nets and connections the options would route,
 then while running a progress bar ("83 of 115 connections routed · GND")
 with **Stop** and **Cancel**, and the board behind it draws the copper so
-far at 60 %. **Stop** keeps what is routed (a legal partial result);
+far at 60 %. The line reads "Planning, pass 3" while the plan is made and
+"Improving" while routed connections are taken up again; both are part
+of Balanced and Thorough, and on a large board most of the time goes to
+improving. **Stop** keeps what is routed (a legal partial result);
 **Cancel** puts nothing down. When it finishes it lists each net still
 unrouted with how many connections and why ("no legal way found", "run
 stopped first", an impossible net's reason, a pair's or group's outcome),
@@ -57,27 +63,39 @@ Every option is `RoutingOptions` (`Routing/RoutingOptions.swift`); all but
 | Layers (`layers`) | per layer: on/off, Any / Horizontal / Vertical | all on, Any | Which trace layers the run may use, and each layer's favoured direction (Alternate Directions sets Top horizontal, the next vertical, …). |
 | Vias (`vias`) | Allowed; None | Allowed | None keeps every net on one layer. |
 | Angles (`angle`) | 0°, 45° and 90°; 0° and 90° only | 0°, 45° and 90° (octilinear) | The segments' directions. |
-| Strategy (`strategy`) | Fast; Balanced; Thorough | Balanced | How hard negotiation tries: Fast 6 rounds, rip-up limit 8 per connection; Balanced 30 rounds, 12; Thorough 120 rounds, 12, three seeds, the best kept. |
-| Grid (`grid`) | 0.05, 0.1, 0.127, 0.254 mm | 0.127 mm (5 mil) | The search grid; 0.127 divides the 0.635 mm component grid, so pad centres and the channels between DIP pads fall on cells. |
+| Strategy (`strategy`) | Fast; Balanced; Thorough | Balanced | How hard the run tries (`Router.Strategy.of`). **Fast**: one run, the first legal way for each connection, 6 negotiation rounds, rip-up limit 8 per connection; a quick draft with the most vias. **Balanced**: 4 runs side by side, each planned (14 passes), negotiated (30 rounds, limit 12) and improved (up to 20 passes); the best is kept. **Thorough**: Balanced's 4 runs and 4 more at other via prices, 8 side by side; the best of a superset, so never worse than Balanced, and slower (LFU 292 s against 165 s on 12 cores). |
+| Grid (`grid`) | 0.05, 0.1, 0.127, 0.254 mm | 0.127 mm (5 mil) | The search grid; 0.127 divides the 0.635 mm component grid. Pad centres are mostly *not* on it all the same (a pad's centre is where its footprint puts it: 121 of AFU's 168, 245 of LFU's 247 and all 32 of RegFile's are off), so a trace's last leg to a pad is made straight afterwards (cleanup, below). |
 | Width (`widthOverride`) | mil, or off | off | Every net this width instead of its class's. |
 | Clearance (`clearanceOverride`) | mm, or off | off | Every net this clearance instead of its class's (never under the DRC's). |
 | Fan out to Planes (`fanoutPlanes`) | on/off | on | A pad of a net that a Plane layer carries gets a short trace and a via to the plane instead of a route. |
 | Tune length groups (`tuneGroups`) | on/off | on | Length-match groups are tuned after routing. |
 | Route pairs side by side (`routePairs`) | on/off | on | Differential pairs are routed coupled. |
-| — (`seed`) | integer, not in the sheet | 1 | The first run keeps the nets in id order; each further Thorough run (seed + 1, + 2) shuffles ties by it. Same seed and board, same copper. |
-| Time limit (`timeLimit`) | seconds (60 when switched on), or off | off | Stop on its own after this long (as Stop). |
+| — (`seed`) | integer, not in the sheet | 1 | Kept in saved options; it no longer changes the result (the runs of Balanced and Thorough differ by what a via costs the first routing, not by seed). Same board and options, same copper. |
+| Time limit (`timeLimit`) | seconds (60 when switched on), or off | off | Stop on its own after this long (as Stop): what is routed and improved so far is kept. |
 
 ## Rules per net
 
 - **Net classes.** A net's class gives its trace width (mil), clearance,
   via drill and diameter, and optionally a layer rule. A net is in the
   first class any of whose members names it; others are in the Default
-  class (10 mil, the DRC's min clearance, a 0.4 / 0.8 mm via). The router
+  class, which is the smallest copper the design rules in force allow
+  (`NetRules.defaults(for:)`): the narrowest whole mil at or over the min
+  trace width (never under 5 mil), the min clearance, and a via of the min
+  via drill with the min via diameter, or the drill plus the min annular
+  ring each side when that is wider. Under PCBWay's rules that is 5 mil
+  (0.127 mm), 0.1 mm clearance and a 0.2 / 0.5 mm via; under another
+  manufacturer's, that manufacturer's, so the Default class is always
+  legal for the rules chosen in Settings ▸ DRC Defaults. Small copper is
+  what a low-voltage logic board wants and it leaves the router the most
+  room (the fixtures route with fewer vias and more connections at it,
+  see Results); nets that need more go in a class. The router
   routes each net at its class's width and keeps its class's clearance
   from every other net's copper (the larger of the two nets' clearances).
   The Trace tool and the Via tool use the same class values for what you
-  draw. Net Classes ▸ Add Power Class makes a 20 mil class holding the
-  supply and ground nets.
+  draw, and a class you add starts as the Default class. Net Classes ▸
+  Add Power Class makes a 20 mil class with a 0.4 / 0.8 mm via holding the
+  supply and ground nets. Copper already on the board keeps the sizes it
+  was made with, whatever the rules become.
 - **Layer rules.** "Only" holds a net to some layers (on one layer it gets
   no vias); "Prefer" lets it use any but makes the others dearer. A net's
   own rule comes before its class's. A pad off a net's only layers makes
@@ -109,7 +127,14 @@ Every option is `RoutingOptions` (`Routing/RoutingOptions.swift`); all but
 
 ## The engine
 
-One run (`Router.route`, off the main actor on a `RoutingProblem` snapshot):
+`Router.route` works off the main actor on a `RoutingProblem` snapshot.
+Fast makes one run; Balanced and Thorough make several at once, each on
+its own thread, that differ only in what a via costs the first routing
+(12 to 60 cells; Thorough adds four more, up to 80), and keep the result that routes the most
+connections and then scores lowest (wire, plus each via as 80 cells of
+wire and each corner as 1): how the first routing prices a via decides
+which connections change layers, and no one price is best on every board.
+One run:
 
 1. **Problem** (`RoutingProblemBuilder`): the scope's nets, each with its
    copper groups (components), width, clearance, via, allowed and
@@ -126,37 +151,74 @@ One run (`Router.route`, off the main actor on a `RoutingProblem` snapshot):
    orthogonal moves, via cost, bend cost, direction and preference
    penalties; a connection joins one copper group to the rest of its net
    (`RoutingTerminals`). Deterministic: ties break by node.
-4. **Negotiation** (`Router`, `RoutingState`): connections routed in order;
+4. **Plan** (`RoutingPlan`; not Fast): before any copper goes down, every
+   connection is searched over the fixed copper alone against a soft map
+   of what the other nets' plans need (`RoutingDemand`: for each node, how
+   many other nets' planned copper a trace centre there would be too near,
+   by the same distances the grid stamps with). Each pass the nets whose
+   plans share a place are planned again, sharing costs more, and the
+   contested nodes are remembered (negotiated congestion). The plan that
+   shared the least is kept. It stamps nothing: it only adds a price to
+   the routing that follows, at the places other nets' plans still want,
+   so the first connections routed leave the later ones their room.
+5. **Negotiation** (`Router`, `RoutingState`): connections routed in order;
    a failed one is searched again relaxed, paying for other nets' copper
    (present cost × history), and the nets it crosses are ripped up and
    re-queued, within a rip budget per connection and the strategy's
    rounds. The ledger un-stamps exactly what it stamped.
-5. **Cleanup** (`RoutingCleanup`): each new trace as chains between
+6. **Improvement** (`RoutingPolish`; not Fast): once everything that can
+   be routed is, each connection is taken up again and routed afresh with
+   a via priced at 80 cells and a corner at 1 — on its own; if it has a
+   via, also through other nets' copper, which is then routed again too;
+   and each net whole, as a new tree. A move is kept only when it leaves
+   no more connections unrouted and the copper it touched scores lower;
+   otherwise the state goes back exactly as it was, so the result never
+   gets worse and is legal at every moment (Stop works here too). A move
+   that was not kept is tried again only after copper within 4 mm of it
+   has changed. Passes repeat until one keeps nothing. A net still
+   unrouted is tried again each pass, in the room the moves have made. A
+   coupled pair's copper is never taken up.
+7. **Cleanup** (`RoutingCleanup`): each new trace as chains between
    anchors (ends, where other copper attaches, via centres); straightened
-   into octilinear runs, 90° corners chamfered, via hops over short runs
-   removed, stubs and collinear points tidied. Every change is checked
-   exactly against other nets' copper and the edge, and never lengthens.
-6. **Verification and repair** (`RoutingVerifier`, `RoutingRepair`): the
+   into octilinear runs; each end made to leave its pad at 0°, 45° or 90°
+   (the leg from an off-grid pad centre to the first grid point runs at
+   whatever angle that takes: the leg and up to two vertices after it,
+   never past an anchor, give way to the legal one- or two-segment route
+   that adds the least length, at most 0.5 mm); 90° corners chamfered, via
+   hops over short runs removed, stubs and collinear points tidied. Every
+   change is checked exactly against other nets' copper and the edge, and
+   but for those end legs none lengthens a trace. A coupled pair's copper
+   is frozen: no pass changes it.
+8. **Verification and repair** (`RoutingVerifier`, `RoutingRepair`): the
    result is checked with the DRC's own geometry and tolerance (clearance,
    edge, width, via size, hole to hole, every end joined); copper that
    fails goes back to its raw route, else is re-routed with a margin (3
    tries); a net that still fails is left unrouted with the reason.
    Parity tests hold the verifier to the DRC.
-7. **Tuning and pairs** (`RoutingTuning`, `RoutingPair`, `PairGeometry`):
-   as above.
-8. **Apply** (`RoutingApply`, `RoutingSession`): the result goes into the
+9. **Tuning and pairs** (`RoutingTuning`, `RoutingPair`, `PairGeometry`):
+   as above. Pairs are routed first and kept through every later stage;
+   length groups are tuned last, on the improved and cleaned copper of
+   each run.
+10. **Apply** (`RoutingApply`, `RoutingSession`): the result goes into the
    document as one undo step, marked `auto`; Stop applies what is legal so
    far, Cancel nothing.
 
 **Guarantees.** What is applied passes the DRC's copper kinds (clearance,
 edge, trace width, via, hole to hole, short) — measured on the three
-fixtures, see Results. Same board, options and seed → same copper. Stop
-and a time limit leave a legal partial result.
+fixtures, see Results. Same board and options → same copper: each run is
+deterministic and the choice between runs depends only on their results,
+not on which thread finishes first. Stop and a time limit leave a legal
+partial result (the best of the runs as they stood), which then depends
+on when it was stopped.
 
 **Limits.** Through vias only (no blind or buried). Groups take two-pin
 nets only. No push-and-shove: kept copper never moves (a deliberate scope
 decision). No impedance control (the pair's gap is the user's). The pair
-breakout is a short leg (above). No copper pours.
+breakout is a short leg (above). No copper pours. The improvement moves
+one connection or one net at a time, so vias that only a rearrangement of
+several nets at once would remove stay; and it never moves a part: on a
+board of surface-mount parts on one side, every connection that has to
+cross another needs two vias, whatever the router.
 
 ### The Trace tool's assist
 
@@ -177,10 +239,61 @@ from the via on the next trace layer (never a Plane), all one undo step.
 
 ## Results
 
+### Now (2026-11): Balanced, the Default class from the design rules
+
+An optimised build (`-configuration Release`; the improvement stage is
+some 50 times slower unoptimised), a 12-core Mac, `RoutingOptions.standard`,
+`DesignRules.customDefault` (PCBWay), the fixtures in
+`schematical/schematicalTests/Fixtures/`. All three boards have
+surface-mount pads only (AFU 168, LFU 247, RegFile 32; no through-hole
+pad), on two layers. Printed by `RouterQualityFixtureTests`, which also
+holds bounds a little over these.
+
+| Board | Routed | Vias | Corners | Off 45°/90° | Wire | Time |
+|---|---|---|---|---|---|---|
+| AFU | 115 / 115 | 73 | 434 | 0 | 1429 mm | 12 s |
+| RegFile | 24 / 24 | 16 | 99 | 0 | 292 mm | 2 s |
+| LFU | 188 / 188 | 254 | 1010 | 1 | 3178 mm | 168 s |
+
+Against the router as plan-38 left it (one run, no plan, no improvement,
+no straight pad exits), measured the same day in the same build:
+
+| Board | plan-38 router, old Default class (10 mil, 0.4 / 0.8 via) | plan-38 router, new Default class (5 mil, 0.2 / 0.5 via) | Now |
+|---|---|---|---|
+| AFU | 115 / 115, 115 vias, 372 corners (118 off-angle), 1582 mm | 115 / 115, 141 vias, 350 (113), 1456 mm | 115 / 115, 73 vias, 434 (0), 1429 mm |
+| RegFile | 24 / 24, 31 vias, 96 (25), 314 mm | 24 / 24, 26 vias, 67 (26), 310 mm | 24 / 24, 16 vias, 99 (0), 292 mm |
+| LFU | 147 / 188, 246 vias, 776 (166), 2528 mm | 177 / 188, 386 vias, 981 (176), 3181 mm | 188 / 188, 254 vias, 1010 (1), 3178 mm |
+
+What each stage adds, one run at via cost 12 unless said (AFU / RegFile):
+the smaller Default class alone 141 / 26 vias; + improvement 91 / 18;
++ plan 73 / 16; the best of the four runs 73 / 16 (the single runs range
+72 to 78 and 15 to 17). On LFU the single runs complete 181 to 188 of 188;
+the run kept is the one that completes all of them. Straight pad exits
+took AFU's off-angle corners from over 100 to 0 or 1 for 0.7 % more wire
+(1417 → 1427 mm in the run it was measured on).
+
+What is not good yet, and what was not measured:
+
+- **Corners went up**, not down (AFU 372 → 434): each straightened pad
+  exit adds one, and the improvement trades corners for vias. 77 of AFU's
+  pieces are short jogs (under 0.6 mm between a turn one way and a turn
+  the other); nothing removes those yet.
+- **LFU takes 168 s**, most of it improving; Stop keeps the result so far.
+- An unoptimised (Debug) build is far slower: AFU's Balanced run takes
+  minutes there. Use Fast, or an optimised build.
+- The via counts are what this router reaches, not a proven floor: no
+  other router was run on these boards for comparison, and no board with
+  through-hole parts was measured (the fixtures have none).
+- Thorough gained little here: AFU the same result as Balanced in 20 s,
+  RegFile 14 vias (303 mm) in 2.4 s, LFU the same result in 292 s.
+  Fast, for comparison: AFU 115 / 115, 141 vias, 0.3 s; RegFile 24 / 24,
+  29 vias, 3.8 s; LFU 168 / 188, 414 vias, 15 s.
+
+### plan-38 (as landed), for the record
+
 Debug build (the test target's configuration), `RoutingOptions.standard`
-unless said, `DesignRules.customDefault`, the fixtures in
-`schematical/schematicalTests/Fixtures/` (copies of
-`planning/plan-38-data/fixtures/`).
+unless said, `DesignRules.customDefault`, the old Default class (10 mil,
+0.4 / 0.8 mm via).
 
 | Stage (plan) | AFU (115) | LFU (188) | RegFile (24) |
 |---|---|---|---|
@@ -214,7 +327,9 @@ vias, 1582 mm.
 | `RoutingProblem.swift`, `RoutingProblemBuilder.swift` | The snapshot the engine works on, and building it from the document. |
 | `RoutingGrid.swift`, `RoutingTerminals.swift` | The grid and its maps; a connection's start and goal cells. |
 | `RoutingSearch.swift` | A*. |
-| `Router.swift`, `RoutingState.swift`, `RoutingResult.swift` | A run: order, negotiation, the ledger, the result. |
+| `Router.swift`, `RoutingState.swift`, `RoutingResult.swift` | The runs and the choice between them; a run: order, negotiation, the ledger, the result. |
+| `RoutingPlan.swift` | The plan before routing: the soft demand map and the negotiated passes. |
+| `RoutingPolish.swift` | The improvement passes after routing. |
 | `RoutingCleanup.swift`, `RoutingVerifier.swift`, `RoutingRepair.swift` | Cleanup, verification, repair. |
 | `RoutingLength.swift`, `Meander.swift`, `RoutingTuning.swift` | Length and length matching. |
 | `PairGeometry.swift`, `RoutingPair.swift` | Differential pairs. |
@@ -231,4 +346,11 @@ sidebar), `Canvas/PCBCanvasView.swift` (`PCBTool.route`, `RouteTool`,
 Tests (`schematical/schematicalTests/`): `Routing*Tests`, `Router*Tests`,
 `Meander`, `PairGeometry`, `Net*Tests`, `AutorouteModelTests`,
 `RouteToolTests`, `AssistRouterTests`, `TraceToolTests`,
-`DesignRuleGoldenTests`; `RouterFixtureTests` runs the three fixtures.
+`DesignRuleGoldenTests`; `RouterFixtureTests` runs the three fixtures
+(with Fast in an unoptimised build, `RoutingOptions.fixture`), and
+`RouterQualityFixtureTests` Balanced and Thorough on them, in an
+optimised build only:
+
+    xcodebuild -project schematical/schematical.xcodeproj -scheme schematical \
+        -configuration Release ENABLE_TESTABILITY=YES CODE_SIGNING_ALLOWED=NO \
+        test -only-testing:schematicalTests/RouterQualityFixtureTests

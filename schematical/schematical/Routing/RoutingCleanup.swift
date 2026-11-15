@@ -200,6 +200,7 @@ nonisolated struct RoutingCleanup {
     /// Every step of § 3 1–6, in order.
     mutating func run() {
         for t in traces.indices where !deadTraces.contains(t) && !frozen.contains(t) { straighten(t) }
+        for t in traces.indices where !deadTraces.contains(t) && !frozen.contains(t) { alignEnds(t) }
         if problem.options.angle == .octilinear {
             for t in traces.indices where !deadTraces.contains(t) && !frozen.contains(t) { chamfer(t) }
         }
@@ -265,6 +266,54 @@ nonisolated struct RoutingCleanup {
         }
         traces[t].points = TraceRoute.clean(points)
         indexTrace(t)
+    }
+
+    /// How much longer `alignEnds` may make a trace at one end, mm.
+    static let endGrowth = 0.5
+    /// How many vertices from an end `alignEnds` may replace.
+    static let endReach = 3
+
+    /// Whether a–b runs at one of the run's angles (0°, 90°, and 45° unless orthogonal).
+    func isAligned(_ a: CGPoint, _ b: CGPoint) -> Bool {
+        let dx = abs(b.x - a.x), dy = abs(b.y - a.y)
+        let eps = 1e-6
+        if dx < eps || dy < eps { return true }
+        return problem.options.angle == .octilinear && abs(dx - dy) < eps
+    }
+
+    /// Makes trace `t` leave both its ends at one of the run's angles. A
+    /// trace ties to a pad's centre, which is seldom on the search grid, so
+    /// the leg from the centre to the first grid point runs at whatever
+    /// angle that takes. Where it does, the leg and up to `endReach` - 1
+    /// vertices after it (never past an anchor) give way to the legal short
+    /// route from the end that adds the least length, and at most
+    /// `endGrowth`; where there is none the end stays as it is.
+    mutating func alignEnds(_ t: Int) {
+        for atStart in [true, false] {
+            let anchored = anchors(of: t)
+            var points = traces[t].points
+            if !atStart { points.reverse() }
+            guard points.count >= 2, !isAligned(points[0], points[1]) else { continue }
+            let count = points.count
+            // The first anchor after the end, counted from this end.
+            let next = atStart ? (anchored.first { $0 > 0 } ?? count - 1)
+                : (anchored.last { $0 < count - 1 }.map { count - 1 - $0 } ?? count - 1)
+            var best: (route: [CGPoint], upTo: Int, growth: Double)?
+            for k in 1...min(Self.endReach, next) {
+                let old = Self.length(Array(points[0...k]))
+                for route in shortRoutes(points[0], points[k]) {
+                    let growth = Self.length(route) - old
+                    guard growth <= Self.endGrowth, growth < (best?.growth ?? .infinity) - 1e-9,
+                          isLegal(route, layer: traces[t].layer, width: traces[t].width, net: traces[t].net) else { continue }
+                    best = (route, k, growth)
+                }
+            }
+            guard let found = best else { continue }
+            points.replaceSubrange(0...found.upTo, with: found.route)
+            if !atStart { points.reverse() }
+            traces[t].points = TraceRoute.clean(points)
+            indexTrace(t)
+        }
     }
 
     /// Cuts each 90° corner of trace `t` that is no anchor into two 45°

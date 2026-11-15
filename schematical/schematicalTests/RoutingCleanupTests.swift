@@ -19,9 +19,10 @@ final class RoutingCleanupTests: XCTestCase {
                                      traceEntry: Array(traces.indices), viaEntry: Array(vias.indices))
         cleanup.run()
         let result = cleanup.result
-        // Never longer, never more vias, always legal.
+        // Never longer but for aligned ends, never more vias, always legal.
         XCTAssertLessThanOrEqual(result.traces.reduce(0) { $0 + RoutingCleanup.length($1.points) },
-                                 traces.reduce(0) { $0 + RoutingCleanup.length($1.points) } + 1e-9)
+                                 traces.reduce(0) { $0 + RoutingCleanup.length($1.points) }
+                                     + 2 * RoutingCleanup.endGrowth * Double(traces.count) + 1e-9)
         XCTAssertLessThanOrEqual(result.vias.count, vias.count)
         XCTAssertEqual(RoutingVerifier.verify(problem, traces: result.traces, vias: result.vias)
             .filter { $0.kind != .unconnected }, [])
@@ -138,5 +139,76 @@ final class RoutingCleanupTests: XCTestCase {
         let result = hop(blocked: true)
         XCTAssertEqual(result.vias.count, 2)
         XCTAssertTrue(result.traces.contains { $0.layer == .bottom })
+    }
+
+    // MARK: Aligned ends
+
+    private func aligned(_ points: [CGPoint]) -> Bool {
+        zip(points, points.dropFirst()).allSatisfy { a, b in
+            let dx = abs(b.x - a.x), dy = abs(b.y - a.y)
+            return dx < 1e-6 || dy < 1e-6 || abs(dx - dy) < 1e-6
+        }
+    }
+
+    /// A pad centre off the search grid: the routed trace ties to it by a
+    /// leg at whatever angle reaches the first grid point.
+    func testAnEndOffTheGridLeavesItsPadAtAnAlignedAngle() {
+        let a = p(3.03, 5.04), b = p(12.06, 5.07)
+        let board = pads(a, b)
+        let raw = [a, p(3.2, 5.1), p(11.9, 5.1), b]
+        XCTAssertFalse(aligned(raw))
+        let result = cleaned(board, [trace(raw)])
+        let points = result.traces[0].points
+        XCTAssertEqual(points.first, a)
+        XCTAssertEqual(points.last, b)
+        XCTAssertTrue(aligned(points), "\(points)")
+        XCTAssertLessThanOrEqual(RoutingCleanup.length(points), RoutingCleanup.length(raw) + 2 * RoutingCleanup.endGrowth)
+    }
+
+    func testOrthogonalEndsAreAlignedWithoutA45() {
+        let a = p(3.03, 5.04), b = p(12.06, 8.07)
+        var board = pads(a, b)
+        board.options.angle = .orthogonal
+        let raw = [a, p(3.2, 5.1), p(11.9, 5.1), p(11.9, 8.0), b]
+        let result = cleaned(board, [trace(raw)])
+        let points = result.traces[0].points
+        XCTAssertEqual(points.first, a)
+        XCTAssertEqual(points.last, b)
+        XCTAssertTrue(angles(points).isSubset(of: [0, 90, -90, 180, -180]), "\(points)")
+    }
+
+    /// A leg down a slanted corridor between two other nets' traces: every
+    /// aligned way out leaves the corridor, so the end stays as routed
+    /// rather than break a rule.
+    func testAnEndWithNoLegalAlignedWayStaysAsItWas() {
+        let a = p(3.03, 5.04), corner = p(5, 6), b = p(13.03, 6)
+        var board = pads(a, b)
+        let length = hypot(corner.x - a.x, corner.y - a.y)
+        let u = p((corner.x - a.x) / length, (corner.y - a.y) / length)
+        // A wall 0.5 mm to each side of the leg, from clear of the pad to past the corner.
+        for side in [-1.0, 1.0] {
+            let wall = [0.8, length + 0.2].map { t in p(a.x + u.x * t - u.y * 0.5 * side, a.y + u.y * t + u.x * 0.5 * side) }
+            board.trace(wall, width: 0.2, net: 2)
+        }
+        let raw = [a, corner, p(12, 6), b]
+        let problem = board.problem()
+        XCTAssertEqual(RoutingVerifier.verify(problem, traces: [trace(raw)], vias: []).filter { $0.kind != .unconnected }, [],
+                       "the routed copper is legal to begin with")
+        let result = cleaned(board, [trace(raw)])
+        let points = result.traces[0].points
+        XCTAssertEqual(Array(points.prefix(2)), [a, corner], "the first leg is as it was: \(points)")
+        XCTAssertEqual(points.last, b)
+    }
+
+    /// The vertex another trace of the net hangs on never moves.
+    func testAnAnchorNextToAnEndIsKept() {
+        let a = p(3.03, 5.04), b = p(12.06, 5.07)
+        var board = pads(a, b)
+        board.pad(3.2, 9, 1, 1, net: 1)
+        let branch = p(3.2, 5.1)
+        let raw = [a, branch, p(11.9, 5.1), b]
+        let result = cleaned(board, [trace(raw), trace([branch, p(3.2, 9)])])
+        XCTAssertTrue(result.traces[0].points.contains { hypot($0.x - branch.x, $0.y - branch.y) < 1e-6 },
+                      "\(result.traces[0].points)")
     }
 }

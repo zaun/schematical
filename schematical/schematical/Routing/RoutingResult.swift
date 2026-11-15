@@ -35,9 +35,17 @@ nonisolated struct RoutingStats: Hashable, Sendable {
     /// mm of new trace.
     var wireLength = 0.0
     var seconds = 0.0
+    /// Corners in the new traces.
+    var bends = 0
     var rounds = 0
     var rips = 0
     var expansions = 0
+    /// Planning passes made, and the nodes two nets' plans still shared after the last.
+    var planPasses = 0
+    var planOveruse = 0
+    /// Improvement moves tried and kept (`RoutingPolish`).
+    var polishTried = 0
+    var polishKept = 0
     /// Whether the run stopped early (cancelled or out of time).
     var stopped = false
 }

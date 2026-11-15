@@ -41,7 +41,13 @@ final class RouterFixtureTests: XCTestCase {
             let doc = try Fixture.open(name)
             let problem = doc.routingProblem(options: .standard, rules: .customDefault)
             let started = Date()
-            var run = Router.Run(problem: problem, strategy: .of(.balanced), seed: problem.options.seed)
+            // Negotiation alone in an unoptimised build (see `RoutingOptions.fixture`).
+            #if DEBUG
+            let strategy = Router.Strategy(rounds: 30, viaCost: 12, historyStep: 1, maxRips: 12)
+            #else
+            let strategy = Router.Strategy.of(.balanced)
+            #endif
+            var run = Router.Run(problem: problem, strategy: strategy, seed: problem.options.seed)
             run.routeAll(progress: { _ in }, isCancelled: { false })
             let raw = run.result
             let copper = run.finishedCopper()
@@ -53,8 +59,10 @@ final class RouterFixtureTests: XCTestCase {
                          vertices(raw.traces), vertices(result.traces)))
             for net in problem.nets {
                 let before = raw.traces.filter { $0.net == net.id }, after = result.traces.filter { $0.net == net.id }
+                // Longer only by what leaving a pad at an aligned angle takes, at each trace end.
                 XCTAssertLessThanOrEqual(after.reduce(0) { $0 + RoutingCleanup.length($1.points) },
-                                         before.reduce(0) { $0 + RoutingCleanup.length($1.points) } + 1e-6, "\(name) \(net.name)")
+                                         before.reduce(0) { $0 + RoutingCleanup.length($1.points) }
+                                             + 2 * RoutingCleanup.endGrowth * Double(before.count) + 1e-6, "\(name) \(net.name)")
                 XCTAssertLessThanOrEqual(result.vias.filter { $0.net == net.id }.count,
                                          raw.vias.filter { $0.net == net.id }.count, "\(name) \(net.name)")
             }
@@ -94,10 +102,10 @@ final class RouterFixtureTests: XCTestCase {
         doc.setNetGroupTolerance(group, 0.5)
         for net in members { XCTAssertTrue(doc.assignNet(try XCTUnwrap(copper.planeNet(ofNet: net)), toGroup: group)) }
 
-        var plain = RoutingOptions.standard
+        var plain = RoutingOptions.fixture
         plain.tuneGroups = false
         let before = Router.route(doc.routingProblem(options: plain, rules: .customDefault))
-        let problem = doc.routingProblem(options: .standard, rules: .customDefault)
+        let problem = doc.routingProblem(options: .fixture, rules: .customDefault)
         let result = Router.route(problem)
         let outcome = try XCTUnwrap(result.groups.first)
         let lengthsBefore = members.map { RoutingTuning.length(of: $0, traces: before.traces, problem: problem) }
@@ -128,7 +136,7 @@ final class RouterFixtureTests: XCTestCase {
         doc.setNetGroupGap(pair, 0.2)
         let keys = try members.map { try XCTUnwrap(copper.planeNet(ofNet: $0)) }
         for key in keys { XCTAssertTrue(doc.assignNet(key, toGroup: pair)) }
-        let problem = doc.routingProblem(options: .standard, rules: .customDefault)
+        let problem = doc.routingProblem(options: .fixture, rules: .customDefault)
         let result = Router.route(problem)
         let outcome = try XCTUnwrap(result.groups.first { $0.group == pair })
         doc.applyRouting(result, problem: problem)
@@ -156,7 +164,13 @@ final class RouterFixtureTests: XCTestCase {
     /// Fast and Thorough on the fixtures, for the record (plan-38-F Phase 4);
     /// each result is legal.
     func testFastAndThoroughOnTheFixtures() throws {
-        for strategy in [RoutingOptions.Strategy.fast, .thorough] {
+        // Thorough only in an optimised build (see `RoutingOptions.fixture`).
+        #if DEBUG
+        let strategies = [RoutingOptions.Strategy.fast]
+        #else
+        let strategies = [RoutingOptions.Strategy.fast, .thorough]
+        #endif
+        for strategy in strategies {
             for name in Fixture.names {
                 let problem = try problem(name) { $0.strategy = strategy }
                 let result = Router.route(problem)
@@ -170,7 +184,7 @@ final class RouterFixtureTests: XCTestCase {
         for name in Fixture.names {
             let problem = try problem(name)
             var run = Router.Run(problem: problem, strategy: Router.Strategy(rounds: 0, viaCost: 12, historyStep: 1,
-                                                                              maxRips: 12, runs: 1))
+                                                                              maxRips: 12))
             run.routeAll(progress: { _ in }, isCancelled: { false })
             let result = run.result
             report(name, result)

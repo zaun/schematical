@@ -2,6 +2,20 @@ import CoreGraphics
 import Foundation
 @testable import schematical
 
+extension RoutingOptions {
+    /// What the tests route the example boards with: the defaults — but
+    /// Fast in an unoptimised build, where Balanced (several planned and
+    /// improved runs) takes many minutes on AFU. Balanced and Thorough on
+    /// the examples are `RouterQualityFixtureTests`, in an optimised build.
+    static var fixture: RoutingOptions {
+        var options = RoutingOptions.standard
+        #if DEBUG
+        options.strategy = .fast
+        #endif
+        return options
+    }
+}
+
 /// A hand-built routing problem for engine tests: a rectangle board, pads
 /// (each its own component unless given one), holes, and the nets' rules.
 /// Net ids are small integers; every net with a pad is routed.

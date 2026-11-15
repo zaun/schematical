@@ -78,6 +78,9 @@ nonisolated struct RoutingOptions: Codable, Hashable, Sendable {
     var fanoutPlanes = true
     var tuneGroups = true
     var routePairs = true
+    /// Kept in saved options. Every run of a route uses it unchanged, so it
+    /// does not change the result: the runs of Balanced and Thorough differ
+    /// by what a via costs the first routing (`Router.Strategy.viaCosts`).
     var seed: UInt64 = 1
     /// Seconds; nil is the strategy's own.
     var timeLimit: Double? = nil

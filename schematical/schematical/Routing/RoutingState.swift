@@ -32,6 +32,11 @@ nonisolated struct RoutingState: Sendable {
     private var tiles: [Int: [Int]] = [:]
     /// Each routed net's terminals, by component, for its joins.
     let terminals: [Int: [[RoutingTerminal]]]
+    /// Each routed net's terminal nodes and the component each belongs to
+    /// (the first, when two components share a node).
+    let componentOfNode: [Int: [Int: Int]]
+    /// Each net's entries, by id, oldest first.
+    private var entriesOfNet: [Int: [Int]] = [:]
     let netsByID: [Int: RoutingNet]
     /// By node: how contested each cell has been (plan-38-F § 3); a relaxed
     /// search pays `present × (1 + history)` to cross other nets' copper.
@@ -54,6 +59,13 @@ nonisolated struct RoutingState: Sendable {
             }
         }
         self.terminals = terminals
+        var componentOfNode: [Int: [Int: Int]] = [:]
+        for (net, lists) in terminals {
+            var byNode: [Int: Int] = [:]
+            for (c, list) in lists.enumerated() { for t in list where byNode[t.node] == nil { byNode[t.node] = c } }
+            componentOfNode[net] = byNode
+        }
+        self.componentOfNode = componentOfNode
         netsByID = nets
         history = Array(repeating: 0, count: grid.cellCount * grid.layers.count)
     }
@@ -115,6 +127,9 @@ nonisolated struct RoutingState: Sendable {
     /// The ledger in the order the entries were made.
     var ledger: [LedgerEntry] { entries.keys.sorted().compactMap { entries[$0] } }
 
+    /// Net `net`'s entries, in the order they were made.
+    func ledger(of net: Int) -> [LedgerEntry] { (entriesOfNet[net] ?? []).compactMap { entries[$0] } }
+
     /// How far any copper's stamp can reach past its core, mm.
     var reach: Double {
         let largest = problem.nets.map { max($0.clearance, problem.rules.minClearance) + max($0.width, $0.viaDiameter) / 2 }
@@ -144,6 +159,7 @@ nonisolated struct RoutingState: Sendable {
         let entry = LedgerEntry(id: nextID, net: net, path: path, traces: traces, vias: vias, box: box, nodes: nodes)
         nextID += 1
         entries[entry.id] = entry
+        entriesOfNet[net, default: []].append(entry.id)
         for tile in tileKeys(box) { tiles[tile, default: []].append(entry.id) }
         stamp(entry)
         return entry.id
@@ -163,6 +179,7 @@ nonisolated struct RoutingState: Sendable {
         guard !removed.isEmpty else { return }
         for entry in removed {
             entries[entry.id] = nil
+            entriesOfNet[entry.net]?.removeAll { $0 == entry.id }
             for tile in tileKeys(entry.box) { tiles[tile]?.removeAll { $0 == entry.id } }
         }
         let reach = self.reach
@@ -196,8 +213,8 @@ nonisolated struct RoutingState: Sendable {
     /// component 0 first. An entry joins whatever its first or last node
     /// lands on: a component's terminal, or another entry's node.
     func groups(of net: Int) -> (components: [[Int]], entries: [[Int]]) {
-        guard let terminals = terminals[net] else { return ([], []) }
-        let mine = ledger.filter { $0.net == net }
+        guard let terminals = terminals[net], let componentOfNode = componentOfNode[net] else { return ([], []) }
+        let mine = ledger(of: net)
         let n = terminals.count
         var parent = Array(0..<(n + mine.count))
         func find(_ i: Int) -> Int {
@@ -206,8 +223,6 @@ nonisolated struct RoutingState: Sendable {
             return i
         }
         func union(_ a: Int, _ b: Int) { let (x, y) = (find(a), find(b)); if x != y { parent[max(x, y)] = min(x, y) } }
-        var componentOfNode: [Int: Int] = [:]
-        for (c, list) in terminals.enumerated() { for t in list where componentOfNode[t.node] == nil { componentOfNode[t.node] = c } }
         var entryOfNode: [Int: [Int]] = [:]
         for (e, entry) in mine.enumerated() { for node in entry.nodes { entryOfNode[node, default: []].append(e) } }
         for (e, entry) in mine.enumerated() {
@@ -226,13 +241,11 @@ nonisolated struct RoutingState: Sendable {
     /// The entries of `net` that hang by one end only (their other end
     /// lands on nothing of the net), after rip-ups.
     func dangling(of net: Int) -> [Int] {
-        guard let terminals = terminals[net] else { return [] }
-        let mine = ledger.filter { $0.net == net }
-        var terminalNodes = Set<Int>()
-        for list in terminals { for t in list { terminalNodes.insert(t.node) } }
+        guard let terminalNodes = componentOfNode[net] else { return [] }
+        let mine = ledger(of: net)
         return mine.filter { entry in
             [entry.path.first, entry.path.last].compactMap { $0 }.contains { end in
-                !terminalNodes.contains(end) && !mine.contains { $0.id != entry.id && $0.nodes.contains(end) }
+                terminalNodes[end] == nil && !mine.contains { $0.id != entry.id && $0.nodes.contains(end) }
             }
         }.map(\.id)
     }

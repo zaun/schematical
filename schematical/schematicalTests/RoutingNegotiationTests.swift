@@ -105,7 +105,7 @@ final class RoutingNegotiationTests: XCTestCase {
         var board = twoGaps()
         board.options.strategy = .fast
         var single = Router.Run(problem: board.problem(), strategy: Router.Strategy(rounds: 0, viaCost: 12,
-                                                                                  historyStep: 1, maxRips: 12, runs: 1))
+                                                                                  historyStep: 1, maxRips: 12))
         single.routeAll(progress: { _ in }, isCancelled: { false })
         XCTAssertEqual(single.result.stats.routed, 1, "the single pass leaves net 2 unrouted")
         for strategy in RoutingOptions.Strategy.allCases {
@@ -113,7 +113,8 @@ final class RoutingNegotiationTests: XCTestCase {
             let problem = board.problem()
             let result = Router.route(problem)
             XCTAssertTrue(complete(result), "\(strategy): \(result.nets)")
-            XCTAssertGreaterThan(result.stats.rips, 0, "\(strategy) ripped net 1 up")
+            // Fast has one run and no plan: it gets there only by ripping net 1 up.
+            if strategy == .fast { XCTAssertGreaterThan(result.stats.rips, 0, "\(strategy) ripped net 1 up") }
             XCTAssertEqual(RoutingCheck.violations(result, problem), [], "\(strategy)")
         }
     }

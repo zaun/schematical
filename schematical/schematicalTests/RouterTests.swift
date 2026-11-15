@@ -100,11 +100,21 @@ final class RouterTests: XCTestCase {
         board.pad(16, 10, 1, 1, net: 1)
         board.pad(10, 4, 1, 1, net: 2)
         board.pad(10, 16, 1, 1, net: 2)
-        let problem = board.problem()
-        let result = Router.route(problem)
+        // Fast takes the first legal way: the second net hops under the first.
+        board.options.strategy = .fast
+        var problem = board.problem()
+        var result = Router.route(problem)
         XCTAssertEqual(try outcome(result, 1).status, .complete)
         XCTAssertEqual(try outcome(result, 2).status, .complete)
         XCTAssertGreaterThanOrEqual(result.vias.count, 2, "one net crosses the other on Bottom")
+        XCTAssertEqual(RoutingCheck.violations(result, problem), [])
+        // Balanced improves on it: round the other net's pad, on one layer.
+        board.options.strategy = .balanced
+        problem = board.problem()
+        result = Router.route(problem)
+        XCTAssertEqual(try outcome(result, 1).status, .complete)
+        XCTAssertEqual(try outcome(result, 2).status, .complete)
+        XCTAssertEqual(result.vias.count, 0)
         XCTAssertEqual(RoutingCheck.violations(result, problem), [])
     }
 
