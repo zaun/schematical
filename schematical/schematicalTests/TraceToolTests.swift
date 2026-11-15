@@ -30,7 +30,7 @@ final class TraceToolTests: XCTestCase {
         XCTAssertEqual(doc.traces.count, 1)
         let trace = try XCTUnwrap(doc.traces.first)
         XCTAssertEqual(trace.layer, .top)
-        XCTAssertEqual(trace.width, 10)
+        XCTAssertEqual(trace.width, NetRules.defaults(for: .current()).width, "the Default class's width")
         XCTAssertEqual(trace.points.count, 3)
         for (got, want) in zip(trace.points, [p(2.54, 2.54), p(7.62, 2.54), p(10.16, 5.08)]) {
             XCTAssertTrue(TraceRoute.same(got, want), "\(trace.points)")
@@ -96,7 +96,7 @@ final class TraceToolTests: XCTestCase {
         XCTAssertEqual(doc.boardSelection.items, [.footprint(part.id), .trace(id)])
         XCTAssertEqual(PCBSidebarView.content(for: doc), .selection)
         let rows = SelectionRows.board(doc)
-        XCTAssertEqual(rows.map(\.accessibilityLabel).last, "Trace, Top, 10 mil")
+        XCTAssertEqual(rows.map(\.accessibilityLabel).last, "Trace, Top, \(NetRules.defaults(for: .current()).width) mil")
         // Shift-click again takes it out.
         let again = doc.pressSelection(.trace(id), shift: true)
         doc.releaseSelection(again, wasClick: true)
@@ -181,7 +181,7 @@ final class TraceToolTests: XCTestCase {
     func testTraceFromEmptyBoardIsTheDefaultWidth() throws {
         let (doc, start) = try powerPair()
         let id = try XCTUnwrap(drag(doc, from: p(start.x, start.y + 20), to: p(start.x + 7.62, start.y + 20)))
-        XCTAssertEqual(doc.traces.first { $0.id == id }?.width, BoardTrace.defaultWidth)
+        XCTAssertEqual(doc.traces.first { $0.id == id }?.width, NetRules.defaults(for: .current()).width)
     }
 
     func testLiveTraceAndCommittedTraceAreOneWidth() throws {
@@ -202,8 +202,9 @@ final class TraceToolTests: XCTestCase {
         XCTAssertEqual(via.drill, 0.5)
         XCTAssertEqual(via.diameter, 1)
         let plain = try XCTUnwrap(doc.addVia(at: p(start.x, start.y + 20)))
-        XCTAssertEqual(doc.vias.first { $0.id == plain }?.drill, BoardVia.defaultDrill)
-        XCTAssertEqual(doc.vias.first { $0.id == plain }?.diameter, BoardVia.defaultDiameter)
+        let standard = NetRules.defaults(for: .current())
+        XCTAssertEqual(doc.vias.first { $0.id == plain }?.drill, standard.viaDrill)
+        XCTAssertEqual(doc.vias.first { $0.id == plain }?.diameter, standard.viaDiameter)
     }
 
     // MARK: Trace assist (plan-38-L)

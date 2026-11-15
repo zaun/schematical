@@ -162,6 +162,8 @@ final class TraceJoinTests: XCTestCase {
     func testTraceHitAndWidth() throws {
         let doc = doc()
         let id = try XCTUnwrap(doc.addTrace(from: p(0, 0), to: p(10, 0), layer: .top, diagonalFirst: false))
+        // The distances below are for a 10 mil trace, whatever the Default class is.
+        doc.setTraceWidth(id, 10)
         XCTAssertEqual(doc.trace(at: p(5, 0.2), tolerance: 0.1)?.id, id)
         XCTAssertNil(doc.trace(at: p(5, 0.5), tolerance: 0.1))
         XCTAssertNil(doc.trace(at: p(5, 0), tolerance: 0.1,

@@ -182,8 +182,8 @@ final class DesignRuleCheckTests: XCTestCase {
         let (doc, _, _, _, _) = try wiredPair()
         // Two unconnected traces 0.3 mm apart centre to centre, 10 mil
         // (0.254 mm) wide: 0.046 mm of gap.
-        let a = try XCTUnwrap(doc.addTrace(points: [CGPoint(x: 10, y: 70), CGPoint(x: 20, y: 70)], layer: .top))
-        let b = try XCTUnwrap(doc.addTrace(points: [CGPoint(x: 10, y: 70.3), CGPoint(x: 20, y: 70.3)], layer: .top))
+        let a = try XCTUnwrap(doc.addTrace(points: [CGPoint(x: 10, y: 70), CGPoint(x: 20, y: 70)], layer: .top, width: 10))
+        let b = try XCTUnwrap(doc.addTrace(points: [CGPoint(x: 10, y: 70.3), CGPoint(x: 20, y: 70.3)], layer: .top, width: 10))
         let clearance = doc.designRuleCheck(rules: rules).filter { $0.kind == .clearance }
         XCTAssertEqual(clearance.map(\.items), [[.trace(a), .trace(b)]], "\(clearance)")
         // On different layers they don't meet.

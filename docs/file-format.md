@@ -256,9 +256,15 @@ of and above the hole. In lists it is `H1`, `H2`, … in drawing order.
 A net class is a named set of routing rules shared by some nets: the width
 new traces on them get, the clearance they keep, and the via they use. A
 net is in the **first** class in the list any of whose members names it;
-a net in no class is in the implicit **Default** class (10 mil, the DRC's
-min clearance, a 0.4 / 0.8 mm via). Written only when there are some;
-older builds ignore it. What the router does with classes, layer rules and
+a net in no class is in the implicit **Default** class, which is not in
+the file: it is the smallest copper the design rules in force allow
+(Settings ▸ DRC Defaults) — the narrowest whole mil at or over the min
+trace width (never under 5 mil), the min clearance, and a via of the min
+via drill with the min via diameter (or the drill plus the min annular
+ring each side, when that is wider). Under PCBWay's rules that is 5 mil
+and a 0.2 / 0.5 mm via. Traces and vias carry their own sizes, so
+changing the rules never changes copper already on the board. Written
+only when there are some; older builds ignore it. What the router does with classes, layer rules and
 groups: [routing.md § Rules per net](routing.md#rules-per-net).
 
 | Field         | Type    | Meaning |

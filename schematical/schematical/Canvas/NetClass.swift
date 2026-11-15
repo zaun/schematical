@@ -1,21 +1,39 @@
 import Foundation
 
-/// The rules new copper on a net gets from its class: the Default class's
-/// unless set.
+/// The rules new copper on a net gets from its class, or the Default
+/// class's (`defaults(for:)`).
 nonisolated struct NetRules: Hashable, Sendable {
     /// mil.
-    var width = NetClass.defaultWidth
+    var width: Int
     /// mm; nil is the DRC's minimum.
     var clearance: Double? = nil
-    var viaDrill = NetClass.defaultViaDrill
-    var viaDiameter = NetClass.defaultViaDiameter
+    var viaDrill: Double
+    var viaDiameter: Double
+
+    /// The Default class under `rules`: the smallest copper the design
+    /// rules allow, so a net in no class is always legal for the chosen
+    /// manufacturer and leaves the most room. The width is the narrowest
+    /// whole mil at or over the min trace width (never under 5 mil, a
+    /// trace's least); the via is the min via drill with the widest of the
+    /// min via diameter and the drill plus the min annular ring each side;
+    /// the clearance is the DRC's minimum.
+    static func defaults(for rules: DesignRules) -> NetRules {
+        let mil = Int((rules.minTraceWidth / 0.0254 - 1e-6).rounded(.up))
+        let width = min(max(mil, BoardTrace.widthRange.lowerBound), BoardTrace.widthRange.upperBound)
+        let drill = min(max(rules.minViaDrill, BoardVia.drillRange.lowerBound), BoardVia.drillRange.upperBound)
+        let ring = max(rules.minAnnularRing, BoardVia.minimumRing)
+        let least = max(rules.minViaDiameter, drill + 2 * ring, BoardVia.diameterRange.lowerBound)
+        // To the micron, upwards, so the sum's rounding never leaves it under a minimum.
+        let diameter = min((least * 1000 - 1e-6).rounded(.up) / 1000, BoardVia.diameterRange.upperBound)
+        return NetRules(width: width, clearance: nil, viaDrill: drill, viaDiameter: diameter)
+    }
 }
 
 /// A named set of routing rules shared by some nets: trace width,
 /// clearance and via size. A net is in the first class, in list order,
 /// any of whose members names it; a net in no class is in the implicit
-/// Default class (`defaultWidth`, the DRC's minimum clearance, and the
-/// default via). Members are `PlaneNet`s, the stable names a Plane uses, so
+/// Default class (`NetRules.defaults(for:)`: the design rules' minimum
+/// width, clearance and via). Members are `PlaneNet`s, the stable names a Plane uses, so
 /// a class keeps its nets across rewiring of their other pins. A class
 /// whose members no longer name any net stays: it is the user's data.
 nonisolated struct NetClass: Identifiable, Hashable, Sendable {
@@ -35,6 +53,9 @@ nonisolated struct NetClass: Identifiable, Hashable, Sendable {
     /// comes first.
     var layerRule: LayerRule? = nil
 
+    /// What a class made from values alone starts with (the file's defaults
+    /// for a trace and a via); a class the user adds starts as the Default
+    /// class (`SchematicDocument.addNetClass`).
     static let defaultWidth = BoardTrace.defaultWidth
     static let defaultViaDrill = BoardVia.defaultDrill
     static let defaultViaDiameter = BoardVia.defaultDiameter

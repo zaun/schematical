@@ -23,13 +23,18 @@ final class DesignRuleGoldenTests: XCTestCase {
         for (n, line) in doc.ratsnest().prefix(60).enumerated() {
             let layer: CopperLayer = n.isMultiple(of: 2) ? .top : .bottom
             doc.addTrace(points: [line.0, line.1], layer: layer, width: 5 + (n % 6) * 5)
-            if n.isMultiple(of: 4) {
-                doc.addVia(at: CGPoint(x: (line.0.x + line.1.x) / 2, y: (line.0.y + line.1.y) / 2))
+            if n.isMultiple(of: 4), let via = doc.addVia(at: CGPoint(x: (line.0.x + line.1.x) / 2, y: (line.0.y + line.1.y) / 2)) {
+                // The size the golden was made with, whatever the Default class is.
+                doc.setViaDiameter(via, 0.8)
+                doc.setViaDrill(via, 0.4)
             }
         }
         doc.addTrace(points: [CGPoint(x: 1, y: 0.05), CGPoint(x: 30, y: 0.05)], layer: .top, width: 10)
         // A via under the DRC's least drill and ring.
         if let small = doc.addVia(at: CGPoint(x: 40, y: 40)) {
+            // From 0.4 / 0.8 mm, as the golden was made, whatever the Default class is.
+            doc.setViaDiameter(small, 0.8)
+            doc.setViaDrill(small, 0.4)
             doc.setViaDiameter(small, 0.3)
             doc.setViaDrill(small, 0.15)
         }

@@ -67,6 +67,7 @@ final class AssistRouter {
         let copper = document.connectivity()
         let net = document.net(at: start, layer: layer, in: copper)
         let netClass = net.flatMap { document.netClass(ofNet: $0, in: copper) }
+        let standard = NetRules.defaults(for: rules)
         var options = RoutingOptions.standard
         options.grid = pitch
         options.vias = .none
@@ -77,10 +78,10 @@ final class AssistRouter {
         problem.nets = [RoutingNet(
             id: net ?? noNet, name: net.flatMap { copper.netNames[$0] } ?? "",
             key: net.flatMap { copper.planeNet(ofNet: $0) } ?? .pin(chip: UUID(), designator: ""),
-            width: max(Double(netClass?.width ?? NetClass.defaultWidth) * 0.0254, rules.minTraceWidth),
+            width: max(Double(netClass?.width ?? standard.width) * 0.0254, rules.minTraceWidth),
             clearance: max(netClass?.clearance ?? rules.minClearance, rules.minClearance),
-            viaDrill: netClass?.viaDrill ?? NetClass.defaultViaDrill,
-            viaDiameter: netClass?.viaDiameter ?? NetClass.defaultViaDiameter,
+            viaDrill: netClass?.viaDrill ?? standard.viaDrill,
+            viaDiameter: netClass?.viaDiameter ?? standard.viaDiameter,
             allowed: [layer], preferred: [], components: [])]
         return (problem, net)
     }

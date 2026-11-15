@@ -21,7 +21,7 @@ final class RoutingSessionTests: XCTestCase {
     func testARunFinishesAndApplies() async throws {
         let doc = try pair()
         let session = RoutingSession()
-        XCTAssertTrue(session.start(document: doc, options: .standard, rules: .customDefault))
+        XCTAssertTrue(session.start(document: doc, options: .fixture, rules: .customDefault))
         XCTAssertTrue(session.isRunning)
         await session.wait()
         guard case let .finished(summary) = session.state else { return XCTFail("\(session.state)") }
@@ -34,7 +34,7 @@ final class RoutingSessionTests: XCTestCase {
     func testStopKeepsALegalPartialResult() async throws {
         let doc = try Fixture.open("AFU")
         let session = RoutingSession()
-        XCTAssertTrue(session.start(document: doc, options: .standard, rules: .customDefault))
+        XCTAssertTrue(session.start(document: doc, options: .fixture, rules: .customDefault))
         session.stop()
         await session.wait()
         guard case .finished = session.state else { return XCTFail("\(session.state)") }
@@ -49,7 +49,7 @@ final class RoutingSessionTests: XCTestCase {
         let doc = try Fixture.open("AFU")
         let before = doc.state
         let session = RoutingSession()
-        XCTAssertTrue(session.start(document: doc, options: .standard, rules: .customDefault))
+        XCTAssertTrue(session.start(document: doc, options: .fixture, rules: .customDefault))
         session.cancel()
         await session.wait()
         XCTAssertEqual(session.state, .discarded(RoutingSession.cancelledReason))
@@ -59,7 +59,7 @@ final class RoutingSessionTests: XCTestCase {
     func testABoardChangedMeanwhileIsNotRoutedOnto() async throws {
         let doc = try Fixture.open("AFU")
         let session = RoutingSession()
-        XCTAssertTrue(session.start(document: doc, options: .standard, rules: .customDefault))
+        XCTAssertTrue(session.start(document: doc, options: .fixture, rules: .customDefault))
         let chip = try XCTUnwrap(doc.chips.first { $0.board != nil })
         doc.moveFootprint(chip.id, to: CGPoint(x: 10, y: 10))
         session.stop()
@@ -72,15 +72,15 @@ final class RoutingSessionTests: XCTestCase {
         let doc = try pair()
         doc.isPlaying = true
         let session = RoutingSession()
-        XCTAssertFalse(session.start(document: doc, options: .standard, rules: .customDefault))
+        XCTAssertFalse(session.start(document: doc, options: .fixture, rules: .customDefault))
         XCTAssertEqual(session.state, .idle)
         XCTAssertNotNil(doc.editorMessage)
         doc.isPlaying = false
         doc.editorMessage = nil
 
         let busy = try Fixture.open("AFU")
-        XCTAssertTrue(session.start(document: busy, options: .standard, rules: .customDefault))
-        XCTAssertFalse(session.start(document: busy, options: .standard, rules: .customDefault))
+        XCTAssertTrue(session.start(document: busy, options: .fixture, rules: .customDefault))
+        XCTAssertFalse(session.start(document: busy, options: .fixture, rules: .customDefault))
         XCTAssertNotNil(busy.editorMessage)
         session.cancel()
         await session.wait()
@@ -89,7 +89,7 @@ final class RoutingSessionTests: XCTestCase {
     func testProgressNeverGoesBackBetweenRounds() async throws {
         let doc = try Fixture.open("AFU")
         let session = RoutingSession()
-        XCTAssertTrue(session.start(document: doc, options: .standard, rules: .customDefault))
+        XCTAssertTrue(session.start(document: doc, options: .fixture, rules: .customDefault))
         await session.wait()
         // Let the last hops to the main actor land.
         for _ in 0..<5 { await Task.yield() }

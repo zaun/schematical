@@ -77,6 +77,8 @@ extension SchematicDocument {
         }
 
         // The nets to route.
+        // A net in no class: the Default class, the design rules' minimums.
+        let standard = NetRules.defaults(for: rules)
         var nets: [RoutingNet] = []
         for net in scoped.sorted() {
             guard var roots = componentRoots[net], let key = copper.planeNet(ofNet: net) else { continue }
@@ -88,7 +90,7 @@ extension SchematicDocument {
             guard roots.count >= 2 else { continue }
             if options.include == .untouchedNets, hasCopper.contains(net) { continue }
             let netClass = netClass(ofNet: net, in: copper)
-            let mil = options.widthOverride ?? netClass?.width ?? NetClass.defaultWidth
+            let mil = options.widthOverride ?? netClass?.width ?? standard.width
             let width = max(Double(mil) * 0.0254, rules.minTraceWidth)
             let clearance = max(options.clearanceOverride ?? netClass?.clearance ?? rules.minClearance, rules.minClearance)
             let effective = effectiveLayers(ofNet: net, in: copper)
@@ -108,8 +110,8 @@ extension SchematicDocument {
             }
             nets.append(RoutingNet(
                 id: net, name: name, key: key, width: width, clearance: clearance,
-                viaDrill: netClass?.viaDrill ?? NetClass.defaultViaDrill,
-                viaDiameter: netClass?.viaDiameter ?? NetClass.defaultViaDiameter,
+                viaDrill: netClass?.viaDrill ?? standard.viaDrill,
+                viaDiameter: netClass?.viaDiameter ?? standard.viaDiameter,
                 allowed: allowed, preferred: preferred, components: roots.map(component),
                 planeLayer: board.copperLayers.first { planes[$0] == net },
                 group: group(ofNet: net, in: copper)?.id, impossible: impossible, pins: copper.pinCount(ofNet: net)))

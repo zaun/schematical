@@ -120,7 +120,7 @@ final class RoutingApplyTests: XCTestCase {
     /// AFU, routed (Balanced) and applied once.
     private func routedAFU() throws -> (doc: SchematicDocument, problem: RoutingProblem, result: RoutingResult) {
         let doc = try Fixture.open("AFU")
-        let problem = doc.routingProblem(options: .standard, rules: .customDefault)
+        let problem = doc.routingProblem(options: .fixture, rules: .customDefault)
         let result = Router.route(problem)
         doc.applyRouting(result, problem: problem)
         return (doc, problem, result)

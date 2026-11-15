@@ -11,6 +11,48 @@ final class NetClassTests: XCTestCase {
         try XCTUnwrap(doc.board.netClasses.first { $0.id == id })
     }
 
+    // MARK: The Default class
+
+    /// The Default class is the smallest legal copper of every manufacturer's rules.
+    func testDefaultClassIsLegalAndMinimalForEveryManufacturer() {
+        let all = DRCManufacturer.allCases.compactMap(\.fixedRules) + [DesignRules.customDefault]
+        XCTAssertGreaterThan(all.count, 5)
+        for rules in all {
+            let standard = NetRules.defaults(for: rules)
+            XCTAssertNil(NetClass.problem(width: standard.width, clearance: standard.clearance, viaDrill: standard.viaDrill,
+                                          viaDiameter: standard.viaDiameter, name: "Default"))
+            let mm = Double(standard.width) * 0.0254
+            XCTAssertGreaterThanOrEqual(mm, rules.minTraceWidth - 1e-9)
+            // No wider than it must be: the next mil down is under the rule, or under a trace's least.
+            XCTAssertTrue(mm - 0.0254 < rules.minTraceWidth || standard.width == BoardTrace.widthRange.lowerBound)
+            XCTAssertNil(standard.clearance)
+            XCTAssertEqual(standard.viaDrill, rules.minViaDrill, accuracy: 1e-9)
+            XCTAssertGreaterThanOrEqual(standard.viaDiameter, rules.minViaDiameter - 1e-9)
+            XCTAssertGreaterThanOrEqual((standard.viaDiameter - standard.viaDrill) / 2, rules.minAnnularRing - 1e-9)
+            let least = max(rules.minViaDiameter, rules.minViaDrill + 2 * rules.minAnnularRing)
+            XCTAssertEqual(standard.viaDiameter, least, accuracy: 0.001)
+        }
+    }
+
+    func testDefaultClassUnderPCBWay() {
+        let standard = NetRules.defaults(for: .pcbway)
+        XCTAssertEqual(standard.width, 5)
+        XCTAssertEqual(standard.viaDrill, 0.2)
+        XCTAssertEqual(standard.viaDiameter, 0.5)
+    }
+
+    /// Rules outside what a trace or via can be still give a legal class.
+    func testDefaultClassClampsToWhatCopperCanBe() {
+        var rules = DesignRules.pcbway
+        rules.minTraceWidth = 5
+        rules.minViaDrill = 0.01
+        rules.minViaDiameter = 0.02
+        rules.minAnnularRing = 0
+        let standard = NetRules.defaults(for: rules)
+        XCTAssertEqual(standard.width, 100)
+        XCTAssertNil(BoardVia.problem(drill: standard.viaDrill, diameter: standard.viaDiameter))
+    }
+
     // MARK: Phase 1 — edits
 
     func testAddRenameRemoveAreEachOneUndoStep() throws {
@@ -19,10 +61,12 @@ final class NetClassTests: XCTestCase {
         XCTAssertEqual(doc.undoName(on: .pcb), "Add Net Class")
         let added = try netClass(doc, id)
         XCTAssertEqual(added.name, "Power")
-        XCTAssertEqual(added.width, BoardTrace.defaultWidth)
+        // A new class starts as the Default class: the design rules' minimums.
+        let standard = NetRules.defaults(for: .current())
+        XCTAssertEqual(added.width, standard.width)
         XCTAssertNil(added.clearance)
-        XCTAssertEqual(added.viaDrill, 0.4)
-        XCTAssertEqual(added.viaDiameter, 0.8)
+        XCTAssertEqual(added.viaDrill, standard.viaDrill)
+        XCTAssertEqual(added.viaDiameter, standard.viaDiameter)
         XCTAssertTrue(added.members.isEmpty)
 
         doc.renameNetClass(id, to: "Supply")

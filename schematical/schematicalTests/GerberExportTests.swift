@@ -62,7 +62,7 @@ final class GerberExportTests: XCTestCase {
     func testTraceIsDrawnOnItsLayerOnly() throws {
         let doc = TestSupport.newDocument()
         doc.setBoardSize(width: 50, height: 30)
-        _ = try XCTUnwrap(doc.addTrace(points: [CGPoint(x: 10, y: 10), CGPoint(x: 20, y: 10)], layer: .bottom))
+        _ = try XCTUnwrap(doc.addTrace(points: [CGPoint(x: 10, y: 10), CGPoint(x: 20, y: 10)], layer: .bottom, width: 10))
         let files = GerberExport.files(for: doc, base: "b", rules: rules)
         let bottom = try file(files, ".GBL")
         // 10 mil = 0.254 mm.
@@ -111,7 +111,10 @@ final class GerberExportTests: XCTestCase {
 
     func testMaskOpeningsGrowByTheExpansion() throws {
         let doc = TestSupport.newDocument()
-        _ = try XCTUnwrap(doc.addVia(at: CGPoint(x: 5, y: 5)))
+        let via = try XCTUnwrap(doc.addVia(at: CGPoint(x: 5, y: 5)))
+        // A 0.4 / 0.8 mm via, whatever the Default class is.
+        doc.setViaDiameter(via, 0.8)
+        doc.setViaDrill(via, 0.4)
         let hole = doc.addHole(at: CGPoint(x: 20, y: 20))
         XCTAssertNotNil(doc.holes.first { $0.id == hole })
         var rules = rules
@@ -130,7 +133,10 @@ final class GerberExportTests: XCTestCase {
         let doc = TestSupport.newDocument()
         doc.setLayerCount(4)
         doc.setLayerNet(.inner(2), .ground)
-        _ = try XCTUnwrap(doc.addVia(at: CGPoint(x: 5, y: 5)))
+        let via = try XCTUnwrap(doc.addVia(at: CGPoint(x: 5, y: 5)))
+        // A 0.4 / 0.8 mm via, whatever the Default class is.
+        doc.setViaDiameter(via, 0.8)
+        doc.setViaDrill(via, 0.4)
         let plane = try file(GerberExport.files(for: doc, base: "b", rules: rules), ".G1")
         let text = lines(plane)
         let region = try XCTUnwrap(text.firstIndex(of: "G36*"))
@@ -176,7 +182,10 @@ final class GerberExportTests: XCTestCase {
     func testDrillFilesSplitPlatedAndBareHoles() throws {
         let doc = TestSupport.newDocument()
         doc.setBoardSize(width: 50, height: 30)
-        _ = try XCTUnwrap(doc.addVia(at: CGPoint(x: 5, y: 5)))
+        let via = try XCTUnwrap(doc.addVia(at: CGPoint(x: 5, y: 5)))
+        // A 0.4 / 0.8 mm via, whatever the Default class is.
+        doc.setViaDiameter(via, 0.8)
+        doc.setViaDrill(via, 0.4)
         let holeID = doc.addHole(at: CGPoint(x: 20, y: 20))
         let hole = try XCTUnwrap(doc.holes.first { $0.id == holeID }).centre
         let files = GerberExport.files(for: doc, base: "b", rules: rules)

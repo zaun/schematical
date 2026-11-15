@@ -9,7 +9,7 @@ nonisolated struct RoutingProfile: Hashable, Sendable {
     var viaRadius: Double
     /// Half its via's drill: a via keeps the DRC's hole-to-hole distance
     /// from every other hole, whatever its net.
-    var viaDrillRadius: Double = NetClass.defaultViaDrill / 2
+    var viaDrillRadius: Double
 }
 
 /// The routing grid (plan-38-E § 3): cells `pitch` apart from the outline's
@@ -75,8 +75,10 @@ nonisolated struct RoutingGrid: Sendable {
             clearanceOfNet[net.id] = net.clearance
         }
         if profiles.isEmpty {
-            profiles.append(RoutingProfile(halfWidth: max(rules.minTraceWidth, Double(NetClass.defaultWidth) * 0.0254) / 2,
-                                           clearance: rules.minClearance, viaRadius: NetClass.defaultViaDiameter / 2))
+            let standard = NetRules.defaults(for: rules)
+            profiles.append(RoutingProfile(halfWidth: max(rules.minTraceWidth, Double(standard.width) * 0.0254) / 2,
+                                           clearance: rules.minClearance, viaRadius: standard.viaDiameter / 2,
+                                           viaDrillRadius: standard.viaDrill / 2))
         }
         self.profiles = profiles
         self.profileOfNet = profileOfNet

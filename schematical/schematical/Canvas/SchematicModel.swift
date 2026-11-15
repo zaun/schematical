@@ -3373,7 +3373,9 @@ final class SchematicDocument {
     @discardableResult
     func addNetClass(named name: String) -> UUID {
         recordEdit(.pcb, "Add Net Class") {
-            let netClass = NetClass(id: UUID(), name: Self.netClassName(name) ?? "Class")
+            let start = NetRules.defaults(for: .current())
+            let netClass = NetClass(id: UUID(), name: Self.netClassName(name) ?? "Class", width: start.width,
+                                    viaDrill: start.viaDrill, viaDiameter: start.viaDiameter)
             board.netClasses.append(netClass)
             return netClass.id
         }
@@ -3461,7 +3463,7 @@ final class SchematicDocument {
     func netRules(at point: CGPoint, layer: CopperLayer?) -> NetRules {
         let copper = connectivity()
         guard let net = net(at: point, layer: layer, in: copper),
-              let netClass = netClass(ofNet: net, in: copper) else { return NetRules() }
+              let netClass = netClass(ofNet: net, in: copper) else { return NetRules.defaults(for: .current()) }
         return NetRules(width: netClass.width, clearance: netClass.clearance, viaDrill: netClass.viaDrill,
                         viaDiameter: netClass.viaDiameter)
     }

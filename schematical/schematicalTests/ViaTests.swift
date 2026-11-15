@@ -19,9 +19,12 @@ final class ViaTests: XCTestCase {
         let id = try XCTUnwrap(doc.addVia(at: p(5.08, 5.08)))
         let added = try via(doc, id)
         XCTAssertEqual(added.centre, p(5.08, 5.08))
-        XCTAssertEqual(added.drill, 0.4)
-        XCTAssertEqual(added.diameter, 0.8)
-        XCTAssertEqual(added.ring, 0.2, accuracy: 1e-9)
+        // The Default class's via: the design rules' smallest.
+        let standard = NetRules.defaults(for: .current())
+        XCTAssertEqual(added.drill, standard.viaDrill)
+        XCTAssertEqual(added.diameter, standard.viaDiameter)
+        XCTAssertEqual(added.ring, (standard.viaDiameter - standard.viaDrill) / 2, accuracy: 1e-9)
+        XCTAssertNil(BoardVia.problem(drill: added.drill, diameter: added.diameter))
         XCTAssertEqual(doc.selectedViaID, id)
         XCTAssertEqual(PCBSidebarView.content(for: doc), .via(id))
         XCTAssertEqual(doc.undoName(on: .pcb), "Add Via")
@@ -89,6 +92,7 @@ final class ViaTests: XCTestCase {
     func testSizesClampAndKeepARing() throws {
         let doc = TestSupport.newDocument()
         let id = try XCTUnwrap(doc.addVia(at: p(0, 0)))
+        doc.setViaDiameter(id, 0.8)
         doc.setViaDrill(id, 0.7)
         XCTAssertEqual(try via(doc, id).drill, 0.7, accuracy: 1e-9, "0.8 metal leaves 0.05 a side")
         doc.setViaDrill(id, 0.75)
