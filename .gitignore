@@ -13,3 +13,6 @@ tmp/
 
 # DigiKey API credentials (scripts/digikey.js)
 digikey.md
+
+# Reference boards for the autorouter (local only)
+routing-example/
