@@ -164,22 +164,23 @@ same-named pin, an array, the generics) and check each pin has a slot.
 
 ### Phase 1 — Catalog, facts, references, symbol
 
-- [ ] `PartCatalog.swift`: `Details.transistor`, `TransistorInfo`, its builder
+- [x] `PartCatalog.swift`: `Details.transistor`, `TransistorInfo`, its builder
       (`part.transistor?.pointee`), `detailLabels`, `symbol(for:)`.
-- [ ] `PartFacts.swift`: "Transistor", "Transistor array", the rows (§ 3), the
+- [x] `PartFacts.swift`: "Transistor", "Transistor array", the rows (§ 3), the
       text helpers (`milliohmsText`, `voltsText` reuse `PartFacts.milli` and
       `ResistorValue.text`).
-- [ ] `Preferences/ReferencePrefixes.swift`: `case PART_TRANSISTOR: return
+- [x] `Preferences/ReferencePrefixes.swift`: `case PART_TRANSISTOR: return
       .transistor` in `ReferenceCategory.of(_:)` (only if absent:
       `grep -c 'PART_TRANSISTOR' schematical/schematical/Preferences/ReferencePrefixes.swift` → 0).
-- [ ] `SchematicModel.swift`: `PartSymbol.transistor` and `ChipLayout.transistor`
+- [x] `SchematicModel.swift`: `PartSymbol.transistor` and `ChipLayout.transistor`
       in the layout switch; `Canvas/TransistorSymbolView.swift` (new); the
       `.transistor` case in `SchematicCanvasView.swift`,
       `SchematicExportScene.swift` and `ReferenceLabel.swift`.
 
 Acceptance: the app builds.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p40-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 3 min).
-Commit: —
+  Result (2026-11-15): `** BUILD SUCCEEDED **`.
+Commit: (this commit; hash in the next)
 
 ### Phase 2 — Drawer order, BOM, generics
 
@@ -250,7 +251,19 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. **Phase 1 ran before G (2026-11-15).** Phase 1 needs only the kind
+   (`PART_TRANSISTOR`, `PartTransistor`: plan-40-F, landed 5f3c9a25), not
+   G's parts, so it was done while plan-40-A's downloads ran; Phases 2–3
+   wait for G as written. The Prerequisites rows naming G hold for Phases 2–3.
+2. **Phase 1 choices.** A repeated same-name pin (a tab, `G,D,S,D`) gets no
+   slot of its own, as `ChipLayout.diode` (three slots; Phase 3's test
+   expects three). Resistances print with a space (`8 mΩ`, `5 Ω`, `10 kΩ`,
+   as § 3's examples; `milliohmsText` reuses `ResistorValue.split`); a mixed
+   MOSFET pair's Type is `N-channel + P-channel` (§ 3 gives only `NPN +
+   PNP`); Darlington wins over pre-biased in the Type text; the symbol body
+   is 80 × 60 so a part name fits between the right-hand leads. The new
+   `TransistorSymbolView.swift` needs no project-file edit (folder-synced
+   groups).
 
 ## Summary
 

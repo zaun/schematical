@@ -138,6 +138,27 @@ nonisolated enum PartFacts {
             add("Tolerance", tolerancePercent.map { "±" + percentText($0) } ?? "")
             add("Power", powerW.map(wattsText) ?? "")
             if resistors > 1 { add("Resistors", String(resistors)) }
+        case let .transistor(info):
+            add("Type", transistorType(info))
+            if info.elements > 1 { add("Elements", String(info.elements)) }
+            func rating(_ label: String, _ value: UInt32, _ unit: String, prefix: String = "") {
+                if value > 0 { add(label, "\(prefix)\(milli(value)) \(unit)") }
+            }
+            if info.mosfet {
+                rating("Vds", info.vmaxMV, "V")
+                rating("Id", info.imaxMA, "A")
+                if info.rdsonMilliohm > 0 { add("Rds(on)", milliohmsText(info.rdsonMilliohm)) }
+                rating("Vgs(th)", info.vgsthMV, "V", prefix: "≤ ")
+                rating("Vgs", info.vgsMV, "V", prefix: "±")
+                rating("Power", info.powerMW, "W")
+            } else {
+                rating("Vceo", info.vmaxMV, "V")
+                rating("Ic", info.imaxMA, "A")
+                rating("Power", info.powerMW, "W")
+                if info.hfe > 0 { add("hFE", String(info.hfe)) }
+                if info.r1Milliohm > 0 { add("R1", milliohmsText(info.r1Milliohm)) }
+                if info.r2Milliohm > 0 { add("R2", milliohmsText(info.r2Milliohm)) }
+            }
         }
         if !part.isSimulated { add("Simulation", "Not simulated") }
 
@@ -187,6 +208,7 @@ nonisolated enum PartFacts {
         case PART_REGISTER: return "Register"
         case PART_MCU: return "Microcontroller"
         case PART_RESISTOR: return "Resistor"
+        case PART_TRANSISTOR: return "Transistor"
         default: return ""
         }
     }
@@ -197,6 +219,7 @@ nonisolated enum PartFacts {
     static func kindName(_ part: CatalogPart) -> String {
         if part.isTactileSwitch { return "Tactile switch" }
         if case let .resistor(_, _, _, resistors) = part.details, resistors > 1 { return "Resistor array" }
+        if let info = part.transistor, info.elements > 1 { return "Transistor array" }
         if case .connector(_, _, _, _, _?) = part.details { return "USB connector" }
         if case let .converter(type, _, _) = part.details {
             switch type {
@@ -241,6 +264,30 @@ nonisolated enum PartFacts {
         while text.hasSuffix("0") { text.removeLast() }
         if text.hasSuffix(".") { text.removeLast() }
         return text
+    }
+
+    /// A transistor's type as shown (plan-40-H): "NPN", "PNP Darlington",
+    /// "NPN pre-biased", "N-channel logic-level", "P-channel"; a
+    /// complementary pair "NPN + PNP" ("N-channel + P-channel").
+    static func transistorType(_ info: TransistorInfo) -> String {
+        if info.mosfet {
+            if info.mixed { return "N-channel + P-channel" }
+            let channel = info.pType ? "P-channel" : "N-channel"
+            return info.logicLevel ? channel + " logic-level" : channel
+        }
+        if info.mixed { return "NPN + PNP" }
+        let polarity = info.pType ? "PNP" : "NPN"
+        if info.darlington { return polarity + " Darlington" }
+        if info.preBiased { return polarity + " pre-biased" }
+        return polarity
+    }
+
+    /// A resistance in milliohms as shown (plan-40-H): 8 → "8 mΩ",
+    /// 5000 → "5 Ω", 10000000 → "10 kΩ".
+    static func milliohmsText(_ milliohms: UInt64) -> String {
+        if milliohms < 1000 { return "\(milliohms) mΩ" }
+        let (number, unit) = ResistorValue.split(Double(milliohms) / 1000)
+        return ResistorValue.numberText(number) + " " + unit.symbol
     }
 
     /// A resistor's tolerance as shown (plan-34-G): 1 → "1%", 0.1 → "0.1%".

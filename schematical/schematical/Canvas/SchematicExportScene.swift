@@ -60,6 +60,8 @@ struct SchematicScene {
                 CapacitorSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
             case .resistor:
                 ResistorSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
+            case .transistor:
+                TransistorSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
             case .vcc, .ground, .pullUp, .pullDown:
                 SupplySymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false)
             case .dipSwitch:
