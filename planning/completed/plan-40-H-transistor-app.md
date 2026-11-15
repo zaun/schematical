@@ -203,7 +203,7 @@ Acceptance: the drawer and the picker are right.
   `testPlacingTheGenericNPN` (choices `TO-92, SOT-23, SOT-223, TO-220, DPAK`) and
   `testFootprintChoiceRoundTrip` (SOT-23 kept after save and reopen) pass. No code: the drawer,
   BOM and picker needed none.
-Commit: (this commit)
+Commit: ae6f8ed6
 
 ### Phase 3 — Tests and the harness
 
@@ -236,7 +236,7 @@ Acceptance: the tests pass and the harness prints `all checks ok`.
   `p40-sidebar.png` looked at: the NPN with its emitter arrow out, the N-channel MOSFET with the body
   arrow in, the part names beside them, the array a block with B1 B2 / C1 C2 E1 E2; the sidebar shows
   Kind Transistor, Function, Package, Footprint and the ratings).
-Commit: (this commit)
+Commit: ae6f8ed6
 
 ## Validation Plan
 
