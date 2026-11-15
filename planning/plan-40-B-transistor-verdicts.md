@@ -188,7 +188,7 @@ Acceptance: every onsemi eligible row has a scheme or is a skip.
   Result (2026-11-15, on the pre-verdict view, before the final pick):
   `onsemi: 2678 rows with a PDF; 794 verbatim, 3 by scheme, 43 in neither, 1838 not read (n/r)`,
   `0 eligible rows without a scheme`; `pinout-check.py` → `0 pinout errors`.
-Commit: 7d17c1e0 (wave 1), d27a13fb, dde82394 (waves 2–6), (this commit) (wave 7)
+Commit: 7d17c1e0 (wave 1), d27a13fb, dde82394 (waves 2–6), 47dcffd9 (wave 7)
 
 ### Phase 2 — Nexperia and Diodes Incorporated
 
@@ -203,7 +203,7 @@ Acceptance: as Phase 1 for both makers.
   Result (2026-11-15): `Nexperia: 232 rows with a PDF; 0 verbatim, 190 by scheme, 2 in neither, 40 not read (n/r)`;
   `Diodes Incorporated: 504 rows with a PDF; 296 verbatim, 3 by scheme, 34 in neither, 171 not read (n/r)`;
   `0 eligible rows without a scheme`; `0 pinout errors`.
-Commit: d7c5fba3 (Nexperia wave 1), 7d17c1e0, d27a13fb, dde82394, (this commit)
+Commit: d7c5fba3 (Nexperia wave 1), 7d17c1e0, d27a13fb, dde82394, 47dcffd9
 
 ### Phase 3 — Infineon and Vishay Siliconix
 
@@ -217,7 +217,7 @@ Acceptance: as Phase 1 for both makers.
   Result (2026-11-15): `Infineon Technologies: 1494 rows with a PDF; 55 verbatim, 198 by scheme, 34 in neither, 1207 not read (n/r)`;
   `Vishay Siliconix: 1592 rows with a PDF; 308 verbatim, 1 by scheme, 13 in neither, 1270 not read (n/r)`;
   `0 eligible rows without a scheme`; `0 pinout errors`.
-Commit: 7d17c1e0, d27a13fb, dde82394, (this commit)
+Commit: 7d17c1e0, d27a13fb, dde82394, 47dcffd9
 
 ### Phase 4 — Datasheet status, verdicts, the final pick
 
@@ -240,14 +240,14 @@ Commit: 7d17c1e0, d27a13fb, dde82394, (this commit)
 Acceptance: the verdicts and the pick hold, and the owner's named parts are
 in (or their absence is explained).
   Check: `awk -F'\t' '$24=="add"' planning/plan-40-data/candidates.tsv \| wc -l` → N (recorded here; at most 1287); `python3 -I planning/plan-40-data/census/select.py /tmp/p40/raw /tmp/p40/cand.tsv --stock planning/plan-40-data/stock-check.tsv --verdicts planning/plan-40-data/verdicts.tsv --report` → exits 0 and the `add` per (family, maker) line; `for n in 2N3904 2N3906 BC547B BC557B 2N7000 BS170 2N7002; do echo $n $(awk -F'\t' -v n=$n '$24=="add" && index($1,n)==1' planning/plan-40-data/candidates.tsv \| wc -l); done` → each at least 1; a name with 0 is written in § Corrections with the verdict reasons of its rows (est. 3 min).
-  Result (2026-11-15): N = **1247**; `select.py … --report` exits 0: `bjt: 364 picked` (Nexperia 62,
+  Result (2026-11-15): N = **1247**, then **1242** after Corrections 11 (`mosfet-array: 75`, Infineon 21; every other line as below); `select.py … --report` exits 0: `bjt: 364 picked` (Nexperia 62,
   onsemi 152, Diodes 150), `bjt-array: 51` (onsemi 20, Diodes 20, Nexperia 11), `bjt-prebiased: 109`
   (Nexperia 29, onsemi 40, Diodes 40), `bjt-prebiased-array: 42` (14 each), `mosfet: 601` (onsemi 201,
   Infineon 200, Vishay 200), `mosfet-array: 80` (onsemi 27, Vishay 27, Infineon 26); `not read: 3988
   rows; at or above their floor: 0; in a short share: 0`; `dead by the text scan only: 94 rows; at or
   above their floor: 0`; `picked from a cut piece, not stock-checked: 0`. Named parts: 2N3904 2,
   2N3906 0, BC547B 2, BC557B 0, 2N7000 2, BS170 2, 2N7002 6 (the two 0s: Corrections 8).
-Commit: (this commit)
+Commit: 47dcffd9
 
 ### Phase 5 — Skips, obsolete PDFs, footprint lines
 
@@ -273,13 +273,23 @@ Commit: (this commit)
       planning/plan-40-data/candidates.tsv >
       planning/plan-40-data/footprints-needed.txt`; record the lines per
       letter in § Corrections (Corrections 9: 140 lines, C 20, D 56, E 64).
-- [ ] Prune the PDFs to those an `add` row or a footprint note cites
+- [x] Prune the PDFs to those an `add` row or a footprint note cites
       (`place.py --prune`), then commit them with `datasheets.tsv`
       (plan-40-A Corrections 6). Waits for C–E's final footprint notes.
+      `census/prune.py` (the note-cited PDFs need the used-footprint set,
+      so not `place.py --prune`): `5092 files; 1135 used by add rows; 178
+      cited by used footprints (12 of them only there); 8 obsolete; keep
+      1147, delete 3945`; `datasheets.tsv: 1200 lines` (a PDF with several
+      URLs keeps each); `place.py --verify-add` → `0 missing, 12 unused`
+      (the 12 cited only by a footprint note); `du -sh
+      datasheets/transistor` → `569M`.
 
 Acceptance: the skip list is complete and the footprint lines are final.
   Check: `python3 -I planning/plan-40-data/census/verdicts.py --verify-skipped` → `0 skip rows missing from skipped-parts.md`; `grep -vc '^#' planning/plan-40-data/footprints-needed.txt` → the final count (est. 1 min).
-Commit: —
+  Result (2026-11-15, after the land-pattern skips of Corrections 11): `726 skip rows in 65 table
+  rows`; `0 skip rows missing from skipped-parts.md`; `grep -vc '^#' footprints-needed.txt` → `135`
+  (C 20, D 56, E 59).
+Commit: (this commit)
 
 ## Validation Plan
 
@@ -412,6 +422,20 @@ Commit: —
    for the new rows (1127 more URLs, 1123 PDFs) before the last waves. No
    picked row comes from a cut piece now (`candidates from a cut piece: 0
    of 1247`).
+11. **Parts whose land pattern the datasheet does not give.** plan-40-E
+   could not place the pads of six packages from their PDFs: Infineon /
+   IR PQFN 2×2 (the land is in IR AN-1154; the outline places the exposed
+   lands by REF values without a datum — checked by the main session on
+   `irfhs8242pbf.pdf` p.7), Dual PQFN 5×4 (AN-1136), PG-WHTFN-9,
+   PG-WHITFN-10-1, PG-VITFN-10-1, and onsemi's 12-WQFN 3.3×3.3 (which net
+   each exposed land is). A part needs a footprint from its package
+   drawing (AGENTS.md), so their 11 parts are `skip`, `no land pattern in
+   the datasheet` (`verdict-overrides.tsv`; the WDC precedent in
+   `skipped-parts.md`), the waves ran again (3 more spec rows: two read by
+   the Infineon reader, BSZ009NE2LS5 by the main session in
+   `specs-main.tsv`) and the pick is **1242**: Infineon's MOSFET-array
+   share is short (21 of 27; `in a short share: 0` — no unread row is
+   left for it). Named parts unchanged (Corrections 8).
 
 ## Summary
 

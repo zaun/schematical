@@ -1119,7 +1119,7 @@ Infineon Technologies	HEXFET®	datasheets/transistor/infineon/infineon-irfr2407-
 Infineon Technologies	HEXFET®	datasheets/transistor/infineon/infineon-irfr24n15d-datasheet-en.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	IRFR24N15DTRPBF	n/r			
 Infineon Technologies	HEXFET®	datasheets/transistor/infineon/infineon-irfr2607z-datasheet-en.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	IRFR2607ZTRPBF	n/r			
 Infineon Technologies	HEXFET®	datasheets/transistor/infineon/infineon-irfr3410-datasheet-en.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	2	IRFR3410TRPBF	n/r			
-Infineon Technologies	HEXFET®	datasheets/transistor/infineon/infineon-irfr3411-datasheet-en.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	IRFR3411TRPBF	n/r			
+Infineon Technologies	HEXFET®	datasheets/transistor/infineon/infineon-irfr3411-datasheet-en.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	IRFR3411TRPBF	IRFR3411(TR|TRL|TRR)?PBF	DPAK	G,D,S	nmos:G,D,S
 Infineon Technologies	HEXFET®	datasheets/transistor/infineon/infineon-irfr3607-datasheet-en.pdf	TO-251-3 Short Leads, IPAK, TO-251AA	1	IRFU3607PBF	n/r			
 Infineon Technologies	HEXFET®	datasheets/transistor/infineon/infineon-irfr3607-datasheet-en.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	IRFR3607TRPBF	IRFR3607(TR|TRL|TRR)?PBF	DPAK	G,D,S	nmos:G,D,S
 Infineon Technologies	HEXFET®	datasheets/transistor/infineon/infineon-irfr3710z-datasheet-en.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	IRFR3710ZTRPBF	=	DPAK	G,D,S	nmos:G,D,S
@@ -1523,7 +1523,7 @@ Infineon Technologies	OptiMOS™	datasheets/transistor/infineon/infineon-iqe030n
 Infineon Technologies	OptiMOS™	datasheets/transistor/infineon/infineon-iqe050n08nm5-datasheet-en.pdf	8-PowerTDFN	1	IQE050N08NM5ATMA1	n/r			
 Infineon Technologies	OptiMOS™	datasheets/transistor/infineon/infineon-iqe050n08nm5cg-datasheet-en.pdf	8-PowerTDFN	1	IQE050N08NM5CGATMA1	n/r			
 Infineon Technologies	OptiMOS™	datasheets/transistor/infineon/infineon-isc011n06lm5-datasheet-cn.pdf	8-PowerTDFN	1	ISC011N06LM5ATMA1	n/r			
-Infineon Technologies	OptiMOS™	datasheets/transistor/infineon/infineon-isc019n03l5s-datasheet-en.pdf	8-PowerTDFN	1	ISC019N03L5SATMA1	n/r			
+Infineon Technologies	OptiMOS™	datasheets/transistor/infineon/infineon-isc019n03l5s-datasheet-en.pdf	8-PowerTDFN	1	ISC019N03L5SATMA1	ISC019N03L5S(?:[A-Z]{4}\d)?	TDSON-8	S,S,S,G,D,D,D,D	nmos:G,D,S
 Infineon Technologies	OptiMOS™	datasheets/transistor/infineon/infineon-isp650p06nm-datasheet-en.pdf	TO-261-4, TO-261AA	1	ISP650P06NMXTSA1	n/r			
 Infineon Technologies	OptiMOS™	datasheets/transistor/infineon/infineon-isp75dp06lm-datasheet-en.pdf	TO-261-4, TO-261AA	1	ISP75DP06LMXTSA1	n/r			
 Infineon Technologies	OptiMOS™ 3	datasheets/transistor/infineon/Infineon-ISA150233C03LMDS-DataSheet-v01_00-EN.pdf	8-SOIC (0.154", 3.90mm Width)	2	ISA150233C03LMDSXTMA1	ISA150233C03LMDS(?:[A-Z]{4}\d)?	SOIC	S1,G1,S2,G2,D2,D2,D1,D1	nmos:G1,D1,S1;pmos:G2,D2,S2
@@ -1591,7 +1591,7 @@ Infineon Technologies	OptiMOS™ 5	datasheets/transistor/infineon/Infineon-IQFH8
 Infineon Technologies	OptiMOS™ 5	datasheets/transistor/infineon/Infineon-IQFH99N06NM5-DataSheet-v02_00-EN.pdf	12-PowerTDFN	1	IQFH99N06NM5ATMA1	n/r			
 Infineon Technologies	OptiMOS™ 5	datasheets/transistor/infineon/Infineon-ISG0614N06NM5H-DataSheet-v02_00-EN.pdf	10-PowerVDFN	1	ISG0614N06NM5HATMA1	ISG0614N06NM5H(?:[A-Z]{4}\d)?	VITFN-10	SD,SD,SD,SD,G1,D1,D1,S2,S2,G2	nmos:G1,D1,SD;nmos:G2,SD,S2
 Infineon Technologies	OptiMOS™ 5	datasheets/transistor/infineon/Infineon-ISG0614N06NM5HSC-DataSheet-v02_00-EN.pdf	10-PowerWDFN	1	ISG0614N06NM5HSCATMA1	ISG0614N06NM5HSC(?:[A-Z]{4}\d)?	WHITFN-10	SD,SD,SD,SD,G1,D1,D1,S2,S2,G2	nmos:G1,D1,SD;nmos:G2,SD,S2
-Infineon Technologies	OptiMOS™ 5	datasheets/transistor/infineon/infineon-bsz009ne2ls5-datasheet-en.pdf	8-PowerVDFN	1	BSZ009NE2LS5ATMA1	n/r			
+Infineon Technologies	OptiMOS™ 5	datasheets/transistor/infineon/infineon-bsz009ne2ls5-datasheet-en.pdf	8-PowerVDFN	1	BSZ009NE2LS5ATMA1	BSZ009NE2LS5(?:[A-Z]{4}\d)?	TSDSON-8	S,S,S,G,D,D,D,D	nmos:G,D,S
 Infineon Technologies	OptiMOS™ 5	datasheets/transistor/infineon/infineon-bsz011ne2ls5i-datasheet-en.pdf	8-PowerVDFN	1	BSZ011NE2LS5IATMA1	BSZ011NE2LS5I(?:[A-Z]{4}\d)?	TSDSON-8	S,S,S,G,D,D,D,D	nmos:G,D,S
 Infineon Technologies	OptiMOS™ 5	datasheets/transistor/infineon/infineon-ipa040n06nm5s-datasheet-en.pdf	TO-220-3 Full Pack	1	IPA040N06NM5SXKSA1	n/r			
 Infineon Technologies	OptiMOS™ 5	datasheets/transistor/infineon/infineon-ipa050n10nm5s-datasheet-en.pdf	TO-220-3 Full Pack	1	IPA050N10NM5SXKSA1	n/r			

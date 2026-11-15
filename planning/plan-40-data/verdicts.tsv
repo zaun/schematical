@@ -2496,7 +2496,7 @@ MMBF170	add		datasheets/transistor/onsemi/MMBF170-D.PDF
 NTLUS3A39PZTAG	add		datasheets/transistor/onsemi/ntlus3a39pz-d.pdf
 NDS331N	add		datasheets/transistor/onsemi/nds331n-d.pdf
 SI2302CDS-T1-GE3	add		datasheets/transistor/vishay-siliconix/si2302cds.pdf
-IRFHS8242TRPBF	add		datasheets/transistor/infineon/irfhs8242pbf.pdf
+IRFHS8242TRPBF	skip	no land pattern in the datasheet (PQFN 2x2: the outline places the exposed drain and source lands by REF values with no datum; the land is in IR AN-1154, not in the PDF)	datasheets/transistor/infineon/irfhs8242pbf.pdf
 BSZ060NE2LSATMA1	add		datasheets/transistor/infineon/BSZ060NE2LS_Rev-2.1.pdf
 FDB6035AL	skip	no datasheet on the maker's site (rocelec.widen.net)	
 FCPF600N60Z	out	datasheet status	datasheets/transistor/onsemi/fcpf600n60z-d.pdf
@@ -2528,7 +2528,7 @@ SI1416EDH-T1-GE3	add		datasheets/transistor/vishay-siliconix/si1416ed.pdf
 SI1308EDL-T1-GE3	add		datasheets/transistor/vishay-siliconix/si1308edl.pdf
 IRF8734TRPBF	add		datasheets/transistor/infineon/infineon-irf8734-datasheet-en.pdf
 IPD95R2K0P7ATMA1	add		datasheets/transistor/infineon/infineon-ipd95r2k0p7-datasheet-en.pdf
-IRLHS6242TRPBF	add		datasheets/transistor/infineon/infineon-irlhs6242-datasheet-en.pdf
+IRLHS6242TRPBF	skip	no land pattern in the datasheet (PQFN 2x2 (DFN2020): as IRFHS8242)	datasheets/transistor/infineon/infineon-irlhs6242-datasheet-en.pdf
 SI1062X-T1-GE3	add		datasheets/transistor/vishay-siliconix/si1062x.pdf
 SI7155DP-T1-GE3	add		datasheets/transistor/vishay-siliconix/si7155dp.pdf
 SI2305CDS-T1-GE3	add		datasheets/transistor/vishay-siliconix/si2305cd.pdf
@@ -2747,14 +2747,14 @@ SUD50P06-15L-E3	add		datasheets/transistor/vishay-siliconix/sud50p06.pdf
 NDT452AP	add		datasheets/transistor/onsemi/ndt452ap-d.pdf
 SIS178LDN-T1-GE3	add		datasheets/transistor/vishay-siliconix/sis178ldn.pdf
 BSC030P03NS3GAUMA1	add		datasheets/transistor/infineon/BSC030P03NS3-G_2.0.pdf
-IRL100HS121	add		datasheets/transistor/infineon/infineon-irl100hs121-datasheet-en.pdf
+IRL100HS121	skip	no land pattern in the datasheet (PQFN 2x2 (DFN2020): as IRFHS8242)	datasheets/transistor/infineon/infineon-irl100hs121-datasheet-en.pdf
 NTD4969NT4G	add		datasheets/transistor/onsemi/ntd4969n-d.pdf
 FQI5N60CTU	skip	no datasheet on the maker's site (rocelec.widen.net)	
 FDD16AN08A0	add		datasheets/transistor/onsemi/FDD16AN08A0-D.pdf
 SI8823EDB-T2-E1	add		datasheets/transistor/vishay-siliconix/si8823edb.pdf
 SI3407DV-T1-GE3	add		datasheets/transistor/vishay-siliconix/si3407dv.pdf
 BSC057N08NS3GATMA1	add		datasheets/transistor/infineon/BSC057N08NS3G_rev2.4.pdf
-IRL60HS118	add		datasheets/transistor/infineon/infineon-irl60hs118-datasheet-en.pdf
+IRL60HS118	skip	no land pattern in the datasheet (PQFN 2x2 (DFN2020): as IRFHS8242)	datasheets/transistor/infineon/infineon-irl60hs118-datasheet-en.pdf
 SI1443EDH-T1-GE3	add		datasheets/transistor/vishay-siliconix/si1443edh.pdf
 FDB7030BLS	skip	no datasheet on the maker's site (rocelec.widen.net)	
 HUF76113T3ST	skip	no datasheet on the maker's site (rocelec.widen.net)	
@@ -2923,7 +2923,7 @@ SIUD403ED-T1-GE3	add		datasheets/transistor/vishay-siliconix/siud403ed.pdf
 SI7119DN-T1-GE3	add		datasheets/transistor/vishay-siliconix/si7119dn.pdf
 BSC0502NSIATMA1	add		datasheets/transistor/infineon/Infineon-BSC0502NSI-DS-v02_00-EN.pdf
 FDC8886	add		datasheets/transistor/onsemi/FDC8886-D.pdf
-IRL80HS120	add		datasheets/transistor/infineon/infineon-irl80hs120-datasheet-en.pdf
+IRL80HS120	skip	no land pattern in the datasheet (PQFN 2x2 (DFN2020): as IRFHS8242; the footprint is in an application note)	datasheets/transistor/infineon/infineon-irl80hs120-datasheet-en.pdf
 BSS127IXTSA1	add		datasheets/transistor/infineon/Infineon-BSS127I-DataSheet-v02_01-EN.pdf
 ISC058N04NM5ATMA1	add		datasheets/transistor/infineon/infineon-isc058n04nm5-datasheet-en.pdf
 FDPF13N50FT	add		datasheets/transistor/onsemi/fdpf13n50ft-d.pdf
@@ -3346,7 +3346,7 @@ BSC094N06LS5ATMA1	add		datasheets/transistor/infineon/Infineon-BSC094N06LS5-DS-v
 FDP8440	out	below the pick (not read)	datasheets/transistor/onsemi/fdp8440-d.pdf
 UF3C065080B3	out	below the pick (not read)	datasheets/transistor/onsemi/UF3C065080B3-D.PDF
 SIR165DP-T1-GE3	out	below the pick (not read)	datasheets/transistor/vishay-siliconix/sir165dp.pdf
-ISC019N03L5SATMA1	out	below the pick (not read)	datasheets/transistor/infineon/infineon-isc019n03l5s-datasheet-en.pdf
+ISC019N03L5SATMA1	add		datasheets/transistor/infineon/infineon-isc019n03l5s-datasheet-en.pdf
 BSS138LT3G	add		datasheets/transistor/onsemi/BSS138LT1-D.PDF
 NTLCC3D5N10GN1TWG	out	below the pick (not read)	datasheets/transistor/onsemi/ntlcc3d5n10gn1-d.pdf
 NTR3C21NZT3G	out	below the pick (not read)	datasheets/transistor/onsemi/ntr3c21nz-d.pdf
@@ -3354,10 +3354,10 @@ MMBF0201NLT1G	out	below the pick (not read)	datasheets/transistor/onsemi/mmbf020
 HUF76145S3S	skip	no datasheet on the maker's site (rocelec.widen.net)	
 BSF024N03LT3G	skip	no datasheet on the maker's site (rocelec.widen.net)	
 NTD4965NT4G	out	below the pick (not read)	datasheets/transistor/onsemi/ntd4965n-d.pdf
-IRFR3411TRPBF	out	below the pick (not read)	datasheets/transistor/infineon/infineon-irfr3411-datasheet-en.pdf
+IRFR3411TRPBF	add		datasheets/transistor/infineon/infineon-irfr3411-datasheet-en.pdf
 NTR4170NT1G	out	datasheet status	datasheets/transistor/onsemi/ntr4170n-d.pdf
 SI4425DDY-T1-GE3	out	below the pick (not read)	datasheets/transistor/vishay-siliconix/si4425ddy.pdf
-BSZ009NE2LS5ATMA1	out	below the pick (not read)	datasheets/transistor/infineon/infineon-bsz009ne2ls5-datasheet-en.pdf
+BSZ009NE2LS5ATMA1	add		datasheets/transistor/infineon/infineon-bsz009ne2ls5-datasheet-en.pdf
 IQE008N03LM5ATMA1	out	below the pick (not read)	datasheets/transistor/infineon/infineon-iqe008n03lm5-datasheet-cn.pdf
 2N7002LT3G	add		datasheets/transistor/onsemi/2N7002L-D.PDF
 NTR1P02LT3G	out	below the pick (not read)	datasheets/transistor/onsemi/ntr1p02lt1-d.pdf
@@ -7270,7 +7270,7 @@ SIA928DJ-T1-GE3	add		datasheets/transistor/vishay-siliconix/sia928dj.pdf
 NTLJD3119CTBG	add		datasheets/transistor/onsemi/ntljd3119c-d.pdf
 SISB46DN-T1-GE3	add		datasheets/transistor/vishay-siliconix/sisb46dn.pdf
 FDZ1827NZ	skip	no datasheet on the maker's site (rocelec.widen.net)	
-NTTFD4D1N03P1E	add		datasheets/transistor/onsemi/nttfd4d1n03p1e-d.pdf
+NTTFD4D1N03P1E	skip	no land pattern in the datasheet (12-WQFN 3.3x3.3 (CASE 510CJ): the land does not say which net each of the two exposed lands is)	datasheets/transistor/onsemi/nttfd4d1n03p1e-d.pdf
 SIZ918DT-T1-GE3	add		datasheets/transistor/vishay-siliconix/siz918dt.pdf
 SIA913ADJ-T1-GE3	add		datasheets/transistor/vishay-siliconix/sia913adj.pdf
 SIA910EDJ-T1-GE3	add		datasheets/transistor/vishay-siliconix/sia910edj.pdf
@@ -7417,7 +7417,7 @@ BSC076N04NDATMA1	add		datasheets/transistor/infineon/Infineon-BSC076N04ND-DS-v02
 SIZ254DT-T1-GE3	out	below the pick (not read)	datasheets/transistor/vishay-siliconix/siz254dt.pdf
 ECH8667-TL-H	out	below the pick (not read)	datasheets/transistor/onsemi/ECH8667-D.PDF
 SIZF4800LDT-T1-GE3	out	below the pick (not read)	datasheets/transistor/vishay-siliconix/sizf4800ldt.pdf
-IQE008N03LM5CGSCATMA1	add		datasheets/transistor/infineon/Infineon-IQE008N03LM5CGSC-DataSheet-v02_00-EN.pdf
+IQE008N03LM5CGSCATMA1	skip	no land pattern in the datasheet (PG-WHTFN-9: the gate pad (pin 9) position is not dimensioned)	datasheets/transistor/infineon/Infineon-IQE008N03LM5CGSC-DataSheet-v02_00-EN.pdf
 FDS6986AS	skip	no datasheet on the maker's site (rocelec.widen.net)	
 FDMC8097AC	out	below the pick (not read)	datasheets/transistor/onsemi/fdmc8097ac-d.pdf
 EFC2J013NUZTDG	out	below the pick (not read)	datasheets/transistor/onsemi/EFC2J013NUZ-D.PDF
@@ -7438,7 +7438,7 @@ ECH8663R-TL-H	out	below the pick (not read)	datasheets/transistor/onsemi/ECH8663
 SIA911ADJ-T1-GE3	out	below the pick (not read)	datasheets/transistor/vishay-siliconix/sia911ad.pdf
 FDPC8013S	out	below the pick (not read)	datasheets/transistor/onsemi/fdpc8013s-d.pdf
 NTZD3154NT2G	add		datasheets/transistor/onsemi/ntzd3154n-d.pdf
-ISG0614N06NM5HSCATMA1	add		datasheets/transistor/infineon/Infineon-ISG0614N06NM5HSC-DataSheet-v02_00-EN.pdf
+ISG0614N06NM5HSCATMA1	skip	no land pattern in the datasheet (PG-WHITFN-10-1: no terminal length and no land positions)	datasheets/transistor/infineon/Infineon-ISG0614N06NM5HSC-DataSheet-v02_00-EN.pdf
 FDZ1905PZ	skip	no datasheet on the maker's site (rocelec.widen.net)	
 IRF7103TRPBFXTMA1	skip	not in the datasheet's ordering table	datasheets/transistor/infineon/irf7103pbf.pdf
 NTJD4001NT1G	out	below the pick (not read)	datasheets/transistor/onsemi/ntjd4001n-d.pdf
@@ -7458,7 +7458,7 @@ SIA921EDJ-T4-GE3	add		datasheets/transistor/vishay-siliconix/sia921ed.pdf
 SQJ746ELP-T1_GE3	out	below the pick (not read)	datasheets/transistor/vishay-siliconix/sqj746elp.pdf
 SIZF5302DT-T1-RE3	out	below the pick (not read)	datasheets/transistor/vishay-siliconix/sizf5302dt.pdf
 SIZ926DT-T1-GE3	out	below the pick (not read)	datasheets/transistor/vishay-siliconix/siz926dt.pdf
-IRLHS6276TRPBF	add		datasheets/transistor/infineon/infineon-irlhs6276-datasheet-en.pdf
+IRLHS6276TRPBF	skip	no land pattern in the datasheet (PQFN 2x2 Dual: as IRFHS8242)	datasheets/transistor/infineon/infineon-irlhs6276-datasheet-en.pdf
 SI1553CDL-T1-GE3	out	below the pick (not read)	datasheets/transistor/vishay-siliconix/si1553cdl.pdf
 SI5935CDC-T1-E3	out	below the pick (not read)	datasheets/transistor/vishay-siliconix/si5935cdc.pdf
 NTTBC070NP10M5L	out	below the pick (not read)	datasheets/transistor/onsemi/nttbc070np10m5l-d.pdf
@@ -7480,7 +7480,7 @@ BSC0923NDIATMA1	add		datasheets/transistor/infineon/Infineon-BSC0923NDI-DS-v02_0
 SI7234DP-T1-GE3	out	below the pick (not read)	datasheets/transistor/vishay-siliconix/si7234dp.pdf
 FDMS3602S	skip	no datasheet on the maker's site (rocelec.widen.net)	
 NTMFC013NP10M5L	out	below the pick (not read)	datasheets/transistor/onsemi/ntmfc013np10m5l-d.pdf
-IRFH4257DTRPBF	add		datasheets/transistor/infineon/irfh4257dpbf.pdf
+IRFH4257DTRPBF	skip	no land pattern in the datasheet (Dual PQFN 5x4: the PDF does not say which exposed pad is pin 9; the land is in IR AN-1136)	datasheets/transistor/infineon/irfh4257dpbf.pdf
 FDS9958	out	below the pick (not read)	datasheets/transistor/onsemi/fds9958-d.pdf
 NDS9948	skip	no datasheet on the maker's site (www.onsemi.cn)	
 NTTFD9D0N06HLTWG	out	below the pick (not read)	datasheets/transistor/onsemi/nttfd9d0n06hl-d.pdf
@@ -7509,7 +7509,7 @@ IMSQ120R040M2HHXUMA1	skip	no datasheet on the maker's site (mm.digikey.com)
 BSC0924NDIATMA1	add		datasheets/transistor/infineon/Infineon-BSC0924NDI-DS-v02_00-en.pdf
 NTTFD022N10C	out	below the pick (not read)	datasheets/transistor/onsemi/nttfd022n10c-d.pdf
 NTMFD6H846NLT1G	out	below the pick (not read)	datasheets/transistor/onsemi/ntmfd6h846nl-d.pdf
-ISG0614N06NM5HATMA1	add		datasheets/transistor/infineon/Infineon-ISG0614N06NM5H-DataSheet-v02_00-EN.pdf
+ISG0614N06NM5HATMA1	skip	no land pattern in the datasheet (PG-VITFN-10-1: no terminal length and no land positions)	datasheets/transistor/infineon/Infineon-ISG0614N06NM5H-DataSheet-v02_00-EN.pdf
 SIZ270DT-T1-GE3	out	below the pick (not read)	datasheets/transistor/vishay-siliconix/siz270dt.pdf
 SI7949DP-T1-GE3	out	below the pick (not read)	datasheets/transistor/vishay-siliconix/73130.pdf
 FDC6333C	out	below the pick (not read)	datasheets/transistor/onsemi/FDC6333C-D.PDF

@@ -1,0 +1,48 @@
+letter	maker	package	supplier	footprint	label	note
+C	Diodes Incorporated	E-Line-3	*	E-LINE-3-DIODES	E-Line	new
+C	Diodes Incorporated	E-Line-3, Formed Leads	*	E-LINE-3-DIODES-FORMED	E-Line	new
+C	Infineon Technologies	TO-220-3	PG-TO220-3	TO-220-3	TO-220	reuse: PG-TO220-3-U05 (infineon-ipp024n08nf2s-datasheet-cn.pdf p.10) e 2.54, b 0.84 mid -> drill 1.10, pad 1.80, body 10.285 x 4.50 = TO-220-3 (10.31 x 4.45)
+C	Infineon Technologies	TO-220-3	PG-TO220-3-1	TO-220-3-INFINEON	TO-220	new
+C	Infineon Technologies	TO-220-3	TO-220AB	TO-220-3-ONSEMI	TO-220	reuse: IR TO-220 PG-TO220-3-U05 wide table (infineon-irl540npbf-datasheet-en.pdf p.8) b 0.695 mid (0.38-1.01) -> drill 0.95, pad 1.65, body 10.16 x 4.195 = TO-220-3-ONSEMI exactly
+C	Infineon Technologies	TO-220-3 Full Pack	*	TO-220-FULL-PACK-3	TO-220 FullPAK	reuse: PG-TO220 FullPAK Z8B00003319 (Infineon-IPA60R1K5CE-DS-v02_00-EN.pdf p.11) e 2.54, b 0.775 mid -> drill 1.05, pad 1.75, body 10.325 x 4.70 vs 10.295 x 4.70
+C	Infineon Technologies	TO-247-3	PG-TO247-3	TO-247-3	TO-247	reuse: PG-TO247-3 (infineon-irf150p220-datasheet-en.pdf p.10, JEDEC TO-247AC) e 5.46 BSC, b 1.195 mid -> drill 1.45, pad 2.15, body 15.58 x 4.98 = TO-247-3 exactly
+C	Infineon Technologies	TO-247-3	TO-247AC	TO-247-3	TO-247	reuse: same IR TO-247AC outline as PG-TO247-3 (irf150p220 p.10 conforms to JEDEC TO-247AC; IRFP048N has no PDF here) = TO-247-3
+C	Infineon Technologies	TO-251-3 Short Leads, IPAK, TO-251AA	*	TO-251-3-INFINEON	IPAK	new
+C	Infineon Technologies	TO-251-3 Stub Leads, IPAK	*	TO-251-3-INFINEON	IPAK	reuse (assumed): no PG-TO251-3-11 drawing in any PDF here (SPS01N60C3 has none); stub leads only shorten the TO-251AA leads, pitch 2.29 and lead width are those of the Infineon I-Pak drawing
+C	Infineon Technologies	TO-262-3 Long Leads, I2PAK, TO-262AA	*	TO-220-3-INFINEON	I2PAK	reuse: PG-TO262-3 outline (infineon-ipp075n15n3-datasheet-en.pdf p.10; SPI07N65C3 PG-TO262-3-1 has no PDF) e 2.54, b 0.757 mid -> drill 1.05, pad 1.75, body 10.03 x 4.436 = TO-220-3-INFINEON
+C	Vishay Siliconix	TO-220-3	*	TO-220-3	TO-220	reuse: Vishay Siliconix TO-220AB DWG 5471 (sup70101el.pdf p.7; irf9640.pdf has no outline) e 2.54 mid, b 0.85 mid -> drill 1.10, pad 1.80, body 10.275 x 4.45 vs TO-220-3 10.31 x 4.45
+C	Vishay Siliconix	TO-247-3	*	TO-247-3	TO-247	reuse: Vishay TO-247AC doc 91360 (91237.pdf) versions 2 and 3 (DWG 5971): e 5.46 BSC, b 1.195 mid -> drill 1.45, pad 2.15, body 15.58 x 4.98 = TO-247-3
+C	Vishay Siliconix	TO-274AA	*	TO-274AA-3-VISHAY	TO-274AA	new
+C	onsemi	14-DIP (0.300", 7.62mm)	*	PDIP-14	DIP	reuse (assumed): no TO-116 drawing here (MPQ6100A has no PDF); TO-116 is the JEDEC 14-lead 0.300 in DIP, 2.54 pitch, 7.62 row spacing = PDIP-14
+C	onsemi	SC-71	*	SC-71-3-ONSEMI	SC-71	new
+C	onsemi	TO-220-3	TO-220	TO-220-3-INFINEON	TO-220	reuse: onsemi TO-220-3 CASE 221A issue AL (ntp7d3n15mc-d.pdf p.7) e 2.54, b1 0.80 mid -> drill 1.05, pad 1.75, body 10.095 x 4.45 vs 10.03 x 4.435
+C	onsemi	TO-220-3	TO-220-3	TO-220-3-ONSEMI-340AT	TO-220	new
+C	onsemi	TO-220-3	TO-220AB	TO-220-3-ONSEMI-340AT	TO-220	reuse (assumed): RFP8P10 has no PDF; onsemi RFP (ex-Harris TO-220AB) parts use CASE 340AT (rfp50n06-d.pdf)
+C	onsemi	TO-220-3 Full Pack	TO-220F	TO-220F-3-ONSEMI	TO-220F	reuse: CASE 221AT TO-220F-3SG is the TO-220F drawing (FCPF099N65S3-D.PDF)
+C	onsemi	TO-220-3 Full Pack	TO-220F-3	ITO-220-3-TSC	TO-220F	reuse: onsemi TO-220 FULLPAK 3LD CASE 340BF (fcpf600n65s3r0l-d.pdf p.9) pitch 2.54 mid, lead 0.70 mid (0.50-0.90) -> drill 0.95, pad 1.65, body 10.05 x 4.45 vs 9.95 x 4.50
+C	onsemi	TO-220-3 Full Pack	TO-220ML	TO-220F-3-ONSEMI	TO-220F	reuse: TO-220F-3FS CASE 221AM (2SA2222SG-D.PDF p.5) 2.54, lead 0.8, body 10.16 x 4.7 = TO-220F-3-ONSEMI
+C	onsemi	TO-220-3 Full Pack, Formed Leads	*	TO-220F-3-ONSEMI-YFORM	TO-220F	new
+C	onsemi	TO-225AA, TO-126-3	TO-126	TO-126-3-ONSEMI	TO-126	reuse: MJE200G drawing (mje200-d.pdf p.4, Fairchild TO-126: 2.28, lead 0.75, 8.00 x 3.25, lead 1.00 from the front) = TO-126-3-ONSEMI
+C	onsemi	TO-225AA, TO-126-3	TO-126-3	TO-126-3-ONSEMI	TO-126	new
+C	onsemi	TO-225AA, TO-126-3	TO-126LP	TO-126-3-ONSEMI	TO-126	reuse (assumed): no TO-126LP (Sanyo) drawing here; DigiKey classes it TO-225AA/TO-126-3 (2.29 pitch)
+C	onsemi	TO-225AA, TO-126-3	TO-126ML	TO-126-3-ONSEMI	TO-126	reuse (assumed): no TO-126ML (Sanyo) drawing here; DigiKey classes it TO-225AA/TO-126-3 (2.29 pitch)
+C	onsemi	TO-226-3, TO-92-3 (TO-226AA)	3-NP	TO-92-3-ONSEMI-29	TO-92	reuse (assumed): no 3-NP (Sanyo NP) drawing here; DigiKey classes it TO-226AA, drawn as onsemi CASE 29-11 TO-92 (TO-226)
+C	onsemi	TO-226-3, TO-92-3 (TO-226AA)	TO-226-3	TO-92-3-ONSEMI-226AE	TO-92	new
+C	onsemi	TO-226-3, TO-92-3 (TO-226AA)	TO-92	TO-92-3-ONSEMI	TO-92	reuse (assumed): 2N4126/2N5210 PDFs have no outline; ex-Fairchild bulk TO-92 parts are CASE 135AN in onsemi PDFs (2n3904-d.pdf)
+C	onsemi	TO-226-3, TO-92-3 (TO-226AA)	TO-92 (TO-226)	TO-92-3-ONSEMI-29	TO-92	new (CASE 29-11 straight, bc487-d.pdf)
+C	onsemi	TO-226-3, TO-92-3 (TO-226AA)	TO-92-3	TO-92-3-ONSEMI	TO-92	new
+C	onsemi	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	TO-92	TO-92-3-ONSEMI-FORMED	TO-92	reuse: 2N3904RM drawing (2n3904-d.pdf) is CASE 135AR = TO-92-3-ONSEMI-FORMED
+C	onsemi	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	TO-92 (TO-226)	TO-92-3-ONSEMI-29-FORMED	TO-92	new
+C	onsemi	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	TO-92-3	TO-92-3-ONSEMI-FORMED	TO-92	new
+C	onsemi	TO-226-3, TO-92-3 Long Body	3-MP	TO-92-3-ONSEMI-LONG	TO-92	reuse (assumed): no 3-MP (Sanyo MP) drawing here; long-body TO-92 straight leads drawn as onsemi CASE 135AP
+C	onsemi	TO-226-3, TO-92-3 Long Body	TO-92-3	TO-92-3-ONSEMI-LONG	TO-92	new
+C	onsemi	TO-226-3, TO-92-3 Long Body, Formed Leads	TO-92 (TO-226)	TO-92-3-ONSEMI-29-FORMED	TO-92	reuse: MPSA92-D.PDF gives only CASE 29-11 (bent lead for RLRM) = TO-92-3-ONSEMI-29-FORMED
+C	onsemi	TO-226-3, TO-92-3 Long Body, Formed Leads	TO-92-3	TO-92-3-ONSEMI-LONG-FORMED	TO-92	new
+C	onsemi	TO-247-3	*	TO-247-3-ONSEMI	TO-247	reuse: onsemi TO247-3 CASE 340AK issue B (UF3C170400K3S-D.PDF p.9) e 5.44 BSC, b 1.195 mid -> drill 1.45, pad 2.15, body 15.875 x 5.005 vs TO-247-3-ONSEMI 5.45, 15.88 x 5.00
+C	onsemi	TO-251-3 Short Leads, IPAK, TO-251AA	IPAK	TO-251-3-ONSEMI	IPAK	new
+C	onsemi	TO-251-3 Short Leads, IPAK, TO-251AA	TP	TO-251-3-ONSEMI-TP	IPAK	new
+C	onsemi	TO-251-3 Stub Leads, IPAK	*	TO-251-3-ONSEMI	IPAK	reuse (assumed): FDU6692/FDU6644 have no PDF and no onsemi stub-lead IPAK drawing is here; stub leads only shorten the IPAK leads (pitch 2.29, CASE 369D)
+C	onsemi	TO-262-3 Long Leads, I2PAK, TO-262AA	*	TO-220-3-INFINEON	I2PAK	reuse: Fairchild TO262A03 (FCI7N60-D.pdf p.8; FQI5N60C has no PDF) 2.54, lead 0.77 mid (0.64-0.90) -> drill 1.05, pad 1.75, body 9.97 x 4.445 vs 10.03 x 4.435
+C	onsemi	TO-3P-3, SC-65-3, Formed Leads	*	TO-3PN-3-ONSEMI-LFORM	TO-3P	new
+C	onsemi	TO-247-4	*	TO-247-4-ONSEMI	TO-247	new
+C	onsemi	TO-3P-3, SC-65-3	*	TO-3P-3	TO-3P	reuse: onsemi TO-3P-3LD / SC-65 CASE 340BZ issue O (fqa36p15-d.pdf p.8) pitch 5.45, lead 1.00 mid (0.80-1.20) -> drill 1.25, pad 1.95 = TO-3P-3 pads exactly; body 15.80 x 4.80 vs 15.60 x 4.80 (0.2 wider; TO-3P-3 note already names CASE 340BZ as the same land pattern)

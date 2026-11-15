@@ -1,0 +1,511 @@
+{
+ "footprints": [
+  {
+   "id": "E-LINE-3-DIODES",
+   "description": "E-Line 3-lead (TO-92 compatible) straight leads, Diodes Inc. drawing, 4.57 x 2.29 mm body, 1.27 mm pitch",
+   "note": "Diodes E-Line package outline (BULK), datasheets/transistor/diodes/ZTX550.pdf p.5 (same table in ZTX450.pdf p.4); R5: e 1.27 REF; lead b 0.45 mid (0.41-0.49), c 0.45 mid (0.41-0.49) -> 0.45 + 0.25 = 0.70 drill; pads at the 1.27 pitch: R5 round pad 1.5 would overlap, so shortened to 1.05 wide (0.22 gap) x 1.5 tall, centres kept (parts-format 'No overlapping pads'); body D 4.57 mid (4.37-4.77) x A 2.285 mid (2.16-2.41); leads at A/2 (body centre line, firstRowY 0); datasheet gives no pin numbers: pads 1-2-3 = C-B-E left to right in the Rounded Face View (p.1 pinout)",
+   "style": "header",
+   "pins": 3,
+   "rows": 1,
+   "body": {
+    "width": 4.57,
+    "height": 2.285
+   },
+   "pitch": 1.27,
+   "firstRowY": 0,
+   "pad": {
+    "width": 1.05,
+    "height": 1.5,
+    "shape": "round"
+   },
+   "drill": 0.7,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "E-LINE-3-DIODES-FORMED",
+   "description": "E-Line 3-lead formed (joggled, STZ) leads, Diodes Inc. drawing, 4.57 x 2.29 mm body, 2.54 mm pitch",
+   "note": "Diodes E-Line package outline (TAPED, joggled leads), datasheets/transistor/diodes/ZTX550.pdf p.5; R5: e2 2.54 REF; lead b 0.45 mid (0.41-0.49), c 0.45 mid -> drill 0.70, pad 1.40 -> 1.5 minimum; body D 4.57 mid (4.37-4.77) x A 2.285 mid (2.16-2.41); leads at A/2 (firstRowY 0); pads 1-2-3 = C-B-E left to right in the Rounded Face View (no pin numbers in the datasheet)",
+   "style": "header",
+   "pins": 3,
+   "rows": 1,
+   "body": {
+    "width": 4.57,
+    "height": 2.285
+   },
+   "pitch": 2.54,
+   "firstRowY": 0,
+   "pad": {
+    "width": 1.5,
+    "height": 1.5,
+    "shape": "round"
+   },
+   "drill": 0.7,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "TO-92-3-ONSEMI",
+   "description": "TO-92 3-lead straight leads, onsemi CASE 135AN, 4.76 x 3.62 mm body, 1.27 mm pitch",
+   "note": "onsemi TO-92 3 4.825x4.76 CASE 135AN issue O (98AON13880G), datasheets/transistor/onsemi/BC550-D.PDF p.6 (same in 2n3904-d.pdf, ss8050-d.pdf, ksa992-d.pdf); R5: pitch 1.27 basic; lead 0.46 mid (0.36-0.56) x 0.41 mid (0.30-0.52) -> 0.71 -> drill 0.75; pads at the 1.27 pitch: R5 round pad 1.5 would overlap, so shortened to 1.05 wide (0.22 gap) x 1.5 tall, centres kept (parts-format 'No overlapping pads'); body 4.76 mid (4.32-5.20) x 3.62 mid (3.05-4.19); lead row 2.395 mid (2.13-2.66) from the round back -> firstRowY = 2.395 - 3.62/2 = 0.585 toward the flat face; top view with the flat face toward +y and pin 1 at the left (the drawing's front view mirrored about the row, as the bottom/end view shows 1-2-3 left to right with the flat face up)",
+   "style": "header",
+   "pins": 3,
+   "rows": 1,
+   "body": {
+    "width": 4.76,
+    "height": 3.62
+   },
+   "pitch": 1.27,
+   "firstRowY": 0.585,
+   "pad": {
+    "width": 1.05,
+    "height": 1.5,
+    "shape": "round"
+   },
+   "drill": 0.75,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "TO-92-3-ONSEMI-FORMED",
+   "description": "TO-92 3-lead formed leads, onsemi CASE 135AR, 4.76 x 3.62 mm body, 2.60 mm pitch",
+   "note": "onsemi TO-92 3 4.83x4.76 LEADFORMED CASE 135AR issue O (98AON13879G), datasheets/transistor/onsemi/BC550-D.PDF p.7 (same in ksa992-d.pdf, KSC1815-D.pdf, 2n3904-d.pdf); R5: formed pitch 2.60 mid (2.40-2.80); lead 0.46 mid (0.36-0.56) -> drill 0.75, pad 1.45 -> 1.5; body 4.76 mid (4.32-5.20) x 3.62 mid (3.05-4.19); lead row 2.395 mid (2.13-2.66) from the round back -> firstRowY 0.585; top view with the flat face toward +y and pin 1 at the left (the drawing's front view mirrored about the row, as the bottom/end view shows 1-2-3 left to right with the flat face up)",
+   "style": "header",
+   "pins": 3,
+   "rows": 1,
+   "body": {
+    "width": 4.76,
+    "height": 3.62
+   },
+   "pitch": 2.6,
+   "firstRowY": 0.585,
+   "pad": {
+    "width": 1.5,
+    "height": 1.5,
+    "shape": "round"
+   },
+   "drill": 0.75,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "TO-92-3-ONSEMI-29",
+   "description": "TO-92 (TO-226) 3-lead straight leads, onsemi CASE 29-11, 4.83 x 3.69 mm body, 1.27 mm pitch",
+   "note": "onsemi TO-92 (TO-226) CASE 29-11 issue AM (98ASB42022B) STRAIGHT LEAD BULK PACK, datasheets/transistor/onsemi/2N3906-D.PDF p.7 (same in bc487-d.pdf, 2n4401-d.pdf, MPSA92-D.PDF); R5: G 1.27 mid (1.15-1.39); D 0.47 mid (0.407-0.533), J 0.445 mid -> 0.72 -> drill 0.75; pads at the 1.27 pitch: R5 round pad 1.5 would overlap, so shortened to 1.05 wide (0.22 gap) x 1.5 tall, centres kept (parts-format 'No overlapping pads'); body A 4.825 mid (4.45-5.20) x C 3.685 mid (3.18-4.19); lead row N 2.35 mid (2.04-2.66) from the round back -> firstRowY = 2.35 - 3.685/2 = 0.51; top view with the flat face toward +y and pin 1 at the left (the drawing's front view mirrored about the row, as the bottom/end view shows 1-2-3 left to right with the flat face up). Not TO-92-3-ONSEMI (135AN): row 0.075 further from the centre",
+   "style": "header",
+   "pins": 3,
+   "rows": 1,
+   "body": {
+    "width": 4.825,
+    "height": 3.685
+   },
+   "pitch": 1.27,
+   "firstRowY": 0.51,
+   "pad": {
+    "width": 1.05,
+    "height": 1.5,
+    "shape": "round"
+   },
+   "drill": 0.75,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "TO-92-3-ONSEMI-29-FORMED",
+   "description": "TO-92 (TO-226) 3-lead bent leads, onsemi CASE 29-11, 4.83 x 3.69 mm body, 2.60 mm pitch",
+   "note": "onsemi TO-92 (TO-226) CASE 29-11 issue AM BENT LEAD TAPE & REEL / AMMO PACK, datasheets/transistor/onsemi/2N3906-D.PDF p.7 (same in 2n4401-d.pdf, MPSA92-D.PDF); R5: G 2.60 mid (2.40-2.80); D 0.47 mid (0.40-0.54) -> drill 0.75, pad 1.5; body A 4.825 mid (4.45-5.20) x C 3.685 mid (3.18-4.19); N 2.35 mid (2.04-2.66) -> firstRowY 0.51; top view with the flat face toward +y and pin 1 at the left (the drawing's front view mirrored about the row, as the bottom/end view shows 1-2-3 left to right with the flat face up)",
+   "style": "header",
+   "pins": 3,
+   "rows": 1,
+   "body": {
+    "width": 4.825,
+    "height": 3.685
+   },
+   "pitch": 2.6,
+   "firstRowY": 0.51,
+   "pad": {
+    "width": 1.5,
+    "height": 1.5,
+    "shape": "round"
+   },
+   "drill": 0.75,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "TO-92-3-ONSEMI-226AE",
+   "description": "TO-226AE 3-lead (TO-92 long body, 1 W), onsemi (Fairchild) drawing, 4.51 x 4.13 mm body, 1.27 mm pitch",
+   "note": "Fairchild TO-226AE (FS PKG code 95, 99) package dimensions, datasheets/transistor/onsemi/tn6717a-d.pdf p.9; R5: pitch 1.27 mid (1.14-1.40); lead 0.435 mid (0.36-0.51) x 0.39 mid (0.30-0.48) -> 0.685 -> drill 0.70; pads at the 1.27 pitch: R5 round pad 1.5 would overlap, so shortened to 1.05 wide (0.22 gap) x 1.5 tall, centres kept (parts-format 'No overlapping pads'); body 4.51 mid (4.32-4.70) x 4.13 mid (3.81-4.45); lead row 2.27 mid (2.13-2.41) from the round back -> firstRowY = 2.27 - 4.13/2 = 0.205; top view with the flat face toward +y and pin 1 at the left (the drawing's front view mirrored about the row, as the bottom/end view shows 1-2-3 left to right with the flat face up)",
+   "style": "header",
+   "pins": 3,
+   "rows": 1,
+   "body": {
+    "width": 4.51,
+    "height": 4.13
+   },
+   "pitch": 1.27,
+   "firstRowY": 0.205,
+   "pad": {
+    "width": 1.05,
+    "height": 1.5,
+    "shape": "round"
+   },
+   "drill": 0.7,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "TO-92-3-ONSEMI-LONG",
+   "description": "TO-92 long body 3-lead straight leads, onsemi CASE 135AP, 4.90 x 3.90 mm body, 1.27 mm pitch",
+   "note": "onsemi TO-92 3 8.0x4.9 CASE 135AP issue A (98AON13873G), datasheets/transistor/onsemi/ksa1013-d.pdf p.5; R5: e 1.27 BSC; b 0.50 mid (0.40-0.60), c 0.45 mid -> drill 0.75; pads at the 1.27 pitch: R5 round pad 1.5 would overlap, so shortened to 1.05 wide (0.22 gap) x 1.5 tall, centres kept (parts-format 'No overlapping pads'); body E 4.90 mid (4.70-5.10) x A 3.90 mid (3.70-4.10); lead row A1 1.45 mid (1.25-1.65) from the flat face -> firstRowY = 3.90/2 - 1.45 = 0.50; top view with the flat face toward +y and pin 1 at the left (the drawing's front view mirrored about the row, as the bottom/end view shows 1-2-3 left to right with the flat face up)",
+   "style": "header",
+   "pins": 3,
+   "rows": 1,
+   "body": {
+    "width": 4.9,
+    "height": 3.9
+   },
+   "pitch": 1.27,
+   "firstRowY": 0.5,
+   "pad": {
+    "width": 1.05,
+    "height": 1.5,
+    "shape": "round"
+   },
+   "drill": 0.75,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "TO-92-3-ONSEMI-LONG-FORMED",
+   "description": "TO-92 long body 3-lead formed leads, onsemi CASE 135AM, 4.90 x 3.90 mm body, 2.50 mm pitch",
+   "note": "onsemi TO-92 3 8.0x4.9 (LEADFORMED) CASE 135AM issue B (98AON14058G), datasheets/transistor/onsemi/ksa1013-d.pdf p.4 (same in KSC2383-D.PDF, ksa928a-d.pdf, ksa1281-d.pdf); R5: e2 2.50 BSC; b 0.475 mid (0.35-0.60), c 0.45 mid -> 0.725 -> drill 0.75, pad 1.5; body E 4.90 mid (4.70-5.10) x A 3.90 mid (3.70-4.10); A1 1.45 mid (1.25-1.65) from the flat face -> firstRowY 0.50; top view with the flat face toward +y and pin 1 at the left (the drawing's front view mirrored about the row, as the bottom/end view shows 1-2-3 left to right with the flat face up)",
+   "style": "header",
+   "pins": 3,
+   "rows": 1,
+   "body": {
+    "width": 4.9,
+    "height": 3.9
+   },
+   "pitch": 2.5,
+   "firstRowY": 0.5,
+   "pad": {
+    "width": 1.5,
+    "height": 1.5,
+    "shape": "round"
+   },
+   "drill": 0.75,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "TO-126-3-ONSEMI",
+   "description": "TO-126 3-lead, onsemi CASE 340AS (Fairchild TO-126), 8.00 x 3.25 mm body, 2.29 mm pitch",
+   "note": "onsemi TO-126-3LD CASE 340AS issue O (98AON13817G), datasheets/transistor/onsemi/BD139-D.PDF p.6; same land pattern from the Fairchild TO-126 drawing in onsemi/mje200-d.pdf p.4 and mje182-d.pdf p.4 (2.28 TYP, lead 0.75 +-0.10, body 8.00 x 3.25, lead (1.00) from the front face); R5: pitch 2.29; lead 0.75 mid (0.65-0.85) x 0.525 mid (0.45-0.60) -> drill 1.00, pad 1.70; body 8.00 mid (7.70-8.30) x 3.25 mid (3.05-3.45); lead centre (1.00) from the front (marked) face -> firstRowY = 3.25/2 - 1.00 = 0.625; top view with the front face toward +y, pin 1 left as in the top view",
+   "style": "header",
+   "pins": 3,
+   "rows": 1,
+   "body": {
+    "width": 8.0,
+    "height": 3.25
+   },
+   "pitch": 2.29,
+   "firstRowY": 0.625,
+   "pad": {
+    "width": 1.7,
+    "height": 1.7,
+    "shape": "round"
+   },
+   "drill": 1.0,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "SC-71-3-ONSEMI",
+   "description": "SC-71 (NMP) 3-lead, onsemi (Sanyo) drawing 7540-001, 6.9 x 2.5 mm body, 2.54 mm pitch",
+   "note": "onsemi/Sanyo NMP(Taping) package dimensions 7540-001 (unit mm, typ), datasheets/transistor/onsemi/en3093-d.pdf p.1; R5 on the typical values (no min/max given): pitch 2.54; lead 0.5 x 0.45 -> 0.75 drill, pad 1.45 -> 1.5; body 6.9 x 2.5; lead 1.45 from the front face and 1.05 from the back (side view) -> firstRowY = 2.5/2 - 1.45 = -0.20; front face toward +y, pin 1 left",
+   "style": "header",
+   "pins": 3,
+   "rows": 1,
+   "body": {
+    "width": 6.9,
+    "height": 2.5
+   },
+   "pitch": 2.54,
+   "firstRowY": -0.2,
+   "pad": {
+    "width": 1.5,
+    "height": 1.5,
+    "shape": "round"
+   },
+   "drill": 0.75,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "TO-251-3-ONSEMI",
+   "description": "IPAK (TO-251) 3-lead, onsemi CASE 369D, 6.54 x 2.29 mm body, 2.29 mm pitch",
+   "note": "onsemi IPAK CASE 369D issue C (98AON10528D), datasheets/transistor/onsemi/mjd112-d.pdf p.11; R5: G 2.29 BSC; D 0.785 mid (0.69-0.88) x J 0.52 mid (0.46-0.58) -> 1.035 -> drill 1.05, pad 1.75; body B 6.54 mid (6.35-6.73) x C 2.285 mid (2.19-2.38); H 0.94 mid (0.87-1.01) from the lead to the tab (back) face -> lead centre 0.94 + 0.26 = 1.20 from the back -> firstRowY = 1.20 - 2.285/2 = 0.06 (tab side up, -y); pins 1-2-3; the tab (4) is not a land",
+   "style": "header",
+   "pins": 3,
+   "rows": 1,
+   "body": {
+    "width": 6.54,
+    "height": 2.285
+   },
+   "pitch": 2.29,
+   "firstRowY": 0.06,
+   "pad": {
+    "width": 1.75,
+    "height": 1.75,
+    "shape": "round"
+   },
+   "drill": 1.05,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "TO-251-3-ONSEMI-TP",
+   "description": "IPAK / TP 3-lead, onsemi (Sanyo) CASE 369AJ, 6.5 x 2.3 mm body, 2.3 mm pitch",
+   "note": "onsemi IPAK / TP CASE 369AJ issue O (98AON66237E), datasheets/transistor/onsemi/2SA1552-D.PDF p.9; R5: pitch 2.3 +-0.2; lead 0.6 +-0.2 x 0.5 +-0.1 -> drill 0.85, pad 1.55; body 6.5 +-0.2 x 2.3 +-0.2; lead back 1.2 +-0.1 from the back face -> centre 1.45 from the back -> firstRowY = 1.45 - 1.15 = 0.30 (tab side up, -y); pins 1-2-3; the tab (4) is not a land",
+   "style": "header",
+   "pins": 3,
+   "rows": 1,
+   "body": {
+    "width": 6.5,
+    "height": 2.3
+   },
+   "pitch": 2.3,
+   "firstRowY": 0.3,
+   "pad": {
+    "width": 1.55,
+    "height": 1.55,
+    "shape": "round"
+   },
+   "drill": 0.85,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "TO-251-3-INFINEON",
+   "description": "I-Pak (TO-251AA) 3-lead, Infineon (IR) drawing, 6.54 x 2.29 mm body, 2.29 mm pitch",
+   "note": "Infineon/IR I-Pak (TO-251AA) package outline, datasheets/transistor/infineon/infineon-irfr5410-datasheet-en.pdf p.9; R5: e 2.29; b 0.765 mid (0.64-0.89) x c 0.535 mid (0.46-0.61) -> 1.015 -> drill 1.05, pad 1.75; body E 6.54 mid (6.35-6.73) x A 2.285 mid (2.18-2.39); A1 1.015 mid (0.89-1.14) from the lead to the tab (back) face -> centre 1.28 from the back -> firstRowY = 1.28 - 1.1425 = 0.14 (tab side up); pins 1-2-3 (G, D, S); the tab (4, drain) is not a land. Not TO-251-3-ONSEMI: row 0.08 apart",
+   "style": "header",
+   "pins": 3,
+   "rows": 1,
+   "body": {
+    "width": 6.54,
+    "height": 2.285
+   },
+   "pitch": 2.29,
+   "firstRowY": 0.14,
+   "pad": {
+    "width": 1.75,
+    "height": 1.75,
+    "shape": "round"
+   },
+   "drill": 1.05,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "TO-220-3-INFINEON",
+   "description": "TO-220-3 (PG-TO220-3-1), Infineon drawing Z8B00003318, 10.03 x 4.44 mm body, 2.54 mm pitch",
+   "note": "Infineon PG-TO220-3-1 / PG-TO220-3-21 outline Z8B00003318 rev 05, datasheets/transistor/infineon/Infineon-SPP_A04N60C3-DS-v03_01-en.pdf p.12 (rev 06 in Infineon-IPP022N12NM6-DataSheet-v02_00-EN.pdf p.10); R5: e 2.54; b 0.755 mid (0.65-0.86) x c 0.465 -> 1.005 -> drill 1.05, pad 1.75; body E 10.03 mid (9.70-10.36) x A 4.435 mid (4.30-4.57); leads 1-2-3; tab not a land; leads on the body centre line (firstRowY 0), tab side up. Not TO-220AB-3 (body 4.57 thick, 0.135 off)",
+   "style": "header",
+   "pins": 3,
+   "rows": 1,
+   "body": {
+    "width": 10.03,
+    "height": 4.435
+   },
+   "pitch": 2.54,
+   "firstRowY": 0,
+   "pad": {
+    "width": 1.75,
+    "height": 1.75,
+    "shape": "round"
+   },
+   "drill": 1.05,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "TO-220-3-ONSEMI-340AT",
+   "description": "TO-220-3LD, onsemi CASE 340AT, 10.16 x 4.35 mm body, 2.54 mm pitch",
+   "note": "onsemi TO-220-3LD CASE 340AT issue B (98AON13818G), datasheets/transistor/onsemi/fqpf3n80c-d.pdf p.10 (same case in rfp50n06-d.pdf); R5: e 2.535 mid (2.40-2.67) -> 2.54; b 0.775 mid (0.55-1.00) -> 1.025 -> drill 1.05, pad 1.75; body E 10.16 mid (9.65-10.67) x A 4.35 mid (4.00-4.70); leads 1-2-3; tab not a land; leads on the body centre line, tab side up. Not TO-220-3-INFINEON (body 0.13 wider) nor TO-220-3-ONSEMI (Fairchild TO220B03, drill 0.95)",
+   "style": "header",
+   "pins": 3,
+   "rows": 1,
+   "body": {
+    "width": 10.16,
+    "height": 4.35
+   },
+   "pitch": 2.54,
+   "firstRowY": 0,
+   "pad": {
+    "width": 1.75,
+    "height": 1.75,
+    "shape": "round"
+   },
+   "drill": 1.05,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "TO-220F-3-ONSEMI",
+   "description": "TO-220 Fullpack 3-lead (TO-220F-3SG), onsemi CASE 221AT, 10.16 x 4.70 mm body, 2.54 mm pitch",
+   "note": "onsemi TO-220 Fullpack 3-Lead / TO-220F-3SG CASE 221AT issue B (98AON67439E), datasheets/transistor/onsemi/fqpf3n80c-d.pdf p.9 (same case in FCPF099N65S3-D.PDF, fcpf600n60z-d.pdf); R5: e 2.54 nom (2.34-2.74); b 0.80 mid (0.70-0.90) x c 0.50 -> drill 1.05, pad 1.75; body E 10.16 mid (9.96-10.36) x A 4.70 mid (4.50-4.90); leads on the body centre line. TO-220F-3FS CASE 221AM issue O (onsemi/2SA2222SG-D.PDF p.5: 2.54 +-0.2, lead 0.8 +-0.1, body 10.16 +-0.2 x 4.7 +-0.2) is the same land pattern. Not TO-220-FULL-PACK-3 (body 10.295, 0.135 wider)",
+   "style": "header",
+   "pins": 3,
+   "rows": 1,
+   "body": {
+    "width": 10.16,
+    "height": 4.7
+   },
+   "pitch": 2.54,
+   "firstRowY": 0,
+   "pad": {
+    "width": 1.75,
+    "height": 1.75,
+    "shape": "round"
+   },
+   "drill": 1.05,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "TO-220F-3-ONSEMI-YFORM",
+   "description": "TO-220 Fullpack 3-lead, Y-formed (middle lead offset), onsemi CASE 340BJ, 10.16 x 4.70 mm body",
+   "note": "onsemi TO-220-3LD LF CASE 340BJ issue O (98AON13842G), datasheets/transistor/onsemi/FCPF1300N80Z-D.PDF p.10 (FCPF1300N80ZYD, the TO-220F-3 (Y-Forming) line's drawing; FQPF5N50CYDTU has no PDF here); R5: pitch 2.54 basic; lead 0.80 mid (0.70-0.90) x 0.525 mid (0.45-0.60) -> drill 1.05, pad 1.75; body E 10.16 mid (9.96-10.36) x A 4.70 mid (4.50-4.90); top view, back (heatsink) face toward -y: back face y = -2.35; leads 1 and 3 at 2.76 mid (2.56-2.96) from the back face -> y = +0.41; lead 2 formed 5.00 mid (4.00-6.00) further toward the front -> y = +5.41",
+   "style": "explicit",
+   "pins": 3,
+   "body": {
+    "width": 10.16,
+    "height": 4.7
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -2.54,
+     "y": 0.41,
+     "width": 1.75,
+     "height": 1.75,
+     "shape": "rect",
+     "drill": 1.05
+    },
+    {
+     "pin": 2,
+     "x": 0,
+     "y": 5.41,
+     "width": 1.75,
+     "height": 1.75,
+     "shape": "round",
+     "drill": 1.05
+    },
+    {
+     "pin": 3,
+     "x": 2.54,
+     "y": 0.41,
+     "width": 1.75,
+     "height": 1.75,
+     "shape": "round",
+     "drill": 1.05
+    }
+   ]
+  },
+  {
+   "id": "TO-274AA-3-VISHAY",
+   "description": "TO-274AA (Super-247) 3-lead, Vishay Siliconix drawing (doc 91365 v1), 15.60 x 5.00 mm body, 5.45 mm pitch",
+   "note": "Vishay Siliconix TO-274AA (High Voltage) package information, doc 91365 version 1, datasheets/transistor/vishay-siliconix/sihfps37n50a.pdf p.8; R5: e 5.45 BSC; b 1.45 mid (1.30-1.60), c 0.635 mid (0.38-0.89) -> 1.70 drill, pad 2.40; body E 15.60 mid (15.10-16.10) x A 5.00 mid (4.70-5.30); leads on the body centre line. Version 2 (DWG 5975, TO-274AD, b 1.07-1.33) not drawn",
+   "style": "header",
+   "pins": 3,
+   "rows": 1,
+   "body": {
+    "width": 15.6,
+    "height": 5.0
+   },
+   "pitch": 5.45,
+   "firstRowY": 0,
+   "pad": {
+    "width": 2.4,
+    "height": 2.4,
+    "shape": "round"
+   },
+   "drill": 1.7,
+   "pin1Shape": "rect"
+  },
+  {
+   "id": "TO-3PN-3-ONSEMI-LFORM",
+   "description": "TO-3PN 3-lead L-formed (lies front face down), onsemi (Fairchild TO3PN03C) drawing, 15.80 x 19.90 mm outline",
+   "note": "Fairchild/onsemi TO-3PN L-forming TO3PN03CREV1, datasheets/transistor/onsemi/fda16n50ldtu-d.pdf p.8; R5: e 5.45; lead 1.00 mid (0.80-1.20) x 0.65 mid (0.55-0.75) -> 1.25 drill, pad 1.95. The leads bend 90 deg toward the front face 5.00 mid (4.75-5.25) below the body to the lead's outer side, so the part lies front face down with the tails through the board: lead centres 5.00 - 0.65/2 = 4.675 past the body's lead edge -> y = 19.90/2 + 4.675 = 14.625 -> 14.63. Body = the outline seen from above, E 15.80 mid (15.40-16.20) x D 19.90 mid (19.70-20.10), centred on the origin. Seen from above (back up) the front view is mirrored: pin 1 at +5.45, pin 3 at -5.45",
+   "style": "explicit",
+   "pins": 3,
+   "body": {
+    "width": 15.8,
+    "height": 19.9
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": 5.45,
+     "y": 14.63,
+     "width": 1.95,
+     "height": 1.95,
+     "shape": "rect",
+     "drill": 1.25
+    },
+    {
+     "pin": 2,
+     "x": 0,
+     "y": 14.63,
+     "width": 1.95,
+     "height": 1.95,
+     "shape": "round",
+     "drill": 1.25
+    },
+    {
+     "pin": 3,
+     "x": -5.45,
+     "y": 14.63,
+     "width": 1.95,
+     "height": 1.95,
+     "shape": "round",
+     "drill": 1.25
+    }
+   ]
+  },
+  {
+   "id": "TO-247-4-ONSEMI",
+   "description": "TO-247-4 (Kelvin source), onsemi CASE 340AN, 15.88 x 5.01 mm body, 5.08 + 2.54 + 2.54 mm pitch",
+   "note": "onsemi TO247-4 15.90x20.96x5.03 CASE 340AN issue E (98AON86067F), datasheets/transistor/onsemi/UF3C065080K4S-D.PDF p.9-10; R1: p.10 RECOMMENDED PCB THROUGH HOLE: hole 1.76, pad 2.30, pin 1 to 2 e1 5.08 BSC, pins 2-3-4 e 2.54 BSC; the drawing does not dimension the row against the body, so the pin 1-4 span (10.16) is centred on the body centre: x = -5.08, 0, 2.54, 5.08; leads on the body centre line (y 0), tab side up; body E 15.875 mid (15.49-16.26) x A 5.005 mid (4.70-5.31); lead b 1.195 mid (0.99-1.40) (R5 would give drill 1.45: the R1 hole 1.76 is used)",
+   "style": "explicit",
+   "pins": 4,
+   "body": {
+    "width": 15.875,
+    "height": 5.005
+   },
+   "pads": [
+    {
+     "pin": 1,
+     "x": -5.08,
+     "y": 0,
+     "width": 2.3,
+     "height": 2.3,
+     "shape": "rect",
+     "drill": 1.76
+    },
+    {
+     "pin": 2,
+     "x": 0,
+     "y": 0,
+     "width": 2.3,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.76
+    },
+    {
+     "pin": 3,
+     "x": 2.54,
+     "y": 0,
+     "width": 2.3,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.76
+    },
+    {
+     "pin": 4,
+     "x": 5.08,
+     "y": 0,
+     "width": 2.3,
+     "height": 2.3,
+     "shape": "round",
+     "drill": 1.76
+    }
+   ]
+  }
+ ]
+}
