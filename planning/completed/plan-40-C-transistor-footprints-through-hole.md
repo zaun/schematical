@@ -34,8 +34,8 @@ plan-40-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-40-B complete | `ls planning/completed/plan-40-B-*.md` → exists | NOT MET (B not started) |
-| `footprints-needed.txt` is final | `awk -F'\t' '$24=="add"' planning/plan-40-data/candidates.tsv \| wc -l` → N; `grep -c '^C' planning/plan-40-data/footprints-needed.txt` → the C lines (28 at planning time) | NOT MET (B not started) |
+| plan-40-B complete | `ls planning/completed/plan-40-B-*.md` → exists | MET (2026-11-15: `planning/completed/plan-40-B-transistor-verdicts.md`, bd10050a) |
+| `footprints-needed.txt` is final | `awk -F'\t' '$24=="add"' planning/plan-40-data/candidates.tsv \| wc -l` → N; `grep -c '^C' planning/plan-40-data/footprints-needed.txt` → the C lines (28 at planning time) | MET (2026-11-15: 1242 `add` rows; C 20, D 56, E 59 lines) |
 
 Everything below is written against the world where these hold.
 
@@ -145,16 +145,16 @@ five objects against their drawings.
 
 ### Phase 1 — Tools, TO-92, TO-126 and the small leaded packages
 
-- [ ] Copy `planning/plan-34-data/census/fp-load.sh` and `fp-merge.py` to
+- [x] Copy `planning/plan-34-data/census/fp-load.sh` and `fp-merge.py` to
       `planning/plan-40-data/census/` (paths `/tmp/p40-fp`, the plan-40
       data directory, the golden `footprints.txt`).
-- [ ] Write `census/fp-check.py <letter>`: joins the letter's lines of
+- [x] Write `census/fp-check.py <letter>`: joins the letter's lines of
       `footprints-needed.txt` with the ids of `footprint-map.tsv` (one row
       per land-pattern line: maker, DigiKey Package / Case, footprint id,
       the `label`), `footprints-C.json`, `-D.json`, `-E.json` and
       `Parts/footprints.json`; prints `<n> lines, <m> without a footprint`
       and each missing line.
-- [ ] TO-92 (4 lines: standard, formed leads, long body, long body formed),
+- [x] TO-92 (4 lines: standard, formed leads, long body, long body formed),
       TO-126, E-Line (2), SC-71, 3-SSIP, 14-DIP: one object per distinct land
       pattern (§ 3.1, § 3.2) from the datasheet drawing of the line's example
       part (`footprints-needed.txt` 8th column; the PDF is in
@@ -163,21 +163,23 @@ five objects against their drawings.
 
 Acceptance: the Phase 1 objects load.
   Check: `planning/plan-40-data/census/fp-load.sh planning/plan-40-data/footprints-C.json` → only `extra footprint` / `unused footprint` failures, for exactly the new ids; no load error (est. 4 min: copies `backend/`, builds `footprint_check`).
-Commit: —
+  Result (2026-11-15): `fp-load.sh footprints-C.json` → `21 new footprints: load ok`; `fp-check.py C` → `20 lines, 0 without a footprint`.
+Commit: 39fbc0e6
 
 ### Phase 2 — TO-220, TO-247, IPAK, I2PAK, TO-3P, TO-274
 
-- [ ] One object per distinct land pattern for the TO-220 (3, + full pack, +
+- [x] One object per distinct land pattern for the TO-220 (3, + full pack, +
       formed), TO-247, TO-251 (short and stub leads), TO-262, TO-3P (formed,
       full pack) and TO-274AA lines; the maker drawings that equal
       `TO-220-3-ONSEMI`, `TO-220-FULL-PACK-3`, `TO-247-3-ONSEMI`, `TO-3P-3` or
       the TSC/Vishay ones reuse them (every pad within 0.05 mm).
-- [ ] Hand-check five objects (one per package family) against their drawing:
+- [x] Hand-check five objects (one per package family) against their drawing:
       pad centres, drill, body; recorded in § Corrections.
 
 Acceptance: every C line has a footprint and the objects load.
   Check: `python3 -I planning/plan-40-data/census/fp-check.py C` → `<n> lines, 0 without a footprint` (n = the C lines); `fp-load.sh planning/plan-40-data/footprints-C.json` as Phase 1 (est. 5 min).
-Commit: —
+  Result (2026-11-15): `fp-load.sh footprints-C.json` → `21 new footprints: load ok`; `fp-check.py C` → `20 lines, 0 without a footprint`.
+Commit: 39fbc0e6
 
 ## Validation Plan
 
@@ -199,7 +201,37 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. **Done by an agent per letter, in parallel;** the plan's work was done by one agent per letter from the brief
+   `/tmp/p40/fp/BRIEF.md` (the plan's § 3 rules, the parts-format footprint
+   rules, the precedents), run in parallel with plan-40-B's reading; its
+   objects are in `planning/plan-40-data/footprints-C.json` and its map
+   rows were merged into `planning/plan-40-data/footprint-map.tsv` (columns
+   `letter maker package supplier footprint label note`: one row per
+   supplier device package of a line, or `*`, because one DigiKey Package /
+   Case can hold several body sizes, e.g. `X2-DFN0606-3 | X2-DFN1006-3`).
+   The lines were redone once against B's final pick (`footprints-needed.txt`
+   from the `add` rows: 135 lines, C 20, D 56, E 59, against the planning
+   time's 28, 63, 73); objects for lines the final pick dropped stay in the
+   file and G merges only the ids the final map uses.
+2. **Hand checks** (the five families; the agent re-opened each drawing as
+   an image): `TO-92-3-ONSEMI` — `onsemi/BC550-D.PDF` p.6 (CASE 135AN);
+   `TO-126-3-ONSEMI` — `onsemi/BD139-D.PDF` p.6 (CASE 340AS);
+   `TO-220-3-INFINEON` — `infineon/Infineon-SPP_A04N60C3-DS-v03_01-en.pdf`
+   p.12; `TO-251-3-ONSEMI` — `onsemi/mjd112-d.pdf` p.11 (CASE 369D);
+   `TO-274AA-3-VISHAY` — `vishay-siliconix/sihfps37n50a.pdf` p.8: pitch,
+   drill, pad and body match. Added for the final pick: `TO-247-4-ONSEMI`
+   from CASE 340AN's printed through-hole pattern (`UF3C065080K4S-D.PDF`
+   p.9–10; the lead row is centred on the body, which the drawing does not
+   dimension).
+3. **Judgment calls.** TO-92 / E-Line straight leads at 1.27 mm: R5's round
+   1.5 mm pad would overlap, so 1.05 × 1.5 ovals on the lead centres. The
+   onsemi TO-3P (CASE 340BZ) reuses `TO-3P-3`: every pad equal, the body
+   0.2 mm wider than the 0.1 mm rule allows — accepted because `TO-3P-3`'s
+   own note names CASE 340BZ. E-Line pads 1–2–3 are the drawn lead order
+   C, B, E (the PDF numbers no leads); plan-40-B's E-Line pinouts were
+   changed to `C,B,E` to match (B Corrections 7). Reuse of library ids by
+   geometry: `TO-220-3`, `TO-220-3-ONSEMI`, `TO-220-FULL-PACK-3`,
+   `TO-247-3`, `TO-247-3-ONSEMI`, `ITO-220-3-TSC`, `PDIP-14`, `TO-3P-3`.
 
 ## Summary
 

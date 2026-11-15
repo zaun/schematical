@@ -33,9 +33,9 @@ plan-40-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-40-C complete | `ls planning/completed/plan-40-C-*.md` → exists | NOT MET (C not started) |
-| The shared tools exist | `ls planning/plan-40-data/census/fp-load.sh planning/plan-40-data/census/fp-check.py` → both exist | NOT MET (C Phase 1 writes them) |
-| `footprints-needed.txt` is final | `grep -c '^D' planning/plan-40-data/footprints-needed.txt` → the D lines (63 at planning time) | NOT MET (B not started) |
+| plan-40-C complete | `ls planning/completed/plan-40-C-*.md` → exists | MET (2026-11-15: done with this letter, run in parallel; Corrections 1) |
+| The shared tools exist | `ls planning/plan-40-data/census/fp-load.sh planning/plan-40-data/census/fp-check.py` → both exist | MET (2026-11-15: both exist, 500cce40) |
+| `footprints-needed.txt` is final | `grep -c '^D' planning/plan-40-data/footprints-needed.txt` → the D lines (63 at planning time) | MET (2026-11-15: 56, after B's final pick) |
 
 Everything below is written against the world where these hold.
 
@@ -118,7 +118,7 @@ equal ones).
 
 ### Phase 1 — Leaded packages (37 lines)
 
-- [ ] One object per distinct land pattern for the TO-236 / SOT-23-3 (and flat
+- [x] One object per distinct land pattern for the TO-236 / SOT-23-3 (and flat
       leads), SOT-23-6 and TSOT-23-6, SC-74, SC-70 / SOT-323, SC-88 / SOT-363 /
       SC-70-5, SC-75, SC-89, SOT-523, SOT-553, SOT-563 / 666, SOT-723 and
       TO-243AA lines, from each line's example part's datasheet
@@ -127,21 +127,23 @@ equal ones).
 
 Acceptance: the leaded objects load and their lines are covered.
   Check: `planning/plan-40-data/census/fp-load.sh planning/plan-40-data/footprints-C.json planning/plan-40-data/footprints-D.json` → only `extra footprint` / `unused footprint` failures, for exactly the new ids; no load error (est. 4 min: copies `backend/`, builds `footprint_check`).
-Commit: —
+  Result (2026-11-15): `fp-load.sh footprints-C.json footprints-D.json` → `69 new footprints: load ok`.
+Commit: 39fbc0e6
 
 ### Phase 2 — Leadless and chip-scale packages (26 lines)
 
-- [ ] One object per distinct land pattern for the SOT-883, SOT-963, SOT-923F,
+- [x] One object per distinct land pattern for the SOT-883, SOT-963, SOT-923F,
       SOT-1123, 3- and 6-pad DFN / UDFN / XFDFN / WDFN, XFLGA, 0402, and the
       4- and 6-ball UFBGA / XFBGA / WLCSP lines (ball pads for the chip-scale
       ones), from each line's example part's datasheet; reuse as Phase 1.
-- [ ] Hand-check one object per family (a SOT, an SC, a SOT-89, a DFN, a
+- [x] Hand-check one object per family (a SOT, an SC, a SOT-89, a DFN, a
       chip-scale one): pad centres and sizes against the drawing, recorded in
       § Corrections.
 
 Acceptance: every D line has a footprint and the objects load.
   Check: `python3 -I planning/plan-40-data/census/fp-check.py D` → `<n> lines, 0 without a footprint` (n = the D lines); `fp-load.sh footprints-C.json footprints-D.json` as Phase 1 (est. 6 min).
-Commit: —
+  Result (2026-11-15): `fp-load.sh footprints-C.json footprints-D.json` → `69 new footprints: load ok`; `fp-check.py D` → `56 lines, 0 without a footprint`.
+Commit: 39fbc0e6
 
 ## Validation Plan
 
@@ -162,7 +164,35 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. **Done by an agent per letter, in parallel;** the plan's work was done by one agent per letter from the brief
+   `/tmp/p40/fp/BRIEF.md` (the plan's § 3 rules, the parts-format footprint
+   rules, the precedents), run in parallel with plan-40-B's reading; its
+   objects are in `planning/plan-40-data/footprints-D.json` and its map
+   rows were merged into `planning/plan-40-data/footprint-map.tsv` (columns
+   `letter maker package supplier footprint label note`: one row per
+   supplier device package of a line, or `*`, because one DigiKey Package /
+   Case can hold several body sizes, e.g. `X2-DFN0606-3 | X2-DFN1006-3`).
+   The lines were redone once against B's final pick (`footprints-needed.txt`
+   from the `add` rows: 135 lines, C 20, D 56, E 59, against the planning
+   time's 28, 63, 73); objects for lines the final pick dropped stay in the
+   file and G merges only the ids the final map uses.
+2. **Hand checks** (one per family, as images; also a contact sheet):
+   SOT — `SOT23-3-NEXPERIA`, `nexperia/BC856_BC857_BC858.pdf` p.10; SC —
+   `SC70-3-VISHAY`, `vishay-siliconix/si1308edl.pdf` p.10; SOT-89 —
+   `SOT89-3-DIODES`, `diodes/BST39.pdf` p.6; DFN — `UDFN6-2X2-ONSEMI`,
+   `onsemi/ntlus4930n-d.pdf` p.7; chip-scale — `MICROFOOT-4-0808-VISHAY`,
+   `vishay-siliconix/si8808db.pdf` p.7.
+3. **Judgment calls.** Reuse at exactly the 0.05 mm limit: `SOT23-3-TSC`
+   for the Diodes SOT-23 and the Infineon PG-SOT23. Pads a maker numbers but
+   its land omits are added at outline size (`DFN1010D-3-NEXPERIA` 4 pins,
+   pin 4 the heat bar; `DFN1010B-6-NEXPERIA` 8, pins 7–8, matching B's
+   pinouts with trailing pads); unnumbered flags are pads of pin 0.
+   Unnumbered Diodes DFNs: pads in the drawn order 1 B, 2 E, 3 C, as B's
+   pinouts. Vishay MICRO FOOT and Fairchild WLCSP use ball names; onsemi
+   EFCP / XLLGA bumps are numbered pins. `SOT23-3-VISHAY-AN826` carries a
+   suffix because `SOT23-3-VISHAY` exists in plan-29's data. Every example
+   part's pinout length equals its footprint's pin count (the agent's
+   check over `D-final.tsv`).
 
 ## Summary
 

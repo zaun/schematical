@@ -34,8 +34,8 @@ plan-40-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-40-D complete | `ls planning/completed/plan-40-D-*.md` → exists | NOT MET (D not started) |
-| `footprints-needed.txt` is final | `grep -c '^E' planning/plan-40-data/footprints-needed.txt` → the E lines (73 at planning time) | NOT MET (B not started) |
+| plan-40-D complete | `ls planning/completed/plan-40-D-*.md` → exists | MET (2026-11-15: done with this letter, run in parallel; Corrections 1) |
+| `footprints-needed.txt` is final | `grep -c '^E' planning/plan-40-data/footprints-needed.txt` → the E lines (73 at planning time) | MET (2026-11-15: 59, after B's final pick) |
 
 Everything below is written against the world where these hold.
 
@@ -126,7 +126,7 @@ same pads is what the geometry rule produces when the numbering differs).
 
 ### Phase 1 — Tab packages (21 lines)
 
-- [ ] One object per distinct land pattern for the TO-252 / DPAK, TO-263-3,
+- [x] One object per distinct land pattern for the TO-252 / DPAK, TO-263-3,
       TO-263-7, TO-261 / SOT-223 (and SOT-223-8), TO-277, PowerDI 5 and SOT-669 /
       LFPAK lines, from each line's example part's datasheet; the `footprint-map.tsv`
       rows; reuse where an existing footprint's pads (designator, centre, size)
@@ -134,11 +134,12 @@ same pads is what the geometry rule produces when the numbering differs).
 
 Acceptance: the tab-package objects load and their lines are covered.
   Check: `planning/plan-40-data/census/fp-load.sh planning/plan-40-data/footprints-C.json planning/plan-40-data/footprints-D.json planning/plan-40-data/footprints-E.json` → only `extra footprint` / `unused footprint` failures, for exactly the new ids; no load error (est. 4 min: copies `backend/`, builds `footprint_check`).
-Commit: —
+  Result (2026-11-15): `fp-load.sh footprints-C.json footprints-D.json footprints-E.json` → `139 new footprints: load ok`.
+Commit: 39fbc0e6
 
 ### Phase 2 — SO-8 family and PowerPAK (22 lines)
 
-- [ ] One object per distinct land pattern for the SOIC-8 / SOIC-16, TSSOP-8,
+- [x] One object per distinct land pattern for the SOIC-8 / SOIC-16, TSSOP-8,
       TSOP-8, VSSOP-8, SuperSOT-6 and the PowerPAK SO-8, SO-8 Dual, 1212-8
       (8S, 8SH, Dual), 0806, SC-70-6 (Single, Dual), SC-75-6 and ChipFET
       lines; reuse as Phase 1 (`SOIC-8` has the TI drawing: it is reused where
@@ -146,20 +147,22 @@ Commit: —
 
 Acceptance: as Phase 1 for the Phase 2 lines.
   Check: `fp-load.sh footprints-C.json footprints-D.json footprints-E.json` as Phase 1 (est. 4 min).
-Commit: —
+  Result (2026-11-15): `fp-load.sh footprints-C.json footprints-D.json footprints-E.json` → `139 new footprints: load ok`.
+Commit: 39fbc0e6
 
 ### Phase 3 — Power leadless packages and DirectFET (30 lines)
 
-- [ ] One object per distinct land pattern for the TDFN / WDFN / VDFN / SFN /
+- [x] One object per distinct land pattern for the TDFN / WDFN / VDFN / SFN /
       UDFN / TSFN / VFQFN, flat-lead SMD, 9- and 12-pad PowerWDFN and the eight
       DirectFET lines; pad numbering by B's `pinout` for the line.
-- [ ] Hand-check one object per family (a tab package, an SO-8, a PowerPAK, a
+- [x] Hand-check one object per family (a tab package, an SO-8, a PowerPAK, a
       PQFN, a DirectFET): pad centres and sizes against the drawing, recorded in
       § Corrections.
 
 Acceptance: every E line has a footprint and the objects load.
   Check: `python3 -I planning/plan-40-data/census/fp-check.py E` → `<n> lines, 0 without a footprint` (n = the E lines); `fp-load.sh footprints-C.json footprints-D.json footprints-E.json` as Phase 1 (est. 6 min).
-Commit: —
+  Result (2026-11-15): `fp-load.sh footprints-C.json footprints-D.json footprints-E.json` → `139 new footprints: load ok`; `fp-check.py E` → `59 lines, 0 without a footprint`.
+Commit: 39fbc0e6
 
 ## Validation Plan
 
@@ -180,7 +183,44 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. **Done by an agent per letter, in parallel;** the plan's work was done by one agent per letter from the brief
+   `/tmp/p40/fp/BRIEF.md` (the plan's § 3 rules, the parts-format footprint
+   rules, the precedents), run in parallel with plan-40-B's reading; its
+   objects are in `planning/plan-40-data/footprints-E.json` and its map
+   rows were merged into `planning/plan-40-data/footprint-map.tsv` (columns
+   `letter maker package supplier footprint label note`: one row per
+   supplier device package of a line, or `*`, because one DigiKey Package /
+   Case can hold several body sizes, e.g. `X2-DFN0606-3 | X2-DFN1006-3`).
+   The lines were redone once against B's final pick (`footprints-needed.txt`
+   from the `add` rows: 135 lines, C 20, D 56, E 59, against the planning
+   time's 28, 63, 73); objects for lines the final pick dropped stay in the
+   file and G merges only the ids the final map uses.
+2. **Hand checks** (one per family, as images): tab package —
+   `DPAK-3-VISHAY`, `vishay-siliconix/sud50p06.pdf` p.7 (10.668 overall,
+   2.202 gap, 4.572 pitch); SO-8 — `SOIC8-ONSEMI`, `onsemi/fds8672s-d.pdf`
+   p.7; PowerPAK — `POWERPAK-SO8-VISHAY`, `vishay-siliconix/si7155dp.pdf`
+   p.12; PQFN — `PQFN8-5X6-ONSEMI`, `onsemi/fdms8025s-d.pdf` p.8; DirectFET
+   — `DIRECTFET-ME-INFINEON`, `infineon/infineon-irf7480m-datasheet-en.pdf`
+   p.9 (no DirectFET part is `add`: B gives MN/ME/L8 no pinout, so G does
+   not merge it).
+3. **Pin counts follow B's pinouts.** A footprint's `pins` equals its
+   parts' pinout: `DPAK-4-ONSEMI` and `SOT223-4-INFINEON-2L` split the tab
+   land into pins 2 and 4 (`B,C,E,C` / `G,D,S,D`); Vishay SC-70-6 / SC-75-6
+   single have 7 (source pad 7); TOLL 9, ThinPAK 5, PowerPAIR 9, LFPAK56
+   5; `SO8FL-8-ONSEMI` is a new 8-pin object because B writes 8 pins.
+   Shared drain lands: the lead tongues are their pins and the rest of the
+   land an extra pad of a drain pin (touching, not overlapping).
+4. **Drawn from the outline only** (no printed land; rules R2–R6): Vishay
+   SOT-223, Infineon PG-SOT223, PG-DSO-8, TOLL, `TDSON-8-DUAL-INFINEON`,
+   `WHSON-8-INFINEON`, `PQFN-5X6-IR` (exposed pad against pins 5–8: the
+   outline gives no offset). `TDSON-8-INFINEON` serves the SuperSO8
+   variants (bodies within 0.25 mm). `PG-TSDSON-8` reuses
+   `TSDSON-8-INFINEON` by package name (the PDF's outline is an image).
+5. **Six packages have no usable land in their PDFs** (Infineon / IR PQFN
+   2×2 and Dual PQFN 5×4 — the land is in IR application notes;
+   PG-WHTFN-9, PG-WHITFN-10-1, PG-VITFN-10-1; onsemi 12-WQFN 3.3×3.3): no
+   footprint is guessed; their 11 parts are skipped by plan-40-B
+   (Corrections 11) and the lines left the final list.
 
 ## Summary
 
