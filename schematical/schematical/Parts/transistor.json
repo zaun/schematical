@@ -1,0 +1,275 @@
+{
+ "format": "schematical-parts",
+ "version": 1,
+ "kind": "transistor",
+ "devices": [
+  {
+   "id": "generic-npn",
+   "function": "Generic",
+   "description": "Generic NPN transistor",
+   "drawer": [
+    "Discrete",
+    "Transistors"
+   ],
+   "pinouts": {
+    "p3": [
+     {
+      "number": 1,
+      "name": "B",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "C",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "E",
+      "role": "inout"
+     }
+    ]
+   },
+   "elements": [
+    {
+     "type": "npn",
+     "base": "B",
+     "collector": "C",
+     "emitter": "E"
+    }
+   ],
+   "parts": [
+    {
+     "name": "GENERIC-NPN",
+     "manufacturer": "Generic",
+     "package": "TO-92",
+     "pinout": "p3",
+     "footprint": "TO-92-3-ONSEMI-FORMED",
+     "footprintChoices": [
+      {
+       "package": "TO-92",
+       "footprint": "TO-92-3-ONSEMI-FORMED"
+      },
+      {
+       "package": "SOT-23",
+       "footprint": "SOT23-3-NEXPERIA"
+      },
+      {
+       "package": "SOT-223",
+       "footprint": "SOT223-4-NEXPERIA"
+      },
+      {
+       "package": "TO-220",
+       "footprint": "TO-220-3"
+      },
+      {
+       "package": "DPAK",
+       "footprint": "DPAK-3-ONSEMI-369AS"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "generic-pnp",
+   "function": "Generic",
+   "description": "Generic PNP transistor",
+   "drawer": [
+    "Discrete",
+    "Transistors"
+   ],
+   "pinouts": {
+    "p3": [
+     {
+      "number": 1,
+      "name": "B",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "C",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "E",
+      "role": "inout"
+     }
+    ]
+   },
+   "elements": [
+    {
+     "type": "pnp",
+     "base": "B",
+     "collector": "C",
+     "emitter": "E"
+    }
+   ],
+   "parts": [
+    {
+     "name": "GENERIC-PNP",
+     "manufacturer": "Generic",
+     "package": "TO-92",
+     "pinout": "p3",
+     "footprint": "TO-92-3-ONSEMI-FORMED",
+     "footprintChoices": [
+      {
+       "package": "TO-92",
+       "footprint": "TO-92-3-ONSEMI-FORMED"
+      },
+      {
+       "package": "SOT-23",
+       "footprint": "SOT23-3-NEXPERIA"
+      },
+      {
+       "package": "SOT-223",
+       "footprint": "SOT223-4-NEXPERIA"
+      },
+      {
+       "package": "TO-220",
+       "footprint": "TO-220-3"
+      },
+      {
+       "package": "DPAK",
+       "footprint": "DPAK-3-ONSEMI-369AS"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "generic-nmos",
+   "function": "Generic",
+   "description": "Generic N-channel MOSFET",
+   "drawer": [
+    "Discrete",
+    "Transistors"
+   ],
+   "pinouts": {
+    "p3": [
+     {
+      "number": 1,
+      "name": "G",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "D",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "S",
+      "role": "inout"
+     }
+    ]
+   },
+   "elements": [
+    {
+     "type": "nmos",
+     "gate": "G",
+     "drain": "D",
+     "source": "S"
+    }
+   ],
+   "parts": [
+    {
+     "name": "GENERIC-NMOS",
+     "manufacturer": "Generic",
+     "package": "TO-92",
+     "pinout": "p3",
+     "footprint": "TO-92-3-ONSEMI-FORMED",
+     "footprintChoices": [
+      {
+       "package": "TO-92",
+       "footprint": "TO-92-3-ONSEMI-FORMED"
+      },
+      {
+       "package": "SOT-23",
+       "footprint": "SOT23-3-NEXPERIA"
+      },
+      {
+       "package": "SOT-223",
+       "footprint": "SOT223-4-NEXPERIA"
+      },
+      {
+       "package": "TO-220",
+       "footprint": "TO-220-3"
+      },
+      {
+       "package": "DPAK",
+       "footprint": "DPAK-3-ONSEMI-369AS"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "generic-pmos",
+   "function": "Generic",
+   "description": "Generic P-channel MOSFET",
+   "drawer": [
+    "Discrete",
+    "Transistors"
+   ],
+   "pinouts": {
+    "p3": [
+     {
+      "number": 1,
+      "name": "G",
+      "role": "input"
+     },
+     {
+      "number": 2,
+      "name": "D",
+      "role": "inout"
+     },
+     {
+      "number": 3,
+      "name": "S",
+      "role": "inout"
+     }
+    ]
+   },
+   "elements": [
+    {
+     "type": "pmos",
+     "gate": "G",
+     "drain": "D",
+     "source": "S"
+    }
+   ],
+   "parts": [
+    {
+     "name": "GENERIC-PMOS",
+     "manufacturer": "Generic",
+     "package": "TO-92",
+     "pinout": "p3",
+     "footprint": "TO-92-3-ONSEMI-FORMED",
+     "footprintChoices": [
+      {
+       "package": "TO-92",
+       "footprint": "TO-92-3-ONSEMI-FORMED"
+      },
+      {
+       "package": "SOT-23",
+       "footprint": "SOT23-3-NEXPERIA"
+      },
+      {
+       "package": "SOT-223",
+       "footprint": "SOT223-4-NEXPERIA"
+      },
+      {
+       "package": "TO-220",
+       "footprint": "TO-220-3"
+      },
+      {
+       "package": "DPAK",
+       "footprint": "DPAK-3-ONSEMI-369AS"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -12,7 +12,7 @@ final class PartEditorWindowTests: XCTestCase {
     func testEnabledKinds() {
         // capacitor (plan-33), mcu (plan-36) and resistor (plan-34) have no form
         // (plan-33-A, plan-36-H, plan-34-G § Decisions).
-        let formless: Set = ["capacitor", "mcu", "resistor"]
+        let formless: Set = ["capacitor", "mcu", "resistor", "transistor"]
         XCTAssertEqual(PartDraft.enabledKinds, PartDraft.kindNames.filter { !formless.contains($0) })
         XCTAssertEqual(PartDraft.enabledKinds.count, PartDraft.kindNames.count - formless.count)
     }

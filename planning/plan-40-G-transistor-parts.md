@@ -32,9 +32,9 @@ plan-40-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-40-F complete | `ls planning/completed/plan-40-F-*.md` → exists | NOT MET (F not started) |
-| The `transistor` kind loads | `grep -c 'TRANSISTOR_KIND' backend/src/library/kinds.c` → 2 (the `extern` line and the `KINDS[]` line) | NOT MET (F not started) |
-| Phase 2 only: C, D, E are complete and the map is whole | `ls planning/completed/plan-40-{C,D,E}-*.md` → 3 files; `python3 -I planning/plan-40-data/census/fp-check.py C`, `D`, `E` → `0 without a footprint` | NOT MET (C–E not started) |
+| plan-40-F complete | `ls planning/completed/plan-40-F-*.md` → exists | MET (2026-11-15: archived, 3ba9d4a0) |
+| The `transistor` kind loads | `grep -c 'TRANSISTOR_KIND' backend/src/library/kinds.c` → 2 (the `extern` line and the `KINDS[]` line) | MET (2026-11-15: 2) |
+| Phase 2 only: C, D, E are complete and the map is whole | `ls planning/completed/plan-40-{C,D,E}-*.md` → 3 files; `python3 -I planning/plan-40-data/census/fp-check.py C`, `D`, `E` → `0 without a footprint` | MET (2026-11-15: 3 files; `20 lines`, `56 lines`, `59 lines, 0 without a footprint`) |
 
 Everything below is written against the world where these hold.
 
@@ -150,18 +150,24 @@ duplicate part name.
 
 ### Phase 1 — The generator and the generics
 
-- [ ] `planning/plan-40-data/census/gen-parts.py` (§ 3; plan-34's copy):
+- [x] `planning/plan-40-data/census/gen-parts.py` (§ 3; plan-34's copy):
       `--generics-only` writes `Parts/transistor.json` with only § 3.3's four
       devices, their `footprintChoices` taken from `footprint-map.tsv` (the
       choices' footprints must exist in `Parts/footprints.json`: `census/fp-merge.py
       --only <the five ids> footprints-C.json footprints-D.json footprints-E.json`
       appends exactly those objects, each only if absent; Phase 2 appends the
-      rest).
-- [ ] Load it: `listing_check` lists the four generics; regenerate `parts.txt`
+      rest). Result: `fp-merge.py --only …` → `4 footprints appended`
+      (`TO-220-3` is the library's own); `gen-parts.py --generics-only` →
+      `4 devices, 4 parts (the generics); choices TO-92=TO-92-3-ONSEMI-FORMED,
+      SOT-23=SOT23-3-NEXPERIA, SOT-223=SOT223-4-NEXPERIA, TO-220=TO-220-3,
+      DPAK=DPAK-3-ONSEMI-369AS`.
+- [x] Load it: `listing_check` lists the four generics; regenerate `parts.txt`
       and `traces.txt` (`docs/backend.md` § Tests). `git diff --stat
       backend/tests/golden` → `parts.txt | 4 +`, `traces.txt | 4 +`
-      (+ `footprints.txt` for the merged choice footprints).
-- [ ] The app's kind lists, so the part files and the editor agree:
+      (+ `footprints.txt` for the merged choice footprints). Result:
+      `footprints.txt | 4 ++++`, `parts.txt | 4 ++++`, `traces.txt | 4 ++++`;
+      removed lines 0.
+- [x] The app's kind lists, so the part files and the editor agree:
       `"transistor"` in `PartKinds.all` and `displayNames` ("Transistor",
       `Editor/KindSchema.swift`), `PART_TRANSISTOR` in `PartKinds.name(of:)`
       (`Editor/BundledPartFile.swift`), and `PartEditorWindowTests`:
@@ -173,7 +179,9 @@ duplicate part name.
 
 Acceptance: the generics load and list.
   Check: `cmake --build /tmp/logic-p40 -j8 && ctest --test-dir /tmp/logic-p40 -R 'listing_check|trace_check|library_check|footprint_check'` → 4 passed; `grep -c '^GENERIC-\(NPN\|PNP\|NMOS\|PMOS\)|transistor|' backend/tests/golden/parts.txt` → 4; `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p40-dd test -only-testing:schematicalTests/PartEditorWindowTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 12 min: the app test build; the editor's kind list is the only app code this phase touches).
-Commit: —
+  Result (2026-11-15): `100% tests passed, 0 tests failed out of 4`; `4`; `Executed 8 tests, with
+  0 failures` / `** TEST SUCCEEDED **`.
+Commit: (this commit)
 
 ### Phase 2 — Every part, footprints, datasheets
 
