@@ -354,21 +354,28 @@ LISTING`.
 Acceptance: the pick is complete for every piece.
   Check: `python3 -I planning/plan-40-data/census/select.py /tmp/p40/raw /tmp/p40/cand.tsv --report \| grep -c 'NEEDS DEEPER LISTING'` → 0 (est. 2 min for the check; the listing is the quota day).
   Result (2026-11-15): `0`.
-Commit: (this commit; hash in the next)
+Commit: 5ebabd29
 
 ### Phase 2 — Re-check the picked rows from cut pieces part by part (one quota day)
 
-- [ ] `census/stock-check.sh` (§ 5 rule 2) and `select.py`'s `--stock
+- [x] `census/stock-check.sh` (§ 5 rule 2) and `select.py`'s `--stock
       <stock-check.tsv>` option (a `found` = 0 row → `out`, reason `stock
-      check`; every checked row gets `stock_checked` = 1).
-- [ ] Run it for every picked row with `cut` = 1 (555 at planning time); a
+      check`; every checked row gets `stock_checked` = 1). With
+      `census/cut-picked.py` (the rows to check, with each row's own maker
+      id from the raw listing).
+- [x] Run it for every picked row with `cut` = 1 (555 at planning time); a
       run cut by the quota goes on the next day. Re-run the pick; check any
       newly picked row from a cut piece the same way until none is
       unchecked. Write `planning/plan-40-data/stock-check.tsv`.
+      Result: 167 rows (Corrections 4), one run, `489 left today`; every
+      row `found` 1 (`awk -F'\t' 'NR>1 && $2!=1' stock-check.tsv` → nothing);
+      the re-run pick is unchanged (`cut-picked: 167 picked rows from cut
+      pieces, 0 unchecked`).
 
 Acceptance: every picked row from a cut piece is `found`.
   Check: `awk -F'\t' '$24=="candidate" && $25==1 && $26!=1' planning/plan-40-data/candidates.tsv \| wc -l` → 0 (est. < 1 min; the one-call-per-part run is the quota day).
-Commit: —
+  Result (2026-11-15): `0`.
+Commit: (this commit; hash in the next)
 
 ### Phase 3 — Download, place and scan the datasheets
 
