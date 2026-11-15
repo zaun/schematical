@@ -165,7 +165,13 @@ def cut_pieces(raw):
                 continue
             if label == 'all' and sub and remainder <= 0:
                 continue
-            if label == 'all' and stem + '-re' in names:
+            # a `-re` re-listing replaces every piece of its base file
+            if stem + '-re' in names:
+                continue
+            # a cut piece whose own sub-pieces (label/…) list all its parts is
+            # complete (a type piece the Package / Case split listed in full,
+            # plan-40-A Corrections 3; plan-40-I Corrections 1)
+            if label != 'all' and sum(p[1] for p in pieces if p[0].startswith(label + '/')) >= count:
                 continue
             cut[(stem, label)] = (count, int(stock))
     return cut
