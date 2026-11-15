@@ -407,7 +407,7 @@ Commit: 164df598
 Acceptance: every eligible row either has a PDF or a reason it has none.
   Check: `awk -F'\t' '($24=="candidate"||$24=="duplicate"||$24=="below quota") && $27==""' planning/plan-40-data/candidates.tsv \| wc -l` → the number of rows B will `skip` for no maker datasheet (recorded here); `find datasheets/transistor -iname '*.pdf' \| wc -l` → the distinct PDFs of `datasheets.tsv` (est. 40 min: about a thousand downloads, four at a time).
   Result (2026-11-15): `914` rows without a PDF (onsemi 683: Rochester 596, DigiKey 37, none 38, onsemi.cn 6, onsemi.com 6; Infineon 121: Rochester 108, DigiKey 11, infineon.com 2; Nexperia 56; Vishay Siliconix 40: Waldom 22, DigiKey 18; Diodes 14); `find datasheets/transistor -iname '*.pdf' \| wc -l` → `3983` = `tail -n +2 datasheets.tsv \| cut -f1 \| sort -u \| wc -l` → `3983` (`-name` → 3514: 469 files keep the `.PDF` of their URL, Corrections 7).
-Commit: (this commit; hash in the next)
+Commit: 6676d2bd
 
 ## Validation Plan
 
