@@ -180,7 +180,7 @@ same-named pin, an array, the generics) and check each pin has a slot.
 Acceptance: the app builds.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p40-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` (est. 3 min).
   Result (2026-11-15): `** BUILD SUCCEEDED **`.
-Commit: (this commit; hash in the next)
+Commit: c20f84c2
 
 ### Phase 2 — Drawer order, BOM, generics
 

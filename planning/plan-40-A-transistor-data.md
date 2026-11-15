@@ -375,29 +375,39 @@ Commit: 5ebabd29
 Acceptance: every picked row from a cut piece is `found`.
   Check: `awk -F'\t' '$24=="candidate" && $25==1 && $26!=1' planning/plan-40-data/candidates.tsv \| wc -l` → 0 (est. < 1 min; the one-call-per-part run is the quota day).
   Result (2026-11-15): `0`.
-Commit: (this commit; hash in the next)
+Commit: 164df598
 
 ### Phase 3 — Download, place and scan the datasheets
 
-- [ ] `census/fetch.js`, `place.py`, `textscan.py`, `sibling.py` (§ 4, § 6):
+- [x] `census/fetch.js`, `place.py`, `textscan.py`, `sibling.py` (§ 4, § 6):
       download every distinct URL the eligible rows cite (§ 4 rules 1–3) into
       `/tmp/p40/pdf`, check `%PDF-` and `pdfinfo` on each; failures are
       recorded in § Corrections with their host.
-- [ ] Place the PDFs under `datasheets/transistor/<maker-slug>/` and write
-      `datasheets/transistor/datasheets.tsv`.
-- [ ] `candidates.tsv`: fill `pdf` (the placed path) for every eligible row
+      With `census/common.py` (eligible rows, maker hosts, the rewrite) and
+      `census/urls.py` (the URL list). Result: `4807 urls; 4085 are PDFs; 722
+      failed` (Corrections 5); `pdfinfo: 4085 ok, 0 fail`.
+- [x] Place the PDFs under `datasheets/transistor/<maker-slug>/` and write
+      `datasheets/transistor/datasheets.tsv`. Result: `3983 PDFs placed for
+      4085 URLs`; `place.py --verify` → `0 missing, 0 unused` (the files stay
+      out of the commits until B prunes them: Corrections 6).
+- [x] `candidates.tsv`: fill `pdf` (the placed path) for every eligible row
       whose URL, rewrite or sibling gave a PDF, and `hit` = 1 when its part
       number is printed verbatim in the PDF text (`pdftotext -layout`, token
-      boundary search).
-- [ ] `census/specs-skeleton.py`: `planning/plan-40-data/specs.tsv`, one row
+      boundary search). Result: textscan `5258 rows with their own PDF; 4530
+      printed verbatim; 225 dead`; sibling `989 eligible rows without their
+      own PDF; 75 printed in a same-maker PDF`.
+- [x] `census/specs-skeleton.py`: `planning/plan-40-data/specs.tsv`, one row
       per (maker, series, PDF, DigiKey Package / Case) of the eligible rows,
       columns `maker`, `series`, `pdf`, `package`, `rows`, `example`,
       `scheme`, `label`, `pinout`, `elements` (the last four empty, B's).
-- [ ] Check the total size: `du -sh datasheets/transistor` recorded here.
+      Result: `4279 rows`.
+- [x] Check the total size: `du -sh datasheets/transistor` recorded here:
+      `1.7G` (3983 PDFs, before B's prune).
 
 Acceptance: every eligible row either has a PDF or a reason it has none.
-  Check: `awk -F'\t' '($24=="candidate"||$24=="duplicate"||$24=="below quota") && $27==""' planning/plan-40-data/candidates.tsv \| wc -l` → the number of rows B will `skip` for no maker datasheet (recorded here); `find datasheets/transistor -name '*.pdf' \| wc -l` → the distinct PDFs of `datasheets.tsv` (est. 40 min: about a thousand downloads, four at a time).
-Commit: —
+  Check: `awk -F'\t' '($24=="candidate"||$24=="duplicate"||$24=="below quota") && $27==""' planning/plan-40-data/candidates.tsv \| wc -l` → the number of rows B will `skip` for no maker datasheet (recorded here); `find datasheets/transistor -iname '*.pdf' \| wc -l` → the distinct PDFs of `datasheets.tsv` (est. 40 min: about a thousand downloads, four at a time).
+  Result (2026-11-15): `914` rows without a PDF (onsemi 683: Rochester 596, DigiKey 37, none 38, onsemi.cn 6, onsemi.com 6; Infineon 121: Rochester 108, DigiKey 11, infineon.com 2; Nexperia 56; Vishay Siliconix 40: Waldom 22, DigiKey 18; Diodes 14); `find datasheets/transistor -iname '*.pdf' \| wc -l` → `3983` = `tail -n +2 datasheets.tsv \| cut -f1 \| sort -u \| wc -l` → `3983` (`-name` → 3514: 469 files keep the `.PDF` of their URL, Corrections 7).
+Commit: (this commit; hash in the next)
 
 ## Validation Plan
 
@@ -469,6 +479,27 @@ Author decisions (no user-visible fork; recorded so nobody re-litigates):
    `all/N-Channel` pieces, cut at 300 but complete for the pick, so never
    re-listed): `census/cut-picked.py` → `167 picked rows from cut pieces`,
    every one maker id 448.
+5. **Downloads (2026-11-15).** The eligible rows grew with the re-listing
+   (6247, not 3840: 9860 parts listed), so 4807 distinct URLs, not about a
+   thousand (`urls.py` → `6247 eligible rows; 4807 distinct URLs; 247 rows
+   with no URL to fetch`). 722 gave no PDF: 716 are onsemi rewrites
+   (`/pdf/datasheet/<base>-d.pdf` answers HTTP 200 with an HTML page when
+   DigiKey's base is not onsemi's datasheet name, e.g. `2n3904rlrah-d.pdf`),
+   and 6 maker links: `www.onsemi.com` 3 (`/pub/Collateral/EN2262-D.PDF`,
+   `IRFNL210B-D.PDF`, a product page), `www.infineon.com` 2 (HTTP 202, empty
+   body), `assets.nexperia.com` 1 (`BCP69_BC869_BC69PA.pdf`, HTTP 403).
+   Node's `fetch` with a Safari user agent got every other PDF (onsemi
+   included; the bare-curl fallback was never needed).
+6. **The PDFs are committed after B's prune.** 3983 PDFs are 1.7 GB, and
+   B keeps only those an `add` row uses (`place.py --prune`; skipped parts'
+   PDFs are not in the tree, `datasheets/skipped-parts.md`). Committing all
+   of them and deleting most in B would leave 1.7 GB in the history, so A's
+   commits carry the lists (`candidates.tsv`, `specs.tsv`) and the PDFs and
+   `datasheets.tsv` sit in the worktree until B Phase 5 prunes and commits.
+7. **File names keep the URL's extension case.** 469 PDFs end in `.PDF`
+   (onsemi `/pub/Collateral/…-D.PDF`), so the acceptance check counts with
+   `find -iname` (the `-name '*.pdf'` of the plan misses them; the count is
+   the same files).
 
 ## Summary
 
