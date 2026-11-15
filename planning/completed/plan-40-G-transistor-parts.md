@@ -228,7 +228,7 @@ Acceptance: the whole set loads and the goldens grow by exactly the new parts an
   Check: `ctest --test-dir /tmp/logic-p40` → `100% tests passed`; `git diff backend/tests/golden | grep -c '^-[^-]'` → 0; `grep -c '|transistor|' backend/tests/golden/parts.txt` → N + 4 (est. 6 min).
   Result (2026-11-15): `100% tests passed, 0 tests failed out of 36`; removed golden lines `0`;
   `grep -c '|transistor|' parts.txt` → `1246` (N = 1242, + 4).
-Commit: (this commit)
+Commit: d9712455
 
 ## Validation Plan
 
