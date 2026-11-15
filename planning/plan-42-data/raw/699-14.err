@@ -1,0 +1,5 @@
+piece all/Adjustable: 40 of 40
+piece all/Adjustable (Fixed): 7 of 7
+piece all/Fixed: 442 of 442 (both ends)
+piece all: 489 of 489 (both ends)
+top.js: 699/14: 489 parts, 21 calls, 335 left today

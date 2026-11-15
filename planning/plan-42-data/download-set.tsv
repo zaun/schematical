@@ -1,0 +1,901 @@
+mpn	maker	family	stock	reason	datasheet_url
+TLV70731DQNR	Texas Instruments	linear-fixed	2695346	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv707
+LP5907UVX-2.85/NOPB	Texas Instruments	linear-fixed	2670000	candidate	https://www.ti.com/lit/ds/symlink/lp5907.pdf?ts=1782050205678
+TLV7111930DSER	Texas Instruments	linear-multi	2258979	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv711
+TLV707285DQNR	Texas Instruments	linear-fixed	1786949	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv707
+TPS62698YFDR	Texas Instruments	switching	1254000	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62698
+TLV71128518DDSER	Texas Instruments	linear-multi	1190810	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv710
+TPS76928DBVR	Texas Instruments	linear-fixed	1163837	candidate	https://www.ti.com/lit/ds/symlink/tps769.pdf?ts=1742902980986&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FTPS769
+TPS72748YFFR	Texas Instruments	linear-fixed	977750	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps727
+TLV7111812DSER	Texas Instruments	linear-multi	906671	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv711
+MIC5235BM5	Microchip Technology	linear-adjustable	838412	candidate	https://rocelec.widen.net/view/pdf/c2ixpvkl4l/MCRLS03658-1.pdf?t.download=true&u=5oefqw
+TLV7113025DSER	Texas Instruments	linear-multi	712340	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv710
+TLV70528YFPR	Texas Instruments	linear-fixed	710320	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv705
+MIC5213-2.8YC5	Microchip Technology	linear-fixed	704778	candidate	https://rocelec.widen.net/view/pdf/owm9x1bv8c/MCRLS05856-1.pdf?t.download=true&u=5oefqw
+TPS79930YZUR	Texas Instruments	linear-fixed	667998	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps799
+TLV71211DSER	Texas Instruments	linear-fixed	644403	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv712
+TLV70730DQNR	Texas Instruments	linear-fixed	630654	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv707
+TPS72718YFFR	Texas Instruments	linear-fixed	610137	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps727
+TLV713185PDBVT	Texas Instruments	linear-fixed	583479	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv713p
+TLV7113318DDSER	Texas Instruments	linear-multi	577238	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv711
+TLV70533YFPR	Texas Instruments	linear-fixed	554265	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv705
+TPS62674YFDR	Texas Instruments	switching	518962	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%253A%252F%252Fwww.ti.com%252Flit%252Fgpn%252Ftps62674
+TPS76138DBVR	Texas Instruments	linear-fixed	487912	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps761
+TLV71728PDQNR	Texas Instruments	linear-fixed	482061	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv717p
+MIC5247-1.8YML	Microchip Technology	linear-fixed	477653	candidate	https://rocelec.widen.net/view/pdf/itxlkgisxg/MCRLS02191-1.pdf?t.download=true&u=5oefqw
+TPS62300DRCR	Texas Instruments	switching	465887	candidate	https://www.ti.com/lit/ds/slvs528e/slvs528e.pdf
+TPS62222DDCR	Texas Instruments	switching	462719	candidate	https://www.ti.com/lit/ds/slvs491e/slvs491e.pdf
+TPS62675YFDR	Texas Instruments	switching	461537	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62671
+TLV70013DDCR	Texas Instruments	linear-fixed	457343	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv700
+TPS622310DRYR	Texas Instruments	switching	453700	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62230
+TPS799L57YZYR	Texas Instruments	linear-fixed	453000	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps799l
+MIC2211-OOYML	Microchip Technology	linear-multi	433615	candidate	https://rocelec.widen.net/view/pdf/weq2u6ukpa/MCRLS03453-1.pdf?t.download=true&u=5oefqw
+TPS720105YZUR	Texas Instruments	linear-fixed	428246	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps720
+TLV1117-18CDCYR	Texas Instruments	linear-fixed	425864	candidate	https://www.ti.com/lit/ds/symlink/tlv1117.pdf?ts=1751350710342&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FTLV1150
+TPS73515DRBR	Texas Instruments	linear-fixed	419163	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps735
+TLV7162818PDPQR	Texas Instruments	linear-multi	417000	candidate	http://www.ti.com/lit/gpn/tlv716p
+TPS70915DRVR	Texas Instruments	linear-fixed	417000	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps709
+LP5900XRX-2.8/NOPB	Texas Instruments	linear-fixed	411000	candidate	https://www.ti.com/lit/ds/symlink/lp5900.pdf
+TPS62004DGSR	Texas Instruments	switching	410338	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62006
+TPS77028DBVR	Texas Instruments	linear-fixed	399204	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%253A%252F%252Fwww.ti.com%252Flit%252Fgpn%252Ftps770
+MIC5219-3.1BM5	Microchip Technology	linear-fixed	396900	candidate	https://rocelec.widen.net/view/pdf/wtkrm2wrsk/MCRLS03615-1.pdf?t.download=true&u=5oefqw
+MIC5305-4.6YMT	Microchip Technology	linear-fixed	394352	candidate	https://rocelec.widen.net/view/pdf/hr5hq33zr0/MCRLS02653-1.pdf?t.download=true&u=5oefqw
+TPS62690YFFR	Texas Instruments	switching	350545	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62690
+TPS62207DBVR	Texas Instruments	switching	343404	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62200
+TPS799285YZUR	Texas Instruments	linear-fixed	336000	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps799
+TPS727185YFFR	Texas Instruments	linear-fixed	333671	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps727
+TPS79918YZUR	Texas Instruments	linear-fixed	333557	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps799
+TPS62619YFDR	Texas Instruments	switching	327566	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%253A%252F%252Fwww.ti.com%252Flit%252Fgpn%252Ftps62619
+TLV70015DSER	Texas Instruments	linear-fixed	309121	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv700
+TPS62624YFFR	Texas Instruments	switching	309000	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%253A%252F%252Fwww.ti.com%252Flit%252Fgpn%252Ftps62620
+TLV71310PDQNT	Texas Instruments	linear-fixed	308660	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv713p
+SM72238TDX-5.0/NOPB	Texas Instruments	linear-fixed	308122	candidate	https://rocelec.widen.net/view/pdf/s3ujipxxns/snvs694c.pdf?t.download=true&u=5oefqw
+UA7812CKCS	Texas Instruments	linear-fixed	308120	candidate	https://www.ti.com/lit/ds/slvs056p/slvs056p.pdf
+TLV71311PDBVT	Texas Instruments	linear-fixed	305095	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv713p
+TLV713285PDQNT	Texas Instruments	linear-fixed	303830	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv713p
+MIC5365-1.8YC5-TR	Microchip Technology	linear-fixed	298082	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC5365-6-High-Performance-Single-150mA-LDO-DS20006605.pdf
+TLV70237DBVR	Texas Instruments	linear-fixed	296192	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv702
+TPS61016DGSR	Texas Instruments	switching	293680	candidate	https://www.ti.com/lit/ds/slvs314f/slvs314f.pdf
+TLV71315PDQNT	Texas Instruments	linear-fixed	291794	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv713p
+TPS62302DRCR	Texas Instruments	switching	288600	candidate	https://www.ti.com/lit/ds/slvs528e/slvs528e.pdf
+TLV71330PDBVT	Texas Instruments	linear-fixed	284250	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv713p
+LP3983ITL-2.5/NOPB	Texas Instruments	linear-fixed	281776	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Flp3983
+TLV71312PDQNT	Texas Instruments	linear-fixed	281513	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv713p
+TLV71315PDBVT	Texas Instruments	linear-fixed	281060	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv713p
+TLV71330PDQNT	Texas Instruments	linear-fixed	279687	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv713p
+TL750M12CKCSE3	Texas Instruments	linear-fixed	275114	candidate	https://www.ti.com/lit/ds/slvs021n/slvs021n.pdf
+TLV70242PDSER	Texas Instruments	linear-fixed	271265	candidate	https://www.ti.com/lit/ds/symlink/tlv702.pdf
+LM2623AMMX/NOPB	Texas Instruments	switching	263609	candidate	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/7138/2156_lm2623.pdf
+TPS73632DBVR	Texas Instruments	linear-fixed	255055	candidate	https://www.ti.com/lit/ds/symlink/tps736.pdf
+TLV705185YFPR	Texas Instruments	linear-fixed	251770	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv705
+MIC5305-1.8YML	Microchip Technology	linear-fixed	241805	candidate	https://rocelec.widen.net/view/pdf/hr5hq33zr0/MCRLS02653-1.pdf?t.download=true&u=5oefqw
+TLV62569DBVR	Texas Instruments	switching	236387	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv62569
+TLV71133285DDSER	Texas Instruments	linear-multi	234897	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv710
+TPS79901YZUR	Texas Instruments	linear-adjustable	233508	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps799
+TPS62A01DRLR	Texas Instruments	switching	229287	candidate	https://www.ti.com/lit/ds/symlink/tps62a01.pdf?ts=1651767199227&ref_url=https%253A%252F%252Fwww.ti.com%252Fsitesearch%252Fen-us%252Fdocs%252Funiversalsearch.tsp%253FlangPref%253Den-US%2526searchTerm%253DTPS62A01DRLR%2526nr%253D7
+TPS7A21345PYWDJ	Texas Instruments	linear-fixed	227753	candidate	https://www.ti.com/lit/ds/symlink/tps7a21.pdf?ts=1648480440297&ref_url=https%253A%252F%252Fwww.ti.com%252Fstore%252Fti%252Fen%252Fp%252Fproduct%252F%253Fp%253DTPS7A21345PYWDJ%2526keyMatch%253DTPS7A21345PYWDJ%2526tisearch%253Dsearch-everything%2526usecase%
+TLV70734PDQNR	Texas Instruments	linear-fixed	224027	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv707
+TLV71318PDQNT	Texas Instruments	linear-fixed	222145	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv713p
+TPS72711YFFR	Texas Instruments	linear-fixed	221290	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps727
+TPS76050DBVR	Texas Instruments	linear-fixed	221133	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%253A%252F%252Fwww.ti.com%252Flit%252Fgpn%252Ftps760
+TPS71533DCKR	Texas Instruments	linear-fixed	220386	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%253A%252F%252Fwww.ti.com%252Flit%252Fgpn%252Ftps715
+UA78L05CLPR	Texas Instruments	linear-fixed	218449	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fua78l
+TPS62081DSGR	Texas Instruments	switching	215491	candidate	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/7138/2156_tps62082.pdf
+LP5907MFX-3.3/NOPB	Texas Instruments	linear-fixed	215329	candidate	https://www.ti.com/lit/ds/symlink/lp5907.pdf?ts=1782050205678
+LP5900TLX-2.7/NOPB	Texas Instruments	linear-fixed	213000	candidate	https://rocelec.widen.net/view/pdf/uycrpnwnek/NATLS11477-1.pdf?t.download=true&u=5oefqw
+UA78L12ACDR	Texas Instruments	linear-fixed	211150	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fua78l
+TPS61015DGSR	Texas Instruments	switching	208071	candidate	https://www.ti.com/lit/ds/slvs314f/slvs314f.pdf
+TPS728175295YZUR	Texas Instruments	linear-fixed	207000	candidate	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/525/TPS728xx.pdf
+TLV70215PDBVR	Texas Instruments	linear-fixed	206879	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv702
+TPS71721DCKR	Texas Instruments	linear-fixed	206722	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps717
+TLV73311PDQNT	Texas Instruments	linear-fixed	198400	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv733p
+TPS72728YFFR	Texas Instruments	linear-fixed	198000	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps727
+TLV7103318DSER	Texas Instruments	linear-multi	197487	candidate	https://www.ti.com/lit/ds/symlink/tlv710.pdf
+LP5900TLX-2.85	Texas Instruments	linear-fixed	192000	candidate	https://rocelec.widen.net/view/pdf/7cy8xz62pf/NATLS10684-1.pdf?t.download=true&u=5oefqw
+SN105125DBVR	Texas Instruments	linear-fixed	191978	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fsn105125
+TPS630241YFFR	Texas Instruments	switching	191772	candidate	https://www.ti.com/lit/gpn/tps63024
+TLV7103318DSET	Texas Instruments	linear-multi	189104	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv710
+TPS62005DGSR	Texas Instruments	switching	188287	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62006
+TPS61259YFFR	Texas Instruments	switching	179784	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps61259
+TPS758A01KTTR	Texas Instruments	linear-adjustable	178240	candidate	https://www.ti.com/lit/ds/symlink/tps758.pdf
+MIC5219-3.6BM5 TR	Microchip Technology	linear-fixed	173886	candidate	https://rocelec.widen.net/view/pdf/wtkrm2wrsk/MCRLS03615-1.pdf?t.download=true&u=5oefqw
+MIC5247-1.5YML	Microchip Technology	linear-fixed	171659	candidate	https://rocelec.widen.net/view/pdf/itxlkgisxg/MCRLS02191-1.pdf?t.download=true&u=5oefqw
+MIC2214-KNYML	Microchip Technology	linear-multi	170000	candidate	https://rocelec.widen.net/view/pdf/mk1tixgdfd/MCRLS03456-1.pdf?t.download=true&u=5oefqw
+MCP1700T-3002E/TT	Microchip Technology	linear-fixed	168977	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/MCP1700-Data-Sheet-20001826F.pdf
+TPS61045ADRBR	Texas Instruments	switching	168594	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps61045
+TPS62043DGQR	Texas Instruments	switching	166820	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62040
+MIC5330-SKYML	Microchip Technology	linear-multi	166682	candidate	https://rocelec.widen.net/view/pdf/qz3kxaisqm/MCRLS02320-1.pdf?t.download=true&u=5oefqw
+TPS62665YFFR	Texas Instruments	switching	164154	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%253A%252F%252Fwww.ti.com%252Flit%252Fgpn%252Ftps62665
+MIC5205-2.85BM5	Microchip Technology	linear-fixed	160300	candidate	https://rocelec.widen.net/view/pdf/mvuoir5rif/MCRLS02059-1.pdf?t.download=true&u=5oefqw
+MIC5233-3.0BM5	Microchip Technology	linear-fixed	159793	candidate	https://rocelec.widen.net/view/pdf/ijlzgjkmk3/MCRLS03657-1.pdf?t.download=true&u=5oefqw
+TPS71219DRCR	Texas Instruments	linear-multi	157314	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps712
+TL499ACP	Texas Instruments	switching	154432	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftl499a
+MIC5203-3.0BM5 TR	Microchip Technology	linear-fixed	153000	candidate	https://rocelec.widen.net/view/pdf/h3jedbyyzz/MCRLS03899-1.pdf?t.download=true&u=5oefqw
+TPS61010DGSR	Texas Instruments	switching	150516	candidate	https://www.ti.com/lit/ds/slvs314f/slvs314f.pdf
+MIC5246-3.0BM5TR	Microchip Technology	linear-fixed	150000	candidate	https://rocelec.widen.net/view/pdf/mkcm2ocklm/MCRLS00988-1.pdf?t.download=true&u=5oefqw
+MIC5302-1.8YMT	Microchip Technology	linear-fixed	138979	candidate	https://rocelec.widen.net/view/pdf/bpld9kujgp/MCRLS03850-1.pdf?t.download=true&u=5oefqw
+TLV1117CDCYRG3	Texas Instruments	linear-adjustable	138831	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv1117
+MIC5320-MFYML	Microchip Technology	linear-multi	136980	candidate	https://rocelec.widen.net/view/pdf/lxy7f0andf/MCRLS03059-1.pdf?t.download=true&u=5oefqw
+TPS61032PWPR	Texas Instruments	switching	136678	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps61030
+MIC37151-1.8WR	Microchip Technology	linear-fixed	133269	candidate	https://rocelec.widen.net/view/pdf/arqdgppbef/MCRLS02986-1.pdf?t.download=true&u=5oefqw
+MIC2211-SMYML	Microchip Technology	linear-multi	132292	candidate	https://rocelec.widen.net/view/pdf/weq2u6ukpa/MCRLS03453-1.pdf?t.download=true&u=5oefqw
+MIC2214-DKYML	Microchip Technology	linear-multi	129842	candidate	https://rocelec.widen.net/view/pdf/mk1tixgdfd/MCRLS03456-1.pdf?t.download=true&u=5oefqw
+TPS71H01QPWPR	Texas Instruments	linear-adjustable	124848	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%253A%252F%252Fwww.ti.com%252Flit%252Fgpn%252Ftps71h01
+MIC5252-2.85YML	Microchip Technology	linear-fixed	123829	candidate	https://rocelec.widen.net/view/pdf/u5n4ugudlv/MCRLS05664-1.pdf?t.download=true&u=5oefqw
+MIC2211-GOYML	Microchip Technology	linear-multi	121163	candidate	https://rocelec.widen.net/view/pdf/weq2u6ukpa/MCRLS03453-1.pdf?t.download=true&u=5oefqw
+TPS62002DGSR	Texas Instruments	switching	117462	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62006
+MIC5256-2.5YM5	Microchip Technology	linear-fixed	116995	candidate	https://rocelec.widen.net/view/pdf/yjypu2sbaa/MCRLS03849-1.pdf?t.download=true&u=5oefqw
+TPS62227DDCR	Texas Instruments	switching	113556	candidate	https://www.ti.com/lit/ds/slvs491e/slvs491e.pdf
+TPS62008DGSR	Texas Instruments	switching	112500	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62006
+TPS6734ID	Texas Instruments	switching	111772	candidate	https://www.ti.com/lit/ds/slvs127a/slvs127a.pdf
+TPS62301DRCR	Texas Instruments	switching	111000	candidate	https://www.ti.com/lit/ds/slvs528e/slvs528e.pdf
+LP8340ILDX-ADJ/NOPB	Texas Instruments	linear-adjustable	108500	candidate	https://rocelec.widen.net/view/pdf/ykr3g9fvjm/NATLS25693-1.pdf?t.download=true&u=5oefqw
+MIC5365-3.3YC5-TR	Microchip Technology	linear-fixed	108315	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC5365-6-High-Performance-Single-150mA-LDO-DS20006605.pdf
+TPS62204DBVT	Texas Instruments	switching	105250	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62200
+LM3370TLX-3022/NOPB	Texas Instruments	switching	105000	candidate	https://rocelec.widen.net/view/pdf/msc8zvy86x/NATLS12045-1.pdf?t.download=true&u=5oefqw
+LP3982IMMX-ADJ/NOPB	Texas Instruments	linear-adjustable	104459	candidate	https://rocelec.widen.net/view/pdf/yjuhoi4owt/NATLS19334-1.pdf?t.download=true&u=5oefqw
+TPS77601PWPR	Texas Instruments	linear-adjustable	104009	candidate	https://www.ti.com/lit/ds/slvs232j/slvs232j.pdf
+TPS54495PWP	Texas Instruments	switching	103981	candidate	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/411/TPS54495.pdf
+TPS62044DGQR	Texas Instruments	switching	102527	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62040
+TPS62622YFFR	Texas Instruments	switching	102000	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%253A%252F%252Fwww.ti.com%252Flit%252Fgpn%252Ftps62620
+MIC5259-2.8YD5	Microchip Technology	linear-fixed	100449	candidate	https://rocelec.widen.net/view/pdf/s3yvsconx1/MCRLS02369-1.pdf?t.download=true&u=5oefqw
+MIC5235-5.0YM5-TR	Microchip Technology	linear-fixed	100190	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/mic5235.pdf
+LM2734YQMKX/NOPB	Texas Instruments	switching	99947	candidate	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/4850/DS_2156_LM2734.pdf
+TLV1117IKCS	Texas Instruments	linear-adjustable	99774	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv1117
+TPS62026DGQR	Texas Instruments	switching	99731	candidate	https://www.ti.com/lit/ds/slvs076c/slvs076c.pdf
+TPS61014DGS	Texas Instruments	switching	99208	candidate	https://www.ti.com/lit/ds/slvs314f/slvs314f.pdf
+REG711EA-5/2K5	Texas Instruments	switching	98754	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Freg711-5
+MIC5330-PKYML	Microchip Technology	linear-multi	98510	candidate	https://rocelec.widen.net/view/pdf/qz3kxaisqm/MCRLS02320-1.pdf?t.download=true&u=5oefqw
+TLV75801PDBVR	Texas Instruments	linear-adjustable	97759	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv758p
+TPS54283PWPR	Texas Instruments	switching	96055	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps54283
+TPS564208DDCT	Texas Instruments	switching	95300	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps564208
+ADP123AUJZ-R7	Analog Devices	linear-adjustable	95176	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP122_123.pdf
+MIC5247-1.8BM5TR	Microchip Technology	linear-fixed	94680	candidate	https://rocelec.widen.net/view/pdf/itxlkgisxg/MCRLS02191-1.pdf?t.download=true&u=5oefqw
+TPS61202DSCR	Texas Instruments	switching	94675	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps61202
+MIC5365-3.3YD5-TR	Microchip Technology	linear-fixed	94440	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC5365-6-High-Performance-Single-150mA-LDO-DS20006605.pdf
+MIC2211-JGYML	Microchip Technology	linear-multi	90507	candidate	https://rocelec.widen.net/view/pdf/weq2u6ukpa/MCRLS03453-1.pdf?t.download=true&u=5oefqw
+MIC5310-SKYML	Microchip Technology	linear-multi	89788	candidate	https://rocelec.widen.net/view/pdf/ilt2pgty6u/MCRLS04072-1.pdf?t.download=true&u=5oefqw
+MCP1755T-5002E/OT	Microchip Technology	linear-fixed	87292	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/MCP1755-MCP1755S-Data-Sheet-DS20005160B.pdf
+MIC5203-4.7BM5	Microchip Technology	linear-fixed	86471	candidate	https://rocelec.widen.net/view/pdf/h3jedbyyzz/MCRLS03899-1.pdf?t.download=true&u=5oefqw
+TLV1117-15CDCYR	Texas Instruments	linear-fixed	85027	candidate	https://www.ti.com/lit/ds/symlink/tlv1117.pdf?ts=1751350710342&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FTLV1117
+TPS62238DRYR	Texas Instruments	switching	85000	candidate	https://www.ti.com/lit/ds/symlink/tps62230.pdf
+TPS62221DDCT	Texas Instruments	switching	84680	candidate	https://www.ti.com/lit/ds/slvs491e/slvs491e.pdf
+MIC5246-2.6BM5	Microchip Technology	linear-fixed	84000	candidate	https://rocelec.widen.net/view/pdf/nujac6ukay/MCRLS03183-1.pdf?t.download=true&u=5oefqw
+LM317LIDR	Texas Instruments	linear-adjustable	83286	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Flm317l
+TL317CLPR	Texas Instruments	linear-adjustable	82603	candidate	https://www.ti.com/lit/ds/slvs004i/slvs004i.pdf
+MIC5301-2.1YMT	Microchip Technology	linear-fixed	81990	candidate	https://rocelec.widen.net/view/pdf/cnsj9xztts/MCRLS03062-1.pdf?t.download=true&u=5oefqw
+LM8801TMX-2.9/NOPB	Texas Instruments	switching	81000	candidate	https://rocelec.widen.net/view/pdf/qqqxdfbagf/NATLS14596-1.pdf?t.download=true&u=5oefqw
+MIC5501-3.0YM5-TR	Microchip Technology	linear-fixed	79658	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC5501-02-03-04-300mA-Single-Output-LDO-in-Small-Packages-DS20006006B.pdf
+TPS53311RGTT	Texas Instruments	switching	79598	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps53311
+MIC5235-2.5YM5	Microchip Technology	linear-fixed	79097	candidate	https://rocelec.widen.net/view/pdf/c2ixpvkl4l/MCRLS03658-1.pdf?t.download=true&u=5oefqw
+LM3671TLX-1.2/NOPB	Texas Instruments	switching	78500	candidate	https://rocelec.widen.net/view/pdf/o1zmgcr0lm/NATLS09652-1.pdf?t.download=true&u=5oefqw
+TPS62321DRCR	Texas Instruments	switching	78000	candidate	https://www.ti.com/lit/ds/slvs528e/slvs528e.pdf
+TL2575-ADJIKV	Texas Instruments	switching	77918	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftl2575-12
+TPS62202DBVR	Texas Instruments	switching	77087	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62200
+MIC5255-2.8YML	Microchip Technology	linear-fixed	73289	candidate	https://rocelec.widen.net/view/pdf/iyici7c2sk/MCRLS02400-1.pdf?t.download=true&u=5oefqw
+TLV1117-18CDRJR	Texas Instruments	linear-fixed	72054	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv1117
+TPS622315DRYR	Texas Instruments	switching	70000	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62230
+MIC5247-2.0YD5	Microchip Technology	linear-fixed	69538	candidate	https://rocelec.widen.net/view/pdf/itxlkgisxg/MCRLS02191-1.pdf?t.download=true&u=5oefqw
+MIC5504-1.8YM5-TR	Microchip Technology	linear-fixed	69447	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC5501-02-03-04-300mA-Single-Output-LDO-in-Small-Packages-DS20006006B.pdf
+MIC5205-5.0YM5-TR	Microchip Technology	linear-fixed	68978	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC5205-150mA-Low-Noise-LDO-Regulator-DS20005785C.pdf
+TPS62020DRCR	Texas Instruments	switching	68777	candidate	https://www.ti.com/lit/ds/slvs076c/slvs076c.pdf
+TPS613222ADBVT	Texas Instruments	switching	68554	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%253A%252F%252Fwww.ti.com%252Flit%252Fgpn%252Ftps61322
+TPS62201DBVR	Texas Instruments	switching	68135	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62200
+MIC5203-4.5BM5	Microchip Technology	linear-fixed	66418	candidate	https://rocelec.widen.net/view/pdf/h3jedbyyzz/MCRLS03899-1.pdf?t.download=true&u=5oefqw
+TPS62067DSGR	Texas Instruments	switching	66133	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62067
+MIC5305-2.85YD5	Microchip Technology	linear-fixed	65750	candidate	https://rocelec.widen.net/view/pdf/hr5hq33zr0/MCRLS02653-1.pdf?t.download=true&u=5oefqw
+MIC49200WR	Microchip Technology	linear-adjustable	64229	candidate	https://rocelec.widen.net/view/pdf/rzvptzmsho/MCRLS02045-1.pdf?t.download=true&u=5oefqw
+LM3370TLX-3006/NOPB	Texas Instruments	switching	63000	candidate	https://rocelec.widen.net/view/pdf/msc8zvy86x/NATLS12045-1.pdf?t.download=true&u=5oefqw
+MIC5252-2.85YM5 TR	Microchip Technology	linear-fixed	63000	candidate	https://rocelec.widen.net/view/pdf/9si6bzfgkt/MCRLS01683-1.pdf?t.download=true&u=5oefqw
+MIC5219-3.3YM5-TR	Microchip Technology	linear-fixed	62976	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/MIC5219-500mA-Peak-Output-LDO-Regulator-DS20006021A.pdf
+LM2854MHX-1000/NOPB	Texas Instruments	switching	61905	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Flm2854
+ADM7172ACPZ-R7	Analog Devices	linear-adjustable	61573	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADM7172.pdf
+ADP150AUJZ-3.3-R7	Analog Devices	linear-fixed	61397	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP150.pdf
+MIC5259-2.85YML	Microchip Technology	linear-fixed	61368	candidate	https://rocelec.widen.net/view/pdf/s3yvsconx1/MCRLS02369-1.pdf?t.download=true&u=5oefqw
+TPS62021DRCR	Texas Instruments	switching	61179	candidate	https://www.ti.com/lit/ds/slvs076c/slvs076c.pdf
+LR8N8-G	Microchip Technology	linear-adjustable	60873	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/20005399B.pdf
+TPS62003DGSR	Texas Instruments	switching	58149	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62006
+MIC5206-3.0BM5 TR	Microchip Technology	linear-fixed	57761	candidate	https://rocelec.widen.net/view/pdf/ylgj3jzolr/MCRLS02231-1.pdf?t.download=true&u=5oefqw
+TPS72201DBVR	Texas Instruments	linear-adjustable	57711	candidate	https://www.ti.com/lit/ds/slvs390b/slvs390b.pdf
+TPS62933DRLR	Texas Instruments	switching	57685	candidate	https://www.ti.com/lit/ds/symlink/tps62933p.pdf?ts=1658586703977&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FTPS62933P%253Fjktype%253Dhomepageproduct
+MIC5238-1.2YD5 TR	Microchip Technology	linear-fixed	57532	candidate	https://rocelec.widen.net/view/pdf/whlq3yfil4/MCHP-S-A0009394042-1.pdf?t.download=true&u=5oefqw
+TPS62320DRCR	Texas Instruments	switching	57388	candidate	https://www.ti.com/lit/ds/slvs528e/slvs528e.pdf
+MIC5205YM5-TR	Microchip Technology	linear-adjustable	56786	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC5205-150mA-Low-Noise-LDO-Regulator-DS20005785C.pdf
+MCP1824T-3302E/OT	Microchip Technology	linear-fixed	56482	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/22070a.pdf
+TLV75801PDRVR	Texas Instruments	linear-adjustable	56400	candidate	https://www.ti.com/lit/ds/symlink/tlv758p.pdf?ts=1698226070408&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FTLV758P%252Fpart-details%252FTLV75801PDRVR
+MIC5504-2.8YM5-TR	Microchip Technology	linear-fixed	56059	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC5501-02-03-04-300mA-Single-Output-LDO-in-Small-Packages-DS20006006B.pdf
+TL499ACPSR	Texas Instruments	switching	55218	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftl499a
+TPS62044DRCR	Texas Instruments	switching	54805	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62040
+TLV62568PDDCT	Texas Instruments	switching	54304	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv62568
+TPS62660YFFT	Texas Instruments	switching	54243	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62660
+TPS72101DBVR	Texas Instruments	linear-adjustable	54094	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%253A%252F%252Fwww.ti.com%252Flit%252Fgpn%252Ftps721
+TPS61012DGS	Texas Instruments	switching	53607	candidate	https://www.ti.com/lit/ds/slvs314f/slvs314f.pdf
+LM317LIPK	Texas Instruments	linear-adjustable	53596	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Flm317l
+MIC5305-3.0YML	Microchip Technology	linear-fixed	53414	candidate	https://rocelec.widen.net/view/pdf/hr5hq33zr0/MCRLS02653-1.pdf?t.download=true&u=5oefqw
+ADP7104ACPZ-R7	Analog Devices	linear-adjustable	53360	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP7104.pdf
+ADP122AUJZ-3.3-R7	Analog Devices	linear-fixed	53320	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP122_123.pdf
+LM317MDCYR	Texas Instruments	linear-adjustable	53223	candidate	https://rocelec.widen.net/view/pdf/qqxo3jxzqj/slvs297p.pdf?t.download=true&u=5oefqw
+TPS62263DRVT	Texas Instruments	switching	52746	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62263
+TPS7A2401DBVR	Texas Instruments	linear-adjustable	52374	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps7a24
+TL2575-05IN	Texas Instruments	switching	51993	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftl2575-12
+MIC5205-1.88BM5TR	Microchip Technology	linear-fixed	51000	candidate	https://rocelec.widen.net/view/pdf/mvuoir5rif/MCRLS02059-1.pdf?t.download=true&u=5oefqw
+MIC5219-2.5BM5	Microchip Technology	linear-fixed	50941	candidate	https://rocelec.widen.net/view/pdf/wtkrm2wrsk/MCRLS03615-1.pdf?t.download=true&u=5oefqw
+TC1262-3.3VDBTR	Microchip Technology	linear-fixed	50826	candidate	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/8122/TC1262.pdf
+TPS76601DR	Texas Instruments	linear-adjustable	50421	candidate	https://www.ti.com/lit/ds/slvs237c/slvs237c.pdf
+LM1117MPX-3.3/NOPB	Texas Instruments	linear-fixed	49909	candidate	https://www.ti.com/lit/ds/symlink/lm1117.pdf?HQS=dis-dk-null-digikeymode-dsf-pf-null-wwe&ts=1721700739746
+MIC94345-SYMT-TR	Microchip Technology	linear-fixed	49606	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC94325.pdf
+MIC2141BM5	Microchip Technology	switching	49259	candidate	https://rocelec.widen.net/view/pdf/xuomkvl2av/MCRLS03421-1.pdf?t.download=true&u=5oefqw
+TLV1117-25IDCYR	Texas Instruments	linear-fixed	49149	candidate	https://www.ti.com/lit/ds/symlink/tlv1117.pdf?ts=1751350710342&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FTLV1147
+TPS75501KTTR	Texas Instruments	linear-adjustable	48826	candidate	https://www.ti.com/lit/ds/slvs293d/slvs293d.pdf
+MIC5528-3.3YMT-TR	Microchip Technology	linear-fixed	48532	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/MIC5528-High-Performance-500mA-LDO-in-Thin-and-Extra-Thin-DFN-Packages-DS20005982B.pdf
+LP2954AIMX/NOPB	Texas Instruments	linear-adjustable	48506	candidate	https://rocelec.widen.net/view/pdf/zk29uwdkvs/NATLS25592-1.pdf?t.download=true&u=5oefqw
+MIC5246-2.7BM5	Microchip Technology	linear-fixed	48000	candidate	https://rocelec.widen.net/view/pdf/nujac6ukay/MCRLS03183-1.pdf?t.download=true&u=5oefqw
+MIC5319-2.7YML	Microchip Technology	linear-fixed	46613	candidate	https://rocelec.widen.net/view/pdf/eaalvcb939/MCRLS04451-1.pdf?t.download=true&u=5oefqw
+MCP1703T-5002E/CB	Microchip Technology	linear-fixed	46502	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP1703-250-mA-16V-Low-Quiescent-Current-LDO-20002049.pdf
+MIC5216-3.3YM5-TR	Microchip Technology	linear-fixed	46490	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/mic5216.pdf
+TC1185-5.0VCT713	Microchip Technology	linear-fixed	46057	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/50001894.pdf
+TPS75701KTTR	Texas Instruments	linear-adjustable	45642	candidate	https://www.ti.com/lit/ds/symlink/tps757.pdf
+MCP1700T-3302E/MB	Microchip Technology	linear-fixed	45628	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/MCP1700-Data-Sheet-20001826F.pdf
+MIC5256-3.0YM5	Microchip Technology	linear-fixed	45000	candidate	https://rocelec.widen.net/view/pdf/yjypu2sbaa/MCRLS03849-1.pdf?t.download=true&u=5oefqw
+MIC5248-1.2YML	Microchip Technology	linear-fixed	44936	candidate	https://rocelec.widen.net/view/pdf/lgfeephuee/MCRLS02381-1.pdf?t.download=true&u=5oefqw
+MIC37150-1.8WR	Microchip Technology	linear-fixed	44753	candidate	https://rocelec.widen.net/view/pdf/arqdgppbef/MCRLS02986-1.pdf?t.download=true&u=5oefqw
+MIC5209-4.2BS TR	Microchip Technology	linear-fixed	44455	candidate	https://rocelec.widen.net/view/pdf/5b16huahgy/MCRLS06712-1.pdf?t.download=true&u=5oefqw
+MCP1824T-0802E/OT	Microchip Technology	linear-fixed	44277	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/22070a.pdf
+ADP151AUJZ-3.3-R7	Analog Devices	linear-fixed	44211	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP151.pdf
+MCP1711T-33I/OT	Microchip Technology	linear-fixed	43940	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/20005415D.pdf
+MIC5203-3.0BM5	Microchip Technology	linear-fixed	43760	candidate	https://rocelec.widen.net/view/pdf/h3jedbyyzz/MCRLS03899-1.pdf?t.download=true&u=5oefqw
+MCP1700T-2502E/TT	Microchip Technology	linear-fixed	43687	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/MCP1700-Data-Sheet-20001826F.pdf
+LP3874EMPX-ADJ	Texas Instruments	linear-adjustable	42418	candidate	https://rocelec.widen.net/view/pdf/jp4sdhirh7/NATLS08410-1.pdf?t.download=true&u=5oefqw
+MIC5366-1.8YC5-TR	Microchip Technology	linear-fixed	42413	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC5365-6-High-Performance-Single-150mA-LDO-DS20006605.pdf
+MIC5365-2.5YC5-TR	Microchip Technology	linear-fixed	41992	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC5365-6-High-Performance-Single-150mA-LDO-DS20006605.pdf
+MIC5233-2.5YM5-TR	Microchip Technology	linear-fixed	41588	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/MIC5233-Data-Sheet-DS20006033D.pdf
+MIC2205-1.5YML	Microchip Technology	switching	41119	candidate	https://rocelec.widen.net/view/pdf/vqpbx37yuh/MCRLS05888-1.pdf?t.download=true&u=5oefqw
+MCP1700T-3302E/MAY	Microchip Technology	linear-fixed	41038	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/MCP1700-Data-Sheet-20001826F.pdf
+MIC5365-3.0YC5-TR	Microchip Technology	linear-fixed	41022	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC5365-6-High-Performance-Single-150mA-LDO-DS20006605.pdf
+ADP151AUJZ-1.8-R7	Analog Devices	linear-fixed	40697	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP151.pdf
+TPS7101QDR	Texas Instruments	linear-adjustable	40280	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%253A%252F%252Fwww.ti.com%252Flit%252Fgpn%252Ftps71
+LT1763CS8#TRPBF	Analog Devices	linear-adjustable	39822	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/1763fh.pdf
+MCP1700T-1802E/TT	Microchip Technology	linear-fixed	39794	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/MCP1700-Data-Sheet-20001826F.pdf
+MCP1826ST-3302E/DB	Microchip Technology	linear-fixed	39356	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/22057B.pdf
+MIC5207-3.1BM5	Microchip Technology	linear-fixed	39000	candidate	https://rocelec.widen.net/view/pdf/4iilhmd7k3/MCRLS03165-1.pdf?t.download=true&u=5oefqw
+MIC2296YML	Microchip Technology	switching	38656	candidate	https://rocelec.widen.net/view/pdf/98lvaaxx7n/MCRLS03885-1.pdf?t.download=true&u=5oefqw
+TPS7101QP	Texas Instruments	linear-adjustable	37899	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%253A%252F%252Fwww.ti.com%252Flit%252Fgpn%252Ftps71
+TPS74001DGKT	Texas Instruments	linear-adjustable	37201	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps740
+LT1765EFE-3.3#TRPBF	Analog Devices	switching	36781	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/1765fd.pdf
+MIC39100-3.3WS	Microchip Technology	linear-fixed	36139	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/20005834A.pdf
+MIC5219-3.1BM5TR	Microchip Technology	linear-fixed	36100	candidate	https://rocelec.widen.net/view/pdf/wtkrm2wrsk/MCRLS03615-1.pdf?t.download=true&u=5oefqw
+MIC5246-3.0BM5	Microchip Technology	linear-fixed	35985	candidate	https://rocelec.widen.net/view/pdf/nujac6ukay/MCRLS03183-1.pdf?t.download=true&u=5oefqw
+MIC5317-3.3YD5-TR	Microchip Technology	linear-fixed	35950	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC5317-High-Performance-Single-150mA-LDO-DS20006195B.pdf
+MAX15062BATA+T	Analog Devices	switching	35626	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX15062.pdf
+TPS74901RGWR	Texas Instruments	linear-adjustable	35427	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps74901
+ADP1710AUJZ-2.5-R7	Analog Devices	linear-fixed	35135	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP1710_1711.pdf
+LM317T/LF01	Texas Instruments	linear-adjustable	35078	candidate	https://rocelec.widen.net/view/pdf/lklbq2hgrn/lm117.pdf?t.download=true&u=5oefqw
+MAX38902CANT+T	Analog Devices	linear-adjustable	34642	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX38902A-MAX38902D.pdf
+LT1761ES5-SD#TRMPBF	Analog Devices	linear-adjustable	34240	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/1761sff.pdf
+LT1761ES5-3.3#TRMPBF	Analog Devices	linear-fixed	33949	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/1761sff.pdf
+LT1761ES5-5#TRMPBF	Analog Devices	linear-fixed	33225	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/1761sff.pdf
+LT3080EMS8E#TRPBF	Analog Devices	linear-adjustable	32472	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/lt3080.pdf
+LM2574-3.3BWM	Microchip Technology	switching	32182	candidate	https://rocelec.widen.net/view/pdf/mtks1kzubz/MCRLS06147-1.pdf?t.download=true&u=5oefqw
+MAX8902BATA+T	Analog Devices	linear-adjustable	31661	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/max8902-max8902b.pdf
+MIC23153YMT-TR	Microchip Technology	switching	31189	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC23153-4-MHz-PWM-2A-Buck-Regulator-with-HyperLight-Load-and-Power-Good-DS20006489B.pdf
+LT3010EMS8E#TRPBF	Analog Devices	linear-adjustable	30714	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/lt3010-3010-5.pdf
+MIC5319YML-TR	Microchip Technology	linear-adjustable	29713	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/500mA-uCap-Ultra-Low-Dropout-Regulator-with-High-PSRR-DS20005876B.pdf
+MAX38902AATA+T	Analog Devices	linear-adjustable	29575	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX38902A-MAX38902D.pdf
+ADM7170ACPZ-3.3-R7	Analog Devices	linear-fixed	29421	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADM7170.pdf
+MIC5235YM5-TR	Microchip Technology	linear-adjustable	28422	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/mic5235.pdf
+MCP1702T-1802E/CB	Microchip Technology	linear-fixed	27769	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/22008E.pdf
+LX7167ACLD-TR	Microchip Technology	switching	27303	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/LX7167_Rev1.1.pdf
+MAX1615EUK+T	Analog Devices	linear-fixed	27159	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX1615-MAX1616.pdf
+ADP1755ACPZ-R7	Analog Devices	linear-adjustable	26743	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP1754_1755.pdf
+MIC94325YMT-TR	Microchip Technology	linear-adjustable	26741	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC94325.pdf
+MAX77504AAFC+T	Analog Devices	switching	26593	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX77504.pdf
+ADP123ACPZ-R7	Analog Devices	linear-adjustable	26347	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP122_123.pdf
+MAX8887EZK33+T	Analog Devices	linear-fixed	26150	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/max8887-max8888.pdf
+ADP121-AUJZ33R7	Analog Devices	linear-fixed	26028	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP121.pdf
+MCP1640CT-I/CHY	Microchip Technology	switching	25993	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP1640-Family-Data-Sheet-DS20002234E.pdf
+ADP150AUJZ-1.8-R7	Analog Devices	linear-fixed	25744	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP150.pdf
+LT1615ES5-1#TRMPBF	Analog Devices	switching	24742	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/16151fas.pdf
+LT1962EMS8-3.3#TRPBF	Analog Devices	linear-fixed	23906	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/1962fb.pdf
+MIC27600YJL-TR	Microchip Technology	switching	23068	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC27600-36V-7A-Hyper-Speed-Control-Synchronous-DC-DC-Buck-Regulator-DS20006878.pdf
+ADP7112ACBZ-1.2-R7	Analog Devices	linear-adjustable	23036	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP7112.pdf
+MCP1702T-3302E/CB	Microchip Technology	linear-fixed	23034	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/22008E.pdf
+ADP7118WAUJZ-5.0-R7	Analog Devices	linear-fixed	23003	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/adp7118.pdf
+LT3014ES5#TRMPBF	Analog Devices	linear-adjustable	22964	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/3014fd.pdf
+MIC5219YM5-TR	Microchip Technology	linear-adjustable	22869	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/MIC5219-500mA-Peak-Output-LDO-Regulator-DS20006021A.pdf
+ADP125ARHZ-R7	Analog Devices	linear-adjustable	22820	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP124_125.pdf
+LT3060EDC-3.3#TRMPBF	Analog Devices	linear-fixed	22708	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/lt3060.pdf
+LT1930AES5#TRMPBF	Analog Devices	switching	22542	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/1930f.pdf
+MIC5219YMT-TR	Microchip Technology	linear-adjustable	22238	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/MIC5219-500mA-Peak-Output-LDO-Regulator-DS20006021A.pdf
+MCP1702T-5002E/MB	Microchip Technology	linear-fixed	21921	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/22008E.pdf
+MIC23050-SYML-TR	Microchip Technology	switching	21913	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/mic23050.pdf
+LT3080EST#TRPBF	Analog Devices	linear-adjustable	21621	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/lt3080.pdf
+MIC2619YD6-TR	Microchip Technology	switching	21595	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/mic2619.pdf
+MCP16251T-I/CH	Microchip Technology	switching	21128	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP16251-MCP16252-Data-Sheet-DS20005173.pdf
+LM317MKVURG3	Texas Instruments	linear-adjustable	20780	candidate	https://rocelec.widen.net/view/pdf/qqxo3jxzqj/slvs297p.pdf?t.download=true&u=5oefqw
+ADP172ACBZ-1.8-R7	Analog Devices	linear-fixed	20734	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP172.pdf
+LT1963AEST-3.3#TRPBF	Analog Devices	linear-fixed	20675	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/lt1963a.pdf
+ADM7154ACPZ-3.3-R7	Analog Devices	linear-fixed	20491	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADM7154.pdf
+LTC3639EMSE#TRPBF	Analog Devices	switching	20401	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/3639fd.pdf
+ADP124ACPZ-3.3-R7	Analog Devices	linear-fixed	20336	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP124_125.pdf
+MCP1725T-ADJE/MC	Microchip Technology	linear-adjustable	20320	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/22026b.pdf
+LM2574BWM	Microchip Technology	switching	20299	candidate	https://rocelec.widen.net/view/pdf/mtks1kzubz/MCRLS06147-1.pdf?t.download=true&u=5oefqw
+ADM7172ACPZ-5.0-R7	Analog Devices	linear-fixed	20142	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADM7172.pdf
+LT1763CS8-3.3#TRPBF	Analog Devices	linear-fixed	20140	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/1763fh.pdf
+ADP150ACBZ-1.8-R7	Analog Devices	linear-fixed	19756	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP150.pdf
+UA7805CKTTR	Texas Instruments	linear-fixed	19729	candidate	https://www.ti.com/lit/ds/slvs056p/slvs056p.pdf
+ADP3331ARTZ-REEL7	Analog Devices	linear-adjustable	19582	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP3331.pdf
+MIC2606YML-TR	Microchip Technology	switching	19147	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/0.5A-1.2-MHz-2-MHz-Wide-Input-Range-Boost-Regulators-Each-with-Integrated-Switch-and-Schottky-Diode-20006620A.pdf
+ADP2370ACPZ-3.3-R7	Analog Devices	switching	18924	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP2370_2371.pdf
+ADM7172ACPZ-1.8-R7	Analog Devices	linear-fixed	18816	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADM7172.pdf
+ADP3300ARTZ-3.3RL7	Analog Devices	linear-fixed	18376	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP3300.pdf
+ADM7170ACPZ-3.0-R7	Analog Devices	linear-fixed	18160	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADM7170.pdf
+MAX17651AZT+T	Analog Devices	linear-adjustable	17918	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/max17651.pdf
+MAX17502FATB+T	Analog Devices	switching	17916	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/max17502.pdf
+MIC5305YML	Microchip Technology	linear-adjustable	17878	candidate	https://rocelec.widen.net/view/pdf/hr5hq33zr0/MCRLS02653-1.pdf?t.download=true&u=5oefqw
+MAX17640CATA+T	Analog Devices	switching	17751	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX17640.pdf
+LT8642SEV#PBF	Analog Devices	switching	17741	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/lt8642s.pdf
+MAX17502GATB+T	Analog Devices	switching	17718	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/max17502.pdf
+MIC2876-AYMT-TR	Microchip Technology	switching	17566	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC2876-4.8A-ISW-Synchronous-Boost-Regulator-with-Bi-Directional-Load-Disconnect-DS20005572.pdf
+ADP2119ACPZ-R7	Analog Devices	switching	17422	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP2119_2120.pdf
+MCP16301T-I/CHY	Microchip Technology	switching	17383	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP16301-Family-Data-Sheet-DS20005004E.pdf
+ADP121-ACBZ33R7	Analog Devices	linear-fixed	17125	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP121.pdf
+ADP1741ACPZ-R7	Analog Devices	linear-adjustable	16918	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP1740_1741.pdf
+ADM7172ACPZ-3.3-R7	Analog Devices	linear-fixed	16736	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADM7172.pdf
+MCP16331T-E/CH	Microchip Technology	switching	16646	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/MCP16331-Data-Sheet-20005308.pdf
+ADP122AUJZ-3.0-R7	Analog Devices	linear-fixed	16640	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP122_123.pdf
+MIC23150-SYMT-TR	Microchip Technology	switching	16585	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/mic23150.pdf
+ADP2120ACPZ-R7	Analog Devices	switching	16574	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP2119_2120.pdf
+MIC5225YM5-TR	Microchip Technology	linear-adjustable	16560	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/mic5225.pdf
+LT3012EDE#TRPBF	Analog Devices	linear-adjustable	16169	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/3012fd.pdf
+LT1121IST-5#TRPBF	Analog Devices	linear-fixed	15960	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/1121fg.pdf
+ADP161AUJZ-R7	Analog Devices	linear-adjustable	15944	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP160_161_162_163.pdf
+LT1965IDD#TRPBF	Analog Devices	linear-adjustable	15845	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/1965fb.pdf
+ADP7142ARDZ-R7	Analog Devices	linear-adjustable	15826	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP7142.pdf
+LT1763CDE#TRPBF	Analog Devices	linear-adjustable	15797	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/1763fh.pdf
+ADP151AUJZ-1.5-R7	Analog Devices	linear-fixed	15625	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP151.pdf
+MIC69103YML-TR	Microchip Technology	linear-adjustable	15551	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC69101-103-Single-Supply-VIN-LOW-VIN-LOW-VOUT-1A-LDO-DS20006018A.pdf
+ADP1715ARMZ-3.3-R7	Analog Devices	linear-fixed	15470	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP1715_1716.pdf
+LT8640SEV#PBF	Analog Devices	switching	15470	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/lt8640s-8643s.pdf
+LM1117MPX-5.0/NOPB	Texas Instruments	linear-fixed	15357	candidate	https://www.ti.com/lit/ds/symlink/lm1117.pdf?HQS=dis-dk-null-digikeymode-dsf-pf-null-wwe&ts=1721700739746
+MIC2238-AAYML-TR	Microchip Technology	switching	15228	candidate	https://www.microchip.com/content/dam/mchp/documents/OTH/ProductDocuments/DataSheets/mic2238.pdf
+LT8610EMSE#TRPBF	Analog Devices	switching	15186	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/8610fa.pdf
+MIC37502BRTR	Microchip Technology	linear-adjustable	15000	candidate	https://rocelec.widen.net/view/pdf/lj6dcks82c/MCRLS04064-1.pdf?t.download=true&u=5oefqw
+MAX17644BATE+	Analog Devices	switching	14925	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/max17644.pdf
+LT1965IDD-3.3#PBF	Analog Devices	linear-fixed	14780	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/1965fb.pdf
+LTC1844ES5-BYP#TRMPBF	Analog Devices	linear-adjustable	14756	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/1844fa.pdf
+ADP1713AUJZ-3.0-R7	Analog Devices	linear-fixed	14690	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP1712_1713_1714.pdf
+MAX17760ATC+	Analog Devices	switching	14652	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX17760.pdf
+MAX1818EUT33+T	Analog Devices	linear-adjustable	14615	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/max1818.pdf
+LT3065EDD#PBF	Analog Devices	linear-adjustable	14420	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/LT3065.pdf
+MAX1616EUK+T	Analog Devices	linear-adjustable	14376	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX1615-MAX1616.pdf
+LT3494EDDB#TRMPBF	Analog Devices	switching	14362	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/3494fb.pdf
+LM7812CT/NOPB	Texas Instruments	linear-fixed	14327	candidate	https://www.ti.com/lit/ds/symlink/lm7800.pdf
+LTC3025EDC-1#TRPBF	Analog Devices	linear-adjustable	14186	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ltc3025-1-3025-2-3025-3-3025-4.pdf
+ADP7159ACPZ-04-R7	Analog Devices	linear-adjustable	14059	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP7159.pdf
+ADP1607ACPZN001-R7	Analog Devices	switching	13871	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP1607.pdf
+ADP151AUJZ-2.5-R7	Analog Devices	linear-fixed	13823	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP151.pdf
+LT8607EMSE#TRPBF	Analog Devices	switching	13767	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/lt8607-8607b.pdf
+MCP1700T-2802E/TT	Microchip Technology	linear-fixed	13761	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/MCP1700-Data-Sheet-20001826F.pdf
+LTC3531ES6-3.3#TRPBF	Analog Devices	switching	13740	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/3531fb.pdf
+LM1117T-ADJ/NOPB	Texas Instruments	linear-adjustable	13690	candidate	https://www.ti.com/lit/ds/symlink/lm1117.pdf?HQS=dis-dk-null-digikeymode-dsf-pf-null-wwe&ts=1721700739746
+MAX17291BANT+T	Analog Devices	switching	13634	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX17291B.pdf
+LT3461AES6#TRMPBF	Analog Devices	switching	13233	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/3461afa.pdf
+MAX8881EUT33+T	Analog Devices	linear-fixed	13209	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/max8880-max8881.pdf
+MIC47050YML-TR	Microchip Technology	linear-adjustable	13195	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/500-mA-ULDO-with-Low-Input-and-Low-Output-Voltage-DS20006050C.pdf
+LT3060EDC-2.5#TRMPBF	Analog Devices	linear-fixed	13164	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/lt3060.pdf
+ADP150AUJZ-2.8-R7	Analog Devices	linear-fixed	12965	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP150.pdf
+LT3502AEMS#PBF	Analog Devices	switching	12608	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/3502fd.pdf
+MCP1663T-E/OT	Microchip Technology	switching	12596	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/20005406A.pdf
+MIC37102BMTR	Microchip Technology	linear-adjustable	12500	candidate	https://rocelec.widen.net/view/pdf/8kal2nizth/MCRLS02799-1.pdf?t.download=true&u=5oefqw
+LM1117MP-1.8/NOPB	Texas Instruments	linear-fixed	12420	candidate	https://www.ti.com/lit/ds/symlink/lm1117.pdf?HQS=dis-dk-null-digikeymode-dsf-pf-null-wwe&ts=1721700739746
+MIC23051-CGYML	Microchip Technology	switching	12325	candidate	https://rocelec.widen.net/view/pdf/erheayl1z8/MCRLS03608-1.pdf?t.download=true&u=5oefqw
+LTC3549EDCB#TRPBF	Analog Devices	switching	12317	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/3549f.pdf
+MAX8627ETD+T	Analog Devices	switching	12289	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX8627.pdf
+ADP121-AUJZ30R7	Analog Devices	linear-fixed	12229	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP121.pdf
+LTC3601EUD#TRPBF	Analog Devices	switching	12152	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/3601fc.pdf
+LM2596SX-5.0	Texas Instruments	switching	12141	candidate	https://rocelec.widen.net/view/pdf/amriltmlhz/NATLS05772-1.pdf?t.download=true&u=5oefqw
+MIC2571-2YMM	Microchip Technology	switching	12131	candidate	https://rocelec.widen.net/view/pdf/spcbgsrc5l/MCRLS02832-1.pdf?t.download=true&u=5oefqw
+LT8612EUDE#TRPBF	Analog Devices	switching	12121	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/lt8612.pdf
+LM2576-5.0WU-TR	Microchip Technology	switching	12086	candidate	http://ww1.microchip.com/downloads/en/DeviceDoc/lm2576.pdf
+MCP1702T-3302E/MB	Microchip Technology	linear-fixed	11989	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/22008E.pdf
+ADP121-AUJZ18R7	Analog Devices	linear-fixed	11941	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP121.pdf
+LT8609EMSE#TRPBF	Analog Devices	switching	11919	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/LT8609-8609A-8609B.pdf
+LR8K4-G	Microchip Technology	linear-adjustable	11889	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/20005399B.pdf
+LM340T-5.0/NOPB	Texas Instruments	linear-fixed	11810	candidate	https://www.ti.com/lit/ds/symlink/lm7800.pdf
+MIC29203BU	Microchip Technology	linear-adjustable	11772	candidate	https://rocelec.widen.net/view/pdf/yjijfrojqn/MCRLD004-3-8.pdf?t.download=true&u=5oefqw
+MAX17225ELT+T	Analog Devices	switching	11765	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX17220-MAX17225.pdf
+MAX17543ATP+T	Analog Devices	switching	11763	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX17543.pdf
+LT1933ES6#TRMPBF	Analog Devices	switching	11716	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/1933fe.pdf
+MAX77839BEFQ+T	Analog Devices	switching	11663	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX77839.pdf
+MIC4575-5.0BWM	Microchip Technology	switching	11518	candidate	https://rocelec.widen.net/view/pdf/lbotz6xa2v/MCRLS05419-1.pdf?t.download=true&u=5oefqw
+MIC2601YML-TR	Microchip Technology	switching	11467	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/mic2601.pdf
+LT1762EMS8-3.3#TRPBF	Analog Devices	linear-fixed	11433	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/LT1762.pdf
+ADM7172ACPZ-4.2-R7	Analog Devices	linear-fixed	11417	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADM7172.pdf
+LT1763CS8-5#TRPBF	Analog Devices	linear-fixed	11369	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/1763fh.pdf
+LM317LCLP	Texas Instruments	linear-adjustable	11331	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Flm317l
+ADP160AUJZ-2.5-R7	Analog Devices	linear-fixed	11266	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP160_161_162_163.pdf
+LT8620IMSE#TRPBF	Analog Devices	switching	11252	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/8620fa.pdf
+ADP3330ARTZ-2.5-R7	Analog Devices	linear-fixed	11247	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP3330.pdf
+LTC3542IDC#TRPBF	Analog Devices	switching	11217	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/3542fa.pdf
+LTC1844ES5-3.3#TRMPBF	Analog Devices	linear-fixed	11190	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/1844fa.pdf
+ADP7104ACPZ-3.3-R7	Analog Devices	linear-fixed	11134	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP7104.pdf
+MAX17222ELT+T	Analog Devices	switching	11122	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX17220-MAX17225.pdf
+MCP1253T-ADJI/MS	Microchip Technology	switching	11069	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP1252-3-Low-Noise-Positive-Regulated-Charge-Pump-Data-Sheet-DS20001752.pdf
+LTC3545EUD-1#TRPBF	Analog Devices	switching	10948	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/35451fb.pdf
+MIC2951-03YM-TR	Microchip Technology	linear-adjustable	10913	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/mic2950.pdf
+LR12K4-G	Microchip Technology	linear-adjustable	10887	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/LR12%20C080113.pdf
+ADPL44002AUJZ-5.0-R7	Analog Devices	linear-fixed	10859	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/adpl44002.pdf
+ADM7171ACPZ-3.3-R7	Analog Devices	linear-fixed	10839	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADM7171.pdf
+ADP151AUJZ-3.0-R7	Analog Devices	linear-fixed	10633	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP151.pdf
+MIC47100YML-TR	Microchip Technology	linear-adjustable	10624	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/mic47100.pdf
+MCP1640T-I/MC	Microchip Technology	switching	10567	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP1640-Family-Data-Sheet-DS20002234E.pdf
+LTC3121EDE#TRPBF	Analog Devices	switching	10500	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/3121fa.pdf
+MAX8510EXK18+T	Analog Devices	linear-fixed	10395	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/max8510-max8512.pdf
+MIC23030-GYMT-TR	Microchip Technology	switching	10390	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC23030-8MHz-PWM-400mA-Buck-Regulator-with-HyperLightLoad%C2%AE-DS20006488A.pdf
+ADP150ACBZ-3.3-R7	Analog Devices	linear-fixed	10382	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP150.pdf
+ADP150AUJZ-2.5-R7	Analog Devices	linear-fixed	10359	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP150.pdf
+LT1963AES8-1.8#PBF	Analog Devices	linear-fixed	10313	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/lt1963a.pdf
+LTC3440EMS#TRPBF	Analog Devices	switching	10258	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/3440fd.pdf
+ADP124ARHZ-3.3-R7	Analog Devices	linear-fixed	10177	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP124_125.pdf
+ADPL40502AUJZ-3.3-R7	Analog Devices	linear-fixed	10151	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/adpl40502.pdf
+MAX17227AATA+T	Analog Devices	switching	10036	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX17227A.pdf
+MAX8510EXK45+T	Analog Devices	linear-fixed	10000	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/max8510-max8512.pdf
+MIC61150YML-TR	Microchip Technology	linear-adjustable	9910	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/mic61150.pdf
+ADP2108AUJZ-3.3-R7	Analog Devices	switching	9900	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP2108.pdf
+LTC3621IMS8E#TRPBF	Analog Devices	switching	9898	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ltc3621-3621-2.pdf
+ADP7156ACPZ-1.8-R7	Analog Devices	linear-fixed	9834	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP7156.pdf
+MAX77597ETBB+T	Analog Devices	switching	9717	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX77597.pdf
+MIC23250-AAYMT-TR	Microchip Technology	switching	9704	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC23250-4-MHz-Dual-400-mA-Synchronous-Buck-Regulator-with-HyperLight-Load-DS20006787.pdf
+MIC2145BMMTR	Microchip Technology	switching	9686	candidate	https://rocelec.widen.net/view/pdf/hw67znbbc5/MCRLS03279-1.pdf?t.download=true&u=5oefqw
+MIC2178YWMTR	Microchip Technology	switching	9606	candidate	https://rocelec.widen.net/view/pdf/zc1dzttj4i/MCRLS03433-1.pdf?t.download=true&u=5oefqw
+LT3991EDD#PBF	Analog Devices	switching	9605	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/3991fa.pdf
+LM2596SX-ADJ/NOPB	Texas Instruments	switching	9561	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Flm2596
+LT3120JV#PBF	Analog Devices	switching	9533	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/lt3120.pdf
+MIC2954-08YM-TR	Microchip Technology	linear-adjustable	9520	candidate	http://ww1.microchip.com/downloads/en/DeviceDoc/mic2954.pdf
+LM2596SX-3.3/NOPB	Texas Instruments	switching	9466	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Flm2596
+LTC3603EMSE#PBF	Analog Devices	switching	9466	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/3603fc.pdf
+MIC22400YML-TR	Microchip Technology	switching	9450	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC22400-4A-Integrated-Switch-Synch-Buck-Regulator-with-Prog-Freq-to-4MHz-DS20006243A.pdf
+ADP150AUJZ-2.0-R7	Analog Devices	linear-fixed	9431	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP150.pdf
+MIC2230-AAYML-TR	Microchip Technology	switching	9427	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC2230-Dual-Synchronous-800mA-800mA-Step-Down-DC-DC-Regulator-DS20005748B.pdf
+LM340LAZ-5.0/LFT4	Texas Instruments	linear-fixed	9396	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Flm340l
+LT1613CS5#TRMPBF	Analog Devices	switching	9384	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/1613fs.pdf
+MAX5033DASA+T	Analog Devices	switching	9360	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/max5033.pdf
+MAX17501EATB+T	Analog Devices	switching	9339	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/max17501.pdf
+LM2596T-5.0	Texas Instruments	switching	9321	candidate	https://rocelec.widen.net/view/pdf/amriltmlhz/NATLS05772-1.pdf?t.download=true&u=5oefqw
+MAX5033AASA+T	Analog Devices	switching	9310	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/max5033.pdf
+ADM7171ACPZ-5.0-R7	Analog Devices	linear-fixed	9278	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADM7171.pdf
+ADP151ACBZ-1.5-R7	Analog Devices	linear-fixed	9272	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP151.pdf
+MIC5377YC5-TR	Microchip Technology	linear-adjustable	9185	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC5376-7-8-High-Performance-Low-Dropout-150mA-LDO-DS20006080A.pdf
+LM1117T-3.3/NOPB	Texas Instruments	linear-fixed	9176	candidate	https://www.ti.com/lit/ds/symlink/lm1117.pdf?HQS=dis-dk-null-digikeymode-dsf-pf-null-wwe&ts=1721700739746
+LM7805MPX/NOPB	Texas Instruments	linear-fixed	9171	candidate	https://www.ti.com/lit/ds/symlink/lm7800.pdf
+ADP150AUJZ-3.0-R7	Analog Devices	linear-fixed	9155	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP150.pdf
+MIC23250-GFHYMT	Microchip Technology	switching	9142	candidate	https://rocelec.widen.net/view/pdf/8wnknkdxhi/MCRLS03846-1.pdf?t.download=true&u=5oefqw
+MIC37152YM-TR	Microchip Technology	linear-adjustable	9111	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC37150-1-2-3-1.5A-Low-Voltage-Microcap-LDO-Regulators-DS20006491A.pdf
+MAX15021ATI+T	Analog Devices	switching	9055	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX15021.pdf
+LT8627SPJV#TRMPBF	Analog Devices	switching	9047	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/lt8627sp.pdf
+ADP7142AUJZ-3.3-R7	Analog Devices	linear-fixed	9043	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP7142.pdf
+LTC3533EDE#TRPBF	Analog Devices	switching	9016	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/3533fc.pdf
+MIC2177-3.3YWM	Microchip Technology	switching	9000	candidate	https://rocelec.widen.net/view/pdf/cyyhtyv8ci/MCRLS03432-1.pdf?t.download=true&u=5oefqw
+MIC5301YD5-TR	Microchip Technology	linear-adjustable	8988	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/mic5301.pdf
+ADP121-ACBZ28R7	Analog Devices	linear-fixed	8959	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP121.pdf
+ADP165ACPZN-3.0-R7	Analog Devices	linear-fixed	8956	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP165_166.pdf
+ADP172ACBZ-1.65-R7	Analog Devices	linear-fixed	8930	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP172.pdf
+LR12LG-G	Microchip Technology	linear-adjustable	8877	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/LR12%20C080113.pdf
+LT3464ETS8#TRMPBF	Analog Devices	switching	8876	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/3464f.pdf
+LT1521CST-5#TRPBF	Analog Devices	linear-fixed	8861	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/1521335fb.pdf
+LT1963AES8-3.3#PBF	Analog Devices	linear-fixed	8854	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/lt1963a.pdf
+MCP1665T-E/MRA	Microchip Technology	switching	8839	candidate	http://ww1.microchip.com/downloads/en/DeviceDoc/20005872A.pdf
+LM1117LD-2.5/NOPB	Texas Instruments	linear-fixed	8748	candidate	https://www.ti.com/lit/ds/symlink/lm1117.pdf?HQS=dis-dk-null-digikeymode-dsf-pf-null-wwe&ts=1721700739746
+MAX17502EATB+T	Analog Devices	switching	8685	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/max17502.pdf
+ADP166AUJZ-3.3-R7	Analog Devices	linear-fixed	8573	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP165_166.pdf
+MIC2250-2YD5-TR	Microchip Technology	switching	8529	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/mic2250.pdf
+LTC3525ESC6-5#TRPBF	Analog Devices	switching	8388	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/3525fc.pdf
+ADP7158ACPZ-3.3-R7	Analog Devices	linear-fixed	8322	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP7158.pdf
+MIC5209YM-TR	Microchip Technology	linear-adjustable	8314	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC5209-500mA-Low-Noise-LDO-Regulator-DS20005720B.pdf
+LTC1844ES5-2.5#TRMPBF	Analog Devices	linear-fixed	8286	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/1844fa.pdf
+ADP2386ACPZN-R7	Analog Devices	switching	8251	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP2386.pdf
+LT8622SAV#PBF	Analog Devices	switching	8230	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/lt8622s-8624s.pdf
+MCP16312T-E/MNY	Microchip Technology	switching	8227	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/MCP16311-Family-Data-Sheet-DS20005255C.pdf
+MIC4680YM-TR	Microchip Technology	switching	8227	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC4680-1A-200kHz-Superswitcher-Buck-Regulator-DS20006623A.pdf
+MAX15062AATA+T	Analog Devices	switching	8196	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX15062.pdf
+MCP1702T-2502E/CB	Microchip Technology	linear-fixed	8124	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/22008E.pdf
+ADP170AUJZ-1.8-R7	Analog Devices	linear-fixed	8121	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP170_171.pdf
+MIC5309YMT-TR	Microchip Technology	linear-adjustable	8085	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/mic5309.pdf
+LT3508IFE#TRPBF	Analog Devices	switching	8081	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/3508fd.pdf
+LT8645SEV#PBF	Analog Devices	switching	8071	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/lt8645s-8646s.pdf
+MAX1724EZK50+T	Analog Devices	switching	8064	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/max1722-max1724.pdf
+ADM7154ACPZ-3.0-R7	Analog Devices	linear-fixed	8055	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADM7154.pdf
+MAX17546ATP+T	Analog Devices	switching	7967	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX17546.pdf
+ADP1762ACPZ-1.0-R7	Analog Devices	linear-fixed	7960	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP1762.pdf
+ADP2138ACBZ-1.0-R7	Analog Devices	switching	7955	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP2138_2139.pdf
+ADP166AUJZ-2.3-R7	Analog Devices	linear-fixed	7857	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP165_166.pdf
+ADP1713AUJZ-1.8-R7	Analog Devices	linear-fixed	7843	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP1712_1713_1714.pdf
+LT3021ES8-1.2#TRPBF	Analog Devices	linear-fixed	7835	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/3021fc.pdf
+LT1935ES5#TRMPBF	Analog Devices	switching	7792	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/1935f.pdf
+LM7805SX/NOPB	Texas Instruments	linear-fixed	7754	candidate	https://www.ti.com/lit/ds/symlink/lm7800.pdf
+LM340T-12/NOPB	Texas Instruments	linear-fixed	7647	candidate	https://www.ti.com/lit/ds/symlink/lm7800.pdf
+LT8616EUDE#PBF	Analog Devices	switching	7597	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/8616fa.pdf
+ADP7142AUJZ-2.5-R7	Analog Devices	linear-fixed	7535	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP7142.pdf
+LM2576-12BU TR	Microchip Technology	switching	7500	candidate	https://rocelec.widen.net/view/pdf/kozi8vjt3o/MCRLS03589-1.pdf?t.download=true&u=5oefqw
+MAX77675GEWE+T	Analog Devices	switching	7500	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/max77675.pdf
+MAX77675HEWE+T	Analog Devices	switching	7500	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/max77675.pdf
+LTC3115EFE-1#TRPBF	Analog Devices	switching	7497	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/LTC3115-1.pdf
+MAX77827DEFD+T	Analog Devices	switching	7488	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX77827.pdf
+MIC2253-06YML-TR	Microchip Technology	switching	7430	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/MIC2253-High-Current-1MHz-High-Efficiency-Boost-Regulator-with-OVP-and-Soft-Start-DS20006070A.pdf
+LTC3130EUDC#PBF	Analog Devices	switching	7426	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/3130f.pdf
+ADP130AUJZ-1.2-R7	Analog Devices	linear-fixed	7387	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP130.pdf
+LT1618EDD#TRPBF	Analog Devices	switching	7378	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/1618fas.pdf
+LTC3622IDE-23/5#TRPBF	Analog Devices	switching	7375	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/LTC3622-3622-2-3622-23-5.pdf
+MAX5023LASA+T	Analog Devices	linear-fixed	7334	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/max5023-max5024.pdf
+LT3990EMSE#TRPBF	Analog Devices	switching	7303	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/lt3990.pdf
+MAX17632CATE+T	Analog Devices	switching	7282	candidate	https://datasheets.maximintegrated.com/en/ds/MAX17632.pdf
+ADP2164ACPZ-3.3-R7	Analog Devices	switching	7275	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP2164.PDF
+MIC49150YMM-TR	Microchip Technology	linear-adjustable	7262	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC49150-Data-Sheet-DS20006585.pdf
+MCP1702T-2802E/CB	Microchip Technology	linear-fixed	7248	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/22008E.pdf
+LT1956EGN-5#TRPBF	Analog Devices	switching	7200	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/1956f.pdf
+MAX17227JANT+T	Analog Devices	switching	7200	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX17227J.pdf
+LT3995EMSE#PBF	Analog Devices	switching	7184	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/3995f.pdf
+MAX15462CATA+T	Analog Devices	switching	7183	candidate	https://datasheets.maximintegrated.com/en/ds/MAX15462.pdf
+ADP1713AUJZ-3.3-R7	Analog Devices	linear-fixed	7113	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP1712_1713_1714.pdf
+MIC23050-GYML-TR	Microchip Technology	switching	7030	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/mic23050.pdf
+MCP1603T-180I/OS	Microchip Technology	switching	7007	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/22042B.pdf
+MIC2250YML-TR	Microchip Technology	switching	6886	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/mic2250.pdf
+MIC2877-5.0YFT-TR	Microchip Technology	switching	6848	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/20005873A.pdf
+LM7812SX/NOPB	Texas Instruments	linear-fixed	6819	candidate	https://www.ti.com/lit/ds/symlink/lm7800.pdf
+MIC2285AYMT	Microchip Technology	switching	6811	candidate	https://rocelec.widen.net/view/pdf/gojbstw6cy/MCRLS03470-1.pdf?t.download=true&u=5oefqw
+MIC2876-5.0YMT-TR	Microchip Technology	switching	6769	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC2876-4.8A-ISW-Synchronous-Boost-Regulator-with-Bi-Directional-Load-Disconnect-DS20005572.pdf
+LM340S-5.0/NOPB	Texas Instruments	linear-fixed	6733	candidate	https://www.ti.com/lit/ds/symlink/lm7800.pdf
+MIC4722YML	Microchip Technology	switching	6596	candidate	https://rocelec.widen.net/view/pdf/8e0p3akfja/MCRLS03896-1.pdf?t.download=true&u=5oefqw
+MIC22700YML-TR	Microchip Technology	switching	6595	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC22700-1MHz-7A-Integrated-Switch-High-Efficiency-Synchronous-Buck-Regulator-DS20006297A.pdf
+MCP16311T-E/MNY	Microchip Technology	switching	6509	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/MCP16311-Family-Data-Sheet-DS20005255C.pdf
+MCP16415T-I/MN	Microchip Technology	switching	6441	candidate	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/4366/MCP1641X_Analog_Spotlight_Digi-Key.pdf
+MIC23051-16YML	Microchip Technology	switching	6328	candidate	https://rocelec.widen.net/view/pdf/erheayl1z8/MCRLS03608-1.pdf?t.download=true&u=5oefqw
+MIC4690YM-TR	Microchip Technology	switching	6247	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/mic4690.pdf
+MIC2295YD5-TR	Microchip Technology	switching	6115	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/mic2295.pdf
+MCP1642DT-ADJI/MC	Microchip Technology	switching	6068	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/20005253A.pdf
+LM340T-15/NOPB	Texas Instruments	linear-fixed	6007	candidate	https://www.ti.com/lit/ds/symlink/lm7800.pdf
+LT3023IDD#TRPBF	Analog Devices	linear-multi	5894	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/3023fa.pdf
+LT3029IDE#PBF	Analog Devices	linear-multi	5832	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/3029fb.pdf
+MIC2178-5.0YWM	Microchip Technology	switching	5798	candidate	https://rocelec.widen.net/view/pdf/cjgllbil8b/MCRLS05892-1.pdf?t.download=true&u=5oefqw
+MIC2285YML-TR	Microchip Technology	switching	5773	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/mic2285.pdf
+MIC2251-1YD5-TR	Microchip Technology	switching	5767	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC2251-High-Efficiency-Low-EMI-Boost-Regulator-DS20006487.pdf
+LM340MP-5.0/NOPB	Texas Instruments	linear-fixed	5761	candidate	https://www.ti.com/lit/ds/symlink/lm7800.pdf
+MCP16252T-I/MNY	Microchip Technology	switching	5642	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP16251-MCP16252-Data-Sheet-DS20005173.pdf
+MIC23303YML-TR	Microchip Technology	switching	5629	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC23303.pdf
+MCP1661T-E/OT	Microchip Technology	switching	5589	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/20005315B.pdf
+LT3029EMSE#TRPBF	Analog Devices	linear-multi	5530	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/3029fb.pdf
+MIC2296YD5-TR	Microchip Technology	switching	5407	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/mic2296.pdf
+MIC4680-5.0YM-TR	Microchip Technology	switching	5400	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC4680-1A-200kHz-Superswitcher-Buck-Regulator-DS20006623A.pdf
+MIC22600YML-TR	Microchip Technology	switching	5000	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC22600-1MHz-6A-Integrated-Switch-Synchronous-Buck-Regulator-DS20006288A.pdf
+MIC23031-CYMT-TR	Microchip Technology	switching	5000	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC23031-4MHz-PWM-400mA-Buck-Regulator-with-HyperLight-Load-DS20006538A.pdf
+MIC4720YML-TR	Microchip Technology	switching	5000	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/mic4720.pdf
+MIC23451-AAAYFL-TR	Microchip Technology	switching	4988	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC23451-3MHz-2A-Triple-Synchronous-Buck-Regulator-with-HyperLight-Load-and-Power-Good-DS20006662A.pdf
+MIC2238-GFHYML TR	Microchip Technology	switching	4960	candidate	https://rocelec.widen.net/view/pdf/jjxy94hvvv/MCRLS03845-1.pdf?t.download=true&u=5oefqw
+MIC2208YML	Microchip Technology	switching	4932	candidate	https://rocelec.widen.net/view/pdf/8ya4igfooa/MCRLS03882-1.pdf?t.download=true&u=5oefqw
+MIC2177-5.0YWM	Microchip Technology	switching	4824	candidate	https://rocelec.widen.net/view/pdf/maxyvpusn3/MCRLS05893-1.pdf?t.download=true&u=5oefqw
+MIC2288YD5-TR	Microchip Technology	switching	4762	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC2288-Data-Sheet-DS20006034C.pdf
+MCP16414T-I/UN	Microchip Technology	switching	4719	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP1641X-Family-Data-Sheet-DS20006394D.pdf
+MIC23150-55YMT-TR	Microchip Technology	switching	4701	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/mic23150.pdf
+MIC22705YML-TR	Microchip Technology	switching	4571	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC22705-1MHz-7A-Integrated-Switch-High-Efficiency-Synch-Buck-Regulator-DS20006307A.pdf
+MCP16415T-I/UN	Microchip Technology	switching	4452	candidate	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/4366/MCP1641X_Analog_Spotlight_Digi-Key.pdf
+LM2576T-5.0/NOPB	Texas Instruments	switching	4360	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Flm2576hv
+MIC2145YML TR	Microchip Technology	switching	4351	candidate	https://rocelec.widen.net/view/pdf/ak1s238zwo/MCRLS03423-1.pdf?t.download=true&u=5oefqw
+MIC2877-AYFT-TR	Microchip Technology	switching	4266	candidate	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/20005873A.pdf
+MIC23050-CYML-TR	Microchip Technology	switching	4244	candidate	
+MIC22405YML-TR	Microchip Technology	switching	4237	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/mic22405.pdf
+ADP323ACPZ-R7	Analog Devices	linear-multi	4204	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP322_323.pdf
+MIC22200YML-TR	Microchip Technology	switching	4189	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC22200-4MHz-2A-Synchronous-Buck-Regulator-with-Programmable-Frequency-DS20006324A.pdf
+MIC23201YML-TR	Microchip Technology	switching	4158	candidate	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC23201.pdf
+LT3027IDD#PBF	Analog Devices	linear-multi	3842	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/3027fa.pdf
+ADP222ACPZ-3325-R7	Analog Devices	linear-multi	3515	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP222_223_224_225.pdf
+ADP223ACPZ-R7	Analog Devices	linear-multi	3280	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP222_223_224_225.pdf
+UA7812CKTTR	Texas Instruments	linear-fixed	3264	candidate	https://www.ti.com/lit/ds/slvs056p/slvs056p.pdf
+ADP224ACPZ-2818-R7	Analog Devices	linear-multi	3000	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP222_223_224_225.pdf
+LM2576S-5.0/NOPB	Texas Instruments	switching	2793	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Flm2576hv
+ADP222ACPZ-1825-R7	Analog Devices	linear-multi	2711	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP222_223_224_225.pdf
+MAX8559ETAAA+T	Analog Devices	linear-multi	2334	candidate	https://www.analog.com/media/en/technical-documentation/data-sheets/max8559.pdf
+LM2576HVS-3.3	Texas Instruments	switching	2177	candidate	https://rocelec.widen.net/view/pdf/gqrq0ecvct/NATLS13855-1.pdf?t.download=true&u=5oefqw
+LM2596T-ADJ/NOPB	Texas Instruments	switching	2149	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Flm2596
+LM2576T-5.0/LF02	Texas Instruments	switching	2139	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Flm2576hv
+LM2596S-12/NOPB	Texas Instruments	switching	1863	candidate	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Flm2596
+UA7805CKCS	Texas Instruments	linear-fixed	1262	candidate	https://www.ti.com/lit/ds/slvs056p/slvs056p.pdf
+TLV71718PDQNR	Texas Instruments	linear-fixed	190763	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv717p
+TLV71211DBVR	Texas Instruments	linear-fixed	189931	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv712
+TPS73625DBVR	Texas Instruments	linear-fixed	183128	below quota	https://www.ti.com/lit/ds/symlink/tps736.pdf
+TLV71209DBVT	Texas Instruments	linear-fixed	182828	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv712
+LP5907SNX-2.8/NOPB	Texas Instruments	linear-fixed	179711	below quota	https://www.ti.com/lit/ds/symlink/lp5907.pdf?ts=1782050205678
+TPS70912DRVR	Texas Instruments	linear-fixed	178048	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps709
+TPS728330185DRVR	Texas Instruments	linear-fixed	176512	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps728
+TLV73325PDQNT	Texas Instruments	linear-fixed	171625	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv733p
+TLV71325PDBVT	Texas Instruments	linear-fixed	171221	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv713p
+TPS71727DSER	Texas Instruments	linear-fixed	165109	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps717
+TPS76338DBVR	Texas Instruments	linear-fixed	163165	below quota	https://www.ti.com/lit/ds/symlink/tps763.pdf?ts=1704882534161&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FTPS763
+UA7815CKCS	Texas Instruments	linear-fixed	160259	below quota	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/525/UA78xx_Series_Rev_Mar_2017.pdf
+TPS72018YZUR	Texas Instruments	linear-fixed	159002	below quota	https://www.ti.com/lit/ds/symlink/tps720.pdf
+LP5951MF-3.3	Texas Instruments	linear-fixed	153223	below quota	https://rocelec.widen.net/view/pdf/6lui2scqit/lp5951.pdf?t.download=true&u=5oefqw
+TLV70533YFFR	Texas Instruments	linear-fixed	152490	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv705
+TLV73311PDBVT	Texas Instruments	linear-fixed	149864	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv733p
+TPS728185315YZUR	Texas Instruments	linear-fixed	147000	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps728
+TPS731125DBVR	Texas Instruments	linear-fixed	143311	below quota	https://www.ti.com/lit/ds/sbvs034n/sbvs034n.pdf
+TLV73310PDBVT	Texas Instruments	linear-fixed	142708	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv733p
+LP5951MGX-2.8/NOPB	Texas Instruments	linear-fixed	141000	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Flp5951
+TPS717285DCKT	Texas Instruments	linear-fixed	135038	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps717
+TLV70710DQNR	Texas Instruments	linear-fixed	135015	below quota	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/7138/2156_tlv707p.pdf
+TPS79932YZUR	Texas Instruments	linear-fixed	135000	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps799
+TPS71918-12DRVR	Texas Instruments	linear-multi	134628	below quota	https://www.ti.com/lit/ds/sbvs088c/sbvs088c.pdf
+TLV733285PDQNR	Texas Instruments	linear-fixed	132892	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv733p
+LP5907SNX-3.3/NOPB	Texas Instruments	linear-fixed	130011	below quota	https://www.ti.com/lit/ds/symlink/lp5907.pdf?ts=1782050205678
+UA78L12ACPK	Texas Instruments	linear-fixed	127867	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fua78l
+TLV70018DCKR	Texas Instruments	linear-fixed	125629	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv700
+TLV7112525DSER	Texas Instruments	linear-multi	125455	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv710
+TPS73527DRVR	Texas Instruments	linear-fixed	125258	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps735
+TLV7113330DDSER	Texas Instruments	linear-multi	123451	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv710
+TPS73643DBVR	Texas Instruments	linear-fixed	120795	below quota	https://www.ti.com/lit/ds/sbvs038x/sbvs038x.pdf?ts=1788770463960
+TPS72017YZUR	Texas Instruments	linear-fixed	117000	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps720
+LP2985AIM5X-3.0/NOPB	Texas Instruments	linear-fixed	115147	below quota	https://rocelec.widen.net/view/pdf/t8pmsrjbqq/NATLS12032-1.pdf?t.download=true&u=5oefqw
+TPS75133QPWPR	Texas Instruments	linear-fixed	114384	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps751
+TPS79915YZUR	Texas Instruments	linear-fixed	114000	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps799
+TPS76918DBVR	Texas Instruments	linear-fixed	113666	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps769
+TLV702475DBVT	Texas Instruments	linear-fixed	113665	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv702
+TPS7A0530PDBZR	Texas Instruments	linear-fixed	112909	below quota	https://www.ti.com/lit/ds/symlink/tps7a05.pdf
+LP2985AITPX-3.0/NOPB	Texas Instruments	linear-fixed	111000	below quota	https://rocelec.widen.net/view/pdf/t8pmsrjbqq/NATLS12032-1.pdf?t.download=true&u=5oefqw
+UA78L10ACPK	Texas Instruments	linear-fixed	110667	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fua78l
+TPS72115DBVR	Texas Instruments	linear-fixed	109526	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%253A%252F%252Fwww.ti.com%252Flit%252Fgpn%252Ftps721
+TLV73330PDBVT	Texas Instruments	linear-fixed	108024	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv733p
+TLV7111233DSER	Texas Instruments	linear-multi	106103	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv710
+MIC2211-PSYML	Microchip Technology	linear-multi	89650	below quota	https://rocelec.widen.net/view/pdf/weq2u6ukpa/MCRLS03453-1.pdf?t.download=true&u=5oefqw
+MIC5330-PPYML	Microchip Technology	linear-multi	86765	below quota	https://rocelec.widen.net/view/pdf/qz3kxaisqm/MCRLS02320-1.pdf?t.download=true&u=5oefqw
+TLV716120275PDPQR	Texas Instruments	linear-multi	83962	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv716p
+MIC2211-PPYML	Microchip Technology	linear-multi	83207	below quota	https://rocelec.widen.net/view/pdf/weq2u6ukpa/MCRLS03453-1.pdf?t.download=true&u=5oefqw
+MIC5310-SNYML	Microchip Technology	linear-multi	81222	below quota	https://rocelec.widen.net/view/pdf/ilt2pgty6u/MCRLS04072-1.pdf?t.download=true&u=5oefqw
+MIC2211-LGYML	Microchip Technology	linear-multi	78520	below quota	https://rocelec.widen.net/view/pdf/weq2u6ukpa/MCRLS03453-1.pdf?t.download=true&u=5oefqw
+TPS561201DDCR	Texas Instruments	switching	51715	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps561201
+LM3204TLX/NOPB	Texas Instruments	switching	51000	below quota	https://rocelec.widen.net/view/pdf/sler2b5z9t/NATLS13519-1.pdf?t.download=true&u=5oefqw
+TPS61021ADSGR	Texas Instruments	switching	49608	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps61021a
+TLV62569PDDCR	Texas Instruments	switching	48488	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftlv62569
+TPS62223DDCR	Texas Instruments	switching	48000	below quota	https://www.ti.com/lit/ds/slvs491e/slvs491e.pdf
+TPS62932DRLR	Texas Instruments	switching	47131	below quota	https://www.ti.com/lit/ds/symlink/tps62932.pdf?ts=1695814293505&ref_url=https%253A%252F%252Fwww.ti.com%252Fsitesearch%252Fen-us%252Fdocs%252Funiversalsearch.tsp%253FlangPref%253Den-US%2526searchTerm%253DTPS62932DRLR%2526nr%253D12%2526login-check%253Dtrue
+TPS62020DGQ	Texas Instruments	switching	45682	below quota	https://www.ti.com/lit/ds/slvs076c/slvs076c.pdf
+TPS622312DRYT	Texas Instruments	switching	45311	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62230
+TPS62141RGTR	Texas Instruments	switching	44811	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62140
+TPS62623YFFT	Texas Instruments	switching	43999	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%253A%252F%252Fwww.ti.com%252Flit%252Fgpn%252Ftps62620
+LMR54406DBVR	Texas Instruments	switching	42781	below quota	https://www.ti.com/lit/ds/symlink/lmr54406.pdf
+TPS622313DRYT	Texas Instruments	switching	42655	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62230
+LM2590HVS-ADJ	Texas Instruments	switching	42459	below quota	https://rocelec.widen.net/view/pdf/dwutbq4plb/NATLS05764-1.pdf?t.download=true&u=5oefqw
+TPS62208DBVT	Texas Instruments	switching	42161	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62200
+TPS62625YFFT	Texas Instruments	switching	42100	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%253A%252F%252Fwww.ti.com%252Flit%252Fgpn%252Ftps62620
+TPS54719RTER	Texas Instruments	switching	41972	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps54719
+TPS622318DRYT	Texas Instruments	switching	41494	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62230
+TPS40222DRPT	Texas Instruments	switching	41422	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps40222
+TPS62224DDCT	Texas Instruments	switching	41393	below quota	https://www.ti.com/lit/ds/slvs491e/slvs491e.pdf
+TPS5432DDA	Texas Instruments	switching	40554	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps5432
+TPS54231DR	Texas Instruments	switching	39925	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps54231
+TPS62679ZYFMT	Texas Instruments	switching	39250	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62671
+TPS61258YFFT	Texas Instruments	switching	39180	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps61258
+TPS62616YFDR	Texas Instruments	switching	39000	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62612
+TPS60213DGS	Texas Instruments	switching	38817	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps60210
+TPS548A28RWWR	Texas Instruments	switching	38710	below quota	https://www.ti.com/lit/gpn/tps548a28
+TPS62620YFFT	Texas Instruments	switching	38704	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%253A%252F%252Fwww.ti.com%252Flit%252Fgpn%252Ftps62620
+TPS62232DRYT	Texas Instruments	switching	38434	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62230
+TPS60133PWPR	Texas Instruments	switching	38000	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps60130
+TPS54292PWPR	Texas Instruments	switching	37876	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps54290
+TPS622311DRYT	Texas Instruments	switching	36559	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62230
+LM2788MM-2.0	Texas Instruments	switching	36000	below quota	https://rocelec.widen.net/view/pdf/fnqchmp91v/NATLS06077-1.pdf?t.download=true&u=5oefqw
+TPS630251YFFR	Texas Instruments	switching	35970	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps630250
+MCP1825ST-3302E/DB	Microchip Technology	linear-fixed	35602	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/22056b.pdf
+TPS62092RGTR	Texas Instruments	switching	35210	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62092
+MCP1703T-3302E/DB	Microchip Technology	linear-fixed	35151	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP1703-250-mA-16V-Low-Quiescent-Current-LDO-20002049.pdf
+TPS65288RHAR	Texas Instruments	switching	34788	below quota	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/520/TPS65288.pdf
+TPS60124PWP	Texas Instruments	switching	34677	below quota	https://www.ti.com/lit/ds/slvs257b/slvs257b.pdf
+MIC5302-2.9YMT	Microchip Technology	linear-fixed	34368	below quota	https://rocelec.widen.net/view/pdf/bpld9kujgp/MCRLS03850-1.pdf?t.download=true&u=5oefqw
+MIC5209-5.0YS-TR	Microchip Technology	linear-fixed	34317	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC5209-500mA-Low-Noise-LDO-Regulator-DS20005720B.pdf
+TPS62148RGXR	Texas Instruments	switching	34256	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%253A%252F%252Fwww.ti.com%252Flit%252Fgpn%252Ftps62147
+TPS62234DRYT	Texas Instruments	switching	34085	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps62230
+TPS54353PWPR	Texas Instruments	switching	34000	below quota	https://www.ti.com/lit/ds/slvs519a/slvs519a.pdf
+REG710NA-3/3K	Texas Instruments	switching	33920	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Freg71050
+TPS72501KTTR	Texas Instruments	linear-adjustable	33526	below quota	https://www.ti.com/lit/ds/slvs341e/slvs341e.pdf
+REG102NA-A/3K	Texas Instruments	linear-adjustable	33087	below quota	https://rocelec.widen.net/view/pdf/acnxskftoc/sbvs024f.pdf?t.download=true&u=5oefqw
+LP38798SD-ADJ/NOPB	Texas Instruments	linear-adjustable	32843	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Flp38798
+MIC5305-2.7YML	Microchip Technology	linear-fixed	32611	below quota	https://rocelec.widen.net/view/pdf/hr5hq33zr0/MCRLS02653-1.pdf?t.download=true&u=5oefqw
+MIC5233-3.3YM5-TR	Microchip Technology	linear-fixed	32590	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/MIC5233-Data-Sheet-DS20006033D.pdf
+MIC5219-2.5BMMTR	Microchip Technology	linear-fixed	32500	below quota	https://rocelec.widen.net/view/pdf/wtkrm2wrsk/MCRLS03615-1.pdf?t.download=true&u=5oefqw
+MIC94310-PYMT-TR	Microchip Technology	linear-fixed	32498	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC94310-Data-Sheet-20006105B.pdf
+TC1185-3.3VCT713	Microchip Technology	linear-fixed	32471	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/50001894.pdf
+TPS75401QPWPR	Texas Instruments	linear-adjustable	32404	below quota	https://www.ti.com/lit/ds/slvs242c/slvs242c.pdf
+TPS74401RGWR	Texas Instruments	linear-adjustable	31928	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps74401
+TPS79301DBVR	Texas Instruments	linear-adjustable	31354	below quota	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/1134/TPS793_Rev2015.pdf
+TL317LP	Texas Instruments	linear-adjustable	31242	below quota	https://rocelec.widen.net/view/pdf/nrnzxh5smo/TXIIS218127-1.pdf?t.download=true&u=5oefqw
+MCP1799T-5002H/TT	Microchip Technology	linear-fixed	31183	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP1799-Data-Sheet-20006248B.pdf
+TPS73801DCQR	Texas Instruments	linear-adjustable	31078	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%253A%252F%252Fwww.ti.com%252Flit%252Fgpn%252Ftps73801
+MIC5209-2.5BU TR	Microchip Technology	linear-fixed	30750	below quota	https://rocelec.widen.net/view/pdf/5b16huahgy/MCRLS06712-1.pdf?t.download=true&u=5oefqw
+MIC5213-2.6BC5	Microchip Technology	linear-fixed	30650	below quota	https://rocelec.widen.net/view/pdf/owm9x1bv8c/MCRLS05856-1.pdf?t.download=true&u=5oefqw
+MIC5205-2.85BM5 TR	Microchip Technology	linear-fixed	30000	below quota	https://rocelec.widen.net/view/pdf/mvuoir5rif/MCRLS02059-1.pdf?t.download=true&u=5oefqw
+UCC383TDTR-ADJ	Texas Instruments	linear-adjustable	29323	below quota	https://www.ti.com/lit/ds/slus215b/slus215b.pdf
+LP2980IM5X-ADJ/NOPB	Texas Instruments	linear-adjustable	29258	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Flp2980-adj
+TPS78001DRVT	Texas Instruments	linear-adjustable	28957	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps780
+MIC5303-1.8YMT-TR	Microchip Technology	linear-fixed	28465	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/mic5303.pdf
+MIC5203-4.7BM5 TR	Microchip Technology	linear-fixed	28259	below quota	https://rocelec.widen.net/view/pdf/h3jedbyyzz/MCRLS03899-1.pdf?t.download=true&u=5oefqw
+MCP1711T-22I/OT	Microchip Technology	linear-fixed	27669	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/20005415D.pdf
+MIC5235-3.0BM5	Microchip Technology	linear-fixed	27668	below quota	https://rocelec.widen.net/view/pdf/c2ixpvkl4l/MCRLS03658-1.pdf?t.download=true&u=5oefqw
+MIC47050-1.2YML-TR	Microchip Technology	linear-fixed	27550	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/500-mA-ULDO-with-Low-Input-and-Low-Output-Voltage-DS20006050C.pdf
+MCP1754ST-5002E/CB	Microchip Technology	linear-fixed	27215	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP1754-and-MCP1754S-Data-Sheet-DS20002276.pdf
+MCP1725T-3302E/MC	Microchip Technology	linear-fixed	27152	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/22026b.pdf
+MIC5245-3.1BM5	Microchip Technology	linear-fixed	27000	below quota	https://rocelec.widen.net/view/pdf/mkcm2ocklm/MCRLS00988-1.pdf?t.download=true&u=5oefqw
+MCP1804T-C002I/OT	Microchip Technology	linear-fixed	26820	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/20002200D.pdf
+MIC5219-2.9BM5	Microchip Technology	linear-fixed	26700	below quota	https://rocelec.widen.net/view/pdf/wtkrm2wrsk/MCRLS03615-1.pdf?t.download=true&u=5oefqw
+LP2951ACMX/NOPB	Texas Instruments	linear-adjustable	26474	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Flp2950-n
+LMS8117ADT-ADJ/NOPB	Texas Instruments	linear-adjustable	26260	below quota	https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Flms8117a
+TC1264-3.3VDBTR	Microchip Technology	linear-fixed	25998	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/TC1264-Data-Sheet-DS20001375.pdf
+MIC5203-3.6BM5	Microchip Technology	linear-fixed	25700	below quota	https://rocelec.widen.net/view/pdf/h3jedbyyzz/MCRLS03899-1.pdf?t.download=true&u=5oefqw
+MIC5203-2.8BM5 TR	Microchip Technology	linear-fixed	25605	below quota	https://rocelec.widen.net/view/pdf/h3jedbyyzz/MCRLS03899-1.pdf?t.download=true&u=5oefqw
+MCP1701AT-3302I/CB	Microchip Technology	linear-fixed	25413	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/21991c.pdf
+MIC5245-3.3BM5	Microchip Technology	linear-fixed	24598	below quota	https://rocelec.widen.net/view/pdf/mkcm2ocklm/MCRLS00988-1.pdf?t.download=true&u=5oefqw
+MIC5255-3.1YM5	Microchip Technology	linear-fixed	24500	below quota	https://rocelec.widen.net/view/pdf/iyici7c2sk/MCRLS02400-1.pdf?t.download=true&u=5oefqw
+REG1117A/2K5	Texas Instruments	linear-adjustable	24476	below quota	https://rocelec.widen.net/view/pdf/f0nffzgjqp/sbvs001d.pdf?t.download=true&u=5oefqw
+UC382T-ADJ	Texas Instruments	linear-adjustable	24367	below quota	https://www.ti.com/lit/gpn/uc282
+MIC5205-3.1BM5 TR	Microchip Technology	linear-fixed	24000	below quota	https://rocelec.widen.net/view/pdf/mvuoir5rif/MCRLS02059-1.pdf?t.download=true&u=5oefqw
+MIC5317-3.3YM5-TR	Microchip Technology	linear-fixed	23996	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC5317-High-Performance-Single-150mA-LDO-DS20006195B.pdf
+MIC5504-1.2YM5-TR	Microchip Technology	linear-fixed	23898	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC5501-02-03-04-300mA-Single-Output-LDO-in-Small-Packages-DS20006006B.pdf
+MIC5524-3.3YMT-TZ	Microchip Technology	linear-fixed	23638	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC5524-High-Performance-500mA-LDO-DS20006732.pdf
+MIC5225-1.8YM5-TR	Microchip Technology	linear-fixed	23415	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/mic5225.pdf
+MCP1804T-5002I/OT	Microchip Technology	linear-fixed	23380	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/20002200D.pdf
+MIC5207-3.6BM5	Microchip Technology	linear-fixed	22397	below quota	https://rocelec.widen.net/view/pdf/4iilhmd7k3/MCRLS03165-1.pdf?t.download=true&u=5oefqw
+MIC5259-1.5YML	Microchip Technology	linear-fixed	22033	below quota	https://rocelec.widen.net/view/pdf/s3yvsconx1/MCRLS02369-1.pdf?t.download=true&u=5oefqw
+MIC5203-2.8BM4 TR	Microchip Technology	linear-fixed	21514	below quota	https://rocelec.widen.net/view/pdf/h3jedbyyzz/MCRLS03899-1.pdf?t.download=true&u=5oefqw
+MIC5305-2.7YD5	Microchip Technology	linear-fixed	20970	below quota	https://rocelec.widen.net/view/pdf/hr5hq33zr0/MCRLS02653-1.pdf?t.download=true&u=5oefqw
+MIC5203-2.8BM5TR	Microchip Technology	linear-fixed	20902	below quota	https://rocelec.widen.net/view/pdf/h3jedbyyzz/MCRLS03899-1.pdf?t.download=true&u=5oefqw
+ADP7157ACPZ-04-R7	Analog Devices	linear-adjustable	13737	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP7157.pdf
+MAX5024LASA+	Analog Devices	linear-adjustable	13160	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/max5023-max5024.pdf
+ADP1712AUJZ-R7	Analog Devices	linear-adjustable	12121	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP1712_1713_1714.pdf
+LT3082EDD#TRPBF	Analog Devices	linear-adjustable	12085	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/3082f.pdf
+LT3045EMSE#PBF	Analog Devices	linear-adjustable	11870	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/LT3045.pdf
+ADP7105ACPZ-R7	Analog Devices	linear-adjustable	11851	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP7105.pdf
+MAX15027ATB+T	Analog Devices	linear-adjustable	11827	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/max15027-max15028.pdf
+LT1764AEFE#PBF	Analog Devices	linear-adjustable	11391	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/1764afb.pdf
+ADP7102ACPZ-R7	Analog Devices	linear-adjustable	11288	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP7102.pdf
+LT3065EMSE#TRPBF	Analog Devices	linear-adjustable	11109	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/LT3065.pdf
+MAX38912ATA+T	Analog Devices	linear-adjustable	10878	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX38911-MAX38912.pdf
+LT1762EMS8#PBF	Analog Devices	linear-adjustable	10760	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/LT1762.pdf
+ADM7170ACPZ-R7	Analog Devices	linear-adjustable	10560	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADM7170.pdf
+ADP1762ACPZ-R7	Analog Devices	linear-adjustable	10451	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP1762.pdf
+ADP1708ACPZ-R7	Analog Devices	linear-adjustable	9714	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP1706_1707_1708.pdf
+ADP2300AUJZ-R7	Analog Devices	switching	7171	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP2300_2301.pdf
+LT8610AEMSE-5#PBF	Analog Devices	switching	7164	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/lt8610a-8610ab.pdf
+MIC47100YMME-TR	Microchip Technology	linear-adjustable	7130	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/mic47100.pdf
+ADP1612ARMZ-R7	Analog Devices	switching	7129	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP1612_1613.pdf
+MAX17645BATA+T	Analog Devices	switching	7117	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/max17645.pdf
+LR645LG-G	Microchip Technology	linear-adjustable	7068	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/20005384A.pdf
+MIC29204YM-TR	Microchip Technology	linear-adjustable	7043	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/mic2920.pdf
+ADP1720ARMZ-5-R7	Analog Devices	linear-fixed	7035	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP1720.pdf
+LT3663EDCB#TRPBF	Analog Devices	switching	7031	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/3663fc.pdf
+ADP1710AUJZ-1.2-R7	Analog Devices	linear-fixed	7029	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP1710_1711.pdf
+LT1762EMS8-5#TRPBF	Analog Devices	linear-fixed	7000	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/LT1762.pdf
+LT3991EMSE-3.3#TRPBF	Analog Devices	switching	6990	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/3991fa.pdf
+ADP160AUJZ-1.8-R7	Analog Devices	linear-fixed	6967	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP160_161_162_163.pdf
+LTC3401EMS#TRPBF	Analog Devices	switching	6942	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/3401fb.pdf
+LT3467ES6#TRMPBF	Analog Devices	switching	6930	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/lt3467-lt3467a.pdf
+MAX8840ELT18+T	Analog Devices	linear-fixed	6923	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/max8840-max8842.pdf
+MIC29152WD-TR	Microchip Technology	linear-adjustable	6914	below quota	http://ww1.microchip.com/downloads/en/DeviceDoc/MIC2915x-30x-50x-75x-High-Current-Low-Dropout-Regulators-DS20005685B.pdf
+ADP160ACBZ-2.5-R7	Analog Devices	linear-fixed	6902	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP160_161_162_163.pdf
+ADP1706ACPZ-1.2-R7	Analog Devices	linear-fixed	6858	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP1706_1707_1708.pdf
+MIC69153YML-TR	Microchip Technology	linear-adjustable	6856	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/MIC69153-Single-Supply-VIN-LOW-VIN-LOW-VOUT-1.5A-LDO-DS20006019A.pdf
+LT3473EDD#TRPBF	Analog Devices	switching	6841	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/3473f.pdf
+MAX1837EUT33+T	Analog Devices	switching	6828	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/max1836-max1837.pdf
+LT3470HTS8#TRPBF	Analog Devices	switching	6815	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/lt3470.pdf
+ADP172ACBZ-1.2-R7	Analog Devices	linear-fixed	6722	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP172.pdf
+MAX1685EEE+T	Analog Devices	switching	6668	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/max1684-max1685.pdf
+MIC39102YM	Microchip Technology	linear-adjustable	6666	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/20005834A.pdf
+MAX8875EUK33+T	Analog Devices	linear-fixed	6631	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/max8875.pdf
+MAX17506ATP+T	Analog Devices	switching	6608	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX17506.pdf
+MAX17503ATP+	Analog Devices	switching	6604	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/max17503.pdf
+LT3495BEDDB-1#TRPBF	Analog Devices	switching	6603	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/3495b1b1fa.pdf
+LTC3129IUD#PBF	Analog Devices	switching	6582	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/3129fc.pdf
+MAX17532ATB+T	Analog Devices	switching	6577	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX17532.pdf
+MCP1825T-ADJE/DC	Microchip Technology	linear-adjustable	6571	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/22056b.pdf
+ADP151ACPZ-3.0-R7	Analog Devices	linear-fixed	6569	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP151.pdf
+MAX17501FATB+T	Analog Devices	switching	6561	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/max17501.pdf
+MCP1726T-ADJE/MF	Microchip Technology	linear-adjustable	6542	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/1A-Low-Voltage-Low-Quiescent-Current-LDO-Regulator-DS20001936E.pdf
+LT1129IST-3.3#TRPBF	Analog Devices	linear-fixed	6508	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/112935ff.pdf
+ADM7160AUJZ-1.8-R7	Analog Devices	linear-fixed	6499	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADM7160.pdf
+LTC3404EMS8#TRPBF	Analog Devices	switching	6495	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/3404fb.pdf
+LT3481EDD#TRPBF	Analog Devices	switching	6479	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/3481fc.pdf
+LTC3112EDHD#TRPBF	Analog Devices	switching	6470	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/3112fd.pdf
+LTC3428EDD#TRPBF	Analog Devices	switching	6454	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/3428fb.pdf
+ADP7142AUJZ-1.8-R7	Analog Devices	linear-fixed	6437	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP7142.pdf
+MAX17552AUB+T	Analog Devices	switching	6435	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX17552-MAX17552B.pdf
+ADM7154ACPZ-1.8-R7	Analog Devices	linear-fixed	6432	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADM7154.pdf
+LT1766IGN#TRPBF	Analog Devices	switching	6372	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/1766fc.pdf
+MAX8867EUK30+T	Analog Devices	linear-fixed	6367	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/max8867-max8868.pdf
+LT8627SPJV#TRPBF	Analog Devices	switching	6360	below quota	https://www.analog.com/LT8627SP/datasheet
+ADP3335ACPZ-3.3-R7	Analog Devices	linear-fixed	6327	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP3335.pdf
+ADP162AUJZ-3.3-R7	Analog Devices	linear-fixed	6275	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP160_161_162_163.pdf
+ADP165ACBZ-3.3-R7	Analog Devices	linear-fixed	6273	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP165_166.pdf
+MCP1725T-ADJE/SN	Microchip Technology	linear-adjustable	6239	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/22026b.pdf
+LT8608IMSE#PBF	Analog Devices	switching	6228	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/lt8608.pdf
+ADP2118ACPZ-R7	Analog Devices	switching	6218	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP2118.pdf
+MIC5305YML-TR	Microchip Technology	linear-adjustable	6193	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/mic5305.pdf
+LT1763IDE-3.3#TRPBF	Analog Devices	linear-fixed	6188	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/1763fh.pdf
+LT8611EUDD#PBF	Analog Devices	switching	6175	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/lt8611.pdf
+LT8624SAV#TRPBF	Analog Devices	switching	6153	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/lt8622s-8624s.pdf
+MAX17571ATC+	Analog Devices	switching	6146	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/max17571.pdf
+MAX17624ATA+T	Analog Devices	switching	6140	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX17623-MAX17624.pdf
+LT1962EMS8-5#TRPBF	Analog Devices	linear-fixed	6137	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/1962fb.pdf
+ADP7156ACPZ-3.3-R7	Analog Devices	linear-fixed	6135	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP7156.pdf
+MAX5026EUT+T	Analog Devices	switching	6115	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX5025-MAX5028.pdf
+ADP1712AUJZ-2.5-R7	Analog Devices	linear-fixed	6108	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP1712_1713_1714.pdf
+MAX1726EUK25+T	Analog Devices	linear-fixed	6107	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/max1725-max1726.pdf
+LTC3441EDE#TRPBF	Analog Devices	switching	6100	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/3441fc.pdf
+LT1086IM-3.3#TRPBF	Analog Devices	linear-fixed	6099	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/lt1086.pdf
+MAX17502HAUD+T	Analog Devices	switching	6076	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/max17502.pdf
+ADP160ACBZ-3.3-R7	Analog Devices	linear-fixed	6065	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP160_161_162_163.pdf
+LTC3624EDD-2#TRPBF	Analog Devices	switching	6037	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/36242fd.pdf
+LT3493EDCB#TRMPBF	Analog Devices	switching	6001	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/3493fb.pdf
+ADP172ACBZ-2.2-R7	Analog Devices	linear-fixed	6000	below quota	https://www.analog.com/ADP172/datasheet
+MAX1595EUA33+T	Analog Devices	switching	5997	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/max1595.pdf
+MAX17504ATP+	Analog Devices	switching	5995	below quota	https://datasheets.maximintegrated.com/en/ds/MAX17504.pdf
+LTC3422EDD#TRPBF	Analog Devices	switching	5972	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/3422fa.pdf
+ADM7170ACPZ-2.5-R7	Analog Devices	linear-fixed	5945	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADM7170.pdf
+ADP7142ACPZN1.8-R7	Analog Devices	linear-fixed	5917	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP7142.pdf
+ADP1763WACPZ1.25-R7	Analog Devices	linear-fixed	5900	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/adp1763.pdf
+LT1963AEST-2.5#PBF	Analog Devices	linear-fixed	5898	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/lt1963a.pdf
+ADP160AUJZ-2.7-R7	Analog Devices	linear-fixed	5895	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP160_161_162_163.pdf
+ADP160AUJZ-3.3-R7	Analog Devices	linear-fixed	5852	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP160_161_162_163.pdf
+ADP122AUJZ-2.85-R7	Analog Devices	linear-fixed	5851	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP122_123.pdf
+MIC69153YME-TR	Microchip Technology	linear-adjustable	5845	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/MIC69153-Single-Supply-VIN-LOW-VIN-LOW-VOUT-1.5A-LDO-DS20006019A.pdf
+MAX17544ATP+T	Analog Devices	switching	5804	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX17544.pdf
+LT3010EMS8E-5#PBF	Analog Devices	linear-fixed	5759	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/lt3010-3010-5.pdf
+MIC5301YMT-TR	Microchip Technology	linear-adjustable	5679	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/mic5301.pdf
+ADP1720ARMZ-3.3-R7	Analog Devices	linear-fixed	5667	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP1720.pdf
+MIC5353YMT-TR	Microchip Technology	linear-adjustable	5627	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC5353-500mA-LDO-in-1.6mmx1.6mm-Package-DS20006507.pdf
+LT3060EDC-5#TRMPBF	Analog Devices	linear-fixed	5591	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/lt3060.pdf
+LTC1844ES5-1.8#TRPBF	Analog Devices	linear-fixed	5533	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/1844fa.pdf
+ADP7142ACPZN2.5-R7	Analog Devices	linear-fixed	5526	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/ADP7142.pdf
+MIC39302WU-TR	Microchip Technology	linear-adjustable	5431	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC39300-01-02-3A-Low-Voltage-Low-Dropout-Regulator-DS20006017B.pdf
+ADP1763WACPZ-1.5-R7	Analog Devices	linear-fixed	5373	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/adp1763.pdf
+LT1117CST-3.3#PBF	Analog Devices	linear-fixed	5366	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/1117fd.pdf
+MIC68200YML-TR	Microchip Technology	linear-adjustable	5101	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/mic68200.pdf
+MCP1257T-E/UN	Microchip Technology	switching	4132	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/50001894.pdf
+MCP16331T-E/MNYVAO	Microchip Technology	switching	4110	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/MCP16331-Data-Sheet-20005308.pdf
+MIC2605YML-TR	Microchip Technology	switching	3933	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/0.5A-1.2-MHz-2-MHz-Wide-Input-Range-Boost-Regulators-Each-with-Integrated-Switch-and-Schottky-Diode-20006620A.pdf
+MIC2877-5.25YFT-TR	Microchip Technology	switching	3829	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/20005873A.pdf
+LX7219-02ILQ-TR	Microchip Technology	switching	3650	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/PM/ProductDocuments/DataSheets/Microsemi_LX7219_Datasheet_V2.pdf
+LX7167CLD-TR	Microchip Technology	switching	3549	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/LX7167_Rev1.1.pdf
+MIC2207YML-TR	Microchip Technology	switching	3240	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC2207-2MHz-3A-PWM-Buck-Regulator-DS20006470A.pdf
+MIC2238-S4YML-TR	Microchip Technology	switching	3207	below quota	https://www.microchip.com/content/dam/mchp/documents/OTH/ProductDocuments/DataSheets/mic2238.pdf
+MCP1603BT-ADJI/OS	Microchip Technology	switching	3177	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/22042B.pdf
+MCP16312-E/MS	Microchip Technology	switching	3171	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP16311_2-30V_Input-1A-Output-High-Efficiency-Integrated-Synchronous-Switch-Step-Down-Regulator-DS20005255D.pdf
+MIC2203YML	Microchip Technology	switching	3158	below quota	https://rocelec.widen.net/view/pdf/eiuwn2r57f/MCRLS05812-1.pdf?t.download=true&u=5oefqw
+MIC28510YJL-TR	Microchip Technology	switching	3130	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC28510.pdf
+MIC4574YN	Microchip Technology	switching	3025	below quota	https://rocelec.widen.net/view/pdf/momjwl24gv/MCRLS06029-1.pdf?t.download=true&u=5oefqw
+MIC2179-3.3YSM	Microchip Technology	switching	3016	below quota	https://rocelec.widen.net/view/pdf/dfqys8yipl/MCRLS03604-1.pdf?t.download=true&u=5oefqw
+MCP1603T-ADJI/MC	Microchip Technology	switching	2764	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/22042B.pdf
+MIC23150-4YMT-TR	Microchip Technology	switching	2741	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/mic23150.pdf
+MIC2295YML-TR	Microchip Technology	switching	2675	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/mic2295.pdf
+MCP1603BT-330I/OS	Microchip Technology	switching	2653	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/22042B.pdf
+MIC4724YMME	Microchip Technology	switching	2653	below quota	https://rocelec.widen.net/view/pdf/waddbv3iay/MCRLS03082-1.pdf?t.download=true&u=5oefqw
+MIC4574-3.3BWM	Microchip Technology	switching	2620	below quota	https://rocelec.widen.net/view/pdf/hznt6v4ngh/MCRLS00705-1.pdf?t.download=true&u=5oefqw
+MIC23051-945YML	Microchip Technology	switching	2610	below quota	https://rocelec.widen.net/view/pdf/erheayl1z8/MCRLS03608-1.pdf?t.download=true&u=5oefqw
+MIC23030-AYMT-TR	Microchip Technology	switching	2543	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/MIC23030-8MHz-PWM-400mA-Buck-Regulator-with-HyperLightLoad%C2%AE-DS20006488A.pdf
+MCP16411T-I/UN	Microchip Technology	switching	2498	below quota	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/4366/MCP1641X_Analog_Spotlight_Digi-Key.pdf
+LM2574-12BWM	Microchip Technology	switching	2470	below quota	https://rocelec.widen.net/view/pdf/mtks1kzubz/MCRLS06147-1.pdf?t.download=true&u=5oefqw
+MIC4742YTSE	Microchip Technology	switching	2421	below quota	https://rocelec.widen.net/view/pdf/cersedccrk/MCRLS03337-1.pdf?t.download=true&u=5oefqw
+MCP16418T-I/UN	Microchip Technology	switching	2382	below quota	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/4366/MCP1641X_Analog_Spotlight_Digi-Key.pdf
+MIC22602YML-TR	Microchip Technology	switching	2369	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC22602-1MHz-6A-Integrated-Switch-High-Efficiency-Synchronous-Buck-Regulator-DS20006300A.pdf
+MCP16414T-I/MN	Microchip Technology	switching	2250	below quota	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/4366/MCP1641X_Analog_Spotlight_Digi-Key.pdf
+MCP1663T-E/MNY	Microchip Technology	switching	2150	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/20005406A.pdf
+MIC2142BM5TR	Microchip Technology	switching	2145	below quota	https://rocelec.widen.net/view/pdf/2qcj2upmnm/MCRLS02962-1.pdf?t.download=true&u=5oefqw
+LM2574-5.0YN	Microchip Technology	switching	2132	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/lm2574.pdf
+MCP1612T-ADJI/MF	Microchip Technology	switching	2115	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/21921C.pdf
+MIC2876-5.25YMT-TR	Microchip Technology	switching	2095	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MIC2876-4.8A-ISW-Synchronous-Boost-Regulator-with-Bi-Directional-Load-Disconnect-DS20005572.pdf
+MCP16311-E/MS	Microchip Technology	switching	2062	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP16311_2-30V_Input-1A-Output-High-Efficiency-Integrated-Synchronous-Switch-Step-Down-Regulator-DS20005255D.pdf
+MCP1642BT-30I/MS	Microchip Technology	switching	2053	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/20005253A.pdf
+MCP16413T-I/MN	Microchip Technology	switching	1985	below quota	//mm.digikey.com/Volume0/opasdata/d220001/medias/docus/4366/MCP1641X_Analog_Spotlight_Digi-Key.pdf
+MAX8882EUTA5+T	Analog Devices	linear-multi	1969	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/MAX8882-MAX8883.pdf
+MIC4574-3.3YN	Microchip Technology	switching	1918	below quota	https://rocelec.widen.net/view/pdf/momjwl24gv/MCRLS06029-1.pdf?t.download=true&u=5oefqw
+MIC4576WU-TR	Microchip Technology	switching	1863	below quota	https://ww1.microchip.com/downloads/en/DeviceDoc/20006158A.pdf
+MCP16252T-I/CH	Microchip Technology	switching	1838	below quota	https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP16251-MCP16252-Data-Sheet-DS20005173.pdf
+TC2574VOETR	Microchip Technology	switching	1820	below quota	https://rocelec.widen.net/view/pdf/upftxkwss5/MCHPS00515-1.pdf?t.download=true&u=5oefqw
+LT3024EDE#TRPBF	Analog Devices	linear-multi	994	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/3024fa.pdf
+LT3030EFE#PBF	Analog Devices	linear-multi	762	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/3030fa.pdf
+LT3023EMSE#PBF	Analog Devices	linear-multi	584	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/3023fa.pdf
+LT3027EMSE#PBF	Analog Devices	linear-multi	461	below quota	https://www.analog.com/media/en/technical-documentation/data-sheets/3027fa.pdf

@@ -1,0 +1,9 @@
+piece all/-: 2 of 2
+piece all/Adjustable: 300 of 1476 (cut at 300: 2620)
+piece all/Adjustable (Fixed): 4 of 4
+piece all/Adjustable (Programmable): 22 of 22
+piece all/Fixed: 357 of 357 (both ends)
+piece all/Programmable: 66 of 66
+piece all/Transistor Driver: 3 of 3
+piece all: 300 of 1930 (cut at 300: 3009)
+top.js: 739/505: 753 parts, 26 calls, 210 left today

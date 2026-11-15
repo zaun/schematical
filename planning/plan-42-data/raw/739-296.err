@@ -1,0 +1,11 @@
+piece all/-: 9 of 9
+piece all/Adjustable: 300 of 1853 (cut at 300: 6405)
+piece all/Adjustable (Fixed): 57 of 57
+piece all/Adjustable (Programmable): 36 of 36
+piece all/Fixed: 300 of 1028 (cut at 300: 5011)
+piece all/PFM: 2 of 2
+piece all/Programmable: 114 of 114
+piece all/Programmable (Fixed): 9 of 9
+piece all/PWM: 4 of 4
+piece all: 300 of 3112 (cut at 300: 14181)
+top.js: 739/296: 830 parts, 28 calls, 242 left today

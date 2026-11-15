@@ -1,0 +1,40 @@
+piece all/Adjustable: 24 of 24
+piece all/Adjustable (Fixed): 1 of 1
+piece all/Fixed/4-UFBGA, DSBGA: 6 of 6
+piece all/Fixed/4-WFBGA, DSBGA: 4 of 4
+piece all/Fixed/4-XDFN Exposed Pad: 36 of 36
+piece all/Fixed/4-XFBGA, DSBGA: 9 of 9
+piece all/Fixed/4-XFBGA, WLCSP: 1 of 1
+piece all/Fixed/4-XFLGA, DSLGA: 3 of 3
+piece all/Fixed/5-TSSOP, SC-70-5, SOT-353: 11 of 11
+piece all/Fixed/5-UFBGA, DSBGA: 9 of 9
+piece all/Fixed/5-WFBGA, DSBGA: 2 of 2
+piece all/Fixed/5-XFBGA, DSBGA: 1 of 1
+piece all/Fixed/6-UFBGA, DSBGA: 5 of 5
+piece all/Fixed/6-WDFN Exposed Pad: 29 of 29
+piece all/Fixed/6-WFDFN: 28 of 28
+piece all/Fixed/6-XFDFN Exposed Pad: 3 of 3
+piece all/Fixed/8-DIP (0.300", 7.62mm): 1 of 1
+piece all/Fixed/8-SOIC (0.154", 3.90mm Width): 10 of 10
+piece all/Fixed/8-TSSOP, 8-MSOP (0.118", 3.00mm Width): 5 of 5
+piece all/Fixed/8-TSSOP, 8-MSOP (0.118", 3.00mm Width) Exposed Pad: 1 of 1
+piece all/Fixed/8-VDFN Exposed Pad: 4 of 4
+piece all/Fixed/8-WDFN Exposed Pad: 1 of 1
+piece all/Fixed/10-VFDFN Exposed Pad: 1 of 1
+piece all/Fixed/20-PowerTSSOP (0.173", 4.40mm Width): 4 of 4
+piece all/Fixed/SC-74A, SOT-753: 80 of 80
+piece all/Fixed/SOT-223-6: 3 of 3
+piece all/Fixed/SOT-23-5 Thin, TSOT-23-5: 8 of 8
+piece all/Fixed/TO-220-3: 3 of 3
+piece all/Fixed/TO-226-3, TO-92-3 (TO-226AA): 8 of 8
+piece all/Fixed/TO-226-3, TO-92-3 (TO-226AA) Formed Leads: 7 of 7
+piece all/Fixed/TO-236-3, SC-59, SOT-23-3: 2 of 2
+piece all/Fixed/TO-243AA: 3 of 3
+piece all/Fixed/TO-252-3, DPAK (2 Leads + Tab), SC-63: 7 of 7
+piece all/Fixed/TO-252-5, DPAK (4 Leads + Tab), TO-252AD: 2 of 2
+piece all/Fixed/TO-261-4, TO-261AA: 4 of 4
+piece all/Fixed/TO-263-4, D2PAK (3 Leads + Tab), TO-263AA: 2 of 2
+piece all/Fixed/TO-263-6, D2PAK (5 Leads + Tab), TO-263BA: 5 of 5
+piece all/Fixed: 309 of 309 (both ends)
+piece all: 334 of 334 (both ends)
+top.js: 699/296: 334 parts, 52 calls, 106 left today

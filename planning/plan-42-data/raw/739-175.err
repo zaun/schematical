@@ -1,0 +1,10 @@
+piece all/-: 2 of 2
+piece all/Adjustable: 345 of 345 (both ends)
+piece all/Adjustable (Fixed): 101 of 101
+piece all/Adjustable (Programmable): 37 of 37
+piece all/Fixed: 148 of 148
+piece all/Programmable: 40 of 40
+piece all/Programmable (Fixed): 59 of 59
+piece all/PWM: 1 of 1
+piece all: 300 of 733 (cut at 300: 1682)
+top.js: 739/175: 733 parts, 25 calls, 185 left today

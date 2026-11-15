@@ -1,0 +1,184 @@
+# plan-42-D: Footprints — leaded regulator packages
+
+Last updated: 2026-11-15
+Effort: medium (1h–2h)
+Depends on: plan-42-C
+
+D draws the land patterns of the leaded packages of the final pick —
+through-hole (TO-92, TO-220-3 / -5, 8- and 16-DIP) and leaded surface-mount
+(SOT-23-3 / -5 / -6 / -8, SC-70, SOT-563 / -583, SOT-89, SOT-223, DPAK,
+D2PAK, SPAK, SOIC, MSOP, TSSOP, HTSSOP / PowerTSSOP, SSOP) — from the package
+drawings of the datasheets plan-42-A placed, reusing a library footprint
+when its pads equal the drawing's. It writes
+`planning/plan-42-data/footprints-D.json` (ready objects, not yet in
+`Parts/footprints.json`: H merges them with the parts, because
+`footprint_check` fails on a footprint no part uses — `footprint_check.c:172`
+`unused footprint: %s`) and D's rows of `planning/plan-42-data/footprint-map.tsv`,
+and the tools D, E and F share. The behavioral outcome: every D line of
+`footprints-needed.txt` has a footprint id in `footprint-map.tsv`, and the
+new objects load through `footprint_check`.
+
+References:
+
+- `docs/parts-format.md` § Footprints (`dual`, `quad`, `header`, `explicit`,
+  `"centre"` for an exposed pad; § The `"footprint"` part key: the rules,
+  mid-values, no overlapping pads).
+- `planning/completed/plan-40-C-transistor-footprints-through-hole.md` § 3
+  (ids, reuse, shared ids, ready objects, pin numbers are positions) and
+  `planning/plan-40-data/census/` (`fp-load.sh`, `fp-merge.py`,
+  `fp-check.py`: the tools D copies).
+- Library precedents: `SOT23-5` (TI DBV), `SOT23-6`, `SC70-5`, `SOT563-6`,
+  `SOT89-3`, `SOT223-4-*`, `DPAK-3`, `D2PAK-3`, `TO-220-3`, `TO-92-3-ONSEMI`,
+  `SOIC-8`, `MSOP8-DIODES`, `HTSSOP-16-PWP`.
+
+## Prerequisites
+
+plan-42-A § Prerequisites, plus:
+
+| Must be true | Command | Status |
+|---|---|---|
+| plan-42-C complete | `ls planning/completed/plan-42-C-*.md` → exists | NOT MET (2026-11-15: not started) |
+| `footprints-needed.txt` is final (B Phase 5) | `grep -c '^D' planning/plan-42-data/footprints-needed.txt` → B's recorded D count (69 at planning) | NOT MET (2026-11-15: the planning file) |
+
+Everything below is written against the world where these hold.
+
+> **NOTE — the Status column is a snapshot; the Command column is the truth.**
+> Re-run every command and update every status before you continue.
+
+## 1. Goal
+
+- `python3 -I planning/plan-42-data/census/fp-check.py D` prints `<n> lines,
+  0 without a footprint`, `<n>` = `awk -F'\t' '$1=="D"'
+  planning/plan-42-data/footprints-needed.txt | wc -l` (69 at planning).
+- `planning/plan-42-data/census/fp-load.sh planning/plan-42-data/footprints-D.json`
+  prints `<k> new footprints: load ok`.
+- `footprint-map.tsv` has, for every D line, the footprint id and the
+  pinouts it serves.
+
+### Non-goals (explicit constraints)
+
+- No change to `Parts/footprints.json`, any `Parts/*.json`, `backend/` or the
+  app (H merges the objects).
+- No existing footprint changes: one is reused or a new one added, never
+  edited.
+- No footprint for a package no `add` row uses.
+
+## 2. Current State
+
+`Parts/footprints.json` holds 1624 footprints (`git show HEAD:backend/tests/golden/footprints.txt
+| wc -l` → 1624 at 40ccd5fc).
+
+### Measured populations
+
+| What | Count | Command |
+|---|---|---|
+| D lines (maker, Package / Case, Supplier Device Package), picked rows | 69 (329 parts): TI 28, ADI 20, Microchip 21 | `awk -F'\t' '!/^#/ && $1=="D"{print $2}' planning/plan-42-data/footprints-needed.txt \| sort \| uniq -c` |
+| …with no existing footprint of the same outline | 28 | the same lines with an empty 10th column |
+| …distinct DigiKey packages | 45; the most lines: TO-261-4 (SOT-223) 4, 8-SOIC 4, and 3 each for TO-243AA (SOT-89), TSOT-23-6, TSOT-23-5, SC-74A / SOT-753 (SOT-23-5), 8-MSOP, SC-70-5, 10-MSOP | `awk -F'\t' '!/^#/ && $1=="D"{print $4}' … \| sort \| uniq -c \| sort -rn` |
+
+### Verified properties
+
+- **A pin number is a position.** Pins match pads by designator, so a part
+  reuses a footprint only when its pad `n` sits where the datasheet's pin
+  `n` does (plan-40-C § Verified properties). For a tab package the
+  regulator datasheets give the tab a number (`lm1117.pdf` Table 6-1:
+  SOT-223 VOUT "2, 4", TO-252 "2, TAB"), and C's pinouts carry it (pins of
+  one name are one node), so a tab is a pad of its own number.
+- **An exposed pad is a `centre` pad or a pin-0 pad, not a pin**
+  (`docs/parts-format.md:480`; `SON-8-DRB`, `WSON-6-NGF` in the library),
+  and a footprint's `pins` equals the pinout's pin count (the loader's rule).
+
+## 3. Design
+
+### 3.1 Ids, reuse, ready objects (D, E and F)
+
+- **Ids.** A TI drawing takes TI's package designator, as the library's TI
+  footprints do: `<outline>-<pins>-<designator>` (`SOT23-5` is TI DBV
+  already; `SOT223-4-DCY`, `TO-263-5-KTT`, `WSON-6-DRV`, `VSON-8-DRB`);
+  other makers `<outline>-<pins>-<MAKER>` with ADI's or Microchip's package
+  code when the drawing has one (`TSOT-5-ADI-UJ`, `DFN-8-MCHP-MF`,
+  `SOT-23-5-MCHP-OT`); characters `A-Z 0-9 . -` only.
+- **Reuse.** A drawing whose land pattern equals an existing footprint's
+  (same pin count, every pad's designator, centre and size within 0.05 mm,
+  same drill, body within 0.1 mm) reuses it; `Parts/footprints.json` is
+  checked first.
+- **Shared ids.** Before adding an id: `grep -c '"id":"<id>"'
+  schematical/schematical/Parts/footprints.json planning/plan-*-data/footprints-*.json`;
+  a hit means reuse it (checked as any reuse) and the add step is marked
+  moot with that grep's output.
+- **Ready objects.** `footprints-<letter>.json` is `{"footprints":[…]}` in
+  `footprints.json`'s format; each object's `note` names the drawing, the
+  PDF path under `datasheets/regulator/` and the page, and the mid-values.
+- **The map.** `footprint-map.tsv`: `letter`, `maker`, `package`,
+  `supplier`, `footprint`, `label`, `note` — one row per land pattern;
+  `supplier` one Supplier Device Package of the line or `*`.
+
+### 3.2 Which style
+
+Two-row leaded packages (SOIC, MSOP, TSSOP, SSOP, SOT-23-5 / -6 / -8, SC-70,
+SOT-563, DIP) use `dual` (an exposed pad as `"centre"`); three-lead and
+tab packages (SOT-23-3, SOT-89, SOT-223, DPAK, D2PAK, SPAK, TO-220, TO-92)
+use `explicit` or `header` as the library's same-outline precedents do
+(`SOT223-4-*`, `DPAK-3`, `TO-220-3`, `TO-92-3-ONSEMI`). Body = the drawing's
+outline from above (mid-values).
+
+### 3.3 Where the risk is
+
+A pad at the wrong place, a tab numbered wrong, or a drill smaller than the
+lead. Mitigation: the `note` records the mid-values, `fp-load.sh` runs
+`footprint_check` (pins, designators, pad rules), and Phase 2 hand-checks
+one object per package family against its drawing.
+
+## Phases
+
+> **NOTE — keep the checkboxes current as you go.** Tick `- [x]` in the same
+> commit as the work; `- [~]` for partial; mark moot tasks with
+> `~~text~~ — moot: <evidence>`; fill `Commit:` the moment a phase lands.
+> **An unticked box means NOT DONE.**
+
+### Phase 1 — Tools and the small leaded packages
+
+- [ ] Copy `planning/plan-40-data/census/fp-load.sh`, `fp-merge.py` and
+      `fp-check.py` to `planning/plan-42-data/census/` (paths, letters D / E /
+      F, the regulator columns of `footprints-needed.txt`); smoke run
+      `fp-check.py D` → `69 lines, 69 without a footprint` (before any map row).
+- [ ] SOT-23-3 / -5 / -6 / -8 (and TSOT), SC-70-5 / -6, SOT-563, SOT-583,
+      SOT-89: reuse or draw, map rows.
+
+Acceptance: those lines have footprints that load.
+  Check: `fp-check.py D` → only the Phase 2 packages left without a footprint; `fp-load.sh planning/plan-42-data/footprints-D.json` → `load ok` (est. 2 min).
+Commit: —
+
+### Phase 2 — SOT-223, DPAK, D2PAK, SPAK, TO-220, TO-92, SOIC, MSOP, TSSOP, SSOP, DIP
+
+- [ ] One object per distinct land pattern (or a reuse) for each, map rows.
+- [ ] Hand-check one object per package family against its drawing (object,
+      PDF page, result) in § Corrections.
+
+Acceptance: every D line has a footprint and the objects load.
+  Check: `python3 -I planning/plan-42-data/census/fp-check.py D` → `69 lines, 0 without a footprint` (B's count); `planning/plan-42-data/census/fp-load.sh planning/plan-42-data/footprints-D.json` → `<k> new footprints: load ok` (est. 2 min).
+Commit: —
+
+## Validation Plan
+
+- Tests: `footprint_check` through `fp-load.sh` (pin count, designators,
+  pad rules) on the new objects.
+- Coverage check: `fp-check.py D` joins every D line to an id.
+- Runtime proof: plan-42-I (a placed part shows its footprint in the app).
+- Doc sync: none.
+- Final gate: plan-42-J.
+
+## Decisions
+
+- Author: **TI ids use TI's package designator** (the library's TI
+  convention, `SOT23-5` / DBV); the others use the maker's package code.
+- Author: **ready objects merge in H**, with the parts (`footprint_check`
+  refuses an unused footprint).
+
+## Corrections
+
+## Summary
+
+Mostly reuse: 41 of the 69 lines already have a same-outline footprint to
+compare against. The risk is a tab or pin 1 placed wrong; `footprint_check`
+and one hand check per family guard it.

@@ -1,0 +1,7 @@
+piece all/Adjustable: 300 of 604 (cut at 300: 2495)
+piece all/Adjustable (Fixed): 76 of 76
+piece all/Adjustable/Programmable: 10 of 10
+piece all/Fixed: 300 of 3933 (cut at 300: 37170)
+piece all/Programmable: 1 of 1
+piece all: 300 of 4624 (cut at 300: 40500)
+top.js: 699/296: 687 parts, 22 calls, 356 left today
