@@ -10,7 +10,7 @@ Diodes Incorporated	-	datasheets/transistor/diodes/BC807-25.pdf	TO-236-3, SC-59,
 Diodes Incorporated	-	datasheets/transistor/diodes/BC846AW-BC848CW.pdf	SC-70, SOT-323	4	BC847BW-7-F	=	SOT-323	B,E,C	npn:B,C,E
 Diodes Incorporated	-	datasheets/transistor/diodes/BC847BFA.pdf	3-XFDFN	1	BC847BFA-7B	=	X2-DFN0806-3	B,E,C	npn:B,C,E
 Diodes Incorporated	-	datasheets/transistor/diodes/BC847BLP.pdf	3-UFDFN	2	BC847BLP-7	=	X1-DFN1006-3	B,E,C	npn:B,C,E
-Diodes Incorporated	-	datasheets/transistor/diodes/BC847BLP4.pdf	3-XFDFN	1	BC847BLP4-7B	n/r			
+Diodes Incorporated	-	datasheets/transistor/diodes/BC847BLP4.pdf	3-XFDFN	1	BC847BLP4-7B	=	X2-DFN1006-3	B,E,C	npn:B,C,E
 Diodes Incorporated	-	datasheets/transistor/diodes/BC856AS.pdf	6-TSSOP, SC-88, SOT-363	1	BC856AS-7	n/r			
 Diodes Incorporated	-	datasheets/transistor/diodes/BC856AW-BC858CW.pdf	SC-70, SOT-323	5	BC858BW-7-F	=	SOT-323	B,E,C	pnp:B,C,E
 Diodes Incorporated	-	datasheets/transistor/diodes/BC857BFA.pdf	3-XFDFN	1	BC857BFA-7B	=	X2-DFN0806-3	B,E,C	pnp:B,C,E
@@ -25,20 +25,20 @@ Diodes Incorporated	-	datasheets/transistor/diodes/BCX54_55_56.pdf	TO-243AA	3	BC
 Diodes Incorporated	-	datasheets/transistor/diodes/BCX5616Q.pdf	TO-243AA	1	BCX5616QTA	=	SOT-89	B,C,E	npn:B,C,E
 Diodes Incorporated	-	datasheets/transistor/diodes/BSR33.pdf	TO-243AA	1	BSR33QTA	n/r			
 Diodes Incorporated	-	datasheets/transistor/diodes/BST39.pdf	TO-243AA	1	BST39TA	=	SOT-89	B,C,E	npn:B,C,E
-Diodes Incorporated	-	datasheets/transistor/diodes/DCP68_-25.pdf	TO-261-4, TO-261AA	1	DCP68-13	n/r			
+Diodes Incorporated	-	datasheets/transistor/diodes/DCP68_-25.pdf	TO-261-4, TO-261AA	1	DCP68-13	=	SOT-223	B,C,E,C	npn:B,C,E
 Diodes Incorporated	-	datasheets/transistor/diodes/DCP69_-16_-25.pdf	TO-261-4, TO-261AA	1	DCP69-13	n/r			
-Diodes Incorporated	-	datasheets/transistor/diodes/DCX_XXXX_U.pdf	6-TSSOP, SC-88, SOT-363	6	DCX143TU-7-F	n/r			
+Diodes Incorporated	-	datasheets/transistor/diodes/DCX_XXXX_U.pdf	6-TSSOP, SC-88, SOT-363	6	DCX143TU-7-F	=	SOT-363	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;pnp:B2,C2,E2
 Diodes Incorporated	-	datasheets/transistor/diodes/DDA_XXXX_U.pdf	6-TSSOP, SC-88, SOT-363	8	DDA114EU-7-F	=	SOT-363	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;pnp:B2,C2,E2
 Diodes Incorporated	-	datasheets/transistor/diodes/DDTA_R1-ONLY_SERIES_CA.pdf	TO-236-3, SC-59, SOT-23-3	2	DDTA143TCA-7-F	=	SOT-23	B,E,C	pnp:B,C,E
-Diodes Incorporated	-	datasheets/transistor/diodes/DDTA_R1-ONLY_SERIES_UA.pdf	SC-70, SOT-323	1	DDTA114TUA-7-F	n/r			
+Diodes Incorporated	-	datasheets/transistor/diodes/DDTA_R1-ONLY_SERIES_UA.pdf	SC-70, SOT-323	1	DDTA114TUA-7-F	=	SOT-323	B,E,C	pnp:B,C,E
 Diodes Incorporated	-	datasheets/transistor/diodes/DDTB_XXXX_C.pdf	TO-236-3, SC-59, SOT-23-3	6	DDTC114ECA-7-F-W	DDTB(113E|123E|143E|114E|122J|113Z|123Y|133H|123T|143T|114T|114G)C-7-F	SOT-23	B,E,C	pnp:B,C,E
 Diodes Incorporated	-	datasheets/transistor/diodes/DDTC_R1-ONLY_SERIES_CA.pdf	TO-236-3, SC-59, SOT-23-3	7	DDTC143TCA-7-F	=	SOT-23	B,E,C	npn:B,C,E
-Diodes Incorporated	-	datasheets/transistor/diodes/DDTC_R1-ONLY_SERIES_E.pdf	SOT-523	2	DDTC124TE-7-F	n/r			
+Diodes Incorporated	-	datasheets/transistor/diodes/DDTC_R1-ONLY_SERIES_E.pdf	SOT-523	2	DDTC124TE-7-F	=	SOT-523	B,E,C	npn:B,C,E
 Diodes Incorporated	-	datasheets/transistor/diodes/DDTC_R1-ONLY_SERIES_UA.pdf	SC-70, SOT-323	3	DDTC113TUA-7-F	=	SOT-323	B,E,C	npn:B,C,E
-Diodes Incorporated	-	datasheets/transistor/diodes/DDTD_LO-R1_C.pdf	TO-236-3, SC-59, SOT-23-3	1	DDTD142JC-7-F	n/r			
-Diodes Incorporated	-	datasheets/transistor/diodes/DDTD_XXXX_C.pdf	TO-236-3, SC-59, SOT-23-3	5	DDTD123TC-7-F	n/r			
-Diodes Incorporated	-	datasheets/transistor/diodes/DDTD_XXXX_U.pdf	SC-70, SOT-323	1	DDTD113ZU-7-F	n/r			
-Diodes Incorporated	-	datasheets/transistor/diodes/DP0150BLP4.pdf	3-XFDFN	1	DP0150BLP4-7	n/r			
+Diodes Incorporated	-	datasheets/transistor/diodes/DDTD_LO-R1_C.pdf	TO-236-3, SC-59, SOT-23-3	1	DDTD142JC-7-F	=	SOT-23	B,E,C	npn:B,C,E
+Diodes Incorporated	-	datasheets/transistor/diodes/DDTD_XXXX_C.pdf	TO-236-3, SC-59, SOT-23-3	5	DDTD123TC-7-F	=	SOT-23	B,E,C	npn:B,C,E
+Diodes Incorporated	-	datasheets/transistor/diodes/DDTD_XXXX_U.pdf	SC-70, SOT-323	1	DDTD113ZU-7-F	=	SOT-323	B,E,C	npn:B,C,E
+Diodes Incorporated	-	datasheets/transistor/diodes/DP0150BLP4.pdf	3-XFDFN	1	DP0150BLP4-7	=	X2-DFN1006-3	B,E,C	pnp:B,C,E
 Diodes Incorporated	-	datasheets/transistor/diodes/DSS2540M.pdf	3-UFDFN	1	DSS2540M-7B	=	X1-DFN1006-3	B,E,C	npn:B,C,E
 Diodes Incorporated	-	datasheets/transistor/diodes/DSS3515M.pdf	3-UFDFN	1	DSS3515M-7B	=	X1-DFN1006-3	B,E,C	pnp:B,C,E
 Diodes Incorporated	-	datasheets/transistor/diodes/DSS4160T.pdf	TO-236-3, SC-59, SOT-23-3	1	DSS4160T-7	n/r			
@@ -154,7 +154,7 @@ Diodes Incorporated	-	datasheets/transistor/diodes/MMDT3906.pdf	6-TSSOP, SC-88, 
 Diodes Incorporated	-	datasheets/transistor/diodes/MMDT3946.pdf	6-TSSOP, SC-88, SOT-363	1	MMDT3946-7R-F	=	SOT-363	E2,B2,C1,E1,B1,C2	npn:B2,C2,E2;pnp:B1,C1,E1
 Diodes Incorporated	-	datasheets/transistor/diodes/MMDT4401.pdf	6-TSSOP, SC-88, SOT-363	1	MMDT4401-7-F	=	SOT-363	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;npn:B2,C2,E2
 Diodes Incorporated	-	datasheets/transistor/diodes/MMST3906.pdf	SC-70, SOT-323	1	MMST3906-7-F	=	SOT-323	B,E,C	pnp:B,C,E
-Diodes Incorporated	-	datasheets/transistor/diodes/SXTA42.pdf	TO-243AA	1	SXTA42TA	n/r			
+Diodes Incorporated	-	datasheets/transistor/diodes/SXTA42.pdf	TO-243AA	1	SXTA42TA	=	SOT-89	B,C,E	npn:B,C,E
 Diodes Incorporated	-	datasheets/transistor/diodes/ZDT6790.pdf	SOT-223-8	1	ZDT6790TA	=	SM-8	E2,B2,E1,B1,C1,C1,C2,C2	npn:B1,C1,E1;pnp:B2,C2,E2
 Diodes Incorporated	-	datasheets/transistor/diodes/ZDT749.pdf	SOT-223-8	1	ZDT749TA	n/r			
 Diodes Incorporated	-	datasheets/transistor/diodes/ZHB6718.pdf	SOT-223-8	1	ZHB6718TA	=	SM-8	B3,E2,B2,B1,C1,E1,C3,B4	pnp:B1,C1,E1;npn:B2,C1,E2;npn:B3,C3,E2;pnp:B4,C3,E1
@@ -299,7 +299,7 @@ Diodes Incorporated	-	datasheets/transistor/diodes/ds30329.pdf	TO-236-3, SC-59, 
 Diodes Incorporated	-	datasheets/transistor/diodes/ds30330.pdf	SOT-23-3 Flat Leads	1	DDTC144WCA-7-F	=	SOT-23	B,E,C	npn:B,C,E
 Diodes Incorporated	-	datasheets/transistor/diodes/ds30330.pdf	TO-236-3, SC-59, SOT-23-3	7	DDTC143ZCA-7-F	=	SOT-23	B,E,C	npn:B,C,E
 Diodes Incorporated	-	datasheets/transistor/diodes/ds30332.pdf	TO-236-3, SC-59, SOT-23-3	1	DDTC114GCA-7-F	n/r			
-Diodes Incorporated	-	datasheets/transistor/diodes/ds30333.pdf	TO-236-3, SC-59, SOT-23-3	5	DDTA114ECA-7-F	n/r			
+Diodes Incorporated	-	datasheets/transistor/diodes/ds30333.pdf	TO-236-3, SC-59, SOT-23-3	5	DDTA114ECA-7-F	=	SOT-23	B,E,C	pnp:B,C,E
 Diodes Incorporated	-	datasheets/transistor/diodes/ds30334.pdf	SOT-23-3 Flat Leads	1	DDTA123YCA-7-F	=	SOT-23	B,E,C	pnp:B,C,E
 Diodes Incorporated	-	datasheets/transistor/diodes/ds30334.pdf	TO-236-3, SC-59, SOT-23-3	5	DDTA144WCA-7-F	=	SOT-23	B,E,C	pnp:B,C,E
 Diodes Incorporated	-	datasheets/transistor/diodes/ds30420.pdf	SOT-563, SOT-666	2	DDA114TH-7	=	SOT-563	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;pnp:B2,C2,E2
@@ -355,7 +355,7 @@ Diodes Incorporated	-	datasheets/transistor/diodes/ds32068.pdf	PowerDI™ 5	1	DX
 Diodes Incorporated	-	datasheets/transistor/diodes/ds32069.pdf	PowerDI™ 5	1	DXT2011P5-13	n/r			
 Diodes Incorporated	-	datasheets/transistor/diodes/ds32070.pdf	PowerDI™ 5	1	DXT2012P5-13	=	PowerDI5	B,E,C	pnp:B,C,E
 Diodes Incorporated	DDC (XXXX) H	datasheets/transistor/diodes/ds30421.pdf	SOT-563, SOT-666	4	DDC114TH-7	=	SOT-563	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;npn:B2,C2,E2
-Diodes Incorporated	DDC (XXXX) U	datasheets/transistor/diodes/DDC_XXXX_U.pdf	6-TSSOP, SC-88, SOT-363	7	DDC143TU-7-F	n/r			
+Diodes Incorporated	DDC (XXXX) U	datasheets/transistor/diodes/DDC_XXXX_U.pdf	6-TSSOP, SC-88, SOT-363	7	DDC143TU-7-F	=	SOT-363	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;npn:B2,C2,E2
 Diodes Incorporated	DDC (XXXX) U	datasheets/transistor/diodes/ds30767.pdf	6-TSSOP, SC-88, SOT-363	1	DDC144TU-7	=	SOT-363	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;npn:B2,C2,E2
 Diodes Incorporated	DDTA (R1 = R2 SERIES) UA	datasheets/transistor/diodes/ds30325.pdf	SC-70, SOT-323	1	DDTA144EUA-7-F	DDTA1(23|43|14|24|44|15)EUA-(7|13)-F	SOT-323	B,E,C	pnp:B,C,E
 Diodes Incorporated	DDTA (R1#R2 SERIES)	datasheets/transistor/diodes/ds30318.pdf	SOT-523	1	DDTA144WE-7-F	=	SOT-523	B,E,C	pnp:B,C,E
@@ -1057,7 +1057,7 @@ Infineon Technologies	HEXFET®	datasheets/transistor/infineon/infineon-irf8714-d
 Infineon Technologies	HEXFET®	datasheets/transistor/infineon/infineon-irf8734-datasheet-en.pdf	8-SOIC (0.154", 3.90mm Width)	1	IRF8734TRPBF	=	SOIC	S,S,S,G,D,D,D,D	nmos:G,D,S
 Infineon Technologies	HEXFET®	datasheets/transistor/infineon/infineon-irf8788-datasheet-en.pdf	8-SOIC (0.154", 3.90mm Width)	1	IRF8788TRPBF	n/r			
 Infineon Technologies	HEXFET®	datasheets/transistor/infineon/infineon-irf9530n-datasheet-en.pdf	TO-220-3	1	IRF9530NPBF	=	TO-220	G,D,S	pmos:G,D,S
-Infineon Technologies	HEXFET®	datasheets/transistor/infineon/infineon-irf9530ns-datasheet-en.pdf	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	1	IRF9530NSTRLPBF	n/r			
+Infineon Technologies	HEXFET®	datasheets/transistor/infineon/infineon-irf9530ns-datasheet-en.pdf	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	1	IRF9530NSTRLPBF	=	D2PAK	G,D,S	pmos:G,D,S
 Infineon Technologies	HEXFET®	datasheets/transistor/infineon/infineon-irf9540npbf-datasheet-en.pdf	TO-220-3	1	IRF9540NPBF	n/r			
 Infineon Technologies	HEXFET®	datasheets/transistor/infineon/infineon-irf9540ns-datasheet-en.pdf	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	1	IRF9540NSTRLPBF	IRF9540NS(TRL|TRR)?PBF	D2PAK	G,D,S	pmos:G,D,S
 Infineon Technologies	HEXFET®	datasheets/transistor/infineon/infineon-irf9952-datasheet-en.pdf	8-SOIC (0.154", 3.90mm Width)	1	IRF9952TRPBF	-	SOIC	S1,G1,S2,G2,D2,D2,D1,D1	nmos:G1,D1,S1;pmos:G2,D2,S2
@@ -3314,8 +3314,8 @@ onsemi	-	datasheets/transistor/onsemi/2N5194-D.PDF	TO-225AA, TO-126-3	1	2N5195G	
 onsemi	-	datasheets/transistor/onsemi/2N5401-D.PDF	TO-226-3, TO-92-3 (TO-226AA)	1	2N5401YBU	=	TO-92	E,B,C	pnp:B,C,E
 onsemi	-	datasheets/transistor/onsemi/2N5401-D.PDF	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	1	2N5401YTA	=	TO-92	E,B,C	pnp:B,C,E
 onsemi	-	datasheets/transistor/onsemi/2N5550-D.PDF	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	3	2N5550TAR	=	TO-92	E,B,C	npn:B,C,E
-onsemi	-	datasheets/transistor/onsemi/2N5551T-D.PDF	TO-226-3, TO-92-3 (TO-226AA)	1	2N5551BU	n/r			
-onsemi	-	datasheets/transistor/onsemi/2N5551T-D.PDF	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	3	2N5551TF	n/r			
+onsemi	-	datasheets/transistor/onsemi/2N5551T-D.PDF	TO-226-3, TO-92-3 (TO-226AA)	1	2N5551BU	=	TO-92	E,B,C	npn:B,C,E
+onsemi	-	datasheets/transistor/onsemi/2N5551T-D.PDF	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	3	2N5551TF	=	TO-92	E,B,C	npn:B,C,E
 onsemi	-	datasheets/transistor/onsemi/2N5684-D.PDF	TO-204AE	2	2N5686G	n/r			
 onsemi	-	datasheets/transistor/onsemi/2N6107-D.PDF	TO-220-3	1	2N6292G	n/r			
 onsemi	-	datasheets/transistor/onsemi/2N6387-D.PDF	TO-220-3	1	2N6388G	n/r			
@@ -3506,7 +3506,7 @@ onsemi	-	datasheets/transistor/onsemi/KSC2383-D.PDF	TO-226-3, TO-92-3 Long Body,
 onsemi	-	datasheets/transistor/onsemi/MCH6353-D.PDF	6-SMD, Flat Leads	1	MCH6353-TL-W	n/r			
 onsemi	-	datasheets/transistor/onsemi/MCH6541-D.PDF	6-SMD, Flat Leads	1	MCH6541-TL-E	n/r			
 onsemi	-	datasheets/transistor/onsemi/MMBF170-D.PDF	TO-226-3, TO-92-3 (TO-226AA)	1	BS170	=	TO-92	D,G,S	nmos:G,D,S
-onsemi	-	datasheets/transistor/onsemi/MMBF170-D.PDF	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	2	BS170-D26Z	n/r			
+onsemi	-	datasheets/transistor/onsemi/MMBF170-D.PDF	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	2	BS170-D26Z	=	TO-92	D,G,S	nmos:G,D,S
 onsemi	-	datasheets/transistor/onsemi/MMBF170-D.PDF	TO-236-3, SC-59, SOT-23-3	1	MMBF170	=	SOT-23	G,S,D	nmos:G,D,S
 onsemi	-	datasheets/transistor/onsemi/MMBT4401-D.PDF	TO-226-3, TO-92-3 (TO-226AA)	1	2N4401BU	=	TO-92	E,B,C	npn:B,C,E
 onsemi	-	datasheets/transistor/onsemi/MMBT4401-D.PDF	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	4	2N4401TA	=	TO-92	E,B,C	npn:B,C,E
@@ -3649,7 +3649,7 @@ onsemi	-	datasheets/transistor/onsemi/bc817-16lt1-d.pdf	TO-236-3, SC-59, SOT-23-
 onsemi	-	datasheets/transistor/onsemi/bc818-d.pdf	TO-236-3, SC-59, SOT-23-3	3	BC81825MTF	BC81[78](16|25|40)MTF	SOT-23	B,E,C	npn:B,C,E
 onsemi	-	datasheets/transistor/onsemi/bc846awt1-d.pdf	SC-70, SOT-323	7	BC846BWT1G	=	SC-70	B,E,C	npn:B,C,E
 onsemi	-	datasheets/transistor/onsemi/bc846awt1-d.pdf	TO-236-3, SC-59, SOT-23-3	1	BC847A	-	SOT-23	-	-
-onsemi	-	datasheets/transistor/onsemi/bc846bdw1t1-d.pdf	6-TSSOP, SC-88, SOT-363	5	BC847CDW1T1G	n/r			
+onsemi	-	datasheets/transistor/onsemi/bc846bdw1t1-d.pdf	6-TSSOP, SC-88, SOT-363	5	BC847CDW1T1G	=	SC-88	E2,B2,C1,E1,B1,C2	npn:B1,C1,E1;npn:B2,C2,E2
 onsemi	-	datasheets/transistor/onsemi/bc856alt1-d.pdf	TO-236-3, SC-59, SOT-23-3	14	BC857CLT1G	=	SOT-23	B,E,C	pnp:B,C,E
 onsemi	-	datasheets/transistor/onsemi/bc856bm3-d.pdf	SOT-723	2	BC856BM3T5G	=	SOT-723	B,E,C	pnp:B,C,E
 onsemi	-	datasheets/transistor/onsemi/bc856bwt1-d.pdf	SC-70, SOT-323	5	BC857CWT1G	=	SC-70	B,E,C	pnp:B,C,E
@@ -3668,10 +3668,10 @@ onsemi	-	datasheets/transistor/onsemi/bf720t1-d.pdf	TO-261-4, TO-261AA	2	SBF720T
 onsemi	-	datasheets/transistor/onsemi/bsp50-d.pdf	TO-261-4, TO-261AA	1	BSP50	n/r			
 onsemi	-	datasheets/transistor/onsemi/bss84-d.pdf	TO-236-3, SC-59, SOT-23-3	2	BSS84-H	BSS84(-G)?	SOT-23	G,S,D	pmos:G,D,S
 onsemi	-	datasheets/transistor/onsemi/cph6341-d.pdf	SOT-23-6	2	CPH6341-M-TL-W	n/r			
-onsemi	-	datasheets/transistor/onsemi/dta113e-d.pdf	SC-70, SOT-323	1	MUN5130T1G	n/r			
+onsemi	-	datasheets/transistor/onsemi/dta113e-d.pdf	SC-70, SOT-323	1	MUN5130T1G	=	SC-70	B,E,C	pnp:B,C,E
 onsemi	-	datasheets/transistor/onsemi/dta113e-d.pdf	SC-75, SOT-416	1	DTA113EET1G	n/r			
 onsemi	-	datasheets/transistor/onsemi/dta113e-d.pdf	SOT-723	1	DTA113EM3T5G	n/r			
-onsemi	-	datasheets/transistor/onsemi/dta113e-d.pdf	TO-236-3, SC-59, SOT-23-3	2	MUN2130T1G	n/r			
+onsemi	-	datasheets/transistor/onsemi/dta113e-d.pdf	TO-236-3, SC-59, SOT-23-3	2	MUN2130T1G	=	SOT-23	B,E,C	pnp:B,C,E
 onsemi	-	datasheets/transistor/onsemi/dta113ed-d.pdf	6-TSSOP, SC-88, SOT-363	1	MUN5130DW1T1G	n/r			
 onsemi	-	datasheets/transistor/onsemi/dta114e-d.pdf	SC-70, SOT-323	1	MUN5111T1G	=	SC-70	B,E,C	pnp:B,C,E
 onsemi	-	datasheets/transistor/onsemi/dta114e-d.pdf	SC-75, SOT-416	1	DTA114EET1G	n/r			
@@ -3681,7 +3681,7 @@ onsemi	-	datasheets/transistor/onsemi/dta114ed-d.pdf	6-TSSOP, SC-88, SOT-363	1	M
 onsemi	-	datasheets/transistor/onsemi/dta114ed-d.pdf	SOT-563, SOT-666	1	NSBA114EDXV6T1G	n/r			
 onsemi	-	datasheets/transistor/onsemi/dta114ed-d.pdf	SOT-963	1	NSBA114EDP6T5G	=	SOT-963	E2,B2,C1,E1,B1,C2	pnp:B1,C1,E1;pnp:B2,C2,E2
 onsemi	-	datasheets/transistor/onsemi/dta114t-d.pdf	SC-70, SOT-323	1	MUN5115T1G	n/r			
-onsemi	-	datasheets/transistor/onsemi/dta114t-d.pdf	TO-236-3, SC-59, SOT-23-3	2	MUN2115T1G	n/r			
+onsemi	-	datasheets/transistor/onsemi/dta114t-d.pdf	TO-236-3, SC-59, SOT-23-3	2	MUN2115T1G	=	SOT-23	B,E,C	pnp:B,C,E
 onsemi	-	datasheets/transistor/onsemi/dta114td-d.pdf	6-TSSOP, SC-88, SOT-363	1	MUN5115DW1T1G	n/r			
 onsemi	-	datasheets/transistor/onsemi/dta114td-d.pdf	SOT-563, SOT-666	1	NSBA114TDXV6T1G	=	SOT-563	E2,B2,C1,E1,B1,C2	pnp:B1,C1,E1;pnp:B2,C2,E2
 onsemi	-	datasheets/transistor/onsemi/dta114td-d.pdf	SOT-963	1	NSBA114TDP6T5G	n/r			
@@ -3696,10 +3696,10 @@ onsemi	-	datasheets/transistor/onsemi/dta115e-d.pdf	SOT-723	1	DTA115EM3T5G	n/r
 onsemi	-	datasheets/transistor/onsemi/dta115e-d.pdf	TO-236-3, SC-59, SOT-23-3	1	MUN2136T1G	n/r			
 onsemi	-	datasheets/transistor/onsemi/dta115ed-d.pdf	6-TSSOP, SC-88, SOT-363	1	MUN5136DW1T1G	=	SC-88	E2,B2,C1,E1,B1,C2	pnp:B1,C1,E1;pnp:B2,C2,E2
 onsemi	-	datasheets/transistor/onsemi/dta115ed-d.pdf	SOT-563, SOT-666	1	NSBA115EDXV6T1G	=	SOT-563	E2,B2,C1,E1,B1,C2	pnp:B1,C1,E1;pnp:B2,C2,E2
-onsemi	-	datasheets/transistor/onsemi/dta115t-d.pdf	SC-70, SOT-323	1	MUN5141T1G	n/r			
-onsemi	-	datasheets/transistor/onsemi/dta115t-d.pdf	SOT-1123	1	NSBA115TF3T5G	n/r			
-onsemi	-	datasheets/transistor/onsemi/dta115t-d.pdf	SOT-723	1	DTA115TM3T5G	n/r			
-onsemi	-	datasheets/transistor/onsemi/dta115t-d.pdf	TO-236-3, SC-59, SOT-23-3	1	MMUN2141LT1G	n/r			
+onsemi	-	datasheets/transistor/onsemi/dta115t-d.pdf	SC-70, SOT-323	1	MUN5141T1G	=	SC-70	B,E,C	pnp:B,C,E
+onsemi	-	datasheets/transistor/onsemi/dta115t-d.pdf	SOT-1123	1	NSBA115TF3T5G	=	SOT-1123	B,E,C	pnp:B,C,E
+onsemi	-	datasheets/transistor/onsemi/dta115t-d.pdf	SOT-723	1	DTA115TM3T5G	=	SOT-723	B,E,C	pnp:B,C,E
+onsemi	-	datasheets/transistor/onsemi/dta115t-d.pdf	TO-236-3, SC-59, SOT-23-3	1	MMUN2141LT1G	=	SOT-23	B,E,C	pnp:B,C,E
 onsemi	-	datasheets/transistor/onsemi/dta115td-d.pdf	SOT-963	1	NSBA115TDP6T5G	=	SOT-963	E2,B2,C1,E1,B1,C2	pnp:B1,C1,E1;pnp:B2,C2,E2
 onsemi	-	datasheets/transistor/onsemi/dta123e-d.pdf	SC-70, SOT-323	1	MUN5131T1G	n/r			
 onsemi	-	datasheets/transistor/onsemi/dta123e-d.pdf	SC-75, SOT-416	1	DTA123EET1G	n/r			
@@ -3893,7 +3893,7 @@ onsemi	-	datasheets/transistor/onsemi/fdt457n-d.pdf	TO-261-4, TO-261AA	1	FDT457N
 onsemi	-	datasheets/transistor/onsemi/fdv301n-d.pdf	TO-236-3, SC-59, SOT-23-3	1	FDV301N	=	SOT-23	G,S,D	nmos:G,D,S
 onsemi	-	datasheets/transistor/onsemi/fdv303n-d.pdf	TO-236-3, SC-59, SOT-23-3	1	FDV303N	=	SOT-23	G,S,D	nmos:G,D,S
 onsemi	-	datasheets/transistor/onsemi/fdv304p-d.pdf	TO-236-3, SC-59, SOT-23-3	1	FDV304P	=	SOT-23	G,S,D	pmos:G,D,S
-onsemi	-	datasheets/transistor/onsemi/fdz3n513zt-d.pdf	4-XFBGA, WLCSP	1	FDZ3N513ZT	n/r			
+onsemi	-	datasheets/transistor/onsemi/fdz3n513zt-d.pdf	4-XFBGA, WLCSP	1	FDZ3N513ZT	=	WLCSP	-	-
 onsemi	-	datasheets/transistor/onsemi/ffb3904-d.pdf	16-SOIC (0.154", 3.90mm Width)	1	MMPQ3904	n/r			
 onsemi	-	datasheets/transistor/onsemi/ffb3904-d.pdf	6-TSSOP, SC-88, SOT-363	1	FFB3904	=	SC-88	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;npn:B2,C2,E2
 onsemi	-	datasheets/transistor/onsemi/ffb3904-d.pdf	SOT-23-6 Thin, TSOT-23-6	1	FMB3904	n/r			
@@ -3935,7 +3935,7 @@ onsemi	-	datasheets/transistor/onsemi/ksa614-d.pdf	TO-220-3	1	KSA614YTU	n/r
 onsemi	-	datasheets/transistor/onsemi/ksa643-d.pdf	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	1	KSA643YTA	n/r			
 onsemi	-	datasheets/transistor/onsemi/ksa733-d.pdf	TO-226-3, TO-92-3 (TO-226AA)	2	KSA733GBU-ON	-	TO-92	E,B,C	pnp:B,C,E
 onsemi	-	datasheets/transistor/onsemi/ksa928a-d.pdf	TO-226-3, TO-92-3 Long Body, Formed Leads	1	KSA928AYTA	n/r			
-onsemi	-	datasheets/transistor/onsemi/ksa992-d.pdf	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	3	KSA992FBTA	n/r			
+onsemi	-	datasheets/transistor/onsemi/ksa992-d.pdf	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	3	KSA992FBTA	=	TO-92	E,C,B	pnp:B,C,E
 onsemi	-	datasheets/transistor/onsemi/ksb1366-d.pdf	TO-220-3 Full Pack	1	KSB1366GTU	n/r			
 onsemi	-	datasheets/transistor/onsemi/ksc1008-d.pdf	TO-226-3, TO-92-3 (TO-226AA)	1	KSC1008YBU	=	TO-92	E,B,C	npn:B,C,E
 onsemi	-	datasheets/transistor/onsemi/ksc1008-d.pdf	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	2	KSC1008CYTA	n/r			
@@ -3985,7 +3985,7 @@ onsemi	-	datasheets/transistor/onsemi/mj15023-d.pdf	TO-204AA, TO-3	2	MJ15025G	n/
 onsemi	-	datasheets/transistor/onsemi/mj21193-d.pdf	TO-204AA, TO-3	2	MJ21194G	n/r			
 onsemi	-	datasheets/transistor/onsemi/mj21195-d.pdf	TO-204AA, TO-3	2	MJ21196G	n/r			
 onsemi	-	datasheets/transistor/onsemi/mj4502-d.pdf	TO-204AA, TO-3	1	MJ4502G	n/r			
-onsemi	-	datasheets/transistor/onsemi/mjb41c-d.pdf	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	4	MJB42CT4G	n/r			
+onsemi	-	datasheets/transistor/onsemi/mjb41c-d.pdf	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	4	MJB42CT4G	=	D2PAK	B,C,E	npn:B,C,E
 onsemi	-	datasheets/transistor/onsemi/mjb44h11-d.pdf	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	6	MJB44H11T4G	n/r			
 onsemi	-	datasheets/transistor/onsemi/mjb5742-d.pdf	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	1	MJB5742T4G	n/r			
 onsemi	-	datasheets/transistor/onsemi/mjd112-d.pdf	TO-220-3	1	TIP32	=	TO-220	-	-
@@ -3996,7 +3996,7 @@ onsemi	-	datasheets/transistor/onsemi/mjd128-d.pdf	TO-252-3, DPAK (2 Leads + Tab
 onsemi	-	datasheets/transistor/onsemi/mjd148-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	MJD148T4G	n/r			
 onsemi	-	datasheets/transistor/onsemi/mjd200-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	6	MJD200T4G	=	DPAK	B,C,E,C	npn:B,C,E
 onsemi	-	datasheets/transistor/onsemi/mjd243-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	4	MJD253T4G	n/r			
-onsemi	-	datasheets/transistor/onsemi/mjd2955-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	6	MJD3055T4G	n/r			
+onsemi	-	datasheets/transistor/onsemi/mjd2955-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	6	MJD3055T4G	MJD2955G|MJD2955T4G|NJVMJD2955T4G|MJD3055T4G|NJVMJD3055T4G|MJD3055G	DPAK	B,C,E	npn:B,C,E
 onsemi	-	datasheets/transistor/onsemi/mjd31-d.pdf	TO-251-3 Short Leads, IPAK, TO-251AA	1	MJD31CITU	MJD31C1G	IPAK	B,C,E,C	npn:B,C,E
 onsemi	-	datasheets/transistor/onsemi/mjd31-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	16	MJD31CT4G	MJD31CG|NJVMJD31CG|MJD31CRLG|NJVMJD31CRLG|MJD31CT4G|NJVMJD31CT4G|MJD31T4G|MJD31CT4GN|NJVMJD31T4G|MJD32CG|NJVMJD32CG|MJD32CRLG|MJD32CT4G|MJD32CT4GN|NJVMJD32CT4G|MJD32RLG|MJD32T4G|NJVMJD32T4G	DPAK	B,C,E,C	npn:B,C,E
 onsemi	-	datasheets/transistor/onsemi/mjd340-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	5	MJD350T4G	=	DPAK	B,C,E,C	npn:B,C,E
@@ -4243,12 +4243,12 @@ onsemi	-	datasheets/transistor/onsemi/ntbls1d5n08mc-d.pdf	8-PowerSFN	1	NTBLS1D5N
 onsemi	-	datasheets/transistor/onsemi/ntbls4d0n15mc-d.pdf	8-PowerSFN	1	NTBLS4D0N15MC	n/r			
 onsemi	-	datasheets/transistor/onsemi/ntbs9d0n10mc-d.pdf	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	1	NTBS9D0N10MC	n/r			
 onsemi	-	datasheets/transistor/onsemi/ntd14n03r-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	NTD14N03RT4G	n/r			
-onsemi	-	datasheets/transistor/onsemi/ntd18n06l-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	NTD18N06LT4G	n/r			
+onsemi	-	datasheets/transistor/onsemi/ntd18n06l-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	NTD18N06LT4G	=	DPAK	G,D,S,D	nmos:G,D,S
 onsemi	-	datasheets/transistor/onsemi/ntd20p06l-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	NTD20P06LT4G	n/r			
 onsemi	-	datasheets/transistor/onsemi/ntd24n06l-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	NTD24N06LT4G	n/r			
 onsemi	-	datasheets/transistor/onsemi/ntd25p03l-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	NTD25P03LT4G	n/r			
-onsemi	-	datasheets/transistor/onsemi/ntd2955-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	NTD2955T4G	n/r			
-onsemi	-	datasheets/transistor/onsemi/ntd3055-094-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	NTD3055-094T4G	n/r			
+onsemi	-	datasheets/transistor/onsemi/ntd2955-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	NTD2955T4G	=	DPAK	G,D,S,D	pmos:G,D,S
+onsemi	-	datasheets/transistor/onsemi/ntd3055-094-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	NTD3055-094T4G	=	DPAK	G,D,S,D	nmos:G,D,S
 onsemi	-	datasheets/transistor/onsemi/ntd3055-150-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	NTD3055-150T4G	n/r			
 onsemi	-	datasheets/transistor/onsemi/ntd3055l104-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	NTD3055L104T4G	n/r			
 onsemi	-	datasheets/transistor/onsemi/ntd4909n-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	NTD4909NT4G	=	DPAK	G,D,S,D	nmos:G,D,S
@@ -4266,7 +4266,7 @@ onsemi	-	datasheets/transistor/onsemi/ntf6p02t3-d.pdf	TO-261-4, TO-261AA	1	NTF6P
 onsemi	-	datasheets/transistor/onsemi/ntgd3148n-d.pdf	SOT-23-6 Thin, TSOT-23-6	1	NTGD3148NT1G	=	TSOP-6	G1,S2,G2,D2,S1,D1	nmos:G1,D1,S1;nmos:G2,D2,S2
 onsemi	-	datasheets/transistor/onsemi/ntgd4167c-d.pdf	SOT-23-6 Thin, TSOT-23-6	1	NTGD4167CT1G	=	TSOP-6	G1,S2,G2,D2,S1,D1	nmos:G1,D1,S1;pmos:G2,D2,S2
 onsemi	-	datasheets/transistor/onsemi/ntgs3441t1-d.pdf	SOT-23-6 Thin, TSOT-23-6	1	NTGS3441T1G	n/r			
-onsemi	-	datasheets/transistor/onsemi/ntgs3443t1-d.pdf	SOT-23-6 Thin, TSOT-23-6	1	NTGS3443T1G	n/r			
+onsemi	-	datasheets/transistor/onsemi/ntgs3443t1-d.pdf	SOT-23-6 Thin, TSOT-23-6	1	NTGS3443T1G	=	TSOP-6	D,D,G,S,D,D	pmos:G,D,S
 onsemi	-	datasheets/transistor/onsemi/ntgs3446-d.pdf	SOT-23-6 Thin, TSOT-23-6	1	NTGS3446T1G	n/r			
 onsemi	-	datasheets/transistor/onsemi/ntgs3455t1-d.pdf	SOT-23-6 Thin, TSOT-23-6	1	NTGS3455T1G	n/r			
 onsemi	-	datasheets/transistor/onsemi/ntgs4111p-d.pdf	SOT-23-6 Thin, TSOT-23-6	1	NTGS4111PT1G	n/r			
@@ -4294,7 +4294,7 @@ onsemi	-	datasheets/transistor/onsemi/nth4l075n065sc1-d.pdf	TO-247-4	1	NTH4L075N
 onsemi	-	datasheets/transistor/onsemi/nth4l080n120sc1-d.pdf	TO-247-4	1	NTH4L080N120SC1	n/r			
 onsemi	-	datasheets/transistor/onsemi/nth4l095n065sc1-d.pdf	TO-247-4	1	NTH4L095N065SC1	n/r			
 onsemi	-	datasheets/transistor/onsemi/nth4l160n120sc1-d.pdf	TO-247-4	1	NTH4L160N120SC1	n/r			
-onsemi	-	datasheets/transistor/onsemi/nthd3100c-d.pdf	8-SMD, Flat Leads	1	NTHD3100CT1G	n/r			
+onsemi	-	datasheets/transistor/onsemi/nthd3100c-d.pdf	8-SMD, Flat Leads	1	NTHD3100CT1G	=	ChipFET	S1,G1,S2,G2,D2,D2,D1,D1	nmos:G1,D1,S1;pmos:G2,D2,S2
 onsemi	-	datasheets/transistor/onsemi/nthd4102p-d.pdf	8-SMD, Flat Leads	1	NTHD4102PT1G	=	ChipFET	S1,G1,S2,G2,D2,D2,D1,D1	pmos:G1,D1,S1;pmos:G2,D2,S2
 onsemi	-	datasheets/transistor/onsemi/nthl015n065sc1-d.pdf	TO-247-3	1	NTHL015N065SC1	n/r			
 onsemi	-	datasheets/transistor/onsemi/nthl017n60s5h-d.pdf	TO-247-3	1	NTHL017N60S5H	n/r			
@@ -4318,7 +4318,7 @@ onsemi	-	datasheets/transistor/onsemi/ntjd1155l-d.pdf	6-TSSOP, SC-88, SOT-363	2	
 onsemi	-	datasheets/transistor/onsemi/ntjd4001n-d.pdf	6-TSSOP, SC-88, SOT-363	1	NTJD4001NT1G	n/r			
 onsemi	-	datasheets/transistor/onsemi/ntjd4105c-d.pdf	6-TSSOP, SC-88, SOT-363	2	NTJD4105CT1G	n/r			
 onsemi	-	datasheets/transistor/onsemi/ntjd4152p-d.pdf	6-TSSOP, SC-88, SOT-363	2	NTJD4152PT1G	=	SC-88	S1,G1,D2,S2,G2,D1	pmos:G1,D1,S1;pmos:G2,D2,S2
-onsemi	-	datasheets/transistor/onsemi/ntjd4158c-d.pdf	6-TSSOP, SC-88, SOT-363	1	NTJD4158CT1G	n/r			
+onsemi	-	datasheets/transistor/onsemi/ntjd4158c-d.pdf	6-TSSOP, SC-88, SOT-363	1	NTJD4158CT1G	=	SC-88	S1,G1,D2,S2,G2,D1	nmos:G1,D1,S1;pmos:G2,D2,S2
 onsemi	-	datasheets/transistor/onsemi/ntjd4401n-d.pdf	6-TSSOP, SC-88, SOT-363	1	NTJD4401NT1G	=	SC-88	S1,G1,D2,S2,G2,D1	nmos:G1,D1,S1;nmos:G2,D2,S2
 onsemi	-	datasheets/transistor/onsemi/ntjd5121n-d.pdf	6-TSSOP, SC-88, SOT-363	3	NTJD5121NT1G	=	SC-88	S1,G1,D2,S2,G2,D1	nmos:G1,D1,S1;nmos:G2,D2,S2
 onsemi	-	datasheets/transistor/onsemi/ntjs3151p-d.pdf	6-TSSOP, SC-88, SOT-363	2	NTJS3151PT1G	n/r			
@@ -4482,22 +4482,22 @@ onsemi	-	datasheets/transistor/onsemi/ntmys8d0n04c-d.pdf	SOT-1023, 4-LFPAK	1	NTM
 onsemi	-	datasheets/transistor/onsemi/ntnd31015nz-d.pdf	6-XFLGA	1	NTND31015NZTAG	=	XLLGA	S1,G1,D2,S2,G2,D1	nmos:G1,D1,S1;nmos:G2,D2,S2
 onsemi	-	datasheets/transistor/onsemi/ntns3164nz-d.pdf	3-XFDFN	1	NTNS3164NZT5G	n/r			
 onsemi	-	datasheets/transistor/onsemi/ntns3193nz-d.pdf	3-XFLGA	1	NTNS3193NZT5G	=	XLLGA	G,S,D	nmos:G,D,S
-onsemi	-	datasheets/transistor/onsemi/ntr0202pl-d.pdf	TO-236-3, SC-59, SOT-23-3	1	NTR0202PLT1G	n/r			
+onsemi	-	datasheets/transistor/onsemi/ntr0202pl-d.pdf	TO-236-3, SC-59, SOT-23-3	1	NTR0202PLT1G	=	SOT-23	G,S,D	pmos:G,D,S
 onsemi	-	datasheets/transistor/onsemi/ntr1p02lt1-d.pdf	TO-236-3, SC-59, SOT-23-3	1	NTR1P02LT3G	n/r			
-onsemi	-	datasheets/transistor/onsemi/ntr1p02t1-d.pdf	TO-236-3, SC-59, SOT-23-3	1	NTR1P02T1G	n/r			
+onsemi	-	datasheets/transistor/onsemi/ntr1p02t1-d.pdf	TO-236-3, SC-59, SOT-23-3	1	NTR1P02T1G	=	SOT-23	G,S,D	pmos:G,D,S
 onsemi	-	datasheets/transistor/onsemi/ntr2101p-d.pdf	TO-236-3, SC-59, SOT-23-3	1	NTR2101PT1G	n/r			
 onsemi	-	datasheets/transistor/onsemi/ntr3a085pz-d.pdf	TO-236-3, SC-59, SOT-23-3	1	NTR3A085PZT1G	=	SOT-23	G,S,D	pmos:G,D,S
 onsemi	-	datasheets/transistor/onsemi/ntr3c21nz-d.pdf	TO-236-3, SC-59, SOT-23-3	1	NTR3C21NZT3G	n/r			
 onsemi	-	datasheets/transistor/onsemi/ntr4003n-d.pdf	TO-236-3, SC-59, SOT-23-3	1	NTR4003NT1G	=	SOT-23	G,S,D	nmos:G,D,S
 onsemi	-	datasheets/transistor/onsemi/ntr4101p-d.pdf	TO-236-3, SC-59, SOT-23-3	2	NTR4101PT1G	NTRV?4101PT1G	SOT-23	G,S,D	pmos:G,D,S
 onsemi	-	datasheets/transistor/onsemi/ntr4170n-d.pdf	TO-236-3, SC-59, SOT-23-3	1	NTR4170NT1G	n/r			
-onsemi	-	datasheets/transistor/onsemi/ntr4171p-d.pdf	TO-236-3, SC-59, SOT-23-3	1	NTR4171PT1G	n/r			
+onsemi	-	datasheets/transistor/onsemi/ntr4171p-d.pdf	TO-236-3, SC-59, SOT-23-3	1	NTR4171PT1G	=	SOT-23	G,S,D	pmos:G,D,S
 onsemi	-	datasheets/transistor/onsemi/ntr4502p-d.pdf	TO-236-3, SC-59, SOT-23-3	1	NTR4502PT1G	n/r			
 onsemi	-	datasheets/transistor/onsemi/ntr4503n-d.pdf	TO-236-3, SC-59, SOT-23-3	1	NTR4503NT1G	n/r			
 onsemi	-	datasheets/transistor/onsemi/ntr5103n-d.pdf	TO-236-3, SC-59, SOT-23-3	1	NTR5103NT1G	n/r			
 onsemi	-	datasheets/transistor/onsemi/ntr5105p-d.pdf	TO-236-3, SC-59, SOT-23-3	1	NTR5105PT1G	=	SOT-23	G,S,D	pmos:G,D,S
 onsemi	-	datasheets/transistor/onsemi/nts2101p-d.pdf	SC-70, SOT-323	1	NTS2101PT1G	n/r			
-onsemi	-	datasheets/transistor/onsemi/nts4101p-d.pdf	SC-70, SOT-323	1	NTS4101PT1G	n/r			
+onsemi	-	datasheets/transistor/onsemi/nts4101p-d.pdf	SC-70, SOT-323	1	NTS4101PT1G	=	SC-70	G,S,D	pmos:G,D,S
 onsemi	-	datasheets/transistor/onsemi/nts4173p-d.pdf	SC-70, SOT-323	1	NTS4173PT1G	n/r			
 onsemi	-	datasheets/transistor/onsemi/nts4409n-d.pdf	SC-70, SOT-323	1	NTS4409NT1G	=	SC-70	G,S,D	nmos:G,D,S
 onsemi	-	datasheets/transistor/onsemi/ntt2012n065m3s-d.pdf	TO-263-8, D2PAK (7 Leads + Tab), Variant	1	NTT2012N065M3S	n/r			
@@ -4544,7 +4544,7 @@ onsemi	-	datasheets/transistor/onsemi/nttys009n08hl-d.pdf	SOT-1205, 8-LFPAK56	1	
 onsemi	-	datasheets/transistor/onsemi/ntud3169cz-d.pdf	SOT-963	1	NTUD3169CZT5G	=	SOT-963	S1,G1,D2,S2,G2,D1	nmos:G1,D1,S1;pmos:G2,D2,S2
 onsemi	-	datasheets/transistor/onsemi/ntud3170nz-d.pdf	SOT-963	1	NTUD3170NZT5G	n/r			
 onsemi	-	datasheets/transistor/onsemi/ntzd3152p-d.pdf	SOT-563, SOT-666	1	NTZD3152PT1G	n/r			
-onsemi	-	datasheets/transistor/onsemi/ntzd3154n-d.pdf	SOT-563, SOT-666	2	NTZD3154NT1G	n/r			
+onsemi	-	datasheets/transistor/onsemi/ntzd3154n-d.pdf	SOT-563, SOT-666	2	NTZD3154NT1G	=	SOT-563	S1,G1,D2,S2,G2,D1	nmos:G1,D1,S1;nmos:G2,D2,S2
 onsemi	-	datasheets/transistor/onsemi/ntzd3155c-d.pdf	SOT-563, SOT-666	1	NTZD3155CT2G	=	SOT-563	S1,G1,D2,S2,G2,D1	nmos:G1,D1,S1;pmos:G2,D2,S2
 onsemi	-	datasheets/transistor/onsemi/ntzs3151p-d.pdf	SOT-563, SOT-666	1	NTZS3151PT1G	n/r			
 onsemi	-	datasheets/transistor/onsemi/nvt2023n065m3s-d.pdf	TO-263-8, D2PAK (7 Leads + Tab), Variant	1	NVT2023N065M3S	n/r			

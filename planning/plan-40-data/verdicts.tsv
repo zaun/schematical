@@ -46,7 +46,7 @@ NST857BMX2T5G	add		datasheets/transistor/onsemi/nst857amx2-d.pdf
 2SD734E-AA	skip	no datasheet on the maker's site (rocelec.widen.net)	
 2SC4487S-AN	add		datasheets/transistor/onsemi/en3093-d.pdf
 BC847BLP-7	add		datasheets/transistor/diodes/BC847BLP.pdf
-2N5551BU	out	datasheet status	datasheets/transistor/onsemi/2N5551T-D.PDF
+2N5551BU	add		datasheets/transistor/onsemi/2N5551T-D.PDF
 2N3904BU	add		datasheets/transistor/onsemi/2n3904-d.pdf
 PBSS9110Z,135	add		datasheets/transistor/nexperia/PBSS9110Z.pdf
 2SA1552T-H	out	datasheet status	datasheets/transistor/onsemi/2SA1552-D.PDF
@@ -285,7 +285,7 @@ BC817-25W,135	add		datasheets/transistor/nexperia/BC817W_SER.pdf
 2SC3576-AC	skip	no datasheet on the maker's site (rocelec.widen.net)	
 SS9012GBU	skip	no datasheet on the maker's site (rocelec.widen.net)	
 BCW66GLT3G	add		datasheets/transistor/onsemi/BCW66GLT1-D.PDF
-KSA992FTA	out	datasheet status	datasheets/transistor/onsemi/ksa992-d.pdf
+KSA992FTA	add		datasheets/transistor/onsemi/ksa992-d.pdf
 BCP53T1G	add		datasheets/transistor/onsemi/BCP53T1-D.PDF
 BC869,115	skip	no datasheet on the maker's site (assets.nexperia.com)	
 NSV60200SMTWTBG	out	datasheet status	datasheets/transistor/onsemi/NSS60200SMT-D.PDF
@@ -300,7 +300,7 @@ MMBTA56LT1G	add		datasheets/transistor/onsemi/mmbta55lt1-d.pdf
 FJN3301RTA	skip	no datasheet on the maker's site (rocelec.widen.net)	
 MMBT6427LT1G	add		datasheets/transistor/onsemi/mmbt6427lt1-d.pdf
 2N3904TA	add		datasheets/transistor/onsemi/2n3904-d.pdf
-MJD3055T4G	out	datasheet status	datasheets/transistor/onsemi/mjd2955-d.pdf
+MJD3055T4G	add		datasheets/transistor/onsemi/mjd2955-d.pdf
 BC846BM3T5G	add		datasheets/transistor/onsemi/BC846BM3-D.PDF
 TN6726A	skip	no datasheet on the maker's site (rocelec.widen.net)	
 2SC3576	skip	no datasheet on the maker's site (rocelec.widen.net)	
@@ -364,7 +364,7 @@ MBT35200MT1	out	datasheet status	datasheets/transistor/onsemi/mbt35200mt1-d.pdf
 BC56-10PA,115	skip	no datasheet on the maker's site (rocelec.widen.net)	
 2SC3576-JVC-AC	skip	no datasheet on the maker's site (rocelec.widen.net)	
 2SC3135T-SPA	skip	no datasheet on the maker's site (rocelec.widen.net)	
-2N5551TF	out	datasheet status	datasheets/transistor/onsemi/2N5551T-D.PDF
+2N5551TF	add		datasheets/transistor/onsemi/2N5551T-D.PDF
 2SC3789E	skip	no datasheet on the maker's site (rocelec.widen.net)	
 2SC3749M	skip	no datasheet on the maker's site (rocelec.widen.net)	
 DSS20201L-7	add		datasheets/transistor/diodes/ds31605.pdf
@@ -503,7 +503,7 @@ ZUMT717TA	add		datasheets/transistor/diodes/ZUMT717.pdf
 2SB1168S	skip	no datasheet on the maker's site (rocelec.widen.net)	
 2SC4487T-AN	add		datasheets/transistor/onsemi/en3093-d.pdf
 MMBT2222A-7-F-W	skip	not in the datasheet's ordering table	datasheets/transistor/diodes/ds30041.pdf
-MJB42CT4G	out	datasheet status	datasheets/transistor/onsemi/mjb41c-d.pdf
+MJB42CT4G	add		datasheets/transistor/onsemi/mjb41c-d.pdf
 BCW72LT1G	add		datasheets/transistor/onsemi/BCW72LT1-D.PDF
 FJV1845FMTF	add		datasheets/transistor/onsemi/fjv1845-d.pdf
 2SB1229S-AA	skip	no datasheet on the maker's site (rocelec.widen.net)	
@@ -558,7 +558,7 @@ PMBT5551,235	add		datasheets/transistor/nexperia/PMBT5551.pdf
 MJD253T4G	out	datasheet status	datasheets/transistor/onsemi/mjd243-d.pdf
 KSA643YTA	out	below the pick (not read)	datasheets/transistor/onsemi/ksa643-d.pdf
 MPS6521D26Z	skip	no datasheet on the maker's site (rocelec.widen.net)	
-SXTA42TA	out	datasheet status	datasheets/transistor/diodes/SXTA42.pdf
+SXTA42TA	add		datasheets/transistor/diodes/SXTA42.pdf
 2DD2679-13	add		datasheets/transistor/diodes/ds31629.pdf
 ZXTN25040DFHTA	add		datasheets/transistor/diodes/ZXTN25040DFH.pdf
 2SB1167S	skip	no datasheet on the maker's site (rocelec.widen.net)	
@@ -587,7 +587,7 @@ TIP107G	out	below the pick (not read)	datasheets/transistor/onsemi/tip100-d.pdf
 FMMTL618TA	skip	not in the datasheet's ordering table	datasheets/transistor/diodes/FMMTL618.pdf
 MJE340G	out	below the pick (not read)	datasheets/transistor/onsemi/mje340-d.pdf
 MMBTA06WT1G	out	below the pick (not read)	datasheets/transistor/onsemi/mmbta06wt1-d.pdf
-2N5551TA	out	datasheet status	datasheets/transistor/onsemi/2N5551T-D.PDF
+2N5551TA	add		datasheets/transistor/onsemi/2N5551T-D.PDF
 TIP48TU	skip	no datasheet on the maker's site (rocelec.widen.net)	
 2SC3596E	skip	no datasheet on the maker's site (rocelec.widen.net)	
 KSC2383YTA	out	below the pick (not read)	datasheets/transistor/onsemi/KSC2383-D.PDF
@@ -611,7 +611,7 @@ BC546ABU	add		datasheets/transistor/onsemi/BC550-D.PDF
 2SC4159D	skip	no datasheet on the maker's site (rocelec.widen.net)	
 MMBT5087LT3G	add		datasheets/transistor/onsemi/mmbt5087lt1-d.pdf
 MJD44H11RLG	add		datasheets/transistor/onsemi/mjd44h11-d.pdf
-KSA992FATA	out	datasheet status	datasheets/transistor/onsemi/ksa992-d.pdf
+KSA992FATA	add		datasheets/transistor/onsemi/ksa992-d.pdf
 DSS30101L-7	add		datasheets/transistor/diodes/ds31588.pdf
 BC848B-7-F	add		datasheets/transistor/diodes/ds11108.pdf
 KSA1015GRTA-ON	skip	no datasheet on the maker's site (rocelec.widen.net)	
@@ -677,7 +677,7 @@ MMBT5551LT1H	skip	no datasheet on the maker's site (rocelec.widen.net)
 MPSA29	out	below the pick (not read)	datasheets/transistor/onsemi/mpsa28-d.pdf
 SS8550DBU	out	below the pick (not read)	datasheets/transistor/onsemi/ss8550-d.pdf
 2SB1215T-N-TL-E	skip	no datasheet on the maker's site (rocelec.widen.net)	
-BC847BLP4-7B	out	datasheet status	datasheets/transistor/diodes/BC847BLP4.pdf
+BC847BLP4-7B	add		datasheets/transistor/diodes/BC847BLP4.pdf
 FJD5555TM	out	below the pick (not read)	datasheets/transistor/onsemi/fjd5555-d.pdf
 DXT2907A-13	add		datasheets/transistor/diodes/ds30944.pdf
 2SD2203R	skip	no datasheet on the maker's site (rocelec.widen.net)	
@@ -901,7 +901,7 @@ MJL3281AG	out	below the pick (not read)	datasheets/transistor/onsemi/mjl3281a-d.
 BCX17	out	below the pick (not read)	datasheets/transistor/onsemi/bcx17-d.pdf
 BC847AW,135	add		datasheets/transistor/nexperia/BC847XW_SER.pdf
 2SC4027T-N-TL-E	skip	no datasheet on the maker's site (www.onsemi.com)	
-2N5551TFR	out	datasheet status	datasheets/transistor/onsemi/2N5551T-D.PDF
+2N5551TFR	add		datasheets/transistor/onsemi/2N5551T-D.PDF
 2SD1723T	skip	no datasheet on the maker's site (rocelec.widen.net)	
 NSS30201MR6T1G	out	below the pick (not read)	datasheets/transistor/onsemi/nss30201mr6t1g-d.pdf
 2SB1133R	skip	no datasheet on the maker's site (rocelec.widen.net)	
@@ -944,7 +944,7 @@ ZTX450	add		datasheets/transistor/diodes/ZTX450.pdf
 BC817,235	add		datasheets/transistor/nexperia/BC817_SER.pdf
 NJD1718T4G	out	below the pick (not read)	datasheets/transistor/onsemi/njd1718-d.pdf
 PN2222ATF	add		datasheets/transistor/onsemi/pn2222a-d.pdf
-MJD2955T4G	out	datasheet status	datasheets/transistor/onsemi/mjd2955-d.pdf
+MJD2955T4G	add		datasheets/transistor/onsemi/mjd2955-d.pdf
 2SC3598E	skip	no datasheet on the maker's site (rocelec.widen.net)	
 2SA1209S	skip	no datasheet on the maker's site (rocelec.widen.net)	
 MJD32CJ	out	below the pick (not read)	datasheets/transistor/nexperia/MJD32C.pdf
@@ -1148,7 +1148,7 @@ BC547BTF	add		datasheets/transistor/onsemi/BC550-D.PDF
 DXTN10060DF-7	add		datasheets/transistor/diodes/DXTN10060DF.pdf
 NST1601CLTWG	out	below the pick (not read)	datasheets/transistor/onsemi/nst1601cl-d.pdf
 BC807-25-7-F-W	skip	not in the datasheet's ordering table	datasheets/transistor/diodes/BC807-25.pdf
-DP0150BLP4-7	out	datasheet status	datasheets/transistor/diodes/DP0150BLP4.pdf
+DP0150BLP4-7	add		datasheets/transistor/diodes/DP0150BLP4.pdf
 MMBTA06-7-F-W	skip	not in the datasheet's ordering table	datasheets/transistor/diodes/MMBTA05.pdf
 MMBT5550LT3G	add		datasheets/transistor/onsemi/mmbt5550lt1-d.pdf
 ZUMT617TA	skip	not in the datasheet's ordering table	datasheets/transistor/diodes/ZUMT617.pdf
@@ -1168,7 +1168,7 @@ NSS12501UW3T2G	out	below the pick (not read)	datasheets/transistor/onsemi/nss125
 2SD1347S	skip	no datasheet on the maker's site (rocelec.widen.net)	
 TIP30CG	out	below the pick (not read)	datasheets/transistor/onsemi/tip29b-d.pdf
 2SA1707T-AN	add		datasheets/transistor/onsemi/en3093-d.pdf
-DCP68-13	out	datasheet status	datasheets/transistor/diodes/DCP68_-25.pdf
+DCP68-13	add		datasheets/transistor/diodes/DCP68_-25.pdf
 DPLS160V-7	add		datasheets/transistor/diodes/ds31251.pdf
 MJD45H11-13	add		datasheets/transistor/diodes/MJD45H11.pdf
 NJVMJD128T4G	out	below the pick (not read)	datasheets/transistor/onsemi/mjd128-d.pdf
@@ -1217,7 +1217,7 @@ DXT3904-13	add		datasheets/transistor/diodes/ds31141.pdf
 NJVMJD44H11D3T4G	out	datasheet status	datasheets/transistor/onsemi/mjd44h11-d.pdf
 BD13716STU	out	datasheet status	datasheets/transistor/onsemi/BD139-D.PDF
 SMMBTA06WT3G	out	below the pick (not read)	datasheets/transistor/onsemi/mmbta06wt1-d.pdf
-NJVMJD3055T4G	out	datasheet status	datasheets/transistor/onsemi/mjd2955-d.pdf
+NJVMJD3055T4G	add		datasheets/transistor/onsemi/mjd2955-d.pdf
 FJAF4210YTU	skip	no datasheet on the maker's site (rocelec.widen.net)	
 15C01M-TL-E	out	below the pick (not read)	datasheets/transistor/onsemi/15C01M-D.PDF
 MJD47T4G	add		datasheets/transistor/onsemi/mjd47-d.pdf
@@ -1289,7 +1289,7 @@ ZTX651STZ	out	below the pick (not read)	datasheets/transistor/diodes/ZTX650.pdf
 2DA1213Y-13	out	datasheet status	datasheets/transistor/diodes/2DA1213O_Y.pdf
 NJVMJD112G	add		datasheets/transistor/onsemi/mjd112-d.pdf
 BD13910S	out	datasheet status	datasheets/transistor/onsemi/BD139-D.PDF
-MJD3055RLG	out	below the pick (not read)	datasheets/transistor/onsemi/mjd2955-d.pdf
+MJD3055RLG	skip	not in the datasheet's ordering table	datasheets/transistor/onsemi/mjd2955-d.pdf
 BC52-16PASX	add		datasheets/transistor/nexperia/BC52XPAS_SER.pdf
 MJD32RLG	add		datasheets/transistor/onsemi/mjd31-d.pdf
 ZXT953KTC	out	below the pick (not read)	datasheets/transistor/diodes/ZXT953K.pdf
@@ -1320,7 +1320,7 @@ MMBT4401-7-F-W	skip	not in the datasheet's ordering table	datasheets/transistor/
 NJVNJD1718T4G	out	below the pick (not read)	datasheets/transistor/onsemi/njd1718-d.pdf
 PHPT61002NYCLHX	out	below the pick (not read)	datasheets/transistor/nexperia/PHPT61002NYCLH.pdf
 2SC3151M	skip	no datasheet on the maker's site (rocelec.widen.net)	
-NJVMJB42CT4G	out	below the pick (not read)	datasheets/transistor/onsemi/mjb41c-d.pdf
+NJVMJB42CT4G	add		datasheets/transistor/onsemi/mjb41c-d.pdf
 2SA2044-E	skip	no datasheet on the maker's site (rocelec.widen.net)	
 2DB1188Q-13	out	datasheet status	datasheets/transistor/diodes/2DB1188P_Q_R.pdf
 BC846CMTF	add		datasheets/transistor/onsemi/BC846-D.PDF
@@ -1328,7 +1328,7 @@ MJE15028G	out	below the pick (not read)	datasheets/transistor/onsemi/mje15028-d.
 KSB1366GTU	out	below the pick (not read)	datasheets/transistor/onsemi/ksb1366-d.pdf
 2SC5964-TD-H	out	below the pick (not read)	datasheets/transistor/onsemi/2SA2125-D.PDF
 BC817,215	add		datasheets/transistor/nexperia/BC817_SER.pdf
-NJVMJB41CT4G	out	below the pick (not read)	datasheets/transistor/onsemi/mjb41c-d.pdf
+NJVMJB41CT4G	add		datasheets/transistor/onsemi/mjb41c-d.pdf
 2SC5831	skip	no datasheet on the maker's site (rocelec.widen.net)	
 MJ11015G	out	datasheet status	datasheets/transistor/onsemi/mj11012-d.pdf
 NJL3281DG	out	datasheet status	datasheets/transistor/onsemi/njl3281d-d.pdf
@@ -1455,7 +1455,7 @@ BC858CLT1G	add		datasheets/transistor/onsemi/bc856alt1-d.pdf
 FCX688BTA	out	below the pick (not read)	datasheets/transistor/diodes/FCX688B.pdf
 FJD5553TM	out	below the pick (not read)	datasheets/transistor/onsemi/fjd5553-d.pdf
 BCP5610TA	add		datasheets/transistor/diodes/BCP54_55_56.pdf
-MJB41CT4G	out	below the pick (not read)	datasheets/transistor/onsemi/mjb41c-d.pdf
+MJB41CT4G	add		datasheets/transistor/onsemi/mjb41c-d.pdf
 NZT753	out	below the pick (not read)	datasheets/transistor/onsemi/nzt753-d.pdf
 2N3773G	out	below the pick (not read)	datasheets/transistor/onsemi/2N3773-D.PDF
 FMMT494TA	out	below the pick (not read)	datasheets/transistor/diodes/FMMT494.pdf
@@ -1540,7 +1540,7 @@ BD442G	out	below the pick (not read)	datasheets/transistor/onsemi/BD438-D.PDF
 MJE180G	out	below the pick (not read)	datasheets/transistor/onsemi/mje171-d.pdf
 BCX5416TA	add		datasheets/transistor/diodes/BCX54_55_56.pdf
 FMMT558QTA	out	below the pick (not read)	datasheets/transistor/diodes/FMMT558.pdf
-NJVMJD2955T4G	out	datasheet status	datasheets/transistor/onsemi/mjd2955-d.pdf
+NJVMJD2955T4G	add		datasheets/transistor/onsemi/mjd2955-d.pdf
 BC857AM,315	add		datasheets/transistor/nexperia/BC857M_SERIES.pdf
 BD787G	out	below the pick (not read)	datasheets/transistor/onsemi/BD787-D.PDF
 NJW21194G	out	below the pick (not read)	datasheets/transistor/onsemi/njw21193-d.pdf
@@ -1576,7 +1576,7 @@ TIP41BG	out	below the pick (not read)	datasheets/transistor/onsemi/tip41a-d.pdf
 FZT1147ATA	out	below the pick (not read)	datasheets/transistor/diodes/FZT1147A.pdf
 2SD1230	skip	no datasheet on the maker's site (rocelec.widen.net)	
 2N6487G	out	below the pick (not read)	datasheets/transistor/onsemi/2N6487-D.PDF
-MJD2955G	out	datasheet status	datasheets/transistor/onsemi/mjd2955-d.pdf
+MJD2955G	add		datasheets/transistor/onsemi/mjd2955-d.pdf
 MJE5852G	out	datasheet status	datasheets/transistor/onsemi/mje5850-d.pdf
 NSS1C201MZ4T3G	add		datasheets/transistor/onsemi/nss1c201mz4-d.pdf
 ZTX458STZ	out	below the pick (not read)	datasheets/transistor/diodes/ZTX458.pdf
@@ -1783,9 +1783,9 @@ BC817DPN,115	skip	no datasheet on the maker's site (rocelec.widen.net)
 BC847BPDW1T1G	add		datasheets/transistor/onsemi/BC846BPDW1T1-D.PDF
 BC846BPDW1T1G	add		datasheets/transistor/onsemi/BC846BPDW1T1-D.PDF
 BCM857BS-7-F	add		datasheets/transistor/diodes/BCM857BS.pdf
-BC847CDW1T1G	out	datasheet status	datasheets/transistor/onsemi/bc846bdw1t1-d.pdf
+BC847CDW1T1G	add		datasheets/transistor/onsemi/bc846bdw1t1-d.pdf
 MBT3904DW1T3G	skip	not in the datasheet's ordering table	datasheets/transistor/onsemi/mbt3904dw1t1-d.pdf
-BC848CDW1T1G	out	datasheet status	datasheets/transistor/onsemi/bc846bdw1t1-d.pdf
+BC848CDW1T1G	add		datasheets/transistor/onsemi/bc846bdw1t1-d.pdf
 NST847BPDP6T5G	add		datasheets/transistor/onsemi/nst847bpdp6-d.pdf
 NSVT65011MW6T1G	add		datasheets/transistor/onsemi/nst65011mw6-d.pdf
 MBT6429DW1T1G	add		datasheets/transistor/onsemi/mbt6429dw1t1-d.pdf
@@ -1805,7 +1805,7 @@ NST3946DP6T5G	add		datasheets/transistor/onsemi/nst3946dp6-d.pdf
 NST3904DP6T5G	add		datasheets/transistor/onsemi/nst3904dp6-d.pdf
 PEMX1,115	add		datasheets/transistor/nexperia/PEMX1.pdf
 CPH6539-TL-H	skip	no datasheet on the maker's site (rocelec.widen.net)	
-BC847BDW1T3G	out	datasheet status	datasheets/transistor/onsemi/bc846bdw1t1-d.pdf
+BC847BDW1T3G	add		datasheets/transistor/onsemi/bc846bdw1t1-d.pdf
 NSS40302PDR2G	add		datasheets/transistor/onsemi/nss40302p-d.pdf
 BC856BDW1T3G	add		datasheets/transistor/onsemi/BC856BDW1T1-D.PDF
 NSVT45010MW6T3G	add		datasheets/transistor/onsemi/nst45010mw6-d.pdf
@@ -1816,7 +1816,7 @@ MMDT4413-7-F	add		datasheets/transistor/diodes/ds30121.pdf
 FMB2907A	add		datasheets/transistor/onsemi/mmpq2907a-d.pdf
 NST30010MXV6T1G	add		datasheets/transistor/onsemi/nst30010mxv6-d.pdf
 NSVT30010MXV6T1G	add		datasheets/transistor/onsemi/nst30010mxv6-d.pdf
-BC847BDW1T1G	out	below the pick (not read)	datasheets/transistor/onsemi/bc846bdw1t1-d.pdf
+BC847BDW1T1G	add		datasheets/transistor/onsemi/bc846bdw1t1-d.pdf
 SMBT3906DW1T1G	add		datasheets/transistor/onsemi/mbt3906dw1t1-d.pdf
 NST847BDP6T5G	out	below the pick (not read)	datasheets/transistor/onsemi/nst847bdp6-d.pdf
 FMB2222A	add		datasheets/transistor/onsemi/mmpq2222a-d.pdf
@@ -1843,7 +1843,7 @@ FFB2907A	out	below the pick (not read)	datasheets/transistor/onsemi/fmb2227a-d.p
 BC847BPN,125	add		datasheets/transistor/nexperia/BC847BPN.pdf
 MMDT4403-7-F	add		datasheets/transistor/diodes/ds30110.pdf
 MMDT2222V-7	add		datasheets/transistor/diodes/ds30563.pdf
-NSVBC847BDW1T2G	out	below the pick (not read)	datasheets/transistor/onsemi/bc846bdw1t1-d.pdf
+NSVBC847BDW1T2G	add		datasheets/transistor/onsemi/bc846bdw1t1-d.pdf
 FMB2227A	out	below the pick (not read)	datasheets/transistor/onsemi/fmb2227a-d.pdf
 CPH5520-TL-E	out	below the pick (not read)	datasheets/transistor/onsemi/CPH5520-D.PDF
 NSS20200DMTTBG	out	below the pick (not read)	datasheets/transistor/onsemi/nss20200dmt-d.pdf
@@ -1915,18 +1915,18 @@ PDTC144ET,215	add		datasheets/transistor/nexperia/PDTC144ET.pdf
 MUN2240T1G	add		datasheets/transistor/onsemi/dtc144t-d.pdf
 FJY3002R	skip	no datasheet on the maker's site (rocelec.widen.net)	
 DTA143EM3T5G	add		datasheets/transistor/onsemi/dta143e-d.pdf
-MUN2115T1G	out	datasheet status	datasheets/transistor/onsemi/dta114t-d.pdf
+MUN2115T1G	add		datasheets/transistor/onsemi/dta114t-d.pdf
 NSBA143EF3T5G	add		datasheets/transistor/onsemi/dta143e-d.pdf
 DDTC143ZCA-7-F	add		datasheets/transistor/diodes/ds30330.pdf
 PDTC114TM,315	add		datasheets/transistor/nexperia/PDTC114T_SER.pdf
 PDTA113EU,115	skip	no datasheet on the maker's site (rocelec.widen.net)	
 PDTD113ET,215	add		datasheets/transistor/nexperia/PDTD113E_SER.pdf
-MUN2130T1G	out	datasheet status	datasheets/transistor/onsemi/dta113e-d.pdf
-MUN5130T1G	out	datasheet status	datasheets/transistor/onsemi/dta113e-d.pdf
+MUN2130T1G	add		datasheets/transistor/onsemi/dta113e-d.pdf
+MUN5130T1G	add		datasheets/transistor/onsemi/dta113e-d.pdf
 DTA123EM3T5G	add		datasheets/transistor/onsemi/dta123e-d.pdf
 MUN2116T1G	add		datasheets/transistor/onsemi/dta143t-d.pdf
 MMUN2211LT1G	add		datasheets/transistor/onsemi/dtc114e-d.pdf
-DTA115TM3T5G	out	datasheet status	datasheets/transistor/onsemi/dta115t-d.pdf
+DTA115TM3T5G	add		datasheets/transistor/onsemi/dta115t-d.pdf
 MMUN2233LT1G	add		datasheets/transistor/onsemi/dtc143z-d.pdf
 NSBA123EF3T5G	add		datasheets/transistor/onsemi/dta123e-d.pdf
 NSBA124XF3T5G	add		datasheets/transistor/onsemi/dta124x-d.pdf
@@ -1946,13 +1946,13 @@ MUN5137T1G	add		datasheets/transistor/onsemi/dta144w-d.pdf
 MUN5233T1G	add		datasheets/transistor/onsemi/dtc143z-d.pdf
 PDTA144EMB,315	skip	no datasheet on the maker's site (rocelec.widen.net)	
 PDTA115EMB,315	skip	no datasheet on the maker's site (rocelec.widen.net)	
-MUN5141T1G	out	datasheet status	datasheets/transistor/onsemi/dta115t-d.pdf
+MUN5141T1G	add		datasheets/transistor/onsemi/dta115t-d.pdf
 PDTA123JMB,315	skip	no datasheet on the maker's site (rocelec.widen.net)	
 PDTC115EMB,315	add		datasheets/transistor/nexperia/PDTC115EMB.pdf
 DTA143ZM3T5G	out	below the pick (not read)	datasheets/transistor/onsemi/dta143z-d.pdf
 PDTA144TMB,315	skip	no datasheet on the maker's site (rocelec.widen.net)	
 PDTA124TMB,315	skip	no datasheet on the maker's site (rocelec.widen.net)	
-MMUN2141LT1G	out	datasheet status	datasheets/transistor/onsemi/dta115t-d.pdf
+MMUN2141LT1G	add		datasheets/transistor/onsemi/dta115t-d.pdf
 MUN5138T1G	add		datasheets/transistor/onsemi/dta123t-d.pdf
 PDTA115TMB,315	skip	no datasheet on the maker's site (rocelec.widen.net)	
 MUN5240T1G	add		datasheets/transistor/onsemi/dtc144t-d.pdf
@@ -1960,7 +1960,7 @@ PDTA114YMB,315	skip	no datasheet on the maker's site (rocelec.widen.net)
 PDTC144WMB,315	skip	no datasheet on the maker's site (rocelec.widen.net)	
 PDTA144WMB,315	skip	no datasheet on the maker's site (rocelec.widen.net)	
 DTC143ZET1G	add		datasheets/transistor/onsemi/dtc143z-d.pdf
-NSBA115TF3T5G	out	datasheet status	datasheets/transistor/onsemi/dta115t-d.pdf
+NSBA115TF3T5G	add		datasheets/transistor/onsemi/dta115t-d.pdf
 PDTA124XMB,315	skip	no datasheet on the maker's site (rocelec.widen.net)	
 PDTA113EMB,315	skip	no datasheet on the maker's site (rocelec.widen.net)	
 PDTA123EMB,315	skip	no datasheet on the maker's site (rocelec.widen.net)	
@@ -1976,7 +1976,7 @@ PDTA144VM,315	add		datasheets/transistor/nexperia/PDTA144V_SER.pdf
 DDTC143XE-7-F	add		datasheets/transistor/diodes/ds30314.pdf
 MMUN2232LT1G	add		datasheets/transistor/onsemi/dtc143e-d.pdf
 PDTA123TMB,315	skip	no datasheet on the maker's site (rocelec.widen.net)	
-DDTD142JC-7-F	out	datasheet status	datasheets/transistor/diodes/DDTD_LO-R1_C.pdf
+DDTD142JC-7-F	add		datasheets/transistor/diodes/DDTD_LO-R1_C.pdf
 PDTC143TMB,315	skip	no datasheet on the maker's site (rocelec.widen.net)	
 MMUN2212LT1G	add		datasheets/transistor/onsemi/dtc124e-d.pdf
 PDTC123TMB,315	skip	no datasheet on the maker's site (rocelec.widen.net)	
@@ -1984,13 +1984,13 @@ MUN2211T1	skip	no datasheet on the maker's site (mm.digikey.com)
 FJN4309RTA	skip	no datasheet on the maker's site (rocelec.widen.net)	
 MUN5241T1G	add		datasheets/transistor/onsemi/dtc115t-d.pdf
 FJV3110RMTF-ON	skip	no datasheet on the maker's site (rocelec.widen.net)	
-DTC143EET1G	out	datasheet status	datasheets/transistor/onsemi/dtc143e-d.pdf
-DDTA114ECA-7-F	out	datasheet status	datasheets/transistor/diodes/ds30333.pdf
+DTC143EET1G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc143e-d.pdf
+DDTA114ECA-7-F	add		datasheets/transistor/diodes/ds30333.pdf
 MMUN2213LT1G	add		datasheets/transistor/onsemi/dtc144e-d.pdf
 PDTC144EU,115	add		datasheets/transistor/nexperia/PDTC144EU.pdf
 FJV4101RMTF	skip	no datasheet on the maker's site (rocelec.widen.net)	
 FJV3113RMTF	add		datasheets/transistor/onsemi/fjv3113r-d.pdf
-DDTD123TC-7-F	out	datasheet status	datasheets/transistor/diodes/DDTD_XXXX_C.pdf
+DDTD123TC-7-F	add		datasheets/transistor/diodes/DDTD_XXXX_C.pdf
 MMUN2111LT1G	add		datasheets/transistor/onsemi/dta114e-d.pdf
 NSBC114EF3T5G	add		datasheets/transistor/onsemi/dtc114e-d.pdf
 FJY3004R	add		datasheets/transistor/onsemi/fjy3004r-d.pdf
@@ -2038,12 +2038,12 @@ DTC113EM3T5G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc113e-
 MMUN2114LT3G	out	below the pick (not read)	datasheets/transistor/onsemi/dta114y-d.pdf
 NSBC114YF3T5G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc114y-d.pdf
 MMUN2111LT3G	add		datasheets/transistor/onsemi/dta114e-d.pdf
-DDTD114EC-7-F	out	datasheet status	datasheets/transistor/diodes/DDTD_XXXX_C.pdf
+DDTD114EC-7-F	add		datasheets/transistor/diodes/DDTD_XXXX_C.pdf
 DDTC143TCA-7-F	add		datasheets/transistor/diodes/DDTC_R1-ONLY_SERIES_CA.pdf
 DTA114EM3T5G	out	below the pick (not read)	datasheets/transistor/onsemi/dta114e-d.pdf
 MMUN2215LT1G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc114t-d.pdf
 DDTA123YCA-7-F	add		datasheets/transistor/diodes/ds30334.pdf
-DDTD113ZU-7-F	out	datasheet status	datasheets/transistor/diodes/DDTD_XXXX_U.pdf
+DDTD113ZU-7-F	add		datasheets/transistor/diodes/DDTD_XXXX_U.pdf
 DDTC114WCA-7-F	add		datasheets/transistor/diodes/ds30330.pdf
 MMUN2241LT1G	add		datasheets/transistor/onsemi/dtc115t-d.pdf
 DTC123TET1G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc123t-d.pdf
@@ -2057,7 +2057,7 @@ MMUN2217LT1G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc143x-
 DTA113EM3T5G	out	datasheet status	datasheets/transistor/onsemi/dta113e-d.pdf
 MUN2214T3G	add		datasheets/transistor/onsemi/dtc114y-d.pdf
 PDTC123JM,315	skip	no datasheet on the maker's site (rocelec.widen.net)	
-DDTA114TUA-7-F	out	datasheet status	datasheets/transistor/diodes/DDTA_R1-ONLY_SERIES_UA.pdf
+DDTA114TUA-7-F	add		datasheets/transistor/diodes/DDTA_R1-ONLY_SERIES_UA.pdf
 PDTC144EU,135	add		datasheets/transistor/nexperia/PDTC144EU.pdf
 DTC115EM3T5G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc115e-d.pdf
 2SA1345	skip	no datasheet on the maker's site (rocelec.widen.net)	
@@ -2065,7 +2065,7 @@ MMUN2134LT1G	out	below the pick (not read)	datasheets/transistor/onsemi/dta124x-
 MMUN2137LT1G	out	below the pick (not read)	datasheets/transistor/onsemi/dta144w-d.pdf
 MMUN2234LT1G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc124x-d.pdf
 DTC124EET1G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc124e-d.pdf
-DDTA124ECA-7-F	out	datasheet status	datasheets/transistor/diodes/ds30333.pdf
+DDTA124ECA-7-F	add		datasheets/transistor/diodes/ds30333.pdf
 PDTB123YT,215	out	below the pick (not read)	datasheets/transistor/nexperia/PDTB123YT.pdf
 MUN5133T1G	out	below the pick (not read)	datasheets/transistor/onsemi/dta143z-d.pdf
 PDTA144EM,315	out	below the pick (not read)	datasheets/transistor/nexperia/PDTA144E_SER.pdf
@@ -2076,7 +2076,7 @@ DDTC123TCA-7-F	add		datasheets/transistor/diodes/DDTC_R1-ONLY_SERIES_CA.pdf
 PBRP123ET,215	add		datasheets/transistor/nexperia/PBRP123ET.pdf
 MUN2111T1G	add		datasheets/transistor/onsemi/dta114e-d.pdf
 MUN5131T1G	out	below the pick (not read)	datasheets/transistor/onsemi/dta123e-d.pdf
-DDTA144ECA-7-F	out	datasheet status	datasheets/transistor/diodes/ds30333.pdf
+DDTA144ECA-7-F	add		datasheets/transistor/diodes/ds30333.pdf
 PDTA143XT,215	add		datasheets/transistor/nexperia/PDTA143X_SER.pdf
 DTA143TM3T5G	out	below the pick (not read)	datasheets/transistor/onsemi/dta143t-d.pdf
 NSBA124EF3T5G	out	below the pick (not read)	datasheets/transistor/onsemi/dta124e-d.pdf
@@ -2097,7 +2097,7 @@ DTC113EET1G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc113e-d
 MUN5135T1G	out	below the pick (not read)	datasheets/transistor/onsemi/dta123j-d.pdf
 MMUN2132LT1G	out	below the pick (not read)	datasheets/transistor/onsemi/dta143e-d.pdf
 DDTA144WCA-7-F	add		datasheets/transistor/diodes/ds30334.pdf
-MMUN2130LT1G	out	below the pick (not read)	datasheets/transistor/onsemi/dta113e-d.pdf
+MMUN2130LT1G	add		datasheets/transistor/onsemi/dta113e-d.pdf
 PDTC123TT,215	out	below the pick (not read)	datasheets/transistor/nexperia/PDTC123T_SER.pdf
 DTC114TET1G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc114t-d.pdf
 DTC143TM3T5G	out	datasheet status	datasheets/transistor/onsemi/dtc143t-d.pdf
@@ -2118,14 +2118,14 @@ PDTA144WU,115	add		datasheets/transistor/nexperia/PDTA144W_SERIES.pdf
 PDTA143ZT,215	out	below the pick (not read)	datasheets/transistor/nexperia/PDTA143ZT.pdf
 FJV4102RMTF	skip	no datasheet on the maker's site (rocelec.widen.net)	
 DDTA143XUA-7-F	add		datasheets/transistor/diodes/ds30326.pdf
-DDTD113EC-7-F	out	datasheet status	datasheets/transistor/diodes/DDTD_XXXX_C.pdf
+DDTD113EC-7-F	add		datasheets/transistor/diodes/DDTD_XXXX_C.pdf
 DDTC144EE-7-F	add		datasheets/transistor/diodes/ds30313.pdf
 DTC115EET1G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc115e-d.pdf
-DDTA123ECA-7-F	out	datasheet status	datasheets/transistor/diodes/ds30333.pdf
+DDTA123ECA-7-F	add		datasheets/transistor/diodes/ds30333.pdf
 2SA1347-AC	skip	no datasheet on the maker's site (rocelec.widen.net)	
 2SC3919-AC	skip	no datasheet on the maker's site (rocelec.widen.net)	
 2SC4361-AC	skip	no datasheet on the maker's site (rocelec.widen.net)	
-MMUN2115LT1G	out	datasheet status	datasheets/transistor/onsemi/dta114t-d.pdf
+MMUN2115LT1G	add		datasheets/transistor/onsemi/dta114t-d.pdf
 DDTC124XCA-7-F	add		datasheets/transistor/diodes/ds30330.pdf
 DDTC144VCA-7-F	add		datasheets/transistor/diodes/ds30330.pdf
 PDTA144VT,215	add		datasheets/transistor/nexperia/PDTA144V_SER.pdf
@@ -2154,7 +2154,7 @@ MUN5215T1G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc114t-d.
 MUN2113T1G	add		datasheets/transistor/onsemi/dta144e-d.pdf
 DDTC123EUA-7-F	add		datasheets/transistor/diodes/ds30321.pdf
 DDTC124EE-7-F	add		datasheets/transistor/diodes/ds30313.pdf
-DDTC124TE-7-F	out	datasheet status	datasheets/transistor/diodes/DDTC_R1-ONLY_SERIES_E.pdf
+DDTC124TE-7-F	add		datasheets/transistor/diodes/DDTC_R1-ONLY_SERIES_E.pdf
 DTA143TET1G	out	below the pick (not read)	datasheets/transistor/onsemi/dta143t-d.pdf
 PDTA114ET,215	add		datasheets/transistor/nexperia/PDTA114ET.pdf
 PDTA124TU,115	add		datasheets/transistor/nexperia/PDTA124T_SERIES.pdf
@@ -2183,7 +2183,7 @@ DDTC144WCA-7-F	add		datasheets/transistor/diodes/ds30330.pdf
 2SC3402	skip	no datasheet on the maker's site (rocelec.widen.net)	
 2SA1524-AC	skip	no datasheet on the maker's site (rocelec.widen.net)	
 DDTA114YCA-7-F	out	below the pick (not read)	datasheets/transistor/diodes/ds30334.pdf
-DDTC115TE-7-F	out	datasheet status	datasheets/transistor/diodes/DDTC_R1-ONLY_SERIES_E.pdf
+DDTC115TE-7-F	add		datasheets/transistor/diodes/DDTC_R1-ONLY_SERIES_E.pdf
 MMUN2113LT3G	add		datasheets/transistor/onsemi/dta144e-d.pdf
 MUN2132T1G	out	below the pick (not read)	datasheets/transistor/onsemi/dta143e-d.pdf
 DDTA113ZUA-7-F	add		datasheets/transistor/diodes/ds30326.pdf
@@ -2204,7 +2204,7 @@ DDTC114GCA-7-F	out	below the pick (not read)	datasheets/transistor/diodes/ds3033
 DTA114EET1G	out	below the pick (not read)	datasheets/transistor/onsemi/dta114e-d.pdf
 DDTA143TCA-7-F	add		datasheets/transistor/diodes/DDTA_R1-ONLY_SERIES_CA.pdf
 PDTA124XU,115	out	below the pick (not read)	datasheets/transistor/nexperia/PDTA124X_SER.pdf
-DDTD113ZC-7-F	out	datasheet status	datasheets/transistor/diodes/DDTD_XXXX_C.pdf
+DDTD113ZC-7-F	add		datasheets/transistor/diodes/DDTD_XXXX_C.pdf
 PDTA123YU,115	add		datasheets/transistor/nexperia/PDTA123Y_SER.pdf
 DDTC114TCA-7-F	add		datasheets/transistor/diodes/DDTC_R1-ONLY_SERIES_CA.pdf
 PDTC124ET,215	add		datasheets/transistor/nexperia/PDTC124ET.pdf
@@ -2226,7 +2226,7 @@ DTC114EET1G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc114e-d
 PDTA144EU,135	out	below the pick (not read)	datasheets/transistor/nexperia/PDTA144E_SER.pdf
 DDTA144EUA-7-F	add		datasheets/transistor/diodes/ds30325.pdf
 DDTC143XCA-7-F	add		datasheets/transistor/diodes/ds30330.pdf
-DDTC144ECA-7-F	out	datasheet status	datasheets/transistor/diodes/ds30329.pdf
+DDTC144ECA-7-F	out	below the pick (not read)	datasheets/transistor/diodes/ds30329.pdf
 MUN5214T1G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc114y-d.pdf
 PDTA143EU,115	out	below the pick (not read)	datasheets/transistor/nexperia/PDTA143E_SER.pdf
 PDTA143TU,115	out	below the pick (not read)	datasheets/transistor/nexperia/PDTA143T_SERIES.pdf
@@ -2238,7 +2238,7 @@ PDTA143ZU,115	out	below the pick (not read)	datasheets/transistor/nexperia/PDTA1
 PBRN123ET,215	out	below the pick (not read)	datasheets/transistor/nexperia/PBRN123ET.pdf
 DDTA123TCA-7-F	add		datasheets/transistor/diodes/DDTA_R1-ONLY_SERIES_CA.pdf
 DDTC143ZUA-7-F	add		datasheets/transistor/diodes/ds30322.pdf
-DDTA143ECA-7-F	out	datasheet status	datasheets/transistor/diodes/ds30333.pdf
+DDTA143ECA-7-F	add		datasheets/transistor/diodes/ds30333.pdf
 DTC114EM3T5G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc114e-d.pdf
 PDTB113ET,215	out	below the pick (not read)	datasheets/transistor/nexperia/PDTB113ET.pdf
 DDTB114EC-7-F	add		datasheets/transistor/diodes/DDTB_XXXX_C.pdf
@@ -2265,7 +2265,7 @@ PBLS1501Y,115	add		datasheets/transistor/nexperia/PBLS1501Y_PBLS1501V.pdf
 PBLS1503Y,115	add		datasheets/transistor/nexperia/PBLS1503Y_PBLS1503V.pdf
 NSBC114TPDXV6T1G	skip	not in the datasheet's ordering table	datasheets/transistor/onsemi/dtc114yp-d.pdf
 NSBC114YPDXV6T5	skip	no datasheet on the maker's site (rocelec.widen.net)	
-DDC143TU-7-F	out	datasheet status	datasheets/transistor/diodes/DDC_XXXX_U.pdf
+DDC143TU-7-F	add		datasheets/transistor/diodes/DDC_XXXX_U.pdf
 MUN5211DW1T1G	add		datasheets/transistor/onsemi/dtc114ed-d.pdf
 NSBA114EDP6T5G	add		datasheets/transistor/onsemi/dta114ed-d.pdf
 PBLS2021D,115	skip	no datasheet on the maker's site (rocelec.widen.net)	
@@ -2275,18 +2275,18 @@ PBLS6001D,115	add		datasheets/transistor/nexperia/PBLS6001D.pdf
 MUN5131DW1T1G	add		datasheets/transistor/onsemi/dta123ed-d.pdf
 PEMF21,115	skip	no datasheet on the maker's site (rocelec.widen.net)	
 NSBA143TDXV6T1G	add		datasheets/transistor/onsemi/dta143td-d.pdf
-DDC114YU-7-F	out	datasheet status	datasheets/transistor/diodes/DDC_XXXX_U.pdf
+DDC114YU-7-F	add		datasheets/transistor/diodes/DDC_XXXX_U.pdf
 NSBA114TDXV6T1G	add		datasheets/transistor/onsemi/dta114td-d.pdf
 PUMB14,115	skip	no datasheet on the maker's site (rocelec.widen.net)	
 PBLS1502Y,115	skip	no datasheet on the maker's site (rocelec.widen.net)	
 MUN5233DW1T1G	add		datasheets/transistor/onsemi/dtc143zd-d.pdf
 PBLS1504Y,115	add		datasheets/transistor/nexperia/PBLS1504Y_PBLS1504V.pdf
 PBLS4004Y,115	skip	no datasheet on the maker's site (rocelec.widen.net)	
-DCX143TU-7-F	out	datasheet status	datasheets/transistor/diodes/DCX_XXXX_U.pdf
+DCX143TU-7-F	add		datasheets/transistor/diodes/DCX_XXXX_U.pdf
 PBLS6004D,115	skip	no datasheet on the maker's site (rocelec.widen.net)	
 PEMB1,115	skip	no datasheet on the maker's site (rocelec.widen.net)	
 NSBC124XDXV6T1G	add		datasheets/transistor/onsemi/dtc124xd-d.pdf
-DDC114TU-7-F	out	datasheet status	datasheets/transistor/diodes/DDC_XXXX_U.pdf
+DDC114TU-7-F	add		datasheets/transistor/diodes/DDC_XXXX_U.pdf
 PUMD3,165	add		datasheets/transistor/nexperia/PUMD3.pdf
 MUN5132DW1T1G	add		datasheets/transistor/onsemi/dta143ed-d.pdf
 PQMD12Z	add		datasheets/transistor/nexperia/PQMD12.pdf
@@ -2298,7 +2298,7 @@ NSBA143EDXV6T1G	out	below the pick (not read)	datasheets/transistor/onsemi/dta14
 NSBA115EDXV6T1G	add		datasheets/transistor/onsemi/dta115ed-d.pdf
 MUN5112DW1T1G	add		datasheets/transistor/onsemi/dta124ed-d.pdf
 PBLS6005D,115	skip	no datasheet on the maker's site (rocelec.widen.net)	
-DCX114EU-7-F	out	datasheet status	datasheets/transistor/diodes/DCX_XXXX_U.pdf
+DCX114EU-7-F	add		datasheets/transistor/diodes/DCX_XXXX_U.pdf
 MUN5136DW1T1G	add		datasheets/transistor/onsemi/dta115ed-d.pdf
 NSBA144EDXV6T1G	add		datasheets/transistor/onsemi/DTA144ED-D.PDF
 NSBC143ZDXV6T1G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc143zd-d.pdf
@@ -2310,7 +2310,7 @@ MUN5335DW1T1G	add		datasheets/transistor/onsemi/dtc123jp-d.pdf
 DCX144EH-7	add		datasheets/transistor/diodes/ds30422.pdf
 PIMC32X	add		datasheets/transistor/nexperia/PIMC32.pdf
 MUN5212DW1T1G	add		datasheets/transistor/onsemi/dtc124ed-d.pdf
-DCX123JU-7-F	out	datasheet status	datasheets/transistor/diodes/DCX_XXXX_U.pdf
+DCX123JU-7-F	add		datasheets/transistor/diodes/DCX_XXXX_U.pdf
 PUMD9,165	add		datasheets/transistor/nexperia/PUMD9.pdf
 DDA114EU-7-F	add		datasheets/transistor/diodes/DDA_XXXX_U.pdf
 MUN5311DW1T2G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc114ep-d.pdf
@@ -2326,7 +2326,7 @@ NSBC143ZDP6T5G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc143
 PIMP32X	add		datasheets/transistor/nexperia/PIMP32.pdf
 NSBC114YDP6T5G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc114yd-d.pdf
 MUN5130DW1T1G	out	below the pick (not read)	datasheets/transistor/onsemi/dta113ed-d.pdf
-DCX114EU-13R-F	out	datasheet status	datasheets/transistor/diodes/DCX_XXXX_U.pdf
+DCX114EU-13R-F	add		datasheets/transistor/diodes/DCX_XXXX_U.pdf
 MUN5312DW1T2G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc124ep-d.pdf
 MUN5236DW1T1G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc115ed-d.pdf
 MUN5114DW1T1G	out	below the pick (not read)	datasheets/transistor/onsemi/dta114yd-d.pdf
@@ -2360,7 +2360,7 @@ MUN5331DW1T1G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc123e
 EMF5XV6T1G	out	below the pick (not read)	datasheets/transistor/onsemi/EMF5XV6T5-D.PDF
 NSBA114EDXV6T1G	out	below the pick (not read)	datasheets/transistor/onsemi/dta114ed-d.pdf
 EMF18XV6T1G	out	below the pick (not read)	datasheets/transistor/onsemi/EMF18XV6T5-D.PDF
-DDC144EU-7-F	out	datasheet status	datasheets/transistor/diodes/DDC_XXXX_U.pdf
+DDC144EU-7-F	add		datasheets/transistor/diodes/DDC_XXXX_U.pdf
 NSBA114YDXV6T1G	out	below the pick (not read)	datasheets/transistor/onsemi/dta114yd-d.pdf
 NSBC114EPDXV6T1G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc114ep-d.pdf
 MUN5213DW1T3G	add		datasheets/transistor/onsemi/dtc144ed-d.pdf
@@ -2388,14 +2388,14 @@ PIMP31PAX	add		datasheets/transistor/nexperia/PIMP31PA.pdf
 MUN5235DW1T1G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc123jd-d.pdf
 PIMC31PAX	add		datasheets/transistor/nexperia/PIMC31PA.pdf
 DDA124EU-7-F	add		datasheets/transistor/diodes/DDA_XXXX_U.pdf
-DCX143EU-7-F	out	datasheet status	datasheets/transistor/diodes/DCX_XXXX_U.pdf
+DCX143EU-7-F	add		datasheets/transistor/diodes/DCX_XXXX_U.pdf
 MUN5116DW1T1G	out	below the pick (not read)	datasheets/transistor/onsemi/dta143td-d.pdf
 NSTB60BDW1T1G	out	below the pick (not read)	datasheets/transistor/onsemi/nstb60bdw1t1-d.pdf
 PUMD48,125	add		datasheets/transistor/nexperia/PUMD48.pdf
 PIMN32X	add		datasheets/transistor/nexperia/PIMN32.pdf
 PBLS2003D,115	out	below the pick (not read)	datasheets/transistor/nexperia/PBLS2003D.pdf
 MUN5311DW1T1G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc114ep-d.pdf
-DDC143ZU-7-F	out	datasheet status	datasheets/transistor/diodes/DDC_XXXX_U.pdf
+DDC143ZU-7-F	add		datasheets/transistor/diodes/DDC_XXXX_U.pdf
 PUMB13,115	out	below the pick (not read)	datasheets/transistor/nexperia/PUMB13.pdf
 NSBC143TPDXV6T1G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc143tp-d.pdf
 PUMD9,115	add		datasheets/transistor/nexperia/PUMD9.pdf
@@ -2409,7 +2409,7 @@ PBLS4001Y,115	out	below the pick (not read)	datasheets/transistor/nexperia/PBLS4
 UMC4N-7	skip	no pinout in the datasheet	datasheets/transistor/diodes/ds31203.pdf
 MUN5312DW1T1G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc124ep-d.pdf
 MUN5133DW1T1G	out	below the pick (not read)	datasheets/transistor/onsemi/dta143zd-d.pdf
-DCX114YU-7-F	out	datasheet status	datasheets/transistor/diodes/DCX_XXXX_U.pdf
+DCX114YU-7-F	add		datasheets/transistor/diodes/DCX_XXXX_U.pdf
 DDA123JU-7-F	add		datasheets/transistor/diodes/DDA_XXXX_U.pdf
 PUMH9,135	add		datasheets/transistor/nexperia/PUMH9.pdf
 DDC144TU-7	add		datasheets/transistor/diodes/ds30767.pdf
@@ -2419,13 +2419,13 @@ NSBC123JDP6T5G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc123
 PUMB11,115	out	below the pick (not read)	datasheets/transistor/nexperia/PUMB11.pdf
 DDC114YH-7	add		datasheets/transistor/diodes/ds30421.pdf
 MUN5230DW1T1G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc113ed-d.pdf
-DDC113TU-7-F	out	datasheet status	datasheets/transistor/diodes/DDC_XXXX_U.pdf
+DDC113TU-7-F	add		datasheets/transistor/diodes/DDC_XXXX_U.pdf
 NSBC143EDXV6T1G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc143ed-d.pdf
 PUMD3,125	add		datasheets/transistor/nexperia/PUMD3.pdf
 NSBA144EDP6T5G	out	below the pick (not read)	datasheets/transistor/onsemi/DTA144ED-D.PDF
 PUMD4,115	out	below the pick (not read)	datasheets/transistor/nexperia/PUMD4.pdf
 MUN5313DW1T1G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc144ep-d.pdf
-DDC124EU-7-F	out	datasheet status	datasheets/transistor/diodes/DDC_XXXX_U.pdf
+DDC124EU-7-F	add		datasheets/transistor/diodes/DDC_XXXX_U.pdf
 MUN5336DW1T1G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc115ep-d.pdf
 NSBC124EPDXV6T1G	out	below the pick (not read)	datasheets/transistor/onsemi/dtc124ep-d.pdf
 PUMH13,115	out	below the pick (not read)	datasheets/transistor/nexperia/PUMH13.pdf
@@ -2606,7 +2606,7 @@ FDMS86255	add		datasheets/transistor/onsemi/fdms86255-d.pdf
 SI4401FDY-T1-GE3	add		datasheets/transistor/vishay-siliconix/si4401fdy.pdf
 SIS434DN-T1-GE3	add		datasheets/transistor/vishay-siliconix/sis434dn.pdf
 FDU6692	skip	no datasheet on the maker's site (rocelec.widen.net)	
-NTD2955T4G	out	datasheet status	datasheets/transistor/onsemi/ntd2955-d.pdf
+NTD2955T4G	add		datasheets/transistor/onsemi/ntd2955-d.pdf
 SISS22LDN-T1-GE3	add		datasheets/transistor/vishay-siliconix/siss22ldn.pdf
 FDT86113LZ	add		datasheets/transistor/onsemi/fdt86113lz-d.pdf
 NTK3139PT1G	add		datasheets/transistor/onsemi/ntk3139p-d.pdf
@@ -2815,7 +2815,7 @@ SIB422EDK-T1-GE3	add		datasheets/transistor/vishay-siliconix/sib422edk.pdf
 BSZ0904NSIATMA1	add		datasheets/transistor/infineon/infineon-bsz0904nsi-datasheet-en.pdf
 FDS6670S	skip	no datasheet on the maker's site (rocelec.widen.net)	
 IRFR6215TRPBF	skip	not in the datasheet's ordering table	datasheets/transistor/infineon/infineon-irfr6215-datasheet-en.pdf
-NTR1P02T1G	out	datasheet status	datasheets/transistor/onsemi/ntr1p02t1-d.pdf
+NTR1P02T1G	add		datasheets/transistor/onsemi/ntr1p02t1-d.pdf
 FDB52N20TM	add		datasheets/transistor/onsemi/FDB52N20-D.pdf
 SIR572DP-T1-RE3	add		datasheets/transistor/vishay-siliconix/sir572dp.pdf
 SIR826BDP-T1-RE3	out	below the pick (not read)	datasheets/transistor/vishay-siliconix/sir826bdp.pdf
@@ -2834,12 +2834,12 @@ IPN95R1K2P7ATMA1	add		datasheets/transistor/infineon/infineon-ipn95r1k2p7-datash
 SI2306BDS-T1-GE3	add		datasheets/transistor/vishay-siliconix/73234.pdf
 SFR9120TM	skip	no datasheet on the maker's site (rocelec.widen.net)	
 SISH407DN-T1-GE3	add		datasheets/transistor/vishay-siliconix/sish407dn.pdf
-NTGS3443T1G	out	datasheet status	datasheets/transistor/onsemi/ntgs3443t1-d.pdf
+NTGS3443T1G	add		datasheets/transistor/onsemi/ntgs3443t1-d.pdf
 FDS8876-F40	add		datasheets/transistor/onsemi/fds8876-d.pdf
 SIUD406ED-T1-GE3	add		datasheets/transistor/vishay-siliconix/siud406ed.pdf
 IPD70R360P7SAUMA1	add		datasheets/transistor/infineon/infineon-ipd70r360p7s-datasheet-cn.pdf
 IRF540NPBF	add		datasheets/transistor/infineon/infineon-irf540n-datasheet-en.pdf
-NTD3055-094T4G	out	datasheet status	datasheets/transistor/onsemi/ntd3055-094-d.pdf
+NTD3055-094T4G	add		datasheets/transistor/onsemi/ntd3055-094-d.pdf
 FDG330P	add		datasheets/transistor/onsemi/fdg330p-d.pdf
 IRLR2908TRPBF	add		datasheets/transistor/infineon/infineon-irlr2908-datasheet-en.pdf
 SIR186LDP-T1-RE3	add		datasheets/transistor/vishay-siliconix/sir186ldp.pdf
@@ -2868,7 +2868,7 @@ FCP380N60E	add		datasheets/transistor/onsemi/FCPF380N60E-D.PDF
 IPD06N03LAG	skip	no datasheet on the maker's site (rocelec.widen.net)	
 NTTFS6H888NTAG	skip	no datasheet on the maker's site (none)	
 NTR5105PT1G	add		datasheets/transistor/onsemi/ntr5105p-d.pdf
-FDZ3N513ZT	out	datasheet status	datasheets/transistor/onsemi/fdz3n513zt-d.pdf
+FDZ3N513ZT	skip	no pinout in the datasheet	datasheets/transistor/onsemi/fdz3n513zt-d.pdf
 NTK3134NT3G	add		datasheets/transistor/onsemi/ntk3134n-d.pdf
 FDC3512	add		datasheets/transistor/onsemi/FDC3512-D.PDF
 SI3438DV-T1-GE3	add		datasheets/transistor/vishay-siliconix/si3438dv.pdf
@@ -2997,7 +2997,7 @@ SIR470DP-T1-GE3	add		datasheets/transistor/vishay-siliconix/sir470dp.pdf
 IPB020N10N5ATMA1	out	below the pick (not read)	datasheets/transistor/infineon/infineon-ipb020n10n5-datasheet-cn.pdf
 SIJA74DP-T1-GE3	add		datasheets/transistor/vishay-siliconix/sija74dp.pdf
 ISC055N15NM6ATMA1	add		datasheets/transistor/infineon/Infineon-ISC055N15NM6-DataSheet-v02_00-EN.pdf
-BS170-D26Z	out	datasheet status	datasheets/transistor/onsemi/MMBF170-D.PDF
+BS170-D26Z	add		datasheets/transistor/onsemi/MMBF170-D.PDF
 SUM90142E-GE3	add		datasheets/transistor/vishay-siliconix/sum90142e.pdf
 IPP60R180P7XKSA1	add		datasheets/transistor/infineon/infineon-ipp60r180p7-datasheet-cn.pdf
 IRFP460PBF	add		datasheets/transistor/vishay-siliconix/91237.pdf
@@ -3019,7 +3019,7 @@ SI3129DV-T1-GE3	add		datasheets/transistor/vishay-siliconix/si3129dv.pdf
 SIA471DJ-T1-GE3	add		datasheets/transistor/vishay-siliconix/sia471dj.pdf
 FDS6676AS	skip	no datasheet on the maker's site (rocelec.widen.net)	
 SI2377EDS-T1-GE3	add		datasheets/transistor/vishay-siliconix/si2377eds.pdf
-NTR4171PT1G	out	datasheet status	datasheets/transistor/onsemi/ntr4171p-d.pdf
+NTR4171PT1G	add		datasheets/transistor/onsemi/ntr4171p-d.pdf
 SI2302DDS-T1-GE3	out	below the pick (not read)	datasheets/transistor/vishay-siliconix/si2302dds.pdf
 BSC0906NSATMA1	add		datasheets/transistor/infineon/BSC0906NS_Rev-2.0.pdf
 IRFS3607TRLPBF	add		datasheets/transistor/infineon/infineon-irfs3607pbf-datasheet-en.pdf
@@ -3058,17 +3058,17 @@ IRF6797MTRPBF	skip	no datasheet on the maker's site (rocelec.widen.net)
 SI7655DN-T1-GE3	add		datasheets/transistor/vishay-siliconix/si7655dn.pdf
 SUP70101EL-GE3	add		datasheets/transistor/vishay-siliconix/sup70101el.pdf
 SIR680LDP-T1-RE3	add		datasheets/transistor/vishay-siliconix/sir680ldp.pdf
-NTR0202PLT1G	out	datasheet status	datasheets/transistor/onsemi/ntr0202pl-d.pdf
+NTR0202PLT1G	add		datasheets/transistor/onsemi/ntr0202pl-d.pdf
 IPD122N10N3GATMA1	add		datasheets/transistor/infineon/infineon-ipd122n10n3-g-datasheet-cn.pdf
 SIHFPS37N50A-GE3	add		datasheets/transistor/vishay-siliconix/sihfps37n50a.pdf
 SIRA01DP-T1-GE3	add		datasheets/transistor/vishay-siliconix/sira01dp.pdf
-NTD18N06LT4G	out	datasheet status	datasheets/transistor/onsemi/ntd18n06l-d.pdf
+NTD18N06LT4G	add		datasheets/transistor/onsemi/ntd18n06l-d.pdf
 IRFZ44NPBF	add		datasheets/transistor/infineon/infineon-irfz44n-datasheet-en.pdf
 FQB27N25TM	skip	no datasheet on the maker's site (rocelec.widen.net)	
 SI4431CDY-T1-GE3	add		datasheets/transistor/vishay-siliconix/si4431cd.pdf
 IRF7469TRPBF	skip	not in the datasheet's ordering table	datasheets/transistor/infineon/infineon-irf7469-datasheet-en.pdf
 SISH617DN-T1-GE3	add		datasheets/transistor/vishay-siliconix/sish617dn.pdf
-IRF9530NSTRLPBF	out	datasheet status	datasheets/transistor/infineon/infineon-irf9530ns-datasheet-en.pdf
+IRF9530NSTRLPBF	add		datasheets/transistor/infineon/infineon-irf9530ns-datasheet-en.pdf
 SUM70060E-GE3	add		datasheets/transistor/vishay-siliconix/sum70060e.pdf
 IRF9530NPBF	add		datasheets/transistor/infineon/infineon-irf9530n-datasheet-en.pdf
 IRF150P220AKMA1	add		datasheets/transistor/infineon/infineon-irf150p220-datasheet-en.pdf
@@ -3120,7 +3120,7 @@ SI3443CDV-T1-GE3	add		datasheets/transistor/vishay-siliconix/si3443cd.pdf
 FDMT80080DC	add		datasheets/transistor/onsemi/fdmt80080dc-d.pdf
 SIRA74DP-T1-GE3	add		datasheets/transistor/vishay-siliconix/sira74dp.pdf
 FCD600N60Z	add		datasheets/transistor/onsemi/FCD600N60Z-D.pdf
-NTMFS4C09NT1G	out	datasheet status	datasheets/transistor/onsemi/ntmfs4c09n-d.pdf
+NTMFS4C09NT1G	out	below the pick (not read)	datasheets/transistor/onsemi/ntmfs4c09n-d.pdf
 FDMS86181	out	below the pick (not read)	datasheets/transistor/onsemi/fdms86181-d.pdf
 FQD1N80TM	add		datasheets/transistor/onsemi/fqu1n80-d.pdf
 IPD082N10N3GATMA1	add		datasheets/transistor/infineon/infineon-ipp086n10n3g-datasheet-cn.pdf
@@ -3174,7 +3174,7 @@ SI3443CDV-T1-E3	add		datasheets/transistor/vishay-siliconix/si3443cd.pdf
 SIR616DP-T1-GE3	add		datasheets/transistor/vishay-siliconix/sir616dp.pdf
 IPD70R1K4P7SAUMA1	out	below the pick (not read)	datasheets/transistor/infineon/infineon-ipd70r1k4p7s-datasheet-en.pdf
 SPW11N60S5	skip	not in the datasheet's ordering table	datasheets/transistor/infineon/Infineon-SPW11N60C3-DS-v02_06-en.pdf
-NTD3055L104T4G	out	datasheet status	datasheets/transistor/onsemi/ntd3055l104-d.pdf
+NTD3055L104T4G	out	below the pick (not read)	datasheets/transistor/onsemi/ntd3055l104-d.pdf
 FDMC86248	add		datasheets/transistor/onsemi/fdmc86248-d.pdf
 IRFP260NPBF	add		datasheets/transistor/infineon/infineon-irfp260n-datasheet-en.pdf
 IRFU5305PBF	add		datasheets/transistor/infineon/infineon-irfr5305-datasheet-en.pdf
@@ -3211,7 +3211,7 @@ FDS86240	out	below the pick (not read)	datasheets/transistor/onsemi/fds86240-d.p
 IRFR420ATRPBF	add		datasheets/transistor/vishay-siliconix/sihfr420.pdf
 SI7852DP-T1-GE3	add		datasheets/transistor/vishay-siliconix/si7852dp.pdf
 SI7465DP-T1-GE3	add		datasheets/transistor/vishay-siliconix/73113.pdf
-NTS4101PT1G	out	datasheet status	datasheets/transistor/onsemi/nts4101p-d.pdf
+NTS4101PT1G	add		datasheets/transistor/onsemi/nts4101p-d.pdf
 BSZ110N06NS3GATMA1	add		datasheets/transistor/infineon/BSZ110N06NS3_Rev2.3.pdf
 IRF6668TRPBF	skip	no datasheet on the maker's site (rocelec.widen.net)	
 IPP114N03LGHKSA1	skip	no datasheet on the maker's site (rocelec.widen.net)	
@@ -4565,7 +4565,7 @@ SIHD11N80AE-T4-GE3	out	below the pick (not read)	datasheets/transistor/vishay-si
 FDMS2672	out	below the pick (not read)	datasheets/transistor/onsemi/FDMS2672-D.PDF
 SUM85N15-19-E3	out	below the pick (not read)	datasheets/transistor/vishay-siliconix/71703.pdf
 SIHU4N80AE-GE3	skip	no datasheet on the maker's site (www.waldom.com)	
-BS170-D27Z	out	datasheet status	datasheets/transistor/onsemi/MMBF170-D.PDF
+BS170-D27Z	add		datasheets/transistor/onsemi/MMBF170-D.PDF
 NTMS4177PR2G	out	below the pick (not read)	datasheets/transistor/onsemi/ntms4177p-d.pdf
 NTMFS005N10MCLT1G	out	below the pick (not read)	datasheets/transistor/onsemi/ntmfs005n10mcl-d.pdf
 SIHA14N60E-GE3	out	below the pick (not read)	datasheets/transistor/vishay-siliconix/siha14n60e.pdf
@@ -7202,7 +7202,7 @@ FDS6986S	skip	no datasheet on the maker's site (rocelec.widen.net)
 NTJD5121NT1G	add		datasheets/transistor/onsemi/ntjd5121n-d.pdf
 FDMD8260L	skip	no datasheet on the maker's site (rocelec.widen.net)	
 NTLGD3502NT2G	add		datasheets/transistor/onsemi/ntlgd3502n-d.pdf
-NTJD4158CT1G	out	datasheet status	datasheets/transistor/onsemi/ntjd4158c-d.pdf
+NTJD4158CT1G	add		datasheets/transistor/onsemi/ntjd4158c-d.pdf
 IRF7103TRPBF	skip	not in the datasheet's ordering table	datasheets/transistor/infineon/irf7103pbf.pdf
 FDY2000PZ	skip	no datasheet on the maker's site (rocelec.widen.net)	
 SI3993CDV-T1-GE3	skip	no datasheet on the maker's site (mm.digikey.com)	
@@ -7223,7 +7223,7 @@ FDMW2512NZ	skip	no datasheet on the maker's site (rocelec.widen.net)
 NDH8302P	skip	no datasheet on the maker's site (rocelec.widen.net)	
 FDC6302P	skip	no datasheet on the maker's site (rocelec.widen.net)	
 SI9933CDY-T1-GE3	add		datasheets/transistor/vishay-siliconix/si9933cdy.pdf
-NTZD3154NT1G	out	datasheet status	datasheets/transistor/onsemi/ntzd3154n-d.pdf
+NTZD3154NT1G	add		datasheets/transistor/onsemi/ntzd3154n-d.pdf
 RF1K4909096	skip	no datasheet on the maker's site (rocelec.widen.net)	
 EFC4612R-S-TR	skip	no pinout in the datasheet	datasheets/transistor/onsemi/EFC4612R-S-D.PDF
 NTMD4820NR2G	add		datasheets/transistor/onsemi/ntmd4820n-d.pdf
@@ -7250,7 +7250,7 @@ FDMS3606AS	skip	no pinout in the datasheet	datasheets/transistor/onsemi/fdms3606
 NTUD3174NZT5G	skip	no datasheet on the maker's site (mm.digikey.com)	
 NVJD5121NT1G-M06	add		datasheets/transistor/onsemi/ntjd5121n-d.pdf
 FDS8949	add		datasheets/transistor/onsemi/fds8949-d.pdf
-NTHD3100CT1G	out	datasheet status	datasheets/transistor/onsemi/nthd3100c-d.pdf
+NTHD3100CT1G	add		datasheets/transistor/onsemi/nthd3100c-d.pdf
 NTZD3155CT2G	add		datasheets/transistor/onsemi/ntzd3155c-d.pdf
 SI7272DP-T1-GE3	add		datasheets/transistor/vishay-siliconix/si7272dp.pdf
 SIA533EDJ-T1-GE3	add		datasheets/transistor/vishay-siliconix/sia533edj.pdf
@@ -7437,7 +7437,7 @@ NTMFD1D6N03P8	out	below the pick (not read)	datasheets/transistor/onsemi/NTMFD1D
 ECH8663R-TL-H	out	below the pick (not read)	datasheets/transistor/onsemi/ECH8663R-D.PDF
 SIA911ADJ-T1-GE3	out	below the pick (not read)	datasheets/transistor/vishay-siliconix/sia911ad.pdf
 FDPC8013S	out	below the pick (not read)	datasheets/transistor/onsemi/fdpc8013s-d.pdf
-NTZD3154NT2G	out	datasheet status	datasheets/transistor/onsemi/ntzd3154n-d.pdf
+NTZD3154NT2G	add		datasheets/transistor/onsemi/ntzd3154n-d.pdf
 ISG0614N06NM5HSCATMA1	add		datasheets/transistor/infineon/Infineon-ISG0614N06NM5HSC-DataSheet-v02_00-EN.pdf
 FDZ1905PZ	skip	no datasheet on the maker's site (rocelec.widen.net)	
 IRF7103TRPBFXTMA1	skip	not in the datasheet's ordering table	datasheets/transistor/infineon/irf7103pbf.pdf

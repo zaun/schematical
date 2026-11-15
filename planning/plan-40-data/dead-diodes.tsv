@@ -15,3 +15,36 @@ DDTC115TCA-7-F	0	DDTC_R1-ONLY_SERIES_CA.pdf ordering table: "DDTC115TCA-7-F Acti
 DDTC114TCA-7-F	0	DDTC_R1-ONLY_SERIES_CA.pdf ordering table: "DDTC114TCA-7-F Active"
 DDTC144TCA-7-F	0	DDTC_R1-ONLY_SERIES_CA.pdf ordering table: "DDTC144TCA-7-F Active"
 DDTC124TUA-7-F	0	DDTC_R1-ONLY_SERIES_UA.pdf ordering table: "DDTC124TUA-7-F Active" (Obsolete is DDTC125TUA)
+BC847BLP4-7B	0	BC847BLP4.pdf p.1 ordering table: "BC847BLP4-7B X2-DFN1006-3 F1" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DCP68-13	0	DCP68_-25.pdf p.1 ordering table: "DCP68-13 Active Standard" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DCX143TU-7-F	0	DCX_XXXX_U.pdf p.2 ordering table: "DCX143TU-7-F Active SOT363" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DCX114EU-7-F	0	DCX_XXXX_U.pdf p.1 ordering table: "DCX114EU-7-F Active SOT363" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DCX123JU-7-F	0	DCX_XXXX_U.pdf p.1 ordering table: "DCX123JU-7-F Active SOT363" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DCX114EU-13R-F	0	DCX_XXXX_U.pdf p.1 ordering table: "DCX114EU-13R-F Active SOT363" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DCX143EU-7-F	0	DCX_XXXX_U.pdf p.2 ordering table: "DCX143EU-7-F Active SOT363" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DCX114YU-7-F	0	DCX_XXXX_U.pdf p.1 ordering table: "DCX114YU-7-F Active SOT363" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DDC143TU-7-F	0	DDC_XXXX_U.pdf p.1 ordering table: "DDC143TU-7-F Active N07" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DDC114YU-7-F	0	DDC_XXXX_U.pdf p.1 ordering table: "DDC114YU-7-F Active N14" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DDC114TU-7-F	0	DDC_XXXX_U.pdf p.1 ordering table: "DDC114TU-7-F Active N12" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DDC144EU-7-F	0	DDC_XXXX_U.pdf p.1 ordering table: "DDC144EU-7-F Active N20" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DDC143ZU-7-F	0	DDC_XXXX_U.pdf p.1 ordering table: "DDC143ZU-7-F Active N03" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DDC113TU-7-F	0	DDC_XXXX_U.pdf p.1 ordering table: "DDC113TU-7-F Active N01" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DDC124EU-7-F	0	DDC_XXXX_U.pdf p.1 ordering table: "DDC124EU-7-F Active N17" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DDTA114TUA-7-F	0	DDTA_R1-ONLY_SERIES_UA.pdf p.1 ordering table: "DDTA114TUA-7-F Active Standard" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DDTC124TE-7-F	0	DDTC_R1-ONLY_SERIES_E.pdf p.1 ordering table: "DDTC124TE-7-F Active Standard" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DDTC115TE-7-F	0	DDTC_R1-ONLY_SERIES_E.pdf p.1 ordering table: "DDTC115TE-7-F Active Standard" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DDTD142JC-7-F	0	DDTD_LO-R1_C.pdf p.1 ordering table: "DDTD142JC -7-F Active" (Obsolete rows are DDTD122LC/122TC/142TC); page 1 image has no watermark
+DDTD123TC-7-F	0	DDTD_XXXX_C.pdf p.1 ordering table: "DDTD123TC-7-F Active SOT23" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DDTD114EC-7-F	0	DDTD_XXXX_C.pdf p.1 ordering table: "DDTD114EC-7-F Active SOT23" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DDTD113EC-7-F	0	DDTD_XXXX_C.pdf p.1 ordering table: "DDTD113EC-7-F Active SOT23" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DDTD113ZC-7-F	0	DDTD_XXXX_C.pdf p.1 ordering table: "DDTD113ZC-7-F Active SOT23" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DDTD113ZU-7-F	0	DDTD_XXXX_U.pdf p.1 ordering table: "DDTD113ZU-7-F Active SOT323" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DP0150BLP4-7	0	DP0150BLP4.pdf p.1 ordering table: "DP0150BLP4-7 Active T6" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+SXTA42TA	0	SXTA42.pdf p.1 ordering table: "SXTA42TA Active SOT89" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+ZTX551STZ	1	ZTX550.pdf p.1 ordering table: "ZTX551STZ NRND (CONTACT US)"; p.1 watermark "NOT RECOMMENDED FOR NEW DESIGNS"
+DDTC144ECA-7-F	0	ds30329.pdf p.1 ordering table: "DDTC144ECA-7-F Active AEC-Q101" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DDTA114ECA-7-F	0	ds30333.pdf p.1 ordering table: "DDTA114ECA-7-F Active AEC-Q101" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DDTA124ECA-7-F	0	ds30333.pdf p.1 ordering table: "DDTA124ECA-7-F Active AEC-Q101" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DDTA144ECA-7-F	0	ds30333.pdf p.1 ordering table: "DDTA144ECA-7-F Active AEC-Q101" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DDTA123ECA-7-F	0	ds30333.pdf p.1 ordering table: "DDTA123ECA-7-F Active AEC-Q101" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark
+DDTA143ECA-7-F	0	ds30333.pdf p.1 ordering table: "DDTA143ECA-7-F Active AEC-Q101" (status words in the PDF belong to other rows / the NRND legend); page 1 image has no watermark

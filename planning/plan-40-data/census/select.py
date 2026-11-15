@@ -320,6 +320,21 @@ def main():
                   f'in a short share: {len(short)}', short)
             for r in above[:20]:
                 print('  not read above the floor:', r['mpn'], r['family'], r['maker'], r['stock'])
+            # A dead flag only the text scan set (no dead-*.tsv line) could be
+            # false (the word belongs to a neighbouring row): none may be at or
+            # above its floor (plan-40-B Corrections 6).
+            read = set()
+            for path in glob.glob(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                               'dead-*.tsv')):
+                read |= {x['mpn'] for x in csv.DictReader(open(path), delimiter='\t')}
+            auto = [r for r in rows if r['reason'] == 'out:datasheet status' and r['mpn'] not in read
+                    and kept.get((r['family'], r['base'].upper(), r['package'], r['supplier_package'],
+                                  named_of(r)), -1) < r['stock']]
+            auto_above = [r for r in auto if (r['family'], r['maker']) not in floor
+                          or r['stock'] >= floor[(r['family'], r['maker'])]]
+            print(f'dead by the text scan only: {len(auto)} rows; at or above their floor: {len(auto_above)}')
+            for r in auto_above[:20]:
+                print('  unread dead flag above the floor:', r['mpn'], r['family'], r['maker'], r['stock'])
 
 
 main()

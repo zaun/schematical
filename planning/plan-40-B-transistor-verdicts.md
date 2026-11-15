@@ -174,77 +174,108 @@ pinout); (b) taking pinouts from DigiKey's description text (it has none).
       `scheme-check.py --maker Nexperia` → `232 eligible rows without a
       scheme`; `pinout-check.py --maker Nexperia` → `326 pinout errors` (every
       row still empty).
-- [ ] Read each onsemi PDF's ordering table and pin diagram (`pdftotext
+- [x] Read each onsemi PDF's ordering table and pin diagram (`pdftotext
       -layout`; one `specs.tsv` row per (series, PDF, package)); fill
       `scheme`, `label`, `pinout`, `elements`. Fairchild-branded PDFs are
-      onsemi's after the rewrite of plan-40-A § 4 rule 3.
-- [ ] Record each distinct pinout checked by hand against the PDF's pin
-      diagram (one per distinct pinout) in § Corrections.
+      onsemi's after the rewrite of plan-40-A § 4 rule 3. Done for every
+      onsemi spec row the pick can reach (Corrections 1): `specs-onsemi-1.tsv`
+      282 rows, `specs-onsemi-2.tsv` 258 rows, seven waves.
+- [x] Record each distinct pinout checked by hand against the PDF's pin
+      diagram (one per distinct pinout) in § Corrections (Corrections 7).
 
 Acceptance: every onsemi eligible row has a scheme or is a skip.
   Check: `python3 -I planning/plan-40-data/census/scheme-check.py --maker onsemi && python3 -I planning/plan-40-data/census/pinout-check.py --maker onsemi` → `0 eligible rows without a scheme`; `0 pinout errors` (est. 1 min; the reading is the work).
-Commit: —
+  Result (2026-11-15, on the pre-verdict view, before the final pick):
+  `onsemi: 2678 rows with a PDF; 794 verbatim, 3 by scheme, 43 in neither, 1838 not read (n/r)`,
+  `0 eligible rows without a scheme`; `pinout-check.py` → `0 pinout errors`.
+Commit: 7d17c1e0 (wave 1), d27a13fb, dde82394 (waves 2–6), (this commit) (wave 7)
 
 ### Phase 2 — Nexperia and Diodes Incorporated
 
-- [ ] As Phase 1 for the Nexperia PDFs (type-number family datasheets, e.g.
+- [x] As Phase 1 for the Nexperia PDFs (type-number family datasheets, e.g.
       `BC847_BC547_SER`: one scheme per series, the `,215`/`,235` packing
       suffixes of DigiKey's part numbers are in the table) and the Diodes
       Incorporated PDFs (ordering information tables with `-7`, `-13` reel
-      suffixes).
+      suffixes). `specs-nexperia.tsv` 126 rows, `specs-diodes.tsv` 232 rows.
 
 Acceptance: as Phase 1 for both makers.
   Check: `scheme-check.py --maker Nexperia`, `--maker "Diodes Incorporated"`, the two `pinout-check.py` runs → `0 eligible rows without a scheme`; `0 pinout errors` (est. 1 min).
-Commit: —
+  Result (2026-11-15): `Nexperia: 232 rows with a PDF; 0 verbatim, 190 by scheme, 2 in neither, 40 not read (n/r)`;
+  `Diodes Incorporated: 504 rows with a PDF; 296 verbatim, 3 by scheme, 34 in neither, 171 not read (n/r)`;
+  `0 eligible rows without a scheme`; `0 pinout errors`.
+Commit: d7c5fba3 (Nexperia wave 1), 7d17c1e0, d27a13fb, dde82394, (this commit)
 
 ### Phase 3 — Infineon and Vishay Siliconix
 
-- [ ] As Phase 1 for the Infineon PDFs (PG-TO packages; pins in the package
+- [x] As Phase 1 for the Infineon PDFs (PG-TO packages; pins in the package
       outline table) and the Vishay Siliconix PDFs (`doc?NNNNN` and `docs/…`
       data sheets; the part-marking / ordering table gives `-E3`, `-GE3`,
-      `-T1-GE3` suffixes).
+      `-T1-GE3` suffixes). `specs-infineon.tsv` 277 rows, `specs-vishay.tsv` 254 rows.
 
 Acceptance: as Phase 1 for both makers.
   Check: the four runs as Phase 2 for `--maker "Infineon Technologies"` and `--maker "Vishay Siliconix"` → `0 eligible rows without a scheme`; `0 pinout errors` (est. 1 min).
-Commit: —
+  Result (2026-11-15): `Infineon Technologies: 1494 rows with a PDF; 55 verbatim, 198 by scheme, 34 in neither, 1207 not read (n/r)`;
+  `Vishay Siliconix: 1592 rows with a PDF; 308 verbatim, 1 by scheme, 13 in neither, 1270 not read (n/r)`;
+  `0 eligible rows without a scheme`; `0 pinout errors`.
+Commit: 7d17c1e0, d27a13fb, dde82394, (this commit)
 
 ### Phase 4 — Datasheet status, verdicts, the final pick
 
-- [ ] Read every eligible row's PDF for the datasheet's own status wording
+- [x] Read every eligible row's PDF for the datasheet's own status wording
       (`obsolete`, `discontinued`, `end of life`, `not recommended for new
       designs`, `NRND`, last-time-buy notes in the ordering table):
       `candidates.tsv` `dead` = 1 for such a part; record each PDF whose
-      eligible rows are all `dead`.
-- [ ] `census/verdicts.py` (§ 3.2): `verdicts.tsv`; `select.py`'s
+      eligible rows are all `dead`. Every row of a read spec row, and every
+      text-scan dead flag at or above its floor, was read by hand
+      (`dead-*.tsv`, merged by `census/dead-merge.py`; Corrections 6): 8 PDFs
+      are all dead by hand (Phase 5's obsolete list).
+- [x] `census/verdicts.py` (§ 3.2): `verdicts.tsv`; `select.py`'s
       `--verdicts` option; re-run the pick to the final
       `candidates.tsv` (`reason` `add` / `skip` / `out:<reason>`).
-- [ ] Hand-check one part per distinct pinout of each maker against its PDF's
+- [x] Hand-check one part per distinct pinout of each maker against its PDF's
       pin diagram (the first onsemi, Nexperia, Diodes, Infineon and Vishay
       lines of each distinct `pinout` of `specs.tsv`), recorded in
-      § Corrections: row, PDF page, result.
+      § Corrections: row, PDF page, result (Corrections 7).
 
 Acceptance: the verdicts and the pick hold, and the owner's named parts are
 in (or their absence is explained).
   Check: `awk -F'\t' '$24=="add"' planning/plan-40-data/candidates.tsv \| wc -l` → N (recorded here; at most 1287); `python3 -I planning/plan-40-data/census/select.py /tmp/p40/raw /tmp/p40/cand.tsv --stock planning/plan-40-data/stock-check.tsv --verdicts planning/plan-40-data/verdicts.tsv --report` → exits 0 and the `add` per (family, maker) line; `for n in 2N3904 2N3906 BC547B BC557B 2N7000 BS170 2N7002; do echo $n $(awk -F'\t' -v n=$n '$24=="add" && index($1,n)==1' planning/plan-40-data/candidates.tsv \| wc -l); done` → each at least 1; a name with 0 is written in § Corrections with the verdict reasons of its rows (est. 3 min).
-Commit: —
+  Result (2026-11-15): N = **1247**; `select.py … --report` exits 0: `bjt: 364 picked` (Nexperia 62,
+  onsemi 152, Diodes 150), `bjt-array: 51` (onsemi 20, Diodes 20, Nexperia 11), `bjt-prebiased: 109`
+  (Nexperia 29, onsemi 40, Diodes 40), `bjt-prebiased-array: 42` (14 each), `mosfet: 601` (onsemi 201,
+  Infineon 200, Vishay 200), `mosfet-array: 80` (onsemi 27, Vishay 27, Infineon 26); `not read: 3988
+  rows; at or above their floor: 0; in a short share: 0`; `dead by the text scan only: 94 rows; at or
+  above their floor: 0`; `picked from a cut piece, not stock-checked: 0`. Named parts: 2N3904 2,
+  2N3906 0, BC547B 2, BC557B 0, 2N7000 2, BS170 2, 2N7002 6 (the two 0s: Corrections 8).
+Commit: (this commit)
 
 ### Phase 5 — Skips, obsolete PDFs, footprint lines
 
-- [ ] `datasheets/skipped-parts.md`: a `## Transistors (plan-40)` section with
+- [x] `datasheets/skipped-parts.md`: a `## Transistors (plan-40)` section with
       one table row per (device or series, reason) group of the `skip` rows,
       in the file's four-column format (`Part(s) | Device | Would have gone
       into | Why skipped`, the "Would have gone into" `transistor` /
-      `Discrete → Transistors → BJT` or `… MOSFET`).
-- [ ] `datasheets/obsolete-not-included.md`: one row per PDF whose eligible
+      `Discrete → Transistors → BJT` or `… MOSFET`). `verdicts.py --write-skipped`
+      → `713 skip rows in 56 table rows` (the skip rows at or above their
+      (family, maker)'s floor).
+- [x] `datasheets/obsolete-not-included.md`: one row per PDF whose eligible
       rows are all `out` for datasheet status; delete those PDFs and their
-      `datasheets/transistor/datasheets.tsv` lines.
-- [ ] `census/footprint-lines.py`: take rows whose `reason` is `add` (it takes
+      `datasheets/transistor/datasheets.tsv` lines. 8 rows (ZTX550, FDMA7628,
+      NSS60200SMT, NSS60201SMT, BCV71, EFC6605R, MBT35200MT1, MJE182: each
+      dead by hand, and every part its table lists dead); 69 more PDFs are
+      all dead by the text scan only, below the pick: not listed as obsolete
+      (unverified), and not kept (no `add` row uses them). The PDFs leave the
+      tree in the prune task below.
+- [x] `census/footprint-lines.py`: take rows whose `reason` is `add` (it takes
       `candidate` today, `if r['reason'] != 'candidate'`); regenerate
       `planning/plan-40-data/footprints-needed.txt` with `python3 -I
       planning/plan-40-data/census/footprint-lines.py
       planning/plan-40-data/candidates.tsv >
       planning/plan-40-data/footprints-needed.txt`; record the lines per
-      letter in § Corrections.
+      letter in § Corrections (Corrections 9: 140 lines, C 20, D 56, E 64).
+- [ ] Prune the PDFs to those an `add` row or a footprint note cites
+      (`place.py --prune`), then commit them with `datasheets.tsv`
+      (plan-40-A Corrections 6). Waits for C–E's final footprint notes.
 
 Acceptance: the skip list is complete and the footprint lines are final.
   Check: `python3 -I planning/plan-40-data/census/verdicts.py --verify-skipped` → `0 skip rows missing from skipped-parts.md`; `grep -vc '^#' planning/plan-40-data/footprints-needed.txt` → the final count (est. 1 min).
@@ -299,6 +330,88 @@ Commit: —
    (an `nc` pin in G). A pinout may have one pin more than DigiKey's count
    when the datasheet numbers the tab on its own and the last pin repeats a
    channel name (`G,D,S,D` on a DPAK DigiKey counts as `-3`).
+   Added during the reading: `SD` (with an element digit) names a half
+   bridge's switch node, the source of one element and the drain of the
+   other (`nmos:G1,D1,SD;nmos:G2,SD,S2`; Infineon BSC09xx / BSG08xx /
+   ISG0614 / IRFH4257D / IRFI4212H, Vishay PowerPAIR, onsemi NTMFD /
+   FDPC / NTLGD / NTTFD), and several numbered pads past DigiKey's lead
+   count are allowed when each is on a channel (ThinPAK pad 5, TOLL pad 9,
+   Nexperia DFN2020-6 pads 7–8). `gen-parts.py` reads `1=G,2=S,…` pinouts
+   (Vishay MICRO FOOT bumps numbered 1–4) as numbered pins. Pinouts that
+   still cannot be written stay `-` and their parts are skipped (`no
+   pinout in the datasheet`): a pin that is one element's collector and
+   the other's base (Diodes UMC4N/UMC5N, onsemi EMC2DXV5T1), a common drain
+   with no terminal (onsemi EFC parts), a MOSFET with a separate Schottky
+   (FDFMA2P853, FDFME3N311ZT, FDZ3N513ZT, NTLGF3402P, NTLJF3117P), DirectFET
+   MN/ME/L8 (pads not numbered), unnumbered PHASE pads (FDMS3606AS,
+   FDMC7208S), PDFs with no pin numbers (FDN337N, FQPF3N80C, FCMT199N60,
+   FCPF600N60Z).
+3. **Verdict overrides.** A part printed verbatim in a PDF that is not its
+   datasheet passes rule 6 by the text match alone, so the readers listed
+   such parts and `planning/plan-40-data/verdict-overrides.tsv` (read by
+   `verdicts.py` and `need-groups.py`) gives them their verdict: MMBT3904SL
+   (named only as the NPN complement in `mmbt3906sl-d.pdf`), BCX71J (only
+   the publication number `BCX71J/D`), BC846A / BC847A / BC848A (the SC-70
+   datasheet), DTC143Z (the SMD datasheet), TIP32 (`mjd112-d.pdf`: "similar
+   to"), all `skip`, `not in the datasheet's ordering table`; KSP2907ACTA
+   (the centre-collector E-C-B version), `skip`, `no pinout in the
+   datasheet`.
+4. **One datasheet row, both polarities.** A spec row can hold the NPN and
+   the PNP part of one datasheet (MJD31/MJD32, TIP31/32, D44H/D45H,
+   MJD41C/42C, 2SA1416 …): the pin roles are written once and
+   `gen-parts.py` takes a single element's npn/pnp (nmos/pmos) from the
+   part's own DigiKey type (`polarity()`); arrays keep `specs.tsv`'s
+   element types (DigiKey types FMBA56 and DTA115TD as single, the
+   datasheets show duals). Array device ids carry the element types.
+5. **Named parts and DigiKey's base.** DigiKey's base product number lumps
+   gain grades (`BC547` for BC547A/B/C), so rule 3 made BC547BBU/BC547BTF
+   duplicates of a BC547C part and the owner's named BC547B fell out. A
+   named part is now a duplicate only of the same named part (`named_of()`
+   in `select.py`, the same key in `need-groups.py` and the report's
+   proof): BC547BBU and BC547BTF are `add`.
+6. **Dead flags the text scan set.** The 300-character window flags parts
+   that sit next to an obsolete one (the onsemi tables' "DISCONTINUED"
+   heading, a neighbouring NRND row, the "NRND = …" legend): of the flags
+   the readers checked, 112 were false (`dead-merge.py`: `1 -> 0`) and 33
+   true, and 17 more were found only as page-image watermarks
+   (`pdftotext` drops them; the readers looked at page 1 of each PDF and
+   onsemi-1 scanned pages 1–2 for grey pixels). A dead row never enters the
+   reading waves, so every text-only flag at or above its (family,
+   maker)'s floor was read by hand (68 rows, 41 PDFs: 64 false); the report
+   proves the rest are below the pick: `dead by the text scan only: 94
+   rows; at or above their floor: 0`.
+7. **Hand checks of the pinouts.** For every distinct (maker, pinout,
+   element types) of the `add` rows — 136 — one row was checked against
+   the drawing as a page image (`pdftoppm`), its note in
+   `specs-<list>.tsv` saying `visual p.N ok` (132 by the readers; the
+   reader reports list each pinout with its PDF and page). The main
+   session checked the other four: `ZTX951.pdf` p.1 (E-Line, leads drawn
+   C B E with no numbers: see below), `irfhs8242pbf.pdf` p.1 (PQFN 2×2 top
+   view 1 D, 2 D, 3 G, 4 S, 5 D, 6 D: ok), `PQMD12.pdf` p.2 Table 2 (pins
+   1–8 GND1, I1, O2, GND2, I2, O1, O1, O2: ok), `ntjd4152p-d.pdf` STYLE 26
+   (S1, G1, D2, S2, G2, D1: ok). One fault found: the Diodes E-Line rows
+   numbered the leads E, B, C while plan-40-C's `E-LINE-3-DIODES` numbers
+   its pads C, B, E (the drawn order; neither PDF numbers the leads), which
+   would have put the emitter on the collector's pad; the five E-Line rows
+   now read `C,B,E`.
+8. **Named parts.** 2N3904 2 (`2N3904BU`, `2N3904TA`), BC547B 2
+   (`BC547BBU`, `BC547BTF`), 2N7000 2, BS170 2, 2N7002 6. **2N3906: 0** —
+   `2N3906BU`, `TA`, `TF`, `TFR`, `TAR` are `skip`, `not in the
+   datasheet's ordering table` (onsemi's `2n3906-d.pdf` lists only the
+   RL1 / RLRA / RLRM / RLRP packings), `2N3906ZL1` links a Rochester copy.
+   **BC557B: 0** — `BC557BTF` and `BC557BTA` are `out`, `datasheet status`
+   (listed under DISCONTINUED in `BC556-D`'s ordering table).
+9. **The final pick: 1247 parts.** The waves read 1390 spec rows (wave 1
+   1296, then 76, 8, 1, 6 + 1, and 39 after the dead-flag reading); 4043
+   are `n/r`. The final `footprints-needed.txt` has 140 lines (C 20, D 56,
+   E 64), against the planning-time 28, 63, 73.
+10. **The Infineon FET piece was re-listed.** The skips lowered Infineon's
+   MOSFET floor to 11082, below the 300th stock (13354) of its cut piece
+   `278-448 all` (`NEEDS DEEPER LISTING`), so `recheck.sh` got a fourth
+   line and re-listed it (106 calls; 2144 parts), then A Phase 3 ran again
+   for the new rows (1127 more URLs, 1123 PDFs) before the last waves. No
+   picked row comes from a cut piece now (`candidates from a cut piece: 0
+   of 1247`).
 
 ## Summary
 

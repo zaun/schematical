@@ -266,3 +266,18 @@ datasheets/transistor/onsemi/dtc124ed-d.pdf	6-TSSOP, SC-88, SOT-363	-	=	SC-88	E2
 datasheets/transistor/onsemi/dtc144ed-d.pdf	6-TSSOP, SC-88, SOT-363	-	=	SC-88	E2,B2,C1,E1,B1,C2	npn:B1,C1,E1;npn:B2,C2,E2	p.1 PIN CONNECTIONS Q1 (3) C,(4) E,(5) B; Q2 (1) E,(2) B,(6) C; p.6 ordering
 datasheets/transistor/onsemi/emx1dxv6t1-d.pdf	SOT-563, SOT-666	-	=	SOT-563	E1,B1,E2,C2,B2,C1	npn:B1,C1,E1;npn:B2,C2,E2	p.1 drawing Tr1 (1) E,(2) B,(6) C; Tr2 (3) E,(5) B,(4) C (CASE 463A STYLE 1); visual p.1 ok; p.2 ordering
 datasheets/transistor/onsemi/BC327-D.PDF	TO-226-3, TO-92-3 (TO-226AA)	-	=	TO-92	C,B,E	pnp:B,C,E	p.1 "1. Collector 2. Base 3. Emitter" (TO-92 3 case 135AN); visual p.1 ok; p.1 ordering lists BC327BU, BC32740BU, BC32725BU, BC32725TA, BC32740TA; no watermark p.1
+datasheets/transistor/onsemi/2N5551T-D.PDF	TO-226-3, TO-92-3 (TO-226AA)	-	=	TO-92	E,B,C	npn:B,C,E	p.1 TO-92-3 sketch "E B C" (case 135AN); visual p.1 ok; p.5 ordering
+datasheets/transistor/onsemi/2N5551T-D.PDF	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	-	=	TO-92	E,B,C	npn:B,C,E	p.1 TO-92-3 sketches "E B C" (135AN; 135AR leadformed same lead order); p.5 ordering
+datasheets/transistor/onsemi/MMBF170-D.PDF	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	-	=	TO-92	D,G,S	nmos:G,D,S	p.1 TO-92 leadformed sketch "D G S", p.6 ordering "Forming DGS"
+datasheets/transistor/onsemi/bc846bdw1t1-d.pdf	6-TSSOP, SC-88, SOT-363	-	=	SC-88	E2,B2,C1,E1,B1,C2	npn:B1,C1,E1;npn:B2,C2,E2	p.1 drawing Q1 (3) C,(4) E,(5) B; Q2 (1) E,(2) B,(6) C; visual p.1 ok; p.10 ordering
+datasheets/transistor/onsemi/dta113e-d.pdf	SC-70, SOT-323	-	=	SC-70	B,E,C	pnp:B,C,E	p.1 PIN CONNECTIONS "PIN 1 BASE (R1), PIN 2 EMITTER, PIN 3 COLLECTOR"; p.2 ordering
+datasheets/transistor/onsemi/dta113e-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 PIN CONNECTIONS "PIN 1 BASE (R1), PIN 2 EMITTER, PIN 3 COLLECTOR"; p.2 ordering
+datasheets/transistor/onsemi/dta114t-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 PIN CONNECTIONS "PIN 1 BASE (R1), PIN 2 EMITTER, PIN 3 COLLECTOR"; p.6 ordering
+datasheets/transistor/onsemi/dta115t-d.pdf	SC-70, SOT-323	-	=	SC-70	B,E,C	pnp:B,C,E	p.1 PIN CONNECTIONS "PIN 1 BASE (R1), PIN 2 EMITTER, PIN 3 COLLECTOR"; p.2 ordering
+datasheets/transistor/onsemi/dta115t-d.pdf	SOT-1123	-	=	SOT-1123	B,E,C	pnp:B,C,E	p.1 PIN CONNECTIONS "PIN 1 BASE (R1), PIN 2 EMITTER, PIN 3 COLLECTOR"; p.2 ordering
+datasheets/transistor/onsemi/dta115t-d.pdf	SOT-723	-	=	SOT-723	B,E,C	pnp:B,C,E	p.1 PIN CONNECTIONS "PIN 1 BASE (R1), PIN 2 EMITTER, PIN 3 COLLECTOR"; p.2 ordering
+datasheets/transistor/onsemi/dta115t-d.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 PIN CONNECTIONS "PIN 1 BASE (R1), PIN 2 EMITTER, PIN 3 COLLECTOR"; p.2 ordering
+datasheets/transistor/onsemi/fdz3n513zt-d.pdf	4-XFBGA, WLCSP	-	=	WLCSP	-	-	p.2 ball sketch D, S, G, K: integrated NMOS + Schottky (K = cathode) not expressible with transistor pin names
+datasheets/transistor/onsemi/ksa992-d.pdf	TO-226-3, TO-92-3 (TO-226AA) Formed Leads	-	=	TO-92	E,C,B	pnp:B,C,E	p.1 "1. Emitter 2. Collector 3. Base"; p.1 ordering
+datasheets/transistor/onsemi/mjb41c-d.pdf	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	-	=	D2PAK	B,C,E	npn:B,C,E	p.1 D2PAK CASE 418B STYLE 1, p.8 "STYLE 1: PIN 1. BASE 2. COLLECTOR 3. EMITTER 4. COLLECTOR"; visual p.1 ok; p.1 ordering (row holds MJB41C NPN and MJB42C PNP, rule 3)
+datasheets/transistor/onsemi/mjd2955-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	MJD2955G|MJD2955T4G|NJVMJD2955T4G|MJD3055T4G|NJVMJD3055T4G|MJD3055G	DPAK	B,C,E	npn:B,C,E	p.1 "COLLECTOR 2, 4 / BASE 1 / EMITTER 3" for both, CASE 369C STYLE 1; visual p.1 ok; p.5 ordering (DPAK parts; MJD3055RLG not in it). Row holds MJD2955 PNP and MJD3055 NPN (rule 3)
