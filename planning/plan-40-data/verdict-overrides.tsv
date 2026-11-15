@@ -1,0 +1,2 @@
+mpn	verdict	reason
+MMBT3904SL	skip	not in the datasheet's ordering table (mmbt3906sl-d.pdf names it only as the complementary NPN; its own datasheet did not download)

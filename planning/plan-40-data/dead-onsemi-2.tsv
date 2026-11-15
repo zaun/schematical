@@ -1,0 +1,10 @@
+mpn	dead	evidence
+MJD42CT4G	0	p.5 ordering table lists MJD42CT4G above the "DISCONTINUED (Note 5)" heading, which covers only MJD42C1G (IPAK)
+MJD42CRLG	0	p.5 listed above "DISCONTINUED (Note 5)"; only MJD42C1G is discontinued
+NJVMJD42CRLG	0	p.5 listed above "DISCONTINUED (Note 5)"; only MJD42C1G is discontinued
+MJD42CG	0	p.5 listed above "DISCONTINUED (Note 5)"; only MJD42C1G is discontinued
+MJD45H11T4G	0	p.7 listed above "DISCONTINUED (Note 3)", which covers MJD44H11T5G, NJVMJD44H11D3T4G, NJVMJD45H11D3T4G
+MJD45H11RLG	0	p.7 listed above "DISCONTINUED (Note 3)"; rev 22 marks only MJD44H11T5G, NJVMJD44H11D3T4G, NJVMJD45H11D3T4G
+NJVMJD44H11D3T4G	1	p.7 under "DISCONTINUED (Note 3)": "These devices are not available"; rev 22 "NJVMJD44H11D3T4G ... OPNs marked as Discontinued"
+MJE182STU	1	mje182-d.pdf p.2 watermark "DISCONTINUED - THIS DEVICE IS NOT RECOMMENDED FOR NEW DESIGN, PLEASE CONTACT YOUR onsemi REPRESENTATIVE"
+MBT35200MT1	1	mbt35200mt1-d.pdf rev 7 "Document Discontinued." (1/16/2026) and p.1 DISCONTINUED / not available watermark; ordering table: SMBT35200MT1G "DISCONTINUED: This device is not available"

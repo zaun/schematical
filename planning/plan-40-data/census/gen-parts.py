@@ -73,6 +73,10 @@ def pinout_key(names, ball):
 def parse_pinout(text):
     """(names in pin order, [(ball, name)] or None) of a specs.tsv pinout."""
     items = [i.strip() for i in text.split(",")]
+    keys = [i.split("=", 1)[0] for i in items if "=" in i]
+    if len(keys) == len(items) and keys == [str(k) for k in range(1, len(items) + 1)]:
+        # bumps numbered 1..N (Vishay MICRO FOOT): a numbered pinout
+        return [i.split("=", 1)[1] for i in items], None
     if all("=" in i for i in items):
         ball = [tuple(i.split("=", 1)) for i in items]
         return [n for _, n in ball], ball
@@ -92,9 +96,23 @@ def pins_json(names, ball, controls):
     return out
 
 
-def elements_json(text, darlington):
+def polarity(r, els):
+    """plan-40-B Corrections 4: one datasheet row can cover both polarities
+    (MJD31 / MJD32), so a single element's type is the part's own DigiKey
+    type; the pin roles stay the datasheet's. Arrays keep specs.tsv's."""
+    if len(els) != 1:
+        return els
+    t = r["type"]
+    want = ("npn" if t.startswith("NPN") else "pnp" if t.startswith("PNP")
+            else "nmos" if t.startswith("N-Channel") else "pmos" if t.startswith("P-Channel") else None)
+    if want is None or (want in ("npn", "pnp")) != (els[0][0] in ("npn", "pnp")):
+        return els
+    return [(want,) + tuple(els[0][1:])]
+
+
+def elements_json(els, darlington):
     out = []
-    for t, control, a, b in specs.elements(text):
+    for t, control, a, b in els:
         if t in ("npn", "pnp"):
             e = {"type": t, "base": control, "collector": a, "emitter": b}
             if darlington:
@@ -211,19 +229,20 @@ def full(cand_path, generics_only):
     for r in rows:
         s = table[specs.key(r)]
         pin_names, ball = parse_pinout(s["pinout"])
-        els = specs.elements(s["elements"])
+        els = polarity(r, specs.elements(s["elements"]))
         group, function, desc = function_of(r, els)
         pkey = pinout_key(pin_names, ball)
-        dkey = (group, function, pkey)
+        dkey = (group, function, pkey, tuple(e[0] for e in els))
         if dkey not in devices:
             controls = {e[1] for e in els}
             devices[dkey] = {
-                "id": f"{group}-{kebab(function)}-{pkey}",
+                "id": (f"{group}-array-{'-'.join(e[0] for e in els)}-{pkey}" if function == "Array"
+                       else f"{group}-{kebab(function)}-{pkey}"),
                 "function": function,
                 "description": desc,
                 "drawer": ["Discrete", "Transistors", "BJT" if group == "bjt" else "MOSFET"],
                 "pinouts": {pkey: pins_json(pin_names, ball, controls)},
-                "elements": elements_json(s["elements"], "Darlington" in r["type"]),
+                "elements": elements_json(els, "Darlington" in r["type"]),
                 "parts": [],
             }
         elif "Darlington" in r["type"] and group == "bjt":

@@ -10,7 +10,8 @@ import common
 SPECS = os.path.join(common.DATA, "specs.tsv")
 CANDIDATES = os.path.join(common.DATA, "candidates.tsv")
 COLS = ["maker", "series", "pdf", "package", "rows", "example", "scheme", "label", "pinout", "elements"]
-NAMES = re.compile(r"^(B|C|E|G|D|S)([1-9]?)$|^NC$")
+# SD: a half bridge's switch node, one element's source and the other's drain.
+NAMES = re.compile(r"^(B|C|E|G|D|S|SD)([1-9]?)$|^NC$")
 # scheme values that are no regex: `=` every row of the group is printed
 # verbatim (no scheme needed); `-` the PDF has no ordering table (only a
 # verbatim hit counts); `n/r` not read (the group is below the pick,

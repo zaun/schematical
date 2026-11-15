@@ -1,0 +1,212 @@
+pdf	package	series	scheme	label	pinout	elements	note
+datasheets/transistor/diodes/2DB1713.pdf	TO-243AA	-	=	SOT-89	B,C,E	pnp:B,C,E	p.1 Pin Out top view: E, C, B leads (pins 3, 2, 1) with C tab; tab not counted (TO-243AA); visual p.1 ok
+datasheets/transistor/diodes/2DC4617Q_R_S.pdf	SOT-523	-	=	SOT-523	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C top (pin 3), B, E bottom (pins 1, 2)
+datasheets/transistor/diodes/BC807-25.pdf	TO-236-3, SC-59, SOT-23-3	-	BC807-(16|25|40)-7-F|BC807-40-13-F	SOT-23	B,E,C	pnp:B,C,E	p.1 Pinout top view: C top (pin 3), B, E bottom (pins 1, 2); ordering p.1; visual p.1 ok
+datasheets/transistor/diodes/BC846AW-BC848CW.pdf	SC-70, SOT-323	-	=	SOT-323	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C top (pin 3), B, E bottom (pins 1, 2)
+datasheets/transistor/diodes/BC847BFA.pdf	3-XFDFN	-	=	X2-DFN0806-3	B,E,C	npn:B,C,E	p.1 top-view schematic B, E small pads, C large pad; pin 1 = B (pin #1 ID in outline, as DDTC114ELP p.1 numbers B 1, E 2, C 3)
+datasheets/transistor/diodes/BC847BLP.pdf	3-UFDFN	-	=	X1-DFN1006-3	B,E,C	npn:B,C,E	p.1 top-view schematic B, E small pads, C large pad; pin 1 = B (pin #1 ID in outline, as DDTC114ELP p.1 numbers B 1, E 2, C 3); p.5 outline pin #1 ID at small pad = B; visual p.1 ok
+datasheets/transistor/diodes/BC856AW-BC858CW.pdf	SC-70, SOT-323	-	=	SOT-323	B,E,C	pnp:B,C,E	p.1 Pin-Out top view: C top (pin 3), B, E bottom (pins 1, 2)
+datasheets/transistor/diodes/BC857BFA.pdf	3-XFDFN	-	=	X2-DFN0806-3	B,E,C	pnp:B,C,E	p.1 top-view schematic B, E small pads, C large pad; pin 1 = B (pin #1 ID in outline, as DDTC114ELP p.1 numbers B 1, E 2, C 3)
+datasheets/transistor/diodes/BCM857BS.pdf	6-TSSOP, SC-88, SOT-363	-	=	SOT-363	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;pnp:B2,C2,E2	p.1 pin-out "1 E1, 2 B1, 3 C2, 4 E2, 5 B2, 6 C1"; visual p.1 ok
+datasheets/transistor/diodes/BCP51_52_53.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	pnp:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4; visual p.1 ok
+datasheets/transistor/diodes/BCP54_55_56.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	npn:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4; visual p.1 ok
+datasheets/transistor/diodes/BCX54_55_56.pdf	TO-243AA	-	=	SOT-89	B,C,E	npn:B,C,E	p.1 Pin Out top view: E, C, B leads (pins 3, 2, 1) with C tab; tab not counted (TO-243AA); visual p.1 ok
+datasheets/transistor/diodes/BST39.pdf	TO-243AA	-	=	SOT-89	B,C,E	npn:B,C,E	p.1 Pin Out top view: E, C, B leads (pins 3, 2, 1) with C tab; tab not counted (TO-243AA)
+datasheets/transistor/diodes/DDA_XXXX_U.pdf	6-TSSOP, SC-88, SOT-363	-	=	SOT-363	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;pnp:B2,C2,E2	p.1 device schematic numbered: Q1 E 1, B(R1) 2, C 6; Q2 C 3, E 4, B(R1) 5; visual p.1 ok
+datasheets/transistor/diodes/DDTA_R1-ONLY_SERIES_CA.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 Device Schematic top view: C top, B bottom-left, E bottom-right
+datasheets/transistor/diodes/DDTB_XXXX_C.pdf	TO-236-3, SC-59, SOT-23-3	-	DDTB(113E|123E|143E|114E|122J|113Z|123Y|133H|123T|143T|114T|114G)C-7-F	SOT-23	B,E,C	pnp:B,C,E	p.1 device schematic "1 IN (B), 2 GND (E), 3 OUT (C)"; ordering table p.1 (DDTB...C-7-F); DDTC parts and -W variants not in it
+datasheets/transistor/diodes/DDTC_R1-ONLY_SERIES_CA.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Device Schematic top view: C top, B bottom-left, E bottom-right; visual p.1 ok
+datasheets/transistor/diodes/DDTC_R1-ONLY_SERIES_UA.pdf	SC-70, SOT-323	-	=	SOT-323	B,E,C	npn:B,C,E	p.1 device schematic "1 IN (B), 2 GND (E), 3 OUT (C)"
+datasheets/transistor/diodes/DSS2540M.pdf	3-UFDFN	-	=	X1-DFN1006-3	B,E,C	npn:B,C,E	p.1 top-view schematic B, E small pads, C large pad; pin 1 = B (pin #1 ID in outline, as DDTC114ELP p.1 numbers B 1, E 2, C 3)
+datasheets/transistor/diodes/DSS3515M.pdf	3-UFDFN	-	=	X1-DFN1006-3	B,E,C	pnp:B,C,E	p.1 top-view schematic B, E small pads, C large pad; pin 1 = B (pin #1 ID in outline, as DDTC114ELP p.1 numbers B 1, E 2, C 3)
+datasheets/transistor/diodes/DSS5320T.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/DST857BDJ.pdf	SOT-963	-	=	SOT-963	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;pnp:B2,C2,E2	p.1 pin-out "1 E1, 2 B1, 3 C2, 4 E2, 5 B2, 6 C1"
+datasheets/transistor/diodes/DXT5551P5.pdf	PowerDI™ 5	-	=	PowerDI5	B,E,C	npn:B,C,E	p.1 pin-out diagram: B, E leads, C tab (unnumbered; SOT-23-style order); visual p.1 ok
+datasheets/transistor/diodes/DXT696BK.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	=	DPAK	B,C,E	npn:B,C,E	p.1 Pin-Out top view: B, C, E leads, C tab (pin 2 shared); visual p.1 ok
+datasheets/transistor/diodes/DXTN10060DF.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/DXTN3C100PD.pdf	8-PowerTDFN	-	=	PowerDI5060-8	E1,B1,E2,B2,C2,C2,C1,C1	npn:B1,C1,E1;npn:B2,C2,E2	p.1 Pin Configuration top view: dot (pin 1) bottom-left, bottom row E1 B1 E2 B2, top row C2 C2 C1 C1 (right to left); collector pads not numbered; visual p.1 ok
+datasheets/transistor/diodes/DXTP3C100PD.pdf	8-PowerTDFN	-	=	PowerDI5060-8	E1,B1,E2,B2,C2,C2,C1,C1	pnp:B1,C1,E1;pnp:B2,C2,E2	p.1 Pin Configuration top view: dot (pin 1) bottom-left, bottom row E1 B1 E2 B2, top row C1 C1 C2 C2; collector pads not numbered; visual p.1 ok
+datasheets/transistor/diodes/FCX491A.pdf	TO-243AA	-	=	SOT-89	B,C,E	npn:B,C,E	p.1 Pin Out top view: E, C, B leads (pins 3, 2, 1) with C tab; tab not counted (TO-243AA)
+datasheets/transistor/diodes/FMMT415.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/FMMT451.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Top View Pin-Out (rotated): C left = pin 3, B pin 1, E pin 2; visual p.1 ok
+datasheets/transistor/diodes/FMMT455.pdf	TO-236-3, SC-59, SOT-23-3	-	-	SOT-23	B,E,C	npn:B,C,E	p.1 SOT23 drawing C, E, B leads; 1996 datasheet has no ordering table (partmarking only)
+datasheets/transistor/diodes/FMMT458.pdf	TO-236-3, SC-59, SOT-23-3	-	FMMT458T[AC]	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out; ordering p.1 FMMT458TA/TC only (Q part has a separate datasheet)
+datasheets/transistor/diodes/FMMT459Q.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/FMMT489.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/FMMT491Q.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/FMMT493.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/FMMT549.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/FMMT589.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/FMMT593.pdf	TO-236-3, SC-59, SOT-23-3	-	FMMT593T[AC]	SOT-23	B,E,C	pnp:B,C,E	p.1 Pin-Out; ordering p.1 FMMT593TA/TC only (no Q)
+datasheets/transistor/diodes/FMMT614.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/FMMT617.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/FMMT619.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/FMMT620.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/FMMT634Q.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/FMMT6517.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/FMMT6520.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/FMMT718.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/FMMTA42.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/FMMTA92.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/FMMTL618.pdf	TO-236-3, SC-59, SOT-23-3	-	-	SOT-23	B,E,C	npn:B,C,E	p.1 SOT23 drawing C, E, B leads; 1997 datasheet has no ordering table
+datasheets/transistor/diodes/FMMTL619.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/FMMTL717.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/FMMTL718.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/FZT1051.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	npn:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4
+datasheets/transistor/diodes/FZT1149A.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	pnp:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4
+datasheets/transistor/diodes/FZT1151A.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	pnp:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4
+datasheets/transistor/diodes/FZT558.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	pnp:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4
+datasheets/transistor/diodes/FZT600A.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	npn:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4
+datasheets/transistor/diodes/FZT603.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	npn:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4
+datasheets/transistor/diodes/FZT605.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	npn:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4
+datasheets/transistor/diodes/FZT653.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	npn:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4
+datasheets/transistor/diodes/FZT655.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	npn:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4
+datasheets/transistor/diodes/FZT658.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	npn:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4
+datasheets/transistor/diodes/FZT689B.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	npn:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4
+datasheets/transistor/diodes/FZT690B.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	npn:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4
+datasheets/transistor/diodes/FZT705.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	pnp:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4
+datasheets/transistor/diodes/FZT7053.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	npn:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4
+datasheets/transistor/diodes/FZT758.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	pnp:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4
+datasheets/transistor/diodes/FZT789A.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	pnp:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4
+datasheets/transistor/diodes/FZT790A.pdf	TO-261-4, TO-261AA	-	FZT790ATA	SOT-223	B,C,E,C	pnp:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4; ordering p.1 FZT790ATA only
+datasheets/transistor/diodes/FZT792A.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	pnp:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4
+datasheets/transistor/diodes/FZT857.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	npn:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4
+datasheets/transistor/diodes/FZT948.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	pnp:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4
+datasheets/transistor/diodes/FZT9556.pdf	TO-261-4, TO-261AA	-	-	SOT-223	B,C,E,C	pnp:B,C,E	p.1 SOT223 drawing leads B, C, E, C tab; 2005 datasheet has no ordering table
+datasheets/transistor/diodes/MJD45H11.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	=	DPAK	B,C,E	pnp:B,C,E	p.1 Pin-Out top view: B, C, E leads, C tab (pin 2 shared); visual p.1 ok
+datasheets/transistor/diodes/MMBT2907A.pdf	TO-236-3, SC-59, SOT-23-3	-	MMBT2907A-(7|13)-F	SOT-23	B,E,C	pnp:B,C,E	p.1 Pinout; ordering p.1 MMBT2907A-7-F/-13-F (no -W)
+datasheets/transistor/diodes/MMBT3904.pdf	TO-236-3, SC-59, SOT-23-3	-	MMBT3904-(7|13)-F	SOT-23	B,E,C	npn:B,C,E	p.1 Pinout; ordering p.1 MMBT3904-7-F/-13-F (no -W)
+datasheets/transistor/diodes/MMBT3904FA.pdf	3-XFDFN	-	=	X2-DFN0806-3	B,E,C	npn:B,C,E	p.1 top-view schematic B, E small pads, C large pad; pin 1 = B (pin #1 ID in outline, as DDTC114ELP p.1 numbers B 1, E 2, C 3)
+datasheets/transistor/diodes/MMBT3904FZ.pdf	3-XFDFN	-	=	X2-DFN0606-3	B,E,C	npn:B,C,E	p.1 top-view schematic B, E small pads, C large pad; pin 1 = B (pin #1 ID in outline, as DDTC114ELP p.1 numbers B 1, E 2, C 3)
+datasheets/transistor/diodes/MMBT4401.pdf	TO-236-3, SC-59, SOT-23-3	-	MMBT4401-(7|13)-F	SOT-23	B,E,C	npn:B,C,E	p.1 Pinout (rotated); ordering p.1 MMBT4401-7-F/-13-F (no -W)
+datasheets/transistor/diodes/MMBT5551.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/MMBTA05.pdf	TO-236-3, SC-59, SOT-23-3	-	MMBTA0[56]-7-F	SOT-23	B,E,C	npn:B,C,E	p.1 Pin Configuration; ordering p.1 MMBTA05-7-F, MMBTA06-7-F (no -W)
+datasheets/transistor/diodes/MMDT3906.pdf	6-TSSOP, SC-88, SOT-363	-	=	SOT-363	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;pnp:B2,C2,E2	p.1 device schematic top view, pins unnumbered: E1 B1 C2 one row, E2 B2 C1 other; identical transistors so either pin-1 corner gives this order
+datasheets/transistor/diodes/MMDT3946.pdf	6-TSSOP, SC-88, SOT-363	-	=	SOT-363	E2,B2,C1,E1,B1,C2	npn:B2,C2,E2;pnp:B1,C1,E1	p.1 "E1, B1, C1 = PNP 3906; E2, B2, C2 = NPN 3904", pin-1 dot at E2 (bottom-left), bottom row E2 B2 C1, top row C2 B1 E1; visual p.1 ok
+datasheets/transistor/diodes/MMDT4401.pdf	6-TSSOP, SC-88, SOT-363	-	=	SOT-363	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;npn:B2,C2,E2	p.1 pin-out "1 E1, 2 B1, 3 C2, 4 E2, 5 B2, 6 C1"; visual p.1 ok
+datasheets/transistor/diodes/MMST3906.pdf	SC-70, SOT-323	-	=	SOT-323	B,E,C	pnp:B,C,E	p.1 Pin-Out top view: C top (pin 3), B, E bottom (pins 1, 2)
+datasheets/transistor/diodes/ZDT6790.pdf	SOT-223-8	-	=	SM-8	E2,B2,E1,B1,C1,C1,C2,C2	npn:B1,C1,E1;pnp:B2,C2,E2	p.1 Pin Out top view (unnumbered): right side B1 E1 B2 E2 top-down, left side C1 C1 C2 C2; pin 1 bottom-right as in the numbered SM-8 drawing of ZHB6718 (same bevel side); 1=NPN, 2=PNP; visual p.1 ok
+datasheets/transistor/diodes/ZHB6718.pdf	SOT-223-8	-	=	SM-8	B3,E2,B2,B1,C1,E1,C3,B4	pnp:B1,C1,E1;npn:B2,C1,E2;npn:B3,C3,E2;pnp:B4,C3,E1	p.1 Pinout numbered "1 B3, 2 E2/E3, 3 B2, 4 B1, 5 C1/C2, 6 E1/E4, 7 C3/C4, 8 B4"; Q1/Q4 PNP, Q2/Q3 NPN (equivalent circuit); shared pins named C1 (=C1,C2), E1 (=E1,E4), C3 (=C3,C4), E2 (=E2,E3); visual p.1 ok
+datasheets/transistor/diodes/ZTX450.pdf	E-Line-3	-	=	E-Line	E,B,C	npn:B,C,E	p.1 E-Line drawing labels leads C, B, E in line; NO pin numbers in the PDF - E as pin 1 is the E-Line convention, ASSUMED; ordering p.1; visual p.1 ok
+datasheets/transistor/diodes/ZTX457.pdf	E-Line-3	-	=	E-Line	E,B,C	npn:B,C,E	p.1 E-Line drawing labels leads C, B, E in line; NO pin numbers in the PDF - E as pin 1 is the E-Line convention, ASSUMED; 1994 datasheet p.1, no ordering table
+datasheets/transistor/diodes/ZTX600.pdf	E-Line-3	-	=	E-Line	E,B,C	npn:B,C,E	p.1 E-Line drawing labels leads C, B, E in line; NO pin numbers in the PDF - E as pin 1 is the E-Line convention, ASSUMED
+datasheets/transistor/diodes/ZTX951.pdf	E-Line-3	-	=	E-Line	E,B,C	pnp:B,C,E	p.1 E-Line drawing labels leads C, B, E in line; NO pin numbers in the PDF - E as pin 1 is the E-Line convention, ASSUMED
+datasheets/transistor/diodes/ZUMT617.pdf	SC-70, SOT-323	Super323™	-	SOT-323	B,E,C	npn:B,C,E	p.1 SOT323 drawing B, E one side, C other; 1998 datasheet has no ordering table
+datasheets/transistor/diodes/ZUMT717.pdf	SC-70, SOT-323	-	=	SOT-323	B,E,C	pnp:B,C,E	p.1 Pin-Out top view: C top (pin 3), B, E bottom (pins 1, 2)
+datasheets/transistor/diodes/ZUMT720.pdf	SC-70, SOT-323	-	-	SOT-323	B,E,C	pnp:B,C,E	p.1 SOT323 drawing B, E one side, C other; 1998 datasheet has no ordering table
+datasheets/transistor/diodes/ZX5T955G.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	pnp:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4
+datasheets/transistor/diodes/ZXT10N20DE6.pdf	SOT-23-6	-	=	SOT-23-6	C,C,B,E,C,C	npn:B,C,E	p.1 Pin-Out top view: dot (pin 1) top-left, left C C B, right E C C; visual p.1 ok
+datasheets/transistor/diodes/ZXT10P12DE6.pdf	SOT-23-6	-	=	SOT-23-6	C,C,B,E,C,C	pnp:B,C,E	p.1 Pin-Out top view: dot (pin 1) top-left, left C C B, right E C C; visual p.1 ok
+datasheets/transistor/diodes/ZXT12P40DX.pdf	8-TSSOP, 8-MSOP (0.118", 3.00mm Width)	-	=	MSOP	E1,B1,E2,B2,C2,C2,C1,C1	pnp:B1,C1,E1;pnp:B2,C2,E2	p.1 top view numbered "1 E1, 2 B1, 3 E2, 4 B2, 5 C2, 6 C2, 7 C1, 8 C1"
+datasheets/transistor/diodes/ZXT13N15DE6.pdf	SOT-23-6	-	=	SOT-23-6	C,C,B,E,C,C	npn:B,C,E	p.1 Pin-Out top view: dot (pin 1) top-left, left C C B, right E C C
+datasheets/transistor/diodes/ZXT690BK.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	=	DPAK	B,C,E	npn:B,C,E	p.1 Pin-Out top view: B, C, E leads, C tab (pin 2 shared)
+datasheets/transistor/diodes/ZXT849K.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	=	DPAK	B,C,E	npn:B,C,E	p.1 Pin-Out top view: B, C, E leads, C tab (pin 2 shared)
+datasheets/transistor/diodes/ZXT951K.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	=	DPAK	B,C,E	pnp:B,C,E	p.1 Pin-Out top view: B, C, E leads, C tab (pin 2 shared)
+datasheets/transistor/diodes/ZXTC4591AMC.pdf	8-VDFN Exposed Pad	-	=	DFN3020-8	B1,E1,B2,E2,C2,C2,C1,C1	npn:B1,C1,E1;pnp:B2,C2,E2	p.1 Bottom View Pin Out: pin 1 = B1 (arrow), bottom row B1 E1 B2 E2, top row C2 C2 C1 C1; exposed pads C2, C1 not numbered (left out); visual p.1 ok
+datasheets/transistor/diodes/ZXTC6717MC.pdf	8-WDFN Exposed Pad	-	=	DFN3020-8	B1,E1,B2,E2,C2,C2,C1,C1	npn:B1,C1,E1;pnp:B2,C2,E2	p.1 Bottom View Pin Out: pin 1 = B1 (arrow), bottom row B1 E1 B2 E2, top row C2 C2 C1 C1; exposed pads C2, C1 not numbered (left out)
+datasheets/transistor/diodes/ZXTC6718MC.pdf	8-WDFN Exposed Pad	-	=	DFN3020-8	B1,E1,B2,E2,C2,C2,C1,C1	npn:B1,C1,E1;pnp:B2,C2,E2	p.1 Bottom View Pin Out: pin 1 = B1 (arrow), bottom row B1 E1 B2 E2, top row C2 C2 C1 C1; exposed pads C2, C1 not numbered (left out)
+datasheets/transistor/diodes/ZXTC6720MC.pdf	8-WDFN Exposed Pad	-	=	DFN3020-8	B1,E1,B2,E2,C2,C2,C1,C1	npn:B1,C1,E1;pnp:B2,C2,E2	p.1 Bottom View Pin Out: pin 1 = B1 (arrow), bottom row B1 E1 B2 E2, top row C2 C2 C1 C1; exposed pads C2, C1 not numbered (left out)
+datasheets/transistor/diodes/ZXTD617MC.pdf	8-WDFN Exposed Pad	-	=	DFN3020-8	B1,E1,B2,E2,C2,C2,C1,C1	npn:B1,C1,E1;npn:B2,C2,E2	p.1 Bottom View Pin Out: pin 1 = B1 (arrow), bottom row B1 E1 B2 E2, top row C2 C2 C1 C1; exposed pads C2, C1 not numbered (left out); visual p.1 ok
+datasheets/transistor/diodes/ZXTD618MC.pdf	8-WDFN Exposed Pad	-	=	DFN3020-8	B1,E1,B2,E2,C2,C2,C1,C1	npn:B1,C1,E1;npn:B2,C2,E2	p.1 Bottom View Pin Out: pin 1 = B1 (arrow), bottom row B1 E1 B2 E2, top row C2 C2 C1 C1; exposed pads C2, C1 not numbered (left out)
+datasheets/transistor/diodes/ZXTD718MC.pdf	8-WDFN Exposed Pad	-	=	DFN3020-8	B1,E1,B2,E2,C2,C2,C1,C1	pnp:B1,C1,E1;pnp:B2,C2,E2	p.1 Bottom View Pin Out: pin 1 = B1 (arrow), bottom row B1 E1 B2 E2, top row C2 C2 C1 C1; exposed pads C2, C1 not numbered (left out); visual p.1 ok
+datasheets/transistor/diodes/ZXTD720MC.pdf	8-WDFN Exposed Pad	-	=	DFN3020-8	B1,E1,B2,E2,C2,C2,C1,C1	pnp:B1,C1,E1;pnp:B2,C2,E2	p.1 Bottom View Pin Out: pin 1 = B1 (arrow), bottom row B1 E1 B2 E2, top row C2 C2 C1 C1; exposed pads C2, C1 not numbered (left out)
+datasheets/transistor/diodes/ZXTN04120HP5.pdf	PowerDI™ 5	-	=	PowerDI5	B,E,C	npn:B,C,E	p.1 pin-out diagram: B, E leads, C tab (unnumbered; SOT-23-style order)
+datasheets/transistor/diodes/ZXTN07045EFF.pdf	SOT-23-3 Flat Leads	-	=	SOT-23F	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/ZXTN19020DFF.pdf	SOT-23-3 Flat Leads	-	=	SOT-23F	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/ZXTN19060CG.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	npn:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4
+datasheets/transistor/diodes/ZXTN2011G.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	npn:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4
+datasheets/transistor/diodes/ZXTN2018F.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/ZXTN2031F.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/ZXTN25012EFL.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/ZXTN25012EZ.pdf	TO-243AA	-	=	SOT-89	B,C,E	npn:B,C,E	p.1 Pin Out top view: E, C, B leads (pins 3, 2, 1) with C tab; tab not counted (TO-243AA)
+datasheets/transistor/diodes/ZXTN25015DFH.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/ZXTN25020DFL.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/ZXTN25040DFH.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/ZXTN25050DFH.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/ZXTN25060BZ.pdf	TO-243AA	-	=	SOT-89	B,C,E	npn:B,C,E	p.1 Pin Out top view: E, C, B leads (pins 3, 2, 1) with C tab; tab not counted (TO-243AA)
+datasheets/transistor/diodes/ZXTN25100BFH.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/ZXTN4004K.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	=	DPAK	B,C,E	npn:B,C,E	p.1 Pin-Out top view: B, C, E leads, C tab (pin 2 shared)
+datasheets/transistor/diodes/ZXTP08400BFF.pdf	SOT-23-3 Flat Leads	-	=	SOT-23F	B,E,C	pnp:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/ZXTP19020DFF.pdf	SOT-23-3 Flat Leads	-	=	SOT-23F	B,E,C	pnp:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/ZXTP19020DZ.pdf	TO-243AA	-	=	SOT-89	B,C,E	pnp:B,C,E	p.1 Pin Out top view: E, C, B leads (pins 3, 2, 1) with C tab; tab not counted (TO-243AA)
+datasheets/transistor/diodes/ZXTP19060CZ.pdf	TO-243AA	-	=	SOT-89	B,C,E	pnp:B,C,E	p.1 Pin Out top view: E, C, B leads (pins 3, 2, 1) with C tab; tab not counted (TO-243AA)
+datasheets/transistor/diodes/ZXTP2012G.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	pnp:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4
+datasheets/transistor/diodes/ZXTP2025F.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/ZXTP2041F.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/ZXTP23015CFH.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/ZXTP23140BFH.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/ZXTP25012EFH.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/ZXTP25015DFH.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/ZXTP25020CFF.pdf	SOT-23-3 Flat Leads	-	=	SOT-23F	B,E,C	pnp:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/ZXTP25020CFH.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/ZXTP25040DFL.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/ZXTP25100CFH.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/ZXTP4003Z.pdf	TO-243AA	-	=	SOT-89	B,C,E	pnp:B,C,E	p.1 Pin Out top view: E, C, B leads (pins 3, 2, 1) with C tab; tab not counted (TO-243AA)
+datasheets/transistor/diodes/ZXTP717MA.pdf	3-UDFN Exposed Pad	-	=	DFN2020B-3	B,E,C	pnp:B,C,E	p.1 Bottom View Pin-Out: B, E small pads, C large pad; unnumbered, order B, E, C as the other Diodes 3-pad DFNs; exposed C pad is the C pin; visual p.1 ok
+datasheets/transistor/diodes/ZXTP722MA.pdf	3-UDFN	-	=	DFN2020B-3	B,E,C	pnp:B,C,E	p.1 Bottom View Pin-Out: B, E small pads, C large pad; unnumbered, order B, E, C as the other Diodes 3-pad DFNs
+datasheets/transistor/diodes/ds11107.pdf	TO-236-3, SC-59, SOT-23-3	-	BC817-(16|25|40)-7-F	SOT-23	B,E,C	npn:B,C,E	p.1 Pinout; ordering p.1 BC817-16/-25/-40-7-F (no -W)
+datasheets/transistor/diodes/ds11108.pdf	TO-236-3, SC-59, SOT-23-3	-	BC846A-7-F|BC846B-(7|13)-F|BC847[ABC]-(7|13)-F|BC848A-7-F|BC848B-(7|13)-F|BC848C-7-F	SOT-23	B,E,C	npn:B,C,E	p.1 Pinout; ordering p.1 (no -W variants)
+datasheets/transistor/diodes/ds11207.pdf	TO-236-3, SC-59, SOT-23-3	-	BC856A-7-F|BC856B-(7|13)-F|BC857A-7-F|BC857[BC]-(7|13)-F|BC858[ABC]-7-F	SOT-23	B,E,C	pnp:B,C,E	p.1 Pinout; ordering p.1 (no -W variants)
+datasheets/transistor/diodes/ds30041.pdf	TO-236-3, SC-59, SOT-23-3	-	MMBT2222A-(7|13)-F	SOT-23	B,E,C	npn:B,C,E	p.1 Pinout (rotated); ordering p.1 MMBT2222A-7-F/-13-F (no -W)
+datasheets/transistor/diodes/ds30057.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/ds30083.pdf	SC-70, SOT-323	-	=	SOT-323	B,E,C	pnp:B,C,E	p.1 Pin-Out top view: C top (pin 3), B, E bottom (pins 1, 2)
+datasheets/transistor/diodes/ds30110.pdf	6-TSSOP, SC-88, SOT-363	-	=	SOT-363	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;pnp:B2,C2,E2	p.1 device schematic top view, pins unnumbered: E1 B1 C2 one row, E2 B2 C1 other; identical transistors so either pin-1 corner gives this order
+datasheets/transistor/diodes/ds30121.pdf	6-TSSOP, SC-88, SOT-363	-	=	SOT-363	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;pnp:B2,C2,E2	p.1 device schematic: pin-1 dot at E1; bottom E1 B1 C2, top C1 B2 E2; Q1 NPN 4401 (E1 B1 C1), Q2 PNP 4403; visual p.1 ok
+datasheets/transistor/diodes/ds30159.pdf	SC-70, SOT-323	-	=	SOT-323	B,E,C	pnp:B,C,E	p.1 outline drawing labels C top, B, E bottom
+datasheets/transistor/diodes/ds30165.pdf	SC-70, SOT-323	-	=	SOT-323	B,E,C	npn:B,C,E	p.1 outline drawing labels C top, B, E bottom
+datasheets/transistor/diodes/ds30167.pdf	SC-70, SOT-323	-	=	SOT-323	B,E,C	pnp:B,C,E	p.1 outline drawing labels C top, B, E bottom
+datasheets/transistor/diodes/ds30169.pdf	6-TSSOP, SC-88, SOT-363	-	=	SOT-363	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;pnp:B2,C2,E2	p.1 pin-out "1 E1, 2 B1, 3 C2, 4 E2, 5 B2, 6 C1"
+datasheets/transistor/diodes/ds30274.pdf	SOT-523	-	=	SOT-523	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C top (pin 3), B, E bottom (pins 1, 2)
+datasheets/transistor/diodes/ds30275.pdf	SOT-523	-	=	SOT-523	B,E,C	pnp:B,C,E	p.1 Pin-Out top view: C top (pin 3), B, E bottom (pins 1, 2)
+datasheets/transistor/diodes/ds30293.pdf	SOT-23-6	-	=	SOT-23-6	E1,NC,E2,C2,B,C1	pnp:B,C1,E1;pnp:B,C2,E2	p.1 drawing: pin-1 dot at E1; bottom E1 NC E2, top C1 B1,2 C2; common base; visual p.1 ok
+datasheets/transistor/diodes/ds30313.pdf	SOT-523	-	=	SOT-523	B,E,C	npn:B,C,E	p.1 device schematic "1 IN (B), 2 GND (E), 3 OUT (C)"
+datasheets/transistor/diodes/ds30314.pdf	SOT-523	-	=	SOT-523	B,E,C	npn:B,C,E	p.1 device schematic "1 IN (B), 2 GND (E), 3 OUT (C)"
+datasheets/transistor/diodes/ds30317.pdf	SOT-523	-	=	SOT-523	B,E,C	pnp:B,C,E	p.1 device schematic "1 IN (B), 2 GND (E), 3 OUT (C)"
+datasheets/transistor/diodes/ds30318.pdf	SOT-523	DDTA (R1#R2 SERIES)	=	SOT-523	B,E,C	pnp:B,C,E	p.1 device schematic "1 IN (B), 2 GND (E), 3 OUT (C)"
+datasheets/transistor/diodes/ds30321.pdf	SC-70, SOT-323	-	=	SOT-323	B,E,C	npn:B,C,E	p.1 device schematic "1 IN (B), 2 GND (E), 3 OUT (C)"
+datasheets/transistor/diodes/ds30322.pdf	SC-70, SOT-323	-	=	SOT-323	B,E,C	npn:B,C,E	p.1 device schematic "1 IN (B), 2 GND (E), 3 OUT (C)"
+datasheets/transistor/diodes/ds30324.pdf	SC-70, SOT-323	DDTC (R2-ONLY SERIES) UA	=	SOT-323	B,E,C	npn:B,C,E	p.1 outline drawing labels C top, B, E bottom
+datasheets/transistor/diodes/ds30325.pdf	SC-70, SOT-323	-	DDTA1(23|43|14|24|44|15)EUA-(7|13)-F	SOT-323	B,E,C	pnp:B,C,E	p.1 device schematic "1 IN (B), 2 GND (E), 3 OUT (C)"; ordering p.4 "DDTA1xxEUA-7-F / -13-F", xx per P/N table p.1
+datasheets/transistor/diodes/ds30325.pdf	SC-70, SOT-323	DDTA (R1 = R2 SERIES) UA	DDTA1(23|43|14|24|44|15)EUA-(7|13)-F	SOT-323	B,E,C	pnp:B,C,E	p.1 device schematic "1 IN (B), 2 GND (E), 3 OUT (C)"; ordering p.4 "DDTA1xxEUA-7-F / -13-F", xx per P/N table p.1
+datasheets/transistor/diodes/ds30326.pdf	SC-70, SOT-323	-	DDTA(113Z|123Y|123J|143X|143F|143Z|114Y|114W|124X|144V|144W)UA-7-F	SOT-323	B,E,C	pnp:B,C,E	p.1 device schematic "1 IN (B), 2 GND (E), 3 OUT (C)"; ordering p.4 DDTA...UA-7-F list (DDTA124TUA not in it)
+datasheets/transistor/diodes/ds30326.pdf	TO-236-3, SC-59, SOT-23-3	-	-	SOT-23	-	-	PDF is the DDTA (R1#R2) UA SOT-323 datasheet; the SOT-23 CA parts are not in it (no CA pinout, no CA ordering rows)
+datasheets/transistor/diodes/ds30330.pdf	SOT-23-3 Flat Leads	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 device schematic "1 IN (B), 2 GND (E), 3 OUT (C)"
+datasheets/transistor/diodes/ds30330.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 device schematic "1 IN (B), 2 GND (E), 3 OUT (C)"
+datasheets/transistor/diodes/ds30334.pdf	SOT-23-3 Flat Leads	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 device schematic "1 IN (B), 2 GND (E), 3 OUT (C)"
+datasheets/transistor/diodes/ds30334.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 device schematic "1 IN (B), 2 GND (E), 3 OUT (C)"
+datasheets/transistor/diodes/ds30420.pdf	SOT-563, SOT-666	-	=	SOT-563	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;pnp:B2,C2,E2	p.1 schematic numbered: same as DDA..U (1 E1, 2 B1, 3 C2, 4 E2, 5 B2, 6 C1)
+datasheets/transistor/diodes/ds30421.pdf	SOT-563, SOT-666	DDC (XXXX) H	=	SOT-563	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;npn:B2,C2,E2	p.1 schematic numbered: Q1 E 1, B 2, C 6; Q2 C 3, E 4, B 5; visual p.1 ok
+datasheets/transistor/diodes/ds30422.pdf	SOT-563, SOT-666	-	=	SOT-563	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;pnp:B2,C2,E2	p.1 schematic top view, pin-1 dot top-right: NPN E 1, B 2, C 6; PNP C 3, E 4, B 5; visual p.1 ok
+datasheets/transistor/diodes/ds30433.pdf	SOT-563, SOT-666	-	=	SOT-563	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;pnp:B2,C2,E2	p.1 device schematic top view, pins unnumbered: E1 B1 C2 one row, E2 B2 C1 other; identical transistors so either pin-1 corner gives this order
+datasheets/transistor/diodes/ds30438.pdf	SOT-23-6	-	=	SOT-23-6	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;npn:B2,C2,E2	p.1 device schematic top view, pins unnumbered: E1 B1 C2 one row, E2 B2 C1 other; identical transistors so either pin-1 corner gives this order
+datasheets/transistor/diodes/ds30526.pdf	3-UFDFN	-	=	X1-DFN1006-3	B,E,C	pnp:B,C,E	p.1 top-view schematic B, E small pads, C large pad; pin 1 = B (pin #1 ID in outline, as DDTC114ELP p.1 numbers B 1, E 2, C 3)
+datasheets/transistor/diodes/ds30563.pdf	SOT-563, SOT-666	-	=	SOT-563	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;npn:B2,C2,E2	p.1 device schematic top view, pins unnumbered: E1 B1 C2 one row, E2 B2 C1 other; identical transistors so either pin-1 corner gives this order
+datasheets/transistor/diodes/ds30564.pdf	SOT-563, SOT-666	-	=	SOT-563	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;pnp:B2,C2,E2	p.1 device schematic top view, pins unnumbered: E1 B1 C2 one row, E2 B2 C1 other; identical transistors so either pin-1 corner gives this order
+datasheets/transistor/diodes/ds30624.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	pnp:B,C,E	p.1 outline drawing "B TOP VIEW E", C top
+datasheets/transistor/diodes/ds30625.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/ds30767.pdf	6-TSSOP, SC-88, SOT-363	DDC (XXXX) U	=	SOT-363	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;npn:B2,C2,E2	p.1 Fig. 2: bottom EQ1 BQ1 CQ2, top CQ1 BQ2 EQ2
+datasheets/transistor/diodes/ds30817.pdf	6-XFDFN Exposed Pad	-	=	X2-DFN1310-6	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;npn:B2,C2,E2	p.1 schematic top view unnumbered: E B C / C B E rows, identical transistors so either pin-1 corner gives this order; any exposed pad not numbered (left out)
+datasheets/transistor/diodes/ds30944.pdf	TO-243AA	-	=	SOT-89	B,C,E	pnp:B,C,E	p.1 Pin Out top view: E, C, B leads (pins 3, 2, 1) with C tab; tab not counted (TO-243AA)
+datasheets/transistor/diodes/ds30945.pdf	3-UFDFN	-	=	X1-DFN1006-3	B,E,C	npn:B,C,E	p.1 top-view schematic B, E small pads, C large pad; pin 1 = B (pin #1 ID in outline, as DDTC114ELP p.1 numbers B 1, E 2, C 3)
+datasheets/transistor/diodes/ds31143.pdf	TO-243AA	-	=	SOT-89	B,C,E	npn:B,C,E	p.1 Pin Out top view: E, C, B leads (pins 3, 2, 1) with C tab; tab not counted (TO-243AA)
+datasheets/transistor/diodes/ds31203.pdf	5-TSSOP, SC-70-5, SOT-353	-	=	SOT-353	-	-	p.1 schematic: pin 5 is both Q1 collector and Q2 base input (through R1), so no single pin name fits; pins 1 E1, 2 B1, 3 E2, 4 C2, 5 C1+B2
+datasheets/transistor/diodes/ds31205.pdf	5-TSSOP, SC-70-5, SOT-353	-	=	SOT-353	-	-	p.1 schematic: pin 5 is both Q1 collector and Q2 base input (through R1), so no single pin name fits; pins 1 E1, 2 B1, 3 E2, 4 C2, 5 C1+B2
+datasheets/transistor/diodes/ds31219.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	npn:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4
+datasheets/transistor/diodes/ds31231.pdf	TO-261-4, TO-261AA	-	=	SOT-223	B,C,E,C	npn:B,C,E	p.1 Pin-Out top view: B, C, E leads (pins 1-3), C tab = pin 4
+datasheets/transistor/diodes/ds31245.pdf	3-UFDFN	-	=	X1-DFN1006-3	B,E,C	npn:B,C,E	p.1 top-view schematic B, E small pads, C large pad; pin 1 = B (pin #1 ID in outline, as DDTC114ELP p.1 numbers B 1, E 2, C 3)
+datasheets/transistor/diodes/ds31251.pdf	SOT-563, SOT-666	-	=	SOT-563	C,C,B,E,C,C	pnp:B,C,E	p.1 "1, 2, 5, 6" collector, 3 base, 4 emitter; visual p.1 ok
+datasheets/transistor/diodes/ds31361.pdf	3-XFDFN	-	=	X2-DFN1006-3	B,E,C	pnp:B,C,E	p.1 top-view schematic B, E small pads, C large pad; pin 1 = B (pin #1 ID in outline, as DDTC114ELP p.1 numbers B 1, E 2, C 3)
+datasheets/transistor/diodes/ds31438.pdf	3-UFDFN	-	=	X1-DFN1006-3	B,E,C	pnp:B,C,E	p.1 top-view schematic B, E small pads, C large pad; pin 1 = B (pin #1 ID in outline, as DDTC114ELP p.1 numbers B 1, E 2, C 3)
+datasheets/transistor/diodes/ds31588.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/ds31605.pdf	TO-236-3, SC-59, SOT-23-3	-	=	SOT-23	B,E,C	npn:B,C,E	p.1 Pin-Out top view: C alone (pin 3), B and E on the other side (pins 1, 2)
+datasheets/transistor/diodes/ds31625.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	-	=	DPAK	B,C,E	npn:B,C,E	p.1 Pin-Out top view: B, C, E leads, C tab (pin 2 shared)
+datasheets/transistor/diodes/ds31629.pdf	TO-243AA	-	=	SOT-89	B,C,E	npn:B,C,E	p.1 "1 BASE, 2,4 COLLECTOR, 3 EMITTER"; tab 4 left out (TO-243AA)
+datasheets/transistor/diodes/ds31670.pdf	SOT-563, SOT-666	-	=	SOT-563	C,C,B,E,C,C	pnp:B,C,E	p.1 "1, 2, 5, 6" collector, 3 base, 4 emitter
+datasheets/transistor/diodes/ds31672.pdf	SOT-563, SOT-666	-	=	SOT-563	C,C,B,E,C,C	npn:B,C,E	p.1 "1, 2, 5, 6" collector, 3 base, 4 emitter
+datasheets/transistor/diodes/ds31800.pdf	PowerDI™ 5	-	=	PowerDI5	B,E,C	pnp:B,C,E	p.1 pin-out diagram: B, E leads, C tab (unnumbered; SOT-23-style order)
+datasheets/transistor/diodes/ds32011.pdf	PowerDI™ 5	-	=	PowerDI5	B,E,C	npn:B,C,E	p.1 pin-out diagram: B, E leads, C tab (unnumbered; SOT-23-style order)
+datasheets/transistor/diodes/ds32035.pdf	SOT-963	-	=	SOT-963	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;npn:B2,C2,E2	p.1 pin-out "1 E1, 2 B1, 3 C2, 4 E2, 5 B2, 6 C1"
+datasheets/transistor/diodes/ds32039.pdf	SOT-963	-	=	SOT-963	E1,B1,C2,E2,B2,C1	pnp:B1,C1,E1;pnp:B2,C2,E2	p.1 schematic numbered 1-6, same layout as DST3946DPJ
+datasheets/transistor/diodes/ds32044.pdf	SOT-963	-	=	SOT-963	E1,B1,C2,E2,B2,C1	npn:B1,C1,E1;pnp:B2,C2,E2	p.1 schematic numbered: Q1 NPN E 1, B 2, C 6; Q2 PNP C 3, E 4, B 5; visual p.1 ok
+datasheets/transistor/diodes/ds32068.pdf	PowerDI™ 5	-	=	PowerDI5	B,E,C	pnp:B,C,E	p.1 pin-out diagram: B, E leads, C tab (unnumbered; SOT-23-style order)
+datasheets/transistor/diodes/ds32070.pdf	PowerDI™ 5	-	=	PowerDI5	B,E,C	pnp:B,C,E	p.1 pin-out diagram: B, E leads, C tab (unnumbered; SOT-23-style order)

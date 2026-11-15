@@ -31,6 +31,15 @@ import common  # noqa: E402
 import specs  # noqa: E402
 
 SKIPPED = os.path.join(common.ROOT, "datasheets", "skipped-parts.md")
+# Verdicts read by hand that the text rules get wrong (a part printed in a
+# PDF that is not its datasheet: plan-40-B Corrections 3).
+OVERRIDES = os.path.join(common.DATA, "verdict-overrides.tsv")
+
+
+def overrides():
+    if not os.path.exists(OVERRIDES):
+        return {}
+    return {r["mpn"]: (r["verdict"], r["reason"]) for r in csv.DictReader(open(OVERRIDES), delimiter="\t")}
 SECTION = "## Transistors (plan-40)"
 # A spec row the pick cannot reach is not read (plan-40-B Corrections 1);
 # select.py --report proves none of its rows is at or above its floor.
@@ -41,7 +50,9 @@ LEAF = {
 }
 
 
-def verdict(r, s):
+def verdict(r, s, manual=None):
+    if manual and r["mpn"] in manual:
+        return manual[r["mpn"]]
     if not r["pdf"]:
         return "skip", f"no datasheet on the maker's site ({common.host(r['datasheet_url']) or 'none'})"
     if r["dead"] == "1":
@@ -59,13 +70,14 @@ def verdict(r, s):
 
 def main(cand, spec_path, out):
     table = specs.load(spec_path)
+    manual = overrides()
     counts = collections.Counter()
     with open(out, "w") as f:
         f.write("mpn\tverdict\treason\tpdf\n")
         for r in csv.DictReader(open(cand), delimiter="\t"):
             if not common.eligible(r):
                 continue
-            v, why = verdict(r, table.get(specs.key(r)))
+            v, why = verdict(r, table.get(specs.key(r)), manual)
             counts[(v, why)] += 1
             f.write("\t".join([r["mpn"], v, why, r["pdf"]]) + "\n")
     for k in sorted(counts):
