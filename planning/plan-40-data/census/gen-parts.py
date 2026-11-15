@@ -57,7 +57,12 @@ def load_map():
 
 
 def footprint_of(fmap, r):
-    m = fmap.get((r["maker"], r["package"], r["supplier_package"])) or fmap.get((r["maker"], r["package"], "*"))
+    # a part-level row (supplier `mpn:<part number>`) first: parts of one
+    # supplier package on different land patterns (BSG08xx PG-TISON-8-4 among
+    # the BSC09xx PG-TISON-8 parts)
+    m = (fmap.get((r["maker"], r["package"], "mpn:" + r["mpn"]))
+         or fmap.get((r["maker"], r["package"], r["supplier_package"]))
+         or fmap.get((r["maker"], r["package"], "*")))
     if m is None or not m["footprint"]:
         sys.exit(f"gen-parts: {r['mpn']} has no footprint-map row ({r['maker']} | {r['package']} | "
                  f"{r['supplier_package']})")
@@ -248,7 +253,9 @@ def full(cand_path, generics_only):
         elif "Darlington" in r["type"] and group == "bjt":
             pass  # a Darlington's function names it, so its device holds only Darlingtons
         sid = f"{common.SLUG[r['maker']]}-{kebab(os.path.splitext(os.path.basename(r['pdf']))[0])}"
-        sheets[sid] = placed[r["pdf"]]["url"]
+        # datasheets.json takes https only; DigiKey links some maker pages as
+        # http:// (vishay.com, infineon.com), which serve the same file over https
+        sheets[sid] = re.sub(r"^http://", "https://", placed[r["pdf"]]["url"])
         part = {"name": r["mpn"], "manufacturer": r["maker"], "package": s["label"], "pinout": pkey,
                 "footprint": footprint_of(fmap, r), "datasheet": sid}
         part.update(facts(r, group, function.endswith("logic-level")))

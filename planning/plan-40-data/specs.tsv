@@ -2795,33 +2795,33 @@ Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si7892bd.pdf
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si7972dp.pdf	PowerPAK® SO-8 Dual	1	SI7972DP-T1-GE3	n/r			
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si7994dp.pdf	PowerPAK® SO-8 Dual	1	SI7994DP-T1-GE3	n/r			
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8406db.pdf	6-UFBGA	1	SI8406DB-T2-E1	n/r			
-Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8409adb.pdf	4-UFBGA	1	SI8409ADB-T1-E1	=	MICRO FOOT	1=G,2=D,3=D,4=S	pmos:G,D,S
+Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8409adb.pdf	4-UFBGA	1	SI8409ADB-T1-E1	=	MICRO FOOT	A1=G,A2=D,B1=S,B2=D	pmos:G,D,S
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8410db.pdf	4-UFBGA	1	SI8410DB-T2-E1	n/r			
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8424cdb.pdf	4-UFBGA, WLCSP	1	SI8424CDB-T1-E1	n/r			
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8457db.pdf	4-UFBGA	1	SI8457DB-T1-E1	n/r			
-Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8466edb.pdf	4-UFBGA, WLCSP	1	SI8466EDB-T2-E1	=	MICRO FOOT	1=G,2=S,3=S,4=D	nmos:G,D,S
+Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8466edb.pdf	4-UFBGA, WLCSP	1	SI8466EDB-T2-E1	=	MICRO FOOT	A1=G,A2=S,B1=D,B2=S	nmos:G,D,S
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8472db.pdf	4-UFBGA	1	SI8472DB-T2-E1	n/r			
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8483db.pdf	6-UFBGA	1	SI8483DB-T2-E1	n/r			
-Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8487db.pdf	4-UFBGA	1	SI8487DB-T1-E1	=	MICRO FOOT	1=G,2=D,3=D,4=S	pmos:G,D,S
+Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8487db.pdf	4-UFBGA	1	SI8487DB-T1-E1	=	MICRO FOOT	A1=G,A2=D,B1=S,B2=D	pmos:G,D,S
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8489edb.pdf	4-UFBGA	1	SI8489EDB-T2-E1	n/r			
-Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8800edb.pdf	4-XFBGA, CSPBGA	1	SI8800EDB-T2-E1	=	MICRO FOOT	1=G,2=S,3=S,4=D	nmos:G,D,S
+Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8800edb.pdf	4-XFBGA, CSPBGA	1	SI8800EDB-T2-E1	=	MICRO FOOT	A1=G,A2=S,B1=D,B2=S	nmos:G,D,S
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8802db.pdf	4-XFBGA	1	SI8802DB-T2-E1	n/r			
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8806db.pdf	4-XFBGA	1	SI8806DB-T2-E1	n/r			
-Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8808db.pdf	4-UFBGA	1	SI8808DB-T2-E1	=	MICRO FOOT	1=G,2=S,3=S,4=D	nmos:G,D,S
-Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8810edb.pdf	4-XFBGA	1	SI8810EDB-T2-E1	=	MICRO FOOT	1=G,2=S,3=S,4=D	nmos:G,D,S
-Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8812db.pdf	4-UFBGA	1	SI8812DB-T2-E1	=	MICRO FOOT	1=G,2=S,3=S,4=D	nmos:G,D,S
-Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8816edb.pdf	4-XFBGA	1	SI8816EDB-T2-E1	=	MICRO FOOT	1=G,2=S,3=S,4=D	nmos:G,D,S
+Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8808db.pdf	4-UFBGA	1	SI8808DB-T2-E1	=	MICRO FOOT	A1=G,A2=S,B1=D,B2=S	nmos:G,D,S
+Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8810edb.pdf	4-XFBGA	1	SI8810EDB-T2-E1	=	MICRO FOOT	A1=G,A2=S,B1=D,B2=S	nmos:G,D,S
+Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8812db.pdf	4-UFBGA	1	SI8812DB-T2-E1	=	MICRO FOOT	A1=G,A2=S,B1=D,B2=S	nmos:G,D,S
+Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8816edb.pdf	4-XFBGA	1	SI8816EDB-T2-E1	=	MICRO FOOT	A1=G,A2=S,B1=D,B2=S	nmos:G,D,S
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8817db.pdf	4-XFBGA	1	SI8817DB-T2-E1	n/r			
-Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8821edb.pdf	4-XFBGA, CSPBGA	1	SI8821EDB-T2-E1	=	MICRO FOOT	1=G,2=S,3=S,4=D	pmos:G,D,S
-Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8824edb.pdf	4-XFBGA, CSPBGA	1	SI8824EDB-T2-E1	=	MICRO FOOT	1=G,2=S,3=S,4=D	nmos:G,D,S
+Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8821edb.pdf	4-XFBGA, CSPBGA	1	SI8821EDB-T2-E1	=	MICRO FOOT	A1=G,A2=S,B1=D,B2=S	pmos:G,D,S
+Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si8824edb.pdf	4-XFBGA, CSPBGA	1	SI8824EDB-T2-E1	=	MICRO FOOT	A1=G,A2=S,B1=D,B2=S	nmos:G,D,S
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si9407bd.pdf	8-SOIC (0.154", 3.90mm Width)	2	SI9407BDY-T1-GE3	=	SOIC	S,S,S,G,D,D,D,D	pmos:G,D,S
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si9634dy.pdf	8-SOIC (0.154", 3.90mm Width)	1	SI9634DY-T1-GE3	n/r			
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si9926cd.pdf	8-SOIC (0.154", 3.90mm Width)	2	SI9926CDY-T1-GE3	=	SOIC	S1,G1,S2,G2,D2,D2,D1,D1	nmos:G1,D1,S1;nmos:G2,D2,S2
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/si9933cdy.pdf	8-SOIC (0.154", 3.90mm Width)	2	SI9933CDY-T1-GE3	=	SOIC	S1,G1,S2,G2,D2,D2,D1,D1	pmos:G1,D1,S1;pmos:G2,D2,S2
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/sia112ldj.pdf	PowerPAK® SC-70-6	1	SIA112LDJ-T1-GE3	n/r			
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/sia413adj.pdf	PowerPAK® SC-70-6	1	SIA413ADJ-T1-GE3	n/r			
-Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/sia416dj.pdf	PowerPAK® SC-70-6	1	SIA416DJ-T1-GE3	=	PowerPAK SC-70	D,D,G,S,D,D	nmos:G,D,S
-Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/sia421dj.pdf	PowerPAK® SC-70-6	1	SIA421DJ-T1-GE3	=	PowerPAK SC-70	D,D,G,S,D,D	pmos:G,D,S
+Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/sia416dj.pdf	PowerPAK® SC-70-6	1	SIA416DJ-T1-GE3	=	PowerPAK SC-70	D,D,G,S,D,D,S	nmos:G,D,S
+Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/sia421dj.pdf	PowerPAK® SC-70-6	1	SIA421DJ-T1-GE3	=	PowerPAK SC-70	D,D,G,S,D,D,S	pmos:G,D,S
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/sia4265edj.pdf	PowerPAK® SC-70-6	1	SIA4265EDJ-T1-GE3	n/r			
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/sia431dj.pdf	PowerPAK® SC-70-6	1	SIA431DJ-T1-GE3	=	PowerPAK SC-70	D,D,G,S,D,D,S	pmos:G,D,S
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/sia432bdj.pdf	PowerPAK® SC-70-6	1	SIA432BDJ-T1-GE3	n/r			
@@ -2850,7 +2850,7 @@ Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/sia931dj.pdf
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/sib406ed.pdf	PowerPAK® SC-75-6	1	SIB406EDK-T1-GE3	=	PowerPAK SC-75	D,D,G,S,D,D,S	nmos:G,D,S
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/sib422edk.pdf	PowerPAK® SC-75-6	1	SIB422EDK-T1-GE3	=	PowerPAK SC-75	D,D,G,S,D,D,S	nmos:G,D,S
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/sib4316edk.pdf	PowerPAK® SC-75-6	1	SIB4316EDK-T1-GE3	n/r			
-Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/sib433ed.pdf	PowerPAK® SC-75-6	1	SIB433EDK-T1-GE3	=	PowerPAK SC-75	D,D,G,S,D,D	pmos:G,D,S
+Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/sib433ed.pdf	PowerPAK® SC-75-6	1	SIB433EDK-T1-GE3	=	PowerPAK SC-75	D,D,G,S,D,D,S	pmos:G,D,S
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/sib441edk.pdf	PowerPAK® SC-75-6	1	SIB441EDK-T1-GE3	=	PowerPAK SC-75	D,D,G,S,D,D,S	pmos:G,D,S
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/sib456dk.pdf	PowerPAK® SC-75-6	1	SIB456DK-T1-GE3	=	PowerPAK SC-75	D,D,G,S,D,D,S	nmos:G,D,S
 Vishay Siliconix	TrenchFET®	datasheets/transistor/vishay-siliconix/sib457ed.pdf	PowerPAK® SC-75-6	1	SIB457EDK-T1-GE3	n/r			
@@ -3094,7 +3094,7 @@ Vishay Siliconix	TrenchFET® Gen III	datasheets/transistor/vishay-siliconix/si44
 Vishay Siliconix	TrenchFET® Gen III	datasheets/transistor/vishay-siliconix/si7155dp.pdf	PowerPAK® SO-8	1	SI7155DP-T1-GE3	=	PowerPAK SO-8	S,S,S,G,D,D,D,D	pmos:G,D,S
 Vishay Siliconix	TrenchFET® Gen III	datasheets/transistor/vishay-siliconix/si7223dn.pdf	PowerPAK® 1212-8 Dual	1	SI7223DN-T1-GE3	=	PowerPAK 1212-8	S1,G1,S2,G2,D2,D2,D1,D1	pmos:G1,D1,S1;pmos:G2,D2,S2
 Vishay Siliconix	TrenchFET® Gen III	datasheets/transistor/vishay-siliconix/si7615cdn.pdf	PowerPAK® 1212-8	1	SI7615CDN-T1-GE3	=	PowerPAK 1212-8	S,S,S,G,D,D,D,D	pmos:G,D,S
-Vishay Siliconix	TrenchFET® Gen III	datasheets/transistor/vishay-siliconix/si8823edb.pdf	4-XFBGA	1	SI8823EDB-T2-E1	=	MICRO FOOT	1=G,2=S,3=S,4=D	pmos:G,D,S
+Vishay Siliconix	TrenchFET® Gen III	datasheets/transistor/vishay-siliconix/si8823edb.pdf	4-XFBGA	1	SI8823EDB-T2-E1	=	MICRO FOOT	A1=G,A2=S,B1=D,B2=S	pmos:G,D,S
 Vishay Siliconix	TrenchFET® Gen III	datasheets/transistor/vishay-siliconix/sia4263dj.pdf	PowerPAK® SC-70-6	1	SIA4263DJ-T1-GE3	n/r			
 Vishay Siliconix	TrenchFET® Gen III	datasheets/transistor/vishay-siliconix/sia469dj.pdf	PowerPAK® SC-70-6	1	SIA469DJ-T1-GE3	=	PowerPAK SC-70	D,D,G,S,D,D,S	pmos:G,D,S
 Vishay Siliconix	TrenchFET® Gen III	datasheets/transistor/vishay-siliconix/sia477edjt.pdf	PowerPAK® SC-70-6	1	SIA477EDJT-T1-GE3	n/r			
@@ -3488,7 +3488,7 @@ onsemi	-	datasheets/transistor/onsemi/EN2019-D.PDF	TO-243AA	2	2SD1624S-TD-E	n/r
 onsemi	-	datasheets/transistor/onsemi/EN2539-D.PDF	TO-251-3 Short Leads, IPAK, TO-251AA	1	2SB1215S-H	n/r			
 onsemi	-	datasheets/transistor/onsemi/EN2539-D.PDF	TO-252-3, DPAK (2 Leads + Tab), SC-63	3	2SB1215T-TL-H	n/r			
 onsemi	-	datasheets/transistor/onsemi/EN6666-D.PDF	SC-75, SOT-416	1	5LP01S-TL-E	=	SMCP	G,S,D	pmos:G,D,S
-onsemi	-	datasheets/transistor/onsemi/EN6912-D.PDF	TO-252-3, DPAK (2 Leads + Tab), SC-63	3	2SA2039-TL-E	=	DPAK	B,C,E	npn:B,C,E
+onsemi	-	datasheets/transistor/onsemi/EN6912-D.PDF	TO-252-3, DPAK (2 Leads + Tab), SC-63	3	2SA2039-TL-E	=	DPAK	B,C,E,C	npn:B,C,E
 onsemi	-	datasheets/transistor/onsemi/EN9050-D.PDF	TO-220-3	1	BXL4004-1E	n/r			
 onsemi	-	datasheets/transistor/onsemi/ENA0434-D.PDF	TO-243AA	1	2SC6096-TD-E	n/r			
 onsemi	-	datasheets/transistor/onsemi/FCPF150N65F-D.PDF	TO-220-3 Full Pack	1	FCPF150N65F	n/r			
@@ -3989,14 +3989,14 @@ onsemi	-	datasheets/transistor/onsemi/mjb41c-d.pdf	TO-263-3, D2PAK (2 Leads + Ta
 onsemi	-	datasheets/transistor/onsemi/mjb44h11-d.pdf	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	6	MJB44H11T4G	n/r			
 onsemi	-	datasheets/transistor/onsemi/mjb5742-d.pdf	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	1	MJB5742T4G	n/r			
 onsemi	-	datasheets/transistor/onsemi/mjd112-d.pdf	TO-220-3	1	TIP32	=	TO-220	-	-
-onsemi	-	datasheets/transistor/onsemi/mjd112-d.pdf	TO-251-3 Short Leads, IPAK, TO-251AA	1	MJD112-1G	=	IPAK	B,C,E,C	npn:B,C,E
+onsemi	-	datasheets/transistor/onsemi/mjd112-d.pdf	TO-251-3 Short Leads, IPAK, TO-251AA	1	MJD112-1G	=	IPAK	B,C,E	npn:B,C,E
 onsemi	-	datasheets/transistor/onsemi/mjd112-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	7	MJD112T4G	=	DPAK	B,C,E,C	npn:B,C,E
 onsemi	-	datasheets/transistor/onsemi/mjd122-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	5	MJD122T4G	=	DPAK	B,C,E,C	npn:B,C,E
 onsemi	-	datasheets/transistor/onsemi/mjd128-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	2	MJD128T4G	n/r			
 onsemi	-	datasheets/transistor/onsemi/mjd148-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	1	MJD148T4G	n/r			
 onsemi	-	datasheets/transistor/onsemi/mjd200-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	6	MJD200T4G	=	DPAK	B,C,E,C	npn:B,C,E
 onsemi	-	datasheets/transistor/onsemi/mjd243-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	4	MJD253T4G	n/r			
-onsemi	-	datasheets/transistor/onsemi/mjd2955-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	6	MJD3055T4G	MJD2955G|MJD2955T4G|NJVMJD2955T4G|MJD3055T4G|NJVMJD3055T4G|MJD3055G	DPAK	B,C,E	npn:B,C,E
+onsemi	-	datasheets/transistor/onsemi/mjd2955-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	6	MJD3055T4G	MJD2955G|MJD2955T4G|NJVMJD2955T4G|MJD3055T4G|NJVMJD3055T4G|MJD3055G	DPAK	B,C,E,C	npn:B,C,E
 onsemi	-	datasheets/transistor/onsemi/mjd31-d.pdf	TO-251-3 Short Leads, IPAK, TO-251AA	1	MJD31CITU	MJD31C1G	IPAK	B,C,E,C	npn:B,C,E
 onsemi	-	datasheets/transistor/onsemi/mjd31-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	16	MJD31CT4G	MJD31CG|NJVMJD31CG|MJD31CRLG|NJVMJD31CRLG|MJD31CT4G|NJVMJD31CT4G|MJD31T4G|MJD31CT4GN|NJVMJD31T4G|MJD32CG|NJVMJD32CG|MJD32CRLG|MJD32CT4G|MJD32CT4GN|NJVMJD32CT4G|MJD32RLG|MJD32T4G|NJVMJD32T4G	DPAK	B,C,E,C	npn:B,C,E
 onsemi	-	datasheets/transistor/onsemi/mjd340-d.pdf	TO-252-3, DPAK (2 Leads + Tab), SC-63	5	MJD350T4G	=	DPAK	B,C,E,C	npn:B,C,E
@@ -4015,7 +4015,7 @@ onsemi	-	datasheets/transistor/onsemi/mje182-d.pdf	TO-225AA, TO-126-3	1	MJE182ST
 onsemi	-	datasheets/transistor/onsemi/mje200-d.pdf	TO-225AA, TO-126-3	1	MJE200G	-	TO-126	E,C,B	npn:B,C,E
 onsemi	-	datasheets/transistor/onsemi/mje243-d.pdf	TO-225AA, TO-126-3	2	MJE243G	n/r			
 onsemi	-	datasheets/transistor/onsemi/mje270-d.pdf	TO-225AA, TO-126-3	2	MJE270G	n/r			
-onsemi	-	datasheets/transistor/onsemi/mje2955t-d.pdf	TO-220-3	2	MJE3055TG	=	TO-220	B,C,E,C	npn:B,C,E
+onsemi	-	datasheets/transistor/onsemi/mje2955t-d.pdf	TO-220-3	2	MJE3055TG	=	TO-220	B,C,E	npn:B,C,E
 onsemi	-	datasheets/transistor/onsemi/mje340-d.pdf	TO-225AA, TO-126-3	1	MJE340G	n/r			
 onsemi	-	datasheets/transistor/onsemi/mje350-d.pdf	TO-225AA, TO-126-3	1	MJE350G	n/r			
 onsemi	-	datasheets/transistor/onsemi/mje371-d.pdf	TO-225AA, TO-126-3	1	MJE371G	n/r			
@@ -4599,7 +4599,7 @@ onsemi	-	datasheets/transistor/onsemi/tip120-d.pdf	TO-220-3	4	TIP122G	n/r
 onsemi	-	datasheets/transistor/onsemi/tip140-d.pdf	TO-247-3	2	TIP142G	n/r			
 onsemi	-	datasheets/transistor/onsemi/tip29b-d.pdf	TO-220-3	5	TIP29CG	n/r			
 onsemi	-	datasheets/transistor/onsemi/tip3055-d.pdf	TO-247-3	1	TIP3055G	n/r			
-onsemi	-	datasheets/transistor/onsemi/tip31a-d.pdf	TO-220-3	7	TIP31CG	=	TO-220	B,C,E,C	npn:B,C,E
+onsemi	-	datasheets/transistor/onsemi/tip31a-d.pdf	TO-220-3	7	TIP31CG	=	TO-220	B,C,E	npn:B,C,E
 onsemi	-	datasheets/transistor/onsemi/tip31c-d.pdf	TO-220-3	1	TIP31C	n/r			
 onsemi	-	datasheets/transistor/onsemi/tip33c-d.pdf	TO-247-3	1	TIP33CG	n/r			
 onsemi	-	datasheets/transistor/onsemi/tip35a-d.pdf	TO-247-3	4	TIP35AG	n/r			
@@ -5070,7 +5070,7 @@ onsemi	PowerTrench®	datasheets/transistor/onsemi/ntmfs08n2d5c-d.pdf	8-PowerTDFN
 onsemi	PowerTrench®	datasheets/transistor/onsemi/ntmfs10n3d2c-d.pdf	8-PowerTDFN	1	NTMFS10N3D2C	n/r			
 onsemi	PowerTrench®	datasheets/transistor/onsemi/ntp011n15mc-d.pdf	TO-220-3	1	NTP011N15MC	n/r			
 onsemi	PowerTrench®	datasheets/transistor/onsemi/ntp5d0n15mc-d.pdf	TO-220-3	1	NTP5D0N15MC	n/r			
-onsemi	PowerTrench®	datasheets/transistor/onsemi/ntp7d3n15mc-d.pdf	TO-220-3	1	NTP7D3N15MC	=	TO-220	G,D,S,D	nmos:G,D,S
+onsemi	PowerTrench®	datasheets/transistor/onsemi/ntp7d3n15mc-d.pdf	TO-220-3	1	NTP7D3N15MC	=	TO-220	G,D,S	nmos:G,D,S
 onsemi	PowerTrench®	datasheets/transistor/onsemi/nttfd4d1n03p1e-d.pdf	12-PowerWQFN	1	NTTFD4D1N03P1E	=	WQFN	S2,G2,D1,D1,D1,D1,G1,SD,SD,SD,S2,S2	nmos:G1,D1,SD;nmos:G2,SD,S2
 onsemi	PowerTrench®	datasheets/transistor/onsemi/nttfs010n10mcl-d.pdf	8-PowerWDFN	1	NTTFS010N10MCLTAG	n/r			
 onsemi	PowerTrench®	datasheets/transistor/onsemi/nttfs022n15mc-d.pdf	8-PowerWDFN	1	NTTFS022N15MC	n/r			
@@ -5120,7 +5120,7 @@ onsemi	QFET®	datasheets/transistor/onsemi/fqa8n100c-d.pdf	TO-3P-3, SC-65-3	1	FQ
 onsemi	QFET®	datasheets/transistor/onsemi/fqa9n90_f109-d.pdf	TO-3P-3, SC-65-3	1	FQA9N90-F109	n/r			
 onsemi	QFET®	datasheets/transistor/onsemi/fqaf11n90c-d.pdf	TO-3P-3 Full Pack	1	FQAF11N90C	n/r			
 onsemi	QFET®	datasheets/transistor/onsemi/fqaf16n50-d.pdf	TO-3P-3 Full Pack	1	FQAF16N50	n/r			
-onsemi	QFET®	datasheets/transistor/onsemi/fqb12p20-d.pdf	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	1	FQB12P20TM	=	D2PAK	G,D,S,D	pmos:G,D,S
+onsemi	QFET®	datasheets/transistor/onsemi/fqb12p20-d.pdf	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	1	FQB12P20TM	=	D2PAK	G,D,S	pmos:G,D,S
 onsemi	QFET®	datasheets/transistor/onsemi/fqb19n20-d.pdf	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	1	FQB19N20TM	n/r			
 onsemi	QFET®	datasheets/transistor/onsemi/fqb22p10-d.pdf	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	1	FQB22P10TM	n/r			
 onsemi	QFET®	datasheets/transistor/onsemi/fqb27p06-d.pdf	TO-263-3, D2PAK (2 Leads + Tab), TO-263AB	1	FQB27P06TM	=	D2PAK	G,D,S	pmos:G,D,S

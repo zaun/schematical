@@ -1019,6 +1019,18 @@ base is never checked, and a part with no rating is never refused. The
 voltage check does not carry a level through a channel (its state changes
 while the circuit runs).
 
+The library's `transistor.json` (plan-40) holds onsemi, Nexperia and Diodes
+Incorporated BJTs and onsemi, Infineon and Vishay Siliconix MOSFETs, one
+device per (drawer leaf, pinout), under **Discrete → Transistors → BJT →
+`Array` / `NPN` / `NPN Darlington` / `NPN pre-biased` / `PNP` / `PNP
+Darlington` / `PNP pre-biased`** and **Discrete → Transistors → MOSFET →
+`Array` / `N-channel` / `N-channel logic-level` / `P-channel` / `P-channel
+logic-level`**, and the four generics `GENERIC-NPN`, `GENERIC-PNP`,
+`GENERIC-NMOS`, `GENERIC-PMOS` (Discrete → Transistors → Generic: pins 1
+base / gate, 2 collector / drain, 3 emitter / source, no ratings, `TO-92`
+by default with the footprint choices `TO-92`, `SOT-23`, `SOT-223`,
+`TO-220`, `DPAK`).
+
 ```json
 {"id": "npn-to92-ebc", "function": "NPN", "description": "NPN bipolar transistor",
  "drawer": ["Discrete", "Transistors", "BJT", "NPN"],

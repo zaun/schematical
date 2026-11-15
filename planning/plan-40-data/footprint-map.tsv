@@ -224,3 +224,5 @@ E	onsemi	6-PowerUFDFN	6-UDFN (1.6x1.6)	UDFN6-1.6-ONSEMI	UDFN6 1.6x1.6	new
 E	onsemi	6-PowerUFDFN	MicroFet 1.6x1.6 Thin	UDFN6-1.6-517DV-ONSEMI	UDFN6 1.6x1.6	new
 E	onsemi	6-PowerWDFN	*	WDFN6-2X2-ONSEMI	WDFN6 2x2	new
 E	onsemi	8-PowerVDFN	*	PQFN8-8X8-ONSEMI	Dual Cool 88	new
+E	Infineon Technologies	8-PowerTDFN	mpn:BSG0810NDIATMA1	TISON-8-4-INFINEON	TISON-8	new: part-level row, PG-TISON-8-4 (10 pads) among the PG-TISON-8 parts
+E	Infineon Technologies	8-PowerTDFN	mpn:BSG0813NDIATMA1	TISON-8-4-INFINEON	TISON-8	new: part-level row, PG-TISON-8-4 (10 pads) among the PG-TISON-8 parts

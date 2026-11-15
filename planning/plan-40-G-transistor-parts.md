@@ -181,33 +181,54 @@ Acceptance: the generics load and list.
   Check: `cmake --build /tmp/logic-p40 -j8 && ctest --test-dir /tmp/logic-p40 -R 'listing_check|trace_check|library_check|footprint_check'` → 4 passed; `grep -c '^GENERIC-\(NPN\|PNP\|NMOS\|PMOS\)|transistor|' backend/tests/golden/parts.txt` → 4; `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p40-dd test -only-testing:schematicalTests/PartEditorWindowTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 12 min: the app test build; the editor's kind list is the only app code this phase touches).
   Result (2026-11-15): `100% tests passed, 0 tests failed out of 4`; `4`; `Executed 8 tests, with
   0 failures` / `** TEST SUCCEEDED **`.
-Commit: (this commit)
+Commit: 52d909ff
 
 ### Phase 2 — Every part, footprints, datasheets
 
-- [ ] `census/fp-merge.py footprints-C.json footprints-D.json footprints-E.json`
+- [x] `census/fp-merge.py footprints-C.json footprints-D.json footprints-E.json`
       appends the objects to `Parts/footprints.json` (sorted as the file is);
       each id only if absent (`grep -c '"id":"<id>"'
       schematical/schematical/Parts/footprints.json` → 0; a hit is moot, plan-40-C
-      § 3.1).
-- [ ] `gen-parts.py` (all `add` rows) → `transistor.json`; the datasheet
+      § 3.1). Only the ids the final map uses (`fp-merge.py --only <143 ids>`:
+      `122 footprints appended`, then `TISON-8-4-INFINEON`; the rest of the
+      143 are library footprints or Phase 1's; Corrections 1).
+- [x] `gen-parts.py` (all `add` rows) → `transistor.json`; the datasheet
       entries into `datasheets.json`, each id only if absent; the run prints
       `gen-parts: …/transistor.json: <d> devices, <N + 4> parts; <u> datasheets
-      used, <a> added to datasheets.json`.
-- [ ] `node scripts/check-datasheets.js <the added ids>` → every URL answers a
+      used, <a> added to datasheets.json`. Result: `103 devices, 1246 parts;
+      1135 datasheets used, 1135 added to datasheets.json`.
+- [x] `node scripts/check-datasheets.js <the added ids>` → every URL answers a
       PDF (a failing one is fixed: the URL is the maker's, the PDF the one in
-      `datasheets/transistor/`).
-- [ ] Regenerate `parts.txt`, `traces.txt`, `footprints.txt`; review `git diff
+      `datasheets/transistor/`). Result: `1135 of 1135 URLs serve a PDF; 0
+      failed` (after the http → https fix of Corrections 2).
+- [x] Regenerate `parts.txt`, `traces.txt`, `footprints.txt`; review `git diff
       --stat backend/tests/golden` (added lines only) and hand-check five new
       footprint lines against their `note`s and five part lines against their
-      DigiKey row and datasheet.
-- [ ] Named parts: `for n in 2N3904 2N3906 BC547B BC557B 2N7000 BS170 2N7002;
+      DigiKey row and datasheet. Result: `footprints.txt | 123 +`, `parts.txt
+      | 1242 +`, `traces.txt | 1242 +` on top of Phase 1, removed lines 0.
+      Parts checked (golden facts, pin roles, footprint vs DigiKey and the
+      PDF): `2N3904BU` (E-B-C, 40 V 0.2 A 0.625 W hFE 100, TO-92-3-ONSEMI),
+      `IRLML6244TRPBF` (G-S-D, 20 V 6.3 A, 21 mΩ, Vgs(th) 1.1 V, ±12 V,
+      logic level: 2.5 V drive), `SI2302CDS-T1-GE3` (G-S-D, 20 V 2.6 A
+      57 mΩ, 0.85 V, ±8 V), `MMBT3904-7-F` (B-E-C, 40 V 0.2 A 0.3 W),
+      `BC846SZ` (dual NPN E1 B1 C2 E2 B2 C1, 65 V 0.1 A 0.2 W hFE 110):
+      all match. Footprint lines against their notes: `TO-92-3-ONSEMI`
+      (1.27 pitch, 1.05 × 1.5 ovals, drill 0.75, row at the lead offset),
+      `SOT23-3-NEXPERIA` (1.9 pitch, pin 3 opposite), `DPAK-3-VISHAY`
+      (4.572 lead centres, tab pad 2), `POWERPAK-SO8-VISHAY` (1.27 pitch,
+      the 3.81 × 3.91 drain land), `TO-247-4-ONSEMI` (CASE 340AN 5.08 /
+      2.54 / 2.54, hole 1.76): all match.
+- [x] Named parts: `for n in 2N3904 2N3906 BC547B BC557B 2N7000 BS170 2N7002;
       do grep -c "^$n" backend/tests/golden/parts.txt; done` → each at least 1,
       as B's Phase 4 check promised (a name with 0 is B's recorded absence).
+      Result: 2N3904 2, 2N3906 0, BC547B 2, BC557B 0, 2N7000 2, BS170 2,
+      2N7002 6 — the two 0s are plan-40-B Corrections 8.
 
 Acceptance: the whole set loads and the goldens grow by exactly the new parts and footprints.
   Check: `ctest --test-dir /tmp/logic-p40` → `100% tests passed`; `git diff backend/tests/golden | grep -c '^-[^-]'` → 0; `grep -c '|transistor|' backend/tests/golden/parts.txt` → N + 4 (est. 6 min).
-Commit: —
+  Result (2026-11-15): `100% tests passed, 0 tests failed out of 36`; removed golden lines `0`;
+  `grep -c '|transistor|' parts.txt` → `1246` (N = 1242, + 4).
+Commit: (this commit)
 
 ## Validation Plan
 
@@ -234,7 +255,40 @@ Commit: —
 
 ## Corrections
 
-(none yet)
+1. **Only the used footprints are merged.** `footprints-C/D/E.json` keep
+   objects for lines B's final pick dropped (and DirectFET, whose parts B
+   skips); `footprint_check` fails on a footprint no part uses, so Phase 2
+   merges the 143 ids the final map's lines use (`prune.py`'s
+   `used_footprints()`), not every object.
+2. **https only.** `datasheets.json` refuses an `http://` URL, which
+   failed the whole library load (every part file, and the goldens came out
+   empty on the first run). DigiKey links some Vishay and Infineon PDFs as
+   `http://`; `gen-parts.py` writes them as `https://` (the same files;
+   `check-datasheets.js` → `1135 of 1135 URLs serve a PDF`).
+3. **Pinout and footprint pin counts.** The loader compares each part's
+   pinout with its footprint's pads; 12 parts disagreed and were fixed at
+   their source, each checked against the PDF: onsemi DPAK MJD3055T4G and
+   2SA2039 (`B,C,E` → `B,C,E,C`: STYLE 1 / EN6912 "4 : Collector", the tab
+   pad 4 of `DPAK-4-ONSEMI`); FQB12P20TM (`G,D,S,D` → `G,D,S`: pin 2 and
+   the tab are one drain, `D2PAK-3-ONSEMI*` numbers the tab pad 2); the
+   through-hole TO-220 / IPAK parts MJE3055TG, TIP31CG, NTP7D3N15MC,
+   MJD112-1G (the tab, numbered 4 in the datasheet, is no PCB pad: the
+   pinout is the three leads); Vishay SIA416DJ, SIA421DJ, SIB433EDK (the
+   older datasheets leave the exposed source pad unnumbered; pin 7 as in
+   Vishay AN826, the footprints' drawing); BSG0810NDI / BSG0813NDI (PG-TISON-8-4,
+   10 pads, among BSC09xx PG-TISON-8 parts of the same supplier package:
+   plan-40-E drew `TISON-8-4-INFINEON`, and `footprint-map.tsv` takes
+   part-level rows `supplier` = `mpn:<part>`, which `gen-parts.py` looks up
+   first).
+4. **Vishay MICRO FOOT bumps.** B wrote the bumps as numbers 1–4 and D's
+   footprints name them A1 A2 / B1 B2. The datasheets' bump-side view puts
+   1, 2, 3, 4 around the square (1 right, 2 top, 3 left, 4 bottom: `si8808db`,
+   `si8466edb`, `si8409adb` p.1), so seen from the top with bump 1 at A1
+   they are 1 = A1, 2 = A2, 3 = B2, 4 = B1; the 11 pinouts were rewritten
+   as ball pinouts (`A1=G,A2=S,B1=D,B2=S`).
+5. **103 devices.** One device per (group, leaf, pinout, element types):
+   arrays of different element types share a leaf and a pinout, so their
+   ids carry the types (`bjt-array-npn-pnp-p6-…`).
 
 ## Summary
 
