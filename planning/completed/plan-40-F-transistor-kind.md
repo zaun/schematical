@@ -41,7 +41,7 @@ plan-40-A § Prerequisites, plus:
 | Must be true | Command | Status |
 |---|---|---|
 | plan-40-A § Prerequisites MET | plan-40-A's table | MET (2026-11-15: every row MET, quota 999 before A Phase 1) |
-| ~~plan-40-E complete~~ | `ls planning/completed/plan-40-E-*.md` → exists | moot (2026-11-15): an ordering edge, not a dependency — F reads no census output and touches no file C/D/E touch (§ Corrections 1) |
+| plan-40-E complete | `ls planning/completed/plan-40-E-*.md` → exists | MET (2026-11-15, e0c1686f; F was built earlier, § Corrections 1) |
 | No `transistor` kind yet | `grep -c 'PART_TRANSISTOR' backend/include/parts.h` → 0 | MET (2026-11-15 at 54a82b99, before F: 0) |
 
 Everything below is written against the world where these hold.
