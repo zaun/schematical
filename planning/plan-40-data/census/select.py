@@ -68,6 +68,14 @@ QUOTA = {
 # Parts the owner named: always picked when listed (plan-40-A Decisions).
 NAMED = ['2N3904', '2N3906', 'BC547B', 'BC557B', '2N7000', 'BS170', '2N7002']
 
+def named_of(r):
+    """The owner's name a row is (its base, or the start of its part number), or ''."""
+    for n in NAMED:
+        if r['base'].upper() == n or r['mpn'].upper().startswith(n):
+            return n
+    return ''
+
+
 COLUMNS = [
     'mpn', 'maker', 'category', 'family', 'piece', 'stock', 'status', 'base', 'series',
     'type', 'package', 'supplier_package', 'mounting', 'vmax_v', 'imax_a', 'power_w',
@@ -231,9 +239,11 @@ def main():
                 r['reason'] = 'out:' + v['reason']
 
     # Duplicates: one part per (family, base, package, supplier package): the most-stocked.
+    # An owner-named part is a duplicate only of the same named part
+    # (DigiKey's base BC547 lumps the A, B and C grades; plan-40-B Corrections 5).
     best = {}
     for r in sorted((r for r in rows if not r['reason']), key=lambda r: -r['stock']):
-        key = (r['family'], r['base'].upper(), r['package'], r['supplier_package'])
+        key = (r['family'], r['base'].upper(), r['package'], r['supplier_package'], named_of(r))
         if key in best:
             r['reason'] = 'out:duplicate' if verdicts else 'duplicate'
         else:
@@ -294,10 +304,10 @@ def main():
             kept = {}
             for x in rows:
                 if x['reason'] in ('add', 'out:duplicate', 'out:below quota'):
-                    k = (x['family'], x['base'].upper(), x['package'], x['supplier_package'])
+                    k = (x['family'], x['base'].upper(), x['package'], x['supplier_package'], named_of(x))
                     kept[k] = max(kept.get(k, -1), x['stock'])
             nr = [r for r in rows if r['reason'] == 'out:below the pick (not read)'
-                  and kept.get((r['family'], r['base'].upper(), r['package'], r['supplier_package']), -1)
+                  and kept.get((r['family'], r['base'].upper(), r['package'], r['supplier_package'], named_of(r)), -1)
                   < r['stock']]
             above = [r for r in nr if (r['family'], r['maker']) not in floor
                      or r['stock'] >= floor[(r['family'], r['maker'])]]

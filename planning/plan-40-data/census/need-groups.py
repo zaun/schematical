@@ -50,7 +50,8 @@ def main(cand, spec_path, margin=10):
     ok = sorted((r for r in rows if passes(r, table.get(specs.key(r)))), key=lambda r: -int(r['stock']))
     best = {}
     for r in ok:
-        best.setdefault((r['family'], r['base'].upper(), r['package'], r['supplier_package']), r)
+        named = next((n for n in NAMED if r['base'].upper() == n or r['mpn'].upper().startswith(n)), '')
+        best.setdefault((r['family'], r['base'].upper(), r['package'], r['supplier_package'], named), r)
     winners = {id(r) for r in best.values()}
     count = collections.Counter()
     extra = collections.Counter()
