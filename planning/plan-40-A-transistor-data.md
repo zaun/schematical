@@ -76,7 +76,7 @@ Every other letter points here.
 | The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p40-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-14 at 8913617d: `** BUILD SUCCEEDED **`) |
 | No transistor kind yet | `grep -c 'PART_TRANSISTOR' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/transistor.json` → no such file; `ls datasheets/transistor` → no such directory | MET (2026-11-14 at 8913617d: 0, no file, no directory) |
 | No other open plan adds transistors or a part kind | `grep -l -i 'PART_TRANSISTOR\|Parts/transistor\.json\|datasheets/transistor' planning/plan-*.md \| grep -v plan-40 \| wc -l` → 0; `grep -lE 'PART_[A-Z]+\b\|footprints\.json\|ReferenceCategory\|PartKinds' planning/plan-*.md \| grep -v plan-40 \| wc -l` → 0 | MET (2026-11-14 at 8913617d: 0 and 0) |
-| DigiKey credentials and quota | `DIGIKEY_CLIENT_ID`/`_SECRET` exported in `~/.zshrc` (`grep -cE '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc` → 2); `eval "$(grep -E '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc)" && node scripts/digikey.js --in-stock --pages 1 --limit 1 "2N3904"` prints `calls left today` ≥ 400 before Phase 1 and before Phase 2 (a day allows about 1000, shared with other sessions) | **NOT MET** (2026-11-14 19:49 UTC: credentials 2 of 2, but `1 API calls, 22 left today`; the quota resets about 00:00 UTC, so re-check after 2026-11-15 00:00 UTC) |
+| DigiKey credentials and quota | `DIGIKEY_CLIENT_ID`/`_SECRET` exported in `~/.zshrc` (`grep -cE '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc` → 2); `eval "$(grep -E '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc)" && node scripts/digikey.js --in-stock --pages 1 --limit 1 "2N3904"` prints `calls left today` ≥ 400 before Phase 1 and before Phase 2 (a day allows about 1000, shared with other sessions) | MET before Phase 1 (2026-11-15 02:36 UTC: credentials 2 of 2, `1 API calls, 999 left today`; it was NOT MET on 2026-11-14 19:49 UTC with 22 left) |
 
 Everything below is written against the world where these hold.
 
@@ -332,21 +332,29 @@ LISTING`.
 
 ### Phase 1 — Complete the listing (one quota day)
 
-- [ ] Restore the planning listing as `README.md` says (`gunzip` every
+- [x] Restore the planning listing as `README.md` says (`gunzip` every
       `raw/*.jsonl.gz` into `/tmp/p40/raw`, copy the `.err` files) and run
       `select.py … --report`: `6603 parts listed`, 3 `NEEDS DEEPER LISTING`
       lines, `candidates from a cut piece: 555 of 1287`.
-- [ ] Run `census/recheck.sh /tmp/p40/raw` (the three deeper re-listings,
+      Result (2026-11-15): `6603 parts listed`, the 3 `NEEDS DEEPER LISTING`
+      lines (276-488 all, 278-488 all, 278-742 all), `candidates from a cut
+      piece: 555 of 1287`; `cmp /tmp/p40/cand.tsv candidates.tsv` →
+      `reproducible`.
+- [x] Run `census/recheck.sh /tmp/p40/raw` (the three deeper re-listings,
       342 calls at the planning-time ratio; a run cut by the quota goes on the next day), then
       `select.py /tmp/p40/raw planning/plan-40-data/candidates.tsv --report`
       until it prints no `NEEDS DEEPER LISTING` line; copy the new `-re`
       files into `planning/plan-40-data/raw/` (gzipped, with their `.err`).
-- [ ] Record the real call count of the re-listings and any piece that no
-      facet split below 300 in § Corrections.
+      Result: one run (`recheck.sh: done`); `select.py --report` → `9860 parts
+      listed`, 0 `NEEDS DEEPER LISTING`, `candidates from a cut piece: 167 of
+      1287`; `raw/27[68]-*-re.jsonl.gz` + `.err` written.
+- [x] Record the real call count of the re-listings and any piece that no
+      facet split below 300 in § Corrections (Corrections 3).
 
 Acceptance: the pick is complete for every piece.
   Check: `python3 -I planning/plan-40-data/census/select.py /tmp/p40/raw /tmp/p40/cand.tsv --report \| grep -c 'NEEDS DEEPER LISTING'` → 0 (est. 2 min for the check; the listing is the quota day).
-Commit: —
+  Result (2026-11-15): `0`.
+Commit: (this commit; hash in the next)
 
 ### Phase 2 — Re-check the picked rows from cut pieces part by part (one quota day)
 
@@ -432,13 +440,28 @@ Author decisions (no user-visible fork; recorded so nobody re-litigates):
 
 ## Corrections
 
-- 2026-11-14, Prerequisites, backend row: `/tmp/logic-p40` holds a CMake
+1. 2026-11-14, Prerequisites, backend row: `/tmp/logic-p40` holds a CMake
   cache made from the main checkout (`CMake Error: The source
   ".../.claude/worktrees/P-40/backend/CMakeLists.txt" does not match the
   source ".../logic/backend/CMakeLists.txt" used to generate cache`), so a
   worktree run uses its own build dir, `/tmp/logic-p40w`.
-- 2026-11-14 19:49 UTC, the gate stopped the plan: the DigiKey row is NOT MET
+2. 2026-11-14 19:49 UTC, the gate stopped the plan: the DigiKey row is NOT MET
   (22 calls left, not 400). Every other row is MET. No phase was started.
+  Re-run 2026-11-15 02:36 UTC: 999 left, the gate passed.
+3. **The re-listings cost 343 calls** (planning estimate 342): `top.js:
+   276/488: 1383 parts, 117 calls`, `278/488: 2047 parts, 97 calls`,
+   `278/742: 1951 parts, 129 calls` (`raw/*-re.err`). Every piece was split
+   below 300 or listed from both ends except three type pieces that the
+   Package / Case split then listed in full (`all/NPN` 696, `all/N-Channel`
+   1676 and 1469: their `cut at 300` line stays, but each of their parts is
+   in a package sub-piece). The listing grew from 6603 to 9860 parts; the pick
+   stays 1287, 8 parts swapped (`comm -3` of the two picks: 16 lines, e.g.
+   `FDN537N`, `2SA1370D-AE` in; `FDMS7670`, `KSA1281YTA` out).
+4. **555 → 167 rows to stock-check.** After the re-listing, the picked rows
+   from a cut piece are the 167 Infineon rows of 278-448 (its `all` and
+   `all/N-Channel` pieces, cut at 300 but complete for the pick, so never
+   re-listed): `census/cut-picked.py` → `167 picked rows from cut pieces`,
+   every one maker id 448.
 
 ## Summary
 

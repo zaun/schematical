@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """plan-40 census: the pick, candidates.tsv.
 
-usage: python3 -I select.py <raw dir> <out.tsv> [--report]
+usage: python3 -I select.py <raw dir> <out.tsv> [--stock <stock-check.tsv>]
+                            [--verdicts <verdicts.tsv>] [--carry <candidates.tsv>] [--report]
 
 Reads every <category>-<maker id>[-re].jsonl of top.js in <raw dir> (a `-re`
 file is a deeper re-listing of the same piece and is read first) and writes
@@ -17,11 +18,23 @@ out (plan-40-A section 3):
   driver-ic         an array of more than 4 elements (a Darlington driver IC)
   duplicate         another listed part has the same (family, base, package, supplier
                     package) and more stock
+  stock check       the part-by-part look-up (--stock, plan-40-A section 5 rule 2) did not
+                    find it in stock, Active or Last Time Buy
   below quota       the (family, maker) share of the family's quota is full of parts
                     with more stock
 
+With --verdicts (plan-40-B section 3.2) the reasons become final: a row out
+for a rule above is `out:<reason>`; an eligible row takes its verdict (`skip:
+<why>`, `out:datasheet status`); the duplicate rule and the quota then run
+again over the rows whose verdict is `add` only, so a skipped winner's slot
+goes to its duplicate or to the next row of its (family, maker): `add`,
+`out:duplicate`, `out:below quota`. `pdf` comes from the verdicts file;
+--carry copies `pdf`, `hit` and `dead` by part number from an earlier
+candidates.tsv (plan-40-A Phase 3's columns, which the raw listing lacks).
+
 `cut` is 1 for a part listed by a piece DigiKey cut at 300 (its 300 most-stocked
-parts only): plan-40-A re-checks those part by part. `--report` prints the
+parts only): plan-40-A re-checks those part by part; `stock_checked` is 1 for
+every part number the --stock file holds. `--report` prints the
 counts behind every number the plan quotes, one `cut piece` line per cut piece
 with its verdict (`complete for the pick`, or `NEEDS DEEPER LISTING` when the
 300th part's stock is at or above the lowest stock the pick takes from that
@@ -153,6 +166,20 @@ def cut_pieces(raw):
 def main():
     raw, out = sys.argv[1], sys.argv[2]
     report = '--report' in sys.argv
+    checked = {}
+    if '--stock' in sys.argv:
+        path = sys.argv[sys.argv.index('--stock') + 1]
+        if os.path.exists(path):
+            for r in csv.DictReader(open(path), delimiter='\t'):
+                checked[r['mpn']] = r['found'] == '1'
+    verdicts = {}
+    if '--verdicts' in sys.argv:
+        for r in csv.DictReader(open(sys.argv[sys.argv.index('--verdicts') + 1]), delimiter='\t'):
+            verdicts[r['mpn']] = r
+    carry = {}
+    if '--carry' in sys.argv:
+        for r in csv.DictReader(open(sys.argv[sys.argv.index('--carry') + 1]), delimiter='\t'):
+            carry[r['mpn']] = r
     rows = {}
     for stem in stems(raw):
         path = os.path.join(raw, stem + '.jsonl')
@@ -180,13 +207,35 @@ def main():
             r['reason'] = 'has-diode'
         elif re.match(r'(\d+) ', r['type']) and int(re.match(r'(\d+) ', r['type']).group(1)) > 4:
             r['reason'] = 'driver-ic'
+        if r['mpn'] in checked:
+            r['stock_checked'] = 1
+            if not r['reason'] and not checked[r['mpn']]:
+                r['reason'] = 'stock check'
+
+    for r in rows:
+        if r['mpn'] in carry:
+            for c in ('pdf', 'hit', 'dead'):
+                r[c] = carry[r['mpn']][c]
+    if verdicts:
+        for r in rows:
+            if r['reason']:
+                r['reason'] = 'out:' + r['reason']
+                continue
+            v = verdicts.get(r['mpn'])
+            if v is None:
+                sys.exit(f"select.py: no verdict for {r['mpn']} (re-run verdicts.py)")
+            r['pdf'] = v['pdf']
+            if v['verdict'] == 'skip':
+                r['reason'] = 'skip:' + v['reason']
+            elif v['verdict'] == 'out':
+                r['reason'] = 'out:' + v['reason']
 
     # Duplicates: one part per (family, base, package, supplier package): the most-stocked.
     best = {}
     for r in sorted((r for r in rows if not r['reason']), key=lambda r: -r['stock']):
         key = (r['family'], r['base'].upper(), r['package'], r['supplier_package'])
         if key in best:
-            r['reason'] = 'duplicate'
+            r['reason'] = 'out:duplicate' if verdicts else 'duplicate'
         else:
             best[key] = r
 
@@ -198,9 +247,9 @@ def main():
         share = -(-QUOTA[r['family']] // 3)
         if count[(r['family'], r['maker'])] < share or named:
             count[(r['family'], r['maker'])] += 1
-            r['reason'] = 'candidate'
+            r['reason'] = 'add' if verdicts else 'candidate'
         else:
-            r['reason'] = 'below quota'
+            r['reason'] = 'out:below quota' if verdicts else 'below quota'
 
     rows.sort(key=lambda r: (r['family'], -r['stock'], r['mpn']))
     with open(out, 'w', newline='') as fh:
@@ -213,8 +262,9 @@ def main():
         print(f'{listed} parts listed')
         print('reason:', dict(collections.Counter(r['reason'] for r in rows)))
         floor = {}
+        picked = 'add' if verdicts else 'candidate'
         for fam in QUOTA:
-            sel = [r for r in rows if r['family'] == fam and r['reason'] == 'candidate']
+            sel = [r for r in rows if r['family'] == fam and r['reason'] == picked]
             print(f'{fam}: {len(sel)} picked; per maker',
                   dict(collections.Counter(r['maker'] for r in sel)))
             for mk in sorted({r['maker'] for r in sel}):
@@ -226,8 +276,10 @@ def main():
                        else 'complete for the pick')
             print(f'cut piece {stem} {label}: {count_} parts, 300th stock {stock}, floor {limit}: {verdict}')
         print(f'{len(cuts)} pieces cut at 300')
-        print('candidates from a cut piece:', sum(1 for r in rows if r['reason'] == 'candidate' and r['cut']),
-              'of', sum(1 for r in rows if r['reason'] == 'candidate'))
+        print('candidates from a cut piece:', sum(1 for r in rows if r['reason'] == picked and r['cut']),
+              'of', sum(1 for r in rows if r['reason'] == picked))
+        print('picked from a cut piece, not stock-checked:',
+              sum(1 for r in rows if r['reason'] == picked and r['cut'] and r['stock_checked'] != 1))
 
 
 main()

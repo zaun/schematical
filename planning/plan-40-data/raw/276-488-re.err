@@ -1,0 +1,89 @@
+piece all/-: 3 of 3
+piece all/NPN/3-SSIP: 8 of 8
+piece all/NPN/3-WDFN Exposed Pad: 6 of 6
+piece all/NPN/3-XFDFN: 5 of 5
+piece all/NPN/6-SMD, Flat Leads: 1 of 1
+piece all/NPN/6-WDFN Exposed Pad: 3 of 3
+piece all/NPN/8-SMD, Flat Leads: 2 of 2
+piece all/NPN/0402 (1006 Metric): 1 of 1
+piece all/NPN/SC-70, SOT-323: 35 of 35
+piece all/NPN/SC-71: 3 of 3
+piece all/NPN/SC-75, SOT-416: 10 of 10
+piece all/NPN/SC-96: 1 of 1
+piece all/NPN/SOT-1023, 4-LFPAK: 7 of 7
+piece all/NPN/SOT-1123: 1 of 1
+piece all/NPN/SOT-1205, 8-LFPAK56: 4 of 4
+piece all/NPN/SOT-23-6 Thin, TSOT-23-6: 4 of 4
+piece all/NPN/SOT-623F: 1 of 1
+piece all/NPN/SOT-723: 4 of 4
+piece all/NPN/SOT-923F: 1 of 1
+piece all/NPN/TO-204AA, TO-3: 10 of 10
+piece all/NPN/TO-204AE: 2 of 2
+piece all/NPN/TO-218-3: 1 of 1
+piece all/NPN/TO-220-3: 53 of 53
+piece all/NPN/TO-220-3 Full Pack: 28 of 28
+piece all/NPN/TO-225AA, TO-126-3: 69 of 69
+piece all/NPN/TO-226-3, TO-92-3 (TO-226AA): 37 of 37
+piece all/NPN/TO-226-3, TO-92-3 (TO-226AA) Formed Leads: 59 of 59
+piece all/NPN/TO-226-3, TO-92-3 Long Body: 21 of 21
+piece all/NPN/TO-226-3, TO-92-3 Long Body, Formed Leads: 5 of 5
+piece all/NPN/TO-236-3, SC-59, SOT-23-3: 139 of 139
+piece all/NPN/TO-243AA: 28 of 28
+piece all/NPN/TO-247-3: 8 of 8
+piece all/NPN/TO-251-3 Short Leads, IPAK, TO-251AA: 1 of 1
+piece all/NPN/TO-252-3, DPAK (2 Leads + Tab), SC-63: 65 of 65
+piece all/NPN/TO-261-4, TO-261AA: 38 of 38
+piece all/NPN/TO-263-3, D2PAK (2 Leads + Tab), TO-263AB: 5 of 5
+piece all/NPN/TO-264-3, TO-264AA: 8 of 8
+piece all/NPN/TO-264-5: 2 of 2
+piece all/NPN/TO-3P-3 Full Pack: 6 of 6
+piece all/NPN/TO-3P-3, SC-65-3: 14 of 14
+piece all/NPN: 300 of 696 (cut at 300: 9845)
+piece all/NPN - Darlington: 81 of 81
+piece all/NPN + Diode (Isolated): 1 of 1
+piece all/NPN + Zener Diode (Isolated): 1 of 1
+piece all/PNP/3-SMD, Flat Leads: 2 of 2
+piece all/PNP/3-SSIP: 6 of 6
+piece all/PNP/3-WDFN Exposed Pad: 9 of 9
+piece all/PNP/3-XFDFN: 4 of 4
+piece all/PNP/6-SMD, Flat Leads: 1 of 1
+piece all/PNP/6-WDFN Exposed Pad: 2 of 2
+piece all/PNP/0402 (1006 Metric): 2 of 2
+piece all/PNP/SC-70, SOT-323: 22 of 22
+piece all/PNP/SC-71: 4 of 4
+piece all/PNP/SC-72: 1 of 1
+piece all/PNP/SC-74, SOT-457: 2 of 2
+piece all/PNP/SC-75, SOT-416: 6 of 6
+piece all/PNP/SOT-1023, 4-LFPAK: 7 of 7
+piece all/PNP/SOT-1123: 2 of 2
+piece all/PNP/SOT-1205, 8-LFPAK56: 2 of 2
+piece all/PNP/SOT-23-6 Thin, TSOT-23-6: 2 of 2
+piece all/PNP/SOT-563, SOT-666: 2 of 2
+piece all/PNP/SOT-723: 11 of 11
+piece all/PNP/SOT-923F: 1 of 1
+piece all/PNP/TO-204AA, TO-3: 7 of 7
+piece all/PNP/TO-204AE: 1 of 1
+piece all/PNP/TO-220-3: 28 of 28
+piece all/PNP/TO-220-3 Full Pack: 12 of 12
+piece all/PNP/TO-220-3 No Tab: 1 of 1
+piece all/PNP/TO-225AA, TO-126-3: 32 of 32
+piece all/PNP/TO-226-3, TO-92-3 (TO-226AA): 27 of 27
+piece all/PNP/TO-226-3, TO-92-3 (TO-226AA) Formed Leads: 38 of 38
+piece all/PNP/TO-226-3, TO-92-3 Long Body: 19 of 19
+piece all/PNP/TO-226-3, TO-92-3 Long Body, Formed Leads: 5 of 5
+piece all/PNP/TO-236-3, SC-59, SOT-23-3: 109 of 109
+piece all/PNP/TO-243AA: 13 of 13
+piece all/PNP/TO-247-3: 4 of 4
+piece all/PNP/TO-251-3 Short Leads, IPAK, TO-251AA: 4 of 4
+piece all/PNP/TO-252-3, DPAK (2 Leads + Tab), SC-63: 51 of 51
+piece all/PNP/TO-261-4, TO-261AA: 30 of 30
+piece all/PNP/TO-263-3, D2PAK (2 Leads + Tab), TO-263AB: 5 of 5
+piece all/PNP/TO-264-3, TO-264AA: 4 of 4
+piece all/PNP/TO-264-5: 1 of 1
+piece all/PNP/TO-3P-3 Full Pack: 3 of 3
+piece all/PNP/TO-3P-3, SC-65-3: 6 of 6
+piece all/PNP: 488 of 488 (both ends)
+piece all/PNP - Darlington: 30 of 30
+piece all/PNP + Diode (Isolated): 1 of 1
+piece all: 300 of 1543 (cut at 300: 39000)
+top.js: 276/488: 1383 parts, 117 calls, 882 left today

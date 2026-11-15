@@ -1,0 +1,91 @@
+piece all/N-Channel/4-UFBGA: 4 of 4
+piece all/N-Channel/4-UFBGA, WLCSP: 2 of 2
+piece all/N-Channel/4-XFBGA: 4 of 4
+piece all/N-Channel/4-XFBGA, CSPBGA: 2 of 2
+piece all/N-Channel/6-PowerVDFN: 3 of 3
+piece all/N-Channel/6-TSSOP, SC-88, SOT-363: 8 of 8
+piece all/N-Channel/6-UFBGA: 1 of 1
+piece all/N-Channel/8-PowerBSFN: 19 of 19
+piece all/N-Channel/8-PowerDFN: 1 of 1
+piece all/N-Channel/8-PowerSFN: 2 of 2
+piece all/N-Channel/8-PowerSMD, Gull Wing: 4 of 4
+piece all/N-Channel/8-PowerTDFN: 23 of 23
+piece all/N-Channel/8-PowerVDFN: 8 of 8
+piece all/N-Channel/8-PowerWDFN: 1 of 1
+piece all/N-Channel/8-SMD, Flat Leads: 1 of 1
+piece all/N-Channel/8-SOIC (0.154", 3.90mm Width): 69 of 69
+piece all/N-Channel/10-LSOP (0.209", 5.30mm Width): 4 of 4
+piece all/N-Channel/-: 4 of 4
+piece all/N-Channel/PowerPAK® 0806: 3 of 3
+piece all/N-Channel/PowerPAK® 1212-8: 79 of 79
+piece all/N-Channel/PowerPAK® 1212-8S: 46 of 46
+piece all/N-Channel/PowerPAK® 1212-8SH: 15 of 15
+piece all/N-Channel/PowerPAK® 1212-8SLW: 11 of 11
+piece all/N-Channel/PowerPAK® 1212-8W: 13 of 13
+piece all/N-Channel/PowerPAK® 1212-F: 1 of 1
+piece all/N-Channel/PowerPAK® 8 x 8: 28 of 28
+piece all/N-Channel/PowerPAK® ChipFET™ Single: 3 of 3
+piece all/N-Channel/PowerPAK® SC-70-6: 26 of 26
+piece all/N-Channel/PowerPAK® SC-70-6 Dual: 1 of 1
+piece all/N-Channel/PowerPAK® SC-75-6: 4 of 4
+piece all/N-Channel/PowerPAK® SO-8: 397 of 397 (both ends)
+piece all/N-Channel/PowerPAK® SO-8 Dual: 4 of 4
+piece all/N-Channel/PowerPAK® SO-8L: 2 of 2
+piece all/N-Channel/SC-70, SOT-323: 1 of 1
+piece all/N-Channel/SC-89, SOT-490: 1 of 1
+piece all/N-Channel/SOT-23-6 Thin, TSOT-23-6: 24 of 24
+piece all/N-Channel/SOT-563, SOT-666: 1 of 1
+piece all/N-Channel/TO-220-3: 153 of 153
+piece all/N-Channel/TO-220-3 Full Pack: 53 of 53
+piece all/N-Channel/TO-220-3 Full Pack, Isolated Tab: 24 of 24
+piece all/N-Channel/TO-236-3, SC-59, SOT-23-3: 32 of 32
+piece all/N-Channel/TO-247-3: 88 of 88
+piece all/N-Channel/TO-247-4: 7 of 7
+piece all/N-Channel/TO-251-3 Long Leads, IPAK, TO-251AB: 1 of 1
+piece all/N-Channel/TO-251-3 Short Leads, IPAK, TO-251AA: 16 of 16
+piece all/N-Channel/TO-252-3, DPAK (2 Leads + Tab), SC-63: 107 of 107
+piece all/N-Channel/TO-261-4, TO-261AA: 10 of 10
+piece all/N-Channel/TO-262-3 Long Leads, I2PAK, TO-262AA: 7 of 7
+piece all/N-Channel/TO-263-3, D2PAK (2 Leads + Tab), TO-263AB: 142 of 142
+piece all/N-Channel/TO-263-7, D2PAK (6 Leads + Tab): 4 of 4
+piece all/N-Channel/TO-263-8, D2PAK (7 Leads + Tab), TO-263CA: 1 of 1
+piece all/N-Channel/TO-274AA: 2 of 2
+piece all/N-Channel/TO-3P-3 Full Pack: 2 of 2
+piece all/N-Channel: 300 of 1469 (cut at 300: 6865)
+piece all/P-Channel/4-UFBGA: 4 of 4
+piece all/P-Channel/4-XFBGA: 3 of 3
+piece all/P-Channel/4-XFBGA, CSPBGA: 1 of 1
+piece all/P-Channel/6-PowerVDFN: 1 of 1
+piece all/P-Channel/6-TSSOP, SC-88, SOT-363: 11 of 11
+piece all/P-Channel/6-UFBGA: 1 of 1
+piece all/P-Channel/8-PowerSMD, Gull Wing: 1 of 1
+piece all/P-Channel/8-PowerVDFN: 2 of 2
+piece all/P-Channel/8-SMD, Flat Leads: 3 of 3
+piece all/P-Channel/8-SOIC (0.154", 3.90mm Width): 41 of 41
+piece all/P-Channel/PowerPAK® 0806: 2 of 2
+piece all/P-Channel/PowerPAK® 1212-8: 28 of 28
+piece all/P-Channel/PowerPAK® 1212-8S: 8 of 8
+piece all/P-Channel/PowerPAK® 1212-8SH: 8 of 8
+piece all/P-Channel/PowerPAK® 1212-8SLW: 1 of 1
+piece all/P-Channel/PowerPAK® 1212-8W: 7 of 7
+piece all/P-Channel/PowerPAK® 8 x 8: 3 of 3
+piece all/P-Channel/PowerPAK® ChipFET™ Single: 2 of 2
+piece all/P-Channel/PowerPAK® SC-70-6: 28 of 28
+piece all/P-Channel/PowerPAK® SC-70-6 Dual: 2 of 2
+piece all/P-Channel/PowerPAK® SC-75-6: 4 of 4
+piece all/P-Channel/PowerPAK® SO-8: 75 of 75
+piece all/P-Channel/PowerPAK® SO-8 Dual: 1 of 1
+piece all/P-Channel/SC-89, SOT-490: 1 of 1
+piece all/P-Channel/SOT-23-6 Thin, TSOT-23-6: 46 of 46
+piece all/P-Channel/SOT-563, SOT-666: 2 of 2
+piece all/P-Channel/TO-220-3: 23 of 23
+piece all/P-Channel/TO-220-3 Full Pack, Isolated Tab: 9 of 9
+piece all/P-Channel/TO-236-3, SC-59, SOT-23-3: 44 of 44
+piece all/P-Channel/TO-247-3: 2 of 2
+piece all/P-Channel/TO-251-3 Short Leads, IPAK, TO-251AA: 8 of 8
+piece all/P-Channel/TO-252-3, DPAK (2 Leads + Tab), SC-63: 68 of 68
+piece all/P-Channel/TO-261-4, TO-261AA: 6 of 6
+piece all/P-Channel/TO-263-3, D2PAK (2 Leads + Tab), TO-263AB: 36 of 36
+piece all/P-Channel: 482 of 482 (both ends)
+piece all: 300 of 1952 (cut at 300: 12224)
+top.js: 278/742: 1951 parts, 129 calls, 657 left today

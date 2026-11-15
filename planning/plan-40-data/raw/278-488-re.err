@@ -1,0 +1,60 @@
+piece all/-: 4 of 4
+piece all/N-Channel/3-XFDFN: 3 of 3
+piece all/N-Channel/3-XFLGA: 1 of 1
+piece all/N-Channel/4-PowerTSFN: 17 of 17
+piece all/N-Channel/6-PowerUFDFN: 3 of 3
+piece all/N-Channel/6-PowerWDFN: 7 of 7
+piece all/N-Channel/6-TSSOP, SC-88, SOT-363: 3 of 3
+piece all/N-Channel/6-UDFN Exposed Pad: 4 of 4
+piece all/N-Channel/6-UFDFN Exposed Pad: 1 of 1
+piece all/N-Channel/6-VDFN Exposed Pad: 1 of 1
+piece all/N-Channel/6-WDFN Exposed Pad: 14 of 14
+piece all/N-Channel/8-PowerSFN: 54 of 54
+piece all/N-Channel/8-PowerTDFN: 132 of 132
+piece all/N-Channel/8-PowerTDFN, 5 Leads: 315 of 315 (both ends)
+piece all/N-Channel/8-PowerVDFN: 24 of 24
+piece all/N-Channel/8-PowerWDFN: 155 of 155
+piece all/N-Channel/8-SMD, Flat Leads: 1 of 1
+piece all/N-Channel/8-SOIC (0.154", 3.90mm Width): 28 of 28
+piece all/N-Channel/8-SOIC (0.173", 4.40mm Width): 1 of 1
+piece all/N-Channel/9-PowerDFN: 3 of 3
+piece all/N-Channel/9-PowerVDFN: 4 of 4
+piece all/N-Channel/9-PowerWDFN: 3 of 3
+piece all/N-Channel/10-PowerLSOP (0.209", 5.30mm Width): 11 of 11
+piece all/N-Channel/16-PowerSOP (0.400" 10.15mm Width): 2 of 2
+piece all/N-Channel/16-PowerSOP Module: 4 of 4
+piece all/N-Channel/-: 1 of 1
+piece all/N-Channel/SC-70, SOT-323: 5 of 5
+piece all/N-Channel/SC-75, SOT-416: 4 of 4
+piece all/N-Channel/SC-89, SOT-490: 1 of 1
+piece all/N-Channel/SOT-1023, 4-LFPAK: 48 of 48
+piece all/N-Channel/SOT-1205, 8-LFPAK56: 31 of 31
+piece all/N-Channel/SOT-23-6 Thin, TSOT-23-6: 16 of 16
+piece all/N-Channel/SOT-563, SOT-666: 1 of 1
+piece all/N-Channel/SOT-723: 4 of 4
+piece all/N-Channel/TO-220-3: 108 of 108
+piece all/N-Channel/TO-220-3 Full Pack: 73 of 73
+piece all/N-Channel/TO-220-3 Full Pack, Formed Leads: 1 of 1
+piece all/N-Channel/TO-226-3, TO-92-3 (TO-226AA): 3 of 3
+piece all/N-Channel/TO-226-3, TO-92-3 (TO-226AA) Formed Leads: 5 of 5
+piece all/N-Channel/TO-226-3, TO-92-3 Long Body: 1 of 1
+piece all/N-Channel/TO-236-3, SC-59, SOT-23-3: 53 of 53
+piece all/N-Channel/TO-243AA: 1 of 1
+piece all/N-Channel/TO-247-3: 118 of 118
+piece all/N-Channel/TO-247-4: 79 of 79
+piece all/N-Channel/TO-251-3 Short Leads, IPAK, TO-251AA: 2 of 2
+piece all/N-Channel/TO-252-3, DPAK (2 Leads + Tab), SC-63: 133 of 133
+piece all/N-Channel/TO-261-3: 1 of 1
+piece all/N-Channel/TO-261-4, TO-261AA: 18 of 18
+piece all/N-Channel/TO-262-3 Long Leads, I2PAK, TO-262AA: 2 of 2
+piece all/N-Channel/TO-263-3, D2PAK (2 Leads + Tab), TO-263AB: 78 of 78
+piece all/N-Channel/TO-263-7, D2PAK (6 Leads + Tab): 11 of 11
+piece all/N-Channel/TO-263-8, D2PAK (7 Leads + Tab), TO-263CA: 56 of 56
+piece all/N-Channel/TO-263-8, D2PAK (7 Leads + Tab), Variant: 8 of 8
+piece all/N-Channel/TO-264-3, TO-264AA: 3 of 3
+piece all/N-Channel/TO-3P-3 Full Pack: 1 of 1
+piece all/N-Channel/TO-3P-3, SC-65-3: 19 of 19
+piece all/N-Channel: 300 of 1676 (cut at 300: 5448)
+piece all/P-Channel: 205 of 205
+piece all: 300 of 2233 (cut at 300: 28556)
+top.js: 278/488: 2047 parts, 97 calls, 786 left today

@@ -261,7 +261,7 @@ rejected above (non-goal).
 Acceptance: the kind loads, lists and rejects what § 6 lists.
   Check: `cmake -S backend -B /tmp/logic-p40 && cmake --build /tmp/logic-p40 -j8 && ctest --test-dir /tmp/logic-p40 -R 'transistor_test|listing_check|trace_check|library_check|footprint_check'` → `100% tests passed, 0 tests failed out of 5` (est. 8 min: first build of the tree).
   Result (2026-11-15, build dir `/tmp/logic-p40w`): `100% tests passed, 0 tests failed out of 5`; `transistor_test` 42 PASS lines, `0 failure(s)`. Mutation check: every element made to conduct on 1 (`on_level = 1`) fails (i) twice and (q).
-Commit: (this commit; hash in the next)
+Commit: 5f3c9a25
 
 ### Phase 2 — The model: channel from the control pin
 
@@ -273,7 +273,7 @@ Commit: (this commit; hash in the next)
 Acceptance: every engine case of § 6 passes and no existing golden moves.
   Check: `cmake --build /tmp/logic-p40 -j8 && ctest --test-dir /tmp/logic-p40` → `100% tests passed` with T0 + 1 programs, then `git diff --stat backend/tests/golden` → empty (est. 4 min: the whole suite is what shows "no golden moved"; nothing smaller covers every kind).
   Result (2026-11-15): `100% tests passed, 0 tests failed out of 36` (T0 35 + 1); `git diff --stat -- backend/tests/golden` → empty.
-Commit: (this commit; hash in the next)
+Commit: 5f3c9a25
 
 ### Phase 3 — The voltage rating test
 
@@ -292,7 +292,7 @@ Commit: (this commit; hash in the next)
 Acceptance: the rating cases pass and the docs name the kind.
   Check: `cmake --build /tmp/logic-p40 -j8 && ctest --test-dir /tmp/logic-p40 -R 'transistor_test|voltage'` → `100% tests passed`; `grep -c 'transistor' docs/parts-format.md docs/backend.md` → both above 0 (est. 3 min).
   Result (2026-11-15): `100% tests passed, 0 tests failed out of 2`; `docs/backend.md:7`, `docs/parts-format.md:10`. The app still builds (`** BUILD SUCCEEDED **`).
-Commit: (this commit; hash in the next)
+Commit: 5f3c9a25
 
 ## 6. Test cases (`transistor_test.c`)
 
