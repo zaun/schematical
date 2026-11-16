@@ -16,7 +16,6 @@ diode	BAT54C-G3-08	Vishay General Semiconductor - Diodes Division
 transistor	AO3400A	Alpha & Omega Semiconductor Inc.
 transistor	AO3401A	Alpha & Omega Semiconductor Inc.
 transistor	DMG2305UX-13	Diodes Incorporated
-transistor	2N7002PW	Diotec Semiconductor
 transistor	PMBT3906-GK	GOODWORK
 transistor	SIL2308-TP	MCC (Micro Commercial Components)
 transistor	BSH205G2AR	Nexperia USA Inc.
@@ -24,7 +23,6 @@ transistor	NX7002AK,215	Nexperia USA Inc.
 transistor	BC807-40LT1G	onsemi
 transistor	BC817-25LT1G	onsemi
 transistor	CSD17311Q5	Texas Instruments
-transistor	SI2371EDS-T1-BE3	Vishay Siliconix
 switch	CS1213AGF260	CIT Relay and Switch
 switch	SWT0105-003516JSA	GCT
 switch	219-8MST	CTS Electrocomponents

@@ -5,3 +5,5 @@ diode	1N5819WS	Shenzhen Slkormicro Semicon Co., Ltd.	no maker-site datasheet: Di
 transistor	FS8205A	EVVO	no maker-site datasheet: DigiKey links only its own copy (mm.digikey.com …/9053/FS8205A-new.pdf)
 transistor	S8050	Shenzhen Slkormicro Semicon Co., Ltd.	no maker-site datasheet: DigiKey links only its own copy (mm.digikey.com …/6778/5399_S8050 SOT-23.PDF)
 transistor	MBT3904DW1T3G	onsemi	not in the datasheet's ordering table (mbt3904dw1t1-d.pdf p.1 ORDERING INFORMATION: MBT3904DW1T1G, SMBT3904DW1T1G, NSVMBT3904DW1T3G); plan-40 skipped it for the same reason
+transistor	2N7002PW	Diotec Semiconductor	no land pattern in the datasheet: 2n7002pw.pdf p.3 prints the SOT-323 outline without the lead length, so rule R2 cannot be applied, and Diotec's solder-pad document (5_solder-pads.pdf) has no SOT-323
+transistor	SI2371EDS-T1-BE3	Vishay Siliconix	not in the datasheet's ordering table (si2371eds.pdf p.1 Ordering Information: Si2371EDS-T1-GE3 only); plan-40 skipped SI2302CDS-T1-BE3 and SI2369DS-T1-BE3 for the same reason

@@ -852,7 +852,7 @@ their datasheet. Written by `planning/plan-40-data/census/verdicts.py --write-sk
 
 Parts the reference boards (`routing-example/`, 209 boards) use, found on
 DigiKey with stock on 2026-11-15, that fit a kind the library has but were
-not added. Their PDFs are not in the tree. `MBT3904DW1T3G` is a sixth: it is
+not added. Their PDFs are not in the tree. `MBT3904DW1T3G` is another: it is
 in the Transistors (plan-40) table above, for the reason given there. The
 lookup also failed to download 20 datasheets (result `download failed` in
 `routing-example/datasheets-log.tsv`); those parts were not chased.
@@ -864,3 +864,5 @@ lookup also failed to download 20 datasheets (result `download failed` in
 | 1N5819WS | Shenzhen Slkormicro Semicon Co., Ltd. | `diode` / Discrete → Diodes → Schottky | no maker-site datasheet: DigiKey links only its own copy (mm.digikey.com …/6778/5399_1N5819WS SOD-323.PDF) |
 | FS8205A | EVVO | `transistor` / Discrete → Transistors → MOSFET → Array | no maker-site datasheet: DigiKey links only its own copy (mm.digikey.com …/9053/FS8205A-new.pdf) |
 | S8050 | Shenzhen Slkormicro Semicon Co., Ltd. | `transistor` / Discrete → Transistors → BJT → NPN | no maker-site datasheet: DigiKey links only its own copy (mm.digikey.com …/6778/5399_S8050 SOT-23.PDF) |
+| 2N7002PW | Diotec Semiconductor | `transistor` / Discrete → Transistors → MOSFET → N-channel | no land pattern in the datasheet (2n7002pw.pdf p.3 prints the SOT-323 outline without the lead length, so no pad can be derived; Diotec's solder-pad document 5_solder-pads.pdf has no SOT-323) |
+| SI2371EDS-T1-BE3 | Vishay Siliconix | `transistor` / Discrete → Transistors → MOSFET → P-channel logic-level | not in the datasheet's ordering table (si2371eds.pdf p.1 Ordering Information: Si2371EDS-T1-GE3 only) |

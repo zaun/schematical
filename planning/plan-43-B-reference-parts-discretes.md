@@ -191,17 +191,35 @@ Acceptance: 14 more `|diode|` lines; no golden line removed.
   Check: `cmake --build /tmp/logic-p43 -j8 && ctest --test-dir /tmp/logic-p43 -R 'library_check|listing_check|trace_check|footprint_check|diode_test'`
   → `100% tests passed`; `git diff -- backend/tests/golden | grep -c '^-[^-]'` → 0 (est. 2 min).
   — `100% tests passed, 0 tests failed out of 5`; 0; `|diode|` 11166.
-Commit: —
+Commit: b01bf200
 
 ### Phase 2 — Transistors
 
-- [ ] Add the 13 transistor parts (§ 4.2), their footprints and datasheet
-      entries.
-- [ ] Regenerate the goldens and hand-check the added footprint lines.
+- [x] Add the 13 transistor parts (§ 4.2), their footprints and datasheet
+      entries. — 10 added (§ Corrections: three skipped): `apply.py
+      add/transistors.json` → `datasheets +8`, `footprints +3`, `transistor
+      +10 parts`.
+- [x] (added) Skip `2N7002PW` and `SI2371EDS-T1-BE3`: `census/skip.tsv`,
+      `targets.tsv`, their PDFs and `datasheets.tsv` lines, two rows in
+      `datasheets/skipped-parts.md` § Reference boards (plan-43);
+      `classify.py` → `plan-43 44`, `skipped 8`; `lookup.py` → `44 rows; 0
+      not found; 0 with no stock`.
+- [x] (added) Redo `DIODE-SOD-323P-DIOTEC` from Diotec's solder-pad
+      document (§ Corrections) and file the two maker documents the
+      footprints cite (`datasheets/diode/diotec/5_solder-pads.pdf`,
+      `datasheets/transistor/aos/SOT23.pdf`) with their `datasheets.tsv`
+      lines.
+- [x] Regenerate the goldens and hand-check the added footprint lines. —
+      32878 / 32878 / 1633 lines; `SOT23-3-AOS`, `SOT23-6-MCC`,
+      `VSON-CLIP-8-5X6-TI` and the changed `DIODE-SOD-323P-DIOTEC` line read
+      against their drawings.
 
 Acceptance: 13 more `|transistor|` lines; `parts.txt` has 32881 lines.
   Check: the Phase 1 command with `transistor_test` in place of
   `diode_test`; `wc -l < backend/tests/golden/parts.txt` → 32881 (est. 2 min).
+  — `100% tests passed, 0 tests failed out of 5`; 32878 (§ Corrections);
+  `|transistor|` 1256; the only golden line removed is the old
+  `DIODE-SOD-323P-DIOTEC` line this phase replaces.
 Commit: —
 
 ## Validation Plan
@@ -256,6 +274,44 @@ Commit: —
   three of the 46 (`raw/*.json`, parameters Grade and Qualification).
 - **`SDM03U40Q-7` `vr` is 40 V** (datasheet VRM, peak reverse voltage);
   DigiKey lists the DC value, 30 V.
+- **B adds 24 parts: 14 diodes and 10 transistors; `parts.txt` ends at
+  32878.** Two more transistors are skipped, by the rules
+  `datasheets/skipped-parts.md` already applies:
+  `SI2371EDS-T1-BE3` is not in its datasheet's ordering information
+  (`si2371eds.pdf` p.1 lists `Si2371EDS-T1-GE3` only; plan-40 skipped
+  `SI2302CDS-T1-BE3` the same way), and `2N7002PW`'s datasheet prints a
+  SOT-323 outline without the lead length, so no land pattern can be
+  derived (R2 needs L; Diotec's solder-pad document has no SOT-323).
+  Acceptance of Phase 2 therefore reads: 10 more `|transistor|` lines,
+  `parts.txt` 32878 lines. plan-43 as a whole adds 44 parts; C ends at
+  32892 and D at 32898.
+- **`DIODE-SOD-323P-DIOTEC` was redone in Phase 2.** Phase 1 derived it by
+  R4 from the outline. Diotec publishes its land patterns in one document
+  (`https://diotec.com/files/diotec/files/pdf/products/generalinformation/5_solder-pads.pdf`,
+  p.3 "Power SOD-323": cathode pad 2.0 x 1.1, anode pad 0.8 x 1.0, centres
+  1.9 apart), found while looking for a SOT-323 pattern. The footprint now
+  follows it (R1), and the document is filed beside the datasheet. This is
+  the one golden line B changes rather than adds.
+- **Three new transistor footprints, not one.** `SOT23-3-AOS` (the AO3400A
+  and AO3401A datasheets print no drawing; the land pattern is AOS's
+  package document PO-00001, filed as `datasheets/transistor/aos/SOT23.pdf`:
+  0.8 x 0.8 pads, rows 2.4 apart), `SOT23-6-MCC` (outline only, R2: span
+  2.80 against `SOT23-6-MC-6ST1`'s 2.65), `VSON-CLIP-8-5X6-TI`. Reused:
+  `SOT23-3-TSC` for `DMG2305UX-13` and `PMBT3906-GK` (both print 0.8 x 0.9
+  pads, rows 2.0: within 0.05 of 0.85 x 0.85), `SOT23-3-NEXPERIA`
+  (sot023_fr), `SOT23-3-ONSEMI`.
+- **AO3400A / AO3401A pin order.** The datasheets number no pins; the top
+  view marks pin 1 with a dot beside the gate lead, the source is the other
+  lead of that side and the drain is alone on the far side: `p3-gsd`.
+- **`SIL2308-TP` joins `mosfet-array-nmos-pmos-p6-g1s2g2d2s1d1`** (p.1: 1 G1,
+  2 S2, 3 G2, 4 D2, 5 S1, 6 D1; FET 1 is the N-channel by its body diode).
+- **Values kept from the datasheet where DigiKey differs**: AO3400A
+  `vgsth` 1.45 (DigiKey 1.5); AO3401A `rdson` 0.050 at -10 V (DigiKey
+  0.044); SIL2308-TP `rdson` 0.025 at 4.5 V (DigiKey 0.038).
+  `CSD17311Q5` `vgs` is 10 (the rating is +10 / -8 V; plan-40 took the
+  first number of DigiKey's field).
+- **`transistor.json` had no `flags` before**; `BSH205G2AR` is the first
+  part with `automotive` there (datasheet p.1 "AEC-Q101 qualified").
 - **Part numbers with a packing suffix**: Nexperia's and Infineon's
   datasheets list the type number (`BAS16J`, `BZV55-B2V4`, `PMEG3050EP`,
   `PMEG4005EJ`, `BAT60A`), not the orderable code; the part is added under
