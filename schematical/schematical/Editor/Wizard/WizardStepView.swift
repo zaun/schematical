@@ -74,7 +74,7 @@ struct WizardStepView: View {
         case .supply, .kindFields:
             KindFieldsSection(model: model, keys: step.keys, title: "", guided: true)
         case .footprint:
-            FootprintSection(model: model)
+            FootprintStepPage(model: model)
         case .review:
             VerdictSection(model: model)
             Section("Preview") {

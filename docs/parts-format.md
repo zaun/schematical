@@ -676,14 +676,27 @@ solder mask), not as copper.
 
 A single part file (§ [Single part files](#single-part-files)) may carry
 its own footprints in `"footprints"`, each an entry in exactly this format;
-the part's `"footprint"` names one. The Part Editor's **Custom Footprint…**
-writes one `explicit` entry with the id `CUSTOM-` and the first eight
-characters of the part's uuid, one pad per pinout pin, and never writes
-`footprints.json`. A custom part has a `"footprint"` only:
+the part's `"footprint"` names one. The Part Editor writes one entry, with
+the id `CUSTOM-` and the first eight characters of the part's uuid, and
+never writes `footprints.json`:
+
+- **Custom Footprint…** (All fields) and the Part Wizard's **Place pads one
+  by one** write an `explicit` entry, one pad per pinout pin.
+- The Part Wizard's **Make one from the drawing** (plan-46-J) writes a
+  parametric entry — `dual` (two rows), `quad` (four sides), `grid` (ball
+  grid) or `header` (pin header) — from a few numbers read off the
+  datasheet's land pattern; the loader expands it into pads as it does a
+  bundled one. **Start from this one** copies a bundled footprint into the
+  part in its own style, keeping the keys the form has no control for
+  (`centre`, `slots`, a pad's corner keys).
+
+A custom part has a `"footprint"` only:
 `"connectorFootprint"` and `"footprintChoices"` stay with the bundled parts
 that use them (the generic LED, character LCDs, headers and pull resistors),
-whose footprint menus the PCB sidebar owns. A custom footprint's pads are
-numbered (`"pin"`); a ball pinout has no custom footprint.
+whose footprint menus the PCB sidebar owns. A numbered pinout's custom
+footprint has numbered pads (`"pin"`); a ball pinout's custom footprint is
+a `grid`, whose `"balls"` are the pinout's ball names, or an `explicit` one
+with `"ball"` pads.
 
 ### The `"footprint"` part key
 

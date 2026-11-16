@@ -207,6 +207,81 @@ final class ParametricFootprintDraftTests: XCTestCase {
         XCTAssertEqual(draft.footprint, "SOIC-14")
     }
 
+    /// The footprint step's choices as model rules (plan-46-J Phases 2–3).
+    func testFootprintStepChoices() throws {
+        let model = PartEditorModel(target: PartEditorTarget(source: .new(kind: "generic")), catalog: .shared)
+        Self.kept.append(model)
+        model.draft.name = "FP-STEP-\(UUID().uuidString.prefix(8))"
+        model.startWithNumberedPins(14)
+        for index in model.draft.pinouts[0].pins.indices { model.draft.pinouts[0].pins[index].name = "P\(index + 1)" }
+        XCTAssertEqual(FootprintStepPage.choice(for: model.draft), .library)
+
+        // A library footprint.
+        model.useLibraryFootprint("SOIC-14")
+        XCTAssertEqual(model.draft.footprint, "SOIC-14")
+        XCTAssertNil(model.draft.footprints)
+
+        // Start from this one: a parametric library footprint becomes numbers.
+        let soic = try XCTUnwrap(model.validator.footprints.first { $0.id == "SOIC-14" })
+        XCTAssertEqual(model.startFromLibraryFootprint(soic), .make)
+        let id = CustomFootprintDraft.id(forPart: model.draft.uuid)
+        guard case let .parametric(copy)? = model.draft.inlineFootprint else { return XCTFail("not parametric") }
+        XCTAssertEqual(copy.id, id)
+        XCTAssertEqual(copy.span, 5.4)
+        XCTAssertEqual(copy.pitch, 1.27)
+        XCTAssertEqual(FootprintStepPage.choice(for: model.draft), .make)
+        if case let .failure(failure) = model.validateNow() { XCTFail(failure.message) }
+
+        // An explicit library footprint becomes a pad table.
+        // (SON-6-DRY: pin 1's pad is longer than the others, so it is explicit.)
+        let explicit = try XCTUnwrap(model.validator.footprints.first { $0.id == "SON-6-DRY" })
+        XCTAssertNil(BundledFootprints.entry(id: explicit.id).flatMap(ParametricFootprintDraft.init(json:)))
+        XCTAssertEqual(model.startFromLibraryFootprint(explicit), .pads)
+        XCTAssertEqual(model.draft.customFootprint?.id, id)
+        XCTAssertEqual(model.draft.customFootprint?.pads.count, explicit.pads.count)
+        XCTAssertEqual(FootprintStepPage.choice(for: model.draft), .pads)
+
+        // Choosing a library footprint again removes the custom one.
+        model.useLibraryFootprint("PDIP-14")
+        XCTAssertNil(model.draft.footprints)
+        XCTAssertEqual(model.draft.footprint, "PDIP-14")
+
+        // Make one: a starter of each style for the pinout's pins.
+        model.startParametricFootprint(.dual)
+        guard case let .parametric(dual)? = model.draft.inlineFootprint else { return XCTFail("not parametric") }
+        XCTAssertEqual(dual.pins, 14)
+        XCTAssertEqual(dual.style, .dual)
+        if case let .failure(failure) = model.validateNow() { XCTFail(failure.message) }
+        model.startPadTable()
+        XCTAssertEqual(model.draft.customFootprint?.pads.map(\.pin), Array(1...14))
+
+        // A ball pinout: the grid takes the pinout's balls, the pad table too.
+        let bga = PartEditorModel(target: PartEditorTarget(source: .new(kind: "generic")), catalog: .shared)
+        Self.kept.append(bga)
+        bga.draft.name = "FP-BGA-\(UUID().uuidString.prefix(8))"
+        bga.applyPins(["A1", "A2", "B1", "B2"].map { PinDraft(designator: $0, name: "P\($0)", role: "inout") },
+                      style: .ball)
+        bga.startParametricFootprint(.grid)
+        guard case let .parametric(grid)? = bga.draft.inlineFootprint else { return XCTFail("not parametric") }
+        XCTAssertEqual(grid.balls, ["A1", "A2", "B1", "B2"])
+        XCTAssertEqual(grid.rows, 2)
+        XCTAssertEqual(grid.columns, 2)
+        if case let .failure(failure) = bga.validateNow() { XCTFail(failure.message) }
+        bga.startPadTable()
+        XCTAssertEqual(bga.draft.customFootprint?.pads.map(\.ball), ["A1", "A2", "B1", "B2"])
+        if case let .failure(failure) = bga.validateNow() { XCTFail(failure.message) }
+
+        // Thumbnails: the drawing's bounds and pin 1.
+        XCTAssertEqual(FootprintThumbnail.pin1Index(of: soic), soic.pads.firstIndex { $0.designator == "1" })
+        let bounds = FootprintThumbnail.bounds(of: soic)
+        XCTAssertEqual(bounds.width, 5.4 + 1.55, accuracy: 1e-9)
+        XCTAssertEqual(bounds.height, 8.65, accuracy: 1e-9)
+        XCTAssertEqual(FootprintDiagram.dimensions(.dual), ["Pitch", "Row spacing", "Pad length", "Pad width"])
+        XCTAssertEqual(FootprintStepPage.guidance.count, 4)
+    }
+
+    private static var kept: [PartEditorModel] = []
+
     func testRankingPutsThePackagesFootprintsFirst() throws {
         let fourteen = PartValidator.shared.footprints.filter { $0.pins == 14 }
         XCTAssertGreaterThanOrEqual(fourteen.count, 21)

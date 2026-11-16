@@ -167,11 +167,20 @@ entries; `FootprintRanking` puts `SOIC-14` before `PDIP-14` for package
 
 Acceptance: each style's draft expands to exactly the bundled footprint it was made from.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/ParametricFootprintDraftTests -only-testing:schematicalTests/CustomFootprintDraftTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 8 min).
-Commit: —
+Commit: 3606cdef (the prerequisite fix of § Corrections 1: 3e729e3e)
 
 ### Phase 2 — Thumbnails and the library tab
 
-- [ ] `FootprintThumbnail.swift`; the library tab with ranking and search.
+- [x] `FootprintThumbnail.swift`; the library tab with ranking and search.
+      (Run-skill check, 2026-11-16, this plan's Debug build: a 14-pin part
+      with package `SOIC` → `21 library footprints with 14 pads`, first row
+      `SOIC-14`, `SOIC-14-MC-14S1`, `SOIC-14-NPA`, pin 1 in the accent color
+      (screenshot checked). A 2-pin part → `409 library footprints with 2
+      pads`; 80 wheel steps over the grid moved it from `BARREL-PJ-037` to
+      the `DIODE-…` rows, and the 80 steps plus a full accessibility query
+      of the window took 1.70 s (1.2 s of it the steps' own spacing): no
+      stall. The grid is a `LazyVGrid` in its own scroll view, so only the
+      visible thumbnails exist.)
 
 Acceptance: the grid shows the ranked candidates.
   Check: the run skill: a 14-pin gate with package `SOIC` → step 6 → the first row of thumbnails are SOIC-14 footprints; a 2-pin generic part → scrolling the 409 candidates stays smooth (no beach ball) (est. 10 min).
@@ -179,14 +188,29 @@ Commit: —
 
 ### Phase 3 — "Make one…" and the pad table tab
 
-- [ ] `FootprintDiagram.swift` (four sketches), the form, "Start from this
+- [x] `FootprintDiagram.swift` (four sketches), the form, "Start from this
       one", the pad-table tab hosting `CustomFootprintEditor`; the ball
-      pinout grid fill.
-- [ ] `docs/parts-format.md` § Custom footprints in a part file: the
+      pinout grid fill. (`FootprintDiagram` is in `FootprintThumbnail.swift`;
+      the form and the model actions are in `FootprintStepPage.swift`;
+      `ParametricFootprintDraftTests.testFootprintStepChoices` covers the
+      actions: `Executed 8 tests, with 0 failures`.)
+- [x] `docs/parts-format.md` § Custom footprints in a part file: the
       editor may write a parametric entry; the ball-pinout sentence per § 1.
-- [ ] Runtime check: the SOIC-14 numbers of the behavioral outcome →
+- [x] Runtime check: the SOIC-14 numbers of the behavioral outcome →
       preview matches the bundled SOIC-14 thumbnail → Save Part… → File ›
       Load Part… loads it and the PCB shows the footprint. Pointer to (0, 0).
+      (2026-11-16: Make one from the drawing → Two rows → pitch 1.27, row
+      spacing 5.4, pad 1.55 × 0.6, body 3.9 × 8.65 → `CUSTOM-E1D9FCE8: 14
+      pads` in the step's preview, the sketch naming each number (screenshot
+      checked); the pads equal the bundled SOIC-14's by
+      `testASOIC14FromItsNumbers`. Review `The part loads: 14 pins` → Save
+      Part… → `/tmp/p46-walk/MY-SOIC.schpart`, whose `footprints` holds
+      `{"style": "dual", "pins": 14, "pitch": 1.27, "span": 5.4, "pad":
+      {"width": 1.55, "height": 0.6, …}}`. Editor closed; File › Load Part…
+      → the drawer listed MY-SOIC under Custom › Other; placed on the
+      schematic; the PCB page drew its body outline and pad column at the
+      board's corner (screenshot checked). Pointer left at (0, 0). The walk
+      found the Body row's field labels wrapping; fixed.)
 
 Acceptance: a footprint made from a few numbers is saved, loads and draws.
   Check: the walk above (est. 15 min).
