@@ -40,8 +40,8 @@ plan-46-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-46-G complete | `ls planning/completed/plan-46-G-*.md` → exists | NOT MET (2026-11-16: not started) |
-| `renamePin` exists (D) | `grep -c 'func renamePin' schematical/schematical/Editor/PartDraft.swift` → 1 | NOT MET (2026-11-16: 0) |
+| plan-46-G complete | `ls planning/completed/plan-46-G-*.md` → exists | MET (2026-11-16: `planning/completed/plan-46-G-wizard-datasheet-step.md`) |
+| `renamePin` exists (D) | `grep -c 'func renamePin' schematical/schematical/Editor/PartDraft.swift` → 1 | MET (2026-11-16 at fa67ab2f: 1) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 
@@ -126,11 +126,14 @@ plan-46-A § Prerequisites, plus:
 
 ### Phase 1 — Parser and guesser
 
-- [ ] `PinTableParser.swift`, `PinRoleGuesser.swift` per § 1.
-- [ ] `schematicalTests/PinTableParserTests.swift`: § 3's six fixtures, plus
+- [x] `PinTableParser.swift`, `PinRoleGuesser.swift` per § 1 (§ Corrections 1–3).
+- [x] `schematicalTests/PinTableParserTests.swift`: § 3's six fixtures, plus
       a role table test (each token and name rule once) and an active-low
       table test (each marker once, and `GND#`-style non-signal names
       unflagged).
+      (Plus: the pasted TI pinout in a gate draft passes `PartValidator`.
+      `xcodebuild … test -only-testing:schematicalTests/PinTableParserTests`
+      → `Executed 11 tests, with 0 failures`, `** TEST SUCCEEDED **`.)
 
 Acceptance: the six fixtures give exactly the pins listed.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/PinTableParserTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
@@ -163,7 +166,30 @@ overbar becomes the active-low flag, which is how the library records one.
 
 ## Corrections
 
-None yet.
+1. **A ball column is looked for only when there is no number column.**
+   § 1 lists the ball rule after the number rule without saying so. Pin
+   names such as `A0` … `A14`, `D0` … `D7` match the ball pattern
+   (`^[A-Z]{1,2}\d{1,2}$`), so beside a number column they would be taken
+   for balls and the table would have no name column
+   (`testNamesThatLookLikeBallsAreNamesBesideANumberColumn`).
+2. **Numbered pins come out in number order.** A pinout's array must be 1,
+   2, … N (`docs/parts-format.md` § Pinouts and pins) and a TI table lists
+   pins by name (`3A 9`, `3B 10`, `3Y 8`), so `pins(_:columns:)` sorts by
+   number (stable: two rows claiming one number keep the table's order,
+   for the user to fix). No number is invented: a gap stays a gap, and the
+   loader's message names it. Fixture 1 asserts designators 1 … 14 and the
+   names in that order. A row with a designator and no name is skipped and
+   counted too.
+3. **The 80 % rule needs enough rows.** § 3's fixture 6 as first written
+   (three pins, a section row and a note line) left the number column at
+   60 %, below the rule, so nothing was guessed. The fixture now has six
+   pins and one section row (86 %), and asserts the 60 % case too: no
+   number column is guessed, no pins are made, and all four rows are
+   counted as skipped (the user then picks the column by hand).
+4. **The supply-name suffix rule applies to the ground names as well**
+   (`GND2`, `VSS_A`), not only to the power names § 1 attaches it to; a
+   name that only starts like a supply (`VSYNC`, `VINA`, `EPROM`) is not
+   one.
 
 ## Summary
 
