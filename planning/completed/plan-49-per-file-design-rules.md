@@ -28,7 +28,8 @@ References:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan number 49 is free | `ls planning planning/completed \| grep -c plan-49` → 0 | MET |
+| plan number 49 is free | `ls planning planning/completed \| grep -c plan-49` → 0 when written; 1 now, this plan's own file | MET (re-run 2026-11-16) |
+| the screen is unlocked, so the app's window can become key (needed by Phase 3's app walk; added during execution, it belonged here from the start) | `ioreg -n Root -d1 \| grep -o '"CGSSessionScreenIsLocked"=[A-Za-z]*'` → `=No`, or no output | **NOT MET** (re-run 2026-11-16: `"CGSSessionScreenIsLocked"=Yes`). Only the owner can unlock it. |
 
 Everything below is written against that.
 
