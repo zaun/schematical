@@ -107,11 +107,11 @@ here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend tests green | `cmake -S backend -B /tmp/logic-p46 && cmake --build /tmp/logic-p46 -j8 && ctest --test-dir /tmp/logic-p46 -j8` → `100% tests passed` | MET (2026-11-16 at 5bccd0d7: `100% tests passed, 0 tests failed out of 36`; T0 = 36, `grep -c '^logic_test' backend/CMakeLists.txt` → 36) |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p46-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-16 at 5bccd0d7: `** BUILD SUCCEEDED **`) |
-| No inline datasheets yet | `grep -c '"datasheets"' backend/src/library/library.c` → 3 (`DATASHEET_FILE_KEYS` :1133, `read_datasheets`' member :1160, `load_datasheets`' source name :1235; none in `PART_FILE_KEYS`) | MET (2026-11-16 at 9e13cbe4: 3) |
-| No `generic` kind yet | `grep -c 'PART_GENERIC' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/generic.json` → no such file | MET (2026-11-16 at 9e13cbe4: 0, no file) |
-| No wizard yet | `ls schematical/schematical/Editor/ \| grep -ci wizard` → 0 | MET (2026-11-16 at 9e13cbe4: 0) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p46 && cmake --build /tmp/logic-p46 -j8 && ctest --test-dir /tmp/logic-p46 -j8` → `100% tests passed` | MET (2026-11-16 at 4218bb74, re-run at plan start: `100% tests passed, 0 tests failed out of 36`; T0 = 36, `grep -c '^logic_test' backend/CMakeLists.txt` → 36) |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p46-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-16 at 4218bb74, re-run at plan start: `** BUILD SUCCEEDED **`) |
+| No inline datasheets yet | `grep -c '"datasheets"' backend/src/library/library.c` → 3 (`DATASHEET_FILE_KEYS` :1133, `read_datasheets`' member :1160, `load_datasheets`' source name :1235; none in `PART_FILE_KEYS`) | MET (2026-11-16 at 4218bb74, re-run at plan start: 3) |
+| No `generic` kind yet | `grep -c 'PART_GENERIC' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/generic.json` → no such file | MET (2026-11-16 at 4218bb74, re-run at plan start: 0, `No such file or directory`) |
+| No wizard yet | `ls schematical/schematical/Editor/ \| grep -ci wizard` → 0 | MET (2026-11-16 at 4218bb74, re-run at plan start: 0) |
 
 Everything below is written against the world where these hold.
 
@@ -253,14 +253,16 @@ existing `.schpart` and every schematic that embeds one loads unchanged
 
 ### Phase 1 — Backend: read, stage, commit, unload
 
-- [ ] `backend/src/library/library.c`: `read_datasheet_entry` split out of
+- [x] `backend/src/library/library.c`: `read_datasheet_entry` split out of
       `read_datasheets` (behavior unchanged: `library_check` still passes);
       `"datasheets"` in `PART_FILE_KEYS`; the `DatasheetList` read in
       `read_part_file`; `staged_datasheets` on `PartLibrary` and in
       `part_library_find_datasheet`; the unused-entry check;
       `commit_parts` adopts the list; `last_datasheet_count` recorded and
       restored by `part_library_unload_last_part_file`.
-- [ ] `backend/tests/part_file_test.c` cases: (a) a gate part with one
+      (`ctest -R library_check` passed; the inline reader is
+      `read_inline_datasheets`.)
+- [x] `backend/tests/part_file_test.c` cases: (a) a gate part with one
       inline datasheet loads and `part->datasheet->url` is the URL; (b) the
       same text: load, `part_library_unload_last_part_file`, load again →
       0 both times, and `part_library_datasheet_count` is back to the bundled
@@ -271,6 +273,10 @@ existing `.schpart` and every schematic that embeds one loads unchanged
       "CUSTOM-X" is not used`; (g) `"datasheets": {}` → `"datasheets" must
       be an array`; (h) a `"Generic"` manufacturer naming the inline entry →
       the existing `a Generic part has no datasheet`.
+      (Labelled `(ds-a)`…`(ds-h)` in the test, since `(a)`…`(j)` were taken:
+      `/tmp/logic-p46/part_file_test | grep ds-` → 8 `ok (ds-…)` lines with
+      the messages above; `ctest -R 'part_file_test|library_check|listing_check|footprint_check'`
+      → `100% tests passed, 0 tests failed out of 4`; `git diff --stat backend/tests/golden` → empty.)
 
 Acceptance: the eight cases pass and the bundled library is unchanged.
   Check: `cmake --build /tmp/logic-p46 -j8 && ctest --test-dir /tmp/logic-p46 -R 'part_file_test|library_check|listing_check|footprint_check'` → `100% tests passed, 0 tests failed out of 4`; `git diff --stat backend/tests/golden` → empty (est. 4 min).

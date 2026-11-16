@@ -111,6 +111,12 @@ static void name_set_free(NameSet *set) {
 
 /* ---- The library ---------------------------------------------------------- */
 
+/* A single part file's inline datasheets (arena). */
+typedef struct {
+    const PartDatasheet **items;
+    size_t count;
+} DatasheetList;
+
 struct PartLibrary {
     const Part **parts;
     size_t count;
@@ -127,11 +133,13 @@ struct PartLibrary {
     /* A single part file's inline footprints while load_part_file checks it;
        NULL otherwise. part_library_find_footprint looks here too. */
     const FootprintList *staged_footprints;
+    /* The same for its inline datasheets (part_library_find_datasheet). */
+    const DatasheetList *staged_datasheets;
     /* The latest load_part_file, for part_library_unload_last_part_file:
        the counts and the arena head from before it; cleared by any other
        load. */
     int last_part_file;
-    size_t last_count, last_footprint_count;
+    size_t last_count, last_footprint_count, last_datasheet_count;
     ArenaChunk *last_arenas;
     ArenaChunk *arenas;
 };
@@ -226,10 +234,22 @@ const PartDatasheet *part_library_datasheet_at(const PartLibrary *library, size_
 }
 
 const PartDatasheet *part_library_find_datasheet(const PartLibrary *library, const char *id) {
+    const PartDatasheet *found;
+
     if (library == NULL || id == NULL) {
         return NULL;
     }
-    return name_set_get(&library->datasheet_ids, id);
+    found = name_set_get(&library->datasheet_ids, id);
+    if (found == NULL && library->staged_datasheets != NULL) {
+        size_t i;
+
+        for (i = 0; i < library->staged_datasheets->count; i++) {
+            if (strcmp(library->staged_datasheets->items[i]->id, id) == 0) {
+                return library->staged_datasheets->items[i];
+            }
+        }
+    }
+    return found;
 }
 
 /* ---- Loading -------------------------------------------------------------- */
@@ -1034,12 +1054,17 @@ static void footprint_table_adopt(PartLibrary *library, FootprintTable *table) {
  * the context's arena on success.
  */
 static int commit_parts(KindContext *ctx, PartLibrary *library, const FileParts *file,
-                        const FootprintList *footprints, const char *uuid) {
+                        const FootprintList *footprints, const DatasheetList *datasheets,
+                        const char *uuid) {
     size_t needed = library->count + file->count;
+    size_t sheet_count = datasheets != NULL ? datasheets->count : 0;
     NameSet names = {0};
     NameSet devices = {0};
     NameSet uuids = {0};
+    NameSet sheet_ids = {0};
+    const PartDatasheet **sheets = NULL;
     FootprintTable table = {0};
+    size_t i;
     int ok;
 
     if (needed > library->capacity) {
@@ -1065,10 +1090,20 @@ static int commit_parts(KindContext *ctx, PartLibrary *library, const FileParts 
          (uuid == NULL || file->count != 1 || name_set_add(&uuids, uuid, file->parts[0]) == 0) &&
          (footprints == NULL || footprints->count == 0 ||
           footprint_table_build(library, footprints, &table) == 0);
+    if (ok && sheet_count > 0) {
+        /* The grown datasheet table, built on the side like the others. */
+        sheets = malloc((library->datasheet_count + sheet_count) * sizeof(*sheets));
+        ok = sheets != NULL && name_set_merge(&sheet_ids, &library->datasheet_ids) == 0;
+        for (i = 0; ok && i < sheet_count; i++) {
+            ok = name_set_add(&sheet_ids, datasheets->items[i]->id, datasheets->items[i]) == 0;
+        }
+    }
     if (!ok) {
         name_set_free(&names);
         name_set_free(&devices);
         name_set_free(&uuids);
+        name_set_free(&sheet_ids);
+        free(sheets);
         free(table.all);
         name_set_free(&table.ids);
         return kind_error(ctx, "out of memory");
@@ -1081,6 +1116,18 @@ static int commit_parts(KindContext *ctx, PartLibrary *library, const FileParts 
     library->uuids = uuids;
     if (table.all != NULL) {
         footprint_table_adopt(library, &table);
+    }
+    if (sheets != NULL) {
+        if (library->datasheet_count > 0) {
+            memcpy(sheets, library->datasheets, library->datasheet_count * sizeof(*sheets));
+        }
+        memcpy(sheets + library->datasheet_count, datasheets->items,
+               sheet_count * sizeof(*sheets));
+        free(library->datasheets);
+        name_set_free(&library->datasheet_ids);
+        library->datasheets = sheets;
+        library->datasheet_count += sheet_count;
+        library->datasheet_ids = sheet_ids;
     }
     memcpy(library->parts + library->count, file->parts, file->count * sizeof(*file->parts));
     library->count += file->count;
@@ -1133,6 +1180,55 @@ int load_footprints(PartLibrary *library, const char *json, const char *source, 
 static const char *const DATASHEET_FILE_KEYS[] = {"format", "version", "datasheets", NULL};
 static const char *const DATASHEET_KEYS[] = {"id", "url", "md", NULL};
 
+/* Reads and checks one datasheet entry (the caller has pushed its place):
+   its keys, a non-empty id new to the library and to `ids`, an https URL, and
+   the optional "md" path, which an inline entry of a single part file
+   (`allow_md` 0) may not have. Adds the entry to `ids`. */
+static int read_datasheet_entry(KindContext *ctx, const cJSON *item, const PartLibrary *library,
+                                NameSet *ids, int allow_md, PartDatasheet **out) {
+    PartDatasheet *sheet = kind_alloc(ctx, sizeof(*sheet));
+
+    if (sheet == NULL || kind_check_keys(ctx, item, DATASHEET_KEYS, NULL) != 0 ||
+        kind_string(ctx, item, "id", &sheet->id) != 0 ||
+        kind_string(ctx, item, "url", &sheet->url) != 0) {
+        return -1;
+    }
+    if (sheet->id[0] == '\0') {
+        return kind_error(ctx, "empty datasheet id");
+    }
+    if (strncmp(sheet->url, "https://", 8) != 0 || sheet->url[8] == '\0') {
+        return kind_error(ctx, "datasheet \"%s\": \"url\" must start with https://",
+                          sheet->id);
+    }
+    sheet->md = NULL;
+    if (cJSON_GetObjectItemCaseSensitive(item, "md") != NULL) {
+        size_t len;
+
+        if (!allow_md) {
+            return kind_error(ctx, "an inline datasheet has no \"md\"");
+        }
+        if (kind_string(ctx, item, "md", &sheet->md) != 0) {
+            return -1;
+        }
+        /* A relative path to a .md file: "<group>/<id>.md". */
+        len = strlen(sheet->md);
+        if (len < 4 || strcmp(sheet->md + len - 3, ".md") != 0 || sheet->md[0] == '/' ||
+            strstr(sheet->md, "..") != NULL) {
+            return kind_error(ctx, "datasheet \"%s\": \"md\" must be a relative path "
+                              "to a .md file", sheet->id);
+        }
+    }
+    if (name_set_contains(&library->datasheet_ids, sheet->id) ||
+        name_set_contains(ids, sheet->id)) {
+        return kind_error(ctx, "duplicate datasheet id \"%s\"", sheet->id);
+    }
+    if (name_set_add(ids, sheet->id, sheet) != 0) {
+        return kind_error(ctx, "out of memory");
+    }
+    *out = sheet;
+    return 0;
+}
+
 /* Reads every entry of a datasheets file into `items` (arena) and `ids`. */
 static int read_datasheets(KindContext *ctx, const cJSON *root, const PartLibrary *library,
                            const PartDatasheet ***items, size_t *count, NameSet *ids) {
@@ -1172,40 +1268,8 @@ static int read_datasheets(KindContext *ctx, const cJSON *root, const PartLibrar
         PartDatasheet *sheet;
 
         kind_push(ctx, "datasheets[%zu]", n);
-        sheet = kind_alloc(ctx, sizeof(*sheet));
-        if (sheet == NULL || kind_check_keys(ctx, item, DATASHEET_KEYS, NULL) != 0 ||
-            kind_string(ctx, item, "id", &sheet->id) != 0 ||
-            kind_string(ctx, item, "url", &sheet->url) != 0) {
+        if (read_datasheet_entry(ctx, item, library, ids, 1, &sheet) != 0) {
             return -1;
-        }
-        if (sheet->id[0] == '\0') {
-            return kind_error(ctx, "empty datasheet id");
-        }
-        if (strncmp(sheet->url, "https://", 8) != 0 || sheet->url[8] == '\0') {
-            return kind_error(ctx, "datasheet \"%s\": \"url\" must start with https://",
-                              sheet->id);
-        }
-        sheet->md = NULL;
-        if (cJSON_GetObjectItemCaseSensitive(item, "md") != NULL) {
-            size_t len;
-
-            if (kind_string(ctx, item, "md", &sheet->md) != 0) {
-                return -1;
-            }
-            /* A relative path to a .md file: "<group>/<id>.md". */
-            len = strlen(sheet->md);
-            if (len < 4 || strcmp(sheet->md + len - 3, ".md") != 0 || sheet->md[0] == '/' ||
-                strstr(sheet->md, "..") != NULL) {
-                return kind_error(ctx, "datasheet \"%s\": \"md\" must be a relative path "
-                                  "to a .md file", sheet->id);
-            }
-        }
-        if (name_set_contains(&library->datasheet_ids, sheet->id) ||
-            name_set_contains(ids, sheet->id)) {
-            return kind_error(ctx, "duplicate datasheet id \"%s\"", sheet->id);
-        }
-        if (name_set_add(ids, sheet->id, sheet) != 0) {
-            return kind_error(ctx, "out of memory");
         }
         (*items)[n++] = sheet;
         kind_pop(ctx);
@@ -1299,7 +1363,7 @@ int load_parts(PartLibrary *library, const char *json, const char *source, char 
         kind_error(&ctx, "invalid JSON at byte %ld",
                    where != NULL ? (long)(where - json) : -1L);
     } else if (load_file(&ctx, library, &file, root) == 0 && !kind_failed(&ctx) &&
-               commit_parts(&ctx, library, &file, NULL, NULL) == 0) {
+               commit_parts(&ctx, library, &file, NULL, NULL, NULL) == 0) {
         result = 0;
     }
 
@@ -1315,7 +1379,7 @@ int load_parts(PartLibrary *library, const char *json, const char *source, char 
 /* ---- Single part files (format "schematical-part") ------------------------ */
 
 static const char *const PART_FILE_KEYS[] = {
-    "format", "version", "uuid", "kind", "footprints", "devices", NULL
+    "format", "version", "uuid", "kind", "footprints", "datasheets", "devices", NULL
 };
 
 /* 8-4-4-4-12 uppercase hexadecimal digits: Foundation's UUID.uuidString. */
@@ -1339,18 +1403,53 @@ static int valid_uuid(const char *text) {
     return 1;
 }
 
-/* Checks one part file and loads its footprints and its device into the
-   context's arena (`file`, `footprints`); the library itself is not changed. */
+/* Reads a part file's optional inline "datasheets" (arena): datasheets.json
+   entries without "md", their ids new to the library and to the file. */
+static int read_inline_datasheets(KindContext *ctx, const PartLibrary *library,
+                                  const cJSON *list, DatasheetList *out) {
+    NameSet ids = {0};
+    const cJSON *item;
+    size_t n = 0;
+    int status = 0;
+
+    if (!cJSON_IsArray(list)) {
+        return kind_error(ctx, "\"datasheets\" must be an array");
+    }
+    out->items = kind_alloc(ctx, ((size_t)cJSON_GetArraySize(list) + 1) * sizeof(*out->items));
+    if (out->items == NULL) {
+        return -1;
+    }
+    for (item = list->child; item != NULL && status == 0; item = item->next) {
+        PartDatasheet *sheet;
+
+        kind_push(ctx, "datasheets[%zu]", n);
+        status = read_datasheet_entry(ctx, item, library, &ids, 0, &sheet);
+        if (status == 0) {
+            out->items[n++] = sheet;
+            kind_pop(ctx);
+        }
+    }
+    name_set_free(&ids);
+    out->count = status == 0 ? n : 0;
+    return status;
+}
+
+/* Checks one part file and loads its footprints, its datasheets and its
+   device into the context's arena (`file`, `footprints`, `datasheets`); the
+   library itself is not changed. */
 static int read_part_file(KindContext *ctx, PartLibrary *library, const cJSON *root,
-                          FileParts *file, FootprintList *footprints, const char **uuid) {
+                          FileParts *file, FootprintList *footprints,
+                          DatasheetList *datasheets, const char **uuid) {
     const cJSON *devices;
     const cJSON *device;
     const cJSON *parts;
     const cJSON *inline_footprints;
+    const cJSON *inline_datasheets;
     const char *format;
     const char *kind_name;
     const PartKindOps *ops;
     uint64_t version;
+    size_t i;
     int status;
 
     if (!cJSON_IsObject(root)) {
@@ -1393,6 +1492,12 @@ static int read_part_file(KindContext *ctx, PartLibrary *library, const cJSON *r
          kind_failed(ctx))) {
         return -1;
     }
+    inline_datasheets = cJSON_GetObjectItemCaseSensitive(root, "datasheets");
+    if (inline_datasheets != NULL &&
+        (read_inline_datasheets(ctx, library, inline_datasheets, datasheets) != 0 ||
+         kind_failed(ctx))) {
+        return -1;
+    }
     devices = kind_member(ctx, root, "devices", 1);
     if (devices == NULL) {
         return -1;
@@ -1406,16 +1511,25 @@ static int read_part_file(KindContext *ctx, PartLibrary *library, const cJSON *r
     if (cJSON_IsArray(parts) && cJSON_GetArraySize(parts) != 1) {
         return kind_error(ctx, "\"parts\" must be an array of exactly one part");
     }
-    /* The inline footprints resolve like bundled ones while the part loads. */
+    /* The inline footprints and datasheets resolve like bundled ones while the
+       part loads. */
     library->staged_footprints = footprints;
+    library->staged_datasheets = datasheets;
     status = load_device(ctx, library, file, ops, device);
     library->staged_footprints = NULL;
+    library->staged_datasheets = NULL;
     if (status != 0 || kind_failed(ctx)) {
         return -1;
     }
     kind_pop(ctx);
     if (file->count != 1) {
         return kind_error(ctx, "\"devices\" must hold exactly one part");
+    }
+    /* A file carries no dead entries: the part names every inline datasheet. */
+    for (i = 0; i < datasheets->count; i++) {
+        if (file->parts[0]->datasheet != datasheets->items[i]) {
+            return kind_error(ctx, "datasheet \"%s\" is not used", datasheets->items[i]->id);
+        }
     }
     ((Part *)file->parts[0])->uuid = *uuid;
     return 0;
@@ -1425,6 +1539,7 @@ int load_part_file(PartLibrary *library, const char *json, const char *source, c
     KindContext ctx;
     FileParts file = {0};
     FootprintList footprints = {0};
+    DatasheetList datasheets = {0};
     const char *uuid = NULL;
     cJSON *root;
     int result = -1;
@@ -1447,22 +1562,25 @@ int load_part_file(PartLibrary *library, const char *json, const char *source, c
         const char *where = cJSON_GetErrorPtr();
 
         kind_error(&ctx, "invalid JSON at byte %ld", where != NULL ? (long)(where - json) : -1L);
-    } else if (read_part_file(&ctx, library, root, &file, &footprints, &uuid) == 0 &&
+    } else if (read_part_file(&ctx, library, root, &file, &footprints, &datasheets, &uuid) == 0 &&
                !kind_failed(&ctx)) {
         size_t count = library->count;
         size_t footprint_count = library->footprint_count;
+        size_t datasheet_count = library->datasheet_count;
         ArenaChunk *arenas = library->arenas;
 
-        if (commit_parts(&ctx, library, &file, &footprints, uuid) == 0) {
+        if (commit_parts(&ctx, library, &file, &footprints, &datasheets, uuid) == 0) {
             library->last_part_file = 1;
             library->last_count = count;
             library->last_footprint_count = footprint_count;
+            library->last_datasheet_count = datasheet_count;
             library->last_arenas = arenas;
             result = 0;
         }
     }
 
     library->staged_footprints = NULL;
+    library->staged_datasheets = NULL;
     cJSON_Delete(root);
     free(file.parts);
     free(footprints.items);
@@ -1477,6 +1595,7 @@ int part_library_unload_last_part_file(PartLibrary *library) {
     NameSet names = {0};
     NameSet uuids = {0};
     NameSet ids = {0};
+    NameSet sheet_ids = {0};
     size_t i;
     int ok = 1;
 
@@ -1493,20 +1612,27 @@ int part_library_unload_last_part_file(PartLibrary *library) {
     for (i = 0; ok && i < library->last_footprint_count; i++) {
         ok = name_set_add(&ids, library->footprints[i]->id, library->footprints[i]) == 0;
     }
+    for (i = 0; ok && i < library->last_datasheet_count; i++) {
+        ok = name_set_add(&sheet_ids, library->datasheets[i]->id, library->datasheets[i]) == 0;
+    }
     if (!ok) {
         name_set_free(&names);
         name_set_free(&uuids);
         name_set_free(&ids);
+        name_set_free(&sheet_ids);
         return -1;
     }
     name_set_free(&library->names);
     name_set_free(&library->uuids);
     name_set_free(&library->footprint_ids);
+    name_set_free(&library->datasheet_ids);
     library->names = names;
     library->uuids = uuids;
     library->footprint_ids = ids;
+    library->datasheet_ids = sheet_ids;
     library->count = library->last_count;
     library->footprint_count = library->last_footprint_count;
+    library->datasheet_count = library->last_datasheet_count;
     /* The file's arena chunks were put in front of the old head. */
     while (library->arenas != library->last_arenas) {
         ArenaChunk *next = library->arenas->next;

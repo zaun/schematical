@@ -49,6 +49,19 @@ static int failures;
     "\"parts\":[{\"name\":\"" part_name "\",\"manufacturer\":\"Generic\",\"package\":\"SOT-23\"," \
     "\"pinout\":\"p5\",\"footprint\":\"" footprint "\",\"family\":\"HC\"}]}"
 
+/* The same device with a manufacturer and a datasheet id (plan-46-A). */
+#define SHEET_DEVICE(part_name, manufacturer, datasheet)                                         \
+    "{\"id\":\"1G00\",\"function\":\"NAND\",\"description\":\"Single 2-input NAND gate\","       \
+    "\"drawer\":[\"Custom\",\"Gates\"],"                                                         \
+    "\"pinouts\":{\"p5\":[{\"number\":1,\"name\":\"A\",\"role\":\"input\"},"                     \
+    "{\"number\":2,\"name\":\"B\",\"role\":\"input\"},{\"number\":3,\"name\":\"GND\",\"role\":\"ground\"}," \
+    "{\"number\":4,\"name\":\"Y\",\"role\":\"output\"},{\"number\":5,\"name\":\"VCC\",\"role\":\"power\"}]}," \
+    "\"gates\":[{\"op\":\"nand\",\"inputs\":[\"A\",\"B\"],\"output\":\"Y\"}],"                   \
+    "\"timing\":{\"HC\":{\"rise\":9,\"fall\":9,\"vcc\":[2,6]}},"                                 \
+    "\"parts\":[{\"name\":\"" part_name "\",\"manufacturer\":\"" manufacturer "\","              \
+    "\"package\":\"SOT-23\",\"datasheet\":\"" datasheet "\","                                    \
+    "\"pinout\":\"p5\",\"footprint\":\"SOT23-5\",\"family\":\"HC\"}]}"
+
 #define HEAD(uuid) "{\"format\":\"schematical-part\",\"version\":1,\"uuid\":\"" uuid "\",\"kind\":\"gate\","
 
 /* Loads `text`; expects a failure whose message contains `want`, and the
@@ -251,6 +264,91 @@ int main(void) {
               part != NULL ? (unsigned)part->pins[1].active_low : 0u,
               part != NULL ? (unsigned)part->pins[3].active_low : 0u);
         puts("ok (j) activeLow loads from a single part file");
+    }
+
+    /* Inline datasheets (plan-46-A): an optional top-level "datasheets" array
+       of datasheets.json entries without "md", named by the part. */
+    {
+        size_t sheets = part_library_datasheet_count(library);
+        static const char TEXT[] =
+            HEAD("A0000000-2222-4333-8444-555555555555")
+            "\"datasheets\":[{\"id\":\"CUSTOM-A0000000\",\"url\":\"https://example.com/x.pdf\"}],"
+            "\"devices\":[" SHEET_DEVICE("DS-PART", "Texas Instruments", "CUSTOM-A0000000") "]}";
+        int round;
+
+        /* (ds-a) It loads, and the part's datasheet is the inline entry. */
+        CHECK(load_part_file(library, TEXT, "ds.schpart", &error) == 0, "(ds-a) %s", error);
+        free(error);
+        error = NULL;
+        part = part_library_find(library, "DS-PART");
+        CHECK(part != NULL && part->datasheet != NULL &&
+                  strcmp(part->datasheet->url, "https://example.com/x.pdf") == 0 &&
+                  part->datasheet->md == NULL,
+              "(ds-a) the part's datasheet is not the inline entry");
+        CHECK(part_library_find_datasheet(library, "CUSTOM-A0000000") != NULL,
+              "(ds-a) inline datasheet not in the library");
+        CHECK(part_library_datasheet_count(library) == sheets + 1, "(ds-a) datasheet count");
+        puts("ok (ds-a) inline datasheet part loads");
+
+        /* (ds-b) Unload takes the entry back; the same text loads again. */
+        CHECK(part_library_unload_last_part_file(library) == 0, "(ds-b) unload");
+        CHECK(part_library_datasheet_count(library) == sheets, "(ds-b) count after unload %zu != %zu",
+              part_library_datasheet_count(library), sheets);
+        CHECK(part_library_find_datasheet(library, "CUSTOM-A0000000") == NULL,
+              "(ds-b) inline datasheet stayed");
+        CHECK(part_library_find_datasheet(library, "sn74hc00") != NULL,
+              "(ds-b) a bundled datasheet was lost");
+        for (round = 0; round < 2; round++) {
+            CHECK(load_part_file(library, TEXT, "ds.schpart", &error) == 0, "(ds-b) round %d: %s",
+                  round, error);
+            free(error);
+            error = NULL;
+            CHECK(part_library_unload_last_part_file(library) == 0, "(ds-b) round %d: unload",
+                  round);
+            CHECK(part_library_datasheet_count(library) == sheets, "(ds-b) round %d: count",
+                  round);
+        }
+        puts("ok (ds-b) load, unload, load again");
+
+        /* (ds-c) An inline id equal to a bundled one. */
+        expect_error(library, "(ds-c)",
+                     HEAD("A0000001-2222-4333-8444-555555555555")
+                     "\"datasheets\":[{\"id\":\"sn74hc00\",\"url\":\"https://example.com/x.pdf\"}],"
+                     "\"devices\":[" SHEET_DEVICE("DS-C", "Texas Instruments", "sn74hc00") "]}",
+                     "duplicate datasheet id \"sn74hc00\"");
+        /* (ds-d) Not https. */
+        expect_error(library, "(ds-d)",
+                     HEAD("A0000002-2222-4333-8444-555555555555")
+                     "\"datasheets\":[{\"id\":\"CUSTOM-X\",\"url\":\"http://example.com/x.pdf\"}],"
+                     "\"devices\":[" SHEET_DEVICE("DS-D", "Texas Instruments", "CUSTOM-X") "]}",
+                     "\"url\" must start with https://");
+        /* (ds-e) An "md" key. */
+        expect_error(library, "(ds-e)",
+                     HEAD("A0000003-2222-4333-8444-555555555555")
+                     "\"datasheets\":[{\"id\":\"CUSTOM-X\",\"url\":\"https://example.com/x.pdf\","
+                     "\"md\":\"gate-and/x.md\"}],"
+                     "\"devices\":[" SHEET_DEVICE("DS-E", "Texas Instruments", "CUSTOM-X") "]}",
+                     "datasheets[0]: an inline datasheet has no \"md\"");
+        /* (ds-f) An entry the part does not name. */
+        expect_error(library, "(ds-f)",
+                     HEAD("A0000004-2222-4333-8444-555555555555")
+                     "\"datasheets\":[{\"id\":\"CUSTOM-X\",\"url\":\"https://example.com/x.pdf\"}],"
+                     "\"devices\":[" SHEET_DEVICE("DS-F", "Texas Instruments", "sn74hc00") "]}",
+                     "datasheet \"CUSTOM-X\" is not used");
+        /* (ds-g) Not an array. */
+        expect_error(library, "(ds-g)",
+                     HEAD("A0000005-2222-4333-8444-555555555555") "\"datasheets\":{},"
+                     "\"devices\":[" SHEET_DEVICE("DS-G", "Texas Instruments", "sn74hc00") "]}",
+                     "\"datasheets\" must be an array");
+        /* (ds-h) A Generic part naming the inline entry. */
+        expect_error(library, "(ds-h)",
+                     HEAD("A0000006-2222-4333-8444-555555555555")
+                     "\"datasheets\":[{\"id\":\"CUSTOM-X\",\"url\":\"https://example.com/x.pdf\"}],"
+                     "\"devices\":[" SHEET_DEVICE("DS-H", "Generic", "CUSTOM-X") "]}",
+                     "a Generic part has no datasheet");
+        CHECK(part_library_datasheet_count(library) == sheets, "(ds) datasheet count changed");
+        CHECK(part_library_find_datasheet(library, "CUSTOM-X") == NULL,
+              "(ds) a rejected file's datasheet stayed");
     }
 
     /* load_parts still rejects the single part format, and keeps its rules. */
