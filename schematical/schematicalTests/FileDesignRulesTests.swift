@@ -7,6 +7,10 @@ import XCTest
 /// class and the router work from.
 @MainActor
 final class FileDesignRulesTests: XCTestCase {
+    /// Kept for the life of the test process: freeing a main-actor object in
+    /// a test aborts the host.
+    private static var kept: [SchematicFileController] = []
+
     /// Rules unlike any manufacturer's and unlike the app's defaults.
     private var odd: DesignRules {
         var rules = DesignRules.jlcpcb
@@ -121,6 +125,33 @@ final class FileDesignRulesTests: XCTestCase {
         doc.setDesignRules(rules, manufacturer: .custom)
         XCTAssertEqual(doc.board.rules.minDrill, 0)
         XCTAssertEqual(doc.board.rules.minClearance, 0)
+    }
+
+    /// Through the window's own file code, on disk: a rule change makes
+    /// the window unsaved, Save writes it, and Open in a blank window on
+    /// the same Mac reads the file's rules, not the app's.
+    func testSaveAndOpenThroughTheWindowsFileCode() async throws {
+        let url = FileManager.default.temporaryDirectory
+            .appendingPathComponent("plan49-\(UUID().uuidString).schematical")
+        defer { try? FileManager.default.removeItem(at: url) }
+        let doc = TestSupport.newDocument()
+        let window = SchematicFileController(document: doc, catalog: TestSupport.catalog, willReplaceDocument: {})
+        Self.kept.append(window)
+        XCTAssertFalse(window.hasUnsavedChanges)
+        doc.setDesignRules(odd, manufacturer: .jlcpcb)
+        XCTAssertTrue(window.hasUnsavedChanges, "a rule change is a change to the file")
+        XCTAssertNil(window.saveWithoutPanel(to: url))
+        XCTAssertFalse(window.hasUnsavedChanges)
+        XCTAssertTrue(String(decoding: try Data(contentsOf: url), as: UTF8.self).contains("\"minClearance\" : 0.37"))
+
+        let other = TestSupport.newDocument()
+        let blank = SchematicFileController(document: other, catalog: TestSupport.catalog, willReplaceDocument: {})
+        Self.kept.append(blank)
+        await blank.open(url)
+        XCTAssertEqual(blank.fileURL, url)
+        XCTAssertEqual(other.board.rules, odd)
+        XCTAssertEqual(other.board.rulesTitle, "JLCPCB (modified)")
+        XCTAssertFalse(blank.hasUnsavedChanges)
     }
 
     // MARK: Readers

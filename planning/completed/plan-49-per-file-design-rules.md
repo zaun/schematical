@@ -328,6 +328,26 @@ Commit: f9a8daf8, 75abc9a7
   presses the real buttons; PNG snapshots of step 1 and step 2 were
   inspected. Not exercised by hand: ⇧⌘D opening the window from the PCB
   page, and File ▸ Save / Open through the panels.
+- **Save and reopen proved through the window's own file code** (added
+  after the first close-out, because the by-hand walk could not be done):
+  `FileDesignRulesTests.testSaveAndOpenThroughTheWindowsFileCode` uses
+  `SchematicFileController`, the object behind File ▸ Save and Open. A
+  rule change makes the window unsaved, the save writes `"minClearance" :
+  0.37` to disk, and a blank window that opens the file has the file's
+  rules and is not unsaved. `xcodebuild … test
+  -only-testing:schematicalTests/FileDesignRulesTests
+  -only-testing:schematicalTests/DesignRuleCheckWizardTests` → `Executed 14
+  tests, with 0 failures`, `** TEST SUCCEEDED **`. What still has no proof
+  beyond reading the code: the save and open panels themselves, and the
+  ⇧⌘D menu item opening the window (`ContentView.swift:764`, untouched by
+  this plan). Both need an unlocked screen, which needs the owner.
+- **Prerequisites re-run at close-out:** `ls planning planning/completed |
+  grep -c plan-49` → 1, this plan's own file; the number was free when the
+  plan was written. MET.
+- **Worktree step, reconciled:** `git worktree list` shows no
+  `worktree-P-49` and `git branch --list worktree-P-49` is empty. None was
+  made (first Correction), so there is nothing to merge or remove; every
+  commit is on `main`.
 - Final gate, observed: 16 suites (the 15 named plus
   `DesignRuleCheckWizardTests`) → `Executed 202 tests, with 0 failures`,
   `** TEST SUCCEEDED **`.
