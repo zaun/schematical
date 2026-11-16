@@ -158,7 +158,7 @@ Commit: c5ecc4c6
 
 Acceptance: 5687 parts, 0 mismatched, 0 with extras, 0 rejected.
   Check: `xcodebuild … test -only-testing:schematicalTests/PartKindRoundTripTests/testResistor -only-testing:schematicalTests/PartKindRoundTripTests/testCapacitor -only-testing:schematicalTests/PartKindRoundTripTests/testTransistor -only-testing:schematicalTests/PartKindRoundTripTests/testMcu CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` and four `checked N parts of <kind>, 0 mismatched, 0 with extras, 0 rejected` lines with N = 1975, 1032, 1256, 1424 (est. 10 min: the population is the whole of each kind, the smallest set that exercises every key).
-Commit: —
+Commit: 44a76aa8
 
 ## Validation Plan
 
