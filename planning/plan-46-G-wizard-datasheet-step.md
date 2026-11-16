@@ -141,18 +141,30 @@ Find needs, and the existing window already proves PDFKit works here.
 
 Acceptance: the finder walks hits as § 1 says.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/DatasheetFinderTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+Commit: d23ebe95
 
 ### Phase 2 — The step and the pane
 
-- [ ] `Editor/Wizard/DatasheetStepPage.swift`; the Guided pane's three
+- [x] `Editor/Wizard/DatasheetStepPage.swift`; the Guided pane's three
       tabs; `StepSearchTerms.swift`; the step header's Find button.
-- [ ] Runtime check (run skill): New Part… → Gate → part number
+- [x] Runtime check (run skill): New Part… → Gate → part number
       `MY-HC00`, manufacturer Texas Instruments → step 3: paste the TI URL
       above → the PDF shows → Next to Pins → Find in datasheet → the pane
       shows the pin-configuration page → finish with a bundled footprint →
       Add to Library → place it → Open Datasheet opens the same URL.
       Pointer to (0, 0).
+      (2026-11-16, this plan's Debug build: `MY-HC00`, Texas Instruments →
+      Datasheet step, address
+      `https://www.ti.com/lit/ds/symlink/sn74hc00.pdf` → Load → `Showing
+      www.ti.com`, the pane switched to Datasheet and drew the 39-page PDF
+      (screenshot checked). Pins → Find in datasheet → `Page 2 of 39 — “Pin
+      Configuration and Functions”` (the contents page; § Corrections 1),
+      again → `Page 3 of 39`, the pin section. Five pins, a NAND gate, HC
+      timing, `SOT23-5` → Review `The part loads: 5 pins` → Add to Library →
+      `Added MY-HC00 to the parts drawer` → dragged from Custom › Logic
+      gates and flip-flops › Logic Gate onto the canvas and selected → the
+      sidebar's Open Datasheet → window `MY-HC00 Datasheet – www.ti.com`
+      with 39 pages. Pointer left at (0, 0).)
 
 Acceptance: the datasheet follows the user through the wizard and onto the placed part.
   Check: the walk above (est. 15 min; network and PDFKit rendering are only visible in the app).

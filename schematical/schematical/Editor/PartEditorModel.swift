@@ -1,6 +1,7 @@
 import AppKit
 import Foundation
 import Observation
+import PDFKit
 
 /// One Part Editor window's state: the draft, where it was saved, whether it
 /// changed since, and the backend's verdict on it (plan-32-C § 4.6, § 4.7).
@@ -23,6 +24,87 @@ final class PartEditorModel {
             scheduleValidation()
             keepCurrentStep(after: oldValue)
         }
+    }
+
+    // MARK: The datasheet beside the wizard (plan-46-G)
+
+    /// The loaded datasheet and its search, shared by the pane and every
+    /// step's Find in datasheet button.
+    let datasheet = DatasheetFinder()
+
+    enum DatasheetPhase: Equatable {
+        case none, loading
+        /// What is shown: the address's host, or a local file's name.
+        case loaded(String)
+        case failed(String)
+    }
+
+    private(set) var datasheetPhase = DatasheetPhase.none
+
+    /// The Guided preview pane's tabs: the datasheet beside Block and Footprint.
+    enum GuidedPane: String, CaseIterable, Sendable {
+        case datasheet, block, footprint
+
+        var title: String {
+            switch self {
+            case .datasheet: "Datasheet"
+            case .block: "Block"
+            case .footprint: "Footprint"
+            }
+        }
+    }
+
+    var guidedPane: GuidedPane = .block
+
+    /// The address of the library datasheet the part names (a copied part),
+    /// as the backend resolved it; nil for an inline or no datasheet.
+    var bundledDatasheetURL: URL? {
+        guard draft.datasheet != nil, draft.datasheetURL == nil else { return nil }
+        return lastValidPart?.datasheetURL
+    }
+
+    /// The address Load fetches: the part's own, or the library's.
+    var datasheetAddress: URL? {
+        if let text = draft.datasheetURL { return URL(string: text) }
+        return bundledDatasheetURL
+    }
+
+    /// Downloads the part's datasheet into the pane.
+    func loadDatasheet() async {
+        guard let url = datasheetAddress else {
+            datasheetPhase = .failed("There is no datasheet address to load.")
+            return
+        }
+        datasheetPhase = .loading
+        switch await DatasheetLoader.load(url) {
+        case let .success(document):
+            show(document, source: url.host() ?? url.absoluteString)
+        case let .failure(failure):
+            datasheetPhase = .failed(failure.message)
+        }
+    }
+
+    /// Shows a PDF file the user chose; the part's address is not changed.
+    func showLocalDatasheet(_ url: URL) {
+        let scoped = url.startAccessingSecurityScopedResource()
+        defer { if scoped { url.stopAccessingSecurityScopedResource() } }
+        guard let data = try? Data(contentsOf: url), let document = PDFDocument(data: data) else {
+            datasheetPhase = .failed("“\(url.lastPathComponent)” is not a PDF.")
+            return
+        }
+        show(document, source: url.lastPathComponent)
+    }
+
+    private func show(_ document: PDFDocument, source: String) {
+        datasheet.document = document
+        datasheetPhase = .loaded(source)
+        guidedPane = .datasheet
+    }
+
+    /// A step's Find in datasheet: jumps the pane to the step's section.
+    func findInDatasheet(_ terms: [String]) {
+        guidedPane = .datasheet
+        datasheet.find(terms)
     }
 
     // MARK: The wizard's first steps (plan-46-F)

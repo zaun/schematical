@@ -29,6 +29,22 @@ struct WizardStepView: View {
                         Text("Optional — skip this if you don't need it in the simulation.")
                             .font(.callout).foregroundStyle(.secondary)
                     }
+                    if !step.searchTerms.isEmpty {
+                        HStack {
+                            Button {
+                                model.findInDatasheet(step.searchTerms)
+                            } label: {
+                                Label("Find in datasheet", systemImage: "doc.text.magnifyingglass")
+                            }
+                            .disabled(model.datasheet.document == nil)
+                            .help(model.datasheet.document == nil
+                                ? "Load the datasheet on the Datasheet step first"
+                                : "Looks for: " + step.searchTerms.joined(separator: ", "))
+                            if let result = model.datasheet.lastResult, model.datasheet.document != nil {
+                                Text(result).font(.caption).foregroundStyle(.secondary).lineLimit(1)
+                            }
+                        }
+                    }
                     ForEach(model.issues(of: step), id: \.self) { issue in
                         Label(issue, systemImage: "exclamationmark.circle")
                             .font(.callout).foregroundStyle(.orange)
@@ -50,9 +66,7 @@ struct WizardStepView: View {
         case .identity:
             IdentityStepPage(model: model)
         case .datasheet:
-            Section("Datasheet") {
-                DatasheetField(datasheet: $model.draft.datasheet, ids: model.validator.datasheetIDs)
-            }
+            DatasheetStepPage(model: model)
         case .pinout:
             PinoutsSection(pinouts: $model.draft.pinouts, partPinout: $model.draft.pinout)
         case .variant, .supply, .kindFields:

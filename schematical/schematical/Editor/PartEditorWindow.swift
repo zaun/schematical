@@ -55,7 +55,7 @@ struct PartEditorWindowView: View {
                     WizardNavBar(model: model)
                 }
                 .frame(minWidth: 480, maxWidth: .infinity, maxHeight: .infinity)
-                PartPreviewPane(model: model)
+                GuidedPreviewPane(model: model)
                     .frame(minWidth: 260, idealWidth: 340, maxHeight: .infinity, alignment: .top)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -67,6 +67,39 @@ struct PartEditorWindowView: View {
                     .frame(minWidth: 260, idealWidth: 340)
             }
         }
+    }
+}
+
+/// The pane beside the wizard (plan-46-G): the datasheet, or the part as the
+/// schematic (Block) or the PCB (Footprint) draws it. The datasheet stays
+/// loaded while the user moves between steps and tabs.
+struct GuidedPreviewPane: View {
+    @Bindable var model: PartEditorModel
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Picker("Pane", selection: $model.guidedPane) {
+                ForEach(PartEditorModel.GuidedPane.allCases, id: \.self) { Text($0.title).tag($0) }
+            }
+            .pickerStyle(.segmented)
+            .labelsHidden()
+            switch model.guidedPane {
+            case .datasheet:
+                DatasheetPane(model: model)
+            case .block, .footprint:
+                if let part = model.lastValidPart {
+                    if model.guidedPane == .block {
+                        BlockPreviewView(chip: PartPreview.chip(for: part), revision: model.previewRevision)
+                    } else {
+                        FootprintPreviewView(part: part, revision: model.previewRevision)
+                    }
+                } else {
+                    ContentUnavailableView("No preview", systemImage: "square.dashed",
+                                           description: Text("The preview shows the part once it loads."))
+                }
+            }
+        }
+        .padding(8)
     }
 }
 
