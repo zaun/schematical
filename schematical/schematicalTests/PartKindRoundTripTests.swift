@@ -10,11 +10,11 @@ final class PartKindRoundTripTests: XCTestCase {
     /// The shipped part count of each kind (`rg -o '"manufacturer"' Parts/<kind>.json | wc -l`).
     static let expected: [String: Int] = [
         "dff": 867, "jkff": 186, "mux": 346, "decoder": 322,
-        "latch": 750, "buffer": 2135, "arith": 107,
+        "latch": 750, "buffer": 2137, "arith": 107,
         "counter": 730, "shift": 583,
-        "sram": 172, "eeprom": 174, "switch": 2067, "led": 1, "7seg": 49, "oscillator": 1138, "supply": 14,
-        "cpu": 21, "pio": 7, "serial": 247, "charlcd": 72, "connector": 374, "converter": 1911, "rtc": 14,
-        "diode": 11152, "header": 80, "register": 220,
+        "sram": 172, "eeprom": 174, "switch": 2070, "led": 1, "7seg": 49, "oscillator": 1145, "supply": 14,
+        "cpu": 21, "pio": 7, "serial": 247, "charlcd": 72, "connector": 376, "converter": 1914, "rtc": 16,
+        "diode": 11166, "header": 80, "register": 220,
         // plan-46-C.
         "resistor": 1975, "capacitor": 1032, "transistor": 1256, "mcu": 1424,
     ]

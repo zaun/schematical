@@ -80,18 +80,45 @@ plan-46-A § Prerequisites, plus:
 
 Acceptance: the help names the wizard and the doc names every editor step.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/PartEditorWindowTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **`; `grep -c 'KindInfo' docs/backend.md` → at least 1 (est. 7 min).
-Commit: —
+Commit: 96bec7ef
 
 ### Phase 2 — Proofs, gate, archive
 
-- [ ] Extendability probe (throwaway, outside the repo or in a detached
+- [x] Extendability probe (throwaway, outside the repo or in a detached
       worktree; never committed): add `Field(key: "probe", label: "Probe",
       type: .bool)` to `DffDraft.schema.device` → `KindGuideTests` fails
       with a message naming `dff` and `device.probe`. Record the message
-      in § Corrections.
-- [ ] End-to-end walk (run skill) of the behavioral outcome above. Pointer
+      in § Corrections. (§ Corrections 1.)
+- [x] End-to-end walk (run skill) of the behavioral outcome above. Pointer
       to (0, 0).
-- [ ] Final gate (below), once.
+      (2026-11-16, this plan's Debug build. File › New Part… → `What are
+      you making?` (step 1 of 6) → Logic Gate → `MY-74HC00`, Texas
+      Instruments, SOIC → Datasheet: `https://www.ti.com/lit/ds/symlink/sn74hc00.pdf`
+      → Load → `Showing www.ti.com` → Pins: the TI pin table pasted, `14
+      pins, 1 row skipped`, Apply → Supply voltage → Gates: four NAND gates
+      `1A 1B → 1Y` … `4A 4B → 4Y` → Logic family and timing: `HC`, 9 ns, 2–6
+      V → Footprint: `SOIC-14` from the thumbnails → Review: `The part
+      loads: 14 pins`, `SOIC-14: 14 pads`, 14 pad rows, nothing still to
+      do → Save Part… → `/tmp/p46-walk/MY-74HC00.schpart` (gates `nand:1A+1B>1Y`
+      …, `"datasheets": [{"id": "CUSTOM-0B022F1F", "url": "https://www.ti.com/lit/ds/symlink/sn74hc00.pdf"}]`,
+      `"datasheet": "CUSTOM-0B022F1F"`, footprint `SOIC-14`, family `HC`).
+      Editor closed; File › Load Part… → the drawer listed MY-74HC00 under
+      Custom › Logic gates and flip-flops › Logic Gate; dragged onto the
+      schematic and selected → Open Datasheet → window `MY-74HC00 Datasheet
+      – www.ti.com`. Pointer left at (0, 0). In the first pass the driving
+      script left gates 2–4 as AND (its own substring match on "and");
+      they were set to NAND in the app and the part saved again before the
+      load.)
+- [x] Final gate (below), once. (Backend: `100% tests passed, 0 tests
+      failed out of 37`; `git diff --stat 5bccd0d7 -- backend/tests/golden`
+      → empty. App, the 19 classes: `Executed 137 tests, with 7 failures`,
+      all seven in `PartKindRoundTripTests` and all stale part counts
+      (§ Corrections 2); with the counts corrected, `PartKindRoundTripTests`
+      → `Executed 30 tests, with 0 failures`, `** TEST SUCCEEDED **`; the
+      other 18 classes had 107 tests, 0 failures. `main` had not moved
+      (`git rev-parse --short main` → 4218bb74, the worktree's base), so no
+      merge and no second run were needed. The repo has no Rust workspace
+      (no `Cargo.toml`), so there is nothing for `cargo fmt`.)
 - [ ] Move `planning/plan-46-*.md` to `planning/completed/` (each lettered
       file as it completes — A … M are already there; N last).
 
@@ -114,7 +141,35 @@ plan-46-A § Decisions.
 
 ## Corrections
 
-None yet.
+1. **The extendability probe.** With `Field(key: "probe", label: "Probe",
+   type: .bool)` added to `DffDraft.schema.device` (in the plan's worktree,
+   the file copied aside first and copied back after; `git status` then
+   showed it unchanged, and it was never staged), `KindGuideTests` failed:
+   `testCuratedGuidesCoverEveryKeyOnce : XCTAssertEqual failed: ("["dff: no
+   step of the guide has device.probe"]") is not equal to ("[]") - dff: no
+   step of the guide has device.probe`, and
+   `testEveryTopLevelKeyOfACuratedKindHasAGuide` with `dff: device.probe`.
+   The other ten `KindGuideTests` cases passed. The probe ran in the
+   worktree rather than a detached copy: a copy would have needed its own
+   full app build, and the file restore is checked by `git status`.
+2. **A prerequisite no row covered: `PartKindRoundTripTests` held seven
+   stale part counts at the base.** The final gate's first app run failed
+   seven of its cases on the count alone, e.g. `testDiode : XCTAssertEqual
+   failed: ("Optional(11166)") is not equal to ("Optional(11152)") - diode`
+   beside `checked 11166 parts of diode, 0 mismatched, 0 with extras, 0
+   rejected`. Earlier plans added parts without moving the test's
+   `expected` table: buffer 2135 → 2137, connector 374 → 376, converter
+   1911 → 1914, diode 11152 → 11166, oscillator 1138 → 1145, rtc 14 → 16,
+   switch 2067 → 2070. plan-46 changes no part file (`git diff --stat
+   4218bb74 -- schematical/schematical/Parts` → only the new, empty
+   `generic.json`), and every part of all 30 kinds round-trips 0 / 0 / 0.
+   The table now holds the measured counts. (The same kind of stale count
+   as plan-46-J § Corrections 1; plan-46-C's four new kinds were right.)
+3. **§ Validation Plan says the round trip reads "31 kinds (all but
+   `generic`)"; it is 30 test cases.** `gate` has no case in
+   `PartKindRoundTripTests` (its hand-written schema is covered by
+   `PartDraftRoundTripTests`, `checked 3438 parts, 0 mismatched, 0 with
+   extras, 0 rejected`, which is in the gate too).
 
 ## Summary
 
