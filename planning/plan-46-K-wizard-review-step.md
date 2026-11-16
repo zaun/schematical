@@ -38,7 +38,7 @@ plan-46-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-46-J complete | `ls planning/completed/plan-46-J-*.md` → exists | NOT MET (2026-11-16: not started) |
+| plan-46-J complete | `ls planning/completed/plan-46-J-*.md` → exists | MET (2026-11-16: `planning/completed/plan-46-J-wizard-footprint-step.md`) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 
@@ -103,8 +103,18 @@ loader wording change that breaks a rule shows which.
 
 ### Phase 1 — The locator
 
-- [ ] `WizardIssueLocator.swift` per § 1.
-- [ ] `schematicalTests/WizardIssueLocatorTests.swift` per § 3.
+- [x] `WizardIssueLocator.swift` per § 1 (§ Corrections 1).
+- [x] `schematicalTests/WizardIssueLocatorTests.swift` per § 3. (The seven
+      messages and where they point, as printed: `pinouts.default:
+      gates[0]: no pin named "Q"` → kind.essentials; `footprint "SOIC-8"
+      has 8 pads, pinout "default" has 14 pins` → footprint;
+      `pinouts.default: pin 4: pin numbers must be 1..N in order (found 3)`
+      → pinout; `unknown family "ZZ"` → kind.essentials; `datasheets[0]:
+      datasheet "CUSTOM-X": "url" must start with https://` → datasheet;
+      `parts[0] (): empty part name` → identity; `"vcc": min must be below
+      max` → kind.supply. Seven more messages are asserted too. `xcodebuild
+      … test -only-testing:schematicalTests/WizardIssueLocatorTests` →
+      `Executed 5 tests, with 0 failures`, `** TEST SUCCEEDED **`.)
 
 Acceptance: all seven real messages point at the right step.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/WizardIssueLocatorTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
@@ -136,7 +146,31 @@ the wizard points, it does not reword.
 
 ## Corrections
 
-None yet.
+1. **The locator's rules, as the real messages needed them.** § 1 wrote the
+   rules from one known message shape; the loader's actual texts differ in
+   three ways, so the rules are ordered and widened (the tests assert the
+   outcome on real messages, which is the criterion):
+   - A *place* can be inside a kind key: `pinouts.default: gates[0]: no pin
+     named "Q"`. Places are checked for a kind key (`gates[0]` → `gates`,
+     `timing.HC` → `timing`) *before* the pinout rule, or case 1 would go
+     to Pins because of its `pinouts.default` place.
+   - The text is `no pin named "Q"`, not `unknown pin`; and a bad pin
+     number reads `pin numbers must be 1..N in order`. The pinout rule goes
+     by the `pinouts`/`pinouts.<name>` place first.
+   - Several messages name their subject in words, not as a quoted key:
+     `footprint "SOIC-8" has 8 pads`, `unknown family "ZZ"`, `empty part
+     name`, `unknown datasheet "x"`. After the quoted-key rules, the
+     words `footprint`/`pads`, `datasheet`, `part name` and any bare word
+     that is a kind key (`family`) are tried.
+   The step ids are D's (`kind.essentials`, `kind.supply`): the gate's
+   derived steps hold `gates`, `timing` and `family` in Essentials until
+   L's gate guide renames them.
+2. **Review lists the wizard's own findings as well as the backend's.**
+   "Still to do" is E's step issues; for case 1 it reads `Gates 1 ›
+   Output: there is no pin named “Q”` with its own Go to, above the
+   loader's message and its Go to. The pin ↔ pad table shows `No lead`
+   for an `absent` pin and `—` while the part does not load (its
+   footprint is then not known).
 
 ## Summary
 
