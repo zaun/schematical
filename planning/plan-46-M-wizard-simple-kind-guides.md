@@ -159,7 +159,7 @@ written.
 
 Acceptance: seven guides pass the drift test.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/KindGuideTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+Commit: 1c0608df (one commit for the three phases: the guide registry names all twelve)
 
 ### Phase 2 — Kinds with variants (buffer, latch, mux, decoder, diode)
 
@@ -174,18 +174,31 @@ Commit: —
 
 Acceptance: five more guides pass, for every variant.
   Check: the same command (est. 6 min).
-Commit: —
+Commit: 1c0608df
 
 ### Phase 3 — Blurbs
 
 - [x] `VariantBlurbs.swift` (60); `KindGuideTests` (6)
       (`testEveryModelHasABlurb`: 60 blurbs over 13 kinds, and no blurb for a
       model a kind lacks).
-- [ ] Runtime check (run skill): New Part… → Diode → six models with
+- [x] Runtime check (run skill): New Part… → Diode → six models with
       blurbs and examples → Zener → the Ratings step shows `vz`; New Part…
       → Latch → `transparent` → the steps are Supply voltage, Pins it
       uses, Active levels, Logic family and timing, Options. Pointer to
       (0, 0).
+      (2026-11-16, this plan's Debug build: Diode → step 5 `What kind of
+      diode is it?`, rows such as `switching, A small, fast signal diode,
+      like the 1N4148., In the library: 1N4148, 1N4148 A0G`; Zener → steps
+      `What kind of diode is it?; Diodes; Ratings`; Ratings shows `Forward
+      current`, `Power rating`, `Reverse voltage`, `Zener voltage` (`Usually
+      under: Electrical Characteristics (also: Characteristics)`, `Also
+      called: VZ, Nominal Zener voltage`, key `vz`). Latch → `transparent`
+      → steps `5. Which chip does yours behave like?; 6. Supply voltage; 7.
+      Pins it uses; 8. Active levels; 9. Logic family and timing; 10.
+      Options`; the model step's five rows each carry a blurb and library
+      parts (`addressable, Eight single-bit latches, one picked by an
+      address, like the 74HC259., In the library: …`). Pointer left at
+      (0, 0).)
 
 Acceptance: every model has a blurb; the variant kinds read as § 3 lays out.
   Check: the same test command (est. 6 min) and the walk (est. 10 min).
