@@ -301,15 +301,18 @@ Commit: c7984f75
 
 Acceptance: the two tests pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/PartFileSaveOpenTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 12 min: the first app test build; the draft is app code).
-Commit: —
+Commit: c9db9714 (the prerequisite fix of § Corrections 1: 7482e9dc)
 
 ### Phase 3 — Docs
 
-- [ ] `docs/parts-format.md` § Single part files: the example gains a
+- [x] `docs/parts-format.md` § Single part files: the example gains a
       `"datasheets"` line; the key table gains the `"datasheets"` row
       (optional array of `{"id", "url"}`, ids new to the library, no `md`,
       every entry named by the part); § Datasheets gains one sentence
       pointing at it.
+      (`grep -c '"datasheets"' docs/parts-format.md` → 5. The example's part
+      is now a Texas Instruments part naming the entry: a `"Generic"` part
+      has no datasheet.)
 
 Acceptance: the doc names the key and its rules.
   Check: `grep -c '"datasheets"' docs/parts-format.md` → at least 3 (1 today, the `datasheets.json` example; plus the `.schpart` example line and the table row) (est. 1 min).

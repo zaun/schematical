@@ -326,7 +326,7 @@ A custom part is kept in a file of its own, a **single part file**
 (extension `.schpart`, plan-32-A). The app loads one with File › Load Part…
 for the rest of the session (it is not copied anywhere), and a schematic that
 places one embeds it. It holds exactly one device with exactly one part, and
-optionally the custom footprints that part uses.
+optionally the custom footprints that part uses and the part's own datasheet.
 
 ```json
 {
@@ -339,12 +339,14 @@ optionally the custom footprints that part uses.
       "body": { "width": 3.0, "height": 3.0 },
       "pads": [ { "pin": 1, "x": -1, "y": -1, "width": 0.6, "height": 0.6, "shape": "rect" }, … ] }
   ],
+  "datasheets": [ { "id": "CUSTOM-6F1C2E8A", "url": "https://www.ti.com/lit/ds/symlink/sn74ahc1g00.pdf" } ],
   "devices": [
     { "id": "1G00", "function": "NAND", "description": "Single 2-input NAND gate",
       "drawer": ["Custom", "Gates"], "pinouts": { "p5": [ … ] },
       "gates": [ { "op": "nand", "inputs": ["A", "B"], "output": "Y" } ],
       "timing": { "HC": { "rise": 9, "fall": 9, "vcc": [2, 6] } },
-      "parts": [ { "name": "MY-NAND", "manufacturer": "Generic", "package": "SOT-23",
+      "parts": [ { "name": "MY-NAND", "manufacturer": "Texas Instruments", "package": "SOT-23",
+                   "datasheet": "CUSTOM-6F1C2E8A",
                    "pinout": "p5", "footprint": "CUSTOM-6F1C2E8A", "family": "HC" } ] }
   ]
 }
@@ -357,10 +359,15 @@ optionally the custom footprints that part uses.
 | `"uuid"` | required; the part's identity: 36 characters, uppercase hexadecimal digits and hyphens in the 8-4-4-4-12 layout (Foundation's `UUID.uuidString`). Bundled parts have none |
 | `"kind"` | one of the kinds below, as in a part file |
 | `"footprints"` | optional array; each entry is a `footprints.json` entry (§ Footprints). Its ids must be new to the library |
+| `"datasheets"` | optional array (plan-46-A); each entry is a `datasheets.json` entry (§ Datasheets) with `"id"` and `"url"` only: no `"md"` (that names a file bundled with the app). Its ids must be new to the library, and the part's `"datasheet"` must name every entry (`datasheet "X" is not used` otherwise). The Part Editor writes one entry, `CUSTOM-<first 8 of the uuid>` |
 | `"devices"` | exactly one device (§ Devices), holding exactly one part (§ Parts) |
 
 No other top-level key is allowed. The part's `"footprint"` may name a
-bundled footprint id or one listed in `"footprints"`. The device id need not
+bundled footprint id or one listed in `"footprints"`, and its `"datasheet"` a
+bundled datasheet id or one listed in `"datasheets"` (the rules of the
+`"datasheet"` part key still hold: it needs a `"manufacturer"`, and a
+`"Generic"` part has none). Footprint ids and datasheet ids are separate
+lists, so the two may share an id. The device id need not
 be new: a copy of a bundled device keeps its id, and several custom parts may
 share one. The part name must be new (see § Loading rules for how the app
 renames a clash), and so must the uuid.
@@ -368,7 +375,8 @@ renames a clash), and so must the uuid.
 The uuid is what the app goes by. Loading a file whose uuid is already loaded
 returns the loaded part when the content is the same (compared with the name
 as it was registered, so a suffixed copy counts as the same), and is refused
-when the content differs. A failed load adds nothing: no footprint, no part.
+when the content differs. A failed load adds nothing: no footprint, no
+datasheet, no part.
 
 ## Datasheets
 
@@ -393,6 +401,10 @@ when the content differs. A failed load adds nothing: no footprint, no part.
 TI URLs use the stable `https://www.ti.com/lit/ds/symlink/<name>.pdf` form,
 with the product name (`sn74hc00`) or the literature number without its
 revision letter (`scls148` for `scls148h.pdf`).
+
+A custom part carries its own datasheet in its file: a single part file's
+`"datasheets"` array holds entries in this format, without `"md"` (see
+[Single part files](#single-part-files)).
 
 `node scripts/check-datasheets.js` fetches every URL and reports the ones
 that do not answer with a PDF (run it with `--help`). Run it now and then:
