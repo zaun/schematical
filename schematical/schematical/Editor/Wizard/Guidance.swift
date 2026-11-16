@@ -78,7 +78,7 @@ enum Guidance {
     static func guide(kind: String, path: String) -> FieldGuide? {
         if let own = PartKinds.guides[kind]?.fields[path] { return own }
         let key = path.split(separator: ".").last.map(String.init) ?? path
-        return SharedGuides.fields[key]
+        return SharedGuides.fields[key] ?? SharedGuides.controls[key]
     }
 
     /// Section titles that are other manufacturers' names for a section, so

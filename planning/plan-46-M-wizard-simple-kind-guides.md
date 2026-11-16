@@ -35,7 +35,7 @@ plan-46-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-46-L complete | `ls planning/completed/plan-46-L-*.md` → exists | NOT MET (2026-11-16: not started) |
+| plan-46-L complete | `ls planning/completed/plan-46-L-*.md` → exists | MET (2026-11-16: `planning/completed/plan-46-L-wizard-guidance-framework.md`) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 
@@ -70,7 +70,7 @@ Top-level keys per kind (`*` = required), from each generated schema's
 | mux (14+2) | bits, dataClock, dataLatch, disabled, files, invert, model*, oes, output, outputClock, selectLatch, timing*, units, words | family*, vcc |
 | decoder (26+2) | blank, code, codeActive, disabled, enableIn, enableOut, glyphs, groupSelect, idle, inputs, inputsActive, lampTest, latchActive, model*, monitor, offset, output, outputsActive, phase, rbi, rbo, segments, segmentsActive, timing*, units, unselected | family*, vcc |
 | led (3+0) | anode*, cathode*, colors* | — |
-| diode (2+4) | diodes*, type* | io, pd, vr, vz |
+| diode (2+4) | diodes*, type* | io, pd, vr, vz (`io` and `vr` for every type; `pd` and `vz` for `zener` only, § Corrections 2) |
 | switch (7+0) | actuator*, bodySize, contacts*, joined, momentary, normallyClosed, ratedVolts* | — |
 | oscillator (6+4) | family*, inputMax, maxHz*, minHz*, outputs*, vcc* | defaultHz*, enablePin, inputMax, vcc |
 | header (2+0) | genders*, rows* | — |
@@ -148,9 +148,14 @@ written.
 
 ### Phase 1 — Kinds without variants (dff, jkff, led, switch, oscillator, header, 7seg)
 
-- [ ] The seven guide files per § 3, with intros, search terms and field
+- [x] The seven guide files per § 3, with intros, search terms and field
       guides (label, help, whereToFind, alsoCalled, example) for every key.
-- [ ] `KindGuideTests` (7) for these seven.
+      (`DffGuide`, `JkffGuide`, `OscillatorGuide`, `SevenSegGuide` in files
+      of their own; `LedGuide`, `SwitchGuide`, `HeaderGuide` together in
+      `LedGuide.swift`; shared pieces in `GuideParts.swift`; § Corrections 1.)
+- [x] `KindGuideTests` (7) for these seven
+      (`testRequiredFieldsOfCuratedKindsSayWhereToFindThem`, over all 13;
+      also `testEveryTopLevelKeyOfACuratedKindHasAGuide`).
 
 Acceptance: seven guides pass the drift test.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/KindGuideTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
@@ -158,9 +163,14 @@ Commit: —
 
 ### Phase 2 — Kinds with variants (buffer, latch, mux, decoder, diode)
 
-- [ ] The five guide files: the § 3 rule as a shared helper
+- [x] The five guide files: the § 3 rule as a shared helper
       (`GuideLayout.byRule(schema:, variant:)`) plus each kind's field guides.
-- [ ] `KindGuideTests` (7) for these five.
+      (`GuideLayout.swift`; the five guides in `VariantKindGuides.swift`,
+      § Corrections 1; `testLayoutByRule`.)
+- [x] `KindGuideTests` (7) for these five. (`checked 101 required fields of
+      13 curated kinds`; `xcodebuild … test
+      -only-testing:schematicalTests/KindGuideTests` → `Executed 12 tests,
+      with 0 failures`, `** TEST SUCCEEDED **`.)
 
 Acceptance: five more guides pass, for every variant.
   Check: the same command (est. 6 min).
@@ -168,7 +178,9 @@ Commit: —
 
 ### Phase 3 — Blurbs
 
-- [ ] `VariantBlurbs.swift` (60); `KindGuideTests` (6).
+- [x] `VariantBlurbs.swift` (60); `KindGuideTests` (6)
+      (`testEveryModelHasABlurb`: 60 blurbs over 13 kinds, and no blurb for a
+      model a kind lacks).
 - [ ] Runtime check (run skill): New Part… → Diode → six models with
       blurbs and examples → Zener → the Ratings step shows `vz`; New Part…
       → Latch → `transparent` → the steps are Supply voltage, Pins it
@@ -194,7 +206,36 @@ key lands in a step without a decision.
 
 ## Corrections
 
-None yet.
+1. **The guides are grouped in fewer files than § 1 names.** § 1 says one
+   `<Kind>Guide.swift` per kind. The three one-screen kinds (led, switch,
+   header) share `LedGuide.swift`, and the five kinds with models (buffer,
+   latch, mux, decoder, diode) share `VariantKindGuides.swift`; each still
+   has its own `<Kind>Guide` type, registered in `PartKinds.guides`, which
+   is what the wizard and the tests go by.
+2. **A Zener's Ratings step has four keys, not two.** The diode schema
+   marks only `vz` and `pd` as Zener-only (`PART_VARIANT_KEYS` in
+   `scripts/part-editor-schema.py`); `io` and `vr` belong to every type, a
+   Zener included, as far as the editor's schema goes (the backend refuses
+   them on a Zener when given; the form leaves an empty optional key out).
+   So the step shows `io, pd, vr, vz` for a Zener and `io, vr` for the
+   others; `testLayoutByRule` asserts both. The walk's "Zener → the Ratings
+   step shows `vz`" holds.
+3. **Two guide paths the first draft named do not exist**, and test (2)
+   caught them: `device.units.invert` on buffer (the editor's schema has
+   `invert` at the top level and inside `ab`/`ba`, not on a unit) and a
+   top-level `device.latch` on decoder (its `latch` is a unit key). Both
+   were removed.
+4. **Nested control keys are explained once.** `pin`, `active` and `edge`
+   (the keys of a control or a clock object, which the five model kinds
+   use in dozens of places) get shared guides (`SharedGuides.controls`),
+   so every required nested key of the curated kinds has a guide: test (7)
+   walks nested required keys too, 101 in all.
+5. **In the rule, a key the Pins rule fits is not offered to a later
+   rule.** `polarity` (a pin), `segments`, `rbi` and `rbo` (pins) are
+   listed in § 3's rules 3 and 4 but land in "Pins it uses" by rule 2,
+   since the first rule that fits takes the key; `segmentsActive` lands in
+   "Active levels". The Display step then holds `glyphs`, `blank` and
+   `lampTest`. Test (1) proves every key of every model is in one step.
 
 ## Summary
 

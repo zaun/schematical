@@ -197,8 +197,10 @@ extension PartKinds {
     /// derived steps.
     static let guides: [String: KindGuide] = [
         "gate": GateGuide.guide,
+        // plan-46-M: the other simple kinds.
+        "dff": DffGuide.guide, "jkff": JkffGuide.guide, "led": LedGuide.guide, "switch": SwitchGuide.guide,
+        "oscillator": OscillatorGuide.guide, "header": HeaderGuide.guide, "7seg": SevenSegGuide.guide,
+        "buffer": BufferGuide.guide, "latch": LatchGuide.guide, "mux": MuxGuide.guide,
+        "decoder": DecoderGuide.guide, "diode": DiodeGuide.guide,
     ]
-
-    /// Kind → model → one plain sentence (plan-46-M writes them).
-    static let variantBlurbs: [String: [String: String]] = [:]
 }

@@ -166,6 +166,98 @@ final class KindGuideTests: XCTestCase {
         }
     }
 
+    /// Every required field at `path` and below it, with its dotted path.
+    static func requiredFields(_ fields: [Field], path: String) -> [(path: String, field: Field)] {
+        fields.filter(\.required).flatMap { field -> [(String, Field)] in
+            let own = "\(path).\(field.key)"
+            return [(own, field)] + requiredFields(children(of: field.type), path: own)
+        }
+    }
+
+    /// (6) Every model of every kind with models has a blurb.
+    func testEveryModelHasABlurb() {
+        var count = 0
+        for kind in PartKinds.all.sorted() {
+            guard let schema = PartKinds.schemas[kind], schema.variantKey != nil else { continue }
+            for value in schema.variantValues {
+                let blurb = PartKinds.variantBlurb(kind: kind, value: value) ?? ""
+                XCTAssertFalse(blurb.isEmpty, "\(kind): the model \(value) has no blurb")
+                XCTAssertTrue(blurb.hasSuffix("."), "\(kind) \(value): a blurb is a sentence")
+                count += 1
+            }
+            // And no blurb is for a model the kind does not have.
+            XCTAssertEqual(Set(PartKinds.variantBlurbs[kind]?.keys.map { $0 } ?? []), Set(schema.variantValues), kind)
+        }
+        XCTAssertEqual(count, 60)
+        XCTAssertEqual(PartKinds.variantBlurbs.count, 13)
+    }
+
+    /// (7) Every required key of a curated kind, nested ones included, has a
+    /// guide that says where a datasheet prints it.
+    func testRequiredFieldsOfCuratedKindsSayWhereToFindThem() throws {
+        XCTAssertEqual(Self.curated, ["7seg", "buffer", "decoder", "dff", "diode", "gate", "header", "jkff", "latch",
+                                      "led", "mux", "oscillator", "switch"])
+        var missing: [String] = []
+        var checked = 0
+        for kind in Self.curated {
+            let schema = try XCTUnwrap(PartKinds.schemas[kind])
+            let required = Self.requiredFields(schema.device, path: "device")
+                + Self.requiredFields(schema.part, path: "part")
+            for (path, _) in required {
+                checked += 1
+                guard let guide = Guidance.guide(kind: kind, path: path) else {
+                    missing.append("\(kind): \(path) has no guide")
+                    continue
+                }
+                if guide.whereToFind.isEmpty { missing.append("\(kind): the guide for \(path) does not say where to find it") }
+                if guide.help.isEmpty { missing.append("\(kind): the guide for \(path) has no help") }
+            }
+        }
+        XCTAssertEqual(missing, [], missing.joined(separator: "\n"))
+        XCTAssertGreaterThan(checked, 100)
+        print("checked \(checked) required fields of \(Self.curated.count) curated kinds")
+    }
+
+    /// Every top-level key of a curated kind has a guide with a plain label.
+    func testEveryTopLevelKeyOfACuratedKindHasAGuide() throws {
+        var missing: [String] = []
+        for kind in Self.curated {
+            let schema = try XCTUnwrap(PartKinds.schemas[kind])
+            for entry in schema.topLevelFields(variant: nil) {
+                let guide = Guidance.guide(kind: kind, path: entry.key.qualified)
+                if guide == nil { missing.append("\(kind): \(entry.key.qualified)") }
+            }
+        }
+        XCTAssertEqual(missing, [], missing.joined(separator: "\n"))
+    }
+
+    /// The mechanical layout of the kinds with models (plan-46-M § 3).
+    func testLayoutByRule() throws {
+        let latch = WizardPlan.steps(for: {
+            var draft = PartDraft(newOf: "latch")
+            draft.kindDevice["model"] = .string("transparent")
+            return draft
+        }())
+        XCTAssertEqual(latch.filter { $0.id.hasPrefix("kind.") }.map(\.title),
+                       ["Which chip does yours behave like?", "Supply voltage", "Pins it uses", "Active levels",
+                        "Logic family and timing", "Options"])
+        var zener = PartDraft(newOf: "diode")
+        zener.kindDevice["type"] = .string("zener")
+        let steps = WizardPlan.steps(for: zener)
+        // A Zener adds its Zener voltage and power rating to the ratings every diode has.
+        XCTAssertEqual(steps.first { $0.id == "kind.ratings" }?.keys, ["part.io", "part.pd", "part.vr", "part.vz"])
+        zener.kindDevice["type"] = .string("rectifier")
+        XCTAssertEqual(WizardPlan.steps(for: zener).first { $0.id == "kind.ratings" }?.keys, ["part.io", "part.vr"])
+        XCTAssertTrue(GuideLayout.isPinsOnly(.pins))
+        XCTAssertTrue(GuideLayout.isPinsOnly(.object([Field(key: "a", label: "A", type: .pin)])))
+        XCTAssertFalse(GuideLayout.isPinsOnly(.object([Field(key: "a", label: "A", type: .pin),
+                                                       Field(key: "b", label: "B", type: .bool)])))
+        XCTAssertTrue(GuideLayout.isLevel("enableActive"))
+        XCTAssertTrue(GuideLayout.isLevel("clearActiveHigh"))
+        XCTAssertTrue(GuideLayout.isLevel("kInverted"))
+        XCTAssertFalse(GuideLayout.isLevel("units"))
+    }
+
     func testGuidanceLookup() {
         // The kind's own guide for a path wins.
         XCTAssertEqual(Guidance.guide(kind: "gate", path: "device.gates.op")?.label, "What the gate does")
