@@ -200,7 +200,7 @@ struct PartDraft: Equatable, Sendable {
     }
 
     static func displayName(of kind: String) -> String {
-        PartKinds.displayNames[kind] ?? kind
+        PartKinds.info[kind]?.name ?? kind
     }
 
     /// The generic keys every kind's form edits.
@@ -508,6 +508,71 @@ struct PartDraft: Equatable, Sendable {
                 footprints = nil
             }
         }
+    }
+
+    // MARK: Renaming a pin
+
+    /// Carries a pin's new name into the kind's keys (plan-46-D § 3.3). Kind
+    /// fields hold pin names, so a pin renamed in the pin table would leave
+    /// them naming a pin that is gone (the loader then says `unknown pin`).
+    ///
+    /// Call it with the pinout as it was before the rename. When `old` names
+    /// exactly one pin of the part's pinout and `new` names none, every
+    /// `.pin` value equal to `old` and every element of a `.pins` value equal
+    /// to `old` becomes `new`, at any depth the schema reaches. Whole names
+    /// only: renaming "A" never touches "A/CS". A `.json` value is left as it
+    /// is (there is no schema to read it by). The pin table itself is not
+    /// changed here. Returns how many values were rewritten.
+    @discardableResult
+    mutating func renamePin(from old: String, to new: String) -> Int {
+        guard old != new, !old.isEmpty, !new.isEmpty, let schema else { return 0 }
+        let pins = pinouts.first { $0.name == pinout }?.pins ?? []
+        guard pins.filter({ $0.name == old }).count == 1, !pins.contains(where: { $0.name == new }) else { return 0 }
+        var count = 0
+        func rewrite(_ object: [String: JSONValue], _ fields: [Field]) -> [String: JSONValue] {
+            var result = object
+            for field in fields {
+                if let value = object[field.key] { result[field.key] = rewrite(value, field.type) }
+            }
+            return result
+        }
+        func rewrite(_ value: JSONValue, _ type: FieldType) -> JSONValue {
+            switch (type, value) {
+            case (.pin, .string(old)):
+                count += 1
+                return .string(new)
+            case let (.pins, .array(items)):
+                return .array(items.map { item in
+                    guard item == .string(old) else { return item }
+                    count += 1
+                    return .string(new)
+                })
+            case let (.object(fields), .object(object)):
+                return .object(rewrite(object, fields))
+            case let (.list(fields), .array(items)):
+                return .array(items.map { item in
+                    guard case let .object(object) = item else { return item }
+                    return .object(rewrite(object, fields))
+                })
+            case let (.map(_, fields), .object(object)):
+                return .object(object.mapValues { item in
+                    guard case let .object(entry) = item else { return item }
+                    return .object(rewrite(entry, fields))
+                })
+            case let (.valueMap(_, inner), .object(object)):
+                return .object(object.mapValues { rewrite($0, inner) })
+            case let (.listOf(inner), .array(items)):
+                return .array(items.map { rewrite($0, inner) })
+            case let (.oneOf(types), value):
+                guard let inner = types.first(where: { $0.matches(value) }) else { return value }
+                return rewrite(value, inner)
+            default:
+                return value
+            }
+        }
+        kindDevice = rewrite(kindDevice, schema.device)
+        kindPart = rewrite(kindPart, schema.part)
+        return count
     }
 
     // MARK: The inline datasheet

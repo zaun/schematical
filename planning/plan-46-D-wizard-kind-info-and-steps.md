@@ -237,16 +237,18 @@ Commit: 1cb1e8cb
 
 Acceptance: every kind × variant is covered exactly once.
   Check: `xcodebuild … test -only-testing:schematicalTests/WizardStepsTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+Commit: d91a5e00
 
 ### Phase 3 — Pin renames
 
-- [ ] `PartDraft.renamePin(from:to:)` per § 3.3.
-- [ ] `schematicalTests/PinRenameTests.swift`: a gate draft (`gates[0].inputs
+- [x] `PartDraft.renamePin(from:to:)` per § 3.3.
+- [x] `schematicalTests/PinRenameTests.swift`: a gate draft (`gates[0].inputs
       = ["A","B"]`, `output "Y"`) renaming `A`→`1A` rewrites 1 value; a
       converter draft's `bus.cs` (object `{pin, active}`) and `bus.data`
       (pins) are rewritten; renaming to a name another pin has rewrites 0;
       a `.json` value is untouched.
+      (`xcodebuild … test -only-testing:schematicalTests/PinRenameTests` →
+      `Executed 5 tests, with 0 failures`, `** TEST SUCCEEDED **`.)
 
 Acceptance: renames reach nested fields and refuse collisions.
   Check: `xcodebuild … test -only-testing:schematicalTests/PinRenameTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
