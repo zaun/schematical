@@ -161,16 +161,31 @@ Commit: e67e9572
 
 Acceptance: navigation and issues behave as § 1 says.
   Check: `xcodebuild … test -only-testing:schematicalTests/WizardModelTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+Commit: abf5d0ba
 
 ### Phase 3 — The guided window
 
-- [ ] `Editor/Wizard/WizardStepList.swift`, `WizardStepView.swift`,
-      `WizardNavBar.swift`; `PartEditorWindowView` per § 3.
-- [ ] Runtime check with the run skill: New Part… → Gate → the window
+- [x] `Editor/Wizard/WizardStepList.swift`, `WizardStepView.swift`,
+      `WizardNavBar.swift`; `PartEditorWindowView` per § 3. (The mode
+      picker is the toolbar's principal item; the editor's default size is
+      1120 × 760 so the three panes fit; § Corrections 3.)
+- [x] Runtime check with the run skill: New Part… → Gate → the window
       opens Guided; Next through every step; All fields shows the name
       typed on step 1; Copy to Editor… on SN74HC00N opens All fields.
       Move the pointer to (0, 0) when done (AGENTS.md).
+      (2026-11-16, this plan's Debug build, pid-driven through the
+      Accessibility API: New Part… → Logic Gate → window `New Logic Gate
+      Part`, Guided selected, steps 1–8 listed. Name `MY-NAND` typed on step
+      1 → the title became `MY-NAND` and the step's dot a check. Five pins
+      added and named on Pins; Supply; Essentials (a NAND gate, family HC
+      with rise/fall 9 and 2–6 V) → `5. Essentials` checked; Other settings
+      (Optional, with Skip); Footprint `SOT23-5`; Review: `The part loads: 5
+      pins` with the block and footprint previews. All fields → Name
+      `MY-NAND`, Package `SOT-23`, … and the five form sections. Save Part…
+      → status `Saved MY-NAND.schpart`, `/tmp/p46-walk/MY-NAND.schpart`
+      holds the gate, timing and footprint (`write(to:)` saves only what
+      `PartValidator` accepts). Copy to Editor… on SN74HC00N → a second
+      editor window with `All fields` selected. Pointer left at (0, 0).)
 
 Acceptance: a gate part can be made start to finish in Guided mode and saved.
   Check: the run-skill walk above ends with Save Part… writing a `.schpart` that `PartValidator.shared.validate(text:)` accepts (est. 15 min: a GUI walk; no unit test sees the layout).
@@ -201,6 +216,12 @@ plan-46-A § Decisions (New Part only; Guided | All fields everywhere).
    number, a yes/no and a fixed choice are never empty (0 and "no" are
    answers). Issues also reach nested keys (`Gates 2 › Output is empty`,
    `Gates 1 › Inputs: there is no pin named “B”`).
+3. **Two layout fixes found by the runtime check.** The first build drew
+   the guided `HSplitView` at its ideal height, pinned to the bottom of
+   the window (a screenshot showed the top two thirds empty): the split
+   view and its three panes now take `maxHeight: .infinity`. With that, the
+   preview pane centred vertically; it is top-aligned again. Neither is
+   visible to a unit test.
 2. **The step ids are D's as landed** (plan-46-D § Corrections 2): a gate's
    listed steps are `identity, datasheet, pinout, kind.supply,
    kind.essentials, kind.other, footprint, review`.

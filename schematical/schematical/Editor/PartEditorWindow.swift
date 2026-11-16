@@ -14,17 +14,19 @@ struct PartEditorWindowView: View {
     }
 
     var body: some View {
-        HSplitView {
-            PartEditorForm(model: model)
-                .frame(minWidth: 520)
-            PartPreviewPane(model: model)
-                .frame(minWidth: 260, idealWidth: 340)
-        }
-            .frame(minWidth: 820, minHeight: 480)
+        content
+            .frame(minWidth: model.mode == .guided ? 1000 : 820, minHeight: 480)
             .navigationTitle(model.title)
             .background(WindowReader { model.window = $0 })
             .focusedSceneValue(\.partEditor, model)
             .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Picker("Mode", selection: $model.mode) {
+                        ForEach(PartEditorModel.EditorMode.allCases, id: \.self) { Text($0.title).tag($0) }
+                    }
+                    .pickerStyle(.segmented)
+                    .help("Guided walks through the part step by step; All fields shows the whole form")
+                }
                 ToolbarItemGroup {
                     Button("Open Part…") { Task { await model.open() } }
                     Button("Save Part…") { Task { await model.save() } }
@@ -33,6 +35,38 @@ struct PartEditorWindowView: View {
                         .disabled(!model.isValid)
                 }
             }
+    }
+
+    /// Guided: the step list, the current step with Back / Next, the preview.
+    /// All fields: the form and the preview. One model, so switching keeps
+    /// every value.
+    @ViewBuilder private var content: some View {
+        switch model.mode {
+        case .guided:
+            HSplitView {
+                WizardStepList(model: model)
+                    .frame(minWidth: 180, idealWidth: 200, maxWidth: 220, maxHeight: .infinity)
+                VStack(spacing: 0) {
+                    if let step = model.currentStep {
+                        WizardStepView(model: model, step: step)
+                            .id(step.id)
+                    }
+                    Divider()
+                    WizardNavBar(model: model)
+                }
+                .frame(minWidth: 480, maxWidth: .infinity, maxHeight: .infinity)
+                PartPreviewPane(model: model)
+                    .frame(minWidth: 260, idealWidth: 340, maxHeight: .infinity, alignment: .top)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        case .allFields:
+            HSplitView {
+                PartEditorForm(model: model)
+                    .frame(minWidth: 520)
+                PartPreviewPane(model: model)
+                    .frame(minWidth: 260, idealWidth: 340)
+            }
+        }
     }
 }
 

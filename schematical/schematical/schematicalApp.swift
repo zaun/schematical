@@ -156,7 +156,8 @@ struct schematicalApp: App {
                 PartEditorWindowView(target: target)
             }
         }
-        .defaultSize(width: 760, height: 720)
+        // Wide enough for the Part Wizard's step list, step and preview.
+        .defaultSize(width: 1120, height: 760)
         .restorationBehavior(.disabled)
 
         // Help › Schematic Help and PCB Help: one window per page.
