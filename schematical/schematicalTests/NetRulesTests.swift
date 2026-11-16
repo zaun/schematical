@@ -191,7 +191,7 @@ final class NetRulesTests: XCTestCase {
         for key in ["netLayerRules", "netGroups", "layerMode", "\"layers\" : ["] {
             XCTAssertFalse(text.contains(key), key)
         }
-        XCTAssertEqual(text, NetClassTests.plainGolden)
+        XCTAssertEqual(TestSupport.withoutDesignRules(text), NetClassTests.plainGolden)
     }
 
     func testFileErrorsNameTheGroupOrClass() {

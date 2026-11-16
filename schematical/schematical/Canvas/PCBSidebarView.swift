@@ -459,7 +459,7 @@ struct PlanesSection: View {
         let planes = Self.planes(of: document.board)
         if !planes.isEmpty {
             let choices = document.planeNetChoices()
-            let rules = DesignRules.current()
+            let rules = document.board.rules
             Section("Planes") {
                 ForEach(planes, id: \.self) { layer in
                     header(layer, choices: choices)

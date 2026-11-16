@@ -122,7 +122,7 @@ final class AutorouteModel {
 
     /// Works out what a run would do (the sheet calls it, debounced, when
     /// the options or the board change).
-    func refreshSummary(rules: DesignRules = DesignRules.current()) {
+    func refreshSummary(rules: DesignRules? = nil) {
         let problem = document.routingProblem(options: runOptions, rules: rules)
         summary = Summary(nets: problem.nets.count, connections: problem.connections,
                           removedTraces: problem.removedTraces.count, removedVias: problem.removedVias.count,
@@ -168,7 +168,7 @@ final class AutorouteModel {
     /// Starts a run; refused (with `editorMessage`) while the simulation
     /// plays or a run is under way.
     @discardableResult
-    func route(rules: DesignRules = DesignRules.current()) -> Bool {
+    func route(rules: DesignRules? = nil) -> Bool {
         session.start(document: document, options: runOptions, rules: rules)
     }
 

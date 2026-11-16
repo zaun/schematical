@@ -3,9 +3,10 @@
 //  schematical
 //
 //  Window › Design Rule Check (⇧⌘D): one schematic window's PCB checked
-//  against Settings ▸ DRC Defaults, one line per problem. Only on the PCB
-//  page; it rechecks as the board or the rules change, and selecting a line
-//  selects what it names on the PCB.
+//  against its own design rules (`BoardSettings.rules`, saved in the file),
+//  in two steps. Step 1 shows the rules and changes them; step 2 runs the
+//  check, one line per problem. Only on the PCB page; step 2 rechecks as the
+//  board changes, and selecting a line selects what it names on the PCB.
 //
 
 import AppKit
@@ -43,7 +44,7 @@ struct DesignRuleCheckWindowView: View {
 
     var body: some View {
         if let session = SchematicSessions.shared.session(target.sessionID) {
-            DesignRuleCheckTable(document: session.document)
+            DesignRuleCheckWizard(document: session.document)
         } else {
             ContentUnavailableView(
                 "Schematic Closed",
@@ -55,7 +56,95 @@ struct DesignRuleCheckWindowView: View {
     }
 }
 
-/// Everything the check reads, so it reruns only when one of them changes.
+/// The two steps: the board's rules, then the check's results. Opens on
+/// the rules every time.
+struct DesignRuleCheckWizard: View {
+    let document: SchematicDocument
+    @State private var showsResults = false
+
+    var body: some View {
+        Group {
+            if showsResults {
+                DesignRuleCheckTable(document: document) { showsResults = false }
+            } else {
+                DesignRuleCheckRules(document: document) { showsResults = true }
+            }
+        }
+        .frame(minWidth: 560, minHeight: 240)
+        .navigationTitle("Design Rule Check")
+    }
+}
+
+// MARK: - Step 1: the rules
+
+/// The board's design rules, editable. A change is an undo step of the
+/// board's and is saved with it.
+struct DesignRuleCheckRules: View {
+    let document: SchematicDocument
+    let run: () -> Void
+    // Settings ▸ DRC Defaults, for Reset to App Defaults.
+    @AppStorage(PreferenceKey.drcManufacturer) private var appManufacturer = DRCManufacturer.custom
+    @AppStorage(PreferenceKey.drcCustomRules) private var appCustomData = Data()
+
+    private var appRules: DesignRules { appManufacturer.fixedRules ?? DesignRules.decoded(appCustomData) }
+
+    var body: some View {
+        let board = document.board
+        Form {
+            Section {
+                Picker("Manufacturer", selection: Binding(
+                    get: { board.rulesManufacturer },
+                    // A manufacturer's rules replace the board's; Custom keeps them.
+                    set: { document.setDesignRules($0.fixedRules ?? document.board.rules, manufacturer: $0) }
+                )) {
+                    ForEach(DRCManufacturer.allCases, id: \.self) { Text($0.title).tag($0) }
+                }
+                .pickerStyle(.menu)
+            } footer: {
+                Text(footer(board))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            DesignRuleFields(rules: board.rules, editable: true) { field, typed in
+                var next = document.board.rules
+                next[keyPath: field] = max(0, typed)
+                document.setDesignRules(next, manufacturer: document.board.rulesManufacturer)
+                return document.board.rules[keyPath: field]
+            }
+        }
+        .formStyle(.grouped)
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            VStack(spacing: 0) {
+                Divider()
+                HStack {
+                    Button("Reset to App Defaults") {
+                        document.setDesignRules(appRules, manufacturer: appManufacturer)
+                    }
+                    .disabled(board.rules == appRules && board.rulesManufacturer == appManufacturer)
+                    .help("Use the rules in Settings ▸ DRC Defaults")
+                    Spacer()
+                    Button("Run Check", action: run)
+                        .keyboardShortcut(.defaultAction)
+                }
+                .padding(12)
+            }
+            .background(.bar)
+        }
+        .navigationSubtitle("Step 1 of 2 · \(board.rulesTitle) rules")
+    }
+
+    private func footer(_ board: BoardSettings) -> String {
+        let changed = board.rulesManufacturer.fixedRules.map { $0 != board.rules } ?? false
+        return (changed ? "\(board.rulesManufacturer.title)'s limits, with changes. " : "")
+            + "All lengths are in mm. These rules are saved with this board; "
+            + "new boards start from Settings ▸ DRC Defaults."
+    }
+}
+
+// MARK: - Step 2: the results
+
+/// Everything the check reads (the rules are in `board`), so it reruns only
+/// when one of them changes.
 private struct DesignRuleCheckInput: Hashable {
     let chips: [PlacedChip]
     let wires: [Wire]
@@ -65,34 +154,32 @@ private struct DesignRuleCheckInput: Hashable {
     let traces: [BoardTrace]
     let vias: [BoardVia]
     let holes: [BoardHole]
-    let rules: DesignRules
 }
 
 struct DesignRuleCheckTable: View {
     let document: SchematicDocument
-    @AppStorage(PreferenceKey.drcManufacturer) private var manufacturer = DRCManufacturer.custom
-    @AppStorage(PreferenceKey.drcCustomRules) private var customData = Data()
+    /// Goes back to the rules.
+    let showRules: () -> Void
     @State private var issues: [DesignRuleIssue] = []
     @State private var hasRun = false
     @State private var selection: Set<DesignRuleIssue.ID> = []
 
-    private var rules: DesignRules { manufacturer.fixedRules ?? DesignRules.decoded(customData) }
-
     private var input: DesignRuleCheckInput {
         DesignRuleCheckInput(chips: document.chips, wires: document.wires, buses: document.buses,
                              board: document.board, texts: document.texts, traces: document.traces,
-                             vias: document.vias, holes: document.holes, rules: rules)
+                             vias: document.vias, holes: document.holes)
     }
 
     var body: some View {
         Group {
             if !hasRun {
                 ProgressView()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else if issues.isEmpty {
                 ContentUnavailableView(
                     "No Problems",
                     systemImage: "checkmark.seal",
-                    description: Text("The board passes every \(manufacturer.title) design rule, "
+                    description: Text("The board passes every \(document.board.rulesTitle) design rule, "
                                       + "and every connection is routed.")
                 )
             } else {
@@ -113,22 +200,20 @@ struct DesignRuleCheckTable: View {
                 }
             }
         }
-        .frame(minWidth: 560, minHeight: 240)
-        .navigationTitle("Design Rule Check")
         .navigationSubtitle(summary)
         .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                SettingsLink {
-                    Label("Design Rules…", systemImage: "slider.horizontal.3")
+            ToolbarItem(placement: .navigation) {
+                Button(action: showRules) {
+                    Label("Rules", systemImage: "chevron.left")
                 }
-                .help("Change the rules in Settings ▸ DRC Defaults")
+                .help("Back to step 1: this board's design rules")
             }
         }
         .task(id: input) {
             // Wait for a drag or a run of typing to settle.
             if hasRun { try? await Task.sleep(for: .milliseconds(150)) }
             guard !Task.isCancelled else { return }
-            let found = document.designRuleCheck(rules: rules)
+            let found = document.designRuleCheck(rules: document.board.rules)
             // Line numbers move when the list changes.
             if found != issues { selection = [] }
             issues = found
@@ -142,6 +227,7 @@ struct DesignRuleCheckTable: View {
 
     private var summary: String {
         let count = issues.count
-        return "\(count == 0 ? "No" : String(count)) issue\(count == 1 ? "" : "s") · \(manufacturer.title) rules"
+        return "Step 2 of 2 · \(count == 0 ? "No" : String(count)) issue\(count == 1 ? "" : "s") · "
+            + "\(document.board.rulesTitle) rules"
     }
 }

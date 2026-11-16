@@ -304,7 +304,7 @@ struct PCBCanvasView: View {
         // The copper's nets, read only when a Plane is drawn.
         let planeCopper = board.copperLayers.contains { visible.showsPlane($0, style: board.style(of: $0)) }
             ? document.connectivity() : nil
-        let rules = DesignRules.current()
+        let rules = board.rules
         // Copper from Bottom up to Top: each layer's plane tint, then the
         // surface-mount pads of the side it is on. Bottom's marks and texts
         // go straight after Bottom's copper, under everything else.
@@ -981,7 +981,8 @@ enum TraceDrawing {
     /// say why in `editorMessage`).
     static func dropVia(_ document: SchematicDocument, draft: TraceDraft, to cursor: CGPoint, layer: CopperLayer,
                         scale: CGFloat, angle: Int, assist: AssistRouter?,
-                        rules: DesignRules = DesignRules.current()) -> (draft: TraceDraft, layer: CopperLayer)? {
+                        rules: DesignRules? = nil) -> (draft: TraceDraft, layer: CopperLayer)? {
+        let rules = rules ?? document.board.rules
         let layers = document.board.traceLayers
         guard layers.count >= 2, let index = layers.firstIndex(of: layer) else { return nil }
         let route = assisted(document, draft: draft, to: cursor, layer: layer, scale: scale, angle: angle, assist: assist)

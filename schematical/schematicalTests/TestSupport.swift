@@ -33,6 +33,16 @@ enum TestSupport {
         return doc
     }
 
+    /// A saved file's text without its `board.designRules` object, to
+    /// compare with a golden from before the rules were kept in the file
+    /// (plan-49). Fails when the object isn't there.
+    static func withoutDesignRules(_ text: String, file: StaticString = #filePath, line: UInt = #line) -> String {
+        let stripped = text.replacingOccurrences(of: #"\n    "designRules" : \{[^}]*\},"#, with: "",
+                                                 options: .regularExpression)
+        XCTAssertNotEqual(stripped, text, "the file has no designRules", file: file, line: line)
+        return stripped
+    }
+
     static func part(_ name: String) throws -> CatalogPart {
         try XCTUnwrap(catalog.part(named: name), "no part \(name)")
     }

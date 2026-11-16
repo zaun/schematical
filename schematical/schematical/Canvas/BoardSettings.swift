@@ -307,6 +307,21 @@ nonisolated struct BoardSettings: Hashable, Sendable {
     var netOverrides: [NetOverride] = []
     /// Equal-length groups and differential pairs; a net is in at most one.
     var netGroups: [NetGroup] = []
+    /// The board's design rules: what the Design Rule Check holds it to,
+    /// and what the Default net class, the router and the Gerber export
+    /// work from. A new board copies Settings ▸ DRC Defaults
+    /// (`SchematicDocument.init`); after that they are the file's.
+    var rules: DesignRules = .customDefault
+    /// The manufacturer the rules are named after. Only a label: `rules`
+    /// may have been changed since (`rulesTitle`).
+    var rulesManufacturer: DRCManufacturer = .custom
+
+    /// The rules' name: the manufacturer's, with "(modified)" when the
+    /// rules are no longer that manufacturer's published ones.
+    var rulesTitle: String {
+        guard let fixed = rulesManufacturer.fixedRules, fixed != rules else { return rulesManufacturer.title }
+        return rulesManufacturer.title + " (modified)"
+    }
 
     static let layerCounts = [1, 2, 4, 6]
     static let sizeRange: ClosedRange<Double> = 1...1000

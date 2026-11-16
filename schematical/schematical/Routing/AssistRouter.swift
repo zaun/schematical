@@ -41,7 +41,8 @@ final class AssistRouter {
     nonisolated deinit {}
 
     init(document: SchematicDocument, layer: CopperLayer, start: CGPoint,
-         rules designRules: DesignRules = DesignRules.current()) {
+         rules: DesignRules? = nil) {
+        let designRules = rules ?? document.board.rules
         self.layer = layer
         let setup = Self.problem(document, layer: layer, start: start, rules: designRules)
         let problem = setup.problem
@@ -90,7 +91,8 @@ final class AssistRouter {
     /// class's size) can't stand at `centre`, or nil when it can: it must
     /// keep clear of every other net's copper, the edge and every hole.
     static func viaProblem(_ document: SchematicDocument, at centre: CGPoint, start: CGPoint, layer: CopperLayer,
-                           rules: DesignRules = DesignRules.current()) -> String? {
+                           rules: DesignRules? = nil) -> String? {
+        let rules = rules ?? document.board.rules
         let (problem, _) = problem(document, layer: layer, start: start, rules: rules)
         let net = problem.nets[0]
         let via = RoutedVia(centre: centre, drill: net.viaDrill, diameter: net.viaDiameter, net: net.id)

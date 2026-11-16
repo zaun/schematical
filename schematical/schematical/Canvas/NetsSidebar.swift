@@ -231,7 +231,7 @@ private struct NetClassEditor: View {
     var body: some View {
         let id = netClass.id
         let units = document.board.units
-        let rules = DesignRules.current()
+        let rules = document.board.rules
         DisclosureGroup(isExpanded: $isOpen) {
             TextField("Name", text: $name)
                 .onSubmit { document.renameNetClass(id, to: name); name = current.name }

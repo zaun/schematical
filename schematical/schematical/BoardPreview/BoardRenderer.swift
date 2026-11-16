@@ -468,7 +468,7 @@ struct BoardRenderer {
 
     /// A Plane's copper under the mask, with its clearances cut out.
     private func drawPlane(on layer: CopperLayer, colour: Color, shape: Path, in context: inout GraphicsContext) {
-        let rules = DesignRules.current()
+        let rules = document.board.rules
         let style = document.board.style(of: layer)
         let cuts = PCBCanvasView.planeCuts(on: layer, copper: document.connectivity())
         let clearance = style.clearance(rules: rules), edge = rules.minCopperToEdge

@@ -203,17 +203,17 @@ Custom, as now) and by step 1.
 
 ### Phase 1 — Rules in the board settings and the file
 
-- [ ] `Preferences/DesignRulePreferences.swift`: rename `current(defaults:)`
+- [x] `Preferences/DesignRulePreferences.swift`: rename `current(defaults:)`
       to `appDefaults(defaults:)` (and every call site, app and tests);
       `DesignRuleManufacturers.swift`: add
       `DRCManufacturer.appDefault(defaults:)`.
-- [ ] `Canvas/BoardSettings.swift`: add `rules`, `rulesManufacturer`,
+- [x] `Canvas/BoardSettings.swift`: add `rules`, `rulesManufacturer`,
       `rulesTitle`.
-- [ ] `Canvas/SchematicModel.swift`: `init` copies the app defaults into
+- [x] `Canvas/SchematicModel.swift`: `init` copies the app defaults into
       `board`; add `setDesignRules(_:manufacturer:)`.
-- [ ] `Document/SchematicFile.swift`: `Board.DesignRulesEntry`, written
+- [x] `Document/SchematicFile.swift`: `Board.DesignRulesEntry`, written
       always, read in `boardSettings()` with the rules of § 4.
-- [ ] Tests: new `schematicalTests/FileDesignRulesTests.swift` — a document's
+- [x] Tests: new `schematicalTests/FileDesignRulesTests.swift` — a document's
       rules survive save and open; a file with no `designRules` opens with
       the app defaults; a missing rule key takes the default; a negative
       rule is refused; an unknown manufacturer is Custom; `rulesTitle`
@@ -225,14 +225,14 @@ Commit: —
 
 ### Phase 2 — Every reader uses the document's rules
 
-- [ ] Switch the 19 call sites: `Document/GerberExport.swift` (2),
+- [x] Switch the 19 call sites: `Document/GerberExport.swift` (2),
       `Canvas/SchematicModel.swift` (2), `Canvas/NetsSidebar.swift`,
       `Canvas/PCBSidebarView.swift`, `Canvas/PCBCanvasView.swift` (2),
       `BoardPreview/BoardRenderer.swift`, `Automation/AutomationRead.swift`
       (2), `Routing/AutorouteModel.swift` (2), `Routing/AutorouteSheet.swift`
       (2), `Routing/RoutingSession.swift`,
       `Routing/RoutingProblemBuilder.swift`, `Routing/AssistRouter.swift` (2).
-- [ ] Tests: in `FileDesignRulesTests`, a document whose rules differ from
+- [x] Tests: in `FileDesignRulesTests`, a document whose rules differ from
       the app's gets its own Default net class (`addNetClass` width) and its
       own routing problem minimums; update the 5 test call sites of
       `NetRules.defaults(for: .current())` to the document's rules.
@@ -243,12 +243,12 @@ Commit: —
 
 ### Phase 3 — The two-step wizard and the docs
 
-- [ ] `Preferences/DesignRulePreferences.swift`: extract `DesignRuleFields`;
+- [x] `Preferences/DesignRulePreferences.swift`: extract `DesignRuleFields`;
       Settings uses it; the Settings footer says the rules are what new
       boards start from.
-- [ ] `DesignRuleCheck/DesignRuleCheckWindow.swift`: the wizard of § 5;
+- [x] `DesignRuleCheck/DesignRuleCheckWindow.swift`: the wizard of § 5;
       header comment updated.
-- [ ] `DesignRuleCheck/DesignRuleCheck.swift:7` comment; `docs/file-format.md`
+- [x] `DesignRuleCheck/DesignRuleCheck.swift:7` comment; `docs/file-format.md`
       (`designRules` in § board with the rules of § 4, the Default class
       paragraph, a "rules are in the file" bullet); `docs/routing.md` lines
       51 and 88.
@@ -285,6 +285,32 @@ Commit: —
   proposed to the owner 2026-11-16 and not objected to.
 
 ## Corrections
+
+- **No worktree or branch.** The follow-plan skill forks a `worktree-P-49`
+  branch; `AGENTS.md` forbids creating a branch the owner did not name, so
+  the plan was worked on `main` in the main tree, committing only its own
+  files.
+- **`setDesignRules` does not coalesce** (§ 4 said `coalescing:
+  "designRules"`). A coalescing key merges edits until `endCoalescing()`,
+  which nothing here would call, so every rule change in a session would
+  have become one undo step. Each change is its own step.
+- **Phase 2's grep finds two files, not five.** `grep -rln
+  "appDefaults()\|appDefault()"` → `Document/SchematicFile.swift` and
+  `Canvas/SchematicModel.swift`: the two copy points. The definitions take
+  `defaults:` so the pattern skips them, and the wizard reads the two
+  `@AppStorage` keys for Reset to App Defaults (so the button follows
+  Settings live) rather than calling `appDefaults()`.
+- **Three byte-golden tests** (`NetClassTests`, `NetRulesTests`,
+  `SchematicFileV5Tests`) compare a saved file with a golden from before
+  this plan. They now strip the `designRules` object first
+  (`TestSupport.withoutDesignRules`, which fails when it is absent). Not in
+  the plan's task list.
+- **Tests must use `TestSupport.newDocument()`**: freeing a
+  `SchematicDocument` in a test aborts the host on macOS 15.8.
+- **Phases 1–3's code landed as one commit**: the rename (phase 1), the
+  readers (phase 2) and the shared form (phase 3) touch the same files.
+- Phases 1 and 2 check, observed: the 15 suites of the final gate →
+  `Executed 201 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 
 ## Summary
 

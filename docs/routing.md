@@ -85,7 +85,8 @@ Every option is `RoutingOptions` (`Routing/RoutingOptions.swift`); all but
   ring each side when that is wider. Under PCBWay's rules that is 5 mil
   (0.127 mm), 0.1 mm clearance and a 0.2 / 0.5 mm via; under another
   manufacturer's, that manufacturer's, so the Default class is always
-  legal for the rules chosen in Settings ▸ DRC Defaults. Small copper is
+  legal for the board's own design rules (saved in its file, changed in
+  step 1 of the Design Rule Check). Small copper is
   what a low-voltage logic board wants and it leaves the router the most
   room (the fixtures route with fewer vias and more connections at it,
   see Results); nets that need more go in a class. The router

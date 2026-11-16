@@ -1557,6 +1557,10 @@ final class SchematicDocument {
 
     init(library: PartLibraryHandle? = nil) {
         self.library = library
+        // A new board starts from Settings ▸ DRC Defaults; from then on its
+        // rules are its own, saved in its file.
+        board.rules = DesignRules.appDefaults()
+        board.rulesManufacturer = DRCManufacturer.appDefault()
     }
 
     /// Replaces everything on the canvas, for example with a file that was
@@ -3402,6 +3406,22 @@ final class SchematicDocument {
         }
     }
 
+    // MARK: Design rules (PCB)
+
+    /// Sets the board's design rules (each 0 or more) and the manufacturer
+    /// they are named after. One undo step.
+    func setDesignRules(_ rules: DesignRules, manufacturer: DRCManufacturer) {
+        recordEdit(.pcb, "Change Design Rules") {
+            var next = rules
+            for rule in DesignRules.groups.flatMap(\.rules) {
+                let value = next[keyPath: rule.field]
+                next[keyPath: rule.field] = value.isFinite ? max(0, value) : 0
+            }
+            if board.rules != next { board.rules = next }
+            if board.rulesManufacturer != manufacturer { board.rulesManufacturer = manufacturer }
+        }
+    }
+
     // MARK: Net classes (PCB)
 
     /// Adds a net class named `name` (trimmed, at most 40 characters; blank
@@ -3410,7 +3430,7 @@ final class SchematicDocument {
     @discardableResult
     func addNetClass(named name: String) -> UUID {
         recordEdit(.pcb, "Add Net Class") {
-            let start = NetRules.defaults(for: .current())
+            let start = NetRules.defaults(for: board.rules)
             let netClass = NetClass(id: UUID(), name: Self.netClassName(name) ?? "Class", width: start.width,
                                     viaDrill: start.viaDrill, viaDiameter: start.viaDiameter)
             board.netClasses.append(netClass)
@@ -3500,7 +3520,7 @@ final class SchematicDocument {
     func netRules(at point: CGPoint, layer: CopperLayer?) -> NetRules {
         let copper = connectivity()
         guard let net = net(at: point, layer: layer, in: copper),
-              let netClass = netClass(ofNet: net, in: copper) else { return NetRules.defaults(for: .current()) }
+              let netClass = netClass(ofNet: net, in: copper) else { return NetRules.defaults(for: board.rules) }
         return NetRules(width: netClass.width, clearance: netClass.clearance, viaDrill: netClass.viaDrill,
                         viaDiameter: netClass.viaDiameter)
     }

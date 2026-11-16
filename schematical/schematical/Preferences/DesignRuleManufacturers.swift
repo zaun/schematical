@@ -42,6 +42,11 @@ nonisolated enum DRCManufacturer: String, CaseIterable, Hashable, Sendable {
         }
     }
 
+    /// The manufacturer chosen in Settings ▸ DRC Defaults.
+    static func appDefault(defaults: UserDefaults = .standard) -> DRCManufacturer {
+        defaults.string(forKey: PreferenceKey.drcManufacturer).flatMap(DRCManufacturer.init(rawValue:)) ?? .custom
+    }
+
     /// The manufacturer's published rules; nil for Custom, whose rules are
     /// the user's.
     var fixedRules: DesignRules? {

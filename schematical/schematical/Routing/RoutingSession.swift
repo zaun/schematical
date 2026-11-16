@@ -55,7 +55,8 @@ final class RoutingSession {
     /// Starts routing `document` with `options`. Refused, with the reason in
     /// `editorMessage`, while the simulation runs or a run is under way.
     @discardableResult
-    func start(document: SchematicDocument, options: RoutingOptions, rules: DesignRules = DesignRules.current()) -> Bool {
+    func start(document: SchematicDocument, options: RoutingOptions, rules: DesignRules? = nil) -> Bool {
+        let rules = rules ?? document.board.rules
         guard !document.isPlaying else {
             document.editorMessage = "Stop the simulation to autoroute."
             return false

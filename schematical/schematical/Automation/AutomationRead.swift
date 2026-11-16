@@ -70,7 +70,7 @@ extension AutomationTools {
                 + "off-board parts, drill, silkscreen. Run it after routing.",
             readOnly: true,
             run: { context, _ in
-                let issues = context!.document.designRuleCheck(rules: DesignRules.current())
+                let issues = context!.document.designRuleCheck(rules: context!.document.board.rules)
                 if issues.isEmpty { return Out.text("no issues") }
                 let lines = issues.map { "\($0.index). [\($0.kind)] \($0.reference): \($0.issue)" }
                 return Out.text("\(issues.count) issues\n" + lines.joined(separator: "\n"))
@@ -455,7 +455,7 @@ extension AutomationTools {
         for text in document.texts {
             out.append("  \(context.short(text.id)) (\(num(text.anchor.x)),\(num(text.anchor.y))) \(text.layer.rawValue) \(text.side.rawValue) \(text.size)mil: \(text.text)")
         }
-        let rules = DesignRules.current()
+        let rules = document.board.rules
         out.append("RULES minTrace=\(num(rules.minTraceWidth)) minClearance=\(num(rules.minClearance)) "
                    + "minDrill=\(num(rules.minDrill)) minViaDrill=\(num(rules.minViaDrill)) "
                    + "minViaDiameter=\(num(rules.minViaDiameter)) minAnnularRing=\(num(rules.minAnnularRing)) "

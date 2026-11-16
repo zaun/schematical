@@ -32,8 +32,9 @@ enum GerberExport {
     /// and the outline, then the drill files: plated holes, and non-plated
     /// ones when the board has any. A 1-layer board has no bottom files.
     static func files(for document: SchematicDocument, base: String,
-                      rules: DesignRules = .current()) -> [File] {
+                      rules: DesignRules? = nil) -> [File] {
         let board = document.board
+        let rules = rules ?? board.rules
         let copper = document.connectivity()
         let top = Double(board.outline.map(\.y).max() ?? CGFloat(board.height))
         let layers = board.copperLayers
@@ -96,7 +97,7 @@ enum GerberExport {
     }
 
     /// The set as one zip.
-    static func zip(for document: SchematicDocument, base: String, rules: DesignRules = .current()) -> Data {
+    static func zip(for document: SchematicDocument, base: String, rules: DesignRules? = nil) -> Data {
         ZipArchive.stored(files(for: document, base: base, rules: rules).map { ($0.name, $0.data) })
     }
 

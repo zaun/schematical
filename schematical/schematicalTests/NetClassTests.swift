@@ -62,7 +62,7 @@ final class NetClassTests: XCTestCase {
         let added = try netClass(doc, id)
         XCTAssertEqual(added.name, "Power")
         // A new class starts as the Default class: the design rules' minimums.
-        let standard = NetRules.defaults(for: .current())
+        let standard = NetRules.defaults(for: .appDefaults())
         XCTAssertEqual(added.width, standard.width)
         XCTAssertNil(added.clearance)
         XCTAssertEqual(added.viaDrill, standard.viaDrill)
@@ -262,7 +262,7 @@ final class NetClassTests: XCTestCase {
         let text = String(decoding: data, as: UTF8.self)
         XCTAssertFalse(text.contains("netClasses"))
         XCTAssertFalse(text.contains("auto"))
-        XCTAssertEqual(text, Self.plainGolden)
+        XCTAssertEqual(TestSupport.withoutDesignRules(text), Self.plainGolden)
     }
 
     func testClassFileErrorsNameTheClass() {

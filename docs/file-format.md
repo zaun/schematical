@@ -22,6 +22,9 @@ Code: `schematical/schematical/Document/SchematicFile.swift` (the format) and
 - **IDs are stable.** Every part, junction, wire, bus, bus line and bus wire
   has a UUID that is kept across save and open.
 - **The selection, zoom, scroll position and simulation state are not saved.**
+- **A board's design rules are in its file** (`board.designRules`,
+  [Board design rules](#board-design-rules)), not in the app's preferences,
+  so the same file checks, routes and exports the same on every Mac.
 
 ## Coordinates
 
@@ -166,6 +169,7 @@ An EEPROM can name the file loaded into it when the simulation starts:
 | `netClasses` | array | Net classes, in priority order ([Net classes](#net-classes)). Written only when there are some; missing means none, every net in the Default class. Older builds ignore it. |
 | `netLayerRules` | array | Layer rules set on single nets ([Net layer rules](#net-layer-rules)). Written only when there are some. Older builds ignore it. |
 | `netGroups` | array | Equal-length groups and differential pairs ([Net groups](#net-groups)). Written only when there are some. Older builds ignore it. |
+| `designRules` | object | The board's design rules ([Board design rules](#board-design-rules)). Always written. Older builds ignore it. |
 
 A missing key takes its default. A text:
 
@@ -257,8 +261,8 @@ A net class is a named set of routing rules shared by some nets: the width
 new traces on them get, the clearance they keep, and the via they use. A
 net is in the **first** class in the list any of whose members names it;
 a net in no class is in the implicit **Default** class, which is not in
-the file: it is the smallest copper the design rules in force allow
-(Settings ▸ DRC Defaults) — the narrowest whole mil at or over the min
+the file: it is the smallest copper the board's design rules allow
+([Board design rules](#board-design-rules)) — the narrowest whole mil at or over the min
 trace width (never under 5 mil), the min clearance, and a via of the min
 via drill with the min via diameter (or the drill plus the min annular
 ring each side, when that is wider). Under PCBWay's rules that is 5 mil
@@ -619,6 +623,33 @@ Opening fails, and the canvas is left unchanged, if:
 A missing or unreadable EEPROM load file (`memoryFile`) does not fail Open:
 the memory window shows the problem, and Run stops with it
 (`"U4: can't read boot.bin: …"`).
+
+## Board design rules
+
+```json
+"designRules": { "manufacturer": "jlcpcb", "minTraceWidth": 0.127, "minClearance": 0.127,
+                 "minDrill": 0.3, "minViaDrill": 0.3, "minViaDiameter": 0.6,
+                 "minAnnularRing": 0.13, "minHoleToHole": 0.5, "minCopperToEdge": 0.3,
+                 "minSilkscreenWidth": 0.15, "minSilkscreenHeight": 1, "minSilkscreenToPad": 0.15,
+                 "minSolderMaskDam": 0.1, "solderMaskExpansion": 0.05 }
+```
+
+`board.designRules` holds the limits the Design Rule Check (⇧⌘D) holds the
+board to. The Default net class, the router, plane pullback and the Gerber
+solder-mask openings work from the same values. They are changed in step 1
+of the Design Rule Check, and a change is an undo step.
+
+| Field | Type | Meaning |
+|-------|------|---------|
+| `manufacturer` | string | The manufacturer the rules are named after: `custom`, `advancedCircuits`, `aisler`, `allpcb`, `elecrow`, `eurocircuits`, `jlcpcb`, `nextpcb`, `oshpark`, `pcbgogo`, `pcbway`, `seeedFusion` or `sunstone`. Only a label: the values below are what count, and the app shows "JLCPCB (modified)" when they differ from that manufacturer's. Missing, or a name this build doesn't know, means `custom`. |
+| the 13 rules | number | mm, 0 or more; a negative or non-finite value is refused ("design rule minDrill -1 must be 0 or more"). The keys are `minTraceWidth`, `minClearance`, `minCopperToEdge`, `minDrill`, `minAnnularRing`, `minHoleToHole`, `minViaDrill`, `minViaDiameter`, `minSilkscreenWidth`, `minSilkscreenHeight`, `minSilkscreenToPad`, `minSolderMaskDam` and `solderMaskExpansion`. A missing one takes the value in the app's Settings ▸ DRC Defaults. |
+
+A new schematic copies Settings ▸ DRC Defaults when it is created; from
+then on the rules are the file's and Settings doesn't change them. A file
+with no `designRules` (saved before the rules were kept in the file) opens
+with the Settings of the Mac opening it, and carries them from its next
+save. An older build ignores the key, uses its own Settings, and drops the
+key when it saves.
 
 ## Older versions
 

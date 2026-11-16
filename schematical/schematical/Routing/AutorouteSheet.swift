@@ -91,9 +91,9 @@ struct AutorouteSheet: View {
             }
             Section("Rules") {
                 overrideRow("Width", unit: "mil", value: model.options.widthOverride.map(Double.init),
-                            standard: Double(NetRules.defaults(for: .current()).width)) { model.options.widthOverride = $0.map { Int($0.rounded()) } }
+                            standard: Double(NetRules.defaults(for: model.document.board.rules).width)) { model.options.widthOverride = $0.map { Int($0.rounded()) } }
                 overrideRow("Clearance", unit: "mm", value: model.options.clearanceOverride,
-                            standard: DesignRules.current().minClearance) { model.options.clearanceOverride = $0 }
+                            standard: model.document.board.rules.minClearance) { model.options.clearanceOverride = $0 }
                 Text("Without an override each net uses its class: \(model.document.board.netClasses.count) "
                      + "\(model.document.board.netClasses.count == 1 ? "class" : "classes") and Default.")
                     .foregroundStyle(.secondary).font(.callout)

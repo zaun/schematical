@@ -3,8 +3,8 @@
 //  schematical
 //
 //  The PCB's design rule check: everything that keeps the board from being
-//  made or from working as the schematic says, against the rules in
-//  Settings ▸ DRC Defaults (`DesignRules.current()`). Connections first
+//  made or from working as the schematic says, against the board's own
+//  design rules (`BoardSettings.rules`, saved in its file). Connections first
 //  (shorts, unrouted nets, copper that goes nowhere), then placement, then
 //  each rule. Lengths are board mm.
 //

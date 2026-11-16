@@ -70,19 +70,51 @@ nonisolated struct DesignRules: Codable, Hashable, Sendable {
 
     var encoded: Data { (try? JSONEncoder().encode(self)) ?? Data() }
 
-    /// The rules a check would use: the stored manufacturer's, or the
-    /// stored Custom rules.
-    static func current(defaults: UserDefaults = .standard) -> DesignRules {
-        let manufacturer = defaults.string(forKey: PreferenceKey.drcManufacturer)
-            .flatMap(DRCManufacturer.init(rawValue:)) ?? .custom
-        return manufacturer.fixedRules
+    /// What a new board's rules start as (Settings ▸ DRC Defaults): the
+    /// stored manufacturer's, or the stored Custom rules. A board's own
+    /// rules are `BoardSettings.rules`.
+    static func appDefaults(defaults: UserDefaults = .standard) -> DesignRules {
+        DRCManufacturer.appDefault(defaults: defaults).fixedRules
             ?? decoded(defaults.data(forKey: PreferenceKey.drcCustomRules) ?? Data())
     }
 }
 
-/// Settings ▸ DRC Defaults: the manufacturer and the design rules it sets.
-/// A manufacturer's rules are shown read only; Custom's are editable and kept when
-/// another manufacturer is picked.
+/// The design rules as form sections, one row per rule, in mm: fields when
+/// `editable`, plain values when not. `set` takes a typed value and returns
+/// the one kept.
+struct DesignRuleFields: View {
+    let rules: DesignRules
+    let editable: Bool
+    let set: (WritableKeyPath<DesignRules, Double>, Double) -> Double
+
+    var body: some View {
+        ForEach(DesignRules.groups, id: \.title) { group in
+            Section(group.title) {
+                ForEach(group.rules) { rule in
+                    LabeledContent(rule.title) {
+                        if editable {
+                            HStack(spacing: 4) {
+                                LengthField(title: rule.title, millimetres: rules[keyPath: rule.field],
+                                            units: .mm, precise: true) { set(rule.field, $0) }
+                                    .labelsHidden()
+                                    .frame(width: 80)
+                                Text("mm").foregroundStyle(.secondary)
+                            }
+                        } else {
+                            Text(LengthField.format(rules[keyPath: rule.field], units: .mm, precise: true) + " mm")
+                        }
+                    }
+                    .help(rule.help)
+                }
+            }
+        }
+    }
+}
+
+/// Settings ▸ DRC Defaults: the manufacturer and the design rules a new
+/// board starts with (a board's own rules are in its file, changed in its
+/// Design Rule Check). A manufacturer's rules are shown read only; Custom's
+/// are editable and kept when another manufacturer is picked.
 struct DesignRulePreferencesView: View {
     @AppStorage(PreferenceKey.drcManufacturer) private var manufacturer = DRCManufacturer.custom
     @AppStorage(PreferenceKey.drcCustomRules) private var customData = Data()
@@ -97,40 +129,19 @@ struct DesignRulePreferencesView: View {
                 }
                 .pickerStyle(.menu)
             } footer: {
-                Text(manufacturer == .custom
-                     ? "All lengths are in mm."
-                     : "Standard limits from \(manufacturer.title). Pick Custom to set your own.")
+                Text((manufacturer == .custom
+                      ? "All lengths are in mm."
+                      : "Standard limits from \(manufacturer.title). Pick Custom to set your own.")
+                     + " New boards start with these rules; a board keeps its own in its file "
+                     + "(Window ▸ Design Rule Check).")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
-            ForEach(DesignRules.groups, id: \.title) { group in
-                Section(group.title) {
-                    ForEach(group.rules) { rule in
-                        if manufacturer == .custom {
-                            LabeledContent(rule.title) {
-                                HStack(spacing: 4) {
-                                    LengthField(title: rule.title, millimetres: rules[keyPath: rule.field],
-                                                units: .mm, precise: true) { typed in
-                                        var next = custom
-                                        next[keyPath: rule.field] = max(0, typed)
-                                        customData = next.encoded
-                                        return next[keyPath: rule.field]
-                                    }
-                                    .labelsHidden()
-                                    .frame(width: 80)
-                                    Text("mm").foregroundStyle(.secondary)
-                                }
-                            }
-                            .help(rule.help)
-                        } else {
-                            LabeledContent(rule.title) {
-                                Text(LengthField.format(rules[keyPath: rule.field], units: .mm, precise: true)
-                                     + " mm")
-                            }
-                            .help(rule.help)
-                        }
-                    }
-                }
+            DesignRuleFields(rules: rules, editable: manufacturer == .custom) { field, typed in
+                var next = custom
+                next[keyPath: field] = max(0, typed)
+                customData = next.encoded
+                return next[keyPath: field]
             }
             if manufacturer == .custom && custom != DesignRules.customDefault {
                 Section {

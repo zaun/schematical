@@ -20,7 +20,7 @@ final class ViaTests: XCTestCase {
         let added = try via(doc, id)
         XCTAssertEqual(added.centre, p(5.08, 5.08))
         // The Default class's via: the design rules' smallest.
-        let standard = NetRules.defaults(for: .current())
+        let standard = NetRules.defaults(for: .appDefaults())
         XCTAssertEqual(added.drill, standard.viaDrill)
         XCTAssertEqual(added.diameter, standard.viaDiameter)
         XCTAssertEqual(added.ring, (standard.viaDiameter - standard.viaDrill) / 2, accuracy: 1e-9)

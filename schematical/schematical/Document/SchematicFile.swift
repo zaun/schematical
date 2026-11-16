@@ -218,6 +218,49 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         var netLayerRules: [NetLayerRuleEntry]? = nil
         /// Net groups. Written only when there are some.
         var netGroups: [NetGroupEntry]? = nil
+        /// The board's design rules. Always written; missing (a file from
+        /// before they were kept in the file) means the app's defaults.
+        var designRules: DesignRulesEntry? = nil
+
+        /// The board's design rules in mm, and the manufacturer
+        /// (`DRCManufacturer` raw value) they are named after. A missing
+        /// rule is the app's default for it; a missing or unknown
+        /// manufacturer is Custom.
+        struct DesignRulesEntry: Codable, Equatable, Sendable {
+            var manufacturer: String? = nil
+            var minTraceWidth: Double? = nil
+            var minClearance: Double? = nil
+            var minDrill: Double? = nil
+            var minViaDrill: Double? = nil
+            var minViaDiameter: Double? = nil
+            var minAnnularRing: Double? = nil
+            var minHoleToHole: Double? = nil
+            var minCopperToEdge: Double? = nil
+            var minSilkscreenWidth: Double? = nil
+            var minSilkscreenHeight: Double? = nil
+            var minSilkscreenToPad: Double? = nil
+            var minSolderMaskDam: Double? = nil
+            var solderMaskExpansion: Double? = nil
+
+            /// Each rule's key here, its place in `DesignRules`, and its
+            /// name in the file.
+            static let fields: [(entry: WritableKeyPath<DesignRulesEntry, Double?>,
+                                 rule: WritableKeyPath<DesignRules, Double>, name: String)] = [
+                (\.minTraceWidth, \.minTraceWidth, "minTraceWidth"),
+                (\.minClearance, \.minClearance, "minClearance"),
+                (\.minDrill, \.minDrill, "minDrill"),
+                (\.minViaDrill, \.minViaDrill, "minViaDrill"),
+                (\.minViaDiameter, \.minViaDiameter, "minViaDiameter"),
+                (\.minAnnularRing, \.minAnnularRing, "minAnnularRing"),
+                (\.minHoleToHole, \.minHoleToHole, "minHoleToHole"),
+                (\.minCopperToEdge, \.minCopperToEdge, "minCopperToEdge"),
+                (\.minSilkscreenWidth, \.minSilkscreenWidth, "minSilkscreenWidth"),
+                (\.minSilkscreenHeight, \.minSilkscreenHeight, "minSilkscreenHeight"),
+                (\.minSilkscreenToPad, \.minSilkscreenToPad, "minSilkscreenToPad"),
+                (\.minSolderMaskDam, \.minSolderMaskDam, "minSolderMaskDam"),
+                (\.solderMaskExpansion, \.solderMaskExpansion, "solderMaskExpansion"),
+            ]
+        }
 
         /// One net's layer rule: the net (`PlaneNet.fileValue`), the mode
         /// and the layers.
@@ -766,7 +809,8 @@ extension SchematicFile {
                 Board.NetGroupEntry(id: group.id, name: group.name, mode: group.mode.rawValue,
                                     members: group.members.map(\.fileValue), tolerance: group.tolerance, gap: group.gap,
                                     maxUncoupled: group.maxUncoupled, maxMeander: group.maxMeander)
-            }
+            },
+            designRules: Self.entry(settings.rules, manufacturer: settings.rulesManufacturer)
         )
     }
 
@@ -1165,9 +1209,34 @@ extension SchematicFile {
 
     // MARK: PCB values
 
+    /// The file form of a board's design rules.
+    private static func entry(_ rules: DesignRules, manufacturer: DRCManufacturer) -> Board.DesignRulesEntry {
+        var entry = Board.DesignRulesEntry(manufacturer: manufacturer.rawValue)
+        for field in Board.DesignRulesEntry.fields { entry[keyPath: field.entry] = rules[keyPath: field.rule] }
+        return entry
+    }
+
+    /// The stored design rules and their manufacturer. A file without
+    /// them takes the app's defaults (Settings ▸ DRC Defaults), and so does
+    /// each rule the entry leaves out; the manufacturer is then Custom
+    /// unless the entry names one.
+    private static func designRules(_ entry: Board.DesignRulesEntry?) throws -> (DesignRules, DRCManufacturer) {
+        var rules = DesignRules.appDefaults()
+        guard let entry else { return (rules, DRCManufacturer.appDefault()) }
+        for field in Board.DesignRulesEntry.fields {
+            guard let value = entry[keyPath: field.entry] else { continue }
+            guard value.isFinite, value >= 0 else {
+                throw SchematicFileError.badPCB("design rule \(field.name) \(number(value)) must be 0 or more")
+            }
+            rules[keyPath: field.rule] = value
+        }
+        return (rules, entry.manufacturer.flatMap(DRCManufacturer.init(rawValue:)) ?? .custom)
+    }
+
     /// The board's settings, with defaults for missing keys.
     private func boardSettings() throws -> BoardSettings {
         var settings = BoardSettings()
+        (settings.rules, settings.rulesManufacturer) = try Self.designRules(board?.designRules)
         guard let board else { return settings }
         func size(_ value: Double?, _ name: String) throws -> Double? {
             guard let value else { return nil }

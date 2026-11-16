@@ -16,7 +16,8 @@ extension SchematicDocument {
     ///   `removedVias` and is absent from the rest.
     /// - Every other piece of copper is an obstacle tagged with its net, so
     ///   a net may run over its own copper and never another's.
-    func routingProblem(options: RoutingOptions, rules: DesignRules = DesignRules.current()) -> RoutingProblem {
+    func routingProblem(options: RoutingOptions, rules: DesignRules? = nil) -> RoutingProblem {
+        let rules = rules ?? board.rules
         let full = connectivity()
         let fullNetOfRoot = full.netOfRoot()
         let scoped = scopeNets(options.scope, in: full)

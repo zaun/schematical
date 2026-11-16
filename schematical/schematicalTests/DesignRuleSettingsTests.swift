@@ -11,27 +11,27 @@ final class DesignRuleSettingsTests: XCTestCase {
         defer { defaults.removePersistentDomain(forName: suite) }
 
         // Never set: Custom, starting from PCBWay's values.
-        XCTAssertEqual(DesignRules.current(defaults: defaults), .customDefault)
+        XCTAssertEqual(DesignRules.appDefaults(defaults: defaults), .customDefault)
 
         var custom = DesignRules.customDefault
         custom.minTraceWidth = 0.2
         defaults.set(custom.encoded, forKey: PreferenceKey.drcCustomRules)
-        XCTAssertEqual(DesignRules.current(defaults: defaults), custom)
+        XCTAssertEqual(DesignRules.appDefaults(defaults: defaults), custom)
 
         // PCBWay ignores the stored Custom rules.
         defaults.set(DRCManufacturer.pcbway.rawValue, forKey: PreferenceKey.drcManufacturer)
-        XCTAssertEqual(DesignRules.current(defaults: defaults), .pcbway)
+        XCTAssertEqual(DesignRules.appDefaults(defaults: defaults), .pcbway)
         XCTAssertEqual(DesignRules.pcbway.minTraceWidth, 0.1)
         defaults.set(DRCManufacturer.jlcpcb.rawValue, forKey: PreferenceKey.drcManufacturer)
-        XCTAssertEqual(DesignRules.current(defaults: defaults), .jlcpcb)
+        XCTAssertEqual(DesignRules.appDefaults(defaults: defaults), .jlcpcb)
 
         // Back to Custom: the edit is still there.
         defaults.set(DRCManufacturer.custom.rawValue, forKey: PreferenceKey.drcManufacturer)
-        XCTAssertEqual(DesignRules.current(defaults: defaults), custom)
+        XCTAssertEqual(DesignRules.appDefaults(defaults: defaults), custom)
 
         // Rules that don't decode fall back to the default.
         defaults.set(Data("x".utf8), forKey: PreferenceKey.drcCustomRules)
-        XCTAssertEqual(DesignRules.current(defaults: defaults), .customDefault)
+        XCTAssertEqual(DesignRules.appDefaults(defaults: defaults), .customDefault)
     }
 
     /// Every manufacturer has rules, and they hang together.
