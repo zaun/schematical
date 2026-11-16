@@ -131,6 +131,41 @@
       need, and can skip marketing sections. Aim for 20–30k documents per
       IC for ICs that aren't microprocessors or microcontrollers. The app
       should render and print it.
-- [ ] Reference-board parts: 248 parts in 20 families wait for a kind
-      (planning/plan-43-A § 5, planning/plan-43-data/candidates.tsv).
 
+## Reference-board parts still missing
+
+plan-43 added only the 43 parts that fit a kind the library already had.
+The parts below have an in-stock DigiKey match and a downloaded datasheet
+(`datasheets/reference-boards/<family>/`, list in
+`planning/plan-43-data/candidates.tsv`, column `family`) but were not
+added. One item per family; 248 parts in all.
+
+- [ ] regulator: 45 parts (plan-42).
+- [ ] inductor: 26 parts.
+- [ ] connector (other than the two USB-C receptacles plan-43 added): 22 parts.
+- [ ] protection: 18 parts.
+- [ ] bus-switch: 17 parts.
+- [ ] serial-memory: 16 parts.
+- [ ] mcu: 14 parts.
+- [ ] power-management: 14 parts.
+- [ ] amplifier: 13 parts.
+- [ ] transceiver: 12 parts.
+- [ ] sensor: 10 parts.
+- [ ] crystal: 8 parts.
+- [ ] driver: 8 parts.
+- [ ] electromechanical: 6 parts.
+- [ ] rf-passive: 5 parts.
+- [ ] display: 4 parts.
+- [ ] fuse: 4 parts.
+- [ ] power-module: 3 parts.
+- [ ] optocoupler: 2 parts.
+- [ ] capacitor: 1 part.
+- [ ] The 9 parts plan-43 skipped for their datasheets
+      (`datasheets/skipped-parts.md` § Reference boards (plan-43)).
+- [ ] About 600 more missing part names had no in-stock match with a
+      datasheet (house part numbers, values such as `SMA_H` that name no
+      part). Each needs a real part chosen for it, or to be left out
+      (`routing-example/missing.csv`, `routing-example/datasheets-log.tsv`).
+- [ ] No reference board has every part in the library yet
+      (`python3 routing-example/parts_check.py --dry-run`, 2026-11-15:
+      0 of 202 boards, 1668 distinct parts missing).
