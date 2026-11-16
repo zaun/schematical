@@ -171,7 +171,7 @@ Commit: 57c4a215 (one commit with Phase 2's code: the pages, the model and the r
 
 Acceptance: steps 1–2 work in the real app, including a generic part placed and refused by Run.
   Check: the run-skill walk above (est. 15 min); `xcodebuild … test -only-testing:schematicalTests/PartEditorWindowTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+Commit: 312c1e51 (code in Phase 1's commit)
 
 ## Validation Plan
 
