@@ -252,7 +252,7 @@ Commit: d91a5e00
 
 Acceptance: renames reach nested fields and refuse collisions.
   Check: `xcodebuild … test -only-testing:schematicalTests/PinRenameTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+Commit: 0ce670b5
 
 ## Validation Plan
 
