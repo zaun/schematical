@@ -251,6 +251,23 @@ struct PartDraft: Equatable, Sendable {
         }
     }
 
+    /// The same part as another kind (plan-46-F): the keys every kind has
+    /// (identity, datasheet, pinouts, footprint, flags, note) are kept, and
+    /// the kind's own keys are replaced with the new kind's required keys,
+    /// empty, as a new part of that kind has them. Keys of the old kind with
+    /// no control (`deviceExtras`, `partExtras`) go too: the new kind's
+    /// loader would refuse them.
+    func changingKind(to kind: String) -> PartDraft {
+        var draft = self
+        let blank = PartDraft(newOf: kind)
+        draft.kind = kind
+        draft.kindDevice = blank.kindDevice
+        draft.kindPart = blank.kindPart
+        draft.deviceExtras = [:]
+        draft.partExtras = [:]
+        return draft
+    }
+
     // MARK: Reading a file
 
     init(file: JSONValue) throws {

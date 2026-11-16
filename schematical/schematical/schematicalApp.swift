@@ -142,15 +142,8 @@ struct schematicalApp: App {
         .defaultSize(width: 1040, height: 1000)
         .restorationBehavior(.disabled)
 
-        // File › New Part…: the kind picker (plan-32-C).
-        Window("New Part", id: PartKindPicker.windowID) {
-            PartKindPicker()
-        }
-        // Tall enough to list all 26 kinds without scrolling.
-        .defaultSize(width: 340, height: 760)
-        .restorationBehavior(.disabled)
-
-        // One Part Editor per part being made (plan-32-C).
+        // One Part Editor per part being made (plan-32-C). File › New Part…
+        // opens one on the Part Wizard's first step (plan-46-F).
         WindowGroup("Part Editor", id: PartEditorScene.id, for: PartEditorTarget.self) { $target in
             if let target {
                 PartEditorWindowView(target: target)

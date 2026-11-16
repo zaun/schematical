@@ -29,7 +29,7 @@ struct WizardStepView: View {
                         Text("Optional — skip this if you don't need it in the simulation.")
                             .font(.callout).foregroundStyle(.secondary)
                     }
-                    ForEach(step.issues(in: model.draft), id: \.self) { issue in
+                    ForEach(model.issues(of: step), id: \.self) { issue in
                         Label(issue, systemImage: "exclamationmark.circle")
                             .font(.callout).foregroundStyle(.orange)
                     }
@@ -46,9 +46,9 @@ struct WizardStepView: View {
     @ViewBuilder private var page: some View {
         switch step.page {
         case .kind:
-            EmptyView()
+            KindStepPage(model: model)
         case .identity:
-            IdentitySection(model: model)
+            IdentityStepPage(model: model)
         case .datasheet:
             Section("Datasheet") {
                 DatasheetField(datasheet: $model.draft.datasheet, ids: model.validator.datasheetIDs)

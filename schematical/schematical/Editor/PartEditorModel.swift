@@ -10,9 +10,120 @@ final class PartEditorModel {
     var draft: PartDraft {
         didSet {
             guard draft != oldValue else { return }
+            if !derivingKeys {
+                // A key the user changed stops following the part number.
+                if draft.deviceID != oldValue.deviceID { autoKeys.remove(.deviceID) }
+                if draft.function != oldValue.function { autoKeys.remove(.function) }
+                if draft.drawer != oldValue.drawer { autoKeys.remove(.drawer) }
+                derivingKeys = true
+                let derived = Self.applyingAutoKeys(autoKeys, to: draft)
+                if derived != draft { draft = derived }
+                derivingKeys = false
+            }
             scheduleValidation()
             keepCurrentStep(after: oldValue)
         }
+    }
+
+    // MARK: The wizard's first steps (plan-46-F)
+
+    /// Whether the part's kind has been chosen. False only in a File › New
+    /// Part… window until "What are you making?" is answered; the draft is a
+    /// `generic` placeholder until then.
+    private(set) var kindChosen = true
+
+    /// The internal keys the wizard fills in from the part number and the
+    /// kind while the user has not edited them (More options).
+    enum AutoKey: String, CaseIterable, Sendable { case deviceID, function, drawer }
+
+    /// The keys still derived. Window state: a copy or an opened file has none.
+    private(set) var autoKeys: Set<AutoKey> = []
+    @ObservationIgnored private var derivingKeys = false
+
+    /// The device id a part number gives: upper case, only `A-Z 0-9 . -`
+    /// ("74hc00-x/y" → "74HC00-XY"); "custom" while there is no part number.
+    static func deviceID(forName name: String) -> String {
+        let allowed = Set("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-")
+        let id = String(name.uppercased().filter { allowed.contains($0) })
+        return id.isEmpty ? "custom" : id
+    }
+
+    /// The draft with its derived keys brought up to date.
+    static func applyingAutoKeys(_ keys: Set<AutoKey>, to draft: PartDraft) -> PartDraft {
+        guard !keys.isEmpty else { return draft }
+        var draft = draft
+        let info = PartKinds.info[draft.kind]
+        if keys.contains(.deviceID) { draft.deviceID = deviceID(forName: draft.name) }
+        if keys.contains(.function), let info { draft.function = info.name }
+        if keys.contains(.drawer), let info { draft.drawer = ["Custom", info.group.rawValue] }
+        return draft
+    }
+
+    /// Every manufacturer a library part names, for the part-number step's
+    /// menu ("Generic" is offered as "My own design / unknown").
+    @ObservationIgnored private(set) lazy var manufacturers: [String] = {
+        Set(catalog.allParts.map(\.manufacturer)).subtracting(["", "Generic"]).sorted()
+    }()
+
+    /// Whether the window makes a new part (File › New Part…), not a copy or
+    /// a file: All fields then shows the kind with Change….
+    private(set) var isNewPart = false
+
+    /// All fields' Change…: back to "What are you making?" in Guided mode.
+    func changeKind() {
+        mode = .guided
+        currentStepID = WizardStep.kind.id
+    }
+
+    /// Whether choosing `kind` would clear settings the user entered: the
+    /// kind's own keys differ from a new part's.
+    func kindChangeClearsSettings(to kind: String) -> Bool {
+        guard kindChosen, kind != draft.kind else { return false }
+        let blank = PartDraft(newOf: draft.kind)
+        return draft.kindDevice != blank.kindDevice || draft.kindPart != blank.kindPart
+            || !draft.deviceExtras.isEmpty || !draft.partExtras.isEmpty
+    }
+
+    /// Answers "What are you making?": the part becomes that kind, keeping
+    /// its name, datasheet, pins and footprint, and the wizard moves to the
+    /// part number. The view asks first when `kindChangeClearsSettings`.
+    func chooseKind(_ kind: String) {
+        guard PartKinds.schemas[kind] != nil else { return }
+        if !kindChosen || kind != draft.kind {
+            derivingKeys = true
+            draft = Self.applyingAutoKeys(autoKeys, to: draft.changingKind(to: kind))
+            derivingKeys = false
+        }
+        kindChosen = true
+        currentStepID = WizardStep.identity.id
+    }
+
+    /// "Start from a similar part": the draft becomes a copy of a library
+    /// part (a new uuid, as Copy to Editor… makes), named as the library
+    /// would name it so it never collides, and the wizard moves to the part
+    /// number with everything filled in. False when the part cannot be copied.
+    @discardableResult
+    func chooseSimilar(named name: String) -> Bool {
+        guard var copy = Self.copy(named: name, catalog: catalog) else { return false }
+        autoKeys = []
+        var n = 2
+        while catalog.part(named: "\(copy.name).\(n)") != nil { n += 1 }
+        copy.name = "\(copy.name).\(n)"
+        draft = copy
+        kindChosen = true
+        currentStepID = WizardStep.identity.id
+        return true
+    }
+
+    /// The first 20 library parts matching a search, for "Start from a
+    /// similar part" (the drawer's own search and order; obsolete parts
+    /// hidden as the drawer hides them).
+    func similarParts(matching query: String) -> [CatalogPart] {
+        let text = query.trimmingCharacters(in: .whitespaces)
+        guard !text.isEmpty else { return [] }
+        var filter = DrawerFilter()
+        filter.query = text
+        return Array(catalog.groups(matching: filter).flatMap(\.allParts).prefix(20))
     }
 
     // MARK: Guided | All fields (plan-46-E)
@@ -36,12 +147,21 @@ final class PartEditorModel {
     private(set) var currentStepID: String = WizardStep.identity.id
 
     /// The wizard's steps for the draft as it is now.
-    var steps: [WizardStep] { Self.steps(for: draft) }
+    var steps: [WizardStep] { Self.steps(for: draft, kindChosen: kindChosen) }
 
-    /// The steps the window lists. The kind is chosen before the window
-    /// opens, so its step is not listed.
-    static func steps(for draft: PartDraft) -> [WizardStep] {
-        WizardPlan.steps(for: draft).filter { $0.page != .kind }
+    /// The steps the window lists. Until the kind is chosen the draft is a
+    /// placeholder, so its kind steps are not listed.
+    static func steps(for draft: PartDraft, kindChosen: Bool = true) -> [WizardStep] {
+        let steps = WizardPlan.steps(for: draft)
+        if kindChosen { return steps }
+        return steps.filter { [.kind, .identity, .datasheet, .pinout, .footprint, .review].contains($0.page) }
+    }
+
+    /// What a step still needs: the draft's issues, and for the kind step,
+    /// the kind itself until it is chosen.
+    func issues(of step: WizardStep) -> [String] {
+        if step.page == .kind { return kindChosen ? [] : ["Choose what you are making"] }
+        return step.issues(in: draft)
     }
 
     var currentStep: WizardStep? {
@@ -79,9 +199,9 @@ final class PartEditorModel {
     private func keepCurrentStep(after old: PartDraft) {
         guard old.kind != draft.kind || old.variant != draft.variant
             || WizardPlan.hasFootprint(old) != WizardPlan.hasFootprint(draft) else { return }
-        let now = Self.steps(for: draft)
+        let now = Self.steps(for: draft, kindChosen: kindChosen)
         guard !now.contains(where: { $0.id == currentStepID }) else { return }
-        let before = Self.steps(for: old)
+        let before = Self.steps(for: old, kindChosen: kindChosen)
         let index = before.firstIndex { $0.id == currentStepID } ?? 0
         let ids = now.map(\.id)
         for earlier in before[..<index].reversed() {
@@ -154,9 +274,17 @@ final class PartEditorModel {
         self.catalog = catalog
         self.validator = validator
         switch target.source {
+        case .wizard:
+            draft = PartDraft(newOf: "generic")
+            mode = .guided
+            kindChosen = false
+            isNewPart = true
+            autoKeys = Set(AutoKey.allCases)
         case let .new(kind):
             draft = PartDraft(newOf: kind)
             mode = .guided
+            isNewPart = true
+            autoKeys = Set(AutoKey.allCases)
         case let .copy(name):
             mode = .allFields
             if let draft = Self.copy(named: name, catalog: catalog) {
@@ -177,7 +305,14 @@ final class PartEditorModel {
                 openError = error.localizedDescription
             }
         }
-        currentStepID = Self.steps(for: draft).first?.id ?? WizardStep.identity.id
+        if !autoKeys.isEmpty {
+            derivingKeys = true
+            draft = Self.applyingAutoKeys(autoKeys, to: draft)
+            derivingKeys = false
+        }
+        // A new part of a known kind starts on the part number; the wizard
+        // (no kind yet) on "What are you making?".
+        currentStepID = kindChosen ? WizardStep.identity.id : WizardStep.kind.id
         // A new part or a copy is unchanged until it is edited.
         if savedText == nil { savedText = draft.fileText() }
         scheduleValidation(delay: .zero)
@@ -217,7 +352,8 @@ final class PartEditorModel {
     var title: String {
         if let fileURL { return fileURL.deletingPathExtension().lastPathComponent }
         let name = draft.name.trimmingCharacters(in: .whitespaces)
-        return name.isEmpty ? "New \(PartDraft.displayName(of: draft.kind)) Part" : name
+        if !name.isEmpty { return name }
+        return kindChosen ? "New \(PartDraft.displayName(of: draft.kind)) Part" : "New Part"
     }
 
     /// What Add to Library will name the part: its name, or the suffixed

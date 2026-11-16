@@ -25,7 +25,7 @@ struct WizardStepList: View {
     /// A check for a complete step, a dot for one with issues. Steps with
     /// nothing to check (Datasheet, Review) show neither.
     static func state(of step: WizardStep, in model: PartEditorModel) -> StepState {
-        if !step.issues(in: model.draft).isEmpty { return .issues }
+        if !model.issues(of: step).isEmpty { return .issues }
         switch step.page {
         case .datasheet, .review: return .plain
         default: return .done

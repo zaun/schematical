@@ -49,9 +49,14 @@ final class WizardModelTests: XCTestCase {
     func testNextWalksEveryStepToReview() {
         let model = model(.new(kind: "gate"))
         let steps = model.steps
-        XCTAssertEqual(steps.map(\.id), ["identity", "datasheet", "pinout", "kind.supply", "kind.essentials",
-                                         "kind.other", "footprint", "review"])
+        XCTAssertEqual(steps.map(\.id), ["kind", "identity", "datasheet", "pinout", "kind.supply",
+                                         "kind.essentials", "kind.other", "footprint", "review"])
+        // The kind is known, so a new gate starts on the part number; the
+        // kind step is one Back away (plan-46-F).
         XCTAssertEqual(model.currentStepID, "identity")
+        XCTAssertTrue(model.canGoBack)
+        model.goBack()
+        XCTAssertEqual(model.currentStepID, "kind")
         XCTAssertFalse(model.canGoBack)
         var visited = [model.currentStepID]
         for _ in 0 ..< steps.count - 1 {
@@ -69,7 +74,7 @@ final class WizardModelTests: XCTestCase {
         XCTAssertEqual(model.currentStepID, "footprint")
         model.go(to: "pinout")
         XCTAssertEqual(model.currentStepID, "pinout")
-        XCTAssertEqual(model.currentStepIndex, 2)
+        XCTAssertEqual(model.currentStepIndex, 3)
         model.go(to: "no-such-step")
         XCTAssertEqual(model.currentStepID, "pinout")
         // Issues never stop Next: the gate draft is empty and Next still moved.

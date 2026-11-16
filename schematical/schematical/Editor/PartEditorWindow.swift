@@ -110,6 +110,16 @@ struct PartEditorForm: View {
             if let openError = model.openError {
                 Section { Text(openError).foregroundStyle(.red) }
             }
+            if model.isNewPart {
+                Section {
+                    LabeledContent("Kind") {
+                        HStack {
+                            Text(model.kindChosen ? PartDraft.displayName(of: model.draft.kind) : "Not chosen yet")
+                            Button("Change…") { model.changeKind() }
+                        }
+                    }
+                }
+            }
             IdentitySection(model: model)
             VerdictSection(model: model)
             PinoutsSection(pinouts: $model.draft.pinouts, partPinout: $model.draft.pinout)

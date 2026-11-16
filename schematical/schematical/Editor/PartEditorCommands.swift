@@ -15,7 +15,7 @@ struct PartEditorCommands: View {
 
     var body: some View {
         Button("New Part…") {
-            openWindow(id: PartKindPicker.windowID)
+            openWindow(id: PartEditorScene.id, value: PartEditorTarget(source: .wizard))
         }
         .keyboardShortcut("n", modifiers: [.command, .shift])
 

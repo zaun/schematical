@@ -41,7 +41,7 @@ plan-46-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-46-E complete | `ls planning/completed/plan-46-E-*.md` → exists | NOT MET (2026-11-16: not started) |
+| plan-46-E complete | `ls planning/completed/plan-46-E-*.md` → exists | MET (2026-11-16: `planning/completed/plan-46-E-wizard-window-shell.md`) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 
@@ -118,14 +118,18 @@ produces.
 
 ### Phase 1 — Kind changes and derived keys (model)
 
-- [ ] `PartDraft.changingKind(to:)`; `PartEditorModel`: `.wizard` source,
+- [x] `PartDraft.changingKind(to:)`; `PartEditorModel`: `.wizard` source,
       `kindChosen`, `autoKeys`, the derivations, `chooseKind`,
-      `chooseSimilar(named:)`.
-- [ ] `schematicalTests/WizardIdentityTests.swift`: `changingKind` keeps
+      `chooseSimilar(named:)`. (Also `similarParts(matching:)`,
+      `kindChangeClearsSettings(to:)`, `issues(of:)`; § Corrections 1–3.)
+- [x] `schematicalTests/WizardIdentityTests.swift`: `changingKind` keeps
       name, manufacturer, datasheet, pinouts, footprint and drops `gates`;
       `chooseSimilar("SN74HC00N")` gives kind gate, a new uuid and the
       library's suffixed name; device id from `"74hc00-x/y"` is
       `74HC00-XY`; editing the drawer stops its derivation.
+      (`xcodebuild … test -only-testing:schematicalTests/WizardIdentityTests`
+      → `Executed 7 tests, with 0 failures`, `** TEST SUCCEEDED **`; the
+      suffixed name is `SN74HC00N.2`.)
 
 Acceptance: the model rules hold.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/WizardIdentityTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
@@ -133,10 +137,18 @@ Commit: —
 
 ### Phase 2 — The two pages; the picker retired
 
-- [ ] `Editor/Wizard/KindStepPage.swift`, `IdentityStepPage.swift`; the
+- [x] `Editor/Wizard/KindStepPage.swift`, `IdentityStepPage.swift`; the
       step list shows `kind` first; `PartEditorCommands` opens `.wizard`;
       `PartKindPicker.swift` and its `Window` deleted;
-      `PartEditorWindowTests` updated for the removed window id.
+      ~~`PartEditorWindowTests` updated for the removed window id~~ — moot:
+      no test names the picker or its window id (`grep -rn
+      'PartKindPicker\|new-part' schematical/schematicalTests` → none; the 5
+      references measured in § 2 were all in the app, and all are gone:
+      the same grep over `schematical/schematical` → none).
+      `WizardModelTests` is the test that changed: the step list now starts
+      with `kind`. (`xcodebuild … test
+      -only-testing:schematicalTests/PartEditorWindowTests` → `Executed 9
+      tests, with 0 failures`, `** TEST SUCCEEDED **`.)
 - [ ] Runtime check (run skill): New Part… → search `74HC00` → choose
       SN74HC00N → Part number shows it; back → LED → the alert → OK;
       New Part… → no-simulation → name `SENSOR-1`, two pins, a 2-pad
@@ -160,7 +172,25 @@ plan-46-A § Decisions.
 
 ## Corrections
 
-None yet.
+1. **Derived keys follow edits in both modes.** § 1 says "editing a key in
+   More options removes it from `autoKeys`". The model does it where the
+   draft changes (`draft.didSet`): a change to the device id, function or
+   drawer that the derivation itself did not make removes that key from
+   `autoKeys`, so an edit in All fields counts too, not only one under
+   More options. An empty part number gives the device id `custom` (the
+   loader refuses an empty id).
+2. **A copied part derives nothing.** `chooseSimilar` clears `autoKeys`:
+   the copy has the library part's own device id, function and drawer
+   path, and renaming it must not rewrite them
+   (`testStartingFromASimilarPart`).
+3. **Before the kind is chosen the step list has no kind steps**
+   (`kind, identity, datasheet, pinout, footprint, review`): the draft is a
+   `generic` placeholder, and its Supply/Essentials steps would be the
+   placeholder's, not the user's. The kind step shows "Choose what you are
+   making" until then, and the window is titled `New Part`.
+4. **A new part of a known kind (`.new(kind:)`) also lists the kind step**
+   and starts on Part number (one Back from it), so the kind can be
+   changed in any new-part window; `WizardModelTests` asserts the list.
 
 ## Summary
 

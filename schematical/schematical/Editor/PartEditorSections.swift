@@ -23,9 +23,9 @@ struct IdentitySection: View {
             TextField("Package", text: $model.draft.package)
             TextField("Function", text: $model.draft.function)
             TextField("Description", text: $model.draft.description)
-            TextField("Drawer category", text: drawerLevel(0))
-            TextField("Drawer group", text: drawerLevel(1))
-            TextField("Drawer sub-group", text: drawerLevel(2))
+            TextField("Drawer category", text: model.drawerLevel(0))
+            TextField("Drawer group", text: model.drawerLevel(1))
+            TextField("Drawer sub-group", text: model.drawerLevel(2))
             TextField("Device id", text: $model.draft.deviceID)
             TextField("Note", text: Binding(
                 get: { model.draft.note ?? "" },
@@ -34,37 +34,41 @@ struct IdentitySection: View {
             LabeledContent("Flags") {
                 HStack {
                     ForEach(PartDraft.flagNames, id: \.self) { flag in
-                        Toggle(flag.capitalized, isOn: flagBinding(flag))
+                        Toggle(flag.capitalized, isOn: model.flagBinding(flag))
                     }
                 }
             }
             DatasheetField(datasheet: $model.draft.datasheet, ids: model.validator.datasheetIDs)
         }
     }
+}
 
-    private func drawerLevel(_ level: Int) -> Binding<String> {
+extension PartEditorModel {
+    /// One level of the drawer path (category, group, sub-group), for the
+    /// form and the wizard's More options.
+    func drawerLevel(_ level: Int) -> Binding<String> {
         Binding(
-            get: { model.draft.drawer.indices.contains(level) ? model.draft.drawer[level] : "" },
+            get: { self.draft.drawer.indices.contains(level) ? self.draft.drawer[level] : "" },
             set: { text in
-                var drawer = model.draft.drawer
+                var drawer = self.draft.drawer
                 while drawer.count <= level { drawer.append("") }
                 drawer[level] = text
                 while let last = drawer.last, last.isEmpty { drawer.removeLast() }
-                model.draft.drawer = drawer
+                self.draft.drawer = drawer
             }
         )
     }
 
-    private func flagBinding(_ flag: String) -> Binding<Bool> {
+    func flagBinding(_ flag: String) -> Binding<Bool> {
         Binding(
-            get: { model.draft.flags.contains(flag) },
+            get: { self.draft.flags.contains(flag) },
             set: { on in
                 if on {
-                    if !model.draft.flags.contains(flag) {
-                        model.draft.flags = PartDraft.flagNames.filter { $0 == flag || model.draft.flags.contains($0) }
+                    if !self.draft.flags.contains(flag) {
+                        self.draft.flags = PartDraft.flagNames.filter { $0 == flag || self.draft.flags.contains($0) }
                     }
                 } else {
-                    model.draft.flags.removeAll { $0 == flag }
+                    self.draft.flags.removeAll { $0 == flag }
                 }
             }
         )
