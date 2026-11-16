@@ -104,7 +104,7 @@ Observed (2026-11-15, worktree `P-43`, `main` still at 7410acd9):
 Acceptance: every gate shows its expected value.
   Check: the table (est. 15 min: the app build and tests are most of it; no
   smaller check loads the bundled part files through the app).
-Commit: —
+Commit: 46b22fca
 
 ## Validation Plan
 
