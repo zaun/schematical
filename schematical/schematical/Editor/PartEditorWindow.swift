@@ -65,8 +65,9 @@ struct PartPreviewPane: View {
     }
 }
 
-/// The form: Identity (and the backend's verdict), Pinouts, Footprint,
-/// Supply, and the kind's own section.
+/// The form ("All fields"): Identity (and the backend's verdict), Pinouts,
+/// Footprint, Supply, and the kind's own section. The sections are views of
+/// their own (PartEditorSections.swift), shared with the Part Wizard's steps.
 struct PartEditorForm: View {
     @Bindable var model: PartEditorModel
 
@@ -75,27 +76,12 @@ struct PartEditorForm: View {
             if let openError = model.openError {
                 Section { Text(openError).foregroundStyle(.red) }
             }
-            identity
-            verdict
+            IdentitySection(model: model)
+            VerdictSection(model: model)
             PinoutsSection(pinouts: $model.draft.pinouts, partPinout: $model.draft.pinout)
-            footprint
-            if let schema = model.draft.schema {
-                let supply = schema.part.filter { Self.supplyKeys.contains($0.key) }
-                if !supply.isEmpty {
-                    Section("Supply") {
-                        FieldsEditor(fields: supply, object: $model.draft.kindPart, pinNames: model.draft.pinNames)
-                    }
-                }
-                Section(PartDraft.displayName(of: model.draft.kind)) {
-                    FieldsEditor(fields: schema.deviceFields(variant: model.draft.variant),
-                                 object: $model.draft.kindDevice, pinNames: model.draft.pinNames)
-                    FieldsEditor(fields: schema.partFields(variant: model.draft.variant)
-                                     .filter { !Self.supplyKeys.contains($0.key) },
-                                 object: $model.draft.kindPart, pinNames: model.draft.pinNames)
-                }
-            } else {
-                Section { Text("The \(model.draft.kind) kind has no form yet.").foregroundStyle(.secondary) }
-            }
+            FootprintSection(model: model)
+            SupplySection(model: model)
+            KindFieldsSection(model: model)
             if !model.draft.extraKeys.isEmpty {
                 Section("Kept as they are") {
                     Text(model.draft.extraKeys.joined(separator: ", "))
@@ -108,136 +94,6 @@ struct PartEditorForm: View {
     }
 
     static let supplyKeys: Set<String> = ["vcc", "inputMax"]
-
-    private var identity: some View {
-        Section("Identity") {
-            TextField("Name", text: $model.draft.name)
-            if !model.draft.name.isEmpty, model.libraryName != model.draft.name {
-                Text("A part named \(model.draft.name) is loaded; Add to Library adds this one as \(model.libraryName).")
-                    .font(.caption).foregroundStyle(.secondary)
-            }
-            TextField("Manufacturer", text: Binding(
-                get: { model.draft.manufacturer ?? "" },
-                set: { model.draft.manufacturer = $0.isEmpty ? nil : $0 }))
-            TextField("Package", text: $model.draft.package)
-            TextField("Function", text: $model.draft.function)
-            TextField("Description", text: $model.draft.description)
-            TextField("Drawer category", text: drawerLevel(0))
-            TextField("Drawer group", text: drawerLevel(1))
-            TextField("Drawer sub-group", text: drawerLevel(2))
-            TextField("Device id", text: $model.draft.deviceID)
-            TextField("Note", text: Binding(
-                get: { model.draft.note ?? "" },
-                set: { model.draft.note = $0.isEmpty ? nil : $0 }), axis: .vertical)
-                .lineLimit(1...4)
-            LabeledContent("Flags") {
-                HStack {
-                    ForEach(PartDraft.flagNames, id: \.self) { flag in
-                        Toggle(flag.capitalized, isOn: flagBinding(flag))
-                    }
-                }
-            }
-            DatasheetField(datasheet: $model.draft.datasheet, ids: model.validator.datasheetIDs)
-        }
-    }
-
-    @ViewBuilder private var verdict: some View {
-        Section {
-            switch model.validation {
-            case nil:
-                Text("Checking…").foregroundStyle(.secondary)
-            case let .success(part)?:
-                Label("The part loads: \(part.pins.count) pins", systemImage: "checkmark.circle")
-                    .foregroundStyle(.green)
-            case let .failure(failure)?:
-                Label(failure.message, systemImage: "exclamationmark.triangle")
-                    .foregroundStyle(.red)
-                    .textSelection(.enabled)
-            }
-            if let status = model.status {
-                Text(status).font(.caption).foregroundStyle(.secondary)
-            }
-        }
-    }
-
-    @ViewBuilder private var footprint: some View {
-        if model.draft.customFootprint != nil {
-            Section("Custom Footprint") {
-                CustomFootprintEditor(
-                    footprint: Binding(get: { model.draft.customFootprint! },
-                                       set: { model.draft.customFootprint = $0 }),
-                    pinNumbers: model.draft.pinNumbers,
-                    onRemove: { model.draft.customFootprint = nil })
-            }
-        } else {
-            bundledFootprint
-        }
-    }
-
-    private var bundledFootprint: some View {
-        Section("Footprint") {
-            let pins = model.draft.pinCount
-            let choices = model.validator.footprints.filter { Int($0.pins) == pins }
-            Picker("Footprint", selection: $model.draft.footprint) {
-                Text("None").tag(String?.none)
-                ForEach(choices, id: \.id) { footprint in
-                    Text("\(footprint.id) — \(footprint.description)").tag(String?.some(footprint.id))
-                }
-                if let current = model.draft.footprint, !choices.contains(where: { $0.id == current }) {
-                    Text(current).tag(String?.some(current))
-                }
-            }
-            Text("Bundled footprints with \(pins) pads (the part's pinout has \(pins) pins).")
-                .font(.caption).foregroundStyle(.secondary)
-            Picker("Connector footprint", selection: $model.draft.connectorFootprint) {
-                Text("None").tag(String?.none)
-                ForEach(choices, id: \.id) { Text($0.id).tag(String?.some($0.id)) }
-                if let current = model.draft.connectorFootprint, !choices.contains(where: { $0.id == current }) {
-                    Text(current).tag(String?.some(current))
-                }
-            }
-            FootprintChoicesEditor(choices: $model.draft.footprintChoices,
-                                   ids: model.validator.footprints.map(\.id))
-            Button("Custom Footprint…") {
-                var custom = CustomFootprintDraft.starter(id: CustomFootprintDraft.id(forPart: model.draft.uuid),
-                                                          pins: pins)
-                // Number the starter's pads with the pinout's own pin numbers.
-                let numbers = model.draft.pinNumbers
-                for index in custom.pads.indices where index < numbers.count {
-                    custom.pads[index].pin = numbers[index]
-                }
-                model.draft.customFootprint = custom
-            }
-        }
-    }
-
-    private func drawerLevel(_ level: Int) -> Binding<String> {
-        Binding(
-            get: { model.draft.drawer.indices.contains(level) ? model.draft.drawer[level] : "" },
-            set: { text in
-                var drawer = model.draft.drawer
-                while drawer.count <= level { drawer.append("") }
-                drawer[level] = text
-                while let last = drawer.last, last.isEmpty { drawer.removeLast() }
-                model.draft.drawer = drawer
-            }
-        )
-    }
-
-    private func flagBinding(_ flag: String) -> Binding<Bool> {
-        Binding(
-            get: { model.draft.flags.contains(flag) },
-            set: { on in
-                if on {
-                    if !model.draft.flags.contains(flag) {
-                        model.draft.flags = PartDraft.flagNames.filter { $0 == flag || model.draft.flags.contains($0) }
-                    }
-                } else {
-                    model.draft.flags.removeAll { $0 == flag }
-                }
-            }
-        )
-    }
 }
 
 extension Footprint {

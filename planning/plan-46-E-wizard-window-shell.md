@@ -37,8 +37,8 @@ plan-46-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-46-D complete | `ls planning/completed/plan-46-D-*.md` → exists | NOT MET (2026-11-16: not started) |
-| The step model exists | `grep -c 'enum WizardPlan' schematical/schematical/Editor/Wizard/WizardSteps.swift` → 1 | NOT MET (2026-11-16: no file) |
+| plan-46-D complete | `ls planning/completed/plan-46-D-*.md` → exists | MET (2026-11-16: `planning/completed/plan-46-D-wizard-kind-info-and-steps.md`) |
+| The step model exists | `grep -c 'enum WizardPlan' schematical/schematical/Editor/Wizard/WizardSteps.swift` → 1 | MET (2026-11-16 at b13a36f2: 1) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 
@@ -126,9 +126,16 @@ Rejected alternatives:
 
 ### Phase 1 — Section views (no visible change)
 
-- [ ] `Editor/PartEditorSections.swift`: the six section views moved out of
+- [x] `Editor/PartEditorSections.swift`: the six section views moved out of
       `PartEditorForm` (code moves, no edits beyond parameters);
       `PartEditorForm` stacks them.
+      (Five move: `IdentitySection`, `VerdictSection`, `FootprintSection`,
+      `SupplySection`, `KindFieldsSection`; `PinoutsSection` was already a
+      view and stays in `PartEditorWindow.swift`. `xcodebuild … test
+      -only-testing:schematicalTests/PartEditorWindowTests
+      -only-testing:schematicalTests/PartEditorFootprintTests
+      -only-testing:schematicalTests/PartFileSaveOpenTests …` → `Executed 9`,
+      `Executed 3` and `Executed 6 tests, with 0 failures`, `** TEST SUCCEEDED **`.)
 
 Acceptance: the form is unchanged.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/PartEditorWindowTests -only-testing:schematicalTests/PartEditorFootprintTests -only-testing:schematicalTests/PartFileSaveOpenTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 10 min).
