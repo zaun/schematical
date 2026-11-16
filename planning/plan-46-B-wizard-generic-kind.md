@@ -211,15 +211,16 @@ Commit: 3153788f
 
 Acceptance: the editor lists agree with the part files and a generic part registers as unsimulated.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/PartEditorWindowTests -only-testing:schematicalTests/GenericPartTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 8 min).
-Commit: —
+Commit: 3733c301
 
 ### Phase 3 — Docs
 
-- [ ] `docs/parts-format.md` § Kinds: a `### \`generic\`` section after
+- [x] `docs/parts-format.md` § Kinds: a `### \`generic\`` section after
       `mcu` (keys, the simulated rule, the pin rule, no bundled parts, the
       wizard's "no simulation" choice).
-- [ ] `docs/backend.md` § Adding a kind: the facts-only paragraph names
-      `generic` beside `mcu`.
+- [x] `docs/backend.md` § Adding a kind: the facts-only paragraph names
+      `generic` beside `mcu`. (`grep -c 'generic`' docs/parts-format.md` → 3,
+      was 0; `grep -c 'generic' docs/backend.md` → 1, was 0.)
 
 Acceptance: both docs name the kind.
   Check: `grep -c 'generic`' docs/parts-format.md` → at least 1; `grep -c 'generic' docs/backend.md` → at least 1 more than before (est. 1 min).

@@ -1715,6 +1715,34 @@ on a 5 V net is refused). The RP2040's 1.1 V core-supply pins (`DVDD`) are
 at the part's level, so `DVDD` sees the I/O level and passes. The check
 cannot judge the 1.1 V rail itself.
 
+### `generic`
+
+A part that is only a symbol and a footprint (plan-46-B;
+`backend/src/models/generic.c`): a sensor module, an IC no kind models, a
+mechanical part with pins. **Facts only, and fewer than an `mcu`'s**: its
+pins, its footprint and an optional supply range. There is no model, so
+every `generic` device says `"simulated": false` and a circuit refuses its
+parts; the app disables Simulation › Run while one is placed, as for an
+`mcu`. It draws as a plain block and numbers as an IC (`U1`).
+
+```json
+"simulated": false,
+"vcc": [3.0, 5.5]
+```
+
+| Key | Value |
+|---|---|
+| `"simulated"` | required, `false` (`a generic part has no simulation model: "simulated" must be false`) |
+| `"vcc"`, `"inputMax"` | optional, on the device or the part ([Voltages](#voltages)); the part's override the device's. A part with neither has no supply range, and the voltage check has nothing to judge it by |
+
+No other device or part key: nothing names a pin. Pins: at least one, any
+roles and names.
+
+No `generic` part is bundled (`Parts/generic.json` has an empty
+`"devices"` array, so that every kind has its part file). The kind is for
+custom parts: it is the Part Wizard's "Just a symbol and footprint (no
+simulation)" choice (File › New Part…).
+
 ### `serial`
 
 Bus-controller ICs that move bytes over a serial line (plan-12): UARTs,

@@ -385,8 +385,8 @@ A new kind of part is added the same way every time:
    `docs/parts-format.md`.
 5. The app picks a symbol for the new `PartKind`.
 
-A kind with no simulation model (plan-36's `mcu`) sets `"simulated":
-false` on its devices, so `circuit_add_part` refuses its parts, and still
+A kind with no simulation model (plan-36's `mcu`, plan-46's `generic`)
+sets `"simulated": false` on its devices, so `circuit_add_part` refuses its parts, and still
 ships a passive model (no callbacks, the `header.c` shape) so the engine
 never sees a NULL model.
 
