@@ -1,0 +1,24 @@
+{
+ "compact": true,
+ "multiline": ["contacts"],
+ "datasheets": [
+  {"id": "cts-switches-dip-219-series-datasheet", "url": "https://www.ctscorp.com/Files/DataSheets/Switches/DIP-Switches/CTS-Switches-DIP-219-Series-Datasheet.pdf"}
+ ],
+ "footprints": [
+  {"id": "SW-SMD-16-CTS-219", "description": "CTS 219 gull-wing surface-mount DIP switch, 8 positions, 2.54 mm pitch, drawn rotated 90°", "note": "datasheets/switch/cts/CTS-Switches-DIP-219-Series-Datasheet.pdf p.4 Figure 2 Gull Wing Surface Mount Pad Layouts (R1): pads 2.44 long x 1.13, 2.54 pitch, 6.17 between the rows, 11.04 over them -> centres 8.60 (printed); body 6.70 (+-0.25) wide x A 21.79 long for 8 positions (p.3 table). Not SW-SMD-16 (TE GDS: 2.15 x 1.52 pads, centres 8.26)", "style": "dual", "pins": 16, "body": {"width": 6.7, "height": 21.79}, "pitch": 2.54, "span": 8.6, "pad": {"width": 2.44, "height": 1.13, "shape": "rect"}},
+  {"id": "SW-TACT-CIT-CS1213-G", "description": "CIT CS1213 gull-wing SMD tactile switch, 3.9 x 2.9 mm body, 2 terminals", "note": "datasheets/switch/tactile/cit/Switch-CS1213.pdf p.2 CS1213AG PCB Layout (R1): two pads 1.80 high, 5.00 over them, 3.20 between them -> 0.90 wide, centres 4.10; body 3.90 x 2.90; terminal 1 left, 2 right (Schematic: 1 - switch - 2). No locating boss holes (A = without boss)", "style": "dual", "pins": 2, "perSide": 1, "body": {"width": 3.9, "height": 2.9}, "pitch": 1, "span": 4.1, "pad": {"width": 0.9, "height": 1.8, "shape": "rect"}},
+  {"id": "SW-TACT-GCT-SWT0105", "description": "GCT SWT0105 J-lead SMD tactile switch, 3.7 x 3.7 mm body, 4 terminals", "note": "GCT drawing SWT0105 rev A sheet 1 Recommended PCB Layout (R1), datasheets/switch/tactile/gct/swt0105.pdf (https://gct.co/files/drawings/swt0105.pdf; the product specification swt0105-spec.pdf prints no drawing): solder areas 3.80 over / 2.10 between across -> 0.85 wide, centres 2.95; 3.40 over / 2.10 between down -> 0.65 high, centres 2.75; terminals 1, 2 top (left, right), 3, 4 bottom; the keep-out area between the pads is not drawn; body 3.70 x 3.70 (+-0.20)", "style": "dual", "pins": 4, "body": {"width": 3.7, "height": 3.7}, "pitch": 2.75, "span": 2.95, "slots": [1, 4, 2, 3], "pad": {"width": 0.85, "height": 0.65, "shape": "rect"}}
+ ],
+ "devices": {
+  "switch": [
+   {"after": "te_adf_10", "device": {
+    "id": "cts_219_08", "function": "219", "description": "219 series SMD DIP switch, 8 positions", "drawer": ["Switch", "DIP"],
+    "note": "Switching rating 20 VDC (CTS-Switches-DIP-219-Series-Datasheet.pdf p.2 Actuation Life: 100 mA @ 20 VDC; Nonswitching Rating 100 mA or 50 VDC). SPST per position (p.2 Circuit). The datasheet numbers the positions, not the terminals: position n's terminals are pins n (nA) and 17 - n (nB), as the library's other 8-position DIP switches. Ordering Information p.1: 219-8 M (medium actuator) S (bottom seal) T (top tape seal), gull wing terminals, tube.",
+    "pinouts": {"p16": [{"number": 1, "name": "1A", "role": "inout"}, {"number": 2, "name": "2A", "role": "inout"}, {"number": 3, "name": "3A", "role": "inout"}, {"number": 4, "name": "4A", "role": "inout"}, {"number": 5, "name": "5A", "role": "inout"}, {"number": 6, "name": "6A", "role": "inout"}, {"number": 7, "name": "7A", "role": "inout"}, {"number": 8, "name": "8A", "role": "inout"}, {"number": 9, "name": "8B", "role": "inout"}, {"number": 10, "name": "7B", "role": "inout"}, {"number": 11, "name": "6B", "role": "inout"}, {"number": 12, "name": "5B", "role": "inout"}, {"number": 13, "name": "4B", "role": "inout"}, {"number": 14, "name": "3B", "role": "inout"}, {"number": 15, "name": "2B", "role": "inout"}, {"number": 16, "name": "1B", "role": "inout"}]},
+    "actuator": "Medium actuator",
+    "contacts": [["1A", "1B"], ["2A", "2B"], ["3A", "3B"], ["4A", "4B"], ["5A", "5B"], ["6A", "6B"], ["7A", "7B"], ["8A", "8B"]],
+    "ratedVolts": 20,
+    "parts": [{"name": "219-8MST", "manufacturer": "CTS", "datasheet": "cts-switches-dip-219-series-datasheet", "package": "SMD", "pinout": "p16", "footprint": "SW-SMD-16-CTS-219"}]}}
+  ]
+ }
+}

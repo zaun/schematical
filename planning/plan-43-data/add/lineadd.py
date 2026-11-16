@@ -9,6 +9,8 @@ import json, os, subprocess, sys
 P = 'schematical/schematical/Parts/'
 spec = json.load(open(sys.argv[1]))
 C = dict(separators=(',', ':'), ensure_ascii=False)
+# values other than pins and parts: `["a", "b"]`, or `["a","b"]` when the spec says "compact": true (switch.json)
+CV = C if spec.get('compact') else dict(ensure_ascii=False)
 
 if spec.get('datasheets') or spec.get('footprints'):
     tmp = sys.argv[1] + '.tmp'
@@ -44,10 +46,10 @@ def fmt_device(dev):
             out.append('      ]' + last)
         elif k in spec.get('multiline', []):
             out.append('      %s: [' % json.dumps(k))
-            out += ['        ' + json.dumps(p, ensure_ascii=False) + (',' if i < len(v) - 1 else '') for i, p in enumerate(v)]
+            out += ['        ' + json.dumps(p, **CV) + (',' if i < len(v) - 1 else '') for i, p in enumerate(v)]
             out.append('      ]' + last)
         else:
-            out.append('      %s: %s%s' % (json.dumps(k), json.dumps(v, ensure_ascii=False), last))
+            out.append('      %s: %s%s' % (json.dumps(k), json.dumps(v, **CV), last))
     out.append('    }')
     return out
 

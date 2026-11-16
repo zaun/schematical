@@ -214,19 +214,28 @@ Acceptance: 9 more lines in `parts.txt`; none removed.
   → `100% tests passed` (est. 2 min). — `100% tests passed, 0 tests failed
   out of 5` (`buffer_test` is not a test name; the regex also names
   `oscillator`); 32878 → 32887; 0 lines removed.
-Commit: —
+Commit: 409b2539
 
 ### Phase 2 — Switches
 
-- [ ] Add `cts_219_08` and its part (§ 4.2).
-- [ ] Add the two tactile footprints, then the generator inputs, and run
-      the generator (§ 4.1).
-- [ ] Regenerate the goldens; hand-check added `footprints.txt` lines.
+- [x] Add `cts_219_08` and its part (§ 4.2). — `lineadd.py
+      add/switches.json` → `datasheets +1`, `footprints +3`, `switch +1
+      parts` (the device sits after `te_adf_10`, before the `tact_` region).
+- [x] Add the two tactile footprints, then the generator inputs, and run
+      the generator (§ 4.1). — `python3 -I
+      planning/plan-43-data/add/tactile-inputs.py` → `ok`; `gen-parts.py
+      --maker "CIT Relay" --maker GCT` → `158 tactile devices, 2033 tactile
+      parts written; 2 datasheets.json entries added`; `--selftest` →
+      `datasheets ok`.
+- [x] Regenerate the goldens; hand-check added `footprints.txt` lines. —
+      32890 / 32890 / 1641 lines; the three footprint lines read against
+      their drawings.
 
 Acceptance: 3 more lines in `parts.txt`; the generator is idle again.
   Check: the Phase 1 command with `switch_test|tactile_test`;
   `python3 -I planning/plan-27-data/gen-parts.py --dry-run` → `no changes`
-  (est. 2 min).
+  (est. 2 min). — `100% tests passed, 0 tests failed out of 6`; `no
+  changes`; 0 golden lines removed.
 Commit: —
 
 ### Phase 3 — USB-C receptacles
@@ -275,6 +284,18 @@ Commit: —
   `OSC-ECS-3225-4-MV` for the ECS TCXO (the same numbers) and
   `OSC-ECS-2520-4-2018` for the Epson and Würth parts (both print 1.1 x
   0.9 pads at 1.7 x 1.3 centres: each centre 0.05 from 1.8 x 1.4).
+- **`cts_219_08`'s actuator is `Medium actuator`**, the datasheet's name
+  for code M (p.1 Ordering Information), not `Raised slide` (DigiKey's
+  words). Its footprint is the new `SW-SMD-16-CTS-219`: the 219 gull-wing
+  layout (2.44 x 1.13 pads, centres 8.60) is not `SW-SMD-16`'s.
+- **`swt0105-spec.pdf` has no drawing**: no dimensions, PCB layout or
+  circuit diagram. GCT publishes them as a separate drawing,
+  `https://gct.co/files/drawings/swt0105.pdf`, filed as
+  `datasheets/switch/tactile/gct/swt0105.pdf` (with its line in
+  `datasheets/switch/tactile/datasheets.tsv`); the footprint and the
+  `specs.tsv` pins come from it. The part's `"datasheet"` stays the
+  specification. The same holds for the two USB-C receptacles in Phase 3
+  (`usb4105.pdf`, `usb4500.pdf` drawings).
 - **`ECS-TXO-32CSMV-260-AN-TR` carries `ceramic`** (datasheet p.1:
   ceramic package), as the library's other ceramic ECS oscillators do.
 - **`iqxo-791-2` has `minHz` = `maxHz` = 20 MHz**: Würth's datasheet

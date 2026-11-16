@@ -45,7 +45,8 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 MAKERS = [("C&K", "Littelfuse"), ("E-Switch", "E-Switch"), ("Aratas", "Aratas"),
           ("Panasonic", "Panasonic"), ("Alps", "Alps Alpine"), ("Same Sky", "Same Sky"),
           ("TE ", "TE Connectivity"), ("APEM", "APEM"), ("NKK", "NKK Switches"),
-          ("Würth", "Würth Elektronik"), ("Test Maker", "Test Maker")]
+          ("Würth", "Würth Elektronik"), ("CIT Relay", "CIT Relay & Switch"), ("GCT", "GCT"),
+          ("Test Maker", "Test Maker")]
 
 # DigiKey actuator names shown under another name.
 ACTUATORS = {"Without": "No actuator"}
