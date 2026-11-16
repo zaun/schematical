@@ -191,4 +191,7 @@ extension PartKinds {
     /// The curated guides, by kind (plan-46-L, M). A kind without one gets
     /// derived steps.
     static let guides: [String: KindGuide] = [:]
+
+    /// Kind → model → one plain sentence (plan-46-M writes them).
+    static let variantBlurbs: [String: [String: String]] = [:]
 }

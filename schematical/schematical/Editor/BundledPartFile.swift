@@ -18,6 +18,25 @@ enum BundledPartFile {
         return file
     }
 
+    /// For a kind with variants: each variant value's first two bundled part
+    /// names, in file order (plan-46-I: the model picker's examples).
+    @MainActor
+    static func examplesByVariant(kind: String) -> [String: [String]] {
+        guard let variantKey = PartKinds.schemas[kind]?.variantKey,
+              case let .object(root)? = file(kind: kind), case let .array(devices)? = root["devices"] else { return [:] }
+        var examples: [String: [String]] = [:]
+        for device in devices {
+            guard case let .object(keys) = device, case let .string(value)? = keys[variantKey],
+                  case let .array(parts)? = keys["parts"] else { continue }
+            for part in parts where (examples[value]?.count ?? 0) < 2 {
+                if case let .object(partKeys) = part, case let .string(name)? = partKeys["name"] {
+                    examples[value, default: []].append(name)
+                }
+            }
+        }
+        return examples
+    }
+
     /// Every part name of a kind's bundled file, in file order.
     @MainActor
     static func partNames(kind: String) -> [String] {

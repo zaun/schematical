@@ -527,6 +527,33 @@ struct PartDraft: Equatable, Sendable {
         }
     }
 
+    // MARK: Changing the variant (plan-46-I)
+
+    /// The side-qualified top-level kind keys that hold a value and that the
+    /// variant `variant` does not have (`"device.sections"` for a counter
+    /// switched from `ripple` to `sync`). The loader refuses them as unknown
+    /// keys, so a variant change removes them, after asking.
+    func keysOutside(variant: String) -> [String] {
+        guard let schema, schema.variantKey != nil else { return [] }
+        let device = Set(schema.deviceFields(variant: variant).map(\.key))
+        let part = Set(schema.partFields(variant: variant).map(\.key))
+        return schema.device.map(\.key).filter { kindDevice[$0] != nil && !device.contains($0) }.map { "device.\($0)" }
+            + schema.part.map(\.key).filter { kindPart[$0] != nil && !part.contains($0) }.map { "part.\($0)" }
+    }
+
+    /// The draft without the values of these side-qualified kind keys.
+    func removing(keys: [String]) -> PartDraft {
+        var draft = self
+        for qualified in keys {
+            guard let key = KindKey(qualified: qualified) else { continue }
+            switch key.side {
+            case .device: draft.kindDevice.removeValue(forKey: key.key)
+            case .part: draft.kindPart.removeValue(forKey: key.key)
+            }
+        }
+        return draft
+    }
+
     // MARK: Renaming a pin
 
     /// Carries a pin's new name into the kind's keys (plan-46-D § 3.3). Kind

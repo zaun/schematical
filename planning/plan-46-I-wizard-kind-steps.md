@@ -40,7 +40,7 @@ plan-46-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-46-H complete | `ls planning/completed/plan-46-H-*.md` → exists | NOT MET (2026-11-16: not started) |
+| plan-46-H complete | `ls planning/completed/plan-46-H-*.md` → exists | MET (2026-11-16: `planning/completed/plan-46-H-wizard-pinout-step.md`) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 
@@ -111,10 +111,10 @@ plan-46-A § Prerequisites, plus:
 
 ### Phase 1 — Model rules
 
-- [ ] `BundledPartFile.examplesByVariant(kind:)`; the variant-change
+- [x] `BundledPartFile.examplesByVariant(kind:)`; the variant-change
       cleanup (`PartDraft.keysOutside(variant:)`, `removing(keys:)`);
       `FieldConditions.swift` with the converter/rtc table.
-- [ ] `schematicalTests/WizardKindStepsTests.swift`: serial
+- [x] `schematicalTests/WizardKindStepsTests.swift`: serial
       `examplesByVariant` has 11 entries, each with 1–2 bundled names;
       a counter draft with `sections` set, switched from `ripple` to
       `sync`, reports `sections` as outside the variant; the condition
@@ -124,6 +124,10 @@ plan-46-A § Prerequisites, plus:
       `mode`, `csActive`, and the hidden ones exactly `address`, `data`,
       `rd`, `wr`, `rw`, `byteSelect`, `clock`, `oe`, `clockOut`, `scl`,
       `sda`, `table` (`address` belongs to i2c and parallel only).
+      (Also: every model of every variant kind has a bundled example;
+      `chooseVariant` removes the other model's keys. `xcodebuild … test
+      -only-testing:schematicalTests/WizardKindStepsTests` → `Executed 6
+      tests, with 0 failures`, `** TEST SUCCEEDED **`.)
 
 Acceptance: the rules give the lists above.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/WizardKindStepsTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
@@ -159,7 +163,27 @@ them.
 
 ## Corrections
 
-None yet.
+1. **`FieldsEditor` takes its guided context from the SwiftUI environment,
+   not from two new parameters.** § 1 says it "gains `conditions:` and a
+   `guided: Bool`". The editor is recursive through eight nested editor
+   views (object, list, map, one-of …), each of which would have had to
+   pass both on. A wizard step sets `\.guidedFields` (`GuidedFields`: the
+   kind and the side-qualified path of the object being edited) around
+   the kind's fields; every nested `FieldsEditor` reads it, and All fields
+   never sets it, so nothing there is hidden. The pure rule is
+   `GuidedFieldLayout.make` (leading / shown / hidden / more), which the
+   tests assert. L's per-field guidance uses the same path.
+2. **A new part of a variant kind already has a model.** The variant key
+   is a required fixed choice, so a new draft holds its first value
+   (`acia6551` for serial, `adc` for a converter): the model step opens
+   with that row marked Chosen, and the step list is that model's from the
+   start. Choosing another model swaps the steps (the walk: `i8251` → Bus,
+   Serial, …) rather than shrinking a list of every model's keys; the
+   126-key list is what `kindSteps(kind:variant: nil)` gives and no new
+   part shows it.
+3. **With no bus style yet, only `style` and "More bus settings" show**
+   (an empty style is outside every condition's values): the user picks
+   the style first.
 
 ## Summary
 

@@ -72,13 +72,20 @@ struct FieldEditor: View {
     @Binding var value: JSONValue?
     /// The part's pin names, for pin pickers.
     let pinNames: [String]
+    @Environment(\.guidedFields) private var guided
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             FieldValueEditor(label: field.label, type: field.type, required: field.required,
                              value: $value, pinNames: pinNames)
+                .environment(\.guidedFields, guided?.descending(field.key, label: field.label))
             if let help = field.help {
                 Text(help).font(.caption).foregroundStyle(.secondary)
+            }
+            if guided != nil {
+                // The key as the part file and the docs write it.
+                Text(field.key).font(.caption2.monospaced()).foregroundStyle(.tertiary)
+                    .accessibilityLabel("Key \(field.key)")
             }
         }
     }
@@ -349,9 +356,29 @@ struct FieldsEditor: View {
     let fields: [Field]
     @Binding var object: [String: JSONValue]
     let pinNames: [String]
+    /// Set inside a wizard step (plan-46-I); nil in All fields, which shows
+    /// every field.
+    @Environment(\.guidedFields) private var guided
 
     var body: some View {
-        ForEach(fields) { field in
+        if let guided, let conditions = PartKinds.conditions[guided.kind] {
+            let layout = GuidedFieldLayout.make(fields: fields, path: guided.bare, conditions: conditions,
+                                                object: object)
+            editors(layout.leading + layout.shown)
+            if !layout.more.isEmpty {
+                DisclosureGroup("More \(guided.label.lowercased()) settings") {
+                    editors(layout.more)
+                }
+            }
+        } else {
+            ForEach(fields) { field in
+                AnyView(FieldEditor(field: field, value: $object.key(field.key), pinNames: pinNames))
+            }
+        }
+    }
+
+    private func editors(_ keys: [String]) -> some View {
+        ForEach(keys.compactMap { key in fields.first { $0.key == key } }) { field in
             AnyView(FieldEditor(field: field, value: $object.key(field.key), pinNames: pinNames))
         }
     }

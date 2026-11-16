@@ -181,6 +181,9 @@ struct KindFieldsSection: View {
     var keys: [String]? = nil
     /// The section's header; the kind's name when nil. "" for no header.
     var title: String? = nil
+    /// A wizard step's fields: keys that belong to another choice are hidden
+    /// and each field shows its key (plan-46-I). All fields never sets it.
+    var guided = false
 
     var body: some View {
         if let schema = model.draft.schema {
@@ -198,7 +201,9 @@ struct KindFieldsSection: View {
 
     @ViewBuilder private func editors(_ fields: (device: [Field], part: [Field])) -> some View {
         FieldsEditor(fields: fields.device, object: $model.draft.kindDevice, pinNames: model.draft.pinNames)
+            .environment(\.guidedFields, guided ? GuidedFields(kind: model.draft.kind, path: "device") : nil)
         FieldsEditor(fields: fields.part, object: $model.draft.kindPart, pinNames: model.draft.pinNames)
+            .environment(\.guidedFields, guided ? GuidedFields(kind: model.draft.kind, path: "part") : nil)
     }
 
     /// The fields the section shows, by side (pure, for the tests).
