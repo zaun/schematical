@@ -1273,7 +1273,13 @@ final class PartCatalogStore {
 
     /// Facts about the listed parts, by drawer group, for the drawer's
     /// header menus, plus what the search and the sort need.
-    private final class Derived {
+    ///
+    /// `nonisolated`: it is plain data, and a main-actor class has an isolated
+    /// deinit, which aborts the test host when `register` drops the cache
+    /// inside a test ("pointer being freed was not allocated" in
+    /// `swift_task_deinitOnExecutor`, macOS 15.8; `TestSupport.newDocument()`
+    /// notes the same for documents).
+    nonisolated private final class Derived {
         var kindsByGroup: [String: Set<UInt32>] = [:]
         var tactileGroups: Set<String> = []
         var familiesByCategory: [String: Set<String>] = [:]

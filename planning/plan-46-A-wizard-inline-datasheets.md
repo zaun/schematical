@@ -111,6 +111,7 @@ here.
 | The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p46-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-16 at 4218bb74, re-run at plan start: `** BUILD SUCCEEDED **`) |
 | No inline datasheets yet | `grep -c '"datasheets"' backend/src/library/library.c` → 3 (`DATASHEET_FILE_KEYS` :1133, `read_datasheets`' member :1160, `load_datasheets`' source name :1235; none in `PART_FILE_KEYS`) | MET (2026-11-16 at 4218bb74, re-run at plan start: 3) |
 | No `generic` kind yet | `grep -c 'PART_GENERIC' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/generic.json` → no such file | MET (2026-11-16 at 4218bb74, re-run at plan start: 0, `No such file or directory`) |
+| The editor's save/open tests are green (added while executing, § Corrections 1) | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/PartFileSaveOpenTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` | MET (2026-11-16: NOT MET at 4218bb74 — `testAddToLibrary` aborted the host; fixed in this plan, § Corrections 1; then `Executed 6 tests, with 0 failures`, `** TEST SUCCEEDED **`) |
 | No wizard yet | `ls schematical/schematical/Editor/ \| grep -ci wizard` → 0 | MET (2026-11-16 at 4218bb74, re-run at plan start: 0) |
 
 Everything below is written against the world where these hold.
@@ -280,7 +281,7 @@ existing `.schpart` and every schematic that embeds one loads unchanged
 
 Acceptance: the eight cases pass and the bundled library is unchanged.
   Check: `cmake --build /tmp/logic-p46 -j8 && ctest --test-dir /tmp/logic-p46 -R 'part_file_test|library_check|listing_check|footprint_check'` → `100% tests passed, 0 tests failed out of 4`; `git diff --stat backend/tests/golden` → empty (est. 4 min).
-Commit: —
+Commit: c7984f75
 
 ### Phase 2 — The draft keeps the array
 
@@ -346,7 +347,30 @@ Commit: —
 
 ## Corrections
 
-None yet.
+1. **A prerequisite no row covered: `PartFileSaveOpenTests` was not green at
+   the base (4218bb74).** Phase 2's check ran `testAddToLibrary` into
+   `malloc: *** error for object 0x292bd8b30: pointer being freed was not
+   allocated` and `Test crashed with signal abrt` — with this plan's
+   `library.c` and with the base's (`git show 4218bb74:backend/src/library/library.c`
+   put in place for one run: the same abort), so not A's change. A debugger
+   attached to the test host (`process attach --name schematical --waitfor`,
+   a breakpoint on `malloc_error_break`) gave the stack:
+   `PartCatalogStore.register` → `PartCatalogStore.Derived.__deallocating_deinit`
+   → `swift_task_deinitOnExecutorImpl` → `TaskLocal::StopLookupScope::~StopLookupScope`
+   → `___BUG_IN_CLIENT_OF_LIBMALLOC_POINTER_BEING_FREED_WAS_NOT_ALLOCATED`.
+   `Derived` (the drawer's fact cache, a180f7c3) is a class nested in the
+   main-actor `PartCatalogStore`, so it had an isolated deinit, and
+   `register` frees it (`derivedCache = nil`) inside the test: the Swift
+   runtime abort `TestSupport.newDocument()` already documents for
+   documents. Fix: `Derived` is `nonisolated` (it is plain data). Added as a
+   Prerequisites row with its check; landed as its own commit before
+   Phase 2. Every later letter's app check registers parts, so they all
+   rested on it.
+2. Phase 1's test cases are labelled `(ds-a)`…`(ds-h)`: `part_file_test`
+   already had cases `(a)`…`(j)`.
+3. § 3's `read_part_file` bullet is implemented as a helper,
+   `read_inline_datasheets`, called from `read_part_file` (the same
+   behavior and messages).
 
 ## Summary
 
