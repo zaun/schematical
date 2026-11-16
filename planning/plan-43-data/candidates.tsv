@@ -45,7 +45,6 @@ transistor	plan-43	CSD17311Q5	Texas Instruments	2576	Active	datasheets/transisto
 transistor	plan-43	SI2371EDS-T1-BE3	Vishay Siliconix	9006	Active	datasheets/transistor/vishay-siliconix/si2371eds.pdf	Si2371EDS	Discrete Semiconductor Products > Transistors > FETs, MOSFETs > Single FETs, MOSFETs
 transistor	plan-43	BC807-40LT1G	onsemi	83768	Active	datasheets/transistor/onsemi/BC807-16LT1-D.PDF	BC807-40/PNP/SOT23 	Discrete Semiconductor Products > Transistors > Bipolar (BJT) > Single Bipolar Transistors
 transistor	plan-43	BC817-25LT1G	onsemi	248246	Active	datasheets/transistor/onsemi/bc817-16lt1-d.pdf	BC817-25	Discrete Semiconductor Products > Transistors > Bipolar (BJT) > Single Bipolar Transistors
-transistor	plan-43	MBT3904DW1T3G	onsemi	45465	Active	datasheets/transistor/onsemi/MBT3904DW1T1-D.PDF	MBT3904DW1	Discrete Semiconductor Products > Transistors > Bipolar (BJT) > Bipolar Transistor Arrays
 amplifier	later	AD826ANZ	Analog Devices Inc.	2229	Active	datasheets/instrumentation-op-amps-buffer-amps/analog-devices-inc/AD826.pdf	AD826ANZ	Integrated Circuits (ICs) > Linear > Amplifiers > Instrumentation, Op Amps, Buffer Amps
 amplifier	later	LT6231IS8#PBF	Analog Devices Inc.	11557	Active	datasheets/instrumentation-op-amps-buffer-amps/analog-devices-inc/623012fc.pdf	LT6231	Integrated Circuits (ICs) > Linear > Amplifiers > Instrumentation, Op Amps, Buffer Amps
 amplifier	later	SSM2603CPZ-REEL	Analog Devices Inc.	7060	Active	datasheets/codecs/analog-devices-inc/SSM2603.pdf	SSM2603	Integrated Circuits (ICs) > Interface > CODECS
@@ -299,3 +298,4 @@ diode	skipped	B5819W	MDD	3600000	Active	datasheets/diode/mdd/SOD123819WS0SL.pdf	
 diode	skipped	1N5819WS	Shenzhen Slkormicro Semicon Co., Ltd.	288462	Active	datasheets/diode/shenzhen-slkormicro-semicon-co/5399_1N5819WS SOD-323.PDF	1N5819WS	Discrete Semiconductor Products > Diodes > Rectifiers > Single Diodes
 transistor	skipped	FS8205A	EVVO	6230	Active	datasheets/transistor/evvo/FS8205A-new.pdf	FS8205A	Discrete Semiconductor Products > Transistors > FETs, MOSFETs > FET, MOSFET Arrays
 transistor	skipped	S8050	Shenzhen Slkormicro Semicon Co., Ltd.	62834	Active	datasheets/transistor/shenzhen-slkormicro-semicon-co/5399_S8050 SOT-23.PDF	S8050	Discrete Semiconductor Products > Transistors > Bipolar (BJT) > Single Bipolar Transistors
+transistor	skipped	MBT3904DW1T3G	onsemi	45465	Active	datasheets/transistor/onsemi/MBT3904DW1T1-D.PDF	MBT3904DW1	Discrete Semiconductor Products > Transistors > Bipolar (BJT) > Bipolar Transistor Arrays

@@ -51,13 +51,13 @@ Every other letter points here.
 
 | Must be true | Command | Status |
 |---|---|---|
-| Backend tests green | `cmake -S backend -B /tmp/logic-p43 && cmake --build /tmp/logic-p43 -j8 && ctest --test-dir /tmp/logic-p43 -j8` → `100% tests passed` | MET (2026-11-15 at 834ef073: `100% tests passed, 0 tests failed out of 36`; T0 = 36) |
-| Golden sizes recorded | `wc -l backend/tests/golden/parts.txt backend/tests/golden/traces.txt backend/tests/golden/footprints.txt` | MET (2026-11-15 at 834ef073): **P0 = 32854**, **R0 = 32854**, **F0 = 1624** |
-| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p43-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | NOT RUN at planning; run before Phase 1 |
-| None of the 47 is in the library | `python3 -I -c "import json,glob,csv; n={p['name'] for f in glob.glob('schematical/schematical/Parts/*.json') for d in json.load(open(f)).get('devices',[]) for p in d['parts']}; print(sum(r['mpn'] in n for r in csv.DictReader(open('planning/plan-43-data/census/fit.tsv'),delimiter='\t')))"` → 0 | MET (2026-11-15 at 834ef073: 0) |
-| plan-42 has not started | `ls datasheets/regulator schematical/schematical/Parts/regulator.json 2>&1 \| grep -c 'No such file'` → 2 | MET (2026-11-15: 2). Owner, 2026-11-15: plan-43 runs first; plan-42 starts after plan-43-E is archived |
-| The downloaded PDFs are in the working tree | `python3 -I planning/plan-43-data/census/refile.py --dry-run` → `5 deleted`, `4 kept in place`, `38 to a kind directory`, `217 to reference-boards`, `240 datasheets.tsv lines carried` | MET (2026-11-15: those five lines) |
-| The lookup log is present | `test -f routing-example/datasheets-log.tsv && echo ok` → `ok` | MET (2026-11-15) |
+| Backend tests green | `cmake -S backend -B /tmp/logic-p43 && cmake --build /tmp/logic-p43 -j8 && ctest --test-dir /tmp/logic-p43 -j8` → `100% tests passed` | MET (2026-11-15 at 7410acd9, build directory `/tmp/logic-p43w`: `100% tests passed, 0 tests failed out of 36`; T0 = 36) |
+| Golden sizes recorded | `wc -l backend/tests/golden/parts.txt backend/tests/golden/traces.txt backend/tests/golden/footprints.txt` | MET (2026-11-15 at 7410acd9): **P0 = 32854**, **R0 = 32854**, **F0 = 1624** |
+| The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p43-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-15 at 7410acd9: `** BUILD SUCCEEDED **`) |
+| None of the 47 is in the library | `python3 -I -c "import json,glob,csv; n={p['name'] for f in glob.glob('schematical/schematical/Parts/*.json') for d in json.load(open(f)).get('devices',[]) for p in d['parts']}; print(sum(r['mpn'] in n for r in csv.DictReader(open('planning/plan-43-data/census/fit.tsv'),delimiter='\t')))"` → 0 | MET (2026-11-15 at 7410acd9: 0) |
+| plan-42 has not started | `ls datasheets/regulator schematical/schematical/Parts/regulator.json 2>&1 \| grep -c 'No such file'` → 2 | MET (2026-11-15, re-run in the worktree: 2). Owner, 2026-11-15: plan-43 runs first; plan-42 starts after plan-43-E is archived |
+| The downloaded PDFs are in the working tree | `python3 -I planning/plan-43-data/census/refile.py --dry-run` → `5 deleted`, `4 kept in place`, `38 to a kind directory`, `217 to reference-boards`, `240 datasheets.tsv lines carried` | MET (2026-11-15, re-run in the worktree after the PDFs were moved into it, § Corrections: those five lines) |
+| The lookup log is present | `test -f routing-example/datasheets-log.tsv && echo ok` → `ok` | MET (2026-11-15: the log was copied into the worktree, § Corrections) |
 
 Everything below is written against the world where these hold.
 
@@ -250,44 +250,57 @@ are numbered when written). "Needs" is what the library lacks today.
 
 ### Phase 1 — Census re-check and filing
 
-- [ ] Run `cd planning/plan-43-data && python3 -I census/classify.py
+- [x] Run `cd planning/plan-43-data && python3 -I census/classify.py
       ../../routing-example/datasheets-log.tsv`; `git diff --stat
-      planning/plan-43-data/candidates.tsv` shows nothing.
-- [ ] Run `eval "$(grep -E '^export DIGIKEY_CLIENT_(ID|SECRET)=' ~/.zshrc)"
+      planning/plan-43-data/candidates.tsv` shows nothing. — `300 parts`,
+      `plan-43 47`; `git status --short planning` empty.
+- [x] Run `eval "$(grep -E '^export DIGIKEY_CLIENT_(ID|SECRET)=' ~/.zshrc)"
       && rm planning/plan-43-data/raw/*.json && (cd planning/plan-43-data &&
       python3 -I census/lookup.py)` (47 API calls). A row that is now `NOT
       FOUND`, not Active or without stock leaves plan-43: move its line from
       `census/fit.tsv` to `census/skip.tsv` with the reason, re-run
-      `classify.py`, and record it in § Corrections.
-- [ ] Run `python3 -I planning/plan-43-data/census/refile.py` from the
+      `classify.py`, and record it in § Corrections. — `47 rows; 0 not
+      found; 0 with no stock` (899 calls left); `facts.tsv` unchanged.
+- [x] Run `python3 -I planning/plan-43-data/census/refile.py` from the
       repository root. A second run changes nothing: `git status --short
-      -uall datasheets | shasum` is the same before and after it.
-- [ ] Replace the two files and delete the third as § 4's table says
+      -uall datasheets | shasum` is the same before and after it. — `5
+      deleted, 4 kept in place, 38 to a kind directory, 217 to
+      reference-boards, 240 datasheets.tsv lines carried`; shasum
+      `86550af2…` both times.
+- [x] Replace the two files and delete the third as § 4's table says
       (`curl -sL -A 'Mozilla/5.0' -o <to> <url>`; `head -c 5 <to>` →
-      `%PDF-`), and fix their `datasheets.tsv` lines.
+      `%PDF-`), and fix their `datasheets.tsv` lines. — AO3400A.pdf 317848
+      bytes, SG-210STF_en.pdf 916955 bytes, both `%PDF-`; the AO3400A line
+      rewritten, the PdfFile_148489 line removed (`datasheets/osc` has no
+      `datasheets.tsv`).
+- [x] (added) Drop `MBT3904DW1T3G`: moved from `census/fit.tsv` to
+      `census/skip.tsv`, its `targets.tsv` row, PDF and `datasheets.tsv`
+      line removed, `classify.py` and `lookup.py` re-run (§ Corrections). —
+      `plan-43 46`, `skipped 6`; `46 rows; 0 not found; 0 with no stock`.
 
 Acceptance: § 1's second and third goals.
-  Check: the two commands of § 1 → `0` and `48` (est. 1 min).
+  Check: the two commands of § 1 → `0` and `48` (est. 1 min). — `0`, `48`.
 Commit: —
 
 ### Phase 2 — Skips, todo
 
-- [ ] `datasheets/skipped-parts.md`: add `## Reference boards (plan-43)` at
+- [x] `datasheets/skipped-parts.md`: add `## Reference boards (plan-43)` at
       the end, with one table row per line of `census/skip.tsv` (part,
       maker, "would have gone into" = `diode` / Discrete → Diodes →
       Schottky for the three diodes, `transistor` / Discrete → Transistors
       → MOSFET → Array for FS8205A, → BJT → NPN for S8050; the reason
       column verbatim). Add the 20 downloads that failed as one sentence
-      naming `routing-example/datasheets-log.tsv`.
-- [ ] `datasheets/skipped-parts.md` line 480: remove `BAT54C-G3-08` from
+      naming `routing-example/datasheets-log.tsv`. — done; the section
+      also points at the plan-40 row that already lists `MBT3904DW1T3G`.
+- [x] `datasheets/skipped-parts.md` line 480: remove `BAT54C-G3-08` from
       the part list (plan-43-B adds it).
-- [ ] `planning/todo.md`, section Datasheets: add `- [ ] Reference-board
+- [x] `planning/todo.md`, section Datasheets: add `- [ ] Reference-board
       parts: 248 parts in 20 families wait for a kind (planning/plan-43-A
       § 5, planning/plan-43-data/candidates.tsv).`
 
 Acceptance: `grep -c 'Reference boards (plan-43)' datasheets/skipped-parts.md`
 → 1; `sed -n 480p datasheets/skipped-parts.md | grep -c 'BAT54C-G3-08'` → 0.
-  Check: those two commands (est. 1 min).
+  Check: those two commands (est. 1 min). — `1`, `0`.
 Commit: —
 
 ## Validation Plan
@@ -312,6 +325,32 @@ Commit: —
 - The waiting PDFs live under `datasheets/reference-boards/` — author.
 
 ## Corrections
+
+- **The worktree had none of the planning-time working files** (2026-11-15).
+  `/follow-plan` works in `.claude/worktrees/P-43`, forked from `main`; the
+  264 untracked PDFs, 71 untracked `datasheets.tsv` files, the three modified
+  `datasheets.tsv` files and the git-ignored lookup log were in the main
+  checkout. Before the gate was run, the untracked files were moved into the
+  worktree, the three modified files copied and restored in the main
+  checkout (`git checkout -- <the three paths>`), and
+  `routing-example/datasheets-log.tsv` copied. The plan files were committed
+  on `main` first (7410acd9), since the worktree is forked from it.
+- **The backend was built in `/tmp/logic-p43w`** (Release), not
+  `/tmp/logic-p43`, to keep it apart from the planning-time build. Every
+  check of B–E that names `/tmp/logic-p43` uses `/tmp/logic-p43w`.
+- **46 parts, not 47: `MBT3904DW1T3G` is skipped.** Its datasheet's ordering
+  table lists `MBT3904DW1T1G`, `SMBT3904DW1T1G` and `NSVMBT3904DW1T3G` only
+  (`pdftotext -layout datasheets/transistor/onsemi/MBT3904DW1T1-D.PDF - |
+  grep -A14 ORDERING`), and `datasheets/skipped-parts.md` § Transistors
+  (plan-40) already lists it as "not in the datasheet's ordering table".
+  Planning missed that row. Effects: `census/skip.tsv` has 6 rows;
+  `classify.py` prints `plan-43 46`, `skipped 6`; `targets.tsv` and
+  `facts.tsv` have 46 rows; B adds 12 transistors (26 parts, 32854 → 32880);
+  C ends at 32894 and D at 32900; the untracked PDF count after filing is
+  one lower. Every "47" above reads 46, every "5 skipped" reads 6.
+  The same check (the part number is in its datasheet's ordering
+  information) is applied to every other part as B, C and D read its
+  datasheet.
 
 ## Summary
 
