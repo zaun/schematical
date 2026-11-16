@@ -22,6 +22,9 @@ struct PartLook {
         case radialLED(Tint)
         case squareLED(Tint)
         case sevenSegment(digits: Int, tint: Tint)
+        /// A nixie tube: a glass envelope standing on the board (side view)
+        /// or a low one read from above (end view).
+        case nixie(endView: Bool, tint: Tint)
         case lcd(columns: Int, rows: Int)
         case dipSwitch(positions: Int)
         case tactile
@@ -75,6 +78,8 @@ struct PartLook {
                 return .sevenSegment(digits: max(1, info.digits), tint: ledTint(info.color))
             }
             return .sevenSegment(digits: 1, tint: ledTint("Red"))
+        case PART_NIXIE:
+            return .nixie(endView: part.nixie?.view == "end", tint: ledTint(part.nixie?.color ?? "Orange"))
         case PART_SWITCH:
             if part.isTactileSwitch { return .tactile }
             return .dipSwitch(positions: max(1, chip.switchesOn.count))
@@ -180,6 +185,9 @@ struct PartLook {
         case .radialLED: 8.6
         case .squareLED: 4.5
         case .sevenSegment: 8
+        // A side-view tube stands about 2.2 diameters tall; an end-view one
+        // is about as tall as it is wide.
+        case let .nixie(endView, _): endView ? short * 0.9 : short * 2.2
         case .lcd: 12
         case .dipSwitch: 3.8
         case .tactile: 5
@@ -439,6 +447,23 @@ struct PartLook {
         case let .sevenSegment(digits, tint):
             box(bodyRect, 0, h, Tint(0.20, 0.20, 0.21), top: Tint(0.07, 0.07, 0.08)) { layer in
                 drawDigits(digits, tint: tint, in: &layer)
+            }
+
+        case let .nixie(endView, tint):
+            // Glass over a dark base; the glow shows through the top.
+            let glass = Tint(0.50, 0.44, 0.38)
+            let glow: (inout GraphicsContext) -> Void = { layer in
+                let r = short * (endView ? 0.30 : 0.22)
+                layer.fill(Path(ellipseIn: CGRect(x: -r, y: -r, width: 2 * r, height: 2 * r)),
+                           with: .radialGradient(Gradient(colors: [tint.color.opacity(0.9), tint.color.opacity(0)]),
+                                                 center: .zero, startRadius: 0, endRadius: r))
+            }
+            if footprint.bodyRound {
+                can(.zero, short / 2, 0, 1.5, Tint(0.12, 0.12, 0.12))
+                can(.zero, short / 2 * 0.97, 1.5, h, glass, top: glass.shaded(1.15), decorate: glow)
+            } else {
+                box(bodyRect, 0, 1.5, Tint(0.12, 0.12, 0.12), radius: short * 0.2)
+                box(bodyRect, 1.5, h, glass, top: glass.shaded(1.15), radius: short * 0.2, decorate: glow)
             }
 
         case let .lcd(columns, rows):

@@ -378,6 +378,14 @@ struct SchematicCanvasView: View {
                             connectedPins: connectedPins[chip.id] ?? [],
                             levels: simulation.lights[chip.id] ?? []
                         )
+                    case .nixie:
+                        NixieSymbolView(
+                            chip: chip,
+                            isSelected: document.isSelected(.chip(chip.id)),
+                            isHovered: chip.id == hoveredChipID,
+                            connectedPins: connectedPins[chip.id] ?? [],
+                            levels: simulation.lights[chip.id] ?? []
+                        )
                     case .characterLCD:
                         CharacterLCDSymbolView(
                             chip: chip,

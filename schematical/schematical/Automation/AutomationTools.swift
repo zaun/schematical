@@ -343,7 +343,7 @@ enum AutomationGuide {
     Everything else (wires, labels, notes, traces, vias, holes, board texts) by the short id get_design / \
     get_board prints. Net labels connect by name: "label:CLK". A point on an existing wire is "@x,y".
 
-    Power symbols are parts too, placed by name: GND, 5V, 3V3, 2V5, 1V8, 1V2, 12V (pin "VCC"/"GND"), and \
+    Power symbols are parts too, placed by name: GND, 5V, 3V3, 2V5, 1V8, 1V2, 12V, 170V, 200V (pin "VCC"/"GND"), and \
     PULLDOWN / PULLUP-5V (a resistor to a rail). They aren't listed by search_parts. Their references look \
     like PWR1; use the reference place_part returns. Connect IC power pins to them like any other pin.
 

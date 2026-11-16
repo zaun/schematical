@@ -70,6 +70,8 @@ struct SchematicScene {
                 TactileSwitchSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired)
             case .sevenSegment:
                 SevenSegmentSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired, levels: [])
+            case .nixie:
+                NixieSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired, levels: [])
             case .characterLCD:
                 CharacterLCDSymbolView.paint(&placed, chip: chip, isSelected: false, isHovered: false, connectedPins: wired,
                                              frame: nil, backlights: [])

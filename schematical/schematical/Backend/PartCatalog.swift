@@ -170,6 +170,32 @@ nonisolated struct DisplayInfo: Hashable, Sendable {
     let commonPins: [Int]
 }
 
+/// A nixie tube's facts (`PartNixie`): one anode and one cathode per glyph.
+nonisolated struct NixieInfo: Hashable, Sendable {
+    /// What each cathode shows, in the order the simulation reports their
+    /// lights: a numeral, a symbol, "DP" (right decimal point) or "LDP".
+    let glyphs: [String]
+    /// Pin indices (into `CatalogPart.pins`): `cathodePins[i]` is glyph i's.
+    let cathodePins: [Int]
+    let anodePins: [Int]
+    /// The glow color name ("Orange").
+    let color: String
+    /// Character height, such as "18 mm".
+    let size: String
+    /// "side" (read through the envelope's side) or "end" (through its top).
+    let view: String
+    /// Firing voltage, the least the anode supply may be; maintaining
+    /// voltage; millivolts.
+    let strikeMV: UInt32
+    let sustainMV: UInt32
+    /// Cathode current range, microamps.
+    let currentMinUA: UInt32
+    let currentMaxUA: UInt32
+
+    /// The numerals and symbols, without the decimal points.
+    var characters: [String] { glyphs.filter { $0 != "DP" && $0 != "LDP" } }
+}
+
 /// A character LCD module's panel (`PartCharLcd.panel`).
 nonisolated enum LCDPanel: Hashable, Sendable {
     /// STN positive: dark dots on yellow-green.
@@ -343,6 +369,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         /// An LED: the colors a placed one may have; the first is the default.
         case led(colors: [String])
         case display(DisplayInfo)
+        case nixie(NixieInfo)
         case oscillator(family: String, minHz: UInt64, maxHz: UInt64, defaultHz: UInt64, enablePin: String?)
         /// `mv`: the supply's voltage in millivolts (0 for ground); `pull`:
         /// a pull-up or pull-down part (drives weakly).
@@ -450,8 +477,8 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
 
     /// The voltage shown in the drawer: the supply range ("2–6 V") for logic,
     /// memory and oscillators, the forward voltage ("VF 2–2.6 V") for a
-    /// 7-segment display, the rating ("24 V max") for a switch. Nil for LEDs
-    /// and supplies.
+    /// 7-segment display, the rating ("24 V max") for a switch, the firing
+    /// voltage ("170 V min") for a nixie tube. Nil for LEDs and supplies.
     var voltageLabel: String? {
         if let vcc {
             return "\(VoltageCheck.volts(vcc.minMV))–\(VoltageCheck.volts(vcc.maxMV)) V"
@@ -459,6 +486,8 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         switch details {
         case let .display(info) where info.vfMaxMV > 0:
             return "VF \(VoltageCheck.volts(info.vfMinMV))–\(VoltageCheck.volts(info.vfMaxMV)) V"
+        case let .nixie(info):
+            return "\(VoltageCheck.volts(info.strikeMV)) V min"
         case let .dipSwitch(_, _, ratedMV) where ratedMV > 0,
              let .tactileSwitch(_, ratedMV, _, _, _) where ratedMV > 0:
             return "\(VoltageCheck.volts(ratedMV)) V max"
@@ -576,6 +605,11 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         return nil
     }
 
+    var nixie: NixieInfo? {
+        if case let .nixie(info) = details { return info }
+        return nil
+    }
+
     var characterLCD: CharacterLCDInfo? {
         if case let .characterLCD(info) = details { return info }
         return nil
@@ -594,11 +628,12 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
     }
 
     /// The colors of an LED (the first is the default), or a 7-segment
-    /// display's one color. Empty for other parts.
+    /// display's or nixie tube's one color. Empty for other parts.
     var colors: [String] {
         switch details {
         case let .led(colors): return colors
         case let .display(info): return [info.color]
+        case let .nixie(info): return [info.color]
         default: return []
         }
     }
@@ -643,6 +678,7 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
             return [actuator] + (normallyClosed ? ["Normal close"] : [])
         case let .led(colors): return colors.count == 1 ? colors : ["\(colors.count) colors"]
         case let .display(info): return [info.color, info.size, info.commonAnode ? "CA" : "CC"]
+        case let .nixie(info): return [info.size, info.view == "end" ? "End view" : "Side view"]
         case let .oscillator(family, _, _, _, _): return [family]
         case .supply: return []
         case let .cpu(_, _, maxHz): return ["\(maxHz / 1_000_000) MHz"]
@@ -813,6 +849,19 @@ extension CatalogPart {
                 vfMaxMV: display.vf_max_mv,
                 segmentPins: indices(display.segment_pins, display.segment_pin_count),
                 commonPins: indices(display.common_pins, display.common_pin_count)
+            ))
+        } else if let nixie = part.nixie?.pointee {
+            details = .nixie(NixieInfo(
+                glyphs: (0..<nixie.glyph_count).map { string(nixie.glyphs?[$0]) },
+                cathodePins: indices(nixie.cathode_pins, nixie.glyph_count),
+                anodePins: indices(nixie.anode_pins, nixie.anode_pin_count),
+                color: string(nixie.color),
+                size: string(nixie.size),
+                view: string(nixie.view),
+                strikeMV: nixie.strike_mv,
+                sustainMV: nixie.sustain_mv,
+                currentMinUA: nixie.current_min_ua,
+                currentMaxUA: nixie.current_max_ua
             ))
         } else if let osc = part.oscillator?.pointee {
             details = .oscillator(family: string(osc.family), minHz: osc.min_hz, maxHz: osc.max_hz,
@@ -1128,6 +1177,7 @@ func symbol(for part: CatalogPart) -> PartSymbol {
     case PART_SWITCH: return part.isTactileSwitch ? .tactileSwitch : .dipSwitch
     case PART_LED: return .diode
     case PART_7SEG: return .sevenSegment
+    case PART_NIXIE: return .nixie
     case PART_CHARLCD: return .characterLCD
     case PART_OSCILLATOR: return .oscillator
     case PART_SUPPLY:
@@ -1648,12 +1698,13 @@ final class PartCatalogStore {
             }
     }
 
-    /// DIP switches, LEDs, 7-segment displays, character LCDs and the generic
-    /// header are listed with no function level. Tactile switches are grouped
+    /// DIP switches, LEDs, 7-segment displays, character LCDs, nixie tubes and
+    /// the generic header are listed with no function level. Tactile switches are grouped
     /// by body size instead (`drawerLeaf`).
     private static func listsPartsDirectly(_ parts: [CatalogPart]) -> Bool {
         parts.allSatisfy {
             ($0.kind == PART_SWITCH && !$0.isTactileSwitch) || $0.kind == PART_LED || $0.kind == PART_7SEG || $0.kind == PART_CHARLCD
+                || $0.kind == PART_NIXIE
                 || $0.kind == PART_HEADER
         }
     }

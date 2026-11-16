@@ -111,6 +111,9 @@ extension PartKinds {
             KindInfo(kind: "charlcd", name: "Character LCD",
                      blurb: "Text LCD modules with an HD44780-style controller: 16x2, 20x4.",
                      examples: ["NHD-0216BZ-FL-YBW"], group: .displays),
+            KindInfo(kind: "nixie", name: "Nixie Tube",
+                     blurb: "Neon numeric indicator tubes with one anode and a cathode per numeral: IN-14, IN-12A, IN-18.",
+                     examples: ["IN-14", "IN-18"], group: .displays),
 
             // Passives and discretes
             KindInfo(kind: "resistor", name: "Resistor",
@@ -164,7 +167,7 @@ extension PartKinds {
         "mux", "decoder", "arith", "counter", "shift", "register",
         "sram", "eeprom",
         "cpu", "mcu", "pio", "serial", "converter", "rtc",
-        "led", "7seg", "charlcd",
+        "led", "7seg", "charlcd", "nixie",
         "resistor", "capacitor", "diode", "transistor",
         "connector", "header", "switch",
         "supply", "oscillator",

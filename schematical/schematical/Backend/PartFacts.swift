@@ -59,6 +59,20 @@ nonisolated enum PartFacts {
             if info.vfMaxMV > 0 {
                 add("Forward voltage", "\(VoltageCheck.volts(info.vfMinMV))–\(VoltageCheck.volts(info.vfMaxMV)) V")
             }
+        case let .nixie(info):
+            add("Characters", info.characters.joined(separator: " "))
+            if info.glyphs.contains("LDP") && info.glyphs.contains("DP") {
+                add("Decimal points", "Left and right")
+            } else if info.glyphs.contains("LDP") || info.glyphs.contains("DP") {
+                add("Decimal point", info.glyphs.contains("DP") ? "Right" : "Left")
+            }
+            add("Character size", info.size)
+            add("Viewing", info.view == "end" ? "End view (through the top)" : "Side view")
+            add("Glow", info.color)
+            add("Firing voltage", "\(VoltageCheck.volts(info.strikeMV)) V (anode supply, minimum)")
+            add("Maintaining voltage", "\(VoltageCheck.volts(info.sustainMV)) V")
+            add("Cathode current", info.currentMinUA == info.currentMaxUA
+                ? "\(milli(info.currentMaxUA)) mA" : "\(milli(info.currentMinUA))–\(milli(info.currentMaxUA)) mA")
         case let .oscillator(family, minHz, maxHz, defaultHz, enablePin):
             add("Family", family)
             if let body = part.footprint?.body {
@@ -210,6 +224,7 @@ nonisolated enum PartFacts {
         case PART_RESISTOR: return "Resistor"
         case PART_TRANSISTOR: return "Transistor"
         case PART_GENERIC: return "Part"
+        case PART_NIXIE: return "Nixie tube"
         default: return ""
         }
     }

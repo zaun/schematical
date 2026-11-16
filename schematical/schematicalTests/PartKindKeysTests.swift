@@ -18,6 +18,7 @@ final class PartKindKeysTests: XCTestCase {
         "counter": ["counter.c", "counter_div.c", "seq.c"], "shift": ["shift.c", "shift_special.c", "seq.c"],
         "sram": ["sram.c"], "eeprom": ["eeprom.c"], "switch": ["switch.c"], "led": ["led.c"],
         "7seg": ["display7.c"], "oscillator": ["oscillator.c"], "supply": ["supply.c"],
+        "nixie": ["nixie.c"],
         // plan-32-J: `rg -l 'KEYS\[\] = '` over the kinds' files (Corrections there).
         "cpu": ["cpu.c"], "pio": ["pio.c", "pio_pia6521.c", "pio_via6522.c"],
         "serial": ["serial.c", "serial_acia6551.c", "serial_ay1013.c", "serial_com78c80x.c", "serial_hs82c52.c",

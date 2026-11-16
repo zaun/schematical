@@ -29,6 +29,7 @@ KIND_FILES = {
     "register": ["register.c", "seq.c"],
     "resistor": ["resistor.c"], "capacitor": ["capacitor.c"], "transistor": ["transistor.c"],
     "mcu": ["mcu.c"],
+    "nixie": ["nixie.c"],
 }
 
 NAMES = {

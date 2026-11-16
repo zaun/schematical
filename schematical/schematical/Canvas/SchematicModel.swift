@@ -99,7 +99,7 @@ enum SchematicTool: String, CaseIterable, Identifiable {
 
 /// The supplies the VCC tool can place, in menu order (library part names).
 enum SupplyChoice {
-    static let names = ["5V", "3V3", "2V5", "1V8", "1V2", "12V"]
+    static let names = ["5V", "3V3", "2V5", "1V8", "1V2", "12V", "170V", "200V"]
     static let defaultName = "5V"
 }
 
@@ -139,6 +139,9 @@ nonisolated enum PartSymbol: Hashable {
     /// side B's on the right, a button in the middle.
     case tactileSwitch
     case sevenSegment
+    /// A nixie tube: cathodes on the left, the anode on the right, the tube
+    /// in the middle (`NixieSymbolView`).
+    case nixie
     case characterLCD
     case barrelJack
     /// A generic pin header (plan-23): pins on the left, and with two rows
@@ -264,6 +267,8 @@ nonisolated struct ChipLayout: Hashable {
             self = Self.tactileSwitch(pins)
         case .sevenSegment:
             self = Self.sevenSegment(pins, display: part.display)
+        case .nixie:
+            self = Self.nixie(pins, nixie: part.nixie)
         case .characterLCD:
             self = Self.characterLCD(pins, info: part.characterLCD)
         }
@@ -357,6 +362,39 @@ nonisolated struct ChipLayout: Hashable {
             slots.append(PinSlot(pin: pin, side: .right, centerY: centerY(forRow: row)))
         }
         let width = SchematicGrid.snap(sevenSegmentFaceWidth(display) + 2 * sevenSegmentNameColumn + 5)
+        return ChipLayout(
+            size: CGSize(width: max(width, bodyWidth), height: headerHeight + pitch * CGFloat(rows)),
+            slots: slots
+        )
+    }
+
+    /// Nixie tube: the glass in the middle of the body, with a column for pin
+    /// names on each side (`sevenSegmentNameColumn`).
+    static let nixieFaceSize = CGSize(width: 40, height: 64)
+
+    /// Cathode pins on the left, in glyph order; the anode on the right,
+    /// then (after a gap) any no-connect pins.
+    private static func nixie(_ pins: [ChipPin], nixie: NixieInfo?) -> ChipLayout {
+        guard let nixie else { return ChipLayout(pins: pins) }
+        let byIndex = Dictionary(pins.map { ($0.index, $0) }, uniquingKeysWith: { first, _ in first })
+        let left = nixie.cathodePins.compactMap { byIndex[$0] }
+        let used = Set(nixie.cathodePins + nixie.anodePins)
+        let unused = pins.filter { !used.contains($0.index) }.sorted { $0.index < $1.index }
+        let right = stack([nixie.anodePins.compactMap { byIndex[$0] }, unused])
+        // At least enough rows for the glass.
+        let faceRows = Int(((nixieFaceSize.height + 16) / pitch).rounded(.up))
+        let rows = max(left.count, right.count, faceRows)
+
+        var slots: [PinSlot] = []
+        for (row, pin) in left.enumerated() {
+            slots.append(PinSlot(pin: pin, side: .left, centerY: centerY(forRow: row)))
+        }
+        for (row, pin) in right.enumerated() {
+            if let pin {
+                slots.append(PinSlot(pin: pin, side: .right, centerY: centerY(forRow: row)))
+            }
+        }
+        let width = SchematicGrid.snap(nixieFaceSize.width + 2 * sevenSegmentNameColumn + 5)
         return ChipLayout(
             size: CGSize(width: max(width, bodyWidth), height: headerHeight + pitch * CGFloat(rows)),
             slots: slots
