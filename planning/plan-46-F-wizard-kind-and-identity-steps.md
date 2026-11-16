@@ -133,7 +133,7 @@ produces.
 
 Acceptance: the model rules hold.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/WizardIdentityTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+Commit: 57c4a215 (one commit with Phase 2's code: the pages, the model and the retired picker share files, and `PartEditorScene` moved out of the deleted file)
 
 ### Phase 2 — The two pages; the picker retired
 
@@ -149,11 +149,25 @@ Commit: —
       with `kind`. (`xcodebuild … test
       -only-testing:schematicalTests/PartEditorWindowTests` → `Executed 9
       tests, with 0 failures`, `** TEST SUCCEEDED **`.)
-- [ ] Runtime check (run skill): New Part… → search `74HC00` → choose
+- [x] Runtime check (run skill): New Part… → search `74HC00` → choose
       SN74HC00N → Part number shows it; back → LED → the alert → OK;
       New Part… → no-simulation → name `SENSOR-1`, two pins, a 2-pad
       footprint → Add to Library → place it → Simulation › Run is
       disabled with "U1 (SENSOR-1) is not simulated". Pointer to (0, 0).
+      (2026-11-16, this plan's Debug build: New Part… opened one editor
+      window on `1. What are you making?` with `Choose what you are making`.
+      Search `74HC00` listed `CD74HC00E — NAND, DIP, Texas Instruments` …;
+      choosing SN74HC00N → step Part number, `SN74HC00N.2`, Texas
+      Instruments, DIP, 9 steps. Back → LED → sheet `Change to LED?` / `The
+      logic gate's own settings will be cleared. Pins, name, datasheet and
+      footprint are kept.` → Change → 7 steps, name `SN74HC00N.2` and the
+      14 pins (`1A` … `VCC`) kept. New Part… → Just a symbol and footprint →
+      `SENSOR-1`, pins `SIG` and `GND`, footprint `LED-0603` → Review `The
+      part loads: 2 pins` → Add to Library → `Added SENSOR-1 to the parts
+      drawer`; drawer Custom › Other › Other part (no simulation) ›
+      SENSOR-1 dragged onto the canvas → Simulation menu: `Run | enabled:
+      0`, `U1 (SENSOR-1) is not simulated`. Pointer left at (0, 0). This is
+      also plan-46-B's runtime proof.)
 
 Acceptance: steps 1–2 work in the real app, including a generic part placed and refused by Run.
   Check: the run-skill walk above (est. 15 min); `xcodebuild … test -only-testing:schematicalTests/PartEditorWindowTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
