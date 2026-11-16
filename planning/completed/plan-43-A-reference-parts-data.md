@@ -301,7 +301,7 @@ Commit: 6ce8fcfd
 Acceptance: `grep -c 'Reference boards (plan-43)' datasheets/skipped-parts.md`
 → 1; `sed -n 480p datasheets/skipped-parts.md | grep -c 'BAT54C-G3-08'` → 0.
   Check: those two commands (est. 1 min). — `1`, `0`.
-Commit: —
+Commit: 8b0aa4b2
 
 ## Validation Plan
 
