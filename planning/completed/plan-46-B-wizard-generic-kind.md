@@ -224,7 +224,7 @@ Commit: 3733c301
 
 Acceptance: both docs name the kind.
   Check: `grep -c 'generic`' docs/parts-format.md` → at least 1; `grep -c 'generic' docs/backend.md` → at least 1 more than before (est. 1 min).
-Commit: —
+Commit: a312598c
 
 ## Validation Plan
 
