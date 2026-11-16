@@ -60,16 +60,18 @@ Acceptance: the three edits are in place.
   Check: `grep -c 'USB-GCT' docs/parts-format.md` ≥ 1; `grep -c 'cts_219_08'
   docs/parts-format.md` ≥ 1; `grep -c 'plan-43' docs/parts-format.md` ≥ 1
   (est. 1 min). — 1, 1, 2.
-Commit: —
+Commit: 2d34dc87
 
 ### Phase 2 — Landing tier
 
-- [ ] Run every gate of the table on a fresh build directory
-      (`/tmp/logic-p43-land`) and record the observed values below it.
-- [ ] `planning/todo.md`: no item is ticked by plan-43 (the item A added
-      stays open for the later families).
-- [ ] Move `plan-43-A` … `plan-43-E` to `planning/completed/` (A–D as each
-      completes; E with this commit).
+- [x] Run every gate of the table on a fresh build directory
+      (`/tmp/logic-p43-land`) and record the observed values below it. —
+      observed 2026-11-15, below the table.
+- [x] `planning/todo.md`: no item is ticked by plan-43 (the item A added
+      stays open for the later families). — unchanged since plan-43-A.
+- [x] Move `plan-43-A` … `plan-43-E` to `planning/completed/` (A–D as each
+      completes; E with this commit). — A c94a9b47, B 937f0bea, C 6f1be566,
+      D 2d05625d; E in this commit.
 
 | Gate | Command | Expected |
 |---|---|---|
@@ -83,6 +85,21 @@ Commit: —
 | Tactile generator idle | `python3 -I planning/plan-27-data/gen-parts.py --dry-run` | `no changes` |
 | App | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p43-dd CODE_SIGNING_ALLOWED=NO build` | `** BUILD SUCCEEDED **` |
 | App tests | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p43-dd test -only-testing:schematicalTests/DatasheetCatalogTests -only-testing:schematicalTests/PartRegistrationTests -only-testing:schematicalTests/BillOfMaterialsTests CODE_SIGNING_ALLOWED=NO` | `** TEST SUCCEEDED **` |
+
+Observed (2026-11-15, worktree `P-43`, `main` still at 7410acd9):
+
+| Gate | Observed |
+|---|---|
+| Backend tests | `100% tests passed, 0 tests failed out of 36` (fresh `/tmp/logic-p43-land`, no compiler warning or error line) |
+| Goldens vs plan-43 start | `git diff b01bf200^ -- backend/tests/golden \| grep -c '^-[^-]'` → 0 |
+| Parts total | 32897 (32854 + 43) |
+| The parts are in | 43 of 43 `fit.tsv` rows |
+| Datasheet URLs | `42 of 42 URLs serve a PDF; 0 failed.`, exit 0 (ids passed with `xargs`; zsh does not split `$(…)` kept in a variable) |
+| Datasheet files | 0 missing |
+| Skipped parts listed | 1 |
+| Tactile generator idle | `no changes` |
+| App | `** BUILD SUCCEEDED **` |
+| App tests | `Executed 14 tests, with 0 failures`; `** TEST SUCCEEDED **` |
 
 Acceptance: every gate shows its expected value.
   Check: the table (est. 15 min: the app build and tests are most of it; no
