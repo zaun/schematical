@@ -217,12 +217,12 @@ Rejected alternatives:
 
 Acceptance: the registry is complete and names real parts.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/KindInfoTests -only-testing:schematicalTests/PartEditorWindowTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 8 min).
-Commit: —
+Commit: 1cb1e8cb
 
 ### Phase 2 — Steps
 
-- [ ] `Editor/Wizard/WizardSteps.swift` per § 3.2.
-- [ ] `schematicalTests/WizardStepsTests.swift`: the coverage invariant
+- [x] `Editor/Wizard/WizardSteps.swift` per § 3.2.
+- [x] `schematicalTests/WizardStepsTests.swift`: the coverage invariant
       over the 79 combinations; gate's steps are kind, identity,
       datasheet, pinout, supply, kind.essentials, kind.timing … footprint,
       review (the exact list asserted); a non-pull supply has no footprint
@@ -230,6 +230,10 @@ Commit: —
       keys over its steps (device bus, clock, grades, model, serial; part
       ctsA, fiveBitStops, grade, inputMax, intPin, resetClearsData, vcc —
       planning probe over `SerialDraft.swift`).
+      (79 combinations asserted: 19 + 60; the gate list per § Corrections 2;
+      serial with no model has 126 keys. `xcodebuild … test
+      -only-testing:schematicalTests/WizardStepsTests` → `Executed 7 tests,
+      with 0 failures`, `** TEST SUCCEEDED **`.)
 
 Acceptance: every kind × variant is covered exactly once.
   Check: `xcodebuild … test -only-testing:schematicalTests/WizardStepsTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
