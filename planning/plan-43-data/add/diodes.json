@@ -1,0 +1,51 @@
+{
+ "datasheets": [
+  {"id": "1n5819hw", "url": "https://www.diodes.com/assets/Datasheets/1N5819HW.pdf"},
+  {"id": "sdm03u40q", "url": "https://www.diodes.com/assets/Datasheets/SDM03U40Q.pdf"},
+  {"id": "srl23", "url": "https://diotec.com/request/datasheet/srl23.pdf"},
+  {"id": "infineon-bat60aseries-ds-en", "url": "https://www.infineon.com/dgdl/bat60aseries.pdf?folderId=db3a304313d846880113def5812204a1&fileId=db3a304313d846880113def70c9304a9"},
+  {"id": "bas16j", "url": "https://assets.nexperia.com/documents/data-sheet/BAS16J.pdf"},
+  {"id": "bzv55_ser", "url": "https://assets.nexperia.com/documents/data-sheet/BZV55_SER.pdf"},
+  {"id": "pmeg3050ep", "url": "https://assets.nexperia.com/documents/data-sheet/PMEG3050EP.pdf"},
+  {"id": "pmeg4005ej", "url": "https://assets.nexperia.com/documents/data-sheet/PMEG4005EJ.pdf"},
+  {"id": "nsr0530h-d", "url": "https://www.onsemi.com/pdf/datasheet/nsr0530h-d.pdf"},
+  {"id": "mbr1020vl", "url": "https://www.panjit.com.tw/upload/datasheet/MBR1020VL.pdf"},
+  {"id": "sm4007pla7", "url": "https://www.slkoric.com/upload/file/20240912/SM4007PLA7.pdf"}
+ ],
+ "footprints": [
+  {"id": "DIODE-SOD-523-DIODES", "description": "SOD-523 diode, Diodes Incorporated drawing, 1.2 x 0.8 mm body", "note": "Diodes Incorporated SOD523 suggested pad layout (R1), datasheets/diode/diodes/SDM03U40Q.pdf p.4: X 0.60, Y 0.70, G 0.80, X1 2.00 -> span 1.40; body E 1.20 mid (1.15-1.25) x D 0.80 mid (0.75-0.85). Pin 1 = cathode (band)", "style": "dual", "pins": 2, "perSide": 1, "body": {"width": 1.2, "height": 0.8}, "pitch": 1, "span": 1.4, "pad": {"width": 0.6, "height": 0.7, "shape": "rect"}},
+  {"id": "DIODE-SOD-323P-DIOTEC", "description": "PowerSOD-323 (SOD-323P) diode, Diotec drawing, 1.9 x 1.25 mm body", "note": "Diotec PowerSOD-323 / SOD-323P outline, datasheets/diode/diotec/srl23.pdf p.2: no land pattern; flat terminals under the body, cathode 1.4 long x 0.85 wide, anode 0.5 long x 0.6 wide, 2.5 +-0.2 over the terminals. R4 (terminal length + 0.3 outward, width + 0.05), because R2's + 0.8 would leave no gap between the pads: cathode pad -1.55..0.15 (1.70 x 0.90), anode pad 0.75..1.55 (0.80 x 0.65); body 1.9 x 1.25. Pin 1 = cathode (the bigger terminal, band)", "style": "explicit", "pins": 2, "body": {"width": 1.9, "height": 1.25}, "pads": [{"pin": 1, "x": -0.7, "y": 0, "width": 1.7, "height": 0.9, "shape": "rect"}, {"pin": 2, "x": 1.15, "y": 0, "width": 0.8, "height": 0.65, "shape": "rect"}]},
+  {"id": "DIODE-SOD-323F-NEXPERIA", "description": "SOD-323F (SC-90) diode, Nexperia drawing, 1.7 x 1.25 mm body", "note": "Nexperia reflow soldering footprint for SC-90 (SOD323F), sod323f_fr (R1), datasheets/diode/nexperia/BAS16J.pdf p.5 (same on PMEG4005EJ.pdf p.5): solder lands 0.6 x 0.6, centres 2.2 apart; body 1.7 mid (1.6-1.8) x 1.25 mid (1.15-1.35). Pin 1 = cathode (band)", "style": "dual", "pins": 2, "perSide": 1, "body": {"width": 1.7, "height": 1.25}, "pitch": 1, "span": 2.2, "pad": {"width": 0.6, "height": 0.6, "shape": "rect"}},
+  {"id": "DIODE-MINIMELF-NEXPERIA", "description": "MiniMELF (SOD-80C) diode, Nexperia drawing, 3.5 x 1.53 mm body", "note": "Nexperia reflow soldering footprint SOD80C, sod080c (R1), datasheets/diode/nexperia/BZV55_SER.pdf p.9: solder lands 0.90 x 1.60, 2.30 between them -> centres 3.20; body 3.5 mid (3.3-3.7) x 1.525 mid (1.45-1.60) diameter, p.8. Pin 1 = cathode (band)", "style": "dual", "pins": 2, "perSide": 1, "body": {"width": 3.5, "height": 1.53}, "pitch": 1, "span": 3.2, "pad": {"width": 0.9, "height": 1.6, "shape": "rect"}},
+  {"id": "DIODE-SOD-123FL-PANJIT", "description": "SOD-123FL diode, Panjit drawing, 2.8 x 1.8 mm body", "note": "Panjit SOD-123FL mounting pad layout (R1), datasheets/diode/panjit/MBR1020VL.pdf p.3: pads 1.15 x 1.22, centres 3.10 apart (4.25 outer); body 2.80 mid (2.70-2.90) x 1.80 mid (1.70-1.90), p.1. Pin 1 = cathode (band)", "style": "dual", "pins": 2, "perSide": 1, "body": {"width": 2.8, "height": 1.8}, "pitch": 1, "span": 3.1, "pad": {"width": 1.15, "height": 1.22, "shape": "rect"}},
+  {"id": "DIODE-SOD-123FL-SLKOR", "description": "SOD-123FL diode, Slkor drawing, 2.7 x 1.73 mm body", "note": "Slkor SOD-123FL outline, datasheets/diode/slkor/SM4007PLA7.pdf p.1: no land pattern, so R2 (flat leads): lead foot 0.5-1.1 -> pad length 1.90; lead width 0.6-1.0 -> pad width 1.05; 3.5-3.9 over the leads -> span 3.9 + 1.0 - 1.9 = 3.00; body 2.70 mid (2.5-2.9) x 1.725 mid (1.55-1.90). Pin 1 = cathode (band)", "style": "dual", "pins": 2, "perSide": 1, "body": {"width": 2.7, "height": 1.73}, "pitch": 1, "span": 3.0, "pad": {"width": 1.9, "height": 1.05, "shape": "rect"}}
+ ],
+ "parts": {
+  "diode": {
+   "schottky-1": [
+    {"name": "1N5819HW-7-F", "manufacturer": "Diodes Incorporated", "datasheet": "1n5819hw", "package": "SOD-123", "pinout": "two-pin", "footprint": "DIODE-SOD-123-TSC-B", "vr": 40, "io": 1},
+    {"name": "SDM03U40Q-7", "manufacturer": "Diodes Incorporated", "datasheet": "sdm03u40q", "package": "SOD-523", "pinout": "two-pin", "footprint": "DIODE-SOD-523-DIODES", "flags": ["automotive"], "vr": 40, "io": 0.03},
+    {"name": "SRL23", "manufacturer": "Diotec Semiconductor", "datasheet": "srl23", "package": "SOD-323P", "pinout": "two-pin", "footprint": "DIODE-SOD-323P-DIOTEC", "vr": 30, "io": 2},
+    {"name": "BAT60AE6327HTSA1", "manufacturer": "Infineon Technologies", "datasheet": "infineon-bat60aseries-ds-en", "package": "SOD-323", "pinout": "two-pin", "footprint": "DIODE-SOD-323", "flags": ["automotive"], "vr": 10, "io": 3},
+    {"name": "PMEG3050EP,115", "manufacturer": "Nexperia", "datasheet": "pmeg3050ep", "package": "SOD-128", "pinout": "two-pin", "footprint": "DIODE-THIN-SMA", "vr": 30, "io": 5},
+    {"name": "PMEG4005EJF", "manufacturer": "Nexperia", "datasheet": "pmeg4005ej", "package": "SOD-323F", "pinout": "two-pin", "footprint": "DIODE-SOD-323F-NEXPERIA", "vr": 40, "io": 0.5},
+    {"name": "NSR0530HT1G", "manufacturer": "onsemi", "datasheet": "nsr0530h-d", "package": "SOD-323", "pinout": "two-pin", "footprint": "DIODE-SOD-323-ONSEMI", "vr": 30, "io": 0.5},
+    {"name": "MBR1020VL_R1_00001", "manufacturer": "Panjit", "datasheet": "mbr1020vl", "package": "SOD-123FL", "pinout": "two-pin", "footprint": "DIODE-SOD-123FL-PANJIT", "vr": 20, "io": 1}
+   ],
+   "switching-1": [
+    {"name": "BAS16J,135", "manufacturer": "Nexperia", "datasheet": "bas16j", "package": "SOD-323F", "pinout": "two-pin", "footprint": "DIODE-SOD-323F-NEXPERIA", "vr": 100, "io": 0.25}
+   ],
+   "zener-1": [
+    {"name": "BZV55-B2V4,115", "manufacturer": "Nexperia", "datasheet": "bzv55_ser", "package": "MiniMELF", "pinout": "two-pin", "footprint": "DIODE-MINIMELF-NEXPERIA", "vz": 2.4, "pd": 0.5},
+    {"name": "BZV55-C6V2,115", "manufacturer": "Nexperia", "datasheet": "bzv55_ser", "package": "MiniMELF", "pinout": "two-pin", "footprint": "DIODE-MINIMELF-NEXPERIA", "vz": 6.2, "pd": 0.5},
+    {"name": "BZX384C5V1-E3-08", "manufacturer": "Vishay", "datasheet": "bzx384", "package": "SOD-323", "pinout": "two-pin", "footprint": "DIODE-SOD-323", "vz": 5.1, "pd": 0.2}
+   ],
+   "rectifier-1": [
+    {"name": "SM4007PL", "manufacturer": "Slkor", "datasheet": "sm4007pla7", "package": "SOD-123FL", "pinout": "two-pin", "footprint": "DIODE-SOD-123FL-SLKOR", "vr": 1000, "io": 1}
+   ],
+   "schottky-cc2": [
+    {"name": "BAT54C-G3-08", "manufacturer": "Vishay", "datasheet": "bat54-g_bat54a-g_bat54c-g_bat54s-g", "package": "SOT-23", "pinout": "p3-a1-a2-k", "footprint": "SOT23-3", "vr": 30, "io": 0.2}
+   ]
+  }
+ }
+}

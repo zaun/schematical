@@ -721,6 +721,7 @@
 1N5819-E3/54|diode|DO-41|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=40000 io=1000|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=1n5817|footprint=DIODE-DO-41
 1N5819-E3/73|diode|DO-41|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=40000 io=1000|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=1n5817|footprint=DIODE-DO-41
 1N5819G|diode|DO-41|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=40000 io=1000|1:K:inout:default,2:A:inout:default|mfr=onsemi|datasheet=1n5817-d|footprint=DIODE-DO-41
+1N5819HW-7-F|diode|SOD-123|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=40000 io=1000|1:K:inout:default,2:A:inout:default|mfr=Diodes Incorporated|datasheet=1n5819hw|footprint=DIODE-SOD-123-TSC-B
 1N5819RLG|diode|DO-41|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=40000 io=1000|1:K:inout:default,2:A:inout:default|mfr=onsemi|datasheet=1n5817-d|footprint=DIODE-DO-41
 1N5820-E3/54|diode|DO-201AD|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=20000 io=3000|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=1n5820|footprint=DIODE-DO-201AD
 1N5820-E3/73|diode|DO-201AD|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=20000 io=3000|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=1n5820|footprint=DIODE-DO-201AD
@@ -5240,6 +5241,7 @@ BAS16DXV6T1G|diode|SOT-563|Discrete/Diodes|Switching|||type=switching diodes=2 v
 BAS16H RFG|diode|SOT-23|Discrete/Diodes|Fast recovery||automotive|type=fast diodes=1 vr=100000 io=215|1:A:inout:default,2:NC:nc:default,3:K:inout:default|mfr=Taiwan Semiconductor|datasheet=bas16h_a2412|footprint=SOT23-3-TSC
 BAS16HT1G|diode|SOD-323|Discrete/Diodes|Switching|||type=switching diodes=1 vr=100000 io=200|1:K:inout:default,2:A:inout:default|mfr=onsemi|datasheet=bas16ht1-d|footprint=DIODE-SOD-323-ONSEMI
 BAS16HT3G|diode|SOD-323|Discrete/Diodes|Switching|||type=switching diodes=1 vr=100000 io=200|1:K:inout:default,2:A:inout:default|mfr=onsemi|datasheet=bas16ht1-d|footprint=DIODE-SOD-323-ONSEMI
+BAS16J,135|diode|SOD-323F|Discrete/Diodes|Switching|||type=switching diodes=1 vr=100000 io=250|1:K:inout:default,2:A:inout:default|mfr=Nexperia|datasheet=bas16j|footprint=DIODE-SOD-323F-NEXPERIA
 BAS16L-G3-08|diode|DFN1006-2A|Discrete/Diodes|Fast recovery|||type=fast diodes=1 vr=100000 io=250|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=bas16l|footprint=DIODE-DFN1006
 BAS16L-HG3-08|diode|DFN1006-2A|Discrete/Diodes|Fast recovery||automotive|type=fast diodes=1 vr=100000 io=250|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=bas16l|footprint=DIODE-DFN1006
 BAS16LT1G|diode|SOT-23|Discrete/Diodes|Switching|||type=switching diodes=1 vr=100000 io=200|1:A:inout:default,2:NC:nc:default,3:K:inout:default|mfr=onsemi|datasheet=bas16lt1-d|footprint=SOT23-3-ONSEMI
@@ -5380,6 +5382,7 @@ BAT54AWT1G|diode|SC-70|Discrete/Diodes|Schottky|||type=schottky diodes=2 vr=3000
 BAT54BR RFG|diode|SOT-363|Discrete/Diodes|Schottky|||type=schottky diodes=4 vr=30000 io=200|1:-:inout:default,2:-:inout:default,3:AC2:inout:default,4:+:inout:default,5:+:inout:default,6:AC1:inout:default|mfr=Taiwan Semiconductor|datasheet=bat54t-series_h2111|footprint=SOT363-6
 BAT54C-E3-08|diode|SOT-23|Discrete/Diodes|Schottky|||type=schottky diodes=2 vr=30000 io=200|1:A1:inout:default,2:A2:inout:default,3:K:inout:default|mfr=Vishay|datasheet=bat54_bat54a_bat54c_bat54s|footprint=SOT23-3
 BAT54C-E3-18|diode|SOT-23|Discrete/Diodes|Schottky|||type=schottky diodes=2 vr=30000 io=200|1:A1:inout:default,2:A2:inout:default,3:K:inout:default|mfr=Vishay|datasheet=bat54_bat54a_bat54c_bat54s|footprint=SOT23-3
+BAT54C-G3-08|diode|SOT-23|Discrete/Diodes|Schottky|||type=schottky diodes=2 vr=30000 io=200|1:A1:inout:default,2:A2:inout:default,3:K:inout:default|mfr=Vishay|datasheet=bat54-g_bat54a-g_bat54c-g_bat54s-g|footprint=SOT23-3
 BAT54CD RFG|diode|SOT-363|Discrete/Diodes|Schottky|||type=schottky diodes=4 vr=30000 io=200|1:A1:inout:default,2:A2:inout:default,3:K3K4:inout:default,4:A3:inout:default,5:A4:inout:default,6:K1K2:inout:default|mfr=Taiwan Semiconductor|datasheet=bat54t-series_h2111|footprint=SOT363-6
 BAT54CH RFG|diode|SOT-23|Discrete/Diodes|Schottky||automotive|type=schottky diodes=2 vr=30000 io=200|1:A1:inout:default,2:A2:inout:default,3:K:inout:default|mfr=Taiwan Semiconductor|datasheet=bat54ch_a2501|footprint=SOT23-3-TSC
 BAT54CLT1G|diode|SOT-23|Discrete/Diodes|Schottky|||type=schottky diodes=2 vr=30000 io=200|1:A1:inout:default,2:A2:inout:default,3:K:inout:default|mfr=onsemi|datasheet=bat54clt1-d|footprint=SOT23-3-ONSEMI
@@ -5412,6 +5415,7 @@ BAT54WS-G3-08|diode|SOD-323|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr
 BAT54WS-G3-18|diode|SOD-323|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=30000 io=200|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=bat54ws-g|footprint=DIODE-SOD-323
 BAT54WS-HE3_A-08|diode|SOD-323|Discrete/Diodes|Schottky||automotive|type=schottky diodes=1 vr=30000 io=200|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=bat54ws|footprint=DIODE-SOD-323
 BAT54WT1G|diode|SC-70|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=30000 io=200|1:A:inout:default,2:NC:nc:default,3:K:inout:default|mfr=onsemi|datasheet=bat54wt1-d|footprint=SOT323-3
+BAT60AE6327HTSA1|diode|SOD-323|Discrete/Diodes|Schottky||automotive|type=schottky diodes=1 vr=10000 io=3000|1:K:inout:default,2:A:inout:default|mfr=Infineon Technologies|datasheet=infineon-bat60aseries-ds-en|footprint=DIODE-SOD-323
 BAT81S-TAP|diode|DO-35|Discrete/Diodes|Schottky||automotive|type=schottky diodes=1 vr=40000 io=30|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=bat81s82s|footprint=DIODE-DO-35
 BAT81S-TR|diode|DO-35|Discrete/Diodes|Schottky||automotive|type=schottky diodes=1 vr=40000 io=30|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=bat81s82s|footprint=DIODE-DO-35
 BAT83S-TR|diode|DO-35|Discrete/Diodes|Schottky||automotive|type=schottky diodes=1 vr=60000 io=30|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=bat81s82s|footprint=DIODE-DO-35
@@ -6618,6 +6622,8 @@ BZT55C75-GS08|diode|QuadroMELF|Discrete/Diodes|Zener||automotive|type=zener diod
 BZT55C7V5-GS08|diode|QuadroMELF|Discrete/Diodes|Zener||automotive|type=zener diodes=1 vz=7500 pd=500|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=bzt55|footprint=DIODE-MINIMELF
 BZT55C8V2-GS08|diode|QuadroMELF|Discrete/Diodes|Zener||automotive|type=zener diodes=1 vz=8200 pd=500|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=bzt55|footprint=DIODE-MINIMELF
 BZT55C9V1-GS18|diode|QuadroMELF|Discrete/Diodes|Zener||automotive|type=zener diodes=1 vz=9100 pd=500|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=bzt55|footprint=DIODE-MINIMELF
+BZV55-B2V4,115|diode|MiniMELF|Discrete/Diodes|Zener|||type=zener diodes=1 vz=2400 pd=500|1:K:inout:default,2:A:inout:default|mfr=Nexperia|datasheet=bzv55_ser|footprint=DIODE-MINIMELF-NEXPERIA
+BZV55-C6V2,115|diode|MiniMELF|Discrete/Diodes|Zener|||type=zener diodes=1 vz=6200 pd=500|1:K:inout:default,2:A:inout:default|mfr=Nexperia|datasheet=bzv55_ser|footprint=DIODE-MINIMELF-NEXPERIA
 BZV55B15 L0G|diode|MiniMELF|Discrete/Diodes|Zener|||type=zener diodes=1 vz=15000 pd=500|1:K:inout:default,2:A:inout:default|mfr=Taiwan Semiconductor|datasheet=bzv55b2v4-series_g2301|footprint=DIODE-MINIMELF-TSC
 BZV55C12 L0G|diode|MiniMELF|Discrete/Diodes|Zener|||type=zener diodes=1 vz=12000 pd=500|1:K:inout:default,2:A:inout:default|mfr=Taiwan Semiconductor|datasheet=bzv55c2v4-series_h2301|footprint=DIODE-MINIMELF-TSC
 BZV55C5V1 L0G|diode|MiniMELF|Discrete/Diodes|Zener|||type=zener diodes=1 vz=5100 pd=500|1:K:inout:default,2:A:inout:default|mfr=Taiwan Semiconductor|datasheet=bzv55c2v4-series_h2301|footprint=DIODE-MINIMELF-TSC
@@ -6628,6 +6634,7 @@ BZX384C18-HE3_A08|diode|SOD-323|Discrete/Diodes|Zener||automotive|type=zener dio
 BZX384C22-E3-18|diode|SOD-323|Discrete/Diodes|Zener|||type=zener diodes=1 vz=22000 pd=200|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=bzx384|footprint=DIODE-SOD-323
 BZX384C30-HE3_A08|diode|SOD-323|Discrete/Diodes|Zener||automotive|type=zener diodes=1 vz=30000 pd=200|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=bzx384|footprint=DIODE-SOD-323
 BZX384C3V9-HE3_A08|diode|SOD-323|Discrete/Diodes|Zener||automotive|type=zener diodes=1 vz=3900 pd=200|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=bzx384|footprint=DIODE-SOD-323
+BZX384C5V1-E3-08|diode|SOD-323|Discrete/Diodes|Zener|||type=zener diodes=1 vz=5100 pd=200|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=bzx384|footprint=DIODE-SOD-323
 BZX384C6V8-HE3_A08|diode|SOD-323|Discrete/Diodes|Zener||automotive|type=zener diodes=1 vz=6800 pd=200|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=bzx384|footprint=DIODE-SOD-323
 BZX55B10-TAP|diode|DO-35|Discrete/Diodes|Zener||automotive|type=zener diodes=1 vz=10000 pd=500|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=bzx55|footprint=DIODE-DO-35
 BZX55B10-TR|diode|DO-35|Discrete/Diodes|Zener||automotive|type=zener diodes=1 vz=10000 pd=500|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=bzx55|footprint=DIODE-DO-35
@@ -14472,6 +14479,7 @@ MBR10100-M3/4W|diode|TO-220|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr
 MBR10100CT-E3/4W|diode|TO-220|Discrete/Diodes|Schottky|||type=schottky diodes=2 vr=100000 io=5000|1:A1:inout:default,2:K:inout:default,3:A2:inout:default|mfr=Vishay|datasheet=mbr1090c|footprint=TO-220AB-3
 MBR10100G|diode|TO-220|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=100000 io=10000|1:K:inout:default,2:A:inout:default|mfr=onsemi|datasheet=mbr1080-d|footprint=TO-220-2-ONSEMI
 MBR10150CT|diode|TO-220|Discrete/Diodes|Schottky|||type=schottky diodes=2 vr=150000 io=10000|1:A1:inout:default,2:K:inout:default,3:A2:inout:default|mfr=Taiwan Semiconductor|datasheet=mbr1035ct-series_o2104|footprint=TO-220-3-TSC
+MBR1020VL_R1_00001|diode|SOD-123FL|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=20000 io=1000|1:K:inout:default,2:A:inout:default|mfr=Panjit|datasheet=mbr1020vl|footprint=DIODE-SOD-123FL-PANJIT
 MBR1045-E3/45|diode|TO-220|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=45000 io=10000|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=mbr10xx|footprint=TO-220-2
 MBR1045G|diode|TO-220|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=45000 io=10000|1:K:inout:default,2:A:inout:default|mfr=onsemi|datasheet=mbr1035-d|footprint=TO-220-2-ONSEMI
 MBR1060-E3/45|diode|TO-220|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=60000 io=10000|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=mbr10xx|footprint=TO-220-2
@@ -16489,6 +16497,7 @@ NSR0320MW2T3G|diode|SOD-323|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr
 NSR0340HT1G|diode|SOD-323|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=40000 io=250|1:K:inout:default,2:A:inout:default|mfr=onsemi|datasheet=nsr0340h-d|footprint=DIODE-SOD-323-ONSEMI
 NSR0340P2T5G|diode|SOD-923|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=40000 io=200|1:K:inout:default,2:A:inout:default|mfr=onsemi|datasheet=nsr0340p2-d|footprint=DIODE-SOD-923
 NSR0340V2T1G|diode|SOD-523|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=40000 io=250|1:K:inout:default,2:A:inout:default|mfr=onsemi|datasheet=nsr0340v2t1-d|footprint=DIODE-SOD-523-ONSEMI
+NSR0530HT1G|diode|SOD-323|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=30000 io=500|1:K:inout:default,2:A:inout:default|mfr=onsemi|datasheet=nsr0530h-d|footprint=DIODE-SOD-323-ONSEMI
 NSR0530P2T5G|diode|SOD-923|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=30000 io=500|1:K:inout:default,2:A:inout:default|mfr=onsemi|datasheet=nsr0530p2-d|footprint=DIODE-SOD-923
 NSR05F30NXT5G|diode|DSN2|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=30000 io=500|1:K:inout:default,2:A:inout:default|mfr=onsemi|datasheet=nsr05f30|footprint=DIODE-DSN2-1.0X0.6
 NSR05F40NXT5G|diode|DSN2|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=40000 io=500|1:K:inout:default,2:A:inout:default|mfr=onsemi|datasheet=nsr05f40-d|footprint=DIODE-DSN2-1.0X0.6
@@ -16962,6 +16971,8 @@ PMBT2222AQAZ|transistor|DFN1010D-3|Discrete/Transistors/BJT|NPN|||elements=1 typ
 PMBT3904QAZ|transistor|DFN1010D-3|Discrete/Transistors/BJT|NPN|||elements=1 type=npn mixed=0 vmax=40000 imax=200 power=440 hfe=100 rdson=0 vgsth=0 vgs=0 logic=0 r1=0 r2=0|1:B:input:default,2:E:inout:default,3:C:inout:default,4:C:inout:default|mfr=Nexperia|datasheet=nexperia-pmbt3904qa|footprint=DFN1010D-3-NEXPERIA
 PMBT5551,235|transistor|SOT-23|Discrete/Transistors/BJT|NPN|||elements=1 type=npn mixed=0 vmax=160000 imax=300 power=250 hfe=80 rdson=0 vgsth=0 vgs=0 logic=0 r1=0 r2=0|1:B:input:default,2:E:inout:default,3:C:inout:default|mfr=Nexperia|datasheet=nexperia-pmbt5551|footprint=SOT23-3-NEXPERIA
 PMBTA06,215|transistor|SOT-23|Discrete/Transistors/BJT|NPN|||elements=1 type=npn mixed=0 vmax=80000 imax=500 power=250 hfe=100 rdson=0 vgsth=0 vgs=0 logic=0 r1=0 r2=0|1:B:input:default,2:E:inout:default,3:C:inout:default|mfr=Nexperia|datasheet=nexperia-pmbta06|footprint=SOT23-3-NEXPERIA
+PMEG3050EP,115|diode|SOD-128|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=30000 io=5000|1:K:inout:default,2:A:inout:default|mfr=Nexperia|datasheet=pmeg3050ep|footprint=DIODE-THIN-SMA
+PMEG4005EJF|diode|SOD-323F|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=40000 io=500|1:K:inout:default,2:A:inout:default|mfr=Nexperia|datasheet=pmeg4005ej|footprint=DIODE-SOD-323F-NEXPERIA
 PMMT591A,215|transistor|SOT-23|Discrete/Transistors/BJT|PNP|||elements=1 type=pnp mixed=0 vmax=40000 imax=1000 power=250 hfe=300 rdson=0 vgsth=0 vgs=0 logic=0 r1=0 r2=0|1:B:input:default,2:E:inout:default,3:C:inout:default|mfr=Nexperia|datasheet=nexperia-pmmt591a|footprint=SOT23-3-NEXPERIA
 PMP3906AYSH|transistor|SOT-363|Discrete/Transistors/BJT|Array|||elements=2 type=pnp mixed=0 vmax=40000 imax=200 power=230 hfe=100 rdson=0 vgsth=0 vgs=0 logic=0 r1=0 r2=0|1:B1:input:default,2:B2:input:default,3:C2:inout:default,4:E2:inout:default,5:E1:inout:default,6:C1:inout:default|mfr=Nexperia|datasheet=nexperia-pmp3906ays|footprint=SOT363-6-NEXPERIA
 PMP5201Y,135|transistor|SOT-363|Discrete/Transistors/BJT|Array|||elements=2 type=pnp mixed=0 vmax=45000 imax=100 power=300 hfe=200 rdson=0 vgsth=0 vgs=0 logic=0 r1=0 r2=0|1:B1:input:default,2:B2:input:default,3:C2:inout:default,4:E2:inout:default,5:E1:inout:default,6:C1:inout:default|mfr=Nexperia|datasheet=nexperia-pmp5201y|footprint=SOT363-6-NEXPERIA
@@ -19591,6 +19602,7 @@ SD103CWH RHG|diode|SOD-123|Discrete/Diodes|Schottky||automotive|type=schottky di
 SD103CWS-E3-08|diode|SOD-323|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=20000 io=350|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=sd103aws_sd103bws_sd103cws|footprint=DIODE-SOD-323
 SDLW|diode|SOD-123W|Discrete/Diodes|Fast recovery|||type=fast diodes=1 vr=200000 io=800|1:K:inout:default,2:A:inout:default|mfr=Taiwan Semiconductor|datasheet=sdlw-series_c2103|footprint=DIODE-SOD-123W
 SDLWH|diode|SOD-123W|Discrete/Diodes|Rectifier||automotive|type=rectifier diodes=1 vr=200000 io=800|1:K:inout:default,2:A:inout:default|mfr=Taiwan Semiconductor|datasheet=sdlwh-series_a2103|footprint=DIODE-SOD-123W
+SDM03U40Q-7|diode|SOD-523|Discrete/Diodes|Schottky||automotive|type=schottky diodes=1 vr=40000 io=30|1:K:inout:default,2:A:inout:default|mfr=Diodes Incorporated|datasheet=sdm03u40q|footprint=DIODE-SOD-523-DIODES
 SE041C685KAR|capacitor|Radial|Discrete/Capacitors/Ceramic|6.8 µF|||type=ceramic ff=6800000000 rated=100000 dielectric=X7R tol=±10%|1:1:input:default,2:2:input:default|mfr=KYOCERA AVX|datasheet=se-style|footprint=CAP-RAD-5.08-10.2X5.08
 SE100N6D-M3/I|diode|DFN6546A|Discrete/Diodes|Rectifier|||type=rectifier diodes=1 vr=200000 io=3100|1:A:inout:default,2:A:inout:default,3:K:inout:default|mfr=Vishay|datasheet=se100n6d_se100n6g_se100n6j|footprint=DFN6546A-3
 SE100N6DHM3/I|diode|DFN6546A|Discrete/Diodes|Rectifier||automotive|type=rectifier diodes=1 vr=200000 io=3100|1:A:inout:default,2:A:inout:default,3:K:inout:default|mfr=Vishay|datasheet=se100n6d_se100n6g_se100n6j|footprint=DFN6546A-3
@@ -20333,6 +20345,7 @@ SL44HE3_B/I|diode|SMC|Discrete/Diodes|Schottky||automotive|type=schottky diodes=
 SM1MA142WAT1G|diode|SC-70|Discrete/Diodes|Switching||automotive|type=switching diodes=2 vr=80000 io=100|1:K1:inout:default,2:K2:inout:default,3:A:inout:default|mfr=onsemi|datasheet=m1ma141wat1-d|footprint=SOT323-3
 SM1MA142WKT1G|diode|SC-70|Discrete/Diodes|Switching||automotive|type=switching diodes=2 vr=80000 io=100|1:A1:inout:default,2:A2:inout:default,3:K:inout:default|mfr=onsemi|datasheet=m1ma141wkt1-d|footprint=SOT323-3
 SM1MA151WKT1G|diode|SC-59|Discrete/Diodes|Switching||automotive|type=switching diodes=2 vr=40000 io=100|1:A1:inout:default,2:A2:inout:default,3:K:inout:default|mfr=onsemi|datasheet=m1ma151wkt1-d|footprint=SC59-3
+SM4007PL|diode|SOD-123FL|Discrete/Diodes|Rectifier|||type=rectifier diodes=1 vr=1000000 io=1000|1:K:inout:default,2:A:inout:default|mfr=Slkor|datasheet=sm4007pla7|footprint=DIODE-SOD-123FL-SLKOR
 SMAZ5919B-E3/5A|diode|SMA|Discrete/Diodes|Zener|||type=zener diodes=1 vz=5600 pd=500|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=smaz59xb|footprint=DIODE-SMA
 SMAZ5919B-E3/61|diode|SMA|Discrete/Diodes|Zener|||type=zener diodes=1 vz=5600 pd=500|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=smaz59xb|footprint=DIODE-SMA
 SMAZ5919B-M3/61|diode|SMA|Discrete/Diodes|Zener|||type=zener diodes=1 vz=5600 pd=500|1:K:inout:default,2:A:inout:default|mfr=Vishay|datasheet=smaz59xb|footprint=DIODE-SMA
@@ -27012,6 +27025,7 @@ SR515 A0G|diode|DO-201AD|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=15
 SR806|diode|DO-201AD|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=60000 io=8000|1:K:inout:default,2:A:inout:default|mfr=Taiwan Semiconductor|datasheet=sr802-series_j2105|footprint=DIODE-DO-201AD-TSC
 SRAS2040|diode|D2PAK|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=40000 io=20000|1:K:inout:default,2:A:inout:default,3:K:inout:default|mfr=Taiwan Semiconductor|datasheet=sras2020-series_m2103|footprint=D2PAK-3-TSC
 SRF2060|diode|ITO-220|Discrete/Diodes|Schottky|||type=schottky diodes=2 vr=60000 io=20000|1:A1:inout:default,2:K:inout:default,3:A2:inout:default|mfr=Taiwan Semiconductor|datasheet=srf2020-series_j2105|footprint=ITO-220-3-TSC
+SRL23|diode|SOD-323P|Discrete/Diodes|Schottky|||type=schottky diodes=1 vr=30000 io=2000|1:K:inout:default,2:A:inout:default|mfr=Diotec Semiconductor|datasheet=srl23|footprint=DIODE-SOD-323P-DIOTEC
 SRVUD620CTT4G|diode|DPAK|Discrete/Diodes|Fast recovery||automotive|type=fast diodes=2 vr=200000 io=3000|1:A1:inout:default,2:A2:inout:default,3:K:inout:default|mfr=onsemi|datasheet=murd620ct-d|footprint=TO-252-2-TAB
 SS10P2CL-M3/86A|diode|SMPC|Discrete/Diodes|Schottky|||type=schottky diodes=2 vr=20000 io=5000|1:A1:inout:default,2:A2:inout:default,3:K:inout:default|mfr=Vishay|datasheet=ss10p3cl|footprint=SMPC-3
 SS10P2CLHM3_A/H|diode|SMPC|Discrete/Diodes|Schottky||automotive|type=schottky diodes=2 vr=20000 io=5000|1:A1:inout:default,2:A2:inout:default,3:K:inout:default|mfr=Vishay|datasheet=ss10p3cl|footprint=SMPC-3

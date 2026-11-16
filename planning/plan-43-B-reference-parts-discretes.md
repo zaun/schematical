@@ -29,8 +29,8 @@ plan-43-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-43-A complete | `ls planning/completed/plan-43-A-*.md` → exists | NOT MET (2026-11-15: not started) |
-| The 27 PDFs are filed | `awk -F'\t' '$1=="B"{print $13}' planning/plan-43-data/targets.tsv \| sort -u \| while read -r f; do test -f "$f" \|\| echo "missing $f"; done` → no output | NOT MET (A files them) |
+| plan-43-A complete | `ls planning/completed/plan-43-A-*.md` → exists | MET (2026-11-15: archived in c94a9b47) |
+| The 27 PDFs are filed | `awk -F'\t' '$1=="B"{print $13}' planning/plan-43-data/targets.tsv \| sort -u \| while read -r f; do test -f "$f" \|\| echo "missing $f"; done` → no output | MET (2026-11-15: no output; 26 rows after A's correction) |
 
 Everything below is written against the world where these hold.
 
@@ -174,18 +174,23 @@ the id with `"datasheet"`.
 
 ### Phase 1 — Diodes
 
-- [ ] Record the baselines in § Corrections: `grep -c '|diode|'
+- [x] Record the baselines in § Corrections: `grep -c '|diode|'
       backend/tests/golden/parts.txt`, `grep -c '|transistor|' …`, `wc -l <
-      backend/tests/golden/footprints.txt`.
-- [ ] Add the 14 diode parts (§ 4.1), their footprints (§ 4.3) and their
-      datasheet entries (§ 4.4).
-- [ ] Regenerate the goldens (`listing_check --print`, `trace_check
+      backend/tests/golden/footprints.txt`. — 11152, 1246, 1624.
+- [x] Add the 14 diode parts (§ 4.1), their footprints (§ 4.3) and their
+      datasheet entries (§ 4.4). — `python3 -I planning/plan-43-data/add/apply.py
+      planning/plan-43-data/add/diodes.json` → `datasheets +11`, `footprints
+      +6`, `diode +14 parts`.
+- [x] Regenerate the goldens (`listing_check --print`, `trace_check
       --print`, `footprint_check --print`; `docs/backend.md` § Tests) and
-      hand-check each added `footprints.txt` line against its drawing.
+      hand-check each added `footprints.txt` line against its drawing. —
+      32868 / 32868 / 1630 lines; the six added footprint lines read against
+      the drawings named in their notes.
 
 Acceptance: 14 more `|diode|` lines; no golden line removed.
   Check: `cmake --build /tmp/logic-p43 -j8 && ctest --test-dir /tmp/logic-p43 -R 'library_check|listing_check|trace_check|footprint_check|diode_test'`
   → `100% tests passed`; `git diff -- backend/tests/golden | grep -c '^-[^-]'` → 0 (est. 2 min).
+  — `100% tests passed, 0 tests failed out of 5`; 0; `|diode|` 11166.
 Commit: —
 
 ### Phase 2 — Transistors
@@ -218,6 +223,44 @@ Commit: —
   author.
 
 ## Corrections
+
+- **Baselines** (2026-11-15 at c94a9b47): `|diode|` 11152, `|transistor|`
+  1246, `footprints.txt` 1624 lines.
+- **B adds 26 parts, not 27** (plan-43-A § Corrections: `MBT3904DW1T3G` is
+  skipped). 14 diodes and 12 transistors; `parts.txt` ends at 32880. The
+  Phase 2 acceptance reads 12 and 32880.
+- **The edits are applied by a script, from a data file per phase**:
+  `planning/plan-43-data/add/apply.py <spec>` with `add/diodes.json` and
+  `add/transistors.json` (datasheets sorted by id, footprints appended,
+  parts inserted by name). The values in the data files were read by hand
+  from each datasheet, as § 4 says.
+- **Six new diode footprints, not one.** Read against the drawings:
+  `1N5819HW-7-F` reuses `DIODE-SOD-123-TSC-B` (pads 0.90 x 0.95, 4.05
+  outer: the same numbers); `BAT60AE6327HTSA1` reuses `DIODE-SOD-323`
+  (0.8 x 0.6, centres 2.5 against 2.4: each centre 0.05 off);
+  `PMEG3050EP,115` reuses `DIODE-THIN-SMA` (1.4 x 2.1, centres 4.4: the
+  same numbers, as the library's TSC SOD-128 parts); `NSR0530HT1G` reuses
+  `DIODE-SOD-323-ONSEMI` (CASE 477 issue K); the two Vishay parts reuse
+  `DIODE-SOD-323` and `SOT23-3`. New: `DIODE-SOD-523-DIODES`,
+  `DIODE-SOD-323P-DIOTEC`, `DIODE-SOD-323F-NEXPERIA` (two parts),
+  `DIODE-MINIMELF-NEXPERIA` (two parts), `DIODE-SOD-123FL-PANJIT`,
+  `DIODE-SOD-123FL-SLKOR`.
+- **`SRL23`'s package is `SOD-323P`, not `DO-219AD`.** The datasheet names
+  it PowerSOD-323 / SOD-323P; DO-219AD is DigiKey's label. The footprint is
+  `DIODE-SOD-323P-DIOTEC`, by rule R4: the drawing has no land pattern and
+  R2 would leave no gap between the pads (the cathode terminal is 1.4 mm
+  long under a 1.9 mm body).
+- **Three parts carry `automotive`, not one**: `SDM03U40Q-7`,
+  `BAT60AE6327HTSA1` (datasheet p.1 "Qualified according AEC Q101") and, in
+  Phase 2, `BSH205G2AR`. DigiKey lists Grade = Automotive for exactly these
+  three of the 46 (`raw/*.json`, parameters Grade and Qualification).
+- **`SDM03U40Q-7` `vr` is 40 V** (datasheet VRM, peak reverse voltage);
+  DigiKey lists the DC value, 30 V.
+- **Part numbers with a packing suffix**: Nexperia's and Infineon's
+  datasheets list the type number (`BAS16J`, `BZV55-B2V4`, `PMEG3050EP`,
+  `PMEG4005EJ`, `BAT60A`), not the orderable code; the part is added under
+  DigiKey's full number. That differs from `MBT3904DW1T3G`, whose
+  datasheet lists the orderable numbers and omits it.
 
 ## Summary
 
