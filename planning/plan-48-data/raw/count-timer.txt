@@ -1,0 +1,19 @@
+all	86
+maker: 296 Texas Instruments	52
+maker: 175 Analog Devices Inc./Maxim Integrated	8
+maker: 600026 Harris Corporation	4
+maker: 1014 Advanced Linear Devices Inc.	3
+maker: 31 Diodes Incorporated	3
+maker: 488 onsemi	3
+maker: 20 Renesas Electronics Corporation	3
+maker: 4518 UMW	3
+maker: 150 Microchip Technology	2
+maker: 5536 TAEJIN	2
+maker: 5272 EVVO	1
+maker: 14 National Semiconductor	1
+183 Type: 243487 555 Type, Timer/Oscillator (Dual)	23
+183 Type: 243489 555 Type, Timer/Oscillator (Single)	63
+69 Mounting Type: 409393 Surface Mount	64
+69 Mounting Type: 411897 Through Hole	22
+1977 Grade: 1 -	6
+1977 Grade: 316912 Automotive	3

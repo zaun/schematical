@@ -1,0 +1,26 @@
+all	7981
+maker: 296 Texas Instruments	3423
+maker: 505 Analog Devices Inc.	1397
+maker: 497 STMicroelectronics	657
+maker: 150 Microchip Technology	551
+maker: 175 Analog Devices Inc./Maxim Integrated	300
+maker: 488 onsemi	252
+maker: 600026 Harris Corporation	243
+maker: 14 National Semiconductor	194
+maker: 846 Rohm Semiconductor	182
+maker: 5503 3PEAK	132
+maker: 20 Renesas Electronics Corporation	119
+maker: 4518 UMW	114
+161 Amplifier Type: 331587 CMOS	1386
+161 Amplifier Type: 362007 J-FET	684
+161 Amplifier Type: 863824 Standard (General Purpose)	5911
+2094 Number of Circuits: 1 1	2886
+2094 Number of Circuits: 2 2	3130
+2094 Number of Circuits: 3 3	13
+2094 Number of Circuits: 4 4	1935
+2094 Number of Circuits: 32 32	1
+1977 Grade: 1 -	479
+1977 Grade: 316912 Automotive	937
+1977 Grade: 375798 Military	7
+69 Mounting Type: 409393 Surface Mount	6837
+69 Mounting Type: 411897 Through Hole	1144
