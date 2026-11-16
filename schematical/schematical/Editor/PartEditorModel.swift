@@ -9,9 +9,90 @@ import Observation
 final class PartEditorModel {
     var draft: PartDraft {
         didSet {
-            if draft != oldValue { scheduleValidation() }
+            guard draft != oldValue else { return }
+            scheduleValidation()
+            keepCurrentStep(after: oldValue)
         }
     }
+
+    // MARK: Guided | All fields (plan-46-E)
+
+    /// How the window shows the draft: the Part Wizard's steps, or the full
+    /// form. Window state: never written to the file.
+    enum EditorMode: String, CaseIterable, Sendable {
+        case guided, allFields
+
+        var title: String {
+            switch self {
+            case .guided: "Guided"
+            case .allFields: "All fields"
+            }
+        }
+    }
+
+    /// Guided for a new part; All fields for a copy or an opened file.
+    var mode: EditorMode = .allFields
+    /// The wizard step shown in Guided mode (a `WizardStep.id`).
+    private(set) var currentStepID: String = WizardStep.identity.id
+
+    /// The wizard's steps for the draft as it is now.
+    var steps: [WizardStep] { Self.steps(for: draft) }
+
+    /// The steps the window lists. The kind is chosen before the window
+    /// opens, so its step is not listed.
+    static func steps(for draft: PartDraft) -> [WizardStep] {
+        WizardPlan.steps(for: draft).filter { $0.page != .kind }
+    }
+
+    var currentStep: WizardStep? {
+        let steps = steps
+        return steps.first { $0.id == currentStepID } ?? steps.first
+    }
+
+    var currentStepIndex: Int {
+        steps.firstIndex { $0.id == currentStepID } ?? 0
+    }
+
+    var canGoBack: Bool { currentStepIndex > 0 }
+    var canGoNext: Bool { currentStepIndex < steps.count - 1 }
+
+    /// Next is never refused: a step's issues show, they do not trap the user.
+    func goNext() {
+        let steps = steps
+        let index = currentStepIndex
+        if index < steps.count - 1 { currentStepID = steps[index + 1].id }
+    }
+
+    func goBack() {
+        let steps = steps
+        let index = currentStepIndex
+        if index > 0 { currentStepID = steps[index - 1].id }
+    }
+
+    func go(to id: String) {
+        if steps.contains(where: { $0.id == id }) { currentStepID = id }
+    }
+
+    /// When an edit removes the current step (another model was chosen, so
+    /// its keys' steps are gone), the current step becomes the first one
+    /// after the last earlier step that still exists.
+    private func keepCurrentStep(after old: PartDraft) {
+        guard old.kind != draft.kind || old.variant != draft.variant
+            || WizardPlan.hasFootprint(old) != WizardPlan.hasFootprint(draft) else { return }
+        let now = Self.steps(for: draft)
+        guard !now.contains(where: { $0.id == currentStepID }) else { return }
+        let before = Self.steps(for: old)
+        let index = before.firstIndex { $0.id == currentStepID } ?? 0
+        let ids = now.map(\.id)
+        for earlier in before[..<index].reversed() {
+            if let kept = ids.firstIndex(of: earlier.id) {
+                currentStepID = now[min(kept + 1, now.count - 1)].id
+                return
+            }
+        }
+        currentStepID = now.first?.id ?? WizardStep.identity.id
+    }
+
     /// The file the draft was last saved to or opened from.
     private(set) var fileURL: URL?
     /// The draft's text when it was last saved or opened, or as the window
@@ -75,7 +156,9 @@ final class PartEditorModel {
         switch target.source {
         case let .new(kind):
             draft = PartDraft(newOf: kind)
+            mode = .guided
         case let .copy(name):
+            mode = .allFields
             if let draft = Self.copy(named: name, catalog: catalog) {
                 self.draft = draft
             } else {
@@ -83,6 +166,7 @@ final class PartEditorModel {
                 openError = "There is no part named \(name) to copy."
             }
         case let .file(url):
+            mode = .allFields
             draft = PartDraft(newOf: "gate")
             do {
                 let text = try PartFileReader.read(url: url)
@@ -93,6 +177,7 @@ final class PartEditorModel {
                 openError = error.localizedDescription
             }
         }
+        currentStepID = Self.steps(for: draft).first?.id ?? WizardStep.identity.id
         // A new part or a copy is unchanged until it is edited.
         if savedText == nil { savedText = draft.fileText() }
         scheduleValidation(delay: .zero)

@@ -139,20 +139,25 @@ Rejected alternatives:
 
 Acceptance: the form is unchanged.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/PartEditorWindowTests -only-testing:schematicalTests/PartEditorFootprintTests -only-testing:schematicalTests/PartFileSaveOpenTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 10 min).
-Commit: —
+Commit: e67e9572
 
 ### Phase 2 — Mode, steps, issues
 
-- [ ] `PartEditorModel`: `mode`, `currentStepID`, `steps`, `goNext()`,
+- [x] `PartEditorModel`: `mode`, `currentStepID`, `steps`, `goNext()`,
       `goBack()`, `go(to:)`, the disappearing-step rule.
-- [ ] `Editor/Wizard/WizardIssues.swift`: `WizardStep.issues(in:)`.
-- [ ] `schematicalTests/WizardModelTests.swift`: `.new` → guided, `.copy`
+- [x] `Editor/Wizard/WizardIssues.swift`: `WizardStep.issues(in:)`.
+- [x] `schematicalTests/WizardModelTests.swift`: `.new` → guided, `.copy`
       and `.file` → allFields; Next from the first step reaches Review in
       `steps.count - 1` calls; changing a counter draft's `model` from
       `ripple` to `sync` while on a step whose keys are ripple-only
       (`CounterDraft.swift` has one `variants: ["ripple"]` field) moves to the next
       surviving step; issues: an empty gate draft reports the name, the
       empty pinout, `gates` and the footprint.
+      (Ripple → sync on `kind.sections` moves to `kind.byteBus`, the step
+      after `kind.essentials`; the empty gate draft's issues per
+      § Corrections 1. `xcodebuild … test
+      -only-testing:schematicalTests/WizardModelTests` → `Executed 8 tests,
+      with 0 failures`, `** TEST SUCCEEDED **`.)
 
 Acceptance: navigation and issues behave as § 1 says.
   Check: `xcodebuild … test -only-testing:schematicalTests/WizardModelTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
@@ -185,7 +190,20 @@ plan-46-A § Decisions (New Part only; Guided | All fields everywhere).
 
 ## Corrections
 
-None yet.
+1. **An empty gate draft has six issues, not four.** § Phase 2 lists "the
+   name, the empty pinout, `gates` and the footprint". `timing` and
+   `family` are required gate keys too and a new draft holds them empty
+   (`{}` and `""`), so by § 1's own rule ("a required key with an empty
+   value") they are reported as well: `WizardModelTests` asserts exactly
+   `The part has no part number`; `The part has no pins`; `Gates is empty`,
+   `Timing is empty`, `Family is empty`; `No footprint is chosen`. "Empty"
+   is: missing, `""`, `[]`, `{}`, or an untouched supply range `[0, 0]`; a
+   number, a yes/no and a fixed choice are never empty (0 and "no" are
+   answers). Issues also reach nested keys (`Gates 2 › Output is empty`,
+   `Gates 1 › Inputs: there is no pin named “B”`).
+2. **The step ids are D's as landed** (plan-46-D § Corrections 2): a gate's
+   listed steps are `identity, datasheet, pinout, kind.supply,
+   kind.essentials, kind.other, footprint, review`.
 
 ## Summary
 
