@@ -1386,6 +1386,64 @@ static void check_rtc_time(const char *name, const char *sda, const char *scl, c
     circuit_destroy(b->c);
 }
 
+/* The value of the register called `name` (or at `address` when name is NULL); -1 = not found. */
+static int converter_register(Circuit *c, size_t chip, const char *name, unsigned address) {
+    ConverterRegister regs[32];
+    int n = circuit_converter_registers(c, chip, regs, 32);
+    int i;
+
+    for (i = 0; i < n && i < 32; i++) {
+        if (name != NULL ? strcmp(regs[i].name, name) == 0 : regs[i].address == address) {
+            return (int)regs[i].value;
+        }
+    }
+    return -1;
+}
+
+/* plan-43-D: the reference boards' converters start, with their registers at the power-on values. */
+static void check_reference_converters(void) {
+    Board board;
+    Board *b = &board;
+    size_t adc, idac, dac;
+    int config;
+
+    memset(b, 0, sizeof *b);
+    b->c = circuit_create(library);
+    circuit_connect(b->c, part(b->c, "3V3"), "1", b->v = net(b->c));
+    circuit_connect(b->c, part(b->c, "GND"), "1", b->g = net(b->c));
+    adc = board_chip(b, "MCP3428-E/ST");
+    board_wire(b, adc, "MCP3428-E/ST", "SDA", "SDA");
+    board_wire(b, adc, "MCP3428-E/ST", "SCL", "SCL");
+    board_wire(b, adc, "MCP3428-E/ST", "Adr0", "ZERO");
+    board_wire(b, adc, "MCP3428-E/ST", "Adr1", "ZERO");
+    idac = board_chip(b, "DS4432U+");
+    board_wire(b, idac, "DS4432U+", "SDA", "SDA");
+    board_wire(b, idac, "DS4432U+", "SCL", "SCL");
+    dac = board_chip(b, "AD5621AKSZ-REEL7");
+    board_wire(b, dac, "AD5621AKSZ-REEL7", "SYNC", "SYNC");
+    board_wire(b, dac, "AD5621AKSZ-REEL7", "SCLK", "SCLK");
+    board_wire(b, dac, "AD5621AKSZ-REEL7", "SDIN", "SDIN");
+    circuit_connect(b->c, part(b->c, "PULLUP-3V3"), "1", board_net(b, "SDA"));
+    circuit_connect(b->c, part(b->c, "PULLUP-3V3"), "1", board_net(b, "SCL"));
+    circuit_connect(b->c, part(b->c, "PULLUP-3V3"), "1", board_net(b, "SYNC"));
+    circuit_connect(b->c, part(b->c, "PULLUP-3V3"), "1", board_net(b, "SCLK"));
+    circuit_connect(b->c, part(b->c, "PULLUP-3V3"), "1", board_net(b, "SDIN"));
+    expect(circuit_start(b->c) == 0, "reference converters: the circuit starts (no smoke, no voltage problem)");
+    if (circuit_error(b->c) != NULL) {
+        printf("  %s\n", circuit_error(b->c));
+    }
+    config = converter_register(b->c, adc, "CONFIG", 0);
+    printf("  MCP3428 CONFIG=%02X DS4432 F8=%02X F9=%02X AD5621 DAC=%03X\n", (unsigned)config,
+           (unsigned)converter_register(b->c, idac, NULL, 0xF8), (unsigned)converter_register(b->c, idac, NULL, 0xF9),
+           (unsigned)converter_register(b->c, dac, "DAC", 0));
+    expect(config >= 0 && (config & 0x7F) == 0x10,
+           "MCP3428: channel 1, continuous, 240 SPS, gain 1 at power on (90h; RDY is the status bit)");
+    expect(converter_register(b->c, idac, NULL, 0xF8) == 0 && converter_register(b->c, idac, NULL, 0xF9) == 0,
+           "DS4432: F8h and F9h are 00h at power on (zero current)");
+    expect(converter_register(b->c, dac, "DAC", 0) == 0, "AD5621: the DAC register is zero at power on");
+    circuit_destroy(b->c);
+}
+
 int main(void) {
     library = part_library_create();
     if (load_parts_dir(library, PARTS_DIR) != 0 || load_voltage_fixture(library) != 0 ||
@@ -1414,6 +1472,7 @@ int main(void) {
     check_rtc_time("BQ32000DR", "SDA", "SCL", "IRQ", 0, 1);
     check_rtc_time("DS3231MZ+TRL", "SDA", "SCL", "INT/SQW", 0, 1);
     check_rtc_time("PCF8563T/5,518", "SDA", "SCL", "INT", 2, 3);
+    check_reference_converters();
     part_library_destroy(library);
     printf("%d failure(s)\n", failures);
     return failures == 0 ? 0 : 1;

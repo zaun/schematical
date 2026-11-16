@@ -168,19 +168,30 @@ Acceptance: both RTCs count from 2000-01-01 and show their BCD registers.
   Check: `cmake --build /tmp/logic-p43 -j8 && ctest --test-dir /tmp/logic-p43 -R 'library_check|listing_check|trace_check|footprint_check|rtc_test|circuit_check'`
   → `100% tests passed` (est. 2 min). — `100% tests passed, 0 tests failed
   out of 6`.
-Commit: —
+Commit: 09a77e73
 
 ### Phase 2 — Converters
 
-- [ ] Add `MCP3428`, `DS4432`, `AD5621` and `MCP47A1` with their parts,
-      footprints and datasheet entries (§ 4).
-- [ ] Tests: `check_reference_converters` (§ 5).
-- [ ] Regenerate the goldens.
+- [x] Add `MCP3428`, `DS4432`, `AD5621` and `MCP47A1` with their parts,
+      footprints and datasheet entries (§ 4). — three added (`MCP47A1` is
+      skipped, § Corrections): `mkconv.py`, `devadd.py
+      add/converters.json` → `datasheets +3`, `footprints +1`, `converter
+      +3 devices`; `library_check: all passed`.
+- [x] (added) Skip `MCP47A1T-A0E/LTY`: `census/skip.tsv`, `targets.tsv`,
+      its PDF, a row in `datasheets/skipped-parts.md`; `classify.py` →
+      `plan-43 43`, `skipped 9`; `lookup.py` → `43 rows; 0 not found; 0
+      with no stock`.
+- [x] Tests: `check_reference_converters` (§ 5). — `circuit_check`: the
+      board starts; `MCP3428 CONFIG=90 DS4432 F8=00 F9=00 AD5621 DAC=000`;
+      four PASS lines; `0 failure(s)`.
+- [x] Regenerate the goldens. — 32897 / 32897 / 1646 lines; 0 removed;
+      `|converter|` 1911 → 1914.
 
 Acceptance: the four power-on expectations of § 5 hold; `parts.txt` has
 32901 lines.
   Check: the Phase 1 command with `converter_test` added; `wc -l <
-  backend/tests/golden/parts.txt` → 32901 (est. 2 min).
+  backend/tests/golden/parts.txt` → 32901 (est. 2 min). — `100% tests
+  passed, 0 tests failed out of 7`; 32897 (§ Corrections).
 Commit: —
 
 ## Validation Plan
@@ -228,6 +239,24 @@ Commit: —
   documents are cited by URL, as plan-12-J did, not filed.
 - **`DS3231MZ+TRL`**: the ordering table lists `DS3231MZ+`; `+TRL` is its
   tape and reel, as the library's `MAX…+T` parts.
+- **D adds 5 parts, not 6: `MCP47A1T-A0E/LTY` is skipped; `parts.txt`
+  ends at 32897.** Its datasheet (DS25154A p.67 Product Identification
+  System) knows the package code `LT` only (`MCP47A1T-A0E/LT`); `/LTY` is
+  not in it, the same reason plan-40 skipped parts. plan-43 as a whole
+  adds 43 parts (14 diodes, 10 transistors, 7 oscillators, 3 switches,
+  3 converters, 2 buffers, 2 connectors, 2 clocks). The `MCP47A1`
+  expectation of § 5 falls away with it; `|converter|` grows by 3.
+- **`MCP3428`'s test reads `CONFIG` masked with 7Fh**: bit 7 is the ready
+  status, 1 at power-on (90h, as observed) and 0 once the first continuous
+  conversion is done. The address table has entries for the four tied
+  states of `Adr0` / `Adr1` (68h, 6Ch, 6Ah, 6Eh); the floating states have
+  none (the engine tells ties from levels, § `converter`), and the test
+  ties both pins low.
+- **Footprints**: `MCP3428-E/ST` reuses `TSSOP-14` (Microchip C04-2087A:
+  0.45 x 1.45 pads, C1 5.90; each centre 0.05 from 5.8); `DS4432U+`
+  reuses `VSSOP-8-DGK` (Maxim 90-0092 rev D: 1.35 x 0.40 pads, span 4.30;
+  0.05 from 1.4 x 0.45 at 4.4); `AD5621AKSZ-REEL7` gets `SC70-6-ADI-KS-6`
+  (outline only, R2: 1.26 x 0.35, span 2.14).
 - **`check_rtc_time` finds the two registers by address** (the PCF8563's
   are not the first two of its register list) and reads up to 32.
 
