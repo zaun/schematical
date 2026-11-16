@@ -192,7 +192,7 @@ Acceptance: the four power-on expectations of § 5 hold; `parts.txt` has
   Check: the Phase 1 command with `converter_test` added; `wc -l <
   backend/tests/golden/parts.txt` → 32901 (est. 2 min). — `100% tests
   passed, 0 tests failed out of 7`; 32897 (§ Corrections).
-Commit: —
+Commit: 9830cb18
 
 ## Validation Plan
 
