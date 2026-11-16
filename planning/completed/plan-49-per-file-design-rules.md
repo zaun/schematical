@@ -301,6 +301,12 @@ Commit: f9a8daf8, 75abc9a7
 
 ## Corrections
 
+- **Closed by the owner, 2026-11-16.** Asked how to close the last check
+  (⇧⌘D from the PCB page in the running app, and a save and reopen through
+  the real panels, both blocked by the locked screen), the owner answered
+  "Accept as is": the app-walk task stays `[~]` with what remains written
+  on it, and work on this plan stops.
+
 - **No worktree or branch.** The follow-plan skill forks a `worktree-P-49`
   branch; `AGENTS.md` forbids creating a branch the owner did not name, so
   the plan was worked on `main` in the main tree, committing only its own
