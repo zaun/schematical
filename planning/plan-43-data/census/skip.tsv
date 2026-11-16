@@ -1,0 +1,6 @@
+kind	mpn	maker	reason
+diode	BAT54TW-TP	MCC (Micro Commercial Components)	no maker-site datasheet: DigiKey links only its own copy (mm.digikey.com …/9048/BAT54ADW.pdf); mccsemi.com/pdf/Products/BAT54ADW.pdf, BAT54TW.pdf and BAT54TW(SOT-363).pdf answer 404 (2026-11-15)
+diode	B5819W	MDD	no maker-site datasheet: DigiKey links only its own copy (mm.digikey.com …/7752/SOD123819WS0SL.pdf)
+diode	1N5819WS	Shenzhen Slkormicro Semicon Co., Ltd.	no maker-site datasheet: DigiKey links only its own copy (mm.digikey.com …/6778/5399_1N5819WS SOD-323.PDF)
+transistor	FS8205A	EVVO	no maker-site datasheet: DigiKey links only its own copy (mm.digikey.com …/9053/FS8205A-new.pdf)
+transistor	S8050	Shenzhen Slkormicro Semicon Co., Ltd.	no maker-site datasheet: DigiKey links only its own copy (mm.digikey.com …/6778/5399_S8050 SOT-23.PDF)

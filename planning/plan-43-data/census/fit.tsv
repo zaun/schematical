@@ -1,0 +1,48 @@
+kind	mpn	maker
+diode	1N5819HW-7-F	Diodes Incorporated
+diode	SDM03U40Q-7	Diodes Incorporated
+diode	SRL23	Diotec Semiconductor
+diode	BAT60AE6327HTSA1	Infineon Technologies
+diode	BAS16J,135	Nexperia USA Inc.
+diode	BZV55-B2V4,115	Nexperia USA Inc.
+diode	BZV55-C6V2,115	Nexperia USA Inc.
+diode	PMEG3050EP,115	Nexperia USA Inc.
+diode	PMEG4005EJF	Nexperia USA Inc.
+diode	NSR0530HT1G	onsemi
+diode	MBR1020VL_R1_00001	Panjit International Inc.
+diode	SM4007PL	Shenzhen Slkormicro Semicon Co., Ltd.
+diode	BZX384C5V1-E3-08	Vishay General Semiconductor - Diodes Division
+diode	BAT54C-G3-08	Vishay General Semiconductor - Diodes Division
+transistor	AO3400A	Alpha & Omega Semiconductor Inc.
+transistor	AO3401A	Alpha & Omega Semiconductor Inc.
+transistor	DMG2305UX-13	Diodes Incorporated
+transistor	2N7002PW	Diotec Semiconductor
+transistor	PMBT3906-GK	GOODWORK
+transistor	SIL2308-TP	MCC (Micro Commercial Components)
+transistor	BSH205G2AR	Nexperia USA Inc.
+transistor	NX7002AK,215	Nexperia USA Inc.
+transistor	BC807-40LT1G	onsemi
+transistor	MBT3904DW1T3G	onsemi
+transistor	BC817-25LT1G	onsemi
+transistor	CSD17311Q5	Texas Instruments
+transistor	SI2371EDS-T1-BE3	Vishay Siliconix
+switch	CS1213AGF260	CIT Relay and Switch
+switch	SWT0105-003516JSA	GCT
+switch	219-8MST	CTS Electrocomponents
+connector	USB4105-GF-A	GCT
+connector	USB4500-03-0-A	GCT
+buffer	SN74LVC1G126DBVR	Texas Instruments
+buffer	SN74LVC1G125DBVR	UMW
+oscillator	ASEM1-12.000MHZ-LC-T	Abracon LLC
+oscillator	ASE-18.432MHZ-L-C-T	Abracon LLC
+oscillator	ECS-TXO-32CSMV-260-AN-TR	ECS Inc.
+oscillator	SG-210STF 27.0000ML5	EPSON
+oscillator	MC2016Z48.0000C19XSH	KYOCERA AVX
+oscillator	DSC1001BI1-050.0000	Microchip Technology
+oscillator	830208220401	Würth Elektronik
+rtc	DS3231MZ+TRL	Analog Devices Inc./Maxim Integrated
+rtc	PCF8563T/5,518	NXP USA Inc.
+converter	MCP3428-E/ST	Microchip Technology
+converter	DS4432U+	Analog Devices Inc./Maxim Integrated
+converter	AD5621AKSZ-REEL7	Analog Devices Inc.
+converter	MCP47A1T-A0E/LTY	Microchip Technology
