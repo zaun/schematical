@@ -25,6 +25,7 @@ add_library(logic STATIC
     src/models/mcu.c
     src/models/resistor.c
     src/models/transistor.c
+    src/models/generic.c
     src/models/sram.c
     src/models/display7.c
     src/models/supply.c
@@ -183,6 +184,7 @@ logic_test(resistor_test)
 logic_test(transistor_test)
 logic_test(capacitor_test)
 logic_test(mcu_test)
+logic_test(generic_test)
 
 # Engine speed bench (plan-05-A). Not a ctest: a wall-clock check would be
 # flaky. Build Release to get meaningful numbers.

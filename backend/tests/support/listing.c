@@ -37,6 +37,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_MCU: return "mcu";
         case PART_RESISTOR: return "resistor";
         case PART_TRANSISTOR: return "transistor";
+        case PART_GENERIC: return "generic";
     }
     return "?";
 }
@@ -166,6 +167,9 @@ static void print_details(FILE *out, const Part *part) {
                     part->resistor->resistor_count,
                     (unsigned long long)part->resistor->milliohms,
                     (unsigned)part->resistor->tolerance_ppm, (unsigned)part->resistor->power_mw);
+            break;
+        case PART_GENERIC:
+            /* No facts: a generic part is its pins and its footprint. */
             break;
         case PART_TRANSISTOR:
             fprintf(out,

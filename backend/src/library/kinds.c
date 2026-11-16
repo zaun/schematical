@@ -34,6 +34,7 @@ extern const PartKindOps REGISTER_KIND;
 extern const PartKindOps MCU_KIND;
 extern const PartKindOps RESISTOR_KIND;
 extern const PartKindOps TRANSISTOR_KIND;
+extern const PartKindOps GENERIC_KIND;
 
 /* One line per kind. Adding a kind: docs/backend.md, "Adding a kind". */
 const PartKindOps *const KINDS[] = {
@@ -68,6 +69,7 @@ const PartKindOps *const KINDS[] = {
     &MCU_KIND,
     &RESISTOR_KIND,
     &TRANSISTOR_KIND,
+    &GENERIC_KIND,
     NULL
 };
 

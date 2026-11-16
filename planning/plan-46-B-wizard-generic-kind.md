@@ -48,8 +48,8 @@ plan-46-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-46-A complete | `ls planning/completed/plan-46-A-*.md` → exists | NOT MET (2026-11-16: not started) |
-| `PartKind` still ends with the kind B appends after | `grep -n 'PART_TRANSISTOR$' backend/include/parts.h` → line 29; `grep -c 'PART_CRYSTAL\|PART_REGULATOR' backend/include/parts.h` → 0 | MET (2026-11-16 at 9e13cbe4: line 29; 0) |
+| plan-46-A complete | `ls planning/completed/plan-46-A-*.md` → exists | MET (2026-11-16: `planning/completed/plan-46-A-wizard-inline-datasheets.md`) |
+| `PartKind` still ends with the kind B appends after | `grep -n 'PART_TRANSISTOR$' backend/include/parts.h` → line 29; `grep -c 'PART_CRYSTAL\|PART_REGULATOR' backend/include/parts.h` → 0 | MET (2026-11-16 at 5359f3af's parent tree, before B's edit: `sed -n 29p backend/include/parts.h` ended `PART_RESISTOR, PART_TRANSISTOR`; 0) |
 
 Everything below is written against the world where these hold. plan-44
 and plan-42 are written to append their kinds after `PART_GENERIC` (edited
@@ -129,8 +129,9 @@ in plan-46's commit), so they cannot be ahead of B.
   be false`; reads the optional device voltage (`kind_voltage`, as mcu).
 - `generic_bind_pinout`: any count ≥ 1 (`a generic part needs at least one
   pin`), any roles.
-- `generic_load_part`: `kind_part_voltage` when the device or the part has
-  `vcc`; otherwise none.
+- `generic_load_part`: `kind_voltage` (not `kind_part_voltage`, which
+  demands a range): the part's range when the device or the part has
+  `vcc`, otherwise none (§ Corrections 2).
 - Model: `GENERIC_MODEL` `{"generic", pin_count, create, NULL…}`;
   `create` returns the `Part` itself (non-NULL; there is no info struct).
 - `parts.h`: `PART_GENERIC` appended; no info struct, no `Part` member.
@@ -156,7 +157,8 @@ a. 3 pins (`VCC` power, `GND` ground, `OUT` output), `"simulated": false`,
 b. Same with device `"vcc": [3, 5.5]` → `vcc->min_mv == 3000`.
 c. No `"simulated"` → `a generic part has no simulation model: "simulated"
    must be false`; `"simulated": true` → the same.
-d. An empty pinout → `a generic part needs at least one pin`.
+d. An empty pinout → the loader's `pinouts.default: a pinout must be a
+   non-empty array of pins` (§ Corrections 1).
 e. An unknown device key (`"gates"`) → the loader's unknown-key message.
 f. `circuit_add_part` on (a)'s part → -1 with `part "<name>" is not
    simulated` (the message `mcu_test.c:68–70` checks for TESTMCU).
@@ -169,18 +171,21 @@ f. `circuit_add_part` on (a)'s part → -1 with `part "<name>" is not
 
 ### Phase 1 — The backend kind
 
-- [ ] `backend/include/parts.h`: `PART_GENERIC` after `PART_TRANSISTOR`.
-- [ ] `backend/src/models/generic.c` per § 3; `backend/src/library/kinds.c`:
+- [x] `backend/include/parts.h`: `PART_GENERIC` after `PART_TRANSISTOR`.
+- [x] `backend/src/models/generic.c` per § 3; `backend/src/library/kinds.c`:
       `extern const PartKindOps GENERIC_KIND;` and `&GENERIC_KIND` last in
       `KINDS[]`; `backend/CMakeLists.txt`: `src/models/generic.c` and
       `logic_test(generic_test)`.
-- [ ] `backend/tests/support/listing.c`: `case PART_GENERIC: return
+- [x] `backend/tests/support/listing.c`: `case PART_GENERIC: return
       "generic"` and an empty facts case; `tests/trace_check.c`
       `TRACE_LAST_KIND` and `tests/listing_check.c:50–51` → `PART_GENERIC`.
-- [ ] `backend/tests/generic_test.c`: § 4 a–f.
-- [ ] `schematical/schematical/Parts/generic.json`: `{"format":
+- [x] `backend/tests/generic_test.c`: § 4 a–f. (`/tmp/logic-p46/generic_test`
+      → 11 `PASS` lines, `generic_test: all passed`; (d) per § Corrections 1.)
+- [x] `schematical/schematical/Parts/generic.json`: `{"format":
       "schematical-parts", "version": 1, "kind": "generic", "devices": []}`
       (the format/version strings copied from `header.json`'s first lines).
+      (`ctest --test-dir /tmp/logic-p46 -j8` → `100% tests passed, 0 tests
+      failed out of 37`; `git diff --stat backend/tests/golden` → empty.)
 
 Acceptance: the kind loads, refuses what § 4 refuses, and nothing bundled moves.
   Check: `cmake --build /tmp/logic-p46 -j8 && ctest --test-dir /tmp/logic-p46 -j8` → `100% tests passed, 0 tests failed out of 37`; `git diff --stat backend/tests/golden` → empty (est. 4 min; the whole backend suite is 9 s at planning, so it is the scoped check).
@@ -231,7 +236,19 @@ plan-46-A § Decisions (the `generic` kind is the owner's choice).
 
 ## Corrections
 
-None yet.
+1. **§ 4 (d)'s message was wrong.** The common loader refuses an empty
+   pinout for every kind before the kind's `bind_pinout` runs:
+   `/tmp/logic-p46/generic_test` first printed `FAIL: (d) empty pinout …
+   (got: generic.schpart: devices[0] (custom): pinouts.default: a pinout
+   must be a non-empty array of pins)`. The test now asserts that message.
+   `generic_bind_pinout` keeps its `a generic part needs at least one pin`
+   check as a second guard; nothing reaches it today. No other letter used
+   the old text (`grep -rn 'needs at least one pin' planning/` → B only).
+2. **§ 3's `kind_part_voltage` call is `kind_voltage`.** `kind_voltage`
+   (`kind_util.c:317`) already returns the base (NULL) when neither `vcc`
+   nor `inputMax` is given and refuses `inputMax` without `vcc`, so one
+   call covers "a range only when one is named"; case (a) (`vcc == NULL`)
+   and (b) (`min_mv == 3000`) pass.
 
 ## Summary
 
