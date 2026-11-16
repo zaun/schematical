@@ -131,17 +131,27 @@ plan-46-A § Prerequisites, plus:
 
 Acceptance: the rules give the lists above.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/WizardKindStepsTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+Commit: 7e1f7160 (one commit with Phase 2's code: the page and the rules share files)
 
 ### Phase 2 — The pages
 
-- [ ] `Editor/Wizard/VariantStepPage.swift`; `FieldsEditor` conditions and
-      the disclosure; the Optional header and the key captions.
-- [ ] Runtime check (run skill): New Part… → Serial → the model step
+- [x] `Editor/Wizard/VariantStepPage.swift`; `FieldsEditor` conditions and
+      the disclosure; the Optional header and the key captions (the
+      Optional line and Skip are E's `WizardStepView` / `WizardNavBar`).
+- [x] Runtime check (run skill): New Part… → Serial → the model step
       lists 11 models with examples → `i8251` → the step list shrinks to
       the i8251 steps; New Part… → Converter → `adc` → Essentials →
       `bus.style` `spi` → six bus keys and "More bus settings"; switch to
       All fields → every bus key is there. Pointer to (0, 0).
+      (2026-11-16, this plan's Debug build: Serial → step 5 `Which chip does
+      yours behave like?` with 11 rows, each with library parts (`i8251, In
+      the library: D8251A, LD8251A`); choosing `i8251` → steps `Supply
+      voltage; Essentials; Bus; Serial; Other settings`. Converter → `adc` →
+      Essentials: the bus showed `style` and a collapsed `More bus settings`;
+      style `spi` → keys `style; cs; csActive; miso; mode; mosi; sclk;` and
+      `More bus settings`, each field with its key under it. All fields →
+      all 25 bus keys (Address … Wr), no disclosure, no key captions.
+      Pointer left at (0, 0).)
 
 Acceptance: a complex kind is a short series of screens in Guided mode and unchanged in All fields.
   Check: the walk above (est. 10 min).
