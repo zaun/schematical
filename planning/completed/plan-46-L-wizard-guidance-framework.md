@@ -179,7 +179,7 @@ Commit: 8cc7ff5d (one commit with Phase 2's code: the guide registry names the g
 
 Acceptance: the gate wizard reads as a guide and every pointer finds its section.
   Check: `xcodebuild … test -only-testing:schematicalTests/KindGuideTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min) and the walk (est. 10 min).
-Commit: —
+Commit: fa8e49d9 (code in Phase 1's commit)
 
 ## Validation Plan
 
