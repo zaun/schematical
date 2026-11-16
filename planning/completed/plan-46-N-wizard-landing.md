@@ -119,12 +119,13 @@ Commit: 96bec7ef
       (`git rev-parse --short main` → 4218bb74, the worktree's base), so no
       merge and no second run were needed. The repo has no Rust workspace
       (no `Cargo.toml`), so there is nothing for `cargo fmt`.)
-- [ ] Move `planning/plan-46-*.md` to `planning/completed/` (each lettered
-      file as it completes — A … M are already there; N last).
+- [x] Move `planning/plan-46-*.md` to `planning/completed/` (each lettered
+      file as it completes — A … M are already there; N last). (This
+      commit moves N; `ls planning/completed/plan-46-*.md | wc -l` → 14.)
 
 Acceptance: the final gate passes and the walk shows the outcome.
   Check: the final gate's two commands (est. 25 min, below).
-Commit: —
+Commit: 0e670d6b
 
 ## Validation Plan
 
