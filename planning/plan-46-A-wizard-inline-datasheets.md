@@ -285,16 +285,19 @@ Commit: c7984f75
 
 ### Phase 2 — The draft keeps the array
 
-- [ ] `schematical/schematical/Editor/PartDraft.swift`: `DatasheetDraft`,
+- [x] `schematical/schematical/Editor/PartDraft.swift`: `DatasheetDraft`,
       `datasheets`, reading and writing the key, `"datasheets"` added to the
       top-level keys excluded from `fileExtras`, `setDatasheetURL(_:)`,
       `datasheetURL`.
-- [ ] `schematical/schematicalTests/PartFileSaveOpenTests.swift`:
+- [x] `schematical/schematicalTests/PartFileSaveOpenTests.swift`:
       `testInlineDatasheetRoundTrips` (a draft with `setDatasheetURL`
       encodes the key, reads back equal, `extraKeys` empty) and
       `testInlineDatasheetValidatesTwice` (`PartValidator.shared.validate`
       the same draft twice → `.success` both times; the second result's
       `datasheetURL` is the URL).
+      (`xcodebuild … test -only-testing:schematicalTests/PartFileSaveOpenTests`
+      → `Executed 6 tests, with 0 failures`, `** TEST SUCCEEDED **`; both new
+      tests `passed`.)
 
 Acceptance: the two tests pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/PartFileSaveOpenTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 12 min: the first app test build; the draft is app code).

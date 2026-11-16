@@ -89,6 +89,30 @@ struct FootprintChoiceDraft: Hashable, Identifiable, Sendable {
     }
 }
 
+/// One inline datasheet of a single part file (plan-46-A): a
+/// `datasheets.json` entry without "md".
+struct DatasheetDraft: Equatable, Sendable {
+    var id: String
+    var url: String
+
+    init(id: String, url: String) {
+        self.id = id
+        self.url = url
+    }
+
+    /// nil when the entry is not exactly `{"id", "url"}` strings (the key
+    /// then stays an extra, and the loader reports what is wrong with it).
+    init?(json: JSONValue) {
+        guard case let .object(keys) = json, keys.count == 2, case let .string(id)? = keys["id"],
+              case let .string(url)? = keys["url"] else { return nil }
+        self.init(id: id, url: url)
+    }
+
+    func encoded() -> JSONValue {
+        .object(["id": .string(id), "url": .string(url)])
+    }
+}
+
 /// One named pinout of the device.
 struct PinoutDraft: Hashable, Identifiable, Sendable {
     enum Style: String, Hashable, Sendable { case numbered, ball }
@@ -130,6 +154,9 @@ struct PartDraft: Equatable, Sendable {
     var kind: String
     /// Inline footprints (plan-32-D), kept as they are.
     var footprints: [JSONValue]? = nil
+    /// Inline datasheets (plan-46-A): `datasheets.json` entries without "md",
+    /// their ids new to the library. The part's `datasheet` names one.
+    var datasheets: [DatasheetDraft]? = nil
 
     // Device
     var deviceID: String
@@ -239,8 +266,15 @@ struct PartDraft: Equatable, Sendable {
         self.uuid = uuid
         self.kind = kind
         if case let .array(footprints)? = root["footprints"] { self.footprints = footprints }
-        fileExtras = root.filter { !["format", "version", "uuid", "kind", "devices", "footprints"].contains($0.key) }
+        if case let .array(entries)? = root["datasheets"] {
+            let drafts = entries.compactMap(DatasheetDraft.init(json:))
+            if drafts.count == entries.count { datasheets = drafts }
+        }
+        fileExtras = root.filter {
+            !["format", "version", "uuid", "kind", "devices", "footprints", "datasheets"].contains($0.key)
+        }
         if root["footprints"] != nil, footprints == nil { fileExtras["footprints"] = root["footprints"] }
+        if root["datasheets"] != nil, datasheets == nil { fileExtras["datasheets"] = root["datasheets"] }
 
         func take(_ object: inout [String: JSONValue], _ key: String) -> JSONValue? {
             object.removeValue(forKey: key)
@@ -409,6 +443,7 @@ struct PartDraft: Equatable, Sendable {
         root["uuid"] = .string(uuid)
         root["kind"] = .string(kind)
         if let footprints { root["footprints"] = .array(footprints) }
+        if let datasheets { root["datasheets"] = .array(datasheets.map { $0.encoded() }) }
         root["devices"] = .array([.object(device)])
         return .object(root)
     }
@@ -472,6 +507,36 @@ struct PartDraft: Equatable, Sendable {
                 if let current = customFootprint, footprint == current.id { footprint = nil }
                 footprints = nil
             }
+        }
+    }
+
+    // MARK: The inline datasheet
+
+    /// The id the part's own (inline) datasheet has: "CUSTOM-" and the first
+    /// eight characters of the uuid, as a custom footprint's id.
+    var inlineDatasheetID: String { "CUSTOM-" + uuid.prefix(8) }
+
+    /// The URL of the inline datasheet the part names; nil when the part has
+    /// no datasheet or names a bundled one.
+    var datasheetURL: String? {
+        guard let datasheet else { return nil }
+        return datasheets?.first { $0.id == datasheet }?.url
+    }
+
+    /// Gives the part its own datasheet: one inline entry holding `url`, named
+    /// by the part. nil or an empty text removes the inline entry, and the
+    /// part's `datasheet` when it named it.
+    mutating func setDatasheetURL(_ url: String?) {
+        let text = (url ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        if text.isEmpty {
+            if let datasheet, datasheets?.contains(where: { $0.id == datasheet }) == true {
+                self.datasheet = nil
+            }
+            datasheets = nil
+        } else {
+            let entry = DatasheetDraft(id: inlineDatasheetID, url: text)
+            datasheets = [entry]
+            datasheet = entry.id
         }
     }
 
