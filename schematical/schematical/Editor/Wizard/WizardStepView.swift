@@ -76,25 +76,7 @@ struct WizardStepView: View {
         case .footprint:
             FootprintStepPage(model: model)
         case .review:
-            VerdictSection(model: model)
-            Section("Preview") {
-                if let part = model.lastValidPart {
-                    HStack(alignment: .top, spacing: 12) {
-                        VStack(alignment: .leading) {
-                            Text("Block").font(.caption).foregroundStyle(.secondary)
-                            BlockPreviewView(chip: PartPreview.chip(for: part), revision: model.previewRevision)
-                                .frame(minHeight: 220)
-                        }
-                        VStack(alignment: .leading) {
-                            Text("Footprint").font(.caption).foregroundStyle(.secondary)
-                            FootprintPreviewView(part: part, revision: model.previewRevision)
-                                .frame(minHeight: 220)
-                        }
-                    }
-                } else {
-                    Text("The previews show the part once it loads.").foregroundStyle(.secondary)
-                }
-            }
+            ReviewStepPage(model: model)
         }
     }
 }

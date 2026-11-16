@@ -118,15 +118,28 @@ loader wording change that breaks a rule shows which.
 
 Acceptance: all seven real messages point at the right step.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/WizardIssueLocatorTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+Commit: 7ede14e1
 
 ### Phase 2 — The page
 
-- [ ] `Editor/Wizard/ReviewStepPage.swift`, the pin ↔ pad table, "Still to
-      do", Save Part… and Add to Library on the page.
-- [ ] Runtime check (run skill): make case 1 by hand → Review → "Go to
+- [x] `Editor/Wizard/ReviewStepPage.swift`, the pin ↔ pad table, "Still to
+      do", Save Part… and Add to Library on the page
+      (`testReviewPageData`).
+- [x] Runtime check (run skill): make case 1 by hand → Review → "Go to
       Gates" goes there → fix → Review shows both previews and 14 rows →
       Add to Library → the part is in the drawer. Pointer to (0, 0).
+      (2026-11-16, this plan's Debug build: a 14-pin gate from the pasted
+      TI table plus a 15th pin `Q`; a NAND gate `1A, 1B → Q`; pin 15
+      removed. Review: Still to do `Gates 1 › Output: there is no pin named
+      “Q”` [Go to Essentials], the verdict `MY-QUAD-NAND.schpart: devices[0]
+      (MY-QUAD-NAND): pinouts.default: gates[0]: no pin named "Q"` [Go to
+      Essentials], Save and Add disabled. Go to Essentials → step 6
+      Essentials; output set to `1Y`; footprint `SOIC-14`; Review: `The
+      part loads: 14 pins`, both previews (`SOIC-14: 14 pads`), 14 `Pad n`
+      rows, no Still to do. Add to Library → `Added MY-QUAD-NAND to the
+      parts drawer`; the drawer search found it under Custom (32,805
+      parts). The button reads "Go to Essentials": the gate's steps get
+      their names ("Gates") from L's guide. Pointer left at (0, 0).)
 
 Acceptance: the review leads the user to the problem and then to a saved part.
   Check: the walk above (est. 10 min).
