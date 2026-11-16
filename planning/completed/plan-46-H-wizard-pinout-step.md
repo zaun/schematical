@@ -165,7 +165,7 @@ Commit: b1e942d5
 
 Acceptance: a pasted table becomes a reviewed pinout, and renames carry.
   Check: the walk above (est. 10 min).
-Commit: —
+Commit: 656369a7
 
 ## Validation Plan
 
