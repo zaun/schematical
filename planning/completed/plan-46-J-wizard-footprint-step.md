@@ -184,7 +184,7 @@ Commit: 3606cdef (the prerequisite fix of § Corrections 1: 3e729e3e)
 
 Acceptance: the grid shows the ranked candidates.
   Check: the run skill: a 14-pin gate with package `SOIC` → step 6 → the first row of thumbnails are SOIC-14 footprints; a 2-pin generic part → scrolling the 409 candidates stays smooth (no beach ball) (est. 10 min).
-Commit: —
+Commit: 0db57ab7 (one commit with Phase 3: the two tabs are one page)
 
 ### Phase 3 — "Make one…" and the pad table tab
 
@@ -214,7 +214,7 @@ Commit: —
 
 Acceptance: a footprint made from a few numbers is saved, loads and draws.
   Check: the walk above (est. 15 min).
-Commit: —
+Commit: 0db57ab7
 
 ## Validation Plan
 
