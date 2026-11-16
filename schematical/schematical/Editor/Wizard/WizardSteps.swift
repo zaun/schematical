@@ -25,10 +25,12 @@ struct WizardStep: Identifiable, Hashable, Sendable {
 
     // The fixed steps every part has.
     static let kind = WizardStep(id: "kind", title: "What are you making?", page: .kind)
-    static let identity = WizardStep(id: "identity", title: "Part number", page: .identity)
+    static let identity = WizardStep(id: "identity", title: "Part number", page: .identity,
+                                     searchTerms: StepSearchTerms.identity)
     static let datasheet = WizardStep(id: "datasheet", title: "Datasheet", page: .datasheet)
-    static let pinout = WizardStep(id: "pinout", title: "Pins", page: .pinout)
-    static let footprint = WizardStep(id: "footprint", title: "Footprint", page: .footprint)
+    static let pinout = WizardStep(id: "pinout", title: "Pins", page: .pinout, searchTerms: StepSearchTerms.pinout)
+    static let footprint = WizardStep(id: "footprint", title: "Footprint", page: .footprint,
+                                      searchTerms: StepSearchTerms.footprint)
     static let review = WizardStep(id: "review", title: "Review", page: .review)
 }
 
@@ -148,7 +150,7 @@ enum WizardPlan {
         let supply = rest.filter { supplyKeys.contains($0.key.key) }
         if !supply.isEmpty {
             steps.append(WizardStep(id: "kind.supply", title: "Supply voltage", page: .supply,
-                                    keys: supply.map(\.key.qualified)))
+                                    keys: supply.map(\.key.qualified), searchTerms: StepSearchTerms.supply))
         }
         rest.removeAll { supplyKeys.contains($0.key.key) }
 

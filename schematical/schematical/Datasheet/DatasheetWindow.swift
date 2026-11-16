@@ -74,30 +74,18 @@ struct DatasheetWindowView: View {
 
     private func load() async {
         phase = .loading
-        do {
-            var request = URLRequest(url: target.url)
-            // Some manufacturer sites refuse requests with no browser agent.
-            request.setValue("Mozilla/5.0 (Macintosh) Schematical", forHTTPHeaderField: "User-Agent")
-            let (data, response) = try await URLSession.shared.data(for: request)
-            if let http = response as? HTTPURLResponse, !(200..<300).contains(http.statusCode) {
-                phase = .failed("The manufacturer's site answered \(http.statusCode) "
-                                + "(\(HTTPURLResponse.localizedString(forStatusCode: http.statusCode))).")
-                return
-            }
-            guard let document = PDFDocument(data: data) else {
-                phase = .failed("The manufacturer's site did not send a PDF.")
-                return
-            }
-            phase = .loaded(document)
-        } catch {
-            phase = .failed(error.localizedDescription)
+        switch await DatasheetLoader.load(target.url) {
+        case let .success(document): phase = .loaded(document)
+        case let .failure(failure): phase = .failed(failure.message)
         }
     }
 }
 
-/// PDFKit's view: continuous pages, scaled to the window's width.
-private struct PDFDocumentView: NSViewRepresentable {
+/// PDFKit's view: continuous pages, scaled to the window's width. With a
+/// `finder` (the Part Wizard's pane), the finder scrolls it to what it finds.
+struct PDFDocumentView: NSViewRepresentable {
     let document: PDFDocument
+    var finder: DatasheetFinder? = nil
 
     func makeNSView(context: Context) -> PDFView {
         let view = PDFView()
@@ -105,6 +93,7 @@ private struct PDFDocumentView: NSViewRepresentable {
         view.displayMode = .singlePageContinuous
         view.displaysPageBreaks = true
         view.document = document
+        finder?.view = view
         return view
     }
 
@@ -112,5 +101,6 @@ private struct PDFDocumentView: NSViewRepresentable {
         if view.document !== document {
             view.document = document
         }
+        finder?.view = view
     }
 }

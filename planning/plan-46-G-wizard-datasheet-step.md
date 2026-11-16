@@ -43,8 +43,8 @@ plan-46-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-46-F complete | `ls planning/completed/plan-46-F-*.md` → exists | NOT MET (2026-11-16: not started) |
-| Inline datasheets load (A) | `ctest --test-dir /tmp/logic-p46 -R part_file_test` → passed | NOT MET (2026-11-16: A not started) |
+| plan-46-F complete | `ls planning/completed/plan-46-F-*.md` → exists | MET (2026-11-16: `planning/completed/plan-46-F-wizard-kind-and-identity-steps.md`) |
+| Inline datasheets load (A) | `ctest --test-dir /tmp/logic-p46 -R part_file_test` → passed | MET (2026-11-16 at d0aefc6b: `part_file_test … Passed`) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 
@@ -122,9 +122,10 @@ Find needs, and the existing window already proves PDFKit works here.
 
 ### Phase 1 — Loader and finder
 
-- [ ] `DatasheetLoader.swift`, `DatasheetFinder.swift`;
-      `DatasheetWindowView` uses the loader (behavior unchanged).
-- [ ] `schematicalTests/DatasheetFinderTests.swift`: a 4-page PDF made in
+- [x] `DatasheetLoader.swift`, `DatasheetFinder.swift`;
+      `DatasheetWindowView` uses the loader (behavior unchanged; the
+      runtime walk opened a datasheet window through it).
+- [x] `schematicalTests/DatasheetFinderTests.swift`: a 4-page PDF made in
       the test (each page draws one heading with `NSAttributedString`
       into a `CGContext` PDF: "Features", "Pin Configuration and
       Functions", "Pin Functions", "Pin Functions (continued)") →
@@ -132,9 +133,11 @@ Find needs, and the existing window already proves PDFKit works here.
       on the next call (the first term with hits wins, and it has one);
       `find(["Pin Functions"])` returns 3, then 4, then wraps to 3;
       `find(["Thermal"])` returns nil with the "Not found" text.
-- [ ] URL rule tests in the same file: `http://x/y.pdf` → offered
+- [x] URL rule tests in the same file: `http://x/y.pdf` → offered
       `https://x/y.pdf`; `ftp://…` → the message; Generic manufacturer →
-      the message.
+      the message. (`xcodebuild … test
+      -only-testing:schematicalTests/DatasheetFinderTests` → `Executed 8
+      tests, with 0 failures`, `** TEST SUCCEEDED **`; § Corrections 1, 2.)
 
 Acceptance: the finder walks hits as § 1 says.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/DatasheetFinderTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
@@ -169,7 +172,24 @@ plan-46-A § Decisions (inline datasheets).
 
 ## Corrections
 
-None yet.
+1. **Hits on a table-of-contents page go last.** The runtime walk's first
+   Find on the Pins step landed on `Page 2 of 39 — “Pin Configuration and
+   Functions”`: the TI datasheet's contents page, which lists every
+   section title; the section itself (page 3) took a second press. § 1's
+   "keeps the hits of the first term that has any" still holds, but the
+   hits are ordered with those on a page whose text holds "Table of
+   Contents" after the others (`DatasheetFinder.contentsLast`), so the
+   first press reaches the section. `testATableOfContentsPageComesLast`
+   covers it; a title found only on the contents page is still found.
+2. **`DatasheetFinder` must outlive a test.** It is a main-actor class, so
+   freeing one inside a test aborts the host (the Swift runtime issue of
+   plan-46-A § Corrections 1); the tests keep theirs in a static list, as
+   the model tests do. In the app the finder lives as long as its window's
+   model.
+3. **All fields keeps its two-tab preview.** § 1's `Datasheet | Block |
+   Footprint` is the Guided pane (`PartEditorModel.GuidedPane`,
+   `GuidedPreviewPane`); `PreviewPane` (Block, Footprint) and its test are
+   unchanged.
 
 ## Summary
 
