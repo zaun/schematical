@@ -53,7 +53,8 @@ plan-46-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-46-I complete | `ls planning/completed/plan-46-I-*.md` → exists | NOT MET (2026-11-16: not started) |
+| plan-46-I complete | `ls planning/completed/plan-46-I-*.md` → exists | MET (2026-11-16: `planning/completed/plan-46-I-wizard-kind-steps.md`) |
+| `CustomFootprintDraftTests` green (added while executing, § Corrections 1) | `xcodebuild … test -only-testing:schematicalTests/CustomFootprintDraftTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` | MET (2026-11-16: NOT MET at 2760fe46 — a stale count; fixed in this plan, § Corrections 1; then `Executed 2 tests, with 0 failures`) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 
@@ -198,7 +199,16 @@ one row per pad); no corner/centre/slot controls in the form.
 
 ## Corrections
 
-None yet.
+1. **A prerequisite no row covered: `CustomFootprintDraftTests` was not
+   green at the base.** Phase 1's check names it ("unchanged, still
+   green"); it failed `testEveryExplicitFootprintRoundTrips`:
+   `XCTAssertEqual failed: ("564") is not equal to ("482")` while printing
+   `checked 564 explicit footprints, 0 mismatched`. The test hard-codes the
+   number of bundled `explicit` footprints; later plans added footprints
+   without moving it (§ 2 of this plan already measures 564), and plan-46
+   changes no footprint (`git diff --stat 4218bb74 --
+   schematical/schematical/Parts/footprints.json` → empty). The count is
+   now 564; landed as its own commit before Phase 1.
 
 ## Summary
 
