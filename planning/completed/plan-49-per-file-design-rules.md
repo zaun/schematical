@@ -268,7 +268,7 @@ Acceptance: the wizard works in the running app as the last task describes,
 and the docs name the file as the home of the rules.
   Check: `grep -c "designRules" docs/file-format.md` → at least 2; the app
   walk above, observed (est. 10 min).
-Commit: f9a8daf8
+Commit: f9a8daf8, 75abc9a7
 
 ## Validation Plan
 
