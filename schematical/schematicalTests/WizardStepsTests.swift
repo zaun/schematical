@@ -55,21 +55,31 @@ final class WizardStepsTests: XCTestCase {
         }
     }
 
-    func testGateSteps() {
-        let steps = WizardPlan.steps(for: PartDraft(newOf: "gate"))
-        XCTAssertEqual(steps.map(\.id), ["kind", "identity", "datasheet", "pinout",
-                                         "kind.supply", "kind.essentials", "kind.other",
-                                         "footprint", "review"])
-        XCTAssertEqual(steps.map(\.page), [.kind, .identity, .datasheet, .pinout,
-                                           .supply, .kindFields, .kindFields, .footprint, .review])
+    /// The steps derived from a schema, for a kind with no guide: the gate's
+    /// schema is the example (the wizard itself shows the gate's curated
+    /// guide, plan-46-L).
+    func testDerivedGateSteps() throws {
+        let steps = WizardPlan.derivedSteps(schema: try XCTUnwrap(PartKinds.schemas["gate"]), variant: nil)
+        XCTAssertEqual(steps.map(\.id), ["kind.supply", "kind.essentials", "kind.other"])
+        XCTAssertEqual(steps.map(\.page), [.supply, .kindFields, .kindFields])
         let byID = Dictionary(uniqueKeysWithValues: steps.map { ($0.id, $0) })
         XCTAssertEqual(byID["kind.supply"]?.keys, ["part.vcc", "part.inputMax"])
         XCTAssertEqual(byID["kind.essentials"]?.keys, ["device.gates", "device.timing", "part.family"])
         XCTAssertEqual(byID["kind.other"]?.keys, ["device.output", "device.units"])
         XCTAssertEqual(steps.filter(\.optional).map(\.id), ["kind.other"])
-        XCTAssertEqual(steps.map(\.title), ["What are you making?", "Part number", "Datasheet", "Pins",
-                                            "Supply voltage", "Essentials", "Other settings",
-                                            "Footprint", "Review"])
+        XCTAssertEqual(steps.map(\.title), ["Supply voltage", "Essentials", "Other settings"])
+    }
+
+    /// The whole list for an uncurated kind, and for the gate (curated).
+    func testStepLists() {
+        XCTAssertEqual(WizardPlan.steps(for: PartDraft(newOf: "sram")).map(\.page).prefix(4),
+                       [.kind, .identity, .datasheet, .pinout])
+        XCTAssertEqual(WizardPlan.steps(for: PartDraft(newOf: "sram")).map(\.page).suffix(2), [.footprint, .review])
+        XCTAssertEqual(WizardPlan.steps(for: PartDraft(newOf: "gate")).map(\.id),
+                       ["kind", "identity", "datasheet", "pinout", "kind.supply", "kind.gates", "kind.timing",
+                        "footprint", "review"])
+        XCTAssertEqual(WizardPlan.steps(for: PartDraft(newOf: "gate")).map(\.title).prefix(4),
+                       ["What are you making?", "Part number", "Datasheet", "Pins"])
     }
 
     /// An optional key that holds a group or a list gets a screen of its own,

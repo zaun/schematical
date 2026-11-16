@@ -48,8 +48,8 @@ final class WizardIssueLocatorTests: XCTestCase {
         if case let .failure(failure) = PartValidator.shared.validate(Self.gateDraft()) { XCTFail(failure.message) }
         // The step that holds each key, in a gate's derived steps.
         let steps = WizardPlan.steps(for: Self.gateDraft())
-        XCTAssertEqual(steps.first { $0.keys.contains("device.gates") }?.id, "kind.essentials")
-        XCTAssertEqual(steps.first { $0.keys.contains("part.family") }?.id, "kind.essentials")
+        XCTAssertEqual(steps.first { $0.keys.contains("device.gates") }?.id, "kind.gates")
+        XCTAssertEqual(steps.first { $0.keys.contains("part.family") }?.id, "kind.timing")
         XCTAssertEqual(steps.first { $0.keys.contains("part.vcc") }?.id, "kind.supply")
     }
 
@@ -59,13 +59,13 @@ final class WizardIssueLocatorTests: XCTestCase {
             draft.kindDevice["gates"] = .array([.object([
                 "op": .string("nand"), "inputs": .array([.string("1A"), .string("1B")]), "output": .string("Q"),
             ])])
-        }, "kind.essentials")
+        }, "kind.gates")
         // 2. A footprint with 8 pads for 14 pins.
         XCTAssertEqual(locate("2 footprint SOIC-8") { $0.footprint = "SOIC-8" }, "footprint")
         // 3. Two pins with the number 3.
         XCTAssertEqual(locate("3 duplicate pin number") { $0.pinouts[0].pins[3].designator = "3" }, "pinout")
         // 4. A family the timing table does not have.
-        XCTAssertEqual(locate("4 family ZZ") { $0.kindPart["family"] = .string("ZZ") }, "kind.essentials")
+        XCTAssertEqual(locate("4 family ZZ") { $0.kindPart["family"] = .string("ZZ") }, "kind.timing")
         // 5. An inline datasheet that is not https.
         XCTAssertEqual(locate("5 http datasheet") { draft in
             draft.datasheets = [DatasheetDraft(id: "CUSTOM-X", url: "http://example.com/x.pdf")]
@@ -84,11 +84,11 @@ final class WizardIssueLocatorTests: XCTestCase {
         XCTAssertEqual(locate("no footprint") { $0.footprint = nil }, "footprint")
         XCTAssertEqual(locate("unknown footprint") { $0.footprint = "NO-SUCH" }, "footprint")
         XCTAssertEqual(locate("unknown datasheet") { $0.datasheet = "no-such-sheet" }, "datasheet")
-        XCTAssertEqual(locate("no gates") { $0.kindDevice["gates"] = .array([]) }, "kind.essentials")
+        XCTAssertEqual(locate("no gates") { $0.kindDevice["gates"] = .array([]) }, "kind.gates")
         XCTAssertEqual(locate("bad timing") { draft in
             draft.kindDevice["timing"] = .object(["HC": .object(["rise": .number(-1), "fall": .number(9)])])
-        }, "kind.essentials")
-        XCTAssertEqual(locate("bad output type") { $0.kindDevice["output"] = .string("totem") }, "kind.other")
+        }, "kind.timing")
+        XCTAssertEqual(locate("bad output type") { $0.kindDevice["output"] = .string("totem") }, "kind.gates")
     }
 
     /// The Review page's data: what is still to do, where a message leads,
@@ -99,9 +99,9 @@ final class WizardIssueLocatorTests: XCTestCase {
         // An empty gate: everything is still to do, each with its step.
         let todo = ReviewStepPage.todo(model)
         XCTAssertEqual(todo.map(\.issue), ["The part has no part number", "The part has no pins", "Gates is empty",
-                                           "Timing is empty", "Family is empty", "No footprint is chosen"])
-        XCTAssertEqual(todo.map(\.title), ["Part number", "Pins", "Essentials", "Essentials", "Essentials",
-                                           "Footprint"])
+                                           "Family is empty", "Timing is empty", "No footprint is chosen"])
+        XCTAssertEqual(todo.map(\.title), ["Part number", "Pins", "Gates", "Logic family and timing",
+                                           "Logic family and timing", "Footprint"])
         XCTAssertEqual(ReviewStepPage.pinRows(draft: model.draft, part: nil), [])
 
         // A valid part: nothing to do, every pin on its pad.
@@ -123,11 +123,11 @@ final class WizardIssueLocatorTests: XCTestCase {
         ])])
         guard case let .failure(failure) = model.validateNow() else { return XCTFail("accepted") }
         let target = try XCTUnwrap(ReviewStepPage.target(of: failure.message, in: model))
-        XCTAssertEqual(target.id, "kind.essentials")
-        XCTAssertEqual(target.title, "Essentials")
+        XCTAssertEqual(target.id, "kind.gates")
+        XCTAssertEqual(target.title, "Gates")
         model.go(to: "review")
         model.go(to: target.id)
-        XCTAssertEqual(model.currentStepID, "kind.essentials")
+        XCTAssertEqual(model.currentStepID, "kind.gates")
         // The wizard's own check names the same step.
         XCTAssertEqual(ReviewStepPage.todo(model).map(\.issue), ["Gates 1 › Output: there is no pin named “Q”"])
         XCTAssertNil(ReviewStepPage.target(of: "part.schpart: out of memory", in: model))
@@ -155,7 +155,7 @@ final class WizardIssueLocatorTests: XCTestCase {
                                              draft: draft))
         // A nested key points at the step of the key it is inside.
         XCTAssertEqual(WizardIssueLocator.kindStep(named: "inputs", steps: WizardPlan.steps(for: draft), draft: draft),
-                       "kind.essentials")
+                       "kind.gates")
         XCTAssertNil(WizardIssueLocator.kindStep(named: "nonsense", steps: WizardPlan.steps(for: draft), draft: draft))
     }
 }

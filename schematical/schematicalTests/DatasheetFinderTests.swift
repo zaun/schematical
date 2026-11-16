@@ -149,8 +149,10 @@ final class DatasheetFinderTests: XCTestCase {
                                               "Absolute Maximum Ratings"])
         XCTAssertEqual(terms["footprint"]?.count, 8)
         XCTAssertEqual(terms["footprint"]?.first, "Land Pattern")
-        // A derived kind step has none (its guide gives them, plan-46-L).
-        XCTAssertEqual(terms["kind.essentials"], [])
+        // A derived kind step has none; a curated one names its sections (plan-46-L).
+        let derived = WizardPlan.derivedSteps(schema: PartKinds.schemas["gate"]!, variant: nil)
+        XCTAssertEqual(derived.first { $0.id == "kind.essentials" }?.searchTerms, [])
+        XCTAssertEqual(terms["kind.gates"]?.first, "Function Tables")
         XCTAssertEqual(terms["datasheet"], [])
     }
 }

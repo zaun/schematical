@@ -50,7 +50,7 @@ final class WizardModelTests: XCTestCase {
         let model = model(.new(kind: "gate"))
         let steps = model.steps
         XCTAssertEqual(steps.map(\.id), ["kind", "identity", "datasheet", "pinout", "kind.supply",
-                                         "kind.essentials", "kind.other", "footprint", "review"])
+                                         "kind.gates", "kind.timing", "footprint", "review"])
         // The kind is known, so a new gate starts on the part number; the
         // kind step is one Back away (plan-46-F).
         XCTAssertEqual(model.currentStepID, "identity")
@@ -116,8 +116,8 @@ final class WizardModelTests: XCTestCase {
         XCTAssertEqual(issues["datasheet"], [])
         XCTAssertEqual(issues["pinout"], ["The part has no pins"])
         XCTAssertEqual(issues["kind.supply"], [], "the supply range is optional")
-        XCTAssertEqual(issues["kind.essentials"], ["Gates is empty", "Timing is empty", "Family is empty"])
-        XCTAssertEqual(issues["kind.other"], [])
+        XCTAssertEqual(issues["kind.gates"], ["Gates is empty"])
+        XCTAssertEqual(issues["kind.timing"], ["Family is empty", "Timing is empty"])
         XCTAssertEqual(issues["footprint"], ["No footprint is chosen"])
         XCTAssertEqual(issues["review"], [])
     }
@@ -134,7 +134,7 @@ final class WizardModelTests: XCTestCase {
         draft.kindDevice["timing"] = .object(["HC": .object(["rise": .number(9), "fall": .number(9)])])
         draft.kindPart["family"] = .string("HC")
         let steps = PartEditorModel.steps(for: draft)
-        let essentials = steps.first { $0.id == "kind.essentials" }
+        let essentials = steps.first { $0.id == "kind.gates" }
         XCTAssertEqual(essentials?.issues(in: draft), [
             "Gates 1 › Inputs: there is no pin named “B”",
             "Gates 1 › Output: there is no pin named “Q”",

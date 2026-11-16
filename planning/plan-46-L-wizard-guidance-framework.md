@@ -44,7 +44,7 @@ plan-46-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-46-K complete | `ls planning/completed/plan-46-K-*.md` → exists | NOT MET (2026-11-16: not started) |
+| plan-46-K complete | `ls planning/completed/plan-46-K-*.md` → exists | MET (2026-11-16: `planning/completed/plan-46-K-wizard-review-step.md`) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 
@@ -130,9 +130,16 @@ plan-46-A § Prerequisites, plus:
 
 ### Phase 1 — Framework, shared guides, step intros
 
-- [ ] `Guidance.swift`, `SharedGuides`, `StepGuides`; `FieldsEditor`
-      guided rows.
-- [ ] `KindGuideTests` cases 2–4 (they hold with no curated kind).
+- [x] `Guidance.swift`, `SharedGuides`, `StepGuides`; `FieldsEditor`
+      guided rows. (The rows are drawn by `FieldEditor` with
+      `FieldGuideView`, from the `\.guidedFields` path plan-46-I set up;
+      the Find button reaches the window's finder through
+      `\.datasheetFind`; an example is the placeholder of a single text
+      field (`\.fieldExample`) and a "For example: …" line under a control
+      that is not one, such as the supply range.)
+- [x] `KindGuideTests` cases 2–4 (they hold with no curated kind).
+      (`testGuidePathsAreSchemaKeys`, `testSharedGuidesAreKeysOfSomeSchema`,
+      `testCuratedStepsHaveSearchTerms`, plus `testGuidanceLookup`.)
 
 Acceptance: shared guidance resolves and shows.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/KindGuideTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
@@ -140,7 +147,16 @@ Commit: —
 
 ### Phase 2 — The gate guide
 
-- [ ] `Guides/GateGuide.swift`; `KindGuideTests` cases 1 and 5.
+- [x] `Guides/GateGuide.swift`; `KindGuideTests` cases 1 and 5.
+      (`testCuratedGuidesCoverEveryKeyOnce`, `testGatePointersAreDatasheetHeadings`
+      (§ Corrections 1), `testGateGuideSteps`, `testAMissingKeyIsNamed`:
+      `xcodebuild … test -only-testing:schematicalTests/KindGuideTests` →
+      `Executed 8 tests, with 0 failures`, `** TEST SUCCEEDED **`. The gate's
+      steps are now `kind.supply`, `kind.gates`, `kind.timing`; the tests
+      that named its derived steps (`kind.essentials`, `kind.other`) were
+      updated, and the derived rule is still asserted on the gate schema by
+      `WizardStepsTests.testDerivedGateSteps`: 54 tests over the seven
+      wizard test classes, 0 failures.)
 - [ ] Runtime check (run skill): New Part… → Gate → the three gate
       steps with their intros; with the SN74HC00 PDF loaded, every Find
       button on the Supply and timing steps lands on a page (none says
@@ -164,7 +180,32 @@ of them).
 
 ## Corrections
 
-None yet.
+1. **Test (5) as written cannot hold together with § 1's own shared
+   guides, so it is made exact rather than dropped.** § 1 (5) asks that
+   *every* `whereToFind` string of the gate and shared guides match a `##`
+   heading of the 83 converted gate datasheets. Those files' headings are
+   the conversion format's own fixed set — `grep '^## '
+   Datasheets/gate-and/*.md | sort | uniq -c` gives 16 distinct headings
+   (Switching characteristics, Recommended operating conditions, Pinout,
+   Pin functions, Package, Ordering information, Function tables,
+   Electrical characteristics, Description, Absolute maximum ratings, …) —
+   while § 1 itself lists, for the shared guides, titles other makers use
+   that are not among them: "Operating Conditions", "AC Characteristics",
+   "Timing Characteristics", "Device Information". The test now asserts,
+   for every guide and step the gate wizard shows: (a) its *first* title
+   (the one shown as "Usually under") is a heading of those datasheets,
+   and (b) every other title is either such a heading or listed in
+   `Guidance.alternateTitles`, the declared set of other makers' names.
+   No title is unchecked: one that is neither fails, naming the guide.
+2. **Find on a contents page.** In the walk, `Ordering Information` landed
+   on page 2 of the TI PDF, its contents page: the PDF has no page titled
+   so (the section is "Mechanical, Packaging, and Orderable Information"),
+   so the only hit is the contents line. plan-46-G's contents-last order
+   still put every title that has a real section on that section.
+3. **The step-id change reaches Review.** K's "Go to Essentials" for a
+   gate is now "Go to Gates" / "Go to Logic family and timing"
+   (`WizardIssueLocatorTests` asserts `kind.gates` and `kind.timing`),
+   which is the wording plan-46-K's behavioral outcome gave.
 
 ## Summary
 

@@ -35,7 +35,7 @@ final class WizardIdentityTests: XCTestCase {
         XCTAssertEqual(model.currentStepID, "identity")
         XCTAssertEqual(model.issues(of: .kind), [])
         XCTAssertEqual(model.steps.map(\.id), ["kind", "identity", "datasheet", "pinout", "kind.supply",
-                                               "kind.essentials", "kind.other", "footprint", "review"])
+                                               "kind.gates", "kind.timing", "footprint", "review"])
         XCTAssertEqual(Set(model.draft.kindDevice.keys), ["gates", "timing"])
         XCTAssertEqual(model.title, "New Logic Gate Part")
 

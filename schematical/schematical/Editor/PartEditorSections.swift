@@ -202,8 +202,10 @@ struct KindFieldsSection: View {
     @ViewBuilder private func editors(_ fields: (device: [Field], part: [Field])) -> some View {
         FieldsEditor(fields: fields.device, object: $model.draft.kindDevice, pinNames: model.draft.pinNames)
             .environment(\.guidedFields, guided ? GuidedFields(kind: model.draft.kind, path: "device") : nil)
+            .environment(\.datasheetFind, guided ? { model.findInDatasheet($0) } : nil)
         FieldsEditor(fields: fields.part, object: $model.draft.kindPart, pinNames: model.draft.pinNames)
             .environment(\.guidedFields, guided ? GuidedFields(kind: model.draft.kind, path: "part") : nil)
+            .environment(\.datasheetFind, guided ? { model.findInDatasheet($0) } : nil)
     }
 
     /// The fields the section shows, by side (pure, for the tests).

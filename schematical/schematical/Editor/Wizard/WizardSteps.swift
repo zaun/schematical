@@ -24,14 +24,16 @@ struct WizardStep: Identifiable, Hashable, Sendable {
     var searchTerms: [String] = []
 
     // The fixed steps every part has.
-    static let kind = WizardStep(id: "kind", title: "What are you making?", page: .kind)
-    static let identity = WizardStep(id: "identity", title: "Part number", page: .identity,
-                                     searchTerms: StepSearchTerms.identity)
-    static let datasheet = WizardStep(id: "datasheet", title: "Datasheet", page: .datasheet)
-    static let pinout = WizardStep(id: "pinout", title: "Pins", page: .pinout, searchTerms: StepSearchTerms.pinout)
-    static let footprint = WizardStep(id: "footprint", title: "Footprint", page: .footprint,
-                                      searchTerms: StepSearchTerms.footprint)
-    static let review = WizardStep(id: "review", title: "Review", page: .review)
+    static let kind = WizardStep(id: "kind", title: "What are you making?", intro: StepGuides.kind, page: .kind)
+    static let identity = WizardStep(id: "identity", title: "Part number", intro: StepGuides.identity,
+                                     page: .identity, searchTerms: StepSearchTerms.identity)
+    static let datasheet = WizardStep(id: "datasheet", title: "Datasheet", intro: StepGuides.datasheet,
+                                      page: .datasheet)
+    static let pinout = WizardStep(id: "pinout", title: "Pins", intro: StepGuides.pinout, page: .pinout,
+                                   searchTerms: StepSearchTerms.pinout)
+    static let footprint = WizardStep(id: "footprint", title: "Footprint", intro: StepGuides.footprint,
+                                      page: .footprint, searchTerms: StepSearchTerms.footprint)
+    static let review = WizardStep(id: "review", title: "Review", intro: StepGuides.review, page: .review)
 }
 
 /// A kind's hand-written wizard screens (plan-46-L, M): its kind steps for a
@@ -39,6 +41,9 @@ struct WizardStep: Identifiable, Hashable, Sendable {
 /// kind with no guide gets steps derived from its schema.
 struct KindGuide: Sendable {
     let steps: @Sendable (String?) -> [WizardStep]
+    /// Guidance for the kind's keys, by side-qualified dotted path
+    /// (`"device.gates.op"`, `"part.family"`); plan-46-L.
+    var fields: [String: FieldGuide] = [:]
 }
 
 /// A top-level kind key with its side: `device.gates`, `part.family`.
@@ -190,7 +195,9 @@ enum WizardPlan {
 extension PartKinds {
     /// The curated guides, by kind (plan-46-L, M). A kind without one gets
     /// derived steps.
-    static let guides: [String: KindGuide] = [:]
+    static let guides: [String: KindGuide] = [
+        "gate": GateGuide.guide,
+    ]
 
     /// Kind → model → one plain sentence (plan-46-M writes them).
     static let variantBlurbs: [String: [String: String]] = [:]

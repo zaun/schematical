@@ -75,11 +75,17 @@ struct FieldEditor: View {
     @Environment(\.guidedFields) private var guided
 
     var body: some View {
+        // In a wizard step, the kind's guide (or the shared one) names and
+        // explains the field (plan-46-L); All fields keeps the schema's label.
+        let guide = guided.flatMap { Guidance.guide(kind: $0.kind, path: "\($0.path).\(field.key)") }
         VStack(alignment: .leading, spacing: 4) {
-            FieldValueEditor(label: field.label, type: field.type, required: field.required,
+            FieldValueEditor(label: guide?.label ?? field.label, type: field.type, required: field.required,
                              value: $value, pinNames: pinNames)
                 .environment(\.guidedFields, guided?.descending(field.key, label: field.label))
-            if let help = field.help {
+                .environment(\.fieldExample, guide?.example)
+            if let guide {
+                FieldGuideView(guide: guide, examplePlaced: field.type.takesPlaceholder)
+            } else if let help = field.help {
                 Text(help).font(.caption).foregroundStyle(.secondary)
             }
             if guided != nil {
@@ -98,18 +104,21 @@ struct FieldValueEditor: View {
     let required: Bool
     @Binding var value: JSONValue?
     let pinNames: [String]
+    /// A typical value, as the placeholder of a single text field (plan-46-L).
+    @Environment(\.fieldExample) private var example
 
     var body: some View {
         switch type {
         case .text:
-            TextField(label, text: $value.string(removeWhenEmpty: !required))
+            TextField(label, text: $value.string(removeWhenEmpty: !required), prompt: example.map { Text($0) })
         case .note:
-            TextField(label, text: $value.string(removeWhenEmpty: !required), axis: .vertical)
+            TextField(label, text: $value.string(removeWhenEmpty: !required), prompt: example.map { Text($0) },
+                      axis: .vertical)
                 .lineLimit(1...4)
         case let .number(unit):
-            NumberField(label: unit.isEmpty ? label : "\(label) (\(unit))", value: $value.number())
+            NumberField(label: unit.isEmpty ? label : "\(label) (\(unit))", value: $value.number(), example: example)
         case .integer:
-            NumberField(label: label, value: $value.number(), integer: true)
+            NumberField(label: label, value: $value.number(), integer: true, example: example)
         case .bool:
             Picker(label, selection: boolSelection) {
                 if !required { Text("—").tag(Int?.none) }
@@ -123,7 +132,7 @@ struct FieldValueEditor: View {
             }
         case let .suggested(options):
             HStack {
-                TextField(label, text: $value.string(removeWhenEmpty: !required))
+                TextField(label, text: $value.string(removeWhenEmpty: !required), prompt: example.map { Text($0) })
                 Menu {
                     ForEach(options, id: \.self) { option in
                         Button(option) { value = .string(option) }
@@ -189,12 +198,15 @@ struct NumberField: View {
     let label: String
     @Binding var value: Double?
     var integer = false
+    /// A typical value, shown while the field is empty.
+    var example: String? = nil
 
     var body: some View {
         if integer {
-            TextField(label, value: $value, format: .number.precision(.fractionLength(0)).grouping(.never))
+            TextField(label, value: $value, format: .number.precision(.fractionLength(0)).grouping(.never),
+                      prompt: example.map { Text($0) })
         } else {
-            TextField(label, value: $value, format: .number.grouping(.never))
+            TextField(label, value: $value, format: .number.grouping(.never), prompt: example.map { Text($0) })
         }
     }
 }
