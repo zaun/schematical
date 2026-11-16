@@ -341,6 +341,19 @@ Commit: f9a8daf8, 75abc9a7
   beyond reading the code: the save and open panels themselves, and the
   ⇧⌘D menu item opening the window (`ContentView.swift:764`, untouched by
   this plan). Both need an unlocked screen, which needs the owner.
+- **⇧⌘D in the running app: a test exists, and it skipped.** The tests'
+  host is the app itself, so
+  `DesignRuleCheckWizardTests.testTheMenuCommandOpensStepOneInTheRunningApp`
+  drives the app's own schematic window: it presses the PCB page control
+  (observed: `Schematic | 0`, `PCB | 1`), then Window ▸ Design Rule Check,
+  and expects the check's window on step 1, then step 2 after Run Check.
+  The menu command follows the key window, and under the locked screen the
+  window cannot become key (`key false, active false`; posting the
+  did-become-key notifications by hand did not change that), so the test
+  skips there (`XCTSkipUnless(main.isKeyWindow)`) and runs on an unlocked
+  screen. Observed run: `Executed 15 tests, with 1 test skipped and 0
+  failures`. The part it did prove: on the Schematic page the menu item is
+  disabled, and the page control switches the real window to PCB.
 - **Prerequisites re-run at close-out:** `ls planning planning/completed |
   grep -c plan-49` → 1, this plan's own file; the number was free when the
   plan was written. MET.

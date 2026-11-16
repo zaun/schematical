@@ -9,9 +9,77 @@ import XCTest
 final class DesignRuleCheckWizardTests: XCTestCase {
     private var window: NSWindow!
 
+    /// The hosted window is the test's own; the app's windows are left open.
+    private var ownsWindow = false
+
     override func tearDown() async throws {
-        window?.orderOut(nil)
+        if ownsWindow { window?.orderOut(nil) }
         window = nil
+        ownsWindow = false
+    }
+
+    private func enableAccessibility() {
+        // SwiftUI builds its accessibility tree only once a client asks.
+        let app = AXUIElementCreateApplication(getpid())
+        AXUIElementSetAttributeValue(app, "AXManualAccessibility" as CFString, kCFBooleanTrue)
+        AXUIElementSetAttributeValue(app, "AXEnhancedUserInterface" as CFString, kCFBooleanTrue)
+    }
+
+    /// A menu item of the app's menu bar, by its menu's and its own title.
+    private func menuItem(_ menu: String, _ title: String) throws -> NSMenuItem {
+        let top = try XCTUnwrap(NSApp.mainMenu?.items.first { $0.title == menu }?.submenu, "no \(menu) menu")
+        top.update()
+        return try XCTUnwrap(top.items.first { $0.title == title }, "no \(title) in \(top.items.map(\.title))")
+    }
+
+    /// The running app itself (the tests' host is the app): on the PCB page
+    /// of its schematic window, Window ▸ Design Rule Check opens the check
+    /// on step 1, and Run Check goes to step 2.
+    func testTheMenuCommandOpensStepOneInTheRunningApp() throws {
+        enableAccessibility()
+        let main = try XCTUnwrap(NSApp.windows.first { $0.title == "Untitled" && $0.isVisible },
+                                 "the app's schematic window: \(NSApp.windows.map(\.title))")
+        NSApp.activate(ignoringOtherApps: true)
+        main.makeKeyAndOrderFront(nil)
+        window = main
+        settle(1)
+
+        // On the Schematic page there is nothing to check.
+        XCTAssertFalse(try menuItem("Window", "Design Rule Check").isEnabled)
+        let pcb = try XCTUnwrap(elements().first { ["AXRadioButton", "AXButton"].contains(role($0)) && label($0).hasPrefix("PCB") },
+                                "no PCB page control: \(Set(elements().filter { role($0) == "AXRadioButton" || role($0) == "AXButton" }.map(label)))")
+        _ = pcb.perform(NSSelectorFromString("accessibilityPerformPress"))
+        settle(1)
+        // Leave the app's window as it was for the tests that follow.
+        defer {
+            window = main
+            if let schematic = elements().first(where: { role($0) == "AXRadioButton" && label($0).hasPrefix("Schematic") }) {
+                _ = schematic.perform(NSSelectorFromString("accessibilityPerformPress"))
+                settle(0.3)
+            }
+        }
+        // The menu command follows the key window. A locked screen, or
+        // another app kept in front, stops the window becoming key, and
+        // then there is nothing to test here.
+        try XCTSkipUnless(main.isKeyWindow, "the app's window can't become key (screen locked, or another app in front)")
+        let item = try menuItem("Window", "Design Rule Check")
+        XCTAssertTrue(item.isEnabled, "enabled on the PCB page")
+        XCTAssertEqual(item.keyEquivalent.lowercased(), "d")
+        let menu = try XCTUnwrap(item.menu)
+        menu.performActionForItem(at: menu.index(of: item))
+        settle(1.5)
+
+        let check = try XCTUnwrap(NSApp.windows.first { $0.title.hasPrefix("Design Rule Check") && $0.isVisible },
+                                  "\(NSApp.windows.map(\.title))")
+        defer { check.close() }
+        window = check
+        XCTAssertTrue((check.title + check.subtitle).contains("Step 1 of 2"), check.title + " / " + check.subtitle)
+        XCTAssertEqual(views(NSTextField.self).filter(\.isEditable).count, 13)
+        snapshot("app-1-rules")
+        try press("Run Check")
+        settle(1)
+        XCTAssertTrue((check.title + check.subtitle).contains("Step 2 of 2"), check.title + " / " + check.subtitle)
+        snapshot("app-2-results")
     }
 
     private func host(_ doc: SchematicDocument) {
@@ -22,10 +90,8 @@ final class DesignRuleCheckWizardTests: XCTestCase {
         window.contentViewController = controller
         window.setContentSize(NSSize(width: 720, height: 900))
         window.orderFront(nil)
-        // SwiftUI builds its accessibility tree only once a client asks.
-        let app = AXUIElementCreateApplication(getpid())
-        AXUIElementSetAttributeValue(app, "AXManualAccessibility" as CFString, kCFBooleanTrue)
-        AXUIElementSetAttributeValue(app, "AXEnhancedUserInterface" as CFString, kCFBooleanTrue)
+        ownsWindow = true
+        enableAccessibility()
         settle()
     }
 
