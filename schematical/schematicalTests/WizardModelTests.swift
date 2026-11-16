@@ -152,6 +152,51 @@ final class WizardModelTests: XCTestCase {
         XCTAssertEqual(essentials?.issues(in: draft), [])
     }
 
+    /// plan-46-H: a pasted table replaces the part's pins, and a pin renamed
+    /// in the pin table is renamed in the kind's settings.
+    func testApplyingPinsAndCommittingARename() throws {
+        let model = model(.new(kind: "gate"))
+        let table = PinTableParser.parse(PinTableParserTests.tiTable)
+        let columns = PinTableParser.guessColumns(table)
+        model.applyPins(PinTableParser.pins(table, columns: columns).pins, style: PinTableParser.style(columns))
+        XCTAssertEqual(model.draft.pinCount, 14)
+        XCTAssertEqual(model.draft.pinouts[0].style, .numbered)
+        XCTAssertEqual(model.steps.first { $0.id == "pinout" }?.issues(in: model.draft), [])
+
+        model.draft.kindDevice["gates"] = .array([.object([
+            "op": .string("nand"), "inputs": .array([.string("1A"), .string("1B")]), "output": .string("1Y"),
+        ])])
+        let pinout = model.draft.pinouts[0]
+        let pin = try XCTUnwrap(pinout.pins.first { $0.name == "1A" })
+        XCTAssertEqual(model.commitPinName(pinout: pinout.id, pin: pin.id, to: "A1"), 1)
+        XCTAssertEqual(model.renameStatus, "Renamed in 1 setting")
+        XCTAssertEqual(model.draft.pinouts[0].pins[0].name, "A1")
+        XCTAssertEqual(model.draft.kindDevice["gates"], .array([.object([
+            "op": .string("nand"), "inputs": .array([.string("A1"), .string("1B")]), "output": .string("1Y"),
+        ])]))
+
+        // A pin no setting names: the table changes, nothing else, no status.
+        let vcc = try XCTUnwrap(model.draft.pinouts[0].pins.first { $0.name == "VCC" })
+        XCTAssertEqual(model.commitPinName(pinout: pinout.id, pin: vcc.id, to: "VDD"), 0)
+        XCTAssertNil(model.renameStatus)
+        XCTAssertEqual(model.draft.pinouts[0].pins[13].name, "VDD")
+        // The same name again is no rename.
+        XCTAssertEqual(model.commitPinName(pinout: pinout.id, pin: vcc.id, to: "VDD"), 0)
+
+        // A name another pin has: the pin is renamed (two GND pins are
+        // legitimate), the settings are left for the user.
+        let b = try XCTUnwrap(model.draft.pinouts[0].pins.first { $0.name == "1B" })
+        XCTAssertEqual(model.commitPinName(pinout: pinout.id, pin: b.id, to: "1Y"), 0)
+        XCTAssertEqual(model.draft.pinouts[0].pins[1].name, "1Y")
+
+        // No table to copy: N numbered pins.
+        let blank = self.model(.new(kind: "generic"))
+        blank.startWithNumberedPins(3)
+        XCTAssertEqual(blank.draft.pinouts[0].pins.map(\.designator), ["1", "2", "3"])
+        XCTAssertEqual(PinoutStepPage.summary(pins: 14, skipped: 1), "14 pins, 1 row skipped")
+        XCTAssertEqual(PinoutStepPage.summary(pins: 1, skipped: 0), "1 pin, 0 rows skipped")
+    }
+
     /// A zero or a "no" is an answer; an untouched supply range is not.
     func testWhatCountsAsEmpty() {
         XCTAssertFalse(FieldType.integer.isEmpty(.number(0)))

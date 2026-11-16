@@ -137,15 +137,31 @@ plan-46-A § Prerequisites, plus:
 
 Acceptance: the six fixtures give exactly the pins listed.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/PinTableParserTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+Commit: b1e942d5
 
 ### Phase 2 — The page and the rename commit
 
-- [ ] `Editor/Wizard/PinoutStepPage.swift`; `PinoutEditor` rename commit.
-- [ ] Runtime check (run skill): gate wizard → Pins → paste fixture 1 →
+- [x] `Editor/Wizard/PinoutStepPage.swift`; `PinoutEditor` rename commit.
+      (`PinNameField` commits on Return, on focus loss and when it goes off
+      screen; `PartEditorModel.commitPinName`, `applyPins`,
+      `startWithNumberedPins`, tested in
+      `WizardModelTests.testApplyingPinsAndCommittingARename`: `xcodebuild …
+      test -only-testing:schematicalTests/WizardModelTests …` → `Executed 9
+      tests, with 0 failures`, `** TEST SUCCEEDED **`. A rename onto a name
+      another pin has renames the pin and leaves the settings: two `GND`
+      pins are legitimate.)
+- [x] Runtime check (run skill): gate wizard → Pins → paste fixture 1 →
       Apply → 14 pins with the roles above → rename `1A` to `A1` after the
       gates step has `1A` in `inputs` → the gates step shows `A1`.
       Pointer to (0, 0).
+      (2026-11-16, this plan's Debug build: fixture 1 put in the paste box →
+      column pickers `Name`, `Pin number`, `Type`, `Ignore`, `14 pins, 1 row
+      skipped` → Apply → 14 rows, roles `input input output input input
+      output ground output input input output input input power`, names
+      `1A`, `1B`, … On Essentials a gate with one input read `1A`; back on
+      Pins, pin 1 renamed `A1` → `Renamed in 1 setting`; Essentials then
+      showed the input as `A1`, with no "no pin named" issue. Pointer left
+      at (0, 0).)
 
 Acceptance: a pasted table becomes a reviewed pinout, and renames carry.
   Check: the walk above (est. 10 min).

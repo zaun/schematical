@@ -155,7 +155,11 @@ struct PartEditorForm: View {
             }
             IdentitySection(model: model)
             VerdictSection(model: model)
-            PinoutsSection(pinouts: $model.draft.pinouts, partPinout: $model.draft.pinout)
+            PinoutsSection(pinouts: $model.draft.pinouts, partPinout: $model.draft.pinout,
+                           commitName: { pinout, pin, name in
+                               model.commitPinName(pinout: pinout, pin: pin, to: name)
+                           },
+                           status: model.renameStatus)
             FootprintSection(model: model)
             SupplySection(model: model)
             KindFieldsSection(model: model)
@@ -238,6 +242,11 @@ struct DatasheetField: View {
 struct PinoutsSection: View {
     @Binding var pinouts: [PinoutDraft]
     @Binding var partPinout: String
+    /// Commits a pin's new name (pinout id, pin id, name), so the kind's
+    /// settings that name the pin follow (plan-46-H); nil sets it directly.
+    var commitName: ((UUID, UUID, String) -> Void)? = nil
+    /// What the last rename carried over: "Renamed in 2 settings".
+    var status: String? = nil
 
     var body: some View {
         Section("Pinouts") {
@@ -247,7 +256,11 @@ struct PinoutsSection: View {
             }
             ForEach($pinouts) { $pinout in
                 PinoutEditor(pinout: $pinout, onRemove: pinouts.count > 1 ? { remove(pinout.id) } : nil,
-                             onRename: { old, new in if partPinout == old { partPinout = new } })
+                             onRename: { old, new in if partPinout == old { partPinout = new } },
+                             commitName: commitName.map { commit in { pin, name in commit(pinout.id, pin, name) } })
+            }
+            if let status {
+                Text(status).font(.caption).foregroundStyle(.secondary)
             }
             HStack {
                 Button("Add Numbered Pinout") { add(.numbered) }
@@ -274,6 +287,8 @@ struct PinoutEditor: View {
     @Binding var pinout: PinoutDraft
     let onRemove: (() -> Void)?
     let onRename: (String, String) -> Void
+    /// Commits a pin's new name (pin id, name); nil sets it directly.
+    var commitName: ((UUID, String) -> Void)? = nil
 
     var body: some View {
         GroupBox {
@@ -304,7 +319,10 @@ struct PinoutEditor: View {
                     ForEach($pinout.pins) { $pin in
                         GridRow {
                             TextField("", text: $pin.designator).frame(width: 50)
-                            TextField("", text: $pin.name).frame(minWidth: 70)
+                            PinNameField(name: pin.name) { new in
+                                if let commitName { commitName(pin.id, new) } else { pin.name = new }
+                            }
+                            .frame(minWidth: 70)
                             Picker("", selection: $pin.role) {
                                 ForEach(PinDraft.roles, id: \.self) { Text($0).tag($0) }
                             }

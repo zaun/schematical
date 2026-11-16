@@ -68,7 +68,7 @@ struct WizardStepView: View {
         case .datasheet:
             DatasheetStepPage(model: model)
         case .pinout:
-            PinoutsSection(pinouts: $model.draft.pinouts, partPinout: $model.draft.pinout)
+            PinoutStepPage(model: model)
         case .variant, .supply, .kindFields:
             KindFieldsSection(model: model, keys: step.keys, title: "")
         case .footprint:

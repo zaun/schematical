@@ -26,6 +26,10 @@ final class PartEditorModel {
         }
     }
 
+    /// What the last pin rename carried into the kind's settings: "Renamed
+    /// in 2 settings" (plan-46-H); nil when it touched none.
+    var renameStatus: String?
+
     // MARK: The datasheet beside the wizard (plan-46-G)
 
     /// The loaded datasheet and its search, shared by the pane and every
