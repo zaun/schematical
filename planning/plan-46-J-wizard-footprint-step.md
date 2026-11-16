@@ -151,9 +151,19 @@ entries; `FootprintRanking` puts `SOIC-14` before `PDIP-14` for package
 
 ### Phase 1 — Parametric drafts and ranking
 
-- [ ] `ParametricFootprintDraft.swift`, `PartDraft.inlineFootprint`,
-      `FootprintRanking`.
-- [ ] `schematicalTests/ParametricFootprintDraftTests.swift` per § 3.
+- [x] `ParametricFootprintDraft.swift`, `PartDraft.inlineFootprint`,
+      `FootprintRanking`. (Also `ParametricFootprintDraft.starter` per style,
+      `gridSize(balls:)`, `FootprintRanking.search`, `BundledFootprints.entry`
+      for Phases 2–3. Keys the form has no control for (`note`, `centre`,
+      `slots`, a pad's corner keys) are kept in `extras` / `padExtras`.)
+- [x] `schematicalTests/ParametricFootprintDraftTests.swift` per § 3.
+      (`dual: SOIC-14, 14 pads match`; `quad: VQFN-14, 15 pads match`;
+      `grid: DSBGA-4-YFP, 4 pads match`; `header: PINHDR-1X01-V, 1 pads
+      match`; all 1082 bundled parametric entries read and write back the
+      same; SOIC-14 from the behavioral outcome's numbers matches;
+      `xcodebuild … test -only-testing:schematicalTests/ParametricFootprintDraftTests
+      -only-testing:schematicalTests/CustomFootprintDraftTests …` → `Executed
+      7` and `Executed 2 tests, with 0 failures`, `** TEST SUCCEEDED **`.)
 
 Acceptance: each style's draft expands to exactly the bundled footprint it was made from.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/ParametricFootprintDraftTests -only-testing:schematicalTests/CustomFootprintDraftTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 8 min).
