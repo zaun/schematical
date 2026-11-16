@@ -316,7 +316,7 @@ Commit: c9db9714 (the prerequisite fix of § Corrections 1: 7482e9dc)
 
 Acceptance: the doc names the key and its rules.
   Check: `grep -c '"datasheets"' docs/parts-format.md` → at least 3 (1 today, the `datasheets.json` example; plus the `.schpart` example line and the table row) (est. 1 min).
-Commit: —
+Commit: 1ccd9f90
 
 ## Validation Plan
 
