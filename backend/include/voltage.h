@@ -9,7 +9,7 @@
  * A net's voltage comes from, in order: the supplies on it (the highest),
  * else the outputs of powered parts on it (a part with a "vcc" range is
  * powered at the highest voltage on its power pins), else what a generic
- * LED carries from its anode to its cathode. A net with none of these has
+ * LED or a nixie tube carries from its anode to its cathode. A net with none of these has
  * no known voltage and is not checked. Parts with no "vcc" data are neither
  * checked nor sources. A supply and GND on one net is a short, not a
  * voltage problem.
@@ -29,7 +29,8 @@ typedef enum {
     VOLTAGE_INPUT_OVER,     /* input/inout pin above the part's input max */
     VOLTAGE_SWITCH_OVER,    /* switch contact pin above its rating */
     VOLTAGE_CAPACITOR_OVER, /* capacitor pin above its rated voltage (plan-33-E) */
-    VOLTAGE_TRANSISTOR_OVER /* transistor channel pin above Vceo / Vds, gate above Vgs (plan-40-F) */
+    VOLTAGE_TRANSISTOR_OVER, /* transistor channel pin above Vceo / Vds, gate above Vgs (plan-40-F) */
+    VOLTAGE_NIXIE_UNDER     /* nixie anode below the tube's firing voltage (min_mv; max_mv = 0) */
 } VoltageProblemKind;
 
 typedef struct { size_t part; size_t pin; size_t net; } VoltageConnection;  /* pin: index into Part.pins */

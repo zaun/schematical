@@ -109,6 +109,36 @@
       ]
     },
     {
+      "id": "170V",
+      "function": "170V",
+      "description": "Supply, 170 V, drives logic 1",
+      "drawer": [],
+      "pinouts": {
+        "pin": [
+          {"number":1,"name":"VCC","role":"power"}
+        ]
+      },
+      "volts": 170,
+      "parts": [
+        {"name":"170V","manufacturer":"Generic","package":"","pinout":"pin"}
+      ]
+    },
+    {
+      "id": "200V",
+      "function": "200V",
+      "description": "Supply, 200 V, drives logic 1",
+      "drawer": [],
+      "pinouts": {
+        "pin": [
+          {"number":1,"name":"VCC","role":"power"}
+        ]
+      },
+      "volts": 200,
+      "parts": [
+        {"name":"200V","manufacturer":"Generic","package":"","pinout":"pin"}
+      ]
+    },
+    {
       "id": "PULLUP-5V",
       "function": "Pull-up",
       "description": "Pull-up to 5 V, drives logic 1 weakly",
@@ -242,6 +272,54 @@
       "pull": true,
       "parts": [
         {"name":"PULLUP-12V","manufacturer":"Generic","package":"Radial","pinout":"pin","footprint":"RES-RADIAL-2.54",
+         "footprintChoices":[
+           {"package":"0402","footprint":"RES-0402"},
+           {"package":"0603","footprint":"RES-0603"},
+           {"package":"0805","footprint":"RES-0805"},
+           {"package":"1206","footprint":"RES-1206"},
+           {"package":"Axial","footprint":"RES-AXIAL-10.16"},
+           {"package":"Radial","footprint":"RES-RADIAL-2.54"}
+         ]}
+      ]
+    },
+    {
+      "id": "PULLUP-170V",
+      "function": "Pull-up",
+      "description": "Pull-up to 170 V, drives logic 1 weakly",
+      "drawer": [],
+      "pinouts": {
+        "pin": [
+          {"number":1,"name":"PU","role":"output"}
+        ]
+      },
+      "volts": 170,
+      "pull": true,
+      "parts": [
+        {"name":"PULLUP-170V","manufacturer":"Generic","package":"Radial","pinout":"pin","footprint":"RES-RADIAL-2.54",
+         "footprintChoices":[
+           {"package":"0402","footprint":"RES-0402"},
+           {"package":"0603","footprint":"RES-0603"},
+           {"package":"0805","footprint":"RES-0805"},
+           {"package":"1206","footprint":"RES-1206"},
+           {"package":"Axial","footprint":"RES-AXIAL-10.16"},
+           {"package":"Radial","footprint":"RES-RADIAL-2.54"}
+         ]}
+      ]
+    },
+    {
+      "id": "PULLUP-200V",
+      "function": "Pull-up",
+      "description": "Pull-up to 200 V, drives logic 1 weakly",
+      "drawer": [],
+      "pinouts": {
+        "pin": [
+          {"number":1,"name":"PU","role":"output"}
+        ]
+      },
+      "volts": 200,
+      "pull": true,
+      "parts": [
+        {"name":"PULLUP-200V","manufacturer":"Generic","package":"Radial","pinout":"pin","footprint":"RES-RADIAL-2.54",
          "footprintChoices":[
            {"package":"0402","footprint":"RES-0402"},
            {"package":"0603","footprint":"RES-0603"},

@@ -38,6 +38,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_RESISTOR: return "resistor";
         case PART_TRANSISTOR: return "transistor";
         case PART_GENERIC: return "generic";
+        case PART_NIXIE: return "nixie";
     }
     return "?";
 }
@@ -171,6 +172,21 @@ static void print_details(FILE *out, const Part *part) {
         case PART_GENERIC:
             /* No facts: a generic part is its pins and its footprint. */
             break;
+        case PART_NIXIE: {
+            const PartNixie *n = part->nixie;
+            size_t i;
+
+            fprintf(out, "color=%s size=%s view=%s strike=%u sustain=%u current=%u-%u glyphs=",
+                    n->color, n->size, n->view, (unsigned)n->strike_mv, (unsigned)n->sustain_mv,
+                    (unsigned)n->current_min_ua, (unsigned)n->current_max_ua);
+            for (i = 0; i < n->glyph_count; i++) {
+                fprintf(out, "%s%s:%s", i > 0 ? "," : "", n->glyphs[i],
+                        part->pins[n->cathode_pins[i]].designator);
+            }
+            fputs(" anodePins=", out);
+            print_numbers(out, part->pins, n->anode_pins, n->anode_pin_count);
+            break;
+        }
         case PART_TRANSISTOR:
             fprintf(out,
                     "elements=%zu type=%s mixed=%u vmax=%u imax=%u power=%u hfe=%u rdson=%llu "

@@ -30,6 +30,7 @@ add_library(logic STATIC
     src/models/display7.c
     src/models/supply.c
     src/models/led.c
+    src/models/nixie.c
     src/models/oscillator.c
     src/models/eeprom.c
     src/models/seq.c
@@ -185,6 +186,7 @@ logic_test(transistor_test)
 logic_test(capacitor_test)
 logic_test(mcu_test)
 logic_test(generic_test)
+logic_test(nixie_test)
 
 # Engine speed bench (plan-05-A). Not a ctest: a wall-clock check would be
 # flaky. Build Release to get meaningful numbers.

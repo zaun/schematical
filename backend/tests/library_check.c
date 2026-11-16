@@ -1514,13 +1514,13 @@ static void check_supply_cases(void) {
                 "{'id':'VCC','function':'VCC','description':'d','drawer':[],"
                 "'pinouts':{'pin':[{'number':1,'name':'VCC','role':'power'}]},'volts':-1,"
                 "'parts':[]}" TAIL,
-                "devices[0] (VCC): \"volts\" must be from 0 to 30");
-    expect_fail("supply volts 31",
+                "devices[0] (VCC): \"volts\" must be from 0 to 300");
+    expect_fail("supply volts 301",
                 HEAD("supply")
                 "{'id':'VCC','function':'VCC','description':'d','drawer':[],"
-                "'pinouts':{'pin':[{'number':1,'name':'VCC','role':'power'}]},'volts':31,"
+                "'pinouts':{'pin':[{'number':1,'name':'VCC','role':'power'}]},'volts':301,"
                 "'parts':[]}" TAIL,
-                "devices[0] (VCC): \"volts\" must be from 0 to 30");
+                "devices[0] (VCC): \"volts\" must be from 0 to 300");
     expect_fail("supply pull not a boolean",
                 HEAD("supply")
                 "{'id':'PU','function':'Pull-up','description':'d','drawer':[],"

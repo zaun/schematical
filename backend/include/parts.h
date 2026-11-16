@@ -27,7 +27,7 @@ typedef enum {
     PART_SHIFT, PART_CPU, PART_CHARLCD, PART_SERIAL, PART_CONNECTOR, PART_PIO, PART_DECODER,
     PART_BUFFER, PART_MUX, PART_HEADER, PART_ARITH, PART_CONVERTER, PART_RTC, PART_DIODE,
     PART_CAPACITOR, PART_REGISTER, PART_MCU, PART_RESISTOR, PART_TRANSISTOR,
-    PART_GENERIC
+    PART_GENERIC, PART_NIXIE
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -76,6 +76,21 @@ typedef struct {
     const size_t *common_pins; size_t common_pin_count;    /* indices into Part.pins */
     uint32_t vf_min_mv, vf_max_mv;   /* segment forward voltage (shown, not checked) */
 } PartDisplay;
+/* A nixie tube: one anode (on one or two pins) and one cathode per glyph.
+   glyphs: what each cathode shows, in lights order: a numeral ("0"-"9"), a
+   symbol ("%", "Hz", ...), "DP" (the right decimal point) or "LDP" (the
+   left one). cathode_pins[i] is glyph i's pin. view: "side" (read through
+   the envelope's side) or "end" (through its top). strike_mv: the firing
+   voltage, the least the anode supply may be (checked); sustain_mv: the
+   maintaining voltage; current_*_ua: the cathode current range (shown). */
+typedef struct {
+    const char *const *glyphs; size_t glyph_count;
+    const size_t *cathode_pins;                          /* glyph_count indices into Part.pins */
+    const size_t *anode_pins; size_t anode_pin_count;    /* indices into Part.pins */
+    const char *color, *size, *view;
+    uint32_t strike_mv, sustain_mv;
+    uint32_t current_min_ua, current_max_ua;
+} PartNixie;
 typedef struct { const char *family; uint64_t min_hz, max_hz, default_hz;
                  const char *enable_pin; /* the pin's designator, NULL = none */ } PartOscillator;
 /* mv: the supply's voltage; level = mv > 0 (drives logic 1, else 0).
@@ -237,7 +252,7 @@ typedef struct Part {
     const PartSupply *supply;
     const PartVoltage *vcc;            /* recommended supply range (character LCDs have
                                           one); NULL only for supplies,
-                                          LEDs, 7-seg displays and switches */
+                                          LEDs, 7-seg displays, nixies and switches */
     const PartEeprom *eeprom;
     const PartCpu *cpu;
     const PartSerial *serial;
@@ -257,6 +272,7 @@ typedef struct Part {
     const PartMcu *mcu;
     const PartResistor *resistor;
     const PartTransistor *transistor;
+    const PartNixie *nixie;
     /* Dual-supply parts (plan-20-F): domain 0 is the A side (its vcc is
        Part.vcc), domain 1 the B side; NULL/0 for single-supply parts. */
     const PartSupplyDomain *domains; size_t domain_count;

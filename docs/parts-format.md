@@ -1,7 +1,7 @@
 # Part file format
 
 Every orderable part (gate, flip-flop, latch, decoder, counter, shift register, SRAM, EEPROM, switch, LED,
-diode, capacitor, resistor, transistor, 7-segment display, character LCD module, oscillator, supply, microprocessor, microcontroller, serial controller) is described in a JSON part file in
+diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character LCD module, oscillator, supply, microprocessor, microcontroller, serial controller) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
 | File | Kind |
@@ -37,6 +37,7 @@ diode, capacitor, resistor, transistor, 7-segment display, character LCD module,
 | `mcu.json` | `mcu` |
 | `resistor.json` | `resistor` |
 | `transistor.json` | `transistor` |
+| `nixie.json` | `nixie` |
 
 Beside them, `datasheets.json` holds the datasheet URLs parts name with
 `"datasheet"` (see [Datasheets](#datasheets)), and `footprints.json` the land
@@ -442,6 +443,7 @@ but no `"datasheet"`; `listing_check` prints how many there are. They are:
 | Renesas Electronics | `cdp65c51` | CDP65C51M1, CDP65C51M4S2357 |
 | Renesas Electronics | `hd-6406` | HD3-6406-5 |
 | Texas Instruments | `snx4ls27x` | SN54LS275J, SN74LS275N |
+| USSR (various makers) | `datasheets/nixie/` (passport scans and the 1985 reference book; each device's `note` names its files) | IN-2, IN-8, IN-12A, IN-12B, IN-14, IN-15A, IN-15B, IN-16, IN-17, IN-18 |
 
 ## Footprints
 
@@ -786,7 +788,7 @@ Constant sources. Device key:
 
 | Key | Value |
 |---|---|
-| `"volts"` | the supply's voltage, 0 to 30. More than 0 drives its pin to 1, strong; 0 (ground) drives 0, strong. `PartSupply.mv` holds it in millivolts and `PartSupply.level` is `mv > 0`. |
+| `"volts"` | the supply's voltage, 0 to 300. More than 0 drives its pin to 1, strong; 0 (ground) drives 0, strong. `PartSupply.mv` holds it in millivolts and `PartSupply.level` is `mv > 0`. |
 | `"pull"` | optional, `true` or `false` (default `false`). `true` makes the device a pull part: a pull-up for `volts` > 0, a pull-down for 0. `PartSupply.pull` is 1. |
 
 The device has one pinout with one pin. Parts carry no kind keys. Each
@@ -818,6 +820,8 @@ The library's supplies (`supply.json`):
 | `1V8` | 1.8 | `VCC` (power) | — |
 | `1V2` | 1.2 | `VCC` (power) | — |
 | `12V` | 12 | `VCC` (power) | — |
+| `170V` | 170 | `VCC` (power) | — |
+| `200V` | 200 | `VCC` (power) | — |
 | `GND` | 0 | `GND` (ground) | — |
 | `PULLUP-5V` | 5, pull | `PU` (output) | `RES-RADIAL-2.54` (+ 5 choices) |
 | `PULLUP-3V3` | 3.3, pull | `PU` (output) | `RES-RADIAL-2.54` (+ 5 choices) |
@@ -825,6 +829,8 @@ The library's supplies (`supply.json`):
 | `PULLUP-1V8` | 1.8, pull | `PU` (output) | `RES-RADIAL-2.54` (+ 5 choices) |
 | `PULLUP-1V2` | 1.2, pull | `PU` (output) | `RES-RADIAL-2.54` (+ 5 choices) |
 | `PULLUP-12V` | 12, pull | `PU` (output) | `RES-RADIAL-2.54` (+ 5 choices) |
+| `PULLUP-170V` | 170, pull | `PU` (output) | `RES-RADIAL-2.54` (+ 5 choices) |
+| `PULLUP-200V` | 200, pull | `PU` (output) | `RES-RADIAL-2.54` (+ 5 choices) |
 | `PULLDOWN` | 0, pull | `PD` (output) | `RES-RADIAL-2.54` (+ 5 choices) |
 
 A pull part drives its pin **weakly**: 1 for a pull-up, 0 for a pull-down.
@@ -834,6 +840,9 @@ a pull-down on one net read X (equal strength). Its pin has role `output`,
 because it drives a signal net, not a power net. In the voltage check a
 pull-up gives its net a level only when no supply and no powered output
 sets that net, and a pull never clashes with a supply or another pull.
+
+`170V` and `200V` are the nixie tubes' anode supplies (§ `nixie`), and
+`PULLUP-170V` / `PULLUP-200V` the anode resistor to them: a nixie anode is never wired to the rail directly.
 
 ### `led`
 
@@ -3062,6 +3071,59 @@ An LED's segment pin is the first pin (in pin order) in `segmentPins` that
 drives its segment for its digit (or every digit); its commons are the
 first two pins of its digit in `commonPins`. Unused positions are pins with
 role `nc` (no connect) or `absent` (no lead). Parts carry no kind keys.
+
+### `nixie`
+
+Nixie tubes: neon numeric indicators with one anode and one cathode per
+glyph (a numeral, a symbol, a decimal point), the cathodes stacked one
+behind the other. A tube is simulated like LEDs that share the anode: a
+glyph glows while the anode reads 1 and its cathode reads 0. The tube
+drives nothing. Lights report "on at any time during the last step", so a
+multiplexed tube counts as lit.
+
+```json
+"anode": "A",
+"cathodes": [{"pin": "K1", "glyph": "1"}, {"pin": "KDP", "glyph": "DP"}],
+"color": "Orange", "size": "18 mm", "view": "side",
+"strike": 170, "sustain": 145, "current": [1, 2.5]
+```
+
+| Key | Value |
+|---|---|
+| `"anode"` | the anode's pin name: one pin, or two pins of one name (joined inside the tube; the anode reads as the first that is not Z) |
+| `"cathodes"` | 1–16 cathodes in display (and lights) order, each `{"pin", "glyph"}`: `pin` is a pin name (exactly one pin, used once, not the anode); `glyph` is what the cathode shows, 1–8 bytes, used once: a numeral (`"0"`–`"9"`), a symbol as printed (`"%"`, `"Hz"`, `"Ω"`), `"DP"` (the right decimal point) or `"LDP"` (the left one) |
+| `"color"` | the glow, shown as is (`"Orange"`) |
+| `"size"` | the character height, shown as is (`"18 mm"`) |
+| `"view"` | `"side"` (read through the envelope's side; the tube stands on the board) or `"end"` (read through its top) |
+| `"strike"` | volts, 0 < … ≤ 500: the firing (ignition) voltage, the datasheet's maximum. The least the anode supply may be: **checked** |
+| `"sustain"` | volts, 0 < `sustain` ≤ `strike`: the maintaining (burning) voltage, the datasheet's maximum. Shown |
+| `"current"` | `[min, max]` milliamps, 0 < min ≤ max ≤ 100: a numeral cathode's working current. Shown |
+
+`PartNixie` holds them (`strike_mv`, `sustain_mv`, `current_min_ua`,
+`current_max_ua`, `glyphs`, `cathode_pins`, `anode_pins`). Every pin has
+role `input`, or `nc` for a lead with no connection. Parts carry no kind
+keys and have no `vcc`.
+
+**Voltages.** The voltage check treats a nixie like an LED with a minimum:
+
+- The anode's voltage is carried to every cathode net that has no level of
+  its own (an unlit cathode floats up towards the anode), so a driver on a
+  cathode is judged at the anode supply: a transistor against its Vceo /
+  Vds, a logic input against its input max.
+- An anode net below `strike` is `VOLTAGE_NIXIE_UNDER` (`voltage: 5 V on
+  pin 1 (A) of IN-14; it needs at least 170 V to light`). There is no
+  upper limit: the anode resistor sets the current.
+
+The usual circuit is the `170V` supply (`200V` for a tube that fires at
+200 V), a `PULLUP-170V` (the anode
+resistor) to the anode, and one high-voltage switch per cathode to ground.
+
+**Footprints** are `explicit`: the leads or pins on their circle (or, for
+IN-12 / IN-15, their own pattern), pad 1 `rect`, as seen from above the
+board. Holes are sized for the tube's own leads or pins (R5), soldered straight
+into the board; socket pins need a larger drill. A tube with an exhaust
+tip under its base has a non-plated hole at the centre for it. The `note` gives the
+drawing, the circle and the angles.
 
 ### `charlcd`
 

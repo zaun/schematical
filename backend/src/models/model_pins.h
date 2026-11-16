@@ -13,6 +13,14 @@
 /* An LED's anode and cathode, as indices into Part.pins. */
 int led_pins(const Part *part, size_t *anode, size_t *cathode);
 
+/* A nixie tube's k-th link (0-based, nixie.c): an anode pin and a cathode
+   pin, as indices into Part.pins; every anode pin with every cathode. 0
+   past the last link, and for a part that is no nixie. */
+int nixie_link(const Part *part, size_t k, size_t *anode, size_t *cathode);
+/* The least voltage a nixie's anode pin needs, in millivolts: the tube's
+   firing ("strike") voltage. 0 for a cathode, and a part that is no nixie. */
+uint32_t nixie_anode_min_mv(const Part *part, size_t pin);
+
 /* A character LCD's backlight LED `index` (0-based, in the device's
    "backlight" order): its anode and cathode, as indices into Part.pins
    (charlcd.c). 0 past the last LED, and for a module without a backlight. */

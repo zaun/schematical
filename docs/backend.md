@@ -290,7 +290,7 @@ backend/
                            interface), footprints.c + footprint.h (parse,
                            check and expand footprints.json)
     models/                one file per kind: gate.c dff.c jkff.c sram.c
-                           eeprom.c switch.c led.c display7.c oscillator.c
+                           eeprom.c switch.c led.c display7.c nixie.c oscillator.c
                            supply.c latch.c, decoder.c (decoders,
                            priority encoders, 7-segment decoders),
                            mux.c + mux.h (multiplexers: the kind and
@@ -489,6 +489,11 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   missing, a part rejected after its footprint checked, an unknown key)
   reports its message and leaves the part and footprint counts unchanged.
 - `switch_test`, `sram_test`, `display7_test` — model benches.
+- `nixie_test` — the `nixie` kind on fixture tubes: the loader's rules and
+  rejections, the model (a glyph glows while the anode reads 1 and its
+  cathode 0; two anode pins of one name are joined), and the voltage check
+  (the anode's level carried to the cathode nets, `VOLTAGE_NIXIE_UNDER` for
+  an anode below the firing voltage).
 - `latch_test` — the `latch` kind's five models, one case per function-table
   row of the devices that use them (inline fixture devices copied from the
   real ones), plus loader errors and the open-drain answer. Its bench,

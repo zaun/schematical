@@ -9,8 +9,8 @@
  *      the group; a pull never clashes.
  *   3. Fixed point: a part with a vcc range is powered at the highest known
  *      voltage on its power pins; driven D = the highest powered output on
- *      a group (open-drain outputs skipped); carried C = an LED's anode
- *      voltage on its cathode's group. Effective E = S, else D, else P,
+ *      a group (open-drain outputs skipped); carried C = an LED's or a
+ *      nixie's anode voltage on its cathode's group. Effective E = S, else D, else P,
  *      else C.
  *   3a. A part with supply domains (dual-supply translators, plan-20-F):
  *      each domain is powered at the highest known voltage on its own power
@@ -286,6 +286,37 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
                     continue;
                 }
             }
+            /* A nixie: the anode's level is carried to every cathode net (an
+               unlit cathode floats up towards the anode). A nixie has no vcc. */
+            if (part->kind == PART_NIXIE) {
+                size_t k;
+
+                for (k = 0; nixie_link(part, k, &anode, &cathode); k++) {
+                    Level from = {0, 0};
+
+                    for (j = 0; j < connection_count; j++) {
+                        if (connections[j].part == i && connections[j].pin == anode &&
+                            connections[j].net < net_count) {
+                            Level e = effective(supply, driven, pulled, carried, find(parent, connections[j].net));
+
+                            if (e.known) {
+                                level_raise(&from, e.mv);
+                            }
+                        }
+                    }
+                    for (j = 0; from.known && j < connection_count; j++) {
+                        if (connections[j].part == i && connections[j].pin == cathode &&
+                            connections[j].net < net_count) {
+                            size_t g = find(parent, connections[j].net);
+                            Level to = carried[g];
+
+                            level_raise(&carried[g], from.mv);
+                            changed |= to.known != carried[g].known || to.mv != carried[g].mv;
+                        }
+                    }
+                }
+                continue;
+            }
             /* A diode: each link carries its anode's level to its cathode
                net. A diode has no vcc. */
             if (part->kind == PART_DIODE) {
@@ -518,6 +549,12 @@ size_t voltage_check(const Part *const *parts, size_t part_count, size_t net_cou
             p.kind = VOLTAGE_TRANSISTOR_OVER;
             p.min_mv = 0;
             p.max_mv = transistor_pin_limit_mv(part, c->pin);
+        } else if (part->kind == PART_NIXIE && e.mv < nixie_anode_min_mv(part, c->pin)) {
+            /* The anode supply must reach the firing voltage, or the tube
+               never lights. */
+            p.kind = VOLTAGE_NIXIE_UNDER;
+            p.min_mv = nixie_anode_min_mv(part, c->pin);
+            p.max_mv = 0;
         } else {
             continue;
         }
@@ -570,6 +607,11 @@ int voltage_describe(const Part *const *parts, const VoltageProblem *problem,
             return snprintf(buffer, size, "voltage: %g V on pin %s (%s) of %s; it is rated %g V", v,
                             pin_designator(part, problem->pin), pin_name(part, problem->pin),
                             part->name, problem->max_mv / 1000.0);
+        case VOLTAGE_NIXIE_UNDER:
+            return snprintf(buffer, size,
+                            "voltage: %g V on pin %s (%s) of %s; it needs at least %g V to light", v,
+                            pin_designator(part, problem->pin), pin_name(part, problem->pin),
+                            part->name, problem->min_mv / 1000.0);
     }
     return snprintf(buffer, size, "voltage: problem");
 }
