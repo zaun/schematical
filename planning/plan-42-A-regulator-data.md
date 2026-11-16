@@ -1,6 +1,6 @@
 # plan-42-A: Voltage regulators — part-by-part stock check, datasheet downloads
 
-Last updated: 2026-11-15
+Last updated: 2026-11-16
 Overall Effort: huge (> 3d) — plan-42 is A → B → C → D → E → F → G → H → I → J
 Effort: large (3h–1d; plus one DigiKey quota day)
 Depends on: nothing (§ Prerequisites)
@@ -77,7 +77,8 @@ Every other letter points here.
 | Golden sizes recorded | `git show HEAD:backend/tests/golden/parts.txt \| wc -l`; `traces.txt`; `footprints.txt` | at planning (40ccd5fc): **P0 = 32854**, **R0 = 32854**, **F0 = 1624**; re-measured 2026-11-16 at 6eb14f28 (plan-43 landed since): **P0 = 32897**, **R0 = 32897**, **F0 = 1646** — use these |
 | The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p42-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-16 at 6eb14f28: `** BUILD SUCCEEDED **`) |
 | No regulator kind yet | `grep -c 'PART_REGULATOR' backend/include/parts.h` → 0; `ls schematical/schematical/Parts/regulator.json` → no such file; `ls datasheets/regulator` → no such directory | MET (2026-11-16 at 6eb14f28: 0, no file, no directory) |
-| No other open plan adds regulators or a part kind | `ls planning/plan-*.md \| grep -v plan-42 \| wc -l` → 0; `grep -l -i 'PART_REGULATOR\|Parts/regulator\.json\|datasheets/regulator' planning/plan-*.md \| grep -v plan-42 \| wc -l` → 0 | MET (2026-11-16 at 6eb14f28: 0 and 0 — no other plan is open) |
+| No other open plan adds regulators | `grep -l -i 'PART_REGULATOR\|Parts/regulator\.json\|datasheets/regulator' planning/plan-*.md \| grep -v plan-42 \| wc -l` → 0 | MET (2026-11-16 at 6eb14f28: 0). Other open plans add part kinds: plan-44 (`PART_CRYSTAL`) and plan-46 (`PART_GENERIC`); every shared line (`PartKind`, `KINDS[]`, `TRACE_LAST_KIND`, the listing arrays, the editor's kind lists) is appended after whatever kind is last, each step greps first |
+| plan-46 (Part Wizard) complete | `ls planning/completed/plan-46-N-*.md` → exists | NOT MET (2026-11-16: plan-46 written, not started). Owner decision 2026-11-16: plan-46 lands before plan-44 and plan-42. It appends `PART_GENERIC`, replaces `PartKinds.displayNames` with `Editor/KindInfo.swift`, and gives every kind an editor schema (no `formless` set); plan-42-G/H/I are written against that world |
 | DigiKey credentials and quota | `grep -cE '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc` → 2; `eval "$(grep -E '^export DIGIKEY_CLIENT_(ID\|SECRET)=' ~/.zshrc)" && node scripts/digikey.js --in-stock --pages 1 --limit 1 "LM1117"` prints `calls left today` ≥ 920 before Phase 1 (the quota is about 1000 a day, shared with other sessions; it resets at about 00:00 UTC) | NOT MET (2026-11-16 03:36 UTC: credentials 2 of 2; `node scripts/digikey.js …LM1117` → `898 left today`, below 920; the quota reset at 00:00 UTC and other sessions have already used about 100 calls; the next reset is 2026-11-17 00:00 UTC) |
 
 Everything below is written against the world where these hold.

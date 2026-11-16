@@ -1,6 +1,6 @@
 # plan-42-I: The app — regulators in the drawer, the sidebar, the voltage check and play mode
 
-Last updated: 2026-11-15
+Last updated: 2026-11-16
 Effort: large (3h–1d)
 Depends on: plan-42-H
 
@@ -223,8 +223,10 @@ Commit: —
   already is.
 - **Prefix `U`** (author): IEEE 315 has no regulator class; ICs are `U`
   (`ReferencePrefixes.swift` standard prefixes).
-- **No part-editor form** (author, as plan-40-H): `regulator` joins the
-  `formless` set (H Phase 1).
+- **The part-editor form is generated** (plan-46's rule since plan-46-C:
+  every kind has a schema; H Phase 1 generated `RegulatorDraft.swift` and
+  the `KindInfo` entry). The Part Wizard derives the regulator's steps
+  from it.
 
 ## Corrections
 

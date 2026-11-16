@@ -71,9 +71,12 @@ The kind exists (E); `Parts/crystal.json` does not. The footprints are in
 `footprints-C.json` and `footprints-D.json`, not in `footprints.json`.
 `datasheets.json` has entries for no crystal datasheet. The editor's kind
 lists (`schematical/schematical/Editor/KindSchema.swift` `PartKinds.all` and
-`displayNames`; `Editor/BundledPartFile.swift` `PartKinds.name(of:)`;
-`schematicalTests/PartEditorWindowTests.swift` `formless`) do not name
-`crystal`.
+`PartKinds.schemas`; `Editor/KindInfo.swift` `PartKinds.info` (plan-46-D);
+`Editor/BundledPartFile.swift` `PartKinds.name(of:)`) do not name
+`crystal`. Since plan-46-C every kind has an editor schema
+(`PartEditorWindowTests.testEnabledKinds` asserts `enabledKinds ==
+kindNames`), so the kind needs a generated one (`docs/backend.md` § Adding
+a kind, the Part Editor step, plan-46-N).
 
 ### Measured populations
 
@@ -182,12 +185,24 @@ value input and `GENERIC-RESISTOR` is the precedent).
       `fp-merge.py --only <the 12 ids of § 3.2> schematical/schematical/Parts/footprints.json
       planning/plan-44-data/footprints-C.json planning/plan-44-data/footprints-D.json`
       appends exactly those footprints.
-- [ ] Editor lists: `Editor/KindSchema.swift` `PartKinds.all` gains
-      `"crystal"` and `displayNames` `"crystal": "Crystal"` (each only if
-      absent: `grep -c '"crystal"' schematical/schematical/Editor/KindSchema.swift`
-      → 0 before); `Editor/BundledPartFile.swift` `PartKinds.name(of:)` gains
-      `case PART_CRYSTAL: "crystal"`; `schematicalTests/PartEditorWindowTests.swift`
-      `formless` gains `"crystal"`.
+- [ ] Editor lists (each only if absent: `grep -c '"crystal"'
+      schematical/schematical/Editor/KindSchema.swift
+      schematical/schematical/Editor/KindInfo.swift` → 0 before):
+      `PartKinds.all` gains `"crystal"`; `Editor/KindInfo.swift` gains
+      `KindInfo(kind: "crystal", name: "Crystal", blurb: "Quartz crystals and
+      ceramic resonators: the clock reference for an oscillator pin pair",
+      examples: <two of the four generics' names>, group: .power,
+      simulated: true)`; `Editor/BundledPartFile.swift`
+      `PartKinds.name(of:)` gains `case PART_CRYSTAL: "crystal"`.
+- [ ] Editor schema (plan-46's rule): `"crystal": ["crystal.c"]` in
+      `scripts/part-editor-schema.py` `KIND_FILES` and in
+      `schematicalTests/PartKindKeysTests.swift` `files`; `python3
+      scripts/part-editor-schema.py . crystal` → `missing []` (a key no
+      generic uses goes in `part-editor-schema-extra.py`, never a hand
+      edit) → `Editor/CrystalDraft.swift`, added to `PartKinds.schemas`;
+      `testCrystal` in `PartKindRoundTripTests` with `expected["crystal"]`
+      = `grep -o '"manufacturer"' schematical/schematical/Parts/crystal.json
+      | wc -l`, re-set in F's last phase once every `add` row is in.
 - [ ] Regenerate the goldens (`listing_check --print > backend/tests/golden/parts.txt`,
       `trace_check --print > …/traces.txt`, `footprint_check --print >
       …/footprints.txt`) and review `git diff --stat`.

@@ -1,6 +1,6 @@
 # plan-42-G: Backend — the `regulator` kind, the regulated level, the divider, the VIN rating
 
-Last updated: 2026-11-15
+Last updated: 2026-11-16
 Effort: large (3h–1d)
 Depends on: plan-42-F (G reads no census output; it follows F because letter
 order is implementation order)
@@ -97,10 +97,11 @@ Everything below is written against the world where these hold.
   `Part` pointers (`circuit.c:261`, `VoltageCheck.swift:81`).
 - Kinds provide `pin_open_drain` and `pin_analog` (`kind.h:41–45`); the
   voltage check skips analog pins and open-drain outputs.
-- `PartKind` ends with `PART_TRANSISTOR` (`parts.h:29`); `TRACE_LAST_KIND`
-  is `PART_TRANSISTOR` (`tests/trace_check.c:22`); `listing_check.c:50–51`
-  size two arrays by `PART_TRANSISTOR + 1`; `tests/support/listing.c:39,
-  170` name and print the kind's facts.
+- `PartKind` ends with `PART_GENERIC` (plan-46-B appended it after
+  `PART_TRANSISTOR`; plan-46 is a prerequisite, plan-42-A); `TRACE_LAST_KIND`
+  is `PART_GENERIC` (`tests/trace_check.c:22`); `listing_check.c:50–51`
+  size two arrays by `PART_GENERIC + 1`; `tests/support/listing.c` names
+  and prints every kind's facts (one `case` each).
 - `VoltageProblemKind` ends with `VOLTAGE_TRANSISTOR_OVER` (`voltage.h:32`).
 
 ### Measured populations
@@ -129,7 +130,8 @@ Everything below is written against the world where these hold.
 ### 3.1 The kind
 
 `backend/src/models/regulator.c`, `REGULATOR_KIND` (`"regulator"`), file
-`Parts/regulator.json`. `PART_REGULATOR` is appended after `PART_TRANSISTOR`.
+`Parts/regulator.json`. `PART_REGULATOR` is appended after the last kind
+(`PART_GENERIC`, or `PART_CRYSTAL` if plan-44-E landed first).
 
 Device keys:
 
@@ -379,7 +381,8 @@ supplies):
 
 ### Phase 1 — The kind, its facts and the model
 
-- [ ] `parts.h`: `PART_REGULATOR` after `PART_TRANSISTOR`, `PartRegulator`,
+- [ ] `parts.h`: `PART_REGULATOR` after the last `PartKind` (`grep -n 'PART_'
+      backend/include/parts.h`), `PartRegulator`,
       `Part.regulator` — only if absent (`grep -c 'PART_REGULATOR'
       backend/include/parts.h` → 0 first; a hit from another plan marks
       this step moot with that output).

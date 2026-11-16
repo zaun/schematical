@@ -1,6 +1,6 @@
 # plan-42-H: Parts — the generator, the three generics, every `add` row, goldens
 
-Last updated: 2026-11-15
+Last updated: 2026-11-16
 Effort: large (3h–1d)
 Depends on: plan-42-G
 
@@ -69,10 +69,12 @@ Everything below is written against the world where these hold.
 
 - `Parts/` has one file per kind and no `regulator.json`; the library loads
   32854 parts (P0 at 40ccd5fc).
-- `PartKinds.all` lists 31 kinds (`KindSchema.swift:202–206`);
-  `testKindNamesAreThePartFiles` compares them with `Parts/*.json`, so a new
-  part file without a kind-list line fails it (plan-40-G Phase 1, the same
-  step for `transistor`).
+- `PartKinds.all` lists 32 kinds after plan-46 (31 at 40ccd5fc + `generic`;
+  33 if plan-44 landed first); `testKindNamesAreThePartFiles` compares them
+  with `Parts/*.json`, so a new part file without a kind-list line fails it
+  (plan-40-G Phase 1, the same step for `transistor`). Since plan-46-C every
+  kind also needs an editor schema and a `KindInfo` entry
+  (`testEnabledKinds`, `KindInfoTests`).
 - DigiKey's "Voltage - Output (Min/Fixed)" of a multi-output part lists one
   value per output in order (`1.8V, 3.3V`, `2.8V, 2.8V`, `3.3V, 5V`: read in
   the planning raw listing, `raw/699-*.jsonl.gz`), so a fixed multi-output
@@ -145,12 +147,24 @@ footprints exist (`TO-220-3`, `DPAK-3`, `footprints.json`).
       `parts.txt` and `traces.txt` (`docs/backend.md` § Tests): `git diff
       --stat backend/tests/golden` → `parts.txt | 3 +`, `traces.txt | 3 +`,
       removed lines 0.
-- [ ] The app's kind lists: `"regulator"` in `PartKinds.all` and
-      `displayNames` ("Voltage Regulator", `Editor/KindSchema.swift`),
-      `PART_REGULATOR` → `"regulator"` in `PartKinds.name(of:)`
-      (`Editor/BundledPartFile.swift`), `regulator` in `PartEditorWindowTests`'
-      `formless` set. Each line only if absent: `grep -c '"regulator"'
-      schematical/schematical/Editor/KindSchema.swift` → 0 first.
+- [ ] The app's kind lists: `"regulator"` in `PartKinds.all`
+      (`Editor/KindSchema.swift`); `KindInfo(kind: "regulator", name:
+      "Voltage Regulator", blurb: "Linear regulators and LDOs: a fixed or
+      adjustable output from a higher input", examples: <two of the three
+      generics' names>, group: .power, simulated: true)` in
+      `Editor/KindInfo.swift`; `PART_REGULATOR` → `"regulator"` in
+      `PartKinds.name(of:)` (`Editor/BundledPartFile.swift`). Each line only
+      if absent: `grep -c '"regulator"' schematical/schematical/Editor/KindSchema.swift
+      schematical/schematical/Editor/KindInfo.swift` → 0 first.
+- [ ] Editor schema (plan-46's rule): `"regulator": ["regulator.c"]` in
+      `scripts/part-editor-schema.py` `KIND_FILES` and in
+      `PartKindKeysTests.files`; `python3 scripts/part-editor-schema.py .
+      regulator` → `missing []` (keys no generic uses go in
+      `part-editor-schema-extra.py`) → `Editor/RegulatorDraft.swift`, in
+      `PartKinds.schemas`; `testRegulator` in `PartKindRoundTripTests` with
+      `expected["regulator"]` = `grep -o '"manufacturer"'
+      schematical/schematical/Parts/regulator.json | wc -l`, re-set in
+      Phase 2 once every `add` row is in.
 
 Acceptance: the generics load and list, and the editor agrees with the part files.
   Check: `cmake --build /tmp/logic-p42 -j8 && ctest --test-dir /tmp/logic-p42 -R 'listing_check|trace_check|library_check|footprint_check'` → 4 passed; `grep -c '^GENERIC-REG-[A-Z0-9]*|regulator|' backend/tests/golden/parts.txt` → 3; `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p42-dd test -only-testing:schematicalTests/PartEditorWindowTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 12 min: the app test build; the kind list is the only app code here).

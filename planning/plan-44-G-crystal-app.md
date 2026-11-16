@@ -51,7 +51,7 @@ plan-44-A § Prerequisites, plus:
 |---|---|---|
 | plan-44-F complete | `ls planning/completed/plan-44-F-*.md` → exists | NOT MET (2026-11-16: not started) |
 | The parts are loaded | `grep -c '^GENERIC-CRYSTAL-8M|crystal|' backend/tests/golden/parts.txt` → 1; `grep -c '|crystal|' backend/tests/golden/parts.txt` → `<add rows> + 4` | NOT MET (2026-11-16: 0) |
-| The editor's kind lists name the kind (F Phase 1) | `grep -c '"crystal"' schematical/schematical/Editor/KindSchema.swift` → at least 2 | NOT MET (2026-11-16: 0) |
+| The editor's kind lists name the kind (F Phase 1) | `grep -c '"crystal"' schematical/schematical/Editor/KindSchema.swift` → at least 1 (`PartKinds.all`); `grep -c 'kind: "crystal"' schematical/schematical/Editor/KindInfo.swift` → 1; `ls schematical/schematical/Editor/CrystalDraft.swift` → exists | NOT MET (2026-11-16: 0, plan-46 not landed) |
 | The app builds | `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -configuration Debug -derivedDataPath /tmp/p44-dd CODE_SIGNING_ALLOWED=NO build` → `** BUILD SUCCEEDED **` | MET (2026-11-16 at 7108a13e: `** BUILD SUCCEEDED **`) |
 
 Everything below is written against the world where these hold.
@@ -114,7 +114,7 @@ Everything below is written against the world where these hold.
 |---|---|---|
 | Exhaustive `PartSymbol` switches | 4 | § 2 second bullet: `grep -rn 'case \.capacitor' schematical/schematical --include='*.swift' \| grep -v Preferences` (quote the glob) → the sites in those four files |
 | Exhaustive `Details` switches | 2 | `grep -rnE '^ +case let \.resistor' --include='*.swift' schematical/schematical` → 2 |
-| Test files that count part kinds | 1 (`PartEditorWindowTests`, F Phase 1) | `grep -rln 'formless' schematical/schematicalTests` → 1 |
+| Test files that keep a kind without a form | 0 since plan-46-C (every kind has a schema; F Phase 1 generated crystal's) | `grep -rln 'formless' schematical/schematicalTests` → 0 |
 | Crystal-kind parts to list | `<add rows> + 4` | `grep -c '|crystal|' backend/tests/golden/parts.txt` |
 
 ## 3. Design
@@ -242,8 +242,10 @@ Commit: —
 - **The frequency of a generic is the part's** (§ 3 rejected alternative 1).
 - **A four-pad crystal's `NC` pads are not drawn**, a three-pad resonator's
   `GND` pad is (plan-44-B § 3.3).
-- **No part-editor form** for the kind (the transistor, resistor and
-  capacitor precedent: `formless`); F named the kind in the editor lists.
+- **The part-editor form is generated** (plan-46's rule since plan-46-C:
+  every kind has a schema; F Phase 1 generated `CrystalDraft.swift` and
+  added the `KindInfo` entry). The Part Wizard derives its crystal steps
+  from it; no curated guide (plan-46 curates the simple logic kinds only).
 - **The symbol is the plate-rectangle-plate crystal symbol** for both crystals
   and resonators; the sidebar's kind name, not the symbol, says which it is.
 

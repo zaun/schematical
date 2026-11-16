@@ -79,11 +79,12 @@ Everything below is written against the world where these hold.
 
 ## 2. Current State
 
-- `PartKind` ends with `PART_TRANSISTOR` (`backend/include/parts.h:29`);
-  `TRACE_LAST_KIND` is `PART_TRANSISTOR` (`tests/trace_check.c:22`);
-  `listing_check.c:50–51` size two arrays by `PART_TRANSISTOR + 1`;
-  `tests/support/listing.c` prints every kind's name (`case PART_TRANSISTOR:
-  return "transistor"` :39) and facts (`case PART_TRANSISTOR:` :170).
+- `PartKind` ends with `PART_GENERIC` (appended after `PART_TRANSISTOR` by
+  plan-46-B, a prerequisite of plan-44: plan-44-A § Prerequisites);
+  `TRACE_LAST_KIND` is `PART_GENERIC` (`tests/trace_check.c:22`);
+  `listing_check.c:50–51` size two arrays by `PART_GENERIC + 1`;
+  `tests/support/listing.c` prints every kind's name and facts (one `case`
+  per kind; `PART_TRANSISTOR` :39 and :170 before plan-46-B).
 - `KINDS[]` (`backend/src/library/kinds.c:66–70`) lists the ops; the loader,
   the listing and the circuit API work from the kind table and the `Part`
   structs (`docs/backend.md` § Adding a kind).
@@ -105,7 +106,7 @@ Everything below is written against the world where these hold.
 | Existing part files (one per kind) | 31 | `ls schematical/schematical/Parts/*.json \| grep -vc 'footprints\|datasheets'` → 31 |
 | Test programs T0 | 36 | `git show HEAD:backend/CMakeLists.txt \| grep -c '^logic_test'` → 36 |
 | Golden sizes P0 / R0 / F0 | 32897 / 32897 / 1646 | `git show HEAD:backend/tests/golden/{parts,traces,footprints}.txt \| wc -l` |
-| Kinds in `PartKind` | 31 (`PART_GATE` … `PART_TRANSISTOR`) | `awk '/PART_GATE/,/} PartKind;/' backend/include/parts.h \| grep -o 'PART_[A-Z0-9_]*' \| wc -l` → 31 |
+| Kinds in `PartKind` | 32 after plan-46-B (`PART_GATE` … `PART_GENERIC`; 31 at 7108a13e) | `awk '/PART_GATE/,/} PartKind;/' backend/include/parts.h \| grep -o 'PART_[A-Z0-9_]*' \| wc -l` → 32 (re-measure at E's start) |
 
 ### Verified properties
 
@@ -224,8 +225,8 @@ the `crystal_test` line.
 ### Phase 1 — The kind: loader, facts, tests of the loader
 
 - [ ] `backend/include/parts.h`: `PART_CRYSTAL` after the current last
-      `PartKind` (`grep -n 'PART_' backend/include/parts.h`; if plan-42 landed,
-      after `PART_REGULATOR`), `PartCrystal`, `const PartCrystal *crystal;` on
+      `PartKind` (`grep -n 'PART_' backend/include/parts.h`: `PART_GENERIC`
+      since plan-46-B; if plan-42 landed, after `PART_REGULATOR`), `PartCrystal`, `const PartCrystal *crystal;` on
       `Part`.
 - [ ] `backend/src/models/crystal.c`: `CRYSTAL_KIND` with `load_device`,
       `bind_pinout` (the two terminal indices as `size_t[2]`, the pin rules of
