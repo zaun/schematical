@@ -155,7 +155,7 @@ Commit: 7e1f7160 (one commit with Phase 2's code: the page and the rules share f
 
 Acceptance: a complex kind is a short series of screens in Guided mode and unchanged in All fields.
   Check: the walk above (est. 10 min).
-Commit: —
+Commit: 80451edd (code in Phase 1's commit)
 
 ## Validation Plan
 
