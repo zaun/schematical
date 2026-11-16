@@ -28,6 +28,9 @@ final class PartKindKeysTests: XCTestCase {
         "converter": ["converter.c", "converter_load.c"], "rtc": ["rtc.c", "converter_load.c"],
         "diode": ["diode.c"], "header": ["header.c"],
         "register": ["register.c", "seq.c"],
+        // plan-46-C: the last kinds to get a form.
+        "resistor": ["resistor.c"], "capacitor": ["capacitor.c"], "transistor": ["transistor.c"],
+        "mcu": ["mcu.c"], "generic": ["generic.c"],
     ]
 
     static var models: URL {

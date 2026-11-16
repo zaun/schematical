@@ -232,6 +232,8 @@ enum PartKinds {
             CpuDraft.schema, PioDraft.schema, SerialDraft.schema, CharLcdDraft.schema, ConnectorDraft.schema,
             ConverterDraft.schema, RtcDraft.schema, DiodeDraft.schema, HeaderDraft.schema,
             RegisterDraft.schema,
+            ResistorDraft.schema, CapacitorDraft.schema, TransistorDraft.schema, McuDraft.schema,
+            GenericDraft.schema,
         ] {
             schemas[schema.kind] = schema
         }

@@ -41,8 +41,8 @@ plan-46-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-46-B complete | `ls planning/completed/plan-46-B-*.md` → exists | NOT MET (2026-11-16: not started) |
-| The four kinds are formless | `ls schematical/schematical/Editor/{Resistor,Capacitor,Transistor,Mcu,Generic}Draft.swift` → 5 × no such file | MET (2026-11-16 at 9e13cbe4) |
+| plan-46-B complete | `ls planning/completed/plan-46-B-*.md` → exists | MET (2026-11-16: `planning/completed/plan-46-B-wizard-generic-kind.md`) |
+| The four kinds are formless | `ls schematical/schematical/Editor/{Resistor,Capacitor,Transistor,Mcu,Generic}Draft.swift` → 5 × no such file | MET (2026-11-16 at 8e88dc3c: 5 `No such file` lines) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 
@@ -78,7 +78,7 @@ plan-46-A § Prerequisites, plus:
 | What | Count | Command |
 |---|---|---|
 | Shipped parts per kind (the round-trip `expected`) | resistor 1975, capacitor 1032, transistor 1256, mcu 1424 | `grep -o '"manufacturer"' schematical/schematical/Parts/<kind>.json \| wc -l` |
-| Generated fields (probe) | resistor 6, capacitor 7, transistor 21, mcu 11 | probe below, `grep -c 'Field(' <scratch>/<Kind>Draft.swift` |
+| Generated fields (probe) | resistor 6, capacitor 7, transistor 21, mcu 11 (13 as landed: the two `inputMax` `EXTRA` lines, § Corrections 2) | probe below, `grep -c 'Field(' <scratch>/<Kind>Draft.swift` |
 | Capacitor `type` variants | 6 | `python3 -I -c "import json;print(sorted({d['type'] for d in json.load(open('schematical/schematical/Parts/capacitor.json'))['devices']}))"` → aluminum, aluminum-polymer, ceramic, niobium-oxide, tantalum, tantalum-polymer |
 
 ### Verified properties
@@ -127,10 +127,19 @@ shipped values, and the kind ships none.
 
 ### Phase 1 — Generate and register
 
-- [ ] The two script edits of § 3; `python3 scripts/part-editor-schema.py .
+- [x] The two script edits of § 3; `python3 scripts/part-editor-schema.py .
       resistor capacitor transistor mcu` → four `missing []` lines.
-- [ ] `Editor/GenericDraft.swift`; `PartKinds.schemas` gains the five.
-- [ ] The three test files of § 3.
+      (`resistor: 56 devices, 1975 parts, variant None, 6 source keys, missing []`;
+      `capacitor: 138 devices, 1032 parts, variant type, 7 source keys, missing []`;
+      `transistor: 103 devices, 1256 parts, variant None, 21 source keys, missing []`;
+      `mcu: 299 devices, 1424 parts, variant None, 8 source keys, missing []`.
+      Plus the generator fix of § Corrections 1.)
+- [x] `Editor/GenericDraft.swift`; `PartKinds.schemas` gains the five.
+- [x] The three test files of § 3. (`xcodebuild … test
+      -only-testing:schematicalTests/PartKindKeysTests
+      -only-testing:schematicalTests/PartEditorWindowTests …` → `Executed 9
+      tests, with 0 failures` (window) and `Executed 1 test, with 0 failures`
+      (keys), `** TEST SUCCEEDED **`.)
 
 Acceptance: every kind is enabled and the five kinds' keys are covered.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/PartEditorWindowTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 8 min).
@@ -162,7 +171,21 @@ plan-46-A § Decisions (the four kinds are in scope, owner).
 
 ## Corrections
 
-None yet.
+1. **The generator wrote strings Swift does not compile.** `capacitor`'s
+   `tolerance` suggestions hold `±` (`"±10%"`), and
+   `scripts/part-editor-schema.py` wrote choice and suggested values with
+   `json.dumps`, whose `\u00b1` is not a Swift escape: the first build
+   failed `CapacitorDraft.swift:14:92: error: expected hexadecimal code in
+   braces after unicode escape`. Fixed in the generator (`json.dumps(v,
+   ensure_ascii=False)` for `.choice` and `.suggested` values), then
+   regenerated; no hand edit. No earlier generated file changes: none holds
+   a `\u` escape (`grep -l '\\u00' schematical/schematical/Editor/*Draft.swift`
+   → none), so every shipped value so far was ASCII.
+2. **`mcu` needs two `EXTRA` lines, not one.** `mcu.c`'s `PART_KEYS` also
+   takes `inputMax`, which no shipped mcu part sets; the generator's
+   `missing []` check goes by key name, so the device line hid the part's.
+   `EXTRA["mcu"]` has both; `McuDraft.swift` has 13 `Field(` (8 device,
+   5 part).
 
 ## Summary
 

@@ -8,14 +8,40 @@ final class PartEditorWindowTests: XCTestCase {
     /// Kept for the life of the test process (see PartFileSaveOpenTests).
     static var kept: [PartEditorModel] = []
 
-    /// (a) Every kind has a form (plan-32-J Phase 4) but the three without one.
+    /// (a) Every kind has a form (plan-46-C gave the last five theirs).
     func testEnabledKinds() {
-        // capacitor (plan-33), mcu (plan-36) and resistor (plan-34) have no form
-        // (plan-33-A, plan-36-H, plan-34-G § Decisions); generic (plan-46-B)
-        // gets its schema in plan-46-C.
-        let formless: Set = ["capacitor", "generic", "mcu", "resistor", "transistor"]
-        XCTAssertEqual(PartDraft.enabledKinds, PartDraft.kindNames.filter { !formless.contains($0) })
-        XCTAssertEqual(PartDraft.enabledKinds.count, PartDraft.kindNames.count - formless.count)
+        XCTAssertEqual(PartDraft.enabledKinds, PartDraft.kindNames)
+        XCTAssertEqual(PartDraft.enabledKinds.count, 32)
+    }
+
+    /// A new generic part (plan-46-B, C) starts unsimulated and the backend
+    /// accepts it once it has pins, a name and a footprint.
+    func testNewGenericDraftValidates() throws {
+        var draft = PartDraft(newOf: "generic")
+        XCTAssertEqual(draft.kindDevice, ["simulated": .bool(false)])
+        XCTAssertEqual(draft.kindPart, [:])
+        XCTAssertEqual(draft.manufacturer, "Generic")
+        draft.name = "GENERIC-NEW-\(UUID().uuidString.prefix(8))"
+        draft.function = "Sensor"
+        draft.description = "A two-pin part"
+        draft.package = "0603"
+        draft.pinouts[0].pins = [PinDraft(designator: "1", name: "A", role: "inout"),
+                                 PinDraft(designator: "2", name: "B", role: "inout")]
+        let footprint = try XCTUnwrap(PartValidator.shared.footprints.first { $0.pads.count == 2 })
+        draft.footprint = footprint.id
+        XCTAssertEqual(draft.extraKeys, [])
+        switch PartValidator.shared.validate(draft, source: "generic.schpart") {
+        case let .success(part):
+            XCTAssertEqual(part.kind, PART_GENERIC)
+            XCTAssertFalse(part.isSimulated)
+            XCTAssertEqual(part.pins.count, 2)
+        case let .failure(failure):
+            XCTFail(failure.message)
+        }
+        // Read back, it is the same draft with no key left over.
+        let reopened = try PartDraft(fileText: draft.fileText())
+        XCTAssertEqual(reopened, draft)
+        XCTAssertEqual(reopened.extraKeys, [])
     }
 
     /// (b) The picker lists one kind per bundled part file.

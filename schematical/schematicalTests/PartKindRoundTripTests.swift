@@ -15,6 +15,8 @@ final class PartKindRoundTripTests: XCTestCase {
         "sram": 172, "eeprom": 174, "switch": 2067, "led": 1, "7seg": 49, "oscillator": 1138, "supply": 14,
         "cpu": 21, "pio": 7, "serial": 247, "charlcd": 72, "connector": 374, "converter": 1911, "rtc": 14,
         "diode": 11152, "header": 80, "register": 220,
+        // plan-46-C.
+        "resistor": 1975, "capacitor": 1032, "transistor": 1256, "mcu": 1424,
     ]
 
     private func check(_ kind: String) {
@@ -54,4 +56,8 @@ final class PartKindRoundTripTests: XCTestCase {
     func testDiode() { check("diode") }
     func testHeader() { check("header") }
     func testRegister() { check("register") }
+    func testResistor() { check("resistor") }
+    func testCapacitor() { check("capacitor") }
+    func testTransistor() { check("transistor") }
+    func testMcu() { check("mcu") }
 }

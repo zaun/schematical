@@ -27,6 +27,8 @@ KIND_FILES = {
     "rtc": ["rtc.c", "converter_load.c", "converter_par.c"],
     "diode": ["diode.c"], "header": ["header.c"],
     "register": ["register.c", "seq.c"],
+    "resistor": ["resistor.c"], "capacitor": ["capacitor.c"], "transistor": ["transistor.c"],
+    "mcu": ["mcu.c"],
 }
 
 NAMES = {
@@ -216,9 +218,9 @@ def swift_type(t, emit):
     if tag == "numbers":
         return '.numbers(unit: "%s")' % t[1]
     if tag == "suggested":
-        return ".suggested([%s])" % ", ".join(json.dumps(v) for v in t[1])
+        return ".suggested([%s])" % ", ".join(json.dumps(v, ensure_ascii=False) for v in t[1])
     if tag == "choice":
-        return ".choice([%s])" % ", ".join(json.dumps(v) for v in t[1])
+        return ".choice([%s])" % ", ".join(json.dumps(v, ensure_ascii=False) for v in t[1])
     if tag in ("object", "list"):
         return ".%s([%s])" % (tag, ", ".join(emit(f) for f in t[1]))
     if tag == "map":

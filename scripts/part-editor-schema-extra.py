@@ -52,4 +52,7 @@ EXTRA = {
     "register": [("part", "vcc", ("voltRange",), []), ("part", "inputMax", ("number", "V"), [])],
     # oscillator.c DEVICE_KEYS and PART_KEYS "inputMax".
     "oscillator": [("device", "inputMax", ("number", "V"), []), ("part", "inputMax", ("number", "V"), [])],
+    # mcu.c DEVICE_KEYS "inputMax" (kind_voltage): no shipped mcu device sets it.
+    # PART_KEYS "inputMax" likewise: no shipped mcu part sets it.
+    "mcu": [("device", "inputMax", ("number", "V"), []), ("part", "inputMax", ("number", "V"), [])],
 }
