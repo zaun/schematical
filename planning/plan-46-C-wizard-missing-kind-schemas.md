@@ -143,13 +143,18 @@ shipped values, and the kind ships none.
 
 Acceptance: every kind is enabled and the five kinds' keys are covered.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/PartKindKeysTests -only-testing:schematicalTests/PartEditorWindowTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 8 min).
-Commit: —
+Commit: c5ecc4c6
 
 ### Phase 2 — Round trip
 
-- [ ] Run the four new round-trip tests; any mismatch or extra is fixed by
+- [x] Run the four new round-trip tests; any mismatch or extra is fixed by
       an `EXTRA` line and a regeneration (plan-32-J § Corrections is the
       catalog of fixes), never by a hand edit.
+      (`checked 1032 parts of capacitor, 0 mismatched, 0 with extras, 0 rejected`;
+      `checked 1424 parts of mcu, 0 mismatched, 0 with extras, 0 rejected`;
+      `checked 1975 parts of resistor, 0 mismatched, 0 with extras, 0 rejected`;
+      `checked 1256 parts of transistor, 0 mismatched, 0 with extras, 0 rejected`;
+      `Executed 4 tests, with 0 failures`, `** TEST SUCCEEDED **`. No fix was needed.)
 
 Acceptance: 5687 parts, 0 mismatched, 0 with extras, 0 rejected.
   Check: `xcodebuild … test -only-testing:schematicalTests/PartKindRoundTripTests/testResistor -only-testing:schematicalTests/PartKindRoundTripTests/testCapacitor -only-testing:schematicalTests/PartKindRoundTripTests/testTransistor -only-testing:schematicalTests/PartKindRoundTripTests/testMcu CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` and four `checked N parts of <kind>, 0 mismatched, 0 with extras, 0 rejected` lines with N = 1975, 1032, 1256, 1424 (est. 10 min: the population is the whole of each kind, the smallest set that exercises every key).
