@@ -31,7 +31,7 @@ plan-43-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-43-C complete | `ls planning/completed/plan-43-C-*.md` → exists | NOT MET (2026-11-15: not started) |
+| plan-43-C complete | `ls planning/completed/plan-43-C-*.md` → exists | MET (2026-11-15: archived in 6f1be566) |
 
 Everything below is written against the world where these hold.
 
@@ -153,14 +153,21 @@ In `backend/tests/circuit_check.c`:
 
 ### Phase 1 — Real-time clocks
 
-- [ ] Add `DS3231M` and `PCF8563` with their parts, footprints and
-      datasheet entries (§ 4).
-- [ ] Tests: the `check_rtc_time` helper and its three calls (§ 5).
-- [ ] Regenerate the goldens.
+- [x] Add `DS3231M` and `PCF8563` with their parts, footprints and
+      datasheet entries (§ 4). — `python3 -I planning/plan-43-data/add/mkrtc.py`
+      (writes `add/rtc.json`), `devadd.py add/rtc.json` → `datasheets +2`,
+      `footprints +2`, `rtc +2 devices`; `library_check: all passed`.
+- [x] Tests: the `check_rtc_time` helper and its three calls (§ 5). —
+      `circuit_check`: the seven RTC expectations PASS for `BQ32000DR`,
+      `DS3231MZ+TRL` (`SECONDS=02 MINUTES=01`) and `PCF8563T/5,518`
+      (`VL_SECONDS=82 MINUTES=01`); `0 failure(s)`.
+- [x] Regenerate the goldens. — 32894 / 32894 / 1645 lines; 0 removed;
+      `|rtc|` 14 → 16.
 
 Acceptance: both RTCs count from 2000-01-01 and show their BCD registers.
   Check: `cmake --build /tmp/logic-p43 -j8 && ctest --test-dir /tmp/logic-p43 -R 'library_check|listing_check|trace_check|footprint_check|rtc_test|circuit_check'`
-  → `100% tests passed` (est. 2 min).
+  → `100% tests passed` (est. 2 min). — `100% tests passed, 0 tests failed
+  out of 6`.
 Commit: —
 
 ### Phase 2 — Converters
@@ -192,6 +199,37 @@ Commit: —
   code (plan-43-A § 1).
 
 ## Corrections
+
+- **D starts at 32892 and ends at 32898** (plan-43-B and -C § Corrections).
+  Every 32895 above reads 32892 and every 32901 reads 32898. The build
+  directory is `/tmp/logic-p43w`.
+- **`rtc.json` and `converter.json` are edited by
+  `planning/plan-43-data/add/devadd.py`**, which appends a device as text:
+  both files are in `json.dump(indent=1)` layout but do not reload
+  byte-for-byte, so they are not rewritten whole. The devices are built by
+  `add/mkrtc.py` and `add/mkconv.py`, which hold the transcription.
+- **`DS3231M` has no `stop`.** § 4 named `EOSC` as the stop bit, but the
+  datasheet (p.13) says it stops the oscillator only when the part runs
+  from VBAT; on VCC the oscillator always runs. The model has no battery
+  supply, so `EOSC` is a stored bit and the clock always counts.
+- **`DS3231M` is 24-hour only.** Bit 5 of its hours registers is the
+  20-hour digit in 24-hour mode and AM/PM in 12-hour mode; the engine
+  rejects overlapping fields (`converter_load.c`: "overlaps another
+  field"), so `h12` / `pm` cannot name it. The 12/24 bits are stored and
+  the device `note` says so. Its alarms match the date only (DY/DT stored).
+- **`PCF8563` alarm with every `AE` bit 1**: the chip raises no alarm, the
+  engine treats four masked entries as a match, so `AF` sets each second
+  (INT stays released while `AIE` = 0). In the device `note`.
+- **Two new SO-8 footprints.** `SOIC-8-MAXIM-S8` from Maxim's land pattern
+  90-0096 rev M (1.98 x 0.53 pads, span 4.93; the datasheet p.19 names it
+  and prints none) and `SOIC-8-NXP-SOT96-1` from the SOT96-1 outline by R2
+  (1.80 x 0.54, span 5.40). `SOIC-8` (TI) has 1.55 x 0.6 pads.
+  analog.com answers Python's `urllib` and not `curl`; the land-pattern
+  documents are cited by URL, as plan-12-J did, not filed.
+- **`DS3231MZ+TRL`**: the ordering table lists `DS3231MZ+`; `+TRL` is its
+  tape and reel, as the library's `MAX…+T` parts.
+- **`check_rtc_time` finds the two registers by address** (the PCF8563's
+  are not the first two of its register list) and reads up to 32.
 
 ## Summary
 

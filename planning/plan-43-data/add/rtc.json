@@ -1,0 +1,1336 @@
+{
+ "datasheets": [
+  {
+   "id": "ds3231m",
+   "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/DS3231M.pdf"
+  },
+  {
+   "id": "pcf8563",
+   "url": "https://www.nxp.com/docs/en/data-sheet/PCF8563.pdf"
+  }
+ ],
+ "footprints": [
+  {
+   "id": "SOIC-8-MAXIM-S8",
+   "description": "8-pin SOIC (Maxim S8, 0.150 in), 3.9 x 4.9 mm body, 1.27 mm pitch",
+   "note": "Maxim/ADI 90-0096 rev M land pattern [S8, incl. S8MK+1] p.1 (R1; 1.98 x 0.53 pads, 1.27 pitch, 4.93 pad-centre span), analog.com/media/en/package-pcb-resources/land-pattern/soicn/90-0096.pdf; body E 3.90 typ (3.80-4.00) x D 4.90 typ (4.80-5.00) from outline 21-0041 rev V, analog.com/media/en/package-pcb-resources/package/pkg_pdf/soicn/21-0041.pdf; DS3231M code S8MK+1 named in rtc/DS3231M.pdf p.19. Not SOIC-8 (TI: 1.55 x 0.6 pads, span 5.4)",
+   "style": "dual",
+   "pins": 8,
+   "body": {
+    "width": 3.9,
+    "height": 4.9
+   },
+   "pitch": 1.27,
+   "span": 4.93,
+   "pad": {
+    "width": 1.98,
+    "height": 0.53,
+    "shape": "rect"
+   }
+  },
+  {
+   "id": "SOIC-8-NXP-SOT96-1",
+   "description": "8-pin SO8 (NXP SOT96-1), 3.9 x 4.9 mm body, 1.27 mm pitch",
+   "note": "NXP SOT96-1 package outline (R2; no land pattern printed), datasheets/rtc/PCF8563.pdf p.38 Figure 30: Lp 0.4-1.0 -> pad length 1.80; bp 0.36-0.49 -> pad width 0.54; HE 5.8-6.2 -> span 6.2 + 1.0 - 1.80 = 5.40; e 1.27; body E 3.90 mid (3.8-4.0) x D 4.90 mid (4.8-5.0). Not SOIC-8 (TI: 1.55 x 0.6 pads)",
+   "style": "dual",
+   "pins": 8,
+   "body": {
+    "width": 3.9,
+    "height": 4.9
+   },
+   "pitch": 1.27,
+   "span": 5.4,
+   "pad": {
+    "width": 1.8,
+    "height": 0.54,
+    "shape": "rect"
+   }
+  }
+ ],
+ "devices": {
+  "rtc": [
+   {
+    "id": "DS3231M",
+    "function": "RTC",
+    "description": "I2C real-time clock with MEMS resonator, two alarms and battery backup input",
+    "drawer": [
+     "Interface"
+    ],
+    "note": "DS3231M.pdf (Maxim 19-5312): p.1 ordering information (DS3231MZ+ 8 SO; +TRL is its tape and reel), p.2 recommended operating conditions (VCC 2.3-5.5 V), p.7-8 pin description (8 SO: 1 32KHZ, 2 VCC, 3 INT/SQW, 4 RST, 5 GND, 6 VBAT, 7 SDA, 8 SCL), p.11 Table 2 timekeeping registers, p.13-15 Control (0Eh: 1Ch at power-on, INTCN = 1) and Status (0Fh: OSF and EN32KHZ 1 at power-on), p.16-18 I2C (slave address 1101000, register pointer with auto-increment). Modelled: time and calendar in 24-hour mode, the century bit, both alarms on INT/SQW (open drain, date matching). Left out: 12-hour mode (bit 5 of the hours registers is both the 20-hour digit and AM/PM; the 12/24 bits are stored only), day-of-week alarm matching (DY/DT is stored only), the 1 Hz square wave (INTCN = 0), the 32 kHz output, RST, the temperature registers (read 0), the aging offset, and EOSC (it stops the oscillator only on VBAT; the model has no battery supply, so the clock always runs). Alarm 2 has no seconds register: it matches during second 00. The day-of-week register is user-defined; it starts at 7 for Saturday 2000-01-01 (1 = Sunday).",
+    "pinouts": {
+     "so8": [
+      {
+       "number": 1,
+       "name": "32KHZ",
+       "role": "output"
+      },
+      {
+       "number": 2,
+       "name": "VCC",
+       "role": "power"
+      },
+      {
+       "number": 3,
+       "name": "INT/SQW",
+       "role": "output",
+       "activeLow": true
+      },
+      {
+       "number": 4,
+       "name": "RST",
+       "role": "inout",
+       "activeLow": true
+      },
+      {
+       "number": 5,
+       "name": "GND",
+       "role": "ground"
+      },
+      {
+       "number": 6,
+       "name": "VBAT",
+       "role": "power"
+      },
+      {
+       "number": 7,
+       "name": "SDA",
+       "role": "inout"
+      },
+      {
+       "number": 8,
+       "name": "SCL",
+       "role": "input"
+      }
+     ]
+    },
+    "vcc": [
+     2.3,
+     5.5
+    ],
+    "analog": [
+     "VBAT"
+    ],
+    "bus": {
+     "style": "i2c",
+     "scl": "SCL",
+     "sda": "SDA",
+     "address": [],
+     "table": [
+      104
+     ]
+    },
+    "registers": [
+     {
+      "name": "SECONDS",
+      "address": 0,
+      "width": 8,
+      "reset": 0,
+      "fields": [
+       {
+        "name": "ZERO",
+        "bits": [
+         7,
+         7
+        ]
+       },
+       {
+        "name": "SECONDS",
+        "bits": [
+         6,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "MINUTES",
+      "address": 1,
+      "width": 8,
+      "reset": 0,
+      "fields": [
+       {
+        "name": "ZERO",
+        "bits": [
+         7,
+         7
+        ]
+       },
+       {
+        "name": "MINUTES",
+        "bits": [
+         6,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "HOURS",
+      "address": 2,
+      "width": 8,
+      "reset": 0,
+      "fields": [
+       {
+        "name": "ZERO",
+        "bits": [
+         7,
+         7
+        ]
+       },
+       {
+        "name": "H12",
+        "bits": [
+         6,
+         6
+        ]
+       },
+       {
+        "name": "HOURS",
+        "bits": [
+         5,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "DAY",
+      "address": 3,
+      "width": 8,
+      "reset": 7,
+      "fields": [
+       {
+        "name": "ZERO",
+        "bits": [
+         7,
+         3
+        ]
+       },
+       {
+        "name": "DAY",
+        "bits": [
+         2,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "DATE",
+      "address": 4,
+      "width": 8,
+      "reset": 1,
+      "fields": [
+       {
+        "name": "ZERO",
+        "bits": [
+         7,
+         6
+        ]
+       },
+       {
+        "name": "DATE",
+        "bits": [
+         5,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "MONTH",
+      "address": 5,
+      "width": 8,
+      "reset": 1,
+      "fields": [
+       {
+        "name": "CENTURY",
+        "bits": [
+         7,
+         7
+        ]
+       },
+       {
+        "name": "ZERO",
+        "bits": [
+         6,
+         5
+        ]
+       },
+       {
+        "name": "MONTH",
+        "bits": [
+         4,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "YEAR",
+      "address": 6,
+      "width": 8,
+      "reset": 0,
+      "fields": [
+       {
+        "name": "YEAR",
+        "bits": [
+         7,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "A1_SECONDS",
+      "address": 7,
+      "width": 8,
+      "reset": 0,
+      "fields": [
+       {
+        "name": "A1M1",
+        "bits": [
+         7,
+         7
+        ]
+       },
+       {
+        "name": "SECONDS",
+        "bits": [
+         6,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "A1_MINUTES",
+      "address": 8,
+      "width": 8,
+      "reset": 0,
+      "fields": [
+       {
+        "name": "A1M2",
+        "bits": [
+         7,
+         7
+        ]
+       },
+       {
+        "name": "MINUTES",
+        "bits": [
+         6,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "A1_HOURS",
+      "address": 9,
+      "width": 8,
+      "reset": 0,
+      "fields": [
+       {
+        "name": "A1M3",
+        "bits": [
+         7,
+         7
+        ]
+       },
+       {
+        "name": "H12",
+        "bits": [
+         6,
+         6
+        ]
+       },
+       {
+        "name": "HOURS",
+        "bits": [
+         5,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "A1_DATE",
+      "address": 10,
+      "width": 8,
+      "reset": 0,
+      "fields": [
+       {
+        "name": "A1M4",
+        "bits": [
+         7,
+         7
+        ]
+       },
+       {
+        "name": "DYDT",
+        "bits": [
+         6,
+         6
+        ]
+       },
+       {
+        "name": "DATE",
+        "bits": [
+         5,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "A2_MINUTES",
+      "address": 11,
+      "width": 8,
+      "reset": 0,
+      "fields": [
+       {
+        "name": "A2M2",
+        "bits": [
+         7,
+         7
+        ]
+       },
+       {
+        "name": "MINUTES",
+        "bits": [
+         6,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "A2_HOURS",
+      "address": 12,
+      "width": 8,
+      "reset": 0,
+      "fields": [
+       {
+        "name": "A2M3",
+        "bits": [
+         7,
+         7
+        ]
+       },
+       {
+        "name": "H12",
+        "bits": [
+         6,
+         6
+        ]
+       },
+       {
+        "name": "HOURS",
+        "bits": [
+         5,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "A2_DATE",
+      "address": 13,
+      "width": 8,
+      "reset": 0,
+      "fields": [
+       {
+        "name": "A2M4",
+        "bits": [
+         7,
+         7
+        ]
+       },
+       {
+        "name": "DYDT",
+        "bits": [
+         6,
+         6
+        ]
+       },
+       {
+        "name": "DATE",
+        "bits": [
+         5,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "CONTROL",
+      "address": 14,
+      "width": 8,
+      "reset": 28,
+      "fields": [
+       {
+        "name": "EOSC",
+        "bits": [
+         7,
+         7
+        ]
+       },
+       {
+        "name": "BBSQW",
+        "bits": [
+         6,
+         6
+        ]
+       },
+       {
+        "name": "CONV",
+        "bits": [
+         5,
+         5
+        ]
+       },
+       {
+        "name": "NA",
+        "bits": [
+         4,
+         3
+        ]
+       },
+       {
+        "name": "INTCN",
+        "bits": [
+         2,
+         2
+        ]
+       },
+       {
+        "name": "A2IE",
+        "bits": [
+         1,
+         1
+        ]
+       },
+       {
+        "name": "A1IE",
+        "bits": [
+         0,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "STATUS",
+      "address": 15,
+      "width": 8,
+      "reset": 136,
+      "fields": [
+       {
+        "name": "OSF",
+        "bits": [
+         7,
+         7
+        ]
+       },
+       {
+        "name": "ZERO",
+        "bits": [
+         6,
+         4
+        ]
+       },
+       {
+        "name": "EN32KHZ",
+        "bits": [
+         3,
+         3
+        ]
+       },
+       {
+        "name": "BSY",
+        "bits": [
+         2,
+         2
+        ]
+       },
+       {
+        "name": "A2F",
+        "bits": [
+         1,
+         1
+        ]
+       },
+       {
+        "name": "A1F",
+        "bits": [
+         0,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "AGING",
+      "address": 16,
+      "width": 8,
+      "reset": 0
+     },
+     {
+      "name": "TEMP_MSB",
+      "address": 17,
+      "width": 8,
+      "reset": 0,
+      "readOnly": true,
+      "note": "temperature, not modelled; reads 00h"
+     },
+     {
+      "name": "TEMP_LSB",
+      "address": 18,
+      "width": 8,
+      "reset": 0,
+      "readOnly": true,
+      "note": "temperature, not modelled; reads 00h"
+     }
+    ],
+    "protocol": {
+     "frame": "fixed",
+     "commands": [
+      {
+       "name": "Register address",
+       "in": "aaaaaaaa",
+       "action": "pointer",
+       "address": "a",
+       "increment": 1,
+       "note": "the first write byte is the register address; further bytes write consecutive registers, reads continue from it"
+      }
+     ],
+     "read": "pointer"
+    },
+    "clock": {
+     "fields": [
+      {
+       "field": "SECONDS.SECONDS",
+       "unit": "second",
+       "format": "bcd"
+      },
+      {
+       "field": "MINUTES.MINUTES",
+       "unit": "minute",
+       "format": "bcd"
+      },
+      {
+       "field": "HOURS.HOURS",
+       "unit": "hour",
+       "format": "bcd"
+      },
+      {
+       "field": "DAY.DAY",
+       "unit": "weekday",
+       "first": 1
+      },
+      {
+       "field": "DATE.DATE",
+       "unit": "date",
+       "format": "bcd"
+      },
+      {
+       "field": "MONTH.MONTH",
+       "unit": "month",
+       "format": "bcd"
+      },
+      {
+       "field": "YEAR.YEAR",
+       "unit": "year",
+       "format": "bcd",
+       "base": 2000
+      },
+      {
+       "field": "MONTH.CENTURY",
+       "unit": "century",
+       "format": "binary"
+      }
+     ],
+     "update": "none",
+     "alarms": [
+      {
+       "match": [
+        {
+         "field": "A1_SECONDS.SECONDS",
+         "unit": "second",
+         "mask": "A1_SECONDS.A1M1"
+        },
+        {
+         "field": "A1_MINUTES.MINUTES",
+         "unit": "minute",
+         "mask": "A1_MINUTES.A1M2"
+        },
+        {
+         "field": "A1_HOURS.HOURS",
+         "unit": "hour",
+         "mask": "A1_HOURS.A1M3"
+        },
+        {
+         "field": "A1_DATE.DATE",
+         "unit": "date",
+         "mask": "A1_DATE.A1M4"
+        }
+       ],
+       "flag": "STATUS.A1F",
+       "enable": "CONTROL.A1IE",
+       "pin": {
+        "pin": "INT/SQW",
+        "active": 0,
+        "openDrain": true
+       }
+      },
+      {
+       "match": [
+        {
+         "field": "A2_MINUTES.MINUTES",
+         "unit": "minute",
+         "mask": "A2_MINUTES.A2M2"
+        },
+        {
+         "field": "A2_HOURS.HOURS",
+         "unit": "hour",
+         "mask": "A2_HOURS.A2M3"
+        },
+        {
+         "field": "A2_DATE.DATE",
+         "unit": "date",
+         "mask": "A2_DATE.A2M4"
+        }
+       ],
+       "flag": "STATUS.A2F",
+       "enable": "CONTROL.A2IE",
+       "pin": {
+        "pin": "INT/SQW",
+        "active": 0,
+        "openDrain": true
+       }
+      }
+     ]
+    },
+    "parts": [
+     {
+      "name": "DS3231MZ+TRL",
+      "manufacturer": "Analog Devices",
+      "datasheet": "ds3231m",
+      "package": "SOIC",
+      "pinout": "so8",
+      "footprint": "SOIC-8-MAXIM-S8"
+     }
+    ]
+   },
+   {
+    "id": "PCF8563",
+    "function": "RTC",
+    "description": "I2C real-time clock and calendar with alarm, timer flag and clock output",
+    "drawer": [
+     "Interface"
+    ],
+    "note": "PCF8563.pdf (NXP): p.5 ordering information (PCF8563T/5, SO8, SOT96-1; ,518 is the reel), p.8 pinning (PCF8563T: 1 OSCI, 2 OSCO, 3 INT, 4 VSS, 5 SDA, 6 SCL, 7 CLKOUT, 8 VDD), register overview (00h-0Fh) and register descriptions, I2C slave address A2h write / A3h read (7-bit 51h) with an auto-incrementing register address, p.31 static characteristics (VDD 1.8-5.5 V with the interface active). Reset values: Control_status_1 08h (TESTC), VL = 1, CLKOUT_control 80h, Timer_control 03h; the datasheet leaves the alarm registers undefined, they start with their AE bits 1 (disabled). Modelled: time and calendar (weekday 0 = Sunday), the century bit, STOP, the alarm (minute, hour, day, weekday; an AE bit of 1 takes that entry out of the comparison) on INT (open drain). Left out: CLKOUT, the countdown timer's counting and its flag, the low-voltage detector (VL only reads its reset value). With all four AE bits 1 the chip raises no alarm, but the engine treats four masked entries as a match, so AF sets every second then (INT stays released while AIE = 0).",
+    "pinouts": {
+     "so8": [
+      {
+       "number": 1,
+       "name": "OSCI",
+       "role": "input"
+      },
+      {
+       "number": 2,
+       "name": "OSCO",
+       "role": "output"
+      },
+      {
+       "number": 3,
+       "name": "INT",
+       "role": "output",
+       "activeLow": true
+      },
+      {
+       "number": 4,
+       "name": "VSS",
+       "role": "ground"
+      },
+      {
+       "number": 5,
+       "name": "SDA",
+       "role": "inout"
+      },
+      {
+       "number": 6,
+       "name": "SCL",
+       "role": "input"
+      },
+      {
+       "number": 7,
+       "name": "CLKOUT",
+       "role": "output"
+      },
+      {
+       "number": 8,
+       "name": "VDD",
+       "role": "power"
+      }
+     ]
+    },
+    "vcc": [
+     1.8,
+     5.5
+    ],
+    "analog": [
+     "OSCI",
+     "OSCO"
+    ],
+    "bus": {
+     "style": "i2c",
+     "scl": "SCL",
+     "sda": "SDA",
+     "address": [],
+     "table": [
+      81
+     ]
+    },
+    "registers": [
+     {
+      "name": "CONTROL_STATUS_1",
+      "address": 0,
+      "width": 8,
+      "reset": 8,
+      "fields": [
+       {
+        "name": "TEST1",
+        "bits": [
+         7,
+         7
+        ]
+       },
+       {
+        "name": "N6",
+        "bits": [
+         6,
+         6
+        ]
+       },
+       {
+        "name": "STOP",
+        "bits": [
+         5,
+         5
+        ]
+       },
+       {
+        "name": "N4",
+        "bits": [
+         4,
+         4
+        ]
+       },
+       {
+        "name": "TESTC",
+        "bits": [
+         3,
+         3
+        ]
+       },
+       {
+        "name": "N",
+        "bits": [
+         2,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "CONTROL_STATUS_2",
+      "address": 1,
+      "width": 8,
+      "reset": 0,
+      "fields": [
+       {
+        "name": "N",
+        "bits": [
+         7,
+         5
+        ]
+       },
+       {
+        "name": "TI_TP",
+        "bits": [
+         4,
+         4
+        ]
+       },
+       {
+        "name": "AF",
+        "bits": [
+         3,
+         3
+        ]
+       },
+       {
+        "name": "TF",
+        "bits": [
+         2,
+         2
+        ]
+       },
+       {
+        "name": "AIE",
+        "bits": [
+         1,
+         1
+        ]
+       },
+       {
+        "name": "TIE",
+        "bits": [
+         0,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "VL_SECONDS",
+      "address": 2,
+      "width": 8,
+      "reset": 128,
+      "fields": [
+       {
+        "name": "VL",
+        "bits": [
+         7,
+         7
+        ]
+       },
+       {
+        "name": "SECONDS",
+        "bits": [
+         6,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "MINUTES",
+      "address": 3,
+      "width": 8,
+      "reset": 0,
+      "fields": [
+       {
+        "name": "X",
+        "bits": [
+         7,
+         7
+        ]
+       },
+       {
+        "name": "MINUTES",
+        "bits": [
+         6,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "HOURS",
+      "address": 4,
+      "width": 8,
+      "reset": 0,
+      "fields": [
+       {
+        "name": "X",
+        "bits": [
+         7,
+         6
+        ]
+       },
+       {
+        "name": "HOURS",
+        "bits": [
+         5,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "DAYS",
+      "address": 5,
+      "width": 8,
+      "reset": 1,
+      "fields": [
+       {
+        "name": "X",
+        "bits": [
+         7,
+         6
+        ]
+       },
+       {
+        "name": "DAYS",
+        "bits": [
+         5,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "WEEKDAYS",
+      "address": 6,
+      "width": 8,
+      "reset": 6,
+      "fields": [
+       {
+        "name": "X",
+        "bits": [
+         7,
+         3
+        ]
+       },
+       {
+        "name": "WEEKDAYS",
+        "bits": [
+         2,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "CENTURY_MONTHS",
+      "address": 7,
+      "width": 8,
+      "reset": 1,
+      "fields": [
+       {
+        "name": "C",
+        "bits": [
+         7,
+         7
+        ]
+       },
+       {
+        "name": "X",
+        "bits": [
+         6,
+         5
+        ]
+       },
+       {
+        "name": "MONTHS",
+        "bits": [
+         4,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "YEARS",
+      "address": 8,
+      "width": 8,
+      "reset": 0,
+      "fields": [
+       {
+        "name": "YEARS",
+        "bits": [
+         7,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "MINUTE_ALARM",
+      "address": 9,
+      "width": 8,
+      "reset": 128,
+      "fields": [
+       {
+        "name": "AE_M",
+        "bits": [
+         7,
+         7
+        ]
+       },
+       {
+        "name": "MINUTE_ALARM",
+        "bits": [
+         6,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "HOUR_ALARM",
+      "address": 10,
+      "width": 8,
+      "reset": 128,
+      "fields": [
+       {
+        "name": "AE_H",
+        "bits": [
+         7,
+         7
+        ]
+       },
+       {
+        "name": "X",
+        "bits": [
+         6,
+         6
+        ]
+       },
+       {
+        "name": "HOUR_ALARM",
+        "bits": [
+         5,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "DAY_ALARM",
+      "address": 11,
+      "width": 8,
+      "reset": 128,
+      "fields": [
+       {
+        "name": "AE_D",
+        "bits": [
+         7,
+         7
+        ]
+       },
+       {
+        "name": "X",
+        "bits": [
+         6,
+         6
+        ]
+       },
+       {
+        "name": "DAY_ALARM",
+        "bits": [
+         5,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "WEEKDAY_ALARM",
+      "address": 12,
+      "width": 8,
+      "reset": 128,
+      "fields": [
+       {
+        "name": "AE_W",
+        "bits": [
+         7,
+         7
+        ]
+       },
+       {
+        "name": "X",
+        "bits": [
+         6,
+         3
+        ]
+       },
+       {
+        "name": "WEEKDAY_ALARM",
+        "bits": [
+         2,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "CLKOUT_CONTROL",
+      "address": 13,
+      "width": 8,
+      "reset": 128,
+      "fields": [
+       {
+        "name": "FE",
+        "bits": [
+         7,
+         7
+        ]
+       },
+       {
+        "name": "X",
+        "bits": [
+         6,
+         2
+        ]
+       },
+       {
+        "name": "FD",
+        "bits": [
+         1,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "TIMER_CONTROL",
+      "address": 14,
+      "width": 8,
+      "reset": 3,
+      "fields": [
+       {
+        "name": "TE",
+        "bits": [
+         7,
+         7
+        ]
+       },
+       {
+        "name": "X",
+        "bits": [
+         6,
+         2
+        ]
+       },
+       {
+        "name": "TD",
+        "bits": [
+         1,
+         0
+        ]
+       }
+      ]
+     },
+     {
+      "name": "TIMER",
+      "address": 15,
+      "width": 8,
+      "reset": 0
+     }
+    ],
+    "protocol": {
+     "frame": "fixed",
+     "commands": [
+      {
+       "name": "Register address",
+       "in": "aaaaaaaa",
+       "action": "pointer",
+       "address": "a",
+       "increment": 1,
+       "note": "the first write byte is the register address; further bytes write consecutive registers, reads continue from it"
+      }
+     ],
+     "read": "pointer"
+    },
+    "clock": {
+     "fields": [
+      {
+       "field": "VL_SECONDS.SECONDS",
+       "unit": "second",
+       "format": "bcd"
+      },
+      {
+       "field": "MINUTES.MINUTES",
+       "unit": "minute",
+       "format": "bcd"
+      },
+      {
+       "field": "HOURS.HOURS",
+       "unit": "hour",
+       "format": "bcd"
+      },
+      {
+       "field": "WEEKDAYS.WEEKDAYS",
+       "unit": "weekday",
+       "first": 0
+      },
+      {
+       "field": "DAYS.DAYS",
+       "unit": "date",
+       "format": "bcd"
+      },
+      {
+       "field": "CENTURY_MONTHS.MONTHS",
+       "unit": "month",
+       "format": "bcd"
+      },
+      {
+       "field": "YEARS.YEARS",
+       "unit": "year",
+       "format": "bcd",
+       "base": 2000
+      },
+      {
+       "field": "CENTURY_MONTHS.C",
+       "unit": "century",
+       "format": "binary"
+      }
+     ],
+     "stop": {
+      "field": "CONTROL_STATUS_1.STOP",
+      "stopped": 1,
+      "powerOn": 0
+     },
+     "update": "none",
+     "alarms": [
+      {
+       "match": [
+        {
+         "field": "MINUTE_ALARM.MINUTE_ALARM",
+         "unit": "minute",
+         "mask": "MINUTE_ALARM.AE_M"
+        },
+        {
+         "field": "HOUR_ALARM.HOUR_ALARM",
+         "unit": "hour",
+         "mask": "HOUR_ALARM.AE_H"
+        },
+        {
+         "field": "DAY_ALARM.DAY_ALARM",
+         "unit": "date",
+         "mask": "DAY_ALARM.AE_D"
+        },
+        {
+         "field": "WEEKDAY_ALARM.WEEKDAY_ALARM",
+         "unit": "weekday",
+         "mask": "WEEKDAY_ALARM.AE_W"
+        }
+       ],
+       "flag": "CONTROL_STATUS_2.AF",
+       "enable": "CONTROL_STATUS_2.AIE",
+       "pin": {
+        "pin": "INT",
+        "active": 0,
+        "openDrain": true
+       }
+      }
+     ]
+    },
+    "parts": [
+     {
+      "name": "PCF8563T/5,518",
+      "manufacturer": "NXP",
+      "datasheet": "pcf8563",
+      "package": "SOIC",
+      "pinout": "so8",
+      "footprint": "SOIC-8-NXP-SOT96-1"
+     }
+    ]
+   }
+  ]
+ }
+}
