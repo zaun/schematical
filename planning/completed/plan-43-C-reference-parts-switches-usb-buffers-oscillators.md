@@ -254,7 +254,7 @@ Acceptance: `parts.txt` has 32895 lines.
   Check: the Phase 1 command with `connector_test`; `wc -l <
   backend/tests/golden/parts.txt` → 32895 (est. 2 min). — `100% tests
   passed, 0 tests failed out of 5`; 32892 (§ Corrections); 0 lines removed.
-Commit: —
+Commit: b019a691
 
 ## Validation Plan
 
