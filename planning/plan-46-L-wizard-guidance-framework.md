@@ -143,7 +143,7 @@ plan-46-A § Prerequisites, plus:
 
 Acceptance: shared guidance resolves and shows.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/KindGuideTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+Commit: 8cc7ff5d (one commit with Phase 2's code: the guide registry names the gate guide)
 
 ### Phase 2 — The gate guide
 
@@ -157,10 +157,25 @@ Commit: —
       updated, and the derived rule is still asserted on the gate schema by
       `WizardStepsTests.testDerivedGateSteps`: 54 tests over the seven
       wizard test classes, 0 failures.)
-- [ ] Runtime check (run skill): New Part… → Gate → the three gate
+- [x] Runtime check (run skill): New Part… → Gate → the three gate
       steps with their intros; with the SN74HC00 PDF loaded, every Find
       button on the Supply and timing steps lands on a page (none says
       "Not found"). Pointer to (0, 0).
+      (2026-11-16, this plan's Debug build, `sn74hc00.pdf` loaded (39
+      pages): steps `5. Supply voltage; 6. Gates; 7. Logic family and
+      timing`, each with its intro. Supply: `Supply voltage range (V)` /
+      `Usually under: Recommended Operating Conditions (also: Operating
+      Conditions)` / `Also called: VCC, VDD, V+, Supply voltage` / `For
+      example: 2 to 6 V`; its three Find buttons → `Page 4 of 39 —
+      “Recommended Operating Conditions”`. Gates: six Finds → `Page 10 —
+      “Function Table”`, `Page 3 — “Pin Functions”` (twice), `Page 1 —
+      “Description”` (twice). Timing, with an `HC` family added: nine Finds
+      → `Page 6 of 39 — “Switching Characteristics”` (rise, fall, the two
+      other-input entries, the note's table, the step's own), `Page 4 —
+      “Recommended Operating Conditions”` (the entry's supply range and
+      input maximum), `Page 2 — “Ordering Information”` (§ Corrections 2).
+      None said Not found. Screenshot of the timing step checked. Pointer
+      left at (0, 0).)
 
 Acceptance: the gate wizard reads as a guide and every pointer finds its section.
   Check: `xcodebuild … test -only-testing:schematicalTests/KindGuideTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min) and the walk (est. 10 min).
