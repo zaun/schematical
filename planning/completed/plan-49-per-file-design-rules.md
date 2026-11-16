@@ -252,19 +252,25 @@ Commit: f9a8daf8
       (`designRules` in § board with the rules of § 4, the Default class
       paragraph, a "rules are in the file" bullet); `docs/routing.md` lines
       51 and 88.
-- [x] Run the app: open a board, ⇧⌘D shows step 1; change min clearance,
+- [~] Run the app: open a board, ⇧⌘D shows step 1; change min clearance,
       Run Check, results use it; ⌘Z restores it; save, reopen, the rule is
-      kept. — done as a hosted-window test, not by hand (see Corrections):
-      `xcodebuild … test -only-testing:schematicalTests/DesignRuleCheckWizardTests`
-      → `** TEST SUCCEEDED **`; snapshots of both steps looked at. Save and
-      reopen: `FileDesignRulesTests.testRulesSurviveSaveAndOpen`.
+      kept. — PARTLY DONE. Proved in the app's test host: the wizard's
+      steps, typing a rule, undo, back and reset (`DesignRuleCheckWizardTests.testTheTwoSteps`);
+      save and reopen through the window's file code
+      (`FileDesignRulesTests.testSaveAndOpenThroughTheWindowsFileCode`); in the
+      app's own window, the menu item disabled on the Schematic page and
+      the switch to the PCB page. REMAINS: ⇧⌘D opening the check from the
+      PCB page in the running app (`testTheMenuCommandOpensStepOneInTheRunningApp`
+      skips while the screen is locked; run it unlocked), and one save and
+      reopen through the real panels. Blocked on the owner unlocking the
+      screen (see Corrections).
 - [x] Tests: new `schematicalTests/DesignRuleCheckWizardTests.swift` (added
       task) — the wizard in a window: step 1 lists the 13 rules, typing
       0.5 into Min clearance changes the board's rule as one undo step, Run
       Check shows the results under it, undo changes the list, Rules goes
       back, Reset to App Defaults copies Settings.
 
-Acceptance: the wizard works in the running app as the last task describes,
+Acceptance (NOT YET FULLY MET — the two REMAINS items above): the wizard works in the running app as the last task describes,
 and the docs name the file as the home of the rules.
   Check: `grep -c "designRules" docs/file-format.md` → at least 2; the app
   walk above, observed (est. 10 min).
