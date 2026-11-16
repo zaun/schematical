@@ -202,7 +202,7 @@ Commit: 1c0608df
 
 Acceptance: every model has a blurb; the variant kinds read as § 3 lays out.
   Check: the same test command (est. 6 min) and the walk (est. 10 min).
-Commit: —
+Commit: 9f0cc929 (code in Phase 1's commit)
 
 ## Validation Plan
 
