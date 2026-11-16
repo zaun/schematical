@@ -31,7 +31,7 @@ plan-46-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-46-A … M complete | `ls planning/completed/plan-46-[A-M]-*.md \| wc -l` → 13 | NOT MET (2026-11-16: 0) |
+| plan-46-A … M complete | `ls planning/completed/plan-46-[A-M]-*.md \| wc -l` → 13 | MET (2026-11-16 at 88409176: 13) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 
@@ -66,9 +66,17 @@ plan-46-A § Prerequisites, plus:
 
 ### Phase 1 — Help and docs
 
-- [ ] `KeyboardHelp.swift` per § 1; `testHelpListsNewPart` also checks
-      "Part Wizard" and "Guided".
-- [ ] `docs/backend.md` § Adding a kind step 6 and the new-key paragraph.
+- [x] `KeyboardHelp.swift` per § 1; `testHelpListsNewPart` also checks
+      "Part Wizard" and "Guided". (And "All fields" and "Paste a pin
+      table". `xcodebuild … test
+      -only-testing:schematicalTests/PartEditorWindowTests` → `Executed 9
+      tests, with 0 failures`.)
+- [x] `docs/backend.md` § Adding a kind step 6 and the new-key paragraph.
+      (`grep -c 'KindInfo' docs/backend.md` → 1. `docs/parts-format.md`
+      § Single part files and § Custom footprints in a part file re-read
+      against the code: the inline `"datasheets"` rules and the editor's
+      `CUSTOM-<first 8 of the uuid>` ids are as A and J wrote them; nothing
+      to change.)
 
 Acceptance: the help names the wizard and the doc names every editor step.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/PartEditorWindowTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **`; `grep -c 'KindInfo' docs/backend.md` → at least 1 (est. 7 min).

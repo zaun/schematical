@@ -100,7 +100,9 @@ nonisolated enum KeyboardHelp {
             entry("⇧⌘R", "Run or stop the simulation (Simulation menu, with Speed). Not available while a part that isn't simulated, such as a microcontroller, is on the schematic"),
         ]),
         HelpSection(title: "Custom parts", entries: [
-            entry("⇧⌘N", "New Part…: pick a kind, then fill in the Part Editor"),
+            entry("⇧⌘N", "New Part…: the Part Wizard walks you through a new part (kind, part number, datasheet, pins, the kind's settings, footprint, review)"),
+            entry("Guided | All fields (Part Editor toolbar)", "Switch between the wizard and the full form"),
+            entry("Paste a pin table (Part Wizard › Pins)", "Copy the datasheet's pin table and paste it"),
             entry("⌘S (Part Editor)", "Save Part…: write the part to a .schpart file"),
             entry("⌘O (Part Editor)", "Open Part…: read a .schpart file into the editor"),
             entry("Right-click a drawer part", "Copy to Editor…: edit a copy of a library part"),

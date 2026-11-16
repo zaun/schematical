@@ -66,6 +66,11 @@ final class PartEditorWindowTests: XCTestCase {
         let text = entries.map { "\($0.keys) \($0.action)" }.joined(separator: "\n")
         XCTAssertTrue(text.contains("New Part"))
         XCTAssertTrue(text.contains("⇧⌘N"))
+        // plan-46-N: the wizard and its two modes.
+        XCTAssertTrue(text.contains("Part Wizard"))
+        XCTAssertTrue(text.contains("Guided"))
+        XCTAssertTrue(text.contains("All fields"))
+        XCTAssertTrue(text.contains("Paste a pin table"))
         XCTAssertTrue(text.contains("Copy to Editor"))
     }
 

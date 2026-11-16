@@ -384,6 +384,52 @@ A new kind of part is added the same way every time:
 4. `schematical/schematical/Parts/<kind>.json`, and its section in
    `docs/parts-format.md`.
 5. The app picks a symbol for the new `PartKind`.
+6. **The Part Editor** (plan-46), so File › New Part… and Copy to Editor…
+   work for the kind:
+   - a `KindInfo` entry in `schematical/schematical/Editor/KindInfo.swift`
+     (plain name, one-line blurb, one to three bundled example parts, the
+     picker group, `simulated: false` for a facts-only kind) and the kind's
+     name in `PartKinds.all` and `infoOrder`; `PART_<KIND>` in
+     `BundledPartFile.name(of:)` and the kind's name in `PartFacts`;
+   - `"<kind>": ["<kind>.c", …]` in `scripts/part-editor-schema.py`
+     `KIND_FILES` and in `PartKindKeysTests.files` (the model sources whose
+     `KEYS[]` arrays are the kind's keys);
+   - `python3 scripts/part-editor-schema.py . <kind>` writes
+     `Editor/<Kind>Draft.swift` from the sources and the shipped parts (it
+     must print `missing []`; a key the sources accept and no shipped part
+     uses goes in `scripts/part-editor-schema-extra.py` `EXTRA`). A kind
+     with no shipped parts gets a hand-written schema instead (the
+     `GenericDraft.swift` precedent);
+   - the schema in `PartKinds.schemas` (`Editor/KindSchema.swift`);
+   - `test<Kind>` and the kind's shipped part count in
+     `PartKindRoundTripTests` (0 mismatched, 0 with extras, 0 rejected).
+
+   That is all the Part Wizard needs: its steps for the kind are derived
+   from the schema (`WizardPlan.derivedSteps`: the model picker when the
+   schema has a `variantKey`, Supply voltage, Essentials, one optional step
+   per group or list key, Other settings), and `WizardStepsTests` checks
+   that every key of every model lands in exactly one step. Optionally:
+   - a curated guide, `Editor/Wizard/Guides/<Kind>Guide.swift`, registered
+     in `PartKinds.guides`: named steps with intros and the datasheet
+     section titles to look for, and a `FieldGuide` (plain label, help,
+     where to find it, other names, an example) per key. A kind with
+     models can lay its steps out with `GuideLayout.byRule`;
+   - for a kind with models, one sentence per model in
+     `PartKinds.variantBlurbs` (`Guides/VariantBlurbs.swift`);
+     `KindGuideTests` requires one for every model of every kind;
+   - a `FieldCondition` table in `PartKinds.conditions` when some keys of
+     an object only matter for one value of a sibling key (the converter's
+     `bus` keys by `style`).
+
+**A new key on an existing kind.** Add it to the model's `KEYS[]` array and
+its loader, then regenerate the kind's schema (`python3
+scripts/part-editor-schema.py . <kind>`; add an `EXTRA` line when no
+shipped part uses the key yet). `PartKindKeysTests` fails until the form has
+a control for it. A kind with derived wizard steps needs nothing more. A
+curated kind's `KindGuideTests` then fails with `<kind>: no step of the
+guide has device.<key>`: add the key to a step of
+`Guides/<Kind>Guide.swift` (and a `FieldGuide` for it; a required key must
+say where to find it).
 
 A kind with no simulation model (plan-36's `mcu`, plan-46's `generic`)
 sets `"simulated": false` on its devices, so `circuit_add_part` refuses its parts, and still
