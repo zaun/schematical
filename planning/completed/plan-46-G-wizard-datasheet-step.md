@@ -168,7 +168,7 @@ Commit: d23ebe95
 
 Acceptance: the datasheet follows the user through the wizard and onto the placed part.
   Check: the walk above (est. 15 min; network and PDFKit rendering are only visible in the app).
-Commit: —
+Commit: 2547a3c2
 
 ## Validation Plan
 
