@@ -1098,6 +1098,14 @@ struct DrawerFilter: Equatable {
     var voltageMV: UInt32?
     /// Which flagged parts to list. Set from the user's preferences.
     var visibility = PartVisibility()
+
+    /// Whether any menu narrows the list (everything but the query and
+    /// `visibility`).
+    var hasMenuFilter: Bool {
+        category != nil || package != nil || family != nil || gateCount != nil || switchPositions != nil
+            || color != nil || displayDigits != nil || displaySize != nil || tactileActuator != nil
+            || !converterChannels.isEmpty || voltageMV != nil
+    }
 }
 
 /// Which kinds of flagged parts the drawer lists. A part with several flags is
@@ -1250,44 +1258,173 @@ final class PartCatalogStore {
     private var partsByUUID: [String: CatalogPart] = [:]
     private var registeredTexts: [String: String] = [:]
 
+    /// What the drawer's headers and menus show, built from `entries` in one
+    /// pass the first time it is asked for (plan-43 follow-up: each header
+    /// used to scan every part on every redraw). `entries` changes only in
+    /// `load` and `register`, which drop it.
+    @ObservationIgnored private var derivedCache: Derived?
+
+    private var derived: Derived {
+        if let derivedCache { return derivedCache }
+        let built = Derived(entries)
+        derivedCache = built
+        return built
+    }
+
+    /// Facts about the listed parts, by drawer group, for the drawer's
+    /// header menus, plus what the search and the sort need.
+    private final class Derived {
+        var kindsByGroup: [String: Set<UInt32>] = [:]
+        var tactileGroups: Set<String> = []
+        var familiesByCategory: [String: Set<String>] = [:]
+        var logicCountsByCategory: [String: Set<Int>] = [:]
+        var switchPositionsByCategory: [String: Set<Int>] = [:]
+        var colorsByCategory: [String: Set<String>] = [:]
+        var converterChannelsByType: [String: Set<Int>] = [:]
+        var displayDigits: Set<Int> = []
+        var displaySizes: Set<String> = []
+        var tactileActuators: Set<String> = []
+        var packages: Set<String> = []
+        /// Every part's searchable text (name, function, group, description
+        /// and drawer path), folded for case and accents, as UTF-8, each
+        /// ending in a zero byte; `searchStarts[i]` is where entry `i` begins.
+        let searchBytes: [UInt8]
+        let searchStarts: [Int]
+        /// Each part name's place in natural order ("8 KB" before "32 KB").
+        let nameRank: [String: Int]
+        /// Which entries' text holds `needle` (already folded, not empty).
+        func matches(_ needle: String) -> [Bool] {
+            var hit = [Bool](repeating: false, count: searchStarts.count)
+            let wanted = Array(needle.utf8)
+            searchBytes.withUnsafeBufferPointer { text in
+                wanted.withUnsafeBufferPointer { pattern in
+                    guard let base = text.baseAddress, let find = pattern.baseAddress else { return }
+                    var offset = 0
+                    while offset < text.count,
+                          let found = memmem(base + offset, text.count - offset, find, pattern.count) {
+                        let position = base.distance(to: found.assumingMemoryBound(to: UInt8.self))
+                        // The entry holding this byte: the last start at or before it.
+                        var low = 0, high = searchStarts.count - 1
+                        while low < high {
+                            let mid = (low + high + 1) / 2
+                            if searchStarts[mid] <= position { low = mid } else { high = mid - 1 }
+                        }
+                        hit[low] = true
+                        // The next entry's text may hold it too.
+                        offset = low + 1 < searchStarts.count ? searchStarts[low + 1] : text.count
+                    }
+                }
+            }
+            return hit
+        }
+
+        /// Indices into `entries`, in natural name order: filtering in this
+        /// order leaves every group sorted with no sort of its own.
+        let nameOrder: [Int]
+        /// Each part's flags in `entries` order: 1 obsolete, 2 military, 4 automotive.
+        let flagBits: [UInt8]
+
+        init(_ entries: [CatalogPart]) {
+            struct Path { var drawer: [String]; var kinds: Set<UInt32> = []; var tactile = false }
+            var paths: [String: Path] = [:]
+            for part in entries {
+                let category = part.drawer.first ?? ""
+                let key = part.drawer.joined(separator: "/")
+                paths[key, default: Path(drawer: part.drawer)].kinds.insert(part.kind.rawValue)
+                if part.isTactileSwitch { paths[key]?.tactile = true }
+                if part.isLogic {
+                    if let family = part.logicFamily { familiesByCategory[category, default: []].insert(family) }
+                    if let count = part.count { logicCountsByCategory[category, default: []].insert(count) }
+                }
+                if part.kind == PART_SWITCH, !part.isTactileSwitch, let count = part.count {
+                    switchPositionsByCategory[category, default: []].insert(count)
+                }
+                if !part.colors.isEmpty { colorsByCategory[category, default: []].formUnion(part.colors) }
+                if case let .converter(type, _, channels) = part.details {
+                    converterChannelsByType[type, default: []].insert(channels)
+                }
+                if let display = part.display {
+                    displayDigits.insert(display.digits)
+                    displaySizes.insert(display.size)
+                }
+                if let actuator = part.tactileActuator { tactileActuators.insert(actuator) }
+                packages.formUnion(part.allPackages)
+            }
+            // A group lists the kinds of every path at or below it.
+            for path in paths.values {
+                for level in 1...max(path.drawer.count, 1) where !path.drawer.isEmpty {
+                    let key = path.drawer.prefix(level).joined(separator: "/")
+                    kindsByGroup[key, default: []].formUnion(path.kinds)
+                    if path.tactile { tactileGroups.insert(key) }
+                }
+            }
+            let options: String.CompareOptions = [.caseInsensitive, .diacriticInsensitive, .widthInsensitive]
+            var bytes: [UInt8] = []
+            var starts: [Int] = []
+            starts.reserveCapacity(entries.count)
+            for part in entries {
+                starts.append(bytes.count)
+                bytes.append(contentsOf: ([part.name, part.function, part.drawerLeaf, part.description] + part.drawer)
+                    .joined(separator: "\n")
+                    .folding(options: options, locale: nil).utf8)
+                bytes.append(0)
+            }
+            searchBytes = bytes
+            searchStarts = starts
+            let order = entries.indices.sorted {
+                let c = entries[$0].name.localizedStandardCompare(entries[$1].name)
+                return c == .orderedSame ? $0 < $1 : c == .orderedAscending
+            }
+            nameOrder = order
+            flagBits = entries.map { part in
+                (part.flags.obsolete ? 1 : 0) | (part.flags.military ? 2 : 0) | (part.flags.automotive ? 4 : 0)
+            }
+            var rank: [String: Int] = [:]
+            rank.reserveCapacity(order.count)
+            for (place, index) in order.enumerated() where rank[entries[index].name] == nil {
+                rank[entries[index].name] = place
+            }
+            nameRank = rank
+        }
+    }
+
     var partCount: Int { entries.count }
 
     /// Every listed part (automation: search).
     var allParts: [CatalogPart] { entries }
 
     var categories: [String] {
-        sortedNames(entries.compactMap(\.drawer.first))
+        sortedNames(derived.kindsByGroup.keys.filter { !$0.contains("/") })
     }
 
     var packages: [String] {
-        sortedNames(entries.flatMap(\.allPackages))
+        sortedNames(Array(derived.packages))
     }
 
     /// The kinds of part listed under a top-level drawer category.
     func kinds(inCategory category: String) -> Set<UInt32> {
-        Set(entries.filter { $0.drawer.first == category }.map(\.kind.rawValue))
+        derived.kindsByGroup[category] ?? []
     }
 
     /// The kinds of part listed under a drawer group: `path` is its drawer
     /// path, e.g. ["Indicators", "LED 7-Seg"].
     func kinds(inGroup path: [String]) -> Set<UInt32> {
-        Set(entries.filter { $0.drawer.starts(with: path) }.map(\.kind.rawValue))
+        derived.kindsByGroup[path.joined(separator: "/")] ?? []
     }
 
     /// Logic families of the gates and flip-flops in a category.
     func families(in category: String) -> [String] {
-        sortedNames(entries.filter { $0.drawer.first == category }.compactMap(\.logicFamily))
+        sortedNames(Array(derived.familiesByCategory[category] ?? []))
     }
 
     /// Gates (or flip-flops) per package in a category, ascending.
     func logicCounts(in category: String) -> [Int] {
-        Array(Set(entries.filter { $0.drawer.first == category && $0.isLogic }.compactMap(\.count))).sorted()
+        (derived.logicCountsByCategory[category] ?? []).sorted()
     }
 
     /// Positions per switch in a category, ascending.
     func switchPositionCounts(in category: String) -> [Int] {
-        Array(Set(entries.filter { $0.drawer.first == category && $0.kind == PART_SWITCH && !$0.isTactileSwitch }
-            .compactMap(\.count))).sorted()
+        (derived.switchPositionsByCategory[category] ?? []).sorted()
     }
 
     /// The converter type ("adc", "dac") of a function group's parts, or nil
@@ -1299,35 +1436,32 @@ final class PartCatalogStore {
 
     /// Channel counts of one converter type, ascending.
     func converterChannels(type: String) -> [Int] {
-        Array(Set(entries.compactMap { part -> Int? in
-            guard case let .converter(partType, _, channels) = part.details, partType == type else { return nil }
-            return channels
-        })).sorted()
+        (derived.converterChannelsByType[type] ?? []).sorted()
     }
 
     /// LED and display colors in a category.
     func colors(in category: String) -> [String] {
-        sortedNames(entries.filter { $0.drawer.first == category }.flatMap(\.colors))
+        sortedNames(Array(derived.colorsByCategory[category] ?? []))
     }
 
     /// Digit counts and digit heights of the 7-segment displays.
     var displayDigitCounts: [Int] {
-        Array(Set(entries.compactMap(\.display).map(\.digits))).sorted()
+        derived.displayDigits.sorted()
     }
 
     var displaySizes: [String] {
-        sortedNames(entries.compactMap(\.display).map(\.size))
+        sortedNames(Array(derived.displaySizes))
     }
 
     /// Whether a drawer group (`path`, as for `kinds(inGroup:)`) lists
     /// tactile switches.
     func isTactile(group path: [String]) -> Bool {
-        entries.contains { $0.isTactileSwitch && $0.drawer.starts(with: path) }
+        derived.tactileGroups.contains(path.joined(separator: "/"))
     }
 
     /// The tactile switches' actuators ("Round Button", "Standard", ...).
     var tactileActuators: [String] {
-        sortedNames(entries.compactMap(\.tactileActuator))
+        sortedNames(Array(derived.tactileActuators))
     }
 
     /// The VCC tool's rails (`SupplyChoice`) that at least one listed part
@@ -1397,66 +1531,81 @@ final class PartCatalogStore {
         registeredTexts[uuid] = text
         if !part.drawer.isEmpty {
             entries.append(part)
+            derivedCache = nil
         }
         return part
+    }
+
+    /// Whether `part` passes the menu filters of `filter` (not the query or
+    /// the flags, which `groups` checks first).
+    private func passes(_ part: CatalogPart, filter: DrawerFilter) -> Bool {
+        if let category = filter.category, part.drawer.first != category {
+            return false
+        }
+        if let package = filter.package, !part.allPackages.contains(package) {
+            return false
+        }
+        if part.isLogic {
+            if let family = filter.family, part.logicFamily != family {
+                return false
+            }
+            if let count = filter.gateCount, part.count != count {
+                return false
+            }
+        }
+        if part.kind == PART_SWITCH, !part.isTactileSwitch, let count = filter.switchPositions, part.count != count {
+            return false
+        }
+        if case let .converter(type, _, channels) = part.details,
+           let wanted = filter.converterChannels[type], channels != wanted {
+            return false
+        }
+        if let mv = filter.voltageMV {
+            if let vcc = part.vcc, !(vcc.minMV...vcc.maxMV ~= mv) {
+                return false
+            }
+            if case let .dipSwitch(_, _, ratedMV) = part.details, ratedMV > 0, ratedMV < mv {
+                return false
+            }
+            if case let .tactileSwitch(_, ratedMV, _, _, _) = part.details, ratedMV > 0, ratedMV < mv {
+                return false
+            }
+        }
+        if let color = filter.color, !part.colors.isEmpty, !part.colors.contains(color) {
+            return false
+        }
+        if let display = part.display {
+            if let count = filter.displayDigits, display.digits != count {
+                return false
+            }
+            if let size = filter.displaySize, display.size != size {
+                return false
+            }
+        }
+        if let wanted = filter.tactileActuator, let actuator = part.tactileActuator, actuator != wanted {
+            return false
+        }
+        return true
     }
 
     /// Parts grouped by drawer path, then by function, after applying the filter.
     func groups(matching filter: DrawerFilter) -> [CategoryGroup] {
         let needle = filter.query.trimmingCharacters(in: .whitespaces)
+            .folding(options: [.caseInsensitive, .diacriticInsensitive, .widthInsensitive], locale: nil)
+        let derived = self.derived
+        let rank = derived.nameRank
 
-        let matches = entries.filter { part in
-            if !filter.visibility.allows(part) {
-                return false
-            }
-            if let category = filter.category, part.drawer.first != category {
-                return false
-            }
-            if let package = filter.package, !part.allPackages.contains(package) {
-                return false
-            }
-            if part.isLogic {
-                if let family = filter.family, part.logicFamily != family {
-                    return false
-                }
-                if let count = filter.gateCount, part.count != count {
-                    return false
-                }
-            }
-            if part.kind == PART_SWITCH, !part.isTactileSwitch, let count = filter.switchPositions, part.count != count {
-                return false
-            }
-            if case let .converter(type, _, channels) = part.details,
-               let wanted = filter.converterChannels[type], channels != wanted {
-                return false
-            }
-            if let mv = filter.voltageMV {
-                if let vcc = part.vcc, !(vcc.minMV...vcc.maxMV ~= mv) {
-                    return false
-                }
-                if case let .dipSwitch(_, _, ratedMV) = part.details, ratedMV > 0, ratedMV < mv {
-                    return false
-                }
-                if case let .tactileSwitch(_, ratedMV, _, _, _) = part.details, ratedMV > 0, ratedMV < mv {
-                    return false
-                }
-            }
-            if let color = filter.color, !part.colors.isEmpty, !part.colors.contains(color) {
-                return false
-            }
-            if let display = part.display {
-                if let count = filter.displayDigits, display.digits != count {
-                    return false
-                }
-                if let size = filter.displaySize, display.size != size {
-                    return false
-                }
-            }
-            if let wanted = filter.tactileActuator, let actuator = part.tactileActuator, actuator != wanted {
-                return false
-            }
-            let fields = [part.name, part.function, part.drawerLeaf, part.description] + part.drawer
-            return needle.isEmpty || fields.contains { $0.localizedStandardContains(needle) }
+        // The flags and the query are checked on flat arrays; the part itself
+        // is read only when a menu filter is set.
+        let hidden: UInt8 = (filter.visibility.showObsolete ? 0 : 1) | (filter.visibility.showMilitary ? 0 : 2)
+            | (filter.visibility.showAutomotive ? 0 : 4)
+        let menuFiltered = filter.hasMenuFilter
+        let queryHits = needle.isEmpty ? [] : derived.matches(needle)
+        var matches: [CatalogPart] = []
+        for index in derived.nameOrder where derived.flagBits[index] & hidden == 0 {
+            if !needle.isEmpty, !queryHits[index] { continue }
+            if menuFiltered, !passes(entries[index], filter: filter) { continue }
+            matches.append(entries[index])
         }
 
         let byCategory = Dictionary(grouping: matches, by: { $0.drawer[0] })
@@ -1465,7 +1614,7 @@ final class PartCatalogStore {
             .map { category, parts in
                 CategoryGroup(
                     category: category,
-                    subcategories: Self.subgroups(parts, below: [category]),
+                    subcategories: Self.subgroups(parts, below: [category], rank: rank),
                     functions: Self.functionGroups(parts.filter { $0.drawer.count == 1 })
                 )
             }
@@ -1475,7 +1624,8 @@ final class PartCatalogStore {
     /// under it: each group holds its parts' deeper levels as subgroups, and
     /// the parts whose path ends there by function (or directly, as
     /// `listsPartsDirectly`).
-    private static func subgroups(_ parts: [CatalogPart], below path: [String]) -> [SubcategoryGroup] {
+    private static func subgroups(_ parts: [CatalogPart], below path: [String],
+                                  rank: [String: Int]) -> [SubcategoryGroup] {
         let level = path.count
         let byName = Dictionary(grouping: parts.filter { $0.drawer.count > level }, by: { $0.drawer[level] })
         return byName
@@ -1483,10 +1633,10 @@ final class PartCatalogStore {
             .map { name, parts in
                 let groupPath = path + [name]
                 let own = parts.filter { $0.drawer.count == groupPath.count }
-                let subgroups = Self.subgroups(parts, below: groupPath)
+                let subgroups = Self.subgroups(parts, below: groupPath, rank: rank)
                 return listsPartsDirectly(own)
                     ? SubcategoryGroup(subcategory: name, path: groupPath, subgroups: subgroups,
-                                       functions: [], parts: byCountThenName(own))
+                                       functions: [], parts: byCountThenName(own, rank: rank))
                     : SubcategoryGroup(subcategory: name, path: groupPath, subgroups: subgroups,
                                        functions: functionGroups(own))
             }
@@ -1503,16 +1653,17 @@ final class PartCatalogStore {
     }
 
     /// Parts by count (positions, digits), then by name.
-    private static func byCountThenName(_ parts: [CatalogPart]) -> [CatalogPart] {
+    private static func byCountThenName(_ parts: [CatalogPart], rank: [String: Int]) -> [CatalogPart] {
         parts.sorted {
             ($0.count ?? 0) != ($1.count ?? 0)
                 ? ($0.count ?? 0) < ($1.count ?? 0)
-                : $0.name.localizedStandardCompare($1.name) == .orderedAscending
+                : rank[$0.name, default: 0] < rank[$1.name, default: 0]
         }
     }
 
     /// Parts grouped by `drawerLeaf` (the function, or a tactile switch's
-    /// size), groups and parts in natural order ("8 KB" before "32 KB").
+    /// size), groups in natural order, parts as given (`groups` passes them in
+    /// natural name order) ("8 KB" before "32 KB").
     /// Capacitor leaves ("10 pF" … "4700 µF") go by capacitance instead
     /// (plan-33-H): the smallest `farads` of each group, ties by name; and
     /// resistor leaves ("< 1 kΩ" … "≥ 1 MΩ") by resistance (plan-34-G).
@@ -1535,8 +1686,7 @@ final class PartCatalogStore {
                 return $0.key.localizedStandardCompare($1.key) == .orderedAscending
             }
             .map { function, parts in
-                let sorted = parts.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
-                return FunctionGroup(function: function, parts: sorted, bitGroups: bitGroups(sorted))
+                return FunctionGroup(function: function, parts: parts, bitGroups: bitGroups(parts))
             }
     }
 
@@ -1565,6 +1715,7 @@ final class PartCatalogStore {
             entries = parts.filter {
                 !$0.drawer.isEmpty && ($0.kind != PART_HEADER || $0.name == HeaderFamily.defaultPart)
             }
+            derivedCache = nil
             loadState = .loaded
         } catch {
             loadState = .failed(error.localizedDescription)
