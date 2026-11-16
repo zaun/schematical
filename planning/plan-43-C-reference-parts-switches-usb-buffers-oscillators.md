@@ -236,17 +236,24 @@ Acceptance: 3 more lines in `parts.txt`; the generator is idle again.
   `python3 -I planning/plan-27-data/gen-parts.py --dry-run` → `no changes`
   (est. 2 min). — `100% tests passed, 0 tests failed out of 6`; `no
   changes`; 0 golden lines removed.
-Commit: —
+Commit: c9dc2644
 
 ### Phase 3 — USB-C receptacles
 
-- [ ] Add the two devices, parts, footprints and datasheet entries (§ 4.3).
-- [ ] Regenerate the goldens; hand-check the two `footprints.txt` lines pad
-      by pad against the specs' layouts.
+- [x] Add the two devices, parts, footprints and datasheet entries (§ 4.3).
+      — `python3 -I planning/plan-43-data/add/mkusb.py` (writes
+      `add/usb.json` from the numbers read off the drawings), `lineadd.py
+      add/usb.json` → `datasheets +2`, `footprints +2`, `connector +2 parts`.
+- [x] Regenerate the goldens; hand-check the two `footprints.txt` lines pad
+      by pad against the specs' layouts. — 32892 / 32892 / 1643 lines; both
+      lines read against the drawings' Recommended PCB Layout (the pad
+      labels of USB4105 at 600 dpi: A1/B12, A4/B9, B8, A5, B7, A6, A7, B6,
+      A8, B5, B4/A9, B1/A12 left to right, mating face down).
 
 Acceptance: `parts.txt` has 32895 lines.
   Check: the Phase 1 command with `connector_test`; `wc -l <
-  backend/tests/golden/parts.txt` → 32895 (est. 2 min).
+  backend/tests/golden/parts.txt` → 32895 (est. 2 min). — `100% tests
+  passed, 0 tests failed out of 5`; 32892 (§ Corrections); 0 lines removed.
 Commit: —
 
 ## Validation Plan
@@ -296,6 +303,13 @@ Commit: —
   `specs.tsv` pins come from it. The part's `"datasheet"` stays the
   specification. The same holds for the two USB-C receptacles in Phase 3
   (`usb4105.pdf`, `usb4500.pdf` drawings).
+- **The USB-C footprints come from GCT's drawings** (`usb4105.pdf` rev B4,
+  `usb4500.pdf` rev A2, filed in `datasheets/connector-usb/`), since the
+  specifications print no layout. `ratedVolts` is 48 and `ratedAmps` 5
+  (specification § 4.1, § 4.2 and the drawings' Electrical block).
+  `USB-GCT-USB4105` has the pad pattern of `USB-AMP-10155435` but a 7.35 mm
+  body, which moves every pad 0.07 mm against that footprint's origin, so
+  it is its own footprint.
 - **`ECS-TXO-32CSMV-260-AN-TR` carries `ceramic`** (datasheet p.1:
   ceramic package), as the library's other ceramic ECS oscillators do.
 - **`iqxo-791-2` has `minHz` = `maxHz` = 20 MHz**: Würth's datasheet

@@ -32,7 +32,9 @@ def fmt_device(dev):
     for n, k in enumerate(keys):
         v = dev[k]
         last = '' if n == len(keys) - 1 else ','
-        if k == 'pinouts':
+        if k == 'pinouts' and spec.get('inlinePinouts'):
+            out.append('      "pinouts": {' + ','.join('%s:%s' % (json.dumps(n), json.dumps(v[n], **C)) for n in v) + '}' + last)
+        elif k == 'pinouts':
             out.append('      "pinouts": {')
             pk = list(v)
             for m, name in enumerate(pk):
