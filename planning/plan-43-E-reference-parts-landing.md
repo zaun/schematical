@@ -20,7 +20,7 @@ plan-43-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-43-D complete | `ls planning/completed/plan-43-D-*.md` → exists | NOT MET (2026-11-15: not started) |
+| plan-43-D complete | `ls planning/completed/plan-43-D-*.md` → exists | MET (2026-11-15: archived in 2d05625d) |
 
 Everything below is written against the world where these hold.
 
@@ -46,20 +46,20 @@ Every gate of Phase 2's table shows its expected value in one run.
 
 ### Phase 1 — Docs
 
-- [ ] `docs/parts-format.md` § `transistor`, the paragraph "The library's
+- [x] `docs/parts-format.md` § `transistor`, the paragraph "The library's
       `transistor.json` (plan-40) holds …": add that plan-43 added parts of
       Alpha & Omega Semiconductor, Diotec, GOODWORK, MCC, Texas Instruments
       and further Diodes Incorporated, Nexperia and Vishay Siliconix parts
-      by hand.
-- [ ] § `connector`, the sentence "USB footprints (`USB-SS-…` Same Sky,
+      by hand. — done with the makers that landed (§ Corrections).
+- [x] § `connector`, the sentence "USB footprints (`USB-SS-…` Same Sky,
       `USB-AMP-…` Amphenol ICC)": add `USB-GCT-…` GCT.
-- [ ] § `switch`: one sentence after the tactile paragraph naming the
+- [x] § `switch`: one sentence after the tactile paragraph naming the
       hand-written DIP devices (`te_…`, `cts_219_08`).
 
 Acceptance: the three edits are in place.
   Check: `grep -c 'USB-GCT' docs/parts-format.md` ≥ 1; `grep -c 'cts_219_08'
   docs/parts-format.md` ≥ 1; `grep -c 'plan-43' docs/parts-format.md` ≥ 1
-  (est. 1 min).
+  (est. 1 min). — 1, 1, 2.
 Commit: —
 
 ### Phase 2 — Landing tier
@@ -101,6 +101,15 @@ Commit: —
 - None beyond plan-43-A's.
 
 ## Corrections
+
+- **plan-43 added 43 parts, not 47** (plan-43-A … D § Corrections: four
+  parts were skipped for their datasheets — `MBT3904DW1T3G`, `2N7002PW`,
+  `SI2371EDS-T1-BE3`, `MCP47A1T-A0E/LTY`). The gate table's 47 reads 43
+  (the `fit.tsv` row count), 32901 reads 32897, and the datasheet gate has
+  42 ids. "The 47" in the Summary is the 43.
+- **The transistor paragraph names the makers that landed**: Alpha & Omega
+  Semiconductor, GOODWORK, MCC, Texas Instruments, Diodes Incorporated,
+  Nexperia, onsemi. The Diotec and Vishay Siliconix parts were skipped.
 
 ## Summary
 
