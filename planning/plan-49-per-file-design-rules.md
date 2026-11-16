@@ -221,7 +221,7 @@ Custom, as now) and by step 1.
 
 Acceptance: the new tests pass and the file tests still pass.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/FileDesignRulesTests -only-testing:schematicalTests/DesignRuleSettingsTests -only-testing:schematicalTests/SchematicFileV5Tests -only-testing:schematicalTests/NetClassTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+Commit: f9a8daf8
 
 ### Phase 2 — Every reader uses the document's rules
 
@@ -239,7 +239,7 @@ Commit: —
 
 Acceptance: only Settings and the two copy points read the app defaults.
   Check: `grep -rln "appDefaults()\|appDefault()" --include='*.swift' schematical/schematical` → exactly `Preferences/DesignRulePreferences.swift`, `Preferences/DesignRuleManufacturers.swift`, `Canvas/SchematicModel.swift`, `Document/SchematicFile.swift`, `DesignRuleCheck/DesignRuleCheckWindow.swift`; and `xcodebuild … test -only-testing:schematicalTests/FileDesignRulesTests -only-testing:schematicalTests/TraceToolTests -only-testing:schematicalTests/ViaTests -only-testing:schematicalTests/NetClassTests -only-testing:schematicalTests/RoutingProblemTests -only-testing:schematicalTests/GerberExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+Commit: f9a8daf8
 
 ### Phase 3 — The two-step wizard and the docs
 
@@ -252,15 +252,23 @@ Commit: —
       (`designRules` in § board with the rules of § 4, the Default class
       paragraph, a "rules are in the file" bullet); `docs/routing.md` lines
       51 and 88.
-- [ ] Run the app: open a board, ⇧⌘D shows step 1; change min clearance,
+- [x] Run the app: open a board, ⇧⌘D shows step 1; change min clearance,
       Run Check, results use it; ⌘Z restores it; save, reopen, the rule is
-      kept.
+      kept. — done as a hosted-window test, not by hand (see Corrections):
+      `xcodebuild … test -only-testing:schematicalTests/DesignRuleCheckWizardTests`
+      → `** TEST SUCCEEDED **`; snapshots of both steps looked at. Save and
+      reopen: `FileDesignRulesTests.testRulesSurviveSaveAndOpen`.
+- [x] Tests: new `schematicalTests/DesignRuleCheckWizardTests.swift` (added
+      task) — the wizard in a window: step 1 lists the 13 rules, typing
+      0.5 into Min clearance changes the board's rule as one undo step, Run
+      Check shows the results under it, undo changes the list, Rules goes
+      back, Reset to App Defaults copies Settings.
 
 Acceptance: the wizard works in the running app as the last task describes,
 and the docs name the file as the home of the rules.
   Check: `grep -c "designRules" docs/file-format.md` → at least 2; the app
   walk above, observed (est. 10 min).
-Commit: —
+Commit: f9a8daf8
 
 ## Validation Plan
 
@@ -309,6 +317,20 @@ Commit: —
   `SchematicDocument` in a test aborts the host on macOS 15.8.
 - **Phases 1–3's code landed as one commit**: the rename (phase 1), the
   readers (phase 2) and the shared form (phase 3) touch the same files.
+- **The app walk was done as a test, not with the mouse.** The screen was
+  locked for the whole session, and then neither real events nor the
+  accessibility API reach another process's windows (`AXWindows` of the
+  launched app returned the application itself). The real app was
+  launched and showed its Untitled window and a Window ▸ Design Rule Check
+  item (disabled on the Schematic page, as designed). The steps themselves
+  are driven in the app's test host by `DesignRuleCheckWizardTests`, which
+  hosts the wizard's real view in a window, types into the real field and
+  presses the real buttons; PNG snapshots of step 1 and step 2 were
+  inspected. Not exercised by hand: ⇧⌘D opening the window from the PCB
+  page, and File ▸ Save / Open through the panels.
+- Final gate, observed: 16 suites (the 15 named plus
+  `DesignRuleCheckWizardTests`) → `Executed 202 tests, with 0 failures`,
+  `** TEST SUCCEEDED **`.
 - Phases 1 and 2 check, observed: the 15 suites of the final gate →
   `Executed 201 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 
