@@ -1029,7 +1029,10 @@ logic-level`**, and the four generics `GENERIC-NPN`, `GENERIC-PNP`,
 `GENERIC-NMOS`, `GENERIC-PMOS` (Discrete → Transistors → Generic: pins 1
 base / gate, 2 collector / drain, 3 emitter / source, no ratings, `TO-92`
 by default with the footprint choices `TO-92`, `SOT-23`, `SOT-223`,
-`TO-220`, `DPAK`).
+`TO-220`, `DPAK`). plan-43 added ten parts the reference boards use, by
+hand, in the same devices: Alpha & Omega Semiconductor, GOODWORK, MCC and
+Texas Instruments parts, and further Diodes Incorporated, Nexperia and
+onsemi ones.
 
 ```json
 {"id": "npn-to92-ebc", "function": "NPN", "description": "NPN bipolar transistor",
@@ -1198,6 +1201,10 @@ angle`, `SMD right angle`, `Edge mount`. Its inputs are
 `datasheets.json` entries. Edit those inputs and re-run it rather than
 editing the generated devices.
 
+The DIP switches before that region are hand-written devices, one per
+(series, position count): `te_<series>_<NN>` (TE Connectivity) and
+`cts_219_08` (CTS 219, plan-43).
+
 ### `connector`
 
 Barrel power connectors are passive `inout` terminals. `centerPin` is the
@@ -1242,7 +1249,8 @@ Pins, numbered 1 … N:
 - **Shield**: the shell's tabs and legs are one last pin, `SHIELD`, with a
   pad per leg in the footprint.
 
-USB footprints (`USB-SS-…` Same Sky, `USB-AMP-…` Amphenol ICC) are
+USB footprints (`USB-SS-…` Same Sky, `USB-AMP-…` Amphenol ICC,
+`USB-GCT-…` GCT) are
 `explicit`, from each drawing's recommended PCB layout (the `note` gives
 every number used). The origin is the centre of the housing's top-view
 outline, and a right-angle or mid-mount connector's mating face points up

@@ -438,3 +438,5 @@ Würth Elektronik	WS-TASV	Surface Mount	4354[345]1019\d{3}	4	A=1,4;B=2,3	SW-TACT
 Würth Elektronik	WS-TATU	Through Hole, Right Angle	431256\d{6}	2	A=1;B=2	SW-TACT-ADTSA	431256031716.pdf p.1 schematic (2-3 switch; 1-4 frame ground, not modelled)
 Würth Elektronik	WS-TATV	Through Hole	4301[58]6\d{6}	4	A=1,3;B=2,4	SW-TACT-WS-TATV-430156	430156043726.pdf p.1 schematic (1-3, 2-4 joined)
 Würth Elektronik	WS-TATV	Through Hole	4304[567]6\d{6}	4	A=1,2;B=3,4	SW-TACT-ADTS-THT-12	430456043736.pdf p.1 schematic (1-2, 3-4 joined)
+CIT Relay and Switch	CS1213	Surface Mount	CS1213AG.*	2	A=1;B=2	SW-TACT-CIT-CS1213-G	Switch-CS1213.pdf p.2 CS1213AG Schematic: 1 - switch - 2
+GCT	SWT0105	Surface Mount	SWT0105-.*	4	A=1,2;B=3,4	SW-TACT-GCT-SWT0105	swt0105.pdf (GCT drawing) sheet 1 Circuit Diagram: 1-2 joined, 3-4 joined, switch between

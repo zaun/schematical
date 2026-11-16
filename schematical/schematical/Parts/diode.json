@@ -47224,6 +47224,16 @@
      "io": 0.8
     },
     {
+     "name": "SM4007PL",
+     "manufacturer": "Slkor",
+     "datasheet": "sm4007pla7",
+     "package": "SOD-123FL",
+     "pinout": "two-pin",
+     "footprint": "DIODE-SOD-123FL-SLKOR",
+     "vr": 1000,
+     "io": 1
+    },
+    {
      "name": "SMLW",
      "manufacturer": "Taiwan Semiconductor",
      "datasheet": "sdlw-series_c2103",
@@ -48965,6 +48975,16 @@
      "io": 1
     },
     {
+     "name": "1N5819HW-7-F",
+     "manufacturer": "Diodes Incorporated",
+     "datasheet": "1n5819hw",
+     "package": "SOD-123",
+     "pinout": "two-pin",
+     "footprint": "DIODE-SOD-123-TSC-B",
+     "vr": 40,
+     "io": 1
+    },
+    {
      "name": "1N5819RLG",
      "manufacturer": "onsemi",
      "datasheet": "1n5817-d",
@@ -50465,6 +50485,19 @@
      "io": 0.2
     },
     {
+     "name": "BAT60AE6327HTSA1",
+     "manufacturer": "Infineon Technologies",
+     "datasheet": "infineon-bat60aseries-ds-en",
+     "package": "SOD-323",
+     "pinout": "two-pin",
+     "footprint": "DIODE-SOD-323",
+     "flags": [
+      "automotive"
+     ],
+     "vr": 10,
+     "io": 3
+    },
+    {
      "name": "BAT81S-TAP",
      "manufacturer": "Vishay",
      "datasheet": "bat81s82s",
@@ -51198,6 +51231,16 @@
      "footprint": "TO-220-2-ONSEMI",
      "vr": 100,
      "io": 10
+    },
+    {
+     "name": "MBR1020VL_R1_00001",
+     "manufacturer": "Panjit",
+     "datasheet": "mbr1020vl",
+     "package": "SOD-123FL",
+     "pinout": "two-pin",
+     "footprint": "DIODE-SOD-123FL-PANJIT",
+     "vr": 20,
+     "io": 1
     },
     {
      "name": "MBR1045-E3/45",
@@ -54113,6 +54156,16 @@
      "io": 0.25
     },
     {
+     "name": "NSR0530HT1G",
+     "manufacturer": "onsemi",
+     "datasheet": "nsr0530h-d",
+     "package": "SOD-323",
+     "pinout": "two-pin",
+     "footprint": "DIODE-SOD-323-ONSEMI",
+     "vr": 30,
+     "io": 0.5
+    },
+    {
      "name": "NSR0530P2T5G",
      "manufacturer": "onsemi",
      "datasheet": "nsr0530p2-d",
@@ -54556,6 +54609,26 @@
      ],
      "vr": 30,
      "io": 0.03
+    },
+    {
+     "name": "PMEG3050EP,115",
+     "manufacturer": "Nexperia",
+     "datasheet": "pmeg3050ep",
+     "package": "SOD-128",
+     "pinout": "two-pin",
+     "footprint": "DIODE-THIN-SMA",
+     "vr": 30,
+     "io": 5
+    },
+    {
+     "name": "PMEG4005EJF",
+     "manufacturer": "Nexperia",
+     "datasheet": "pmeg4005ej",
+     "package": "SOD-323F",
+     "pinout": "two-pin",
+     "footprint": "DIODE-SOD-323F-NEXPERIA",
+     "vr": 40,
+     "io": 0.5
     },
     {
      "name": "RB500V-40 RRG",
@@ -55853,6 +55926,19 @@
      "io": 0.35
     },
     {
+     "name": "SDM03U40Q-7",
+     "manufacturer": "Diodes Incorporated",
+     "datasheet": "sdm03u40q",
+     "package": "SOD-523",
+     "pinout": "two-pin",
+     "footprint": "DIODE-SOD-523-DIODES",
+     "flags": [
+      "automotive"
+     ],
+     "vr": 40,
+     "io": 0.03
+    },
+    {
      "name": "SGL41-40-E3/96",
      "manufacturer": "Vishay",
      "datasheet": "bym13",
@@ -56655,6 +56741,16 @@
      "footprint": "D2PAK-3-TSC",
      "vr": 40,
      "io": 20
+    },
+    {
+     "name": "SRL23",
+     "manufacturer": "Diotec Semiconductor",
+     "datasheet": "srl23",
+     "package": "SOD-323P",
+     "pinout": "two-pin",
+     "footprint": "DIODE-SOD-323P-DIOTEC",
+     "vr": 30,
+     "io": 2
     },
     {
      "name": "SS10P3-M3/86A",
@@ -73015,6 +73111,16 @@
      "io": 0.2
     },
     {
+     "name": "BAT54C-G3-08",
+     "manufacturer": "Vishay",
+     "datasheet": "bat54-g_bat54a-g_bat54c-g_bat54s-g",
+     "package": "SOT-23",
+     "pinout": "p3-a1-a2-k",
+     "footprint": "SOT23-3",
+     "vr": 30,
+     "io": 0.2
+    },
+    {
      "name": "BAT54CH RFG",
      "manufacturer": "Taiwan Semiconductor",
      "datasheet": "bat54ch_a2501",
@@ -79898,6 +80004,16 @@
      "footprint": "DIODE-SOD-323-ONSEMI",
      "vr": 100,
      "io": 0.2
+    },
+    {
+     "name": "BAS16J,135",
+     "manufacturer": "Nexperia",
+     "datasheet": "bas16j",
+     "package": "SOD-323F",
+     "pinout": "two-pin",
+     "footprint": "DIODE-SOD-323F-NEXPERIA",
+     "vr": 100,
+     "io": 0.25
     },
     {
      "name": "BAS16LT1G",
@@ -96538,6 +96654,26 @@
      "pd": 0.5
     },
     {
+     "name": "BZV55-B2V4,115",
+     "manufacturer": "Nexperia",
+     "datasheet": "bzv55_ser",
+     "package": "MiniMELF",
+     "pinout": "two-pin",
+     "footprint": "DIODE-MINIMELF-NEXPERIA",
+     "vz": 2.4,
+     "pd": 0.5
+    },
+    {
+     "name": "BZV55-C6V2,115",
+     "manufacturer": "Nexperia",
+     "datasheet": "bzv55_ser",
+     "package": "MiniMELF",
+     "pinout": "two-pin",
+     "footprint": "DIODE-MINIMELF-NEXPERIA",
+     "vz": 6.2,
+     "pd": 0.5
+    },
+    {
      "name": "BZV55B15 L0G",
      "manufacturer": "Taiwan Semiconductor",
      "datasheet": "bzv55b2v4-series_g2301",
@@ -96653,6 +96789,16 @@
       "automotive"
      ],
      "vz": 3.9,
+     "pd": 0.2
+    },
+    {
+     "name": "BZX384C5V1-E3-08",
+     "manufacturer": "Vishay",
+     "datasheet": "bzx384",
+     "package": "SOD-323",
+     "pinout": "two-pin",
+     "footprint": "DIODE-SOD-323",
+     "vz": 5.1,
      "pd": 0.2
     },
     {

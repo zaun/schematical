@@ -1,0 +1,45 @@
+{
+ "datasheets": [
+  {"id": "aos-ao3400a", "url": "https://aosmd.com/sites/default/files/res/datasheets/AO3400A.pdf"},
+  {"id": "aos-ao3401a", "url": "https://aosmd.com/sites/default/files/res/datasheets/AO3401A.pdf"},
+  {"id": "diodes-dmg2305ux", "url": "https://www.diodes.com/assets/Datasheets/DMG2305UX.pdf"},
+  {"id": "goodwork-1787046628728478", "url": "https://www.gk-goodwork.com/static/upload/file/20260818/1787046628728478.pdf"},
+  {"id": "mcc-sil2308-sot23-6l", "url": "https://www.mccsemi.com/pdf/Products/SIL2308(SOT23-6L).pdf"},
+  {"id": "nexperia-bsh205g2a", "url": "https://assets.nexperia.com/documents/data-sheet/BSH205G2A.pdf"},
+  {"id": "nexperia-nx7002ak", "url": "https://assets.nexperia.com/documents/data-sheet/NX7002AK.pdf"},
+  {"id": "ti-csd17311q5", "url": "https://www.ti.com/lit/ds/symlink/csd17311q5.pdf"}
+ ],
+ "footprints": [
+  {"id": "SOT23-3-AOS", "description": "3-pin SOT-23, Alpha & Omega drawing, 1.6 x 2.9 mm body, 0.95 mm pitch", "note": "Alpha & Omega SOT23 package outline PO-00001 version M, recommended land pattern (R1), datasheets/transistor/aos/SOT23.pdf (https://aosmd.com/sites/default/files/res/packaging_information/SOT23.pdf; the AO3400A and AO3401A datasheets print no drawing): pads 0.80 x 0.80, pins 1/2 at +-0.95, rows 2.40 apart; top view turned 90 deg CW into the dual layout (pins 1-2 left column, pin 3 right); body E1 1.60 nom (1.40-1.80) x D 2.90 nom (2.80-3.10)", "style": "dual", "pins": 3, "body": {"width": 1.6, "height": 2.9}, "pitch": 0.95, "span": 2.4, "pad": {"width": 0.8, "height": 0.8, "shape": "rect"}, "perSide": 3, "slots": [1, 3, 5]},
+  {"id": "SOT23-6-MCC", "description": "6-pin SOT23-6L, MCC outline (R2), 1.55 x 2.9 mm body, 0.95 mm pitch", "note": "MCC SOT23-6L outline, datasheets/transistor/mcc/SIL2308(SOT23-6L).pdf p.1 (no land pattern printed, R2): L 0.30-0.60 -> pad length 1.40; A (lead width) 0.30-0.50 -> pad width 0.55; C (over the leads) 2.20-3.20 -> span 3.20 + 1.0 - 1.40 = 2.80; D 0.95 pitch; top view turned 90 deg CW (pins 1-3 left column, 4-6 right); body B 1.55 mid (1.30-1.80) x H 2.90 mid (2.70-3.10)", "style": "dual", "pins": 6, "body": {"width": 1.55, "height": 2.9}, "pitch": 0.95, "span": 2.8, "pad": {"width": 1.4, "height": 0.55, "shape": "rect"}},
+  {"id": "VSON-CLIP-8-5X6-TI", "description": "8-pin SON 5 x 6 mm (Q5, VSON-CLIP) single MOSFET, TI drawing, 6.0 x 5.0 mm body, 1.27 mm pitch", "note": "TI Q5 recommended PCB pattern M0139-01 (R1), datasheets/transistor/ti/csd17311q5.pdf p.7, mid values: F1 6.255 overall; pins 1-4 pads F7 0.75 x F4 0.675 at 1.27 pitch (F4 + F5 min = 1.27); drain land F10 4.95 x F11 4.51 with four fingers F6 0.655 long x F8 0.675 on its outer edge at the lead pitch; drawn with pin 1 bottom right, turned 180 deg (pins 1-4 left column, pin 1 top); origin at the centre of the 6.255 extent. Pins (p.1): 1 2 3 S, 4 G, 5-8 D; the drain land is the four fingers (pins 8 7 6 5, top to bottom) plus an extra pad of pin 5 (4.295 x 4.51, abutting them). Body E1 6.00 mid (5.90-6.10) x E 5.00 mid (4.90-5.10), p.6", "style": "explicit", "pins": 8, "body": {"width": 6.0, "height": 5.0}, "pads": [{"pin": 1, "x": -2.7525, "y": -1.905, "width": 0.75, "height": 0.675, "shape": "rect"}, {"pin": 8, "x": 2.8, "y": -1.905, "width": 0.655, "height": 0.675, "shape": "rect"}, {"pin": 2, "x": -2.7525, "y": -0.635, "width": 0.75, "height": 0.675, "shape": "rect"}, {"pin": 7, "x": 2.8, "y": -0.635, "width": 0.655, "height": 0.675, "shape": "rect"}, {"pin": 3, "x": -2.7525, "y": 0.635, "width": 0.75, "height": 0.675, "shape": "rect"}, {"pin": 6, "x": 2.8, "y": 0.635, "width": 0.655, "height": 0.675, "shape": "rect"}, {"pin": 4, "x": -2.7525, "y": 1.905, "width": 0.75, "height": 0.675, "shape": "rect"}, {"pin": 5, "x": 2.8, "y": 1.905, "width": 0.655, "height": 0.675, "shape": "rect"}, {"pin": 5, "x": 0.325, "y": 0.0, "width": 4.295, "height": 4.51, "shape": "rect"}]}
+ ],
+ "parts": {
+  "transistor": {
+   "mosfet-n-channel-logic-level-p3-gsd": [
+    {"name": "AO3400A", "manufacturer": "Alpha & Omega Semiconductor", "package": "SOT-23", "pinout": "p3-gsd", "footprint": "SOT23-3-AOS", "datasheet": "aos-ao3400a", "vds": 30, "id": 5.7, "pd": 1.4, "rdson": 0.0265, "vgsth": 1.45, "vgs": 12, "logicLevel": true}
+   ],
+   "mosfet-p-channel-logic-level-p3-gsd": [
+    {"name": "AO3401A", "manufacturer": "Alpha & Omega Semiconductor", "package": "SOT-23", "pinout": "p3-gsd", "footprint": "SOT23-3-AOS", "datasheet": "aos-ao3401a", "vds": 30, "id": 4, "pd": 1.4, "rdson": 0.05, "vgsth": 1.3, "vgs": 12, "logicLevel": true},
+    {"name": "DMG2305UX-13", "manufacturer": "Diodes Incorporated", "package": "SOT-23", "pinout": "p3-gsd", "footprint": "SOT23-3-TSC", "datasheet": "diodes-dmg2305ux", "vds": 20, "id": 4.2, "pd": 1.4, "rdson": 0.052, "vgsth": 0.9, "vgs": 8, "logicLevel": true},
+    {"name": "BSH205G2AR", "manufacturer": "Nexperia", "package": "SOT-23", "pinout": "p3-gsd", "footprint": "SOT23-3-NEXPERIA", "datasheet": "nexperia-bsh205g2a", "flags": ["automotive"], "vds": 20, "id": 2.6, "pd": 0.61, "rdson": 0.118, "vgsth": 0.9, "vgs": 8, "logicLevel": true}
+   ],
+   "mosfet-n-channel-p3-gsd": [
+    {"name": "NX7002AK,215", "manufacturer": "Nexperia", "package": "SOT-23", "pinout": "p3-gsd", "footprint": "SOT23-3-NEXPERIA", "datasheet": "nexperia-nx7002ak", "vds": 60, "id": 0.19, "pd": 0.265, "rdson": 4.5, "vgsth": 2.1, "vgs": 20}
+   ],
+   "bjt-pnp-p3-bec": [
+    {"name": "PMBT3906-GK", "manufacturer": "GOODWORK", "package": "SOT-23", "pinout": "p3-bec", "footprint": "SOT23-3-TSC", "datasheet": "goodwork-1787046628728478", "vceo": 40, "ic": 0.2, "pd": 0.2, "hfe": 100},
+    {"name": "BC807-40LT1G", "manufacturer": "onsemi", "package": "SOT-23", "pinout": "p3-bec", "footprint": "SOT23-3-ONSEMI", "datasheet": "onsemi-bc807-16lt1-d", "vceo": 45, "ic": 0.5, "pd": 0.3, "hfe": 250}
+   ],
+   "bjt-npn-p3-bec": [
+    {"name": "BC817-25LT1G", "manufacturer": "onsemi", "package": "SOT-23", "pinout": "p3-bec", "footprint": "SOT23-3-ONSEMI", "datasheet": "onsemi-bc817-16lt1-d", "vceo": 45, "ic": 0.5, "pd": 0.3, "hfe": 160}
+   ],
+   "mosfet-array-nmos-pmos-p6-g1s2g2d2s1d1": [
+    {"name": "SIL2308-TP", "manufacturer": "MCC", "package": "SOT-23-6", "pinout": "p6-g1s2g2d2s1d1", "footprint": "SOT23-6-MCC", "datasheet": "mcc-sil2308-sot23-6l", "vds": 20, "id": 5, "pd": 1.05, "rdson": 0.025, "vgsth": 1}
+   ],
+   "mosfet-n-channel-logic-level-p8-sssgdddd": [
+    {"name": "CSD17311Q5", "manufacturer": "Texas Instruments", "package": "VSON-CLIP", "pinout": "p8-sssgdddd", "footprint": "VSON-CLIP-8-5X6-TI", "datasheet": "ti-csd17311q5", "vds": 30, "id": 32, "pd": 3.2, "rdson": 0.002, "vgsth": 1.6, "vgs": 10, "logicLevel": true}
+   ]
+  }
+ }
+}

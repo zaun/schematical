@@ -973,6 +973,48 @@
       ]
     },
     {
+      "id": "cts_219_08",
+      "function": "219",
+      "description": "219 series SMD DIP switch, 8 positions",
+      "drawer": ["Switch","DIP"],
+      "note": "Switching rating 20 VDC (CTS-Switches-DIP-219-Series-Datasheet.pdf p.2 Actuation Life: 100 mA @ 20 VDC; Nonswitching Rating 100 mA or 50 VDC). SPST per position (p.2 Circuit). The datasheet numbers the positions, not the terminals: position n's terminals are pins n (nA) and 17 - n (nB), as the library's other 8-position DIP switches. Ordering Information p.1: 219-8 M (medium actuator) S (bottom seal) T (top tape seal), gull wing terminals, tube.",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"1A","role":"inout"},
+          {"number":2,"name":"2A","role":"inout"},
+          {"number":3,"name":"3A","role":"inout"},
+          {"number":4,"name":"4A","role":"inout"},
+          {"number":5,"name":"5A","role":"inout"},
+          {"number":6,"name":"6A","role":"inout"},
+          {"number":7,"name":"7A","role":"inout"},
+          {"number":8,"name":"8A","role":"inout"},
+          {"number":9,"name":"8B","role":"inout"},
+          {"number":10,"name":"7B","role":"inout"},
+          {"number":11,"name":"6B","role":"inout"},
+          {"number":12,"name":"5B","role":"inout"},
+          {"number":13,"name":"4B","role":"inout"},
+          {"number":14,"name":"3B","role":"inout"},
+          {"number":15,"name":"2B","role":"inout"},
+          {"number":16,"name":"1B","role":"inout"}
+        ]
+      },
+      "actuator": "Medium actuator",
+      "contacts": [
+        ["1A","1B"],
+        ["2A","2B"],
+        ["3A","3B"],
+        ["4A","4B"],
+        ["5A","5B"],
+        ["6A","6B"],
+        ["7A","7B"],
+        ["8A","8B"]
+      ],
+      "ratedVolts": 20,
+      "parts": [
+        {"name":"219-8MST","manufacturer":"CTS","datasheet":"cts-switches-dip-219-series-datasheet","package":"SMD","pinout":"p16","footprint":"SW-SMD-16-CTS-219"}
+      ]
+    },
+    {
       "id": "tact_nc_2t_12v_standard_6x4",
       "function": "Normal Close",
       "description": "Tactile switch, SPST normally closed, 2 terminals, 12 V, Standard actuator, 6 × 4 mm",
@@ -3174,6 +3216,29 @@
       ]
     },
     {
+      "id": "tact_no_2t_50v_standard_4x3",
+      "function": "Normal Open",
+      "description": "Tactile switch, SPST normally open, 2 terminals, 50 V, Standard actuator, 4 × 3 mm",
+      "drawer": ["Switch","Tactile"],
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 50VDC; the switching rating); datasheets: cit/Switch-CS1213.pdf",
+      "pinouts": {
+        "p2_1_2": [
+          {"number":1,"name":"A","role":"inout"},
+          {"number":2,"name":"B","role":"inout"}
+        ]
+      },
+      "actuator": "Standard",
+      "bodySize": [4,3],
+      "contacts": [
+        ["A","B"]
+      ],
+      "momentary": true,
+      "ratedVolts": 50,
+      "parts": [
+        {"name":"CS1213AGF260","manufacturer":"CIT Relay & Switch","datasheet":"switch-cs1213","package":"SMD","pinout":"p2_1_2","footprint":"SW-TACT-CIT-CS1213-G"}
+      ]
+    },
+    {
       "id": "tact_no_2t_50v_standard_7x7",
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 2 terminals, 50 V, Standard actuator, 7 × 7 mm",
@@ -3284,7 +3349,7 @@
       "function": "Normal Open",
       "description": "Tactile switch, SPST normally open, 4 terminals, 12 V, Flush actuator, 4 × 4 mm",
       "drawer": ["Switch","Tactile"],
-      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-pts540-series-datasheet.pdf",
+      "note": "Rating from DigiKey \"Contact Rating @ Voltage\" (0.05A @ 12VDC; the switching rating); datasheets: ck/littelfuse-c-k-tactile-pts540-series-datasheet.pdf, gct/swt0105-spec.pdf",
       "pinouts": {
         "p4_1_2_3_4": [
           {"number":1,"name":"A1","role":"inout"},
@@ -3306,7 +3371,8 @@
       "ratedVolts": 12,
       "parts": [
         {"name":"PTS540JK035SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts540-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS540-SMD"},
-        {"name":"PTS540JM035SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts540-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS540-SMD"}
+        {"name":"PTS540JM035SMTR LFS","manufacturer":"Littelfuse","datasheet":"littelfuse-c-k-tactile-pts540-series-datasheet","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-PTS540-SMD"},
+        {"name":"SWT0105-003516JSA","manufacturer":"GCT","datasheet":"swt0105-spec","package":"SMD","pinout":"p4_1_2_3_4","footprint":"SW-TACT-GCT-SWT0105"}
       ]
     },
     {

@@ -477,7 +477,7 @@ This section is written by `planning/plan-29-data/census/decide.py --skipped`.
 | 1N5817-E3/53, 1N5818-E3/53, 1N5819-E3/53 | Vishay | `diode` / Discrete → Diodes → Schottky | not in the datasheet's ordering table (1n5817.pdf key p.2 ORDERING INFORMATION (Example): -E3/54, -E3/73; bases 1N5817, 1N5818, 1N5819 from p.1 ratings table) |
 | V3PAN50-M3/I | Vishay | `diode` / Discrete → Diodes → Schottky | not in the datasheet's ordering table (49415.pdf key product sheet, no ordering information: only the part numbers printed in its p.2 table match) |
 | BAT42WS-HE3_A-08, BAT43WS-HE3_A-08 | Vishay | `diode` / Discrete → Diodes → Schottky | not in the datasheet's ordering table (bat42ws-g_bat43ws-g.pdf key p.1 PARTS TABLE ordering codes -G3-08/-18, -HG3_A-08/-18) |
-| BAT54A-G3-08, BAT54C-G3-08, BAT54C-G3-18, BAT54S-G3-08, BAT54S-G3-18 | Vishay | `diode` / Discrete → Diodes → Schottky | not in the datasheet's ordering table (bat54_bat54a_bat54c_bat54s.pdf key p.1 PARTS TABLE ordering codes: BAT54/A/C/S -E3-08, -E3-18, -HE3_A-08, -HE3_A-18 (no G3)) |
+| BAT54A-G3-08, BAT54C-G3-18, BAT54S-G3-08, BAT54S-G3-18 | Vishay | `diode` / Discrete → Diodes → Schottky | not in the datasheet's ordering table (bat54_bat54a_bat54c_bat54s.pdf key p.1 PARTS TABLE ordering codes: BAT54/A/C/S -E3-08, -E3-18, -HE3_A-08, -HE3_A-18 (no G3)) |
 | MBRB10100-E3/4W, MBRB10100-E3/8W | Vishay | `diode` / Discrete → Diodes → Schottky | not in the datasheet's ordering table (mbr10100-m3.pdf key p.2 ORDERING INFORMATION (Example): -M3/4W, -M3/8W; bases from p.1 ratings table) |
 | MBR30H60CT-E3/45 | Vishay | `diode` / Discrete → Diodes → Schottky | not in the datasheet's ordering table (mbr30h100ct.pdf key p.2 ORDERING INFORMATION: TO-220AB MBR30H100CT-E3/45 (sheet covers MBR30H100CT / MBRB30H100CT only)) |
 | VS-MBRB4045CTL-M3 | Vishay | `diode` / Discrete → Diodes → Schottky | not in the datasheet's ordering table (mbrb4045cthm3.pdf key p.3 ORDERING INFORMATION TABLE (B, none/L/R, H, M3) and Example: VS-MBRB4045CTHM3, -CTLHM3, -CTRHM3 (D2PAK); H is the only field-9 option) |
@@ -847,3 +847,23 @@ their datasheet. Written by `planning/plan-40-data/census/verdicts.py --write-sk
 | NTTFD4D1N03P1E | onsemi MOSFET (array) | `transistor` / Discrete → Transistors → MOSFET | no land pattern in the datasheet (12-WQFN 3.3x3.3 (CASE 510CJ): the land does not say which net each of the two exposed lands is) |
 | EFC3J018NUZTDG, EFC4612R-S-TR, EFC4627R-TR, FDMS3606AS, NTJD1155LT1G | onsemi MOSFET (array) | `transistor` / Discrete → Transistors → MOSFET | no pinout in the datasheet |
 | FQS4900TF | onsemi MOSFET (array) | `transistor` / Discrete → Transistors → MOSFET | not in the datasheet's ordering table |
+
+## Reference boards (plan-43)
+
+Parts the reference boards (`routing-example/`, 209 boards) use, found on
+DigiKey with stock on 2026-11-15, that fit a kind the library has but were
+not added. Their PDFs are not in the tree. `MBT3904DW1T3G` is another: it is
+in the Transistors (plan-40) table above, for the reason given there. The
+lookup also failed to download 20 datasheets (result `download failed` in
+`routing-example/datasheets-log.tsv`); those parts were not chased.
+
+| Part(s) | Maker | Would have gone into | Why skipped |
+|---|---|---|---|
+| BAT54TW-TP | MCC (Micro Commercial Components) | `diode` / Discrete → Diodes → Schottky | no maker-site datasheet: DigiKey links only its own copy (mm.digikey.com …/9048/BAT54ADW.pdf); mccsemi.com/pdf/Products/BAT54ADW.pdf, BAT54TW.pdf and BAT54TW(SOT-363).pdf answer 404 (2026-11-15) |
+| B5819W | MDD | `diode` / Discrete → Diodes → Schottky | no maker-site datasheet: DigiKey links only its own copy (mm.digikey.com …/7752/SOD123819WS0SL.pdf) |
+| 1N5819WS | Shenzhen Slkormicro Semicon Co., Ltd. | `diode` / Discrete → Diodes → Schottky | no maker-site datasheet: DigiKey links only its own copy (mm.digikey.com …/6778/5399_1N5819WS SOD-323.PDF) |
+| FS8205A | EVVO | `transistor` / Discrete → Transistors → MOSFET → Array | no maker-site datasheet: DigiKey links only its own copy (mm.digikey.com …/9053/FS8205A-new.pdf) |
+| S8050 | Shenzhen Slkormicro Semicon Co., Ltd. | `transistor` / Discrete → Transistors → BJT → NPN | no maker-site datasheet: DigiKey links only its own copy (mm.digikey.com …/6778/5399_S8050 SOT-23.PDF) |
+| 2N7002PW | Diotec Semiconductor | `transistor` / Discrete → Transistors → MOSFET → N-channel | no land pattern in the datasheet (2n7002pw.pdf p.3 prints the SOT-323 outline without the lead length, so no pad can be derived; Diotec's solder-pad document 5_solder-pads.pdf has no SOT-323) |
+| SI2371EDS-T1-BE3 | Vishay Siliconix | `transistor` / Discrete → Transistors → MOSFET → P-channel logic-level | not in the datasheet's ordering table (si2371eds.pdf p.1 Ordering Information: Si2371EDS-T1-GE3 only) |
+| MCP47A1T-A0E/LTY | Microchip Technology | `converter` / Interface → DAC | not in the datasheet's ordering table (jp559281.pdf, DS25154A, p.67 Product Identification System: package code LT only, MCP47A1T-A0E/LT) |

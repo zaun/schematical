@@ -131,4 +131,6 @@
       need, and can skip marketing sections. Aim for 20–30k documents per
       IC for ICs that aren't microprocessors or microcontrollers. The app
       should render and print it.
+- [ ] Reference-board parts: 248 parts in 20 families wait for a kind
+      (planning/plan-43-A § 5, planning/plan-43-data/candidates.tsv).
 

@@ -1331,22 +1331,26 @@ static void check_adc_from_cpu(void) {
 
 /* plan-24-I: an RTC's clock follows simulated time from 2000-01-01
    00:00:00 (a Saturday); its registers show the counters in BCD. */
-static void check_rtc_time(void) {
+/* A real-part RTC on a 3V3 I2C bus: `name` with its data, clock and interrupt pins; `sec` and `min`
+   are the addresses of its seconds and minutes registers. */
+static void check_rtc_time(const char *name, const char *sda, const char *scl, const char *irq, unsigned sec,
+                           unsigned min) {
     Board board;
     Board *b = &board;
     size_t rtc;
     RtcTime t;
-    ConverterRegister regs[16];
-    int n;
+    ConverterRegister regs[32];
+    int n, i, si = -1, mi = -1;
 
     memset(b, 0, sizeof *b);
     b->c = circuit_create(library);
     circuit_connect(b->c, part(b->c, "3V3"), "1", b->v = net(b->c));
     circuit_connect(b->c, part(b->c, "GND"), "1", b->g = net(b->c));
-    rtc = board_chip(b, "BQ32000DR");
-    board_wire(b, rtc, "BQ32000DR", "SDA", "SDA");
-    board_wire(b, rtc, "BQ32000DR", "SCL", "SCL");
-    board_wire(b, rtc, "BQ32000DR", "IRQ", "IRQ");
+    printf("  rtc part %s\n", name);
+    rtc = board_chip(b, name);
+    board_wire(b, rtc, name, sda, "SDA");
+    board_wire(b, rtc, name, scl, "SCL");
+    board_wire(b, rtc, name, irq, "IRQ");
     circuit_connect(b->c, part(b->c, "PULLUP-3V3"), "1", board_net(b, "SDA"));
     circuit_connect(b->c, part(b->c, "PULLUP-3V3"), "1", board_net(b, "SCL"));
     circuit_connect(b->c, part(b->c, "PULLUP-3V3"), "1", board_net(b, "IRQ"));
@@ -1364,14 +1368,79 @@ static void check_rtc_time(void) {
            "rtc time: a minute later 00:01:02");
     printf("  rtc %04d-%02d-%02d %02d:%02d:%02d weekday %d\n", t.year, t.month, t.day, t.hour,
            t.minute, t.second, t.weekday);
-    n = circuit_converter_registers(b->c, rtc, regs, 16);
-    expect(n >= 2 && regs[0].address == 0 && (regs[0].value & 0x7F) == 0x02 && regs[1].address == 1 &&
-               (regs[1].value & 0x7F) == 0x01,
-           "rtc registers: SECONDS 02, MINUTES 01 (BCD)");
-    if (n >= 2) {
-        printf("  rtc registers: %d, %s=%02X %s=%02X\n", n, regs[0].name, regs[0].value, regs[1].name,
-               regs[1].value);
+    n = circuit_converter_registers(b->c, rtc, regs, 32);
+    for (i = 0; i < n && i < 32; i++) {
+        if (regs[i].address == sec) {
+            si = i;
+        }
+        if (regs[i].address == min) {
+            mi = i;
+        }
     }
+    expect(si >= 0 && mi >= 0 && (regs[si].value & 0x7F) == 0x02 && (regs[mi].value & 0x7F) == 0x01,
+           "rtc registers: seconds 02, minutes 01 (BCD)");
+    if (si >= 0 && mi >= 0) {
+        printf("  rtc registers: %d, %s=%02X %s=%02X\n", n, regs[si].name, regs[si].value, regs[mi].name,
+               regs[mi].value);
+    }
+    circuit_destroy(b->c);
+}
+
+/* The value of the register called `name` (or at `address` when name is NULL); -1 = not found. */
+static int converter_register(Circuit *c, size_t chip, const char *name, unsigned address) {
+    ConverterRegister regs[32];
+    int n = circuit_converter_registers(c, chip, regs, 32);
+    int i;
+
+    for (i = 0; i < n && i < 32; i++) {
+        if (name != NULL ? strcmp(regs[i].name, name) == 0 : regs[i].address == address) {
+            return (int)regs[i].value;
+        }
+    }
+    return -1;
+}
+
+/* plan-43-D: the reference boards' converters start, with their registers at the power-on values. */
+static void check_reference_converters(void) {
+    Board board;
+    Board *b = &board;
+    size_t adc, idac, dac;
+    int config;
+
+    memset(b, 0, sizeof *b);
+    b->c = circuit_create(library);
+    circuit_connect(b->c, part(b->c, "3V3"), "1", b->v = net(b->c));
+    circuit_connect(b->c, part(b->c, "GND"), "1", b->g = net(b->c));
+    adc = board_chip(b, "MCP3428-E/ST");
+    board_wire(b, adc, "MCP3428-E/ST", "SDA", "SDA");
+    board_wire(b, adc, "MCP3428-E/ST", "SCL", "SCL");
+    board_wire(b, adc, "MCP3428-E/ST", "Adr0", "ZERO");
+    board_wire(b, adc, "MCP3428-E/ST", "Adr1", "ZERO");
+    idac = board_chip(b, "DS4432U+");
+    board_wire(b, idac, "DS4432U+", "SDA", "SDA");
+    board_wire(b, idac, "DS4432U+", "SCL", "SCL");
+    dac = board_chip(b, "AD5621AKSZ-REEL7");
+    board_wire(b, dac, "AD5621AKSZ-REEL7", "SYNC", "SYNC");
+    board_wire(b, dac, "AD5621AKSZ-REEL7", "SCLK", "SCLK");
+    board_wire(b, dac, "AD5621AKSZ-REEL7", "SDIN", "SDIN");
+    circuit_connect(b->c, part(b->c, "PULLUP-3V3"), "1", board_net(b, "SDA"));
+    circuit_connect(b->c, part(b->c, "PULLUP-3V3"), "1", board_net(b, "SCL"));
+    circuit_connect(b->c, part(b->c, "PULLUP-3V3"), "1", board_net(b, "SYNC"));
+    circuit_connect(b->c, part(b->c, "PULLUP-3V3"), "1", board_net(b, "SCLK"));
+    circuit_connect(b->c, part(b->c, "PULLUP-3V3"), "1", board_net(b, "SDIN"));
+    expect(circuit_start(b->c) == 0, "reference converters: the circuit starts (no smoke, no voltage problem)");
+    if (circuit_error(b->c) != NULL) {
+        printf("  %s\n", circuit_error(b->c));
+    }
+    config = converter_register(b->c, adc, "CONFIG", 0);
+    printf("  MCP3428 CONFIG=%02X DS4432 F8=%02X F9=%02X AD5621 DAC=%03X\n", (unsigned)config,
+           (unsigned)converter_register(b->c, idac, NULL, 0xF8), (unsigned)converter_register(b->c, idac, NULL, 0xF9),
+           (unsigned)converter_register(b->c, dac, "DAC", 0));
+    expect(config >= 0 && (config & 0x7F) == 0x10,
+           "MCP3428: channel 1, continuous, 240 SPS, gain 1 at power on (90h; RDY is the status bit)");
+    expect(converter_register(b->c, idac, NULL, 0xF8) == 0 && converter_register(b->c, idac, NULL, 0xF9) == 0,
+           "DS4432: F8h and F9h are 00h at power on (zero current)");
+    expect(converter_register(b->c, dac, "DAC", 0) == 0, "AD5621: the DAC register is zero at power on");
     circuit_destroy(b->c);
 }
 
@@ -1400,7 +1469,10 @@ int main(void) {
     check_voltage_start();
     check_voltage_switch();
     check_adc_from_cpu();
-    check_rtc_time();
+    check_rtc_time("BQ32000DR", "SDA", "SCL", "IRQ", 0, 1);
+    check_rtc_time("DS3231MZ+TRL", "SDA", "SCL", "INT/SQW", 0, 1);
+    check_rtc_time("PCF8563T/5,518", "SDA", "SCL", "INT", 2, 3);
+    check_reference_converters();
     part_library_destroy(library);
     printf("%d failure(s)\n", failures);
     return failures == 0 ? 0 : 1;

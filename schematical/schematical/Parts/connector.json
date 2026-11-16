@@ -2861,6 +2861,34 @@
       "ratedAmps": 3,
       "pinouts": {"p":[{"number":1,"name":"CC1","role":"inout"},{"number":2,"name":"VBUS","role":"inout"},{"number":3,"name":"GND","role":"inout"},{"number":4,"name":"CC2","role":"inout"},{"number":5,"name":"VBUS","role":"inout"},{"number":6,"name":"GND","role":"inout"},{"number":7,"name":"SHIELD","role":"inout"}]},
       "parts": [{"name":"UJC-VP-G-SMT-TR","manufacturer":"Same Sky","datasheet":"ujc-vp-g-smt-tr","package":"SMD vertical","pinout":"p","footprint":"USB-SS-UJC-VP-G-SMT"}]
+    },
+    {
+      "id": "usb-gct-usb4105",
+      "function": "USB-C Port",
+      "description": "USB 2.0 Type-C receptacle, 16 contacts, right-angle SMD",
+      "drawer": ["Connector", "USB"],
+      "note": "GCT USB4105 drawing (datasheets/connector-usb/usb4105.pdf) sheet 1: pin table (A1 GND, A4 VBUS, A5 CC1, A6 Dp1, A7 Dn1, A8 SBU1, A9 VBUS, A12 GND, B1 GND, B4 VBUS, B5 CC2, B6 Dp2, B7 Dn2, B8 SBU2, B9 VBUS, B12 GND, shell GND); Electrical: current rating 5.00 A collectively for the VBUS pins, voltage rating 48 V DC. Ordering Grid: USB4105-GF (gold flash)-A (tape and reel), shell stake 0.95 mm (blank). Pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B",
+      "usb": "C",
+      "ratedVolts": 48,
+      "ratedAmps": 5,
+      "pinouts": {"p":[{"number":1,"name":"GND","role":"inout"},{"number":2,"name":"VBUS","role":"inout"},{"number":3,"name":"CC1","role":"inout"},{"number":4,"name":"D+","role":"inout"},{"number":5,"name":"D-","role":"inout"},{"number":6,"name":"SBU1","role":"inout"},{"number":7,"name":"CC2","role":"inout"},{"number":8,"name":"D+","role":"inout"},{"number":9,"name":"D-","role":"inout"},{"number":10,"name":"SBU2","role":"inout"},{"number":11,"name":"VBUS","role":"inout"},{"number":12,"name":"GND","role":"inout"},{"number":13,"name":"SHIELD","role":"inout"}]},
+      "parts": [
+        {"name":"USB4105-GF-A","manufacturer":"GCT","datasheet":"usb4105-spec","package":"SMD right angle","pinout":"p","footprint":"USB-GCT-USB4105"}
+      ]
+    },
+    {
+      "id": "usb-gct-usb4500",
+      "function": "USB-C Port",
+      "description": "USB 2.0 Type-C receptacle, 16 contacts, mid mount",
+      "drawer": ["Connector", "USB"],
+      "note": "GCT USB4500 drawing (datasheets/connector-usb/usb4500.pdf) sheet 1: pin table (as USB4105: A5 CC1, A6 Dp1, A7 Dn1, A8 SBU1, B5 CC2, B6 Dp2, B7 Dn2, B8 SBU2, shell GND); Electrical: current rating 5.00 A collectively for the VBUS pins, voltage rating 48 V DC; mid mount, 0.8 mm offset, in a board cut-out. Ordering Grid: USB4500-03 (3 u\" gold)-0 (without shell spring)-A (tape and reel). Pins 1-12 = A1/B12, A4/B9, A5, A6, A7, A8, B5, B6, B7, B8, A9/B4, A12/B",
+      "usb": "C",
+      "ratedVolts": 48,
+      "ratedAmps": 5,
+      "pinouts": {"p":[{"number":1,"name":"GND","role":"inout"},{"number":2,"name":"VBUS","role":"inout"},{"number":3,"name":"CC1","role":"inout"},{"number":4,"name":"D+","role":"inout"},{"number":5,"name":"D-","role":"inout"},{"number":6,"name":"SBU1","role":"inout"},{"number":7,"name":"CC2","role":"inout"},{"number":8,"name":"D+","role":"inout"},{"number":9,"name":"D-","role":"inout"},{"number":10,"name":"SBU2","role":"inout"},{"number":11,"name":"VBUS","role":"inout"},{"number":12,"name":"GND","role":"inout"},{"number":13,"name":"SHIELD","role":"inout"}]},
+      "parts": [
+        {"name":"USB4500-03-0-A","manufacturer":"GCT","datasheet":"usb4500-spec","package":"Mid mount","pinout":"p","footprint":"USB-GCT-USB4500"}
+      ]
     }
   ]
 }
