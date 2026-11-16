@@ -189,7 +189,7 @@ Commit: abf5d0ba
 
 Acceptance: a gate part can be made start to finish in Guided mode and saved.
   Check: the run-skill walk above ends with Save Part… writing a `.schpart` that `PartValidator.shared.validate(text:)` accepts (est. 15 min: a GUI walk; no unit test sees the layout).
-Commit: —
+Commit: ce72da1c
 
 ## Validation Plan
 
