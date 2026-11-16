@@ -44,9 +44,12 @@ struct ChipDrawerView: View, Equatable {
     /// The one open category, or nil when all are closed. Opening a category
     /// closes the one that was open.
     @State private var openCategory: String?
-    /// Open groups below the categories, as keys from `subcategoryKey`,
-    /// `functionKey` and `bitsKey`. All start closed.
+    /// Open groups below the categories, by their `DrawerRowItem.id` keys
+    /// ("subcategory:…", "function:…", "…/8-bit"). All start closed.
     @State private var toggled: Set<String> = []
+    /// The groups and rows built for the current filter and open groups, kept
+    /// between redraws (see `DrawerMemo`).
+    @State private var memo = DrawerMemo()
 
     /// `openGroups`: group keys to start open, e.g. a subcategory, plus at
     /// most one "category:<name>". Empty in the app.
@@ -59,7 +62,8 @@ struct ChipDrawerView: View, Equatable {
     }
 
     var body: some View {
-        let groups = catalog.groups(matching: activeFilter)
+        let groups = memo.groups(for: catalog, filter: activeFilter)
+        let layout = memo.layout(groups: groups, openCategory: openCategory, toggled: toggled)
 
         VStack(spacing: 0) {
             searchField
@@ -67,30 +71,17 @@ struct ChipDrawerView: View, Equatable {
                 .padding(.top, 8)
             filterBar
 
-            // A plain stack, not a List: SwiftUI's List is an NSOutlineView,
-            // and opening groups of rows with different heights makes AppKit
-            // log "reentrant operation in its NSTableView delegate". Not a
-            // lazy stack either: it guessed the height of rows it had not
-            // built, so after scrolling to the end, clicks on the lower rows
-            // fell outside the scroll view's content and did nothing.
-            ScrollView {
-                VStack(alignment: .leading, spacing: 0) {
-                ForEach(groups) { category in
-                    DisclosureGroup(isExpanded: $openCategory[drawerOpenCategory: category.category]) {
-                        ForEach(category.subcategories) { subcategory in
-                            subcategoryGroup(subcategory)
-                        }
-                        ForEach(category.functions) { function in
-                            functionGroup(function, path: category.category)
-                        }
-                    } label: {
-                        categoryHeader(category.category)
-                    }
-                }
-                }
-                .disclosureGroupStyle(DrawerDisclosureStyle())
-                .padding(.horizontal, 12)
-                .padding(.vertical, 4)
+            // Only the rows near the viewport are built (`DrawerScrollList`;
+            // the library lists tens of thousands of parts, and one open group
+            // can hold thousands). Not a List: SwiftUI's
+            // List is an NSOutlineView, and opening groups of rows with
+            // different heights makes AppKit log "reentrant operation in its
+            // NSTableView delegate". Not a LazyVStack either: it guessed the
+            // height of rows it had not built, so after scrolling to the end,
+            // clicks on the lower rows fell outside the scroll view's content
+            // and did nothing.
+            DrawerScrollList(layout: layout, filter: activeFilter) { item in
+                rowView(item)
             }
             .overlay {
                 if groups.isEmpty {
@@ -275,59 +266,57 @@ struct ChipDrawerView: View, Equatable {
 
     // MARK: Rows
 
-    /// A group below a category, closed by default: its own subgroups (a
-    /// third drawer level), then its functions or parts. Type-erased because
-    /// it holds itself.
-    private func subcategoryGroup(_ subcategory: PartCatalogStore.SubcategoryGroup) -> AnyView {
-        let path = subcategory.path.joined(separator: "/")
-        return AnyView(
-            DisclosureGroup(isExpanded: expansion(for: subcategoryKey(path), defaultOpen: false)) {
-                ForEach(subcategory.subgroups) { subgroup in
-                    subcategoryGroup(subgroup)
-                }
-                ForEach(subcategory.functions) { function in
-                    functionGroup(function, path: path)
-                }
-                ForEach(subcategory.parts) { entry in
-                    partRow(entry)
-                }
-            } label: {
-                subcategoryHeader(subcategory)
+    @ViewBuilder
+    private func rowView(_ item: DrawerRowItem) -> some View {
+        switch item.kind {
+        case let .category(name):
+            groupHeader(item) { categoryHeader(name) }
+        case let .subcategory(subcategory):
+            groupHeader(item) { subcategoryHeader(subcategory) }
+        case let .function(function):
+            groupHeader(item) { functionHeader(function) }
+        case let .bits(group):
+            groupHeader(item) {
+                Text(group.title)
+                    .font(.body.weight(.medium))
             }
-            // Set on each level: a nested group does not pick
-            // up the style from its parent's content.
-            .disclosureGroupStyle(DrawerDisclosureStyle())
-        )
+        case let .part(part):
+            partRow(part, depth: item.depth)
+        }
     }
 
-    /// A function's parts, closed by default. `path` is the drawer path
-    /// ("Discrete/Resistors/Chip"), so equal function names in different
-    /// groups open and close separately.
-    private func functionGroup(_ function: PartCatalogStore.FunctionGroup, path: String) -> some View {
-        let key = functionKey(path, function.function)
-        return DisclosureGroup(isExpanded: expansion(for: key, defaultOpen: false)) {
-            if function.bitGroups.isEmpty {
-                ForEach(function.parts) { entry in
-                    partRow(entry)
-                }
-            } else {
-                // ADCs and DACs are too many for one list: one group per resolution.
-                ForEach(function.bitGroups) { group in
-                    DisclosureGroup(isExpanded: expansion(for: bitsKey(key, group.bits), defaultOpen: false)) {
-                        ForEach(group.parts) { entry in
-                            partRow(entry)
-                        }
-                    } label: {
-                        Text(group.title)
-                            .font(.body.weight(.medium))
-                    }
-                    .disclosureGroupStyle(DrawerDisclosureStyle())
-                }
-            }
-        } label: {
-            functionHeader(function)
+    /// A group's row: a chevron and the label on one line with a rule under
+    /// it. A click anywhere on the row, chevron or label, opens or closes the
+    /// group; menus in the label keep their own clicks.
+    private func groupHeader<Label: View>(_ item: DrawerRowItem,
+                                          @ViewBuilder label: () -> Label) -> some View {
+        HStack(spacing: 4) {
+            Image(systemName: "chevron.right")
+                .font(.caption.weight(.bold))
+                .foregroundStyle(.secondary)
+                .rotationEffect(.degrees(item.isOpen ? 90 : 0))
+                .animation(.easeInOut(duration: 0.15), value: item.isOpen)
+                .frame(width: DrawerRowItem.indent - 4)
+            label()
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .disclosureGroupStyle(DrawerDisclosureStyle())
+        .contentShape(Rectangle())
+        .onTapGesture { toggle(item) }
+        .frame(height: DrawerRowItem.headerHeight)
+        .overlay(alignment: .bottom) { Divider() }
+        .padding(.leading, CGFloat(item.depth) * DrawerRowItem.indent)
+    }
+
+    /// Opens or closes a group. Opening a category closes the open one.
+    private func toggle(_ item: DrawerRowItem) {
+        switch item.kind {
+        case let .category(name):
+            openCategory[drawerOpenCategory: name] = !item.isOpen
+        case .subcategory, .function, .bits:
+            toggled[drawerOpen: item.id, defaultOpen: false] = !item.isOpen
+        case .part:
+            break
+        }
     }
 
     /// An ADC or DAC group carries a Channels menu.
@@ -344,23 +333,26 @@ struct ChipDrawerView: View, Equatable {
         }
     }
 
-    private func partRow(_ part: CatalogPart) -> some View {
+    private func partRow(_ part: CatalogPart, depth: Int) -> some View {
         VStack(alignment: .leading, spacing: 2) {
             HStack {
                 Text(part.kind == PART_HEADER ? HeaderFamily.title : part.name)
+                    .lineLimit(1)
                 Spacer(minLength: 8)
                 if let label = part.trailingLabel {
                     Text(label)
+                        .lineLimit(1)
                 }
             }
             .font(.system(.body, design: .monospaced))
             Text(subtitle(for: part))
                 .font(.caption)
                 .foregroundStyle(.secondary)
+                .lineLimit(1)
         }
-        .padding(.vertical, 4)
-        .padding(.leading, DrawerDisclosureStyle.indent)
+        .padding(.leading, DrawerRowItem.indent)
         .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(height: DrawerRowItem.partHeight)
         .overlay(alignment: .bottom) { Divider() }
         .contentShape(Rectangle())
         .draggable(ChipPartDragItem(partNumber: part.name))
@@ -372,6 +364,7 @@ struct ChipDrawerView: View, Equatable {
                 }
             }
         }
+        .padding(.leading, CGFloat(depth) * DrawerRowItem.indent)
     }
 
     /// Package, then the kind's facts: family, speed grade, actuator or color;
@@ -384,30 +377,6 @@ struct ChipDrawerView: View, Equatable {
         return ([package] + part.detailLabels + [part.voltageLabel].compactMap { $0 })
             .filter { !$0.isEmpty }
             .joined(separator: " · ")
-    }
-
-    // MARK: Collapsing
-
-    /// `path` is the group's drawer path, e.g. "Memory/SRAM".
-    private func subcategoryKey(_ path: String) -> String {
-        "subcategory:\(path)"
-    }
-
-    /// `path` is the drawer path above the function, e.g. "Memory/SRAM".
-    private func functionKey(_ path: String, _ function: String) -> String {
-        "function:\(path)/\(function)"
-    }
-
-    /// One resolution's group inside an ADC or DAC group (`functionKey`).
-    private func bitsKey(_ functionKey: String, _ bits: Int) -> String {
-        "\(functionKey)/\(bits)-bit"
-    }
-
-    /// Derived from `$toggled` rather than built from get/set closures:
-    /// SwiftUI cannot see a change behind closures, so the List kept its rows
-    /// and groups never opened or closed.
-    private func expansion(for key: String, defaultOpen: Bool) -> Binding<Bool> {
-        $toggled[drawerOpen: key, defaultOpen: defaultOpen]
     }
 
     // MARK: Status
@@ -464,45 +433,248 @@ struct ChipDrawerView: View, Equatable {
     }
 }
 
-/// The drawer's groups, laid out like the outline list they replaced: a
-/// chevron and the label on one row with a rule under it, and the open
-/// content indented below.
-private struct DrawerDisclosureStyle: DisclosureGroupStyle {
+/// The drawer's rows in a scroll view, building only those near the viewport.
+/// Every row has a fixed height, so the content height is exact and spacers
+/// stand in for the rows left out. The scroll position is this view's own
+/// state: a scroll redraws the list and not the search field and menus
+/// above it, and each row skips its body when it is unchanged
+/// (`DrawerRowView`).
+private struct DrawerScrollList<Row: View>: View {
+    /// How far past the viewport rows are built, so a scroll does not show
+    /// blank space before the next redraw.
+    private static var overscan: CGFloat { 300 }
+
+    let layout: DrawerLayout
+    /// The drawer's filter: header menus show it, so a change redraws rows.
+    let filter: DrawerFilter
+    @ViewBuilder let row: (DrawerRowItem) -> Row
+    @State private var window = ScrollWindow()
+
+    var body: some View {
+        let rows = layout.rows(from: window.top - Self.overscan, to: window.bottom + Self.overscan)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 0) {
+                Color.clear.frame(height: rows.top)
+                ForEach(layout.items[rows.range]) { item in
+                    DrawerRowView(item: item, filter: filter) { row(item) }
+                        .equatable()
+                }
+                Color.clear.frame(height: rows.bottom)
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 4)
+        }
+        .onScrollGeometryChange(for: ScrollWindow.self) { geometry in
+            ScrollWindow(offset: geometry.contentOffset.y, height: geometry.containerSize.height)
+        } action: { _, new in
+            window = new
+        }
+    }
+}
+
+/// One row, redrawn only when its item or the drawer's filter changes.
+private struct DrawerRowView<Content: View>: View, Equatable {
+    let item: DrawerRowItem
+    let filter: DrawerFilter
+    @ViewBuilder let content: () -> Content
+
+    static func == (lhs: DrawerRowView, rhs: DrawerRowView) -> Bool {
+        lhs.item == rhs.item && lhs.filter == rhs.filter
+    }
+
+    var body: some View { content() }
+}
+
+/// One line of the drawer: a group's header or a part. Every kind has a
+/// fixed height, so a row's place in the list is known without building it.
+private struct DrawerRowItem: Identifiable, Equatable {
+    enum Kind {
+        case category(String)
+        case subcategory(PartCatalogStore.SubcategoryGroup)
+        case function(PartCatalogStore.FunctionGroup)
+        case bits(PartCatalogStore.BitGroup)
+        case part(CatalogPart)
+    }
+
     /// How far each level is indented, the chevron's column.
     static let indent: CGFloat = 16
+    static let headerHeight: CGFloat = 34
+    static let partHeight: CGFloat = 46
 
-    func makeBody(configuration: Configuration) -> some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(spacing: 4) {
-                Image(systemName: "chevron.right")
-                    .font(.caption.weight(.bold))
-                    .foregroundStyle(.secondary)
-                    .rotationEffect(.degrees(configuration.isExpanded ? 90 : 0))
-                    .frame(width: Self.indent - 4)
-                configuration.label
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            // A click anywhere on the row, chevron or label, opens or closes
-            // the group; menus in the label keep their own clicks. It goes
-            // through the group's binding: setting the drawer's state
-            // directly left groups built while scrolling unchanged.
-            .contentShape(Rectangle())
-            .onTapGesture {
-                withAnimation(.easeInOut(duration: 0.15)) {
-                    configuration.isExpanded.toggle()
-                }
-            }
-            .frame(minHeight: 22)
-            .padding(.vertical, 4)
-            .overlay(alignment: .bottom) { Divider() }
+    /// A group's id is its open/closed key ("subcategory:Memory/SRAM",
+    /// "function:Memory/SRAM/32 KB", "…/8-bit"; "category:<name>" for a
+    /// category); a part's is "part:<name>".
+    let id: String
+    let kind: Kind
+    /// How many groups the row sits inside.
+    let depth: Int
+    /// Whether a group is open; false for a part.
+    let isOpen: Bool
 
-            if configuration.isExpanded {
-                VStack(alignment: .leading, spacing: 0) {
-                    configuration.content
+    var height: CGFloat {
+        if case .part = kind { return Self.partHeight }
+        return Self.headerHeight
+    }
+
+    /// Same row: the id names the group or part, and `depth` and `isOpen`
+    /// are all that change about it while the filter stays the same.
+    static func == (lhs: DrawerRowItem, rhs: DrawerRowItem) -> Bool {
+        lhs.id == rhs.id && lhs.depth == rhs.depth && lhs.isOpen == rhs.isOpen
+    }
+}
+
+/// The drawer's rows, top to bottom, with where each begins.
+private struct DrawerLayout {
+    var items: [DrawerRowItem] = []
+    /// `tops[i]` is where row `i` begins; the last entry is the total height.
+    var tops: [CGFloat] = [0]
+
+    /// The rows overlapping `from…to` (points from the top of the list), and
+    /// the heights left out above and below them.
+    func rows(from: CGFloat, to: CGFloat) -> (range: Range<Int>, top: CGFloat, bottom: CGFloat) {
+        guard !items.isEmpty else { return (0..<0, 0, 0) }
+        // First row whose bottom is below `from`.
+        var low = 0, high = items.count
+        while low < high {
+            let mid = (low + high) / 2
+            if tops[mid + 1] > from { high = mid } else { low = mid + 1 }
+        }
+        let first = low
+        // First row that begins at or past `to`.
+        low = first
+        high = items.count
+        while low < high {
+            let mid = (low + high) / 2
+            if tops[mid] >= to { high = mid } else { low = mid + 1 }
+        }
+        let last = max(low, first)
+        return (first..<last, tops[first], tops[items.count] - tops[last])
+    }
+}
+
+/// Where the list is scrolled, in coarse steps: the scroll view reports every
+/// point of a scroll, and a redraw per point would cost more than it saves.
+private struct ScrollWindow: Equatable {
+    static let step: CGFloat = 100
+    var top: CGFloat = 0
+    var bottom: CGFloat = 1200
+
+    init() {}
+
+    init(offset: CGFloat, height: CGFloat) {
+        top = (max(0, offset) / Self.step).rounded(.down) * Self.step
+        bottom = ((max(0, offset) + height) / Self.step).rounded(.up) * Self.step
+    }
+}
+
+/// The drawer's work that only changes with its filter or its open groups,
+/// kept between redraws: building the groups scans the whole library, and
+/// the rows are rebuilt on each toggle but not on each scroll or hover. A plain
+/// class, not observed: `ChipDrawerView.body` reads and fills it.
+@MainActor
+private final class DrawerMemo {
+    private struct GroupsKey: Equatable {
+        let filter: DrawerFilter
+        let partCount: Int
+        let loadState: PartCatalogStore.LoadState
+    }
+
+    private struct LayoutKey: Equatable {
+        let generation: Int
+        let openCategory: String?
+        let toggled: Set<String>
+    }
+
+    private var groupsKey: GroupsKey?
+    private var cachedGroups: [PartCatalogStore.CategoryGroup] = []
+    private var generation = 0
+    private var layoutKey: LayoutKey?
+    private var cachedLayout = DrawerLayout()
+
+    func groups(for catalog: PartCatalogStore, filter: DrawerFilter) -> [PartCatalogStore.CategoryGroup] {
+        let key = GroupsKey(filter: filter, partCount: catalog.partCount, loadState: catalog.loadState)
+        if key != groupsKey {
+            cachedGroups = catalog.groups(matching: filter)
+            groupsKey = key
+            generation += 1
+        }
+        return cachedGroups
+    }
+
+    func layout(groups: [PartCatalogStore.CategoryGroup], openCategory: String?,
+                toggled: Set<String>) -> DrawerLayout {
+        let key = LayoutKey(generation: generation, openCategory: openCategory, toggled: toggled)
+        if key != layoutKey {
+            cachedLayout = Self.flatten(groups, openCategory: openCategory, toggled: toggled)
+            layoutKey = key
+        }
+        return cachedLayout
+    }
+
+    /// The rows of the open groups, in drawer order.
+    private static func flatten(_ groups: [PartCatalogStore.CategoryGroup], openCategory: String?,
+                                toggled: Set<String>) -> DrawerLayout {
+        var items: [DrawerRowItem] = []
+
+        func addFunction(_ function: PartCatalogStore.FunctionGroup, path: String, depth: Int) {
+            let key = "function:\(path)/\(function.function)"
+            let isOpen = toggled.contains(key)
+            items.append(DrawerRowItem(id: key, kind: .function(function), depth: depth, isOpen: isOpen))
+            guard isOpen else { return }
+            if function.bitGroups.isEmpty {
+                for part in function.parts {
+                    items.append(DrawerRowItem(id: "part:\(part.name)", kind: .part(part), depth: depth + 1, isOpen: false))
                 }
-                .padding(.leading, Self.indent)
+            } else {
+                // ADCs and DACs are too many for one list: one group per resolution.
+                for group in function.bitGroups {
+                    let bitsKey = "\(key)/\(group.bits)-bit"
+                    let bitsOpen = toggled.contains(bitsKey)
+                    items.append(DrawerRowItem(id: bitsKey, kind: .bits(group), depth: depth + 1, isOpen: bitsOpen))
+                    guard bitsOpen else { continue }
+                    for part in group.parts {
+                        items.append(DrawerRowItem(id: "part:\(part.name)", kind: .part(part), depth: depth + 2, isOpen: false))
+                    }
+                }
             }
         }
+
+        func addSubcategory(_ subcategory: PartCatalogStore.SubcategoryGroup, depth: Int) {
+            let path = subcategory.path.joined(separator: "/")
+            let key = "subcategory:\(path)"
+            let isOpen = toggled.contains(key)
+            items.append(DrawerRowItem(id: key, kind: .subcategory(subcategory), depth: depth, isOpen: isOpen))
+            guard isOpen else { return }
+            for subgroup in subcategory.subgroups {
+                addSubcategory(subgroup, depth: depth + 1)
+            }
+            for function in subcategory.functions {
+                addFunction(function, path: path, depth: depth + 1)
+            }
+            for part in subcategory.parts {
+                items.append(DrawerRowItem(id: "part:\(part.name)", kind: .part(part), depth: depth + 1, isOpen: false))
+            }
+        }
+
+        for category in groups {
+            let isOpen = openCategory == category.category
+            items.append(DrawerRowItem(id: "category:\(category.category)", kind: .category(category.category),
+                                       depth: 0, isOpen: isOpen))
+            guard isOpen else { continue }
+            for subcategory in category.subcategories {
+                addSubcategory(subcategory, depth: 1)
+            }
+            for function in category.functions {
+                addFunction(function, path: category.category, depth: 1)
+            }
+        }
+
+        var tops: [CGFloat] = [0]
+        tops.reserveCapacity(items.count + 1)
+        for item in items {
+            tops.append(tops[tops.count - 1] + item.height)
+        }
+        return DrawerLayout(items: items, tops: tops)
     }
 }
 
