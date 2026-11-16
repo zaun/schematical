@@ -206,18 +206,8 @@ enum PartKinds {
         "transistor",
     ]
 
-    /// The names shown in the New Part picker and window titles.
-    static let displayNames: [String: String] = [
-        "7seg": "7-Segment Display", "arith": "Arithmetic", "buffer": "Buffer", "capacitor": "Capacitor",
-        "charlcd": "Character LCD",
-        "connector": "Connector", "converter": "Converter", "counter": "Counter", "cpu": "Processor",
-        "decoder": "Decoder", "dff": "D Flip-Flop", "diode": "Diode", "eeprom": "EEPROM", "gate": "Gate",
-        "generic": "Other part (no simulation)",
-        "header": "Pin Header", "jkff": "JK Flip-Flop", "latch": "Latch", "led": "LED", "mcu": "Microcontroller", "mux": "Multiplexer",
-        "oscillator": "Oscillator", "pio": "Parallel I/O", "register": "Register", "resistor": "Resistor", "rtc": "Real-Time Clock", "serial": "Serial",
-        "shift": "Shift Register", "sram": "SRAM", "supply": "Supply", "switch": "Switch",
-        "transistor": "Transistor",
-    ]
+    // The names shown for the kinds, their blurbs and example parts are in
+    // `PartKinds.info` (KindInfo.swift, plan-46-D).
 
     /// Each kind's editor schema; a kind is enabled in the editor once it has one.
     static let schemas: [String: KindSchema] = {

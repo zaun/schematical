@@ -77,7 +77,7 @@ final class PartEditorWindowTests: XCTestCase {
         XCTAssertEqual(draft.extraKeys, [])
         let model = PartEditorModel(target: PartEditorTarget(source: .new(kind: "gate")))
         Self.kept.append(model)
-        XCTAssertEqual(model.title, "New Gate Part")
+        XCTAssertEqual(model.title, "New Logic Gate Part")
         // A new part is unchanged until edited (Open Part… asks only then).
         XCTAssertFalse(model.isDirty)
         model.draft.name = "CHANGED"

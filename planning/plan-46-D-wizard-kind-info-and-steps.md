@@ -37,8 +37,8 @@ plan-46-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-46-C complete | `ls planning/completed/plan-46-C-*.md` → exists | NOT MET (2026-11-16: not started) |
-| Every kind has a schema | `grep -o 'Draft.schema' schematical/schematical/Editor/KindSchema.swift \| wc -l` → 32 | NOT MET (2026-11-16 at 9e13cbe4: 27) |
+| plan-46-C complete | `ls planning/completed/plan-46-C-*.md` → exists | MET (2026-11-16: `planning/completed/plan-46-C-wizard-missing-kind-schemas.md`) |
+| Every kind has a schema | `grep -o 'Draft.schema' schematical/schematical/Editor/KindSchema.swift \| wc -l` → 32 | MET (2026-11-16 at a70374b1: 32) |
 
 > **NOTE — the Status column is a snapshot; the Command column is the truth.**
 
@@ -199,13 +199,21 @@ Rejected alternatives:
 
 ### Phase 1 — `KindInfo`
 
-- [ ] `Editor/KindInfo.swift` per § 3.1, 32 entries; `PartKinds.displayNames`
+- [x] `Editor/KindInfo.swift` per § 3.1, 32 entries; `PartKinds.displayNames`
       deleted; `PartDraft.displayName(of:)` reads `PartKinds.info`.
-- [ ] `schematicalTests/KindInfoTests.swift`: every `PartKinds.all` kind
+      (`grep -rn displayNames schematical/` → none. `PartKinds.kinds(in:)`
+      lists a group's kinds in § 3.1's order. `PartEditorWindowTests`'
+      title assertion is now `New Logic Gate Part`, § Corrections 1.)
+- [x] `schematicalTests/KindInfoTests.swift`: every `PartKinds.all` kind
       has an entry and no entry is for an unknown kind; names and blurbs
       non-empty; every example is `PartCatalogStore.shared.part(named:)`
       non-nil; `simulated == false` exactly for mcu and generic; every
       `KindGroup` has at least one kind.
+      (Also: each example is a part of that kind, names are distinct.
+      `xcodebuild … test -only-testing:schematicalTests/KindInfoTests
+      -only-testing:schematicalTests/PartEditorWindowTests …` → `Executed 4
+      tests, with 0 failures` and `Executed 9 tests, with 0 failures`,
+      `** TEST SUCCEEDED **`.)
 
 Acceptance: the registry is complete and names real parts.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/KindInfoTests -only-testing:schematicalTests/PartEditorWindowTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 8 min).
@@ -254,7 +262,31 @@ plan-46-A § Decisions.
 
 ## Corrections
 
-None yet.
+1. **One existing assertion changes, as § 3.1's rename implies.**
+   `PartEditorWindowTests.testNewGateDraft` asserted the window title `New
+   Gate Part`; with `gate` named "Logic Gate" it is `New Logic Gate Part`.
+   The Non-goal ("display names are the same strings … except where § 3.1
+   rewords a name") already allowed it; the test was the one place that
+   held the old string.
+2. **§ Phase 2's gate list was illustrative, not what § 3.2's rule gives.**
+   It reads "supply, kind.essentials, kind.timing … footprint". By the
+   rule, `timing` is a *required* gate key (`GateDraft.schema`), so it is in
+   `kind.essentials` with `gates` and `family`; the optional keys left
+   (`output`, `units`) are scalars, so they are `kind.other`. The exact list
+   `WizardStepsTests.testGateSteps` asserts is `kind, identity, datasheet,
+   pinout, kind.supply, kind.essentials, kind.other, footprint, review`.
+   A key gets a step of its own (`kind.<key>`) when it is optional and
+   holds a group or a list: `testACompositeOptionalKeyHasItsOwnStep`
+   asserts `kind.sections` for a ripple counter. Step ids for the kind
+   steps are `kind.variant`, `kind.supply`, `kind.essentials`, `kind.<key>`
+   (`kind.part.<key>` when a device key's step took the name),
+   `kind.other`. E's `WizardModelTests` and L's gate guide are written
+   against these.
+3. **`renamePin` does not change the pin table.** § 3.3 says when it
+   applies (`old` names exactly one pin, `new` none), which is the pinout
+   *before* the rename, so the caller (H's pin table) calls it first and
+   then sets the pin's name. Stated in its doc comment and asserted in
+   `PinRenameTests.testAGateInputIsRenamed`.
 
 ## Summary
 
