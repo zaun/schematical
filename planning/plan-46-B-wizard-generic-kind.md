@@ -189,20 +189,25 @@ f. `circuit_add_part` on (a)'s part → -1 with `part "<name>" is not
 
 Acceptance: the kind loads, refuses what § 4 refuses, and nothing bundled moves.
   Check: `cmake --build /tmp/logic-p46 -j8 && ctest --test-dir /tmp/logic-p46 -j8` → `100% tests passed, 0 tests failed out of 37`; `git diff --stat backend/tests/golden` → empty (est. 4 min; the whole backend suite is 9 s at planning, so it is the scoped check).
-Commit: —
+Commit: 3153788f
 
 ### Phase 2 — The app knows the kind
 
-- [ ] `Editor/KindSchema.swift`: `"generic"` in `PartKinds.all`,
+- [x] `Editor/KindSchema.swift`: `"generic"` in `PartKinds.all`,
       `"generic": "Other part (no simulation)"` in `displayNames`.
-- [ ] `Editor/BundledPartFile.swift`: `case PART_GENERIC: "generic"`.
-- [ ] `Backend/PartFacts.swift`: `case PART_GENERIC: return "Part"`.
-- [ ] `schematicalTests/PartEditorWindowTests.swift`: `formless` gains
+- [x] `Editor/BundledPartFile.swift`: `case PART_GENERIC: "generic"`.
+- [x] `Backend/PartFacts.swift`: `case PART_GENERIC: return "Part"`.
+- [x] `schematicalTests/PartEditorWindowTests.swift`: `formless` gains
       `"generic"` (C removes the set).
-- [ ] `schematicalTests/GenericPartTests.swift` (new): load § 4 (a)'s text
+- [x] `schematicalTests/GenericPartTests.swift` (new): load § 4 (a)'s text
       with `PartCatalogStore.register` → the part lists with `simulated ==
       false`, `ReferenceCategory.of(part) == .integratedCircuit`, and
       `SimulationAvailability.unsimulated` of a placed copy returns it.
+      (Registered in `TestSupport.catalog`, the store the tests place from;
+      the reason reads `U1 (<name>) is not simulated`. `xcodebuild … test
+      -only-testing:schematicalTests/PartEditorWindowTests
+      -only-testing:schematicalTests/GenericPartTests` → `Executed 9 tests,
+      with 0 failures`, `** TEST SUCCEEDED **`.)
 
 Acceptance: the editor lists agree with the part files and a generic part registers as unsimulated.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath /tmp/p46-dd test -only-testing:schematicalTests/PartEditorWindowTests -only-testing:schematicalTests/GenericPartTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 8 min).

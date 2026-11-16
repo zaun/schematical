@@ -209,6 +209,7 @@ nonisolated enum PartFacts {
         case PART_MCU: return "Microcontroller"
         case PART_RESISTOR: return "Resistor"
         case PART_TRANSISTOR: return "Transistor"
+        case PART_GENERIC: return "Part"
         default: return ""
         }
     }

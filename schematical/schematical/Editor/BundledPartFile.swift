@@ -97,6 +97,7 @@ extension PartKinds {
         case PART_MCU: "mcu"
         case PART_RESISTOR: "resistor"
         case PART_TRANSISTOR: "transistor"
+        case PART_GENERIC: "generic"
         default: nil
         }
     }

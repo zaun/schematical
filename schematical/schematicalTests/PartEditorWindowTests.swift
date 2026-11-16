@@ -11,8 +11,9 @@ final class PartEditorWindowTests: XCTestCase {
     /// (a) Every kind has a form (plan-32-J Phase 4) but the three without one.
     func testEnabledKinds() {
         // capacitor (plan-33), mcu (plan-36) and resistor (plan-34) have no form
-        // (plan-33-A, plan-36-H, plan-34-G § Decisions).
-        let formless: Set = ["capacitor", "mcu", "resistor", "transistor"]
+        // (plan-33-A, plan-36-H, plan-34-G § Decisions); generic (plan-46-B)
+        // gets its schema in plan-46-C.
+        let formless: Set = ["capacitor", "generic", "mcu", "resistor", "transistor"]
         XCTAssertEqual(PartDraft.enabledKinds, PartDraft.kindNames.filter { !formless.contains($0) })
         XCTAssertEqual(PartDraft.enabledKinds.count, PartDraft.kindNames.count - formless.count)
     }
