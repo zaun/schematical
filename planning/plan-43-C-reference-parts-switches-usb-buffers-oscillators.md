@@ -29,8 +29,8 @@ plan-43-A § Prerequisites, plus:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-43-B complete | `ls planning/completed/plan-43-B-*.md` → exists | NOT MET (2026-11-15: not started) |
-| The tactile generator is idle | `python3 -I planning/plan-27-data/gen-parts.py --dry-run` → `no changes` | MET (2026-11-15 at 834ef073: `no changes`) |
+| plan-43-B complete | `ls planning/completed/plan-43-B-*.md` → exists | MET (2026-11-15: archived in 937f0bea) |
+| The tactile generator is idle | `python3 -I planning/plan-27-data/gen-parts.py --dry-run` → `no changes` | MET (2026-11-15 at 937f0bea: `no changes`) |
 
 Everything below is written against the world where these hold.
 
@@ -200,13 +200,20 @@ one (`facts.tsv` `Function=`), `"flags": ["automotive"]` on
 
 ### Phase 1 — Buffers and oscillators
 
-- [ ] Add the two buffer parts (§ 4.4) and the seven oscillator devices,
-      parts and footprints (§ 4.5), with their `datasheets.json` entries.
-- [ ] Regenerate the goldens; hand-check added `footprints.txt` lines.
+- [x] Add the two buffer parts (§ 4.4) and the seven oscillator devices,
+      parts and footprints (§ 4.5), with their `datasheets.json` entries. —
+      `python3 -I planning/plan-43-data/add/lineadd.py
+      planning/plan-43-data/add/buffers-oscillators.json` → `datasheets +8`,
+      `footprints +5`, `buffer +2 parts`, `oscillator +7 parts`.
+- [x] Regenerate the goldens; hand-check added `footprints.txt` lines. —
+      32887 / 32887 / 1638 lines; the five added footprint lines read
+      against their drawings.
 
 Acceptance: 9 more lines in `parts.txt`; none removed.
   Check: `cmake --build /tmp/logic-p43 -j8 && ctest --test-dir /tmp/logic-p43 -R 'library_check|listing_check|trace_check|footprint_check|buffer_test'`
-  → `100% tests passed` (est. 2 min).
+  → `100% tests passed` (est. 2 min). — `100% tests passed, 0 tests failed
+  out of 5` (`buffer_test` is not a test name; the regex also names
+  `oscillator`); 32878 → 32887; 0 lines removed.
 Commit: —
 
 ### Phase 2 — Switches
@@ -249,6 +256,34 @@ Commit: —
   `docs/parts-format.md` § `switch` requires — author.
 
 ## Corrections
+
+- **C starts at 32878 and ends at 32892** (plan-43-B § Corrections: three
+  parts of B were skipped). Every 32881 above reads 32878, every 32895
+  reads 32892. The backend build directory is `/tmp/logic-p43w` (plan-43-A
+  § Corrections).
+- **`buffer.json`, `oscillator.json`, `switch.json`, `connector.json`,
+  `rtc.json` and `converter.json` keep one part per line**, so the edits
+  are made by `planning/plan-43-data/add/lineadd.py <spec>` (it inserts
+  part lines and writes new devices in the files' layout), not by
+  `apply.py`, which rewrites a whole file.
+- **Five new footprints in Phase 1, where § 4.4 and § 4.5 expected reuse
+  first.** `SOT23-5-UMW` (the UMW datasheet prints the outline only; R2
+  gives 1.40 x 0.55 pads against `SOT23-5`'s 1.1 x 0.6),
+  `OSC-ABRACON-3225-4-ASEM`, `OSC-ABRACON-3225-4-ASE`,
+  `OSC-KYOCERA-2016-4-MCZ`, `OSC-MICROCHIP-5032-4-H6A` (ids
+  `OSC-<MAKER>-<body>-4-<series>`: Abracon has two 3225 patterns). Reused:
+  `OSC-ECS-3225-4-MV` for the ECS TCXO (the same numbers) and
+  `OSC-ECS-2520-4-2018` for the Epson and Würth parts (both print 1.1 x
+  0.9 pads at 1.7 x 1.3 centres: each centre 0.05 from 1.8 x 1.4).
+- **`ECS-TXO-32CSMV-260-AN-TR` carries `ceramic`** (datasheet p.1:
+  ceramic package), as the library's other ceramic ECS oscillators do.
+- **`iqxo-791-2` has `minHz` = `maxHz` = 20 MHz**: Würth's datasheet
+  covers the one part.
+- **`SG-210STF 27.0000ML5`**: the datasheet's product-name form is
+  `SG210STF <frequency> L`; DigiKey's name (with the packing digit) is kept.
+- **`DSC1001BI1-050.0000`'s pad length is derived**: drawing C04-3008
+  prints no Y1; C 2.00 less G1 1.00 (min) gives 1.00, as E less X1 gives
+  the printed G2.
 
 ## Summary
 
