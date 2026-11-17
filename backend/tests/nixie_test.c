@@ -3,7 +3,8 @@
  * to the real part files: the loader's rules, the model (a glyph glows
  * while the anode reads 1 and its cathode reads 0), and the voltage check
  * (the anode's level carried to the cathodes; an anode below the firing
- * voltage is VOLTAGE_NIXIE_UNDER).
+ * voltage is VOLTAGE_NIXIE_UNDER). Then real parts: an IN-14 on each nixie
+ * driver (SN74141N, DM74141N, K155ID1) shows the numeral of every BCD code.
  *
  *   TESTNIXIE     1 A, 2 K0, 3 K1, 4 KDP; strike 170 V
  *   TESTNIXIE-2A  1 A, 2 K0, 3 A, 4 K1 (two anode pins, joined inside)
@@ -189,6 +190,89 @@ static void check_model(void) {
     }
 }
 
+/* ---- A real tube on its driver ---------------------------------------------- */
+
+/*
+ * IN-14 on an SN74141N (K155ID1): the driver's output n on the tube's
+ * cathode n, the anode on 170 V, the BCD inputs tied to 5 V or ground.
+ * Returns the tube's lights for the code.
+ */
+static int driven_glow(const char *driver, unsigned code, char *out, size_t cap) {
+    /* Driver pin of output n; tube pin of cathode n. */
+    static const unsigned DRIVER_OUT[10] = {16, 15, 8, 9, 13, 14, 11, 10, 1, 2};
+    static const unsigned TUBE_CATHODE[10] = {12, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+    static const unsigned DRIVER_IN[4] = {3, 6, 7, 4};   /* A, B, C, D */
+    Sim *sim = sim_create();
+    SimNet *hv = sim_add_net(sim, "HV");
+    SimNet *vcc = sim_add_net(sim, "VCC");
+    SimNet *gnd = sim_add_net(sim, "GND");
+    SimInstance *tube = add_instance(sim, "IN-14");
+    SimInstance *chip = add_instance(sim, driver);
+    SimInstance *s170 = add_instance(sim, "170V");
+    SimInstance *s5 = add_instance(sim, "5V");
+    SimInstance *s0 = add_instance(sim, "GND");
+    unsigned i;
+    int ok = tube != NULL && chip != NULL && s170 != NULL && s5 != NULL && s0 != NULL &&
+             sim_connect(sim, hv, s170, 0) && sim_connect(sim, vcc, s5, 0) &&
+             sim_connect(sim, gnd, s0, 0) && sim_connect(sim, hv, tube, 0) &&
+             sim_connect(sim, vcc, chip, 4) && sim_connect(sim, gnd, chip, 11);
+
+    for (i = 0; ok && i < 4; i++) {
+        ok = sim_connect(sim, (code >> i) & 1u ? vcc : gnd, chip, DRIVER_IN[i] - 1);
+    }
+    for (i = 0; ok && i < 10; i++) {
+        char name[8];
+        SimNet *net;
+
+        snprintf(name, sizeof name, "K%u", i);
+        net = sim_add_net(sim, name);
+        ok = sim_connect(sim, net, chip, DRIVER_OUT[i] - 1) &&
+             sim_connect(sim, net, tube, TUBE_CATHODE[i] - 1);
+    }
+    ok = ok && sim_start(sim) && sim_run_until(sim, 1000000);
+    if (ok) {
+        const SimComponentType *type = sim_instance_type(tube);
+        unsigned char values[32];
+        size_t count = type->lights(sim, tube, sim_instance_state(tube), 999000, values, sizeof values);
+        size_t k;
+
+        for (k = 0; k < count && k + 1 < cap; k++) {
+            out[k] = values[k] ? '1' : '0';
+        }
+        out[k] = '\0';
+    }
+    sim_destroy(sim);
+    return ok;
+}
+
+static void check_driver(void) {
+    static const char *const DRIVERS[] = {"SN74141N", "DM74141N", "K155ID1"};
+    size_t d;
+
+    for (d = 0; d < sizeof DRIVERS / sizeof DRIVERS[0]; d++) {
+        unsigned code;
+        int good = 1;
+
+        for (code = 0; code < 16; code++) {
+            char want[16] = "000000000000";   /* 0-9, LDP, DP */
+            char lights[32] = "";
+
+            if (code < 10) {
+                want[code] = '1';
+            }
+            if (!driven_glow(DRIVERS[d], code, lights, sizeof lights) || strcmp(lights, want) != 0) {
+                printf("  %s code %u: lights \"%s\", want \"%s\"\n", DRIVERS[d], code, lights, want);
+                good = 0;
+            }
+        }
+        printf("%s: %s lights numeral n of an IN-14 for code n, and nothing for 10-15\n",
+               good ? "PASS" : "FAIL", DRIVERS[d]);
+        if (!good) {
+            failures++;
+        }
+    }
+}
+
 /* ---- Voltage check --------------------------------------------------------- */
 
 typedef struct {
@@ -342,6 +426,7 @@ int main(void) {
     }
     check_loader();
     check_model();
+    check_driver();
     check_voltage();
     part_library_destroy(library);
     if (failures > 0) {

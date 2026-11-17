@@ -1597,6 +1597,45 @@
       "parts": [
         {"name":"SNJ54LS49J","manufacturer":"Texas Instruments","datasheet":"sn7447a","package":"DIP","pinout":"p14","footprint":"CDIP-14","family":"LS","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
+    },
+    {
+      "id": "74_141",
+      "function": "Nixie driver",
+      "description": "BCD-to-decimal decoder/driver for nixie tubes, 60 V open-collector outputs, off for codes 10-15",
+      "drawer": ["Vintage", "ICs"],
+      "note": "SN74141: TI TTL Data Book 2nd ed. (1976) pp.7-138, 7-139, datasheets/nixie/sn74141.pdf; DM74141: National TTL Data Book (1976) pp.2-1, 2-2, datasheets/nixie/dm74141.pdf; K155ID1 (analogue of SN74141N, same pins; 2.5 mm pitch package 238.16): datasheets/nixie/k155id1.pdf. Outputs: 2.5 V max at 7 mA on, 60 V min at 0.5 mA off, zener-clamped; codes 10-15 turn every output off",
+      "model": "binary",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"8","role":"output","activeLow":true},
+          {"number":2,"name":"9","role":"output","activeLow":true},
+          {"number":3,"name":"A","role":"input"},
+          {"number":4,"name":"D","role":"input"},
+          {"number":5,"name":"VCC","role":"power"},
+          {"number":6,"name":"B","role":"input"},
+          {"number":7,"name":"C","role":"input"},
+          {"number":8,"name":"2","role":"output","activeLow":true},
+          {"number":9,"name":"3","role":"output","activeLow":true},
+          {"number":10,"name":"7","role":"output","activeLow":true},
+          {"number":11,"name":"6","role":"output","activeLow":true},
+          {"number":12,"name":"GND","role":"ground"},
+          {"number":13,"name":"4","role":"output","activeLow":true},
+          {"number":14,"name":"5","role":"output","activeLow":true},
+          {"number":15,"name":"1","role":"output","activeLow":true},
+          {"number":16,"name":"0","role":"output","activeLow":true}
+        ]
+      },
+      "units": [{"address": ["A", "B", "C", "D"], "outputs": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]}],
+      "outputsActive": "low",
+      "output": "open-drain",
+      "timing": {
+        "TTL": {"rise": 50, "fall": 50, "vcc": [4.75, 5.25], "note": "no propagation delay in the datasheet: 50 ns, the SN74145's A/B/C/D to Y max, is used; VCC 4.75-5.25 V (sn74141 p.7-138)"}
+      },
+      "parts": [
+        {"name":"SN74141N","manufacturer":"Texas Instruments","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"TTL"},
+        {"name":"DM74141N","manufacturer":"National Semiconductor","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"TTL"},
+        {"name":"K155ID1","manufacturer":"USSR (various makers)","package":"DIP","pinout":"p16","footprint":"DIP-16-2.5MM","family":"TTL"}
+      ]
     }
   ]
 }

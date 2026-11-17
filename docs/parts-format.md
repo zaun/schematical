@@ -444,6 +444,9 @@ but no `"datasheet"`; `listing_check` prints how many there are. They are:
 | Renesas Electronics | `cdp65c51` | CDP65C51M1, CDP65C51M4S2357 |
 | Renesas Electronics | `hd-6406` | HD3-6406-5 |
 | Texas Instruments | `snx4ls27x` | SN54LS275J, SN74LS275N |
+| National Semiconductor | `datasheets/nixie/dm74141` (1976 TTL Data Book pages) | DM74141N |
+| Texas Instruments | `datasheets/nixie/sn74141` (1976 TTL Data Book pages) | SN74141N |
+| USSR (various makers) | `datasheets/nixie/k155id1` (reference sheet) | K155ID1 |
 | USSR (various makers) | `datasheets/nixie/` (passport scans and the 1985 reference book; each device's `note` names its files) | IN-2, IN-8, IN-12A, IN-12B, IN-14, IN-15A, IN-15B, IN-16, IN-17, IN-18 |
 
 ## Footprints
@@ -3306,8 +3309,12 @@ keys and have no `vcc`.
   upper limit: the anode resistor sets the current.
 
 The usual circuit is the `170V` supply (`200V` for a tube that fires at
-200 V), a `PULLUP-170V` (the anode
-resistor) to the anode, and one high-voltage switch per cathode to ground.
+200 V; both from the supply menu's Custom…), a `PULLUP-170V` (the anode
+resistor) to the anode, and one high-voltage switch per cathode to ground:
+a transistor each, or a BCD-to-decimal nixie driver (`SN74141N`,
+`DM74141N`, `K155ID1`; `decoder` kind, drawer Vintage › ICs), whose
+open-collector outputs pull the selected cathode low and leave every
+output off for codes 10–15.
 
 **Footprints** are `explicit`: the leads or pins on their circle (or, for
 IN-12 / IN-15, their own pattern), pad 1 `rect`, as seen from above the

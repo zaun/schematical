@@ -9,7 +9,7 @@ import XCTest
 final class PartKindRoundTripTests: XCTestCase {
     /// The shipped part count of each kind (`rg -o '"manufacturer"' Parts/<kind>.json | wc -l`).
     static let expected: [String: Int] = [
-        "dff": 867, "jkff": 186, "mux": 346, "decoder": 322,
+        "dff": 867, "jkff": 186, "mux": 346, "decoder": 325,
         "latch": 750, "buffer": 2137, "arith": 107,
         "counter": 730, "shift": 583,
         "sram": 172, "eeprom": 174, "switch": 2070, "led": 1, "7seg": 49, "oscillator": 1145, "supply": 18,
