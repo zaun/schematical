@@ -57,6 +57,7 @@ static void spi_fetch(SerialSpi *spi, const SerialSpiEvents *events, unsigned in
 static void spi_begin(SerialSpi *spi, Sim *sim, SimInstance *instance,
                       const SerialSpiEvents *events, int x) {
     spi->active = 1;
+    spi->held = 0;
     spi->x = x;
     spi->bits = 0;
     spi->in = 0;
@@ -126,11 +127,30 @@ void serial_spi_start(SerialSpi *spi, Sim *sim, SimInstance *instance) {
     spi_drive(spi, sim, instance, LOGIC_Z, 0);
 }
 
+void serial_spi_hold(SerialSpi *spi, Sim *sim, SimInstance *instance, int state, SimTime delay) {
+    if (!spi->active || !spi->enabled) {
+        spi->held = 0;
+        return;
+    }
+    if (state == 2) {
+        spi->held = 0;
+        spi->x = 1;
+        spi_drive(spi, sim, instance, spi_out_level(spi), delay);
+        return;
+    }
+    if (spi->held == (state == 1)) {
+        return;
+    }
+    spi->held = state == 1;
+    spi_drive(spi, sim, instance, spi->held ? LOGIC_Z : spi_out_level(spi), delay);
+}
+
 void serial_spi_enable(SerialSpi *spi, Sim *sim, SimInstance *instance, int enabled) {
     LogicValue s = input_level(sim, instance, spi->pins->sclk);
 
     spi->enabled = enabled;
     spi->active = 0;
+    spi->held = 0;
     spi->out_bit = -1;
     spi->sclk = s;
     spi->cs = serial_level(sim, instance, spi->pins->cs, LOGIC_1);
@@ -157,6 +177,7 @@ void serial_spi_pin(SerialSpi *spi, Sim *sim, SimInstance *instance, size_t pin,
                     unsigned bits = spi->bits;
 
                     spi->active = 0;
+                    spi->held = 0;
                     spi->out_bit = -1;
                     spi_drive(spi, sim, instance, LOGIC_Z, spi->t_float);
                     if (events->end != NULL) {
@@ -175,6 +196,12 @@ void serial_spi_pin(SerialSpi *spi, Sim *sim, SimInstance *instance, size_t pin,
         LogicValue s = input_level(sim, instance, p->sclk);
         LogicValue idle = (p->mode >> 1) ? LOGIC_1 : LOGIC_0;
 
+        if (spi->held) {
+            if (s != LOGIC_X) {
+                spi->sclk = s;
+            }
+            return;
+        }
         if (s == LOGIC_X) {
             if (spi->active && !spi->x) {
                 spi->x = 1;

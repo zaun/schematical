@@ -27,7 +27,7 @@ typedef enum {
     PART_SHIFT, PART_CPU, PART_CHARLCD, PART_SERIAL, PART_CONNECTOR, PART_PIO, PART_DECODER,
     PART_BUFFER, PART_MUX, PART_HEADER, PART_ARITH, PART_CONVERTER, PART_RTC, PART_DIODE,
     PART_CAPACITOR, PART_REGISTER, PART_MCU, PART_RESISTOR, PART_TRANSISTOR,
-    PART_GENERIC, PART_NIXIE
+    PART_GENERIC, PART_SERIALMEM, PART_NIXIE
 } PartKind;
 
 /* PIN_ABSENT: a numbered position with no lead. Ball pinouts never use it. */
@@ -190,6 +190,23 @@ typedef struct { const char *type; size_t element_count; uint8_t mixed; uint8_t 
    (RP2040 flash). A part may override clock, flash and psram. */
 typedef struct { const char *core; uint64_t max_hz; uint32_t flash, ram, eeprom, psram; } PartMcu;
 
+/* A serial (SPI) memory chip (serialmem kind). type: "eeprom", "fram",
+   "flash" (the three the engine simulates), "dataflash" or "pageeeprom"
+   (facts only: their devices say "simulated": false). size: bytes.
+   address_bytes: bytes after the opcode for READ/WRITE (0 = not given).
+   page_bytes: the EEPROM write page / the flash program page (0 = none).
+   write_ps: the EEPROM write cycle or the flash page-program time (0 =
+   none: an F-RAM writes at bus speed). sector_erase_ps, chip_erase_ps:
+   flash (0 = none). jedec_id: the RDID bytes as hex (NULL = none).
+   max_clock_khz: the highest SCK (the part's own value over the device's);
+   0 = not given. endurance: write cycles (0 = not given); retention_years
+   (0 = not given). */
+typedef struct {
+    const char *type; uint32_t size; unsigned address_bytes; uint32_t page_bytes;
+    uint64_t write_ps, sector_erase_ps, chip_erase_ps; const char *jedec_id;
+    uint32_t max_clock_khz; uint64_t endurance; uint32_t retention_years;
+} PartSerialmem;
+
 /* ---- Footprints (Parts/footprints.json, docs/parts-format.md) ----------- */
 
 typedef enum { PAD_RECT, PAD_ROUND } PadShape;
@@ -273,6 +290,7 @@ typedef struct Part {
     const PartResistor *resistor;
     const PartTransistor *transistor;
     const PartNixie *nixie;
+    const PartSerialmem *serialmem;
     /* Dual-supply parts (plan-20-F): domain 0 is the A side (its vcc is
        Part.vcc), domain 1 the B side; NULL/0 for single-supply parts. */
     const PartSupplyDomain *domains; size_t domain_count;

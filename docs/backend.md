@@ -221,7 +221,7 @@ Notes:
   each on while its anode reads 1 and its cathode 0; a module without a
   backlight has none); a light counts as on if it was on at any time during
   the last `circuit_advance`, so multiplexed digits show.
-- Memory contents (SRAM, EEPROM): `circuit_memory_size`,
+- Memory contents (SRAM, EEPROM, serial memories): `circuit_memory_size`,
   `circuit_memory_read` (a 0 bit in `known` is X).
 - Processors (`cpu` kind): `circuit_cpu_state` fills a `CpuState`
   (`cpu_state.h`): status (running, lost, reset, waiting, stopped, halted,
@@ -263,9 +263,10 @@ Notes:
   does not exist or is not asynchronous, and while another part's output,
   in/out or strong supply pin is on the RX net (pull parts are fine); the
   messages are in `circuit.h`. The app's terminal window is built on these.
-- Memory load: `circuit_memory_load` writes words into an EEPROM before
-  `circuit_start` (refused after it, and on every other kind, SRAM
-  included); words it does not write stay erased (FF). Build the words with
+- Memory load: `circuit_memory_load` writes words into an EEPROM or serial memory before
+  `circuit_start` (refused after it, and on every other kind but a
+  simulated `serialmem` part, SRAM included); words it does not write stay
+  erased (FF; an F-RAM's stay unknown). Build the words with
   `memory_image_parse` (`memory_image.h`): every rule and message is in
   `planning/completed/plan-04-B-memory-load.md` §4.3.
 - `circuit_net_changes` counts how often a net's value has changed since
@@ -342,6 +343,14 @@ backend/
                            tristate, transceiver and translator, supply
                            domains; the port read-back rule),
                            buffer_reg.c (model registered)
+                           serialmem.c (the serialmem kind: loader and the
+                           SPI EEPROM, F-RAM and flash models on the
+                           serial_target.h SPI front end; the
+                           "simulated": false DataFlash and page EEPROM
+                           keep a passive model);
+                           serial_target.c + serial_target.h (SPI and I2C
+                           target front ends the serial and serialmem
+                           models share)
     circuit.c
     voltage.c              the voltage check (voltage.h)
     memory_image.c         load files (binary, Intel HEX) to memory images
@@ -520,6 +529,16 @@ three lines: the kind's name and facts in `tests/support/listing.c`,
   per function-table row of each device shape (inline fixture devices copied
   from the real ones, plus '131 and CD4056B shapes), X rules and the
   open-drain answers. Its loader errors are in `library_check`.
+- `serialmem_test` — the `serialmem` kind (SPI EEPROM, F-RAM, flash) on
+  inline fixture devices (no shipped part is needed), a bit-level SPI master
+  in modes 0 and 3 on a bench: every opcode of every model, the page wrap,
+  block and sector protection, WEL, WP#/WPEN rules, busy times (RDSR during a
+  cycle, a second write ignored), writes cut off a byte boundary, HOLD#,
+  power-up contents, X handling, the F-RAM sleep and ID, the flash locks,
+  reset and deep power-down, the `"simulated": false` devices (facts, the
+  `|unsimulated` listing line, `circuit_add_part` refusing them), the memory
+  hooks through the circuit API, 60000 random pin changes per chip, and every
+  loader rejection of the kind.
 - `eeprom_test` — the EEPROM model's read window, page loads, write cycle,
   DATA# polling and toggle bit, timing violations and software data
   protection (an inline fixture device, then real parts).

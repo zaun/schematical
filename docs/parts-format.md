@@ -1,7 +1,7 @@
 # Part file format
 
 Every orderable part (gate, flip-flop, latch, decoder, counter, shift register, SRAM, EEPROM, switch, LED,
-diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character LCD module, oscillator, supply, microprocessor, microcontroller, serial controller) is described in a JSON part file in
+diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character LCD module, oscillator, supply, microprocessor, microcontroller, serial controller, serial memory) is described in a JSON part file in
 `schematical/schematical/Parts/`, one file per kind:
 
 | File | Kind |
@@ -37,6 +37,7 @@ diode, capacitor, resistor, transistor, 7-segment display, nixie tube, character
 | `mcu.json` | `mcu` |
 | `resistor.json` | `resistor` |
 | `transistor.json` | `transistor` |
+| `serialmem.json` | `serialmem` |
 | `nixie.json` | `nixie` |
 
 Beside them, `datasheets.json` holds the datasheet URLs parts name with
@@ -213,7 +214,7 @@ one device with one of these parts (see [Single part files](#single-part-files))
 | `"footprint"` | the `id` of a footprint in `footprints.json` (see [Footprints](#footprints)). Required on every part except VCC/GND supplies (`VCC`, `GND`, `5V`, …), which reject it. Pull parts (`"pull": true`) are resistors and require it |
 | `"connectorFootprint"` | optional: a second footprint, the `id` of one in `footprints.json`, that the PCB Style option switches to (**Connector Only**). Same rules as `footprint`. Character LCD modules use it (§ `charlcd`) |
 | `"footprintChoices"` | optional: the footprints a placed part may use, each `{"package": …, "footprint": …}`, in picker order. The part's own `footprint` is one of them (the default), with the part's `package`. `GENERIC-LED` uses it (§ `led`; rules in [The `"footprint"` part key](#the-footprint-part-key)) |
-| `"vcc"`, `"inputMax"` | on gate, dff, jkff, sram, eeprom and oscillator parts only: the part's own supply range / input limit, replacing the one it inherits (see [Supply voltage](#supply-voltage-vcc-and-inputmax)) |
+| `"vcc"`, `"inputMax"` | on gate, dff, jkff, sram, eeprom, serialmem and oscillator parts only: the part's own supply range / input limit, replacing the one it inherits (see [Supply voltage](#supply-voltage-vcc-and-inputmax)) |
 
 Every other key belongs to the kind.
 
@@ -263,8 +264,8 @@ Flags:
 
 Chips carry their datasheet's Recommended Operating Conditions supply range,
 for the voltage check (`docs/backend.md`). The keys go on the gate, dff and
-jkff **timing entries**, the sram and eeprom **grades**, the oscillator
-and charlcd **devices**, and on any **part** of those kinds:
+jkff **timing entries**, the sram and eeprom **grades**, the oscillator,
+charlcd and serialmem **devices**, and on any **part** of those kinds:
 
 | Key | Value |
 |---|---|
@@ -274,7 +275,7 @@ and charlcd **devices**, and on any **part** of those kinds:
 Resolution, per part:
 
 1. The base is the part's timing entry (gate, dff, jkff), grade (sram,
-   eeprom) or device (oscillator, charlcd): its `vcc` and `inputMax`, each
+   eeprom) or device (oscillator, charlcd, serialmem): its `vcc` and `inputMax`, each
    optional.
 2. The part's own `vcc` replaces the base range; its own `inputMax` replaces
    the base input max. A part that overrides only `vcc` keeps the base's
@@ -286,7 +287,7 @@ Resolution, per part:
 4. `Part.vcc` points at the resolved `PartVoltage` (`min_mv`, `max_mv`,
    `input_max_mv`); parts with no part-level key share their entry's.
 
-Every gate, dff, jkff, sram, eeprom, oscillator and charlcd part must resolve to a
+Every gate, dff, jkff, sram, eeprom, serialmem, oscillator and charlcd part must resolve to a
 `vcc` range (a part with none is rejected: `missing "vcc"`). Supplies,
 LEDs, 7-segment displays and switches never take these keys; their
 `Part.vcc` is NULL.
@@ -1425,6 +1426,192 @@ inhibit, the write-pulse noise filter.
 Part keys: `"grade"`, a key of `grades`, and optional `"vcc"` and `"inputMax"`. `PartEeprom`: `words` =
 2^len(address), `bits` = 8, `access_ps` = the grade's `tacc`, `grade`,
 `page_bytes` = `pageSize`, `write_cycle_ps` = the grade's `twc`.
+
+### `serialmem`
+
+Serial (SPI) memory chips (`backend/src/models/serialmem.c`): the 25xxx-style
+EEPROMs (Microchip AT25, onsemi CAT25, ST M95), F-RAMs (Infineon FM25, CY15)
+and SPI NOR flash (Renesas/Adesto AT25DF, AT25XE), all in 8-pin packages.
+Three device types have a model; two are **facts only** (`"simulated": false`,
+like an `mcu`): the Renesas AT45DB DataFlash (`"dataflash"`) and the ST M95P32
+page EEPROM (`"pageeeprom"`). A device is one chip design (one density, one
+command set); a part is one orderable code. Drawer paths: `["Memory",
+"Serial EEPROM"]`, `["Memory", "Serial FRAM"]`, `["Memory", "Serial Flash"]`;
+the device `function` is the density (`"32 Kbit"`, `"2 Mbit"`).
+
+**The host port** is the SPI target of `serial_target.h`: SPI modes 0 and 3
+(the mode is read from SCK when CS# falls), bytes MSB first, SI sampled on
+SCK rising, SO shifted on SCK falling, SO Z while CS# is high. Z on CS# reads
+inactive, Z on SCK and SI reads X. An X on CS# or SCK makes the rest of the
+transaction X. WP# and HOLD# at Z read X, or high when the device sets
+`"pullUp"` (an internal pull-up). AC timing (tSU, tH, tCS, tCSS ...) is not
+checked; only the busy times and the SO delays (`outputValid`,
+`outputDisable`) are modeled.
+
+**Contents.** An EEPROM and a flash power up erased (every byte FF); an F-RAM
+powers up unknown (X: its datasheets give no content). `circuit_memory_size`,
+`_read` and `_load` work on every simulated part (words = bytes, 8 bits).
+
+**X rules (the chip's own).** An opcode with an unknown bit is no known
+command: SO drives X for the rest of the transaction and WEL becomes unknown at
+CS# rising (the array is not touched). An address with unknown bits reads X;
+on a write or erase every byte the address could name (the known bits
+matching, the low bits within the page or block ignored) becomes unknown.
+Unknown data bits store as unknown bits. An unknown WEL, WP#, BP bit or lock
+bit, or an X on CS# during a write, makes the write a *maybe*: it runs its
+cycle and what it would change becomes unknown. HOLD# is X: the open
+transaction goes X.
+
+**HOLD#** (a device with the `"hold"` pin): while CS# is low and SCK low, HOLD#
+low holds the chip: SCK edges are ignored (not sampled or shifted) and SO is
+Z; HOLD# high with SCK low releases it and SO drives the bit it was on. A
+HOLD# change while SCK is high takes effect at the next SCK fall. CS# rising
+ends a hold. A hold does not stop a busy time.
+
+#### EEPROM and F-RAM
+
+Opcodes (all `0000 0xxx`): `06` WREN, `04` WRDI, `05` RDSR, `01` WRSR, `03`
+READ, `02` WRITE. With `"a8InOpcode"` bit 3 of every opcode is address bit 8
+(the 1/2/4-Kbit parts: bit 3 is a don't care for every opcode but READ and
+WRITE, where it is A8). An unknown opcode (and every opcode while busy but
+RDSR) is ignored until CS# rises, SO stays Z. WREN, WRDI, RDSR, WRSR, READ
+(address `addressBytes` bytes, bits above the array ignored; sequential, the
+address wraps at the end of the array) and WRITE follow the datasheets; a
+command that must end on a byte boundary (everything but READ and RDSR) is
+dropped when CS# rises elsewhere.
+
+Status register: bit 0 RDY/WIP, bit 1 WEL, bits 3:2 BP1:BP0, bit 7 WPEN/SRWD
+(`"wpen"` protection), the other bits 0; `"statusOnes"` bits always read 1
+(the CY15B102Q's bit 6) and `"busyOnes"` bits read 1 while a write cycle runs
+(the AT25 parts' reserved bits). BP0/BP1 protect the upper quarter, upper
+half or all of the array.
+
+- **WRITE** needs WEL = 1, at least one data byte, a start address outside
+  the protected blocks and, with protection `"wp"`, WP# high (WP# falling
+  between CS# falling and rising counts as low). An **EEPROM** collects the
+  bytes in a page buffer (`pageSize`; the address wraps inside the page, a
+  later byte overwrites an earlier one) and starts the write cycle when CS#
+  rises: for `writeCycle` RDSR shows RDY = 1 and everything else is ignored;
+  then the page is stored and WEL cleared. A write that is dropped (WEL 0,
+  protected, cut byte, no data) starts no cycle and leaves WEL alone. An
+  **F-RAM** stores each data byte as it completes (no page, no busy state);
+  a burst that reaches a protected byte stops there and the rest is ignored;
+  WEL is cleared when CS# rises after a WRITE, WRSR or WRDI.
+- **WRSR** (one data byte) needs WEL = 1 and the status register writable:
+  protection `"wpen"`: not (WPEN = 1 and WP# low); `"wp"`: WP# high. Only BP1,
+  BP0 and (`"wpen"`) WPEN are written. An EEPROM runs a write cycle (the new
+  bits take effect when it ends); an F-RAM applies it at once. A refused WRSR
+  leaves WEL set.
+- **WREN** is ignored while WP# is low with protection `"wp"` (AT25010B).
+- F-RAM extras (device keys): **RDID** `9F` returns the `jedecId` bytes, then SO
+  Z; **FSTRD** `0B` (`"fastRead"`) is READ with a dummy byte after the
+  address; **SLEEP** `B9` (`"sleep"`): the next CS# falling wakes the chip,
+  that transaction and every one for the next `wake` ns are ignored.
+
+Not modeled: the identification page (M95320-D, CAT25256 IPL/LIP), the ECC
+re-write of 4-byte groups, status bits other than those above.
+
+#### Flash
+
+Three address bytes (A23 and up ignored). Opcodes: `03` READ and `0B` READ
+(a dummy byte after the address); both run on and wrap at the array end.
+`02` PROGRAM (1 to `pageSize` bytes, wrapping inside the page; each byte
+becomes old AND new; `byteProgram` for one byte, `pageProgram` for more).
+`81` PAGE ERASE (`pageSize` bytes, when `pageErase` is given), `20` ERASE 4 KB
+(`sectorErase`), `52` ERASE 32 KB (`blockErase32`), `D8` ERASE 64 KB
+(`blockErase64`; without that key `D8` erases 32 KB like `52`), `60` and `C7`
+CHIP ERASE (`chipErase`; refused while any sector is protected). `06` WREN,
+`04` WRDI, `05` RDSR, `01` WRSR, `31` WRSR byte 2, `9F` JEDEC ID (the
+`jedecId` bytes, then SO Z), `B9` DEEP POWER-DOWN (every command but `AB` is
+ignored), `AB` RESUME, `F0` RESET. Any other opcode is ignored.
+
+A program or erase needs WEL = 1, a complete command (address, and for a
+program at least one data byte) ending on a byte boundary, and an unprotected
+target (every protection register or block the erased area touches; a
+program's page lies inside one). Then the chip is busy for the datasheet time:
+RDSR is the only command taken; the change is stored when the time ends. WEL
+is cleared when CS# rises, also when the command is dropped (once its opcode
+is complete). EPE is never set.
+
+- **Status byte 1:** bit 0 RDY, bit 1 WEL, bit 4 WPP (WP# high), bit 7 the
+  lock bit, and per protection scheme: **`"sector"`** (AT25DF021A, AT25XE021A,
+  AT25XE041B) bits 3:2 SWP (00 none, 11 all, 01 some sectors protected);
+  **`"block"`** (AT25XE512C) bit 2 BP0 (the whole array protected). Bits 6, 5
+  read 0. **Status byte 2:** bit 4 RSTE, bit 0 RDY. RDSR sends byte 1, byte 2,
+  byte 1 ... while CS# stays low.
+- **`"sector"`:** one protection register per `protectSize` bytes, all
+  **protected at power-up** (and after a reset). `01` WRSR (WEL = 1, one data
+  byte): with WP# low and SPRL = 1 nothing changes (hard lock); with SPRL = 1 and
+  WP# high only SPRL changes (bit 7); with SPRL = 0, data bits 5:2 = 0000
+  unprotect every register and 1111 protect every register (other values:
+  none), then SPRL = bit 7 (datasheet Table 4). `36` PROTECT SECTOR and `39`
+  UNPROTECT SECTOR (3 address bytes, WEL = 1, SPRL = 0) set and clear the
+  register of the addressed sector; `3C` reads it (FF or 00, repeated).
+- **`"block"`:** `01` WRSR (WEL = 1): ignored while WP# is low and BPL = 1,
+  otherwise BPL = bit 7 and BP0 = bit 2, after `writeStatus` (BP0 is
+  nonvolatile and starts 0). There are no `36`, `39` or `3C`.
+- `31` WRSR byte 2 (WEL = 1) sets RSTE = bit 4. `F0` then `D0` (exactly two
+  bytes) with RSTE = 1 is a reset: WEL, the lock bit and deep power-down
+  clear, the sector protection registers return to protected.
+
+Not modeled: dual output/input reads (`3B`, `A2`), sequential program (`AD`,
+`AF`), the OTP security register (`9B`, `77`), active status interrupt (`25`),
+ultra deep power-down (`79`), the legacy opcodes (`62`, `15`), erase/program
+suspend, program/erase error reporting, the status bits beyond the above.
+
+#### Device keys
+
+```json
+"type": "eeprom", "size": 4096, "addressBytes": 2, "pageSize": 32,
+"protection": "wpen", "writeCycle": 5000000, "busyOnes": 255,
+"chipSelect": "CS#", "clock": "SCK", "dataIn": "SI", "dataOut": "SO",
+"writeProtect": "WP#", "hold": "HOLD#",
+"outputValid": 40, "outputDisable": 50,
+"maxClock": 10, "endurance": 1000000, "retention": 100,
+"vcc": [1.8, 5.5]
+```
+
+| Key | Value |
+|---|---|
+| `"type"` | required: `"eeprom"`, `"fram"`, `"flash"` (simulated), `"dataflash"` or `"pageeeprom"` (`"simulated": false` required: `a "dataflash" device has no simulation model: "simulated" must be false`) |
+| `"size"` | required, bytes, 1 to 4294967295. A simulated device: a power of two from 4 to 16777216 |
+| `"addressBytes"` | eeprom, fram: 1, 2 or 3, required; the size must fit them (`"size" 1024 does not fit 1 address byte`). Flash: 3 (optional) |
+| `"a8InOpcode"` | eeprom, fram, optional: opcode bit 3 is address bit 8 (needs `"addressBytes"` 1) |
+| `"pageSize"` | eeprom: the write page, a power of two of at most a quarter of the array, required. Flash: the program page, default 256. F-RAM: none (an error) |
+| `"protection"` | eeprom, fram: `"wpen"` (default: status bit 7 WPEN/SRWD gates WP# for WRSR) or `"wp"` (WP# low blocks WREN, WRITE and WRSR). Flash: `"sector"` or `"block"`, required |
+| `"protectSize"` | flash `"sector"`, required: bytes one protection register covers, a power of two from `pageSize` to `size` |
+| `"chipSelect"`, `"clock"`, `"dataIn"`, `"dataOut"` | pin names (CS#, SCK, SI, SO), required on a simulated device; each must be an input (SO: output) or inout pin of every pinout |
+| `"writeProtect"`, `"hold"` | pin names, optional (a chip without one reads it as inactive) |
+| `"reset"` | pin name, `"simulated": false` devices only (the AT45DB's RESET#) |
+| `"writeCycle"` | eeprom, required: ns, the write cycle of WRITE and WRSR. An F-RAM has none |
+| `"pageProgram"`, `"byteProgram"`, `"sectorErase"`, `"blockErase32"`, `"chipErase"` | flash, required: ns |
+| `"pageErase"`, `"blockErase64"`, `"writeStatus"` | flash, optional: ns. Without `"pageErase"` there is no `81`; without `"blockErase64"` `D8` erases 32 KB; `"writeStatus"` is the WRSR busy time (0 = at once) |
+| `"outputValid"`, `"outputDisable"` | ns, optional (default 0): SCK falling to SO, CS# rising (or a hold) to SO Z |
+| `"fastRead"`, `"sleep"`, `"wake"` | F-RAM, optional: `0B`; `B9` with the wake time `wake` ns (required with `"sleep"`) |
+| `"jedecId"` | hex string of 1 to 16 bytes: the RDID / `9F` bytes. Required on flash; on an F-RAM it enables RDID |
+| `"pullUp"` | optional bool: WP# and HOLD# have internal pull-ups (a floating pin reads high) |
+| `"statusOnes"`, `"busyOnes"` | optional, 0 to 255: status bits that always read 1; status bits that read 1 while busy |
+| `"maxClock"` | optional, MHz above 0: the highest SCK (fact for the sidebar) |
+| `"endurance"`, `"retention"` | optional facts: write cycles, years |
+| `"vcc"`, `"inputMax"` | optional at device level ([Voltages](#supply-voltage-vcc-and-inputmax)) |
+
+Times may be up to 1e11 ns (a chip erase lasts seconds), more than the 1e9 ns
+other kinds take. A `"simulated": false` device needs only `"type"` and
+`"size"` (the other keys, including pin names, are checked when given).
+
+Part keys: `"vcc"`, `"inputMax"` (every part must end up with a `vcc`) and
+`"maxClock"` (the part's own, e.g. the 5 MHz of the 1.8 V ordering code).
+`PartSerialmem`: `type`, `size` (bytes), `address_bytes` (0 = not given),
+`page_bytes` (0 = none), `write_ps` (the EEPROM write cycle or the flash page
+program; 0 = none), `sector_erase_ps`, `chip_erase_ps` (flash), `jedec_id`
+(the hex string, NULL = none), `max_clock_khz`, `endurance`,
+`retention_years` (0 = not given).
+
+Pins: named by the device keys, never by number; active-low pins carry
+`"activeLow": true` (CS#, WP#, HOLD#); the four bus pins are group `"spi"`,
+WP#, HOLD# and RESET# group `"control"`. A device has one pinout per distinct
+package arrangement (SOIC, TSSOP, UDFN, WLCSP ...); every pinout must have
+every pin the device names.
 
 ### `cpu`
 

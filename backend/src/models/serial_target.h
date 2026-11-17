@@ -109,6 +109,7 @@ typedef struct {
     int fetched;            /* `out` holds byte bits / 8 */
     LogicValue miso;        /* what MISO is set to drive */
     int enabled;
+    int held;               /* a HOLD# is asserted: SCLK edges are ignored (serial_spi_hold) */
 } SerialSpi;
 
 /* Timing starts at 0; the model sets t_valid, t_out and t_float. */
@@ -118,6 +119,13 @@ void serial_spi_start(SerialSpi *spi, Sim *sim, SimInstance *instance);
 /* Any pin changed (other pins are ignored). */
 void serial_spi_pin(SerialSpi *spi, Sim *sim, SimInstance *instance, size_t pin,
                     const SerialSpiEvents *events);
+/* A target with a HOLD# input (the serialmem models): the model tells the
+   front end when the hold starts and ends. state 1 = held: SCLK edges are not
+   sampled or shifted (the level is still tracked) and MISO goes Z after
+   `delay`; 0 = released: MISO drives the bit it was on, after `delay`;
+   2 = HOLD# is unknown: the open transaction goes X (as an X on SCLK does).
+   A hold ends with the transaction (CS rising or falling clears it). */
+void serial_spi_hold(SerialSpi *spi, Sim *sim, SimInstance *instance, int state, SimTime delay);
 /* Enables or disables the target (reset, the other front end selected). A
    disabled target drops its transaction (no end event) and releases MISO;
    once enabled it waits for the next CS fall. */

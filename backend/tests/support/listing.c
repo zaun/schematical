@@ -38,6 +38,7 @@ const char *listing_kind_name(PartKind kind) {
         case PART_RESISTOR: return "resistor";
         case PART_TRANSISTOR: return "transistor";
         case PART_GENERIC: return "generic";
+        case PART_SERIALMEM: return "serialmem";
         case PART_NIXIE: return "nixie";
     }
     return "?";
@@ -171,6 +172,24 @@ static void print_details(FILE *out, const Part *part) {
             break;
         case PART_GENERIC:
             /* No facts: a generic part is its pins and its footprint. */
+            break;
+        case PART_SERIALMEM:
+            fprintf(out, "type=%s size=%u", part->serialmem->type, (unsigned)part->serialmem->size);
+            if (part->serialmem->address_bytes != 0) {
+                fprintf(out, " addr=%u", part->serialmem->address_bytes);
+            }
+            if (part->serialmem->page_bytes != 0) {
+                fprintf(out, " page=%u", (unsigned)part->serialmem->page_bytes);
+            }
+            if (part->serialmem->write_ps != 0) {
+                fprintf(out, " write_ps=%llu", (unsigned long long)part->serialmem->write_ps);
+            }
+            if (part->serialmem->jedec_id != NULL) {
+                fprintf(out, " id=%s", part->serialmem->jedec_id);
+            }
+            if (part->serialmem->max_clock_khz != 0) {
+                fprintf(out, " clock_khz=%u", (unsigned)part->serialmem->max_clock_khz);
+            }
             break;
         case PART_NIXIE: {
             const PartNixie *n = part->nixie;
