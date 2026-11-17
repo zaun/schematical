@@ -118,7 +118,7 @@ nonisolated enum WidthCalculation {
 // MARK: - The sheet
 
 /// Calculate Width…: a target (impedance, differential impedance or current) and the width that meets it on a
-/// layer; Apply hands the whole-mil width to `apply`.
+/// layer, worked out as the target is typed; Apply hands the whole-mil width to `apply`.
 struct WidthCalculatorSheet: View {
     enum Kind: String, CaseIterable, Identifiable {
         case impedance, differential, current
@@ -180,7 +180,7 @@ struct WidthCalculatorSheet: View {
                 case .impedance:
                     LabeledContent("Target") {
                         HStack(spacing: 4) {
-                            ValueField(title: "Target impedance", value: impedance, places: 1) {
+                            ValueField(title: "Target impedance", value: impedance, places: 1, live: true) {
                                 impedance = min(max($0, 1), 10_000)
                                 return impedance
                             }
@@ -190,14 +190,14 @@ struct WidthCalculatorSheet: View {
                 case .differential:
                     LabeledContent("Target") {
                         HStack(spacing: 4) {
-                            ValueField(title: "Target differential impedance", value: differential, places: 1) {
+                            ValueField(title: "Target differential impedance", value: differential, places: 1, live: true) {
                                 differential = min(max($0, 1), 10_000)
                                 return differential
                             }
                             Text("Ω").foregroundStyle(.secondary)
                         }
                     }
-                    LengthField(title: "Gap", millimetres: gapMM, units: units, precise: true) {
+                    LengthField(title: "Gap", millimetres: gapMM, units: units, precise: true, live: true) {
                         gapMM = min(max($0, NetGroup.gapRange.lowerBound), NetGroup.gapRange.upperBound)
                         return gapMM
                     }
@@ -205,7 +205,7 @@ struct WidthCalculatorSheet: View {
                 case .current:
                     LabeledContent("Current") {
                         HStack(spacing: 4) {
-                            ValueField(title: "Current", value: amps, places: 2) {
+                            ValueField(title: "Current", value: amps, places: 2, live: true) {
                                 amps = min(max($0, 0.01), 1000)
                                 return amps
                             }
@@ -214,7 +214,7 @@ struct WidthCalculatorSheet: View {
                     }
                     LabeledContent("Temperature rise") {
                         HStack(spacing: 4) {
-                            ValueField(title: "Temperature rise", value: rise, places: 0) {
+                            ValueField(title: "Temperature rise", value: rise, places: 0, live: true) {
                                 rise = min(max($0, BoardStackup.temperatureRiseRange.lowerBound),
                                            BoardStackup.temperatureRiseRange.upperBound)
                                 return rise

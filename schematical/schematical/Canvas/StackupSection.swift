@@ -172,12 +172,16 @@ struct StackupSection: View {
 }
 
 /// A number field: shows `value` to at most `places` decimals, and on commit
-/// (Return or leaving the field) hands the typed number to `commit`, which
+/// (Return or leaving the field; each keystroke when `live`) hands the typed number to `commit`, which
 /// returns the value that was stored (so a clamp shows).
 struct ValueField: View {
     let title: String
     let value: Double
     let places: Int
+    /// Hands each typed number to `commit` as it is typed, not only on
+    /// Return or leaving the field: for a field a result is worked out
+    /// from, where a button's click doesn't take the focus away.
+    var live = false
     let commit: (Double) -> Double
 
     @State private var text = ""
@@ -194,11 +198,20 @@ struct ValueField: View {
                 if !focused { apply() }
             }
             .onChange(of: value) { refresh() }
+            .onChange(of: text) { typed() }
             .onAppear { refresh() }
     }
 
     private func refresh() {
         if !isFocused || text == shown { show(value) }
+    }
+
+    /// A live field stores what is typed so far; the text stays as typed
+    /// until Return or leaving the field shows what was stored.
+    private func typed() {
+        guard live, text != shown,
+              let number = Double(text.trimmingCharacters(in: .whitespaces)), number.isFinite else { return }
+        _ = commit(number)
     }
 
     private func show(_ number: Double) {

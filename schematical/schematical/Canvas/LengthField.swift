@@ -10,6 +10,9 @@ struct LengthField: View {
     let units: BoardUnits
     /// Shows 2 more decimals (4 in mm, 5 in inches), for grid sizes.
     var precise = false
+    /// Hands each typed length to `commit` as it is typed, not only on
+    /// Return or leaving the field (as `ValueField.live`).
+    var live = false
     let commit: (Double) -> Double
 
     @State private var text = ""
@@ -28,6 +31,10 @@ struct LengthField: View {
             }
             .onChange(of: millimetres) { refresh() }
             .onChange(of: units) { refresh() }
+            .onChange(of: text) {
+                guard live, text != shown, let value = Self.parse(text, units: units) else { return }
+                _ = commit(value)
+            }
             .onAppear { refresh() }
     }
 
