@@ -169,38 +169,38 @@ misses 50 Ω*: the owner asked for readouts and a calculator, not checks.
 Acceptance: every number equals the reference to the tolerance.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/StackupAnalysisTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 5 min). Observed: `Executed 10 tests, with 0 failures`.
   And: `$VENV/bin/python planning/plan-50-data/reference_formulas.py` prints the same numbers as the table in `README.md` for F1–F11 (est. 1 min). Observed: F1 51.711, F2 47.958, F3 46.455, F4 115.783, F5 84.142, F6 51.723, F7 91.547, F8 0.8855 / 0.2418, F9 11.826, F10 14.650, F11 110.12: the numbers the Swift tests assert.
-Commit: —
+Commit: THIS
 
 ### Phase 2 — The readouts
 
-- [ ] `Canvas/PCBSidebarView.swift` `TracePanel`: an **Estimates** section (Impedance, Differential when
+- [x] `Canvas/PCBSidebarView.swift` `TracePanel`: an **Estimates** section (Impedance, Differential when
       `document.board.netGroups` has a `.diffPair` whose `members` contains the trace's net's `PlaneNet`, using
       that group's `gap`; Current), numbers formatted to 1 decimal Ω / 2 decimals A, "—" and a help with the reason
       when none; a **Calculate Width…** button (opens the sheet of Phase 3, wired there).
-- [ ] `Canvas/NetsSidebar.swift`: in each class's `DisclosureGroup`, an Impedance and Current row for the class width on
+- [x] `Canvas/NetsSidebar.swift`: in each class's `DisclosureGroup`, an Impedance and Current row for the class width on
       the class's first layer (its layer rule's first allowed trace layer, else the board's first trace layer) and
       a **Calculate Width…** button.
-- [ ] Tests: in `StackupAnalysisTests`: the readout strings for the standard 4-layer Top at 14 mil ("…Ω", "…A")
+- [x] Tests: in `StackupAnalysisTests`: the readout strings for the standard 4-layer Top at 14 mil ("…Ω", "…A")
       from a pure `EstimateText.rows(…)` helper both views call; a trace whose net is in a pair group at gap 0.15
       gets the Differential row with that gap and one not in a group does not; a 1-layer board shows "—" with the
       1-layer reason; the views build for 1, 2, 4 and 6 layers (`ImageRenderer(content: …).cgImage != nil`).
 
 Acceptance: the readouts show the Phase 1 numbers for the selected trace and class.
-  Check: `xcodebuild … test -only-testing:schematicalTests/StackupAnalysisTests -only-testing:schematicalTests/NetClassTests -only-testing:schematicalTests/NetRulesTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min).
-Commit: —
+  Check: `xcodebuild … test -only-testing:schematicalTests/StackupAnalysisTests -only-testing:schematicalTests/NetClassTests -only-testing:schematicalTests/NetRulesTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min). Observed with Phase 3's suites in one run (`StackupAnalysisTests`, `NetClassTests`, `NetRulesTests`, `TraceToolTests`): `Executed 66 tests, with 0 failures`, `** TEST SUCCEEDED **`.
+Commit: THIS
 
 ### Phase 3 — The Calculate Width sheet
 
-- [ ] New `Canvas/WidthCalculator.swift`: `WidthGoal` (`.impedance(Double)`, `.differential(Double, gapMM: Double)`,
+- [x] New `Canvas/WidthCalculator.swift`: `WidthGoal` (`.impedance(Double)`, `.differential(Double, gapMM: Double)`,
       `.current(Double, rise: Double)`), `WidthCalculation.result(goal:layer:board:)` (§ 3, the rounding and
       `canApply` rule), and `WidthCalculatorSheet`: Goal picker, target field, Layer menu (the board's trace layers;
       initial: the trace's layer / the class's first layer), gap field (differential; initial the trace's group gap
       or `NetGroup.defaultGap`), rise field (current; initial `stackup.temperatureRise`), the result lines
       (exact width in mil and in board units, rounded mil, the value reached, and the message when it can't
       apply), **Apply** (disabled unless `canApply`) and **Cancel**.
-- [ ] `PCBSidebarView.swift` / `NetsSidebar.swift`: the buttons present the sheet; Apply on the Trace panel calls
+- [x] `PCBSidebarView.swift` / `NetsSidebar.swift`: the buttons present the sheet; Apply on the Trace panel calls
       `setTraceWidth(trace.id, mil)`, on a class `setNetClassWidth(id, mil)`; the sheet closes.
-- [ ] Tests, in `StackupAnalysisTests`: `WidthCalculation` for 50 Ω on the 4-layer Top gives exact 14.650 mil,
+- [x] Tests, in `StackupAnalysisTests`: `WidthCalculation` for 50 Ω on the 4-layer Top gives exact 14.650 mil,
       rounded 15, achieved ≈ F10's neighbour (impedance at 15 mil from the reference formula), `canApply`; on the
       2-layer Top 50 Ω gives 110.12 mil, rounded 110, `canApply` false with a message naming 110 and 100; a
       current of 1 A on the 4-layer Top at 10 °C gives 11.826 → 12 mil; a trace goal sets the trace's width in one
@@ -209,7 +209,7 @@ Commit: —
 
 Acceptance: a target becomes an applied width, or an explained refusal.
   Check: `xcodebuild … test -only-testing:schematicalTests/StackupAnalysisTests -only-testing:schematicalTests/TraceToolTests -only-testing:schematicalTests/NetClassTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min).
-Commit: —
+Commit: THIS
 
 ## Validation Plan
 
@@ -230,7 +230,9 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- `reach(from:step:)` first weighted Er by the whole height (dielectric plus the copper of non-plane layers passed). The plan says "thickness-weighted mean of those dielectrics", and the test for Layer 3 with Layer 4 a wire layer showed the difference (4.5016 vs 4.5579); fixed to weight by the dielectrics' own thickness.
+- The third-phase check "`TraceToolTests`" and the class tests are named in the plan; `NetRulesTests` was run too because it builds the same net class rows.
+- The sub-plan's final gate was run as part of plan-50's landing tier (below), not on its own.
 
 ## Summary
 

@@ -818,6 +818,7 @@ struct TracePanel: View {
     let trace: BoardTrace
 
     @State private var width = ""
+    @State private var calculating = false
     @FocusState private var isWidthFocused: Bool
 
     /// The layers the Layer picker offers: never a Plane.
@@ -857,6 +858,22 @@ struct TracePanel: View {
             .pickerStyle(.menu)
             LockToggle(document: document, item: .trace(trace.id))
             NetAndClassRows(document: document) { document.net(ofTrace: trace.id, in: $0) }
+        }
+
+        Section("Estimates") {
+            let copper = document.connectivity()
+            let net = document.net(ofTrace: trace.id, in: copper)
+            let gap = EstimateText.pairGapMM(board: document.board, net: net.flatMap { copper.planeNet(ofNet: $0) })
+            ForEach(EstimateText.rows(board: document.board, layer: trace.layer, widthMil: trace.width,
+                                      pairGapMM: gap)) { row in
+                LabeledContent(row.title, value: row.value).help(row.help)
+            }
+            Button("Calculate Width…") { calculating = true }
+                .help("The width that gives a target impedance or carries a current")
+                .sheet(isPresented: $calculating) {
+                    WidthCalculatorSheet(document: document, layers: document.board.traceLayers, layer: trace.layer,
+                                         gapMM: gap ?? NetGroup.defaultGap) { document.setTraceWidth(trace.id, $0) }
+                }
         }
 
         Section("Connects") {

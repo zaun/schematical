@@ -1,5 +1,6 @@
 import CoreGraphics
 import Foundation
+import SwiftUI
 import XCTest
 @testable import schematical
 
@@ -132,5 +133,127 @@ final class StackupAnalysisTests: XCTestCase {
         XCTAssertGreaterThan(StackupAnalysis(board).currentCapacity(widthMil: 10, on: .top), top)
         let inner = StackupAnalysis(board).currentCapacity(widthMil: 10, on: .inner(2))
         XCTAssertLessThan(inner, top, "inner copper is thinner and cooled less")
+    }
+
+    // MARK: Readouts (Phase 2)
+
+    func testReadoutStrings() {
+        var board = BoardSettings()
+        board.layers = 4
+        let rows = EstimateText.rows(board: board, layer: .top, widthMil: 14, pairGapMM: nil)
+        XCTAssertEqual(rows.map(\.title), ["Impedance", "Current"])
+        XCTAssertEqual(rows.map(\.value), ["51.3 Ω", "1.13 A"])
+        XCTAssertTrue(rows[0].help.contains("±10%"))
+        XCTAssertTrue(rows[1].help.contains("10 °C"))
+    }
+
+    func testDifferentialRowOnlyForAPair() {
+        var board = BoardSettings()
+        board.layers = 4
+        let pair = EstimateText.rows(board: board, layer: .top, widthMil: 14, pairGapMM: 0.15)
+        XCTAssertEqual(pair.map(\.title), ["Impedance", "Differential", "Current"])
+        XCTAssertEqual(pair[1].value, "77.7 Ω")
+        XCTAssertTrue(pair[1].help.contains("0.15 mm"))
+        XCTAssertEqual(EstimateText.rows(board: board, layer: .top, widthMil: 14, pairGapMM: nil).count, 2)
+        // A net in a pair group has the group's gap; one that is not does not.
+        let inPair = PlaneNet.rail(mv: 3300), other = PlaneNet.rail(mv: 5000)
+        board.netGroups = [NetGroup(id: UUID(), name: "Pair", mode: .diffPair, members: [inPair], gap: 0.31)]
+        XCTAssertEqual(EstimateText.pairGapMM(board: board, net: inPair), 0.31)
+        XCTAssertNil(EstimateText.pairGapMM(board: board, net: other))
+        XCTAssertNil(EstimateText.pairGapMM(board: board, net: nil))
+        board.netGroups = [NetGroup(id: UUID(), name: "Match", mode: .lengthMatch, members: [inPair])]
+        XCTAssertNil(EstimateText.pairGapMM(board: board, net: inPair), "a length group has no gap")
+    }
+
+    func testUnavailableReadoutShowsADashAndTheReason() {
+        var board = BoardSettings()
+        board.layers = 1
+        let rows = EstimateText.rows(board: board, layer: .top, widthMil: 10, pairGapMM: nil)
+        XCTAssertEqual(rows[0].value, "—")
+        XCTAssertEqual(rows[0].help, "A 1-layer board has no reference plane.")
+        XCTAssertTrue(rows[1].value.hasSuffix(" A"), "the current needs no plane")
+        board.layers = 2
+        XCTAssertTrue(EstimateText.rows(board: board, layer: .top, widthMil: 10, pairGapMM: nil)[0].help
+            .contains("solid ground on the other side"))
+    }
+
+    func testTheSectionsBuildForEveryLayerCount() throws {
+        for layers in BoardSettings.layerCounts {
+            let doc = TestSupport.newDocument()
+            doc.setLayerCount(layers)
+            let id = try XCTUnwrap(doc.addTrace(points: [CGPoint(x: 10, y: 10), CGPoint(x: 20, y: 10)], layer: .top, width: 10))
+            let trace = try XCTUnwrap(doc.traces.first { $0.id == id })
+            let panel = Form { TracePanel(document: doc, trace: trace) }.frame(width: 360, height: 700)
+            XCTAssertNotNil(ImageRenderer(content: panel).cgImage, "trace panel, \(layers) layers")
+            let sheet = WidthCalculatorSheet(document: doc, layers: doc.board.traceLayers, layer: .top, gapMM: 0.2) { _ in }
+            XCTAssertNotNil(ImageRenderer(content: sheet).cgImage, "sheet, \(layers) layers")
+        }
+    }
+
+    // MARK: The sheet (Phase 3)
+
+    func testFiftyOhmsOnTheFourLayerTop() {
+        var board = BoardSettings()
+        board.layers = 4
+        let result = WidthCalculation.result(goal: .impedance(50), layer: .top, board: board)
+        XCTAssertEqual(try XCTUnwrap(result.exactMil), 14.650, accuracy: 0.01)
+        XCTAssertEqual(result.roundedMil, 15)
+        XCTAssertEqual(try XCTUnwrap(result.achieved), 49.347, accuracy: 0.01)
+        XCTAssertTrue(result.canApply)
+        XCTAssertNil(result.message)
+    }
+
+    func testFiftyOhmsOnAnOldTwoLayerBoardCannotBeApplied() {
+        let result = WidthCalculation.result(goal: .impedance(50), layer: .top, board: BoardSettings())
+        XCTAssertEqual(try XCTUnwrap(result.exactMil), 110.12, accuracy: 0.05)
+        XCTAssertEqual(result.roundedMil, 110)
+        XCTAssertFalse(result.canApply)
+        XCTAssertTrue(result.message?.contains("110") == true && result.message?.contains("100") == true, "\(result.message ?? "")")
+    }
+
+    func testCurrentRoundsUp() {
+        var board = BoardSettings()
+        board.layers = 4
+        let result = WidthCalculation.result(goal: .current(1, rise: 10), layer: .top, board: board)
+        XCTAssertEqual(try XCTUnwrap(result.exactMil), 11.826, accuracy: 0.01)
+        XCTAssertEqual(result.roundedMil, 12)
+        XCTAssertEqual(try XCTUnwrap(result.achieved), 1.0106, accuracy: 0.0005)
+        XCTAssertTrue(result.canApply)
+        // Too narrow for the limit: a milliamp on thick copper.
+        let tiny = WidthCalculation.result(goal: .current(0.01, rise: 10), layer: .top, board: board)
+        XCTAssertFalse(tiny.canApply)
+    }
+
+    func testDifferentialAndRefusals() {
+        var board = BoardSettings()
+        board.layers = 4
+        let pair = WidthCalculation.result(goal: .differential(100, gapMM: 0.15), layer: .top, board: board)
+        XCTAssertEqual(try XCTUnwrap(pair.exactMil), 8.418, accuracy: 0.01)
+        XCTAssertEqual(pair.roundedMil, 8)
+        XCTAssertEqual(WidthCalculation.result(goal: .impedance(1), layer: .top, board: board).message,
+                       "No width gives an impedance that low.")
+        XCTAssertEqual(WidthCalculation.result(goal: .impedance(10_000), layer: .top, board: board).message,
+                       "No width gives an impedance that high.")
+        board.layers = 1
+        let none = WidthCalculation.result(goal: .impedance(50), layer: .top, board: board)
+        XCTAssertFalse(none.canApply)
+        XCTAssertEqual(none.message, "A 1-layer board has no reference plane.")
+    }
+
+    /// Apply is one undo step on the trace or on the class; the sheet's closures are what the views pass.
+    func testApplySetsTheTraceWidthAndTheClassWidthInOneStepEach() throws {
+        let doc = TestSupport.newDocument()
+        doc.setLayerCount(4)
+        let id = try XCTUnwrap(doc.addTrace(points: [CGPoint(x: 10, y: 10), CGPoint(x: 20, y: 10)], layer: .top, width: 10))
+        let result = WidthCalculation.result(goal: .impedance(50), layer: .top, board: doc.board)
+        doc.setTraceWidth(id, try XCTUnwrap(result.roundedMil))
+        XCTAssertEqual(doc.traces.first { $0.id == id }?.width, 15)
+        XCTAssertEqual(doc.undoName(on: .pcb), "Change Trace Width")
+        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertEqual(doc.traces.first { $0.id == id }?.width, 10)
+        doc.addNetClass(named: "Fast")
+        let classID = try XCTUnwrap(doc.board.netClasses.first?.id)
+        doc.setNetClassWidth(classID, 15)
+        XCTAssertEqual(doc.board.netClasses.first?.width, 15)
     }
 }

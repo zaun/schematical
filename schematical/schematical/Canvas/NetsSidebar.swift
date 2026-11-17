@@ -227,6 +227,13 @@ private struct NetClassEditor: View {
 
     @State private var name = ""
     @State private var isOpen = false
+    @State private var calculating = false
+
+    /// The layer the class's estimates are for: the first its layer rule allows, else the board's first trace layer.
+    private var estimateLayer: CopperLayer {
+        let traceLayers = document.board.traceLayers
+        return netClass.layerRule?.layers.first { traceLayers.contains($0) } ?? traceLayers.first ?? .top
+    }
 
     var body: some View {
         let id = netClass.id
@@ -243,6 +250,16 @@ private struct NetClassEditor: View {
                         .labelsHidden()
                 }
             }
+            ForEach(EstimateText.rows(board: document.board, layer: estimateLayer, widthMil: netClass.width,
+                                      pairGapMM: nil, suffix: " (\(estimateLayer.title))")) { row in
+                LabeledContent(row.title, value: row.value).help(row.help)
+            }
+            Button("Calculate Width…") { calculating = true }
+                .help("The width that gives a target impedance or carries a current")
+                .sheet(isPresented: $calculating) {
+                    WidthCalculatorSheet(document: document, layers: document.board.traceLayers, layer: estimateLayer,
+                                         gapMM: NetGroup.defaultGap) { document.setNetClassWidth(id, $0) }
+                }
             Toggle("DRC Min Clearance", isOn: Binding(
                 get: { netClass.clearance == nil },
                 set: { document.setNetClassClearance(id, $0 ? nil : rules.minClearance) }
