@@ -8,10 +8,10 @@ final class BoardDetailsSheetTests: XCTestCase {
         let doc = TestSupport.newDocument()
         XCTAssertEqual(BoardDetailsSheet.tabs(for: doc.board), [.stackup, .planes, .nets, .classes, .groups])
         doc.setBoardType(.customCard)
-        XCTAssertEqual(BoardDetailsSheet.tabs(for: doc.board).last, .card)
+        XCTAssertEqual(BoardDetailsSheet.tabs(for: doc.board).first, .card)
         if let withOptions = BoardType.allCases.first(where: \.hasOptions) {
             doc.setBoardType(withOptions)
-            XCTAssertEqual(BoardDetailsSheet.tabs(for: doc.board).last, .card)
+            XCTAssertEqual(BoardDetailsSheet.tabs(for: doc.board).first, .card)
         }
     }
 

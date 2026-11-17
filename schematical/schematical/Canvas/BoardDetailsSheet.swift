@@ -3,8 +3,8 @@ import SwiftUI
 /// The Board Details sheet, opened from the PCB sidebar's board panel: the
 /// board settings that are set once rather than while laying out, a tab
 /// each. Stackup, Planes, Nets, Net Classes and Net Groups are always there;
-/// Card only for a board type with an edge connector to size or options to
-/// choose. Every edit is an undo step, as it was in the sidebar; Done closes.
+/// Card comes first, only for a board type with an edge connector to size or
+/// options to choose. Every edit is an undo step, as it was in the sidebar; Done closes.
 struct BoardDetailsSheet: View {
     @Bindable var document: SchematicDocument
     let highlightedNet: Binding<PlaneNet?>
@@ -29,14 +29,15 @@ struct BoardDetailsSheet: View {
         }
     }
 
-    /// The tabs `board` has, in order: Card only for a custom card or a
-    /// board type with options.
+    /// The tabs `board` has, in order: Card first, and only for a custom
+    /// card or a board type with options.
     static func tabs(for board: BoardSettings) -> [Tab] {
-        Tab.allCases.filter { $0 != .card || board.type == .customCard || board.type.hasOptions }
+        let rest = Tab.allCases.filter { $0 != .card }
+        return board.type == .customCard || board.type.hasOptions ? [.card] + rest : rest
     }
 
-    /// The tab shown; Stackup when the sheet opens.
-    @State var tab = Tab.stackup
+    /// The tab chosen; nil, as when the sheet opens, shows the first.
+    @State var tab: Tab?
     /// The net list the three net tabs share, rebuilt shortly after the
     /// board or the schematic changes rather than on every redraw.
     @State private var rows: [NetRow] = []
@@ -44,9 +45,9 @@ struct BoardDetailsSheet: View {
 
     var body: some View {
         let tabs = Self.tabs(for: document.board)
-        let shown = tabs.contains(tab) ? tab : .stackup
+        let shown = tab.flatMap { tabs.contains($0) ? $0 : nil } ?? tabs[0]
         VStack(spacing: 0) {
-            Picker("Section", selection: $tab) {
+            Picker("Section", selection: Binding(get: { shown }, set: { tab = $0 })) {
                 ForEach(tabs) { Text($0.title).tag($0) }
             }
             .pickerStyle(.segmented)
