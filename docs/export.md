@@ -1,7 +1,8 @@
 # Export
 
 **File > Save As…** (and Save of a window with no file yet) has a **Format**
-menu: Schematical, or **KiCad Project** ([KiCad](#kicad)). **File > Export** (after Save As…) has two items: **Image…** (⇧⌘E), a
+menu: Schematical, **KiCad Project** ([KiCad](#kicad)) or **EasyEDA Pro
+Project** ([EasyEDA Pro](#easyeda-pro)). **File > Export** (after Save As…) has two items: **Image…** (⇧⌘E), a
 picture of the focused window's schematic, PCB page or made board, and
 **Gerber PCB…**, its board as Gerber files (see Gerber below).
 
@@ -149,6 +150,70 @@ drc` finds no schematic parity difference, a board of DIP and SOIC parts at ever
 turn on both sides has the same hole positions as the app's drill file, and its
 pad outlines in `pcb export svg` are the app's.
 
+## EasyEDA Pro
+
+**File > Save As…**, Format **EasyEDA Pro Project**, writes the schematic and its
+board as one `.epro` file (`EasyEDAProExport`), which EasyEDA Pro takes with **File ▸
+Import ▸ EasyEDA Professional**. Like the KiCad project it is an export: the
+window's file and its unsaved-changes state do not change.
+
+The format is EasyEDA Pro's "V2" project archive (the one its published spec and
+KiCad's importer describe; EasyEDA Pro 3 still imports it, and older Pro versions open it,
+which they would not a V3 `.epro2`): a zip of
+
+| File | What |
+|---|---|
+| `project.json` | the devices (symbol + footprint + attributes), symbols, footprints, the schematic and its one sheet, the PCB and the board |
+| `SYMBOL/<id>.esym` | one per distinct part, flipped part, power rail and pull resistor |
+| `FOOTPRINT/<id>.efoo` | one per distinct footprint (and set of absent pins) |
+| `SHEET/<schematic id>/1.esch` | the schematic |
+| `PCB/<pcb id>.epcb` | the board |
+
+Every file but `project.json` is JSON lines: one JSON array per line, the first
+element naming the item (`["WIRE", "e12", …]`). Ids are 16 hex digits made from
+what they name, so one document always gives the same bytes.
+
+**Units and axes.** The board is in mil with y up (a board point is
+`(x / 0.0254, -y / 0.0254)`); a footprint is written around its body centre, a component
+turned `r` degrees clockwise is turned `-r` (counter-clockwise), and one on Bottom is flipped
+top to bottom first and turned `180 - r`. The schematic is in 0.01 inch, one canvas unit
+each, the sheet's y up and a symbol's own y down, the part's origin at its body's top-left;
+a part is at `(origin.x, -origin.y)`, a pin at its offset from the origin.
+
+**Schematic** (`EasyEDAProSchematicWriter`): a part is its generated symbol (a body
+rectangle, a pin where the app draws each one, active-low names with a `~` bar), placed
+with its device, designator, footprint and value; VCC and GND are net-flag symbols
+(`Global Net Name`), and a pull resistor has its far pin on a flag of its rail. Each wire is
+one `WIRE` with a `NET` attribute: a rail's name, a net label's text (shown at the
+label), a bus pin's wire name, or after its first pin. Bus lines and ports are plain lines,
+text blocks are `TEXT` (framed ones with a box), and a card board's connector is a
+symbol beside the drawing with a named stub or a net flag on each pin.
+
+**Board** (`EasyEDAProBoardWriter`): `LAYER`s (a 1-layer board gets Top and Bottom, EasyEDA's
+minimum), the design rules' track width, a `NET` for every net a pad carries, the outline
+(`POLY` on the outline layer), a `POUR` for each inner Plane on a net, a `LINE` per trace
+segment, `VIA`s, a `PAD` for each card finger and hole, `STRING` for board texts, and each
+part as a `COMPONENT` with `Designator`, `Device` and `Footprint` attributes and a
+`PAD_NET` per pad on a net. A net of one pin is left without a net.
+
+**Not exported**: net classes and layer rules, No Connect flags, the schematic's per-part
+silkscreen marks (a footprint's body is on the assembly layer and its pin-1 dot on Top
+silkscreen whatever the part's marks say), cathode bands, a chamfered pad's chamfer, and
+3D models.
+
+**What was checked, and what was not.** `EasyEDAProExportTests` checks the files' shape and
+that every pad, at every turn and side, is where the app puts it. The rest was checked by
+loading the output with KiCad 10's EasyEDA Pro importer (`pcbnew`'s
+`PCB_IO_MGR.EASYEDAPRO`, from Python): all 224 pads of a board of DIP and SOIC parts turned
+every way on both sides land at the same relative positions as the app's, the nets of the
+pads, the tracks (position, layer, width), the via, the inner-layer pour, the text and the
+outline come out as written, and `AFU`, `LFU` and `RegFile` load whole. KiCad cannot import an
+`.epro` schematic from the command line, so the schematic is checked only against the format's
+published layouts (the item fields KiCad's parser reads) and for being self-consistent: every wire end
+that is a pin lands on that pin's place under the convention above. **No file has been opened in EasyEDA
+Pro itself**, so a field the spec and KiCad's importer leave open may still differ
+(text alignment codes, which the spec and KiCad number differently, are the likely one).
+
 ## Black line art
 
 Drawing code never names a color. It names an `Ink` role, and the painter
@@ -213,6 +278,10 @@ PNG puts them; the padding keeps a wider font from clipping. A turned label
 | `KiCadExport` (the three files, project file, shared names), `KiCad` (number, string, uuid formats) | `schematical/schematical/Document/KiCadExport.swift` |
 | `KiCadSchematicWriter` | `schematical/schematical/Document/KiCadSchematicWriter.swift` |
 | `KiCadBoardWriter` | `schematical/schematical/Document/KiCadBoardWriter.swift` |
+| `ExportNetNames` (the net names both exports use) | `schematical/schematical/Document/KiCadExport.swift` |
+| `EasyEDAProExport` (the archive, `project.json`), `EProJSON` | `schematical/schematical/Document/EasyEDAProExport.swift` |
+| `EasyEDAProSchematicWriter` (`.esch`, `.esym`) | `schematical/schematical/Document/EasyEDAProSchematicWriter.swift` |
+| `EasyEDAProBoardWriter` (`.epcb`, `.efoo`) | `schematical/schematical/Document/EasyEDAProBoardWriter.swift` |
 | `GerberExport` (the layer files) | `schematical/schematical/Document/GerberExport.swift` |
 | `GerberWriter` (apertures, flashes, strokes, regions, polarity), `GerberOutline` (path flattening, glyph outlines) | `schematical/schematical/Document/GerberWriter.swift` |
 | `DrillExport` (the Excellon files) | `schematical/schematical/Document/DrillExport.swift` |
