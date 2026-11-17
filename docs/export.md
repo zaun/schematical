@@ -20,7 +20,7 @@ the PCB layers.
 | Front Render / Back Render | PNG, JPG | Backdrop (Board Preview's), White, Transparent | 1 px per render point (10 per mm) | View (Top, Angled) |
 
 - A render draws bare copper (pads with no part on them, rings, mounting holes) in the board's finish
-  (PCB sidebar ▸ Stackup ▸ Finish): HASL and lead-free HASL silver, ENIG gold, OSP bare copper. Board
+  (PCB sidebar ▸ Board Details… ▸ Stackup ▸ Finish): HASL and lead-free HASL silver, ENIG gold, OSP bare copper. Board
   Preview does the same and has no finish menu of its own.
 - **Size** is 1×, 2×, 4× or 8× (pixels per point); the sheet shows the
   pixel size. Any picture's longest side is capped at 8192 px

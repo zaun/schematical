@@ -40,7 +40,7 @@ struct ContentView: View {
     /// so layers added later start shown. Per window; not saved.
     @State private var hiddenLayers: Set<BoardViewLayer> = []
     @State private var isLayerViewShown = false
-    /// The net the PCB sidebar's Nets section highlights on the canvas.
+    /// The net Board Details' Nets tab highlights on the canvas.
     /// Per window; not saved, not undone.
     @State private var highlightedNet: PlaneNet?
     /// Route ▸ Autoroute…'s sheet, and its model (made on first use).

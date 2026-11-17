@@ -57,16 +57,16 @@ nonisolated enum StackupRows {
     }
 }
 
-/// The PCB sidebar's Stackup section: the finish, the temperature rise for
-/// the current estimate, the copper weight of each layer and the thickness,
-/// kind and Er of each dielectric. Every edit is an undo step.
+/// Board Details' Stackup tab: a Surface section with the finish and the
+/// temperature rise for the current estimate, then Layers: the copper weight
+/// of each layer and the thickness, kind and Er of each dielectric. Every edit is an undo step.
 struct StackupSection: View {
     @Bindable var document: SchematicDocument
 
     var body: some View {
         let stackup = document.board.stackup
         let units = document.board.units
-        Section("Stackup") {
+        Section("Surface") {
             Picker("Finish", selection: Binding(get: { stackup.finish }, set: { document.setStackupFinish($0) })) {
                 ForEach(SurfaceFinish.allCases) { Text($0.title).tag($0) }
             }
@@ -82,6 +82,8 @@ struct StackupSection: View {
                 }
             }
             .help("How far a trace may heat above the board, for the current estimate (1 to 100 °C)")
+        }
+        Section("Layers") {
             ForEach(StackupRows.rows(for: stackup, layers: document.board.copperLayers), id: \.title) { row in
                 switch row.kind {
                 case let .copper(index): copperRow(row.title, index: index, stackup: stackup)
@@ -96,6 +98,13 @@ struct StackupSection: View {
                 .help("The standard stackup for \(document.board.layers) \(document.board.layers == 1 ? "layer" : "layers")")
         }
     }
+
+    /// The rows' columns, so copper and dielectric rows line up: the weight
+    /// or kind menu, the thickness, its unit, the Er and its label.
+    private static let kindWidth: CGFloat = 110
+    private static let thicknessWidth: CGFloat = 72
+    private static let unitWidth: CGFloat = 26
+    private static let erWidth: CGFloat = 44
 
     private func copperRow(_ title: String, index: Int, stackup: BoardStackup) -> some View {
         let thickness = stackup.copper[index]
@@ -112,12 +121,16 @@ struct StackupSection: View {
                 }
                 .labelsHidden()
                 .pickerStyle(.menu)
-                .fixedSize()
+                .frame(width: Self.kindWidth, alignment: .trailing)
                 ValueField(title: "\(title) thickness", value: thickness * 1000, places: 1) {
                     document.setCopperThickness($0 / 1000, at: index)
                     return document.board.stackup.copper[index] * 1000
                 }
+                .frame(width: Self.thicknessWidth)
                 Text("µm").foregroundStyle(.secondary)
+                    .frame(width: Self.unitWidth, alignment: .leading)
+                // Under the dielectric rows' Er column.
+                Color.clear.frame(width: Self.erWidth + Self.unitWidth + 4, height: 1)
             }
         }
         .help("1 oz of copper is 35 µm")
@@ -135,18 +148,23 @@ struct StackupSection: View {
                 }
                 .labelsHidden()
                 .pickerStyle(.menu)
-                .fixedSize()
+                .frame(width: Self.kindWidth, alignment: .trailing)
                 LengthField(title: "\(title) thickness", millimetres: dielectric.thickness, units: units,
                             precise: true) {
                     document.setDielectric(at: index, thickness: $0)
                     return document.board.stackup.dielectrics[index].thickness
                 }
+                .labelsHidden()
+                .frame(width: Self.thicknessWidth)
+                Text(units.title).foregroundStyle(.secondary)
+                    .frame(width: Self.unitWidth, alignment: .leading)
                 ValueField(title: "\(title) Er", value: dielectric.er, places: 2) {
                     document.setDielectric(at: index, er: $0)
                     return document.board.stackup.dielectrics[index].er
                 }
-                .frame(maxWidth: 48)
+                .frame(width: Self.erWidth)
                 Text("Er").foregroundStyle(.secondary)
+                    .frame(width: Self.unitWidth, alignment: .leading)
             }
         }
         .help("The insulator between these two layers: its thickness and relative permittivity (Er)")

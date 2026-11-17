@@ -27,7 +27,7 @@ The boards are listed in menu order, each under its `group`'s heading.
 | `group` | string | The menu section: `"PC Cards"`, `"Modules"`, `"Cartridges"`, `"Add-on Boards"`, or a new one. Default `"Other"`. |
 | `notes` | string | Optional. Where the numbers come from and anything a reader needs (pin layout, which side is which). Not used by the app. |
 | `connector` | string | `"edge"` (default; gold fingers, pins labelled `Edge.A1`) or `"header"` (through-hole pads, `Header.40`). |
-| `optionsTitle` | string | The sidebar heading over the options. Default `"Card"`. |
+| `optionsTitle` | string | The heading over the options, in Board Details ▸ Card. Default `"Card"`. |
 | `options` | array | Optional. The board's settings; see [Options](#options). |
 | `vars` | object | Optional. Named values, each a [formula](#formulas), worked out when first used. |
 | `height` | formula | The board's height (y), in mm. |
@@ -63,7 +63,7 @@ expression.
 
 ## Options
 
-Each option is a picker or toggle in the sidebar, and its value is stored in the document's `cardOptions` under
+Each option is a picker or toggle in Board Details ▸ Card (the PCB sidebar for a bus), and its value is stored in the document's `cardOptions` under
 its `id`.
 
 | Field | Type | Meaning |

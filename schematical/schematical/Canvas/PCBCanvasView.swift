@@ -68,7 +68,7 @@ struct PCBCanvasView: View {
     var onLayerChange: (CopperLayer) -> Void = { _ in }
     /// Where the pointer is over the board, for ⌘V; set as it moves.
     var pointer: BoardPointer?
-    /// The net the sidebar's Nets section highlights: its pads, traces,
+    /// The net Board Details' Nets tab highlights: its pads, traces,
     /// vias and unrouted lines drawn bright over everything else dimmed.
     /// Window state, never saved; Esc clears it.
     var highlightedNet: Binding<PlaneNet?> = .constant(nil)

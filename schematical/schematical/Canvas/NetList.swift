@@ -1,7 +1,7 @@
 import CoreGraphics
 import Foundation
 
-/// One net on the board, as the PCB sidebar's Nets section lists it.
+/// One net on the board, as Board Details' Nets tab lists it.
 nonisolated struct NetRow: Identifiable, Hashable, Sendable {
     /// The net's index in this connectivity (renumbers on any edit).
     let net: Int

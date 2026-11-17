@@ -7,8 +7,8 @@ one net or one unrouted line with a click, and the **Trace** tool's
 it obeys the board's design rules: what the router puts down passes the
 Design Rule Check (⇧⌘D) for the kinds it is responsible for, or it isn't
 put down. The rules it follows per net come from **net classes**, **layer
-rules** and **net groups**, set in the PCB sidebar's Nets, Net Classes and
-Net Groups sections (nothing selected) and saved in the file
+rules** and **net groups**, set in Board Details' Nets, Net Classes and
+Net Groups tabs (PCB sidebar, nothing selected ▸ Board Details…) and saved in the file
 ([file-format.md § Net classes](file-format.md#net-classes),
 [§ Net layer rules](file-format.md#net-layer-rules),
 [§ Net groups](file-format.md#net-groups)).
@@ -29,7 +29,7 @@ later (2026-11); what they measure is in [Results](#results).
 | Route ▸ Unroute All Autorouted | — | Removes every unlocked trace and via the router put down (`auto`). |
 | Route ▸ Select Autorouted Copper | — | Selects every trace and via the router put down. |
 | Route tool (PCB toolbar) | — | Click a pad: route its net. Click an unrouted (ratsnest) line: route that one connection. Uses the last options. |
-| Nets row ▸ Route Net / Unroute Net | — | The same for one net, from the sidebar's context menu. |
+| Nets row ▸ Route Net / Unroute Net | — | The same for one net, from its row's context menu in Board Details ▸ Nets (Route Net closes Board Details first). |
 | Trace tool Assist (wand) | — | A dragged trace walks around obstacles; red where no legal way exists. |
 | V while drawing a trace | V | Drops a via where the trace has got to and goes on on the next trace layer. |
 

@@ -2,30 +2,8 @@ import SwiftUI
 
 // MARK: - Nets, Net Classes, Net Groups
 
-/// The board inspector's three net sections, which share one net list
-/// (`SchematicDocument.netRows`), rebuilt shortly after the board or the
-/// schematic changes rather than on every redraw.
-struct NetSections: View {
-    let document: SchematicDocument
-    let highlightedNet: Binding<PlaneNet?>
-    var onRoute: (RoutingOptions.Scope) -> Void = { _ in }
-
-    @State private var rows: [NetRow] = []
-    @State private var hasBuilt = false
-
-    var body: some View {
-        NetsSection(document: document, rows: rows, hasBuilt: hasBuilt, highlightedNet: highlightedNet, onRoute: onRoute)
-            .task(id: NetListInput(document)) {
-                // The first build is at once; later ones wait out a burst of edits.
-                if hasBuilt { try? await Task.sleep(for: .milliseconds(150)) }
-                guard !Task.isCancelled else { return }
-                rows = document.netRows()
-                hasBuilt = true
-            }
-        NetClassesSection(document: document, rows: rows)
-        NetGroupsSection(document: document, rows: rows)
-    }
-}
+// Board Details' three net tabs (`BoardDetailsSheet`), which share one net
+// list (`SchematicDocument.netRows`).
 
 /// Every net on the board: its name, how many pads it has and, in red, how
 /// many of its connections are unrouted; a menu for its class and one for

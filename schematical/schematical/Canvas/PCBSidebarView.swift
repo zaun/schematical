@@ -2,7 +2,8 @@ import SwiftUI
 
 /// The PCB page's inspector. It follows the selection: the board's settings
 /// with nothing selected (a Grid section, then Board, then Layers with one
-/// row per copper layer), the via's with only a via selected, the trace's with
+/// row per copper layer, then a Board Details… button for the rest:
+/// `BoardDetailsSheet`), the via's with only a via selected, the trace's with
 /// only a trace selected, the footprint's with only a footprint selected,
 /// the text's with only a board text selected, and a read-only
 /// `Selection (N)` list for several items (plan-15). A mm | in switch at the
@@ -13,6 +14,9 @@ struct PCBSidebarView: View {
     var highlightedNet: Binding<PlaneNet?> = .constant(nil)
     /// Routes a net from its row (Route Net).
     var onRoute: (RoutingOptions.Scope) -> Void = { _ in }
+
+    /// The Board Details sheet is open.
+    @State private var isDetailsOpen = false
 
     /// What the inspector shows.
     enum Content: Equatable {
@@ -91,20 +95,20 @@ struct PCBSidebarView: View {
             case .board:
                 GridSection(document: document)
                 BoardPanel(document: document)
-                if document.board.type == .customCard {
-                    CustomCardSection(document: document)
-                }
-                if document.board.type.hasOptions {
-                    CardOptionsSection(type: document.board.type, options: { document.board.cardOptions },
-                                       set: { document.setCardOptions($0) })
-                }
                 LayersSection(document: document)
-                StackupSection(document: document)
-                PlanesSection(document: document)
-                NetSections(document: document, highlightedNet: highlightedNet, onRoute: onRoute)
+                Section {
+                    Button("Board Details…") { isDetailsOpen = true }
+                        .frame(maxWidth: .infinity)
+                        .help("Stackup, Planes, nets, net classes and net groups"
+                              + (BoardDetailsSheet.tabs(for: document.board).contains(.card) ? ", and the card's settings" : ""))
+                }
             }
         }
         .formStyle(.grouped)
+        .sheet(isPresented: $isDetailsOpen) {
+            BoardDetailsSheet(document: document, highlightedNet: highlightedNet, onRoute: onRoute,
+                              onClose: { isDetailsOpen = false })
+        }
     }
 }
 
@@ -220,7 +224,7 @@ struct CardOptionsSection: View {
 /// A custom card's edge connector: how many fingers, their size and
 /// spacing, and the tab they sit on. Each change is clamped to fit
 /// (`CustomCard.clamped`) and grows the board to hold the tab.
-private struct CustomCardSection: View {
+struct CustomCardSection: View {
     @Bindable var document: SchematicDocument
 
     var body: some View {
