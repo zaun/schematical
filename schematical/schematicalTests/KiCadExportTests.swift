@@ -258,6 +258,21 @@ final class KiCadExportTests: XCTestCase {
         XCTAssertEqual(board.components(separatedBy: "(tenting").count - 1, 4, "no board-level tenting key")
     }
 
+    func testNetNamesAreShared() throws {
+        let doc = try ExportSamples.vias()
+        let nets = ExportNetNames.assign(context: KiCadExport.Context(document: doc, base: "v"))
+        let board = try XCTUnwrap(KiCadExport.files(for: doc, base: "v").first { $0.name.hasSuffix("kicad_pcb") }).text
+        var written: [Int: String] = [:]
+        for line in board.split(separator: "\n") where line.hasPrefix("\t(net ") && !line.hasPrefix("\t(net 0 ") {
+            let parts = line.dropFirst(6).dropLast().split(separator: " ", maxSplits: 1)
+            if parts.count == 2, let code = Int(parts[0]) { written[code] = String(parts[1].dropFirst().dropLast()) }
+        }
+        XCTAssertFalse(nets.names.isEmpty)
+        XCTAssertEqual(Set(nets.names.values), Set(written.values))
+        for (net, name) in nets.names { XCTAssertEqual(written[try XCTUnwrap(nets.codes[net])], name) }
+        XCTAssertTrue(nets.names.values.contains { $0.hasPrefix("unconnected-(") }, "pins no wire reaches get their own nets")
+    }
+
     /// Prints every fixture's project as `KICAD_FILE <folder>/<name> <base64>`
     /// lines when `KICAD_OUT` is set, for running `kicad-cli` over. (The test
     /// host is sandboxed: it can write only to its own container, which the
@@ -300,6 +315,13 @@ final class KiCadExportTests: XCTestCase {
         }
         for file in GerberExport.files(for: viaBoard, base: "vias") {
             print("GERBER_FILE vias/\(file.name) \(file.data.base64EncodedString())")
+        }
+        let fourLayerBoard = try ExportSamples.fourLayer()
+        for file in KiCadExport.files(for: fourLayerBoard, base: "fourLayer") where file.name.hasSuffix("kicad_pcb") {
+            print("KICAD_FILE fourLayer/\(file.name) \(file.data.base64EncodedString())")
+        }
+        for file in GerberExport.files(for: fourLayerBoard, base: "fourLayer") {
+            print("GERBER_FILE fourLayer/\(file.name) \(file.data.base64EncodedString())")
         }
     }
 }
@@ -351,6 +373,28 @@ enum ExportSamples {
         let text = doc.addText(at: CGPoint(x: 5, y: 5))
         _ = text
         _ = doc.addHole(at: CGPoint(x: 60, y: 40))
+        return doc
+    }
+
+    /// The `vias()` board on 4 layers, its two inner layers Planes on ground and on 5 V (the first gate's pins wired
+    /// to a supply symbol each), and an `SN74ABT125RGYR`, whose VQFN footprint has an unnumbered centre pad.
+    static func fourLayer() throws -> SchematicDocument {
+        let doc = try vias()
+        doc.setLayerCount(4)
+        let gate = try XCTUnwrap(doc.chips.first)
+        let vcc = try TestSupport.place(doc, "5V", at: CGPoint(x: 100, y: 300))
+        let gnd = try TestSupport.place(doc, "GND", at: CGPoint(x: 200, y: 300))
+        func pin(_ chip: PlacedChip, _ designator: String) throws -> LineAnchor {
+            let index = try XCTUnwrap(chip.part.pins.firstIndex { $0.designator == designator })
+            return .pin(PinRef(chipID: chip.id, index: index))
+        }
+        XCTAssertNil(doc.connect(try pin(gate, "14"), try pin(vcc, "1")))
+        XCTAssertNil(doc.connect(try pin(gate, "7"), try pin(gnd, "1")))
+        doc.setLayerType(.inner(2), .plane)
+        doc.setLayerNet(.inner(2), .ground)
+        doc.setLayerType(.inner(3), .plane)
+        doc.setLayerNet(.inner(3), .rail(mv: 5000))
+        _ = try TestSupport.place(doc, "SN74ABT125RGYR", at: CGPoint(x: 100, y: 500))
         return doc
     }
 

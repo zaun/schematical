@@ -71,46 +71,10 @@ struct KiCadBoardWriter {
     /// the name KiCad gives it when it reads the schematic, and each pin
     /// with no wire a net of its own, as KiCad does (`unconnected-(U1-A0-Pad1)`).
     private mutating func assignNets() {
-        padNets = copper.netOfPad
-        // Pins no wire reaches.
-        var nextNet = (copper.netOfPad.values.max() ?? 0) + 1
-        var ownNet: [String: Int] = [:]
-        var pinNames: [Int: String] = [:]
-        var padIndex = 0
-        for (index, chip) in document.chips.enumerated() where chip.board?.side != nil {
-            for pad in chip.boardPads {
-                defer { padIndex += 1 }
-                guard padNets[padIndex] == nil, let designator = pad.designator,
-                      let pin = chip.part.pins.first(where: { $0.designator == designator }), !pin.isHidden else { continue }
-                let key = "\(index)/\(designator)"
-                if ownNet[key] == nil {
-                    ownNet[key] = nextNet
-                    pinNames[nextNet] = Self.pinNetName(chip: chip, pin: pin, unconnected: true)
-                    nextNet += 1
-                }
-                padNets[padIndex] = ownNet[key]
-            }
-        }
-        var nets = Set(padNets.values)
-        nets.formUnion(copper.planeNets.values)
-        var used: [String: Int] = [:]
-        for net in nets.sorted() {
-            let base = pinNames[net] ?? baseName(ofNet: net)
-            let count = (used[base] ?? 0) + 1
-            used[base] = count
-            names[net] = count == 1 ? base : "\(base)_\(count)"
-            codes[net] = codes.count + 1
-        }
-    }
-
-    private static func pinNetName(chip: PlacedChip, pin: ChipPin, unconnected: Bool) -> String {
-        ExportNetNames.pinNetName(chip: chip, pin: pin, unconnected: unconnected)
-    }
-
-    /// A net's name as KiCad gives it: a label's text comes after the sheet's
-    /// "/", a "/" in it written `{slash}`.
-    private func baseName(ofNet net: Int) -> String {
-        ExportNetNames.baseName(ofNet: net, context: context) { "/" + $0.replacingOccurrences(of: "/", with: "{slash}") }
+        let nets = ExportNetNames.assign(context: context)
+        padNets = nets.padNets
+        names = nets.names
+        codes = nets.codes
     }
 
     /// A track's or via's net: KiCad 8 and later take only the net's code there

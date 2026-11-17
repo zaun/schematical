@@ -26,16 +26,41 @@ nonisolated struct GerberWriter {
         case rect(Int, Int)
     }
 
+    /// An aperture and what it is for: one function, one aperture, even if two
+    /// have the same shape (spec § 5.6.10).
+    struct ApertureKey: Hashable {
+        let shape: Aperture
+        let function: String?
+    }
+
+    /// The object attributes (`.N`, `.P`) of the objects drawn next.
+    struct Object: Equatable {
+        /// The net's name; empty is "no net" (`%TO.N,*%`).
+        var net: String
+        /// A part pad's reference and pin number (an empty number is an unnumbered pad).
+        var pin: Pin?
+
+        struct Pin: Equatable {
+            var reference: String
+            var number: String
+        }
+    }
+
     /// `%TF…*%` attributes, without the `%TF.` and `*%`.
     let attributes: [String]
     /// The board's top edge (mm): Gerber y = `top` − board y.
     let top: Double
 
-    private var apertures: [Aperture: Int] = [:]
-    private var apertureOrder: [Aperture] = []
+    private var apertures: [ApertureKey: Int] = [:]
+    private var apertureOrder: [ApertureKey] = []
     private var body: [String] = []
     private var current: Int?
     private var dark = true
+    /// `.AperFunction` of the apertures and regions made next (`setFunction`).
+    private var function: String?
+    /// The object attributes wanted on the objects drawn next (`setObject`), and those in force in the file.
+    private var object: Object?
+    private var written: Object?
 
     init(attributes: [String], top: Double) {
         self.attributes = attributes
@@ -47,15 +72,67 @@ nonisolated struct GerberWriter {
 
     // MARK: Primitives
 
-    /// Dark (adds) or clear (erases what is already drawn).
+    /// Dark (adds) or clear (erases what is already drawn). Entering clear
+    /// polarity drops the function and the object attributes: clear objects
+    /// carry none, and they are not restored on going dark again.
     mutating func setDark(_ on: Bool) {
         guard on != dark else { return }
         dark = on
         body.append(on ? "%LPD*%" : "%LPC*%")
+        if !on {
+            function = nil
+            object = nil
+        }
+    }
+
+    /// The `.AperFunction` (`SMDPad,CuDef`, `Conductor`, …) of the apertures and regions made from now on; nil
+    /// for none.
+    mutating func setFunction(_ function: String?) {
+        self.function = function
+    }
+
+    /// The `.N` / `.P` attributes of the objects drawn from now on; nil for none.
+    mutating func setObject(_ object: Object?) {
+        self.object = object
+    }
+
+    /// Writes the object attributes that differ from those in force.
+    private mutating func writeObjectAttributes() {
+        guard object != written else { return }
+        if let object {
+            if let pin = object.pin {
+                if written?.pin != pin {
+                    body.append("%TO.P,\(Self.fieldEscaped(pin.reference)),\(Self.fieldEscaped(pin.number))*%")
+                }
+            } else if written?.pin != nil {
+                body.append("%TD.P*%")
+            }
+            if written?.net != object.net { body.append("%TO.N,\(Self.fieldEscaped(object.net))*%") }
+        } else {
+            if written?.pin != nil { body.append("%TD.P*%") }
+            body.append("%TD.N*%")
+        }
+        written = object
+    }
+
+    /// `text` as an attribute field: `\`, `%`, `*` and `,` as `\u` escapes (Gerber spec § 3.4.3–3.4.4).
+    static func fieldEscaped(_ text: String) -> String {
+        var out = ""
+        for character in text {
+            switch character {
+            case "\\": out += "\\u005C"
+            case "%": out += "\\u0025"
+            case "*": out += "\\u002A"
+            case ",": out += "\\u002C"
+            default: out.append(character)
+            }
+        }
+        return out
     }
 
     mutating func flash(_ aperture: Aperture, at point: CGPoint) {
         select(aperture)
+        writeObjectAttributes()
         body.append("\(xy(point))D03*")
     }
 
@@ -69,6 +146,7 @@ nonisolated struct GerberWriter {
             return
         }
         select(aperture)
+        writeObjectAttributes()
         body.append("\(xy(first))D02*")
         for point in points.dropFirst() { body.append("\(xy(point))D01*") }
         if closed, let last = points.last, !TraceRoute.same(last, first) { body.append("\(xy(first))D01*") }
@@ -77,11 +155,14 @@ nonisolated struct GerberWriter {
     /// A filled outline (G36/G37). Fewer than 3 points draws nothing.
     mutating func region(_ contour: [CGPoint]) {
         guard contour.count >= 3 else { return }
+        writeObjectAttributes()
+        if let function { body.append("%TA.AperFunction,\(function)*%") }
         body.append("G36*")
         body.append("\(xy(contour[0]))D02*")
         for point in contour.dropFirst() { body.append("\(xy(point))D01*") }
         if !TraceRoute.same(contour[contour.count - 1], contour[0]) { body.append("\(xy(contour[0]))D01*") }
         body.append("G37*")
+        if function != nil { body.append("%TD.AperFunction*%") }
     }
 
     /// `shape`, grown by `grow` mm all round (its outline stroked with a
@@ -136,12 +217,14 @@ nonisolated struct GerberWriter {
         var lines = ["G04 Schematical Gerber export*"]
         lines += attributes.map { "%TF.\($0)*%" }
         lines += ["%FSLAX46Y46*%", "%MOMM*%", "%LPD*%", "G01*", "G75*"]
-        for aperture in apertureOrder {
-            let code = apertures[aperture]!
-            switch aperture {
+        for key in apertureOrder {
+            let code = apertures[key]!
+            if let function = key.function { lines.append("%TA.AperFunction,\(function)*%") }
+            switch key.shape {
             case let .circle(d): lines.append("%ADD\(code)C,\(Self.mm(d))*%")
             case let .rect(w, h): lines.append("%ADD\(code)R,\(Self.mm(w))X\(Self.mm(h))*%")
             }
+            if key.function != nil { lines.append("%TD.AperFunction*%") }
         }
         lines += body
         lines.append("M02*")
@@ -151,13 +234,14 @@ nonisolated struct GerberWriter {
     // MARK: Helpers
 
     private mutating func select(_ aperture: Aperture) {
+        let key = ApertureKey(shape: aperture, function: function)
         let code: Int
-        if let known = apertures[aperture] {
+        if let known = apertures[key] {
             code = known
         } else {
             code = 10 + apertureOrder.count
-            apertures[aperture] = code
-            apertureOrder.append(aperture)
+            apertures[key] = code
+            apertureOrder.append(key)
         }
         if current != code {
             body.append("D\(code)*")

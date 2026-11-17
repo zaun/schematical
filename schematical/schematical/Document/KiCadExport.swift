@@ -360,8 +360,58 @@ nonisolated enum KiCad {
 
 /// How the exporters name a net. KiCad names it after what is on it, so a
 /// board and the schematic it came from agree, and so does the EasyEDA export.
+struct ExportNets {
+    /// The net of each pad (`copper.netOfPad`, and a net of its own for a pin no wire reaches), by the pad's
+    /// index in `copper.pads`.
+    var padNets: [Int: Int] = [:]
+    /// Each net's unique name, and its KiCad code (from 1).
+    var names: [Int: String] = [:]
+    var codes: [Int: Int] = [:]
+}
+
 @MainActor
 enum ExportNetNames {
+    /// The nets of a board and their names, as the KiCad export writes them and the Gerber export attaches them:
+    /// every net a pad carries or a Plane has, each pin no wire reaches on a net of its own
+    /// (`unconnected-(U1-A0-Pad1)`), names made unique with `_2`, `_3`, and codes from 1 in net order.
+    static func assign(context: KiCadExport.Context) -> ExportNets {
+        let document = context.document, copper = context.copper
+        var result = ExportNets()
+        result.padNets = copper.netOfPad
+        // Pins no wire reaches.
+        var nextNet = (copper.netOfPad.values.max() ?? 0) + 1
+        var ownNet: [String: Int] = [:]
+        var pinNames: [Int: String] = [:]
+        var padIndex = 0
+        for (index, chip) in document.chips.enumerated() where chip.board?.side != nil {
+            for pad in chip.boardPads {
+                defer { padIndex += 1 }
+                guard result.padNets[padIndex] == nil, let designator = pad.designator,
+                      let pin = chip.part.pins.first(where: { $0.designator == designator }), !pin.isHidden else { continue }
+                let key = "\(index)/\(designator)"
+                if ownNet[key] == nil {
+                    ownNet[key] = nextNet
+                    pinNames[nextNet] = pinNetName(chip: chip, pin: pin, unconnected: true)
+                    nextNet += 1
+                }
+                result.padNets[padIndex] = ownNet[key]
+            }
+        }
+        var nets = Set(result.padNets.values)
+        nets.formUnion(copper.planeNets.values)
+        var used: [String: Int] = [:]
+        for net in nets.sorted() {
+            let base = pinNames[net] ?? baseName(ofNet: net, context: context) {
+                "/" + $0.replacingOccurrences(of: "/", with: "{slash}")
+            }
+            let count = (used[base] ?? 0) + 1
+            used[base] = count
+            result.names[net] = count == 1 ? base : "\(base)_\(count)"
+            result.codes[net] = result.codes.count + 1
+        }
+        return result
+    }
+
     /// A name for a net of one pin or the pin it is named after:
     /// `Net-(U1-A0)`, `Net-(U1-GND-Pad7)` when the part has several pins of
     /// that name, `Net-(R1-Pad1)` for a pin with no name, and

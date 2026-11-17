@@ -69,6 +69,25 @@ schematic, with anything but letters, digits, `-` and `_` turned into `_`
 | `-PTH.drl` | plated drill (Excellon) | through-hole pads, vias, plated holes, header pads |
 | `-NPTH.drl` | non-plated drill (Excellon), only when the board has any | bare holes, a standard's mounting holes, non-plated footprint holes |
 
+- **Attributes on copper** (Gerber X2, spec § 5.6): every aperture and region of a copper file has an
+  `.AperFunction`, and every object a net `.N` (and a part's pad its pin `.P`). Each file also has
+  `.ProjectId` (the file base name, a GUID made from it, revision `1`) and `.Part,Single`, and the outline's pen
+  is `Profile`. There is no creation date, so one document always gives the same bytes.
+
+  | Object | `.AperFunction` | `.N` | `.P` |
+  |---|---|---|---|
+  | surface-mount part pad | `SMDPad,CuDef` | its net | `<reference>,<pin>` |
+  | unnumbered surface-mount pad (a centre pad) | `HeatsinkPad` | its net, else none | `<reference>,` and an empty pin |
+  | plated through-hole part pad, header pad | `ComponentPad` | its net | `<reference>,<pin>` (header: `HEADER1`) |
+  | card edge finger | `ConnectorPad` | its net | `EDGE1,<finger name>` |
+  | land of a plated board hole | `OtherPad,PlatedHole` | its net, else none | — |
+  | via | `ViaPad` | its net | — |
+  | trace, a Plane's copper | `Conductor` | its net (a Plane's net) | — |
+  | a Plane's clearances (clear polarity) | none | none | — |
+
+  A net with no pad, or none, is `%TO.N,*%` (the spec's "no net"). Net names are the KiCad export's
+  (`Net-(U1-A0)`, `unconnected-(U1-A0-Pad1)`, a rail's name, `/LABEL`), and `,`, `*`, `%` and `\` in one are
+  written `\u002C` and so on (spec § 3.4.3). Mask, paste and silkscreen files carry no object attributes.
 - Everything is seen from the top, as on the PCB page: bottom silkscreen
   reads mirrored. Board y grows down; Gerber y grows up, so a file's y is
   the board's top edge minus the board y, and the board sits at y ≥ 0.

@@ -35,13 +35,17 @@ enum GerberExport {
                       rules: DesignRules? = nil) -> [File] {
         let board = document.board
         let rules = rules ?? board.rules
-        let copper = document.connectivity()
+        let context = KiCadExport.Context(document: document, base: base)
+        let copper = context.copper
+        let nets = ExportNetNames.assign(context: context)
         let top = Double(board.outline.map(\.y).max() ?? CGFloat(board.height))
         let layers = board.copperLayers
         let sides: [BoardSide] = layers.count > 1 ? [.top, .bottom] : [.top]
         let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1"
         func writer(_ function: String, polarity: String = "Positive") -> GerberWriter {
-            GerberWriter(attributes: ["GenerationSoftware,jgz,Schematical,\(version)", "FileFunction,\(function)",
+            GerberWriter(attributes: ["GenerationSoftware,jgz,Schematical,\(version)",
+                                      "ProjectId,\(GerberWriter.fieldEscaped(base)),\(KiCad.uuid("gerber/\(base)")),1",
+                                      "Part,Single", "FileFunction,\(function)",
                                       "FilePolarity,\(polarity)", "SameCoordinates,Original"],
                          top: top)
         }
@@ -56,7 +60,8 @@ enum GerberExport {
             case .inner: (position, suffix) = ("Inr", "G\(index)")
             }
             var file = writer("Copper,L\(index + 1),\(position)")
-            drawCopper(on: layer, board: board, document: document, copper: copper, rules: rules, into: &file)
+            drawCopper(on: layer, board: board, document: document, copper: copper, nets: nets, rules: rules,
+                       into: &file)
             files.append(File(name: "\(base).\(suffix)", data: file.data()))
         }
         for side in sides {
@@ -81,6 +86,7 @@ enum GerberExport {
             files.append(File(name: "\(base).G\(s)O", data: silk.data()))
         }
         var profile = writer("Profile,NP")
+        profile.setFunction("Profile")
         profile.stroke(board.outline, width: profileWidth, closed: true)
         files.append(File(name: "\(base).GKO", data: profile.data()))
         let holes = DrillExport.holes(copper)
@@ -105,12 +111,18 @@ enum GerberExport {
 
     /// One copper layer: a Plane's copper (the board less its clearances),
     /// then traces on the layer, the surface-mount pads and card fingers of
-    /// its side, and every plated through-hole pad and via.
+    /// its side, and every plated through-hole pad and via. Every object has
+    /// its `.AperFunction`, net and (a part's pad) pin, see `padAttributes`.
     private static func drawCopper(on layer: CopperLayer, board: BoardSettings, document: SchematicDocument,
-                                   copper: BoardConnectivity, rules: DesignRules, into file: inout GerberWriter) {
+                                   copper: BoardConnectivity, nets: ExportNets, rules: DesignRules,
+                                   into file: inout GerberWriter) {
         let style = board.style(of: layer)
+        let netOfRoot = copper.netOfRoot()
+        func name(ofNet net: Int?) -> String { net.flatMap { nets.names[$0] } ?? "" }
         if style.type == .plane {
             let clearance = style.clearance(rules: rules), edge = rules.minCopperToEdge
+            file.setFunction("Conductor")
+            file.setObject(GerberWriter.Object(net: name(ofNet: copper.planeNets[layer])))
             file.region(board.outline)
             file.setDark(false)
             if edge > 0 { file.stroke(board.outline, width: 2 * edge, closed: true) }
@@ -129,20 +141,54 @@ enum GerberExport {
             }
             file.setDark(true)
         }
-        for trace in document.traces where trace.layer == layer {
+        file.setFunction("Conductor")
+        for (t, trace) in document.traces.enumerated() where trace.layer == layer {
+            let net = t < copper.traces.count ? netOfRoot[copper.root[copper.traceNode(t)]] : nil
+            file.setObject(GerberWriter.Object(net: name(ofNet: net)))
             file.stroke(trace.points, width: trace.widthMM)
         }
         let side: BoardSide? = layer == .top ? .top : layer == .bottom ? .bottom : nil
-        for entry in copper.pads {
-            if entry.pad.drill > 0 {
-                if entry.pad.plated { file.fill(shape(of: entry.pad)) }
-            } else if entry.side == side {
-                file.fill(shape(of: entry.pad))
-            }
+        for (p, entry) in copper.pads.enumerated() {
+            let draws = entry.pad.drill > 0 ? entry.pad.plated : entry.side == side
+            guard draws else { continue }
+            let (function, object) = padAttributes(entry, index: p, document: document, nets: nets)
+            file.setFunction(function)
+            file.setObject(object)
+            file.fill(shape(of: entry.pad))
         }
-        for via in document.vias {
+        file.setFunction("ViaPad")
+        for (v, via) in document.vias.enumerated() {
+            let net = v < copper.vias.count ? netOfRoot[copper.root[copper.viaNode(v)]] : nil
+            file.setObject(GerberWriter.Object(net: name(ofNet: net)))
             file.fill(.circle(centre: via.centre, diameter: via.diameter))
         }
+        file.setFunction(nil)
+        file.setObject(nil)
+    }
+
+    /// The `.AperFunction` and the object attributes of a pad's copper:
+    /// - a surface-mount part pad is `SMDPad,CuDef`, an unnumbered one (a centre pad) `HeatsinkPad`, a plated
+    ///   through-hole part pad `ComponentPad`; each carries the part's reference and the pin;
+    /// - a card's edge finger is `ConnectorPad` of `EDGE1` (pin: the finger's name), a header pad `ComponentPad` of
+    ///   `HEADER1`, the names the KiCad export gives the connector;
+    /// - the land of a plated board hole is `OtherPad,PlatedHole`, with no pin.
+    /// The net is the pad's (`nets.padNets`), empty when it has none.
+    static func padAttributes(_ entry: BoardConnectivity.Pad, index: Int, document: SchematicDocument,
+                              nets: ExportNets) -> (function: String, object: GerberWriter.Object) {
+        let net = nets.padNets[index].flatMap { nets.names[$0] } ?? ""
+        let pad = entry.pad
+        if entry.chip >= 0 {
+            let reference = document.chips[entry.chip].reference
+            let function = pad.drill > 0 ? "ComponentPad" : pad.designator == nil ? "HeatsinkPad" : "SMDPad,CuDef"
+            return (function, GerberWriter.Object(net: net, pin: .init(reference: reference,
+                                                                       number: pad.designator ?? "")))
+        }
+        for (prefix, reference, function) in [("Edge.", "EDGE1", "ConnectorPad"), ("Header.", "HEADER1", "ComponentPad")]
+        where entry.label.hasPrefix(prefix) {
+            return (function, GerberWriter.Object(net: net, pin: .init(reference: reference,
+                                                                       number: String(entry.label.dropFirst(prefix.count)))))
+        }
+        return ("OtherPad,PlatedHole", GerberWriter.Object(net: net))
     }
 
     /// A solder mask: the openings (drawn dark, the file is Negative), each

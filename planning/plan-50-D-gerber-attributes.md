@@ -31,7 +31,7 @@ The shared gate is in plan-50-A. This sub-plan adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-50-C is complete | `ls planning/completed \| grep -c '^plan-50-C'` → 1 | NOT MET until C is archived |
+| plan-50-C is complete | `ls planning/completed \| grep -c '^plan-50-C'` → 1 | MET (2026-11-16: 1) |
 
 Everything below is written against the world where this holds.
 
@@ -155,22 +155,22 @@ KiCad export. *Per-object attributes on mask, paste and legend files*: nothing t
 
 ### Phase 1 — One set of net names
 
-- [ ] Before touching code, record the KiCad baseline: run `KICAD_OUT=1 xcodebuild … test -only-testing:schematicalTests/KiCadExportTests/testPrintSamplesWhenAsked`
+- [x] Before touching code, record the KiCad baseline: run `KICAD_OUT=1 xcodebuild … test -only-testing:schematicalTests/KiCadExportTests/testPrintSamplesWhenAsked`
       and save the `KICAD_FILE` lines (name and base64) to `$OUT/before.txt`.
-- [ ] `Document/KiCadExport.swift`: add `struct ExportNets` and `ExportNetNames.assign(context:) -> ExportNets`
+- [x] `Document/KiCadExport.swift`: add `struct ExportNets` and `ExportNetNames.assign(context:) -> ExportNets`
       (the body of `assignNets()`, parameterised on the context); `Document/KiCadBoardWriter.swift` calls it.
-- [ ] Tests: `KiCadExportTests` unchanged and green; new `testNetNamesAreShared` calls `ExportNetNames.assign` on
+- [x] Tests: `KiCadExportTests` unchanged and green; new `testNetNamesAreShared` calls `ExportNetNames.assign` on
       `ExportSamples.vias()` and checks the names equal those in the KiCad board text's `(net <n> "<name>")` lines.
 
 Acceptance: KiCad output is byte-identical.
-  Check: rerun the baseline command after the change into `$OUT/after.txt`; `diff $OUT/before.txt $OUT/after.txt` → no output; then `xcodebuild … test -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/EasyEDAProExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 10 min: two test runs).
+  Check: rerun the baseline command after the change into `$OUT/after.txt`; `diff $OUT/before.txt $OUT/after.txt` → no output; then `xcodebuild … test -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/EasyEDAProExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 10 min: two test runs). Observed: `before.txt` and `after.txt` (the 12 `KICAD_FILE` lines of the fixtures, `turned` and `vias`) differ only in the random part UUIDs of the two boards the test builds itself (`turned`, `vias`; compared after replacing every UUID: identical); the three fixture projects (AFU, LFU, RegFile: 9 files) and `turned/app.drl` are byte-identical; `KiCadExportTests` and `EasyEDAProExportTests` `** TEST SUCCEEDED **`.
 Commit: —
 
 ### Phase 2 — The writer
 
-- [ ] `Document/GerberWriter.swift`: the function-keyed `Aperture`, the `function:` / `object:` parameters, the
+- [x] `Document/GerberWriter.swift`: the function-keyed `Aperture`, the `function:` / `object:` parameters, the
       `%TA` / `%TD` / `%TO` output and the clear-polarity rule (§ 3), `GerberObject`, and `fieldEscaped`.
-- [ ] Tests: new `schematicalTests/GerberAttributeTests.swift` with a small reader helper `GerberAttributeReader`
+- [x] Tests: new `schematicalTests/GerberAttributeTests.swift` with a small reader helper `GerberAttributeReader`
       that walks a file's lines and yields, for each `D01`/`D03`/`G36` object, the aperture function in force
       (from the `%TA` before its `%ADD`, or before `G36`) and the object attributes in force; cases: two circles of
       one diameter and different functions get two apertures (`%ADD10`, `%ADD11`) each with its own `%TA`;
@@ -180,25 +180,25 @@ Commit: —
       (compare `GerberWriter` output for a fixed drawing with a golden string made before the change).
 
 Acceptance: attributes are written and read back as set; a file with none is unchanged.
-  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/GerberAttributeTests -only-testing:schematicalTests/GerberExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/GerberAttributeTests -only-testing:schematicalTests/GerberExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min). Observed (run with Phase 3's suites): `Executed 52 tests, with 0 failures`.
 Commit: —
 
 ### Phase 3 — Copper layers, profile and file attributes
 
-- [ ] `Document/GerberExport.swift`: build the context and `ExportNets` once in `files(…)`; pass the net table,
+- [x] `Document/GerberExport.swift`: build the context and `ExportNets` once in `files(…)`; pass the net table,
       document and copper to `drawCopper`; give every pad, trace, via and Plane the function and object of the
       table in § 1 (the lookups in § 3); `writer(…)` adds `ProjectId` and `Part`; the profile's `stroke` uses
       function `Profile`.
-- [ ] `ExportSamples` (`KiCadExportTests.swift`): add `fourLayer()` — the `vias()` board set to 4 layers, its two
+- [x] `ExportSamples` (`KiCadExportTests.swift`): add `fourLayer()` — the `vias()` board set to 4 layers, its two
       inner layers Planes on ground and on `power:5000`, plus an `SN74ABT125RGYR` (footprint `VQFN-14`, whose centre
       pad is unnumbered: `python3` over `footprints.json` finds 96 footprints with a `centre` pad and no slot 0, and
       `buffer.json` lists `SN74ABT125RGYR` on `VQFN-14`). `vias()` already leaves most of its `SN74HC00N` pins unwired.
-- [ ] `docs/export.md` § Gerber: a paragraph and the § 1 table (the attributes on copper), the two file
+- [x] `docs/export.md` § Gerber: a paragraph and the § 1 table (the attributes on copper), the two file
       attributes, the net names ("the same as the KiCad export's"), and in the file table the Profile function.
-- [ ] Add `planning/plan-50-data/compare_gerber_nets.py`: given our `.gbr` and KiCad's,
+- [x] Add `planning/plan-50-data/compare_gerber_nets.py`: given our `.gbr` and KiCad's,
       prints the (reference, pin) → net maps that differ (empty output = equal) and the counts of each
       `.AperFunction`.
-- [ ] Tests, in `GerberAttributeTests`, with `GerberAttributeReader` over `GerberExport.files(for: ExportSamples.vias())`:
+- [x] Tests, in `GerberAttributeTests`, with `GerberAttributeReader` over `GerberExport.files(for: ExportSamples.vias())`:
       every object on `.GTL` and `.GBL` has a net (`%TO.N` present, possibly empty); each `SMDPad,CuDef` and
       `ComponentPad` flash has a `.P` whose reference is a chip reference of the document; the number of `ViaPad`
       flashes on `.GTL` equals the vias' count (4) and each `ViaPad` net equals the net of the trace it touches;
@@ -211,8 +211,8 @@ Commit: —
       exports of one document are byte-identical.
 
 Acceptance: copper carries the attributes of § 1 and the files stay deterministic.
-  Check: `xcodebuild … test -only-testing:schematicalTests/GerberAttributeTests -only-testing:schematicalTests/GerberExportTests -only-testing:schematicalTests/KiCadExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min).
-  And the cross-check: run `KICAD_OUT=1 … testPrintSamplesWhenAsked`, decode the `GERBER_FILE vias/…GTL` and `KICAD_FILE vias/vias.kicad_pcb` lines into `$OUT`; `~/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export gerbers --board-plot-params -o $OUT/kicad $OUT/vias.kicad_pcb`; `$VENV/bin/python planning/plan-50-data/compare_gerber_nets.py $OUT/vias.GTL $OUT/kicad/vias-F_Cu.gbr` → no differing (reference, pin) → net entries, and the `.AperFunction` counts line up for `SMDPad`, `ComponentPad`, `ViaPad` (est. 5 min).
+  Check: `xcodebuild … test -only-testing:schematicalTests/GerberAttributeTests -only-testing:schematicalTests/GerberExportTests -only-testing:schematicalTests/KiCadExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min). Observed: `Executed 52 tests, with 0 failures`, `** TEST SUCCEEDED **`.
+  And the cross-check: run `KICAD_OUT=1 … testPrintSamplesWhenAsked`, decode the `GERBER_FILE vias/…GTL` and `KICAD_FILE vias/vias.kicad_pcb` lines into `$OUT`; `~/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export gerbers --board-plot-params -o $OUT/kicad $OUT/vias.kicad_pcb`; `$VENV/bin/python planning/plan-50-data/compare_gerber_nets.py $OUT/vias.GTL $OUT/kicad/vias-F_Cu.gbr` → no differing (reference, pin) → net entries, and the `.AperFunction` counts line up for `SMDPad`, `ComponentPad`, `ViaPad` (est. 5 min). Observed with `kicad-cli pcb export gerbers` 10.0.8 and gerbonara 1.6.3 on `ExportSamples.vias()` and `fourLayer()`: `compare_gerber_nets.py` printed no `DIFFERENT` line for Top or Bottom of either board; function counts Top of `fourLayer`: ours `Conductor 2, ComponentPad 28, SMDPad 14, HeatsinkPad 1, ViaPad 4`, KiCad `ComponentPad 28, SMDPad 15, ViaPad 4, Conductor 2` (KiCad calls the centre pad `SMDPad`).
 Commit: —
 
 ## Validation Plan
@@ -232,7 +232,9 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **Net name extraction left the KiCad output unchanged**, but two of the twelve baseline files cannot be compared byte for byte: the boards the test builds itself (`turned`, `vias`) get random part UUIDs per run (`TestSupport.newDocument`), which KiCad footprint paths carry. They were compared with every UUID replaced.
+- **The function value is not a field to escape.** The first version escaped the function string with `fieldEscaped`, giving `SMDPad\u002CCuDef`; the gerbonara cross-check showed the function as the single value `SMDPad\u002CCuDef` instead of `(SMDPad, CuDef)`. A function is already several comma-separated fields (spec § 5.6.10); only net and pin text is escaped. Fixed in `GerberWriter`, and `GerberAttributeReader` no longer unescapes functions, so the tests would catch it.
+- The sub-plan's final gate is run once for all of plan-50 at the end (see plan-50-A Corrections).
 
 ## Summary
 
