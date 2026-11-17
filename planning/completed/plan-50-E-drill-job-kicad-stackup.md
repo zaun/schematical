@@ -158,7 +158,7 @@ each file by the string in the file itself. *KiCad's string-valued numbers*: not
 Acceptance: every tool in every drill file has its function line and equal diameters of different functions are
 separate tools.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/GerberExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min). Observed (Phases 1 and 2 in one run, with `GerberJobTests`): `Executed 62 tests, with 0 failures`.
-Commit: THIS
+Commit: 19e586d0
 
 ### Phase 2 — The job file
 
@@ -178,7 +178,7 @@ Commit: THIS
 Acceptance: the job file is complete, deterministic, and schema-valid.
   Check: `xcodebuild … test -only-testing:schematicalTests/GerberJobTests -only-testing:schematicalTests/GerberExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
   And: `KICAD_OUT=1 … testPrintSamplesWhenAsked` (it prints `GERBER_FILE …job.gbrjob` for `ExportSamples.vias()` and `fourLayer()`, added to it in this phase), decode the lines into `$OUT`, then `curl -sSL -o $OUT/job-schema.json "https://www.ucamco.com/files/downloads/file_en/397/gerber-job-file-schema_en.json"` and `$VENV/bin/python -c "import json,jsonschema,sys; s=json.load(open('$OUT/job-schema.json')); [jsonschema.validate(json.load(open(f)), s) for f in sys.argv[1:]]; print('valid')" $OUT/vias-job.gbrjob $OUT/fourLayer-job.gbrjob` → `valid` (est. 4 min). Observed: `valid 2` for `vias-job.gbrjob` and `fourLayer-job.gbrjob`.
-Commit: THIS
+Commit: 19e586d0
 
 ### Phase 3 — The KiCad stackup
 
@@ -199,7 +199,7 @@ Commit: THIS
 Acceptance: KiCad 10 reads the stackup back as written.
   Check: `xcodebuild … test -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/EasyEDAProExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min). Observed: `Executed 55 tests, with 0 failures`.
   And: decode `KICAD_FILE fourLayer/fourLayer.kicad_pcb` into `$OUT`, run `probe_kicad_stackup_roundtrip.py $OUT/fourLayer.kicad_pcb $OUT/fourLayer-saved.kicad_pcb` with KiCad's python (command line in the probe's docstring), then `python3 planning/plan-50-data/compare_kicad_stackup.py $OUT/fourLayer-saved.kicad_pcb` → no output (est. 4 min). Observed on `fourLayer`: `kicad-cli pcb drc` loads it (`Found 30 violations`, `Found 0 unconnected items`); the compare script printed nothing; the saved file has `(thickness 1.6062)` and `(copper_finish "HAL lead-free")`.
-Commit: THIS
+Commit: 19e586d0
 
 ## Validation Plan
 
