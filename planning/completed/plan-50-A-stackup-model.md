@@ -195,7 +195,7 @@ point is smaller. *Per-manufacturer stackup presets*: PCBWay's page is 404 and a
 
 Acceptance: the model and its invariant behave as above.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/BoardStackupTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 5 min, mostly the build). Observed: `Executed 5 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: —
+Commit: 4794143b
 
 ### Phase 2 — The file
 
@@ -214,7 +214,7 @@ Commit: —
 
 Acceptance: round trip and refusals as above; the 3 goldens still pass with the strip.
   Check: `xcodebuild … test -only-testing:schematicalTests/BoardStackupTests -only-testing:schematicalTests/SchematicFileV5Tests -only-testing:schematicalTests/NetClassTests -only-testing:schematicalTests/NetRulesTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min). Phases 2 and 3 were checked in one run of these suites plus `BoardLayersTests`: `Executed 96 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: —
+Commit: a3e19b66
 
 ### Phase 3 — Edits and undo
 
@@ -231,7 +231,7 @@ Commit: —
 
 Acceptance: every edit is one undo step; the layer-count change round-trips through undo.
   Check: `xcodebuild … test -only-testing:schematicalTests/BoardStackupTests -only-testing:schematicalTests/PCBUndoTests -only-testing:schematicalTests/BoardLayersTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min). Phases 2 and 3 were checked in one run of these suites plus `BoardLayersTests`: `Executed 96 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: —
+Commit: a3e19b66
 
 ## Validation Plan
 
