@@ -103,42 +103,14 @@ struct KiCadBoardWriter {
         }
     }
 
-    /// KiCad's name for a net of one pin or the pin it is named after:
-    /// `Net-(U1-A0)`, `Net-(U1-GND-Pad7)` when the part has several pins of
-    /// that name, `Net-(R1-Pad1)` for a pin with no name, and
-    /// `unconnected-(U1-A0-Pad1)` for a pin on nothing.
     private static func pinNetName(chip: PlacedChip, pin: ChipPin, unconnected: Bool) -> String {
-        let name = pin.name.isEmpty || pin.name == "~" ? "" : KiCad.pinName(pin)
-        let pad = "Pad\(pin.designator)"
-        if unconnected { return "unconnected-(\(chip.reference)-\(name.isEmpty ? pad : "\(name)-\(pad)"))" }
-        if name.isEmpty { return "Net-(\(chip.reference)-\(pad))" }
-        let twins = chip.part.pins.filter { KiCad.pinName($0) == name }.count
-        return "Net-(\(chip.reference)-\(twins > 1 ? "\(name)-\(pad)" : name))"
+        ExportNetNames.pinNetName(chip: chip, pin: pin, unconnected: unconnected)
     }
 
+    /// A net's name as KiCad gives it: a label's text comes after the sheet's
+    /// "/", a "/" in it written `{slash}`.
     private func baseName(ofNet net: Int) -> String {
-        if let rail = context.rail(ofNet: net) { return rail }
-        // KiCad writes a "/" in a label as {slash}, and puts the sheet's "/" before it.
-        if let label = context.labelText[net] { return "/" + label.replacingOccurrences(of: "/", with: "{slash}") }
-        // KiCad names the net after its pins, the alphabetically first name.
-        let pads = copper.netOfPad.filter { $0.value == net }.keys.map { copper.pads[$0] }
-        var pins: [String] = []
-        var seen = Set<String>()
-        for pad in pads where pad.chip >= 0 {
-            let chip = document.chips[pad.chip]
-            guard let designator = pad.pad.designator, seen.insert("\(pad.chip)/\(designator)").inserted,
-                  let pin = chip.part.pins.first(where: { $0.designator == designator }) else { continue }
-            pins.append(Self.pinNetName(chip: chip, pin: pin, unconnected: false))
-        }
-        if pins.count == 1, let pad = pads.first(where: { $0.chip >= 0 }), let designator = pad.pad.designator,
-           let pin = document.chips[pad.chip].part.pins.first(where: { $0.designator == designator }) {
-            return Self.pinNetName(chip: document.chips[pad.chip], pin: pin, unconnected: true)
-        }
-        if let first = pins.min() { return first }
-        if let pad = pads.min(by: { $0.label < $1.label }) {
-            return "Net-(\(pad.label.replacingOccurrences(of: ".", with: "-")))"
-        }
-        return "Net-\(net + 1)"
+        ExportNetNames.baseName(ofNet: net, context: context) { "/" + $0.replacingOccurrences(of: "/", with: "{slash}") }
     }
 
     private func netText(_ net: Int?) -> String {

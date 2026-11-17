@@ -139,6 +139,23 @@ final class KiCadExportTests: XCTestCase {
 
     private static var kept: [SchematicFileController] = []
 
+    private func printRouted() throws {
+        let doc = try ExportSamples.routed()
+        for chip in doc.chips {
+            for pad in chip.boardPads {
+                print("RT_PADC \(chip.reference) \(pad.designator ?? "-") \(pad.rect.midX) \(pad.rect.midY) \(pad.rect.width) \(pad.rect.height)")
+            }
+        }
+        for trace in doc.traces {
+            let points = trace.points.map { "\($0.x),\($0.y)" }.joined(separator: ";")
+            print("RT_TRACE \(trace.layer.rawValue) \(trace.width) \(points)")
+        }
+        for via in doc.vias { print("RT_VIA \(via.centre.x) \(via.centre.y) \(via.drill) \(via.diameter)") }
+        for hole in doc.holes { print("RT_HOLE \(hole.centre.x) \(hole.centre.y) \(hole.drill) \(hole.diameter) \(hole.plated)") }
+        print("RT_BOARD \(doc.board.width) \(doc.board.height) \(doc.board.layers)")
+        print("EPRO_FILE routed.epro \(EasyEDAProExport.data(for: doc, base: "routed").base64EncodedString())")
+    }
+
     /// The Save As panel's Format menu changes the file type and the extension of the name,
     /// and keeps what was typed.
     func testSaveFormatPickerSwitchesTypeAndExtension() throws {
@@ -149,12 +166,16 @@ final class KiCadExportTests: XCTestCase {
         XCTAssertNotNil(panel.accessoryView)
         panel.nameFieldStringValue = "Renamed.schematical"
         let popup = try XCTUnwrap(findPopup(in: try XCTUnwrap(panel.accessoryView)))
-        XCTAssertEqual(popup.itemTitles, ["Schematical", "KiCad Project"])
+        XCTAssertEqual(popup.itemTitles, ["Schematical", "KiCad Project", "EasyEDA Pro Project"])
         popup.selectItem(at: 1)
         _ = popup.target?.perform(popup.action, with: popup)
         XCTAssertEqual(picker.format, .kicad)
         XCTAssertEqual(panel.nameFieldStringValue, "Renamed.kicad_pro")
         XCTAssertEqual(panel.allowedContentTypes.first?.preferredFilenameExtension, "kicad_pro")
+        popup.selectItem(at: 2)
+        _ = popup.target?.perform(popup.action, with: popup)
+        XCTAssertEqual(picker.format, .easyEDAPro)
+        XCTAssertEqual(panel.nameFieldStringValue, "Renamed.epro")
         popup.selectItem(at: 0)
         _ = popup.target?.perform(popup.action, with: popup)
         XCTAssertEqual(picker.format, .schematical)
@@ -176,25 +197,10 @@ final class KiCadExportTests: XCTestCase {
         return nil
     }
 
-    /// A board with a DIP at each turn on Top and on Bottom.
-    private func turnedParts() throws -> SchematicDocument {
-        let doc = TestSupport.newDocument()
-        doc.setLayerCount(2)
-        for (row, (side, part)) in [(BoardSide.top, "SN74HC00N"), (.bottom, "SN74HC00N"), (.top, "SN74HC00DR"), (.bottom, "SN74HC00D")].enumerated() {
-            for (column, rotation) in [0, 90, 180, 270].enumerated() {
-                let chip = try TestSupport.place(doc, part, at: CGPoint(x: 100 + 200 * column, y: 100 + 200 * row))
-                if side == .bottom { doc.setFootprintSide(chip.id, .bottom) }
-                while doc.chips.first(where: { $0.id == chip.id })?.board?.rotation != rotation { doc.rotateFootprint(chip.id) }
-                doc.moveFootprint(chip.id, to: CGPoint(x: 20 + 25 * Double(column), y: 20 + 25 * Double(row)))
-            }
-        }
-        return doc
-    }
-
     /// A pad's place in the file, turned the way KiCad turns it, is where
     /// the app puts the pad: KiCad's angle counts counter-clockwise, y down.
     func testFootprintPadsLandWhereTheAppPutsThem() throws {
-        let doc = try turnedParts()
+        let doc = try ExportSamples.turned()
         let board = KiCadExport.files(for: doc, base: "t")[2].text
         let shift = try pageShift(board, doc)
         var checked = 0
@@ -249,7 +255,8 @@ final class KiCadExportTests: XCTestCase {
                 print("KICAD_FILE \(name)/\(file.name) \(file.data.base64EncodedString())")
             }
         }
-        let doc = try turnedParts()
+        try printRouted()
+        let doc = try ExportSamples.turned()
         // Every pad's box as the app has it, for the SVG check.
         for chip in doc.chips {
             let side = chip.board?.side == .bottom ? "B" : "F"
@@ -260,8 +267,69 @@ final class KiCadExportTests: XCTestCase {
         for file in KiCadExport.files(for: doc, base: "turned") where file.name.hasSuffix("kicad_pcb") {
             print("KICAD_FILE turned/\(file.name) \(file.data.base64EncodedString())")
         }
+        for chip in doc.chips {
+            for pad in chip.boardPads {
+                print("APP_PADC \(chip.reference) \(pad.designator ?? "-") \(pad.rect.midX) \(pad.rect.midY) \(pad.rect.width) \(pad.rect.height)")
+            }
+        }
+        print("EPRO_FILE turned.epro \(EasyEDAProExport.data(for: doc, base: "turned").base64EncodedString())")
+        for name in Fixture.names {
+            print("EPRO_FILE \(name).epro \(EasyEDAProExport.data(for: try Fixture.open(name), base: name).base64EncodedString())")
+        }
         if let drill = GerberExport.files(for: doc, base: "turned").first(where: { $0.name.hasSuffix("-PTH.drl") }) {
             print("KICAD_FILE turned/app.drl \(drill.data.base64EncodedString())")
         }
     }
+}
+
+/// Boards the export tests (and `kicad-cli` / EasyEDA importer checks) use.
+@MainActor
+enum ExportSamples {
+    /// A board with a DIP at each turn on Top and on Bottom.
+    static func turned() throws -> SchematicDocument {
+        let doc = TestSupport.newDocument()
+        doc.setLayerCount(2)
+        for (row, (side, part)) in [(BoardSide.top, "SN74HC00N"), (.bottom, "SN74HC00N"), (.top, "SN74HC00DR"), (.bottom, "SN74HC00D")].enumerated() {
+            for (column, rotation) in [0, 90, 180, 270].enumerated() {
+                let chip = try TestSupport.place(doc, part, at: CGPoint(x: 100 + 200 * column, y: 100 + 200 * row))
+                if side == .bottom { doc.setFootprintSide(chip.id, .bottom) }
+                while doc.chips.first(where: { $0.id == chip.id })?.board?.rotation != rotation { doc.rotateFootprint(chip.id) }
+                doc.moveFootprint(chip.id, to: CGPoint(x: 20 + 25 * Double(column), y: 20 + 25 * Double(row)))
+            }
+        }
+        return doc
+    }
+
+    /// Two gates wired together and to the supplies, with copper: a trace, a via, a ground
+    /// plane on an inner layer, a text and a plated hole.
+    static func routed() throws -> SchematicDocument {
+        let doc = TestSupport.newDocument()
+        doc.setLayerCount(4)
+        let a = try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 100, y: 100))
+        let b = try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 400, y: 100))
+        let vcc = try TestSupport.place(doc, "5V", at: CGPoint(x: 100, y: 300))
+        let gnd = try TestSupport.place(doc, "GND", at: CGPoint(x: 200, y: 300))
+        func pin(_ chip: PlacedChip, _ designator: String) throws -> LineAnchor {
+            let index = try XCTUnwrap(chip.part.pins.firstIndex { $0.designator == designator })
+            return .pin(PinRef(chipID: chip.id, index: index))
+        }
+        XCTAssertNil(doc.connect(try pin(a, "3"), try pin(b, "1")))
+        XCTAssertNil(doc.connect(try pin(a, "14"), try pin(vcc, "1")))
+        XCTAssertNil(doc.connect(try pin(a, "7"), try pin(gnd, "1")))
+        let chipA = try XCTUnwrap(doc.chips.first { $0.id == a.id }), chipB = try XCTUnwrap(doc.chips.first { $0.id == b.id })
+        func centre(_ chip: PlacedChip, _ designator: String) throws -> CGPoint {
+            let pad = try XCTUnwrap(chip.boardPads.first { $0.designator == designator })
+            return CGPoint(x: pad.rect.midX, y: pad.rect.midY)
+        }
+        let from = try centre(chipA, "3"), to = try centre(chipB, "1")
+        _ = try XCTUnwrap(doc.addTrace(points: [from, CGPoint(x: to.x, y: from.y), to], layer: .top, width: 12))
+        _ = try XCTUnwrap(doc.addVia(at: CGPoint(x: to.x, y: from.y)))
+        doc.setLayerType(.inner(2), .plane)
+        doc.setLayerNet(.inner(2), .ground)
+        let text = doc.addText(at: CGPoint(x: 5, y: 5))
+        _ = text
+        _ = doc.addHole(at: CGPoint(x: 60, y: 40))
+        return doc
+    }
+
 }

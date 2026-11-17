@@ -7,11 +7,14 @@ enum SaveFormat: Int, CaseIterable {
     case schematical
     /// A KiCad project (`KiCadExport`): `.kicad_pro`, `.kicad_sch`, `.kicad_pcb`.
     case kicad
+    /// An EasyEDA Pro project (`EasyEDAProExport`): one `.epro` file.
+    case easyEDAPro
 
     var title: String {
         switch self {
         case .schematical: "Schematical"
         case .kicad: "KiCad Project"
+        case .easyEDAPro: "EasyEDA Pro Project"
         }
     }
 
@@ -19,6 +22,7 @@ enum SaveFormat: Int, CaseIterable {
         switch self {
         case .schematical: SchematicFile.fileExtension
         case .kicad: "kicad_pro"
+        case .easyEDAPro: EasyEDAProExport.fileExtension
         }
     }
 
@@ -26,6 +30,7 @@ enum SaveFormat: Int, CaseIterable {
         switch self {
         case .schematical: SchematicFile.contentType
         case .kicad: UTType(filenameExtension: "kicad_pro", conformingTo: .json) ?? .json
+        case .easyEDAPro: UTType(filenameExtension: EasyEDAProExport.fileExtension, conformingTo: .zip) ?? .zip
         }
     }
 
@@ -34,6 +39,7 @@ enum SaveFormat: Int, CaseIterable {
         switch self {
         case .schematical: ""
         case .kicad: "Writes the .kicad_pro, .kicad_sch and .kicad_pcb files for KiCad 8 or later. This window's file is not changed."
+        case .easyEDAPro: "Writes one .epro project for EasyEDA Pro (File ▸ Import ▸ EasyEDA Professional). This window's file is not changed."
         }
     }
 }

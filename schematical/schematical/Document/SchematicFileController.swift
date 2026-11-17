@@ -108,8 +108,8 @@ final class SchematicFileController {
     }
 
     /// Asks where to save, then saves there. The panel's Format menu picks
-    /// a Schematical file (a save) or a KiCad project (an export: the
-    /// window's file and saved state do not change).
+    /// a Schematical file (a save), or a KiCad or EasyEDA Pro project (an
+    /// export: the window's file and saved state do not change).
     func saveAs() async {
         let panel = NSSavePanel()
         panel.canCreateDirectories = true
@@ -123,6 +123,8 @@ final class SchematicFileController {
             write(to: url)
         case .kicad:
             exportKiCad(to: url)
+        case .easyEDAPro:
+            exportEasyEDAPro(to: url)
         }
     }
 
@@ -135,6 +137,23 @@ final class SchematicFileController {
         } catch {
             present(error, title: "Couldn't export “\(displayName)”")
         }
+    }
+
+    /// Writes the EasyEDA Pro project (`EasyEDAProExport`) to `url`, which is
+    /// the file the panel chose. Like any export, not a save.
+    func exportEasyEDAPro(to url: URL) {
+        do {
+            try writeEasyEDAPro(to: url)
+        } catch {
+            present(error, title: "Couldn't export “\(displayName)”")
+        }
+    }
+
+    /// Writes the project as `url`, one `.epro` file named for its folder and
+    /// name. Throws for a failed write.
+    func writeEasyEDAPro(to url: URL) throws {
+        let base = KiCadExport.baseName(url.deletingPathExtension().lastPathComponent)
+        try EasyEDAProExport.data(for: document, base: base).write(to: url, options: .atomic)
     }
 
     /// Writes `<name>.kicad_pro`, `.kicad_sch` and `.kicad_pcb` into the
