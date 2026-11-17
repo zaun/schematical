@@ -107,17 +107,42 @@ final class SchematicFileController {
         }
     }
 
-    /// Asks where to save, then saves there.
+    /// Asks where to save, then saves there. The panel's Format menu picks
+    /// a Schematical file (a save) or a KiCad project (an export: the
+    /// window's file and saved state do not change).
     func saveAs() async {
         let panel = NSSavePanel()
-        panel.allowedContentTypes = [SchematicFile.contentType]
         panel.canCreateDirectories = true
-        panel.nameFieldStringValue = "\(displayName).\(SchematicFile.fileExtension)"
+        let picker = SaveFormatPicker(panel: panel, baseName: displayName)
         if let fileURL {
             panel.directoryURL = fileURL.deletingLastPathComponent()
         }
         guard await run(panel) == .OK, let url = panel.url else { return }
-        write(to: url)
+        switch picker.format {
+        case .schematical:
+            write(to: url)
+        case .kicad:
+            exportKiCad(to: url)
+        }
+    }
+
+    /// Writes the KiCad project (`KiCadExport`) next to `url`: three files
+    /// named after it, whatever extension the panel gave it. Like any
+    /// export, not a save.
+    func exportKiCad(to url: URL) {
+        do {
+            try writeKiCad(to: url)
+        } catch {
+            present(error, title: "Couldn't export “\(displayName)”")
+        }
+    }
+
+    /// Writes `<name>.kicad_pro`, `.kicad_sch` and `.kicad_pcb` into the
+    /// folder of `url`, `<name>` being its file name without extension.
+    /// Throws for a failed write.
+    func writeKiCad(to url: URL) throws {
+        let base = KiCadExport.baseName(url.deletingPathExtension().lastPathComponent)
+        try KiCadExport.write(document, base: base, to: url.deletingLastPathComponent())
     }
 
     /// True for a new window's untitled schematic that is still empty.
