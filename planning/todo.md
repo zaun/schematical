@@ -44,7 +44,7 @@
 - [x] Add top 3 Capacitor manufactuerers and their active capacitors (plan-33)
 - [ ] Add Slide Switches, top 3 manufactuerers and their active switches
 - [x] Add 20x4 and 40x2 and 40x4 character LCD modules
-- [ ] Add a KiCad export for the schematic.
+- [x] Add a KiCad export for the schematic. (Save As ▸ Format ▸ KiCad Project: schematic and board)
 - [x] Add a Gerber export for the PCB
 
 ## Manufacturing (a board can't be ordered without these)

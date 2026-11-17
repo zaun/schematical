@@ -1,6 +1,7 @@
 # Export
 
-**File > Export** (after Save As…) has two items: **Image…** (⇧⌘E), a
+**File > Save As…** (and Save of a window with no file yet) has a **Format**
+menu: Schematical, or **KiCad Project** ([KiCad](#kicad)). **File > Export** (after Save As…) has two items: **Image…** (⇧⌘E), a
 picture of the focused window's schematic, PCB page or made board, and
 **Gerber PCB…**, its board as Gerber files (see Gerber below).
 
@@ -88,6 +89,66 @@ Coordinates are absolute decimal mm in the Gerber files' frame (y up from
 the board's bottom edge), so they line up with the copper. A slot is a
 routed `G85` slot from one end centre to the other, its width the tool.
 
+## KiCad
+
+**File > Save As…**, Format **KiCad Project**, writes the schematic and its
+board as a KiCad 8 project (KiCad 8 and later open it): next to the chosen
+file, `<name>.kicad_pro`, `<name>.kicad_sch` and `<name>.kicad_pcb`
+(`KiCadExport`). The panel's Format menu changes the file type and the
+extension of the name. Like any export it is not a save: the window's file and
+its unsaved-changes state do not change.
+
+**Schematic** (`KiCadSchematicWriter`). One sheet, 0.127 mm per canvas unit, so
+the app's 10-unit grid is KiCad's 1.27 mm grid and every wire end lands on a pin
+end.
+
+- Each part is a generated symbol in the file's own `Schematical` library: a
+  rectangle with the pins on the sides the app draws them (a flipped part is its
+  own symbol; a two-terminal part's rectangle is just its pins' span). Pin names
+  keep their active-low bars (`~{CE}`), pin types follow the roles, and power and
+  ground pins are power inputs. Value is the part number (a resistor's or generic
+  capacitor's value), Footprint is `Schematical:<footprint id>`, Datasheet is the
+  datasheet URL.
+- VCC and GND symbols are power symbols named for the rail (`5V`, `3V3`, `GND`),
+  so KiCad joins every one of a voltage, as the app does; each rail also gets a
+  `PWR_FLAG`. A pull resistor gets a second pin, on its far side, joined to a power
+  symbol of its rail.
+- Wires (one per straight run), junctions where 3 or more runs meet, net labels
+  (local labels; the flag shape is not kept), No Connects and text blocks (framed
+  ones with a box). Buses are drawn as KiCad buses with each port as a box, and every
+  wired port pin carries a net label of its bus wire's name, so the nets are the
+  same as the app's (linked buses share the label; unrelated wires of one name get
+  `D0`, `D0_2`).
+- A card board's connector (`EDGE1`, `HEADER1`) is a symbol beside the drawing,
+  one pin per connector pin, each on its net by a label or a power symbol.
+
+**Board** (`KiCadBoardWriter`). Millimetres as on the PCB page, moved 30 mm inside
+the page. Footprints are written with the part's reference, value, body outline,
+pin-1 dot and diode band on the layers the part's marks name, pads in the footprint's
+own frame (a turn of `r` degrees clockwise is KiCad's angle `-r`, a Bottom footprint
+has its x mirrored and its pads on `B.*`), traces, vias, Plane layers as unfilled
+zones (press B in KiCad to fill), the outline on `Edge.Cuts`, board texts, the card's
+fingers or header pads, and holes. A 1-layer board has the two copper layers KiCad
+needs. Pads carry the net of their pin, named as KiCad names it: a rail's name, a net
+label as `/NAME` (a `/` in it as `{slash}`), else `Net-(U1-A0)` after the
+alphabetically first pin, `unconnected-(U1-A0-Pad1)` for a pin on nothing. So the
+board and the schematic agree (KiCad's Update PCB from Schematic finds no difference),
+and each footprint's path is its part's uuid.
+
+**Not exported**: net classes, per-net layer rules and groups, simulation state,
+the Document layer's contents on the board other than texts, and a real symbol or
+footprint library (the `Schematical` library is only in the files, so the project
+file turns off KiCad's missing-library checks). Design rules go to the project's
+design settings.
+
+**Checking it.** `KiCadExportTests` checks the files' shape, that a footprint's pads
+land where the app puts them at every turn and side, and the Format menu. The rest was
+checked with KiCad 10's `kicad-cli`: `sch export netlist` gives the same pin groups
+and the same net names as the pads on the board (on `AFU`, `LFU` and `RegFile`), `pcb
+drc` finds no schematic parity difference, a board of DIP and SOIC parts at every
+turn on both sides has the same hole positions as the app's drill file, and its
+pad outlines in `pcb export svg` are the app's.
+
 ## Black line art
 
 Drawing code never names a color. It names an `Ink` role, and the painter
@@ -147,7 +208,11 @@ PNG puts them; the padding keeps a wider font from clipping. A turned label
 | `ImageExportView`, `ImageExportFormat`, `ImageExportBackground`, `ImageExportOptions`, `ImageExport` (every image, its size, PNG/JPG encoding) | `schematical/schematical/Document/ImageExport.swift` |
 | `ImageExportDialog` (the options sheet) | `schematical/schematical/Document/ImageExportDialog.swift` |
 | `SchematicExportMenu` (the submenu; `SchematicFileCommands` adds it to File) | `schematical/schematical/Document/SchematicExportCommands.swift` |
-| `exportImage()`, `writeImage(_:to:)`, `exportGerber()`, `writeGerber(to:)` | `schematical/schematical/Document/SchematicFileController.swift` |
+| `exportImage()`, `writeImage(_:to:)`, `exportGerber()`, `writeGerber(to:)`, `saveAs()`, `exportKiCad(to:)`, `writeKiCad(to:)` | `schematical/schematical/Document/SchematicFileController.swift` |
+| `SaveFormat`, `SaveFormatPicker` (Save As's Format menu) | `schematical/schematical/Document/SaveFormatPicker.swift` |
+| `KiCadExport` (the three files, project file, shared names), `KiCad` (number, string, uuid formats) | `schematical/schematical/Document/KiCadExport.swift` |
+| `KiCadSchematicWriter` | `schematical/schematical/Document/KiCadSchematicWriter.swift` |
+| `KiCadBoardWriter` | `schematical/schematical/Document/KiCadBoardWriter.swift` |
 | `GerberExport` (the layer files) | `schematical/schematical/Document/GerberExport.swift` |
 | `GerberWriter` (apertures, flashes, strokes, regions, polarity), `GerberOutline` (path flattening, glyph outlines) | `schematical/schematical/Document/GerberWriter.swift` |
 | `DrillExport` (the Excellon files) | `schematical/schematical/Document/DrillExport.swift` |

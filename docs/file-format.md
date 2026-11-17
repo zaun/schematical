@@ -7,7 +7,7 @@ schematic with no custom part is still written as version 4. Version 1, 2
 and 3 files open too (see [Older versions](#older-versions)).
 
 Code: `schematical/schematical/Document/SchematicFile.swift` (the format) and
-`SchematicFileController.swift` (Save, Save As, Open).
+`SchematicFileController.swift` (Save, Save As, Open). Save As can also write a KiCad project instead (see [export.md](export.md#kicad)); that is an export and writes no `.schematical` file.
 
 ## Design rules
 
