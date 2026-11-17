@@ -223,6 +223,7 @@ overlaps. A 1-layer board has none.
 | `diameter` | number | The metal's outer diameter in mm, 0.2 to 10, and at least 0.1 more than `drill` (a 0.05 mm ring). Default 0.8. |
 | `locked`   | boolean | Lock Position: a locked via can't be dragged or moved by X and Y. Default `false`. Written only when `true`; older builds ignore it. |
 | `auto`     | boolean | Put down by the autorouter, as a trace's `auto`. Default `false`. Written only when `true`; older builds ignore it. |
+| `openTop`, `openBottom` | boolean | The solder mask leaves the via open on that side (Top is the component side): the Gerber mask file gets an opening the via's metal grown by the Mask expansion, and the KiCad board writes the side as not tented. Default `false` (tented). Written only when `true`; older builds ignore them and show the via tented. |
 
 ### Holes
 

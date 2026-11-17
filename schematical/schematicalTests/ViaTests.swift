@@ -219,4 +219,66 @@ final class ViaTests: XCTestCase {
         doc.moveBoardGroup(doc.boardGroupBase(grab: p(5, 1)), by: .zero)
         XCTAssertEqual(doc.traces.first?.points, before)
     }
+
+    // MARK: Tenting (plan-50-C)
+
+    func testANewViaIsTentedOnBothSides() throws {
+        let doc = TestSupport.newDocument()
+        let id = try XCTUnwrap(doc.addVia(at: p(5.08, 5.08)))
+        let added = try via(doc, id)
+        XCTAssertTrue(added.tentedTop && added.tentedBottom)
+        XCTAssertTrue(added.isTented(on: .top) && added.isTented(on: .bottom))
+    }
+
+    func testTentingIsOneUndoStepPerSide() throws {
+        let doc = TestSupport.newDocument()
+        let id = try XCTUnwrap(doc.addVia(at: p(5.08, 5.08)))
+        doc.setViaTenting(id, .top, false)
+        XCTAssertFalse(try via(doc, id).isTented(on: .top))
+        XCTAssertTrue(try via(doc, id).isTented(on: .bottom))
+        XCTAssertEqual(doc.undoName(on: .pcb), "Change Via Tenting")
+        doc.setViaTenting(id, .bottom, false)
+        XCTAssertFalse(try via(doc, id).isTented(on: .bottom))
+        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(try via(doc, id).isTented(on: .bottom))
+        XCTAssertFalse(try via(doc, id).isTented(on: .top))
+        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertTrue(try via(doc, id).isTented(on: .top))
+        // The same value records no step.
+        let name = doc.undoName(on: .pcb)
+        doc.setViaTenting(id, .top, true)
+        XCTAssertEqual(doc.undoName(on: .pcb), name)
+    }
+
+    func testTentingInTheFile() throws {
+        let doc = TestSupport.newDocument()
+        let tented = try XCTUnwrap(doc.addVia(at: p(2.54, 2.54)))
+        let openTop = try XCTUnwrap(doc.addVia(at: p(5.08, 2.54)))
+        let openBottom = try XCTUnwrap(doc.addVia(at: p(7.62, 2.54)))
+        let both = try XCTUnwrap(doc.addVia(at: p(10.16, 2.54)))
+        doc.setViaTenting(openTop, .top, false)
+        doc.setViaTenting(openBottom, .bottom, false)
+        doc.setViaTenting(both, .top, false)
+        doc.setViaTenting(both, .bottom, false)
+        let opened = try BoardLayersTests.roundTrip(doc)
+        XCTAssertEqual(opened.vias, doc.vias)
+        let entries = try XCTUnwrap(try SchematicFile.decode(SchematicFile(document: doc, fileURL: nil).encoded())
+            .board?.vias)
+        func entry(_ id: UUID) throws -> SchematicFile.Board.ViaEntry { try XCTUnwrap(entries.first { $0.id == id }) }
+        XCTAssertNil(try entry(tented).openTop)
+        XCTAssertNil(try entry(tented).openBottom)
+        XCTAssertEqual(try entry(openTop).openTop, true)
+        XCTAssertNil(try entry(openTop).openBottom)
+        XCTAssertNil(try entry(openBottom).openTop)
+        XCTAssertEqual(try entry(openBottom).openBottom, true)
+        XCTAssertEqual(try entry(both).openTop, true)
+        XCTAssertEqual(try entry(both).openBottom, true)
+    }
+
+    func testAFileWithNoTentingKeysOpensTented() throws {
+        let viaID = UUID()
+        let opened = try BoardLayersTests.open(board: #"{ "vias": [ { "id": "\#(viaID)", "x": 1, "y": 2 } ] }"#)
+        XCTAssertTrue(try XCTUnwrap(opened.vias.first).tentedTop)
+        XCTAssertTrue(try XCTUnwrap(opened.vias.first).tentedBottom)
+    }
 }

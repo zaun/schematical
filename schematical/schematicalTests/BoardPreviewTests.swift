@@ -70,6 +70,29 @@ final class BoardPreviewTests: XCTestCase {
         XCTAssertNotEqual(enig, osp)
     }
 
+    /// An open via shows as bare finish; a tented one is under the mask.
+    func testOpenViaChangesTheRender() throws {
+        let doc = TestSupport.newDocument()
+        doc.setBoardSize(width: 10, height: 8)
+        let id = try XCTUnwrap(doc.addVia(at: CGPoint(x: 5, y: 4)))
+        doc.setViaDiameter(id, 3)
+        let tented = try pixels(doc)
+        doc.setViaTenting(id, .top, false)
+        let open = try pixels(doc)
+        XCTAssertNotEqual(tented, open)
+        doc.setViaTenting(id, .top, true)
+        XCTAssertEqual(try pixels(doc), tented)
+        // The back view of a via open only on Top is unchanged.
+        func backPixels() throws -> Data {
+            let view = BoardPreviewView.canvas(document: doc, face: .back, angle: .top).frame(width: 300, height: 220)
+            return try XCTUnwrap(ImageRenderer(content: view).cgImage?.dataProvider?.data as Data?)
+        }
+        doc.setViaTenting(id, .top, false)
+        let backOpenTop = try backPixels()
+        doc.setViaTenting(id, .top, true)
+        XCTAssertEqual(try backPixels(), backOpenTop)
+    }
+
     /// The back view mirrors left to right; the angled view lifts parts.
     func testProjection() {
         let outline = [CGPoint.zero, CGPoint(x: 100, y: 0), CGPoint(x: 100, y: 50), CGPoint(x: 0, y: 50)]

@@ -366,7 +366,7 @@ struct BoardRenderer {
             }
         }
         // Tented vias: a ring under the mask and the hole.
-        for via in document.vias {
+        for via in document.vias where via.isTented(on: side) {
             context.fill(Path(ellipseIn: via.rect), with: .color(underMask))
         }
 
@@ -375,6 +375,10 @@ struct BoardRenderer {
             context.fill(path, with: .linearGradient(
                 Gradient(colors: [tint.shaded(1.15).color, tint.color, tint.shaded(0.8).color]),
                 startPoint: CGPoint(x: rect.minX, y: rect.minY), endPoint: CGPoint(x: rect.maxX, y: rect.maxY)))
+        }
+        // Open vias: the ring is bare copper in the finish.
+        for via in document.vias where !via.isTented(on: side) {
+            metal(Path(ellipseIn: via.rect), finish, via.rect)
         }
         for finger in board.fingers where !finger.isThroughHole && finger.side == side {
             metal(Path(finger.rect), .gold, finger.rect)

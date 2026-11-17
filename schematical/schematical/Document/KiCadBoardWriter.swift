@@ -113,6 +113,13 @@ struct KiCadBoardWriter {
         ExportNetNames.baseName(ofNet: net, context: context) { "/" + $0.replacingOccurrences(of: "/", with: "{slash}") }
     }
 
+    /// A track's or via's net: KiCad 8 and later take only the net's code there
+    /// (`(net 3)`); a pad also names it.
+    private func trackNetText(_ net: Int?) -> String {
+        guard let net, let code = codes[net] else { return "" }
+        return "\n\t\t(net \(code))"
+    }
+
     private func netText(_ net: Int?) -> String {
         guard let net, let code = codes[net], let name = names[net] else { return "" }
         return "\n\t\t\t(net \(code) \(KiCad.q(name)))"
@@ -489,7 +496,7 @@ struct KiCadBoardWriter {
                 \t\t(start \(xy(segment.0)))
                 \t\t(end \(xy(segment.1)))
                 \t\t(width \(KiCad.n(trace.widthMM)))
-                \t\t(layer \(KiCad.q(layerName(trace.layer))))\(netText(net))
+                \t\t(layer \(KiCad.q(layerName(trace.layer))))\(trackNetText(net))
                 \t\t(uuid \(KiCad.q(id("trace/\(trace.id)/\(s)"))))
                 \t)
                 """)
@@ -502,7 +509,11 @@ struct KiCadBoardWriter {
             \t\t(at \(xy(via.centre)))
             \t\t(size \(KiCad.n(via.diameter)))
             \t\t(drill \(KiCad.n(via.drill)))
-            \t\t(layers "F.Cu" "B.Cu")\(netText(net))
+            \t\t(layers "F.Cu" "B.Cu")
+            \t\t(tenting
+            \t\t\t(front \(via.tentedTop ? "yes" : "no"))
+            \t\t\t(back \(via.tentedBottom ? "yes" : "no"))
+            \t\t)\(trackNetText(net))
             \t\t(uuid \(KiCad.q(id("via/\(via.id)"))))
             \t)
             """)

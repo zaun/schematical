@@ -256,6 +256,14 @@ nonisolated struct BoardVia: Identifiable, Hashable, Sendable {
     var locked = false
     /// Put down by the autorouter (see `BoardTrace.auto`).
     var auto = false
+    /// Covered by solder mask on the Top side / the Bottom side. Off leaves
+    /// the via open there (a mask opening in the Gerber), for probing or
+    /// soldering.
+    var tentedTop = true
+    var tentedBottom = true
+
+    /// Whether the solder mask covers the via on `side`.
+    func isTented(on side: BoardSide) -> Bool { side == .top ? tentedTop : tentedBottom }
 
     static let defaultDrill = 0.4
     static let defaultDiameter = 0.8

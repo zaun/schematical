@@ -699,6 +699,12 @@ private struct ViaPanel: View {
             }
             .help("The copper left round the hole, each side")
             LabeledContent("Layers", value: "Through, all \(document.board.layers)")
+            Toggle("Tented on Top", isOn: Binding(get: { via.tentedTop },
+                                                  set: { document.setViaTenting(via.id, .top, $0) }))
+                .help("Covered by solder mask. Off leaves the via open on that side, for probing or soldering")
+            Toggle("Tented on Bottom", isOn: Binding(get: { via.tentedBottom },
+                                                     set: { document.setViaTenting(via.id, .bottom, $0) }))
+                .help("Covered by solder mask. Off leaves the via open on that side, for probing or soldering")
             NetAndClassRows(document: document) { document.net(ofVia: via.id, in: $0) }
         }
         Section("Connections") {

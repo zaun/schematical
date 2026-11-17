@@ -27,7 +27,7 @@ The shared gate is in plan-50-A. This sub-plan adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-50-B is complete | `ls planning/completed \| grep -c '^plan-50-B'` → 1 | NOT MET until B is archived |
+| plan-50-B is complete | `ls planning/completed \| grep -c '^plan-50-B'` → 1 | MET (2026-11-16: 1) |
 
 Everything below is written against the world where this holds.
 
@@ -121,36 +121,36 @@ owner asked for.
 
 ### Phase 1 — The via flag, the file and the sidebar
 
-- [ ] `Canvas/BoardTrace.swift`: `BoardVia.tentedTop`, `tentedBottom`, `isTented(on:)`.
-- [ ] `Document/SchematicFile.swift`: `ViaEntry.openTop` / `openBottom` (optional Booleans, written only when
+- [x] `Canvas/BoardTrace.swift`: `BoardVia.tentedTop`, `tentedBottom`, `isTented(on:)`.
+- [x] `Document/SchematicFile.swift`: `ViaEntry.openTop` / `openBottom` (optional Booleans, written only when
       true; `Board(…)` at `:786`, reader at `:1109`).
-- [ ] `Canvas/SchematicModel.swift`: `setViaTenting(_:_:_:)` beside `setViaDiameter`.
-- [ ] `Canvas/PCBSidebarView.swift` `ViaPanel`: two `Toggle`s, "Tented on Top" and "Tented on Bottom" (help:
+- [x] `Canvas/SchematicModel.swift`: `setViaTenting(_:_:_:)` beside `setViaDiameter`.
+- [x] `Canvas/PCBSidebarView.swift` `ViaPanel`: two `Toggle`s, "Tented on Top" and "Tented on Bottom" (help:
       "Covered by solder mask. Off leaves the via open on that side, for probing or soldering"), after Ring.
-- [ ] `docs/file-format.md` § Vias: the table rows for `openTop` / `openBottom`.
-- [ ] Tests, in `schematicalTests/ViaTests.swift`: a new via is tented on both sides; `setViaTenting` flips one
+- [x] `docs/file-format.md` § Vias: the table rows for `openTop` / `openBottom`.
+- [x] Tests, in `schematicalTests/ViaTests.swift`: a new via is tented on both sides; `setViaTenting` flips one
       side, is one undo step named "Change Via Tenting" (`doc.undoName(on: .pcb)`), and `doc.undo(on: .pcb)`
       restores it; a file round-trips `openTop` and `openBottom` independently; a saved file with every via
       tented has neither key; a file with neither key opens tented.
 
 Acceptance: the flag is stored, saved, undoable and editable.
-  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/ViaTests -only-testing:schematicalTests/SchematicFileV5Tests -only-testing:schematicalTests/PCBUndoTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/ViaTests -only-testing:schematicalTests/SchematicFileV5Tests -only-testing:schematicalTests/PCBUndoTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min). Observed with Phase 2's suites in one run: `Executed 96 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 Commit: —
 
 ### Phase 2 — Preview, Gerber and KiCad
 
-- [ ] `BoardPreview/BoardRenderer.swift` `drawSurface`: an open via is drawn in the finish (§ 3).
-- [ ] `Document/GerberExport.swift` `drawMask`: the openings (§ 3); update its doc comment ("Vias are tented unless
+- [x] `BoardPreview/BoardRenderer.swift` `drawSurface`: an open via is drawn in the finish (§ 3).
+- [x] `Document/GerberExport.swift` `drawMask`: the openings (§ 3); update its doc comment ("Vias are tented unless
       opened").
-- [ ] `Document/KiCadBoardWriter.swift` `tracks()`: the `(tenting …)` lines.
-- [ ] `docs/export.md`: Gerber table's `.GTS` / `.GBS` row now ends "Vias are tented unless opened (Via ▸ Tented
+- [x] `Document/KiCadBoardWriter.swift` `tracks()`: the `(tenting …)` lines.
+- [x] `docs/export.md`: Gerber table's `.GTS` / `.GBS` row now ends "Vias are tented unless opened (Via ▸ Tented
       on Top / Bottom); an open side gets an opening the via's metal grown by the Mask expansion"; § KiCad: the board's
       via line says each via carries its two tenting flags.
-- [ ] `KiCadExportTests.swift`: `ExportSamples.vias()` — the 2-layer board of an `SN74HC00N` and a resistor wired
+- [x] `KiCadExportTests.swift`: `ExportSamples.vias()` — the 2-layer board of an `SN74HC00N` and a resistor wired
       together with four vias on its traces, the vias set (Top, Bottom) tented = (yes, yes), (no, yes), (yes, no),
       (no, no) — and `testPrintSamplesWhenAsked` prints it (`KICAD_FILE vias/…` and `GERBER_FILE vias/<name> <base64>`
       for every Gerber file).
-- [ ] Tests: `GerberExportTests`: with the four vias, `.GTS` has exactly 2 via openings (the (no, yes) and (no, no)
+- [x] Tests: `GerberExportTests`: with the four vias, `.GTS` has exactly 2 via openings (the (no, yes) and (no, no)
       vias) and `.GBS` exactly 2 (the (yes, no) and (no, no)), each `C,<diameter + 2 × expansion>` at the via's
       centre; with every via tented the mask files gain nothing (`.GTS` and `.GBS` of the vias board
       with all four tented are byte-identical to those of the same board with its four vias deleted). `KiCadExportTests`: the board text has exactly 4 `(tenting` lines in the
@@ -159,7 +159,7 @@ Commit: —
 
 Acceptance: Gerber and KiCad carry the choice, and KiCad reads it back as the same modes.
   Check: `xcodebuild … test -only-testing:schematicalTests/GerberExportTests -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/BoardPreviewTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
-  And: run `KICAD_OUT=1 xcodebuild … test -only-testing:schematicalTests/KiCadExportTests/testPrintSamplesWhenAsked`, decode the `KICAD_FILE vias/…kicad_pcb` line into `$OUT/vias.kicad_pcb`, then `PYTHONPATH=~/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/Current/lib/python3.9/site-packages ~/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/Current/bin/python3 -I planning/plan-50-data/probe_kicad_via_tenting.py $OUT/vias.kicad_pcb` → four via lines `1 1`, `2 1`, `1 2`, `2 2` in via order (TENTED 1, NOT_TENTED 2) (est. 3 min).
+  And: run `KICAD_OUT=1 xcodebuild … test -only-testing:schematicalTests/KiCadExportTests/testPrintSamplesWhenAsked`, decode the `KICAD_FILE vias/…kicad_pcb` line into `$OUT/vias.kicad_pcb`, then `PYTHONPATH=~/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/Current/lib/python3.9/site-packages ~/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/Current/bin/python3 -I planning/plan-50-data/probe_kicad_via_tenting.py $OUT/vias.kicad_pcb` → four via lines `1 1`, `2 1`, `1 2`, `2 2` in via order (TENTED 1, NOT_TENTED 2) (est. 3 min). Observed on the app's own `vias.kicad_pcb`: `(33476000, 37460000) 1 1`, `(35762000, 37460000) 2 1`, `(38048000, 37460000) 1 2`, `(40334000, 37460000) 2 2`, then `0 2 1`; `kicad-cli pcb drc` loads it (`Found 25 violations`, `Found 0 unconnected items`).
 Commit: —
 
 ## Validation Plan
@@ -181,7 +181,9 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- **Found a bug in the existing KiCad export, and fixed it here.** KiCad 10.0.8 refused any board the app exported that has a trace or a via: `kicad-cli pcb drc` → `Failed to load board: Expecting ')' in …, line 428, offset 12` (a segment's `(net 1 "Net-(U1-1Y)")`). KiCad takes only the code, `(net 1)`, in a segment or via at `(version 20240108)` (a pad takes code and name). No existing fixture has a trace or via (`grep -c '(segment' ` on the four fixtures' boards → 0 each), so nothing had loaded one in KiCad; plan-50-C's runtime proof is the first. Fixed in `KiCadBoardWriter` (`trackNetText`), guarded by an assertion in `testViasCarryTheirTenting` (6 `(net 1)` lines for 2 segments and 4 vias) and by the KiCad load in this plan's runtime check. `docs/export.md`'s claim that the board "was checked with kicad-cli" held only for boards without copper.
+- `ExportSamples.vias()` takes the tenting list as an argument (default the four combinations), so a test can build the same board with no vias or with all tented (the byte comparison in Phase 2).
+- The sub-plan's final gate is run once for all of plan-50 at the end (see plan-50-A Corrections).
 
 ## Summary
 

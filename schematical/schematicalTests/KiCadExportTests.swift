@@ -243,6 +243,21 @@ final class KiCadExportTests: XCTestCase {
         return CGPoint(x: at[0] - corner.x, y: at[1] - corner.y)
     }
 
+    func testViasCarryTheirTenting() throws {
+        let doc = try ExportSamples.vias()
+        let board = try XCTUnwrap(KiCadExport.files(for: doc, base: "v").first { $0.name.hasSuffix("kicad_pcb") }).text
+        var pairs: [String] = []
+        var rest = Substring(board)
+        while let range = rest.range(of: "\t\t(tenting\n\t\t\t(front ") {
+            rest = rest[range.upperBound...]
+            let front = rest.prefix { $0 != ")" }
+            let back = try XCTUnwrap(rest.range(of: "(back ")).upperBound
+            pairs.append("\(front) \(rest[back...].prefix { $0 != ")" })")
+        }
+        XCTAssertEqual(pairs, ["yes yes", "no yes", "yes no", "no no"])
+        XCTAssertEqual(board.components(separatedBy: "(tenting").count - 1, 4, "no board-level tenting key")
+    }
+
     /// Prints every fixture's project as `KICAD_FILE <folder>/<name> <base64>`
     /// lines when `KICAD_OUT` is set, for running `kicad-cli` over. (The test
     /// host is sandboxed: it can write only to its own container, which the
@@ -278,6 +293,13 @@ final class KiCadExportTests: XCTestCase {
         }
         if let drill = GerberExport.files(for: doc, base: "turned").first(where: { $0.name.hasSuffix("-PTH.drl") }) {
             print("KICAD_FILE turned/app.drl \(drill.data.base64EncodedString())")
+        }
+        let viaBoard = try ExportSamples.vias()
+        for file in KiCadExport.files(for: viaBoard, base: "vias") where file.name.hasSuffix("kicad_pcb") {
+            print("KICAD_FILE vias/\(file.name) \(file.data.base64EncodedString())")
+        }
+        for file in GerberExport.files(for: viaBoard, base: "vias") {
+            print("GERBER_FILE vias/\(file.name) \(file.data.base64EncodedString())")
         }
     }
 }
@@ -329,6 +351,36 @@ enum ExportSamples {
         let text = doc.addText(at: CGPoint(x: 5, y: 5))
         _ = text
         _ = doc.addHole(at: CGPoint(x: 60, y: 40))
+        return doc
+    }
+
+    /// A 2-layer board of two gates wired together, a trace between them, and a via on the trace for each
+    /// (Top, Bottom) tenting given (tented = true): by default (yes, yes), (no, yes), (yes, no), (no, no).
+    static func vias(_ tenting: [(Bool, Bool)] = [(true, true), (false, true), (true, false), (false, false)]) throws
+        -> SchematicDocument {
+        let doc = TestSupport.newDocument()
+        let a = try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 100, y: 100))
+        let b = try TestSupport.place(doc, "SN74HC00N", at: CGPoint(x: 400, y: 100))
+        func pin(_ chip: PlacedChip, _ designator: String) throws -> LineAnchor {
+            let index = try XCTUnwrap(chip.part.pins.firstIndex { $0.designator == designator })
+            return .pin(PinRef(chipID: chip.id, index: index))
+        }
+        XCTAssertNil(doc.connect(try pin(a, "3"), try pin(b, "1")))
+        let chipA = try XCTUnwrap(doc.chips.first { $0.id == a.id }), chipB = try XCTUnwrap(doc.chips.first { $0.id == b.id })
+        func centre(_ chip: PlacedChip, _ designator: String) throws -> CGPoint {
+            let pad = try XCTUnwrap(chip.boardPads.first { $0.designator == designator })
+            return CGPoint(x: pad.rect.midX, y: pad.rect.midY)
+        }
+        let from = try centre(chipA, "3"), to = try centre(chipB, "1")
+        _ = try XCTUnwrap(doc.addTrace(points: [from, CGPoint(x: to.x, y: from.y), to], layer: .top, width: 12))
+        for (index, (top, bottom)) in tenting.enumerated() {
+            let fraction = CGFloat(index + 1) / CGFloat(tenting.count + 1)
+            let id = try XCTUnwrap(doc.addVia(at: CGPoint(x: from.x + (to.x - from.x) * fraction, y: from.y)))
+            doc.setViaDiameter(id, 0.77)
+            doc.setViaDrill(id, 0.4)
+            doc.setViaTenting(id, .top, top)
+            doc.setViaTenting(id, .bottom, bottom)
+        }
         return doc
     }
 

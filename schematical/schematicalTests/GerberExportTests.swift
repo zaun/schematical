@@ -278,4 +278,47 @@ final class GerberExportTests: XCTestCase {
         XCTAssertEqual(after.y - before.y, -(to.y - from.y), accuracy: 1e-4)
         XCTAssertNotEqual(to.x, from.x)
     }
+
+    // MARK: Via tenting (plan-50-C)
+
+    /// The (x, y) of each flash of a circle `diameter` mm wide in `text`.
+    private func flashes(ofDiameter diameter: Double, in text: String) -> [String] {
+        let wanted = "C,\(GerberWriter.mm(GerberWriter.nm(diameter)))*%"
+        var code: String?
+        var current: String?
+        var hits: [String] = []
+        for line in text.split(separator: "\n") {
+            if line.hasPrefix("%ADD"), line.hasSuffix(wanted) { code = String(line.dropFirst(4).prefix { $0.isNumber }) }
+            else if line.hasPrefix("D"), line.hasSuffix("*"), !line.hasSuffix("D03*"), !line.hasSuffix("D02*"),
+                    !line.hasSuffix("D01*") { current = String(line.dropFirst().dropLast()) }
+            else if line.hasSuffix("D03*"), current == code, code != nil { hits.append(String(line.dropLast(4))) }
+        }
+        return hits
+    }
+
+    func testOpenViasOpenTheirMaskOnThatSideOnly() throws {
+        let doc = try ExportSamples.vias()
+        XCTAssertEqual(doc.vias.map { [$0.tentedTop, $0.tentedBottom] }, [[true, true], [false, true], [true, false], [false, false]])
+        let files = GerberExport.files(for: doc, base: "b", rules: rules)
+        let opening = 0.77 + 2 * rules.solderMaskExpansion
+        let top = flashes(ofDiameter: opening, in: try file(files, ".GTS"))
+        let bottom = flashes(ofDiameter: opening, in: try file(files, ".GBS"))
+        XCTAssertEqual(top.count, 2, "vias 2 and 4 are open on Top")
+        XCTAssertEqual(bottom.count, 2, "vias 3 and 4 are open on Bottom")
+        // The openings are at the vias' centres (Gerber y is up from the board's bottom edge).
+        let topEdge = Double(doc.board.outline.map(\.y).max() ?? 0)
+        func at(_ via: BoardVia) -> String {
+            "X\(GerberWriter.nm(Double(via.centre.x)))Y\(GerberWriter.nm(topEdge - Double(via.centre.y)))"
+        }
+        XCTAssertEqual(Set(top), [at(doc.vias[1]), at(doc.vias[3])])
+        XCTAssertEqual(Set(bottom), [at(doc.vias[2]), at(doc.vias[3])])
+    }
+
+    func testTentedViasAddNothingToTheMask() throws {
+        let tented = GerberExport.files(for: try ExportSamples.vias([(true, true), (true, true), (true, true), (true, true)]),
+                                        base: "b", rules: rules)
+        let none = GerberExport.files(for: try ExportSamples.vias([]), base: "b", rules: rules)
+        XCTAssertEqual(try file(tented, ".GTS"), try file(none, ".GTS"))
+        XCTAssertEqual(try file(tented, ".GBS"), try file(none, ".GBS"))
+    }
 }

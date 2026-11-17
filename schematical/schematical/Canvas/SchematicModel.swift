@@ -3541,6 +3541,17 @@ final class SchematicDocument {
         }
     }
 
+    /// Sets whether the solder mask covers a via on `side`.
+    func setViaTenting(_ id: UUID, _ side: BoardSide, _ tented: Bool) {
+        recordEdit(.pcb, "Change Via Tenting") {
+            guard let index = vias.firstIndex(where: { $0.id == id }) else { return }
+            switch side {
+            case .top: if vias[index].tentedTop != tented { vias[index].tentedTop = tented }
+            case .bottom: if vias[index].tentedBottom != tented { vias[index].tentedBottom = tented }
+            }
+        }
+    }
+
     // MARK: Design rules (PCB)
 
     /// Sets the board's design rules (each 0 or more) and the manufacturer

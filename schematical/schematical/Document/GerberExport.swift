@@ -148,7 +148,8 @@ enum GerberExport {
     /// A solder mask: the openings (drawn dark, the file is Negative), each
     /// pad's copper grown by the mask expansion: the side's surface-mount
     /// pads and fingers, every plated through-hole pad, and each bare
-    /// hole. Vias are tented (covered).
+    /// hole, and each via left open on this side (`BoardVia.isTented(on:)`):
+    /// its metal grown the same. Tented vias are covered.
     private static func drawMask(on side: BoardSide, copper: BoardConnectivity, expansion: Double,
                                  into file: inout GerberWriter) {
         for entry in copper.pads {
@@ -162,6 +163,9 @@ enum GerberExport {
             } else if entry.side == side {
                 file.fill(shape(of: pad), grownBy: expansion)
             }
+        }
+        for via in copper.vias where !via.isTented(on: side) {
+            file.fill(.circle(centre: via.centre, diameter: via.diameter), grownBy: expansion)
         }
     }
 

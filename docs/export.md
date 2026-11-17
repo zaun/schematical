@@ -62,7 +62,7 @@ schematic, with anything but letters, digits, `-` and `_` turned into `_`
 | `.GTL` | Top copper | traces on Top, Top surface-mount pads and card fingers, every plated through-hole pad, via and plated hole land |
 | `.G1`…`.G4` | inner copper, in stack order | as above for the layer; a Plane is the board pulled back by the min copper-to-edge, less its clearances, as the PCB page draws it |
 | `.GBL` | Bottom copper | as Top, for Bottom |
-| `.GTS` / `.GBS` | solder mask (`FilePolarity,Negative`: drawn = opening) | the side's surface-mount pads and fingers, every plated through-hole pad, every bare hole, each grown by the Mask expansion design rule. Vias are tented |
+| `.GTS` / `.GBS` | solder mask (`FilePolarity,Negative`: drawn = opening) | the side's surface-mount pads and fingers, every plated through-hole pad, every bare hole, each grown by the Mask expansion design rule. Vias are tented unless opened (Via ▸ Tented on Top / Bottom): an open side gets an opening the via's metal grown by the Mask expansion |
 | `.GTP` / `.GBP` | paste | the side's surface-mount part pads (not fingers) |
 | `.GTO` / `.GBO` | silkscreen | silkscreen texts, references (1 mm, centred on the body, or where the part's reference was moved to), pin-1 dots (0.4 mm), body outlines and cathode bands (0.15 mm pen), each only when its layer is Silkscreen |
 | `.GKO` | outline (`Profile,NP`) | the board outline, 0.1 mm pen |
@@ -130,7 +130,7 @@ end.
 the page. Footprints are written with the part's reference, value, body outline,
 pin-1 dot and diode band on the layers the part's marks name, pads in the footprint's
 own frame (a turn of `r` degrees clockwise is KiCad's angle `-r`, a Bottom footprint
-has its x mirrored and its pads on `B.*`), traces, vias, Plane layers as unfilled
+has its x mirrored and its pads on `B.*`), traces, vias (each with its two tenting flags, `(tenting (front yes) (back no))`; `front` is Top), Plane layers as unfilled
 zones (press B in KiCad to fill), the outline on `Edge.Cuts`, board texts, the card's
 fingers or header pads, and holes. A 1-layer board has the two copper layers KiCad
 needs. Pads carry the net of their pin, named as KiCad names it: a rail's name, a net
@@ -151,7 +151,9 @@ checked with KiCad 10's `kicad-cli`: `sch export netlist` gives the same pin gro
 and the same net names as the pads on the board (on `AFU`, `LFU` and `RegFile`), `pcb
 drc` finds no schematic parity difference, a board of DIP and SOIC parts at every
 turn on both sides has the same hole positions as the app's drill file, and its
-pad outlines in `pcb export svg` are the app's.
+pad outlines in `pcb export svg` are the app's. A board with a trace and four vias (one of each Top / Bottom
+tenting) loads in KiCad 10 (`ExportSamples.vias()`), and `pcbnew` reads each via's two tenting modes back as
+written (a track's or via's net is `(net <code>)`, not code and name, which KiCad refuses).
 
 ## EasyEDA Pro
 

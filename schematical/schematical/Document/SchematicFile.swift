@@ -335,6 +335,10 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
             var locked: Bool? = nil
             /// True when the autorouter put it down; left out otherwise.
             var auto: Bool? = nil
+            /// True when the solder mask leaves it open on that side; left
+            /// out (tented) otherwise.
+            var openTop: Bool? = nil
+            var openBottom: Bool? = nil
         }
 
         /// A trace: its copper layer (`CopperLayer` raw value), width in
@@ -806,7 +810,8 @@ extension SchematicFile {
             },
             vias: document.vias.isEmpty ? nil : document.vias.map { via in
                 Board.ViaEntry(id: via.id, x: via.centre.x, y: via.centre.y, drill: via.drill, diameter: via.diameter,
-                               locked: via.locked ? true : nil, auto: via.auto ? true : nil)
+                               locked: via.locked ? true : nil, auto: via.auto ? true : nil,
+                               openTop: via.tentedTop ? nil : true, openBottom: via.tentedBottom ? nil : true)
             },
             holes: document.holes.isEmpty ? nil : document.holes.map { hole in
                 Board.HoleEntry(id: hole.id, x: hole.centre.x, y: hole.centre.y, size: hole.size.rawValue,
@@ -1137,7 +1142,8 @@ extension SchematicFile {
             let via = BoardVia(id: entry.id, centre: CGPoint(x: entry.x, y: entry.y),
                                drill: entry.drill ?? BoardVia.defaultDrill,
                                diameter: entry.diameter ?? BoardVia.defaultDiameter,
-                               locked: entry.locked ?? false, auto: entry.auto ?? false)
+                               locked: entry.locked ?? false, auto: entry.auto ?? false,
+                               tentedTop: !(entry.openTop ?? false), tentedBottom: !(entry.openBottom ?? false))
             if let problem = BoardVia.problem(drill: via.drill, diameter: via.diameter) {
                 throw SchematicFileError.badPCB("\(name) \(problem)")
             }
