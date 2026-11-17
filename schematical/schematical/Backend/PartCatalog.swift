@@ -196,6 +196,30 @@ nonisolated struct NixieInfo: Hashable, Sendable {
     var characters: [String] { glyphs.filter { $0 != "DP" && $0 != "LDP" } }
 }
 
+/// A serial (SPI) memory chip's facts (`PartSerialmem`). Zero (nil for the
+/// JEDEC ID) means the datasheet value is not given.
+nonisolated struct SerialMemoryInfo: Hashable, Sendable {
+    /// "eeprom", "fram", "flash", "dataflash" or "pageeeprom".
+    let type: String
+    /// Capacity in bytes.
+    let size: UInt32
+    /// Address bytes after a READ or WRITE opcode.
+    let addressBytes: Int
+    /// The EEPROM write page or the flash program page, bytes.
+    let pageBytes: UInt32
+    /// The EEPROM write cycle or the flash page-program time, picoseconds.
+    let writePS: UInt64
+    let sectorErasePS: UInt64
+    let chipErasePS: UInt64
+    /// The RDID bytes as hex; nil when the chip has none.
+    let jedecID: String?
+    let maxClockKHz: UInt32
+    /// Write cycles.
+    let endurance: UInt64
+    /// Years.
+    let retentionYears: UInt32
+}
+
 /// A character LCD module's panel (`PartCharLcd.panel`).
 nonisolated enum LCDPanel: Hashable, Sendable {
     /// STN positive: dark dots on yellow-green.
@@ -396,6 +420,8 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case converter(type: String, bits: Int, channels: Int)
         /// A real-time clock (plan-24): no kind-specific facts.
         case rtc
+        /// A serial (SPI) memory chip: EEPROM, F-RAM or flash (`SerialMemoryInfo`).
+        case serialmem(SerialMemoryInfo)
         /// A diode part (plan-29): its type ("rectifier", "fast",
         /// "switching", "schottky", "zener", "bridge"), the diodes in the
         /// package, reverse voltage and forward current per diode (0 for a
@@ -696,6 +722,9 @@ nonisolated struct CatalogPart: Identifiable, Hashable, Sendable {
         case let .converter(_, bits, channels):
             return ["\(bits)-bit"] + (channels > 1 ? ["\(channels) channels"] : [])
         case .rtc: return []
+        case let .serialmem(info):
+            // The function level of the drawer already says the density.
+            return info.maxClockKHz > 0 ? [PartFacts.hertz(UInt64(info.maxClockKHz) * 1000)] : []
         case let .diode(type, _, vrMV, ioMA, vzMV, pdMW):
             if type == "zener" {
                 return ["\(PartFacts.milli(vzMV)) V", "\(PartFacts.milli(pdMW)) W"]
@@ -901,6 +930,14 @@ extension CatalogPart {
                                  channels: Int(converter.channels))
         } else if part.kind == PART_RTC {
             details = .rtc
+        } else if let memory = part.serialmem?.pointee {
+            details = .serialmem(SerialMemoryInfo(
+                type: string(memory.type), size: memory.size, addressBytes: Int(memory.address_bytes),
+                pageBytes: memory.page_bytes, writePS: memory.write_ps,
+                sectorErasePS: memory.sector_erase_ps, chipErasePS: memory.chip_erase_ps,
+                jedecID: memory.jedec_id.map { String(cString: $0) },
+                maxClockKHz: memory.max_clock_khz, endurance: memory.endurance,
+                retentionYears: memory.retention_years))
         } else if let diode = part.diode?.pointee {
             details = .diode(type: string(diode.type), diodes: Int(diode.diode_count),
                              vrMV: diode.vr_mv, ioMA: diode.io_ma, vzMV: diode.vz_mv, pdMW: diode.pd_mw)

@@ -124,6 +124,23 @@ nonisolated enum PartFacts {
             add("Channels", String(channels))
         case .rtc:
             break
+        case let .serialmem(info):
+            add("Type", serialMemoryType(info.type))
+            add("Size", "\(density(info.size)) (\(bytes(info.size)))")
+            if info.addressBytes > 0 { add("Address bytes", String(info.addressBytes)) }
+            add("Page", bytes(info.pageBytes))
+            switch info.type {
+            case "flash", "dataflash":
+                add("Page program", duration(info.writePS))
+            default:
+                add("Write cycle", duration(info.writePS))
+            }
+            add("Sector erase", duration(info.sectorErasePS))
+            add("Chip erase", duration(info.chipErasePS))
+            add("JEDEC ID", info.jedecID ?? "")
+            if info.maxClockKHz > 0 { add("Max clock", hertz(UInt64(info.maxClockKHz) * 1000)) }
+            if info.endurance > 0 { add("Endurance", enduranceText(info.endurance)) }
+            if info.retentionYears > 0 { add("Retention", "\(info.retentionYears) years") }
         case let .diode(type, diodes, vrMV, ioMA, vzMV, pdMW):
             add("Type", diodeType(type))
             if diodes > 1 { add("Diodes", String(diodes)) }
@@ -217,6 +234,7 @@ nonisolated enum PartFacts {
         case PART_ARITH: return "Arithmetic"
         case PART_CONVERTER: return "Converter"
         case PART_RTC: return "RTC"
+        case PART_SERIALMEM: return "Serial memory"
         case PART_DIODE: return "Diode"
         case PART_CAPACITOR: return "Capacitor"
         case PART_REGISTER: return "Register"
@@ -245,6 +263,54 @@ nonisolated enum PartFacts {
             }
         }
         return kindName(part.kind)
+    }
+
+    /// A serial memory's type as shown: "Serial EEPROM", "F-RAM", "NOR flash",
+    /// "DataFlash", "Page EEPROM"; others raw.
+    static func serialMemoryType(_ type: String) -> String {
+        switch type {
+        case "eeprom": return "Serial EEPROM"
+        case "fram": return "F-RAM"
+        case "flash": return "NOR flash"
+        case "dataflash": return "DataFlash"
+        case "pageeeprom": return "Page EEPROM"
+        default: return type
+        }
+    }
+
+    /// A serial memory's capacity as its datasheet states it: 512 bytes →
+    /// "4 Kbit", 262144 bytes → "2 Mbit"; a size that is not a whole
+    /// Kbit is in bytes.
+    static func density(_ size: UInt32) -> String {
+        let bits = UInt64(size) * 8
+        if bits >= 1 << 20, bits % (1 << 20) == 0 { return "\(bits >> 20) Mbit" }
+        if bits >= 1 << 10, bits % (1 << 10) == 0 { return "\(bits >> 10) Kbit" }
+        return "\(size) bytes"
+    }
+
+    /// A time in picoseconds, in the unit that reads best: 5 000 000 000 →
+    /// "5 ms", 1 400 000 → "1.4 µs", 250 000 → "250 ns"; 0 → "" (no row).
+    static func duration(_ ps: UInt64) -> String {
+        if ps == 0 { return "" }
+        let value = Double(ps)
+        if value >= 1e12 { return "\(trimmed(value / 1e12, decimals: 3)) s" }
+        if value >= 1e9 { return "\(trimmed(value / 1e9, decimals: 3)) ms" }
+        if value >= 1e6 { return "\(trimmed(value / 1e6, decimals: 3)) µs" }
+        return "\(trimmed(value / 1e3, decimals: 3)) ns"
+    }
+
+    /// Write cycles: 1 000 000 → "1 million cycles", 100 000 000 000 000 →
+    /// "100 trillion cycles", 100 000 → "100,000 cycles".
+    static func enduranceText(_ cycles: UInt64) -> String {
+        let scales: [(UInt64, String)] = [(1_000_000_000_000, "trillion"), (1_000_000_000, "billion"),
+                                          (1_000_000, "million")]
+        for (scale, word) in scales where cycles >= scale && cycles % (scale / 10) == 0 {
+            return "\(trimmed(Double(cycles) / Double(scale), decimals: 2)) \(word) cycles"
+        }
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.locale = Locale(identifier: "en_US")
+        return "\(formatter.string(from: NSNumber(value: cycles)) ?? String(cycles)) cycles"
     }
 
     /// A diode type as shown (plan-29): "Rectifier", "Fast recovery", ….

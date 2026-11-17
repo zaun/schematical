@@ -84,6 +84,13 @@ extension PartKinds {
             "hs82c52": "The 82C52 serial controller interface, and the HD-6406.",
             "com78c80x": "SMC's COM78C804 and COM78C802 multi-line UARTs.",
         ],
+        "serialmem": [
+            "eeprom": "A serial EEPROM you read and write over SPI a page at a time, like the AT25040B, 25LC256 and M95320.",
+            "fram": "A serial F-RAM: non-volatile, written at bus speed with no write delay, like the FM25L16B and CY15B102Q.",
+            "flash": "A serial NOR flash: erased by sector or chip, then programmed a page at a time, like the AT25DF021A and AT25XE021A.",
+            "dataflash": "An Adesto / Atmel DataFlash with page buffers, like the AT45DB; listed for its facts, not simulated.",
+            "pageeeprom": "A serial EEPROM organized in large pages, listed for its facts, not simulated.",
+        ],
         "shift": [
             "shift": "A shift register: serial in or out, parallel in or out, like the 74HC595, 74HC165 and 74HC164.",
             "ls673": "The 74LS673 / 74LS674 16-bit shift registers with a serial data pin.",

@@ -30,6 +30,7 @@ KIND_FILES = {
     "resistor": ["resistor.c"], "capacitor": ["capacitor.c"], "transistor": ["transistor.c"],
     "mcu": ["mcu.c"],
     "nixie": ["nixie.c"],
+    "serialmem": ["serialmem.c"],
 }
 
 NAMES = {
@@ -54,7 +55,14 @@ VOLT_KEYS = {"vcc", "vccB"}
 ENUMS = {"active": ["high", "low"], "edge": ["rising", "falling"], "when": ["async", "clock"],
          "output": ["push-pull", "open-drain"]}
 UNITS = {"inputMax": "V", "inputMaxB": "V", "volts": "V", "ratedVolts": "V", "ratedAmps": "A",
-         "minHz": "Hz", "maxHz": "Hz", "rise": "ns", "fall": "ns"}
+         "minHz": "Hz", "maxHz": "Hz", "rise": "ns", "fall": "ns",
+         # serialmem: SCK in MHz; the write and erase times in ns.
+         "maxClock": "MHz", "writeCycle": "ns", "pageProgram": "ns", "byteProgram": "ns", "sectorErase": "ns",
+         "blockErase32": "ns", "blockErase64": "ns", "chipErase": "ns", "pageErase": "ns", "writeStatus": "ns",
+         "outputValid": "ns", "outputDisable": "ns", "wake": "ns"}
+# Device keys every shipped device of the kind has but the backend does not
+# require (so the form leaves them out when empty).
+OPTIONAL = {"serialmem": {"writeProtect", "endurance", "maxClock", "retention", "hold"}}
 
 
 def kind_files(repo, kind):
@@ -287,7 +295,8 @@ def generate(repo, kind, extra):
     dev_fields = fields(devices, known)
     part_fields = fields(parts, known)
     # A top-level key is required when every one of the kind's own objects has it.
-    dev_fields = [(k, t, all(k in d for d, _ in own_devices)) for k, t, _ in dev_fields]
+    dev_fields = [(k, t, all(k in d for d, _ in own_devices) and k not in OPTIONAL.get(kind, ()))
+                  for k, t, _ in dev_fields]
     part_fields = [(k, t, all(k in p for p, _ in own_parts)) for k, t, _ in part_fields]
     if variant_key:
         models = sorted({d[variant_key] for d, _ in own_devices})

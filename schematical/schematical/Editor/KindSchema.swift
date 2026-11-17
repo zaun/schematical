@@ -203,7 +203,7 @@ enum PartKinds {
         "7seg", "arith", "buffer", "capacitor", "charlcd", "connector", "converter", "counter", "cpu", "decoder",
         "dff", "diode", "eeprom", "gate", "generic", "header", "jkff", "latch", "led", "mcu", "mux", "nixie",
         "oscillator",
-        "pio", "register", "resistor", "rtc", "serial", "shift", "sram", "supply", "switch",
+        "pio", "register", "resistor", "rtc", "serial", "serialmem", "shift", "sram", "supply", "switch",
         "transistor",
     ]
 
@@ -226,6 +226,7 @@ enum PartKinds {
             ResistorDraft.schema, CapacitorDraft.schema, TransistorDraft.schema, McuDraft.schema,
             GenericDraft.schema,
             NixieDraft.schema,
+            SerialmemDraft.schema,
         ] {
             schemas[schema.kind] = schema
         }

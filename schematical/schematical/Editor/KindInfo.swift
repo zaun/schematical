@@ -80,6 +80,9 @@ extension PartKinds {
             KindInfo(kind: "eeprom", name: "EEPROM",
                      blurb: "Parallel EEPROMs that keep their data without power: AT28C64, AT28C256.",
                      examples: ["AT28C256F-15JU", "AT28C64B-15JU"], group: .memory),
+            KindInfo(kind: "serialmem", name: "Serial memory",
+                     blurb: "SPI memory chips: serial EEPROM, F-RAM and NOR flash, read and written a byte stream at a time: 25LC256, FM25L16B, AT25XE021A.",
+                     examples: ["AT25040B-SSHL-T", "FM25L16B-GTR", "AT25XE021A-SSHN-T"], group: .memory),
 
             // Processors and interface chips
             KindInfo(kind: "cpu", name: "Processor",
@@ -165,7 +168,7 @@ extension PartKinds {
     private static let infoOrder = [
         "gate", "buffer", "dff", "jkff", "latch",
         "mux", "decoder", "arith", "counter", "shift", "register",
-        "sram", "eeprom",
+        "sram", "eeprom", "serialmem",
         "cpu", "mcu", "pio", "serial", "converter", "rtc",
         "led", "7seg", "charlcd", "nixie",
         "resistor", "capacitor", "diode", "transistor",

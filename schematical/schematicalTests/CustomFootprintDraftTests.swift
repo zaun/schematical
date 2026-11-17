@@ -65,8 +65,9 @@ final class CustomFootprintDraftTests: XCTestCase {
         print("checked \(ids.count) explicit footprints, \(mismatched.count + rejected.count) mismatched")
         // 458 before plan-36, which added 24 (3 of them by ball: DRQFN-44/64, WLCSP-12);
         // 564 since the plans after it added theirs (plan-46-J § Measured populations);
-        // 571 with the seven nixie tube footprints.
-        XCTAssertEqual(ids.count, 571)
+        // 571 with the seven nixie tube footprints; 572 with the serial
+        // memory kind's one ball-grid footprint (WLCSP-8-ST-M95P32).
+        XCTAssertEqual(ids.count, 572)
         XCTAssertEqual(mismatched, [])
         XCTAssertEqual(rejected, [:])
     }
