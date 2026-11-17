@@ -290,7 +290,18 @@ nonisolated struct BoardSettings: Hashable, Sendable {
     var height: Double = 80
     /// The copper layer count, one of `layerCounts`: Top first, then the
     /// inner layers, Bottom last (see `copperLayers`).
-    var layers: Int = 2
+    var layers: Int = 2 {
+        // The stackup always has one copper layer per board layer; a new
+        // count gets that count's standard stackup, keeping the finish and
+        // the temperature rise.
+        didSet {
+            if stackup.copper.count != layers {
+                stackup = .standard(layers: layers, finish: stackup.finish, temperatureRise: stackup.temperatureRise)
+            }
+        }
+    }
+    /// The layer stack: copper weights, dielectrics, finish.
+    var stackup = BoardStackup.standard(layers: 2)
     var color: BoardColor = .green
     var units: BoardUnits = .mm
     /// The component grid in mm, within `gridRange`: footprints and texts

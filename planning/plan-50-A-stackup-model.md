@@ -182,19 +182,19 @@ point is smaller. *Per-manufacturer stackup presets*: PCBWay's page is 404 and a
 
 ### Phase 1 — The model
 
-- [ ] New `schematical/schematical/Canvas/BoardStackup.swift`: `SurfaceFinish`, `DielectricKind`, `Dielectric`,
+- [x] New `schematical/schematical/Canvas/BoardStackup.swift`: `SurfaceFinish`, `DielectricKind`, `Dielectric`,
       `BoardStackup` (§ 3), `standard(layers:)` with the table above, the ranges, and
       `problem(copper:dielectrics:finish:temperatureRise:layers:) -> String?` returning the refusal text or nil.
-- [ ] `Canvas/BoardSettings.swift`: `var stackup = BoardStackup.standard(layers: 2)` on `BoardSettings`, and the
+- [x] `Canvas/BoardSettings.swift`: `var stackup = BoardStackup.standard(layers: 2)` on `BoardSettings`, and the
       `didSet` on `layers` (§ 3).
-- [ ] Tests: new `schematicalTests/BoardStackupTests.swift`: the four standard stackups' `thickness` equal
+- [x] Tests: new `schematicalTests/BoardStackupTests.swift`: the four standard stackups' `thickness` equal
       1.6, 1.6, 1.6062 and 1.566 (to 1e-9); `standard(layers:)` keeps a given finish and temperature rise;
       `BoardSettings.layers = 4` on a fresh board makes `stackup.copper.count == 4` and
       `dielectrics.count == 3`; `layers = 1` gives one dielectric; `problem` refuses a wrong count, a
       thickness of 0.001, an Er of 0.5 and a temperature rise of 0.
 
 Acceptance: the model and its invariant behave as above.
-  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/BoardStackupTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 5 min, mostly the build).
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/BoardStackupTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 5 min, mostly the build). Observed: `Executed 5 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 Commit: —
 
 ### Phase 2 — The file
