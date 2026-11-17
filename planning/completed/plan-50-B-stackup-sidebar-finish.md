@@ -130,7 +130,7 @@ the owner declined. *Following the stackup thickness in the 3-D slab*: separate 
 Acceptance: the preview and image export read the board's finish and nothing else.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/BoardPreviewTests -only-testing:schematicalTests/SchematicExportActionTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (Observed with Phase 2's suites in one run: `Executed 29 tests, with 0 failures`, `** TEST SUCCEEDED **`; est. 6 min; `SchematicExportActionTests` is the suite that builds `ImageExportOptions`, `grep -c ImageExportOptions schematical/schematicalTests/SchematicExportActionTests.swift` → 11).
   Also: `grep -rn --include='*.swift' "BoardRenderFinish" schematical` → no output (observed: 0 lines).
-Commit: —
+Commit: 0727c4bd
 
 ### Phase 2 — The Stackup section
 
@@ -151,7 +151,7 @@ Commit: —
 
 Acceptance: the rows and weights are right for every layer count and the section renders.
   Check: `xcodebuild … test -only-testing:schematicalTests/StackupSectionTests -only-testing:schematicalTests/BoardStackupTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+Commit: 0727c4bd
 
 ## Validation Plan
 
