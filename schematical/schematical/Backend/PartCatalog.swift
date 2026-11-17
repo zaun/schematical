@@ -161,9 +161,13 @@ nonisolated struct DisplayInfo: Hashable, Sendable {
     let chip: String
     /// In the order the simulation reports their lights.
     let leds: [LED]
-    /// Segment forward voltage, millivolts (shown, not checked).
+    /// Segment forward voltage, millivolts (shown, not checked). A
+    /// numitron's segment voltage; a VFD's anode voltage.
     var vfMinMV: UInt32 = 0
     var vfMaxMV: UInt32 = 0
+    /// What the segments are: "led", "numitron" (incandescent filaments) or
+    /// "vfd" (vacuum fluorescent; the commons are grids).
+    var type: String = "led"
     /// Pin indices (into `CatalogPart.pins`) for the left (segments) and right
     /// (commons) sides, top to bottom.
     let segmentPins: [Int]
@@ -876,6 +880,7 @@ extension CatalogPart {
                 leds: leds,
                 vfMinMV: display.vf_min_mv,
                 vfMaxMV: display.vf_max_mv,
+                type: display.type.map { String(cString: $0) } ?? "led",
                 segmentPins: indices(display.segment_pins, display.segment_pin_count),
                 commonPins: indices(display.common_pins, display.common_pin_count)
             ))

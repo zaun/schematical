@@ -2,7 +2,8 @@
  * display7_test: the 7-segment model on the part library (port of the old
  * led7_check.c check_model and check_persistence). Parts come from the JSON
  * files; lights are read through the model's lights hook. The catalog
- * checks are covered by listing_check.
+ * checks are covered by listing_check. Also the two tube types: a
+ * numitron (IV-9) and VFDs (IV-11, IV-18).
  */
 
 #include <stdio.h>
@@ -118,6 +119,30 @@ static void check_model(void) {
         expect(glow_of("LTD-6730R", W, 2, 1, lights, sizeof lights) &&
                    strcmp(lights, "00001" "00000000") == 0,
                "overflow digit: the HJ bar lights");
+    }
+    /* IV-9 numitron (common anode in the model): VCC on COM (1), GND on B (3) and C (4). */
+    {
+        static const unsigned W[][2] = {{1, 0}, {3, 1}, {4, 1}};
+        expect(glow_of("IV-9", W, 3, 1, lights, sizeof lights) && strcmp(lights, "01100000") == 0,
+               "numitron: segments B and C light against the common");
+    }
+    /* IV-11 VFD: a segment needs its anode AND the grid high. Grid 2, A 6, B 5. */
+    {
+        static const unsigned W[][2] = {{2, 0}, {6, 0}, {5, 1}};
+        expect(glow_of("IV-11", W, 3, 1, lights, sizeof lights) && strcmp(lights, "10000000") == 0,
+               "VFD: segment A lights with its anode and the grid high; B (low) stays dark");
+    }
+    {
+        static const unsigned W[][2] = {{2, 1}, {6, 0}};
+        expect(glow_of("IV-11", W, 2, 1, lights, sizeof lights) && strcmp(lights, "00000000") == 0,
+               "VFD: a low grid blanks the digit");
+    }
+    /* IV-18: grid G8 (lead 18) is display digit 1, G1 (lead 15) digit 8; A is lead 12. */
+    {
+        static const unsigned W[][2] = {{12, 0}, {18, 0}, {15, 1}};
+        expect(glow_of("IV-18", W, 3, 1, lights, sizeof lights) &&
+                   strncmp(lights, "10000000" "00000000", 16) == 0 && lights[56] == '0',
+               "multiplexed VFD: only the digit whose grid is high shows segment A");
     }
 }
 

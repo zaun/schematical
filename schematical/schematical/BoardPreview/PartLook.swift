@@ -75,6 +75,8 @@ struct PartLook {
             return .lcd(columns: 16, rows: 2)
         case PART_7SEG:
             if case let .display(info) = part.details {
+                // A numitron or VFD is a glass tube standing on its leads.
+                if info.type != "led" { return .nixie(endView: false, tint: ledTint(info.color)) }
                 return .sevenSegment(digits: max(1, info.digits), tint: ledTint(info.color))
             }
             return .sevenSegment(digits: 1, tint: ledTint("Red"))
@@ -132,6 +134,8 @@ struct PartLook {
         case "amber", "orange": Tint(1.0, 0.62, 0.08)
         case "yellow": Tint(1.0, 0.86, 0.12)
         case "white", "rgb": Tint(0.94, 0.94, 0.92)
+        case "warm white": Tint(1.0, 0.82, 0.5)
+        case "blue-green": Tint(0.25, 0.9, 0.8)
         default: Tint(0.92, 0.14, 0.10)
         }
     }

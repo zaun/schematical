@@ -12,7 +12,7 @@ enum NixieDraft {
     static let f2: Field = Field(key: "cathodes", label: "Cathodes", type: .list([f3, f4]), required: true)
     static let f5: Field = Field(key: "color", label: "Color", type: .suggested(["Orange"]), required: true)
     static let f6: Field = Field(key: "current", label: "Current", type: .numbers(unit: "mA"), required: true)
-    static let f7: Field = Field(key: "size", label: "Size", type: .suggested(["13 mm", "18 mm", "40 mm", "9 mm"]), required: true)
+    static let f7: Field = Field(key: "size", label: "Size", type: .suggested(["0.5 in", "13 mm", "16 mm", "18 mm", "40 mm", "6 mm", "7 mm", "9 mm"]), required: true)
     static let f8: Field = Field(key: "strike", label: "Strike", type: .number(unit: "V"), required: true)
     static let f9: Field = Field(key: "sustain", label: "Sustain", type: .number(unit: "V"), required: true)
     static let f10: Field = Field(key: "view", label: "View", type: .suggested(["end", "side"]), required: true)

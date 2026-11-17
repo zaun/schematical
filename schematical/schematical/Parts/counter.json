@@ -3182,6 +3182,41 @@
         {"name":"SN7497N","manufacturer":"Texas Instruments","datasheet":"sn5497","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"TTL"},
         {"name":"SNJ5497J","manufacturer":"Texas Instruments","datasheet":"sn5497","package":"DIP","pinout":"p16","footprint":"CDIP-16","family":"TTL","flags":["military","ceramic"],"vcc":[4.5,5.5]}
       ]
+    },
+    {
+      "id": "74_90_TTL",
+      "function": "Decade counter",
+      "description": "Decade counter (divide by 2 and by 5), standard TTL: the nixie clock's counter",
+      "drawer": ["Vintage", "ICs"],
+      "note": "SN7490A: sn74ls90 (SDLS940A, pp.6-7: the '90A columns); K155IE2 (analogue of SN7490AN, same pins; 2.5 mm pitch package 201.14): datasheets/nixie/k155ie2.pdf. The same device as 74_90 (LS) with the standard-TTL timing",
+      "model": "ripple",
+      "pinouts": {
+        "p14": [
+          {"number":1,"name":"CKB","role":"input"},
+          {"number":2,"name":"R0(1)","role":"input"},
+          {"number":3,"name":"R0(2)","role":"input"},
+          {"number":4,"name":"NC","role":"nc"},
+          {"number":5,"name":"VCC","role":"power"},
+          {"number":6,"name":"R9(1)","role":"input"},
+          {"number":7,"name":"R9(2)","role":"input"},
+          {"number":8,"name":"QC","role":"output"},
+          {"number":9,"name":"QB","role":"output"},
+          {"number":10,"name":"GND","role":"ground"},
+          {"number":11,"name":"QD","role":"output"},
+          {"number":12,"name":"QA","role":"output"},
+          {"number":13,"name":"NC","role":"nc"},
+          {"number":14,"name":"CKA","role":"input"}
+        ]
+      },
+      "units": 1,
+      "sections": [{"clock": "CKA", "structure": "div2", "q": ["QA"], "reset": {"pins": ["R0(1)", "R0(2)"], "active": "high"}, "set": {"pins": ["R9(1)", "R9(2)"], "active": "high", "value": 1}}, {"clock": "CKB", "structure": "div5", "q": ["QB", "QC", "QD"], "reset": {"pins": ["R0(1)", "R0(2)"], "active": "high"}, "set": {"pins": ["R9(1)", "R9(2)"], "active": "high", "value": 4}}],
+      "timing": {
+        "TTL": {"rise":10,"fall":12,"stage":11,"vcc":[4.75,5.25],"note":"CKA to QA typ, 5 V 15 pF 400 Ohm; stage = CKB to QC - CKB to QB; VCC SN74 4.75-5.25 V (sn74ls90 p.6-7)"}
+      },
+      "parts": [
+        {"name":"SN7490AN","manufacturer":"Texas Instruments","datasheet":"sn74ls90","package":"DIP","pinout":"p14","footprint":"PDIP-14","family":"TTL"},
+        {"name":"K155IE2","manufacturer":"USSR (various makers)","package":"DIP","pinout":"p14","footprint":"DIP-14-2.5MM","family":"TTL"}
+      ]
     }
   ]
 }

@@ -417,6 +417,492 @@
       "parts": [
         {"name":"IN-17","manufacturer":"USSR (various makers)","package":"Tube","pinout":"base","footprint":"NIXIE-IN-17"}
       ]
+    },
+    {
+      "id": "IN-19A",
+      "function": "Nixie",
+      "description": "Nixie tube, symbols % M P m K n μ °C, 18 mm, side view, wire leads",
+      "drawer": ["Vintage", "Nixie"],
+      "note": "IN-19A/B/V passport, datasheets/nixie/in-19a_in-19b_in-19v.pdf (the reference book, russian_tubes_02.pdf p.12, agrees). Firing <= 170 V, maintaining 120-170 V, supply 250 V recommended; current <= 2.5 mA (the book: working 2.5-3.5 mA). Lead 1 is cut off; leads 3, 7, 9 and 13 are free",
+      "pinouts": {
+        "base": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"K1","role":"input"},
+          {"number":3,"name":"NC","role":"nc"},
+          {"number":4,"name":"K2","role":"input"},
+          {"number":5,"name":"K3","role":"input"},
+          {"number":6,"name":"K4","role":"input"},
+          {"number":7,"name":"NC","role":"nc"},
+          {"number":8,"name":"A","role":"input"},
+          {"number":9,"name":"NC","role":"nc"},
+          {"number":10,"name":"K5","role":"input"},
+          {"number":11,"name":"K6","role":"input"},
+          {"number":12,"name":"K7","role":"input"},
+          {"number":13,"name":"NC","role":"nc"},
+          {"number":14,"name":"K8","role":"input"}
+        ]
+      },
+      "anode": "A",
+      "cathodes": [
+        {"pin":"K1","glyph":"%"},
+        {"pin":"K2","glyph":"M"},
+        {"pin":"K3","glyph":"P"},
+        {"pin":"K4","glyph":"m"},
+        {"pin":"K5","glyph":"K"},
+        {"pin":"K6","glyph":"n"},
+        {"pin":"K7","glyph":"μ"},
+        {"pin":"K8","glyph":"°C"}
+      ],
+      "color": "Orange",
+      "size": "18 mm",
+      "view": "side",
+      "strike": 170,
+      "sustain": 170,
+      "current": [2.5, 2.5],
+      "parts": [
+        {"name":"IN-19A","manufacturer":"USSR (various makers)","package":"Tube","pinout":"base","footprint":"NIXIE-IN-19"}
+      ]
+    },
+    {
+      "id": "IN-19B",
+      "function": "Nixie",
+      "description": "Nixie tube, symbols S F H V T A Ω Hz, 18 mm, side view, wire leads",
+      "drawer": ["Vintage", "Nixie"],
+      "note": "IN-19A/B/V passport, datasheets/nixie/in-19a_in-19b_in-19v.pdf (the reference book, russian_tubes_02.pdf p.12, agrees). Firing <= 170 V, maintaining 120-170 V, supply 250 V recommended; current <= 2.5 mA (the book: working 2.5-3.5 mA). Lead 1 is cut off; leads 3, 7, 9 and 13 are free",
+      "pinouts": {
+        "base": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"K1","role":"input"},
+          {"number":3,"name":"NC","role":"nc"},
+          {"number":4,"name":"K2","role":"input"},
+          {"number":5,"name":"K3","role":"input"},
+          {"number":6,"name":"K4","role":"input"},
+          {"number":7,"name":"NC","role":"nc"},
+          {"number":8,"name":"A","role":"input"},
+          {"number":9,"name":"NC","role":"nc"},
+          {"number":10,"name":"K5","role":"input"},
+          {"number":11,"name":"K6","role":"input"},
+          {"number":12,"name":"K7","role":"input"},
+          {"number":13,"name":"NC","role":"nc"},
+          {"number":14,"name":"K8","role":"input"}
+        ]
+      },
+      "anode": "A",
+      "cathodes": [
+        {"pin":"K1","glyph":"S"},
+        {"pin":"K2","glyph":"F"},
+        {"pin":"K3","glyph":"H"},
+        {"pin":"K4","glyph":"V"},
+        {"pin":"K5","glyph":"T"},
+        {"pin":"K6","glyph":"A"},
+        {"pin":"K7","glyph":"Ω"},
+        {"pin":"K8","glyph":"Hz"}
+      ],
+      "color": "Orange",
+      "size": "18 mm",
+      "view": "side",
+      "strike": 170,
+      "sustain": 170,
+      "current": [2.5, 2.5],
+      "parts": [
+        {"name":"IN-19B","manufacturer":"USSR (various makers)","package":"Tube","pinout":"base","footprint":"NIXIE-IN-19"}
+      ]
+    },
+    {
+      "id": "IN-19V",
+      "function": "Nixie",
+      "description": "Nixie tube, symbols П A/B ~ < - > + dB, 18 mm, side view, wire leads",
+      "drawer": ["Vintage", "Nixie"],
+      "note": "IN-19A/B/V passport, datasheets/nixie/in-19a_in-19b_in-19v.pdf (the reference book, russian_tubes_02.pdf p.12, agrees). Firing <= 170 V, maintaining 120-170 V, supply 250 V recommended; current <= 2.5 mA (the book: working 2.5-3.5 mA). Lead 1 is cut off; leads 3, 7, 9 and 13 are free. The minus sign takes <= 1.5 mA",
+      "pinouts": {
+        "base": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"K1","role":"input"},
+          {"number":3,"name":"NC","role":"nc"},
+          {"number":4,"name":"K2","role":"input"},
+          {"number":5,"name":"K3","role":"input"},
+          {"number":6,"name":"K4","role":"input"},
+          {"number":7,"name":"NC","role":"nc"},
+          {"number":8,"name":"A","role":"input"},
+          {"number":9,"name":"NC","role":"nc"},
+          {"number":10,"name":"K5","role":"input"},
+          {"number":11,"name":"K6","role":"input"},
+          {"number":12,"name":"K7","role":"input"},
+          {"number":13,"name":"NC","role":"nc"},
+          {"number":14,"name":"K8","role":"input"}
+        ]
+      },
+      "anode": "A",
+      "cathodes": [
+        {"pin":"K1","glyph":"П"},
+        {"pin":"K2","glyph":"A/B"},
+        {"pin":"K3","glyph":"~"},
+        {"pin":"K4","glyph":"<"},
+        {"pin":"K5","glyph":"-"},
+        {"pin":"K6","glyph":">"},
+        {"pin":"K7","glyph":"+"},
+        {"pin":"K8","glyph":"dB"}
+      ],
+      "color": "Orange",
+      "size": "18 mm",
+      "view": "side",
+      "strike": 170,
+      "sustain": 170,
+      "current": [2.5, 2.5],
+      "parts": [
+        {"name":"IN-19V","manufacturer":"USSR (various makers)","package":"Tube","pinout":"base","footprint":"NIXIE-IN-19"}
+      ]
+    },
+    {
+      "id": "IN-7",
+      "function": "Nixie",
+      "description": "Nixie tube, symbols П + m A V M Ω ~ K -, 16 mm, end view, 14 pins",
+      "drawer": ["Vintage", "Nixie"],
+      "note": "Reference book, datasheets/nixie/russian_tubes_02.pdf p.3 (no factory passport found). Firing <= 170 V, anode-cathode drop <= 160 V, supply >= 200 V; indication current <= 2.5 mA, working 3.5-4 mA. Pins 1 and 12 glow as a capital pi and a tilde in tube-tester.com's photos (the book prints 'n'; another book prints '%' for pin 12)",
+      "pinouts": {
+        "base": [
+          {"number":1,"name":"K1","role":"input"},
+          {"number":2,"name":"A","role":"input"},
+          {"number":3,"name":"NC","role":"nc"},
+          {"number":4,"name":"K2","role":"input"},
+          {"number":5,"name":"K3","role":"input"},
+          {"number":6,"name":"K4","role":"input"},
+          {"number":7,"name":"K5","role":"input"},
+          {"number":8,"name":"NC","role":"nc"},
+          {"number":9,"name":"K6","role":"input"},
+          {"number":10,"name":"NC","role":"nc"},
+          {"number":11,"name":"K7","role":"input"},
+          {"number":12,"name":"K8","role":"input"},
+          {"number":13,"name":"K9","role":"input"},
+          {"number":14,"name":"K10","role":"input"}
+        ]
+      },
+      "anode": "A",
+      "cathodes": [
+        {"pin":"K1","glyph":"П"},
+        {"pin":"K2","glyph":"+"},
+        {"pin":"K3","glyph":"m"},
+        {"pin":"K4","glyph":"A"},
+        {"pin":"K5","glyph":"V"},
+        {"pin":"K6","glyph":"M"},
+        {"pin":"K7","glyph":"Ω"},
+        {"pin":"K8","glyph":"~"},
+        {"pin":"K9","glyph":"K"},
+        {"pin":"K10","glyph":"-"}
+      ],
+      "color": "Orange",
+      "size": "16 mm",
+      "view": "end",
+      "strike": 170,
+      "sustain": 160,
+      "current": [2.5, 4],
+      "parts": [
+        {"name":"IN-7","manufacturer":"USSR (various makers)","package":"Tube","pinout":"base","footprint":"NIXIE-IN-7"}
+      ]
+    },
+    {
+      "id": "IN-7A",
+      "function": "Nixie",
+      "description": "Nixie tube, symbols M + m % μ - K П, 16 mm, end view, 14 pins",
+      "drawer": ["Vintage", "Nixie"],
+      "note": "Reference book, datasheets/nixie/russian_tubes_02.pdf p.3 (no factory passport found). Firing <= 170 V, anode-cathode drop <= 160 V, supply >= 200 V; indication current <= 2.5 mA, working 3.5-4 mA",
+      "pinouts": {
+        "base": [
+          {"number":1,"name":"K1","role":"input"},
+          {"number":2,"name":"A","role":"input"},
+          {"number":3,"name":"NC","role":"nc"},
+          {"number":4,"name":"K2","role":"input"},
+          {"number":5,"name":"K3","role":"input"},
+          {"number":6,"name":"K4","role":"input"},
+          {"number":7,"name":"NC","role":"nc"},
+          {"number":8,"name":"NC","role":"nc"},
+          {"number":9,"name":"K5","role":"input"},
+          {"number":10,"name":"NC","role":"nc"},
+          {"number":11,"name":"K6","role":"input"},
+          {"number":12,"name":"K7","role":"input"},
+          {"number":13,"name":"K8","role":"input"},
+          {"number":14,"name":"NC","role":"nc"}
+        ]
+      },
+      "anode": "A",
+      "cathodes": [
+        {"pin":"K1","glyph":"M"},
+        {"pin":"K2","glyph":"+"},
+        {"pin":"K3","glyph":"m"},
+        {"pin":"K4","glyph":"%"},
+        {"pin":"K5","glyph":"μ"},
+        {"pin":"K6","glyph":"-"},
+        {"pin":"K7","glyph":"K"},
+        {"pin":"K8","glyph":"П"}
+      ],
+      "color": "Orange",
+      "size": "16 mm",
+      "view": "end",
+      "strike": 170,
+      "sustain": 160,
+      "current": [2.5, 4],
+      "parts": [
+        {"name":"IN-7A","manufacturer":"USSR (various makers)","package":"Tube","pinout":"base","footprint":"NIXIE-IN-7"}
+      ]
+    },
+    {
+      "id": "IN-7B",
+      "function": "Nixie",
+      "description": "Nixie tube, symbols S Hz V Ω, 16 mm, end view, 14 pins",
+      "drawer": ["Vintage", "Nixie"],
+      "note": "Reference book, datasheets/nixie/russian_tubes_02.pdf p.3 (no factory passport found). Firing <= 170 V, anode-cathode drop <= 160 V, supply >= 200 V; indication current <= 2.5 mA, working 3.5-4 mA",
+      "pinouts": {
+        "base": [
+          {"number":1,"name":"NC","role":"nc"},
+          {"number":2,"name":"A","role":"input"},
+          {"number":3,"name":"NC","role":"nc"},
+          {"number":4,"name":"K1","role":"input"},
+          {"number":5,"name":"K2","role":"input"},
+          {"number":6,"name":"NC","role":"nc"},
+          {"number":7,"name":"NC","role":"nc"},
+          {"number":8,"name":"NC","role":"nc"},
+          {"number":9,"name":"K3","role":"input"},
+          {"number":10,"name":"NC","role":"nc"},
+          {"number":11,"name":"NC","role":"nc"},
+          {"number":12,"name":"K4","role":"input"},
+          {"number":13,"name":"NC","role":"nc"},
+          {"number":14,"name":"NC","role":"nc"}
+        ]
+      },
+      "anode": "A",
+      "cathodes": [
+        {"pin":"K1","glyph":"S"},
+        {"pin":"K2","glyph":"Hz"},
+        {"pin":"K3","glyph":"V"},
+        {"pin":"K4","glyph":"Ω"}
+      ],
+      "color": "Orange",
+      "size": "16 mm",
+      "view": "end",
+      "strike": 170,
+      "sustain": 160,
+      "current": [2.5, 4],
+      "parts": [
+        {"name":"IN-7B","manufacturer":"USSR (various makers)","package":"Tube","pinout":"base","footprint":"NIXIE-IN-7"}
+      ]
+    },
+    {
+      "id": "IN-1",
+      "function": "Nixie",
+      "description": "Nixie tube, numerals 0-9, 18 mm, end view, 11 pins",
+      "drawer": ["Vintage", "Nixie"],
+      "note": "IN-1 passport, datasheets/nixie/in-1.pdf (the 1985 reference book, russian_tubes.pdf p.7, agrees). Firing <= 200 V, supply >= 220 V; indication current <= 2.5 mA, working 2.5-3 mA. The passport gives no maintaining voltage: 133 V is tube-tester.com's typical figure",
+      "pinouts": {
+        "base": [
+          {"number":1,"name":"K1","role":"input"},
+          {"number":2,"name":"K2","role":"input"},
+          {"number":3,"name":"K3","role":"input"},
+          {"number":4,"name":"K4","role":"input"},
+          {"number":5,"name":"K5","role":"input"},
+          {"number":6,"name":"K6","role":"input"},
+          {"number":7,"name":"K7","role":"input"},
+          {"number":8,"name":"K8","role":"input"},
+          {"number":9,"name":"K9","role":"input"},
+          {"number":10,"name":"K0","role":"input"},
+          {"number":11,"name":"A","role":"input"}
+        ]
+      },
+      "anode": "A",
+      "cathodes": [
+        {"pin":"K0","glyph":"0"},
+        {"pin":"K1","glyph":"1"},
+        {"pin":"K2","glyph":"2"},
+        {"pin":"K3","glyph":"3"},
+        {"pin":"K4","glyph":"4"},
+        {"pin":"K5","glyph":"5"},
+        {"pin":"K6","glyph":"6"},
+        {"pin":"K7","glyph":"7"},
+        {"pin":"K8","glyph":"8"},
+        {"pin":"K9","glyph":"9"}
+      ],
+      "color": "Orange",
+      "size": "18 mm",
+      "view": "end",
+      "strike": 200,
+      "sustain": 133,
+      "current": [2.5, 3],
+      "parts": [
+        {"name":"IN-1","manufacturer":"USSR (various makers)","package":"Tube","pinout":"base","footprint":"NIXIE-IN-1"}
+      ]
+    },
+    {
+      "id": "Z573M",
+      "function": "Nixie",
+      "description": "Nixie tube, numerals 0-9 and a decimal point, 13 mm, side view, wire leads",
+      "drawer": ["Vintage", "Nixie"],
+      "note": "RFT data book page, datasheets/nixie/z573m_rft_book_05.pdf (Z573M / Z5730M: one has a red filter; the German and English pages disagree on which). Ignition 150 V, maintaining 140 V, supply >= 170 V (used as the least anode supply); cathode current 1.5-2.5 mA. Lead 4 is an internal connection: leave it open. The decimal point is on the right",
+      "pinouts": {
+        "base": [
+          {"number":1,"name":"K1","role":"input"},
+          {"number":2,"name":"K2","role":"input"},
+          {"number":3,"name":"K3","role":"input"},
+          {"number":4,"name":"NC","role":"nc"},
+          {"number":5,"name":"K4","role":"input"},
+          {"number":6,"name":"K5","role":"input"},
+          {"number":7,"name":"K6","role":"input"},
+          {"number":8,"name":"K7","role":"input"},
+          {"number":9,"name":"K8","role":"input"},
+          {"number":10,"name":"KDP","role":"input"},
+          {"number":11,"name":"K9","role":"input"},
+          {"number":12,"name":"K0","role":"input"},
+          {"number":13,"name":"A","role":"input"}
+        ]
+      },
+      "anode": "A",
+      "cathodes": [
+        {"pin":"K0","glyph":"0"},
+        {"pin":"K1","glyph":"1"},
+        {"pin":"K2","glyph":"2"},
+        {"pin":"K3","glyph":"3"},
+        {"pin":"K4","glyph":"4"},
+        {"pin":"K5","glyph":"5"},
+        {"pin":"K6","glyph":"6"},
+        {"pin":"K7","glyph":"7"},
+        {"pin":"K8","glyph":"8"},
+        {"pin":"K9","glyph":"9"},
+        {"pin":"KDP","glyph":"DP"}
+      ],
+      "color": "Orange",
+      "size": "13 mm",
+      "view": "side",
+      "strike": 170,
+      "sustain": 140,
+      "current": [1.5, 2.5],
+      "parts": [
+        {"name":"Z573M","manufacturer":"RFT (VEB Werk für Fernsehelektronik)","package":"Tube","pinout":"base","footprint":"NIXIE-Z573M"}
+      ]
+    },
+    {
+      "id": "B-5870",
+      "function": "Nixie",
+      "description": "Nixie tube, numerals 0-9 and two decimal points, 0.5 in, side view, wire leads",
+      "drawer": ["Vintage", "Nixie"],
+      "note": "Burroughs Specifying Guide 1061K, datasheets/nixie/b-5870_burroughs_specifying_guide_1061k.pdf p.7 (basing printed for the B5750, the same pin arrangement; tube-tester.com's B-5870 basing agrees). Ionization <= 170 V, supply >= 170 V; 3.2 mA typical from 170 V through 7.5 kOhm, 4.5 mA max. No maintaining voltage is given: 170 V here. Leads 7 and 10 are both the anode; the guide notes lead 10 is removed on B-5850 series tubes, so wire the anode to lead 7",
+      "pinouts": {
+        "base": [
+          {"number":1,"name":"K1","role":"input"},
+          {"number":2,"name":"K2","role":"input"},
+          {"number":3,"name":"K3","role":"input"},
+          {"number":4,"name":"K4","role":"input"},
+          {"number":5,"name":"K5","role":"input"},
+          {"number":6,"name":"K6","role":"input"},
+          {"number":7,"name":"A","role":"input"},
+          {"number":8,"name":"K7","role":"input"},
+          {"number":9,"name":"K8","role":"input"},
+          {"number":10,"name":"A","role":"input"},
+          {"number":11,"name":"K9","role":"input"},
+          {"number":12,"name":"K0","role":"input"},
+          {"number":13,"name":"KDP","role":"input"},
+          {"number":14,"name":"KLDP","role":"input"}
+        ]
+      },
+      "anode": "A",
+      "cathodes": [
+        {"pin":"K0","glyph":"0"},
+        {"pin":"K1","glyph":"1"},
+        {"pin":"K2","glyph":"2"},
+        {"pin":"K3","glyph":"3"},
+        {"pin":"K4","glyph":"4"},
+        {"pin":"K5","glyph":"5"},
+        {"pin":"K6","glyph":"6"},
+        {"pin":"K7","glyph":"7"},
+        {"pin":"K8","glyph":"8"},
+        {"pin":"K9","glyph":"9"},
+        {"pin":"KLDP","glyph":"LDP"},
+        {"pin":"KDP","glyph":"DP"}
+      ],
+      "color": "Orange",
+      "size": "0.5 in",
+      "view": "side",
+      "strike": 170,
+      "sustain": 170,
+      "current": [3.2, 4.5],
+      "parts": [
+        {"name":"B-5870","manufacturer":"Burroughs","package":"Tube","pinout":"base","footprint":"NIXIE-B-5870"}
+      ]
+    },
+    {
+      "id": "INS-1",
+      "function": "Neon lamp",
+      "description": "Neon indicator, a dot seen through the lens at its end, wire leads",
+      "drawer": ["Vintage", "Neon"],
+      "note": "INS-1 passport, datasheets/nixie/ins-1.pdf: firing 65-90 V, maintaining <= 55 V, 0.5 mA (the reference book: 0.5-1 mA). Lead 1 (the small cylinder) is the anode. Simulated as a nixie with one cathode; the usual circuit is a 170 V rail, a series resistor and a transistor to ground",
+      "pinouts": {
+        "base": [
+          {"number":1,"name":"A","role":"input"},
+          {"number":2,"name":"K","role":"input"}
+        ]
+      },
+      "anode": "A",
+      "cathodes": [
+        {"pin":"K","glyph":"•"}
+      ],
+      "color": "Orange",
+      "size": "7 mm",
+      "view": "end",
+      "strike": 90,
+      "sustain": 55,
+      "current": [0.5, 1],
+      "parts": [
+        {"name":"INS-1","manufacturer":"USSR (various makers)","package":"Tube","pinout":"base","footprint":"NEON-INS-1"}
+      ]
+    },
+    {
+      "id": "IN-3",
+      "function": "Neon lamp",
+      "description": "Neon indicator, side glow, wire leads",
+      "drawer": ["Vintage", "Neon"],
+      "note": "IN-3 passport, datasheets/nixie/in-3.pdf: firing 60-90 V (95 V limit), 0.8 mA nominal (0.2-1.0), goes out below 55 V with 300 kOhm in the anode. No maintaining voltage is given: the firing limit here. Lead 1 is the anode",
+      "pinouts": {
+        "base": [
+          {"number":1,"name":"A","role":"input"},
+          {"number":2,"name":"K","role":"input"}
+        ]
+      },
+      "anode": "A",
+      "cathodes": [
+        {"pin":"K","glyph":"•"}
+      ],
+      "color": "Orange",
+      "size": "7 mm",
+      "view": "side",
+      "strike": 95,
+      "sustain": 95,
+      "current": [0.2, 1],
+      "parts": [
+        {"name":"IN-3","manufacturer":"USSR (various makers)","package":"Tube","pinout":"base","footprint":"NEON-IN-3"}
+      ]
+    },
+    {
+      "id": "NE-2",
+      "function": "Neon lamp",
+      "description": "Neon glow lamp (NE-2, A1A), wire leads",
+      "drawer": ["Vintage", "Neon"],
+      "note": "VCC Neon Indicator Lamps, datasheets/nixie/ne-2_vcc_neon_indicator_lamps.pdf: A1A (NE-2) breakdown 65 V AC / 90 V DC max, 0.6 mA design current (100 kOhm on 100-125 V). No maintaining voltage is given: the DC breakdown here. Not polarised: on DC the electrode on the negative side glows, so either lead may be the anode. Still sold (VCC A1A)",
+      "pinouts": {
+        "base": [
+          {"number":1,"name":"A","role":"input"},
+          {"number":2,"name":"K","role":"input"}
+        ]
+      },
+      "anode": "A",
+      "cathodes": [
+        {"pin":"K","glyph":"•"}
+      ],
+      "color": "Orange",
+      "size": "6 mm",
+      "view": "side",
+      "strike": 90,
+      "sustain": 90,
+      "current": [0.3, 0.6],
+      "parts": [
+        {"name":"NE-2","manufacturer":"Generic","package":"Tube","pinout":"base","footprint":"NEON-NE-2"}
+      ]
     }
   ]
 }

@@ -54,10 +54,22 @@ nonisolated enum PartFacts {
             add("Digits", String(info.digits))
             add("Color", info.color)
             add("Digit size", info.size)
-            add("Type", info.commonAnode ? "Common anode" : "Common cathode")
-            add("LED chip", info.chip)
-            if info.vfMaxMV > 0 {
-                add("Forward voltage", "\(VoltageCheck.volts(info.vfMinMV))–\(VoltageCheck.volts(info.vfMaxMV)) V")
+            let volts = info.vfMinMV == info.vfMaxMV
+                ? "\(VoltageCheck.volts(info.vfMaxMV)) V"
+                : "\(VoltageCheck.volts(info.vfMinMV))–\(VoltageCheck.volts(info.vfMaxMV)) V"
+            switch info.type {
+            case "numitron":
+                add("Type", "Numitron (incandescent)")
+                add("Segments", info.chip)
+                if info.vfMaxMV > 0 { add("Segment voltage", volts) }
+            case "vfd":
+                add("Type", "Vacuum fluorescent")
+                add("Phosphor", info.chip)
+                if info.vfMaxMV > 0 { add("Anode and grid voltage", volts) }
+            default:
+                add("Type", info.commonAnode ? "Common anode" : "Common cathode")
+                add("LED chip", info.chip)
+                if info.vfMaxMV > 0 { add("Forward voltage", volts) }
             }
         case let .nixie(info):
             add("Characters", info.characters.joined(separator: " "))

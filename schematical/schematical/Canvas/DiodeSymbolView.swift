@@ -56,6 +56,8 @@ struct DiodeSymbolView: View {
         case "Yellow": return .yellow
         case "Orange": return .orange
         case "White": return Color(white: 0.7)
+        case "Warm white": return Color(red: 1, green: 0.82, blue: 0.5)
+        case "Blue-green": return Color(red: 0.25, green: 0.9, blue: 0.8)
         default: return .secondary
         }
     }

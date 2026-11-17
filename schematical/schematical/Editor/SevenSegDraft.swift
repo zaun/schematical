@@ -6,9 +6,9 @@ import Foundation
 /// The 7seg kind's keys (plan-32-F … J): one field per device and part key, nested
 /// keys included, each with its control.
 enum SevenSegDraft {
-    static let f1: Field = Field(key: "chip", label: "Chip", type: .suggested(["AlGaAs Red", "AlInGaP Hyper Red", "AlInGaP Red", "AlInGaP Super Red", "AlInGaP Yellow Orange", "Bright Red", "Green", "Hi-Eff Red", "Orange", "Red", "Yellow"]), required: true)
+    static let f1: Field = Field(key: "chip", label: "Chip", type: .suggested(["1 V, 50 mA filament", "1.5 V, 100 mA filament", "19.5 mA per segment", "5 V, 85 mA filament", "AlGaAs Red", "AlInGaP Hyper Red", "AlInGaP Red", "AlInGaP Super Red", "AlInGaP Yellow Orange", "Bright Red", "Green", "Hi-Eff Red", "Orange", "Red", "Yellow"]), required: true)
     static let f2: Field = Field(key: "colonAfter", label: "Colon After", type: .integer, required: true)
-    static let f3: Field = Field(key: "color", label: "Color", type: .suggested(["Amber", "Green", "Orange", "Red", "Yellow"]), required: true)
+    static let f3: Field = Field(key: "color", label: "Color", type: .suggested(["Amber", "Blue-green", "Green", "Orange", "Red", "Warm white", "Yellow"]), required: true)
     static let f4: Field = Field(key: "commonAnode", label: "Common Anode", type: .bool, required: true)
     static let f5: Field = Field(key: "commonPins", label: "Common Pins", type: .valueMap(keyLabel: "Name", .oneOf([.integer, .suggested(["extras"])])), required: true)
     static let f6: Field = Field(key: "commonSide", label: "Common Side", type: .pins, required: true)
@@ -21,13 +21,14 @@ enum SevenSegDraft {
     static let f14: Field = Field(key: "segments", label: "Segments", type: .names, required: true)
     static let f12: Field = Field(key: "segmentPins", label: "Segment Pins", type: .map(keyLabel: "Name", [f13, f14]), required: true)
     static let f15: Field = Field(key: "segmentSide", label: "Segment Side", type: .pins, required: true)
-    static let f16: Field = Field(key: "size", label: "Size", type: .suggested(["0.28 in", "0.3 in", "0.4 in", "0.56 in"]), required: true)
-    static let f17: Field = Field(key: "vf", label: "Vf", type: .numbers(unit: ""), required: true)
+    static let f16: Field = Field(key: "size", label: "Size", type: .suggested(["0.28 in", "0.3 in", "0.4 in", "0.56 in", "10 mm", "10.5 mm", "11.2 mm", "12 mm", "21 mm"]), required: true)
+    static let f17: Field = Field(key: "type", label: "Type", type: .suggested(["led", "numitron", "vfd"]))
+    static let f18: Field = Field(key: "vf", label: "Vf", type: .numbers(unit: ""), required: true)
 
     static let schema = KindSchema(
         kind: "7seg",
         variantKey: nil,
-        device: [f1, f2, f3, f4, f5, f6, f7, f8, f9, f12, f15, f16, f17],
+        device: [f1, f2, f3, f4, f5, f6, f7, f8, f9, f12, f15, f16, f17, f18],
         part: []
     )
 }

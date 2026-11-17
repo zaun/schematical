@@ -75,6 +75,7 @@ typedef struct {
     const size_t *segment_pins; size_t segment_pin_count;  /* indices into Part.pins */
     const size_t *common_pins; size_t common_pin_count;    /* indices into Part.pins */
     uint32_t vf_min_mv, vf_max_mv;   /* segment forward voltage (shown, not checked) */
+    const char *type;   /* "led", "numitron" (incandescent) or "vfd" (grids as commons) */
 } PartDisplay;
 /* A nixie tube: one anode (on one or two pins) and one cathode per glyph.
    glyphs: what each cathode shows, in lights order: a numeral ("0"-"9"), a

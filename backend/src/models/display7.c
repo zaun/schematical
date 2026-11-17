@@ -7,6 +7,10 @@
  * not Z. Two common pins of one digit are joined inside the part (a closed
  * contact). The model drives nothing. Lights are tracked with lights.c, so
  * a multiplexed digit scanned during the app's last step counts as lit.
+ *
+ * "type" also covers two tube displays: a numitron (incandescent segments,
+ * simulated exactly like LEDs) and a VFD (a segment glows while its anode
+ * and its digit's grid both read 1; the filament pins are plain inputs).
  */
 
 #include <stdlib.h>
@@ -21,8 +25,14 @@
 
 static const char *const DEVICE_KEYS[] = {
     "digits", "commonAnode", "colonAfter", "dotAfter", "color", "size", "chip", "leds",
-    "segmentPins", "commonPins", "segmentSide", "commonSide", "vf", NULL
+    "segmentPins", "commonPins", "segmentSide", "commonSide", "vf", "type", NULL
 };
+
+/* "type": what the segments are. "led" (the default); "numitron" (incandescent
+   filaments: simulated as LEDs with the polarity "commonAnode" gives); "vfd"
+   (vacuum fluorescent: a segment glows while its anode and its digit's grid
+   both read 1). */
+static const char *const TYPES[] = {"led", "numitron", "vfd", NULL};
 
 static const char *const SEGMENTS[] = {
     "A", "B", "C", "D", "E", "F", "G", "DP", "LDP", "HJ", "L1", "L2", "L3", NULL
@@ -72,6 +82,7 @@ typedef struct {
     size_t contacts[D7_EXTRAS][2];   /* digit groups 1..9 with two commons */
     size_t contact_count;
     int common_anode;
+    int vfd;
 } DisplayPins;
 
 static int segment_index(KindContext *ctx, const char *name, unsigned *out) {
@@ -243,8 +254,30 @@ static void *display_load_device(KindContext *ctx, const cJSON *json) {
         kind_names(ctx, json, "commonSide", &device->common_side, &device->common_side_count) != 0) {
         return NULL;
     }
-    /* vf: segment forward voltage [min, max]. */
-    if (kind_volt_range(ctx, json, "vf", 10, 0, &d->vf_min_mv, &d->vf_max_mv) != 0) {
+    d->type = TYPES[0];
+    if (cJSON_GetObjectItemCaseSensitive(json, "type") != NULL) {
+        const char *type;
+        size_t i;
+
+        if (kind_string(ctx, json, "type", &type) != 0) {
+            return NULL;
+        }
+        for (i = 0; TYPES[i] != NULL && strcmp(TYPES[i], type) != 0; i++) {
+        }
+        if (TYPES[i] == NULL) {
+            kind_error(ctx, "\"type\" must be \"led\", \"numitron\" or \"vfd\"");
+            return NULL;
+        }
+        d->type = TYPES[i];
+    }
+    if (strcmp(d->type, "vfd") == 0 && d->common_anode) {
+        kind_error(ctx, "a \"vfd\" has \"commonAnode\": false (its commons are grids)");
+        return NULL;
+    }
+    /* vf: segment forward voltage [min, max] (an LED: at most 10 V; a numitron's
+       segment voltage or a VFD's anode voltage: at most 100 V). */
+    if (kind_volt_range(ctx, json, "vf", strcmp(d->type, "led") == 0 ? 10 : 100, 0, &d->vf_min_mv,
+                        &d->vf_max_mv) != 0) {
         return NULL;
     }
     d->leds = device->display_leds;
@@ -390,6 +423,7 @@ static void *display_bind_pinout(KindContext *ctx, const void *raw, const PartPi
 
     bound->display = device->display_template;
     bound->common_anode = device->display_template.common_anode;
+    bound->vfd = strcmp(device->display_template.type, "vfd") == 0;
     bound->display.segment_pins = expand_side(ctx, "segmentSide", device->segment_side,
                                               device->segment_side_count, 0, device, pins,
                                               pin_count, &bound->display.segment_pin_count);
@@ -459,7 +493,9 @@ static void update_leds(Sim *sim, SimInstance *instance, DisplayState *state) {
         LogicValue anode = state->pins->common_anode ? common : segment;
         LogicValue cathode = state->pins->common_anode ? segment : common;
 
-        lights_set(state->lights, i, anode == LOGIC_1 && cathode == LOGIC_0, now);
+        lights_set(state->lights, i,
+                   state->pins->vfd ? segment == LOGIC_1 && common == LOGIC_1
+                                    : anode == LOGIC_1 && cathode == LOGIC_0, now);
     }
 }
 

@@ -384,7 +384,11 @@ nonisolated struct ChipLayout: Hashable {
         // Segment pins, then (after a gap) any no-connect leads; commons on the right.
         let unused = pins.filter { $0.role == .noConnect }.sorted { $0.index < $1.index }
         let left = stack([display.segmentPins.compactMap { byIndex[$0] }, unused])
-        let right = display.commonPins.compactMap { byIndex[$0] }
+        // Commons, then (after a gap) any other lead: a VFD's filament.
+        let drawn = Set(display.segmentPins + display.commonPins)
+        let others = pins.filter { $0.role != .noConnect && !$0.isHidden && !drawn.contains($0.index) }
+            .sorted { $0.index < $1.index }
+        let right = stack([display.commonPins.compactMap { byIndex[$0] }, others])
         // At least enough rows for the digit face.
         let faceRows = Int(((sevenSegmentDigitSize.height + 16) / pitch).rounded(.up))
         let rows = max(left.count, right.count, faceRows)
@@ -396,7 +400,9 @@ nonisolated struct ChipLayout: Hashable {
             }
         }
         for (row, pin) in right.enumerated() {
-            slots.append(PinSlot(pin: pin, side: .right, centerY: centerY(forRow: row)))
+            if let pin {
+                slots.append(PinSlot(pin: pin, side: .right, centerY: centerY(forRow: row)))
+            }
         }
         let width = SchematicGrid.snap(sevenSegmentFaceWidth(display) + 2 * sevenSegmentNameColumn + 5)
         return ChipLayout(

@@ -264,6 +264,9 @@ static void print_details(FILE *out, const Part *part) {
             if (d->vf_max_mv > 0) {
                 fprintf(out, " vf=%u-%u", (unsigned)d->vf_min_mv, (unsigned)d->vf_max_mv);
             }
+            if (d->type != NULL && strcmp(d->type, "led") != 0) {
+                fprintf(out, " type=%s", d->type);
+            }
             break;
         }
         case PART_OSCILLATOR: {

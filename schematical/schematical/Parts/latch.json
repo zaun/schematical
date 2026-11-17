@@ -2446,6 +2446,48 @@
         {"name":"SN74ALVCH16260DGGR","manufacturer":"Texas Instruments","datasheet":"sn74alvch16260","package":"TSSOP","pinout":"p56","footprint":"TSSOP-56","family":"ALVC"},
         {"name":"SN74ALVCH16260DL","manufacturer":"Texas Instruments","datasheet":"sn74alvch16260","package":"SSOP","pinout":"p56","footprint":"SSOP-56","family":"ALVC"}
       ]
+    },
+    {
+      "id": "74_75_TTL",
+      "function": "4-bit latch",
+      "description": "4-bit bistable latches, standard TTL: holds a nixie digit between the counter and the driver",
+      "drawer": ["Vintage", "ICs"],
+      "note": "SN7475: sn74ls75 (SDLS120, p.3); K155TM7 (analogue of SN7475N, same pins; 2.5 mm pitch package 238.16): datasheets/nixie/k155tm7.pdf. The same device as 74_75 (LS, HC, HCT) with the standard-TTL timing",
+      "model": "transparent",
+      "pinouts": {
+        "p16": [
+          {"number":1,"name":"1QBAR","role":"output","activeLow":true},
+          {"number":2,"name":"1D","role":"input"},
+          {"number":3,"name":"2D","role":"input"},
+          {"number":4,"name":"3C4C","role":"input"},
+          {"number":5,"name":"VCC","role":"power"},
+          {"number":6,"name":"3D","role":"input"},
+          {"number":7,"name":"4D","role":"input"},
+          {"number":8,"name":"4QBAR","role":"output","activeLow":true},
+          {"number":9,"name":"4Q","role":"output"},
+          {"number":10,"name":"3Q","role":"output"},
+          {"number":11,"name":"3QBAR","role":"output","activeLow":true},
+          {"number":12,"name":"GND","role":"ground"},
+          {"number":13,"name":"1C2C","role":"input"},
+          {"number":14,"name":"2QBAR","role":"output","activeLow":true},
+          {"number":15,"name":"2Q","role":"output"},
+          {"number":16,"name":"1Q","role":"output"}
+        ]
+      },
+      "units": [
+        {"d":"1D","le":"1C2C","q":"1Q","qn":"1QBAR"},
+        {"d":"2D","le":"1C2C","q":"2Q","qn":"2QBAR"},
+        {"d":"3D","le":"3C4C","q":"3Q","qn":"3QBAR"},
+        {"d":"4D","le":"3C4C","q":"4Q","qn":"4QBAR"}
+      ],
+      "enableActive": "high",
+      "timing": {
+        "TTL": {"rise":16,"fall":14,"vcc":[4.75,5.25],"note":"D to Q typ, 5 V 15 pF 400 Ohm; VCC SN74 4.75-5.25 V (sn74ls75 p.3)"}
+      },
+      "parts": [
+        {"name":"SN7475N","manufacturer":"Texas Instruments","datasheet":"sn74ls75","package":"DIP","pinout":"p16","footprint":"PDIP-16","family":"TTL"},
+        {"name":"K155TM7","manufacturer":"USSR (various makers)","package":"DIP","pinout":"p16","footprint":"DIP-16-2.5MM","family":"TTL"}
+      ]
     }
   ]
 }

@@ -1898,7 +1898,7 @@ static void check_loader(void) {
     ok &= expect_error(BAD_HEAD "'stages':4,'clock':{'pin':'A','edge':'rising'},'serial':['B'],"
                        "'storage':{'clock':{'pin':'C','edge':'rising'},'latch':{'pin':'C',"
                        "'active':'high'},'outputs':['Q','Q','Q','Q']}" BAD_TAIL,
-                       "a storage has exactly one of \"clock\" and \"latch\"");
+                       "a storage has at most one of \"clock\" and \"latch\"");
     ok &= expect_error(BAD_HEAD "'stages':65,'clock':{'pin':'A','edge':'rising'},'serial':['B']"
                        BAD_TAIL, "\"stages\" must be 1 to 64");
     expect(ok, "22 loader: serial with serialJK, a storage with both clock and latch, and 65 stages "
@@ -1946,6 +1946,146 @@ static void check_fifo_real(void) {
     bench_destroy(b);
 }
 
+/* ---- High-voltage serial drivers (real parts only) --------------------------------- */
+
+/* HVOUT1..n all at v, except HVOUT<one> (0 = none) at other. */
+static int hvouts(Bench *b, unsigned n, LogicValue v, unsigned one, LogicValue other) {
+    unsigned i;
+    int ok = 1;
+
+    for (i = 1; i <= n; i++) {
+        char name[16];
+
+        snprintf(name, sizeof name, "HVOUT%u", i);
+        ok &= is(b, name, i == one ? other : v);
+    }
+    return ok;
+}
+
+/* Clocks one 1 and then n-1 zeros in on a falling edge: the 1 ends in stage n. */
+static void walk_one(Bench *b, const char *data, const char *clock, unsigned n, int falling) {
+    unsigned k;
+
+    for (k = 0; k < n; k++) {
+        set(b, data, k == 0 ? L1 : L0);
+        set(b, clock, falling ? L1 : L0);
+        step(b);
+        set(b, clock, falling ? L0 : L1);
+        step(b);
+    }
+    set(b, clock, L0);
+    step(b);
+}
+
+static void check_hv5122(void) {
+    Bench *b = open_fx("HV5122");
+    int ok;
+
+    set(b, "STR", L1);
+    set(b, "OE", L1);
+    set(b, "CLK", L0);
+    set(b, "DATA IN", L0);
+    step(b);
+    ok = hvouts(b, 32, LZ, 0, LZ);
+    walk_one(b, "DATA IN", "CLK", 3, 1);   /* the 1 is in stage 3 */
+    ok &= hvouts(b, 32, LZ, 3, L0) && is(b, "DATA OUT", L0);
+    set(b, "OE", L0);   /* all off */
+    step(b);
+    ok &= hvouts(b, 32, LZ, 0, LZ);
+    set(b, "STR", L0);   /* all on, whatever OE says */
+    step(b);
+    ok &= hvouts(b, 32, L0, 0, L0);
+    set(b, "STR", L1);
+    set(b, "OE", L1);
+    walk_one(b, "DATA IN", "CLK", 29, 1);   /* 29 zeros and a new 1 behind the old one */
+    expect(ok && is(b, "DATA OUT", L1) && is(b, "HVOUT32", L0) && is(b, "HVOUT29", L0) &&
+           is(b, "HVOUT28", LZ) && is(b, "HVOUT30", LZ),
+           "40 HV5122 an output sinks for a 1 while OE is high; OE low turns all off, STR low all "
+           "on; shifts on CLK falling, DATA OUT is stage 32");
+    bench_destroy(b);
+}
+
+static void check_hv5622(void) {
+    Bench *b = open_fx("HV5622");
+    int ok;
+
+    set(b, "LE", L0);
+    set(b, "BL", L1);
+    set(b, "POL", L1);
+    set(b, "CLK", L0);
+    set(b, "DATA IN", L0);
+    step(b);
+    walk_one(b, "DATA IN", "CLK", 5, 1);
+    ok = hvouts(b, 32, LZ, 0, LZ);   /* LE low: the latches hold their zeros */
+    set(b, "LE", L1);
+    step(b);
+    set(b, "LE", L0);
+    step(b);
+    ok &= hvouts(b, 32, LZ, 5, L0);
+    walk_one(b, "DATA IN", "CLK", 2, 1);   /* the stages move on; the latches do not */
+    ok &= hvouts(b, 32, LZ, 5, L0);
+    set(b, "POL", L0);   /* inverted */
+    step(b);
+    ok &= hvouts(b, 32, L0, 5, LZ);
+    set(b, "BL", L0);   /* blank with POL low: all on */
+    step(b);
+    ok &= hvouts(b, 32, L0, 0, L0);
+    set(b, "POL", L1);   /* blank with POL high: all off */
+    step(b);
+    expect(ok && hvouts(b, 32, LZ, 0, LZ),
+           "41 HV5622 latches follow the stages while LE is high; POL low inverts; BL low is all "
+           "off (POL high) or all on (POL low)");
+    bench_destroy(b);
+}
+
+static void check_hv5812(void) {
+    Bench *b = open_fx("HV5812");
+    int ok;
+
+    set(b, "STROBE", L1);
+    set(b, "BLANKING", L0);
+    set(b, "CLOCK", L0);
+    set(b, "DATA IN", L0);
+    step(b);
+    ok = hvouts(b, 20, L0, 0, L0);
+    walk_one(b, "DATA IN", "CLOCK", 4, 0);   /* rising edges */
+    ok &= hvouts(b, 20, L0, 4, L1);
+    set(b, "STROBE", L0);
+    walk_one(b, "DATA IN", "CLOCK", 2, 0);
+    ok &= hvouts(b, 20, L0, 4, L1);   /* held */
+    set(b, "BLANKING", L1);
+    step(b);
+    expect(ok && hvouts(b, 20, L0, 0, L0),
+           "42 HV5812 push-pull outputs follow the latches (STROBE high: transparent); BLANKING "
+           "high drives all low");
+    bench_destroy(b);
+}
+
+static void check_max6921(void) {
+    Bench *b = open_fx("MAX6921");
+    int ok;
+    unsigned k;
+
+    set(b, "LOAD", L1);
+    set(b, "BLANK", L0);
+    set(b, "CLK", L0);
+    set(b, "DIN", L1);
+    step(b);
+    pulse(b, "CLK");
+    set(b, "DIN", L0);
+    step(b);
+    ok = is(b, "OUT0", L1) && is(b, "OUT1", L0);   /* the bit enters at OUT0 */
+    for (k = 0; k < 19; k++) {
+        pulse(b, "CLK");
+    }
+    ok &= is(b, "OUT19", L1) && is(b, "OUT0", L0) && is(b, "DOUT", L1);
+    set(b, "BLANK", L1);
+    step(b);
+    expect(ok && is(b, "OUT19", L0) && is(b, "DOUT", L1),
+           "43 MAX6921 the first bit in ends at OUT19 and DOUT; BLANK high drives the outputs low");
+    bench_destroy(b);
+}
+
 static void real(const char *part, SimTime step, void (*check)(void)) {
     real_part = part;
     step_ps = step;
@@ -1969,6 +2109,12 @@ static void check_real_parts(void) {
     real("CD74HC40105E", NS(100), check_fifo_real);
     real("SN74LV8153PW", NS(300), check_8153);   /* RESET/OE to Y is 200 ns */
     real("SN74LS673DW", NS(100), check_673);
+    real("HV5122PJ-G", NS(600), check_hv5122);
+    real("HV5222PG-G", NS(600), check_hv5122);
+    real("HV5622PG-G", NS(600), check_hv5622);
+    real("HV5812P-G", NS(600), check_hv5812);
+    real("MAX6921AWI+", NS(1500), check_max6921);
+    real("MAX6921AUI+", NS(1500), check_max6921);
     part_library_destroy(real_library);
 }
 

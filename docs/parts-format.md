@@ -238,7 +238,7 @@ Flags:
   buffer kinds' parts) must be one of:
   HC, LS, ACT, HCT, F, AC, AHCT, ALS, AS, AHC, S, C, H, HCS, LV, LVC, AUP,
   AUC, ALVC, TTL, ABT, BCT, LVT, AVC, TPIC, FCT, L, ALV, AXC, LXC, TXU, TXV,
-  LCX, LVX, VHC, VHCT, ALVT. Of these:
+  LCX, LVX, VHC, VHCT, ALVT, HV. Of these:
   - `ABT`, `BCT`: BiCMOS bus-interface logic (5 V).
   - `LVT`: 3.3 V ABT; LVTH (bus-hold) parts use it too.
   - `AVC`: advanced very-low-voltage CMOS.
@@ -255,6 +255,9 @@ Flags:
   - `VHC`, `VHCT`: onsemi very-high-speed CMOS (74VHC…, MC74VHC…); VHCT has
     TTL-level inputs.
   - `ALVT`: Nexperia low-voltage BiCMOS (74ALVT16823).
+  - `HV`: high-voltage CMOS serial display drivers (Microchip HV5122,
+    HV5622, HV5812; Analog Devices MAX6921): the logic supply is the
+    part's `vcc`, the high-voltage side is the model's business.
   The supply range of these is each part's `vcc`, from its datasheet.
 - **`note`** is allowed on a device and on any timing entry; it is ignored.
 - **Voltages** are volts (JSON numbers, fractions allowed). The loader
@@ -447,7 +450,12 @@ but no `"datasheet"`; `listing_check` prints how many there are. They are:
 | National Semiconductor | `datasheets/nixie/dm74141` (1976 TTL Data Book pages) | DM74141N |
 | Texas Instruments | `datasheets/nixie/sn74141` (1976 TTL Data Book pages) | SN74141N |
 | USSR (various makers) | `datasheets/nixie/k155id1` (reference sheet) | K155ID1 |
-| USSR (various makers) | `datasheets/nixie/` (passport scans and the 1985 reference book; each device's `note` names its files) | IN-2, IN-8, IN-12A, IN-12B, IN-14, IN-15A, IN-15B, IN-16, IN-17, IN-18 |
+| USSR (various makers) | `datasheets/nixie/` (passport scans and the reference books; each device's `note` names its files) | IN-1, IN-2, IN-3, IN-7, IN-7A, IN-7B, IN-8, IN-12A, IN-12B, IN-14, IN-15A, IN-15B, IN-16, IN-17, IN-18, IN-19A, IN-19B, IN-19V, INS-1 |
+| USSR (various makers) | `datasheets/nixie/k155ie2`, `k155tm7` (reference sheets) | K155IE2, K155TM7 |
+| USSR (various makers) | `datasheets/vfd/` (passport scans and reference pages) | IV-6, IV-9, IV-11, IV-12, IV-16, IV-18 |
+| RFT (VEB Werk für Fernsehelektronik) | `datasheets/nixie/z573m_rft_book_05` | Z573M |
+| Burroughs | `datasheets/nixie/b-5870_burroughs_specifying_guide_1061k` | B-5870 |
+| Generic | `datasheets/nixie/ne-2_vcc_neon_indicator_lamps` | NE-2 |
 
 ## Footprints
 
@@ -3231,7 +3239,8 @@ Further forms (from the RTC datasheets, plan-24-B):
 
 ### `7seg`
 
-LED 7-segment displays. A display is a set of LEDs, each between one
+LED 7-segment displays, and two kinds of 7-segment tube (`"type"`, below).
+A display is a set of LEDs, each between one
 segment pin and its digit's common pin(s). An LED is on while its anode
 reads 1 and its cathode reads 0 (common anode: the common is the anode;
 common cathode: the common is the cathode). A digit's common reads as the
@@ -3259,7 +3268,23 @@ any time during the last step", so a multiplexed digit counts as lit.
 | `"segmentPins"` | segment pin name → `digit` (0 = shared by every digit, multiplexed) and the `segments` it drives |
 | `"commonPins"` | common pin name → its digit, or `"extras"` for the colon/dot common. A name used by several pins means all of them. |
 | `"segmentSide"`, `"commonSide"` | drawing order of the symbol's two sides, by name; a shared name expands to its pins in pinout order. `PartDisplay.segment_pins`/`common_pins` hold these pins' indices into `Part.pins`. |
-| `"vf"` | `[min, max]` volts: the segment forward voltage (datasheet "Forward Voltage Per Segment"), 0 < min ≤ max ≤ 10; min is the datasheet minimum, or its typical value when no minimum is printed. `PartDisplay.vf_min_mv`/`vf_max_mv`. Shown, not checked. Required. |
+| `"vf"` | `[min, max]` volts: the segment forward voltage (datasheet "Forward Voltage Per Segment"), 0 < min ≤ max ≤ 10; min is the datasheet minimum, or its typical value when no minimum is printed. `PartDisplay.vf_min_mv`/`vf_max_mv`. Shown, not checked. Required. For a tube (`type` below) the limit is 100 and it is the segment voltage (numitron: nominal, max) or the anode and grid voltage (VFD: nominal, static max) |
+| `"type"` | optional: `"led"` (default), `"numitron"` or `"vfd"`. `PartDisplay.type` |
+
+**Tubes.** `"type": "numitron"` is an incandescent 7-segment tube (IV-9,
+IV-16): each segment is a filament between its lead and the common, so it
+lights with either polarity; the model treats it exactly as an LED display
+with the polarity `commonAnode` gives (`true` in the shipped parts: common
+to +, a 7447-style driver sinking the segments). `"type": "vfd"` is a
+vacuum fluorescent tube (IV-6, IV-11, IV-12, IV-18): `commonAnode` must be
+`false`, the commons are the digits' **grids**, and a segment glows while
+its anode pin and its digit's grid both read 1. The filament leads are
+pins with role `input` that no map names: they do nothing in the
+simulation (the tube glows without them) and the app draws them under the
+commons. For a tube `"chip"` holds a rating shown as is: a numitron's
+segment current (`"19.5 mA per segment"`), a VFD's filament (`"1.5 V,
+100 mA filament"`). Drawers are Vintage › Numitron and Vintage › VFD;
+footprints are `explicit` lead circles like the nixies' (`TUBE-IV-…`).
 
 An LED's segment pin is the first pin (in pin order) in `segmentPins` that
 drives its segment for its digit (or every digit); its commons are the
@@ -3314,7 +3339,11 @@ resistor) to the anode, and one high-voltage switch per cathode to ground:
 a transistor each, or a BCD-to-decimal nixie driver (`SN74141N`,
 `DM74141N`, `K155ID1`; `decoder` kind, drawer Vintage › ICs), whose
 open-collector outputs pull the selected cathode low and leave every
-output off for codes 10–15.
+output off for codes 10–15. The modern way is a 32-output high-voltage
+shift register (`HV5122`, `HV5222`, `HV5622`; `shift` kind, drawer
+Logic › Registers): three tubes' cathodes per chip, clocked in serially.
+A neon indicator (INS-1, IN-3, NE-2: drawer Vintage › Neon) is a nixie
+with one cathode, glyph `"•"`.
 
 **Footprints** are `explicit`: the leads or pins on their circle (or, for
 IN-12 / IN-15, their own pattern), pad 1 `rect`, as seen from above the
@@ -4091,7 +4120,7 @@ Unit keys:
 | `"trueComplement"` | optional control (4035B): while not asserted every `outputs` pin shows NOT its stage |
 | `"io"` | optional `{"pins": [stage names, inout], "outputEnables": [controls], "notInModes": [mode names]}`: the stages drive the pins while every enable is asserted and the current `modes` row is not listed; a load `from` `io`, a `load` mode row without `data` and the input register read the pins |
 | `"serialOutputs"` | optional `[{"pin", "stage"}]`: a flip-flop that takes that stage on the clock's opposite edge (4094B Q'S, 4031B Q', TPIC 596 SER OUT) |
-| `"storage"` | optional: exactly one of `"clock": {"pin","edge"}` or `"latch": control` (transparent while asserted), plus `"clear"` (control, asynchronous), `"outputs"` (stages names), `"outputEnable"` (control), `"output"` (`push-pull` / `open-drain`), `"invert"` (bool) |
+| `"storage"` | optional: at most one of `"clock": {"pin","edge"}` or `"latch": control` (transparent while asserted; with neither the outputs follow the stages), plus `"clear"` (control, asynchronous), `"outputs"` (stages names), `"outputEnable"` (control), `"output"` (`push-pull` / `open-drain`), `"invert"` (bool), and the display-driver controls `"blank"`, `"allOn"`, `"polarity"` and `"supply"` (below) |
 | `"inputRegister"` | optional `{"clock": {"pin","edge"}, "data": [names]}` (no `data`: the `io` pins) |
 | `"clockOut"` | optional pin: follows the clock pin, delayed by the entry's rise/fall (4031B CLD) |
 
@@ -4106,6 +4135,22 @@ clocks leave the storage one clock behind); a storage latch follows the
 stages while asserted. The serial-output flip-flops take their stage on the
 opposite edge. `part_pin_open_drain` is 1 for the outputs of an `open-drain`
 storage.
+
+**Display-driver storage keys** (high-voltage serial drivers: HV5122,
+HV5622, HV5812, MAX6921). All optional; the three controls are read like
+enables (Z or X makes every output X):
+
+| Key | Value |
+|---|---|
+| `"blank"` | control: while asserted every storage bit reads 0 (HV5812 BLANKING high, HV5622 BL low, HV5122 OE low) |
+| `"allOn"` | control: while asserted every bit reads 1, whatever `blank` says (HV5122 STR low) |
+| `"polarity"` | control: while asserted every bit is inverted, after `blank` and `allOn` (HV5622 POL low: blanked outputs are then all on) |
+| `"supply"` | pin name: the outputs' own high-voltage supply (HV5812 VPP, MAX6921 VBB). The voltage check skips that pin and, for a `push-pull` storage, the storage outputs: they swing to the high-voltage rail, not VCC (`part_pin_analog`) |
+
+The value at a storage pin is ((bit AND NOT blank) OR allOn) XOR polarity,
+then `invert`, then the output enable. With `"output": "open-drain"` and
+`"invert": true` a 1 sinks the pin (a nixie cathode on) and a 0 releases
+it.
 
 #### Model `ls673`
 

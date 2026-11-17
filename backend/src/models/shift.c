@@ -182,7 +182,8 @@ typedef struct {
     size_t serial_output_count;
     int has_storage;
     SeqClockName st_clock;
-    SeqControlName st_latch, st_clear, st_oe;
+    SeqControlName st_latch, st_clear, st_oe, st_blank, st_all_on, st_polarity;
+    const char *st_supply;   /* the outputs' own supply pin (VPP, VBB), or NULL */
     const char *const *st_outputs;
     size_t st_output_count;
     SeqOutputStyle st_style;
@@ -214,7 +215,8 @@ typedef struct {
     SeqControl io_oe[SH_MAX_LIST];
     size_t serial_outputs[2];
     SeqClock st_clock;
-    SeqControl st_latch, st_clear, st_oe;
+    SeqControl st_latch, st_clear, st_oe, st_blank, st_all_on, st_polarity;
+    size_t st_supply;
     size_t st_outputs[SH_MAX_STAGES];
     SeqClock ireg_clock;
     size_t ireg_data[SH_MAX_STAGES];
@@ -453,7 +455,8 @@ static int load_io(KindContext *ctx, const cJSON *json, ShUnitDef *u) {
 
 static int load_storage(KindContext *ctx, const cJSON *json, ShUnitDef *u) {
     static const char *const KEYS[] = {"clock", "latch", "clear", "outputs", "outputEnable",
-                                       "output", "invert", NULL};
+                                       "output", "invert", "blank", "allOn", "polarity", "supply",
+                                       NULL};
     const cJSON *st = cJSON_GetObjectItemCaseSensitive(json, "storage");
 
     if (st == NULL) {
@@ -463,15 +466,19 @@ static int load_storage(KindContext *ctx, const cJSON *json, ShUnitDef *u) {
     if (kind_check_keys(ctx, st, KEYS, NULL) != 0) {
         return -1;
     }
-    if ((cJSON_GetObjectItemCaseSensitive(st, "clock") != NULL) ==
-        (cJSON_GetObjectItemCaseSensitive(st, "latch") != NULL)) {
-        return kind_error(ctx, "a storage has exactly one of \"clock\" and \"latch\"");
+    if (cJSON_GetObjectItemCaseSensitive(st, "clock") != NULL &&
+        cJSON_GetObjectItemCaseSensitive(st, "latch") != NULL) {
+        return kind_error(ctx, "a storage has at most one of \"clock\" and \"latch\"");
     }
     if (seq_clock_name(ctx, st, "clock", 0, &u->st_clock) != 0 ||
         seq_control_name(ctx, st, "latch", 0, 0, &u->st_latch) != 0 ||
         seq_control_name(ctx, st, "clear", 0, 0, &u->st_clear) != 0 ||
         names_n(ctx, st, "outputs", u->stages, &u->st_outputs, &u->st_output_count, 1) != 0 ||
         seq_control_name(ctx, st, "outputEnable", 0, 0, &u->st_oe) != 0 ||
+        seq_control_name(ctx, st, "blank", 0, 0, &u->st_blank) != 0 ||
+        seq_control_name(ctx, st, "allOn", 0, 0, &u->st_all_on) != 0 ||
+        seq_control_name(ctx, st, "polarity", 0, 0, &u->st_polarity) != 0 ||
+        seq_optional_name(ctx, st, "supply", &u->st_supply) != 0 ||
         seq_output_style(ctx, st, &u->st_style) != 0 ||
         seq_optional_bool(ctx, st, "invert", 0, &u->st_invert) != 0) {
         return -1;
@@ -616,6 +623,10 @@ static int bind_unit(KindContext *ctx, const ShUnitDef *d, ShUnit *u, const Part
         seq_bind_control(ctx, pins, count, &d->st_latch, &u->st_latch) != 0 ||
         seq_bind_control(ctx, pins, count, &d->st_clear, &u->st_clear) != 0 ||
         seq_bind_control(ctx, pins, count, &d->st_oe, &u->st_oe) != 0 ||
+        seq_bind_control(ctx, pins, count, &d->st_blank, &u->st_blank) != 0 ||
+        seq_bind_control(ctx, pins, count, &d->st_all_on, &u->st_all_on) != 0 ||
+        seq_bind_control(ctx, pins, count, &d->st_polarity, &u->st_polarity) != 0 ||
+        seq_bind(ctx, pins, count, d->st_supply, &u->st_supply) != 0 ||
         bind_names(ctx, pins, count, d->st_outputs, d->st_output_count, u->st_outputs) != 0 ||
         seq_bind_clock(ctx, pins, count, &d->ireg_clock, &u->ireg_clock) != 0 ||
         bind_names(ctx, pins, count, d->ireg_data, d->ireg_data_count, u->ireg_data) != 0 ||
@@ -947,10 +958,19 @@ static void sh_outputs(Sim *sim, SimInstance *inst, ShState *s, size_t index) {
     }
     if (d->has_storage) {
         int enable = seq_enable(sim, inst, &u->st_oe);
+        /* Blanking reads every bit as 0, all-on as 1, then the polarity control inverts. */
+        int blank = d->st_blank.pin != NULL ? seq_sync(sim, inst, &u->st_blank) : 0;
+        int all_on = d->st_all_on.pin != NULL ? seq_sync(sim, inst, &u->st_all_on) : 0;
+        int flip = d->st_polarity.pin != NULL ? seq_sync(sim, inst, &u->st_polarity) : 0;
 
         for (i = 0; i < d->st_output_count; i++) {
             LogicValue v = seq_bit(us->storage, (unsigned)i);
 
+            if (blank != 0 || all_on != 0 || flip != 0) {
+                int level = or3(and3(seq_level(v), not3(blank)), all_on);
+
+                v = seq_value(flip < 0 ? -1 : flip ? not3(level) : level);
+            }
             if (d->st_invert) {
                 v = seq_not(v);
             }
@@ -1000,6 +1020,8 @@ static void sh_eval_unit(Sim *sim, SimInstance *inst, ShState *s, size_t index, 
                 us->storage = before;
             }
             us->last_st_clock = v;
+        } else if (d->st_latch.pin == NULL) {
+            us->storage = us->stages;   /* no clock, no latch: the outputs follow the stages */
         } else {
             int latch = seq_sync(sim, inst, &u->st_latch);
 
@@ -1097,9 +1119,34 @@ static int sh_open_drain(const void *dev, const void *bound, size_t pin) {
     return 0;
 }
 
+/* The storage's own supply pin (VPP, VBB) and the push-pull outputs it feeds: they
+   carry the high voltage, not VCC, so the voltage check skips them. */
+static int sh_analog(const void *dev, const void *bound, size_t pin) {
+    const ShBound *b = bound;
+    size_t i, k;
+
+    (void)dev;
+    for (i = 0; i < b->unit_count; i++) {
+        const ShUnitDef *d = b->units[i].def;
+
+        if (!d->has_storage || d->st_supply == NULL) {
+            continue;
+        }
+        if (b->units[i].st_supply == pin) {
+            return 1;
+        }
+        for (k = 0; d->st_style != SEQ_OPEN_DRAIN && k < d->st_output_count; k++) {
+            if (b->units[i].st_outputs[k] == pin) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
 static const ShiftModel SHIFT_MODEL = {
     "shift", SHIFT_KEYS, NULL, sh_load, sh_bind, sh_create, sh_start, sh_changed, NULL,
-    sh_open_drain
+    sh_open_drain, sh_analog
 };
 
 /* ---- The kind --------------------------------------------------------------------- */
@@ -1253,7 +1300,14 @@ static int shift_pin_open_drain(const Part *part, size_t pin) {
     return dev->model->open_drain != NULL && dev->model->open_drain(dev->dev, internal->bound, pin);
 }
 
+static int shift_pin_analog(const Part *part, size_t pin) {
+    const PartInternal *internal = part_internal(part);
+    const ShiftDevice *dev = internal->device;
+
+    return dev->model->analog != NULL && dev->model->analog(dev->dev, internal->bound, pin);
+}
+
 const PartKindOps SHIFT_KIND = {
     PART_SHIFT, "shift", &SHIFT_SIM_MODEL, DEVICE_KEYS, PART_KEYS,
-    shift_load_device, shift_bind_pinout, shift_load_part, shift_pin_open_drain
+    shift_load_device, shift_bind_pinout, shift_load_part, shift_pin_open_drain, shift_pin_analog
 };

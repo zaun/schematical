@@ -70,7 +70,7 @@ enum LatchDraft {
     static let f63: Field = Field(key: "r", label: "R", type: .pin)
     static let f64: Field = Field(key: "s", label: "S", type: .pins)
     static let f55: Field = Field(key: "units", label: "Units", type: .list([f56, f57, f58, f59, f60, f61, f62, f63, f64]), variants: ["sr", "transparent"])
-    static let f65: Field = Field(key: "family", label: "Family", type: .suggested(["ABT", "AC", "ACT", "AHC", "AHCT", "ALS", "ALVC", "AS", "AUC", "AVC", "BCT", "C", "F", "HC", "HCS", "HCT", "LS", "LV", "LVC", "LVT", "S", "TPIC"]), required: true)
+    static let f65: Field = Field(key: "family", label: "Family", type: .suggested(["ABT", "AC", "ACT", "AHC", "AHCT", "ALS", "ALVC", "AS", "AUC", "AVC", "BCT", "C", "F", "HC", "HCS", "HCT", "LS", "LV", "LVC", "LVT", "S", "TPIC", "TTL"]), required: true)
     static let f66: Field = Field(key: "vcc", label: "Vcc", type: .voltRange)
 
     static let schema = KindSchema(

@@ -44,6 +44,7 @@ struct ShiftModel {
                     LogicValue old_value, LogicValue new_value);
     void (*timer)(Sim *sim, SimInstance *inst, ShiftHeader *state, uint32_t id);   /* may be NULL */
     int (*open_drain)(const void *dev, const void *bound, size_t pin);              /* may be NULL */
+    int (*analog)(const void *dev, const void *bound, size_t pin);                  /* may be NULL */
 };
 
 /* The models of shift_special.c (plan-10-H); shift.c lists them in its table. */
