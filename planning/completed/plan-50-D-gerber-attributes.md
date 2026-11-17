@@ -164,7 +164,7 @@ KiCad export. *Per-object attributes on mask, paste and legend files*: nothing t
 
 Acceptance: KiCad output is byte-identical.
   Check: rerun the baseline command after the change into `$OUT/after.txt`; `diff $OUT/before.txt $OUT/after.txt` → no output; then `xcodebuild … test -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/EasyEDAProExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 10 min: two test runs). Observed: `before.txt` and `after.txt` (the 12 `KICAD_FILE` lines of the fixtures, `turned` and `vias`) differ only in the random part UUIDs of the two boards the test builds itself (`turned`, `vias`; compared after replacing every UUID: identical); the three fixture projects (AFU, LFU, RegFile: 9 files) and `turned/app.drl` are byte-identical; `KiCadExportTests` and `EasyEDAProExportTests` `** TEST SUCCEEDED **`.
-Commit: —
+Commit: 69335a9f
 
 ### Phase 2 — The writer
 
@@ -181,7 +181,7 @@ Commit: —
 
 Acceptance: attributes are written and read back as set; a file with none is unchanged.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/GerberAttributeTests -only-testing:schematicalTests/GerberExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min). Observed (run with Phase 3's suites): `Executed 52 tests, with 0 failures`.
-Commit: —
+Commit: 69335a9f
 
 ### Phase 3 — Copper layers, profile and file attributes
 
@@ -213,7 +213,7 @@ Commit: —
 Acceptance: copper carries the attributes of § 1 and the files stay deterministic.
   Check: `xcodebuild … test -only-testing:schematicalTests/GerberAttributeTests -only-testing:schematicalTests/GerberExportTests -only-testing:schematicalTests/KiCadExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min). Observed: `Executed 52 tests, with 0 failures`, `** TEST SUCCEEDED **`.
   And the cross-check: run `KICAD_OUT=1 … testPrintSamplesWhenAsked`, decode the `GERBER_FILE vias/…GTL` and `KICAD_FILE vias/vias.kicad_pcb` lines into `$OUT`; `~/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb export gerbers --board-plot-params -o $OUT/kicad $OUT/vias.kicad_pcb`; `$VENV/bin/python planning/plan-50-data/compare_gerber_nets.py $OUT/vias.GTL $OUT/kicad/vias-F_Cu.gbr` → no differing (reference, pin) → net entries, and the `.AperFunction` counts line up for `SMDPad`, `ComponentPad`, `ViaPad` (est. 5 min). Observed with `kicad-cli pcb export gerbers` 10.0.8 and gerbonara 1.6.3 on `ExportSamples.vias()` and `fourLayer()`: `compare_gerber_nets.py` printed no `DIFFERENT` line for Top or Bottom of either board; function counts Top of `fourLayer`: ours `Conductor 2, ComponentPad 28, SMDPad 14, HeatsinkPad 1, ViaPad 4`, KiCad `ComponentPad 28, SMDPad 15, ViaPad 4, Conductor 2` (KiCad calls the centre pad `SMDPad`).
-Commit: —
+Commit: 69335a9f
 
 ## Validation Plan
 
