@@ -135,7 +135,7 @@ owner asked for.
 
 Acceptance: the flag is stored, saved, undoable and editable.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/ViaTests -only-testing:schematicalTests/SchematicFileV5Tests -only-testing:schematicalTests/PCBUndoTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min). Observed with Phase 2's suites in one run: `Executed 96 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: —
+Commit: 9bfff74a
 
 ### Phase 2 — Preview, Gerber and KiCad
 
@@ -160,7 +160,7 @@ Commit: —
 Acceptance: Gerber and KiCad carry the choice, and KiCad reads it back as the same modes.
   Check: `xcodebuild … test -only-testing:schematicalTests/GerberExportTests -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/BoardPreviewTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
   And: run `KICAD_OUT=1 xcodebuild … test -only-testing:schematicalTests/KiCadExportTests/testPrintSamplesWhenAsked`, decode the `KICAD_FILE vias/…kicad_pcb` line into `$OUT/vias.kicad_pcb`, then `PYTHONPATH=~/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/Current/lib/python3.9/site-packages ~/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/Current/bin/python3 -I planning/plan-50-data/probe_kicad_via_tenting.py $OUT/vias.kicad_pcb` → four via lines `1 1`, `2 1`, `1 2`, `2 2` in via order (TENTED 1, NOT_TENTED 2) (est. 3 min). Observed on the app's own `vias.kicad_pcb`: `(33476000, 37460000) 1 1`, `(35762000, 37460000) 2 1`, `(38048000, 37460000) 1 2`, `(40334000, 37460000) 2 2`, then `0 2 1`; `kicad-cli pcb drc` loads it (`Found 25 violations`, `Found 0 unconnected items`).
-Commit: —
+Commit: 9bfff74a
 
 ## Validation Plan
 
