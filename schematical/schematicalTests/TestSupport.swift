@@ -43,6 +43,16 @@ enum TestSupport {
         return stripped
     }
 
+    /// A saved file's text without its `board.stackup` object, to compare
+    /// with a golden from before the stackup was kept in the file (plan-50-A).
+    /// Fails when the object isn't there.
+    static func withoutStackup(_ text: String, file: StaticString = #filePath, line: UInt = #line) -> String {
+        let stripped = text.replacingOccurrences(of: #"(?s)\n    "stackup" : \{.*?\n    \},?"#, with: "",
+                                                 options: .regularExpression)
+        XCTAssertNotEqual(stripped, text, "the file has no stackup", file: file, line: line)
+        return stripped
+    }
+
     static func part(_ name: String) throws -> CatalogPart {
         try XCTUnwrap(catalog.part(named: name), "no part \(name)")
     }

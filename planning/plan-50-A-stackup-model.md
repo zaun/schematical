@@ -199,38 +199,38 @@ Commit: —
 
 ### Phase 2 — The file
 
-- [ ] `Document/SchematicFile.swift`: `Board.StackupEntry` (`copper: [Double]?`, `dielectrics: [DielectricEntry]?`,
+- [x] `Document/SchematicFile.swift`: `Board.StackupEntry` (`copper: [Double]?`, `dielectrics: [DielectricEntry]?`,
       `finish: String?`, `temperatureRise: Double?`), written in `Board(…)` (always) and read in
       `boardSettings()` after `layers`, with the refusals in § 3.
-- [ ] `docs/file-format.md`: the `stackup` row in the `board` table and a § Stackup (keys, ranges, defaults,
+- [x] `docs/file-format.md`: the `stackup` row in the `board` table and a § Stackup (keys, ranges, defaults,
       the four standard stackups' numbers, errors).
-- [ ] `TestSupport.swift`: `withoutStackup(_:)`, a regex `(?s)\n    "stackup" : \{.*?\n    \},?` removal that fails
+- [x] `TestSupport.swift`: `withoutStackup(_:)`, a regex `(?s)\n    "stackup" : \{.*?\n    \},?` removal that fails
       when the object is absent (as `withoutDesignRules` does); apply it in the 3 golden tests (the sites in
       § 2).
-- [ ] Tests, in `BoardStackupTests`: a saved file has `board.stackup` and opens to an equal `BoardStackup`; a file
+- [x] Tests, in `BoardStackupTests`: a saved file has `board.stackup` and opens to an equal `BoardStackup`; a file
       with no `stackup` opens to `standard(layers:)` for its count; a 4-layer file whose `copper` has 2 entries
       throws `badPCB` naming `copper`; an unknown `finish` throws; an edited stackup (copper 0.07, Er 4.0, finish
       ENIG, rise 20) round-trips.
 
 Acceptance: round trip and refusals as above; the 3 goldens still pass with the strip.
-  Check: `xcodebuild … test -only-testing:schematicalTests/BoardStackupTests -only-testing:schematicalTests/SchematicFileV5Tests -only-testing:schematicalTests/NetClassTests -only-testing:schematicalTests/NetRulesTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
+  Check: `xcodebuild … test -only-testing:schematicalTests/BoardStackupTests -only-testing:schematicalTests/SchematicFileV5Tests -only-testing:schematicalTests/NetClassTests -only-testing:schematicalTests/NetRulesTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min). Phases 2 and 3 were checked in one run of these suites plus `BoardLayersTests`: `Executed 96 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 Commit: —
 
 ### Phase 3 — Edits and undo
 
-- [ ] `Canvas/SchematicModel.swift`, in the Board section next to `setLayerCount`: `setStackupFinish(_:)`,
+- [x] `Canvas/SchematicModel.swift`, in the Board section next to `setLayerCount`: `setStackupFinish(_:)`,
       `setStackupTemperatureRise(_:)` (clamped to its range), `setCopperThickness(_ mm: Double, at index: Int)`,
       `setDielectric(at index: Int, kind:thickness:er:)` (each argument optional; clamped), `resetStackup()` (the
       standard for the board's layers, keeping nothing but the layer count). Each is one
       `recordEdit(.pcb, "Change Stackup")` (or "Reset Stackup") that changes only when the value differs, and
       ignores an out-of-range index.
-- [ ] Tests, in `BoardStackupTests`: each setter changes the value and `doc.undo(on: .pcb)` restores it, one step
+- [x] Tests, in `BoardStackupTests`: each setter changes the value and `doc.undo(on: .pcb)` restores it, one step
       each, named as in the setters (`doc.undoName(on: .pcb)`); a setter with the same value records no step
       (`undoName(on: .pcb)` unchanged); `setLayerCount(4)` then `undo(on: .pcb)` returns the 2-layer stackup; clamping at both ends of each range; `setBoardType` of a card on a 1-layer
       board leaves a 2-layer stackup.
 
 Acceptance: every edit is one undo step; the layer-count change round-trips through undo.
-  Check: `xcodebuild … test -only-testing:schematicalTests/BoardStackupTests -only-testing:schematicalTests/PCBUndoTests -only-testing:schematicalTests/BoardLayersTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
+  Check: `xcodebuild … test -only-testing:schematicalTests/BoardStackupTests -only-testing:schematicalTests/PCBUndoTests -only-testing:schematicalTests/BoardLayersTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min). Phases 2 and 3 were checked in one run of these suites plus `BoardLayersTests`: `Executed 96 tests, with 0 failures`, `** TEST SUCCEEDED **`.
 Commit: —
 
 ## Validation Plan
@@ -250,7 +250,7 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- The sub-plans' final gates (this plan's Validation Plan, once) are run once for all of plan-50 at the end, as the follow-plan landing tier, not per sub-plan; each phase's own check ran.
 
 ## Summary
 

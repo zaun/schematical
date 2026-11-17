@@ -170,6 +170,7 @@ An EEPROM can name the file loaded into it when the simulation starts:
 | `netLayerRules` | array | Layer rules set on single nets ([Net layer rules](#net-layer-rules)). Written only when there are some. Older builds ignore it. |
 | `netGroups` | array | Equal-length groups and differential pairs ([Net groups](#net-groups)). Written only when there are some. Older builds ignore it. |
 | `designRules` | object | The board's design rules ([Board design rules](#board-design-rules)). Always written. Older builds ignore it. |
+| `stackup` | object | The board's layer stack ([Stackup](#stackup)). Always written. Older builds ignore it. |
 
 A missing key takes its default. A text:
 
@@ -317,6 +318,44 @@ its gap. A net is in at most one group.
 | `gap`          | number | mm, 0.05 to 10, a pair's edge-to-edge gap. Default 0.2. |
 | `maxUncoupled` | number | mm, 0 to 50: how much of a pair may run apart near its pads. Default 5. |
 | `maxMeander`   | number | mm, 0.5 to 50: the largest sideways size one tuning bump may reach. Default 4. |
+
+### Stackup
+
+```json
+"stackup": { "copper": [0.035, 0.0152, 0.0152, 0.035],
+             "dielectrics": [ { "type": "prepreg", "thickness": 0.2104, "er": 4.4 },
+                              { "type": "core", "thickness": 1.065, "er": 4.6 },
+                              { "type": "prepreg", "thickness": 0.2104, "er": 4.4 } ],
+             "finish": "leadFreeHasl", "temperatureRise": 10 }
+```
+
+`board.stackup` is the layer stack the impedance and current estimates and the
+KiCad and Gerber exports work from. It always agrees with `layers`.
+
+| Field | Type | Meaning |
+|-------|------|---------|
+| `copper` | array of numbers | The copper thickness of each layer in mm, Top first and Bottom last, one per copper layer, each 0.005 to 0.2. |
+| `dielectrics` | array | The insulator between each two copper layers, top to bottom: `type` (`"core"` or `"prepreg"`), `thickness` (mm, 0.02 to 5) and `er` (relative permittivity, 1 to 20). One fewer than `layers`; a 1-layer board has one (its substrate). |
+| `finish` | string | The finish on bare copper: `"hasl"` (leaded), `"leadFreeHasl"`, `"enig"` or `"osp"`. |
+| `temperatureRise` | number | °C, 1 to 100: the rise the current estimate allows. Default 10. |
+
+A missing `stackup`, or a missing key in it, takes the standard value for the
+layer count. The standard stackups (mm; the 4- and 6-layer ones are
+JLCPCB's published 1.6 mm stackups, the finish lead-free HASL, ENIG at 6
+layers):
+
+| Layers | Copper | Dielectrics (type, thickness, er) | Total |
+|---|---|---|---|
+| 1 | 0.035 | core 1.555, 4.5 | 1.6 |
+| 2 | 0.035, 0.035 | core 1.51, 4.5 | 1.6 |
+| 4 | 0.035, 0.0152, 0.0152, 0.035 | prepreg 0.2104, 4.4; core 1.065, 4.6; prepreg 0.2104, 4.4 | 1.6062 |
+| 6 | 0.035, 0.0152 ×4, 0.035 | prepreg 0.0994, 4.1; core 0.55, 4.6; prepreg 0.1164, 4.16; core 0.55, 4.6; prepreg 0.0994, 4.1 | 1.566 |
+
+The total (copper, dielectrics and 0.01 mm of solder mask on each side that has
+copper) is what KiCad calls the board thickness. Changing the layer count
+replaces the copper and dielectrics with the new count's standard ones and
+keeps `finish` and `temperatureRise`; a stackup edit is an undo step. An older
+build ignores the key and drops it on its next save.
 
 ## Junctions
 
@@ -600,6 +639,10 @@ Opening fails, and the canvas is left unchanged, if:
   - `hole <id> drill 0.2 must be 0.3 to 10 mm`;
   - `hole <id> diameter 3.1 must be at least 0.2 mm more than its drill 3`;
   - `hole <id> net "vcc" must be ground, power:<mV> or pin:<part id>/<pin>`;
+  - `board stackup copper has 2 entries; a 4-layer board needs 4` (likewise `dielectrics`);
+  - `board stackup copper thickness 0.001 must be 0.005 to 0.2 mm`, `dielectric thickness … must be 0.02 to 5 mm`,
+    `dielectric er … must be 1 to 20`, `temperatureRise … must be 1 to 100 °C`;
+  - `board stackup finish "tin" must be one of hasl, leadFreeHasl, enig, osp`, `dielectric type "foam" must be core or prepreg`;
 - a bus is not valid. The message is "The bus is not valid: <detail>.",
   where the detail is one of:
   - `bus <id> has no lines`;

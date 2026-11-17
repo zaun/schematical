@@ -2791,6 +2791,60 @@ final class SchematicDocument {
         }
     }
 
+    // MARK: Stackup (PCB)
+
+    func setStackupFinish(_ finish: SurfaceFinish) {
+        recordEdit(.pcb, "Change Stackup") {
+            if board.stackup.finish != finish { board.stackup.finish = finish }
+        }
+    }
+
+    /// Sets the temperature rise the current estimate allows, clamped to
+    /// `BoardStackup.temperatureRiseRange`.
+    func setStackupTemperatureRise(_ degrees: Double) {
+        recordEdit(.pcb, "Change Stackup") {
+            let value = min(max(degrees, BoardStackup.temperatureRiseRange.lowerBound),
+                            BoardStackup.temperatureRiseRange.upperBound)
+            if board.stackup.temperatureRise != value { board.stackup.temperatureRise = value }
+        }
+    }
+
+    /// Sets the thickness (mm) of the copper layer at `index` (Top is 0),
+    /// clamped to `BoardStackup.copperRange`.
+    func setCopperThickness(_ mm: Double, at index: Int) {
+        recordEdit(.pcb, "Change Stackup") {
+            guard board.stackup.copper.indices.contains(index) else { return }
+            let value = min(max(mm, BoardStackup.copperRange.lowerBound), BoardStackup.copperRange.upperBound)
+            if board.stackup.copper[index] != value { board.stackup.copper[index] = value }
+        }
+    }
+
+    /// Changes the dielectric at `index` (the one below copper layer
+    /// `index`): any of its kind, thickness (mm) and Er; values are clamped
+    /// to `BoardStackup.thicknessRange` and `erRange`.
+    func setDielectric(at index: Int, kind: DielectricKind? = nil, thickness: Double? = nil, er: Double? = nil) {
+        recordEdit(.pcb, "Change Stackup") {
+            guard board.stackup.dielectrics.indices.contains(index) else { return }
+            var dielectric = board.stackup.dielectrics[index]
+            if let kind { dielectric.kind = kind }
+            if let thickness {
+                dielectric.thickness = min(max(thickness, BoardStackup.thicknessRange.lowerBound),
+                                           BoardStackup.thicknessRange.upperBound)
+            }
+            if let er { dielectric.er = min(max(er, BoardStackup.erRange.lowerBound), BoardStackup.erRange.upperBound) }
+            if board.stackup.dielectrics[index] != dielectric { board.stackup.dielectrics[index] = dielectric }
+        }
+    }
+
+    /// Puts the board's standard stackup for its layer count back, keeping
+    /// nothing of the old copper and dielectrics, the finish or the rise.
+    func resetStackup() {
+        recordEdit(.pcb, "Reset Stackup") {
+            let standard = BoardStackup.standard(layers: board.layers)
+            if board.stackup != standard { board.stackup = standard }
+        }
+    }
+
     func setLayerColor(_ layer: CopperLayer, _ color: LayerColor) {
         recordEdit(.pcb, "Change Layer Color") {
             guard board.copperLayers.contains(layer) else { return }

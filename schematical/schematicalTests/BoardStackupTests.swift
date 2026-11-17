@@ -64,4 +64,146 @@ final class BoardStackupTests: XCTestCase {
         XCTAssertNotNil(problem(rise: 0))
         XCTAssertNotNil(problem(layers: 4))
     }
+
+    // MARK: File
+
+    private func json(_ doc: SchematicDocument) throws -> [String: Any] {
+        let data = try SchematicFile(document: doc, fileURL: nil).encoded()
+        return try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
+    }
+
+    /// Opens `json` after `change` edits its `board.stackup` (nil removes it).
+    private func open(_ json: [String: Any], _ change: (inout [String: Any]?) -> Void) throws -> SchematicDocument {
+        var json = json
+        var board = try XCTUnwrap(json["board"] as? [String: Any])
+        var stackup = board["stackup"] as? [String: Any]
+        change(&stackup)
+        board["stackup"] = stackup
+        json["board"] = board
+        let doc = TestSupport.newDocument()
+        try SchematicFile.decode(try JSONSerialization.data(withJSONObject: json))
+            .apply(to: doc, catalog: TestSupport.catalog, fileURL: nil)
+        return doc
+    }
+
+    func testSavedFileHasTheStackupAndOpensToTheSame() throws {
+        let doc = TestSupport.newDocument()
+        doc.setLayerCount(4)
+        doc.setStackupFinish(.enig)
+        doc.setStackupTemperatureRise(20)
+        doc.setCopperThickness(0.07, at: 0)
+        doc.setDielectric(at: 1, kind: .prepreg, thickness: 0.9, er: 4.0)
+        let saved = try json(doc)
+        let entry = try XCTUnwrap((saved["board"] as? [String: Any])?["stackup"] as? [String: Any])
+        XCTAssertEqual(entry["finish"] as? String, "enig")
+        XCTAssertEqual(entry["temperatureRise"] as? Double, 20)
+        XCTAssertEqual((entry["copper"] as? [Double])?.first, 0.07)
+        let opened = try open(saved) { _ in }
+        XCTAssertEqual(opened.board.stackup, doc.board.stackup)
+        XCTAssertEqual(opened.board.stackup.dielectrics[1], Dielectric(kind: .prepreg, thickness: 0.9, er: 4.0))
+    }
+
+    func testAFileWithNoStackupOpensToTheStandardOne() throws {
+        let doc = TestSupport.newDocument()
+        doc.setLayerCount(6)
+        let opened = try open(try json(doc)) { $0 = nil }
+        XCTAssertEqual(opened.board.stackup, BoardStackup.standard(layers: 6))
+        // A missing key inside it is the standard value too.
+        let partial = try open(try json(doc)) { $0 = ["finish": "osp"] }
+        XCTAssertEqual(partial.board.stackup, BoardStackup.standard(layers: 6, finish: .osp))
+    }
+
+    func testBadStackupsAreRefused() throws {
+        let doc = TestSupport.newDocument()
+        doc.setLayerCount(4)
+        let saved = try json(doc)
+        func refusal(_ change: @escaping (inout [String: Any]?) -> Void) -> String? {
+            do { _ = try open(saved, change); return nil } catch { return error.localizedDescription }
+        }
+        let short = refusal { $0?["copper"] = [0.035, 0.035] }
+        XCTAssertTrue(short?.contains("copper") == true && short?.contains("needs 4") == true, short ?? "no error")
+        let finish = refusal { $0?["finish"] = "tin" }
+        XCTAssertTrue(finish?.contains("finish") == true, finish ?? "no error")
+        let kind = refusal { $0?["dielectrics"] = [["type": "foam", "thickness": 1.0, "er": 4.0],
+                                                   ["type": "core", "thickness": 1.0, "er": 4.0],
+                                                   ["type": "core", "thickness": 1.0, "er": 4.0]] }
+        XCTAssertTrue(kind?.contains("foam") == true, kind ?? "no error")
+        let thin = refusal { $0?["copper"] = [0.001, 0.0152, 0.0152, 0.035] }
+        XCTAssertTrue(thin?.contains("0.005") == true, thin ?? "no error")
+    }
+
+    // MARK: Edits
+
+    func testEachEditIsOneUndoStep() throws {
+        let doc = TestSupport.newDocument()
+        doc.setLayerCount(4)
+        func step(_ name: String, _ edit: () -> Void) {
+            let was = doc.board.stackup
+            edit()
+            XCTAssertNotEqual(doc.board.stackup, was, name)
+            XCTAssertEqual(doc.undoName(on: .pcb), name)
+            XCTAssertTrue(doc.undo(on: .pcb))
+            XCTAssertEqual(doc.board.stackup, was, "undo \(name)")
+        }
+        step("Change Stackup") { doc.setStackupFinish(.osp) }
+        step("Change Stackup") { doc.setStackupTemperatureRise(40) }
+        step("Change Stackup") { doc.setCopperThickness(0.07, at: 3) }
+        step("Change Stackup") { doc.setDielectric(at: 0, kind: .core, thickness: 0.3, er: 3.9) }
+        doc.setStackupFinish(.enig)
+        doc.setCopperThickness(0.05, at: 1)
+        step("Reset Stackup") {
+            doc.resetStackup()
+            XCTAssertEqual(doc.board.stackup, BoardStackup.standard(layers: 4))
+        }
+    }
+
+    func testAnEditToTheSameValueRecordsNoStep() {
+        let doc = TestSupport.newDocument()
+        let name = doc.undoName(on: .pcb)
+        doc.setStackupFinish(doc.board.stackup.finish)
+        doc.setCopperThickness(doc.board.stackup.copper[0], at: 0)
+        doc.setDielectric(at: 0, er: doc.board.stackup.dielectrics[0].er)
+        doc.setStackupTemperatureRise(doc.board.stackup.temperatureRise)
+        doc.resetStackup()
+        doc.setCopperThickness(0.07, at: 9)
+        XCTAssertEqual(doc.undoName(on: .pcb), name)
+    }
+
+    func testEditsClampToTheirRanges() {
+        let doc = TestSupport.newDocument()
+        doc.setCopperThickness(0, at: 0)
+        XCTAssertEqual(doc.board.stackup.copper[0], BoardStackup.copperRange.lowerBound)
+        doc.setCopperThickness(5, at: 0)
+        XCTAssertEqual(doc.board.stackup.copper[0], BoardStackup.copperRange.upperBound)
+        doc.setDielectric(at: 0, thickness: 0, er: 99)
+        XCTAssertEqual(doc.board.stackup.dielectrics[0].thickness, BoardStackup.thicknessRange.lowerBound)
+        XCTAssertEqual(doc.board.stackup.dielectrics[0].er, BoardStackup.erRange.upperBound)
+        doc.setDielectric(at: 0, thickness: 50, er: 0)
+        XCTAssertEqual(doc.board.stackup.dielectrics[0].thickness, BoardStackup.thicknessRange.upperBound)
+        XCTAssertEqual(doc.board.stackup.dielectrics[0].er, BoardStackup.erRange.lowerBound)
+        doc.setStackupTemperatureRise(0)
+        XCTAssertEqual(doc.board.stackup.temperatureRise, BoardStackup.temperatureRiseRange.lowerBound)
+        doc.setStackupTemperatureRise(500)
+        XCTAssertEqual(doc.board.stackup.temperatureRise, BoardStackup.temperatureRiseRange.upperBound)
+    }
+
+    func testLayerCountChangeIsOneUndoStepAndRestoresTheStackup() {
+        let doc = TestSupport.newDocument()
+        doc.setStackupFinish(.osp)
+        let two = doc.board.stackup
+        doc.setLayerCount(4)
+        XCTAssertEqual(doc.board.stackup, BoardStackup.standard(layers: 4, finish: .osp))
+        XCTAssertTrue(doc.undo(on: .pcb))
+        XCTAssertEqual(doc.board.stackup, two)
+        XCTAssertEqual(doc.board.layers, 2)
+    }
+
+    func testACardOnAOneLayerBoardGetsATwoLayerStackup() {
+        let doc = TestSupport.newDocument()
+        doc.setLayerCount(1)
+        XCTAssertEqual(doc.board.stackup.copper.count, 1)
+        doc.setBoardType(.pci)
+        XCTAssertEqual(doc.board.layers, 2)
+        XCTAssertEqual(doc.board.stackup.copper.count, 2)
+    }
 }

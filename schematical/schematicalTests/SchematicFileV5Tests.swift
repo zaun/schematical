@@ -155,7 +155,7 @@ final class SchematicFileV5Tests: XCTestCase {
         XCTAssertTrue(text.contains("\"version\" : 4"))
         XCTAssertFalse(text.contains("customParts"))
         XCTAssertFalse(text.contains("partUUID"))
-        XCTAssertEqual(TestSupport.withoutDesignRules(text), Self.headGolden)
+        XCTAssertEqual(TestSupport.withoutStackup(TestSupport.withoutDesignRules(text)), Self.headGolden)
     }
 
     /// (b) A version 5 file's `customParts` decodes and re-encodes to the same

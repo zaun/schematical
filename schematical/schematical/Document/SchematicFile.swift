@@ -221,6 +221,27 @@ nonisolated struct SchematicFile: Codable, Equatable, Sendable {
         /// The board's design rules. Always written; missing (a file from
         /// before they were kept in the file) means the app's defaults.
         var designRules: DesignRulesEntry? = nil
+        /// The layer stack. Always written; a missing stackup, or a missing
+        /// key in it, is the standard one for the layer count.
+        var stackup: StackupEntry? = nil
+
+        /// The stackup: copper thickness per layer (mm, Top first), the
+        /// dielectric between each two layers, the finish
+        /// (`SurfaceFinish` raw value) and the temperature rise in °C.
+        struct StackupEntry: Codable, Equatable, Sendable {
+            var copper: [Double]? = nil
+            var dielectrics: [DielectricEntry]? = nil
+            var finish: String? = nil
+            var temperatureRise: Double? = nil
+        }
+
+        /// A dielectric: `type` (`DielectricKind` raw value), thickness in
+        /// mm and relative permittivity.
+        struct DielectricEntry: Codable, Equatable, Sendable {
+            var type: String
+            var thickness: Double
+            var er: Double
+        }
 
         /// The board's design rules in mm, and the manufacturer
         /// (`DRCManufacturer` raw value) they are named after. A missing
@@ -810,7 +831,14 @@ extension SchematicFile {
                                     members: group.members.map(\.fileValue), tolerance: group.tolerance, gap: group.gap,
                                     maxUncoupled: group.maxUncoupled, maxMeander: group.maxMeander)
             },
-            designRules: Self.entry(settings.rules, manufacturer: settings.rulesManufacturer)
+            designRules: Self.entry(settings.rules, manufacturer: settings.rulesManufacturer),
+            stackup: Board.StackupEntry(
+                copper: settings.stackup.copper,
+                dielectrics: settings.stackup.dielectrics.map {
+                    Board.DielectricEntry(type: $0.kind.rawValue, thickness: $0.thickness, er: $0.er)
+                },
+                finish: settings.stackup.finish.rawValue,
+                temperatureRise: settings.stackup.temperatureRise)
         )
     }
 
@@ -1261,6 +1289,7 @@ extension SchematicFile {
             }
             settings.grid = grid
         }
+        settings.stackup = try Self.stackup(board.stackup, layers: settings.layers)
         settings.styles = try Self.layerStyles(board.layerStyles ?? [], layers: settings.layers)
         settings.netClasses = try Self.netClasses(board.netClasses ?? [])
         settings.netOverrides = try Self.netOverrides(board.netLayerRules ?? [])
@@ -1283,6 +1312,35 @@ extension SchematicFile {
             settings.width = min(max(settings.width, card.minimumLength), card.maximumLength)
         }
         return settings
+    }
+
+    /// The board's stackup: the entry's values over the standard stackup for
+    /// `layers` layers.
+    private static func stackup(_ entry: Board.StackupEntry?, layers: Int) throws -> BoardStackup {
+        var stackup = BoardStackup.standard(layers: layers)
+        guard let entry else { return stackup }
+        if let raw = entry.finish {
+            guard let finish = SurfaceFinish(rawValue: raw) else {
+                let names = SurfaceFinish.allCases.map(\.rawValue).joined(separator: ", ")
+                throw SchematicFileError.badPCB("board stackup finish \"\(raw)\" must be one of \(names)")
+            }
+            stackup.finish = finish
+        }
+        if let rise = entry.temperatureRise { stackup.temperatureRise = rise }
+        if let copper = entry.copper { stackup.copper = copper }
+        if let dielectrics = entry.dielectrics {
+            stackup.dielectrics = try dielectrics.map { item in
+                guard let kind = DielectricKind(rawValue: item.type) else {
+                    throw SchematicFileError.badPCB("board stackup dielectric type \"\(item.type)\" must be core or prepreg")
+                }
+                return Dielectric(kind: kind, thickness: item.thickness, er: item.er)
+            }
+        }
+        if let problem = BoardStackup.problem(copper: stackup.copper, dielectrics: stackup.dielectrics,
+                                              temperatureRise: stackup.temperatureRise, layers: layers) {
+            throw SchematicFileError.badPCB("board stackup \(problem)")
+        }
+        return stackup
     }
 
     /// The stored layer styles of a board with `layers` copper layers, with

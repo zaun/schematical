@@ -262,7 +262,7 @@ final class NetClassTests: XCTestCase {
         let text = String(decoding: data, as: UTF8.self)
         XCTAssertFalse(text.contains("netClasses"))
         XCTAssertFalse(text.contains("auto"))
-        XCTAssertEqual(TestSupport.withoutDesignRules(text), Self.plainGolden)
+        XCTAssertEqual(TestSupport.withoutStackup(TestSupport.withoutDesignRules(text)), Self.plainGolden)
     }
 
     func testClassFileErrorsNameTheClass() {
