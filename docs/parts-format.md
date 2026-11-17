@@ -842,7 +842,11 @@ pull-up gives its net a level only when no supply and no powered output
 sets that net, and a pull never clashes with a supply or another pull.
 
 `170V` and `200V` are the nixie tubes' anode supplies (§ `nixie`), and
-`PULLUP-170V` / `PULLUP-200V` the anode resistor to them: a nixie anode is never wired to the rail directly.
+`PULLUP-170V` / `PULLUP-200V` the anode resistor to them (the app's supply
+menu lists the rails up to `12V`; these two, and a rail of any other voltage
+up to 300 V, come from its **Custom…** item, which loads a supply and its
+pull-up named by the voltage, the decimal point written as the `V`: `48V`,
+`3V6`, `PULLUP-48V`. A file that names such a rail gets it the same way): a nixie anode is never wired to the rail directly.
 
 ### `led`
 

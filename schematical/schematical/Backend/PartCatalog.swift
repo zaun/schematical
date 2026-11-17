@@ -1531,9 +1531,60 @@ final class PartCatalogStore {
         }
     }
 
-    /// Any part by name, listed or not (VCC and GND are not listed).
+    /// Any part by name, listed or not (VCC and GND are not listed). A rail
+    /// of any voltage ("170V", "3V6") and its pull-up ("PULLUP-170V") exist
+    /// as soon as they are asked for: see `customSupply`.
     func part(named name: String) -> CatalogPart? {
-        partsByName[name]
+        partsByName[name] ?? customSupplies[name] ?? customSupply(named: name)
+    }
+
+    /// The rails made on demand (the VCC tool's Custom… voltage, and a file
+    /// that uses one), by name. Not observed: a lookup may add to it while a
+    /// view draws, and no view lists these parts.
+    @ObservationIgnored private var customSupplies: [String: CatalogPart] = [:]
+
+    /// Loads the supply and the pull-up of the voltage `name` says, when it
+    /// is a rail name the library does not have, and returns the one asked
+    /// for. Both go into the C library, so circuits find them too.
+    private func customSupply(named name: String) -> CatalogPart? {
+        guard loadState == .loaded else { return nil }
+        let pullPrefix = "PULLUP-"
+        let rail = name.hasPrefix(pullPrefix) ? String(name.dropFirst(pullPrefix.count)) : name
+        guard let mv = SupplyChoice.millivolts(name: rail) else { return nil }
+        // A bundled rail's pull-up is bundled too; never load a name twice.
+        let wanted = [rail, pullPrefix + rail].filter { partsByName[$0] == nil && customSupplies[$0] == nil }
+        guard wanted.contains(name) else { return nil }
+        let volts = String(format: "%g", Double(mv) / 1000)
+        let devices = wanted.map { part -> String in
+            part == rail
+                ? """
+                {"id":"\(part)","function":"\(part)","description":"Supply, \(volts) V, drives logic 1","drawer":[],
+                 "pinouts":{"pin":[{"number":1,"name":"VCC","role":"power"}]},"volts":\(volts),
+                 "parts":[{"name":"\(part)","manufacturer":"Generic","package":"","pinout":"pin"}]}
+                """
+                : """
+                {"id":"\(part)","function":"Pull-up","description":"Pull-up to \(volts) V, drives logic 1 weakly","drawer":[],
+                 "pinouts":{"pin":[{"number":1,"name":"PU","role":"output"}]},"volts":\(volts),"pull":true,
+                 "parts":[{"name":"\(part)","manufacturer":"Generic","package":"Radial","pinout":"pin",
+                  "footprint":"RES-RADIAL-2.54","footprintChoices":[
+                   {"package":"0402","footprint":"RES-0402"},{"package":"0603","footprint":"RES-0603"},
+                   {"package":"0805","footprint":"RES-0805"},{"package":"1206","footprint":"RES-1206"},
+                   {"package":"Axial","footprint":"RES-AXIAL-10.16"},{"package":"Radial","footprint":"RES-RADIAL-2.54"}]}]}
+                """
+        }
+        let text = """
+            {"format":"schematical-parts","version":1,"kind":"supply","devices":[\(devices.joined(separator: ","))]}
+            """
+        var error: UnsafeMutablePointer<CChar>?
+        if load_parts(library.pointer, text, "custom-supply-\(rail).json", &error) != 0 {
+            free(error)
+            return nil
+        }
+        for part in wanted {
+            guard let loaded = part_library_find(library.pointer, part) else { continue }
+            customSupplies[part] = BackendCatalog.catalogPart(loaded.pointee) { Footprint($0.pointee) }
+        }
+        return customSupplies[name]
     }
 
     /// A registered custom part by its uuid.

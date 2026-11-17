@@ -335,7 +335,7 @@ extension AutomationTools {
             return """
                 categories: \(categories)
                 (pass query and/or category, package, min_pins, max_pins)
-                power symbols, placed by name: \(supplies), PULLDOWN, PULLUP-<voltage>
+                power symbols, placed by name: \(supplies) (or any voltage up to 300 V, such as 170V or 3V6), PULLDOWN, PULLUP-<voltage>
                 """
         }
         let limit = min(max(args.optInt("limit") ?? 15, 1), 60)

@@ -97,10 +97,47 @@ enum SchematicTool: String, CaseIterable, Identifiable {
     }
 }
 
-/// The supplies the VCC tool can place, in menu order (library part names).
-enum SupplyChoice {
-    static let names = ["5V", "3V3", "2V5", "1V8", "1V2", "12V", "170V", "200V"]
+/// The supplies the VCC tool can place, in menu order (library part names),
+/// and the names of the rails of any other voltage (the menu's Custom…).
+nonisolated enum SupplyChoice {
+    static let names = ["5V", "3V3", "2V5", "1V8", "1V2", "12V"]
     static let defaultName = "5V"
+    /// The highest rail the backend loads (`supply.c`).
+    static let maxVolts = 300.0
+
+    /// The rail name of a voltage, the decimal point written as the `V`:
+    /// 170 is "170V", 3.3 "3V3", 1.25 "1V25". Millivolt steps; nil outside
+    /// 0 < volts <= `maxVolts`.
+    static func name(volts: Double) -> String? {
+        guard volts.isFinite else { return nil }
+        let mv = Int((volts * 1000).rounded())
+        guard mv > 0, mv <= Int(maxVolts * 1000) else { return nil }
+        var fraction = String(format: "%03d", mv % 1000)
+        while fraction.hasSuffix("0") { fraction.removeLast() }
+        return "\(mv / 1000)V\(fraction)"
+    }
+
+    /// The voltage a rail name says ("170V", "3V3"), in millivolts; nil for
+    /// any other text, and for a name `name(volts:)` would not write.
+    static func millivolts(name: String) -> Int? {
+        let halves = name.split(separator: "V", maxSplits: 1, omittingEmptySubsequences: false)
+        guard halves.count == 2, let whole = Int(halves[0]), halves[0].allSatisfy(\.isNumber),
+              halves[1].count <= 3, halves[1].allSatisfy(\.isNumber) else { return nil }
+        let fraction = Int(halves[1].padding(toLength: 3, withPad: "0", startingAt: 0)) ?? 0
+        let mv = whole * 1000 + fraction
+        return SupplyChoice.name(volts: Double(mv) / 1000) == name ? mv : nil
+    }
+
+    /// What someone types for a voltage ("170", "3.3", "3,3 V", "170V",
+    /// "3V3") as a rail name; nil when it is no voltage in range.
+    static func name(typed text: String) -> String? {
+        var text = text.trimmingCharacters(in: .whitespaces).uppercased()
+        if let mv = millivolts(name: text) { return name(volts: Double(mv) / 1000) }
+        if text.hasSuffix("V") { text.removeLast() }
+        text = text.trimmingCharacters(in: .whitespaces).replacingOccurrences(of: ",", with: ".")
+        guard let volts = Double(text), text.allSatisfy({ $0.isNumber || $0 == "." }) else { return nil }
+        return name(volts: volts)
+    }
 }
 
 // MARK: - Block geometry

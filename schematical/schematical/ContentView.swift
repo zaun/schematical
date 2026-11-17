@@ -72,6 +72,11 @@ struct ContentView: View {
     @State private var editKeyMonitor: Any?
     /// Edit › Reset References is asking whether to go on.
     @State private var isConfirmingResetReferences = false
+    /// The supply menu's Custom…: the dialog, what is typed in it, and
+    /// whether the last entry was refused.
+    @State private var isAskingCustomVoltage = false
+    @State private var customVoltageText = ""
+    @State private var customVoltageRefused = false
     /// The Trace tool's angle, kept until changed; not saved in the file.
     @State private var traceAngle = TraceRoute.defaultAngle
     /// The angle shown in the middle of the PCB after A, and how opaque it
@@ -427,6 +432,19 @@ struct ContentView: View {
         }
     }
 
+    /// Takes the Custom… dialog's voltage for the VCC and Pull-up tools, or
+    /// asks again when it is no voltage a rail can have.
+    private func useCustomVoltage() {
+        guard let name = SupplyChoice.name(typed: customVoltageText), catalog.part(named: name) != nil else {
+            customVoltageRefused = true
+            // The alert has closed by now; show it again with the reason.
+            DispatchQueue.main.async { isAskingCustomVoltage = true }
+            return
+        }
+        supplyVoltage = name
+        tool = tool == .pullUp ? .pullUp : .vcc
+    }
+
     var body: some View {
         editor
             // Edit › Cut, Copy, Paste, Delete, Select All, Reset References.
@@ -439,6 +457,15 @@ struct ContentView: View {
                 Button("Cancel", role: .cancel) {}
             } message: {
                 Text("Every part gets its default prefix back (U, or R and C for resistors and capacitors) and is numbered again from 1, top to bottom and left to right. You can undo this.")
+            }
+            .alert("Custom Supply Voltage", isPresented: $isAskingCustomVoltage) {
+                TextField("Volts", text: $customVoltageText)
+                Button("Use") { useCustomVoltage() }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text(customVoltageRefused
+                    ? "That is not a voltage the tools can use. Enter a number above 0, up to 300 V."
+                    : "The voltage the VCC and Pull-up tools place, up to 300 V.")
             }
             .sheet(isPresented: $isAutorouteOpen) {
                 AutorouteSheet(model: autorouteModel, onClose: { isAutorouteOpen = false },
@@ -546,6 +573,14 @@ struct ContentView: View {
                                     supplyVoltage = name
                                     tool = tool == .pullUp ? .pullUp : .vcc
                                 }
+                            }
+                            Divider()
+                            // Any other rail, such as a nixie tube's 170 V.
+                            Button("Custom…") {
+                                let current = SupplyChoice.millivolts(name: supplyVoltage)
+                                customVoltageText = current.map { VoltageCheck.volts(UInt32($0)) } ?? ""
+                                customVoltageRefused = false
+                                isAskingCustomVoltage = true
                             }
                         }
                         .help("Supply voltage for the VCC and Pull-up tools")
