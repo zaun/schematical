@@ -68,6 +68,7 @@ schematic, with anything but letters, digits, `-` and `_` turned into `_`
 | `.GKO` | outline (`Profile,NP`) | the board outline, 0.1 mm pen |
 | `-PTH.drl` | plated drill (Excellon) | through-hole pads, vias, plated holes, header pads |
 | `-NPTH.drl` | non-plated drill (Excellon), only when the board has any | bare holes, a standard's mounting holes, non-plated footprint holes |
+| `-job.gbrjob` | job file (JSON) | the layer stack, thickness, finish, design rules and each file's role: see [Job file](#job-file) |
 
 - **Attributes on copper** (Gerber X2, spec § 5.6): every aperture and region of a copper file has an
   `.AperFunction`, and every object a net `.N` (and a part's pad its pin `.P`). Each file also has
@@ -111,6 +112,25 @@ smallest first), then `%`, `G90`, `G05`, each tool's hits and `M30`.
 Coordinates are absolute decimal mm in the Gerber files' frame (y up from
 the board's bottom edge), so they line up with the copper. A slot is a
 routed `G85` slot from one end centre to the other, its width the tool.
+
+Each tool is preceded by its function, `; #@! TA.AperFunction,Plated,PTH,ViaDrill` (or `NonPlated,NPTH,…`):
+`ViaDrill` for a via, `ComponentDrill` for a part's hole and a header's, `MechanicalDrill` for the board's own
+(a standard's mounting hole, a placed hole, plated or not). Holes of one diameter but two functions are two tools
+(spec § 5.6.10: a fab compensates each function's tools separately); tools are ordered by diameter, then via,
+component, mechanical.
+
+### Job file
+
+`<name>-job.gbrjob` is JSON in Ucamco's Gerber job-file layout (valid against its published schema, revision
+2023.06), written last in the zip. It has no date and sorted keys, so one document always gives the same bytes.
+
+| Key | What |
+|---|---|
+| `Header.GenerationSoftware` | `jgz`, `Schematical`, the app version |
+| `GeneralSpecs` | `ProjectId` (the same name and GUID as the files' `.ProjectId`, revision `1`), `Size` (the outline's box, mm), `LayerNumber`, `BoardThickness` (the stackup's total: copper, dielectrics and 0.01 mm of mask on each side), `Finish` (`HAL SnPb`, `HAL lead-free`, `ENIG` or `OSP`) |
+| `DesignRules` | `Outer` (and `Inner` above 2 layers): the board's min clearance as `PadToPad`, `PadToTrack`, `TrackToTrack`, `TrackToRegion`, `RegionToRegion`; `MinLineWidth` (min trace width), `MinRing` (min annular ring), `MinClearanceToProfile` (min copper to edge) |
+| `FilesAttributes` | every other file in the zip: `Path`, and its `FileFunction` (the string in the file's own `.FileFunction`) and `FilePolarity` |
+| `MaterialStackup` | top to bottom: silkscreen, paste, solder mask (with the board colour), then each copper layer and the dielectric below it (`FR4`, thickness, `DielectricConstant`), then the bottom mask, paste and silkscreen |
 
 ## KiCad
 
@@ -157,6 +177,13 @@ label as `/NAME` (a `/` in it as `{slash}`), else `Net-(U1-A0)` after the
 alphabetically first pin, `unconnected-(U1-A0-Pad1)` for a pin on nothing. So the
 board and the schematic agree (KiCad's Update PCB from Schematic finds no difference),
 and each footprint's path is its part's uuid.
+
+**Stackup.** The board's stackup is written to `(setup (stackup …))` as KiCad lays it out: silkscreen, paste and
+mask (with the board colour) around each copper layer and its dielectric (`core` or `prepreg`, `FR4`, thickness,
+`epsilon_r`, loss tangent 0.02), then `copper_finish` (`HAL SnPb`, `HAL lead-free`, `ENIG`, `OSP`), and
+`(general (thickness …))` is the sum KiCad takes (copper, dielectrics, 0.01 mm of mask on each side: 1.6, 1.6062,
+1.566 for the standard 2-, 4-, 6-layer boards). A 1-layer board gets the bottom copper KiCad's layer set needs,
+0.035 mm taken out of its substrate: 1.61 mm in KiCad.
 
 **Not exported**: net classes, per-net layer rules and groups, simulation state,
 the Document layer's contents on the board other than texts, and a real symbol or

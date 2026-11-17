@@ -12,12 +12,17 @@ import SwiftUI
 /// holes go in Excellon drill files alongside (`DrillExport`).
 @MainActor
 enum GerberExport {
-    /// One file of the set: its name in the zip and its bytes.
+    /// One file of the set: its name in the zip and its bytes, and for the job file what the file is:
+    /// its `FileFunction` (the string in the file's own `TF.FileFunction`) and `FilePolarity`.
     struct File: Equatable {
         let name: String
         let data: Data
+        var function: String? = nil
+        var polarity: String? = nil
 
         var text: String { String(decoding: data, as: UTF8.self) }
+
+        static func == (a: File, b: File) -> Bool { a.name == b.name && a.data == b.data }
     }
 
     /// The silkscreen's line width for body outlines (mm), as on screen.
@@ -62,14 +67,16 @@ enum GerberExport {
             var file = writer("Copper,L\(index + 1),\(position)")
             drawCopper(on: layer, board: board, document: document, copper: copper, nets: nets, rules: rules,
                        into: &file)
-            files.append(File(name: "\(base).\(suffix)", data: file.data()))
+            files.append(File(name: "\(base).\(suffix)", data: file.data(),
+                              function: "Copper,L\(index + 1),\(position)", polarity: "Positive"))
         }
         for side in sides {
             let s = side == .top ? "T" : "B"
             let name = side == .top ? "Top" : "Bot"
             var mask = writer("Soldermask,\(name)", polarity: "Negative")
             drawMask(on: side, copper: copper, expansion: rules.solderMaskExpansion, into: &mask)
-            files.append(File(name: "\(base).G\(s)S", data: mask.data()))
+            files.append(File(name: "\(base).G\(s)S", data: mask.data(), function: "Soldermask,\(name)",
+                              polarity: "Negative"))
         }
         for side in sides {
             let s = side == .top ? "T" : "B"
@@ -77,28 +84,34 @@ enum GerberExport {
             for entry in copper.pads where entry.chip >= 0 && entry.pad.drill == 0 && entry.side == side {
                 paste.fill(shape(of: entry.pad))
             }
-            files.append(File(name: "\(base).G\(s)P", data: paste.data()))
+            files.append(File(name: "\(base).G\(s)P", data: paste.data(),
+                              function: "Paste,\(side == .top ? "Top" : "Bot")", polarity: "Positive"))
         }
         for side in sides {
             let s = side == .top ? "T" : "B"
             var silk = writer("Legend,\(side == .top ? "Top" : "Bot")")
             drawSilkscreen(on: side, document: document, into: &silk)
-            files.append(File(name: "\(base).G\(s)O", data: silk.data()))
+            files.append(File(name: "\(base).G\(s)O", data: silk.data(),
+                              function: "Legend,\(side == .top ? "Top" : "Bot")", polarity: "Positive"))
         }
         var profile = writer("Profile,NP")
         profile.setFunction("Profile")
         profile.stroke(board.outline, width: profileWidth, closed: true)
-        files.append(File(name: "\(base).GKO", data: profile.data()))
+        files.append(File(name: "\(base).GKO", data: profile.data(), function: "Profile,NP", polarity: "Positive"))
         let holes = DrillExport.holes(copper)
         let software = "Schematical,\(version)"
         files.append(File(name: "\(base)-PTH.drl",
                           data: DrillExport.file(holes.plated, plated: true, layers: layers.count, top: top,
-                                                 software: software)))
+                                                 software: software),
+                          function: "Plated,1,\(layers.count),PTH"))
         if !holes.bare.isEmpty {
             files.append(File(name: "\(base)-NPTH.drl",
                               data: DrillExport.file(holes.bare, plated: false, layers: layers.count, top: top,
-                                                     software: software)))
+                                                     software: software),
+                              function: "NonPlated,1,\(layers.count),NPTH"))
         }
+        files.append(File(name: "\(base)-job.gbrjob",
+                          data: GerberJob.data(for: document, base: base, rules: rules, version: version, files: files)))
         return files
     }
 

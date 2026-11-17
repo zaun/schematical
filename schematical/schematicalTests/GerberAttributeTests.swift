@@ -261,7 +261,7 @@ final class GerberAttributeTests: XCTestCase {
     func testEveryFileHasAProjectAndAPart() throws {
         let files = GerberExport.files(for: try ExportSamples.vias(), base: "b", rules: rules)
         let uuid = KiCad.uuid("gerber/b")
-        for file in files where !file.name.hasSuffix(".drl") {
+        for file in files where !file.name.hasSuffix(".drl") && !file.name.hasSuffix(".gbrjob") {
             XCTAssertTrue(file.text.contains("%TF.ProjectId,b,\(uuid),1*%"), file.name)
             XCTAssertTrue(file.text.contains("%TF.Part,Single*%"), file.name)
         }

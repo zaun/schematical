@@ -258,6 +258,71 @@ final class KiCadExportTests: XCTestCase {
         XCTAssertEqual(board.components(separatedBy: "(tenting").count - 1, 4, "no board-level tenting key")
     }
 
+    // MARK: Stackup (plan-50-E)
+
+    private func boardText(_ doc: SchematicDocument) throws -> String {
+        try XCTUnwrap(KiCadExport.files(for: doc, base: "s").first { $0.name.hasSuffix("kicad_pcb") }).text
+    }
+
+    /// The `(layer "<name>" …)` blocks of the board's stackup, by name, as their field lines.
+    private func stackupLayers(_ board: String) throws -> [(name: String, fields: [String])] {
+        let start = try XCTUnwrap(board.range(of: "\t\t(stackup\n"))
+        let end = try XCTUnwrap(board.range(of: "\t\t(copper_finish", range: start.upperBound..<board.endIndex))
+        var layers: [(String, [String])] = []
+        for block in board[start.upperBound..<end.lowerBound].components(separatedBy: "\t\t\t(layer ").dropFirst() {
+            let lines = block.split(separator: "\n").map { $0.trimmingCharacters(in: .whitespaces) }
+            let name = String(lines[0].prefix { $0 != "\n" }).trimmingCharacters(in: CharacterSet(charactersIn: "\""))
+            layers.append((name, lines.dropFirst().filter { $0 != ")" }.map { $0 }))
+        }
+        return layers
+    }
+
+    func testTwoLayerStackup() throws {
+        let board = try boardText(TestSupport.newDocument())
+        XCTAssertTrue(board.contains("\t\t(thickness 1.6)\n"), "general thickness")
+        let layers = try stackupLayers(board)
+        XCTAssertEqual(layers.map(\.name), ["F.SilkS", "F.Paste", "F.Mask", "F.Cu", "dielectric 1", "B.Cu", "B.Mask",
+                                           "B.Paste", "B.SilkS"])
+        let dielectric = try XCTUnwrap(layers.first { $0.name.hasPrefix("dielectric 1") }).fields
+        XCTAssertTrue(dielectric.contains("(type \"core\")") && dielectric.contains("(thickness 1.51)")
+                      && dielectric.contains("(epsilon_r 4.5)") && dielectric.contains("(material \"FR4\")"), "\(dielectric)")
+        XCTAssertTrue(board.contains("(copper_finish \"HAL lead-free\")"))
+        XCTAssertTrue(board.contains("(color \"Green\")"))
+    }
+
+    func testFourLayerStackup() throws {
+        let board = try boardText(try ExportSamples.fourLayer())
+        XCTAssertTrue(board.contains("\t\t(thickness 1.6062)\n"))
+        let layers = try stackupLayers(board)
+        XCTAssertEqual(layers.map(\.name).filter { $0.contains("Cu") }, ["F.Cu", "In1.Cu", "In2.Cu", "B.Cu"])
+        let kinds = layers.filter { $0.name.hasPrefix("dielectric") }.compactMap { $0.fields.first }
+        XCTAssertEqual(kinds, ["(type \"prepreg\")", "(type \"core\")", "(type \"prepreg\")"])
+        XCTAssertTrue(layers.first { $0.name.hasPrefix("In1.Cu") }?.fields.contains("(thickness 0.0152)") == true)
+    }
+
+    func testOneLayerBoardKeepsItsTotalAndGetsABottomCopper() throws {
+        let doc = TestSupport.newDocument()
+        doc.setLayerCount(1)
+        let board = try boardText(doc)
+        XCTAssertTrue(board.contains("\t\t(thickness 1.61)\n"))
+        let layers = try stackupLayers(board)
+        XCTAssertEqual(layers.first { $0.name.hasPrefix("B.Cu") }?.fields.contains("(thickness 0.035)"), true)
+        XCTAssertEqual(layers.first { $0.name.hasPrefix("dielectric 1") }?.fields.contains("(thickness 1.52)"), true)
+    }
+
+    func testEditedStackupIsWritten() throws {
+        let doc = TestSupport.newDocument()
+        doc.setStackupFinish(.enig)
+        doc.setBoardColor(.black)
+        doc.setCopperThickness(0.07, at: 0)
+        let board = try boardText(doc)
+        XCTAssertTrue(board.contains("(copper_finish \"ENIG\")"))
+        XCTAssertEqual(board.components(separatedBy: "(color \"Black\")").count - 1, 2, "both masks")
+        let layers = try stackupLayers(board)
+        XCTAssertEqual(layers.first { $0.name.hasPrefix("F.Cu") }?.fields.contains("(thickness 0.07)"), true)
+        XCTAssertTrue(board.contains("\t\t(thickness 1.635)\n"))
+    }
+
     func testNetNamesAreShared() throws {
         let doc = try ExportSamples.vias()
         let nets = ExportNetNames.assign(context: KiCadExport.Context(document: doc, base: "v"))

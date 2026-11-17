@@ -30,7 +30,7 @@ The shared gate is in plan-50-A. This sub-plan adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-50-D is complete | `ls planning/completed \| grep -c '^plan-50-D'` → 1 | NOT MET until D is archived |
+| plan-50-D is complete | `ls planning/completed \| grep -c '^plan-50-D'` → 1 | MET (2026-11-16: 1) |
 | the venv also has `jsonschema` | `$VENV/bin/pip install jsonschema && $VENV/bin/python -c "import jsonschema"` → no error | MET (2026-11-16, in the session venv) |
 
 Everything below is written against the world where these hold.
@@ -147,29 +147,29 @@ each file by the string in the file itself. *KiCad's string-valued numbers*: not
 
 ### Phase 1 — Drill functions
 
-- [ ] `Document/DrillExport.swift`: `DrillFunction`, `Hole.function`, the keying and the `TA` comment lines (§ 3);
+- [x] `Document/DrillExport.swift`: `DrillFunction`, `Hole.function`, the keying and the `TA` comment lines (§ 3);
       `holes(_:)` sets the function from the pad's entry and from vias.
-- [ ] `docs/export.md` § Drill files: the new comment lines and the function rule.
-- [ ] Tests, in `GerberExportTests`: `testDrillFilesSplitPlatedAndBareHoles` also checks `; #@! TA.AperFunction,Plated,PTH,ViaDrill`
+- [x] `docs/export.md` § Drill files: the new comment lines and the function rule.
+- [x] Tests, in `GerberExportTests`: `testDrillFilesSplitPlatedAndBareHoles` also checks `; #@! TA.AperFunction,Plated,PTH,ViaDrill`
       precedes `T1C0.400` and `NonPlated,NPTH,MechanicalDrill` precedes the bare tool; a board with a via of
       drill 0.8 and a part whose hole is 0.8 has two `T…C0.800` tools, via first; an `SN74HC00N` board's PTH file has
       every tool under `ComponentDrill`; a `.featherWing` board's header holes are `ComponentDrill`.
 
 Acceptance: every tool in every drill file has its function line and equal diameters of different functions are
 separate tools.
-  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/GerberExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
-Commit: —
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/GerberExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min). Observed (Phases 1 and 2 in one run, with `GerberJobTests`): `Executed 62 tests, with 0 failures`.
+Commit: THIS
 
 ### Phase 2 — The job file
 
-- [ ] `Document/GerberExport.swift`: `File.function` / `polarity` and `files(…)` filling them and appending the
+- [x] `Document/GerberExport.swift`: `File.function` / `polarity` and `files(…)` filling them and appending the
       job; `Document/GerberJob.swift` (§ 3).
-- [ ] Update the three tests that list names (`GerberExportTests.swift:24`, `:48`, `:192`) for the new last entry
+- [x] Update the three tests that list names (`GerberExportTests.swift:24`, `:48`, `:192`) for the new last entry
       `b-job.gbrjob` (the `:192` one asserts `suffix(2)`, now `["b-NPTH.drl", "b-job.gbrjob"]`).
-- [ ] `docs/export.md` § Gerber: the file table row `-job.gbrjob`, and what it carries.
-- [ ] `KiCadExportTests.testPrintSamplesWhenAsked`: also print `KICAD_FILE fourLayer/…` and `GERBER_FILE fourLayer/…` lines
+- [x] `docs/export.md` § Gerber: the file table row `-job.gbrjob`, and what it carries.
+- [x] `KiCadExportTests.testPrintSamplesWhenAsked`: also print `KICAD_FILE fourLayer/…` and `GERBER_FILE fourLayer/…` lines
       (the `vias` ones were added in plan-50-C and D) for `ExportSamples.fourLayer()` (plan-50-D).
-- [ ] Tests: new `schematicalTests/GerberJobTests.swift`: the 2-, 4- and 6-layer standard boards' job files parse
+- [x] Tests: new `schematicalTests/GerberJobTests.swift`: the 2-, 4- and 6-layer standard boards' job files parse
       as JSON; `GeneralSpecs.BoardThickness` equals 1.6, 1.6062 and 1.566; the copper `Thickness` values in
       `MaterialStackup` equal the stackup's in order; one `FilesAttributes` entry per other file in the zip with
       the same `Path`; an edited stackup (finish ENIG, copper 0.07) shows in `Finish` and `Thickness`; two exports
@@ -177,19 +177,19 @@ Commit: —
 
 Acceptance: the job file is complete, deterministic, and schema-valid.
   Check: `xcodebuild … test -only-testing:schematicalTests/GerberJobTests -only-testing:schematicalTests/GerberExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min).
-  And: `KICAD_OUT=1 … testPrintSamplesWhenAsked` (it prints `GERBER_FILE …job.gbrjob` for `ExportSamples.vias()` and `fourLayer()`, added to it in this phase), decode the lines into `$OUT`, then `curl -sSL -o $OUT/job-schema.json "https://www.ucamco.com/files/downloads/file_en/397/gerber-job-file-schema_en.json"` and `$VENV/bin/python -c "import json,jsonschema,sys; s=json.load(open('$OUT/job-schema.json')); [jsonschema.validate(json.load(open(f)), s) for f in sys.argv[1:]]; print('valid')" $OUT/vias-job.gbrjob $OUT/fourLayer-job.gbrjob` → `valid` (est. 4 min).
-Commit: —
+  And: `KICAD_OUT=1 … testPrintSamplesWhenAsked` (it prints `GERBER_FILE …job.gbrjob` for `ExportSamples.vias()` and `fourLayer()`, added to it in this phase), decode the lines into `$OUT`, then `curl -sSL -o $OUT/job-schema.json "https://www.ucamco.com/files/downloads/file_en/397/gerber-job-file-schema_en.json"` and `$VENV/bin/python -c "import json,jsonschema,sys; s=json.load(open('$OUT/job-schema.json')); [jsonschema.validate(json.load(open(f)), s) for f in sys.argv[1:]]; print('valid')" $OUT/vias-job.gbrjob $OUT/fourLayer-job.gbrjob` → `valid` (est. 4 min). Observed: `valid 2` for `vias-job.gbrjob` and `fourLayer-job.gbrjob`.
+Commit: THIS
 
 ### Phase 3 — The KiCad stackup
 
-- [ ] `Document/KiCadBoardWriter.swift`: the `(stackup …)` in `(setup` and `general thickness` per § 3, taken from
+- [x] `Document/KiCadBoardWriter.swift`: the `(stackup …)` in `(setup` and `general thickness` per § 3, taken from
       `document.board.stackup` (a small `KiCad.stackup(for:)` helper in `KiCadExport.swift` if it reads better).
-- [ ] `docs/export.md` § KiCad: a sentence — the board's stackup, finish and mask colour go to `(setup (stackup))`
+- [x] `docs/export.md` § KiCad: a sentence — the board's stackup, finish and mask colour go to `(setup (stackup))`
       and the board thickness is its sum.
-- [ ] Add `planning/plan-50-data/compare_kicad_stackup.py`: given a `.kicad_pcb` saved by KiCad and the expected
+- [x] Add `planning/plan-50-data/compare_kicad_stackup.py`: given a `.kicad_pcb` saved by KiCad and the expected
       copper thicknesses, dielectric (kind, thickness, εr) triples and finish, prints each mismatch (empty output =
       equal).
-- [ ] Tests, in `KiCadExportTests`: the 2-layer board's text has `(thickness 1.6)` in `general` and a stackup with
+- [x] Tests, in `KiCadExportTests`: the 2-layer board's text has `(thickness 1.6)` in `general` and a stackup with
       `F.Cu`, one `dielectric 1` (`core`, 1.51, 4.5), `B.Cu`; `fourLayer()` has `In1.Cu`, `In2.Cu`, three
       dielectrics (`prepreg`, `core`, `prepreg`) and `(thickness 1.6062)`; a 1-layer board has `(thickness 1.61)`
       and `B.Cu` 0.035; an edited stackup (finish `.enig`, color black) shows `(copper_finish "ENIG")` and
@@ -197,9 +197,9 @@ Commit: —
       the rest of the file, `KiCad.n`).
 
 Acceptance: KiCad 10 reads the stackup back as written.
-  Check: `xcodebuild … test -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/EasyEDAProExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min).
-  And: decode `KICAD_FILE fourLayer/fourLayer.kicad_pcb` into `$OUT`, run `probe_kicad_stackup_roundtrip.py $OUT/fourLayer.kicad_pcb $OUT/fourLayer-saved.kicad_pcb` with KiCad's python (command line in the probe's docstring), then `python3 planning/plan-50-data/compare_kicad_stackup.py $OUT/fourLayer-saved.kicad_pcb` → no output (est. 4 min).
-Commit: —
+  Check: `xcodebuild … test -only-testing:schematicalTests/KiCadExportTests -only-testing:schematicalTests/EasyEDAProExportTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min). Observed: `Executed 55 tests, with 0 failures`.
+  And: decode `KICAD_FILE fourLayer/fourLayer.kicad_pcb` into `$OUT`, run `probe_kicad_stackup_roundtrip.py $OUT/fourLayer.kicad_pcb $OUT/fourLayer-saved.kicad_pcb` with KiCad's python (command line in the probe's docstring), then `python3 planning/plan-50-data/compare_kicad_stackup.py $OUT/fourLayer-saved.kicad_pcb` → no output (est. 4 min). Observed on `fourLayer`: `kicad-cli pcb drc` loads it (`Found 30 violations`, `Found 0 unconnected items`); the compare script printed nothing; the saved file has `(thickness 1.6062)` and `(copper_finish "HAL lead-free")`.
+Commit: THIS
 
 ## Validation Plan
 
@@ -218,7 +218,10 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- The job file's numbers are written as `NSDecimalNumber`s of the 6-decimal rounding: a Double rounded by `(x * 1e6).rounded() / 1e6` serialised as `0.03500000000000002`.
+- The three zip-listing tests were four places, not three: `GerberExportTests.swift:24`, `:48`, `:192`, and the two loops that assume every non-`.drl` file is a Gerber layer (`GerberExportTests` `testTwoLayerBoardHasEveryFile` and `GerberAttributeTests.testEveryFileHasAProjectAndAPart`), which now also skip `.gbrjob`.
+- Phase 3's `\\t(thickness 1.6)` general-thickness check also covers the edited board: copper 0.07 + 0.035 + core 1.51 + 0.02 = 1.635, not 1.63.
+- The sub-plan's final gate is run once for all of plan-50 at the end (see plan-50-A Corrections).
 
 ## Summary
 

@@ -91,15 +91,77 @@ struct KiCadBoardWriter {
 
     // MARK: File
 
+    /// The stackup as KiCad needs it: the board's, except that a 1-layer board gets the bottom copper
+    /// KiCad's layer set requires (0.035 mm, taken out of its substrate so the thickness holds).
+    private struct Stack {
+        var copper: [Double]
+        var dielectrics: [Dielectric]
+        var finish: SurfaceFinish
+        let mask: Double
+
+        init(_ stackup: BoardStackup) {
+            copper = stackup.copper
+            dielectrics = stackup.dielectrics
+            finish = stackup.finish
+            mask = BoardStackup.maskThickness
+            if copper.count == 1 {
+                copper.append(0.035)
+                dielectrics[0].thickness = max(dielectrics[0].thickness - 0.035, BoardStackup.thicknessRange.lowerBound)
+            }
+        }
+
+        /// The sum KiCad takes for the board's thickness: copper, dielectrics and a solder mask on each side.
+        var thickness: Double { copper.reduce(0, +) + dielectrics.reduce(0) { $0 + $1.thickness } + 2 * mask }
+    }
+
+    private var stack: Stack { Stack(document.board.stackup) }
+
+    /// KiCad's `(stackup …)`: silkscreen, paste and mask on each side around the copper and dielectric layers.
+    private func stackupBlock() -> String {
+        let stack = stack
+        let colour = KiCad.q(document.board.color.title)
+        func line(_ depth: Int, _ text: String) -> String { String(repeating: "\t", count: depth) + text + "\n" }
+        func layer(_ name: String, _ fields: [String]) -> String {
+            line(3, "(layer \(KiCad.q(name))") + fields.map { line(4, $0) }.joined() + line(3, ")")
+        }
+        func mask(_ side: String, _ title: String) -> String {
+            layer(side, ["(type \(KiCad.q(title + " Solder Mask")))", "(color \(colour))",
+                         "(thickness \(KiCad.n(stack.mask)))"])
+        }
+        var out = line(2, "(stackup")
+        out += layer("F.SilkS", ["(type \"Top Silk Screen\")"])
+        out += layer("F.Paste", ["(type \"Top Solder Paste\")"])
+        out += mask("F.Mask", "Top")
+        for (index, thickness) in stack.copper.enumerated() {
+            let name = layerName(CopperLayer.allCases(for: stack.copper.count)[index])
+            out += layer(name, ["(type \"copper\")", "(thickness \(KiCad.n(thickness)))"])
+            if stack.dielectrics.indices.contains(index) {
+                let dielectric = stack.dielectrics[index]
+                out += layer("dielectric \(index + 1)", [
+                    "(type \(KiCad.q(dielectric.kind.rawValue)))", "(thickness \(KiCad.n(dielectric.thickness)))",
+                    "(material \"FR4\")", "(epsilon_r \(KiCad.n(dielectric.er)))", "(loss_tangent 0.02)",
+                ])
+            }
+        }
+        out += mask("B.Mask", "Bottom")
+        out += layer("B.Paste", ["(type \"Bottom Solder Paste\")"])
+        out += layer("B.SilkS", ["(type \"Bottom Silk Screen\")"])
+        out += line(3, "(copper_finish \(KiCad.q(stack.finish.kiCadName)))")
+        out += line(3, "(dielectric_constraints no)")
+        out += line(2, ")")
+        return out
+    }
+
     func text() -> String {
         let board = document.board
+        let stack = stack
         var out = """
         (kicad_pcb
         \t(version 20240108)
         \t(generator "schematical")
         \t(generator_version "8.0")
         \t(general
-        \t\t(thickness 1.6)
+        \t\t(thickness \(KiCad.n(stack.thickness)))
         \t\t(legacy_teardrops no)
         \t)
         \t\(KiCad.paper(width: page.width, height: page.height))
@@ -124,6 +186,10 @@ struct KiCadBoardWriter {
         out += "\t)\n"
         out += """
         \t(setup
+
+        """
+        out += stackupBlock()
+        out += """
         \t\t(pad_to_mask_clearance \(KiCad.n(board.rules.solderMaskExpansion)))
         \t\t(allow_soldermask_bridges_in_footprints no)
         \t)
