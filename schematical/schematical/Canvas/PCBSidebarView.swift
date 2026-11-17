@@ -449,7 +449,7 @@ struct LayersSection: View {
 
 // MARK: - Planes
 
-/// Each Plane layer, in stack order: its name, the net it carries (None,
+/// Each Plane layer, in stack order, a row each: its name, the net it carries (None,
 /// GND, a power rail or a signal net) and its clearance, how far its copper
 /// keeps from pads and vias off its net (the DRC's min clearance until set;
 /// a high-voltage plane wants more). Shown only when the board has a Plane.
@@ -467,47 +467,49 @@ struct PlanesSection: View {
             let rules = document.board.rules
             Section("Planes") {
                 ForEach(planes, id: \.self) { layer in
-                    header(layer, choices: choices)
-                    clearanceRow(layer, rules: rules)
+                    row(layer, choices: choices, rules: rules)
                 }
             }
         }
     }
 
-    /// The layer's colour and name, then its net.
-    private func header(_ layer: CopperLayer, choices: [(net: PlaneNet, title: String)]) -> some View {
-        HStack(spacing: 8) {
+    /// The layer's colour and name, then its net and its clearance, with a
+    /// button back to the DRC's minimum once the clearance is set.
+    private func row(_ layer: CopperLayer, choices: [(net: PlaneNet, title: String)], rules: DesignRules) -> some View {
+        let style = document.board.style(of: layer)
+        let units = document.board.units
+        return HStack(spacing: 8) {
             RoundedRectangle(cornerRadius: 3)
-                .fill(document.board.style(of: layer).color.color)
+                .fill(style.color.color)
                 .frame(width: 14, height: 14)
             Text(layer.title)
             Spacer()
             netPicker(layer, choices: choices)
-        }
-    }
-
-    /// The clearance, with a button back to the DRC's minimum once set.
-    private func clearanceRow(_ layer: CopperLayer, rules: DesignRules) -> some View {
-        let style = document.board.style(of: layer)
-        let units = document.board.units
-        return HStack(spacing: 6) {
-            LengthField(title: "Clearance", millimetres: style.clearance(rules: rules), units: units, precise: true) {
-                document.setLayerClearance(layer, $0)
-                return document.board.style(of: layer).clearance(rules: rules)
-            }
-            .accessibilityLabel("\(layer.title) clearance")
-            if style.clearance != nil {
+            HStack(spacing: 4) {
+                Text("Clearance").foregroundStyle(.secondary)
+                LengthField(title: "\(layer.title) clearance", millimetres: style.clearance(rules: rules), units: units,
+                            precise: true) {
+                    document.setLayerClearance(layer, $0)
+                    return document.board.style(of: layer).clearance(rules: rules)
+                }
+                .labelsHidden()
+                .frame(width: 64)
+                Text(units.title).foregroundStyle(.secondary)
                 Button {
                     document.setLayerClearance(layer, nil)
                 } label: {
                     Image(systemName: "arrow.uturn.backward")
                 }
                 .buttonStyle(.borderless)
+                // Keeps its place when hidden, so the rows line up.
+                .opacity(style.clearance == nil ? 0 : 1)
+                .disabled(style.clearance == nil)
                 .help("Use the DRC's min clearance (\(LengthField.format(rules.minClearance, units: units, precise: true)) \(units.title))")
             }
+            .padding(.leading, 12)
+            .help("How far the Plane's copper keeps from pads and vias not on its net; "
+                  + (style.clearance == nil ? "the DRC's min clearance until set" : "set for this Plane"))
         }
-        .help("How far the Plane's copper keeps from pads and vias not on its net; "
-              + (style.clearance == nil ? "the DRC's min clearance until set" : "set for this Plane"))
     }
 
     /// The Plane's net. A net the schematic no longer has stays listed, as
