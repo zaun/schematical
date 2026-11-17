@@ -22,6 +22,12 @@ final class BoardDetailsSheetTests: XCTestCase {
         XCTAssertEqual(BoardDetailsSheet.summary(of: doc.board), "Custom · 100 × 80 mm · 4 layers")
     }
 
+    func testNetStatusCountsConnections() {
+        XCTAssertEqual(NetRowView.status(pads: 6, unrouted: 2), "2 of 5 unrouted")
+        XCTAssertEqual(NetRowView.status(pads: 2, unrouted: 0), "0 of 1 unrouted")
+        XCTAssertEqual(NetRowView.status(pads: 1, unrouted: 0), "—")
+    }
+
     func testSheetAndSidebarBuild() {
         let doc = TestSupport.newDocument()
         doc.setLayerCount(4)

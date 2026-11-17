@@ -5,9 +5,9 @@ import SwiftUI
 // Board Details' three net tabs (`BoardDetailsSheet`), which share one net
 // list (`SchematicDocument.netRows`).
 
-/// Every net on the board: its name, how many pads it has and, in red, how
-/// many of its connections are unrouted; a menu for its class and one for
-/// its own layer rule. A click on a net's name highlights its copper on
+/// Every net on the board, a row of four columns under a heading row: its
+/// name, how many of its connections are unrouted ("2 of 5 unrouted", red
+/// while any is), a menu for its class and one for its own layer rule. A click on a net's name highlights its copper on
 /// the canvas; a second click, or Esc there, clears it.
 struct NetsSection: View {
     let document: SchematicDocument
@@ -26,6 +26,16 @@ struct NetsSection: View {
             TextField("Filter", text: $filter, prompt: Text("Filter by net or pad"))
                 .labelsHidden()
             let shown = rows.filter { $0.matches(filter) }
+            if !shown.isEmpty {
+                HStack(spacing: NetRowView.spacing) {
+                    Text("Net").frame(maxWidth: .infinity, alignment: .leading)
+                    Text("Connections").frame(width: NetRowView.statusWidth, alignment: .leading)
+                    Text("Class").frame(width: NetRowView.classWidth, alignment: .leading)
+                    Text("Layers").frame(width: NetRowView.layersWidth, alignment: .leading)
+                }
+                .font(.callout)
+                .foregroundStyle(.secondary)
+            }
             if rows.isEmpty {
                 Text(hasBuilt ? "No nets on the board" : "…").foregroundStyle(.secondary)
             } else if shown.isEmpty {
@@ -46,17 +56,29 @@ struct NetsSection: View {
     }
 }
 
-/// One net: name (a click highlights it), pads, unrouted count, class and
-/// layer rule menus.
-private struct NetRowView: View {
+/// One net: name (a click highlights it), its unrouted connections, class
+/// and layer rule menus, each in its column.
+struct NetRowView: View {
     let document: SchematicDocument
     let row: NetRow
     let highlightedNet: Binding<PlaneNet?>
 
+    static let spacing: CGFloat = 12
+    static let statusWidth: CGFloat = 120
+    static let classWidth: CGFloat = 120
+    static let layersWidth: CGFloat = 150
+
+    /// "2 of 5 unrouted": the connections still to route of the net's
+    /// connections (its pads less one); "—" for a net with one pad.
+    static func status(pads: Int, unrouted: Int) -> String {
+        let total = max(pads - 1, unrouted)
+        return total == 0 ? "—" : "\(unrouted) of \(total) unrouted"
+    }
+
     var body: some View {
         let isHighlighted = highlightedNet.wrappedValue == row.key
         let key = row.key
-        HStack(spacing: 6) {
+        HStack(spacing: Self.spacing) {
             Button {
                 highlightedNet.wrappedValue = isHighlighted ? nil : key
             } label: {
@@ -65,26 +87,26 @@ private struct NetRowView: View {
                     .truncationMode(.middle)
                     .fontWeight(isHighlighted ? .semibold : .regular)
                     .foregroundStyle(isHighlighted ? Color.accentColor : Color.primary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
             .help(isHighlighted ? "Stop highlighting \(row.name)" : "Highlight \(row.name) on the board")
-            Text("\(row.pads)")
-                .foregroundStyle(.secondary)
+            Text(Self.status(pads: row.pads, unrouted: row.unrouted))
+                .foregroundStyle(row.unrouted > 0 ? Color.red : Color.secondary)
                 .monospacedDigit()
-                .help("\(row.pads) \(row.pads == 1 ? "pad" : "pads")")
-            if row.unrouted > 0 {
-                Text("\(row.unrouted)")
-                    .foregroundStyle(.red)
-                    .monospacedDigit()
-                    .help("\(row.unrouted) unrouted \(row.unrouted == 1 ? "connection" : "connections")")
-            }
-            Spacer(minLength: 4)
+                .lineLimit(1)
+                .frame(width: Self.statusWidth, alignment: .leading)
+                .help("\(row.pads) \(row.pads == 1 ? "pad" : "pads"); \(row.unrouted) unrouted "
+                      + "\(row.unrouted == 1 ? "connection" : "connections")")
             NetClassMenu(document: document, key: key)
+                .frame(width: Self.classWidth, alignment: .leading)
             NetLayerRuleMenu(rule: document.board.netOverrides.first { $0.net == key }?.layerRule,
                              layers: document.board.traceLayers,
                              help: "The net's own layer rule, before its class's: Only on some layers, or Prefer them") {
                 document.setNetLayerRule(key, $0)
             }
+            .frame(width: Self.layersWidth, alignment: .leading)
         }
     }
 }
