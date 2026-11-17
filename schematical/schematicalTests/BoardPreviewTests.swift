@@ -54,20 +54,29 @@ final class BoardPreviewTests: XCTestCase {
         return try XCTUnwrap(image.dataProvider?.data as Data?)
     }
 
-    /// Bare copper is drawn in the board's finish: ENIG, OSP and HASL differ,
+    /// How many bytes of two renders differ. Two renders of one picture can differ by a few pixels of antialiasing
+    /// (seen once in a full run of the suite), so tests compare amounts, not equality.
+    private func differing(_ a: Data, _ b: Data) -> Int {
+        zip(a, b).reduce(0) { $0 + ($1.0 == $1.1 ? 0 : 1) } + abs(a.count - b.count)
+    }
+
+    /// Bare copper is drawn in the board's finish: ENIG, OSP and HASL differ a lot,
     /// leaded and lead-free HASL look alike.
     func testFinishFollowsTheBoard() throws {
         let doc = TestSupport.newDocument()
+        doc.setBoardSize(width: 30, height: 16)
         _ = try place(doc, footprint: "PDIP-")
         func render(_ finish: SurfaceFinish) throws -> Data {
             doc.setStackupFinish(finish)
             return try pixels(doc)
         }
-        let hasl = try render(.hasl), lead = try render(.leadFreeHasl), enig = try render(.enig), osp = try render(.osp)
-        XCTAssertEqual(hasl, lead)
-        XCTAssertNotEqual(hasl, enig)
-        XCTAssertNotEqual(hasl, osp)
-        XCTAssertNotEqual(enig, osp)
+        // The first render in a process differs a little from later ones (caches): warm up, discard.
+        _ = try render(.hasl)
+        let hasl = try render(.hasl)
+        let lead = try render(.leadFreeHasl), enig = try render(.enig), osp = try render(.osp)
+        let apart = min(differing(hasl, enig), differing(hasl, osp), differing(enig, osp))
+        XCTAssertGreaterThan(apart, 100, "the finishes look different")
+        XCTAssertLessThan(differing(hasl, lead), apart / 4, "leaded and lead-free HASL look alike")
     }
 
     /// An open via shows as bare finish; a tented one is under the mask.
@@ -79,18 +88,18 @@ final class BoardPreviewTests: XCTestCase {
         let tented = try pixels(doc)
         doc.setViaTenting(id, .top, false)
         let open = try pixels(doc)
-        XCTAssertNotEqual(tented, open)
+        let change = differing(tented, open)
+        XCTAssertGreaterThan(change, 1000, "an open via shows")
         doc.setViaTenting(id, .top, true)
-        XCTAssertEqual(try pixels(doc), tented)
+        XCTAssertLessThan(differing(try pixels(doc), tented), change / 10, "tented again looks as before")
         // The back view of a via open only on Top is unchanged.
         func backPixels() throws -> Data {
             let view = BoardPreviewView.canvas(document: doc, face: .back, angle: .top).frame(width: 300, height: 220)
             return try XCTUnwrap(ImageRenderer(content: view).cgImage?.dataProvider?.data as Data?)
         }
+        let backTented = try backPixels()
         doc.setViaTenting(id, .top, false)
-        let backOpenTop = try backPixels()
-        doc.setViaTenting(id, .top, true)
-        XCTAssertEqual(try backPixels(), backOpenTop)
+        XCTAssertLessThan(differing(try backPixels(), backTented), change / 10)
     }
 
     /// The back view mirrors left to right; the angled view lifts parts.

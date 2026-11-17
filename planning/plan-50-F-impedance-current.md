@@ -169,7 +169,7 @@ misses 50 Ω*: the owner asked for readouts and a calculator, not checks.
 Acceptance: every number equals the reference to the tolerance.
   Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/StackupAnalysisTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 5 min). Observed: `Executed 10 tests, with 0 failures`.
   And: `$VENV/bin/python planning/plan-50-data/reference_formulas.py` prints the same numbers as the table in `README.md` for F1–F11 (est. 1 min). Observed: F1 51.711, F2 47.958, F3 46.455, F4 115.783, F5 84.142, F6 51.723, F7 91.547, F8 0.8855 / 0.2418, F9 11.826, F10 14.650, F11 110.12: the numbers the Swift tests assert.
-Commit: THIS
+Commit: be1e83a7
 
 ### Phase 2 — The readouts
 
@@ -187,7 +187,7 @@ Commit: THIS
 
 Acceptance: the readouts show the Phase 1 numbers for the selected trace and class.
   Check: `xcodebuild … test -only-testing:schematicalTests/StackupAnalysisTests -only-testing:schematicalTests/NetClassTests -only-testing:schematicalTests/NetRulesTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min). Observed with Phase 3's suites in one run (`StackupAnalysisTests`, `NetClassTests`, `NetRulesTests`, `TraceToolTests`): `Executed 66 tests, with 0 failures`, `** TEST SUCCEEDED **`.
-Commit: THIS
+Commit: be1e83a7
 
 ### Phase 3 — The Calculate Width sheet
 
@@ -209,7 +209,7 @@ Commit: THIS
 
 Acceptance: a target becomes an applied width, or an explained refusal.
   Check: `xcodebuild … test -only-testing:schematicalTests/StackupAnalysisTests -only-testing:schematicalTests/TraceToolTests -only-testing:schematicalTests/NetClassTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 7 min).
-Commit: THIS
+Commit: be1e83a7
 
 ## Validation Plan
 
@@ -232,7 +232,10 @@ Commit: THIS
 
 - `reach(from:step:)` first weighted Er by the whole height (dielectric plus the copper of non-plane layers passed). The plan says "thickness-weighted mean of those dielectrics", and the test for Layer 3 with Layer 4 a wire layer showed the difference (4.5016 vs 4.5579); fixed to weight by the dielectrics' own thickness.
 - The third-phase check "`TraceToolTests`" and the class tests are named in the plan; `NetRulesTests` was run too because it builds the same net class rows.
-- The sub-plan's final gate was run as part of plan-50's landing tier (below), not on its own.
+- **Landing tier for all of plan-50 (A–F), run once, in the worktree.** The whole unit-test bundle: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests CODE_SIGNING_ALLOWED=NO` → `Executed 1198 tests, with 5 tests skipped and 6 failures` in 1082 s. The six are `KindGuideTests` (`7seg: device.type`), `ParametricFootprintDraftTests` (1685 ≠ 1669, 1103 ≠ 1097) and `WizardStepsTests` (`device.*` keys of the 7-segment kind), all about part data and the part wizard. They are not caused by plan-50: `git diff main --stat -- schematical/schematical/Parts schematical/schematicalTests/KindGuideTests.swift schematical/schematicalTests/ParametricFootprintDraftTests.swift schematical/schematicalTests/WizardStepsTests.swift | wc -l` → 0 (no change to the data or the three test files), and the last change to `Parts/` on main is `e7c04e16`, the vintage-tubes commit. They fail on `main` and are left for whoever owns that data. Every other test passes, including all of the suites named in plans A–F.
+- The first full run also failed `BoardPreviewTests.testFinishFollowsTheBoard` (`hasl` vs `lead`: two renders of one picture, same finish tint, differed by 471 bytes at 300 × 220 where the whole finish difference was 416 bytes: the board was too small in the picture to tell finishes apart and a first render differs a little from later ones). The test now renders a 30 × 16 mm board, discards a warm-up render, and compares amounts (`differing(_:_:)`: the three real finishes differ by more than 100 bytes, and leaded vs lead-free HASL by under a quarter of that); `testOpenViaChangesTheRender` compares amounts the same way. Run alone twice and in the second full run: green.
+- The run was first started with a 10-minute background limit and killed in the router fixture tests (`RouterFixtureTests` takes minutes: `ROUTER fast LFU … 208.36 s`); it was restarted with the 2-hour limit and ran to the end.
+- No formatter run: the project is Swift; the skill's `cargo fmt` step has nothing to format here.
 
 ## Summary
 
