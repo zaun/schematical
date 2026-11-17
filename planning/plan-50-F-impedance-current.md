@@ -29,7 +29,7 @@ The shared gate is in plan-50-A. This sub-plan adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-50-E is complete | `ls planning/completed \| grep -c '^plan-50-E'` → 1 | NOT MET until E is archived |
+| plan-50-E is complete | `ls planning/completed \| grep -c '^plan-50-E'` → 1 | MET (2026-11-16: 1) |
 
 Everything below is written against the world where this holds.
 
@@ -152,9 +152,9 @@ misses 50 Ω*: the owner asked for readouts and a calculator, not checks.
 
 ### Phase 1 — The calculators
 
-- [ ] New `Canvas/StackupAnalysis.swift` with the geometry rule, the formulas, `currentCapacity`, the inverse
+- [x] New `Canvas/StackupAnalysis.swift` with the geometry rule, the formulas, `currentCapacity`, the inverse
       current width and the bisection solvers of § 3, `Reason` strings for each "none".
-- [ ] Tests: new `schematicalTests/StackupAnalysisTests.swift`, tolerance 0.01 Ω / 0.0001 A / 0.01 mil: F1 51.711,
+- [x] Tests: new `schematicalTests/StackupAnalysisTests.swift`, tolerance 0.01 Ω / 0.0001 A / 0.01 mil: F1 51.711,
       F2 47.958, F3 46.455, F4 115.783 (the pure functions, given the numbers), F5 84.142, F6 51.723, F7 91.547;
       F8a 0.8855, F8b 0.2418; F9 11.826, F10 14.650, F11 110.12, F16 70.841; and on boards built with the
       standard stackups: the 2-layer Top is `microstrip(1.51, 4.5)` with `assumed` true and F2 follows at 3.0 mm;
@@ -167,8 +167,8 @@ misses 50 Ω*: the owner asked for readouts and a calculator, not checks.
       the 4-layer Top) and `.tooHigh` (10 000 Ω).
 
 Acceptance: every number equals the reference to the tolerance.
-  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/StackupAnalysisTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 5 min).
-  And: `$VENV/bin/python planning/plan-50-data/reference_formulas.py` prints the same numbers as the table in `README.md` for F1–F11 (est. 1 min).
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/StackupAnalysisTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 5 min). Observed: `Executed 10 tests, with 0 failures`.
+  And: `$VENV/bin/python planning/plan-50-data/reference_formulas.py` prints the same numbers as the table in `README.md` for F1–F11 (est. 1 min). Observed: F1 51.711, F2 47.958, F3 46.455, F4 115.783, F5 84.142, F6 51.723, F7 91.547, F8 0.8855 / 0.2418, F9 11.826, F10 14.650, F11 110.12: the numbers the Swift tests assert.
 Commit: —
 
 ### Phase 2 — The readouts
