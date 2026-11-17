@@ -24,15 +24,6 @@ nonisolated enum BoardRenderAngle: String, CaseIterable, Identifiable, Sendable 
     var symbol: String { self == .top ? "square" : "cube" }
 }
 
-/// The finish on bare copper: pads with no part on them, rings, mounting
-/// holes. Soldered pads look like solder either way.
-nonisolated enum BoardRenderFinish: String, CaseIterable, Identifiable, Sendable {
-    case hasl, enig
-
-    var id: String { rawValue }
-    var title: String { self == .hasl ? "HASL (Silver)" : "ENIG (Gold)" }
-}
-
 // MARK: - Colour
 
 /// An sRGB colour that can be shaded, for walls and gradients.
@@ -68,6 +59,8 @@ nonisolated struct Tint: Hashable, Sendable {
     static let solder = Tint(0.80, 0.81, 0.83)
     static let tin = Tint(0.72, 0.73, 0.75)
     static let gold = Tint(0.88, 0.71, 0.32)
+    /// Bare copper under an OSP finish.
+    static let bareCopper = Tint(0.72, 0.45, 0.30)
     static let fr4 = Tint(0.78, 0.71, 0.50)
     static let hole = Tint(0.05, 0.05, 0.06)
     static let steel = Tint(0.74, 0.75, 0.78)
@@ -260,7 +253,8 @@ struct BoardRenderer {
     let document: SchematicDocument
     let face: BoardRenderFace
     let angle: BoardRenderAngle
-    let finish: BoardRenderFinish
+    /// The board's finish (Stackup ▸ Finish) on bare copper.
+    var finish: SurfaceFinish { document.board.stackup.finish }
 
     static let thickness: CGFloat = 1.6
     /// Space between the board (and its parts) and the picture's edge, in points.
@@ -295,7 +289,12 @@ struct BoardRenderer {
         let outline = board.outline
         let boardShape = Path { path in path.addLines(outline); path.closeSubpath() }
         let mask = Tint(board.color.fill)
-        let finishTint = finish == .enig ? Tint.gold : Tint.tin
+        let finishTint: Tint
+        switch finish {
+        case .hasl, .leadFreeHasl: finishTint = .tin
+        case .enig: finishTint = .gold
+        case .osp: finishTint = .bareCopper
+        }
 
         // The board's shadow on the backdrop.
         context.drawLayer { layer in

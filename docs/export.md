@@ -17,8 +17,11 @@ the PCB layers.
 |---|---|---|---|---|
 | Schematic | PNG, JPG, SVG | Transparent, White | 1 px per canvas point | — |
 | PCB | PNG, JPG | Dark (the PCB page's canvas), White, Transparent | 1 px per PCB page point (20 per mm) | Layers: PCB, each copper layer, Silkscreen, Document, Ratsnest (off by default) |
-| Front Render / Back Render | PNG, JPG | Backdrop (Board Preview's), White, Transparent | 1 px per render point (10 per mm) | View (Top, Angled), Finish (HASL, ENIG) |
+| Front Render / Back Render | PNG, JPG | Backdrop (Board Preview's), White, Transparent | 1 px per render point (10 per mm) | View (Top, Angled) |
 
+- A render draws bare copper (pads with no part on them, rings, mounting holes) in the board's finish
+  (PCB sidebar ▸ Stackup ▸ Finish): HASL and lead-free HASL silver, ENIG gold, OSP bare copper. Board
+  Preview does the same and has no finish menu of its own.
 - **Size** is 1×, 2×, 4× or 8× (pixels per point); the sheet shows the
   pixel size. Any picture's longest side is capped at 8192 px
   (`pixelScale(for:wanted:)`).

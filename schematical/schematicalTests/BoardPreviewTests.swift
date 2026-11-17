@@ -36,14 +36,38 @@ final class BoardPreviewTests: XCTestCase {
         for prefix in ["PDIP-", "SOIC-", "PINHDR-", "CAPE-RAD", "LED-RADIAL"] {
             _ = try place(doc, footprint: prefix)
         }
+        doc.setStackupFinish(.enig)
         for face in BoardRenderFace.allCases {
             for angle in BoardRenderAngle.allCases {
-                let view = BoardPreviewView.canvas(document: doc, face: face, angle: angle, finish: .enig)
+                let view = BoardPreviewView.canvas(document: doc, face: face, angle: angle)
                     .frame(width: 400, height: 300)
                 let image = try XCTUnwrap(ImageRenderer(content: view).cgImage, "\(face) \(angle)")
                 XCTAssertEqual(image.width, 400)
             }
         }
+    }
+
+    /// The picture's pixels, for comparing two renders.
+    private func pixels(_ doc: SchematicDocument) throws -> Data {
+        let view = BoardPreviewView.canvas(document: doc, face: .front, angle: .top).frame(width: 300, height: 220)
+        let image = try XCTUnwrap(ImageRenderer(content: view).cgImage)
+        return try XCTUnwrap(image.dataProvider?.data as Data?)
+    }
+
+    /// Bare copper is drawn in the board's finish: ENIG, OSP and HASL differ,
+    /// leaded and lead-free HASL look alike.
+    func testFinishFollowsTheBoard() throws {
+        let doc = TestSupport.newDocument()
+        _ = try place(doc, footprint: "PDIP-")
+        func render(_ finish: SurfaceFinish) throws -> Data {
+            doc.setStackupFinish(finish)
+            return try pixels(doc)
+        }
+        let hasl = try render(.hasl), lead = try render(.leadFreeHasl), enig = try render(.enig), osp = try render(.osp)
+        XCTAssertEqual(hasl, lead)
+        XCTAssertNotEqual(hasl, enig)
+        XCTAssertNotEqual(hasl, osp)
+        XCTAssertNotEqual(enig, osp)
     }
 
     /// The back view mirrors left to right; the angled view lifts parts.

@@ -25,8 +25,8 @@ The shared gate is in plan-50-A. This sub-plan adds:
 
 | Must be true | Command | Status |
 |---|---|---|
-| plan-50-A is complete | `ls planning/completed \| grep -c '^plan-50-A'` → 1 | NOT MET until A is archived |
-| the setters B calls exist | `grep -n "func setStackupFinish\|func setStackupTemperatureRise\|func setCopperThickness\|func setDielectric\|func resetStackup" schematical/schematical/Canvas/SchematicModel.swift \| wc -l` → 5 | NOT MET until A lands |
+| plan-50-A is complete | `ls planning/completed \| grep -c '^plan-50-A'` → 1 | MET (2026-11-16: 1) |
+| the setters B calls exist | `grep -n "func setStackupFinish\|func setStackupTemperatureRise\|func setCopperThickness\|func setDielectric\|func resetStackup" schematical/schematical/Canvas/SchematicModel.swift \| wc -l` → 5 | MET (2026-11-16: 5) |
 
 Everything below is written against the world where these hold.
 
@@ -113,37 +113,37 @@ the owner declined. *Following the stackup thickness in the 3-D slab*: separate 
 
 ### Phase 1 — The finish becomes the board's
 
-- [ ] `BoardPreview/BoardRenderer.swift`: delete `BoardRenderFinish`; `BoardRenderer.finish` is `SurfaceFinish`;
+- [x] `BoardPreview/BoardRenderer.swift`: delete `BoardRenderFinish`; `BoardRenderer.finish` is `SurfaceFinish`;
       `finishTint` per § 3; add `Tint.bareCopper`.
-- [ ] `BoardPreview/BoardPreviewWindow.swift`: remove the `@State finish`, the toolbar `Picker("Finish")` and the
+- [x] `BoardPreview/BoardPreviewWindow.swift`: remove the `@State finish`, the toolbar `Picker("Finish")` and the
       `finish:` parameter of `canvas(…)`; both `canvas` and `saveImage` pass `document.board.stackup.finish` to
       `BoardRenderer`.
-- [ ] `Document/ImageExport.swift` and `ImageExportDialog.swift`: remove `ImageExportOptions.finish` (its
+- [x] `Document/ImageExport.swift` and `ImageExportDialog.swift`: remove `ImageExportOptions.finish` (its
       `value("finish", …)` line and the dialog's `Picker`); the render uses `document.board.stackup.finish`.
-- [ ] `docs/export.md` § Image: the Front / Back Render row's extra options read "View (Top, Angled)"; add a
+- [x] `docs/export.md` § Image: the Front / Back Render row's extra options read "View (Top, Angled)"; add a
       sentence under the table: "Bare copper is drawn in the board's finish (Stackup ▸ Finish)."
-- [ ] Tests: `BoardPreviewTests.testRendersEveryView` sets `doc.setStackupFinish(.enig)` before rendering instead
+- [x] Tests: `BoardPreviewTests.testRendersEveryView` sets `doc.setStackupFinish(.enig)` before rendering instead
       of passing `finish:`; new `testFinishFollowsTheBoard`: the same board rendered at 200 × 150 with `.enig`,
       `.leadFreeHasl` and `.osp` gives three different images (compare the three `CGImage` pixel buffers), and
       `.hasl` and `.leadFreeHasl` give identical ones.
 
 Acceptance: the preview and image export read the board's finish and nothing else.
-  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/BoardPreviewTests -only-testing:schematicalTests/SchematicExportActionTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (est. 6 min; `SchematicExportActionTests` is the suite that builds `ImageExportOptions`, `grep -c ImageExportOptions schematical/schematicalTests/SchematicExportActionTests.swift` → 11).
-  Also: `grep -rn --include='*.swift' "BoardRenderFinish" schematical` → no output.
+  Check: `xcodebuild -project schematical/schematical.xcodeproj -scheme schematical -derivedDataPath $DD test -only-testing:schematicalTests/BoardPreviewTests -only-testing:schematicalTests/SchematicExportActionTests CODE_SIGNING_ALLOWED=NO` → `** TEST SUCCEEDED **` (Observed with Phase 2's suites in one run: `Executed 29 tests, with 0 failures`, `** TEST SUCCEEDED **`; est. 6 min; `SchematicExportActionTests` is the suite that builds `ImageExportOptions`, `grep -c ImageExportOptions schematical/schematicalTests/SchematicExportActionTests.swift` → 11).
+  Also: `grep -rn --include='*.swift' "BoardRenderFinish" schematical` → no output (observed: 0 lines).
 Commit: —
 
 ### Phase 2 — The Stackup section
 
-- [ ] New `Canvas/StackupSection.swift` with `CopperWeight`, `StackupRows` (§ 3) and `StackupSection(document:)`:
+- [x] New `Canvas/StackupSection.swift` with `CopperWeight`, `StackupRows` (§ 3) and `StackupSection(document:)`:
       a `Section("Stackup")` with the Finish `Picker` (→ `setStackupFinish`), the temperature-rise field
       (→ `setStackupTemperatureRise`), the rows (copper: weight `Picker` + µm field → `setCopperThickness`;
       dielectric: kind `Picker`, `LengthField` in the board's units, Er field → `setDielectric`), the Thickness
       row, and a **Reset to Standard** button (→ `resetStackup`). Every edit field re-reads the stored value
       after a commit (so a clamp shows), as `LengthField` does.
-- [ ] `Canvas/PCBSidebarView.swift`: `StackupSection(document: document)` between `LayersSection` and
+- [x] `Canvas/PCBSidebarView.swift`: `StackupSection(document: document)` between `LayersSection` and
       `PlanesSection` in the `.board` case.
-- [ ] `docs/file-format.md` is unchanged (A owns it). No other doc describes the sidebar.
-- [ ] Tests: new `schematicalTests/StackupSectionTests.swift`: `CopperWeight(thickness: 0.035) == .one`,
+- [x] `docs/file-format.md` is unchanged (A owns it). No other doc describes the sidebar.
+- [x] Tests: new `schematicalTests/StackupSectionTests.swift`: `CopperWeight(thickness: 0.035) == .one`,
       `0.0152` → nil (Custom), `0.0175` → `.half`; `StackupRows.rows` for 2 layers is
       [copper Top, dielectric 0, copper Bottom], for 4 layers has 4 copper and 3 dielectric rows interleaved
       Top-first, for 1 layer is [copper Top, dielectric 0]; the section's view builds for 1, 2, 4 and 6 layers
@@ -172,7 +172,9 @@ Commit: —
 
 ## Corrections
 
-(Filled in during execution.)
+- § 2's "tests that pass a finish: 1" was wrong: 2 — `BoardPreviewTests.swift:41` (`finish:`) and `SchematicExportActionTests.swift:125` (`options.finish = .enig`, a property assignment the plan's `grep "finish:"` could not see). Re-measured with `grep -rn --include='*.swift' "finish" schematical/schematicalTests | grep -i "enig\|hasl"`. Both updated; no other letter's scope used the number.
+- Validation "Runtime proof" (a 4× Front Render PNG per finish, opened by eye) was replaced by `testFinishFollowsTheBoard`, which renders the same board at 300 × 220 in each finish and asserts the pixel buffers differ (ENIG, OSP, HASL) or are equal (leaded and lead-free HASL): it fails if the renderer ignores the board's finish, which is the same mistake the PNGs would show.
+- The sub-plan's final gate is run once for all of plan-50 at the end (see plan-50-A Corrections).
 
 ## Summary
 

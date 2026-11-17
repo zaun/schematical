@@ -99,6 +99,7 @@ struct PCBSidebarView: View {
                                        set: { document.setCardOptions($0) })
                 }
                 LayersSection(document: document)
+                StackupSection(document: document)
                 PlanesSection(document: document)
                 NetSections(document: document, highlightedNet: highlightedNet, onRoute: onRoute)
             }

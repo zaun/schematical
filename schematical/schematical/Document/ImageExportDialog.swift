@@ -2,7 +2,7 @@ import SwiftUI
 
 /// File > Export > Image…'s options sheet: what to draw (schematic, PCB
 /// page, front or back render), the format, the size and the background,
-/// plus the PCB's layers or the render's view and finish, over a live
+/// plus the PCB's layers or the render's view, over a live
 /// preview. Export… goes on to the save panel.
 struct ImageExportDialog: View {
     let document: SchematicDocument
@@ -45,9 +45,6 @@ struct ImageExportDialog: View {
                 if o.view.face != nil {
                     Picker("View:", selection: $options.angle) {
                         ForEach(BoardRenderAngle.allCases) { Text($0.title).tag($0) }
-                    }
-                    Picker("Finish:", selection: $options.finish) {
-                        ForEach(BoardRenderFinish.allCases) { Text($0.title).tag($0) }
                     }
                 }
             }

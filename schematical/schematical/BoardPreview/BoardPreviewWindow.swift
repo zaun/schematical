@@ -37,7 +37,6 @@ struct BoardPreviewView: View {
     let document: SchematicDocument
     @State private var face = BoardRenderFace.front
     @State private var angle = BoardRenderAngle.angled
-    @State private var finish = BoardRenderFinish.hasl
     @State private var size = CGSize(width: 900, height: 640)
 
     static let backdrop = Gradient(colors: [Color(white: 0.24), Color(white: 0.11)])
@@ -64,12 +63,6 @@ struct BoardPreviewView: View {
                     .help("Look straight down, or at an angle")
                 }
                 ToolbarItem(placement: .primaryAction) {
-                    Picker("Finish", selection: $finish) {
-                        ForEach(BoardRenderFinish.allCases) { Text($0.title).tag($0) }
-                    }
-                    .help("The finish on bare copper")
-                }
-                ToolbarItem(placement: .primaryAction) {
                     Button {
                         saveImage()
                     } label: {
@@ -81,20 +74,19 @@ struct BoardPreviewView: View {
     }
 
     private var canvas: some View {
-        Self.canvas(document: document, face: face, angle: angle, finish: finish)
+        Self.canvas(document: document, face: face, angle: angle)
     }
 
-    static func canvas(document: SchematicDocument, face: BoardRenderFace, angle: BoardRenderAngle,
-                       finish: BoardRenderFinish) -> some View {
+    static func canvas(document: SchematicDocument, face: BoardRenderFace, angle: BoardRenderAngle) -> some View {
         Canvas { context, size in
-            BoardRenderer(document: document, face: face, angle: angle, finish: finish).draw(in: &context, size: size)
+            BoardRenderer(document: document, face: face, angle: angle).draw(in: &context, size: size)
         }
         .background(RadialGradient(gradient: backdrop, center: .center, startRadius: 0, endRadius: 900))
     }
 
     /// The view as shown, at twice its size, as a PNG.
     private func saveImage() {
-        let content = Self.canvas(document: document, face: face, angle: angle, finish: finish)
+        let content = Self.canvas(document: document, face: face, angle: angle)
             .frame(width: size.width, height: size.height)
         let renderer = ImageRenderer(content: content)
         renderer.scale = 2

@@ -122,7 +122,6 @@ final class SchematicExportActionTests: XCTestCase {
         options.scale = 4
         options.background = .white
         options.angle = .top
-        options.finish = .enig
         options.save(defaults)
         XCTAssertEqual(ImageExportOptions.saved(defaults), options)
     }

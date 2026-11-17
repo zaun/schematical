@@ -102,7 +102,6 @@ nonisolated struct ImageExportOptions: Equatable, Sendable {
     /// The PCB page's layers left out. Ratsnest by default.
     var hiddenLayers: Set<BoardViewLayer> = [.ratsnest]
     var angle: BoardRenderAngle = .angled
-    var finish: BoardRenderFinish = .hasl
 
     static let scales: [CGFloat] = [1, 2, 4, 8]
 
@@ -130,7 +129,6 @@ nonisolated struct ImageExportOptions: Equatable, Sendable {
         o.format = value("format", o.format)
         o.background = value("background", o.background)
         o.angle = value("angle", o.angle)
-        o.finish = value("finish", o.finish)
         let scale = defaults.double(forKey: key + "scale")
         if scale > 0 { o.scale = scale }
         return o.normalized()
@@ -142,7 +140,6 @@ nonisolated struct ImageExportOptions: Equatable, Sendable {
         defaults.set(format.rawValue, forKey: key + "format")
         defaults.set(background.rawValue, forKey: key + "background")
         defaults.set(angle.rawValue, forKey: key + "angle")
-        defaults.set(finish.rawValue, forKey: key + "finish")
         defaults.set(Double(scale), forKey: key + "scale")
     }
 }
@@ -196,7 +193,7 @@ enum ImageExport {
             }
         case .front, .back:
             let renderer = BoardRenderer(document: document, face: o.view.face ?? .front, angle: o.angle,
-                                         finish: o.finish, margin: renderMargin)
+                                         margin: renderMargin)
             let size = renderer.fittedSize(pointsPerMM: renderPointsPerMM)
             return Picture(size: size) { context in
                 fillBackground(o, size: size, in: &context)
