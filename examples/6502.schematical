@@ -1,8 +1,60 @@
 {
   "board" : {
     "color" : "green",
+    "designRules" : {
+      "manufacturer" : "jlcpcb",
+      "minAnnularRing" : 0.18,
+      "minClearance" : 0.1,
+      "minCopperToEdge" : 0.2,
+      "minDrill" : 0.2,
+      "minHoleToHole" : 0.45,
+      "minSilkscreenHeight" : 1,
+      "minSilkscreenToPad" : 0.15,
+      "minSilkscreenWidth" : 0.15,
+      "minSolderMaskDam" : 0.1,
+      "minTraceWidth" : 0.1,
+      "minViaDiameter" : 0.45,
+      "minViaDrill" : 0.2,
+      "solderMaskExpansion" : 0
+    },
     "grid" : 0.635,
     "height" : 100,
+    "holes" : [
+      {
+        "diameter" : 5,
+        "drill" : 2.7,
+        "id" : "708D718A-31D9-4A82-A61D-4081B4A6A2EE",
+        "locked" : true,
+        "size" : "m2.5",
+        "x" : 3.81,
+        "y" : 4.1275
+      },
+      {
+        "diameter" : 5,
+        "drill" : 2.7,
+        "id" : "4A6634C7-DC52-43F2-BC7B-1E77858FC1AD",
+        "locked" : true,
+        "size" : "m2.5",
+        "x" : 196.85,
+        "y" : 3.81
+      },
+      {
+        "diameter" : 5,
+        "drill" : 2.7,
+        "id" : "B4066876-121A-45BC-9FBA-9B0C63E96D89",
+        "size" : "m2.5",
+        "x" : 3.81,
+        "y" : 95.5675
+      },
+      {
+        "diameter" : 5,
+        "drill" : 2.7,
+        "id" : "8C5CC8FE-1DE4-461C-B814-3B3D342474E1",
+        "size" : "m2.5",
+        "x" : 196.85,
+        "y" : 95.5675
+      }
+    ],
     "layerStyles" : [
       {
         "color" : "#C83737",
@@ -26,63 +78,41 @@
       }
     ],
     "layers" : 4,
+    "stackup" : {
+      "copper" : [
+        0.035,
+        0.0152,
+        0.0152,
+        0.035
+      ],
+      "dielectrics" : [
+        {
+          "er" : 4.4,
+          "thickness" : 0.2104,
+          "type" : "prepreg"
+        },
+        {
+          "er" : 4.6,
+          "thickness" : 1.065,
+          "type" : "core"
+        },
+        {
+          "er" : 4.4,
+          "thickness" : 0.2104,
+          "type" : "prepreg"
+        }
+      ],
+      "finish" : "leadFreeHasl",
+      "temperatureRise" : 10
+    },
     "texts" : [
 
     ],
     "traces" : [
-      {
-        "id" : "80208C98-BC69-4449-B319-1F824A06B8DA",
-        "layer" : "top",
-        "points" : [
-          {
-            "x" : 20.32,
-            "y" : 76.2
-          },
-          {
-            "x" : 19.684999999999995,
-            "y" : 76.2
-          },
-          {
-            "x" : 18.415,
-            "y" : 77.47
-          },
-          {
-            "x" : 18.415,
-            "y" : 80.01
-          },
-          {
-            "x" : 19.684999999999995,
-            "y" : 81.28
-          },
-          {
-            "x" : 20.32,
-            "y" : 81.28
-          }
-        ],
-        "width" : 10
-      },
-      {
-        "id" : "CF41C918-2E4B-4084-9BBB-031CC6E65D99",
-        "layer" : "top",
-        "points" : [
-          {
-            "x" : 5.080000000000001,
-            "y" : 83.82000000000001
-          },
-          {
-            "x" : 17.779999999999994,
-            "y" : 83.82000000000001
-          },
-          {
-            "x" : 20.32,
-            "y" : 81.28
-          }
-        ],
-        "width" : 10
-      }
+
     ],
     "units" : "mm",
-    "width" : 130
+    "width" : 200
   },
   "buses" : [
     {
@@ -105,7 +135,7 @@
             "y" : 0
           },
           "b" : {
-            "x" : 1810,
+            "x" : 1950,
             "y" : 0
           },
           "id" : "0C0CEDB8-5034-4B65-98A6-FF294592D866"
@@ -134,12 +164,12 @@
         },
         {
           "a" : {
-            "x" : 1810,
+            "x" : 1950,
             "y" : 0
           },
           "b" : {
-            "x" : 1810,
-            "y" : 350
+            "x" : 1950,
+            "y" : 340
           },
           "id" : "24BB0E3B-F898-493F-AFB5-F53D260C7A50"
         }
@@ -232,7 +262,7 @@
           "id" : "833B731C-3F5D-4BB9-8C95-F41251C10F96",
           "line" : "24BB0E3B-F898-493F-AFB5-F53D260C7A50",
           "side" : "right",
-          "start" : 320,
+          "start" : 300,
           "wires" : [
             "8A3EBD6E-B23D-4F08-8891-2922FBA1E29C",
             "71547C41-0BE9-4904-94BC-801B67A8D118"
@@ -346,7 +376,7 @@
             "y" : 820
           },
           "b" : {
-            "x" : 2180,
+            "x" : 2400,
             "y" : 820
           },
           "id" : "168F453F-F03E-432A-98FB-6A25C0CD0B1F"
@@ -386,12 +416,12 @@
         },
         {
           "a" : {
-            "x" : 2180,
+            "x" : 2400,
             "y" : 820
           },
           "b" : {
-            "x" : 2180,
-            "y" : 190
+            "x" : 2400,
+            "y" : 160
           },
           "id" : "3427003A-52C2-4B9F-95D9-997277F43D98"
         }
@@ -466,7 +496,7 @@
           "id" : "C58D9555-C2A9-4059-A4C9-2D715B521279",
           "line" : "3427003A-52C2-4B9F-95D9-997277F43D98",
           "side" : "left",
-          "start" : 200,
+          "start" : 180,
           "wires" : [
             "2E86FE60-5FE3-45C1-B60F-E40F35B03503",
             "E28ECF35-A859-4983-9237-67C21BB84320",
@@ -519,113 +549,63 @@
   "junctions" : [
     {
       "id" : "0E93E6F0-9511-4AAB-A607-DA1EA5052DBB",
-      "x" : 2090,
-      "y" : 440
-    },
-    {
-      "id" : "281991FE-9ACC-4D26-9C86-16B3DF152F04",
-      "x" : 1770,
-      "y" : 380
-    },
-    {
-      "id" : "A6DAA704-8004-4CE1-86F7-D6B9BBB7305C",
-      "x" : 1770,
-      "y" : 290
-    },
-    {
-      "id" : "3E7CB2B0-B31C-4E3C-8801-61F8284B3B68",
-      "x" : 1770,
-      "y" : 200
-    },
-    {
-      "id" : "8E010776-257C-47DA-A185-5DC1C774C19C",
-      "x" : 1590,
-      "y" : 440
-    },
-    {
-      "id" : "A4BD8B4C-1A12-40F8-8198-06F1CEA52E61",
-      "x" : 1570,
+      "x" : 2240,
       "y" : 420
-    },
-    {
-      "id" : "0EF06D5B-E32E-41AC-95F1-83900E4815D1",
-      "x" : 1370,
-      "y" : 380
-    },
-    {
-      "id" : "759AC5EA-87F1-4401-B8FB-52EACC4CABAA",
-      "x" : 1410,
-      "y" : 400
-    },
-    {
-      "id" : "BCCB5380-6D22-4BAA-8DCE-2891E9044202",
-      "x" : 1450,
-      "y" : 420
-    },
-    {
-      "id" : "BAC49DAC-7A5D-45DE-BAD5-6E01DD65C5F2",
-      "x" : 1490,
-      "y" : 440
     },
     {
       "id" : "107FE162-65C0-4C4D-84DB-B491F48D9368",
-      "x" : 2440,
+      "x" : 2630,
       "y" : 790
     },
     {
       "id" : "7D3B581A-472D-4148-98DA-0EB300BBB9E8",
-      "x" : 2530,
+      "x" : 2720,
       "y" : 610
     },
     {
       "id" : "4159C537-93A0-4949-877E-D69479C2211E",
-      "x" : 2530,
+      "x" : 2720,
       "y" : 630
     },
     {
       "id" : "03D36A71-B79C-4AD5-86DF-C3D655C45407",
-      "x" : 2540,
+      "x" : 2730,
       "y" : 790
     },
     {
       "id" : "68AA3D12-E15F-4816-80BE-2347984A5167",
-      "x" : 2520,
+      "x" : 2710,
       "y" : 750
     },
     {
       "id" : "C7C6AB29-33CD-4375-8ECC-F8B6F396D353",
-      "x" : 2520,
+      "x" : 2710,
       "y" : 730
     },
     {
       "id" : "8DE67A3B-C227-41EB-A1CF-AC6A81D01DF7",
-      "x" : 2520,
+      "x" : 2710,
       "y" : 710
     },
     {
       "id" : "74092EEF-E8C3-4276-A58F-6C58F87C1DEE",
-      "x" : 2520,
+      "x" : 2710,
       "y" : 690
     },
     {
       "id" : "FE9A0D9F-A08C-4322-98A4-61223DE7351B",
-      "x" : 2260,
+      "x" : 2450,
       "y" : 470
     },
     {
       "id" : "FD47091C-2ED7-4DBD-9594-08B6D1C370CE",
-      "x" : 2000,
+      "x" : 2330,
       "y" : 640
     },
     {
-      "id" : "7B4D2A2D-000C-4C20-B16C-DF88ED43DE38",
-      "x" : 2020,
-      "y" : 580
-    },
-    {
       "id" : "B2460AEF-4E35-4ADE-A38D-00489B41F01F",
-      "x" : 1940,
-      "y" : 100
+      "x" : 2090,
+      "y" : 80
     },
     {
       "id" : "A23ACDB5-C3EF-4EBC-B942-8D79AAA6292A",
@@ -659,13 +639,68 @@
     },
     {
       "id" : "01E7026A-2B86-46CD-A0DA-904AE15D6265",
-      "x" : 1840,
-      "y" : 220
+      "x" : 1990,
+      "y" : 200
     },
     {
       "id" : "DECB7498-BE65-4C79-AB34-B51ACF7547F3",
-      "x" : 1840,
-      "y" : 200
+      "x" : 1990,
+      "y" : 180
+    },
+    {
+      "id" : "7AA5C162-FCE9-4B4C-90A0-AA72514A2FDC",
+      "x" : 2350,
+      "y" : 580
+    },
+    {
+      "id" : "10874954-6C2C-4E2C-A264-85B1D4FA3345",
+      "x" : 2330,
+      "y" : 560
+    },
+    {
+      "id" : "51466B3E-7235-43CE-8FAB-68E90D9883F4",
+      "x" : 1770,
+      "y" : 360
+    },
+    {
+      "id" : "3EC44A6B-65BB-4C5F-AAAD-B46A803C6A63",
+      "x" : 1770,
+      "y" : 270
+    },
+    {
+      "id" : "89407B8A-5BEB-4A76-A706-214617CD1C68",
+      "x" : 1770,
+      "y" : 180
+    },
+    {
+      "id" : "195E1BDC-626A-402E-8C5F-7971AC149A7D",
+      "x" : 1590,
+      "y" : 420
+    },
+    {
+      "id" : "EFC6DCD5-CE8D-4A31-AF16-37D9AA7BAAC0",
+      "x" : 1570,
+      "y" : 400
+    },
+    {
+      "id" : "443083B5-4BAC-4081-A71C-206C05F2A8DE",
+      "x" : 1370,
+      "y" : 360
+    },
+    {
+      "id" : "0B3C84DF-3EC9-4B3D-88ED-0355AB9347E5",
+      "x" : 1410,
+      "y" : 380
+    },
+    {
+      "id" : "ECE5CFB4-90F6-4297-A915-5E980D58CE82",
+      "x" : 1450,
+      "y" : 400
+    },
+    {
+      "id" : "640FB75F-2CEC-47D1-BE9D-EBC21D2DA61F",
+      "x" : 1490,
+      "y" : 420
     }
   ],
   "labels" : [
@@ -712,8 +747,8 @@
       "id" : "E0A2A6B6-0A25-40AB-918A-E7FFE1C0A7E1",
       "name" : "/RST",
       "type" : "input",
-      "x" : 1930,
-      "y" : 260
+      "x" : 2080,
+      "y" : 240
     },
     {
       "flipped" : true,
@@ -734,16 +769,16 @@
       "id" : "59BE5148-4360-45E2-A028-4B0BE15A898C",
       "name" : "/IRQ",
       "type" : "output",
-      "x" : 2210,
-      "y" : 120
+      "x" : 2360,
+      "y" : 100
     },
     {
       "flipped" : true,
       "id" : "FCF3A019-B9F8-4D65-876A-D9CA69CE12CC",
       "name" : "SCLK",
       "type" : "input",
-      "x" : 1930,
-      "y" : 240
+      "x" : 2080,
+      "y" : 220
     },
     {
       "flipped" : true,
@@ -773,8 +808,8 @@
       "id" : "BDC69B33-029F-4192-BA23-2E8B05DB59E1",
       "name" : "RWB",
       "type" : "input",
-      "x" : 1930,
-      "y" : 280
+      "x" : 2080,
+      "y" : 260
     },
     {
       "id" : "DE2AD5AC-BBB3-42DD-97FC-F0F784282285",
@@ -833,8 +868,8 @@
       "id" : "25D08D7A-B1B5-4EB5-A0D1-B004129C6141",
       "name" : "/URT",
       "type" : "input",
-      "x" : 1930,
-      "y" : 160
+      "x" : 2080,
+      "y" : 140
     },
     {
       "flipped" : true,
@@ -949,8 +984,8 @@
       "id" : "861DD815-C7BC-4E55-9176-BBC492DFA846",
       "name" : "UCLK",
       "type" : "input",
-      "x" : 1930,
-      "y" : 380
+      "x" : 2080,
+      "y" : 360
     },
     {
       "id" : "A7617347-F181-45FC-AD60-C289C68DE64E",
@@ -985,15 +1020,14 @@
       "id" : "A225D60D-9DA2-4180-B2BB-88F14BF05D21",
       "partNumber" : "AT28C256-15PU",
       "pcb" : {
-        "locked" : true,
         "origin" : "pad1Center",
         "outline" : "document",
         "pin1" : "silkscreen",
         "reference" : "silkscreen",
         "rotation" : 0,
-        "side" : "top",
-        "x" : 33.019999999999996,
-        "y" : 62.230000000000004
+        "side" : "bottom",
+        "x" : 151.765,
+        "y" : 27.94
       },
       "reference" : "U4",
       "x" : 410,
@@ -1004,15 +1038,14 @@
       "id" : "2A33FCBF-B90D-4D35-9E7A-96DF58BD402D",
       "partNumber" : "W65C02S6TPG-14",
       "pcb" : {
-        "locked" : true,
         "origin" : "pad1Center",
         "outline" : "document",
         "pin1" : "silkscreen",
         "reference" : "silkscreen",
         "rotation" : 180,
-        "side" : "top",
-        "x" : 12.700000000000001,
-        "y" : 69.85000000000001
+        "side" : "bottom",
+        "x" : 174.625,
+        "y" : 30.479999999999997
       },
       "reference" : "U3",
       "x" : 60,
@@ -1029,8 +1062,8 @@
         "reference" : "silkscreen",
         "rotation" : 180,
         "side" : "top",
-        "x" : 12.315,
-        "y" : 30.115
+        "x" : -16.895000000000003,
+        "y" : 85.995
       },
       "reference" : "G1",
       "x" : 1300,
@@ -1054,26 +1087,6 @@
     },
     {
       "flipped" : false,
-      "id" : "49CA3AA0-21A2-4D14-B960-06859DA291B6",
-      "partNumber" : "NHD-0216K1Z-FL-YBW",
-      "pcb" : {
-        "locked" : true,
-        "origin" : "topLeft",
-        "outline" : "document",
-        "pin1" : "silkscreen",
-        "reference" : "silkscreen",
-        "rotation" : 0,
-        "side" : "top",
-        "style" : "module",
-        "x" : 86.99000000000001,
-        "y" : 20.54
-      },
-      "reference" : "DS1",
-      "x" : 1630,
-      "y" : 520
-    },
-    {
-      "flipped" : false,
       "id" : "26CEC778-8148-4976-B2CA-D436CEA2B6B7",
       "partNumber" : "PJ-002A",
       "pcb" : {
@@ -1083,8 +1096,8 @@
         "reference" : "silkscreen",
         "rotation" : 0,
         "side" : "top",
-        "x" : 8.545,
-        "y" : 5.93
+        "x" : -20.665,
+        "y" : 61.81
       },
       "reference" : "J1",
       "x" : 40,
@@ -1111,15 +1124,14 @@
       "id" : "7A59C786-83ED-4854-B2B4-F71AF706C637",
       "partNumber" : "W65C22S6TPG-14",
       "pcb" : {
-        "locked" : true,
         "origin" : "pad1Center",
         "outline" : "document",
         "pin1" : "silkscreen",
         "reference" : "silkscreen",
         "rotation" : 180,
-        "side" : "top",
-        "x" : 76.2,
-        "y" : 69.85000000000001
+        "side" : "bottom",
+        "x" : 37.465,
+        "y" : 29.845000000000006
       },
       "reference" : "U6",
       "x" : 1120,
@@ -1164,7 +1176,6 @@
       "ohms" : 1000,
       "partNumber" : "PULLUP-5V",
       "pcb" : {
-        "locked" : true,
         "origin" : "topLeft",
         "outline" : "document",
         "pin1" : "silkscreen",
@@ -1180,47 +1191,25 @@
     },
     {
       "flipped" : false,
-      "footprint" : "PINHDR-1X02-V",
-      "gender" : "Male",
-      "id" : "A8E13889-7DCF-496F-88E4-485920FA0799",
-      "partNumber" : "GENERIC-HEADER-1X02",
-      "pcb" : {
-        "locked" : true,
-        "origin" : "topLeft",
-        "outline" : "document",
-        "pin1" : "silkscreen",
-        "reference" : "silkscreen",
-        "rotation" : 0,
-        "side" : "top",
-        "x" : 90.805,
-        "y" : 85.725
-      },
-      "reference" : "P1",
-      "x" : 1630,
-      "y" : 410
-    },
-    {
-      "flipped" : false,
       "id" : "74A0BF7F-0BAE-4FA3-B93E-AA74BF36B819",
       "partNumber" : "GND",
       "reference" : "PWR22",
-      "x" : 2100,
-      "y" : 470
+      "x" : 2250,
+      "y" : 450
     },
     {
       "flipped" : false,
       "id" : "3C37ACB8-EFF6-41FB-8767-D6B032999457",
       "partNumber" : "ECS-100A-018",
       "pcb" : {
-        "locked" : true,
         "origin" : "topLeft",
         "outline" : "document",
         "pin1" : "silkscreen",
         "reference" : "silkscreen",
         "rotation" : 0,
         "side" : "top",
-        "x" : 94.865,
-        "y" : 54.88
+        "x" : 85.33999999999999,
+        "y" : 79.00999999999999
       },
       "reference" : "G2",
       "x" : 1600,
@@ -1244,197 +1233,27 @@
     },
     {
       "flipped" : false,
-      "id" : "94D33808-C37C-450B-9C25-1AD640DCD44D",
-      "partNumber" : "1-1825910-0",
-      "pcb" : {
-        "locked" : true,
-        "origin" : "topLeft",
-        "outline" : "document",
-        "pin1" : "silkscreen",
-        "reference" : "silkscreen",
-        "rotation" : 0,
-        "side" : "top",
-        "x" : 100.89,
-        "y" : 92.365
-      },
-      "reference" : "S4",
-      "x" : 1630,
-      "y" : 230
-    },
-    {
-      "flipped" : false,
-      "id" : "42F2C17A-CEC6-450A-B0DD-ABD7135EA87B",
-      "partNumber" : "1-1825910-0",
-      "pcb" : {
-        "locked" : true,
-        "origin" : "topLeft",
-        "outline" : "document",
-        "pin1" : "silkscreen",
-        "reference" : "silkscreen",
-        "rotation" : 0,
-        "side" : "top",
-        "x" : 90.72999999999999,
-        "y" : 92.365
-      },
-      "reference" : "S5",
-      "x" : 1630,
-      "y" : 320
-    },
-    {
-      "flipped" : false,
-      "id" : "69D200E5-8860-47E3-B044-B29AF7AC2AB2",
-      "partNumber" : "GND",
-      "reference" : "PWR21",
-      "x" : 1750,
-      "y" : 410
-    },
-    {
-      "flipped" : false,
-      "footprint" : "RES-AXIAL-10.16",
-      "id" : "BB8E4E55-4E69-4A56-98C8-91398C1D014F",
-      "ohms" : 1000,
-      "partNumber" : "PULLUP-5V",
-      "pcb" : {
-        "locked" : true,
-        "origin" : "topLeft",
-        "outline" : "document",
-        "pin1" : "silkscreen",
-        "reference" : "silkscreen",
-        "rotation" : 90,
-        "side" : "top",
-        "x" : 126.345,
-        "y" : 92.24
-      },
-      "reference" : "R5",
-      "x" : 1350,
-      "y" : 260
-    },
-    {
-      "flipped" : false,
-      "footprint" : "RES-AXIAL-10.16",
-      "id" : "555A8F2A-2AA3-4AA3-B15D-A787B405707E",
-      "ohms" : 1000,
-      "partNumber" : "PULLUP-5V",
-      "pcb" : {
-        "locked" : true,
-        "origin" : "topLeft",
-        "outline" : "document",
-        "pin1" : "silkscreen",
-        "reference" : "silkscreen",
-        "rotation" : 90,
-        "side" : "top",
-        "x" : 116.185,
-        "y" : 92.24
-      },
-      "reference" : "R6",
-      "x" : 1390,
-      "y" : 260
-    },
-    {
-      "flipped" : false,
-      "id" : "00ADFE51-79C0-4057-B392-C41707E041C6",
-      "partNumber" : "1-1825910-0",
-      "pcb" : {
-        "locked" : true,
-        "origin" : "topLeft",
-        "outline" : "document",
-        "pin1" : "silkscreen",
-        "reference" : "silkscreen",
-        "rotation" : 0,
-        "side" : "top",
-        "x" : 111.05,
-        "y" : 92.365
-      },
-      "reference" : "S3",
-      "x" : 1630,
-      "y" : 140
-    },
-    {
-      "flipped" : false,
-      "id" : "DA7BF247-04B1-43EA-84B0-C67B67381E3C",
-      "partNumber" : "1-1825910-0",
-      "pcb" : {
-        "locked" : true,
-        "origin" : "topLeft",
-        "outline" : "document",
-        "pin1" : "silkscreen",
-        "reference" : "silkscreen",
-        "rotation" : 0,
-        "side" : "top",
-        "x" : 121.21,
-        "y" : 92.365
-      },
-      "reference" : "S2",
-      "x" : 1630,
-      "y" : 50
-    },
-    {
-      "flipped" : false,
-      "footprint" : "RES-AXIAL-10.16",
-      "id" : "1DA83FCD-22B7-44C3-B277-79B97ADDA795",
-      "ohms" : 1000,
-      "partNumber" : "PULLUP-5V",
-      "pcb" : {
-        "locked" : true,
-        "origin" : "topLeft",
-        "outline" : "document",
-        "pin1" : "silkscreen",
-        "reference" : "silkscreen",
-        "rotation" : 90,
-        "side" : "top",
-        "x" : 106.025,
-        "y" : 92.24
-      },
-      "reference" : "R7",
-      "x" : 1430,
-      "y" : 260
-    },
-    {
-      "flipped" : false,
-      "footprint" : "RES-AXIAL-10.16",
-      "id" : "0B91C8A8-479F-45C5-8686-BC78315EF1D8",
-      "ohms" : 1000,
-      "partNumber" : "PULLUP-5V",
-      "pcb" : {
-        "locked" : true,
-        "origin" : "topLeft",
-        "outline" : "document",
-        "pin1" : "silkscreen",
-        "reference" : "silkscreen",
-        "rotation" : 90,
-        "side" : "top",
-        "x" : 95.865,
-        "y" : 92.24
-      },
-      "reference" : "R8",
-      "x" : 1470,
-      "y" : 260
-    },
-    {
-      "flipped" : false,
       "id" : "54067A51-AE83-4557-AA0D-86FEB8635196",
       "partNumber" : "W65C51N6TPG-14",
       "pcb" : {
-        "locked" : true,
         "origin" : "pad1Center",
         "outline" : "document",
         "pin1" : "silkscreen",
         "reference" : "silkscreen",
         "rotation" : 0,
-        "side" : "top",
-        "x" : 113.665,
-        "y" : 62.23
+        "side" : "bottom",
+        "x" : 102.86999999999999,
+        "y" : 27.94
       },
       "reference" : "U7",
-      "x" : 1970,
-      "y" : 60
+      "x" : 2120,
+      "y" : 40
     },
     {
       "flipped" : false,
       "id" : "6D7397D9-8C40-457F-A371-82A9E7F4519A",
       "partNumber" : "1-1825910-0",
       "pcb" : {
-        "locked" : true,
         "origin" : "topLeft",
         "outline" : "document",
         "pin1" : "silkscreen",
@@ -1461,7 +1280,6 @@
       "id" : "D75B49B4-9F35-49B0-AD32-D89D79B58119",
       "partNumber" : "SB140-E3/54",
       "pcb" : {
-        "locked" : true,
         "origin" : "pad1Center",
         "outline" : "document",
         "pin1" : "silkscreen",
@@ -1472,8 +1290,8 @@
         "y" : 55.879999999999995
       },
       "reference" : "D3",
-      "x" : 2140,
-      "y" : 100
+      "x" : 2290,
+      "y" : 80
     },
     {
       "flipped" : true,
@@ -1499,18 +1317,17 @@
       "id" : "41B81C08-40C3-4680-A616-50EE2AC9C554",
       "partNumber" : "CY7C64225-28PVXC",
       "pcb" : {
-        "locked" : true,
         "origin" : "center",
         "outline" : "document",
         "pin1" : "silkscreen",
         "reference" : "silkscreen",
         "rotation" : 180,
         "side" : "top",
-        "x" : 38.10000000000001,
-        "y" : 13.97
+        "x" : -22.86,
+        "y" : 43.815
       },
       "reference" : "U8",
-      "x" : 2290,
+      "x" : 2480,
       "y" : 430
     },
     {
@@ -1518,7 +1335,7 @@
       "id" : "D3CBE979-4EC9-4CEC-923D-09E468595CC6",
       "partNumber" : "GND",
       "reference" : "PWR29",
-      "x" : 2420,
+      "x" : 2610,
       "y" : 820
     },
     {
@@ -1528,7 +1345,6 @@
       "ohms" : 1000,
       "partNumber" : "PULLUP-5V",
       "pcb" : {
-        "locked" : true,
         "origin" : "pad1Center",
         "outline" : "document",
         "pin1" : "silkscreen",
@@ -1547,7 +1363,7 @@
       "id" : "1A495C8A-C4D2-4A02-9DCD-3B9ABAC633E2",
       "partNumber" : "GND",
       "reference" : "PWR30",
-      "x" : 2500,
+      "x" : 2690,
       "y" : 820
     },
     {
@@ -1555,18 +1371,17 @@
       "id" : "71D7F898-A421-4B7A-98BC-C021784DB28D",
       "partNumber" : "10172013-00011LF",
       "pcb" : {
-        "locked" : true,
         "origin" : "center",
         "outline" : "document",
         "pin1" : "silkscreen",
         "reference" : "silkscreen",
         "rotation" : 0,
         "side" : "top",
-        "x" : 38.1,
-        "y" : 3.1599999999999997
+        "x" : -22.86,
+        "y" : 33.005
       },
       "reference" : "J2",
-      "x" : 2570,
+      "x" : 2760,
       "y" : 510
     },
     {
@@ -1614,15 +1429,15 @@
       "id" : "FB1922B0-1194-456C-85AA-52E9DA59649D",
       "partNumber" : "5V",
       "reference" : "PWR17",
-      "x" : 1920,
-      "y" : 30
+      "x" : 2070,
+      "y" : 10
     },
     {
       "flipped" : false,
       "id" : "4502FC6E-650F-484C-B028-B0F860BA5AA4",
       "partNumber" : "5V",
       "reference" : "PWR20",
-      "x" : 2240,
+      "x" : 2430,
       "y" : 400
     },
     {
@@ -1630,7 +1445,7 @@
       "id" : "8DF492C4-C1BB-458B-AED9-F2E417327128",
       "partNumber" : "GND",
       "reference" : "PWR26",
-      "x" : 1980,
+      "x" : 2310,
       "y" : 670
     },
     {
@@ -1638,8 +1453,8 @@
       "id" : "6E68F662-B582-4CAC-A7DC-2286E895C1D3",
       "partNumber" : "5V",
       "reference" : "PWR23",
-      "x" : 2000,
-      "y" : 490
+      "x" : 2330,
+      "y" : 470
     },
     {
       "flipped" : false,
@@ -1702,10 +1517,10 @@
         "outline" : "document",
         "pin1" : "silkscreen",
         "reference" : "silkscreen",
-        "rotation" : 90,
-        "side" : "top",
-        "x" : 52.94,
-        "y" : 52.22
+        "rotation" : 270,
+        "side" : "bottom",
+        "x" : 126.13000000000001,
+        "y" : 17.93
       },
       "reference" : "U5",
       "x" : 770,
@@ -1720,10 +1535,10 @@
         "outline" : "document",
         "pin1" : "silkscreen",
         "reference" : "silkscreen",
-        "rotation" : 0,
-        "side" : "top",
-        "x" : 52.865,
-        "y" : 71.75500000000001
+        "rotation" : 180,
+        "side" : "bottom",
+        "x" : 80.805,
+        "y" : 15.239999999999998
       },
       "reference" : "U1",
       "x" : 480,
@@ -1763,9 +1578,9 @@
         "pin1" : "silkscreen",
         "reference" : "silkscreen",
         "rotation" : 0,
-        "side" : "top",
-        "x" : 51.795,
-        "y" : 93.39
+        "side" : "bottom",
+        "x" : 126.00500000000001,
+        "y" : 34.970000000000006
       },
       "reference" : "U2",
       "x" : 990,
@@ -1816,8 +1631,207 @@
       "id" : "95622FA9-73A9-4C68-91B3-DAEC93C6B081",
       "partNumber" : "GND",
       "reference" : "PWR19",
-      "x" : 1820,
-      "y" : 250
+      "x" : 1970,
+      "y" : 230
+    },
+    {
+      "flipped" : false,
+      "id" : "98ABC7C2-35D7-40F0-8A2A-44B5F974FDA9",
+      "partNumber" : "MC44005A6W-SPTLY-V2",
+      "pcb" : {
+        "origin" : "pad1Center",
+        "outline" : "document",
+        "pin1" : "silkscreen",
+        "reference" : "silkscreen",
+        "rotation" : 0,
+        "side" : "top",
+        "style" : "module",
+        "x" : 100.12,
+        "y" : 29.845000000000002
+      },
+      "reference" : "DS2",
+      "x" : 1610,
+      "y" : 500
+    },
+    {
+      "flipped" : false,
+      "footprint" : "PINHDR-1X02-V",
+      "gender" : "Male",
+      "id" : "CC459516-ED81-4A7D-AB3B-4FFF32BB5D37",
+      "partNumber" : "GENERIC-HEADER-1X02",
+      "pcb" : {
+        "origin" : "pad1Center",
+        "outline" : "document",
+        "pin1" : "silkscreen",
+        "reference" : "silkscreen",
+        "rotation" : 0,
+        "side" : "top",
+        "x" : 325.12,
+        "y" : 0
+      },
+      "reference" : "P1",
+      "x" : 1630,
+      "y" : 390
+    },
+    {
+      "flipped" : false,
+      "id" : "768A884B-D8FE-459A-80D9-E283EDBF23A7",
+      "partNumber" : "1-1825910-0",
+      "pcb" : {
+        "origin" : "pad1Center",
+        "outline" : "document",
+        "pin1" : "silkscreen",
+        "reference" : "silkscreen",
+        "rotation" : 0,
+        "side" : "top",
+        "x" : 333.03000000000003,
+        "y" : 2.615
+      },
+      "reference" : "S2",
+      "x" : 1630,
+      "y" : 210
+    },
+    {
+      "flipped" : false,
+      "id" : "EB578E81-8C50-4333-A9AD-4C8F6AF99912",
+      "partNumber" : "1-1825910-0",
+      "pcb" : {
+        "origin" : "pad1Center",
+        "outline" : "document",
+        "pin1" : "silkscreen",
+        "reference" : "silkscreen",
+        "rotation" : 0,
+        "side" : "top",
+        "x" : 341.92,
+        "y" : 2.615
+      },
+      "reference" : "S3",
+      "x" : 1630,
+      "y" : 300
+    },
+    {
+      "flipped" : false,
+      "id" : "A007C0CB-44BB-46EF-B356-159C079977A2",
+      "partNumber" : "GND",
+      "reference" : "PWR21",
+      "x" : 1750,
+      "y" : 390
+    },
+    {
+      "flipped" : false,
+      "footprint" : "RES-AXIAL-10.16",
+      "id" : "B377BF60-AD96-473A-BFF8-2C741DAF3BE9",
+      "ohms" : 1000,
+      "partNumber" : "PULLUP-5V",
+      "pcb" : {
+        "origin" : "pad1Center",
+        "outline" : "document",
+        "pin1" : "silkscreen",
+        "reference" : "silkscreen",
+        "rotation" : 0,
+        "side" : "top",
+        "x" : 353.695,
+        "y" : 0
+      },
+      "reference" : "R5",
+      "x" : 1350,
+      "y" : 240
+    },
+    {
+      "flipped" : false,
+      "footprint" : "RES-AXIAL-10.16",
+      "id" : "39DBC567-134F-4C5C-ACB8-5F637681A1E8",
+      "ohms" : 1000,
+      "partNumber" : "PULLUP-5V",
+      "pcb" : {
+        "origin" : "pad1Center",
+        "outline" : "document",
+        "pin1" : "silkscreen",
+        "reference" : "silkscreen",
+        "rotation" : 0,
+        "side" : "top",
+        "x" : 368.3,
+        "y" : 0
+      },
+      "reference" : "R6",
+      "x" : 1390,
+      "y" : 240
+    },
+    {
+      "flipped" : false,
+      "id" : "A4DDB491-A89A-4C9A-BE5D-30CB718BF29B",
+      "partNumber" : "1-1825910-0",
+      "pcb" : {
+        "origin" : "pad1Center",
+        "outline" : "document",
+        "pin1" : "silkscreen",
+        "reference" : "silkscreen",
+        "rotation" : 0,
+        "side" : "top",
+        "x" : 380.02,
+        "y" : 2.615
+      },
+      "reference" : "S4",
+      "x" : 1630,
+      "y" : 120
+    },
+    {
+      "flipped" : false,
+      "id" : "08CAA221-69B7-47B1-9905-7AC617DB0B68",
+      "partNumber" : "1-1825910-0",
+      "pcb" : {
+        "origin" : "pad1Center",
+        "outline" : "document",
+        "pin1" : "silkscreen",
+        "reference" : "silkscreen",
+        "rotation" : 0,
+        "side" : "top",
+        "x" : 388.91,
+        "y" : 2.615
+      },
+      "reference" : "S5",
+      "x" : 1630,
+      "y" : 30
+    },
+    {
+      "flipped" : false,
+      "footprint" : "RES-AXIAL-10.16",
+      "id" : "C6F81C38-15BA-49CC-9DD0-9451E10BD30F",
+      "ohms" : 1000,
+      "partNumber" : "PULLUP-5V",
+      "pcb" : {
+        "origin" : "pad1Center",
+        "outline" : "document",
+        "pin1" : "silkscreen",
+        "reference" : "silkscreen",
+        "rotation" : 0,
+        "side" : "top",
+        "x" : 400.685,
+        "y" : 0
+      },
+      "reference" : "R7",
+      "x" : 1430,
+      "y" : 240
+    },
+    {
+      "flipped" : false,
+      "footprint" : "RES-AXIAL-10.16",
+      "id" : "BF093D05-1D4F-41E4-9A44-9B07037A8485",
+      "ohms" : 1000,
+      "partNumber" : "PULLUP-5V",
+      "pcb" : {
+        "origin" : "pad1Center",
+        "outline" : "document",
+        "pin1" : "silkscreen",
+        "reference" : "silkscreen",
+        "rotation" : 0,
+        "side" : "top",
+        "x" : 415.28999999999996,
+        "y" : 0
+      },
+      "reference" : "R8",
+      "x" : 1470,
+      "y" : 240
     }
   ],
   "version" : 4,
@@ -3464,8 +3478,12 @@
     {
       "bends" : [
         {
-          "x" : 1930,
-          "y" : 320
+          "x" : 2060,
+          "y" : 300
+        },
+        {
+          "x" : 2100,
+          "y" : 300
         }
       ],
       "from" : {
@@ -3481,8 +3499,8 @@
     {
       "bends" : [
         {
-          "x" : 1930,
-          "y" : 340
+          "x" : 2060,
+          "y" : 320
         }
       ],
       "from" : {
@@ -3532,252 +3550,6 @@
     {
       "bends" : [
         {
-          "x" : 1760,
-          "y" : 380
-        }
-      ],
-      "from" : {
-        "part" : "42F2C17A-CEC6-450A-B0DD-ABD7135EA87B",
-        "pin" : "4"
-      },
-      "id" : "73F6CE30-18CB-4106-8977-84A0047B5BC1",
-      "to" : {
-        "junction" : "281991FE-9ACC-4D26-9C86-16B3DF152F04"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1770,
-          "y" : 390
-        }
-      ],
-      "from" : {
-        "junction" : "281991FE-9ACC-4D26-9C86-16B3DF152F04"
-      },
-      "id" : "30FB7297-4455-4F29-A17F-D687D144977C",
-      "to" : {
-        "part" : "69D200E5-8860-47E3-B044-B29AF7AC2AB2",
-        "pin" : "1"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1760,
-          "y" : 290
-        }
-      ],
-      "from" : {
-        "part" : "94D33808-C37C-450B-9C25-1AD640DCD44D",
-        "pin" : "4"
-      },
-      "id" : "3CD74120-CF90-4072-90DE-AB0F2039931D",
-      "to" : {
-        "junction" : "A6DAA704-8004-4CE1-86F7-D6B9BBB7305C"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1770,
-          "y" : 340
-        }
-      ],
-      "from" : {
-        "junction" : "A6DAA704-8004-4CE1-86F7-D6B9BBB7305C"
-      },
-      "id" : "76DC7F22-FD4D-4658-BF74-CBD7F8A236AF",
-      "to" : {
-        "junction" : "281991FE-9ACC-4D26-9C86-16B3DF152F04"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1740,
-          "y" : 370
-        }
-      ],
-      "from" : {
-        "part" : "42F2C17A-CEC6-450A-B0DD-ABD7135EA87B",
-        "pin" : "3"
-      },
-      "id" : "86577A29-F139-48EB-9CCD-6D20F2EE5BC4",
-      "to" : {
-        "part" : "42F2C17A-CEC6-450A-B0DD-ABD7135EA87B",
-        "pin" : "4"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1620,
-          "y" : 370
-        }
-      ],
-      "from" : {
-        "part" : "42F2C17A-CEC6-450A-B0DD-ABD7135EA87B",
-        "pin" : "1"
-      },
-      "id" : "C9D65656-855A-4E3F-B23F-E55151620903",
-      "to" : {
-        "part" : "42F2C17A-CEC6-450A-B0DD-ABD7135EA87B",
-        "pin" : "2"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1620,
-          "y" : 280
-        }
-      ],
-      "from" : {
-        "part" : "94D33808-C37C-450B-9C25-1AD640DCD44D",
-        "pin" : "1"
-      },
-      "id" : "2E82988A-65CB-4416-8E36-B1F1D8D54149",
-      "to" : {
-        "part" : "94D33808-C37C-450B-9C25-1AD640DCD44D",
-        "pin" : "2"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1740,
-          "y" : 280
-        }
-      ],
-      "from" : {
-        "part" : "94D33808-C37C-450B-9C25-1AD640DCD44D",
-        "pin" : "3"
-      },
-      "id" : "83B149E8-5A89-4431-978B-46BCE0E1C1B1",
-      "to" : {
-        "part" : "94D33808-C37C-450B-9C25-1AD640DCD44D",
-        "pin" : "4"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1740,
-          "y" : 100
-        }
-      ],
-      "from" : {
-        "part" : "DA7BF247-04B1-43EA-84B0-C67B67381E3C",
-        "pin" : "3"
-      },
-      "id" : "EDFB9F84-4804-4A71-A72C-B79EE1D49F62",
-      "to" : {
-        "part" : "DA7BF247-04B1-43EA-84B0-C67B67381E3C",
-        "pin" : "4"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1740,
-          "y" : 190
-        }
-      ],
-      "from" : {
-        "part" : "00ADFE51-79C0-4057-B392-C41707E041C6",
-        "pin" : "3"
-      },
-      "id" : "0900777B-E2A5-4D9A-A329-F22C7CB5BC52",
-      "to" : {
-        "part" : "00ADFE51-79C0-4057-B392-C41707E041C6",
-        "pin" : "4"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1760,
-          "y" : 200
-        }
-      ],
-      "from" : {
-        "part" : "00ADFE51-79C0-4057-B392-C41707E041C6",
-        "pin" : "4"
-      },
-      "id" : "0083A9B4-C8C8-45B2-A802-3F03FA5DE1DD",
-      "to" : {
-        "junction" : "3E7CB2B0-B31C-4E3C-8801-61F8284B3B68"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1770,
-          "y" : 250
-        }
-      ],
-      "from" : {
-        "junction" : "3E7CB2B0-B31C-4E3C-8801-61F8284B3B68"
-      },
-      "id" : "25FE979F-9062-43DC-A7B3-5C0E47A53DF6",
-      "to" : {
-        "junction" : "A6DAA704-8004-4CE1-86F7-D6B9BBB7305C"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1770,
-          "y" : 110
-        }
-      ],
-      "from" : {
-        "part" : "DA7BF247-04B1-43EA-84B0-C67B67381E3C",
-        "pin" : "4"
-      },
-      "id" : "966D7E62-81D8-4930-A86A-D75C516F654C",
-      "to" : {
-        "junction" : "3E7CB2B0-B31C-4E3C-8801-61F8284B3B68"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1620,
-          "y" : 100
-        }
-      ],
-      "from" : {
-        "part" : "DA7BF247-04B1-43EA-84B0-C67B67381E3C",
-        "pin" : "1"
-      },
-      "id" : "2F2B8B3A-A61F-4078-B25A-09FCD8D23DDA",
-      "to" : {
-        "part" : "DA7BF247-04B1-43EA-84B0-C67B67381E3C",
-        "pin" : "2"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1620,
-          "y" : 190
-        }
-      ],
-      "from" : {
-        "part" : "00ADFE51-79C0-4057-B392-C41707E041C6",
-        "pin" : "1"
-      },
-      "id" : "8CCB87A9-2400-442C-B8CA-6A8B99F25306",
-      "to" : {
-        "part" : "00ADFE51-79C0-4057-B392-C41707E041C6",
-        "pin" : "2"
-      }
-    },
-    {
-      "bends" : [
-        {
           "x" : 1370,
           "y" : 780
         },
@@ -3787,8 +3559,8 @@
         }
       ],
       "from" : {
-        "part" : "49CA3AA0-21A2-4D14-B960-06859DA291B6",
-        "pin" : "14"
+        "part" : "98ABC7C2-35D7-40F0-8A2A-44B5F974FDA9",
+        "pin" : "1"
       },
       "id" : "FEA4B0BF-BCBA-4320-A2DD-E31818D1D31B",
       "to" : {
@@ -3808,8 +3580,8 @@
         }
       ],
       "from" : {
-        "part" : "49CA3AA0-21A2-4D14-B960-06859DA291B6",
-        "pin" : "13"
+        "part" : "98ABC7C2-35D7-40F0-8A2A-44B5F974FDA9",
+        "pin" : "2"
       },
       "id" : "72A26730-05DB-4413-A490-FDFCA7AFE271",
       "to" : {
@@ -3829,8 +3601,8 @@
         }
       ],
       "from" : {
-        "part" : "49CA3AA0-21A2-4D14-B960-06859DA291B6",
-        "pin" : "12"
+        "part" : "98ABC7C2-35D7-40F0-8A2A-44B5F974FDA9",
+        "pin" : "3"
       },
       "id" : "E2A8577F-36EE-467A-B91C-2C652721D202",
       "to" : {
@@ -3850,8 +3622,8 @@
         }
       ],
       "from" : {
-        "part" : "49CA3AA0-21A2-4D14-B960-06859DA291B6",
-        "pin" : "11"
+        "part" : "98ABC7C2-35D7-40F0-8A2A-44B5F974FDA9",
+        "pin" : "4"
       },
       "id" : "23AF8900-0A0A-4A25-9015-7075D958F2CF",
       "to" : {
@@ -3871,8 +3643,8 @@
         }
       ],
       "from" : {
-        "part" : "49CA3AA0-21A2-4D14-B960-06859DA291B6",
-        "pin" : "10"
+        "part" : "98ABC7C2-35D7-40F0-8A2A-44B5F974FDA9",
+        "pin" : "5"
       },
       "id" : "9E65011C-0590-47BE-9785-35C202DA6E3B",
       "to" : {
@@ -3892,8 +3664,8 @@
         }
       ],
       "from" : {
-        "part" : "49CA3AA0-21A2-4D14-B960-06859DA291B6",
-        "pin" : "9"
+        "part" : "98ABC7C2-35D7-40F0-8A2A-44B5F974FDA9",
+        "pin" : "6"
       },
       "id" : "FFD81F8F-1F31-497B-BCB5-D663773D40B2",
       "to" : {
@@ -3913,8 +3685,8 @@
         }
       ],
       "from" : {
-        "part" : "49CA3AA0-21A2-4D14-B960-06859DA291B6",
-        "pin" : "8"
+        "part" : "98ABC7C2-35D7-40F0-8A2A-44B5F974FDA9",
+        "pin" : "7"
       },
       "id" : "D7A9BBBB-A1A6-4DA4-9EFD-43EA550D71FD",
       "to" : {
@@ -3934,8 +3706,8 @@
         }
       ],
       "from" : {
-        "part" : "49CA3AA0-21A2-4D14-B960-06859DA291B6",
-        "pin" : "7"
+        "part" : "98ABC7C2-35D7-40F0-8A2A-44B5F974FDA9",
+        "pin" : "8"
       },
       "id" : "51CFF4D2-4191-4B5D-B4BC-5CF272740629",
       "to" : {
@@ -3955,8 +3727,8 @@
         }
       ],
       "from" : {
-        "part" : "49CA3AA0-21A2-4D14-B960-06859DA291B6",
-        "pin" : "6"
+        "part" : "98ABC7C2-35D7-40F0-8A2A-44B5F974FDA9",
+        "pin" : "15"
       },
       "id" : "A2F266D8-3634-4D1E-A911-BC45E6B60D4C",
       "to" : {
@@ -3976,8 +3748,8 @@
         }
       ],
       "from" : {
-        "part" : "49CA3AA0-21A2-4D14-B960-06859DA291B6",
-        "pin" : "5"
+        "part" : "98ABC7C2-35D7-40F0-8A2A-44B5F974FDA9",
+        "pin" : "9"
       },
       "id" : "9B492CD6-86ED-4FA3-B925-C889EAC116D9",
       "to" : {
@@ -3997,8 +3769,8 @@
         }
       ],
       "from" : {
-        "part" : "49CA3AA0-21A2-4D14-B960-06859DA291B6",
-        "pin" : "4"
+        "part" : "98ABC7C2-35D7-40F0-8A2A-44B5F974FDA9",
+        "pin" : "10"
       },
       "id" : "DB6D1B73-D444-4B61-BC1A-86626B4C17A3",
       "to" : {
@@ -4009,287 +3781,8 @@
     {
       "bends" : [
         {
-          "x" : 1420,
-          "y" : 420
-        }
-      ],
-      "from" : {
-        "part" : "7A59C786-83ED-4854-B2B4-F71AF706C637",
-        "pin" : "5"
-      },
-      "id" : "FC83290B-D628-4B30-A7D4-4B4566708E46",
-      "to" : {
-        "junction" : "BCCB5380-6D22-4BAA-8DCE-2891E9044202"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1520,
-          "y" : 420
-        }
-      ],
-      "from" : {
-        "junction" : "BCCB5380-6D22-4BAA-8DCE-2891E9044202"
-      },
-      "id" : "7FEF7DFA-5AA5-4434-8FF7-E706786BCF11",
-      "to" : {
-        "junction" : "A4BD8B4C-1A12-40F8-8198-06F1CEA52E61"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1570,
-          "y" : 290
-        }
-      ],
-      "from" : {
-        "junction" : "A4BD8B4C-1A12-40F8-8198-06F1CEA52E61"
-      },
-      "id" : "66AEB9CA-AF82-4163-A1A3-46356A8AD4B5",
-      "to" : {
-        "part" : "94D33808-C37C-450B-9C25-1AD640DCD44D",
-        "pin" : "2"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1340,
-          "y" : 400
-        }
-      ],
-      "from" : {
-        "part" : "7A59C786-83ED-4854-B2B4-F71AF706C637",
-        "pin" : "4"
-      },
-      "id" : "517C1992-58D3-4FD0-99B1-87655ADC889E",
-      "to" : {
-        "junction" : "759AC5EA-87F1-4401-B8FB-52EACC4CABAA"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1550,
-          "y" : 400
-        },
-        {
-          "x" : 1550,
-          "y" : 200
-        }
-      ],
-      "from" : {
-        "junction" : "759AC5EA-87F1-4401-B8FB-52EACC4CABAA"
-      },
-      "id" : "3C19BFF7-4DAE-465E-935E-7AB6B3A5E75C",
-      "to" : {
-        "part" : "00ADFE51-79C0-4057-B392-C41707E041C6",
-        "pin" : "2"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1300,
-          "y" : 380
-        }
-      ],
-      "from" : {
-        "part" : "7A59C786-83ED-4854-B2B4-F71AF706C637",
-        "pin" : "3"
-      },
-      "id" : "6CA70D20-F6B0-4B7B-9031-89A4B7CA2A5C",
-      "to" : {
-        "junction" : "0EF06D5B-E32E-41AC-95F1-83900E4815D1"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1530,
-          "y" : 380
-        },
-        {
-          "x" : 1530,
-          "y" : 110
-        }
-      ],
-      "from" : {
-        "junction" : "0EF06D5B-E32E-41AC-95F1-83900E4815D1"
-      },
-      "id" : "A5DA1164-C1DA-4025-98B3-9D1E9243429B",
-      "to" : {
-        "part" : "DA7BF247-04B1-43EA-84B0-C67B67381E3C",
-        "pin" : "2"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1440,
-          "y" : 440
-        }
-      ],
-      "from" : {
-        "part" : "7A59C786-83ED-4854-B2B4-F71AF706C637",
-        "pin" : "6"
-      },
-      "id" : "31F3E76E-015C-4A02-9F1D-1BDDF6084070",
-      "to" : {
-        "junction" : "BAC49DAC-7A5D-45DE-BAD5-6E01DD65C5F2"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1550,
-          "y" : 440
-        }
-      ],
-      "from" : {
-        "junction" : "BAC49DAC-7A5D-45DE-BAD5-6E01DD65C5F2"
-      },
-      "id" : "12F0CE5B-4E4E-4A16-BDD6-DA9E4B375AFE",
-      "to" : {
-        "junction" : "8E010776-257C-47DA-A185-5DC1C774C19C"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1610,
-          "y" : 440
-        }
-      ],
-      "from" : {
-        "junction" : "8E010776-257C-47DA-A185-5DC1C774C19C"
-      },
-      "id" : "BD9BC87C-40D8-41DA-8928-9B0309228EF1",
-      "to" : {
-        "part" : "A8E13889-7DCF-496F-88E4-485920FA0799",
-        "pin" : "2"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1590,
-          "y" : 380
-        }
-      ],
-      "from" : {
-        "part" : "42F2C17A-CEC6-450A-B0DD-ABD7135EA87B",
-        "pin" : "2"
-      },
-      "id" : "FEFF068C-237E-4E62-803E-9CB0C6305FB3",
-      "to" : {
-        "junction" : "8E010776-257C-47DA-A185-5DC1C774C19C"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1600,
-          "y" : 420
-        }
-      ],
-      "from" : {
-        "part" : "A8E13889-7DCF-496F-88E4-485920FA0799",
-        "pin" : "1"
-      },
-      "id" : "74177CEA-72FF-4C02-AEB6-2B0DBD5531D1",
-      "to" : {
-        "junction" : "A4BD8B4C-1A12-40F8-8198-06F1CEA52E61"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1370,
-          "y" : 370
-        }
-      ],
-      "from" : {
-        "part" : "BB8E4E55-4E69-4A56-98C8-91398C1D014F",
-        "pin" : "1"
-      },
-      "id" : "2F9EADEC-153C-449E-874E-9BC47C12BD18",
-      "to" : {
-        "junction" : "0EF06D5B-E32E-41AC-95F1-83900E4815D1"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1410,
-          "y" : 380
-        }
-      ],
-      "from" : {
-        "part" : "555A8F2A-2AA3-4AA3-B15D-A787B405707E",
-        "pin" : "1"
-      },
-      "id" : "8F4F1C5D-55E4-4043-82D6-42BC35106FED",
-      "to" : {
-        "junction" : "759AC5EA-87F1-4401-B8FB-52EACC4CABAA"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1450,
-          "y" : 390
-        }
-      ],
-      "from" : {
-        "part" : "1DA83FCD-22B7-44C3-B277-79B97ADDA795",
-        "pin" : "1"
-      },
-      "id" : "DFDA5E74-2696-455A-AEA1-C454318CF149",
-      "to" : {
-        "junction" : "BCCB5380-6D22-4BAA-8DCE-2891E9044202"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1490,
-          "y" : 400
-        }
-      ],
-      "from" : {
-        "part" : "0B91C8A8-479F-45C5-8686-BC78315EF1D8",
-        "pin" : "1"
-      },
-      "id" : "63D5ADBE-17C9-410C-B12B-6C08E572F22C",
-      "to" : {
-        "junction" : "BAC49DAC-7A5D-45DE-BAD5-6E01DD65C5F2"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 2120,
-          "y" : 440
-        }
-      ],
-      "from" : {
-        "part" : "74A0BF7F-0BAE-4FA3-B93E-AA74BF36B819",
-        "pin" : "1"
-      },
-      "id" : "4C72C46F-01F7-421B-B98F-820D3E3C574E",
-      "to" : {
-        "part" : "54067A51-AE83-4557-AA0D-86FEB8635196",
-        "pin" : "1"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 1950,
-          "y" : 100
+          "x" : 2100,
+          "y" : 80
         }
       ],
       "from" : {
@@ -4304,8 +3797,8 @@
     {
       "bends" : [
         {
-          "x" : 1940,
-          "y" : 80
+          "x" : 2090,
+          "y" : 60
         }
       ],
       "from" : {
@@ -4320,8 +3813,8 @@
     {
       "bends" : [
         {
-          "x" : 2120,
-          "y" : 200
+          "x" : 2270,
+          "y" : 180
         }
       ],
       "from" : {
@@ -4337,8 +3830,8 @@
     {
       "bends" : [
         {
-          "x" : 2120,
-          "y" : 220
+          "x" : 2270,
+          "y" : 200
         }
       ],
       "from" : {
@@ -4354,8 +3847,8 @@
     {
       "bends" : [
         {
-          "x" : 2120,
-          "y" : 240
+          "x" : 2270,
+          "y" : 220
         }
       ],
       "from" : {
@@ -4371,8 +3864,8 @@
     {
       "bends" : [
         {
-          "x" : 2120,
-          "y" : 260
+          "x" : 2270,
+          "y" : 240
         }
       ],
       "from" : {
@@ -4388,8 +3881,8 @@
     {
       "bends" : [
         {
-          "x" : 2120,
-          "y" : 280
+          "x" : 2270,
+          "y" : 260
         }
       ],
       "from" : {
@@ -4405,8 +3898,8 @@
     {
       "bends" : [
         {
-          "x" : 2120,
-          "y" : 300
+          "x" : 2270,
+          "y" : 280
         }
       ],
       "from" : {
@@ -4422,8 +3915,8 @@
     {
       "bends" : [
         {
-          "x" : 2120,
-          "y" : 320
+          "x" : 2270,
+          "y" : 300
         }
       ],
       "from" : {
@@ -4439,8 +3932,8 @@
     {
       "bends" : [
         {
-          "x" : 2120,
-          "y" : 340
+          "x" : 2270,
+          "y" : 320
         }
       ],
       "from" : {
@@ -4524,8 +4017,8 @@
     {
       "bends" : [
         {
-          "x" : 2120,
-          "y" : 120
+          "x" : 2270,
+          "y" : 100
         }
       ],
       "from" : {
@@ -4541,11 +4034,11 @@
     {
       "bends" : [
         {
-          "x" : 2460,
-          "y" : 380
+          "x" : 2650,
+          "y" : 360
         },
         {
-          "x" : 2460,
+          "x" : 2650,
           "y" : 670
         }
       ],
@@ -4562,11 +4055,11 @@
     {
       "bends" : [
         {
-          "x" : 2440,
-          "y" : 400
+          "x" : 2630,
+          "y" : 380
         },
         {
-          "x" : 2440,
+          "x" : 2630,
           "y" : 650
         }
       ],
@@ -4583,7 +4076,7 @@
     {
       "bends" : [
         {
-          "x" : 2430,
+          "x" : 2620,
           "y" : 790
         }
       ],
@@ -4599,7 +4092,7 @@
     {
       "bends" : [
         {
-          "x" : 2440,
+          "x" : 2630,
           "y" : 800
         }
       ],
@@ -4615,7 +4108,7 @@
     {
       "bends" : [
         {
-          "x" : 2440,
+          "x" : 2630,
           "y" : 770
         }
       ],
@@ -4631,7 +4124,7 @@
     {
       "bends" : [
         {
-          "x" : 2270,
+          "x" : 2460,
           "y" : 470
         }
       ],
@@ -4647,7 +4140,7 @@
     {
       "bends" : [
         {
-          "x" : 2260,
+          "x" : 2450,
           "y" : 490
         }
       ],
@@ -4680,11 +4173,11 @@
     {
       "bends" : [
         {
-          "x" : 2480,
+          "x" : 2670,
           "y" : 710
         },
         {
-          "x" : 2480,
+          "x" : 2670,
           "y" : 610
         }
       ],
@@ -4700,7 +4193,7 @@
     {
       "bends" : [
         {
-          "x" : 2540,
+          "x" : 2730,
           "y" : 610
         }
       ],
@@ -4716,7 +4209,7 @@
     {
       "bends" : [
         {
-          "x" : 2540,
+          "x" : 2730,
           "y" : 630
         }
       ],
@@ -4732,11 +4225,11 @@
     {
       "bends" : [
         {
-          "x" : 2500,
+          "x" : 2690,
           "y" : 630
         },
         {
-          "x" : 2500,
+          "x" : 2690,
           "y" : 730
         }
       ],
@@ -4752,7 +4245,7 @@
     {
       "bends" : [
         {
-          "x" : 2530,
+          "x" : 2720,
           "y" : 590
         }
       ],
@@ -4768,7 +4261,7 @@
     {
       "bends" : [
         {
-          "x" : 2530,
+          "x" : 2720,
           "y" : 650
         }
       ],
@@ -4784,15 +4277,15 @@
     {
       "bends" : [
         {
-          "x" : 2240,
+          "x" : 2430,
           "y" : 530
         },
         {
-          "x" : 2240,
+          "x" : 2430,
           "y" : 850
         },
         {
-          "x" : 2540,
+          "x" : 2730,
           "y" : 850
         }
       ],
@@ -4808,7 +4301,7 @@
     {
       "bends" : [
         {
-          "x" : 2540,
+          "x" : 2730,
           "y" : 770
         }
       ],
@@ -4824,7 +4317,7 @@
     {
       "bends" : [
         {
-          "x" : 2550,
+          "x" : 2740,
           "y" : 790
         }
       ],
@@ -4840,7 +4333,7 @@
     {
       "bends" : [
         {
-          "x" : 2540,
+          "x" : 2730,
           "y" : 750
         }
       ],
@@ -4856,7 +4349,7 @@
     {
       "bends" : [
         {
-          "x" : 2520,
+          "x" : 2710,
           "y" : 780
         }
       ],
@@ -4872,7 +4365,7 @@
     {
       "bends" : [
         {
-          "x" : 2540,
+          "x" : 2730,
           "y" : 730
         }
       ],
@@ -4888,7 +4381,7 @@
     {
       "bends" : [
         {
-          "x" : 2520,
+          "x" : 2710,
           "y" : 740
         }
       ],
@@ -4903,7 +4396,7 @@
     {
       "bends" : [
         {
-          "x" : 2540,
+          "x" : 2730,
           "y" : 710
         }
       ],
@@ -4919,7 +4412,7 @@
     {
       "bends" : [
         {
-          "x" : 2520,
+          "x" : 2710,
           "y" : 720
         }
       ],
@@ -4934,7 +4427,7 @@
     {
       "bends" : [
         {
-          "x" : 2540,
+          "x" : 2730,
           "y" : 690
         }
       ],
@@ -4950,7 +4443,7 @@
     {
       "bends" : [
         {
-          "x" : 2520,
+          "x" : 2710,
           "y" : 700
         }
       ],
@@ -4965,7 +4458,7 @@
     {
       "bends" : [
         {
-          "x" : 2520,
+          "x" : 2710,
           "y" : 670
         }
       ],
@@ -5041,7 +4534,7 @@
     {
       "bends" : [
         {
-          "x" : 2260,
+          "x" : 2450,
           "y" : 450
         }
       ],
@@ -5057,15 +4550,30 @@
     {
       "bends" : [
         {
-          "x" : 2000,
-          "y" : 560
+          "x" : 2330,
+          "y" : 540
         }
       ],
       "from" : {
-        "part" : "49CA3AA0-21A2-4D14-B960-06859DA291B6",
-        "pin" : "1"
+        "part" : "98ABC7C2-35D7-40F0-8A2A-44B5F974FDA9",
+        "pin" : "12"
       },
       "id" : "B11F6644-34C8-44BC-B8A4-65AC46E5793E",
+      "to" : {
+        "junction" : "10874954-6C2C-4E2C-A264-85B1D4FA3345"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 2330,
+          "y" : 600
+        }
+      ],
+      "from" : {
+        "junction" : "10874954-6C2C-4E2C-A264-85B1D4FA3345"
+      },
+      "id" : "53D074E1-D3DC-4606-9314-E1A5FDF9D608",
       "to" : {
         "junction" : "FD47091C-2ED7-4DBD-9594-08B6D1C370CE"
       }
@@ -5073,7 +4581,7 @@
     {
       "bends" : [
         {
-          "x" : 2000,
+          "x" : 2330,
           "y" : 650
         }
       ],
@@ -5089,13 +4597,13 @@
     {
       "bends" : [
         {
-          "x" : 1990,
+          "x" : 2320,
           "y" : 640
         }
       ],
       "from" : {
-        "part" : "49CA3AA0-21A2-4D14-B960-06859DA291B6",
-        "pin" : "16"
+        "part" : "98ABC7C2-35D7-40F0-8A2A-44B5F974FDA9",
+        "pin" : "18"
       },
       "id" : "74BCD660-960F-4C75-8542-0A0CB37208DB",
       "to" : {
@@ -5105,49 +4613,33 @@
     {
       "bends" : [
         {
-          "x" : 2000,
-          "y" : 580
+          "x" : 2350,
+          "y" : 540
         }
       ],
       "from" : {
-        "part" : "49CA3AA0-21A2-4D14-B960-06859DA291B6",
-        "pin" : "2"
-      },
-      "id" : "F963B01D-B407-4AEB-B1D5-6272EC6A1B05",
-      "to" : {
-        "junction" : "7B4D2A2D-000C-4C20-B16C-DF88ED43DE38"
-      }
-    },
-    {
-      "bends" : [
-        {
-          "x" : 2020,
-          "y" : 550
-        }
-      ],
-      "from" : {
-        "junction" : "7B4D2A2D-000C-4C20-B16C-DF88ED43DE38"
+        "part" : "6E68F662-B582-4CAC-A7DC-2286E895C1D3",
+        "pin" : "1"
       },
       "id" : "2695FE97-A426-4021-9D07-59742AD7A751",
       "to" : {
-        "part" : "6E68F662-B582-4CAC-A7DC-2286E895C1D3",
-        "pin" : "1"
+        "junction" : "7AA5C162-FCE9-4B4C-90A0-AA72514A2FDC"
       }
     },
     {
       "bends" : [
         {
-          "x" : 2020,
+          "x" : 2350,
           "y" : 620
         }
       ],
       "from" : {
-        "part" : "49CA3AA0-21A2-4D14-B960-06859DA291B6",
-        "pin" : "15"
+        "junction" : "7AA5C162-FCE9-4B4C-90A0-AA72514A2FDC"
       },
-      "id" : "85886DE4-0F54-4030-B3AB-621076FD7EE0",
+      "id" : "5940E42D-3477-4246-8363-BAB0462AAAA2",
       "to" : {
-        "junction" : "7B4D2A2D-000C-4C20-B16C-DF88ED43DE38"
+        "part" : "98ABC7C2-35D7-40F0-8A2A-44B5F974FDA9",
+        "pin" : "17"
       }
     },
     {
@@ -5187,8 +4679,8 @@
     {
       "bends" : [
         {
-          "x" : 1940,
-          "y" : 140
+          "x" : 2090,
+          "y" : 120
         }
       ],
       "from" : {
@@ -5420,8 +4912,8 @@
     {
       "bends" : [
         {
-          "x" : 1940,
-          "y" : 260
+          "x" : 2090,
+          "y" : 240
         }
       ],
       "from" : {
@@ -5483,8 +4975,8 @@
     {
       "bends" : [
         {
-          "x" : 2200,
-          "y" : 120
+          "x" : 2350,
+          "y" : 100
         }
       ],
       "from" : {
@@ -5499,8 +4991,8 @@
     {
       "bends" : [
         {
-          "x" : 1940,
-          "y" : 240
+          "x" : 2090,
+          "y" : 220
         }
       ],
       "from" : {
@@ -5563,8 +5055,8 @@
     {
       "bends" : [
         {
-          "x" : 1940,
-          "y" : 280
+          "x" : 2090,
+          "y" : 260
         }
       ],
       "from" : {
@@ -5715,8 +5207,8 @@
     {
       "bends" : [
         {
-          "x" : 1940,
-          "y" : 160
+          "x" : 2090,
+          "y" : 140
         }
       ],
       "from" : {
@@ -5989,8 +5481,8 @@
     {
       "bends" : [
         {
-          "x" : 1950,
-          "y" : 380
+          "x" : 2100,
+          "y" : 360
         }
       ],
       "from" : {
@@ -6068,7 +5560,10 @@
     },
     {
       "bends" : [
-
+        {
+          "x" : 2050,
+          "y" : 200
+        }
       ],
       "from" : {
         "part" : "54067A51-AE83-4557-AA0D-86FEB8635196",
@@ -6082,8 +5577,8 @@
     {
       "bends" : [
         {
-          "x" : 1840,
-          "y" : 230
+          "x" : 1990,
+          "y" : 210
         }
       ],
       "from" : {
@@ -6097,7 +5592,10 @@
     },
     {
       "bends" : [
-
+        {
+          "x" : 2050,
+          "y" : 180
+        }
       ],
       "from" : {
         "part" : "54067A51-AE83-4557-AA0D-86FEB8635196",
@@ -6110,7 +5608,10 @@
     },
     {
       "bends" : [
-
+        {
+          "x" : 1990,
+          "y" : 190
+        }
       ],
       "from" : {
         "junction" : "DECB7498-BE65-4C79-AB34-B51ACF7547F3"
@@ -6123,8 +5624,8 @@
     {
       "bends" : [
         {
-          "x" : 1840,
-          "y" : 180
+          "x" : 1990,
+          "y" : 160
         }
       ],
       "from" : {
@@ -6134,6 +5635,584 @@
       "id" : "E60C283E-E2C2-4284-89C4-C93BA5496530",
       "to" : {
         "junction" : "DECB7498-BE65-4C79-AB34-B51ACF7547F3"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 2330,
+          "y" : 580
+        }
+      ],
+      "from" : {
+        "part" : "98ABC7C2-35D7-40F0-8A2A-44B5F974FDA9",
+        "pin" : "14"
+      },
+      "id" : "8602F3F4-E693-4604-A420-E933F282F398",
+      "to" : {
+        "junction" : "7AA5C162-FCE9-4B4C-90A0-AA72514A2FDC"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 2320,
+          "y" : 560
+        }
+      ],
+      "from" : {
+        "part" : "98ABC7C2-35D7-40F0-8A2A-44B5F974FDA9",
+        "pin" : "13"
+      },
+      "id" : "1DA7702C-4969-41DB-BA10-EE01E6E31798",
+      "to" : {
+        "junction" : "10874954-6C2C-4E2C-A264-85B1D4FA3345"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1760,
+          "y" : 360
+        }
+      ],
+      "from" : {
+        "part" : "EB578E81-8C50-4333-A9AD-4C8F6AF99912",
+        "pin" : "4"
+      },
+      "id" : "05D3D767-2801-4943-8399-31FACD6CB6BC",
+      "to" : {
+        "junction" : "51466B3E-7235-43CE-8FAB-68E90D9883F4"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1770,
+          "y" : 370
+        }
+      ],
+      "from" : {
+        "junction" : "51466B3E-7235-43CE-8FAB-68E90D9883F4"
+      },
+      "id" : "B4882230-F8CE-4087-A502-F361FA611BBE",
+      "to" : {
+        "part" : "A007C0CB-44BB-46EF-B356-159C079977A2",
+        "pin" : "1"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1760,
+          "y" : 270
+        }
+      ],
+      "from" : {
+        "part" : "768A884B-D8FE-459A-80D9-E283EDBF23A7",
+        "pin" : "4"
+      },
+      "id" : "C56B863F-6603-421D-9C43-CF6DA224680A",
+      "to" : {
+        "junction" : "3EC44A6B-65BB-4C5F-AAAD-B46A803C6A63"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1770,
+          "y" : 320
+        }
+      ],
+      "from" : {
+        "junction" : "3EC44A6B-65BB-4C5F-AAAD-B46A803C6A63"
+      },
+      "id" : "43230C24-F00B-484D-A843-DF3699B41B98",
+      "to" : {
+        "junction" : "51466B3E-7235-43CE-8FAB-68E90D9883F4"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1740,
+          "y" : 350
+        }
+      ],
+      "from" : {
+        "part" : "EB578E81-8C50-4333-A9AD-4C8F6AF99912",
+        "pin" : "3"
+      },
+      "id" : "966CF7E7-ACAA-41CB-BC35-7C9F03214C0C",
+      "to" : {
+        "part" : "EB578E81-8C50-4333-A9AD-4C8F6AF99912",
+        "pin" : "4"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1620,
+          "y" : 350
+        }
+      ],
+      "from" : {
+        "part" : "EB578E81-8C50-4333-A9AD-4C8F6AF99912",
+        "pin" : "1"
+      },
+      "id" : "7B4A92CF-0DEC-4768-A38A-C63C3189C006",
+      "to" : {
+        "part" : "EB578E81-8C50-4333-A9AD-4C8F6AF99912",
+        "pin" : "2"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1620,
+          "y" : 260
+        }
+      ],
+      "from" : {
+        "part" : "768A884B-D8FE-459A-80D9-E283EDBF23A7",
+        "pin" : "1"
+      },
+      "id" : "59B8D1B9-EF4B-4DFE-949E-E29CD8F59105",
+      "to" : {
+        "part" : "768A884B-D8FE-459A-80D9-E283EDBF23A7",
+        "pin" : "2"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1740,
+          "y" : 260
+        }
+      ],
+      "from" : {
+        "part" : "768A884B-D8FE-459A-80D9-E283EDBF23A7",
+        "pin" : "3"
+      },
+      "id" : "A1044D86-92B3-4C9E-802B-576A79F9EBD6",
+      "to" : {
+        "part" : "768A884B-D8FE-459A-80D9-E283EDBF23A7",
+        "pin" : "4"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1740,
+          "y" : 80
+        }
+      ],
+      "from" : {
+        "part" : "08CAA221-69B7-47B1-9905-7AC617DB0B68",
+        "pin" : "3"
+      },
+      "id" : "F14232BD-75FE-4732-B7FB-DDC9EE8B901C",
+      "to" : {
+        "part" : "08CAA221-69B7-47B1-9905-7AC617DB0B68",
+        "pin" : "4"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1740,
+          "y" : 170
+        }
+      ],
+      "from" : {
+        "part" : "A4DDB491-A89A-4C9A-BE5D-30CB718BF29B",
+        "pin" : "3"
+      },
+      "id" : "215AE531-4951-44C4-A2B4-2D94C87335D2",
+      "to" : {
+        "part" : "A4DDB491-A89A-4C9A-BE5D-30CB718BF29B",
+        "pin" : "4"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1760,
+          "y" : 180
+        }
+      ],
+      "from" : {
+        "part" : "A4DDB491-A89A-4C9A-BE5D-30CB718BF29B",
+        "pin" : "4"
+      },
+      "id" : "D6DDE0F7-C3F1-4ED8-8269-604838A86CC6",
+      "to" : {
+        "junction" : "89407B8A-5BEB-4A76-A706-214617CD1C68"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1770,
+          "y" : 230
+        }
+      ],
+      "from" : {
+        "junction" : "89407B8A-5BEB-4A76-A706-214617CD1C68"
+      },
+      "id" : "565C4170-311A-466A-B579-7D38EC452450",
+      "to" : {
+        "junction" : "3EC44A6B-65BB-4C5F-AAAD-B46A803C6A63"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1770,
+          "y" : 90
+        }
+      ],
+      "from" : {
+        "part" : "08CAA221-69B7-47B1-9905-7AC617DB0B68",
+        "pin" : "4"
+      },
+      "id" : "D6D08B23-D732-48F1-8D45-ECEC335E9811",
+      "to" : {
+        "junction" : "89407B8A-5BEB-4A76-A706-214617CD1C68"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1620,
+          "y" : 80
+        }
+      ],
+      "from" : {
+        "part" : "08CAA221-69B7-47B1-9905-7AC617DB0B68",
+        "pin" : "1"
+      },
+      "id" : "E03F704D-3D48-4B5C-BAA4-598F240A2908",
+      "to" : {
+        "part" : "08CAA221-69B7-47B1-9905-7AC617DB0B68",
+        "pin" : "2"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1620,
+          "y" : 170
+        }
+      ],
+      "from" : {
+        "part" : "A4DDB491-A89A-4C9A-BE5D-30CB718BF29B",
+        "pin" : "1"
+      },
+      "id" : "55336381-7F5E-4994-9BF8-E9BFB519E2B9",
+      "to" : {
+        "part" : "A4DDB491-A89A-4C9A-BE5D-30CB718BF29B",
+        "pin" : "2"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1420,
+          "y" : 400
+        }
+      ],
+      "from" : {
+        "part" : "7A59C786-83ED-4854-B2B4-F71AF706C637",
+        "pin" : "4"
+      },
+      "id" : "FAE425F1-7819-4EFA-A281-3A37D0C15A02",
+      "to" : {
+        "junction" : "ECE5CFB4-90F6-4297-A915-5E980D58CE82"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1520,
+          "y" : 400
+        }
+      ],
+      "from" : {
+        "junction" : "ECE5CFB4-90F6-4297-A915-5E980D58CE82"
+      },
+      "id" : "F903712B-5579-41B6-912E-AF9C882AF419",
+      "to" : {
+        "junction" : "EFC6DCD5-CE8D-4A31-AF16-37D9AA7BAAC0"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1570,
+          "y" : 270
+        }
+      ],
+      "from" : {
+        "junction" : "EFC6DCD5-CE8D-4A31-AF16-37D9AA7BAAC0"
+      },
+      "id" : "C681B535-E130-491C-B1A4-DA2A0CF70BDF",
+      "to" : {
+        "part" : "768A884B-D8FE-459A-80D9-E283EDBF23A7",
+        "pin" : "2"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1340,
+          "y" : 380
+        }
+      ],
+      "from" : {
+        "part" : "7A59C786-83ED-4854-B2B4-F71AF706C637",
+        "pin" : "3"
+      },
+      "id" : "58AAFE9B-7A49-460C-B114-4F4AE22F1393",
+      "to" : {
+        "junction" : "0B3C84DF-3EC9-4B3D-88ED-0355AB9347E5"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1550,
+          "y" : 380
+        },
+        {
+          "x" : 1550,
+          "y" : 180
+        }
+      ],
+      "from" : {
+        "junction" : "0B3C84DF-3EC9-4B3D-88ED-0355AB9347E5"
+      },
+      "id" : "4ECAE7E0-AD23-4967-A8C4-23507CAEDE04",
+      "to" : {
+        "part" : "A4DDB491-A89A-4C9A-BE5D-30CB718BF29B",
+        "pin" : "2"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1300,
+          "y" : 360
+        }
+      ],
+      "from" : {
+        "part" : "7A59C786-83ED-4854-B2B4-F71AF706C637",
+        "pin" : "2"
+      },
+      "id" : "B6E012FF-EC88-42F3-8432-CEEBABE15C7C",
+      "to" : {
+        "junction" : "443083B5-4BAC-4081-A71C-206C05F2A8DE"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1530,
+          "y" : 360
+        },
+        {
+          "x" : 1530,
+          "y" : 90
+        }
+      ],
+      "from" : {
+        "junction" : "443083B5-4BAC-4081-A71C-206C05F2A8DE"
+      },
+      "id" : "52580512-F4C6-4D0F-928A-C0DDB5ED0381",
+      "to" : {
+        "part" : "08CAA221-69B7-47B1-9905-7AC617DB0B68",
+        "pin" : "2"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1440,
+          "y" : 420
+        }
+      ],
+      "from" : {
+        "part" : "7A59C786-83ED-4854-B2B4-F71AF706C637",
+        "pin" : "5"
+      },
+      "id" : "22C4E56E-F65F-4539-A624-F0401F4F3F36",
+      "to" : {
+        "junction" : "640FB75F-2CEC-47D1-BE9D-EBC21D2DA61F"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1550,
+          "y" : 420
+        }
+      ],
+      "from" : {
+        "junction" : "640FB75F-2CEC-47D1-BE9D-EBC21D2DA61F"
+      },
+      "id" : "E7F45C5F-3428-4DDD-93FD-3B043062E5F3",
+      "to" : {
+        "junction" : "195E1BDC-626A-402E-8C5F-7971AC149A7D"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1610,
+          "y" : 420
+        }
+      ],
+      "from" : {
+        "junction" : "195E1BDC-626A-402E-8C5F-7971AC149A7D"
+      },
+      "id" : "06347F6C-12BC-411B-9C62-83B760679AF5",
+      "to" : {
+        "part" : "CC459516-ED81-4A7D-AB3B-4FFF32BB5D37",
+        "pin" : "2"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1590,
+          "y" : 360
+        }
+      ],
+      "from" : {
+        "part" : "EB578E81-8C50-4333-A9AD-4C8F6AF99912",
+        "pin" : "2"
+      },
+      "id" : "CF02C682-EF51-4F63-998D-AB80BC5FF55B",
+      "to" : {
+        "junction" : "195E1BDC-626A-402E-8C5F-7971AC149A7D"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1600,
+          "y" : 400
+        }
+      ],
+      "from" : {
+        "part" : "CC459516-ED81-4A7D-AB3B-4FFF32BB5D37",
+        "pin" : "1"
+      },
+      "id" : "69EFBF4F-ADC9-4114-997D-66E7412FF3F4",
+      "to" : {
+        "junction" : "EFC6DCD5-CE8D-4A31-AF16-37D9AA7BAAC0"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1370,
+          "y" : 350
+        }
+      ],
+      "from" : {
+        "part" : "B377BF60-AD96-473A-BFF8-2C741DAF3BE9",
+        "pin" : "1"
+      },
+      "id" : "2CFA79BC-4EFF-4E66-A3DE-CD0C56170240",
+      "to" : {
+        "junction" : "443083B5-4BAC-4081-A71C-206C05F2A8DE"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1410,
+          "y" : 360
+        }
+      ],
+      "from" : {
+        "part" : "39DBC567-134F-4C5C-ACB8-5F637681A1E8",
+        "pin" : "1"
+      },
+      "id" : "70B9E9BE-E4EE-4A3E-8E1F-DAF937A1F72D",
+      "to" : {
+        "junction" : "0B3C84DF-3EC9-4B3D-88ED-0355AB9347E5"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1450,
+          "y" : 370
+        }
+      ],
+      "from" : {
+        "part" : "C6F81C38-15BA-49CC-9DD0-9451E10BD30F",
+        "pin" : "1"
+      },
+      "id" : "C17AFD19-1589-496E-A6FD-5020E3EAF292",
+      "to" : {
+        "junction" : "ECE5CFB4-90F6-4297-A915-5E980D58CE82"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1490,
+          "y" : 380
+        }
+      ],
+      "from" : {
+        "part" : "BF093D05-1D4F-41E4-9A44-9B07037A8485",
+        "pin" : "1"
+      },
+      "id" : "CA83E432-183C-49E6-AF8B-FA399927EAD1",
+      "to" : {
+        "junction" : "640FB75F-2CEC-47D1-BE9D-EBC21D2DA61F"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 1590,
+          "y" : 540
+        },
+        {
+          "x" : 1590,
+          "y" : 440
+        }
+      ],
+      "from" : {
+        "part" : "98ABC7C2-35D7-40F0-8A2A-44B5F974FDA9",
+        "pin" : "11"
+      },
+      "id" : "9173319F-757C-41F5-A13F-CB250E8F9BAB",
+      "to" : {
+        "part" : "7A59C786-83ED-4854-B2B4-F71AF706C637",
+        "pin" : "6"
+      }
+    },
+    {
+      "bends" : [
+        {
+          "x" : 2270,
+          "y" : 420
+        }
+      ],
+      "from" : {
+        "part" : "74A0BF7F-0BAE-4FA3-B93E-AA74BF36B819",
+        "pin" : "1"
+      },
+      "id" : "12570003-70E5-4161-B6DA-F497806343FF",
+      "to" : {
+        "part" : "54067A51-AE83-4557-AA0D-86FEB8635196",
+        "pin" : "1"
       }
     }
   ]
